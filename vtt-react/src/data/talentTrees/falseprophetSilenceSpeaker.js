@@ -217,7 +217,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
       visualTheme: "shadow", tags: ["passive", "threshold", "resistance", "falseprophet"]
     },
     rankUpgrades: [
-      { description: "The silence spirit rewards the faithful. While at 10 or more Madness, you gain resistance to blight damage and all your damage is increased by 15%." }
+      { description: "The silence spirit rewards the faithful. While at 10 or more Madness, you gain resistance to blight damage and all your damage is increased by +1d6 damage." }
     ]
   },
 
@@ -244,7 +244,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     },
     rankUpgrades: [
       { description: "Become a living altar to the silence spirit. Summon a silence acolyte (durability 14, 2d6 blight damage); while it lives, your Madness generation gains +2." },
-      { description: "Become a living altar to the silence spirit. Summon TWO acolytes (durability 14, 2d6 blight each); while either lives, your Madness generation gains +2 and your spells cost 10% less mana." }
+      { description: "Become a living altar to the silence spirit. Summon TWO acolytes (durability 14, 2d6 blight each); while either lives, your Madness generation gains +2 and your spells cost 10 points less mana." }
     ]
   },
   {
@@ -381,15 +381,15 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     requires: "ss_t6_fanatical_fervor",
     spell: {
       name: "Zealot's Fire",
-      description: "Righteousness burns on a hair trigger. Whenever you take damage, there is a 25% chance your next sermon spell costs no mana.",
+      description: "Righteousness burns on a hair trigger. Whenever you take damage, there is a 25 points chance your next sermon spell costs no mana.",
       flavorText: "Persecution discounts.",
       source: "talent", class: "False Prophet", treeId: "silence_speaker",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "capstone", "cost", "falseprophet"]
     },
     rankUpgrades: [
-      { description: "Righteousness burns on a hair trigger. Whenever you take damage, there is a 50% chance your next sermon spell costs no mana." },
-      { description: "Righteousness burns on a hair trigger. When you take damage, your next sermon is free AND deals 25% more damage." }
+      { description: "Righteousness burns on a hair trigger. Whenever you take damage, there is a 50 points chance your next sermon spell costs no mana." },
+      { description: "Righteousness burns on a hair trigger. When you take damage, your next sermon is free AND deals +1d6 bonus damage." }
     ]
   },
   {

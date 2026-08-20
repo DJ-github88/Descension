@@ -363,7 +363,7 @@ export const FALSE_PROPHET_DECEIVER = [
     requires: "dc_t6_credible_lies",
     spell: {
       name: "Silver Tongue",
-      description: "Your lies appreciate in value. All wyrd damage you deal is increased by 10%.",
+      description: "Your lies appreciate in value. All wyrd damage you deal is increased by +1d6 damage.",
       flavorText: "Compound interest on a falsehood.",
       source: "talent", class: "False Prophet", treeId: "deceiver",
       spellType: "PASSIVE", category: "buff",
@@ -371,10 +371,10 @@ export const FALSE_PROPHET_DECEIVER = [
       visualTheme: "shadow", tags: ["passive", "capstone", "damage", "falseprophet"]
     },
     rankUpgrades: [
-      { description: "Your lies appreciate in value. All wyrd damage you deal is increased by 20%." },
-      { description: "Your lies appreciate in value. All wyrd damage you deal is increased by 30%." },
-      { description: "Your lies appreciate in value. All wyrd damage you deal is increased by 45%." },
-      { description: "Your lies appreciate in value. All wyrd damage you deal is increased by 60%, and False Witness costs no mana." }
+      { description: "Your lies appreciate in value. All wyrd damage you deal is increased by +1d8 damage." },
+      { description: "Your lies appreciate in value. All wyrd damage you deal is increased by +1d8 damage." },
+      { description: "Your lies appreciate in value. All wyrd damage you deal is increased by +2d8 damage." },
+      { description: "Your lies appreciate in value. All wyrd damage you deal is increased by +2d8 damage, and False Witness costs no mana." }
     ]
   },
   {

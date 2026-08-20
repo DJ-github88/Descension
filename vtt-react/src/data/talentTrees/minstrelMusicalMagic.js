@@ -67,7 +67,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     },
     rankUpgrades: [
       { description: "Discord aura deals 2d6 wyrd damage and reduces enemy spell DCs by -2.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
-      { description: "Discord aura deals 3d6 wyrd damage, reduces spell DCs by -3, and enemies taking damage have a 30% chance to be silenced for 1 round.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
+      { description: "Discord aura deals 3d6 wyrd damage, reduces spell DCs by -3, and enemies taking damage have a 30 points chance to be silenced for 1 round.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -79,14 +79,14 @@ export const MINSTREL_MUSICAL_MAGIC = [
     requires: null,
     spell: {
       name: "Acoustic Strain",
-      description: "All your crowd-control and dissonance spells have their save DCs increased by +2 and ignore 10% of enemy magical resistances.",
+      description: "All your crowd-control and dissonance spells have their save DCs increased by +2 and ignore 10 points of enemy magical resistances.",
       flavorText: "The mind cannot easily resist the wrong note.",
       source: "talent", class: "Minstrel", treeId: "musical_magic",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "dc-boost", "penetration", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Save DCs increased by +3, ignores 10% resistance, and enemies failing saves against you take 1d6 wyrd backlash." }
+      { description: "Save DCs increased by +3, ignores 2 Damage Reduction, and enemies failing saves against you take 1d6 wyrd backlash." }
     ]
   },
 
@@ -202,7 +202,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     requires: "mm_t3_deceptive_cadence",
     spell: {
       name: "Sonic Feedback",
-      description: "Reaction (spend 3 notes): when an enemy casts a spell targeting you or an ally within 30 feet, invert the sonic frequency. Counter the spell completely and reflect 25% of its damage back at the caster.",
+      description: "Reaction (spend 3 notes): when an enemy casts a spell targeting you or an ally within 30 feet, invert the sonic frequency. Counter the spell completely and reflect 25 points of its damage back at the caster.",
       flavorText: "Their own voice, shoved back down their throat.",
       source: "talent", class: "Minstrel", treeId: "musical_magic",
       spellType: "ACTIVE", category: "utility",
@@ -214,8 +214,8 @@ export const MINSTREL_MUSICAL_MAGIC = [
       visualTheme: "arcane", tags: ["counterspell", "reflect", "reaction", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Counters spell, reflects 25% of damage back at caster, and silences the caster for 1 round.", cooldownValue: 16 },
-      { description: "Counters spell, reflects 25% damage, silences caster for 2 rounds, and refunds 2 notes on successful reflection.", cooldownValue: 12 }
+      { description: "Counters spell, reflects 25 points of damage back at caster, and silences the caster for 1 round.", cooldownValue: 16 },
+      { description: "Counters spell, reflects 25 points damage, silences caster for 2 rounds, and refunds 2 notes on successful reflection.", cooldownValue: 12 }
     ]
   },
   {
@@ -227,7 +227,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     requires: "mm_t3_half_cadence_shield",
     spell: {
       name: "Discordant Strain",
-      description: "All wyrd and dissonance damage you deal ignores 25% resistance, and critical strikes with dissonance abilities double in damage multiplier.",
+      description: "All wyrd and dissonance damage you deal ignores 6 Damage Reduction, and critical strikes with dissonance abilities double in damage multiplier.",
       flavorText: "Clean disharmony pierces every shield.",
       source: "talent", class: "Minstrel", treeId: "musical_magic",
       spellType: "PASSIVE", category: "damage",
@@ -235,7 +235,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
       visualTheme: "arcane", tags: ["passive", "penetration", "crit-boost", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Ignores 25% resistance; critical strikes triple in damage multiplier and cause the victim to bleed psychic energy for 3d8 over 2 rounds." }
+      { description: "Ignores 6 Damage Reduction; critical strikes triple in damage multiplier and cause the victim to bleed psychic energy for 3d8 over 2 rounds." }
     ]
   },
 
@@ -275,15 +275,15 @@ export const MINSTREL_MUSICAL_MAGIC = [
     requires: "mm_t4_discordant_amplification",
     spell: {
       name: "Cacophony Engine",
-      description: "Whenever an enemy takes damage from your dissonance or wrong-note abilities, you have a 40% chance to generate 1 Note VII and 1 Note II.",
+      description: "Whenever an enemy takes damage from your dissonance or wrong-note abilities, you have a 40 points chance to generate 1 Note VII and 1 Note II.",
       flavorText: "Chaos generates its own raw materials.",
       source: "talent", class: "Minstrel", treeId: "musical_magic",
       spellType: "PASSIVE", category: "utility",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "engine", "notes", "minstrel"]
     },
     rankUpgrades: [
-      { description: "60% chance to generate notes on dissonance damage, and Note VII attacks deal +2d6 bonus damage." },
-      { description: "100% chance to generate Note VII and Note II on dissonance damage; your note bank maximum increases by 3." }
+      { description: "60 points chance to generate notes on dissonance damage, and Note VII attacks deal +2d6 bonus damage." },
+      { description: "100 points chance to generate Note VII and Note II on dissonance damage; your note bank maximum increases by 3." }
     ]
   },
 
@@ -321,14 +321,14 @@ export const MINSTREL_MUSICAL_MAGIC = [
     requires: "mm_t5_cacophony_engine",
     spell: {
       name: "Permanent Discord",
-      description: "Enemies deafened or confused by your abilities take 25% more damage from ALL party members and cannot take reactions.",
+      description: "Enemies deafened or confused by your abilities suffer +1d6 bonus damage from ALL party members and cannot take reactions.",
       flavorText: "They cannot coordinate in the noise.",
       source: "talent", class: "Minstrel", treeId: "musical_magic",
       spellType: "PASSIVE", category: "debuff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "vulnerability", "no-reaction", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Deafened/confused enemies take 40% more damage from all sources, lose all reactions, and their movement speed is halved." }
+      { description: "Deafened/confused enemies suffer +2d6 bonus damage from all sources, lose all reactions, and their movement speed is halved." }
     ]
   },
   {
@@ -388,7 +388,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     requires: "mm_t6_deafening_crescendo",
     spell: {
       name: "Dissonance Doctrine",
-      description: "The wrong note is the truest note. All wyrd damage you deal across all spells and cadences is increased by 10%.",
+      description: "The wrong note is the truest note. All wyrd damage you deal across all spells and cadences is increased by +1d6 damage.",
       flavorText: "Harmony was always a compromise. Discord is pure.",
       source: "talent", class: "Minstrel", treeId: "musical_magic",
       spellType: "PASSIVE", category: "damage",
@@ -396,10 +396,10 @@ export const MINSTREL_MUSICAL_MAGIC = [
       visualTheme: "arcane", tags: ["passive", "capstone", "damage", "minstrel"]
     },
     rankUpgrades: [
-      { description: "All wyrd damage increased by 20%." },
-      { description: "All wyrd damage increased by 35%." },
-      { description: "All wyrd damage increased by 50%." },
-      { description: "All wyrd damage increased by 70%, and Dissonant Shriek costs 0 mana." }
+      { description: "All wyrd damage increased by +1d8 damage." },
+      { description: "All wyrd damage increased by +1d8 damage." },
+      { description: "All wyrd damage increased by +2d8 damage." },
+      { description: "All wyrd damage increased by +2d8 damage, and Dissonant Shriek costs 0 mana." }
     ]
   },
   {

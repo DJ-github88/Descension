@@ -419,6 +419,8 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
     if (e.button !== 0) return;
     
     if (connectingFrom) {
+      e.preventDefault();
+      e.stopPropagation();
       // We're in connection mode
       if (connectingFrom === 'waiting') {
         // First orb selected - set it as the source

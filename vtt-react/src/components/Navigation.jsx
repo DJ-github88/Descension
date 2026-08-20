@@ -10,6 +10,9 @@ import MythrillWindow from './windows/MythrillWindow';
 import { getWowIconUrl } from '../utils/assetManager';
 import useCombatStore from '../store/combatStore';
 import useInventoryStore from '../store/inventoryStore';
+import useCharacterStore from '../store/characterStore';
+import { CLASS_SPECIALIZATIONS } from '../data/classSpellCategories';
+import TalentTreeContent from './talent-tree/TalentTreeContent';
 import { SKILL_CATEGORIES, SKILL_DEFINITIONS } from '../constants/skillDefinitions';
 import ErrorBoundary from './common/ErrorBoundary';
 import '../styles/resizable-nav.css';
@@ -215,19 +218,6 @@ const NAVIGATION_BUTTONS = [
         svg: <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
     },
     {
-        id: 'talents',
-        title: 'Talent Tree',
-        shortcut: 'T',
-        svg: <>
-            <path d="M12 2L2 7l10 5 10-5-10-5z" />
-            <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
-            <circle cx="12" cy="7" r="1.5" />
-            <circle cx="7" cy="12" r="1.5" />
-            <circle cx="17" cy="12" r="1.5" />
-            <circle cx="12" cy="17" r="1.5" />
-        </>
-    },
-    {
         id: 'library',
         title: 'Library',
         shortcut: 'L',
@@ -301,28 +291,21 @@ const NAVIGATION_BUTTONS = [
         id: 'leveleditor',
         title: 'Level Editor',
         shortcut: 'E',
+        gmOnly: true,
         svg: <>
-            <path d="M3 21h18M3 10h18M3 7l9-4 9 4M6 10v11M10 10v11M14 10v11M18 10v11" />
-            <path d="M12 3v4M8 7h8" />
-        </>
-    },
-    {
-        id: 'journal',
-        title: 'Player Journal',
-        shortcut: 'J',
-        playerOnly: true,
-        svg: <>
-            <path d="M4 4a2 2 0 012-2h8.586A2 2 0 0116 2.586L19.414 6A2 2 0 0120 7.414V20a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" />
-            <path d="M14 2v4a2 2 0 002 2h4M8 12h8M8 16h8M8 8h2" />
+            <rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor" strokeWidth="2"/>
+            <path d="M9 3v18M15 3v18M3 9h18M3 15h18" stroke="currentColor" strokeWidth="1" opacity="0.6"/>
+            <rect x="9" y="9" width="6" height="6" fill="currentColor" opacity="0.3"/>
         </>
     },
     {
         id: 'toolkit',
-        title: 'Toolkit',
+        title: 'GM Toolkit',
         shortcut: 'K',
         gmOnly: true,
         svg: <>
-            <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor"/>
+            <polygon points="12,2 13.5,10 16,8 14,10.5 22,12 14,13.5 16,16 13.5,14 12,22 10.5,14 8,16 10,13.5 2,12 10,10.5 8,8 10.5,10" fill="currentColor" opacity="0.8"/>
             <polygon points="12,2 13.5,10 12,8 10.5,10" fill="currentColor" opacity="0.6"/>
             <polygon points="12,22 10.5,14 12,16 13.5,14" fill="currentColor" opacity="0.6"/>
             <polygon points="2,12 10,10.5 8,12 10,13.5" fill="currentColor" opacity="0.4"/>
@@ -333,7 +316,7 @@ const NAVIGATION_BUTTONS = [
 ];
 
 const BUTTON_CATEGORY = {
-    character: 'character', inventory: 'character', spellbook: 'character', talents: 'character', journal: 'character',
+    character: 'character', inventory: 'character', spellbook: 'character', journal: 'character',
     quests: 'adventure', combat: 'adventure', travel: 'adventure', campaign: 'adventure',
     crafting: 'tools', library: 'tools', leveleditor: 'tools', toolkit: 'tools', community: 'tools',
     settings: 'system',
@@ -413,6 +396,9 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
     // Ensure title is always defined with fallback
     const safeTitle = title || 'Character Sheet';
 
+    const characterClass = useCharacterStore(state => state.class);
+    const [activeTalentTree, setActiveTalentTree] = useState(0);
+
     // Define character sheet sections with dropdown sub-sections matching the exact component tabs
     const characterSections = {
         lore: {
@@ -475,6 +461,24 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
                     .filter(([_, skill]) => skill.category === SKILL_CATEGORIES.ARCANE.name)
                     .map(([id, skill]) => ({ id, label: skill.name, icon: 'fas fa-hat-wizard' }))
             }
+        },
+        talents: {
+            title: 'Talents',
+            icon: 'fas fa-sitemap',
+            subSections: [
+                ...(characterClass && CLASS_SPECIALIZATIONS[characterClass]
+                    ? CLASS_SPECIALIZATIONS[characterClass].specializations.map((spec, idx) => ({
+                        id: `tree_${idx}`,
+                        label: spec.name,
+                        icon: 'fas fa-tree'
+                    }))
+                    : [
+                        { id: 'tree_0', label: 'Tree 1', icon: 'fas fa-tree' },
+                        { id: 'tree_1', label: 'Tree 2', icon: 'fas fa-tree' },
+                        { id: 'tree_2', label: 'Tree 3', icon: 'fas fa-tree' }
+                    ]),
+                { id: 'summary', label: 'Talent Summary', icon: 'fas fa-list-check' }
+            ]
         }
     };
 
@@ -486,6 +490,12 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
                 return <CharacterStats selectedStatGroup={activeStatGroup} setSelectedStatGroup={setActiveStatGroup} />;
             case 'skills':
                 return <Skills selectedCategory={activeSkillCategory} selectedSkill={selectedSkillId} setSelectedSkill={setSelectedSkillId} />;
+            case 'talents':
+                return (
+                    <div style={{ width: '100%', height: '100%', flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+                        <TalentTreeContent selectedTreeIndex={activeTalentTree} onTreeSelect={setActiveTalentTree} />
+                    </div>
+                );
             case 'lore':
                 return <Lore initialSection={activeLoreSection} key={activeLoreSection} />;
             default:
@@ -561,7 +571,11 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
                                                                 (key === 'lore' && activeLoreSection === sub.id) ||
                                                                 (key === 'character' && activeInfoSection === sub.id) ||
                                                                 (key === 'stats' && activeStatGroup === sub.id) ||
-                                                                (key === 'skills' && activeSkillCategory === sub.id)
+                                                                (key === 'skills' && activeSkillCategory === sub.id) ||
+                                                                (key === 'talents' && (
+                                                                    (sub.id === 'summary' && activeTalentTree === 3) ||
+                                                                    (sub.id === `tree_${activeTalentTree}`)
+                                                                ))
                                                             )) ? 'active' : ''
                                                         }`}
                                                         onClick={(e) => {
@@ -575,6 +589,13 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
                                                                 setActiveStatGroup(sub.id);
                                                             } else if (key === 'skills') {
                                                                 setActiveSkillCategory(sub.id);
+                                                            } else if (key === 'talents') {
+                                                                if (sub.id === 'summary') {
+                                                                    setActiveTalentTree(3);
+                                                                } else {
+                                                                    const idx = parseInt(sub.id.replace('tree_', ''), 10);
+                                                                    setActiveTalentTree(isNaN(idx) ? 0 : idx);
+                                                                }
                                                             }
                                                             setOpenDropdown(null);
                                                         }}

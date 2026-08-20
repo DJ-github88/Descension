@@ -265,7 +265,7 @@ export const SHAPER_IRON_DANCER = [
     requires: "id_t4_duelists_focus",
     spell: {
       name: "Blade Dance",
-      description: "While in Arterial Strike or Deadened Bastion, each attack action has a 20% chance to strike a second time against the same target or a target within 10 feet.",
+      description: "While in Arterial Strike or Deadened Bastion, each attack action has a 20 points chance to strike a second time against the same target or a target within 10 feet.",
       flavorText: "One dancer. Two blades. No survivors.",
       source: "talent", class: "Shaper", treeId: "iron-dancer",
       spellType: "PASSIVE", category: "buff",
@@ -273,7 +273,7 @@ export const SHAPER_IRON_DANCER = [
       visualTheme: "primal", tags: ["passive", "multi-attack", "forms", "shaper"]
     },
     rankUpgrades: [
-      { description: "While in Arterial Strike or Deadened Bastion, each attack action has a 30% chance to strike a second time against a target within 15 feet; the second strike deals full damage." }
+      { description: "While in Arterial Strike or Deadened Bastion, each attack action has a 30 points chance to strike a second time against a target within 15 feet; the second strike deals full damage." }
     ]
   },
   {
@@ -292,7 +292,7 @@ export const SHAPER_IRON_DANCER = [
       targetingMode: "self", visualTheme: "primal", tags: ["passive", "defense", "forms", "shaper"]
     },
     rankUpgrades: [
-      { description: "While any form is active, gain +3 Durability Steps to equipped durability and 10% resistance to smashing, stabbing, and slicing damage.", damageTypes: ["smashing", "stabbing", "slicing"] }
+      { description: "While any form is active, gain +3 Durability Steps to equipped durability and 2 Damage Reduction to smashing, stabbing, and slicing damage.", damageTypes: ["smashing", "stabbing", "slicing"] }
     ]
   },
   {
@@ -350,7 +350,7 @@ export const SHAPER_IRON_DANCER = [
     requires: "id_t5_blade_dance",
     spell: {
       name: "Calcified Edge",
-      description: "The ancestor-bridges sharpen everything. All slicing damage you deal is increased by 10%.",
+      description: "The ancestor-bridges sharpen everything. All slicing damage you deal is increased by +1d6 damage.",
       flavorText: "Sharper through mineral deposits.",
       source: "talent", class: "Shaper", treeId: "iron-dancer",
       spellType: "PASSIVE", category: "buff",
@@ -358,10 +358,10 @@ export const SHAPER_IRON_DANCER = [
       visualTheme: "primal", tags: ["passive", "capstone", "damage", "shaper"]
     },
     rankUpgrades: [
-      { description: "The ancestor-bridges sharpen everything. All slicing damage you deal is increased by 20%." },
-      { description: "The ancestor-bridges sharpen everything. All slicing damage you deal is increased by 35%." },
-      { description: "The ancestor-bridges sharpen everything. All slicing damage you deal is increased by 50%." },
-      { description: "The ancestor-bridges sharpen everything. All slicing damage you deal is increased by 70%, and Arterial Strike form costs 1 Flux." }
+      { description: "The ancestor-bridges sharpen everything. All slicing damage you deal is increased by +1d8 damage." },
+      { description: "The ancestor-bridges sharpen everything. All slicing damage you deal is increased by +1d8 damage." },
+      { description: "The ancestor-bridges sharpen everything. All slicing damage you deal is increased by +2d8 damage." },
+      { description: "The ancestor-bridges sharpen everything. All slicing damage you deal is increased by +2d8 damage, and Arterial Strike form costs 1 Flux." }
     ]
   },
   {
@@ -394,15 +394,15 @@ export const SHAPER_IRON_DANCER = [
     requires: "id_t6_grand_challenge",
     spell: {
       name: "Duelist's Resolve",
-      description: "Duels sharpen conviction. While an enemy is affected by your Dueling Mastery or Grand Challenge, you take 10% less damage from all other enemies.",
+      description: "Duels sharpen conviction. While an enemy is affected by your Dueling Mastery or Grand Challenge, you gain 2 Damage Reduction from all other enemies.",
       flavorText: "The audience cannot touch the dancers.",
       source: "talent", class: "Shaper", treeId: "iron-dancer",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "primal", tags: ["passive", "capstone", "duel", "defense", "shaper"]
     },
     rankUpgrades: [
-      { description: "While an enemy is dueling you, you take 20% less damage from all other enemies." },
-      { description: "While dueling, you take 30% less damage from others and cannot be critically hit by them." }
+      { description: "While an enemy is dueling you, you gain 4 Damage Reduction from all other enemies." },
+      { description: "While dueling, you gain 6 Damage Reduction from others and cannot be critically hit by them." }
     ]
   },
   {

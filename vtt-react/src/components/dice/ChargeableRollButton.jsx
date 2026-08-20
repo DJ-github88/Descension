@@ -28,8 +28,8 @@ const ChargeableRollButton = ({
   const hasFiredRef = useRef(false);
   const flingDirRef = useRef({ x: 0, z: 0 });
 
-  // Maximum hold time for 100% full charge (1.1s)
-  const MAX_CHARGE_TIME = 1100;
+  // Maximum hold time for 100% full charge (1.4s)
+  const MAX_CHARGE_TIME = 1400;
 
   const updateCharge = useCallback(() => {
     if (!isChargingRef.current) return;
@@ -113,8 +113,8 @@ const ChargeableRollButton = ({
     const elapsed = performance.now() - startTimeRef.current;
     const finalProgress = Math.min(1, elapsed / MAX_CHARGE_TIME);
 
-    // Scaling: 0% charge = 0.75x velocity (gentle drop), 100% = 2.4x velocity (powerful fling)
-    const throwPower = 0.75 + finalProgress * 1.65;
+    // Scaling: 0% charge = 0.8x velocity (gentle drop), 100% = 2.8x velocity (powerful fling)
+    const throwPower = 0.8 + finalProgress * 2.0;
     const finalFlingDir = { ...flingDirRef.current };
 
     setIsCharging(false);

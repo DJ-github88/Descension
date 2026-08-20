@@ -1,26 +1,13 @@
 // ============================================
-// BERSERKER — PRIMAL RAGE (v3: spec identity redesign)
-// Schema: see talentSystem.mjs. Rank N spell = rank N-1 + rankUpgrades[N-2].
-// Economy: 8/6/6/5/5/5 = 30 pts (tiers 1-6) + 15 pts (tier 7) = 50.
+// BERSERKER — PRIMAL RAGE (v4: Rebalanced Tier Budgets, Normalized Grid Coordinates)
+// Schema: see talentSystem.mjs.
+// Grid coordinates: x (0..4), y (0..6 representing Tiers 1..7).
 //
-// SPEC IDENTITY: The Unstoppable Juggernaut / Escalation Bruiser.
-// Where Blood Frenzy operates on low health and sacrifice, and Savage Instincts coordinates
-// the pack, Primal Rage is about ascending through Rage States:
-//   Smoldering -> Frenzied -> Carnage -> Obliteration.
-// You have massive, high-impact active spenders that crush armor and trigger seismic impact.
-//
-// SIGNATURE ACTIVES:
-//   - Savage Leap (t1):           Charge/leap into melee, instantly entering Frenzied state
-//   - Battle Cry (t2):            Taunt/terrify enemies and force attention
-//   - Carnage Cleave (t3):        High-heat cone strike that sunders armor
-//   - Cataclysmic Blow (t4):      Seismic slam knocking enemies back and down
-//   - Seismic Roar (t5):          Stun/disrupt nearby enemies with pure vocal power
-//   - Obliterating Strike (t6):   Massive 100-heat finisher that shatters reality
-//   - Berserker God (t7):         ULTIMATE — Permanent Obliteration state
+// FANTASY: The Unstoppable Juggernaut / Escalating Fury / Colossal Slams & Shouts.
 // ============================================
 
 export const BERSERKER_PRIMAL_RAGE = [
-  // ──────────────── TIER 1 (8 pts) ────────────────
+  // ──────────────── TIER 1 (Row 0) ────────────────
   {
     id: "prg_t1_savage_leap",
     name: "Savage Leap",
@@ -30,22 +17,21 @@ export const BERSERKER_PRIMAL_RAGE = [
     requires: null,
     spell: {
       name: "Savage Leap",
-      description: "Leap up to 30 feet to an enemy target, crashing down for 2d6 smashing damage. Instantly enter Frenzied Rage State and generate 20 Blood-Heat.",
-      flavorText: "The fastest route between two points is an angry Nordhallan.",
+      description: "Spend 1 AP: Leap up to 30 feet to an enemy, crashing down for 1d8 smashing damage and generating 10 Blood-Heat.",
+      flavorText: "The fastest route between two points is an angry warrior.",
       source: "talent", class: "Berserker", treeId: "primal_rage",
       spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 12, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { bloodHeat: { baseAmount: 0 } },
+      cooldownCategory: "turn_based", cooldownValue: 1, cooldownUnit: "round",
       damageTypes: ["smashing"],
-      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
+      primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
       visualTheme: "primal", tags: ["gap-closer", "mobility", "rage-state", "berserker"]
     },
     rankUpgrades: [
-      { description: "Leap up to 40 feet: deals 3d6 smashing damage, generates 30 Blood-Heat, and slows the target for 1 round.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, range: 40 },
-      { description: "Leap up to 50 feet: deals 4d6 smashing damage, generates 40 Blood-Heat, and knocks the target prone.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 }, range: 50 }
+      { description: "Deals 2d6 smashing damage and slows target movement by 10 feet for 1 round.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
+      { description: "Deals 2d8 smashing damage and knocks target Prone on a failed Strength save.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -53,408 +39,297 @@ export const BERSERKER_PRIMAL_RAGE = [
     name: "Inner Furnace",
     icon: "spell_fire_innerfire",
     maxRanks: 3,
-    position: { x: 2.5, y: 0 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
       name: "Inner Furnace",
-      description: "Your attacks generate 2 additional Blood-Heat. While in Frenzied or higher Rage State, weapon attacks deal +1d4 ember damage.",
-      flavorText: "The furnace was lit the day you were born. War only feeds it.",
+      description: "Passive: Your melee weapon attacks deal +1d4 bonus physical damage while in Frenzied or higher Rage State.",
+      flavorText: "The fire in the belly stokes every swing.",
       source: "talent", class: "Berserker", treeId: "primal_rage",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", damageTypes: ["ember"],
+      targetingMode: "self", damageTypes: ["smashing"],
       primaryDamage: { dice: "1d4", flat: 0, procChance: 100 },
-      visualTheme: "fire", tags: ["passive", "resource", "blood-heat", "berserker"]
+      visualTheme: "primal", tags: ["passive", "bloodheat", "damage", "berserker"]
     },
     rankUpgrades: [
-      { description: "Attacks generate 3 additional Blood-Heat. While Frenzied+, attacks deal +1d6 ember damage.", primaryDamage: { dice: "1d6", flat: 0, procChance: 100 } },
-      { description: "Attacks generate 4 additional Blood-Heat. While Frenzied+, attacks deal +1d8 ember damage, and your Blood-Heat decays 1 less per round.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } }
+      { description: "Bonus damage increases to +1d6 physical damage." },
+      { description: "Bonus damage increases to +1d8 physical damage and attacks generate +5 additional Blood-Heat." }
     ]
   },
   {
-    id: "prg_t1_fury_momentum",
-    name: "Fury Momentum",
-    icon: "ability_warrior_bloodfrenzy",
+    id: "prg_t1_iron_hide",
+    name: "Thickened Sinew",
+    icon: "ability_warrior_defensivestance",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
-      name: "Fury Momentum",
-      description: "You gain +1 weapon damage for each Rage State above Smoldering (Frenzied: +1, Carnage: +2, Obliteration: +3). Movement speed +5ft while Carnage+.",
-      flavorText: "Every state of fury has a voice. This one speaks in momentum.",
+      name: "Thickened Sinew",
+      description: "Passive: You gain +1 Damage Reduction against physical attacks and +1 to Fortitude saves.",
+      flavorText: "Hardened by countless bludgeonings.",
       source: "talent", class: "Berserker", treeId: "primal_rage",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "damage", "rage-state", "berserker"]
+      targetingMode: "self", visualTheme: "primal", tags: ["passive", "dr", "defense", "berserker"]
     },
     rankUpgrades: [
-      { description: "Gain +2 weapon damage per Rage State above Smoldering (+2 / +4 / +6). Movement speed +10ft while Carnage+." }
+      { description: "Gain +2 Damage Reduction against physical attacks and +2 to Fortitude saves." }
     ]
   },
 
-  // ──────────────── TIER 2 (6 pts) ────────────────
+  // ──────────────── TIER 2 (Row 1) ────────────────
   {
     id: "prg_t2_battle_cry",
     name: "Challenging Roar",
-    icon: "ability_warrior_commandingshout",
+    icon: "ability_warrior_warcry",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "prg_t1_savage_leap",
     spell: {
       name: "Challenging Roar",
-      description: "Unleash a deafening war-shout: all enemies within 20 feet must make a Will save or be forced to attack only you for 1 round. Gain 20 Blood-Heat and +2 Durability Steps to equipped durability for 1 round.",
-      flavorText: "Look at me. There is nothing else in this room worth your fear.",
+      description: "Spend 1 AP: Let loose a terrifying roar. Enemies within 20 feet must succeed on a Will save or suffer -1 to attack rolls against targets other than you for 2 rounds.",
+      flavorText: "Focus all their hatred upon the true threat.",
       source: "talent", class: "Berserker", treeId: "primal_rage",
-      spellType: "ACTIVE", category: "buff",
-      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 20,
+      spellType: "ACTIVE", category: "debuff",
+      actionPoints: 1,
+      targetingMode: "aoe", aoeShape: "circle", aoeSize: 20, rangeType: "ranged", range: 20,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 15, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { bloodHeat: { baseAmount: 0 } },
-      buffs: ["taunt", "armor-boost"], visualTheme: "primal", tags: ["taunt", "control", "berserker"]
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      visualTheme: "primal", tags: ["shout", "taunt", "debuff", "berserker"]
     },
     rankUpgrades: [
-      { description: "25-foot shout: forces enemies to attack you, grants 30 Blood-Heat and +3 Durability Steps to equipped durability. Cooldown drops to 12s.", cooldownValue: 12, aoeSize: 25 },
-      { description: "30-foot shout: enemies who fail save take 2d6 ember damage on their turn if they do not attack you. Gain 40 Blood-Heat and +4 Durability Steps to equipped durability.", aoeSize: 30 }
+      { description: "Enemies suffer -2 to attack rolls and generate 10 Blood-Heat for you upon roar." },
+      { description: "Enemies suffer -2 to attack rolls, and you gain 10 temporary Hit Points." }
     ]
   },
   {
-    id: "prg_t2_rage_retention",
-    name: "Rage Retention",
-    icon: "spell_shadow_mindsteal",
+    id: "prg_t2_crushing_momentum",
+    name: "Crushing Momentum",
+    icon: "ability_warrior_decisivestrike",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
-    requires: "prg_t1_inner_fire",
+    position: { x: 3, y: 1 },
+    requires: "prg_t1_iron_hide",
     spell: {
-      name: "Rage Retention",
-      description: "Cold endurance preserves your fury between bouts. Your Blood-Heat decay rate is reduced by 2 per round. Overheat threshold increases by 10.",
-      flavorText: "The fire banked is the fire kept.",
+      name: "Crushing Momentum",
+      description: "Passive: Moving at least 15 feet in a straight line before an attack adds +1d6 smashing damage to the strike.",
+      flavorText: "Mass times acceleration equals broken bones.",
       source: "talent", class: "Berserker", treeId: "primal_rage",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "rime", tags: ["passive", "resource", "decay", "berserker"]
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["smashing"],
+      primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
+      visualTheme: "primal", tags: ["passive", "momentum", "charge", "berserker"]
     },
     rankUpgrades: [
-      { description: "Blood-Heat decay reduced by 4 per round. Overheat threshold +20." },
-      { description: "Blood-Heat NEVER decays during active combat. Overheat threshold +30, and entering Carnage state grants 15 temporary health." }
+      { description: "Momentum bonus increases to +1d8 smashing damage." },
+      { description: "Momentum bonus increases to +2d6 smashing damage and pushes target 5 feet back." }
     ]
   },
 
-  // ──────────────── TIER 3 (6 pts) ────────────────
+  // ──────────────── TIER 3 (Row 2) ────────────────
   {
-    id: "prg_t3_carnage_strike",
+    id: "prg_t3_carnage_cleave",
     name: "Carnage Cleave",
     icon: "ability_warrior_cleave",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1, y: 2 },
     requires: "prg_t2_battle_cry",
     spell: {
       name: "Carnage Cleave",
-      description: "Spend 30 Blood-Heat: execute a wide 180-degree sweeping cleave in melee. Deals 3d8 slashing damage to all enemies in front of you and sunders their durability (-2 Durability Steps to target's durability for 1 round).",
-      flavorText: "One swing, multiple arguments concluded.",
+      description: "Spend 1 AP and 20 Blood-Heat: Swing your weapon in a 10-foot wide arc dealing 2d8 slicing damage to up to 3 adjacent enemies and sundering 1 point of Armor.",
+      flavorText: "One wide sweep to clear the circle.",
       source: "talent", class: "Berserker", treeId: "primal_rage",
       spellType: "ACTIVE", category: "damage",
-      targetingMode: "aoe", rangeType: "melee", range: 5, aoeShape: "cone", aoeSize: 180,
+      actionPoints: 1,
+      targetingMode: "aoe", aoeShape: "cone", aoeSize: 10, rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { bloodHeat: { baseAmount: 30 } },
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       damageTypes: ["slicing"],
-      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
-      debuffs: ["sunder"], visualTheme: "primal", tags: ["melee", "cleave", "aoe", "berserker"]
+      visualTheme: "primal", tags: ["aoe", "cleave", "armor-shred", "berserker"]
     },
     rankUpgrades: [
-      { description: "Spend 30 Blood-Heat: cleave deals 4d8 slashing damage and sunders durability (-3 Durability Steps to target's durability for 2 rounds).", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } },
-      { description: "Spend 30 Blood-Heat: cleave deals 5d8 slashing damage, sunders durability (-4 Durability Steps to target's durability), and critical strikes generate 20 Blood-Heat instead of costing.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 } }
+      { description: "Deals 2d10 slicing damage and sunders 2 Armor.", primaryDamage: { dice: "2d10", flat: 0, procChance: 100 } },
+      { description: "Deals 3d8 slicing damage, sunders 2 Armor, and grants you +1 DR for 1 round per enemy hit.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
     ]
   },
   {
-    id: "prg_t3_unbridled_momentum",
-    name: "Unbridled Momentum",
-    icon: "spell_fire_playingwithfire",
+    id: "prg_t3_unyielding_fury",
+    name: "Unyielding Fury",
+    icon: "ability_warrior_endurance",
     maxRanks: 3,
-    position: { x: 3, y: 3 },
-    requires: "prg_t2_rage_retention",
+    position: { x: 3, y: 2 },
+    requires: "prg_t2_crushing_momentum",
     spell: {
-      name: "Unbridled Momentum",
-      description: "While in Carnage or Obliteration Rage State, your weapon attacks cleave for 20% damage to an adjacent enemy, and your movement ignores difficult terrain.",
-      flavorText: "Stopping is not an option in this weather.",
+      name: "Unyielding Fury",
+      description: "Passive: When you take damage, gain 5 Blood-Heat. While at Carnage or higher Rage State, you are immune to Fear and Slow effects.",
+      flavorText: "Wrath burns away doubt and hesitation.",
       source: "talent", class: "Berserker", treeId: "primal_rage",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "cleave", "momentum", "berserker"]
+      targetingMode: "self", visualTheme: "primal", tags: ["passive", "immunity", "rage", "berserker"]
     },
     rankUpgrades: [
-      { description: "In Carnage/Obliteration: weapon attacks cleave for 20% damage to up to 2 adjacent enemies." },
-      { description: "In Carnage/Obliteration: weapon attacks cleave for 20% damage to all adjacent enemies, and you are immune to being knocked down or pushed." }
+      { description: "Taking damage generates 8 Blood-Heat; gain +1 to hit while below half health." },
+      { description: "Taking damage generates 10 Blood-Heat; gain +2 to hit and +1 DR while below half health." }
     ]
   },
 
-  // ──────────────── TIER 4 (5 pts) ────────────────
+  // ──────────────── TIER 4 (Row 3) ────────────────
   {
     id: "prg_t4_cataclysmic_blow",
     name: "Cataclysmic Blow",
-    icon: "ability_warrior_titansgrip",
-    maxRanks: 3,
-    position: { x: 1, y: 4.5 },
-    requires: "prg_t3_carnage_strike",
+    icon: "ability_warrior_groundslam",
+    maxRanks: 1,
+    position: { x: 2, y: 3 },
+    requires: ["prg_t3_carnage_cleave", "prg_t3_unyielding_fury"],
     spell: {
       name: "Cataclysmic Blow",
-      description: "Spend 50 Blood-Heat: slam your weapon into the earth with seismic force. Deals 4d10 smashing damage to your target, knocks it 15 feet back, and knocks all adjacent enemies prone.",
-      flavorText: "Glaciers remember that sound. So will they.",
+      description: "Spend 1 AP and 30 Blood-Heat: Slam your weapon into the ground, dealing 2d10 smashing damage to all enemies within 15 feet and knocking them Prone on a failed Fortitude save.",
+      flavorText: "When the titan falls, the earth shakes.",
       source: "talent", class: "Berserker", treeId: "primal_rage",
       spellType: "ACTIVE", category: "damage",
-      targetingMode: "single", rangeType: "melee", range: 5,
+      actionPoints: 1,
+      targetingMode: "aoe", aoeShape: "circle", aoeSize: 15, rangeType: "ranged", range: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 16, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { bloodHeat: { baseAmount: 50 } },
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      primaryDamage: { dice: "2d10", flat: 0, procChance: 100 },
       damageTypes: ["smashing"],
-      primaryDamage: { dice: "4d10", flat: 0, procChance: 100 },
-      debuffs: ["knockback", "prone"], visualTheme: "primal", tags: ["melee", "damage", "knockback", "berserker"]
-    },
-    rankUpgrades: [
-      { description: "Spend 50 Blood-Heat: deals 5d10 smashing damage, knocks target 20ft back, and creates a 10ft crater of difficult terrain.", primaryDamage: { dice: "5d10", flat: 0, procChance: 100 } },
-      { description: "Spend 50 Blood-Heat: deals 6d10 smashing damage, target is stunned for 1 round, and adjacent enemies take 3d10 collateral damage.", primaryDamage: { dice: "6d10", flat: 0, procChance: 100 } }
-    ]
-  },
-  {
-    id: "prg_t4_rage_echo",
-    name: "Echo of Fury",
-    icon: "spell_shadow_unholyfrenzy",
-    maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
-    requires: "prg_t3_unbridled_momentum",
-    spell: {
-      name: "Echo of Fury",
-      description: "When you defeat an enemy, emit a burst of inspiriting rage: you instantly gain 25 Blood-Heat, and all allies within 30 feet gain +2 to their next attack roll.",
-      flavorText: "One death, answered by a chorus.",
-      source: "talent", class: "Berserker", treeId: "primal_rage",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "primal", tags: ["passive", "kill", "ally", "berserker"]
-    },
-    rankUpgrades: [
-      { description: "Defeating an enemy grants you 40 Blood-Heat and your next ability costs 0 Blood-Heat. Allies gain +3 to attack rolls and +10ft movement speed." }
-    ]
+      visualTheme: "primal", tags: ["aoe", "slam", "knockdown", "berserker"]
+    }
   },
 
-  // ──────────────── TIER 5 (5 pts) ────────────────
+  // ──────────────── TIER 5 (Row 4) ────────────────
   {
     id: "prg_t5_seismic_roar",
     name: "Seismic Roar",
-    icon: "spell_nature_ancestralguardian",
-    maxRanks: 2,
-    position: { x: 1, y: 6 },
+    icon: "spell_nature_thunderclap",
+    maxRanks: 3,
+    position: { x: 1, y: 4 },
     requires: "prg_t4_cataclysmic_blow",
     spell: {
       name: "Seismic Roar",
-      description: "Spend 40 Blood-Heat: roar with tectonic fury. All enemies in a 25-foot cone take 3d8 thunder damage, are interrupted, and must save or be stunned for 1 round.",
-      flavorText: "The mountain does not whisper.",
+      description: "Spend 1 AP and 25 Blood-Heat: Bellow with sonic fury. Deals 2d6 sonic damage to enemies within 20 feet and Dazes them for 1 round.",
+      flavorText: "Shattering stones with vocal thunder.",
       source: "talent", class: "Berserker", treeId: "primal_rage",
       spellType: "ACTIVE", category: "damage",
-      targetingMode: "aoe", rangeType: "self", range: 25, aoeShape: "cone", aoeSize: 25,
+      actionPoints: 1,
+      targetingMode: "aoe", aoeShape: "circle", aoeSize: 20, rangeType: "ranged", range: 20,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 24, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: false,
-      resourceCosts: { bloodHeat: { baseAmount: 40 } },
-      damageTypes: ["smashing"],
-      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
-      debuffs: ["stun"], visualTheme: "primal", tags: ["aoe", "cone", "stun", "berserker"]
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
+      damageTypes: ["sonic"],
+      visualTheme: "primal", tags: ["shout", "daze", "aoe", "berserker"]
     },
     rankUpgrades: [
-      { description: "30-foot cone deals 4d8 smashing damage, stuns for 1 round, and knocks all flying enemies to the ground.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 }, range: 30 }
+      { description: "Deals 2d8 sonic damage and forces spellcasters to lose concentration.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } },
+      { description: "Deals 3d6 sonic damage, Stuns enemies for 1 round on a failed Fortitude save.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
     ]
   },
   {
-    id: "prg_t5_fury_mastery",
-    name: "Rage Efficiency",
-    icon: "spell_nature_unrelentingstorm",
-    maxRanks: 3,
-    position: { x: 3, y: 6 },
-    requires: "prg_t4_rage_echo",
+    id: "prg_t5_unbreakable_stance",
+    name: "Unstoppable Bulk",
+    icon: "ability_warrior_shieldwall",
+    maxRanks: 2,
+    position: { x: 3, y: 4 },
+    requires: "prg_t4_cataclysmic_blow",
     spell: {
-      name: "Rage Efficiency",
-      description: "Your Blood-Heat spending abilities (Carnage Cleave, Cataclysmic Blow, Seismic Roar) cost 10 less Blood-Heat.",
-      flavorText: "Spend it like it was saved for this exact moment. It was.",
+      name: "Unstoppable Bulk",
+      description: "Passive: You cannot be pushed, pulled, or knocked Prone against your will, and you gain +3 Armor.",
+      flavorText: "Rooted like a mountain.",
       source: "talent", class: "Berserker", treeId: "primal_rage",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "primal", tags: ["passive", "cost", "blood-heat", "berserker"]
+      targetingMode: "self", visualTheme: "primal", tags: ["passive", "armor", "stability", "berserker"]
     },
     rankUpgrades: [
-      { description: "Blood-Heat spenders cost 15 less Blood-Heat and deal 10% more damage." },
-      { description: "Blood-Heat spenders cost 20 less Blood-Heat, deal 20% more damage, and you gain 1 Action Point upon entering Obliteration state." }
+      { description: "Gain +4 Armor and 2 Damage Reduction against all attacks." }
     ]
   },
 
-  // ──────────────── TIER 6 (5 pts) ────────────────
+  // ──────────────── TIER 6 (Row 5) ────────────────
   {
     id: "prg_t6_obliterating_strike",
     name: "Obliterating Strike",
-    icon: "spell_fire_meteorstorm",
-    maxRanks: 1,
-    position: { x: 1, y: 7.5 },
-    requires: "prg_t5_seismic_roar",
+    icon: "ability_warrior_bloodstorm",
+    maxRanks: 3,
+    position: { x: 2, y: 5 },
+    requires: ["prg_t5_seismic_roar", "prg_t5_unbreakable_stance"],
     spell: {
       name: "Obliterating Strike",
-      description: "Spend 75 Blood-Heat: execute your ultimate melee strike. Deals 6d10 smashing damage to your target and 3d10 to all enemies within 15 feet. Ignores all target durability.",
-      flavorText: "The mountain did not move. You did.",
+      description: "Spend 2 AP and 50 Blood-Heat: Deliver a world-shattering melee strike dealing 4d8 smashing damage, bypassing all enemy Armor, and knocking the target 20 feet back.",
+      flavorText: "The culmination of unstoppable physical power.",
       source: "talent", class: "Berserker", treeId: "primal_rage",
       spellType: "ACTIVE", category: "damage",
-      targetingMode: "aoe", rangeType: "melee", range: 5, aoeShape: "circle", aoeSize: 15,
+      actionPoints: 2,
+      targetingMode: "single", rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 45, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { bloodHeat: { baseAmount: 75 } },
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
       damageTypes: ["smashing"],
-      primaryDamage: { dice: "6d10", flat: 0, procChance: 100 },
-      visualTheme: "primal", tags: ["melee", "nuke", "aoe", "berserker"]
-    },
-    rankUpgrades: []
-  },
-  {
-    id: "prg_t6_rage_overflow",
-    name: "Overheat Redirection",
-    icon: "spell_shadow_shadowwordpain",
-    maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
-    requires: "prg_t5_fury_mastery",
-    spell: {
-      name: "Overheat Redirection",
-      description: "When you would Overheat (reach 100 Blood-Heat), instead of suffering stun, your next ability is cast instantly for 0 cost and deals maximum possible damage.",
-      flavorText: "Nothing wasted. Not even the catastrophe.",
-      source: "talent", class: "Berserker", treeId: "primal_rage",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "overheat", "berserker"]
+      visualTheme: "primal", tags: ["strike", "nuke", "armor-pierce", "berserker"]
     },
     rankUpgrades: [
-      { description: "Overheat never stuns you. When reaching 100 Blood-Heat, you gain 25 temporary health, your next TWO abilities deal maximum damage, and your Obliterating Strike cooldown refreshes." }
-    ]
-  },
-  {
-    id: "prg_t6_apocalyptic_wrath",
-    name: "Avatar's Stature",
-    icon: "spell_fire_elementaldevastation",
-    maxRanks: 2,
-    position: { x: 4, y: 7.5 },
-    requires: "prg_t5_fury_mastery",
-    spell: {
-      name: "Avatar's Stature",
-      description: "While in the Obliteration Rage State, your size increases by one category, weapon range extends by +5ft, and you take 20% less damage from all sources.",
-      flavorText: "The saga ends with weather, not warriors.",
-      source: "talent", class: "Berserker", treeId: "primal_rage",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "obliteration", "berserker"]
-    },
-    rankUpgrades: [
-      { description: "In Obliteration state: +5ft reach, 25% all-damage reduction, and you are immune to being knocked down or pushed." }
+      { description: "Deals 4d10 smashing damage and stuns the target for 1 round if slammed into a wall.", primaryDamage: { dice: "4d10", flat: 0, procChance: 100 } },
+      { description: "Deals 5d8 smashing damage and creates a 15-foot shockwave dealing 2d6 damage to all nearby foes.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 } }
     ]
   },
 
-  // ──────────────── TIER 7 / CAPSTONE (15 pts) ────────────────
+  // ──────────────── TIER 7 (Row 6 - Capstones) ────────────────
   {
     id: "prg_t7_berserker_god",
-    name: "Obliteration Avatar",
-    icon: "spell_shadow_unholystrength",
+    name: "Avatar of Primal Wrath",
+    icon: "spell_fire_soulburn",
     maxRanks: 1,
-    position: { x: 0.5, y: 8 },
+    position: { x: 2, y: 6 },
     requires: "prg_t6_obliterating_strike",
     spell: {
-      name: "Obliteration Avatar",
-      description: "ULTIMATE: Lock yourself into the Obliteration Rage State for 1 minute: Blood-Heat never decays below 75, all weapon attacks deal +3d8 smashing damage, and your attacks send shockwaves in a 15-foot line behind the target.",
-      flavorText: "The moment they sing about. You live there now.",
+      name: "Avatar of Primal Wrath",
+      description: "ULTIMATE: Spend 2 AP: For 2 rounds, enter the permanent Obliteration State. Your melee strikes deal +1d10 physical damage, your attacks hit all adjacent foes, and you gain +4 Damage Reduction.",
+      flavorText: "You are no longer a mortal warrior. You are a natural disaster with a blade.",
       source: "talent", class: "Berserker", treeId: "primal_rage",
       spellType: "ACTIVE", category: "buff",
-      targetingMode: "self", rangeType: "self", range: 0,
+      actionPoints: 2,
+      targetingMode: "self",
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { bloodHeat: { baseAmount: 50 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
-      damageTypes: ["smashing"],
-      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
-      buffs: ["avatar"], visualTheme: "fire", tags: ["ultimate", "capstone", "obliteration", "berserker"]
-    },
-    rankUpgrades: []
+      cooldownCategory: "turn_based", cooldownValue: 5, cooldownUnit: "rounds",
+      visualTheme: "primal", tags: ["ultimate", "juggernaut", "buff", "berserker"]
+    }
   },
   {
-    id: "prg_t7_god_mode",
-    name: "Living Avalanche Doctrine",
-    icon: "spell_holy_weaponmastery",
-    maxRanks: 5,
-    position: { x: 1.5, y: 8 },
+    id: "prg_t7_titan_heart",
+    name: "Titan Heart",
+    icon: "spell_holy_blessingofstrength",
+    maxRanks: 2,
+    position: { x: 1, y: 6 },
     requires: "prg_t6_obliterating_strike",
     spell: {
-      name: "Living Avalanche Doctrine",
-      description: "Your devastating strikes shake the earth. All smashing damage you deal is increased by 10%.",
-      flavorText: "Avatar is a job description.",
+      name: "Titan Heart",
+      description: "Passive: Maximum health increases by 15 Hit Points, and your minimum Rage State cannot drop below Frenzied in combat.",
+      flavorText: "A heart forged in glacial fires.",
+      source: "talent", class: "Berserker", treeId: "primal_rage",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "primal", tags: ["passive", "hp", "rage-floor", "berserker"]
+    },
+    rankUpgrades: [
+      { description: "Maximum health increases by 25 Hit Points, and minimum Rage State cannot drop below Carnage." }
+    ]
+  },
+  {
+    id: "prg_t7_earthshaker_impact",
+    name: "Earthshaker Impact",
+    icon: "spell_nature_earthquake",
+    maxRanks: 2,
+    position: { x: 3, y: 6 },
+    requires: "prg_t6_obliterating_strike",
+    spell: {
+      name: "Earthshaker Impact",
+      description: "Passive: All your critical hits shatter the earth in a 10-foot radius, dealing 2d8 smashing damage to adjacent enemies and knocking them Prone.",
+      flavorText: "The ground splits beneath your fury.",
       source: "talent", class: "Berserker", treeId: "primal_rage",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", damageTypes: ["smashing"],
-      visualTheme: "rime", tags: ["passive", "capstone", "damage", "berserker"]
+      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
+      visualTheme: "primal", tags: ["passive", "crit-quake", "berserker"]
     },
     rankUpgrades: [
-      { description: "Smashing damage increased by 20%." },
-      { description: "Smashing damage increased by 35%." },
-      { description: "Smashing damage increased by 50%." },
-      { description: "Smashing damage increased by 70%, and Cataclysmic Blow and Obliterating Strike knock all targets prone unconditionally." }
-    ]
-  },
-  {
-    id: "prg_t7_hunger_made_flesh",
-    name: "Rage Engine",
-    icon: "spell_shadow_bloodboil",
-    maxRanks: 3,
-    position: { x: 2.5, y: 8 },
-    requires: "prg_t6_rage_overflow",
-    spell: {
-      name: "Rage Engine",
-      description: "All Blood-Heat generation from all attacks and abilities is increased by 20%. Savage Leap generates double Blood-Heat.",
-      flavorText: "The Pact signed itself.",
-      source: "talent", class: "Berserker", treeId: "primal_rage",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "blight", tags: ["passive", "capstone", "resource", "berserker"]
-    },
-    rankUpgrades: [
-      { description: "Blood-Heat generation increased by 35%. Savage Leap cooldown reduced by 4 seconds." },
-      { description: "Blood-Heat generation increased by 50%. Savage Leap has 2 charges and refunds its cooldown on kill." }
-    ]
-  },
-  {
-    id: "prg_t7_apocalyptic_aura",
-    name: "Tectonic Shockwave",
-    icon: "spell_fire_selfdestruct",
-    maxRanks: 3,
-    position: { x: 3.5, y: 8 },
-    requires: "prg_t6_apocalyptic_wrath",
-    spell: {
-      name: "Tectonic Shockwave",
-      description: "While in the Obliteration Rage State, enemies within 15 feet take 2d6 smashing damage at the start of your turn as the ground breaks beneath them.",
-      flavorText: "Stand near the avatar at your own risk. The snow knows better.",
-      source: "talent", class: "Berserker", treeId: "primal_rage",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["smashing"],
-      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
-      visualTheme: "fire", tags: ["passive", "capstone", "aura", "berserker"]
-    },
-    rankUpgrades: [
-      { description: "Obliteration aura deals 3d6 smashing damage and reduces enemy movement speed by 10ft.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } },
-      { description: "Obliteration aura deals 4d6 smashing damage, reduces enemy movement speed by 15ft, and imposes -2 to enemy attack rolls.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 } }
-    ]
-  },
-  {
-    id: "prg_t7_unending_saga",
-    name: "Unending Cleave",
-    icon: "spell_nature_unrelentingstorm",
-    maxRanks: 3,
-    position: { x: 4.5, y: 8 },
-    requires: "prg_t6_apocalyptic_wrath",
-    spell: {
-      name: "Unending Cleave",
-      description: "Whenever you land a critical strike or defeat an enemy with a Blood-Heat spending ability, its cooldown is immediately refunded.",
-      flavorText: "Skalds dispute how it ends. It does not.",
-      source: "talent", class: "Berserker", treeId: "primal_rage",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "primal", tags: ["passive", "capstone", "reset", "berserker"]
-    },
-    rankUpgrades: [
-      { description: "Critical strikes and kills refund cooldown AND refund 50% of the Blood-Heat spent." },
-      { description: "Critical strikes and kills refund cooldown, refund 100% of Blood-Heat spent, and grant a free melee attack." }
+      { description: "Quake deals 3d8 smashing damage and generates 15 Blood-Heat." }
     ]
   }
 ];

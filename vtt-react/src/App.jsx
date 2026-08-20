@@ -38,6 +38,7 @@ import ErrorBoundary from "./components/common/ErrorBoundary";
 import NotificationContainer from "./components/common/NotificationContainer";
 import CookieConsent, { hasConsent } from "./components/common/CookieConsent";
 import AssetLoadingOverlay from "./components/common/AssetLoadingOverlay";
+import QuickSwitcher from "./components/common/QuickSwitcher";
 import { clearLocalRoom } from "./utils/localRoom";
 import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
 import initChatStore from './utils/initChatStore';
@@ -1163,6 +1164,13 @@ const AppContent = ({
   const navigate = useNavigate();
   const location = useLocation();
   const isGameRoute = location.pathname.startsWith('/game') || location.pathname.startsWith('/multiplayer');
+  const [isQuickSwitcherOpen, setIsQuickSwitcherOpen] = useState(false);
+
+  useEffect(() => {
+    const handleToggleQuickSwitcher = () => setIsQuickSwitcherOpen(prev => !prev);
+    window.addEventListener('mythrill_toggle_quick_switcher', handleToggleQuickSwitcher);
+    return () => window.removeEventListener('mythrill_toggle_quick_switcher', handleToggleQuickSwitcher);
+  }, []);
 
 
 
@@ -1547,6 +1555,12 @@ const AppContent = ({
 
       {/* Cookie Consent Banner */}
       <CookieConsent />
+
+      {/* Global Universal Quick Switcher / Command Palette (Ctrl+K) */}
+      <QuickSwitcher
+        isOpen={isQuickSwitcherOpen}
+        onClose={() => setIsQuickSwitcherOpen(false)}
+      />
     </>
   );
 };

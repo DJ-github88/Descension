@@ -18,6 +18,8 @@ import SpellLibrary from '../spellcrafting-wizard/components/library/SpellLibrar
 import SpellActionBar from '../character-sheet/SpellActionBar';
 import DiceThemeSelector from '../dice/DiceThemeSelector';
 import ClassResourceBar from '../hud/ClassResourceBar';
+import { CLASS_SPECIALIZATIONS } from '../../data/classSpellCategories';
+import TalentTreeContent from '../talent-tree/TalentTreeContent';
 import '../../styles/character-sheet.css';
 import '../../styles/character-view-page.css';
 
@@ -29,6 +31,7 @@ const CharacterViewPage = () => {
   const [activeInfoSection, setActiveInfoSection] = useState('equipment');
   const [activeStatGroup, setActiveStatGroup] = useState('summary');
   const [activeSkillCategory, setActiveSkillCategory] = useState('combat');
+  const [activeTalentTree, setActiveTalentTree] = useState(0);
 
   const [selectedSkillId, setSelectedSkillId] = useState(null);
   const [hoveredSkillCategory, setHoveredSkillCategory] = useState(null);
@@ -192,6 +195,24 @@ const CharacterViewPage = () => {
       title: 'Spells',
       icon: 'fas fa-hat-wizard'
     },
+    talents: {
+      title: 'Talents',
+      icon: 'fas fa-sitemap',
+      subSections: [
+        ...(characterClass && CLASS_SPECIALIZATIONS[characterClass]
+          ? CLASS_SPECIALIZATIONS[characterClass].specializations.map((spec, idx) => ({
+              id: `tree_${idx}`,
+              label: spec.name,
+              icon: 'fas fa-tree'
+            }))
+          : [
+              { id: 'tree_0', label: 'Tree 1', icon: 'fas fa-tree' },
+              { id: 'tree_1', label: 'Tree 2', icon: 'fas fa-tree' },
+              { id: 'tree_2', label: 'Tree 3', icon: 'fas fa-tree' }
+            ]),
+        { id: 'summary', label: 'Talent Summary', icon: 'fas fa-list-check' }
+      ]
+    },
     inventory: {
       title: 'Inventory',
       icon: 'fas fa-box-open',
@@ -211,6 +232,12 @@ const CharacterViewPage = () => {
         return <CharacterStats selectedStatGroup={activeStatGroup} setSelectedStatGroup={setActiveStatGroup} />;
       case 'skills':
         return <Skills selectedCategory={activeSkillCategory} selectedSkill={selectedSkillId} setSelectedSkill={setSelectedSkillId} />;
+      case 'talents':
+        return (
+          <div className="character-view-talents-wrapper">
+            <TalentTreeContent selectedTreeIndex={activeTalentTree} onTreeSelect={setActiveTalentTree} />
+          </div>
+        );
       case 'spells':
         return (
           <div className="character-view-spells-tab">
@@ -724,6 +751,10 @@ const CharacterViewPage = () => {
                         (key === 'character' && activeInfoSection === sub.id) ||
                         (key === 'stats' && activeStatGroup === sub.id) ||
                         (key === 'skills' && activeSkillCategory === sub.id && (!selectedSkillId || !hasNestedSkills)) ||
+                        (key === 'talents' && (
+                          (sub.id === 'summary' && activeTalentTree === 3) ||
+                          (sub.id === `tree_${activeTalentTree}`)
+                        )) ||
                         (key === 'inventory' && (
                           (sub.id === 'equipment' && activeTab === 'inventory') ||
                           (sub.id !== 'equipment' && activeTab === sub.id)
@@ -755,6 +786,14 @@ const CharacterViewPage = () => {
                                 setActiveTab(key);
                                 setActiveSkillCategory(sub.id);
                                 setSelectedSkillId(null);
+                              } else if (key === 'talents') {
+                                setActiveTab('talents');
+                                if (sub.id === 'summary') {
+                                  setActiveTalentTree(3);
+                                } else {
+                                  const idx = parseInt(sub.id.replace('tree_', ''), 10);
+                                  setActiveTalentTree(isNaN(idx) ? 0 : idx);
+                                }
                               } else if (key === 'inventory') {
                                 if (sub.id === 'equipment') {
                                   setActiveTab('inventory');

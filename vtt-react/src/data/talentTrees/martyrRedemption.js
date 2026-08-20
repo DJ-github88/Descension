@@ -1,447 +1,337 @@
 // ============================================
-// MARTYR — REDEMPTION (v2: talents are spells)
-// Schema: see talentSystem.mjs. Rank N spell = rank N-1 + rankUpgrades[N-2].
-// Economy: 8/6/6/5/5/5 = 30 pts (tiers 1-6) + 15 pts (tier 7) = 50.
-// Resource: Devotion Gauge. Damage/healing type: sacred. The healer tree.
+// MARTYR — REDEMPTION (v3: Rebalanced Tier Budgets, Normalized Grid Coordinates)
+// Schema: see talentSystem.mjs.
+// Grid coordinates: x (0..4), y (0..6 representing Tiers 1..7).
+//
+// FANTASY: The Sacred Healer / Compassionate Conduit / Sol's Restoration.
 // ============================================
 
 export const MARTYR_REDEMPTION = [
+  // ──────────────── TIER 1 (Row 0) ────────────────
   {
     id: "rdm_t1_lay_on_hands",
     name: "Lay on Hands",
     icon: "spell_holy_layonhands",
     maxRanks: 3,
-    position: { x: 0.5, y: 0 },
+    position: { x: 1, y: 0 },
     requires: null,
     spell: {
       name: "Lay on Hands",
-      description: "The Martyr's touch channels Sol's radiant mercy. Lay hands on a creature within 5 feet to heal 2d6 health. Costs 1 Devotion.",
+      description: "Spend 1 AP and 1 Devotion: Lay hands on a creature within 5 feet to restore 1d8 Hit Points.",
       flavorText: "The light passes through you like a toll road. Worth it.",
       source: "talent", class: "Martyr", treeId: "redemption",
       spellType: "ACTIVE", category: "healing",
+      actionPoints: 1,
       targetingMode: "single", rangeType: "touch", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
+      cooldownCategory: "turn_based", cooldownValue: 1, cooldownUnit: "round",
       resourceCosts: { devotion: { baseAmount: 1 } },
-      healing: { dice: "2d6", flat: 0 },
+      healing: { dice: "1d8", flat: 0 },
       visualTheme: "sacred", tags: ["healing", "touch", "martyr"]
     },
     rankUpgrades: [
-      { description: "The Martyr's touch channels Sol's radiant mercy. Lay hands on a creature within 5 feet to heal 4d6 health. Costs 1 Devotion.", healing: { dice: "4d6", flat: 0 } },
-      { description: "The Martyr's touch channels Sol's radiant mercy. Lay hands on a creature within 5 feet to heal 6d6 health, and overfill grants the target 5 temporary health. Costs 1 Devotion.", healing: { dice: "6d6", flat: 0 } }
+      { description: "Restores 2d6 Hit Points.", healing: { dice: "2d6", flat: 0 } },
+      { description: "Restores 2d8 Hit Points, and overhealing becomes temporary Hit Points (up to 4 temp HP).", healing: { dice: "2d8", flat: 0 } }
     ]
   },
   {
     id: "rdm_t1_healing_touch",
-    name: "Healing Touch",
+    name: "Radiant Grace",
     icon: "spell_holy_healingtouch",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
     spell: {
-      name: "Healing Touch",
-      description: "The sacred light of Sol flows through your hands. Spend 1 Action Point to heal an ally within touch range for 1d8 plus your level.",
+      name: "Radiant Grace",
+      description: "Passive: Whenever you cast a healing spell on an ally, you both gain +1 to your next saving throw within 1 round.",
       flavorText: "Small mercies, delivered constantly.",
       source: "talent", class: "Martyr", treeId: "redemption",
-      spellType: "ACTIVE", category: "healing",
-      targetingMode: "single", rangeType: "touch", range: 5,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { mana: { baseAmount: 5 } },
-      healing: { dice: "1d8", flat: 2 },
-      visualTheme: "sacred", tags: ["healing", "cheap", "martyr"]
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "sacred", tags: ["passive", "save-buff", "martyr"]
     },
     rankUpgrades: [
-      { description: "The sacred light of Sol flows through your hands. Spend 1 Action Point to heal an ally within touch range for 2d8 plus your level.", healing: { dice: "2d8", flat: 2 } },
-      { description: "The sacred light of Sol flows through your hands. Spend 1 Action Point to heal an ally within touch range for 3d8 plus your level.", healing: { dice: "3d8", flat: 2 } }
+      { description: "Saving throw bonus increases to +2." },
+      { description: "Saving throw bonus increases to +2 and target gains 3 temporary Hit Points." }
     ]
   },
   {
     id: "rdm_t1_purify",
-    name: "Purify",
+    name: "Purifying Touch",
     icon: "spell_holy_purifyingpower",
     maxRanks: 2,
-    position: { x: 3.5, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
-      name: "Purify",
-      description: "The Martyr offers suffering to Sol to cleanse the impure. Remove all poison and disease effects from one creature within 30 feet.",
+      name: "Purifying Touch",
+      description: "Spend 1 AP and 1 Devotion: Remove 1 Poison or Disease condition from a target within 30 feet.",
       flavorText: "You take a little of it with you. Sol insists.",
       source: "talent", class: "Martyr", treeId: "redemption",
       spellType: "ACTIVE", category: "utility",
+      actionPoints: 1,
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 12, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
       resourceCosts: { devotion: { baseAmount: 1 } },
       visualTheme: "sacred", tags: ["cleanse", "utility", "martyr"]
     },
     rankUpgrades: [
-      { description: "The Martyr offers suffering to Sol to cleanse the impure. Remove all poison, disease, and curse effects from one creature within 30 feet, and they regain 1d6 health." }
+      { description: "Removes all Poison, Disease, and Curse conditions, and restores 1d6 Hit Points." }
     ]
   },
 
+  // ──────────────── TIER 2 (Row 1) ────────────────
   {
     id: "rdm_t2_cure_wounds",
-    name: "Cure Wounds",
+    name: "Sacred Mending",
     icon: "spell_holy_renew",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "rdm_t1_lay_on_hands",
     spell: {
-      name: "Cure Wounds",
-      description: "Sol's sacred light knits flesh and spirit alike. Heal an ally within 30 feet for 3d8 plus your Spirit modifier.",
+      name: "Sacred Mending",
+      description: "Spend 1 AP: Channel soothing radiant energy into an ally within 30 feet, restoring 1d8+2 Hit Points.",
       flavorText: "Sutures, but preached.",
       source: "talent", class: "Martyr", treeId: "redemption",
       spellType: "ACTIVE", category: "healing",
+      actionPoints: 1,
       targetingMode: "single", rangeType: "ranged", range: 30,
-      castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { mana: { baseAmount: 10 } },
-      healing: { dice: "3d8", flat: 0 },
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 1, cooldownUnit: "round",
+      healing: { dice: "1d8", flat: 2 },
       visualTheme: "sacred", tags: ["healing", "martyr"]
     },
     rankUpgrades: [
-      { description: "Sol's sacred light knits flesh and spirit alike. Heal an ally within 30 feet for 5d8 plus your Spirit modifier.", healing: { dice: "5d8", flat: 0 } },
-      { description: "Sol's sacred light knits flesh and spirit alike. Heal an ally within 30 feet for 7d8 plus your Spirit modifier; overhealing becomes a sacred shield.", healing: { dice: "7d8", flat: 0 } }
+      { description: "Restores 2d6+2 Hit Points.", healing: { dice: "2d6", flat: 2 } },
+      { description: "Restores 2d8+3 Hit Points and removes 1 bleed effect.", healing: { dice: "2d8", flat: 3 } }
     ]
   },
   {
     id: "rdm_t2_restoring_light",
-    name: "Restoring Light",
+    name: "Beacon of Solace",
     icon: "spell_holy_restoration",
     maxRanks: 3,
-    position: { x: 3.5, y: 1 },
+    position: { x: 3, y: 1 },
     requires: "rdm_t1_purify",
     spell: {
-      name: "Restoring Light",
-      description: "Sol's purifying radiance shines through your sacrifice. Heal one condition (blinded, deafened, paralyzed, or frightened) from an ally within 30 feet.",
-      flavorText: "The light also does windows.",
+      name: "Beacon of Solace",
+      description: "Passive: Whenever you heal an ally below half maximum health, restore +1d4 additional Hit Points and generate 1 Devotion.",
+      flavorText: "The darker the shadow, the brighter the light shines.",
       source: "talent", class: "Martyr", treeId: "redemption",
-      spellType: "ACTIVE", category: "utility",
-      targetingMode: "single", rangeType: "ranged", range: 30,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 15, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { devotion: { baseAmount: 2 } },
-      visualTheme: "sacred", tags: ["cleanse", "condition", "martyr"]
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "sacred", tags: ["passive", "bonus-heal", "martyr"]
     },
     rankUpgrades: [
-      { description: "Sol's purifying radiance shines through your sacrifice. Heal TWO conditions (blinded, deafened, paralyzed, or frightened) from an ally within 30 feet." },
-      { description: "Sol's purifying radiance shines through your sacrifice. Heal ALL conditions from an ally within 30 feet and grant them advantage on their next save." }
+      { description: "Bonus healing increases to +1d6 Hit Points." },
+      { description: "Bonus healing increases to +1d8 Hit Points and target gains +10 feet movement speed for 1 round." }
     ]
   },
 
+  // ──────────────── TIER 3 (Row 2) ────────────────
   {
     id: "rdm_t3_mass_healing",
-    name: "Mass Healing",
+    name: "Prayer of Radiance",
     icon: "spell_holy_prayerofhealing",
     maxRanks: 3,
-    position: { x: 1.5, y: 2 },
+    position: { x: 1, y: 2 },
     requires: "rdm_t2_cure_wounds",
     spell: {
-      name: "Mass Healing",
-      description: "Your martyred spirit spreads Sol's blessing to all nearby. Heal up to 3 creatures within 30 feet for 2d6 health each. Costs 2 Devotion.",
+      name: "Prayer of Radiance",
+      description: "Spend 1 AP and 2 Devotion: Heal all allies within a 20-foot radius for 1d8 Hit Points.",
       flavorText: "One light, many windows.",
       source: "talent", class: "Martyr", treeId: "redemption",
       spellType: "ACTIVE", category: "healing",
-      targetingMode: "aoe", rangeType: "ranged", range: 30, aoeShape: "circle", aoeSize: 30,
-      castTimeType: "short", castTimeValue: 1.5,
-      cooldownCategory: "medium", cooldownValue: 18, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
-      resourceCosts: { devotion: { baseAmount: 2 }, mana: { baseAmount: 10 } },
-      healing: { dice: "2d6", flat: 0 },
-      visualTheme: "sacred", tags: ["healing", "aoe", "martyr"]
+      actionPoints: 1,
+      targetingMode: "aoe", aoeShape: "circle", aoeSize: 20, rangeType: "ranged", range: 30,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      resourceCosts: { devotion: { baseAmount: 2 } },
+      healing: { dice: "1d8", flat: 0 },
+      visualTheme: "sacred", tags: ["aoe", "heal", "martyr"]
     },
     rankUpgrades: [
-      { description: "Your martyred spirit spreads Sol's blessing to all nearby. Heal up to 4 creatures within 30 feet for 3d6 health each. Costs 2 Devotion.", healing: { dice: "3d6", flat: 0 } },
-      { description: "Your martyred spirit spreads Sol's blessing to all nearby. Heal up to 5 creatures within 40 feet for 4d6 health each. Costs 2 Devotion.", healing: { dice: "4d6", flat: 0 } }
+      { description: "Heals all allies in the radius for 2d6 Hit Points.", healing: { dice: "2d6", flat: 0 } },
+      { description: "Heals all allies for 2d8 Hit Points and grants them +1 Armor for 1 round.", healing: { dice: "2d8", flat: 0 } }
     ]
   },
   {
-    id: "rdm_t3_healing_aura",
-    name: "Healing Aura",
-    icon: "spell_holy_divineprovidence",
+    id: "rdm_t3_martyrs_sacrifice",
+    name: "Blood of the Martyr",
+    icon: "spell_holy_sealofsacrifice",
     maxRanks: 3,
-    position: { x: 3.5, y: 2 },
+    position: { x: 3, y: 2 },
     requires: "rdm_t2_restoring_light",
     spell: {
-      name: "Healing Aura",
-      description: "Sol's unwavering light emanates from your selfless form. Allies within 20 feet regain 1d6 health at the start of their turns. Costs 3 Devotion to ignite for 1 minute.",
-      flavorText: "Standing near you is a medical plan.",
+      name: "Blood of the Martyr",
+      description: "Spend 1 AP and sacrifice 4 HP: Instantly heal an ally within 40 feet for 2d8 Hit Points without consuming Devotion.",
+      flavorText: "Your own lifeblood poured into another's cup.",
       source: "talent", class: "Martyr", treeId: "redemption",
       spellType: "ACTIVE", category: "healing",
-      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 20,
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "ranged", range: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 60, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { devotion: { baseAmount: 3 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
-      healing: { dice: "1d6", flat: 0, isHoT: true, hotDuration: 6, hotTick: "1d6" },
-      buffs: ["healing-aura"], visualTheme: "sacred", tags: ["aura", "hot", "martyr"]
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      healing: { dice: "2d8", flat: 0 },
+      visualTheme: "sacred", tags: ["sacrifice-heal", "martyr"]
     },
     rankUpgrades: [
-      { description: "Sol's unwavering light emanates from your selfless form. Allies within 30 feet regain 2d6 health at the start of their turns. Costs 3 Devotion for 1 minute.", healing: { dice: "2d6", flat: 0, isHoT: true, hotDuration: 6, hotTick: "2d6" } },
-      { description: "Sol's unwavering light emanates from your selfless form. Allies within 30 feet regain 3d6 health at the start of their turns, and the aura also cleanses one poison per turn. Costs 3 Devotion for 1 minute.", healing: { dice: "3d6", flat: 0, isHoT: true, hotDuration: 6, hotTick: "3d6" } }
+      { description: "Sacrifice 4 HP: Restores 3d6 Hit Points to the ally.", healing: { dice: "3d6", flat: 0 } },
+      { description: "Sacrifice 4 HP: Restores 3d8 Hit Points and grants the ally +2 Damage Reduction for 1 round.", healing: { dice: "3d8", flat: 0 } }
     ]
   },
 
+  // ──────────────── TIER 4 (Row 3) ────────────────
   {
-    id: "rdm_t4_greater_restoration",
-    name: "Greater Restoration",
-    icon: "spell_holy_greaterheal",
-    maxRanks: 3,
-    position: { x: 1.5, y: 3 },
-    requires: "rdm_t3_mass_healing",
-    spell: {
-      name: "Greater Restoration",
-      description: "Through your sacrifice, Sol's full glory restores the broken. Remove all curses, diseases, poisons, and conditions from one creature, and restore it to full consciousness. Costs 3 Devotion.",
-      flavorText: "Full factory reset, blessed edition.",
-      source: "talent", class: "Martyr", treeId: "redemption",
-      spellType: "ACTIVE", category: "utility",
-      targetingMode: "single", rangeType: "ranged", range: 30,
-      castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "long", cooldownValue: 45, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
-      resourceCosts: { devotion: { baseAmount: 3 }, mana: { baseAmount: 15 } },
-      visualTheme: "sacred", tags: ["cleanse", "restoration", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "Through your sacrifice, Sol's full glory restores the broken. Remove all curses, diseases, poisons, and conditions from one creature, restore consciousness, and heal 4d8. Costs 3 Devotion.", healing: { dice: "4d8", flat: 0 } },
-      { description: "Through your sacrifice, Sol's full glory restores the broken. Remove all curses, diseases, poisons, and conditions from ALL allies within 15 feet, restore consciousness, and heal 4d8 each. Costs 3 Devotion.", healing: { dice: "4d8", flat: 0 } }
-    ]
-  },
-  {
-    id: "rdm_t4_blessed_sacrifice",
-    name: "Blessed Sacrifice",
-    icon: "spell_holy_blessingofsacrifice",
-    maxRanks: 2,
-    position: { x: 3, y: 3 },
-    requires: "rdm_t3_healing_aura",
-    spell: {
-      name: "Blessed Sacrifice",
-      description: "Your healing deepens as your own light dims. You may spend your own health to power healing spells at a rate of 5 health per 1 Devotion. This spending ignores your Devotion cap.",
-      flavorText: "The ledger balances. Just not in your favor.",
-      source: "talent", class: "Martyr", treeId: "redemption",
-      spellType: "PASSIVE", category: "utility",
-      targetingMode: "self", visualTheme: "sacred", tags: ["passive", "resource", "sacrifice", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "Your healing deepens as your own light dims. You may spend your own health to power healing spells at a rate of 3 health per 1 Devotion, and healing done this way is increased by 25%." }
-    ]
-  },
-
-  {
-    id: "rdm_t5_miracle",
-    name: "Miracle",
-    icon: "spell_holy_holyguidance",
-    maxRanks: 3,
-    position: { x: 2, y: 4.5 },
-    requires: "rdm_t4_greater_restoration",
-    spell: {
-      name: "Miracle",
-      description: "Your ultimate offering channels Sol's impossible grace. Duplicate any spell of 3rd level or lower that you have witnessed this combat, without cost. Costs 4 Devotion.",
-      flavorText: "Sol signs the paperwork personally.",
-      source: "talent", class: "Martyr", treeId: "redemption",
-      spellType: "ACTIVE", category: "utility",
-      targetingMode: "self", rangeType: "self", range: 0,
-      castTimeType: "short", castTimeValue: 2,
-      cooldownCategory: "long", cooldownValue: 120, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
-      resourceCosts: { devotion: { baseAmount: 4 } },
-      visualTheme: "sacred", tags: ["miracle", "flexible", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "Your ultimate offering channels Sol's impossible grace. Duplicate any spell of 5th level or lower that you have witnessed this combat, without cost. Costs 4 Devotion." },
-      { description: "Your ultimate offering channels Sol's impossible grace. Duplicate any spell of 7th level or lower that you have witnessed this combat, without cost, and its caster level uses YOUR Spirit. Costs 4 Devotion." }
-    ]
-  },
-  {
-    id: "rdm_t5_light_of_sol",
-    name: "Light of Sol",
-    icon: "spell_holy_surf_of_light",
-    maxRanks: 2,
-    position: { x: 2.5, y: 4.5 },
-    requires: "rdm_t4_blessed_sacrifice",
-    spell: {
-      name: "Light of Sol",
-      description: "Sol's breath moves through you in tides. Your healing spells have 25% increased range and heal for an additional 1d6.",
-      flavorText: "The tide keeps office hours no longer.",
-      source: "talent", class: "Martyr", treeId: "redemption",
-      spellType: "PASSIVE", category: "healing",
-      targetingMode: "self",
-      healing: { dice: "1d6", flat: 0 },
-      visualTheme: "sacred", tags: ["passive", "empower", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "Sol's breath moves through you in tides. Your healing spells have 30% increased range and heal for an additional 1d8.", healing: { dice: "1d8", flat: 0 } }
-    ]
-  },
-
-  {
-    id: "rdm_t6_resurrection",
-    name: "Resurrection",
-    icon: "spell_holy_resurrection",
+    id: "rdm_t4_divine_intervention",
+    name: "Sol's Intervention",
+    icon: "spell_holy_guardianspirit",
     maxRanks: 1,
-    position: { x: 1.5, y: 6 },
-    requires: "rdm_t5_miracle",
+    position: { x: 2, y: 3 },
+    requires: ["rdm_t3_mass_healing", "rdm_t3_martyrs_sacrifice"],
     spell: {
-      name: "Resurrection",
-      description: "Sol's sacred light pierces the veil of death itself. Return a creature dead less than 10 days to life with half health. The ritual costs 5 Devotion and deals 4d6 unpreventable damage to you.",
-      flavorText: "Death reads the warrant, finds Sol's signature, apologizes.",
-      source: "talent", class: "Martyr", treeId: "redemption",
-      spellType: "ACTIVE", category: "healing",
-      targetingMode: "single", rangeType: "touch", range: 5,
-      castTimeType: "long", castTimeValue: 6,
-      cooldownCategory: "long", cooldownValue: 300, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
-      resourceCosts: { devotion: { baseAmount: 5 }, health: { baseAmount: 4, costType: "dice" } },
-      visualTheme: "sacred", tags: ["resurrection", "ritual", "martyr"]
-    }
-  },
-  {
-    id: "rdm_t6_steadfast_prayer",
-    name: "Steadfast Prayer",
-    icon: "spell_holy_blessedrecovery",
-    maxRanks: 2,
-    position: { x: 2, y: 6 },
-    requires: "rdm_t5_miracle",
-    spell: {
-      name: "Steadfast Prayer",
-      description: "Devotion renews itself in rhythm. You regain 1 Devotion at the start of each of your turns while below half health.",
-      flavorText: "The prayer sharpens when the hour does.",
-      source: "talent", class: "Martyr", treeId: "redemption",
-      spellType: "PASSIVE", category: "utility",
-      targetingMode: "self", visualTheme: "sacred", tags: ["passive", "resource", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "Devotion renews itself in rhythm. You regain 1 Devotion at the start of each of your turns, increased to 2 while below half health." }
-    ]
-  },
-  {
-    id: "rdm_t6_holy_resonance",
-    name: "Holy Resonance",
-    icon: "spell_holy_powerwordbarrier",
-    maxRanks: 2,
-    position: { x: 2.5, y: 6 },
-    requires: "rdm_t5_light_of_sol",
-    spell: {
-      name: "Holy Resonance",
-      description: "Your healing lingers like struck bronze. Healing over a target's maximum grants them a sacred shield equal to the overflow, lasting 1 round.",
-      flavorText: "The note holds after the bell.",
-      source: "talent", class: "Martyr", treeId: "redemption",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "sacred", tags: ["passive", "shield", "overflow", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "Your healing lingers like struck bronze. Healing over a target's maximum grants them a sacred shield equal to the overflow for 2 rounds, and the shield reflects 10% of absorbed damage as sacred." }
-    ]
-  },
-
-  {
-    id: "rdm_t7_wardens_hand",
-    name: "Warden's Hand",
-    icon: "spell_holy_divineintervention",
-    maxRanks: 1,
-    position: { x: 0.5, y: 8 },
-    requires: "rdm_t6_resurrection",
-    spell: {
-      name: "Warden's Hand",
-      description: "ULTIMATE: Sol answers your sacrifice with undeniable power. Costs all current Devotion: one ally (or you) automatically succeeds on any one roll or save — this may force a failed enemy roll to be rerolled — and is immediately healed to full. Once per combat.",
-      flavorText: "The hand does not negotiate with probability.",
+      name: "Sol's Intervention",
+      description: "Spend 1 AP and 2 Devotion: Place a protective guardian light on an ally for 2 rounds. If the ally would suffer lethal damage, they survive with 15 Hit Points and the light bursts, blinding adjacent enemies for 1 round.",
+      flavorText: "Death itself is turned away at the threshold.",
       source: "talent", class: "Martyr", treeId: "redemption",
       spellType: "ACTIVE", category: "buff",
-      targetingMode: "single", rangeType: "ranged", range: 60,
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "ranged", range: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { devotion: { baseAmount: 6 } },
-      buffs: ["intervention"], visualTheme: "sacred", tags: ["ultimate", "capstone", "intervention", "martyr"]
+      cooldownCategory: "turn_based", cooldownValue: 4, cooldownUnit: "rounds",
+      resourceCosts: { devotion: { baseAmount: 2 } },
+      visualTheme: "sacred", tags: ["cheat-death", "ally-save", "martyr"]
+    }
+  },
+
+  // ──────────────── TIER 5 (Row 4) ────────────────
+  {
+    id: "rdm_t5_aura_of_grace",
+    name: "Aura of Sanctity",
+    icon: "spell_holy_auraoflight",
+    maxRanks: 3,
+    position: { x: 1, y: 4 },
+    requires: "rdm_t4_divine_intervention",
+    spell: {
+      name: "Aura of Sanctity",
+      description: "Passive: You and allies within 20 feet gain +2 Sacred and Blight resistance, and recover 2 Hit Points at the start of your turn while in combat.",
+      flavorText: "An enduring warmth that wards against the chill of decay.",
+      source: "talent", class: "Martyr", treeId: "redemption",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "sacred", tags: ["passive", "regen", "aura", "martyr"]
+    },
+    rankUpgrades: [
+      { description: "Resistance increases to +3, and allies recover 3 Hit Points per turn." },
+      { description: "Resistance increases to +4, allies recover 4 Hit Points per turn, and gain +1 to all saving throws." }
+    ]
+  },
+  {
+    id: "rdm_t5_channel_radiance",
+    name: "Radiant Burst",
+    icon: "spell_holy_holysmite",
+    maxRanks: 2,
+    position: { x: 3, y: 4 },
+    requires: "rdm_t4_divine_intervention",
+    spell: {
+      name: "Radiant Burst",
+      description: "Passive: When you cast a single-target healing spell, an enemy within 20 feet of the target suffers sacred damage equal to half the amount healed.",
+      flavorText: "The shadow flees as the light enters.",
+      source: "talent", class: "Martyr", treeId: "redemption",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["sacred"],
+      visualTheme: "sacred", tags: ["passive", "heal-damage", "martyr"]
+    },
+    rankUpgrades: [
+      { description: "Enemy suffers full sacred damage equal to the amount healed (up to 12 damage maximum)." }
+    ]
+  },
+
+  // ──────────────── TIER 6 (Row 5) ────────────────
+  {
+    id: "rdm_t6_resplendent_dawn",
+    name: "Resplendent Dawn",
+    icon: "spell_holy_holybolt",
+    maxRanks: 3,
+    position: { x: 2, y: 5 },
+    requires: ["rdm_t5_aura_of_grace", "rdm_t5_channel_radiance"],
+    spell: {
+      name: "Resplendent Dawn",
+      description: "Spend 2 AP and 3 Devotion: Unleash a 30-foot burst of solar dawn. Restores 3d8 Hit Points to all allies, removes all debilitating conditions, and deals 2d8 sacred damage to all enemies in the area.",
+      flavorText: "The sun rises directly inside the sanctuary.",
+      source: "talent", class: "Martyr", treeId: "redemption",
+      spellType: "ACTIVE", category: "healing",
+      actionPoints: 2,
+      targetingMode: "aoe", aoeShape: "circle", aoeSize: 30, rangeType: "ranged", range: 30,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      resourceCosts: { devotion: { baseAmount: 3 } },
+      healing: { dice: "3d8", flat: 0 },
+      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
+      damageTypes: ["sacred"],
+      visualTheme: "sacred", tags: ["nuke-heal", "aoe", "cleanse", "martyr"]
+    },
+    rankUpgrades: [
+      { description: "Heals allies for 3d10 Hit Points and deals 2d10 sacred damage to enemies.", healing: { dice: "3d10", flat: 0 }, primaryDamage: { dice: "2d10", flat: 0, procChance: 100 } },
+      { description: "Heals allies for 4d8 Hit Points, deals 3d8 sacred damage, and grants all allies +2 Armor for 2 rounds.", healing: { dice: "4d8", flat: 0 }, primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
+    ]
+  },
+
+  // ──────────────── TIER 7 (Row 6 - Capstones) ────────────────
+  {
+    id: "rdm_t7_avatar_of_sol",
+    name: "Avatar of the Redeeming Sun",
+    icon: "spell_holy_mindvision",
+    maxRanks: 1,
+    position: { x: 2, y: 6 },
+    requires: "rdm_t6_resplendent_dawn",
+    spell: {
+      name: "Avatar of the Redeeming Sun",
+      description: "ULTIMATE: Spend 2 AP and 3 Devotion: For 2 rounds, all your healing spells heal for maximum possible dice rolls, all overhealing is converted into permanent temporary Hit Points, and your presence emanates a 20-foot aura dealing 1d8 sacred damage to all enemies each turn.",
+      flavorText: "You become the living sun. No wound remains unhealed.",
+      source: "talent", class: "Martyr", treeId: "redemption",
+      spellType: "ACTIVE", category: "buff",
+      actionPoints: 2,
+      targetingMode: "self",
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 5, cooldownUnit: "rounds",
+      resourceCosts: { devotion: { baseAmount: 3 } },
+      visualTheme: "sacred", tags: ["ultimate", "max-heal", "martyr"]
     }
   },
   {
-    id: "rdm_t7_wellspring",
-    name: "Wellspring",
-    icon: "spell_holy_innerfire",
-    maxRanks: 5,
-    position: { x: 1.5, y: 8 },
-    requires: "rdm_t6_steadfast_prayer",
+    id: "rdm_t7_undying_saint",
+    name: "Saintly Ascension",
+    icon: "spell_holy_divineprovidence",
+    maxRanks: 2,
+    position: { x: 1, y: 6 },
+    requires: "rdm_t6_resplendent_dawn",
     spell: {
-      name: "Wellspring",
-      description: "Your reservoir of grace deepens. Your maximum Devotion increases by 1.",
-      flavorText: "Deeper faith, bigger bucket.",
+      name: "Saintly Ascension",
+      description: "Passive: When you die or fall to 0 HP, your spirit lingers for 1 round: you can continue to cast spells normally, and when the round ends, you revive with 20 Hit Points (cooldown: 4 rounds).",
+      flavorText: "The spirit outlasts the flesh by holy decree.",
       source: "talent", class: "Martyr", treeId: "redemption",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "sacred", tags: ["passive", "capstone", "resource", "martyr"]
+      targetingMode: "self", visualTheme: "sacred", tags: ["passive", "cheat-death", "revive", "martyr"]
     },
     rankUpgrades: [
-      { description: "Your reservoir of grace deepens. Your maximum Devotion increases by 2." },
-      { description: "Your reservoir of grace deepens. Your maximum Devotion increases by 3." },
-      { description: "Your reservoir of grace deepens. Your maximum Devotion increases by 4." },
-      { description: "Your reservoir of grace deepens. Your maximum Devotion increases by 5, and Lay on Hands costs no Devotion." }
+      { description: "Revives with 35 Hit Points, and upon reviving, heals all allies within 30 feet for 2d8 Hit Points." }
     ]
   },
   {
-    id: "rdm_t7_tithe_of_light",
-    name: "Tithe of Light",
-    icon: "spell_holy_retributionaura",
-    maxRanks: 3,
-    position: { x: 2, y: 8 },
-    requires: "rdm_t6_steadfast_prayer",
+    id: "rdm_t7_boundless_grace",
+    name: "Boundless Compassion",
+    icon: "spell_holy_greaterblessingofsanctuary",
+    maxRanks: 2,
+    position: { x: 3, y: 6 },
+    requires: "rdm_t6_resplendent_dawn",
     spell: {
-      name: "Tithe of Light",
-      description: "Healing tithes back to the healer. When you heal an ally for 10 or more, you regain 1 Devotion.",
-      flavorText: "Give generously. Sol receipts 10%.",
-      source: "talent", class: "Martyr", treeId: "redemption",
-      spellType: "PASSIVE", category: "utility",
-      targetingMode: "self", visualTheme: "sacred", tags: ["passive", "capstone", "resource", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "Healing tithes back to the healer. When you heal an ally for 10 or more, you regain 1 Devotion and 2 health." },
-      { description: "Healing tithes back to the healer. When you heal an ally for 10 or more, you regain 2 Devotion and 4 health." }
-    ]
-  },
-  {
-    id: "rdm_t7_sanctified_mending",
-    name: "Sanctified Mending",
-    icon: "spell_holy_serendipity",
-    maxRanks: 3,
-    position: { x: 2.5, y: 8 },
-    requires: "rdm_t6_holy_resonance",
-    spell: {
-      name: "Sanctified Mending",
-      description: "Your critical heals become scripture. When your healing spell rolls its maximum value, its target also gains +2 Durability Steps to equipped durability for 2 rounds.",
-      flavorText: "Some prayers land perfectly. Those ones echo.",
+      name: "Boundless Compassion",
+      description: "Passive: Whenever you heal an ally, all other party members within 30 feet receive 25% of that healing.",
+      flavorText: "A pool that overflows into every thirsting vessel.",
       source: "talent", class: "Martyr", treeId: "redemption",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "sacred", tags: ["passive", "capstone", "crit", "martyr"]
+      targetingMode: "self", visualTheme: "sacred", tags: ["passive", "splash-heal", "martyr"]
     },
     rankUpgrades: [
-      { description: "Your critical heals become scripture. When your healing spell rolls its maximum value, its target also gains +3 Durability Steps to equipped durability for 2 rounds and cleanses one fear effect." },
-      { description: "Your critical heals become scripture. When your healing rolls maximum, the target gains +3 Durability Steps to equipped durability for 3 rounds, cleanses one fear, and your next heal within 6 seconds costs 1 less Devotion (minimum 0)." }
-    ]
-  },
-  {
-    id: "rdm_t7_eternal_vigil_light",
-    name: "Eternal Vigil",
-    icon: "spell_holy_prayerofspirit",
-    maxRanks: 3,
-    position: { x: 3.5, y: 8 },
-    requires: "rdm_t6_holy_resonance",
-    spell: {
-      name: "Eternal Vigil",
-      description: "You do not fall while others stand unhealed. While any ally is below half health, your healing spells are empowered: they cannot be interrupted and heal 10% more.",
-      flavorText: "Rest is for the bandaged.",
-      source: "talent", class: "Martyr", treeId: "redemption",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "sacred", tags: ["passive", "capstone", "empower", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "You do not fall while others stand unhealed. While any ally is below half health, your healing spells are empowered: they cannot be interrupted and heal 20% more." },
-      { description: "You do not fall while others stand unhealed. While any ally is below half health, your healing heals 30% more, cannot be interrupted, and its cast time is halved." }
+      { description: "Other party members receive 50% of the healing and gain +1 to hit on their next turn." }
     ]
   }
 ];

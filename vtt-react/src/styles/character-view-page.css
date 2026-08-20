@@ -1,7 +1,10 @@
 /* Character View Page - Full Page Character Sheet View */
 
 .character-view-page {
+  height: 100vh;
   min-height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
   background: linear-gradient(135deg, #2c1810 0%, #1a0f0a 100%);
   display: flex;
   flex-direction: column;
@@ -1138,14 +1141,17 @@
 .character-view-content {
   flex: 1;
   padding: 0;
-  overflow-y: auto;
+  overflow: hidden;
   background: #d5cbb0;
   display: flex;
   flex-direction: column;
+  min-height: 0;
+  height: 100%;
 }
 
 .character-view-content-wrapper {
   flex: 1;
+  width: 100%;
   max-width: 100%;
   margin: 0;
   background: transparent;
@@ -1155,7 +1161,19 @@
   box-shadow: none;
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.character-view-talents-wrapper {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 /* Override character sheet styles for full-page view */

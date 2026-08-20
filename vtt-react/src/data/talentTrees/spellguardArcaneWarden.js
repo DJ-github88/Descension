@@ -107,8 +107,8 @@ export const SPELLGUARD_ARCANE_WARDEN = [
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "defense", "shield", "spellguard"]
     },
     rankUpgrades: [
-      { description: "While any shield is active on you, you gain +2 Durability Steps to equipped durability and take 5% less damage from all sources." },
-      { description: "While any shield is active on you, you gain +3 Durability Steps to equipped durability and take 10% less damage from all sources." }
+      { description: "While any shield is active on you, you gain +2 Durability Steps to equipped durability and gain 2 Damage Reduction from all sources." },
+      { description: "While any shield is active on you, you gain +3 Durability Steps to equipped durability and gain 2 Damage Reduction from all sources." }
     ]
   },
 
@@ -165,7 +165,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     requires: "aw_t2_wardens_fortitude",
     spell: {
       name: "Elemental Ward",
-      description: "Etch a resistance rune on an ally within 30 feet: they gain +15% resistance to one chosen damage type for 1 minute.",
+      description: "Etch a resistance rune on an ally within 30 feet: they gain +4 Damage Reduction to one chosen damage type for 1 minute.",
       flavorText: "Name the poison, and the contract already exists to refuse it.",
       source: "talent", class: "Spellguard", treeId: "arcane_warden",
       spellType: "ACTIVE", category: "buff",
@@ -178,7 +178,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
       buffs: ["resistance"], visualTheme: "arcane", tags: ["resistance", "ally", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Etch a resistance rune on an ally within 30 feet: they gain +20% resistance to one chosen damage type for 1 minute." }
+      { description: "Etch a resistance rune on an ally within 30 feet: they gain +4 Damage Reduction to one chosen damage type for 1 minute." }
     ]
   },
 
@@ -217,7 +217,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     requires: "aw_t3_absorption_mastery",
     spell: {
       name: "Anti-Magic Zone",
-      description: "Anchor a null-contract over a 15-foot zone for 1 minute: enemy spells cast inside cost 3 additional mana, and allies inside gain +10% resistance to magical damage.",
+      description: "Anchor a null-contract over a 15-foot zone for 1 minute: enemy spells cast inside cost 3 additional mana, and allies inside gain +2 Damage Reduction to magical damage.",
       flavorText: "Within the chalk line, all spells are breaching a treaty older than they are.",
       source: "talent", class: "Spellguard", treeId: "arcane_warden",
       spellType: "ACTIVE", category: "debuff",
@@ -230,7 +230,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
       debuffs: ["zone"], visualTheme: "arcane", tags: ["zone", "control", "antimagic", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Anchor a null-contract over a 15-foot zone for 1 minute: enemy spells cast inside cost 5 additional mana, and allies inside gain +20% resistance to magical damage." }
+      { description: "Anchor a null-contract over a 15-foot zone for 1 minute: enemy spells cast inside cost 5 additional mana, and allies inside gain +4 Damage Reduction to magical damage." }
     ]
   },
 
@@ -276,7 +276,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     },
     rankUpgrades: [
       { description: "For 2 rounds, all damage that a chosen ally within 30 feet would take is redirected to you instead." },
-      { description: "For 2 rounds, all damage that a chosen ally within 30 feet would take is redirected to you instead, and you take 25% less damage from redirected hits." }
+      { description: "For 2 rounds, all damage that a chosen ally within 30 feet would take is redirected to you instead, and you gain 6 Damage Reduction from redirected hits." }
     ]
   },
 
@@ -330,7 +330,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     requires: "aw_t5_overflow",
     spell: {
       name: "Reflective Ward",
-      description: "Wreathe your shields in mirror-force for 30 seconds: 10% of all damage absorbed by your shields is reflected at the attacker as arcane damage.",
+      description: "Wreathe your shields in mirror-force for 30 seconds: 10 points of all damage absorbed by your shields is reflected at the attacker as arcane damage.",
       flavorText: "A defense that answers back.",
       source: "talent", class: "Spellguard", treeId: "arcane_warden",
       spellType: "ACTIVE", category: "buff",
@@ -343,7 +343,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
       buffs: ["reflection"], damageTypes: ["arcane"], visualTheme: "arcane", tags: ["reflection", "shield", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Wreathe your shields in mirror-force for 30 seconds: 25% of all damage absorbed by your shields is reflected at the attacker as arcane damage." }
+      { description: "Wreathe your shields in mirror-force for 30 seconds: 25 points of all damage absorbed by your shields is reflected at the attacker as arcane damage." }
     ]
   },
 
@@ -388,7 +388,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
       { description: "Your wards approach permanence. All shield spells you cast absorb an additional 10 damage." },
       { description: "Your wards approach permanence. All shield spells you cast absorb an additional 15 damage." },
       { description: "Your wards approach permanence. All shield spells you cast absorb an additional 20 damage." },
-      { description: "Your wards approach permanence. All shield spells you cast absorb an additional 25 damage and last 50% longer." }
+      { description: "Your wards approach permanence. All shield spells you cast absorb an additional 25 damage and last 50 points longer." }
     ]
   },
   {
@@ -414,7 +414,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     },
     rankUpgrades: [
       { description: "Raise a refracting wall over all allies within 20 feet, absorbing 35 damage each for 30 seconds." },
-      { description: "Raise a refracting wall over all allies within 20 feet, absorbing 50 damage each for 30 seconds, and reflecting 25% of absorbed damage back at attackers as arcane damage." }
+      { description: "Raise a refracting wall over all allies within 20 feet, absorbing 50 damage each for 30 seconds, and reflecting 25 points of absorbed damage back at attackers as arcane damage." }
     ]
   },
   {
@@ -446,15 +446,15 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     requires: "aw_t6_reflective_ward",
     spell: {
       name: "Unchanging Vow",
-      description: "Your ward-work flows without pause: the cooldowns of your shield spells are reduced by 20%.",
+      description: "Your ward-work flows without pause: the cooldowns of your shield spells are reduced by 20 points.",
       flavorText: "A promise kept quickly is still a promise kept.",
       source: "talent", class: "Spellguard", treeId: "arcane_warden",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "capstone", "cooldown", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Your ward-work flows without pause: the cooldowns of your shield spells are reduced by 35%." },
-      { description: "Your ward-work flows without pause: the cooldowns of your shield spells are reduced by 50%." }
+      { description: "Your ward-work flows without pause: the cooldowns of your shield spells are reduced by 35 points." },
+      { description: "Your ward-work flows without pause: the cooldowns of your shield spells are reduced by 50 points." }
     ]
   }
 ];

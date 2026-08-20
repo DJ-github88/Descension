@@ -30,7 +30,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     requires: null,
     spell: {
       name: "Vengeful Lash",
-      description: "Strike an enemy within 15 feet with a lash of burning shadow: deals 2d8 blight damage and grants 2 Vengeance Points (VP). Damage is increased by +50% if the target recently damaged you.",
+      description: "Strike an enemy within 15 feet with a lash of burning shadow: deals 2d8 blight damage and grants 2 Vengeance Points (VP). Damage is increased by +2d8 damage if the target recently damaged you.",
       flavorText: "Every wound is a deposit. This is the first withdrawal.",
       source: "talent", class: "Warden", treeId: "vengeance_seeker",
       spellType: "ACTIVE", category: "damage",
@@ -77,7 +77,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     requires: null,
     spell: {
       name: "Spiteful Resilience",
-      description: "While at 5 or more VP, all damage you suffer is reduced by 15% and your melee attacks deal +1d6 bonus blight damage.",
+      description: "While at 5 or more VP, all damage you suffer is reduced by 15 points and your melee attacks deal +1d6 bonus blight damage.",
       flavorText: "Full reservoirs overflow violently.",
       source: "talent", class: "Warden", treeId: "vengeance_seeker",
       spellType: "PASSIVE", category: "buff",
@@ -86,7 +86,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
       visualTheme: "shadow", tags: ["passive", "dr", "bonus-damage", "warden"]
     },
     rankUpgrades: [
-      { description: "At 5+ VP: damage taken reduced by 25%, attacks deal +2d6 bonus blight damage, and you cannot be stunned." }
+      { description: "At 5+ VP: damage taken reduced by 25 points, attacks deal +2d6 bonus blight damage, and you cannot be stunned." }
     ]
   },
 
@@ -100,7 +100,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     requires: "wvs_t1_vengeful_lash",
     spell: {
       name: "Retaliatory Surge",
-      description: "Reaction (spend 2 VP): when struck by an enemy within 20 feet, strike back immediately with a burst of dark fire. Deals 3d8 blight damage to the attacker and heals you for 100% of damage dealt.",
+      description: "Reaction (spend 2 VP): when struck by an enemy within 20 feet, strike back immediately with a burst of dark fire. Deals 3d8 blight damage to the attacker and heals you for 100 points of damage dealt.",
       flavorText: "The blow lands twice. Once each direction.",
       source: "talent", class: "Warden", treeId: "vengeance_seeker",
       spellType: "ACTIVE", category: "damage",
@@ -114,8 +114,8 @@ export const WARDEN_VENGEANCE_SEEKER = [
       visualTheme: "shadow", tags: ["reaction", "counter-strike", "lifesteal", "warden"]
     },
     rankUpgrades: [
-      { description: "Deals 4d8 blight damage, heals for 100%, and knocks the attacker 10 feet back.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 }, cooldownValue: 4 },
-      { description: "Deals 5d8 blight damage, heals for 100%, knocks back 15ft, and stuns the attacker for 1 round.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 2 }
+      { description: "Deals 4d8 blight damage, heals for 100 points, and knocks the attacker 10 feet back.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 }, cooldownValue: 4 },
+      { description: "Deals 5d8 blight damage, heals for 100 points, knocks back 15ft, and stuns the attacker for 1 round.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 2 }
     ]
   },
   {
@@ -151,7 +151,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     requires: "wvs_t2_retaliatory_surge",
     spell: {
       name: "Avatar of Vengeance",
-      description: "Spend 4 VP: ignite into the Avatar of Vengeance for 3 rounds. Gain +3 Durability Steps to equipped durability, 20% all-damage resistance, regenerate 2d6 health per round, and all your attacks deal +2d8 bonus blight damage.",
+      description: "Spend 4 VP: ignite into the Avatar of Vengeance for 3 rounds. Gain +3 Durability Steps to equipped durability, 4 Damage Reduction against all-damage, regenerate 2d6 health per round, and all your attacks deal +2d8 bonus blight damage.",
       flavorText: "The mounds send back what they owe.",
       source: "talent", class: "Warden", treeId: "vengeance_seeker",
       spellType: "ACTIVE", category: "buff",
@@ -164,8 +164,8 @@ export const WARDEN_VENGEANCE_SEEKER = [
       buffs: ["avatar-vengeance"], visualTheme: "shadow", tags: ["transform", "avatar", "sustain", "warden"]
     },
     rankUpgrades: [
-      { description: "Avatar lasts 4 rounds: +4 Durability Steps to equipped durability, 30% resistance, regenerates 3d6 health per round, and +3d8 bonus damage.", cooldownValue: 24 },
-      { description: "Avatar lasts 5 rounds: +5 Durability Steps to equipped durability, 40% resistance, regenerates 4d6 health per round, and your attacks cannot be dodged or parried.", cooldownValue: 20 }
+      { description: "Avatar lasts 4 rounds: +4 Durability Steps to equipped durability, 6 Damage Reduction, regenerates 3d6 health per round, and +3d8 bonus damage.", cooldownValue: 24 },
+      { description: "Avatar lasts 5 rounds: +5 Durability Steps to equipped durability, 8 Damage Reduction, regenerates 4d6 health per round, and your attacks cannot be dodged or parried.", cooldownValue: 20 }
     ]
   },
   {
@@ -177,15 +177,15 @@ export const WARDEN_VENGEANCE_SEEKER = [
     requires: "wvs_t2_spectral_retribution",
     spell: {
       name: "Nemesis Resonance",
-      description: "During Avatar of Vengeance, you generate 2 VP at the start of every turn and your critical strike chance is increased by 20%.",
+      description: "During Avatar of Vengeance, you generate 2 VP at the start of every turn and your critical strike chance is increased by +1d8 damage.",
       flavorText: "The engine idles hot and hungry.",
       source: "talent", class: "Warden", treeId: "vengeance_seeker",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "avatar-boost", "crit", "warden"]
     },
     rankUpgrades: [
-      { description: "Generate 3 VP per turn in Avatar; critical strike chance increased by 30% and critical hits extend Avatar duration by 1 round." },
-      { description: "Generate 4 VP per turn in Avatar; crit chance +40%, crits extend Avatar by 1 round, and you deal double critical damage." }
+      { description: "Generate 3 VP per turn in Avatar; critical strike chance increased by +1d8 damage and critical hits extend Avatar duration by 1 round." },
+      { description: "Generate 4 VP per turn in Avatar; critical hits on 19-20, crits extend Avatar by 1 round, and you deal double critical damage." }
     ]
   },
 
@@ -226,14 +226,14 @@ export const WARDEN_VENGEANCE_SEEKER = [
     requires: "wvs_t3_avatar_synergy",
     spell: {
       name: "Spite Siphon",
-      description: "Whenever you take damage that reduces you below 50% health, instantly gain 5 VP and gain 25 temporary health for 2 rounds (cooldown: 20s).",
+      description: "Whenever you take damage that reduces you below half maximum Hit Points, instantly gain 5 VP and gain 25 temporary health for 2 rounds (cooldown: 20s).",
       flavorText: "Wounds only supply the kiln.",
       source: "talent", class: "Warden", treeId: "vengeance_seeker",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "emergency-vp", "shield", "warden"]
     },
     rankUpgrades: [
-      { description: "Below 50% health: instantly gain maximum VP and 50 temporary health, and reset Retaliatory Surge cooldown (cooldown: 15s)." }
+      { description: "below half maximum Hit Points: instantly gain maximum VP and 50 temporary health, and reset Retaliatory Surge cooldown (cooldown: 15s)." }
     ]
   },
 
@@ -247,7 +247,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     requires: "wvs_t4_grudge_cleave",
     spell: {
       name: "Eye for an Eye",
-      description: "Spend 4 VP: designate an enemy boss within 40 feet for 2 rounds. 100% of all damage suffered by you and all allies within 20 feet is duplicated directly onto that target as pure unmitigated damage.",
+      description: "Spend 4 VP: designate an enemy boss within 40 feet for 2 rounds. 100 points of all damage suffered by you and all allies within 20 feet is duplicated directly onto that target as pure unmitigated damage.",
       flavorText: "What you deal out to us, you receive in full.",
       source: "talent", class: "Warden", treeId: "vengeance_seeker",
       spellType: "ACTIVE", category: "debuff",
@@ -260,7 +260,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
       debuffs: ["eye-for-an-eye"], visualTheme: "shadow", tags: ["damage-reflection", "nuke", "boss-killer", "warden"]
     },
     rankUpgrades: [
-      { description: "Target receives 150% of all damage suffered by your party for 2 rounds, and cooldown drops to 24s.", cooldownValue: 24 }
+      { description: "Target receives 150 points of all damage suffered by your party for 2 rounds, and cooldown drops to 24s.", cooldownValue: 24 }
     ]
   },
   {
@@ -279,7 +279,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "reaction-cap", "warden"]
     },
     rankUpgrades: [
-      { description: "Use Retaliatory Surge 3 times per round; counter-attacks deal +30% damage." },
+      { description: "Use Retaliatory Surge 3 times per round; counter-attacks deal +1d8 bonus damage." },
       { description: "Retaliatory Surge can be used UNLIMITED times per round (as long as you have VP), and each counter refunds 1 VP on kill." }
     ]
   },
@@ -294,7 +294,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     requires: "wvs_t5_eye_for_an_eye",
     spell: {
       name: "Cataclysmic Retribution",
-      description: "Spend 5 VP: detonate all stored agony in a 30-foot shockwave. Deals 6d10 blight/fire damage to all enemies, stuns all enemies for 1 round, and reflects 50% of all damage taken during the previous round back to the attackers.",
+      description: "Spend 5 VP: detonate all stored agony in a 30-foot shockwave. Deals 6d10 blight/fire damage to all enemies, stuns all enemies for 1 round, and reflects 50 points of all damage taken during the previous round back to the attackers.",
       flavorText: "The reckoning arrives all at once.",
       source: "talent", class: "Warden", treeId: "vengeance_seeker",
       spellType: "ACTIVE", category: "damage",
@@ -325,7 +325,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "immunity", "durability", "warden"]
     },
     rankUpgrades: [
-      { description: "Immunity to all CC while in Avatar; gain +6 Durability Steps to equipped durability and 30% resistance to all magic." }
+      { description: "Immunity to all CC while in Avatar; gain +6 Durability Steps to equipped durability and 6 Damage Reduction to all magic." }
     ]
   },
   {
@@ -337,14 +337,14 @@ export const WARDEN_VENGEANCE_SEEKER = [
     requires: "wvs_t5_unbroken_spite",
     spell: {
       name: "Nemesis Mark",
-      description: "Whenever an enemy damages you, they receive the Nemesis Mark: you deal 25% more damage to them and ignore 50% of their durability.",
+      description: "Whenever an enemy damages you, they receive the Nemesis Mark: you deal +1d6 bonus damage to them and ignore 50 points of their durability.",
       flavorText: "Once written in the ledger, the debt must be paid.",
       source: "talent", class: "Warden", treeId: "vengeance_seeker",
       spellType: "PASSIVE", category: "debuff",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "mark", "sunder", "warden"]
     },
     rankUpgrades: [
-      { description: "Deal 40% more damage to marked enemies and completely ignore 100% of their durability and resistances." }
+      { description: "Deal +2d8 bonus damage to marked enemies and completely ignore 100 points of their durability and resistances." }
     ]
   },
 
@@ -358,7 +358,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     requires: "wvs_t6_cataclysmic_retribution",
     spell: {
       name: "Avatar of the Nemesis",
-      description: "ULTIMATE: Spend 8 VP: ascend into the Colossal Nemesis for 1 minute: gain +6 Durability Steps to equipped durability, 50% all-damage resistance, become immune to all crowd control, and reflect 100% of ALL damage you suffer directly onto all enemies within 30 feet in an ongoing fiery aura.",
+      description: "ULTIMATE: Spend 8 VP: ascend into the Colossal Nemesis for 1 minute: gain +6 Durability Steps to equipped durability, 10 Damage Reduction against all-damage, become immune to all crowd control, and reflect 100 points of ALL damage you suffer directly onto all enemies within 30 feet in an ongoing fiery aura.",
       flavorText: "The final incarnation of wrath. Nothing that struck it survives.",
       source: "talent", class: "Warden", treeId: "vengeance_seeker",
       spellType: "ACTIVE", category: "buff",
@@ -381,7 +381,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     requires: "wvs_t6_cataclysmic_retribution",
     spell: {
       name: "Nemesis Doctrine",
-      description: "Every scar is a weapon. All blight, fire, and retaliation damage you deal is increased by 10%.",
+      description: "Every scar is a weapon. All blight, fire, and retaliation damage you deal is increased by +1d6 damage.",
       flavorText: "The flame burns brightest where the wood was deepest scarred.",
       source: "talent", class: "Warden", treeId: "vengeance_seeker",
       spellType: "PASSIVE", category: "damage",
@@ -389,10 +389,10 @@ export const WARDEN_VENGEANCE_SEEKER = [
       visualTheme: "shadow", tags: ["passive", "capstone", "damage", "warden"]
     },
     rankUpgrades: [
-      { description: "All blight, fire, and retaliation damage increased by 20%." },
-      { description: "All blight, fire, and retaliation damage increased by 35%." },
-      { description: "All blight, fire, and retaliation damage increased by 50%." },
-      { description: "All blight, fire, and retaliation damage increased by 70%, and Vengeful Lash costs 0 mana." }
+      { description: "All blight, fire, and retaliation damage increased by +1d8 damage." },
+      { description: "All blight, fire, and retaliation damage increased by +1d8 damage." },
+      { description: "All blight, fire, and retaliation damage increased by +2d8 damage." },
+      { description: "All blight, fire, and retaliation damage increased by +2d8 damage, and Vengeful Lash costs 0 mana." }
     ]
   },
   {
@@ -424,15 +424,15 @@ export const WARDEN_VENGEANCE_SEEKER = [
     requires: "wvs_t6_dread_nemesis",
     spell: {
       name: "Infernal Retribution",
-      description: "All retaliation damage you deal scores critical hits on 18+ and critical retaliation hits restore 10% maximum health.",
+      description: "All retaliation damage you deal scores critical hits on 18+ and critical retaliation hits restore 10 points maximum health.",
       flavorText: "The counter-blow strikes straight through the heart.",
       source: "talent", class: "Warden", treeId: "vengeance_seeker",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "capstone", "crit-counter", "warden"]
     },
     rankUpgrades: [
-      { description: "Retaliation crits on 17+; heals for 15% max health and deals +50% critical bonus damage." },
-      { description: "Retaliation crits on 16+; heals for 20% max health, deals double crit damage, and knocks the target prone." }
+      { description: "Retaliation crits on 17+; heals for 15 points max health and deals +50 points critical bonus damage." },
+      { description: "Retaliation crits on 16+; heals for 20 points max health, deals double crit damage, and knocks the target prone." }
     ]
   },
   {
@@ -451,7 +451,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "capstone", "cheat-death", "warden"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, gain full VP, enter Avatar of Vengeance, and heal for 50% health (cooldown: 90s)." },
+      { description: "Survive lethal damage, gain full VP, enter Avatar of Vengeance, and heal for 50 points health (cooldown: 90s)." },
       { description: "Survive lethal damage, gain full VP, enter Colossal Nemesis for free, and immediately trigger Cataclysmic Retribution for free (cooldown: 60s)." }
     ]
   }

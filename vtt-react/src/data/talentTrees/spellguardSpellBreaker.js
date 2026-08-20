@@ -14,7 +14,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     requires: null,
     spell: {
       name: "Reflective Barrier",
-      description: "For 30 seconds, 25% of the magical damage you take is reflected back at the attacker as arcane damage.",
+      description: "For 30 seconds, 25 points of the magical damage you take is reflected back at the attacker as arcane damage.",
       flavorText: "Return to sender. That is the whole art.",
       source: "talent", class: "Spellguard", treeId: "spell_breaker",
       spellType: "ACTIVE", category: "buff",
@@ -27,8 +27,8 @@ export const SPELLGUARD_SPELL_BREAKER = [
       buffs: ["reflection"], damageTypes: ["arcane"], visualTheme: "arcane", tags: ["reflection", "defense", "spellguard"]
     },
     rankUpgrades: [
-      { description: "For 30 seconds, 25% of the magical damage you take is reflected back at the attacker as arcane damage, and you take 10% less magical damage." },
-      { description: "For 40 seconds, 25% of the magical damage you take is reflected back at the attacker as arcane damage.", durationRounds: 4, durationRealTime: 40 }
+      { description: "For 30 seconds, 25 points of the magical damage you take is reflected back at the attacker as arcane damage, and you take 10 points less magical damage." },
+      { description: "For 40 seconds, 25 points of the magical damage you take is reflected back at the attacker as arcane damage.", durationRounds: 4, durationRealTime: 40 }
     ]
   },
   {
@@ -175,7 +175,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     requires: "sb_t2_mirror_shield",
     spell: {
       name: "Mirror Field",
-      description: "Flood a 20-foot zone with hanging mirrors for 1 minute: allies inside reflect 25% of magical damage they take back at attackers.",
+      description: "Flood a 20-foot zone with hanging mirrors for 1 minute: allies inside reflect 25 points of magical damage they take back at attackers.",
       flavorText: "An ambush that attacks itself.",
       source: "talent", class: "Spellguard", treeId: "spell_breaker",
       spellType: "ACTIVE", category: "buff",
@@ -188,7 +188,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
       buffs: ["mirror-field"], damageTypes: ["arcane"], visualTheme: "arcane", tags: ["reflection", "aoe", "zone", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Flood a 20-foot zone with hanging mirrors for 1 minute: allies inside reflect 25% of magical damage they take back at attackers, and each reflection grants you 3 AEP." }
+      { description: "Flood a 20-foot zone with hanging mirrors for 1 minute: allies inside reflect 25 points of magical damage they take back at attackers, and each reflection grants you 3 AEP." }
     ]
   },
   {
@@ -226,14 +226,14 @@ export const SPELLGUARD_SPELL_BREAKER = [
     requires: "sb_t3_perfect_reflection",
     spell: {
       name: "Unbreakable Mirror",
-      description: "Your reflective works are tempered beyond glass: you gain +10% resistance to magical damage.",
+      description: "Your reflective works are tempered beyond glass: you gain +2 Damage Reduction to magical damage.",
       flavorText: "Glass breaks. The idea of glass does not.",
       source: "talent", class: "Spellguard", treeId: "spell_breaker",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "resistance", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Your reflective works are tempered beyond glass: you gain +20% resistance to magical damage and immunity to blindness." }
+      { description: "Your reflective works are tempered beyond glass: you gain +4 Damage Reduction to magical damage and immunity to blindness." }
     ]
   },
   {
@@ -365,17 +365,17 @@ export const SPELLGUARD_SPELL_BREAKER = [
     requires: "sb_t6_mirror_soul",
     spell: {
       name: "Mirror Mastery",
-      description: "Every surface serves the doctrine: all reflected damage you deal is increased by 10%.",
+      description: "Every surface serves the doctrine: all reflected damage you deal is increased by +1d6 damage.",
       flavorText: "Angles within angles.",
       source: "talent", class: "Spellguard", treeId: "spell_breaker",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "capstone", "reflection", "damage", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Every surface serves the doctrine: all reflected damage you deal is increased by 20%." },
-      { description: "Every surface serves the doctrine: all reflected damage you deal is increased by 30%." },
-      { description: "Every surface serves the doctrine: all reflected damage you deal is increased by 40%." },
-      { description: "Every surface serves the doctrine: all reflected damage you deal is increased by 50%." }
+      { description: "Every surface serves the doctrine: all reflected damage you deal is increased by +1d8 damage." },
+      { description: "Every surface serves the doctrine: all reflected damage you deal is increased by +1d8 damage." },
+      { description: "Every surface serves the doctrine: all reflected damage you deal is increased by +2d8 damage." },
+      { description: "Every surface serves the doctrine: all reflected damage you deal is increased by +2d8 damage." }
     ]
   },
   {

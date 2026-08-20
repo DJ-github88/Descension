@@ -63,8 +63,8 @@ damageTypes: ["sacred", "arcane"],
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "aoe-radius", "lunarch"]
     },
     rankUpgrades: [
-      { description: "AoE radius +15 feet, range +30 feet, and AoE spells deal +15% bonus damage." },
-      { description: "AoE radius +20 feet, range +40 feet, +25% bonus damage, and ignores 20% magical resistance." }
+      { description: "AoE radius +15 feet, range +30 feet, and AoE spells deal +15 points bonus damage." },
+      { description: "AoE radius +20 feet, range +40 feet, +25 points bonus damage, and ignores 4 Damage Reduction against magical." }
     ]
   },
   {
@@ -113,8 +113,8 @@ damageTypes: ["sacred", "arcane"],
       visualTheme: "arcane", tags: ["line", "orbital-beam", "burn", "lunarch"]
     },
     rankUpgrades: [
-      { description: "50-foot beam deals 2d8 sacred damage, pierces 25% of enemy durability/resistance, and burns for 1d6 per round.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 }, aoeSize: 50 },
-      { description: "60-foot beam deals 3d8 sacred damage, pierces 50% resistance, and blinds all enemies struck for 1 round.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 }, aoeSize: 60 }
+      { description: "50-foot beam deals 2d8 sacred damage, ignores up to 4 points of enemy Armor/resistance, and burns for 1d6 per round.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 }, aoeSize: 50 },
+      { description: "60-foot beam deals 3d8 sacred damage, pierces 10 Damage Reduction, and blinds all enemies struck for 1 round.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 }, aoeSize: 60 }
     ]
   },
   {
@@ -226,14 +226,14 @@ damageTypes: ["sacred", "arcane"],
     requires: "sf_t3_cosmic_eruption",
     spell: {
       name: "Eclipse Alignment",
-      description: "During Full Moon, your celestial AoE spells deal +35% damage. During New Moon, all your celestial spell cooldowns recover 50% faster.",
+      description: "During Full Moon, your celestial AoE spells deal +1d8 bonus damage. During New Moon, all your celestial spell cooldowns recover 50 points faster.",
       flavorText: "The sky shows off through you, regardless of the tide.",
       source: "talent", class: "Lunarch", treeId: "starfall_invoker",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "phases", "cdr", "damage", "lunarch"]
     },
     rankUpgrades: [
-      { description: "Full Moon grants +60% AoE damage; New Moon grants 100% faster cooldown recovery and +20% spell crit." }
+      { description: "Full Moon grants +60 points AoE damage; New Moon grants 100 points faster cooldown recovery and +20 points spell crit." }
     ]
   },
 
@@ -282,8 +282,8 @@ damageTypes: ["sacred", "arcane"],
       visualTheme: "arcane", tags: ["passive", "turret", "auto-fire", "lunarch"]
     },
     rankUpgrades: [
-      { description: "Orbital bolt deals 5d8 sacred damage, pierces 25% resistance, and restores 5 mana.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 } },
-      { description: "Orbital bolt deals 7d8 sacred damage, pierces 50% resistance, and triggers at 2 charges instead of 3.", primaryDamage: { dice: "7d8", flat: 0, procChance: 100 } }
+      { description: "Orbital bolt deals 5d8 sacred damage, pierces 6 Damage Reduction, and restores 5 mana.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 } },
+      { description: "Orbital bolt deals 7d8 sacred damage, pierces 10 Damage Reduction, and triggers at 2 charges instead of 3.", primaryDamage: { dice: "7d8", flat: 0, procChance: 100 } }
     ]
   },
 
@@ -328,7 +328,7 @@ damageTypes: ["sacred", "arcane"],
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "true-damage", "penetration", "lunarch"]
     },
     rankUpgrades: [
-      { description: "Ignores all resistance/shields, and your celestial spells deal +30% bonus damage to bosses and elite foes." }
+      { description: "Ignores all resistance/shields, and your celestial spells deal +30 points bonus damage to bosses and elite foes." }
     ]
   },
   {
@@ -347,7 +347,7 @@ damageTypes: ["sacred", "arcane"],
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "crit", "cdr", "lunarch"]
     },
     rankUpgrades: [
-      { description: "Critical hits on 17+; criticals reduce cooldowns by 5 seconds and refund 50% mana cost." }
+      { description: "Critical hits on 17+; criticals reduce cooldowns by 5 seconds and refund 50 points mana cost." }
     ]
   },
 
@@ -384,7 +384,7 @@ damageTypes: ["sacred", "arcane"],
     requires: "sf_t6_meteor_cataclysm",
     spell: {
       name: "Starfall Doctrine",
-      description: "The heavens obey. All sacred, fire, and arcane AoE damage you deal is increased by 10%.",
+      description: "The heavens obey. All sacred, fire, and arcane AoE damage you deal is increased by +1d6 damage.",
       flavorText: "A sky with no limits.",
       source: "talent", class: "Lunarch", treeId: "starfall_invoker",
       spellType: "PASSIVE", category: "damage",
@@ -392,10 +392,10 @@ damageTypes: ["sacred", "arcane"],
       visualTheme: "arcane", tags: ["passive", "capstone", "damage", "lunarch"]
     },
     rankUpgrades: [
-      { description: "All celestial AoE damage increased by 20%." },
-      { description: "All celestial AoE damage increased by 35%." },
-      { description: "All celestial AoE damage increased by 50%." },
-      { description: "All celestial AoE damage increased by 70%, and Starfall mana cost is reduced to 0." }
+      { description: "All celestial AoE damage increased by +1d8 damage." },
+      { description: "All celestial AoE damage increased by +1d8 damage." },
+      { description: "All celestial AoE damage increased by +2d8 damage." },
+      { description: "All celestial AoE damage increased by +2d8 damage, and Starfall mana cost is reduced to 0." }
     ]
   },
   {
@@ -447,7 +447,7 @@ damageTypes: ["sacred", "arcane"],
     requires: "sf_t6_stellar_crit",
     spell: {
       name: "Firmament Rebirth",
-      description: "When you suffer lethal damage, a star crashes down upon you: prevents death, restores 50% health/mana, and deals 6d10 sacred damage to all enemies within 30 feet (cooldown: 120s).",
+      description: "When you suffer lethal damage, a star crashes down upon you: prevents death, restores 30 Hit Points/mana, and deals 6d10 sacred damage to all enemies within 30 feet (cooldown: 120s).",
       flavorText: "Even falling stars leave a massive impact.",
       source: "talent", class: "Lunarch", treeId: "starfall_invoker",
       spellType: "PASSIVE", category: "buff",
@@ -456,8 +456,8 @@ damageTypes: ["sacred", "arcane"],
       visualTheme: "arcane", tags: ["passive", "capstone", "cheat-death", "lunarch"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restore 75% health/mana, blast deals 8d10 damage and knocks all enemies prone (cooldown: 90s)." },
-      { description: "Survive lethal damage, restore 100% health/mana, blast deals 12d10 damage, and immediately activates Supernova Ascent for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 45 Hit Points/mana, blast deals 8d10 damage and knocks all enemies prone (cooldown: 90s)." },
+      { description: "Survive lethal damage, restores 60 Hit Points/mana, blast deals 12d10 damage, and immediately activates Supernova Ascent for free (cooldown: 60s)." }
     ]
   }
 ];

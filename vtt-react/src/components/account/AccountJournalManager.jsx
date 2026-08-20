@@ -636,6 +636,9 @@ const AccountJournalManager = ({ user }) => {
     if (e.button !== 0) return;
 
     if (connectingFrom) {
+      e.preventDefault();
+      e.stopPropagation();
+
       if (connectingFrom === 'waiting') {
         setConnectingFrom(orb.id);
         return;
@@ -645,6 +648,7 @@ const AccountJournalManager = ({ user }) => {
       } else {
         addConnection(connectingFrom, orb.id);
         setConnectingFrom(null);
+        syncToCloud(user?.uid);
         return;
       }
     }
@@ -1409,13 +1413,14 @@ const AccountJournalManager = ({ user }) => {
                     pointerEvents: 'none'
                   }}
                 >
-                  {knowledgeConnections
+                  {(knowledgeConnections || [])
                     .filter(conn => {
-                      const fromOrb = knowledgeOrbs.find(o => o.id === conn.fromOrbId);
-                      const toOrb = knowledgeOrbs.find(o => o.id === conn.toOrbId);
+                      const fromOrb = (knowledgeOrbs || []).find(o => o.id === conn.fromOrbId);
+                      const toOrb = (knowledgeOrbs || []).find(o => o.id === conn.toOrbId);
                       if (!fromOrb || !toOrb) return false;
                       if (!currentBoardId) return true;
-                      return fromOrb.boardId === currentBoardId && toOrb.boardId === currentBoardId;
+                      return (fromOrb.boardId === currentBoardId || !fromOrb.boardId) &&
+                             (toOrb.boardId === currentBoardId || !toOrb.boardId);
                     })
                     .map(conn => {
                       const fromOrb = filteredOrbs.find(o => o.id === conn.fromOrbId);
@@ -1423,10 +1428,13 @@ const AccountJournalManager = ({ user }) => {
 
                       if (!fromOrb || !toOrb) return null;
 
-                      const x1 = fromOrb.position.x + 30;
-                      const y1 = fromOrb.position.y + 30;
-                      const x2 = toOrb.position.x + 30;
-                      const y2 = toOrb.position.y + 30;
+                      const x1 = (fromOrb.position?.x ?? 0) + 30;
+                      const y1 = (fromOrb.position?.y ?? 0) + 30;
+                      const x2 = (toOrb.position?.x ?? 0) + 30;
+                      const y2 = (toOrb.position?.y ?? 0) + 30;
+
+                      const midX = (x1 + x2) / 2;
+                      const midY = (y1 + y2) / 2;
 
                       return (
                         <g key={conn.id} className="connection-group">
@@ -1437,8 +1445,22 @@ const AccountJournalManager = ({ user }) => {
                           <line
                             x1={x1} y1={y1} x2={x2} y2={y2}
                             className="connection-hitbox"
-                            onClick={() => removeConnection(conn.id)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeConnection(conn.id);
+                              syncToCloud(user?.uid);
+                            }}
                           />
+                          {conn.label && (
+                            <text
+                              x={midX}
+                              y={midY - 8}
+                              className="connection-label"
+                              textAnchor="middle"
+                            >
+                              {conn.label}
+                            </text>
+                          )}
                         </g>
                       );
                     })}
@@ -2661,7 +2683,7 @@ const AccountJournalManager = ({ user }) => {
                                       type="button"
                                       className="btn-remove-conn"
                                       onClick={() => {
-                                        removeKnowledgeConnection(conn.id);
+                                        removeConnection(conn.id);
                                         syncToCloud(user?.uid);
                                       }}
                                       title="Remove connection line"

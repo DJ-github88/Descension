@@ -76,10 +76,23 @@ const SpellCardHeader = ({
             })()}
           </div>
         )}
-        {/* Trigger Condition Tag - Top Right of Header, to the left of priority tag (for creature abilities) */}
-        {spell?.triggerCondition && (
+        {/* Trigger Condition Tag - Top Right of Header, to the left of priority tag */}
+        {(spell?.triggerCondition || spell?.reactionTrigger || (spell?.spellType === 'REACTION' && spell?.trigger) || (spell?.spellType === 'PASSIVE' && spell?.trigger)) && (
           <div className="pf-trigger-condition-tag-above-header">
             {(() => {
+              if (spell.reactionTrigger) {
+                return <span>⚡ {spell.reactionTrigger}</span>;
+              }
+              if (spell.spellType === 'REACTION' && spell.trigger) {
+                return <span>⚡ {spell.trigger}</span>;
+              }
+              if (typeof spell.triggerCondition === 'string') {
+                return <span>{spell.triggerCondition}</span>;
+              }
+              if (spell.spellType === 'PASSIVE' && spell.trigger) {
+                return <span>⚡ {spell.trigger}</span>;
+              }
+              if (!spell.triggerCondition) return null;
               const { type, operator, value, statusEffect, resourceType, threshold, abilityName } = spell.triggerCondition;
               
               if (type === 'hp_percentage' || type === 'hp_percentage_target') {
@@ -199,9 +212,9 @@ const SpellCardHeader = ({
               }}
             />
 
-            {/* Spell Type Badge (for spellbook variant only) */}
-            {variant === 'spellbook' && (
-              <div className="spell-type-badge">
+            {/* Spell Type Badge */}
+            {(variant === 'spellbook' || spell?.spellType === 'REACTION' || spell?.spellType === 'PASSIVE') && (
+              <div className={`spell-type-badge ${spell?.spellType === 'REACTION' ? 'type-reaction' : spell?.spellType === 'PASSIVE' ? 'type-passive' : ''}`}>
                 {spell?.spellType || 'ACTION'}
               </div>
             )}

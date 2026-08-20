@@ -37,8 +37,8 @@ export const HARBINGER_WILD_PROPHET = [
       visualTheme: "wyrd", tags: ["aoe", "wild-magic", "mayhem-builder", "harbinger"]
     },
     rankUpgrades: [
-      { description: "25-foot area deals 3d6 damage, generates 2 Mayhem, and has a 25% chance to trigger a Wild Magic Surge.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, aoeSize: 25, cooldownValue: 8 },
-      { description: "30-foot area deals 4d6 damage, generates 2 Mayhem, and 50% chance to trigger Wild Magic Surge.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 }, aoeSize: 30, cooldownValue: 10 }
+      { description: "25-foot area deals 3d6 damage, generates 2 Mayhem, and has a 25 points chance to trigger a Wild Magic Surge.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, aoeSize: 25, cooldownValue: 8 },
+      { description: "30-foot area deals 4d6 damage, generates 2 Mayhem, and 50 points chance to trigger Wild Magic Surge.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 }, aoeSize: 30, cooldownValue: 10 }
     ]
   },
   {
@@ -60,7 +60,7 @@ export const HARBINGER_WILD_PROPHET = [
     },
     rankUpgrades: [
       { description: "Gain 2 Mayhem on surge and deal 3d6 random damage." },
-      { description: "Gain 2 Mayhem on surge, deal 4d6 random damage, and your next spell deals +10% damage." }
+      { description: "Gain 2 Mayhem on surge, deal 4d6 random damage, and your next spell deals +10 points damage." }
     ]
   },
   {
@@ -72,7 +72,7 @@ export const HARBINGER_WILD_PROPHET = [
     requires: null,
     spell: {
       name: "Expanding Prophecy",
-      description: "All your area prophecy radii increase by +10 feet, and you take 20% less damage from your own wild magic surges.",
+      description: "All your area prophecy radii increase by +10 feet, and you gain 4 Damage Reduction from your own wild magic surges.",
       flavorText: "Wider visions encompass wider battlefields.",
       source: "talent", class: "Harbinger", treeId: "wild_prophet",
       spellType: "PASSIVE", category: "buff",
@@ -120,7 +120,7 @@ export const HARBINGER_WILD_PROPHET = [
     requires: "wp_t1_surge_attunement",
     spell: {
       name: "Unstable Wyrd Aura",
-      description: "When hit in melee, there is a 15% chance to negate the attack completely and deal 1d8 random elemental damage back to the attacker.",
+      description: "When hit in melee, there is a 15 points chance to negate the attack completely and deal 1d8 random elemental damage back to the attacker.",
       flavorText: "The Wyrd recoils from those who strike its champion.",
       source: "talent", class: "Harbinger", treeId: "wild_prophet",
       spellType: "PASSIVE", category: "damage",
@@ -129,8 +129,8 @@ export const HARBINGER_WILD_PROPHET = [
       visualTheme: "wyrd", tags: ["passive", "negate-attack", "retaliation", "harbinger"]
     },
     rankUpgrades: [
-      { description: "25% chance to negate melee hits and deal 2d8 damage." },
-      { description: "35% chance to negate hits, deal 3d8 damage, and trigger a free Wild Cascade on attacker." }
+      { description: "25 points chance to negate melee hits and deal 2d8 damage." },
+      { description: "35 points chance to negate hits, deal 3d8 damage, and trigger a free Wild Cascade on attacker." }
     ]
   },
 
@@ -172,15 +172,15 @@ export const HARBINGER_WILD_PROPHET = [
     requires: "wp_t2_unstable_aura",
     spell: {
       name: "Surging Power Escalation",
-      description: "Each Wild Magic Surge grants you +2% spell damage (stacks up to 5 times, max +10%) and +5ft movement speed.",
+      description: "Each Wild Magic Surge grants you +2 points spell damage (stacks up to 5 times, max +10 points) and +5ft movement speed.",
       flavorText: "Each chaos pulse feeds the next in an escalating spiral.",
       source: "talent", class: "Harbinger", treeId: "wild_prophet",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "stacking-damage", "speed", "harbinger"]
     },
     rankUpgrades: [
-      { description: "+3% damage per surge (stacks up to +15%) and +1 Durability Step to equipped durability." },
-      { description: "+4% damage per surge (stacks up to +20%), +2 Durability Steps to equipped durability, and spells ignore 15% resistance." }
+      { description: "+3 points damage per surge (stacks up to +15 points) and +1 Durability Step to equipped durability." },
+      { description: "+4 points damage per surge (stacks up to +20 points), +2 Durability Steps to equipped durability, and spells ignore 4 Damage Reduction." }
     ]
   },
 
@@ -209,7 +209,7 @@ export const HARBINGER_WILD_PROPHET = [
     },
     rankUpgrades: [
       { description: "70-foot beam deals 4d8 damage, burns for 2d8, and cooldown drops to 18s.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 }, cooldownValue: 18 },
-      { description: "80-foot beam deals 5d8 damage, pierces 25% of enemy shields/durability, and refunds 2 Mayhem.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 16 }
+      { description: "80-foot beam deals 5d8 damage, pierces 25 points of enemy shields/durability, and refunds 2 Mayhem.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 16 }
     ]
   },
   {
@@ -228,7 +228,7 @@ export const HARBINGER_WILD_PROPHET = [
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "mayhem-cap", "auto-surge", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Max Mayhem +8; auto-surges deal +25% damage and grant 1 Action Point." }
+      { description: "Max Mayhem +8; auto-surges deal +1d8 bonus damage and grant 1 Action Point." }
     ]
   },
 
@@ -268,15 +268,15 @@ export const HARBINGER_WILD_PROPHET = [
     requires: "wp_t4_mayhem_overflow",
     spell: {
       name: "Wild Sovereignty",
-      description: "All area prophecy damage dice are upgraded (d6 becomes d8, d8 becomes d10) and you heal for 30% of all surge damage dealt.",
+      description: "All area prophecy damage dice are upgraded (d6 becomes d8, d8 becomes d10) and you heal for 30 points of all surge damage dealt.",
       flavorText: "Dominion over the chaos turning the predator's leak against it.",
       source: "talent", class: "Harbinger", treeId: "wild_prophet",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "dice-upgrade", "sustain", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Damage dice upgrade (d10 becomes d12) and heal for 30% of surge damage dealt." },
-      { description: "Heal for 35% of surge damage; overheal becomes a 30-HP wyrd shield." }
+      { description: "Damage dice upgrade (d10 becomes d12) and heal for 30 points of surge damage dealt." },
+      { description: "Heal for 35 points of surge damage; overheal becomes a 30-HP wyrd shield." }
     ]
   },
 
@@ -322,7 +322,7 @@ export const HARBINGER_WILD_PROPHET = [
       visualTheme: "wyrd", tags: ["passive", "crit", "crit-burst", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Critical hits on 16+; crits deal +25% damage and shockwave deals 4d8 elemental damage." }
+      { description: "Critical hits on 16+; crits deal +1d8 bonus damage and shockwave deals 4d8 elemental damage." }
     ]
   },
   {
@@ -334,14 +334,14 @@ export const HARBINGER_WILD_PROPHET = [
     requires: "wp_t5_wild_sovereignty",
     spell: {
       name: "Chaotic Bastion",
-      description: "While in combat, you gain +4 Durability Steps to equipped durability, 25% elemental damage resistance, and whenever you take damage, you gain 2 Mayhem.",
+      description: "While in combat, you gain +4 Durability Steps to equipped durability, 25 points elemental damage resistance, and whenever you take damage, you gain 2 Mayhem.",
       flavorText: "The chaotic cloak absorbs all incoming force.",
       source: "talent", class: "Harbinger", treeId: "wild_prophet",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "durability", "mayhem-on-hit", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Gain +5 Durability Steps to equipped durability, 30% resistance, gain 3 Mayhem on damage, and reflect 25% damage back at attackers." }
+      { description: "Gain +5 Durability Steps to equipped durability, 6 Damage Reduction, gain 3 Mayhem on damage, and reflect 25 points damage back at attackers." }
     ]
   },
 
@@ -380,7 +380,7 @@ export const HARBINGER_WILD_PROPHET = [
     requires: "wp_t6_cataclysm_incarnate",
     spell: {
       name: "Wild Prophet Doctrine",
-      description: "All wild magic, chaos, and elemental prophecy damage you deal is increased by 5%.",
+      description: "All wild magic, chaos, and elemental prophecy damage you deal is increased by +1d6 damage.",
       flavorText: "The words of the Prophet rewrite the world.",
       source: "talent", class: "Harbinger", treeId: "wild_prophet",
       spellType: "PASSIVE", category: "damage",
@@ -388,10 +388,10 @@ export const HARBINGER_WILD_PROPHET = [
       visualTheme: "wyrd", tags: ["passive", "capstone", "damage", "harbinger"]
     },
     rankUpgrades: [
-      { description: "All wild magic and prophecy damage increased by 10%." },
-      { description: "All wild magic and prophecy damage increased by 15%." },
-      { description: "All wild magic and prophecy damage increased by 20%." },
-      { description: "All wild magic and prophecy damage increased by 25%, and Chaos Prophecy Eruption costs 0 mana." }
+      { description: "All wild magic and prophecy damage increased by +1d6 damage." },
+      { description: "All wild magic and prophecy damage increased by +1d6 damage." },
+      { description: "All wild magic and prophecy damage increased by +1d8 damage." },
+      { description: "All wild magic and prophecy damage increased by +1d8 damage, and Chaos Prophecy Eruption costs 0 mana." }
     ]
   },
   {
@@ -430,8 +430,8 @@ export const HARBINGER_WILD_PROPHET = [
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "chain-death", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Corpse cascade deals +25% bonus damage and stuns survivors for 1 round." },
-      { description: "Corpse cascade deals +35% bonus damage, stuns survivors for 1 round, and refunds 3 Mayhem." }
+      { description: "Corpse cascade deals +25 points bonus damage and stuns survivors for 1 round." },
+      { description: "Corpse cascade deals +35 points bonus damage, stuns survivors for 1 round, and refunds 3 Mayhem." }
     ]
   },
   {
@@ -443,15 +443,15 @@ export const HARBINGER_WILD_PROPHET = [
     requires: "wp_t6_entropy_ward",
     spell: {
       name: "Wild Surge Rebirth",
-      description: "While at 4+ Mayhem, lethal damage triggers a massive wild magic reset: prevents death, restores 40% health and 30 temporary health, and sets Mayhem to 5 (cooldown: 180s).",
+      description: "While at 4+ Mayhem, lethal damage triggers a massive wild magic reset: prevents death, restores 24 Hit Points and 30 temporary health, and sets Mayhem to 5 (cooldown: 180s).",
       flavorText: "The universe refused the outcome, rewinding the fatal blow into an explosion.",
       source: "talent", class: "Harbinger", treeId: "wild_prophet",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "cheat-death", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restore 60% health, 40 temp HP, full Mayhem (cooldown: 120s)." },
-      { description: "Survive lethal damage, restore 75% health, 50 temp HP (cooldown: 90s)." }
+      { description: "Survive lethal damage, restores 36 Hit Points, 40 temp HP, full Mayhem (cooldown: 120s)." },
+      { description: "Survive lethal damage, restores 45 Hit Points, 50 temp HP (cooldown: 90s)." }
     ]
   }
 ];
@@ -497,7 +497,7 @@ export const HARBINGER_DEATHS_SEER = [
     requires: null,
     spell: {
       name: "Necrotic Decay Aura",
-      description: "All your single-target blight and doom spells deal +10% increased damage, and your attacks ignore 10% of enemy durability.",
+      description: "All your single-target blight and doom spells deal +10 points increased damage, and your attacks ignore 10 points of enemy durability.",
       flavorText: "The entropy of Keth-Amar spreads like a plague.",
       source: "talent", class: "Harbinger", treeId: "deaths_seer",
       spellType: "PASSIVE", category: "damage",
@@ -505,8 +505,8 @@ export const HARBINGER_DEATHS_SEER = [
       visualTheme: "wyrd", tags: ["passive", "necrotic-amp", "penetration", "harbinger"]
     },
     rankUpgrades: [
-      { description: "+15% blight damage and ignores 20% of enemy durability." },
-      { description: "+20% blight damage, ignores 30% of enemy durability, and kills grant +2 Mayhem." }
+      { description: "+15 points blight damage and ignores 20 points of enemy durability." },
+      { description: "+20 points blight damage, ignores 30 points of enemy durability, and kills grant +2 Mayhem." }
     ]
   },
   {
@@ -518,7 +518,7 @@ export const HARBINGER_DEATHS_SEER = [
     requires: null,
     spell: {
       name: "Shroud of Inevitable Decay",
-      description: "You gain +2 Durability Steps to equipped durability and take 25% less blight damage. Attackers who strike you take 1d6 blight damage in retaliation.",
+      description: "You gain +2 Durability Steps to equipped durability and take 25 points less blight damage. Attackers who strike you take 1d6 blight damage in retaliation.",
       flavorText: "Keth-Amar shrouds its prophets in an aura of decay.",
       source: "talent", class: "Harbinger", treeId: "deaths_seer",
       spellType: "PASSIVE", category: "buff",
@@ -527,7 +527,7 @@ export const HARBINGER_DEATHS_SEER = [
       visualTheme: "wyrd", tags: ["passive", "retaliation", "durability", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Gain +3 Durability Steps to equipped durability, take 25% less blight damage, retaliate for 2d6 blight, and heal for 25% of retaliation damage." }
+      { description: "Gain +3 Durability Steps to equipped durability, take 25 points less blight damage, retaliate for 2d6 blight, and heal for 25 points of retaliation damage." }
     ]
   },
 
@@ -568,15 +568,15 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     requires: "ds_t1_decay_wave",
     spell: {
       name: "Deep Rotting Wounds",
-      description: "Enemies with Doom Marks take 10% more damage from all sources, and their movement speed is reduced by 10 feet.",
+      description: "Enemies with Doom Marks suffer +1d6 bonus damage from all sources, and their movement speed is reduced by 10 feet.",
       flavorText: "Flesh softens and rots under the gaze of the Seer.",
       source: "talent", class: "Harbinger", treeId: "deaths_seer",
       spellType: "PASSIVE", category: "debuff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "vulnerability", "slow", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Marked foes take 15% more damage and speed reduced by 15 feet." },
-      { description: "Marked foes take 20% more damage, speed reduced by 20 feet, and your attacks against them score critical hits on 19+." }
+      { description: "Marked foes suffer +1d6 bonus damage and speed reduced by 15 feet." },
+      { description: "Marked foes suffer +1d6 bonus damage, speed reduced by 20 feet, and your attacks against them score critical hits on 19+." }
     ]
   },
 
@@ -642,7 +642,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     requires: "ds_t3_reap_soul",
     spell: {
       name: "Unmake Entity",
-      description: "Spend 4 Mayhem: target an enemy within 45 feet. Deals 4d8 blight damage (deals +30% damage if target is below 40% HP). If the target dies, raise them as a decaying revenant servant for 1 minute.",
+      description: "Spend 4 Mayhem: target an enemy within 45 feet. Deals 4d8 blight damage (deals +30 points damage if target is below half maximum Hit Points). If the target dies, raise them as a decaying revenant servant for 1 minute.",
       flavorText: "The Wyrd unmakes what it once created, claiming its due.",
       source: "talent", class: "Harbinger", treeId: "deaths_seer",
       spellType: "ACTIVE", category: "damage",
@@ -669,14 +669,14 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     requires: "ds_t3_unmaking_criticality",
     spell: {
       name: "Soul Harvest Economy",
-      description: "Whenever an enemy dies from your spells or while marked, you gain 4 Mayhem, restore 15 mana, and heal for 10% max HP.",
+      description: "Whenever an enemy dies from your spells or while marked, you gain 4 Mayhem, restore 15 mana, and heal for 10 points max HP.",
       flavorText: "Death pays the greatest dividend.",
       source: "talent", class: "Harbinger", treeId: "deaths_seer",
       spellType: "PASSIVE", category: "healing",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "sustain", "mayhem-on-kill", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Kills grant 6 Mayhem, restore 30 mana, and heal for 15% max HP." }
+      { description: "Kills grant 6 Mayhem, restore 30 mana, and heal for 15 points max HP." }
     ]
   },
 
@@ -717,7 +717,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     requires: "ds_t4_death_siphon",
     spell: {
       name: "Army of the Fallen Wyrd",
-      description: "You can maintain up to 3 revenant servants simultaneously. Revenants have +25% health and +2 Durability Steps to equipped durability.",
+      description: "You can maintain up to 3 revenant servants simultaneously. Revenants have +25 points health and +2 Durability Steps to equipped durability.",
       flavorText: "Keth-Amar defies even death, raising what it consumes.",
       source: "talent", class: "Harbinger", treeId: "deaths_seer",
       spellType: "PASSIVE", category: "buff",
@@ -739,7 +739,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     requires: "ds_t5_eternal_decay",
     spell: {
       name: "Death Incarnate",
-      description: "Spend 6 Mayhem: become the Living Incarnation of Death for 1 minute: your single-target blight spells deal +30% damage to marked enemies, execute non-boss targets below 15% HP instantly, and you gain +2 Durability Steps to equipped durability.",
+      description: "Spend 6 Mayhem: become the Living Incarnation of Death for 1 minute: your single-target blight spells deal +1d8 bonus damage to marked enemies, execute non-boss targets below half maximum Hit Points instantly, and you gain +2 Durability Steps to equipped durability.",
       flavorText: "The final seer of mortality takes the throne.",
       source: "talent", class: "Harbinger", treeId: "deaths_seer",
       spellType: "ACTIVE", category: "buff",
@@ -762,7 +762,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     requires: "ds_t5_undead_mastery",
     spell: {
       name: "Absolute Oblivion",
-      description: "All your blight spells ignore 30% of enemy durability and resistance.",
+      description: "All your blight spells ignore 30 points of enemy durability and resistance.",
       flavorText: "Oblivion recognizes no armor.",
       source: "talent", class: "Harbinger", treeId: "deaths_seer",
       spellType: "PASSIVE", category: "buff",
@@ -770,7 +770,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       visualTheme: "wyrd", tags: ["passive", "true-damage", "penetration", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Blight spells ignore 35% of enemy durability and resistance and score critical hits on 18+." }
+      { description: "Blight spells ignore 35 points of enemy durability and resistance and score critical hits on 18+." }
     ]
   },
   {
@@ -782,14 +782,14 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     requires: "ds_t5_undead_mastery",
     spell: {
       name: "Phylactery Shroud",
-      description: "While you maintain at least 1 active revenant, 35% of damage you take is redirected into your revenant instead.",
+      description: "While you maintain at least 1 active revenant, 35 points of damage you take is redirected into your revenant instead.",
       flavorText: "The servant absorbs the fatal wound.",
       source: "talent", class: "Harbinger", treeId: "deaths_seer",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "damage-redirect", "defense", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Redirect 35% of damage into revenants, and when a revenant dies from redirected damage, you gain 3 Mayhem." }
+      { description: "Redirect 35 points of damage into revenants, and when a revenant dies from redirected damage, you gain 3 Mayhem." }
     ]
   },
 
@@ -803,7 +803,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     requires: "ds_t6_death_incarnate",
     spell: {
       name: "Avatar of the Black Reaper",
-      description: "ULTIMATE: Spend 10 Mayhem: summon the Great Scythe of Keth-Amar for 1 minute: all marked enemies take 8d10 blight damage every round, any target below 20% HP is executed instantly, and each death raises a giant undead behemoth for 1 minute.",
+      description: "ULTIMATE: Spend 10 Mayhem: summon the Great Scythe of Keth-Amar for 1 minute: all marked enemies take 8d10 blight damage every round, any target below half maximum Hit Points is executed instantly, and each death raises a giant undead behemoth for 1 minute.",
       flavorText: "The harvest is complete. No seed remains ungathered.",
       source: "talent", class: "Harbinger", treeId: "deaths_seer",
       spellType: "ACTIVE", category: "damage",
@@ -828,7 +828,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     requires: "ds_t6_death_incarnate",
     spell: {
       name: "Death's Seer Doctrine",
-      description: "All single-target blight and doom damage you deal is increased by 5%.",
+      description: "All single-target blight and doom damage you deal is increased by +1d6 damage.",
       flavorText: "The gaze of the Seer is the end of the journey.",
       source: "talent", class: "Harbinger", treeId: "deaths_seer",
       spellType: "PASSIVE", category: "damage",
@@ -836,10 +836,10 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       visualTheme: "wyrd", tags: ["passive", "capstone", "damage", "harbinger"]
     },
     rankUpgrades: [
-      { description: "All single-target blight damage increased by 10%." },
-      { description: "All single-target blight damage increased by 15%." },
-      { description: "All single-target blight damage increased by 20%." },
-      { description: "All single-target blight damage increased by 25%, and Death Mark Strike costs 0 mana." }
+      { description: "All single-target blight damage increased by +1d6 damage." },
+      { description: "All single-target blight damage increased by +1d6 damage." },
+      { description: "All single-target blight damage increased by +1d8 damage." },
+      { description: "All single-target blight damage increased by +1d8 damage, and Death Mark Strike costs 0 mana." }
     ]
   },
   {
@@ -871,15 +871,15 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     requires: "ds_t6_doom_penetration",
     spell: {
       name: "Certain Death Principle",
-      description: "Your attacks against marked targets deal +10% damage and score critical hits on 19+.",
+      description: "Your attacks against marked targets deal +1d6 bonus damage and score critical hits on 19+.",
       flavorText: "What the Seer writes, fate cannot erase.",
       source: "talent", class: "Harbinger", treeId: "deaths_seer",
       spellType: "PASSIVE", category: "debuff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "execute", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Attacks against marked targets deal +15% damage and execute non-boss targets below 15% HP." },
-      { description: "Attacks against marked targets deal +20% damage, execute below 20% HP, and kills refund 3 Mayhem." }
+      { description: "Attacks against marked targets deal +1d6 bonus damage and execute non-boss targets below half maximum Hit Points." },
+      { description: "Attacks against marked targets deal +1d8 bonus damage, execute below half maximum Hit Points, and kills refund 3 Mayhem." }
     ]
   },
   {
@@ -891,15 +891,15 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     requires: "ds_t6_undying_shroud",
     spell: {
       name: "Necrotic Ascendance Rebirth",
-      description: "While at 3+ Mayhem, lethal damage dissolves you into necrotic mist instead: prevents death, restores 40% health and 30 temp HP, and sets Mayhem to 5 (cooldown: 180s).",
+      description: "While at 3+ Mayhem, lethal damage dissolves you into necrotic mist instead: prevents death, restores 24 Hit Points and 30 temp HP, and sets Mayhem to 5 (cooldown: 180s).",
       flavorText: "Death cannot claim its own master.",
       source: "talent", class: "Harbinger", treeId: "deaths_seer",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "cheat-death", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restore 60% health, 40 temp HP, full Mayhem (cooldown: 120s)." },
-      { description: "Survive lethal damage, restore 75% health, 50 temp HP (cooldown: 90s)." }
+      { description: "Survive lethal damage, restores 36 Hit Points, 40 temp HP, full Mayhem (cooldown: 120s)." },
+      { description: "Survive lethal damage, restores 45 Hit Points, 50 temp HP (cooldown: 90s)." }
     ]
   }
 ];
@@ -945,7 +945,7 @@ export const HARBINGER_FATE_RIFT = [
     requires: null,
     spell: {
       name: "Spatial Instability",
-      description: "All your void and force spells deal +5% increased damage, and your movement speed increases by +10 feet.",
+      description: "All your void and force spells deal +5 points increased damage, and your movement speed increases by +10 feet.",
       flavorText: "Space bends easily to those who know where it is torn.",
       source: "talent", class: "Harbinger", treeId: "fate_rift",
       spellType: "PASSIVE", category: "damage",
@@ -953,8 +953,8 @@ export const HARBINGER_FATE_RIFT = [
       visualTheme: "wyrd", tags: ["passive", "void-amp", "speed", "harbinger"]
     },
     rankUpgrades: [
-      { description: "+8% void damage, speed +15 feet, and you can teleport 10ft as a bonus action." },
-      { description: "+10% void damage, speed +20 feet, and attacks ignore 10% resistance." }
+      { description: "+8 points void damage, speed +15 feet, and you can teleport 10ft as a bonus action." },
+      { description: "+10 points void damage, speed +20 feet, and attacks ignore 2 Damage Reduction." }
     ]
   },
   {
@@ -966,14 +966,14 @@ export const HARBINGER_FATE_RIFT = [
     requires: null,
     spell: {
       name: "Rift Phasing",
-      description: "While standing within 20 feet of any active void rift, you gain +2 Durability Steps to equipped durability and take 15% less magical damage.",
+      description: "While standing within 20 feet of any active void rift, you gain +2 Durability Steps to equipped durability and take 15 points less magical damage.",
       flavorText: "Half-phased into the spaces between worlds.",
       source: "talent", class: "Harbinger", treeId: "fate_rift",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "rift-defense", "durability", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Gain +3 Durability Steps to equipped durability, 25% magical resistance, and heal 1d8 per round near rifts." }
+      { description: "Gain +3 Durability Steps to equipped durability, 6 Damage Reduction against magical, and heal 1d8 per round near rifts." }
     ]
   },
 
@@ -1014,15 +1014,15 @@ export const HARBINGER_FATE_RIFT = [
     requires: "fr_t1_spatial_instability",
     spell: {
       name: "Resonating Rifts",
-      description: "Whenever an enemy is within 15 feet of multiple active rifts, they take +5% increased damage from all sources per rift.",
+      description: "Whenever an enemy is within 15 feet of multiple active rifts, they take +5 points increased damage from all sources per rift.",
       flavorText: "Torn space amplifies every vibration.",
       source: "talent", class: "Harbinger", treeId: "fate_rift",
       spellType: "PASSIVE", category: "debuff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "rift-overlap", "vulnerability", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Take +8% increased damage per rift and have -1 to saving throws." },
-      { description: "Take +10% increased damage per rift and -2 to saving throws." }
+      { description: "Take +8 points increased damage per rift and have -1 to saving throws." },
+      { description: "Take +10 points increased damage per rift and -2 to saving throws." }
     ]
   },
 
@@ -1036,7 +1036,7 @@ export const HARBINGER_FATE_RIFT = [
     requires: "fr_t2_rift_collapse",
     spell: {
       name: "Dimensional Shredder",
-      description: "Spend 4 Mayhem: link two active rifts with a 40-foot laser wire of hyper-dense void energy. Deals 4d8 arcane damage to all enemies crossing the line and shears 25% of their durability.",
+      description: "Spend 4 Mayhem: link two active rifts with a 40-foot laser wire of hyper-dense void energy. Deals 4d8 arcane damage to all enemies crossing the line and shears 25 points of their durability.",
       flavorText: "A wire cut directly from the edge of reality.",
       source: "talent", class: "Harbinger", treeId: "fate_rift",
       spellType: "ACTIVE", category: "damage",
@@ -1050,8 +1050,8 @@ export const HARBINGER_FATE_RIFT = [
       debuffs: ["armor-sunder"], visualTheme: "wyrd", tags: ["line", "wire", "sunder", "harbinger"]
     },
     rankUpgrades: [
-      { description: "50-foot wire deals 5d8 arcane damage, shears 30% of enemy durability, cooldown drops to 12s.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 12 },
-      { description: "60-foot wire deals 6d8 arcane damage, shears 35% of enemy durability, and silences targets for 1 round.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 }, cooldownValue: 10 }
+      { description: "50-foot wire deals 5d8 arcane damage, shears 30 points of enemy durability, cooldown drops to 12s.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 12 },
+      { description: "60-foot wire deals 6d8 arcane damage, shears 35 points of enemy durability, and silences targets for 1 round.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 }, cooldownValue: 10 }
     ]
   },
   {
@@ -1063,15 +1063,15 @@ export const HARBINGER_FATE_RIFT = [
     requires: "fr_t2_rift_synergy",
     spell: {
       name: "Void Leech",
-      description: "All void and rift damage you deal heals you and all allies for 10% of the damage dealt. Overheal grants temporary health up to 20.",
+      description: "All void and rift damage you deal heals you and all allies for 10 points of the damage dealt. Overheal grants temporary health up to 20.",
       flavorText: "The empty space feeds the flesh.",
       source: "talent", class: "Harbinger", treeId: "fate_rift",
       spellType: "PASSIVE", category: "healing",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "lifesteal", "party-heal", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Heal for 15% of void damage; temp HP caps at 30." },
-      { description: "Heal for 20% of void damage; temp HP caps at 40 and grants +2 Durability Steps to equipped durability." }
+      { description: "Heal for 15 points of void damage; temp HP caps at 30." },
+      { description: "Heal for 20 points of void damage; temp HP caps at 40 and grants +2 Durability Steps to equipped durability." }
     ]
   },
 
@@ -1134,7 +1134,7 @@ export const HARBINGER_FATE_RIFT = [
     requires: "fr_t4_void_nova",
     spell: {
       name: "Event Horizon Implosion",
-      description: "Spend 6 Mayhem: detonate ALL active void rifts simultaneously in a cataclysmic chain reaction. Deals 4d8 arcane damage per rift to all nearby enemies and sunders 25% of enemy durability and wards.",
+      description: "Spend 6 Mayhem: detonate ALL active void rifts simultaneously in a cataclysmic chain reaction. Deals 4d8 arcane damage per rift to all nearby enemies and sunders 25 points of enemy durability and wards.",
       flavorText: "All holes in reality collapsing inward together.",
       source: "talent", class: "Harbinger", treeId: "fate_rift",
       spellType: "ACTIVE", category: "damage",
@@ -1160,15 +1160,15 @@ export const HARBINGER_FATE_RIFT = [
     requires: "fr_t4_multi_rift_capacity",
     spell: {
       name: "Void Entity Dominion",
-      description: "Your maximum Mayhem increases by 6. At 5+ Mayhem, you can phase through solid walls, take 20% less damage, and your attacks cannot be parried.",
+      description: "Your maximum Mayhem increases by 6. At 5+ Mayhem, you can phase through solid walls, gain 4 Damage Reduction, and your attacks cannot be parried.",
       flavorText: "Existing partially beyond physical space.",
       source: "talent", class: "Harbinger", treeId: "fate_rift",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "noclip", "dr", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Max Mayhem +8; take 25% less damage, and attacks ignore 20% of enemy durability." },
-      { description: "Max Mayhem +10; take 30% less damage, attacks ignore 30% of enemy durability and score crits on 19+." }
+      { description: "Max Mayhem +8; gain 6 Damage Reduction, and attacks ignore 20 points of enemy durability." },
+      { description: "Max Mayhem +10; gain 6 Damage Reduction, attacks ignore 30 points of enemy durability and score crits on 19+." }
     ]
   },
 
@@ -1182,7 +1182,7 @@ export const HARBINGER_FATE_RIFT = [
     requires: "fr_t5_event_horizon_implosion",
     spell: {
       name: "The Abyssal Riftway",
-      description: "Spend 7 Mayhem: tear a massive gateway into the Deep Void for 1 minute: all enemies within 60 feet are pulled 15ft toward the gateway each round and take 4d6 arcane damage per round, while all allies gain +30% movement speed.",
+      description: "Spend 7 Mayhem: tear a massive gateway into the Deep Void for 1 minute: all enemies within 60 feet are pulled 15ft toward the gateway each round and take 4d6 arcane damage per round, while all allies gain +30 points movement speed.",
       flavorText: "The doors to the deep dark are thrown wide open.",
       source: "talent", class: "Harbinger", treeId: "fate_rift",
       spellType: "ACTIVE", category: "damage",
@@ -1215,7 +1215,7 @@ export const HARBINGER_FATE_RIFT = [
       visualTheme: "wyrd", tags: ["passive", "crit", "auto-rift", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Critical hits on 17+ and crits deal +25% damage." }
+      { description: "Critical hits on 17+ and crits deal +1d8 bonus damage." }
     ]
   },
   {
@@ -1234,7 +1234,7 @@ export const HARBINGER_FATE_RIFT = [
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "regenerating-shield", "defense", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Ward capacity 60 temp HP, regenerates 15 points per round, and reflects 25% damage." }
+      { description: "Ward capacity 60 temp HP, regenerates 15 points per round, and reflects 25 points damage." }
     ]
   },
 
@@ -1248,7 +1248,7 @@ export const HARBINGER_FATE_RIFT = [
     requires: "fr_t6_the_abyssal_rift",
     spell: {
       name: "Avatar of the Singularity Sovereign",
-      description: "ULTIMATE: Spend 10 Mayhem: collapse all dimensional boundaries for 1 minute: 10 void rifts open across the arena, dealing 8d10 arcane damage every round divided among enemies, you take 35% less damage, and your spells cast instantly.",
+      description: "ULTIMATE: Spend 10 Mayhem: collapse all dimensional boundaries for 1 minute: 10 void rifts open across the arena, dealing 8d10 arcane damage every round divided among enemies, you gain 8 Damage Reduction, and your spells cast instantly.",
       flavorText: "You are the center of the singularity. Nothing escapes.",
       source: "talent", class: "Harbinger", treeId: "fate_rift",
       spellType: "ACTIVE", category: "buff",
@@ -1273,7 +1273,7 @@ export const HARBINGER_FATE_RIFT = [
     requires: "fr_t6_the_abyssal_rift",
     spell: {
       name: "Fate Rift Doctrine",
-      description: "All void, force, and rift damage you deal is increased by 5%.",
+      description: "All void, force, and rift damage you deal is increased by +1d6 damage.",
       flavorText: "The fabric of space tears obediently.",
       source: "talent", class: "Harbinger", treeId: "fate_rift",
       spellType: "PASSIVE", category: "damage",
@@ -1281,10 +1281,10 @@ export const HARBINGER_FATE_RIFT = [
       visualTheme: "wyrd", tags: ["passive", "capstone", "damage", "harbinger"]
     },
     rankUpgrades: [
-      { description: "All void and rift damage increased by 10%." },
-      { description: "All void and rift damage increased by 15%." },
-      { description: "All void and rift damage increased by 20%." },
-      { description: "All void and rift damage increased by 25%, and Void Tear Strike costs 0 mana." }
+      { description: "All void and rift damage increased by +1d6 damage." },
+      { description: "All void and rift damage increased by +1d6 damage." },
+      { description: "All void and rift damage increased by +1d8 damage." },
+      { description: "All void and rift damage increased by +1d8 damage, and Void Tear Strike costs 0 mana." }
     ]
   },
   {
@@ -1338,15 +1338,15 @@ export const HARBINGER_FATE_RIFT = [
     requires: "fr_t6_rift_sanctuary",
     spell: {
       name: "Dimensional Shift Rebirth",
-      description: "While at 3+ Mayhem, lethal damage shifts your body into an active void rift: prevents death, restores 40% health and 30 temp HP, sets Mayhem to 5, and teleports you 40 feet away (cooldown: 180s).",
+      description: "While at 3+ Mayhem, lethal damage shifts your body into an active void rift: prevents death, restores 24 Hit Points and 30 temp HP, sets Mayhem to 5, and teleports you 40 feet away (cooldown: 180s).",
       flavorText: "You slipped into the rift before the executioner finished the swing.",
       source: "talent", class: "Harbinger", treeId: "fate_rift",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "cheat-death", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restore 60% health, 40 temp HP, full Mayhem (cooldown: 120s)." },
-      { description: "Survive lethal damage, restore 75% health, 50 temp HP (cooldown: 90s)." }
+      { description: "Survive lethal damage, restores 36 Hit Points, 40 temp HP, full Mayhem (cooldown: 120s)." },
+      { description: "Survive lethal damage, restores 45 Hit Points, 50 temp HP (cooldown: 90s)." }
     ]
   }
 ];

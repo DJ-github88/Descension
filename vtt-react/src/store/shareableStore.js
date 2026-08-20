@@ -433,8 +433,10 @@ const useShareableStore = create(
       },
 
       addConnection: (fromOrbId, toOrbId, label = '') => {
+        if (!fromOrbId || !toOrbId || fromOrbId === toOrbId) return null;
+        const connections = get().knowledgeConnections || [];
         // Don't create duplicate connections
-        const existing = get().knowledgeConnections.find(
+        const existing = connections.find(
           conn => (conn.fromOrbId === fromOrbId && conn.toOrbId === toOrbId) ||
             (conn.fromOrbId === toOrbId && conn.toOrbId === fromOrbId)
         );
@@ -447,7 +449,7 @@ const useShareableStore = create(
           label
         };
         set(state => ({
-          knowledgeConnections: [...state.knowledgeConnections, newConnection]
+          knowledgeConnections: [...(state.knowledgeConnections || []), newConnection]
         }));
         return newConnection.id;
       },

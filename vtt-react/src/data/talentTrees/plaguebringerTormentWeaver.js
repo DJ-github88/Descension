@@ -29,7 +29,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     requires: null,
     spell: {
       name: "Agony Tether",
-      description: "Shoot a psychic tether binding an enemy within 45 feet to a secondary target within 30 feet of it for 1 minute: whenever the primary target takes damage, the secondary takes 25% of that damage as wyrd damage.",
+      description: "Shoot a psychic tether binding an enemy within 45 feet to a secondary target within 30 feet of it for 1 minute: whenever the primary target takes damage, the secondary takes 25 points of that damage as wyrd damage.",
       flavorText: "Suffering loves company. You arranged the introduction.",
       source: "talent", class: "Plaguebringer", treeId: "torment_weaver",
       spellType: "ACTIVE", category: "debuff",
@@ -43,8 +43,8 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
       visualTheme: "poison", tags: ["link", "damage-share", "wyrd", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Tether shares 25% of all damage and both targets take 1d6 wyrd damage each time the tether echoes.", primaryDamage: { dice: "1d6", flat: 0, procChance: 100 } },
-      { description: "Tether shares 25% of all damage, echoes deal 2d6 wyrd damage, and the tether can bind a 3rd target for 25% shared damage.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } }
+      { description: "Tether shares 25 points of all damage and both targets take 1d6 wyrd damage each time the tether echoes.", primaryDamage: { dice: "1d6", flat: 0, procChance: 100 } },
+      { description: "Tether shares 25 points of all damage, echoes deal 2d6 wyrd damage, and the tether can bind a 3rd target for 25 points shared damage.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -78,14 +78,14 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     requires: null,
     spell: {
       name: "Shared Torment",
-      description: "Whenever a debuff or crowd control effect (slow, stun, silence) is applied to one linked target, all other linked targets suffer 25% of the duration.",
+      description: "Whenever a debuff or crowd control effect (slow, stun, silence) is applied to one linked target, all other linked targets suffer 25 points of the duration.",
       flavorText: "The burden, redistributed.",
       source: "talent", class: "Plaguebringer", treeId: "torment_weaver",
       spellType: "PASSIVE", category: "debuff",
       targetingMode: "self", visualTheme: "poison", tags: ["passive", "link", "cc-share", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Debuffs and CC mirror to all linked targets at 25% of full duration." }
+      { description: "Debuffs and CC mirror to all linked targets at 25 points of full duration." }
     ]
   },
 
@@ -99,7 +99,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     requires: "tw_t1_agony_tether",
     spell: {
       name: "Synaptic Siphon",
-      description: "Spend 2 Virulence: siphon through the psychic web. Deals 2d8 wyrd damage to ALL currently linked targets simultaneously and heals you for 50% of the total damage dealt.",
+      description: "Spend 2 Virulence: siphon through the psychic web. Deals 2d8 wyrd damage to ALL currently linked targets simultaneously and heals you for 50 points of the total damage dealt.",
       flavorText: "Bulk rate for bulk suffering.",
       source: "talent", class: "Plaguebringer", treeId: "torment_weaver",
       spellType: "ACTIVE", category: "healing",
@@ -113,8 +113,8 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
       visualTheme: "poison", tags: ["siphon", "lifesteal", "link", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Deals 3d8 wyrd damage to all linked targets, heals for 50%, and restores 5 mana per linked target hit.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
-      { description: "Deals 3d8 wyrd damage to all linked targets, heals for 50%, restores 10 mana per target, and silences linked targets for 1 round.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
+      { description: "Deals 3d8 wyrd damage to all linked targets, heals for 50 points, and restores 5 mana per linked target hit.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
+      { description: "Deals 3d8 wyrd damage to all linked targets, heals for 50 points, restores 10 mana per target, and silences linked targets for 1 round.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -126,7 +126,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     requires: "tw_t1_resonance_damage",
     spell: {
       name: "Psychic Vulnerability",
-      description: "Linked enemies have their saving throws reduced by -2 and take 15% more damage from all psychic and wyrd sources.",
+      description: "Linked enemies have their saving throws reduced by -2 and suffer +1d6 bonus damage from all psychic and wyrd sources.",
       flavorText: "Their dreams are flammable. You brought a match.",
       source: "talent", class: "Plaguebringer", treeId: "torment_weaver",
       spellType: "PASSIVE", category: "debuff",
@@ -134,8 +134,8 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
       visualTheme: "poison", tags: ["passive", "debuff", "saves", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Linked enemies take -3 on saving throws and take 25% more wyrd damage." },
-      { description: "Linked enemies take -4 on saves, 35% more wyrd damage, and have their durability reduced by -3." }
+      { description: "Linked enemies take -3 on saving throws and take 25 points more wyrd damage." },
+      { description: "Linked enemies take -4 on saves, 35 points more wyrd damage, and have their durability reduced by -3." }
     ]
   },
 
@@ -149,7 +149,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     requires: "tw_t2_synaptic_siphon",
     spell: {
       name: "Torment Web",
-      description: "Spend 3 Virulence: trap up to 4 enemies in a 30-foot area inside an Agony Mesh for 1 minute. All trapped targets are permanently linked together: 25% of damage taken by any one target is dealt to all others.",
+      description: "Spend 3 Virulence: trap up to 4 enemies in a 30-foot area inside an Agony Mesh for 1 minute. All trapped targets are permanently linked together: 25 points of damage taken by any one target is dealt to all others.",
       flavorText: "The web is not a metaphor. It is load-bearing.",
       source: "talent", class: "Plaguebringer", treeId: "torment_weaver",
       spellType: "ACTIVE", category: "debuff",
@@ -163,8 +163,8 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
       visualTheme: "poison", tags: ["link", "aoe-mesh", "web", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Traps up to 5 enemies: damage echoes at 25% among all of them, and webbed targets are slowed by 15ft." },
-      { description: "Traps up to 6 enemies: damage echoes at 25% among all of them, webbed targets are slowed by 25ft, and the web cannot be dispelled." }
+      { description: "Traps up to 5 enemies: damage echoes at 25 points among all of them, and webbed targets are slowed by 15ft." },
+      { description: "Traps up to 6 enemies: damage echoes at 25 points among all of them, webbed targets are slowed by 25ft, and the web cannot be dispelled." }
     ]
   },
   {
@@ -186,7 +186,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     },
     rankUpgrades: [
       { description: "Critical strikes on any link deal 3d8 wyrd damage to all other linked targets.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
-      { description: "Critical strikes on any link deal 4d8 wyrd damage to all other links, and your attacks against linked targets have +20% critical strike chance.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
+      { description: "Critical strikes on any link deal 4d8 wyrd damage to all other links, and your attacks against linked targets have critical hits on a d20 roll of 18-20.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
     ]
   },
 
@@ -229,14 +229,14 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     requires: "tw_t3_cascade_finale",
     spell: {
       name: "Nerve Relay",
-      description: "When an ally damages any linked enemy, that ally heals for 20% of the damage dealt as the psychic feedback siphons vitality.",
+      description: "When an ally damages any linked enemy, that ally heals for for 2d6 Hit Points as the psychic feedback siphons vitality.",
       flavorText: "The blade was not invited. The web delivered anyway.",
       source: "talent", class: "Plaguebringer", treeId: "torment_weaver",
       spellType: "PASSIVE", category: "healing",
       targetingMode: "self", visualTheme: "poison", tags: ["passive", "ally-heal", "link", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Allies heal for 35% of damage dealt to linked targets, and ally critical strikes against links restore 2 Virulence to you." }
+      { description: "Allies heals for for 2d6 Hit Points to linked targets, and ally critical strikes against links restore 2 Virulence to you." }
     ]
   },
 
@@ -300,7 +300,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     requires: "tw_t5_mass_resonance",
     spell: {
       name: "Sympathetic Collapse",
-      description: "Spend 5 Virulence: target one linked enemy. For 2 rounds, 40% of ALL damage taken by that target is duplicated to EVERY other linked target on the field.",
+      description: "Spend 5 Virulence: target one linked enemy. For 2 rounds, 40 points of ALL damage taken by that target is duplicated to EVERY other linked target on the field.",
       flavorText: "One throat cut. All necks bleed.",
       source: "talent", class: "Plaguebringer", treeId: "torment_weaver",
       spellType: "ACTIVE", category: "debuff",
@@ -323,14 +323,14 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     requires: "tw_t5_torment_economy",
     spell: {
       name: "Unbreakable Lattice",
-      description: "While you maintain at least 2 linked targets, you gain +4 Durability Steps to equipped durability, 20% all-damage resistance, and you transfer 25% of all damage you suffer directly to the linked enemies.",
+      description: "While you maintain at least 2 linked targets, you gain +4 Durability Steps to equipped durability, 4 Damage Reduction against all-damage, and you transfer 25 points of all damage you suffer directly to the linked enemies.",
       flavorText: "The architect sits comfortably in the center of the web.",
       source: "talent", class: "Plaguebringer", treeId: "torment_weaver",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "poison", tags: ["passive", "defense", "damage-share", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Gain +6 Durability Steps to equipped durability, 30% resistance, and transfer 40% of damage taken directly into the linked enemies." }
+      { description: "Gain +6 Durability Steps to equipped durability, 6 Damage Reduction, and transfer 40 points of damage taken directly into the linked enemies." }
     ]
   },
   {
@@ -342,14 +342,14 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     requires: "tw_t5_torment_economy",
     spell: {
       name: "Synaptic Overload",
-      description: "Whenever a linked target takes damage from an echo or resonance, it has a 30% chance to be interrupted and lose its current concentration.",
+      description: "Whenever a linked target takes damage from an echo or resonance, it has a 30 points chance to be interrupted and lose its current concentration.",
       flavorText: "It is hard to chant when someone else's teeth are vibrating in your skull.",
       source: "talent", class: "Plaguebringer", treeId: "torment_weaver",
       spellType: "PASSIVE", category: "debuff",
       targetingMode: "self", visualTheme: "poison", tags: ["passive", "interrupt", "link", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Echoes have a 60% chance to interrupt concentration and reduce enemy spell damage by 20% for 1 round." }
+      { description: "Echoes have a 60 points chance to interrupt concentration and reduce enemy spell damage by 20 points for 1 round." }
     ]
   },
 
@@ -363,7 +363,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     requires: "tw_t6_sympathetic_collapse",
     spell: {
       name: "The Grand Puppet",
-      description: "ULTIMATE: Take full control of one linked enemy for 1 minute: the target becomes your Grand Puppet, immediately taking a full turn under your control. While puppeted, 100% of damage dealt to any enemy on the field is dealt to the Puppet, and 100% of damage dealt to the Puppet is dealt to all other enemies.",
+      description: "ULTIMATE: Take full control of one linked enemy for 1 minute: the target becomes your Grand Puppet, immediately taking a full turn under your control. While puppeted, 100 points of damage dealt to any enemy on the field is dealt to the Puppet, and 100 points of damage dealt to the Puppet is dealt to all other enemies.",
       flavorText: "Strings attached. All of them.",
       source: "talent", class: "Plaguebringer", treeId: "torment_weaver",
       spellType: "ACTIVE", category: "utility",
@@ -386,7 +386,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     requires: "tw_t6_sympathetic_collapse",
     spell: {
       name: "Agony Doctrine",
-      description: "Suffering is an exact science. All wyrd damage and resonance echo damage you deal is increased by 10%.",
+      description: "Suffering is an exact science. All wyrd damage and resonance echo damage you deal is increased by +1d6 damage.",
       flavorText: "The master weaver leaves no slack in the line.",
       source: "talent", class: "Plaguebringer", treeId: "torment_weaver",
       spellType: "PASSIVE", category: "damage",
@@ -394,10 +394,10 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
       visualTheme: "poison", tags: ["passive", "capstone", "damage", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "All wyrd and resonance damage increased by 20%." },
-      { description: "All wyrd and resonance damage increased by 35%." },
-      { description: "All wyrd and resonance damage increased by 50%." },
-      { description: "All wyrd and resonance damage increased by 70%, and Agony Tether costs 0 mana." }
+      { description: "All wyrd and resonance damage increased by +1d8 damage." },
+      { description: "All wyrd and resonance damage increased by +1d8 damage." },
+      { description: "All wyrd and resonance damage increased by +2d8 damage." },
+      { description: "All wyrd and resonance damage increased by +2d8 damage, and Agony Tether costs 0 mana." }
     ]
   },
   {
@@ -416,8 +416,8 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
       targetingMode: "self", visualTheme: "poison", tags: ["passive", "capstone", "link-cap", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Maintain up to 5 additional linked targets. Link echo damage ignores 25% of enemy damage resistances." },
-      { description: "Maintain unlimited linked targets. Link echo damage ignores 50% resistance, and all allies gain +15% damage against linked targets." }
+      { description: "Maintain up to 5 additional linked targets. Link echo damage ignores 25 points of enemy damage resistances." },
+      { description: "Maintain unlimited linked targets. Link echo damage ignores 10 Damage Reduction, and all allies gain +15 points damage against linked targets." }
     ]
   },
   {
@@ -451,15 +451,15 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     requires: "tw_t6_synaptic_overload",
     spell: {
       name: "Vampiric Mesh",
-      description: "You and all allies within 30 feet heal for 15% of all resonance and echo damage dealt across the entire network.",
+      description: "You and all allies within 30 feet heal for 15 points of all resonance and echo damage dealt across the entire network.",
       flavorText: "A banquet extracted from the chorus.",
       source: "talent", class: "Plaguebringer", treeId: "torment_weaver",
       spellType: "PASSIVE", category: "healing",
       targetingMode: "self", visualTheme: "poison", tags: ["passive", "capstone", "lifesteal", "party-heal", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Party heals for 25% of all echo damage, and overheal becomes temporary health up to 30." },
-      { description: "Party heals for 40% of all echo damage, overheal becomes temporary health up to 60, and allies gain +2 Durability Steps to equipped durability while at max temp HP." }
+      { description: "Party heals for 25 points of all echo damage, and overheal becomes temporary health up to 30." },
+      { description: "Party heals for 40 points of all echo damage, overheal becomes temporary health up to 60, and allies gain +2 Durability Steps to equipped durability while at max temp HP." }
     ]
   }
 ];

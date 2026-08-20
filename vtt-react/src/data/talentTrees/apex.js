@@ -79,7 +79,7 @@ export const APEX_SHADOWBLADE = [
       visualTheme: "shadow", tags: ["passive", "crit", "bonus-damage", "apex"]
     },
     rankUpgrades: [
-      { description: "At 3+ QM: attacks crit on 18-20, deal +2d6 bonus shadow damage, and ignores 25% of enemy durability." }
+      { description: "At 3+ QM: attacks crit on 18-20, deal +2d6 bonus shadow damage, and ignores 25 points of enemy durability." }
     ]
   },
 
@@ -169,15 +169,15 @@ export const APEX_SHADOWBLADE = [
     requires: "sb_t2_shadow_synergy",
     spell: {
       name: "Lethal Execution",
-      description: "Your attacks against enemies below 40% health deal +35% bonus damage, and kills grant you maximum Quarry Marks.",
+      description: "Your attacks against enemies below half maximum Hit Points deal +35 points bonus damage, and kills grant you maximum Quarry Marks.",
       flavorText: "The wounded animal has no defense against the apex.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "execute", "qm-gain", "apex"]
     },
     rankUpgrades: [
-      { description: "Below 50% health: deal +50% bonus damage and kills grant max QM and 20ft speed." },
-      { description: "Below 50% health: deal +75% bonus damage, kills grant max QM, and your next attack is a guaranteed critical hit." }
+      { description: "below half maximum Hit Points: deal +50 points bonus damage and kills grant max QM and 20ft speed." },
+      { description: "below half maximum Hit Points: deal +75 points bonus damage, kills grant max QM, and your next attack is a guaranteed critical hit." }
     ]
   },
 
@@ -216,14 +216,14 @@ export const APEX_SHADOWBLADE = [
     requires: "sb_t3_stalker_execute",
     spell: {
       name: "Apex Ambush",
-      description: "When attacking from stealth, your attacks ignores 50% of enemy durability and shields, and you cannot miss.",
+      description: "When attacking from stealth, your attacks ignores 50 points of enemy durability and shields, and you cannot miss.",
       flavorText: "Strikes planned in stillness cannot be parried.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "penetration", "true-strike", "apex"]
     },
     rankUpgrades: [
-      { description: "Stealth attacks ignores 100% of enemy durability/shields, deal triple critical damage, and silence the target for 1 round." }
+      { description: "Stealth attacks ignores 100 points of enemy durability/shields, deal triple critical damage, and silence the target for 1 round." }
     ]
   },
 
@@ -263,15 +263,15 @@ export const APEX_SHADOWBLADE = [
     requires: "sb_t4_ambush_mastery",
     spell: {
       name: "Gloom Leech",
-      description: "All shadow damage dealt by you and your companion heals you for 30% of the damage dealt. Overheal becomes temporary health up to 40.",
+      description: "All shadow damage dealt by you and your companion heals you for 30 points of the damage dealt. Overheal becomes temporary health up to 40.",
       flavorText: "The darkness restores what the hunt takes.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "PASSIVE", category: "healing",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "lifesteal", "sustain", "apex"]
     },
     rankUpgrades: [
-      { description: "Heal for 50% of shadow damage; temp health caps at 70." },
-      { description: "Heal for 75% of shadow damage; temp health caps at 100, and you gain +2 Durability Steps to equipped durability while at max temp HP." }
+      { description: "Heal for 50 points of shadow damage; temp health caps at 70." },
+      { description: "Heal for 75 points of shadow damage; temp health caps at 100, and you gain +2 Durability Steps to equipped durability while at max temp HP." }
     ]
   },
 
@@ -285,7 +285,7 @@ export const APEX_SHADOWBLADE = [
     requires: "sb_t5_glaive_dance",
     spell: {
       name: "Shadow Entity",
-      description: "Spend 5 QM: merge into the ironwood night for 1 minute: all your attacks are completely silent, you phase through solid walls, gain 50% movement speed, and all your glaive attacks deal maximum possible damage dice.",
+      description: "Spend 5 QM: merge into the ironwood night for 1 minute: all your attacks are completely silent, you phase through solid walls, gain 50 points movement speed, and all your glaive attacks deal maximum possible damage dice.",
       flavorText: "Frostwood legends tell of hunters who become the night itself.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "ACTIVE", category: "buff",
@@ -308,7 +308,7 @@ export const APEX_SHADOWBLADE = [
     requires: "sb_t5_shadow_vitality",
     spell: {
       name: "Severing Shadow",
-      description: "Your critical hits with glaive attacks inflict deep shadow severance: deals an extra 4d8 shadow bleed over 2 rounds and reduces target damage output by 30%.",
+      description: "Your critical hits with glaive attacks inflict deep shadow severance: deals an extra 4d8 shadow bleed over 2 rounds and reduces target damage output by 30 points.",
       flavorText: "A cut that bleeds soul rather than blood.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "PASSIVE", category: "damage",
@@ -316,7 +316,7 @@ export const APEX_SHADOWBLADE = [
       visualTheme: "shadow", tags: ["passive", "crit-bleed", "debuff", "apex"]
     },
     rankUpgrades: [
-      { description: "Bleed deals 6d8 shadow damage, reduces enemy damage by 50%, and target is slowed by 25ft." }
+      { description: "Bleed deals 6d8 shadow damage, reduces enemy damage by 50 points, and target is slowed by 25ft." }
     ]
   },
   {
@@ -328,14 +328,14 @@ export const APEX_SHADOWBLADE = [
     requires: "sb_t5_shadow_vitality",
     spell: {
       name: "Slip the Grasp",
-      description: "Whenever you take damage from an enemy, you have a 40% chance to immediately vanish into stealth and gain a 30-damage shadow shield.",
+      description: "Whenever you take damage from an enemy, you have a 40 points chance to immediately vanish into stealth and gain a 30-damage shadow shield.",
       flavorText: "Hitting a shadow only bruises the fist.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "auto-stealth", "defense", "apex"]
     },
     rankUpgrades: [
-      { description: "75% chance on damage to vanish into stealth, gain 60 shadow shield, and teleport 15ft away." }
+      { description: "75 points chance on damage to vanish into stealth, gain 60 shadow shield, and teleport 15ft away." }
     ]
   },
 
@@ -372,7 +372,7 @@ export const APEX_SHADOWBLADE = [
     requires: "sb_t6_shadow_assassin",
     spell: {
       name: "Shadowblade Doctrine",
-      description: "All shadow and glaive damage you deal is increased by 10%.",
+      description: "All shadow and glaive damage you deal is increased by +1d6 damage.",
       flavorText: "The shadow blade cuts clean through iron and soul.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "PASSIVE", category: "damage",
@@ -380,10 +380,10 @@ export const APEX_SHADOWBLADE = [
       visualTheme: "shadow", tags: ["passive", "capstone", "damage", "apex"]
     },
     rankUpgrades: [
-      { description: "All shadow/glaive damage increased by 20%." },
-      { description: "All shadow/glaive damage increased by 35%." },
-      { description: "All shadow/glaive damage increased by 50%." },
-      { description: "All shadow/glaive damage increased by 70%, and Shadow Strike costs 0 mana." }
+      { description: "All shadow/glaive damage increased by +1d8 damage." },
+      { description: "All shadow/glaive damage increased by +1d8 damage." },
+      { description: "All shadow/glaive damage increased by +2d8 damage." },
+      { description: "All shadow/glaive damage increased by +2d8 damage, and Shadow Strike costs 0 mana." }
     ]
   },
   {
@@ -395,7 +395,7 @@ export const APEX_SHADOWBLADE = [
     requires: "sb_t6_phantom_crits",
     spell: {
       name: "Apex Quarry Reservoir",
-      description: "Your maximum Quarry Marks increase by 5. In combat, you generate 2 QM at the start of every turn.",
+      description: "Whenever you spend Quarry Marks, you have a chance on a d20 roll of 15+ to immediately regain 1 Quarry Marks. In combat, you generate 2 QM at the start of every turn.",
       flavorText: "A predator never loses the scent.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "PASSIVE", category: "utility",
@@ -415,15 +415,15 @@ export const APEX_SHADOWBLADE = [
     requires: "sb_t6_phantom_crits",
     spell: {
       name: "Throat Cutter",
-      description: "When attacking from stealth, your strikes have a 15% chance to instantly execute non-boss targets regardless of health.",
+      description: "When attacking from stealth, your strikes have a 15 points chance to instantly execute non-boss targets regardless of health.",
       flavorText: "No sound. No struggle. Just an ending.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "capstone", "instant-kill", "apex"]
     },
     rankUpgrades: [
-      { description: "25% chance to instantly execute from stealth; against bosses deals +10d10 bonus true damage." },
-      { description: "40% chance to execute from stealth; against bosses deals +20d10 true damage and refunds full QM." }
+      { description: "25 points chance to instantly execute from stealth; against bosses deals +10d10 bonus true damage." },
+      { description: "40 points chance to execute from stealth; against bosses deals +20d10 true damage and refunds full QM." }
     ]
   },
   {
@@ -435,15 +435,15 @@ export const APEX_SHADOWBLADE = [
     requires: "sb_t6_vanishing_act",
     spell: {
       name: "Shadowform Rebirth",
-      description: "While at 3+ QM, lethal damage dissolves you into pure gloom instead: prevents death, restores 50% health, places you in stealth, and teleports you 30 feet away (cooldown: 120s).",
+      description: "While at 3+ QM, lethal damage dissolves you into pure gloom instead: prevents death, restores 30 Hit Points, places you in stealth, and teleports you 30 feet away (cooldown: 120s).",
       flavorText: "You cannot execute a shadow.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "capstone", "cheat-death", "apex"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restore 75% health, gain max QM, and vanish with 50 temp HP (cooldown: 90s)." },
-      { description: "Survive lethal damage, restore 100% health, max QM, and immediately cast Shadow Glaive Dance for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 45 Hit Points, gain max QM, and vanish with 50 temp HP (cooldown: 90s)." },
+      { description: "Survive lethal damage, restores 60 Hit Points, max QM, and immediately cast Shadow Glaive Dance for free (cooldown: 60s)." }
     ]
   }
 ];
@@ -476,8 +476,8 @@ export const APEX_BLADESTORM = [
       visualTheme: "physical", tags: ["chain", "ricochet", "multi-target", "apex"]
     },
     rankUpgrades: [
-      { description: "Bounces to up to 4 enemies for 3d8 damage each and ignores 20% of enemy durability.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
-      { description: "Bounces to up to 6 enemies for 4d8 damage each, ignores 40% of enemy durability, and causes bleed for 1d6 per round.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
+      { description: "Bounces to up to 4 enemies for 3d8 damage each and ignores 20 points of enemy durability.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
+      { description: "Bounces to up to 6 enemies for 4d8 damage each, ignores 40 points of enemy durability, and causes bleed for 1d6 per round.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -516,7 +516,7 @@ export const APEX_BLADESTORM = [
       targetingMode: "self", visualTheme: "physical", tags: ["passive", "range", "apex"]
     },
     rankUpgrades: [
-      { description: "Bounce distance +25 feet, attack range +30 feet, and glaive attacks pierces 20% of enemy durability." }
+      { description: "Bounce distance +25 feet, attack range +30 feet, and glaive attacks ignores up to 4 points of enemy Armor." }
     ]
   },
 
@@ -564,8 +564,8 @@ export const APEX_BLADESTORM = [
       targetingMode: "self", visualTheme: "physical", tags: ["passive", "chain-amp", "free-cast", "apex"]
     },
     rankUpgrades: [
-      { description: "Bouncing to 3+ foes makes next cast free, adds +3 bounces, and deals +30% damage." },
-      { description: "Bouncing to 3+ foes makes next cast free, adds +4 bounces, deals +50% damage, and refunds 2 QM." }
+      { description: "Bouncing to 3+ foes makes next cast free, adds +3 bounces, and deals +30 points damage." },
+      { description: "Bouncing to 3+ foes makes next cast free, adds +4 bounces, deals +50 points damage, and refunds 2 QM." }
     ]
   },
 
@@ -614,8 +614,8 @@ export const APEX_BLADESTORM = [
       targetingMode: "self", visualTheme: "physical", tags: ["passive", "sunder", "durability-sunder", "apex"]
     },
     rankUpgrades: [
-      { description: "Bounces reduce durability by -3 (stacks up to -12) and +20% damage taken." },
-      { description: "Bounces reduce durability by -4 (stacks up to -16), +30% damage taken, and shatter physical shields completely." }
+      { description: "Bounces reduce durability by -3 (stacks up to -12) and +20 points damage taken." },
+      { description: "Bounces reduce durability by -4 (stacks up to -16), +30 points damage taken, and shatter physical shields completely." }
     ]
   },
 
@@ -663,7 +663,7 @@ export const APEX_BLADESTORM = [
       targetingMode: "self", visualTheme: "physical", tags: ["passive", "dual-target", "bounce-loop", "apex"]
     },
     rankUpgrades: [
-      { description: "Glaives can bounce between 2 targets up to 8 times, with each consecutive bounce dealing +25% more damage." }
+      { description: "Glaives can bounce between 2 targets up to 8 times, with each consecutive bounce dealing ++1d6 bonus damage." }
     ]
   },
 
@@ -774,7 +774,7 @@ export const APEX_BLADESTORM = [
       targetingMode: "self", visualTheme: "physical", tags: ["passive", "crowd-durability", "defense", "apex"]
     },
     rankUpgrades: [
-      { description: "Gain +2 Durability Steps to equipped durability per nearby enemy (up to +14 Durability Steps to equipped durability) and 25% all-damage resistance." }
+      { description: "Gain +2 Durability Steps to equipped durability per nearby enemy (up to +14 Durability Steps to equipped durability) and 6 Damage Reduction against all-damage." }
     ]
   },
 
@@ -788,7 +788,7 @@ export const APEX_BLADESTORM = [
     requires: "bs_t6_the_grand_bladestorm",
     spell: {
       name: "Typhoon of Thousand Glaives",
-      description: "ULTIMATE: Spend 8 QM: summon a permanent orbiting storm of 100 ironwood glaives for 1 minute: automatically attacks all enemies within 50 feet for 10d10 physical damage every round, completely destroys enemy durability, and parries 100% of all incoming attacks.",
+      description: "ULTIMATE: Spend 8 QM: summon a permanent orbiting storm of 100 ironwood glaives for 1 minute: automatically attacks all enemies within 50 feet for 10d10 physical damage every round, completely destroys enemy durability, and parries 100 points of all incoming attacks.",
       flavorText: "The sky belongs to the spinning wood.",
       source: "talent", class: "Apex", treeId: "bladestorm",
       spellType: "ACTIVE", category: "damage",
@@ -813,7 +813,7 @@ export const APEX_BLADESTORM = [
     requires: "bs_t6_the_grand_bladestorm",
     spell: {
       name: "Bladestorm Doctrine",
-      description: "All physical and multi-target glaive damage you deal is increased by 10%.",
+      description: "All physical and multi-target glaive damage you deal is increased by +1d6 damage.",
       flavorText: "The blade that never stops cutting.",
       source: "talent", class: "Apex", treeId: "bladestorm",
       spellType: "PASSIVE", category: "damage",
@@ -821,10 +821,10 @@ export const APEX_BLADESTORM = [
       visualTheme: "physical", tags: ["passive", "capstone", "damage", "apex"]
     },
     rankUpgrades: [
-      { description: "All multi-target glaive damage increased by 20%." },
-      { description: "All multi-target glaive damage increased by 35%." },
-      { description: "All multi-target glaive damage increased by 50%." },
-      { description: "All multi-target glaive damage increased by 70%, and Ricochet Glaive costs 0 mana." }
+      { description: "All multi-target glaive damage increased by +1d8 damage." },
+      { description: "All multi-target glaive damage increased by +1d8 damage." },
+      { description: "All multi-target glaive damage increased by +2d8 damage." },
+      { description: "All multi-target glaive damage increased by +2d8 damage, and Ricochet Glaive costs 0 mana." }
     ]
   },
   {
@@ -843,8 +843,8 @@ export const APEX_BLADESTORM = [
       targetingMode: "self", visualTheme: "physical", tags: ["passive", "capstone", "bounce-boost", "apex"]
     },
     rankUpgrades: [
-      { description: "Bounces +5 additional times; each bounce increases damage by +10% over the previous hit." },
-      { description: "Bounces +8 additional times; each bounce increases damage by +20% and applies bleed." }
+      { description: "Bounces +5 additional times; each bounce increases damage by +10 points over the previous hit." },
+      { description: "Bounces +8 additional times; each bounce increases damage by +20 points and applies bleed." }
     ]
   },
   {
@@ -876,15 +876,15 @@ export const APEX_BLADESTORM = [
     requires: "bs_t6_steel_tempest",
     spell: {
       name: "Ironwood Reflex Rebirth",
-      description: "While in combat, lethal damage deflects off your spinning blades instead: restores 50% health, grants 40 temporary health, and automatically activates Whirling Cyclone for free (cooldown: 120s).",
+      description: "While in combat, lethal damage deflects off your spinning blades instead: restores 30 Hit Points, grants 40 temporary health, and automatically activates Whirling Cyclone for free (cooldown: 120s).",
       flavorText: "You cannot touch the center of a whirlwind.",
       source: "talent", class: "Apex", treeId: "bladestorm",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "physical", tags: ["passive", "capstone", "cheat-death", "apex"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restore 75% health, 60 temp HP, and gain full QM (cooldown: 90s)." },
-      { description: "Survive lethal damage, restore 100% health, and immediately activate The Grand Bladestorm for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 45 Hit Points, 60 temp HP, and gain full QM (cooldown: 90s)." },
+      { description: "Survive lethal damage, restores 60 Hit Points, and immediately activate The Grand Bladestorm for free (cooldown: 60s)." }
     ]
   }
 ];
@@ -930,15 +930,15 @@ export const APEX_BEASTMASTER = [
     requires: null,
     spell: {
       name: "Bonded Vigor",
-      description: "You and your companion gain +20% maximum health, +2 Durability Steps to equipped durability, and regenerate 1d4 health per round in combat.",
+      description: "You and your companion gain +20 points maximum health, +2 Durability Steps to equipped durability, and regenerate 1d4 health per round in combat.",
       flavorText: "Shared vitality forged in the frozen woods.",
       source: "talent", class: "Apex", treeId: "beastmaster",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "physical", tags: ["passive", "health", "durability", "sustain", "apex"]
     },
     rankUpgrades: [
-      { description: "+35% maximum health, +4 Durability Steps to equipped durability, and regenerate 2d4 health per round." },
-      { description: "+50% maximum health, +6 Durability Steps to equipped durability, regenerate 3d4 health, and companion revives automatically 1 round after falling." }
+      { description: "+35 points maximum health, +4 Durability Steps to equipped durability, and regenerate 2d4 health per round." },
+      { description: "+50 points maximum health, +6 Durability Steps to equipped durability, regenerate 3d4 health, and companion revives automatically 1 round after falling." }
     ]
   },
   {
@@ -1000,15 +1000,15 @@ export const APEX_BEASTMASTER = [
     requires: "bm_t1_primal_vigor",
     spell: {
       name: "Symbiotic Armor",
-      description: "You and your companion take 20% less damage from all sources, and 30% of all damage you take is redirected to your companion.",
+      description: "You and your companion gain 4 Damage Reduction from all sources, and 30 points of all damage you take is redirected to your companion.",
       flavorText: "Two bodies, one defensive shell.",
       source: "talent", class: "Apex", treeId: "beastmaster",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "physical", tags: ["passive", "dr", "damage-transfer", "apex"]
     },
     rankUpgrades: [
-      { description: "Take 30% less damage; companion takes 50% less AoE damage." },
-      { description: "Take 40% less damage; companion is immune to all crowd control and critical hits." }
+      { description: "gain 6 Damage Reduction; companion takes 50 points less AoE damage." },
+      { description: "gain 8 Damage Reduction; companion is immune to all crowd control and critical hits." }
     ]
   },
 
@@ -1073,7 +1073,7 @@ export const APEX_BEASTMASTER = [
     requires: "bm_t3_savage_pounce",
     spell: {
       name: "Alpha Pack Call",
-      description: "Spend 4 QM: summon 3 secondary hunting beasts to join your primary companion for 3 rounds. All beasts attack the primary target for 6d8 damage each round and grant the entire party +20% movement speed.",
+      description: "Spend 4 QM: summon 3 secondary hunting beasts to join your primary companion for 3 rounds. All beasts attack the primary target for 6d8 damage each round and grant the entire party +20 points movement speed.",
       flavorText: "The pack answers the true alpha.",
       source: "talent", class: "Apex", treeId: "beastmaster",
       spellType: "ACTIVE", category: "damage",
@@ -1087,8 +1087,8 @@ export const APEX_BEASTMASTER = [
       visualTheme: "physical", tags: ["summon", "pack", "party-buff", "apex"]
     },
     rankUpgrades: [
-      { description: "Summons 4 beasts dealing 8d8 damage per round and party deals +15% damage.", cooldownValue: 16 },
-      { description: "Summons 5 beasts dealing 10d8 damage per round, party deals +25% damage, and beasts take attacks meant for allies.", cooldownValue: 12 }
+      { description: "Summons 4 beasts dealing 8d8 damage per round and party deals +15 points damage.", cooldownValue: 16 },
+      { description: "Summons 5 beasts dealing 10d8 damage per round, party deals +25 points damage, and beasts take attacks meant for allies.", cooldownValue: 12 }
     ]
   },
   {
@@ -1100,14 +1100,14 @@ export const APEX_BEASTMASTER = [
     requires: "bm_t3_feral_frenzy",
     spell: {
       name: "Wide Swipe",
-      description: "All companion melee attacks cleave in a 15-foot arc, dealing 100% full damage to all adjacent enemies.",
+      description: "All companion melee attacks cleave in a 15-foot arc, dealing 100 points full damage to all adjacent enemies.",
       flavorText: "Claws broad enough to strike three at once.",
       source: "talent", class: "Apex", treeId: "beastmaster",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", visualTheme: "physical", tags: ["passive", "cleave", "companion", "apex"]
     },
     rankUpgrades: [
-      { description: "Cleave radius 20 feet, deals 100% damage, and knocks all hit enemies back 10 feet." }
+      { description: "Cleave radius 20 feet, deals 100 points damage, and knocks all hit enemies back 10 feet." }
     ]
   },
 
@@ -1121,7 +1121,7 @@ export const APEX_BEASTMASTER = [
     requires: "bm_t4_pack_rally",
     spell: {
       name: "Bestial Overdrive",
-      description: "Spend 4 QM: enrage your companion for 3 rounds: companion grows to giant size, gains +6 Durability Steps to equipped durability, double attack speed, 50% damage reduction, and its attacks deal double damage.",
+      description: "Spend 4 QM: enrage your companion for 3 rounds: companion grows to giant size, gains +6 Durability Steps to equipped durability, double attack speed, 50 points damage reduction, and its attacks deal double damage.",
       flavorText: "The bloodline of the apex awakened in full fury.",
       source: "talent", class: "Apex", treeId: "beastmaster",
       spellType: "ACTIVE", category: "buff",
@@ -1145,15 +1145,15 @@ export const APEX_BEASTMASTER = [
     requires: "bm_t4_beast_cleave",
     spell: {
       name: "Pack Bloodlust",
-      description: "Whenever your companion kills an enemy, you and all allies gain +25% attack speed and +2d6 damage for 2 rounds.",
+      description: "Whenever your companion kills an enemy, you and all allies gain +25 points attack speed and +2d6 damage for 2 rounds.",
       flavorText: "A successful kill elevates the whole pack.",
       source: "talent", class: "Apex", treeId: "beastmaster",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "physical", tags: ["passive", "haste", "party-buff", "apex"]
     },
     rankUpgrades: [
-      { description: "Kills grant +40% speed and +3d6 damage for 3 rounds." },
-      { description: "Kills grant +60% speed, +4d6 damage, and refund 1 Action Point to all party members." }
+      { description: "Kills grant +40 points speed and +3d6 damage for 3 rounds." },
+      { description: "Kills grant +60 points speed, +4d6 damage, and refund 1 Action Point to all party members." }
     ]
   },
 
@@ -1254,7 +1254,7 @@ export const APEX_BEASTMASTER = [
     requires: "bm_t6_dual_apex_fury",
     spell: {
       name: "Beastmaster Doctrine",
-      description: "All physical, companion, and coordinated strike damage you deal is increased by 10%.",
+      description: "All physical, companion, and coordinated strike damage you deal is increased by +1d6 damage.",
       flavorText: "Two hearts beating as one weapon.",
       source: "talent", class: "Apex", treeId: "beastmaster",
       spellType: "PASSIVE", category: "damage",
@@ -1262,10 +1262,10 @@ export const APEX_BEASTMASTER = [
       visualTheme: "physical", tags: ["passive", "capstone", "damage", "apex"]
     },
     rankUpgrades: [
-      { description: "All companion damage increased by 20%." },
-      { description: "All companion damage increased by 35%." },
-      { description: "All companion damage increased by 50%." },
-      { description: "All companion damage increased by 70%, and Pack Command Strike costs 0 mana." }
+      { description: "All companion damage increased by +1d8 damage." },
+      { description: "All companion damage increased by +1d8 damage." },
+      { description: "All companion damage increased by +2d8 damage." },
+      { description: "All companion damage increased by +2d8 damage, and Pack Command Strike costs 0 mana." }
     ]
   },
   {
@@ -1277,15 +1277,15 @@ export const APEX_BEASTMASTER = [
     requires: "bm_t6_telepathic_link",
     spell: {
       name: "Unbreakable Pack Bond",
-      description: "Your companion cannot be permanently killed. When reduced to 0 HP, it enters spectral form for 1 round and regenerates to 50% HP automatically.",
+      description: "Your companion cannot be permanently killed. When reduced to 0 HP, it enters spectral form for 1 round and regenerates to 50 points HP automatically.",
       flavorText: "A bond that defies mortality.",
       source: "talent", class: "Apex", treeId: "beastmaster",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "physical", tags: ["passive", "capstone", "undying-pet", "apex"]
     },
     rankUpgrades: [
-      { description: "Companion regenerates to 75% HP and grants you 30 temporary health upon revival." },
-      { description: "Companion regenerates to 100% HP instantly with 0 delay and triggers Apex Beast Roar automatically for free." }
+      { description: "Companion regenerates to 75 points HP and grants you 30 temporary health upon revival." },
+      { description: "Companion regenerates to 100 points HP instantly with 0 delay and triggers Apex Beast Roar automatically for free." }
     ]
   },
   {
@@ -1304,7 +1304,7 @@ export const APEX_BEASTMASTER = [
       targetingMode: "self", visualTheme: "physical", tags: ["passive", "capstone", "crit-chain", "apex"]
     },
     rankUpgrades: [
-      { description: "Guaranteed critical hits deal +50% bonus critical damage and refund 1 QM." },
+      { description: "Guaranteed critical hits deal +50 points bonus critical damage and refund 1 QM." },
       { description: "Guaranteed critical hits deal double damage, refund 2 QM, and reset Savage Pounce cooldown." }
     ]
   },
@@ -1317,15 +1317,15 @@ export const APEX_BEASTMASTER = [
     requires: "bm_t6_primal_roar_defense",
     spell: {
       name: "Bonded Sacrifice Rebirth",
-      description: "While companion is alive, lethal damage is absorbed by companion instead: restores 50% health, grants 50 temp HP, and activates Bestial Overdrive for free (cooldown: 120s).",
+      description: "While companion is alive, lethal damage is absorbed by companion instead: restores 30 Hit Points, grants 50 temp HP, and activates Bestial Overdrive for free (cooldown: 120s).",
       flavorText: "The beast holds the door against the final dark.",
       source: "talent", class: "Apex", treeId: "beastmaster",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "physical", tags: ["passive", "capstone", "cheat-death", "apex"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restore 75% health, 75 temp HP, and gain max QM (cooldown: 90s)." },
-      { description: "Survive lethal damage, restore 100% health, gain max QM, and immediately trigger Avatar of the Beast Sovereign for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 45 Hit Points, 75 temp HP, and gain max QM (cooldown: 90s)." },
+      { description: "Survive lethal damage, restores 60 Hit Points, gain max QM, and immediately trigger Avatar of the Beast Sovereign for free (cooldown: 60s)." }
     ]
   }
 ];

@@ -225,7 +225,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     requires: "sa_t3_runic_matrix",
     spell: {
       name: "Sphere Network",
-      description: "While your Runic Matrix is active, single-target spells cast through it also strike 1 additional target within 30 feet of the primary target at 50% damage.",
+      description: "While your Runic Matrix is active, single-target spells cast through it also strike 1 additional target within 30 feet of the primary target at 50 points damage.",
       flavorText: "Networking. The spheres hate it. It works.",
       source: "talent", class: "Arcanoneer", treeId: "sphere_architect",
       spellType: "PASSIVE", category: "damage",
@@ -233,8 +233,8 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
       visualTheme: "arcane", tags: ["passive", "multi-target", "matrix", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Matrix-amplified single-target spells strike 2 additional targets within 30 feet at 50% damage each." },
-      { description: "Matrix-amplified single-target spells strike 3 additional targets within 45 feet at 50% damage each." }
+      { description: "Matrix-amplified single-target spells strike 2 additional targets within 30 feet at 50 points damage each." },
+      { description: "Matrix-amplified single-target spells strike 3 additional targets within 45 feet at 50 points damage each." }
     ]
   },
   {
@@ -433,7 +433,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     requires: "sa_t6_rune_optimization",
     spell: {
       name: "Matrix Lattice",
-      description: "While any Runic Matrix is active: gain +1 Durability Steps to equipped durability and 5% resistance to all damage per active matrix. When a matrix expires or is replaced, it detonates for 1d8 arcane damage to all enemies within its area.",
+      description: "While any Runic Matrix is active: gain +1 Durability Steps to equipped durability and 2 Damage Reduction to all damage per active matrix. When a matrix expires or is replaced, it detonates for 1d8 arcane damage to all enemies within its area.",
       flavorText: "The architecture defends its tenant. And evicts its guests.",
       source: "talent", class: "Arcanoneer", treeId: "sphere_architect",
       spellType: "PASSIVE", category: "buff",
@@ -442,8 +442,8 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
       visualTheme: "arcane", tags: ["passive", "capstone", "defense", "matrix", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "+2 Durability Steps to equipped durability and 10% resistance per active matrix. Expiring matrices detonate for 2d8 arcane to enemies within.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } },
-      { description: "+3 Durability Steps to equipped durability and 15% resistance per active matrix. Expiring matrices detonate for 3d8. Crystal Bastion's shield absorbs 25% more damage.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
+      { description: "+2 Durability Steps to equipped durability and 2 Damage Reduction per active matrix. Expiring matrices detonate for 2d8 arcane to enemies within.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } },
+      { description: "+3 Durability Steps to equipped durability and 4 Damage Reduction per active matrix. Expiring matrices detonate for 3d8. Crystal Bastion's shield absorbs 25% more damage.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
     ]
   },
   {

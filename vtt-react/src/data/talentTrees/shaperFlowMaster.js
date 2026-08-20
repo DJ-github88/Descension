@@ -80,14 +80,14 @@ export const SHAPER_FLOW_MASTER = [
     requires: null,
     spell: {
       name: "Momentum Reserve",
-      description: "Your Kinetic Flux decays 50% slower, and you gain +1 Durability Steps to equipped durability for every 3 Flux you currently maintain.",
+      description: "Your Kinetic Flux decays 50 points slower, and you gain +1 Durability Steps to equipped durability for every 3 Flux you currently maintain.",
       flavorText: "The bridge remembers every crossing.",
       source: "talent", class: "Shaper", treeId: "flow_master",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "primal", tags: ["passive", "flux", "durability", "shaper"]
     },
     rankUpgrades: [
-      { description: "Flux does not decay outside of combat; gain +1 Durability Steps to equipped durability and +5% all-damage resistance for every 2 Flux maintained." }
+      { description: "Flux does not decay outside of combat; gain +1 Durability Steps to equipped durability and +2 Damage Reduction against all-damage for every 2 Flux maintained." }
     ]
   },
 
@@ -115,8 +115,8 @@ export const SHAPER_FLOW_MASTER = [
       visualTheme: "primal", tags: ["combo", "melee", "flux-builder", "shaper"]
     },
     rankUpgrades: [
-      { description: "Deals 3d8 slicing damage, generates 3 Flux, and pierces 20% of enemy durability.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
-      { description: "Deals 4d8 slicing damage, generates 3 Flux, pierces 40% of enemy durability, and knocks target prone.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
+      { description: "Deals 3d8 slicing damage, generates 3 Flux, and ignores up to 4 points of enemy Armor.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
+      { description: "Deals 4d8 slicing damage, generates 3 Flux, ignores up to 4 points of enemy Armor, and knocks target prone.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -135,8 +135,8 @@ export const SHAPER_FLOW_MASTER = [
       targetingMode: "self", visualTheme: "primal", tags: ["passive", "combo", "action-economy", "shaper"]
     },
     rankUpgrades: [
-      { description: "Form transitions give +3d6 bonus damage, refund 1 AP, and increase critical chance by 10%." },
-      { description: "Form transitions give +4d6 bonus damage, refund 1 AP twice per turn, and increase critical chance by 15%." }
+      { description: "Form transitions give +3d6 bonus damage, refund 1 AP, and increase critical chance by 10 points." },
+      { description: "Form transitions give +4d6 bonus damage, refund 1 AP twice per turn, and increase critical chance by 15 points." }
     ]
   },
 
@@ -273,15 +273,15 @@ export const SHAPER_FLOW_MASTER = [
     requires: "fm_t4_toll_dancer",
     spell: {
       name: "Eternal Momentum",
-      description: "Your Kinetic Flux cannot decay below 4 in combat. While at 6 or more Flux, all your physical damage is increased by 25% and you gain 15% lifesteal.",
+      description: "Your Kinetic Flux cannot decay below 4 in combat. While at 6 or more Flux, all your physical damage is increased by +1d8 damage and you gain heals you for 2d6 Hit Points on hit.",
       flavorText: "Every wave adds to the permanent tide.",
       source: "talent", class: "Shaper", treeId: "flow_master",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "primal", tags: ["passive", "flux-floor", "lifesteal", "shaper"]
     },
     rankUpgrades: [
-      { description: "Flux cannot decay below 6; +35% physical damage and 25% lifesteal at 6+ Flux." },
-      { description: "Flux cannot decay below 8; +50% physical damage, 35% lifesteal, and you take 20% less damage from all sources." }
+      { description: "Flux cannot decay below 6; +35 points physical damage and heals you for 2d6 Hit Points on hit at 6+ Flux." },
+      { description: "Flux cannot decay below 8; +50 points physical damage, heals you for 2d6 Hit Points on hit, and you gain 4 Damage Reduction from all sources." }
     ]
   },
 
@@ -295,7 +295,7 @@ export const SHAPER_FLOW_MASTER = [
     requires: "fm_t5_torrential_barrage",
     spell: {
       name: "Water Ascendant",
-      description: "Spend 6 Flux: transform into a living kinetic elemental for 1 minute: you take 40% less physical and magical damage, and you can teleport 30 feet as a free action once per turn.",
+      description: "Spend 6 Flux: transform into a living kinetic elemental for 1 minute: you take 40 points less physical and magical damage, and you can teleport 30 feet as a free action once per turn.",
       flavorText: "Try to grasp a river. The river files a complaint.",
       source: "talent", class: "Shaper", treeId: "flow_master",
       spellType: "ACTIVE", category: "buff",
@@ -344,7 +344,7 @@ export const SHAPER_FLOW_MASTER = [
       targetingMode: "self", visualTheme: "primal", tags: ["passive", "triple-form", "shaper"]
     },
     rankUpgrades: [
-      { description: "Blend 3 forms freely; all form abilities deal +30% damage and cost 1 less Flux." }
+      { description: "Blend 3 forms freely; all form abilities deal +1d8 bonus damage and cost 1 less Flux." }
     ]
   },
 
@@ -383,7 +383,7 @@ export const SHAPER_FLOW_MASTER = [
     requires: "fm_t6_water_ascendant",
     spell: {
       name: "Flow Master Doctrine",
-      description: "The current cannot be halted. All physical, cold, and form ability damage you deal is increased by 10%.",
+      description: "The current cannot be halted. All physical, cold, and form ability damage you deal is increased by +1d6 damage.",
       flavorText: "Water shaped by will is sharper than steel.",
       source: "talent", class: "Shaper", treeId: "flow_master",
       spellType: "PASSIVE", category: "damage",
@@ -391,10 +391,10 @@ export const SHAPER_FLOW_MASTER = [
       visualTheme: "primal", tags: ["passive", "capstone", "damage", "shaper"]
     },
     rankUpgrades: [
-      { description: "All form and physical damage increased by 20%." },
-      { description: "All form and physical damage increased by 35%." },
-      { description: "All form and physical damage increased by 50%." },
-      { description: "All form and physical damage increased by 70%, and Fluid Transition grants 6 Flux." }
+      { description: "All form and physical damage increased by +1d8 damage." },
+      { description: "All form and physical damage increased by +1d8 damage." },
+      { description: "All form and physical damage increased by +2d8 damage." },
+      { description: "All form and physical damage increased by +2d8 damage, and Fluid Transition grants 6 Flux." }
     ]
   },
   {
@@ -433,7 +433,7 @@ export const SHAPER_FLOW_MASTER = [
       targetingMode: "self", visualTheme: "primal", tags: ["passive", "capstone", "crit", "shaper"]
     },
     rankUpgrades: [
-      { description: "Crits on 17+; crits refund 3 Flux and deal +50% critical bonus damage." },
+      { description: "Crits on 17+; crits refund 3 Flux and deal +50 points critical bonus damage." },
       { description: "Crits on 16+; crits refund 4 Flux, deal double crit damage, and immediately reset Mist Slip cooldown." }
     ]
   },
@@ -446,15 +446,15 @@ export const SHAPER_FLOW_MASTER = [
     requires: "fm_t6_chimeric_perfection",
     spell: {
       name: "Undying Fluidity",
-      description: "While at 5+ Flux, lethal damage dissolves you into vapor instead, preventing death, restoring 50% health, and teleporting you 30 feet away (cooldown: 120s).",
+      description: "While at 5+ Flux, lethal damage dissolves you into vapor instead, preventing death, restoring 50 points health, and teleporting you 30 feet away (cooldown: 120s).",
       flavorText: "You cannot kill what has no fixed shape.",
       source: "talent", class: "Shaper", treeId: "flow_master",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "primal", tags: ["passive", "capstone", "cheat-death", "shaper"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restore 75% health, teleport 45 feet, and immediately gain full Flux (cooldown: 90s)." },
-      { description: "Survive lethal damage, restore 100% health, teleport 60 feet, gain full Flux, and trigger Torrential Barrage automatically for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 45 Hit Points, teleport 45 feet, and immediately gain full Flux (cooldown: 90s)." },
+      { description: "Survive lethal damage, restores 60 Hit Points, teleport 60 feet, gain full Flux, and trigger Torrential Barrage automatically for free (cooldown: 60s)." }
     ]
   }
 ];

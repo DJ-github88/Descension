@@ -296,7 +296,7 @@ export const INQUISITOR_IRON_VERDICT = [
     requires: "iv_t5_counters_doctrine",
     spell: {
       name: "Iron Ledger",
-      description: "The court keeps accounts: every spell countered, drained, or suppressed grants 1 Authority (once per enemy per round), and your Authority decays 50% slower.",
+      description: "The court keeps accounts: every spell countered, drained, or suppressed grants 1 Authority (once per enemy per round), and your Authority decays 50 points slower.",
       flavorText: "Every confiscated spell is a line item.",
       source: "talent", class: "Inquisitor", treeId: "iron_verdict",
       spellType: "PASSIVE", category: "utility",

@@ -1,7 +1,7 @@
 // LibraryBrowserModal - Browse and select creatures, items, spells from game libraries
 import React, { useState, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
-import { getIconUrl, getCreatureTokenIconUrl } from '../../utils/assetManager';
+import { getIconUrl, getCreatureTokenIconUrl, getWowIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import './styles/LibraryBrowserModal.css';
 
 // Library types
@@ -21,10 +21,12 @@ const LibraryBrowserModal = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState('all');
+  const [filterSecondary, setFilterSecondary] = useState('all'); // Class / School / Quality filter
   const [selectedItems, setSelectedItems] = useState([]);
   const [libraryData, setLibraryData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [categories, setCategories] = useState([]);
+  const [secondaryCategories, setSecondaryCategories] = useState([]);
 
   // Load library data based on type
   useEffect(() => {
@@ -33,6 +35,8 @@ const LibraryBrowserModal = ({
     const loadLibraryData = async () => {
       setIsLoading(true);
       setSelectedItems([]);
+      setFilterType('all');
+      setFilterSecondary('all');
       
       try {
         switch (libraryType) {
@@ -40,21 +44,23 @@ const LibraryBrowserModal = ({
             // Load from creature store
             const { default: useCreatureStore } = await import('../../store/creatureStore');
             const creatures = useCreatureStore.getState().creatures || [];
-            const creatureCategories = useCreatureStore.getState().categories || [];
             
             setLibraryData(creatures.map(c => ({
               id: c.id,
               name: c.name,
-              description: c.description || '',
+              description: c.description || c.stats?.description || '',
               type: c.type || 'humanoid',
               size: c.size || 'medium',
-              icon: c.tokenIcon || 'inv_misc_questionmark',
-              cr: c.stats?.challengeRating || '-',
-              hp: c.stats?.maxHp || 0,
+              icon: c.tokenIcon || c.image || 'inv_misc_questionmark',
+              cr: c.stats?.challengeRating || c.cr || '-',
+              hp: c.stats?.maxHp || c.hp || c.health || 0,
+              ac: c.stats?.armorClass || c.ac || 10,
+              threat: c.threat || c.stats?.threat || 'Standard',
               tags: c.tags || []
             })));
+
             setCategories([
-              { id: 'all', name: 'All Types' },
+              { id: 'all', name: 'All Creature Families' },
               { id: 'aberration', name: 'Aberration' },
               { id: 'beast', name: 'Beast' },
               { id: 'celestial', name: 'Celestial' },
@@ -69,6 +75,14 @@ const LibraryBrowserModal = ({
               { id: 'ooze', name: 'Ooze' },
               { id: 'plant', name: 'Plant' },
               { id: 'undead', name: 'Undead' }
+            ]);
+
+            setSecondaryCategories([
+              { id: 'all', name: 'All Threat Tiers' },
+              { id: 'Minion', name: 'Minion' },
+              { id: 'Standard', name: 'Standard' },
+              { id: 'Elite', name: 'Elite' },
+              { id: 'Boss', name: 'Boss / Legendary' }
             ]);
             break;
           }
@@ -97,69 +111,141 @@ const LibraryBrowserModal = ({
               }
             });
             
-            // Store full item objects so tooltips can display complete data
             setLibraryData(uniqueItems.map(item => ({
-              ...item, // Store full item object
-              icon: item.iconId || 'inv_misc_questionmark' // Map iconId to icon for consistency
+              ...item,
+              icon: item.iconId || item.icon || 'inv_misc_questionmark',
+              quality: item.quality || item.rarity || 'common',
+              damageText: item.damage ? (typeof item.damage === 'object' ? `${item.damage.dice || ''} ${item.damage.type || ''}` : item.damage) : null,
+              armorText: item.armorClass ? `+${item.armorClass} AC` : null,
+              valueText: item.value ? (typeof item.value === 'object' ? `${item.value.amount || 0} ${item.value.currency || 'Gold'}` : `${item.value} Gold`) : null
             })));
+
             setCategories([
-              { id: 'all', name: 'All Items' },
+              { id: 'all', name: 'All Categories' },
               { id: 'weapon', name: 'Weapons' },
-              { id: 'armor', name: 'Armor' },
-              { id: 'consumable', name: 'Consumables' },
-              { id: 'accessory', name: 'Accessories' },
-              { id: 'miscellaneous', name: 'Miscellaneous' }
+              { id: 'armor', name: 'Armor & Shields' },
+              { id: 'consumable', name: 'Potions & Consumables' },
+              { id: 'accessory', name: 'Accessories & Relics' },
+              { id: 'wondrous', name: 'Wondrous Items' },
+              { id: 'miscellaneous', name: 'Gear & Tools' }
+            ]);
+
+            setSecondaryCategories([
+              { id: 'all', name: 'All Rarities' },
+              { id: 'common', name: 'Common' },
+              { id: 'uncommon', name: 'Uncommon' },
+              { id: 'rare', name: 'Rare' },
+              { id: 'epic', name: 'Epic' },
+              { id: 'legendary', name: 'Legendary' }
             ]);
             break;
           }
           
           case LIBRARY_TYPES.SPELLS: {
-            // Load spells from spell library context or general data
             try {
+              const { ALL_CLASSES_DATA } = await import('../../data/classes/index');
+              const { UTILITY_SPELLS } = await import('../../data/spells/utilitySpells');
               const { GENERAL_CATEGORIES } = await import('../../data/generalSpellsData');
               
-              // Flatten all spells from categories
               const allSpells = [];
+              const seenSpellIds = new Set();
+
+              const addSpell = (spell, className = 'Universal', category = 'Class Ability') => {
+                if (!spell || !spell.name) return;
+                const spellId = spell.id || `${className.toLowerCase()}_${spell.name.toLowerCase().replace(/\s+/g, '_')}`;
+                if (seenSpellIds.has(spellId)) return;
+                seenSpellIds.add(spellId);
+
+                const school = spell.typeConfig?.school || spell.school || spell.damageType || 'arcane';
+                const level = spell.level !== undefined ? spell.level : (spell.tier ? Number(spell.tier) : 1);
+                const icon = spell.typeConfig?.icon || spell.icon || 'spell_holy_magicalsentry';
+
+                allSpells.push({
+                  id: spellId,
+                  name: spell.name,
+                  description: spell.description || spell.effect || spell.customMechanic || '',
+                  type: spell.spellType || spell.type || 'spell',
+                  school: String(school).toLowerCase(),
+                  level: level,
+                  icon: icon,
+                  className: className,
+                  category: category,
+                  resourceCost: spell.resourceCost || null,
+                  damageConfig: spell.damageConfig || null,
+                  tags: spell.tags || spell.typeConfig?.tags || [className.toLowerCase(), String(school).toLowerCase()]
+                });
+              };
+
+              // 1. Iterate over all 21 classes
+              Object.entries(ALL_CLASSES_DATA || {}).forEach(([clsName, clsData]) => {
+                const spellList = clsData?.spells || clsData?.abilities || clsData?.exampleSpells || [];
+                if (Array.isArray(spellList)) {
+                  spellList.forEach(sp => addSpell(sp, clsName, `${clsName} Spells`));
+                }
+                if (Array.isArray(clsData?.specializations)) {
+                  clsData.specializations.forEach(spec => {
+                    (spec.spells || spec.abilities || []).forEach(sp => addSpell(sp, clsName, `${clsName} - ${spec.name}`));
+                  });
+                }
+              });
+
+              // 2. Add Utility Spells
+              (UTILITY_SPELLS || []).forEach(sp => addSpell(sp, 'Utility', 'Utility Spells'));
+
+              // 3. Add General Spells
               if (GENERAL_CATEGORIES) {
-                Object.entries(GENERAL_CATEGORIES).forEach(([catId, category]) => {
-                  if (category.spells) {
-                    category.spells.forEach(spell => {
-                      allSpells.push({
-                        id: spell.id,
-                        name: spell.name,
-                        description: spell.description || '',
-                        type: spell.spellType || spell.type || 'spell',
-                        school: spell.typeConfig?.school || spell.school || 'smashing',
-                        level: spell.level || 0,
-                        icon: spell.typeConfig?.icon || spell.icon || 'spell_holy_holybolt',
-                        category: catId,
-                        tags: spell.tags || []
-                      });
-                    });
-                  }
+                Object.entries(GENERAL_CATEGORIES).forEach(([catId, cat]) => {
+                  (cat.spells || []).forEach(sp => addSpell(sp, 'General', cat.name || 'General Actions'));
                 });
               }
-              
+
               setLibraryData(allSpells);
+
+              // Class Filter (Primary)
               setCategories([
-                { id: 'all', name: 'All Spells' },
-                { id: 'smashing', name: 'Smashing' },
-                { id: 'stabbing', name: 'Stabbing' },
-                { id: 'slicing', name: 'Slicing' },
-                { id: 'ember', name: 'Ember' },
-                { id: 'rime', name: 'Rime' },
-                { id: 'storm', name: 'Storm' },
-                { id: 'arcane', name: 'Arcane' },
-                { id: 'primal', name: 'Primal' },
-                { id: 'blight', name: 'Blight' },
-                { id: 'wyrd', name: 'Wyrd' },
-                { id: 'sacred', name: 'Sacred' },
-                { id: 'healing', name: 'Healing' }
+                { id: 'all', name: 'All Traditions & Classes (21)' },
+                { id: 'arcanoneer', name: 'Arcanoneer' },
+                { id: 'berserker', name: 'Berserker' },
+                { id: 'crusader', name: 'Crusader' },
+                { id: 'shaper', name: 'Shaper' },
+                { id: 'chronarch', name: 'Chronarch' },
+                { id: 'inquisitor', name: 'Inquisitor' },
+                { id: 'revenant', name: 'Revenant' },
+                { id: 'false prophet', name: 'False Prophet' },
+                { id: 'gambit', name: 'Gambit' },
+                { id: 'apex', name: 'Apex' },
+                { id: 'animist', name: 'Animist' },
+                { id: 'lunarch', name: 'Lunarch' },
+                { id: 'martyr', name: 'Martyr' },
+                { id: 'minstrel', name: 'Minstrel' },
+                { id: 'plaguebringer', name: 'Plaguebringer' },
+                { id: 'pyrofiend', name: 'Pyrofiend' },
+                { id: 'spellguard', name: 'Spellguard' },
+                { id: 'toxicologist', name: 'Toxicologist' },
+                { id: 'warden', name: 'Warden' },
+                { id: 'augur', name: 'Augur' },
+                { id: 'utility', name: 'Utility & General' }
+              ]);
+
+              // School / Level Filter (Secondary)
+              setSecondaryCategories([
+                { id: 'all', name: 'All Schools & Elements' },
+                { id: 'sacred', name: 'Sacred / Starlight' },
+                { id: 'ember', name: 'Ember / Fire' },
+                { id: 'rime', name: 'Rime / Frost' },
+                { id: 'arcane', name: 'Arcane / Force' },
+                { id: 'storm', name: 'Storm / Lightning' },
+                { id: 'primal', name: 'Primal / Nature' },
+                { id: 'blight', name: 'Blight / Miasma' },
+                { id: 'wyrd', name: 'Wyrd / Cosmic' },
+                { id: 'healing', name: 'Healing / Restoration' },
+                { id: 'smashing', name: 'Martial / Physical' }
               ]);
             } catch (error) {
               console.error('Failed to load spell data:', error);
               setLibraryData([]);
               setCategories([{ id: 'all', name: 'All Spells' }]);
+              setSecondaryCategories([{ id: 'all', name: 'All Schools' }]);
             }
             break;
           }
@@ -167,6 +253,7 @@ const LibraryBrowserModal = ({
           default:
             setLibraryData([]);
             setCategories([]);
+            setSecondaryCategories([]);
         }
       } catch (error) {
         console.error('Failed to load library data:', error);
@@ -183,17 +270,35 @@ const LibraryBrowserModal = ({
   const filteredItems = useMemo(() => {
     let items = libraryData;
     
-    // Filter by type/category
+    // Primary Filter
     if (filterType !== 'all') {
       items = items.filter(item => {
         if (libraryType === LIBRARY_TYPES.CREATURES) {
-          return item.type?.toLowerCase() === filterType;
+          return (item.type || '').toLowerCase() === filterType.toLowerCase();
         }
         if (libraryType === LIBRARY_TYPES.ITEMS) {
-          return item.type?.toLowerCase() === filterType;
+          return (item.type || '').toLowerCase() === filterType.toLowerCase();
         }
         if (libraryType === LIBRARY_TYPES.SPELLS) {
-          return item.school?.toLowerCase() === filterType;
+          return (item.className || '').toLowerCase() === filterType.toLowerCase() ||
+                 (item.tags || []).some(t => t.toLowerCase() === filterType.toLowerCase());
+        }
+        return true;
+      });
+    }
+
+    // Secondary Filter
+    if (filterSecondary !== 'all') {
+      items = items.filter(item => {
+        if (libraryType === LIBRARY_TYPES.CREATURES) {
+          return (item.threat || '').toLowerCase() === filterSecondary.toLowerCase();
+        }
+        if (libraryType === LIBRARY_TYPES.ITEMS) {
+          return (item.quality || item.rarity || '').toLowerCase() === filterSecondary.toLowerCase();
+        }
+        if (libraryType === LIBRARY_TYPES.SPELLS) {
+          return (item.school || '').toLowerCase().includes(filterSecondary.toLowerCase()) ||
+                 (item.tags || []).some(t => t.toLowerCase().includes(filterSecondary.toLowerCase()));
         }
         return true;
       });
@@ -203,15 +308,17 @@ const LibraryBrowserModal = ({
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       items = items.filter(item => 
-        item.name?.toLowerCase().includes(query) ||
-        item.description?.toLowerCase().includes(query) ||
-        item.type?.toLowerCase().includes(query)
+        (item.name || '').toLowerCase().includes(query) ||
+        (item.description || '').toLowerCase().includes(query) ||
+        (item.className || '').toLowerCase().includes(query) ||
+        (item.type || '').toLowerCase().includes(query) ||
+        (item.school || '').toLowerCase().includes(query)
       );
     }
     
     // Sort by name
     return items.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
-  }, [libraryData, filterType, searchQuery, libraryType]);
+  }, [libraryData, filterType, filterSecondary, searchQuery, libraryType]);
 
   // Toggle item selection
   const toggleSelection = (item) => {
@@ -238,6 +345,7 @@ const LibraryBrowserModal = ({
 
   // Render quality badge for items
   const getQualityClass = (quality) => {
+    const q = (quality || '').toLowerCase();
     const qualityMap = {
       common: 'quality-common',
       uncommon: 'quality-uncommon',
@@ -245,30 +353,46 @@ const LibraryBrowserModal = ({
       epic: 'quality-epic',
       legendary: 'quality-legendary'
     };
-    return qualityMap[quality?.toLowerCase()] || 'quality-common';
+    return qualityMap[q] || 'quality-common';
+  };
+
+  // Resolve item/spell/creature icon URL
+  const resolveIcon = (item) => {
+    if (!item) return getIconUrl('inv_misc_questionmark', 'items');
+    if (libraryType === LIBRARY_TYPES.CREATURES) {
+      return getCreatureTokenIconUrl(item.icon, item.type);
+    }
+    if (item.icon && (item.icon.includes('/') || item.icon.includes('\\'))) {
+      return getCustomIconUrl(item.icon, 'abilities');
+    }
+    return getWowIconUrl(item.icon || 'inv_misc_questionmark');
   };
 
   if (!isOpen) return null;
 
   const modalTitle = title || {
-    [LIBRARY_TYPES.CREATURES]: 'Select Creatures',
-    [LIBRARY_TYPES.ITEMS]: 'Select Items',
-    [LIBRARY_TYPES.SPELLS]: 'Select Spells'
-  }[libraryType] || 'Library Browser';
+    [LIBRARY_TYPES.CREATURES]: 'Compendium: Creatures & Monsters',
+    [LIBRARY_TYPES.ITEMS]: 'Compendium: Armory & Items',
+    [LIBRARY_TYPES.SPELLS]: 'Compendium: Spells & Class Grimoire'
+  }[libraryType] || 'Compendium Browser';
 
   return ReactDOM.createPortal(
     <div className="library-browser-overlay" onClick={onClose}>
       <div className="library-browser-modal" onClick={e => e.stopPropagation()}>
         {/* Header */}
         <div className="library-browser-header">
-          <h3>{modalTitle}</h3>
+          <div className="library-header-title-row">
+            <h3><i className={`fas ${libraryType === LIBRARY_TYPES.CREATURES ? 'fa-dragon' : (libraryType === LIBRARY_TYPES.SPELLS ? 'fa-hat-wizard' : 'fa-shield-halved')}`}></i> {modalTitle}</h3>
+            <span className="library-counter-badge">{filteredItems.length} Available</span>
+          </div>
+
           <div className="library-search-bar">
             <div className="library-search-input-wrapper">
               <i className="fas fa-search library-search-icon"></i>
               <input
                 type="text"
                 className="library-search-input"
-                placeholder="Search by name..."
+                placeholder="Search by name, tags, description..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 autoFocus
@@ -284,6 +408,8 @@ const LibraryBrowserModal = ({
                 </button>
               )}
             </div>
+
+            {/* Primary Category Select */}
             <select
               className="library-filter-select"
               value={filterType}
@@ -293,6 +419,20 @@ const LibraryBrowserModal = ({
                 <option key={cat.id} value={cat.id}>{cat.name}</option>
               ))}
             </select>
+
+            {/* Secondary Filter Select */}
+            {secondaryCategories.length > 0 && (
+              <select
+                className="library-filter-select secondary-filter"
+                value={filterSecondary}
+                onChange={(e) => setFilterSecondary(e.target.value)}
+              >
+                {secondaryCategories.map(cat => (
+                  <option key={cat.id} value={cat.id}>{cat.name}</option>
+                ))}
+              </select>
+            )}
+
             <button className="library-close-btn" onClick={onClose} title="Close">
               <i className="fas fa-times"></i>
             </button>
@@ -304,74 +444,101 @@ const LibraryBrowserModal = ({
           {isLoading ? (
             <div className="library-loading">
               <i className="fas fa-spinner fa-spin"></i>
-              <span>Loading library...</span>
+              <span>Loading compendium entries...</span>
             </div>
           ) : filteredItems.length === 0 ? (
             <div className="library-empty">
               <i className="fas fa-search"></i>
-              <p>No items found. Try adjusting your search or filters.</p>
+              <p>No entries match your search criteria. Try adjusting your filters.</p>
             </div>
           ) : (
             <div className="library-items-grid">
-              {filteredItems.map(item => (
-                <div
-                  key={item.id}
-                  className={`library-item ${selectedItems.find(i => i.id === item.id) ? 'selected' : ''}`}
-                  onClick={() => toggleSelection(item)}
-                >
-                  <div className="library-item-icon">
-                    <img 
-                      src={libraryType === LIBRARY_TYPES.CREATURES 
-                        ? getCreatureTokenIconUrl(item.icon, item.type)
-                        : getIconUrl(item.icon, 'items')} 
-                      alt={item.name}
-                      onError={(e) => { 
-                        e.target.src = libraryType === LIBRARY_TYPES.CREATURES
-                          ? getCreatureTokenIconUrl(null, item.type)
-                          : getIconUrl('inv_misc_questionmark', 'items');
-                      }}
-                    />
-                    {libraryType === LIBRARY_TYPES.ITEMS && item.quality && (
-                      <span className={`quality-border ${getQualityClass(item.quality)}`}></span>
+              {filteredItems.map(item => {
+                const isSelected = !!selectedItems.find(i => i.id === item.id);
+                return (
+                  <div
+                    key={item.id}
+                    className={`library-item ${isSelected ? 'selected' : ''}`}
+                    onClick={() => toggleSelection(item)}
+                  >
+                    <div className="library-item-icon">
+                      <img 
+                        src={resolveIcon(item)} 
+                        alt={item.name}
+                        onError={(e) => { 
+                          e.target.src = getIconUrl('inv_misc_questionmark', 'items');
+                        }}
+                      />
+                      {libraryType === LIBRARY_TYPES.ITEMS && item.quality && (
+                        <span className={`quality-border ${getQualityClass(item.quality)}`}></span>
+                      )}
+                    </div>
+
+                    <div className="library-item-info">
+                      <div className="library-item-title-row">
+                        <span className={`library-item-name ${libraryType === LIBRARY_TYPES.ITEMS ? getQualityClass(item.quality) : ''}`}>
+                          {item.name}
+                        </span>
+                        {item.quality && (
+                          <span className={`compendium-rarity-chip ${getQualityClass(item.quality)}`}>
+                            {item.quality}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="library-item-meta">
+                        {libraryType === LIBRARY_TYPES.CREATURES && (
+                          <>
+                            <span className="library-item-tag type-tag">{item.type}</span>
+                            <span className="library-item-tag size-tag">{item.size}</span>
+                            {item.hp > 0 && <span className="library-item-tag hp-tag">HP {item.hp}</span>}
+                            {item.cr !== '-' && <span className="library-item-tag cr-tag">CR {item.cr}</span>}
+                          </>
+                        )}
+
+                        {libraryType === LIBRARY_TYPES.ITEMS && (
+                          <>
+                            <span className="library-item-tag type-tag">{item.type}</span>
+                            {item.subtype && <span className="library-item-tag subtype-tag">{item.subtype}</span>}
+                            {item.damageText && <span className="library-item-tag dmg-tag">{item.damageText}</span>}
+                            {item.armorText && <span className="library-item-tag ac-tag">{item.armorText}</span>}
+                            {item.valueText && <span className="library-item-tag val-tag">{item.valueText}</span>}
+                          </>
+                        )}
+
+                        {libraryType === LIBRARY_TYPES.SPELLS && (
+                          <>
+                            {item.className && <span className="library-item-tag class-tag">{item.className}</span>}
+                            <span className="library-item-tag school-tag">{item.school}</span>
+                            {item.level !== undefined && (
+                              <span className="library-item-tag lvl-tag">
+                                {item.level === 0 ? 'Cantrip' : `Lvl ${item.level}`}
+                              </span>
+                            )}
+                            {item.resourceCost && (
+                              <span className="library-item-tag cost-tag">
+                                {item.resourceCost.actionPoints || 2} AP {item.resourceCost.mana ? `• ${item.resourceCost.mana} Mana` : ''}
+                              </span>
+                            )}
+                          </>
+                        )}
+                      </div>
+
+                      {item.description && (
+                        <p className="library-item-desc-snippet">
+                          {item.description.slice(0, 110)}{item.description.length > 110 ? '...' : ''}
+                        </p>
+                      )}
+                    </div>
+
+                    {isSelected && (
+                      <div className="library-item-check">
+                        <i className="fas fa-check"></i>
+                      </div>
                     )}
                   </div>
-                  <div className="library-item-info">
-                    <div className={`library-item-name ${libraryType === LIBRARY_TYPES.ITEMS ? getQualityClass(item.quality) : ''}`}>
-                      {item.name}
-                    </div>
-                    <div className="library-item-meta">
-                      {libraryType === LIBRARY_TYPES.CREATURES && (
-                        <>
-                          <span className="library-item-tag">{item.type}</span>
-                          <span className="library-item-tag">{item.size}</span>
-                          {item.cr !== '-' && <span className="library-item-tag">CR {item.cr}</span>}
-                        </>
-                      )}
-                      {libraryType === LIBRARY_TYPES.ITEMS && (
-                        <>
-                          <span className="library-item-tag">{item.type}</span>
-                          {item.subtype && <span className="library-item-tag">{item.subtype}</span>}
-                        </>
-                      )}
-                      {libraryType === LIBRARY_TYPES.SPELLS && (
-                        <>
-                          <span className="library-item-tag">{item.school || 'Spell'}</span>
-                          {item.level !== undefined && (
-                            <span className="library-item-tag">
-                              {item.level === 0 ? 'Cantrip' : `Lvl ${item.level}`}
-                            </span>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  </div>
-                  {selectedItems.find(i => i.id === item.id) && (
-                    <div className="library-item-check">
-                      <i className="fas fa-check"></i>
-                    </div>
-                  )}
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
@@ -380,9 +547,9 @@ const LibraryBrowserModal = ({
         <div className="library-browser-footer">
           <div className="library-selected-count">
             {selectedItems.length > 0 ? (
-              <span>{selectedItems.length} item{selectedItems.length !== 1 ? 's' : ''} selected</span>
+              <span><strong>{selectedItems.length}</strong> selected for campaign import</span>
             ) : (
-              <span>Select items to add</span>
+              <span>Click items to select and add to your active campaign</span>
             )}
           </div>
           <div className="library-actions">
@@ -392,7 +559,7 @@ const LibraryBrowserModal = ({
               onClick={handleConfirm}
               disabled={selectedItems.length === 0}
             >
-              Add Selected
+              Add Selected ({selectedItems.length})
             </button>
           </div>
         </div>
@@ -403,4 +570,3 @@ const LibraryBrowserModal = ({
 };
 
 export default LibraryBrowserModal;
-

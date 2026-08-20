@@ -44,8 +44,8 @@ export const MINSTREL_CHORD_COMBINATIONS = [
       visualTheme: "sacred", tags: ["ranged", "storm", "notes", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Deals 3d8 storm damage, pierces 10% of enemy durability, and grants +2 Note V.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
-      { description: "Deals 3d8 storm damage, pierces 10% of enemy durability, grants +2 Note V, and resets cooldown on critical hit.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
+      { description: "Deals 3d8 storm damage, ignores up to 4 points of enemy Armor, and grants +2 Note V.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
+      { description: "Deals 3d8 storm damage, ignores up to 4 points of enemy Armor, grants +2 Note V, and resets cooldown on critical hit.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -67,7 +67,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     },
     rankUpgrades: [
       { description: "Note V generation grants +2d6 storm damage to attacks.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
-      { description: "Note V grants +3d6 storm damage and your critical strike chance increases by 10% for 1 round.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
+      { description: "Note V grants +3d6 storm damage and your critical strike chance increases by 10 points for 1 round.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -225,7 +225,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     requires: "cc_t3_circle_mastery",
     spell: {
       name: "Double Time Tempo",
-      description: "While you hold 4 or more notes, all your attack and spell cast times are reduced by 50%, and you gain 1 bonus Action Point at the start of each turn.",
+      description: "While you hold 4 or more notes, all your attack and spell cast times are reduced by 50 points, and you gain 1 bonus Action Point at the start of each turn.",
       flavorText: "Accelerando, but with weapons.",
       source: "talent", class: "Minstrel", treeId: "chord_combinations",
       spellType: "PASSIVE", category: "buff",
@@ -246,7 +246,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     requires: "cc_t4_thunder_stanza",
     spell: {
       name: "Crescendo Detonation",
-      description: "Spend 4 notes: detonate the acoustic tension around a target within 45 feet. Deals 6d10 storm damage to the target and 3d10 to all enemies within 20 feet. Damage increases by +20% for each Note V in your chord.",
+      description: "Spend 4 notes: detonate the acoustic tension around a target within 45 feet. Deals 6d10 storm damage to the target and 3d10 to all enemies within 20 feet. Damage increases by +20 points for each Note V in your chord.",
       flavorText: "The loudest moment of the concert.",
       source: "talent", class: "Minstrel", treeId: "chord_combinations",
       spellType: "ACTIVE", category: "damage",
@@ -260,7 +260,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
       visualTheme: "sacred", tags: ["nuke", "aoe", "storm", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Deals 8d10 storm to target and 4d10 to nearby foes. Note V bonus increases to +30% per Note V.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 }, cooldownValue: 18 }
+      { description: "Deals 8d10 storm to target and 4d10 to nearby foes. Note V bonus increases to +30 points per Note V.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 }, cooldownValue: 18 }
     ]
   },
   {
@@ -337,7 +337,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     requires: "cc_t5_overture_momentum",
     spell: {
       name: "Tempest Cadence",
-      description: "All storm damage dealt by you and your party ignores 25% resistance and has a 30% chance to shock (interferes with enemy actions for 1 round).",
+      description: "All storm damage dealt by you and your party ignores 6 Damage Reduction and has a 30 points chance to shock (interferes with enemy actions for 1 round).",
       flavorText: "The lightning hums in key.",
       source: "talent", class: "Minstrel", treeId: "chord_combinations",
       spellType: "PASSIVE", category: "buff",
@@ -345,7 +345,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
       visualTheme: "sacred", tags: ["passive", "penetration", "shock", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Storm damage ignores 40% resistance, shock chance increases to 60%, and shocked enemies take +20% damage from all sources." }
+      { description: "Storm damage ignores 8 Damage Reduction, shock chance increases to 60 points, and shocked enemies take +20 points damage from all sources." }
     ]
   },
 
@@ -382,7 +382,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     requires: "cc_t6_rallying_fanfare",
     spell: {
       name: "War Conductor Doctrine",
-      description: "All offensive storm damage dealt by your cadences and party battle anthems is increased by 10%.",
+      description: "All offensive storm damage dealt by your cadences and party battle anthems is increased by +1d6 damage.",
       flavorText: "The baton is mightier than the claymore.",
       source: "talent", class: "Minstrel", treeId: "chord_combinations",
       spellType: "PASSIVE", category: "damage",
@@ -390,10 +390,10 @@ export const MINSTREL_CHORD_COMBINATIONS = [
       visualTheme: "sacred", tags: ["passive", "capstone", "damage", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Offensive storm damage increased by 20%." },
-      { description: "Offensive storm damage increased by 35%." },
-      { description: "Offensive storm damage increased by 50%." },
-      { description: "Offensive storm damage increased by 70%, and Sonic Lance costs 0 mana." }
+      { description: "Offensive storm damage increased by +1d8 damage." },
+      { description: "Offensive storm damage increased by +1d8 damage." },
+      { description: "Offensive storm damage increased by +2d8 damage." },
+      { description: "Offensive storm damage increased by +2d8 damage, and Sonic Lance costs 0 mana." }
     ]
   },
   {
@@ -445,7 +445,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     requires: "cc_t6_storm_chords",
     spell: {
       name: "Battlechoir Resurgence",
-      description: "Whenever an ally drops below 30% health, you automatically emit a free Battle Anthem and grant that ally a 4d8 damage shield (cooldown: 30s).",
+      description: "Whenever an ally drops below half maximum Hit Points, you automatically emit a free Battle Anthem and grant that ally a 4d8 damage shield (cooldown: 30s).",
       flavorText: "When the line wavers, the chorus sings loudest.",
       source: "talent", class: "Minstrel", treeId: "chord_combinations",
       spellType: "PASSIVE", category: "buff",
@@ -453,7 +453,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     },
     rankUpgrades: [
       { description: "Emits Battle Anthem + 6d8 damage shield, and the ally immediately makes a free retaliation strike." },
-      { description: "Emits Battle Anthem + 8d8 shield, ally makes free retaliation strike with guaranteed critical hit, and restores 30% health." }
+      { description: "Emits Battle Anthem + 8d8 shield, ally makes free retaliation strike with guaranteed critical hit, and restores 20 Hit Points." }
     ]
   }
 ];

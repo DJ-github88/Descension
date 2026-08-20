@@ -131,7 +131,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     },
     rankUpgrades: [
       { description: "Retain 2 notes of your choice from consumed cadences; allies gain 2d6 temporary health." },
-      { description: "Retain 2 notes freely; allies gain 3d6 temporary health and 10% movement speed for 1 round." }
+      { description: "Retain 2 notes freely; allies gain 3d6 temporary health and 10 points movement speed for 1 round." }
     ]
   },
 
@@ -145,7 +145,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     requires: "hw_t2_submediant_shield",
     spell: {
       name: "Authentic Cadence",
-      description: "Spend 4 notes (V to I progression): unleash an authentic resolution on an ally within 45 feet. Heals 3d8 health and grants +3 Durability Steps to equipped durability and 20% all-damage resistance for 2 rounds.",
+      description: "Spend 4 notes (V to I progression): unleash an authentic resolution on an ally within 45 feet. Heals 3d8 health and grants +3 Durability Steps to equipped durability and 4 Damage Reduction against all-damage for 2 rounds.",
       flavorText: "The grand finale resonates deeper than any individual note.",
       source: "talent", class: "Minstrel", treeId: "harmonic_weaving",
       spellType: "ACTIVE", category: "healing",
@@ -158,8 +158,8 @@ export const MINSTREL_HARMONIC_WEAVING = [
       buffs: ["authentic-resolve"], visualTheme: "sacred", tags: ["cadence", "nuke-heal", "buff", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Heals 4d8 health, grants +3 Durability Steps to equipped durability and 20% resistance for 2 rounds.", healing: { dice: "4d8", flat: 0 } },
-      { description: "Heals 5d8 health, grants +3 Durability Steps to equipped durability, 20% resistance, and also heals all adjacent allies for 50% of the amount.", healing: { dice: "5d8", flat: 0 } }
+      { description: "Heals 4d8 health, grants +3 Durability Steps to equipped durability and 4 Damage Reduction for 2 rounds.", healing: { dice: "4d8", flat: 0 } },
+      { description: "Heals 5d8 health, grants +3 Durability Steps to equipped durability, 4 Damage Reduction, and also heals all adjacent allies for 50 points of the amount.", healing: { dice: "5d8", flat: 0 } }
     ]
   },
   {
@@ -266,15 +266,15 @@ export const MINSTREL_HARMONIC_WEAVING = [
     requires: "hw_t4_lullaby_ward",
     spell: {
       name: "Tonic Surge",
-      description: "Whenever you hold 4 or more notes, all your healing spells heal for 30% more, and you passively heal adjacent allies for 1d6 health every round.",
+      description: "Whenever you hold 4 or more notes, all your healing spells heal for 30 points more, and you passively heal adjacent allies for 1d6 health every round.",
       flavorText: "The tonic cannot be contained. Neither can the tide.",
       source: "talent", class: "Minstrel", treeId: "harmonic_weaving",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "sacred", tags: ["passive", "healing-boost", "aura", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Holding 4+ notes boosts healing by 50% and passive aura heals for 2d6 per round." },
-      { description: "Holding 4+ notes boosts healing by 75%, aura heals for 3d6, and you generate 1 free Note I every round." }
+      { description: "Holding 4+ notes boosts healing by 50 points and passive aura heals for 2d6 per round." },
+      { description: "Holding 4+ notes boosts healing by 75 points, aura heals for 3d6, and you generate 1 free Note I every round." }
     ]
   },
 
@@ -288,7 +288,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     requires: "hw_t5_healing_chorus",
     spell: {
       name: "Death-Defying Aria",
-      description: "Reaction: when an ally within 60 feet drops to 0 health, consume 4 notes to instantly revive them with 50% maximum health and 30 temporary health. Cooldown: 90s.",
+      description: "Reaction: when an ally within 60 feet drops to 0 health, consume 4 notes to instantly revive them with 50 points maximum health and 30 temporary health. Cooldown: 90s.",
       flavorText: "The encore nobody wanted to need.",
       source: "talent", class: "Minstrel", treeId: "harmonic_weaving",
       spellType: "ACTIVE", category: "healing",
@@ -311,14 +311,14 @@ export const MINSTREL_HARMONIC_WEAVING = [
     requires: "hw_t5_tonic_overflow",
     spell: {
       name: "Symphonic Harmony",
-      description: "When you cast a healing spell, 30% of the healing done is duplicated to ALL other allies within 30 feet.",
+      description: "When you cast a healing spell, 30 points of the healing done is duplicated to ALL other allies within 30 feet.",
       flavorText: "The melody splits cleanly, losing nothing in the translation.",
       source: "talent", class: "Minstrel", treeId: "harmonic_weaving",
       spellType: "PASSIVE", category: "healing",
       targetingMode: "self", visualTheme: "sacred", tags: ["passive", "smart-heal", "cleave", "minstrel"]
     },
     rankUpgrades: [
-      { description: "40% of single-target healing is duplicated to all allies within 35 feet, and overheal grants +1 Durability Steps to equipped durability (stacks up to +3)." }
+      { description: "40 points of single-target healing is duplicated to all allies within 35 feet, and overheal grants +1 Durability Steps to equipped durability (stacks up to +3)." }
     ]
   },
   {
@@ -330,14 +330,14 @@ export const MINSTREL_HARMONIC_WEAVING = [
     requires: "hw_t5_tonic_overflow",
     spell: {
       name: "Tidal Sanctum",
-      description: "You and all allies within 30 feet cannot have your maximum health reduced, and take 15% less damage from all sources.",
+      description: "You and all allies within 30 feet cannot have your maximum health reduced, and gain 4 Damage Reduction from all sources.",
       flavorText: "The harbor wall holds against the open deep.",
       source: "talent", class: "Minstrel", treeId: "harmonic_weaving",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "sacred", tags: ["passive", "aura", "defense", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Party takes 25% less damage from all sources and gains +3 to all saving throws against magical effects." }
+      { description: "Party takes 25 points less damage from all sources and gains +3 to all saving throws against magical effects." }
     ]
   },
 
@@ -351,7 +351,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     requires: "hw_t6_death_defying_aria",
     spell: {
       name: "Mereval Symphony",
-      description: "ULTIMATE: Spend 6 notes to unleash the Grand Symphony of the Mereval for 1 minute: all allies within 50 feet regenerate 4d8 health each round, cannot drop below 1 health from any single attack, and all enemy damage within the radius is reduced by 40%.",
+      description: "ULTIMATE: Spend 6 notes to unleash the Grand Symphony of the Mereval for 1 minute: all allies within 50 feet regenerate 4d8 health each round, cannot drop below 1 health from any single attack, and all enemy damage within the radius is reduced by 40 points.",
       flavorText: "The song the world was sung with. You are conducting it now.",
       source: "talent", class: "Minstrel", treeId: "harmonic_weaving",
       spellType: "ACTIVE", category: "healing",
@@ -375,17 +375,17 @@ export const MINSTREL_HARMONIC_WEAVING = [
     requires: "hw_t6_death_defying_aria",
     spell: {
       name: "Sacred Choir Doctrine",
-      description: "Every verse harmonizes. All healing you perform across all spells and cadences is increased by 10%.",
+      description: "Every verse harmonizes. All healing you perform across all spells and cadences is increased by +1d6 damage.",
       flavorText: "A hundred voices, singing in one throat.",
       source: "talent", class: "Minstrel", treeId: "harmonic_weaving",
       spellType: "PASSIVE", category: "healing",
       targetingMode: "self", visualTheme: "sacred", tags: ["passive", "capstone", "healing-boost", "minstrel"]
     },
     rankUpgrades: [
-      { description: "All healing increased by 20%." },
-      { description: "All healing increased by 35%." },
-      { description: "All healing increased by 50%." },
-      { description: "All healing increased by 70%, and Soothing Hymn generates 4 notes instead of 2." }
+      { description: "All healing increased by +1d8 damage." },
+      { description: "All healing increased by +1d8 damage." },
+      { description: "All healing increased by +2d8 damage." },
+      { description: "All healing increased by +2d8 damage, and Soothing Hymn generates 4 notes instead of 2." }
     ]
   },
   {
@@ -404,8 +404,8 @@ export const MINSTREL_HARMONIC_WEAVING = [
       targetingMode: "self", visualTheme: "sacred", tags: ["passive", "capstone", "cadence-chain", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Chained cadences cost 3 fewer notes, and their healing is increased by 25%." },
-      { description: "Chained cadences cost 3 fewer notes, deal +50% healing, and grant 1 Action Point on completion." }
+      { description: "Chained cadences cost 3 fewer notes, and their healing is increased by +1d8 damage." },
+      { description: "Chained cadences cost 3 fewer notes, deal +50 points healing, and grant 1 Action Point on completion." }
     ]
   },
   {
@@ -417,15 +417,15 @@ export const MINSTREL_HARMONIC_WEAVING = [
     requires: "hw_t6_unbroken_chorus",
     spell: {
       name: "Fountain of the Deep",
-      description: "Whenever an ally is healed above maximum health, they gain 100% of the excess as a temporary health barrier (up to 40 temp HP).",
+      description: "Whenever an ally is healed above maximum health, they gain 100 points of the excess as a temporary health barrier (up to 40 temp HP).",
       flavorText: "The tide cannot overflow; it only claims higher ground.",
       source: "talent", class: "Minstrel", treeId: "harmonic_weaving",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "sacred", tags: ["passive", "capstone", "overheal-shield", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Overheal converts to temporary health up to 70 temp HP, and allies with temp HP deal +10% damage." },
-      { description: "Overheal converts to temporary health up to 100 temp HP; allies with temp HP deal +20% damage and gain +2 Durability Steps to equipped durability." }
+      { description: "Overheal converts to temporary health up to 70 temp HP, and allies with temp HP deal +1d6 bonus damage." },
+      { description: "Overheal converts to temporary health up to 100 temp HP; allies with temp HP deal +1d8 bonus damage and gain +2 Durability Steps to equipped durability." }
     ]
   },
   {

@@ -159,123 +159,136 @@ import {
   WARDEN_VENGEANCE_SEEKER
 } from './talentTrees/warden.js';
 export const getTreeBackdrop = (className, specId) => {
-  // Map class and specialization to backdrop images
+  // Map class and specialization to high-res thematic background images from /assets/Backgrounds/
   const backdropMap = {
     'Pyrofiend': {
-      'inferno': 'url(/assets/backdrops/pyrofiend-inferno.jpg)',
-      'wildfire': 'url(/assets/backdrops/pyrofiend-wildfire.jpg)',
-      'hellfire': 'url(/assets/backdrops/pyrofiend-hellfire.jpg)'
+      'inferno': 'url(/assets/Backgrounds/Volcano.png)',
+      'wildfire': 'url(/assets/Backgrounds/Embers.png)',
+      'hellfire': 'url(/assets/Backgrounds/Volcano%20Lake.png)'
     },
     'Minstrel': {
-      'soulsinger': 'url(/assets/backdrops/minstrel-harmonic.jpg)',
-      'battlechoir': 'url(/assets/backdrops/minstrel-chord.jpg)',
-      'dissonance': 'url(/assets/backdrops/minstrel-musical.jpg)'
+      'soulsinger': 'url(/assets/Backgrounds/Flowers.png)',
+      'battlechoir': 'url(/assets/Backgrounds/Forest1.png)',
+      'dissonance': 'url(/assets/Backgrounds/OpenForest.png)',
+      'harmonic_weaving': 'url(/assets/Backgrounds/Flowers.png)',
+      'chord_combinations': 'url(/assets/Backgrounds/Forest1.png)',
+      'musical_magic': 'url(/assets/Backgrounds/OpenForest.png)'
     },
     'Chronarch': {
-      'stasis': 'url(/assets/backdrops/chronarch-stasis.jpg)',
-      'displacement': 'url(/assets/backdrops/chronarch-displacement.jpg)',
-      'rewinding': 'url(/assets/backdrops/chronarch-rewinding.jpg)'
+      'stasis': 'url(/assets/Backgrounds/Frost.png)',
+      'displacement': 'url(/assets/Backgrounds/HazyCave.png)',
+      'rewinding': 'url(/assets/Backgrounds/NightFrost.png)'
     },
-    // 'Dreadnaught' backdrops removed (absorbed into Martyr as Ironclad specialization)
-    // 'Titan' backdrops removed (absorbed into Warden as Monolith specialization)
     'Toxicologist': {
-      'venomancer': 'url(/assets/backdrops/toxicologist-venomancer.jpg)',
-      'gadgeteer': 'url(/assets/backdrops/toxicologist-gadgeteer.jpg)',
-      'saboteur': 'url(/assets/backdrops/toxicologist-saboteur.jpg)'
+      'venomancer': 'url(/assets/Backgrounds/GloomyCave.png)',
+      'gadgeteer': 'url(/assets/Backgrounds/Smoke.png)',
+      'saboteur': 'url(/assets/Backgrounds/Spikey%20Cave.png)'
     },
     'Harbinger': {
-      'wild_prophet': 'url(/assets/backdrops/harbinger-wild-prophet.jpg)',
-      'deaths_seer': 'url(/assets/backdrops/harbinger-deaths-seer.jpg)',
-      'fate_rift': 'url(/assets/backdrops/harbinger-fate-rift.jpg)'
+      'wild_prophet': 'url(/assets/Backgrounds/DenseForest.png)',
+      'deaths_seer': 'url(/assets/Backgrounds/NightFrost.png)',
+      'fate_rift': 'url(/assets/Backgrounds/CrystalCave.png)'
     },
     'Arcanoneer': {
-      'prism_mage': 'url(/assets/backdrops/arcanoneer-prism.jpg)',
-      'entropy_weaver': 'url(/assets/backdrops/arcanoneer-entropy.jpg)',
-      'sphere_architect': 'url(/assets/backdrops/arcanoneer-sphere.jpg)'
+      'prism_mage': 'url(/assets/Backgrounds/MountainSky.png)',
+      'entropy_weaver': 'url(/assets/Backgrounds/Smoke.png)',
+      'sphere_architect': 'url(/assets/Backgrounds/Sky.png)',
+      'sphere_master': 'url(/assets/Backgrounds/Sky.png)'
     },
-
     'Animist': {
-      'thornwarden': 'url(/assets/backdrops/animist-thornwarden.jpg)',
-      'spirit_binder': 'url(/assets/backdrops/animist-spirit-binder.jpg)',
-      'stormscribe': 'url(/assets/backdrops/animist-stormscribe.jpg)'
+      'thornwarden': 'url(/assets/Backgrounds/DenseForest.png)',
+      'spirit_binder': 'url(/assets/Backgrounds/Flowers.png)',
+      'stormscribe': 'url(/assets/Backgrounds/Forest4.png)',
+      'wild_guardian': 'url(/assets/Backgrounds/DenseForest.png)',
+      'spirit_caller': 'url(/assets/Backgrounds/Flowers.png)',
+      'swarm_keeper': 'url(/assets/Backgrounds/Forest4.png)'
     },
     'Inquisitor': {
-      'witch_hammer': 'url(/assets/backdrops/inquisitor-witch-hammer.jpg)',
-      'iron_verdict': 'url(/assets/backdrops/inquisitor-iron-verdict.jpg)',
-      'hollow_saint': 'url(/assets/backdrops/inquisitor-hollow-saint.jpg)'
+      'witch_hammer': 'url(/assets/Backgrounds/CrystalCave.png)',
+      'iron_verdict': 'url(/assets/Backgrounds/DesertTemple.png)',
+      'hollow_saint': 'url(/assets/Backgrounds/Temple.png)'
     },
-
     'Lunarch': {
-      'moonlight-sentinel': 'url(/assets/backdrops/lunarch-moonlight-sentinel.jpg)',
-      'starfall-invoker': 'url(/assets/backdrops/lunarch-starfall-invoker.jpg)',
-      'moonwell-guardian': 'url(/assets/backdrops/lunarch-moonwell-guardian.jpg)'
+      'moonlight-sentinel': 'url(/assets/Backgrounds/NightFrost.png)',
+      'starfall-invoker': 'url(/assets/Backgrounds/MountainSky.png)',
+      'moonwell-guardian': 'url(/assets/Backgrounds/FrozTemple.png)'
     },
     'Apex': {
-      'shadowblade': 'url(/assets/backdrops/apex-shadowblade.jpg)',
-      'bladestorm': 'url(/assets/backdrops/apex-bladestorm.jpg)',
-      'beastmaster': 'url(/assets/backdrops/apex-beastmaster.jpg)'
+      'shadowblade': 'url(/assets/Backgrounds/Forest3.png)',
+      'bladestorm': 'url(/assets/Backgrounds/DenseForest.png)',
+      'beastmaster': 'url(/assets/Backgrounds/mountains4.png)'
     },
     'Warden': {
-      'shadowblade': 'url(/assets/backdrops/warden-shadowblade.jpg)',
-      'jailer': 'url(/assets/backdrops/warden-jailer.jpg)',
-      'avenger': 'url(/assets/backdrops/warden-avenger.jpg)'
+      'shadowblade': 'url(/assets/Backgrounds/Forest2.png)',
+      'jailer': 'url(/assets/Backgrounds/mountains1.png)',
+      'avenger': 'url(/assets/Backgrounds/mountains3.png)',
+      'monolith': 'url(/assets/Backgrounds/mountains1.png)',
+      'primal_stalker': 'url(/assets/Backgrounds/Forest2.png)',
+      'earth_shaper': 'url(/assets/Backgrounds/mountains3.png)'
     },
     'Gambit': {
-      'probability_savant': 'url(/assets/backdrops/fate-fortune.jpg)',
-      'high_roller': 'url(/assets/backdrops/gambler-risk.jpg)',
-      'karmic_weaver': 'url(/assets/backdrops/fate-thread.jpg)'
+      'probability_savant': 'url(/assets/Backgrounds/Stonehedge.png)',
+      'high_roller': 'url(/assets/Backgrounds/Smoke.png)',
+      'karmic_weaver': 'url(/assets/Backgrounds/CrystalCave.png)'
     },
     'Martyr': {
-      'redemption': 'url(/assets/backdrops/martyr-protector.jpg)',
-      'zealot': 'url(/assets/backdrops/martyr-redeemer.jpg)',
-      'ascetic': 'url(/assets/backdrops/martyr-avenger.jpg)'
+      'redemption': 'url(/assets/Backgrounds/Temple.png)',
+      'zealot': 'url(/assets/Backgrounds/DesertTemple.png)',
+      'ascetic': 'url(/assets/Backgrounds/Stonehedge.png)',
+      'protector': 'url(/assets/Backgrounds/Temple.png)',
+      'redeemer': 'url(/assets/Backgrounds/DesertTemple.png)',
+      'avenger': 'url(/assets/Backgrounds/Stonehedge.png)'
     },
     'False Prophet': {
-      'silence_speaker': 'url(/assets/backdrops/falseprophet-silence_speaker.jpg)',
-      'deceiver': 'url(/assets/backdrops/falseprophet-deceiver.jpg)',
-      'cultist': 'url(/assets/backdrops/falseprophet-cultist.jpg)'
+      'silence_speaker': 'url(/assets/Backgrounds/DesertTemple.png)',
+      'deceiver': 'url(/assets/Backgrounds/HazyCave.png)',
+      'cultist': 'url(/assets/Backgrounds/Stonehedge.png)'
     },
     'Plaguebringer': {
-      'virulent_spreader': 'url(/assets/backdrops/plaguebringer-virulent.jpg)',
-      'torment_weaver': 'url(/assets/backdrops/plaguebringer-torment.jpg)',
-      'decay_harbinger': 'url(/assets/backdrops/plaguebringer-decay.jpg)'
+      'virulent_spreader': 'url(/assets/Backgrounds/GloomyCave.png)',
+      'torment_weaver': 'url(/assets/Backgrounds/Spikey%20Cave.png)',
+      'decay_harbinger': 'url(/assets/Backgrounds/HazyCave.png)',
+      'virulent': 'url(/assets/Backgrounds/GloomyCave.png)',
+      'torment': 'url(/assets/Backgrounds/Spikey%20Cave.png)',
+      'decay': 'url(/assets/Backgrounds/HazyCave.png)'
     },
-    // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
     'Revenant': {
-      'sanguine_harvest': 'url(/assets/backdrops/deathcaller-blood.jpg)',
-      'frost_sovereign': 'url(/assets/backdrops/lichborne-frostbound.jpg)',
-      'phylactery_anchor': 'url(/assets/backdrops/lichborne-phylactery.jpg)'
+      'sanguine_harvest': 'url(/assets/Backgrounds/Volcano%20Lake.png)',
+      'frost_sovereign': 'url(/assets/Backgrounds/Frost.png)',
+      'phylactery_anchor': 'url(/assets/Backgrounds/CrystalCave.png)'
     },
     'Spellguard': {
-      'arcane_warden': 'url(/assets/backdrops/spellguard-warden.jpg)',
-      'spell_breaker': 'url(/assets/backdrops/spellguard-breaker.jpg)',
-      'mana_reaver': 'url(/assets/backdrops/spellguard-reaver.jpg)'
+      'arcane_warden': 'url(/assets/Backgrounds/CrystalCave.png)',
+      'spell_breaker': 'url(/assets/Backgrounds/DesertTemple.png)',
+      'mana_reaver': 'url(/assets/Backgrounds/Temple.png)'
     },
     'Berserker': {
-      'primal_rage': 'url(/assets/backdrops/berserker-primal-rage.jpg)',
-      'blood_frenzy': 'url(/assets/backdrops/berserker-blood-frenzy.jpg)',
-      'savage_instincts': 'url(/assets/backdrops/berserker-savage-instincts.jpg)'
+      'primal_rage': 'url(/assets/Backgrounds/Volcano.png)',
+      'blood_frenzy': 'url(/assets/Backgrounds/mountains2.png)',
+      'savage_instincts': 'url(/assets/Backgrounds/Forest1.png)'
     },
     'Augur': {
-      'auspex': 'url(/assets/backdrops/augur-auspex.jpg)',
-      'harbinger': 'url(/assets/backdrops/augur-harbinger.jpg)',
-      'hierophant': 'url(/assets/backdrops/augur-hierophant.jpg)'
-    },
-    // Add more classes as needed
+      'auspex': 'url(/assets/Backgrounds/NightFrost.png)',
+      'harbinger': 'url(/assets/Backgrounds/Stonehedge.png)',
+      'hierophant': 'url(/assets/Backgrounds/DesertTemple.png)'
+    }
   };
 
-  // Return backdrop or fallback gradient
   return backdropMap[className]?.[specId] || null;
 };
 
-// Fallback gradient backgrounds for each tree index
+// Fallback thematic backgrounds from the Backgrounds array for each tree index
 export const getFallbackBackground = (treeIndex) => {
   const backgrounds = [
-    'linear-gradient(135deg, rgba(139, 69, 19, 0.15) 0%, rgba(101, 67, 33, 0.25) 50%, rgba(139, 69, 19, 0.15) 100%)',
-    'linear-gradient(135deg, rgba(70, 130, 180, 0.15) 0%, rgba(100, 149, 237, 0.25) 50%, rgba(70, 130, 180, 0.15) 100%)',
-    'linear-gradient(135deg, rgba(220, 20, 60, 0.15) 0%, rgba(178, 34, 34, 0.25) 50%, rgba(220, 20, 60, 0.15) 100%)'
+    'url(/assets/Backgrounds/Stonehedge.png)',
+    'url(/assets/Backgrounds/CrystalCave.png)',
+    'url(/assets/Backgrounds/Smoke.png)',
+    'url(/assets/Backgrounds/MountainSky.png)',
+    'url(/assets/Backgrounds/DesertTemple.png)',
+    'url(/assets/Backgrounds/Forest1.png)',
+    'url(/assets/Backgrounds/Volcano.png)'
   ];
-  return backgrounds[treeIndex % 3];
+  return backgrounds[treeIndex % backgrounds.length];
 };
 export const TALENT_TREES = {
   // 'Dreadnaught' tree map removed (absorbed into Martyr as Ironclad specialization)

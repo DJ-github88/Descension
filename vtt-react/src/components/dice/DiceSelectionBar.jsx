@@ -153,7 +153,7 @@ const DiceSelectionBar = () => {
 
       {/* Dice Dropdown - Show when dice orb is selected */}
       {isOpen && selectedOrb === 'dice' && (
-        <div className="dice-dropdown">
+        <div className="dice-dropdown dice-dropdown-dice">
           {/* Header */}
           <div className="dice-dropdown-header">
             <span className="dice-dropdown-title">Dice Roller</span>
@@ -169,133 +169,145 @@ const DiceSelectionBar = () => {
             )}
           </div>
 
-          {/* Quick Roll Buttons */}
-          <div className="quick-roll-section">
-            <div className="quick-roll-label">Quick Roll:</div>
-            <div className="quick-roll-buttons">
-              {Object.values(DICE_TYPES).slice(0, 6).map(diceType => (
+          {/* Scrollable body: everything except the roll action */}
+          <div className="dice-dropdown-body">
+            {/* Quick Roll Buttons */}
+            <div className="quick-roll-section">
+              <div className="quick-roll-label">Quick Roll:</div>
+              <div className="quick-roll-buttons">
+                {Object.values(DICE_TYPES).slice(0, 6).map(diceType => (
+                  <button
+                    key={diceType.id}
+                    className="quick-roll-button"
+                    onClick={() => handleQuickRoll(diceType.id)}
+                    disabled={isRolling}
+                    title={`Quick roll ${diceType.name}`}
+                  >
+                    <span className="dice-icon-shape" />
+                    <span className="dice-btn-label">{diceType.name}</span>
+                  </button>
+                ))}
                 <button
-                  key={diceType.id}
                   className="quick-roll-button"
-                  onClick={() => handleQuickRoll(diceType.id)}
+                  onClick={() => handleQuickRoll('dpercent')}
                   disabled={isRolling}
-                  title={`Quick roll ${diceType.name}`}
+                  title="Quick roll percentile (00-90)"
                 >
-                  <span className="dice-icon-shape" />
-                  <span className="dice-btn-label">{diceType.name}</span>
+                  D%
                 </button>
-              ))}
-              <button
-                className="quick-roll-button"
-                onClick={() => handleQuickRoll('dpercent')}
-                disabled={isRolling}
-                title="Quick roll percentile (00-90)"
-              >
-                D%
-              </button>
-              <button
-                className="quick-roll-button"
-                onClick={() => handleQuickRoll('d100')}
-                disabled={isRolling}
-                title="Quick roll D100 (percentile + d10)"
-              >
-                D100
-              </button>
-            </div>
-          </div>
-
-          {/* Dice Selection */}
-          <div className="dice-selection-section">
-            <div className="dice-selection-label">Select Dice:</div>
-            <div className="dice-grid">
-              {Object.values(DICE_TYPES).map(diceType => {
-                const selectedDiceOfType = selectedDice.find(d => d.type === diceType.id);
-                const quantity = selectedDiceOfType ? selectedDiceOfType.quantity : 0;
-
-                return (
-                  <div key={diceType.id} className="dice-item">
-                    <button
-                      className={`dice-select-button dice-btn-${diceType.id} ${quantity > 0 ? 'selected' : ''}`}
-                      onClick={(e) => handleDiceClick(diceType.id, e)}
-                      style={{ '--dice-color': diceType.color }}
-                      title={`${diceType.name} (${diceType.sides} sides)`}
-                    >
-                      <span className="dice-icon-shape" />
-                      <span className="dice-btn-label">{diceType.name}</span>
-                    </button>
-                    {quantity > 0 && (
-                      <div className="dice-quantity-control">
-                        <button
-                          className="quantity-decrement"
-                          onClick={() => removeDice(diceType.id)}
-                          title="Decrease"
-                        >
-                          −
-                        </button>
-                        <input
-                          type="number"
-                          min="0"
-                          max="20"
-                          value={quantity}
-                          onChange={(e) => handleQuantityChange(diceType.id, e.target.value)}
-                          className="quantity-input"
-                        />
-                        <button
-                          className="quantity-increment"
-                          onClick={() => addDice(diceType.id)}
-                          title="Increase"
-                        >
-                          +
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Dice Theme Presets */}
-          <div className="preset-section">
-            <div className="preset-label">Theme:</div>
-            <div className="preset-grid">
-              {Object.values(DICE_PRESETS).map(preset => (
                 <button
-                  key={preset.id}
-                  className={`preset-button ${activePreset === preset.id ? 'active' : ''}`}
-                  onClick={() => setDicePreset(preset.id)}
-                  title={preset.name}
+                  className="quick-roll-button"
+                  onClick={() => handleQuickRoll('d100')}
+                  disabled={isRolling}
+                  title="Quick roll D100 (percentile + d10)"
                 >
-                  <span
-                    className="preset-swatch"
-                    style={{
-                      background: `linear-gradient(135deg, ${preset.bodyColor}, ${preset.edgeColor})`,
-                      border: `2px solid ${preset.edgeColor}`
-                    }}
-                  />
-                  <span className="preset-name">{preset.name}</span>
+                  D100
                 </button>
-              ))}
+              </div>
+            </div>
+
+            {/* Dice Selection */}
+            <div className="dice-selection-section">
+              <div className="dice-selection-label">Select Dice:</div>
+              <div className="dice-grid">
+                {Object.values(DICE_TYPES).map(diceType => {
+                  const selectedDiceOfType = selectedDice.find(d => d.type === diceType.id);
+                  const quantity = selectedDiceOfType ? selectedDiceOfType.quantity : 0;
+
+                  return (
+                    <div key={diceType.id} className="dice-item">
+                      <button
+                        className={`dice-select-button dice-btn-${diceType.id} ${quantity > 0 ? 'selected' : ''}`}
+                        onClick={(e) => handleDiceClick(diceType.id, e)}
+                        style={{ '--dice-color': diceType.color }}
+                        title={`${diceType.name} (${diceType.sides} sides)`}
+                      >
+                        <span className="dice-icon-shape" />
+                        <span className="dice-btn-label">{diceType.name}</span>
+                      </button>
+                      {quantity > 0 && (
+                        <div className="dice-quantity-control">
+                          <button
+                            className="quantity-decrement"
+                            onClick={() => removeDice(diceType.id)}
+                            title="Decrease"
+                          >
+                            −
+                          </button>
+                          <input
+                            type="number"
+                            min="0"
+                            max="20"
+                            value={quantity}
+                            onChange={(e) => handleQuantityChange(diceType.id, e.target.value)}
+                            className="quantity-input"
+                          />
+                          <button
+                            className="quantity-increment"
+                            onClick={() => addDice(diceType.id)}
+                            title="Increase"
+                          >
+                            +
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Dice Theme Presets */}
+            <div className="dice-preset-section">
+              <div className="dice-preset-label">Theme:</div>
+              <div className="dice-preset-grid">
+                {Object.values(DICE_PRESETS).map(preset => (
+                  <button
+                    key={preset.id}
+                    className={`dice-preset-chip ${activePreset === preset.id ? 'active' : ''}`}
+                    onClick={() => setDicePreset(preset.id)}
+                    title={preset.name}
+                  >
+                    <span
+                      className="dice-preset-tile"
+                      style={{
+                        '--tile-base': `linear-gradient(135deg, ${preset.bodyColor}, ${preset.edgeColor})`,
+                        '--tile-emissive': preset.emissive,
+                        '--tile-emissive-strength': preset.emissiveIntensity,
+                        '--tile-number': preset.numberColor,
+                        '--tile-glow': preset.glowColor || preset.edgeColor,
+                      }}
+                    >
+                      <span className="dice-preset-tile-number">20</span>
+                    </span>
+                    <span className="dice-preset-name">{preset.name}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Roll Summary & Button */}
-          {totalDice > 0 && (
-            <div className="roll-summary-section">
-              <div className="roll-summary-text">
-                <strong>{rollString}</strong>
-                <span className="roll-total-label">({totalDice} dice)</span>
-              </div>
-              <ChargeableRollButton
-                className="roll-button"
-                onRoll={(power, dir) => handleRoll(power, dir)}
-                disabled={isRolling}
-                title="Click or Hold & Release to throw with velocity"
-              >
-                {isRolling ? 'Rolling...' : 'Roll'}
-              </ChargeableRollButton>
+          {/* Roll summary & button — pinned footer, always visible */}
+          <div className="dice-dropdown-footer">
+            <div className="roll-summary-text">
+              {totalDice > 0 ? (
+                <>
+                  <strong>{rollString}</strong>
+                  <span className="roll-total-label">({totalDice} dice)</span>
+                </>
+              ) : (
+                <span className="roll-hint">Pick dice or use Quick Roll</span>
+              )}
             </div>
-          )}
+            <ChargeableRollButton
+              className="roll-button"
+              onRoll={(power, dir) => handleRoll(power, dir)}
+              disabled={isRolling || totalDice === 0}
+              title="Click or Hold & Release to throw with velocity"
+            >
+              {isRolling ? 'Rolling...' : 'Roll'}
+            </ChargeableRollButton>
+          </div>
         </div>
       )}
 

@@ -358,7 +358,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     requires: "ms_t6_eclipse_aim",
     spell: {
       name: "Marksman Supreme",
-      description: "A thousand draws sharpen the ten-thousandth. All ranged damage you deal is increased by 10%.",
+      description: "A thousand draws sharpen the ten-thousandth. All ranged damage you deal is increased by +1d6 damage.",
       flavorText: "Muscle memory, lunar-assisted.",
       source: "talent", class: "Lunarch", treeId: "moonlight-sentinel",
       spellType: "PASSIVE", category: "buff",
@@ -366,10 +366,10 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
       visualTheme: "sacred", tags: ["passive", "capstone", "damage", "lunarch"]
     },
     rankUpgrades: [
-      { description: "A thousand draws sharpen the ten-thousandth. All ranged damage you deal is increased by 20%." },
-      { description: "A thousand draws sharpen the ten-thousandth. All ranged damage you deal is increased by 30%." },
-      { description: "A thousand draws sharpen the ten-thousandth. All ranged damage you deal is increased by 45%." },
-      { description: "A thousand draws sharpen the ten-thousandth. All ranged damage you deal is increased by 60%, and Moonlight Arrow costs half mana." }
+      { description: "A thousand draws sharpen the ten-thousandth. All ranged damage you deal is increased by +1d8 damage." },
+      { description: "A thousand draws sharpen the ten-thousandth. All ranged damage you deal is increased by +1d8 damage." },
+      { description: "A thousand draws sharpen the ten-thousandth. All ranged damage you deal is increased by +2d8 damage." },
+      { description: "A thousand draws sharpen the ten-thousandth. All ranged damage you deal is increased by +2d8 damage, and Moonlight Arrow costs half mana." }
     ]
   },
   {

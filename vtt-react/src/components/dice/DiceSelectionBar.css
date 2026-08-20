@@ -150,6 +150,62 @@
   max-width: calc(100vw - 32px);
 }
 
+/* Dice variant: header + scrollable body + pinned footer, so the Roll
+   button is always on screen and the themes never leave the panel. */
+.dice-dropdown-dice {
+  overflow: hidden;
+  gap: 10px;
+}
+
+.dice-dropdown-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 2px 6px 2px 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--my-brown-medium) var(--my-parchment-dark);
+}
+
+.dice-dropdown-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dice-dropdown-body::-webkit-scrollbar-track {
+  background: var(--my-parchment-dark);
+  border-radius: 3px;
+}
+
+.dice-dropdown-body::-webkit-scrollbar-thumb {
+  background: var(--my-brown-medium);
+  border-radius: 3px;
+}
+
+.dice-dropdown-body::-webkit-scrollbar-thumb:hover {
+  background: var(--my-brown-dark);
+}
+
+/* Pinned footer: roll summary + button never scroll away */
+.dice-dropdown-footer {
+  flex-shrink: 0;
+  padding-top: 11px;
+  border-top: 1px solid rgba(139, 115, 85, 0.45);
+  background: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 0 -16px -16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 14px;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 -4px 10px rgba(30, 20, 8, 0.12);
+}
+
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -210,7 +266,7 @@
 /* Sections */
 .quick-roll-section,
 .dice-selection-section,
-.preset-section {
+.dice-preset-section {
   display: flex;
   flex-direction: column;
   gap: 7px;
@@ -218,7 +274,7 @@
 
 .quick-roll-label,
 .dice-selection-label,
-.preset-label {
+.dice-preset-label {
   font-size: 10.5px;
   color: var(--my-text-muted);
   text-transform: uppercase;
@@ -271,32 +327,34 @@
   cursor: not-allowed;
 }
 
-/* Dice selection grid */
+/* Dice selection grid — compact 4-column tiles so all dice fit in 2 rows */
 .dice-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 7px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
 }
 
 .dice-item {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
+  min-width: 0;
 }
 
-/* Dice type buttons: clean parchment tiles, gem icon on the left */
+/* Dice type buttons: compact parchment tiles, gem icon above the label */
 .dice-select-button {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+  gap: 4px;
   background: linear-gradient(160deg, var(--my-parchment-light) 0%, var(--my-parchment) 60%, var(--my-parchment-dark) 100%);
   border: 1.5px solid var(--my-brown-medium);
   border-radius: 9px;
-  padding: 9px 10px;
+  padding: 8px 2px 6px;
   color: var(--my-text-primary);
   cursor: pointer;
-  font-size: 13px;
+  font-size: 11.5px;
   font-weight: 700;
   letter-spacing: 0.03em;
   transition: all 0.18s ease;
@@ -305,6 +363,7 @@
   box-shadow:
     0 1px 4px rgba(0, 0, 0, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  min-width: 0;
 }
 
 .dice-select-button:hover {
@@ -398,18 +457,10 @@
   -moz-appearance: textfield;
 }
 
-/* Roll summary */
-.roll-summary-section {
-  padding-top: 11px;
-  border-top: 1px solid rgba(139, 115, 85, 0.45);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
-
+/* Roll summary (inside pinned footer) */
 .roll-summary-text {
   flex: 1;
+  min-width: 0;
   font-size: 13px;
   color: var(--my-text-primary);
   font-family: 'Cinzel', 'Times New Roman', serif;
@@ -423,6 +474,13 @@
 .roll-total-label {
   color: var(--my-text-muted);
   margin-left: 4px;
+}
+
+.roll-hint {
+  color: var(--my-text-muted);
+  font-size: 11.5px;
+  font-style: italic;
+  letter-spacing: 0.04em;
 }
 
 .roll-button {
@@ -572,31 +630,35 @@
   background: var(--my-brown-dark);
 }
 
-/* Theme preset picker */
-.preset-grid {
+/* Theme preset picker — namespaced dice-preset-* (the generic .preset-button
+   collides with spellcrafting-wizard styles loaded in the same bundle).
+   Each chip carries a mini die-face tile showing the preset's real material:
+   body gradient + emissive glow + glossy sheen + number color. */
+.dice-preset-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 6px;
 }
 
-.preset-button {
+.dice-preset-chip {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 5px;
-  padding: 8px 4px 7px;
+  gap: 8px;
+  padding: 5px 10px 5px 6px;
   background: var(--my-parchment);
   border: 1.5px solid var(--my-brown-medium);
-  border-radius: 10px;
+  border-radius: 999px;
   cursor: pointer;
   transition: all 0.18s ease;
   font-family: 'Cinzel', 'Times New Roman', serif;
   box-shadow:
     0 1px 4px rgba(0, 0, 0, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  min-width: 0;
 }
 
-.preset-button:hover {
+.dice-preset-chip:hover {
   transform: translateY(-1px);
   border-color: var(--my-gold);
   box-shadow:
@@ -604,7 +666,7 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
-.preset-button.active {
+.dice-preset-chip.active {
   border-color: var(--my-gold);
   background: linear-gradient(160deg, #ecd9ae 0%, #dfc894 55%, #cbae7c 100%);
   box-shadow:
@@ -613,23 +675,74 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
-.preset-swatch {
+/* Material tile — a mini die face in the preset's own material */
+.dice-preset-tile {
+  position: relative;
   width: 26px;
   height: 26px;
-  border-radius: 50%;
-  display: block;
+  flex-shrink: 0;
+  border-radius: 7px;
+  background: var(--tile-base);
+  border: 1.5px solid rgba(0, 0, 0, 0.4);
   box-shadow:
-    0 2px 5px rgba(0, 0, 0, 0.35),
-    inset 0 1px 2px rgba(255, 255, 255, 0.45);
+    inset 0 1px 2px rgba(255, 255, 255, 0.35),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.preset-name {
-  font-size: 8.5px;
+/* Emissive inner glow — strength driven by the preset's emissiveIntensity */
+.dice-preset-tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 35% 30%, var(--tile-emissive) 0%, transparent 60%);
+  opacity: min(1, var(--tile-emissive-strength, 0.5) * 1.1);
+  mix-blend-mode: screen;
+}
+
+/* Glossy diagonal sheen — sells ice / clearcoat / polished stone */
+.dice-preset-tile::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.12) 30%,
+    transparent 48%);
+}
+
+.dice-preset-tile-number {
+  position: relative;
+  z-index: 1;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--tile-number);
+  text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.65),
+    0 0 3px rgba(0, 0, 0, 0.4);
+}
+
+.dice-preset-chip.active .dice-preset-tile {
+  box-shadow:
+    0 0 8px var(--tile-glow),
+    inset 0 1px 2px rgba(255, 255, 255, 0.35),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.35);
+}
+
+.dice-preset-name {
+  font-size: 9.5px;
   color: var(--my-text-primary);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 /* ==========================================================================

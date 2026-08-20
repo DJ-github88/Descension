@@ -1,26 +1,13 @@
 // ============================================
-// BERSERKER — BLOOD FRENZY (v3: spec identity redesign)
-// Schema: see talentSystem.mjs. Rank N spell = rank N-1 + rankUpgrades[N-2].
-// Economy: 8/6/6/5/5/5 = 30 pts (tiers 1-6) + 15 pts (tier 7) = 50.
+// BERSERKER — BLOOD FRENZY (v4: Rebalanced Tier Budgets, Normalized Grid Coordinates)
+// Schema: see talentSystem.mjs.
+// Grid coordinates: x (0..4), y (0..6 representing Tiers 1..7).
 //
-// SPEC IDENTITY: The Wound Engine / Self-Sustaining Glass Cannon.
-// You weaponize your own blood and injuries. While Primal Rage builds toward
-// peak rage states and Savage Instincts coordinates the pack, Blood Frenzy operates
-// in the danger zone: sacrificing HP for massive surges of Blood-Heat, leeching
-// vitality back through devastating blood attacks, and hitting harder the lower your HP drops.
-//
-// SIGNATURE ACTIVES:
-//   - Vein Tap (t1):                 Sacrifice HP for immediate Blood-Heat
-//   - Blood Rage (t1):               Reduce incoming damage and convert to heat
-//   - Crimson Wave (t3):             AoE life siphon burst
-//   - Hemorrhagic Link (t3):         Bind enemy to share your damage suffered
-//   - Sanguine Eruption (t4):        Violent gore detonation converting damage to temp health
-//   - Blood Harvest Rite (t6):       Massive burst of Blood-Heat at cost of health
-//   - Blood God Ascended (t7):       ULTIMATE — Avatar of blood and vampiric devastation
+// FANTASY: The Wound Engine / Blood Sacrifice & Lifesteal / High-Stakes Duelist.
 // ============================================
 
 export const BERSERKER_BLOOD_FRENZY = [
-  // ──────────────── TIER 1 (8 pts) ────────────────
+  // ──────────────── TIER 1 (Row 0) ────────────────
   {
     id: "bf_t1_blood_magic",
     name: "Vein Tap",
@@ -30,432 +17,320 @@ export const BERSERKER_BLOOD_FRENZY = [
     requires: null,
     spell: {
       name: "Vein Tap",
-      description: "Sacrifice 5 health: instantly generate 15 Blood-Heat and your next attack deals +1d6 blight damage.",
+      description: "Spend 3 Hit Points: Instantly generate 15 Blood-Heat and your next attack deals +1d4 bleed damage.",
       flavorText: "The earth drinks. The veins provide.",
       source: "talent", class: "Berserker", treeId: "blood_frenzy",
       spellType: "ACTIVE", category: "utility",
-      targetingMode: "self", rangeType: "self", range: 0,
+      actionPoints: 0,
+      targetingMode: "self",
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { health: { baseAmount: 5, costType: "flat" } },
+      cooldownCategory: "turn_based", cooldownValue: 1, cooldownUnit: "round",
       damageTypes: ["blight"],
-      primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
+      primaryDamage: { dice: "1d4", flat: 0, procChance: 100 },
       visualTheme: "blight", tags: ["resource", "self-damage", "berserker"]
     },
     rankUpgrades: [
-      { description: "Sacrifice 5 health: generate 20 Blood-Heat, and your next attack deals +1d8 blight damage.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } },
-      { description: "Sacrifice 5 health: generate 25 Blood-Heat, your next attack deals +1d10 blight damage and restores 5 health on hit.", primaryDamage: { dice: "1d10", flat: 0, procChance: 100 } }
+      { description: "Spend 3 HP: Generates 20 Blood-Heat and next attack deals +1d6 bleed damage.", primaryDamage: { dice: "1d6", flat: 0, procChance: 100 } },
+      { description: "Spend 3 HP: Generates 25 Blood-Heat, next attack deals +1d8 bleed damage, and restores 3 HP on hit.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } }
     ]
   },
   {
     id: "bf_t1_blood_rage",
-    name: "Blood Rage",
+    name: "Blood Scent",
     icon: "spell_shadow_bloodboil",
     maxRanks: 3,
-    position: { x: 2.5, y: 0 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
-      name: "Blood Rage",
-      description: "When you would take damage, roll 1d6: you reduce the damage by that amount and convert the absorbed damage into bonus Blood-Heat.",
-      flavorText: "Bleed less. Burn more.",
+      name: "Blood Scent",
+      description: "Passive: You gain +1 to hit and +5 feet movement speed when moving toward an enemy with less than half maximum health.",
+      flavorText: "The metallic tang in the air guides every step.",
       source: "talent", class: "Berserker", treeId: "blood_frenzy",
-      spellType: "ACTIVE", category: "buff",
-      targetingMode: "self", rangeType: "self", range: 0,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { bloodHeat: { baseAmount: 0 } },
-      buffs: ["blood-rage"], visualTheme: "blight", tags: ["defense", "conversion", "berserker"]
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "blight", tags: ["passive", "accuracy", "speed", "berserker"]
     },
     rankUpgrades: [
-      { description: "Roll 1d8: reduce damage taken and gain equal Blood-Heat. Cooldown reduced to 6s.", cooldownValue: 6 },
-      { description: "Roll 1d12: reduce damage taken, gain equal Blood-Heat, and your next attack within 1 round heals you for the rolled amount." }
+      { description: "Gain +2 to hit and +10 feet movement speed toward injured enemies." },
+      { description: "Gain +2 to hit, +15 feet movement speed, and weapon attacks deal +1d4 bonus damage against them." }
     ]
   },
   {
-    id: "bf_t1_wound_power",
-    name: "Wound Power",
-    icon: "spell_shadow_lifedrain",
+    id: "bf_t1_sanguine_resilience",
+    name: "Sanguine Resilience",
+    icon: "ability_warrior_bloodrage",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
-      name: "Wound Power",
-      description: "Each scar earned makes the frost-rage bite deeper. For each 25% of your health that is missing, you gain +1 to attack rolls and +1d4 blight damage on all weapon attacks.",
-      flavorText: "The ledger of scars, balanced in violence.",
+      name: "Sanguine Resilience",
+      description: "Passive: While below half maximum health, you gain +1 Damage Reduction and restore 1 Hit Point on every successful melee hit.",
+      flavorText: "Clinging to life with predatory tenacity.",
       source: "talent", class: "Berserker", treeId: "blood_frenzy",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", damageTypes: ["blight"],
-      visualTheme: "blight", tags: ["passive", "wound", "berserker"]
+      targetingMode: "self", visualTheme: "blight", tags: ["passive", "lifesteal", "low-hp", "berserker"]
     },
     rankUpgrades: [
-      { description: "For each 25% of missing health, gain +1 to attack rolls and +1d6 blight damage. Below 50% health, your critical strikes heal you for 1d6 health." }
+      { description: "Gain +2 Damage Reduction and restore 2 Hit Points on every melee hit while below half health." }
     ]
   },
 
-  // ──────────────── TIER 2 (6 pts) ────────────────
+  // ──────────────── TIER 2 (Row 1) ────────────────
   {
-    id: "bf_t2_bloody_retaliation",
-    name: "Bloody Retaliation",
-    icon: "ability_warrior_bloodbath",
+    id: "bf_t2_crimson_slash",
+    name: "Crimson Strike",
+    icon: "ability_rogue_eviscerate",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "bf_t1_blood_magic",
     spell: {
-      name: "Bloody Retaliation",
-      description: "When you take damage from an enemy within 10 feet, lash out with a spray of boiling blood: deal 1d6 blight damage to the attacker and gain 5 Blood-Heat.",
-      flavorText: "Every wound is a return address.",
+      name: "Crimson Strike",
+      description: "Spend 1 AP and 10 Blood-Heat: Deliver a vicious lacerating strike for 1d8 slicing damage and inflict Bleeding (1d4 damage per round for 2 rounds).",
+      flavorText: "Open the artery, let the heat flow.",
+      source: "talent", class: "Berserker", treeId: "blood_frenzy",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "melee", range: 5,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 1, cooldownUnit: "round",
+      primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
+      isDot: true, dotDuration: 2, dotTick: "1d4",
+      damageTypes: ["slicing"],
+      visualTheme: "blight", tags: ["strike", "bleed", "dot", "berserker"]
+    },
+    rankUpgrades: [
+      { description: "Deals 2d6 initial slicing damage; Bleeding deals 1d6 per round.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 }, dotTick: "1d6" },
+      { description: "Deals 2d8 initial slicing damage; Bleeding deals 1d8 per round and restores 2 HP to you each tick.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 }, dotTick: "1d8" }
+    ]
+  },
+  {
+    id: "bf_t2_hemorrhagic_ward",
+    name: "Hemorrhagic Ward",
+    icon: "spell_shadow_curseofachimonde",
+    maxRanks: 3,
+    position: { x: 3, y: 1 },
+    requires: "bf_t1_sanguine_resilience",
+    spell: {
+      name: "Hemorrhagic Ward",
+      description: "Reaction: When you take damage, spend 10 Blood-Heat to immediately gain 6 temporary Hit Points.",
+      flavorText: "Hardened coagulation turns bloodshed into armor.",
+      source: "talent", class: "Berserker", treeId: "blood_frenzy",
+      spellType: "ACTIVE", category: "buff",
+      actionPoints: 0,
+      targetingMode: "self",
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      visualTheme: "blight", tags: ["reaction", "shield", "berserker"]
+    },
+    rankUpgrades: [
+      { description: "Grants 10 temporary Hit Points." },
+      { description: "Grants 14 temporary Hit Points and deals 1d6 bleed damage to the attacker." }
+    ]
+  },
+
+  // ──────────────── TIER 3 (Row 2) ────────────────
+  {
+    id: "bf_t3_crimson_wave",
+    name: "Crimson Wave",
+    icon: "spell_shadow_shadowwordpain",
+    maxRanks: 3,
+    position: { x: 1, y: 2 },
+    requires: "bf_t2_crimson_slash",
+    spell: {
+      name: "Crimson Wave",
+      description: "Spend 1 AP and 20 Blood-Heat: Unleash a spray of pressurized blood in a 15-foot cone. Deals 2d6 slicing damage and heals you for 2 Hit Points per enemy hit.",
+      flavorText: "A red arc cutting across the ranks.",
+      source: "talent", class: "Berserker", treeId: "blood_frenzy",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "aoe", aoeShape: "cone", aoeSize: 15, rangeType: "melee", range: 15,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
+      damageTypes: ["slicing"],
+      visualTheme: "blight", tags: ["cone", "lifesteal", "berserker"]
+    },
+    rankUpgrades: [
+      { description: "Deals 2d8 slicing damage and heals for 3 Hit Points per enemy hit.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } },
+      { description: "Deals 3d6 slicing damage, heals for 4 HP per hit, and applies Bleeding to all targets.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
+    ]
+  },
+  {
+    id: "bf_t3_arterial_rupture",
+    name: "Arterial Rupture",
+    icon: "ability_warrior_bloodstorm",
+    maxRanks: 3,
+    position: { x: 3, y: 2 },
+    requires: "bf_t2_hemorrhagic_ward",
+    spell: {
+      name: "Arterial Rupture",
+      description: "Passive: Whenever you score a critical hit on a bleeding enemy, they burst with arterial blood, dealing 1d6 bleed damage to all other enemies within 10 feet.",
+      flavorText: "Pressure release with devastating consequences.",
       source: "talent", class: "Berserker", treeId: "blood_frenzy",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", damageTypes: ["blight"],
       primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
+      visualTheme: "blight", tags: ["passive", "crit-burst", "berserker"]
+    },
+    rankUpgrades: [
+      { description: "Burst deals 1d8 bleed damage and generates 10 Blood-Heat." },
+      { description: "Burst deals 2d6 bleed damage, generates 10 Blood-Heat, and heals you for 4 Hit Points." }
+    ]
+  },
+
+  // ──────────────── TIER 4 (Row 3) ────────────────
+  {
+    id: "bf_t4_sanguine_eruption",
+    name: "Sanguine Detonation",
+    icon: "spell_shadow_antimagicshell",
+    maxRanks: 1,
+    position: { x: 2, y: 3 },
+    requires: ["bf_t3_crimson_wave", "bf_t3_arterial_rupture"],
+    spell: {
+      name: "Sanguine Detonation",
+      description: "Spend 1 AP, 25 Blood-Heat, and 4 HP: Detonate a violent circle of boiling blood in a 15-foot radius. Deals 2d10 slicing damage to all enemies and grants you 8 temporary Hit Points.",
+      flavorText: "Your own blood becomes a shockwave of boiling iron.",
+      source: "talent", class: "Berserker", treeId: "blood_frenzy",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "aoe", aoeShape: "circle", aoeSize: 15, rangeType: "ranged", range: 15,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      primaryDamage: { dice: "2d10", flat: 0, procChance: 100 },
+      damageTypes: ["slicing"],
+      visualTheme: "blight", tags: ["aoe", "detonation", "shield", "berserker"]
+    }
+  },
+
+  // ──────────────── TIER 5 (Row 4) ────────────────
+  {
+    id: "bf_t5_boiling_blood",
+    name: "Boiling Blood",
+    icon: "spell_fire_sealoffire",
+    maxRanks: 3,
+    position: { x: 1, y: 4 },
+    requires: "bf_t4_sanguine_eruption",
+    spell: {
+      name: "Boiling Blood",
+      description: "Passive: When you take 10 or more damage in a single hit, your blood boils with fury. Immediately gain 10 Blood-Heat and your next attack deals +1d8 bleed damage.",
+      flavorText: "Every wound superheats your resolve.",
+      source: "talent", class: "Berserker", treeId: "blood_frenzy",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", damageTypes: ["blight"],
+      primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
       visualTheme: "blight", tags: ["passive", "retaliation", "berserker"]
     },
     rankUpgrades: [
-      { description: "When damaged in melee, spray boiling blood for 1d8 blight damage and 10 Blood-Heat.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } },
-      { description: "When damaged in melee, spray boiling blood for 1d10 blight damage, 10 Blood-Heat, and inflict Bleed (1d4 per round for 2 rounds).", primaryDamage: { dice: "1d10", flat: 0, procChance: 100 } }
+      { description: "Gain 15 Blood-Heat and next attack deals +2d6 bleed damage." },
+      { description: "Gain 20 Blood-Heat, next attack deals +2d8 bleed damage and has Advantage." }
     ]
   },
   {
-    id: "bf_t2_pain_threshold",
-    name: "Pain Threshold",
-    icon: "spell_shadow_shadowwordpain",
-    maxRanks: 3,
-    position: { x: 3, y: 1.5 },
-    requires: "bf_t1_blood_rage",
-    spell: {
-      name: "Pain Threshold",
-      description: "Numbness born of northern frost shields you from agony. While below 50% health, you gain +2 Durability Steps to equipped durability and advantage on saving throws against physical and mental effects.",
-      flavorText: "Half-dead is a kind of invulnerable.",
-      source: "talent", class: "Berserker", treeId: "blood_frenzy",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "rime", tags: ["passive", "defense", "wound", "berserker"]
-    },
-    rankUpgrades: [
-      { description: "While below 50% health, gain +3 Durability Steps to equipped durability, advantage on saving throws, and 10% resistance to all damage." },
-      { description: "While below 50% health, gain +4 Durability Steps to equipped durability, advantage on saves, 15% all-damage resistance, and immunity to stun and fear." }
-    ]
-  },
-
-  // ──────────────── TIER 3 (6 pts) ────────────────
-  {
-    id: "bf_t3_crimson_wave",
-    name: "Crimson Wave",
-    icon: "ability_warrior_bloodnova",
-    maxRanks: 3,
-    position: { x: 1, y: 3 },
-    requires: "bf_t2_bloody_retaliation",
-    spell: {
-      name: "Crimson Wave",
-      description: "Spend 25 Blood-Heat: unleash a 15-foot nova of siphon blood. Deals 2d8 blight damage to all enemies in range and heals you for 30% of the total damage dealt.",
-      flavorText: "The tide takes and the tide gives.",
-      source: "talent", class: "Berserker", treeId: "blood_frenzy",
-      spellType: "ACTIVE", category: "healing",
-      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 15,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 14, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { bloodHeat: { baseAmount: 25 } },
-      damageTypes: ["blight"],
-      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
-      visualTheme: "blight", tags: ["healing", "aoe", "damage", "berserker"]
-    },
-    rankUpgrades: [
-      { description: "Spend 25 Blood-Heat: 15-foot nova deals 3d8 blight damage and heals you for 30% of total damage. Cooldown drops to 12s.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 }, cooldownValue: 12 },
-      { description: "Spend 25 Blood-Heat: 20-foot nova deals 4d8 blight damage, heals for 30% of total damage, and enemies hit are slowed for 1 round.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 }, aoeSize: 20 }
-    ]
-  },
-  {
-    id: "bf_t3_hemorrhagic_link",
-    name: "Hemorrhagic Link",
-    icon: "spell_shadow_bloodboil",
-    maxRanks: 3,
-    position: { x: 3, y: 3 },
-    requires: "bf_t2_pain_threshold",
-    spell: {
-      name: "Hemorrhagic Link",
-      description: "Bind your vital thread to an enemy within 30 feet for 1 minute: whenever you take damage, the linked enemy takes 25% of that damage as blight damage.",
-      flavorText: "One wound, two owners. You keep the better half.",
-      source: "talent", class: "Berserker", treeId: "blood_frenzy",
-      spellType: "ACTIVE", category: "debuff",
-      targetingMode: "single", rangeType: "ranged", range: 30,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { bloodHeat: { baseAmount: 20 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
-      debuffs: ["hemorrhagic-link"], damageTypes: ["blight"],
-      visualTheme: "blight", tags: ["link", "damage-share", "berserker"]
-    },
-    rankUpgrades: [
-      { description: "Linked enemy takes 25% of damage you suffer, and whenever you deal damage to them you heal for 1d6 health." },
-      { description: "Linked enemy takes 25% of damage you suffer. If the linked enemy dies while bound, you instantly heal 4d8 health and gain 30 Blood-Heat." }
-    ]
-  },
-
-  // ──────────────── TIER 4 (5 pts) ────────────────
-  {
-    id: "bf_t4_sanguine_eruption",
-    name: "Sanguine Eruption",
-    icon: "spell_fire_selfdestruct",
-    maxRanks: 3,
-    position: { x: 1, y: 4.5 },
-    requires: "bf_t3_crimson_wave",
-    spell: {
-      name: "Sanguine Eruption",
-      description: "Sacrifice 15 health and spend 40 Blood-Heat: the ground beneath your target erupts in gore. Deals 4d8 blight damage to the target and 2d8 to all adjacent enemies, granting you 20 temporary health.",
-      flavorText: "Geology, but personal.",
-      source: "talent", class: "Berserker", treeId: "blood_frenzy",
-      spellType: "ACTIVE", category: "damage",
-      targetingMode: "single", rangeType: "melee", range: 5,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 18, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { health: { baseAmount: 15, costType: "flat" }, bloodHeat: { baseAmount: 40 } },
-      damageTypes: ["blight"],
-      primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
-      visualTheme: "blight", tags: ["burst", "aoe", "damage", "berserker"]
-    },
-    rankUpgrades: [
-      { description: "Sacrifice 15 health & 40 Blood-Heat: deals 5d8 blight to primary, 3d8 to adjacent, and grants 30 temporary health.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 } },
-      { description: "Sacrifice 15 health & 40 Blood-Heat: deals 6d8 blight to primary, 4d8 to adjacent, grants 40 temporary health, and knocks adjacent targets prone.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 } }
-    ]
-  },
-  {
-    id: "bf_t4_adrenaline_rush",
-    name: "Adrenaline Surge",
-    icon: "ability_rogue_sprint",
+    id: "bf_t5_siphon_vitality",
+    name: "Vampiric Draught",
+    icon: "spell_shadow_lifedrain",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
-    requires: "bf_t3_hemorrhagic_link",
-    spell: {
-      name: "Adrenaline Surge",
-      description: "When your health drops below 30%, instantly break all immobilization and slow effects, gain +15ft movement speed, and your next ability costs no Blood-Heat (cooldown: 45s).",
-      flavorText: "The body's last argument is speed.",
-      source: "talent", class: "Berserker", treeId: "blood_frenzy",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "primal", tags: ["passive", "desperation", "mobility", "berserker"]
-    },
-    rankUpgrades: [
-      { description: "Below 30% health: break all CC, gain +20ft speed, and your next TWO abilities cost no Blood-Heat and deal maximum damage (cooldown: 30s)." }
-    ]
-  },
-
-  // ──────────────── TIER 5 (5 pts) ────────────────
-  {
-    id: "bf_t5_life_steal",
-    name: "Sanguine Feast",
-    icon: "spell_shadow_lifedrain02",
-    maxRanks: 3,
-    position: { x: 1, y: 6 },
+    position: { x: 3, y: 4 },
     requires: "bf_t4_sanguine_eruption",
     spell: {
-      name: "Sanguine Feast",
-      description: "Your melee attacks drain life essence. While below 50% health, weapon strikes heal you for 1d8 health. While below 25% health, they heal for 2d8 health.",
-      flavorText: "The tundra owes you. Collect on every swing.",
+      name: "Vampiric Draught",
+      description: "Passive: Whenever an enemy takes damage from your Bleed effects, you restore 1 Hit Point.",
+      flavorText: "Sustenance drawn through open wounds.",
       source: "talent", class: "Berserker", treeId: "blood_frenzy",
-      spellType: "PASSIVE", category: "healing",
-      targetingMode: "self",
-      healing: { dice: "1d8", flat: 0 },
-      visualTheme: "blight", tags: ["passive", "lifesteal", "berserker"]
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "blight", tags: ["passive", "lifesteal", "berserker"]
     },
     rankUpgrades: [
-      { description: "Weapon strikes heal for 1d10 (below 50% HP) or 2d10 (below 25% HP). Critical strikes double this healing.", healing: { dice: "1d10", flat: 0 } },
-      { description: "Weapon strikes heal for 1d12 (below 50% HP) or 3d8 (below 25% HP). Excess healing is converted into temporary health up to 25." }
-    ]
-  },
-  {
-    id: "bf_t5_berserk_healing",
-    name: "Clotted Fortitude",
-    icon: "spell_holy_blessedrecovery",
-    maxRanks: 2,
-    position: { x: 3, y: 6 },
-    requires: "bf_t4_adrenaline_rush",
-    spell: {
-      name: "Clotted Fortitude",
-      description: "Your blood thickens to seal mortal injuries. While in Frenzied or higher Rage State, regenerate 1d8 health each round. This healing functions even through outside heal-prevention effects.",
-      flavorText: "You cannot be healed by others. You never needed them to.",
-      source: "talent", class: "Berserker", treeId: "blood_frenzy",
-      spellType: "PASSIVE", category: "healing",
-      targetingMode: "self",
-      healing: { dice: "1d8", flat: 0 },
-      visualTheme: "rime", tags: ["passive", "regeneration", "berserker"]
-    },
-    rankUpgrades: [
-      { description: "Regenerate 2d8 health each round while Frenzied or higher. When reduced below 20% health, instantly burst-heal 3d8 health (once per combat)." }
+      { description: "Restore 2 Hit Points on every Bleed tick, and your melee attacks heal you for 2 Hit Points." }
     ]
   },
 
-  // ──────────────── TIER 6 (5 pts) ────────────────
+  // ──────────────── TIER 6 (Row 5) ────────────────
   {
-    id: "bf_t6_deathless_fury",
-    name: "Deathless Fury",
-    icon: "spell_shadow_deathscream",
-    maxRanks: 1,
-    position: { x: 1, y: 7.5 },
-    requires: "bf_t5_life_steal",
-    spell: {
-      name: "Deathless Fury",
-      description: "When you would suffer lethal damage, you cannot be reduced below 1 health for 1 full round. All damage taken during this round generates triple Blood-Heat.",
-      flavorText: "She came for you once. She left embarrassed.",
-      source: "talent", class: "Berserker", treeId: "blood_frenzy",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "blight", tags: ["survival", "cheat-death", "berserker"]
-    },
-    rankUpgrades: []
-  },
-  {
-    id: "bf_t6_blood_ritual",
+    id: "bf_t6_blood_harvest",
     name: "Blood Harvest Rite",
-    icon: "spell_shadow_soulleech",
-    maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
-    requires: "bf_t5_berserk_healing",
+    icon: "spell_shadow_demonicempathy",
+    maxRanks: 3,
+    position: { x: 2, y: 5 },
+    requires: ["bf_t5_boiling_blood", "bf_t5_siphon_vitality"],
     spell: {
       name: "Blood Harvest Rite",
-      description: "Sacrifice 20 health: instantly max your Blood-Heat to 100, entering Carnage state immediately. Your next ability within 1 round is guaranteed to critically hit.",
-      flavorText: "The oldest currency. Always accepted.",
+      description: "Spend 2 AP and 40 Blood-Heat: Create a swirling 20-foot vortex of razor blood. Deals 3d8 slicing damage to all enemies and restores 2d6 Hit Points to you.",
+      flavorText: "Reaping life force directly from the battlefield.",
       source: "talent", class: "Berserker", treeId: "blood_frenzy",
-      spellType: "ACTIVE", category: "utility",
-      targetingMode: "self", rangeType: "self", range: 0,
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 2,
+      targetingMode: "aoe", aoeShape: "circle", aoeSize: 20, rangeType: "ranged", range: 25,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { health: { baseAmount: 20, costType: "flat" } },
-      visualTheme: "blight", tags: ["resource", "self-damage", "crit", "berserker"]
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
+      damageTypes: ["slicing"],
+      visualTheme: "blight", tags: ["nuke", "lifesteal", "aoe", "berserker"]
     },
     rankUpgrades: [
-      { description: "Sacrifice 15 health: max Blood-Heat to 100. Your next TWO abilities critically hit, and Blood Harvest Rite cooldown drops to 20s.", cooldownValue: 20, resourceCosts: { health: { baseAmount: 15, costType: "flat" } } }
-    ]
-  },
-  {
-    id: "bf_t6_blood_fury",
-    name: "Crimson Boiling",
-    icon: "spell_shadow_bloodboil",
-    maxRanks: 2,
-    position: { x: 4, y: 7.5 },
-    requires: "bf_t5_berserk_healing",
-    spell: {
-      name: "Crimson Boiling",
-      description: "While below 35% health, all your blood spells (Crimson Wave, Sanguine Eruption, Blood Harvest) have their cooldowns reduced by 30%.",
-      flavorText: "Closest to the end. Closest to the fire.",
-      source: "talent", class: "Berserker", treeId: "blood_frenzy",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "blight", tags: ["passive", "cooldown", "berserker"]
-    },
-    rankUpgrades: [
-      { description: "While below 35% health, blood ability cooldowns reduced by 50% and their health costs are halved." }
+      { description: "Deals 3d10 slicing damage and heals you for 2d8 Hit Points.", primaryDamage: { dice: "3d10", flat: 0, procChance: 100 } },
+      { description: "Deals 4d8 slicing damage, heals for 3d6 HP, and resets the cooldown of Vein Tap.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
     ]
   },
 
-  // ──────────────── TIER 7 / CAPSTONE (15 pts) ────────────────
+  // ──────────────── TIER 7 (Row 6 - Capstones) ────────────────
   {
-    id: "bf_t7_blood_god_ascended",
-    name: "Blood God Ascended",
-    icon: "spell_shadow_bloodboil",
+    id: "bf_t7_avatar_of_blood",
+    name: "Avatar of the Blood Font",
+    icon: "spell_shadow_deathanddecay",
     maxRanks: 1,
-    position: { x: 0.5, y: 8 },
-    requires: "bf_t6_deathless_fury",
+    position: { x: 2, y: 6 },
+    requires: "bf_t6_blood_harvest",
     spell: {
-      name: "Blood God Ascended",
-      description: "ULTIMATE: Spend 80 Blood-Heat to transform into an Avatar of Blood for 1 minute: your attacks deal bonus blight damage equal to 50% of your missing health, and you heal for 40% of all damage you deal across all sources.",
-      flavorText: "The tribute is paid. The throne is wet.",
+      name: "Avatar of the Blood Font",
+      description: "ULTIMATE: Spend 2 AP: For 2 rounds, all your attacks restore 50% of damage dealt as Hit Points, weapon strikes deal +1d10 bleed damage, and lethal damage cannot reduce you below 1 HP during this state.",
+      flavorText: "Bathed in the crimson essence, death itself refuses you.",
       source: "talent", class: "Berserker", treeId: "blood_frenzy",
       spellType: "ACTIVE", category: "buff",
-      targetingMode: "self", rangeType: "self", range: 0,
+      actionPoints: 2,
+      targetingMode: "self",
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { bloodHeat: { baseAmount: 80 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
-      buffs: ["blood-god"], damageTypes: ["blight"],
-      visualTheme: "blight", tags: ["ultimate", "capstone", "transform", "berserker"]
-    },
-    rankUpgrades: []
+      cooldownCategory: "turn_based", cooldownValue: 5, cooldownUnit: "rounds",
+      visualTheme: "blight", tags: ["ultimate", "undying", "lifesteal", "berserker"]
+    }
   },
   {
-    id: "bf_t7_blood_god",
-    name: "Gore Siphon Doctrine",
-    icon: "spell_shadow_shadowward",
-    maxRanks: 5,
-    position: { x: 1.5, y: 8 },
-    requires: "bf_t6_blood_ritual",
+    id: "bf_t7_exsanguinating_fury",
+    name: "Exsanguinating Edge",
+    icon: "ability_rogue_shadowstrikes",
+    maxRanks: 2,
+    position: { x: 1, y: 6 },
+    requires: "bf_t6_blood_harvest",
     spell: {
-      name: "Gore Siphon Doctrine",
-      description: "Your wound mastery deepens. All healing you receive from Life Steal, Crimson Wave, and self-siphon is increased by 10%.",
-      flavorText: "Worship, by any other name.",
+      name: "Exsanguinating Edge",
+      description: "Passive: Your Bleed effects stack up to 3 times on the same target, and your attacks critical hit on rolls of 19–20 against bleeding foes.",
+      flavorText: "Three open wounds where there was only one.",
       source: "talent", class: "Berserker", treeId: "blood_frenzy",
-      spellType: "PASSIVE", category: "healing",
-      targetingMode: "self", visualTheme: "blight", tags: ["passive", "capstone", "healing-boost", "berserker"]
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "blight", tags: ["passive", "bleed-stack", "crit", "berserker"]
     },
     rankUpgrades: [
-      { description: "All self-siphon and lifesteal healing increased by 20%." },
-      { description: "All self-siphon and lifesteal healing increased by 35%." },
-      { description: "All self-siphon and lifesteal healing increased by 50%." },
-      { description: "All self-siphon and lifesteal healing increased by 70%, and Crimson Wave costs 0 Blood-Heat while below 25% health." }
+      { description: "Bleed stacks up to 5 times, and critical hits occur on rolls of 18–20." }
     ]
   },
   {
-    id: "bf_t7_vampiric_echo",
-    name: "Sanguine Transfusion",
-    icon: "spell_shadow_lifedrain02",
-    maxRanks: 3,
-    position: { x: 2.5, y: 8 },
-    requires: "bf_t6_blood_ritual",
+    id: "bf_t7_blood_pact",
+    name: "Sanguine Rebirth",
+    icon: "spell_shadow_twilight",
+    maxRanks: 2,
+    position: { x: 3, y: 6 },
+    requires: "bf_t6_blood_harvest",
     spell: {
-      name: "Sanguine Transfusion",
-      description: "When you heal yourself through lifesteal or blood abilities, the most wounded ally within 30 feet is also healed for 25% of that amount.",
-      flavorText: "Generosity, extracted from enemies.",
-      source: "talent", class: "Berserker", treeId: "blood_frenzy",
-      spellType: "PASSIVE", category: "healing",
-      targetingMode: "self", visualTheme: "blight", tags: ["passive", "capstone", "lifesteal", "ally", "berserker"]
-    },
-    rankUpgrades: [
-      { description: "Most wounded ally within 30 feet is healed for 50% of your self-healing." },
-      { description: "ALL allies within 30 feet are healed for 50% of your self-healing. Blood Frenzy turns you into a potent frontline leech engine." }
-    ]
-  },
-  {
-    id: "bf_t7_eternal_frenzy",
-    name: "Eternal Frenzy",
-    icon: "spell_shadow_unholyfrenzy",
-    maxRanks: 3,
-    position: { x: 3.5, y: 8 },
-    requires: "bf_t6_blood_fury",
-    spell: {
-      name: "Eternal Frenzy",
-      description: "When reduced below 20% health, you instantly gain 50 Blood-Heat and your attacks deal +2d8 bonus blight damage for 2 rounds.",
-      flavorText: "Dead is a state of mind. Decline it.",
+      name: "Sanguine Rebirth",
+      description: "Passive: When you receive lethal damage, consume all current Blood-Heat to survive with 15 Hit Points and deal 2d8 bleed damage to all adjacent enemies (cooldown: 4 rounds).",
+      flavorText: "The blood remembers the beat even when the heart stops.",
       source: "talent", class: "Berserker", treeId: "blood_frenzy",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", damageTypes: ["blight"],
       primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
-      visualTheme: "blight", tags: ["passive", "capstone", "survival", "berserker"]
+      visualTheme: "blight", tags: ["passive", "cheat-death", "berserker"]
     },
     rankUpgrades: [
-      { description: "Below 20% health: instantly gain 75 Blood-Heat and +3d8 blight damage for 2 rounds.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
-      { description: "Below 20% health: instantly gain 100 Blood-Heat (instant Obliteration), +4d8 blight damage for 3 rounds, and your next 2 attacks cost no action points.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
-    ]
-  },
-  {
-    id: "bf_t7_scar_bargain",
-    name: "Scar Bargain",
-    icon: "spell_shadow_soulleech",
-    maxRanks: 3,
-    position: { x: 4.5, y: 8 },
-    requires: "bf_t6_blood_fury",
-    spell: {
-      name: "Scar Bargain",
-      description: "Whenever you willingly sacrifice health (via Vein Tap, Sanguine Eruption, Blood Harvest), you gain a stacking shield absorbing damage equal to the health sacrificed.",
-      flavorText: "The moon has seen you bleed so often it gives regulars a rate.",
-      source: "talent", class: "Berserker", treeId: "blood_frenzy",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "blight", tags: ["passive", "capstone", "shield", "berserker"]
-    },
-    rankUpgrades: [
-      { description: "Sacrificing health grants a shield absorbing 150% of the health spent." },
-      { description: "Sacrificing health grants a shield absorbing 200% of the health spent. When the shield expires or breaks, it detonates for equal blight damage to nearby enemies." }
+      { description: "Survive with 25 Hit Points, and retaliation deals 3d8 bleed damage." }
     ]
   }
 ];

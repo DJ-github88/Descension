@@ -1,6 +1,9 @@
 import React, { useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import EntityHovercard from './EntityHovercard';
+import universalEntityService from '../../services/universalEntityService';
+import useInteractiveMapStore from '../../store/interactiveMapStore';
+import useFamilyTreeStore from '../../store/familyTreeStore';
 import './RichLoreText.css';
 
 const parseInlineTokens = (text, onEntityHover, onEntityLeave, onEntityClick) => {
@@ -501,10 +504,37 @@ const RichLoreText = ({
   text, 
   stripGMNotes = false, 
   className = '', 
-  onEntityClick = () => {} 
+  onEntityClick = null 
 }) => {
   const [hoverState, setHoverState] = useState({ active: false, name: '', pos: null });
   const hoverTimerRef = useRef(null);
+
+  const handleSmartEntityClick = (entityName) => {
+    if (onEntityClick) {
+      onEntityClick(entityName);
+      return;
+    }
+
+    const resolved = universalEntityService.getEntity(entityName);
+    if (!resolved) {
+      window.dispatchEvent(new CustomEvent('mythrill_open_world_dossier', { detail: { name: entityName } }));
+      return;
+    }
+
+    if (resolved.type === 'map' || resolved.type === 'map_pin') {
+      useInteractiveMapStore.getState().openStudio(resolved.mapId || resolved.id, resolved.type === 'map_pin' ? resolved.id : null);
+    } else if (resolved.type === 'dynasty') {
+      useFamilyTreeStore.getState().openStudio(resolved.id);
+    } else if (resolved.type === 'note' || resolved.type === 'orb') {
+      window.dispatchEvent(new CustomEvent('mythrill_navigate_journal', { detail: { noteId: resolved.raw?.id || resolved.id } }));
+    } else if (resolved.type === 'npc' || resolved.type === 'quest' || resolved.type === 'campaign_location' || resolved.type === 'plot') {
+      window.dispatchEvent(new CustomEvent('mythrill_navigate_campaign', { detail: { entityType: resolved.type, entityId: resolved.id } }));
+    } else if (resolved.type === 'location' || resolved.type === 'region') {
+      window.dispatchEvent(new CustomEvent('mythrill_navigate_map', { detail: resolved }));
+    } else {
+      window.dispatchEvent(new CustomEvent('mythrill_open_world_dossier', { detail: resolved }));
+    }
+  };
 
   const handleEntityHover = (name, e) => {
     if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
@@ -634,15 +664,15 @@ const RichLoreText = ({
 
     // Markdown Headings
     if (trimmed.startsWith('# ')) {
-      renderedElements.push(<h2 key={idx} className="rich-h1">{parseInlineTokens(trimmed.slice(2), handleEntityHover, handleEntityLeave, onEntityClick)}</h2>);
+      renderedElements.push(<h2 key={idx} className="rich-h1">{parseInlineTokens(trimmed.slice(2), handleEntityHover, handleEntityLeave, handleSmartEntityClick)}</h2>);
     } else if (trimmed.startsWith('## ')) {
-      renderedElements.push(<h3 key={idx} className="rich-h2">{parseInlineTokens(trimmed.slice(3), handleEntityHover, handleEntityLeave, onEntityClick)}</h3>);
+      renderedElements.push(<h3 key={idx} className="rich-h2">{parseInlineTokens(trimmed.slice(3), handleEntityHover, handleEntityLeave, handleSmartEntityClick)}</h3>);
     } else if (trimmed.startsWith('### ')) {
-      renderedElements.push(<h4 key={idx} className="rich-h3">{parseInlineTokens(trimmed.slice(4), handleEntityHover, handleEntityLeave, onEntityClick)}</h4>);
+      renderedElements.push(<h4 key={idx} className="rich-h3">{parseInlineTokens(trimmed.slice(4), handleEntityHover, handleEntityLeave, handleSmartEntityClick)}</h4>);
     } else if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
       renderedElements.push(
         <li key={idx} className="rich-list-item">
-          {parseInlineTokens(trimmed.slice(2), handleEntityHover, handleEntityLeave, onEntityClick)}
+          {parseInlineTokens(trimmed.slice(2), handleEntityHover, handleEntityLeave, handleSmartEntityClick)}
         </li>
       );
     } else if (trimmed === '') {
@@ -650,7 +680,7 @@ const RichLoreText = ({
     } else {
       renderedElements.push(
         <p key={idx} className="rich-paragraph">
-          {parseInlineTokens(line, handleEntityHover, handleEntityLeave, onEntityClick)}
+          {parseInlineTokens(line, handleEntityHover, handleEntityLeave, handleSmartEntityClick)}
         </p>
       );
     }

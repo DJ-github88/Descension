@@ -255,14 +255,14 @@ export const FALSE_PROPHET_CULTIST = [
     requires: "cu_t4_silence_priest",
     spell: {
       name: "Forbidden Scripture",
-      description: "Study the hidden texts. Your Madness-spending effects are 15% more efficient (round up), and you learn one additional curse of your choice.",
+      description: "Study the hidden texts. Your Madness-spending effects are 15 points more efficient (round up), and you learn one additional curse of your choice.",
       flavorText: "Chapter one was fine. The appendix bites.",
       source: "talent", class: "False Prophet", treeId: "cultist",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "efficiency", "falseprophet"]
     },
     rankUpgrades: [
-      { description: "Study the hidden texts. Your Madness-spending effects are 30% more efficient (round up), and you learn two additional curses of your choice." }
+      { description: "Study the hidden texts. Your Madness-spending effects are 30 points more efficient (round up), and you learn two additional curses of your choice." }
     ]
   },
 
@@ -314,7 +314,7 @@ export const FALSE_PROPHET_CULTIST = [
     requires: "cu_t5_forbidden_scripture",
     spell: {
       name: "Dark Benediction",
-      description: "Your acolytes are anointed in unmaking. Summoned creatures deal 25% more damage and their attacks apply your Curse of the Unbeliever at half potency (1d6 blight per turn, 1 minute).",
+      description: "Your acolytes are anointed in unmaking. Summoned creatures deal +1d6 bonus damage and their attacks apply your Curse of the Unbeliever at half potency (1d6 blight per turn, 1 minute).",
       flavorText: "Blessed are the weird, for they carry forms.",
       source: "talent", class: "False Prophet", treeId: "cultist",
       spellType: "PASSIVE", category: "buff",
@@ -323,7 +323,7 @@ export const FALSE_PROPHET_CULTIST = [
       visualTheme: "shadow", tags: ["passive", "summon", "synergy", "falseprophet"]
     },
     rankUpgrades: [
-      { description: "Your acolytes are anointed in unmaking. Summons deal 40% more damage and apply your Curse at FULL potency (2d6 blight per turn, 1 minute).", dotTick: "2d6" }
+      { description: "Your acolytes are anointed in unmaking. Summons deal +2d8 bonus damage and apply your Curse at FULL potency (2d6 blight per turn, 1 minute).", dotTick: "2d6" }
     ]
   },
 
@@ -361,7 +361,7 @@ export const FALSE_PROPHET_CULTIST = [
     requires: "cu_t6_tithe_collector",
     spell: {
       name: "Liturgy of Depletion",
-      description: "The rite refines itself with repetition. All blight damage dealt by your curses is increased by 10%.",
+      description: "The rite refines itself with repetition. All blight damage dealt by your curses is increased by +1d6 damage.",
       flavorText: "Practice makes purer torment.",
       source: "talent", class: "False Prophet", treeId: "cultist",
       spellType: "PASSIVE", category: "buff",
@@ -369,10 +369,10 @@ export const FALSE_PROPHET_CULTIST = [
       visualTheme: "shadow", tags: ["passive", "capstone", "damage", "falseprophet"]
     },
     rankUpgrades: [
-      { description: "The rite refines itself with repetition. All blight damage dealt by your curses is increased by 20%." },
-      { description: "The rite refines itself with repetition. All blight damage dealt by your curses is increased by 35%." },
-      { description: "The rite refines itself with repetition. All blight damage dealt by your curses is increased by 50%." },
-      { description: "The rite refines itself with repetition. All curse blight damage is increased by 70%, and Curse of the Unbeliever costs no mana." }
+      { description: "The rite refines itself with repetition. All blight damage dealt by your curses is increased by +1d8 damage." },
+      { description: "The rite refines itself with repetition. All blight damage dealt by your curses is increased by +1d8 damage." },
+      { description: "The rite refines itself with repetition. All blight damage dealt by your curses is increased by +2d8 damage." },
+      { description: "The rite refines itself with repetition. All curse blight damage is increased by +2d8 damage, and Curse of the Unbeliever costs no mana." }
     ]
   },
   {

@@ -2,113 +2,43 @@ import React, { useEffect, useState, useRef } from 'react';
 import useWorldStore from '../../store/worldStore';
 import useFactionStore from '../../store/factionStore';
 import useCustomLineageStore from '../../store/customLineageStore';
-import './RichLoreText.css';
-
 import useFamilyTreeStore from '../../store/familyTreeStore';
 import useInteractiveMapStore from '../../store/interactiveMapStore';
+import universalEntityService from '../../services/universalEntityService';
+import './RichLoreText.css';
 
 const EntityHovercard = ({ entityName, position, onClose, onAction, onMouseEnter, onMouseLeave }) => {
   const [entityData, setEntityData] = useState(null);
+  const [backlinks, setBacklinks] = useState([]);
   const cardRef = useRef(null);
 
   useEffect(() => {
     if (!entityName) return;
 
     const cleanName = entityName.trim();
-    const lowerName = cleanName.toLowerCase();
+    const resolved = universalEntityService.getEntity(cleanName);
+    const foundBacklinks = universalEntityService.getBacklinks(cleanName);
+    setBacklinks(foundBacklinks.slice(0, 3));
 
-    // 1. Check Family Tree & Dynasties
-    const { trees } = useFamilyTreeStore.getState();
-    const matchingTree = trees.find(t =>
-      t.name.toLowerCase().includes(lowerName.replace(/^(bloodline:|dynasty:|tree:)\s*/i, '')) ||
-      lowerName.replace(/^(bloodline:|dynasty:|tree:)\s*/i, '').includes(t.name.toLowerCase()) ||
-      t.nodes.some(n => n.name.toLowerCase() === lowerName)
-    );
-
-    if (matchingTree) {
-      const matchingNode = matchingTree.nodes.find(n => n.name.toLowerCase() === lowerName);
+    if (resolved) {
       setEntityData({
-        name: matchingNode ? matchingNode.name : matchingTree.name,
-        type: 'dynasty',
-        subtitle: matchingNode ? (matchingNode.title || 'Dynasty Member') : `${matchingTree.nodes.length} Dynastic Members`,
-        icon: 'fa-sitemap',
-        summary: matchingNode ? (matchingNode.notes || `${matchingNode.name} of ${matchingTree.name}`) : (matchingTree.description || 'Ancient ruling dynasty and bloodlines.'),
-        treeId: matchingTree.id,
-        nodeId: matchingNode?.id || null
+        ...resolved,
+        name: resolved.title || cleanName,
+        type: resolved.type || 'lore',
+        subtitle: resolved.subtitle || resolved.category,
+        icon: resolved.icon || 'fa-scroll',
+        summary: resolved.summary || 'Entity reference in campaign lore.'
       });
       return;
     }
 
-    // 2. Check Interactive Maps & Pins
-    const { maps, pins } = useInteractiveMapStore.getState();
-    const cleanMapQuery = lowerName.replace(/^(map:|pin:|location:)\s*/i, '');
-    const matchingPin = pins.find(p => p.title.toLowerCase().includes(cleanMapQuery) || cleanMapQuery.includes(p.title.toLowerCase()));
-    const matchingMap = maps.find(m => m.name.toLowerCase().includes(cleanMapQuery) || cleanMapQuery.includes(m.name.toLowerCase()));
-
-    if (matchingPin || matchingMap) {
-      setEntityData({
-        name: matchingPin ? matchingPin.title : matchingMap.name,
-        type: 'interactive_map',
-        subtitle: matchingPin ? `${matchingPin.type?.toUpperCase()} Marker` : `${matchingMap.type?.toUpperCase()} Map`,
-        icon: matchingPin ? (matchingPin.icon || 'fa-location-dot') : 'fa-map-location-dot',
-        summary: matchingPin ? (matchingPin.description || 'Marked location on the interactive atlas.') : (matchingMap.description || 'Interactive multi-tier realm map.'),
-        mapId: matchingPin?.mapId || matchingMap?.id,
-        pinId: matchingPin?.id || null
-      });
-      return;
-    }
-
-    const searchResults = useWorldStore.getState().searchEntities(cleanName);
-    
-    if (searchResults && searchResults.length > 0) {
-      const match = searchResults[0];
-      
-      // Enrich based on entity type
-      if (match.type === 'location' && match.locationId) {
-        const full = useWorldStore.getState().getLocation(match.locationId);
-        setEntityData({
-          ...match,
-          ...full,
-          summary: full?.description || full?.overview || 'A prominent location in the realm.',
-          sensory: full?.sensoryProfile || null
-        });
-      } else if (match.type === 'faction' && match.factionId) {
-        const faction = useFactionStore.getState().getFaction(match.factionId);
-        setEntityData({
-          ...match,
-          ...faction,
-          summary: faction?.publicGoal || faction?.description || 'An influential order or house.',
-          secret: faction?.secretGoal || null
-        });
-      } else if (match.type === 'lineage' && match.lineageId) {
-        const lineage = useWorldStore.getState().getLineage(match.lineageId);
-        setEntityData({
-          ...match,
-          ...lineage,
-          summary: lineage?.cardFlavor || lineage?.description?.slice(0, 180) + '...'
-        });
-      } else if (match.type === 'region' && match.regionId) {
-        const region = useWorldStore.getState().getRegion(match.regionId);
-        setEntityData({
-          ...match,
-          ...region,
-          summary: region?.loreOverview || region?.description || 'A major continental territory.'
-        });
-      } else {
-        setEntityData({
-          ...match,
-          summary: `Reference to ${match.name}.`
-        });
-      }
-    } else {
-      setEntityData({
-        name: cleanName,
-        type: 'lore',
-        subtitle: 'World Reference',
-        icon: 'fa-book-sparkles',
-        summary: `Custom lore reference to "${cleanName}".`
-      });
-    }
+    setEntityData({
+      name: cleanName,
+      type: 'lore',
+      subtitle: 'World Reference',
+      icon: 'fa-book-sparkles',
+      summary: `Custom lore reference to "${cleanName}".`
+    });
   }, [entityName]);
 
   if (!entityData) return null;
@@ -179,6 +109,13 @@ const EntityHovercard = ({ entityName, position, onClose, onAction, onMouseEnter
       <div className="entity-hovercard-body">
         <p className="entity-hovercard-summary">{entityData.summary}</p>
         
+        {entityData.secret && (
+          <div className="entity-hovercard-secret" style={{ background: 'rgba(231, 76, 60, 0.1)', borderLeft: '3px solid #e74c3c', padding: '6px 8px', borderRadius: '4px', fontSize: '11px', marginTop: '6px', color: '#f1948a' }}>
+            <i className="fas fa-lock" style={{ marginRight: '5px' }}></i>
+            <strong>GM Secret:</strong> {entityData.secret}
+          </div>
+        )}
+
         {entityData.sensory && (
           <div className="entity-hovercard-sensory">
             {entityData.sensory.sight && <div className="sensory-item"><i className="fas fa-eye"></i> <span>{entityData.sensory.sight}</span></div>}
@@ -189,10 +126,19 @@ const EntityHovercard = ({ entityName, position, onClose, onAction, onMouseEnter
           </div>
         )}
 
-        {entityData.meaningfulTradeoffs && (
-          <div className="entity-hovercard-tradeoff">
-            <i className="fas fa-triangle-exclamation"></i>
-            <span>{entityData.meaningfulTradeoffs}</span>
+        {backlinks.length > 0 && (
+          <div className="entity-hovercard-backlinks" style={{ marginTop: '8px', paddingTop: '6px', borderTop: '1px solid rgba(212, 175, 55, 0.2)' }}>
+            <span style={{ fontSize: '10px', textTransform: 'uppercase', color: '#d4af37', fontWeight: 600, letterSpacing: '0.5px' }}>
+              <i className="fas fa-link" style={{ marginRight: '4px' }}></i> Mentioned in ({backlinks.length}):
+            </span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', marginTop: '4px' }}>
+              {backlinks.map((b, idx) => (
+                <span key={idx} style={{ fontSize: '11px', color: '#bbb', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <i className={`fas ${b.icon}`} style={{ fontSize: '9px', color: '#d4af37' }}></i>
+                  <strong>{b.sourceTitle}</strong>
+                </span>
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -212,21 +158,21 @@ const EntityHovercard = ({ entityName, position, onClose, onAction, onMouseEnter
           </button>
         )}
 
-        {entityData.type === 'interactive_map' && (
+        {(entityData.type === 'interactive_map' || entityData.type === 'map' || entityData.type === 'map_pin') && (
           <button
             className="entity-hovercard-btn map-btn"
             style={{ background: 'linear-gradient(135deg, #2980b9 0%, #1a5276 100%)', color: '#ffffff', borderColor: '#154360' }}
             onClick={() => {
-              useInteractiveMapStore.getState().openStudio(entityData.mapId, entityData.pinId);
+              useInteractiveMapStore.getState().openStudio(entityData.mapId, entityData.pinId || entityData.id);
               if (onClose) onClose();
             }}
             title="Open in Interactive Map Maker"
           >
-            <i className="fas fa-map-location-dot"></i> Open Interactive Map ↗
+            <i className="fas fa-map-location-dot"></i> Open Map Studio ↗
           </button>
         )}
 
-        {(entityData.type === 'location' || entityData.type === 'region') && (
+        {(entityData.type === 'location' || entityData.type === 'region' || entityData.type === 'campaign_location') && (
           <button className="entity-hovercard-btn map-btn" onClick={handleFlyToMap} title="Fly to on World Map">
             <i className="fas fa-map-location-dot"></i> Fly to Map
           </button>

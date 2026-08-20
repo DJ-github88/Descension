@@ -29,7 +29,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     requires: null,
     spell: {
       name: "Chaos Generation",
-      description: "Roll 5d8 for sphere generation instead of 4d8. Any wyrd sphere you roll has a 20% chance to immediately trigger a minor Wild Magic Surge (GM rolls; you choose its target).",
+      description: "Roll 5d8 for sphere generation instead of 4d8. Any wyrd sphere you roll has a 20 points chance to immediately trigger a minor Wild Magic Surge (GM rolls; you choose its target).",
       flavorText: "The Canopy-Ledger frowned on this. You filed it anyway.",
       source: "talent", class: "Arcanoneer", treeId: "entropy_weaver",
       spellType: "PASSIVE", category: "utility",
@@ -37,8 +37,8 @@ export const ARCANONEER_ENTROPY_WEAVER = [
       visualTheme: "wyrd", tags: ["passive", "spheres", "chaos", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Roll 5d8 for spheres. Wyrd spheres you roll have a 35% chance to trigger a minor surge (your target choice)." },
-      { description: "Roll 5d8 for spheres. Wyrd spheres have a 50% chance to trigger a minor surge (your target choice), and wyrd spheres rolled this way deal +1d6 damage when spent." }
+      { description: "Roll 5d8 for spheres. Wyrd spheres you roll have a 35 points chance to trigger a minor surge (your target choice)." },
+      { description: "Roll 5d8 for spheres. Wyrd spheres have a 50 points chance to trigger a minor surge (your target choice), and wyrd spheres rolled this way deal +1d6 damage when spent." }
     ]
   },
   {
@@ -59,7 +59,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     },
     rankUpgrades: [
       { description: "Absorb any surge within 60 feet once per turn. When you absorb a surge, you also gain 1 wyrd sphere." },
-      { description: "Absorb any surge within 60 feet twice per turn. Absorbed surges deal 10% more damage when redirected to their new target." }
+      { description: "Absorb any surge within 60 feet twice per turn. Absorbed surges deal +1d6 bonus damage when redirected to their new target." }
     ]
   },
   {
@@ -80,7 +80,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
       visualTheme: "wyrd", tags: ["passive", "damage", "chaos", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Wyrd combinations deal 2d6 additional wyrd damage. Directed surges restore 4 mana and grant +5% crit chance to your next spell.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } }
+      { description: "Wyrd combinations deal 2d6 additional wyrd damage. Directed surges restore 4 mana and grant +5 points crit chance to your next spell.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } }
     ]
   },
 
@@ -106,8 +106,8 @@ export const ARCANONEER_ENTROPY_WEAVER = [
       visualTheme: "wyrd", tags: ["surge", "inject", "control", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Spend 1 wyrd sphere and 2 mana: next spell triggers a surge, polarity your choice. If harmful, the surge deals +15% damage. Cooldown drops to 6 seconds.", cooldownValue: 6, resourceCosts: { mana: { baseAmount: 2 }, spheres: { baseAmount: 1 } } },
-      { description: "Free once per turn: next spell triggers a surge, polarity your choice. Harmful surges deal +15% damage. You may inject twice per turn (second injection costs 2 mana).", resourceCosts: { mana: { baseAmount: 0 }, spheres: { baseAmount: 1 } } }
+      { description: "Spend 1 wyrd sphere and 2 mana: next spell triggers a surge, polarity your choice. If harmful, the surge deals +15 points damage. Cooldown drops to 6 seconds.", cooldownValue: 6, resourceCosts: { mana: { baseAmount: 2 }, spheres: { baseAmount: 1 } } },
+      { description: "Free once per turn: next spell triggers a surge, polarity your choice. Harmful surges deal +1d6 bonus damage. You may inject twice per turn (second injection costs 2 mana).", resourceCosts: { mana: { baseAmount: 0 }, spheres: { baseAmount: 1 } } }
     ]
   },
   {
@@ -155,8 +155,8 @@ export const ARCANONEER_ENTROPY_WEAVER = [
       visualTheme: "wyrd", tags: ["passive", "gamble", "chaos", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Wyrd sphere spent: 1–2 surge (your polarity), 3–4 deals +3d6 wyrd damage, 5–6 refunds 3 mana. Any result grants +5% crit chance this turn.", primaryDamage: { dice: "3d6", flat: 0, procChance: 33 } },
-      { description: "Wyrd sphere spent: 1–2 surge (+15% damage, your polarity), 3–4 deals +3d6 wyrd damage, 5–6 refunds 4 mana AND grants a free Surge Injection.", primaryDamage: { dice: "3d6", flat: 0, procChance: 33 } }
+      { description: "Wyrd sphere spent: 1–2 surge (your polarity), 3–4 deals +3d6 wyrd damage, 5–6 refunds 3 mana. Any result grants +5 points crit chance this turn.", primaryDamage: { dice: "3d6", flat: 0, procChance: 33 } },
+      { description: "Wyrd sphere spent: 1–2 surge (+15 points damage, your polarity), 3–4 deals +3d6 wyrd damage, 5–6 refunds 4 mana AND grants a free Surge Injection.", primaryDamage: { dice: "3d6", flat: 0, procChance: 33 } }
     ]
   },
 
@@ -204,7 +204,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "surge", "ally", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Beneficial surges you direct copy to two allies within 30 feet. Per-target polarity control applies to all your surges. Beneficial surges on allies are 50% stronger." }
+      { description: "Beneficial surges you direct copy to two allies within 30 feet. Per-target polarity control applies to all your surges. Beneficial surges on allies are 50 points stronger." }
     ]
   },
 
@@ -230,7 +230,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
       visualTheme: "wyrd", tags: ["reaction", "intercept", "surge", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Reaction: intercept any surge within 60 feet for free (once per round). Redirect it to any target you choose at +25% damage or +25% healing strength." }
+      { description: "Reaction: intercept any surge within 60 feet for free (once per round). Redirect it to any target you choose at +25 points damage or +25 points healing strength." }
     ]
   },
   {
@@ -250,8 +250,8 @@ export const ARCANONEER_ENTROPY_WEAVER = [
       visualTheme: "wyrd", tags: ["passive", "surge", "maximize", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Harmful surges deal max damage at +25%. Voluntary surges cost 2 mana and can be triggered twice per turn." },
-      { description: "Harmful surges deal max damage at +25%. Voluntary surges cost 2 mana twice per turn, and surge kills generate 1 wyrd sphere." }
+      { description: "Harmful surges deal max damage at +25 points. Voluntary surges cost 2 mana and can be triggered twice per turn." },
+      { description: "Harmful surges deal max damage at +25 points. Voluntary surges cost 2 mana twice per turn, and surge kills generate 1 wyrd sphere." }
     ]
   },
 
@@ -334,7 +334,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     requires: "ew_t5_void_rift",
     spell: {
       name: "Entropy Weaving",
-      description: "Your wyrd damage ignores 15% resistance. Surge Injection and Borrowed Fate no longer consume spheres — only mana.",
+      description: "Your wyrd damage ignores 4 Damage Reduction. Surge Injection and Borrowed Fate no longer consume spheres — only mana.",
       flavorText: "The weave holds, even when the pattern shifts.",
       source: "talent", class: "Arcanoneer", treeId: "entropy_weaver",
       spellType: "PASSIVE", category: "utility",
@@ -342,7 +342,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
       visualTheme: "wyrd", tags: ["passive", "penetration", "chaos", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Wyrd damage ignores 25% resistance. Surge Injection and Borrowed Fate cost 0 mana as well (once per turn each)." }
+      { description: "Wyrd damage ignores 6 Damage Reduction. Surge Injection and Borrowed Fate cost 0 mana as well (once per turn each)." }
     ]
   },
   {
@@ -401,7 +401,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     requires: "ew_t6_entropy_weaving",
     spell: {
       name: "Entropy Doctrine",
-      description: "Chaos, consistently applied. All wyrd damage you deal is increased by 10%. Directed surges deal 10% more damage or provide 10% stronger healing.",
+      description: "Chaos, consistently applied. All wyrd damage you deal is increased by +1d6 damage. Directed surges deal +1d6 bonus damage or provide 10 points stronger healing.",
       flavorText: "A doctrine of disorder, held with terrifying consistency.",
       source: "talent", class: "Arcanoneer", treeId: "entropy_weaver",
       spellType: "PASSIVE", category: "damage",
@@ -409,10 +409,10 @@ export const ARCANONEER_ENTROPY_WEAVER = [
       visualTheme: "wyrd", tags: ["passive", "capstone", "damage", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Wyrd damage +20%. Directed surges deal +20% damage or provide +20% stronger healing." },
-      { description: "Wyrd damage +35%. Directed surges +35%. Void Rift's automatic surges deal maximum damage." },
-      { description: "Wyrd damage +50%. Directed surges +50%. Void Rift spits 3 surges per round." },
-      { description: "Wyrd damage +70%. Directed surges +70%. Chaos Nova and Apocalypse cooldowns reduced by 20%." }
+      { description: "Wyrd damage +20 points. Directed surges deal +1d8 bonus damage or provide +20 points stronger healing." },
+      { description: "Wyrd damage +35 points. Directed surges +35 points. Void Rift's automatic surges deal maximum damage." },
+      { description: "Wyrd damage +50 points. Directed surges +50 points. Void Rift spits 3 surges per round." },
+      { description: "Wyrd damage +70 points. Directed surges +70 points. Chaos Nova and Apocalypse cooldowns reduced by 20 points." }
     ]
   },
   {
@@ -433,7 +433,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     },
     rankUpgrades: [
       { description: "Chains deal full damage. Kill chains surge. Kill chains also refund 1 wyrd sphere." },
-      { description: "Chains deal 130% damage. Kill chains surge AND generate a wyrd sphere. Chaos Nova's cooldown refreshes on any kill during its detonation." }
+      { description: "Chains deal 130 points damage. Kill chains surge AND generate a wyrd sphere. Chaos Nova's cooldown refreshes on any kill during its detonation." }
     ]
   },
   {
@@ -445,15 +445,15 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     requires: "ew_t6_volatile_power",
     spell: {
       name: "Probabilistic Existence",
-      description: "Attacks against you have a 15% chance to miss outright — the attacker must reroll with disadvantage. This probability rises by 5% for each wyrd sphere in your bank.",
+      description: "Attacks against you have a 15 points chance to miss outright — the attacker must reroll with disadvantage. This probability rises by 5 points for each wyrd sphere in your bank.",
       flavorText: "You were never quite there. Neither was the arrow.",
       source: "talent", class: "Arcanoneer", treeId: "entropy_weaver",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "evasion", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Attacks against you have a 20% base miss chance (+5% per wyrd sphere banked). Spells targeting you also have a 10% miss chance." },
-      { description: "25% base miss chance (+5% per wyrd sphere). Spells 15% miss. When an attack misses this way, you steal the attacker's luck: gain +5% crit chance for 1 round." }
+      { description: "Attacks against you have a 20 points base miss chance (+5 points per wyrd sphere banked). Spells targeting you also have a 10 points miss chance." },
+      { description: "25 points base miss chance (+5 points per wyrd sphere). Spells 15 points miss. When an attack misses this way, you steal the attacker's luck: gain +5% crit chance for 1 round." }
     ]
   }
 ];

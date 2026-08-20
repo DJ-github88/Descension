@@ -70,14 +70,14 @@ export const CHRONARCH_STASIS_TREE = [
     requires: null,
     spell: {
       name: "Temporal Insulation",
-      description: "All your temporal abilities generate 1 less Strain, and you take 15% less damage while holding 3 or more Time Shards.",
+      description: "All your temporal abilities generate 1 less Strain, and you gain 4 Damage Reduction while holding 3 or more Time Shards.",
       flavorText: "Mastery lessens the burden of woven time.",
       source: "talent", class: "Chronarch", treeId: "stasis",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "strain-reduce", "dr", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Abilities generate 2 less Strain; take 25% less damage at 3+ Time Shards and gain +2 Durability Steps to equipped durability." }
+      { description: "Abilities generate 2 less Strain; gain 6 Damage Reduction at 3+ Time Shards and gain +2 Durability Steps to equipped durability." }
     ]
   },
 
@@ -118,15 +118,15 @@ export const CHRONARCH_STASIS_TREE = [
     requires: "st_t1_frozen_momentum",
     spell: {
       name: "Chronal Lockdown",
-      description: "Enemies affected by your stasis or slow effects take 20% more damage from all sources and have -2 to saving throws.",
+      description: "Enemies affected by your stasis or slow effects suffer +1d6 bonus damage from all sources and have -2 to saving throws.",
       flavorText: "Escape becomes a distant memory.",
       source: "talent", class: "Chronarch", treeId: "stasis",
       spellType: "PASSIVE", category: "debuff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "vulnerability", "dc-boost", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Enemies take 35% more damage and have -3 to all saving throws." },
-      { description: "Enemies take 50% more damage, have -4 to saves, and cannot use reactions while slowed." }
+      { description: "Enemies suffer +2d6 bonus damage and have -3 to all saving throws." },
+      { description: "Enemies suffer +2d6 bonus damage, have -4 to saves, and cannot use reactions while slowed." }
     ]
   },
 
@@ -217,7 +217,7 @@ export const CHRONARCH_STASIS_TREE = [
     requires: "st_t3_fracture_mastery",
     spell: {
       name: "Dominion of Stillness",
-      description: "You emit a 20-foot aura of dilated time: all enemy projectiles moving toward you slow by 50% and enemies inside the aura have their movement speed halved.",
+      description: "You emit a 20-foot aura of dilated time: all enemy projectiles moving toward you slow by 50 points and enemies inside the aura have their movement speed halved.",
       flavorText: "The crown bestows authority over all that is and was.",
       source: "talent", class: "Chronarch", treeId: "stasis",
       spellType: "PASSIVE", category: "buff",
@@ -286,7 +286,7 @@ export const CHRONARCH_STASIS_TREE = [
     requires: "st_t5_temporal_shatter",
     spell: {
       name: "Avatar of Stasis",
-      description: "Spend 6 Time Shards: freeze ALL enemies within 50 feet in absolute stasis for 2 rounds (no saving throw allowed). All party members gain +100% movement speed and automatic critical hits against frozen targets.",
+      description: "Spend 6 Time Shards: freeze ALL enemies within 50 feet in absolute stasis for 2 rounds (no saving throw allowed). All party members gain +100 points movement speed and automatic critical hits against frozen targets.",
       flavorText: "In that frozen breath between heartbeats, the archon imposes absolute will.",
       source: "talent", class: "Chronarch", treeId: "stasis",
       spellType: "ACTIVE", category: "control",
@@ -329,14 +329,14 @@ export const CHRONARCH_STASIS_TREE = [
     requires: "st_t5_endless_stasis",
     spell: {
       name: "Anchored in Eternity",
-      description: "You cannot be moved, banished, displaced, stunned, or silenced. You gain +4 Durability Steps to equipped durability and 25% all-damage resistance.",
+      description: "You cannot be moved, banished, displaced, stunned, or silenced. You gain +4 Durability Steps to equipped durability and 6 Damage Reduction against all-damage.",
       flavorText: "A pillar around which time flows, unchanging.",
       source: "talent", class: "Chronarch", treeId: "stasis",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "immunity", "durability", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Gain +6 Durability Steps to equipped durability, 40% resistance, and reflect 30% of all incoming damage back at attackers." }
+      { description: "Gain +6 Durability Steps to equipped durability, 8 Damage Reduction, and reflect 30 points of all incoming damage back at attackers." }
     ]
   },
 
@@ -373,7 +373,7 @@ export const CHRONARCH_STASIS_TREE = [
     requires: "st_t6_avatar_of_stasis",
     spell: {
       name: "Stasis Archon Doctrine",
-      description: "All force, stasis, and temporal control damage you deal is increased by 10%.",
+      description: "All force, stasis, and temporal control damage you deal is increased by +1d6 damage.",
       flavorText: "The immutable clock ticks with absolute authority.",
       source: "talent", class: "Chronarch", treeId: "stasis",
       spellType: "PASSIVE", category: "damage",
@@ -381,10 +381,10 @@ export const CHRONARCH_STASIS_TREE = [
       visualTheme: "arcane", tags: ["passive", "capstone", "damage", "chronarch"]
     },
     rankUpgrades: [
-      { description: "All force/stasis damage increased by 20%." },
-      { description: "All force/stasis damage increased by 35%." },
-      { description: "All force/stasis damage increased by 50%." },
-      { description: "All force/stasis damage increased by 70%, and Stasis Field costs 0 mana." }
+      { description: "All force/stasis damage increased by +1d8 damage." },
+      { description: "All force/stasis damage increased by +1d8 damage." },
+      { description: "All force/stasis damage increased by +2d8 damage." },
+      { description: "All force/stasis damage increased by +2d8 damage, and Stasis Field costs 0 mana." }
     ]
   },
   {
@@ -423,7 +423,7 @@ export const CHRONARCH_STASIS_TREE = [
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "capstone", "zero-resist", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Frozen enemies take +50% bonus damage from all sources." },
+      { description: "Frozen enemies take +50 points bonus damage from all sources." },
       { description: "Frozen enemies take double damage, and if killed in stasis, freeze all adjacent foes for 2 rounds." }
     ]
   },
@@ -436,15 +436,15 @@ export const CHRONARCH_STASIS_TREE = [
     requires: "st_t6_unmovable_presence",
     spell: {
       name: "Rewound Mortality",
-      description: "While you maintain at least 4 Time Shards, lethal damage freezes your timeline instead: restores 50% health, 0 Strain, and freezes all enemies within 30 feet for 1 round (cooldown: 120s).",
+      description: "While you maintain at least 4 Time Shards, lethal damage freezes your timeline instead: restores 30 Hit Points, 0 Strain, and freezes all enemies within 30 feet for 1 round (cooldown: 120s).",
       flavorText: "Death was scheduled. You canceled the appointment.",
       source: "talent", class: "Chronarch", treeId: "stasis",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "capstone", "cheat-death", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restore 75% health, gain max Shards, freeze foes for 2 rounds (cooldown: 90s)." },
-      { description: "Survive lethal damage, restore 100% health, and immediately activate Avatar of Stasis for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 45 Hit Points, gain max Shards, freeze foes for 2 rounds (cooldown: 90s)." },
+      { description: "Survive lethal damage, restores 60 Hit Points, and immediately activate Avatar of Stasis for free (cooldown: 60s)." }
     ]
   }
 ];
@@ -508,14 +508,14 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     requires: null,
     spell: {
       name: "Quantum Flicker",
-      description: "While at 3 or more Time Shards, all attacks against you have a 25% chance to phase through you harmlessly.",
+      description: "While at 3 or more Time Shards, all attacks against you have a 25 points chance to phase through you harmlessly.",
       flavorText: "Existing across multiple spatial possibilities.",
       source: "talent", class: "Chronarch", treeId: "displacement",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "evasion", "defense", "chronarch"]
     },
     rankUpgrades: [
-      { description: "At 3+ Time Shards: attacks miss on 1-3 on a d6 (50% evasion) and missed attacks grant you 1 Time Shard." }
+      { description: "At 3+ Time Shards: attacks miss on 1-3 on a d6 (50 points evasion) and missed attacks grant you 1 Time Shard." }
     ]
   },
 
@@ -595,7 +595,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     },
     rankUpgrades: [
       { description: "Enemies entering take 7d10 force damage and are stunned for 1 round.", primaryDamage: { dice: "7d10", flat: 0, procChance: 100 } },
-      { description: "Enemies entering take 9d10 force damage, are stunned for 2 rounds, and allies gain +30% damage after using wormhole.", primaryDamage: { dice: "9d10", flat: 0, procChance: 100 } }
+      { description: "Enemies entering take 9d10 force damage, are stunned for 2 rounds, and allies gain +30 points damage after using wormhole.", primaryDamage: { dice: "9d10", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -607,15 +607,15 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     requires: "dp_t2_echo_trail",
     spell: {
       name: "Dimensional Shearing",
-      description: "All your displacement and teleport attacks ignores 40% of enemy durability and shields, dealing pure spatial shearing damage.",
+      description: "All your displacement and teleport attacks ignores 40 points of enemy durability and shields, dealing pure spatial shearing damage.",
       flavorText: "Armor cannot defend what is cut across dimensions.",
       source: "talent", class: "Chronarch", treeId: "displacement",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "penetration", "true-damage", "chronarch"]
     },
     rankUpgrades: [
-      { description: "ignores 70% of enemy durability and shields, and critical strikes cause the target to hemorrhage 3d8 force damage." },
-      { description: "Completely ignores 100% of enemy durability/shields; critical strikes cause 5d8 force hemorrhage and silence for 1 round." }
+      { description: "ignores 70 points of enemy durability and shields, and critical strikes cause the target to hemorrhage 3d8 force damage." },
+      { description: "Completely ignores 100 points of enemy durability/shields; critical strikes cause 5d8 force hemorrhage and silence for 1 round." }
     ]
   },
 
@@ -656,7 +656,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     requires: "dp_t3_spatial_shearing",
     spell: {
       name: "Kinetic Extraction",
-      description: "Whenever you teleport or displace an enemy, you and all allies within 30 feet heal for 2d8 health and gain 10% movement speed.",
+      description: "Whenever you teleport or displace an enemy, you and all allies within 30 feet heal for 2d8 health and gain 10 points movement speed.",
       flavorText: "Harvesting the kinetic surplus of displaced mass.",
       source: "talent", class: "Chronarch", treeId: "displacement",
       spellType: "PASSIVE", category: "healing",
@@ -665,7 +665,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
       visualTheme: "arcane", tags: ["passive", "heal-teleport", "sustain", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Heal for 4d8 health, speed +20%, and overheal grants 30 temporary health.", healing: { dice: "4d8", flat: 0 } }
+      { description: "Heal for 4d8 health, speed +20 points, and overheal grants 30 temporary health.", healing: { dice: "4d8", flat: 0 } }
     ]
   },
 
@@ -727,7 +727,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     requires: "dp_t5_spatial_collapse",
     spell: {
       name: "Avatar of Omnipresence",
-      description: "Spend 6 Time Shards: ascend into the Omnipresent Entity for 1 minute: all physical attacks pass through you (100% dodge), you can teleport anywhere on the battlefield as a free action without cooldown, and all your attacks strike from 4 directions simultaneously for quadruple damage.",
+      description: "Spend 6 Time Shards: ascend into the Omnipresent Entity for 1 minute: all physical attacks pass through you (100 points dodge), you can teleport anywhere on the battlefield as a free action without cooldown, and all your attacks strike from 4 directions simultaneously for quadruple damage.",
       flavorText: "You are not anywhere in particular. You are everywhere.",
       source: "talent", class: "Chronarch", treeId: "displacement",
       spellType: "ACTIVE", category: "buff",
@@ -769,14 +769,14 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     requires: "dp_t5_flicker_mastery",
     spell: {
       name: "Spatial Refraction Ward",
-      description: "When an enemy targets you with a ranged attack or single-target spell, you have a 50% chance to redirect the attack to another enemy within 30 feet.",
+      description: "When an enemy targets you with a ranged attack or single-target spell, you have a 50 points chance to redirect the attack to another enemy within 30 feet.",
       flavorText: "The bullet arrives at the wrong coordinate entirely.",
       source: "talent", class: "Chronarch", treeId: "displacement",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "redirect", "defense", "chronarch"]
     },
     rankUpgrades: [
-      { description: "75% chance to redirect ranged attacks/spells to an enemy, and redirected attacks deal +50% bonus damage." }
+      { description: "75 points chance to redirect ranged attacks/spells to an enemy, and redirected attacks deal +50 points bonus damage." }
     ]
   },
 
@@ -815,7 +815,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     requires: "dp_t6_omnipresent_avatar",
     spell: {
       name: "Displacement Doctrine",
-      description: "All force, spatial, and displacement damage you deal is increased by 10%.",
+      description: "All force, spatial, and displacement damage you deal is increased by +1d6 damage.",
       flavorText: "Space folds willingly around the master.",
       source: "talent", class: "Chronarch", treeId: "displacement",
       spellType: "PASSIVE", category: "damage",
@@ -823,10 +823,10 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
       visualTheme: "arcane", tags: ["passive", "capstone", "damage", "chronarch"]
     },
     rankUpgrades: [
-      { description: "All force and spatial damage increased by 20%." },
-      { description: "All force and spatial damage increased by 35%." },
-      { description: "All force and spatial damage increased by 50%." },
-      { description: "All force and spatial damage increased by 70%, and Temporal Blink grants 4 Time Shards." }
+      { description: "All force and spatial damage increased by +1d8 damage." },
+      { description: "All force and spatial damage increased by +1d8 damage." },
+      { description: "All force and spatial damage increased by +2d8 damage." },
+      { description: "All force and spatial damage increased by +2d8 damage, and Temporal Blink grants 4 Time Shards." }
     ]
   },
   {
@@ -858,15 +858,15 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     requires: "dp_t6_warp_criticality",
     spell: {
       name: "Warp Echo Clones",
-      description: "Whenever you teleport, leave behind an illusory temporal clone that mimics all your attacks for 1 round at 50% damage.",
+      description: "Whenever you teleport, leave behind an illusory temporal clone that mimics all your attacks for 1 round at 50 points damage.",
       flavorText: "The past self keeps fighting where you used to stand.",
       source: "talent", class: "Chronarch", treeId: "displacement",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "capstone", "clone", "echo-damage", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Clones deal 75% damage and last 2 rounds." },
-      { description: "Clones deal 100% full damage, last 3 rounds, and explode for 5d8 force damage on expiration." }
+      { description: "Clones deal 75 points damage and last 2 rounds." },
+      { description: "Clones deal 100 points full damage, last 3 rounds, and explode for 5d8 force damage on expiration." }
     ]
   },
   {
@@ -878,15 +878,15 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     requires: "dp_t6_spatial_refraction",
     spell: {
       name: "Phase Rebirth",
-      description: "While at 3+ Time Shards, lethal damage displaces you to a safe coordinate: prevents death, restores 50% health, grants 50 temporary health, and makes you invisible for 2 rounds (cooldown: 120s).",
+      description: "While at 3+ Time Shards, lethal damage displaces you to a safe coordinate: prevents death, restores 30 Hit Points, grants 50 temporary health, and makes you invisible for 2 rounds (cooldown: 120s).",
       flavorText: "The killing blow struck an empty coordinate.",
       source: "talent", class: "Chronarch", treeId: "displacement",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "capstone", "cheat-death", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restore 75% health, 75 temp HP, gain max Shards (cooldown: 90s)." },
-      { description: "Survive lethal damage, restore 100% health, and immediately trigger Omnipresent Barrage automatically for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 45 Hit Points, 75 temp HP, gain max Shards (cooldown: 90s)." },
+      { description: "Survive lethal damage, restores 60 Hit Points, and immediately trigger Omnipresent Barrage automatically for free (cooldown: 60s)." }
     ]
   }
 ];
@@ -938,8 +938,8 @@ export const CHRONARCH_REWINDING_TREE = [
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "strain-reduction", "durability", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Reduces Strain by 3; allies gain +2 Durability Steps to equipped durability and 10% resistance to all damage." },
-      { description: "Reduces Strain by 4; allies gain +3 Durability Steps to equipped durability, 20% resistance, and +15ft movement speed." }
+      { description: "Reduces Strain by 3; allies gain +2 Durability Steps to equipped durability and 2 Damage Reduction to all damage." },
+      { description: "Reduces Strain by 4; allies gain +3 Durability Steps to equipped durability, 4 Damage Reduction, and +15ft movement speed." }
     ]
   },
   {
@@ -951,14 +951,14 @@ export const CHRONARCH_REWINDING_TREE = [
     requires: null,
     spell: {
       name: "Chronal Echo Heal",
-      description: "All healing you perform repeats automatically 1 round later for 30% of the original amount.",
+      description: "All healing you perform repeats automatically 1 round later for 30 points of the original amount.",
       flavorText: "The restorative wave echoes back from the future.",
       source: "talent", class: "Chronarch", treeId: "rewinding",
       spellType: "PASSIVE", category: "healing",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "echo-heal", "hot", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Healing repeats 1 and 2 rounds later for 50% of the original amount." }
+      { description: "Healing repeats 1 and 2 rounds later for 50 points of the original amount." }
     ]
   },
 
@@ -999,15 +999,15 @@ export const CHRONARCH_REWINDING_TREE = [
     requires: "rw_t1_paradox_prevention",
     spell: {
       name: "Destiny Reversal",
-      description: "Whenever an ally is healed by your rewind abilities, their next attack deals bonus force damage equal to 50% of the health restored.",
+      description: "Whenever an ally is healed by your rewind abilities, their next attack deals bonus force damage equal to 50 points of the health restored.",
       flavorText: "Suffering inverted into immediate violent retribution.",
       source: "talent", class: "Chronarch", treeId: "rewinding",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "heal-to-damage", "ally-empower", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Next attack deals bonus damage equal to 75% of health restored." },
-      { description: "Next attack deals bonus damage equal to 100% of health restored and is a guaranteed critical hit." }
+      { description: "Next attack deals bonus damage equal to 75 points of health restored." },
+      { description: "Next attack deals bonus damage equal to 100 points of health restored and is a guaranteed critical hit." }
     ]
   },
 
@@ -1047,15 +1047,15 @@ export const CHRONARCH_REWINDING_TREE = [
     requires: "rw_t2_rewind_sunder",
     spell: {
       name: "Causal Anchor",
-      description: "You and all allies cannot have your maximum health reduced, cannot be aged or cursed, and take 15% less damage from all magical sources.",
+      description: "You and all allies cannot have your maximum health reduced, cannot be aged or cursed, and gain 4 Damage Reduction from all magical sources.",
       flavorText: "An anchor pinning the party's fundamental reality.",
       source: "talent", class: "Chronarch", treeId: "rewinding",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "immunity", "dr", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Party takes 25% less magical damage and gains +3 to all saving throws." },
-      { description: "Party takes 40% less magical damage, +5 to saving throws, and immune to instant-kill effects." }
+      { description: "Party takes 25 points less magical damage and gains +3 to all saving throws." },
+      { description: "Party takes 40 points less magical damage, +5 to saving throws, and immune to instant-kill effects." }
     ]
   },
 
@@ -1117,7 +1117,7 @@ export const CHRONARCH_REWINDING_TREE = [
     requires: "rw_t4_entropy_reversal",
     spell: {
       name: "Revoking the Reaper",
-      description: "Spend 5 Time Shards: target a fallen ally within 60 feet who died in the past 2 rounds. Instantly resurrect them at 100% full health and mana, unwriting their death entirely.",
+      description: "Spend 5 Time Shards: target a fallen ally within 60 feet who died in the past 2 rounds. Instantly resurrect them at 100 points full health and mana, unwriting their death entirely.",
       flavorText: "The grave had not yet set the lock.",
       source: "talent", class: "Chronarch", treeId: "rewinding",
       spellType: "ACTIVE", category: "healing",
@@ -1130,7 +1130,7 @@ export const CHRONARCH_REWINDING_TREE = [
       visualTheme: "arcane", tags: ["resurrect", "instant", "climax", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Resurrects at 100% HP/mana, grants 50 temporary health, and can be used on 2 fallen allies simultaneously.", cooldownValue: 45 }
+      { description: "Resurrects at 100 points HP/mana, grants 50 temporary health, and can be used on 2 fallen allies simultaneously.", cooldownValue: 45 }
     ]
   },
   {
@@ -1208,14 +1208,14 @@ export const CHRONARCH_REWINDING_TREE = [
     requires: "rw_t5_eternal_undo",
     spell: {
       name: "Sanctuary of Untouchable Time",
-      description: "You and all allies within 30 feet take 25% less damage from all sources, and any single attack dealing more than 50% max HP is capped at 50%.",
+      description: "You and all allies within 30 feet gain 6 Damage Reduction from all sources, and any single attack dealing more than 50 points max HP is capped at 50 points.",
       flavorText: "No single blow can destroy what time continuously mends.",
       source: "talent", class: "Chronarch", treeId: "rewinding",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "damage-cap", "protection", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Take 40% less damage; single attack damage capped at 30% max HP." }
+      { description: "gain 8 Damage Reduction; single attack damage capped at 30 points max HP." }
     ]
   },
 
@@ -1229,7 +1229,7 @@ export const CHRONARCH_REWINDING_TREE = [
     requires: "rw_t6_the_grand_rewind",
     spell: {
       name: "Avatar of the Eternal Return",
-      description: "ULTIMATE: Spend 8 Time Shards: summon the Weaver of All Timelines for 1 minute: all allies are completely invulnerable to death (HP cannot drop below 1), all party cooldowns refresh every round, and any damage allies take is dealt back to enemies at 200%.",
+      description: "ULTIMATE: Spend 8 Time Shards: summon the Weaver of All Timelines for 1 minute: all allies are completely invulnerable to death (HP cannot drop below 1), all party cooldowns refresh every round, and any damage allies take is dealt back to enemies at 200 points.",
       flavorText: "The future and past collapse into an unassailable golden present.",
       source: "talent", class: "Chronarch", treeId: "rewinding",
       spellType: "ACTIVE", category: "buff",
@@ -1252,17 +1252,17 @@ export const CHRONARCH_REWINDING_TREE = [
     requires: "rw_t6_the_grand_rewind",
     spell: {
       name: "Rewinding Chronomancer Doctrine",
-      description: "All healing, rewind, and paradox reversal spells you cast are increased in potency by 10%.",
+      description: "All healing, rewind, and paradox reversal spells you cast are increased in potency by 10 points.",
       flavorText: "The past yields to the master's touch.",
       source: "talent", class: "Chronarch", treeId: "rewinding",
       spellType: "PASSIVE", category: "healing",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "capstone", "healing-boost", "chronarch"]
     },
     rankUpgrades: [
-      { description: "All healing and rewind potency increased by 20%." },
-      { description: "All healing and rewind potency increased by 35%." },
-      { description: "All healing and rewind potency increased by 50%." },
-      { description: "All healing and rewind potency increased by 70%, and Temporal Rewind costs 0 mana." }
+      { description: "All healing and rewind potency increased by +1d8 damage." },
+      { description: "All healing and rewind potency increased by +1d8 damage." },
+      { description: "All healing and rewind potency increased by +2d8 damage." },
+      { description: "All healing and rewind potency increased by +2d8 damage, and Temporal Rewind costs 0 mana." }
     ]
   },
   {
@@ -1294,15 +1294,15 @@ export const CHRONARCH_REWINDING_TREE = [
     requires: "rw_t6_causal_loop_heal",
     spell: {
       name: "Temporal Aegis",
-      description: "Whenever an ally receives healing above maximum health, they gain 100% of the overheal as a permanent temporal damage shield (up to 50 temp HP).",
+      description: "Whenever an ally receives healing above maximum health, they gain 100 points of the overheal as a permanent temporal damage shield (up to 50 temp HP).",
       flavorText: "Excess time wraps around the body like armor.",
       source: "talent", class: "Chronarch", treeId: "rewinding",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "capstone", "overheal-shield", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Shield caps at 80 temp HP and reflects 25% of absorbed damage as force." },
-      { description: "Shield caps at 120 temp HP, reflects 50% damage, and grants +3 Durability Steps to equipped durability." }
+      { description: "Shield caps at 80 temp HP and reflects 25 points of absorbed damage as force." },
+      { description: "Shield caps at 120 temp HP, reflects 50 points damage, and grants +3 Durability Steps to equipped durability." }
     ]
   },
   {
@@ -1321,8 +1321,8 @@ export const CHRONARCH_REWINDING_TREE = [
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "capstone", "cheat-death", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, triggers Grand Rewind, restores 75% health to all party members (cooldown: 90s)." },
-      { description: "Survive lethal damage, triggers Grand Rewind, restores 100% health, and activates Avatar of the Eternal Return for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, triggers Grand Rewind, restores 45 Hit Points to all party members (cooldown: 90s)." },
+      { description: "Survive lethal damage, triggers Grand Rewind, restores 60 Hit Points, and activates Avatar of the Eternal Return for free (cooldown: 60s)." }
     ]
   }
 ];

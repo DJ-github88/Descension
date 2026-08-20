@@ -229,7 +229,7 @@ export const WARDEN_JAILER = [
     },
     rankUpgrades: [
       { description: "The whole prison tightens. Caged enemies save with disadvantage, lose legendary actions, and cannot use reactions." },
-      { description: "The whole prison tightens. Caged enemies save with disadvantage, lose legendary actions AND reactions, and deal 20% less damage while caged." }
+      { description: "The whole prison tightens. Caged enemies save with disadvantage, lose legendary actions AND reactions, and deal 20 points less damage while caged." }
     ]
   },
   {
@@ -241,14 +241,14 @@ export const WARDEN_JAILER = [
     requires: "wj_t4_spectral_overlord",
     spell: {
       name: "Chain Ward",
-      description: "The chains guard their keeper. While at least one enemy is caged, you gain +2 Durability Steps to equipped durability and 10% resistance to all damage.",
+      description: "The chains guard their keeper. While at least one enemy is caged, you gain +2 Durability Steps to equipped durability and 2 Damage Reduction to all damage.",
       flavorText: "Someone is always watching the warden. Usually in chains.",
       source: "talent", class: "Warden", treeId: "jailer",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "defense", "cage", "warden"]
     },
     rankUpgrades: [
-      { description: "The chains guard their keeper. While any enemy is caged, you gain +3 Durability Steps to equipped durability, 20% damage resistance, and immunity to forced movement." }
+      { description: "The chains guard their keeper. While any enemy is caged, you gain +3 Durability Steps to equipped durability, 4 Damage Reduction against damage, and immunity to forced movement." }
     ]
   },
 
@@ -370,7 +370,7 @@ export const WARDEN_JAILER = [
     requires: "wj_t6_wardens_attention",
     spell: {
       name: "Cruel Architecture",
-      description: "The blueprints have teeth. All damage caged enemies take from your Cage Torment is increased by 20%.",
+      description: "The blueprints have teeth. All damage caged enemies take from your Cage Torment is increased by +1d8 damage.",
       flavorText: "Built to spec. The spec was unkind.",
       source: "talent", class: "Warden", treeId: "jailer",
       spellType: "PASSIVE", category: "damage",
@@ -378,8 +378,8 @@ export const WARDEN_JAILER = [
       visualTheme: "shadow", tags: ["passive", "capstone", "dot", "warden"]
     },
     rankUpgrades: [
-      { description: "The blueprints have teeth. Cage Torment damage is increased by 40%." },
-      { description: "The blueprints have teeth. Cage Torment damage is increased by 60%, and Torment ticks can critically strike." }
+      { description: "The blueprints have teeth. Cage Torment damage is increased by +2d8 damage." },
+      { description: "The blueprints have teeth. Cage Torment damage is increased by +2d8 damage, and Torment ticks can critically strike." }
     ]
   },
   {

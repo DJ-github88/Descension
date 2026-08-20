@@ -1,458 +1,344 @@
 // ============================================
-// MARTYR — ZEALOT (v2: talents are spells)
-// Schema: see talentSystem.mjs. Rank N spell = rank N-1 + rankUpgrades[N-2].
-// Economy: 8/6/6/5/5/5 = 30 pts (tiers 1-6) + 15 pts (tier 7) = 50.
-// The judgment tree: sacred damage, smites, holy wrath.
+// MARTYR — ZEALOT (v3: Rebalanced Tier Budgets, Normalized Grid Coordinates)
+// Schema: see talentSystem.mjs.
+// Grid coordinates: x (0..4), y (0..6 representing Tiers 1..7).
+//
+// FANTASY: The Righteous Inquisitor / Sacred Smiter / Holy Fire Avenger.
 // ============================================
 
 export const MARTYR_ZEALOT = [
+  // ──────────────── TIER 1 (Row 0) ────────────────
   {
     id: "zl_t1_sols_judgment",
     name: "Sol's Judgment",
     icon: "spell_holy_righteousfury",
     maxRanks: 3,
-    position: { x: 2, y: 0 },
+    position: { x: 1, y: 0 },
     requires: null,
     spell: {
       name: "Sol's Judgment",
-      description: "Sol's righteous fire burns through your sworn enemies. Deal 2d6 sacred damage plus your Spirit modifier to one creature within 30 feet. Costs 1 Devotion.",
+      description: "Spend 1 AP and 1 Devotion: Strike a target within 30 feet with solar fire dealing 1d8 sacred damage.",
       flavorText: "The verdict is brief. The appeal window is closed.",
       source: "talent", class: "Martyr", treeId: "zealot",
       spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
+      cooldownCategory: "turn_based", cooldownValue: 1, cooldownUnit: "round",
       resourceCosts: { devotion: { baseAmount: 1 } },
       damageTypes: ["sacred"],
-      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
+      primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
       visualTheme: "sacred", tags: ["damage", "judgment", "martyr"]
     },
     rankUpgrades: [
-      { description: "Sol's righteous fire burns through your sworn enemies. Deal 3d6 sacred damage plus your Spirit modifier to one creature within 30 feet. Costs 1 Devotion.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } },
-      { description: "Sol's righteous fire burns through your sworn enemies. Deal 3d6 sacred damage plus your Spirit modifier to one creature within 40 feet. Costs 1 Devotion.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, range: 40 }
+      { description: "Deals 2d6 sacred damage.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
+      { description: "Deals 2d8 sacred damage and illuminates the target for 1 round (+1 to hit for all allies).", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } }
     ]
   },
   {
-    id: "zl_t1_sacred_flame",
-    name: "Sacred Flame",
+    id: "zl_t1_sacred_blade",
+    name: "Consecrated Edge",
     icon: "spell_holy_searinglight",
     maxRanks: 3,
-    position: { x: 0.5, y: 1 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
-      name: "Sacred Flame",
-      description: "Channel Sol's purifying flame to consume the wicked. A target within 60 feet must make a Spirit save or take 2d8 sacred damage. No attack roll required.",
+      name: "Consecrated Edge",
+      description: "Passive: Your weapon attacks deal +1d4 sacred damage.",
+      flavorText: "Holy runes carved into the steel glow with celestial heat.",
+      source: "talent", class: "Martyr", treeId: "zealot",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["sacred"],
+      primaryDamage: { dice: "1d4", flat: 0, procChance: 100 },
+      visualTheme: "sacred", tags: ["passive", "damage", "martyr"]
+    },
+    rankUpgrades: [
+      { description: "Weapon attacks deal +1d6 sacred damage." },
+      { description: "Weapon attacks deal +1d8 sacred damage and ignore up to 2 points of enemy Armor." }
+    ]
+  },
+  {
+    id: "zl_t1_zealous_purity",
+    name: "Zealous Conviction",
+    icon: "spell_holy_sealofwrath",
+    maxRanks: 2,
+    position: { x: 3, y: 0 },
+    requires: null,
+    spell: {
+      name: "Zealous Conviction",
+      description: "Passive: You gain +2 to saving throws against Fear and Charm effects, and +1 to hit against creatures of darkness or undeath.",
+      flavorText: "Righteousness leaves no room for hesitation or panic.",
+      source: "talent", class: "Martyr", treeId: "zealot",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "sacred", tags: ["passive", "accuracy", "save-buff", "martyr"]
+    },
+    rankUpgrades: [
+      { description: "Gain +4 to saving throws against Fear/Charm, and +2 to hit against dark creatures." }
+    ]
+  },
+
+  // ──────────────── TIER 2 (Row 1) ────────────────
+  {
+    id: "zl_t2_retributive_smite",
+    name: "Retributive Smite",
+    icon: "spell_holy_holysmite",
+    maxRanks: 3,
+    position: { x: 1, y: 1 },
+    requires: "zl_t1_sols_judgment",
+    spell: {
+      name: "Retributive Smite",
+      description: "Spend 1 AP and 1 Devotion: Deliver a crushing melee strike dealing 1d8 physical + 1d8 sacred damage (2d8 total). If the target damaged you or an ally this round, deals +1d6 bonus sacred damage.",
+      flavorText: "An eye for an eye, collected in blinding radiance.",
+      source: "talent", class: "Martyr", treeId: "zealot",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "melee", range: 5,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 1, cooldownUnit: "round",
+      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
+      damageTypes: ["smashing", "sacred"],
+      resourceCosts: { devotion: { baseAmount: 1 } },
+      visualTheme: "sacred", tags: ["strike", "smite", "retribution", "martyr"]
+    },
+    rankUpgrades: [
+      { description: "Deals 1d8 physical + 2d6 sacred damage; retribution bonus increases to +1d8 sacred.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } },
+      { description: "Deals 1d8 physical + 2d8 sacred damage; retribution bonus increases to +2d6 sacred and Staggers target.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
+    ]
+  },
+  {
+    id: "zl_t2_holy_fire",
+    name: "Holy Fire Flare",
+    icon: "spell_holy_searinglight",
+    maxRanks: 3,
+    position: { x: 3, y: 1 },
+    requires: "zl_t1_zealous_purity",
+    spell: {
+      name: "Holy Fire Flare",
+      description: "Spend 1 AP: Hurl a blinding spear of sacred light at a target within 45 feet dealing 1d8 sacred damage and forcing a Spirit save or become Dazed for 1 round.",
       flavorText: "Aim is a courtesy the wicked forfeited.",
       source: "talent", class: "Martyr", treeId: "zealot",
       spellType: "ACTIVE", category: "damage",
-      targetingMode: "single", rangeType: "ranged", range: 60,
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { mana: { baseAmount: 8 } },
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
       damageTypes: ["sacred"],
-      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
-      visualTheme: "sacred", tags: ["damage", "save-based", "martyr"]
+      visualTheme: "sacred", tags: ["ranged", "daze", "martyr"]
     },
     rankUpgrades: [
-      { description: "Channel Sol's purifying flame to consume the wicked. A target within 60 feet must make a Spirit save or take 3d8 sacred damage; cover does not help. No attack roll required.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
-      { description: "Channel Sol's purifying flame to consume the wicked. A target within 60 feet must make a Spirit save or take 3d8 sacred damage and be blinded for 1 round. No attack roll, cover does not help.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 }, debuffs: ["blinded"] }
-    ]
-  },
-  {
-    id: "zl_t1_wrathful_smite",
-    name: "Wrathful Smite",
-    icon: "spell_holy_crusaderstrike",
-    maxRanks: 2,
-    position: { x: 3.5, y: 1 },
-    requires: null,
-    spell: {
-      name: "Wrathful Smite",
-      description: "Sol's wrath descends through your righteous strike. Empower your next attack: +2d6 sacred damage, and the target must pass a Spirit save or be frightened for 1 round. Costs 1 Devotion.",
-      flavorText: "Sharpened with somebody else's rage.",
-      source: "talent", class: "Martyr", treeId: "zealot",
-      spellType: "ACTIVE", category: "buff",
-      targetingMode: "self", rangeType: "self", range: 0,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { devotion: { baseAmount: 1 } },
-      damageTypes: ["sacred"],
-      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
-      visualTheme: "sacred", tags: ["smite", "empower", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "Sol's wrath descends through your righteous strike. Empower your next attack: +4d6 sacred damage, and the target must pass a Spirit save or be frightened for 2 rounds. Costs 1 Devotion.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 } }
+      { description: "Deals 2d6 sacred damage and ignores all partial cover.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
+      { description: "Deals 2d8 sacred damage, ignores cover, and Blinds the target for 1 round on a failed save.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } }
     ]
   },
 
+  // ──────────────── TIER 3 (Row 2) ────────────────
   {
-    id: "zl_t2_crusader_strike",
-    name: "Crusader Strike",
-    icon: "spell_holy_crusaderstrike",
+    id: "zl_t3_pillar_of_wrath",
+    name: "Pillar of Holy Wrath",
+    icon: "spell_holy_holybolt",
     maxRanks: 3,
     position: { x: 1, y: 2 },
-    requires: "zl_t1_sols_judgment",
+    requires: "zl_t2_retributive_smite",
     spell: {
-      name: "Crusader Strike",
-      description: "Each blow channels Sol's healing radiance. Strike for weapon damage plus 2d6 sacred damage; you heal for half the sacred damage dealt.",
-      flavorText: "The sword gives back. Eventually, to someone.",
+      name: "Pillar of Holy Wrath",
+      description: "Spend 1 AP and 2 Devotion: Call down a 15-foot column of pure celestial fury within 40 feet. Deals 2d8 sacred damage to all enemies and knocks them Prone on a failed Fortitude save.",
+      flavorText: "A pillar of dawn directly upon the unrepentant.",
       source: "talent", class: "Martyr", treeId: "zealot",
       spellType: "ACTIVE", category: "damage",
-      targetingMode: "single", rangeType: "melee", range: 5,
+      actionPoints: 1,
+      targetingMode: "aoe", aoeShape: "circle", aoeSize: 15, rangeType: "ranged", range: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { mana: { baseAmount: 5 } },
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       damageTypes: ["sacred"],
-      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
-      visualTheme: "sacred", tags: ["melee", "sustain", "martyr"]
+      resourceCosts: { devotion: { baseAmount: 2 } },
+      visualTheme: "sacred", tags: ["aoe", "pillar", "knockdown", "martyr"]
     },
     rankUpgrades: [
-      { description: "Each blow channels Sol's healing radiance. Strike for weapon damage plus 3d6 sacred damage; you heal for half the sacred damage dealt.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } },
-      { description: "Each blow channels Sol's healing radiance. Strike for weapon damage plus 4d6 sacred damage; you and your lowest-health ally each heal for half the sacred damage dealt.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 } }
+      { description: "Deals 2d10 sacred damage and leaves radiant consecrated ground for 2 rounds (1d6 sacred/rd).", primaryDamage: { dice: "2d10", flat: 0, procChance: 100 } },
+      { description: "Deals 3d8 sacred damage, leaves radiant ground, and generates 1 Devotion if 2 or more enemies are struck.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
     ]
   },
   {
-    id: "zl_t2_dawns_reckoning",
-    name: "Dawn's Reckoning",
-    icon: "spell_holy_blessingofstrength",
+    id: "zl_t3_fervent_strike",
+    name: "Fanatic's Fervor",
+    icon: "spell_holy_sealofblood",
     maxRanks: 3,
-    position: { x: 4, y: 2 },
-    requires: "zl_t1_sacred_flame",
+    position: { x: 3, y: 2 },
+    requires: "zl_t2_holy_fire",
     spell: {
-      name: "Dawn's Reckoning",
-      description: "Those who strike you feel Sol's searing judgment returned. When you are hit by a melee attack, the attacker takes 2d6 sacred damage.",
-      flavorText: "Every blow against you is a signed confession.",
+      name: "Fanatic's Fervor",
+      description: "Passive: Whenever you score a critical hit or reduce an enemy to 0 HP, immediately gain 1 Devotion and your movement speed increases by 10 feet for 1 round.",
+      flavorText: "Righteous victory fuels boundless zeal.",
+      source: "talent", class: "Martyr", treeId: "zealot",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "sacred", tags: ["passive", "on-kill", "speed", "martyr"]
+    },
+    rankUpgrades: [
+      { description: "Gain 1 Devotion, +15 feet speed, and your next attack deals +1d6 sacred damage." },
+      { description: "Gain 2 Devotion, +15 feet speed, and your next attack deals +1d8 sacred damage." }
+    ]
+  },
+
+  // ──────────────── TIER 4 (Row 3) ────────────────
+  {
+    id: "zl_t4_inquisitors_brand",
+    name: "Inquisitor's Brand",
+    icon: "spell_holy_righteousfury",
+    maxRanks: 1,
+    position: { x: 2, y: 3 },
+    requires: ["zl_t3_pillar_of_wrath", "zl_t3_fervent_strike"],
+    spell: {
+      name: "Inquisitor's Brand",
+      description: "Spend 1 AP and 2 Devotion: Brand an enemy within 35 feet with the symbol of Sol. Deals 2d10 sacred damage immediately, and all sacred damage dealt to the target by anyone is increased by +1d6 for 2 rounds.",
+      flavorText: "Marked for destruction. There is no sanctuary.",
+      source: "talent", class: "Martyr", treeId: "zealot",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "ranged", range: 35,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      primaryDamage: { dice: "2d10", flat: 0, procChance: 100 },
+      damageTypes: ["sacred"],
+      resourceCosts: { devotion: { baseAmount: 2 } },
+      visualTheme: "sacred", tags: ["strike", "brand", "vulnerability", "martyr"]
+    }
+  },
+
+  // ──────────────── TIER 5 (Row 4) ────────────────
+  {
+    id: "zl_t5_searing_halo",
+    name: "Searing Halo",
+    icon: "spell_holy_auraoflight",
+    maxRanks: 3,
+    position: { x: 1, y: 4 },
+    requires: "zl_t4_inquisitors_brand",
+    spell: {
+      name: "Searing Halo",
+      description: "Passive: A glowing corona of white-hot light crowns you. Enemies within 10 feet take 2 sacred damage at the start of their turns.",
+      flavorText: "The heat of absolute conviction radiates outward.",
       source: "talent", class: "Martyr", treeId: "zealot",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", damageTypes: ["sacred"],
-      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
+      visualTheme: "sacred", tags: ["passive", "aura", "damage", "martyr"]
+    },
+    rankUpgrades: [
+      { description: "Aura deals 4 sacred damage to enemies within 10 feet." },
+      { description: "Aura deals 6 sacred damage to enemies within 10 feet and illuminates them, preventing concealment." }
+    ]
+  },
+  {
+    id: "zl_t5_righteous_execution",
+    name: "Righteous Execution",
+    icon: "ability_warrior_decisivestrike",
+    maxRanks: 2,
+    position: { x: 3, y: 4 },
+    requires: "zl_t4_inquisitors_brand",
+    spell: {
+      name: "Righteous Execution",
+      description: "Passive: Your attacks against enemies below half maximum health score critical hits on rolls of 19–20 and deal +1d6 bonus sacred damage.",
+      flavorText: "Finishing the judgment with a single, decisive stroke.",
+      source: "talent", class: "Martyr", treeId: "zealot",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", damageTypes: ["sacred"],
+      primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
+      visualTheme: "sacred", tags: ["passive", "crit-range", "execute", "martyr"]
+    },
+    rankUpgrades: [
+      { description: "Critical hits occur on rolls of 18–20 and deal +1d8 bonus sacred damage." }
+    ]
+  },
+
+  // ──────────────── TIER 6 (Row 5) ────────────────
+  {
+    id: "zl_t6_sunburst_nova",
+    name: "Sunburst Nova",
+    icon: "spell_holy_divineprovidence",
+    maxRanks: 3,
+    position: { x: 2, y: 5 },
+    requires: ["zl_t5_searing_halo", "zl_t5_righteous_execution"],
+    spell: {
+      name: "Sunburst Nova",
+      description: "Spend 2 AP and 3 Devotion: Detonate a blinding super-nova in a 25-foot radius. Deals 3d8 sacred damage to all enemies and Blinds all targets that fail a Spirit save for 1 round.",
+      flavorText: "The sky splits open and daylight pours down with crushing weight.",
+      source: "talent", class: "Martyr", treeId: "zealot",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 2,
+      targetingMode: "aoe", aoeShape: "circle", aoeSize: 25, rangeType: "ranged", range: 35,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
+      damageTypes: ["sacred"],
+      resourceCosts: { devotion: { baseAmount: 3 } },
+      visualTheme: "sacred", tags: ["nuke", "aoe", "blind", "martyr"]
+    },
+    rankUpgrades: [
+      { description: "Deals 3d10 sacred damage and forces enemies to drop 1 rank of weapon guard.", primaryDamage: { dice: "3d10", flat: 0, procChance: 100 } },
+      { description: "Deals 4d8 sacred damage, Blinds targets, and sets the ground on fire with sacred embers for 2 rounds.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
+    ]
+  },
+
+  // ──────────────── TIER 7 (Row 6 - Capstones) ────────────────
+  {
+    id: "zl_t7_avatar_of_wrath",
+    name: "Avatar of the Holy Avenger",
+    icon: "spell_holy_powerwordbarrier",
+    maxRanks: 1,
+    position: { x: 2, y: 6 },
+    requires: "zl_t6_sunburst_nova",
+    spell: {
+      name: "Avatar of the Holy Avenger",
+      description: "ULTIMATE: Spend 2 AP and 3 Devotion: For 2 rounds, transform into an angel of righteous vengeance. All your attacks deal +1d10 sacred damage, your critical hits blind targets for 1 round, and you gain +3 Armor and +2 to hit.",
+      flavorText: "You are the sword of Sol made flesh. Sinners burn in your shadow.",
+      source: "talent", class: "Martyr", treeId: "zealot",
+      spellType: "ACTIVE", category: "buff",
+      actionPoints: 2,
+      targetingMode: "self",
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 5, cooldownUnit: "rounds",
+      resourceCosts: { devotion: { baseAmount: 3 } },
+      visualTheme: "sacred", tags: ["ultimate", "avenger", "buff", "martyr"]
+    }
+  },
+  {
+    id: "zl_t7_unrelenting_crusade",
+    name: "Unrelenting Crusade",
+    icon: "spell_holy_blessingofstrength",
+    maxRanks: 2,
+    position: { x: 1, y: 6 },
+    requires: "zl_t6_sunburst_nova",
+    spell: {
+      name: "Unrelenting Crusade",
+      description: "Passive: Your sacred damage ignores up to 5 points of enemy Sacred / Elemental Resistance and deals double damage to undead and demons.",
+      flavorText: "No unholy ward can withstand the true flame.",
+      source: "talent", class: "Martyr", treeId: "zealot",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "sacred", tags: ["passive", "penetration", "anti-evil", "martyr"]
+    },
+    rankUpgrades: [
+      { description: "Ignores up to 8 points of resistance and your sacred critical hits generate 2 Devotion." }
+    ]
+  },
+  {
+    id: "zl_t7_martyrs_retribution",
+    name: "Wrath of the Saint",
+    icon: "spell_holy_sealofsacrifice",
+    maxRanks: 2,
+    position: { x: 3, y: 6 },
+    requires: "zl_t6_sunburst_nova",
+    spell: {
+      name: "Wrath of the Saint",
+      description: "Passive: When you take damage equal to 12 or more in a single hit, unleash an automatic retort dealing 2d8 sacred damage to the attacker.",
+      flavorText: "Strike the bell, hear the thunder.",
+      source: "talent", class: "Martyr", treeId: "zealot",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["sacred"],
+      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       visualTheme: "sacred", tags: ["passive", "retaliation", "martyr"]
     },
     rankUpgrades: [
-      { description: "Those who strike you feel Sol's searing judgment returned. When you are hit by a melee attack, the attacker takes 3d6 sacred damage.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } },
-      { description: "Those who strike you feel Sol's searing judgment returned. When you are hit by ANY attack, the attacker takes 4d6 sacred damage.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 } }
-    ]
-  },
-
-  {
-    id: "zl_t3_wrath_of_heaven",
-    name: "Wrath of Heaven",
-    icon: "spell_holy_sealofwrath",
-    maxRanks: 3,
-    position: { x: 2, y: 3.5 },
-    requires: "zl_t2_crusader_strike",
-    spell: {
-      name: "Wrath of Heaven",
-      description: "Sol's celestial fury rains down at your call. Call down judgment in a 20-foot radius within 60 feet: enemies take 4d6 sacred damage. Costs 2 Devotion.",
-      flavorText: "Skyfall, on request.",
-      source: "talent", class: "Martyr", treeId: "zealot",
-      spellType: "ACTIVE", category: "damage",
-      targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 20,
-      castTimeType: "short", castTimeValue: 1.5,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
-      resourceCosts: { devotion: { baseAmount: 2 }, mana: { baseAmount: 12 } },
-      damageTypes: ["sacred"],
-      primaryDamage: { dice: "4d6", flat: 0, procChance: 100 },
-      visualTheme: "sacred", tags: ["aoe", "judgment", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "Sol's celestial fury rains down at your call. Call down judgment in a 25-foot radius within 60 feet: enemies take 6d6 sacred damage. Costs 2 Devotion.", primaryDamage: { dice: "6d6", flat: 0, procChance: 100 } },
-      { description: "Sol's celestial fury rains down at your call. Call down judgment in a 30-foot radius within 90 feet: enemies take 8d6 sacred damage and are blinded for 1 round. Costs 2 Devotion.", primaryDamage: { dice: "8d6", flat: 0, procChance: 100 }, debuffs: ["blinded"] }
-    ]
-  },
-  {
-    id: "zl_t3_holy_avenger",
-    name: "Dawnsworn Avenger",
-    icon: "spell_holy_auraoflight",
-    maxRanks: 3,
-    position: { x: 2.5, y: 3.5 },
-    requires: "zl_t2_dawns_reckoning",
-    spell: {
-      name: "Dawnsworn Avenger",
-      description: "Sol's light sanctifies your weapon. Your weapon attacks are treated as magical and deal 1d6 additional sacred damage.",
-      flavorText: "The blade took an oath. It keeps it better than most.",
-      source: "talent", class: "Martyr", treeId: "zealot",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["sacred"],
-      primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
-      visualTheme: "sacred", tags: ["passive", "weapon", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "Sol's light sanctifies your weapon. Your weapon attacks are treated as magical and deal 2d6 additional sacred damage.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
-      { description: "Sol's light sanctifies your weapon. Your weapon attacks are magical, deal 3d6 additional sacred damage, and ignore resistance to sacred damage.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
-    ]
-  },
-
-  {
-    id: "zl_t4_sword_of_justice",
-    name: "Sword of Justice",
-    icon: "spell_holy_righteousnessaura",
-    maxRanks: 3,
-    position: { x: 2, y: 4.5 },
-    requires: "zl_t3_wrath_of_heaven",
-    spell: {
-      name: "Sword of Justice",
-      description: "You wield Sol's perfect judgment as an unyielding blade. Your attacks ignore sacred resistance, and critical hits deal maximum damage.",
-      flavorText: "Moderation, in the pursuit of justice, is no virtue.",
-      source: "talent", class: "Martyr", treeId: "zealot",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", damageTypes: ["sacred"],
-      visualTheme: "sacred", tags: ["passive", "penetration", "crit", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "You wield Sol's perfect judgment as an unyielding blade. Your attacks ignore sacred resistance, critical hits deal maximum damage, and your crit range increases by 1." },
-      { description: "You wield Sol's perfect judgment as an unyielding blade. Your attacks ignore sacred resistance AND immunity, critical hits deal maximum damage, and your crit range increases by 2." }
-    ]
-  },
-  {
-    id: "zl_t4_avenging_angel",
-    name: "Avenging Angel",
-    icon: "ability_paladin_judgementofthepure",
-    maxRanks: 2,
-    position: { x: 2.5, y: 4.5 },
-    requires: "zl_t3_holy_avenger",
-    spell: {
-      name: "Avenging Angel",
-      description: "Your sacrifice wings you on Sol's sacred fury. Sprout wings of light for 1 minute: gain flight speed equal to your movement and +2 to attack and damage rolls. Costs 3 Devotion.",
-      flavorText: "The choir can see you now. Try to look justified.",
-      source: "talent", class: "Martyr", treeId: "zealot",
-      spellType: "ACTIVE", category: "buff",
-      targetingMode: "self", rangeType: "self", range: 0,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { devotion: { baseAmount: 3 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
-      buffs: ["avenging-angel"], visualTheme: "sacred", tags: ["flight", "buff", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "Your sacrifice wings you on Sol's sacred fury. Sprout wings of light for 1 minute: gain flight, +3 to attack and damage rolls, and allies within 20 feet gain +1 to attack rolls. Costs 3 Devotion." }
-    ]
-  },
-
-  {
-    id: "zl_t5_final_judgment",
-    name: "Final Judgment",
-    icon: "spell_holy_divineintervention",
-    maxRanks: 3,
-    position: { x: 2, y: 5.5 },
-    requires: "zl_t4_sword_of_justice",
-    spell: {
-      name: "Final Judgment",
-      description: "Sol's final verdict extinguishes the unworthy. Execute a creature within 30 feet that has 25 or fewer health remaining: it dies instantly. Bosses take 5d10 sacred instead. Costs 4 Devotion.",
-      flavorText: "Case closed. Gavel optional.",
-      source: "talent", class: "Martyr", treeId: "zealot",
-      spellType: "ACTIVE", category: "damage",
-      targetingMode: "single", rangeType: "ranged", range: 30,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { devotion: { baseAmount: 4 } },
-      damageTypes: ["sacred"],
-      primaryDamage: { dice: "5d10", flat: 0, procChance: 100 },
-      visualTheme: "sacred", tags: ["execute", "verdict", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "Sol's final verdict extinguishes the unworthy. Execute a creature within 30 feet at 50 or fewer health: it dies instantly. Bosses take 5d10 sacred instead. Costs 4 Devotion." },
-      { description: "Sol's final verdict extinguishes the unworthy. Execute a creature within 60 feet at 50 or fewer health: it dies instantly and its allies are frightened for 1 round. Bosses take 5d10 sacred. Costs 4 Devotion.", primaryDamage: { dice: "5d10", flat: 0, procChance: 100 } }
-    ]
-  },
-  {
-    id: "zl_t5_sol_vengeance",
-    name: "Sol Vengeance",
-    icon: "spell_holy_blessedlife",
-    maxRanks: 2,
-    position: { x: 2.5, y: 5.5 },
-    requires: "zl_t4_avenging_angel",
-    spell: {
-      name: "Sol Vengeance",
-      description: "When allies fall, your grief ignites Sol's vengeful flame. For 2 rounds after an ally is reduced to 0 health, your attacks deal 2d6 additional sacred damage.",
-      flavorText: "Grief, weaponized. Sol approves, quietly.",
-      source: "talent", class: "Martyr", treeId: "zealot",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["sacred"],
-      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
-      visualTheme: "sacred", tags: ["passive", "revenge", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "When allies fall, your grief ignites Sol's vengeful flame. For 3 rounds after an ally is reduced to 0 health, your attacks deal 3d6 additional sacred damage and you gain +2 to attack rolls.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
-    ]
-  },
-
-  {
-    id: "zl_t6_apocalypse",
-    name: "Apocalypse",
-    icon: "spell_holy_sealofwrath",
-    maxRanks: 1,
-    position: { x: 1.5, y: 6.5 },
-    requires: "zl_t5_final_judgment",
-    spell: {
-      name: "Apocalypse",
-      description: "Your ultimate sacrifice calls forth Sol's consuming sacred fire. Unleash judgment in a 60-foot radius: all enemies take 8d6 sacred damage, and enemies reduced to 0 by it are destroyed — no death saves, no return. Costs all Devotion (minimum 4).",
-      flavorText: "The dawn arrives early, and it is furious.",
-      source: "talent", class: "Martyr", treeId: "zealot",
-      spellType: "ACTIVE", category: "damage",
-      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
-      castTimeType: "long", castTimeValue: 3,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
-      resourceCosts: { devotion: { baseAmount: 5 }, mana: { baseAmount: 25 } },
-      damageTypes: ["sacred"],
-      primaryDamage: { dice: "8d6", flat: 0, procChance: 100 },
-      visualTheme: "sacred", tags: ["apocalypse", "aoe", "martyr"]
-    }
-  },
-  {
-    id: "zl_t6_zealous_heart",
-    name: "Zealous Heart",
-    icon: "spell_holy_unyieldingfaith",
-    maxRanks: 2,
-    position: { x: 2, y: 6.5 },
-    requires: "zl_t5_sol_vengeance",
-    spell: {
-      name: "Zealous Heart",
-      description: "Righteousness is a renewable resource. You gain 1 Devotion whenever you critically hit or reduce an enemy below half health.",
-      flavorText: "Zion: the drum beats faster.",
-      source: "talent", class: "Martyr", treeId: "zealot",
-      spellType: "PASSIVE", category: "utility",
-      targetingMode: "self", visualTheme: "sacred", tags: ["passive", "resource", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "Righteousness is a renewable resource. You gain 1 Devotion whenever you critically hit or reduce an enemy below half health, and 2 Devotion on a killing blow." }
-    ]
-  },
-  {
-    id: "zl_t6_consecrated_blade",
-    name: "Consecrated Blade",
-    icon: "spell_holy_holysmite",
-    maxRanks: 2,
-    position: { x: 2.5, y: 6.5 },
-    requires: "zl_t5_sol_vengeance",
-    spell: {
-      name: "Consecrated Blade",
-      description: "Your smites leave consecrated wounds. Targets struck by your Wrathful Smite take an additional 1d6 sacred damage at the start of their turns for 2 turns.",
-      flavorText: "The light checks in. Daily.",
-      source: "talent", class: "Martyr", treeId: "zealot",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["sacred"],
-      isDot: true, dotDuration: 2, dotTick: "1d6",
-      visualTheme: "sacred", tags: ["passive", "dot", "smite", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "Your smites leave consecrated wounds. Targets struck by your Wrathful Smite take an additional 2d6 sacred damage at the start of their turns for 3 turns.", dotTick: "2d6", dotDuration: 3 }
-    ]
-  },
-
-  {
-    id: "zl_t7_sol_incarnate",
-    name: "Sol Incarnate",
-    icon: "spell_holy_avengingwrath",
-    maxRanks: 1,
-    position: { x: 0.5, y: 8 },
-    requires: "zl_t6_apocalypse",
-    spell: {
-      name: "Sol Incarnate",
-      description: "ULTIMATE: For 30 seconds you become the dawn given form. Your weapons are sheathed in solar fire (+3d8 sacred per strike), you gain flight, critical hits deal maximum damage, and each enemy that dies by your hand restores 2 Devotion to you. Costs all Devotion (minimum 5).",
-      flavorText: "Do not look directly at the Martyr. Everyone looks anyway.",
-      source: "talent", class: "Martyr", treeId: "zealot",
-      spellType: "ACTIVE", category: "buff",
-      targetingMode: "self", rangeType: "self", range: 0,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 300, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { devotion: { baseAmount: 6 }, mana: { baseAmount: 30 } },
-      durationRounds: 5, durationRealTime: 30, durationUnit: "seconds",
-      buffs: ["sol-incarnate"], damageTypes: ["sacred"],
-      visualTheme: "sacred", tags: ["ultimate", "capstone", "transform", "martyr"]
-    }
-  },
-  {
-    id: "zl_t7_fervent_blade",
-    name: "Fervent Blade",
-    icon: "spell_holy_crusaderstrike",
-    maxRanks: 5,
-    position: { x: 1.5, y: 8 },
-    requires: "zl_t6_zealous_heart",
-    spell: {
-      name: "Fervent Blade",
-      description: "Practice sharpens faith. All sacred damage you deal is increased by 10%.",
-      flavorText: "Drill makes the dawn brighter.",
-      source: "talent", class: "Martyr", treeId: "zealot",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", damageTypes: ["sacred"],
-      visualTheme: "sacred", tags: ["passive", "capstone", "damage", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "Practice sharpens faith. All sacred damage you deal is increased by 20%." },
-      { description: "Practice sharpens faith. All sacred damage you deal is increased by 30%." },
-      { description: "Practice sharpens faith. All sacred damage you deal is increased by 45%." },
-      { description: "Practice sharpens faith. All sacred damage you deal is increased by 60%, and Crusader Strike costs no mana." }
-    ]
-  },
-  {
-    id: "zl_t7_righteous_host",
-    name: "Righteous Host",
-    icon: "spell_holy_prayerofspirit",
-    maxRanks: 3,
-    position: { x: 2, y: 8 },
-    requires: "zl_t6_zealous_heart",
-    spell: {
-      name: "Righteous Host",
-      description: "Your conviction spreads. While Avenging Angel is active, allies within 20 feet deal 10% more sacred damage.",
-      flavorText: "Wings are contagious.",
-      source: "talent", class: "Martyr", treeId: "zealot",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", damageTypes: ["sacred"],
-      visualTheme: "sacred", tags: ["passive", "capstone", "aura", "ally", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "Your conviction spreads. While Avenging Angel is active, allies within 30 feet deal 20% more sacred damage." },
-      { description: "Your conviction spreads. Avenging Angel's radius is 40 feet, and allies inside deal 20% more sacred damage and gain flight alongside you." }
-    ]
-  },
-  {
-    id: "zl_t7_last_rite",
-    name: "Last Rite",
-    icon: "spell_holy_divineintervention",
-    maxRanks: 3,
-    position: { x: 2.5, y: 8 },
-    requires: "zl_t6_consecrated_blade",
-    spell: {
-      name: "Last Rite",
-      description: "Your executes leave no ambiguity. Final Judgment's health threshold is increased by 10.",
-      flavorText: "The paperwork was filed before the fight started.",
-      source: "talent", class: "Martyr", treeId: "zealot",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", damageTypes: ["sacred"],
-      visualTheme: "sacred", tags: ["passive", "capstone", "execute", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "Your executes leave no ambiguity. Final Judgment's health threshold is increased by 20." },
-      { description: "Your executes leave no ambiguity. Final Judgment's threshold is increased by 35, and its Devotion cost drops to 3." }
-    ]
-  },
-  {
-    id: "zl_t7_morning_crusade",
-    name: "Morning Crusade",
-    icon: "spell_holy_righteousfury",
-    maxRanks: 3,
-    position: { x: 3.5, y: 8 },
-    requires: "zl_t6_consecrated_blade",
-    spell: {
-      name: "Morning Crusade",
-      description: "Judgment, delivered briskly. The cooldowns of your Zealot spells are reduced by 15%.",
-      flavorText: "Justice before breakfast.",
-      source: "talent", class: "Martyr", treeId: "zealot",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "sacred", tags: ["passive", "capstone", "cooldown", "martyr"]
-    },
-    rankUpgrades: [
-      { description: "Judgment, delivered briskly. The cooldowns of your Zealot spells are reduced by 30%." },
-      { description: "Judgment, delivered briskly. The cooldowns of your Zealot spells are reduced by 45%." }
+      { description: "Retaliation deals 3d8 sacred damage and Dazes the attacker for 1 round." }
     ]
   }
 ];

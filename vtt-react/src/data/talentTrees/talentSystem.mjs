@@ -123,6 +123,34 @@ export function resolveTalentSpell(node, rank) {
 }
 
 /**
+ * Extract human-readable trigger condition from spell/passive description
+ */
+export function extractTriggerFromDescription(desc) {
+  if (!desc || typeof desc !== 'string') return null;
+  // Match Reaction triggers: "As a reaction when [trigger], [effect]" or "Reaction: when [trigger], [effect]"
+  const reactionMatch = desc.match(/(?:as a reaction|reaction(?:\s*\([^)]*\))?)\s*(?:when|upon|if|after)?\s*:\s*([^,.;]+)/i) ||
+                        desc.match(/(?:as a reaction|reaction(?:\s*\([^)]*\))?)\s+(?:when|upon|if|after)\s+([^,.;]+)/i);
+  if (reactionMatch) {
+    let t = reactionMatch[1].trim();
+    if (!t.toLowerCase().startsWith('when') && !t.toLowerCase().startsWith('upon') && !t.toLowerCase().startsWith('if') && !t.toLowerCase().startsWith('after')) {
+      t = 'When ' + t;
+    }
+    return t;
+  }
+  // Match Passive triggers: "Passive: Whenever [trigger], [effect]"
+  const passiveMatch = desc.match(/passive\s*:\s*(?:whenever|when|upon|if|after)\s+([^,.;]+)/i) ||
+                       desc.match(/^(?:whenever|when|upon|if|after)\s+([^,.;]+)/i);
+  if (passiveMatch) {
+    let t = passiveMatch[1].trim();
+    if (!t.toLowerCase().startsWith('when') && !t.toLowerCase().startsWith('whenever') && !t.toLowerCase().startsWith('upon') && !t.toLowerCase().startsWith('if') && !t.toLowerCase().startsWith('after')) {
+      t = 'Whenever ' + t;
+    }
+    return t;
+  }
+  return null;
+}
+
+/**
  * Convert a resolved talent spell into the standard Mythrill Spell Library schema
  * (adhering strictly to SPELL_DATA_REFERENCE.md).
  */
@@ -132,7 +160,24 @@ export function convertTalentSpellToLibrarySpell(talent, rank = 1) {
   if (!resolved) return null;
 
   const stableId = `talent-spell-${talent.id}`;
-  const isPassive = resolved.spellType === 'PASSIVE';
+
+  // Smart detection of Reaction vs Passive vs Action
+  const isExplicitReaction = resolved.spellType === 'REACTION' || resolved.actionType === 'reaction' ||
+    (Array.isArray(resolved.tags) && resolved.tags.some(t => String(t).toLowerCase() === 'reaction'));
+  const isDescriptionReaction = /(?:as a reaction|reaction(?:\s*\([^)]*\))?)/i.test(resolved.description || '');
+  const isReaction = isExplicitReaction || isDescriptionReaction;
+
+  const isExplicitPassive = resolved.spellType === 'PASSIVE' || resolved.actionType === 'passive' ||
+    (Array.isArray(resolved.tags) && resolved.tags.some(t => String(t).toLowerCase() === 'passive'));
+  const isDescriptionPassive = /passive\s*:/i.test(resolved.description || '') || /^passive/i.test(resolved.description || '') || /gain passive/i.test(resolved.description || '');
+  const isPassive = !isReaction && (isExplicitPassive || isDescriptionPassive);
+
+  const determinedSpellType = isReaction ? 'REACTION' : (isPassive ? 'PASSIVE' : 'ACTION');
+  const determinedActionType = isReaction ? 'reaction' : (isPassive ? 'passive' : 'action');
+
+  const reactionTrigger = isReaction ? (resolved.reactionTrigger || resolved.trigger || extractTriggerFromDescription(resolved.description)) : null;
+  const trigger = isPassive ? (resolved.trigger || extractTriggerFromDescription(resolved.description)) : null;
+
   const rankSuffix = talent.maxRanks > 1 ? ` (Rank ${rank})` : '';
 
   // 1. School mapping: must be one of the canonical damage types
@@ -148,25 +193,30 @@ export function convertTalentSpellToLibrarySpell(talent, rank = 1) {
        : 'arcane');
 
   // 2. Resource cost mapping: actionPoints (1-5), mana/class resources
-  const resourceCost = {
-    actionPoints: isPassive ? 0 : 1,
-    components: ['verbal', 'somatic']
-  };
+  const resourceTypes = [];
+  const resourceValues = {};
   if (resolved.resourceCosts) {
     if (resolved.resourceCosts.mana?.baseAmount) {
-      resourceCost.mana = resolved.resourceCosts.mana.baseAmount;
+      resourceTypes.push('mana');
+      resourceValues.mana = resolved.resourceCosts.mana.baseAmount;
     }
-    // Include custom class resources in resourceValues
-    const resourceValues = {};
     Object.entries(resolved.resourceCosts).forEach(([key, val]) => {
       if (key !== 'mana' && val?.baseAmount) {
         resourceValues[key] = val.baseAmount;
+        if (!resourceTypes.includes(key)) {
+          resourceTypes.push(key);
+        }
       }
     });
-    if (Object.keys(resourceValues).length > 0) {
-      resourceCost.resourceValues = resourceValues;
-    }
   }
+
+  const resourceCost = {
+    actionPoints: isPassive ? 0 : (isReaction ? (resolved.actionPoints ?? 0) : (resolved.actionPoints ?? 1)),
+    components: resolved.components || ['verbal', 'somatic'],
+    resourceTypes,
+    resourceValues,
+    ...(resolved.resourceCosts?.mana?.baseAmount ? { mana: resolved.resourceCosts.mana.baseAmount } : {})
+  };
 
   // 3. Effect Types & Configs
   const effectTypes = [];
@@ -235,15 +285,18 @@ export function convertTalentSpellToLibrarySpell(talent, rank = 1) {
     source: 'talent',
     isCustom: false,
     level: Math.max(1, Math.min(10, Math.ceil((talent.position?.y ?? 0) + 1))),
-    spellType: isPassive ? 'PASSIVE' : 'ACTION',
+    spellType: determinedSpellType,
+    actionType: determinedActionType,
+    reactionTrigger,
+    trigger,
     icon: talent.icon || resolved.icon || 'Utility/Utility',
     effectTypes,
     typeConfig: {
       school: primaryDamageType,
       icon: talent.icon || resolved.icon || 'Utility/Utility',
       tags: resolved.tags || ['talent', resolved.class?.toLowerCase() || 'general'],
-      castTime: resolved.castTimeValue || 0,
-      castTimeType: resolved.castTimeType === 'instant' ? 'IMMEDIATE' : 'CAST'
+      castTime: isReaction ? 'Reaction' : (isPassive ? 'Passive' : (resolved.castTimeValue || 0)),
+      castTimeType: isReaction ? 'REACTION' : (isPassive ? 'PASSIVE' : (resolved.castTimeType === 'instant' ? 'IMMEDIATE' : 'CAST'))
     },
     targetingConfig: {
       targetingType: resolved.targetingMode || 'single',

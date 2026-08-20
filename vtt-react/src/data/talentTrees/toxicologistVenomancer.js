@@ -1,31 +1,33 @@
 // ============================================
-// TOXICOLOGIST — VENOMANCER (v2: talents are spells)
-// Schema: see talentSystem.mjs. Rank N spell = rank N-1 + rankUpgrades[N-2].
-// Economy: 8/6/6/5/5/5 = 30 pts (tiers 1-6) + 15 pts (tier 7) = 50.
-// Resource: Toxin Vials. Damage type: blight. The poison-master tree.
+// TOXICOLOGIST — VENOMANCER (v3: Rebalanced Tier Budgets, Normalized Grid Coordinates)
+// Schema: see talentSystem.mjs.
+// Grid coordinates: x (0..4), y (0..6 representing Tiers 1..7).
+//
+// FANTASY: The Biological Toxin Master / Stacking Blights / Neurotoxins.
 // ============================================
 
 export const TOXICOLOGIST_VENOMANCER = [
+  // ──────────────── TIER 1 (Row 0) ────────────────
   {
     id: "vn_t1_venomous_core",
-    name: "Venomous Core",
+    name: "Envenomed Edge",
     icon: "ability_rogue_deadlybrew",
     maxRanks: 3,
-    position: { x: 1.5, y: 0 },
+    position: { x: 1, y: 0 },
     requires: null,
     spell: {
-      name: "Venomous Core",
-      description: "Your body becomes a reservoir of deadly toxins. Your weapon attacks deal 1d6 additional blight damage.",
+      name: "Envenomed Edge",
+      description: "Passive: Your weapon attacks deal +1d4 additional blight damage and apply a mild toxin for 2 rounds.",
       flavorText: "You stopped needing an apothecary years ago. You are one.",
       source: "talent", class: "Toxicologist", treeId: "venomancer",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", damageTypes: ["blight"],
-      primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
+      primaryDamage: { dice: "1d4", flat: 0, procChance: 100 },
       visualTheme: "poison", tags: ["passive", "venom", "toxicologist"]
     },
     rankUpgrades: [
-      { description: "Your body becomes a reservoir of deadly toxins. Your weapon attacks deal 2d6 additional blight damage.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
-      { description: "Your body becomes a reservoir of deadly toxins. Your weapon attacks deal 3d6 additional blight damage, and when you take damage you secrete venom dealing 1d8 blight damage to adjacent enemies.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
+      { description: "Weapon attacks deal +1d6 additional blight damage.", primaryDamage: { dice: "1d6", flat: 0, procChance: 100 } },
+      { description: "Weapon attacks deal +1d8 additional blight damage, and when you take melee damage, your attacker suffers 1d4 blight backlash.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -37,401 +39,289 @@ export const TOXICOLOGIST_VENOMANCER = [
     requires: null,
     spell: {
       name: "Venom Channels",
-      description: "Your toxins flow through specialized channels. Blight effects you apply last 2 additional rounds, and enemies poisoned by you take 1d4 blight damage at the start of their turns.",
+      description: "Passive: Blight and poison damage-over-time effects you apply deal +1 additional blight damage per tick.",
       flavorText: "Plumbing, but for murder.",
       source: "talent", class: "Toxicologist", treeId: "venomancer",
       spellType: "PASSIVE", category: "debuff",
       targetingMode: "self", damageTypes: ["blight"],
-      isDot: true, dotDuration: 2, dotTick: "1d4",
       visualTheme: "poison", tags: ["passive", "duration", "dot", "toxicologist"]
     },
     rankUpgrades: [
-      { description: "Your toxins flow through specialized channels. Blight effects you apply last 3 additional rounds, and enemies poisoned by you take 1d6 blight damage at the start of their turns.", dotTick: "1d6" },
-      { description: "Your toxins flow through specialized channels. Blight effects you apply last 4 additional rounds, and enemies poisoned by you take 1d8 blight damage at the start of their turns.", dotTick: "1d8" }
+      { description: "Blight damage-over-time effects deal +2 additional blight damage per tick." },
+      { description: "Blight damage-over-time effects deal +3 additional blight damage per tick and last 1 extra round." }
     ]
   },
   {
     id: "vn_t1_neurotoxin",
-    name: "Neurotoxin Channels",
+    name: "Paralytic Tincture",
     icon: "ability_rogue_deviouspoisons",
     maxRanks: 2,
     position: { x: 3, y: 0 },
     requires: null,
     spell: {
-      name: "Neurotoxin Channels",
-      description: "Your venom affects the nervous system. Enemies poisoned by you have disadvantage on attack rolls and skill checks.",
+      name: "Paralytic Tincture",
+      description: "Passive: Enemies affected by your toxins suffer -1 to their attack rolls and dexterity saving throws.",
       flavorText: "The mind is just another organ with a tolerance threshold.",
       source: "talent", class: "Toxicologist", treeId: "venomancer",
       spellType: "PASSIVE", category: "debuff",
-      targetingMode: "self", damageTypes: ["blight"],
-      visualTheme: "poison", tags: ["passive", "neurotoxin", "toxicologist"]
+      targetingMode: "self", visualTheme: "poison", tags: ["passive", "neurotoxin", "toxicologist"]
     },
     rankUpgrades: [
-      { description: "Your venom affects the nervous system. Enemies poisoned by you have disadvantage on attack rolls and skill checks, and your critical hits with venom-coated weapons stun them for 1 round." }
+      { description: "Enemies affected by your toxins suffer -2 to attack rolls and dexterity saves." }
     ]
   },
 
+  // ──────────────── TIER 2 (Row 1) ────────────────
   {
     id: "vn_t2_hemotoxin",
-    name: "Hemotoxin Network",
+    name: "Hemotoxin Needle",
     icon: "spell_nature_nullifydisease",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "vn_t1_venomous_core",
     spell: {
-      name: "Hemotoxin Network",
-      description: "Your toxins attack the bloodstream. Poisoned enemies take maximum damage from your blight effects.",
+      name: "Hemotoxin Needle",
+      description: "Spend 1 AP: Hurl a venom-coated needle at a target within 40 feet dealing 1d8 blight damage and inflicting Poisoned (1d4 blight/rd for 2 rounds).",
       flavorText: "Why roll dice when the blood does the work?",
       source: "talent", class: "Toxicologist", treeId: "venomancer",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["blight"],
-      visualTheme: "poison", tags: ["passive", "maximize", "toxicologist"]
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "ranged", range: 40,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 1, cooldownUnit: "round",
+      primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
+      isDot: true, dotDuration: 2, dotTick: "1d4",
+      damageTypes: ["blight"],
+      visualTheme: "poison", tags: ["strike", "needle", "dot", "toxicologist"]
     },
     rankUpgrades: [
-      { description: "Your toxins attack the bloodstream. Poisoned enemies take maximum damage from your blight effects, and when you poison an enemy, enemies adjacent to it take 1d6 blight damage." },
-      { description: "Your toxins attack the bloodstream. Poisoned enemies take maximum damage from your blight effects, and when you poison an enemy, enemies adjacent to it take 2d6 blight damage and are also poisoned." }
+      { description: "Deals 2d6 initial blight damage; Poisoned deals 1d6 per round.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 }, dotTick: "1d6" },
+      { description: "Deals 2d8 initial blight damage; Poisoned deals 1d8 per round and reduces target healing received by 3.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 }, dotTick: "1d8" }
     ]
   },
   {
     id: "vn_t2_toxin_mastery",
-    name: "Toxin Mastery",
-    icon: "ability_rogue_deadlybrew",
+    name: "Metabolic Drain",
+    icon: "ability_rogue_dualweild",
     maxRanks: 3,
-    position: { x: 3.5, y: 1 },
-    requires: "vn_t1_venom_channels",
+    position: { x: 3, y: 1 },
+    requires: "vn_t1_neurotoxin",
     spell: {
-      name: "Toxin Mastery",
-      description: "You become a master of all poisons. All blight damage you deal is increased by 25%, and you may apply two different poison effects to the same weapon.",
-      flavorText: "One coat, two recipes.",
+      name: "Metabolic Drain",
+      description: "Passive: When you hit a poisoned enemy, restore 2 Hit Points and reduce the target's movement speed by 5 feet.",
+      flavorText: "Their vital fluids replenish your own stamina.",
       source: "talent", class: "Toxicologist", treeId: "venomancer",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", damageTypes: ["blight"],
-      visualTheme: "poison", tags: ["passive", "mastery", "toxicologist"]
+      targetingMode: "self", visualTheme: "poison", tags: ["passive", "lifesteal", "slow", "toxicologist"]
     },
     rankUpgrades: [
-      { description: "You become a master of all poisons. All blight damage you deal is increased by 50%, and you may apply two different poison effects to the same weapon." },
-      { description: "You become a master of all poisons. All blight damage you deal is increased by 75%, you may apply two different poison effects to the same weapon, and your poison immunity grants you advantage on all saves." }
+      { description: "Restores 4 Hit Points and reduces target speed by 10 feet." },
+      { description: "Restores 6 Hit Points, reduces target speed by 10 feet, and grants you +5 feet movement speed for 1 round." }
     ]
   },
 
+  // ──────────────── TIER 3 (Row 2) ────────────────
   {
-    id: "vn_t3_lethal_injection",
-    name: "Lethal Injection",
-    icon: "ability_rogue_dualweild",
+    id: "vn_t3_toxic_cloud",
+    name: "Noxious Cloud",
+    icon: "spell_nature_abolishcurse",
     maxRanks: 3,
-    position: { x: 1, y: 2.5 },
+    position: { x: 1, y: 2 },
     requires: "vn_t2_hemotoxin",
     spell: {
-      name: "Lethal Injection",
-      description: "Your venom becomes instantly lethal. Once per turn when you hit with a poisoned weapon, inject a lethal dose: the target takes 4d10 blight damage immediately and is poisoned for 1 minute.",
-      flavorText: "Dosage: yes.",
+      name: "Noxious Cloud",
+      description: "Spend 1 AP: Shatter a vial creating a 15-foot cloud of toxic vapor within 45 feet for 2 rounds. Enemies inside take 2d6 blight damage upon entering or ending their turn inside.",
+      flavorText: "Hold your breath. Not that it will help.",
       source: "talent", class: "Toxicologist", treeId: "venomancer",
       spellType: "ACTIVE", category: "damage",
-      targetingMode: "single", rangeType: "melee", range: 5,
+      actionPoints: 1,
+      targetingMode: "aoe", aoeShape: "circle", aoeSize: 15, rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { toxinVial: { baseAmount: 1 } },
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
       damageTypes: ["blight"],
-      primaryDamage: { dice: "4d10", flat: 0, procChance: 100 },
-      debuffs: ["poisoned"], visualTheme: "poison", tags: ["melee", "burst", "toxicologist"]
+      visualTheme: "poison", tags: ["aoe", "cloud", "hazard", "toxicologist"]
     },
     rankUpgrades: [
-      { description: "Your venom becomes instantly lethal. Once per turn when you hit with a poisoned weapon, inject a lethal dose: the target takes 4d10 blight damage immediately and is poisoned for 2 minutes.", primaryDamage: { dice: "4d10", flat: 0, procChance: 100 } },
-      { description: "Your venom becomes instantly lethal. Once per turn when you hit with a poisoned weapon, inject a lethal dose: the target takes 4d10 blight damage immediately, is poisoned for 2 minutes, and cannot regain health while poisoned.", primaryDamage: { dice: "4d10", flat: 0, procChance: 100 } }
+      { description: "Cloud deals 2d8 blight damage and obscures vision.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } },
+      { description: "Cloud deals 3d6 blight damage, obscures vision, and enemies inside must succeed on a Fortitude save or become Dazed for 1 round.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
     ]
   },
   {
-    id: "vn_t3_cytotoxin",
-    name: "Cytotoxin Network",
-    icon: "spell_shadow_deathcoil",
+    id: "vn_t3_virulent_outbreak",
+    name: "Virulent Spores",
+    icon: "spell_nature_curseofspider",
     maxRanks: 3,
-    position: { x: 3.5, y: 2.5 },
+    position: { x: 3, y: 2 },
     requires: "vn_t2_toxin_mastery",
     spell: {
-      name: "Cytotoxin Network",
-      description: "Your toxins destroy cells at the molecular level. Poisoned enemies cannot regenerate health, and when a poisoned enemy dies, it bursts in a 10-foot radius dealing 2d8 blight damage.",
-      flavorText: "Cellular eviction, no notice given.",
+      name: "Virulent Spores",
+      description: "Passive: When an enemy dies while affected by your toxins, they release a spore cloud dealing 1d6 blight damage to all enemies within 10 feet.",
+      flavorText: "The body expires, but the venom lives on.",
+      source: "talent", class: "Toxicologist", treeId: "venomancer",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["blight"],
+      primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
+      visualTheme: "poison", tags: ["passive", "corpse-burst", "toxicologist"]
+    },
+    rankUpgrades: [
+      { description: "Spore cloud deals 1d8 blight damage and applies Poisoned." },
+      { description: "Spore cloud deals 2d6 blight damage, applies Poisoned, and refunds 1 AP if 2 or more enemies are struck." }
+    ]
+  },
+
+  // ──────────────── TIER 4 (Row 3) ────────────────
+  {
+    id: "vn_t4_terminal_dosage",
+    name: "Terminal Dosage",
+    icon: "ability_rogue_feigndeath",
+    maxRanks: 1,
+    position: { x: 2, y: 3 },
+    requires: ["vn_t3_toxic_cloud", "vn_t3_virulent_outbreak"],
+    spell: {
+      name: "Terminal Dosage",
+      description: "Spend 1 AP: Strike a poisoned enemy in melee, detonating all toxin stacks within their body for 2d10 blight damage and Staggering them for 1 round.",
+      flavorText: "The final drop that tips the vial.",
+      source: "talent", class: "Toxicologist", treeId: "venomancer",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "melee", range: 5,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      primaryDamage: { dice: "2d10", flat: 0, procChance: 100 },
+      damageTypes: ["blight"],
+      visualTheme: "poison", tags: ["strike", "execute", "stagger", "toxicologist"]
+    }
+  },
+
+  // ──────────────── TIER 5 (Row 4) ────────────────
+  {
+    id: "vn_t5_viper_strike",
+    name: "Viper Reflexes",
+    icon: "ability_rogue_quickrecovery",
+    maxRanks: 3,
+    position: { x: 1, y: 4 },
+    requires: "vn_t4_terminal_dosage",
+    spell: {
+      name: "Viper Reflexes",
+      description: "Passive: Your weapon attacks gain +1 to hit against poisoned enemies, and your Opportunity Attacks inflict Poisoned.",
+      flavorText: "Faster than the eye, deadlier than the bite.",
+      source: "talent", class: "Toxicologist", treeId: "venomancer",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "poison", tags: ["passive", "accuracy", "reaction", "toxicologist"]
+    },
+    rankUpgrades: [
+      { description: "Gain +2 to hit against poisoned targets and +10 feet movement speed." },
+      { description: "Gain +2 to hit, +10 feet speed, and critical hits with melee weapons inflict Paralysis for 1 round." }
+    ]
+  },
+  {
+    id: "vn_t5_immunological_breakdown",
+    name: "Immunological Ruin",
+    icon: "spell_nature_earthbindtotem",
+    maxRanks: 2,
+    position: { x: 3, y: 4 },
+    requires: "vn_t4_terminal_dosage",
+    spell: {
+      name: "Immunological Ruin",
+      description: "Passive: Enemies affected by your toxins have their Damage Reduction reduced by 2 and cannot benefit from regeneration.",
+      flavorText: "Stripping the body's natural defenses cell by cell.",
+      source: "talent", class: "Toxicologist", treeId: "venomancer",
+      spellType: "PASSIVE", category: "debuff",
+      targetingMode: "self", visualTheme: "poison", tags: ["passive", "dr-shred", "heal-block", "toxicologist"]
+    },
+    rankUpgrades: [
+      { description: "Enemy Damage Reduction is reduced by 4, and their saving throws against spells are reduced by 1." }
+    ]
+  },
+
+  // ──────────────── TIER 6 (Row 5) ────────────────
+  {
+    id: "vn_t6_plague_mist",
+    name: "Plague Mist Eruption",
+    icon: "spell_nature_bloodlust",
+    maxRanks: 3,
+    position: { x: 2, y: 5 },
+    requires: ["vn_t5_viper_strike", "vn_t5_immunological_breakdown"],
+    spell: {
+      name: "Plague Mist Eruption",
+      description: "Spend 2 AP: Release a 25-foot cone of virulent neurotoxin dealing 3d8 blight damage and forcing all enemies hit to roll a Fortitude save or be Blinded for 1 round.",
+      flavorText: "A green shroud that rots the senses.",
+      source: "talent", class: "Pyrofiend", treeId: "venomancer",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 2,
+      targetingMode: "aoe", aoeShape: "cone", aoeSize: 25, rangeType: "ranged", range: 25,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
+      damageTypes: ["blight"],
+      visualTheme: "poison", tags: ["aoe", "cone", "blind", "toxicologist"]
+    },
+    rankUpgrades: [
+      { description: "Deals 3d10 blight damage, Blinds for 1 round, and leaves lingering mist for 2 rounds.", primaryDamage: { dice: "3d10", flat: 0, procChance: 100 } },
+      { description: "Deals 4d8 blight damage, Blinds, and poisoned enemies in the cone take an extra 1d8 blight damage.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
+    ]
+  },
+
+  // ──────────────── TIER 7 (Row 6 - Capstones) ────────────────
+  {
+    id: "vn_t7_avatar_of_venom",
+    name: "Avatar of the Viper",
+    icon: "ability_rogue_shadowstep",
+    maxRanks: 1,
+    position: { x: 2, y: 6 },
+    requires: "vn_t6_plague_mist",
+    spell: {
+      name: "Avatar of the Viper",
+      description: "ULTIMATE: Spend 2 AP: For 2 rounds, all your attacks apply maximum toxin stacks, your blight damage ignores all enemy Poison/Blight resistance, and whenever an enemy takes poison damage, you heal for 3 Hit Points.",
+      flavorText: "You are the serpent at the root of the world.",
+      source: "talent", class: "Toxicologist", treeId: "venomancer",
+      spellType: "ACTIVE", category: "buff",
+      actionPoints: 2,
+      targetingMode: "self",
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 5, cooldownUnit: "rounds",
+      visualTheme: "poison", tags: ["ultimate", "venom", "toxicologist"]
+    }
+  },
+  {
+    id: "vn_t7_miasma_heart",
+    name: "Miasma Heart",
+    icon: "spell_nature_nullifypoison",
+    maxRanks: 2,
+    position: { x: 1, y: 6 },
+    requires: "vn_t6_plague_mist",
+    spell: {
+      name: "Miasma Heart",
+      description: "Passive: You are completely immune to Poison, Blight, and Disease, and whenever you are targeted by a healing spell, you gain +3 bonus Hit Points.",
+      flavorText: "Your blood is acid. Disease cannot survive inside you.",
+      source: "talent", class: "Toxicologist", treeId: "venomancer",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "poison", tags: ["passive", "immunity", "toxicologist"]
+    },
+    rankUpgrades: [
+      { description: "Immunity preserved, and healing received bonus increases to +6 Hit Points." }
+    ]
+  },
+  {
+    id: "vn_t7_catalytic_detonation",
+    name: "Catalytic Shock",
+    icon: "spell_shadow_abominationexplosion",
+    maxRanks: 2,
+    position: { x: 3, y: 6 },
+    requires: "vn_t6_plague_mist",
+    spell: {
+      name: "Catalytic Shock",
+      description: "Passive: When you score a critical hit on a poisoned target, shockwaves of toxin deal 2d8 blight damage to all other enemies within 15 feet.",
+      flavorText: "The reaction accelerates until the surrounding air rots.",
       source: "talent", class: "Toxicologist", treeId: "venomancer",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", damageTypes: ["blight"],
       primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
-      visualTheme: "poison", tags: ["passive", "anti-heal", "explode", "toxicologist"]
+      visualTheme: "poison", tags: ["passive", "crit-burst", "toxicologist"]
     },
     rankUpgrades: [
-      { description: "Your toxins destroy cells at the molecular level. Poisoned enemies cannot regenerate health, and when a poisoned enemy dies, it bursts in a 15-foot radius dealing 3d8 blight damage.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
-      { description: "Your toxins destroy cells at the molecular level. Poisoned enemies cannot regenerate health, and when a poisoned enemy dies, it bursts in a 20-foot radius dealing 4d8 blight damage that spreads the poison to enemies hit.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
-    ]
-  },
-
-  {
-    id: "vn_t4_venom_cloud",
-    name: "Venom Cloud",
-    icon: "ability_druid_disembowel",
-    maxRanks: 3,
-    position: { x: 1, y: 4.5 },
-    requires: "vn_t3_lethal_injection",
-    spell: {
-      name: "Venom Cloud",
-      description: "Exhale a cloud of deadly venom. Create a 30-foot cloud centered on yourself for 3 rounds: all enemies inside take 3d8 blight damage and are poisoned for the duration.",
-      flavorText: "Weather with intent.",
-      source: "talent", class: "Toxicologist", treeId: "venomancer",
-      spellType: "ACTIVE", category: "damage",
-      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 30,
-      castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "medium", cooldownValue: 25, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
-      resourceCosts: { toxinVial: { baseAmount: 2 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
-      damageTypes: ["blight"],
-      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
-      isDot: true, dotDuration: 3, dotTick: "3d8",
-      debuffs: ["poisoned"], visualTheme: "poison", tags: ["aoe", "cloud", "dot", "toxicologist"]
-    },
-    rankUpgrades: [
-      { description: "Exhale a cloud of deadly venom. Create a 30-foot cloud centered on yourself for 4 rounds: all enemies inside take 4d8 blight damage and are poisoned for the duration.", dotTick: "4d8", dotDuration: 4 },
-      { description: "Exhale a cloud of deadly venom. Create a 40-foot cloud centered on yourself for 4 rounds: all enemies inside take 5d8 blight damage and are poisoned; the cloud moves 10 feet per round toward the largest cluster of enemies.", dotTick: "5d8", dotDuration: 4 }
-    ]
-  },
-  {
-    id: "vn_t4_toxin_synthesis",
-    name: "Toxin Synthesis",
-    icon: "inv_misc_herb_16",
-    maxRanks: 2,
-    position: { x: 3, y: 4.5 },
-    requires: "vn_t3_cytotoxin",
-    spell: {
-      name: "Toxin Synthesis",
-      description: "You can synthesize any poison instantly. You know all poison recipes and may craft custom poisons; poisons you create have +2 to their save DCs.",
-      flavorText: "The recipe book is in your hands. The laboratory is your bloodstream.",
-      source: "talent", class: "Toxicologist", treeId: "venomancer",
-      spellType: "PASSIVE", category: "utility",
-      targetingMode: "self", visualTheme: "poison", tags: ["passive", "crafting", "toxicologist"]
-    },
-    rankUpgrades: [
-      { description: "You can synthesize any poison instantly. You know all poison recipes and may craft custom poisons; poisons you create have +4 to their save DCs and cost 1 fewer Toxin Vials to deploy (minimum 1)." }
-    ]
-  },
-
-  {
-    id: "vn_t5_apex_predator",
-    name: "Apex Predator",
-    icon: "ability_hunter_pet_spider",
-    maxRanks: 3,
-    position: { x: 1.5, y: 6 },
-    requires: "vn_t4_venom_cloud",
-    spell: {
-      name: "Apex Predator",
-      description: "You become the ultimate venomous predator. Creatures within 30 feet take 2d6 blight damage at the start of their turns if below half health, and you are immune to all poisons and diseases.",
-      flavorText: "The weak are separated from the strong by a membrane you dissolve.",
-      source: "talent", class: "Toxicologist", treeId: "venomancer",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["blight"],
-      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
-      visualTheme: "poison", tags: ["passive", "execute", "immunity", "toxicologist"]
-    },
-    rankUpgrades: [
-      { description: "You become the ultimate venomous predator. Creatures within 30 feet take 3d6 blight damage at the start of their turns if below half health, and you are immune to all poisons and diseases.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } },
-      { description: "You become the ultimate venomous predator. Creatures within 45 feet take 4d6 blight damage at the start of their turns if below two-thirds health, and you are immune to all poisons and diseases.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 } }
-    ]
-  },
-  {
-    id: "vn_t5_toxin_overload",
-    name: "Toxin Overload",
-    icon: "spell_nature_acid_01",
-    maxRanks: 2,
-    position: { x: 3, y: 6 },
-    requires: "vn_t4_toxin_synthesis",
-    spell: {
-      name: "Toxin Overload",
-      description: "Your venom overwhelms all defenses. Blight effects you apply ignore poison resistance, and poison immunity is treated as resistance instead.",
-      flavorText: "Immunity is a rumor your toxins have disproven.",
-      source: "talent", class: "Toxicologist", treeId: "venomancer",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", damageTypes: ["blight"],
-      visualTheme: "poison", tags: ["passive", "penetration", "toxicologist"]
-    },
-    rankUpgrades: [
-      { description: "Your venom overwhelms all defenses. Blight effects you apply ignore poison resistance AND immunity entirely." }
-    ]
-  },
-
-  {
-    id: "vn_t6_toxic_nova",
-    name: "Toxic Nova",
-    icon: "spell_nature_acid_01",
-    maxRanks: 1,
-    position: { x: 1.5, y: 7.5 },
-    requires: "vn_t5_apex_predator",
-    spell: {
-      name: "Toxic Nova",
-      description: "Unleash a nova of pure venom. All enemies within 50 feet take 6d12 blight damage; poisoned enemies take double damage and are stunned for 1 round. You are immune to your own nova.",
-      flavorText: "Radius: generous. Survivors: theoretical.",
-      source: "talent", class: "Toxicologist", treeId: "venomancer",
-      spellType: "ACTIVE", category: "damage",
-      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 50,
-      castTimeType: "short", castTimeValue: 2,
-      cooldownCategory: "long", cooldownValue: 120, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
-      resourceCosts: { toxinVial: { baseAmount: 4 } },
-      damageTypes: ["blight"],
-      primaryDamage: { dice: "6d12", flat: 0, procChance: 100 },
-      debuffs: ["stun"], visualTheme: "poison", tags: ["nova", "aoe", "toxicologist"]
-    }
-  },
-  {
-    id: "vn_t6_virulent_symbiosis",
-    name: "Virulent Symbiosis",
-    icon: "spell_nature_nullifydisease",
-    maxRanks: 2,
-    position: { x: 2, y: 7.5 },
-    requires: "vn_t5_apex_predator",
-    spell: {
-      name: "Virulent Symbiosis",
-      description: "The venom no longer merely lives in you; it works for you. While at least one enemy is poisoned by you, you regenerate 1d6 health per round.",
-      flavorText: "A fair arrangement. They die, you thrive.",
-      source: "talent", class: "Toxicologist", treeId: "venomancer",
-      spellType: "PASSIVE", category: "healing",
-      targetingMode: "self",
-      healing: { dice: "1d6", flat: 0 },
-      visualTheme: "poison", tags: ["passive", "regen", "toxicologist"]
-    },
-    rankUpgrades: [
-      { description: "The venom no longer merely lives in you; it works for you. While at least one enemy is poisoned by you, you regenerate 2d6 health per round and take 10% less damage.", healing: { dice: "2d6", flat: 0 } }
-    ]
-  },
-  {
-    id: "vn_t6_miasma",
-    name: "Miasma",
-    icon: "spell_shadow_plaguecloud",
-    maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
-    requires: "vn_t5_toxin_overload",
-    spell: {
-      name: "Miasma",
-      description: "Your presence is a slow-acting catastrophe. Enemies within 15 feet who are poisoned by you have their healing reduced by 50%.",
-      flavorText: "Proximity is a preexisting condition.",
-      source: "talent", class: "Toxicologist", treeId: "venomancer",
-      spellType: "PASSIVE", category: "debuff",
-      targetingMode: "self", damageTypes: ["blight"],
-      visualTheme: "poison", tags: ["passive", "anti-heal", "aura", "toxicologist"]
-    },
-    rankUpgrades: [
-      { description: "Your presence is a slow-acting catastrophe. Enemies within 30 feet who are poisoned by you have their healing reduced by 75% and cannot remove poisons except by killing you." }
-    ]
-  },
-
-  {
-    id: "vn_t7_toxic_ascension",
-    name: "Toxic Ascension",
-    icon: "ability_rogue_deadlybrew",
-    maxRanks: 1,
-    position: { x: 1, y: 8 },
-    requires: "vn_t6_toxic_nova",
-    spell: {
-      name: "Toxic Ascension",
-      description: "ULTIMATE: You become living venom incarnate for 1 minute: all damage you deal becomes blight damage, your weapon attacks automatically apply your strongest poison, and poisoned enemies within 100 feet cannot be healed.",
-      flavorText: "The final stage of every poisoner's career is becoming the poison.",
-      source: "talent", class: "Toxicologist", treeId: "venomancer",
-      spellType: "ACTIVE", category: "buff",
-      targetingMode: "self", rangeType: "self", range: 0,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 240, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { toxinVial: { baseAmount: 5 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
-      buffs: ["toxic-ascension"], damageTypes: ["blight"],
-      visualTheme: "poison", tags: ["ultimate", "capstone", "transform", "toxicologist"]
-    }
-  },
-  {
-    id: "vn_t7_grand_brewer",
-    name: "Grand Brewer",
-    icon: "inv_misc_herb_16",
-    maxRanks: 5,
-    position: { x: 2, y: 8 },
-    requires: "vn_t6_virulent_symbiosis",
-    spell: {
-      name: "Grand Brewer",
-      description: "Your preparations are more potent than the recipes suggest. All blight damage you deal is increased by 10%.",
-      flavorText: "Subtle adjustments. Proprietary technique.",
-      source: "talent", class: "Toxicologist", treeId: "venomancer",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", damageTypes: ["blight"],
-      visualTheme: "poison", tags: ["passive", "capstone", "damage", "toxicologist"]
-    },
-    rankUpgrades: [
-      { description: "Your preparations are more potent than the recipes suggest. All blight damage you deal is increased by 20%." },
-      { description: "Your preparations are more potent than the recipes suggest. All blight damage you deal is increased by 30%." },
-      { description: "Your preparations are more potent than the recipes suggest. All blight damage you deal is increased by 40%." },
-      { description: "Your preparations are more potent than the recipes suggest. All blight damage you deal is increased by 50%, and you regain 1 Toxin Vial at the start of each combat." }
-    ]
-  },
-  {
-    id: "vn_t7_cascade_contagion",
-    name: "Cascade Contagion",
-    icon: "spell_shadow_plaguecloud",
-    maxRanks: 3,
-    position: { x: 3, y: 8 },
-    requires: "vn_t6_virulent_symbiosis",
-    spell: {
-      name: "Cascade Contagion",
-      description: "Your poisons have learned to travel. When an enemy dies while poisoned by you, your poison jumps to the nearest enemy within 20 feet with full duration.",
-      flavorText: "Inheritance: infectious.",
-      source: "talent", class: "Toxicologist", treeId: "venomancer",
-      spellType: "PASSIVE", category: "debuff",
-      targetingMode: "self", damageTypes: ["blight"],
-      visualTheme: "poison", tags: ["passive", "capstone", "spread", "toxicologist"]
-    },
-    rankUpgrades: [
-      { description: "Your poisons have learned to travel. When an enemy dies while poisoned by you, your poison jumps to the two nearest enemies within 30 feet with full duration." },
-      { description: "Your poisons have learned to travel. When an enemy dies while poisoned by you, your poison jumps to all enemies within 30 feet with full duration, and each jump restores 1 Toxin Vial." }
-    ]
-  },
-  {
-    id: "vn_t7_pearlescent_antidote",
-    name: "Pearlescent Antidote",
-    icon: "spell_nature_rejuvenation",
-    maxRanks: 3,
-    position: { x: 0.5, y: 8 },
-    requires: "vn_t6_miasma",
-    spell: {
-      name: "Pearlescent Antidote",
-      description: "The antidote is worth more than the poison. Spend 1 Toxin Vial to cleanse all poisons and diseases from an ally within 30 feet and heal them for 3d8.",
-      flavorText: "The best customers are the ones you saved.",
-      source: "talent", class: "Toxicologist", treeId: "venomancer",
-      spellType: "ACTIVE", category: "healing",
-      targetingMode: "single", rangeType: "ranged", range: 30,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 15, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { toxinVial: { baseAmount: 1 } },
-      healing: { dice: "3d8", flat: 0 },
-      visualTheme: "poison", tags: ["cleanse", "healing", "ally", "toxicologist"]
-    },
-    rankUpgrades: [
-      { description: "The antidote is worth more than the poison. Spend 1 Toxin Vial to cleanse all poisons and diseases from an ally within 30 feet and heal them for 5d8.", healing: { dice: "5d8", flat: 0 } },
-      { description: "The antidote is worth more than the poison. Spend 1 Toxin Vial to cleanse all poisons, diseases, and curses from ALL allies within 30 feet and heal them for 5d8 each.", healing: { dice: "5d8", flat: 0 } }
-    ]
-  },
-  {
-    id: "vn_t7_homeostasis",
-    name: "Homeostasis",
-    icon: "spell_nature_nullifydisease",
-    maxRanks: 3,
-    position: { x: 3.5, y: 8 },
-    requires: "vn_t6_miasma",
-    spell: {
-      name: "Homeostasis",
-      description: "Your body adjusts its own formula. Your maximum Toxin Vials increase by 1.",
-      flavorText: "More pockets. Same coat.",
-      source: "talent", class: "Toxicologist", treeId: "venomancer",
-      spellType: "PASSIVE", category: "utility",
-      targetingMode: "self", visualTheme: "poison", tags: ["passive", "capstone", "resource", "toxicologist"]
-    },
-    rankUpgrades: [
-      { description: "Your body adjusts its own formula. Your maximum Toxin Vials increase by 2." },
-      { description: "Your body adjusts its own formula. Your maximum Toxin Vials increase by 3, and once per short rest you may refill all vials instantly." }
+      { description: "Shockwave deals 3d8 blight damage and applies Poisoned to all hit targets." }
     ]
   }
 ];

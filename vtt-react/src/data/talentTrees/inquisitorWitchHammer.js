@@ -25,8 +25,8 @@ export const INQUISITOR_WITCH_HAMMER = [
       visualTheme: "shadow", tags: ["passive", "bind", "pack", "inquisitor"]
     },
     rankUpgrades: [
-      { description: "Bind up to 3 Wyrd-hounds; at 3+ Authority in stealth, your stealth attacks deal +2d6 additional damage and Authority decays 50% slower while hounds are bound.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
-      { description: "Bind up to 4 Wyrd-hounds; at 3+ Authority in stealth, attacks deal +3d6 additional damage, Authority decays 50% slower, and each bound hound grants you +5 feet movement.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
+      { description: "Bind up to 3 Wyrd-hounds; at 3+ Authority in stealth, your stealth attacks deal +2d6 additional damage and Authority decays 50 points slower while hounds are bound.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
+      { description: "Bind up to 4 Wyrd-hounds; at 3+ Authority in stealth, attacks deal +3d6 additional damage, Authority decays 50 points slower, and each bound hound grants you +5 feet movement.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -298,7 +298,7 @@ export const INQUISITOR_WITCH_HAMMER = [
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "authority", "pack", "inquisitor"]
     },
     rankUpgrades: [
-      { description: "Authority maximum +4; at 3+ Authority your hounds are unbanishable, undominatable, and deal 25% more damage." }
+      { description: "Authority maximum +4; at 3+ Authority your hounds are unbanishable, undominatable, and deal +1d6 bonus damage." }
     ]
   },
   {
@@ -398,7 +398,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     requires: "wh_t6_undisputed",
     spell: {
       name: "First-Name Iron",
-      description: "Your cold iron has finished its recollection: all your damage against supernatural creatures is increased by 15%.",
+      description: "Your cold iron has finished its recollection: all your damage against supernatural creatures is increased by +1d6 damage.",
       flavorText: "It knows their first names. It enunciates.",
       source: "talent", class: "Inquisitor", treeId: "witch_hammer",
       spellType: "PASSIVE", category: "buff",
@@ -406,8 +406,8 @@ export const INQUISITOR_WITCH_HAMMER = [
       visualTheme: "shadow", tags: ["passive", "capstone", "damage", "inquisitor"]
     },
     rankUpgrades: [
-      { description: "All your damage against supernatural creatures is increased by 25%." },
-      { description: "All your damage against supernatural creatures is increased by 40%, and critical hits against them seal their magic for 1 round." }
+      { description: "All your damage against supernatural creatures is increased by +1d8 damage." },
+      { description: "All your damage against supernatural creatures is increased by +2d8 damage, and critical hits against them seal their magic for 1 round." }
     ]
   },
   {

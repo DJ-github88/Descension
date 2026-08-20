@@ -51,7 +51,7 @@ export const ARCANONEER_PRISM_MAGE = [
     requires: null,
     spell: {
       name: "Elemental Commitment",
-      description: "At the start of combat, declare a Focused Element. Your Focused Element deals +10% damage and you reroll any sphere of that element that shows lower than a 3 (reroll once, keep result).",
+      description: "At the start of combat, declare a Focused Element. Your Focused Element deals +10 points damage and you reroll any sphere of that element that shows lower than a 3 (reroll once, keep result).",
       flavorText: "The Canopy-Ledger permits amendments. With teeth.",
       source: "talent", class: "Arcanoneer", treeId: "prism_mage",
       spellType: "PASSIVE", category: "damage",
@@ -59,8 +59,8 @@ export const ARCANONEER_PRISM_MAGE = [
       visualTheme: "arcane", tags: ["passive", "commitment", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Focused Element deals +20% damage. You reroll any rolled sphere of that element that shows lower than a 5 (once, keep result)." },
-      { description: "Focused Element deals +30% damage. You may choose the exact value (not just reroll) of one Focused Element sphere you roll each turn." }
+      { description: "Focused Element deals +20 points damage. You reroll any rolled sphere of that element that shows lower than a 5 (once, keep result)." },
+      { description: "Focused Element deals +30 points damage. You may choose the exact value (not just reroll) of one Focused Element sphere you roll each turn." }
     ]
   },
   {
@@ -108,7 +108,7 @@ export const ARCANONEER_PRISM_MAGE = [
     },
     rankUpgrades: [
       { description: "Declare Focused Element and spend 2 mana: this turn, Focused Element spells deal 3d6 additional damage and crit on 16+. Cooldown drops to 6 seconds.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, cooldownValue: 6 },
-      { description: "Declare Focused Element for free: this turn, Focused Element spells deal 4d6 additional damage, crit on 15+, and pierce resistance by 15%.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 }, resourceCosts: { mana: { baseAmount: 0 } } }
+      { description: "Declare Focused Element for free: this turn, Focused Element spells deal 4d6 additional damage, crit on 15+, and pierce resistance by 15 points.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 }, resourceCosts: { mana: { baseAmount: 0 } } }
     ]
   },
   {
@@ -381,7 +381,7 @@ export const ARCANONEER_PRISM_MAGE = [
     requires: "pm_t6_resonant_feedback",
     spell: {
       name: "Pure Doctrine",
-      description: "The First Contract rewards consistency. All damage dealt by pure element combinations and your Focused Element signature spells (Crystal Focus, Prismatic Burst, Resonance Chord, Refraction Strike) is increased by 10%.",
+      description: "The First Contract rewards consistency. All damage dealt by pure element combinations and your Focused Element signature spells (Crystal Focus, Prismatic Burst, Resonance Chord, Refraction Strike) is increased by +1d6 damage.",
       flavorText: "Redundancy, weaponized.",
       source: "talent", class: "Arcanoneer", treeId: "prism_mage",
       spellType: "PASSIVE", category: "damage",
@@ -389,10 +389,10 @@ export const ARCANONEER_PRISM_MAGE = [
       visualTheme: "arcane", tags: ["passive", "capstone", "damage", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Focused Element signature spell damage increased by 20%." },
-      { description: "Focused Element signature spell damage increased by 35%." },
-      { description: "Focused Element signature spell damage increased by 50%." },
-      { description: "Focused Element signature spell damage increased by 70%, and Prismatic Cataclysm's anchor is removed." }
+      { description: "Focused Element signature spell damage increased by +1d8 damage." },
+      { description: "Focused Element signature spell damage increased by +1d8 damage." },
+      { description: "Focused Element signature spell damage increased by +2d8 damage." },
+      { description: "Focused Element signature spell damage increased by +2d8 damage, and Prismatic Cataclysm's anchor is removed." }
     ]
   },
   {

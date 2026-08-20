@@ -50,15 +50,15 @@ export const ANIMIST_THORNWARDEN = [
     requires: null,
     spell: {
       name: "Calcified Skeleton",
-      description: "Bryngloom fungal threads weave through bone to fortify the frame. Gain +2 Durability Steps to equipped durability and 10% physical damage resistance.",
+      description: "Bryngloom fungal threads weave through bone to fortify the frame. Gain +2 Durability Steps to equipped durability and 10 points physical damage resistance.",
       flavorText: "The swamp's bone remembers the ancient weight.",
       source: "talent", class: "Animist", treeId: "thornwarden",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "primal", tags: ["passive", "durability", "dr", "animist"]
     },
     rankUpgrades: [
-      { description: "Gain +4 Durability Steps to equipped durability and 20% physical resistance." },
-      { description: "Gain +6 Durability Steps to equipped durability, 30% physical resistance, and +15% resistance to all magical damage." }
+      { description: "Gain +4 Durability Steps to equipped durability and 4 Damage Reduction against physical." },
+      { description: "Gain +6 Durability Steps to equipped durability, 6 Damage Reduction against physical, and +4 Damage Reduction to all magical damage." }
     ]
   },
   {
@@ -77,7 +77,7 @@ export const ANIMIST_THORNWARDEN = [
       targetingMode: "self", visualTheme: "primal", tags: ["passive", "immunity", "resonance", "animist"]
     },
     rankUpgrades: [
-      { description: "Immune to displacement; gain 2 Resonance per turn near totems and +10% maximum health." }
+      { description: "Immune to displacement; gain 2 Resonance per turn near totems and +10 points maximum health." }
     ]
   },
 
@@ -106,7 +106,7 @@ export const ANIMIST_THORNWARDEN = [
     },
     rankUpgrades: [
       { description: "Deals 4d8 piercing damage, lockdown lasts 2 rounds, and target takes -4 Durability Steps to target's durability while caged.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } },
-      { description: "Deals 6d8 piercing damage, lockdown lasts 3 rounds, and cage reflects 50% damage dealt to it onto trapped foe.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 } }
+      { description: "Deals 6d8 piercing damage, lockdown lasts 3 rounds, and cage reflects 50 points damage dealt to it onto trapped foe.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -191,7 +191,7 @@ export const ANIMIST_THORNWARDEN = [
     requires: "tw_t3_thorn_eruption",
     spell: {
       name: "Mycelial Fortification",
-      description: "Spend 4 Resonance: fortify yourself and all allies within 30 feet with petrified bark for 2 rounds: gain +5 Durability Steps to equipped durability, 30% all-damage resistance, and immunity to critical hits.",
+      description: "Spend 4 Resonance: fortify yourself and all allies within 30 feet with petrified bark for 2 rounds: gain +5 Durability Steps to equipped durability, 6 Damage Reduction against all-damage, and immunity to critical hits.",
       flavorText: "Flesh becomes petrified ironwood.",
       source: "talent", class: "Animist", treeId: "thornwarden",
       spellType: "ACTIVE", category: "buff",
@@ -204,8 +204,8 @@ export const ANIMIST_THORNWARDEN = [
       buffs: ["petrified-bark"], visualTheme: "primal", tags: ["party-buff", "defense", "durability", "animist"]
     },
     rankUpgrades: [
-      { description: "Gain +7 Durability Steps to equipped durability, 40% resistance, crit immunity for 3 rounds, and grants 30 temporary health.", cooldownValue: 20 },
-      { description: "Gain +9 Durability Steps to equipped durability, 50% resistance, 50 temp HP, and reflects 30% of absorbed damage back at attackers.", cooldownValue: 16 }
+      { description: "Gain +7 Durability Steps to equipped durability, 8 Damage Reduction, crit immunity for 3 rounds, and grants 30 temporary health.", cooldownValue: 20 },
+      { description: "Gain +9 Durability Steps to equipped durability, 10 Damage Reduction, 50 temp HP, and reflects 30 points of absorbed damage back at attackers.", cooldownValue: 16 }
     ]
   },
   {
@@ -217,14 +217,14 @@ export const ANIMIST_THORNWARDEN = [
     requires: "tw_t3_scarred_domain",
     spell: {
       name: "Root Siphon",
-      description: "Whenever an enemy takes damage from your bone walls, cages, or thorns, you and the lowest-health ally heal for 30% of the damage dealt.",
+      description: "Whenever an enemy takes damage from your bone walls, cages, or thorns, you and the lowest-health ally heals for for 2d6 Hit Points.",
       flavorText: "Roots drink deep from the suffering above.",
       source: "talent", class: "Animist", treeId: "thornwarden",
       spellType: "PASSIVE", category: "healing",
       targetingMode: "self", visualTheme: "primal", tags: ["passive", "sustain", "party-heal", "animist"]
     },
     rankUpgrades: [
-      { description: "Heal for 60% of damage dealt, and overheal grants temporary health up to 40." }
+      { description: "heals for for 3d8 Hit Points, and overheal grants temporary health up to 40." }
     ]
   },
 
@@ -264,15 +264,15 @@ export const ANIMIST_THORNWARDEN = [
     requires: "tw_t4_earthen_siphon",
     spell: {
       name: "Living Bulwark",
-      description: "While at 5 or more Resonance, your equipped durability durability cannot be degraded, you take 25% less damage from all sources, and you generate 1 free Resonance per turn.",
+      description: "While at 5 or more Resonance, your equipped durability durability cannot be degraded, you gain 6 Damage Reduction from all sources, and you generate 1 free Resonance per turn.",
       flavorText: "An unbroken wall of ancient peat.",
       source: "talent", class: "Animist", treeId: "thornwarden",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "primal", tags: ["passive", "tank", "resonance", "animist"]
     },
     rankUpgrades: [
-      { description: "At 5+ Resonance: take 35% less damage and generate 2 Resonance per turn." },
-      { description: "At 4+ Resonance: take 50% less damage, generate 3 Resonance per turn, and your attacks knock enemies back 10ft." }
+      { description: "At 5+ Resonance: gain 8 Damage Reduction and generate 2 Resonance per turn." },
+      { description: "At 4+ Resonance: gain 10 Damage Reduction, generate 3 Resonance per turn, and your attacks knock enemies back 10ft." }
     ]
   },
 
@@ -286,7 +286,7 @@ export const ANIMIST_THORNWARDEN = [
     requires: "tw_t5_swamp_cataclysm",
     spell: {
       name: "The Ironwood Cage",
-      description: "Spend 6 Resonance: summon an impenetrable colossal ironwood cage around a target within 60 feet for 3 rounds. The target cannot move, attack, or cast spells, while all enemies within 30 feet of the cage are slowed by 60% and take 4d8 blight per turn.",
+      description: "Spend 6 Resonance: summon an impenetrable colossal ironwood cage around a target within 60 feet for 3 rounds. The target cannot move, attack, or cast spells, while all enemies within 30 feet of the cage are slowed by 15 feet and take 4d8 blight per turn.",
       flavorText: "Ancestral totems erupt with petrified mycelium to imprison the mightiest foe.",
       source: "talent", class: "Animist", treeId: "thornwarden",
       spellType: "ACTIVE", category: "control",
@@ -309,7 +309,7 @@ export const ANIMIST_THORNWARDEN = [
     requires: "tw_t5_unyielding_totemist",
     spell: {
       name: "Petrified Spines",
-      description: "All physical and piercing damage you deal pierces 40% of enemy durability and causes the target to bleed for 3d8 damage over 2 rounds.",
+      description: "All physical and piercing damage you deal ignores up to 4 points of enemy Armor and causes the target to bleed for 3d8 damage over 2 rounds.",
       flavorText: "Razor stone that carves deep memory.",
       source: "talent", class: "Animist", treeId: "thornwarden",
       spellType: "PASSIVE", category: "damage",
@@ -317,7 +317,7 @@ export const ANIMIST_THORNWARDEN = [
       visualTheme: "primal", tags: ["passive", "durability-sunder", "bleed", "animist"]
     },
     rankUpgrades: [
-      { description: "pierces 80% of enemy durability; bleed deals 5d8 over 2 rounds and reduces target movement speed by 25ft." }
+      { description: "ignores up to 4 points of enemy Armor; bleed deals 5d8 over 2 rounds and reduces target movement speed by 25ft." }
     ]
   },
   {
@@ -352,7 +352,7 @@ export const ANIMIST_THORNWARDEN = [
     requires: "tw_t6_the_ironwood_cage",
     spell: {
       name: "Avatar of the Ancient Mire",
-      description: "ULTIMATE: Spend 8 Resonance: transform into the Colossal Swamp Behemoth for 1 minute: gain +8 Durability Steps to equipped durability, 50% all-damage resistance, double your melee attack range, and every strike summons a free bone barricade behind the target.",
+      description: "ULTIMATE: Spend 8 Resonance: transform into the Colossal Swamp Behemoth for 1 minute: gain +8 Durability Steps to equipped durability, 10 Damage Reduction against all-damage, double your melee attack range, and every strike summons a free bone barricade behind the target.",
       flavorText: "You are the swamp awakened in wrath.",
       source: "talent", class: "Animist", treeId: "thornwarden",
       spellType: "ACTIVE", category: "buff",
@@ -375,7 +375,7 @@ export const ANIMIST_THORNWARDEN = [
     requires: "tw_t6_the_ironwood_cage",
     spell: {
       name: "Thornwarden Doctrine",
-      description: "All physical, piercing, and structure damage you deal is increased by 10%.",
+      description: "All physical, piercing, and structure damage you deal is increased by +1d6 damage.",
       flavorText: "Roots deeper than mountains.",
       source: "talent", class: "Animist", treeId: "thornwarden",
       spellType: "PASSIVE", category: "damage",
@@ -383,10 +383,10 @@ export const ANIMIST_THORNWARDEN = [
       visualTheme: "primal", tags: ["passive", "capstone", "damage", "animist"]
     },
     rankUpgrades: [
-      { description: "All structure and physical damage increased by 20%." },
-      { description: "All structure and physical damage increased by 35%." },
-      { description: "All structure and physical damage increased by 50%." },
-      { description: "All structure and physical damage increased by 70%, and Bone Barricade costs 0 mana." }
+      { description: "All structure and physical damage increased by +1d8 damage." },
+      { description: "All structure and physical damage increased by +1d8 damage." },
+      { description: "All structure and physical damage increased by +2d8 damage." },
+      { description: "All structure and physical damage increased by +2d8 damage, and Bone Barricade costs 0 mana." }
     ]
   },
   {
@@ -438,15 +438,15 @@ export const ANIMIST_THORNWARDEN = [
     requires: "tw_t6_bog_sovereignty",
     spell: {
       name: "Undying Peat",
-      description: "While at 4+ Resonance, lethal damage dissolves you into the mire instead: restores 50% health, grants 40 temporary health, and encases all nearby enemies in bone cages for 1 round (cooldown: 120s).",
+      description: "While at 4+ Resonance, lethal damage dissolves you into the mire instead: restores 30 Hit Points, grants 40 temporary health, and encases all nearby enemies in bone cages for 1 round (cooldown: 120s).",
       flavorText: "The swamp does not bury you. It rebuilds you.",
       source: "talent", class: "Animist", treeId: "thornwarden",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "primal", tags: ["passive", "capstone", "cheat-death", "animist"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restore 75% health, 60 temp HP, and encase enemies for 2 rounds (cooldown: 90s)." },
-      { description: "Survive lethal damage, restore 100% health, gain full Resonance, and immediately trigger Bog Quake automatically for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 45 Hit Points, 60 temp HP, and encase enemies for 2 rounds (cooldown: 90s)." },
+      { description: "Survive lethal damage, restores 60 Hit Points, gain full Resonance, and immediately trigger Bog Quake automatically for free (cooldown: 60s)." }
     ]
   }
 ];
@@ -492,7 +492,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     requires: null,
     spell: {
       name: "Bryngloom Hex",
-      description: "Whenever an enemy takes damage from your summons, they take 15% more damage from all sources and you gain 1 Resonance.",
+      description: "Whenever an enemy takes damage from your summons, they suffer +1d6 bonus damage from all sources and you gain 1 Resonance.",
       flavorText: "Swamp spirits amplify the sting of every hex.",
       source: "talent", class: "Animist", treeId: "spirit_binder",
       spellType: "PASSIVE", category: "debuff",
@@ -500,8 +500,8 @@ export const ANIMIST_SPIRIT_BINDER = [
       visualTheme: "shadow", tags: ["passive", "curse", "vulnerability", "animist"]
     },
     rankUpgrades: [
-      { description: "Enemies take 25% more damage from all sources and hex grants 2 Resonance." },
-      { description: "Enemies take 35% more damage, hex grants 2 Resonance, and reduces target saving throws by -3." }
+      { description: "Enemies suffer +1d6 bonus damage from all sources and hex grants 2 Resonance." },
+      { description: "Enemies suffer +2d6 bonus damage, hex grants 2 Resonance, and reduces target saving throws by -3." }
     ]
   },
   {
@@ -536,7 +536,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     requires: "sb_t1_call_spirit_pack",
     spell: {
       name: "Specter Frenzy",
-      description: "Spend 2 Resonance: command your summoned spirits to unleash an immediate frenzy attack. Deals 4d8 necrotic damage to their target, roots the target for 1 round, and heals you for 100% of the damage.",
+      description: "Spend 2 Resonance: command your summoned spirits to unleash an immediate frenzy attack. Deals 4d8 necrotic damage to their target, roots the target for 1 round, and heals you for 100 points of the damage.",
       flavorText: "The pack tears into the marrow.",
       source: "talent", class: "Animist", treeId: "spirit_binder",
       spellType: "ACTIVE", category: "damage",
@@ -563,15 +563,15 @@ export const ANIMIST_SPIRIT_BINDER = [
     requires: "sb_t1_curse_mastery",
     spell: {
       name: "Ancestral Shroud",
-      description: "You share a mystical bond with your spirits: you take 25% less damage while a spirit is alive, transferring the absorbed damage into your summons.",
+      description: "You share a mystical bond with your spirits: you gain 6 Damage Reduction while a spirit is alive, transferring the absorbed damage into your summons.",
       flavorText: "The pack shields its master with spectral flesh.",
       source: "talent", class: "Animist", treeId: "spirit_binder",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "damage-transfer", "defense", "animist"]
     },
     rankUpgrades: [
-      { description: "Take 40% less damage; when a summon dies from absorbed damage, it explodes for 3d8 necrotic to all adjacent enemies." },
-      { description: "Take 50% less damage; death explosions deal 5d8 necrotic and stun nearby enemies for 1 round." }
+      { description: "gain 8 Damage Reduction; when a summon dies from absorbed damage, it explodes for 3d8 necrotic to all adjacent enemies." },
+      { description: "gain 10 Damage Reduction; death explosions deal 5d8 necrotic and stun nearby enemies for 1 round." }
     ]
   },
 
@@ -612,15 +612,15 @@ export const ANIMIST_SPIRIT_BINDER = [
     requires: "sb_t2_ancestral_shroud",
     spell: {
       name: "Pack Ferocity",
-      description: "All your summons deal +30% damage and have their movement speed increased by 20 feet.",
+      description: "All your summons deal +1d8 bonus damage and have their movement speed increased by 20 feet.",
       flavorText: "Feral hunger sharpened by ancient spite.",
       source: "talent", class: "Animist", treeId: "spirit_binder",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "pet-buff", "animist"]
     },
     rankUpgrades: [
-      { description: "Summons deal +50% damage and their attacks have +20% critical strike chance." },
-      { description: "Summons deal +75% damage, +30% crit chance, and their critical strikes refund 1 Resonance to you." }
+      { description: "Summons deal +2d8 bonus damage and their attacks have critical hits on a d20 roll of 18-20." },
+      { description: "Summons deal +2d8 bonus damage, +30 points crit chance, and their critical strikes refund 1 Resonance to you." }
     ]
   },
 
@@ -634,7 +634,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     requires: "sb_t3_bone_choir_invocation",
     spell: {
       name: "Spirit Link Totem",
-      description: "Spend 4 Resonance: plant a spectral totem within 40 feet for 1 minute: redistributes health across all allies within 30 feet every round (equalizing HP percentages) and reduces all damage taken by 25%.",
+      description: "Spend 4 Resonance: plant a spectral totem within 40 feet for 1 minute: redistributes health across all allies within 30 feet every round (equalizing HP percentages) and reduces all damage taken by 25 points.",
       flavorText: "Shared blood cannot easily be spilled.",
       source: "talent", class: "Animist", treeId: "spirit_binder",
       spellType: "ACTIVE", category: "healing",
@@ -646,8 +646,8 @@ export const ANIMIST_SPIRIT_BINDER = [
       buffs: ["spirit-link"], visualTheme: "shadow", tags: ["totem", "party-defense", "equalize", "animist"]
     },
     rankUpgrades: [
-      { description: "Reduces party damage taken by 35% and heals all linked allies for 2d8 per round.", cooldownValue: 20 },
-      { description: "Reduces party damage taken by 50%, heals for 4d8 per round, and prevents allies from dropping below 1 HP while inside.", cooldownValue: 16 }
+      { description: "Reduces party damage taken by 35 points and heals all linked allies for 2d8 per round.", cooldownValue: 20 },
+      { description: "Reduces party damage taken by 50 points, heals for 4d8 per round, and prevents allies from dropping below 1 HP while inside.", cooldownValue: 16 }
     ]
   },
   {
@@ -730,7 +730,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     requires: "sb_t5_grand_specter",
     spell: {
       name: "The Triune Ancestors",
-      description: "Spend 5 Resonance: invoke the 3 Triune Ancestral Lords: instantly resurrect up to 2 fallen allies within 40 feet at 50% health, and unleash a 360-degree shockwave dealing 6d10 necrotic damage to all enemies.",
+      description: "Spend 5 Resonance: invoke the 3 Triune Ancestral Lords: instantly resurrect up to 2 fallen allies within 40 feet at 50 points health, and unleash a 360-degree shockwave dealing 6d10 necrotic damage to all enemies.",
       flavorText: "The Bryngloom's eldest spirits return what death took.",
       source: "talent", class: "Animist", treeId: "spirit_binder",
       spellType: "ACTIVE", category: "healing",
@@ -754,14 +754,14 @@ export const ANIMIST_SPIRIT_BINDER = [
     requires: "sb_t5_spirit_harvest",
     spell: {
       name: "Spectral Phasing",
-      description: "While you maintain at least 3 active summons, all physical attacks against you have disadvantage and you take 25% less magical damage.",
+      description: "While you maintain at least 3 active summons, all physical attacks against you have disadvantage and you take 25 points less magical damage.",
       flavorText: "The pack moves between realms.",
       source: "talent", class: "Animist", treeId: "spirit_binder",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "evasion", "defense", "animist"]
     },
     rankUpgrades: [
-      { description: "Physical attacks against you miss on 1-3 on a d6; take 40% less magical damage and you can walk through walls." }
+      { description: "Physical attacks against you miss on 1-3 on a d6; take 40 points less magical damage and you can walk through walls." }
     ]
   },
   {
@@ -773,14 +773,14 @@ export const ANIMIST_SPIRIT_BINDER = [
     requires: "sb_t5_spirit_harvest",
     spell: {
       name: "Soul Feast",
-      description: "Whenever a spirit deals damage, you heal for 25% of the damage and your spells deal +10% bonus damage for 2 rounds.",
+      description: "Whenever a spirit deals damage, you heals for for 2d6 Hit Pointsand your spells deal +10 points bonus damage for 2 rounds.",
       flavorText: "The meal is shared instantly.",
       source: "talent", class: "Animist", treeId: "spirit_binder",
       spellType: "PASSIVE", category: "healing",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "lifesteal", "pet", "animist"]
     },
     rankUpgrades: [
-      { description: "Heal for 50% of spirit damage; bonus damage increases to +25%." }
+      { description: "Heal for 50 points of spirit damage; bonus damage increases to +25 points." }
     ]
   },
 
@@ -819,7 +819,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     requires: "sb_t6_the_triune_ancestors",
     spell: {
       name: "Spirit Binder Doctrine",
-      description: "All necrotic, summon, and spirit damage you deal is increased by 10%.",
+      description: "All necrotic, summon, and spirit damage you deal is increased by +1d6 damage.",
       flavorText: "One thousand voices, all speaking death.",
       source: "talent", class: "Animist", treeId: "spirit_binder",
       spellType: "PASSIVE", category: "damage",
@@ -827,10 +827,10 @@ export const ANIMIST_SPIRIT_BINDER = [
       visualTheme: "shadow", tags: ["passive", "capstone", "damage", "animist"]
     },
     rankUpgrades: [
-      { description: "All spirit and necrotic damage increased by 20%." },
-      { description: "All spirit and necrotic damage increased by 35%." },
-      { description: "All spirit and necrotic damage increased by 50%." },
-      { description: "All spirit and necrotic damage increased by 70%, and Call Spirit Pack costs 0 mana." }
+      { description: "All spirit and necrotic damage increased by +1d8 damage." },
+      { description: "All spirit and necrotic damage increased by +1d8 damage." },
+      { description: "All spirit and necrotic damage increased by +2d8 damage." },
+      { description: "All spirit and necrotic damage increased by +2d8 damage, and Call Spirit Pack costs 0 mana." }
     ]
   },
   {
@@ -849,8 +849,8 @@ export const ANIMIST_SPIRIT_BINDER = [
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "capstone", "permanent-pets", "animist"]
     },
     rankUpgrades: [
-      { description: "Spirit max count +5; spirits gain +50% max health and +2 Durability Steps to equipped durability." },
-      { description: "Spirit max count +8; spirits gain +100% health, +4 Durability Steps to equipped durability, and attacks score critical hits on 18+." }
+      { description: "Spirit max count +5; spirits gain +50 points max health and +2 Durability Steps to equipped durability." },
+      { description: "Spirit max count +8; spirits gain +100 points health, +4 Durability Steps to equipped durability, and attacks score critical hits on 18+." }
     ]
   },
   {
@@ -862,15 +862,15 @@ export const ANIMIST_SPIRIT_BINDER = [
     requires: "sb_t6_death_pact",
     spell: {
       name: "Wrath of the Elders",
-      description: "When your summons attack, they have a 25% chance to cast a free Bone-Choir Invocation on their target.",
+      description: "When your summons attack, they have a 25 points chance to cast a free Bone-Choir Invocation on their target.",
       flavorText: "The elders shout through every bite.",
       source: "talent", class: "Animist", treeId: "spirit_binder",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "capstone", "proc", "animist"]
     },
     rankUpgrades: [
-      { description: "40% chance for spirits to proc Bone-Choir Invocation." },
-      { description: "60% chance for spirits to proc Bone-Choir Invocation; proc damage deals double damage." }
+      { description: "40 points chance for spirits to proc Bone-Choir Invocation." },
+      { description: "60 points chance for spirits to proc Bone-Choir Invocation; proc damage deals double damage." }
     ]
   },
   {
@@ -882,15 +882,15 @@ export const ANIMIST_SPIRIT_BINDER = [
     requires: "sb_t6_death_pact",
     spell: {
       name: "Immortal Packmaster",
-      description: "While at least one spirit is alive, lethal damage sacrifices the spirit instead: prevents death, restores 50% health, and immediately summons 3 new spirit wolves (cooldown: 120s).",
+      description: "While at least one spirit is alive, lethal damage sacrifices the spirit instead: prevents death, restores 30 Hit Points, and immediately summons 3 new spirit wolves (cooldown: 120s).",
       flavorText: "The pack dies so the master leads.",
       source: "talent", class: "Animist", treeId: "spirit_binder",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "capstone", "cheat-death", "animist"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restore 75% health, summon 5 wolves, and gain full Resonance (cooldown: 90s)." },
-      { description: "Survive lethal damage, restore 100% health, summon Ancestral Giant automatically, and gain 50 temporary health (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 45 Hit Points, summon 5 wolves, and gain full Resonance (cooldown: 90s)." },
+      { description: "Survive lethal damage, restores 60 Hit Points, summon Ancestral Giant automatically, and gain 50 temporary health (cooldown: 60s)." }
     ]
   }
 ];
@@ -993,8 +993,8 @@ export const ANIMIST_STORMSCRIBE = [
       debuffs: ["shocked"], visualTheme: "primal", tags: ["chain", "shock", "storm", "animist"]
     },
     rankUpgrades: [
-      { description: "Hits up to 5 enemies for 6d8 storm damage and pierces 30% resistance.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 } },
-      { description: "Hits up to 6 enemies for 8d8 storm damage, pierces 50% resistance, and stuns shocked targets for 1 round.", primaryDamage: { dice: "8d8", flat: 0, procChance: 100 } }
+      { description: "Hits up to 5 enemies for 6d8 storm damage and pierces 6 Damage Reduction.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 } },
+      { description: "Hits up to 6 enemies for 8d8 storm damage, pierces 10 Damage Reduction, and stuns shocked targets for 1 round.", primaryDamage: { dice: "8d8", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -1006,7 +1006,7 @@ export const ANIMIST_STORMSCRIBE = [
     requires: "ss_t1_blood_brand",
     spell: {
       name: "Galvanic Overload",
-      description: "Whenever you or an ally stand within 15 feet of your totems, storm damage dealt is increased by +25% and ignores 25% resistance.",
+      description: "Whenever you or an ally stand within 15 feet of your totems, storm damage dealt is increased by +1d8 damage and ignores 6 Damage Reduction.",
       flavorText: "Static charges the air around the sacred wood.",
       source: "talent", class: "Animist", treeId: "stormscribe",
       spellType: "PASSIVE", category: "buff",
@@ -1014,8 +1014,8 @@ export const ANIMIST_STORMSCRIBE = [
       visualTheme: "primal", tags: ["passive", "totem-aura", "storm-amp", "animist"]
     },
     rankUpgrades: [
-      { description: "Storm damage +40% and ignores 50% resistance within 20 feet of totems." },
-      { description: "Storm damage +60%, ignores 75% resistance, and storm attacks crit on 18+ within 25 feet." }
+      { description: "Storm damage +40 points and ignores 10 Damage Reduction within 20 feet of totems." },
+      { description: "Storm damage +60 points, ignores 16 Damage Reduction, and storm attacks crit on 18+ within 25 feet." }
     ]
   },
 
@@ -1057,7 +1057,7 @@ export const ANIMIST_STORMSCRIBE = [
     requires: "ss_t2_storm_attunement",
     spell: {
       name: "Runic Conduit",
-      description: "Whenever you cast a storm spell, all active totems copy the spell at 40% potency, firing lightning at the closest enemies.",
+      description: "Whenever you cast a storm spell, all active totems copy the spell at 40 points potency, firing lightning at the closest enemies.",
       flavorText: "The runes act as repeaters across the mire.",
       source: "talent", class: "Animist", treeId: "stormscribe",
       spellType: "PASSIVE", category: "damage",
@@ -1065,8 +1065,8 @@ export const ANIMIST_STORMSCRIBE = [
       visualTheme: "primal", tags: ["passive", "totem-copy", "echo", "animist"]
     },
     rankUpgrades: [
-      { description: "Totems copy storm spells at 65% potency." },
-      { description: "Totems copy storm spells at 90% potency and copied spells refund 1 Resonance." }
+      { description: "Totems copy storm spells at 65 points potency." },
+      { description: "Totems copy storm spells at 90 points potency and copied spells refund 1 Resonance." }
     ]
   },
 
@@ -1154,7 +1154,7 @@ export const ANIMIST_STORMSCRIBE = [
     requires: "ss_t4_totem_multiplication",
     spell: {
       name: "Conduction Matrix",
-      description: "All lightning and storm damage dealt by your spells and totems chains to 2 additional targets for 50% damage.",
+      description: "All lightning and storm damage dealt by your spells and totems chains to 2 additional targets for 50 points damage.",
       flavorText: "Electricity follows the path of maximum devastation.",
       source: "talent", class: "Animist", treeId: "stormscribe",
       spellType: "PASSIVE", category: "damage",
@@ -1162,8 +1162,8 @@ export const ANIMIST_STORMSCRIBE = [
       visualTheme: "primal", tags: ["passive", "chain-amp", "animist"]
     },
     rankUpgrades: [
-      { description: "Chains to 3 additional targets at 75% damage." },
-      { description: "Chains to 4 additional targets at 100% full damage, and each chain proc restores 1 Resonance (up to 3 per cast)." }
+      { description: "Chains to 3 additional targets at 75 points damage." },
+      { description: "Chains to 4 additional targets at 100 points full damage, and each chain proc restores 1 Resonance (up to 3 per cast)." }
     ]
   },
 
@@ -1222,14 +1222,14 @@ export const ANIMIST_STORMSCRIBE = [
     requires: "ss_t5_conduction_matrix",
     spell: {
       name: "Totemic Sanctuary",
-      description: "While standing within 20 feet of any totem, you and all allies gain +4 Durability Steps to equipped durability, 25% all-damage resistance, and cannot be interrupted.",
+      description: "While standing within 20 feet of any totem, you and all allies gain +4 Durability Steps to equipped durability, 6 Damage Reduction against all-damage, and cannot be interrupted.",
       flavorText: "The totems protect the tribe as living sentinels.",
       source: "talent", class: "Animist", treeId: "stormscribe",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "primal", tags: ["passive", "totem-sanctuary", "defense", "animist"]
     },
     rankUpgrades: [
-      { description: "Gain +6 Durability Steps to equipped durability, 40% resistance, un-interruptible casting, and heal 3d8 at the start of every turn near totems." }
+      { description: "Gain +6 Durability Steps to equipped durability, 8 Damage Reduction, un-interruptible casting, and heal 3d8 at the start of every turn near totems." }
     ]
   },
 
@@ -1268,7 +1268,7 @@ export const ANIMIST_STORMSCRIBE = [
     requires: "ss_t6_the_ancestral_convergence",
     spell: {
       name: "Stormscribe Doctrine",
-      description: "All storm and lightning damage dealt by your spells, totems, and inscriptions is increased by 10%.",
+      description: "All storm and lightning damage dealt by your spells, totems, and inscriptions is increased by +1d6 damage.",
       flavorText: "The sky is written in lines of blue fire.",
       source: "talent", class: "Animist", treeId: "stormscribe",
       spellType: "PASSIVE", category: "damage",
@@ -1276,10 +1276,10 @@ export const ANIMIST_STORMSCRIBE = [
       visualTheme: "primal", tags: ["passive", "capstone", "damage", "animist"]
     },
     rankUpgrades: [
-      { description: "All storm and inscription damage increased by 20%." },
-      { description: "All storm and inscription damage increased by 35%." },
-      { description: "All storm and inscription damage increased by 50%." },
-      { description: "All storm and inscription damage increased by 70%, and Galvanic Totem costs 0 mana." }
+      { description: "All storm and inscription damage increased by +1d8 damage." },
+      { description: "All storm and inscription damage increased by +1d8 damage." },
+      { description: "All storm and inscription damage increased by +2d8 damage." },
+      { description: "All storm and inscription damage increased by +2d8 damage, and Galvanic Totem costs 0 mana." }
     ]
   },
   {
@@ -1333,7 +1333,7 @@ export const ANIMIST_STORMSCRIBE = [
     requires: "ss_t6_totemic_resilience",
     spell: {
       name: "Galvanic Reincarnation",
-      description: "While you maintain at least 1 active totem, lethal damage strikes your totem instead: restores 50% health, grants 40 temporary health, and calls down lightning for 6d10 damage to all nearby foes (cooldown: 120s).",
+      description: "While you maintain at least 1 active totem, lethal damage strikes your totem instead: restores 30 Hit Points, grants 40 temporary health, and calls down lightning for 6d10 damage to all nearby foes (cooldown: 120s).",
       flavorText: "The lightning reanimates the heart.",
       source: "talent", class: "Animist", treeId: "stormscribe",
       spellType: "PASSIVE", category: "buff",
@@ -1342,8 +1342,8 @@ export const ANIMIST_STORMSCRIBE = [
       visualTheme: "primal", tags: ["passive", "capstone", "cheat-death", "animist"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restore 75% health, 60 temp HP, lightning deals 8d10 damage (cooldown: 90s)." },
-      { description: "Survive lethal damage, restore 100% health, lightning deals 12d10 damage, and immediately triggers The Ancestral Convergence for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 45 Hit Points, 60 temp HP, lightning deals 8d10 damage (cooldown: 90s)." },
+      { description: "Survive lethal damage, restores 60 Hit Points, lightning deals 12d10 damage, and immediately triggers The Ancestral Convergence for free (cooldown: 60s)." }
     ]
   }
 ];

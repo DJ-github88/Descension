@@ -287,7 +287,7 @@ export const SPELLGUARD_MANA_REAVER = [
     requires: "mr_t5_spell_theft",
     spell: {
       name: "Leech Ward",
-      description: "Sheathe yourself in stolen current for 30 seconds: 25% of the mana you drain is also converted into an arcane shield absorbing up to 10 damage.",
+      description: "Sheathe yourself in stolen current for 30 seconds: 25 points of the mana you drain is also converted into an arcane shield absorbing up to 10 damage.",
       flavorText: "The levy flows both ways.",
       source: "talent", class: "Spellguard", treeId: "mana_reaver",
       spellType: "ACTIVE", category: "buff",
@@ -300,7 +300,7 @@ export const SPELLGUARD_MANA_REAVER = [
       buffs: ["shield", "leech"], visualTheme: "arcane", tags: ["drain", "shield", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Sheathe yourself in stolen current for 30 seconds: 40% of the mana you drain is also converted into an arcane shield absorbing up to 25 damage." }
+      { description: "Sheathe yourself in stolen current for 30 seconds: 40 points of the mana you drain is also converted into an arcane shield absorbing up to 25 damage." }
     ]
   },
   {
@@ -398,15 +398,15 @@ export const SPELLGUARD_MANA_REAVER = [
     requires: "mr_t6_hungering_blade",
     spell: {
       name: "Reaver's Momentum",
-      description: "Drinking puts speed in the blood: after you drain mana, you gain +15% movement speed for 5 seconds.",
+      description: "Drinking puts speed in the blood: after you drain mana, you gain +15 points movement speed for 5 seconds.",
       flavorText: "Somewhere to be, someone to empty.",
       source: "talent", class: "Spellguard", treeId: "mana_reaver",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "capstone", "mobility", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Drinking puts speed in the blood: after you drain mana, you gain +25% movement speed for 5 seconds." },
-      { description: "Drinking puts speed in the blood: after you drain mana, you gain +25% movement speed and +2 Durability Steps to equipped durability for 5 seconds." }
+      { description: "Drinking puts speed in the blood: after you drain mana, you gain +25 points movement speed for 5 seconds." },
+      { description: "Drinking puts speed in the blood: after you drain mana, you gain +25 points movement speed and +2 Durability Steps to equipped durability for 5 seconds." }
     ]
   },
   {

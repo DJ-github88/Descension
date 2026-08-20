@@ -51,15 +51,15 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: null,
     spell: {
       name: "Blood-Scribe Mastery",
-      description: "Your maximum Death Toll capacity increases by 4. All life drain effects restore 20% more health.",
+      description: "Your maximum Death Toll capacity increases by 4. All life drain effects restore 20 points more health.",
       flavorText: "The blood-scribes write life into stolen flesh.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "PASSIVE", category: "healing",
       targetingMode: "self", visualTheme: "blood", tags: ["passive", "dt-cap", "heal-amp", "revenant"]
     },
     rankUpgrades: [
-      { description: "Max DT +6; life drain restores 30% more health and your attacks deal +1d6 blood damage." },
-      { description: "Max DT +8; life drain restores 35% more health, deals +1d6 blight damage, and +2 Durability Steps to equipped durability." }
+      { description: "Max DT +6; life drain restores 30 points more health and your attacks deal +1d6 blood damage." },
+      { description: "Max DT +8; life drain restores 35 points more health, deals +1d6 blight damage, and +2 Durability Steps to equipped durability." }
     ]
   },
   {
@@ -71,14 +71,14 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: null,
     spell: {
       name: "Crimson Adrenaline",
-      description: "After casting a life drain spell, gain +20ft movement speed and 15% physical damage resistance for 2 rounds.",
+      description: "After casting a life drain spell, gain +20ft movement speed and 15 points physical damage resistance for 2 rounds.",
       flavorText: "Necrotic frost quickens the veins of those who drain the living.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "blood", tags: ["passive", "speed", "dr", "revenant"]
     },
     rankUpgrades: [
-      { description: "Gain +30ft speed, 25% resistance, and +2 to attack rolls after draining life." }
+      { description: "Gain +30ft speed, 6 Damage Reduction, and +2 to attack rolls after draining life." }
     ]
   },
 
@@ -119,15 +119,15 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: "sh_t1_sanguine_mastery",
     spell: {
       name: "Desperate Siphon",
-      description: "While below 50% health, your life drain abilities deal +10% increased damage and cost 1 fewer Action Point.",
+      description: "While below half maximum Hit Points, your life drain abilities deal +10 points increased damage and cost 1 fewer Action Point.",
       flavorText: "Desperation awakens the chill blood-magic buried in your veins.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", visualTheme: "blood", tags: ["passive", "low-hp-amp", "ap-reduction", "revenant"]
     },
     rankUpgrades: [
-      { description: "Below 50% HP: deal +15% damage, cost 1 fewer AP, and heal for +25% more." },
-      { description: "Below 50% HP: deal +20% damage, cost 1 fewer AP, heal for +35% more, and gain +2 Durability Steps to equipped durability." }
+      { description: "below half maximum Hit Points: deal +1d6 bonus damage, cost 1 fewer AP, and heal for +25 points more." },
+      { description: "below half maximum Hit Points: deal +1d8 bonus damage, cost 1 fewer AP, heal for +35 points more, and gain +2 Durability Steps to equipped durability." }
     ]
   },
 
@@ -141,7 +141,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: "sh_t2_sanguine_burst",
     spell: {
       name: "Exsanguinating Grasp",
-      description: "Spend 3 DT: channel a continuous beam of blood siphon onto a target within 45 feet for 2 rounds. Deals 4d8 blight damage per round, slows the target by 15 feet, and transfers 50% of damage dealt into your HP.",
+      description: "Spend 3 DT: channel a continuous beam of blood siphon onto a target within 45 feet for 2 rounds. Deals 4d8 blight damage per round, slows the target by 15 feet, and transfers 50 points of damage dealt into your HP.",
       flavorText: "Draining the living dry in a ceaseless crimson thread.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "ACTIVE", category: "damage",
@@ -169,15 +169,15 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: "sh_t2_rush_of_blood",
     spell: {
       name: "Vampiric Feast",
-      description: "Whenever an enemy dies from your life drain spells, gain 3 Death Toll, heal for 25% of max HP, and all your abilities deal +10% damage for 2 rounds.",
+      description: "Whenever an enemy dies from your life drain spells, gain 3 Death Toll, heal for 25 points of max HP, and all your abilities deal +1d6 bonus damage for 2 rounds.",
       flavorText: "The Archive rewards draining the weak with sovereign vitality.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "blood", tags: ["passive", "heal-on-kill", "damage-buff", "revenant"]
     },
     rankUpgrades: [
-      { description: "Kills grant 4 DT, heal for 30%, +15% damage, and +10ft movement speed." },
-      { description: "Kills grant 5 DT, heal for 35%, +20% damage, +15ft speed, and 20 temporary health." }
+      { description: "Kills grant 4 DT, heal for 30 points, +15 points damage, and +10ft movement speed." },
+      { description: "Kills grant 5 DT, heal for 35 points, +20 points damage, +15ft speed, and 20 temporary health." }
     ]
   },
 
@@ -191,7 +191,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: "sh_t3_exsanguinate",
     spell: {
       name: "Maelstrom of Frozen Blood",
-      description: "Spend 4 DT: summon a 30-foot vortex of razor frozen blood within 50 feet for 3 rounds. Deals 2d6 blight/rime damage per round, slows all enemies by 15ft, and heals you and allies inside for 20% of damage dealt.",
+      description: "Spend 4 DT: summon a 30-foot vortex of razor frozen blood within 50 feet for 3 rounds. Deals 2d6 blight/rime damage per round, slows all enemies by 15ft, and heals you and allies inside for 20 points of damage dealt.",
       flavorText: "A blizzard of crimson ice flensing flesh from bone.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "ACTIVE", category: "damage",
@@ -206,8 +206,8 @@ export const REVENANT_SANGUINE_HARVEST = [
       visualTheme: "blood", tags: ["aoe-vortex", "party-heal", "slow", "revenant"]
     },
     rankUpgrades: [
-      { description: "35-foot vortex deals 3d6 per round, heals party for 25%, and cooldown drops to 16s.", dotTick: "3d6", aoeSize: 35, cooldownValue: 16 },
-      { description: "40-foot vortex deals 3d6 per round, heals for 30%, silences enemies, and grants allies +2 Durability Steps to equipped durability.", dotTick: "3d6", aoeSize: 40, cooldownValue: 14 }
+      { description: "35-foot vortex deals 3d6 per round, heals party for 25 points, and cooldown drops to 16s.", dotTick: "3d6", aoeSize: 35, cooldownValue: 16 },
+      { description: "40-foot vortex deals 3d6 per round, heals for 30 points, silences enemies, and grants allies +2 Durability Steps to equipped durability.", dotTick: "3d6", aoeSize: 40, cooldownValue: 14 }
     ]
   },
   {
@@ -226,7 +226,7 @@ export const REVENANT_SANGUINE_HARVEST = [
       targetingMode: "self", visualTheme: "blood", tags: ["passive", "overheal-shield", "defense", "revenant"]
     },
     rankUpgrades: [
-      { description: "Shield caps at 100 temp HP and reflects 30% of absorbed damage back as blood damage." }
+      { description: "Shield caps at 100 temp HP and reflects 30 points of absorbed damage back as blood damage." }
     ]
   },
 
@@ -240,7 +240,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: "sh_t4_blood_storm",
     spell: {
       name: "Heart-Burst Cataclysm",
-      description: "Spend 5 DT: detonate the blood supply of all enemies within 40 feet. Deals 5d8 blight damage, stuns all enemies for 1 round, and heals you and all allies for 30% of max health.",
+      description: "Spend 5 DT: detonate the blood supply of all enemies within 40 feet. Deals 5d8 blight damage, stuns all enemies for 1 round, and heals you and all allies for 30 points of max health.",
       flavorText: "Forcing every heart in the room to rupture simultaneously.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "ACTIVE", category: "damage",
@@ -267,7 +267,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: "sh_t4_blood_barrier",
     spell: {
       name: "Blood Sovereign Form",
-      description: "While at 5+ Death Toll, you gain +2 Durability Steps to equipped durability, 20% all-damage resistance, and all your attacks deal +1d8 bonus blight damage.",
+      description: "While at 5+ Death Toll, you gain +2 Durability Steps to equipped durability, 4 Damage Reduction against all-damage, and all your attacks deal +1d8 bonus blight damage.",
       flavorText: "Clothed in the living blood of a thousand fallen foes.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "PASSIVE", category: "buff",
@@ -276,8 +276,8 @@ export const REVENANT_SANGUINE_HARVEST = [
       visualTheme: "blood", tags: ["passive", "dt-threshold", "durability", "dr", "revenant"]
     },
     rankUpgrades: [
-      { description: "At 5+ DT: gain +3 Durability Steps to equipped durability, 25% resistance, and +2d8 bonus damage." },
-      { description: "At 4+ DT: gain +4 Durability Steps to equipped durability, 30% resistance, +2d8 bonus damage, and attacks score crits on 18+." }
+      { description: "At 5+ DT: gain +3 Durability Steps to equipped durability, 6 Damage Reduction, and +2d8 bonus damage." },
+      { description: "At 4+ DT: gain +4 Durability Steps to equipped durability, 6 Damage Reduction, +2d8 bonus damage, and attacks score crits on 18+." }
     ]
   },
 
@@ -291,7 +291,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: "sh_t5_crimson_cataclysm",
     spell: {
       name: "Avatar of the Sanguine Lord",
-      description: "Spend 6 DT: transform into the Colossal Blood Sovereign for 1 minute: continuous blood storms strike all enemies within 50 feet for 6d10 damage each round, all your attacks have 50% lifesteal, and you gain +2 Durability Steps to equipped durability.",
+      description: "Spend 6 DT: transform into the Colossal Blood Sovereign for 1 minute: continuous blood storms strike all enemies within 50 feet for 6d10 damage each round, all your attacks have heals you for 2d6 Hit Points on hit, and you gain +2 Durability Steps to equipped durability.",
       flavorText: "The Frozen Archive's bloodline made incarnate.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "ACTIVE", category: "buff",
@@ -322,7 +322,7 @@ export const REVENANT_SANGUINE_HARVEST = [
       visualTheme: "blood", tags: ["passive", "crit", "artery-bleed", "revenant"]
     },
     rankUpgrades: [
-      { description: "Crits on 17+; bleed deals 4d8 blight damage and shreds 25% of enemy durability." }
+      { description: "Crits on 17+; bleed deals 4d8 blight damage and reduces enemy Armor by 4." }
     ]
   },
   {
@@ -334,14 +334,14 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: "sh_t5_sanguine_avatar_passive",
     spell: {
       name: "Crimson Immortality Shroud",
-      description: "You take 35% less damage from damage-over-time effects and bleeds, and you gain +2 Durability Steps to equipped durability.",
+      description: "You gain 8 Damage Reduction from damage-over-time effects and bleeds, and you gain +2 Durability Steps to equipped durability.",
       flavorText: "Your blood is already dead; it cannot be poisoned.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "blood", tags: ["passive", "dot-resist", "durability", "revenant"]
     },
     rankUpgrades: [
-      { description: "Take 35% less DoT damage; gain +4 Durability Steps to equipped durability and 15% resistance to all magical damage." }
+      { description: "Take 35 points less DoT damage; gain +4 Durability Steps to equipped durability and 4 Damage Reduction to all magical damage." }
     ]
   },
 
@@ -355,7 +355,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: "sh_t6_the_blood_gods_harvest",
     spell: {
       name: "Cataclysmic Blood Ocean",
-      description: "ULTIMATE: Spend 8 DT: drown the entire 60-foot battlefield in an ocean of boiling necrotic blood for 1 minute: all enemies take 8d10 blight damage each round, lose 25% durability, and all party members gain +60 temporary health and 50% lifesteal.",
+      description: "ULTIMATE: Spend 8 DT: drown the entire 60-foot battlefield in an ocean of boiling necrotic blood for 1 minute: all enemies take 8d10 blight damage each round, lose 25 points durability, and all party members gain +60 temporary health and heals you for 2d6 Hit Points on hit.",
       flavorText: "The earth drinks, the archive rises, the living drown.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "ACTIVE", category: "damage",
@@ -380,7 +380,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: "sh_t6_the_blood_gods_harvest",
     spell: {
       name: "Sanguine Harvest Doctrine",
-      description: "All blight, blood, and life drain damage you deal is increased by 10%.",
+      description: "All blight, blood, and life drain damage you deal is increased by +1d6 damage.",
       flavorText: "Crimson power that outlasts the stars.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "PASSIVE", category: "damage",
@@ -388,10 +388,10 @@ export const REVENANT_SANGUINE_HARVEST = [
       visualTheme: "blood", tags: ["passive", "capstone", "damage", "revenant"]
     },
     rankUpgrades: [
-      { description: "All blight/blood damage increased by 15%." },
-      { description: "All blight/blood damage increased by 20%." },
-      { description: "All blight/blood damage increased by 25%." },
-      { description: "All blight/blood damage increased by 30%, and Sanguine Syphon Strike costs 0 mana." }
+      { description: "All blight/blood damage increased by +1d6 damage." },
+      { description: "All blight/blood damage increased by +1d8 damage." },
+      { description: "All blight/blood damage increased by +1d8 damage." },
+      { description: "All blight/blood damage increased by +1d8 damage, and Sanguine Syphon Strike costs 0 mana." }
     ]
   },
   {
@@ -423,15 +423,15 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: "sh_t6_blood_criticality",
     spell: {
       name: "Arterial Decapitation",
-      description: "When an enemy below 20% health takes blood damage from you, they have a 15% chance to be executed instantly.",
+      description: "When an enemy below half maximum Hit Points takes blood damage from you, they have a 15 points chance to be executed instantly.",
       flavorText: "The blood leaves the body all at once.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", visualTheme: "blood", tags: ["passive", "capstone", "instant-kill", "revenant"]
     },
     rankUpgrades: [
-      { description: "20% chance to execute below 25% HP; deals +5d8 blight damage against bosses." },
-      { description: "25% chance to execute below 30% HP; deals +10d8 blight damage against bosses." }
+      { description: "20 points chance to execute below half maximum Hit Points; deals +5d8 blight damage against bosses." },
+      { description: "25 points chance to execute below half maximum Hit Points; deals +10d8 blight damage against bosses." }
     ]
   },
   {
@@ -443,15 +443,15 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: "sh_t6_undying_bloodline",
     spell: {
       name: "Bloodpool Rebirth",
-      description: "While at 3+ Death Toll, lethal damage dissolves you into a pool of blood: prevents death, restores 40% health, 30 temp HP, and sets DT to 5 (cooldown: 180s).",
+      description: "While at 3+ Death Toll, lethal damage dissolves you into a pool of blood: prevents death, restores 24 Hit Points, 30 temp HP, and sets DT to 5 (cooldown: 180s).",
       flavorText: "You cannot bleed to death when you are made of blood.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "blood", tags: ["passive", "capstone", "cheat-death", "revenant"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restore 60% health, 40 temp HP, full DT (cooldown: 120s)." },
-      { description: "Survive lethal damage, restore 75% health, 50 temp HP, full DT (cooldown: 90s)." }
+      { description: "Survive lethal damage, restores 36 Hit Points, 40 temp HP, full DT (cooldown: 120s)." },
+      { description: "Survive lethal damage, restores 45 Hit Points, 50 temp HP, full DT (cooldown: 90s)." }
     ]
   }
 ];
@@ -484,8 +484,8 @@ export const REVENANT_FROST_SOVEREIGN = [
       debuffs: ["frozen"], visualTheme: "rime", tags: ["single-nuke", "freeze", "dt-builder", "revenant"]
     },
     rankUpgrades: [
-      { description: "Deals 3d8 rime damage, freeze lasts 1 round, and pierces 10% resistance.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
-      { description: "Deals 3d8 rime damage, freeze lasts 2 rounds, pierces 15% resistance, and shatters for 2d8 AoE rime on target hit.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
+      { description: "Deals 3d8 rime damage, freeze lasts 1 round, and pierces 2 Damage Reduction.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
+      { description: "Deals 3d8 rime damage, freeze lasts 2 rounds, pierces 4 Damage Reduction, and shatters for 2d8 AoE rime on target hit.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -497,7 +497,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     requires: null,
     spell: {
       name: "Black Ice Mastery",
-      description: "All your frost spells deal +5% damage to frozen targets and your freeze save DC increases by +2.",
+      description: "All your frost spells deal +1d6 bonus damage to frozen targets and your freeze save DC increases by +2.",
       flavorText: "The Archive's ancient frost guides every spell.",
       source: "talent", class: "Revenant", treeId: "frost_sovereign",
       spellType: "PASSIVE", category: "damage",
@@ -505,8 +505,8 @@ export const REVENANT_FROST_SOVEREIGN = [
       visualTheme: "rime", tags: ["passive", "freeze-amp", "dc-boost", "revenant"]
     },
     rankUpgrades: [
-      { description: "Deal +8% damage to frozen targets and save DC +3." },
-      { description: "Deal +10% damage to frozen targets, save DC +4, and +2 Durability Steps to equipped durability." }
+      { description: "deal +1d6 bonus damage to frozen targets and save DC +3." },
+      { description: "deal +1d6 bonus damage to frozen targets, save DC +4, and +2 Durability Steps to equipped durability." }
     ]
   },
   {
@@ -555,7 +555,7 @@ export const REVENANT_FROST_SOVEREIGN = [
       visualTheme: "rime", tags: ["mass-shatter", "aoe", "chain-freeze", "revenant"]
     },
     rankUpgrades: [
-      { description: "Deals 4d8 rime damage + 2d8 splash, and pierces 10% resistance.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } },
+      { description: "Deals 4d8 rime damage + 2d8 splash, and pierces 2 Damage Reduction.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } },
       { description: "Deals 4d8 rime damage + 3d8 splash, stuns all hit targets for 1 round, and refunds 1 DT.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
     ]
   },
@@ -568,15 +568,15 @@ export const REVENANT_FROST_SOVEREIGN = [
     requires: "fs_t1_eternal_focus",
     spell: {
       name: "Glacial Synapse Bond",
-      description: "All frozen enemies share 25% of all damage taken with other frozen enemies within 30 feet.",
+      description: "All frozen enemies share 25 points of all damage taken with other frozen enemies within 30 feet.",
       flavorText: "The Archive links its frozen children in shared suffering.",
       source: "talent", class: "Revenant", treeId: "frost_sovereign",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", visualTheme: "rime", tags: ["passive", "damage-share", "frozen-network", "revenant"]
     },
     rankUpgrades: [
-      { description: "Frozen enemies share 30% of damage taken." },
-      { description: "Frozen enemies share 35% of damage taken and have vulnerability to physical damage." }
+      { description: "Frozen enemies share 30 points of damage taken." },
+      { description: "Frozen enemies share 35 points of damage taken and have vulnerability to physical damage." }
     ]
   },
 
@@ -618,15 +618,15 @@ export const REVENANT_FROST_SOVEREIGN = [
     requires: "fs_t2_ice_bond",
     spell: {
       name: "Absolute Zero Vulnerability",
-      description: "Frozen enemies have vulnerability to ALL damage sources (+50% bonus damage taken) and their durability is reduced to 0.",
+      description: "Frozen enemies have vulnerability to ALL damage sources (+50 points bonus damage taken) and their durability is reduced to 0.",
       flavorText: "At the Archive's heart, all things are brittle and breakable.",
       source: "talent", class: "Revenant", treeId: "frost_sovereign",
       spellType: "PASSIVE", category: "debuff",
       targetingMode: "self", visualTheme: "rime", tags: ["passive", "vulnerability", "zero-durability", "revenant"]
     },
     rankUpgrades: [
-      { description: "Frozen enemies take +75% bonus damage from all sources." },
-      { description: "Frozen enemies take double damage (+100%) from all sources and cannot use reactions." }
+      { description: "Frozen enemies take +75 points bonus damage from all sources." },
+      { description: "Frozen enemies take double damage (+100 points) from all sources and cannot use reactions." }
     ]
   },
 
@@ -688,7 +688,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     requires: "fs_t4_ice_comet",
     spell: {
       name: "Universal Shatter Protocol",
-      description: "Spend 5 DT: detonate every frozen entity across the entire battlefield. Deals 12d10 frost true damage to all frozen targets, instakills all non-boss frozen foes below 40% HP, and grants 50 temporary health.",
+      description: "Spend 5 DT: detonate every frozen entity across the entire battlefield. Deals 12d10 frost true damage to all frozen targets, instakills all non-boss frozen foes below half maximum Hit Points, and grants 50 temporary health.",
       flavorText: "The command that splinters the army of ice into nothingness.",
       source: "talent", class: "Revenant", treeId: "frost_sovereign",
       spellType: "ACTIVE", category: "damage",
@@ -702,7 +702,7 @@ export const REVENANT_FROST_SOVEREIGN = [
       visualTheme: "rime", tags: ["mass-execute", "mass-shatter", "nuke", "revenant"]
     },
     rankUpgrades: [
-      { description: "Deals 16d10 frost true damage, instakills non-bosses below 50% HP, and cooldown drops to 24s.", primaryDamage: { dice: "16d10", flat: 0, procChance: 100 }, cooldownValue: 24 }
+      { description: "Deals 16d10 frost true damage, instakills non-bosses below half maximum Hit Points, and cooldown drops to 24s.", primaryDamage: { dice: "16d10", flat: 0, procChance: 100 }, cooldownValue: 24 }
     ]
   },
   {
@@ -721,8 +721,8 @@ export const REVENANT_FROST_SOVEREIGN = [
       targetingMode: "self", visualTheme: "rime", tags: ["passive", "auto-freeze", "dt-engine", "revenant"]
     },
     rankUpgrades: [
-      { description: "Max DT +10; auto-freeze lasts 2 rounds and frost damage increases by +30%." },
-      { description: "Max DT +15; auto-freeze lasts 2 rounds, frost damage +50%, and spells cost 1 fewer DT." }
+      { description: "Max DT +10; auto-freeze lasts 2 rounds and frost damage increases by +30 points." },
+      { description: "Max DT +15; auto-freeze lasts 2 rounds, frost damage +50 points, and spells cost 1 fewer DT." }
     ]
   },
 
@@ -736,7 +736,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     requires: "fs_t5_shatter_protocol",
     spell: {
       name: "Avatar of the Glacial Lich",
-      description: "Spend 6 DT: ascend into the Glacial Lich Sovereign for 1 minute: continuous blizzards freeze all enemies within 50 feet automatically every round, all frost spells deal maximum dice damage, and you take 50% less damage.",
+      description: "Spend 6 DT: ascend into the Glacial Lich Sovereign for 1 minute: continuous blizzards freeze all enemies within 50 feet automatically every round, all frost spells deal maximum dice damage, and you gain 10 Damage Reduction.",
       flavorText: "The crown of ice rests upon the rightful monarch of the dead.",
       source: "talent", class: "Revenant", treeId: "frost_sovereign",
       spellType: "ACTIVE", category: "buff",
@@ -799,7 +799,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     requires: "fs_t6_the_frost_sovereign",
     spell: {
       name: "The Final Glaciation Cataclysm",
-      description: "ULTIMATE: Spend 8 DT: freeze the entire battlefield in an unbreakable epoch of black ice for 1 minute: all enemies take 12d10 frost true damage every round, cannot move or act, and any frozen enemy that drops below 50% HP shatters into dust.",
+      description: "ULTIMATE: Spend 8 DT: freeze the entire battlefield in an unbreakable epoch of black ice for 1 minute: all enemies take 12d10 frost true damage every round, cannot move or act, and any frozen enemy that drops below half maximum Hit Points shatters into dust.",
       flavorText: "An ice age condensed into sixty seconds of absolute stillness.",
       source: "talent", class: "Revenant", treeId: "frost_sovereign",
       spellType: "ACTIVE", category: "damage",
@@ -824,7 +824,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     requires: "fs_t6_the_frost_sovereign",
     spell: {
       name: "Frost Sovereign Doctrine",
-      description: "All frost and shatter damage you deal is increased by 10%.",
+      description: "All frost and shatter damage you deal is increased by +1d6 damage.",
       flavorText: "The black frost knows only obedience.",
       source: "talent", class: "Revenant", treeId: "frost_sovereign",
       spellType: "PASSIVE", category: "damage",
@@ -832,10 +832,10 @@ export const REVENANT_FROST_SOVEREIGN = [
       visualTheme: "rime", tags: ["passive", "capstone", "damage", "revenant"]
     },
     rankUpgrades: [
-      { description: "All frost and shatter damage increased by 20%." },
-      { description: "All frost and shatter damage increased by 35%." },
-      { description: "All frost and shatter damage increased by 50%." },
-      { description: "All frost and shatter damage increased by 70%, and Glacial Shatter Lance costs 0 mana." }
+      { description: "All frost and shatter damage increased by +1d8 damage." },
+      { description: "All frost and shatter damage increased by +1d8 damage." },
+      { description: "All frost and shatter damage increased by +2d8 damage." },
+      { description: "All frost and shatter damage increased by +2d8 damage, and Glacial Shatter Lance costs 0 mana." }
     ]
   },
   {
@@ -874,7 +874,7 @@ export const REVENANT_FROST_SOVEREIGN = [
       targetingMode: "self", visualTheme: "rime", tags: ["passive", "capstone", "chain-shatter", "revenant"]
     },
     rankUpgrades: [
-      { description: "Chain shatter deals +50% bonus frost damage." },
+      { description: "Chain shatter deals +50 points bonus frost damage." },
       { description: "Chain shatter deals double damage and refunds all DT spent." }
     ]
   },
@@ -887,15 +887,15 @@ export const REVENANT_FROST_SOVEREIGN = [
     requires: "fs_t6_absolute_permafrost_wall",
     spell: {
       name: "Ice Tomb Rebirth",
-      description: "While at 3+ DT, lethal damage encases you in an impenetrable ice tomb: prevents death, restores 50% health, 50 temp HP, sets DT to max, and freezes all enemies within 40 feet for 2 rounds (cooldown: 120s).",
+      description: "While at 3+ DT, lethal damage encases you in an impenetrable ice tomb: prevents death, restores 30 Hit Points, 50 temp HP, sets DT to max, and freezes all enemies within 40 feet for 2 rounds (cooldown: 120s).",
       flavorText: "The tomb shatters to release the undying monarch.",
       source: "talent", class: "Revenant", treeId: "frost_sovereign",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "rime", tags: ["passive", "capstone", "cheat-death", "revenant"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restore 75% health, 75 temp HP, full DT (cooldown: 90s)." },
-      { description: "Survive lethal damage, restore 100% health, and immediately activate The Final Glaciation Cataclysm for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 45 Hit Points, 75 temp HP, full DT (cooldown: 90s)." },
+      { description: "Survive lethal damage, restores 60 Hit Points, and immediately activate The Final Glaciation Cataclysm for free (cooldown: 60s)." }
     ]
   }
 ];
@@ -927,7 +927,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     },
     rankUpgrades: [
       { description: "Gain 50-damage shield, +4 Durability Steps to equipped durability, and generate 3 DT.", cooldownValue: 5 },
-      { description: "Gain 75-damage shield, +6 Durability Steps to equipped durability, generate 4 DT, and reflects 30% absorbed damage as frost.", cooldownValue: 4 }
+      { description: "Gain 75-damage shield, +6 Durability Steps to equipped durability, generate 4 DT, and reflects 30 points absorbed damage as frost.", cooldownValue: 4 }
     ]
   },
   {
@@ -939,15 +939,15 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     requires: null,
     spell: {
       name: "Soul Battery Capacity",
-      description: "Your maximum Phylactery HP increases by 30 and you gain +20% maximum health.",
+      description: "Your maximum Phylactery HP increases by 30 and you gain +20 points maximum health.",
       flavorText: "Stolen life essence crystallizes within the cold phylactery.",
       source: "talent", class: "Revenant", treeId: "phylactery_anchor",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "phylactery-cap", "health", "revenant"]
     },
     rankUpgrades: [
-      { description: "Phylactery HP +50, max health +35%, and gain +2 Durability Steps to equipped durability." },
-      { description: "Phylactery HP +80, max health +50%, +4 Durability Steps to equipped durability, and regenerate 2d6 HP per round in combat." }
+      { description: "Phylactery HP +50, max health +35 points, and gain +2 Durability Steps to equipped durability." },
+      { description: "Phylactery HP +80, max health +50 points, +4 Durability Steps to equipped durability, and regenerate 2d6 HP per round in combat." }
     ]
   },
   {
@@ -959,14 +959,14 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     requires: null,
     spell: {
       name: "Undying Fortitude",
-      description: "You take 15% less damage from all physical and magical sources while your phylactery holds charge.",
+      description: "You gain 4 Damage Reduction from all physical and magical sources while your phylactery holds charge.",
       flavorText: "The Archive's undying pact refuses the call of oblivion.",
       source: "talent", class: "Revenant", treeId: "phylactery_anchor",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "dr", "defense", "revenant"]
     },
     rankUpgrades: [
-      { description: "Take 30% less damage and you cannot be knocked down or displaced." }
+      { description: "gain 6 Damage Reduction and you cannot be knocked down or displaced." }
     ]
   },
 
@@ -1007,15 +1007,15 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     requires: "pa_t1_vital_reserve",
     spell: {
       name: "Phylactery Party Link",
-      description: "All allies within 30 feet take 25% less damage, transferring the absorbed damage directly into your phylactery shield instead.",
+      description: "All allies within 30 feet gain 6 Damage Reduction, transferring the absorbed damage directly into your phylactery shield instead.",
       flavorText: "Spectral chains of frost bind allies to the phylactery's protection.",
       source: "talent", class: "Revenant", treeId: "phylactery_anchor",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "party-protection", "damage-absorb", "revenant"]
     },
     rankUpgrades: [
-      { description: "Allies take 40% less damage; when phylactery absorbs ally damage, heal the ally for 2d6." },
-      { description: "Allies take 50% less damage; heal allies for 4d6 and allies gain +3 Durability Steps to equipped durability." }
+      { description: "Allies gain 8 Damage Reduction; when phylactery absorbs ally damage, heal the ally for 2d6." },
+      { description: "Allies gain 10 Damage Reduction; heal allies for 4d6 and allies gain +3 Durability Steps to equipped durability." }
     ]
   },
 
@@ -1042,7 +1042,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     },
     rankUpgrades: [
       { description: "Grants 65-damage ward, taunts for 3 rounds, and grants you +5 Durability Steps to equipped durability.", cooldownValue: 12 },
-      { description: "Grants 90-damage ward, taunts for 3 rounds, +7 Durability Steps to equipped durability, and reflects 50% damage back at attackers.", cooldownValue: 10 }
+      { description: "Grants 90-damage ward, taunts for 3 rounds, +7 Durability Steps to equipped durability, and reflects 50 points damage back at attackers.", cooldownValue: 10 }
     ]
   },
   {
@@ -1054,15 +1054,15 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     requires: "pa_t2_phylactery_link",
     spell: {
       name: "Deathless Sentinel",
-      description: "While your phylactery has at least 20 HP, your equipped durability durability cannot be degraded and you take 25% less damage from all attacks.",
+      description: "While your phylactery has at least 20 HP, your equipped durability durability cannot be degraded and you gain 6 Damage Reduction from all attacks.",
       flavorText: "The deathless vigil watches over the chosen.",
       source: "talent", class: "Revenant", treeId: "phylactery_anchor",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "immune to durability damage", "tank", "revenant"]
     },
     rankUpgrades: [
-      { description: "Take 40% less damage; gain +4 Durability Steps to equipped durability." },
-      { description: "Take 55% less damage, +6 Durability Steps to equipped durability, and you generate 2 DT at the start of every turn." }
+      { description: "gain 8 Damage Reduction; gain +4 Durability Steps to equipped durability." },
+      { description: "gain 12 Damage Reduction, +6 Durability Steps to equipped durability, and you generate 2 DT at the start of every turn." }
     ]
   },
 
@@ -1110,7 +1110,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "soul-charge", "dt-gain", "revenant"]
     },
     rankUpgrades: [
-      { description: "Kills charge phylactery for 40 HP, gain 3 DT, and heal you for 25% max HP." }
+      { description: "Kills charge phylactery for 40 HP, gain 3 DT, and heal you for 25 points max HP." }
     ]
   },
 
@@ -1136,7 +1136,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
       buffs: ["death-immune"], visualTheme: "wyrd", tags: ["invulnerable-party", "climax", "tank", "revenant"]
     },
     rankUpgrades: [
-      { description: "Soul Bastion lasts 4 rounds: allies also deal +30% bonus frost damage while protected.", cooldownValue: 24 }
+      { description: "Soul Bastion lasts 4 rounds: allies also deal +30 points bonus frost damage while protected.", cooldownValue: 24 }
     ]
   },
   {
@@ -1148,15 +1148,15 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     requires: "pa_t4_soul_siphon_passive",
     spell: {
       name: "Undying Soul Anchor",
-      description: "Your maximum Death Toll increases by 6. While phylactery is above 50% HP, you and all allies gain +3 Durability Steps to equipped durability and +15% damage reduction.",
+      description: "Your maximum Death Toll increases by 6. While phylactery is above 50 points HP, you and all allies gain +3 Durability Steps to equipped durability and +15 points damage reduction.",
       flavorText: "An unbreakable anchor pinned into the bedrock of life.",
       source: "talent", class: "Revenant", treeId: "phylactery_anchor",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "party-durability", "dr", "revenant"]
     },
     rankUpgrades: [
-      { description: "Gain +5 Durability Steps to equipped durability and +25% damage reduction for the party." },
-      { description: "Gain +7 Durability Steps to equipped durability, +35% damage reduction, and party attacks score crits on 18+." }
+      { description: "Gain +5 Durability Steps to equipped durability and +25 points damage reduction for the party." },
+      { description: "Gain +7 Durability Steps to equipped durability, +35 points damage reduction, and party attacks score crits on 18+." }
     ]
   },
 
@@ -1170,7 +1170,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     requires: "pa_t5_immortal_essence",
     spell: {
       name: "Avatar of the Undying Lichlord",
-      description: "Spend 6 DT: transform into the Immortal Lichlord for 1 minute: your phylactery capacity becomes infinite, all incoming attacks are absorbed by 100%, and you radiate a soul aura dealing 8d10 necrotic damage each round to all foes.",
+      description: "Spend 6 DT: transform into the Immortal Lichlord for 1 minute: your phylactery capacity becomes infinite, all incoming attacks are absorbed by 100 points, and you radiate a soul aura dealing 8d10 necrotic damage each round to all foes.",
       flavorText: "Death itself kneels before the master of the anchor.",
       source: "talent", class: "Revenant", treeId: "phylactery_anchor",
       spellType: "ACTIVE", category: "buff",
@@ -1233,7 +1233,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     requires: "pa_t6_the_immortal_phylactery",
     spell: {
       name: "The Eternal Reliquary Cataclysm",
-      description: "ULTIMATE: Spend 8 DT: detonate the soul power of the Frozen Archive for 1 minute: all dead party members resurrect instantly at 100% HP/mana, all party members gain +150 temporary health, and all enemies take 12d10 necrotic damage each round.",
+      description: "ULTIMATE: Spend 8 DT: detonate the soul power of the Frozen Archive for 1 minute: all dead party members resurrect instantly at 100 points HP/mana, all party members gain +150 temporary health, and all enemies take 12d10 necrotic damage each round.",
       flavorText: "The Archive opens its vault and pours eternity over the mortal world.",
       source: "talent", class: "Revenant", treeId: "phylactery_anchor",
       spellType: "ACTIVE", category: "healing",
@@ -1259,7 +1259,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     requires: "pa_t6_the_immortal_phylactery",
     spell: {
       name: "Phylactery Anchor Doctrine",
-      description: "All defensive shields, phylactery charging, and necrotic/frost damage you deal is increased by 10%.",
+      description: "All defensive shields, phylactery charging, and necrotic/frost damage you deal is increased by +1d6 damage.",
       flavorText: "The anchor holds fast against all storms.",
       source: "talent", class: "Revenant", treeId: "phylactery_anchor",
       spellType: "PASSIVE", category: "damage",
@@ -1267,10 +1267,10 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
       visualTheme: "wyrd", tags: ["passive", "capstone", "damage", "revenant"]
     },
     rankUpgrades: [
-      { description: "All shields and damage increased by 20%." },
-      { description: "All shields and damage increased by 35%." },
-      { description: "All shields and damage increased by 50%." },
-      { description: "All shields and damage increased by 70%, and Phylactery Soul Shield costs 0 mana." }
+      { description: "All shields and damage increased by +1d8 damage." },
+      { description: "All shields and damage increased by +1d8 damage." },
+      { description: "All shields and damage increased by +2d8 damage." },
+      { description: "All shields and damage increased by +2d8 damage, and Phylactery Soul Shield costs 0 mana." }
     ]
   },
   {
@@ -1302,7 +1302,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     requires: "pa_t6_phylactery_criticality",
     spell: {
       name: "Soul Rebound Shield",
-      description: "Whenever your phylactery absorbs damage, reflect 50% of the damage back to the attacker as frost/necrotic true damage.",
+      description: "Whenever your phylactery absorbs damage, reflect 50 points of the damage back to the attacker as frost/necrotic true damage.",
       flavorText: "Striking the vault shatters the thief's hands.",
       source: "talent", class: "Revenant", treeId: "phylactery_anchor",
       spellType: "PASSIVE", category: "damage",
@@ -1310,8 +1310,8 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
       visualTheme: "wyrd", tags: ["passive", "capstone", "reflect", "revenant"]
     },
     rankUpgrades: [
-      { description: "Reflect 75% of absorbed damage back as true damage." },
-      { description: "Reflect 100% of absorbed damage, and attackers are stunned for 1 round on hit." }
+      { description: "Reflect 75 points of absorbed damage back as true damage." },
+      { description: "Reflect 100 points of absorbed damage, and attackers are stunned for 1 round on hit." }
     ]
   },
   {
@@ -1323,15 +1323,15 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     requires: "pa_t6_eternal_soul_ward",
     spell: {
       name: "Phylactery Vessel Rebirth",
-      description: "While phylactery has at least 1 HP, lethal damage reconstructs your body instantly: restores 100% full health, sets DT to max, and grants 50 temp HP (cooldown: 120s).",
+      description: "While phylactery has at least 1 HP, lethal damage reconstructs your body instantly: restores 100 points full health, sets DT to max, and grants 50 temp HP (cooldown: 120s).",
       flavorText: "You cannot kill a vessel whose soul is stored elsewhere.",
       source: "talent", class: "Revenant", treeId: "phylactery_anchor",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "cheat-death", "revenant"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restore 100% HP, 75 temp HP, full DT (cooldown: 90s)." },
-      { description: "Survive lethal damage, restore 100% HP, and immediately activate The Eternal Reliquary Cataclysm for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 60 Hit Points, 75 temp HP, full DT (cooldown: 90s)." },
+      { description: "Survive lethal damage, restores 60 Hit Points, and immediately activate The Eternal Reliquary Cataclysm for free (cooldown: 60s)." }
     ]
   }
 ];

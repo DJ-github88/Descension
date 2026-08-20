@@ -46,7 +46,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     },
     rankUpgrades: [
       { description: "Deals 3d6 blight damage, applies 3 permanent Decay Stacks (max 15), and stacks tick for 1d6 blight each.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, dotTick: "1d6" },
-      { description: "Deals 3d6 blight damage, applies 4 permanent Decay Stacks (max 20), and ticks heal you for 10% of damage dealt.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, dotTick: "1d8" }
+      { description: "Deals 3d6 blight damage, applies 4 permanent Decay Stacks (max 20), and ticks heal you for 10 points of damage dealt.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, dotTick: "1d8" }
     ]
   },
   {
@@ -87,7 +87,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
       visualTheme: "poison", tags: ["passive", "lifesteal", "anti-heal", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Applying stacks heals for 2d4 health. Target healing reduction stacks up to 80% and reduces their durability by -2.", healing: { dice: "2d4", flat: 0 } }
+      { description: "Applying stacks heals for 2d4 health. Target healing reduction stacks up to 80 points and reduces their durability by -2.", healing: { dice: "2d4", flat: 0 } }
     ]
   },
 
@@ -115,7 +115,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
       visualTheme: "poison", tags: ["channel", "lifesteal", "execute", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Deals 1d10 blight per 2 Decay Stacks each round, heals you for 100%, and slows the target by 50% while channeling.", primaryDamage: { dice: "1d10", flat: 0, procChance: 100 } },
+      { description: "Deals 1d10 blight per 2 Decay Stacks each round, heals you for 100 points, and slows the target by 50 points while channeling.", primaryDamage: { dice: "1d10", flat: 0, procChance: 100 } },
       { description: "Deals 1d12 blight per 2 Decay Stacks each round. Can be channeled while moving, and target is immobilized while channeling.", primaryDamage: { dice: "1d12", flat: 0, procChance: 100 }, usableWhileMoving: true }
     ]
   },
@@ -216,7 +216,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     },
     rankUpgrades: [
       { description: "Forces Decay Stacks to tick 3 times instantly, and target is incapacitated for 1 round." },
-      { description: "Forces Decay Stacks to tick 3 times instantly, target is incapacitated for 1 round, and you heal for 50% of the damage dealt." }
+      { description: "Forces Decay Stacks to tick 3 times instantly, target is incapacitated for 1 round, and you heals for for 3d8 Hit Points." }
     ]
   },
   {
@@ -249,7 +249,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     requires: "dh_t4_organ_collapse",
     spell: {
       name: "Miasmic Shroud",
-      description: "Spend 3 Virulence: shroud yourself in vaporized rot for 1 minute. You gain +3 Durability Steps to equipped durability and 20% all-damage resistance. Attackers who strike you in melee immediately gain 2 permanent Decay Stacks.",
+      description: "Spend 3 Virulence: shroud yourself in vaporized rot for 1 minute. You gain +3 Durability Steps to equipped durability and 4 Damage Reduction against all-damage. Attackers who strike you in melee immediately gain 2 permanent Decay Stacks.",
       flavorText: "Court is held in the rot. All rise. Most cannot.",
       source: "talent", class: "Plaguebringer", treeId: "decay_harbinger",
       spellType: "ACTIVE", category: "buff",
@@ -262,7 +262,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
       buffs: ["miasmic-shroud"], visualTheme: "poison", tags: ["defense", "retaliation", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Gain +4 Durability Steps to equipped durability, 30% resistance, and attackers in melee gain 3 Decay Stacks and take 2d8 blight damage.", cooldownValue: 24 }
+      { description: "Gain +4 Durability Steps to equipped durability, 6 Damage Reduction, and attackers in melee gain 3 Decay Stacks and take 2d8 blight damage.", cooldownValue: 24 }
     ]
   },
   {
@@ -342,14 +342,14 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     requires: "dh_t5_total_collapse",
     spell: {
       name: "Rot Memory",
-      description: "Enemies who have ever carried 5+ Decay Stacks permanently take 15% more damage from all your spells for the remainder of the encounter.",
+      description: "Enemies who have ever carried 5+ Decay Stacks permanently suffer +1d6 bonus damage from all your spells for the remainder of the encounter.",
       flavorText: "Survival is a record. The garden keeps records.",
       source: "talent", class: "Plaguebringer", treeId: "decay_harbinger",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", visualTheme: "poison", tags: ["passive", "mark", "vulnerability", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Rot Memory increases all damage taken by 30% and reduces target movement speed by 15ft permanently." }
+      { description: "Rot Memory increases all damage taken by 30 points and reduces target movement speed by 15ft permanently." }
     ]
   },
 
@@ -388,7 +388,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     requires: "dh_t6_apocalyptic_decay",
     spell: {
       name: "Peat-Heart Doctrine",
-      description: "The Wastes beat slowly in your chest. All blight damage you deal is increased by 10%.",
+      description: "The Wastes beat slowly in your chest. All blight damage you deal is increased by +1d6 damage.",
       flavorText: "Slow pulse. Long memory.",
       source: "talent", class: "Plaguebringer", treeId: "decay_harbinger",
       spellType: "PASSIVE", category: "buff",
@@ -396,10 +396,10 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
       visualTheme: "poison", tags: ["passive", "capstone", "damage", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "All blight damage you deal is increased by 20%." },
-      { description: "All blight damage you deal is increased by 35%." },
-      { description: "All blight damage you deal is increased by 50%." },
-      { description: "All blight damage you deal is increased by 70%, and Rupture Cyst costs 0 Virulence." }
+      { description: "All blight damage you deal is increased by +1d8 damage." },
+      { description: "All blight damage you deal is increased by +1d8 damage." },
+      { description: "All blight damage you deal is increased by +2d8 damage." },
+      { description: "All blight damage you deal is increased by +2d8 damage, and Rupture Cyst costs 0 Virulence." }
     ]
   },
   {
@@ -418,8 +418,8 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
       targetingMode: "self", visualTheme: "poison", tags: ["passive", "capstone", "dot", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Decay Stacks tick twice per round, and each tick deals +25% bonus damage." },
-      { description: "Decay Stacks tick twice per round at +50% damage, and each tick restores 1 mana and 1 Virulence." }
+      { description: "Decay Stacks tick twice per round, and each tick deals +25 points bonus damage." },
+      { description: "Decay Stacks tick twice per round at +50 points damage, and each tick restores 1 mana and 1 Virulence." }
     ]
   },
   {

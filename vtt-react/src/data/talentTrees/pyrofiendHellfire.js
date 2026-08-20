@@ -1,439 +1,332 @@
 // ============================================
-// PYROFIEND — HELLFIRE (v2: talents are spells)
-// Schema: see talentSystem.mjs. Rank N spell = rank N-1 + rankUpgrades[N-2].
-// Economy: 8/6/6/5/5/5 = 30 pts (tiers 1-6) + 15 pts (tier 7) = 50.
-// Resource: Vengeance Points (VP) / Inferno Levels. The drain tree: agony, vitality, demon form, soul chains.
+// PYROFIEND — HELLFIRE (v3: Rebalanced Tier Budgets, Normalized Grid Coordinates)
+// Schema: see talentSystem.mjs.
+// Grid coordinates: x (0..4), y (0..6 representing Tiers 1..7).
+//
+// FANTASY: The Dark Brimstone / Volcanic Ash / Heavy Suppressive Fire.
 // ============================================
 
 export const PYROFIEND_HELLFIRE = [
+  // ──────────────── TIER 1 (Row 0) ────────────────
   {
     id: "hf_t1_ember_resilience",
-    name: "Ember Resilience",
+    name: "Brimstone Hardening",
     icon: "spell_shadow_shadowwordpain",
     maxRanks: 3,
-    position: { x: 1.5, y: 0 },
+    position: { x: 1, y: 0 },
     requires: null,
     spell: {
-      name: "Ember Resilience",
-      description: "The Wyrd-touched core within you mends flesh even as it burns. You gain 2 health each time you ascend an Inferno Level, and ember damage cannot reduce you below 1 health.",
-      flavorText: "The fire that lives in you pays rent in skin.",
+      name: "Brimstone Hardening",
+      description: "Passive: Your skin hardens with volcanic crust, granting you +1 Damage Reduction against physical attacks.",
+      flavorText: "The fire that lives in you pays rent in stone.",
       source: "talent", class: "Pyrofiend", treeId: "hellfire",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", damageTypes: ["ember"],
-      visualTheme: "fire", tags: ["passive", "survival", "pyrofiend"]
+      targetingMode: "self", visualTheme: "fire", tags: ["passive", "dr", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "The Wyrd-touched core within you mends flesh even as it burns. You gain 4 health each time you ascend an Inferno Level, and ember damage cannot reduce you below 1 health." },
-      { description: "The Wyrd-touched core within you mends flesh even as it burns. You gain 6 health each time you ascend an Inferno Level, and ember damage cannot reduce you below 1 health." }
+      { description: "Physical Damage Reduction increases to +2." },
+      { description: "Physical Damage Reduction increases to +2, and you gain +2 to saving throws against knockdowns." }
     ]
   },
   {
     id: "hf_t1_soul_fire",
-    name: "Soul Fire",
+    name: "Brimstone Leach",
     icon: "spell_fire_soulburn",
     maxRanks: 3,
-    position: { x: 0.5, y: 0 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
-      name: "Soul Fire",
-      description: "Ember hunger infuses every spark you cast, each flame a leech upon the soul. Your ember spells deal 1d4 additional ember damage, and you heal for 25% of the ember damage you deal.",
-      flavorText: "Every flame is a mouth.",
+      name: "Brimstone Leach",
+      description: "Passive: Whenever you deal ember damage to an enemy within 20 feet, restore 1 Hit Point.",
+      flavorText: "Every flame is a hungry mouth.",
       source: "talent", class: "Pyrofiend", treeId: "hellfire",
-      spellType: "PASSIVE", category: "damage",
+      spellType: "PASSIVE", category: "buff",
       targetingMode: "self", damageTypes: ["ember"],
-      primaryDamage: { dice: "1d4", flat: 0, procChance: 100 },
       visualTheme: "fire", tags: ["passive", "lifesteal", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "Ember hunger infuses every spark you cast, each flame a leech upon the soul. Your ember spells deal 1d6 additional ember damage, and you heal for 25% of the ember damage you deal.", primaryDamage: { dice: "1d6", flat: 0, procChance: 100 } },
-      { description: "Ember hunger infuses every spark you cast, each flame a leech upon the soul. Your ember spells deal 1d8 additional ember damage, and you heal for 40% of the ember damage you deal.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } }
+      { description: "Restores 2 Hit Points on hit." },
+      { description: "Restores 3 Hit Points on hit and your ember spells deal +1d4 dark ember damage." }
     ]
   },
   {
     id: "hf_t1_dark_empowerment",
-    name: "Dark Empowerment",
+    name: "Ash Shroud",
     icon: "spell_shadow_soulburn",
     maxRanks: 2,
-    position: { x: 3.5, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
-      name: "Dark Empowerment",
-      description: "Every wound is a step deeper into Abyssal power. When you take ember damage, ascend 1 Inferno Level.",
-      flavorText: "The Abyss rewards attendance.",
+      name: "Ash Shroud",
+      description: "Passive: A swirling cloud of dark volcanic ash surrounds you. Ranged weapon attacks against you suffer -1 to hit.",
+      flavorText: "The Abyss grants obscurity to its favored.",
       source: "talent", class: "Pyrofiend", treeId: "hellfire",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", damageTypes: ["ember"],
-      visualTheme: "fire", tags: ["passive", "ascent", "pyrofiend"]
+      targetingMode: "self", visualTheme: "fire", tags: ["passive", "deflection", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "Every wound is a step deeper into Abyssal power. When you take ember damage, ascend 1 Inferno Level, and when you take non-ember damage, reduce your next Inferno drawback self-damage by 1d6." }
+      { description: "Ranged attacks against you suffer -2 to hit, and you can hide in dim light or ash clouds." }
     ]
   },
 
+  // ──────────────── TIER 2 (Row 1) ────────────────
   {
     id: "hf_t2_drain_life",
-    name: "Drain Life",
+    name: "Searing Siphon",
     icon: "spell_shadow_lifedrain",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "hf_t1_ember_resilience",
     spell: {
-      name: "Drain Life",
-      description: "The Abyss teaches you to take what burns, making their agony your vitality. Deal 3d6 ember damage to a target within 60 feet and heal for the damage dealt.",
+      name: "Searing Siphon",
+      description: "Spend 1 AP: Channel a beam of dark flame into a target within 40 feet, dealing 1d8 ember damage and healing you for 3 Hit Points.",
       flavorText: "Generosity, reversed.",
       source: "talent", class: "Pyrofiend", treeId: "hellfire",
       spellType: "ACTIVE", category: "damage",
-      targetingMode: "single", rangeType: "ranged", range: 60,
-      castTimeType: "short", castTimeValue: 1.5,
-      cooldownCategory: "medium", cooldownValue: 12, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
-      resourceCosts: { mana: { baseAmount: 15 } },
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "ranged", range: 40,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 1, cooldownUnit: "round",
+      primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
       damageTypes: ["ember"],
-      primaryDamage: { dice: "3d6", flat: 0, procChance: 100 },
       visualTheme: "fire", tags: ["drain", "healing", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "The Abyss teaches you to take what burns, making their agony your vitality. Deal 4d6 ember damage to a target within 60 feet and heal for the damage dealt.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 } },
-      { description: "The Abyss teaches you to take what burns, making their agony your vitality. Deal 6d6 ember damage to a target within 60 feet and heal for 125% of the damage dealt.", primaryDamage: { dice: "6d6", flat: 0, procChance: 100 } }
+      { description: "Deals 2d6 ember damage and heals for 5 Hit Points.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
+      { description: "Deals 2d8 ember damage, heals for 7 Hit Points, and slows the target's movement by 10 feet.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } }
     ]
   },
   {
     id: "hf_t2_cinderward",
-    name: "Cinderward",
+    name: "Brimstone Ward",
     icon: "spell_fire_twilightfireward",
     maxRanks: 3,
-    position: { x: 2.5, y: 1.5 },
-    requires: "hf_t1_soul_fire",
+    position: { x: 3, y: 1 },
+    requires: "hf_t1_dark_empowerment",
     spell: {
-      name: "Cinderward",
-      description: "Abyssal flames coalesce into a barrier of Wyrd-touched protection. When you ascend to a new Inferno Level, gain a shield absorbing 2d6 damage per level reached.",
-      flavorText: "Every promotion comes with benefits.",
-      source: "talent", class: "Pyrofiend", treeId: "hellfire",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "shield", "ascent", "pyrofiend"]
-    },
-    rankUpgrades: [
-      { description: "Abyssal flames coalesce into a barrier of Wyrd-touched protection. When you ascend to a new Inferno Level, gain a shield absorbing 3d6 damage per level reached." },
-      { description: "Abyssal flames coalesce into a barrier of Wyrd-touched protection. When you ascend to a new Inferno Level, gain a shield absorbing 4d6 damage per level reached; when the shield breaks, it deals its remaining absorb as ember damage to nearby enemies." }
-    ]
-  },
-  {
-    id: "hf_t2_soul_link",
-    name: "Soul Link",
-    icon: "spell_shadow_soulburn",
-    maxRanks: 3,
-    position: { x: 2, y: 1.5 },
-    requires: "hf_t1_drain_life",
-    spell: {
-      name: "Soul Link",
-      description: "Ember chains of Abyssal fire bind your soul to theirs. Link to an enemy within 60 feet for 1 minute: roll 1d6 when they take damage — on 4+, you heal 1d6.",
-      flavorText: "Marriage of inconvenience.",
+      name: "Brimstone Ward",
+      description: "Spend 1 AP: Form a hardened mantle of black slag, gaining 6 temporary Hit Points and +1 Armor for 2 rounds.",
+      flavorText: "Every promotion comes with hardened crust.",
       source: "talent", class: "Pyrofiend", treeId: "hellfire",
       spellType: "ACTIVE", category: "buff",
-      targetingMode: "single", rangeType: "ranged", range: 60,
+      actionPoints: 1,
+      targetingMode: "self",
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { mana: { baseAmount: 12 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
-      healing: { dice: "1d6", flat: 0 },
-      buffs: ["soul-link"], visualTheme: "fire", tags: ["link", "lifesteal", "pyrofiend"]
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      visualTheme: "fire", tags: ["shield", "armor", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "Ember chains of Abyssal fire bind your soul to theirs. Link to an enemy within 60 feet for 1 minute: roll 1d6 when they take damage — on 4+, you heal 2d6.", healing: { dice: "2d6", flat: 0 } },
-      { description: "Ember chains of Abyssal fire bind your soul to theirs. Link to an enemy within 60 feet for 1 minute: when they take damage, you heal 2d6 (no roll needed).", healing: { dice: "2d6", flat: 0 } }
+      { description: "Grants 10 temporary Hit Points and +2 Armor." },
+      { description: "Grants 14 temporary Hit Points, +2 Armor, and when broken erupts for 1d8 ember damage to adjacent enemies." }
     ]
   },
 
+  // ──────────────── TIER 3 (Row 2) ────────────────
   {
     id: "hf_t3_demon_form",
-    name: "Demon Form",
-    icon: "spell_shadow_metamorphosis",
+    name: "Volcanic Spike",
+    icon: "spell_fire_volcano",
     maxRanks: 3,
-    position: { x: 1, y: 2.5 },
-    requires: "hf_t2_soul_link",
+    position: { x: 1, y: 2 },
+    requires: "hf_t2_drain_life",
     spell: {
-      name: "Demon Form",
-      description: "Emberspire's true children shed their mortal guise. Transform for 1 minute: +2 Durability Steps to equipped durability, +1 to all saves, regenerate 1d8 health per round. Costs 2 Inferno Levels.",
-      flavorText: "The guise was the disguise.",
+      name: "Volcanic Spike",
+      description: "Spend 1 AP: Erupt a jagged spike of molten brimstone under an enemy within 45 feet, dealing 2d6 piercing + 1d6 ember damage (3d6 total) and Pinning the target for 1 round on a failed Fortitude save.",
+      flavorText: "The earth punches upward with a fist of obsidian.",
       source: "talent", class: "Pyrofiend", treeId: "hellfire",
-      spellType: "ACTIVE", category: "buff",
-      targetingMode: "self", rangeType: "self", range: 0,
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 120, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { infernoLevel: { baseAmount: 2 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
-      healing: { dice: "1d8", flat: 0, isHoT: true, hotDuration: 6, hotTick: "1d8" },
-      buffs: ["demon-form"], visualTheme: "fire", tags: ["transform", "regen", "pyrofiend"]
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      primaryDamage: { dice: "3d6", flat: 0, procChance: 100 },
+      damageTypes: ["piercing", "ember"],
+      visualTheme: "fire", tags: ["strike", "spike", "pin", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "Emberspire's true children shed their mortal guise. Transform for 1 minute: +4 Durability Steps to equipped durability, +2 to all saves, regenerate 2d8 health per round. Costs 2 Inferno Levels.", healing: { dice: "2d8", flat: 0, isHoT: true, hotDuration: 6, hotTick: "2d8" } },
-      { description: "Emberspire's true children shed their mortal guise. Transform for 1 minute: +6 Durability Steps to equipped durability, +3 to all saves, regenerate 3d8 health per round, and your melee strikes deal +1d8 ember damage. Costs 2 Inferno Levels.", healing: { dice: "3d8", flat: 0, isHoT: true, hotDuration: 6, hotTick: "3d8" }, damageTypes: ["ember"], primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } }
+      { description: "Deals 2d6 piercing + 2d6 ember damage (4d6 total) and creates difficult terrain in a 5-foot radius.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 } },
+      { description: "Deals 2d8 piercing + 2d8 ember damage (4d8 total), Pins target, and shatters for 1d6 shrapnel on impact.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
     ]
   },
   {
-    id: "hf_t3_dark_barrier",
-    name: "Dark Barrier",
-    icon: "spell_shadow_antishadow",
-    maxRanks: 2,
-    position: { x: 4, y: 2.5 },
-    requires: "hf_t3_demon_form",
-    spell: {
-      name: "Dark Barrier",
-      description: "The Abyss radiates from you, a field of pure Wyrd-touched dread that breaks mortal will. Enemies within 15 feet have disadvantage on saving throws against your ember effects.",
-      flavorText: "Willpower is flammable near you.",
-      source: "talent", class: "Pyrofiend", treeId: "hellfire",
-      spellType: "PASSIVE", category: "debuff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "aura", "penetration", "pyrofiend"]
-    },
-    rankUpgrades: [
-      { description: "The Abyss radiates from you, a field of pure Wyrd-touched dread that breaks mortal will. Enemies within 30 feet have disadvantage on saving throws against your ember effects." }
-    ]
-  },
-  {
-    id: "hf_t3_hellish_aura",
-    name: "Hellish Aura",
-    icon: "spell_shadow_shadowwordpain",
+    id: "hf_t3_soul_link",
+    name: "Suffocating Ash",
+    icon: "spell_shadow_mindrot",
     maxRanks: 3,
-    position: { x: 0, y: 2.5 },
-    requires: "hf_t3_demon_form",
+    position: { x: 3, y: 2 },
+    requires: "hf_t2_cinderward",
     spell: {
-      name: "Hellish Aura",
-      description: "Your mere presence becomes a weapon. Enemies within 20 feet take 1d6 ember damage at the start of your turn and have -1 to attack rolls.",
-      flavorText: "Atmosphere, weaponized.",
-      source: "talent", class: "Pyrofiend", treeId: "hellfire",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["ember"],
-      primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
-      visualTheme: "fire", tags: ["passive", "aura", "pyrofiend"]
-    },
-    rankUpgrades: [
-      { description: "Your mere presence becomes a weapon. Enemies within 20 feet take 2d6 ember damage at the start of your turn and have -2 to attack rolls.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
-      { description: "Your mere presence becomes a weapon. Enemies within 30 feet take 3d6 ember damage at the start of your turn and have -3 to attack rolls.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
-    ]
-  },
-
-  {
-    id: "hf_t4_eternal_torment",
-    name: "Eternal Torment",
-    icon: "spell_shadow_requiem",
-    maxRanks: 2,
-    position: { x: 0, y: 3.5 },
-    requires: "hf_t3_dark_barrier",
-    spell: {
-      name: "Eternal Torment",
-      description: "Death by your hand is never clean. Enemies killed by your ember damage explode, dealing 2d6 ember damage to enemies within 10 feet.",
-      flavorText: "Funeral arrangements, abbreviated.",
-      source: "talent", class: "Pyrofiend", treeId: "hellfire",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["ember"],
-      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
-      visualTheme: "fire", tags: ["passive", "execution", "explode", "pyrofiend"]
-    },
-    rankUpgrades: [
-      { description: "Death by your hand is never clean. Enemies killed by your ember damage explode, dealing 3d6 ember damage to enemies within 15 feet, and each explosion heals you 1d4.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
-    ]
-  },
-  {
-    id: "hf_t4_fear_realm",
-    name: "Fear Realm",
-    icon: "spell_shadow_shadowwordpain",
-    maxRanks: 1,
-    position: { x: 0.5, y: 3.5 },
-    requires: "hf_t3_hellish_aura",
-    spell: {
-      name: "Fear Realm",
-      description: "Emberspire nightmares bleed into reality. Create a 40-foot zone of terror within 60 feet for 3 rounds: enemies inside must save or be frightened, and take 2d6 wyrd damage per round.",
-      flavorText: "Nightmare, zoned and permitted.",
+      name: "Suffocating Ash",
+      description: "Spend 1 AP: Erupt a 15-foot cloud of choking volcanic ash within 40 feet for 2 rounds. Enemies inside have Disadvantage on Perception checks and suffer 1d6 ember damage when casting spells.",
+      flavorText: "Breathe in the powdered glass of Emberspire.",
       source: "talent", class: "Pyrofiend", treeId: "hellfire",
       spellType: "ACTIVE", category: "debuff",
-      targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 40,
-      castTimeType: "short", castTimeValue: 2,
-      cooldownCategory: "long", cooldownValue: 60, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
-      resourceCosts: { mana: { baseAmount: 30 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
-      damageTypes: ["wyrd"],
-      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
-      isDot: true, dotDuration: 3, dotTick: "2d6",
-      debuffs: ["frightened"], visualTheme: "fire", tags: ["zone", "fear", "pyrofiend"]
-    }
-  },
-
-  {
-    id: "hf_t5_soul_harvest",
-    name: "Soul Harvest",
-    icon: "spell_shadow_soulburn",
-    maxRanks: 2,
-    position: { x: 1, y: 4.5 },
-    requires: "hf_t3_hellish_aura",
-    spell: {
-      name: "Soul Harvest",
-      description: "The Abyss demands tribute, and you deliver souls by the handful. Consume the souls of all enemies in a 30-foot radius: deal 3d8 ember damage to each and heal for the total damage dealt. Costs 2 Inferno Levels.",
-      flavorText: "Bulk rates apply.",
-      source: "talent", class: "Pyrofiend", treeId: "hellfire",
-      spellType: "ACTIVE", category: "damage",
-      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 30,
-      castTimeType: "short", castTimeValue: 2,
-      cooldownCategory: "long", cooldownValue: 60, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
-      resourceCosts: { infernoLevel: { baseAmount: 2 }, mana: { baseAmount: 10 } },
+      actionPoints: 1,
+      targetingMode: "aoe", aoeShape: "circle", aoeSize: 15, rangeType: "ranged", range: 40,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
       damageTypes: ["ember"],
-      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
-      visualTheme: "fire", tags: ["drain", "aoe", "healing", "pyrofiend"]
+      visualTheme: "fire", tags: ["aoe", "cloud", "silence-hazard", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "The Abyss demands tribute, and you deliver souls by the handful. Consume the souls of all enemies in a 40-foot radius: deal 5d8 ember damage to each and heal for 150% of the total damage dealt. Costs 2 Inferno Levels.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 } }
-    ]
-  },
-  {
-    id: "hf_t5_demonic_dominion",
-    name: "Demonic Dominion",
-    icon: "spell_shadow_antishadow",
-    maxRanks: 2,
-    position: { x: 1.5, y: 4.5 },
-    requires: "hf_t4_eternal_torment",
-    spell: {
-      name: "Demonic Dominion",
-      description: "Emberspire's legions heed your command. Your summoned demons gain +2 to all rolls and deal +1d6 ember damage.",
-      flavorText: "Management has its privileges.",
-      source: "talent", class: "Pyrofiend", treeId: "hellfire",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", damageTypes: ["ember"],
-      visualTheme: "fire", tags: ["passive", "summon", "buff", "pyrofiend"]
-    },
-    rankUpgrades: [
-      { description: "Emberspire's legions heed your command. Your summoned demons gain +4 to all rolls, deal +2d6 ember damage, and share your Soul Fire healing." }
+      { description: "Cloud size increases to 20 feet, and spellcasting backlash increases to 1d8 ember damage." },
+      { description: "Enemies inside are Silenced on turns they take ember damage." }
     ]
   },
 
+  // ──────────────── TIER 4 (Row 3) ────────────────
   {
-    id: "hf_t6_immortal",
-    name: "Immortal",
-    icon: "spell_shadow_requiem",
-    maxRanks: 3,
-    position: { x: 1.5, y: 5.5 },
-    requires: "hf_t4_fear_realm",
-    spell: {
-      name: "Immortal",
-      description: "Emberspire's gift of undeath keeps you standing when all others fall to ash. At Inferno Level 5 or higher, you cannot die from health loss; instead you persist at 1 health. This does not protect against the Demon's Bargain.",
-      flavorText: "Death got tired of the paperwork.",
-      source: "talent", class: "Pyrofiend", treeId: "hellfire",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "survival", "pyrofiend"]
-    },
-    rankUpgrades: [
-      { description: "Emberspire's gift of undeath keeps you standing when all others fall to ash. At Inferno Level 4 or higher, you cannot die from health loss; instead you persist at 1 health. This does not protect against the Demon's Bargain." },
-      { description: "Emberspire's gift of undeath keeps you standing when all others fall to ash. At Inferno Level 3 or higher, you cannot die from health loss; instead you persist at 1 health and immediately regain 10 health once per combat. This does not protect against the Demon's Bargain." }
-    ]
-  },
-
-  {
-    id: "hf_t7_prince_of_hell",
-    name: "Prince of Hell",
-    icon: "spell_shadow_soulburn",
+    id: "hf_t4_soul_chains",
+    name: "Brimstone Clasp",
+    icon: "spell_shadow_shadowworddominate",
     maxRanks: 1,
-    position: { x: 0, y: 7 },
-    requires: "hf_t5_soul_harvest",
+    position: { x: 2, y: 3 },
+    requires: ["hf_t3_demon_form", "hf_t3_soul_link"],
     spell: {
-      name: "Prince of Hell",
-      description: "ULTIMATE: The Emberspire throne awaits — tear open the Abyss itself. Open a Hell Portal for 1 minute: up to 3 Wyrd-touched minions pour through under your command, and all enemies within 60 feet of the portal take 6d8 ember damage per round. Costs 4 Inferno Levels.",
-      flavorText: "The kingdom has an open-door policy. The doors are the problem.",
+      name: "Brimstone Clasp",
+      description: "Spend 1 AP: Hurl chains of dark molten iron at an enemy within 40 feet dealing 2d8 ember damage and pulling them 20 feet toward you, immobilizing them for 1 round on a failed Strength save.",
+      flavorText: "Tethered to the hearth of doom.",
       source: "talent", class: "Pyrofiend", treeId: "hellfire",
       spellType: "ACTIVE", category: "damage",
-      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
-      castTimeType: "short", castTimeValue: 3,
-      cooldownCategory: "long", cooldownValue: 300, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
-      resourceCosts: { infernoLevel: { baseAmount: 4 }, mana: { baseAmount: 30 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "ranged", range: 40,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       damageTypes: ["ember"],
-      primaryDamage: { dice: "6d8", flat: 0, procChance: 100 },
-      isDot: true, dotDuration: 6, dotTick: "6d8",
-      visualTheme: "fire", tags: ["ultimate", "capstone", "summon", "portal", "pyrofiend"]
+      visualTheme: "fire", tags: ["pull", "chain", "immobilize", "pyrofiend"]
+    }
+  },
+
+  // ──────────────── TIER 5 (Row 4) ────────────────
+  {
+    id: "hf_t5_dark_vitality",
+    name: "Abyssal Siphon",
+    icon: "spell_shadow_antimagicshell",
+    maxRanks: 3,
+    position: { x: 1, y: 4 },
+    requires: "hf_t4_soul_chains",
+    spell: {
+      name: "Abyssal Siphon",
+      description: "Passive: Critical hits with your dark ember spells heal you for 6 Hit Points and grant you +1 Damage Reduction for 1 round.",
+      flavorText: "Taking vitality straight from their marrow.",
+      source: "talent", class: "Pyrofiend", treeId: "hellfire",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "fire", tags: ["passive", "crit-heal", "pyrofiend"]
+    },
+    rankUpgrades: [
+      { description: "Critical hits heal for 10 Hit Points and grant +2 Damage Reduction." },
+      { description: "Critical hits heal for 14 Hit Points, grant +2 Damage Reduction, and cause the target to drop 1 rank of weapon guard." }
+    ]
+  },
+  {
+    id: "hf_t5_crushing_gravity",
+    name: "Obsidian Weight",
+    icon: "spell_shadow_curseofsargeras",
+    maxRanks: 2,
+    position: { x: 3, y: 4 },
+    requires: "hf_t4_soul_chains",
+    spell: {
+      name: "Obsidian Weight",
+      description: "Passive: Enemies taking damage from your ground hazards or volcanic spikes suffer Disadvantage on Strength checks and saving throws for 1 round.",
+      flavorText: "The weight of the mountain bears down upon their limbs.",
+      source: "talent", class: "Pyrofiend", treeId: "hellfire",
+      spellType: "PASSIVE", category: "debuff",
+      targetingMode: "self", visualTheme: "fire", tags: ["passive", "save-debuff", "pyrofiend"]
+    },
+    rankUpgrades: [
+      { description: "Enemies also suffer -2 to their Armor class while affected." }
+    ]
+  },
+
+  // ──────────────── TIER 6 (Row 5) ────────────────
+  {
+    id: "hf_t6_dark_oblivion",
+    name: "Brimstone Calamity",
+    icon: "spell_fire_meteorstorm",
+    maxRanks: 3,
+    position: { x: 2, y: 5 },
+    requires: ["hf_t5_dark_vitality", "hf_t5_crushing_gravity"],
+    spell: {
+      name: "Brimstone Calamity",
+      description: "Spend 2 AP: Call down heavy volcanic slag on a 25-foot area dealing 3d8 ember + 1d8 bludgeoning damage (4d8 total) and creating heavy rubble terrain for 3 rounds.",
+      flavorText: "The ceiling of the cavern gives way to molten iron.",
+      source: "talent", class: "Pyrofiend", treeId: "hellfire",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 2,
+      targetingMode: "aoe", aoeShape: "circle", aoeSize: 25, rangeType: "ranged", range: 40,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
+      damageTypes: ["ember", "bludgeoning"],
+      visualTheme: "fire", tags: ["aoe", "calamity", "rubble", "pyrofiend"]
+    },
+    rankUpgrades: [
+      { description: "Deals 4d10 total damage and Knocks all targets Prone on a failed Fortitude save.", primaryDamage: { dice: "4d10", flat: 0, procChance: 100 } },
+      { description: "Deals 4d10 total damage, knocks Prone, and you heal for 8 Hit Points if at least 2 enemies are hit.", primaryDamage: { dice: "4d10", flat: 0, procChance: 100 } }
+    ]
+  },
+
+  // ──────────────── TIER 7 (Row 6 - Capstones) ────────────────
+  {
+    id: "hf_t7_avatar_of_brimstone",
+    name: "Avatar of Brimstone",
+    icon: "spell_shadow_demonicempathy",
+    maxRanks: 1,
+    position: { x: 2, y: 6 },
+    requires: "hf_t6_dark_oblivion",
+    spell: {
+      name: "Avatar of Brimstone",
+      description: "ULTIMATE: Spend 2 AP: For 2 rounds, transform into an avatar of dark basalt and magma. You gain +4 Damage Reduction, your attacks deal +1d10 dark ember damage, and all enemies within 10 feet suffer 4 ember damage and -10 feet movement speed at the start of their turns.",
+      flavorText: "The mountain awakens in flesh.",
+      source: "talent", class: "Pyrofiend", treeId: "hellfire",
+      spellType: "ACTIVE", category: "buff",
+      actionPoints: 2,
+      targetingMode: "self",
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 5, cooldownUnit: "rounds",
+      visualTheme: "fire", tags: ["ultimate", "avatar", "pyrofiend"]
     }
   },
   {
-    id: "hf_t7_soul_engine",
-    name: "Soul Engine",
-    icon: "spell_shadow_lifedrain",
-    maxRanks: 5,
-    position: { x: 0, y: 7.5 },
-    requires: "hf_t5_soul_harvest",
+    id: "hf_t7_obsidian_skin",
+    name: "Obsidian Core",
+    icon: "spell_shadow_shadowform",
+    maxRanks: 2,
+    position: { x: 1, y: 6 },
+    requires: "hf_t6_dark_oblivion",
     spell: {
-      name: "Soul Engine",
-      description: "You have industrialized the harvest. All healing you receive from Soul Fire, Drain Life, and Soul Link is increased by 10%.",
-      flavorText: "Throughput is a virtue.",
-      source: "talent", class: "Pyrofiend", treeId: "hellfire",
-      spellType: "PASSIVE", category: "healing",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "capstone", "lifesteal", "pyrofiend"]
-    },
-    rankUpgrades: [
-      { description: "You have industrialized the harvest. All healing you receive from Soul Fire, Drain Life, and Soul Link is increased by 20%." },
-      { description: "You have industrialized the harvest. All healing you receive from Soul Fire, Drain Life, and Soul Link is increased by 30%." },
-      { description: "You have industrialized the harvest. All healing you receive from Soul Fire, Drain Life, and Soul Link is increased by 45%." },
-      { description: "You have industrialized the harvest. All healing you receive from Soul Fire, Drain Life, and Soul Link is increased by 60%." }
-    ]
-  },
-  {
-    id: "hf_t7_ash_immunity",
-    name: "Ash Immunity",
-    icon: "spell_fire_flamebolt",
-    maxRanks: 3,
-    position: { x: 0, y: 7.5 },
-    requires: "hf_t5_soul_harvest",
-    spell: {
-      name: "Ash Immunity",
-      description: "What is already ash cannot burn twice. You take 15% less damage from all sources while at Inferno Level 5 or higher.",
-      flavorText: "Fully cooked, technically invincible.",
+      name: "Obsidian Core",
+      description: "Passive: You cannot be Stunned or Dazed by physical attacks, and your maximum health increases by 10 Hit Points.",
+      flavorText: "Basalt does not yield to blunt force.",
       source: "talent", class: "Pyrofiend", treeId: "hellfire",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "capstone", "defense", "pyrofiend"]
+      targetingMode: "self", visualTheme: "fire", tags: ["passive", "immunity", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "What is already ash cannot burn twice. You take 25% less damage from all sources while at Inferno Level 5 or higher." },
-      { description: "What is already ash cannot burn twice. You take 35% less damage from all sources while at Inferno Level 4 or higher, and you are immune to frightened." }
+      { description: "Maximum health increases by 20 Hit Points, and you gain +2 Armor." }
     ]
   },
   {
-    id: "hf_t7_burning_bargain",
-    name: "Burning Bargain",
-    icon: "spell_shadow_metamorphosis",
-    maxRanks: 3,
-    position: { x: 0, y: 6.5 },
-    requires: "hf_t5_demonic_dominion",
+    id: "hf_t7_hellfire_eruption",
+    name: "Volcanic Rupture",
+    icon: "spell_fire_selfdestruct",
+    maxRanks: 2,
+    position: { x: 3, y: 6 },
+    requires: "hf_t6_dark_oblivion",
     spell: {
-      name: "Burning Bargain",
-      description: "Demon Form grows more throne than transformation. While in Demon Form, you gain +10% of your maximum health as additional health.",
-      flavorText: "The fine print favors the incumbent.",
+      name: "Volcanic Rupture",
+      description: "Passive: When you take damage equal to 15 or more in a single hit, unleash an automatic burst of dark magma dealing 2d8 ember damage to all adjacent enemies.",
+      flavorText: "Cracking the crust spills the mantle.",
       source: "talent", class: "Pyrofiend", treeId: "hellfire",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "capstone", "transform", "pyrofiend"]
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["ember"],
+      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
+      visualTheme: "fire", tags: ["passive", "retaliation", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "Demon Form grows more throne than transformation. While in Demon Form, you gain +20% of your maximum health as additional health and +1 Durability Steps to equipped durability." },
-      { description: "Demon Form grows more throne than transformation. While in Demon Form, you gain +30% of your maximum health as additional health, +1 Durability Steps to equipped durability, and your aura radius doubles." }
-    ]
-  },
-  {
-    id: "hf_t7_torment_economy",
-    name: "Torment Economy",
-    icon: "spell_shadow_requiem",
-    maxRanks: 3,
-    position: { x: 0, y: 5.5 },
-    requires: "hf_t5_demonic_dominion",
-    spell: {
-      name: "Torment Economy",
-      description: "Suffering, recycled. Each enemy affected by your Hellish Aura at the start of your turn restores 2 mana.",
-      flavorText: "Their misery, monetized.",
-      source: "talent", class: "Pyrofiend", treeId: "hellfire",
-      spellType: "PASSIVE", category: "utility",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "capstone", "mana", "pyrofiend"]
-    },
-    rankUpgrades: [
-      { description: "Suffering, recycled. Each enemy affected by your Hellish Aura at the start of your turn restores 4 mana." },
-      { description: "Suffering, recycled. Each enemy affected by your Hellish Aura at the start of your turn restores 4 mana and reduces your Inferno drawback self-damage by 1." }
+      { description: "Retaliation deals 3d8 ember damage and heals you for 4 Hit Points per enemy hit." }
     ]
   }
 ];

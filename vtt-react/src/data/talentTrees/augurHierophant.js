@@ -418,7 +418,7 @@ export const AUGUR_HIEROPHANT = [
     },
     rankUpgrades: [
       { description: "Consecrated ground stands guard. Allies who start their turn inside your blessed terrain gain +3 Durability Steps to equipped durability until their next turn." },
-      { description: "Consecrated ground stands guard. Allies who start their turn inside your blessed terrain gain +3 Durability Steps to equipped durability and +5% resistance to all damage until their next turn." }
+      { description: "Consecrated ground stands guard. Allies who start their turn inside your blessed terrain gain +3 Durability Steps to equipped durability and +2 Damage Reduction to all damage until their next turn." }
     ]
   }
 ];

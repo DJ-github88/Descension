@@ -15,6 +15,33 @@
 // Class specialization categories mapping
 
 export const CLASS_SPECIALIZATIONS = {
+  'Crusader': {
+    path: 'Radiant Dawn Path',
+    specializations: [
+      {
+        id: 'vanguard',
+        name: 'Vanguard',
+        description: 'Immovable frontline defender clad in starlight armor.',
+        color: '#f59e0b',
+        icon: 'Bludgeoning/Warrior Hammer Shield'
+      },
+      {
+        id: 'holy_defender',
+        name: 'Holy Defender',
+        description: 'Channel celestial grace to protect and bolster allies.',
+        color: '#3b82f6',
+        icon: 'Golden Winged Entity'
+      },
+      {
+        id: 'solar_executioner',
+        name: 'Solar Executioner',
+        description: 'Unleash blinding solar wrath upon the aberrant and unholy.',
+        color: '#ef4444',
+        icon: 'Radiant/Holy Cross'
+      }
+    ]
+  },
+
 
   // Infernal Path
 
@@ -34,7 +61,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#FF4500',
 
-        icon: 'spell_fire_fireball02'
+        icon: 'Fire/Rising Inferno'
 
       },
 
@@ -48,7 +75,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#FF8C00',
 
-        icon: 'spell_fire_flameshock'
+        icon: 'Fire/Flame Wave'
 
       },
 
@@ -62,7 +89,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#6B2020',
 
-        icon: 'spell_shadow_shadowwordpain'
+        icon: 'Fire/Volcanic Corruption'
 
       }
 
@@ -88,7 +115,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#DC143C',
 
-        icon: 'spell_holy_crusaderstrike'
+        icon: 'Dark Rally'
 
       },
 
@@ -102,7 +129,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#4169E1',
 
-        icon: 'spell_holy_divinehymn'
+        icon: 'Ethereal Spirit'
 
       },
 
@@ -116,7 +143,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#9370DB',
 
-        icon: 'spell_shadow_shadowwordpain'
+        icon: 'Chaos/Chaotic Rupture'
 
       }
 
@@ -142,7 +169,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#4169E1',
 
-        icon: 'spell_frost_frostshock'
+        icon: 'Frost/Frost Freeze 1'
 
       },
 
@@ -156,7 +183,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#6495ED',
 
-        icon: 'spell_arcane_blink'
+        icon: 'Arcane/Portal Archway'
 
       },
 
@@ -170,7 +197,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#87CEEB',
 
-        icon: 'spell_holy_borrowedtime'
+        icon: 'Arcane/Rewind Time'
 
       }
 
@@ -196,7 +223,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#9b59b6',
 
-        icon: 'spell_arcane_arcane04'
+        icon: 'Dark Sun Eclipse'
 
       },
 
@@ -210,7 +237,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#4B0082',
 
-        icon: 'spell_shadow_curseofsargeras'
+        icon: 'Dead Speak'
 
       },
 
@@ -224,7 +251,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#e67e22',
 
-        icon: 'spell_fire_fireball'
+        icon: 'Void Rift Tear'
 
       }
     ]
@@ -238,21 +265,21 @@ export const CLASS_SPECIALIZATIONS = {
         name: 'Probability Savant',
         description: 'Every roll is a clause in the contract-deck. Mathematical foresight and incremental roll manipulation, treating fate as a ledger',
         color: '#2980b9',
-        icon: 'inv_misc_tarot_01'
+        icon: 'Lucky Charm'
       },
       {
         id: 'high_roller',
         name: 'High Roller',
         description: 'Fortune\'s wheel spun to the breaking point. Extreme-risk gambling for devastating reality-warping payloads',
         color: '#c0392b',
-        icon: 'inv_misc_platnumdisks'
+        icon: 'Social/Dice Roll'
       },
       {
         id: 'karmic_weaver',
         name: 'Karmic Weaver',
         description: 'Fate-threads pulled from the cosmic loom. Thread manipulation, deck siphoning, and damage redirection through fate-binding',
         color: '#8e44ad',
-        icon: 'spell_arcane_prismaticcloak'
+        icon: 'Threads of the Void'
       }
     ]
   },
@@ -273,7 +300,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#FF4500',
 
-        icon: 'spell_fire_flamebolt'
+        icon: 'Arcane/Conjure Elements'
 
       },
 
@@ -287,7 +314,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#9400D3',
 
-        icon: 'spell_shadow_charm'
+        icon: 'Arcane/Spiral Vortex'
 
       },
 
@@ -301,7 +328,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#4169E1',
 
-        icon: 'inv_misc_rune_01'
+        icon: 'Arcane/Orb Manipulation'
 
       }
 
@@ -327,7 +354,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#FFD700',
 
-        icon: 'spell_holy_devotionaura'
+        icon: 'Radiant/Holy Blessing'
 
       },
 
@@ -341,7 +368,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#DC143C',
 
-        icon: 'spell_holy_crusaderstrike'
+        icon: 'Fire/Burning Touch'
 
       },
 
@@ -355,7 +382,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#4169E1',
 
-        icon: 'spell_holy_prayerofmendingtga'
+        icon: 'Radiant/Holy Cross'
 
       },
 
@@ -369,7 +396,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#d35400',
 
-        icon: 'spell_fire_selfdestruct'
+        icon: 'Bludgeoning/Warrior Hammer Shield'
 
       }
 
@@ -397,7 +424,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#8B0000',
 
-        icon: 'ability_warrior_rampage'
+        icon: 'General/Rage'
 
       },
 
@@ -411,7 +438,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#DC143C',
 
-        icon: 'spell_shadow_bloodboil'
+        icon: 'Bludgeoning/Blood Punch'
 
       },
 
@@ -425,7 +452,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#B22222',
 
-        icon: 'ability_druid_ferociousbite'
+        icon: 'General/Fiery Rage'
 
       }
 
@@ -457,7 +484,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#556B2F',
 
-        icon: 'ability_creature_disease_05'
+        icon: 'Gloomy Blight'
 
       },
 
@@ -471,7 +498,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#4B0082',
 
-        icon: 'spell_shadow_mindtwisting'
+        icon: 'Decapitated Spirit'
 
       },
 
@@ -485,7 +512,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#2F4F2F',
 
-        icon: 'spell_shadow_deathanddecay'
+        icon: 'Erode Entity'
 
       }
 
@@ -511,7 +538,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#32CD32',
 
-        icon: 'ability_rogue_deadlybrew'
+        icon: 'Projectile Acid'
 
       },
 
@@ -525,7 +552,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#FF6347',
 
-        icon: 'inv_misc_wrench_01'
+        icon: 'Fire/Explosive Concoction'
 
       },
 
@@ -539,7 +566,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#8A2BE2',
 
-        icon: 'ability_rogue_wrongfullyaccused'
+        icon: 'Dual Knife Goblin'
 
       }
 
@@ -566,7 +593,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#4A90E2',
 
-        icon: 'spell_frost_frostarmor'
+        icon: 'Icy Cursed Roots'
 
       },
 
@@ -580,7 +607,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#8B0000',
 
-        icon: 'spell_shadow_lifedrain'
+        icon: 'Drain Life'
 
       },
 
@@ -594,7 +621,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#2D1B69',
 
-        icon: 'spell_frost_frozencore'
+        icon: 'Void Crystal Shard'
 
       }
 
@@ -620,7 +647,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#F0E68C',
 
-        icon: 'spell_holy_mindvision'
+        icon: 'Meditating Spirits'
 
       },
 
@@ -634,7 +661,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#8B008B',
 
-        icon: 'spell_shadow_curseofsargeras'
+        icon: 'Dark Sun Eclipse'
 
       },
 
@@ -648,7 +675,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#FFD700',
 
-        icon: 'spell_holy_farsight'
+        icon: 'Light Path'
 
       }
 
@@ -672,7 +699,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#2F1B14',
 
-        icon: 'spell_shadow_summonvoidwalker'
+        icon: 'Void Tendrils Lies'
 
       },
 
@@ -686,7 +713,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#4B0082',
 
-        icon: 'spell_shadow_mindsteal'
+        icon: 'Dark Shadow'
 
       },
 
@@ -700,7 +727,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#8B0000',
 
-        icon: 'spell_shadow_summonimp'
+        icon: 'Demonic Bargain'
 
       }
 
@@ -727,21 +754,21 @@ export const CLASS_SPECIALIZATIONS = {
         name: 'Witch Hammer',
         description: 'Righteous chains bind the unholy. Shadow swarm assassin — stealth + horror horde',
         color: '#2F1B14',
-        icon: 'ability_stealth'
+        icon: 'Bludgeoning/Ceremonial Hammer'
       },
       {
         id: 'iron_verdict',
         name: 'Iron Verdict',
         description: 'Anti-magic authority rendered as verdict. Anti-magic bulwark — dead zones + single powerful horror',
         color: '#4B0082',
-        icon: 'spell_holy_dispelmagic'
+        icon: 'Judge'
       },
       {
         id: 'hollow_saint',
         name: 'Hollow Saint',
         description: 'A horror caged within the righteous soul. Relentless channeler — pursuit + internal horror power',
         color: '#8B0000',
-        icon: 'ability_hunter_markedfordeath'
+        icon: 'Golden Winged Entity'
       }
     ]
   },
@@ -763,7 +790,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#4169E1',
 
-        icon: 'spell_holy_powerwordshield'
+        icon: 'Arcane/Enchanted Blade'
 
       },
 
@@ -777,7 +804,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#9370DB',
 
-        icon: 'spell_holy_dispelmagic'
+        icon: 'Arcane/Magical Cross Emblem 2'
 
       },
 
@@ -791,7 +818,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#8B008B',
 
-        icon: 'spell_shadow_manafeed'
+        icon: 'Arcane/Desperate Channelling'
 
       }
 
@@ -817,7 +844,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#228B22',
 
-        icon: 'spell_nature_stoneclawtotem'
+        icon: 'Icy Cursed Roots'
 
       },
 
@@ -831,7 +858,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#9370DB',
 
-        icon: 'spell_shadow_soulleech_3'
+        icon: 'Spirit With Wisps'
 
       },
 
@@ -845,7 +872,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#4169E1',
 
-        icon: 'spell_nature_callstorm'
+        icon: 'Arcane/Spellcasting Aura'
 
       }
 
@@ -874,7 +901,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#00CED1',
 
-        icon: 'spell_nature_riptide'
+        icon: 'Arcane/Zen'
 
       },
 
@@ -888,7 +915,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#27AE60',
 
-        icon: 'ability_duelist'
+        icon: 'Twin Crescents'
 
       },
 
@@ -902,7 +929,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#2C3E50',
 
-        icon: 'ability_stealth'
+        icon: 'Shadow Assassin Strike'
 
       }
 
@@ -928,7 +955,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#A0A0A0',
 
-        icon: 'ability_hunter_focusedaim'
+        icon: 'Arcane/Crescent Moon'
 
       },
 
@@ -942,7 +969,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#FFD700',
 
-        icon: 'spell_nature_starfall'
+        icon: 'Arcane/Star Trail Path'
 
       },
 
@@ -980,7 +1007,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#DC143C',
 
-        icon: 'ability_stealth'
+        icon: 'Drop Axe'
 
       },
 
@@ -994,7 +1021,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#8B4513',
 
-        icon: 'ability_hunter_beastcall'
+        icon: 'Shadow Beast'
 
       },
 
@@ -1008,7 +1035,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#2F1B14',
 
-        icon: 'ability_stealth'
+        icon: 'Voidwing Blade Strike'
 
       }
 
@@ -1034,7 +1061,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#191970',
 
-        icon: 'ability_stealth'
+        icon: 'Voidwing Blade Strike'
 
       },
 
@@ -1048,7 +1075,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#2F4F4F',
 
-        icon: 'spell_shadow_shackleundead'
+        icon: 'Void Scythe Chain'
 
       },
 
@@ -1062,7 +1089,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         color: '#533C33',
 
-        icon: 'spell_fire_elemental_totem'
+        icon: 'Stern Dwarf Warrior'
 
       }
 

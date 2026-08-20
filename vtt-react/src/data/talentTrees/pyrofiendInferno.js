@@ -1,67 +1,69 @@
 // ============================================
-// PYROFIEND — INFERNO (v2: talents are spells)
-// Schema: see talentSystem.mjs. Rank N spell = rank N-1 + rankUpgrades[N-2].
-// Economy: 8/6/6/5/5/5 = 30 pts (tiers 1-6) + 15 pts (tier 7) = 50.
-// Resource: Inferno Veil (Inferno Level 0-9). Ascend for power; the Veil burns back.
-// Damage type: ember. The Demon's Bargain: at Level 9, the death clock ticks.
+// PYROFIEND — INFERNO (v3: Rebalanced Tier Budgets, Normalized Grid Coordinates)
+// Schema: see talentSystem.mjs.
+// Grid coordinates: x (0..4), y (0..6 representing Tiers 1..7).
+//
+// FANTASY: The Concentrated Crucible / Thermal Ascension / Armor Melting Nuke.
 // ============================================
 
 export const PYROFIEND_INFERNO = [
+  // ──────────────── TIER 1 (Row 0) ────────────────
   {
     id: "inf_t1_burst_mastery",
-    name: "Burst Mastery",
+    name: "Crucible Reach",
     icon: "spell_fire_fireball02",
     maxRanks: 3,
-    position: { x: 1, y: 8 },
+    position: { x: 1, y: 0 },
     requires: null,
     spell: {
-      name: "Burst Mastery",
-      description: "The fury of Emberspire extends your reach through the Abyss. Your ember spells have +5 feet range.",
+      name: "Crucible Reach",
+      description: "Passive: Your single-target ember spells gain +5 feet range.",
       flavorText: "The furnace does not need to be close. It needs to be felt.",
       source: "talent", class: "Pyrofiend", treeId: "inferno",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "fire", tags: ["passive", "range", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "The fury of Emberspire extends your reach through the Abyss. Your ember spells have +10 feet range." },
-      { description: "The fury of Emberspire extends your reach through the Abyss. Your ember spells have +15 feet range and ignore half cover." }
+      { description: "Your single-target ember spells gain +10 feet range." },
+      { description: "Your single-target ember spells gain +15 feet range and ignore partial cover." }
     ]
   },
   {
     id: "inf_t1_rapid_ascent",
-    name: "Rapid Ascent",
+    name: "Thermal Vent",
     icon: "spell_fire_soulburn",
     maxRanks: 3,
-    position: { x: 2, y: 8 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
-      name: "Rapid Ascent",
-      description: "The horror within grants command over the ascent. Spend 1 Action Point to reduce your Inferno Level by 1.",
+      name: "Thermal Vent",
+      description: "Spend 1 Action Point: Vent concentrated heat, reducing your Heat / Inferno Level by 1 and dealing 1d6 ember damage to an adjacent enemy.",
       flavorText: "Climbing down the mountain of fire, one deliberate step.",
       source: "talent", class: "Pyrofiend", treeId: "inferno",
       spellType: "ACTIVE", category: "utility",
-      targetingMode: "self", rangeType: "self", range: 0,
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 5, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { mana: { baseAmount: 3 } },
-      visualTheme: "fire", tags: ["descent", "control", "pyrofiend"]
+      cooldownCategory: "turn_based", cooldownValue: 1, cooldownUnit: "round",
+      primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
+      damageTypes: ["ember"],
+      visualTheme: "fire", tags: ["heat-vent", "control", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "The horror within grants command over the ascent. Spend 1 Action Point to reduce your Inferno Level by 1d3." },
-      { description: "The horror within grants command over the ascent. Spend 1 Action Point to reduce your Inferno Level by 1d4." }
+      { description: "Reduces Inferno Level by 2 and deals 1d8 ember damage.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } },
+      { description: "Reduces Inferno Level by 2, deals 2d6 ember damage, and pushes the target 5 feet back.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } }
     ]
   },
   {
     id: "inf_t1_inner_fire",
-    name: "Inner Fire",
+    name: "Tempered Core",
     icon: "spell_fire_flamebolt",
     maxRanks: 2,
-    position: { x: 3, y: 8 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
-      name: "Inner Fire",
-      description: "The heart of Emberspire beats within you, making you one with the flame. You have resistance to ember damage.",
+      name: "Tempered Core",
+      description: "Passive: You gain +2 Fire / Ember Resistance and take 1 less damage from your own heat drawbacks.",
       flavorText: "You stopped flinching at heat years ago. Heat started flinching at you.",
       source: "talent", class: "Pyrofiend", treeId: "inferno",
       spellType: "PASSIVE", category: "buff",
@@ -69,95 +71,97 @@ export const PYROFIEND_INFERNO = [
       visualTheme: "fire", tags: ["passive", "resistance", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "The heart of Emberspire beats within you, making you one with the flame. You have resistance to ember damage and take 2 less damage from Inferno drawbacks." }
+      { description: "Gain +4 Fire Resistance and take 2 less damage from heat drawbacks." }
     ]
   },
 
+  // ──────────────── TIER 2 (Row 1) ────────────────
   {
     id: "inf_t2_critical_blast",
-    name: "Critical Blast",
+    name: "Searing Retort",
     icon: "spell_fire_incinerate",
     maxRanks: 3,
-    position: { x: 1.5, y: 6.5 },
+    position: { x: 1, y: 1 },
     requires: "inf_t1_burst_mastery",
     spell: {
-      name: "Critical Blast",
-      description: "Abyssal fire turns pain into power. Once per round, when you take ember damage, your next ember spell deals 2 additional ember damage and can be cast as a reaction.",
+      name: "Searing Retort",
+      description: "Passive: When you take ember or physical damage, your next ember attack deals +1d4 bonus ember damage.",
       flavorText: "Hit me again. I insist.",
       source: "talent", class: "Pyrofiend", treeId: "inferno",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", damageTypes: ["ember"],
-      visualTheme: "fire", tags: ["passive", "reaction", "pyrofiend"]
+      primaryDamage: { dice: "1d4", flat: 0, procChance: 100 },
+      visualTheme: "fire", tags: ["passive", "retaliation", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "Abyssal fire turns pain into power. Once per round, when you take ember damage, your next ember spell deals 4 additional ember damage and can be cast as a reaction." },
-      { description: "Abyssal fire turns pain into power. When you take ember damage, your next ember spell deals 4 additional ember damage, can be cast as a reaction, and ascends you 1 Inferno Level." }
+      { description: "Bonus damage increases to +1d6 ember damage." },
+      { description: "Bonus damage increases to +1d8 ember damage and generates 1 Heat." }
     ]
   },
   {
     id: "inf_t2_detonation",
-    name: "Detonation",
+    name: "Flash Ignition",
     icon: "spell_fire_selfdestruct",
     maxRanks: 3,
-    position: { x: 2.5, y: 6.5 },
-    requires: "inf_t1_rapid_ascent",
+    position: { x: 3, y: 1 },
+    requires: "inf_t1_inner_fire",
     spell: {
-      name: "Detonation",
-      description: "The Abyss grants motion through flame. Spend 1 Action Point: teleport 15 feet to an unoccupied space within or adjacent to fire terrain.",
-      flavorText: "You do not walk through fire. You commute.",
+      name: "Flash Ignition",
+      description: "Spend 1 AP: Ignite a sudden thermal burst within 40 feet dealing 1d8 ember damage and melting 1 point of enemy Armor for 2 rounds.",
+      flavorText: "Metal turns butter-soft under intense pressure.",
       source: "talent", class: "Pyrofiend", treeId: "inferno",
-      spellType: "ACTIVE", category: "utility",
-      targetingMode: "self", rangeType: "self", range: 15,
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "ranged", range: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { mana: { baseAmount: 5 } },
-      visualTheme: "fire", tags: ["mobility", "teleport", "pyrofiend"]
+      cooldownCategory: "turn_based", cooldownValue: 1, cooldownUnit: "round",
+      primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
+      damageTypes: ["ember"],
+      visualTheme: "fire", tags: ["strike", "armor-shred", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "The Abyss grants motion through flame. Spend 1 Action Point: teleport 20 feet to an unoccupied space within or adjacent to fire terrain, dealing 1d6 ember damage to enemies you pass through." },
-      { description: "The Abyss grants motion through flame. Spend 1 Action Point: teleport 25 feet to any unoccupied space you can see, dealing 2d6 ember damage to enemies within 5 feet of both endpoints.", damageTypes: ["ember"], primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } }
+      { description: "Deals 2d6 ember damage and shreds 2 points of Armor.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
+      { description: "Deals 2d8 ember damage, shreds 2 points of Armor, and inflicts Burning (1d4/rd for 2 rounds).", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } }
     ]
   },
 
+  // ──────────────── TIER 3 (Row 2) ────────────────
   {
     id: "inf_t3_fiery_resurgence",
-    name: "Fiery Resurgence",
+    name: "Molten Ground",
     icon: "spell_fire_fire",
     maxRanks: 3,
-    position: { x: 1.5, y: 5 },
+    position: { x: 1, y: 2 },
     requires: "inf_t2_critical_blast",
     spell: {
-      name: "Fiery Resurgence",
-      description: "Your will ignites the ground beneath your enemies. Spend 1 Action Point: create a 5-foot-radius zone of ember terrain within 60 feet that lasts 1 minute. Enemies that enter take 1d4 ember damage.",
+      name: "Molten Ground",
+      description: "Spend 1 AP: Superheat a 10-foot area within 50 feet for 2 rounds. Enemies entering or ending their turn inside take 1d6 ember damage.",
       flavorText: "Zoning permit granted by Emberspire.",
       source: "talent", class: "Pyrofiend", treeId: "inferno",
       spellType: "ACTIVE", category: "damage",
-      targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 5,
+      actionPoints: 1,
+      targetingMode: "aoe", rangeType: "ranged", range: 50, aoeShape: "circle", aoeSize: 10,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { mana: { baseAmount: 8 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
       damageTypes: ["ember"],
-      primaryDamage: { dice: "1d4", flat: 0, procChance: 100 },
-      debuffs: ["fire-terrain"], visualTheme: "fire", tags: ["terrain", "zone", "pyrofiend"]
+      visualTheme: "fire", tags: ["terrain", "zone", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "Your will ignites the ground beneath your enemies. Spend 1 Action Point: create a 10-foot-radius zone of ember terrain within 60 feet that lasts 1 minute. Enemies that enter take 1d4 ember damage." },
-      { description: "Your will ignites the ground beneath your enemies. Spend 1 Action Point: create a 15-foot-radius zone of ember terrain within 60 feet that lasts 1 minute. Enemies that enter take 1d6 ember damage.", primaryDamage: { dice: "1d6", flat: 0, procChance: 100 } }
+      { description: "Area expands to 15 feet and deals 1d8 ember damage.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } },
+      { description: "Area deals 2d6 ember damage and slows enemy movement by 10 feet.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } }
     ]
   },
   {
     id: "inf_t3_immolation",
-    name: "Immolation",
+    name: "Thermal Aura",
     icon: "spell_fire_sealoffire",
     maxRanks: 3,
-    position: { x: 3, y: 5 },
+    position: { x: 3, y: 2 },
     requires: "inf_t2_detonation",
     spell: {
-      name: "Immolation",
-      description: "Your Wyrd-touched aura sears the air itself. Enemies within 5 feet take 3 ember damage at the start of your turn.",
+      name: "Thermal Aura",
+      description: "Passive: Enemies within 5 feet of you suffer 2 ember damage at the start of their turns.",
       flavorText: "Personal space, enforced thermally.",
       source: "talent", class: "Pyrofiend", treeId: "inferno",
       spellType: "PASSIVE", category: "damage",
@@ -165,262 +169,169 @@ export const PYROFIEND_INFERNO = [
       visualTheme: "fire", tags: ["passive", "aura", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "Your Wyrd-touched aura sears the air itself. Enemies within 5 feet take 6 ember damage at the start of your turn." },
-      { description: "Your Wyrd-touched aura sears the air itself. Enemies within 10 feet take 9 ember damage at the start of your turn." }
+      { description: "Enemies within 5 feet take 4 ember damage." },
+      { description: "Enemies within 10 feet take 6 ember damage." }
     ]
   },
 
+  // ──────────────── TIER 4 (Row 3) ────────────────
   {
     id: "inf_t4_overcharge",
-    name: "Overcharge",
+    name: "Combustion Spear",
     icon: "spell_fire_moltenblood",
-    maxRanks: 3,
-    position: { x: 1.5, y: 3.5 },
-    requires: "inf_t3_fiery_resurgence",
+    maxRanks: 1,
+    position: { x: 2, y: 3 },
+    requires: ["inf_t3_fiery_resurgence", "inf_t3_immolation"],
     spell: {
-      name: "Overcharge",
-      description: "Each burst of pain births a greater retort. When you take ember damage, you may deal 1d6 ember damage to one creature within 30 feet.",
-      flavorText: "Pain, forwarded.",
+      name: "Combustion Spear",
+      description: "Spend 1 AP: Hurl a piercing lance of white-hot plasma within 50 feet dealing 2d10 ember damage and ignoring all Armor.",
+      flavorText: "A direct conduit from the core to the target.",
       source: "talent", class: "Pyrofiend", treeId: "inferno",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["ember"],
-      primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
-      visualTheme: "fire", tags: ["passive", "retaliation", "pyrofiend"]
-    },
-    rankUpgrades: [
-      { description: "Each burst of pain births a greater retort. When you take ember damage, you may deal 1d8 ember damage to one creature within 30 feet.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } },
-      { description: "Each burst of pain births a greater retort. When you take ember damage, you may deal 1d10 ember damage to one creature within 30 feet.", primaryDamage: { dice: "1d10", flat: 0, procChance: 100 } }
-    ]
-  },
-  {
-    id: "inf_t4_ascended_burst",
-    name: "Ascended Burst",
-    icon: "spell_fire_fireball",
-    maxRanks: 2,
-    position: { x: 2.5, y: 3.5 },
-    requires: "inf_t3_immolation",
-    spell: {
-      name: "Ascended Burst",
-      description: "The core of Emberspire erupts through you, a star of Abyssal brilliance. Create a 20-foot-radius zone of blazing light centered on you for 1 minute: enemies inside have disadvantage on attack rolls.",
-      flavorText: "A dying star, rented for the evening.",
-      source: "talent", class: "Pyrofiend", treeId: "inferno",
-      spellType: "ACTIVE", category: "debuff",
-      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 20,
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "ranged", range: 50,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 45, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { mana: { baseAmount: 15 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
-      debuffs: ["blinded-zone"], visualTheme: "fire", tags: ["zone", "control", "pyrofiend"]
-    },
-    rankUpgrades: [
-      { description: "The core of Emberspire erupts through you, a star of Abyssal brilliance. Create a 30-foot-radius zone of blazing light centered on you for 1 minute: enemies inside have disadvantage on attack rolls, you have advantage against them, and enemies entering take 2d6 sacred damage.", damageTypes: ["sacred"], primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } }
-    ]
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      primaryDamage: { dice: "2d10", flat: 0, procChance: 100 },
+      damageTypes: ["ember"],
+      visualTheme: "fire", tags: ["strike", "pierce", "pyrofiend"]
+    }
   },
 
+  // ──────────────── TIER 5 (Row 4) ────────────────
   {
     id: "inf_t5_maximum_power",
-    name: "Maximum Power",
+    name: "Crucible Intensity",
     icon: "spell_fire_twilightfireward",
     maxRanks: 3,
-    position: { x: 2, y: 2 },
+    position: { x: 1, y: 4 },
     requires: "inf_t4_overcharge",
     spell: {
-      name: "Maximum Power",
-      description: "The deeper you fall into the Inferno, the farther your flames reach. At Inferno Level 8 or higher, your ember spells have their range doubled.",
-      flavorText: "At the bottom of the mountain, everything is downhill.",
+      name: "Crucible Intensity",
+      description: "Passive: While your Heat / Inferno level is 4 or higher, your single-target spells deal +1d6 bonus ember damage.",
+      flavorText: "At the peak of the furnace, everything turns white.",
       source: "talent", class: "Pyrofiend", treeId: "inferno",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "range", "scaling", "pyrofiend"]
+      targetingMode: "self", damageTypes: ["ember"],
+      primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
+      visualTheme: "fire", tags: ["passive", "scaling", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "The deeper you fall into the Inferno, the farther your flames reach. At Inferno Level 7 or higher, your ember spells have their range doubled and ignore half cover." },
-      { description: "The deeper you fall into the Inferno, the farther your flames reach. At Inferno Level 6 or higher, your ember spells have their range doubled and ignore all cover." }
+      { description: "Bonus damage increases to +1d8 ember damage." },
+      { description: "Bonus damage increases to +2d6 ember damage and critical hits melt 2 Armor." }
     ]
   },
   {
     id: "inf_t5_power_surge",
-    name: "Power Surge",
+    name: "Infernal Overdrive",
     icon: "spell_fire_burnout",
     maxRanks: 2,
-    position: { x: 2.5, y: 2 },
-    requires: "inf_t4_ascended_burst",
+    position: { x: 3, y: 4 },
+    requires: "inf_t4_overcharge",
     spell: {
-      name: "Power Surge",
-      description: "Each notch of the Inferno fuels your Wyrd-touched might to bursting. After you spend 3 or more Inferno Levels in one turn, gain advantage on all attack rolls for 1 round.",
-      flavorText: "Spending power generates power. The Abyss loves circular logic.",
+      name: "Infernal Overdrive",
+      description: "Spend 1 AP: Enter an overdrive state for 2 rounds. Your ember spells score critical hits on 19–20, but you take 2 ember damage at the end of each turn.",
+      flavorText: "Burning hot enough to singe your own nerves.",
       source: "talent", class: "Pyrofiend", treeId: "inferno",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "surge", "pyrofiend"]
+      spellType: "ACTIVE", category: "buff",
+      actionPoints: 1,
+      targetingMode: "self",
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      visualTheme: "fire", tags: ["buff", "crit", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "Each notch of the Inferno fuels your Wyrd-touched might to bursting. After you spend 2 or more Inferno Levels in one turn, gain advantage on all attack rolls for 1 round and regain 1 Action Point." }
+      { description: "Critical hits occur on rolls of 18–20; self-damage unchanged." }
     ]
   },
 
+  // ──────────────── TIER 6 (Row 5) ────────────────
   {
-    id: "inf_t6_heat_death",
-    name: "Heat Death",
-    icon: "spell_fire_meteorstorm",
-    maxRanks: 1,
-    position: { x: 1.5, y: 1 },
-    requires: "inf_t5_maximum_power",
+    id: "inf_t6_hellish_pillar",
+    name: "Crucible Pillar",
+    icon: "spell_fire_fireball",
+    maxRanks: 3,
+    position: { x: 2, y: 5 },
+    requires: ["inf_t5_maximum_power", "inf_t5_power_surge"],
     spell: {
-      name: "Heat Death",
-      description: "Every soul consumed by your hellfire feeds the Emberspire within. When an enemy dies from your ember damage, ascend 1 Inferno Level if below Level 8; otherwise restore 8 health.",
-      flavorText: "Ash is just unclaimed currency.",
-      source: "talent", class: "Pyrofiend", treeId: "inferno",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", damageTypes: ["ember"],
-      visualTheme: "fire", tags: ["kill", "engine", "pyrofiend"]
-    }
-  },
-  {
-    id: "inf_t6_critical_cascade",
-    name: "Critical Cascade",
-    icon: "spell_fire_flare",
-    maxRanks: 2,
-    position: { x: 2, y: 1 },
-    requires: "inf_t5_maximum_power",
-    spell: {
-      name: "Critical Cascade",
-      description: "Your Abyssal fire finds the cracks in all things. When you score a critical hit with an ember spell, gain 1 Action Point.",
-      flavorText: "Cracks in everything. That is how the light gets burn.",
-      source: "talent", class: "Pyrofiend", treeId: "inferno",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", damageTypes: ["ember"],
-      visualTheme: "fire", tags: ["passive", "crit", "pyrofiend"]
-    },
-    rankUpgrades: [
-      { description: "Your Abyssal fire finds the cracks in all things. When you score a critical hit with an ember spell, gain 1 Action Point and halve your Inferno drawback self-damage for 1 round." }
-    ]
-  },
-  {
-    id: "inf_t6_permanent_inferno",
-    name: "Permanent Inferno",
-    icon: "spell_fire_moltenblood",
-    maxRanks: 2,
-    position: { x: 3, y: 1 },
-    requires: "inf_t5_power_surge",
-    spell: {
-      name: "Permanent Inferno",
-      description: "The Inferno becomes your permanent throne. You can no longer descend below Inferno Level 3.",
-      flavorText: "The mountain keeps a room for you. It is on fire. That is the amenity.",
-      source: "talent", class: "Pyrofiend", treeId: "inferno",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "floor", "pyrofiend"]
-    },
-    rankUpgrades: [
-      { description: "The Inferno becomes your permanent throne. You can no longer descend below Inferno Level 3, and at Inferno Level 9 all your attacks deal +1d12 ember damage.", damageTypes: ["ember"], primaryDamage: { dice: "1d12", flat: 0, procChance: 100 } }
-    ]
-  },
-
-  {
-    id: "inf_t7_supernova",
-    name: "Supernova",
-    icon: "spell_fire_soulburn",
-    maxRanks: 1,
-    position: { x: 0, y: 0 },
-    requires: "inf_t6_heat_death",
-    spell: {
-      name: "Supernova",
-      description: "ULTIMATE: The final gift of Emberspire — a dying star born of pure Abyssal fury. Consume ALL your Inferno Levels to birth a star in a 50-foot radius for 3 rounds. Enemies take 8d12 ember damage at the start of each of their turns while it burns.",
-      flavorText: "Every star dies. This one takes requests.",
+      name: "Crucible Pillar",
+      description: "Spend 2 AP: Erupt a concentrated 15-foot geyser of liquid fire dealing 3d8 ember damage to all enemies and inflicting Stagger for 1 round.",
+      flavorText: "Geysers of magma erupting straight from the mantle.",
       source: "talent", class: "Pyrofiend", treeId: "inferno",
       spellType: "ACTIVE", category: "damage",
-      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 50,
-      castTimeType: "short", castTimeValue: 2,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
-      resourceCosts: { mana: { baseAmount: 30 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
+      actionPoints: 2,
+      targetingMode: "aoe", aoeShape: "circle", aoeSize: 15, rangeType: "ranged", range: 45,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
       damageTypes: ["ember"],
-      primaryDamage: { dice: "8d12", flat: 0, procChance: 100 },
-      isDot: true, dotDuration: 3, dotTick: "8d12",
-      visualTheme: "fire", tags: ["ultimate", "capstone", "aoe", "pyrofiend"]
+      visualTheme: "fire", tags: ["aoe", "pillar", "stagger", "pyrofiend"]
+    },
+    rankUpgrades: [
+      { description: "Deals 3d10 ember damage and melts 3 points of Armor from all hit enemies.", primaryDamage: { dice: "3d10", flat: 0, procChance: 100 } },
+      { description: "Deals 4d8 ember damage, melts 3 Armor, and knocks targets Prone.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
+    ]
+  },
+
+  // ──────────────── TIER 7 (Row 6 - Capstones) ────────────────
+  {
+    id: "inf_t7_living_crucible",
+    name: "Living Crucible",
+    icon: "spell_fire_incinerate",
+    maxRanks: 1,
+    position: { x: 2, y: 6 },
+    requires: "inf_t6_hellish_pillar",
+    spell: {
+      name: "Living Crucible",
+      description: "ULTIMATE: Spend 2 AP: For 2 rounds, your body becomes pure white-hot furnace fire. All single-target ember spells deal +1d10 ember damage, melt 3 Armor, and you gain +4 Damage Reduction against physical attacks.",
+      flavorText: "The flesh yields. The furnace takes command.",
+      source: "talent", class: "Pyrofiend", treeId: "inferno",
+      spellType: "ACTIVE", category: "buff",
+      actionPoints: 2,
+      targetingMode: "self",
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 5, cooldownUnit: "rounds",
+      visualTheme: "fire", tags: ["ultimate", "furnace", "pyrofiend"]
     }
   },
   {
-    id: "inf_t7_abyssal_furnace",
-    name: "Abyssal Furnace",
-    icon: "spell_fire_fire",
-    maxRanks: 5,
-    position: { x: 1, y: 0 },
-    requires: "inf_t6_critical_cascade",
+    id: "inf_t7_unquenchable_heat",
+    name: "Unquenchable Core",
+    icon: "spell_fire_soulburn",
+    maxRanks: 2,
+    position: { x: 1, y: 6 },
+    requires: "inf_t6_hellish_pillar",
     spell: {
-      name: "Abyssal Furnace",
-      description: "The furnace inside you runs hotter than spec. All ember damage you deal is increased by 5%.",
-      flavorText: "Warranty void. Power increased.",
+      name: "Unquenchable Core",
+      description: "Passive: Your ember damage ignores up to 5 points of enemy Fire Resistance.",
+      flavorText: "Nothing in this realm can snuff your flame.",
       source: "talent", class: "Pyrofiend", treeId: "inferno",
       spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "fire", tags: ["passive", "penetration", "pyrofiend"]
+    },
+    rankUpgrades: [
+      { description: "Ignores up to 8 points of Fire Resistance and immune to Freeze/Chill." }
+    ]
+  },
+  {
+    id: "inf_t7_thermal_fission",
+    name: "Thermal Fission",
+    icon: "spell_fire_selfdestruct",
+    maxRanks: 2,
+    position: { x: 3, y: 6 },
+    requires: "inf_t6_hellish_pillar",
+    spell: {
+      name: "Thermal Fission",
+      description: "Passive: When you reduce an enemy to 0 HP with an ember spell, they detonate for 2d8 ember damage to all adjacent enemies.",
+      flavorText: "One spark lights a chain of ruin.",
+      source: "talent", class: "Pyrofiend", treeId: "inferno",
+      spellType: "PASSIVE", category: "damage",
       targetingMode: "self", damageTypes: ["ember"],
-      visualTheme: "fire", tags: ["passive", "capstone", "damage", "pyrofiend"]
+      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
+      visualTheme: "fire", tags: ["passive", "detonate", "pyrofiend"]
     },
     rankUpgrades: [
-      { description: "The furnace inside you runs hotter than spec. All ember damage you deal is increased by 10%." },
-      { description: "The furnace inside you runs hotter than spec. All ember damage you deal is increased by 15%." },
-      { description: "The furnace inside you runs hotter than spec. All ember damage you deal is increased by 20%." },
-      { description: "The furnace inside you runs hotter than spec. All ember damage you deal is increased by 25%." }
-    ]
-  },
-  {
-    id: "inf_t7_veil_bargain",
-    name: "Bargainer's Terms",
-    icon: "spell_shadow_shadowwordpain",
-    maxRanks: 3,
-    position: { x: 2, y: 0 },
-    requires: "inf_t6_critical_cascade",
-    spell: {
-      name: "Bargainer's Terms",
-      description: "You have read the fine print of the Veil. Inferno drawback self-damage is reduced by 2.",
-      flavorText: "Clause 9, subsection b: the burning is negotiable.",
-      source: "talent", class: "Pyrofiend", treeId: "inferno",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "capstone", "drawback", "pyrofiend"]
-    },
-    rankUpgrades: [
-      { description: "You have read the fine print of the Veil. Inferno drawback self-damage is reduced by 4." },
-      { description: "You have read the fine print of the Veil. Inferno drawback self-damage is reduced by 6, and the Demon's Bargain death clock at Inferno Level 9 ticks every other round instead of every round." }
-    ]
-  },
-  {
-    id: "inf_t7_star_touched",
-    name: "Star-Touched",
-    icon: "spell_fire_twilightfireward",
-    maxRanks: 3,
-    position: { x: 3, y: 0 },
-    requires: "inf_t6_permanent_inferno",
-    spell: {
-      name: "Star-Touched",
-      description: "Dying starlight answers to family. All ember spells cost 2 less mana (minimum 1).",
-      flavorText: "Stellar discount. Family rate.",
-      source: "talent", class: "Pyrofiend", treeId: "inferno",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "capstone", "cost", "pyrofiend"]
-    },
-    rankUpgrades: [
-      { description: "Dying starlight answers to family. All ember spells cost 4 less mana (minimum 1)." },
-      { description: "Dying starlight answers to family. All ember spells cost 6 less mana (minimum 1) and their cooldowns are reduced by 15%." }
-    ]
-  },
-  {
-    id: "inf_t7_blazing_ascent",
-    name: "Blazing Ascent",
-    icon: "spell_fire_elementaldevastation",
-    maxRanks: 3,
-    position: { x: 4, y: 0 },
-    requires: "inf_t6_permanent_inferno",
-    spell: {
-      name: "Blazing Ascent",
-      description: "You climb the Inferno faster than it burns you. All sources that ascend your Inferno Level grant 1 additional level (this cannot exceed Level 9).",
-      flavorText: "Two steps up, one step charred.",
-      source: "talent", class: "Pyrofiend", treeId: "inferno",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "capstone", "ascent", "pyrofiend"]
-    },
-    rankUpgrades: [
-      { description: "You climb the Inferno faster than it burns you. All sources that ascend your Inferno Level grant 1 additional level (cannot exceed 9), and reaching a new level restores 3 health." },
-      { description: "You climb the Inferno faster than it burns you. All sources that ascend your Inferno Level grant 1 additional level (cannot exceed 9), and reaching a new level restores 3 health and 5 mana." }
+      { description: "Detonation deals 3d8 ember damage and applies Burning (1d6/rd for 2 rounds)." }
     ]
   }
 ];

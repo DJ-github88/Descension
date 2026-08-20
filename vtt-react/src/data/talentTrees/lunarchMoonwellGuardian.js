@@ -192,7 +192,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     },
     rankUpgrades: [
       { description: "Overflowing light hardens into durability. Healing overflow becomes a lunar barrier absorbing 4d6 damage." },
-      { description: "Overflowing light hardens into durability. Healing overflow becomes a barrier absorbing 6d6, and barriers reflect 10% of absorbed damage as sacred.", damageTypes: ["sacred"] }
+      { description: "Overflowing light hardens into durability. Healing overflow becomes a barrier absorbing 6d6, and barriers reflect 10 points of absorbed damage as sacred.", damageTypes: ["sacred"] }
     ]
   },
   {
@@ -246,14 +246,14 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     requires: "mw_t4_celestial_guardian",
     spell: {
       name: "Tidal Mend",
-      description: "Healing flows like water, finding every crack. Your single-target heals jump to the nearest other wounded ally within 15 feet at 50% potency.",
+      description: "Healing flows like water, finding every crack. Your single-target heals jump to the nearest other wounded ally within 15 feet at 50 points potency.",
       flavorText: "Light behaves like liquid in your hands.",
       source: "talent", class: "Lunarch", treeId: "moonwell-guardian",
       spellType: "PASSIVE", category: "healing",
       targetingMode: "self", visualTheme: "sacred", tags: ["passive", "cleave", "healing", "lunarch"]
     },
     rankUpgrades: [
-      { description: "Healing flows like water, finding every crack. Your single-target heals jump to the two nearest wounded allies within 20 feet at 60% potency." }
+      { description: "Healing flows like water, finding every crack. Your single-target heals jump to the two nearest wounded allies within 20 feet at 60 points potency." }
     ]
   },
 
@@ -290,14 +290,14 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     requires: "mw_t5_eternal_moonwell",
     spell: {
       name: "Waning Grace",
-      description: "The fading moon teaches release. During Waning Moon, your healing spells cost 25% less mana.",
+      description: "The fading moon teaches release. During Waning Moon, your healing spells cost 25 points less mana.",
       flavorText: "Less light, lighter touch, smaller bill.",
       source: "talent", class: "Lunarch", treeId: "moonwell-guardian",
       spellType: "PASSIVE", category: "utility",
       targetingMode: "self", visualTheme: "sacred", tags: ["passive", "waning", "cost", "lunarch"]
     },
     rankUpgrades: [
-      { description: "The fading moon teaches release. During Waning Moon, your healing spells cost 50% less mana and gain +5 feet range per spell level." }
+      { description: "The fading moon teaches release. During Waning Moon, your healing spells cost 50 points less mana and gain +5 feet range per spell level." }
     ]
   },
   {
@@ -352,17 +352,17 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     requires: "mw_t6_waning_grace",
     spell: {
       name: "Deep Tides",
-      description: "The tide runs deeper than any single shore. All healing you do is increased by 10%.",
+      description: "The tide runs deeper than any single shore. All healing you do is increased by +1d6 damage.",
       flavorText: "Depth first. Breadth follows.",
       source: "talent", class: "Lunarch", treeId: "moonwell-guardian",
       spellType: "PASSIVE", category: "healing",
       targetingMode: "self", visualTheme: "sacred", tags: ["passive", "capstone", "healing", "lunarch"]
     },
     rankUpgrades: [
-      { description: "The tide runs deeper than any single shore. All healing you do is increased by 20%." },
-      { description: "The tide runs deeper than any single shore. All healing you do is increased by 30%." },
-      { description: "The tide runs deeper than any single shore. All healing you do is increased by 45%." },
-      { description: "The tide runs deeper than any single shore. All healing you do is increased by 60%, and Moonlight Heal costs half mana during Waxing Moon." }
+      { description: "The tide runs deeper than any single shore. All healing you do is increased by +1d8 damage." },
+      { description: "The tide runs deeper than any single shore. All healing you do is increased by +1d8 damage." },
+      { description: "The tide runs deeper than any single shore. All healing you do is increased by +2d8 damage." },
+      { description: "The tide runs deeper than any single shore. All healing you do is increased by +2d8 damage, and Moonlight Heal costs half mana during Waxing Moon." }
     ]
   },
   {

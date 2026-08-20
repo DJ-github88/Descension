@@ -29,7 +29,7 @@ export const WARDEN_SHADOWBLADE = [
     },
     rankUpgrades: [
       { description: "Mark a target within 60 feet for 1 minute: your attacks against the marked target generate +2 VP." },
-      { description: "Mark a target within 90 feet for 1 minute: your attacks against the marked target generate +2 VP, and VP builds 50% faster against marks.", durationRounds: 6 }
+      { description: "Mark a target within 90 feet for 1 minute: your attacks against the marked target generate +2 VP, and VP builds 50 points faster against marks.", durationRounds: 6 }
     ]
   },
   {
@@ -127,15 +127,15 @@ export const WARDEN_SHADOWBLADE = [
     requires: "wsb_t2_predator_strike",
     spell: {
       name: "Unseen Executioner",
-      description: "Marked targets below half health take 10% more damage from your attacks. When you kill a marked target, you may hide as 1 Action Point.",
+      description: "Marked targets below half health suffer +1d6 bonus damage from your attacks. When you kill a marked target, you may hide as 1 Action Point.",
       flavorText: "Half health is a eulogy in progress.",
       source: "talent", class: "Warden", treeId: "shadowblade",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "execute", "stealth", "warden"]
     },
     rankUpgrades: [
-      { description: "Marked targets below half health take 15% more damage from your attacks; killing a marked target lets you hide as a free action." },
-      { description: "Marked targets below half health take 20% more damage from your attacks; marked kills grant a free hide and your next stealth attack scores a critical hit on 19-20." }
+      { description: "Marked targets below half health suffer +1d6 bonus damage from your attacks; killing a marked target lets you hide as a free action." },
+      { description: "Marked targets below half health suffer +1d6 bonus damage from your attacks; marked kills grant a free hide and your next stealth attack scores a critical hit on 19-20." }
     ]
   },
   {
@@ -147,7 +147,7 @@ export const WARDEN_SHADOWBLADE = [
     requires: null,
     spell: {
       name: "Execution Strike",
-      description: "Spend 4 VP to attempt an execution on a target below 25% health: the target must pass a Constitution save or take triple damage.",
+      description: "Spend 4 VP to attempt an execution on a target below half maximum Hit Points: the target must pass a Constitution save or take triple damage.",
       flavorText: "The paperwork says 'attempt'. The blade says otherwise.",
       source: "talent", class: "Warden", treeId: "shadowblade",
       spellType: "ACTIVE", category: "damage",
@@ -159,8 +159,8 @@ export const WARDEN_SHADOWBLADE = [
       visualTheme: "shadow", tags: ["execute", "burst", "warden"]
     },
     rankUpgrades: [
-      { description: "Spend 4 VP to attempt an execution on a target below 25% health: Constitution save or take triple damage; a failed save also silences them for 1 round." },
-      { description: "Spend 4 VP: execute a target below 35% health — Constitution save or take QUADRUPLE damage and be silenced for 1 round. A successful save still takes double damage." }
+      { description: "Spend 4 VP to attempt an execution on a target below half maximum Hit Points: Constitution save or take triple damage; a failed save also silences them for 1 round." },
+      { description: "Spend 4 VP: execute a target below half maximum Hit Points — Constitution save or take QUADRUPLE damage and be silenced for 1 round. A successful save still takes double damage." }
     ]
   },
 
@@ -238,14 +238,14 @@ export const WARDEN_SHADOWBLADE = [
     requires: "wsb_t3_shadow_step",
     spell: {
       name: "Apex Hunter",
-      description: "While you hold 8 or more VP, your attacks against marked targets deal +15% damage, and you may spend 2 VP to make a follow-up attack as a reaction when hit.",
+      description: "While you hold 8 or more VP, your attacks against marked targets deal +1d6 bonus damage, and you may spend 2 VP to make a follow-up attack as a reaction when hit.",
       flavorText: "At the top of the food chain, every meal is a reaction.",
       source: "talent", class: "Warden", treeId: "shadowblade",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "threshold", "empower", "warden"]
     },
     rankUpgrades: [
-      { description: "While at 8+ VP, attacks against marks deal +25% damage and your follow-up reaction attack costs 1 VP; killing blows below half health refund 2 VP." }
+      { description: "While at 8+ VP, attacks against marks deal +1d8 bonus damage and your follow-up reaction attack costs 1 VP; killing blows below half health refund 2 VP." }
     ]
   },
 
@@ -337,7 +337,7 @@ export const WARDEN_SHADOWBLADE = [
     requires: "wsb_t6_shadowblade_ascendant",
     spell: {
       name: "Shadow Requiem",
-      description: "ULTIMATE: Mark up to 3 targets simultaneously for 1 minute. While in Shadowblade Ascendant, each attack against a marked target chains to your other marks at 50% damage, and each mark that dies during the Requiem immediately refunds 3 VP and extends the Ascendant form by 1 round.",
+      description: "ULTIMATE: Mark up to 3 targets simultaneously for 1 minute. While in Shadowblade Ascendant, each attack against a marked target chains to your other marks at 50 points damage, and each mark that dies during the Requiem immediately refunds 3 VP and extends the Ascendant form by 1 round.",
       flavorText: "One requiem, several names, no encores.",
       source: "talent", class: "Warden", treeId: "shadowblade",
       spellType: "ACTIVE", category: "debuff",
@@ -402,7 +402,7 @@ export const WARDEN_SHADOWBLADE = [
     requires: "wsb_t6_vein_reader",
     spell: {
       name: "Blood Ledger",
-      description: "Every name crossed out pays interest. Each enemy killed by your attacks grants you +5% damage for 1 minute (stacks up to 5 times).",
+      description: "Every name crossed out pays interest. Each enemy killed by your attacks grants you +5 points damage for 1 minute (stacks up to 5 times).",
       flavorText: "Accounting, aggressive edition.",
       source: "talent", class: "Warden", treeId: "shadowblade",
       spellType: "PASSIVE", category: "buff",
@@ -410,8 +410,8 @@ export const WARDEN_SHADOWBLADE = [
       visualTheme: "shadow", tags: ["passive", "capstone", "stacking", "warden"]
     },
     rankUpgrades: [
-      { description: "Each enemy killed grants +8% damage for 1 minute (max 6 stacks)." },
-      { description: "Each kill grants +10% damage and +1 VP for 1 minute (max 8 stacks); at full stacks your attacks against marks cannot miss." }
+      { description: "Each enemy killed grants +8 points damage for 1 minute (max 6 stacks)." },
+      { description: "Each kill grants +10 points damage and +1 VP for 1 minute (max 8 stacks); at full stacks your attacks against marks cannot miss." }
     ]
   },
   {

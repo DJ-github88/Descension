@@ -399,7 +399,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     requires: "hsw_t6_confession",
     spell: {
       name: "Rot Crown",
-      description: "Your Corruption Aura learns from the garden: enemies inside it have their healing reduced by 25%.",
+      description: "Your Corruption Aura learns from the garden: enemies inside it have their healing reduced by 25 points.",
       flavorText: "The crown is invisible. The effects are not.",
       source: "talent", class: "Inquisitor", treeId: "hollow_saint",
       spellType: "PASSIVE", category: "debuff",
@@ -407,8 +407,8 @@ export const INQUISITOR_HOLLOW_SAINT = [
       visualTheme: "shadow", tags: ["passive", "capstone", "aura", "anti-heal", "inquisitor"]
     },
     rankUpgrades: [
-      { description: "Enemies in your aura heal 25% less and take 1d6 extra blight from your attacks." },
-      { description: "Aura-borne enemies heal 50% less, and allies inside your aura are immune to their healing reduction — the rot knows the household." }
+      { description: "Enemies in your aura heal 25 points less and take 1d6 extra blight from your attacks." },
+      { description: "Aura-borne enemies heal 50 points less, and allies inside your aura are immune to their healing reduction — the rot knows the household." }
     ]
   },
   {
@@ -428,7 +428,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
       visualTheme: "shadow", tags: ["passive", "capstone", "execute", "inquisitor"]
     },
     rankUpgrades: [
-      { description: "Condemned targets below half health take 75% more damage from you." },
+      { description: "Condemned targets below half health suffer +2d6 bonus damage from you." },
       { description: "Condemned targets below half health take DOUBLE damage from you, and your killing blow on a condemned enemy generates 3 Authority." }
     ]
   }

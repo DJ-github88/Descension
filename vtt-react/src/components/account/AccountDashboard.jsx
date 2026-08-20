@@ -62,6 +62,29 @@ const AccountDashboard = ({ user }) => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
+  // Support location state tab changes and cross-app navigation events
+  useEffect(() => {
+    if (location.state?.tab) {
+      setActiveTab(location.state.tab);
+    }
+  }, [location.state]);
+
+  useEffect(() => {
+    const handleNavJournal = () => setActiveTab('journal');
+    const handleNavCampaign = () => setActiveTab('campaigns');
+    const handleNavWorld = () => setActiveTab('maps');
+
+    window.addEventListener('mythrill_navigate_journal', handleNavJournal);
+    window.addEventListener('mythrill_navigate_campaign', handleNavCampaign);
+    window.addEventListener('mythrill_open_world_dossier', handleNavWorld);
+
+    return () => {
+      window.removeEventListener('mythrill_navigate_journal', handleNavJournal);
+      window.removeEventListener('mythrill_navigate_campaign', handleNavCampaign);
+      window.removeEventListener('mythrill_open_world_dossier', handleNavWorld);
+    };
+  }, []);
+
   // Initialize social listeners and presence tracking
   useEffect(() => {
     if (user?.uid) {
@@ -515,6 +538,30 @@ const AccountDashboard = ({ user }) => {
 
           {/* Right: Action Buttons */}
           <div className="header-actions-new">
+            {/* Quick Switcher Command Palette Trigger */}
+            <button
+              className="quick-search-trigger-btn"
+              onClick={() => window.dispatchEvent(new CustomEvent('mythrill_toggle_quick_switcher'))}
+              title="Universal Search & Command Palette (Ctrl+K)"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'rgba(212, 175, 55, 0.12)',
+                border: '1px solid rgba(212, 175, 55, 0.35)',
+                color: '#d4af37',
+                padding: '6px 12px',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '0.85rem',
+                fontWeight: 600,
+                transition: 'all 0.15s ease'
+              }}
+            >
+              <i className="fas fa-search"></i>
+              <span>Search (Ctrl+K)</span>
+            </button>
+
             {/* Storage Cloud */}
             <StorageUsageWidget cloud={true} />
 

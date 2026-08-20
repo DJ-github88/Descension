@@ -66,7 +66,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     },
     rankUpgrades: [
       { description: "Contagion spreads deal 2d6 blight damage and grant 2 Virulence.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
-      { description: "Contagion spreads deal 3d6 blight damage, grant 2 Virulence, and have a 30% chance to immediately bounce a second time.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
+      { description: "Contagion spreads deal 3d6 blight damage, grant 2 Virulence, and have a 30 points chance to immediately bounce a second time.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -126,7 +126,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     requires: "vs_t1_rapid_contagion",
     spell: {
       name: "Chain Contagion",
-      description: "When an infected target takes damage from any source, there is a 35% chance they emit a toxic cough dealing 1d6 blight to all adjacent enemies.",
+      description: "When an infected target takes damage from any source, there is a 35 points chance they emit a toxic cough dealing 1d6 blight to all adjacent enemies.",
       flavorText: "The guest list grows itself.",
       source: "talent", class: "Plaguebringer", treeId: "virulent_spreader",
       spellType: "PASSIVE", category: "damage",
@@ -135,8 +135,8 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
       visualTheme: "poison", tags: ["passive", "chain", "crossfire", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "50% chance on damaged infected target to emit toxic cough for 2d6 blight damage.", primaryDamage: { dice: "2d6", flat: 0, procChance: 50 } },
-      { description: "65% chance on damaged infected target to emit toxic cough for 3d6 blight damage, and each cough restores 1 Virulence to you.", primaryDamage: { dice: "3d6", flat: 0, procChance: 65 } }
+      { description: "50 points chance on damaged infected target to emit toxic cough for 2d6 blight damage.", primaryDamage: { dice: "2d6", flat: 0, procChance: 50 } },
+      { description: "65 points chance on damaged infected target to emit toxic cough for 3d6 blight damage, and each cough restores 1 Virulence to you.", primaryDamage: { dice: "3d6", flat: 0, procChance: 65 } }
     ]
   },
 
@@ -177,7 +177,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     requires: "vs_t2_chain_infection",
     spell: {
       name: "Infectious Miasma",
-      description: "Enemies within 15 feet of any target carrying an affliction take 1d8 blight damage per turn and cannot regain health above 75%.",
+      description: "Enemies within 15 feet of any target carrying an affliction take 1d8 blight damage per turn and cannot regain health above 75 points.",
       flavorText: "Proximity is a preexisting condition.",
       source: "talent", class: "Plaguebringer", treeId: "virulent_spreader",
       spellType: "PASSIVE", category: "debuff",
@@ -186,8 +186,8 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
       visualTheme: "poison", tags: ["passive", "aura", "anti-heal", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Aura deals 2d8 blight per turn within 20 feet and caps enemy health at 50%.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } },
-      { description: "Aura deals 3d8 blight per turn within 25 feet, caps enemy health at 50%, and automatically seeds uninfected foes entering the aura.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
+      { description: "Aura deals 2d8 blight per turn within 20 feet and caps enemy health at 50 points.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } },
+      { description: "Aura deals 3d8 blight per turn within 25 feet, caps enemy health at 50 points, and automatically seeds uninfected foes entering the aura.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
     ]
   },
 
@@ -277,15 +277,15 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     requires: "vs_t4_viral_burst",
     spell: {
       name: "Pathogen Reservoir",
-      description: "Your maximum Virulence increases by 4. Whenever you have 5 or more Virulence, your movement speed is increased by 15 feet and all blight damage you deal is increased by 15%.",
+      description: "Your maximum Virulence increases by 4. Whenever you have 5 or more Virulence, your movement speed is increased by 15 feet and all blight damage you deal is increased by +1d6 damage.",
       flavorText: "The vats never sleep. Neither does the accountant.",
       source: "talent", class: "Plaguebringer", treeId: "virulent_spreader",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "poison", tags: ["passive", "virulence", "buff", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Maximum Virulence +6; +20ft speed and +25% blight damage while at 5+ Virulence." },
-      { description: "Maximum Virulence +8; +25ft speed, +35% blight damage, and at 8+ Virulence all your spell cooldowns recharge 50% faster." }
+      { description: "Maximum Virulence +6; +20ft speed and +25 points blight damage while at 5+ Virulence." },
+      { description: "Maximum Virulence +8; +25ft speed, +35 points blight damage, and at 8+ Virulence all your spell cooldowns recharge 50 points faster." }
     ]
   },
 
@@ -342,14 +342,14 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     requires: "vs_t5_strain_banking",
     spell: {
       name: "Superbug Mutation",
-      description: "Your spread afflictions mutate: they reduce enemy movement speed by 25% and reduce all outgoing enemy damage by 15%.",
+      description: "Your spread afflictions mutate: they reduce enemy movement speed by 25 points and reduce all outgoing enemy damage by 15 points.",
       flavorText: "The strain has learned to resist therapy.",
       source: "talent", class: "Plaguebringer", treeId: "virulent_spreader",
       spellType: "PASSIVE", category: "debuff",
       targetingMode: "self", visualTheme: "poison", tags: ["passive", "mutation", "debuff", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Mutated afflictions reduce enemy speed by 40%, reduce enemy damage by 25%, and make targets vulnerable (+20% damage taken) to blight." }
+      { description: "Mutated afflictions reduce enemy speed by 40 points, reduce enemy damage by 25 points, and make targets vulnerable (+20 points damage taken) to blight." }
     ]
   },
 
@@ -388,7 +388,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     requires: "vs_t6_global_pandemic",
     spell: {
       name: "Waste Spore Doctrine",
-      description: "The Peat-Wastes bloom without boundary. All blight AoE damage and contagion damage you deal is increased by 10%.",
+      description: "The Peat-Wastes bloom without boundary. All blight AoE damage and contagion damage you deal is increased by +1d6 damage.",
       flavorText: "The garden has no fence.",
       source: "talent", class: "Plaguebringer", treeId: "virulent_spreader",
       spellType: "PASSIVE", category: "damage",
@@ -396,10 +396,10 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
       visualTheme: "poison", tags: ["passive", "capstone", "damage", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "All blight AoE and contagion damage increased by 20%." },
-      { description: "All blight AoE and contagion damage increased by 35%." },
-      { description: "All blight AoE and contagion damage increased by 50%." },
-      { description: "All blight AoE and contagion damage increased by 70%, and Spore Volley costs 0 mana." }
+      { description: "All blight AoE and contagion damage increased by +1d8 damage." },
+      { description: "All blight AoE and contagion damage increased by +1d8 damage." },
+      { description: "All blight AoE and contagion damage increased by +2d8 damage." },
+      { description: "All blight AoE and contagion damage increased by +2d8 damage, and Spore Volley costs 0 mana." }
     ]
   },
   {
@@ -460,8 +460,8 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
       visualTheme: "poison", tags: ["passive", "capstone", "aura", "sustain", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Aura radius 20 feet, deals 3d6 blight damage per round, and heals you for 100% of damage dealt.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } },
-      { description: "Aura radius 25 feet, deals 4d6 blight damage per round, heals you for 100%, and enemies inside have their damage reduced by 25%.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 } }
+      { description: "Aura radius 20 feet, deals 3d6 blight damage per round, and heals you for 100 points of damage dealt.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } },
+      { description: "Aura radius 25 feet, deals 4d6 blight damage per round, heals you for 100 points, and enemies inside have their damage reduced by 25 points.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 } }
     ]
   }
 ];

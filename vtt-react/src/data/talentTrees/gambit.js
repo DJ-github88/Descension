@@ -1,11 +1,11 @@
 // ============================================
-// GAMBIT TALENT TREES (v3: full v2/v3 active/passive spec identity overhaul)
-// Schema: see talentSystem.mjs. Rank N spell = rank N-1 + rankUpgrades[N-2].
-// Economy: 8/6/6/5/5/5 = 30 pts (tiers 1-6) + 15 pts (tier 7) = 50 pts per tree.
+// GAMBIT TALENT TREES (v5: Pure TTRPG, Zero Percentages, Balanced Tier Budgets)
+// Schema: see talentSystem.mjs.
+// Grid coordinates: x (0..4), y (0..6 representing Tiers 1..7).
 //
 // SPECS:
 //   1. PROBABILITY SAVANT: The Precise Dice Nudger / Statistical Controller / Fate Math Savant.
-//   2. HIGH ROLLER:        The Volatile All-In Gambler / Self-Harm Risk Escalator / Jackpot Nuke.
+//   2. HIGH ROLLER:        The Volatile All-In Gambler / Risk Escalator / Jackpot Striker.
 //   3. KARMIC WEAVER:      The Soul-Tethering Debt Collector / Wyrd Fate Linker.
 // ============================================
 
@@ -13,7 +13,7 @@
 // 1. GAMBIT — PROBABILITY SAVANT
 // ============================================
 export const GAMBIT_PROBABILITY_SAVANT = [
-  // ──────────────── TIER 1 (8 pts) ────────────────
+  // ──────────────── TIER 1 (Row 0) ────────────────
   {
     id: "ps_t1_calculated_nudge",
     name: "Calculated Nudge",
@@ -23,20 +23,20 @@ export const GAMBIT_PROBABILITY_SAVANT = [
     requires: null,
     spell: {
       name: "Calculated Nudge",
-      description: "Spend 1 Fortune Point (FP) as a reaction: alter any d20 roll within 60 feet by +2 or -2 after seeing the result. Generates 1 FP if the modified roll succeeds.",
+      description: "Spend 1 Fortune Point (FP) as a reaction: Alter any d20 roll within 60 feet by +1 or -1 after seeing the roll.",
       flavorText: "The Iceheart Sea teaches that every wave is a wager.",
       source: "talent", class: "Gambit", treeId: "probability_savant",
       spellType: "ACTIVE", category: "utility",
+      actionPoints: 0,
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 4, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
+      cooldownCategory: "turn_based", cooldownValue: 1, cooldownUnit: "round",
       resourceCosts: { fortunePoints: { baseAmount: 1 } },
       visualTheme: "arcane", tags: ["reaction", "dice-nudge", "math", "gambit"]
     },
     rankUpgrades: [
-      { description: "Alters roll by +/-3 and grants the target +1d6 bonus damage on success." },
-      { description: "Alters roll by +/-4, grants +2d6 damage, and refunds the FP unconditionally." }
+      { description: "Alters roll by +2 or -2, and grants the target +1d4 psychic damage on a successful attack." },
+      { description: "Alters roll by +2 or -2, grants +1d6 psychic damage, and refunds the FP if the modified roll succeeds." }
     ]
   },
   {
@@ -44,407 +44,305 @@ export const GAMBIT_PROBABILITY_SAVANT = [
     name: "Balanced Ledger",
     icon: "inv_misc_coin_01",
     maxRanks: 3,
-    position: { x: 2.5, y: 0 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
       name: "Balanced Ledger",
-      description: "Your maximum Fortune Points increase by 3. When you have 4 or more FP, your attacks gain +2 to hit and deal +1d6 psychic damage.",
+      description: "Passive: While you hold 2 or more Fortune Points, your weapon attacks gain +1 to hit and deal +1d4 psychic damage.",
       flavorText: "A book that always balances in the house's favor.",
       source: "talent", class: "Gambit", treeId: "probability_savant",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", damageTypes: ["psychic"],
-      primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
-      visualTheme: "arcane", tags: ["passive", "fp-cap", "bonus-damage", "gambit"]
+      targetingMode: "self", damageTypes: ["arcane"],
+      primaryDamage: { dice: "1d4", flat: 0, procChance: 100 },
+      visualTheme: "arcane", tags: ["passive", "bonus-damage", "gambit"]
     },
     rankUpgrades: [
-      { description: "Max FP +5; at 4+ FP gain +3 to hit and +2d6 psychic damage." },
-      { description: "Max FP +8; at 4+ FP gain +4 to hit, +3d6 psychic damage, and +2 Durability Steps to equipped durability." }
+      { description: "While holding 2 or more FP, gain +1 to hit and deal +1d6 psychic damage." },
+      { description: "While holding 2 or more FP, gain +2 to hit and deal +1d6 psychic damage." }
     ]
   },
   {
-    id: "ps_t1_soft_landing",
+    id: "ps_t1_probability_shield",
     name: "Probability Shield",
     icon: "spell_holy_borrowedtime",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Probability Shield",
-      description: "When your FP drops to 0, gain a 30-damage psychic ward and you take 20% less damage for 2 rounds.",
+      description: "Passive: When your FP drops to 0, immediately gain 8 temporary Hit Points and 1 Damage Reduction against all attacks for 1 round.",
       flavorText: "The mathematical law of regression to the mean protects the bankrupt.",
       source: "talent", class: "Gambit", treeId: "probability_savant",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "shield", "safety-net", "gambit"]
     },
     rankUpgrades: [
-      { description: "Gain 60-damage psychic ward and take 40% less damage for 3 rounds on hitting 0 FP." }
+      { description: "Gain 14 temporary Hit Points and 2 Damage Reduction for 2 rounds upon reaching 0 FP." }
     ]
   },
 
-  // ──────────────── TIER 2 (6 pts) ────────────────
+  // ──────────────── TIER 2 (Row 1) ────────────────
   {
     id: "ps_t2_card_counter",
     name: "Card Counter Mark",
     icon: "ability_rogue_findweakness",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "ps_t1_calculated_nudge",
     spell: {
       name: "Card Counter Mark",
-      description: "Spend 2 FP: mark an enemy within 50 feet for 1 minute: tracks their mathematical weaknesses. Your attacks against them cannot miss, deal 3d8 psychic damage, and all nudges affecting them cost 0 FP.",
+      description: "Spend 1 FP: Mark an enemy within 50 feet for 3 rounds. Your attacks against them ignore partial cover and deal +1d6 psychic damage.",
       flavorText: "Track the deck, count the discards, predict every motion.",
       source: "talent", class: "Gambit", treeId: "probability_savant",
       spellType: "ACTIVE", category: "debuff",
+      actionPoints: 1,
       targetingMode: "single", rangeType: "ranged", range: 50,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { fortunePoints: { baseAmount: 2 } },
-      damageTypes: ["psychic"],
-      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
-      debuffs: ["counted"], visualTheme: "arcane", tags: ["mark", "no-miss", "free-nudge", "gambit"]
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      resourceCosts: { fortunePoints: { baseAmount: 1 } },
+      visualTheme: "arcane", tags: ["mark", "accuracy", "gambit"]
     },
     rankUpgrades: [
-      { description: "Deals 5d8 psychic damage, and allies also gain advantage on attacks against the marked target.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 } },
-      { description: "Deals 7d8 psychic damage, all ally attacks against target crit on 18+, and resets cooldown on target death.", primaryDamage: { dice: "7d8", flat: 0, procChance: 100 } }
+      { description: "Bonus damage increases to +1d8 psychic, and Calculated Nudge targeting them costs 0 FP." },
+      { description: "Bonus damage increases to +1d8 psychic, and allies gain +1 to hit the marked target." }
     ]
   },
   {
-    id: "ps_t2_aether_foresight",
-    name: "Aether Foresight",
-    icon: "inv_misc_tarot_01",
+    id: "ps_t2_weighted_dice",
+    name: "Weighted Toss",
+    icon: "inv_misc_dice_02",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
-    requires: "ps_t1_balanced_ledger",
+    position: { x: 3, y: 1 },
+    requires: "ps_t1_probability_shield",
     spell: {
-      name: "Aether Foresight",
-      description: "When an enemy casts a spell or makes an attack roll against you, peek at fate: force the enemy to roll twice and take the lower result (disadvantage).",
-      flavorText: "Knowing the next card before it leaves the shoe.",
-      source: "talent", class: "Gambit", treeId: "probability_savant",
-      spellType: "PASSIVE", category: "debuff",
-      targetingMode: "self", visualTheme: "arcane", tags: ["passive", "disadvantage", "defense", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Enemies attack with disadvantage; when they miss, you gain 1 FP." },
-      { description: "Enemies attack with disadvantage; misses grant 2 FP and reflect 2d8 psychic damage back." }
-    ]
-  },
-
-  // ──────────────── TIER 3 (6 pts) ────────────────
-  {
-    id: "ps_t3_law_of_averages",
-    name: "Law of Averages",
-    icon: "spell_arcane_arcane04",
-    maxRanks: 3,
-    position: { x: 1, y: 3 },
-    requires: "ps_t2_card_counter",
-    spell: {
-      name: "Law of Averages",
-      description: "Spend 3 FP: force any d20 roll within 60 feet to resolve as exactly 10. Deals 4d8 psychic damage if used on an enemy, or grants 30 temporary health if used on an ally.",
-      flavorText: "Taming the wild swings of fortune into cold certainty.",
-      source: "talent", class: "Gambit", treeId: "probability_savant",
-      spellType: "ACTIVE", category: "utility",
-      targetingMode: "single", rangeType: "ranged", range: 60,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 14, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { fortunePoints: { baseAmount: 3 } },
-      damageTypes: ["psychic"],
-      primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
-      visualTheme: "arcane", tags: ["fix-dice", "deterministic", "utility", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Force roll to exactly 12; deals 6d8 psychic or grants 50 temp HP, cooldown drops to 10s.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 }, cooldownValue: 10 },
-      { description: "Force roll to exactly 15 for allies (or 5 for enemies); deals 8d8 psychic or grants 70 temp HP.", primaryDamage: { dice: "8d8", flat: 0, procChance: 100 }, cooldownValue: 8 }
-    ]
-  },
-  {
-    id: "ps_t3_variance_suppression",
-    name: "Variance Suppression",
-    icon: "inv_misc_scalesofjustice",
-    maxRanks: 3,
-    position: { x: 3, y: 3 },
-    requires: "ps_t2_aether_foresight",
-    spell: {
-      name: "Variance Suppression",
-      description: "All enemy damage rolls against your party cannot roll maximum damage (all damage dice rolled by enemies are reduced by 2).",
-      flavorText: "Cutting off the high end of enemy fortune.",
-      source: "talent", class: "Gambit", treeId: "probability_savant",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "arcane", tags: ["passive", "damage-clamp", "party-defense", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Enemy damage dice reduced by 3 and enemies cannot score critical hits against your party." },
-      { description: "Enemy damage dice reduced by 4, immunity to enemy critical hits, and your party deals +20% damage." }
-    ]
-  },
-
-  // ──────────────── TIER 4 (5 pts) ────────────────
-  {
-    id: "ps_t4_quantum_collapse",
-    name: "Probability Singularity",
-    icon: "spell_arcane_blast",
-    maxRanks: 3,
-    position: { x: 1, y: 4.5 },
-    requires: "ps_t3_law_of_averages",
-    spell: {
-      name: "Probability Singularity",
-      description: "Spend 4 FP: collapse all probability waves in a 30-foot area within 50 feet. Deals 6d10 psychic/force damage to all enemies, silences them for 1 round, and sets all their d20 rolls next round to 1.",
-      flavorText: "Total collapse of favorable outcomes for the enemy.",
+      name: "Weighted Toss",
+      description: "Hurl loaded dice at an enemy within 40 feet dealing 1d8 psychic damage. If the damage roll is even, you immediately gain 1 FP and the target is Staggered for 1 round.",
+      flavorText: "The edges are shaved just enough to defy God.",
       source: "talent", class: "Gambit", treeId: "probability_savant",
       spellType: "ACTIVE", category: "damage",
-      targetingMode: "aoe", rangeType: "ranged", range: 50, aoeShape: "circle", aoeSize: 30,
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "ranged", range: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { fortunePoints: { baseAmount: 4 } },
-      damageTypes: ["psychic", "force"],
-      primaryDamage: { dice: "6d10", flat: 0, procChance: 100 },
-      debuffs: ["forced-one"], visualTheme: "arcane", tags: ["aoe", "nuke", "forced-fail", "gambit"]
+      cooldownCategory: "turn_based", cooldownValue: 1, cooldownUnit: "round",
+      primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
+      damageTypes: ["arcane"],
+      visualTheme: "arcane", tags: ["dice", "stagger", "gambit"]
     },
     rankUpgrades: [
-      { description: "35-foot area deals 8d10 damage, silences for 2 rounds, and cooldown drops to 16s.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 }, aoeSize: 35, cooldownValue: 16 },
-      { description: "40-foot area deals 10d10 damage, silences for 2 rounds, and all affected foes take double damage for 2 rounds.", primaryDamage: { dice: "10d10", flat: 0, procChance: 100 }, aoeSize: 40, cooldownValue: 12 }
-    ]
-  },
-  {
-    id: "ps_t4_perfect_deck",
-    name: "Deck Optimization",
-    icon: "inv_misc_tarot_01",
-    maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
-    requires: "ps_t3_variance_suppression",
-    spell: {
-      name: "Deck Optimization",
-      description: "Whenever you draw a card from your magical deck, draw 2 cards and keep both. When you cast a spell, refund 1 FP.",
-      flavorText: "Stacking the cards in broad daylight.",
-      source: "talent", class: "Gambit", treeId: "probability_savant",
-      spellType: "PASSIVE", category: "utility",
-      targetingMode: "self", visualTheme: "arcane", tags: ["passive", "card-draw", "fp-refund", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Draw 3 cards and keep all 3; refund 2 FP on every spell cast." }
+      { description: "Deals 2d6 psychic damage. Even rolls grant 1 FP and Stagger the target for 1 round.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
+      { description: "Deals 2d8 psychic damage. Even rolls grant 1 FP and Daze the target for 1 round.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } }
     ]
   },
 
-  // ──────────────── TIER 5 (5 pts) ────────────────
+  // ──────────────── TIER 3 (Row 2) ────────────────
   {
-    id: "ps_t5_grand_equation",
-    name: "The Grand Equation",
-    icon: "spell_arcane_starfire",
-    maxRanks: 2,
-    position: { x: 1, y: 6 },
-    requires: "ps_t4_quantum_collapse",
-    spell: {
-      name: "The Grand Equation",
-      description: "Spend 5 FP: calculate the perfect sequence of actions for your party for 2 rounds. All party members gain +10 to attack rolls, +4 to saving throws, and all their attacks deal maximum damage dice.",
-      flavorText: "The mathematical proof of absolute victory.",
-      source: "talent", class: "Gambit", treeId: "probability_savant",
-      spellType: "ACTIVE", category: "buff",
-      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 40,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { fortunePoints: { baseAmount: 5 } },
-      durationRounds: 2, durationRealTime: 12, durationUnit: "seconds",
-      buffs: ["grand-equation"], visualTheme: "arcane", tags: ["party-buff", "maximize-dice", "sure-hit", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Grand Equation lasts 3 rounds: party attacks are guaranteed critical hits and ignore all enemy durability.", cooldownValue: 24 }
-    ]
-  },
-  {
-    id: "ps_t5_infinite_fortune",
-    name: "Fortune Compound Interest",
-    icon: "inv_misc_coin_01",
+    id: "ps_t3_variance_crush",
+    name: "Variance Crush",
+    icon: "spell_arcane_arcane04",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
-    requires: "ps_t4_perfect_deck",
+    position: { x: 1, y: 2 },
+    requires: "ps_t2_card_counter",
     spell: {
-      name: "Fortune Compound Interest",
-      description: "At the start of every combat round, your current Fortune Points increase by 50% (rounded up), and you start combat at maximum FP.",
-      flavorText: "Wealth that breeds wealth exponentially.",
+      name: "Variance Crush",
+      description: "Spend 2 FP: Unleash a psychic shockwave in a 20-foot line dealing 2d8 psychic damage and pushing targets 10 feet back.",
+      flavorText: "Flattening the bell curve crushes those outside the mean.",
       source: "talent", class: "Gambit", treeId: "probability_savant",
-      spellType: "PASSIVE", category: "utility",
-      targetingMode: "self", visualTheme: "arcane", tags: ["passive", "fp-exponential", "economy", "gambit"]
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "aoe", aoeShape: "line", aoeSize: 20, rangeType: "ranged", range: 20,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
+      damageTypes: ["arcane"],
+      resourceCosts: { fortunePoints: { baseAmount: 2 } },
+      visualTheme: "arcane", tags: ["aoe", "push", "gambit"]
     },
     rankUpgrades: [
-      { description: "FP doubles every round (up to max cap) and your maximum FP increases by +6." },
-      { description: "FP doubles every round; maximum FP increases by +12 and abilities cost 1 fewer FP." }
+      { description: "Deals 2d8 psychic damage and knocks targets Prone on a failed Fortitude save.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } },
+      { description: "Deals 3d8 psychic damage, knocks targets Prone, and refunds 1 FP if it hits 2 or more enemies.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
+    ]
+  },
+  {
+    id: "ps_t3_house_advantage",
+    name: "House Advantage",
+    icon: "spell_shadow_mindrot",
+    maxRanks: 3,
+    position: { x: 2, y: 2 },
+    requires: null,
+    spell: {
+      name: "House Advantage",
+      description: "Passive: Whenever an enemy rolls a natural 1 on an attack or saving throw within 30 feet, they suffer 1d6 psychic damage and you gain 1 FP.",
+      flavorText: "The house never loses. It merely collects what is owed.",
+      source: "talent", class: "Gambit", treeId: "probability_savant",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", damageTypes: ["arcane"],
+      primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
+      visualTheme: "arcane", tags: ["passive", "fumble-punish", "gambit"]
+    },
+    rankUpgrades: [
+      { description: "Natural 1s deal 1d8 psychic damage and grant you 1 FP." },
+      { description: "Natural 1s deal 2d6 psychic damage, grant you 1 FP, and inflict Disadvantage on the enemy's next attack." }
     ]
   },
 
-  // ──────────────── TIER 6 (5 pts) ────────────────
+  // ──────────────── TIER 4 (Row 3) ────────────────
   {
-    id: "ps_t6_deterministic_reality",
-    name: "Deterministic Reality",
-    icon: "inv_misc_platnumdisks",
+    id: "ps_t4_deterministic_strike",
+    name: "Deterministic Strike",
+    icon: "ability_rogue_shadowstrikes",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
-    requires: "ps_t5_grand_equation",
+    position: { x: 2, y: 3 },
+    requires: ["ps_t3_variance_crush", "ps_t3_house_advantage"],
     spell: {
-      name: "Deterministic Reality",
-      description: "Spend 6 FP: eliminate randomness from the battlefield for 2 rounds: every single roll your party makes is treated as a natural 20, while every roll enemies make is treated as a natural 1.",
-      flavorText: "There is no chance. Only the equation.",
+      name: "Deterministic Strike",
+      description: "Spend 2 FP: Deliver a calculated strike that treats your attack roll as a natural 16, dealing 2d10 psychic damage and ignoring up to 3 points of enemy Armor.",
+      flavorText: "When the math is resolved, the strike has already landed.",
       source: "talent", class: "Gambit", treeId: "probability_savant",
-      spellType: "ACTIVE", category: "control",
-      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { fortunePoints: { baseAmount: 6 } },
-      durationRounds: 2, durationRealTime: 12, durationUnit: "seconds",
-      buffs: ["deterministic-reality"], visualTheme: "arcane", tags: ["all-20s", "all-1s", "climax", "gambit"]
-    },
-    rankUpgrades: []
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      primaryDamage: { dice: "2d10", flat: 0, procChance: 100 },
+      damageTypes: ["arcane"],
+      resourceCosts: { fortunePoints: { baseAmount: 2 } },
+      visualTheme: "arcane", tags: ["strike", "armor-pierce", "gambit"]
+    }
   },
+
+  // ──────────────── TIER 5 (Row 4) ────────────────
   {
-    id: "ps_t6_math_criticality",
-    name: "Perfect Precision",
-    icon: "spell_arcane_blast",
-    maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
-    requires: "ps_t5_infinite_fortune",
+    id: "ps_t5_entropy_anchor",
+    name: "Entropy Anchor",
+    icon: "spell_arcane_teleportmoonglade",
+    maxRanks: 3,
+    position: { x: 1, y: 4 },
+    requires: "ps_t4_deterministic_strike",
     spell: {
-      name: "Perfect Precision",
-      description: "All psychic and force spells you cast deal triple critical damage and score critical hits on 17+.",
-      flavorText: "Hitting the exact mathematical weak point.",
+      name: "Entropy Anchor",
+      description: "Spend 2 FP: Anchor a 20-foot zone of stabilized probability for 2 rounds. Enemies inside cannot gain Advantage and take 1d6 psychic damage upon entering.",
+      flavorText: "Probability ceases to fluctuate when the master commands it.",
       source: "talent", class: "Gambit", treeId: "probability_savant",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["psychic", "force"],
-      visualTheme: "arcane", tags: ["passive", "crit", "triple-damage", "gambit"]
+      spellType: "ACTIVE", category: "debuff",
+      actionPoints: 1,
+      targetingMode: "aoe", aoeShape: "circle", aoeSize: 20, rangeType: "ranged", range: 35,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      resourceCosts: { fortunePoints: { baseAmount: 2 } },
+      visualTheme: "arcane", tags: ["zone", "dice-cap", "gambit"]
     },
     rankUpgrades: [
-      { description: "Critical hits on 16+; crits deal quadruple damage and refund 3 FP." }
+      { description: "Zone deals 1d8 psychic damage upon entering, and enemies suffer -1 to saving throws inside." },
+      { description: "Zone deals 2d6 psychic damage upon entering, and allies inside gain Advantage on saving throws." }
     ]
   },
   {
-    id: "ps_t6_probability_shield_aura",
-    name: "Statistical Immunity",
+    id: "ps_t5_statistical_ward",
+    name: "Statistical Ward",
     icon: "spell_holy_powerwordbarrier",
     maxRanks: 2,
-    position: { x: 4, y: 7.5 },
-    requires: "ps_t5_infinite_fortune",
+    position: { x: 3, y: 4 },
+    requires: "ps_t4_deterministic_strike",
     spell: {
-      name: "Statistical Immunity",
-      description: "You and all allies within 30 feet take 25% less damage from all sources, and cannot be affected by negative conditions lasting longer than 1 round.",
-      flavorText: "Negative outcomes are filtered out before arrival.",
+      name: "Statistical Ward",
+      description: "Passive: You and allies within 20 feet gain +1 to all saving throws and 2 Damage Reduction against area hazards.",
+      flavorText: "Geometry and statistics make the perfect bulwark.",
       source: "talent", class: "Gambit", treeId: "probability_savant",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "arcane", tags: ["passive", "condition-reduction", "dr", "gambit"]
+      targetingMode: "self", visualTheme: "arcane", tags: ["passive", "aura", "save-buff", "gambit"]
     },
     rankUpgrades: [
-      { description: "Party takes 40% less damage and is completely immune to stun, silence, and paralysis." }
+      { description: "Allies within 20 feet gain +2 to saving throws and 3 Damage Reduction against area hazards." }
     ]
   },
 
-  // ──────────────── TIER 7 / CAPSTONE (15 pts) ────────────────
+  // ──────────────── TIER 6 (Row 5) ────────────────
   {
-    id: "ps_t7_avatar_of_the_savant",
-    name: "Avatar of Absolute Certainty",
-    icon: "inv_misc_scalesofjustice",
-    maxRanks: 1,
-    position: { x: 0.5, y: 9.5 },
-    requires: "ps_t6_deterministic_reality",
+    id: "ps_t6_law_of_large_numbers",
+    name: "Law of Large Numbers",
+    icon: "spell_arcane_starfire",
+    maxRanks: 3,
+    position: { x: 2, y: 5 },
+    requires: ["ps_t5_entropy_anchor", "ps_t5_statistical_ward"],
     spell: {
-      name: "Avatar of Absolute Certainty",
-      description: "ULTIMATE: Spend 8 FP: take supreme control of universal probability for 1 minute: all enemy attacks miss your party automatically (100% miss chance), all party strikes are guaranteed critical hits for maximum dice damage, and all party ability cooldowns reset every round.",
-      flavorText: "The dice are removed. The outcome was decided before you entered the room.",
+      name: "Law of Large Numbers",
+      description: "Spend 3 FP: Force a cosmic statistical reckoning in a 25-foot radius. Deals 3d8 psychic damage to all enemies, and heals all allies in the radius for 2d6 Hit Points.",
+      flavorText: "In the limit, all outcomes converge to the master's design.",
+      source: "talent", class: "Gambit", treeId: "probability_savant",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "aoe", aoeShape: "circle", aoeSize: 25, rangeType: "ranged", range: 40,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
+      damageTypes: ["arcane"],
+      resourceCosts: { fortunePoints: { baseAmount: 3 } },
+      visualTheme: "arcane", tags: ["aoe", "heal-damage", "gambit"]
+    },
+    rankUpgrades: [
+      { description: "Deals 3d10 psychic damage to enemies and heals allies for 2d8 Hit Points.", primaryDamage: { dice: "3d10", flat: 0, procChance: 100 } },
+      { description: "Deals 4d8 psychic damage, heals allies for 3d6 Hit Points, and removes 1 negative condition from each ally.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
+    ]
+  },
+
+  // ──────────────── TIER 7 (Row 6 - Capstones) ────────────────
+  {
+    id: "ps_t7_grand_equation",
+    name: "The Grand Equation",
+    icon: "spell_holy_mindvision",
+    maxRanks: 1,
+    position: { x: 2, y: 6 },
+    requires: "ps_t6_law_of_large_numbers",
+    spell: {
+      name: "The Grand Equation",
+      description: "ULTIMATE: Spend 3 FP: Enter a transcendent state of absolute probability for 2 rounds. All your damage rolls treat values below the die average as the average, all attacks deal +1d10 psychic damage, and natural rolls of 18–20 grant 1 FP.",
+      flavorText: "You do not roll the dice. You write the numbers upon their faces.",
       source: "talent", class: "Gambit", treeId: "probability_savant",
       spellType: "ACTIVE", category: "buff",
-      targetingMode: "self", rangeType: "self", range: 0,
+      actionPoints: 1,
+      targetingMode: "self",
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { fortunePoints: { baseAmount: 8 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
-      buffs: ["absolute-certainty"], visualTheme: "arcane", tags: ["ultimate", "capstone", "god-mode", "gambit"]
-    },
-    rankUpgrades: []
+      cooldownCategory: "turn_based", cooldownValue: 5, cooldownUnit: "rounds",
+      resourceCosts: { fortunePoints: { baseAmount: 3 } },
+      visualTheme: "arcane", tags: ["ultimate", "math", "buff", "gambit"]
+    }
   },
   {
-    id: "ps_t7_savant_doctrine",
-    name: "Probability Savant Doctrine",
-    icon: "inv_misc_tarot_01",
-    maxRanks: 5,
-    position: { x: 1.5, y: 9.5 },
-    requires: "ps_t6_deterministic_reality",
+    id: "ps_t7_flawless_calculation",
+    name: "Flawless Calculation",
+    icon: "inv_trinket_naxxramas04",
+    maxRanks: 2,
+    position: { x: 1, y: 6 },
+    requires: "ps_t6_law_of_large_numbers",
     spell: {
-      name: "Probability Savant Doctrine",
-      description: "All psychic, force, and card-based damage you deal is increased by 10%.",
-      flavorText: "The house edge is mathematically absolute.",
-      source: "talent", class: "Gambit", treeId: "probability_savant",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["psychic"],
-      visualTheme: "arcane", tags: ["passive", "capstone", "damage", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "All psychic and card damage increased by 20%." },
-      { description: "All psychic and card damage increased by 35%." },
-      { description: "All psychic and card damage increased by 50%." },
-      { description: "All psychic and card damage increased by 70%, and Calculated Nudge costs 0 FP." }
-    ]
-  },
-  {
-    id: "ps_t7_infinite_fp_engine",
-    name: "Infinite Fortune Reservoir",
-    icon: "inv_misc_coin_01",
-    maxRanks: 3,
-    position: { x: 2.5, y: 9.5 },
-    requires: "ps_t6_math_criticality",
-    spell: {
-      name: "Infinite Fortune Reservoir",
-      description: "Your maximum Fortune Points increase by 10, and whenever any d20 roll occurs anywhere in the combat, you gain 1 FP.",
-      flavorText: "Every toss of the bone pays a royalty.",
-      source: "talent", class: "Gambit", treeId: "probability_savant",
-      spellType: "PASSIVE", category: "utility",
-      targetingMode: "self", visualTheme: "arcane", tags: ["passive", "capstone", "fp-engine", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Max FP +15; gain 2 FP per roll and movement speed +15ft." },
-      { description: "Max FP +20; gain 3 FP per roll and all spells cast with 0 cast time." }
-    ]
-  },
-  {
-    id: "ps_t7_mathematical_execution",
-    name: "Deterministic Guillotine",
-    icon: "ability_rogue_deadliness",
-    maxRanks: 3,
-    position: { x: 3.5, y: 9.5 },
-    requires: "ps_t6_math_criticality",
-    spell: {
-      name: "Deterministic Guillotine",
-      description: "When an enemy fails a saving throw against your spells, they take an additional 5d10 psychic true damage.",
-      flavorText: "An error in their calculations costs them their life.",
-      source: "talent", class: "Gambit", treeId: "probability_savant",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["psychic"],
-      primaryDamage: { dice: "5d10", flat: 0, procChance: 100 },
-      visualTheme: "arcane", tags: ["passive", "capstone", "punish-fail", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Save failure deals 8d10 psychic true damage and silences for 1 round." },
-      { description: "Save failure deals 12d10 psychic true damage, silences for 2 rounds, and resets all your cooldowns." }
-    ]
-  },
-  {
-    id: "ps_t7_statistical_immortality",
-    name: "Probability Shift Rebirth",
-    icon: "spell_holy_borrowedtime",
-    maxRanks: 3,
-    position: { x: 4.5, y: 9.5 },
-    requires: "ps_t6_probability_shield_aura",
-    spell: {
-      name: "Probability Shift Rebirth",
-      description: "While you maintain at least 4 FP, lethal damage causes a quantum recalculation: restores 50% health, 50 temporary health, sets your FP to max, and freezes all enemies for 1 round (cooldown: 120s).",
-      flavorText: "The timeline where you died had a probability of zero.",
+      name: "Flawless Calculation",
+      description: "Passive: Whenever you or an ally within 30 feet misses an attack roll by 2 or less, you may spend 1 FP as a free reaction to turn the miss into a hit.",
+      flavorText: "Error margins can be erased with a single stroke.",
       source: "talent", class: "Gambit", treeId: "probability_savant",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "arcane", tags: ["passive", "capstone", "cheat-death", "gambit"]
+      targetingMode: "self", visualTheme: "arcane", tags: ["passive", "miss-fix", "gambit"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restore 75% health, 75 temp HP, freeze foes for 2 rounds (cooldown: 90s)." },
-      { description: "Survive lethal damage, restore 100% health, and immediately trigger Deterministic Reality automatically for free (cooldown: 60s)." }
+      { description: "Triggers on misses by 3 or less, and the converted hit deals an extra +1d6 psychic damage." }
+    ]
+  },
+  {
+    id: "ps_t7_asymptotic_grace",
+    name: "Asymptotic Grace",
+    icon: "spell_holy_auraoflight",
+    maxRanks: 2,
+    position: { x: 3, y: 6 },
+    requires: "ps_t6_law_of_large_numbers",
+    spell: {
+      name: "Asymptotic Grace",
+      description: "Passive: You cannot take more than 25 damage from a single attack or spell. Excess damage beyond 25 is converted into 1 FP.",
+      flavorText: "Approaching infinity, but never touching it.",
+      source: "talent", class: "Gambit", treeId: "probability_savant",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "arcane", tags: ["passive", "damage-cap", "gambit"]
+    },
+    rankUpgrades: [
+      { description: "Damage cap lowered to 20 per attack, and grants +2 Armor." }
     ]
   }
 ];
@@ -453,438 +351,340 @@ export const GAMBIT_PROBABILITY_SAVANT = [
 // 2. GAMBIT — HIGH ROLLER
 // ============================================
 export const GAMBIT_HIGH_ROLLER = [
-  // ──────────────── TIER 1 (8 pts) ────────────────
+  // ──────────────── TIER 1 (Row 0) ────────────────
   {
     id: "hr_t1_all_in_strike",
     name: "All-In Strike",
-    icon: "ability_warrior_bloodfrenzy",
+    icon: "ability_warrior_bloodstorm",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
     spell: {
       name: "All-In Strike",
-      description: "Sacrifice 10% of your current HP: unleash a reckless melee/ranged strike dealing 3d8 fire/force damage and gaining Fortune Points equal to 1 per 5 HP sacrificed.",
-      flavorText: "The Iceheart Sea teaches that pain is fuel.",
+      description: "Spend 3 Hit Points: Strike a foe for 1d8 ember damage and generate 1 Fortune Point.",
+      flavorText: "Put your own blood on the table or leave the game.",
       source: "talent", class: "Gambit", treeId: "high_roller",
       spellType: "ACTIVE", category: "damage",
-      targetingMode: "single", rangeType: "melee", range: 10,
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { healthPercent: { baseAmount: 10 } },
-      damageTypes: ["fire", "force"],
-      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
-      visualTheme: "fire", tags: ["self-harm", "fp-builder", "burst", "gambit"]
+      cooldownCategory: "turn_based", cooldownValue: 1, cooldownUnit: "round",
+      primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
+      damageTypes: ["ember"],
+      visualTheme: "ember", tags: ["strike", "self-damage", "fp-gen", "gambit"]
     },
     rankUpgrades: [
-      { description: "Sacrifice 15% HP: deals 5d8 damage and generates double FP.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 } },
-      { description: "Sacrifice 20% HP: deals 7d8 damage, generates triple FP, and strike is an automatic critical hit.", primaryDamage: { dice: "7d8", flat: 0, procChance: 100 } }
+      { description: "Spend 4 HP: Deals 2d6 ember damage and generates 1 FP.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
+      { description: "Spend 4 HP: Deals 2d8 ember damage, generates 2 FP, and gains Advantage on the attack roll if below half maximum health.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } }
     ]
   },
   {
-    id: "hr_t1_double_down",
-    name: "Double Down",
-    icon: "ability_warrior_endlessrage",
+    id: "hr_t1_loaded_dice",
+    name: "Red-Hot Dice",
+    icon: "inv_misc_dice_01",
     maxRanks: 3,
-    position: { x: 2.5, y: 0 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
-      name: "Double Down",
-      description: "Whenever you take self-damage from spells or abilities, gain 2 Fortune Points and your next attack deals +1d8 bonus fire damage.",
-      flavorText: "When the wager hurts, double the bet.",
+      name: "Red-Hot Dice",
+      description: "Passive: Whenever you take self-damage from an ability, your next attack deals an extra 1d4 ember damage.",
+      flavorText: "Heat from the wager transfers straight into the strike.",
       source: "talent", class: "Gambit", treeId: "high_roller",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", damageTypes: ["fire"],
-      primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
-      visualTheme: "fire", tags: ["passive", "self-harm-fuel", "bonus-damage", "gambit"]
+      targetingMode: "self", damageTypes: ["ember"],
+      primaryDamage: { dice: "1d4", flat: 0, procChance: 100 },
+      visualTheme: "ember", tags: ["passive", "ember", "gambit"]
     },
     rankUpgrades: [
-      { description: "Gain 3 FP on self-damage and +2d8 bonus fire damage." },
-      { description: "Gain 4 FP on self-damage, +3d8 bonus fire damage, and +15ft movement speed." }
+      { description: "Deals +1d6 ember damage after self-damage." },
+      { description: "Deals +1d8 ember damage and grants you 3 temporary Hit Points." }
     ]
   },
   {
-    id: "hr_t1_expanded_hand",
-    name: "Fate Reserve",
-    icon: "inv_misc_tarot_01",
+    id: "hr_t1_reckless_grit",
+    name: "Reckless Grit",
+    icon: "ability_warrior_endurance",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
-      name: "Fate Reserve",
-      description: "Your maximum Fortune Points increase by 4. Below 50% health, all your abilities cost 1 fewer FP.",
-      flavorText: "A deeper pocket when the stakes turn dire.",
+      name: "Reckless Grit",
+      description: "Passive: While below half maximum health, you gain 1 Damage Reduction against all incoming damage and +1 to hit with melee attacks.",
+      flavorText: "Cornered beasts fight with double fury.",
       source: "talent", class: "Gambit", treeId: "high_roller",
-      spellType: "PASSIVE", category: "utility",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "fp-cap", "low-hp-bonus", "gambit"]
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "ember", tags: ["passive", "low-hp", "dr", "gambit"]
     },
     rankUpgrades: [
-      { description: "Max FP +8; below 50% health, abilities cost 2 fewer FP and gain +2 Durability Steps to equipped durability." }
+      { description: "Gain 2 Damage Reduction and +2 to hit while below half maximum health." }
     ]
   },
 
-  // ──────────────── TIER 2 (6 pts) ────────────────
+  // ──────────────── TIER 2 (Row 1) ────────────────
   {
     id: "hr_t2_wild_gamble",
-    name: "Wild Card Detonation",
-    icon: "spell_fire_selfdestruct",
+    name: "Wild Gamble",
+    icon: "spell_fire_incinerate",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "hr_t1_all_in_strike",
     spell: {
-      name: "Wild Card Detonation",
-      description: "Spend all current FP (minimum 3): detonate a massive blast of chaotic flame in a 25-foot radius. Deals 2d10 fire damage per FP spent to all enemies, and deals 2d6 self-damage to you.",
-      flavorText: "Throw the whole deck into the fire and watch it explode.",
+      name: "Wild Gamble",
+      description: "Spend 2 FP: Unleash explosive ember magic at a target within 35 feet dealing 2d6 ember damage. Roll 1d6: On a 4–6, deal an extra +1d8 ember damage; on a 1–3, suffer 3 ember backlash.",
+      flavorText: "High stakes, higher flames.",
       source: "talent", class: "Gambit", treeId: "high_roller",
       spellType: "ACTIVE", category: "damage",
-      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 25,
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "ranged", range: 35,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { fortunePoints: { baseAmount: 3 } },
-      damageTypes: ["fire"],
-      primaryDamage: { dice: "6d10", flat: 0, procChance: 100 },
-      visualTheme: "fire", tags: ["aoe", "fp-dump", "high-damage", "gambit"]
+      cooldownCategory: "turn_based", cooldownValue: 1, cooldownUnit: "round",
+      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
+      damageTypes: ["ember"],
+      resourceCosts: { fortunePoints: { baseAmount: 2 } },
+      visualTheme: "ember", tags: ["gamble", "burst", "gambit"]
     },
     rankUpgrades: [
-      { description: "30-foot blast deals 2d12 fire damage per FP spent and self-damage is reduced by 50%.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 }, aoeSize: 30 },
-      { description: "35-foot blast deals 3d10 fire damage per FP spent, self-damage grants full FP refund if 3+ enemies hit.", primaryDamage: { dice: "10d10", flat: 0, procChance: 100 }, aoeSize: 35 }
+      { description: "Deals 2d8 ember damage. 4–6 adds +2d6 ember damage; 1–3 deals 3 self-damage.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } },
+      { description: "Deals 3d6 ember damage. 4–6 adds +2d8 ember damage; on a 6 triples the bonus damage; on 1–2 deals 4 self-damage.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
     ]
   },
   {
-    id: "hr_t2_desperate_measures",
-    name: "Desperate Measures",
-    icon: "spell_fire_fire",
-    maxRanks: 3,
-    position: { x: 3, y: 1.5 },
-    requires: "hr_t1_double_down",
+    id: "hr_t2_double_or_nothing",
+    name: "Double or Nothing",
+    icon: "ability_rogue_preparation",
+    maxRanks: 2,
+    position: { x: 3, y: 1 },
+    requires: "hr_t1_reckless_grit",
     spell: {
-      name: "Desperate Measures",
-      description: "While below 50% health, your damage dealt is increased by +30% and all your attacks score critical hits on 18+.",
-      flavorText: "The gambler plays best when cornered.",
+      name: "Double or Nothing",
+      description: "Spend 1 FP: Empower your next weapon attack this round. If it hits, it adds +1d8 ember damage; if it misses, you suffer 3 ember damage.",
+      flavorText: "Double down or walk away empty handed.",
       source: "talent", class: "Gambit", treeId: "high_roller",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "low-hp-power", "crit", "gambit"]
+      spellType: "ACTIVE", category: "buff",
+      actionPoints: 0,
+      targetingMode: "self",
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      resourceCosts: { fortunePoints: { baseAmount: 1 } },
+      visualTheme: "ember", tags: ["empower", "wager", "gambit"]
     },
     rankUpgrades: [
-      { description: "Below 50% HP: damage +50% and crits on 17+." },
-      { description: "Below 50% HP: damage +75%, crits on 16+, and you take 25% less damage from enemy attacks." }
+      { description: "Adds +2d6 ember damage on hit; self-damage on miss reduced to 2." }
     ]
   },
 
-  // ──────────────── TIER 3 (6 pts) ────────────────
+  // ──────────────── TIER 3 (Row 2) ────────────────
   {
-    id: "hr_t3_catastrophic_wager",
-    name: "Catastrophic Wager",
-    icon: "ability_rogue_deadliness",
+    id: "hr_t3_pyroclastic_wager",
+    name: "Pyroclastic Wager",
+    icon: "spell_fire_flameshock",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1, y: 2 },
     requires: "hr_t2_wild_gamble",
     spell: {
-      name: "Catastrophic Wager",
-      description: "Spend 50% of your current HP: immediately gain maximum Fortune Points, and your next 2 attacks deal TRIPLE damage and have 100% lifesteal.",
-      flavorText: "Bet your life on a single turn of the wheel.",
-      source: "talent", class: "Gambit", treeId: "high_roller",
-      spellType: "ACTIVE", category: "buff",
-      targetingMode: "self", rangeType: "self", range: 0,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { healthPercent: { baseAmount: 50 } },
-      buffs: ["catastrophic-wager"], visualTheme: "fire", tags: ["high-risk", "triple-damage", "lifesteal", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Spend 40% HP: gain max FP, next 3 attacks deal triple damage with 100% lifesteal, cooldown drops to 16s.", cooldownValue: 16 },
-      { description: "Spend 30% HP: gain max FP, next 4 attacks deal quadruple damage with 150% lifesteal, cooldown drops to 12s.", cooldownValue: 12 }
-    ]
-  },
-  {
-    id: "hr_t3_shockwave_gambler",
-    name: "Explosive Risk",
-    icon: "spell_fire_selfdestruct",
-    maxRanks: 3,
-    position: { x: 3, y: 3 },
-    requires: "hr_t2_desperate_measures",
-    spell: {
-      name: "Explosive Risk",
-      description: "Whenever you take self-damage, all enemies within 20 feet take an equal amount of fire damage and are knocked back 10 feet.",
-      flavorText: "Your wounds explode outward like shrapnel.",
-      source: "talent", class: "Gambit", treeId: "high_roller",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["fire"],
-      visualTheme: "fire", tags: ["passive", "retaliation", "aoe-burst", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Enemies take 150% of your self-damage in a 25-foot radius." },
-      { description: "Enemies take 200% of your self-damage in a 30-foot radius and are knocked prone." }
-    ]
-  },
-
-  // ──────────────── TIER 4 (5 pts) ────────────────
-  {
-    id: "hr_t4_jackpot_roulette",
-    name: "Jackpot Roulette",
-    icon: "inv_misc_tarot_01",
-    maxRanks: 3,
-    position: { x: 1, y: 4.5 },
-    requires: "hr_t3_catastrophic_wager",
-    spell: {
-      name: "Jackpot Roulette",
-      description: "Spend 4 FP: spin the Wheel of Ruin on an enemy within 50 feet. Deals 8d10 fire/chaos damage. If you roll an 18-20, hits for 20d10 damage and restores full health.",
-      flavorText: "Triple sevens on the execution block.",
+      name: "Pyroclastic Wager",
+      description: "Spend 1 FP and 5 HP: Unleash a 20-foot cone of molten slag dealing 2d6 ember damage to all enemies and inflicting Burning (1d4 ember damage per round for 2 rounds).",
+      flavorText: "The ashes of ruined fortunes burn the hottest.",
       source: "talent", class: "Gambit", treeId: "high_roller",
       spellType: "ACTIVE", category: "damage",
-      targetingMode: "single", rangeType: "ranged", range: 50,
+      actionPoints: 1,
+      targetingMode: "aoe", aoeShape: "cone", aoeSize: 20, rangeType: "ranged", range: 20,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { fortunePoints: { baseAmount: 4 } },
-      damageTypes: ["fire"],
-      primaryDamage: { dice: "8d10", flat: 0, procChance: 100 },
-      visualTheme: "fire", tags: ["single-nuke", "jackpot", "extreme-burst", "gambit"]
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
+      isDot: true, dotTick: "1d4", dotDuration: 2,
+      damageTypes: ["ember"],
+      resourceCosts: { fortunePoints: { baseAmount: 1 } },
+      visualTheme: "ember", tags: ["cone", "dot", "burning", "gambit"]
     },
     rankUpgrades: [
-      { description: "Deals 11d10 damage; jackpot triggers on 17-20 for 25d10 damage and full heal.", primaryDamage: { dice: "11d10", flat: 0, procChance: 100 }, cooldownValue: 16 },
-      { description: "Deals 14d10 damage; jackpot triggers on 16-20 for 30d10 damage, full heal, and resets all cooldowns.", primaryDamage: { dice: "14d10", flat: 0, procChance: 100 }, cooldownValue: 12 }
+      { description: "Deals 2d8 ember damage; Burning deals 1d6 per round.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 }, dotTick: "1d6" },
+      { description: "Deals 3d6 ember damage; Burning deals 1d8 per round and reduces target Armor by 2.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, dotTick: "1d8" }
     ]
   },
   {
-    id: "hr_t4_ adrenaline_surge",
-    name: "Adrenaline Rush",
-    icon: "spell_nature_bloodlust",
-    maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
-    requires: "hr_t3_shockwave_gambler",
+    id: "hr_t3_blood_ante",
+    name: "Blood Ante",
+    icon: "spell_shadow_lifedrain",
+    maxRanks: 3,
+    position: { x: 2, y: 2 },
+    requires: null,
     spell: {
-      name: "Adrenaline Rush",
-      description: "Whenever you drop below 30% health, you gain 2 Action Points and 40 temporary health for 2 rounds.",
-      flavorText: "The thrill of near-death accelerates the blood.",
+      name: "Blood Ante",
+      description: "Passive: Whenever you score a critical hit, restore 4 Hit Points and gain 1 FP.",
+      flavorText: "Collecting the ante right out of their ribs.",
       source: "talent", class: "Gambit", treeId: "high_roller",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "action-economy", "temp-hp", "gambit"]
+      targetingMode: "self", visualTheme: "ember", tags: ["passive", "crit-heal", "gambit"]
     },
     rankUpgrades: [
-      { description: "Gain 3 Action Points, 70 temporary health, and +30ft speed below 30% HP." }
+      { description: "Critical hits restore 7 Hit Points and grant 1 FP." },
+      { description: "Critical hits restore 10 Hit Points, grant 1 FP, and your next attack deals +1d6 ember damage." }
     ]
   },
 
-  // ──────────────── TIER 5 (5 pts) ────────────────
+  // ──────────────── TIER 4 (Row 3) ────────────────
   {
-    id: "hr_t5_cosmic_bankruptcy",
-    name: "Cosmic Bankruptcy Eruption",
-    icon: "spell_fire_selfdestruct",
+    id: "hr_t4_jackpot_eruption",
+    name: "Jackpot Eruption",
+    icon: "spell_fire_fireball02",
+    maxRanks: 1,
+    position: { x: 2, y: 3 },
+    requires: ["hr_t3_pyroclastic_wager", "hr_t3_blood_ante"],
+    spell: {
+      name: "Jackpot Eruption",
+      description: "Spend 3 FP and 6 HP: Detonate a 20-foot explosion dealing 3d8 ember damage to all enemies and knocking them Prone on a failed Reflex save. If at least 2 enemies are hit, regain 6 HP.",
+      flavorText: "Three sevens aligned in liquid fire.",
+      source: "talent", class: "Gambit", treeId: "high_roller",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "aoe", aoeShape: "circle", aoeSize: 20, rangeType: "ranged", range: 35,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
+      damageTypes: ["ember"],
+      resourceCosts: { fortunePoints: { baseAmount: 3 } },
+      visualTheme: "ember", tags: ["nuke", "aoe", "knockdown", "gambit"]
+    }
+  },
+
+  // ──────────────── TIER 5 (Row 4) ────────────────
+  {
+    id: "hr_t5_combustion_frenzy",
+    name: "Combustion Frenzy",
+    icon: "spell_fire_sealoffire",
+    maxRanks: 3,
+    position: { x: 1, y: 4 },
+    requires: "hr_t4_jackpot_eruption",
+    spell: {
+      name: "Combustion Frenzy",
+      description: "Spend 2 FP: Enter a 2-round Frenzy. Your movement speed increases by 10 feet, and your weapon strikes deal an extra 1d6 ember damage.",
+      flavorText: "When the table is burning, keep rolling.",
+      source: "talent", class: "Gambit", treeId: "high_roller",
+      spellType: "ACTIVE", category: "buff",
+      actionPoints: 0,
+      targetingMode: "self",
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      resourceCosts: { fortunePoints: { baseAmount: 2 } },
+      visualTheme: "ember", tags: ["buff", "frenzy", "gambit"]
+    },
+    rankUpgrades: [
+      { description: "Movement speed +15 ft, weapon strikes deal +1d8 ember damage." },
+      { description: "Movement speed +15 ft, weapon strikes deal +2d6 ember damage, and you gain Advantage on the first strike each round." }
+    ]
+  },
+  {
+    id: "hr_t5_defiant_wager",
+    name: "Defiant Wager",
+    icon: "ability_warrior_revenge",
+    maxRanks: 2,
+    position: { x: 3, y: 4 },
+    requires: "hr_t4_jackpot_eruption",
+    spell: {
+      name: "Defiant Wager",
+      description: "Passive: When you take damage equal to 12 or more in a single hit, gain 1 FP and your next attack deals +1d8 ember damage.",
+      flavorText: "Every wound is a reason to raise the bet.",
+      source: "talent", class: "Gambit", treeId: "high_roller",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", damageTypes: ["ember"],
+      primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
+      visualTheme: "ember", tags: ["passive", "retaliation", "gambit"]
+    },
+    rankUpgrades: [
+      { description: "Gain 1 FP and your next attack deals +2d6 ember damage when hit for 12+ damage." }
+    ]
+  },
+
+  // ──────────────── TIER 6 (Row 5) ────────────────
+  {
+    id: "hr_t6_blazing_cataclysm",
+    name: "Blazing Cataclysm",
+    icon: "spell_fire_meteorstorm",
+    maxRanks: 3,
+    position: { x: 2, y: 5 },
+    requires: ["hr_t5_combustion_frenzy", "hr_t5_defiant_wager"],
+    spell: {
+      name: "Blazing Cataclysm",
+      description: "Spend 3 FP and 8 HP: Call down incendiary meteors on a 25-foot area dealing 3d10 ember damage to all enemies and Staggering targets that fail their saving throw.",
+      flavorText: "Bringing the house down on top of everyone.",
+      source: "talent", class: "Gambit", treeId: "high_roller",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "aoe", aoeShape: "circle", aoeSize: 25, rangeType: "ranged", range: 40,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      primaryDamage: { dice: "3d10", flat: 0, procChance: 100 },
+      damageTypes: ["ember"],
+      resourceCosts: { fortunePoints: { baseAmount: 3 } },
+      visualTheme: "ember", tags: ["aoe", "meteor", "stun", "gambit"]
+    },
+    rankUpgrades: [
+      { description: "Deals 4d8 ember damage and leaves burning ground dealing 1d6 per round.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } },
+      { description: "Deals 4d10 ember damage and restores 8 Hit Points if it eliminates an enemy.", primaryDamage: { dice: "4d10", flat: 0, procChance: 100 } }
+    ]
+  },
+
+  // ──────────────── TIER 7 (Row 6 - Capstones) ────────────────
+  {
+    id: "hr_t7_avatar_of_the_jackpot",
+    name: "Avatar of the Jackpot",
+    icon: "spell_fire_soulburn",
+    maxRanks: 1,
+    position: { x: 2, y: 6 },
+    requires: "hr_t6_blazing_cataclysm",
+    spell: {
+      name: "Avatar of the Jackpot",
+      description: "ULTIMATE: Spend 3 FP: Enter the ultimate high-roller state for 2 rounds. All attacks deal an extra 1d10 ember damage, you gain 3 Damage Reduction, and every hit restores 4 Hit Points.",
+      flavorText: "The house broke, the sky shattered, and the gambler stood in the embers.",
+      source: "talent", class: "Gambit", treeId: "high_roller",
+      spellType: "ACTIVE", category: "buff",
+      actionPoints: 1,
+      targetingMode: "self",
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 5, cooldownUnit: "rounds",
+      resourceCosts: { fortunePoints: { baseAmount: 3 } },
+      visualTheme: "ember", tags: ["ultimate", "jackpot", "lifesteal", "gambit"]
+    }
+  },
+  {
+    id: "hr_t7_undying_gamble",
+    name: "Undying Gamble",
+    icon: "spell_shadow_antimagicshell",
     maxRanks: 2,
     position: { x: 1, y: 6 },
-    requires: "hr_t4_jackpot_roulette",
+    requires: "hr_t6_blazing_cataclysm",
     spell: {
-      name: "Cosmic Bankruptcy Eruption",
-      description: "Spend all remaining FP (must be at least 6): trigger an intentional bankruptcy nova. Deals 12d10 fire damage to ALL enemies within 40 feet, stuns all enemies for 2 rounds, and restores your HP to 100%.",
-      flavorText: "Blow the bank, take the house down with it.",
+      name: "Undying Gamble",
+      description: "Passive: When you receive lethal damage, roll 1d20: On a 12 or higher, survive with 15 Hit Points and deal 2d8 ember damage to all adjacent enemies (cooldown: 4 rounds).",
+      flavorText: "Death rolled low.",
       source: "talent", class: "Gambit", treeId: "high_roller",
-      spellType: "ACTIVE", category: "damage",
-      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 40,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { fortunePoints: { baseAmount: 6 } },
-      damageTypes: ["fire"],
-      primaryDamage: { dice: "12d10", flat: 0, procChance: 100 },
-      debuffs: ["stun"], visualTheme: "fire", tags: ["mass-nuke", "mass-stun", "full-heal", "gambit"]
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", damageTypes: ["ember"],
+      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
+      visualTheme: "ember", tags: ["passive", "cheat-death", "gambit"]
     },
     rankUpgrades: [
-      { description: "Deals 16d10 fire damage in a 50-foot area, stuns for 2 rounds, restores full HP and mana.", primaryDamage: { dice: "16d10", flat: 0, procChance: 100 }, aoeSize: 50, cooldownValue: 24 }
+      { description: "Roll requirement drops to 9+, restores 25 Hit Points, and deals 3d8 ember damage." }
     ]
   },
   {
-    id: "hr_t5_reckless_fortune",
-    name: "Reckless Fortune Siphon",
-    icon: "inv_misc_coin_01",
-    maxRanks: 3,
+    id: "hr_t7_hellfire_touch",
+    name: "Hellfire Touch",
+    icon: "spell_fire_flameblades",
+    maxRanks: 2,
     position: { x: 3, y: 6 },
-    requires: "hr_t4_ adrenaline_surge",
+    requires: "hr_t6_blazing_cataclysm",
     spell: {
-      name: "Reckless Fortune Siphon",
-      description: "All fire and chaos damage you deal heals you for 30% of the damage dealt. Overheal becomes a permanent fire shield up to 50 temp HP.",
-      flavorText: "The flames consume the enemy and stitch the gambler.",
-      source: "talent", class: "Gambit", treeId: "high_roller",
-      spellType: "PASSIVE", category: "healing",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "lifesteal", "fire-shield", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Heal for 50% of fire/chaos damage; shield caps at 80 temp HP." },
-      { description: "Heal for 75% of damage; shield caps at 120 temp HP and damages attackers for 3d8 fire on hit." }
-    ]
-  },
-
-  // ──────────────── TIER 6 (5 pts) ────────────────
-  {
-    id: "hr_t6_jackpot_supreme",
-    name: "Jackpot Supreme",
-    icon: "inv_misc_platnumdisks",
-    maxRanks: 1,
-    position: { x: 1, y: 7.5 },
-    requires: "hr_t5_cosmic_bankruptcy",
-    spell: {
-      name: "Jackpot Supreme",
-      description: "Spend 6 FP: enter the Gold Sovereign trance for 1 minute: all attacks deal quadruple damage, your self-damage is reduced to 0, and every critical strike generates 3 free FP.",
-      flavorText: "The machine will never stop paying out.",
-      source: "talent", class: "Gambit", treeId: "high_roller",
-      spellType: "ACTIVE", category: "buff",
-      targetingMode: "self", rangeType: "self", range: 0,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { fortunePoints: { baseAmount: 6 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
-      buffs: ["jackpot-supreme"], visualTheme: "fire", tags: ["god-mode", "quad-damage", "no-self-harm", "gambit"]
-    },
-    rankUpgrades: []
-  },
-  {
-    id: "hr_t6_pyro_criticality",
-    name: "Infernal Gambits",
-    icon: "spell_fire_fire",
-    maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
-    requires: "hr_t5_reckless_fortune",
-    spell: {
-      name: "Infernal Gambits",
-      description: "All fire and chaos spells score critical hits on 17+ and critical hits burn the target for 5d8 fire damage over 2 rounds.",
-      flavorText: "Burning the cards to light the furnace.",
-      source: "talent", class: "Gambit", treeId: "high_roller",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["fire"],
-      visualTheme: "fire", tags: ["passive", "crit", "burn-dot", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Critical hits on 16+; burn deals 8d8 fire damage and shreds 50% of enemy durability." }
-    ]
-  },
-  {
-    id: "hr_t6_phoenix_gambler",
-    name: "Phoenix Wager",
-    icon: "spell_fire_soulburn",
-    maxRanks: 2,
-    position: { x: 4, y: 7.5 },
-    requires: "hr_t5_reckless_fortune",
-    spell: {
-      name: "Phoenix Wager",
-      description: "While below 25% health, you gain +6 Durability Steps to equipped durability, 40% all-damage resistance, and cannot be knocked unconscious.",
-      flavorText: "Refusing to fall while the bet is still on the table.",
+      name: "Hellfire Touch",
+      description: "Passive: Your ember and fire attacks ignore up to 3 points of enemy Fire Resistance, and your attacks score critical hits on rolls of 19–20.",
+      flavorText: "Flames hot enough to melt dragon scales.",
       source: "talent", class: "Gambit", treeId: "high_roller",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "low-hp-tank", "unyielding", "gambit"]
+      targetingMode: "self", visualTheme: "ember", tags: ["passive", "penetration", "crit-range", "gambit"]
     },
     rankUpgrades: [
-      { description: "Gain +8 Durability Steps to equipped durability, 60% resistance below 25% HP, and attacks deal double damage." }
-    ]
-  },
-
-  // ──────────────── TIER 7 / CAPSTONE (15 pts) ────────────────
-  {
-    id: "hr_t7_avatar_of_the_high_roller",
-    name: "Avatar of the Cataclysmic Gambler",
-    icon: "ability_warrior_bloodfrenzy",
-    maxRanks: 1,
-    position: { x: 0.5, y: 9.5 },
-    requires: "hr_t6_jackpot_supreme",
-    spell: {
-      name: "Avatar of the Cataclysmic Gambler",
-      description: "ULTIMATE: Spend 8 FP: transform into the Avatar of the Burning Casino for 1 minute: continuous fire novas erupt from you every round dealing 8d10 fire damage to all enemies, your attacks crit on 15+, and all damage taken heals you instead of harming you.",
-      flavorText: "The house burns down, and you dance in the ashes of the winnings.",
-      source: "talent", class: "Gambit", treeId: "high_roller",
-      spellType: "ACTIVE", category: "buff",
-      targetingMode: "self", rangeType: "self", range: 0,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { fortunePoints: { baseAmount: 8 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
-      buffs: ["avatar-high-roller"], visualTheme: "fire", tags: ["ultimate", "capstone", "god-mode", "gambit"]
-    },
-    rankUpgrades: []
-  },
-  {
-    id: "hr_t7_high_roller_doctrine",
-    name: "High Roller Doctrine",
-    icon: "spell_fire_selfdestruct",
-    maxRanks: 5,
-    position: { x: 1.5, y: 9.5 },
-    requires: "hr_t6_jackpot_supreme",
-    spell: {
-      name: "High Roller Doctrine",
-      description: "All fire, chaos, and high-risk damage you deal is increased by 10%.",
-      flavorText: "Bigger stakes, bigger flames.",
-      source: "talent", class: "Gambit", treeId: "high_roller",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["fire"],
-      visualTheme: "fire", tags: ["passive", "capstone", "damage", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "All fire and high-risk damage increased by 20%." },
-      { description: "All fire and high-risk damage increased by 35%." },
-      { description: "All fire and high-risk damage increased by 50%." },
-      { description: "All fire and high-risk damage increased by 70%, and All-In Strike costs 0 HP." }
-    ]
-  },
-  {
-    id: "hr_t7_infinite_risk_engine",
-    name: "Endless Stake Battery",
-    icon: "inv_misc_coin_01",
-    maxRanks: 3,
-    position: { x: 2.5, y: 9.5 },
-    requires: "hr_t6_pyro_criticality",
-    spell: {
-      name: "Endless Stake Battery",
-      description: "Your maximum FP increases by 10, and whenever you deal fire damage, you generate 2 FP.",
-      flavorText: "The stakes never stop multiplying.",
-      source: "talent", class: "Gambit", treeId: "high_roller",
-      spellType: "PASSIVE", category: "utility",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "capstone", "fp-engine", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Max FP +15; generate 3 FP per damage hit and movement speed +15ft." },
-      { description: "Max FP +20; generate 4 FP per hit and all fire abilities cost 1 fewer FP." }
-    ]
-  },
-  {
-    id: "hr_t7_double_jackpot",
-    name: "Cascading Jackpots",
-    icon: "inv_misc_tarot_01",
-    maxRanks: 3,
-    position: { x: 3.5, y: 9.5 },
-    requires: "hr_t6_pyro_criticality",
-    spell: {
-      name: "Cascading Jackpots",
-      description: "When Jackpot Roulette triggers a jackpot, it immediately recasts itself automatically on the next nearest enemy for free.",
-      flavorText: "One win triggers the whole bank of machines.",
-      source: "talent", class: "Gambit", treeId: "high_roller",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "capstone", "cascade-nuke", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Jackpot recasts up to 2 times across nearby foes." },
-      { description: "Jackpot recasts up to 4 times, wiping entire packs of enemies." }
-    ]
-  },
-  {
-    id: "hr_t7_jackpot_rebirth",
-    name: "The Final Gamble Rebirth",
-    icon: "spell_fire_soulburn",
-    maxRanks: 3,
-    position: { x: 4.5, y: 9.5 },
-    requires: "hr_t6_phoenix_gambler",
-    spell: {
-      name: "The Final Gamble Rebirth",
-      description: "Lethal damage triggers an immediate all-or-nothing roll: prevents death, restores 50% health, 50 temporary health, sets FP to max, and unleashes Cosmic Bankruptcy Eruption for free (cooldown: 120s).",
-      flavorText: "You bet your death and won.",
-      source: "talent", class: "Gambit", treeId: "high_roller",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "fire", tags: ["passive", "capstone", "cheat-death", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Survive lethal damage, restore 75% health, 75 temp HP, full FP (cooldown: 90s)." },
-      { description: "Survive lethal damage, restore 100% health, and immediately activate Avatar of the Cataclysmic Gambler for free (cooldown: 60s)." }
+      { description: "Ignores 5 points of Fire Resistance and critical hits occur on rolls of 18–20." }
     ]
   }
 ];
@@ -893,441 +693,337 @@ export const GAMBIT_HIGH_ROLLER = [
 // 3. GAMBIT — KARMIC WEAVER
 // ============================================
 export const GAMBIT_KARMIC_WEAVER = [
-  // ──────────────── TIER 1 (8 pts) ────────────────
+  // ──────────────── TIER 1 (Row 0) ────────────────
   {
-    id: "kw_t1_fate_binding",
-    name: "Fate Binding Tether",
-    icon: "spell_arcane_prismaticcloak",
+    id: "kw_t1_karmic_tether",
+    name: "Karmic Tether",
+    icon: "spell_shadow_shadowworddominate",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
     spell: {
-      name: "Fate Binding Tether",
-      description: "Tether two enemies (or an enemy and an ally) within 45 feet for 1 minute: tethered targets share 50% of all damage taken, and each damage event generates 1 Karmic Debt (KD) stack.",
-      flavorText: "Two lives woven onto a single loom.",
+      name: "Karmic Tether",
+      description: "Spend 1 FP: Tether 2 enemies (or 1 ally and 1 enemy) within 45 feet for 2 rounds. Whenever the primary target takes damage, the secondary target takes 1d6 wyrd damage.",
+      flavorText: "A silver thread binds two souls to a single account.",
       source: "talent", class: "Gambit", treeId: "karmic_weaver",
-      spellType: "ACTIVE", category: "control",
-      targetingMode: "multi", rangeType: "ranged", range: 45,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { mana: { baseAmount: 4 } },
-      buffs: ["fate-tether"], visualTheme: "shadow", tags: ["tether", "damage-share", "kd-builder", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Tether up to 3 targets: share 75% damage, generates 2 KD stacks per hit." },
-      { description: "Tether up to 4 targets: share 100% full damage, generates 3 KD stacks per hit, and targets cannot move further than 30ft apart." }
-    ]
-  },
-  {
-    id: "kw_t1_splintered_loom",
-    name: "Splintered Loom",
-    icon: "spell_shadow_curseofsargeras",
-    maxRanks: 3,
-    position: { x: 2.5, y: 0 },
-    requires: null,
-    spell: {
-      name: "Splintered Loom",
-      description: "Your attacks against tethered enemies deal +1d6 bonus necrotic damage per 2 Karmic Debt stacks you possess.",
-      flavorText: "The weight of unpaid karmic balance crushes the soul.",
-      source: "talent", class: "Gambit", treeId: "karmic_weaver",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["necrotic"],
-      primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
-      visualTheme: "shadow", tags: ["passive", "debt-scaling", "damage", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Deal +2d6 bonus necrotic damage per 2 KD stacks." },
-      { description: "Deal +3d6 bonus necrotic damage per 2 KD stacks and ignore 30% resistance." }
-    ]
-  },
-  {
-    id: "kw_t1_debt_harvester",
-    name: "Debt Siphon",
-    icon: "inv_misc_scalesofjustice",
-    maxRanks: 2,
-    position: { x: 4, y: 0 },
-    requires: null,
-    spell: {
-      name: "Debt Siphon",
-      description: "Whenever a tethered creature takes damage, you and all allies heal for 25% of the shared damage dealt.",
-      flavorText: "Collecting the dividend on suffering.",
-      source: "talent", class: "Gambit", treeId: "karmic_weaver",
-      spellType: "PASSIVE", category: "healing",
-      targetingMode: "self", visualTheme: "shadow", tags: ["passive", "lifesteal", "tether-heal", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Heal for 50% of shared damage dealt, and grants 20 temporary health on tethered kill." }
-    ]
-  },
-
-  // ──────────────── TIER 2 (6 pts) ────────────────
-  {
-    id: "kw_t2_karmic_tax",
-    name: "Karmic Tax Collection",
-    icon: "spell_shadow_lifedrain02",
-    maxRanks: 3,
-    position: { x: 1, y: 1.5 },
-    requires: "kw_t1_fate_binding",
-    spell: {
-      name: "Karmic Tax Collection",
-      description: "Spend 3 KD stacks: siphon life from all tethered enemies. Deals 4d8 necrotic damage to each tethered foe, heals you for 100% of the damage, and slows them by 20ft for 2 rounds.",
-      flavorText: "Payment is demanded immediately, with interest.",
-      source: "talent", class: "Gambit", treeId: "karmic_weaver",
-      spellType: "ACTIVE", category: "damage",
-      targetingMode: "aoe", rangeType: "ranged", range: 50, aoeShape: "circle", aoeSize: 30,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { karmicDebt: { baseAmount: 3 } },
-      damageTypes: ["necrotic"],
-      primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
-      debuffs: ["slow"], visualTheme: "shadow", tags: ["aoe", "lifesteal", "tether-siphon", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Deals 6d8 necrotic damage, heals for 150%, and roots tethered foes for 1 round.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 } },
-      { description: "Deals 8d8 necrotic damage, heals for 200%, stuns for 1 round, and generates 3 Fortune Points.", primaryDamage: { dice: "8d8", flat: 0, procChance: 100 } }
-    ]
-  },
-  {
-    id: "kw_t2_strain_redirection",
-    name: "Strain Redirection",
-    icon: "spell_holy_borrowedtime",
-    maxRanks: 3,
-    position: { x: 3, y: 1.5 },
-    requires: "kw_t1_splintered_loom",
-    spell: {
-      name: "Strain Redirection",
-      description: "Whenever you take damage, 40% of the damage is transferred directly onto tethered enemies instead.",
-      flavorText: "Let the debtors pay for the creditor's wounds.",
-      source: "talent", class: "Gambit", treeId: "karmic_weaver",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "shadow", tags: ["passive", "damage-transfer", "defense", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Transfer 60% of damage taken onto tethered enemies." },
-      { description: "Transfer 80% of damage taken onto tethered enemies, and attackers are tethered automatically." }
-    ]
-  },
-
-  // ──────────────── TIER 3 (6 pts) ────────────────
-  {
-    id: "kw_t3_wyrd_collapse",
-    name: "Wyrd Collapse",
-    icon: "spell_shadow_shadowfury",
-    maxRanks: 3,
-    position: { x: 1, y: 3 },
-    requires: "kw_t2_karmic_tax",
-    spell: {
-      name: "Wyrd Collapse",
-      description: "Spend 5 KD stacks: cause the karmic threads on all tethered targets to violently snap. Deals 6d10 necrotic/force damage to each target and incapacitates them for 1 round.",
-      flavorText: "The loom shatters under the impossible weight of accumulated debt.",
-      source: "talent", class: "Gambit", treeId: "karmic_weaver",
-      spellType: "ACTIVE", category: "damage",
-      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 50,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 16, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { karmicDebt: { baseAmount: 5 } },
-      damageTypes: ["necrotic", "force"],
-      primaryDamage: { dice: "6d10", flat: 0, procChance: 100 },
-      debuffs: ["incapacitated"], visualTheme: "shadow", tags: ["mass-nuke", "mass-cc", "snap", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Deals 8d10 damage, incapacitates for 2 rounds, and silences targets for 2 rounds.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 } },
-      { description: "Deals 10d10 damage, incapacitates for 2 rounds, and re-tethers all survivors automatically for free.", primaryDamage: { dice: "10d10", flat: 0, procChance: 100 } }
-    ]
-  },
-  {
-    id: "kw_t3_tapestry_anchor",
-    name: "Wyrd Anchor",
-    icon: "spell_arcane_arcane04",
-    maxRanks: 3,
-    position: { x: 3, y: 3 },
-    requires: "kw_t2_strain_redirection",
-    spell: {
-      name: "Wyrd Anchor",
-      description: "Tethered allies are completely immune to crowd control, gain +3 Durability Steps to equipped durability, and receive +30% increased healing.",
-      flavorText: "Anchored into the safe weave of destiny.",
-      source: "talent", class: "Gambit", treeId: "karmic_weaver",
-      spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "shadow", tags: ["passive", "ally-protection", "cc-immune", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Tethered allies gain +5 Durability Steps to equipped durability, +50% healing, and take 20% less damage." },
-      { description: "Tethered allies gain +7 Durability Steps to equipped durability, +75% healing, 35% less damage, and cannot die while tethered to you." }
-    ]
-  },
-
-  // ──────────────── TIER 4 (5 pts) ────────────────
-  {
-    id: "kw_t4_soul_ledger_execute",
-    name: "Foreclosure Execution",
-    icon: "ability_rogue_shadowdance",
-    maxRanks: 3,
-    position: { x: 1, y: 4.5 },
-    requires: "kw_t3_wyrd_collapse",
-    spell: {
-      name: "Foreclosure Execution",
-      description: "Spend 6 KD stacks: claim the soul of a tethered enemy within 45 feet. Deals 8d10 necrotic damage (doubled if target is below 50% HP). If the target dies, all other tethered enemies take 6d10 damage.",
-      flavorText: "Foreclosing on mortal existence.",
-      source: "talent", class: "Gambit", treeId: "karmic_weaver",
-      spellType: "ACTIVE", category: "damage",
+      spellType: "ACTIVE", category: "debuff",
+      actionPoints: 1,
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
-      resourceCosts: { karmicDebt: { baseAmount: 6 } },
-      damageTypes: ["necrotic"],
-      primaryDamage: { dice: "8d10", flat: 0, procChance: 100 },
-      visualTheme: "shadow", tags: ["execute", "chain-death", "nuke", "gambit"]
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      resourceCosts: { fortunePoints: { baseAmount: 1 } },
+      visualTheme: "wyrd", tags: ["tether", "shared-damage", "gambit"]
     },
     rankUpgrades: [
-      { description: "Deals 11d10 damage (tripled below 50% HP); death explosion deals 8d10 necrotic to all tethered foes.", primaryDamage: { dice: "11d10", flat: 0, procChance: 100 }, cooldownValue: 16 },
-      { description: "Deals 14d10 damage (quadrupled below 50% HP); death resets this spell's cooldown immediately.", primaryDamage: { dice: "14d10", flat: 0, procChance: 100 }, cooldownValue: 12 }
+      { description: "Tether deals 1d8 wyrd damage to the linked target and lasts 2 rounds." },
+      { description: "Tether deals 1d8 wyrd damage and reduces both targets' movement speed by 10 feet." }
     ]
   },
   {
-    id: "kw_t4_debt_snowball",
-    name: "Compounding Karma",
-    icon: "inv_misc_scalesofjustice",
-    maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
-    requires: "kw_t3_tapestry_anchor",
-    spell: {
-      name: "Compounding Karma",
-      description: "Your maximum Karmic Debt increases by 6. At 5+ KD stacks, you generate 2 KD stacks per round automatically.",
-      flavorText: "Interest accrues every second the debt remains unpaid.",
-      source: "talent", class: "Gambit", treeId: "karmic_weaver",
-      spellType: "PASSIVE", category: "utility",
-      targetingMode: "self", visualTheme: "shadow", tags: ["passive", "kd-engine", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Max KD +10; generate 4 KD per round automatically and your spells deal +20% damage." }
-    ]
-  },
-
-  // ──────────────── TIER 5 (5 pts) ────────────────
-  {
-    id: "kw_t5_grand_tapestry",
-    name: "The Grand Karmic Web",
-    icon: "spell_shadow_unholyfrenzy",
-    maxRanks: 2,
-    position: { x: 1, y: 6 },
-    requires: "kw_t4_soul_ledger_execute",
-    spell: {
-      name: "The Grand Karmic Web",
-      description: "Spend 6 KD stacks: cast a global web connecting ALL enemies on the battlefield into a single shared karmic matrix for 1 minute. 100% of all damage dealt to any enemy is dealt to ALL enemies.",
-      flavorText: "One throat cut bleeds every soldier in the army.",
-      source: "talent", class: "Gambit", treeId: "karmic_weaver",
-      spellType: "ACTIVE", category: "control",
-      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
-      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { karmicDebt: { baseAmount: 6 } },
-      buffs: ["global-web"], visualTheme: "shadow", tags: ["mass-tether", "all-enemies", "matrix", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Matrix lasts 2 minutes: all enemies take +25% bonus damage and cannot regain health while connected.", cooldownValue: 24 }
-    ]
-  },
-  {
-    id: "kw_t5_karmic_drain",
-    name: "Predatory Creditor",
-    icon: "spell_shadow_lifedrain01",
+    id: "kw_t1_debt_collection",
+    name: "Debt Collection",
+    icon: "inv_misc_coin_02",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
-    requires: "kw_t4_debt_snowball",
+    position: { x: 2, y: 0 },
+    requires: null,
     spell: {
-      name: "Predatory Creditor",
-      description: "Tethered enemies deal 25% less damage, and you steal 2 Action Points and 10 mana from tethered foes every round.",
-      flavorText: "Foreclosing on their action economy.",
-      source: "talent", class: "Gambit", treeId: "karmic_weaver",
-      spellType: "PASSIVE", category: "debuff",
-      targetingMode: "self", visualTheme: "shadow", tags: ["passive", "action-theft", "weaken", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Tethered enemies deal 40% less damage; steal 3 AP and 20 mana per round." },
-      { description: "Tethered enemies deal 50% less damage; steal 4 AP, 30 mana, and reduce their movement speed to 0." }
-    ]
-  },
-
-  // ──────────────── TIER 6 (5 pts) ────────────────
-  {
-    id: "kw_t6_fate_rewoven",
-    name: "Fate Rewoven",
-    icon: "inv_misc_platnumdisks",
-    maxRanks: 1,
-    position: { x: 1, y: 7.5 },
-    requires: "kw_t5_grand_tapestry",
-    spell: {
-      name: "Fate Rewoven",
-      description: "Spend 8 KD stacks: instantly execute all non-boss tethered enemies below 30% health, deal 8d10 psychic damage to surviving bosses, reset your KD to 0, and restore full health and FP to all party members.",
-      flavorText: "Once per encounter, the ledger is wiped clean with catastrophic finality.",
-      source: "talent", class: "Gambit", treeId: "karmic_weaver",
-      spellType: "ACTIVE", category: "healing",
-      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
-      castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { karmicDebt: { baseAmount: 8 } },
-      healing: { dice: "10d10", flat: 0 },
-      damageTypes: ["psychic"],
-      primaryDamage: { dice: "8d10", flat: 0, procChance: 100 },
-      visualTheme: "shadow", tags: ["mass-execute", "mass-heal", "climax", "gambit"]
-    },
-    rankUpgrades: []
-  },
-  {
-    id: "kw_t6_necrotic_criticality",
-    name: "Karmic Severance",
-    icon: "spell_shadow_curseofsargeras",
-    maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
-    requires: "kw_t5_karmic_drain",
-    spell: {
-      name: "Karmic Severance",
-      description: "All necrotic and tether damage scores critical hits on 18+ and critical hits spread tether to 1 adjacent enemy for free.",
-      flavorText: "Every wound creates a new thread in the web.",
-      source: "talent", class: "Gambit", treeId: "karmic_weaver",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["necrotic"],
-      visualTheme: "shadow", tags: ["passive", "crit", "auto-spread", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Critical hits on 16+; crits deal triple damage and spread tether to 2 adjacent foes." }
-    ]
-  },
-  {
-    id: "kw_t6_invulnerable_loom",
-    name: "Woven Immortality",
-    icon: "spell_holy_powerwordbarrier",
-    maxRanks: 2,
-    position: { x: 4, y: 7.5 },
-    requires: "kw_t5_karmic_drain",
-    spell: {
-      name: "Woven Immortality",
-      description: "While you have at least 2 tethered enemies, you cannot take more than 20 damage from any single attack.",
-      flavorText: "Dispersing lethal force across a network of victims.",
+      name: "Debt Collection",
+      description: "Passive: Whenever an enemy deals damage to you or an ally within 30 feet, that enemy gains a Debt Mark. Your next attack against them consumes the mark for +1d4 wyrd damage and heals you for 2 Hit Points.",
+      flavorText: "Every blow struck is an advance on future agony.",
       source: "talent", class: "Gambit", treeId: "karmic_weaver",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "shadow", tags: ["passive", "damage-clamp", "invulnerable", "gambit"]
+      targetingMode: "self", damageTypes: ["wyrd"],
+      primaryDamage: { dice: "1d4", flat: 0, procChance: 100 },
+      visualTheme: "wyrd", tags: ["passive", "retaliation", "gambit"]
     },
     rankUpgrades: [
-      { description: "Single attack damage capped at 10 damage, and you reflect 50% of all absorbed damage to tethered foes." }
+      { description: "Debt Mark adds +1d6 wyrd damage and heals you for 4 Hit Points." },
+      { description: "Debt Mark adds +1d8 wyrd damage, heals you for 6 Hit Points, and generates 1 FP." }
+    ]
+  },
+  {
+    id: "kw_t1_fate_siphon",
+    name: "Fate Siphon",
+    icon: "spell_shadow_siphonmana",
+    maxRanks: 2,
+    position: { x: 3, y: 0 },
+    requires: null,
+    spell: {
+      name: "Fate Siphon",
+      description: "Passive: When you reduce an enemy to 0 Hit Points, immediately gain 1 FP and grant 6 temporary Hit Points to the lowest-health ally within 30 feet.",
+      flavorText: "Redistributing the cosmic ledger upon foreclosure.",
+      source: "talent", class: "Gambit", treeId: "karmic_weaver",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "on-kill", "temp-hp", "gambit"]
+    },
+    rankUpgrades: [
+      { description: "Gain 1 FP and grant 12 temporary Hit Points to the lowest-health ally upon enemy defeat." }
     ]
   },
 
-  // ──────────────── TIER 7 / CAPSTONE (15 pts) ────────────────
+  // ──────────────── TIER 2 (Row 1) ────────────────
   {
-    id: "kw_t7_avatar_of_the_weaver",
-    name: "Avatar of the Wyrd Sovereign",
-    icon: "spell_shadow_shadowwordpain",
-    maxRanks: 1,
-    position: { x: 0.5, y: 9.5 },
-    requires: "kw_t6_fate_rewoven",
+    id: "kw_t2_karmic_strike",
+    name: "Karmic Strike",
+    icon: "ability_rogue_eviscerate",
+    maxRanks: 3,
+    position: { x: 1, y: 1 },
+    requires: "kw_t1_karmic_tether",
     spell: {
-      name: "Avatar of the Wyrd Sovereign",
-      description: "ULTIMATE: Spend 10 KD stacks: ascend into the Sovereign Weaver for 1 minute: every enemy in combat is permanently tethered to you and each other, takes 10d10 necrotic damage per round, and 100% of all damage allies take is dealt directly to enemies instead.",
-      flavorText: "The grand loom spins its final thread. None shall escape the pattern.",
+      name: "Karmic Strike",
+      description: "Spend 1 FP: Deliver a precision strike dealing 1d8 slicing + 1d8 wyrd damage. If the target has a Debt Mark, consume it to deal an extra +1d6 wyrd damage and Stagger the target for 1 round.",
+      flavorText: "Settling accounts in cold silver.",
+      source: "talent", class: "Gambit", treeId: "karmic_weaver",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "melee", range: 5,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 1, cooldownUnit: "round",
+      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
+      damageTypes: ["slicing", "wyrd"],
+      resourceCosts: { fortunePoints: { baseAmount: 1 } },
+      visualTheme: "wyrd", tags: ["strike", "combo", "gambit"]
+    },
+    rankUpgrades: [
+      { description: "Deals 1d8 slicing + 2d6 wyrd damage; Debt Mark consumption deals +1d8 wyrd damage.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } },
+      { description: "Deals 1d8 slicing + 2d8 wyrd damage; Debt Mark consumption deals +2d6 wyrd damage and Dazes the target for 1 round.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
+    ]
+  },
+  {
+    id: "kw_t2_redistribute_agony",
+    name: "Redistribute Agony",
+    icon: "spell_shadow_curseofachimonde",
+    maxRanks: 2,
+    position: { x: 3, y: 1 },
+    requires: "kw_t1_fate_siphon",
+    spell: {
+      name: "Redistribute Agony",
+      description: "Reaction: When an ally within 30 feet takes 10 or more damage from an attack, spend 1 FP to transfer 4 of that damage to an enemy within 30 feet.",
+      flavorText: "Pain is a debt. You simply choose who pays.",
+      source: "talent", class: "Gambit", treeId: "karmic_weaver",
+      spellType: "ACTIVE", category: "utility",
+      actionPoints: 0,
+      targetingMode: "single", rangeType: "ranged", range: 30,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      resourceCosts: { fortunePoints: { baseAmount: 1 } },
+      visualTheme: "wyrd", tags: ["reaction", "damage-transfer", "gambit"]
+    },
+    rankUpgrades: [
+      { description: "Transfers up to 8 damage to the enemy and refunds the FP if the enemy is below half health." }
+    ]
+  },
+
+  // ──────────────── TIER 3 (Row 2) ────────────────
+  {
+    id: "kw_t3_thread_of_ruin",
+    name: "Thread of Ruin",
+    icon: "spell_shadow_shadowwordpain",
+    maxRanks: 3,
+    position: { x: 1, y: 2 },
+    requires: "kw_t2_karmic_strike",
+    spell: {
+      name: "Thread of Ruin",
+      description: "Spend 2 FP: Curse an enemy within 50 feet. Deals 1d8 wyrd damage immediately and 1d6 wyrd damage at the start of each of their turns for 2 rounds.",
+      flavorText: "Unraveling the mortal thread stitch by stitch.",
+      source: "talent", class: "Gambit", treeId: "karmic_weaver",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "ranged", range: 50,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 2, cooldownUnit: "rounds",
+      primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
+      isDot: true, dotTick: "1d6", dotDuration: 2,
+      damageTypes: ["wyrd"],
+      resourceCosts: { fortunePoints: { baseAmount: 2 } },
+      visualTheme: "wyrd", tags: ["curse", "dot", "gambit"]
+    },
+    rankUpgrades: [
+      { description: "Deals 2d6 initial and 1d8 wyrd damage per round.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 }, dotTick: "1d8" },
+      { description: "Deals 2d8 initial and 2d6 wyrd damage per round, and if the target dies the curse jumps to the nearest enemy.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 }, dotTick: "2d6" }
+    ]
+  },
+  {
+    id: "kw_t3_sympathetic_ward",
+    name: "Sympathetic Ward",
+    icon: "spell_shadow_antishadow",
+    maxRanks: 3,
+    position: { x: 2, y: 2 },
+    requires: null,
+    spell: {
+      name: "Sympathetic Ward",
+      description: "Passive: You and allies within 20 feet gain +2 Wyrd and Psychic resistance. When an enemy hits an ally, that enemy suffers 1d4 wyrd backlash.",
+      flavorText: "Touch the web, feel the sting.",
+      source: "talent", class: "Gambit", treeId: "karmic_weaver",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "aura", "retaliation", "gambit"]
+    },
+    rankUpgrades: [
+      { description: "Grants +3 resistance, and enemy backlash increases to 1d6 wyrd damage." },
+      { description: "Grants +4 resistance, enemy backlash increases to 1d8 wyrd damage, and allies gain +1 to saves against curses." }
+    ]
+  },
+
+  // ──────────────── TIER 4 (Row 3) ────────────────
+  {
+    id: "kw_t4_cosmic_foreclosure",
+    name: "Cosmic Foreclosure",
+    icon: "spell_shadow_deathanddecay",
+    maxRanks: 1,
+    position: { x: 2, y: 3 },
+    requires: ["kw_t3_thread_of_ruin", "kw_t3_sympathetic_ward"],
+    spell: {
+      name: "Cosmic Foreclosure",
+      description: "Spend 2 FP: Call in all debts on an enemy within 40 feet. Deals 2d10 wyrd damage and heals all allies within 20 feet of the target for 1d8 Hit Points.",
+      flavorText: "The account is closed. The balance is liquidated.",
+      source: "talent", class: "Gambit", treeId: "karmic_weaver",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "single", rangeType: "ranged", range: 40,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      primaryDamage: { dice: "2d10", flat: 0, procChance: 100 },
+      damageTypes: ["wyrd"],
+      resourceCosts: { fortunePoints: { baseAmount: 2 } },
+      visualTheme: "wyrd", tags: ["nuke", "lifesteal-aoe", "gambit"]
+    }
+  },
+
+  // ──────────────── TIER 5 (Row 4) ────────────────
+  {
+    id: "kw_t5_tether_network",
+    name: "Tether Network",
+    icon: "spell_shadow_shadowwordpain",
+    maxRanks: 3,
+    position: { x: 1, y: 4 },
+    requires: "kw_t4_cosmic_foreclosure",
+    spell: {
+      name: "Tether Network",
+      description: "Spend 2 FP: Tether up to 3 enemies within 30 feet for 2 rounds. When one tethered enemy takes damage, each other tethered enemy takes 1d6 wyrd damage.",
+      flavorText: "A spiderweb of shared destiny.",
+      source: "talent", class: "Gambit", treeId: "karmic_weaver",
+      spellType: "ACTIVE", category: "debuff",
+      actionPoints: 1,
+      targetingMode: "aoe", aoeShape: "circle", aoeSize: 30, rangeType: "ranged", range: 40,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      resourceCosts: { fortunePoints: { baseAmount: 2 } },
+      visualTheme: "wyrd", tags: ["tether", "aoe", "shared-damage", "gambit"]
+    },
+    rankUpgrades: [
+      { description: "Shared damage increases to 1d8 wyrd damage." },
+      { description: "Shared damage increases to 1d8 wyrd damage, and tethered enemies cannot Disengage." }
+    ]
+  },
+  {
+    id: "kw_t5_karmic_shield",
+    name: "Karmic Shield",
+    icon: "spell_shadow_shadowform",
+    maxRanks: 2,
+    position: { x: 3, y: 4 },
+    requires: "kw_t4_cosmic_foreclosure",
+    spell: {
+      name: "Karmic Shield",
+      description: "Passive: When you take damage while holding 2 or more FP, convert 3 points of that damage into temporary Hit Points for the lowest-health ally within 30 feet.",
+      flavorText: "Every wound you endure becomes an aegis for another.",
+      source: "talent", class: "Gambit", treeId: "karmic_weaver",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "ally-shield", "gambit"]
+    },
+    rankUpgrades: [
+      { description: "Converts 6 points of damage into temporary Hit Points for the ally." }
+    ]
+  },
+
+  // ──────────────── TIER 6 (Row 5) ────────────────
+  {
+    id: "kw_t6_wyrd_reckoning",
+    name: "Wyrd Reckoning",
+    icon: "spell_shadow_twilight",
+    maxRanks: 3,
+    position: { x: 2, y: 5 },
+    requires: ["kw_t5_tether_network", "kw_t5_karmic_shield"],
+    spell: {
+      name: "Wyrd Reckoning",
+      description: "Spend 3 FP: Release a 30-foot cone of unraveling fate. Deals 3d8 wyrd damage to all enemies and restores 2d6 Hit Points to all allies in the area.",
+      flavorText: "When the ledger snaps shut, fortunes are reversed.",
+      source: "talent", class: "Gambit", treeId: "karmic_weaver",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 1,
+      targetingMode: "aoe", aoeShape: "cone", aoeSize: 30, rangeType: "ranged", range: 30,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "turn_based", cooldownValue: 3, cooldownUnit: "rounds",
+      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
+      damageTypes: ["wyrd"],
+      resourceCosts: { fortunePoints: { baseAmount: 3 } },
+      visualTheme: "wyrd", tags: ["cone", "heal-damage", "gambit"]
+    },
+    rankUpgrades: [
+      { description: "Deals 3d10 wyrd damage to enemies and heals allies for 2d8 Hit Points.", primaryDamage: { dice: "3d10", flat: 0, procChance: 100 } },
+      { description: "Deals 4d8 wyrd damage, heals allies for 3d6 Hit Points, and applies Debt Marks to all surviving enemies.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
+    ]
+  },
+
+  // ──────────────── TIER 7 (Row 6 - Capstones) ────────────────
+  {
+    id: "kw_t7_master_of_the_ledger",
+    name: "Master of the Cosmic Ledger",
+    icon: "spell_shadow_demonicempathy",
+    maxRanks: 1,
+    position: { x: 2, y: 6 },
+    requires: "kw_t6_wyrd_reckoning",
+    spell: {
+      name: "Master of the Cosmic Ledger",
+      description: "ULTIMATE: Spend 3 FP: For 2 rounds, all damage taken by you and allies within 30 feet is reduced by 3 and reflected back at the attacker as wyrd damage, and every hit generates 1 FP.",
+      flavorText: "You hold the universal balance. No pain goes unpaid.",
       source: "talent", class: "Gambit", treeId: "karmic_weaver",
       spellType: "ACTIVE", category: "buff",
-      targetingMode: "self", rangeType: "self", range: 0,
+      actionPoints: 1,
+      targetingMode: "self",
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
-      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
-      resourceCosts: { karmicDebt: { baseAmount: 10 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
-      damageTypes: ["necrotic"],
-      primaryDamage: { dice: "10d10", flat: 0, procChance: 100 },
-      buffs: ["avatar-wyrd"], visualTheme: "shadow", tags: ["ultimate", "capstone", "god-mode", "gambit"]
-    },
-    rankUpgrades: []
+      cooldownCategory: "turn_based", cooldownValue: 5, cooldownUnit: "rounds",
+      resourceCosts: { fortunePoints: { baseAmount: 3 } },
+      visualTheme: "wyrd", tags: ["ultimate", "retaliation", "buff", "gambit"]
+    }
   },
   {
-    id: "kw_t7_karmic_doctrine",
-    name: "Karmic Weaver Doctrine",
+    id: "kw_t7_debtors_curse",
+    name: "Debtor's Curse",
     icon: "spell_shadow_curseofsargeras",
-    maxRanks: 5,
-    position: { x: 1.5, y: 9.5 },
-    requires: "kw_t6_fate_rewoven",
+    maxRanks: 2,
+    position: { x: 1, y: 6 },
+    requires: "kw_t6_wyrd_reckoning",
     spell: {
-      name: "Karmic Weaver Doctrine",
-      description: "All necrotic, tether, and karmic damage you deal is increased by 10%.",
-      flavorText: "The debt collector always takes his cut.",
-      source: "talent", class: "Gambit", treeId: "karmic_weaver",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["necrotic"],
-      visualTheme: "shadow", tags: ["passive", "capstone", "damage", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "All necrotic and tether damage increased by 20%." },
-      { description: "All necrotic and tether damage increased by 35%." },
-      { description: "All necrotic and tether damage increased by 50%." },
-      { description: "All necrotic and tether damage increased by 70%, and Fate Binding Tether costs 0 mana." }
-    ]
-  },
-  {
-    id: "kw_t7_infinite_debt_engine",
-    name: "Endless Karmic Reservoir",
-    icon: "inv_misc_scalesofjustice",
-    maxRanks: 3,
-    position: { x: 2.5, y: 9.5 },
-    requires: "kw_t6_necrotic_criticality",
-    spell: {
-      name: "Endless Karmic Reservoir",
-      description: "Your maximum Karmic Debt increases by 10. You generate 3 KD stacks per turn in combat.",
-      flavorText: "A bottomless ledger of cosmic retribution.",
-      source: "talent", class: "Gambit", treeId: "karmic_weaver",
-      spellType: "PASSIVE", category: "utility",
-      targetingMode: "self", visualTheme: "shadow", tags: ["passive", "capstone", "kd-engine", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Max KD +15; generate 5 KD per turn and movement speed +15ft." },
-      { description: "Max KD +20; generate 7 KD per turn and abilities cost 2 fewer KD." }
-    ]
-  },
-  {
-    id: "kw_t7_soul_debt_shatter",
-    name: "Debt Shatterstorm",
-    icon: "spell_shadow_shadowfury",
-    maxRanks: 3,
-    position: { x: 3.5, y: 9.5 },
-    requires: "kw_t6_necrotic_criticality",
-    spell: {
-      name: "Debt Shatterstorm",
-      description: "When a tethered enemy dies, release a soul shockwave dealing 6d10 necrotic damage to all enemies within 30 feet.",
-      flavorText: "A defaulting debtor takes the neighborhood down with him.",
-      source: "talent", class: "Gambit", treeId: "karmic_weaver",
-      spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["necrotic"],
-      primaryDamage: { dice: "6d10", flat: 0, procChance: 100 },
-      visualTheme: "shadow", tags: ["passive", "capstone", "death-nova", "gambit"]
-    },
-    rankUpgrades: [
-      { description: "Nova deals 9d10 necrotic damage and stuns survivors for 1 round." },
-      { description: "Nova deals 12d10 necrotic damage, stuns for 2 rounds, and refunds full KD." }
-    ]
-  },
-  {
-    id: "kw_t7_tether_rebirth",
-    name: "Karmic Transference Rebirth",
-    icon: "spell_holy_resurrection",
-    maxRanks: 3,
-    position: { x: 4.5, y: 9.5 },
-    requires: "kw_t6_invulnerable_loom",
-    spell: {
-      name: "Karmic Transference Rebirth",
-      description: "While at least one enemy is tethered, lethal damage transfers your death to the tethered enemy instead: instakills the tethered enemy, restores your HP to 50%, grants 50 temp HP, and grants max KD (cooldown: 120s).",
-      flavorText: "Your death was transferred to their bill.",
+      name: "Debtor's Curse",
+      description: "Passive: Enemies with Debt Marks suffer -2 to all saving throws and cannot recover Hit Points through healing spells.",
+      flavorText: "Defaulting on a debt to fate is a fatal sentence.",
       source: "talent", class: "Gambit", treeId: "karmic_weaver",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", visualTheme: "shadow", tags: ["passive", "capstone", "cheat-death", "gambit"]
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "heal-block", "gambit"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restore 75% health, 75 temp HP, kill up to 2 tethered enemies (cooldown: 90s)." },
-      { description: "Survive lethal damage, restore 100% health, instakill all tethered non-bosses, and activate Avatar of the Wyrd Sovereign for free (cooldown: 60s)." }
+      { description: "Enemies with Debt Marks suffer -3 to saving throws and take +1d6 wyrd damage from all sources." }
+    ]
+  },
+  {
+    id: "kw_t7_soul_insolvency",
+    name: "Soul Insolvency",
+    icon: "spell_shadow_abominationexplosion",
+    maxRanks: 2,
+    position: { x: 3, y: 6 },
+    requires: "kw_t6_wyrd_reckoning",
+    spell: {
+      name: "Soul Insolvency",
+      description: "Passive: When an enemy dies while linked by Karmic Tether or carrying a Debt Mark, they detonate for 2d8 wyrd damage to all adjacent enemies.",
+      flavorText: "Cosmic bankruptcy is violently explosive.",
+      source: "talent", class: "Gambit", treeId: "karmic_weaver",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", damageTypes: ["wyrd"],
+      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
+      visualTheme: "wyrd", tags: ["passive", "corpse-explosion", "gambit"]
+    },
+    rankUpgrades: [
+      { description: "Detonation deals 3d8 wyrd damage and grants you 1 FP." }
     ]
   }
 ];

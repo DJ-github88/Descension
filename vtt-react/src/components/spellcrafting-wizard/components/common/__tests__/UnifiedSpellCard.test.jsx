@@ -88,4 +88,26 @@ describe('UnifiedSpellCard Component', () => {
     expect(screen.getByText('Evocation')).toBeInTheDocument();
     expect(screen.getByText('Ranged')).toBeInTheDocument();
   });
+
+  it('renders reaction and trigger tag above header', () => {
+    const reactionSpell = {
+      id: 'reaction-spell-1',
+      name: 'Counter-Strike',
+      spellType: 'REACTION',
+      actionType: 'reaction',
+      reactionTrigger: 'When an enemy makes a melee attack within 5 feet',
+      description: 'As a reaction when an enemy makes a melee attack within 5 feet, parry and strike back.'
+    };
+
+    render(
+      <UnifiedSpellCard
+        spell={reactionSpell}
+        variant="wizard"
+      />
+    );
+
+    expect(screen.getByText(/When an enemy makes a melee attack within 5 feet/)).toBeInTheDocument();
+    expect(screen.getAllByText('REACTION')[0]).toBeInTheDocument();
+  });
 });
+

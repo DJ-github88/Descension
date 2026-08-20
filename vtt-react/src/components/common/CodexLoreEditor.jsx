@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import RichLoreText from './RichLoreText';
 import { useMediaUpload } from '../../hooks/useMediaUpload';
+import universalEntityService from '../../services/universalEntityService';
 import './CodexLoreEditor.css';
 
 const CODEX_TEMPLATES = {
@@ -68,8 +69,85 @@ const CodexLoreEditor = ({
 }) => {
   const [editorMode, setEditorMode] = useState('split'); // 'write' | 'split' | 'preview'
   const [showSensoryProfile, setShowSensoryProfile] = useState(false);
+  const [autocomplete, setAutocomplete] = useState({ isOpen: false, query: '', matchStart: -1, selectedIndex: 0, items: [] });
   const textareaRef = useRef(null);
   const { uploadImage, removeImage } = useMediaUpload();
+
+  // Detect [[ triggers
+  const handleTextareaChange = (e) => {
+    const val = e.target.value;
+    onUpdate({ content: val });
+
+    const cursor = e.target.selectionStart;
+    const textBefore = val.slice(0, cursor);
+    const lastOpen = textBefore.lastIndexOf('[[');
+    const lastClose = textBefore.lastIndexOf(']]');
+
+    if (lastOpen !== -1 && lastOpen > lastClose && (cursor - lastOpen <= 35)) {
+      const query = textBefore.slice(lastOpen + 2);
+      const results = universalEntityService.searchAll(query, { limit: 6 });
+      setAutocomplete({
+        isOpen: results.length > 0,
+        query,
+        matchStart: lastOpen,
+        selectedIndex: 0,
+        items: results
+      });
+    } else {
+      if (autocomplete.isOpen) {
+        setAutocomplete(prev => ({ ...prev, isOpen: false }));
+      }
+    }
+  };
+
+  const handleInsertWikiLink = (entity) => {
+    if (!textareaRef.current || autocomplete.matchStart === -1) return;
+    const textarea = textareaRef.current;
+    const current = article.content || '';
+    const cursor = textarea.selectionStart;
+
+    const before = current.slice(0, autocomplete.matchStart);
+    const after = current.slice(cursor);
+    const inserted = `[[${entity.title}]]`;
+    const newContent = `${before}${inserted}${after}`;
+
+    onUpdate({ content: newContent });
+    setAutocomplete({ isOpen: false, query: '', matchStart: -1, selectedIndex: 0, items: [] });
+
+    setTimeout(() => {
+      textarea.focus();
+      const newPos = before.length + inserted.length;
+      textarea.setSelectionRange(newPos, newPos);
+    }, 10);
+  };
+
+  const handleTextareaKeyDown = (e) => {
+    if (autocomplete.isOpen && autocomplete.items.length > 0) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setAutocomplete(prev => ({
+          ...prev,
+          selectedIndex: (prev.selectedIndex + 1) % prev.items.length
+        }));
+        return;
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setAutocomplete(prev => ({
+          ...prev,
+          selectedIndex: (prev.selectedIndex - 1 + prev.items.length) % prev.items.length
+        }));
+        return;
+      } else if (e.key === 'Enter' || e.key === 'Tab') {
+        e.preventDefault();
+        handleInsertWikiLink(autocomplete.items[autocomplete.selectedIndex]);
+        return;
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        setAutocomplete(prev => ({ ...prev, isOpen: false }));
+        return;
+      }
+    }
+  };
 
   const insertFormatting = (prefix, suffix = '') => {
     const textarea = textareaRef.current;
@@ -400,18 +478,67 @@ const CodexLoreEditor = ({
       <div className={`codex-panes-wrapper mode-${editorMode}`}>
         {/* Write Pane */}
         {editorMode !== 'preview' && (
-          <div className="codex-write-pane">
+          <div className="codex-write-pane" style={{ position: 'relative' }}>
             <textarea
               ref={textareaRef}
               value={article.content || ''}
-              onChange={(e) => onUpdate({ content: e.target.value })}
+              onChange={handleTextareaChange}
+              onKeyDown={handleTextareaKeyDown}
               placeholder="Chronicle the history, mythology, scriptures, or background lore here...
-• Use [[Entity Name]] to create interactive wiki-links to regions, houses, or people.
+• Use [[ to trigger instant entity search and auto-complete links.
 • Use @Mentions for character tags.
 • Insert TTRPG blocks using the toolbar buttons above."
               className="codex-textarea"
               rows={14}
             />
+
+            {/* Autocomplete Dropdown Popup */}
+            {autocomplete.isOpen && autocomplete.items.length > 0 && (
+              <div
+                className="codex-autocomplete-dropdown"
+                style={{
+                  position: 'absolute',
+                  bottom: '24px',
+                  left: '20px',
+                  background: '#161922',
+                  border: '1px solid rgba(212, 175, 55, 0.4)',
+                  borderRadius: '8px',
+                  boxShadow: '0 10px 25px rgba(0,0,0,0.8)',
+                  zIndex: 50,
+                  width: '320px',
+                  maxHeight: '240px',
+                  overflowY: 'auto',
+                  padding: '4px'
+                }}
+              >
+                <div style={{ padding: '4px 8px', fontSize: '10px', color: '#d4af37', textTransform: 'uppercase', fontWeight: 600, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                  <i className="fas fa-link"></i> Link Entity (Enter or Tab to insert)
+                </div>
+                {autocomplete.items.map((item, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => handleInsertWikiLink(item)}
+                    style={{
+                      padding: '6px 8px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      background: idx === autocomplete.selectedIndex ? 'rgba(212, 175, 55, 0.18)' : 'transparent',
+                      color: idx === autocomplete.selectedIndex ? '#f1f2f6' : '#ccc',
+                      fontSize: '12px'
+                    }}
+                  >
+                    <i className={`fas ${item.icon || 'fa-scroll'}`} style={{ color: item.color || '#d4af37', width: '16px', textAlign: 'center' }}></i>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</div>
+                      <div style={{ fontSize: '10px', color: '#777' }}>{item.category || item.type}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
