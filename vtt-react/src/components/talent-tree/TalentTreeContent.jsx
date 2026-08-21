@@ -141,8 +141,7 @@ const getDynamicDescription = (talent, currentRank) => {
     return <div className="talent-desc-container">{parts}</div>;
 };
 
-const GRID_COLS = 5;
-const GRID_ROWS = 7;
+
 
 export const TalentTreeContent = ({
     customClass = null,
@@ -376,27 +375,6 @@ export const TalentTreeContent = ({
         setHoveredTalentId(null);
     };
 
-    if (!trees || trees.length === 0) {
-        return (
-            <div className="talent-tree-content-root">
-                <div className="talent-tree-empty-state">
-                    <h2>No Talent Trees Found</h2>
-                    <p>Select a valid character class to view talent trees.</p>
-                </div>
-            </div>
-        );
-    }
-
-    // Determine inspector talent
-    const inspectedTalent = currentTree?.talents?.find(t => t.id === (selectedTalentId || hoveredTalentId))
-        || currentTree?.talents?.[0];
-    const inspectedRanks = inspectedTalent ? (talents[inspectedTalent.id] || 0) : 0;
-    const inspectedMaxed = inspectedTalent ? (inspectedRanks >= (inspectedTalent.maxRanks || 1)) : false;
-    const inspectedCanLearn = inspectedTalent ? canLearnTalent(inspectedTalent) : false;
-    const inspectedCanUnlearn = inspectedTalent ? canUnlearnTalent(inspectedTalent.id) : false;
-
-    const spentInActiveTree = currentTree?.talents?.reduce((sum, t) => sum + (talents[t.id] || 0), 0) || 0;
-
     // Analyze current tree coordinate system to guarantee balanced auto-centering and full visibility
     const treeAnalysis = React.useMemo(() => {
         const talentsList = currentTree?.talents || [];
@@ -452,6 +430,27 @@ export const TalentTreeContent = ({
         const posY = y * cellHeight + cellHeight / 2;
         return { posX, posY };
     }, [treeAnalysis, gridDims.width, cellHeight, talentSize]);
+
+    if (!trees || trees.length === 0) {
+        return (
+            <div className="talent-tree-content-root">
+                <div className="talent-tree-empty-state">
+                    <h2>No Talent Trees Found</h2>
+                    <p>Select a valid character class to view talent trees.</p>
+                </div>
+            </div>
+        );
+    }
+
+    // Determine inspector talent
+    const inspectedTalent = currentTree?.talents?.find(t => t.id === (selectedTalentId || hoveredTalentId))
+        || currentTree?.talents?.[0];
+    const inspectedRanks = inspectedTalent ? (talents[inspectedTalent.id] || 0) : 0;
+    const inspectedMaxed = inspectedTalent ? (inspectedRanks >= (inspectedTalent.maxRanks || 1)) : false;
+    const inspectedCanLearn = inspectedTalent ? canLearnTalent(inspectedTalent) : false;
+    const inspectedCanUnlearn = inspectedTalent ? canUnlearnTalent(inspectedTalent.id) : false;
+
+    const spentInActiveTree = currentTree?.talents?.reduce((sum, t) => sum + (talents[t.id] || 0), 0) || 0;
 
     return (
         <div className="talent-tree-content-root">
