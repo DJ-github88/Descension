@@ -22,7 +22,7 @@
   gap: 6px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
   position: relative;
-  z-index: 100;
+  z-index: 5000;
 }
 
 .header-top-row {
@@ -325,7 +325,7 @@
 .vial-popup-wrapper {
   position: absolute;
   top: calc(100% + 8px);
-  z-index: 1000;
+  z-index: 6000;
   display: flex;
   justify-content: center;
   width: auto;
@@ -2548,6 +2548,11 @@
 @media (max-width: 768px) {
   .character-view-page {
     min-height: 100vh;
+  }
+
+  .character-view-header {
+    position: relative;
+    z-index: 5000 !important;
   }
 
   /* --- Main tabs: touch-friendly responsive ribbon --- */

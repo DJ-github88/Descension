@@ -14,15 +14,24 @@ const TalentArrow = ({
   isActive, 
   cellWidth, 
   cellHeight,
-  talentSize = 48
+  talentSize = 48,
+  getNodePos = null
 }) => {
   // Center of source node
-  const fromX = fromPosition.x * cellWidth + cellWidth / 2;
-  const fromY = fromPosition.y * cellHeight + cellHeight / 2 + talentSize / 2;
-
+  const from = getNodePos ? getNodePos(fromPosition.x, fromPosition.y) : {
+    posX: fromPosition.x * cellWidth + cellWidth / 2,
+    posY: fromPosition.y * cellHeight + cellHeight / 2
+  };
   // Center of target node
-  const toX = toPosition.x * cellWidth + cellWidth / 2;
-  const toY = toPosition.y * cellHeight + cellHeight / 2 - talentSize / 2;
+  const to = getNodePos ? getNodePos(toPosition.x, toPosition.y) : {
+    posX: toPosition.x * cellWidth + cellWidth / 2,
+    posY: toPosition.y * cellHeight + cellHeight / 2
+  };
+
+  const fromX = from.posX;
+  const fromY = from.posY + talentSize / 2;
+  const toX = to.posX;
+  const toY = to.posY - talentSize / 2;
 
   const deltaX = toX - fromX;
   const deltaY = toY - fromY;
@@ -101,7 +110,8 @@ export const TalentArrowRenderer = ({
   learnedTalents,
   cellWidth,
   cellHeight,
-  talentSize = 48
+  talentSize = 48,
+  getNodePos = null
 }) => {
   if (!talents || !talents.length) return null;
 
@@ -127,6 +137,7 @@ export const TalentArrowRenderer = ({
               cellWidth={cellWidth}
               cellHeight={cellHeight}
               talentSize={talentSize}
+              getNodePos={getNodePos}
             />
           );
         }

@@ -186,8 +186,8 @@ export const TalentTreeContent = ({
             if (boardRef.current) {
                 const scrollParent = boardRef.current.closest('.talent-tree-scroll-container') || boardRef.current.parentElement;
                 const parentRect = scrollParent?.getBoundingClientRect();
-                const availableW = parentRect?.width && parentRect.width > 100 ? parentRect.width - 54 : 440;
-                const availableH = parentRect?.height && parentRect.height > 100 ? parentRect.height - 24 : 540;
+                const availableW = boardRef.current.clientWidth || (parentRect?.width ? parentRect.width - 64 : 440);
+                const availableH = parentRect?.clientHeight || (parentRect?.height ? parentRect.height - 24 : 540);
 
                 setGridDims({
                     width: Math.max(320, availableW),
@@ -396,9 +396,62 @@ export const TalentTreeContent = ({
     const inspectedCanUnlearn = inspectedTalent ? canUnlearnTalent(inspectedTalent.id) : false;
 
     const spentInActiveTree = currentTree?.talents?.reduce((sum, t) => sum + (talents[t.id] || 0), 0) || 0;
-    const cellWidth = gridDims.width / GRID_COLS;
-    const cellHeight = Math.max(76, Math.floor(gridDims.height / GRID_ROWS));
-    const talentSize = Math.min(Math.max(48, Math.min(cellWidth * 0.72, cellHeight * 0.76)), 74);
+
+    // Analyze current tree coordinate system to guarantee balanced auto-centering and full visibility
+    const treeAnalysis = React.useMemo(() => {
+        const talentsList = currentTree?.talents || [];
+        if (!talentsList.length) return { xMode: '5-col-fractional', maxTreeY: 6, tierMap: {} };
+
+        const xs = talentsList.map(t => t.position?.x ?? 0);
+        const ys = talentsList.map(t => t.position?.y ?? 0);
+        const minX = Math.min(...xs);
+        const maxX = Math.max(...xs);
+        const maxTreeY = Math.max(...ys, 6);
+
+        let xMode = '5-col-fractional';
+        if (minX >= 1 && maxX <= 3) {
+            xMode = '3-col';
+        } else if (minX === 0) {
+            xMode = '5-col-index';
+        } else {
+            xMode = '5-col-fractional';
+        }
+
+        const tierMap = {};
+        for (let tier = 1; tier <= 7; tier++) {
+            const tierTalents = talentsList.filter(t => t.id && t.id.toLowerCase().includes(`_t${tier}_`));
+            if (tierTalents.length > 0) {
+                tierMap[tier] = tierTalents[0].position?.y ?? (tier - 1);
+            } else {
+                tierMap[tier] = tier - 1;
+            }
+        }
+
+        return { xMode, maxTreeY, tierMap };
+    }, [currentTree]);
+
+    const cellHeight = Math.max(76, Math.floor(gridDims.height / 7));
+    const boardHeight = Math.ceil((treeAnalysis.maxTreeY + 1.2) * cellHeight);
+    const talentSize = Math.min(Math.max(48, Math.min(gridDims.width * 0.14, cellHeight * 0.74)), 70);
+
+    const getNodePos = useCallback((x, y) => {
+        const safeMargin = Math.max(talentSize / 2 + 14, 40);
+        const safeWidth = Math.max(100, gridDims.width - safeMargin * 2);
+
+        let normX;
+        if (treeAnalysis.xMode === '3-col') {
+            normX = (x - 1) / 2.0;
+        } else if (treeAnalysis.xMode === '5-col-index') {
+            normX = x / 4.0;
+        } else {
+            normX = (x - 0.5) / 4.0;
+        }
+
+        normX = Math.max(0, Math.min(1, normX));
+        const posX = safeMargin + normX * safeWidth;
+        const posY = y * cellHeight + cellHeight / 2;
+        return { posX, posY };
+    }, [treeAnalysis, gridDims.width, cellHeight, talentSize]);
 
     return (
         <div className="talent-tree-content-root">
@@ -534,36 +587,41 @@ export const TalentTreeContent = ({
                         />
 
                         <div className="talent-tree-scroll-container">
-                            <div className="talent-tier-rail" style={{ height: `${GRID_ROWS * cellHeight}px` }}>
-                                {[0, 1, 2, 3, 4, 5, 6].map(tIdx => (
-                                    <div
-                                        key={tIdx}
-                                        className="talent-tier-label"
-                                        style={{
-                                            position: 'absolute',
-                                            top: `${tIdx * cellHeight + cellHeight / 2}px`,
-                                            transform: 'translateY(-50%)'
-                                        }}
-                                    >
-                                        T{tIdx + 1}
-                                    </div>
-                                ))}
+                            <div className="talent-tier-rail" style={{ height: `${boardHeight}px` }}>
+                                {[1, 2, 3, 4, 5, 6, 7].map(tier => {
+                                    const tierY = treeAnalysis.tierMap[tier] ?? (tier - 1);
+                                    const { posY } = getNodePos(0, tierY);
+                                    return (
+                                        <div
+                                            key={tier}
+                                            className="talent-tier-label"
+                                            style={{
+                                                position: 'absolute',
+                                                top: `${posY}px`,
+                                                transform: 'translateY(-50%)'
+                                            }}
+                                        >
+                                            T{tier}
+                                        </div>
+                                    );
+                                })}
                             </div>
 
                             <div
                                 ref={boardRef}
                                 className="talent-grid-board"
                                 style={{
-                                    height: `${GRID_ROWS * cellHeight}px`,
-                                    minHeight: `${GRID_ROWS * cellHeight}px`
+                                    height: `${boardHeight}px`,
+                                    minHeight: `${boardHeight}px`
                                 }}
                             >
                                 <TalentArrowRenderer
                                     talents={currentTree?.talents || []}
                                     learnedTalents={talents}
-                                    cellWidth={cellWidth}
+                                    cellWidth={gridDims.width / 5}
                                     cellHeight={cellHeight}
                                     talentSize={talentSize}
+                                    getNodePos={getNodePos}
                                 />
 
                                 {(currentTree?.talents || []).map(talent => {
@@ -573,8 +631,7 @@ export const TalentTreeContent = ({
                                     const isLearnable = canLearn && !isMaxed;
                                     const isSelected = inspectedTalent?.id === talent.id;
 
-                                    const posX = (talent.position?.x ?? 0) * cellWidth + cellWidth / 2;
-                                    const posY = (talent.position?.y ?? 0) * cellHeight + cellHeight / 2;
+                                    const { posX, posY } = getNodePos(talent.position?.x ?? 0, talent.position?.y ?? 0);
 
                                     return (
                                         <div
