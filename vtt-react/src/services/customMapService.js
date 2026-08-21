@@ -8,60 +8,23 @@ import {
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../config/firebase';
 
-// Max decoded dimension for a stored custom-map image. Keeps the base64
-// payload small enough to live inside a single Firestore doc (< 1 MiB limit).
-const MAX_IMG_DIM = 1024;
-const IMG_QUALITY = 0.72;
-const MAX_DATA_URL_LENGTH = 700000;
+import { processImage } from '../utils/imageProcessor';
 
 /**
- * Compress an image File/Blob into a base64 data URL capped to MAX_IMG_DIM.
+ * Compress an image File/Blob into an optimized WebP data URL.
  * Returns { dataUrl, width, height }.
  */
-export const compressImageToDataUrl = (file) => {
-  return new Promise((resolve, reject) => {
-    if (typeof window === 'undefined' || !window.FileReader) {
-      return reject(new Error('FileReader not supported'));
-    }
-    const reader = new FileReader();
-    reader.onerror = () => reject(reader.error);
-    reader.onload = () => {
-      const img = new Image();
-      img.onerror = () => reject(new Error('Failed to decode image'));
-      img.onload = () => {
-        let { width, height } = img;
-        const longest = Math.max(width, height);
-        if (longest > MAX_IMG_DIM) {
-          const scale = MAX_IMG_DIM / longest;
-          width = Math.round(width * scale);
-          height = Math.round(height * scale);
-        }
-        let quality = IMG_QUALITY;
-        let dataUrl = '';
-        let canvas;
-        do {
-          canvas = document.createElement('canvas');
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          if (!ctx) return reject(new Error('Canvas 2D not supported'));
-          ctx.drawImage(img, 0, 0, width, height);
-          dataUrl = canvas.toDataURL('image/jpeg', quality);
-          if (dataUrl.length <= MAX_DATA_URL_LENGTH) break;
-          width = Math.max(512, Math.round(width * 0.8));
-          height = Math.max(512, Math.round(height * 0.8));
-          quality = Math.max(0.45, quality - 0.08);
-        } while (width > 512 || height > 512);
-
-        if (dataUrl.length > MAX_DATA_URL_LENGTH) {
-          return reject(new Error('Image is too detailed to fit account storage limits'));
-        }
-        resolve({ dataUrl, width, height });
-      };
-      img.src = reader.result;
-    };
-    reader.readAsDataURL(file);
+export const compressImageToDataUrl = async (file) => {
+  const result = await processImage(file, 'BATTLEMAP', {
+    maxWidth: 2048,
+    maxHeight: 2048,
+    quality: 0.78
   });
+  return {
+    dataUrl: result.dataUrl,
+    width: result.width,
+    height: result.height
+  };
 };
 
 class CustomMapService {

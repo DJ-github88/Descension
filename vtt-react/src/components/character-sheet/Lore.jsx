@@ -7,6 +7,8 @@ import { LORE_PLACEHOLDERS, LORE_FIELD_HINTS } from '../../constants/loreConstan
 // import { ENHANCED_PATHS } from '../../data/enhancedPathData'; // Disciplines removed
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import CharacterAppearanceModal from '../character-creation-wizard/components/CharacterAppearanceModal';
+import useAuthStore from '../../store/authStore';
+import { uploadAsset } from '../../services/firebase/uploadService';
 
 // Helper function to format ability icon paths correctly
 // Folders are capitalized (Utility, Social, etc.) and files use proper names
@@ -52,6 +54,8 @@ export default function Lore({ initialSection }) {
         updateBaseName: state.updateBaseName,
         background: state.background
     }));
+
+    const user = useAuthStore(state => state.user);
 
     // Choose data source based on whether we're in inspection mode
     const dataSource = inspectionData || characterStore;
@@ -1167,22 +1171,24 @@ export default function Lore({ initialSection }) {
                     });
                 }}
                 imagePreview={lore.characterImage}
-                onImageUpload={(e) => {
+                onImageUpload={async (e) => {
                     const file = e.target.files[0];
-                    if (file) {
-                        if (!file.type.startsWith('image/')) return;
-                        if (file.size > 5 * 1024 * 1024) return;
-                        const reader = new FileReader();
-                        reader.onload = (event) => {
-                            updateLore('characterImage', event.target.result);
-                            updateLore('imageTransformations', {
-                                scale: 1.2,
-                                rotation: 0,
-                                positionX: 0,
-                                positionY: 0
-                            });
-                        };
-                        reader.readAsDataURL(file);
+                    if (file && file.type.startsWith('image/')) {
+                        try {
+                            const currentUserId = user?.uid || (user?.isGuest ? 'guest' : null);
+                            const result = await uploadAsset(currentUserId, file, 'portraits', { profile: 'PORTRAIT' });
+                            if (result.success && result.url) {
+                                updateLore('characterImage', result.url);
+                                updateLore('imageTransformations', {
+                                    scale: 1.2,
+                                    rotation: 0,
+                                    positionX: 0,
+                                    positionY: 0
+                                });
+                            }
+                        } catch (err) {
+                            console.error('Failed to process character portrait:', err);
+                        }
                     }
                 }}
                 onRemoveImage={() => {

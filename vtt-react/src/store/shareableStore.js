@@ -282,15 +282,27 @@ const useShareableStore = create(
       },
 
       // ============ PLAYER NOTES ============
-      addNote: (title, content = '', image = null) => {
+      addNote: (title, content = '', extra = null) => {
+        let options = {};
+        if (typeof extra === 'string') {
+          options = { image: extra };
+        } else if (extra && typeof extra === 'object') {
+          options = extra;
+        }
+
         const newNote = {
           id: `note-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           title,
           content,
-          image,
+          image: options.image || null,
+          archetype: options.archetype || 'note',
+          aliases: Array.isArray(options.aliases) ? options.aliases : (options.aliases ? [options.aliases] : []),
+          tags: Array.isArray(options.tags) ? options.tags : (options.tags ? [options.tags] : []),
+          sensory: options.sensory || null,
+          secret: options.secret || null,
           createdAt: Date.now(),
           lastModified: Date.now(),
-          folderId: get().currentFolderId
+          folderId: options.folderId !== undefined ? options.folderId : get().currentFolderId
         };
         set(state => ({
           playerNotes: [...state.playerNotes, newNote]
@@ -304,6 +316,177 @@ const useShareableStore = create(
             n.id === noteId ? { ...n, ...updates, lastModified: Date.now() } : n
           )
         }));
+      },
+
+      renameEntityRefactor: (oldTitle, newTitle) => {
+        if (!oldTitle || !newTitle || oldTitle === newTitle) return 0;
+        const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const oldRegex = new RegExp(`\\[\\[${escapeRegex(oldTitle)}(#[^\\]|]+)?(\\|[^\\]]+)?\\]\\]`, 'gi');
+        let updateCount = 0;
+
+        set(state => {
+          const updatedNotes = (state.playerNotes || []).map(note => {
+            if (!note.content || !oldRegex.test(note.content)) return note;
+
+            const newContent = note.content.replace(oldRegex, (match, pSection, pAlias) => {
+              updateCount++;
+              const sectionPart = pSection || '';
+              const aliasPart = pAlias || '';
+              return `[[${newTitle}${sectionPart}${aliasPart}]]`;
+            });
+
+            return { ...note, content: newContent, lastModified: Date.now() };
+          });
+
+          return { playerNotes: updatedNotes };
+        });
+
+        return updateCount;
+      },
+
+      convertUnlinkedMentions: (noteId, entityName) => {
+        if (!noteId || !entityName) return 0;
+        const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        // Match entityName only when not already inside [[...]]
+        const wordRegex = new RegExp(`(?<!\\[\\[[^\\n\\]]*)\\b${escapeRegex(entityName)}\\b(?![^\\[\\n]*\\]\\])`, 'gi');
+
+        let replacements = 0;
+        set(state => {
+          const updatedNotes = (state.playerNotes || []).map(note => {
+            if (note.id !== noteId || !note.content) return note;
+            const newContent = note.content.replace(wordRegex, (match) => {
+              replacements++;
+              return `[[${match}]]`;
+            });
+            return { ...note, content: newContent, lastModified: Date.now() };
+          });
+          return { playerNotes: updatedNotes };
+        });
+        return replacements;
+      },
+
+      autoWireKnowledgeBoard: (boardId = null) => {
+        const state = get();
+        const activeBoardId = boardId !== undefined ? boardId : state.currentBoardId;
+        const orbs = (state.knowledgeOrbs || []).filter(o => o.boardId === activeBoardId);
+        if (orbs.length < 2) return 0;
+
+        const noteOrbs = orbs.filter(o => o.sourceType === 'note');
+        const notesMap = new Map((state.playerNotes || []).map(n => [n.id, n]));
+        let newConnectionsCount = 0;
+        const newConnections = [...(state.knowledgeConnections || [])];
+
+        const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+        for (let i = 0; i < noteOrbs.length; i++) {
+          for (let j = 0; j < noteOrbs.length; j++) {
+            if (i === j) continue;
+            const sourceOrb = noteOrbs[i];
+            const targetOrb = noteOrbs[j];
+            const sourceNote = notesMap.get(sourceOrb.knowledgeId);
+            const targetNote = notesMap.get(targetOrb.knowledgeId);
+
+            if (!sourceNote || !targetNote || !sourceNote.content || !targetNote.title) continue;
+
+            const targetTitleRegex = new RegExp(`\\[\\[${escapeRegex(targetNote.title)}(?:#[^\\]|]+)?(?:\\|[^\\]]+)?\\]\\]`, 'i');
+            const hasLink = targetTitleRegex.test(sourceNote.content);
+
+            if (hasLink) {
+              const alreadyExists = newConnections.some(c => 
+                (c.fromOrbId === sourceOrb.id && c.toOrbId === targetOrb.id) ||
+                (c.fromOrbId === targetOrb.id && c.toOrbId === sourceOrb.id)
+              );
+
+              if (!alreadyExists) {
+                newConnections.push({
+                  id: `conn-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                  fromOrbId: sourceOrb.id,
+                  toOrbId: targetOrb.id,
+                  label: 'references',
+                  boardId: activeBoardId
+                });
+                newConnectionsCount++;
+              }
+            }
+          }
+        }
+
+        if (newConnectionsCount > 0) {
+          set({ knowledgeConnections: newConnections });
+        }
+        return newConnectionsCount;
+      },
+
+      sproutOrbConnections: (orbId) => {
+        const state = get();
+        const orb = (state.knowledgeOrbs || []).find(o => o.id === orbId);
+        if (!orb) return 0;
+
+        const note = (state.playerNotes || []).find(n => n.id === orb.knowledgeId);
+        if (!note || !note.content) return 0;
+
+        // Extract all [[WikiLinks]] in note content
+        const wikiRegex = /\[\[(.*?)(?:\|(.*?))?\]\]/g;
+        const referencedTitles = new Set();
+        let match;
+        while ((match = wikiRegex.exec(note.content)) !== null) {
+          const rawTarget = match[1].split('#')[0].trim();
+          if (rawTarget) referencedTitles.add(rawTarget.toLowerCase());
+        }
+
+        let sproutedCount = 0;
+        const currentBoardOrbs = (state.knowledgeOrbs || []).filter(o => o.boardId === orb.boardId);
+        const existingKnowledgeIds = new Set(currentBoardOrbs.map(o => o.knowledgeId));
+
+        const newOrbs = [...state.knowledgeOrbs];
+        const newConnections = [...state.knowledgeConnections];
+
+        const notesMap = (state.playerNotes || []);
+        let offsetIndex = 0;
+
+        referencedTitles.forEach(titleLower => {
+          const targetNote = notesMap.find(n => n.title && n.title.toLowerCase() === titleLower);
+          if (targetNote && !existingKnowledgeIds.has(targetNote.id)) {
+            const angle = (offsetIndex * 45) * (Math.PI / 180);
+            const distance = 160;
+            const newOrbId = `orb-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+            
+            const newOrb = {
+              id: newOrbId,
+              knowledgeId: targetNote.id,
+              sourceType: 'note',
+              label: targetNote.title,
+              position: {
+                x: (orb.position?.x || 300) + Math.cos(angle) * distance,
+                y: (orb.position?.y || 200) + Math.sin(angle) * distance
+              },
+              iconId: targetNote.archetype === 'npc' ? 'fa-user-ninja' : (targetNote.archetype === 'location' ? 'fa-landmark' : 'fa-sticky-note'),
+              color: targetNote.archetype === 'npc' ? '#e74c3c' : (targetNote.archetype === 'location' ? '#2ecc71' : '#3498db'),
+              boardId: orb.boardId
+            };
+
+            newOrbs.push(newOrb);
+            newConnections.push({
+              id: `conn-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+              fromOrbId: orb.id,
+              toOrbId: newOrbId,
+              label: 'references',
+              boardId: orb.boardId
+            });
+
+            existingKnowledgeIds.add(targetNote.id);
+            sproutedCount++;
+            offsetIndex++;
+          }
+        });
+
+        if (sproutedCount > 0) {
+          set({
+            knowledgeOrbs: newOrbs,
+            knowledgeConnections: newConnections
+          });
+        }
+        return sproutedCount;
       },
 
       removeNote: (noteId) => {

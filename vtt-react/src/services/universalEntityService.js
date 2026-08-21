@@ -11,6 +11,20 @@ import useClassLoreStore from '../store/classLoreStore';
 import campaignService from './campaignService';
 
 class UniversalEntityService {
+  escapeRegex(str) {
+    if (!str || typeof str !== 'string') return '';
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  /**
+   * Fast existence check for an entity by name, ID, or alias
+   * @param {string} nameOrId 
+   */
+  hasEntity(nameOrId) {
+    if (!nameOrId || typeof nameOrId !== 'string') return false;
+    return !!this.getEntity(nameOrId);
+  }
+
   /**
    * Search all entities across the entire Mythrill ecosystem
    * @param {string} query Search text
@@ -26,41 +40,86 @@ class UniversalEntityService {
     const allow = (type) => !types || types.includes(type);
 
     // 1. Journal Notes & Knowledge Orbs (from shareableStore)
-    if (allow('note') || allow('orb')) {
+    if (allow('note') || allow('orb') || allow('user_defined')) {
       try {
         const { playerNotes = [], knowledgeOrbs = [] } = useShareableStore.getState();
 
         playerNotes.forEach(note => {
-          if (!cleanQuery || (note.title && note.title.toLowerCase().includes(cleanQuery)) || (note.content && note.content.toLowerCase().includes(cleanQuery))) {
+          const title = note.title || 'Untitled Note';
+          const aliases = Array.isArray(note.aliases) ? note.aliases.join(' ') : (note.aliases || '');
+          const tags = Array.isArray(note.tags) ? note.tags.join(' ') : (note.tags || '');
+          const searchableText = `${title} ${aliases} ${tags} ${note.content || ''}`.toLowerCase();
+
+          if (!cleanQuery || searchableText.includes(cleanQuery)) {
+            const archetype = note.archetype || 'note';
+            let icon = 'fa-sticky-note';
+            let color = '#3498db';
+            let category = 'Journal Note';
+
+            if (archetype === 'npc') {
+              icon = 'fa-user-ninja';
+              color = '#e74c3c';
+              category = 'Custom NPC';
+            } else if (archetype === 'location') {
+              icon = 'fa-landmark';
+              color = '#2ecc71';
+              category = 'Custom Location';
+            } else if (archetype === 'faction') {
+              icon = 'fa-shield-halved';
+              color = '#e67e22';
+              category = 'Custom Faction';
+            } else if (archetype === 'item' || archetype === 'relic') {
+              icon = 'fa-gem';
+              color = '#9b59b6';
+              category = 'Custom Item';
+            } else if (archetype === 'quest') {
+              icon = 'fa-scroll';
+              color = '#f39c12';
+              category = 'Custom Quest';
+            } else if (archetype === 'lore') {
+              icon = 'fa-book-bookmark';
+              color = '#d4af37';
+              category = 'Custom Lore';
+            }
+
             results.push({
               id: note.id,
               type: 'note',
-              category: 'Journal Note',
-              title: note.title || 'Untitled Note',
-              subtitle: `Modified ${note.lastModified ? new Date(note.lastModified).toLocaleDateString() : 'recently'}`,
-              icon: 'fa-sticky-note',
-              color: '#3498db',
+              archetype,
+              category,
+              title,
+              aliases: note.aliases || [],
+              tags: note.tags || [],
+              subtitle: note.aliases && note.aliases.length > 0 
+                ? `aka ${note.aliases.join(', ')} • ${category}`
+                : `Modified ${note.lastModified ? new Date(note.lastModified).toLocaleDateString() : 'recently'}`,
+              icon,
+              color,
               raw: note,
+              sensory: note.sensory || null,
+              secret: note.secret || null,
               summary: note.content ? note.content.slice(0, 160) : 'Personal journal note.'
             });
           }
         });
 
-        knowledgeOrbs.forEach(orb => {
-          if (!cleanQuery || (orb.label && orb.label.toLowerCase().includes(cleanQuery)) || (orb.content && orb.content.toLowerCase().includes(cleanQuery))) {
-            results.push({
-              id: orb.id,
-              type: 'orb',
-              category: 'Knowledge Orb',
-              title: orb.label || 'Knowledge Orb',
-              subtitle: orb.sourceType === 'note' ? 'Linked Note Orb' : 'Lore Orb',
-              icon: orb.iconId || 'fa-circle-dot',
-              color: orb.color || '#d4af37',
-              raw: orb,
-              summary: orb.content ? orb.content.slice(0, 160) : 'Orb on knowledge board.'
-            });
-          }
-        });
+        if (allow('orb')) {
+          knowledgeOrbs.forEach(orb => {
+            if (!cleanQuery || (orb.label && orb.label.toLowerCase().includes(cleanQuery)) || (orb.content && orb.content.toLowerCase().includes(cleanQuery))) {
+              results.push({
+                id: orb.id,
+                type: 'orb',
+                category: 'Knowledge Orb',
+                title: orb.label || 'Knowledge Orb',
+                subtitle: orb.sourceType === 'note' ? 'Linked Note Orb' : 'Lore Orb',
+                icon: orb.iconId || 'fa-circle-dot',
+                color: orb.color || '#d4af37',
+                raw: orb,
+                summary: orb.content ? orb.content.slice(0, 160) : 'Orb on knowledge board.'
+              });
+            }
+          });
+        }
       } catch (e) {
         console.warn('UniversalEntityService: error reading notes', e);
       }
@@ -274,37 +333,111 @@ class UniversalEntityService {
   }
 
   /**
-   * Find a specific entity by exact name or ID across all stores
+   * Find a specific entity by exact name, alias, or ID across all stores
    * @param {string} nameOrId 
    */
   getEntity(nameOrId) {
-    if (!nameOrId) return null;
+    if (!nameOrId || typeof nameOrId !== 'string') return null;
     const clean = nameOrId.trim();
-    const results = this.searchAll(clean, { limit: 10 });
-    return results.find(r => r.title.toLowerCase() === clean.toLowerCase() || r.id === clean) || results[0] || null;
+    if (!clean) return null;
+    const cleanLower = clean.toLowerCase();
+
+    const results = this.searchAll(clean, { limit: 25 });
+    
+    // 1. Exact match on title or ID
+    const exactMatch = results.find(r => 
+      (r.title && r.title.toLowerCase() === cleanLower) || 
+      (r.name && r.name.toLowerCase() === cleanLower) || 
+      r.id === clean
+    );
+    if (exactMatch) return exactMatch;
+
+    // 2. Exact match on aliases
+    const aliasMatch = results.find(r => 
+      Array.isArray(r.aliases) && r.aliases.some(a => a.toLowerCase() === cleanLower)
+    );
+    if (aliasMatch) return aliasMatch;
+
+    // 3. Match from worldStore searchEntities directly
+    try {
+      const worldState = useWorldStore.getState();
+      if (worldState.searchEntities) {
+        const worldMatches = worldState.searchEntities(clean);
+        const exactWorld = worldMatches.find(w => w.name.toLowerCase() === cleanLower || w.id === clean);
+        if (exactWorld) {
+          return {
+            id: exactWorld.id || exactWorld.name,
+            type: exactWorld.type || 'world_lore',
+            category: `World ${exactWorld.type ? exactWorld.type.toUpperCase() : 'Lore'}`,
+            title: exactWorld.name,
+            subtitle: exactWorld.subtitle || 'Canonical World Lore',
+            icon: exactWorld.type === 'location' ? 'fa-mountain-sun' : (exactWorld.type === 'faction' ? 'fa-shield-halved' : 'fa-book-bookmark'),
+            color: '#d4af37',
+            raw: exactWorld,
+            summary: exactWorld.summary || exactWorld.description || `Canonical ${exactWorld.name} article.`
+          };
+        }
+      }
+    } catch (_) {}
+
+    return null;
   }
 
   /**
    * Find all mentions and backlinks to a given entity name across notes and campaign logs
+   * Uses exact regex matching for [[WikiLinks]] and word boundaries for unlinked mentions
    * @param {string} entityName 
    */
   getBacklinks(entityName) {
-    if (!entityName) return [];
-    const cleanName = entityName.trim().toLowerCase();
-    const token = `[[${cleanName}]]`;
-    const backlinks = [];
+    if (!entityName || typeof entityName !== 'string') {
+      const empty = [];
+      empty.directLinks = [];
+      empty.unlinkedMentions = [];
+      return empty;
+    }
+
+    const cleanName = entityName.trim();
+    if (!cleanName) {
+      const empty = [];
+      empty.directLinks = [];
+      empty.unlinkedMentions = [];
+      return empty;
+    }
+
+    const escaped = this.escapeRegex(cleanName);
+    // Regex for [[EntityName]] or [[EntityName|Alias]] or [[EntityName#Heading]] or [[EntityName#Heading|Alias]]
+    const directRegex = new RegExp(`\\[\\[${escaped}(?:#[^\\]|]+)?(?:\\|[^\\]]+)?\\]\\]`, 'i');
+    // Regex for unlinked mentions using word boundary
+    const wordBoundaryRegex = new RegExp(`\\b${escaped}\\b`, 'i');
+
+    const directLinks = [];
+    const unlinkedMentions = [];
 
     // Search player notes
     try {
       const { playerNotes = [] } = useShareableStore.getState();
       playerNotes.forEach(note => {
-        if (note.content && (note.content.toLowerCase().includes(token) || note.content.toLowerCase().includes(cleanName))) {
-          backlinks.push({
+        if (!note.content) return;
+        // Do not self-link
+        if (note.title && note.title.toLowerCase() === cleanName.toLowerCase()) return;
+
+        if (directRegex.test(note.content)) {
+          directLinks.push({
             id: note.id,
             sourceType: 'note',
             sourceTitle: note.title || 'Untitled Note',
             snippet: this.extractSnippet(note.content, cleanName),
-            icon: 'fa-sticky-note'
+            icon: 'fa-sticky-note',
+            raw: note
+          });
+        } else if (wordBoundaryRegex.test(note.content)) {
+          unlinkedMentions.push({
+            id: note.id,
+            sourceType: 'note',
+            sourceTitle: note.title || 'Untitled Note',
+            snippet: this.extractSnippet(note.content, cleanName),
+            icon: 'fa-sticky-note',
+            raw: note
           });
         }
       });
@@ -316,33 +449,59 @@ class UniversalEntityService {
       const data = currentCampaign?.campaignData || {};
 
       (data.npcs || []).forEach(npc => {
+        if (npc.name && npc.name.toLowerCase() === cleanName.toLowerCase()) return;
         const text = `${npc.notes || ''} ${npc.secrets || ''}`;
-        if (text.toLowerCase().includes(token) || text.toLowerCase().includes(cleanName)) {
-          backlinks.push({
+        if (directRegex.test(text)) {
+          directLinks.push({
             id: npc.id,
             sourceType: 'npc',
             sourceTitle: npc.name || 'NPC Profile',
             snippet: this.extractSnippet(text, cleanName),
-            icon: 'fa-user-ninja'
+            icon: 'fa-user-ninja',
+            raw: npc
+          });
+        } else if (wordBoundaryRegex.test(text)) {
+          unlinkedMentions.push({
+            id: npc.id,
+            sourceType: 'npc',
+            sourceTitle: npc.name || 'NPC Profile',
+            snippet: this.extractSnippet(text, cleanName),
+            icon: 'fa-user-ninja',
+            raw: npc
           });
         }
       });
 
       (data.quests || []).forEach(q => {
+        if (q.title && q.title.toLowerCase() === cleanName.toLowerCase()) return;
         const text = `${q.description || ''} ${(q.objectives || []).map(o => o.text).join(' ')}`;
-        if (text.toLowerCase().includes(token) || text.toLowerCase().includes(cleanName)) {
-          backlinks.push({
+        if (directRegex.test(text)) {
+          directLinks.push({
             id: q.id,
             sourceType: 'quest',
             sourceTitle: q.title || 'Quest Entry',
             snippet: this.extractSnippet(text, cleanName),
-            icon: 'fa-scroll'
+            icon: 'fa-scroll',
+            raw: q
+          });
+        } else if (wordBoundaryRegex.test(text)) {
+          unlinkedMentions.push({
+            id: q.id,
+            sourceType: 'quest',
+            sourceTitle: q.title || 'Quest Entry',
+            snippet: this.extractSnippet(text, cleanName),
+            icon: 'fa-scroll',
+            raw: q
           });
         }
       });
     } catch (_) {}
 
-    return backlinks;
+    // Return array of directLinks with properties attached for backward-compatibility and rich extensions
+    const result = [...directLinks];
+    result.directLinks = directLinks;
+    result.unlinkedMentions = unlinkedMentions;
+    return result;
   }
 
   /**
@@ -360,3 +519,4 @@ class UniversalEntityService {
 
 const universalEntityService = new UniversalEntityService();
 export default universalEntityService;
+

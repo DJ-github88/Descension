@@ -34,6 +34,9 @@ import UnifiedTooltip from '../../common/UnifiedTooltip';
 
 import { useUnifiedTooltip } from '../../common/useUnifiedTooltip';
 
+import { uploadAsset } from '../../../services/firebase/uploadService';
+import useAuthStore from '../../../store/authStore';
+
 
 
 // Point buy utilities
@@ -880,6 +883,8 @@ const truncateForTooltip = (text, maxSentences = 2) => {
 
 const Step1CoreDraft = () => {
 
+    const user = useAuthStore(state => state.user);
+
     const state = useCharacterWizardState();
 
     const dispatch = useCharacterWizardDispatch();
@@ -1307,29 +1312,37 @@ const Step1CoreDraft = () => {
 
     // Appearance Handlers
 
-    const handleImageUpload = (e) => {
+    const handleImageUpload = async (e) => {
 
         const file = e.target.files[0];
 
         if (file && file.type.startsWith('image/')) {
 
-            const reader = new FileReader();
+            try {
 
-            reader.onload = (event) => {
+                const currentUserId = user?.uid || (user?.isGuest ? 'guest' : null);
 
-                setImagePreview(event.target.result);
+                const result = await uploadAsset(currentUserId, file, 'portraits', { profile: 'PORTRAIT' });
 
-                dispatch(wizardActionCreators.updateBasicInfo({
+                if (result.success && result.url) {
 
-                    characterImage: event.target.result,
+                    setImagePreview(result.url);
 
-                    imageTransformations: { scale: 1.5, rotation: 0, positionX: 0, positionY: 0 }
+                    dispatch(wizardActionCreators.updateBasicInfo({
 
-                }));
+                        characterImage: result.url,
 
-            };
+                        imageTransformations: { scale: 1.5, rotation: 0, positionX: 0, positionY: 0 }
 
-            reader.readAsDataURL(file);
+                    }));
+
+                }
+
+            } catch (err) {
+
+                console.error('Failed to process character portrait:', err);
+
+            }
 
         }
 

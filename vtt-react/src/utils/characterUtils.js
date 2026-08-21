@@ -1,4 +1,7 @@
 
+import { getRacialBaseStats } from '../data/raceData';
+import { getRacialStatModifiers } from './raceDisciplineSpellUtils';
+
 /**
  * Flatten buff/debuff effects from array format to simple numeric values
  * getActiveEffects returns: { strength: [{ value: 3, source: "potion" }] }
@@ -417,8 +420,8 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
   const sMod = Math.floor((modifiedStats.spirit - 10) / 2);
   const cMod = Math.floor((modifiedStats.constitution - 10) / 2);
   const iMod = Math.floor((modifiedStats.intelligence - 10) / 2);
-  let baseHealthRegen = Math.max(0, (sMod * 2) + Math.floor(cMod / 2));
-  let baseManaRegen = Math.max(0, (sMod * 2) + Math.floor(iMod / 2));
+  let baseHealthRegen = sMod > 0 ? Math.max(0, (sMod * 2) + Math.max(0, Math.floor(cMod / 2))) : 0;
+  let baseManaRegen = sMod > 0 ? Math.max(0, (sMod * 2) + Math.max(0, Math.floor(iMod / 2))) : 0;
   let baseHealingPower = Math.max(0, sMod * 2);
 
   // Apply flat equipment bonuses
@@ -477,7 +480,6 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
 
   if (race && subrace) {
     try {
-      const { getRacialBaseStats } = require('../data/raceData');
       racialBaseStats = getRacialBaseStats(race, subrace);
     } catch (e) {
       console.warn('Could not load racial base stats:', e);
@@ -507,13 +509,13 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
     piercingDamage: (agiMod * 2) + (equipmentBonuses.piercingDamage || 0) + getMod(buffModifiers, ['piercingDamage']), // Stabbing <- Agility
     rangedDamage: (agiMod * 2) + (equipmentBonuses.rangedDamage || 0) + getMod(buffModifiers, ['rangedDamage']), // Ranged -> Stabbing <- Agility
     slashingDamage: (strMod + agiMod) + (equipmentBonuses.slashingDamage || 0) + getMod(buffModifiers, ['slashingDamage']), // Slicing <- Strength + Agility equally
-  moveSpeed: baseMoveSpeed + getMod(buffModifiers, ['moveSpeed', 'movementSpeed', 'speed']), // Include buffs
+    moveSpeed: baseMoveSpeed + getMod(buffModifiers, ['moveSpeed', 'movementSpeed', 'speed']), // Include buffs
     swimSpeed: racialBaseStats.swimSpeed + getMod(buffModifiers, ['swimSpeed']), // Include buffs
     climbSpeed: racialBaseStats.climbSpeed + getMod(buffModifiers, ['climbSpeed']), // Include buffs
-    passivePerception: racialBaseStats.passivePerception + (equipmentBonuses.passivePerception || 0) + (skillBonuses.passivePerception || 0) + getMod(buffModifiers, ['passivePerception']),
+    passivePerception: sMod + racialBaseStats.passivePerception + (equipmentBonuses.passivePerception || 0) + (skillBonuses.passivePerception || 0) + getMod(buffModifiers, ['passivePerception']),
     visionRange: racialBaseStats.visionRange + (equipmentBonuses.visionRange || 0) + (skillBonuses.visionRange || 0) + getMod(buffModifiers, ['visionRange']),
     darkvision: racialBaseStats.darkvision + (equipmentBonuses.darkvision || 0) + (skillBonuses.darkvision || 0) + getMod(buffModifiers, ['darkvision']),
-    initiative: racialBaseStats.initiative + (equipmentBonuses.initiative || 0) + (skillBonuses.initiative || 0) + getMod(buffModifiers, ['initiative']),
+    initiative: agiMod + racialBaseStats.initiative + (equipmentBonuses.initiative || 0) + (skillBonuses.initiative || 0) + getMod(buffModifiers, ['initiative']),
     actionPoints: racialBaseStats.ap + (equipmentBonuses.actionPoints || 0) + (skillBonuses.actionPoints || 0) + getMod(buffModifiers, ['actionPoints', 'maxAP', 'max_ap', 'ap']), // Include buffs
     carryingCapacity: calculateCarryingCapacity(modifiedStats.strength, (equipmentBonuses.carryingCapacity || 0) + (buffModifiers.carryingCapacity || 0)),
     encumbranceEffects: encumbranceEffects
@@ -522,8 +524,7 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
   // Apply always-active racial passive effects (like max HP reduction)
   if (race && subrace) {
     try {
-      const raceDisciplineSpellUtils = require('./raceDisciplineSpellUtils');
-      const passiveModifiers = raceDisciplineSpellUtils.getRacialStatModifiers(race, subrace);
+      const passiveModifiers = getRacialStatModifiers(race, subrace);
       
       passiveModifiers.forEach(passive => {
         // If it has triggers, skip here (handled in the conditional block below)

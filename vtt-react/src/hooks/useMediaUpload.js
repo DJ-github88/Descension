@@ -1,54 +1,68 @@
 /**
  * useMediaUpload
  *
- * Single entry point for user media uploads (banners, maps, journal imagery,
- * portraits, lore artwork). Authenticated users with Firebase available get
- * real Firebase Storage uploads counted against their quota; guests and
- * offline/local users fall back to base64 data URLs.
+ * Single entry point hook for all user media uploads (portraits, tokens,
+ * battlemaps, banners, journal imagery, lore artwork).
  *
- * Usage:
- *   const { uploadImage, removeImage, isUploading } = useMediaUpload();
- *   const url = await uploadImage(file, MEDIA_CATEGORIES.BANNER);
- *   await removeImage(oldUrl);
+ * Guarantees:
+ * - Automatic WebP compression and dimension downscaling
+ * - Quota checking before sending bytes
+ * - Immutable caching headers
+ * - Safe guest/offline fallback
  */
 
 import { useCallback, useState } from 'react';
 import useAuthStore from '../store/authStore';
-import mediaStorageService, { MEDIA_CATEGORIES } from '../services/firebase/mediaStorageService';
+import uploadService, { UPLOAD_CATEGORIES, isCloudStorageAvailable } from '../services/firebase/uploadService';
+import { IMAGE_PROFILES } from '../utils/imageProcessor';
 
 export function useMediaUpload() {
   const { user } = useAuthStore();
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState(null);
 
-  const uploadImage = useCallback(async (file, category = MEDIA_CATEGORIES.MISC) => {
+  const uploadImage = useCallback(async (file, category = UPLOAD_CATEGORIES.MISC, options = {}) => {
     if (!file) return null;
+    setIsUploading(true);
+    setUploadError(null);
 
-    const userId = user?.uid;
+    const userId = user?.uid || (user?.isGuest ? 'guest' : null);
 
-    if (user && !user.isGuest && mediaStorageService.isCloudMediaAvailable(userId)) {
-      setIsUploading(true);
-      try {
-        const result = await mediaStorageService.uploadMediaImage(userId, file, { category });
-        if (!result.success) {
-          throw new Error(result.error || 'Upload failed');
-        }
-        return result.url;
-      } finally {
-        setIsUploading(false);
+    try {
+      const result = await uploadService.uploadAsset(userId, file, category, options);
+      if (!result.success) {
+        const msg = result.error || 'Upload failed';
+        setUploadError(msg);
+        throw new Error(msg);
       }
+      return result.url;
+    } catch (err) {
+      setUploadError(err.message || 'Upload failed');
+      throw err;
+    } finally {
+      setIsUploading(false);
     }
-
-    // Guest / offline fallback: inline base64 data URL
-    return mediaStorageService.readFileAsDataUrl(file);
   }, [user]);
 
-  const removeImage = useCallback(async (url) => {
+  const removeImage = useCallback(async (urlOrPath) => {
     const userId = user?.uid;
-    if (!url || !userId || user?.isGuest) return;
-    await mediaStorageService.deleteMediaByUrl(userId, url);
+    if (!urlOrPath || !userId || user?.isGuest) return;
+    try {
+      await uploadService.deleteAsset(userId, urlOrPath);
+    } catch (err) {
+      console.error('Error removing asset:', err);
+    }
   }, [user]);
 
-  return { uploadImage, removeImage, isUploading, MEDIA_CATEGORIES };
+  return {
+    uploadImage,
+    removeImage,
+    isUploading,
+    uploadError,
+    UPLOAD_CATEGORIES,
+    MEDIA_CATEGORIES: UPLOAD_CATEGORIES,
+    IMAGE_PROFILES
+  };
 }
 
 export default useMediaUpload;

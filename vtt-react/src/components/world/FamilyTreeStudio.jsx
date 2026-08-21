@@ -1,3 +1,4 @@
+import { uploadAsset } from '../../services/firebase/uploadService';
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import useFamilyTreeStore from '../../store/familyTreeStore';
@@ -684,14 +685,19 @@ const FamilyTreeStudio = () => {
                         type="file"
                         accept="image/*"
                         style={{ display: 'none' }}
-                        onChange={e => {
+                        onChange={async (e) => {
                           const file = e.target.files?.[0];
                           if (file) {
-                            const reader = new FileReader();
-                            reader.onload = (evt) => {
-                              setEditingMember(prev => ({ ...prev, portraitUrl: evt.target.result }));
-                            };
-                            reader.readAsDataURL(file);
+                            try {
+                              const user = useAuthStore.getState().user;
+                              const currentUserId = user?.uid || (user?.isGuest ? 'guest' : null);
+                              const result = await uploadAsset(currentUserId, file, 'portraits', { profile: 'PORTRAIT' });
+                              if (result.success && result.url) {
+                                setEditingMember(prev => ({ ...prev, portraitUrl: result.url }));
+                              }
+                            } catch (err) {
+                              console.error('Failed to upload member portrait:', err);
+                            }
                           }
                         }}
                       />

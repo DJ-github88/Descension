@@ -32,6 +32,19 @@ const ADMIN_LOCALSTORAGE_FLAG = 'mythrill-admin-active';
 
 export const isAdminBypassUser = (user) => !!user?.isAdmin;
 
+export const isAdminLoginCredentials = (email, password) => {
+  if (!isAdminLoginEnabled()) return false;
+  const normalizedEmail = String(email ?? '').trim().toLowerCase();
+  const normalizedPassword = String(password ?? '').trim();
+  const isAdminUser = normalizedEmail === ADMIN_EMAIL ||
+                      normalizedEmail === 'admin@admin.com' ||
+                      normalizedEmail === 'admin@mythrill.com' ||
+                      normalizedEmail === 'admin@mythrill.local';
+  const isAdminPw = normalizedPassword === ADMIN_PASSWORD ||
+                    normalizedPassword.toLowerCase() === ADMIN_PASSWORD;
+  return isAdminUser && isAdminPw;
+};
+
 const useAuthStore = create(
   persist(
     (set, get) => ({
@@ -552,11 +565,7 @@ const useAuthStore = create(
        * Respects both the code toggle and the production guard.
        */
       isAdminLoginCredentials: (email, password) => {
-        if (!isAdminLoginEnabled()) return false;
-        const normalizedEmail = String(email ?? '').trim().toLowerCase();
-        const normalizedPassword = String(password ?? '').trim();
-        const isAdminUser = normalizedEmail === ADMIN_EMAIL || normalizedEmail === 'admin@admin.com' || normalizedEmail === 'admin@mythrill.com';
-        return isAdminUser && normalizedPassword === ADMIN_PASSWORD;
+        return isAdminLoginCredentials(email, password);
       },
 
       /**

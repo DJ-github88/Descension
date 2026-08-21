@@ -21,22 +21,45 @@ const parseInlineTokens = (text, onEntityHover, onEntityLeave, onEntityClick) =>
 
     const token = match[0];
 
-    // [[WikiLink]]
+    // [[WikiLink]] or [[WikiLink|Alias]] or [[WikiLink#Section]] or [[WikiLink#Section|Alias]]
     if (token.startsWith('[[') && token.endsWith(']]')) {
-      const inner = token.slice(2, -2).trim();
+      const rawInner = token.slice(2, -2).trim();
+      let target = rawInner;
+      let alias = null;
+      let section = null;
+
+      if (rawInner.includes('|')) {
+        const parts = rawInner.split('|');
+        target = parts[0].trim();
+        alias = parts.slice(1).join('|').trim();
+      }
+
+      if (target.includes('#')) {
+        const sParts = target.split('#');
+        target = sParts[0].trim();
+        section = sParts.slice(1).join('#').trim();
+      }
+
+      const displayText = alias || rawInner.split('|')[0].trim();
+      const isResolved = universalEntityService.hasEntity(target);
+
       elements.push(
         <span
           key={`wiki-${match.index}`}
-          className="rich-wikilink"
-          onMouseEnter={(e) => onEntityHover(inner, e)}
+          className={`rich-wikilink ${!isResolved ? 'phantom-link' : ''}`}
+          data-target={target}
+          data-section={section || ''}
+          onMouseEnter={(e) => onEntityHover(target, e, isResolved)}
           onMouseLeave={onEntityLeave}
           onClick={(e) => {
             e.stopPropagation();
-            onEntityClick(inner);
+            onEntityClick(target, isResolved, section);
           }}
+          title={isResolved ? `Navigate to ${target}` : `"${target}" (Not yet defined - click to create)`}
         >
-          <i className="fas fa-bookmark wikilink-icon"></i>
-          {inner}
+          <i className={`fas ${isResolved ? 'fa-bookmark' : 'fa-feather-pointed'} wikilink-icon`}></i>
+          {displayText}
+          {!isResolved && <span className="phantom-badge">+</span>}
         </span>
       );
     }
@@ -509,17 +532,20 @@ const RichLoreText = ({
   const [hoverState, setHoverState] = useState({ active: false, name: '', pos: null });
   const hoverTimerRef = useRef(null);
 
-  const handleSmartEntityClick = (entityName) => {
+  const handleSmartEntityClick = (entityName, isResolved = true, section = null) => {
     if (onEntityClick) {
-      onEntityClick(entityName);
+      onEntityClick(entityName, isResolved, section);
       return;
     }
 
     const resolved = universalEntityService.getEntity(entityName);
     if (!resolved) {
-      window.dispatchEvent(new CustomEvent('mythrill_open_world_dossier', { detail: { name: entityName } }));
+      window.dispatchEvent(new CustomEvent('mythrill_quick_peek', { detail: { name: entityName, isPhantom: true, section } }));
+      window.dispatchEvent(new CustomEvent('mythrill_open_world_dossier', { detail: { name: entityName, isPhantom: true } }));
       return;
     }
+
+    window.dispatchEvent(new CustomEvent('mythrill_quick_peek', { detail: { ...resolved, section } }));
 
     if (resolved.type === 'map' || resolved.type === 'map_pin') {
       useInteractiveMapStore.getState().openStudio(resolved.mapId || resolved.id, resolved.type === 'map_pin' ? resolved.id : null);

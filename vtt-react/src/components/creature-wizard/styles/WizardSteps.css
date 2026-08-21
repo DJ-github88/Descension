@@ -1448,8 +1448,8 @@
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(33, 150, 243, 0.2);
 }
 
-.library-items-grid,
-.sample-items-grid {
+.creature-wizard .library-items-grid,
+.creature-wizard .sample-items-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 15px;
@@ -1458,25 +1458,25 @@
   padding: 5px;
 }
 
-.library-items-grid::-webkit-scrollbar,
-.sample-items-grid::-webkit-scrollbar {
+.creature-wizard .library-items-grid::-webkit-scrollbar,
+.creature-wizard .sample-items-grid::-webkit-scrollbar {
   width: 8px;
 }
 
-.library-items-grid::-webkit-scrollbar-track,
-.sample-items-grid::-webkit-scrollbar-track {
+.creature-wizard .library-items-grid::-webkit-scrollbar-track,
+.creature-wizard .sample-items-grid::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
 }
 
-.library-items-grid::-webkit-scrollbar-thumb,
-.sample-items-grid::-webkit-scrollbar-thumb {
+.creature-wizard .library-items-grid::-webkit-scrollbar-thumb,
+.creature-wizard .sample-items-grid::-webkit-scrollbar-thumb {
   background: var(--my-hp);
   border-radius: 4px;
 }
 
-.library-item,
-.sample-item {
+.creature-wizard .library-item,
+.creature-wizard .sample-item {
   background: linear-gradient(to bottom, #333, #222);
   border: 1px solid #444;
   border-radius: 6px;
@@ -1486,23 +1486,23 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-.library-item:hover,
-.sample-item:hover {
+.creature-wizard .library-item:hover,
+.creature-wizard .sample-item:hover {
   transform: translateY(-3px);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
   border-color: var(--my-hp);
 }
 
-.library-item-name,
-.sample-item-name {
+.creature-wizard .library-item-name,
+.creature-wizard .sample-item-name {
   font-size: 15px;
   font-weight: 600;
   margin-bottom: 8px;
   text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 }
 
-.library-item-details,
-.sample-item-details {
+.creature-wizard .library-item-details,
+.creature-wizard .sample-item-details {
   display: flex;
   justify-content: space-between;
   font-size: 12px;

@@ -9,6 +9,8 @@ import campaignService from '../../services/campaignService';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
 import { useMediaUpload } from '../../hooks/useMediaUpload';
 import RichLoreText from '../common/RichLoreText';
+import WikiAutocomplete from '../common/WikiAutocomplete';
+import QuickPeekDrawer from '../common/QuickPeekDrawer';
 import CustomLineageWizard from '../world/CustomLineageWizard';
 import useCustomLineageStore from '../../store/customLineageStore';
 import useWorldStore from '../../store/worldStore';
@@ -175,6 +177,10 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   const [editingNote, setEditingNote] = useState(null);
   const [noteTitle, setNoteTitle] = useState('');
   const [noteContent, setNoteContent] = useState('');
+  const [noteArchetype, setNoteArchetype] = useState('note');
+  const [noteAliases, setNoteAliases] = useState('');
+  const [noteTags, setNoteTags] = useState('');
+  const noteTextareaRef = useRef(null);
   const [noteImage, setNoteImage] = useState(null);
   const [orbEditorLabel, setOrbEditorLabel] = useState('');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
@@ -689,15 +695,31 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   const handleSaveNote = () => {
     if (!noteTitle.trim()) return;
     
+    const aliasesArray = noteAliases.split(',').map(s => s.trim()).filter(Boolean);
+    const tagsArray = noteTags.split(',').map(s => s.trim()).filter(Boolean);
+
     if (editingNote) {
-      updateNote(editingNote.id, { title: noteTitle, content: noteContent });
+      updateNote(editingNote.id, { 
+        title: noteTitle, 
+        content: noteContent,
+        archetype: noteArchetype,
+        aliases: aliasesArray,
+        tags: tagsArray
+      });
     } else {
-      addNote(noteTitle, noteContent);
+      addNote(noteTitle, noteContent, {
+        archetype: noteArchetype,
+        aliases: aliasesArray,
+        tags: tagsArray
+      });
     }
     
     setEditingNote(null);
     setNoteTitle('');
     setNoteContent('');
+    setNoteArchetype('note');
+    setNoteAliases('');
+    setNoteTags('');
   };
 
   // Context menu handler
@@ -834,6 +856,18 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
         >
           <i className="fas fa-image"></i>
           Background
+        </button>
+        <button
+          className="toolbar-btn"
+          style={{ background: 'rgba(212, 175, 55, 0.15)', borderColor: '#d4af37', color: '#f1d779' }}
+          onClick={() => {
+            const count = useShareableStore.getState().autoWireKnowledgeBoard(currentBoardId);
+            alert(count > 0 ? `Auto-wired ${count} reference connection${count === 1 ? '' : 's'} between orbs!` : 'No new wiki-link connections found between current orbs.');
+          }}
+          title="Scan notes on this board and auto-connect orbs that mention each other via [[wiki-links]]"
+        >
+          <i className="fas fa-network-wired"></i>
+          Auto-Wire
         </button>
         <span className="toolbar-hint">
           {connectingFrom 
@@ -1294,19 +1328,73 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        {noteEditMode === 'edit' ? (
-          <textarea
-            className="note-content-input"
-            value={noteContent}
-            onChange={(e) => setNoteContent(e.target.value)}
-            placeholder="Write your note here...
-• Use [[Entity Name]] for wiki-links (e.g. [[Nordhalla]], [[House Skalvyr]])
-• Use @Mentions for characters or tags
-• Use :::gmnote for secret GM blocks or :::readaloud for boxed text
-
-Drag notes to the Knowledge Board to create visual connections!"
-            rows={8}
+        {/* Archetype & Aliases Row */}
+        <div className="note-editor-archetype-row" style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap' }}>
+          <span style={{ fontSize: '11px', color: '#8b7355', fontWeight: 600 }}>Archetype:</span>
+          {[
+            { id: 'note', label: 'Note', icon: 'fa-sticky-note', color: '#3498db' },
+            { id: 'npc', label: 'NPC', icon: 'fa-user-ninja', color: '#e74c3c' },
+            { id: 'location', label: 'Location', icon: 'fa-landmark', color: '#2ecc71' },
+            { id: 'faction', label: 'Faction', icon: 'fa-shield-halved', color: '#e67e22' },
+            { id: 'item', label: 'Item', icon: 'fa-gem', color: '#9b59b6' },
+            { id: 'lore', label: 'Lore', icon: 'fa-book-bookmark', color: '#d4af37' }
+          ].map(arch => (
+            <button
+              key={arch.id}
+              type="button"
+              className={`toolbar-btn ${noteArchetype === arch.id ? 'active' : ''}`}
+              style={{
+                fontSize: '11px',
+                padding: '3px 8px',
+                borderRadius: '4px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                borderColor: noteArchetype === arch.id ? arch.color : 'rgba(212,175,55,0.2)'
+              }}
+              onClick={() => setNoteArchetype(arch.id)}
+            >
+              <i className={`fas ${arch.icon}`} style={{ color: arch.color }}></i>
+              {arch.label}
+            </button>
+          ))}
+          <input
+            type="text"
+            placeholder="Aliases (e.g. Iron-Tooth, Jarl)..."
+            value={noteAliases}
+            onChange={(e) => setNoteAliases(e.target.value)}
+            style={{
+              flex: 1,
+              minWidth: '160px',
+              background: '#0d0f15',
+              border: '1px solid rgba(212,175,55,0.25)',
+              color: '#e6ded2',
+              fontSize: '11px',
+              padding: '3px 8px',
+              borderRadius: '4px'
+            }}
           />
+        </div>
+
+        {noteEditMode === 'edit' ? (
+          <div style={{ position: 'relative' }}>
+            <textarea
+              ref={noteTextareaRef}
+              className="note-content-input"
+              value={noteContent}
+              onChange={(e) => setNoteContent(e.target.value)}
+              placeholder="Write your note here...
+• Type [[ to link or create any NPC, Location, Faction, or Lore on the fly
+• Use [[Entity Name|Display Alias]] for custom link text
+• Drag notes to the Knowledge Board to create visual connections!"
+              rows={8}
+            />
+            <WikiAutocomplete
+              textareaRef={noteTextareaRef}
+              value={noteContent}
+              onChange={(nextVal) => setNoteContent(nextVal)}
+            />
+          </div>
         ) : (
           <div className="note-content-preview" style={{ background: '#11141c', padding: '14px', borderRadius: '6px', minHeight: '160px', maxHeight: '220px', overflowY: 'auto', border: '1px solid rgba(212,175,55,0.25)', marginBottom: '10px' }}>
             <RichLoreText text={noteContent || '*No content to preview*'} />
@@ -1359,6 +1447,9 @@ Drag notes to the Knowledge Board to create visual connections!"
                   setEditingNote(null);
                   setNoteTitle('');
                   setNoteContent('');
+                  setNoteArchetype('note');
+                  setNoteAliases('');
+                  setNoteTags('');
                 }}
               >
                 Cancel
@@ -1386,37 +1477,59 @@ Drag notes to the Knowledge Board to create visual connections!"
             <span>Create a note above to get started</span>
           </div>
         ) : (
-          filteredNotes.map(note => (
-            <div
-              key={note.id}
-              className="note-item"
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.setData('note/id', note.id);
-                e.dataTransfer.setData('source/type', 'note');
-              }}
-              onClick={() => {
-                setEditingNote(note);
-                setNoteTitle(note.title);
-                setNoteContent(note.content);
-              }}
-              onContextMenu={(e) => handleItemContextMenu(e, note, 'note')}
-            >
-              <div className="note-item-icon">
-                <i className="fas fa-sticky-note"></i>
+          filteredNotes.map(note => {
+            const arch = note.archetype || 'note';
+            let archIcon = 'fa-sticky-note';
+            let archColor = '#3498db';
+            if (arch === 'npc') { archIcon = 'fa-user-ninja'; archColor = '#e74c3c'; }
+            else if (arch === 'location') { archIcon = 'fa-landmark'; archColor = '#2ecc71'; }
+            else if (arch === 'faction') { archIcon = 'fa-shield-halved'; archColor = '#e67e22'; }
+            else if (arch === 'item') { archIcon = 'fa-gem'; archColor = '#9b59b6'; }
+            else if (arch === 'quest') { archIcon = 'fa-scroll'; archColor = '#f39c12'; }
+            else if (arch === 'lore') { archIcon = 'fa-book-bookmark'; archColor = '#d4af37'; }
+
+            return (
+              <div
+                key={note.id}
+                className="note-item"
+                draggable
+                onDragStart={(e) => {
+                  e.dataTransfer.setData('note/id', note.id);
+                  e.dataTransfer.setData('source/type', 'note');
+                }}
+                onClick={() => {
+                  setEditingNote(note);
+                  setNoteTitle(note.title);
+                  setNoteContent(note.content);
+                  setNoteArchetype(note.archetype || 'note');
+                  setNoteAliases(Array.isArray(note.aliases) ? note.aliases.join(', ') : '');
+                  setNoteTags(Array.isArray(note.tags) ? note.tags.join(', ') : '');
+                }}
+                onContextMenu={(e) => handleItemContextMenu(e, note, 'note')}
+              >
+                <div className="note-item-icon" style={{ color: archColor }}>
+                  <i className={`fas ${archIcon}`}></i>
+                </div>
+                <div className="note-item-info">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span className="note-item-title">{note.title}</span>
+                    {note.archetype && note.archetype !== 'note' && (
+                      <span style={{ fontSize: '9px', textTransform: 'uppercase', color: archColor, background: 'rgba(255,255,255,0.06)', padding: '1px 4px', borderRadius: '3px', fontWeight: 700 }}>
+                        {note.archetype}
+                      </span>
+                    )}
+                  </div>
+                  <span className="note-item-preview">
+                    {note.content.substring(0, 50)}{note.content.length > 50 ? '...' : ''}
+                  </span>
+                  <span className="note-item-date">
+                    {new Date(note.lastModified).toLocaleDateString()}
+                  </span>
+                </div>
+                <i className="fas fa-grip-vertical drag-handle"></i>
               </div>
-              <div className="note-item-info">
-                <span className="note-item-title">{note.title}</span>
-                <span className="note-item-preview">
-                  {note.content.substring(0, 50)}{note.content.length > 50 ? '...' : ''}
-                </span>
-                <span className="note-item-date">
-                  {new Date(note.lastModified).toLocaleDateString()}
-                </span>
-              </div>
-              <i className="fas fa-grip-vertical drag-handle"></i>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
     </div>
@@ -1715,6 +1828,21 @@ Drag notes to the Knowledge Board to create visual connections!"
                 <i className="fas fa-link"></i>
                 Connect to Another
               </button>
+              {showOrbEditor.sourceType === 'note' && (
+                <button
+                  className="orb-action-btn sprout"
+                  style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(184,134,11,0.3) 100%)', border: '1px solid #d4af37', color: '#f1d779', marginTop: '6px', width: '100%', padding: '8px', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', fontSize: '11px', fontWeight: 600 }}
+                  onClick={() => {
+                    const sprouted = useShareableStore.getState().sproutOrbConnections(showOrbEditor.id);
+                    alert(sprouted > 0 ? `Sprouted ${sprouted} referenced lore orb${sprouted === 1 ? '' : 's'} onto the board!` : 'No unplaced wiki-link references found in this note.');
+                    setShowOrbEditor(null);
+                  }}
+                  title="Scan this note for [[wiki-links]] and automatically place referenced orbs onto the board"
+                >
+                  <i className="fas fa-seedling"></i>
+                  Sprout Referenced Orbs
+                </button>
+              )}
             </div>
             
             <div className="orb-editor-actions">
@@ -2502,6 +2630,9 @@ Drag notes to the Knowledge Board to create visual connections!"
 
       {/* Custom Lineage Wizard for fast worldbuilding */}
       <CustomLineageWizard />
+
+      {/* Quick-Peek Side Drawer for Lore & Entity References */}
+      <QuickPeekDrawer />
     </>
   );
 };

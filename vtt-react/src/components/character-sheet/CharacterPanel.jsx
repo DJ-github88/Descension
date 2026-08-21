@@ -48,14 +48,14 @@ const SECTIONS = {
 // Spell power types for the cycler - 8 magic damage elements
 // Color = canonical Mythrill damage type color so the chip matches the type's identity
 const SPELL_POWER_TYPES = [
-    { id: 'fire',     name: 'Ember',     color: '#D4380D' },
-    { id: 'frost',    name: 'Rime',      color: '#2C5F7C' },
-    { id: 'lightning',name: 'Storm',     color: '#8B7328' },
-    { id: 'force',    name: 'Arcane',    color: '#5B3A8C' },
-    { id: 'necrotic', name: 'Blight',    color: '#3D1F4E' },
-    { id: 'radiant',  name: 'Sacred',    color: '#DAA520' },
-    { id: 'poison',   name: 'Blight',    color: '#3D1F4E' },
-    { id: 'psychic',  name: 'Wyrd',      color: '#7A2040' }
+    { id: 'ember',    name: 'Ember',     color: '#D4380D' },
+    { id: 'rime',     name: 'Rime',      color: '#2C5F7C' },
+    { id: 'storm',    name: 'Storm',     color: '#8B7328' },
+    { id: 'primal',   name: 'Primal',    color: '#2D5A1E' },
+    { id: 'arcane',   name: 'Arcane',    color: '#5B3A8C' },
+    { id: 'blight',   name: 'Blight',    color: '#3D1F4E' },
+    { id: 'wyrd',     name: 'Wyrd',      color: '#7A2040' },
+    { id: 'sacred',   name: 'Sacred',    color: '#DAA520' }
 ];
 
 // Resistance type display names (legacy id -> canonical Mythrill name)
@@ -718,6 +718,13 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
     const [showLevelControls, setShowLevelControls] = useState(false);
     const [spellPowerTypeIndex, setSpellPowerTypeIndex] = useState(0);
 
+    const cycleSpellPower = (direction = 1) => {
+        setSpellPowerTypeIndex(prev => {
+            const len = SPELL_POWER_TYPES.length;
+            return (prev + direction + len) % len;
+        });
+    };
+
     const characterContext = useMemo(() => ({
         stats,
         equipment,
@@ -1238,32 +1245,14 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
 
     // Render the melee/physical derived stats panel (below the base stats on the left).
     const renderMeleeStatsPanel = () => {
-        const strVal = totalStats.strength ?? 10;
-        const agiVal = totalStats.agility ?? 10;
-        const strMod = Math.floor((strVal - 10) / 2);
-        const agiMod = Math.floor((agiVal - 10) / 2);
+        const meleeBreakdown = getDerivedStatBreakdown('melee damage', characterContext);
+        const rangedBreakdown = getDerivedStatBreakdown('ranged damage', characterContext);
+        const initiativeBreakdown = getDerivedStatBreakdown('initiative', characterContext);
+        const maxHealthBreakdown = getDerivedStatBreakdown('maxHealth', characterContext);
+        const movementBreakdown = getDerivedStatBreakdown('movement', characterContext);
 
-        const mainHand = equipment?.mainHand;
-        const ranged = equipment?.ranged;
-
-        let meleeFormula = '1d4';
-        let meleeMod = strMod;
-        if (mainHand && mainHand.weaponStats?.baseDamage) {
-            const { diceCount = 1, diceType = 4, damageType = 'smashing' } = mainHand.weaponStats.baseDamage;
-            meleeFormula = `${diceCount}d${diceType}`;
-            meleeMod = computeDamageModifier(damageType, strMod, agiMod);
-        }
-
-        let rangedFormula = '—';
-        let rangedMod = agiMod;
-        if (ranged && ranged.weaponStats?.baseDamage) {
-            const { diceCount = 1, diceType = 4, damageType = 'stabbing' } = ranged.weaponStats.baseDamage;
-            rangedFormula = `${diceCount}d${diceType}`;
-            rangedMod = computeDamageModifier(damageType, strMod, agiMod);
-        }
-
-        const meleeSign = meleeMod >= 0 ? `+ ${meleeMod}` : `- ${Math.abs(meleeMod)}`;
-        const rangedSign = rangedFormula === '—' ? '' : (rangedMod >= 0 ? `+ ${rangedMod}` : `- ${Math.abs(rangedMod)}`);
+        const initVal = initiativeBreakdown.finalValue;
+        const displayInitiative = initVal >= 0 ? `+${initVal}` : `${initVal}`;
 
         return (
             <div className="vitals-stats-column">
@@ -1273,14 +1262,8 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                     onMouseEnter={(e) => {
                         setHoveredStat({
                             type: 'derived',
-                            key: 'Melee Damage',
-                            breakdown: {
-                                stat: 'Melee Damage',
-                                description: 'Physical weapon attack power. Derived from weapon dice + physical attribute modifier (STR for Smashing, AGI for Stabbing, STR/AGI for Slicing).',
-                                baseLabel: `Weapon (${meleeFormula})`,
-                                equipment: meleeMod,
-                                finalValue: `${meleeFormula} ${meleeSign}`
-                            }
+                            key: 'melee damage',
+                            breakdown: meleeBreakdown
                         });
                         setMousePosition({ x: e.clientX, y: e.clientY });
                     }}
@@ -1289,7 +1272,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                 >
                     <span className="vitals-stat-label">Melee Damage</span>
                     <span className="vitals-stat-value vitals-stat-value--damage">
-                        {meleeFormula} {meleeSign}
+                        {meleeBreakdown.finalValue}
                     </span>
                 </div>
                 <div
@@ -1297,14 +1280,8 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                     onMouseEnter={(e) => {
                         setHoveredStat({
                             type: 'derived',
-                            key: 'Ranged Damage',
-                            breakdown: {
-                                stat: 'Ranged Damage',
-                                description: 'Ranged weapon attack power. Derived from ranged weapon base dice + Agility modifier.',
-                                baseLabel: rangedFormula === '—' ? 'None equipped' : `Weapon (${rangedFormula})`,
-                                equipment: rangedFormula === '—' ? 0 : rangedMod,
-                                finalValue: rangedFormula === '—' ? '—' : `${rangedFormula} ${rangedSign}`
-                            }
+                            key: 'ranged damage',
+                            breakdown: rangedBreakdown
                         });
                         setMousePosition({ x: e.clientX, y: e.clientY });
                     }}
@@ -1313,7 +1290,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                 >
                     <span className="vitals-stat-label">Ranged Damage</span>
                     <span className="vitals-stat-value vitals-stat-value--damage">
-                        {rangedFormula === '—' ? '—' : `${rangedFormula} ${rangedSign}`}
+                        {rangedBreakdown.finalValue}
                     </span>
                 </div>
                 <div
@@ -1322,7 +1299,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                         setHoveredStat({
                             type: 'derived',
                             key: 'initiative',
-                            breakdown: getDerivedStatBreakdown('initiative', characterContext)
+                            breakdown: initiativeBreakdown
                         });
                         setMousePosition({ x: e.clientX, y: e.clientY });
                     }}
@@ -1331,7 +1308,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                 >
                     <span className="vitals-stat-label">Initiative</span>
                     <span className="vitals-stat-value">
-                        {totalStats.initiative ?? Math.floor((agiVal - 10) / 5)}
+                        {displayInitiative}
                     </span>
                 </div>
                 <div
@@ -1340,7 +1317,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                         setHoveredStat({
                             type: 'derived',
                             key: 'maxHealth',
-                            breakdown: getDerivedStatBreakdown('maxHealth', characterContext)
+                            breakdown: maxHealthBreakdown
                         });
                         setMousePosition({ x: e.clientX, y: e.clientY });
                     }}
@@ -1349,7 +1326,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                 >
                     <span className="vitals-stat-label">Max Health</span>
                     <span className="vitals-stat-value">
-                        {health.current}/{health.max}
+                        {health.current}/{maxHealthBreakdown.finalValue}
                     </span>
                 </div>
                 <div
@@ -1358,7 +1335,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                         setHoveredStat({
                             type: 'derived',
                             key: 'movement',
-                            breakdown: getDerivedStatBreakdown('movement', characterContext)
+                            breakdown: movementBreakdown
                         });
                         setMousePosition({ x: e.clientX, y: e.clientY });
                     }}
@@ -1367,26 +1344,23 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                 >
                     <span className="vitals-stat-label">Movement</span>
                     <span className="vitals-stat-value">
-                        {totalStats.movementSpeed ?? 30} ft
+                        {movementBreakdown.finalValue}
                     </span>
                 </div>
             </div>
         );
     };
 
-    // Render the spell/magic stats panel (right side).
+    // Render the spell/magic derived stats panel (below the base stats on the right).
     const renderSpellStatsPanel = () => {
-        const types = SPELL_POWER_TYPES;
-        const safeIndex = spellPowerTypeIndex % types.length;
-        const current = types[safeIndex];
+        const current = SPELL_POWER_TYPES[((spellPowerTypeIndex % SPELL_POWER_TYPES.length) + SPELL_POWER_TYPES.length) % SPELL_POWER_TYPES.length] || SPELL_POWER_TYPES[0];
+        const typeNameColor = current.color || '#ffffff';
         const currentValue = getSpellPowerForType(current.id);
 
-        const cycleSpellPower = (delta) => {
-            setSpellPowerTypeIndex((prev) => (prev + delta + types.length) % types.length);
-        };
-
-        // Reddish color for the type name in the label
-        const typeNameColor = '#B22222';
+        const healingBreakdown = getDerivedStatBreakdown('healingPower', characterContext);
+        const manaRegenBreakdown = getDerivedStatBreakdown('manaRegen', characterContext);
+        const maxManaBreakdown = getDerivedStatBreakdown('maxMana', characterContext);
+        const perceptionBreakdown = getDerivedStatBreakdown('passivePerception', characterContext);
 
         return (
             <div className="vitals-stats-column">
@@ -1397,8 +1371,25 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                     onMouseEnter={(e) => {
                         const intB = getAttributeBreakdown('intelligence', characterContext);
                         const intSpBonus = intB.modifier * 2;
-                        const baseVal = spellPower?.[current.id]?.value || 0;
-                        const eqVal = equipmentBonuses?.spellDamageTypes?.[current.id] || 0;
+                        const legacyMap = {
+                            ember: 'fire',
+                            rime: 'frost',
+                            storm: 'lightning',
+                            arcane: 'force',
+                            blight: 'necrotic',
+                            sacred: 'radiant',
+                            wyrd: 'psychic',
+                            primal: 'nature'
+                        };
+                        const legacyId = legacyMap[current.id];
+                        const baseVal = spellPower?.[current.id]?.value || spellPower?.[current.id] || (legacyId ? (spellPower?.[legacyId]?.value || spellPower?.[legacyId] || 0) : 0);
+                        const eqVal = (equipmentBonuses?.spellDamageTypes?.[current.id] || 0) +
+                            (legacyId ? (equipmentBonuses?.spellDamageTypes?.[legacyId] || 0) : 0) +
+                            (equipmentBonuses?.spellDamage || 0) +
+                            (equipmentBonuses?.spellPower || 0);
+                        const totalStatsBonus = (totalStats?.[`${current.id}SpellPower`] || 0) +
+                            (legacyId ? (totalStats?.[`${legacyId}SpellPower`] || 0) : 0);
+                        const totalSpellVal = Math.round(intSpBonus + baseVal + eqVal + totalStatsBonus);
                         setHoveredStat({
                             type: 'derived',
                             key: `Spell Power (${current.name})`,
@@ -1410,7 +1401,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                 equipment: eqVal,
                                 racial: baseVal,
                                 racialLabel: 'school base',
-                                finalValue: currentValue
+                                finalValue: totalSpellVal
                             }
                         });
                         setMousePosition({ x: e.clientX, y: e.clientY });
@@ -1430,7 +1421,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                         setHoveredStat({
                             type: 'derived',
                             key: 'healingPower',
-                            breakdown: getDerivedStatBreakdown('healingPower', characterContext)
+                            breakdown: healingBreakdown
                         });
                         setMousePosition({ x: e.clientX, y: e.clientY });
                     }}
@@ -1438,7 +1429,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                     onMouseLeave={() => setHoveredStat(null)}
                 >
                     <span className="vitals-stat-label">Healing Power</span>
-                    <span className="vitals-stat-value">{totalStats.healingPower || 0}</span>
+                    <span className="vitals-stat-value">{healingBreakdown.finalValue}</span>
                 </div>
                 <div
                     className="vitals-stat-tile"
@@ -1446,7 +1437,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                         setHoveredStat({
                             type: 'derived',
                             key: 'manaRegen',
-                            breakdown: getDerivedStatBreakdown('manaRegen', characterContext)
+                            breakdown: manaRegenBreakdown
                         });
                         setMousePosition({ x: e.clientX, y: e.clientY });
                     }}
@@ -1454,7 +1445,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                     onMouseLeave={() => setHoveredStat(null)}
                 >
                     <span className="vitals-stat-label">Mana Regen</span>
-                    <span className="vitals-stat-value">{totalStats.manaRegen || 0}/turn</span>
+                    <span className="vitals-stat-value">{manaRegenBreakdown.finalValue}</span>
                 </div>
                 <div
                     className="vitals-stat-tile"
@@ -1462,7 +1453,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                         setHoveredStat({
                             type: 'derived',
                             key: 'maxMana',
-                            breakdown: getDerivedStatBreakdown('maxMana', characterContext)
+                            breakdown: maxManaBreakdown
                         });
                         setMousePosition({ x: e.clientX, y: e.clientY });
                     }}
@@ -1471,7 +1462,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                 >
                     <span className="vitals-stat-label">Max Mana</span>
                     <span className="vitals-stat-value">
-                        {mana.current}/{mana.max}
+                        {mana.current}/{maxManaBreakdown.finalValue}
                     </span>
                 </div>
                 <div
@@ -1480,7 +1471,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                         setHoveredStat({
                             type: 'derived',
                             key: 'passivePerception',
-                            breakdown: getDerivedStatBreakdown('passivePerception', characterContext)
+                            breakdown: perceptionBreakdown
                         });
                         setMousePosition({ x: e.clientX, y: e.clientY });
                     }}
@@ -1489,7 +1480,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                 >
                     <span className="vitals-stat-label">Passive Perception</span>
                     <span className="vitals-stat-value">
-                        {totalStats.passivePerception ?? 10}
+                        {perceptionBreakdown.finalValue}
                     </span>
                 </div>
             </div>
@@ -1497,12 +1488,29 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
     };
 
     // Compute the effective spell power for a given legacy damage-type id
-    // by combining the per-element value from store + the equipment bonus for that type.
+    // by combining Intelligence scaling (INT Mod × 2) + per-element value from store + equipment bonuses.
     const getSpellPowerForType = (typeId) => {
-        const baseVal = spellPower?.[typeId]?.value || 0;
-        const eqVal = equipmentBonuses?.spellDamageTypes?.[typeId] || 0;
-        const totalStatsBonus = totalStats?.[`${typeId}SpellPower`] || 0;
-        return Math.round(baseVal + eqVal + totalStatsBonus);
+        const intB = getAttributeBreakdown('intelligence', characterContext);
+        const intSpBonus = intB.modifier * 2;
+        const legacyMap = {
+            ember: 'fire',
+            rime: 'frost',
+            storm: 'lightning',
+            arcane: 'force',
+            blight: 'necrotic',
+            sacred: 'radiant',
+            wyrd: 'psychic',
+            primal: 'nature'
+        };
+        const legacyId = legacyMap[typeId];
+        const baseVal = spellPower?.[typeId]?.value || spellPower?.[typeId] || (legacyId ? (spellPower?.[legacyId]?.value || spellPower?.[legacyId] || 0) : 0);
+        const eqVal = (equipmentBonuses?.spellDamageTypes?.[typeId] || 0) +
+            (legacyId ? (equipmentBonuses?.spellDamageTypes?.[legacyId] || 0) : 0) +
+            (equipmentBonuses?.spellDamage || 0) +
+            (equipmentBonuses?.spellPower || 0);
+        const totalStatsBonus = (totalStats?.[`${typeId}SpellPower`] || 0) +
+            (legacyId ? (totalStats?.[`${legacyId}SpellPower`] || 0) : 0);
+        return Math.round(intSpBonus + baseVal + eqVal + totalStatsBonus);
     };
 
     // Render the modified-resistances strip (only non-100% entries) - shown on the right side
@@ -2302,106 +2310,98 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         }
     };
 
-    // Calculate total stats (base + equipment bonuses) - memoized to prevent recalculation on every render
+    // Calculate total stats (base + racial + level-up + equipment + buffs) - memoized to prevent recalculation on every render
     const totalStats = useMemo(() => {
-        const totalStats = { ...stats };
+        const calculatedAttributes = {
+            strength: getAttributeBreakdown('strength', characterContext).finalValue,
+            agility: getAttributeBreakdown('agility', characterContext).finalValue,
+            constitution: getAttributeBreakdown('constitution', characterContext).finalValue,
+            intelligence: getAttributeBreakdown('intelligence', characterContext).finalValue,
+            spirit: getAttributeBreakdown('spirit', characterContext).finalValue,
+            charisma: getAttributeBreakdown('charisma', characterContext).finalValue
+        };
 
-        if (equipmentBonuses) {
-            const statMapping = {
-                str: 'strength',
-                con: 'constitution',
-                agi: 'agility',
-                int: 'intelligence',
-                spir: 'spirit',
-                cha: 'charisma'
-            };
+        const totalStats = { ...stats, ...calculatedAttributes };
 
-            Object.entries(statMapping).forEach(([bonusKey, statKey]) => {
-                if (equipmentBonuses[bonusKey]) {
-                    totalStats[statKey] = Math.round((totalStats[statKey] || 0) + equipmentBonuses[bonusKey]);
+        const encumbranceState = useInventoryStore.getState().encumbranceState || 'normal';
+        const freshDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses || {}, {}, encumbranceState, exhaustionLevel || 0, health, race, subrace);
+
+        totalStats.maxHealth = Math.round(freshDerivedStats.maxHealth || getDerivedStatBreakdown('maxHealth', characterContext).finalValue);
+        totalStats.maxMana = Math.round(freshDerivedStats.maxMana || getDerivedStatBreakdown('maxMana', characterContext).finalValue);
+        totalStats.healthRegen = Math.round(freshDerivedStats.healthRegen || 0);
+        totalStats.manaRegen = Math.round(freshDerivedStats.manaRegen || 0);
+        totalStats.movementSpeed = Math.round(freshDerivedStats.moveSpeed ?? 30);
+        totalStats.swimSpeed = Math.round(freshDerivedStats.swimSpeed || 0);
+        totalStats.climbSpeed = Math.round(freshDerivedStats.climbSpeed || 0);
+        totalStats.passivePerception = Math.round(freshDerivedStats.passivePerception || 0);
+        totalStats.visionRange = Math.round(freshDerivedStats.visionRange || 0);
+        totalStats.darkvision = Math.round(freshDerivedStats.darkvision || 0);
+        totalStats.flySpeed = Math.round(freshDerivedStats.flySpeed || 0);
+        totalStats.initiative = Math.round(freshDerivedStats.initiative !== undefined ? freshDerivedStats.initiative : (Math.floor(((calculatedAttributes.agility || 10) - 10) / 2)));
+        totalStats.carryingCapacity = Math.round(freshDerivedStats.carryingCapacity || 0);
+        totalStats.damage = Math.round(freshDerivedStats.damage || 0);
+        totalStats.spellDamage = Math.round(freshDerivedStats.spellDamage || 0);
+        totalStats.healingPower = Math.round(freshDerivedStats.healingPower || 0);
+        totalStats.rangedDamage = Math.round(freshDerivedStats.rangedDamage || 0);
+        totalStats.slashingDamage = Math.round(freshDerivedStats.slashingDamage || 0);
+        totalStats.bludgeoningDamage = Math.round(freshDerivedStats.bludgeoningDamage || 0);
+        totalStats.piercingDamage = Math.round(freshDerivedStats.piercingDamage || 0);
+
+        // Merge resistances: base (from store) wins for explicit user setting, equipment bonuses layer on top.
+        // Final resistance for each type is whichever has a non-100 level, or the equipment bonus if both are 100.
+        const mergedResistances = {};
+        const allTypes = new Set([
+            ...Object.keys(resistances || {}),
+            ...Object.keys(equipmentBonuses?.resistances || {})
+        ]);
+        allTypes.forEach(type => {
+            const base = (resistances || {})[type];
+            const eq = (equipmentBonuses?.resistances || {})[type];
+            if (base && typeof base === 'object' && base.level !== undefined) {
+                mergedResistances[type] = { ...base };
+            }
+            if (eq && typeof eq === 'object' && eq.level !== undefined) {
+                const cur = mergedResistances[type] || { level: 100, multiplier: 1.0 };
+                const curMult = cur.multiplier ?? 1.0;
+                const eqMult = eq.multiplier ?? 1.0;
+                // If base is 100 (normal), equipment bonus replaces it.
+                // If base is non-100, keep the more severe (lower multiplier for negatives, higher for positives).
+                if (cur.level === 100) {
+                    mergedResistances[type] = { ...eq };
+                } else if (eqMult < curMult || (eqMult > 1 && eqMult > curMult)) {
+                    mergedResistances[type] = { ...eq };
+                } else {
+                    mergedResistances[type] = cur;
+                }
+            }
+        });
+        totalStats.mergedResistances = mergedResistances;
+
+        if (equipmentBonuses?.resistances) {
+            Object.entries(equipmentBonuses.resistances).forEach(([resistanceType, resistanceData]) => {
+                const resistanceKey = `${resistanceType}Resistance`;
+                if (resistanceData && typeof resistanceData === 'object' && resistanceData.level !== undefined) {
+                    totalStats[resistanceKey] = resistanceData;
+                } else if (typeof resistanceData === 'number') {
+                    totalStats[resistanceKey] = Math.round((totalStats[resistanceKey] || 0) + resistanceData);
                 }
             });
+        }
 
-            const encumbranceState = useInventoryStore.getState().encumbranceState || 'normal';
-            const freshDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, exhaustionLevel || 0, health, race, subrace);
-
-            totalStats.maxHealth = Math.round(freshDerivedStats.maxHealth || health.max);
-            totalStats.maxMana = Math.round(freshDerivedStats.maxMana || mana.max);
-            totalStats.healthRegen = Math.round(freshDerivedStats.healthRegen || 0);
-            totalStats.manaRegen = Math.round(freshDerivedStats.manaRegen || 0);
-            totalStats.movementSpeed = Math.round(freshDerivedStats.moveSpeed ?? 30);
-            totalStats.swimSpeed = Math.round(freshDerivedStats.swimSpeed || 0);
-            totalStats.climbSpeed = Math.round(freshDerivedStats.climbSpeed || 0);
-            totalStats.passivePerception = Math.round(freshDerivedStats.passivePerception || 0);
-            totalStats.visionRange = Math.round(freshDerivedStats.visionRange || 0);
-            totalStats.darkvision = Math.round(freshDerivedStats.darkvision || 0);
-            totalStats.flySpeed = Math.round(freshDerivedStats.flySpeed || 0);
-            totalStats.initiative = Math.round(freshDerivedStats.initiative || 0);
-            totalStats.carryingCapacity = Math.round(freshDerivedStats.carryingCapacity || 0);
-            totalStats.damage = Math.round(freshDerivedStats.damage || 0);
-            totalStats.spellDamage = Math.round(freshDerivedStats.spellDamage || 0);
-            totalStats.healingPower = Math.round(freshDerivedStats.healingPower || 0);
-            totalStats.rangedDamage = Math.round(freshDerivedStats.rangedDamage || 0);
-            totalStats.slashingDamage = Math.round(freshDerivedStats.slashingDamage || 0);
-            totalStats.bludgeoningDamage = Math.round(freshDerivedStats.bludgeoningDamage || 0);
-            totalStats.piercingDamage = Math.round(freshDerivedStats.piercingDamage || 0);
-
-            // Merge resistances: base (from store) wins for explicit user setting, equipment bonuses layer on top.
-            // Final resistance for each type is whichever has a non-100 level, or the equipment bonus if both are 100.
-            const mergedResistances = {};
-            const allTypes = new Set([
-                ...Object.keys(resistances || {}),
-                ...Object.keys(equipmentBonuses.resistances || {})
-            ]);
-            allTypes.forEach(type => {
-                const base = (resistances || {})[type];
-                const eq = (equipmentBonuses.resistances || {})[type];
-                if (base && typeof base === 'object' && base.level !== undefined) {
-                    mergedResistances[type] = { ...base };
-                }
-                if (eq && typeof eq === 'object' && eq.level !== undefined) {
-                    const cur = mergedResistances[type] || { level: 100, multiplier: 1.0 };
-                    const curMult = cur.multiplier ?? 1.0;
-                    const eqMult = eq.multiplier ?? 1.0;
-                    // If base is 100 (normal), equipment bonus replaces it.
-                    // If base is non-100, keep the more severe (lower multiplier for negatives, higher for positives).
-                    if (cur.level === 100) {
-                        mergedResistances[type] = { ...eq };
-                    } else if (eqMult < curMult || (eqMult > 1 && eqMult > curMult)) {
-                        mergedResistances[type] = { ...eq };
-                    } else {
-                        mergedResistances[type] = cur;
-                    }
-                }
+        if (equipmentBonuses?.spellDamageTypes) {
+            Object.entries(equipmentBonuses.spellDamageTypes).forEach(([spellType, value]) => {
+                const spellPowerKey = `${spellType}SpellPower`;
+                totalStats[spellPowerKey] = Math.round(0 + value);
             });
-            totalStats.mergedResistances = mergedResistances;
+        }
 
-            if (equipmentBonuses.resistances) {
-                Object.entries(equipmentBonuses.resistances).forEach(([resistanceType, resistanceData]) => {
-                    const resistanceKey = `${resistanceType}Resistance`;
-                    if (resistanceData && typeof resistanceData === 'object' && resistanceData.level !== undefined) {
-                        totalStats[resistanceKey] = resistanceData;
-                    } else if (typeof resistanceData === 'number') {
-                        totalStats[resistanceKey] = Math.round((totalStats[resistanceKey] || 0) + resistanceData);
-                    }
-                });
-            }
-
-            if (equipmentBonuses.spellDamageTypes) {
-                Object.entries(equipmentBonuses.spellDamageTypes).forEach(([spellType, value]) => {
-                    const spellPowerKey = `${spellType}SpellPower`;
-                    totalStats[spellPowerKey] = Math.round(0 + value);
-                });
-            }
-
-            if (equipmentBonuses.immunities && equipmentBonuses.immunities.length > 0) {
-                totalStats.immunities = [...(totalStats.immunities || []), ...equipmentBonuses.immunities];
-                totalStats.immunities = [...new Set(totalStats.immunities)];
-            }
+        if (equipmentBonuses?.immunities && equipmentBonuses.immunities.length > 0) {
+            totalStats.immunities = [...(totalStats.immunities || []), ...equipmentBonuses.immunities];
+            totalStats.immunities = [...new Set(totalStats.immunities)];
         }
 
         return totalStats;
-    }, [stats, equipmentBonuses, exhaustionLevel, health, mana, race, subrace, resistances]);
+    }, [stats, equipmentBonuses, exhaustionLevel, health, mana, race, subrace, resistances, characterContext]);
 
 
 

@@ -2,9 +2,12 @@ import React, { useState, useRef } from 'react';
 import { useCreatureWizard, useCreatureWizardDispatch, wizardActionCreators, CREATURE_TYPES, CREATURE_SIZES } from '../../context/CreatureWizardContext';
 import { getCustomIconUrl } from '../../../../utils/assetManager';
 import CreatureIconSelector from '../common/CreatureIconSelector';
+import { uploadAsset } from '../../../../services/firebase/uploadService';
+import useAuthStore from '../../../../store/authStore';
 import '../../styles/WizardSteps.css';
 
 const Step1BasicInfo = () => {
+  const user = useAuthStore((state) => state.user);
   const wizardState = useCreatureWizard();
   const dispatch = useCreatureWizardDispatch();
 
@@ -100,7 +103,7 @@ const Step1BasicInfo = () => {
   };
 
   // Handle image upload
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
       // Validate file type
@@ -109,28 +112,23 @@ const Step1BasicInfo = () => {
         return;
       }
 
-      // Validate file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        alert('Image file must be smaller than 5MB');
-        return;
+      try {
+        const currentUserId = user?.uid || (user?.isGuest ? 'guest' : null);
+        const result = await uploadAsset(currentUserId, file, 'tokens', { profile: 'TOKEN' });
+        if (result.success && result.url) {
+          dispatch(wizardActionCreators.setBasicInfo({
+            customTokenImage: result.url,
+            imageTransformations: {
+              scale: 1,
+              rotation: 0,
+              positionX: 0,
+              positionY: 0
+            }
+          }));
+        }
+      } catch (err) {
+        console.error('Failed to process creature token:', err);
       }
-
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const imageData = event.target.result;
-
-        // Set the custom image and default transformations
-        dispatch(wizardActionCreators.setBasicInfo({
-          customTokenImage: imageData,
-          imageTransformations: {
-            scale: 1,
-            rotation: 0,
-            positionX: 0,
-            positionY: 0
-          }
-        }));
-      };
-      reader.readAsDataURL(file);
     }
   };
 

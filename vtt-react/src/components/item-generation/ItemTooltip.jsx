@@ -1030,7 +1030,7 @@ function ItemTooltip({ item }) {
                                         <div style={{ color: '#5a1e12', marginBottom: '2px', fontWeight: '500' }}>
                                             Damage: <span style={{ fontWeight: '700', color: '#8b4513', textShadow: 'none' }}>
                                                 {resultItem.weaponStats.baseDamage.display?.base ||
-                                                    `${resultItem.weaponStats.baseDamage.diceCount}d${resultItem.weaponStats.baseDamage.diceType}`}
+                                                    `${resultItem.weaponStats.baseDamage.diceCount || 1}d${String(resultItem.weaponStats.baseDamage.diceType || 4).replace(/^d+/i, '')}`}
                                             </span>
                                             {resultItem.weaponStats.baseDamage.damageType && (
                                                 <span style={{ color: '#8b4513', marginLeft: '4px', fontWeight: '600' }}>
@@ -2089,7 +2089,7 @@ function ItemTooltip({ item }) {
                 <div style={{ marginBottom: '8px' }}>
                     {item.weaponStats.baseDamage && (
                         <div className="base-stat" style={{ display: 'inline' }}>
-                            {item.weaponStats.baseDamage.display?.base || `${item.weaponStats.baseDamage.diceCount}d${item.weaponStats.baseDamage.diceType}`.replace('dd', 'd')}
+                            {item.weaponStats.baseDamage.display?.base || `${item.weaponStats.baseDamage.diceCount || 1}d${String(item.weaponStats.baseDamage.diceType || 4).replace(/^d+/i, '')}`}
                             {' '}
                             {item.weaponStats.baseDamage.damageType && (
                                 <span style={{

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './RoomCard.css';
 import AssetPickerModal from './AssetPickerModal';
 import ShareCampaignModal from '../account/ShareCampaignModal';
+import { uploadAsset } from '../../services/firebase/uploadService';
+import useAuthStore from '../../store/authStore';
 
 const RoomCard = ({
   room,
@@ -100,76 +102,26 @@ const RoomCard = ({
     return `${memberCount}/${maxPlayers}`;
   };
 
-  // Compress image to fit localStorage limits
-  const compressImage = (file, maxWidth = 800, quality = 0.8) => {
-    return new Promise((resolve, reject) => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      const img = new Image();
-
-      img.onload = () => {
-        // Calculate new dimensions while maintaining aspect ratio
-        const ratio = Math.min(maxWidth / img.width, maxWidth / img.height);
-        canvas.width = img.width * ratio;
-        canvas.height = img.height * ratio;
-
-        // Draw and compress
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        canvas.toBlob(resolve, 'image/jpeg', quality);
-      };
-
-      img.onerror = reject;
-      img.src = URL.createObjectURL(file);
-    });
-  };
-
-  // Handle image upload
+  // Handle image upload with centralized WebP compression and storage
   const handleImageUpload = async (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files?.[0];
     if (file && onUpdateRoom) {
-      console.log('🖼️ Uploading image for room:', room.id, 'Original size:', (file.size / 1024 / 1024).toFixed(2), 'MB');
       setIsUploadingImage(true);
-
       try {
-        // Compress the image first
-        const compressedFile = await compressImage(file);
-        console.log('� - �️ Image compressed from', (file.size / 1024).toFixed(1), 'KB to', (compressedFile.size / 1024).toFixed(1), 'KB');
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const imageUrl = e.target.result;
-          const sizeKB = (imageUrl.length * 0.75 / 1024).toFixed(1); // Rough base64 size estimate
-          console.log('📸 Compressed image ready, estimated size:', sizeKB, 'KB');
-
-          try {
-            onUpdateRoom(room.id, { customImage: imageUrl });
-            setIsUploadingImage(false);
-            console.log('✅ Image upload successful');
-          } catch (error) {
-            console.error('❌ Image upload failed:', error);
-            setIsUploadingImage(false);
-            if (error.message.includes('quota')) {
-              alert('Image is still too large for storage. Please try a smaller image or lower quality photo.');
-            } else {
-              alert('Failed to upload image: ' + error.message);
-            }
-          }
-        };
-
-        reader.onerror = (error) => {
-          console.error('❌ FileReader error:', error);
-          setIsUploadingImage(false);
-          alert('Failed to read compressed image file');
-        };
-
-        reader.readAsDataURL(compressedFile);
+        const user = useAuthStore.getState().user;
+        const currentUserId = user?.uid || (user?.isGuest ? 'guest' : null);
+        const result = await uploadAsset(currentUserId, file, 'battlemaps', { profile: 'BATTLEMAP' });
+        if (result.success && result.url) {
+          onUpdateRoom(room.id, { customImage: result.url });
+        } else {
+          throw new Error(result.error || 'Failed to upload image');
+        }
       } catch (error) {
-        console.error('❌ Image compression failed:', error);
+        console.error('Image upload failed:', error);
+        alert('Failed to upload image: ' + error.message);
+      } finally {
         setIsUploadingImage(false);
-        alert('Failed to process image. Please try a different image.');
       }
-    } else {
-      console.warn('⚠️ Image upload skipped - missing file or onUpdateRoom function');
     }
   };
 

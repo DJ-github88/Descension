@@ -1,3 +1,5 @@
+import { uploadAsset } from '../../services/firebase/uploadService';
+import useAuthStore from '../../store/authStore';
 import React, { useState, useRef, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import { FaImage, FaCopy, FaTrash, FaExchangeAlt, FaUsers, FaUserAlt } from 'react-icons/fa';

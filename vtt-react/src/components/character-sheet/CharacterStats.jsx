@@ -274,6 +274,7 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
     } = dataSource || {};
 
     const equipment = useMemo(() => normalizeEquipment(rawEquipment), [rawEquipment]);
+    const equipmentBonuses = useMemo(() => calculateEquipmentBonuses(equipment), [equipment]);
 
     // Subscribe to activeBuffs to trigger re-renders when buffs change
     const activeBuffs = useConditionStore(state => state.activeBuffs);
@@ -321,121 +322,124 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
         // Use encumbrance state from inventory store hook
         const currentEncumbranceState = encumbranceState || 'normal';
 
-        const totalStats = { ...stats };
+        const charContext = {
+            stats,
+            equipment,
+            race,
+            subrace,
+            level,
+            levelUpHistory: dataSource?.levelUpHistory || {},
+            activeEffects: dataSource?.activeEffects || {},
+            encumbranceState: currentEncumbranceState,
+            exhaustionLevel: exhaustionLevel ?? storeExhaustionLevel ?? 0,
+            health,
+            mana,
+            talents: dataSource?.talents || []
+        };
 
-        // Apply equipment bonuses
-        if (equipmentBonuses) {
-            // Add equipment bonuses to base stats
-            const statMapping = {
-                str: 'strength',
-                con: 'constitution',
-                agi: 'agility',
-                int: 'intelligence',
-                spir: 'spirit',
-                cha: 'charisma'
-            };
+        const calculatedAttributes = {
+            strength: getAttributeBreakdown('strength', charContext).finalValue,
+            agility: getAttributeBreakdown('agility', charContext).finalValue,
+            constitution: getAttributeBreakdown('constitution', charContext).finalValue,
+            intelligence: getAttributeBreakdown('intelligence', charContext).finalValue,
+            spirit: getAttributeBreakdown('spirit', charContext).finalValue,
+            charisma: getAttributeBreakdown('charisma', charContext).finalValue
+        };
 
-            Object.entries(statMapping).forEach(([shortName, fullName]) => {
-                if (equipmentBonuses[shortName]) {
-                    totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
-                }
-            });
+        const totalStats = { ...stats, ...calculatedAttributes };
 
-            // Calculate derived stats with equipment bonuses and encumbrance
-            // Use store exhaustion level if available, otherwise use dataSource exhaustion level
-            const finalExhaustionLevel = storeExhaustionLevel !== undefined ? storeExhaustionLevel : (exhaustionLevel !== undefined ? exhaustionLevel : (dataSource?.exhaustionLevel || 0));
-            const calculatedDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, currentEncumbranceState, finalExhaustionLevel, health, race, subrace);
+        // Calculate derived stats with equipment bonuses and encumbrance
+        const finalExhaustionLevel = storeExhaustionLevel !== undefined ? storeExhaustionLevel : (exhaustionLevel !== undefined ? exhaustionLevel : (dataSource?.exhaustionLevel || 0));
+        const calculatedDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses || {}, {}, currentEncumbranceState, finalExhaustionLevel, health, race, subrace);
 
-            // Use derived stats from character store (already includes encumbrance effects) or fallback to calculated
-            const storeDerivedStats = derivedStats || {};
-            totalStats.healthRegen = storeDerivedStats.healthRegen || calculatedDerivedStats.healthRegen;
-            totalStats.manaRegen = storeDerivedStats.manaRegen || calculatedDerivedStats.manaRegen;
-            totalStats.healingPower = storeDerivedStats.healingPower || calculatedDerivedStats.healingPower;
-            totalStats.spellDamage = storeDerivedStats.spellDamage || calculatedDerivedStats.spellDamage;
-            totalStats.damage = storeDerivedStats.damage || calculatedDerivedStats.damage;
-            totalStats.rangedDamage = storeDerivedStats.rangedDamage || calculatedDerivedStats.rangedDamage;
-            totalStats.slashingDamage = storeDerivedStats.slashingDamage || calculatedDerivedStats.slashingDamage || 0;
-            totalStats.bludgeoningDamage = storeDerivedStats.bludgeoningDamage || calculatedDerivedStats.bludgeoningDamage || 0;
-            totalStats.piercingDamage = storeDerivedStats.piercingDamage || calculatedDerivedStats.piercingDamage || 0;
-            totalStats.maxHealth = calculatedDerivedStats.maxHealth;
-            totalStats.maxMana = calculatedDerivedStats.maxMana;
-            // Always use calculated values for movement speeds to ensure they reflect exhaustion effects
-            const baseMovementSpeed = calculatedDerivedStats.moveSpeed || 0;
+        totalStats.healthRegen = calculatedDerivedStats.healthRegen || 0;
+        totalStats.manaRegen = calculatedDerivedStats.manaRegen || 0;
+        totalStats.healingPower = calculatedDerivedStats.healingPower || 0;
+        totalStats.spellDamage = calculatedDerivedStats.spellDamage || 0;
+        totalStats.damage = calculatedDerivedStats.damage || 0;
+        totalStats.rangedDamage = calculatedDerivedStats.rangedDamage || 0;
+        totalStats.slashingDamage = calculatedDerivedStats.slashingDamage || 0;
+        totalStats.bludgeoningDamage = calculatedDerivedStats.bludgeoningDamage || 0;
+        totalStats.piercingDamage = calculatedDerivedStats.piercingDamage || 0;
+        totalStats.maxHealth = calculatedDerivedStats.maxHealth || getDerivedStatBreakdown('maxHealth', charContext).finalValue;
+        totalStats.maxMana = calculatedDerivedStats.maxMana || getDerivedStatBreakdown('maxMana', charContext).finalValue;
+        totalStats.initiative = calculatedDerivedStats.initiative !== undefined ? calculatedDerivedStats.initiative : (Math.floor(((calculatedAttributes.agility || 10) - 10) / 2));
+        
+        // Always use calculated values for movement speeds to ensure they reflect exhaustion effects
+        const baseMovementSpeed = calculatedDerivedStats.moveSpeed || 0;
             
-            // Apply condition-based modifiers to movement speed
-            // Get character token conditions
-            const playerToken = characterTokens.find(t => t.isPlayerToken) || characterTokens[0];
-            const conditions = playerToken?.state?.conditions || [];
-            
-            // Apply condition modifiers using the utility function
-            totalStats.movementSpeed = calculateEffectiveMovementSpeed(baseMovementSpeed, conditions);
+        // Apply condition-based modifiers to movement speed
+        // Get character token conditions
+        const playerToken = characterTokens.find(t => t.isPlayerToken) || characterTokens[0];
+        const conditions = playerToken?.state?.conditions || [];
+        
+        // Apply condition modifiers using the utility function
+        totalStats.movementSpeed = calculateEffectiveMovementSpeed(baseMovementSpeed, conditions);
 
-            // Apply buff/debuff effects to movement speed (not included in calculateDerivedStats call)
-            const movementKeys = ['moveSpeed', 'movementSpeed', 'speed'];
-            movementKeys.forEach(key => {
-                if (buffEffects[key]) {
-                    buffEffects[key].forEach(effect => {
-                        totalStats.movementSpeed += effect.value;
-                    });
-                }
-                if (debuffEffects[key]) {
-                    debuffEffects[key].forEach(effect => {
-                        totalStats.movementSpeed += effect.value;
-                    });
-                }
-            });
-            totalStats.movementSpeed = Math.max(0, Math.floor(totalStats.movementSpeed));
-
-            totalStats.swimSpeed = calculatedDerivedStats.swimSpeed || 0;
-            totalStats.climbSpeed = calculatedDerivedStats.climbSpeed || 0;
-
-            // Apply encumbrance effects to base stats for display purposes
-            const encumbranceEffects = storeDerivedStats.encumbranceEffects || calculatedDerivedStats.encumbranceEffects;
-            if (encumbranceEffects) {
-                const effects = encumbranceEffects;
-
-                // Apply base stat multiplier to most stats for display
-                totalStats.agility = Math.floor(totalStats.agility * effects.baseStatMultiplier);
-                totalStats.intelligence = Math.floor(totalStats.intelligence * effects.baseStatMultiplier);
-                totalStats.spirit = Math.floor(totalStats.spirit * effects.baseStatMultiplier);
-                totalStats.charisma = Math.floor(totalStats.charisma * effects.baseStatMultiplier);
-
-                // Strength gets special treatment - it gets bonuses from encumbrance
-                if (currentEncumbranceState === 'encumbered') {
-                    totalStats.strength = Math.floor(totalStats.strength * 1.05);
-                } else if (currentEncumbranceState === 'overencumbered') {
-                    totalStats.strength = Math.floor(totalStats.strength * 1.15);
-                }
-
-                // Apply special constitution multiplier
-                totalStats.constitution = Math.floor(totalStats.constitution * effects.constitutionMultiplier);
-
-                // Store disadvantage info for UI
-                totalStats.hasEncumbranceDisadvantage = effects.hasDisadvantage;
-                totalStats.encumbranceState = currentEncumbranceState;
-            }
-
-            // Add spell damage types from equipment
-            if (equipmentBonuses.spellDamageTypes) {
-                Object.entries(equipmentBonuses.spellDamageTypes).forEach(([spellType, value]) => {
-                    const spellPowerKey = `${spellType}SpellPower`;
-                    // Base spell power is 0, only equipment bonuses
-                    const baseSpellPower = 0;
-                    totalStats[spellPowerKey] = Math.round(baseSpellPower + value);
+        // Apply buff/debuff effects to movement speed (not included in calculateDerivedStats call)
+        const movementKeys = ['moveSpeed', 'movementSpeed', 'speed'];
+        movementKeys.forEach(key => {
+            if (buffEffects[key]) {
+                buffEffects[key].forEach(effect => {
+                    totalStats.movementSpeed += effect.value;
                 });
             }
+            if (debuffEffects[key]) {
+                debuffEffects[key].forEach(effect => {
+                    totalStats.movementSpeed += effect.value;
+                });
+            }
+        });
+        totalStats.movementSpeed = Math.max(0, Math.floor(totalStats.movementSpeed));
 
-            // Add immunities from equipment
-            if (equipmentBonuses.immunities && equipmentBonuses.immunities.length > 0) {
-                totalStats.immunities = [...(totalStats.immunities || []), ...equipmentBonuses.immunities];
-                // Remove duplicates
-                totalStats.immunities = [...new Set(totalStats.immunities)];
+        totalStats.swimSpeed = calculatedDerivedStats.swimSpeed || 0;
+        totalStats.climbSpeed = calculatedDerivedStats.climbSpeed || 0;
+
+        // Apply encumbrance effects to base stats for display purposes
+        const encumbranceEffects = calculatedDerivedStats.encumbranceEffects;
+        if (encumbranceEffects) {
+            const effects = encumbranceEffects;
+
+            // Apply base stat multiplier to most stats for display
+            totalStats.agility = Math.floor(totalStats.agility * effects.baseStatMultiplier);
+            totalStats.intelligence = Math.floor(totalStats.intelligence * effects.baseStatMultiplier);
+            totalStats.spirit = Math.floor(totalStats.spirit * effects.baseStatMultiplier);
+            totalStats.charisma = Math.floor(totalStats.charisma * effects.baseStatMultiplier);
+
+            // Strength gets special treatment - it gets bonuses from encumbrance
+            if (currentEncumbranceState === 'encumbered') {
+                totalStats.strength = Math.floor(totalStats.strength * 1.05);
+            } else if (currentEncumbranceState === 'overencumbered') {
+                totalStats.strength = Math.floor(totalStats.strength * 1.15);
             }
 
-            // Add condition modifiers from equipment
-            if (equipmentBonuses.conditionModifiers) {
-                totalStats.conditionModifiers = { ...(totalStats.conditionModifiers || {}), ...equipmentBonuses.conditionModifiers };
-            }
+            // Apply special constitution multiplier
+            totalStats.constitution = Math.floor(totalStats.constitution * effects.constitutionMultiplier);
+
+            // Store disadvantage info for UI
+            totalStats.hasEncumbranceDisadvantage = effects.hasDisadvantage;
+            totalStats.encumbranceState = currentEncumbranceState;
+        }
+
+        // Add spell damage types from equipment
+        if (equipmentBonuses?.spellDamageTypes) {
+            Object.entries(equipmentBonuses.spellDamageTypes).forEach(([spellType, value]) => {
+                const spellPowerKey = `${spellType}SpellPower`;
+                const baseSpellPower = 0;
+                totalStats[spellPowerKey] = Math.round(baseSpellPower + value);
+            });
+        }
+
+        // Add immunities from equipment
+        if (equipmentBonuses?.immunities && equipmentBonuses.immunities.length > 0) {
+            totalStats.immunities = [...(totalStats.immunities || []), ...equipmentBonuses.immunities];
+            // Remove duplicates
+            totalStats.immunities = [...new Set(totalStats.immunities)];
+        }
+
+        // Add condition modifiers from equipment
+        if (equipmentBonuses?.conditionModifiers) {
+            totalStats.conditionModifiers = { ...(totalStats.conditionModifiers || {}), ...equipmentBonuses.conditionModifiers };
         }
 
         // Initialize spell power types if they don't exist (needed for buff effects)
@@ -994,15 +998,22 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
                     const physicalTypes = ['smashing', 'stabbing', 'slicing'];
                     return !physicalTypes.includes(type);
                 })
-                .map(([type, data]) => ({
-                    label: `${data.name} Power`,
-                    value: Math.round(totalStats[`${type}SpellPower`] || 0),
-                    baseValue: 0, // Base spell power is 0
-                    tooltip: true,
-                    icon: data.icon,
-                    color: data.color,
-                    description: `Spell damage bonus for ${data.name.toLowerCase()} spells`
-                }))
+                .map(([type, data]) => {
+                    const intMod = Math.floor(((totalStats.intelligence || 10) - 10) / 2);
+                    const intBonus = intMod * 2;
+                    const spBase = intBonus;
+                    const eqBonus = (equipmentBonuses?.spellDamageTypes?.[type] || 0) + (equipmentBonuses?.spellDamage || 0) + (equipmentBonuses?.spellPower || 0);
+                    const totalVal = Math.round(spBase + eqBonus + (totalStats[`${type}SpellPower`] || 0));
+                    return {
+                        label: `${data.name} Power`,
+                        value: totalVal,
+                        baseValue: spBase,
+                        tooltip: true,
+                        icon: data.icon,
+                        color: data.color,
+                        description: `Spell damage bonus for ${data.name.toLowerCase()} spells (INT Mod × 2 + gear)`
+                    };
+                })
                 .filter(stat => stat !== null && stat !== undefined) // Additional safety filter
         },
 
@@ -1014,7 +1025,7 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
                 {
                     label: 'Health Regeneration',
                     value: Math.round(totalStats.healthRegen || 0),
-                    baseValue: Math.round(Math.floor((stats.constitution || 10) / 2) || 0), // Use original stats
+                    baseValue: Math.round(Math.max(0, (Math.floor(((totalStats.spirit || 10) - 10) / 2) * 2) + Math.max(0, Math.floor(Math.floor(((totalStats.constitution || 10) - 10) / 2) / 2)))),
                     tooltip: true,
                     icon: getCustomIconUrl('Healing/Armored Healing', 'abilities'),
                     color: '#228b22',
@@ -1023,7 +1034,7 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
                 {
                     label: 'Mana Regeneration',
                     value: Math.round(totalStats.manaRegen || 0),
-                    baseValue: Math.round(Math.floor(((stats.intelligence || 10) + (stats.spirit || 10)) / 4) || 0), // Use original stats
+                    baseValue: Math.round(Math.max(0, (Math.floor(((totalStats.spirit || 10) - 10) / 2) * 2) + Math.max(0, Math.floor(Math.floor(((totalStats.intelligence || 10) - 10) / 2) / 2)))),
                     tooltip: true,
                     icon: getCustomIconUrl('Arcane/Spellcasting Aura', 'abilities'),
                     color: '#6666ff',
@@ -1032,7 +1043,7 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
                 {
                     label: 'Healing Power',
                     value: Math.round(totalStats.healingPower || 0),
-                    baseValue: Math.round(Math.floor((stats.spirit || 10) / 2) || 0), // Use original stats
+                    baseValue: Math.round(Math.max(0, Math.floor(((totalStats.spirit || 10) - 10) / 2) * 2)),
                     tooltip: true,
                     icon: getCustomIconUrl('Healing/Healing Compass', 'abilities'),
                     color: '#b8860b',
@@ -1077,8 +1088,8 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
                 },
                 {
                     label: 'Initiative',
-                    value: Math.round(totalStats.initiative || Math.floor((stats.agility || 10) / 5) || 0),
-                    baseValue: Math.round(Math.floor((stats.agility || 10) / 5) || 0),
+                    value: Math.round(totalStats.initiative !== undefined ? totalStats.initiative : (Math.floor(((stats.agility || 10) - 10) / 2) || 0)),
+                    baseValue: Math.round(Math.floor(((stats.agility || 10) - 10) / 2) || 0),
                     tooltip: true,
                     icon: getCustomIconUrl('Piercing/Dash Arrow', 'abilities'),
                     color: '#b8860b',
@@ -1127,8 +1138,8 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
             stats: [
                 {
                     label: 'Passive Perception',
-                    value: 10 + Math.floor(((typeof totalStats.spirit === 'object' ? totalStats.spirit.value : totalStats.spirit || 10) - 10) / 2),
-                    baseValue: 10 + Math.floor(((typeof stats.spirit === 'object' ? stats.spirit.value : stats.spirit || 10) - 10) / 2),
+                    value: Math.round(totalStats.passivePerception !== undefined ? totalStats.passivePerception : (10 + Math.floor(((typeof totalStats.spirit === 'object' ? totalStats.spirit.value : totalStats.spirit || 10) - 10) / 2))),
+                    baseValue: 10,
                     tooltip: true,
                     icon: getCustomIconUrl('Utility/Watchful Eye', 'abilities'),
                     color: '#8b6914',

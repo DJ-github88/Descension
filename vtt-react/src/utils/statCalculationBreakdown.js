@@ -204,8 +204,8 @@ export function getDerivedStatBreakdown(statName, character = {}) {
 
     let racialBase = {
         speed: 30,
-        hp: 25,
-        mana: 15,
+        hp: 0,
+        mana: 0,
         passivePerception: 10,
         initiative: 0
     };
@@ -400,19 +400,169 @@ export function getDerivedStatBreakdown(statName, character = {}) {
         case 'passive perception':
         case 'passiveperception': {
             const sMod = spiBreakdown.modifier;
-            const basePerc = 10 + sMod + (racialBase.passivePerception - 10);
+            const racialBonus = racialBase.passivePerception > 10 ? (racialBase.passivePerception - 10) : 0;
             const eqPerc = eqBonuses.passivePerception || 0;
+            const finalVal = 10 + sMod + racialBonus + eqPerc;
+
+            const details = [
+                'Base: 10',
+                `Spirit modifier (${sMod >= 0 ? `+${sMod}` : sMod}): ${sMod >= 0 ? `+${sMod}` : sMod}`
+            ];
+            if (racialBonus > 0) details.push(`Racial bonus: +${racialBonus}`);
+            if (eqPerc !== 0) details.push(`Equipment: ${eqPerc > 0 ? `+${eqPerc}` : eqPerc}`);
+
+            const calcParts = ['Base 10 (base)'];
+            if (sMod !== 0) calcParts.push(`${sMod >= 0 ? `+${sMod}` : sMod} (Spirit mod)`);
+            if (racialBonus > 0) calcParts.push(`+${racialBonus} (racial)`);
+            if (eqPerc !== 0) calcParts.push(`${eqPerc > 0 ? `+${eqPerc}` : eqPerc} (gear)`);
 
             return {
                 stat: 'Passive Perception',
                 description: 'Base awareness for detecting hidden traps, stealthy creatures, and ambushes without an active check.',
                 baseValue: 10,
                 baseLabel: 'Base 10',
-                racial: racialBase.passivePerception > 10 ? racialBase.passivePerception - 10 : 0,
+                racial: racialBonus,
                 modifier: sMod,
                 modifierLabel: `Spirit (${sMod >= 0 ? `+${sMod}` : sMod})`,
                 equipment: eqPerc,
-                finalValue: basePerc + eqPerc
+                details,
+                customCalculation: `${calcParts.join(' ')} = ${finalVal}`,
+                finalValue: finalVal
+            };
+        }
+
+        case 'melee damage':
+        case 'meleedamage': {
+            const mainHand = equipment?.mainHand;
+            const strMod = strBreakdown.modifier;
+            const agiMod = agiBreakdown.modifier;
+
+            let diceCount = 1;
+            let diceType = 4;
+            let damageType = 'smashing';
+            let weaponBonus = 0;
+
+            if (mainHand?.weaponStats?.baseDamage) {
+                diceCount = mainHand.weaponStats.baseDamage.diceCount || 1;
+                diceType = mainHand.weaponStats.baseDamage.diceType || 4;
+                damageType = (mainHand.weaponStats.baseDamage.damageType || 'smashing').toLowerCase();
+                weaponBonus = Number(mainHand.weaponStats.baseDamage.bonusDamage || 0);
+            }
+
+            const cleanDice = String(diceType).replace(/^d+/i, '');
+            const diceFormula = `${diceCount}d${cleanDice}`;
+
+            let statMod = 0;
+            let scalingLabel = '';
+            switch (damageType) {
+                case 'stabbing':
+                case 'piercing':
+                    statMod = agiMod * 2;
+                    scalingLabel = `Agility modifier (${agiMod >= 0 ? `+${agiMod}` : agiMod}) × 2 = ${statMod >= 0 ? `+${statMod}` : statMod}`;
+                    break;
+                case 'slicing':
+                case 'slashing':
+                    statMod = strMod + agiMod;
+                    scalingLabel = `STR (${strMod >= 0 ? `+${strMod}` : strMod}) + AGI (${agiMod >= 0 ? `+${agiMod}` : agiMod}) = ${statMod >= 0 ? `+${statMod}` : statMod}`;
+                    break;
+                case 'smashing':
+                case 'bludgeoning':
+                default:
+                    statMod = strMod * 2;
+                    scalingLabel = `Strength modifier (${strMod >= 0 ? `+${strMod}` : strMod}) × 2 = ${statMod >= 0 ? `+${statMod}` : statMod}`;
+                    break;
+            }
+
+            const otherEqDamage = Math.max(0, (eqBonuses.damage || 0) - weaponBonus) + (eqBonuses[`${damageType}Damage`] || 0);
+            const totalMod = statMod + weaponBonus + otherEqDamage;
+            const modSign = totalMod >= 0 ? `+ ${totalMod}` : `- ${Math.abs(totalMod)}`;
+            const finalString = `${diceFormula} ${modSign}`;
+
+            const details = [
+                `Weapon: ${mainHand?.name || 'Unarmed'} (${diceFormula} ${damageType.charAt(0).toUpperCase() + damageType.slice(1)} Damage)`,
+                `Attribute Scaling: ${scalingLabel}`
+            ];
+            if (weaponBonus !== 0) {
+                details.push(`Weapon Bonus: ${weaponBonus > 0 ? `+${weaponBonus}` : weaponBonus} (${mainHand?.name || 'Weapon'} enchantment/stat bonus)`);
+            }
+            if (otherEqDamage !== 0) {
+                details.push(`Other Equipment: ${otherEqDamage > 0 ? `+${otherEqDamage}` : otherEqDamage}`);
+            }
+
+            const calcParts = [`${diceFormula} (base dice)`, `${statMod >= 0 ? `+${statMod}` : statMod} (${scalingLabel.split('=')[0].trim()})`];
+            if (weaponBonus !== 0) calcParts.push(`${weaponBonus > 0 ? `+${weaponBonus}` : weaponBonus} (weapon bonus)`);
+            if (otherEqDamage !== 0) calcParts.push(`${otherEqDamage > 0 ? `+${otherEqDamage}` : otherEqDamage} (gear)`);
+
+            return {
+                stat: 'Melee Damage',
+                description: 'Physical weapon attack power. Derived from weapon dice + physical attribute modifier (STR for Smashing, AGI for Stabbing, STR/AGI for Slicing) + weapon and gear bonuses.',
+                baseValue: 0,
+                baseLabel: diceFormula,
+                finalValue: finalString,
+                details,
+                customCalculation: `${calcParts.join(' ')} = ${finalString}`
+            };
+        }
+
+        case 'ranged damage':
+        case 'rangeddamage': {
+            const ranged = equipment?.ranged;
+            const agiMod = agiBreakdown.modifier;
+
+            if (!ranged) {
+                return {
+                    stat: 'Ranged Damage',
+                    description: 'Ranged weapon attack power. Derived from ranged weapon base dice + Agility modifier.',
+                    finalValue: '—',
+                    details: ['No ranged weapon equipped']
+                };
+            }
+
+            let diceCount = 1;
+            let diceType = 4;
+            let damageType = 'stabbing';
+            let weaponBonus = 0;
+
+            if (ranged?.weaponStats?.baseDamage) {
+                diceCount = ranged.weaponStats.baseDamage.diceCount || 1;
+                diceType = ranged.weaponStats.baseDamage.diceType || 4;
+                damageType = (ranged.weaponStats.baseDamage.damageType || 'stabbing').toLowerCase();
+                weaponBonus = Number(ranged.weaponStats.baseDamage.bonusDamage || 0);
+            }
+
+            const cleanDice = String(diceType).replace(/^d+/i, '');
+            const diceFormula = `${diceCount}d${cleanDice}`;
+            const statMod = agiMod * 2;
+            const scalingLabel = `Agility modifier (${agiMod >= 0 ? `+${agiMod}` : agiMod}) × 2 = ${statMod >= 0 ? `+${statMod}` : statMod}`;
+
+            const otherEqDamage = Math.max(0, (eqBonuses.damage || 0) - weaponBonus) + (eqBonuses.rangedDamage || 0) + (eqBonuses[`${damageType}Damage`] || 0);
+            const totalMod = statMod + weaponBonus + otherEqDamage;
+            const modSign = totalMod >= 0 ? `+ ${totalMod}` : `- ${Math.abs(totalMod)}`;
+            const finalString = `${diceFormula} ${modSign}`;
+
+            const details = [
+                `Weapon: ${ranged?.name || 'Ranged Weapon'} (${diceFormula} ${damageType.charAt(0).toUpperCase() + damageType.slice(1)} Damage)`,
+                `Attribute Scaling: ${scalingLabel}`
+            ];
+            if (weaponBonus !== 0) {
+                details.push(`Weapon Bonus: ${weaponBonus > 0 ? `+${weaponBonus}` : weaponBonus} (${ranged?.name || 'Weapon'} bonus)`);
+            }
+            if (otherEqDamage !== 0) {
+                details.push(`Other Equipment: ${otherEqDamage > 0 ? `+${otherEqDamage}` : otherEqDamage}`);
+            }
+
+            const calcParts = [`${diceFormula} (base dice)`, `${statMod >= 0 ? `+${statMod}` : statMod} (Agility mod × 2)`];
+            if (weaponBonus !== 0) calcParts.push(`${weaponBonus > 0 ? `+${weaponBonus}` : weaponBonus} (weapon bonus)`);
+            if (otherEqDamage !== 0) calcParts.push(`${otherEqDamage > 0 ? `+${otherEqDamage}` : otherEqDamage} (gear)`);
+
+            return {
+                stat: 'Ranged Damage',
+                description: 'Ranged weapon attack power. Derived from ranged weapon base dice + Agility modifier + weapon and gear bonuses.',
+                baseValue: 0,
+                baseLabel: diceFormula,
+                finalValue: finalString,
+                details,
+                customCalculation: `${calcParts.join(' ')} = ${finalString}`
             };
         }
 

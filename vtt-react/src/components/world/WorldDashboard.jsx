@@ -9,6 +9,7 @@ import FactionDetail from './FactionDetail';
 import LocationDetail from './LocationDetail';
 import ClassLoreDetail from './ClassLoreDetail';
 import CustomLineageWizard from './CustomLineageWizard';
+import ClassIcon from '../common/ClassIcon';
 import { TimelineView, MiniCalendar } from './TimelineView';
 import './WorldDashboard.css';
 
@@ -497,10 +498,11 @@ const WorldDashboard = () => {
                   return true;
                 })
                 .map((cls) => {
-                  const normalizedId = cls.id?.toLowerCase()?.replace(/\s+/g, '_');
+                  const normalizedId = cls.id?.toLowerCase()?.replace(/\s+/g, '_')?.replace(/-/g, '_');
                   const profile = getClassFlavorProfile(cls.id);
                   const roleData = CLASS_ROLE_TAGS[normalizedId] || { role: profile?.role || 'Heroic Calling', icon: profile?.roleIcon || 'fa-star' };
                   const arch = CLASS_ARCHETYPES.find((a) => a.id !== 'all' && (a.classIds.includes(normalizedId) || a.classIds.includes(cls.id?.toLowerCase())));
+                  const iconSrc = `/assets/icons/classes/${normalizedId}.png`;
 
                   return (
                     <div
@@ -509,12 +511,23 @@ const WorldDashboard = () => {
                       onClick={() => navigateToClass(cls.id)}
                     >
                       <div className="class-card-header">
-                        <div className="class-title-block">
-                          <h4>
-                            <i className={`fas ${profile?.roleIcon || roleData.icon || 'fa-scroll'} class-header-icon`} />
-                            {cls.name}
-                          </h4>
-                          <span className="class-archetype-tag">{profile?.tradition || arch?.label?.split('&')[0] || 'Calling'}</span>
+                        <div className="class-card-identity">
+                          <div className="class-card-avatar-wrap">
+                            <ClassIcon
+                              src={iconSrc}
+                              alt={cls.name}
+                              size="small"
+                              className="class-card-avatar-img"
+                              dataClass={cls.name}
+                            />
+                            <div className="class-card-corner-icon" title={profile?.role || roleData.role}>
+                              <i className={`fas ${profile?.roleIcon || roleData.icon || 'fa-scroll'}`} />
+                            </div>
+                          </div>
+                          <div className="class-title-block">
+                            <h4>{cls.name}</h4>
+                            <span className="class-archetype-tag">{profile?.tradition || arch?.label?.split('&')[0] || 'Calling'}</span>
+                          </div>
                         </div>
                         <span className="class-role-pill">
                           {profile?.role || roleData.role}

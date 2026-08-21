@@ -266,6 +266,14 @@ const LibraryBrowserModal = ({
     loadLibraryData();
   }, [isOpen, libraryType]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = libraryType === LIBRARY_TYPES.SPELLS ? 12 : 24;
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, filterType, filterSecondary, libraryType]);
+
   // Filter and search items
   const filteredItems = useMemo(() => {
     let items = libraryData;
@@ -320,6 +328,12 @@ const LibraryBrowserModal = ({
     return items.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
   }, [libraryData, filterType, filterSecondary, searchQuery, libraryType]);
 
+  const totalPages = Math.max(1, Math.ceil(filteredItems.length / itemsPerPage));
+  const paginatedItems = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    return filteredItems.slice(start, start + itemsPerPage);
+  }, [filteredItems, currentPage, itemsPerPage]);
+
   // Toggle item selection
   const toggleSelection = (item) => {
     if (multiSelect) {
@@ -358,14 +372,32 @@ const LibraryBrowserModal = ({
 
   // Resolve item/spell/creature icon URL
   const resolveIcon = (item) => {
-    if (!item) return getIconUrl('inv_misc_questionmark', 'items');
+    if (!item) return getIconUrl('Utility/Utility', 'abilities');
     if (libraryType === LIBRARY_TYPES.CREATURES) {
       return getCreatureTokenIconUrl(item.icon, item.type);
     }
+    if (libraryType === LIBRARY_TYPES.SPELLS) {
+      if (item.icon && (item.icon.includes('/') || item.icon.includes('\\'))) {
+        return getCustomIconUrl(item.icon, 'abilities');
+      }
+      return getIconUrl(item.icon || 'Utility/Utility', 'abilities');
+    }
     if (item.icon && (item.icon.includes('/') || item.icon.includes('\\'))) {
-      return getCustomIconUrl(item.icon, 'abilities');
+      return getCustomIconUrl(item.icon, 'items');
     }
     return getWowIconUrl(item.icon || 'inv_misc_questionmark');
+  };
+
+  // Determine action badge type for spell
+  const getSpellBadgeType = (item) => {
+    const raw = (item.type || item.spellType || '').toUpperCase();
+    if (raw === 'REACTION') return 'REACTION';
+    if (raw === 'PASSIVE') return 'PASSIVE';
+    if (raw === 'FREE_ACTION' || raw === 'FREE ACTION') return 'FREE ACTION';
+    const desc = (item.description || '').toLowerCase();
+    if (/^(as a )?reaction/i.test(desc) || /reaction\s*\(/i.test(desc)) return 'REACTION';
+    if (/^passive/i.test(desc)) return 'PASSIVE';
+    return 'ACTION';
   };
 
   if (!isOpen) return null;
@@ -378,17 +410,21 @@ const LibraryBrowserModal = ({
 
   return ReactDOM.createPortal(
     <div className="library-browser-overlay" onClick={onClose}>
-      <div className="library-browser-modal" onClick={e => e.stopPropagation()}>
+      <div className={`library-browser-modal ${libraryType === LIBRARY_TYPES.SPELLS ? 'spellbook-browser-modal' : ''}`} onClick={e => e.stopPropagation()}>
         {/* Header */}
         <div className="library-browser-header">
           <div className="library-header-title-row">
-            <h3><i className={`fas ${libraryType === LIBRARY_TYPES.CREATURES ? 'fa-dragon' : (libraryType === LIBRARY_TYPES.SPELLS ? 'fa-hat-wizard' : 'fa-shield-halved')}`}></i> {modalTitle}</h3>
-            <span className="library-counter-badge">{filteredItems.length} Available</span>
+            <h3><i className={`fas ${libraryType === LIBRARY_TYPES.CREATURES ? 'fa-dragon' : (libraryType === LIBRARY_TYPES.SPELLS ? 'fa-book-sparkles' : 'fa-shield-halved')}`}></i> {modalTitle}</h3>
+            <div className="library-header-meta-group">
+              {libraryType === LIBRARY_TYPES.SPELLS && totalPages > 1 && (
+                <span className="library-page-top-badge">Page {currentPage} of {totalPages}</span>
+              )}
+              <span className="library-counter-badge">{filteredItems.length} Available</span>
+            </div>
           </div>
 
           <div className="library-search-bar">
             <div className="library-search-input-wrapper">
-              <i className="fas fa-search library-search-icon"></i>
               <input
                 type="text"
                 className="library-search-input"
@@ -407,6 +443,7 @@ const LibraryBrowserModal = ({
                   <i className="fas fa-times"></i>
                 </button>
               )}
+              <i className="fas fa-search library-search-icon"></i>
             </div>
 
             {/* Primary Category Select */}
@@ -440,7 +477,7 @@ const LibraryBrowserModal = ({
         </div>
         
         {/* Content */}
-        <div className="library-browser-content">
+        <div className={`library-browser-content ${libraryType === LIBRARY_TYPES.SPELLS ? 'spellbook-mode' : ''}`}>
           {isLoading ? (
             <div className="library-loading">
               <i className="fas fa-spinner fa-spin"></i>
@@ -451,9 +488,93 @@ const LibraryBrowserModal = ({
               <i className="fas fa-search"></i>
               <p>No entries match your search criteria. Try adjusting your filters.</p>
             </div>
+          ) : libraryType === LIBRARY_TYPES.SPELLS ? (
+            /* Open 2-Page Grimoire Spell Library Layout */
+            <div className="wow-spellbook-modal-container">
+              <div className="wow-spell-list-container">
+                {paginatedItems.map(item => {
+                  const isSelected = !!selectedItems.find(i => i.id === item.id);
+                  const badgeType = getSpellBadgeType(item);
+
+                  return (
+                    <div
+                      key={item.id}
+                      className={`wow-spell-row ${isSelected ? 'selected' : ''}`}
+                      onClick={() => toggleSelection(item)}
+                    >
+                      <div className="wow-spell-icon">
+                        <img 
+                          src={resolveIcon(item)} 
+                          alt={item.name}
+                          onError={(e) => { 
+                            e.target.src = getIconUrl('Utility/Utility', 'abilities');
+                          }}
+                        />
+                      </div>
+
+                      <div className="wow-spell-info">
+                        <p className="wow-spell-name">{item.name}</p>
+                        <p className="wow-spell-rank" title={item.description}>
+                          {item.description || `${item.className || 'Universal'} ability`}
+                        </p>
+                      </div>
+
+                      <span className={`wow-spell-type ${badgeType.toLowerCase().replace(/\s+/g, '-')}`}>
+                        {badgeType}
+                      </span>
+
+                      {isSelected && (
+                        <div className="wow-spell-check">
+                          <i className="fas fa-check"></i>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+
+                {/* Empty slot placeholders to preserve the 2-page balance */}
+                {Array.from({ length: Math.max(0, itemsPerPage - paginatedItems.length) }).map((_, idx) => (
+                  <div key={`empty-slot-${idx}`} className="wow-spell-row empty" aria-hidden="true">
+                    <div className="wow-empty-icon" />
+                    <div className="wow-empty-name-box" />
+                  </div>
+                ))}
+              </div>
+
+              {/* Book Overlay Navigation: Left arrow on far left, Right arrow + Page info on far right */}
+              {totalPages > 1 && (
+                <>
+                  <button
+                    type="button"
+                    className="wow-overlay-nav-btn wow-overlay-nav-left"
+                    disabled={currentPage <= 1}
+                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                    title="Previous Page"
+                  >
+                    <i className="fas fa-chevron-left"></i>
+                  </button>
+
+                  <div className="wow-overlay-nav-right-group">
+                    <span className="wow-page-info">
+                      Page {currentPage} of {totalPages}
+                    </span>
+                    <button
+                      type="button"
+                      className="wow-overlay-nav-btn wow-overlay-nav-right"
+                      disabled={currentPage >= totalPages}
+                      onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                      title="Next Page"
+                    >
+                      <i className="fas fa-chevron-right"></i>
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
           ) : (
+            /* Standard Grid for Items / Creatures */
             <div className="library-items-grid">
-              {filteredItems.map(item => {
+              {paginatedItems.map(item => {
                 const isSelected = !!selectedItems.find(i => i.id === item.id);
                 return (
                   <div
@@ -505,28 +626,11 @@ const LibraryBrowserModal = ({
                             {item.valueText && <span className="library-item-tag val-tag">{item.valueText}</span>}
                           </>
                         )}
-
-                        {libraryType === LIBRARY_TYPES.SPELLS && (
-                          <>
-                            {item.className && <span className="library-item-tag class-tag">{item.className}</span>}
-                            <span className="library-item-tag school-tag">{item.school}</span>
-                            {item.level !== undefined && (
-                              <span className="library-item-tag lvl-tag">
-                                {item.level === 0 ? 'Cantrip' : `Lvl ${item.level}`}
-                              </span>
-                            )}
-                            {item.resourceCost && (
-                              <span className="library-item-tag cost-tag">
-                                {item.resourceCost.actionPoints || 2} AP {item.resourceCost.mana ? `• ${item.resourceCost.mana} Mana` : ''}
-                              </span>
-                            )}
-                          </>
-                        )}
                       </div>
 
                       {item.description && (
-                        <p className="library-item-desc-snippet">
-                          {item.description.slice(0, 110)}{item.description.length > 110 ? '...' : ''}
+                        <p className="library-item-desc-snippet" title={item.description}>
+                          {item.description.slice(0, 130)}{item.description.length > 130 ? '...' : ''}
                         </p>
                       )}
                     </div>

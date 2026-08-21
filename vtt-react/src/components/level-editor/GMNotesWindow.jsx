@@ -1,3 +1,5 @@
+import { uploadAsset } from '../../services/firebase/uploadService';
+import useAuthStore from '../../store/authStore';
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { Resizable } from 'react-resizable';
@@ -368,25 +370,31 @@ const GMNotesWindow = ({
     const removeItem = (itemId) => pushUpdate({ items: storedItems.filter(id => id !== itemId) });
     const removeCreature = (creatureId) => pushUpdate({ creatures: storedCreatures.filter(id => id !== creatureId) });
 
-    const handleHandoutDrop = (e) => {
+    const handleHandoutDrop = async (e) => {
         e.preventDefault();
         const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-        files.forEach(file => {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const newHandout = {
-                    id: generateId('handout'),
-                    type: 'image',
-                    title: file.name.replace(/\.[^/.]+$/, ''),
-                    content: event.target.result,
-                    createdAt: Date.now()
-                };
-                const updated = [...handouts, newHandout];
-                setHandouts(updated);
-                pushUpdate({ handouts: updated });
-            };
-            reader.readAsDataURL(file);
-        });
+        const user = useAuthStore.getState().user;
+        const currentUserId = user?.uid || (user?.isGuest ? 'guest' : null);
+
+        for (const file of files) {
+            try {
+                const result = await uploadAsset(currentUserId, file, 'lore', { profile: 'DEFAULT' });
+                if (result.success && result.url) {
+                    const newHandout = {
+                        id: generateId('handout'),
+                        type: 'image',
+                        title: file.name.replace(/\.[^/.]+$/, ''),
+                        content: result.url,
+                        createdAt: Date.now()
+                    };
+                    const updated = [...handouts, newHandout];
+                    setHandouts(updated);
+                    pushUpdate({ handouts: updated });
+                }
+            } catch (err) {
+                console.error('Failed to upload handout:', err);
+            }
+        }
     };
 
     const removeHandout = (handoutId) => {

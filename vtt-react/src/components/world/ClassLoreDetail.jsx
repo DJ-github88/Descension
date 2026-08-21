@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import useClassLoreStore from '../../store/classLoreStore';
 import useWorldStore from '../../store/worldStore';
 import { getClassFlavorProfile } from '../../data/classes/classFlavorProfiles';
+import ClassIcon from '../common/ClassIcon';
 import LoreLink from '../common/LoreLink';
 import RichLoreText from '../common/RichLoreText';
 
@@ -187,6 +188,15 @@ const ClassLoreDetail = ({ classId, onClose }) => {
       <div className="world-panel-header">
         <button className="world-back-btn" onClick={onClose}>← Dashboard</button>
         <div className="world-header-identity">
+          <div className="world-class-header-avatar-wrap">
+            <ClassIcon
+              src={`/assets/icons/classes/${cls.id?.toLowerCase()?.replace(/\s+/g, '_')?.replace(/-/g, '_')}.png`}
+              alt={cls.name}
+              size="medium"
+              className="world-class-header-avatar-img"
+              dataClass={cls.name}
+            />
+          </div>
           <div>
             <h2>{cls.name}</h2>
             <span className="world-subtitle">{cls.roleplayIdentity?.title || cls.combatRole?.title || 'Living Class Dossier'}</span>

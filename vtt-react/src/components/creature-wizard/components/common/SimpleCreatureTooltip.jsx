@@ -5,24 +5,54 @@ import '../../../../styles/creature-token.css';
 import '../../../../styles/wow-classic-tooltip.css';
 import './SimpleCreatureTooltip.css';
 
-const formatResistanceValue = (value) => {
-  if (typeof value === 'number') {
-    if (value === -200) return 'Vampiric (Heals 200%)';
-    if (value === -100) return 'Absorbing (Heals 100%)';
-    if (value === -50)  return 'Draining (Heals 50%)';
-    if (value === -25)  return 'Siphoning (Heals 25%)';
-    if (value === 0)   return 'Immune';
-    if (value === 25)  return 'Highly Resistant (25%)';
-    if (value === 50)  return 'Resistant (50%)';
-    if (value === 75)  return 'Guarded (75%)';
-    if (value === 100) return 'Normal';
-    if (value === 125) return 'Susceptible (125%)';
-    if (value === 150) return 'Exposed (150%)';
-    if (value === 200) return 'Vulnerable (200%)';
-    const sign = value >= 0 ? '+' : '';
-    return `${sign}${value}%`;
+export const formatResistanceGrade = (value) => {
+  if (value === null || value === undefined) return null;
+
+  if (typeof value === 'string') {
+    const lower = value.toLowerCase().trim();
+    if (lower === 'vampiric' || lower.includes('heals 2')) return { label: 'Vampiric (Heals 2×)', classType: 'heal-2x' };
+    if (lower === 'absorbing' || lower.includes('heals 1')) return { label: 'Absorbing (Heals 1×)', classType: 'heal-1x' };
+    if (lower === 'draining' || lower.includes('heals 0.5')) return { label: 'Draining (Heals 0.5×)', classType: 'heal-half' };
+    if (lower === 'siphoning' || lower.includes('heals 0.25')) return { label: 'Siphoning (Heals 0.25×)', classType: 'heal-quarter' };
+    if (lower === 'immune' || lower === '0x' || lower === '0%') return { label: 'Immune (0×)', classType: 'immune' };
+    if (lower.includes('highly resistant') || lower.includes('0.25') || lower === '25%') return { label: 'Highly Resistant (0.25×)', classType: 'resist' };
+    if (lower === 'resistant' || lower.includes('0.5') || lower === '50%') return { label: 'Resistant (0.5×)', classType: 'resist' };
+    if (lower === 'guarded' || lower.includes('0.75') || lower === '75%') return { label: 'Guarded (0.75×)', classType: 'guarded' };
+    if (lower === 'normal' || lower === '1x' || lower === '100%') return null; // Normal is omitted!
+    if (lower === 'susceptible' || lower.includes('1.25') || lower === '125%') return { label: 'Susceptible (1.25×)', classType: 'susceptible' };
+    if (lower === 'exposed' || lower.includes('1.5') || lower === '150%') return { label: 'Exposed (1.5×)', classType: 'exposed' };
+    if (lower === 'vulnerable' || lower.includes('2x') || lower === '200%') return { label: 'Vulnerable (2×)', classType: 'vuln' };
+
+    const num = parseFloat(value);
+    if (!isNaN(num)) return formatResistanceGrade(num);
+    return { label: value, classType: 'resist' };
   }
-  return value;
+
+  if (typeof value === 'number') {
+    let percent = value;
+    if (Math.abs(value) <= 5 && value !== 0) {
+      percent = value * 100;
+    }
+
+    if (percent <= -200) return { label: 'Vampiric (Heals 2×)', classType: 'heal-2x' };
+    if (percent <= -100) return { label: 'Absorbing (Heals 1×)', classType: 'heal-1x' };
+    if (percent <= -50)  return { label: 'Draining (Heals 0.5×)', classType: 'heal-half' };
+    if (percent <= -20)  return { label: 'Siphoning (Heals 0.25×)', classType: 'heal-quarter' };
+    if (percent === 0)   return { label: 'Immune (0×)', classType: 'immune' };
+    if (percent <= 25)   return { label: 'Highly Resistant (0.25×)', classType: 'resist' };
+    if (percent <= 50)   return { label: 'Resistant (0.5×)', classType: 'resist' };
+    if (percent <= 75)   return { label: 'Guarded (0.75×)', classType: 'guarded' };
+    if (percent === 100) return null; // Normal is omitted!
+    if (percent <= 125)  return { label: 'Susceptible (1.25×)', classType: 'susceptible' };
+    if (percent <= 150)  return { label: 'Exposed (1.5×)', classType: 'exposed' };
+    if (percent >= 200)  return { label: 'Vulnerable (2×)', classType: 'vuln' };
+
+    const mult = (percent / 100).toFixed(2).replace(/\.00$/, '');
+    if (percent < 100) return { label: `Resistant (${mult}×)`, classType: 'resist' };
+    return { label: `Vulnerable (${mult}×)`, classType: 'vuln' };
+  }
+
+  return null;
 };
 
 const SimpleCreatureTooltip = ({ creature }) => {
@@ -30,8 +60,8 @@ const SimpleCreatureTooltip = ({ creature }) => {
 
   const sizeMapping = getCreatureSizeMapping(creature.size);
 
-  const formatTypeName = (type) => type.charAt(0).toUpperCase() + type.slice(1);
-  const formatSizeName = (size) => size.charAt(0).toUpperCase() + size.slice(1);
+  const formatTypeName = (type) => (type ? type.charAt(0).toUpperCase() + type.slice(1) : 'Unknown');
+  const formatSizeName = (size) => (size ? size.charAt(0).toUpperCase() + size.slice(1) : 'Medium');
 
   const notableAbilities = (creature.abilities || []).slice(0, 2);
 
@@ -78,15 +108,6 @@ const SimpleCreatureTooltip = ({ creature }) => {
     return effects;
   };
 
-  const getResistClass = (value) => {
-    if (typeof value !== 'number') return 'tooltip-resist-item--normal';
-    if (value <= -25) return 'tooltip-resist-item--drain';
-    if (value === 0) return 'tooltip-resist-item--immune';
-    if (value <= 50) return 'tooltip-resist-item--resist';
-    if (value > 100) return 'tooltip-resist-item--vuln';
-    return 'tooltip-resist-item--normal';
-  };
-
   const typeColor = (() => {
     const map = {
       aberration: '#9932CC', beast: '#8B4513', celestial: '#FFD700',
@@ -100,7 +121,16 @@ const SimpleCreatureTooltip = ({ creature }) => {
 
   const hasMana = (creature.stats?.maxMana ?? 0) > 0;
   const hasAP = (creature.stats?.maxActionPoints ?? 0) > 0;
-  const hasResistances = creature.resistances && Object.keys(creature.resistances).length > 0;
+
+  // Filter out any "Normal" resistances so they don't show up!
+  const activeResistances = Object.entries(creature.resistances || {})
+    .map(([type, val]) => {
+      const formatted = formatResistanceGrade(val);
+      return formatted ? { type, ...formatted } : null;
+    })
+    .filter(Boolean);
+
+  const hasResistances = activeResistances.length > 0;
   const hasAbilities = notableAbilities.length > 0;
   const hasLoot = creature.lootTable && (
     (creature.lootTable.currency?.gold?.max > 0) ||
@@ -122,7 +152,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
 
   return (
     <div className="enhanced-creature-tooltip">
-      {/* ── Header ── */}
+      {/* ── Compact Header ── */}
       <div className="creature-tooltip-header">
         <div className="creature-tooltip-avatar-wrapper">
           <div
@@ -142,14 +172,16 @@ const SimpleCreatureTooltip = ({ creature }) => {
             }}
           />
         </div>
-        <div className="creature-tooltip-name">{creature.name}</div>
-        <div className="creature-tooltip-subtitle">
-          <span className="tooltip-type-badge" style={{ backgroundColor: typeColor }}>
-            {formatTypeName(creature.type)}
-          </span>
-          <span className="tooltip-size-text">
-            {formatSizeName(creature.size)} ({sizeMapping.width}x{sizeMapping.height})
-          </span>
+        <div className="creature-tooltip-header-info">
+          <div className="creature-tooltip-name">{creature.name}</div>
+          <div className="creature-tooltip-subtitle">
+            <span className="tooltip-type-badge" style={{ backgroundColor: typeColor }}>
+              {formatTypeName(creature.type)}
+            </span>
+            <span className="tooltip-size-text">
+              {formatSizeName(creature.size)} ({sizeMapping.width}x{sizeMapping.height})
+            </span>
+          </div>
         </div>
       </div>
 
@@ -193,17 +225,17 @@ const SimpleCreatureTooltip = ({ creature }) => {
           )}
         </div>
 
-        {/* Resistances */}
+        {/* Resistances & Vulnerabilities (Only non-normal) */}
         {hasResistances && (
           <>
             <div className="tooltip-section-divider">
-              <span className="tooltip-section-title">Resistances</span>
+              <span className="tooltip-section-title">Resistances & Vulnerabilities</span>
             </div>
             <div className="tooltip-resist-list">
-              {Object.entries(creature.resistances).map(([type, value]) => (
-                <div key={type} className={`tooltip-resist-item ${getResistClass(value)}`}>
+              {activeResistances.map(({ type, label, classType }) => (
+                <div key={type} className={`tooltip-resist-item tooltip-resist-item--${classType}`}>
                   <span className="tooltip-resist-type">{type}</span>
-                  <span>{formatResistanceValue(value)}</span>
+                  <span className="tooltip-resist-grade">{label}</span>
                 </div>
               ))}
             </div>

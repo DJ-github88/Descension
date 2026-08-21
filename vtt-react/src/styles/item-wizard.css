@@ -3491,103 +3491,120 @@ button:disabled {
 
 /* ===== STAT INPUT GROUP STYLING ===== */
 
+.item-wizard-modal .stat-input-group,
 .stat-input-group {
     display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
     align-items: center !important;
-    gap: var(--my-space-1, 4px) !important;
-    background: var(--my-gradient-button) !important;
-    border: 2px solid var(--my-brown-medium) !important;
-    border-radius: 8px !important;
-    padding: var(--my-space-1, 4px) !important;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    background: rgba(255, 255, 255, 0.6) !important;
+    border: 1.5px solid rgba(139, 69, 19, 0.25) !important;
+    border-radius: 6px !important;
+    padding: 4px 6px !important;
+    width: auto !important;
+    box-sizing: border-box !important;
+    box-shadow: inset 0 1px 2px rgba(139, 69, 19, 0.08) !important;
 }
 
+.item-wizard-modal .stat-button,
 .stat-button {
-    background: var(--my-gradient-button) !important;
-    border: 1px solid var(--my-brown-medium) !important;
+    background: #fdfbf7 !important;
+    border: 1.5px solid rgba(139, 69, 19, 0.3) !important;
     border-radius: 4px !important;
-    color: #000000 !important;
-    font-family: var(--my-font-display) !important;
-    font-weight: var(--my-font-bold) !important;
-    font-size: var(--my-text-sm) !important;
+    color: #3b2014 !important;
+    font-family: 'Cinzel', serif !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+    line-height: 1 !important;
     width: 28px !important;
     height: 28px !important;
+    min-width: 28px !important;
+    max-width: 28px !important;
+    flex: 0 0 28px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     cursor: pointer !important;
-    transition: all 0.2s ease !important;
+    transition: all 0.15s ease !important;
     text-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
+.item-wizard-modal .stat-button:hover,
 .stat-button:hover {
-    background: var(--my-gradient-button-hover) !important;
-    color: #000000 !important;
+    background: #ffffff !important;
+    border-color: #8b4513 !important;
+    color: #1a0802 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 2px 4px rgba(139, 69, 19, 0.15) !important;
 }
 
+.item-wizard-modal .stat-button:active,
 .stat-button:active {
     transform: translateY(1px) !important;
-    color: #000000 !important;
 }
 
-.stat-button:hover {
-    background: var(--my-gradient-button-hover) !important;
-    border-color: var(--my-brown-dark) !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-}
-
+.item-wizard-modal .stat-input,
+.item-wizard-modal input.stat-input,
+.item-wizard-modal .stat-input.wow-input,
 .stat-input {
-    background: var(--my-gradient-parchment) !important;
-    border: 1px solid var(--my-brown-light) !important;
+    background: #ffffff !important;
+    border: 1.5px solid rgba(139, 69, 19, 0.25) !important;
     border-radius: 4px !important;
-    color: #000000 !important;
-    font-family: var(--my-font-body) !important;
-    font-size: var(--my-text-sm) !important;
-    font-weight: var(--my-font-semibold) !important;
+    color: #2d1810 !important;
+    font-family: 'Cinzel', serif !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
     text-align: center !important;
-    width: 60px !important;
+    width: 48px !important;
+    min-width: 36px !important;
+    max-width: 60px !important;
     height: 28px !important;
-    padding: 0 var(--my-space-1, 4px) !important;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+    flex: 0 1 48px !important;
+    padding: 0 4px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05) !important;
     transition: all 0.2s ease !important;
 }
 
+.item-wizard-modal .stat-input:focus,
 .stat-input:focus {
     outline: none !important;
-    border-color: var(--my-gold) !important;
-    box-shadow:
-        inset 0 1px 2px rgba(0, 0, 0, 0.1),
-        0 0 0 2px rgba(218, 165, 32, 0.3) !important;
+    border-color: #8b4513 !important;
+    box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.15) !important;
 }
 
+.item-wizard-modal .type-toggle,
 .type-toggle {
-    background: var(--my-gradient-button) !important;
-    border: 1px solid var(--my-brown-medium) !important;
+    background: #fdfbf7 !important;
+    border: 1.5px solid rgba(139, 69, 19, 0.3) !important;
     border-radius: 4px !important;
-    color: #000000 !important;
-    font-family: var(--my-font-display) !important;
-    font-weight: var(--my-font-bold) !important;
-    font-size: var(--my-text-xs) !important;
-    width: 32px !important;
+    color: #6a4020 !important;
+    font-family: 'Cinzel', serif !important;
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    line-height: 1 !important;
+    width: 28px !important;
     height: 28px !important;
+    min-width: 28px !important;
+    max-width: 28px !important;
+    flex: 0 0 28px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     cursor: pointer !important;
-    transition: all 0.2s ease !important;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3) !important;
+    transition: all 0.15s ease !important;
+    text-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
-.type-toggle.active {
-    background: var(--my-gradient-gold) !important;
-    border-color: var(--my-gold-dark) !important;
-    color: var(--my-brown-darkest) !important;
-    box-shadow: 0 0 8px rgba(218, 165, 32, 0.4) !important;
-}
-
+.item-wizard-modal .type-toggle:hover,
 .type-toggle:hover {
-    background: var(--my-gradient-button-hover) !important;
     border-color: var(--my-brown-dark) !important;
     transform: translateY(-1px) !important;
 }
@@ -3699,7 +3716,7 @@ button:disabled {
     }
 
     .stat-input-group {
-        flex-wrap: wrap !important;
+        flex-wrap: nowrap !important;
     }
 }
 
@@ -4710,58 +4727,78 @@ button:disabled {
 }
 
 .damage-type-item {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 10px 12px !important;
+    background: linear-gradient(145deg, #fdfbf7 0%, #f7f2e7 50%, #f3ebdb 100%) !important;
+    border-radius: 8px !important;
+    border: 1.5px solid rgba(139, 69, 19, 0.25) !important;
+    box-shadow: 0 2px 4px rgba(139, 69, 19, 0.08) !important;
+    box-sizing: border-box !important;
 }
 
 .damage-type-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    margin-bottom: 4px !important;
+    width: 100% !important;
 }
 
 .damage-type-icon {
-    width: 24px;
-    height: 24px;
-    border-radius: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 4px !important;
+    border: 1px solid rgba(139, 69, 19, 0.3) !important;
 }
 
 .damage-type-label {
-    font-size: 14px;
-    color: var(--wow-text-color);
+    font-family: 'Cinzel', serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #2d1810 !important;
+    text-shadow: none !important;
+    margin: 0 !important;
 }
 
 .stat-input-group {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    width: auto !important;
 }
 
 .stat-button {
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    color: #000000;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    max-width: 28px !important;
+    flex: 0 0 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #fdfbf7 !important;
+    border: 1.5px solid rgba(139, 69, 19, 0.3) !important;
+    border-radius: 4px !important;
+    color: #3b2014 !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .stat-button:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #000000;
+    background: #ffffff !important;
+    border-color: #8b4513 !important;
+    color: #1a0802 !important;
 }
 
 .stat-input {
@@ -6760,83 +6797,119 @@ h4 {
 }
 
 .damage-type-item {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 10px 12px !important;
+    background: linear-gradient(145deg, #fdfbf7 0%, #f7f2e7 50%, #f3ebdb 100%) !important;
+    border-radius: 8px !important;
+    border: 1.5px solid rgba(139, 69, 19, 0.25) !important;
+    box-shadow: 0 2px 4px rgba(139, 69, 19, 0.08) !important;
+    box-sizing: border-box !important;
 }
 
 .damage-type-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    margin-bottom: 4px !important;
+    width: 100% !important;
 }
 
 .damage-type-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 4px !important;
+    border: 1px solid rgba(139, 69, 19, 0.3) !important;
 }
 
 .damage-type-label {
-    font-size: 16px;
-    font-weight: 500;
-    color: #ffffff;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    font-family: 'Cinzel', serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #2d1810 !important;
+    text-shadow: none !important;
+    margin: 0 !important;
 }
 
 .damage-type-item .stat-input-group {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    width: auto !important;
 }
 
 .damage-type-item .stat-button {
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    color: var(--wow-text-color);
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    max-width: 28px !important;
+    flex: 0 0 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #fdfbf7 !important;
+    border: 1.5px solid rgba(139, 69, 19, 0.3) !important;
+    border-radius: 4px !important;
+    color: #3b2014 !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .damage-type-item .stat-button:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: #ffffff !important;
+    border-color: #8b4513 !important;
+    color: #1a0802 !important;
 }
 
 .damage-type-item .stat-input {
-    width: 60px;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    color: var(--wow-text-color);
-    padding: 4px;
-    font-size: 14px;
+    width: 48px !important;
+    min-width: 36px !important;
+    max-width: 60px !important;
+    height: 28px !important;
+    flex: 0 1 48px !important;
+    text-align: center !important;
+    background: #ffffff !important;
+    border: 1.5px solid rgba(139, 69, 19, 0.25) !important;
+    border-radius: 4px !important;
+    color: #2d1810 !important;
+    font-family: 'Cinzel', serif !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    padding: 0 4px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
 }
 
 .damage-type-item .type-toggle {
-    width: 28px;
-    height: 28px;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    color: #000000;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    max-width: 28px !important;
+    flex: 0 0 28px !important;
+    background: #fdfbf7 !important;
+    border: 1.5px solid rgba(139, 69, 19, 0.3) !important;
+    border-radius: 4px !important;
+    color: #6a4020 !important;
+    font-family: 'Cinzel', serif !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 .damage-type-item .type-toggle.active {

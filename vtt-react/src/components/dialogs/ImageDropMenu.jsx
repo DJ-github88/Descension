@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import useGameStore from '../../store/gameStore';
 import useShareableStore from '../../store/shareableStore';
+import { uploadAsset } from '../../services/firebase/uploadService';
+import useAuthStore from '../../store/authStore';
 import './ImageDropMenu.css';
 
 /**
@@ -53,16 +55,29 @@ const ImageDropMenu = ({
 
   if (!isOpen || !imageData) return null;
 
-  const handleSetAsBackground = () => {
+  const handleSetAsBackground = async () => {
+    let finalUrl = imageData.url;
+    if (imageData.file) {
+      try {
+        const user = useAuthStore.getState().user;
+        const currentUserId = user?.uid || (user?.isGuest ? 'guest' : null);
+        const result = await uploadAsset(currentUserId, imageData.file, 'battlemaps', { profile: 'BATTLEMAP' });
+        if (result.success && result.url) {
+          finalUrl = result.url;
+        }
+      } catch (err) {
+        console.warn('Could not upload dropped background to cloud, using local preview:', err);
+      }
+    }
+
     const backgroundId = addBackground({
-      url: imageData.url,
+      url: finalUrl,
       name: imageData.name || 'Dropped Image',
-      sticksToGrid: true, // Start in manipulation mode
+      sticksToGrid: true,
       scale: 1.0,
       opacity: 1.0
     });
     
-    // Trigger background manipulation mode
     if (onBackgroundSet) {
       onBackgroundSet(backgroundId);
     }

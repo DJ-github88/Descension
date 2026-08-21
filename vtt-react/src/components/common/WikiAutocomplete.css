@@ -1,0 +1,191 @@
+/* ==========================================================================
+   Wiki Autocomplete Popover — Mythrill Dark Fantasy Theme
+   ========================================================================== */
+
+.wiki-autocomplete-popover {
+  position: absolute;
+  z-index: 999999;
+  width: 320px;
+  max-width: 90vw;
+  background: #141721;
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  border-radius: 8px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85), 0 0 16px rgba(212, 175, 55, 0.15);
+  font-family: -apple-system, BlinkMacSystemFont, 'Cinzel', 'Segoe UI', Roboto, sans-serif;
+  color: #e6ded2;
+  overflow: hidden;
+  animation: wikiPopoverFadeIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes wikiPopoverFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.wiki-autocomplete-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: linear-gradient(180deg, rgba(212, 175, 55, 0.15) 0%, rgba(20, 23, 33, 0.95) 100%);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.wiki-autocomplete-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #d4af37;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+}
+
+.wiki-autocomplete-hint {
+  font-size: 10px;
+  color: #888;
+  font-family: monospace;
+}
+
+.wiki-autocomplete-list {
+  max-height: 220px;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.wiki-autocomplete-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.wiki-autocomplete-list::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.3);
+  border-radius: 4px;
+}
+
+.wiki-autocomplete-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  border-left: 2px solid transparent;
+}
+
+.wiki-autocomplete-item:hover,
+.wiki-autocomplete-item.selected {
+  background: rgba(212, 175, 55, 0.14);
+  border-left-color: #d4af37;
+}
+
+.wiki-item-icon {
+  font-size: 14px;
+  width: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.wiki-item-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.wiki-item-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.wiki-item-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #f5eedb;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wiki-item-badge {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.08);
+  color: #c9b084;
+  padding: 1px 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.wiki-item-subtitle {
+  font-size: 10px;
+  color: #999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+.wiki-autocomplete-empty {
+  padding: 12px;
+  text-align: center;
+  font-size: 11px;
+  color: #777;
+  font-style: italic;
+}
+
+.wiki-autocomplete-create-section {
+  padding: 8px 10px;
+  background: rgba(10, 12, 18, 0.85);
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.wiki-create-heading {
+  font-size: 11px;
+  color: #d8cebf;
+  margin-bottom: 6px;
+}
+
+.wiki-create-heading strong {
+  color: #f39c12;
+}
+
+.wiki-create-archetypes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+.wiki-create-arch-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  color: #e0d5c1;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 5px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.wiki-create-arch-btn:hover {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: #d4af37;
+  color: #fff;
+  transform: translateY(-1px);
+}

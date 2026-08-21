@@ -30,6 +30,8 @@ import { getCreatureTokenIconUrl } from '../../utils/assetManager';
 import { calculateEffectiveMovementSpeed } from '../../utils/conditionUtils';
 import { isPointInPolygon, getPolygonBBox } from '../../utils/VisibilityCalculations';
 import CreatureTooltip from '../tooltips/CreatureTooltip';
+import { uploadAsset } from '../../services/firebase/uploadService';
+import useAuthStore from '../../store/authStore';
 
 // Helper function to calculate ability modifier (D&D style)
 
@@ -1425,14 +1427,19 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     setIconScale(100);
   };
 
-  const handleFileUpload = (event) => {
+  const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setNewIconUrl(e.target.result);
-      };
-      reader.readAsDataURL(file);
+      try {
+        const user = useAuthStore.getState().user;
+        const currentUserId = user?.uid || (user?.isGuest ? 'guest' : null);
+        const result = await uploadAsset(currentUserId, file, 'tokens', { profile: 'TOKEN' });
+        if (result.success && result.url) {
+          setNewIconUrl(result.url);
+        }
+      } catch (err) {
+        console.error('Failed to process token upload:', err);
+      }
     }
   };
 

@@ -1,7 +1,7 @@
 // Authentication modal with login/register forms
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useAuthStore from '../../store/authStore';
+import useAuthStore, { isAdminLoginCredentials } from '../../store/authStore';
 import { Analytics } from '../../services/analyticsService';
 import './styles/AuthModal.css';
 
@@ -30,6 +30,14 @@ const AuthModal = ({ isOpen, onClose, onLoginTransition, initialMode = 'login' }
     error,
     clearError
   } = useAuthStore();
+
+  useEffect(() => {
+    if (isOpen) {
+      setMode(initialMode || 'login');
+      clearError();
+      setFriendIdError('');
+    }
+  }, [isOpen, initialMode, clearError]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -73,8 +81,8 @@ const AuthModal = ({ isOpen, onClose, onLoginTransition, initialMode = 'login' }
     e.preventDefault();
 
     // Admin dev-login interception happens first — bypasses email format
-    // validation so "admin" (no @) is accepted as the admin email.
-    if (mode === 'login' && isAdminLoginCredentials(formData.email, formData.password)) {
+    // validation so "admin" (no @) is accepted as the admin email / username.
+    if (isAdminLoginCredentials(formData.email, formData.password)) {
       const result = await signInAsAdmin();
       if (result.success) {
         Analytics.login('admin');
@@ -304,14 +312,15 @@ const AuthModal = ({ isOpen, onClose, onLoginTransition, initialMode = 'login' }
             )}
 
             <div className="form-group">
-              <label htmlFor="email">Email</label>
+              <label htmlFor="email">{mode === 'login' ? 'Email or Username' : 'Email'}</label>
               <input
                 id="email"
                 name="email"
-                type="email"
+                type={mode === 'login' ? 'text' : 'email'}
+                autoComplete={mode === 'login' ? 'username' : 'email'}
                 value={formData.email}
                 onChange={handleInputChange}
-                placeholder="Enter your email"
+                placeholder={mode === 'login' ? 'Enter your email or username' : 'Enter your email'}
                 required
               />
             </div>
@@ -327,7 +336,7 @@ const AuthModal = ({ isOpen, onClose, onLoginTransition, initialMode = 'login' }
                   onChange={handleInputChange}
                   placeholder="Enter your password"
                   required
-                  minLength={6}
+                  minLength={mode === 'register' ? 6 : undefined}
                 />
               </div>
             )}

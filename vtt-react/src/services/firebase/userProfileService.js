@@ -207,44 +207,30 @@ export async function updateUserProfile(userId, updates) {
 }
 
 /**
- * Upload avatar image to Firebase Storage
+ * Upload avatar image to Firebase Storage with WebP conversion and immutable caching
  */
 export async function uploadAvatar(userId, file) {
   try {
-    if (!storage) {
-      throw new Error('Firebase Storage not available');
+    const { uploadAsset } = await import('./uploadService');
+    const result = await uploadAsset(userId, file, 'portraits', {
+      profile: 'PORTRAIT',
+      customMetadata: { avatarFor: userId }
+    });
+
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to upload avatar');
     }
-
-    // Validate file type and size
-    if (!file.type.startsWith('image/')) {
-      throw new Error('File must be an image');
-    }
-
-    if (file.size > 5 * 1024 * 1024) { // 5MB limit
-      throw new Error('File size must be less than 5MB');
-    }
-
-    // Generate unique filename
-    const fileExtension = file.name.split('.').pop();
-    const fileName = `avatar_${userId}_${Date.now()}.${fileExtension}`;
-
-    // Upload to Firebase Storage
-    const storageRef = ref(storage, `avatars/${userId}/${fileName}`);
-    await uploadBytes(storageRef, file);
-
-    // Get download URL
-    const downloadURL = await getDownloadURL(storageRef);
 
     // Update user profile with new avatar
     await updateUserProfile(userId, {
-      avatarUrl: downloadURL,
+      avatarUrl: result.url,
       avatarType: 'uploaded'
     });
 
     return {
       success: true,
-      avatarUrl: downloadURL,
-      fileName
+      avatarUrl: result.url,
+      fileName: result.storagePath
     };
 
   } catch (error) {
@@ -258,21 +244,12 @@ export async function uploadAvatar(userId, file) {
  */
 export async function deleteAvatar(userId, avatarUrl) {
   try {
-    if (!storage || !avatarUrl) {
+    if (!avatarUrl) {
       return { success: false };
     }
 
-    // Extract file path from URL
-    const urlParts = avatarUrl.split('/o/')[1];
-    if (!urlParts) {
-      return { success: false };
-    }
-
-    const filePath = decodeURIComponent(urlParts.split('?')[0]);
-
-    // Delete from Firebase Storage
-    const storageRef = ref(storage, filePath);
-    await deleteObject(storageRef);
+    const { deleteAsset } = await import('./uploadService');
+    await deleteAsset(userId, avatarUrl);
 
     // Update user profile
     await updateUserProfile(userId, {

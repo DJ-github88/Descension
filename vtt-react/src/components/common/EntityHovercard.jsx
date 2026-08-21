@@ -27,17 +27,19 @@ const EntityHovercard = ({ entityName, position, onClose, onAction, onMouseEnter
         type: resolved.type || 'lore',
         subtitle: resolved.subtitle || resolved.category,
         icon: resolved.icon || 'fa-scroll',
-        summary: resolved.summary || 'Entity reference in campaign lore.'
+        summary: resolved.summary || 'Entity reference in campaign lore.',
+        isPhantom: false
       });
       return;
     }
 
     setEntityData({
       name: cleanName,
-      type: 'lore',
-      subtitle: 'World Reference',
-      icon: 'fa-book-sparkles',
-      summary: `Custom lore reference to "${cleanName}".`
+      type: 'phantom',
+      subtitle: 'Undefined Entity (Click to Create)',
+      icon: 'fa-feather-pointed',
+      summary: `"${cleanName}" has not yet been drafted. Click below to create a Note or World Dossier for it.`,
+      isPhantom: true
     });
   }, [entityName]);
 
@@ -177,9 +179,23 @@ const EntityHovercard = ({ entityName, position, onClose, onAction, onMouseEnter
             <i className="fas fa-map-location-dot"></i> Fly to Map
           </button>
         )}
-        <button className="entity-hovercard-btn dossier-btn" onClick={handleOpenDossier} title="View in World Dashboard">
-          <i className="fas fa-book-open"></i> Dossier
-        </button>
+        {entityData.isPhantom ? (
+          <button 
+            className="entity-hovercard-btn create-btn" 
+            style={{ background: 'linear-gradient(135deg, #e67e22 0%, #d35400 100%)', color: '#ffffff', borderColor: '#ba4a00' }}
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent('mythrill_quick_peek', { detail: { name: entityData.name, isPhantom: true } }));
+              if (onClose) onClose();
+            }}
+            title="Create Note or World Dossier for this entity"
+          >
+            <i className="fas fa-plus-circle"></i> Create Entity ↗
+          </button>
+        ) : (
+          <button className="entity-hovercard-btn dossier-btn" onClick={handleOpenDossier} title="View in World Dashboard">
+            <i className="fas fa-book-open"></i> Dossier
+          </button>
+        )}
       </div>
     </div>
   );

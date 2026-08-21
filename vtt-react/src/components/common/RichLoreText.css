@@ -107,6 +107,39 @@
   opacity: 0.9;
 }
 
+/* ── Phantom / Unresolved WikiLinks ── */
+.rich-wikilink.phantom-link {
+  background: rgba(230, 126, 34, 0.12);
+  color: #f39c12;
+  border: 1px dashed rgba(230, 126, 34, 0.6);
+}
+
+.rich-wikilink.phantom-link:hover {
+  background: rgba(230, 126, 34, 0.25);
+  color: #f8c471;
+  border-color: #e67e22;
+  box-shadow: 0 0 10px rgba(230, 126, 34, 0.4);
+}
+
+.rich-wikilink.phantom-link .wikilink-icon {
+  color: #e67e22;
+}
+
+.phantom-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  background: rgba(230, 126, 34, 0.4);
+  color: #fdfefe;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  margin-left: 3px;
+  line-height: 1;
+}
+
 /* ── @Mention Chips ── */
 .rich-mention-chip {
   display: inline-flex;

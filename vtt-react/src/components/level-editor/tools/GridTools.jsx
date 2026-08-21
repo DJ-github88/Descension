@@ -1,3 +1,5 @@
+import { uploadAsset } from '../../../services/firebase/uploadService';
+import useAuthStore from '../../../store/authStore';
 import React, { useState, useEffect } from 'react';
 import useGameStore from '../../../store/gameStore';
 import useLevelEditorStore from '../../../store/levelEditorStore';
@@ -214,7 +216,7 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                 // Compress image before storing (max 1920px width for map backgrounds, quality 0.85)
                 console.log('ðŸ–¼ï¸ Compressing background image... Original size:', (file.size / 1024).toFixed(1), 'KB');
                 const compressedFile = await compressImage(file, 1920, null, 0.85);
-                console.log('ðŸ - œï¸ Image compressed to:', (compressedFile.size / 1024).toFixed(1), 'KB');
+                console.log('ï¿½ - ï¿½ï¸ Image compressed to:', (compressedFile.size / 1024).toFixed(1), 'KB');
 
                 const reader = new FileReader();
                 reader.onloadend = () => {
@@ -392,7 +394,7 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                                             onClick={() => removeBackground(bg.id)}
                                             title="Remove this background"
                                         >
-                                            Ã - 
+                                            ï¿½ - 
                                         </button>
                                     </div>
                                 </div>

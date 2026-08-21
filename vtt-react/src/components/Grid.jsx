@@ -58,6 +58,12 @@ const CharacterTokenPreview = ({ mousePosition, tokenSize }) => {
   if (characterData.lore?.characterImage) {
    return characterData.lore.characterImage;
   }
+  if (characterData.avatarUrl) {
+   return characterData.avatarUrl;
+  }
+  if (characterData.image) {
+   return characterData.image;
+  }
   // Check for characterIcon and convert to URL
   if (characterData.lore?.characterIcon) {
    return getWowIconUrl(characterData.lore.characterIcon);

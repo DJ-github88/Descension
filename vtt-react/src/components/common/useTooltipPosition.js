@@ -1,7 +1,7 @@
 import { useState, useLayoutEffect, useEffect, useRef, useCallback } from 'react';
 
 export const useTooltipPosition = (position, isVisible, options = {}) => {
-  const { offsetX = 16, offsetY = 16, estimateHeight = 160, estimateWidth = 280 } = options;
+  const { offsetX = 16, offsetY = null, estimateHeight = 300, estimateWidth = 300 } = options;
   const [adjustedPosition, setAdjustedPosition] = useState({ x: 0, y: 0 });
   const tooltipRef = useRef(null);
 
@@ -17,35 +17,43 @@ export const useTooltipPosition = (position, isVisible, options = {}) => {
     const tooltipWidth = (rect && rect.width > 0) ? rect.width : estimateWidth;
     const tooltipHeight = (rect && rect.height > 0) ? rect.height : estimateHeight;
 
+    const paddingX = 16;
+    const paddingY = 24;
+
+    // Horizontal placement: right of cursor, or flipped to left if overflow
     let x = position.x + offsetX;
-    let y = position.y + offsetY;
-
-    // Vertical boundary: if placing below cursor extends past bottom of screen,
-    // smoothly clamp so the tooltip bottom sits at viewport bottom (staying right at mouse)
-    if (y + tooltipHeight > viewportHeight - 12) {
-      const clampedY = viewportHeight - tooltipHeight - 12;
-      y = Math.max(12, clampedY);
-    }
-
-    // Safety: ensure top never goes off screen
-    if (y < 12) {
-      y = 12;
-    }
-
-    // Horizontal boundary: if extending past right edge, flip to left of cursor or clamp
-    if (x + tooltipWidth > viewportWidth - 12) {
+    if (x + tooltipWidth > viewportWidth - paddingX) {
       const leftX = position.x - tooltipWidth - offsetX;
-      if (leftX >= 12) {
+      if (leftX >= paddingX) {
         x = leftX;
       } else {
-        x = Math.max(12, viewportWidth - tooltipWidth - 12);
+        x = Math.max(paddingX, viewportWidth - tooltipWidth - paddingX);
+      }
+    }
+    if (x < paddingX) {
+      x = paddingX;
+    }
+
+    // Vertical placement:
+    // If offsetY is explicitly specified, use it; otherwise elevate the tooltip
+    // relative to the mouse so it never trails off the bottom of the screen.
+    let targetY;
+    if (offsetY !== null && offsetY !== undefined) {
+      targetY = position.y + offsetY;
+    } else {
+      const isLowerScreen = position.y > (viewportHeight * 0.45);
+      if (isLowerScreen) {
+        // Position upward from cursor so bottom is near cursor level
+        targetY = position.y - (tooltipHeight * 0.75);
+      } else {
+        // In upper screen, keep slightly elevated near cursor
+        targetY = position.y - Math.min(40, tooltipHeight * 0.25);
       }
     }
 
-    // Safety: ensure left never goes off screen
-    if (x < 12) {
-      x = 12;
-    }
+    // Clamp within viewport boundaries with safety padding
+    const maxY = Math.max(paddingY, viewportHeight - tooltipHeight - paddingY);
+    const y = Math.max(paddingY, Math.min(targetY, maxY));
 
     setAdjustedPosition({ x, y });
   }, [position, isVisible, offsetX, offsetY, estimateHeight, estimateWidth]);

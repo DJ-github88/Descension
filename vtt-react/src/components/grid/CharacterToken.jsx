@@ -562,6 +562,12 @@ const CharacterToken = ({
     if (characterData.lore?.characterImage) {
       return characterData.lore.characterImage;
     }
+    if (characterData.avatarUrl) {
+      return characterData.avatarUrl;
+    }
+    if (characterData.image) {
+      return characterData.image;
+    }
     // Resolve workshop icon via the SAME helper the PartyHUD/TargetHUD use: the old
     // hardcoded wow.zamimg.com URL was always broken, so icon-based portraits rendered blank.
     if (characterData.lore?.characterIcon) {

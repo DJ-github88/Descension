@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { ALL_CLASSES_DATA } from '../../data/classes';
 import LoreLink from '../common/LoreLink';
+import ClassIcon from '../common/ClassIcon';
 import { autoLinkTerminology } from '../../utils/loreAutoLinker';
 import './ClassDetailDisplay.css'; // exploit existing parchment and detail styles
 import './ClassOriginsDisplay.css'; // Add specialized styles for origins and tabs
@@ -695,7 +696,13 @@ const ClassOriginsDisplay = () => {
        <div className="co-header-row" onClick={() => { if (cls.id === 'crusader') return; handleClassCardClick(cls.id); }}>
         <div className="co-header-left">
          <div className="co-class-icon" style={{ color: accent }}>
-          <i className={cls.icon}></i>
+          <ClassIcon
+            src={`/assets/icons/classes/${cls.id}.png`}
+            alt={cls.name}
+            size="tiny"
+            className="co-class-avatar-img"
+            dataClass={cls.name}
+          />
          </div>
          <div className="co-class-title">
           <h4>{cls.name}</h4>

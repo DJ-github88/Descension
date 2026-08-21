@@ -1,3 +1,5 @@
+import { uploadAsset } from '../../services/firebase/uploadService';
+import useAuthStore from '../../store/authStore';
 import React, { useMemo, useState, useRef } from 'react';
 import RichLoreText from '../common/RichLoreText';
 import './LoreSidebar.css';
@@ -115,18 +117,20 @@ const CustomZoneSidebar = ({
     }, 10);
   };
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const dataUrl = event.target.result;
-      if (onUpdateZone) {
-        onUpdateZone(zone.id, { image: dataUrl, imageUrl: dataUrl });
+    try {
+      const user = useAuthStore.getState().user;
+      const currentUserId = user?.uid || (user?.isGuest ? 'guest' : null);
+      const result = await uploadAsset(currentUserId, file, 'custom-maps', { profile: 'DEFAULT' });
+      if (result.success && result.url && onUpdateZone) {
+        onUpdateZone(zone.id, { image: result.url, imageUrl: result.url });
       }
-    };
-    reader.readAsDataURL(file);
+    } catch (err) {
+      console.error('Failed to upload zone image:', err);
+    }
   };
 
   const campaignData = currentCampaign?.campaignData || currentCampaign || {};

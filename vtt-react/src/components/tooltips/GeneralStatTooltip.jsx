@@ -557,6 +557,10 @@ const GeneralStatTooltip = ({
   const buildCalculationBreakdown = () => {
     // If an explicit precomputed breakdown object is provided, use it
     if (breakdown) {
+      if (breakdown.customCalculation) {
+        return breakdown.customCalculation;
+      }
+
       const parts = [];
       if (breakdown.baseLabel || breakdown.baseValue !== undefined) {
         parts.push(`${breakdown.baseLabel || Math.round(breakdown.baseValue)} (base)`);
@@ -579,7 +583,8 @@ const GeneralStatTooltip = ({
       if (breakdown.exhaustionEffect) {
         parts.push(`[${breakdown.exhaustionEffect}]`);
       }
-      return `${parts.join(' ')} = ${breakdown.finalValue !== undefined ? breakdown.finalValue : value}`;
+      if (parts.length === 0) return null;
+      return `${parts.join(' ')} = ${breakdown.finalValue !== undefined ? breakdown.finalValue : (displayValue || value)}`;
     }
 
     if (baseValue === undefined || value === undefined || typeof value !== 'number') return null;
@@ -677,53 +682,48 @@ const GeneralStatTooltip = ({
       });
     }
 
-    const calculatedTotal = Math.round(baseValue) +
-      Math.round(racialBonus || 0) +
-      Math.round(levelUpBonus || 0) +
-      Math.round(equipmentValue) +
-      Math.round(encumbranceEffect || 0) +
-      Math.round(buffEffect || 0) +
-      Math.round(debuffEffect || 0) +
-      Math.round(conditionEffect || 0) +
-      Math.round(passiveContribution);
-
     const actualValue = Math.round(value);
-
-    if (Math.abs(calculatedTotal - actualValue) < 0.01) {
-      return `${parts.join(' ')} = ${actualValue}`;
-    } else {
-      return `${parts.join(' ')} = ${actualValue}`;
-    }
+    return `${parts.join(' ')} = ${actualValue}`;
   };
+
+  const calculationBreakdown = buildCalculationBreakdown();
 
   return (
     <>
       <div className="equipment-slot-name">
         {info?.title || stat}
       </div>
-      {value !== undefined && !displayValue && (
+      {breakdown?.finalValue !== undefined ? (
+        <div className="equipment-slot-description">
+          Current Value: {typeof breakdown.finalValue === 'string' ? breakdown.finalValue : Math.round(breakdown.finalValue)}
+        </div>
+      ) : displayValue !== undefined ? (
+        <div className="equipment-slot-description">
+          Current Value: {displayValue}
+        </div>
+      ) : value !== undefined ? (
         <div className="equipment-slot-description">
           Current Value: {typeof value === 'string' ? value : Math.round(value)}
         </div>
-      )}
-      {displayValue && (
-        <div className="equipment-slot-description">
-          Current: {displayValue}
-        </div>
-      )}
+      ) : null}
       {description && (
         <div className="equipment-slot-description">
           {description}
         </div>
       )}
-      {info?.effects?.map((effect, index) => (
+      {breakdown?.details && breakdown.details.map((detail, index) => (
+        <div key={`breakdown-detail-${index}`} className="equipment-slot-description">
+          • {detail}
+        </div>
+      ))}
+      {!breakdown?.details && info?.effects?.map((effect, index) => (
         <div key={index} className="equipment-slot-description">
           • {effect}
         </div>
       ))}
-      {baseValue !== undefined && value !== undefined && typeof value === 'number' && (
-        <div className="equipment-slot-description">
-          <strong>Calculation:</strong> {buildCalculationBreakdown()}
+      {calculationBreakdown && (
+        <div className="equipment-slot-description" style={{ marginTop: '6px' }}>
+          <strong>Calculation:</strong> {calculationBreakdown}
         </div>
       )}
     </>

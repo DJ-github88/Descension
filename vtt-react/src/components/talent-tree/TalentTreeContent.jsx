@@ -180,18 +180,18 @@ export const TalentTreeContent = ({
         setTalents(useCharacterStore.getState().talents || {});
     }, [currentCharacterId]);
 
-    // Responsive container sizing to fit 100% without scrollbars
+    // Responsive container sizing for smooth scrolling tree board
     useEffect(() => {
         const updateDims = () => {
             if (boardRef.current) {
-                const rect = boardRef.current.getBoundingClientRect();
-                const parentRect = boardRef.current.parentElement?.getBoundingClientRect();
-                const availableW = parentRect?.width && parentRect.width > 100 ? parentRect.width - 54 : (rect.width > 100 ? rect.width : 460);
-                const availableH = parentRect?.height && parentRect.height > 100 ? parentRect.height - 24 : (rect.height > 100 ? rect.height : 540);
+                const scrollParent = boardRef.current.closest('.talent-tree-scroll-container') || boardRef.current.parentElement;
+                const parentRect = scrollParent?.getBoundingClientRect();
+                const availableW = parentRect?.width && parentRect.width > 100 ? parentRect.width - 54 : 440;
+                const availableH = parentRect?.height && parentRect.height > 100 ? parentRect.height - 24 : 540;
 
                 setGridDims({
-                    width: Math.max(340, availableW),
-                    height: Math.max(480, availableH)
+                    width: Math.max(320, availableW),
+                    height: Math.max(300, availableH)
                 });
             }
         };
@@ -201,8 +201,9 @@ export const TalentTreeContent = ({
         if (typeof ResizeObserver !== 'undefined' && boardRef.current) {
             ro = new ResizeObserver(updateDims);
             ro.observe(boardRef.current);
-            if (boardRef.current.parentElement) {
-                ro.observe(boardRef.current.parentElement);
+            const parent = boardRef.current.parentElement;
+            if (parent) {
+                ro.observe(parent);
             }
         } else {
             window.addEventListener('resize', updateDims);
@@ -395,15 +396,12 @@ export const TalentTreeContent = ({
     const inspectedCanUnlearn = inspectedTalent ? canUnlearnTalent(inspectedTalent.id) : false;
 
     const spentInActiveTree = currentTree?.talents?.reduce((sum, t) => sum + (talents[t.id] || 0), 0) || 0;
-
-    // Grid math for zero-scroll auto-fit with enlarged talent blocks
     const cellWidth = gridDims.width / GRID_COLS;
-    const cellHeight = gridDims.height / GRID_ROWS;
-    const talentSize = Math.min(Math.max(46, Math.min(cellWidth * 0.72, cellHeight * 0.78)), 76);
+    const cellHeight = Math.max(76, Math.floor(gridDims.height / GRID_ROWS));
+    const talentSize = Math.min(Math.max(48, Math.min(cellWidth * 0.72, cellHeight * 0.76)), 74);
 
     return (
         <div className="talent-tree-content-root">
-            {/* Top Sub-Header: Ornate Specialization Crest & Grimoire Lore Plaque */}
             <div className="talent-tree-top-bar">
                 <div className="talent-tree-header-left">
                     {activeTree < trees.length ? (
@@ -452,51 +450,45 @@ export const TalentTreeContent = ({
 
                 <div className="talent-stats-bar">
                     <div className="talent-points-badge">
-                        <span className="points-label">Talent Points:</span>
+                        <span>Talent Points:</span>
                         <span className="points-val">{pointsSpent}</span>
                         <span>/</span>
                         <span className="points-avail">{availablePoints}</span>
-                        <span className="points-remaining-tag">
-                            {pointsRemaining > 0 ? `(${pointsRemaining} Left)` : '(0 Left)'}
-                        </span>
+                        <span className="points-remaining-tag">({pointsRemaining} Left)</span>
                     </div>
-                    <button className="talent-reset-btn" onClick={resetTalents} title="Refund all talent points in this character">
+                    <button type="button" className="talent-reset-btn" onClick={resetTalents} title="Refund all talent points in this character">
                         Reset All
                     </button>
                 </div>
             </div>
 
-            {/* Main Content Area: Split 2-Page Book Canvas OR Summary */}
             {activeTree === trees.length ? (
-                <div className="talent-summary-view">
-                    <div className="talent-summary-header">
-                        <h2>Chronicled Talents & Masteries</h2>
-                        <p>All active spells, stances, and martial techniques acquired across your class specialization trees.</p>
-                    </div>
+                <div className="talent-summary-view-wrapper">
+                    <div className="talent-summary-scroll-content">
+                        <div className="talent-summary-heading-box">
+                            <i className="fas fa-scroll"></i>
+                            <h3>Chronicled Talents & Masteries</h3>
+                            <p>Herein lies the complete record of abilities unlocked through your progression.</p>
+                        </div>
 
-                    <div className="talent-summary-grid">
-                        {trees.map(tree => {
-                            const learned = tree.talents.filter(t => (talents[t.id] || 0) > 0);
-                            const spent = tree.talents.reduce((sum, t) => sum + (talents[t.id] || 0), 0);
-
+                        {trees.map((tree, tIdx) => {
+                            const learned = (tree.talents || []).filter(t => (talents[t.id] || 0) > 0);
                             return (
-                                <div key={tree.id} className="talent-summary-tree-card">
-                                    <div className="talent-summary-card-header">
+                                <div key={tree.id || tIdx} className="talent-summary-tree-section">
+                                    <div className="talent-summary-tree-header">
                                         <img
                                             src={getIconUrl(tree.icon, 'abilities')}
-                                            alt=""
-                                            className="talent-summary-card-icon"
+                                            alt={tree.name}
+                                            className="talent-summary-tree-icon"
                                             onError={(e) => { e.target.src = getIconUrl('Utility/Utility', 'abilities'); }}
                                         />
-                                        <div className="talent-summary-card-titles">
-                                            <h3>{tree.name}</h3>
-                                            <span>{spent} points invested</span>
-                                        </div>
+                                        <h4>{tree.name}</h4>
+                                        <span className="talent-summary-count-tag">{learned.length} Talents Learned</span>
                                     </div>
 
                                     {learned.length === 0 ? (
-                                        <div className="talent-summary-empty-branch">
-                                            <em>No talents invested in this specialization yet.</em>
+                                        <div className="talent-summary-empty-msg">
+                                            No talent points invested in this specialization yet.
                                         </div>
                                     ) : (
                                         <div className="talent-summary-items-list">
@@ -533,7 +525,6 @@ export const TalentTreeContent = ({
                 </div>
             ) : (
                 <div className="talent-split-book-layout">
-                    {/* Left Page: Branching Tree Grid Canvas */}
                     <div className="talent-tree-page-canvas">
                         <div
                             className="talent-backdrop-layer"
@@ -542,90 +533,93 @@ export const TalentTreeContent = ({
                             }}
                         />
 
-                        {/* Tier Rail Indicators */}
-                        <div className="talent-tier-rail">
-                            {[0, 1, 2, 3, 4, 5, 6].map(tIdx => (
-                                <div
-                                    key={tIdx}
-                                    className="talent-tier-label"
-                                    style={{
-                                        position: 'absolute',
-                                        top: `${tIdx * cellHeight + cellHeight / 2}px`,
-                                        transform: 'translateY(-50%)'
-                                    }}
-                                >
-                                    T{tIdx + 1}
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Centered Tree Grid Board */}
-                        <div ref={boardRef} className="talent-grid-board">
-                            {/* SVG Prerequisite Connectors */}
-                            <TalentArrowRenderer
-                                talents={currentTree?.talents || []}
-                                learnedTalents={talents}
-                                cellWidth={cellWidth}
-                                cellHeight={cellHeight}
-                                talentSize={talentSize}
-                            />
-
-                            {/* Nodes */}
-                            {(currentTree?.talents || []).map(talent => {
-                                const curRanks = talents[talent.id] || 0;
-                                const isMaxed = curRanks >= (talent.maxRanks || 1);
-                                const canLearn = canLearnTalent(talent);
-                                const isLearnable = canLearn && !isMaxed;
-                                const isSelected = inspectedTalent?.id === talent.id;
-
-                                const posX = (talent.position?.x ?? 0) * cellWidth + cellWidth / 2;
-                                const posY = (talent.position?.y ?? 0) * cellHeight + cellHeight / 2;
-
-                                return (
+                        <div className="talent-tree-scroll-container">
+                            <div className="talent-tier-rail" style={{ height: `${GRID_ROWS * cellHeight}px` }}>
+                                {[0, 1, 2, 3, 4, 5, 6].map(tIdx => (
                                     <div
-                                        key={talent.id}
-                                        className="talent-node-cell"
+                                        key={tIdx}
+                                        className="talent-tier-label"
                                         style={{
-                                            left: `${posX}px`,
-                                            top: `${posY}px`,
-                                            width: `${talentSize}px`,
-                                            height: `${talentSize}px`
+                                            position: 'absolute',
+                                            top: `${tIdx * cellHeight + cellHeight / 2}px`,
+                                            transform: 'translateY(-50%)'
                                         }}
                                     >
+                                        T{tIdx + 1}
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div
+                                ref={boardRef}
+                                className="talent-grid-board"
+                                style={{
+                                    height: `${GRID_ROWS * cellHeight}px`,
+                                    minHeight: `${GRID_ROWS * cellHeight}px`
+                                }}
+                            >
+                                <TalentArrowRenderer
+                                    talents={currentTree?.talents || []}
+                                    learnedTalents={talents}
+                                    cellWidth={cellWidth}
+                                    cellHeight={cellHeight}
+                                    talentSize={talentSize}
+                                />
+
+                                {(currentTree?.talents || []).map(talent => {
+                                    const curRanks = talents[talent.id] || 0;
+                                    const isMaxed = curRanks >= (talent.maxRanks || 1);
+                                    const canLearn = canLearnTalent(talent);
+                                    const isLearnable = canLearn && !isMaxed;
+                                    const isSelected = inspectedTalent?.id === talent.id;
+
+                                    const posX = (talent.position?.x ?? 0) * cellWidth + cellWidth / 2;
+                                    const posY = (talent.position?.y ?? 0) * cellHeight + cellHeight / 2;
+
+                                    return (
                                         <div
-                                            className={`talent-node-button ${curRanks > 0 ? 'learned' : ''} ${isLearnable ? 'learnable' : ''} ${isMaxed ? 'maxed' : ''} ${!canLearn && curRanks === 0 ? 'locked' : ''} ${isSelected ? 'selected' : ''}`}
-                                            style={{ width: `${talentSize}px`, height: `${talentSize}px` }}
-                                            onClick={() => handleTalentClick(talent.id, talent)}
-                                            onContextMenu={(e) => handleTalentRightClick(e, talent.id, talent)}
-                                            onMouseEnter={() => handleMouseEnter(talent)}
-                                            onMouseLeave={handleMouseLeave}
+                                            key={talent.id}
+                                            className="talent-node-cell"
+                                            style={{
+                                                left: `${posX}px`,
+                                                top: `${posY}px`,
+                                                width: `${talentSize}px`,
+                                                height: `${talentSize}px`
+                                            }}
                                         >
-                                            <div className="talent-node-icon-box">
-                                                <img
-                                                    src={getIconUrl(talent.icon, 'abilities')}
-                                                    alt={talent.name}
-                                                    className="talent-node-img"
-                                                    onError={(e) => { e.target.src = getIconUrl('Utility/Utility', 'abilities'); }}
-                                                />
-                                            </div>
-                                            <div className="talent-node-rank-badge">
-                                                {curRanks}/{talent.maxRanks || 1}
+                                            <div
+                                                className={`talent-node-button ${curRanks > 0 ? 'learned' : ''} ${isLearnable ? 'learnable' : ''} ${isMaxed ? 'maxed' : ''} ${!canLearn && curRanks === 0 ? 'locked' : ''} ${isSelected ? 'selected' : ''}`}
+                                                style={{ width: `${talentSize}px`, height: `${talentSize}px` }}
+                                                onClick={() => handleTalentClick(talent.id, talent)}
+                                                onContextMenu={(e) => handleTalentRightClick(e, talent.id, talent)}
+                                                onMouseEnter={() => handleMouseEnter(talent)}
+                                                onMouseLeave={handleMouseLeave}
+                                            >
+                                                <div className="talent-node-icon-box">
+                                                    <img
+                                                        src={getIconUrl(talent.icon, 'abilities')}
+                                                        alt={talent.name}
+                                                        className="talent-node-img"
+                                                        onError={(e) => { e.target.src = getIconUrl('Utility/Utility', 'abilities'); }}
+                                                    />
+                                                </div>
+                                                <div className="talent-node-rank-badge">
+                                                    {curRanks}/{talent.maxRanks || 1}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                );
-                            })}
+                                    );
+                                })}
+                            </div>
                         </div>
                     </div>
 
-                    {/* Book Spine Divider */}
                     <div className="talent-book-spine-divider">
                         <div className="talent-spine-stitch"></div>
                         <div className="talent-spine-stitch"></div>
                         <div className="talent-spine-stitch"></div>
                     </div>
 
-                    {/* Right Page: Talent Codex & Inspection Panel */}
                     <div className="talent-inspector-page">
                         {inspectedTalent ? (
                             <div className="talent-inspector-card">
