@@ -195,203 +195,6 @@ export const ZONE_DATA = [
     "wyrdCreatures": []
   },
   {
-    "id": "frozen-archive",
-    "regionId": "nordhalla",
-    "name": "The Frozen Archive",
-    "type": "tomb",
-    "description": "A subterranean cathedral of blue ice and basalt, carved deep beneath the Nordhalla glaciers. It serves as the ultimate resting place for the Skald clans, who chisel their ancestors' histories into glacier walls so they will be preserved forever in stasis. The Archive predates the Freezing Era, a dead civilization's flash-frozen capital discovered and repurposed after the Glacier Bargain, just after the Great Binding. The Augurs have recorded every pulse from this site since the Shattering.",
-    "dangerLevel": "medium",
-    "factions": [
-      "house-skalvyr",
-      "Skald Keepers"
-    ],
-    "connections": [
-      "fjord-gate",
-      "rimors-hearth",
-      "vargtor"
-    ],
-    "wyrdCreatures": [
-      "Stel"
-    ],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "bloodhammer-sump",
-    "regionId": "nordhalla",
-    "name": "Bloodhammer Sump",
-    "type": "settlement",
-    "description": "A deep, steam-venting volcanic crater that serves as the industrial heart of Nordhalla. Surrounded by towering walls of ice, the geothermal heat is channeled into massive iron smelters where the Berserkers forge their runic cold-iron axes.",
-    "dangerLevel": "medium",
-    "factions": [
-      "Bloodhammer Clan",
-      "house-skalvyr"
-    ],
-    "connections": [
-      "fjord-gate",
-      "hunger-glaciers"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "fjord-gate",
-    "regionId": "nordhalla",
-    "name": "Fjord-Gate",
-    "type": "settlement",
-    "description": "A massive coastal harbor nestled inside a deep black fjord, guarded by towering stone doors that slide shut to block sea-storms. It is the primary trade hub of the north, linking Nordhalla to the Iceheart Sea.",
-    "dangerLevel": "low",
-    "factions": [
-      "house-skalvyr",
-      "Sea-Guard"
-    ],
-    "connections": [
-      "frozen-archive",
-      "bloodhammer-sump",
-      "vargtor",
-      "rooks-promontory"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "hunger-glaciers",
-    "regionId": "nordhalla",
-    "name": "Hunger Glaciers",
-    "type": "wilderness",
-    "description": "A vast, shifting expanse of pure whiteout and deadly crevasses. The wind here carries a predatory howl, and travelers swear the ice moves intentionally, seeking to trap caravans and freeze them into permanent monuments.",
-    "dangerLevel": "extreme",
-    "factions": [
-      "Endurance Purists"
-    ],
-    "connections": [
-      "bloodhammer-sump",
-      "rimors-hearth"
-    ],
-    "wyrdCreatures": [
-      "Stel",
-      "Glacier Wyrm"
-    ],
-    "subregionId": "nordhalla-frostfang-wastes"
-  },
-  {
-    "id": "rimors-hearth",
-    "regionId": "nordhalla",
-    "name": "Rimor's Hearth",
-    "type": "ruin",
-    "description": "The volcanic ruins of a great mountain keep that was buried by a sudden glacier advance during the first century. A few steam vents still keep the black basalt ruins warm, attracting smugglers and freezing travelers seeking temporary shelter.",
-    "dangerLevel": "high",
-    "factions": [
-      "Fjords-Riders"
-    ],
-    "connections": [
-      "frozen-archive",
-      "hunger-glaciers"
-    ],
-    "wyrdCreatures": [
-      "Stel"
-    ],
-    "subregionId": "nordhalla-frostfang-wastes"
-  },
-  {
-    "id": "skadis-col",
-    "regionId": "nordhalla",
-    "name": "Skadi's Col",
-    "type": "wilderness",
-    "description": "A treacherous mountain pass between two glacier-capped peaks, named for the frost giant of Skald legend. The wind through the col is so violent it can strip flesh from bone in minutes. Cairns of frozen corpses mark the safest path, their expressions preserved in perfect, screaming clarity.",
-    "dangerLevel": "extreme",
-    "factions": [
-      "Skald Ice-Trackers"
-    ],
-    "connections": [
-      "hunger-glaciers",
-      "vargtor",
-      "frostholm"
-    ],
-    "wyrdCreatures": [
-      "Stel",
-      "Skrei"
-    ],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "vargtor",
-    "regionId": "nordhalla",
-    "name": "Vargtor",
-    "type": "settlement",
-    "description": "A watchtower settlement built atop a rocky tor that rises above the glacier line. The Skald garrison here watches for Corvani movements and glacier wyrms. Wolves gather at the tor's base in winter, the Skald believe they are the spirits of dead trackers returning to the watch.",
-    "dangerLevel": "medium",
-    "factions": [
-      "Skald Keepers",
-      "Fjords-Riders"
-    ],
-    "connections": [
-      "skadis-col",
-      "the-still-crag",
-      "frozen-archive",
-      "fjord-gate"
-    ],
-    "wyrdCreatures": [
-      "Kjarn"
-    ],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "the-still-crag",
-    "regionId": "nordhalla",
-    "name": "Þögn",
-    "type": "wilderness",
-    "description": "A cliff face perpetually frozen in rime where no wind blows and no sound carries. The Rime-Born claim the cliff is where Keth-Amar's breath touched the mountain during the Glacier Bargain. Ice sculptures of unknown figures stand frozen in attitudes of supplication along the cliff face, no one knows who carved them or who they depict.",
-    "dangerLevel": "high",
-    "factions": [
-      "Rime-Born Rune Keepers"
-    ],
-    "connections": [
-      "rooks-promontory",
-      "frostholm"
-    ],
-    "wyrdCreatures": [
-      "Huld",
-      "Skrei"
-    ],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "rooks-promontory",
-    "regionId": "nordhalla",
-    "name": "Rook's Promontory",
-    "type": "wilderness",
-    "description": "A high cliff jutting over the frozen sea where the Corvani gather in vast, dark congregations. Ravens circle the promontory at all hours, and the Corvani interpret their flight patterns as prophecies. The cliff stone is black and glassy, obsidian formed by ancient volcanic activity, now sheathed in centuries of rime.",
-    "dangerLevel": "high",
-    "factions": [
-      "Corvani Flock"
-    ],
-    "connections": [
-      "the-still-crag",
-      "fjord-gate"
-    ],
-    "wyrdCreatures": [
-      "Jawl"
-    ],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "vesperas-perch",
-    "regionId": "nordhalla",
-    "name": "Vespera's Perch",
-    "type": "settlement",
-    "description": "A Corvani cliff-settlement built into the high caves of the eastern mountains, named for the Corvani matriarch Vespera. The dwellings are inaccessible from the ground, reachable only by rope-ladders and gliding on fixed lines. The Corvani here trade raven-feather cloaks and storm-predictions with the Skald.",
-    "dangerLevel": "medium",
-    "factions": [
-      "Corvani Flock"
-    ],
-    "connections": [
-      "rooks-promontory",
-      "bloodhammer-sump"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
     "id": "frostmaw-holdfast",
     "regionId": "cragjaw-peaks",
     "name": "Frostmaw Holdfast",
@@ -1476,90 +1279,6 @@ export const ZONE_DATA = [
       "Mist-Shark"
     ]
   },
-  
-  {
-    "id": "bearsbeards-beak",
-    "regionId": "nordhalla",
-    "name": "Bearsbeard's Beak",
-    "type": "wilderness",
-    "description": "The highest peak in Nordhalla, a granite tooth that splits the sky above Frosthold Citadel. The Skald say the mountain is the petrified corpse of a great bear that challenged the sun before Sol was bound. The climb is sacred; only the most pure-tested may attempt it. Avalanches are common; the bodies of those who fail are never recovered.",
-    "dangerLevel": "extreme",
-    "factions": [],
-    "connections": [
-      "frostholm",
-      "skadis-col"
-    ],
-    "wyrdCreatures": [
-      "Jutul-king"
-    ],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "xardins-hearth",
-    "regionId": "nordhalla",
-    "name": "Xardin's Hearth",
-    "type": "port",
-    "description": "Eastern port built around a volcanic vent. Xardin's Trading Co. runs smuggling operations, while the Sorte Market (fexric slave trade) operates from back alleys.",
-    "dangerLevel": "medium",
-    "factions": [
-      "xardins-trading-co",
-      "house-skalvyr",
-      "sorte-market"
-    ],
-    "connections": [
-      "ember-tide-way",
-      "ulvard",
-      "midhofn"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-glacier-heart"
-  },
-  {
-    "id": "eldonholm",
-    "regionId": "nordhalla",
-    "name": "Frostflow (Eldonholm)",
-    "type": "settlement",
-    "description": "Pure-blooded Skald fishing town holding the Eldon-Stone, which records every chieftain since the Great Binding.",
-    "dangerLevel": "low",
-    "factions": [
-      "skald-traditionalists"
-    ],
-    "connections": [
-      "fjord-gate"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "spars-folly",
-    "regionId": "nordhalla",
-    "name": "The Spar's Folly",
-    "type": "ruin",
-    "description": "The half-built bones of a great sea-wall on the southern coast, abandoned when the Icechamber Syndicate ran out of stone and the ice-flows returned. The Skald say a syndicate-master wagered his daughter that the wall would tame the sea. He lost. The wall stands unfinished, a black-granite skeleton pointing at the open water, the names of its dead stonemasons still carved into the foundation stones.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "xardins-hearth"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-frostfang-wastes"
-  },
-  {
-    "id": "southern-shore-smugglers-cove",
-    "regionId": "nordhalla",
-    "name": "Smuggler's Cove",
-    "type": "settlement",
-    "description": "A hidden inlet on the southern shore, just south of Xardin's Hearth. The Fredl�se clans use it to slip past the Icechamber Syndicate's patrol-ships. There is no permanent town, only shacks built into the cliff, rebuilt each year after the winter storms wash them away. The captain who runs it changes names every season.",
-    "dangerLevel": "medium",
-    "factions": [
-      "Fredl�se clans"
-    ],
-    "connections": [
-      "xardins-hearth"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-frostfang-wastes"
-  },
   {
     "id": "konjaw-port",
     "regionId": "sundale",
@@ -2470,174 +2189,6 @@ export const ZONE_DATA = [
       "the-shifting-fen"
     ],
     "wyrdCreatures": []
-  },
-  {
-    "id": "frost-tithe-cradle-camp",
-    "regionId": "nordhalla",
-    "name": "Frost-Tithe Cradle-Camp",
-    "type": "settlement",
-    "description": "A grief-camp of Ice-Cradles where Rime-Born mothers birth under the open sky, paying warmth to Keth-Amar's debt.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "frozen-archive"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "ravencall-eyrie",
-    "regionId": "nordhalla",
-    "name": "Ravencall Eyrie",
-    "type": "settlement",
-    "description": "A Corvani cliff-settlement of rope-ladders and murmuring ravens; messengers depart reading fate in flight.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "the-still-crag"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "glacier-song-hermitage",
-    "regionId": "nordhalla",
-    "name": "Glacier-Song Hermitage",
-    "type": "settlement",
-    "description": "A lone Rune Keeper outpost where the audible moan of the glacier is transcribed as augury.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "hunger-glaciers"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "mute-hearth-ruin",
-    "regionId": "nordhalla",
-    "name": "The Mute-Hearth",
-    "type": "ruin",
-    "description": "A ruined keep stubbornly warm from a single surviving steam vent; trappers shelter here but never speak its name.",
-    "dangerLevel": "medium",
-    "factions": [],
-    "connections": [
-      "rimors-hearth"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-frostfang-wastes"
-  },
-  {
-    "id": "cracked-cyst",
-    "regionId": "nordhalla",
-    "name": "The Cracked-Cyst",
-    "type": "wilderness",
-    "description": "A glacier split where blue light pulses beneath the ice — the Ice-Crown Monolith's distant glow.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "skadis-col"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "breathless-stair",
-    "regionId": "nordhalla",
-    "name": "The Breathless Stair",
-    "type": "wilderness",
-    "description": "A wind-scoured stair cut into the cliff to Þögn; Rime-Born climb it for memory-freezing rites.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "the-still-crag"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "hearth-glow-tavern-cluster",
-    "regionId": "nordhalla",
-    "name": "Hearth-Glow Tavern-Cluster",
-    "type": "settlement",
-    "description": "Taverns built over steaming vents where patrons grip frozen iron bars to prove lineage. Frost-mead flows freely.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "fjord-gate"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "whale-oil-row",
-    "regionId": "nordhalla",
-    "name": "Whale-Oil Row",
-    "type": "settlement",
-    "description": "Syndicate warehouse-row stacked with whale-oil casks; ironclads load harpoon-ammunition here.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "bloodhammer-sump"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "frost-mead-cellars",
-    "regionId": "nordhalla",
-    "name": "Frost-Mead Cellars",
-    "type": "settlement",
-    "description": "A geothermal cave-village brewing frost-mead; copper chits and coal-receipts trade hands.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "bloodhammer-sump"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "iron-ore-quay",
-    "regionId": "nordhalla",
-    "name": "Iron-Ore Quay",
-    "type": "settlement",
-    "description": "The Syndicate quay where iron-ore barges and whale-oil tankers load for the Iceheart run.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "fjord-gate"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "black-firth",
-    "regionId": "nordhalla",
-    "name": "The Black Firth",
-    "type": "wilderness",
-    "description": "An obsidian-cliffed inlet — the naval route for iron and oil, soot-streaked from ironclad funnels.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "fjord-gate"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "vargtower-beacon",
-    "regionId": "nordhalla",
-    "name": "Vargtower Beacon",
-    "type": "wilderness",
-    "description": "The signal-fire atop Vargtor's basalt tor; wolves gather at its base each dusk.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "vargtor"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
   },
   {
     "id": "sulfur-prospect-camp",
@@ -3992,272 +3543,6 @@ export const ZONE_DATA = [
     "wyrdCreatures": []
   },
   {
-    "id": "frost-tithe-cradle-camp",
-    "regionId": "nordhalla",
-    "name": "Frost-Tithe Cradle-Camp",
-    "type": "settlement",
-    "description": "A grief-camp of Ice-Cradles where Rime-Born mothers birth under the open sky, paying warmth to Keth-Amar's debt.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "frozen-archive"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "ravencall-eyrie",
-    "regionId": "nordhalla",
-    "name": "Ravencall Eyrie",
-    "type": "settlement",
-    "description": "A Corvani cliff-settlement of rope-ladders and murmuring ravens; messengers depart reading fate in flight.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "the-still-crag"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "glacier-song-hermitage",
-    "regionId": "nordhalla",
-    "name": "Glacier-Song Hermitage",
-    "type": "settlement",
-    "description": "A lone Rune Keeper outpost where the audible moan of the glacier is transcribed as augury.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "hunger-glaciers"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "mute-hearth-ruin",
-    "regionId": "nordhalla",
-    "name": "The Mute-Hearth",
-    "type": "ruin",
-    "description": "A ruined keep stubbornly warm from a single surviving steam vent; trappers shelter here but never speak its name.",
-    "dangerLevel": "medium",
-    "factions": [],
-    "connections": [
-      "rimors-hearth"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-frostfang-wastes"
-  },
-  {
-    "id": "cracked-cyst",
-    "regionId": "nordhalla",
-    "name": "The Cracked-Cyst",
-    "type": "wilderness",
-    "description": "A glacier split where blue light pulses beneath the ice — the Ice-Crown Monolith's distant glow.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "skadis-col"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "breathless-stair",
-    "regionId": "nordhalla",
-    "name": "The Breathless Stair",
-    "type": "wilderness",
-    "description": "A wind-scoured stair cut into the cliff to Þögn; Rime-Born climb it for memory-freezing rites.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "the-still-crag"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "jaarn-tand-cairn-line",
-    "regionId": "nordhalla",
-    "name": "Járn-Tand's Cairn-Line",
-    "type": "wilderness",
-    "description": "A line of royal cairns marking the Sunder-Wall's taxed passage; wardens check passage-rights here.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "frostholm"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "hearth-glow-tavern-cluster",
-    "regionId": "nordhalla",
-    "name": "Hearth-Glow Tavern-Cluster",
-    "type": "settlement",
-    "description": "Taverns built over steaming vents where patrons grip frozen iron bars to prove lineage. Frost-mead flows freely.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "fjord-gate"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "whale-oil-row",
-    "regionId": "nordhalla",
-    "name": "Whale-Oil Row",
-    "type": "settlement",
-    "description": "Syndicate warehouse-row stacked with whale-oil casks; ironclads load harpoon-ammunition here.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "bloodhammer-sump"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "cod-drying-racks",
-    "regionId": "nordhalla",
-    "name": "Cod-Drying Racks of Eldonholm",
-    "type": "settlement",
-    "description": "The fish-curing heart of pure-blood Skald Eldonholm; racks line every cliff.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "eldonholm"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "frost-mead-cellars",
-    "regionId": "nordhalla",
-    "name": "Frost-Mead Cellars",
-    "type": "settlement",
-    "description": "A geothermal cave-village brewing frost-mead; copper chits and coal-receipts trade hands.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "bloodhammer-sump"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "iron-ore-quay",
-    "regionId": "nordhalla",
-    "name": "Iron-Ore Quay",
-    "type": "settlement",
-    "description": "The Syndicate quay where iron-ore barges and whale-oil tankers load for the Iceheart run.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "fjord-gate"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "black-firth",
-    "regionId": "nordhalla",
-    "name": "The Black Firth",
-    "type": "wilderness",
-    "description": "An obsidian-cliffed inlet — the naval route for iron and oil, soot-streaked from ironclad funnels.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "fjord-gate"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "vargtower-beacon",
-    "regionId": "nordhalla",
-    "name": "Vargtower Beacon",
-    "type": "wilderness",
-    "description": "The signal-fire atop Vargtor's basalt tor; wolves gather at its base each dusk.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "vargtor"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "three-hot-springs",
-    "regionId": "nordhalla",
-    "name": "The Three-Hot-Springs",
-    "type": "settlement",
-    "description": "Neutral geothermal pools where Skald, Merryn, and Frostbound share water and an uneasy truce.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "xardins-hearth"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "ash-tide-fishing-village",
-    "regionId": "nordhalla",
-    "name": "Ash-Tide Fishing Village",
-    "type": "settlement",
-    "description": "A black-sand hamlet living off the warm current; boats launch through ash-surf.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "xardins-hearth"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "outlaws-freshet",
-    "regionId": "nordhalla",
-    "name": "Outlaw's Freshet",
-    "type": "settlement",
-    "description": "A Fredløse camp at a freshwater spring behind the smuggler's cove.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "southern-shore-smugglers-cove"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-frostfang-wastes"
-  },
-  {
-    "id": "drowned-longship-reef",
-    "regionId": "nordhalla",
-    "name": "The Drowned-Longship Reef",
-    "type": "wilderness",
-    "description": "A reef of wrecked Skald longships; Skrei are said to drag divers down here.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "southern-shore-smugglers-cove"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-frostfang-wastes"
-  },
-  {
-    "id": "ember-tide-way",
-    "regionId": "nordhalla",
-    "name": "Ember-Tide Way",
-    "type": "wilderness",
-    "description": "The volcanic coast-road linking the southern ports to the coves; steam-vents warm the path.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "xardins-hearth"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
     "id": "cinderbloom-purification-camp",
     "regionId": "sundale",
     "name": "Cinderbloom Purification Camp",
@@ -6052,272 +5337,6 @@ export const ZONE_DATA = [
     "wyrdCreatures": []
   },
   {
-    "id": "frost-tithe-cradle-camp",
-    "regionId": "nordhalla",
-    "name": "Frost-Tithe Cradle-Camp",
-    "type": "settlement",
-    "description": "A grief-camp of Ice-Cradles where Rime-Born mothers birth under the open sky, paying warmth to Keth-Amar's debt.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "frozen-archive"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "ravencall-eyrie",
-    "regionId": "nordhalla",
-    "name": "Ravencall Eyrie",
-    "type": "settlement",
-    "description": "A Corvani cliff-settlement of rope-ladders and murmuring ravens; messengers depart reading fate in flight.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "the-still-crag"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "glacier-song-hermitage",
-    "regionId": "nordhalla",
-    "name": "Glacier-Song Hermitage",
-    "type": "settlement",
-    "description": "A lone Rune Keeper outpost where the audible moan of the glacier is transcribed as augury.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "hunger-glaciers"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "mute-hearth-ruin",
-    "regionId": "nordhalla",
-    "name": "The Mute-Hearth",
-    "type": "ruin",
-    "description": "A ruined keep stubbornly warm from a single surviving steam vent; trappers shelter here but never speak its name.",
-    "dangerLevel": "medium",
-    "factions": [],
-    "connections": [
-      "rimors-hearth"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-frostfang-wastes"
-  },
-  {
-    "id": "cracked-cyst",
-    "regionId": "nordhalla",
-    "name": "The Cracked-Cyst",
-    "type": "wilderness",
-    "description": "A glacier split where blue light pulses beneath the ice — the Ice-Crown Monolith's distant glow.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "skadis-col"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "breathless-stair",
-    "regionId": "nordhalla",
-    "name": "The Breathless Stair",
-    "type": "wilderness",
-    "description": "A wind-scoured stair cut into the cliff to Þögn; Rime-Born climb it for memory-freezing rites.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "the-still-crag"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "jaarn-tand-cairn-line",
-    "regionId": "nordhalla",
-    "name": "Járn-Tand's Cairn-Line",
-    "type": "wilderness",
-    "description": "A line of royal cairns marking the Sunder-Wall's taxed passage; wardens check passage-rights here.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "frostholm"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "hearth-glow-tavern-cluster",
-    "regionId": "nordhalla",
-    "name": "Hearth-Glow Tavern-Cluster",
-    "type": "settlement",
-    "description": "Taverns built over steaming vents where patrons grip frozen iron bars to prove lineage. Frost-mead flows freely.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "fjord-gate"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "whale-oil-row",
-    "regionId": "nordhalla",
-    "name": "Whale-Oil Row",
-    "type": "settlement",
-    "description": "Syndicate warehouse-row stacked with whale-oil casks; ironclads load harpoon-ammunition here.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "bloodhammer-sump"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "cod-drying-racks",
-    "regionId": "nordhalla",
-    "name": "Cod-Drying Racks of Eldonholm",
-    "type": "settlement",
-    "description": "The fish-curing heart of pure-blood Skald Eldonholm; racks line every cliff.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "eldonholm"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "frost-mead-cellars",
-    "regionId": "nordhalla",
-    "name": "Frost-Mead Cellars",
-    "type": "settlement",
-    "description": "A geothermal cave-village brewing frost-mead; copper chits and coal-receipts trade hands.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "bloodhammer-sump"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "iron-ore-quay",
-    "regionId": "nordhalla",
-    "name": "Iron-Ore Quay",
-    "type": "settlement",
-    "description": "The Syndicate quay where iron-ore barges and whale-oil tankers load for the Iceheart run.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "fjord-gate"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "black-firth",
-    "regionId": "nordhalla",
-    "name": "The Black Firth",
-    "type": "wilderness",
-    "description": "An obsidian-cliffed inlet — the naval route for iron and oil, soot-streaked from ironclad funnels.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "fjord-gate"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "vargtower-beacon",
-    "regionId": "nordhalla",
-    "name": "Vargtower Beacon",
-    "type": "wilderness",
-    "description": "The signal-fire atop Vargtor's basalt tor; wolves gather at its base each dusk.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "vargtor"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "three-hot-springs",
-    "regionId": "nordhalla",
-    "name": "The Three-Hot-Springs",
-    "type": "settlement",
-    "description": "Neutral geothermal pools where Skald, Merryn, and Frostbound share water and an uneasy truce.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "xardins-hearth"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "ash-tide-fishing-village",
-    "regionId": "nordhalla",
-    "name": "Ash-Tide Fishing Village",
-    "type": "settlement",
-    "description": "A black-sand hamlet living off the warm current; boats launch through ash-surf.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "xardins-hearth"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
-    "id": "outlaws-freshet",
-    "regionId": "nordhalla",
-    "name": "Outlaw's Freshet",
-    "type": "settlement",
-    "description": "A Fredløse camp at a freshwater spring behind the smuggler's cove.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "southern-shore-smugglers-cove"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-frostfang-wastes"
-  },
-  {
-    "id": "drowned-longship-reef",
-    "regionId": "nordhalla",
-    "name": "The Drowned-Longship Reef",
-    "type": "wilderness",
-    "description": "A reef of wrecked Skald longships; Skrei are said to drag divers down here.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "southern-shore-smugglers-cove"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-frostfang-wastes"
-  },
-  {
-    "id": "ember-tide-way",
-    "regionId": "nordhalla",
-    "name": "Ember-Tide Way",
-    "type": "wilderness",
-    "description": "The volcanic coast-road linking the southern ports to the coves; steam-vents warm the path.",
-    "dangerLevel": "low",
-    "factions": [],
-    "connections": [
-      "xardins-hearth"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
-  {
     "id": "cinderbloom-purification-camp",
     "regionId": "sundale",
     "name": "Cinderbloom Purification Camp",
@@ -7787,710 +6806,2454 @@ export const ZONE_DATA = [
     "wyrdCreatures": []
   },
   {
-    "id": "hvalhavn",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Hvalhavn",
-    "type": "settlement",
-    "description": "Small, remote fishing village on the northern coast where Úlfrekr and Sylvén came from. Sylvén abandoned Úlfrekr during a polar wolf hunt, returned alone claiming his brother died a hero, and consumed the Swallow-Heart. Now largely abandoned and monitored by the Hungríd.",
-    "dangerLevel": "medium",
-    "factions": [
-      "the-hungrid",
-      "skald-expatriates"
-    ],
-    "connections": [
-      "kolvard",
-      "havhavn",
-      "svalghjartas-keep"
-    ]
-  },
-  {
-    "id": "svalghjartas-keep",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Sválghjarta's Keep",
-    "type": "fortress",
-    "description": "Sinister fortress built in the northern glacier around the living carcass of the Swallow-Heart. Sylvén (The Hollow King) rules here alongside his inner circle, the Frostborn, sacrificing stolen children to maintain their rime-freeze powers.",
-    "dangerLevel": "extreme",
-    "factions": [
-      "the-hungrid",
-      "hollow-king-cult"
-    ],
-    "connections": [
-      "hvalhavn",
-      "gjaldhringr",
-      "kolvard"
-    ]
-  },
-  {
-    "id": "snowcall-city",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Snowcall City",
-    "type": "city",
-    "description": "The cosmopolitan regional capital of Rime-Spire Peaks. Houses the Snowcall Charter-Hall, the slate-roofed High Neth Quarter, and the Corvani Roost-Market built along the cliff edge.",
-    "dangerLevel": "low",
-    "factions": [
-      "house-skalvyr",
-      "high-neth",
-      "corvani-flocks"
-    ],
-    "connections": [
-      "saltgrinn",
-      "stonegrip",
-      "frostdell",
-      "endless-steppe"
-    ]
-  },
-  {
-    "id": "stonegrip",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Stonegrip",
-    "type": "fortress",
-    "description": "Military watchtower-fortress on the Icetalon slopes. Houses Skald Ice-Trackers and Rime-Born Rune Keepers, guarding the only land route from the Frostfang Wastes.",
-    "dangerLevel": "medium",
-    "factions": [
-      "house-skalvyr",
-      "skald-ice-trackers",
-      "rune-keepers"
-    ],
-    "connections": [
-      "snowcall-city",
-      "skadis-col",
-      "bjargsten-camp"
-    ]
-  },
-  {
-    "id": "frostdell",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Frostdell",
-    "type": "settlement",
-    "description": "Skald wood-cutters' village deep in the Whispering Pine. Steam-vents provide under-floor heating while upper levels are kept in deep freeze for storage.",
-    "dangerLevel": "low",
-    "factions": [
-      "skald-woodcutters"
-    ],
-    "connections": [
-      "snowcall-city",
-      "kildvagt",
-      "whispering-pine"
-    ]
-  },
-  {
-    "id": "eldoyane",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Eldøyane",
-    "type": "wilderness",
-    "description": "Three volcanic islands in the southern sea surrounded by geothermally heated tidal pools. Access is controlled by the Pale Neth of Saltgrinn.",
-    "dangerLevel": "medium",
-    "factions": [
-      "pale-neth",
-      "kildhavn-settlers"
-    ],
-    "connections": [
-      "saltgrinn",
-      "midhofn",
-      "ash-tide-village"
-    ]
-  },
-  {
-    "id": "saltgrinn",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Saltgrinn",
-    "type": "settlement",
-    "description": "Cliffside shanty-town below Snowcall inhabited by the Pale Neth subrace. Isolationist, controlling access to the Eldøyane warm waters.",
-    "dangerLevel": "medium",
-    "factions": [
-      "pale-neth"
-    ],
-    "connections": [
-      "snowcall-city",
-      "midhofn",
-      "eldoyane"
-    ]
-  },
-  {
-    "id": "midhofn",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Miðhöfn",
-    "type": "port",
-    "description": "Neutral harbor between Saltgrinn and Eldøyane where Pale Neth, humans, and merchants trade freely without faction sovereignty.",
-    "dangerLevel": "low",
-    "factions": [
-      "neutral-traders",
-      "pale-neth"
-    ],
-    "connections": [
-      "saltgrinn",
-      "eldoyane",
-      "xardins-hearth"
-    ]
-  },
-  {
-    "id": "kildvagt",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Kildvagt",
-    "type": "watchtower",
-    "description": "Human watchtower in the Whispering Pine built by Kildhavn settlers to guard access to warm tidal pools.",
-    "dangerLevel": "medium",
-    "factions": [
-      "kildhavn-guard"
-    ],
-    "connections": [
-      "frostdell",
-      "kildhavn"
-    ]
-  },
-  {
-    "id": "kildhavn",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Kildhavn",
-    "type": "settlement",
-    "description": "Southern coastal human settlement dependent on geothermal water from the Eldøyane.",
-    "dangerLevel": "low",
-    "factions": [
-      "human-settlers"
-    ],
-    "connections": [
-      "kildvagt",
-      "ulvard",
-      "ember-tide-way"
-    ]
-  },
-  {
-    "id": "thogn",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Þögn",
-    "type": "sacred",
-    "description": "The quietest cliff in Nordhalla where Aethil touched the mountain during the bargain. Features frozen sculptures of the First Rime house speakers.",
-    "dangerLevel": "high",
-    "factions": [
-      "rune-keepers",
-      "first-rime-ancestry"
-    ],
-    "connections": [
-      "breathless-stair",
-      "gjaldhringr"
-    ]
-  },
-  {
-    "id": "gjaldhringr",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Gjaldhringr",
-    "type": "ruin",
-    "description": "Glacial amphitheater below Þögn where the runic script of the original pact is etched into ice. Corrupted by the Swallow-Heart's pulse.",
-    "dangerLevel": "high",
-    "factions": [
-      "the-hungrid",
-      "rune-keepers"
-    ],
-    "connections": [
-      "thogn",
-      "svalghjartas-keep"
-    ]
-  },
-  {
-    "id": "mord-cradle-camp",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Morð Cradle-Camp",
-    "type": "camps",
-    "description": "Half-hospice, half-funeral ritual camp near Snowcall. Staffed by Berserkers who sacrifice their own embers during Morð birthing trials.",
-    "dangerLevel": "medium",
-    "factions": [
-      "skald-berserkers",
-      "rime-touched"
-    ],
-    "connections": [
-      "snowcall-city",
-      "run"
-    ]
-  },
-  {
-    "id": "hrafnskogur",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Hrafnskógur",
-    "type": "settlement",
-    "description": "Corvani forest settlement of tree-platforms and perch-nests in the Whispering Pine near Ash-Tide Village.",
-    "dangerLevel": "low",
-    "factions": [
-      "corvani-flocks"
-    ],
-    "connections": [
-      "whispering-pine",
-      "ash-tide-village"
-    ]
-  },
-  {
-    "id": "whispering-pine",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "The Whispering Pine",
-    "type": "wilderness",
-    "description": "Geothermal pine forest belt where trees whisper ancient memories. Currently under threat from Hungríd logging camps.",
-    "dangerLevel": "medium",
-    "factions": [
-      "corvani-flocks",
-      "the-hungrid"
-    ],
-    "connections": [
-      "frostdell",
-      "hrafnskogur",
-      "whispering-pine-logging-camps"
-    ]
-  },
-  {
-    "id": "rime-spires",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "The Rime-spires",
-    "type": "wilderness",
-    "description": "Blue crystal ice-spires rising from glacier faces that give Rime-Spire Peaks its name. They pulse with the Ice-Crown Monolith's distant glow.",
-    "dangerLevel": "high",
-    "factions": [
-      "stel-glacier-spirits"
-    ],
-    "connections": [
-      "cracked-cyst",
-      "hunger-glaciers"
-    ]
-  },
-  {
-    "id": "endless-steppe",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "The Endless Steppe",
-    "type": "wilderness",
-    "description": "Windswept mountain plateau through the Icetalons connecting Snowcall to Rún. Maintained by Animist waystone cairns.",
-    "dangerLevel": "high",
-    "factions": [
-      "animists",
-      "skald-berserkers"
-    ],
-    "connections": [
-      "snowcall-city",
-      "run",
-      "stahlberg"
-    ]
-  },
-  {
-    "id": "stahlberg",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Stählberg",
-    "type": "city",
-    "description": "Free Fexric refugee city carved into iron-grey mountain crags. Built by escaped victims of the Amber Exchange slave trade.",
-    "dangerLevel": "medium",
-    "factions": [
-      "fexric-refugees"
-    ],
-    "connections": [
-      "endless-steppe",
-      "frostdell"
-    ]
-  },
-  {
-    "id": "hrafnest",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Hrafnest",
-    "type": "settlement",
-    "description": "Primary Corvani colony in the Icetalon peaks, featuring hundreds of nesting sites in honeycombed glacier-caves.",
-    "dangerLevel": "medium",
-    "factions": [
-      "corvani-flocks"
-    ],
-    "connections": [
-      "rooks-promontory",
-      "kolhyrna"
-    ]
-  },
-  {
-    "id": "kolhyrna",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Kolhyrna",
-    "type": "watchtower",
-    "description": "Basalt peak Corvani outpost monitoring approaches to human settlements below.",
-    "dangerLevel": "medium",
-    "factions": [
-      "corvani-flocks"
-    ],
-    "connections": [
-      "hrafnest",
-      "stonegrip"
-    ]
-  },
-  {
-    "id": "run",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Rún",
-    "type": "sacred",
-    "description": "Isolated mountain pass Animist sanctuary where mothers seek birth auguries before Morð.",
-    "dangerLevel": "low",
-    "factions": [
-      "animists"
-    ],
-    "connections": [
-      "endless-steppe",
-      "mord-cradle-camp"
-    ]
-  },
-  {
-    "id": "kapp",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Kapp",
-    "type": "town",
-    "description": "Spectator harbor town on the northern isle where wealthy sponsors wager on Berserker trials.",
-    "dangerLevel": "medium",
-    "factions": [
-      "berserker-sponsors",
-      "skald-expatriates"
-    ],
-    "connections": [
-      "blodholl",
-      "havhavn"
-    ]
-  },
-  {
-    "id": "blodholl",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Blóðhöll",
-    "type": "wilderness",
-    "description": "Natural glacial arena where captured Wyrd beasts are released for the deadly Berserker rite of passage.",
-    "dangerLevel": "extreme",
-    "factions": [
-      "skald-berserkers"
-    ],
-    "connections": [
-      "kapp"
-    ]
-  },
-  {
-    "id": "havhavn",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Havhavn",
-    "type": "port",
-    "description": "Icechamber Syndicate northernmost harbor for whale-oil staging and harpoon ammunition loading.",
-    "dangerLevel": "medium",
-    "factions": [
-      "icechamber-syndicate"
-    ],
-    "connections": [
-      "hvalhavn",
-      "kapp"
-    ]
-  },
-  {
-    "id": "whispering-pine-logging-camps",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Whispering Pine Logging Camps",
-    "type": "industrial",
-    "description": "Hungríd occupation logging camps clearing ancient trees to silence the forest's memories.",
-    "dangerLevel": "medium",
-    "factions": [
-      "the-hungrid"
-    ],
-    "connections": [
-      "whispering-pine"
-    ]
-  },
-  {
-    "id": "bjargsten-camp",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Bjärgsten Camp",
-    "type": "industrial",
-    "description": "Hungríd mining operation extracting stone and ice for the Swallow-Heart's growing carcass.",
-    "dangerLevel": "high",
-    "factions": [
-      "the-hungrid"
-    ],
-    "connections": [
-      "stonegrip",
-      "svalghjartas-keep"
-    ]
-  },
-  {
-    "id": "varmagrim",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Varmagrím",
-    "type": "industrial",
-    "description": "Hungríd geothermal tapping station stealing earth warmth to fuel the Swallow-Heart's growth.",
-    "dangerLevel": "high",
-    "factions": [
-      "the-hungrid"
-    ],
-    "connections": [
-      "eldoyane",
-      "ulvard"
-    ]
-  },
-  {
-    "id": "grimuvard",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Grímuvarð",
-    "type": "watchtower",
-    "description": "Western coastal Hungríd watchtown monitoring trade routes with Tooth enforcers.",
-    "dangerLevel": "high",
-    "factions": [
-      "the-hungrid"
-    ],
-    "connections": [
-      "snowcall-city"
-    ]
-  },
-  {
-    "id": "ulvard",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Úlvarð",
-    "type": "watchtower",
-    "description": "Southeastern Hungríd watchtown monitoring Kildhavn and Ember-Tide Way.",
-    "dangerLevel": "high",
-    "factions": [
-      "the-hungrid"
-    ],
-    "connections": [
-      "kildhavn",
-      "xardins-hearth",
-      "varmagrim"
-    ]
-  },
-  {
-    "id": "kolvard",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
-    "name": "Kolvarð",
-    "type": "watchtower",
-    "description": "Northern Hungríd watchtown monitoring trial traffic and approaches to Hvalhavn.",
-    "dangerLevel": "high",
-    "factions": [
-      "the-hungrid"
-    ],
-    "connections": [
-      "hvalhavn",
-      "svalghjartas-keep"
-    ]
-  },
-  {
     "id": "frostholm",
     "regionId": "nordhalla",
-    "subregionId": "nordhalla-fjord-coast",
     "name": "Frosthold Citadel",
     "type": "city",
-    "description": "The royal capital of Nordhalla, carved into the flank of Bearsbeard's Beak itself \u2014 the older Skald still call it Frostholm. The great hall is a single ice-cavern; the throne is a slab of stone older than the clans. King-Jarl Halvar J\u00e1rn-Tand rules from here, ringed by the Icechamber Syndicate's factors, the Skald Keepers, and the Bloodhammer blood-guard. The Astril scholar quarter and the subterranean Fexric sweatshops honeycomb the rock beneath.",
-    "dangerLevel": "low",
+    "description": "The monumental capital of Nordhalla and royal seat of House Skalvyr, carved into a black basalt mountain overlooking Skaldfjord. Here, King-Jarl Halvar (\"Iron-Tooth\") rules behind walls of petrified ironwood and enchanted blue rime-ice. The citadel is heated by massive underground steam sumps that funnel geothermal vapor through carved stone conduits, keeping the throne room and Great Meadhall warm while snowstorms roar outside.",
+    "dangerLevel": "medium",
     "factions": [
       "house-skalvyr",
-      "icechamber-syndicate",
-      "skald-keepers",
-      "bloodhammer-line",
-      "astril-scholars"
+      "Icechamber Syndicate",
+      "Skald Keepers"
     ],
     "connections": [
-      "frozen-archive",
       "fjord-gate",
-      "bearsbeards-beak",
-      "skadis-col",
-      "the-still-crag"
-    ]
+      "frozen-archive",
+      "vargtor",
+      "sunder-wall-gates"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Era of the Great Binding (Year 0)",
+      "foundedBy": "High King-Jarl Aethil Skalvyr",
+      "foundingStory": "Frosthold was founded upon the sheer basalt bluffs of Skaldfjord immediately following the Great Binding. Aethil Skalvyr recognized that the mountain sat above the largest thermal sump cluster in the north. The first longhall was constructed from ancient ironwood logs salvaged from southern shipments, later encased in cyclopean black granite and rime-ice bastions as the Freezing Era deepened.",
+      "significantEvents": [
+        {
+          "date": "Year 0",
+          "event": "First cornerstone laid above the thermal vents; the High Hearth ignited."
+        },
+        {
+          "date": "Year 45",
+          "event": "The Great Frost Surge: Basalt curtain walls reinforced with permanent enchanted rime-ice."
+        },
+        {
+          "date": "Year 110",
+          "event": "King-Jarl Halvar (\"Iron-Tooth\") expands the lower vaulted halls and codifies the Icechamber trade pact."
+        }
+      ]
+    }
   },
   {
-    "id": "frostmead",
+    "id": "frozen-archive",
     "regionId": "nordhalla",
-    "subregionId": "nordhalla-fjord-coast",
-    "name": "Frostmead",
-    "type": "settlement",
-    "description": "Geothermal cave village brewing frost-mead and housing the Bloodhammer Sump forges.",
-    "dangerLevel": "low",
+    "name": "The Frozen Archive",
+    "type": "tomb",
+    "description": "A subterranean cathedral of blue ice and black basalt carved deep beneath the central glaciers. Archivists and Rune Keepers chisel genealogies, legal contracts, and historical chronicles directly into stasis-ice walls so they remain uncorrupted forever. In its deepest vault lies High Confessor Aldren Thalreth the Elder in meditative cryo-stasis, watching over the forbidden tablets of the Glacier Bargain.",
+    "dangerLevel": "medium",
     "factions": [
-      "bloodhammer-clan"
+      "house-skalvyr",
+      "Skald Keepers",
+      "The Frozen Archive"
     ],
     "connections": [
       "frostholm",
-      "bloodhammer-sump"
-    ]
+      "fjord-gate",
+      "bloodhammer-sump",
+      "vargtor"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Early Slow Cracks (Centuries before the Freeze)",
+      "foundedBy": "Pre-Cataclysmic Archivists & Early Skald Elders",
+      "foundingStory": "Originally an underground astronomical observatory built by early star-gazers who studied the dying pulses of Sol. When the glacier sheet surged south, the catacombs were flash-frozen in stasis. Early Skald elders discovered the subterranean halls and repurposed them into an eternal genealogical tomb, recognizing that stasis-ice would preserve parchment, bone, and memories forever.",
+      "significantEvents": [
+        {
+          "date": "Pre-Freeze",
+          "event": "Original basalt observatory chambers carved into mountain bedrock."
+        },
+        {
+          "date": "Year 20",
+          "event": "First genealogical stasis wall chiseled by Elder Chisel-Master Torstein."
+        },
+        {
+          "date": "Year 85",
+          "event": "High Confessor Aldren Thalreth the Elder seals himself in meditative cryo-stasis in the lowest vault."
+        }
+      ]
+    }
   },
   {
-    "id": "icerill",
+    "id": "bloodhammer-sump",
     "regionId": "nordhalla",
-    "subregionId": "nordhalla-fjord-coast",
-    "name": "Icerill",
+    "name": "Bloodhammer Sump",
     "type": "settlement",
-    "description": "Small river tributary settlement supplying timber and freshwater ice.",
-    "dangerLevel": "low",
+    "description": "A roaring geothermal volcanic crater that serves as the industrial heart of Nordhalla. Towering walls of permafrost surround bubbling sulfur pools and blast furnaces, where the Bloodhammer Clan channels subterranean heat into iron smelters to forge cold-iron axes, steam-pipes, and dreadnought hull-plating.",
+    "dangerLevel": "medium",
     "factions": [
-      "vaegfolk"
+      "Bloodhammer Clan",
+      "house-skalvyr",
+      "Icechamber Syndicate"
     ],
     "connections": [
+      "fjord-gate",
+      "frozen-archive",
       "frostholm"
-    ]
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Year 18 (Freezing Era)",
+      "foundedBy": "Grum Bloodhammer (\"The Iron-Smith\")",
+      "foundingStory": "Founded when Torra Bloodhammer's clan discovered a boiling volcanic caldera breaching through four hundred feet of solid glacier ice. Grum the Iron-Smith struck the first cold-iron anvil here, channeling subterranean magma channels into geothermal blast furnaces to forge the first weapons capable of cleaving frost-revenants without shattering from cold.",
+      "significantEvents": [
+        {
+          "date": "Year 18",
+          "event": "The First Tap: Geothermal magma redirected into heavy iron casting trenches."
+        },
+        {
+          "date": "Year 72",
+          "event": "The Steam Explosion of Vat 4: Rebuilt with reinforced dwarven-dowel masonry."
+        },
+        {
+          "date": "Year 130",
+          "event": "Bloodhammer clan signs an exclusive armament pact with Frosthold Citadel."
+        }
+      ]
+    }
+  },
+  {
+    "id": "fjord-gate",
+    "regionId": "nordhalla",
+    "name": "Fjord-Gate",
+    "type": "port",
+    "description": "A colossal fortified deepwater harbor nestled inside a black fjord, protected by sliding stone sea-doors that seal shut against arctic tempests. As Nordhalla's primary maritime trade terminus, longships laden with whale oil, magnetite ore, and salted cod depart here across the Iceheart Sea.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr",
+      "Sea-Guard",
+      "Icechamber Syndicate"
+    ],
+    "connections": [
+      "frostholm",
+      "frozen-archive",
+      "bloodhammer-sump",
+      "hearth-glow-tavern-cluster"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Year 30 (Freezing Era)",
+      "foundedBy": "The Sea-Guard Guild & House Skalvyr",
+      "foundingStory": "Constructed at the narrowest throat of Skaldfjord where steep basalt cliffs meet the sea. The harbor was created by blasting sea-channels with volcanic charges. Colossal sliding stone doors were suspended on counterweighted chains to protect the interior longship fleet from violent winter sea-surges and ice-floe blockades.",
+      "significantEvents": [
+        {
+          "date": "Year 30",
+          "event": "First stone sea-doors hung between the fjord cliffs."
+        },
+        {
+          "date": "Year 88",
+          "event": "The Merryn Corsair Siege: Sliding doors successfully repel a 40-ship pirate armada."
+        },
+        {
+          "date": "Year 140",
+          "event": "Deepwater harbor dredging completed to accommodate ironclad ice-breakers."
+        }
+      ]
+    }
+  },
+  {
+    "id": "vargtor",
+    "regionId": "nordhalla",
+    "name": "Vargtor Watchtower",
+    "type": "settlement",
+    "description": "A fortified bastion perched atop a rocky granite tor rising above the glacial tree line. A permanent Skald garrison stands watch with giant ballistas, monitoring Corvani flight paths, watching for Øsling incursions, and lighting beacon fires when blizzards descend from the north.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr",
+      "Skald Keepers"
+    ],
+    "connections": [
+      "frostholm",
+      "frozen-archive",
+      "vargtower-beacon"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Year 52 (Freezing Era)",
+      "foundedBy": "Jarl Vargen of House Skalvyr",
+      "foundingStory": "Erected atop a high rocky tor commanding a 360-degree view of the glacier plain. Built from mortar mixed with whale-glue and crushed magnetite, the tower was designed to withstand hurricane-force blizzards while maintaining constant visual contact with Frosthold Citadel via beacon flares.",
+      "significantEvents": [
+        {
+          "date": "Year 52",
+          "event": "Watchtower completed and equipped with twin heavy ballistas."
+        },
+        {
+          "date": "Year 104",
+          "event": "The Great Raven Flocking: First formal treaty signaling established with Corvani scouts."
+        }
+      ]
+    }
   },
   {
     "id": "ymirs-hold",
     "regionId": "nordhalla",
-    "subregionId": "nordhalla-fjord-coast",
     "name": "Ymir's Hold",
     "type": "fortress",
-    "description": "Coastal fortress guarding southern approaches to Skaldfjord Dal with runic stone walls.",
+    "description": "An ancient fortress carved directly into living bedrock by the first Skald colonists. It houses the High Skald warriors and veteran glacier-reavers who train in sub-zero stone barracks, drilling with two-handed cold-iron greatswords and testing their endurance against freezing subterranean drafts.",
     "dangerLevel": "medium",
     "factions": [
-      "skald-navy"
+      "house-skalvyr",
+      "Skald Berserkers"
     ],
     "connections": [
-      "fjord-gate"
-    ]
+      "frostholm",
+      "sunder-wall-gates"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Year 12 (Freezing Era)",
+      "foundedBy": "Warlord Ymir the Mountain-Cleaver",
+      "foundingStory": "Carved directly into a sheer granite cliff by five hundred Berserker warriors wielding picks tempered in sulfur sumps. The fortress was designed as an impenetrable retreat in the event that the Glacier Bargain failed and the north was overrun by glacial wyrms.",
+      "significantEvents": [
+        {
+          "date": "Year 12",
+          "event": "Upper battlements chiseled from living mountain stone."
+        },
+        {
+          "date": "Year 65",
+          "event": "Subterranean endurance halls added to train Berserker recruits in sub-zero stasis."
+        }
+      ]
+    }
   },
   {
-    "id": "sunder-wall-gates",
+    "id": "eldonholm",
     "regionId": "nordhalla",
+    "name": "Eldonholm",
+    "type": "settlement",
+    "description": "A traditional, pure-blooded Skald fishing town on the rocky shores of Skaldfjord. At its center stands the revered Eldon-Stone, an ancient runic menhir that records the name and lineage of every chieftain who has ruled the settlement since the signing of the Great Binding.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Skald Keepers",
+      "house-skalvyr"
+    ],
+    "connections": [
+      "frostflow",
+      "cod-drying-racks",
+      "fjord-gate"
+    ],
+    "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
-    "name": "Sunder-Wall Gates",
-    "type": "fortress",
-    "description": "Fortified toll-gates along the Sunder-Wall, anchored by Skalvyr's Gate.",
+    "history": {
+      "founded": "Centuries before the Freeze (The Primordial Dawn)",
+      "foundedBy": "Chieftain Eldon the Elder",
+      "foundingStory": "The oldest recorded human settlement in northern Mythrill, established as an ancient coastal fishing camp when green meadows still covered the valleys. The Eldon-Stone at its center has stood for over four centuries, surviving the Great Freeze intact.",
+      "significantEvents": [
+        {
+          "date": "Primordial Era",
+          "event": "The Eldon-Stone raised to commemorate the first clan pact."
+        },
+        {
+          "date": "Year 1",
+          "event": "Town transitions from open wooden longhouses to turf-and-stone cold-insulated steads."
+        }
+      ]
+    }
+  },
+  {
+    "id": "frostflow",
+    "regionId": "nordhalla",
+    "name": "Frostflow",
+    "type": "settlement",
+    "description": "A coastal village where a thermal melt-river flows into the frozen fjord. Skilled seal-hunters and net-casters launch skin-canoes through the ice channels, trading fresh salmon, walrus blubber, and ivory with Frosthold merchants.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr",
+      "Sea-Guard"
+    ],
+    "connections": [
+      "eldonholm",
+      "fjord-gate"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Year 40 (Freezing Era)",
+      "foundedBy": "The Sael-Fisher Clan",
+      "foundingStory": "Built where an underground thermal river empties into Skaldfjord, keeping the waters unfrozen throughout winter. Seal hunters established permanent stone wharves to haul and cure catches in sub-zero winds.",
+      "significantEvents": [
+        {
+          "date": "Year 40",
+          "event": "First stone slipways built along the ice channels."
+        }
+      ]
+    }
+  },
+  {
+    "id": "black-firth",
+    "regionId": "nordhalla",
+    "name": "The Black Firth",
+    "type": "wilderness",
+    "description": "A narrow, fog-choked fjord where sheer basalt walls rise hundreds of feet into swirling clouds. Drifting icebergs scrape against the dark cliffs, creating eerie resonant echoes that sailors claim are the voices of drowned longship crews.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Sea-Guard"
+    ],
+    "connections": [
+      "fjord-gate",
+      "drowned-longship-reef"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Year 60 (Freezing Era)",
+      "foundedBy": "Independent Sealers & Ice-Salvagers",
+      "foundingStory": "Discovered as a sheltered inlet hidden behind sheer sea-stacks. Smugglers and sealers established hidden mooring rings in the basalt cliffs to cache salvaged timber and whale meat out of sight of royal tax cutters.",
+      "significantEvents": [
+        {
+          "date": "Year 60",
+          "event": "First mooring caves carved into the cliff base."
+        }
+      ]
+    }
+  },
+  {
+    "id": "hearth-glow-tavern-cluster",
+    "regionId": "nordhalla",
+    "name": "Hearth-Glow Row",
+    "type": "settlement",
+    "description": "A rowdy waterfront district built directly over steaming volcanic fissures. In the steamy taverns, sailors, miners, and warriors drink potent spiced frost-mead and grip frozen iron bars to prove their blood-heat in ritual lineage duels.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Icechamber Syndicate",
+      "Sea-Guard"
+    ],
+    "connections": [
+      "fjord-gate",
+      "whale-oil-row",
+      "frost-mead-cellars"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Year 35 (Freezing Era)",
+      "foundedBy": "Old Torvald (\"The Red-Nose\")",
+      "foundingStory": "Started as a single canvas tent pitched over a steaming volcanic vent on the waterfront. As whalers and miners arrived, timber cabins were built over every accessible steam cleft, coalescing into Nordhalla's most famous entertainment district.",
+      "significantEvents": [
+        {
+          "date": "Year 35",
+          "event": "Torvald's First Kettle tavern established."
+        },
+        {
+          "date": "Year 90",
+          "event": "District formally chartered under the Icechamber Syndicate."
+        }
+      ]
+    }
+  },
+  {
+    "id": "whale-oil-row",
+    "regionId": "nordhalla",
+    "name": "Whale-Oil Row",
+    "type": "settlement",
+    "description": "The industrial quayside where blubber from massive Iceheart leviathans is rendered in colossal iron vats. The resulting oil fuels Frosthold's perpetual street lamps, heated baths, and steam generators throughout the dark winter months.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Icechamber Syndicate"
+    ],
+    "connections": [
+      "fjord-gate",
+      "hearth-glow-tavern-cluster",
+      "iron-ore-quay"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Year 25 (Freezing Era)",
+      "foundedBy": "The Guild of Harpooners",
+      "foundingStory": "Established along the deepwater docks where giant leviathan carcasses could be hauled by teams of oxen. Massive iron kettles were set over stone fire-trenches, producing the oil that has illuminated the north for generations.",
+      "significantEvents": [
+        {
+          "date": "Year 25",
+          "event": "First rendering vat installed on the stone jetty."
+        }
+      ]
+    }
+  },
+  {
+    "id": "frost-mead-cellars",
+    "regionId": "nordhalla",
+    "name": "Frost-Mead Cellars",
+    "type": "settlement",
+    "description": "Deep, vaulted ice-cellars where honey from geothermal hives is fermented with mountain juniper and glacier melt-water. The resulting liquor is so potent it warms the blood even in forty-below blizzards, making it Nordhalla's most prized export.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Skald Keepers",
+      "Icechamber Syndicate"
+    ],
+    "connections": [
+      "hearth-glow-tavern-cluster",
+      "frostmead"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Year 48 (Freezing Era)",
+      "foundedBy": "The Brew-Master Sisters of Frostmead",
+      "foundingStory": "Excavated deep beneath permafrost to provide the exact stable temperature required to ferment high-proof frost-mead without spoiling the delicate alpine clover honey.",
+      "significantEvents": [
+        {
+          "date": "Year 48",
+          "event": "First five hundred oak casks rolled into the cold vaults."
+        }
+      ]
+    }
+  },
+  {
+    "id": "iron-ore-quay",
+    "regionId": "nordhalla",
+    "name": "Iron-Ore Quay",
+    "type": "settlement",
+    "description": "Sleet-lashed stone docks where heavy carts of magnetite and bog-iron from the Bloodhammer sumps are loaded onto reinforced ice-breaker barges destined for southern arsenals.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Bloodhammer Clan",
+      "Icechamber Syndicate"
+    ],
+    "connections": [
+      "fjord-gate",
+      "bloodhammer-sump"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Year 22 (Freezing Era)",
+      "foundedBy": "The Bloodhammer Transport Guild",
+      "foundingStory": "Built to receive heavy sledges of raw iron ore sliding down wooden chutes from the mountain sumps directly onto cargo longships.",
+      "significantEvents": [
+        {
+          "date": "Year 22",
+          "event": "Timber chutes constructed down the mountain face."
+        }
+      ]
+    }
+  },
+  {
+    "id": "vargtower-beacon",
+    "regionId": "nordhalla",
+    "name": "Vargtower Beacon",
+    "type": "wilderness",
+    "description": "A massive stone signal tower built on a sheer cliff edge. Its gargantuan iron brazier, fueled by whale oil and sulfur, can cast an amber flare visible across sixty miles of fjord to warn settlements of approaching ice storms.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr",
+      "Sea-Guard"
+    ],
+    "connections": [
+      "vargtor",
+      "frostholm"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Year 55 (Freezing Era)",
+      "foundedBy": "Royal Signal-Corps of Frosthold",
+      "foundingStory": "Erected on a soaring cliff peak to serve as the northernmost line of sight for Frosthold's defense network.",
+      "significantEvents": [
+        {
+          "date": "Year 55",
+          "event": "Great iron brazier lit for the first time during the Winter Tempest."
+        }
+      ]
+    }
+  },
+  {
+    "id": "cod-drying-racks",
+    "regionId": "nordhalla",
+    "name": "Cod-Drying Racks of Eldonholm",
+    "type": "settlement",
+    "description": "Sprawling timber scaffoldings lining the ocean bluffs where hundreds of tons of split cod dry in the freezing sub-zero sea winds. This cured stockfish sustains garrisons across the realm through the six-month polar night.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Skald Keepers"
+    ],
+    "connections": [
+      "eldonholm",
+      "fjord-gate"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Primordial Era / Rebuilt Year 5 (Freezing Era)",
+      "foundedBy": "Eldonholm Fisherfolk",
+      "foundingStory": "Generations of Skald families built timber scaffoldings along the ocean bluffs, taking advantage of the constant salt-laden gale winds that cure fish naturally without smoke.",
+      "significantEvents": [
+        {
+          "date": "Year 5",
+          "event": "Scaffoldings reinforced with petrified ironwood poles to survive blizzards."
+        }
+      ]
+    }
+  },
+  {
+    "id": "frost-tithe-cradle-camp",
+    "regionId": "nordhalla",
+    "name": "Frost-Tithe Cradle-Camp",
+    "type": "settlement",
+    "description": "A sacred open-air sanctuary where pregnant Rime-Born mothers give birth beneath the aurora borealis. Here, newborn infants are swaddled in frost-cloth to fulfill House Skalvyr's ancient Glacier Bargain, awakening the frost-tithe in their veins.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr",
+      "Skald Keepers"
+    ],
+    "connections": [
+      "frozen-archive",
+      "frostholm"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Year 1 (Freezing Era)",
+      "foundedBy": "The First Rime-Born Mothers & House Skalvyr",
+      "foundingStory": "Established under the harsh terms of the Glacier Bargain. The first seven Skald mothers whose children bore the cold in their blood were brought to this open-air glacial plateau to give birth beneath the aurora.",
+      "significantEvents": [
+        {
+          "date": "Year 1",
+          "event": "The First Cradle-Tithe paid to seal the Glacier Bargain."
+        },
+        {
+          "date": "Year 70",
+          "event": "Sanctuary wall constructed to shelter mothers from predatory glacier beasts."
+        }
+      ]
+    }
+  },
+  {
+    "id": "jaarn-tand-cairn-line",
+    "regionId": "nordhalla",
+    "name": "Járn-Tand's Cairn-Line",
+    "type": "wilderness",
+    "description": "A line of one hundred black basalt monoliths erected by King-Jarl Jarn-Tand (\"Iron-Tooth\") to demarcate civilized Skald holdings from the wild animist tribes. Each stone is inscribed with warnings of immediate execution for unsanctioned shamans.",
     "dangerLevel": "medium",
     "factions": [
       "house-skalvyr"
     ],
     "connections": [
       "frostholm",
-      "stonegrip"
-    ]
-  },
-  {
-    "id": "blizzards-end",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-frostfang-wastes",
-    "name": "Blizzard's End",
-    "type": "ruin",
-    "description": "Lost settlement at the edge of the known map, site of Keth-Amar's failed Seal-Breaking attempt.",
-    "dangerLevel": "extreme",
-    "factions": [
-      "osling-clans"
+      "sunder-wall-gates"
     ],
-    "connections": [
-      "heir-mounds",
-      "hunger-glaciers"
-    ]
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Year 75 (Freezing Era)",
+      "foundedBy": "King-Jarl Jarn-Tand (\"Iron-Tooth\")",
+      "foundingStory": "Following the Cleansing of the Hearth, King-Jarl Jarn-Tand ordered one hundred basalt monoliths quarried and erected in a dead-straight line to sever the animist tribes from royal civilization.",
+      "significantEvents": [
+        {
+          "date": "Year 75",
+          "event": "The Hundredth Cairn consecrated with cold iron."
+        }
+      ]
+    }
   },
   {
-    "id": "heir-mounds",
+    "id": "sunder-wall-gates",
     "regionId": "nordhalla",
-    "subregionId": "nordhalla-frostfang-wastes",
-    "name": "The Heir-Mounds",
-    "type": "tomb",
-    "description": "Dark barrows near Blizzard's End where Keth-Amar's murdered house heirs rest.",
-    "dangerLevel": "extreme",
-    "factions": [
-      "osling-clans"
-    ],
-    "connections": [
-      "blizzards-end"
-    ]
-  },
-  {
-    "id": "jutul-holds",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-frostfang-wastes",
-    "name": "Jutul-Holds",
-    "type": "camps",
-    "description": "Frost-giant warband camps in the deep wastes.",
-    "dangerLevel": "extreme",
-    "factions": [
-      "jutul-giants"
-    ],
-    "connections": [
-      "hunger-glaciers"
-    ]
-  },
-  {
-    "id": "chant-mounds",
-    "regionId": "nordhalla",
-    "subregionId": "nordhalla-frostfang-wastes",
-    "name": "The Chant-Mounds",
-    "type": "sacred",
-    "description": "Ice mounds where Frost Chanters sing forbidden pre-Bargain songs.",
+    "name": "Sunder-Wall Gates",
+    "type": "fortress",
+    "description": "The monumental fortified gateway piercing the three-hundred-foot-tall Sunder-Wall of ice and iron. Heavy portcullises, steam-heated murder holes, and ballista towers guard this single transit checkpoint between the populated fjord lands and the perilous Frostfang Wastes.",
     "dangerLevel": "medium",
     "factions": [
-      "frost-chanters"
+      "house-skalvyr",
+      "Skald Keepers"
     ],
     "connections": [
-      "grimefrost"
-    ]
+      "frostholm",
+      "ymirs-hold",
+      "frostfang-wastes"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Year 80 (Freezing Era)",
+      "foundedBy": "High King-Jarl Halvar Skalvyr & Skald Master-Masons",
+      "foundingStory": "Constructed across the sole valley pass between the Rime-Spires and Skaldfjord. Teams of five thousand workers layered ice, granite boulders, and iron bracing for five years to raise the three-hundred-foot barrier.",
+      "significantEvents": [
+        {
+          "date": "Year 80",
+          "event": "Construction completed; heavy iron gates dropped for the first time."
+        },
+        {
+          "date": "Year 115",
+          "event": "The Great Wastes Incursion: Gate successfully holds against three hundred Jutul giants."
+        }
+      ]
+    }
   },
   {
-    "id": "mammoth-fields",
+    "id": "vaegfolk-river-steads",
     "regionId": "nordhalla",
-    "subregionId": "nordhalla-frostfang-wastes",
-    "name": "The Mammoth-Fields",
-    "type": "wilderness",
-    "description": "Migration grounds of mammoth herds hunted by the Øsling clans.",
-    "dangerLevel": "high",
+    "name": "Vaegfolk River-Steads",
+    "type": "settlement",
+    "description": "A peaceful community of stilt-houses along a warm geothermal tributary. The Vaegfolk clans weave thermal reeds into durable cloaks, breed freshwater ice-trout, and trade herbal broths to traveling merchants.",
+    "dangerLevel": "medium",
     "factions": [
-      "osling-clans"
+      "Skald Keepers"
     ],
     "connections": [
-      "grimefrost"
-    ]
+      "frostholm",
+      "icerill"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Year 38 (Freezing Era)",
+      "foundedBy": "The Vaegfolk River Clans",
+      "foundingStory": "Nomadic freshwater fishermen drove heavy timber piles into the geothermal riverbed, creating a series of interconnected stilt-villages safe from land predators.",
+      "significantEvents": [
+        {
+          "date": "Year 38",
+          "event": "First stilt-hall erected on the warm tributary."
+        }
+      ]
+    }
   },
   {
-    "id": "white-cleft",
+    "id": "ice-locks",
     "regionId": "nordhalla",
-    "subregionId": "nordhalla-frostfang-wastes",
-    "name": "The White Cleft",
-    "type": "wilderness",
-    "description": "Deep glacial crevasse where Endurance Purists strand themselves for weeks.",
-    "dangerLevel": "high",
+    "name": "The Ice-Locks",
+    "type": "settlement",
+    "description": "An engineering marvel of stepped granite lock-basins heated by subterranean steam pipes, allowing heavy cargo longships to climb sixty feet between sea level and the higher inland river valleys.",
+    "dangerLevel": "medium",
     "factions": [
-      "skald-purists"
+      "Icechamber Syndicate",
+      "house-skalvyr"
     ],
     "connections": [
-      "hunger-glaciers"
-    ]
+      "fjord-gate",
+      "frostholm"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Year 95 (Freezing Era)",
+      "foundedBy": "Chief Engineer Astrid Halvarsdottir",
+      "foundingStory": "Built to solve the logistical nightmare of hauling longships overland. Astrid designed a system of four stepped canal locks heated by steam conduits that raised ships thirty paces between fjord and inland river.",
+      "significantEvents": [
+        {
+          "date": "Year 95",
+          "event": "First dreadnought longship ascends the locks successfully."
+        }
+      ]
+    }
+  },
+  {
+    "id": "bridhe-keep",
+    "regionId": "nordhalla",
+    "name": "Bridhe-Keep",
+    "type": "fortress",
+    "description": "An ancient border bastion standing atop a steep granite ridge. Renowned for its subterranean vaulted warm-rooms, it serves as a secure rendezvous point for northern Skald chieftains and visiting dignitaries.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr"
+    ],
+    "connections": [
+      "frostholm",
+      "vargtor"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Primordial Dawn / Reinforced Year 10",
+      "foundedBy": "House Bridhe",
+      "foundingStory": "An ancient mountain keep built on the ruins of a pre-freeze fortress. Its subterranean cellars were heated by coal-fired hearths that have burned without interruption for centuries.",
+      "significantEvents": [
+        {
+          "date": "Year 10",
+          "event": "House Bridhe swears fealty to House Skalvyr in exchange for coal shipments."
+        }
+      ]
+    }
+  },
+  {
+    "id": "frostmead",
+    "regionId": "nordhalla",
+    "name": "Frostmead",
+    "type": "settlement",
+    "description": "A tranquil farming valley nestled in a geothermal depression where hardy frost-barley grows under the warmth of rising steam vents. The village produces the golden grain that feeds Frosthold's bakeries and breweries.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr"
+    ],
+    "connections": [
+      "frostholm",
+      "frost-mead-cellars"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Year 15 (Freezing Era)",
+      "foundedBy": "The Skald Agrarian Settlers",
+      "foundingStory": "Settled when warm steam plumes were discovered rising from a sheltered caldera floor. Early farmers discovered that barley grew rapidly in the mineral-rich heated soil.",
+      "significantEvents": [
+        {
+          "date": "Year 15",
+          "event": "First winter crop harvested under steam-heated greenhouse canopies."
+        }
+      ]
+    }
+  },
+  {
+    "id": "icerill",
+    "regionId": "nordhalla",
+    "name": "Icerill",
+    "type": "settlement",
+    "description": "A coastal village built around natural geysers where skilled artisans carve intricate runes into walrus tusks and mammoth bone, crafting talismans said to protect seafarers from rogue icebergs.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Sea-Guard",
+      "Icechamber Syndicate"
+    ],
+    "connections": [
+      "fjord-gate",
+      "vaegfolk-river-steads"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Year 28 (Freezing Era)",
+      "foundedBy": "Master Carver Brandur",
+      "foundingStory": "Founded at the mouth of a crystal-clear glacial rill where walrus herds gathered on the sea-ice. Brandur established the first bone-carving guildhall here.",
+      "significantEvents": [
+        {
+          "date": "Year 28",
+          "event": "Bone-Carvers Guild chartered under royal seal."
+        }
+      ]
+    }
+  },
+  {
+    "id": "three-hot-springs",
+    "regionId": "nordhalla",
+    "name": "The Three Hot Springs",
+    "type": "settlement",
+    "description": "Three stepped natural mineral pools bubbling with steaming sulfur waters. Warriors returning from glacial patrols soak here to treat frostbite, while diplomats conduct tense truce negotiations in the communal warmth.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Skald Keepers"
+    ],
+    "connections": [
+      "frostholm",
+      "frostmead"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-fjord-coast",
+    "history": {
+      "founded": "Immemorial (Pre-Freeze Sacred Site)",
+      "foundedBy": "Ancient Skald Animists",
+      "foundingStory": "A sacred natural oasis where three steaming sulfur pools bubble up from the granite floor. For centuries, warriors of warring clans laid down their weapons upon entering the spring basin.",
+      "significantEvents": [
+        {
+          "date": "Year 42",
+          "event": "Stone bathing pavilions erected around the natural mineral basins."
+        }
+      ]
+    }
+  },
+  {
+    "id": "snowcall-city",
+    "regionId": "nordhalla",
+    "name": "Snowcall City",
+    "type": "city",
+    "description": "The highest urban metropolis in Nordhalla, built on tiered terraces along the Icetalon peaks. High Neth scholars, Skald clan merchants, and Corvani cliff-folk trade openly in its steam-heated markets, creating the most cosmopolitan haven in the frozen north.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr",
+      "High Neth",
+      "Corvani Roost-Merchants"
+    ],
+    "connections": [
+      "saltgrinn",
+      "stonegrip",
+      "svalghjartas-keep",
+      "frostdell"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 62 (Freezing Era)",
+      "foundedBy": "The Skald-High Neth Coalition",
+      "foundingStory": "Established on the high terraces of the Icetalon peaks as a neutral free-city where High Neth scholars fleeing southern upheavals could trade legal and arcane archiving in exchange for Skald protection and timber.",
+      "significantEvents": [
+        {
+          "date": "Year 62",
+          "event": "The Snowcall Charter signed on parchment and etched into basalt."
+        },
+        {
+          "date": "Year 105",
+          "event": "The High Neth Quarter completed with slate-roofed guildhalls."
+        }
+      ]
+    }
+  },
+  {
+    "id": "hvalhavn",
+    "regionId": "nordhalla",
+    "name": "Hvalhavn",
+    "type": "port",
+    "description": "A rugged whaling port carved into sheer black coastal cliffs. Its dockworkers and harpooners brave the violent Iceheart currents in iron-ribbed longboats to hunt leviathans, hauling mammoth carcasses onto slipways lined with burning torches.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr",
+      "Sea-Guard"
+    ],
+    "connections": [
+      "snowcall-city",
+      "havhavn",
+      "kildhavn"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 14 (Freezing Era)",
+      "foundedBy": "Captain Torvald Blood-Harpoon",
+      "foundingStory": "Carved out of black sea cliffs as an advance whaling station for deep-sea expeditions venturing into the treacherous Iceheart waters.",
+      "significantEvents": [
+        {
+          "date": "Year 14",
+          "event": "First leviathan brought into the harbor slipway."
+        }
+      ]
+    }
+  },
+  {
+    "id": "svalghjartas-keep",
+    "regionId": "nordhalla",
+    "name": "Sválghjarta's Keep",
+    "type": "fortress",
+    "description": "A forbidding obsidian fortress built around the pulsing Swallow-Heart, an eldritch organ that radiates abnormal warmth and predatory malice. The fanatical Hungríd Cult gathers here to offer blood-tithes in exchange for supernatural resistance to freezing cold.",
+    "dangerLevel": "medium",
+    "factions": [
+      "The Hungríd Cult",
+      "house-skalvyr"
+    ],
+    "connections": [
+      "snowcall-city",
+      "blodholl",
+      "mord-cradle-camp"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 35 (Freezing Era)",
+      "foundedBy": "Lord Vaelen Sválghjarta",
+      "foundingStory": "Constructed around the mysterious Swallow-Heart, an eldritch pulsating relic discovered embedded in black volcanic glass. The keep was raised to harness the organ's dark thermal energy.",
+      "significantEvents": [
+        {
+          "date": "Year 35",
+          "event": "The Swallow-Heart unearthed; obsidian keep walls raised around it."
+        },
+        {
+          "date": "Year 92",
+          "event": "The Hungríd Cult formalizes its sacrificial blood-tithe rites in the inner sanctum."
+        }
+      ]
+    }
+  },
+  {
+    "id": "stonegrip",
+    "regionId": "nordhalla",
+    "name": "Stonegrip",
+    "type": "fortress",
+    "description": "A colossal alpine redoubt carved into the neck of the Icetalon Pass. Defended by rolling boulder-traps and steam-powered drawbridges, it has repelled every Øsling raid and marauding glacier beast for two centuries.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr",
+      "Skald Berserkers"
+    ],
+    "connections": [
+      "snowcall-city",
+      "skadis-col",
+      "frostdell"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 20 (Freezing Era)",
+      "foundedBy": "Skald Fortress-Masons",
+      "foundingStory": "Built into the narrowest choke point of the Icetalon Pass to seal off the southern valleys from monster migrations descending from the high peaks.",
+      "significantEvents": [
+        {
+          "date": "Year 20",
+          "event": "First counterweighted boulder-chutes installed above the pass road."
+        }
+      ]
+    }
+  },
+  {
+    "id": "frostdell",
+    "regionId": "nordhalla",
+    "name": "Frostdell",
+    "type": "settlement",
+    "description": "A sheltered highland valley warmed by deep volcanic vents. Nomadic herders graze woolly goats on resilient moss banks, while herbalists harvest rare frost-blossoms used in alchemical healing tinctures.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Skald Keepers"
+    ],
+    "connections": [
+      "snowcall-city",
+      "stonegrip"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 45 (Freezing Era)",
+      "foundedBy": "Highland Herder Clans",
+      "foundingStory": "Discovered by alpine herders who followed escaping woolly goats into a hidden mountain pocket warmed by deep subterranean vents.",
+      "significantEvents": [
+        {
+          "date": "Year 45",
+          "event": "First stone fold walls built around the natural geothermal vents."
+        }
+      ]
+    }
+  },
+  {
+    "id": "xardins-hearth",
+    "regionId": "nordhalla",
+    "name": "Xardin's Hearth",
+    "type": "port",
+    "description": "A lawless geothermal port town sheltered beneath hanging glaciers. The Fredløse clans operate the infamous Sorte Market here, smuggling exotic fexric artifacts, forbidden southern grimoires, and un-taxed whale oil.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Fredløse Outlaws",
+      "Icechamber Syndicate"
+    ],
+    "connections": [
+      "midhofn",
+      "saltgrinn",
+      "smugglers-cove"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 50 (Freezing Era)",
+      "foundedBy": "Xardin the Exiled",
+      "foundingStory": "Established by banished Skald clans who found a hidden thermal harbor behind glacial walls. They established the Sorte Market, dealing in illicit contraband free from Frosthold taxes.",
+      "significantEvents": [
+        {
+          "date": "Year 50",
+          "event": "First pirate longship docks at Xardin's cove."
+        },
+        {
+          "date": "Year 125",
+          "event": "The Sorte Market codifies its outlaw council rules."
+        }
+      ]
+    }
+  },
+  {
+    "id": "eldoyane",
+    "regionId": "nordhalla",
+    "name": "Eldøyane",
+    "type": "wilderness",
+    "description": "A volcanic archipelago of black basalt needles jutting from the ice-choked sea. Fumaroles vent sulfurous steam into the sky, creating micro-climates where fiery red lichens flourish amid permafrost.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Sea-Guard"
+    ],
+    "connections": [
+      "xardins-hearth",
+      "havhavn"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 70 (Freezing Era)",
+      "foundedBy": "Volcanic Sulfur Miners",
+      "foundingStory": "Settled by hardy miners who rowed skin-canoes to these smoking volcanic sea-stacks to harvest pure yellow sulfur for fortress gunpowder and blast-mines.",
+      "significantEvents": [
+        {
+          "date": "Year 70",
+          "event": "First sulfur processing kiln constructed on the islet rocks."
+        }
+      ]
+    }
+  },
+  {
+    "id": "saltgrinn",
+    "regionId": "nordhalla",
+    "name": "Saltgrinn",
+    "type": "settlement",
+    "description": "A vertical mining town carved into sea-cliff caverns, inhabited by Pale Neth miners who harvest razor-sharp brine crystals from subterranean thermal springs to supply Nordhalla's fish-curing industry.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Pale Neth",
+      "Icechamber Syndicate"
+    ],
+    "connections": [
+      "snowcall-city",
+      "xardins-hearth",
+      "saltbryggja"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 55 (Freezing Era)",
+      "foundedBy": "Pale Neth Exiles",
+      "foundingStory": "Tunneled into coastal caverns where brine springs evaporated on hot volcanic stone, creating vast fields of pure white salt crystals.",
+      "significantEvents": [
+        {
+          "date": "Year 55",
+          "event": "Pale Neth community establishes the deep cavern extraction galleries."
+        }
+      ]
+    }
+  },
+  {
+    "id": "midhofn",
+    "regionId": "nordhalla",
+    "name": "Miðhöfn",
+    "type": "port",
+    "description": "A fortified central harbor and shipyard where Icechamber Syndicate shipwrights construct iron-plated icebreaker galleys, caulking hulls with boiled pine resin and mammoth tallow.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Icechamber Syndicate",
+      "house-skalvyr"
+    ],
+    "connections": [
+      "xardins-hearth",
+      "saltbryggja",
+      "havhavn"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 40 (Freezing Era)",
+      "foundedBy": "The Icechamber Syndicate",
+      "foundingStory": "Built as the central naval shipyard of the Syndicate, equipped with heated drydocks capable of fitting thick iron plating onto longship hulls.",
+      "significantEvents": [
+        {
+          "date": "Year 40",
+          "event": "First ironclad dreadnought launched from drydock."
+        }
+      ]
+    }
   },
   {
     "id": "saltbryggja",
     "regionId": "nordhalla",
-    "subregionId": "nordhalla-glacier-heart",
     "name": "Saltbryggja",
     "type": "port",
-    "description": "The Salt Wharf of Miðhöfn — salt-stained docks named for the crusted harbor pilings where Pale Neth, humans, and sea-traders unload warm-water harvest and trade goods.",
-    "dangerLevel": "low",
+    "description": "A bustling quayside lined with salt-boiling pans and barrel coopers. Merchant longships crowd the piers, bartering iron ingots and timber for barrels of salt and dried meat.",
+    "dangerLevel": "medium",
     "factions": [
-      "pale-neth",
-      "neutral-traders"
+      "Icechamber Syndicate"
     ],
     "connections": [
       "midhofn",
       "saltgrinn"
-    ]
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 58 (Freezing Era)",
+      "foundedBy": "The Salt Merchants Guild",
+      "foundingStory": "A fortified pier constructed to handle the massive salt trade flowing from Saltgrinn to the royal fish-curing stations.",
+      "significantEvents": [
+        {
+          "date": "Year 58",
+          "event": "Great storage warehouse built to store five thousand barrels of cured salt."
+        }
+      ]
+    }
+  },
+  {
+    "id": "kildvagt",
+    "regionId": "nordhalla",
+    "name": "Kildvagt",
+    "type": "fortress",
+    "description": "A solitary watchtower perched atop a sheer granite spire. Sentinels use polished brass mirrors and smoke signals to coordinate patrols across thirty miles of alpine valleys.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr"
+    ],
+    "connections": [
+      "kildhavn",
+      "stonegrip"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 33 (Freezing Era)",
+      "foundedBy": "Skald Mountain Sentinels",
+      "foundingStory": "Built on an isolated needle peak to monitor the high glacier passes for signs of avalanche or hostile clan movements.",
+      "significantEvents": [
+        {
+          "date": "Year 33",
+          "event": "Heliograph signaling platform installed on the highest spire."
+        }
+      ]
+    }
+  },
+  {
+    "id": "kildhavn",
+    "regionId": "nordhalla",
+    "name": "Kildhavn",
+    "type": "settlement",
+    "description": "A quiet fishing cove protected from sea storms by a natural granite reef. Hardy divers harvest giant arctic clams and cold-water pearls from the kelp forests beneath the ice.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Sea-Guard"
+    ],
+    "connections": [
+      "kildvagt",
+      "hvalhavn"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 26 (Freezing Era)",
+      "foundedBy": "Coastal Deep-Net Fishermen",
+      "foundingStory": "Established behind a natural granite reef where fishing boats could moor safely away from crashing icebergs.",
+      "significantEvents": [
+        {
+          "date": "Year 26",
+          "event": "Granite jetty constructed from sea-stack rubble."
+        }
+      ]
+    }
+  },
+  {
+    "id": "bearsbeards-beak",
+    "regionId": "nordhalla",
+    "name": "Bearsbeard's Beak",
+    "type": "wilderness",
+    "description": "The highest, most jagged granite peak in the Rime-Spires. According to Skald legend, the mountain is the petrified skull of an ancient frost-titan; shamans climb its wind-battered ridges to seek prophetic visions.",
+    "dangerLevel": "medium",
+    "factions": [
+      "The Stone-Speakers"
+    ],
+    "connections": [
+      "skadis-col",
+      "rime-spires"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Primordial Era",
+      "foundedBy": "Nature / Ancient Stone-Speakers",
+      "foundingStory": "The legendary granite peak has stood since the shaping of the world. Ancient animist shamans chiseled sacred spiral petroglyphs into its crest thousands of years ago.",
+      "significantEvents": [
+        {
+          "date": "Primordial Era",
+          "event": "First spiral petroglyphs chiseled into the summit crag."
+        }
+      ]
+    }
+  },
+  {
+    "id": "skadis-col",
+    "regionId": "nordhalla",
+    "name": "Skadi's Col",
+    "type": "wilderness",
+    "description": "A treacherous mountain pass between two towering glacier peaks. Relentless sub-zero gales roar through the narrow chasm, where frozen corpses of fallen travelers mark the only safe path across the divide.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Skald Keepers"
+    ],
+    "connections": [
+      "stonegrip",
+      "bearsbeards-beak",
+      "cracked-cyst"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Primordial Era",
+      "foundedBy": "Glacial Movement",
+      "foundingStory": "Carved through millions of years by shifting ice sheets. The earliest Skald travelers marked the path through the howling pass with stone cairns.",
+      "significantEvents": [
+        {
+          "date": "Year 15",
+          "event": "The Skadi Memorial Cairns established after a caravan of sixty fell to frost."
+        }
+      ]
+    }
+  },
+  {
+    "id": "thogn",
+    "regionId": "nordhalla",
+    "name": "Þögn",
+    "type": "sacred",
+    "description": "The sacred Silence-Cliff where arctic winds miraculously drop dead still. Rime-Born pilgrims climb the Breathless Stair to meditate here, performing rites to freeze traumatic memories and numb emotional pain.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Skald Keepers",
+      "The Frozen Archive"
+    ],
+    "connections": [
+      "breathless-stair",
+      "glacier-song-hermitage"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 2 (Freezing Era)",
+      "foundedBy": "Rime-Born Hermits & Shamans",
+      "foundingStory": "Discovered immediately after the Glacier Bargain when the first frost-touched shamans noticed that all wind and sound died at the edge of the cliff. They dedicated it as a sanctuary for mental peace.",
+      "significantEvents": [
+        {
+          "date": "Year 2",
+          "event": "First silence-meditation rite performed on the cliff ledge."
+        }
+      ]
+    }
+  },
+  {
+    "id": "gjaldhringr",
+    "regionId": "nordhalla",
+    "name": "Gjaldhringr",
+    "type": "ruin",
+    "description": "An ancient circle of twelve rune-inscribed monoliths standing in a snowy basin. Under historic truces, clan chieftains gather here to settle blood-feuds, negotiate wergild compensations, and seal marriage pacts.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr",
+      "Skald Keepers"
+    ],
+    "connections": [
+      "snowcall-city",
+      "thogn"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Centuries before the Freeze",
+      "foundedBy": "The Ancient Northern Clan Confederation",
+      "foundingStory": "Twelve standing stones erected around a natural basalt mound as neutral ground where clan laws were proclaimed and blood-fines weighed.",
+      "significantEvents": [
+        {
+          "date": "Primordial Era",
+          "event": "The Twelve Menhirs consecrated with clan blood."
+        }
+      ]
+    }
+  },
+  {
+    "id": "cracked-cyst",
+    "regionId": "nordhalla",
+    "name": "The Cracked-Cyst",
+    "type": "wilderness",
+    "description": "A deep glacial chasm where supernatural azure light pulses beneath the translucent ice, radiating subtle resonance from a shattered Monolith fragment embedded miles in the mantle.",
+    "dangerLevel": "medium",
+    "factions": [
+      "The Frozen Archive"
+    ],
+    "connections": [
+      "skadis-col",
+      "rime-spires"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 8 (Freezing Era)",
+      "foundedBy": "Glacial Fissure Discovery",
+      "foundingStory": "Opened during a massive earthquake that cracked the continental ice sheet, revealing a glowing blue celestial artifact deep in the crevasse.",
+      "significantEvents": [
+        {
+          "date": "Year 8",
+          "event": "The Great Quake exposes the azure pulsing starlight beneath the ice."
+        }
+      ]
+    }
+  },
+  {
+    "id": "breathless-stair",
+    "regionId": "nordhalla",
+    "name": "The Breathless Stair",
+    "type": "wilderness",
+    "description": "A vertiginous staircase of three thousand steps carved into a vertical granite cliff, leading pilgrims and initiates to the sacred summit of Þögn.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Skald Keepers"
+    ],
+    "connections": [
+      "thogn",
+      "ravencall-eyrie"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 12 (Freezing Era)",
+      "foundedBy": "Pilgrims of Þögn",
+      "foundingStory": "Hand-chiseled over twenty years by devout Rime-Born pilgrims seeking to ascend the vertical cliff to the Silence-Sanctuary.",
+      "significantEvents": [
+        {
+          "date": "Year 32",
+          "event": "The Three-Thousandth Step completed and consecrated."
+        }
+      ]
+    }
+  },
+  {
+    "id": "glacier-song-hermitage",
+    "regionId": "nordhalla",
+    "name": "Glacier-Song Hermitage",
+    "type": "sacred",
+    "description": "An isolated stone sanctuary where blind Rune Keepers press their ears to the glacier walls, transcribing the rhythmic groans and shifts of the ice sheet to predict epochal tremors and weather shifts.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Skald Keepers",
+      "The Frozen Archive"
+    ],
+    "connections": [
+      "thogn",
+      "whispering-pine"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 25 (Freezing Era)",
+      "foundedBy": "The Blind Rune-Seekers",
+      "foundingStory": "Built against the shear-face of the glacier by a sect of blind seers who discovered that listening to the acoustic groaning of the ice allowed them to predict future disasters.",
+      "significantEvents": [
+        {
+          "date": "Year 25",
+          "event": "First seismic augury log inscribed in stasis parchment."
+        }
+      ]
+    }
+  },
+  {
+    "id": "ash-tide-fishing-village",
+    "regionId": "nordhalla",
+    "name": "Ash-Tide Fishing Village",
+    "type": "settlement",
+    "description": "A coastal village where volcanic ash mixed with tidal ice creates fertile black mud. Fishermen harvest frost-crabs and sea-cabbage in warm tidal pools sheltered by basalt sea-walls.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Sea-Guard"
+    ],
+    "connections": [
+      "ember-tide-way",
+      "xardins-hearth"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 42 (Freezing Era)",
+      "foundedBy": "Volcanic Shoreline Settlers",
+      "foundingStory": "Formed when fishermen realized that the black volcanic silt dumped into the sea by coastal vents created warm tidal pools abundant in crab and cod.",
+      "significantEvents": [
+        {
+          "date": "Year 42",
+          "event": "Village huts built on timber stilts above the volcanic mud."
+        }
+      ]
+    }
+  },
+  {
+    "id": "ember-tide-way",
+    "regionId": "nordhalla",
+    "name": "Ember-Tide Way",
+    "type": "wilderness",
+    "description": "A paved stone highway kept clear of ice by natural underground thermal vents. Caravan trains use this reliable route to transport timber and ore between coastal ports and mountain strongholds.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr",
+      "Icechamber Syndicate"
+    ],
+    "connections": [
+      "ash-tide-fishing-village",
+      "xardins-hearth"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 65 (Freezing Era)",
+      "foundedBy": "The Icechamber Trade Engineers",
+      "foundingStory": "Constructed by paving flat flagstones directly over a subterranean geothermal fissure, creating twenty miles of highway that never freezes over.",
+      "significantEvents": [
+        {
+          "date": "Year 65",
+          "event": "Highway inaugurated with the first heated trade caravan."
+        }
+      ]
+    }
+  },
+  {
+    "id": "mord-cradle-camp",
+    "regionId": "nordhalla",
+    "name": "Morð Cradle-Camp",
+    "type": "settlement",
+    "description": "A hidden valley settlement where Rime-Touched mothers and their blue-skinned children live in communal ice-halls, sheltered from religious persecution by sympathetic Skald animists.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Rime-Touched",
+      "The Hungríd Cult"
+    ],
+    "connections": [
+      "svalghjartas-keep",
+      "blodholl"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 10 (Freezing Era)",
+      "foundedBy": "Rime-Born Outcasts",
+      "foundingStory": "Hidden in a high alpine depression to protect blue-skinned children from being executed by superstitious purist clans.",
+      "significantEvents": [
+        {
+          "date": "Year 10",
+          "event": "First ice-dome shelter raised for frost-touched orphans."
+        }
+      ]
+    }
+  },
+  {
+    "id": "hrafnskogur",
+    "regionId": "nordhalla",
+    "name": "Hrafnskógur",
+    "type": "wilderness",
+    "description": "The ancient Raven-Forest, where towering petrified pines are black with thousands of roosting Corvani ravens. Travelers whisper that every word spoken beneath the boughs is carried to Matriarch Vespera.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Corvani Flocks"
+    ],
+    "connections": [
+      "whispering-pine",
+      "hrafnest",
+      "rooks-promontory"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Primordial Era",
+      "foundedBy": "The First Corvani Flocks",
+      "foundingStory": "The sacred ancestral home of the Corvani ravens, who have roosted in the petrified ironwoods since before human history was recorded.",
+      "significantEvents": [
+        {
+          "date": "Primordial Era",
+          "event": "The Great Roost-Pact established between the raven clans."
+        }
+      ]
+    }
+  },
+  {
+    "id": "whispering-pine",
+    "regionId": "nordhalla",
+    "name": "The Whispering Pine",
+    "type": "wilderness",
+    "description": "A vast, dense evergreen forest where the arctic wind whistles through icy pine needles, mimicking distant voices. Woodcutters harvest ironwood logs here under the watchful gaze of sentinel wolves.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Skald Keepers"
+    ],
+    "connections": [
+      "hrafnskogur",
+      "whispering-pine-logging-camps",
+      "glacier-song-hermitage"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Primordial Era",
+      "foundedBy": "Ancient Taiga Growth",
+      "foundingStory": "An ancient ironwood taiga that adapted to the sub-zero freeze by absorbing trace volcanic minerals from the soil, hardening its timber to iron.",
+      "significantEvents": [
+        {
+          "date": "Year 30",
+          "event": "First logging trails opened under strict harvest limits."
+        }
+      ]
+    }
+  },
+  {
+    "id": "rime-spires",
+    "regionId": "nordhalla",
+    "name": "The Rime-Spires",
+    "type": "wilderness",
+    "description": "A breathtaking field of needle-like blue ice spires rising hundreds of feet into the sky, preserved by ancient binding magic that prevents them from melting even under direct summer sun.",
+    "dangerLevel": "medium",
+    "factions": [
+      "The Frozen Archive"
+    ],
+    "connections": [
+      "bearsbeards-beak",
+      "cracked-cyst"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 1 (Freezing Era)",
+      "foundedBy": "The Glacier Bargain Magic",
+      "foundingStory": "Formed instantly when the cosmic frost wave was frozen in place, crystallizing into hundreds of needle-like blue ice towers.",
+      "significantEvents": [
+        {
+          "date": "Year 1",
+          "event": "The spires crystallize during the freezing of the sky."
+        }
+      ]
+    }
+  },
+  {
+    "id": "endless-steppe",
+    "regionId": "nordhalla",
+    "name": "The Endless Steppe",
+    "type": "wilderness",
+    "description": "A high-altitude tundra of pale freeze-grass and permafrost where mammoth herds and white caribou graze, hunted by nomadic Skald scouting parties and Corvani trackers.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Skald Keepers",
+      "Corvani Flocks"
+    ],
+    "connections": [
+      "whispering-pine",
+      "stahlberg"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Primordial Era",
+      "foundedBy": "High Plateau Formation",
+      "foundingStory": "A vast highland steppe that has served as the migration route for shaggy mammoth herds and caribou for tens of thousands of years.",
+      "significantEvents": [
+        {
+          "date": "Immemorial",
+          "event": "First mammoth tracking paths established by ancient hunters."
+        }
+      ]
+    }
+  },
+  {
+    "id": "stahlberg",
+    "regionId": "nordhalla",
+    "name": "Stählberg",
+    "type": "city",
+    "description": "A fortified mountain city tunneled deep into an iron-bearing granite peak. Its blast furnaces roar day and night, producing heavy steel plate armor, crossbolts, and architectural bracing.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr",
+      "Icechamber Syndicate"
+    ],
+    "connections": [
+      "endless-steppe",
+      "bjargsten-camp",
+      "kapp"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 50 (Freezing Era)",
+      "foundedBy": "Master Miner Torvald Iron-Drill",
+      "foundingStory": "Tunneled into a massive granite mountain rich in iron ore and coal. Torvald designed a vertical shaft city where heat from deep blast furnaces warmed every residential level above.",
+      "significantEvents": [
+        {
+          "date": "Year 50",
+          "event": "First blast furnace lit inside the mountain heart."
+        },
+        {
+          "date": "Year 110",
+          "event": "Deep mine tunnels expanded to connect with subterranean coal beds."
+        }
+      ]
+    }
+  },
+  {
+    "id": "hrafnest",
+    "regionId": "nordhalla",
+    "name": "Hrafnest",
+    "type": "settlement",
+    "description": "The primary cliffside aerie of the Corvani ravens, consisting of hanging rope bridges, hollowed roost-chambers, and wind-carved trading towers overlooking the forest canopy.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Corvani Flocks"
+    ],
+    "connections": [
+      "hrafnskogur",
+      "rooks-promontory",
+      "vesperas-perch"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 18 (Freezing Era)",
+      "foundedBy": "Matriarch Morwenna",
+      "foundingStory": "Constructed by hanging rope bridges and weaving timber roosts into the sheer cliff walls of the Icetalon peaks.",
+      "significantEvents": [
+        {
+          "date": "Year 18",
+          "event": "First rope-bridge suspension spans anchored into the granite cliff."
+        }
+      ]
+    }
+  },
+  {
+    "id": "vesperas-perch",
+    "regionId": "nordhalla",
+    "name": "Vespera's Perch",
+    "type": "settlement",
+    "description": "The high council chamber of Corvani Matriarch Vespera, carved into a soaring granite crag. From this vantage, flock messengers depart with encoded letters destined for every realm in Mythrill.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Corvani Flocks"
+    ],
+    "connections": [
+      "hrafnest",
+      "rooks-promontory"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 75 (Freezing Era)",
+      "foundedBy": "Matriarch Vespera",
+      "foundingStory": "Carved into an overhanging sea-cliff to serve as the sovereign council chamber for all Corvani flocks across Nordhalla.",
+      "significantEvents": [
+        {
+          "date": "Year 75",
+          "event": "The Corvani Council of Flocks convenes for the first time in the high chamber."
+        }
+      ]
+    }
+  },
+  {
+    "id": "rooks-promontory",
+    "regionId": "nordhalla",
+    "name": "Rook's Promontory",
+    "type": "wilderness",
+    "description": "A sheer sea-cliff jutting over the frozen ocean where thousands of Corvani gather in vast congregations at dawn, reading omens and currents in the swirling sea mist.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Corvani Flocks"
+    ],
+    "connections": [
+      "hrafnest",
+      "hrafnskogur"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Primordial Era",
+      "foundedBy": "Corvani Scout Traditions",
+      "foundingStory": "A high cliff where Corvani sentinels have gathered at daybreak for centuries to read the morning wind currents.",
+      "significantEvents": [
+        {
+          "date": "Year 20",
+          "event": "Stone observation benches chiseled into the promontory edge."
+        }
+      ]
+    }
+  },
+  {
+    "id": "kolhyrna",
+    "regionId": "nordhalla",
+    "name": "Kolhyrna",
+    "type": "fortress",
+    "description": "A mountain watchtower built directly atop an exposed coal seam that burns continuously subterranean, providing radiant floor heating to sentinels watching the northern passes.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr"
+    ],
+    "connections": [
+      "kolvard",
+      "stahlberg"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 60 (Freezing Era)",
+      "foundedBy": "Stählberg Garrison Engineers",
+      "foundingStory": "Built over an ignited underground coal vein to provide a warm outpost that never required wood fuel to heat.",
+      "significantEvents": [
+        {
+          "date": "Year 60",
+          "event": "Watchtower completed above the smoldering coal vent."
+        }
+      ]
+    }
+  },
+  {
+    "id": "run",
+    "regionId": "nordhalla",
+    "name": "Rún",
+    "type": "sacred",
+    "description": "An ancient ice-cavern where the original runic pact of the Glacier Bargain is chiseled into glacial walls, guarded by sworn champions who never speak aloud.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Skald Keepers",
+      "house-skalvyr"
+    ],
+    "connections": [
+      "gjaldhringr",
+      "thogn"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 1 (Freezing Era)",
+      "foundedBy": "Aethil Skalvyr & Keth-Amar Pact Keepers",
+      "foundingStory": "The sacred grotto where the original runes of the Glacier Bargain were inscribed into the living glacier floor.",
+      "significantEvents": [
+        {
+          "date": "Year 1",
+          "event": "The First Rune chiseled with cold blood."
+        }
+      ]
+    }
+  },
+  {
+    "id": "kapp",
+    "regionId": "nordhalla",
+    "name": "Kapp",
+    "type": "settlement",
+    "description": "A fortified trading town at the crossroads between the mountain mines and the eastern valleys, bustling with pelt-merchants, sledge-drivers, and weapon smiths.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Icechamber Syndicate",
+      "house-skalvyr"
+    ],
+    "connections": [
+      "stahlberg",
+      "snowcall-city"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 68 (Freezing Era)",
+      "foundedBy": "Frontier Pelt Traders",
+      "foundingStory": "Formed as a stockade trading post where trappers returning from the deep mountains could trade furs without traveling all the way to the coast.",
+      "significantEvents": [
+        {
+          "date": "Year 68",
+          "event": "Stockade walls erected around the central trading hall."
+        }
+      ]
+    }
+  },
+  {
+    "id": "blodholl",
+    "regionId": "nordhalla",
+    "name": "Blóðhöll",
+    "type": "sacred",
+    "description": "The sacred Blood Hall, a natural ice amphitheater where Skald Berserkers duel in ritual combat to draw blood on the frozen arena floor, igniting their dormant primal blood-heat.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Skald Berserkers",
+      "The Hungríd Cult"
+    ],
+    "connections": [
+      "svalghjartas-keep",
+      "mord-cradle-camp"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 16 (Freezing Era)",
+      "foundedBy": "Grum Bloodhammer",
+      "foundingStory": "A natural ice amphitheater consecrated as the proving grounds where Berserkers duel to awaken their inner fire.",
+      "significantEvents": [
+        {
+          "date": "Year 16",
+          "event": "First Blood-Duel fought; Grum ignites his primal blood-heat."
+        }
+      ]
+    }
+  },
+  {
+    "id": "havhavn",
+    "regionId": "nordhalla",
+    "name": "Havhavn",
+    "type": "port",
+    "description": "A storm-lashed deepwater harbor where ocean longships anchor before braving the open ice-seas. Whalers, smugglers, and mercenaries congregate in its rugged dockside taverns.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Sea-Guard",
+      "Icechamber Syndicate"
+    ],
+    "connections": [
+      "hvalhavn",
+      "midhofn"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 32 (Freezing Era)",
+      "foundedBy": "The Deep-Sea Captains Guild",
+      "foundingStory": "Constructed as an outer deepwater port with granite breakwaters capable of withstanding sixty-foot rogue waves.",
+      "significantEvents": [
+        {
+          "date": "Year 32",
+          "event": "Outer stone breakwater completed."
+        }
+      ]
+    }
+  },
+  {
+    "id": "whispering-pine-logging-camps",
+    "regionId": "nordhalla",
+    "name": "Whispering Pine Logging Camps",
+    "type": "settlement",
+    "description": "Heated log cabins and steam-sawmills nestled in the deep forest where lumberjacks harvest dense ironwood timber to construct longships and palace beams.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Icechamber Syndicate"
+    ],
+    "connections": [
+      "whispering-pine",
+      "stahlberg"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 44 (Freezing Era)",
+      "foundedBy": "The Timber Cartel",
+      "foundingStory": "Heated logging camps established to harvest ironwood logs for longship keels and fortress gates.",
+      "significantEvents": [
+        {
+          "date": "Year 44",
+          "event": "First steam-sawmill brought online."
+        }
+      ]
+    }
+  },
+  {
+    "id": "bjargsten-camp",
+    "regionId": "nordhalla",
+    "name": "Bjärgsten Camp",
+    "type": "settlement",
+    "description": "A high-altitude quarry camp where stonecutters extract massive black granite blocks, sliding them down frozen chutes to supply fortification projects throughout the realm.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr"
+    ],
+    "connections": [
+      "stahlberg",
+      "stonegrip"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 52 (Freezing Era)",
+      "foundedBy": "Royal Quarry-Masters",
+      "foundingStory": "High-altitude quarry camp opened to supply heavy granite blocks for the Sunder-Wall construction.",
+      "significantEvents": [
+        {
+          "date": "Year 52",
+          "event": "First hundred-ton granite block extracted and slid down the ice chutes."
+        }
+      ]
+    }
+  },
+  {
+    "id": "varmagrim",
+    "regionId": "nordhalla",
+    "name": "Varmagrím",
+    "type": "settlement",
+    "description": "An underground distillation facility built over geothermal vents where alchemists refine crude coal-oil into high-grade fuel used in fortress braziers and siege engines.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Icechamber Syndicate"
+    ],
+    "connections": [
+      "stahlberg",
+      "kolhyrna"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 72 (Freezing Era)",
+      "foundedBy": "Alchemist Valerius & Bloodhammer Smith-Masters",
+      "foundingStory": "Built over hot sulfuric fissures to refine coal-oil and volatile heating tinctures for the military.",
+      "significantEvents": [
+        {
+          "date": "Year 72",
+          "event": "First copper distillation coil brought into operation."
+        }
+      ]
+    }
+  },
+  {
+    "id": "grimuvard",
+    "regionId": "nordhalla",
+    "name": "Grímuvarð",
+    "type": "fortress",
+    "description": "The Masked Watch fortress, whose sentinels wear enchanted iron masks to protect their minds from the hallucinatory whispers carried by sub-zero blizzard winds.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr"
+    ],
+    "connections": [
+      "stonegrip",
+      "ulvard"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 64 (Freezing Era)",
+      "foundedBy": "The Masked Sentinels Guild",
+      "foundingStory": "Built at the mouth of the Whispering Gorge to guard against frost-witch incursions and psychological blizzard madness.",
+      "significantEvents": [
+        {
+          "date": "Year 64",
+          "event": "First iron mask forged and sworn to the watch."
+        }
+      ]
+    }
+  },
+  {
+    "id": "ulvard",
+    "regionId": "nordhalla",
+    "name": "Úlvarð",
+    "type": "fortress",
+    "description": "The Wolf-Guard bastion, home to elite Skald beast-masters who breed and train massive white dire-wolves to hunt encroaching monsters and track mountain outlaws.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr",
+      "Skald Keepers"
+    ],
+    "connections": [
+      "grimuvard",
+      "kolvard"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 46 (Freezing Era)",
+      "foundedBy": "Master Beast-Trainer Hroll",
+      "foundingStory": "A stone keep and breeding kennels for massive white dire wolves trained to track in sub-zero whiteouts.",
+      "significantEvents": [
+        {
+          "date": "Year 46",
+          "event": "First pack of trained dire-wolves deployed on perimeter patrol."
+        }
+      ]
+    }
+  },
+  {
+    "id": "kolvard",
+    "regionId": "nordhalla",
+    "name": "Kolvarð",
+    "type": "fortress",
+    "description": "A fortified outpost guarding the mountain supply road that carries refined coal and iron from Stählberg to the royal arsenals of Frosthold Citadel.",
+    "dangerLevel": "medium",
+    "factions": [
+      "house-skalvyr"
+    ],
+    "connections": [
+      "kolhyrna",
+      "ulvard"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 66 (Freezing Era)",
+      "foundedBy": "The Stählberg Supply Guild",
+      "foundingStory": "A fortified outpost ensuring that coal caravans from the mines reached the Frosthold arsenals without bandit ambushes.",
+      "significantEvents": [
+        {
+          "date": "Year 66",
+          "event": "Paved stone supply road fortified with watch posts."
+        }
+      ]
+    }
+  },
+  {
+    "id": "ravencall-eyrie",
+    "regionId": "nordhalla",
+    "name": "Ravencall Eyrie",
+    "type": "settlement",
+    "description": "A cliff-settlement of hanging rope-ladders, roost-hollows, and murmuring ravens where avian messenger-handlers decipher omens and deliver urgent royal missives.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Corvani Flocks"
+    ],
+    "connections": [
+      "hrafnest",
+      "breathless-stair"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-glacier-heart",
+    "history": {
+      "founded": "Year 24 (Freezing Era)",
+      "foundedBy": "Corvani Messenger Flocks",
+      "foundingStory": "A high-altitude cliff staging aerie where raven messengers rest and receive encrypted orders for inter-realm flights.",
+      "significantEvents": [
+        {
+          "date": "Year 24",
+          "event": "First inter-continental message dispatched to Frostwood Reach."
+        }
+      ]
+    }
+  },
+  {
+    "id": "frostfang-wastes",
+    "regionId": "nordhalla",
+    "name": "The Frostfang Wastes",
+    "type": "wilderness",
+    "description": "The vast polar wilderness beyond the Sunder-Wall. A land of whiteout blizzards, roving mammoth herds, and hidden Jutul giant holds where only the hardiest Øsling clans survive.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Øsling Clan Confederation",
+      "The Stone-Speakers"
+    ],
+    "connections": [
+      "sunder-wall-gates",
+      "grimefrost",
+      "blizzards-end"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-frostfang-wastes",
+    "history": {
+      "founded": "Primordial Era",
+      "foundedBy": "Glacial Advancements",
+      "foundingStory": "The ancient polar expanse that swallowed the northern kingdoms when the sun was sealed into the world-heart. It remains an untamed wilderness of roving monsters and ancestral ruins.",
+      "significantEvents": [
+        {
+          "date": "Year 0",
+          "event": "The Great Freeze seals the wastes under hundreds of feet of ice."
+        }
+      ]
+    }
+  },
+  {
+    "id": "grimefrost",
+    "regionId": "nordhalla",
+    "name": "Grimefrost",
+    "type": "settlement",
+    "description": "A rough frontier trading camp pitched against the outer face of the Sunder-Wall. Exiled Skalds, Øsling hunters, and brave pelt-merchants barter ivory and frost-herbs beyond the reach of royal tax-collectors.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Øsling Clan Confederation",
+      "Fredløse Outlaws"
+    ],
+    "connections": [
+      "frostfang-wastes",
+      "sunder-wall-gates",
+      "hunger-glaciers"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-frostfang-wastes",
+    "history": {
+      "founded": "Year 82 (Freezing Era)",
+      "foundedBy": "Øsling Outlaws & Exiled Skalds",
+      "foundingStory": "Pitched against the outer foundations of the Sunder-Wall as a refuge for criminals and exiles who refused royal subjugation.",
+      "significantEvents": [
+        {
+          "date": "Year 82",
+          "event": "First turf-and-bone shelters pitched against the wall base."
+        }
+      ]
+    }
+  },
+  {
+    "id": "blizzards-end",
+    "regionId": "nordhalla",
+    "name": "Blizzard's End",
+    "type": "ruin",
+    "description": "The legendary site where the primordial Blizzard was stopped by the signing of the Glacier Bargain. A frozen forest of ice-statues—men, horses, and beasts flash-frozen mid-stride—stands in silent monument.",
+    "dangerLevel": "medium",
+    "factions": [
+      "The Stone-Speakers",
+      "The Frozen Archive"
+    ],
+    "connections": [
+      "frostfang-wastes",
+      "hunger-glaciers",
+      "heir-mounds"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-frostfang-wastes",
+    "history": {
+      "founded": "Year 1 (Freezing Era)",
+      "foundedBy": "The Glacier Bargain Monument",
+      "foundingStory": "The historic epicenter where the primordial blizzard was halted. The armies of two dying empires were flash-frozen in mid-charge and stand preserved in crystal ice.",
+      "significantEvents": [
+        {
+          "date": "Year 1",
+          "event": "The freezing of the charging armies into permanent stasis."
+        }
+      ]
+    }
+  },
+  {
+    "id": "hunger-glaciers",
+    "regionId": "nordhalla",
+    "name": "Hunger Glaciers",
+    "type": "wilderness",
+    "description": "A predatory expanse of shifting blue ice and gaping crevasses that groans and surges toward sources of warmth. Travelers must move quickly, as the glacier actively calves to swallow caravans whole.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Endurance Purists"
+    ],
+    "connections": [
+      "frostfang-wastes",
+      "grimefrost",
+      "rimors-hearth"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-frostfang-wastes",
+    "history": {
+      "founded": "Year 5 (Freezing Era)",
+      "foundedBy": "Supernatural Glacial Convergence",
+      "foundingStory": "Formed when a supernatural parasitic ice-shard merged with the continental glacier, giving the ice predatory intent that surges toward warm settlements.",
+      "significantEvents": [
+        {
+          "date": "Year 5",
+          "event": "First expedition swallowed whole by the living crevasse surge."
+        }
+      ]
+    }
+  },
+  {
+    "id": "rimors-hearth",
+    "regionId": "nordhalla",
+    "name": "Rimor's Hearth",
+    "type": "ruin",
+    "description": "The volcanic ruins of an ancient mountain stronghold swallowed by glacier ice in the first century. Residual steam vents keep its basalt undercrofts warm, providing vital shelter for outlaws and hardy nomads.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Fredløse Outlaws",
+      "Øsling Clan Confederation"
+    ],
+    "connections": [
+      "hunger-glaciers",
+      "mute-hearth-ruin"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-frostfang-wastes",
+    "history": {
+      "founded": "Pre-Freeze Era / Swallowed Year 22",
+      "foundedBy": "Jarl Rimor the Generous",
+      "foundingStory": "A grand mountain castle with sixty fireplaces that was buried when an avalanche of glacier ice overtopped its walls in the first century.",
+      "significantEvents": [
+        {
+          "date": "Pre-Freeze",
+          "event": "Keep constructed around thirty geothermal steam vents."
+        },
+        {
+          "date": "Year 22",
+          "event": "The Great Ice Surge overruns the battlements, entombing the keep."
+        }
+      ]
+    }
+  },
+  {
+    "id": "mute-hearth-ruin",
+    "regionId": "nordhalla",
+    "name": "The Mute-Hearth",
+    "type": "ruin",
+    "description": "A snow-buried stone redoubt where an ancient covenant of silence was broken. Travelers shelter in its windproof chambers but never speak above a whisper, lest they awaken the glacier wraiths that haunt the corridors.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Øsling Clan Confederation"
+    ],
+    "connections": [
+      "rimors-hearth",
+      "outlaws-freshet"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-frostfang-wastes",
+    "history": {
+      "founded": "Year 15 (Freezing Era)",
+      "foundedBy": "The Vow-Bound Hermits",
+      "foundingStory": "A stone redoubt where an ancient brotherhood took a vow of absolute silence to avoid alerting the predatory glaciers to their presence.",
+      "significantEvents": [
+        {
+          "date": "Year 15",
+          "event": "The Covenant of Silence sworn."
+        }
+      ]
+    }
+  },
+  {
+    "id": "spars-folly",
+    "regionId": "nordhalla",
+    "name": "The Spar's Folly",
+    "type": "ruin",
+    "description": "The colossal timber skeleton of an ancient war-galley frozen halfway up a glacier ridge miles from the sea, lifted and carried inland by centuries of glacial ice-movement.",
+    "dangerLevel": "medium",
+    "factions": [
+      "The Stone-Speakers"
+    ],
+    "connections": [
+      "frostfang-wastes",
+      "drowned-longship-reef"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-frostfang-wastes",
+    "history": {
+      "founded": "Year 11 (Freezing Era)",
+      "foundedBy": "Captain Torbrand Spar",
+      "foundingStory": "Torbrand tried to navigate a tidal surge across the ice shelf; the surging glacier lifted his entire war galley three miles inland where it remains frozen in the ice.",
+      "significantEvents": [
+        {
+          "date": "Year 11",
+          "event": "The war galley stranded atop the glacier crest."
+        }
+      ]
+    }
+  },
+  {
+    "id": "drowned-longship-reef",
+    "regionId": "nordhalla",
+    "name": "The Drowned-Longship Reef",
+    "type": "wilderness",
+    "description": "A frozen coastal shelf where dozens of ancient longships lie preserved in crystal-clear green ice beneath the surface, their shields and dragon figureheads still intact.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Sea-Guard"
+    ],
+    "connections": [
+      "spars-folly",
+      "southern-shore-smugglers-cove"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-frostfang-wastes",
+    "history": {
+      "founded": "Year 18 (Freezing Era)",
+      "foundedBy": "The Great Shipwreck Gale",
+      "foundingStory": "A fleet of thirty Skald longships was trapped against coastal shelf ice by a flash-freeze blizzard, sealing every ship under twenty feet of green ice.",
+      "significantEvents": [
+        {
+          "date": "Year 18",
+          "event": "The entire fleet frozen in stasis beneath the shelf."
+        }
+      ]
+    }
+  },
+  {
+    "id": "outlaws-freshet",
+    "regionId": "nordhalla",
+    "name": "Outlaw's Freshet",
+    "type": "settlement",
+    "description": "A subterranean thermal spring hidden beneath a glacier arch where banished outlaws, heretic animists, and escaped thralls maintain a covert underground haven and market.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Fredløse Outlaws"
+    ],
+    "connections": [
+      "mute-hearth-ruin",
+      "southern-shore-smugglers-cove"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-frostfang-wastes",
+    "history": {
+      "founded": "Year 88 (Freezing Era)",
+      "foundedBy": "The Fredløse Underground",
+      "foundingStory": "Discovered deep in a glacier cave where a warm freshwater spring created an insulated cavern capable of housing two hundred outlaws.",
+      "significantEvents": [
+        {
+          "date": "Year 88",
+          "event": "Cavern fortified with ice-boulder barricades."
+        }
+      ]
+    }
+  },
+  {
+    "id": "southern-shore-smugglers-cove",
+    "regionId": "nordhalla",
+    "name": "Smuggler's Cove",
+    "type": "settlement",
+    "description": "A secluded sea-cove hidden behind towering ice arches where Fredløse smugglers land contraband liquor, illegal iron, and refugees seeking passage into the north.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Fredløse Outlaws",
+      "Icechamber Syndicate"
+    ],
+    "connections": [
+      "outlaws-freshet",
+      "drowned-longship-reef"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-frostfang-wastes",
+    "history": {
+      "founded": "Year 55 (Freezing Era)",
+      "foundedBy": "The Shadow-Rowers Guild",
+      "foundingStory": "Hidden behind jagged sea-ice arches, this cove has served as the premier transfer point for contraband goods entering and leaving the north.",
+      "significantEvents": [
+        {
+          "date": "Year 55",
+          "event": "Secret mooring bollards carved into the ice cave walls."
+        }
+      ]
+    }
+  },
+  {
+    "id": "heir-mounds",
+    "regionId": "nordhalla",
+    "name": "The Heir-Mounds",
+    "type": "tomb",
+    "description": "Sacred earthen barrows lined with blue stasis-ice where the first generation of Rime-Born kings and their shield-maidens were entombed alongside their runic war-gear.",
+    "dangerLevel": "medium",
+    "factions": [
+      "The Stone-Speakers",
+      "The Frozen Archive"
+    ],
+    "connections": [
+      "blizzards-end",
+      "chant-mounds"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-frostfang-wastes",
+    "history": {
+      "founded": "Year 30 (Freezing Era)",
+      "foundedBy": "The Early Skald Royal House",
+      "foundingStory": "Seven colossal stone barrows constructed to hold the bodies of the first generation of Rime-Born princes and princesses who died in the freeze.",
+      "significantEvents": [
+        {
+          "date": "Year 30",
+          "event": "First royal tomb sealed behind iron runic slab."
+        }
+      ]
+    }
+  },
+  {
+    "id": "jutul-holds",
+    "regionId": "nordhalla",
+    "name": "Jutul-Holds",
+    "type": "settlement",
+    "description": "Massive cyclopean caverns carved into glacier roots, inhabited by reclusive Jutul frost-giants who herd giant woolly beasts and forge heavy stone armaments in isolation.",
+    "dangerLevel": "medium",
+    "factions": [
+      "The Jutul Giants"
+    ],
+    "connections": [
+      "frostfang-wastes",
+      "mammoth-fields"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-frostfang-wastes",
+    "history": {
+      "founded": "Primordial Dawn",
+      "foundedBy": "The Jutul Frost-Giants",
+      "foundingStory": "Massive cavern halls carved by the forty-foot Jutul giants who ruled the north thousands of years before the arrival of human clans.",
+      "significantEvents": [
+        {
+          "date": "Immemorial",
+          "event": "Cyclopean pillars carved from mountain roots."
+        }
+      ]
+    }
+  },
+  {
+    "id": "chant-mounds",
+    "regionId": "nordhalla",
+    "name": "The Chant-Mounds",
+    "type": "sacred",
+    "description": "A series of hollow granite stone formations where howling blizzard winds produce deep resonant musical chords. Øsling shamans gather here during whiteouts to chant in harmony with the gale.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Øsling Clan Confederation",
+      "The Stone-Speakers"
+    ],
+    "connections": [
+      "heir-mounds",
+      "mammoth-fields"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-frostfang-wastes",
+    "history": {
+      "founded": "Year 12 (Freezing Era)",
+      "foundedBy": "The Øsling Frost-Chanters",
+      "foundingStory": "A collection of hollowed granite towers designed so the whistling winds produced multi-toned acoustic resonances during storms.",
+      "significantEvents": [
+        {
+          "date": "Year 12",
+          "event": "First choral harmony rite conducted during a blizzard."
+        }
+      ]
+    }
+  },
+  {
+    "id": "mammoth-fields",
+    "regionId": "nordhalla",
+    "name": "The Mammoth-Fields",
+    "type": "wilderness",
+    "description": "Vast snowbound grasslands where massive shaggy mammoth herds graze on sub-glacial tundra moss, fiercely guarded by nomadic Øsling hunting clans against monster incursions.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Øsling Clan Confederation"
+    ],
+    "connections": [
+      "jutul-holds",
+      "chant-mounds",
+      "white-cleft"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-frostfang-wastes",
+    "history": {
+      "founded": "Primordial Era",
+      "foundedBy": "Migratory Mammoth Herds",
+      "foundingStory": "Ancient tundra meadows where giant woolly mammoths scrape snow to feed on rich sub-glacial moss, protected by the Øsling tribes.",
+      "significantEvents": [
+        {
+          "date": "Immemorial",
+          "event": "The Sacred Mammoth Covenant established by early hunters."
+        }
+      ]
+    }
+  },
+  {
+    "id": "white-cleft",
+    "regionId": "nordhalla",
+    "name": "The White Cleft",
+    "type": "wilderness",
+    "description": "A bottomless abyss splitting the polar ice cap, venting glowing freezing mist from subterranean depths. Legends say the chasm plunges all the way to the frozen world-heart.",
+    "dangerLevel": "medium",
+    "factions": [
+      "The Stone-Speakers"
+    ],
+    "connections": [
+      "mammoth-fields",
+      "frostfang-wastes"
+    ],
+    "wyrdCreatures": [],
+    "subregionId": "nordhalla-frostfang-wastes",
+    "history": {
+      "founded": "Year 0 (The Great Binding)",
+      "foundedBy": "The Continental Shattering",
+      "foundingStory": "A bottomless abyss torn open when the celestial bindings of Sol fractured the tectonic crust of northern Mythrill.",
+      "significantEvents": [
+        {
+          "date": "Year 0",
+          "event": "The earth tears open; freezing vapor begins venting from the core."
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-still-crag",
+    "regionId": "nordhalla",
+    "name": "Þögn",
+    "type": "wilderness",
+    "description": "A cliff face perpetually frozen in rime where no wind blows and no sound carries. The Rime-Born claim the cliff is where Keth-Amar's breath touched the mountain during the Glacier Bargain. Ice sculptures of unknown figures stand frozen in attitudes of supplication along the cliff face, no one knows who carved them or who they depict.",
+    "dangerLevel": "high",
+    "factions": [
+      "Rime-Born Rune Keepers"
+    ],
+    "connections": [
+      "rooks-promontory",
+      "frostholm"
+    ],
+    "wyrdCreatures": [
+      "Huld",
+      "Skrei"
+    ],
+    "subregionId": "nordhalla-fjord-coast"
   }
 ];
 
-
-
 export const getZonesByRegion = (regionId) => {
- return ZONE_DATA.filter(zone => zone.regionId === regionId);
+  return ZONE_DATA.filter(zone => zone.regionId === regionId);
 };
 
-export const getZoneData = (zoneId) => {
- return ZONE_DATA.find(zone => zone.id === zoneId) || null;
+export const getZone = (zoneId) => {
+  return ZONE_DATA.find(zone => zone.id === zoneId) || null;
 };
+
+export default ZONE_DATA;

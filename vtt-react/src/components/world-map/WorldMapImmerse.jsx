@@ -8,6 +8,7 @@ import BurnedParchmentBorder from './BurnedParchmentBorder';
 
 // Custom player annotations components
 import AnnotationToolbar from './AnnotationToolbar';
+import { showConfirm } from '../../utils/dialogService';
 import AnnotationPopup from './AnnotationPopup';
 import ShareDialog from './ShareDialog';
 import AnnotationCollisionMenu from './AnnotationCollisionMenu';
@@ -788,7 +789,13 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
     notify('Sign in to manage saved custom maps.', 'warning');
     return;
    }
-   if (typeof window !== 'undefined' && !window.confirm(`Delete custom map "${mapName}"?`)) return;
+   const confirmed = await showConfirm({
+     title: 'Delete Custom Map',
+     message: `Delete custom map "${mapName}"?`,
+     confirmText: 'Delete Map',
+     isDestructive: true
+   });
+   if (!confirmed) return;
     const result = await deleteCustomMap(user.uid, mapId, canAccessCustomMaps);
     if (!result.success) notify(result.error || 'Custom map could not be deleted.', 'error');
    }, [canAccessCustomMaps, deleteCustomMap, denyCustomMapAccess, user?.uid]);

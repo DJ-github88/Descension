@@ -84,7 +84,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     name: "Moonwell Sanctuary",
     icon: "spell_holy_circleofrenewal",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "mw_t1_lunar_healing",
     spell: {
       name: "Moonwell Sanctuary",
@@ -111,7 +111,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     name: "Protective Aura",
     icon: "spell_holy_devotionaura",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 1 },
     requires: "mw_t1_moonlight_heal",
     spell: {
       name: "Protective Aura",
@@ -133,7 +133,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     name: "Lunar Shield",
     icon: "spell_holy_powerwordshield",
     maxRanks: 3,
-    position: { x: 1.5, y: 3 },
+    position: { x: 1.5, y: 2 },
     requires: "mw_t2_moonwell_sanctuary",
     spell: {
       name: "Lunar Shield",
@@ -153,7 +153,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     name: "Mass Restoration",
     icon: "spell_holy_prayerofhealing",
     maxRanks: 3,
-    position: { x: 3, y: 3 },
+    position: { x: 3, y: 2 },
     requires: "mw_t2_protective_aura",
     spell: {
       name: "Mass Restoration",
@@ -180,7 +180,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     name: "Lunar Resurgence",
     icon: "spell_holy_layonhands",
     maxRanks: 3,
-    position: { x: 1.5, y: 4.5 },
+    position: { x: 1.5, y: 3 },
     requires: "mw_t3_lunar_shield",
     spell: {
       name: "Lunar Resurgence",
@@ -200,7 +200,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     name: "Celestial Guardian",
     icon: "spell_holy_holyprotection",
     maxRanks: 2,
-    position: { x: 2.5, y: 4.5 },
+    position: { x: 2.5, y: 3 },
     requires: "mw_t3_mass_restoration",
     spell: {
       name: "Celestial Guardian",
@@ -222,7 +222,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     name: "Eternal Moonwell",
     icon: "spell_holy_divineprovidence",
     maxRanks: 3,
-    position: { x: 2, y: 6 },
+    position: { x: 2, y: 4 },
     requires: "mw_t4_lunar_resurgence",
     spell: {
       name: "Eternal Moonwell",
@@ -242,7 +242,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     name: "Tidal Mend",
     icon: "spell_nature_healingtouch",
     maxRanks: 2,
-    position: { x: 2.5, y: 6 },
+    position: { x: 2.5, y: 4 },
     requires: "mw_t4_celestial_guardian",
     spell: {
       name: "Tidal Mend",
@@ -262,7 +262,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     name: "Lunar Apotheosis",
     icon: "spell_holy_resurrection",
     maxRanks: 1,
-    position: { x: 1.5, y: 5.5 },
+    position: { x: 1.5, y: 5 },
     requires: "mw_t5_eternal_moonwell",
     spell: {
       name: "Lunar Apotheosis",
@@ -286,7 +286,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     name: "Waning Grace",
     icon: "spell_holy_renew",
     maxRanks: 2,
-    position: { x: 2, y: 6.5 },
+    position: { x: 2, y: 5 },
     requires: "mw_t5_eternal_moonwell",
     spell: {
       name: "Waning Grace",
@@ -305,7 +305,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     name: "Wellspring Tide",
     icon: "spell_frost_frost",
     maxRanks: 2,
-    position: { x: 2.5, y: 5.5 },
+    position: { x: 2.5, y: 5 },
     requires: "mw_t5_tidal_mend",
     spell: {
       name: "Wellspring Tide",
@@ -325,7 +325,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     name: "Aedris' Well",
     icon: "spell_holy_resurrection",
     maxRanks: 1,
-    position: { x: 0.5, y: 8 },
+    position: { x: 0.5, y: 6 },
     requires: "mw_t6_lunar_apotheosis",
     spell: {
       name: "Aedris' Well",
@@ -348,7 +348,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     name: "Deep Tides",
     icon: "spell_nature_healingwave",
     maxRanks: 5,
-    position: { x: 1.5, y: 8 },
+    position: { x: 1.5, y: 6 },
     requires: "mw_t6_waning_grace",
     spell: {
       name: "Deep Tides",
@@ -370,7 +370,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     name: "Moonpooled",
     icon: "spell_frost_stun",
     maxRanks: 3,
-    position: { x: 3, y: 8 },
+    position: { x: 3, y: 6 },
     requires: "mw_t6_waning_grace",
     spell: {
       name: "Moonpooled",
@@ -390,7 +390,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     name: "Tidebound Guardian",
     icon: "spell_holy_powerwordbarrier",
     maxRanks: 3,
-    position: { x: 3.5, y: 8 },
+    position: { x: 3.5, y: 6 },
     requires: "mw_t6_wellspring_tide",
     spell: {
       name: "Tidebound Guardian",
@@ -412,7 +412,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
     name: "Phase Weaver",
     icon: "spell_nature_moonglow",
     maxRanks: 3,
-    position: { x: 2, y: 7.5 },
+    position: { x: 2, y: 6 },
     requires: "mw_t6_wellspring_tide",
     spell: {
       name: "Phase Weaver",

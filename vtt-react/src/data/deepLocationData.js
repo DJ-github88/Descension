@@ -1632,6 +1632,73 @@ DEEP_LOCATIONS['snowcall-city'] = {
   npcs: ['solvan-steward']
 };
 
+
+// =============================================================================
+// NORDHALLA, The Whispering Pine (deep)
+// =============================================================================
+DEEP_LOCATIONS['whispering-pine'] = {
+  heraldry: {
+    iconUrl: '/assets/heraldry/whispering-pine.png',
+    colors: { primary: '#1c3822', secondary: '#8b5a1a' },
+    description: 'An ancient petrified ironwood pine encircled by three silver ravens in flight'
+  },
+  population: 850,
+  dominantRaces: ['Skald hunters', 'Corvani flock-scouts', 'Animist hermits'],
+  leadership: {
+    type: 'warden',
+    title: 'High Ranger of the Whispering Pine',
+    leaderId: 'morvath-pine-warden',
+    description: 'Governed by High Ranger Morvath under the joint jurisdiction of House Skalvyr and Matriarch Vespera\'s Corvan Council. Morvath regulates lumber quotas, maintains the beacon-lines, and leads the wolf-sentinels.'
+  },
+  defenses: {
+    militiaSize: 140,
+    fortifications: 'Petrified ironwood palisades, concealed treetop sniper perches, and pitfall traps spiked with volcanic basalt shards.',
+    watchPresence: 'Skald Pine-Wardens and Corvani tree-scouts patrol the canopy bridges; trained white dire-wolves guard the forest floor.'
+  },
+  economy: {
+    primary: 'Petrified ironwood timber harvest and steam-sawing',
+    secondary: ['Alpine wolf-breeding', 'Resin distillation for thermal torches', 'Medicinal needle-oil extraction'],
+    status: 'thriving'
+  },
+  atmosphere: {
+    mood: 'Vast, ancient, and hauntingly acoustic. The wind through millions of iron-hard frozen needles creates deep harmonic hums that sound like ancestral voices speaking in ancient dialects.',
+    architecture: 'High-timber longhalls constructed from petrified logs, linked by hanging rope-and-plank suspension bridges woven through the high canopy.',
+    sounds: 'The constant eerie whistling of wind through quartz-needles, the deep resonant creak of ironwood trunks, distant raven calls, and the baying of sentinel dire-wolves.',
+    smells: 'Sharp pine resin, crushed winter needles, woodsmoke from heated turf cabins, and crisp freezing mountain air.',
+    lighting: 'Filtered jade-green light filtering through dense snowy boughs by day; glowing amber resin-lanterns hung from tree-bridges by night.'
+  },
+  subLocations: [
+    {
+      id: 'grandmother-pine-sanctuary',
+      name: 'The Grandmother Pine Sanctuary',
+      type: 'sacred',
+      description: 'A colossal 400-foot petrified ironwood tree at the forest center whose roots encircle a steaming mineral spring. Animist shamans press their ears to the bark to divine coming storms.',
+      proprietor: 'Skald Animist Hermits',
+      notableFeatures: ['The Resonant Root-Heart', 'The Steam-Basin of Visions']
+    },
+    {
+      id: 'sawmill-terrace',
+      name: 'The Steam-Sawmill Terrace',
+      type: 'industrial',
+      description: 'A fortified logging mill powered by geothermal steam boilers, cutting iron-dense logs into shipbuilding keels and palace rafters.',
+      proprietor: 'Icechamber Timber Cartel',
+      notableFeatures: ['The Great Rotary Cold-Saw', 'The Timber Chute to Skaldfjord']
+    }
+  ],
+  connectedMaps: [],
+  factionPresence: [
+    { factionId: 'house-skalvyr', influence: 'dominant', description: 'Maintains royal lumber concessions and garrison' },
+    { factionId: 'Corvani Flocks', influence: 'strong', description: 'Controls canopy aerial routes and roost-groves' },
+    { factionId: 'Skald Keepers', influence: 'moderate', description: 'Protects sacred groves from over-logging' }
+  ],
+  travelConnections: [
+    { destinationId: 'snowcall-city', distance: '12 miles', travelTime: '4 hours', route: 'Heated mountain pass road' },
+    { destinationId: 'hrafnest', distance: '6 miles', travelTime: '2 hours', route: 'Canopy bridge trail' }
+  ],
+  classPresence: ['animist', 'warden', 'minstrel'],
+  npcs: ['morvath-pine-warden', 'matriarch-vespera']
+};
+
 const getDeepLocation = (locationId) => DEEP_LOCATIONS[locationId] || null;
 
 const getEnrichedZone = (zoneId) => {

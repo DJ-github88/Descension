@@ -8,6 +8,7 @@ import useGameStore from '../../store/gameStore';
 import useCombatStore from '../../store/combatStore';
 import useChatStore from '../../store/chatStore';
 import SocialEncounterGenerator from './SocialEncounterGenerator';
+import { showConfirm } from '../../utils/dialogService';
 import './GMToolsPanel.css';
 
 const GMToolsPanel = ({ isVisible, onClose }) => {
@@ -63,8 +64,16 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
     };
   }, [multiplayerSocket]);
 
-  const handleKickPlayer = (playerId) => {
-    if (multiplayerSocket && window.confirm('Are you sure you want to kick this player?')) {
+  const handleKickPlayer = async (playerId) => {
+    if (!multiplayerSocket) return;
+    const confirmed = await showConfirm({
+      title: 'Kick Player',
+      message: 'Are you sure you want to kick this player?',
+      subMessage: 'The player will be disconnected from the room.',
+      confirmText: 'Kick Player',
+      isDestructive: true
+    });
+    if (confirmed) {
       multiplayerSocket.emit('kick_player', { playerId });
       addNotification('system', {
         sender: { name: 'System', class: 'system', level: 0 },
@@ -153,8 +162,14 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
       setPartyXPAmount('');
     };
 
-    const handleHealAll = () => {
-      if (window.confirm('Are you sure you want to heal the entire party to full?')) {
+    const handleHealAll = async () => {
+      const confirmed = await showConfirm({
+        title: 'Heal Party',
+        message: 'Are you sure you want to heal the entire party to full?',
+        confirmText: 'Heal Party',
+        variant: 'success'
+      });
+      if (confirmed) {
         console.log('💚 Healing entire party');
 
         if (isInMultiplayer && multiplayerSocket?.connected) {
@@ -370,8 +385,15 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
               </button>
               <button
                 className="gm-btn gm-btn-danger"
-                onClick={() => {
-                  if (window.confirm('FORCE RESET combat? This will clear all combat state for everyone.')) {
+                onClick={async () => {
+                  const confirmed = await showConfirm({
+                    title: 'Force Reset Combat',
+                    message: 'FORCE RESET combat? This will clear all combat state for everyone.',
+                    subMessage: 'All active turns and initiative trackers will be reset.',
+                    confirmText: 'Reset Combat',
+                    isDestructive: true
+                  });
+                  if (confirmed) {
                     import('../../store/combatStore').then(({ default: useCombatStore }) => {
                       useCombatStore.getState().forceResetCombat();
                     });
@@ -416,8 +438,15 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
           </p>
           <button
             className="gm-btn gm-btn-danger"
-            onClick={() => {
-              if (window.confirm('Are you sure you want to CLEAR ALL fog of war for everyone?')) {
+            onClick={async () => {
+              const confirmed = await showConfirm({
+                title: 'Clear Fog of War',
+                message: 'Are you sure you want to CLEAR ALL fog of war for everyone?',
+                subMessage: 'The entire map will be fully revealed to all players.',
+                confirmText: 'Clear Fog',
+                isDestructive: true
+              });
+              if (confirmed) {
                 import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
                   useLevelEditorStore.getState().clearAllFog();
                 });
@@ -531,7 +560,7 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
     <div className="gm-tools-panel">
       <div className="gm-tools-header">
         <h2>🎲 GM Tools</h2>
-        <button className="gm-tools-close" onClick={onClose}>� - </button>
+        <button className="gm-tools-close" onClick={onClose}>� - </button>
       </div>
 
       <div className="gm-tools-tabs">

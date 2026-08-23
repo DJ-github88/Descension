@@ -36,6 +36,7 @@ import LevelUpChoiceModal from "./components/modals/LevelUpChoiceModal";
 import { FloatingCombatTextManager } from "./components/combat/FloatingCombatText";
 import ErrorBoundary from "./components/common/ErrorBoundary";
 import NotificationContainer from "./components/common/NotificationContainer";
+import CustomDialogContainer from "./components/common/CustomDialogContainer";
 import CookieConsent, { hasConsent } from "./components/common/CookieConsent";
 import AssetLoadingOverlay from "./components/common/AssetLoadingOverlay";
 import QuickSwitcher from "./components/common/QuickSwitcher";
@@ -1085,6 +1086,7 @@ export default function App() {
                 handleReturnToLanding={handleReturnToLanding}
               />
               <NotificationContainer />
+              <CustomDialogContainer />
             </Router>
           </SpellLibraryProvider>
         </RoomProvider>

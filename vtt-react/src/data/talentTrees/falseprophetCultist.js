@@ -11,7 +11,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Profane Communion",
     icon: "spell_shadow_summonimp",
     maxRanks: 3,
-    position: { x: 1.5, y: 3 },
+    position: { x: 1.5, y: 0 },
     requires: null,
     spell: {
       name: "Profane Communion",
@@ -36,7 +36,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Curse of the Unbeliever",
     icon: "spell_shadow_curseofsargeras",
     maxRanks: 3,
-    position: { x: 2, y: 4 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
       name: "Curse of the Unbeliever",
@@ -64,7 +64,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Summon Silence Acolyte",
     icon: "spell_shadow_summonfelhunter",
     maxRanks: 2,
-    position: { x: 2.5, y: 3 },
+    position: { x: 2.5, y: 0 },
     requires: null,
     spell: {
       name: "Summon Silence Acolyte",
@@ -90,7 +90,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Blood Offering",
     icon: "spell_shadow_lifedrain",
     maxRanks: 3,
-    position: { x: 0.5, y: 3 },
+    position: { x: 0.5, y: 1 },
     requires: "cu_t1_profane_communion",
     spell: {
       name: "Blood Offering",
@@ -116,7 +116,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Pact of the Silence",
     icon: "spell_shadow_demonicpact",
     maxRanks: 3,
-    position: { x: 3.5, y: 3 },
+    position: { x: 3.5, y: 1 },
     requires: "cu_t1_summon_acolyte",
     spell: {
       name: "Pact of the Silence",
@@ -137,7 +137,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Ritual Empowerment",
     icon: "spell_shadow_shadowembrace",
     maxRanks: 3,
-    position: { x: 0.5, y: 5 },
+    position: { x: 0.5, y: 2 },
     requires: "cu_t2_blood_offering",
     spell: {
       name: "Ritual Empowerment",
@@ -159,7 +159,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Congregation of the Silence",
     icon: "spell_shadow_summonvoidwalkers",
     maxRanks: 3,
-    position: { x: 3.5, y: 5 },
+    position: { x: 3.5, y: 2 },
     requires: "cu_t2_pact_of_the_silence",
     spell: {
       name: "Congregation of the Silence",
@@ -231,7 +231,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Channel the Silence God",
     icon: "spell_shadow_darkritual",
     maxRanks: 3,
-    position: { x: 0, y: 5 },
+    position: { x: 0, y: 4 },
     requires: "cu_t4_shepherd_of_the_silence",
     spell: {
       name: "Channel the Silence God",
@@ -251,7 +251,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Forbidden Scripture",
     icon: "spell_shadow_grimward",
     maxRanks: 2,
-    position: { x: 4, y: 5 },
+    position: { x: 4, y: 4 },
     requires: "cu_t4_silence_priest",
     spell: {
       name: "Forbidden Scripture",
@@ -271,7 +271,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Unholy Bloom",
     icon: "spell_shadow_corpseexplode",
     maxRanks: 1,
-    position: { x: 1, y: 4 },
+    position: { x: 1, y: 5 },
     requires: "cu_t5_channel_the_silence_god",
     spell: {
       name: "Unholy Bloom",
@@ -310,7 +310,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Dark Benediction",
     icon: "spell_shadow_shadowembrace",
     maxRanks: 2,
-    position: { x: 3, y: 4 },
+    position: { x: 3, y: 5 },
     requires: "cu_t5_forbidden_scripture",
     spell: {
       name: "Dark Benediction",
@@ -332,7 +332,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Invocation of the Silence God",
     icon: "spell_shadow_summonfelguard",
     maxRanks: 1,
-    position: { x: 0, y: 3.5 },
+    position: { x: 0, y: 6 },
     requires: "cu_t6_unholy_bloom",
     spell: {
       name: "Invocation of the Silence God",
@@ -357,7 +357,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Liturgy of Depletion",
     icon: "spell_shadow_curseofsargeras",
     maxRanks: 5,
-    position: { x: 0.5, y: 3.5 },
+    position: { x: 1, y: 6 },
     requires: "cu_t6_tithe_collector",
     spell: {
       name: "Liturgy of Depletion",
@@ -380,7 +380,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Eternal Torment",
     icon: "spell_shadow_unstableaffliction",
     maxRanks: 3,
-    position: { x: 0, y: 4 },
+    position: { x: 2, y: 6 },
     requires: "cu_t6_tithe_collector",
     spell: {
       name: "Eternal Torment",
@@ -401,7 +401,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Flock Eternal",
     icon: "spell_shadow_summonvoidwalkers",
     maxRanks: 3,
-    position: { x: 0, y: 4.5 },
+    position: { x: 3, y: 6 },
     requires: "cu_t6_dark_benediction",
     spell: {
       name: "Flock Eternal",
@@ -421,7 +421,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Mad Communion",
     icon: "spell_shadow_darkritual",
     maxRanks: 3,
-    position: { x: 0.5, y: 4.5 },
+    position: { x: 4, y: 6 },
     requires: "cu_t6_dark_benediction",
     spell: {
       name: "Mad Communion",

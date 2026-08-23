@@ -88,7 +88,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Sanguine Gore Burst",
     icon: "spell_shadow_bloodboil",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "sh_t1_sanguine_strike",
     spell: {
       name: "Sanguine Gore Burst",
@@ -115,7 +115,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Desperate Siphon",
     icon: "spell_shadow_lifedrain",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 1 },
     requires: "sh_t1_sanguine_mastery",
     spell: {
       name: "Desperate Siphon",
@@ -137,7 +137,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Exsanguinating Grasp",
     icon: "spell_shadow_lifedrain02",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1, y: 2 },
     requires: "sh_t2_sanguine_burst",
     spell: {
       name: "Exsanguinating Grasp",
@@ -165,7 +165,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Vampiric Feast",
     icon: "spell_shadow_soulleech_3",
     maxRanks: 3,
-    position: { x: 3, y: 3 },
+    position: { x: 3, y: 2 },
     requires: "sh_t2_rush_of_blood",
     spell: {
       name: "Vampiric Feast",
@@ -187,7 +187,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Maelstrom of Frozen Blood",
     icon: "spell_shadow_bloodrain",
     maxRanks: 3,
-    position: { x: 1, y: 4.5 },
+    position: { x: 1, y: 3 },
     requires: "sh_t3_exsanguinate",
     spell: {
       name: "Maelstrom of Frozen Blood",
@@ -215,7 +215,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Coagulated Blood Shield",
     icon: "spell_holy_powerwordbarrier",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 3 },
     requires: "sh_t3_vampiric_empowerment",
     spell: {
       name: "Coagulated Blood Shield",
@@ -236,7 +236,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Heart-Burst Cataclysm",
     icon: "spell_shadow_bloodboil",
     maxRanks: 2,
-    position: { x: 1, y: 6 },
+    position: { x: 1, y: 4 },
     requires: "sh_t4_blood_storm",
     spell: {
       name: "Heart-Burst Cataclysm",
@@ -263,7 +263,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Blood Sovereign Form",
     icon: "spell_shadow_lifedrain02",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3, y: 4 },
     requires: "sh_t4_blood_barrier",
     spell: {
       name: "Blood Sovereign Form",
@@ -287,7 +287,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Avatar of the Sanguine Lord",
     icon: "spell_shadow_unholyfrenzy",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "sh_t5_crimson_cataclysm",
     spell: {
       name: "Avatar of the Sanguine Lord",
@@ -310,7 +310,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Severing Arteries",
     icon: "ability_rogue_eviscerate",
     maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
+    position: { x: 2.5, y: 5 },
     requires: "sh_t5_sanguine_avatar_passive",
     spell: {
       name: "Severing Arteries",
@@ -330,7 +330,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Crimson Immortality Shroud",
     icon: "spell_holy_powerwordbarrier",
     maxRanks: 2,
-    position: { x: 4, y: 7.5 },
+    position: { x: 4, y: 5 },
     requires: "sh_t5_sanguine_avatar_passive",
     spell: {
       name: "Crimson Immortality Shroud",
@@ -351,7 +351,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Cataclysmic Blood Ocean",
     icon: "spell_shadow_bloodrain",
     maxRanks: 1,
-    position: { x: 0.5, y: 8 },
+    position: { x: 0.5, y: 6 },
     requires: "sh_t6_the_blood_gods_harvest",
     spell: {
       name: "Cataclysmic Blood Ocean",
@@ -376,7 +376,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Sanguine Harvest Doctrine",
     icon: "spell_shadow_lifedrain02",
     maxRanks: 5,
-    position: { x: 1.5, y: 8 },
+    position: { x: 1.5, y: 6 },
     requires: "sh_t6_the_blood_gods_harvest",
     spell: {
       name: "Sanguine Harvest Doctrine",
@@ -399,7 +399,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Endless Death Toll Reservoir",
     icon: "spell_shadow_soulleech_3",
     maxRanks: 3,
-    position: { x: 2.5, y: 8 },
+    position: { x: 2.5, y: 6 },
     requires: "sh_t6_blood_criticality",
     spell: {
       name: "Endless Death Toll Reservoir",
@@ -419,7 +419,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Arterial Decapitation",
     icon: "ability_rogue_shadowdance",
     maxRanks: 3,
-    position: { x: 3.5, y: 8 },
+    position: { x: 3.5, y: 6 },
     requires: "sh_t6_blood_criticality",
     spell: {
       name: "Arterial Decapitation",
@@ -439,7 +439,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Bloodpool Rebirth",
     icon: "spell_shadow_lifedrain02",
     maxRanks: 3,
-    position: { x: 4.5, y: 8 },
+    position: { x: 4.5, y: 6 },
     requires: "sh_t6_undying_bloodline",
     spell: {
       name: "Bloodpool Rebirth",
@@ -537,7 +537,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Glacial Chain Shatter",
     icon: "spell_frost_icestorm",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "fs_t1_frost_lance_shatter",
     spell: {
       name: "Glacial Chain Shatter",
@@ -564,7 +564,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Glacial Synapse Bond",
     icon: "spell_frost_frozencore",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 1 },
     requires: "fs_t1_eternal_focus",
     spell: {
       name: "Glacial Synapse Bond",
@@ -586,7 +586,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Permafrost Dominion Sphere",
     icon: "spell_frost_wisp",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1, y: 2 },
     requires: "fs_t2_glacial_cascade",
     spell: {
       name: "Permafrost Dominion Sphere",
@@ -614,7 +614,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Absolute Zero Vulnerability",
     icon: "spell_frost_arcticwinds",
     maxRanks: 3,
-    position: { x: 3, y: 3 },
+    position: { x: 3, y: 2 },
     requires: "fs_t2_ice_bond",
     spell: {
       name: "Absolute Zero Vulnerability",
@@ -636,7 +636,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Glacial Extinction Comet",
     icon: "spell_frost_frostnova",
     maxRanks: 3,
-    position: { x: 1, y: 4.5 },
+    position: { x: 1, y: 3 },
     requires: "fs_t3_permafrost_prison",
     spell: {
       name: "Glacial Extinction Comet",
@@ -663,7 +663,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Glacial Armor Shell",
     icon: "spell_frost_frostarmor",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 3 },
     requires: "fs_t3_absolute_zero",
     spell: {
       name: "Glacial Armor Shell",
@@ -684,7 +684,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Universal Shatter Protocol",
     icon: "spell_frost_frostnova",
     maxRanks: 2,
-    position: { x: 1, y: 6 },
+    position: { x: 1, y: 4 },
     requires: "fs_t4_ice_comet",
     spell: {
       name: "Universal Shatter Protocol",
@@ -710,7 +710,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Endless Winter Engine",
     icon: "spell_frost_wisp",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3, y: 4 },
     requires: "fs_t4_frost_shield",
     spell: {
       name: "Endless Winter Engine",
@@ -732,7 +732,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Avatar of the Glacial Lich",
     icon: "spell_frost_wisp",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "fs_t5_shatter_protocol",
     spell: {
       name: "Avatar of the Glacial Lich",
@@ -755,7 +755,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Glacial Splinter Crits",
     icon: "spell_frost_frostnova",
     maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
+    position: { x: 2.5, y: 5 },
     requires: "fs_t5_endless_winter",
     spell: {
       name: "Glacial Splinter Crits",
@@ -774,7 +774,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Permafrost Bastion",
     icon: "spell_holy_powerwordbarrier",
     maxRanks: 2,
-    position: { x: 4, y: 7.5 },
+    position: { x: 4, y: 5 },
     requires: "fs_t5_endless_winter",
     spell: {
       name: "Permafrost Bastion",
@@ -795,7 +795,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "The Final Glaciation Cataclysm",
     icon: "spell_frost_icestorm",
     maxRanks: 1,
-    position: { x: 0.5, y: 8 },
+    position: { x: 0.5, y: 6 },
     requires: "fs_t6_the_frost_sovereign",
     spell: {
       name: "The Final Glaciation Cataclysm",
@@ -820,7 +820,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Frost Sovereign Doctrine",
     icon: "spell_frost_frostbolt",
     maxRanks: 5,
-    position: { x: 1.5, y: 8 },
+    position: { x: 1.5, y: 6 },
     requires: "fs_t6_the_frost_sovereign",
     spell: {
       name: "Frost Sovereign Doctrine",
@@ -843,7 +843,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Glacial Core Reservoir",
     icon: "spell_frost_frozencore",
     maxRanks: 3,
-    position: { x: 2.5, y: 8 },
+    position: { x: 2.5, y: 6 },
     requires: "fs_t6_shatter_criticality",
     spell: {
       name: "Glacial Core Reservoir",
@@ -863,7 +863,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Chain Reaction Shatters",
     icon: "spell_frost_frostnova",
     maxRanks: 3,
-    position: { x: 3.5, y: 8 },
+    position: { x: 3.5, y: 6 },
     requires: "fs_t6_shatter_criticality",
     spell: {
       name: "Chain Reaction Shatters",
@@ -883,7 +883,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Ice Tomb Rebirth",
     icon: "spell_frost_frostarmor02",
     maxRanks: 3,
-    position: { x: 4.5, y: 8 },
+    position: { x: 4.5, y: 6 },
     requires: "fs_t6_absolute_permafrost_wall",
     spell: {
       name: "Ice Tomb Rebirth",
@@ -976,7 +976,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Soul Anchor Strike",
     icon: "spell_shadow_soulleech_3",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "pa_t1_phylactery_ward",
     spell: {
       name: "Soul Anchor Strike",
@@ -1003,7 +1003,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Phylactery Party Link",
     icon: "spell_shadow_lifedrain02",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 1 },
     requires: "pa_t1_vital_reserve",
     spell: {
       name: "Phylactery Party Link",
@@ -1025,7 +1025,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Phylactery Aegis Nova",
     icon: "spell_frost_icebarrier",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1, y: 2 },
     requires: "pa_t2_soul_anchor_strike",
     spell: {
       name: "Phylactery Aegis Nova",
@@ -1050,7 +1050,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Deathless Sentinel",
     icon: "spell_frost_frozencore",
     maxRanks: 3,
-    position: { x: 3, y: 3 },
+    position: { x: 3, y: 2 },
     requires: "pa_t2_phylactery_link",
     spell: {
       name: "Deathless Sentinel",
@@ -1072,7 +1072,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Phylactery Siphon Wave",
     icon: "spell_shadow_lifedrain",
     maxRanks: 3,
-    position: { x: 1, y: 4.5 },
+    position: { x: 1, y: 3 },
     requires: "pa_t3_frost_barrier_eruption",
     spell: {
       name: "Phylactery Siphon Wave",
@@ -1099,7 +1099,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Ambient Soul Harvest",
     icon: "spell_shadow_soulleech_3",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 3 },
     requires: "pa_t3_eternal_guardian",
     spell: {
       name: "Ambient Soul Harvest",
@@ -1120,7 +1120,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Phylactery Soul Bastion",
     icon: "spell_frost_wisp",
     maxRanks: 2,
-    position: { x: 1, y: 6 },
+    position: { x: 1, y: 4 },
     requires: "pa_t4_soul_drain_wave",
     spell: {
       name: "Phylactery Soul Bastion",
@@ -1144,7 +1144,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Undying Soul Anchor",
     icon: "spell_frost_frozencore",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3, y: 4 },
     requires: "pa_t4_soul_siphon_passive",
     spell: {
       name: "Undying Soul Anchor",
@@ -1166,7 +1166,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Avatar of the Undying Lichlord",
     icon: "spell_frost_frozencore",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "pa_t5_immortal_essence",
     spell: {
       name: "Avatar of the Undying Lichlord",
@@ -1189,7 +1189,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Soul-Forged Crits",
     icon: "spell_shadow_soulleech_3",
     maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
+    position: { x: 2.5, y: 5 },
     requires: "pa_t5_undying_anchor",
     spell: {
       name: "Soul-Forged Crits",
@@ -1208,7 +1208,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Absolute Reliquary Shell",
     icon: "spell_holy_powerwordbarrier",
     maxRanks: 2,
-    position: { x: 4, y: 7.5 },
+    position: { x: 4, y: 5 },
     requires: "pa_t5_undying_anchor",
     spell: {
       name: "Absolute Reliquary Shell",
@@ -1229,7 +1229,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "The Eternal Reliquary Cataclysm",
     icon: "spell_holy_resurrection",
     maxRanks: 1,
-    position: { x: 0.5, y: 8 },
+    position: { x: 0.5, y: 6 },
     requires: "pa_t6_the_immortal_phylactery",
     spell: {
       name: "The Eternal Reliquary Cataclysm",
@@ -1255,7 +1255,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Phylactery Anchor Doctrine",
     icon: "spell_frost_frozencore",
     maxRanks: 5,
-    position: { x: 1.5, y: 8 },
+    position: { x: 1.5, y: 6 },
     requires: "pa_t6_the_immortal_phylactery",
     spell: {
       name: "Phylactery Anchor Doctrine",
@@ -1278,7 +1278,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Perpetual Reliquary Engine",
     icon: "spell_shadow_lifedrain",
     maxRanks: 3,
-    position: { x: 2.5, y: 8 },
+    position: { x: 2.5, y: 6 },
     requires: "pa_t6_phylactery_criticality",
     spell: {
       name: "Perpetual Reliquary Engine",
@@ -1298,7 +1298,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Soul Rebound Shield",
     icon: "spell_holy_powerwordbarrier",
     maxRanks: 3,
-    position: { x: 3.5, y: 8 },
+    position: { x: 3.5, y: 6 },
     requires: "pa_t6_phylactery_criticality",
     spell: {
       name: "Soul Rebound Shield",
@@ -1319,7 +1319,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Phylactery Vessel Rebirth",
     icon: "spell_holy_resurrection",
     maxRanks: 3,
-    position: { x: 4.5, y: 8 },
+    position: { x: 4.5, y: 6 },
     requires: "pa_t6_eternal_soul_ward",
     spell: {
       name: "Phylactery Vessel Rebirth",

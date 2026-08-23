@@ -82,7 +82,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Predator Strike",
     icon: "ability_hunter_snipershot",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "wsb_t1_shadow_stalker",
     spell: {
       name: "Predator Strike",
@@ -102,7 +102,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Death Mark",
     icon: "ability_hunter_markedfordeath",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 1 },
     requires: "wsb_t1_precision_strike",
     spell: {
       name: "Death Mark",
@@ -123,7 +123,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Unseen Executioner",
     icon: "ability_rogue_shadowstrike",
     maxRanks: 3,
-    position: { x: 1.5, y: 3 },
+    position: { x: 1.5, y: 2 },
     requires: "wsb_t2_predator_strike",
     spell: {
       name: "Unseen Executioner",
@@ -143,7 +143,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Execution Strike",
     icon: "ability_rogue_deadliness",
     maxRanks: 3,
-    position: { x: 2.5, y: 1.5 },
+    position: { x: 2.5, y: 1 },
     requires: null,
     spell: {
       name: "Execution Strike",
@@ -169,7 +169,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Deadly Precision",
     icon: "ability_hunter_focusedaim",
     maxRanks: 3,
-    position: { x: 2.5, y: 3 },
+    position: { x: 2.5, y: 2 },
     requires: null,
     spell: {
       name: "Deadly Precision",
@@ -189,7 +189,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Shadow Step",
     icon: "spell_shadow_shadowward",
     maxRanks: 2,
-    position: { x: 2, y: 3 },
+    position: { x: 2, y: 2 },
     requires: "wsb_t2_execution_strike",
     spell: {
       name: "Shadow Step",
@@ -214,7 +214,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Hunter's Instinct",
     icon: "ability_druid_predatoryinstincts",
     maxRanks: 3,
-    position: { x: 1.5, y: 4.5 },
+    position: { x: 1.5, y: 3 },
     requires: "wsb_t3_deadly_precision",
     spell: {
       name: "Hunter's Instinct",
@@ -234,7 +234,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Apex Hunter",
     icon: "ability_druid_predatoryinstincts",
     maxRanks: 2,
-    position: { x: 2.5, y: 4.5 },
+    position: { x: 2.5, y: 3 },
     requires: "wsb_t3_shadow_step",
     spell: {
       name: "Apex Hunter",
@@ -254,7 +254,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Quiver of Debts",
     icon: "inv_weapon_bow_06",
     maxRanks: 1,
-    position: { x: 2, y: 6 },
+    position: { x: 2, y: 4 },
     requires: "wsb_t4_hunters_instinct",
     spell: {
       name: "Quiver of Debts",
@@ -272,7 +272,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Ghost Protocol",
     icon: "spell_shadow_shadowwalk",
     maxRanks: 1,
-    position: { x: 2.5, y: 6 },
+    position: { x: 2.5, y: 4 },
     requires: "wsb_t4_apex_hunter",
     spell: {
       name: "Ghost Protocol",
@@ -289,7 +289,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Shadowblade Ascendant",
     icon: "spell_shadow_demonicempathy",
     maxRanks: 1,
-    position: { x: 1.5, y: 7 },
+    position: { x: 1.5, y: 5 },
     requires: "wsb_t4_apex_hunter",
     spell: {
       name: "Shadowblade Ascendant",
@@ -313,7 +313,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Vein Reader",
     icon: "ability_rogue_findweakness",
     maxRanks: 2,
-    position: { x: 2, y: 7 },
+    position: { x: 2, y: 5 },
     requires: "wsb_t3_deadly_precision",
     spell: {
       name: "Vein Reader",
@@ -333,7 +333,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Shadow Requiem",
     icon: "ability_rogue_shadowdance",
     maxRanks: 1,
-    position: { x: 0.5, y: 8 },
+    position: { x: 0.5, y: 6 },
     requires: "wsb_t6_shadowblade_ascendant",
     spell: {
       name: "Shadow Requiem",
@@ -356,7 +356,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Eternal Hunt",
     icon: "ability_hunter_assassinate",
     maxRanks: 5,
-    position: { x: 1.5, y: 8 },
+    position: { x: 1.5, y: 6 },
     requires: "wsb_t5_quiver_of_debts",
     spell: {
       name: "Eternal Hunt",
@@ -378,7 +378,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Silent Takedown",
     icon: "ability_rogue_ambush",
     maxRanks: 3,
-    position: { x: 2.5, y: 8 },
+    position: { x: 2.5, y: 6 },
     requires: "wsb_t6_vein_reader",
     spell: {
       name: "Silent Takedown",
@@ -398,7 +398,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Blood Ledger",
     icon: "inv_misc_book_09",
     maxRanks: 3,
-    position: { x: 3.5, y: 8 },
+    position: { x: 3.5, y: 6 },
     requires: "wsb_t6_vein_reader",
     spell: {
       name: "Blood Ledger",
@@ -419,7 +419,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Predator's Memory",
     icon: "ability_hunter_longevity",
     maxRanks: 3,
-    position: { x: 2, y: 8 },
+    position: { x: 2, y: 6 },
     requires: "wsb_t6_vein_reader",
     spell: {
       name: "Predator's Memory",

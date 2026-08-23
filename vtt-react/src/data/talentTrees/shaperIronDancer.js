@@ -32,7 +32,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Arterial Strike",
     icon: "ability_rogue_tilotomastery",
     maxRanks: 3,
-    position: { x: 2, y: 0.5 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
       name: "Arterial Strike",
@@ -60,7 +60,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Deadened Bastion",
     icon: "ability_warrior_shieldwall",
     maxRanks: 2,
-    position: { x: 4, y: 0.5 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "Deadened Bastion",
@@ -88,7 +88,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Perfect Timing",
     icon: "ability_rogue_quickrecovery",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 1, y: 1 },
     requires: "id_t1_arterial_strike",
     spell: {
       name: "Perfect Timing",
@@ -109,7 +109,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Defensive Stance",
     icon: "ability_warrior_shieldwall",
     maxRanks: 3,
-    position: { x: 3.5, y: 2 },
+    position: { x: 3.5, y: 1 },
     requires: "id_t1_deadened_bastion",
     spell: {
       name: "Defensive Stance",
@@ -130,7 +130,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Dueling Mastery",
     icon: "ability_warrior_savageblow",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 3, y: 1 },
     requires: null,
     spell: {
       name: "Dueling Mastery",
@@ -156,7 +156,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Counter Mastery",
     icon: "ability_parry",
     maxRanks: 3,
-    position: { x: 2.5, y: 2 },
+    position: { x: 2.5, y: 1 },
     requires: null,
     spell: {
       name: "Counter Mastery",
@@ -179,7 +179,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Serpent's Precision",
     icon: "ability_hunter_snipershot",
     maxRanks: 3,
-    position: { x: 2, y: 4 },
+    position: { x: 2, y: 2 },
     requires: "id_t2_dueling_mastery",
     spell: {
       name: "Serpent's Precision",
@@ -200,7 +200,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Trait Harvest",
     icon: "spell_shadow_possession",
     maxRanks: 2,
-    position: { x: 2.5, y: 4 },
+    position: { x: 2.5, y: 2 },
     requires: "id_t2_counter_mastery",
     spell: {
       name: "Trait Harvest",
@@ -220,7 +220,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Duelist's Focus",
     icon: "ability_warrior_focusedrage",
     maxRanks: 3,
-    position: { x: 2, y: 5.5 },
+    position: { x: 2, y: 3 },
     requires: "id_t3_serpents_precision",
     spell: {
       name: "Duelist's Focus",
@@ -241,7 +241,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Unyielding Blade",
     icon: "ability_warrior_weaponmastery",
     maxRanks: 2,
-    position: { x: 2.5, y: 5.5 },
+    position: { x: 2.5, y: 3 },
     requires: "id_t3_trait_harvest",
     spell: {
       name: "Unyielding Blade",
@@ -261,7 +261,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Blade Dance",
     icon: "ability_rogue_slicedice",
     maxRanks: 2,
-    position: { x: 1, y: 6.5 },
+    position: { x: 1, y: 4 },
     requires: "id_t4_duelists_focus",
     spell: {
       name: "Blade Dance",
@@ -281,7 +281,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Iron Skin",
     icon: "spell_nature_skinofearth",
     maxRanks: 2,
-    position: { x: 3.5, y: 6.5 },
+    position: { x: 3.5, y: 4 },
     requires: "id_t4_unyielding_blade",
     spell: {
       name: "Iron Skin",
@@ -300,7 +300,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Grand Challenge",
     icon: "ability_warrior_battleshout",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "id_t4_unyielding_blade",
     spell: {
       name: "Grand Challenge",
@@ -323,7 +323,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Perfect Dancer",
     icon: "ability_warrior_bladestorm",
     maxRanks: 1,
-    position: { x: 4, y: 8 },
+    position: { x: 4, y: 6 },
     requires: "id_t5_blade_dance",
     spell: {
       name: "Perfect Dancer",
@@ -346,7 +346,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Calcified Edge",
     icon: "ability_duelist",
     maxRanks: 5,
-    position: { x: 0, y: 8 },
+    position: { x: 0, y: 6 },
     requires: "id_t5_blade_dance",
     spell: {
       name: "Calcified Edge",
@@ -369,7 +369,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Riposte Doctrine",
     icon: "ability_parry",
     maxRanks: 3,
-    position: { x: 1.5, y: 8 },
+    position: { x: 1.5, y: 6 },
     requires: "id_t5_blade_dance",
     spell: {
       name: "Riposte Doctrine",
@@ -390,7 +390,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Duelist's Resolve",
     icon: "ability_warrior_focusedrage",
     maxRanks: 3,
-    position: { x: 2.5, y: 8 },
+    position: { x: 2.5, y: 6 },
     requires: "id_t6_grand_challenge",
     spell: {
       name: "Duelist's Resolve",
@@ -410,7 +410,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Bridge's Bounty",
     icon: "spell_shadow_possession",
     maxRanks: 3,
-    position: { x: 0.5, y: 8 },
+    position: { x: 0.5, y: 6 },
     requires: "id_t6_grand_challenge",
     spell: {
       name: "Bridge's Bounty",

@@ -95,7 +95,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Synaptic Siphon",
     icon: "spell_shadow_mindsteal",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "tw_t1_agony_tether",
     spell: {
       name: "Synaptic Siphon",
@@ -122,7 +122,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Psychic Vulnerability",
     icon: "spell_shadow_curseofsargeras",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 1 },
     requires: "tw_t1_resonance_damage",
     spell: {
       name: "Psychic Vulnerability",
@@ -145,7 +145,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Torment Web",
     icon: "spell_shadow_soulleech",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1, y: 2 },
     requires: "tw_t2_synaptic_siphon",
     spell: {
       name: "Torment Web",
@@ -172,7 +172,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Sympathetic Cascade",
     icon: "spell_shadow_mindsteal",
     maxRanks: 3,
-    position: { x: 3, y: 3 },
+    position: { x: 3, y: 2 },
     requires: "tw_t2_nightmare_fuel",
     spell: {
       name: "Sympathetic Cascade",
@@ -196,7 +196,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Psychic Storm",
     icon: "spell_shadow_mindtwisting",
     maxRanks: 3,
-    position: { x: 1, y: 4.5 },
+    position: { x: 1, y: 3 },
     requires: "tw_t3_torment_web",
     spell: {
       name: "Psychic Storm",
@@ -225,7 +225,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Nerve Relay",
     icon: "spell_shadow_shadowwordpain",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 3 },
     requires: "tw_t3_cascade_finale",
     spell: {
       name: "Nerve Relay",
@@ -246,7 +246,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Mass Resonance",
     icon: "spell_arcane_arcanetorrent",
     maxRanks: 2,
-    position: { x: 1, y: 6 },
+    position: { x: 1, y: 4 },
     requires: "tw_t4_psychic_storm",
     spell: {
       name: "Mass Resonance",
@@ -272,7 +272,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Agony Harvest",
     icon: "spell_shadow_manafeed",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3, y: 4 },
     requires: "tw_t4_sympathetic_pain",
     spell: {
       name: "Agony Harvest",
@@ -296,7 +296,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Sympathetic Collapse",
     icon: "spell_shadow_mindtwisting",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "tw_t5_mass_resonance",
     spell: {
       name: "Sympathetic Collapse",
@@ -319,7 +319,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Unbreakable Lattice",
     icon: "spell_shadow_nethercloak",
     maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
+    position: { x: 2.5, y: 5 },
     requires: "tw_t5_torment_economy",
     spell: {
       name: "Unbreakable Lattice",
@@ -338,7 +338,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Synaptic Overload",
     icon: "spell_shadow_contagion",
     maxRanks: 2,
-    position: { x: 4, y: 7.5 },
+    position: { x: 4, y: 5 },
     requires: "tw_t5_torment_economy",
     spell: {
       name: "Synaptic Overload",
@@ -359,7 +359,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "The Grand Puppet",
     icon: "spell_shadow_shadowwordpain",
     maxRanks: 1,
-    position: { x: 0.5, y: 8 },
+    position: { x: 0.5, y: 6 },
     requires: "tw_t6_sympathetic_collapse",
     spell: {
       name: "The Grand Puppet",
@@ -382,7 +382,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Agony Doctrine",
     icon: "spell_shadow_darkritual",
     maxRanks: 5,
-    position: { x: 1.5, y: 8 },
+    position: { x: 1.5, y: 6 },
     requires: "tw_t6_sympathetic_collapse",
     spell: {
       name: "Agony Doctrine",
@@ -405,7 +405,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Infinite Lattice",
     icon: "spell_shadow_mindtwisting",
     maxRanks: 3,
-    position: { x: 2.5, y: 8 },
+    position: { x: 2.5, y: 6 },
     requires: "tw_t6_web_reinforcement",
     spell: {
       name: "Infinite Lattice",
@@ -425,7 +425,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Psychic Scourge",
     icon: "spell_shadow_curseofsargeras",
     maxRanks: 3,
-    position: { x: 3.5, y: 8 },
+    position: { x: 3.5, y: 6 },
     requires: "tw_t6_web_reinforcement",
     spell: {
       name: "Psychic Scourge",
@@ -447,7 +447,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Vampiric Mesh",
     icon: "spell_shadow_lifedrain02",
     maxRanks: 3,
-    position: { x: 4.5, y: 8 },
+    position: { x: 4.5, y: 6 },
     requires: "tw_t6_synaptic_overload",
     spell: {
       name: "Vampiric Mesh",

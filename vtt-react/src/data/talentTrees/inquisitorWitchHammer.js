@@ -83,7 +83,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Pack Mind",
     icon: "spell_shadow_enslavedemon",
     maxRanks: 3,
-    position: { x: 0.5, y: 1.5 },
+    position: { x: 0.5, y: 1 },
     requires: "wh_t1_wyrd_pack",
     spell: {
       name: "Pack Mind",
@@ -104,7 +104,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Swarm Tactics",
     icon: "spell_shadow_curseofsargeras",
     maxRanks: 3,
-    position: { x: 3.5, y: 1.5 },
+    position: { x: 3.5, y: 1 },
     requires: "wh_t1_bind_hound",
     spell: {
       name: "Swarm Tactics",
@@ -127,7 +127,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Steady Rein",
     icon: "spell_holy_exorcism",
     maxRanks: 3,
-    position: { x: 2, y: 3 },
+    position: { x: 2, y: 2 },
     requires: "wh_t2_pack_mind",
     spell: {
       name: "Steady Rein",
@@ -153,7 +153,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Silent Execution",
     icon: "ability_rogue_ambush",
     maxRanks: 3,
-    position: { x: 2.5, y: 3 },
+    position: { x: 2.5, y: 2 },
     requires: "wh_t2_swarm_tactics",
     spell: {
       name: "Silent Execution",
@@ -176,7 +176,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Mass Restoration",
     icon: "spell_holy_circleofrenewal",
     maxRanks: 3,
-    position: { x: 2, y: 4.5 },
+    position: { x: 2, y: 3 },
     requires: "wh_t3_steady_rein",
     spell: {
       name: "Mass Restoration",
@@ -196,7 +196,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Wyrd Cyclone",
     icon: "spell_shadow_lifedrain",
     maxRanks: 2,
-    position: { x: 2.5, y: 4.5 },
+    position: { x: 2.5, y: 3 },
     requires: "wh_t3_silent_execution",
     spell: {
       name: "Wyrd Cyclone",
@@ -223,7 +223,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Pack Alpha",
     icon: "spell_shadow_demonicempathy",
     maxRanks: 3,
-    position: { x: 2, y: 6 },
+    position: { x: 2, y: 4 },
     requires: "wh_t4_mass_restoration",
     spell: {
       name: "Pack Alpha",
@@ -244,7 +244,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Hunter's Authority",
     icon: "ability_hunter_markedfordeath",
     maxRanks: 2,
-    position: { x: 2.5, y: 6 },
+    position: { x: 2.5, y: 4 },
     requires: "wh_t4_wyrd_cyclone",
     spell: {
       name: "Hunter's Authority",
@@ -264,7 +264,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Cold Iron Doctrine",
     icon: "spell_holy_exorcism",
     maxRanks: 1,
-    position: { x: 1.5, y: 7 },
+    position: { x: 1.5, y: 5 },
     requires: "wh_t5_pack_alpha",
     spell: {
       name: "Cold Iron Doctrine",
@@ -287,7 +287,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Undisputed",
     icon: "spell_shadow_demonicempathy",
     maxRanks: 2,
-    position: { x: 2, y: 7 },
+    position: { x: 2, y: 5 },
     requires: "wh_t5_hunters_authority",
     spell: {
       name: "Undisputed",
@@ -306,7 +306,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Shared Stealth",
     icon: "spell_shadow_shadowmeld",
     maxRanks: 2,
-    position: { x: 2.5, y: 7 },
+    position: { x: 2.5, y: 5 },
     requires: "wh_t5_pack_alpha",
     spell: {
       name: "Shared Stealth",
@@ -328,7 +328,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "The Purging",
     icon: "spell_shadow_summonfelguard",
     maxRanks: 1,
-    position: { x: 0, y: 8 },
+    position: { x: 0, y: 6 },
     requires: "wh_t6_cold_iron_doctrine",
     spell: {
       name: "The Purging",
@@ -351,7 +351,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Writ of Binding",
     icon: "inv_scroll_03",
     maxRanks: 5,
-    position: { x: 1, y: 8 },
+    position: { x: 1, y: 6 },
     requires: "wh_t6_shared_stealth",
     spell: {
       name: "Writ of Binding",
@@ -373,7 +373,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Houndmaster General",
     icon: "spell_shadow_enslavedemon",
     maxRanks: 3,
-    position: { x: 2, y: 8 },
+    position: { x: 2, y: 6 },
     requires: "wh_t6_shared_stealth",
     spell: {
       name: "Houndmaster General",
@@ -394,7 +394,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "First-Name Iron",
     icon: "ability_warrior_weaponmastery",
     maxRanks: 3,
-    position: { x: 3, y: 8 },
+    position: { x: 3, y: 6 },
     requires: "wh_t6_undisputed",
     spell: {
       name: "First-Name Iron",
@@ -415,7 +415,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Quiet Writ",
     icon: "ability_rogue_shadowstrike",
     maxRanks: 3,
-    position: { x: 4, y: 8 },
+    position: { x: 4, y: 6 },
     requires: "wh_t6_undisputed",
     spell: {
       name: "Quiet Writ",

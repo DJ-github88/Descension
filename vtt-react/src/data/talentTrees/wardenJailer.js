@@ -85,7 +85,7 @@ export const WARDEN_JAILER = [
     name: "Cage Torment",
     icon: "spell_shadow_curseofsargeras",
     maxRanks: 3,
-    position: { x: 0.5, y: 2 },
+    position: { x: 0.5, y: 1 },
     requires: "wj_t1_cage_of_vengeance",
     spell: {
       name: "Cage Torment",
@@ -107,7 +107,7 @@ export const WARDEN_JAILER = [
     name: "Enhanced Caging",
     icon: "ability_warrior_shieldwall",
     maxRanks: 3,
-    position: { x: 3.5, y: 2 },
+    position: { x: 3.5, y: 1 },
     requires: "wj_t1_mass_confinement",
     spell: {
       name: "Enhanced Caging",
@@ -128,7 +128,7 @@ export const WARDEN_JAILER = [
     name: "Isolation Protocol",
     icon: "spell_holy_sealofwrath",
     maxRanks: 3,
-    position: { x: 0.5, y: 3.5 },
+    position: { x: 0.5, y: 2 },
     requires: "wj_t2_cage_torment",
     spell: {
       name: "Isolation Protocol",
@@ -150,7 +150,7 @@ export const WARDEN_JAILER = [
     name: "Prison Complex",
     icon: "spell_shadow_antimagic",
     maxRanks: 3,
-    position: { x: 3.5, y: 3.5 },
+    position: { x: 3.5, y: 2 },
     requires: "wj_t2_enhanced_caging",
     spell: {
       name: "Prison Complex",
@@ -171,7 +171,7 @@ export const WARDEN_JAILER = [
     name: "Execution Chamber",
     icon: "spell_shadow_deathcoil",
     maxRanks: 3,
-    position: { x: 0.5, y: 5 },
+    position: { x: 0.5, y: 3 },
     requires: "wj_t3_isolation_protocol",
     spell: {
       name: "Execution Chamber",
@@ -197,7 +197,7 @@ export const WARDEN_JAILER = [
     name: "Spectral Overlord",
     icon: "spell_shadow_shadetruesight",
     maxRanks: 2,
-    position: { x: 3.5, y: 5 },
+    position: { x: 3.5, y: 3 },
     requires: "wj_t3_prison_complex",
     spell: {
       name: "Spectral Overlord",
@@ -217,7 +217,7 @@ export const WARDEN_JAILER = [
     name: "Iron Bars",
     icon: "ability_warrior_shieldmastery",
     maxRanks: 3,
-    position: { x: 0.5, y: 6.5 },
+    position: { x: 0.5, y: 4 },
     requires: "wj_t4_execution_chamber",
     spell: {
       name: "Iron Bars",
@@ -237,7 +237,7 @@ export const WARDEN_JAILER = [
     name: "Chain Ward",
     icon: "spell_shadow_darkbind",
     maxRanks: 2,
-    position: { x: 3.5, y: 6.5 },
+    position: { x: 3.5, y: 4 },
     requires: "wj_t4_spectral_overlord",
     spell: {
       name: "Chain Ward",
@@ -257,7 +257,7 @@ export const WARDEN_JAILER = [
     name: "Vengeance Unleashed",
     icon: "spell_shadow_demonicempathy",
     maxRanks: 1,
-    position: { x: 1.5, y: 4 },
+    position: { x: 1.5, y: 5 },
     requires: "wj_t5_iron_bars",
     spell: {
       name: "Vengeance Unleashed",
@@ -300,7 +300,7 @@ export const WARDEN_JAILER = [
     name: "Warden's Attention",
     icon: "spell_shadow_psychicscream",
     maxRanks: 2,
-    position: { x: 2.5, y: 4 },
+    position: { x: 2.5, y: 5 },
     requires: "wj_t5_iron_bars",
     spell: {
       name: "Warden's Attention",
@@ -320,7 +320,7 @@ export const WARDEN_JAILER = [
     name: "The Iron City",
     icon: "spell_shadow_shackleundead",
     maxRanks: 1,
-    position: { x: 0, y: 8 },
+    position: { x: 0, y: 6 },
     requires: "wj_t6_vengeance_unleashed",
     spell: {
       name: "The Iron City",
@@ -344,7 +344,7 @@ export const WARDEN_JAILER = [
     name: "Deep Reserves",
     icon: "ability_warrior_intensifyrage",
     maxRanks: 5,
-    position: { x: 1, y: 8 },
+    position: { x: 1, y: 6 },
     requires: "wj_t6_wardens_attention",
     spell: {
       name: "Deep Reserves",
@@ -366,7 +366,7 @@ export const WARDEN_JAILER = [
     name: "Cruel Architecture",
     icon: "spell_shadow_curseofsargeras",
     maxRanks: 3,
-    position: { x: 2, y: 8 },
+    position: { x: 2, y: 6 },
     requires: "wj_t6_wardens_attention",
     spell: {
       name: "Cruel Architecture",
@@ -387,7 +387,7 @@ export const WARDEN_JAILER = [
     name: "No Escape",
     icon: "spell_shadow_shadowward",
     maxRanks: 3,
-    position: { x: 3, y: 8 },
+    position: { x: 3, y: 6 },
     requires: "wj_t6_transfer_sentence",
     spell: {
       name: "No Escape",
@@ -409,7 +409,7 @@ export const WARDEN_JAILER = [
     name: "Panopticon",
     icon: "spell_shadow_truevision",
     maxRanks: 3,
-    position: { x: 4, y: 8 },
+    position: { x: 4, y: 6 },
     requires: "wj_t6_transfer_sentence",
     spell: {
       name: "Panopticon",

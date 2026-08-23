@@ -194,12 +194,22 @@ const FLAVOR = {
     },
 
     Warden: (res) => {
-        const tension = res?.current ?? 0;
-        if (tension >= 10) return { line: "MAX TENSION. Release or break.", tone: 'critical' };
-        return tier(tension, [
-            { at: 2, line: "Chains slack. Patient.", tone: 'calm' },
-            { at: 5, line: "The iron groans. Keep winding.", tone: 'calm' },
-            { at: 8, line: "Tether taut. Something's about to snap.", tone: 'danger' },
+        const vp = res?.current ?? 0;
+        if (vp >= 10) return { line: "MAX VENGEANCE. Avatar of Vengeance ready to unleash.", tone: 'critical' };
+        return tier(vp, [
+            { at: 2, line: "Vengeance quiet. Patient pursuit.", tone: 'calm' },
+            { at: 5, line: "Retribution building. Speed surging.", tone: 'warm' },
+            { at: 8, line: "Judgment near. Ready to strike.", tone: 'danger' },
+        ]);
+    },
+
+    Crusader: (res) => {
+        const fervor = res?.current ?? res?.fervor ?? 0;
+        if (fervor >= 100) return { line: "MAX FERVOR. Solvan Judgment ready to unleash.", tone: 'critical' };
+        if (fervor >= 50) return { line: "Harmonic Stance active. Sacred power surging.", tone: 'warm' };
+        return tier(fervor, [
+            { at: 20, line: "Zeal kindled. Holy strikes ignite.", tone: 'calm' },
+            { at: 49, line: "Radiance gathering. Momentum building.", tone: 'warm' },
         ]);
     },
 

@@ -3,7 +3,7 @@ import useCharacterStore from '../../store/characterStore';
 import useSpellbookStore from '../../store/spellbookStore';
 import { CLASS_SPECIALIZATIONS } from '../../data/classSpellCategories';
 import { getTalentsForSpec, getTreeBackdrop, getFallbackBackground } from '../../data/talentTreeData';
-import { resolveTalentSpell, convertTalentSpellToLibrarySpell, extractTriggerFromDescription } from '../../data/talentTrees/talentSystem.mjs';
+import { resolveTalentSpell, convertTalentSpellToLibrarySpell, extractTriggerFromDescription, talentTier, TALENT_SYSTEM } from '../../data/talentTrees/talentSystem.mjs';
 import { loadLibraryFromStorage, saveLibraryToStorage } from '../spellcrafting-wizard/core/utils/libraryManager';
 import { TalentArrowRenderer } from '../windows/TalentArrow';
 import { getIconUrl } from '../../utils/assetManager';
@@ -25,6 +25,20 @@ const getTalentTreesForClass = (className) => {
         talents: getTalentsForSpec(className, spec.id) || []
     }));
 };
+
+// Helper to determine node tier (1..7)
+export const getNodeTier = (node) => {
+    if (!node) return 1;
+    const t = talentTier(node);
+    if (t >= 1 && t <= 7) return t;
+    if (node?.position?.y != null) {
+        return Math.min(7, Math.max(1, Math.floor(node.position.y) + 1));
+    }
+    return 1;
+};
+
+// Points required in the current tree to unlock a given tier (5 points per tier, WoW Classic style)
+export const getRequiredPointsForTier = (tier) => Math.max(0, (tier - 1) * (TALENT_SYSTEM?.POINTS_PER_TIER_GATE || 5));
 
 // Format spell meta chips (AP, Resource, Range, CD, Reaction, Trigger)
 const renderSpellMetaChips = (spell) => {
@@ -222,6 +236,9 @@ export const TalentTreeContent = ({
         return total + tree.talents.reduce((sum, talent) => sum + (talents[talent.id] || 0), 0);
     }, 0);
 
+    // Points spent in current active tree
+    const treePointsSpent = (currentTree?.talents || []).reduce((sum, talent) => sum + (talents[talent.id] || 0), 0);
+
     const availablePoints = Math.min((level || 1) * 5, 50);
     const pointsRemaining = availablePoints - pointsSpent;
 
@@ -265,6 +282,12 @@ export const TalentTreeContent = ({
     // Validation to learn
     const canLearnTalent = (talent) => {
         if (pointsSpent >= availablePoints) return false;
+
+        // Tier Gatekeeping: Tier N requires (N - 1) * 5 points invested in this tree
+        const nodeTier = getNodeTier(talent);
+        const requiredInTree = getRequiredPointsForTier(nodeTier);
+        if (treePointsSpent < requiredInTree) return false;
+
         if (!talent.requires) return true;
 
         const reqIds = Array.isArray(talent.requires) ? talent.requires : [talent.requires];
@@ -284,12 +307,13 @@ export const TalentTreeContent = ({
     // Validation to unlearn
     const canUnlearnTalent = (talentId) => {
         const currentRanks = talents[talentId] || 0;
-        if (currentRanks <= 0) return false;
+        if (currentRanks <= 0) return { canUnlearn: false, reason: 'none' };
 
         const sim = { ...talents, [talentId]: currentRanks - 1 };
         if (sim[talentId] === 0) delete sim[talentId];
 
         for (const tree of trees) {
+            // 1. Check prerequisite dependencies
             for (const t of tree.talents) {
                 if ((sim[t.id] || 0) > 0 && t.requires) {
                     const reqIds = Array.isArray(t.requires) ? t.requires : [t.requires];
@@ -298,18 +322,42 @@ export const TalentTreeContent = ({
                             const p = tree.talents.find(node => node.id === reqId);
                             return (sim[reqId] || 0) >= (p?.maxRanks || 1);
                         });
-                        if (!allMet) return false;
+                        if (!allMet) return { canUnlearn: false, reason: 'prerequisite' };
                     } else {
                         const anyMet = reqIds.some(reqId => {
                             const p = tree.talents.find(node => node.id === reqId);
                             return (sim[reqId] || 0) >= (p?.maxRanks || 1);
                         });
-                        if (!anyMet) return false;
+                        if (!anyMet) return { canUnlearn: false, reason: 'prerequisite' };
+                    }
+                }
+            }
+
+            // 2. Check tier gatekeeping
+            for (let T = 2; T <= 7; T++) {
+                const hasTalentsAtOrAboveT = tree.talents.some(t => {
+                    const tTier = getNodeTier(t);
+                    return tTier >= T && (sim[t.id] || 0) > 0;
+                });
+
+                if (hasTalentsAtOrAboveT) {
+                    const pointsBelowT = tree.talents
+                        .filter(t => getNodeTier(t) < T)
+                        .reduce((sum, t) => sum + (sim[t.id] || 0), 0);
+
+                    const requiredBelowT = getRequiredPointsForTier(T);
+                    if (pointsBelowT < requiredBelowT) {
+                        return {
+                            canUnlearn: false,
+                            reason: 'tier_gate',
+                            requiredTier: T,
+                            requiredPoints: requiredBelowT
+                        };
                     }
                 }
             }
         }
-        return true;
+        return { canUnlearn: true };
     };
 
     const handleTalentClick = (talentId, talent) => {
@@ -327,12 +375,16 @@ export const TalentTreeContent = ({
     const handleTalentRightClick = (e, talentId, talent) => {
         e.preventDefault();
         setSelectedTalentId(talentId);
-        if (!canUnlearnTalent(talentId)) {
+        const unlearnCheck = canUnlearnTalent(talentId);
+        if (!unlearnCheck.canUnlearn) {
+            const errorMsg = unlearnCheck.reason === 'tier_gate'
+                ? `Cannot refund: Tier ${unlearnCheck.requiredTier} talents require at least ${unlearnCheck.requiredPoints} points invested in lower tiers.`
+                : 'Cannot refund: other learned talents depend on this prerequisite.';
             setUnlearnError({
-                message: 'Cannot refund: other learned talents depend on this prerequisite.',
+                message: errorMsg,
                 position: { x: e.clientX, y: e.clientY }
             });
-            setTimeout(() => setUnlearnError(null), 2400);
+            setTimeout(() => setUnlearnError(null), 2800);
             return;
         }
 
@@ -590,17 +642,23 @@ export const TalentTreeContent = ({
                                 {[1, 2, 3, 4, 5, 6, 7].map(tier => {
                                     const tierY = treeAnalysis.tierMap[tier] ?? (tier - 1);
                                     const { posY } = getNodePos(0, tierY);
+                                    const reqPoints = getRequiredPointsForTier(tier);
+                                    const isTierLocked = treePointsSpent < reqPoints;
+
                                     return (
                                         <div
                                             key={tier}
-                                            className="talent-tier-label"
+                                            className={`talent-tier-label ${isTierLocked ? 'locked' : 'unlocked'}`}
                                             style={{
                                                 position: 'absolute',
                                                 top: `${posY}px`,
                                                 transform: 'translateY(-50%)'
                                             }}
+                                            title={`Tier ${tier}: Requires ${reqPoints} points spent in ${currentTree?.name || 'this tree'}`}
                                         >
-                                            T{tier}
+                                            <span className="tier-name">T{tier}</span>
+                                            <span className="tier-pts">{reqPoints}p</span>
+                                            {isTierLocked && <i className="fas fa-lock tier-lock-icon"></i>}
                                         </div>
                                     );
                                 })}
@@ -677,7 +735,14 @@ export const TalentTreeContent = ({
                     </div>
 
                     <div className="talent-inspector-page">
-                        {inspectedTalent ? (
+                        {inspectedTalent ? (() => {
+                            const inspectedTier = getNodeTier(inspectedTalent);
+                            const inspectedReqTierPoints = getRequiredPointsForTier(inspectedTier);
+                            const isTierMet = treePointsSpent >= inspectedReqTierPoints;
+                            const unlearnCheck = canUnlearnTalent(inspectedTalent.id);
+                            const inspectedCanUnlearn = unlearnCheck.canUnlearn;
+
+                            return (
                             <div className="talent-inspector-card">
                                 <div className="talent-inspector-header">
                                     <img
@@ -692,9 +757,7 @@ export const TalentTreeContent = ({
                                             <span className={`talent-inspector-rank-tag ${inspectedMaxed ? 'maxed' : inspectedRanks > 0 ? 'learned' : 'unlearned'}`}>
                                                 Rank {inspectedRanks} of {inspectedTalent.maxRanks || 1} {inspectedMaxed ? '(Maxed)' : inspectedCanLearn ? '(Learnable)' : ''}
                                             </span>
-                                            {inspectedTalent.position && (
-                                                <span className="talent-tier-pos-tag">Tier {inspectedTalent.position.y + 1}</span>
-                                            )}
+                                            <span className="talent-tier-pos-tag">Tier {inspectedTier}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -709,12 +772,18 @@ export const TalentTreeContent = ({
                                     </div>
 
                                     {/* Requirements status */}
-                                    {inspectedTalent.requires && (() => {
-                                        const reqIds = Array.isArray(inspectedTalent.requires) ? inspectedTalent.requires : [inspectedTalent.requires];
-                                        return (
-                                            <div className="talent-inspector-reqs-box">
-                                                <span className="req-box-title">Prerequisites:</span>
-                                                {reqIds.map(reqId => {
+                                    {(inspectedTier > 1 || inspectedTalent.requires) && (
+                                        <div className="talent-inspector-reqs-box">
+                                            <span className="req-box-title">Requirements:</span>
+                                            {inspectedTier > 1 && (
+                                                <div className={`req-item-line ${isTierMet ? 'met' : 'unmet'}`}>
+                                                    <i className={`fas ${isTierMet ? 'fa-check-circle' : 'fa-lock'}`}></i>
+                                                    <span>Requires {inspectedReqTierPoints} points in {currentTree?.name || 'this tree'} ({treePointsSpent}/{inspectedReqTierPoints} spent)</span>
+                                                </div>
+                                            )}
+                                            {inspectedTalent.requires && (() => {
+                                                const reqIds = Array.isArray(inspectedTalent.requires) ? inspectedTalent.requires : [inspectedTalent.requires];
+                                                return reqIds.map(reqId => {
                                                     const reqNode = currentTree?.talents?.find(t => t.id === reqId);
                                                     const reqName = reqNode ? reqNode.name : 'Prerequisite Talent';
                                                     const reqRanks = reqNode?.maxRanks || 1;
@@ -727,10 +796,10 @@ export const TalentTreeContent = ({
                                                             <span>{reqName} ({curReqRanks}/{reqRanks} points)</span>
                                                         </div>
                                                     );
-                                                })}
-                                            </div>
-                                        );
-                                    })()}
+                                                });
+                                            })()}
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Direct Allocation Action Buttons */}
@@ -755,7 +824,8 @@ export const TalentTreeContent = ({
                                     </button>
                                 </div>
                             </div>
-                        ) : (
+                            );
+                        })() : (
                             <div className="talent-inspector-empty">
                                 <i className="fas fa-scroll"></i>
                                 <h4>Specialization Codex</h4>

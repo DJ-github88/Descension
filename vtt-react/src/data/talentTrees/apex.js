@@ -32,7 +32,7 @@ export const APEX_SHADOWBLADE = [
       cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 3 } },
-      damageTypes: ["physical", "shadow"],
+      damageTypes: ["smashing", "arcane"],
       primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       visualTheme: "shadow", tags: ["stealth", "burst", "qm-builder", "apex"]
     },
@@ -74,7 +74,7 @@ export const APEX_SHADOWBLADE = [
       flavorText: "The apex hunter waits with glaive poised.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["shadow"],
+      targetingMode: "self", damageTypes: ["arcane"],
       primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
       visualTheme: "shadow", tags: ["passive", "crit", "bonus-damage", "apex"]
     },
@@ -89,7 +89,7 @@ export const APEX_SHADOWBLADE = [
     name: "Phantom Step",
     icon: "spell_shadow_shadowstep",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "sb_t1_shadow_strike",
     spell: {
       name: "Phantom Step",
@@ -114,7 +114,7 @@ export const APEX_SHADOWBLADE = [
     name: "Shared Shadow Bond",
     icon: "ability_druid_predatoryinstincts",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 1 },
     requires: "sb_t1_dark_presence",
     spell: {
       name: "Shared Shadow Bond",
@@ -122,7 +122,7 @@ export const APEX_SHADOWBLADE = [
       flavorText: "Bonds forged in Frostwood run deeper than ironwood roots.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["physical", "shadow"],
+      targetingMode: "self", damageTypes: ["smashing", "arcane"],
       primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       visualTheme: "shadow", tags: ["passive", "companion-strike", "stealth", "apex"]
     },
@@ -138,7 +138,7 @@ export const APEX_SHADOWBLADE = [
     name: "Shadow Eruption",
     icon: "spell_shadow_shadowfury",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1, y: 2 },
     requires: "sb_t2_phantom_step",
     spell: {
       name: "Shadow Eruption",
@@ -151,7 +151,7 @@ export const APEX_SHADOWBLADE = [
       cooldownCategory: "medium", cooldownValue: 14, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 3 } },
-      damageTypes: ["shadow"],
+      damageTypes: ["arcane"],
       primaryDamage: { dice: "5d10", flat: 0, procChance: 100 },
       debuffs: ["silence-reaction"], visualTheme: "shadow", tags: ["aoe", "nuke", "no-reaction", "apex"]
     },
@@ -165,7 +165,7 @@ export const APEX_SHADOWBLADE = [
     name: "Lethal Execution",
     icon: "ability_hunter_assassinate",
     maxRanks: 3,
-    position: { x: 3, y: 3 },
+    position: { x: 3, y: 2 },
     requires: "sb_t2_shadow_synergy",
     spell: {
       name: "Lethal Execution",
@@ -187,14 +187,14 @@ export const APEX_SHADOWBLADE = [
     name: "Shadow Smoke Screen",
     icon: "spell_shadow_twilight",
     maxRanks: 3,
-    position: { x: 1, y: 4.5 },
+    position: { x: 1, y: 3 },
     requires: "sb_t3_shadow_eruption",
     spell: {
       name: "Shadow Smoke Screen",
       description: "Spend 2 QM: deploy a 25-foot cloud of choking shadow mist for 3 rounds. You and allies inside are invisible, while enemies inside are blinded and have -3 Durability Steps to target's durability.",
       flavorText: "A pocket of Frostwood night brought indoors.",
       source: "talent", class: "Apex", treeId: "shadowblade",
-      spellType: "ACTIVE", category: "control",
+      spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 25,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
@@ -212,7 +212,7 @@ export const APEX_SHADOWBLADE = [
     name: "Apex Ambush",
     icon: "ability_rogue_ambush",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 3 },
     requires: "sb_t3_stalker_execute",
     spell: {
       name: "Apex Ambush",
@@ -233,7 +233,7 @@ export const APEX_SHADOWBLADE = [
     name: "Shadow Glaive Dance",
     icon: "ability_warrior_weaponmastery",
     maxRanks: 2,
-    position: { x: 1, y: 6 },
+    position: { x: 1, y: 4 },
     requires: "sb_t4_smoke_screen",
     spell: {
       name: "Shadow Glaive Dance",
@@ -246,7 +246,7 @@ export const APEX_SHADOWBLADE = [
       cooldownCategory: "medium", cooldownValue: 24, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 4 } },
-      damageTypes: ["shadow", "physical"],
+      damageTypes: ["arcane", "smashing"],
       primaryDamage: { dice: "7d10", flat: 0, procChance: 100 },
       visualTheme: "shadow", tags: ["omni-slash", "multi-teleport", "nuke", "apex"]
     },
@@ -259,7 +259,7 @@ export const APEX_SHADOWBLADE = [
     name: "Gloom Leech",
     icon: "spell_shadow_lifedrain",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3, y: 4 },
     requires: "sb_t4_ambush_mastery",
     spell: {
       name: "Gloom Leech",
@@ -281,7 +281,7 @@ export const APEX_SHADOWBLADE = [
     name: "Shadow Entity",
     icon: "spell_shadow_demonicempathy",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "sb_t5_glaive_dance",
     spell: {
       name: "Shadow Entity",
@@ -304,7 +304,7 @@ export const APEX_SHADOWBLADE = [
     name: "Severing Shadow",
     icon: "ability_rogue_eviscerate",
     maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
+    position: { x: 2.5, y: 5 },
     requires: "sb_t5_shadow_vitality",
     spell: {
       name: "Severing Shadow",
@@ -312,7 +312,7 @@ export const APEX_SHADOWBLADE = [
       flavorText: "A cut that bleeds soul rather than blood.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["shadow"],
+      targetingMode: "self", damageTypes: ["arcane"],
       visualTheme: "shadow", tags: ["passive", "crit-bleed", "debuff", "apex"]
     },
     rankUpgrades: [
@@ -324,7 +324,7 @@ export const APEX_SHADOWBLADE = [
     name: "Slip the Grasp",
     icon: "ability_vanish",
     maxRanks: 2,
-    position: { x: 4, y: 7.5 },
+    position: { x: 4, y: 5 },
     requires: "sb_t5_shadow_vitality",
     spell: {
       name: "Slip the Grasp",
@@ -345,7 +345,7 @@ export const APEX_SHADOWBLADE = [
     name: "Avatar of the Phantom Hunt",
     icon: "spell_shadow_shadowwordpain",
     maxRanks: 1,
-    position: { x: 0.5, y: 9.5 },
+    position: { x: 0.5, y: 6 },
     requires: "sb_t6_shadow_assassin",
     spell: {
       name: "Avatar of the Phantom Hunt",
@@ -368,7 +368,7 @@ export const APEX_SHADOWBLADE = [
     name: "Shadowblade Doctrine",
     icon: "ability_rogue_shadowstrike",
     maxRanks: 5,
-    position: { x: 1.5, y: 9.5 },
+    position: { x: 1.5, y: 6 },
     requires: "sb_t6_shadow_assassin",
     spell: {
       name: "Shadowblade Doctrine",
@@ -376,7 +376,7 @@ export const APEX_SHADOWBLADE = [
       flavorText: "The shadow blade cuts clean through iron and soul.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["shadow", "physical"],
+      targetingMode: "self", damageTypes: ["arcane", "smashing"],
       visualTheme: "shadow", tags: ["passive", "capstone", "damage", "apex"]
     },
     rankUpgrades: [
@@ -391,7 +391,7 @@ export const APEX_SHADOWBLADE = [
     name: "Apex Quarry Reservoir",
     icon: "ability_hunter_snipershot",
     maxRanks: 3,
-    position: { x: 2.5, y: 9.5 },
+    position: { x: 2.5, y: 6 },
     requires: "sb_t6_phantom_crits",
     spell: {
       name: "Apex Quarry Reservoir",
@@ -411,7 +411,7 @@ export const APEX_SHADOWBLADE = [
     name: "Throat Cutter",
     icon: "ability_rogue_shadowdance",
     maxRanks: 3,
-    position: { x: 3.5, y: 9.5 },
+    position: { x: 3.5, y: 6 },
     requires: "sb_t6_phantom_crits",
     spell: {
       name: "Throat Cutter",
@@ -431,7 +431,7 @@ export const APEX_SHADOWBLADE = [
     name: "Shadowform Rebirth",
     icon: "spell_shadow_nethercloak",
     maxRanks: 3,
-    position: { x: 4.5, y: 9.5 },
+    position: { x: 4.5, y: 6 },
     requires: "sb_t6_vanishing_act",
     spell: {
       name: "Shadowform Rebirth",
@@ -471,7 +471,7 @@ export const APEX_BLADESTORM = [
       cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 } },
-      damageTypes: ["physical"],
+      damageTypes: ["smashing"],
       primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       visualTheme: "physical", tags: ["chain", "ricochet", "multi-target", "apex"]
     },
@@ -526,7 +526,7 @@ export const APEX_BLADESTORM = [
     name: "Whirling Cyclone",
     icon: "ability_whirlwind",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "bs_t1_ricochet_glaive",
     spell: {
       name: "Whirling Cyclone",
@@ -539,7 +539,7 @@ export const APEX_BLADESTORM = [
       cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 2 } },
-      damageTypes: ["physical"],
+      damageTypes: ["smashing"],
       primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
       buffs: ["projectile-deflect"], visualTheme: "physical", tags: ["aoe", "deflect", "knockback", "apex"]
     },
@@ -553,7 +553,7 @@ export const APEX_BLADESTORM = [
     name: "Chain Reaction",
     icon: "spell_shadow_shadowfury",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 1 },
     requires: "bs_t1_momentum",
     spell: {
       name: "Chain Reaction",
@@ -575,7 +575,7 @@ export const APEX_BLADESTORM = [
     name: "Glaive Storm",
     icon: "spell_nature_cyclone",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1, y: 2 },
     requires: "bs_t2_whirling_cyclone",
     spell: {
       name: "Glaive Storm",
@@ -588,7 +588,7 @@ export const APEX_BLADESTORM = [
       cooldownCategory: "medium", cooldownValue: 16, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 3 } },
-      damageTypes: ["physical"],
+      damageTypes: ["smashing"],
       primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
       isDot: true, dotDuration: 3, dotTick: "4d8",
       visualTheme: "physical", tags: ["zone", "hazard", "sunder", "apex"]
@@ -603,7 +603,7 @@ export const APEX_BLADESTORM = [
     name: "Sunder Ricochet",
     icon: "ability_warrior_sunder",
     maxRanks: 3,
-    position: { x: 3, y: 3 },
+    position: { x: 3, y: 2 },
     requires: "bs_t2_chain_reaction",
     spell: {
       name: "Sunder Ricochet",
@@ -625,7 +625,7 @@ export const APEX_BLADESTORM = [
     name: "Apex Blade Barrage",
     icon: "ability_hunter_barrage",
     maxRanks: 3,
-    position: { x: 1, y: 4.5 },
+    position: { x: 1, y: 3 },
     requires: "bs_t3_glaive_storm",
     spell: {
       name: "Apex Blade Barrage",
@@ -638,7 +638,7 @@ export const APEX_BLADESTORM = [
       cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 4 } },
-      damageTypes: ["physical"],
+      damageTypes: ["smashing"],
       primaryDamage: { dice: "6d10", flat: 0, procChance: 100 },
       visualTheme: "physical", tags: ["cone", "barrage", "ricochet", "apex"]
     },
@@ -652,7 +652,7 @@ export const APEX_BLADESTORM = [
     name: "Infinite Bounce",
     icon: "ability_rogue_quickrecovery",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 3 },
     requires: "bs_t3_shredding_blades",
     spell: {
       name: "Infinite Bounce",
@@ -673,7 +673,7 @@ export const APEX_BLADESTORM = [
     name: "Orbiting Glaive Shield",
     icon: "spell_holy_powerwordbarrier",
     maxRanks: 2,
-    position: { x: 1, y: 6 },
+    position: { x: 1, y: 4 },
     requires: "bs_t4_blade_barrage",
     spell: {
       name: "Orbiting Glaive Shield",
@@ -697,7 +697,7 @@ export const APEX_BLADESTORM = [
     name: "Cyclone Momentum",
     icon: "ability_warrior_bloodfrenzy",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3, y: 4 },
     requires: "bs_t4_endless_ricochet",
     spell: {
       name: "Cyclone Momentum",
@@ -719,7 +719,7 @@ export const APEX_BLADESTORM = [
     name: "The Grand Bladestorm",
     icon: "ability_warrior_bladestorm",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "bs_t5_shredder_orbit",
     spell: {
       name: "The Grand Bladestorm",
@@ -733,7 +733,7 @@ export const APEX_BLADESTORM = [
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 5 } },
       durationRounds: 2, durationRealTime: 12, durationUnit: "seconds",
-      damageTypes: ["physical"],
+      damageTypes: ["smashing"],
       primaryDamage: { dice: "8d10", flat: 0, procChance: 100 },
       buffs: ["bladestorm"], visualTheme: "physical", tags: ["vortex", "immune", "aoe-nuke", "apex"]
     },
@@ -744,7 +744,7 @@ export const APEX_BLADESTORM = [
     name: "Severing Ricochets",
     icon: "ability_rogue_eviscerate",
     maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
+    position: { x: 2.5, y: 5 },
     requires: "bs_t5_cyclone_surge",
     spell: {
       name: "Severing Ricochets",
@@ -763,7 +763,7 @@ export const APEX_BLADESTORM = [
     name: "Steel Tempest Defense",
     icon: "ability_warrior_defensivestance",
     maxRanks: 2,
-    position: { x: 4, y: 7.5 },
+    position: { x: 4, y: 5 },
     requires: "bs_t5_cyclone_surge",
     spell: {
       name: "Steel Tempest Defense",
@@ -784,7 +784,7 @@ export const APEX_BLADESTORM = [
     name: "Typhoon of Thousand Glaives",
     icon: "spell_nature_unrelentingstorm",
     maxRanks: 1,
-    position: { x: 0.5, y: 9.5 },
+    position: { x: 0.5, y: 6 },
     requires: "bs_t6_the_grand_bladestorm",
     spell: {
       name: "Typhoon of Thousand Glaives",
@@ -798,7 +798,7 @@ export const APEX_BLADESTORM = [
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 8 } },
       durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
-      damageTypes: ["physical"],
+      damageTypes: ["smashing"],
       primaryDamage: { dice: "10d10", flat: 0, procChance: 100 },
       buffs: ["typhoon-glaives"], visualTheme: "physical", tags: ["ultimate", "capstone", "typhoon", "apex"]
     },
@@ -809,7 +809,7 @@ export const APEX_BLADESTORM = [
     name: "Bladestorm Doctrine",
     icon: "ability_warrior_weaponmastery",
     maxRanks: 5,
-    position: { x: 1.5, y: 9.5 },
+    position: { x: 1.5, y: 6 },
     requires: "bs_t6_the_grand_bladestorm",
     spell: {
       name: "Bladestorm Doctrine",
@@ -817,7 +817,7 @@ export const APEX_BLADESTORM = [
       flavorText: "The blade that never stops cutting.",
       source: "talent", class: "Apex", treeId: "bladestorm",
       spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["physical"],
+      targetingMode: "self", damageTypes: ["smashing"],
       visualTheme: "physical", tags: ["passive", "capstone", "damage", "apex"]
     },
     rankUpgrades: [
@@ -832,7 +832,7 @@ export const APEX_BLADESTORM = [
     name: "Autonomous Glaive Forge",
     icon: "ability_hunter_aimedshot",
     maxRanks: 3,
-    position: { x: 2.5, y: 9.5 },
+    position: { x: 2.5, y: 6 },
     requires: "bs_t6_severing_ricochet",
     spell: {
       name: "Autonomous Glaive Forge",
@@ -852,7 +852,7 @@ export const APEX_BLADESTORM = [
     name: "Cyclone Criticality",
     icon: "ability_whirlwind",
     maxRanks: 3,
-    position: { x: 3.5, y: 9.5 },
+    position: { x: 3.5, y: 6 },
     requires: "bs_t6_steel_tempest",
     spell: {
       name: "Cyclone Criticality",
@@ -872,7 +872,7 @@ export const APEX_BLADESTORM = [
     name: "Ironwood Reflex Rebirth",
     icon: "ability_warrior_defensivestance",
     maxRanks: 3,
-    position: { x: 4.5, y: 9.5 },
+    position: { x: 4.5, y: 6 },
     requires: "bs_t6_steel_tempest",
     spell: {
       name: "Ironwood Reflex Rebirth",
@@ -912,7 +912,7 @@ export const APEX_BEASTMASTER = [
       cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 3 } },
-      damageTypes: ["physical"],
+      damageTypes: ["smashing"],
       primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       debuffs: ["prone"], visualTheme: "physical", tags: ["dual-strike", "knockdown", "companion", "apex"]
     },
@@ -954,7 +954,7 @@ export const APEX_BEASTMASTER = [
       flavorText: "One opens the wound; the other deepens it.",
       source: "talent", class: "Apex", treeId: "beastmaster",
       spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["physical"],
+      targetingMode: "self", damageTypes: ["smashing"],
       primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
       visualTheme: "physical", tags: ["passive", "flank", "bonus-damage", "apex"]
     },
@@ -969,14 +969,14 @@ export const APEX_BEASTMASTER = [
     name: "Apex Beast Roar",
     icon: "ability_warrior_battleshout",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "bm_t1_coordinated_command",
     spell: {
       name: "Apex Beast Roar",
       description: "Spend 2 QM: your companion unleashes a terrifying 25-foot roar. Deals 3d8 sonic damage, disorients enemies for 1 round, and forces all enemies to attack the companion instead of you for 2 rounds.",
       flavorText: "The roar that commands respect from every creature in the valley.",
       source: "talent", class: "Apex", treeId: "beastmaster",
-      spellType: "ACTIVE", category: "control",
+      spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 25,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
@@ -996,7 +996,7 @@ export const APEX_BEASTMASTER = [
     name: "Symbiotic Armor",
     icon: "spell_nature_skinofearth",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 1 },
     requires: "bm_t1_primal_vigor",
     spell: {
       name: "Symbiotic Armor",
@@ -1018,20 +1018,20 @@ export const APEX_BEASTMASTER = [
     name: "Savage Pounce & Pin",
     icon: "ability_hunter_pet_cat",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1, y: 2 },
     requires: "bm_t2_beast_roar",
     spell: {
       name: "Savage Pounce & Pin",
       description: "Spend 3 QM: companion leaps up to 40 feet onto a target, pinning them to the ground for 2 rounds. Deals 5d10 slashing damage and prevents the target from taking any actions.",
       flavorText: "Held under claws that can crack ironwood.",
       source: "talent", class: "Apex", treeId: "beastmaster",
-      spellType: "ACTIVE", category: "control",
+      spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 40,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "medium", cooldownValue: 14, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 3 } },
-      damageTypes: ["physical"],
+      damageTypes: ["smashing"],
       primaryDamage: { dice: "5d10", flat: 0, procChance: 100 },
       debuffs: ["pinned"], visualTheme: "physical", tags: ["pin", "nuke", "cc", "apex"]
     },
@@ -1045,7 +1045,7 @@ export const APEX_BEASTMASTER = [
     name: "Feral Excitement",
     icon: "ability_druid_ferociousbite",
     maxRanks: 3,
-    position: { x: 3, y: 3 },
+    position: { x: 3, y: 2 },
     requires: "bm_t2_thick_hide",
     spell: {
       name: "Feral Excitement",
@@ -1053,7 +1053,7 @@ export const APEX_BEASTMASTER = [
       flavorText: "The kill drive spreads across the leash.",
       source: "talent", class: "Apex", treeId: "beastmaster",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self", damageTypes: ["physical"],
+      targetingMode: "self", damageTypes: ["smashing"],
       primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       visualTheme: "physical", tags: ["passive", "qm-gain", "bonus-damage", "apex"]
     },
@@ -1069,7 +1069,7 @@ export const APEX_BEASTMASTER = [
     name: "Alpha Pack Call",
     icon: "ability_hunter_beastwithin",
     maxRanks: 3,
-    position: { x: 1, y: 4.5 },
+    position: { x: 1, y: 3 },
     requires: "bm_t3_savage_pounce",
     spell: {
       name: "Alpha Pack Call",
@@ -1082,7 +1082,7 @@ export const APEX_BEASTMASTER = [
       cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 4 } },
-      damageTypes: ["physical"],
+      damageTypes: ["smashing"],
       primaryDamage: { dice: "6d8", flat: 0, procChance: 100 },
       visualTheme: "physical", tags: ["summon", "pack", "party-buff", "apex"]
     },
@@ -1096,7 +1096,7 @@ export const APEX_BEASTMASTER = [
     name: "Wide Swipe",
     icon: "ability_warrior_cleave",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 3 },
     requires: "bm_t3_feral_frenzy",
     spell: {
       name: "Wide Swipe",
@@ -1117,7 +1117,7 @@ export const APEX_BEASTMASTER = [
     name: "Bestial Overdrive",
     icon: "ability_druid_enrage",
     maxRanks: 2,
-    position: { x: 1, y: 6 },
+    position: { x: 1, y: 4 },
     requires: "bm_t4_pack_rally",
     spell: {
       name: "Bestial Overdrive",
@@ -1141,7 +1141,7 @@ export const APEX_BEASTMASTER = [
     name: "Pack Bloodlust",
     icon: "spell_nature_bloodlust",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3, y: 4 },
     requires: "bm_t4_beast_cleave",
     spell: {
       name: "Pack Bloodlust",
@@ -1163,7 +1163,7 @@ export const APEX_BEASTMASTER = [
     name: "Dual Apex Assault",
     icon: "ability_hunter_pet_cat",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "bm_t5_beast_ascension",
     spell: {
       name: "Dual Apex Assault",
@@ -1176,7 +1176,7 @@ export const APEX_BEASTMASTER = [
       cooldownCategory: "long", cooldownValue: 60, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 5 } },
-      damageTypes: ["physical"],
+      damageTypes: ["smashing"],
       primaryDamage: { dice: "10d10", flat: 0, procChance: 100 },
       debuffs: ["stun"], visualTheme: "physical", tags: ["dual-nuke", "stun", "knockdown", "apex"]
     },
@@ -1187,7 +1187,7 @@ export const APEX_BEASTMASTER = [
     name: "Telepathic Sync",
     icon: "spell_nature_spiritlinktotem",
     maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
+    position: { x: 2.5, y: 5 },
     requires: "bm_t5_pack_bloodlust",
     spell: {
       name: "Telepathic Sync",
@@ -1206,7 +1206,7 @@ export const APEX_BEASTMASTER = [
     name: "Intimidating Alpha",
     icon: "ability_warrior_intimidatingshout",
     maxRanks: 2,
-    position: { x: 4, y: 7.5 },
+    position: { x: 4, y: 5 },
     requires: "bm_t5_pack_bloodlust",
     spell: {
       name: "Intimidating Alpha",
@@ -1227,7 +1227,7 @@ export const APEX_BEASTMASTER = [
     name: "Avatar of the Beast Sovereign",
     icon: "ability_druid_primalprecision",
     maxRanks: 1,
-    position: { x: 0.5, y: 9.5 },
+    position: { x: 0.5, y: 6 },
     requires: "bm_t6_dual_apex_fury",
     spell: {
       name: "Avatar of the Beast Sovereign",
@@ -1250,7 +1250,7 @@ export const APEX_BEASTMASTER = [
     name: "Beastmaster Doctrine",
     icon: "ability_hunter_pet_attack",
     maxRanks: 5,
-    position: { x: 1.5, y: 9.5 },
+    position: { x: 1.5, y: 6 },
     requires: "bm_t6_dual_apex_fury",
     spell: {
       name: "Beastmaster Doctrine",
@@ -1258,7 +1258,7 @@ export const APEX_BEASTMASTER = [
       flavorText: "Two hearts beating as one weapon.",
       source: "talent", class: "Apex", treeId: "beastmaster",
       spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["physical"],
+      targetingMode: "self", damageTypes: ["smashing"],
       visualTheme: "physical", tags: ["passive", "capstone", "damage", "apex"]
     },
     rankUpgrades: [
@@ -1273,7 +1273,7 @@ export const APEX_BEASTMASTER = [
     name: "Unbreakable Pack Bond",
     icon: "ability_druid_healinginstincts",
     maxRanks: 3,
-    position: { x: 2.5, y: 9.5 },
+    position: { x: 2.5, y: 6 },
     requires: "bm_t6_telepathic_link",
     spell: {
       name: "Unbreakable Pack Bond",
@@ -1293,7 +1293,7 @@ export const APEX_BEASTMASTER = [
     name: "Synchronized Criticals",
     icon: "ability_hunter_pet_cat",
     maxRanks: 3,
-    position: { x: 3.5, y: 9.5 },
+    position: { x: 3.5, y: 6 },
     requires: "bm_t6_primal_roar_defense",
     spell: {
       name: "Synchronized Criticals",
@@ -1313,7 +1313,7 @@ export const APEX_BEASTMASTER = [
     name: "Bonded Sacrifice Rebirth",
     icon: "ability_hunter_beastwithin",
     maxRanks: 3,
-    position: { x: 4.5, y: 9.5 },
+    position: { x: 4.5, y: 6 },
     requires: "bm_t6_primal_roar_defense",
     spell: {
       name: "Bonded Sacrifice Rebirth",

@@ -228,7 +228,7 @@ const FormulaModifierSection = ({
               max="10"
               className="wow-settings-input"
             />
-            <span className="multiplier-label">Ã -  base formula</span>
+            <span className="multiplier-label">ï¿½ -  base formula</span>
           </div>
         )}
 

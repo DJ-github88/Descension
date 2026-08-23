@@ -1,5 +1,5 @@
 // Tactical Combat Skill Multi-Dimensional Tables
-// 7 proficiency levels Ã -  6 dice types = 42 tables total
+// 7 proficiency levels ï¿½ -  6 dice types = 42 tables total
 // Each die type has exact outcome count: d4=4, d6=6, d8=8, d10=10, d12=12, d20=13
 // For d20 tables: 13 unique outcomes with ranges covering all 20 possible roll values
 

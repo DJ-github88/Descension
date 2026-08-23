@@ -219,8 +219,8 @@ const ConditionTooltip = ({ condition, hasResistance, equipmentModifier, sources
                     {equipmentModifier?.modifier === 'immune' && '✓ Immune to this condition'}
                     {equipmentModifier?.modifier === 'double_advantage' && '✓ Double advantage on saves against this condition'}
                     {equipmentModifier?.modifier === 'advantage' && '✓ Advantage on saves against this condition'}
-                    {equipmentModifier?.modifier === 'double_disadvantage' && '� -  Double disadvantage on saves against this condition'}
-                    {equipmentModifier?.modifier === 'disadvantage' && '� -  Disadvantage on saves against this condition'}
+                    {equipmentModifier?.modifier === 'double_disadvantage' && '� -  Double disadvantage on saves against this condition'}
+                    {equipmentModifier?.modifier === 'disadvantage' && '� -  Disadvantage on saves against this condition'}
                     {!equipmentModifier && hasResistance && '✓ You have advantage on saves against this condition'}
                 </div>
             )}

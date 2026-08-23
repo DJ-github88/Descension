@@ -143,6 +143,121 @@ export const DICE_PRESETS = {
   },
 };
 
+// Dice WEIGHT materials — physics profiles + PBR finish, independent of the
+// visual theme. Physics (gravity/contact/damping/spin) is applied at throw
+// time; the `visual` params override the die body's surface identity
+// (metalness/roughness/tint/clearcoat/transparency) so the material also
+// SHOWS. Mass itself is a no-op (all dice share it, so it cancels in every
+// equation) — weight FEEL comes from fall speed, dead bounces, spin bleed.
+export const DICE_MATERIALS = {
+  steel: {
+    id: 'steel',
+    name: 'Steel',
+    icon: 'fas fa-hammer',
+    tile: 'linear-gradient(135deg, #d7dce2 0%, #9aa3ad 55%, #6f7883 100%)',
+    glow: '#cfd6de',
+    gravity: -76,
+    restitution: 0.24,
+    friction: 0.18,
+    linearDamping: 0.012,
+    angularDamping: 0.045,
+    spinMul: 0.85,
+    stiffness: 1e8,
+    relaxation: 2.4,
+    description: 'Heavy and dead — slams down hard, barely bounces, skids far across the table',
+    visual: {
+      tint: '#d6dae0',          // gunmetal — tints the theme paint cool/silver
+      metalness: 0.92,
+      roughness: 0.30,
+      clearcoat: 0.55,
+      clearcoatRoughness: 0.2,
+      envMapIntensity: 1.25,
+      transparent: false,
+      opacity: 1.0,
+    },
+  },
+  stone: {
+    id: 'stone',
+    name: 'Stone',
+    icon: 'fas fa-mountain',
+    tile: 'linear-gradient(135deg, #a89f93 0%, #7a7267 55%, #4e483f 100%)',
+    glow: '#b8ae9e',
+    gravity: -62,
+    restitution: 0.38,
+    friction: 0.24,
+    linearDamping: 0.012,
+    angularDamping: 0.035,
+    spinMul: 1.0,
+    stiffness: 5e7,
+    relaxation: 2.8,
+    description: 'Balanced weight — a solid thud with a short roll-out',
+    visual: {
+      tint: '#9a9289',          // granitic gray-warm
+      tintPainted: '#eae6df',   // near-neutral over theme paint — ice stays ice
+      metalness: 0.0,
+      roughness: 0.88,
+      clearcoat: 0.04,
+      clearcoatRoughness: 0.6,
+      envMapIntensity: 0.45,
+      transparent: false,
+      opacity: 1.0,
+    },
+  },
+  wood: {
+    id: 'wood',
+    name: 'Wood',
+    icon: 'fas fa-tree',
+    tile: 'linear-gradient(135deg, #b98a54 0%, #8a5a2e 55%, #54341a 100%)',
+    glow: '#d9a86a',
+    gravity: -52,
+    restitution: 0.52,
+    friction: 0.34,
+    linearDamping: 0.014,
+    angularDamping: 0.05,
+    spinMul: 1.15,
+    stiffness: 1e7,
+    relaxation: 3.2,
+    description: 'Light and lively — floats down slower, clatters and tumbles',
+    visual: {
+      tint: '#b3854d',          // warm polished timber
+      tintPainted: '#efe6d2',   // pale over theme paint — frost still reads ice
+      metalness: 0.0,
+      roughness: 0.62,
+      clearcoat: 0.28,          // lacquered sheen
+      clearcoatRoughness: 0.35,
+      envMapIntensity: 0.55,
+      transparent: false,
+      opacity: 1.0,
+    },
+  },
+  glass: {
+    id: 'glass',
+    name: 'Glass',
+    icon: 'fas fa-gem',
+    tile: 'linear-gradient(135deg, #e6f4ff 0%, #a8c8e8 45%, #f2fafe 70%, #b8d4ea 100%)',
+    glow: '#cfe8ff',
+    gravity: -45,
+    restitution: 0.58,
+    friction: 0.22,
+    linearDamping: 0.012,
+    angularDamping: 0.048,
+    spinMul: 1.2,
+    stiffness: 1.6e8,           // rigid — glass is HARD, sharp clatter
+    relaxation: 2.2,
+    description: 'Light and crisp — clatters brightly, translucent body with the numbers suspended inside',
+    visual: {
+      tint: '#eef6fc',          // near-clear ice
+      metalness: 0.0,
+      roughness: 0.07,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.06,
+      envMapIntensity: 1.7,     // reflections are what sell glass
+      transparent: true,
+      opacity: 0.62,            // numbers on the face plates read through
+    },
+  },
+};
+
 const initialState = {
   selectedDice: [],
   isRolling: false,
@@ -151,6 +266,7 @@ const initialState = {
   isDiceBarVisible: true,
   selectedTheme: 'classic',
   activePreset: 'classic',
+  diceMaterial: 'stone',
   diceColor: '#14092b',
   rollContext: null,
   skillOutcome: null,
@@ -275,6 +391,9 @@ const useDiceStore = create(
       setTheme: (theme) => set({ selectedTheme: theme }),
       setDiceColor: (color) => set({ diceColor: color }),
       setDicePreset: (presetId) => set({ activePreset: presetId }),
+      setDiceMaterial: (materialId) => set({
+        diceMaterial: DICE_MATERIALS[materialId] ? materialId : 'stone'
+      }),
 
       updatePhysicsSettings: (settings) => set(state => ({
         physicsSettings: { ...state.physicsSettings, ...settings }
@@ -316,6 +435,7 @@ const useDiceStore = create(
         rollHistory: state.rollHistory.slice(0, 10),
         diceColor: state.diceColor,
         activePreset: state.activePreset,
+        diceMaterial: state.diceMaterial,
       })
     })
   )

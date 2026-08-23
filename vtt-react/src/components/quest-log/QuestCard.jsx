@@ -31,7 +31,7 @@ const QuestCard = memo(({ quest, isSelected, onClick, onRightClick }) => {
       case 'completed':
         return <span className="quest-status-icon completed">âœ“</span>;
       case 'failed':
-        return <span className="quest-status-icon failed">âœ - </span>;
+        return <span className="quest-status-icon failed">ï¿½ - </span>;
       default:
         return null;
     }

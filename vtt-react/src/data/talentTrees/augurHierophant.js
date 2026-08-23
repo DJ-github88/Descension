@@ -11,7 +11,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Cosmic Channel",
     icon: "spell_holy_farsight",
     maxRanks: 3,
-    position: { x: 1.5, y: 3.5 },
+    position: { x: 1.5, y: 0 },
     requires: null,
     spell: {
       name: "Cosmic Channel",
@@ -31,7 +31,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Sign of Vigor",
     icon: "spell_holy_layonhands",
     maxRanks: 3,
-    position: { x: 2, y: 4 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
       name: "Sign of Vigor",
@@ -57,7 +57,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Radiant Purpose",
     icon: "spell_holy_heroism",
     maxRanks: 2,
-    position: { x: 2.5, y: 3.5 },
+    position: { x: 2.5, y: 0 },
     requires: null,
     spell: {
       name: "Radiant Purpose",
@@ -77,7 +77,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Ward of Light",
     icon: "spell_holy_holyguidance",
     maxRanks: 3,
-    position: { x: 0.5, y: 3.5 },
+    position: { x: 0.5, y: 1 },
     requires: "hi_t1_cosmic_channel",
     spell: {
       name: "Ward of Light",
@@ -103,7 +103,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Blessed Terrain",
     icon: "spell_holy_divineprovidence",
     maxRanks: 3,
-    position: { x: 3.5, y: 3.5 },
+    position: { x: 3.5, y: 1 },
     requires: "hi_t1_sign_of_vigor",
     spell: {
       name: "Blessed Terrain",
@@ -124,7 +124,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Sacred Ground",
     icon: "spell_holy_prayerofmendingtga",
     maxRanks: 3,
-    position: { x: 0, y: 4.5 },
+    position: { x: 0, y: 2 },
     requires: "hi_t2_ward_of_light",
     spell: {
       name: "Sacred Ground",
@@ -151,7 +151,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Radiant Resonance",
     icon: "spell_holy_mindsoothe",
     maxRanks: 3,
-    position: { x: 4, y: 4.5 },
+    position: { x: 4, y: 2 },
     requires: "hi_t2_blessed_terrain",
     spell: {
       name: "Radiant Resonance",
@@ -172,7 +172,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Sanctuary",
     icon: "spell_holy_exorcism",
     maxRanks: 3,
-    position: { x: 0, y: 5.5 },
+    position: { x: 0, y: 3 },
     requires: "hi_t3_sacred_ground",
     spell: {
       name: "Sanctuary",
@@ -198,7 +198,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Benediction Overflow",
     icon: "spell_holy_searinglightpriest",
     maxRanks: 2,
-    position: { x: 4, y: 5.5 },
+    position: { x: 4, y: 3 },
     requires: "hi_t3_radiant_resonance",
     spell: {
       name: "Benediction Overflow",
@@ -220,7 +220,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Omen of Protection",
     icon: "spell_holy_restoration",
     maxRanks: 3,
-    position: { x: 0, y: 6 },
+    position: { x: 0, y: 4 },
     requires: "hi_t4_sanctuary",
     spell: {
       name: "Omen of Protection",
@@ -240,7 +240,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Radiant Conduit",
     icon: "spell_holy_righteousnessaura",
     maxRanks: 2,
-    position: { x: 4, y: 6 },
+    position: { x: 4, y: 4 },
     requires: "hi_t4_benediction_overflow",
     spell: {
       name: "Radiant Conduit",
@@ -260,7 +260,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Cosmic Ward",
     icon: "spell_holy_divineintervention",
     maxRanks: 1,
-    position: { x: 1, y: 4 },
+    position: { x: 1, y: 5 },
     requires: "hi_t5_omen_of_protection",
     spell: {
       name: "Cosmic Ward",
@@ -282,7 +282,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Eternal Blessing",
     icon: "spell_holy_holyguidance",
     maxRanks: 2,
-    position: { x: 2, y: 5.5 },
+    position: { x: 2, y: 5 },
     requires: "hi_t5_radiant_conduit",
     spell: {
       name: "Eternal Blessing",
@@ -301,7 +301,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Shared Radiance",
     icon: "spell_holy_blessingofprotection",
     maxRanks: 2,
-    position: { x: 3, y: 4 },
+    position: { x: 3, y: 5 },
     requires: "hi_t5_omen_of_protection",
     spell: {
       name: "Shared Radiance",
@@ -321,7 +321,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Hierophant Supreme",
     icon: "spell_holy_farsight",
     maxRanks: 1,
-    position: { x: 0, y: 3 },
+    position: { x: 0, y: 6 },
     requires: "hi_t6_cosmic_ward",
     spell: {
       name: "Hierophant Supreme",
@@ -344,7 +344,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Deep Well",
     icon: "spell_holy_innerfire",
     maxRanks: 5,
-    position: { x: 0, y: 3.5 },
+    position: { x: 1, y: 6 },
     requires: "hi_t6_eternal_blessing",
     spell: {
       name: "Deep Well",
@@ -366,7 +366,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Vigorous Signs",
     icon: "spell_holy_renew",
     maxRanks: 3,
-    position: { x: 0, y: 4 },
+    position: { x: 2, y: 6 },
     requires: "hi_t6_eternal_blessing",
     spell: {
       name: "Vigorous Signs",
@@ -386,7 +386,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Conduit of Aex",
     icon: "spell_holy_surgeoflight",
     maxRanks: 3,
-    position: { x: 0.5, y: 4.5 },
+    position: { x: 3, y: 6 },
     requires: "hi_t6_shared_radiance",
     spell: {
       name: "Conduit of Aex",
@@ -406,7 +406,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Morning Light",
     icon: "spell_holy_powerwordbarrier",
     maxRanks: 3,
-    position: { x: 0, y: 5 },
+    position: { x: 4, y: 6 },
     requires: "hi_t6_shared_radiance",
     spell: {
       name: "Morning Light",

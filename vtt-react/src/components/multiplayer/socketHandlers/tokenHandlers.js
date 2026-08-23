@@ -574,7 +574,7 @@ export function registerTokenHandlers(ctx) {
       const myUserId = useAuthStore.getState().user?.uid;
       const myServerId = useGameStore.getState().currentPlayer?.id;
 
-      console.log('ðŸŽ¯ [token_control_granted] received â€“ checking if I am the target:', {
+      console.log('ðŸŽ¯ [token_control_granted] received "“ checking if I am the target:', {
         targetPlayerId, targetPlayerSocketId, targetPlayerUserId,
         mySocketId, myUserId, myServerId
       });

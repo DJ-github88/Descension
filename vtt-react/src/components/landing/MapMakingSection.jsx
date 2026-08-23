@@ -3,6 +3,7 @@ import useGameData from '../../hooks/useGameData';
 import { SUBREGIONS } from '../../data/subregions';
 import useAuthStore from '../../store/authStore';
 import './styles/MapMakingSection.css';
+import { showConfirm } from '../../utils/dialogService';
 
 const STORAGE_KEY = 'mapMakingSectionState_v1';
 const NOTES_KEY = 'mapMakingSectionNotes_v1';
@@ -1433,8 +1434,14 @@ const MapMakingSection = () => {
     });
   }, []);
 
-  const resetChecklist = useCallback(() => {
-    if (!window.confirm('Reset the entire checklist? This cannot be undone.')) return;
+  const resetChecklist = useCallback(async () => {
+    const confirmed = await showConfirm({
+      title: 'Reset Checklist',
+      message: 'Reset the entire checklist? This cannot be undone.',
+      confirmText: 'Reset',
+      isDestructive: true
+    });
+    if (!confirmed) return;
     const initial = {};
     for (const [regionId, items] of Object.entries(CHECKLIST_TEMPLATE || {})) {
       if (Array.isArray(items)) {

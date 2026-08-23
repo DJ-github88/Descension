@@ -20,6 +20,7 @@ import { shareItemToCommunity } from '../../services/firebase/userItemsService';
 import ItemGeneration from './ItemGeneration';
 import RecipeWizard from '../crafting/RecipeWizard';
 import SmartTabButton from '../common/SmartTabButton';
+import { showConfirm } from '../../utils/dialogService';
 
 import { WEAPON_SUBTYPES } from './weaponTypes';
 import { RARITY_COLORS } from '../../constants/itemConstants';
@@ -550,8 +551,15 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
         setShowCategoryDialog(false);
     };
 
-    const handleDeleteCategory = (categoryId) => {
-        if (window.confirm('Are you sure you want to delete this category?')) {
+    const handleDeleteCategory = async (categoryId) => {
+        const confirmed = await showConfirm({
+            title: 'Delete Category',
+            message: 'Are you sure you want to delete this category?',
+            subMessage: 'Items in this category will become uncategorized.',
+            confirmText: 'Delete Category',
+            isDestructive: true
+        });
+        if (confirmed) {
             deleteCategory(categoryId);
             if (selectedCategory === categoryId) {
                 setSelectedCategory(null);

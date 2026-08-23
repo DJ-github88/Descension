@@ -1092,7 +1092,7 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
                     }}
                     title="Remove effect"
                   >
-                    Ã - 
+                    ï¿½ - 
                   </button>
                 )}
               </div>

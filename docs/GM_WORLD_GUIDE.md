@@ -3,7 +3,7 @@
 
 > **CANONICAL SOURCE NOTICE & MASTER LORE DIRECTIVE**
 > This document is a convenience summary for GMs aligned with the **August 2026 Ratified Master Lore Patch**:
-> - **Primary Launch Region:** **North Halam (Nordhalla)** is the sole, self-contained launch region for the initial game release.
+> - **Primary Launch Region:** **Nordhalla** is the sole, self-contained launch region for the initial game release.
 > - **Pre-Star Primordial Anima:** Mythrill had innate biological elemental magic (*Jutul*, *Glacier Wyrms*, *Thrumm*, *Landvaettir*, *Fossegrim*); mortals had zero magic and survived by steel, matchlocks, black powder, archery, and taboos.
 > - **475-Year Master Timeline:** Year 0 Star-Fall & House Bargain; Year 325 Blizzard's End Massacre & Aex Shattering; Year 475 Present Day / 150-Year Ice Age.
 > - **Class Heritage Taxonomy:** Pre-Binding (Mortals), Celestial Bargain (Infused), Vreken Extortion (Blight), Cosmic Collision (Post-Keth Amar).

@@ -14,6 +14,7 @@ import FamilyTreeStudio from '../world/FamilyTreeStudio';
 import useFamilyTreeStore from '../../store/familyTreeStore';
 import InteractiveMapStudio from '../world-map/InteractiveMapStudio';
 import useInteractiveMapStore from '../../store/interactiveMapStore';
+import { showConfirm, showAlert } from '../../utils/dialogService';
 import './styles/AccountJournalManager.css';
 
 const CANONICAL_MAP_PRESETS = [
@@ -245,6 +246,31 @@ const AccountJournalManager = ({ user }) => {
     } else if (targetType === 'map_pin') {
       window.dispatchEvent(new CustomEvent('mythrill_navigate_map', { detail: { title, content } }));
       alert(`Sent "${title}" to Immerse Map! Open the World section to place or view this location.`);
+    } else if (['npc', 'location', 'quest', 'homebrew_item', 'lore'].includes(targetType)) {
+      const currentId = campaignService.getCurrentCampaignId();
+      const campaign = currentId ? campaignService.getCampaign(currentId) : null;
+      const cData = campaign?.campaignData ? { ...campaign.campaignData } : campaignService.getDefaultCampaignData();
+      
+      if (targetType === 'npc') {
+        cData.npcs = [...(cData.npcs || []), { id: Date.now(), name: title, description: content, location: '', relationship: 'neutral', plotRelevance: 'minor', notes: '' }];
+        alert(`Promoted "${title}" to Campaign NPC!`);
+      } else if (targetType === 'location') {
+        cData.locations = [...(cData.locations || []), { id: Date.now(), name: title, description: content, type: 'city', region: '', notableFeatures: '', notes: '' }];
+        alert(`Promoted "${title}" to Campaign Location!`);
+      } else if (targetType === 'quest') {
+        cData.quests = [...(cData.quests || []), { id: Date.now(), title: title, description: content, type: 'side', status: 'not-started', objectives: [], rewards: '', notes: '' }];
+        alert(`Promoted "${title}" to Campaign Quest!`);
+      } else if (targetType === 'homebrew_item') {
+        cData.homebrew = { ...(cData.homebrew || {}), items: [...(cData.homebrew?.items || []), { id: Date.now(), name: title, type: 'wondrous', rarity: 'rare', description: content, properties: '', effects: '', notes: '' }] };
+        alert(`Promoted "${title}" to Campaign Custom Item!`);
+      } else if (targetType === 'lore') {
+        cData.homebrew = { ...(cData.homebrew || {}), lore: [...(cData.homebrew?.lore || []), { id: Date.now(), title: title, category: 'history', content: content, tags: [], isSecret: false, notes: '' }] };
+        alert(`Promoted "${title}" to Campaign Lore Article!`);
+      }
+
+      if (currentId) {
+        campaignService.updateCampaign(currentId, { campaignData: cData });
+      }
     }
     setShowPromoteMenu(false);
   };
@@ -1098,11 +1124,20 @@ const AccountJournalManager = ({ user }) => {
                   <button
                     type="button"
                     className="btn-vtt-action btn-vtt-del-icon"
-                    onClick={() => {
+                    onClick={async () => {
                       const board = knowledgeBoards.find(b => b.id === currentBoardId);
-                      if (board && window.confirm(`Delete "${board.name}"? Orbs will be moved to "All Boards".`)) {
-                        removeKnowledgeBoard(board.id);
-                        syncToCloud(user?.uid);
+                      if (board) {
+                        const confirmed = await showConfirm({
+                          title: 'Delete Knowledge Board',
+                          message: `Delete "${board.name}"?`,
+                          subMessage: 'Orbs will be moved to "All Boards".',
+                          confirmText: 'Delete Board',
+                          isDestructive: true
+                        });
+                        if (confirmed) {
+                          removeKnowledgeBoard(board.id);
+                          syncToCloud(user?.uid);
+                        }
                       }
                     }}
                     title="Delete board"
@@ -1159,11 +1194,20 @@ const AccountJournalManager = ({ user }) => {
                   <button
                     type="button"
                     className="btn-vtt-action btn-vtt-del-icon"
-                    onClick={() => {
+                    onClick={async () => {
                       const folder = journalFolders.find(f => f.id === currentFolderId);
-                      if (folder && window.confirm(`Delete "${folder.name}"? Content will be moved to "All Folders".`)) {
-                        removeFolder(folder.id);
-                        syncToCloud(user?.uid);
+                      if (folder) {
+                        const confirmed = await showConfirm({
+                          title: 'Delete Folder',
+                          message: `Delete "${folder.name}"?`,
+                          subMessage: 'Content will be moved to "All Folders".',
+                          confirmText: 'Delete Folder',
+                          isDestructive: true
+                        });
+                        if (confirmed) {
+                          removeFolder(folder.id);
+                          syncToCloud(user?.uid);
+                        }
                       }
                     }}
                     title="Delete folder"
@@ -2027,11 +2071,39 @@ const AccountJournalManager = ({ user }) => {
                     </button>
                     {showPromoteMenu && (
                       <div className="studio-promote-menu">
-                        <button type="button" onClick={() => handlePromoteNote('lineage')}>
-                          <i className="fas fa-dna" style={{ color: '#d4af37' }}></i>
+                        <button type="button" onClick={() => handlePromoteNote('npc')}>
+                          <i className="fas fa-user-tag" style={{ color: '#e67e22' }}></i>
                           <div>
-                            <strong>Custom Lineage / Race</strong>
-                            <small>Import into Custom Lineage Wizard</small>
+                            <strong>Campaign NPC</strong>
+                            <small>Create character in active campaign</small>
+                          </div>
+                        </button>
+                        <button type="button" onClick={() => handlePromoteNote('location')}>
+                          <i className="fas fa-landmark" style={{ color: '#2ecc71' }}></i>
+                          <div>
+                            <strong>Campaign Location</strong>
+                            <small>Create location in active campaign</small>
+                          </div>
+                        </button>
+                        <button type="button" onClick={() => handlePromoteNote('quest')}>
+                          <i className="fas fa-scroll" style={{ color: '#f39c12' }}></i>
+                          <div>
+                            <strong>Campaign Quest</strong>
+                            <small>Add quest to active campaign</small>
+                          </div>
+                        </button>
+                        <button type="button" onClick={() => handlePromoteNote('homebrew_item')}>
+                          <i className="fas fa-gem" style={{ color: '#d4af37' }}></i>
+                          <div>
+                            <strong>Campaign Vault Item</strong>
+                            <small>Save custom item to campaign</small>
+                          </div>
+                        </button>
+                        <button type="button" onClick={() => handlePromoteNote('lore')}>
+                          <i className="fas fa-book-open" style={{ color: '#9b59b6' }}></i>
+                          <div>
+                            <strong>Campaign Lore Article</strong>
+                            <small>Add article to campaign codex</small>
                           </div>
                         </button>
                         <button type="button" onClick={() => handlePromoteNote('faction')}>
@@ -2039,6 +2111,13 @@ const AccountJournalManager = ({ user }) => {
                           <div>
                             <strong>Custom Faction</strong>
                             <small>Add to World Faction Web</small>
+                          </div>
+                        </button>
+                        <button type="button" onClick={() => handlePromoteNote('lineage')}>
+                          <i className="fas fa-dna" style={{ color: '#d4af37' }}></i>
+                          <div>
+                            <strong>Custom Lineage / Race</strong>
+                            <small>Import into Custom Lineage Wizard</small>
                           </div>
                         </button>
                         <button type="button" onClick={() => handlePromoteNote('map_pin')}>

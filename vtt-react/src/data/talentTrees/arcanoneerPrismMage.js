@@ -68,7 +68,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Reroll Mastery",
     icon: "spell_arcane_arcanepotency",
     maxRanks: 2,
-    position: { x: 4, y: 0.5 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "Reroll Mastery",
@@ -89,7 +89,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Crystal Focus",
     icon: "inv_misc_gem_diamond_01",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 1, y: 1 },
     requires: "pm_t1_sphere_purity",
     spell: {
       name: "Crystal Focus",
@@ -116,7 +116,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Sphere Hunting",
     icon: "spell_arcane_portalshattrath",
     maxRanks: 3,
-    position: { x: 3.5, y: 2 },
+    position: { x: 3.5, y: 1 },
     requires: "pm_t1_reroll_mastery",
     spell: {
       name: "Sphere Hunting",
@@ -138,7 +138,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Resonance Chord",
     icon: "spell_arcane_arcanetorrent",
     maxRanks: 3,
-    position: { x: 0, y: 4 },
+    position: { x: 0, y: 2 },
     requires: "pm_t2_crystal_focus",
     spell: {
       name: "Resonance Chord",
@@ -166,7 +166,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Prismatic Burst",
     icon: "spell_arcane_starfire",
     maxRanks: 3,
-    position: { x: 4, y: 4 },
+    position: { x: 4, y: 2 },
     requires: "pm_t2_sphere_hunting",
     spell: {
       name: "Prismatic Burst",
@@ -196,7 +196,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Elemental Dominion",
     icon: "spell_fire_moltenblood",
     maxRanks: 3,
-    position: { x: 0.5, y: 5.5 },
+    position: { x: 0.5, y: 3 },
     requires: "pm_t3_resonance_chord",
     spell: {
       name: "Elemental Dominion",
@@ -217,7 +217,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Refraction Strike",
     icon: "spell_arcane_blink",
     maxRanks: 3,
-    position: { x: 3.5, y: 5.5 },
+    position: { x: 3.5, y: 3 },
     requires: "pm_t3_prismatic_burst",
     spell: {
       name: "Refraction Strike",
@@ -246,7 +246,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Perfect Clarity",
     icon: "spell_arcane_mindmastery",
     maxRanks: 3,
-    position: { x: 1, y: 7 },
+    position: { x: 1, y: 4 },
     requires: "pm_t4_elemental_dominion",
     spell: {
       name: "Perfect Clarity",
@@ -271,7 +271,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Crystal Armor",
     icon: "inv_misc_gem_crystal_01",
     maxRanks: 3,
-    position: { x: 3, y: 7 },
+    position: { x: 3, y: 4 },
     requires: "pm_t4_refraction_strike",
     spell: {
       name: "Crystal Armor",
@@ -294,7 +294,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Sphere Perfection",
     icon: "spell_arcane_arcanetorrent",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "pm_t5_perfect_clarity",
     spell: {
       name: "Sphere Perfection",
@@ -312,7 +312,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Prism Battery",
     icon: "inv_misc_gem_01",
     maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
+    position: { x: 2.5, y: 5 },
     requires: "pm_t5_crystal_armor",
     spell: {
       name: "Prism Battery",
@@ -331,7 +331,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Resonant Feedback",
     icon: "spell_arcane_arcane_resistance",
     maxRanks: 3,
-    position: { x: 4, y: 7.5 },
+    position: { x: 4, y: 5 },
     requires: "pm_t5_perfect_clarity",
     spell: {
       name: "Resonant Feedback",
@@ -353,7 +353,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Prismatic Cataclysm",
     icon: "spell_fire_flamestrike",
     maxRanks: 1,
-    position: { x: 0.5, y: 8 },
+    position: { x: 0.5, y: 6 },
     requires: "pm_t6_sphere_perfection",
     spell: {
       name: "Prismatic Cataclysm",
@@ -377,7 +377,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Pure Doctrine",
     icon: "spell_arcane_arcanepotency",
     maxRanks: 5,
-    position: { x: 1.5, y: 8 },
+    position: { x: 1.5, y: 6 },
     requires: "pm_t6_resonant_feedback",
     spell: {
       name: "Pure Doctrine",
@@ -400,7 +400,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Dominant Clause",
     icon: "spell_arcane_blink",
     maxRanks: 3,
-    position: { x: 2.5, y: 8 },
+    position: { x: 2.5, y: 6 },
     requires: "pm_t6_prism_battery",
     spell: {
       name: "Dominant Clause",
@@ -420,7 +420,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Fexric Resonator",
     icon: "inv_misc_enggizmos_03",
     maxRanks: 3,
-    position: { x: 3.5, y: 8 },
+    position: { x: 3.5, y: 6 },
     requires: "pm_t6_prism_battery",
     spell: {
       name: "Fexric Resonator",

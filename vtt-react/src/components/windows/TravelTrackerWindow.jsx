@@ -6,6 +6,7 @@ import { BIOMES, getBiome, getEncounterTable } from '../../data/biomeData';
 import useGameStore from '../../store/gameStore';
 import { FaSnowflake, FaSun, FaTree, FaWater, FaAnchor, FaDungeon, FaWind } from 'react-icons/fa';
 import './TravelTrackerWindow.css';
+import { showConfirm } from '../../utils/dialogService';
 
 const BIOME_ICONS = {
   arctic: FaSnowflake,
@@ -632,7 +633,7 @@ function JourneyTab() {
           <span className="tt-section-label" style={{ marginBottom: 0, border: 'none', padding: 0 }}>Journey Map</span>
           <div className="tt-row tt-gap-xs">
             <span className="tt-text-sm tt-text-muted">Day {clock.day} | Hour {clock.hour}:00 | Tenday {clock.tenday}</span>
-            <button className="tt-btn tt-btn-xs" onClick={() => { if (window.confirm('Reset all travel progress for this journey?')) resetDay(); }}>Reset</button>
+            <button className="tt-btn tt-btn-xs" onClick={async () => { const confirmed = await showConfirm({ title: 'Reset Journey', message: 'Reset all travel progress for this journey?', confirmText: 'Reset Journey', isDestructive: true }); if (confirmed) resetDay(); }}>Reset</button>
           </div>
         </div>
         <div className="tt-map-road">

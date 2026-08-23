@@ -392,7 +392,7 @@ export const createProgressionSlice = (set, get) => ({
             set({ experience: newXP });
         }
 
-        // Auto-assign spells based on new level (only when leveling UP Ã¢â‚¬â€ leveling down
+        // Auto-assign spells based on new level (only when leveling UP " leveling down
         // reverts spells via reverseLevelUpBonus, which already handled them above).
         if (levelChange > 0) {
             const characterClass = state.characterClass;

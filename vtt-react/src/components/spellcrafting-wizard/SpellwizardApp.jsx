@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import MythrillWindow from '../windows/MythrillWindow';
+import { showConfirm } from '../../utils/dialogService';
 import {
   SpellWizardProvider,
   useSpellWizardState,
@@ -625,8 +626,14 @@ const AppContent = ({ hideHeader = false }) => {
   };
 
   // Handle reset wizard
-  const handleResetWizard = () => {
-    if (window.confirm('Are you sure you want to reset the wizard? All unsaved progress will be lost.')) {
+  const handleResetWizard = async () => {
+    const confirmed = await showConfirm({
+      title: 'Reset Spell Wizard',
+      message: 'Are you sure you want to reset the wizard? All unsaved progress will be lost.',
+      confirmText: 'Reset Wizard',
+      isDestructive: true
+    });
+    if (confirmed) {
       wizardDispatch(actionCreators.resetState());
       // Reset edit mode
       setEditMode(false);
@@ -718,8 +725,14 @@ const AppContent = ({ hideHeader = false }) => {
           {editMode ? (
             <button
               className="app-control-btn"
-              onClick={() => {
-                if (window.confirm('Cancel editing? All unsaved changes will be lost.')) {
+              onClick={async () => {
+                const confirmed = await showConfirm({
+                  title: 'Cancel Editing',
+                  message: 'Cancel editing? All unsaved changes will be lost.',
+                  confirmText: 'Discard Changes',
+                  isDestructive: true
+                });
+                if (confirmed) {
                   wizardDispatch(actionCreators.resetState());
                   setEditMode(false);
                   setEditingSpellId(null);

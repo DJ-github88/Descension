@@ -4,6 +4,7 @@ import '../../styles/WizardSteps.css';
 import './Step3Abilities.css';
 
 import BasicAbilityCreator from '../windows/BasicAbilityCreator';
+import { showConfirm } from '../../../../utils/dialogService';
 import UnifiedSpellCard from '../../../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import '../../../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../windows/BasicAbilityCreator.css';
@@ -62,8 +63,14 @@ const Step3Abilities = () => {
   };
 
   // Handle removing an ability
-  const handleRemoveAbility = (index) => {
-    if (window.confirm('Are you sure you want to remove this ability?')) {
+  const handleRemoveAbility = async (index) => {
+    const confirmed = await showConfirm({
+      title: 'Remove Ability',
+      message: 'Are you sure you want to remove this ability?',
+      confirmText: 'Remove Ability',
+      isDestructive: true
+    });
+    if (confirmed) {
       dispatch(wizardActionCreators.removeAbility(index));
     }
   };

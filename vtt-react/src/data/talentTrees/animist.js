@@ -26,13 +26,13 @@ export const ANIMIST_THORNWARDEN = [
       description: "Erupt a 20-foot wall of petrified bone and mycelium within 40 feet for 1 minute: blocks movement and line of sight. Enemies adjacent to the wall take 2d6 piercing damage per turn.",
       flavorText: "Fungal growths burst from hallowed earth to form razor barricades.",
       source: "talent", class: "Animist", treeId: "thornwarden",
-      spellType: "ACTIVE", category: "control",
+      spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "ranged", range: 40, aoeShape: "line", aoeSize: 20,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 } },
-      damageTypes: ["physical"],
+      damageTypes: ["smashing"],
       primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
       visualTheme: "primal", tags: ["wall", "terrain", "hazard", "animist"]
     },
@@ -87,20 +87,20 @@ export const ANIMIST_THORNWARDEN = [
     name: "Ribcage Prison",
     icon: "spell_shadow_stranglevines",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "tw_t1_bone_barricade",
     spell: {
       name: "Ribcage Prison",
       description: "Spend 2 Resonance: erupt a cage of jagged ribs around a target within 45 feet for 2 rounds. Target is locked down (incapacitated and immobilized) and takes 3d8 piercing damage.",
       flavorText: "Spirits of the deep mire ensnare the living in bone.",
       source: "talent", class: "Animist", treeId: "thornwarden",
-      spellType: "ACTIVE", category: "control",
+      spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { resonance: { baseAmount: 2 } },
-      damageTypes: ["physical"],
+      damageTypes: ["smashing"],
       primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
       debuffs: ["lockdown"], visualTheme: "primal", tags: ["cc", "lockdown", "nuke", "animist"]
     },
@@ -114,7 +114,7 @@ export const ANIMIST_THORNWARDEN = [
     name: "Spore Barbs",
     icon: "spell_nature_thorns",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 1 },
     requires: "tw_t1_calcified_skeleton",
     spell: {
       name: "Spore Barbs",
@@ -122,7 +122,7 @@ export const ANIMIST_THORNWARDEN = [
       flavorText: "Every thorn is hollow and thirsty.",
       source: "talent", class: "Animist", treeId: "thornwarden",
       spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["physical", "blight"],
+      targetingMode: "self", damageTypes: ["smashing", "blight"],
       primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
       visualTheme: "primal", tags: ["passive", "thorns", "retaliation", "animist"]
     },
@@ -138,7 +138,7 @@ export const ANIMIST_THORNWARDEN = [
     name: "Thorn Eruption",
     icon: "spell_fire_selfdestruct",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1, y: 2 },
     requires: "tw_t2_ribcage_prison",
     spell: {
       name: "Thorn Eruption",
@@ -151,7 +151,7 @@ export const ANIMIST_THORNWARDEN = [
       cooldownCategory: "medium", cooldownValue: 16, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { resonance: { baseAmount: 3 } },
-      damageTypes: ["physical"],
+      damageTypes: ["smashing"],
       primaryDamage: { dice: "5d10", flat: 0, procChance: 100 },
       visualTheme: "primal", tags: ["shatter", "aoe", "nuke", "animist"]
     },
@@ -165,7 +165,7 @@ export const ANIMIST_THORNWARDEN = [
     name: "Scarred Domain",
     icon: "inv_misc_scalesofjustice",
     maxRanks: 3,
-    position: { x: 3, y: 3 },
+    position: { x: 3, y: 2 },
     requires: "tw_t2_thorn_reaction",
     spell: {
       name: "Scarred Domain",
@@ -187,7 +187,7 @@ export const ANIMIST_THORNWARDEN = [
     name: "Mycelial Fortification",
     icon: "ability_warrior_defensivestance",
     maxRanks: 3,
-    position: { x: 1, y: 4.5 },
+    position: { x: 1, y: 3 },
     requires: "tw_t3_thorn_eruption",
     spell: {
       name: "Mycelial Fortification",
@@ -213,7 +213,7 @@ export const ANIMIST_THORNWARDEN = [
     name: "Root Siphon",
     icon: "spell_shadow_lifedrain01",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 3 },
     requires: "tw_t3_scarred_domain",
     spell: {
       name: "Root Siphon",
@@ -234,7 +234,7 @@ export const ANIMIST_THORNWARDEN = [
     name: "Bog Quake",
     icon: "spell_nature_earthquake",
     maxRanks: 2,
-    position: { x: 1, y: 6 },
+    position: { x: 1, y: 4 },
     requires: "tw_t4_mycelial_colossus",
     spell: {
       name: "Bog Quake",
@@ -247,7 +247,7 @@ export const ANIMIST_THORNWARDEN = [
       cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { resonance: { baseAmount: 4 } },
-      damageTypes: ["physical"],
+      damageTypes: ["smashing"],
       primaryDamage: { dice: "6d10", flat: 0, procChance: 100 },
       debuffs: ["knockdown"], visualTheme: "primal", tags: ["aoe", "earthquake", "terrain", "animist"]
     },
@@ -260,7 +260,7 @@ export const ANIMIST_THORNWARDEN = [
     name: "Living Bulwark",
     icon: "inv_misc_scalesofjustice",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3, y: 4 },
     requires: "tw_t4_earthen_siphon",
     spell: {
       name: "Living Bulwark",
@@ -282,14 +282,14 @@ export const ANIMIST_THORNWARDEN = [
     name: "The Ironwood Cage",
     icon: "inv_misc_platnumdisks",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "tw_t5_swamp_cataclysm",
     spell: {
       name: "The Ironwood Cage",
       description: "Spend 6 Resonance: summon an impenetrable colossal ironwood cage around a target within 60 feet for 3 rounds. The target cannot move, attack, or cast spells, while all enemies within 30 feet of the cage are slowed by 15 feet and take 4d8 blight per turn.",
       flavorText: "Ancestral totems erupt with petrified mycelium to imprison the mightiest foe.",
       source: "talent", class: "Animist", treeId: "thornwarden",
-      spellType: "ACTIVE", category: "control",
+      spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
@@ -305,7 +305,7 @@ export const ANIMIST_THORNWARDEN = [
     name: "Petrified Spines",
     icon: "spell_nature_corrosivebreath",
     maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
+    position: { x: 2.5, y: 5 },
     requires: "tw_t5_unyielding_totemist",
     spell: {
       name: "Petrified Spines",
@@ -313,7 +313,7 @@ export const ANIMIST_THORNWARDEN = [
       flavorText: "Razor stone that carves deep memory.",
       source: "talent", class: "Animist", treeId: "thornwarden",
       spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["physical"],
+      targetingMode: "self", damageTypes: ["smashing"],
       visualTheme: "primal", tags: ["passive", "durability-sunder", "bleed", "animist"]
     },
     rankUpgrades: [
@@ -325,7 +325,7 @@ export const ANIMIST_THORNWARDEN = [
     name: "Bog Sovereignty",
     icon: "spell_nature_healingway",
     maxRanks: 2,
-    position: { x: 4, y: 7.5 },
+    position: { x: 4, y: 5 },
     requires: "tw_t5_unyielding_totemist",
     spell: {
       name: "Bog Sovereignty",
@@ -348,7 +348,7 @@ export const ANIMIST_THORNWARDEN = [
     name: "Avatar of the Ancient Mire",
     icon: "spell_nature_skinofearth",
     maxRanks: 1,
-    position: { x: 0.5, y: 9.5 },
+    position: { x: 0.5, y: 6 },
     requires: "tw_t6_the_ironwood_cage",
     spell: {
       name: "Avatar of the Ancient Mire",
@@ -371,7 +371,7 @@ export const ANIMIST_THORNWARDEN = [
     name: "Thornwarden Doctrine",
     icon: "ability_warrior_shieldwall",
     maxRanks: 5,
-    position: { x: 1.5, y: 9.5 },
+    position: { x: 1.5, y: 6 },
     requires: "tw_t6_the_ironwood_cage",
     spell: {
       name: "Thornwarden Doctrine",
@@ -379,7 +379,7 @@ export const ANIMIST_THORNWARDEN = [
       flavorText: "Roots deeper than mountains.",
       source: "talent", class: "Animist", treeId: "thornwarden",
       spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["physical"],
+      targetingMode: "self", damageTypes: ["smashing"],
       visualTheme: "primal", tags: ["passive", "capstone", "damage", "animist"]
     },
     rankUpgrades: [
@@ -394,7 +394,7 @@ export const ANIMIST_THORNWARDEN = [
     name: "Swamp Heart Reservoir",
     icon: "spell_arcane_arcane04",
     maxRanks: 3,
-    position: { x: 2.5, y: 9.5 },
+    position: { x: 2.5, y: 6 },
     requires: "tw_t6_petrified_spines",
     spell: {
       name: "Swamp Heart Reservoir",
@@ -414,7 +414,7 @@ export const ANIMIST_THORNWARDEN = [
     name: "Briar Cataclysm",
     icon: "spell_nature_thorns",
     maxRanks: 3,
-    position: { x: 3.5, y: 9.5 },
+    position: { x: 3.5, y: 6 },
     requires: "tw_t6_bog_sovereignty",
     spell: {
       name: "Briar Cataclysm",
@@ -434,7 +434,7 @@ export const ANIMIST_THORNWARDEN = [
     name: "Undying Peat",
     icon: "spell_nature_healingway",
     maxRanks: 3,
-    position: { x: 4.5, y: 9.5 },
+    position: { x: 4.5, y: 6 },
     requires: "tw_t6_bog_sovereignty",
     spell: {
       name: "Undying Peat",
@@ -474,7 +474,7 @@ export const ANIMIST_SPIRIT_BINDER = [
       cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 } },
-      damageTypes: ["necrotic", "physical"],
+      damageTypes: ["blight", "smashing"],
       primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
       visualTheme: "shadow", tags: ["summon", "pet", "flank", "animist"]
     },
@@ -496,7 +496,7 @@ export const ANIMIST_SPIRIT_BINDER = [
       flavorText: "Swamp spirits amplify the sting of every hex.",
       source: "talent", class: "Animist", treeId: "spirit_binder",
       spellType: "PASSIVE", category: "debuff",
-      targetingMode: "self", damageTypes: ["necrotic"],
+      targetingMode: "self", damageTypes: ["blight"],
       visualTheme: "shadow", tags: ["passive", "curse", "vulnerability", "animist"]
     },
     rankUpgrades: [
@@ -532,7 +532,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     name: "Specter Frenzy",
     icon: "spell_shadow_summonvoidwalker",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "sb_t1_call_spirit_pack",
     spell: {
       name: "Specter Frenzy",
@@ -545,7 +545,7 @@ export const ANIMIST_SPIRIT_BINDER = [
       cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { resonance: { baseAmount: 2 } },
-      damageTypes: ["necrotic"],
+      damageTypes: ["blight"],
       primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
       debuffs: ["root"], visualTheme: "shadow", tags: ["pet-command", "burst", "lifesteal", "animist"]
     },
@@ -559,7 +559,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     name: "Ancestral Shroud",
     icon: "spell_holy_borrowedtime",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 1 },
     requires: "sb_t1_curse_mastery",
     spell: {
       name: "Ancestral Shroud",
@@ -581,7 +581,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     name: "Bone-Choir Invocation",
     icon: "ability_rogue_deadliness",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1, y: 2 },
     requires: "sb_t2_specter_frenzy",
     spell: {
       name: "Bone-Choir Invocation",
@@ -594,7 +594,7 @@ export const ANIMIST_SPIRIT_BINDER = [
       cooldownCategory: "medium", cooldownValue: 14, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { resonance: { baseAmount: 3 } },
-      damageTypes: ["necrotic"],
+      damageTypes: ["blight"],
       primaryDamage: { dice: "5d10", flat: 0, procChance: 100 },
       debuffs: ["silence"], visualTheme: "shadow", tags: ["cone", "heal-damage", "silence", "animist"]
     },
@@ -608,7 +608,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     name: "Pack Ferocity",
     icon: "ability_hunter_pet_aggressive",
     maxRanks: 3,
-    position: { x: 3, y: 3 },
+    position: { x: 3, y: 2 },
     requires: "sb_t2_ancestral_shroud",
     spell: {
       name: "Pack Ferocity",
@@ -630,7 +630,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     name: "Spirit Link Totem",
     icon: "spell_nature_spiritlinktotem",
     maxRanks: 3,
-    position: { x: 1, y: 4.5 },
+    position: { x: 1, y: 3 },
     requires: "sb_t3_bone_choir_invocation",
     spell: {
       name: "Spirit Link Totem",
@@ -655,7 +655,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     name: "Necrotic Overflow",
     icon: "spell_shadow_deathanddecay",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 3 },
     requires: "sb_t3_pack_ferocity",
     spell: {
       name: "Necrotic Overflow",
@@ -663,7 +663,7 @@ export const ANIMIST_SPIRIT_BINDER = [
       flavorText: "Miasma pours from the spectral wounds.",
       source: "talent", class: "Animist", treeId: "spirit_binder",
       spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["necrotic"],
+      targetingMode: "self", damageTypes: ["blight"],
       primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
       visualTheme: "shadow", tags: ["passive", "aoe-pulse", "pet", "animist"]
     },
@@ -678,7 +678,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     name: "Summon Ancestral Giant",
     icon: "spell_shadow_summonvoidwalker",
     maxRanks: 2,
-    position: { x: 1, y: 6 },
+    position: { x: 1, y: 4 },
     requires: "sb_t4_spirit_link_totem",
     spell: {
       name: "Summon Ancestral Giant",
@@ -691,7 +691,7 @@ export const ANIMIST_SPIRIT_BINDER = [
       cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { resonance: { baseAmount: 4 } },
-      damageTypes: ["necrotic"],
+      damageTypes: ["blight"],
       primaryDamage: { dice: "4d10", flat: 0, procChance: 100 },
       visualTheme: "shadow", tags: ["giant-summon", "tank", "cleave", "animist"]
     },
@@ -704,7 +704,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     name: "Spirit Harvest",
     icon: "spell_shadow_manafeed",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3, y: 4 },
     requires: "sb_t4_necrotic_overflow",
     spell: {
       name: "Spirit Harvest",
@@ -726,7 +726,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     name: "The Triune Ancestors",
     icon: "inv_misc_platnumdisks",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "sb_t5_grand_specter",
     spell: {
       name: "The Triune Ancestors",
@@ -739,7 +739,7 @@ export const ANIMIST_SPIRIT_BINDER = [
       cooldownCategory: "long", cooldownValue: 120, cooldownUnit: "seconds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { resonance: { baseAmount: 5 } },
-      damageTypes: ["necrotic"],
+      damageTypes: ["blight"],
       primaryDamage: { dice: "6d10", flat: 0, procChance: 100 },
       visualTheme: "shadow", tags: ["mass-resurrect", "nuke", "climax", "animist"]
     },
@@ -750,7 +750,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     name: "Spectral Phasing",
     icon: "spell_shadow_nethercloak",
     maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
+    position: { x: 2.5, y: 5 },
     requires: "sb_t5_spirit_harvest",
     spell: {
       name: "Spectral Phasing",
@@ -769,7 +769,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     name: "Soul Feast",
     icon: "spell_shadow_lifedrain02",
     maxRanks: 2,
-    position: { x: 4, y: 7.5 },
+    position: { x: 4, y: 5 },
     requires: "sb_t5_spirit_harvest",
     spell: {
       name: "Soul Feast",
@@ -790,7 +790,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     name: "Horde of the Mire",
     icon: "ability_hunter_pet_attack",
     maxRanks: 1,
-    position: { x: 0.5, y: 9.5 },
+    position: { x: 0.5, y: 6 },
     requires: "sb_t6_the_triune_ancestors",
     spell: {
       name: "Horde of the Mire",
@@ -804,7 +804,7 @@ export const ANIMIST_SPIRIT_BINDER = [
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { resonance: { baseAmount: 8 } },
       durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
-      damageTypes: ["necrotic"],
+      damageTypes: ["blight"],
       primaryDamage: { dice: "10d10", flat: 0, procChance: 100 },
       buffs: ["horde-mire"], visualTheme: "shadow", tags: ["ultimate", "capstone", "army", "animist"]
     },
@@ -815,7 +815,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     name: "Spirit Binder Doctrine",
     icon: "spell_shadow_curseofsargeras",
     maxRanks: 5,
-    position: { x: 1.5, y: 9.5 },
+    position: { x: 1.5, y: 6 },
     requires: "sb_t6_the_triune_ancestors",
     spell: {
       name: "Spirit Binder Doctrine",
@@ -823,7 +823,7 @@ export const ANIMIST_SPIRIT_BINDER = [
       flavorText: "One thousand voices, all speaking death.",
       source: "talent", class: "Animist", treeId: "spirit_binder",
       spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["necrotic"],
+      targetingMode: "self", damageTypes: ["blight"],
       visualTheme: "shadow", tags: ["passive", "capstone", "damage", "animist"]
     },
     rankUpgrades: [
@@ -838,7 +838,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     name: "Endless Pack Reservoir",
     icon: "ability_hunter_pet_aggressive",
     maxRanks: 3,
-    position: { x: 2.5, y: 9.5 },
+    position: { x: 2.5, y: 6 },
     requires: "sb_t6_spectral_invulnerability",
     spell: {
       name: "Endless Pack Reservoir",
@@ -858,7 +858,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     name: "Wrath of the Elders",
     icon: "spell_shadow_deathanddecay",
     maxRanks: 3,
-    position: { x: 3.5, y: 9.5 },
+    position: { x: 3.5, y: 6 },
     requires: "sb_t6_death_pact",
     spell: {
       name: "Wrath of the Elders",
@@ -878,7 +878,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     name: "Immortal Packmaster",
     icon: "spell_shadow_darkritual",
     maxRanks: 3,
-    position: { x: 4.5, y: 9.5 },
+    position: { x: 4.5, y: 6 },
     requires: "sb_t6_death_pact",
     spell: {
       name: "Immortal Packmaster",
@@ -975,7 +975,7 @@ export const ANIMIST_STORMSCRIBE = [
     name: "Chain Lightning Inscription",
     icon: "spell_nature_chainlightning",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "ss_t1_galvanic_totem",
     spell: {
       name: "Chain Lightning Inscription",
@@ -1002,7 +1002,7 @@ export const ANIMIST_STORMSCRIBE = [
     name: "Galvanic Overload",
     icon: "spell_lightning_lightningbolt01",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 1 },
     requires: "ss_t1_blood_brand",
     spell: {
       name: "Galvanic Overload",
@@ -1025,14 +1025,14 @@ export const ANIMIST_STORMSCRIBE = [
     name: "Tempest Totem",
     icon: "spell_nature_cyclone",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1, y: 2 },
     requires: "ss_t2_chain_lightning_strike",
     spell: {
       name: "Tempest Totem",
       description: "Spend 3 Resonance: place a Tempest Totem within 45 feet for 3 rounds. Creates a 30-foot vortex: pulls all enemies toward the totem, deals 4d8 storm damage per round, and prevents enemy ranged attacks.",
       flavorText: "A localized hurricane anchored in bone and wood.",
       source: "talent", class: "Animist", treeId: "stormscribe",
-      spellType: "ACTIVE", category: "control",
+      spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "ranged", range: 45, aoeShape: "circle", aoeSize: 30,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "medium", cooldownValue: 18, cooldownUnit: "seconds",
@@ -1053,7 +1053,7 @@ export const ANIMIST_STORMSCRIBE = [
     name: "Runic Conduit",
     icon: "spell_holy_borrowedtime",
     maxRanks: 3,
-    position: { x: 3, y: 3 },
+    position: { x: 3, y: 2 },
     requires: "ss_t2_storm_attunement",
     spell: {
       name: "Runic Conduit",
@@ -1076,7 +1076,7 @@ export const ANIMIST_STORMSCRIBE = [
     name: "Thunder Brand Overload",
     icon: "spell_nature_thunderclap",
     maxRanks: 3,
-    position: { x: 1, y: 4.5 },
+    position: { x: 1, y: 3 },
     requires: "ss_t3_tempest_totem",
     spell: {
       name: "Thunder Brand Overload",
@@ -1103,7 +1103,7 @@ export const ANIMIST_STORMSCRIBE = [
     name: "Totemic Trinity",
     icon: "spell_nature_totemdecay",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 3 },
     requires: "ss_t3_runic_mend",
     spell: {
       name: "Totemic Trinity",
@@ -1124,7 +1124,7 @@ export const ANIMIST_STORMSCRIBE = [
     name: "Galvanic Cataclysm",
     icon: "spell_nature_unrelentingstorm",
     maxRanks: 2,
-    position: { x: 1, y: 6 },
+    position: { x: 1, y: 4 },
     requires: "ss_t4_thunder_brand",
     spell: {
       name: "Galvanic Cataclysm",
@@ -1150,7 +1150,7 @@ export const ANIMIST_STORMSCRIBE = [
     name: "Conduction Matrix",
     icon: "spell_nature_chainlightning",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3, y: 4 },
     requires: "ss_t4_totem_multiplication",
     spell: {
       name: "Conduction Matrix",
@@ -1173,7 +1173,7 @@ export const ANIMIST_STORMSCRIBE = [
     name: "The Ancestral Convergence",
     icon: "inv_misc_platnumdisks",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "ss_t5_galvanic_cataclysm",
     spell: {
       name: "The Ancestral Convergence",
@@ -1198,7 +1198,7 @@ export const ANIMIST_STORMSCRIBE = [
     name: "Storm Sovereignty",
     icon: "spell_lightning_lightningbolt01",
     maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
+    position: { x: 2.5, y: 5 },
     requires: "ss_t5_conduction_matrix",
     spell: {
       name: "Storm Sovereignty",
@@ -1218,7 +1218,7 @@ export const ANIMIST_STORMSCRIBE = [
     name: "Totemic Sanctuary",
     icon: "spell_nature_healingway",
     maxRanks: 2,
-    position: { x: 4, y: 7.5 },
+    position: { x: 4, y: 5 },
     requires: "ss_t5_conduction_matrix",
     spell: {
       name: "Totemic Sanctuary",
@@ -1239,7 +1239,7 @@ export const ANIMIST_STORMSCRIBE = [
     name: "Avatar of the Tempest",
     icon: "spell_nature_unrelentingstorm",
     maxRanks: 1,
-    position: { x: 0.5, y: 9.5 },
+    position: { x: 0.5, y: 6 },
     requires: "ss_t6_the_ancestral_convergence",
     spell: {
       name: "Avatar of the Tempest",
@@ -1264,7 +1264,7 @@ export const ANIMIST_STORMSCRIBE = [
     name: "Stormscribe Doctrine",
     icon: "spell_lightning_lightningbolt01",
     maxRanks: 5,
-    position: { x: 1.5, y: 9.5 },
+    position: { x: 1.5, y: 6 },
     requires: "ss_t6_the_ancestral_convergence",
     spell: {
       name: "Stormscribe Doctrine",
@@ -1287,7 +1287,7 @@ export const ANIMIST_STORMSCRIBE = [
     name: "Storm Battery Reservoir",
     icon: "spell_arcane_arcane04",
     maxRanks: 3,
-    position: { x: 2.5, y: 9.5 },
+    position: { x: 2.5, y: 6 },
     requires: "ss_t6_storm_sovereignty",
     spell: {
       name: "Storm Battery Reservoir",
@@ -1307,7 +1307,7 @@ export const ANIMIST_STORMSCRIBE = [
     name: "Supercharged Discharge",
     icon: "spell_nature_chainlightning",
     maxRanks: 3,
-    position: { x: 3.5, y: 9.5 },
+    position: { x: 3.5, y: 6 },
     requires: "ss_t6_totemic_resilience",
     spell: {
       name: "Supercharged Discharge",
@@ -1329,7 +1329,7 @@ export const ANIMIST_STORMSCRIBE = [
     name: "Galvanic Reincarnation",
     icon: "spell_nature_healingway",
     maxRanks: 3,
-    position: { x: 4.5, y: 9.5 },
+    position: { x: 4.5, y: 6 },
     requires: "ss_t6_totemic_resilience",
     spell: {
       name: "Galvanic Reincarnation",

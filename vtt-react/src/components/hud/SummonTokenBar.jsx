@@ -8,6 +8,7 @@ import { summonTokenFromTemplate } from '../../services/tokenSummonService';
 import useGameStore from '../../store/gameStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCustomSummonStore from '../../store/customSummonStore';
+import { showConfirm, showPrompt } from '../../utils/dialogService';
 
 const CLASS_COLORS = {
   primalist: '#4ade80', exorcist: '#a855f7', formbender: '#f59e0b',
@@ -113,7 +114,7 @@ const SummonTokenBar = ({ isOpen, onClose, character }) => {
     summonTokenFromTemplate(template.id, position, character);
   }, [character]);
 
-  const handleCustomize = useCallback((template, focusField) => {
+  const handleCustomize = useCallback(async (template, focusField) => {
     // Icon change — open the icon picker
     if (focusField === 'icon') {
       setIconPickerFor(template);
@@ -142,12 +143,23 @@ const SummonTokenBar = ({ isOpen, onClose, character }) => {
     const creatureData = templateToCreatureData(template, character);
 
     if (focusField === 'name') {
-      const newName = prompt('Token name:', template.creature.name);
+      const newName = await showPrompt({
+        title: 'Custom Token Name',
+        message: 'Enter name for summoned token:',
+        defaultValue: template.creature.name,
+        confirmText: 'Set Name'
+      });
       if (newName) creatureData.name = newName;
     }
 
     if (focusField === 'stats') {
-      const hpStr = prompt('Max HP:', template.creature.stats?.maxHp || 10);
+      const hpStr = await showPrompt({
+        title: 'Custom Token HP',
+        message: 'Enter Max HP for summoned token:',
+        defaultValue: String(template.creature.stats?.maxHp || 10),
+        inputType: 'number',
+        confirmText: 'Set HP'
+      });
       if (hpStr) {
         const hp = parseInt(hpStr) || 10;
         creatureData.stats.maxHp = hp;
@@ -190,8 +202,14 @@ const SummonTokenBar = ({ isOpen, onClose, character }) => {
     setIconPickerFor(null);
   }, [iconPickerFor, updateCustomTemplate, classId, character]);
 
-  const handleDeleteCustom = useCallback((templateId) => {
-    if (window.confirm('Delete this custom summon?')) {
+  const handleDeleteCustom = useCallback(async (templateId) => {
+    const confirmed = await showConfirm({
+      title: 'Delete Custom Summon',
+      message: 'Delete this custom summon template?',
+      confirmText: 'Delete',
+      isDestructive: true
+    });
+    if (confirmed) {
       useCustomSummonStore.getState().deleteTemplate(templateId);
     }
   }, []);

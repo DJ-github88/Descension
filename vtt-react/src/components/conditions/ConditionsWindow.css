@@ -468,7 +468,7 @@
   color: #5a1e12;
 }
 
-.icon-picker-header {
+.icon-picker-modal .icon-picker-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -478,7 +478,7 @@
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
 }
 
-.icon-picker-header h3 {
+.icon-picker-modal .icon-picker-header h3 {
   margin: 0;
   font-size: 16px;
   font-weight: bold;

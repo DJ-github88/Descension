@@ -1795,7 +1795,7 @@ const usePresenceStore = create((set, get) => ({
           contentLength: content?.length
         });
 
-        // Skip messages from self â€” already optimistically appended by TabbedChat
+        // Skip messages from self — already optimistically appended by TabbedChat
         // CRITICAL: Use fromSocketId if available to allow cross-tab syncing for the same user
         const { currentUserPresence, socket: activeSocket } = get();
 

@@ -96,7 +96,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Battle Anthem",
     icon: "ability_warrior_rallyingshout",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "cc_t1_sonic_lance",
     spell: {
       name: "Battle Anthem",
@@ -121,7 +121,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Cadence Momentum",
     icon: "spell_holy_powerwordbarrier",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 1 },
     requires: "cc_t1_dominant_fury",
     spell: {
       name: "Cadence Momentum",
@@ -143,7 +143,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Perfect Cadence Strike",
     icon: "spell_holy_divinehymn",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1, y: 2 },
     requires: "cc_t2_battle_anthem",
     spell: {
       name: "Perfect Cadence Strike",
@@ -170,7 +170,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Circle of Fifths",
     icon: "spell_shadow_requiem",
     maxRanks: 3,
-    position: { x: 3, y: 3 },
+    position: { x: 3, y: 2 },
     requires: "cc_t2_cadence_momentum",
     spell: {
       name: "Circle of Fifths",
@@ -194,7 +194,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Thunder Stanza",
     icon: "spell_nature_thunderclap",
     maxRanks: 3,
-    position: { x: 1, y: 4.5 },
+    position: { x: 1, y: 3 },
     requires: "cc_t3_perfect_strike",
     spell: {
       name: "Thunder Stanza",
@@ -221,7 +221,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Double Time Tempo",
     icon: "spell_holy_divinehymn",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 3 },
     requires: "cc_t3_circle_mastery",
     spell: {
       name: "Double Time Tempo",
@@ -242,7 +242,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Crescendo Detonation",
     icon: "spell_fire_selfdestruct",
     maxRanks: 2,
-    position: { x: 1, y: 6 },
+    position: { x: 1, y: 4 },
     requires: "cc_t4_thunder_stanza",
     spell: {
       name: "Crescendo Detonation",
@@ -268,7 +268,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Overture Momentum",
     icon: "ability_warrior_battleshout",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3, y: 4 },
     requires: "cc_t4_double_time",
     spell: {
       name: "Overture Momentum",
@@ -292,7 +292,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Rallying Fanfare",
     icon: "ability_warrior_rallyingshout",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "cc_t5_crescendo_detonation",
     spell: {
       name: "Rallying Fanfare",
@@ -314,7 +314,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Harmonic Fortification",
     icon: "spell_holy_powerwordbarrier",
     maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
+    position: { x: 2.5, y: 5 },
     requires: "cc_t5_overture_momentum",
     spell: {
       name: "Harmonic Fortification",
@@ -333,7 +333,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Tempest Cadence",
     icon: "spell_nature_chainlightning",
     maxRanks: 2,
-    position: { x: 4, y: 7.5 },
+    position: { x: 4, y: 5 },
     requires: "cc_t5_overture_momentum",
     spell: {
       name: "Tempest Cadence",
@@ -355,7 +355,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Titan Anthem",
     icon: "spell_nature_unrelentingstorm",
     maxRanks: 1,
-    position: { x: 0.5, y: 8 },
+    position: { x: 0.5, y: 6 },
     requires: "cc_t6_rallying_fanfare",
     spell: {
       name: "Titan Anthem",
@@ -378,7 +378,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "War Conductor Doctrine",
     icon: "spell_holy_prayerofhealing",
     maxRanks: 5,
-    position: { x: 1.5, y: 8 },
+    position: { x: 1.5, y: 6 },
     requires: "cc_t6_rallying_fanfare",
     spell: {
       name: "War Conductor Doctrine",
@@ -401,7 +401,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Infinite Cadence",
     icon: "spell_holy_powerwordbarrier",
     maxRanks: 3,
-    position: { x: 2.5, y: 8 },
+    position: { x: 2.5, y: 6 },
     requires: "cc_t6_iron_harmonics",
     spell: {
       name: "Infinite Cadence",
@@ -421,7 +421,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Storm Overture",
     icon: "spell_nature_cyclone",
     maxRanks: 3,
-    position: { x: 3.5, y: 8 },
+    position: { x: 3.5, y: 6 },
     requires: "cc_t6_storm_chords",
     spell: {
       name: "Storm Overture",
@@ -441,7 +441,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Battlechoir Resurgence",
     icon: "ability_warrior_defensivestance",
     maxRanks: 3,
-    position: { x: 4.5, y: 8 },
+    position: { x: 4.5, y: 6 },
     requires: "cc_t6_storm_chords",
     spell: {
       name: "Battlechoir Resurgence",

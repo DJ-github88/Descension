@@ -133,7 +133,7 @@ const ItemIconSelector = ({ onSelect, onClose, currentIcon, itemType = 'weapon' 
       <div className="item-icon-selector-modal" ref={modalRef}>
         <div className="item-icon-selector-header">
           <h3>Select Item Icon</h3>
-          <button className="item-icon-selector-close-btn" onClick={onClose}>Ã - </button>
+          <button className="item-icon-selector-close-btn" onClick={onClose}>ï¿½ - </button>
         </div>
 
         <div className="item-icon-selector-filters">

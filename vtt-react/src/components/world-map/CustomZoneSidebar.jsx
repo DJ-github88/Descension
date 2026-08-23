@@ -4,6 +4,7 @@ import React, { useMemo, useState, useRef } from 'react';
 import RichLoreText from '../common/RichLoreText';
 import './LoreSidebar.css';
 import './WorldMapImmerse.css';
+import { showConfirm } from '../../utils/dialogService';
 
 const ENTRY_TYPE_CONFIG = {
   continent: { label: 'Continent', icon: 'fa-earth-americas', color: 'rgba(135, 104, 196, 0.9)', badgeClass: 'badge-continent' },
@@ -367,8 +368,14 @@ ${item.notes ? `**Notes:**\n${item.notes}` : ''}`;
           <button
             type="button"
             className="zone-action-btn delete-btn"
-            onClick={() => {
-              if (window.confirm(`Delete "${zone.name || 'this entry'}" from custom map?`)) {
+            onClick={async () => {
+              const confirmed = await showConfirm({
+                title: 'Delete Custom Zone',
+                message: `Delete "${zone.name || 'this entry'}" from custom map?`,
+                confirmText: 'Delete Zone',
+                isDestructive: true
+              });
+              if (confirmed) {
                 onDeleteZone(zone.id);
                 onClose();
               }

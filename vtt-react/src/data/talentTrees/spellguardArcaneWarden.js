@@ -239,7 +239,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Overflowing Reservoir",
     icon: "spell_arcane_starfire",
     maxRanks: 2,
-    position: { x: 1.5, y: 4.5 },
+    position: { x: 1.5, y: 4 },
     requires: "aw_t4_mass_shielding",
     spell: {
       name: "Overflowing Reservoir",
@@ -258,7 +258,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Warden's Sacrifice",
     icon: "spell_holy_sealofsacrifice",
     maxRanks: 3,
-    position: { x: 2.5, y: 4.5 },
+    position: { x: 2.5, y: 4 },
     requires: "aw_t4_anti_magic_zone",
     spell: {
       name: "Warden's Sacrifice",
@@ -285,7 +285,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Fortress Mode",
     icon: "spell_holy_divineprotection",
     maxRanks: 1,
-    position: { x: 1, y: 5.5 },
+    position: { x: 1, y: 5 },
     requires: "aw_t5_overflow",
     spell: {
       name: "Fortress Mode",
@@ -307,7 +307,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Bulwark Doctrine",
     icon: "ability_warrior_defensivestance",
     maxRanks: 2,
-    position: { x: 2, y: 5.5 },
+    position: { x: 2, y: 5 },
     requires: "aw_t5_wardens_sacrifice",
     spell: {
       name: "Bulwark Doctrine",
@@ -326,7 +326,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Reflective Ward",
     icon: "spell_arcane_reflect",
     maxRanks: 2,
-    position: { x: 3, y: 5.5 },
+    position: { x: 3, y: 5 },
     requires: "aw_t5_overflow",
     spell: {
       name: "Reflective Ward",
@@ -352,7 +352,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Ultimate Ward",
     icon: "spell_holy_holyprotection",
     maxRanks: 1,
-    position: { x: 0.5, y: 6.5 },
+    position: { x: 0.5, y: 6 },
     requires: "aw_t6_fortress_mode",
     spell: {
       name: "Ultimate Ward",
@@ -374,7 +374,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Aegis Eternal",
     icon: "inv_shield_61",
     maxRanks: 5,
-    position: { x: 1.5, y: 6.5 },
+    position: { x: 1.5, y: 6 },
     requires: "aw_t6_bulwark_doctrine",
     spell: {
       name: "Aegis Eternal",
@@ -396,7 +396,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Prismatic Bulwark",
     icon: "spell_arcane_portal_dalaran",
     maxRanks: 3,
-    position: { x: 2.5, y: 6.5 },
+    position: { x: 2.5, y: 6 },
     requires: "aw_t6_bulwark_doctrine",
     spell: {
       name: "Prismatic Bulwark",
@@ -422,7 +422,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Oathbound",
     icon: "spell_arcane_arcanetorrent",
     maxRanks: 3,
-    position: { x: 3.5, y: 6.5 },
+    position: { x: 3.5, y: 6 },
     requires: "aw_t6_reflective_ward",
     spell: {
       name: "Oathbound",
@@ -442,7 +442,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Unchanging Vow",
     icon: "spell_holy_blessingofsacrifice",
     maxRanks: 3,
-    position: { x: 2, y: 8 },
+    position: { x: 2, y: 6 },
     requires: "aw_t6_reflective_ward",
     spell: {
       name: "Unchanging Vow",

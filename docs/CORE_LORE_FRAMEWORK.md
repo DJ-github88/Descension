@@ -58,7 +58,7 @@
  • Aex/Aelden hide Sol in core   • Trailed Astril starlight   • Keth Amar devours heirs • 150 Years of Freezing Era
  • The House Bargain struck      • 25-year Wyrd infiltration  • Aex Shatters into       • Aex Shards fuel wars
  • High Houses infused with        & fake-Aelden negotiations   Aex Shards; Sol vents    • 7th House Acolytes active
-   magic; Commoners get tech/      across noble houses        • Keth Amar wounded,      • North Halam launch campaign
+   magic; Commoners get tech/      across noble houses        • Keth Amar wounded,      • Nordhalla launch campaign
    subtle adaptations                                           retreats to sky as Wyrd
 ```
 
@@ -79,7 +79,7 @@ Mythrill of folklore and Primordial Anima. Native Deities, beasts (*Jutul*, *Gla
 * **Year 325 (Blizzard's End Massacre):** Heirs devoured at Nordhalla peak. Aex shatters into **Aex Shards**. Sol vents volcanoes. Keth Amar is injured by Aex's core shield and retreats into the sky, leaving the Wyrd veil across Mythrill.
 
 ### Era IV: The Freezing Era & Present Day (Years 325 – 475)
-* **Present Day (150 Years After the Fall):** Mythrill is locked in a 150-Year Ice Age. Factions battle over glowing Aex Shards for fuel. 7th House Acolytes seek monoliths. Regional campaigns launch in **North Halam (Nordhalla)**!
+* **Present Day (150 Years After the Fall):** Mythrill is locked in a 150-Year Ice Age. Factions battle over glowing Aex Shards for fuel. 7th House Acolytes seek monoliths. Regional campaigns launch in **Nordhalla**!
 
 ---
 
@@ -149,17 +149,17 @@ All 20+ playable classes fall into four distinct metaphysical heritages:
 
 ---
 
-## 6. LAUNCH REGION: NORTH HALAM (NORDHALLA)
+## 6. LAUNCH REGION: NORDHALLA
 
-* **App Launch Focus:** **North Halam (Nordhalla)** is the **sole, self-contained launch region** for the app map and initial gameplay release. Other continents will be added in future expansions.
-* **Folklore Textures:** Deeply rooted in Finnish, Greenlandic, and Norse mythology (*Landvaettir*, *Qalupalik*, *Jutul*, *Glacier Wyrms*, *Fossegrim*). These creatures are North Halam's original owners and act as its natural immune system.
+* **App Launch Focus:** **Nordhalla** is the **sole, self-contained launch region** for the app map and initial gameplay release. Other continents will be added in future expansions.
+* **Folklore Textures:** Deeply rooted in Finnish, Greenlandic, and Norse mythology (*Landvaettir*, *Qalupalik*, *Jutul*, *Glacier Wyrms*, *Fossegrim*). These creatures are Nordhalla's original owners and act as its natural immune system.
 * **Culture & Combat:** Common Skalds and hunters rely on matchlock firearms, black powder, cold-iron traps, and folk taboos to survive native beasts, while Infused House leaders bring celestial elemental magic to the shield-wall.
 * **Key Factions & Strongholds:**
   * **House Skalvyr & King-Jarl Halvar "Járn-Tand" Skalvyr:** The royal seat at Frosthold Citadel; builder of the Sunder-Wall.
   * **The Frozen Archive:** Clockwork and runic library-citadel carved into a mile-high glacier.
   * **Bloodhammer Sump:** Geothermal forge-crater powering the north's iron industry.
   * **The Icechamber Syndicate:** Merchant cartel controlling coal, grain, and mammoth-hide trade.
-  * **Fredløse (Outlaw Clans):** Nomadic hunter-clans resisting royal subjugation.
+  * **Øsling (Outlaw Clans):** Nomadic hunter-clans resisting royal subjugation.
 
 ---
 
@@ -177,7 +177,7 @@ All 20+ playable classes fall into four distinct metaphysical heritages:
 | **Wyrd-touched natives** | Native individuals, broods, or branches altered by Wyrd exposure, pact, parasitism, or habitat wounds. Native identity remains meaningful; corruption is a condition, not a new species. | Anchored in a body, lineage, territory, object, oath, or symbiosis. Can recover, adapt, or remain after Keth retreats if the wound or anchor remains. |
 
 ### 7.2 Keth Amar's Regional Wyrd Strategy
-1. **North Halam (Nordhalla):** Drain warmth and pressure glaciers, hearths, and rune systems until Rime resilience fails.
+1. **Nordhalla:** Drain warmth and pressure glaciers, hearths, and rune systems until Rime resilience fails.
 2. **Frostwood Reach:** Attack memory, identity, and records while exposing Viridane concealment.
 3. **Sundale:** Probe Sol, Aex, and Emberspire; widen the central feeding wound.
 4. **Iceheart Sea:** Disrupt routes, create wrecks, and deepen isolation through storms and contract forms.

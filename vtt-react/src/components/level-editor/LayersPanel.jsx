@@ -1,4 +1,5 @@
 import React from 'react';
+import { showConfirm } from '../../utils/dialogService';
 
 const LayersPanel = ({
     isCollapsed,
@@ -73,8 +74,15 @@ const LayersPanel = ({
             <div className="layer-actions">
                 <button
                     className="action-btn danger"
-                    onClick={() => {
-                        if (window.confirm('Are you sure you want to clear ALL editor data (terrain, walls, fog, objects, drawings) for this map? This cannot be undone.')) {
+                    onClick={async () => {
+                        const confirmed = await showConfirm({
+                            title: 'Clear All Editor Data',
+                            message: 'Are you sure you want to clear ALL editor data (terrain, walls, fog, objects, drawings) for this map?',
+                            subMessage: 'This cannot be undone.',
+                            confirmText: 'Clear All',
+                            isDestructive: true
+                        });
+                        if (confirmed) {
                             onClearAll();
                         }
                     }}

@@ -5,6 +5,7 @@ import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { LIGHT_PRESETS } from '../../utils/LightingCalculations';
 import { getIconUrl } from '../../utils/assetManager';
 import './styles/LightSourceOverlay.css';
+import { showConfirm } from '../../utils/dialogService';
 
 /**
  * LightSourceOverlay - Renders light sources on the map
@@ -87,14 +88,21 @@ const LightSourceOverlay = () => {
     };
 
     // Handle light source right-click (for context menu)
-    const handleLightRightClick = (light, event) => {
+    const handleLightRightClick = async (light, event) => {
         if (!isGMMode) return;
         
         event.preventDefault();
         event.stopPropagation();
         
         // Show context menu or remove light
-        if (window.confirm(`Remove ${LIGHT_PRESETS[light.type]?.name || light.type} light?`)) {
+        const lightName = LIGHT_PRESETS[light.type]?.name || light.type;
+        const confirmed = await showConfirm({
+            title: 'Remove Light Source',
+            message: `Remove ${lightName} light?`,
+            confirmText: 'Remove',
+            isDestructive: true
+        });
+        if (confirmed) {
             removeLightSource(light.id);
         }
     };

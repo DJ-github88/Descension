@@ -2587,7 +2587,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                           stages.splice(index, 1);
                           handleChannelingConfigChange({ stages });
                         }}
-                      >Ã - </button>
+                      >ï¿½ - </button>
                     )}
                   </div>
                 ))}

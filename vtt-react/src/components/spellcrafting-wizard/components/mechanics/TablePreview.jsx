@@ -222,10 +222,10 @@ const TablePreview = ({ table }) => {
             if (formulaOverrides.targets) modSummary.push(<span key="tgt-formula" className="mod-tag"><FaMagic /> Targets: {formulaOverrides.targets}</span>);
 
             // Add effect modifications to the summary
-            if (mods.damageMultiplier !== 1) modSummary.push(<span key="dmg" className="mod-tag"><FaFire /> Ã - {mods.damageMultiplier}</span>);
-            if (mods.healingMultiplier !== 1) modSummary.push(<span key="heal" className="mod-tag"><FaHeart /> Ã - {mods.healingMultiplier}</span>);
-            if (mods.rangeMultiplier !== 1) modSummary.push(<span key="range" className="mod-tag"><FaMagic /> Range Ã - {mods.rangeMultiplier}</span>);
-            if (mods.durationMultiplier !== 1) modSummary.push(<span key="dur" className="mod-tag"><FaMagic /> Duration Ã - {mods.durationMultiplier}</span>);
+            if (mods.damageMultiplier !== 1) modSummary.push(<span key="dmg" className="mod-tag"><FaFire /> ï¿½ - {mods.damageMultiplier}</span>);
+            if (mods.healingMultiplier !== 1) modSummary.push(<span key="heal" className="mod-tag"><FaHeart /> ï¿½ - {mods.healingMultiplier}</span>);
+            if (mods.rangeMultiplier !== 1) modSummary.push(<span key="range" className="mod-tag"><FaMagic /> Range ï¿½ - {mods.rangeMultiplier}</span>);
+            if (mods.durationMultiplier !== 1) modSummary.push(<span key="dur" className="mod-tag"><FaMagic /> Duration ï¿½ - {mods.durationMultiplier}</span>);
             if (mods.additionalTargets !== 0) modSummary.push(<span key="tgt" className="mod-tag"><FaMagic /> +{mods.additionalTargets} targets</span>);
             if (mods.resourceCostModifier !== 0) {
               const prefix = mods.resourceCostModifier > 0 ? '+' : '';

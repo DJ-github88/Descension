@@ -36,7 +36,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Spell Disruption",
     icon: "spell_shadow_curseofachimonde",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 1, y: 0 },
     requires: null,
     spell: {
       name: "Spell Disruption",
@@ -61,7 +61,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Counter Magic",
     icon: "spell_arcane_blink",
     maxRanks: 2,
-    position: { x: 3, y: 1 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Counter Magic",
@@ -81,7 +81,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Mirror Shield",
     icon: "spell_holy_powerwordshield",
     maxRanks: 3,
-    position: { x: 0, y: 3 },
+    position: { x: 0, y: 1 },
     requires: "sb_t1_reflective_barrier",
     spell: {
       name: "Mirror Shield",
@@ -107,7 +107,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Echo Damage",
     icon: "spell_arcane_arcane03",
     maxRanks: 3,
-    position: { x: 4, y: 3 },
+    position: { x: 4, y: 1 },
     requires: "sb_t1_spell_disruption",
     spell: {
       name: "Echo Damage",
@@ -130,7 +130,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Perfect Reflection",
     icon: "spell_holy_sealofprotection",
     maxRanks: 3,
-    position: { x: 0, y: 4.5 },
+    position: { x: 0, y: 2 },
     requires: "sb_t2_echo_damage",
     spell: {
       name: "Perfect Reflection",
@@ -150,7 +150,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Mana Burn",
     icon: "spell_fire_soulburn",
     maxRanks: 3,
-    position: { x: 4, y: 4.5 },
+    position: { x: 4, y: 2 },
     requires: "sb_t1_counter_magic",
     spell: {
       name: "Mana Burn",
@@ -171,7 +171,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Mirror Field",
     icon: "spell_arcane_prismaticcloak",
     maxRanks: 2,
-    position: { x: 0, y: 5.5 },
+    position: { x: 0, y: 3 },
     requires: "sb_t2_mirror_shield",
     spell: {
       name: "Mirror Field",
@@ -196,7 +196,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Spell Nullification",
     icon: "spell_shadow_antimagicshell",
     maxRanks: 3,
-    position: { x: 4, y: 5.5 },
+    position: { x: 4, y: 3 },
     requires: "sb_t3_mana_burn",
     spell: {
       name: "Spell Nullification",
@@ -222,7 +222,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Unbreakable Mirror",
     icon: "inv_sword_39",
     maxRanks: 2,
-    position: { x: 1, y: 5 },
+    position: { x: 1, y: 4 },
     requires: "sb_t3_perfect_reflection",
     spell: {
       name: "Unbreakable Mirror",
@@ -241,7 +241,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Reciprocal Ward",
     icon: "spell_nature_thorns",
     maxRanks: 3,
-    position: { x: 3, y: 5 },
+    position: { x: 3, y: 4 },
     requires: "sb_t4_mirror_field",
     spell: {
       name: "Reciprocal Ward",
@@ -270,7 +270,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Reflection Nova",
     icon: "spell_arcane_blast",
     maxRanks: 1,
-    position: { x: 1, y: 7 },
+    position: { x: 1, y: 5 },
     requires: "sb_t4_mirror_field",
     spell: {
       name: "Reflection Nova",
@@ -293,7 +293,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Mirror Soul",
     icon: "spell_arcane_portalironforge",
     maxRanks: 2,
-    position: { x: 2, y: 7 },
+    position: { x: 2, y: 5 },
     requires: "sb_t5_unbreakable_mirror",
     spell: {
       name: "Mirror Soul",
@@ -312,7 +312,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Prismatic Shear",
     icon: "ability_mage_massdispel",
     maxRanks: 2,
-    position: { x: 3, y: 7 },
+    position: { x: 3, y: 5 },
     requires: "sb_t4_spell_nullification",
     spell: {
       name: "Prismatic Shear",
@@ -339,7 +339,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Perfect Mirror",
     icon: "spell_arcane_polymorph",
     maxRanks: 1,
-    position: { x: 0.5, y: 8 },
+    position: { x: 0.5, y: 6 },
     requires: "sb_t6_reflection_nova",
     spell: {
       name: "Perfect Mirror",
@@ -361,7 +361,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Mirror Mastery",
     icon: "inv_misc_gem_01",
     maxRanks: 5,
-    position: { x: 1.5, y: 8 },
+    position: { x: 1.5, y: 6 },
     requires: "sb_t6_mirror_soul",
     spell: {
       name: "Mirror Mastery",
@@ -383,7 +383,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Arcane Retribution",
     icon: "spell_arcane_arcane02",
     maxRanks: 3,
-    position: { x: 2.5, y: 8 },
+    position: { x: 2.5, y: 6 },
     requires: "sb_t6_mirror_soul",
     spell: {
       name: "Arcane Retribution",
@@ -405,7 +405,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Thousand Faces",
     icon: "spell_magic_lesserinvisibilty",
     maxRanks: 3,
-    position: { x: 3.5, y: 8 },
+    position: { x: 3.5, y: 6 },
     requires: "sb_t6_prismatic_shear",
     spell: {
       name: "Thousand Faces",
@@ -431,7 +431,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Eternal Vigil",
     icon: "spell_arcane_focusedpower",
     maxRanks: 3,
-    position: { x: 2, y: 7.5 },
+    position: { x: 2, y: 6 },
     requires: "sb_t6_prismatic_shear",
     spell: {
       name: "Eternal Vigil",

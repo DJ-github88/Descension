@@ -53,7 +53,7 @@ subraceVariants: {
    reframe: `The <LoreLink termId="neth">Velun Neth</LoreLink> understand magic as *contract*, and a Spellguard among them cancels incoming spells by *drafting the annulment*, identifying the hostile magic's clause-structure and filing the counter-instrument before it lands. To a Velun Spellguard, a fireball is just an aggressively-worded offer, and the correct response is a timely rejection on procedural grounds.`,
    signatureAbility: {
     name: 'Clause-Annulment',
-    description: `Incoming spells are canceled through legal-inversion rather than raw absorption; the Spellguard files the annulment, and the magic fails on its own terms. The process is precise and low-radiation, the Velun take on far less Silence Resonance than absorbing variants, but fails entirely against magic with no clause-structure (wild Wyrd, primal forces).`
+    description: `Incoming spells are canceled through legal-inversion rather than raw absorption; the Spellguard files the annulment, and the magic fails on its own terms. The process is precise and low-radiation, the Velun take on far less Arcane Energy Points (AEP) than absorbing variants, but fails entirely against magic with no clause-structure (wild Wyrd, primal forces).`
    },
    currentCrisisAngle: `The rising ambient magic is, to the Velun, a *jurisdictional overload*, too many spells in the air, too many clauses to parse in real time. The Velun Spellguards are the most radiation-resistant variant, but they are being drowned in paperwork: the annulments cannot be drafted fast enough to keep pace with a world whose magic level is spiking.`,
    signatureQuote: {
@@ -101,7 +101,7 @@ subraceVariants: {
    reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink>, badland rangers, intercept magic the way they intercept forge-ruptures in the field: practically, violently, on the move. The Waste-Solari are the tradition's *mobile* variant, deflecting and redirecting rather than absorbing, treating incoming magic as a thermal hazard to be angled away from the party rather than caught.`,
    signatureAbility: {
     name: 'Rupture-Deflection',
-    description: `Incoming spells are deflected or redirected rather than absorbed, the Spellguard angles the magic away using alchemical shield-surfaces, the way a forge-ranger angles a thermal vent. The Waste-Solari take on the least Silence Resonance, but cannot fully neutralize a spell, only redirect it (sometimes back at the caster, sometimes into the terrain).`
+    description: `Incoming spells are deflected or redirected rather than absorbed, the Spellguard angles the magic away using alchemical shield-surfaces, the way a forge-ranger angles a thermal vent. The Waste-Solari take on the least Arcane Energy Points (AEP), but cannot fully neutralize a spell, only redirect it (sometimes back at the caster, sometimes into the terrain).`
    },
    currentCrisisAngle: `The rising ambient magic cannot be *deflected*, it is everywhere, ambient, with no vector to angle away. The Waste-Solari Forge-Shields, masters of redirection, are helpless against a hazard that has no direction. Several have begun abandoning deflection for desperate absorption, a technique they were never trained for, and the radiation sickness is spreading through the badland garrisons.`,
    signatureQuote: {
@@ -140,7 +140,7 @@ subraceVariants: {
    characterization: `A Waste-Solari veteran whose forearms are latticed with absorbed-magic scars that glow through his sleeves. He leads the Aegis from the forge-keeps and enforces <LoreLink termId="damon">Damon</LoreLink>'s method with drill-sergeant discipline. He is a pragmatist who is watching his entire engineering discipline fail against a threat, ambient magic with no structure, that <LoreLink termId="damon">Damon</LoreLink> never imagined.`
   },
   headquarters: { name: 'The Shield-Forge Keeps, Emberspire', locationId: 'emberspire' },
-  crisisConnection: `<LoreLink termId="thrak-damos">Thrak-Damos</LoreLink> is watching the Aegis's foundational method collapse: ambient magic has no structure to dismantle, no vector to redirect. The Spellguards' Silence Resonance is filling faster than they can purge, and the Arcane Saturation radiation-bursts are striking their own lines. He has begun ordering his Spellguards to *absorb*, <LoreLink termId="damon">Damon</LoreLink>'s forbidden technique, because there is nothing left to dismantle. The order that defined itself by precision is being reduced to a wall of sponges, and <LoreLink termId="thrak-damos">Thrak-Damos</LoreLink> considers this the death of his craft even if his Spellguards survive.`
+  crisisConnection: `<LoreLink termId="thrak-damos">Thrak-Damos</LoreLink> is watching the Aegis's foundational method collapse: ambient magic has no structure to dismantle, no vector to redirect. The Spellguards' Arcane Energy Points (AEP) are filling faster than they can purge, and the Arcane Saturation radiation-bursts are striking their own lines. He has begun ordering his Spellguards to *absorb*, <LoreLink termId="damon">Damon</LoreLink>'s forbidden technique, because there is nothing left to dismantle. The order that defined itself by precision is being reduced to a wall of sponges, and <LoreLink termId="thrak-damos">Thrak-Damos</LoreLink> considers this the death of his craft even if his Spellguards survive.`
  },
 
  worldFriction: [
@@ -159,7 +159,7 @@ The solar energy permanently scarred his flesh and left his veins humming with v
 
 Each subrace absorbs differently. The Velun Neth cancel spells through legal inversion, a fireball is an aggressively-worded offer, the response is rejection on procedural grounds. Lowest radiation intake, but fails against wild Wyrd with no structure. The Thalren defuse magic like a sapper defuses a trap, identifying trigger, payload, and failsafe, neutralizing each in sequence. Only method that reliably catches layered spells. The Solari absorb raw into flesh, practice-tested against Sol's Breath-scale eruptions. Most Resonance intake but can absorb the largest single bursts. The Hollow-Solari intercept from Vault-Breath stillness, becoming a silence that magic falls into. Steadiest but cannot move while intercepting. The Waste-Solari deflect and redirect, treating magic as thermal hazard to be angled away. Lowest Resonance but cannot fully neutralize.
 
-Ambient magic levels are rising as the Wyrd bleeds faster. Spellguards fill with Silence Resonance faster than they can purge. Some enter Arcane Saturation, spontaneous Radiation Bursts harming everyone nearby. The current leader, Bulwark-Captain Thrak-Damos, is ordering absorption, Damon's forbidden technique, because there is nothing left to dismantle.`,
+Ambient magic levels are rising as the Wyrd bleeds faster. Spellguards fill with Arcane Energy Points (AEP) faster than they can purge. Some enter Arcane Saturation, spontaneous Radiation Bursts harming everyone nearby. The current leader, Bulwark-Captain Thrak-Damos, is ordering absorption, Damon's forbidden technique, because there is nothing left to dismantle.`,
   title: "The Spellguard",
   subtitle: "The Silence-Scarred Aegis",
 
@@ -169,7 +169,7 @@ Ambient magic levels are rising as the Wyrd bleeds faster. Spellguards fill with
 
 **The hook**: Your signature mechanic is **Spell Interception & Redirection**: you can catch incoming enemy spells, absorb their elemental damage into your armor, and store the energy to fire back as weaponized arcane shockwaves.
 
-**The resource bar & costs**: Your resource bar is **Silence Resonance**, filled by absorbing enemy spells and channeling defensive wards. You vent Resonance through explosive counter-attacks and prismatic barrier bursts. Holding max Resonance too long causes internal radiation strain, forcing you to vent your power regularly.
+**The resource bar & costs**: Your resource bar is **Arcane Energy Points (AEP)**, filled by absorbing enemy spells and channeling defensive wards. You vent AEP through explosive counter-attacks and prismatic barrier bursts. Holding max AEP too long causes internal radiation strain, forcing you to vent your power regularly.
 
 **Bring one for**: The ultimate anti-caster tank, protecting your party from catastrophic magic and turning the enemy's biggest spells into your own greatest weapons.`
   },
@@ -206,7 +206,7 @@ The class is heavily practiced by the <LoreLink termId="neth">Velun Neth</LoreLi
 
   currentCrisis: `The ambient magic levels are rising, and the Spellguards cannot keep up. For centuries, the background radiation of the world's magic was low enough that Spellguards could absorb occasional spikes and vent the excess. But with the Wyrd bleeding faster and the Sundered Monoliths cracking, the ambient magic level has increased sharply.
 
-Spellguards are reporting that their Silence Resonance is filling faster than they can purge it. Some are entering a state of "Arcane Saturation", their bodies cannot process the incoming magic fast enough, and they are suffering spontaneous Radiation Bursts that harm everyone nearby. For the first time, some Spellguards are retiring voluntarily, choosing to face the withdrawal symptoms rather than risk becoming bombs. The remaining active Spellguards are stretched thin, and a single catastrophic failure could devastate a settlement.`,
+Spellguards are reporting that their Arcane Energy Points (AEP) are filling faster than they can purge it. Some are entering a state of "Arcane Saturation", their bodies cannot process the incoming magic fast enough, and they are suffering spontaneous Radiation Bursts that harm everyone nearby. For the first time, some Spellguards are retiring voluntarily, choosing to face the withdrawal symptoms rather than risk becoming bombs. The remaining active Spellguards are stretched thin, and a single catastrophic failure could devastate a settlement.`,
 
   meaningfulTradeoffs: `To be a Spellguard is to glow. The absorbed magic in their veins emits a faint, visible light, a pale blue luminescence visible through the skin. Spellguards cannot hide in darkness. Cannot surprise anyone. Cannot pass unnoticed through a crowd. They are always visible, always identifiable, always the first target. Children in some settlements play a game called "find the glow", they hide from the Spellguard, who must find them using their superior radiation sense. The Spellguard always finds them. That is the problem.`,
 
@@ -224,15 +224,15 @@ Spellguards are reporting that their Silence Resonance is filling faster than th
    content: `**Primary Role**: The ultimate magical sponge and reflector  -  the only class that intercepts lethal spells meant for allies, drinks the raw energy into its own flesh, and detonates it back at the caster.
 
 **Strengths**:
-- Exclusive magical interception: physically absorb spells aimed at allies and store the energy as Silence Resonance
-- Reflect/repurpose: vent stored resonance as devastating return-fire or as barriers
+- Exclusive magical interception: physically absorb spells aimed at allies and store the energy as Arcane Energy Points (AEP)
+- Reflect/repurpose: vent stored AEP as devastating return-fire or as barriers
 - Hard counter to enemy casters  -  the more magic thrown at the party, the more dangerous you become
 - Prismatic barriers and refraction can shelter allies from an arcane assault
 
 **Weaknesses**:
 - Kinetic Fragility: +50% bludgeoning and smashing damage  -  a mundane axe, mace, or crossbow bolt is your hard counter; any martial flanker shreds you.
-- Arcane Radiation: holding unspent Silence Resonance burns your max HP and deals blight every round you fail to purge it  -  vent or melt.
-- Purge or Pop: silenced, CC'd, or denied a target, the resonance builds to a spontaneous Radiation Burst that harms everyone nearby, allies included.
+- Arcane Radiation: holding unspent Arcane Energy Points (AEP) burns your max HP and deals blight every round you fail to purge it  -  vent or melt.
+- Purge or Pop: silenced, CC'd, or denied a target, the AEP builds to a spontaneous Radiation Burst that harms everyone nearby, allies included.
 - Anti-Mage, Not Anti-Steel: built to eat magic, not weapons  -  a fight with no casters leaves you a fragile liability.
 - Glowing (social): absorbed magic emits pale blue light through your skin  -  you cannot hide, sneak, or pass unnoticed; you are always visible, always identifiable, always the first target for a sniper.
 - Reliant on Allies: you need your party to handle mundane threats so you can handle the magical ones  -  isolated, you are a glowing, brittle mark.`
@@ -241,19 +241,19 @@ Spellguards are reporting that their Silence Resonance is filling faster than th
 
   // Resource System
  resourceSystem: {
-  title: "Silence Resonance & Arcane Radiation",
+  title: "Arcane Energy Points & Arcane Radiation",
   subtitle: "The Anatomy of a Meltdown",
 
-  description: `You are a living silence-battery. Incoming magical damage does not harm your exterior,it is pulled inside you, converting into **Silence Resonance** (tracked as AEP). However, this energy is highly radioactive.
+  description: `You are a living silence-battery. Incoming magical damage does not harm your exterior,it is pulled inside you, converting into **Arcane Energy Points** (tracked as AEP). However, this energy is highly radioactive.
 
 **The Resource Mechanics**:
-- **Silence Resonance (AEP 0-100)**: Generated by absorbing spells, intercepting magic, or ripping mana from targets using *Silence Siphon*. 
-- **Arcane Radiation**: If you end your round with unspent Silence Resonance, you suffer internal burns. You take blight damage equal to (Resonance / 10), rounded down. Your maximum HP is reduced by this same amount until you complete a long rest.
+- **Arcane Energy Points (AEP 0-100)**: Generated by absorbing spells, intercepting magic, or ripping mana from targets using *Silence Siphon*. 
+- **Arcane Radiation**: If you end your round with unspent Arcane Energy Points (AEP), you suffer internal burns. You take blight damage equal to (AEP / 10), rounded down. Your maximum HP is reduced by this same amount until you complete a long rest.
 - **Physical Fragility**: Your body is a specialized magical sponge. You suffer a permanent +50% vulnerability to all Bludgeoning and smashing damage.`,
 
   cards: [
    {
-    title: "Silence Resonance (AEP)",
+    title: "Arcane Energy Points (AEP)",
     stats: "0-100 Capacity",
     details:
      "The volatile fuel. Generates when you absorb magic or siphon mana. Used to power your devastating purges and shields.",
@@ -262,7 +262,7 @@ Spellguards are reporting that their Silence Resonance is filling faster than th
     title: "Arcane Radiation",
     stats: "End of Round Strain",
     details:
-     "Unspent Resonance / 10 = Blight Damage and Max HP Reduction. You must continuously purge the energy to survive.",
+     "Unspent AEP / 10 = Blight Damage and Max HP Reduction. You must continuously purge the energy to survive.",
    },
    {
     title: "Physical Fragility",
@@ -273,28 +273,28 @@ Spellguards are reporting that their Silence Resonance is filling faster than th
   ],
 
   generationTable: {
-   headers: ["Action", "Resonance Change", "The Toll"],
+   headers: ["Action", "AEP Change", "The Toll"],
    rows: [
     ["Absorb Magical Damage", "+1 per damage", "Energy fills your lungs"],
-     ["Silence Siphon (Melee)", "+15 Resonance", "Siphoning magic from their veins"],
+     ["Silence Siphon (Melee)", "+15 AEP", "Siphoning magic from their veins"],
     ["Agonizing Intercept", "Absorb Ally's Damage", "Internal temperature spikes"],
-    ["Violent Purge", "-All Resonance", "Radiation clears, flesh cools"],
+    ["Violent Purge", "-All AEP", "Radiation clears, flesh cools"],
    ],
   },
 
   usage: {
    momentum:
-    "Absorb enemy spells to fill your Resonance, but immediately look for a way to purge it. Do not let the radiation fester in your body.",
+    "Absorb enemy spells to fill your AEP, but immediately look for a way to purge it. Do not let the radiation fester in your body.",
    flourish:
     "When ambushed by physical attackers, use 'Refract Kinetic' to harden your shell, even though it spikes your internal necrotic strain.",
   },
 
   overheatRules: {
-   title: "Critical Meltdown (100 Resonance)",
-   content: `If you reach exactly 100 Silence Resonance, your containment fails completely.
+   title: "Critical Meltdown (100 AEP)",
+   content: `If you reach exactly 100 Arcane Energy Points (AEP), your containment fails completely.
 1. **The Rupture**: You instantly explode, dealing 10d6 storm damage to ALL creatures within 30 feet (including allies).
 2. **The Burnout**: You are reduced to 1 HP, your maximum HP is halved, and you are incapacitated for 1 round.
-3. **The Reset**: Your Resonance resets to 0. You must never let the reactor breach.`,
+3. **The Reset**: Your AEP resets to 0. You must never let the reactor breach.`,
   },
 
   strategicConsiderations: {
@@ -306,7 +306,7 @@ Spellguards are reporting that their Silence Resonance is filling faster than th
    title: "Physical Radiation Trackers",
    subtitle: "The Glowing Cores",
    content: `Use the following physical props to track the agony:
-- **Resonance Dial**: A d100 (tens and ones die) to track your current Silence Resonance.
+- **AEP Dial**: A d100 (tens and ones die) to track your current Arcane Energy Points (AEP).
 - **Black Tokens**: Place a black token on your character sheet every time your max HP drops from Arcane Radiation.
 - **The Meltdown Warning**: If your dial crosses 80, stand your miniature up on a red base to warn the party of an imminent explosion.`,
   },
@@ -316,7 +316,7 @@ Spellguards are reporting that their Silence Resonance is filling faster than th
   title: "Radiation Protocols",
   subtitle: "Three Methods of Containing the Apocalypse",
 
-  description: `Spellguards must choose how their body processes the lethal radiation of Silence Resonance.`,
+  description: `Spellguards must choose how their body processes the lethal radiation of Arcane Energy Points (AEP).`,
 
   sharedPassive: {
    name: "Brittle Kinetic Shell",
@@ -334,13 +334,13 @@ Spellguards are reporting that their Silence Resonance is filling faster than th
 
     description: `**The flesh is a vault. Lock the radiation inside.**
     
-Bastions focus entirely on intercepting damage meant for their allies, converting their own body into a localized black hole for enemy magic. They generate Resonance faster and endure the radiation longer.`,
+Bastions focus entirely on intercepting damage meant for their allies, converting their own body into a localized black hole for enemy magic. They generate AEP faster and endure the radiation longer.`,
 
     playstyle:
      "Heavy ally protection, spell interception, delayed detonation",
 
     strengths: [
-     "Generates 1.5x Resonance from absorbed magic",
+     "Generates 1.5x AEP from absorbed magic",
      "Can intercept spells from greater distances",
      "Radiation damage is delayed by 1 round",
     ],
@@ -355,7 +355,7 @@ Bastions focus entirely on intercepting damage meant for their allies, convertin
      name: "Lead-Lined Ribcage",
      icon: "Force/Force Field",
      description:
-      "You generate 1.5x Resonance from absorbed magical damage. The blight damage from Arcane Radiation is halved, though the max HP reduction remains full.",
+      "You generate 1.5x AEP from absorbed magical damage. The blight damage from Arcane Radiation is halved, though the max HP reduction remains full.",
     },
 
     keyAbilities: [
@@ -396,7 +396,7 @@ Erasers specialize in bouncing magic back before it can fully settle in their lu
      name: "Shattered Mirror Plating",
      icon: "Arcane/Magical Cross Emblem 2",
      description:
-      "Successfully reflecting a spell immediately purges 20 Silence Resonance and restores 1d8 HP.",
+      "Successfully reflecting a spell immediately purges 20 Arcane Energy Points (AEP) and restores 1d8 HP.",
     },
 
     keyAbilities: [
@@ -423,7 +423,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
 
     strengths: [
      "Drains 2x mana on all melee attacks",
-     "Does not need enemy spells to generate Resonance",
+     "Does not need enemy spells to generate AEP",
      "Incredible single-target lockdown",
     ],
 
@@ -487,7 +487,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "spellguard_arcane_radiation",
    name: "Arcane Radiation",
    description:
-    "The magic you absorb is radioactive poison. At the end of your round, if you hold unspent Silence Resonance, you take blight damage equal to (Resonance / 10), rounded down. Your maximum HP is permanently reduced by this same amount until you complete a long rest.",
+    "The magic you absorb is radioactive poison. At the end of your round, if you hold unspent Arcane Energy Points (AEP), you take blight damage equal to (AEP / 10), rounded down. Your maximum HP is permanently reduced by this same amount until you complete a long rest.",
    level: 1,
    spellType: "PASSIVE",
    icon: "Necrotic/Necrotic Decay 1",
@@ -527,7 +527,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_void_siphon",
     name: "Silence Siphon",
    description:
-    "A brutal melee strike that physically rips raw magic out of the target. Deals 1d8 physical and 1d8 storm damage. If the target is a spellcaster, they lose 2d4 mana. Generates +15 Silence Resonance as the raw magic enters your bloodstream.",
+    "A brutal melee strike that physically rips raw magic out of the target. Deals 1d8 physical and 1d8 storm damage. If the target is a spellcaster, they lose 2d4 mana. Generates +15 Arcane Energy Points (AEP) as the raw magic enters your bloodstream.",
    level: 1,
    spellType: "ACTION",
    icon: "Necrotic/Drain Soul",
@@ -574,7 +574,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
     selectedEffects: [
      { id : "mana_tear",
       name: "Mana Tear",
-      description: "Target loses 2d4 mana. You generate 15 Silence Resonance.",
+      description: "Target loses 2d4 mana. You generate 15 Arcane Energy Points (AEP).",
      },
     ],
    },
@@ -585,7 +585,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_entropic_aegis",
    name: "Entropic Aegis",
    description:
-    "Shards of volatile silence crystal erupt from your skin, forming a barrier that absorbs 4d8 damage for 1 minute. Every time the shield absorbs damage, it generates 2 Silence Resonance as the magic leaks into you. If shattered by a kinetic attack, it detonates inwardly, dealing 2d6 smashing damage to you.",
+    "Shards of volatile silence crystal erupt from your skin, forming a barrier that absorbs 4d8 damage for 1 minute. Every time the shield absorbs damage, it generates 2 Arcane Energy Points (AEP) as the magic leaks into you. If shattered by a kinetic attack, it detonates inwardly, dealing 2d6 smashing damage to you.",
    level: 1,
    spellType: "ACTION",
    icon: "Force/Force Field",
@@ -625,7 +625,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
      { id : "void_barrier",
        name: "Silence Barrier",
       description:
-       "Absorbs 4d8 damage. Generates 2 Resonance per hit absorbed. Self-inflicts 2d6 slashing if broken by physical attacks.",
+       "Absorbs 4d8 damage. Generates 2 AEP per hit absorbed. Self-inflicts 2d6 slashing if broken by physical attacks.",
       mechanicsText: "Absorb 4d8",
      },
     ],
@@ -699,7 +699,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_leyline_rift",
    name: "Leyline Rift",
    description:
-    "Tear through the spatial leylines to instantly teleport up to 30 feet to an enemy caster. The violent transition generates +10 Silence Resonance, but the friction rips your flesh, dealing 1d6 blight damage to yourself.",
+    "Tear through the spatial leylines to instantly teleport up to 30 feet to an enemy caster. The violent transition generates +10 Arcane Energy Points (AEP), but the friction rips your flesh, dealing 1d6 blight damage to yourself.",
    level: 1,
    spellType: "ACTION",
    icon: "Force/Explosion Burst",
@@ -759,7 +759,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_agonizing_intercept",
     name: "Silence Intercept",
    description:
-    "When an ally within 15 feet is targeted by a spell, you instantly leap into its path, becoming the new target. The magical impact is fully absorbed into your body, generating Silence Resonance equal to the damage it would have dealt. The intense radiation feedback scorches your vision, blinding you until the end of your next turn.",
+    "When an ally within 15 feet is targeted by a spell, you instantly leap into its path, becoming the new target. The magical impact is fully absorbed into your body, generating Arcane Energy Points (AEP) equal to the damage it would have dealt. The intense radiation feedback scorches your vision, blinding you until the end of your next turn.",
    level: 2,
    spellType: "REACTION",
    icon: "Force/Force Field",
@@ -799,7 +799,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
     selectedEffects: [
      { id : "spell_magnet",
       name: "Spell Magnet",
-      description: "Intercept spell targeting ally. Absorb its damage as Silence Resonance.",
+      description: "Intercept spell targeting ally. Absorb its damage as Arcane Energy Points (AEP).",
      },
     ],
    },
@@ -884,7 +884,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_warding_ribcage",
    name: "Warding Ribcage",
    description:
-    "Call forth spectral, radioactive rib-like structures to encase allies within 15 feet. Grants a shield absorbing 4d6 damage. Every time an ally's shield absorbs damage, you take 2 blight damage from the feedback link, but gain 2 Silence Resonance.",
+    "Call forth spectral, radioactive rib-like structures to encase allies within 15 feet. Grants a shield absorbing 4d6 damage. Every time an ally's shield absorbs damage, you take 2 blight damage from the feedback link, but gain 2 Arcane Energy Points (AEP).",
    level: 3,
    spellType: "ACTION",
    icon: "Necrotic/Drain Soul",
@@ -926,7 +926,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
     effects: [
      { id : "ribcage_shield",
       name: "Ribcage Shield",
-      description: "Absorbs 4d6 damage. Spellguard takes 2 blight damage and gains 2 Resonance per hit.",
+      description: "Absorbs 4d6 damage. Spellguard takes 2 blight damage and gains 2 AEP per hit.",
       mechanicsText: "Absorb 4d6",
      },
     ],
@@ -941,7 +941,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_void_suppression",
     name: "Silence Suppression",
    description:
-     "Instantly choke a spell at its source by filling the target's lungs with silence ash. Force an Intelligence save. On fail, their spell is countered, and you absorb Resonance equal to the spell's level � 10.",
+     "Instantly choke a spell at its source by filling the target's lungs with silence ash. Force an Intelligence save. On fail, their spell is countered, and you absorb Arcane Energy Points (AEP) equal to the spell's level * 10.",
    level: 3,
    spellType: "REACTION",
    icon: "Arcane/Magical Cross Emblem 2",
@@ -1145,7 +1145,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_violent_purge",
    name: "Violent Purge",
    description:
-    "A cataclysmic blast of arcane radiation to save your own life from a meltdown. Expel ALL your Silence Resonance (minimum 30 required). Deals storm damage equal to (Silence Resonance � 1.5) to all creatures within 20 feet, including your allies.",
+    "A cataclysmic blast of arcane radiation to save your own life from a meltdown. Expel ALL your Arcane Energy Points (AEP) (minimum 30 required). Deals storm damage equal to (AEP * 1.5) to all creatures within 20 feet, including your allies.",
    level: 5,
    spellType: "ACTION",
    icon: "Force/Explosion Burst",
@@ -1414,26 +1414,26 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   {
    id: "spellguard_resonance_discharge",
    name: "Resonance Discharge",
-   description: "Dump stored Silence Resonance into a mechanism, magical lock, construct, or device  -  powering it, overloading it, forcing a jammed magical mechanism, or blasting open an arcane seal. Pure energetic fuel drawn straight from spells you have already eaten. Out of combat.",
+   description: "Dump stored Arcane Energy Points (AEP) into a mechanism, magical lock, construct, or device  -  powering it, overloading it, forcing a jammed magical mechanism, or blasting open an arcane seal. Pure energetic fuel drawn straight from spells you have already eaten. Out of combat.",
    level: 2, spellType: "ACTION", icon: "Arcane/Spiral Vortex",
    typeConfig: { school: "arcane", icon: "Arcane/Spiral Vortex", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","investigation","spellguard"] },
    targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
-   resourceCost: { actionPoints: 1, resourceTypes: [], resourceValues: {}, classResource: { type: "void_resonance", cost: 3 }, components: ["somatic"], somaticText: "Grip the mechanism and pour the eaten magic back out" },
+   resourceCost: { actionPoints: 1, resourceTypes: [], resourceValues: {}, classResource: { type: "arcane_energy_points", cost: 3 }, components: ["somatic"], somaticText: "Grip the mechanism and pour the eaten magic back out" },
    resolution: "AUTOMATIC", effectTypes: ["utility"],
-   utilityConfig: { utilityType: "conjuration", selectedEffects: [ { "id": "resonance_discharge_fuel", "name": "Eaten Fuel", "description": "Power, overload, force, or blast one magical mechanism/lock/seal/construct using 3 stored Silence Resonance. Spend resonance you already absorbed  -  no mana cost.", "mechanicsText": "Power/overload a magical mechanism; costs 3 stored resonance." } ], power: "moderate" },
+   utilityConfig: { utilityType: "conjuration", selectedEffects: [ { "id": "resonance_discharge_fuel", "name": "Eaten Fuel", "description": "Power, overload, force, or blast one magical mechanism/lock/seal/construct using 3 stored Arcane Energy Points (AEP). Spend AEP you already absorbed  -  no mana cost.", "mechanicsText": "Power/overload a magical mechanism; costs 3 stored AEP." } ], power: "moderate" },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
    tags: ["utility","exploration","investigation","spellguard"]
   },
   {
    id: "spellguard_disenchant",
    name: "Disenchant",
-   description: "Drain the magic out of an enchanted object into your own flesh  -  temporarily suppressing its enchantment (a magic trap goes inert, a ward drops, a cursed item sleeps, a glowing alarm dims) and feeding the spent power into you as Silence Resonance. The magic returns when you stop feeding on it. Out of combat.",
+   description: "Drain the magic out of an enchanted object into your own flesh  -  temporarily suppressing its enchantment (a magic trap goes inert, a ward drops, a cursed item sleeps, a glowing alarm dims) and feeding the spent power into you as Arcane Energy Points (AEP). The magic returns when you stop feeding on it. Out of combat.",
    level: 2, spellType: "ACTION", icon: "Arcane/Ebon Blaze",
    typeConfig: { school: "arcane", icon: "Arcane/Ebon Blaze", castTime: 1, castTimeType: "MINUTES", tags: ["utility","investigation","exploration","spellguard"] },
    targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 }, components: ["somatic"], somaticText: "Clamp your scarred hand over the object and breathe its magic in" },
    resolution: "AUTOMATIC", effectTypes: ["utility"],
-   utilityConfig: { utilityType: "protection", selectedEffects: [ { "id": "disenchant_drain", "name": "Magic Leeched", "description": "Suppress one object's enchantment for up to 10 minutes (magic trap inert, ward down, cursed item quiet, alarm dimmed); gain 1 Silence Resonance from the drained magic. Magic returns when the suppression ends.", "mechanicsText": "Suppress one object's enchantment 10 min; gain 1 resonance." } ], duration: 10, durationUnit: "minutes", power: "major" },
+   utilityConfig: { utilityType: "protection", selectedEffects: [ { "id": "disenchant_drain", "name": "Magic Leeched", "description": "Suppress one object's enchantment for up to 10 minutes (magic trap inert, ward down, cursed item quiet, alarm dimmed); gain 1 Arcane Energy Point (AEP) from the drained magic. Magic returns when the suppression ends.", "mechanicsText": "Suppress one object's enchantment 10 min; gain 1 AEP." } ], duration: 10, durationUnit: "minutes", power: "major" },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
    tags: ["utility","investigation","exploration","spellguard"]
   },

@@ -31,7 +31,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "False Witness",
     icon: "spell_shadow_possession",
     maxRanks: 3,
-    position: { x: 1, y: 0.5 },
+    position: { x: 1, y: 0 },
     requires: null,
     spell: {
       name: "False Witness",
@@ -58,7 +58,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Aura of False Faith",
     icon: "spell_shadow_charm",
     maxRanks: 2,
-    position: { x: 3.5, y: 0.5 },
+    position: { x: 3.5, y: 0 },
     requires: null,
     spell: {
       name: "Aura of False Faith",
@@ -78,7 +78,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "False Prophecy",
     icon: "spell_shadow_mindtwisting",
     maxRanks: 3,
-    position: { x: 0, y: 3 },
+    position: { x: 0, y: 1 },
     requires: "dc_t1_seed_of_doubt",
     spell: {
       name: "False Prophecy",
@@ -104,7 +104,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Corrupting Whisper",
     icon: "spell_shadow_siphonmana",
     maxRanks: 3,
-    position: { x: 4, y: 3 },
+    position: { x: 4, y: 1 },
     requires: "dc_t1_aura_of_false_faith",
     spell: {
       name: "Corrupting Whisper",
@@ -131,7 +131,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Heresy",
     icon: "spell_shadow_unstableaffliction",
     maxRanks: 3,
-    position: { x: 0, y: 4 },
+    position: { x: 0, y: 2 },
     requires: "dc_t2_false_prophecy",
     spell: {
       name: "Heresy",
@@ -158,7 +158,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Congregation of Doubt",
     icon: "spell_shadow_armorofthedark",
     maxRanks: 3,
-    position: { x: 4, y: 4 },
+    position: { x: 4, y: 2 },
     requires: "dc_t2_corrupting_whisper",
     spell: {
       name: "Congregation of Doubt",
@@ -184,7 +184,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Turn the Faithful",
     icon: "spell_shadow_mindsteal",
     maxRanks: 3,
-    position: { x: 0, y: 5 },
+    position: { x: 0, y: 3 },
     requires: "dc_t3_heresy",
     spell: {
       name: "Turn the Faithful",
@@ -204,7 +204,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Storm of Lies",
     icon: "spell_shadow_rainoffire",
     maxRanks: 2,
-    position: { x: 4, y: 5 },
+    position: { x: 4, y: 3 },
     requires: "dc_t3_congregation_of_doubt",
     spell: {
       name: "Storm of Lies",
@@ -276,7 +276,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Shatter the Faith",
     icon: "spell_shadow_mindflay",
     maxRanks: 1,
-    position: { x: 1, y: 4 },
+    position: { x: 1, y: 5 },
     requires: "dc_t5_rewrite_truth",
     spell: {
       name: "Shatter the Faith",
@@ -317,7 +317,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Doubt Engine",
     icon: "spell_shadow_burningspirit",
     maxRanks: 2,
-    position: { x: 3, y: 4 },
+    position: { x: 3, y: 5 },
     requires: "dc_t5_the_grand_lie",
     spell: {
       name: "Doubt Engine",
@@ -337,7 +337,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "The Great Deception",
     icon: "spell_shadow_mindsteal",
     maxRanks: 1,
-    position: { x: 1, y: 4.5 },
+    position: { x: 1, y: 6 },
     requires: "dc_t6_shatter_the_faith",
     spell: {
       name: "The Great Deception",
@@ -359,7 +359,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Silver Tongue",
     icon: "spell_shadow_subjugation",
     maxRanks: 5,
-    position: { x: 1.5, y: 5 },
+    position: { x: 1.5, y: 6 },
     requires: "dc_t6_credible_lies",
     spell: {
       name: "Silver Tongue",
@@ -382,7 +382,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Web of Lies",
     icon: "spell_shadow_unstableaffliction",
     maxRanks: 3,
-    position: { x: 2, y: 5.5 },
+    position: { x: 2, y: 6 },
     requires: "dc_t6_credible_lies",
     spell: {
       name: "Web of Lies",
@@ -402,7 +402,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Perfect Credibility",
     icon: "spell_shadow_charm",
     maxRanks: 3,
-    position: { x: 2.5, y: 5 },
+    position: { x: 2.5, y: 6 },
     requires: "dc_t6_doubt_engine",
     spell: {
       name: "Perfect Credibility",
@@ -422,7 +422,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Deep Reservoir",
     icon: "spell_shadow_madness",
     maxRanks: 3,
-    position: { x: 3, y: 4.5 },
+    position: { x: 3, y: 6 },
     requires: "dc_t6_doubt_engine",
     spell: {
       name: "Deep Reservoir",

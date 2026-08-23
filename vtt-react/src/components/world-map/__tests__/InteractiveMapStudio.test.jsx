@@ -32,6 +32,9 @@ describe('Interactive Map Studio - Stays & Stop Numbering', () => {
   beforeEach(() => {
     useInteractiveMapStore.setState({
       isStudioOpen: true,
+      maps: [
+        { id: 'map-nordhalla', name: 'Nordhalla', type: 'region', imageUrl: '/assets/maps/nordhalla.jpg' }
+      ],
       activeMapId: 'map-nordhalla',
       journeyWaypoints: [
         { id: 'wp-1', mapId: 'map-nordhalla', x: 20, y: 30, title: 'Departure Port', dayType: 'day', day: 1 },
@@ -122,4 +125,116 @@ describe('Interactive Map Studio - Stays & Stop Numbering', () => {
     expect(useInteractiveMapStore.getState().selectedPinId).toBeNull();
     expect(screen.queryByText('Dense primeval taiga.')).not.toBeInTheDocument();
   });
+
+  it('opens Campaign & Journal Codex sidebar, navigates tabs, and initiates placement mode', () => {
+    render(<InteractiveMapStudio />);
+
+    // Click Campaign & Journal button in header
+    const campaignBtn = screen.getByTitle(/Open Campaign & Journal Codex/i);
+    expect(campaignBtn).toBeInTheDocument();
+    fireEvent.click(campaignBtn);
+
+    // Sidebar should be open
+    expect(screen.getByText('Campaign & Journal Codex')).toBeInTheDocument();
+    expect(screen.getByText('Quests')).toBeInTheDocument();
+    expect(screen.getByText('NPCs')).toBeInTheDocument();
+    expect(screen.getByText('Factions & Lore')).toBeInTheDocument();
+    expect(screen.getByText('Journal & Notes')).toBeInTheDocument();
+
+    // Click NPCs tab
+    const npcsTab = screen.getByRole('button', { name: /NPCs/i });
+    fireEvent.click(npcsTab);
+
+    // Look for a Place on Map button
+    const placeButtons = screen.getAllByRole('button', { name: /Place on Map/i });
+    expect(placeButtons.length).toBeGreaterThan(0);
+
+    // Click Place on Map for first NPC
+    fireEvent.click(placeButtons[0]);
+
+    // Placement banner should be visible
+    expect(screen.getByText(/Click anywhere on the map to place/i)).toBeInTheDocument();
+  });
+
+  it('renders initial empty state with Mythril World and Custom World options when no map is active', () => {
+    useInteractiveMapStore.setState({
+      maps: [],
+      activeMapId: null,
+      pins: [],
+      journeyWaypoints: []
+    });
+
+    render(<InteractiveMapStudio />);
+
+    expect(screen.getByText("Use Mythril's World")).toBeInTheDocument();
+    expect(screen.getByText("Create Your Own World")).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Load Mythril Atlas/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Upload Custom Map/i })).toBeInTheDocument();
+
+    // Clicking Load Mythril Atlas should load the Mythril World map preset
+    fireEvent.click(screen.getByRole('button', { name: /Load Mythril Atlas/i }));
+
+    const state = useInteractiveMapStore.getState();
+    expect(state.maps.length).toBeGreaterThan(0);
+    expect(state.maps[0].id).toBe('map-mythril-world');
+    expect(state.maps[0].name).toContain('Mythril');
+    expect(state.activeMapId).toBe('map-mythril-world');
+  });
+
+  it('allows sizing location pins via quick size buttons in the popup', () => {
+    useInteractiveMapStore.setState({
+      maps: [{ id: 'map-nordhalla', name: 'Nordhalla', type: 'region', imageUrl: '/assets/maps/nordhalla.jpg' }],
+      activeMapId: 'map-nordhalla',
+      pins: [
+        { id: 'pin-capital', mapId: 'map-nordhalla', x: 50, y: 50, title: 'High Throne Capital', size: 'medium', scale: 1.0, type: 'city' }
+      ],
+      selectedPinId: 'pin-capital'
+    });
+
+    render(<InteractiveMapStudio />);
+
+    // Quick size toolbar should be present in the open popup
+    const xlBtn = screen.getByTitle(/Set pin size to Epic \/ Capital \(1.75x\)/i);
+    expect(xlBtn).toBeInTheDocument();
+
+    // Click XL size
+    fireEvent.click(xlBtn);
+
+    const updatedPin = useInteractiveMapStore.getState().pins.find(p => p.id === 'pin-capital');
+    expect(updatedPin.size).toBe('epic');
+    expect(updatedPin.scale).toBe(1.75);
+  });
+
+  it('reliably opens pin popup on single click and does not immediately close it', () => {
+    useInteractiveMapStore.setState({
+      maps: [{ id: 'map-nordhalla', name: 'Nordhalla', type: 'region', imageUrl: '/assets/maps/nordhalla.jpg' }],
+      activeMapId: 'map-nordhalla',
+      layers: [
+        { id: 'geography', isVisible: true },
+        { id: 'settlements', isVisible: true },
+        { id: 'poi', isVisible: true },
+        { id: 'journey', isVisible: true }
+      ],
+      pins: [
+        { id: 'pin-tower', mapId: 'map-nordhalla', x: 40, y: 40, title: 'Stormwatch Tower', size: 'medium', scale: 1.0, type: 'poi', layerId: 'poi', description: 'Ancient beacon.' }
+      ],
+      selectedPinId: null
+    });
+
+    render(<InteractiveMapStudio />);
+
+    const pinMarker = screen.getByTitle(/Stormwatch Tower/i);
+    expect(pinMarker).toBeInTheDocument();
+
+    // Mouse down then click on pin
+    fireEvent.mouseDown(pinMarker, { clientX: 100, clientY: 100 });
+    fireEvent.click(pinMarker);
+
+    // Selected pin should now be open
+    expect(useInteractiveMapStore.getState().selectedPinId).toBe('pin-tower');
+    expect(screen.getByText('Ancient beacon.')).toBeInTheDocument();
+  });
 });
+
+
+

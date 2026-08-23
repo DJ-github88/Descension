@@ -16,6 +16,7 @@ import useCharacterStore from '../../store/characterStore';
 
 import { RACE_DATA } from '../../data/raceData';
 import { createEmptyEquipment } from '../../utils/equipmentUtils';
+import { showConfirm } from '../../utils/dialogService';
 import './styles/CharacterManager.css';
 
 
@@ -433,13 +434,14 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
 
   const handleDeleteCharacter = async (characterId) => {
-
-
-
-    if (window.confirm('Are you sure you want to delete this character?')) {
-
-
-
+    const confirmed = await showConfirm({
+      title: 'Delete Character',
+      message: 'Are you sure you want to delete this character?',
+      subMessage: 'This character and all their inventory and stats will be permanently removed.',
+      confirmText: 'Delete Character',
+      isDestructive: true
+    });
+    if (confirmed) {
       const updatedCharacters = characters.filter(char => char.id !== characterId);
 
 

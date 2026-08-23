@@ -83,7 +83,7 @@ const SpellLibraryButton = ({
               onClick={handleClearSelection}
               title="Clear selection"
             >
-              Ã - 
+              ï¿½ - 
             </button>
           </div>
         </div>

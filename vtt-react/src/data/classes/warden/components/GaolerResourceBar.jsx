@@ -75,7 +75,7 @@ const GaolerResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
             sharedPassive: 'Relentless Hunter',
             sharedPassiveDesc: 'Advantage on Survival/Perception to track. Move at full speed while tracking.',
             uniquePassive: 'Ossified Anchor + Terminal Density',
-            uniquePassiveDesc: 'Spending Tether Tension converts it to Calcified Armor (DR bonus, max +10), decaying by 2/turn. Cannot be dragged while Calcified Armor is active. Advantage vs being moved/pushed/prone, but Dodge locked to 0 while calcified. +50% blight damage dissolves all Calcified Armor.'
+            uniquePassiveDesc: 'Spending Vengeance Points converts it to Calcified Armor (DR bonus, max +10), decaying by 2/turn. Cannot be dragged while Calcified Armor is active. Advantage vs being moved/pushed/prone, but Dodge locked to 0 while calcified. +50% blight damage dissolves all Calcified Armor.'
         }
     };
 
@@ -215,7 +215,7 @@ const GaolerResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
             const newValue = Math.max(0, Math.min(maxVP, prev + delta));
             const actualAmount = Math.abs(newValue - prev);
             if (actualAmount > 0) {
-                logClassResourceChange('Tether Tension', actualAmount, delta > 0, 'vengeancePoints');
+                logClassResourceChange('Vengeance Points', actualAmount, delta > 0, 'vengeancePoints');
                 if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
             }
             return newValue;
@@ -547,7 +547,7 @@ const GaolerResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
                                         setLocalVP(0);
                                         setShowControls(false);
                                         if (resetAmount > 0) {
-                                            logClassResourceChange('Tether Tension', resetAmount, false, 'vengeancePoints');
+                                            logClassResourceChange('Vengeance Points', resetAmount, false, 'vengeancePoints');
                                             if (onClassResourceUpdate) onClassResourceUpdate('current', 0);
                                         }
                                     }}
@@ -563,7 +563,7 @@ const GaolerResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
                                         setLocalVP(maxVP);
                                         setShowControls(false);
                                         if (gainAmount > 0) {
-                                            logClassResourceChange('Tether Tension', gainAmount, true, 'vengeancePoints');
+                                            logClassResourceChange('Vengeance Points', gainAmount, true, 'vengeancePoints');
                                             if (onClassResourceUpdate) onClassResourceUpdate('current', maxVP);
                                         }
                                     }}
@@ -588,22 +588,22 @@ const GaolerResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
             {/* Simplified Tooltip */}
             {showTooltip && !showControls && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
-                    <div className="tooltip-title">Tether Tension: {localVP}/{maxVP}</div>
+                    <div className="tooltip-title">Vengeance Points: {localVP}/{maxVP}</div>
 
                     <div className="tooltip-divider"></div>
 
                     <div className="tooltip-section">
-                        <strong>Generation:</strong> Attack +1, Marked target +2, Evasion +1, Crit +2. Drive a Flesh Tether (1d6 self-blight) to begin reeling.
+                        <strong>Generation:</strong> Successful attack +1 VP • Attack on marked target +2 VP • Evasion +1 VP • Critical hit +2 VP.
                     </div>
 
                     <div className="tooltip-section">
-                        <strong>Spending:</strong> 2 (Barbed Lash, +2d6) • 3 (Sweeping Chains, multi-target) • 4 (Penitent Resolve, brace) • 6 (Iron Gaol) • 10 (Flayed Ascendancy)
+                        <strong>Spending:</strong> 2 VP (Vengeful Strike, +2d6) • 3 VP (Whirling Glaive, AoE) • 4 VP (Hunter's Resolve, heal + DR) • 6 VP (Cage of Vengeance [4 VP Jailer]) • 10 VP (Avatar of Vengeance)
                     </div>
 
                     <div className="tooltip-divider"></div>
 
                     <div className="tooltip-section">
-                        You absorb 50% of AoE damage aimed at your tethered target. Stronger foes can drag you (recoil bludgeoning). Shared Torment spreads 50% of single-target damage to the tethered target.
+                        Pursuit Movement: +5ft speed per VP toward your marked target (max +50ft). Build VP through relentless martial pursuit and spent VP to unleash crushing vengeance.
                     </div>
                 </div>,
                 document.body
@@ -614,4 +614,5 @@ const GaolerResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
 };
 
 export default GaolerResourceBar;
+
 

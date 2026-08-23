@@ -1,12 +1,17 @@
 import React, { useState, useMemo } from 'react';
 import useTimelineStore, { EVENT_TYPES } from '../../store/timelineStore';
+import useFactionStore from '../../store/factionStore';
+import useWorldStore from '../../store/worldStore';
 import RichLoreText from '../common/RichLoreText';
+import { sanitizeLoreText, formatDisplayName } from './WorldDashboard';
+import './TimelineView.css';
 
 const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compact = false }) => {
-  const {
-    calendar, events, getEraTimeline, getEventsByType
-  } = useTimelineStore();
-  const [selectedEra, setSelectedEra] = useState('dimming');
+  const { calendar, events, getEraTimeline, getEventsByType } = useTimelineStore();
+  const { getFaction } = useFactionStore();
+  const { getRegion, getLocation } = useWorldStore();
+
+  const [selectedEra, setSelectedEra] = useState('freezing-era');
   const [selectedEventId, setSelectedEventId] = useState(null);
   const [typeFilter, setTypeFilter] = useState(null);
   const [timelineSearch, setTimelineSearch] = useState('');
@@ -14,37 +19,73 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
   const eraTimeline = useMemo(() => getEraTimeline(), [getEraTimeline]);
 
   const currentEra = useMemo(
-    () => eraTimeline.find((e) => e.id === selectedEra) || eraTimeline[0],
+    () => eraTimeline.find((e) => e.id === selectedEra) || eraTimeline[eraTimeline.length - 1] || eraTimeline[0],
     [eraTimeline, selectedEra]
   );
 
+  const faction = filterFactionId ? getFaction(filterFactionId) : null;
+  const isScoped = Boolean(filterLocationId || filterFactionId || filterClassId);
+
   const filteredEvents = useMemo(() => {
-    let results = currentEra?.events || [];
+    // When scoped to a faction, location, or class, search across ALL eras of events!
+    let pool = isScoped ? events : (currentEra?.events || events);
+
+    let results = pool;
 
     if (filterLocationId) {
-      results = results.filter((e) => e.locationIds?.includes(filterLocationId));
+      results = results.filter((e) => 
+        e.locationIds?.includes(filterLocationId) || 
+        e.description?.toLowerCase().includes(filterLocationId.toLowerCase())
+      );
     }
+    
     if (filterFactionId) {
-      results = results.filter((e) => e.factionIds?.includes(filterFactionId));
+      const targetFac = faction;
+      const relatedLocations = targetFac ? [targetFac.headquarters, ...(targetFac.territory || []), targetFac.regionId].filter(Boolean) : [];
+
+      results = results.filter((e) => {
+        if (e.factionIds?.includes(filterFactionId)) return true;
+        if (relatedLocations.some(loc => e.locationIds?.includes(loc))) return true;
+        return false;
+      });
+
+      // If no direct matches, provide the landmark continental epoch events connecting this order to the world
+      if (results.length === 0) {
+        results = events.filter(e => 
+          e.id === 'event-entombment' || 
+          e.id === 'event-shattering-aex' || 
+          e.id === 'event-freeze-front' || 
+          e.id === 'event-thirteenth-silence' ||
+          e.id === 'event-sol-deepening' ||
+          e.type === 'cosmic' ||
+          e.type === 'cataclysm'
+        );
+      }
     }
+
     if (filterClassId) {
       results = results.filter((e) => e.classIds?.includes(filterClassId));
+      if (results.length === 0) {
+        results = events.slice(0, 5);
+      }
     }
+
     if (typeFilter) {
       results = results.filter((e) => e.type === typeFilter);
     }
+
     if (timelineSearch.trim()) {
       const q = timelineSearch.toLowerCase();
       results = results.filter(
         (e) =>
-          e.title.toLowerCase().includes(q) ||
+          e.title?.toLowerCase().includes(q) ||
           e.description?.toLowerCase().includes(q) ||
           e.narrative?.toLowerCase().includes(q)
       );
     }
 
     return [...results].sort((a, b) => (a.date?.year ?? 0) - (b.date?.year ?? 0));
-  }, [currentEra, filterLocationId, filterFactionId, filterClassId, typeFilter, timelineSearch]);
+  }, [isScoped, events, currentEra, filterLocationId, filterFactionId, filterClassId, typeFilter, timelineSearch, faction]);
 
   const selectedEvent = useMemo(() => {
     if (!selectedEventId) return null;
@@ -58,22 +99,78 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
 
   const eventTypes = EVENT_TYPES;
 
+  // COMPACT VIEW (Embedded inside Faction Detail or Location Detail)
   if (compact) {
     return (
-      <div className="world-timeline-compact">
-        {filteredEvents.slice(0, 8).map((event) => (
-          <div key={event.id} className="world-timeline-item">
-            <span className="world-timeline-date">
-              Y{event.date.year} • {eventTypes[event.type]?.label || event.type}
-            </span>
-            <strong>{event.title}</strong>
-            <p className="world-timeline-desc">{event.description.slice(0, 120)}...</p>
+      <div className="world-timeline-compact-stream">
+        <div className="compact-stream-header">
+          <div className="compact-stream-header-inner">
+            <h3 className="compact-stream-title">
+              <i className="fas fa-hourglass-half"></i> Historical Milestones &amp; Canon Epochs ({filteredEvents.length})
+            </h3>
+            {filterFactionId && faction && (
+              <p className="compact-stream-sub">
+                Canonical events connecting {sanitizeLoreText(faction.name)} to the 150-Year Freeze
+              </p>
+            )}
           </div>
-        ))}
+        </div>
+
+        <div className="compact-timeline-list">
+          {filteredEvents.map((event) => {
+            const isExpanded = selectedEventId === event.id;
+
+            return (
+              <div
+                key={event.id}
+                className={`compact-timeline-card ${isExpanded ? 'expanded' : ''}`}
+                onClick={() => setSelectedEventId(isExpanded ? null : event.id)}
+              >
+                <div className="compact-card-meta-bar">
+                  <span className="compact-year-badge">
+                    <i className="fas fa-calendar-alt" style={{ marginRight: '5px' }}></i>
+                    Year {event.date?.year ?? 0}
+                  </span>
+                  <span className={`compact-type-badge ${event.type}`}>
+                    <i className={`fas fa-${eventTypes[event.type]?.icon || 'circle'}`} style={{ marginRight: '4px' }}></i>
+                    {formatDisplayName(eventTypes[event.type]?.label || event.type)}
+                  </span>
+                  {event.dateDisplay && (
+                    <span className="compact-era-tag">{event.dateDisplay}</span>
+                  )}
+                </div>
+
+                <h4 className="compact-event-title">{sanitizeLoreText(event.title)}</h4>
+                <p className="compact-event-desc">{sanitizeLoreText(event.description)}</p>
+
+                {isExpanded && event.narrative && (
+                  <div className="compact-expanded-narrative">
+                    <p className="compact-narrative-text">
+                      <strong>Chronicle Detail:</strong> {sanitizeLoreText(event.narrative)}
+                    </p>
+                    {event.dmHook && (
+                      <div className="compact-dm-hook">
+                        <i className="fas fa-key" style={{ marginRight: '6px', color: '#8b5a1a' }}></i>
+                        <strong>GM Secret &amp; Hook:</strong> {sanitizeLoreText(event.dmHook)}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <div className="compact-card-footer">
+                  <span className="compact-expand-prompt">
+                    {isExpanded ? '▲ Collapse Narrative' : '▼ Read Full Chronicle Entry'}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   }
 
+  // FULL TIMELINE VIEW (From World Dashboard)
   return (
     <div className="world-panel-timeline">
       {/* Era Navigation Tabs */}
@@ -86,7 +183,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
               onClick={() => { setSelectedEra(era.id); setSelectedEventId(null); }}
             >
               <span className="era-name">{era.name}</span>
-              <span className="world-era-count">{era.events.length}</span>
+              <span className="world-era-count">{era.events?.length || 0}</span>
             </button>
           ))}
         </div>
@@ -98,7 +195,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
             <h3>{currentEra.name}</h3>
             {currentEra.yearRange && <span className="era-range-pill">{currentEra.yearRange}</span>}
           </div>
-          <p className="world-era-desc">{currentEra.description}</p>
+          <p className="world-era-desc">{sanitizeLoreText(currentEra.description)}</p>
         </div>
       )}
 
@@ -124,7 +221,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
             className={`world-type-btn ${!typeFilter ? 'active' : ''}`}
             onClick={() => setTypeFilter(null)}
           >
-            All Event Types ({currentEra?.events?.length || 0})
+            All Event Types ({currentEra?.events?.length || filteredEvents.length})
           </button>
           {Object.entries(eventTypes).map(([key, val]) => (
             <button
@@ -142,124 +239,58 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
       {/* Event Stream */}
       <div className="world-timeline-layout">
         <div className="world-timeline-list">
-          {filteredEvents.length === 0 && (
+          {filteredEvents.length === 0 ? (
             <div className="world-timeline-empty">
               <i className="fas fa-scroll"></i>
               <p>No recorded historical events matching your current filters in this era.</p>
             </div>
-          )}
-          {filteredEvents.map((event) => {
-            const isExpanded = selectedEventId === event.id;
+          ) : (
+            filteredEvents.map((event) => {
+              const isExpanded = selectedEventId === event.id;
 
-            return (
-              <div
-                key={event.id}
-                className={`world-timeline-event ${isExpanded ? 'selected' : ''}`}
-                onClick={() => setSelectedEventId(isExpanded ? null : event.id)}
-              >
-                <div className="world-timeline-marker">
-                  <span className={`world-event-dot world-event-${event.type}`} />
-                  <span className="world-event-line" />
-                </div>
-                <div className="world-timeline-card">
-                  <div className="world-timeline-card-header">
-                    <span className={`world-badge world-badge-${event.type}`}>
-                      <i className={`fas fa-${eventTypes[event.type]?.icon || 'bookmark'}`} style={{ marginRight: '4px' }} />
-                      {eventTypes[event.type]?.label || event.type}
-                    </span>
-                    <span className="world-timeline-date">{event.dateDisplay || `Year ${event.date.year}`}</span>
+              return (
+                <div
+                  key={event.id}
+                  className={`world-timeline-event ${isExpanded ? 'selected' : ''}`}
+                  onClick={() => setSelectedEventId(isExpanded ? null : event.id)}
+                >
+                  <div className="world-timeline-marker">
+                    <div className={`world-marker-dot ${event.type}`}>
+                      <i className={`fas fa-${eventTypes[event.type]?.icon || 'circle'}`} />
+                    </div>
                   </div>
 
-                  <h4>{event.title}</h4>
-                  <p className="world-timeline-desc">{event.description}</p>
+                  <div className="world-timeline-content">
+                    <div className="world-timeline-header">
+                      <div>
+                        <h4>{sanitizeLoreText(event.title)}</h4>
+                        <span className="world-timeline-date">
+                          {event.dateDisplay || `Year ${event.date?.year ?? 0}`}
+                        </span>
+                      </div>
+                      <span className={`world-badge world-badge-${event.type}`}>
+                        {formatDisplayName(eventTypes[event.type]?.label || event.type)}
+                      </span>
+                    </div>
 
-                  {/* Expanded Deep Narrative & DM Hooks */}
-                  {isExpanded && (
-                    <div className="world-timeline-expanded" onClick={e => e.stopPropagation()}>
-                      {event.narrative && (
-                        <div className="timeline-narrative-box">
-                          <h5><i className="fas fa-book-journal-whills"></i> Historical Record</h5>
-                          <div className="narrative-prose">
-                            <RichLoreText text={event.narrative} className="parchment-theme" />
-                          </div>
-                        </div>
-                      )}
+                    <p className="world-timeline-desc">{sanitizeLoreText(event.description)}</p>
 
-                      {event.dmHook && (
-                        <div className="timeline-hook-box">
-                          <h5><i className="fas fa-key"></i> GM Plot Hook & Secret</h5>
-                          <p className="hook-text">{event.dmHook}</p>
-                        </div>
-                      )}
-
-                      {/* Causal Chains */}
-                      {selectedCausal && (selectedCausal.causes.length > 0 || selectedCausal.effects.length > 0) && (
-                        <div className="timeline-causal-grid">
-                          {selectedCausal.causes.length > 0 && (
-                            <div className="world-causal">
-                              <strong><i className="fas fa-arrow-left"></i> Catalyzed by:</strong>
-                              <div className="causal-links-list">
-                                {selectedCausal.causes.map((c) => (
-                                  <button
-                                    key={c.id}
-                                    type="button"
-                                    className="world-causal-link"
-                                    onClick={() => setSelectedEventId(c.id)}
-                                  >
-                                    {c.title} ({c.dateDisplay || `Y${c.date.year}`})
-                                  </button>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-
-                          {selectedCausal.effects.length > 0 && (
-                            <div className="world-causal">
-                              <strong><i className="fas fa-arrow-right"></i> Sparked Consequences:</strong>
-                              <div className="causal-links-list">
-                                {selectedCausal.effects.map((ef) => (
-                                  <button
-                                    key={ef.id}
-                                    type="button"
-                                    className="world-causal-link"
-                                    onClick={() => setSelectedEventId(ef.id)}
-                                  >
-                                    {ef.title} ({ef.dateDisplay || `Y${ef.date.year}`})
-                                  </button>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Meta Tags */}
-                      <div className="timeline-meta-tags">
-                        {event.factionIds && event.factionIds.length > 0 && (
-                          <div className="meta-tag-group">
-                            <i className="fas fa-shield-halved"></i>
-                            <span>Factions: {event.factionIds.join(', ')}</span>
-                          </div>
-                        )}
-                        {event.classIds && event.classIds.length > 0 && (
-                          <div className="meta-tag-group">
-                            <i className="fas fa-wand-magic-sparkles"></i>
-                            <span>Classes: {event.classIds.join(', ')}</span>
-                          </div>
-                        )}
-                        {event.locationIds && event.locationIds.length > 0 && (
-                          <div className="meta-tag-group">
-                            <i className="fas fa-map-location-dot"></i>
-                            <span>Locations: {event.locationIds.join(', ')}</span>
+                    {isExpanded && event.narrative && (
+                      <div className="world-timeline-narrative">
+                        <RichLoreText text={sanitizeLoreText(event.narrative)} />
+                        {event.dmHook && (
+                          <div className="world-timeline-dm-hook" style={{ marginTop: '12px', padding: '10px 14px', background: 'rgba(212, 175, 55, 0.1)', borderLeft: '3px solid #8b5a1a', borderRadius: '4px' }}>
+                            <i className="fas fa-key" style={{ color: '#8b5a1a', marginRight: '6px' }}></i>
+                            <strong>GM Secret &amp; Hook:</strong> {sanitizeLoreText(event.dmHook)}
                           </div>
                         )}
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </div>
     </div>
@@ -288,7 +319,7 @@ const MiniCalendar = () => {
         ))}
       </div>
       <div className="world-holidays">
-        <h4><i className="fas fa-star"></i> Sacred Holidays & Observances</h4>
+        <h4><i className="fas fa-star"></i> Sacred Holidays &amp; Observances</h4>
         {calendar.holidays.map((h) => (
           <div key={h.id} className="world-holiday">
             <div className="holiday-header">

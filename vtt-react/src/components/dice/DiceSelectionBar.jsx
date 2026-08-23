@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import useDiceStore, { DICE_TYPES, DICE_PRESETS } from '../../store/diceStore';
+import useDiceStore, { DICE_TYPES, DICE_PRESETS, DICE_MATERIALS } from '../../store/diceStore';
 import ChargeableRollButton from './ChargeableRollButton';
 import CardDrawSystem from './CardDrawSystem';
 import CoinFlipSystem from './CoinFlipSystem';
@@ -22,7 +22,9 @@ const DiceSelectionBar = () => {
     getFormattedRollString,
     startRoll,
     activePreset,
-    setDicePreset
+    setDicePreset,
+    diceMaterial,
+    setDiceMaterial
   } = useDiceStore();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -215,13 +217,16 @@ const DiceSelectionBar = () => {
                   const quantity = selectedDiceOfType ? selectedDiceOfType.quantity : 0;
 
                   return (
-                    <div key={diceType.id} className="dice-item">
+                    <div key={diceType.id} className={`dice-item ${quantity > 0 ? 'active' : ''}`}>
                       <button
                         className={`dice-select-button dice-btn-${diceType.id} ${quantity > 0 ? 'selected' : ''}`}
                         onClick={(e) => handleDiceClick(diceType.id, e)}
                         style={{ '--dice-color': diceType.color }}
-                        title={`${diceType.name} (${diceType.sides} sides)`}
+                        title={`${diceType.name} (${diceType.sides} sides) — Click to add (+1), Shift+Click to remove`}
                       >
+                        {quantity > 0 && (
+                          <span className="dice-tile-count-badge">{quantity}</span>
+                        )}
                         <span className="dice-icon-shape" />
                         <span className="dice-btn-label">{diceType.name}</span>
                       </button>
@@ -230,7 +235,7 @@ const DiceSelectionBar = () => {
                           <button
                             className="quantity-decrement"
                             onClick={() => removeDice(diceType.id)}
-                            title="Decrease"
+                            title="Decrease (-1)"
                           >
                             −
                           </button>
@@ -245,7 +250,7 @@ const DiceSelectionBar = () => {
                           <button
                             className="quantity-increment"
                             onClick={() => addDice(diceType.id)}
-                            title="Increase"
+                            title="Increase (+1)"
                           >
                             +
                           </button>
@@ -281,6 +286,37 @@ const DiceSelectionBar = () => {
                       <span className="dice-preset-tile-number">20</span>
                     </span>
                     <span className="dice-preset-name">{preset.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Dice Weight Material */}
+            <div className="dice-preset-section">
+              <div className="dice-preset-label">Material &amp; Weight:</div>
+              <div className="dice-preset-grid dice-material-grid">
+                {Object.values(DICE_MATERIALS).map(material => (
+                  <button
+                    key={material.id}
+                    className={`dice-preset-chip dice-material-chip ${diceMaterial === material.id ? 'active' : ''}`}
+                    onClick={() => setDiceMaterial(material.id)}
+                    title={material.description}
+                  >
+                    <span
+                      className="dice-preset-tile"
+                      style={{
+                        '--tile-base': material.tile,
+                        '--tile-glow': material.glow,
+                      }}
+                    >
+                      <i className={`${material.icon} dice-material-tile-icon`}></i>
+                    </span>
+                    <div className="dice-material-info">
+                      <span className="dice-material-name">{material.name}</span>
+                      <span className="dice-material-sub">
+                        {material.id === 'steel' ? 'Heavy' : material.id === 'stone' ? 'Balanced' : material.id === 'wood' ? 'Bouncy' : 'Light'}
+                      </span>
+                    </div>
                   </button>
                 ))}
               </div>

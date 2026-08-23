@@ -233,7 +233,7 @@ const PortalTransferDialog = ({
                         <>
                             <p>This connection leads to:</p>
                             <div className="destination-info">
-                                <span className="destination-name">â - ‰ {destinationConnectionName || portalName}</span>
+                                <span className="destination-name">ï¿½ - ï¿½ {destinationConnectionName || portalName}</span>
                             </div>
                             <p className="transfer-prompt">Would you like to travel through this connection?</p>
                         </>

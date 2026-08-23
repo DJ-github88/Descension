@@ -191,17 +191,15 @@ export const WARDEN_DATA = {
     subtitle: "The Penitent Jailer & Nightmare Bound",
 
     quickOverview: {
-    title: "Class Overview",
-    content: `**Who they are**: The Warden is a grim penitent jailer who has grafted heavy iron chains directly into their own bones and flesh. You lock down the most dangerous monstrosities on the battlefield, forcing them into inescapable 1-on-1 duels where they are physically chained to you and cannot touch your allies.
+      title: "Class Overview",
+      content: `**Who they are**: The Warden is a grim penitent jailer who has grafted heavy iron chains directly into their own bones and flesh. You lock down the most dangerous monstrosities on the battlefield, forcing them into inescapable 1-on-1 duels where they are physically chained to you and cannot touch your allies.
 
 **The hook**: Your signature mechanic is **Forced Tethering**: you drive iron chain-hooks into priority enemies, locking them in place and forcing them to attack only you while your party safely focuses them down.
 
-**The resource bar & costs**: Your resource bar is **Tether Tension** and **Vengeance Points**, generated every time a tethered enemy strikes you or tries to escape. You spend Tension on bone-cracking chain whips, ground slams, and iron braces that render you completely immovable.
+**The resource bar & costs**: Your resource bar is **Vengeance Points (VP)**, generated through successful attacks, striking marked targets, evasions, and critical hits. You spend VP on bone-cracking chain strikes, Whirling Glaive AoE, Hunter's Resolve, and forced Cages of Vengeance.
 
 **Bring one for**: Absolute, inescapable crowd control and lockdown, ensuring the most dangerous boss on the field cannot touch your fragile allies.`
-  },
-
-    description: `A warden is the Penitent Jailer. Iron chains are grafted directly into the forearms and spine, driven through living bone. The warden physically tethers to abominations, creating a forced duel where the tethered enemy cannot target anyone else. The chain is chosen, not inflicted.`,
+    },
 
     roleplayIdentity: {
       title: "Roleplay Identity",
@@ -262,7 +260,7 @@ The chains are becoming brittle in the Cragjaw cold. The Caustic Fexric propose 
 **Combat Strengths**:
 - **Inescapable forced dueling**: The exclusive *Iron Chain Tether* creates an unbreakable 15-foot radius. The tethered enemy physically cannot target the Warden's allies.
 - **Massive crowd control**: Able to lock down high-threat targets, preventing all teleportation and movement beyond the chain's reach.
-- **Pain-driven resource economy**: Tether Tension scales with combat aggression and damage taken, feeding their most devastating close-range abilities.
+- **Aggression-driven resource economy**: Vengeance Points scale with combat aggression, attacks, and evasions, feeding their most devastating close-range abilities.
 - **Unrivaled tanking utility**: Keeps fragile allies completely safe from the tethered abomination.
 
 **Combat Weaknesses**:
@@ -276,164 +274,89 @@ The chains are becoming brittle in the Cragjaw cold. The Caustic Fexric propose 
 
     playstyle: {
       title: "Playstyle & Strategy",
-      content: `**Tether Tension Management**:
-Warden combat is a high-wire balancing act of pain and control. Tether Tension caps at 10. You must constantly manage this tension:
-- **Tether and Reel**: Start combat by driving a *Iron Chain Tether* into the primary target (generates 2 Tension at the cost of 1d6 self-inflicted blight damage).
-- **Pain is Power**: Build Tension by taking damage or using abilities that manually pull the chains tighter.
-- **Spend to Subdue**: Consume Tether Tension to activate heavy defensive braces (*Penitent Resolve*, 4 Tension) or to deliver crushing flails (*Barbed Lash*, 2 Tension).
-- **Iron Ascendancy**: Save 10 Tension to enter *Iron Ascendancy* (ultimate transformation), where the Warden's flesh fuses with the iron, lashing out at all nearby foes and rendering them immune to displacement while the target is dragged helplessly.
+      content: `**Vengeance Points (VP) Management**:
+Warden combat is a high-wire balancing act of pursuit and control. Vengeance Points cap at 10. You must constantly manage your VP:
+- **Pursuit and Strike**: Start combat by marking priority targets and striking with your melee weapons (+1 to +2 VP per hit).
+- **Relentless Momentum**: Build VP by landing attacks, evading blows (+1 VP), and scoring critical hits (+2 VP).
+- **Spend to Subdue**: Consume VP to activate heavy defensive braces (*Hunter's Resolve*, 4 VP), devastating strikes (*Whirling Glaive*, 3 VP), or inescapable cages (*Cage of Vengeance*, 6 VP [4 VP Jailer]).
+- **Avatar of Vengeance**: Save 10 VP to enter *Avatar of Vengeance* (ultimate transformation), where the Warden's form radiates retributive power, leaping across the battlefield and crushing locked foes.
 
 **The Fatal Drag**:
-Be wary of tethering high-strength targets. If they move, you are dragged. Use *Iron Brace* to double your weight and resist displacement, or suffer the bludgeoning recoil of being dragged across the gravel.
-
-**Wyrd Shielding**:
-With a permanent +50% Wyrd vulnerability, you must rely on your party's casters or your own *Penitent Resolve* to survive mental assaults. Keep the abomination's physical body bound to you, but keep your mind guarded.`,
+Be wary of tethering high-strength targets. If they move, you are dragged. Use *Hunter's Resolve* to steel your body and resist displacement, or suffer the bludgeoning recoil of being dragged across the gravel.`
     },
-
     immersiveCombatExample: {
-      title: "Combat Example: The Tethered Nightmare",
-      content: `**The Setup**: You are a Warden (Relentless Tormentor specialization) locking down a colossal flesh-golem. Your party is positioned safely behind you. Starting Tension: 0. HP: 90/90. Your goal: Drive your hooks deep, anchor the abomination, absorb its fury, and drag it into submission.
-
-**Starting State**: Tether Tension: 0/10 | HP: 90/90 | Tethered Target: None
-
-**Turn 1 - Graft the Hook (Tension: 0 ? 2)**
-
-*The flesh-golem roars, stepping toward your fragile mage. You step forward. You do not shout a sacred oath. You grip the rusted chain extending from your forearms and drive the colossal hook straight through your own wrist and deep into the golem's shoulder.*
-
-**Your Action**: "Iron Chain Tether" on Flesh-Golem (1 Action Point)
-**Self-Harm**: Take 1d6 blight damage ? [4] = 86 HP remaining.
-**Effect**: Golem is tethered. It physically cannot target your allies or move beyond a 15-foot radius from you.
-**Tension Generated**: +2 Tension (Tension: **2/10**)
-
-*The golem shrieks as the chain snaps taut. It tries to raise its fist toward the mage, but the physical drag of the iron binds its focus to you. It must fight you, and only you.*
-
-**Turn 2 - Pain Builds Power (Tension: 2 ? 5)**
-
-*The golem realizes it is trapped. It turns its fury upon you, smashing its heavy fists into your iron plate.*
-
-**Golem's Turn**: Attacks you twice.
-**Attack Roll 1**: d20+6 ? Hit!
-**Damage**: 18 smashing damage. You endure.
-**Tension Generated**: +1 (Tether strike) = **3/10** (Tension Threshold: Taut Links active! Your movement is restricted but your chain strikes deal +1d6 tearing damage).
-**Attack Roll 2**: d20+6 ? Hit!
-**Damage**: 15 smashing damage.
-**Tension Generated**: +1 (Tether strike) = **4/10**
-**Your Reaction**: "Iron Brace" (+2 DR against the second hit, reducing the damage by 5). You manually pull the chain links, grinding them against your wrist bone to generate more tension.
-**Tension Generated**: +1 (Iron Brace manual reel) = **5/10**
-
-*HP: 86 - 18 - 10 = 58/90. Your blood lubricates the rusted links, but your mind is focused. Tension is at 5. The chains are vibrating with raw kinetic force.*
-
-**Turn 3 - Bracing the Beast (Tension: 5 ? 1)**
-
-*The golem attempts to dash away to crush your allies. Because it is vastly larger, it drags you with it.*
-
-**Golem's Action**: Attempts to break the boundary by dashing.
-**Shared Torment Recoil**: You are dragged 20 feet across the gravel, taking 2d10 smashing damage ? [5, 4] = 9 damage.
-**Your Action**: "Penitent Resolve" (4 Tether Tension spent).
-**Tension**: 5 - 4 = **1/10**
-**Effect**: Gain 50% damage resistance and +4 DR for 2 rounds. Your physical mass doubles, stopping the golem's movement instantly.
-
-*You slam your heel into the dirt. The iron plate grinds into the stone. The golem is jerked to a violent halt, its shoulder socket popping under the strain of the chain. It is locked down.*
-
-**Turn 4 - Rebuilding the Trap (Tension: 1 ? 6)**
-
-**Your Action**: Agonizing Reel (1 AP). You pull the rusted chain tighter, grinding the metal hooks deeper into your flesh.
-**Self-Harm**: Take 1d4 smashing damage ? [2] = 47 HP remaining.
-**Tension Generated**: +2 = **3/10**
-**Your Action**: "Barbed Lash" (2 Tension spent) combined with a melee chain strike.
-**Tension**: 3 - 2 = **1/10**
-**Attack Roll**: d20+8 ? Hit!
-**Base Damage**: 2d6+4 ? [5, 6] + 4 = 15 smashing damage.
-**Barbed Lash Bonus**: +2d6 ? [6, 4] = 10 bleeding damage.
-**Total Damage**: 25 damage!
-**Tension Generated**: +2 (striking tethered prey twice with multi-strike) = **3/10**
-
-*The golem is bleeding black bile. It swings wildly again, missing as you deflect the blow.*
-**Golem's Turn**: Swing misses.
-**Your Reaction**: "Iron Brace" reaction.
-**Tension Generated**: +1 = **4/10**
-
-**Turn 5 - Iron Ascendancy (Tension: 4 ? 10 ? 0)**
-
-*You manually reel the chain once more as a free action under Tension, pushing your body to the limit. The pain is blinding, but the lock is absolute.*
-
-**Tension**: Pushed to **10/10** (MAXIMUM!).
-**Your Action**: "FLAYED ASCENDANCY" (10 Tension spent).
-**Tension**: 10 - 10 = **0/10** (Transformation active for 6 rounds).
-
-*You let out a tragic, gutteral roar. The rusted iron chains grafted to your spine expand, tearing through your skin and forming a sweeping ribcage of jagged steel around you. The golem tries to pull back, but the chains retract automatically, dragging its massive bulk helplessly toward you. You are the Jailer, and this is your gaol.*
-
-**Final State**: HP: 45/90 | Tension: 0/10 | Iron Ascendancy: Active (6 rounds) | Golem: Dragged and helpless.`,
+      title: "Combat Example: The Retributive Hunter",
+      content: `**The Setup**: You are a Warden locking down a dangerous abomination. Starting VP: 0. HP: 90/90.
+**Turn 1**: Mark target and strike with melee glaive (Hit: +2 VP).
+**Turn 2**: Evade retaliation (+1 VP), land secondary strike (+2 VP). VP = 5/10. Spend 3 VP on Whirling Glaive (+AoE damage). VP = 2/10.
+**Turn 3**: Counter-attack and build to 10 VP, activating Avatar of Vengeance to finish the encounter.`,
     },
   },
 
   // Resource System
   resourceSystem: {
-    title: "Tether Tension",
-    subtitle: "The Weight of the Graft",
+    title: "Vengeance Points (VP)",
+    subtitle: "The Debt of Retribution",
 
-    description: `The Warden's resource is Tether Tension, a representation of the physical strain on the iron chains driven through their forearms, spine, and flesh. Generated by strain-spooling reels, establishing tethers, and taking damage, Tension is consumed to unleash crushing bludgeoning strikes or to brace against colossal impacts. This system forces the Warden to ride the razor-thin line between holding the beast and being ripped apart by it.`,
+    description: `The Warden's core resource is Vengeance Points (VP), a representation of accumulated retributive momentum. Built through persistent strikes, hunting marked targets, and evading enemy blows, VP is consumed to unleash crushing strikes, activate resilient defensive braces, lock targets in cages of vengeance, and ascend into the Avatar of Vengeance.`,
 
     cards: [
       {
-        title: "Tether Tension (0-10)",
-        stats: "10 Tension Max | Thresholds at 3/6/9",
-        details: "Tension is a physical resource. As it builds, the chains pull taut, ripping through the Warden's flesh. High tension increases damage output but restricts mobility and increases self-harm."
+        title: "Vengeance Points (0-10)",
+        stats: "10 VP Max | Gain on Attack/Mark/Evade/Crit",
+        details: "Vengeance Points represent your escalating focus on bringing judgment to your quarry. Generating VP fuels both your mobility and your most devastating retributive techniques."
       },
       {
-        title: "Iron Chain Tether",
-        stats: "1 Target Tethered",
-        details: "Drive your rusted hooks into a target within 15 feet. They cannot leave the 15-foot radius or target your allies. Marking a new target tears the hooks out, dealing blight damage to you."
+        title: "Pursuit Movement",
+        stats: "+5ft Speed per VP (Max +50ft)",
+        details: "Each point of banked Vengeance Points increases your movement speed toward your marked quarry by +5ft, allowing you to relentlessly close distance and prevent escape."
       },
       {
-        title: "Shared Torment",
-        stats: "50% AoE Damage Shared",
-        details: "You are physically chained to the monster. 50% of all AoE or environmental damage that strikes your prisoner is shared directly into your own flesh. If they are dragged, so are you."
+        title: "Retributive Spends",
+        stats: "2 to 10 VP Costs",
+        details: "Spend 2 VP on Vengeful Strike (+2d6 damage), 3 VP on Whirling Glaive (AoE), 4 VP on Hunter's Resolve (healing + DR), 6 VP on Cage of Vengeance (4 VP for Jailer), or 10 VP on Avatar of Vengeance."
       }
     ],
 
     usage: {
-      momentum: "Establish your Iron Chain Tether immediately. The initial impact generates 2 Tether Tension. Use manual reels to build Tension, then spend it on Iron Brace to ensure you cannot be dragged when the monster attempts to flee.",
-      flourish: "Iron Ascendancy is your absolute lockdown window. Consuming 10 Tension turns your flesh into an iron bastion, dragging the chained horror helplessly while shredding them with automatic chain lashes."
+      momentum: "Mark your high-priority quarry early to gain +2 VP on subsequent attacks. Build VP rapidly with melee strikes and evasions, then consume VP on defensive sustain or area lockdown as the fight demands.",
+      flourish: "Avatar of Vengeance is your ultimate retributive window. Consuming 10 VP elevates you into an unstoppable harbinger of justice, leaping across the battlefield and shredding restrained foes."
     },
 
     overheatRules: {
-      title: "Tether Tension Thresholds",
-      content: `The physical strain of the chains driven through your bone has a direct effect on your body:
+      title: "Vengeance Escalation",
+      content: `Managing your Vengeance Points determines your combat flow:
 
-**0-2 Tension (Slack Chain)**:
-Your chains are slack. You have normal movement speed, but your chain-based strikes deal standard damage.
+**0-3 VP (Gathering Retribution)**:
+Standard combat state. You are actively hunting your mark and building retributive momentum.
 
-**3-5 Tension (Taut Links)**:
-The chains pull tight. Your movement speed is restricted to the tethered target's vicinity (+5ft toward them, cannot move away). Your melee strikes deal +1d6 tearing damage as the chain vibrates, but you take 1d4 smashing damage at the start of your turn if the target moved on its previous turn.
+**4-7 VP (Relentless Pursuit)**:
+Gaining +20ft to +35ft speed toward your marked quarry. Your offensive and defensive techniques become fully primed.
 
-**6-8 Tension (Gravely Strained)**:
-You are bound in agony. You gain +2 to attack rolls, but your movement speed is reduced by 10 ft. At the start of your turn, you take 1d6 smashing damage as the hooks in your flesh tear. You absorb 75% of the target's AoE damage instead of 50%.
-
-**9-10 Tension (Lacerating Snap)**:
-Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, you are vulnerable to all smashing damage, and if the target moves more than 15 feet from you, they drag you, dealing 2d10 smashing damage to you. Any further Tension generated deals 1d10 smashing damage directly to your HP.`
+**8-10 VP (Maximum Retribution)**:
+Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute ultimate abilities like Cage of Vengeance or enter the Avatar of Vengeance.`
     },
 
     resourceTables: [
       {
-        title: "Tension Generation",
-        headers: ["Action", "Tension Gained", "Notes"],
+        title: "Vengeance Points Generation",
+        headers: ["Action", "VP Gained", "Notes"],
         rows: [
-          ["Establish Iron Chain Tether", "2 Tension", "Costs 1d6 self-inflicted blight damage"],
-          ["Suffer Strike from Tethered Target", "1 Tension", "Pain builds tension in the links"],
-          ["Agonizing Reel (AP Cost)", "2 Tension", "Pull the chains tighter, dealing 1d4 piercing to self"],
-          ["Evasive Brace Miss/Hit", "1 Tension", "Successful bracing or deflection builds tension"]
+          ["Successful Melee Attack", "1 VP", "Base generation on landed hit"],
+          ["Attack against Marked Target", "2 VP", "Bonus generation against designated quarry"],
+          ["Successful Evasion / Dodge", "1 VP", "Turn defense into retributive opening"],
+          ["Critical Hit", "2 VP", "Extra momentum from decisive impact"]
         ]
       },
       {
-        title: "Tension Expenditure",
+        title: "Vengeance Points Expenditure",
         headers: ["Cost", "Ability", "Effect"],
         rows: [
-          ["2 Tension", "Barbed Lash", "Next attack deals +2d6 slashing/bleeding damage"],
-          ["3 Tension", "Sweeping Chains", "Cone attack slows all targets by 15 feet"],
-          ["4 Tension", "Penient Resolve", "Gain 50% damage resistance, doubled if tethered target is near"],
-          ["6 Tension", "Iron Gaol", "Summon heavy iron bars to trap target for 3 rounds"],
-          ["10 Tension", "Iron Ascendancy", "Ultimate transformation; drag target and shred nearby foes"]
+          ["2 VP", "Vengeful Strike", "Empower strike with +2d6 damage"],
+          ["3 VP", "Whirling Glaive", "Spinning sweep hitting all adjacent enemies"],
+          ["4 VP", "Hunter's Resolve", "Restore health and gain damage reduction"],
+          ["6 VP (4 VP Jailer)", "Cage of Vengeance", "Imprison target in retributive iron cage"],
+          ["10 VP", "Avatar of Vengeance", "Ascend into retributive avatar with leap attacks"]
         ]
       }
     ]
@@ -491,7 +414,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
       {
         name: "Iron Chain Tether",
         type: "Action",
-        desc: "Drive iron chains into target within 15ft, locking them to your radius. Generates 2 Tension."
+        desc: "Drive iron chains into target within 15ft, locking them to your radius. Generates 2 VP."
       },
       {
         name: "Chain Graft",
@@ -501,12 +424,12 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
       {
         name: "Iron Brace",
         type: "Reaction",
-        desc: "+2 DR against an attack. Miss or hit, gain 1 Tension."
+        desc: "+2 DR against an attack. Miss or hit, gain 1 VP."
       },
       {
-        name: "Barbed Lash",
-        type: "2 Tension",
-        desc: "Empower next strike, dealing +2d6 slashing and bleeding damage."
+        name: "Vengeful Strike",
+        type: "2 VP",
+        desc: "Empower next strike, dealing +2d6 damage."
       }
     ],
 
@@ -517,18 +440,18 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
 
     levelProgression: {
       title: "Warden Level Progression",
-      headers: ["Level", "Tension Max", "Feature Unlocked"],
+      headers: ["Level", "VP Max", "Feature Unlocked"],
       rows: [
-        ["1", "10", "Iron Chain Tether, Chain Graft, Iron Brace, Barbed Lash"],
-        ["2", "10", "Sweeping Chains, Penitent Resolve"],
+        ["1", "10", "Iron Chain Tether, Chain Graft, Iron Brace, Vengeful Strike"],
+        ["2", "10", "Whirling Glaive, Hunter's Resolve"],
         ["3", "10", "Specialization Choice + Spec Passives"],
         ["4", "10", "Ability Score Improvement"],
-        ["5", "10", "Iron Ascendancy (Ultimate Transformation)"],
+        ["5", "10", "Avatar of Vengeance (Ultimate Transformation)"],
         ["6", "10", "Iron Storm, Gaol Shatter"],
-        ["7", "10", "Reel and Execute, Torturer's Wrath, Grave-Iron Cage"],
+        ["7", "10", "Reel and Execute, Hunter's Wrath, Grave-Iron Cage"],
         ["8", "10", "Ability Score Improvement, Ascendant Jailer, Eternal Iron Tomb, Iron Lash"],
         ["9", "10", "Penitent Judgment, Mass Imprisonment, Inescapable Shackle"],
-        ["10", "10", "Iron Ascendancy Perfected, Cataclysm of Iron, Iron Prison Realm"]
+        ["10", "10", "Avatar of Vengeance Perfected, Cataclysm of Iron, Iron Prison Realm"]
       ]
     }
   },
@@ -556,205 +479,8 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         playstyle: "Stealth-based lockdown and bleed assassin, striking from silence with devastating flails.",
         strengths: [
           "Highest burst damage of all Warden specs",
-          "Attacks from stealth generate +1 Tension (total 3 Tension)",
-          "Agonizing silence hides them after spending Tension",
-          "Devastating bleed and blight synergy"
-        ],
-        weaknesses: [],
-      },
-    ],
-  },
-
-  resourceSystem: {
-    title: "Tether Tension",
-    subtitle: "The Weight of the Graft",
-
-    description: `The Warden's resource is Tether Tension, a representation of the physical strain on the iron chains driven through their forearms, spine, and flesh. Generated by strain-spooling reels, establishing tethers, and taking damage, Tension is consumed to unleash crushing bludgeoning strikes or to brace against colossal impacts. This system forces the Warden to ride the razor-thin line between holding the beast and being ripped apart by it.`,
-
-    cards: [
-      {
-        title: "Tether Tension (0-10)",
-        stats: "10 Tension Max | Thresholds at 3/6/9",
-        details: "Tension is a physical resource. As it builds, the chains pull taut, ripping through the Warden's flesh. High tension increases damage output but restricts mobility and increases self-harm."
-      },
-      {
-        title: "Iron Chain Tether",
-        stats: "1 Target Tethered",
-        details: "Drive your rusted hooks into a target within 15 feet. They cannot leave the 15-foot radius or target your allies. Marking a new target tears the hooks out, dealing blight damage to you."
-      },
-      {
-        title: "Shared Torment",
-        stats: "50% AoE Damage Shared",
-        details: "You are physically chained to the monster. 50% of all AoE or environmental damage that strikes your prisoner is shared directly into your own flesh. If they are dragged, so are you."
-      }
-    ],
-
-    usage: {
-      momentum: "Establish your Iron Chain Tether immediately. The initial impact generates 2 Tether Tension. Use manual reels to build Tension, then spend it on Iron Brace to ensure you cannot be dragged when the monster attempts to flee.",
-      flourish: "Iron Ascendancy is your absolute lockdown window. Consuming 10 Tension turns your flesh into an iron bastion, dragging the chained horror helplessly while shredding them with automatic chain lashes."
-    },
-
-    overheatRules: {
-      title: "Tether Tension Thresholds",
-      content: `The physical strain of the chains driven through your bone has a direct effect on your body:
-
-**0-2 Tension (Slack Chain)**:
-Your chains are slack. You have normal movement speed, but your chain-based strikes deal standard damage.
-
-**3-5 Tension (Taut Links)**:
-The chains pull tight. Your movement speed is restricted to the tethered target's vicinity (+5ft toward them, cannot move away). Your melee strikes deal +1d6 tearing damage as the chain vibrates, but you take 1d4 smashing damage at the start of your turn if the target moved on its previous turn.
-
-**6-8 Tension (Gravely Strained)**:
-You are bound in agony. You gain +2 to attack rolls, but your movement speed is reduced by 10 ft. At the start of your turn, you take 1d6 smashing damage as the hooks in your flesh tear. You absorb 75% of the target's AoE damage instead of 50%.
-
-**9-10 Tension (Lacerating Snap)**:
-Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, you are vulnerable to all smashing damage, and if the target moves more than 15 feet from you, they drag you, dealing 2d10 smashing damage to you. Any further Tension generated deals 1d10 smashing damage directly to your HP.`
-    },
-
-    resourceTables: [
-      {
-        title: "Tension Generation",
-        headers: ["Action", "Tension Gained", "Notes"],
-        rows: [
-          ["Establish Iron Chain Tether", "2 Tension", "Costs 1d6 self-inflicted blight damage"],
-          ["Suffer Strike from Tethered Target", "1 Tension", "Pain builds tension in the links"],
-          ["Agonizing Reel (AP Cost)", "2 Tension", "Pull the chains tighter, dealing 1d4 piercing to self"],
-          ["Evasive Brace Miss/Hit", "1 Tension", "Successful bracing or deflection builds tension"]
-        ]
-      },
-      {
-        title: "Tension Expenditure",
-        headers: ["Cost", "Ability", "Effect"],
-        rows: [
-          ["2 Tension", "Barbed Lash", "Next attack deals +2d6 slashing/bleeding damage"],
-          ["3 Tension", "Sweeping Chains", "Cone attack slows all targets by 15 feet"],
-          ["4 Tension", "Penient Resolve", "Gain 50% damage resistance, doubled if tethered target is near"],
-          ["6 Tension", "Iron Gaol", "Summon heavy iron bars to trap target for 3 rounds"],
-          ["10 Tension", "Iron Ascendancy", "Ultimate transformation; drag target and shred nearby foes"]
-        ]
-      }
-    ]
-  },
-
-  // Character Creation
-  characterCreation: {
-    title: "Creating a Warden",
-    subtitle: "Forging the Penitent Anchor",
-
-    abilityPriorities: {
-      primary: "Agility",
-      primaryDesc: "Fuels your accuracy with heavy chains, your Dodge rate, and physical coordination.",
-      secondary: "Constitution",
-      secondaryDesc: "Vital for surviving the agonizing self-inflicted wounds and Shared Torment of the tether.",
-      tertiary: "Spirit",
-      tertiaryDesc: "Determines your resistance to mental fractures and the saving throw DC of your iron gaols."
-    },
-
-    startingEquipment: {
-      weapons: [
-        {
-          name: "Grafted Iron Chains",
-          damage: "2d6 slashing or bludgeoning",
-          properties: "Heavy-martial, grafted to forearms. 15-foot range. Cannot be disarmed or removed."
-        }
-      ],
-      armor: [
-        {
-          name: "Iron Jailer Plate",
-          armor: "15 + agility modifier (max +2)",
-          properties: "Heavy iron plate bolted directly to the shoulders. -10ft base speed penalty."
-        }
-      ],
-      gear: [
-        "Inquisitorial bone saw and grafting tools",
-        "Rusted lockpicks and manacles",
-        "Tomb-dust incense (to numb the nerves)",
-        "Pouch with 10 tarnished coins"
-      ]
-    },
-
-    startingStats: {
-      hp: "12 + Constitution modifier",
-      hitDice: "1d12 per Warden level",
-      armor: "15 + agility modifier (max +2) (Iron Jailer Plate)",
-      speed: "20 ft (heavy plate penalty included)",
-      savingThrows: ["Agility", "Constitution"],
-      skills: [
-        "Choose 3 from: Athletics, Insight, Intimidation, Perception, Religion, Survival"
-      ]
-    },
-
-    startingAbilities: [
-      {
-        name: "Iron Chain Tether",
-        type: "Action",
-        desc: "Drive iron chains into target within 15ft, locking them to your radius. Generates 2 Tension."
-      },
-      {
-        name: "Chain Graft",
-        type: "Passive",
-        desc: "Melee reach is 15ft. Attacks have +1 to hit. Cannot use ranged weapons."
-      },
-      {
-        name: "Iron Brace",
-        type: "Reaction",
-        desc: "+2 DR against an attack. Miss or hit, gain 1 Tension."
-      },
-      {
-        name: "Barbed Lash",
-        type: "2 Tension",
-        desc: "Empower next strike, dealing +2d6 slashing and bleeding damage."
-      }
-    ],
-
-    specializationChoice: {
-      level: 3,
-      description: "At 3rd level, choose your path of penance: Iron Stalker (stealth/bleed), Iron Jailer (mass lockdown/cages), Relentless Tormentor (inescapable drag/crush), or Monolith (gravitational immovability/calcified defense)."
-    },
-
-    levelProgression: {
-      title: "Warden Level Progression",
-      headers: ["Level", "Tension Max", "Feature Unlocked"],
-      rows: [
-        ["1", "10", "Iron Chain Tether, Chain Graft, Iron Brace, Barbed Lash"],
-        ["2", "10", "Sweeping Chains, Penitent Resolve"],
-        ["3", "10", "Specialization Choice + Spec Passives"],
-        ["4", "10", "Ability Score Improvement"],
-        ["5", "10", "Iron Ascendancy (Ultimate Transformation)"],
-        ["6", "10", "Iron Storm, Gaol Shatter"],
-        ["7", "10", "Reel and Execute, Torturer's Wrath, Grave-Iron Cage"],
-        ["8", "10", "Ability Score Improvement, Ascendant Jailer, Eternal Iron Tomb, Iron Lash"],
-        ["9", "10", "Penitent Judgment, Mass Imprisonment, Inescapable Shackle"],
-        ["10", "10", "Iron Ascendancy Perfected, Cataclysm of Iron, Iron Prison Realm"]
-      ]
-    }
-  },
-
-  // Specializations
-  specializations: {
-    title: "Warden Paths of Penance",
-    subtitle: "Four Modes of Torment",
-
-    description: "Every Warden chooses a path of physical penance, tuning their iron grafts to perform specific, terrifying functions of lockdown, execution, or stealth.",
-
-    sharedPassive: {
-      name: "Cruel Tracker",
-      icon: "Piercing/Targeted Strike",
-      description: "You have advantage on Survival and Perception checks to track creatures. Your rusted chains drag behind you, carving a deep groove in the soil."
-    },
-
-    specs: [
-      { id : "shadowblade",
-        name: "Iron Stalker",
-        icon: "Piercing/Night Dagger",
-        color: "#2E0854",
-        theme: "Pain-Channeled Stealth",
-        description: "The Iron Stalker blends in the shadows not through grace, but through complete stillness and numbed flesh. They strike silently, dragging victims into the dark to rip them apart.",
-        playstyle: "Stealth-based lockdown and bleed assassin, striking from silence with devastating flails.",
-        strengths: [
-          "Highest burst damage of all Warden specs",
-          "Attacks from stealth generate +1 Tension (total 3 Tension)",
-          "Agonizing silence hides them after spending Tension",
+          "Attacks from stealth generate +1 VP (total 3 VP)",
+          "Agonizing silence hides them after spending VP",
           "Devastating bleed and blight synergy"
         ],
         weaknesses: [
@@ -767,18 +493,18 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
           {
             name: "Crushing Ambush",
             icon: "Utility/Hide",
-            description: "Attacks from stealth generate +1 Tension (total 3 Tension) and deal +1d8 bleed damage. You can hide for 1 action point after a successful strike."
+            description: "Attacks from stealth generate +1 VP (total 3 VP) and deal +1d8 bleed damage. You can hide for 1 action point after a successful strike."
           },
           {
             name: "Shed the Coil",
             icon: "Psychic/Mind Control",
-            description: "After spending 3 or more Tension on an ability, you dissolve into shadow-smoke, becoming invisible for 1 round. Breaks if you attack."
+            description: "After spending 3 or more VP on an ability, you dissolve into shadow-smoke, becoming invisible for 1 round. Breaks if you attack."
           }
         ],
         recommendedSpells: [
           "Chain Leap - Leap from stealth to lock chains around prey",
           "Chained Shadow Assault - Ultimate stealth-fused chain frenzy",
-          "Pain-Fueled Flail - Basic stealth strike generating high Tension",
+          "Pain-Fueled Flail - Basic stealth strike generating high VP",
           "Iron Chain Tether - Crucial to anchor targets before they run"
         ]
       },
@@ -790,7 +516,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         description: "The Iron Jailer projects their inner torment outward, summoning heavy, spectral iron bars to cage multiple enemies and isolate them from the battlefield.",
         playstyle: "Heavy crowd control and sentinel defense, caging high-threat targets to contain the battlefield.",
         strengths: [
-          "Reduced cage costs (4 Tension instead of 6)",
+          "Reduced cage costs (4 VP instead of 6)",
           "Enemies trapped in cages take +1d6 damage from all sources",
           "Can maintain up to 2 cages simultaneously",
           "Unrivaled area control"
@@ -799,18 +525,18 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
           "Lower direct single-target damage",
           "Cages can be broken by high-Strength giants",
           "Extremely slow base speed (-15ft speed penalty)",
-          "Requires heavy Tension management for multi-cages"
+          "Requires heavy VP management for multi-cages"
         ],
         passiveAbilities: [
           {
             name: "Master Jailer",
             icon: "Psychic/Mind Control",
-            description: "Iron Gaol costs -2 Tension (4 Tension instead of 6). You can maintain up to 2 spectral iron cages simultaneously."
+            description: "Iron Gaol costs -2 VP (4 VP instead of 6). You can maintain up to 2 spectral iron cages simultaneously."
           },
           {
             name: "Condemned in Steel",
             icon: "Necrotic/Necrotic Skull",
-            description: "Enemies trapped in your cages take +1d6 damage from all sources. If caged targets are tethered by Iron Chain Tether, they take an additional +1d6 damage."
+            description: "Enemies trapped in your cages take +1d6 damage from all sources. If caged targets are marked quarry, they take an additional +1d6 damage."
           }
         ],
         recommendedSpells: [
@@ -831,7 +557,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
           "Marked targets cannot escape or teleport out of line of sight",
           "Free dashes (reels) to tethered prey",
           "Absorbs and resists displacement effects",
-          "Extended Iron Ascendancy duration"
+          "Extended Avatar of Vengeance duration"
         ],
         weaknesses: [
           "Completely dependent on Iron Chain Tether for mobility",
@@ -843,13 +569,13 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
           {
             name: "Inexorable Reel",
             icon: "Nature/Sense",
-            description: "Tethered targets cannot hide, become invisible, or teleport while in your line of sight. Dashing (reeling) to them costs no action points, and your movement speed toward them increases by +5ft per Tension stack (max +50ft)."
+            description: "Tethered targets cannot hide, become invisible, or teleport while in your line of sight. Dashing (reeling) to them costs no action points, and your movement speed toward them increases by +5ft per VP (max +50ft)."
           }
         ],
         recommendedSpells: [
           "Cruel Drag - Reel yourself to the target and strike",
           "Spined Torment - Massive crushing blows against tethered prey",
-          "Iron Ascendancy - Long-lasting ultimate engine of chains",
+          "Avatar of Vengeance - Long-lasting ultimate engine of retribution",
           "Iron Chain Tether - Absolutely mandatory for all mobility"
         ]
       },
@@ -861,7 +587,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         description: "The Monolith Penitent grafts volcanic iron into their skeletal structure, fusing the penitent jailer tradition with the calcified juggernaut arts of the Emberspire forge-clans. Their chains do not merely tether enemies; they anchor the Monolith to the earth itself, weaponizing bone density and localized gravity to become an immovable stone sentinel.",
         playstyle: "Extreme defensive body-blocking and gravitational control, sacrificing all mobility to become an unbreakable battlefield anchor.",
         strengths: [
-          "Converts Tether Tension into Calcified Armor at a 1:1 ratio (up to +10 DR)",
+          "Converts Vengeance Points into Calcified Armor at a 1:1 ratio (up to +10 DR)",
           "Tethered targets cannot drag the Monolith due to gravitational anchoring",
           "Absorbs 75% of AoE damage directed at tethered targets instead of 50%",
           "Unrivaled chokepoint defense and damage interception"
@@ -876,7 +602,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
           {
             name: "Ossified Anchor",
             icon: "Nature/Strangle",
-            description: "When you spend Tether Tension, convert the spent amount into temporary Calcified Armor (DR bonus, max +10). Calcified Armor decays by 2 at the start of each turn. You cannot be dragged by tethered targets while you have Calcified Armor active."
+            description: "When you spend Vengeance Points, convert the spent amount into temporary Calcified Armor (DR bonus, max +10). Calcified Armor decays by 2 at the start of each turn. You cannot be dragged by tethered targets while you have Calcified Armor active."
           }
         ]
       }
@@ -913,7 +639,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     },
     { id : "warden_evasive_maneuvers",
       name: "Iron Brace",
-      description: "When targeted by an attack, brace your armor and brace the chains. Gain a DR bonus. Whether the attack lands or misses, you gain 1 Tether Tension by reeling in.",
+      description: "When targeted by an attack, brace your armor and brace the chains. Gain a DR bonus. Whether the attack lands or misses, you gain 1 Vengeance Point by evading or absorbing the strike.",
       spellType: "REACTION",
       icon: "Utility/Parry",
       level: 1,
@@ -981,8 +707,8 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
       resourceCost: {
         components: ['verbal', 'somatic'], actionPoints: 0,
         mana: 0,
-        resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 0 }
+        resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 0 }
       },
       resolution: "AUTOMATIC",
       buffConfig: {
@@ -1035,9 +761,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
       resourceCost: {
         components: ['verbal', 'somatic'], actionPoints: 1,
         mana: 0,
-        resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 0 },
-        classResource: { type: "tether_tension", cost: -2 }
+        resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 0 },
+        classResource: { type: "vengeance_points", cost: -2 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1084,10 +810,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 2 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 2 },
         actionPoints: 1,
-        classResource: { type: "tether_tension", cost: 2 }
+        classResource: { type: "vengeance_points", cost: 2 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1135,10 +861,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 3 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 3 },
         actionPoints: 1,
-        classResource: { type: "tether_tension", cost: 3 }
+        classResource: { type: "vengeance_points", cost: 3 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1166,7 +892,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_whirling_glaive_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 3 tether_tension, the chains straining tighter." }
+      { id: "warden_whirling_glaive_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 3 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -1198,10 +924,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 4 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 4 },
         actionPoints: 1,
-        classResource: { type: "tether_tension", cost: 4 }
+        classResource: { type: "vengeance_points", cost: 4 }
       },
       resolution: "AUTOMATIC",
       buffConfig: {
@@ -1221,7 +947,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_hunters_resolve_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 4 tether_tension, the chains straining tighter." }
+      { id: "warden_hunters_resolve_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 4 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -1258,10 +984,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 6 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 6 },
         actionPoints: 1,
-        classResource: { type: "tether_tension", cost: 6 }
+        classResource: { type: "vengeance_points", cost: 6 }
       },
       resolution: "SAVE",
       controlConfig: {
@@ -1306,7 +1032,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_cage_of_vengeance_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 6 tether_tension, the chains straining tighter." }
+      { id: "warden_cage_of_vengeance_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 6 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -1339,10 +1065,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 3 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 3 },
         actionPoints: 1,
-        classResource: { type: "tether_tension", cost: 3 }
+        classResource: { type: "vengeance_points", cost: 3 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1360,7 +1086,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_hunters_fury_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 3 tether_tension, the chains straining tighter." }
+      { id: "warden_hunters_fury_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 3 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -1393,10 +1119,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 2 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 2 },
         actionPoints: 1,
-        classResource: { type: "tether_tension", cost: 2 }
+        classResource: { type: "vengeance_points", cost: 2 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1438,10 +1164,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 4 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 4 },
         actionPoints: 1,
-        classResource: { type: "tether_tension", cost: 4 }
+        classResource: { type: "vengeance_points", cost: 4 }
       },
       resolution: "SAVE",
       controlConfig: {
@@ -1464,7 +1190,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_cage_trap_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 4 tether_tension, the chains straining tighter." }
+      { id: "warden_cage_trap_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 4 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -1501,10 +1227,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 2 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 2 },
         actionPoints: 1,
-        classResource: { type: "tether_tension", cost: 2 }
+        classResource: { type: "vengeance_points", cost: 2 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1558,10 +1284,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 3 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 3 },
         actionPoints: 1,
-        classResource: { type: "tether_tension", cost: 3 }
+        classResource: { type: "vengeance_points", cost: 3 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1580,7 +1306,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_vengeful_leap_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 3 tether_tension, the chains straining tighter." }
+      { id: "warden_vengeful_leap_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 3 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -1617,10 +1343,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 10 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 10 },
         actionPoints: 1,
-        classResource: { type: "tether_tension", cost: 10 }
+        classResource: { type: "vengeance_points", cost: 10 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1645,7 +1371,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_umbral_assault_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 tether_tension, the chains straining tighter." }
+      { id: "warden_umbral_assault_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -1678,10 +1404,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 10 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 10 },
         actionPoints: 1,
-        classResource: { type: "tether_tension", cost: 10 }
+        classResource: { type: "vengeance_points", cost: 10 }
       },
       resolution: "SAVE",
       controlConfig: {
@@ -1704,7 +1430,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_prison_of_eternity_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 tether_tension, the chains straining tighter." }
+      { id: "warden_prison_of_eternity_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -1736,10 +1462,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 10 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 10 },
         actionPoints: 1,
-        classResource: { type: "tether_tension", cost: 10 }
+        classResource: { type: "vengeance_points", cost: 10 }
       },
       resolution: "AUTOMATIC",
       buffConfig: {
@@ -1759,7 +1485,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_avatar_of_vengeance_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 tether_tension, the chains straining tighter." }
+      { id: "warden_avatar_of_vengeance_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -1796,10 +1522,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 5 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 5 },
         actionPoints: 2,
-        classResource: { type: "tether_tension", cost: 5 }
+        classResource: { type: "vengeance_points", cost: 5 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1812,7 +1538,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_glaive_storm_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 5 tether_tension, the chains straining tighter." }
+      { id: "warden_glaive_storm_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 5 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -1845,10 +1571,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 4 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 4 },
         actionPoints: 1,
-        classResource: { type: "tether_tension", cost: 4 }
+        classResource: { type: "vengeance_points", cost: 4 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1866,7 +1592,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_cage_slam_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 4 tether_tension, the chains straining tighter." }
+      { id: "warden_cage_slam_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 4 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -1903,10 +1629,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 7 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 7 },
         actionPoints: 2,
-        classResource: { type: "tether_tension", cost: 7 }
+        classResource: { type: "vengeance_points", cost: 7 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1929,7 +1655,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_mark_execution_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 7 tether_tension, the chains straining tighter." }
+      { id: "warden_mark_execution_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 7 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -1962,10 +1688,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 6 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 6 },
         actionPoints: 2,
-        classResource: { type: "tether_tension", cost: 6 }
+        classResource: { type: "vengeance_points", cost: 6 }
       },
       resolution: "SAVE",
       controlConfig: {
@@ -1988,7 +1714,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_shadow_cage_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 6 tether_tension, the chains straining tighter." }
+      { id: "warden_shadow_cage_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 6 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -2021,10 +1747,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 5 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 5 },
         actionPoints: 2,
-        classResource: { type: "tether_tension", cost: 5 }
+        classResource: { type: "vengeance_points", cost: 5 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -2037,7 +1763,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_hunters_wrath_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 5 tether_tension, the chains straining tighter." }
+      { id: "warden_hunters_wrath_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 5 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -2073,10 +1799,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 8 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 8 },
         actionPoints: 2,
-        classResource: { type: "tether_tension", cost: 8 }
+        classResource: { type: "vengeance_points", cost: 8 }
       },
       resolution: "AUTOMATIC",
       buffConfig: {
@@ -2096,7 +1822,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_vengeance_incarnate_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 8 tether_tension, the chains straining tighter." }
+      { id: "warden_vengeance_incarnate_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 8 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -2129,10 +1855,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 8 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 8 },
         actionPoints: 2,
-        classResource: { type: "tether_tension", cost: 8 }
+        classResource: { type: "vengeance_points", cost: 8 }
       },
       resolution: "SAVE",
       controlConfig: {
@@ -2155,7 +1881,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_eternal_cage_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 8 tether_tension, the chains straining tighter." }
+      { id: "warden_eternal_cage_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 8 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -2163,7 +1889,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
 },
     { id : "warden_relentless_assault",
       name: "Iron Lash",
-      description: "Lash out repeatedly with heavy chains, building 1 Tether Tension with each hit as you tear your own flesh to pieces.",
+      description: "Lash out repeatedly with heavy chains, building 1 Vengeance Point with each hit as you relentlessly pursue your mark.",
       spellType: "ACTION",
       icon: "Bludgeoning/Mortal Strike",
       level: 8,
@@ -2188,10 +1914,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 6 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 6 },
         actionPoints: 2,
-        classResource: { type: "tether_tension", cost: 6 }
+        classResource: { type: "vengeance_points", cost: 6 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -2204,7 +1930,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_relentless_assault_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 6 tether_tension, the chains straining tighter." }
+      { id: "warden_relentless_assault_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 6 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -2241,10 +1967,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 8 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 8 },
         actionPoints: 2,
-        classResource: { type: "tether_tension", cost: 8 }
+        classResource: { type: "vengeance_points", cost: 8 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -2257,7 +1983,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_justice_strikes_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 8 tether_tension, the chains straining tighter." }
+      { id: "warden_justice_strikes_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 8 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -2290,10 +2016,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 9 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 9 },
         actionPoints: 2,
-        classResource: { type: "tether_tension", cost: 9 }
+        classResource: { type: "vengeance_points", cost: 9 }
       },
       resolution: "SAVE",
       controlConfig: {
@@ -2316,7 +2042,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_cage_mastery_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 9 tether_tension, the chains straining tighter." }
+      { id: "warden_cage_mastery_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 9 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -2349,10 +2075,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 7 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 7 },
         actionPoints: 2,
-        classResource: { type: "tether_tension", cost: 7 }
+        classResource: { type: "vengeance_points", cost: 7 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -2377,7 +2103,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_no_escape_strike_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 7 tether_tension, the chains straining tighter." }
+      { id: "warden_no_escape_strike_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 7 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -2389,7 +2115,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     // ==========================================
     { id : "warden_ultimate_vengeance",
       name: "Cataclysm of Iron",
-      description: "Release all Tether Tension in one final, cataclysmic flail. Shatter your chains to shreds, dealing colossal smashing damage to all tethered and nearby enemies.",
+      description: "Release all Vengeance Points in one final, cataclysmic flail. Shatter your chains to shreds, dealing colossal smashing damage to all tethered and nearby enemies.",
       spellType: "ACTION",
       icon: "General/Fiery Rage",
       level: 10,
@@ -2414,10 +2140,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 10 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 10 },
         actionPoints: 3,
-        classResource: { type: "tether_tension", cost: 10 }
+        classResource: { type: "vengeance_points", cost: 10 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -2430,7 +2156,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_ultimate_vengeance_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 tether_tension, the chains straining tighter." }
+      { id: "warden_ultimate_vengeance_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -2463,10 +2189,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 10 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 10 },
         actionPoints: 3,
-        classResource: { type: "tether_tension", cost: 10 }
+        classResource: { type: "vengeance_points", cost: 10 }
       },
       resolution: "SAVE",
       controlConfig: {
@@ -2489,7 +2215,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_prison_realm_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 tether_tension, the chains straining tighter." }
+      { id: "warden_prison_realm_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -2521,10 +2247,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["tether_tension"],
-        resourceValues: { tether_tension: 10 },
+        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
+        resourceValues: { vengeance_points: 10 },
         actionPoints: 3,
-        classResource: { type: "tether_tension", cost: 10 }
+        classResource: { type: "vengeance_points", cost: 10 }
       },
       resolution: "AUTOMATIC",
       buffConfig: {
@@ -2544,7 +2270,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_avatar_perfected_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 tether_tension, the chains straining tighter." }
+      { id: "warden_avatar_perfected_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 Vengeance Points, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -2683,7 +2409,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, yo
     level: 2, spellType: "ACTION", icon: "Utility/Empowered Warrior",
     typeConfig: { school: "smashing", icon: "Utility/Empowered Warrior", castTime: 1, castTimeType: "MINUTES", tags: ["utility","rest","exploration","social","warden"] },
     targetingConfig: { targetingType: "self", rangeType: "self" },
-    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["somatic"], classResource: { type: "tether_tension", cost: 2 }, somaticText: "Drive the hook deep and let the chain take your weight" },
+    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["somatic"], classResource: { type: "vengeance_points", cost: 2 }, somaticText: "Drive the hook deep and let the chain take your weight" },
     resolution: "NONE", effectTypes: ["utility"],
     utilityConfig: { utilityType: "rest", selectedEffects: [ { "id": "penitents_vigil_watch", "name": "The Watch", "description": "For up to 8 hours: you cannot be moved, need no sleep/food/rest, and cannot be snuck past  -  an immovable anchor on watch. You act slowly (disadvantage on non-vigil checks) and arrive tired when it ends, but nothing short of overwhelming force breaks the vigil.", "mechanicsText": "Immovable sleepless vigil 8h; disadvantage after." } ], duration: 8, durationUnit: "hours", power: "moderate" },
     cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },

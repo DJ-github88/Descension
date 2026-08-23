@@ -1104,7 +1104,7 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
                                     className="chord-recipe-note-remove"
                                     onClick={() => removeChordFromRecipe(index)}
                                   >
-                                    Ã - 
+                                    ï¿½ - 
                                   </button>
                                 </div>
                                 {index < config.chordOptions.recipeDisplay.length - 1 && (

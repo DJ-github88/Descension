@@ -181,7 +181,7 @@ const PortalConfigDialog = ({
                                                             destinationMapId: isSelected ? '' : map.id
                                                         }))}
                                                     >
-                                                        ü - ∫Ô∏è {map.name}
+                                                        ÔøΩ - ÔøΩÔ∏è {map.name}
                                                     </button>
                                                 );
                                             })}

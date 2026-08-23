@@ -151,7 +151,7 @@ export default function CategoryContextMenu({ x, y, onClose, category, item }) {
                 onClick: () => setEditMode('full-edit')
             },
             {
-                icon: 'ü - ëÔ∏è',
+                icon: 'ÔøΩ - ÔøΩÔ∏è',
                 label: 'Delete',
                 onClick: handleDelete,
                 className: 'danger-action'

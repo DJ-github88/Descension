@@ -97,7 +97,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Withering Siphon",
     icon: "spell_shadow_soulleech",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "dh_t1_cultivate_rot",
     spell: {
       name: "Withering Siphon",
@@ -124,7 +124,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Necrotic Cyst",
     icon: "spell_shadow_deathanddecay",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 1 },
     requires: "dh_t1_infinite_growth",
     spell: {
       name: "Necrotic Cyst",
@@ -148,7 +148,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Rupture Cyst",
     icon: "spell_shadow_corpseexplode",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1, y: 2 },
     requires: "dh_t2_withering_siphon",
     spell: {
       name: "Rupture Cyst",
@@ -175,7 +175,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Withering Atmosphere",
     icon: "spell_shadow_plaguecloud",
     maxRanks: 3,
-    position: { x: 3, y: 3 },
+    position: { x: 3, y: 2 },
     requires: "dh_t2_necrotic_burst",
     spell: {
       name: "Withering Atmosphere",
@@ -198,7 +198,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Organ Collapse",
     icon: "spell_shadow_curseofsargeras",
     maxRanks: 3,
-    position: { x: 1, y: 4.5 },
+    position: { x: 1, y: 3 },
     requires: "dh_t3_rupture_cyst",
     spell: {
       name: "Organ Collapse",
@@ -224,7 +224,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Symbiotic Rot",
     icon: "spell_shadow_lifedrain02",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 3 },
     requires: "dh_t3_withering_aura",
     spell: {
       name: "Symbiotic Rot",
@@ -245,7 +245,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Miasmic Shroud",
     icon: "spell_shadow_nethercloak",
     maxRanks: 2,
-    position: { x: 1, y: 6 },
+    position: { x: 1, y: 4 },
     requires: "dh_t4_organ_collapse",
     spell: {
       name: "Miasmic Shroud",
@@ -270,7 +270,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Corpse Bloom",
     icon: "spell_shadow_deathanddecay",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3, y: 4 },
     requires: "dh_t4_vampiric_decay",
     spell: {
       name: "Corpse Bloom",
@@ -294,7 +294,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Apocalyptic Decay",
     icon: "spell_shadow_deathanddecay",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "dh_t5_miasmic_shroud",
     spell: {
       name: "Apocalyptic Decay",
@@ -317,7 +317,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Deep-Rooted Weeds",
     icon: "spell_nature_corrosivebreath",
     maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
+    position: { x: 2.5, y: 5 },
     requires: "dh_t5_total_collapse",
     spell: {
       name: "Deep-Rooted Weeds",
@@ -338,7 +338,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Rot Memory",
     icon: "spell_shadow_grimward",
     maxRanks: 2,
-    position: { x: 4, y: 7.5 },
+    position: { x: 4, y: 5 },
     requires: "dh_t5_total_collapse",
     spell: {
       name: "Rot Memory",
@@ -359,7 +359,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "The Deep Garden",
     icon: "spell_shadow_deathanddecay",
     maxRanks: 1,
-    position: { x: 0.5, y: 8 },
+    position: { x: 0.5, y: 6 },
     requires: "dh_t6_apocalyptic_decay",
     spell: {
       name: "The Deep Garden",
@@ -384,7 +384,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Peat-Heart Doctrine",
     icon: "spell_shadow_darkritual",
     maxRanks: 5,
-    position: { x: 1.5, y: 8 },
+    position: { x: 1.5, y: 6 },
     requires: "dh_t6_apocalyptic_decay",
     spell: {
       name: "Peat-Heart Doctrine",
@@ -407,7 +407,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Rot Acceleration",
     icon: "inv_misc_slime_01",
     maxRanks: 3,
-    position: { x: 2.5, y: 8 },
+    position: { x: 2.5, y: 6 },
     requires: "dh_t6_deep_rooted",
     spell: {
       name: "Rot Acceleration",
@@ -427,7 +427,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Compost Engine",
     icon: "spell_shadow_corpseexplode",
     maxRanks: 3,
-    position: { x: 3.5, y: 8 },
+    position: { x: 3.5, y: 6 },
     requires: "dh_t6_deep_rooted",
     spell: {
       name: "Compost Engine",
@@ -449,7 +449,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Eternal Gardener",
     icon: "spell_shadow_deathanddecay",
     maxRanks: 3,
-    position: { x: 4.5, y: 8 },
+    position: { x: 4.5, y: 6 },
     requires: "dh_t6_rot_memory",
     spell: {
       name: "Eternal Gardener",

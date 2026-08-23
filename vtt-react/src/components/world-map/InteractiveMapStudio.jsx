@@ -2,8 +2,14 @@ import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import ReactDOM from 'react-dom';
 import useInteractiveMapStore from '../../store/interactiveMapStore';
 import useAuthStore from '../../store/authStore';
+import useNpcStore from '../../store/npcStore';
+import useFactionStore from '../../store/factionStore';
+import useQuestStore from '../../store/questStore';
+import useWorldStore from '../../store/worldStore';
+import useShareableStore from '../../store/shareableStore';
 import RichLoreText from '../common/RichLoreText';
 import './InteractiveMapStudio.css';
+
 
 const PIN_ICONS = [
   { id: 'fa-location-dot', label: 'Landmark', icon: 'fa-location-dot' },
@@ -18,6 +24,13 @@ const PIN_ICONS = [
   { id: 'fa-water', label: 'Port / Water', icon: 'fa-water' },
   { id: 'fa-gem', label: 'Treasure / Vault', icon: 'fa-gem' },
   { id: 'fa-eye-slash', label: 'Secret Trap', icon: 'fa-eye-slash' }
+];
+
+const PIN_SIZES = [
+  { id: 'small', label: 'Small', scale: 0.75, icon: 'fa-compress' },
+  { id: 'medium', label: 'Standard', scale: 1.0, icon: 'fa-circle-dot' },
+  { id: 'large', label: 'Large', scale: 1.35, icon: 'fa-expand' },
+  { id: 'epic', label: 'Epic / Capital', scale: 1.75, icon: 'fa-crown' }
 ];
 
 const PIN_COLORS = [
@@ -133,9 +146,17 @@ const InteractiveMapStudio = () => {
     setPartyMarkerPosition,
     updatePartyMarker,
     getMapBreadcrumbs,
+    loadMythrilWorldPreset,
     syncToCloud,
     hydrateFromCloud
   } = useInteractiveMapStore();
+
+  // ── Campaign Data Stores ──────────────────────────────────────────────────
+  const { npcs, getNpc, getNpcsByLocation, searchNpcs } = useNpcStore();
+  const { factions } = useFactionStore();
+  const { quests } = useQuestStore();
+  const { regions, getLocationsByRegion, searchEntities } = useWorldStore();
+  const { playerNotes, playerKnowledge, addPlayerNote } = useShareableStore();
 
   const canvasRef = useRef(null);
   const fogCanvasRef = useRef(null);
@@ -152,6 +173,8 @@ const InteractiveMapStudio = () => {
   const [isPaintingFog, setIsPaintingFog] = useState(false);
   const [mouseCanvasPos, setMouseCanvasPos] = useState({ x: 0, y: 0, rawX: 0, rawY: 0, inside: false });
   const activeStrokePointsRef = useRef([]);
+  const didDragRef = useRef(false);
+  const dragStartPosRef = useRef({ x: 0, y: 0 });
 
   // Drawers & Modals
   const [showPinDrawer, setShowPinDrawer] = useState(false);
@@ -164,6 +187,16 @@ const InteractiveMapStudio = () => {
   const [newMapParentId, setNewMapParentId] = useState('');
   const [newMapDesc, setNewMapDesc] = useState('');
   const [previewPlayerFog, setPreviewPlayerFog] = useState(false);
+
+  // ── Campaign & Journal Hub Sidebar State ──────────────────────────────────
+  const [showCampaignSidebar, setShowCampaignSidebar] = useState(false);
+  const [campaignSidebarTab, setCampaignSidebarTab] = useState('quests'); // 'quests' | 'npcs' | 'factions' | 'journal'
+  const [factionLoreSubTab, setFactionLoreSubTab] = useState('factions'); // 'factions' | 'locations'
+  const [campaignFilterQuery, setCampaignFilterQuery] = useState('');
+  const [placingEntity, setPlacingEntity] = useState(null);
+  const [showNewNoteForm, setShowNewNoteForm] = useState(false);
+  const [newNoteTitle, setNewNoteTitle] = useState('');
+  const [newNoteContent, setNewNoteContent] = useState('');
 
   // Party Notes & Reminders State
   const [showPartyNotes, setShowPartyNotes] = useState(false);
@@ -180,6 +213,201 @@ const InteractiveMapStudio = () => {
   const [subMapType, setSubMapType] = useState('region');
   const [subMapImage, setSubMapImage] = useState('');
   const [subMapDesc, setSubMapDesc] = useState('');
+
+  // ── Campaign Links UI State ───────────────────────────────────────────────
+  const [popupActiveTab, setPopupActiveTab] = useState('overview'); // 'overview'|'cast'|'quests'|'lore'|'notes'
+  const [campaignLinksOpen, setCampaignLinksOpen] = useState(false);
+  const [npcSearchQuery, setNpcSearchQuery] = useState('');
+  const [factionSearchQuery, setFactionSearchQuery] = useState('');
+  const [questSearchQuery, setQuestSearchQuery] = useState('');
+  const [loreSearchQuery, setLoreSearchQuery] = useState('');
+  const [loreSearchResults, setLoreSearchResults] = useState([]);
+
+  // Focus a pin by ID on the canvas
+  const focusPin = useCallback((pinId) => {
+    setSelectedPin(pinId);
+    const targetPin = pins.find(p => p.id === pinId);
+    if (targetPin && canvasRef.current) {
+      const rect = canvasRef.current.getBoundingClientRect();
+      const pinScreenX = (targetPin.x / 100) * MAP_WIDTH;
+      const pinScreenY = (targetPin.y / 100) * MAP_HEIGHT;
+      setPanOffset({
+        x: rect.width / 2 - pinScreenX * zoomLevel,
+        y: rect.height / 2 - pinScreenY * zoomLevel
+      });
+    }
+  }, [pins, zoomLevel, setSelectedPin, setPanOffset]);
+
+  // Quick-placement actions for Campaign & Journal items
+  const startPlacingQuest = useCallback((q) => {
+    setPlacingEntity({
+      category: 'Quest',
+      type: 'poi',
+      title: q.title,
+      description: q.description || '',
+      icon: 'fa-scroll',
+      color: '#d4af37',
+      layerId: 'poi',
+      linkedEntities: {
+        npcIds: [],
+        factionIds: [],
+        questIds: [q.id],
+        timelineEventIds: [],
+        locationId: null,
+        journalNotes: ''
+      }
+    });
+    setIsPlacingPin(false);
+    setIsDrawingRoute(false);
+    setIsFogToolActive(false);
+  }, []);
+
+  const startPlacingNpc = useCallback((npc) => {
+    setPlacingEntity({
+      category: 'NPC',
+      type: 'poi',
+      title: npc.name,
+      description: `${npc.title ? `**Title:** ${npc.title}\n\n` : ''}${npc.appearance ? `**Appearance:** ${npc.appearance}\n\n` : ''}${npc.personality ? `**Personality:** ${npc.personality}` : ''}`,
+      icon: 'fa-user',
+      color: '#3498db',
+      layerId: 'poi',
+      linkedEntities: {
+        npcIds: [npc.id],
+        factionIds: npc.factionIds || [],
+        questIds: [],
+        timelineEventIds: [],
+        locationId: npc.locationIds?.[0] || null,
+        journalNotes: ''
+      }
+    });
+    setIsPlacingPin(false);
+    setIsDrawingRoute(false);
+    setIsFogToolActive(false);
+  }, []);
+
+  const startPlacingFaction = useCallback((f) => {
+    setPlacingEntity({
+      category: 'Faction',
+      type: 'city',
+      title: f.name,
+      description: f.publicDescription || f.publicGoal || '',
+      icon: 'fa-shield-halved',
+      color: f.colors?.primary || '#8b5a1a',
+      layerId: 'political',
+      linkedEntities: {
+        npcIds: (f.members || []).map(m => m.npcId).filter(Boolean),
+        factionIds: [f.id],
+        questIds: [],
+        timelineEventIds: [],
+        locationId: f.headquarters || null,
+        journalNotes: ''
+      }
+    });
+    setIsPlacingPin(false);
+    setIsDrawingRoute(false);
+    setIsFogToolActive(false);
+  }, []);
+
+  const startPlacingLoreLocation = useCallback((loc) => {
+    setPlacingEntity({
+      category: 'World Location',
+      type: loc.type === 'city' ? 'city' : loc.type === 'dungeon' ? 'dungeon' : 'poi',
+      title: loc.name,
+      description: loc.description || loc.loreOverview || '',
+      icon: loc.icon || 'fa-location-dot',
+      color: '#27ae60',
+      layerId: 'terrain',
+      linkedEntities: {
+        npcIds: [],
+        factionIds: loc.primaryFactions || [],
+        questIds: [],
+        timelineEventIds: [],
+        locationId: loc.id,
+        journalNotes: ''
+      }
+    });
+    setIsPlacingPin(false);
+    setIsDrawingRoute(false);
+    setIsFogToolActive(false);
+  }, []);
+
+  const startPlacingNote = useCallback((note) => {
+    setPlacingEntity({
+      category: 'Journal Note',
+      type: 'poi',
+      title: note.title || 'Field Journal Entry',
+      description: note.content || '',
+      icon: 'fa-feather-pointed',
+      color: '#9b59b6',
+      layerId: 'poi',
+      linkedEntities: {
+        npcIds: [],
+        factionIds: [],
+        questIds: [],
+        timelineEventIds: [],
+        locationId: null,
+        journalNotes: note.content || ''
+      }
+    });
+    setIsPlacingPin(false);
+    setIsDrawingRoute(false);
+    setIsFogToolActive(false);
+  }, []);
+
+  // Compute all world locations
+  const allWorldLocations = useMemo(() => {
+    if (!regions) return [];
+    return regions.flatMap(r => (getLocationsByRegion ? getLocationsByRegion(r.id) : []));
+  }, [regions, getLocationsByRegion]);
+
+  // Compute filtered items for campaign sidebar
+  const filteredQuests = useMemo(() => {
+    const qList = quests || [];
+    if (!campaignFilterQuery.trim()) return qList;
+    const q = campaignFilterQuery.toLowerCase();
+    return qList.filter(item => item.title?.toLowerCase().includes(q) || item.description?.toLowerCase().includes(q) || item.location?.toLowerCase().includes(q));
+  }, [quests, campaignFilterQuery]);
+
+  const filteredNpcs = useMemo(() => {
+    const nList = npcs || [];
+    if (!campaignFilterQuery.trim()) return nList;
+    const q = campaignFilterQuery.toLowerCase();
+    return nList.filter(item => item.name?.toLowerCase().includes(q) || item.title?.toLowerCase().includes(q) || item.race?.toLowerCase().includes(q));
+  }, [npcs, campaignFilterQuery]);
+
+  const filteredFactions = useMemo(() => {
+    const fList = factions || [];
+    if (!campaignFilterQuery.trim()) return fList;
+    const q = campaignFilterQuery.toLowerCase();
+    return fList.filter(item => item.name?.toLowerCase().includes(q) || item.publicGoal?.toLowerCase().includes(q));
+  }, [factions, campaignFilterQuery]);
+
+  const filteredLocations = useMemo(() => {
+    if (!campaignFilterQuery.trim()) return allWorldLocations;
+    const q = campaignFilterQuery.toLowerCase();
+    return allWorldLocations.filter(item => item.name?.toLowerCase().includes(q) || item.description?.toLowerCase().includes(q));
+  }, [allWorldLocations, campaignFilterQuery]);
+
+  const allJournalItems = useMemo(() => {
+    const notes = (playerNotes || []).map(n => ({ ...n, sourceType: 'note' }));
+    const knowledge = (playerKnowledge || []).map(k => ({ ...k, sourceType: 'knowledge' }));
+    const combined = [...notes, ...knowledge];
+    if (!campaignFilterQuery.trim()) return combined;
+    const q = campaignFilterQuery.toLowerCase();
+    return combined.filter(item => (item.title || '')?.toLowerCase().includes(q) || (item.content || '')?.toLowerCase().includes(q));
+  }, [playerNotes, playerKnowledge, campaignFilterQuery]);
+
+  // Cancel placement on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (placingEntity) setPlacingEntity(null);
+        if (isPlacingPin) setIsPlacingPin(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [placingEntity, isPlacingPin]);
 
   // Active Map
   const activeMap = useMemo(() => {
@@ -268,6 +496,11 @@ const InteractiveMapStudio = () => {
       hydrateFromCloud(user.uid);
     }
   }, [user?.uid, hydrateFromCloud]);
+
+  // Reset popup tab on pin change
+  useEffect(() => {
+    setPopupActiveTab('overview');
+  }, [selectedPinId]);
 
   // Redraw Complete Fog of War Canvas from strokes
   const renderFogCanvas = useCallback(() => {
@@ -474,6 +707,36 @@ const InteractiveMapStudio = () => {
 
     const { pctX, pctY, mapX, mapY } = getMapCoordinates(e);
 
+    // 0. Quick Campaign / Journal Entity Placement from Sidebar
+    if (placingEntity && activeMap) {
+      const newPin = addPin({
+        mapId: activeMap.id,
+        x: pctX,
+        y: pctY,
+        title: placingEntity.title || 'New Landmark',
+        description: placingEntity.description || '',
+        icon: placingEntity.icon || 'fa-location-dot',
+        color: placingEntity.color || '#d4af37',
+        type: placingEntity.type || 'poi',
+        layerId: placingEntity.layerId || 'poi',
+        linkedEntities: placingEntity.linkedEntities || {
+          npcIds: [],
+          factionIds: [],
+          questIds: [],
+          timelineEventIds: [],
+          locationId: null,
+          journalNotes: ''
+        }
+      });
+      const targetLayer = layers.find(l => l.id === (placingEntity.layerId || 'poi'));
+      if (targetLayer && !targetLayer.isVisible) {
+        toggleLayerVisibility(targetLayer.id);
+      }
+      setPlacingEntity(null);
+      syncToCloud(user?.uid);
+      return;
+    }
+
     // 1. Fog Brush Painting
     if (isFogToolActive && activeMap) {
       setIsPaintingFog(true);
@@ -544,10 +807,19 @@ const InteractiveMapStudio = () => {
         drawLiveFogStroke(newPt, lastPt);
       }
     } else if (isDraggingParty && canvasRef.current && !isMapLocked) {
+      if (Math.hypot(e.clientX - dragStartPosRef.current.x, e.clientY - dragStartPosRef.current.y) > 4) {
+        didDragRef.current = true;
+      }
       setPartyMarkerPosition(pctX, pctY, activeMap?.id);
     } else if (draggedPinId && canvasRef.current && !isMapLocked) {
+      if (Math.hypot(e.clientX - dragStartPosRef.current.x, e.clientY - dragStartPosRef.current.y) > 4) {
+        didDragRef.current = true;
+      }
       updatePinPosition(draggedPinId, pctX, pctY);
     } else if (draggedWaypointId && canvasRef.current && !isMapLocked) {
+      if (Math.hypot(e.clientX - dragStartPosRef.current.x, e.clientY - dragStartPosRef.current.y) > 4) {
+        didDragRef.current = true;
+      }
       updateWaypointPosition(draggedWaypointId, pctX, pctY);
     }
   }, [isPanning, panStart, isPaintingFog, isFogToolActive, activeMap, drawLiveFogStroke, isDraggingParty, draggedPinId, draggedWaypointId, isMapLocked, getMapCoordinates, setPanOffset, setPartyMarkerPosition, updatePinPosition, updateWaypointPosition]);
@@ -640,8 +912,17 @@ const InteractiveMapStudio = () => {
 
   // Open Pin Editor Drawer
   const openPinEditor = (pin = null, defaultX = 50, defaultY = 50) => {
+    const emptyLinkedEntities = { npcIds: [], factionIds: [], questIds: [], timelineEventIds: [], locationId: null, journalNotes: '' };
     if (pin) {
-      setEditingPin({ ...pin, isNew: false });
+      const pinSize = pin.size || 'medium';
+      const pinScale = pin.scale !== undefined ? pin.scale : (pinSize === 'small' ? 0.75 : pinSize === 'large' ? 1.35 : pinSize === 'epic' ? 1.75 : 1.0);
+      setEditingPin({
+        ...pin,
+        size: pinSize,
+        scale: pinScale,
+        isNew: false,
+        linkedEntities: pin.linkedEntities || emptyLinkedEntities
+      });
     } else {
       setEditingPin({
         isNew: true,
@@ -653,14 +934,24 @@ const InteractiveMapStudio = () => {
         icon: 'fa-location-dot',
         color: '#d4af37',
         type: 'poi',
+        size: 'medium',
+        scale: 1.0,
         layerId: 'poi',
         isSecretGM: false,
         targetMapId: null,
         linkedLoreId: null,
         isDiscovered: true,
-        isLocked: false
+        isLocked: false,
+        linkedEntities: emptyLinkedEntities
       });
     }
+    // Reset campaign link search state
+    setNpcSearchQuery('');
+    setFactionSearchQuery('');
+    setQuestSearchQuery('');
+    setLoreSearchQuery('');
+    setLoreSearchResults([]);
+    setCampaignLinksOpen(false);
     setShowPinDrawer(true);
   };
 
@@ -818,16 +1109,48 @@ const InteractiveMapStudio = () => {
             <div className="map-select-wrapper">
               <select
                 value={activeMap?.id || ''}
-                onChange={(e) => setActiveMap(e.target.value)}
+                onChange={(e) => {
+                  if (e.target.value === '__new_custom__') {
+                    setNewMapName('');
+                    setNewMapType('world');
+                    setNewMapImage('');
+                    setNewMapParentId('');
+                    setNewMapDesc('');
+                    setShowNewMapModal(true);
+                  } else if (e.target.value === '__load_mythril__') {
+                    loadMythrilWorldPreset();
+                  } else if (e.target.value) {
+                    setActiveMap(e.target.value);
+                  }
+                }}
                 className="map-dropdown"
               >
+                {maps.length === 0 && <option value="">(No Maps Loaded)</option>}
                 {maps.map((m, mIdx) => (
                   <option key={m.id || `map-opt-${mIdx}`} value={m.id}>
                     {m.name} [{m.type.toUpperCase()}]
                   </option>
                 ))}
+                <option disabled>──────────</option>
+                <option value="__new_custom__">+ Create Custom Map...</option>
+                <option value="__load_mythril__">✨ Use Mythril's World</option>
               </select>
             </div>
+            <button
+              type="button"
+              className="btn-header-add-map"
+              onClick={() => {
+                setNewMapName('');
+                setNewMapType('world');
+                setNewMapImage('');
+                setNewMapParentId('');
+                setNewMapDesc('');
+                setShowNewMapModal(true);
+              }}
+              title="Create / Upload New Map"
+            >
+              <i className="fas fa-plus"></i>
+            </button>
           </div>
 
           {/* Breadcrumb drill-down trail */}
@@ -886,6 +1209,26 @@ const InteractiveMapStudio = () => {
             <span>{isFogToolActive ? 'Fog of War (Active)' : 'Fog of War'}</span>
           </button>
 
+          {/* Campaign & Journal Codex Hub */}
+          <button
+            type="button"
+            className={`btn-map-action btn-campaign-hub ${showCampaignSidebar ? 'active' : ''}`}
+            onClick={() => {
+              const next = !showCampaignSidebar;
+              setShowCampaignSidebar(next);
+              if (next) {
+                setIsPlacingPin(false);
+                setIsDrawingRoute(false);
+                setIsFogToolActive(false);
+                setPlacingEntity(null);
+              }
+            }}
+            title="Open Campaign & Journal Codex (Browse & Add Quests, NPCs, Factions, Lore, and Notes onto Map)"
+          >
+            <i className="fas fa-book-atlas"></i>
+            <span>Campaign &amp; Journal</span>
+          </button>
+
           {/* Lock / Unlock Map Markers Toggle */}
           <button
             type="button"
@@ -921,11 +1264,27 @@ const InteractiveMapStudio = () => {
 
       {/* Main Map Canvas Area */}
       <main
-        className={`map-studio-canvas ${isPanning ? 'is-panning' : ''} ${isPlacingPin ? 'is-placing' : ''} ${isDrawingRoute ? 'is-routing' : ''} ${isFogToolActive ? 'is-fogging' : ''}`}
+        className={`map-studio-canvas ${isPanning ? 'is-panning' : ''} ${isPlacingPin ? 'is-placing' : ''} ${isDrawingRoute ? 'is-routing' : ''} ${isFogToolActive ? 'is-fogging' : ''} ${placingEntity ? 'is-placing-entity' : ''}`}
         ref={canvasRef}
         onMouseDown={handleCanvasMouseDown}
         onWheel={handleWheel}
       >
+        {/* Quick Placement Banner for Campaign & Journal Entities */}
+        {placingEntity && (
+          <div className="map-placing-entity-banner" onClick={e => e.stopPropagation()}>
+            <div className="placing-banner-content">
+              <i className="fas fa-crosshairs pulse-icon"></i>
+              <span>Click anywhere on the map to place <strong>{placingEntity.title}</strong> [{placingEntity.category}]</span>
+            </div>
+            <button
+              type="button"
+              className="btn-cancel-placement"
+              onClick={() => setPlacingEntity(null)}
+            >
+              <i className="fas fa-times"></i> Cancel (Esc)
+            </button>
+          </div>
+        )}
         {/* Layer Visibility Floating HUD */}
         <div className="map-layers-hud" onClick={e => e.stopPropagation()}>
           <div className="layers-hud-header">
@@ -1125,9 +1484,77 @@ const InteractiveMapStudio = () => {
           </div>
         )}
 
+        {/* Empty Map Studio State when no map exists */}
+        {!activeMap && (
+          <div className="map-empty-studio-state">
+            <div className="map-empty-studio-box">
+              <div className="map-empty-studio-header">
+                <i className="fas fa-map-location-dot map-empty-crest-icon"></i>
+                <h2>Location Map &amp; World Atlas</h2>
+                <p className="map-empty-subtitle">
+                  Start your campaign cartography. Choose Mythril's official world atlas to explore canon realms, or create your own custom world map.
+                </p>
+              </div>
+
+              <div className="map-starter-cards-grid">
+                {/* Mythril's World Preset Card */}
+                <div
+                  className="map-starter-card"
+                  onClick={() => loadMythrilWorldPreset()}
+                >
+                  <div
+                    className="map-starter-card-thumb"
+                    style={{ backgroundImage: `url(${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg)` }}
+                  >
+                    <div className="map-starter-badge">Official Canon</div>
+                  </div>
+                  <div className="map-starter-card-content">
+                    <div className="map-starter-title-row">
+                      <i className="fas fa-shield-halved" style={{ color: '#d4af37' }}></i>
+                      <h3>Use Mythril's World</h3>
+                    </div>
+                    <p>Explore the vast realm of Mythril with high-resolution continental cartography, geography, and terrain ready for landmark pins.</p>
+                    <button type="button" className="btn-starter-select btn-mythril">
+                      <i className="fas fa-sparkles"></i> Load Mythril Atlas
+                    </button>
+                  </div>
+                </div>
+
+                {/* Custom User World Map Card */}
+                <div
+                  className="map-starter-card custom-card"
+                  onClick={() => {
+                    setNewMapName('');
+                    setNewMapType('world');
+                    setNewMapImage('');
+                    setNewMapParentId('');
+                    setNewMapDesc('');
+                    setShowNewMapModal(true);
+                  }}
+                >
+                  <div className="map-starter-card-thumb custom-thumb">
+                    <i className="fas fa-compass-drafting custom-thumb-icon"></i>
+                    <div className="map-starter-badge custom-badge">Custom World</div>
+                  </div>
+                  <div className="map-starter-card-content">
+                    <div className="map-starter-title-row">
+                      <i className="fas fa-palette" style={{ color: '#3498db' }}></i>
+                      <h3>Create Your Own World</h3>
+                    </div>
+                    <p>Upload your own world map, regional blueprint, city layout, or dungeon floorplan to place interactive points of interest and routes.</p>
+                    <button type="button" className="btn-starter-select btn-custom">
+                      <i className="fas fa-plus"></i> Upload Custom Map
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Transformed Map Plane */}
         <div
-          className="map-world-plane"
+          className="map-world-plane" 
           style={{
             transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoomLevel})`,
             '--map-zoom': zoomLevel,
@@ -1183,17 +1610,22 @@ const InteractiveMapStudio = () => {
                 onMouseDown={(e) => {
                   if (e.target.closest('.waypoint-action-popup')) return;
                   e.stopPropagation();
+                  didDragRef.current = false;
+                  dragStartPosRef.current = { x: e.clientX, y: e.clientY };
                   if (!isMapLocked && !w.isLocked) {
                     setDraggedWaypointId(w.id);
-                  }
-                  if (!isDrawingRoute) {
-                    setSelectedWaypoint(w.id);
                   }
                 }}
                 onClick={(e) => {
                   if (e.target.closest('.waypoint-action-popup')) return;
                   e.stopPropagation();
-                  setSelectedWaypoint(selectedWaypointId === w.id ? null : w.id);
+                  if (didDragRef.current) {
+                    didDragRef.current = false;
+                    return;
+                  }
+                  if (!isDrawingRoute) {
+                    setSelectedWaypoint(selectedWaypointId === w.id ? null : w.id);
+                  }
                 }}
                 title={`${pillText}: ${w.title} ${isMapLocked || w.isLocked ? '(Position Locked)' : '(Drag to move)'}`}
               >
@@ -1236,6 +1668,31 @@ const InteractiveMapStudio = () => {
                         <i className="fas fa-times"></i>
                       </button>
                     </div>
+                    {w.linkedPinId && (() => {
+                      const lp = pins.find(p => p.id === w.linkedPinId);
+                      if (!lp) return null;
+                      return (
+                        <div
+                          className="wp-linked-badge"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedPin(lp.id);
+                          }}
+                          title="Click to view linked Landmark Pin"
+                        >
+                          <i className="fas fa-location-dot"></i> Landmark: <strong>{lp.title}</strong>
+                        </div>
+                      );
+                    })()}
+                    {w.linkedQuestId && (() => {
+                      const lq = (quests || []).find(q => q.id === w.linkedQuestId);
+                      if (!lq) return null;
+                      return (
+                        <div className="wp-linked-badge wp-quest-badge">
+                          <i className="fas fa-scroll"></i> Quest: <strong>{lq.title}</strong> ({lq.status})
+                        </div>
+                      );
+                    })()}
                     {w.notes && <p className="wp-popup-notes">{w.notes}</p>}
 
                     {/* Quick Stay Stepper / Duration Controls */}
@@ -1520,27 +1977,34 @@ const InteractiveMapStudio = () => {
             const isPinSelected = selectedPinId === pin.id;
             const targetSubMap = pin.targetMapId ? maps.find(m => m.id === pin.targetMapId) : null;
             const isLocked = isMapLocked || pin.isLocked;
+            const pinScale = pin.scale !== undefined ? pin.scale : (pin.size === 'small' ? 0.75 : pin.size === 'large' ? 1.35 : pin.size === 'epic' ? 1.75 : 1.0);
 
             return (
               <div
                 key={pin.id}
-                className={`map-pin-marker ${isPinSelected ? 'is-selected' : ''} ${pin.isSecretGM ? 'is-secret' : ''} ${isLocked ? 'is-locked-pos' : ''}`}
+                className={`map-pin-marker ${isPinSelected ? 'is-selected' : ''} ${pin.isSecretGM ? 'is-secret' : ''} ${isLocked ? 'is-locked-pos' : ''} ${draggedPinId === pin.id ? 'is-dragging' : ''}`}
                 style={{
                   left: `${(pin.x / 100) * MAP_WIDTH}px`,
                   top: `${(pin.y / 100) * MAP_HEIGHT}px`,
-                  '--pin-color': pin.color || '#d4af37'
+                  '--pin-color': pin.color || '#d4af37',
+                  '--pin-scale': pinScale
                 }}
                 onMouseDown={(e) => {
                   if (e.target.closest('.pin-action-popup')) return;
                   e.stopPropagation();
+                  didDragRef.current = false;
+                  dragStartPosRef.current = { x: e.clientX, y: e.clientY };
                   if (!isMapLocked && !pin.isLocked) {
                     setDraggedPinId(pin.id);
                   }
-                  setSelectedPin(pin.id);
                 }}
                 onClick={(e) => {
                   if (e.target.closest('.pin-action-popup')) return;
                   e.stopPropagation();
+                  if (didDragRef.current) {
+                    didDragRef.current = false;
+                    return;
+                  }
                   setSelectedPin(selectedPinId === pin.id ? null : pin.id);
                 }}
                 onDoubleClick={(e) => {
@@ -1615,11 +2079,161 @@ const InteractiveMapStudio = () => {
                       </button>
                     </div>
 
-                    {pin.description && (
-                      <div className="pin-popup-body">
-                        <RichLoreText text={pin.description} className="parchment-theme" />
-                      </div>
-                    )}
+                    {/* Popup Tabs — only shown when campaign data is linked */}
+                    {(() => {
+                      const le = pin.linkedEntities || {};
+                      const hasNpcs = (le.npcIds?.length || 0) > 0;
+                      const hasQuests = (le.questIds?.length || 0) > 0;
+                      const hasLore = le.locationId || (le.factionIds?.length || 0) > 0;
+                      const hasNotes = isGMMode && le.journalNotes;
+                      const hasTabs = hasNpcs || hasQuests || hasLore || hasNotes;
+
+                      return (
+                        <>
+                          {hasTabs && (
+                            <div className="pin-popup-tabs">
+                              <button
+                                type="button"
+                                className={`pin-popup-tab ${popupActiveTab === 'overview' ? 'active' : ''}`}
+                                onClick={() => setPopupActiveTab('overview')}
+                              ><i className="fas fa-scroll"></i> Overview</button>
+                              {hasNpcs && (
+                                <button
+                                  type="button"
+                                  className={`pin-popup-tab ${popupActiveTab === 'cast' ? 'active' : ''}`}
+                                  onClick={() => setPopupActiveTab('cast')}
+                                ><i className="fas fa-users"></i> Cast <span className="tab-badge">{le.npcIds.length}</span></button>
+                              )}
+                              {hasQuests && (
+                                <button
+                                  type="button"
+                                  className={`pin-popup-tab ${popupActiveTab === 'quests' ? 'active' : ''}`}
+                                  onClick={() => setPopupActiveTab('quests')}
+                                ><i className="fas fa-scroll"></i> Quests <span className="tab-badge">{le.questIds.length}</span></button>
+                              )}
+                              {hasLore && (
+                                <button
+                                  type="button"
+                                  className={`pin-popup-tab ${popupActiveTab === 'lore' ? 'active' : ''}`}
+                                  onClick={() => setPopupActiveTab('lore')}
+                                ><i className="fas fa-book"></i> Lore</button>
+                              )}
+                              {hasNotes && (
+                                <button
+                                  type="button"
+                                  className={`pin-popup-tab pin-popup-tab-gm ${popupActiveTab === 'notes' ? 'active' : ''}`}
+                                  onClick={() => setPopupActiveTab('notes')}
+                                ><i className="fas fa-feather-pointed"></i> Notes</button>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Overview Tab */}
+                          {(!hasTabs || popupActiveTab === 'overview') && pin.description && (
+                            <div className="pin-popup-body">
+                              <RichLoreText text={pin.description} className="parchment-theme" />
+                            </div>
+                          )}
+                          {(!hasTabs || popupActiveTab === 'overview') && !pin.description && (
+                            <div className="pin-popup-body pin-popup-empty">
+                              <i className="fas fa-map-pin"></i>
+                              <span>No description yet. Click Edit to add lore.</span>
+                            </div>
+                          )}
+
+                          {/* Cast Tab — linked NPCs */}
+                          {popupActiveTab === 'cast' && hasNpcs && (
+                            <div className="pin-popup-body pin-cast-body">
+                              {le.npcIds.map(npcId => {
+                                const npc = getNpc(npcId);
+                                if (!npc) return null;
+                                const factionNames = (npc.factionIds || []).map(fId => (factions || []).find(f => f.id === fId)?.name).filter(Boolean);
+                                return (
+                                  <div key={npcId} className="popup-npc-row">
+                                    <div className="popup-npc-icon">
+                                      <i className="fas fa-user-circle"></i>
+                                    </div>
+                                    <div className="popup-npc-info">
+                                      <div className="popup-npc-name">{npc.name}</div>
+                                      <div className="popup-npc-title">{npc.title}</div>
+                                      {factionNames.length > 0 && (
+                                        <div className="popup-npc-factions">{factionNames.join(', ')}</div>
+                                      )}
+                                    </div>
+                                    <span className={`popup-npc-status popup-npc-status-${(npc.status || 'active').toLowerCase().replace(/\s+/g, '-')}`}>
+                                      {npc.status || 'Active'}
+                                    </span>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+
+                          {/* Quests Tab — linked quests */}
+                          {popupActiveTab === 'quests' && hasQuests && (
+                            <div className="pin-popup-body pin-quests-body">
+                              {le.questIds.map(qId => {
+                                const q = (quests || []).find(quest => quest.id === qId);
+                                if (!q) return null;
+                                const completedObjs = (q.objectives || []).filter(o => o.completed || o.progress >= o.count).length;
+                                const totalObjs = (q.objectives || []).length;
+                                return (
+                                  <div key={qId} className="popup-quest-row">
+                                    <div className="popup-quest-header">
+                                      <span className={`popup-quest-status-dot popup-quest-status-${q.status}`}></span>
+                                      <span className="popup-quest-title">{q.title}</span>
+                                    </div>
+                                    {totalObjs > 0 && (
+                                      <div className="popup-quest-progress">
+                                        <div className="popup-quest-bar" style={{ width: `${(completedObjs / totalObjs) * 100}%` }}></div>
+                                      </div>
+                                    )}
+                                    <div className="popup-quest-meta">
+                                      <span>{q.difficulty || 'Normal'}</span>
+                                      {totalObjs > 0 && <span>{completedObjs}/{totalObjs} objectives</span>}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+
+                          {/* Lore Tab — world location + factions */}
+                          {popupActiveTab === 'lore' && hasLore && (
+                            <div className="pin-popup-body pin-lore-body">
+                              {le.locationId && (
+                                <div className="popup-lore-location">
+                                  <div className="popup-lore-loc-id"><i className="fas fa-location-dot"></i> {le.locationId}</div>
+                                </div>
+                              )}
+                              {(le.factionIds?.length || 0) > 0 && (
+                                <div className="popup-lore-factions">
+                                  <div className="popup-lore-section-label"><i className="fas fa-shield-halved"></i> Faction Presence</div>
+                                  {le.factionIds.map(fId => {
+                                    const f = (factions || []).find(fc => fc.id === fId);
+                                    if (!f) return null;
+                                    return (
+                                      <div key={fId} className="popup-faction-row" style={f.colors ? { borderLeftColor: f.colors.primary } : {}}>
+                                        <span className="popup-faction-name">{f.name}</span>
+                                        <span className="popup-faction-type">{f.type?.replace(/_/g, ' ')}</span>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {/* GM Notes Tab */}
+                          {popupActiveTab === 'notes' && isGMMode && le.journalNotes && (
+                            <div className="pin-popup-body pin-notes-body">
+                              <div className="popup-gm-notes-label"><i className="fas fa-feather-pointed"></i> Field Notes</div>
+                              <p className="popup-gm-notes-text">{le.journalNotes}</p>
+                            </div>
+                          )}
+                        </>
+                      );
+                    })()}
 
                     <div className="pin-popup-footer">
                       {/* Sub-Map Drilldown OR Attach Sub-Map Callout */}
@@ -1651,6 +2265,33 @@ const InteractiveMapStudio = () => {
                           </button>
                         </div>
                       )}
+
+                      {/* Quick Location Size Stepper */}
+                      <div className="pin-quick-size-bar">
+                        <span className="quick-size-label">
+                          <i className="fas fa-up-right-and-down-left-from-center"></i> Size:
+                        </span>
+                        <div className="quick-size-buttons">
+                          {PIN_SIZES.map(s => {
+                            const isSizeActive = (pin.size === s.id) || (!pin.size && s.id === 'medium') || (pin.scale === s.scale);
+                            return (
+                              <button
+                                key={s.id}
+                                type="button"
+                                className={`btn-quick-size ${isSizeActive ? 'active' : ''}`}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  updatePin(pin.id, { size: s.id, scale: s.scale });
+                                  syncToCloud(user?.uid);
+                                }}
+                                title={`Set pin size to ${s.label} (${s.scale}x)`}
+                              >
+                                {s.id === 'small' ? 'S' : s.id === 'medium' ? 'M' : s.id === 'large' ? 'L' : 'XL'}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
 
                       <div className="pin-footer-actions-row">
                         <button
@@ -1749,6 +2390,385 @@ const InteractiveMapStudio = () => {
         </div>
       </main>
 
+      {/* ── Campaign & Journal Hub Sidebar ─────────────────────── */}
+      {showCampaignSidebar && (
+        <aside className="studio-drawer campaign-sidebar-drawer" onClick={e => e.stopPropagation()}>
+          <div className="drawer-header">
+            <div className="drawer-title-row">
+              <i className="fas fa-book-atlas drawer-title-icon"></i>
+              <h3>Campaign &amp; Journal Codex</h3>
+            </div>
+            <button className="btn-close-drawer" onClick={() => setShowCampaignSidebar(false)}>
+              <i className="fas fa-times"></i>
+            </button>
+          </div>
+
+          {/* Tab Navigation */}
+          <div className="campaign-tab-nav">
+            <button
+              type="button"
+              className={`campaign-tab-btn ${campaignSidebarTab === 'quests' ? 'active' : ''}`}
+              onClick={() => setCampaignSidebarTab('quests')}
+            >
+              <i className="fas fa-scroll"></i>
+              <span>Quests</span>
+              <span className="tab-pill">{(quests || []).length}</span>
+            </button>
+            <button
+              type="button"
+              className={`campaign-tab-btn ${campaignSidebarTab === 'npcs' ? 'active' : ''}`}
+              onClick={() => setCampaignSidebarTab('npcs')}
+            >
+              <i className="fas fa-users"></i>
+              <span>NPCs</span>
+              <span className="tab-pill">{(npcs || []).length}</span>
+            </button>
+            <button
+              type="button"
+              className={`campaign-tab-btn ${campaignSidebarTab === 'factions' ? 'active' : ''}`}
+              onClick={() => setCampaignSidebarTab('factions')}
+            >
+              <i className="fas fa-shield-halved"></i>
+              <span>Factions &amp; Lore</span>
+              <span className="tab-pill">{(factions || []).length}</span>
+            </button>
+            <button
+              type="button"
+              className={`campaign-tab-btn ${campaignSidebarTab === 'journal' ? 'active' : ''}`}
+              onClick={() => setCampaignSidebarTab('journal')}
+            >
+              <i className="fas fa-feather-pointed"></i>
+              <span>Journal &amp; Notes</span>
+              <span className="tab-pill">{(playerNotes || []).length + (playerKnowledge || []).length}</span>
+            </button>
+          </div>
+
+          {/* Search / Filter Bar */}
+          <div className="campaign-sidebar-search">
+            <i className="fas fa-search search-icon"></i>
+            <input
+              type="text"
+              placeholder={`Filter ${campaignSidebarTab}…`}
+              value={campaignFilterQuery}
+              onChange={(e) => setCampaignFilterQuery(e.target.value)}
+            />
+            {campaignFilterQuery && (
+              <button className="btn-clear-search" onClick={() => setCampaignFilterQuery('')}>
+                <i className="fas fa-times"></i>
+              </button>
+            )}
+          </div>
+
+          {/* Tab 1: Quests */}
+          {campaignSidebarTab === 'quests' && (
+            <div className="campaign-sidebar-content">
+              {filteredQuests.length === 0 ? (
+                <div className="campaign-empty-tab">
+                  <i className="fas fa-scroll"></i>
+                  <span>No quests match your search.</span>
+                </div>
+              ) : (
+                filteredQuests.map(q => {
+                  const placedPin = pins.find(p => (p.mapId || 'map-mythril-world') === (activeMap?.id || 'map-mythril-world') && p.linkedEntities?.questIds?.includes(q.id));
+                  return (
+                    <div key={q.id} className="campaign-item-card quest-card">
+                      <div className="card-header-row">
+                        <span className={`quest-status-chip quest-status-${q.status}`}>{q.status}</span>
+                        {q.difficulty && <span className="card-meta-tag">{q.difficulty}</span>}
+                        {q.level && <span className="card-meta-tag">Lvl {q.level}</span>}
+                      </div>
+                      <h4 className="card-title">{q.title}</h4>
+                      {q.location && (
+                        <div className="card-location-hint">
+                          <i className="fas fa-compass"></i> {q.location}
+                        </div>
+                      )}
+                      {q.description && (
+                        <p className="card-excerpt">{q.description.substring(0, 110)}{q.description.length > 110 ? '…' : ''}</p>
+                      )}
+                      <div className="card-actions-row">
+                        {placedPin ? (
+                          <>
+                            <span className="card-placed-badge"><i className="fas fa-check-circle"></i> On Map</span>
+                            <button
+                              type="button"
+                              className="btn-card-view"
+                              onClick={() => focusPin(placedPin.id)}
+                              title="Center & Highlight on Map"
+                            >
+                              <i className="fas fa-crosshairs"></i> View
+                            </button>
+                          </>
+                        ) : (
+                          <button
+                            type="button"
+                            className="btn-card-place"
+                            onClick={() => startPlacingQuest(q)}
+                            title="Click then click map to place this Quest Marker"
+                          >
+                            <i className="fas fa-map-pin"></i> Place on Map
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          )}
+
+          {/* Tab 2: NPCs */}
+          {campaignSidebarTab === 'npcs' && (
+            <div className="campaign-sidebar-content">
+              {filteredNpcs.length === 0 ? (
+                <div className="campaign-empty-tab">
+                  <i className="fas fa-users"></i>
+                  <span>No NPCs match your search.</span>
+                </div>
+              ) : (
+                filteredNpcs.map(npc => {
+                  const placedPin = pins.find(p => (p.mapId || 'map-mythril-world') === (activeMap?.id || 'map-mythril-world') && p.linkedEntities?.npcIds?.includes(npc.id));
+                  const factionNames = (npc.factionIds || []).map(fId => (factions || []).find(f => f.id === fId)?.name).filter(Boolean);
+                  return (
+                    <div key={npc.id} className="campaign-item-card npc-card">
+                      <div className="npc-card-head">
+                        <div className="npc-avatar-box">
+                          <i className="fas fa-user-circle"></i>
+                        </div>
+                        <div className="npc-head-info">
+                          <h4 className="card-title">{npc.name}</h4>
+                          <span className="npc-card-title-text">{npc.title}</span>
+                        </div>
+                        <span className={`npc-status-pill npc-status-${(npc.status || 'active').toLowerCase().replace(/\s+/g, '-')}`}>{npc.status || 'Active'}</span>
+                      </div>
+                      {npc.race && (
+                        <div className="card-submeta"><strong>Lineage:</strong> {npc.race}</div>
+                      )}
+                      {factionNames.length > 0 && (
+                        <div className="card-submeta"><strong>Faction:</strong> {factionNames.join(', ')}</div>
+                      )}
+                      <div className="card-actions-row">
+                        {placedPin ? (
+                          <>
+                            <span className="card-placed-badge"><i className="fas fa-check-circle"></i> On Map</span>
+                            <button
+                              type="button"
+                              className="btn-card-view"
+                              onClick={() => focusPin(placedPin.id)}
+                            >
+                              <i className="fas fa-crosshairs"></i> View
+                            </button>
+                          </>
+                        ) : (
+                          <button
+                            type="button"
+                            className="btn-card-place"
+                            onClick={() => startPlacingNpc(npc)}
+                          >
+                            <i className="fas fa-map-pin"></i> Place on Map
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          )}
+
+          {/* Tab 3: Factions & Lore */}
+          {campaignSidebarTab === 'factions' && (
+            <div className="campaign-sidebar-content">
+              <div className="faction-lore-subnav">
+                <button
+                  type="button"
+                  className={`btn-subnav ${factionLoreSubTab === 'factions' ? 'active' : ''}`}
+                  onClick={() => setFactionLoreSubTab('factions')}
+                >
+                  Factions ({(factions || []).length})
+                </button>
+                <button
+                  type="button"
+                  className={`btn-subnav ${factionLoreSubTab === 'locations' ? 'active' : ''}`}
+                  onClick={() => setFactionLoreSubTab('locations')}
+                >
+                  World Lore Locations ({allWorldLocations.length})
+                </button>
+              </div>
+
+              {factionLoreSubTab === 'factions' ? (
+                filteredFactions.map(f => {
+                  const placedPin = pins.find(p => (p.mapId || 'map-mythril-world') === (activeMap?.id || 'map-mythril-world') && p.linkedEntities?.factionIds?.includes(f.id));
+                  return (
+                    <div key={f.id} className="campaign-item-card faction-card" style={f.colors?.primary ? { borderLeftColor: f.colors.primary } : {}}>
+                      <div className="card-header-row">
+                        <span className="card-type-chip">{f.type?.replace(/_/g, ' ')}</span>
+                        {f.territory && <span className="card-meta-tag">{f.territory.length} territories</span>}
+                      </div>
+                      <h4 className="card-title">{f.name}</h4>
+                      {f.publicGoal && <p className="card-excerpt">{f.publicGoal}</p>}
+                      <div className="card-actions-row">
+                        {placedPin ? (
+                          <>
+                            <span className="card-placed-badge"><i className="fas fa-check-circle"></i> On Map</span>
+                            <button
+                              type="button"
+                              className="btn-card-view"
+                              onClick={() => focusPin(placedPin.id)}
+                            >
+                              <i className="fas fa-crosshairs"></i> View
+                            </button>
+                          </>
+                        ) : (
+                          <button
+                            type="button"
+                            className="btn-card-place"
+                            onClick={() => startPlacingFaction(f)}
+                          >
+                            <i className="fas fa-map-pin"></i> Place on Map
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                filteredLocations.map(loc => {
+                  const placedPin = pins.find(p => (p.mapId || 'map-mythril-world') === (activeMap?.id || 'map-mythril-world') && p.linkedEntities?.locationId === loc.id);
+                  return (
+                    <div key={loc.id} className="campaign-item-card location-card">
+                      <div className="card-header-row">
+                        <span className="card-type-chip">{loc.type || 'POI'}</span>
+                        {loc.dangerLevel && <span className={`card-danger-tag danger-${loc.dangerLevel}`}>{loc.dangerLevel}</span>}
+                      </div>
+                      <h4 className="card-title">{loc.name}</h4>
+                      {loc.description && <p className="card-excerpt">{loc.description.substring(0, 120)}…</p>}
+                      <div className="card-actions-row">
+                        {placedPin ? (
+                          <>
+                            <span className="card-placed-badge"><i className="fas fa-check-circle"></i> On Map</span>
+                            <button
+                              type="button"
+                              className="btn-card-view"
+                              onClick={() => focusPin(placedPin.id)}
+                            >
+                              <i className="fas fa-crosshairs"></i> View
+                            </button>
+                          </>
+                        ) : (
+                          <button
+                            type="button"
+                            className="btn-card-place"
+                            onClick={() => startPlacingLoreLocation(loc)}
+                          >
+                            <i className="fas fa-map-pin"></i> Place on Map
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          )}
+
+          {/* Tab 4: Journal & Notes */}
+          {campaignSidebarTab === 'journal' && (
+            <div className="campaign-sidebar-content">
+              <div className="journal-toolbar-row">
+                <button
+                  type="button"
+                  className="btn-new-note-toggle"
+                  onClick={() => setShowNewNoteForm(!showNewNoteForm)}
+                >
+                  <i className={`fas ${showNewNoteForm ? 'fa-minus' : 'fa-plus'}`}></i>
+                  <span>{showNewNoteForm ? 'Cancel Note' : 'Create Journal Note'}</span>
+                </button>
+              </div>
+
+              {showNewNoteForm && (
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (!newNoteTitle.trim()) return;
+                    addPlayerNote({
+                      title: newNoteTitle.trim(),
+                      content: newNoteContent.trim()
+                    });
+                    setNewNoteTitle('');
+                    setNewNoteContent('');
+                    setShowNewNoteForm(false);
+                  }}
+                  className="inline-new-note-form"
+                >
+                  <input
+                    type="text"
+                    required
+                    placeholder="Journal note title…"
+                    value={newNoteTitle}
+                    onChange={(e) => setNewNoteTitle(e.target.value)}
+                  />
+                  <textarea
+                    rows={3}
+                    placeholder="Write session discoveries, clues, or travel records…"
+                    value={newNoteContent}
+                    onChange={(e) => setNewNoteContent(e.target.value)}
+                  />
+                  <button type="submit" className="btn-save-note">
+                    <i className="fas fa-save"></i> Save to Journal
+                  </button>
+                </form>
+              )}
+
+              {allJournalItems.length === 0 ? (
+                <div className="campaign-empty-tab">
+                  <i className="fas fa-feather-pointed"></i>
+                  <span>No journal notes or knowledge found. Click &quot;Create Journal Note&quot; to write one!</span>
+                </div>
+              ) : (
+                allJournalItems.map(item => {
+                  const placedPin = pins.find(p => (p.mapId || 'map-mythril-world') === (activeMap?.id || 'map-mythril-world') && p.linkedEntities?.journalNotes === item.content);
+                  return (
+                    <div key={item.id} className="campaign-item-card journal-card">
+                      <div className="card-header-row">
+                        <span className="card-type-chip">{item.sourceType === 'knowledge' ? 'Shared Knowledge' : 'Field Note'}</span>
+                        {item.createdAt && <span className="card-meta-tag">{new Date(item.createdAt).toLocaleDateString()}</span>}
+                      </div>
+                      <h4 className="card-title">{item.title}</h4>
+                      {item.content && (
+                        <p className="card-excerpt">{item.content.substring(0, 130)}{item.content.length > 130 ? '…' : ''}</p>
+                      )}
+                      <div className="card-actions-row">
+                        {placedPin ? (
+                          <>
+                            <span className="card-placed-badge"><i className="fas fa-check-circle"></i> On Map</span>
+                            <button
+                              type="button"
+                              className="btn-card-view"
+                              onClick={() => focusPin(placedPin.id)}
+                            >
+                              <i className="fas fa-crosshairs"></i> View
+                            </button>
+                          </>
+                        ) : (
+                          <button
+                            type="button"
+                            className="btn-card-place"
+                            onClick={() => startPlacingNote(item)}
+                          >
+                            <i className="fas fa-feather-pointed"></i> Place Note on Map
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          )}
+        </aside>
+      )}
+
       {/* Pin Editor Drawer */}
       {showPinDrawer && editingPin && (
         <aside className="studio-drawer pin-editor-drawer" onClick={e => e.stopPropagation()}>
@@ -1772,9 +2792,9 @@ const InteractiveMapStudio = () => {
             </div>
 
             <div className="form-group">
-              <div className="icon-picker-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                <label style={{ margin: 0 }}>Icon Symbol</label>
-                <span className="selected-icon-badge-text" style={{ fontSize: '11.5px', color: '#8b5a1a', fontWeight: '800', fontFamily: 'Cinzel, serif' }}>
+              <div className="pin-icon-picker-header">
+                <label>Icon Symbol</label>
+                <span className="selected-icon-badge-text">
                   {PIN_ICONS.find(ic => ic.icon === editingPin.icon)?.label || 'Landmark'}
                 </span>
               </div>
@@ -1806,6 +2826,52 @@ const InteractiveMapStudio = () => {
                     onClick={() => setEditingPin({ ...editingPin, color: c })}
                   />
                 ))}
+              </div>
+            </div>
+
+            {/* Location & Pin Size Sizing Controls */}
+            <div className="form-group">
+              <div className="pin-size-picker-header">
+                <label>Location &amp; Marker Size</label>
+                <span className="selected-icon-badge-text">
+                  {PIN_SIZES.find(s => s.id === editingPin.size)?.label || 'Standard'} ({(editingPin.scale || 1).toFixed(2)}x)
+                </span>
+              </div>
+              <div className="pin-size-choice-grid">
+                {PIN_SIZES.map(s => {
+                  const isSizeActive = (editingPin.size === s.id) || (!editingPin.size && s.id === 'medium') || (editingPin.scale === s.scale);
+                  return (
+                    <button
+                      key={s.id}
+                      type="button"
+                      className={`pin-size-choice-btn ${isSizeActive ? 'active' : ''}`}
+                      onClick={() => setEditingPin({ ...editingPin, size: s.id, scale: s.scale })}
+                    >
+                      <i className={`fas ${s.icon}`}></i>
+                      <span className="size-label-text">{s.label}</span>
+                      <span className="size-scale-tag">{s.scale}x</span>
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="pin-scale-slider-row">
+                <span className="pin-scale-slider-label">Fine Scale:</span>
+                <input
+                  type="range"
+                  min="0.5"
+                  max="2.5"
+                  step="0.05"
+                  value={editingPin.scale !== undefined ? editingPin.scale : (editingPin.size === 'small' ? 0.75 : editingPin.size === 'large' ? 1.35 : editingPin.size === 'epic' ? 1.75 : 1.0)}
+                  onChange={(e) => {
+                    const val = parseFloat(e.target.value);
+                    const derivedSize = val <= 0.85 ? 'small' : val <= 1.15 ? 'medium' : val <= 1.55 ? 'large' : 'epic';
+                    setEditingPin({ ...editingPin, scale: val, size: derivedSize });
+                  }}
+                  className="pin-fine-scale-slider"
+                />
+                <span className="pin-scale-slider-value">
+                  {(editingPin.scale !== undefined ? editingPin.scale : 1.0).toFixed(2)}x
+                </span>
               </div>
             </div>
 
@@ -1862,6 +2928,220 @@ const InteractiveMapStudio = () => {
                 placeholder="Ancient stronghold held by the Sovereign Scribes..."
               />
             </div>
+
+            {/* ── Campaign Links Accordion ─────────────────────────────── */}
+            <div className="campaign-links-section">
+              <button
+                type="button"
+                className={`campaign-links-toggle ${campaignLinksOpen ? 'is-open' : ''}`}
+                onClick={() => setCampaignLinksOpen(!campaignLinksOpen)}
+              >
+                <i className="fas fa-book-open"></i>
+                <span>Campaign Links</span>
+                {(() => {
+                  const le = editingPin.linkedEntities || {};
+                  const count = (le.npcIds?.length || 0) + (le.factionIds?.length || 0) + (le.questIds?.length || 0) + (le.locationId ? 1 : 0);
+                  return count > 0 ? <span className="campaign-link-count">{count}</span> : null;
+                })()}
+                <i className={`fas fa-chevron-${campaignLinksOpen ? 'up' : 'down'} campaign-links-chevron`}></i>
+              </button>
+
+              {campaignLinksOpen && (
+                <div className="campaign-links-body">
+
+                  {/* World Location Link */}
+                  <div className="cl-section">
+                    <div className="cl-section-label"><i className="fas fa-earth-europe"></i> World Location</div>
+                    {editingPin.linkedEntities?.locationId ? (
+                      <div className="cl-linked-item">
+                        <i className="fas fa-location-dot"></i>
+                        <span>{editingPin.linkedEntities.locationId}</span>
+                        <button
+                          type="button"
+                          className="btn-cl-remove"
+                          onClick={() => setEditingPin({ ...editingPin, linkedEntities: { ...editingPin.linkedEntities, locationId: null } })}
+                        >×</button>
+                      </div>
+                    ) : (
+                      <div className="cl-search-wrap">
+                        <input
+                          type="text"
+                          className="cl-search-input"
+                          placeholder="Search locations, factions, regions…"
+                          value={loreSearchQuery}
+                          onChange={(e) => {
+                            const q = e.target.value;
+                            setLoreSearchQuery(q);
+                            setLoreSearchResults(q.trim().length >= 2 ? searchEntities(q).filter(r => ['location', 'region'].includes(r.type)) : []);
+                          }}
+                        />
+                        {loreSearchResults.length > 0 && (
+                          <ul className="cl-search-results">
+                            {loreSearchResults.map(r => (
+                              <li key={r.id} onClick={() => {
+                                setEditingPin({ ...editingPin, linkedEntities: { ...editingPin.linkedEntities, locationId: r.id } });
+                                setLoreSearchQuery('');
+                                setLoreSearchResults([]);
+                              }}>
+                                <i className={`fas ${r.icon}`}></i>
+                                <span>{r.name}</span>
+                                <em>{r.subtitle}</em>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* NPC Residents */}
+                  <div className="cl-section">
+                    <div className="cl-section-label"><i className="fas fa-users"></i> NPC Residents</div>
+                    <div className="cl-tags-wrap">
+                      {(editingPin.linkedEntities?.npcIds || []).map(npcId => {
+                        const npc = getNpc(npcId);
+                        return (
+                          <span key={npcId} className="cl-tag cl-tag-npc">
+                            <i className="fas fa-user"></i>
+                            {npc ? npc.name : npcId}
+                            <button
+                              type="button"
+                              className="btn-cl-remove"
+                              onClick={() => setEditingPin({ ...editingPin, linkedEntities: { ...editingPin.linkedEntities, npcIds: editingPin.linkedEntities.npcIds.filter(id => id !== npcId) } })}
+                            >×</button>
+                          </span>
+                        );
+                      })}
+                    </div>
+                    <div className="cl-search-wrap">
+                      <input
+                        type="text"
+                        className="cl-search-input"
+                        placeholder="Search NPCs by name or title…"
+                        value={npcSearchQuery}
+                        onChange={(e) => setNpcSearchQuery(e.target.value)}
+                      />
+                      {npcSearchQuery.trim().length >= 2 && (
+                        <ul className="cl-search-results">
+                          {searchNpcs(npcSearchQuery).filter(n => !(editingPin.linkedEntities?.npcIds || []).includes(n.id)).slice(0, 6).map(npc => (
+                            <li key={npc.id} onClick={() => {
+                              setEditingPin({ ...editingPin, linkedEntities: { ...editingPin.linkedEntities, npcIds: [...(editingPin.linkedEntities?.npcIds || []), npc.id] } });
+                              setNpcSearchQuery('');
+                            }}>
+                              <i className="fas fa-user"></i>
+                              <span>{npc.name}</span>
+                              <em>{npc.title}</em>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Faction Presence */}
+                  <div className="cl-section">
+                    <div className="cl-section-label"><i className="fas fa-shield-halved"></i> Faction Presence</div>
+                    <div className="cl-tags-wrap">
+                      {(editingPin.linkedEntities?.factionIds || []).map(fId => {
+                        const f = (factions || []).find(fc => fc.id === fId);
+                        return (
+                          <span key={fId} className="cl-tag cl-tag-faction" style={f?.colors ? { borderColor: f.colors.primary, background: `${f.colors.primary}22` } : {}}>
+                            <i className="fas fa-shield-halved"></i>
+                            {f ? f.name : fId}
+                            <button
+                              type="button"
+                              className="btn-cl-remove"
+                              onClick={() => setEditingPin({ ...editingPin, linkedEntities: { ...editingPin.linkedEntities, factionIds: editingPin.linkedEntities.factionIds.filter(id => id !== fId) } })}
+                            >×</button>
+                          </span>
+                        );
+                      })}
+                    </div>
+                    <div className="cl-search-wrap">
+                      <input
+                        type="text"
+                        className="cl-search-input"
+                        placeholder="Search factions…"
+                        value={factionSearchQuery}
+                        onChange={(e) => setFactionSearchQuery(e.target.value)}
+                      />
+                      {factionSearchQuery.trim().length >= 2 && (
+                        <ul className="cl-search-results">
+                          {(factions || []).filter(f => f.name.toLowerCase().includes(factionSearchQuery.toLowerCase()) && !(editingPin.linkedEntities?.factionIds || []).includes(f.id)).slice(0, 6).map(f => (
+                            <li key={f.id} onClick={() => {
+                              setEditingPin({ ...editingPin, linkedEntities: { ...editingPin.linkedEntities, factionIds: [...(editingPin.linkedEntities?.factionIds || []), f.id] } });
+                              setFactionSearchQuery('');
+                            }}>
+                              <i className="fas fa-shield-halved"></i>
+                              <span>{f.name}</span>
+                              <em>{f.type?.replace(/_/g, ' ')}</em>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Active Quests */}
+                  <div className="cl-section">
+                    <div className="cl-section-label"><i className="fas fa-scroll"></i> Active Quests</div>
+                    <div className="cl-tags-wrap">
+                      {(editingPin.linkedEntities?.questIds || []).map(qId => {
+                        const q = (quests || []).find(quest => quest.id === qId);
+                        return (
+                          <span key={qId} className={`cl-tag cl-tag-quest cl-quest-${q?.status || 'active'}`}>
+                            <i className="fas fa-scroll"></i>
+                            {q ? q.title : qId}
+                            <button
+                              type="button"
+                              className="btn-cl-remove"
+                              onClick={() => setEditingPin({ ...editingPin, linkedEntities: { ...editingPin.linkedEntities, questIds: editingPin.linkedEntities.questIds.filter(id => id !== qId) } })}
+                            >×</button>
+                          </span>
+                        );
+                      })}
+                    </div>
+                    <div className="cl-search-wrap">
+                      <input
+                        type="text"
+                        className="cl-search-input"
+                        placeholder="Search quests by title…"
+                        value={questSearchQuery}
+                        onChange={(e) => setQuestSearchQuery(e.target.value)}
+                      />
+                      {questSearchQuery.trim().length >= 2 && (
+                        <ul className="cl-search-results">
+                          {(quests || []).filter(q => q.title.toLowerCase().includes(questSearchQuery.toLowerCase()) && !(editingPin.linkedEntities?.questIds || []).includes(q.id)).slice(0, 6).map(q => (
+                            <li key={q.id} onClick={() => {
+                              setEditingPin({ ...editingPin, linkedEntities: { ...editingPin.linkedEntities, questIds: [...(editingPin.linkedEntities?.questIds || []), q.id] } });
+                              setQuestSearchQuery('');
+                            }}>
+                              <i className={`fas ${q.status === 'completed' ? 'fa-check-circle' : 'fa-scroll'}`}></i>
+                              <span>{q.title}</span>
+                              <em className={`quest-status-badge quest-status-${q.status}`}>{q.status}</em>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* GM Field Notes (Inline Journal) */}
+                  <div className="cl-section">
+                    <div className="cl-section-label"><i className="fas fa-feather-pointed"></i> GM Field Notes</div>
+                    <textarea
+                      className="cl-journal-textarea"
+                      rows={3}
+                      value={editingPin.linkedEntities?.journalNotes || ''}
+                      onChange={(e) => setEditingPin({ ...editingPin, linkedEntities: { ...editingPin.linkedEntities, journalNotes: e.target.value } })}
+                      placeholder="Session notes, encounter prep, secrets…"
+                    />
+                  </div>
+
+                </div>
+              )}
+            </div>
+            {/* ── End Campaign Links ───────────────────────────────────── */}
 
             <div className="form-group checkbox-group">
               <label>
@@ -2221,6 +3501,34 @@ const InteractiveMapStudio = () => {
                   onChange={(e) => setEditingWaypoint({ ...editingWaypoint, notes: e.target.value })}
                   placeholder="Ration depletion, weather hazards, frostbite checks, or random encounters..."
                 />
+              </div>
+
+              <div className="form-row">
+                <div className="form-group flex-1">
+                  <label><i className="fas fa-location-dot"></i> Link to Landmark Pin (Optional)</label>
+                  <select
+                    value={editingWaypoint.linkedPinId || ''}
+                    onChange={(e) => setEditingWaypoint({ ...editingWaypoint, linkedPinId: e.target.value || null })}
+                  >
+                    <option value="">-- No Linked Pin --</option>
+                    {pins.filter(p => (p.mapId || 'map-mythril-world') === (activeMap?.id || 'map-mythril-world')).map(p => (
+                      <option key={p.id} value={p.id}>{p.title} ({p.type})</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="form-group flex-1">
+                  <label><i className="fas fa-scroll"></i> Link to Quest (Optional)</label>
+                  <select
+                    value={editingWaypoint.linkedQuestId || ''}
+                    onChange={(e) => setEditingWaypoint({ ...editingWaypoint, linkedQuestId: e.target.value || null })}
+                  >
+                    <option value="">-- No Linked Quest --</option>
+                    {(quests || []).map(q => (
+                      <option key={q.id} value={q.id}>{q.title} ({q.status})</option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               <div className="form-group checkbox-group">

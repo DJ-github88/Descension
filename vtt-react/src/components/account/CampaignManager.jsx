@@ -3,13 +3,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import './styles/CampaignManager.css';
-import LibraryBrowserModal, { LIBRARY_TYPES } from './LibraryBrowserModal';
+import LibraryBrowserModal, { LIBRARY_TYPES as IMPORTED_LIBRARY_TYPES } from './LibraryBrowserModal';
+
+const LIBRARY_TYPES = IMPORTED_LIBRARY_TYPES || {
+  CREATURES: 'creatures',
+  ITEMS: 'items',
+  SPELLS: 'spells'
+};
 import ItemTooltip from '../item-generation/ItemTooltip';
 import SimpleCreatureTooltip from '../creature-wizard/components/common/SimpleCreatureTooltip';
 import SpellTooltip from '../spellcrafting-wizard/components/common/SpellTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../../components/common/useTooltipPosition';
 import useCreatureStore from '../../store/creatureStore';
+import useShareableStore from '../../store/shareableStore';
+import useChatStore from '../../store/chatStore';
 import campaignService from '../../services/campaignService';
 import { useCampaignPersistence } from '../../hooks/useCampaignPersistence';
 import { useMediaUpload } from '../../hooks/useMediaUpload';
@@ -101,14 +109,86 @@ const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }) => {
   );
 };
 
+// Universal Entity Linker Picker Modal
+const EntityLinkerModal = ({ isOpen, title, items = [], selectedIds = [], onToggle, onClose }) => {
+  const [search, setSearch] = useState('');
+
+  if (!isOpen) return null;
+
+  const filtered = (items || []).filter(item => {
+    const name = item?.name || item?.title || '';
+    return name.toLowerCase().includes(search.toLowerCase());
+  });
+
+  return ReactDOM.createPortal(
+    <div className="campaign-modal-overlay" onClick={onClose}>
+      <div className="campaign-modal-content entity-linker-modal-content" onClick={e => e.stopPropagation()}>
+        <h3>{title}</h3>
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Filter available entries..."
+          className="entity-picker-search"
+          autoFocus
+        />
+        <div className="entity-picker-grid">
+          {filtered.length > 0 ? (
+            filtered.map(item => {
+              const isSelected = selectedIds.some(id => String(id) === String(item.id));
+              return (
+                <div
+                  key={item.id}
+                  className={`entity-picker-card ${isSelected ? 'selected' : ''}`}
+                  onClick={() => onToggle(item.id)}
+                >
+                  <input
+                    type="checkbox"
+                    checked={isSelected}
+                    onChange={() => {}}
+                    style={{ pointerEvents: 'none' }}
+                  />
+                  {item.icon ? (
+                    <img src={item.icon} alt="" className="entity-picker-thumb" onError={(e) => { e.target.style.display = 'none'; }} />
+                  ) : (
+                    <i className={`fas ${item.faIcon || 'fa-tag'}`} style={{ color: '#d4af37', fontSize: '14px', width: '20px' }}></i>
+                  )}
+                  <div className="entity-picker-meta">
+                    <span className="entity-picker-title">{item.name || item.title}</span>
+                    <span className="entity-picker-subtitle">{item.type || item.category || item.rarity || item.threat || 'Entity'}</span>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <p style={{ gridColumn: '1 / -1', color: '#8b5a1a', fontStyle: 'italic', padding: '10px 0', fontSize: '0.9rem' }}>
+              No entities found. Create or select custom entries in the Campaign or World tab first!
+            </p>
+          )}
+        </div>
+        <div className="campaign-modal-actions">
+          <button type="button" className="campaign-modal-btn confirm" onClick={onClose}>Done</button>
+        </div>
+      </div>
+    </div>,
+    document.body
+  );
+};
+
 const CampaignManager = ({ user }) => {
   const [activeSection, setActiveSection] = useState('overview');
   const [homebrewSubTab, setHomebrewSubTab] = useState('items');
   const [lineageViewMode, setLineageViewMode] = useState('species'); // 'species' | 'family_trees'
+  const [locationViewMode, setLocationViewMode] = useState('cards');
+  const [locationCardTabs, setLocationCardTabs] = useState({});
+  const [selectedAtlasLocationId, setSelectedAtlasLocationId] = useState(null); // 'cards' | 'graph'
+  const [atlasSearch, setAtlasSearch] = useState('');
+  const [atlasTypeFilter, setAtlasTypeFilter] = useState('all');
 
   // Modal state
   const [inputModal, setInputModal] = useState({ isOpen: false, title: '', placeholder: '', callback: null });
   const [confirmModal, setConfirmModal] = useState({ isOpen: false, title: '', message: '', callback: null });
+  const [linkerModal, setLinkerModal] = useState({ isOpen: false, title: '', items: [], selectedIds: [], onSelect: null });
 
   // Library browser state
   const [libraryBrowser, setLibraryBrowser] = useState({
@@ -438,6 +518,369 @@ const CampaignManager = ({ user }) => {
 
   const updateCampaignData = (updates) => {
     setCampaignData(prev => ({ ...prev, ...updates }));
+  };
+
+  // Universal entity accessors with source tagging
+  const getAllCampaignItems = () => [
+    ...(campaignData.selectedItems || []).map(i => ({ ...i, icon: resolveLibraryItemIcon(i), _source: 'Library', _badgeColor: '#c59b3f' })),
+    ...(campaignData.homebrew?.items || []).map(i => ({ ...i, faIcon: getItemTypeIcon(i.type), _source: 'Homebrew', _badgeColor: '#9b59b6' }))
+  ];
+
+  const getAllCampaignCreatures = () => [
+    ...(campaignData.selectedCreatures || []).map(c => ({ ...c, icon: resolveLibraryCreatureIcon(c), _source: 'Library', _badgeColor: '#c59b3f' })),
+    ...(campaignData.homebrew?.monsters || []).map(m => ({ ...m, faIcon: getCreatureFamilyIcon(m.type), _source: 'Homebrew', _badgeColor: '#9b59b6' }))
+  ];
+
+  const getAllCampaignSpells = () => [
+    ...(campaignData.selectedSpells || []).map(s => ({ ...s, icon: resolveLibrarySpellIcon(s), _source: 'Library', _badgeColor: '#c59b3f' })),
+    ...(campaignData.homebrew?.spells || []).map(s => ({ ...s, faIcon: getSpellSchoolIcon(s.school), _source: 'Homebrew', _badgeColor: '#9b59b6' }))
+  ];
+
+  const getAllCampaignLore = () => [
+    ...(campaignData.homebrew?.lore || []).map(l => ({ ...l, faIcon: 'fa-scroll', _source: 'Homebrew', _badgeColor: '#3498db' }))
+  ];
+
+  const getAllCampaignNPCs = () => [
+    ...(campaignData.npcs || []).map(n => ({ ...n, icon: n.image, faIcon: 'fa-user', _source: 'NPC', _badgeColor: '#2ecc71' }))
+  ];
+
+  const getAllCampaignLocations = () => [
+    ...(campaignData.locations || []).map(loc => ({ ...loc, icon: loc.image, faIcon: 'fa-map-marker-alt', _source: 'Location', _badgeColor: '#e67e22' }))
+  ];
+
+  const getAllCampaignQuests = () => [
+    ...(campaignData.quests || []).map(q => ({ ...q, faIcon: 'fa-scroll', _source: q.priority ? `${q.priority.toUpperCase()} Priority` : 'Quest', _badgeColor: '#f39c12' }))
+  ];
+
+  const getLinkedItems = (ids = []) => {
+    const all = getAllCampaignItems();
+    return (ids || []).map(id => all.find(i => String(i.id) === String(id))).filter(Boolean);
+  };
+
+  const getLinkedCreatures = (ids = []) => {
+    const all = getAllCampaignCreatures();
+    return (ids || []).map(id => all.find(c => String(c.id) === String(id))).filter(Boolean);
+  };
+
+  const getLinkedSpells = (ids = []) => {
+    const all = getAllCampaignSpells();
+    return (ids || []).map(id => all.find(s => String(s.id) === String(id))).filter(Boolean);
+  };
+
+  const getLinkedLore = (ids = []) => {
+    const all = getAllCampaignLore();
+    return (ids || []).map(id => all.find(l => String(l.id) === String(id))).filter(Boolean);
+  };
+
+  const getLinkedNPCs = (ids = []) => {
+    const all = getAllCampaignNPCs();
+    return (ids || []).map(id => all.find(n => String(n.id) === String(id))).filter(Boolean);
+  };
+
+  const getLinkedLocations = (ids = []) => {
+    const all = getAllCampaignLocations();
+    return (ids || []).map(id => all.find(l => String(l.id) === String(id))).filter(Boolean);
+  };
+
+  const getLinkedQuests = (ids = []) => {
+    const all = getAllCampaignQuests();
+    return (ids || []).map(id => all.find(q => String(q.id) === String(id))).filter(Boolean);
+  };
+
+  const openLinkerModal = (title, items, currentIds = [], onSave, onBrowseLibrary = null, onCreateHomebrew = null) => {
+    setLinkerModal({
+      isOpen: true,
+      title,
+      items,
+      selectedIds: [...(currentIds || [])],
+      onBrowseLibrary,
+      onCreateHomebrew,
+      onToggle: (id) => {
+        setLinkerModal(prev => {
+          const exists = prev.selectedIds.some(existingId => String(existingId) === String(id));
+          const updated = exists ? prev.selectedIds.filter(existingId => String(existingId) !== String(id)) : [...prev.selectedIds, id];
+          if (onSave) onSave(updated);
+          return { ...prev, selectedIds: updated };
+        });
+      }
+    });
+  };
+
+  // Location direct add & link handlers (Library / Homebrew / Quests / Lore / NPCs)
+  const addCreatureToLocationFromLibrary = (locationId) => {
+    openLibraryBrowser(LIBRARY_TYPES.CREATURES, 'Add Creature to Location', (selected) => {
+      const items = Array.isArray(selected) ? selected : [selected];
+      const newCreatures = items.map(creature => ({
+        id: `lib-${creature.id}-${Date.now()}`,
+        libraryId: creature.id,
+        ...creature,
+        notes: '',
+        isFromLibrary: true
+      }));
+      const newIds = newCreatures.map(c => c.id);
+      const loc = (campaignData.locations || []).find(l => l.id === locationId);
+      const updatedLocMonsterIds = Array.from(new Set([...(loc?.monsterIds || []), ...newIds]));
+
+      updateCampaignData({
+        selectedCreatures: [...(campaignData.selectedCreatures || []), ...newCreatures],
+        locations: (campaignData.locations || []).map(l => l.id === locationId ? { ...l, monsterIds: updatedLocMonsterIds } : l)
+      });
+    });
+  };
+
+  const addCustomCreatureToLocation = (locationId) => {
+    showInputModal('Create Inhabitant / Monster', 'Monster name (e.g. Frost Crypt Guardian)...', (monsterName) => {
+      if (!monsterName || !monsterName.trim()) return;
+      const newMonster = {
+        id: Date.now(),
+        name: monsterName.trim(),
+        type: 'humanoid',
+        threat: 'Standard',
+        cr: '1',
+        hp: 30,
+        mana: 10,
+        ap: 3,
+        speed: '30 ft.',
+        description: '',
+        notes: '',
+        isCustom: true
+      };
+      const loc = (campaignData.locations || []).find(l => l.id === locationId);
+      const updatedLocMonsterIds = [...(loc?.monsterIds || []), newMonster.id];
+
+      updateCampaignData({
+        homebrew: { ...campaignData.homebrew, monsters: [...(campaignData.homebrew?.monsters || []), newMonster] },
+        locations: (campaignData.locations || []).map(l => l.id === locationId ? { ...l, monsterIds: updatedLocMonsterIds } : l)
+      });
+    });
+  };
+
+  const addItemToLocationFromLibrary = (locationId) => {
+    openLibraryBrowser(LIBRARY_TYPES.ITEMS, 'Add Loot to Location', (selected) => {
+      const items = Array.isArray(selected) ? selected : [selected];
+      const newItems = items.map(item => ({
+        id: `lib-${item.id}-${Date.now()}`,
+        libraryId: item.id,
+        ...item,
+        iconId: item.iconId || item.icon,
+        icon: item.icon || item.iconId,
+        notes: '',
+        isFromLibrary: true
+      }));
+      const newIds = newItems.map(i => i.id);
+      const loc = (campaignData.locations || []).find(l => l.id === locationId);
+      const updatedLocLootIds = Array.from(new Set([...(loc?.lootIds || []), ...newIds]));
+
+      updateCampaignData({
+        selectedItems: [...(campaignData.selectedItems || []), ...newItems],
+        locations: (campaignData.locations || []).map(l => l.id === locationId ? { ...l, lootIds: updatedLocLootIds } : l)
+      });
+    });
+  };
+
+  const addCustomItemToLocation = (locationId) => {
+    showInputModal('Create Chamber Loot / Relic', 'Item name (e.g. Sunforged Key)...', (itemName) => {
+      if (!itemName || !itemName.trim()) return;
+      const newItem = {
+        id: Date.now(),
+        name: itemName.trim(),
+        type: 'wondrous',
+        rarity: 'rare',
+        quality: 'rare',
+        description: '',
+        properties: '',
+        effects: '',
+        notes: '',
+        isCustom: true
+      };
+      const loc = (campaignData.locations || []).find(l => l.id === locationId);
+      const updatedLocLootIds = [...(loc?.lootIds || []), newItem.id];
+
+      updateCampaignData({
+        homebrew: { ...campaignData.homebrew, items: [...(campaignData.homebrew?.items || []), newItem] },
+        locations: (campaignData.locations || []).map(l => l.id === locationId ? { ...l, lootIds: updatedLocLootIds } : l)
+      });
+    });
+  };
+
+  const addQuestToLocation = (locationId) => {
+    const loc = (campaignData.locations || []).find(l => l.id === locationId);
+    showInputModal(`New Quest at ${loc?.name || 'Location'}`, 'Quest title...', (questTitle) => {
+      if (!questTitle || !questTitle.trim()) return;
+      const newQuest = {
+        id: Date.now(),
+        title: questTitle.trim(),
+        type: 'side',
+        status: 'not-started',
+        priority: 'medium',
+        location: loc?.name || '',
+        giver: '',
+        description: `Quest taking place in or around ${loc?.name || 'this location'}.`,
+        objectives: [{ id: Date.now() + 1, text: 'Investigate the area', completed: false }],
+        rewards: '',
+        notes: ''
+      };
+      const updatedLocQuestIds = [...(loc?.questIds || []), newQuest.id];
+
+      updateCampaignData({
+        quests: [...(campaignData.quests || []), newQuest],
+        locations: (campaignData.locations || []).map(l => l.id === locationId ? { ...l, questIds: updatedLocQuestIds } : l)
+      });
+    });
+  };
+
+  const addLoreToLocation = (locationId) => {
+    const loc = (campaignData.locations || []).find(l => l.id === locationId);
+    showInputModal(`New Inscription / Lore for ${loc?.name || 'Location'}`, 'Article / Inscription title...', (artTitle) => {
+      if (!artTitle || !artTitle.trim()) return;
+      const newArticle = {
+        id: Date.now(),
+        title: artTitle.trim(),
+        category: 'locations',
+        content: `Historical records and discoveries regarding ${loc?.name || 'this location'}.`,
+        tags: [loc?.name || 'location'],
+        isSecret: false,
+        notes: ''
+      };
+      const updatedLocLoreIds = [...(loc?.loreIds || []), newArticle.id];
+
+      updateCampaignData({
+        homebrew: { ...campaignData.homebrew, lore: [...(campaignData.homebrew?.lore || []), newArticle] },
+        locations: (campaignData.locations || []).map(l => l.id === locationId ? { ...l, loreIds: updatedLocLoreIds } : l)
+      });
+    });
+  };
+
+  const addSubLocationToLocation = (parentLocationId) => {
+    const parent = (campaignData.locations || []).find(l => l.id === parentLocationId);
+    showInputModal(`Add Sub-Location to ${parent?.name || 'Location'}`, 'Sub-location name (e.g. The Drunken Dragon Tavern, Crypt of Shadows)...', (subLocName) => {
+      if (!subLocName || !subLocName.trim()) return;
+      const newSubLoc = {
+        id: Date.now(),
+        name: subLocName.trim(),
+        type: 'landmark',
+        parentId: parentLocationId,
+        region: parent?.region || parent?.name || '',
+        description: `Sub-location located inside or belonging to ${parent?.name || 'parent location'}.`,
+        notableFeatures: '',
+        lootIds: [],
+        monsterIds: [],
+        questIds: [],
+        loreIds: [],
+        npcIds: [],
+        connectedLocationIds: []
+      };
+      const updatedParentSubIds = [...(parent?.subLocationIds || []), newSubLoc.id];
+
+      updateCampaignData({
+        locations: [
+          ...(campaignData.locations || []).map(l => l.id === parentLocationId ? { ...l, subLocationIds: updatedParentSubIds } : l),
+          newSubLoc
+        ]
+      });
+    });
+  };
+
+  const addNPCToLocation = (locationId) => {
+    const loc = (campaignData.locations || []).find(l => l.id === locationId);
+    showInputModal(`New NPC at ${loc?.name || 'Location'}`, 'NPC name...', (npcName) => {
+      if (!npcName || !npcName.trim()) return;
+      const newNPC = {
+        id: Date.now(),
+        name: npcName.trim(),
+        location: loc?.name || '',
+        relationship: 'neutral',
+        plotRelevance: 'minor',
+        description: '',
+        notes: '',
+        status: 'alive'
+      };
+      const updatedLocNPCIds = [...(loc?.npcIds || []), newNPC.id];
+
+      updateCampaignData({
+        npcs: [...(campaignData.npcs || []), newNPC],
+        locations: (campaignData.locations || []).map(l => l.id === locationId ? { ...l, npcIds: updatedLocNPCIds } : l)
+      });
+    });
+  };
+
+  const closeLinkerModal = () => {
+    setLinkerModal(prev => ({ ...prev, isOpen: false }));
+  };
+
+  // Live in-game / account actions for Session Dossier
+  const handleSpawnSessionEncounters = (session) => {
+    const creatures = getLinkedCreatures(session.monsterIds);
+    if (creatures.length === 0) {
+      alert('No encounter monsters linked to this session.');
+      return;
+    }
+
+    const creatureStore = useCreatureStore.getState();
+    if (creatureStore?.addToken) {
+      creatures.forEach((c, idx) => {
+        creatureStore.addToken({
+          id: `token_${Date.now()}_${idx}`,
+          name: c.name,
+          type: c.type || 'beast',
+          threat: c.threat || 'Standard',
+          hp: c.hp || 30,
+          maxHp: c.hp || 30,
+          mana: c.mana || 10,
+          maxMana: c.mana || 10,
+          ap: c.ap ?? 3,
+          x: 10 + (idx % 3) * 2,
+          y: 10 + Math.floor(idx / 3) * 2,
+          tokenIcon: c.tokenIcon || c.icon || 'inv_misc_questionmark'
+        });
+      });
+      alert(`⚔️ Successfully spawned ${creatures.length} encounter tokens directly onto the active VTT Canvas!`);
+    } else {
+      alert(`⚔️ ${creatures.length} encounter creature(s) prepped and ready for live game!`);
+    }
+  };
+
+  const handleDropSessionLoot = (session) => {
+    const items = getLinkedItems(session.lootIds);
+    if (items.length === 0) {
+      alert('No loot items linked to this session.');
+      return;
+    }
+
+    const chatStore = useChatStore.getState();
+    const itemListText = items.map(i => `${i.name} (${i.rarity || i.quality || 'Common'})`).join(', ');
+    if (chatStore?.addNotification) {
+      chatStore.addNotification({
+        type: 'loot',
+        sender: 'Campaign Director',
+        text: `💎 Party Loot Uncovered: ${itemListText}`,
+        timestamp: Date.now()
+      });
+      alert(`💎 Broadcasted ${items.length} loot item(s) to party chat!`);
+    } else {
+      alert(`💎 Loot: ${itemListText}`);
+    }
+  };
+
+  const handleRevealSessionHandouts = (session) => {
+    const loreArticles = getLinkedLore(session.loreIds);
+    if (loreArticles.length === 0) {
+      alert('No lore articles or handouts linked to this session.');
+      return;
+    }
+
+    const shareableStore = useShareableStore.getState();
+    loreArticles.forEach(art => {
+      if (shareableStore?.showToPlayers) {
+        shareableStore.showToPlayers({
+          id: art.id,
+          title: art.title,
+          content: art.content || art.description || '',
+          category: art.category || 'lore'
+        });
+      }
+    });
+    alert(`📜 Revealed ${loreArticles.length} handout(s) to the party display!`);
   };
 
   // Modal helpers
@@ -986,6 +1429,18 @@ const CampaignManager = ({ user }) => {
         multiSelect={true}
       />
 
+      {/* Entity Linker Picker Modal */}
+      <EntityLinkerModal
+        isOpen={linkerModal.isOpen}
+        title={linkerModal.title}
+        items={linkerModal.items}
+        selectedIds={linkerModal.selectedIds}
+        onToggle={linkerModal.onToggle}
+        onClose={closeLinkerModal}
+        onBrowseLibrary={linkerModal.onBrowseLibrary}
+        onCreateHomebrew={linkerModal.onCreateHomebrew}
+      />
+
       {/* Campaign Header */}
       <div className="campaign-detail-header">
         <div className="campaign-title-section">
@@ -1286,67 +1741,285 @@ const CampaignManager = ({ user }) => {
           </div>
         )}
 
-        {/* ============ SESSIONS ============ */}
+        {/* ============ SESSIONS & SCENARIO DIRECTOR ============ */}
         {activeSection === 'sessions' && (
           <div className="list-section">
             <div className="section-header">
-              <h3>Session Management</h3>
+              <div>
+                <h3>Session & Scenario Director</h3>
+                <p style={{ margin: 0, fontSize: '0.85rem', color: '#8b5a1a' }}>
+                  Assemble locations, encounters, loot caches, and handouts for active gameplay.
+                </p>
+              </div>
               <button className="add-btn" onClick={addSession}>
-                <i className="fas fa-plus"></i> New Session
+                <i className="fas fa-plus"></i> New Session Plan
               </button>
             </div>
             <div className="cards-list">
               {(campaignData.sessions || []).length > 0 ? (
                 (campaignData.sessions || []).map(session => (
-                  <div key={session.id} className="content-card session-card">
-                    <div className="card-header">
-                      <input
-                        type="text"
-                        value={session.title}
-                        onChange={(e) => updateSession(session.id, { title: e.target.value })}
-                        className="card-title-input"
-                      />
-                      <input
-                        type="date"
-                        value={session.date}
-                        onChange={(e) => updateSession(session.id, { date: e.target.value })}
-                        className="date-input"
-                      />
-                      <select
-                        value={session.status}
-                        onChange={(e) => updateSession(session.id, { status: e.target.value })}
-                        className="status-select"
-                      >
-                        <option value="planned">Planned</option>
-                        <option value="in-progress">In Progress</option>
-                        <option value="completed">Completed</option>
-                      </select>
-                      <button className="remove-btn" onClick={() => removeSession(session.id)}>
-                        <i className="fas fa-trash"></i>
-                      </button>
-                    </div>
-                    <div className="card-body">
-                      <div className="field">
-                        <label>Session Notes</label>
-                        <textarea
-                          value={session.notes}
-                          onChange={(e) => updateSession(session.id, { notes: e.target.value })}
-                          placeholder="Plan objectives, encounters, plot points..."
-                          rows={3}
+                  <div key={session.id} className="content-card session-dossier-card">
+                    {/* Header */}
+                    <div className="session-dossier-header">
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1 }}>
+                        <span className="session-dossier-badge">Session #{session.number}</span>
+                        <input
+                          type="text"
+                          value={session.title}
+                          onChange={(e) => updateSession(session.id, { title: e.target.value })}
+                          className="card-title-input"
+                          style={{ flex: 1 }}
+                          placeholder="Session Title..."
                         />
                       </div>
-                      {session.status === 'completed' && (
-                        <div className="field">
-                          <label>Session Summary</label>
-                          <textarea
-                            value={session.summary || ''}
-                            onChange={(e) => updateSession(session.id, { summary: e.target.value })}
-                            placeholder="What happened this session..."
-                            rows={3}
-                          />
-                        </div>
-                      )}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <input
+                          type="date"
+                          value={session.date}
+                          onChange={(e) => updateSession(session.id, { date: e.target.value })}
+                          className="date-input"
+                        />
+                        <select
+                          value={session.status}
+                          onChange={(e) => updateSession(session.id, { status: e.target.value })}
+                          className="status-select"
+                        >
+                          <option value="planned">Planned</option>
+                          <option value="in-progress">In Progress</option>
+                          <option value="completed">Completed</option>
+                        </select>
+                        <button className="remove-card-btn" onClick={() => removeSession(session.id)} title="Delete Session">
+                          <i className="fas fa-trash-alt"></i>
+                        </button>
+                      </div>
                     </div>
+
+                    {/* Command Strip: Location & Quests */}
+                    <div className="session-dossier-command-strip">
+                      <div className="dossier-command-field">
+                        <label><i className="fas fa-map-location-dot"></i> Primary Target Location</label>
+                        <div className="dossier-select-wrapper">
+                          <select
+                            value={session.primaryLocationId || ''}
+                            onChange={(e) => updateSession(session.id, { primaryLocationId: e.target.value })}
+                            className="card-field-select"
+                            style={{ flex: 1 }}
+                          >
+                            <option value="">-- Select Target Location --</option>
+                            {(campaignData.locations || []).map(loc => (
+                              <option key={loc.id} value={loc.id}>{loc.name} {loc.region ? `(${loc.region})` : ''}</option>
+                            ))}
+                          </select>
+                          {session.primaryLocationId && (
+                            <button
+                              type="button"
+                              className="dossier-trigger-action-btn"
+                              style={{ padding: '6px 10px', background: '#3498db' }}
+                              onClick={() => {
+                                const loc = (campaignData.locations || []).find(l => String(l.id) === String(session.primaryLocationId));
+                                const pins = useInteractiveMapStore.getState().pins;
+                                const matchingPin = pins.find(p => p.title.toLowerCase().includes((loc?.name || '').toLowerCase()));
+                                useInteractiveMapStore.getState().openStudio(matchingPin?.mapId, matchingPin?.id);
+                              }}
+                              title="View on Map"
+                            >
+                              <i className="fas fa-compass"></i>
+                            </button>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="dossier-command-field">
+                        <label><i className="fas fa-scroll"></i> Active Quests & Plot Objectives</label>
+                        <button
+                          type="button"
+                          className="entity-chip-add-btn"
+                          style={{ width: 'fit-content', padding: '5px 10px' }}
+                          onClick={() => openLinkerModal('Link Quests for this Session', getAllCampaignQuests(), session.questIds || [], (newIds) => updateSession(session.id, { questIds: newIds }))}
+                        >
+                          <i className="fas fa-plus"></i> Select Active Quests ({getLinkedQuests(session.questIds).length})
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Dossier Pillars Grid */}
+                    <div className="dossier-grid-sections">
+                      {/* Encounters & Inhabitants */}
+                      <div className="dossier-pillar-box">
+                        <div className="dossier-pillar-header">
+                          <span className="dossier-pillar-title">
+                            <i className="fas fa-skull-crossbones" style={{ color: '#c0392b' }}></i> Planned Encounters
+                          </span>
+                          <div style={{ display: 'flex', gap: '6px' }}>
+                            <button
+                              type="button"
+                              className="entity-chip-add-btn"
+                              onClick={() => openLinkerModal('Add Monsters / NPCs to Session', getAllCampaignCreatures(), session.monsterIds || [], (newIds) => updateSession(session.id, { monsterIds: newIds }))}
+                            >
+                              <i className="fas fa-plus"></i> Add
+                            </button>
+                            {getLinkedCreatures(session.monsterIds).length > 0 && (
+                              <button
+                                type="button"
+                                className="dossier-trigger-action-btn btn-spawn"
+                                onClick={() => handleSpawnSessionEncounters(session)}
+                                title="Spawn all planned monsters onto the active VTT Canvas"
+                              >
+                                <i className="fas fa-bolt"></i> Spawn on Canvas
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                        <div className="entity-chips-list">
+                          {getLinkedCreatures(session.monsterIds).map(c => (
+                            <span
+                              key={c.id}
+                              className="entity-chip-pill monster-chip"
+                              onMouseEnter={(e) => handleMouseEnter(e, null, c, null)}
+                              onMouseMove={handleMouseMove}
+                              onMouseLeave={handleMouseLeave}
+                            >
+                              <img src={resolveLibraryCreatureIcon(c)} alt="" className="entity-chip-pill-icon" />
+                              <span className="entity-chip-pill-name">{c.name}</span>
+                              <button
+                                type="button"
+                                className="entity-chip-remove"
+                                onClick={() => updateSession(session.id, { monsterIds: (session.monsterIds || []).filter(id => String(id) !== String(c.id)) })}
+                              >
+                                <i className="fas fa-times"></i>
+                              </button>
+                            </span>
+                          ))}
+                          {(!session.monsterIds || session.monsterIds.length === 0) && (
+                            <span style={{ fontSize: '0.72rem', color: '#a08c70', fontStyle: 'italic' }}>No encounters prepped for this session</span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Loot & Treasure Caches */}
+                      <div className="dossier-pillar-box">
+                        <div className="dossier-pillar-header">
+                          <span className="dossier-pillar-title">
+                            <i className="fas fa-coins" style={{ color: '#d4af37' }}></i> Session Loot & Caches
+                          </span>
+                          <div style={{ display: 'flex', gap: '6px' }}>
+                            <button
+                              type="button"
+                              className="entity-chip-add-btn"
+                              onClick={() => openLinkerModal('Add Loot Items to Session', getAllCampaignItems(), session.lootIds || [], (newIds) => updateSession(session.id, { lootIds: newIds }))}
+                            >
+                              <i className="fas fa-plus"></i> Add
+                            </button>
+                            {getLinkedItems(session.lootIds).length > 0 && (
+                              <button
+                                type="button"
+                                className="dossier-trigger-action-btn btn-loot"
+                                onClick={() => handleDropSessionLoot(session)}
+                                title="Broadcast loot cards to party chat"
+                              >
+                                <i className="fas fa-gem"></i> Drop Loot to Chat
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                        <div className="entity-chips-list">
+                          {getLinkedItems(session.lootIds).map(item => (
+                            <span
+                              key={item.id}
+                              className="entity-chip-pill item-chip"
+                              onMouseEnter={(e) => handleMouseEnter(e, item, null, null)}
+                              onMouseMove={handleMouseMove}
+                              onMouseLeave={handleMouseLeave}
+                            >
+                              <img src={resolveLibraryItemIcon(item)} alt="" className="entity-chip-pill-icon" />
+                              <span className="entity-chip-pill-name">{item.name}</span>
+                              <button
+                                type="button"
+                                className="entity-chip-remove"
+                                onClick={() => updateSession(session.id, { lootIds: (session.lootIds || []).filter(id => String(id) !== String(item.id)) })}
+                              >
+                                <i className="fas fa-times"></i>
+                              </button>
+                            </span>
+                          ))}
+                          {(!session.lootIds || session.lootIds.length === 0) && (
+                            <span style={{ fontSize: '0.72rem', color: '#a08c70', fontStyle: 'italic' }}>No treasure prepped for this session</span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Clues & Handouts */}
+                      <div className="dossier-pillar-box" style={{ gridColumn: '1 / -1' }}>
+                        <div className="dossier-pillar-header">
+                          <span className="dossier-pillar-title">
+                            <i className="fas fa-scroll" style={{ color: '#3498db' }}></i> Clues, Inscriptions & Player Handouts
+                          </span>
+                          <div style={{ display: 'flex', gap: '6px' }}>
+                            <button
+                              type="button"
+                              className="entity-chip-add-btn"
+                              onClick={() => openLinkerModal('Add Lore / Handouts to Session', getAllCampaignLore(), session.loreIds || [], (newIds) => updateSession(session.id, { loreIds: newIds }))}
+                            >
+                              <i className="fas fa-plus"></i> Add
+                            </button>
+                            {getLinkedLore(session.loreIds).length > 0 && (
+                              <button
+                                type="button"
+                                className="dossier-trigger-action-btn btn-reveal"
+                                onClick={() => handleRevealSessionHandouts(session)}
+                                title="Reveal selected handouts to the party journal / display"
+                              >
+                                <i className="fas fa-eye"></i> Reveal Handouts
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                        <div className="entity-chips-list">
+                          {getLinkedLore(session.loreIds).map(art => (
+                            <span key={art.id} className="entity-chip-pill lore-chip">
+                              <i className="fas fa-scroll" style={{ color: '#3498db', fontSize: '11px' }}></i>
+                              <span className="entity-chip-pill-name">{art.title}</span>
+                              <button
+                                type="button"
+                                className="entity-chip-remove"
+                                onClick={() => updateSession(session.id, { loreIds: (session.loreIds || []).filter(id => String(id) !== String(art.id)) })}
+                              >
+                                <i className="fas fa-times"></i>
+                              </button>
+                            </span>
+                          ))}
+                          {(!session.loreIds || session.loreIds.length === 0) && (
+                            <span style={{ fontSize: '0.72rem', color: '#a08c70', fontStyle: 'italic' }}>No clues or handouts assigned</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Scene Breakdown & GM Notes */}
+                    <div className="field-group">
+                      <label className="field-label"><i className="fas fa-feather-pointed"></i> Scene Breakdown & Tactical GM Notes</label>
+                      <textarea
+                        value={session.notes}
+                        onChange={(e) => updateSession(session.id, { notes: e.target.value })}
+                        placeholder="Scene 1: Journey through the blizzard...&#10;Scene 2: Infiltration of the gatehouse (Encounter 1)...&#10;Scene 3: Crypt altar discovery & boss combat..."
+                        rows={3}
+                        className="card-field-textarea"
+                      />
+                    </div>
+
+                    {/* Session Summary (if in-progress or completed) */}
+                    {(session.status === 'in-progress' || session.status === 'completed') && (
+                      <div className="field-group">
+                        <label className="field-label"><i className="fas fa-bookmark"></i> Session Summary & Campaign Chronicle</label>
+                        <textarea
+                          value={session.summary || ''}
+                          onChange={(e) => updateSession(session.id, { summary: e.target.value })}
+                          placeholder="What the party decided, unexpected twists, XP awarded, and cliffhangers..."
+                          rows={3}
+                          className="card-field-textarea"
+                        />
+                      </div>
+                    )}
                   </div>
                 ))
               ) : (
@@ -1501,6 +2174,114 @@ const CampaignManager = ({ user }) => {
                         />
                       </div>
 
+                      {/* NPC Entity Weaver: Equipped Items, Spells, Secrets */}
+                      <div className="entity-weaver-block">
+                        <div className="entity-chips-rack">
+                          <div className="entity-rack-header">
+                            <span><i className="fas fa-shield-halved"></i> Equipped Gear ({getLinkedItems(npc.inventoryItemIds).length})</span>
+                            <button
+                              type="button"
+                              className="entity-chip-add-btn"
+                              onClick={() => openLinkerModal(`Equip Items on ${npc.name || 'NPC'}`, getAllCampaignItems(), npc.inventoryItemIds || [], (newIds) => updateNPC(npc.id, { inventoryItemIds: newIds }))}
+                            >
+                              <i className="fas fa-plus"></i> Equip Item
+                            </button>
+                          </div>
+                          <div className="entity-chips-list">
+                            {getLinkedItems(npc.inventoryItemIds).map(item => (
+                              <span
+                                key={item.id}
+                                className="entity-chip-pill item-chip"
+                                onMouseEnter={(e) => handleMouseEnter(e, item, null, null)}
+                                onMouseMove={handleMouseMove}
+                                onMouseLeave={handleMouseLeave}
+                              >
+                                <img src={resolveLibraryItemIcon(item)} alt="" className="entity-chip-pill-icon" />
+                                <span className="entity-chip-pill-name">{item.name}</span>
+                                <button
+                                  type="button"
+                                  className="entity-chip-remove"
+                                  onClick={() => updateNPC(npc.id, { inventoryItemIds: (npc.inventoryItemIds || []).filter(id => String(id) !== String(item.id)) })}
+                                >
+                                  <i className="fas fa-times"></i>
+                                </button>
+                              </span>
+                            ))}
+                            {(!npc.inventoryItemIds || npc.inventoryItemIds.length === 0) && (
+                              <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No equipment assigned</span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="entity-chips-rack">
+                          <div className="entity-rack-header">
+                            <span><i className="fas fa-hat-wizard"></i> Known Spells ({getLinkedSpells(npc.spellIds).length})</span>
+                            <button
+                              type="button"
+                              className="entity-chip-add-btn"
+                              onClick={() => openLinkerModal(`Assign Spells to ${npc.name || 'NPC'}`, getAllCampaignSpells(), npc.spellIds || [], (newIds) => updateNPC(npc.id, { spellIds: newIds }))}
+                            >
+                              <i className="fas fa-plus"></i> Add Spell
+                            </button>
+                          </div>
+                          <div className="entity-chips-list">
+                            {getLinkedSpells(npc.spellIds).map(spell => (
+                              <span
+                                key={spell.id}
+                                className="entity-chip-pill spell-chip"
+                                onMouseEnter={(e) => handleMouseEnter(e, null, null, spell)}
+                                onMouseMove={handleMouseMove}
+                                onMouseLeave={handleMouseLeave}
+                              >
+                                <img src={resolveLibrarySpellIcon(spell)} alt="" className="entity-chip-pill-icon" />
+                                <span className="entity-chip-pill-name">{spell.name}</span>
+                                <button
+                                  type="button"
+                                  className="entity-chip-remove"
+                                  onClick={() => updateNPC(npc.id, { spellIds: (npc.spellIds || []).filter(id => String(id) !== String(spell.id)) })}
+                                >
+                                  <i className="fas fa-times"></i>
+                                </button>
+                              </span>
+                            ))}
+                            {(!npc.spellIds || npc.spellIds.length === 0) && (
+                              <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No spells assigned</span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="entity-chips-rack">
+                          <div className="entity-rack-header">
+                            <span><i className="fas fa-book-open"></i> Attached Secrets & Lore ({getLinkedLore(npc.loreIds).length})</span>
+                            <button
+                              type="button"
+                              className="entity-chip-add-btn"
+                              onClick={() => openLinkerModal(`Attach Lore to ${npc.name || 'NPC'}`, getAllCampaignLore(), npc.loreIds || [], (newIds) => updateNPC(npc.id, { loreIds: newIds }))}
+                            >
+                              <i className="fas fa-plus"></i> Link Lore
+                            </button>
+                          </div>
+                          <div className="entity-chips-list">
+                            {getLinkedLore(npc.loreIds).map(art => (
+                              <span key={art.id} className="entity-chip-pill lore-chip">
+                                <i className="fas fa-scroll" style={{ color: '#3498db', fontSize: '11px' }}></i>
+                                <span className="entity-chip-pill-name">{art.title}</span>
+                                <button
+                                  type="button"
+                                  className="entity-chip-remove"
+                                  onClick={() => updateNPC(npc.id, { loreIds: (npc.loreIds || []).filter(id => String(id) !== String(art.id)) })}
+                                >
+                                  <i className="fas fa-times"></i>
+                                </button>
+                              </span>
+                            ))}
+                            {(!npc.loreIds || npc.loreIds.length === 0) && (
+                              <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No lore attached</span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
                       <div className="card-footer-actions" style={{ display: 'flex', gap: '8px', marginTop: '10px', paddingTop: '8px', borderTop: '1px solid rgba(139, 69, 19, 0.15)' }}>
                         <button
                           type="button"
@@ -1550,8 +2331,30 @@ const CampaignManager = ({ user }) => {
         {activeSection === 'locations' && (
           <div className="list-section">
             <div className="section-header">
-              <h3>Location Management</h3>
-              <div className="section-header-actions" style={{ display: 'flex', gap: '8px' }}>
+              <div>
+                <h3>Location Management & World Atlas</h3>
+                <p style={{ margin: 0, fontSize: '0.85rem', color: '#8b5a1a' }}>
+                  Establish realms, cities, dungeons, and taverns. Connect sub-locations and visualize world hierarchy.
+                </p>
+              </div>
+              <div className="section-header-actions">
+                <div className="location-view-toggle-bar">
+                  <button
+                    type="button"
+                    className={`location-view-toggle-btn ${locationViewMode === 'cards' ? 'active' : ''}`}
+                    onClick={() => setLocationViewMode('cards')}
+                  >
+                    <i className="fas fa-grip-vertical"></i> Cards
+                  </button>
+                  <button
+                    type="button"
+                    className={`location-view-toggle-btn ${locationViewMode === 'graph' ? 'active' : ''}`}
+                    onClick={() => setLocationViewMode('graph')}
+                  >
+                    <i className="fas fa-sitemap"></i> Visual Atlas & Tree
+                  </button>
+                </div>
+
                 <button
                   type="button"
                   className="add-btn secondary"
@@ -1566,127 +2369,853 @@ const CampaignManager = ({ user }) => {
                 </button>
               </div>
             </div>
-            <div className="cards-grid">
-              {(campaignData.locations || []).length > 0 ? (
-                (campaignData.locations || []).map(location => (
-                  <div key={location.id} className="content-card location-card">
-                    {/* Top Hero Banner */}
-                    <div className="card-media-banner-container">
-                      {location.image ? (
-                        <div className="media-banner-preview">
-                          <img src={location.image} alt={location.name} />
-                          <div className="media-hover-overlay">
-                            <label className="media-change-btn" title="Change artwork">
-                              <i className="fas fa-camera"></i> Change Artwork
-                              <input
-                                type="file"
-                                accept="image/*"
-                                style={{ display: 'none' }}
-                                onChange={(e) => {
-                                  const file = e.target.files?.[0];
-                                  if (file) handleMediaUpload(file, 'maps', (url) => updateLocation(location.id, { image: url }), location.image);
-                                }}
-                              />
-                            </label>
-                            <button
-                              type="button"
-                              className="media-clear-btn-pill"
+
+            {locationViewMode === 'graph' ? (
+              <div className="location-atlas-workspace">
+                <div className="atlas-main-view">
+                  <div className="location-atlas-toolbar">
+                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flex: 1, flexWrap: 'wrap' }}>
+                      <input
+                        type="text"
+                        value={atlasSearch}
+                        onChange={(e) => setAtlasSearch(e.target.value)}
+                        placeholder="Search world hierarchy..."
+                        className="card-field-input"
+                        style={{ maxWidth: '240px', background: '#ffffff' }}
+                      />
+                      <select
+                        value={atlasTypeFilter}
+                        onChange={(e) => setAtlasTypeFilter(e.target.value)}
+                        className="card-field-select"
+                        style={{ maxWidth: '160px', background: '#ffffff' }}
+                      >
+                        <option value="all">All Types</option>
+                        <option value="city">Cities & Settlements</option>
+                        <option value="dungeon">Dungeons & Crypts</option>
+                        <option value="fortress">Fortresses</option>
+                        <option value="landmark">Landmarks & POIs</option>
+                        <option value="wilderness">Wilderness</option>
+                      </select>
+                    </div>
+                    <div className="location-atlas-stats">
+                      <span className="atlas-stat-pill">
+                        <i className="fas fa-map-location-dot" style={{ color: '#8b5a1a' }}></i> {(campaignData.locations || []).length} Total
+                      </span>
+                      <span className="atlas-stat-pill">
+                        <i className="fas fa-city" style={{ color: '#2980b9' }}></i> {(campaignData.locations || []).filter(l => l.type === 'city' || l.type === 'town').length} Settlements
+                      </span>
+                      <span className="atlas-stat-pill">
+                        <i className="fas fa-dungeon" style={{ color: '#c0392b' }}></i> {(campaignData.locations || []).filter(l => l.type === 'dungeon').length} Dungeons
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Interactive Tree & Mindmap Canvas */}
+                  <div className="atlas-mindmap-canvas">
+                    {(() => {
+                      const allLocs = campaignData.locations || [];
+                      const filteredLocs = allLocs.filter(l => {
+                        const matchesSearch = (l.name || '').toLowerCase().includes(atlasSearch.toLowerCase()) || (l.region || '').toLowerCase().includes(atlasSearch.toLowerCase());
+                        const matchesType = atlasTypeFilter === 'all' || l.type === atlasTypeFilter;
+                        return matchesSearch && matchesType;
+                      });
+
+                      if (allLocs.length === 0) {
+                        return (
+                          <div className="empty-state" style={{ padding: '60px 0', textAlign: 'center' }}>
+                            <i className="fas fa-map-plus" style={{ fontSize: '2.5rem', color: '#c59b3f', marginBottom: '12px' }}></i>
+                            <p style={{ color: '#6b3a10', fontWeight: 600 }}>No locations created yet.</p>
+                            <button type="button" className="add-btn" onClick={addLocation} style={{ margin: '12px auto 0 auto' }}>
+                              <i className="fas fa-plus"></i> Add First Location
+                            </button>
+                          </div>
+                        );
+                      }
+
+                      const topLevelLocs = allLocs.filter(l => !l.parentId || !allLocs.some(p => String(p.id) === String(l.parentId)));
+
+                      const renderAtlasNode = (loc, depth = 0) => {
+                        const children = allLocs.filter(child => String(child.parentId) === String(loc.id) || (loc.subLocationIds || []).some(id => String(id) === String(child.id)));
+                        const isTop = depth === 0;
+                        const isSelected = selectedAtlasLocationId === loc.id;
+
+                        return (
+                          <div key={loc.id} className="atlas-tree-node-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            <div
+                              className={`atlas-node-card-interactive ${isTop ? 'is-top-realm' : ''} is-${loc.type || 'landmark'} ${isSelected ? 'is-selected' : ''}`}
+                              onClick={() => setSelectedAtlasLocationId(loc.id === selectedAtlasLocationId ? null : loc.id)}
+                            >
+                              <div className="node-header-row">
+                                <span className="node-title">
+                                  <i className={`fas ${loc.type === 'dungeon' ? 'fa-dungeon' : loc.type === 'city' ? 'fa-city' : loc.type === 'town' ? 'fa-house' : loc.type === 'fortress' ? 'fa-chess-rook' : 'fa-map-marker-alt'}`} style={{ color: loc.type === 'dungeon' ? '#c0392b' : '#c59b3f' }}></i>
+                                  {loc.name}
+                                </span>
+                                <span className="node-type-badge">{loc.type || 'Location'}</span>
+                              </div>
+
+                              {loc.region && (
+                                <div style={{ fontSize: '0.72rem', color: '#8b5a1a', marginBottom: '4px' }}>
+                                  <i className="fas fa-compass" style={{ marginRight: '4px' }}></i> {loc.region}
+                                </div>
+                              )}
+
+                              {/* Mini counters */}
+                              <div className="node-counters-row">
+                                <span className="node-counter-pill" title="Inhabitants">
+                                  <i className="fas fa-dragon" style={{ color: '#e74c3c' }}></i> {(loc.monsterIds || []).length}
+                                </span>
+                                <span className="node-counter-pill" title="Loot">
+                                  <i className="fas fa-gem" style={{ color: '#d4af37' }}></i> {(loc.lootIds || []).length}
+                                </span>
+                                <span className="node-counter-pill" title="Quests">
+                                  <i className="fas fa-scroll" style={{ color: '#f39c12' }}></i> {(loc.questIds || []).length}
+                                </span>
+                                <span className="node-counter-pill" title="Sub-locations">
+                                  <i className="fas fa-sitemap" style={{ color: '#8e44ad' }}></i> {children.length}
+                                </span>
+                              </div>
+
+                              {/* Action buttons */}
+                              <div className="node-actions-row" onClick={(e) => e.stopPropagation()}>
+                                <button
+                                  type="button"
+                                  className="node-action-btn"
+                                  onClick={() => setSelectedAtlasLocationId(loc.id)}
+                                  title="Open Inspector Panel"
+                                >
+                                  <i className="fas fa-sliders"></i> Details
+                                </button>
+                                <button
+                                  type="button"
+                                  className="node-action-btn"
+                                  onClick={() => addSubLocationToLocation(loc.id)}
+                                  title="Add Sub-Location inside"
+                                >
+                                  <i className="fas fa-plus"></i> Sub-Place
+                                </button>
+                                <button
+                                  type="button"
+                                  className="node-action-btn"
+                                  onClick={() => {
+                                    const { maps, pins, openStudio, addPin } = useInteractiveMapStore.getState();
+                                    let matchingPin = pins.find(p => p.title.toLowerCase().includes((loc.name || '').toLowerCase()) || (loc.name || '').toLowerCase().includes(p.title.toLowerCase()));
+                                    let matchingMap = maps.find(m => m.name.toLowerCase().includes((loc.region || loc.name || '').toLowerCase()));
+                                    if (!matchingPin && loc.name) {
+                                      matchingPin = addPin({
+                                        title: loc.name,
+                                        description: loc.description || '',
+                                        type: loc.type === 'dungeon' ? 'dungeon' : loc.type === 'city' ? 'city' : 'poi',
+                                        icon: loc.type === 'dungeon' ? 'fa-dungeon' : loc.type === 'city' ? 'fa-city' : 'fa-location-dot',
+                                        mapId: matchingMap?.id || 'map-mythril-world',
+                                        x: 50,
+                                        y: 50
+                                      });
+                                    }
+                                    openStudio(matchingPin?.mapId || matchingMap?.id, matchingPin?.id);
+                                  }}
+                                  title="View on Map"
+                                >
+                                  <i className="fas fa-map-location-dot"></i> Map
+                                </button>
+                              </div>
+                            </div>
+
+                            {/* Nested children */}
+                            {children.length > 0 && (
+                              <div className="atlas-children-branches">
+                                {children.map(child => renderAtlasNode(child, depth + 1))}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      };
+
+                      return topLevelLocs.map(rootLoc => (
+                        <div key={rootLoc.id} className="atlas-realm-tree">
+                          {renderAtlasNode(rootLoc, 0)}
+                        </div>
+                      ));
+                    })()}
+                  </div>
+                </div>
+
+                {/* Slide-Over Inspector Drawer */}
+                {selectedAtlasLocationId && (() => {
+                  const selLoc = (campaignData.locations || []).find(l => l.id === selectedAtlasLocationId);
+                  if (!selLoc) return null;
+
+                  return (
+                    <div className="atlas-inspector-drawer">
+                      <div className="atlas-drawer-header">
+                        <span className="atlas-drawer-title">
+                          <i className="fas fa-sliders" style={{ color: '#8b5a1a' }}></i> {selLoc.name || 'Location Inspector'}
+                        </span>
+                        <button
+                          type="button"
+                          className="atlas-drawer-close"
+                          onClick={() => setSelectedAtlasLocationId(null)}
+                          title="Close Inspector"
+                        >
+                          <i className="fas fa-times"></i>
+                        </button>
+                      </div>
+                      <div className="atlas-drawer-body">
+                        <div className="field-group">
+                          <label className="field-label"><i className="fas fa-landmark"></i> Location Name</label>
+                          <input
+                            type="text"
+                            value={selLoc.name}
+                            onChange={(e) => updateLocation(selLoc.id, { name: e.target.value })}
+                            className="card-field-input"
+                          />
+                        </div>
+
+                        <div className="card-meta-grid-2col">
+                          <div className="field-group">
+                            <label className="field-label"><i className="fas fa-shapes"></i> Type</label>
+                            <select
+                              value={selLoc.type || 'city'}
+                              onChange={(e) => updateLocation(selLoc.id, { type: e.target.value })}
+                              className="card-field-select"
+                            >
+                              <option value="city">City</option>
+                              <option value="town">Town</option>
+                              <option value="village">Village</option>
+                              <option value="dungeon">Dungeon</option>
+                              <option value="fortress">Fortress</option>
+                              <option value="landmark">Landmark</option>
+                              <option value="wilderness">Wilderness</option>
+                            </select>
+                          </div>
+                          <div className="field-group">
+                            <label className="field-label"><i className="fas fa-map-location-dot"></i> Region</label>
+                            <input
+                              type="text"
+                              value={selLoc.region}
+                              onChange={(e) => updateLocation(selLoc.id, { region: e.target.value })}
+                              className="card-field-input"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="field-group">
+                          <label className="field-label"><i className="fas fa-sitemap"></i> Parent Location / Realm</label>
+                          <select
+                            value={selLoc.parentId || ''}
+                            onChange={(e) => {
+                              const pId = e.target.value ? (Number(e.target.value) || e.target.value) : null;
+                              updateLocation(selLoc.id, { parentId: pId });
+                            }}
+                            className="card-field-select"
+                          >
+                            <option value="">-- None (Top-Level Realm) --</option>
+                            {(campaignData.locations || [])
+                              .filter(l => String(l.id) !== String(selLoc.id))
+                              .map(l => (
+                                <option key={l.id} value={l.id}>
+                                  {l.name} {l.type ? `[${l.type}]` : ''}
+                                </option>
+                              ))}
+                          </select>
+                        </div>
+
+                        <div className="field-group">
+                          <label className="field-label"><i className="fas fa-align-left"></i> Description</label>
+                          <textarea
+                            value={selLoc.description}
+                            onChange={(e) => updateLocation(selLoc.id, { description: e.target.value })}
+                            rows={3}
+                            className="card-field-textarea"
+                          />
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+                          <button
+                            type="button"
+                            className="add-btn secondary"
+                            style={{ flex: 1, justifyContent: 'center' }}
+                            onClick={() => {
+                              setLocationViewMode('cards');
+                              setLocationCardTabs(prev => ({ ...prev, [selLoc.id]: 'overview' }));
+                            }}
+                          >
+                            <i className="fas fa-edit"></i> Full Card
+                          </button>
+                          <button
+                            type="button"
+                            className="add-btn"
+                            style={{ flex: 1, justifyContent: 'center' }}
+                            onClick={() => addSubLocationToLocation(selLoc.id)}
+                          >
+                            <i className="fas fa-plus"></i> Sub-Place
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+            ) : (
+              <div className="cards-grid">
+                {(campaignData.locations || []).length > 0 ? (
+                  (campaignData.locations || []).map(location => (
+                    <div key={location.id} className="content-card location-card">
+                      {/* Top Hero Banner */}
+                      <div className="card-media-banner-container">
+                        {location.image ? (
+                          <div className="media-banner-preview">
+                            <img src={location.image} alt={location.name} />
+                            <div className="media-hover-overlay">
+                              <label className="media-change-btn" title="Change artwork">
+                                <i className="fas fa-camera"></i> Change Artwork
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  style={{ display: 'none' }}
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) handleMediaUpload(file, 'maps', (url) => updateLocation(location.id, { image: url }), location.image);
+                                  }}
+                                />
+                              </label>
+                              <button
+                                type="button"
+                                className="media-clear-btn-pill"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   handleMediaRemove(location.image, () => updateLocation(location.id, { image: null }));
                                 }}
-                              title="Remove artwork"
+                                title="Remove artwork"
+                              >
+                                <i className="fas fa-trash-alt"></i> Remove
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <label className="media-banner-placeholder" title="Upload location artwork or map">
+                            <i className="fas fa-mountain-sun"></i>
+                            <span>Upload Location Artwork or Regional Map</span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              style={{ display: 'none' }}
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) handleMediaUpload(file, 'maps', (url) => updateLocation(location.id, { image: url }), location.image);
+                              }}
+                            />
+                          </label>
+                        )}
+                      </div>
+
+                      <div className="card-header-fields">
+                        <div className="card-field-header-top">
+                          <div className="field-group flex-1">
+                            <label className="field-label"><i className="fas fa-landmark"></i> Location Name</label>
+                            <input
+                              type="text"
+                              value={location.name}
+                              onChange={(e) => updateLocation(location.id, { name: e.target.value })}
+                              className="card-title-input full-width"
+                              placeholder="Location name..."
+                            />
+                          </div>
+                          <button className="remove-card-btn" onClick={() => removeLocation(location.id)} title="Delete Location">
+                            <i className="fas fa-trash-alt"></i>
+                          </button>
+                        </div>
+
+                        <div className="card-meta-grid-2col">
+                          <div className="field-group">
+                            <label className="field-label"><i className="fas fa-shapes"></i> Type</label>
+                            <select
+                              value={location.type || 'city'}
+                              onChange={(e) => updateLocation(location.id, { type: e.target.value })}
+                              className="card-field-select"
                             >
-                              <i className="fas fa-trash-alt"></i> Remove
-                            </button>
+                              <option value="city">City</option>
+                              <option value="town">Town</option>
+                              <option value="village">Village</option>
+                              <option value="dungeon">Dungeon</option>
+                              <option value="fortress">Fortress</option>
+                              <option value="landmark">Landmark</option>
+                              <option value="wilderness">Wilderness</option>
+                            </select>
+                          </div>
+                          <div className="field-group">
+                            <label className="field-label"><i className="fas fa-map-location-dot"></i> Region / Realm</label>
+                            <input
+                              type="text"
+                              value={location.region}
+                              onChange={(e) => updateLocation(location.id, { region: e.target.value })}
+                              placeholder="e.g. Nordhalla..."
+                              className="card-field-input"
+                            />
                           </div>
                         </div>
-                      ) : (
-                        <label className="media-banner-placeholder" title="Upload location artwork or map">
-                          <i className="fas fa-mountain-sun"></i>
-                          <span>Upload Location Artwork or Regional Map</span>
-                          <input
-                            type="file"
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                            onChange={(e) => {
-                              const file = e.target.files?.[0];
-                              if (file) handleMediaUpload(file, 'maps', (url) => updateLocation(location.id, { image: url }), location.image);
-                            }}
-                          />
-                        </label>
-                      )}
-                    </div>
 
-                    <div className="card-header-fields">
-                      <div className="card-field-header-top">
-                        <div className="field-group flex-1">
-                          <label className="field-label"><i className="fas fa-landmark"></i> Location Name</label>
-                          <input
-                            type="text"
-                            value={location.name}
-                            onChange={(e) => updateLocation(location.id, { name: e.target.value })}
-                            className="card-title-input full-width"
-                            placeholder="Location name..."
-                          />
+                        {/* Parent Location Selector */}
+                        <div className="field-group" style={{ marginTop: '6px' }}>
+                          <label className="field-label"><i className="fas fa-sitemap"></i> Parent Location / Realm</label>
+                          <select
+                            value={location.parentId || ''}
+                            onChange={(e) => {
+                              const pId = e.target.value ? (Number(e.target.value) || e.target.value) : null;
+                              updateLocation(location.id, { parentId: pId });
+                            }}
+                            className="card-field-select"
+                          >
+                            <option value="">-- None (Top-Level Realm / World) --</option>
+                            {(campaignData.locations || [])
+                              .filter(l => String(l.id) !== String(location.id))
+                              .map(l => (
+                                <option key={l.id} value={l.id}>
+                                  {l.name} {l.type ? `[${l.type}]` : ''} {l.region ? `(${l.region})` : ''}
+                                </option>
+                              ))}
+                          </select>
                         </div>
-                        <button className="remove-card-btn" onClick={() => removeLocation(location.id)} title="Delete Location">
-                          <i className="fas fa-trash-alt"></i>
+                      </div>
+
+                      {/* Sub-Tabs Strip */}
+                      <div className="location-card-subtabs-strip">
+                        <button
+                          type="button"
+                          className={`loc-subtab-btn ${(locationCardTabs[location.id] || 'overview') === 'overview' ? 'active' : ''}`}
+                          onClick={() => setLocationCardTabs(prev => ({ ...prev, [location.id]: 'overview' }))}
+                        >
+                          <i className="fas fa-align-left"></i> Overview
+                        </button>
+                        <button
+                          type="button"
+                          className={`loc-subtab-btn ${(locationCardTabs[location.id] || 'overview') === 'inhabitants' ? 'active' : ''}`}
+                          onClick={() => setLocationCardTabs(prev => ({ ...prev, [location.id]: 'inhabitants' }))}
+                        >
+                          <i className="fas fa-dragon"></i> Lair ({getLinkedCreatures(location.monsterIds).length})
+                        </button>
+                        <button
+                          type="button"
+                          className={`loc-subtab-btn ${(locationCardTabs[location.id] || 'overview') === 'loot' ? 'active' : ''}`}
+                          onClick={() => setLocationCardTabs(prev => ({ ...prev, [location.id]: 'loot' }))}
+                        >
+                          <i className="fas fa-gem"></i> Loot ({getLinkedItems(location.lootIds).length})
+                        </button>
+                        <button
+                          type="button"
+                          className={`loc-subtab-btn ${(locationCardTabs[location.id] || 'overview') === 'quests' ? 'active' : ''}`}
+                          onClick={() => setLocationCardTabs(prev => ({ ...prev, [location.id]: 'quests' }))}
+                        >
+                          <i className="fas fa-scroll"></i> Quests ({getLinkedQuests(location.questIds).length})
+                        </button>
+                        <button
+                          type="button"
+                          className={`loc-subtab-btn ${(locationCardTabs[location.id] || 'overview') === 'sublocations' ? 'active' : ''}`}
+                          onClick={() => setLocationCardTabs(prev => ({ ...prev, [location.id]: 'sublocations' }))}
+                        >
+                          <i className="fas fa-sitemap"></i> Sub-Places ({getLinkedLocations(location.connectedLocationIds || location.subLocationIds).length})
+                        </button>
+                        <button
+                          type="button"
+                          className={`loc-subtab-btn ${(locationCardTabs[location.id] || 'overview') === 'npcs' ? 'active' : ''}`}
+                          onClick={() => setLocationCardTabs(prev => ({ ...prev, [location.id]: 'npcs' }))}
+                        >
+                          <i className="fas fa-users"></i> NPCs ({getLinkedNPCs(location.npcIds).length})
                         </button>
                       </div>
 
-                      <div className="card-meta-grid-2col">
-                        <div className="field-group">
-                          <label className="field-label"><i className="fas fa-shapes"></i> Type</label>
-                          <select
-                            value={location.type || 'city'}
-                            onChange={(e) => updateLocation(location.id, { type: e.target.value })}
-                            className="card-field-select"
-                          >
-                            <option value="city">City</option>
-                            <option value="town">Town</option>
-                            <option value="village">Village</option>
-                            <option value="dungeon">Dungeon</option>
-                            <option value="fortress">Fortress</option>
-                            <option value="landmark">Landmark</option>
-                            <option value="wilderness">Wilderness</option>
-                          </select>
-                        </div>
-                        <div className="field-group">
-                          <label className="field-label"><i className="fas fa-map-location-dot"></i> Region / Realm</label>
-                          <input
-                            type="text"
-                            value={location.region}
-                            onChange={(e) => updateLocation(location.id, { region: e.target.value })}
-                            placeholder="e.g. Nordhalla..."
-                            className="card-field-input"
-                          />
-                        </div>
-                      </div>
-                    </div>
+                      {/* Sub-Tab Content */}
+                      <div className="card-body-fields">
+                        {(locationCardTabs[location.id] || 'overview') === 'overview' && (
+                          <>
+                            <div className="field-group">
+                              <label className="field-label"><i className="fas fa-align-left"></i> Description & Atmosphere</label>
+                              <textarea
+                                value={location.description}
+                                onChange={(e) => updateLocation(location.id, { description: e.target.value })}
+                                placeholder="Describe the atmosphere, environment, smells, architecture..."
+                                rows={2}
+                                className="card-field-textarea"
+                              />
+                            </div>
+                            <div className="field-group">
+                              <label className="field-label"><i className="fas fa-compass"></i> Notable Landmarks & Features</label>
+                              <textarea
+                                value={location.notableFeatures}
+                                onChange={(e) => updateLocation(location.id, { notableFeatures: e.target.value })}
+                                placeholder="Taverns, guilds, districts, monuments, dungeon entrances..."
+                                rows={2}
+                                className="card-field-textarea"
+                              />
+                            </div>
 
-                    <div className="card-body-fields">
-                      <div className="field-group">
-                        <label className="field-label"><i className="fas fa-align-left"></i> Description & Atmosphere</label>
-                        <textarea
-                          value={location.description}
-                          onChange={(e) => updateLocation(location.id, { description: e.target.value })}
-                          placeholder="Describe the atmosphere, environment, smells, architecture..."
-                          rows={2}
-                          className="card-field-textarea"
-                        />
-                      </div>
-                      <div className="field-group">
-                        <label className="field-label"><i className="fas fa-compass"></i> Notable Landmarks & Features</label>
-                        <textarea
-                          value={location.notableFeatures}
-                          onChange={(e) => updateLocation(location.id, { notableFeatures: e.target.value })}
-                          placeholder="Taverns, guilds, districts, monuments, dungeon entrances..."
-                          rows={2}
-                          className="card-field-textarea"
-                        />
+                            {/* Quick Summary Entity Pills */}
+                            <div className="loc-quick-entity-bar">
+                              <span className="loc-quick-pill" onClick={() => setLocationCardTabs(prev => ({ ...prev, [location.id]: 'inhabitants' }))}>
+                                <i className="fas fa-dragon" style={{ color: '#e74c3c' }}></i> {getLinkedCreatures(location.monsterIds).length} Inhabitants
+                              </span>
+                              <span className="loc-quick-pill" onClick={() => setLocationCardTabs(prev => ({ ...prev, [location.id]: 'loot' }))}>
+                                <i className="fas fa-gem" style={{ color: '#d4af37' }}></i> {getLinkedItems(location.lootIds).length} Loot
+                              </span>
+                              <span className="loc-quick-pill" onClick={() => setLocationCardTabs(prev => ({ ...prev, [location.id]: 'quests' }))}>
+                                <i className="fas fa-scroll" style={{ color: '#f39c12' }}></i> {getLinkedQuests(location.questIds).length} Quests
+                              </span>
+                              <span className="loc-quick-pill" onClick={() => setLocationCardTabs(prev => ({ ...prev, [location.id]: 'sublocations' }))}>
+                                <i className="fas fa-sitemap" style={{ color: '#8e44ad' }}></i> {getLinkedLocations(location.connectedLocationIds || location.subLocationIds).length} Sub-Places
+                              </span>
+                              <span className="loc-quick-pill" onClick={() => setLocationCardTabs(prev => ({ ...prev, [location.id]: 'npcs' }))}>
+                                <i className="fas fa-users" style={{ color: '#2ecc71' }}></i> {getLinkedNPCs(location.npcIds).length} NPCs & Lore
+                              </span>
+                            </div>
+                          </>
+                        )}
+
+                        {(locationCardTabs[location.id] || 'overview') === 'sublocations' && (
+                          <div className="entity-chips-rack">
+                            <div className="entity-rack-header">
+                              <span><i className="fas fa-sitemap"></i> Connected Locations & Sub-Regions ({getLinkedLocations(location.connectedLocationIds || location.subLocationIds).length})</span>
+                              <div className="entity-rack-actions">
+                                <button
+                                  type="button"
+                                  className="entity-chip-add-btn"
+                                  onClick={() => openLinkerModal(
+                                    `Connect Locations to ${location.name || 'Location'}`,
+                                    getAllCampaignLocations().filter(l => String(l.id) !== String(location.id)),
+                                    location.connectedLocationIds || [],
+                                    (newIds) => updateLocation(location.id, { connectedLocationIds: newIds })
+                                  )}
+                                  title="Connect to other realms, towns, or landmarks"
+                                >
+                                  <i className="fas fa-link"></i> Link
+                                </button>
+                                <button
+                                  type="button"
+                                  className="entity-chip-add-btn location-btn"
+                                  onClick={() => addSubLocationToLocation(location.id)}
+                                  title="Create a new sub-location (tavern, dungeon, district) inside this location"
+                                >
+                                  <i className="fas fa-plus"></i> Sub-Location
+                                </button>
+                              </div>
+                            </div>
+                            <div className="entity-chips-list">
+                              {getLinkedLocations(location.connectedLocationIds || location.subLocationIds).map(loc => (
+                                <span key={loc.id} className="entity-chip-pill loc-chip">
+                                  <i className={`fas ${loc.type === 'dungeon' ? 'fa-dungeon' : loc.type === 'city' ? 'fa-city' : loc.type === 'town' ? 'fa-house' : loc.type === 'fortress' ? 'fa-chess-rook' : 'fa-map-marker-alt'}`} style={{ color: '#e67e22', fontSize: '11px' }}></i>
+                                  <span className="entity-chip-pill-name">{loc.name}</span>
+                                  <span className="entity-picker-source-badge" style={{ fontSize: '0.6rem', padding: '0 4px', background: 'rgba(230, 126, 34, 0.15)', borderColor: '#e67e22', color: '#d35400' }}>
+                                    {loc.type || 'Location'}
+                                  </span>
+                                  <button
+                                    type="button"
+                                    className="entity-chip-remove"
+                                    onClick={() => updateLocation(location.id, {
+                                      connectedLocationIds: (location.connectedLocationIds || []).filter(id => String(id) !== String(loc.id)),
+                                      subLocationIds: (location.subLocationIds || []).filter(id => String(id) !== String(loc.id))
+                                    })}
+                                    title="Disconnect location"
+                                  >
+                                    <i className="fas fa-times"></i>
+                                  </button>
+                                </span>
+                              ))}
+                              {(!location.connectedLocationIds || location.connectedLocationIds.length === 0) && (!location.subLocationIds || location.subLocationIds.length === 0) && (
+                                <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No sub-locations or connections</span>
+                              )}
+                            </div>
+                          </div>
+                        )}
+
+                        {(locationCardTabs[location.id] || 'overview') === 'inhabitants' && (
+                          <div className="entity-chips-rack">
+                            <div className="entity-rack-header">
+                              <span><i className="fas fa-dragon"></i> Inhabitants & Lairs ({getLinkedCreatures(location.monsterIds).length})</span>
+                              <div className="entity-rack-actions">
+                                <button
+                                  type="button"
+                                  className="entity-chip-add-btn"
+                                  onClick={() => openLinkerModal(
+                                    `Link Inhabitants for ${location.name || 'Location'}`,
+                                    getAllCampaignCreatures(),
+                                    location.monsterIds || [],
+                                    (newIds) => updateLocation(location.id, { monsterIds: newIds }),
+                                    () => addCreatureToLocationFromLibrary(location.id),
+                                    () => addCustomCreatureToLocation(location.id)
+                                  )}
+                                >
+                                  <i className="fas fa-link"></i> Link
+                                </button>
+                                <button
+                                  type="button"
+                                  className="entity-chip-add-btn library-btn"
+                                  onClick={() => addCreatureToLocationFromLibrary(location.id)}
+                                >
+                                  <i className="fas fa-book-open"></i> Library
+                                </button>
+                                <button
+                                  type="button"
+                                  className="entity-chip-add-btn homebrew-btn"
+                                  onClick={() => addCustomCreatureToLocation(location.id)}
+                                >
+                                  <i className="fas fa-plus"></i> Homebrew
+                                </button>
+                              </div>
+                            </div>
+                            <div className="entity-chips-list">
+                              {getLinkedCreatures(location.monsterIds).map(creature => (
+                                <span
+                                  key={creature.id}
+                                  className="entity-chip-pill monster-chip"
+                                  onMouseEnter={(e) => handleMouseEnter(e, null, creature, null)}
+                                  onMouseMove={handleMouseMove}
+                                  onMouseLeave={handleMouseLeave}
+                                >
+                                  <img src={resolveLibraryCreatureIcon(creature)} alt="" className="entity-chip-pill-icon" />
+                                  <span className="entity-chip-pill-name">{creature.name}</span>
+                                  {creature._source && (
+                                    <span className="entity-picker-source-badge" style={{ fontSize: '0.6rem', padding: '0 4px', background: creature._source === 'Library' ? 'rgba(197, 155, 63, 0.15)' : 'rgba(155, 89, 182, 0.15)', borderColor: creature._source === 'Library' ? '#c59b3f' : '#9b59b6', color: creature._source === 'Library' ? '#8b5a1a' : '#8e44ad' }}>
+                                      {creature._source}
+                                    </span>
+                                  )}
+                                  <button
+                                    type="button"
+                                    className="entity-chip-remove"
+                                    onClick={() => updateLocation(location.id, { monsterIds: (location.monsterIds || []).filter(id => String(id) !== String(creature.id)) })}
+                                    title="Unlink from location"
+                                  >
+                                    <i className="fas fa-times"></i>
+                                  </button>
+                                </span>
+                              ))}
+                              {(!location.monsterIds || location.monsterIds.length === 0) && (
+                                <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No inhabitants assigned</span>
+                              )}
+                            </div>
+                          </div>
+                        )}
+
+                        {(locationCardTabs[location.id] || 'overview') === 'loot' && (
+                          <div className="entity-chips-rack">
+                            <div className="entity-rack-header">
+                              <span><i className="fas fa-gem"></i> Chamber Loot & Caches ({getLinkedItems(location.lootIds).length})</span>
+                              <div className="entity-rack-actions">
+                                <button
+                                  type="button"
+                                  className="entity-chip-add-btn"
+                                  onClick={() => openLinkerModal(
+                                    `Link Loot for ${location.name || 'Location'}`,
+                                    getAllCampaignItems(),
+                                    location.lootIds || [],
+                                    (newIds) => updateLocation(location.id, { lootIds: newIds }),
+                                    () => addItemToLocationFromLibrary(location.id),
+                                    () => addCustomItemToLocation(location.id)
+                                  )}
+                                >
+                                  <i className="fas fa-link"></i> Link
+                                </button>
+                                <button
+                                  type="button"
+                                  className="entity-chip-add-btn library-btn"
+                                  onClick={() => addItemToLocationFromLibrary(location.id)}
+                                >
+                                  <i className="fas fa-book-open"></i> Library
+                                </button>
+                                <button
+                                  type="button"
+                                  className="entity-chip-add-btn homebrew-btn"
+                                  onClick={() => addCustomItemToLocation(location.id)}
+                                >
+                                  <i className="fas fa-plus"></i> Homebrew
+                                </button>
+                              </div>
+                            </div>
+                            <div className="entity-chips-list">
+                              {getLinkedItems(location.lootIds).map(item => (
+                                <span
+                                  key={item.id}
+                                  className="entity-chip-pill item-chip"
+                                  onMouseEnter={(e) => handleMouseEnter(e, item, null, null)}
+                                  onMouseMove={handleMouseMove}
+                                  onMouseLeave={handleMouseLeave}
+                                >
+                                  <img src={resolveLibraryItemIcon(item)} alt="" className="entity-chip-pill-icon" />
+                                  <span className="entity-chip-pill-name">{item.name}</span>
+                                  {item._source && (
+                                    <span className="entity-picker-source-badge" style={{ fontSize: '0.6rem', padding: '0 4px', background: item._source === 'Library' ? 'rgba(197, 155, 63, 0.15)' : 'rgba(155, 89, 182, 0.15)', borderColor: item._source === 'Library' ? '#c59b3f' : '#9b59b6', color: item._source === 'Library' ? '#8b5a1a' : '#8e44ad' }}>
+                                      {item._source}
+                                    </span>
+                                  )}
+                                  <button
+                                    type="button"
+                                    className="entity-chip-remove"
+                                    onClick={() => updateLocation(location.id, { lootIds: (location.lootIds || []).filter(id => String(id) !== String(item.id)) })}
+                                    title="Unlink from location"
+                                  >
+                                    <i className="fas fa-times"></i>
+                                  </button>
+                                </span>
+                              ))}
+                              {(!location.lootIds || location.lootIds.length === 0) && (
+                                <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No loot placed in this location</span>
+                              )}
+                            </div>
+                          </div>
+                        )}
+
+                        {(locationCardTabs[location.id] || 'overview') === 'quests' && (
+                          <div className="entity-chips-rack">
+                            <div className="entity-rack-header">
+                              <span><i className="fas fa-scroll"></i> Quests & Objectives Here ({getLinkedQuests(location.questIds).length})</span>
+                              <div className="entity-rack-actions">
+                                <button
+                                  type="button"
+                                  className="entity-chip-add-btn"
+                                  onClick={() => openLinkerModal(
+                                    `Link Quests for ${location.name || 'Location'}`,
+                                    getAllCampaignQuests(),
+                                    location.questIds || [],
+                                    (newIds) => updateLocation(location.id, { questIds: newIds }),
+                                    null,
+                                    () => addQuestToLocation(location.id)
+                                  )}
+                                >
+                                  <i className="fas fa-link"></i> Link
+                                </button>
+                                <button
+                                  type="button"
+                                  className="entity-chip-add-btn quest-btn"
+                                  onClick={() => addQuestToLocation(location.id)}
+                                >
+                                  <i className="fas fa-plus"></i> New Quest
+                                </button>
+                              </div>
+                            </div>
+                            <div className="entity-chips-list">
+                              {getLinkedQuests(location.questIds).map(q => (
+                                <span key={q.id} className="entity-chip-pill quest-chip">
+                                  <i className="fas fa-scroll" style={{ color: '#f39c12', fontSize: '11px' }}></i>
+                                  <span className="entity-chip-pill-name">{q.title}</span>
+                                  <span className="entity-picker-source-badge" style={{ fontSize: '0.6rem', padding: '0 4px', background: 'rgba(243, 156, 18, 0.15)', borderColor: '#f39c12', color: '#d35400' }}>
+                                    {q.status || 'Active'}
+                                  </span>
+                                  <button
+                                    type="button"
+                                    className="entity-chip-remove"
+                                    onClick={() => updateLocation(location.id, { questIds: (location.questIds || []).filter(id => String(id) !== String(q.id)) })}
+                                    title="Unlink quest from location"
+                                  >
+                                    <i className="fas fa-times"></i>
+                                  </button>
+                                </span>
+                              ))}
+                              {(!location.questIds || location.questIds.length === 0) && (
+                                <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No quests tied to this location</span>
+                              )}
+                            </div>
+                          </div>
+                        )}
+
+                        {(locationCardTabs[location.id] || 'overview') === 'npcs' && (
+                          <>
+                            <div className="entity-chips-rack">
+                              <div className="entity-rack-header">
+                                <span><i className="fas fa-users"></i> NPCs Present ({getLinkedNPCs(location.npcIds).length})</span>
+                                <div className="entity-rack-actions">
+                                  <button
+                                    type="button"
+                                    className="entity-chip-add-btn"
+                                    onClick={() => openLinkerModal(
+                                      `Link NPCs for ${location.name || 'Location'}`,
+                                      getAllCampaignNPCs(),
+                                      location.npcIds || [],
+                                      (newIds) => updateLocation(location.id, { npcIds: newIds }),
+                                      null,
+                                      () => addNPCToLocation(location.id)
+                                    )}
+                                  >
+                                    <i className="fas fa-link"></i> Link
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="entity-chip-add-btn npc-btn"
+                                    onClick={() => addNPCToLocation(location.id)}
+                                  >
+                                    <i className="fas fa-plus"></i> New NPC
+                                  </button>
+                                </div>
+                              </div>
+                              <div className="entity-chips-list">
+                                {getLinkedNPCs(location.npcIds).map(n => (
+                                  <span key={n.id} className="entity-chip-pill npc-chip">
+                                    <i className="fas fa-user-tag" style={{ color: '#2ecc71', fontSize: '11px' }}></i>
+                                    <span className="entity-chip-pill-name">{n.name}</span>
+                                    <button
+                                      type="button"
+                                      className="entity-chip-remove"
+                                      onClick={() => updateLocation(location.id, { npcIds: (location.npcIds || []).filter(id => String(id) !== String(n.id)) })}
+                                      title="Unlink NPC"
+                                    >
+                                      <i className="fas fa-times"></i>
+                                    </button>
+                                  </span>
+                                ))}
+                                {(!location.npcIds || location.npcIds.length === 0) && (
+                                  <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No NPCs assigned</span>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="entity-chips-rack" style={{ marginTop: '8px' }}>
+                              <div className="entity-rack-header">
+                                <span><i className="fas fa-book-open"></i> Lore & Inscriptions ({getLinkedLore(location.loreIds).length})</span>
+                                <div className="entity-rack-actions">
+                                  <button
+                                    type="button"
+                                    className="entity-chip-add-btn"
+                                    onClick={() => openLinkerModal(
+                                      `Attach Lore for ${location.name || 'Location'}`,
+                                      getAllCampaignLore(),
+                                      location.loreIds || [],
+                                      (newIds) => updateLocation(location.id, { loreIds: newIds }),
+                                      null,
+                                      () => addLoreToLocation(location.id)
+                                    )}
+                                  >
+                                    <i className="fas fa-link"></i> Link
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="entity-chip-add-btn lore-btn"
+                                    onClick={() => addLoreToLocation(location.id)}
+                                  >
+                                    <i className="fas fa-plus"></i> New Lore
+                                  </button>
+                                </div>
+                              </div>
+                              <div className="entity-chips-list">
+                                {getLinkedLore(location.loreIds).map(art => (
+                                  <span key={art.id} className="entity-chip-pill lore-chip">
+                                    <i className="fas fa-scroll" style={{ color: '#3498db', fontSize: '11px' }}></i>
+                                    <span className="entity-chip-pill-name">{art.title}</span>
+                                    <button
+                                      type="button"
+                                      className="entity-chip-remove"
+                                      onClick={() => updateLocation(location.id, { loreIds: (location.loreIds || []).filter(id => String(id) !== String(art.id)) })}
+                                      title="Unlink lore"
+                                    >
+                                      <i className="fas fa-times"></i>
+                                    </button>
+                                  </span>
+                                ))}
+                                {(!location.loreIds || location.loreIds.length === 0) && (
+                                  <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No lore attached</span>
+                                )}
+                              </div>
+                            </div>
+                          </>
+                        )}
                       </div>
 
+                      {/* Footer Actions */}
                       <div className="card-footer-actions" style={{ display: 'flex', gap: '8px', marginTop: '10px', paddingTop: '8px', borderTop: '1px solid rgba(139, 69, 19, 0.15)' }}>
                         <button
                           type="button"
@@ -1716,185 +3245,221 @@ const CampaignManager = ({ user }) => {
                         </button>
                       </div>
                     </div>
+                  ))
+                ) : (
+                  <div className="empty-state">
+                    <i className="fas fa-map-plus"></i>
+                    <p>No locations created yet. Build your world by adding important places!</p>
                   </div>
-                ))
-              ) : (
-                <div className="empty-state">
-                  <i className="fas fa-map-marked-alt"></i>
-                  <p>No locations created yet. Build your world!</p>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
+            )}
           </div>
         )}
 
-        {/* ============ QUESTS ============ */}
         {activeSection === 'quests' && (
           <div className="list-section">
             <div className="section-header">
-              <h3>Quest Management</h3>
-              <button className="add-btn" onClick={addQuest}>
-                <i className="fas fa-plus"></i> New Quest
-              </button>
+              <div>
+                <h3>Quest & Objective Log</h3>
+                <p style={{ margin: 0, fontSize: '0.85rem', color: '#8b5a1a' }}>
+                  Track active quests, main story arcs, bounties, and checklist objectives.
+                </p>
+              </div>
+              <div className="section-header-actions">
+                <button className="add-btn" onClick={addQuest}>
+                  <i className="fas fa-plus"></i> New Quest
+                </button>
+              </div>
             </div>
-            <div className="cards-list">
+
+            <div className="cards-grid">
               {(campaignData.quests || []).length > 0 ? (
                 (campaignData.quests || []).map(quest => (
                   <div key={quest.id} className="content-card quest-card">
-                    <div className="card-field-header-top">
-                      <div className="field-group flex-1">
-                        <label className="field-label"><i className="fas fa-scroll"></i> Quest Title</label>
-                        <input
-                          type="text"
-                          value={quest.title}
-                          onChange={(e) => updateQuest(quest.id, { title: e.target.value })}
-                          className="card-title-input full-width"
-                          placeholder="Quest title..."
-                        />
-                      </div>
-                      <div className="field-group">
-                        <label className="field-label"><i className="fas fa-diagram-project"></i> Status</label>
-                        <select
-                          value={quest.status || 'not-started'}
-                          onChange={(e) => updateQuest(quest.id, { status: e.target.value })}
-                          className="card-field-select"
-                        >
-                          <option value="not-started">Not Started</option>
-                          <option value="in-progress">In Progress</option>
-                          <option value="completed">Completed</option>
-                          <option value="failed">Failed</option>
-                        </select>
-                      </div>
-                      <div className="field-group">
-                        <label className="field-label"><i className="fas fa-flag"></i> Priority</label>
-                        <select
-                          value={quest.priority || 'medium'}
-                          onChange={(e) => updateQuest(quest.id, { priority: e.target.value })}
-                          className={`card-field-select priority-${quest.priority}`}
-                        >
-                          <option value="low">Low</option>
-                          <option value="medium">Medium</option>
-                          <option value="high">High</option>
-                          <option value="critical">Critical</option>
-                        </select>
-                      </div>
-                      <button className="remove-card-btn" onClick={() => removeQuest(quest.id)} title="Delete Quest">
-                        <i className="fas fa-trash-alt"></i>
-                      </button>
+                    {/* Top Hero Banner */}
+                    <div className="card-media-banner-container">
+                      {quest.image ? (
+                        <div className="media-banner-preview">
+                          <img src={quest.image} alt={quest.title} />
+                          <div className="media-hover-overlay">
+                            <label className="media-change-btn" title="Change quest artwork">
+                              <i className="fas fa-camera"></i> Change Artwork
+                              <input
+                                type="file"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) handleMediaUpload(file, 'quests', (url) => updateQuest(quest.id, { image: url }), quest.image);
+                                }}
+                              />
+                            </label>
+                            <button
+                              type="button"
+                              className="media-clear-btn-pill"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleMediaRemove(quest.image, () => updateQuest(quest.id, { image: null }));
+                              }}
+                              title="Remove artwork"
+                            >
+                              <i className="fas fa-trash-alt"></i> Remove
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <label className="media-banner-placeholder" title="Upload quest artwork or map">
+                          <i className="fas fa-scroll"></i>
+                          <span>Upload Quest Artwork or Handout</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) handleMediaUpload(file, 'quests', (url) => updateQuest(quest.id, { image: url }), quest.image);
+                            }}
+                          />
+                        </label>
+                      )}
                     </div>
 
-                    <div className="card-body-fields">
-                      <div className="card-meta-grid" style={{ marginBottom: '12px' }}>
+                    <div className="card-header-fields">
+                      <div className="card-field-header-top">
+                        <div className="field-group flex-1">
+                          <label className="field-label"><i className="fas fa-scroll"></i> Quest Title</label>
+                          <input
+                            type="text"
+                            value={quest.title}
+                            onChange={(e) => updateQuest(quest.id, { title: e.target.value })}
+                            className="card-title-input full-width"
+                            placeholder="Quest title..."
+                          />
+                        </div>
+                        <button className="remove-card-btn" onClick={() => removeQuest(quest.id)} title="Delete Quest">
+                          <i className="fas fa-trash-alt"></i>
+                        </button>
+                      </div>
+
+                      <div className="card-meta-grid-2col">
                         <div className="field-group">
-                          <label className="field-label"><i className="fas fa-list-check"></i> Quest Type</label>
+                          <label className="field-label"><i className="fas fa-tag"></i> Type</label>
                           <select
-                            value={quest.type || 'main'}
+                            value={quest.type || 'side'}
                             onChange={(e) => updateQuest(quest.id, { type: e.target.value })}
                             className="card-field-select"
                           >
                             <option value="main">Main Quest</option>
                             <option value="side">Side Quest</option>
-                            <option value="bounty">Bounty</option>
+                            <option value="bounty">Bounty / Contract</option>
+                            <option value="personal">Personal / Backstory</option>
                           </select>
                         </div>
                         <div className="field-group">
-                          <label className="field-label"><i className="fas fa-user-pen"></i> Quest Giver</label>
+                          <label className="field-label"><i className="fas fa-tasks"></i> Status</label>
+                          <select
+                            value={quest.status || 'not-started'}
+                            onChange={(e) => updateQuest(quest.id, { status: e.target.value })}
+                            className="card-field-select"
+                          >
+                            <option value="not-started">Not Started</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                            <option value="failed">Failed</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="card-meta-grid-2col" style={{ marginTop: '6px' }}>
+                        <div className="field-group">
+                          <label className="field-label"><i className="fas fa-user"></i> Quest Giver</label>
                           <input
                             type="text"
                             value={quest.giver || ''}
                             onChange={(e) => updateQuest(quest.id, { giver: e.target.value })}
-                            placeholder="NPC or faction..."
+                            placeholder="e.g. Captain Vane..."
                             className="card-field-input"
                           />
                         </div>
                         <div className="field-group">
-                          <label className="field-label"><i className="fas fa-location-dot"></i> Location</label>
+                          <label className="field-label"><i className="fas fa-map-pin"></i> Target Location</label>
                           <input
                             type="text"
                             value={quest.location || ''}
                             onChange={(e) => updateQuest(quest.id, { location: e.target.value })}
-                            placeholder="Quest location..."
+                            placeholder="e.g. Sunken Ruins..."
                             className="card-field-input"
                           />
                         </div>
                       </div>
+                    </div>
 
+                    <div className="card-body-fields">
                       <div className="field-group">
-                        <label className="field-label"><i className="fas fa-book-open"></i> Description & Lore</label>
+                        <label className="field-label"><i className="fas fa-align-left"></i> Summary & Objectives Brief</label>
                         <textarea
-                          value={quest.description}
+                          value={quest.description || ''}
                           onChange={(e) => updateQuest(quest.id, { description: e.target.value })}
-                          placeholder="Describe the quest, its background, and what needs to be done..."
+                          placeholder="Describe the quest premise, stakes, and player briefings..."
                           rows={2}
                           className="card-field-textarea"
                         />
                       </div>
 
+                      {/* Quest Checklist Objectives */}
                       <div className="field-group">
-                        <div className="field-label-row">
-                          <label className="field-label"><i className="fas fa-tasks"></i> Objectives</label>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                          <label className="field-label" style={{ margin: 0 }}><i className="fas fa-check-square"></i> Objectives ({(quest.objectives || []).filter(o => o.completed).length}/{(quest.objectives || []).length})</label>
                           <button
                             type="button"
-                            className="mini-add-btn"
+                            className="entity-chip-add-btn quest-btn"
                             onClick={() => addQuestObjective(quest.id)}
                           >
-                            <i className="fas fa-plus"></i> Add Objective
+                            <i className="fas fa-plus"></i> Add Step
                           </button>
                         </div>
-                        <div className="quest-objectives">
-                          {(quest.objectives || []).length > 0 ? (
-                            (quest.objectives || []).map(obj => (
-                              <div key={obj.id} className="quest-objective">
-                                <input
-                                  type="checkbox"
-                                  checked={obj.completed}
-                                  onChange={(e) => updateQuestObjective(quest.id, obj.id, { completed: e.target.checked })}
-                                  className="quest-objective-checkbox"
-                                />
-                                <input
-                                  type="text"
-                                  value={obj.text}
-                                  onChange={(e) => updateQuestObjective(quest.id, obj.id, { text: e.target.value })}
-                                  placeholder="Objective description..."
-                                  className={`card-field-input flex-1 ${obj.completed ? 'completed' : ''}`}
-                                  style={{ textDecoration: obj.completed ? 'line-through' : 'none', opacity: obj.completed ? 0.6 : 1 }}
-                                />
-                                <button
-                                  type="button"
-                                  className="remove-card-btn mini"
-                                  onClick={() => removeQuestObjective(quest.id, obj.id)}
-                                >
-                                  <i className="fas fa-times"></i>
-                                </button>
-                              </div>
-                            ))
-                          ) : (
-                            <p className="empty-text">No objectives yet. Click Add Objective above!</p>
+                        <div className="quest-objectives-checklist" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                          {(quest.objectives || []).map(obj => (
+                            <div key={obj.id} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#fdfbf7', border: '1px solid rgba(139,69,19,0.15)', borderRadius: '4px', padding: '3px 6px' }}>
+                              <input
+                                type="checkbox"
+                                checked={obj.completed || false}
+                                onChange={(e) => updateQuestObjective(quest.id, obj.id, { completed: e.target.checked })}
+                                style={{ cursor: 'pointer' }}
+                              />
+                              <input
+                                type="text"
+                                value={obj.text}
+                                onChange={(e) => updateQuestObjective(quest.id, obj.id, { text: e.target.value })}
+                                placeholder="Objective description..."
+                                style={{ flex: 1, border: 'none', background: 'transparent', fontSize: '0.75rem', textDecoration: obj.completed ? 'line-through' : 'none', color: obj.completed ? '#888' : '#2d1810' }}
+                              />
+                              <button
+                                type="button"
+                                onClick={() => removeQuestObjective(quest.id, obj.id)}
+                                style={{ background: 'none', border: 'none', color: '#c0392b', cursor: 'pointer', fontSize: '0.7rem' }}
+                              >
+                                <i className="fas fa-times"></i>
+                              </button>
+                            </div>
+                          ))}
+                          {(!quest.objectives || quest.objectives.length === 0) && (
+                            <div style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No objective checklist steps added yet</div>
                           )}
                         </div>
                       </div>
 
-                      <div className="card-meta-grid">
-                        <div className="field-group">
-                          <label className="field-label"><i className="fas fa-coins"></i> Rewards</label>
-                          <textarea
-                            value={quest.rewards || ''}
-                            onChange={(e) => updateQuest(quest.id, { rewards: e.target.value })}
-                            placeholder="Gold, items, reputation..."
-                            rows={2}
-                            className="card-field-textarea"
-                          />
-                        </div>
-                        <div className="field-group">
-                          <label className="field-label"><i className="fas fa-eye-slash"></i> DM Secrets & Consequences</label>
-                          <textarea
-                            value={quest.notes || ''}
-                            onChange={(e) => updateQuest(quest.id, { notes: e.target.value })}
-                            placeholder="Private notes, hints, consequences..."
-                            rows={2}
-                            className="card-field-textarea"
-                          />
-                        </div>
+                      {/* Rewards */}
+                      <div className="field-group">
+                        <label className="field-label"><i className="fas fa-gift"></i> Rewards & Bounty</label>
+                        <input
+                          type="text"
+                          value={quest.rewards || ''}
+                          onChange={(e) => updateQuest(quest.id, { rewards: e.target.value })}
+                          placeholder="e.g. 500 Gold, Obsidian Dagger, Clan Favors..."
+                          className="card-field-input"
+                        />
                       </div>
                     </div>
                   </div>
@@ -1902,7 +3467,7 @@ const CampaignManager = ({ user }) => {
               ) : (
                 <div className="empty-state">
                   <i className="fas fa-scroll"></i>
-                  <p>No quests created yet. Start your adventure!</p>
+                  <p>No quests recorded yet. Click <strong>+ New Quest</strong> to add story missions and contracts!</p>
                 </div>
               )}
             </div>
@@ -2694,6 +4259,77 @@ const CampaignManager = ({ user }) => {
                                 className="homebrew-craft-textarea"
                               />
                             </details>
+
+                            {/* Monster Entity Weaver: Harvestable / Droppable Loot & Bestiary Lore */}
+                            <div className="entity-weaver-block">
+                              <div className="entity-chips-rack">
+                                <div className="entity-rack-header">
+                                  <span><i className="fas fa-coins"></i> Droppable Loot & Harvest ({getLinkedItems(monster.dropLootIds).length})</span>
+                                  <button
+                                    type="button"
+                                    className="entity-chip-add-btn"
+                                    onClick={() => openLinkerModal(`Loot Drops for ${monster.name || 'Monster'}`, getAllCampaignItems(), monster.dropLootIds || [], (newIds) => updateHomebrewMonster(monster.id, { dropLootIds: newIds }))}
+                                  >
+                                    <i className="fas fa-plus"></i> Add Loot Drop
+                                  </button>
+                                </div>
+                                <div className="entity-chips-list">
+                                  {getLinkedItems(monster.dropLootIds).map(item => (
+                                    <span
+                                      key={item.id}
+                                      className="entity-chip-pill item-chip"
+                                      onMouseEnter={(e) => handleMouseEnter(e, item, null, null)}
+                                      onMouseMove={handleMouseMove}
+                                      onMouseLeave={handleMouseLeave}
+                                    >
+                                      <img src={resolveLibraryItemIcon(item)} alt="" className="entity-chip-pill-icon" />
+                                      <span className="entity-chip-pill-name">{item.name}</span>
+                                      <button
+                                        type="button"
+                                        className="entity-chip-remove"
+                                        onClick={() => updateHomebrewMonster(monster.id, { dropLootIds: (monster.dropLootIds || []).filter(id => String(id) !== String(item.id)) })}
+                                      >
+                                        <i className="fas fa-times"></i>
+                                      </button>
+                                    </span>
+                                  ))}
+                                  {(!monster.dropLootIds || monster.dropLootIds.length === 0) && (
+                                    <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No harvest/loot drops linked</span>
+                                  )}
+                                </div>
+                              </div>
+
+                              <div className="entity-chips-rack">
+                                <div className="entity-rack-header">
+                                  <span><i className="fas fa-book-open"></i> Bestiary Lore & DC Checks ({getLinkedLore(monster.loreIds).length})</span>
+                                  <button
+                                    type="button"
+                                    className="entity-chip-add-btn"
+                                    onClick={() => openLinkerModal(`Attach Lore to ${monster.name || 'Monster'}`, getAllCampaignLore(), monster.loreIds || [], (newIds) => updateHomebrewMonster(monster.id, { loreIds: newIds }))}
+                                  >
+                                    <i className="fas fa-plus"></i> Attach Lore
+                                  </button>
+                                </div>
+                                <div className="entity-chips-list">
+                                  {getLinkedLore(monster.loreIds).map(art => (
+                                    <span key={art.id} className="entity-chip-pill lore-chip">
+                                      <i className="fas fa-scroll" style={{ color: '#3498db', fontSize: '11px' }}></i>
+                                      <span className="entity-chip-pill-name">{art.title}</span>
+                                      <button
+                                        type="button"
+                                        className="entity-chip-remove"
+                                        onClick={() => updateHomebrewMonster(monster.id, { loreIds: (monster.loreIds || []).filter(id => String(id) !== String(art.id)) })}
+                                      >
+                                        <i className="fas fa-times"></i>
+                                      </button>
+                                    </span>
+                                  ))}
+                                  {(!monster.loreIds || monster.loreIds.length === 0) && (
+                                    <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No lore attached</span>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         ))
                       ) : (

@@ -12,7 +12,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     name: "Lunar Precision",
     icon: "ability_hunter_snipershot",
     maxRanks: 3,
-    position: { x: 3.5, y: 0.5 },
+    position: { x: 3.5, y: 0 },
     requires: null,
     spell: {
       name: "Lunar Precision",
@@ -32,7 +32,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     name: "Moonlight Arrow",
     icon: "spell_nature_lightning",
     maxRanks: 3,
-    position: { x: 2, y: 1.5 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
       name: "Moonlight Arrow",
@@ -59,7 +59,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     name: "True Shot",
     icon: "ability_hunter_mastermarksman",
     maxRanks: 2,
-    position: { x: 4, y: 2.5 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "True Shot",
@@ -79,7 +79,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     name: "Lunar Guidance",
     icon: "ability_hunter_focusedaim",
     maxRanks: 3,
-    position: { x: 2.5, y: 1.5 },
+    position: { x: 2.5, y: 1 },
     requires: "ms_t1_lunar_precision",
     spell: {
       name: "Lunar Guidance",
@@ -99,7 +99,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     name: "Radiant Burst",
     icon: "spell_holy_searinglight",
     maxRanks: 3,
-    position: { x: 3.5, y: 1.5 },
+    position: { x: 3.5, y: 1 },
     requires: "ms_t1_moonlight_arrow",
     spell: {
       name: "Radiant Burst",
@@ -122,7 +122,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     name: "Marksman Focus",
     icon: "ability_hunter_assassinate",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 3, y: 2 },
     requires: "ms_t2_lunar_guidance",
     spell: {
       name: "Marksman Focus",
@@ -150,7 +150,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     name: "Deadly Precision",
     icon: "ability_hunter_rapidkilling",
     maxRanks: 3,
-    position: { x: 3.5, y: 1 },
+    position: { x: 3.5, y: 2 },
     requires: "ms_t2_radiant_burst",
     spell: {
       name: "Deadly Precision",
@@ -171,7 +171,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     name: "Lunar Empowerment",
     icon: "spell_holy_mindvision",
     maxRanks: 3,
-    position: { x: 4, y: 7 },
+    position: { x: 4, y: 3 },
     requires: "ms_t3_marksman_focus",
     spell: {
       name: "Lunar Empowerment",
@@ -192,7 +192,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     name: "Lunar Sentinel",
     icon: "ability_hunter_piercingshots",
     maxRanks: 2,
-    position: { x: 2, y: 7 },
+    position: { x: 2, y: 3 },
     requires: "ms_t3_deadly_precision",
     spell: {
       name: "Lunar Sentinel",
@@ -214,7 +214,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     name: "Tidal Shot",
     icon: "spell_nature_moonglow",
     maxRanks: 3,
-    position: { x: 3, y: 6.5 },
+    position: { x: 3, y: 4 },
     requires: "ms_t4_lunar_empowerment",
     spell: {
       name: "Tidal Shot",
@@ -241,7 +241,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     name: "Waxing Quiver",
     icon: "inv_weapon_bow_05",
     maxRanks: 2,
-    position: { x: 1, y: 6.5 },
+    position: { x: 1, y: 4 },
     requires: "ms_t4_lunar_sentinel",
     spell: {
       name: "Waxing Quiver",
@@ -285,7 +285,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     name: "Eclipse Aim",
     icon: "ability_hunter_improvedsteadyshot",
     maxRanks: 2,
-    position: { x: 1.5, y: 4 },
+    position: { x: 1.5, y: 5 },
     requires: "ms_t5_tidal_shot",
     spell: {
       name: "Eclipse Aim",
@@ -305,7 +305,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     name: "Moonlit Volley",
     icon: "ability_hunter_multishot",
     maxRanks: 2,
-    position: { x: 3, y: 4 },
+    position: { x: 3, y: 5 },
     requires: "ms_t5_waxing_quiver",
     spell: {
       name: "Moonlit Volley",
@@ -332,7 +332,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     name: "Full Moon Apotheosis",
     icon: "spell_nature_starfall",
     maxRanks: 1,
-    position: { x: 0.5, y: 1 },
+    position: { x: 0, y: 6 },
     requires: "ms_t6_celestial_archer",
     spell: {
       name: "Full Moon Apotheosis",
@@ -354,7 +354,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     name: "Marksman Supreme",
     icon: "ability_hunter_snipershot",
     maxRanks: 5,
-    position: { x: 2, y: 0.5 },
+    position: { x: 2, y: 6 },
     requires: "ms_t6_eclipse_aim",
     spell: {
       name: "Marksman Supreme",
@@ -377,7 +377,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     name: "Tides of Battle",
     icon: "spell_nature_moonglow",
     maxRanks: 3,
-    position: { x: 3, y: 0.5 },
+    position: { x: 3, y: 6 },
     requires: "ms_t6_eclipse_aim",
     spell: {
       name: "Tides of Battle",
@@ -398,7 +398,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     name: "Nightwatch",
     icon: "ability_hunter_camouflage",
     maxRanks: 3,
-    position: { x: 4, y: 1 },
+    position: { x: 4, y: 6 },
     requires: "ms_t6_moonlit_volley",
     spell: {
       name: "Nightwatch",
@@ -418,7 +418,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
     name: "Lunar Rhythm",
     icon: "spell_nature_starfall",
     maxRanks: 3,
-    position: { x: 0.5, y: 8 },
+    position: { x: 1, y: 6 },
     requires: "ms_t6_moonlit_volley",
     spell: {
       name: "Lunar Rhythm",

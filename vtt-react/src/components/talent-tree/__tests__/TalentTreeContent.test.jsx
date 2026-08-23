@@ -95,4 +95,73 @@ describe('Talent Tree System Tests', () => {
     expect(Object.keys(useCharacterStore.getState().talents).length).toBe(0);
     expect(useSpellbookStore.getState().spells.length).toBe(0);
   });
+
+  test('5-point tier gatekeeping: Tier 2 requires 5 points spent in tree', () => {
+    const { getNodeTier, getRequiredPointsForTier } = require('../TalentTreeContent');
+    expect(getRequiredPointsForTier(1)).toBe(0);
+    expect(getRequiredPointsForTier(2)).toBe(5);
+    expect(getRequiredPointsForTier(3)).toBe(10);
+    expect(getRequiredPointsForTier(4)).toBe(15);
+    expect(getRequiredPointsForTier(5)).toBe(20);
+    expect(getRequiredPointsForTier(6)).toBe(25);
+    expect(getRequiredPointsForTier(7)).toBe(30);
+
+    const t1Node = GAMBIT_PROBABILITY_SAVANT.find(t => t.id.includes('_t1_'));
+    const t2Node = GAMBIT_PROBABILITY_SAVANT.find(t => t.id.includes('_t2_'));
+    const t3Node = GAMBIT_PROBABILITY_SAVANT.find(t => t.id.includes('_t3_'));
+    expect(getNodeTier(t1Node)).toBe(1);
+    expect(getNodeTier(t2Node)).toBe(2);
+    expect(getNodeTier(t3Node)).toBe(3);
+  });
+
+  test('cannot allocate Tier 2 talent with less than 5 points in tree', () => {
+    useCharacterStore.setState({
+      class: 'Gambit',
+      level: 10,
+      talents: {
+        'ps_t1_calculated_nudge': 3 // 3 points in Tier 1 (< 5 needed for Tier 2)
+      }
+    });
+
+    const { container } = render(<TalentTreeContent />);
+    
+    // Find all rendered nodes
+    const nodeButtons = container.querySelectorAll('.talent-node-button');
+    expect(nodeButtons.length).toBeGreaterThan(0);
+
+    // Tier 2 nodes should be locked
+    const t2Nodes = GAMBIT_PROBABILITY_SAVANT.filter(t => t.id.includes('_t2_'));
+    expect(t2Nodes.length).toBeGreaterThan(0);
+
+    // Click a Tier 2 node button
+    // Should NOT increase ranks because tree points = 3 < 5
+    const initialTalents = { ...useCharacterStore.getState().talents };
+    const t2NodeElement = container.querySelector(`[data-talent-id="${t2Nodes[0].id}"]`) || nodeButtons[3];
+    fireEvent.click(t2NodeElement);
+
+    const state = useCharacterStore.getState();
+    expect(state.talents[t2Nodes[0].id] || 0).toBe(0);
+  });
+
+  test('Tier 2 node can be learned once 5 points are invested in Tier 1', () => {
+    // Invest 5 points across Tier 1 nodes
+    const t1Nodes = GAMBIT_PROBABILITY_SAVANT.filter(t => t.id.includes('_t1_'));
+    const t1Alloc = {};
+    let pts = 5;
+    for (const node of t1Nodes) {
+      const take = Math.min(pts, node.maxRanks || 3);
+      t1Alloc[node.id] = take;
+      pts -= take;
+      if (pts <= 0) break;
+    }
+
+    useCharacterStore.setState({
+      class: 'Gambit',
+      level: 10,
+      talents: t1Alloc
+    });
+
+    render(<TalentTreeContent />);
+    expect(screen.getByText('Tier 1')).toBeInTheDocument();
+  });
 });

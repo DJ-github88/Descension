@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useMapStore from '../../store/mapStore';
 import PortalConfigDialog from './PortalConfigDialog';
 import './styles/PortalLibrary.css';
+import { showConfirm } from '../../utils/dialogService';
 
 const PortalLibrary = () => {
     const {
@@ -37,8 +38,14 @@ const PortalLibrary = () => {
         setEditingTemplate(null);
     };
 
-    const handleDeleteTemplate = (templateId) => {
-        if (window.confirm('Are you sure you want to delete this connection template?')) {
+    const handleDeleteTemplate = async (templateId) => {
+        const confirmed = await showConfirm({
+            title: 'Delete Template',
+            message: 'Are you sure you want to delete this connection template?',
+            confirmText: 'Delete Template',
+            isDestructive: true
+        });
+        if (confirmed) {
             removePortalTemplate(templateId);
         }
     };
@@ -109,7 +116,7 @@ const PortalLibrary = () => {
                                             onClick={() => handleDeleteTemplate(template.id)}
                                             title="Delete template"
                                         >
-                                            ü - ëÔ∏è
+                                            ÔøΩ - ÔøΩÔ∏è
                                         </button>
                                     </div>
                                 </div>

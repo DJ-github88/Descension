@@ -96,7 +96,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Tritone Discord",
     icon: "spell_shadow_mindtwisting",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "mm_t1_dissonant_shriek",
     spell: {
       name: "Tritone Discord",
@@ -123,7 +123,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Dissonant Resonance",
     icon: "spell_arcane_arcaneresilience",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 1 },
     requires: "mm_t1_unsettling_vibration",
     spell: {
       name: "Dissonant Resonance",
@@ -147,7 +147,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Deceptive Cadence",
     icon: "spell_arcane_arcanetorrent",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1, y: 2 },
     requires: "mm_t2_tritone_discord",
     spell: {
       name: "Deceptive Cadence",
@@ -174,7 +174,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Suspended Resonance",
     icon: "spell_arcane_portalshattrath",
     maxRanks: 3,
-    position: { x: 3, y: 3 },
+    position: { x: 3, y: 2 },
     requires: "mm_t2_dissonant_spread",
     spell: {
       name: "Suspended Resonance",
@@ -198,7 +198,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Sonic Feedback",
     icon: "spell_arcane_blink",
     maxRanks: 3,
-    position: { x: 1, y: 4.5 },
+    position: { x: 1, y: 3 },
     requires: "mm_t3_deceptive_cadence",
     spell: {
       name: "Sonic Feedback",
@@ -223,7 +223,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Discordant Strain",
     icon: "spell_shadow_mindsteal",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 3 },
     requires: "mm_t3_half_cadence_shield",
     spell: {
       name: "Discordant Strain",
@@ -245,7 +245,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Mind Shatter",
     icon: "spell_shadow_unholyfrenzy",
     maxRanks: 2,
-    position: { x: 1, y: 6 },
+    position: { x: 1, y: 4 },
     requires: "mm_t4_sonic_feedback",
     spell: {
       name: "Mind Shatter",
@@ -271,7 +271,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Cacophony Engine",
     icon: "spell_arcane_arcanetorrent",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3, y: 4 },
     requires: "mm_t4_discordant_amplification",
     spell: {
       name: "Cacophony Engine",
@@ -293,7 +293,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Deafening Crescendo",
     icon: "spell_shadow_mindtwisting",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "mm_t5_mind_shatter",
     spell: {
       name: "Deafening Crescendo",
@@ -317,7 +317,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Permanent Discord",
     icon: "spell_shadow_curseofsargeras",
     maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
+    position: { x: 2.5, y: 5 },
     requires: "mm_t5_cacophony_engine",
     spell: {
       name: "Permanent Discord",
@@ -336,7 +336,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Psychic Resonance Bleed",
     icon: "spell_shadow_shadowwordpain",
     maxRanks: 2,
-    position: { x: 4, y: 7.5 },
+    position: { x: 4, y: 5 },
     requires: "mm_t5_cacophony_engine",
     spell: {
       name: "Psychic Resonance Bleed",
@@ -359,7 +359,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Symphony of Ruin",
     icon: "spell_shadow_deathanddecay",
     maxRanks: 1,
-    position: { x: 0.5, y: 8 },
+    position: { x: 0.5, y: 6 },
     requires: "mm_t6_deafening_crescendo",
     spell: {
       name: "Symphony of Ruin",
@@ -384,7 +384,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Dissonance Doctrine",
     icon: "spell_shadow_darkritual",
     maxRanks: 5,
-    position: { x: 1.5, y: 8 },
+    position: { x: 1.5, y: 6 },
     requires: "mm_t6_deafening_crescendo",
     spell: {
       name: "Dissonance Doctrine",
@@ -407,7 +407,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Acoustic Singularity",
     icon: "spell_arcane_arcanetorrent",
     maxRanks: 3,
-    position: { x: 2.5, y: 8 },
+    position: { x: 2.5, y: 6 },
     requires: "mm_t6_dissonant_echoes",
     spell: {
       name: "Acoustic Singularity",
@@ -429,7 +429,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Master of Discord",
     icon: "spell_arcane_blast",
     maxRanks: 3,
-    position: { x: 3.5, y: 8 },
+    position: { x: 3.5, y: 6 },
     requires: "mm_t6_psychic_bleed",
     spell: {
       name: "Master of Discord",
@@ -449,7 +449,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Living Discord",
     icon: "spell_shadow_unholyfrenzy",
     maxRanks: 3,
-    position: { x: 4.5, y: 8 },
+    position: { x: 4.5, y: 6 },
     requires: "mm_t6_psychic_bleed",
     spell: {
       name: "Living Discord",

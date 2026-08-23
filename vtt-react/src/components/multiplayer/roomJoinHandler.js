@@ -86,7 +86,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
             import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
               const gridItemStore = useGridItemStore.getState();
               Object.values(levelEditorState.gridItems).forEach(gridItem => {
-                console.log('Ã°Å¸â€œÂ¦ Loading grid item from initial sync:', {
+                console.log('Ã°Å¸"Â¦ Loading grid item from initial sync:', {
                   id: gridItem.id,
                   name: gridItem.name,
                   position: gridItem.position,
@@ -94,7 +94,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
                 });
                 gridItemStore.loadGridItem(gridItem);
               });
-              console.log('Ã¢Å“â€¦ Loaded grid items from initial sync:', Object.keys(levelEditorState.gridItems).length);
+              console.log('Ã¢Å“"¦ Loaded grid items from initial sync:', Object.keys(levelEditorState.gridItems).length);
             }).catch(error => {
               console.error('Failed to load grid items:', error);
             });
@@ -107,7 +107,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
               Object.values(levelEditorState.tokens).forEach(tokenData => {
                 creatureStore.loadToken(tokenData);
               });
-              console.log('Ã¢Å“â€¦ Loaded tokens from initial sync:', Object.keys(levelEditorState.tokens).length);
+              console.log('Ã¢Å“"¦ Loaded tokens from initial sync:', Object.keys(levelEditorState.tokens).length);
             }).catch(error => {
               console.error('Failed to load tokens:', error);
             });
@@ -120,13 +120,13 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
               Object.values(levelEditorState.characterTokens).forEach(tokenData => {
                 creatureStore.loadToken(tokenData);
               });
-              console.log('Ã¢Å“â€¦ Loaded character tokens from initial sync:', Object.keys(levelEditorState.characterTokens).length);
+              console.log('Ã¢Å“"¦ Loaded character tokens from initial sync:', Object.keys(levelEditorState.characterTokens).length);
             }).catch(error => {
               console.error('Failed to load character tokens:', error);
             });
           }
 
-          console.log('Ã¢Å“â€¦ Initial level editor state applied');
+          console.log('Ã¢Å“"¦ Initial level editor state applied');
         }
 
         // Apply grid settings
@@ -135,7 +135,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
 
           if (gridSettings.gridType !== undefined) {
             gameStore.setGridType(gridSettings.gridType);
-            console.log('Ã°Å¸â€Â· Initial grid type set to:', gridSettings.gridType);
+            console.log('Ã°Å¸"Â· Initial grid type set to:', gridSettings.gridType);
           }
           if (gridSettings.gridSize !== undefined) {
             gameStore.setGridSize(gridSettings.gridSize);
@@ -156,7 +156,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
             gameStore.setGridBackgroundColor(gridSettings.gridBackgroundColor);
           }
 
-          console.log('Ã¢Å“â€¦ Initial grid settings applied');
+          console.log('Ã¢Å“"¦ Initial grid settings applied');
         }
       } catch (error) {
         console.error('Ã¢ÂÅ’ Failed to apply initial level editor state:', error);
@@ -206,7 +206,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
         console.warn('Could not get userId from authStore:', e);
       }
 
-      console.log('Ã°Å¸â€ â€ handleJoinRoom - Setting up current player:', {
+      console.log('Ã°Å¸" " handleJoinRoom - Setting up current player:', {
         playerObject,
         playerObjectId: playerObject?.id,
         playerObjectName: playerObject?.name,
@@ -260,7 +260,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
         const playerIdForMemories = currentUserId || socketConnection?.id || currentPlayerData?.id || 'local-player';
         if (playerIdForMemories && levelEditorStore.currentPlayerId !== playerIdForMemories) {
           levelEditorStore.setCurrentPlayerId(playerIdForMemories);
-          console.log('Ã°Å¸â€ â€ Set current player ID for per-player memories:', playerIdForMemories);
+          console.log('Ã°Å¸" " Set current player ID for per-player memories:', playerIdForMemories);
         }
       } catch (e) {
         console.warn('Could not set player ID for per-player memories:', e);
@@ -523,7 +523,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       useGameStore.getState().setGMMode(isGameMaster);
 
       if (!isGameMaster && socketConnection) {
-        console.log('Ã°Å¸â€”ÂºÃ¯Â¸Â [Travel] Initializing player travel listener');
+        console.log('Ã°Å¸—ÂºÃ¯Â¸Â [Travel] Initializing player travel listener');
         useTravelStore.getState().initPlayerTravelListener(socketConnection);
       }
 
@@ -544,7 +544,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
             creatureCount++;
           }
         });
-        console.log(`Ã°Å¸â€œÅ¡ Populated creature library with ${creatureCount} creatures from legacy tokens`);
+        console.log(`Ã°Å¸"Å¡ Populated creature library with ${creatureCount} creatures from legacy tokens`);
       }
 
       // 1. Initialize Map Store with all maps (essential for GM Map Library)
@@ -566,7 +566,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
               // Logic to set thumbnail would go here
             }
           });
-          console.log('Ã°Å¸â€”ÂºÃ¯Â¸Â MapStore initialized with maps:', Object.keys(room.gameState.maps));
+          console.log('Ã°Å¸—ÂºÃ¯Â¸Â MapStore initialized with maps:', Object.keys(room.gameState.maps));
         });
       }
 
@@ -602,7 +602,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
         useMapStore.setState({ currentMapId: startMapId });
       });
 
-      console.log('Ã°Å¸â€œÂ Initializing player on map:', startMapId);
+      console.log('Ã°Å¸"Â Initializing player on map:', startMapId);
 
       // ===== FALLBACK: Load level editor state from gameState for non-GM players =====
       // The server sends gameState with per-map terrain/fog/walls, but levelEditorState
@@ -647,7 +647,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
               if (gs.gridBackgroundColor !== undefined) gameStore.setGridBackgroundColor(gs.gridBackgroundColor);
             }
 
-            console.log('Ã¢Å“â€¦ [handleJoinRoom] Level editor state loaded from persisted gameState for map:', startMapId);
+            console.log('Ã¢Å“"¦ [handleJoinRoom] Level editor state loaded from persisted gameState for map:', startMapId);
           } catch (error) {
             console.error('Ã¢ÂÅ’ [handleJoinRoom] Failed to load level editor state from gameState:', error);
           } finally {
@@ -658,7 +658,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
         }
       }
 
-      console.log('Ã°Å¸â€Â [handleJoinRoom] Room structure received from server:', {
+      console.log('Ã°Å¸"Â [handleJoinRoom] Room structure received from server:', {
         roomId: room.id,
         hasGameState: !!room.gameState,
         gameStateKeys: Object.keys(room.gameState || {}),
@@ -742,7 +742,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
               try {
                 const levelEditorStore = useLevelEditorStore.getState();
                 if (levelEditorStore.dynamicFogEnabled && !levelEditorStore.viewingFromToken) {
-                  console.log('Ã°Å¸â€˜ÂÃ¯Â¸Â [Afterimage] Setting viewingFromToken for player:', charTokenData.id);
+                  console.log('Ã°Å¸"˜ÂÃ¯Â¸Â [Afterimage] Setting viewingFromToken for player:', charTokenData.id);
                   levelEditorStore.setViewingFromToken({
                     id: charTokenData.id,
                     type: 'character',
@@ -779,7 +779,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
           ? (Array.isArray(gridItemsRaw) ? gridItemsRaw : Object.values(gridItemsRaw))
           : [];
 
-        console.log('Ã°Å¸â€Â [handleJoinRoom] Grid items data:', {
+        console.log('Ã°Å¸"Â [handleJoinRoom] Grid items data:', {
           mapId: startMapId,
           gridItemsRawType: typeof gridItemsRaw,
           gridItemsRawIsArray: Array.isArray(gridItemsRaw),
@@ -801,7 +801,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
             gridItems: [...nonTargetItems, ...normalizedTargetItems]
           });
 
-          console.log(`Ã°Å¸â€œÂ¦ Loaded ${initialGridItems.length} grid items for map ${startMapId}`);
+          console.log(`Ã°Å¸"Â¦ Loaded ${initialGridItems.length} grid items for map ${startMapId}`);
         });
       } else {
         console.warn('Ã¢Å¡Â Ã¯Â¸Â [handleJoinRoom] Missing initial gridItems payload - preserving existing grid items to avoid accidental wipe');
@@ -921,7 +921,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       const leaderId = isGameMaster ? (currentPlayerData?.id || 'current-player') : (room.gm?.id || 'room-gm');
       if (leaderId) {
         usePartyStore.getState().setLeader(leaderId, true);
-        console.log('Ã°Å¸â€˜â€˜ Party leader set:', leaderId, 'isGM:', isGameMaster);
+        console.log('Ã°Å¸"˜"˜ Party leader set:', leaderId, 'isGM:', isGameMaster);
       }
 
       // Use real player ID so other players can identify this member uniquely
@@ -1019,7 +1019,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
           gmCharacterName = room.gmAccountName || room.gm.name || 'Game Master';
         }
 
-        console.log('Ã°Å¸â€˜Â¤ Adding GM to party:', {
+        console.log('Ã°Å¸"˜Â¤ Adding GM to party:', {
           gmId: room.gm.id,
           gmName: gmCharacterName,
           gmUserId: gmUserId,
@@ -1144,7 +1144,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       useGameStore.getState().setMultiplayerState(true, room, null, socketConnection, currentPlayerData);
 
       if (!isGameMaster) {
-        console.log('Ã°Å¸â€”ÂºÃ¯Â¸Â [Travel] Requesting travel sync from GM, roomId:', room?.id);
+        console.log('Ã°Å¸—ÂºÃ¯Â¸Â [Travel] Requesting travel sync from GM, roomId:', room?.id);
         socketConnection.emit('request_travel_sync', { roomId: room?.id });
       }
 
@@ -1194,7 +1194,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
 
         if (isPermanentRoom) {
           gameStateManager.initialize(roomId, isGameMaster).then(() => {
-            console.log('Ã¢Å“â€¦ Game state manager initialized successfully');
+            console.log('Ã¢Å“"¦ Game state manager initialized successfully');
           }).catch((error) => {
             console.error('Ã¢ÂÅ’ Failed to initialize game state manager:', error);
           });
@@ -1240,7 +1240,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       // Welcome notification
       addNotificationRef.current('social', {
         sender: { name: 'System', class: 'system', level: 0 },
-        content: `Ã°Å¸Å½â€° Welcome to ${room.name}! You have joined as ${isGameMaster ? 'Game Master' : 'Player'}. The adventure awaits!`,
+        content: `Ã°Å¸Å½"° Welcome to ${room.name}! You have joined as ${isGameMaster ? 'Game Master' : 'Player'}. The adventure awaits!`,
         type: 'system',
         timestamp: new Date().toISOString()
       });
@@ -1248,7 +1248,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       // CRITICAL: Trigger initial character sync so everyone sees us correctly
       import('../../store/characterStore').then(({ default: useCharacterStore }) => {
         useCharacterStore.getState().syncWithMultiplayer();
-        console.log('Ã°Å¸Å¡â‚¬ Triggered initial character sync upon room entry');
+        console.log('🚀 Triggered initial character sync upon room entry');
       });
 
       // Additional helpful notification for new players
@@ -1256,7 +1256,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
         setTimeout(() => {
           addNotificationRef.current('social', {
             sender: { name: 'System', class: 'system', level: 0 },
-            content: 'Ã°Å¸â€™Â¡ Tip: Use the chat to communicate with your party. Press Enter to send messages.',
+            content: '💡 Tip: Use the chat to communicate with your party. Press Enter to send messages.',
             type: 'system',
             timestamp: new Date().toISOString()
           });

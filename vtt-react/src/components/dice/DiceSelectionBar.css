@@ -101,21 +101,21 @@
   position: absolute;
   bottom: 60px;
   left: 0;
-  width: 344px;
+  width: 390px;
   max-width: calc(100vw - 32px);
-  max-height: 75vh;
-  background: var(--my-gradient-parchment);
-  border: 2px solid var(--my-gold);
+  max-height: 80vh;
+  background: linear-gradient(165deg, #fdfbf7 0%, #f7f1e4 50%, #f0e6d6 100%);
+  border: 2px solid #8b5a1a;
   border-radius: 14px;
   box-shadow:
-    0 18px 44px rgba(30, 20, 8, 0.45),
-    0 0 0 1px rgba(90, 68, 38, 0.35),
-    inset 0 0 0 1px rgba(255, 250, 235, 0.55);
-  backdrop-filter: blur(10px);
+    0 20px 48px rgba(30, 20, 8, 0.5),
+    0 0 0 1px rgba(212, 175, 55, 0.4),
+    inset 0 0 0 1px rgba(255, 250, 235, 0.6);
+  backdrop-filter: blur(12px);
   padding: 0 16px 16px;
   display: flex;
   flex-direction: column;
-  gap: 13px;
+  gap: 12px;
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
@@ -123,7 +123,7 @@
   pointer-events: auto;
   z-index: 10002;
   font-family: 'Cinzel', 'Times New Roman', serif;
-  color: var(--my-text-primary);
+  color: #2b1408;
 }
 
 /* Engraved gold hairline across the top of the panel */
@@ -138,20 +138,18 @@
   background: linear-gradient(90deg,
     transparent 0%,
     rgba(212, 175, 55, 0.15) 12%,
-    rgba(212, 175, 55, 0.85) 50%,
+    rgba(212, 175, 55, 0.9) 50%,
     rgba(212, 175, 55, 0.15) 88%,
     transparent 100%);
   border-radius: 14px 14px 0 0;
 }
 
 .dice-dropdown-cards {
-  width: 344px;
+  width: 390px;
   min-width: 300px;
   max-width: calc(100vw - 32px);
 }
 
-/* Dice variant: header + scrollable body + pinned footer, so the Roll
-   button is always on screen and the themes never leave the panel. */
 .dice-dropdown-dice {
   overflow: hidden;
   gap: 10px;
@@ -164,10 +162,10 @@
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 2px 6px 2px 0;
+  gap: 12px;
+  padding: 4px 6px 4px 0;
   scrollbar-width: thin;
-  scrollbar-color: var(--my-brown-medium) var(--my-parchment-dark);
+  scrollbar-color: #8b5a1a #ecd9ae;
 }
 
 .dice-dropdown-body::-webkit-scrollbar {
@@ -175,25 +173,25 @@
 }
 
 .dice-dropdown-body::-webkit-scrollbar-track {
-  background: var(--my-parchment-dark);
+  background: #f0e6d6;
   border-radius: 3px;
 }
 
 .dice-dropdown-body::-webkit-scrollbar-thumb {
-  background: var(--my-brown-medium);
+  background: #8b5a1a;
   border-radius: 3px;
 }
 
 .dice-dropdown-body::-webkit-scrollbar-thumb:hover {
-  background: var(--my-brown-dark);
+  background: #5a3804;
 }
 
-/* Pinned footer: roll summary + button never scroll away */
+/* Pinned footer: roll summary + button */
 .dice-dropdown-footer {
   flex-shrink: 0;
-  padding-top: 11px;
-  border-top: 1px solid rgba(139, 115, 85, 0.45);
-  background: transparent;
+  padding-top: 12px;
+  border-top: 1.5px solid #d4af37;
+  background: #fbf6ec;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -203,7 +201,7 @@
   padding-right: 16px;
   padding-bottom: 14px;
   border-radius: 0 0 12px 12px;
-  box-shadow: 0 -4px 10px rgba(30, 20, 8, 0.12);
+  box-shadow: 0 -4px 12px rgba(30, 20, 8, 0.1);
 }
 
 @keyframes slideUp {
@@ -216,16 +214,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 13px 0 10px;
-  border-bottom: 1px solid rgba(139, 115, 85, 0.45);
+  padding: 12px 0 10px;
+  border-bottom: 1.5px solid #8b5a1a;
 }
 
 .dice-dropdown-title {
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--my-text-primary);
+  color: #3b1e08;
   font-family: 'Cinzel', 'Times New Roman', serif;
 }
 
@@ -233,10 +231,10 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background: var(--my-parchment);
-  border: 1px solid var(--my-brown-medium);
+  background: #ffffff;
+  border: 1px solid #8b5a1a;
   border-radius: 999px;
-  color: var(--my-text-primary);
+  color: #5c3a10;
   padding: 4px 10px;
   cursor: pointer;
   font-size: 11px;
@@ -269,21 +267,21 @@
 .dice-preset-section {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 8px;
 }
 
 .quick-roll-label,
 .dice-selection-label,
 .dice-preset-label {
-  font-size: 10.5px;
-  color: var(--my-text-muted);
+  font-size: 11px;
+  color: #8b5a1a;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-weight: 600;
+  letter-spacing: 0.18em;
+  font-weight: 800;
   font-family: 'Cinzel', 'Times New Roman', serif;
 }
 
-/* Quick roll: uniform text chips (icons hidden for consistency) */
+/* Quick roll buttons */
 .quick-roll-buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -291,21 +289,21 @@
 }
 
 .quick-roll-button {
-  background: var(--my-parchment);
-  border: 1px solid var(--my-brown-medium);
+  background: #ffffff;
+  border: 1.5px solid #cdb592;
   border-radius: 8px;
-  padding: 8px 4px;
-  color: var(--my-text-primary);
+  padding: 7px 4px;
+  color: #2b1408;
   cursor: pointer;
   font-size: 12.5px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.02em;
   text-align: center;
   transition: all 0.18s ease;
   font-family: 'Cinzel', 'Times New Roman', serif;
   box-shadow:
-    0 1px 4px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    0 1px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .quick-roll-button .dice-icon-shape {
@@ -313,13 +311,13 @@
 }
 
 .quick-roll-button:hover:not(:disabled) {
-  background: var(--my-parchment-light);
-  border-color: var(--my-gold);
+  background: #fdfbf7;
+  border-color: #8b5a1a;
   transform: translateY(-1px);
   box-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.22),
+    0 3px 8px rgba(0, 0, 0, 0.16),
     0 0 8px rgba(212, 175, 55, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .quick-roll-button:disabled {
@@ -327,11 +325,11 @@
   cursor: not-allowed;
 }
 
-/* Dice selection grid — compact 4-column tiles so all dice fit in 2 rows */
+/* Dice selection grid */
 .dice-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
+  gap: 8px;
 }
 
 .dice-item {
@@ -339,106 +337,126 @@
   flex-direction: column;
   gap: 4px;
   min-width: 0;
+  position: relative;
 }
 
-/* Dice type buttons: compact parchment tiles, gem icon above the label */
+/* Dice type buttons */
 .dice-select-button {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  background: linear-gradient(160deg, var(--my-parchment-light) 0%, var(--my-parchment) 60%, var(--my-parchment-dark) 100%);
-  border: 1.5px solid var(--my-brown-medium);
-  border-radius: 9px;
-  padding: 8px 2px 6px;
-  color: var(--my-text-primary);
+  gap: 5px;
+  background: #ffffff;
+  border: 1.5px solid #cdb592;
+  border-radius: 8px;
+  padding: 9px 2px 7px;
+  color: #2b1408;
   cursor: pointer;
   font-size: 11.5px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.03em;
-  transition: all 0.18s ease;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   text-align: center;
   font-family: 'Cinzel', 'Times New Roman', serif;
   box-shadow:
-    0 1px 4px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    0 1px 4px rgba(90, 46, 18, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  position: relative;
   min-width: 0;
 }
 
 .dice-select-button:hover {
-  transform: translateY(-1px);
-  border-color: var(--my-gold);
+  transform: translateY(-2px);
+  border-color: #8b5a1a;
   box-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.22),
-    0 0 10px rgba(212, 175, 55, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    0 4px 10px rgba(90, 46, 18, 0.16),
+    0 0 10px rgba(212, 175, 55, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .dice-select-button.selected {
-  background: linear-gradient(160deg, #ecd9ae 0%, #dfc894 55%, #cbae7c 100%);
-  border-color: var(--my-gold);
-  color: #4a3418;
+  background: linear-gradient(160deg, #fdf4db 0%, #f4e4bc 55%, #ecd29b 100%);
+  border-color: #8b5a1a;
+  color: #3b1e08;
   box-shadow:
-    0 0 10px rgba(212, 175, 55, 0.4),
-    0 2px 7px rgba(0, 0, 0, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    0 0 12px rgba(212, 175, 55, 0.45),
+    0 2px 7px rgba(90, 46, 18, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Prominent quantity count badge on die tile */
+.dice-tile-count-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: linear-gradient(135deg, #d4af37 0%, #8b5a1a 100%);
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-weight: 900;
+  min-width: 18px;
+  text-align: center;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  animation: popBadge 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 2;
+}
+
+@keyframes popBadge {
+  0% { transform: scale(0.6); }
+  100% { transform: scale(1); }
 }
 
 /* Quantity stepper */
 .dice-quantity-control {
   display: flex;
   align-items: center;
-  gap: 4px;
-  background: var(--my-parchment-dark);
-  border: 1px solid var(--my-brown-medium);
-  border-radius: 8px;
+  justify-content: space-between;
+  gap: 2px;
+  background: #fbf6ec;
+  border: 1px solid #8b5a1a;
+  border-radius: 6px;
   padding: 2px;
-  box-shadow:
-    0 1px 4px rgba(0, 0, 0, 0.18),
-    inset 0 1px 2px rgba(120, 96, 60, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
 .quantity-decrement,
 .quantity-increment {
-  background: var(--my-parchment);
-  border: 1px solid var(--my-brown-medium);
-  border-radius: 6px;
-  width: 24px;
-  height: 24px;
-  color: var(--my-text-primary);
+  background: #ffffff;
+  border: 1px solid #cdb592;
+  border-radius: 4px;
+  width: 20px;
+  height: 20px;
+  color: #5a2e12;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 13px;
+  font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   font-family: 'Cinzel', 'Times New Roman', serif;
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  padding: 0;
 }
 
 .quantity-decrement:hover,
 .quantity-increment:hover {
-  background: var(--my-parchment-light);
-  border-color: var(--my-gold);
-  color: var(--my-text-primary);
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  background: #8b5a1a;
+  border-color: #5a3804;
+  color: #ffffff;
 }
 
 .quantity-input {
   flex: 1;
   background: transparent;
   border: none;
-  padding: 4px;
-  color: var(--my-text-primary);
+  padding: 0 2px;
+  color: #2b1408;
   text-align: center;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 800;
   min-width: 0;
   font-family: 'Cinzel', 'Times New Roman', serif;
 }
@@ -462,33 +480,34 @@
   flex: 1;
   min-width: 0;
   font-size: 13px;
-  color: var(--my-text-primary);
+  color: #2b1408;
   font-family: 'Cinzel', 'Times New Roman', serif;
 }
 
 .roll-summary-text strong {
-  color: var(--my-text-primary);
-  font-weight: 700;
+  color: #5a2e12;
+  font-size: 14.5px;
+  font-weight: 800;
 }
 
 .roll-total-label {
-  color: var(--my-text-muted);
-  margin-left: 4px;
+  color: #795548;
+  margin-left: 5px;
+  font-size: 12px;
 }
 
 .roll-hint {
-  color: var(--my-text-muted);
-  font-size: 11.5px;
+  color: #795548;
+  font-size: 12px;
   font-style: italic;
-  letter-spacing: 0.04em;
 }
 
 .roll-button {
-  background: linear-gradient(145deg, #ecd9ae 0%, #d9bc7c 50%, #bb9a5c 100%);
-  border: 2px solid var(--my-gold);
-  border-radius: 10px;
+  background: linear-gradient(145deg, #d4af37 0%, #b8860b 50%, #8b5a1a 100%);
+  border: 1.5px solid #ffd700;
+  border-radius: 8px;
   padding: 9px 22px;
-  color: #43300f;
+  color: #ffffff;
   font-size: 13.5px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -497,28 +516,28 @@
   transition: all 0.2s ease;
   white-space: nowrap;
   box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.28),
-    0 0 10px rgba(212, 175, 55, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.55),
-    inset 0 -1px 0 rgba(139, 69, 19, 0.22);
+    0 3px 10px rgba(0, 0, 0, 0.3),
+    0 0 12px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
   font-family: 'Cinzel', 'Times New Roman', serif;
 }
 
 .roll-button:hover:not(:disabled) {
   transform: translateY(-1px);
-  background: linear-gradient(145deg, #f4e4bd 0%, #e2c689 50%, #c4a266 100%);
-  border-color: var(--my-gold-light);
+  background: linear-gradient(145deg, #ffd700 0%, #d4af37 50%, #a66d1e 100%);
   box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.32),
-    0 0 16px rgba(212, 175, 55, 0.35),
+    0 5px 14px rgba(0, 0, 0, 0.35),
+    0 0 18px rgba(212, 175, 55, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .roll-button:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
-  background: var(--my-parchment-dark);
-  border-color: var(--my-brown-medium);
+  background: #dcd1ba;
+  border-color: #cdb592;
+  color: #795548;
+  box-shadow: none;
 }
 
 /* Launcher orbs */
@@ -606,7 +625,7 @@
 .card-draw-placeholder {
   padding: 20px;
   text-align: center;
-  color: var(--my-text-muted);
+  color: #795548;
   font-size: 14px;
   font-family: 'Cinzel', 'Times New Roman', serif;
 }
@@ -617,27 +636,24 @@
 }
 
 .dice-dropdown::-webkit-scrollbar-track {
-  background: var(--my-parchment-dark);
+  background: #f0e6d6;
   border-radius: 3px;
 }
 
 .dice-dropdown::-webkit-scrollbar-thumb {
-  background: var(--my-brown-medium);
+  background: #8b5a1a;
   border-radius: 3px;
 }
 
 .dice-dropdown::-webkit-scrollbar-thumb:hover {
-  background: var(--my-brown-dark);
+  background: #5a3804;
 }
 
-/* Theme preset picker — namespaced dice-preset-* (the generic .preset-button
-   collides with spellcrafting-wizard styles loaded in the same bundle).
-   Each chip carries a mini die-face tile showing the preset's real material:
-   body gradient + emissive glow + glossy sheen + number color. */
+/* Theme preset grid */
 .dice-preset-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 6px;
+  gap: 8px;
 }
 
 .dice-preset-chip {
@@ -645,37 +661,86 @@
   flex-direction: row;
   align-items: center;
   gap: 8px;
-  padding: 5px 10px 5px 6px;
-  background: var(--my-parchment);
-  border: 1.5px solid var(--my-brown-medium);
-  border-radius: 999px;
+  padding: 6px 10px 6px 8px;
+  background: #ffffff;
+  border: 1.5px solid #cdb592;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.18s ease;
   font-family: 'Cinzel', 'Times New Roman', serif;
-  box-shadow:
-    0 1px 4px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  box-shadow: 0 1px 4px rgba(90, 46, 18, 0.08);
   min-width: 0;
+  text-align: left;
 }
 
 .dice-preset-chip:hover {
   transform: translateY(-1px);
-  border-color: var(--my-gold);
-  box-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  border-color: #8b5a1a;
+  box-shadow: 0 3px 8px rgba(90, 46, 18, 0.14);
 }
 
 .dice-preset-chip.active {
-  border-color: var(--my-gold);
-  background: linear-gradient(160deg, #ecd9ae 0%, #dfc894 55%, #cbae7c 100%);
+  border-color: #8b5a1a;
+  background: linear-gradient(160deg, #fdf6e6 0%, #f7ecd2 55%, #ebd8ab 100%);
   box-shadow:
     0 0 10px rgba(212, 175, 55, 0.4),
-    0 2px 7px rgba(0, 0, 0, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    0 2px 7px rgba(90, 46, 18, 0.18);
 }
 
-/* Material tile — a mini die face in the preset's own material */
+/* Material & Weight grid */
+.dice-material-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.dice-material-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 4px;
+  gap: 4px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.dice-material-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.15;
+}
+
+.dice-material-name {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 800;
+  color: #2b1408;
+}
+
+.dice-material-sub {
+  font-size: 8.5px;
+  font-weight: 700;
+  color: #8b5a1a;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.dice-material-chip .dice-preset-tile {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+}
+
+.dice-material-tile-icon {
+  position: relative;
+  z-index: 1;
+  font-size: 11px;
+  color: rgba(20, 14, 6, 0.85);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* Material tile — mini die face */
 .dice-preset-tile {
   position: relative;
   width: 26px;
@@ -693,7 +758,6 @@
   overflow: hidden;
 }
 
-/* Emissive inner glow — strength driven by the preset's emissiveIntensity */
 .dice-preset-tile::before {
   content: '';
   position: absolute;
@@ -703,7 +767,6 @@
   mix-blend-mode: screen;
 }
 
-/* Glossy diagonal sheen — sells ice / clearcoat / polished stone */
 .dice-preset-tile::after {
   content: '';
   position: absolute;
@@ -717,7 +780,7 @@
 .dice-preset-tile-number {
   position: relative;
   z-index: 1;
-  font-size: 10px;
+  font-size: 10.5px;
   font-weight: 800;
   line-height: 1;
   color: var(--tile-number);
@@ -734,19 +797,17 @@
 }
 
 .dice-preset-name {
-  font-size: 9.5px;
-  color: var(--my-text-primary);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
+  font-size: 10.5px;
+  color: #2b1408;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: normal;
+  line-height: 1.2;
+  flex: 1;
 }
 
 /* ==========================================================================
-   Polyhedral dice icons — solid gem gradients per die (no tint tricks)
+   Polyhedral dice icons — solid gem gradients per die
    ========================================================================== */
 
 .dice-icon-shape {
@@ -811,6 +872,6 @@
 /* ---- Small screens ---- */
 @media (max-width: 640px) {
   .dice-dropdown {
-    width: min(344px, calc(100vw - 24px));
+    width: min(390px, calc(100vw - 24px));
   }
 }

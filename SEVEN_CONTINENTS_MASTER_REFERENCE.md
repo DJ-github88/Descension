@@ -2,7 +2,7 @@
 ### The definitive world bible for Mythrill (for GMs, map-makers, and AI agents)
 
 > **Status:** Canonical Master Lore Update (475-Year Master Timeline).
-> **App Launch Focus:** **North Halam (Nordhalla)** is the **sole, self-contained launch region** for initial release. Other continents are slated for future expansions.
+> **App Launch Focus:** **Nordhalla** is the **sole, self-contained launch region** for initial release. Other continents are slated for future expansions.
 > **Master Timeline:** 475 Years Total (Year 0 = Celestial Star-Fall & House Bargain; Year 300 = Keth Amar arrival & 25-yr Wyrd infiltration; Year 325 = Blizzard's End Massacre & Aex Shattering; Year 475 = Present Day / Freezing Era, 150 years after the fall).
 
 ---
@@ -27,7 +27,7 @@
 
 | # | Continent | Biome | Danger | House Anchor | Geothermal / Regional Scar | Subregions | Status |
 |---|---|---|---|---|---|---|---|
-| 1 | **North Halam (Nordhalla)** | Arctic Glacier | Extreme | Skald | Blizzard's End massacre site | 3 | **Primary Launch Region** |
+| 1 | **Nordhalla** | Arctic Glacier | Extreme | Skald | Blizzard's End massacre site | 3 | **Primary Launch Region** |
 | 2 | Frostwood Reach | Thermal Forest | Medium | Thalren / Viridane | Artificial Sun meltdown steam vents | 3 | Expansion I |
 | 3 | Sundale | Volcanic Core | High | Solari | Sol's volcanic heat venting | 4 | Expansion II |
 | 4 | Iceheart Sea | Frozen Ocean | Extreme | Merryn | Sister Moon's icy tidal pull | 6 | Expansion III |
@@ -35,7 +35,7 @@
 | 6 | Sundrift Vale | Starlight Steppe | Medium | Ordan (Hidden) | Ordan purge geothermal warmth | 5 | Expansion V |
 | 7 | Bryngloom Forest | Sunken Swamp | High | Vreken | Vreken noble massacre sulfur bogs | 6 | Expansion VI |
 
-Primary Launch Region (Locked for Initial Release): **North Halam (Nordhalla)**.
+Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 
 ---
 ---

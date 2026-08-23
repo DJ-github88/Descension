@@ -11,6 +11,103 @@ export const LIBRARY_TYPES = {
   SPELLS: 'spells'
 };
 
+// Format currency / value text
+export const formatItemValueText = (val) => {
+  if (val === null || val === undefined) return null;
+  
+  if (typeof val === 'number') {
+    if (val <= 0) return null;
+    return `${val} Gold`;
+  }
+  
+  if (typeof val === 'string') {
+    const trimmed = val.trim();
+    if (!trimmed || trimmed === '0' || trimmed.toLowerCase() === '0g' || trimmed.toLowerCase() === '0 gold' || trimmed.toLowerCase() === '0c') {
+      return null;
+    }
+    return trimmed;
+  }
+  
+  if (typeof val === 'object') {
+    if (val.amount !== undefined) {
+      const num = Number(val.amount) || 0;
+      if (num <= 0) return null;
+      return `${num} ${val.currency || 'Gold'}`;
+    }
+    
+    const p = Number(val.platinum) || 0;
+    const g = Number(val.gold) || 0;
+    const s = Number(val.silver) || 0;
+    const c = Number(val.copper) || 0;
+    
+    if (p === 0 && g === 0 && s === 0 && c === 0) return null;
+    
+    const parts = [];
+    if (p > 0) parts.push(`${p}p`);
+    if (g > 0) parts.push(`${g}g`);
+    if (s > 0) parts.push(`${s}s`);
+    if (c > 0) parts.push(`${c}c`);
+    
+    if (p > 0 && g === 0 && s === 0 && c === 0) return `${p} Plat`;
+    if (g > 0 && s === 0 && c === 0 && p === 0) return `${g} Gold`;
+    if (s > 0 && g === 0 && c === 0 && p === 0) return `${s} Silver`;
+    if (c > 0 && g === 0 && s === 0 && p === 0) return `${c} Copper`;
+    
+    return parts.join(' ');
+  }
+  
+  return null;
+};
+
+// Format weapon damage text
+export const getItemDamageText = (item) => {
+  if (!item) return null;
+  if (item.damageText) return item.damageText;
+  if (typeof item.damage === 'string' && item.damage.trim()) return item.damage.trim();
+  if (item.damage && typeof item.damage === 'object') {
+    const dice = item.damage.dice || item.damage.diceString || '';
+    const type = item.damage.type || '';
+    if (dice || type) return `${dice} ${type}`.trim();
+  }
+  const baseDmg = item.weaponStats?.baseDamage;
+  if (baseDmg) {
+    if (baseDmg.display?.base) {
+      return `${baseDmg.display.base}${baseDmg.damageType ? ` ${baseDmg.damageType}` : ''}`.trim();
+    }
+    const count = baseDmg.diceCount || 1;
+    const type = String(baseDmg.diceType || 'd6').replace(/^d+/i, '');
+    const bonus = baseDmg.bonusDamage ? ` +${baseDmg.bonusDamage}` : '';
+    const dmgType = baseDmg.damageType ? ` ${baseDmg.damageType}` : '';
+    return `${count}d${type}${bonus}${dmgType}`.trim();
+  }
+  return null;
+};
+
+// Format armor AC text
+export const getItemArmorText = (item) => {
+  if (!item) return null;
+  if (item.armorText) return item.armorText;
+  const ac = item.armorClass ?? item.ac ?? item.armorStats?.armorClass ?? item.baseStats?.armorClass?.value ?? item.baseStats?.armor?.value;
+  if (ac !== undefined && ac !== null && Number(ac) > 0) {
+    return `+${ac} AC`;
+  }
+  return null;
+};
+
+// Get visible page numbers with ellipsis
+export const getPageNumbers = (current, total) => {
+  if (total <= 7) {
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+  if (current <= 4) {
+    return [1, 2, 3, 4, 5, '...', total];
+  }
+  if (current >= total - 3) {
+    return [1, '...', total - 4, total - 3, total - 2, total - 1, total];
+  }
+  return [1, '...', current - 1, current, current + 1, '...', total];
+};
+
 const LibraryBrowserModal = ({ 
   isOpen, 
   onClose, 
@@ -19,6 +116,7 @@ const LibraryBrowserModal = ({
   multiSelect = false,
   title
 }) => {
+  const contentRef = React.useRef(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [filterSecondary, setFilterSecondary] = useState('all'); // Class / School / Quality filter
@@ -88,14 +186,19 @@ const LibraryBrowserModal = ({
           }
           
           case LIBRARY_TYPES.ITEMS: {
-            // Load items from equipment files
-            const [classEquip, bgEquip, raceEquip] = await Promise.all([
+            // Load items from item store (comprehensive items & custom user homebrew items) + starting equipment
+            const [classEquip, bgEquip, raceEquip, itemStoreModule] = await Promise.all([
               import('../../data/equipment/classEquipment'),
               import('../../data/equipment/backgroundEquipment'),
-              import('../../data/equipment/raceEquipment')
+              import('../../data/equipment/raceEquipment'),
+              import('../../store/itemStore')
             ]);
             
+            const itemStore = itemStoreModule.default?.getState ? itemStoreModule.default.getState() : {};
+            const storeItems = itemStore.items || [];
+            
             const allItems = [
+              ...storeItems,
               ...(classEquip.ALL_CLASS_EQUIPMENT || []),
               ...(bgEquip.ALL_BACKGROUND_EQUIPMENT || []),
               ...(raceEquip.ALL_RACE_EQUIPMENT || [])
@@ -105,38 +208,45 @@ const LibraryBrowserModal = ({
             const uniqueItems = [];
             const seenIds = new Set();
             allItems.forEach(item => {
-              if (!seenIds.has(item.id)) {
+              if (item && item.id && !seenIds.has(item.id)) {
                 seenIds.add(item.id);
                 uniqueItems.push(item);
               }
             });
             
-            setLibraryData(uniqueItems.map(item => ({
-              ...item,
-              icon: item.iconId || item.icon || 'inv_misc_questionmark',
-              quality: item.quality || item.rarity || 'common',
-              damageText: item.damage ? (typeof item.damage === 'object' ? `${item.damage.dice || ''} ${item.damage.type || ''}` : item.damage) : null,
-              armorText: item.armorClass ? `+${item.armorClass} AC` : null,
-              valueText: item.value ? (typeof item.value === 'object' ? `${item.value.amount || 0} ${item.value.currency || 'Gold'}` : `${item.value} Gold`) : null
-            })));
+            setLibraryData(uniqueItems.map(item => {
+              const quality = item.quality || item.rarity || 'common';
+              const rawVal = item.value !== undefined ? item.value : (item.cost !== undefined ? item.cost : item.price);
+              return {
+                ...item,
+                icon: item.iconId || item.icon || 'inv_misc_questionmark',
+                quality: quality,
+                damageText: getItemDamageText(item),
+                armorText: getItemArmorText(item),
+                valueText: formatItemValueText(rawVal)
+              };
+            }));
 
             setCategories([
               { id: 'all', name: 'All Categories' },
               { id: 'weapon', name: 'Weapons' },
               { id: 'armor', name: 'Armor & Shields' },
-              { id: 'consumable', name: 'Potions & Consumables' },
               { id: 'accessory', name: 'Accessories & Relics' },
-              { id: 'wondrous', name: 'Wondrous Items' },
+              { id: 'consumable', name: 'Potions & Consumables' },
+              { id: 'container', name: 'Containers & Bags' },
+              { id: 'recipe', name: 'Recipes & Formulas' },
               { id: 'miscellaneous', name: 'Gear & Tools' }
             ]);
 
             setSecondaryCategories([
               { id: 'all', name: 'All Rarities' },
+              { id: 'poor', name: 'Poor' },
               { id: 'common', name: 'Common' },
               { id: 'uncommon', name: 'Uncommon' },
               { id: 'rare', name: 'Rare' },
               { id: 'epic', name: 'Epic' },
-              { id: 'legendary', name: 'Legendary' }
+              { id: 'legendary', name: 'Legendary' },
+              { id: 'artifact', name: 'Artifact' }
             ]);
             break;
           }
@@ -274,22 +384,54 @@ const LibraryBrowserModal = ({
     setCurrentPage(1);
   }, [searchQuery, filterType, filterSecondary, libraryType]);
 
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    if (contentRef.current) {
+      contentRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   // Filter and search items
   const filteredItems = useMemo(() => {
     let items = libraryData;
     
     // Primary Filter
     if (filterType !== 'all') {
+      const ft = filterType.toLowerCase();
       items = items.filter(item => {
         if (libraryType === LIBRARY_TYPES.CREATURES) {
-          return (item.type || '').toLowerCase() === filterType.toLowerCase();
+          return (item.type || '').toLowerCase() === ft;
         }
         if (libraryType === LIBRARY_TYPES.ITEMS) {
-          return (item.type || '').toLowerCase() === filterType.toLowerCase();
+          const t = (item.type || '').toLowerCase();
+          const st = (item.subtype || '').toLowerCase();
+          if (ft === 'weapon') {
+            return t === 'weapon' || t === 'weapons' || !!item.weaponStats || ['sword', 'axe', 'mace', 'dagger', 'bow', 'crossbow', 'staff', 'wand', 'polearm', 'halberd', 'scythe', 'warhammer', 'flail', 'rapier', 'katana', 'saber', 'sickle', 'fist weapon', 'sling', 'blowgun', 'spear'].includes(st);
+          }
+          if (ft === 'armor') {
+            return t === 'armor' || t === 'armors' || t === 'shield' || st === 'shield' || ['cloth', 'leather', 'mail', 'plate', 'shield', 'head', 'chest', 'legs', 'feet', 'hands', 'shoulders', 'waist', 'wrists'].includes(st);
+          }
+          if (ft === 'accessory') {
+            return t === 'accessory' || t === 'accessories' || ['ring', 'amulet', 'necklace', 'trinket', 'cloak', 'belt', 'relic', 'crown', 'finger', 'neck'].includes(st);
+          }
+          if (ft === 'consumable') {
+            return t === 'consumable' || t === 'consumables' || ['potion', 'potions', 'food', 'drink', 'scroll', 'scrolls', 'poison', 'poisons', 'utility', 'flask', 'elixir', 'bandage', 'herb'].includes(st);
+          }
+          if (ft === 'container') {
+            return t === 'container' || t === 'containers' || ['bag', 'pouch', 'chest', 'box', 'backpack'].includes(st);
+          }
+          if (ft === 'recipe') {
+            return t === 'recipe' || t === 'recipes' || st.includes('recipe') || st.includes('schematic') || st.includes('formula') || st.includes('pattern');
+          }
+          if (ft === 'miscellaneous') {
+            const isKnownType = ['weapon', 'weapons', 'armor', 'armors', 'accessory', 'accessories', 'consumable', 'consumables', 'container', 'containers', 'recipe', 'recipes'].includes(t);
+            return !isKnownType || t === 'miscellaneous' || t === 'misc' || ['tool', 'tools', 'trade_goods', 'trade-goods', 'crafting', 'reagent', 'reagents', 'quest', 'junk', 'currency', 'writing', 'material', 'materials'].includes(st);
+          }
+          return t === ft || st === ft;
         }
         if (libraryType === LIBRARY_TYPES.SPELLS) {
-          return (item.className || '').toLowerCase() === filterType.toLowerCase() ||
-                 (item.tags || []).some(t => t.toLowerCase() === filterType.toLowerCase());
+          return (item.className || '').toLowerCase() === ft ||
+                 (item.tags || []).some(t => String(t).toLowerCase() === ft);
         }
         return true;
       });
@@ -297,16 +439,18 @@ const LibraryBrowserModal = ({
 
     // Secondary Filter
     if (filterSecondary !== 'all') {
+      const fs = filterSecondary.toLowerCase();
       items = items.filter(item => {
         if (libraryType === LIBRARY_TYPES.CREATURES) {
-          return (item.threat || '').toLowerCase() === filterSecondary.toLowerCase();
+          return (item.threat || '').toLowerCase() === fs;
         }
         if (libraryType === LIBRARY_TYPES.ITEMS) {
-          return (item.quality || item.rarity || '').toLowerCase() === filterSecondary.toLowerCase();
+          const q = (item.quality || item.rarity || 'common').toLowerCase();
+          return q === fs;
         }
         if (libraryType === LIBRARY_TYPES.SPELLS) {
-          return (item.school || '').toLowerCase().includes(filterSecondary.toLowerCase()) ||
-                 (item.tags || []).some(t => t.toLowerCase().includes(filterSecondary.toLowerCase()));
+          return (item.school || '').toLowerCase().includes(fs) ||
+                 (item.tags || []).some(t => String(t).toLowerCase().includes(fs));
         }
         return true;
       });
@@ -320,7 +464,10 @@ const LibraryBrowserModal = ({
         (item.description || '').toLowerCase().includes(query) ||
         (item.className || '').toLowerCase().includes(query) ||
         (item.type || '').toLowerCase().includes(query) ||
-        (item.school || '').toLowerCase().includes(query)
+        (item.subtype || '').toLowerCase().includes(query) ||
+        (item.school || '').toLowerCase().includes(query) ||
+        (item.quality || item.rarity || '').toLowerCase().includes(query) ||
+        (Array.isArray(item.tags) && item.tags.some(t => String(t).toLowerCase().includes(query)))
       );
     }
     
@@ -361,11 +508,14 @@ const LibraryBrowserModal = ({
   const getQualityClass = (quality) => {
     const q = (quality || '').toLowerCase();
     const qualityMap = {
+      poor: 'quality-poor',
+      junk: 'quality-poor',
       common: 'quality-common',
       uncommon: 'quality-uncommon',
       rare: 'quality-rare',
       epic: 'quality-epic',
-      legendary: 'quality-legendary'
+      legendary: 'quality-legendary',
+      artifact: 'quality-artifact'
     };
     return qualityMap[q] || 'quality-common';
   };
@@ -416,7 +566,7 @@ const LibraryBrowserModal = ({
           <div className="library-header-title-row">
             <h3><i className={`fas ${libraryType === LIBRARY_TYPES.CREATURES ? 'fa-dragon' : (libraryType === LIBRARY_TYPES.SPELLS ? 'fa-book-sparkles' : 'fa-shield-halved')}`}></i> {modalTitle}</h3>
             <div className="library-header-meta-group">
-              {libraryType === LIBRARY_TYPES.SPELLS && totalPages > 1 && (
+              {totalPages > 1 && (
                 <span className="library-page-top-badge">Page {currentPage} of {totalPages}</span>
               )}
               <span className="library-counter-badge">{filteredItems.length} Available</span>
@@ -477,7 +627,7 @@ const LibraryBrowserModal = ({
         </div>
         
         {/* Content */}
-        <div className={`library-browser-content ${libraryType === LIBRARY_TYPES.SPELLS ? 'spellbook-mode' : ''}`}>
+        <div ref={contentRef} className={`library-browser-content ${libraryType === LIBRARY_TYPES.SPELLS ? 'spellbook-mode' : ''}`}>
           {isLoading ? (
             <div className="library-loading">
               <i className="fas fa-spinner fa-spin"></i>
@@ -548,7 +698,7 @@ const LibraryBrowserModal = ({
                     type="button"
                     className="wow-overlay-nav-btn wow-overlay-nav-left"
                     disabled={currentPage <= 1}
-                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                    onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                     title="Previous Page"
                   >
                     <i className="fas fa-chevron-left"></i>
@@ -562,7 +712,7 @@ const LibraryBrowserModal = ({
                       type="button"
                       className="wow-overlay-nav-btn wow-overlay-nav-right"
                       disabled={currentPage >= totalPages}
-                      onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                      onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
                       title="Next Page"
                     >
                       <i className="fas fa-chevron-right"></i>
@@ -573,77 +723,142 @@ const LibraryBrowserModal = ({
             </div>
           ) : (
             /* Standard Grid for Items / Creatures */
-            <div className="library-items-grid">
-              {paginatedItems.map(item => {
-                const isSelected = !!selectedItems.find(i => i.id === item.id);
-                return (
-                  <div
-                    key={item.id}
-                    className={`library-item ${isSelected ? 'selected' : ''}`}
-                    onClick={() => toggleSelection(item)}
-                  >
-                    <div className="library-item-icon">
-                      <img 
-                        src={resolveIcon(item)} 
-                        alt={item.name}
-                        onError={(e) => { 
-                          e.target.src = getIconUrl('inv_misc_questionmark', 'items');
-                        }}
-                      />
-                      {libraryType === LIBRARY_TYPES.ITEMS && item.quality && (
-                        <span className={`quality-border ${getQualityClass(item.quality)}`}></span>
-                      )}
-                    </div>
+            <>
+              <div className="library-items-grid">
+                {paginatedItems.map(item => {
+                  const isSelected = !!selectedItems.find(i => i.id === item.id);
+                  return (
+                    <div
+                      key={item.id}
+                      className={`library-item ${isSelected ? 'selected' : ''}`}
+                      onClick={() => toggleSelection(item)}
+                    >
+                      <div className="library-item-icon">
+                        <img 
+                          src={resolveIcon(item)} 
+                          alt={item.name}
+                          onError={(e) => { 
+                            e.target.src = getIconUrl('inv_misc_questionmark', 'items');
+                          }}
+                        />
+                        {libraryType === LIBRARY_TYPES.ITEMS && item.quality && (
+                          <span className={`quality-border ${getQualityClass(item.quality)}`}></span>
+                        )}
+                      </div>
 
-                    <div className="library-item-info">
-                      <div className="library-item-title-row">
-                        <span className={`library-item-name ${libraryType === LIBRARY_TYPES.ITEMS ? getQualityClass(item.quality) : ''}`}>
-                          {item.name}
-                        </span>
-                        {item.quality && (
-                          <span className={`compendium-rarity-chip ${getQualityClass(item.quality)}`}>
-                            {item.quality}
+                      <div className="library-item-info">
+                        <div className="library-item-title-row">
+                          <span 
+                            className={`library-item-name ${libraryType === LIBRARY_TYPES.ITEMS ? getQualityClass(item.quality) : ''}`}
+                            title={item.name}
+                          >
+                            {item.name}
                           </span>
+                          {item.quality && (
+                            <span className={`compendium-rarity-chip ${getQualityClass(item.quality)}`}>
+                              {item.quality}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="library-item-meta">
+                          {libraryType === LIBRARY_TYPES.CREATURES && (
+                            <>
+                              <span className="library-item-tag type-tag">{item.type}</span>
+                              <span className="library-item-tag size-tag">{item.size}</span>
+                              {item.hp > 0 && <span className="library-item-tag hp-tag">HP {item.hp}</span>}
+                              {item.cr !== '-' && <span className="library-item-tag cr-tag">CR {item.cr}</span>}
+                            </>
+                          )}
+
+                          {libraryType === LIBRARY_TYPES.ITEMS && (
+                            <>
+                              <span className="library-item-tag type-tag">{item.type}</span>
+                              {item.subtype && <span className="library-item-tag subtype-tag">{item.subtype}</span>}
+                              {item.damageText && <span className="library-item-tag dmg-tag">{item.damageText}</span>}
+                              {item.armorText && <span className="library-item-tag ac-tag">{item.armorText}</span>}
+                              {item.valueText && <span className="library-item-tag val-tag">{item.valueText}</span>}
+                            </>
+                          )}
+                        </div>
+
+                        {item.description && (
+                          <p className="library-item-desc-snippet" title={item.description}>
+                            {item.description.slice(0, 130)}{item.description.length > 130 ? '...' : ''}
+                          </p>
                         )}
                       </div>
 
-                      <div className="library-item-meta">
-                        {libraryType === LIBRARY_TYPES.CREATURES && (
-                          <>
-                            <span className="library-item-tag type-tag">{item.type}</span>
-                            <span className="library-item-tag size-tag">{item.size}</span>
-                            {item.hp > 0 && <span className="library-item-tag hp-tag">HP {item.hp}</span>}
-                            {item.cr !== '-' && <span className="library-item-tag cr-tag">CR {item.cr}</span>}
-                          </>
-                        )}
-
-                        {libraryType === LIBRARY_TYPES.ITEMS && (
-                          <>
-                            <span className="library-item-tag type-tag">{item.type}</span>
-                            {item.subtype && <span className="library-item-tag subtype-tag">{item.subtype}</span>}
-                            {item.damageText && <span className="library-item-tag dmg-tag">{item.damageText}</span>}
-                            {item.armorText && <span className="library-item-tag ac-tag">{item.armorText}</span>}
-                            {item.valueText && <span className="library-item-tag val-tag">{item.valueText}</span>}
-                          </>
-                        )}
-                      </div>
-
-                      {item.description && (
-                        <p className="library-item-desc-snippet" title={item.description}>
-                          {item.description.slice(0, 130)}{item.description.length > 130 ? '...' : ''}
-                        </p>
+                      {isSelected && (
+                        <div className="library-item-check">
+                          <i className="fas fa-check"></i>
+                        </div>
                       )}
                     </div>
+                  );
+                })}
+              </div>
 
-                    {isSelected && (
-                      <div className="library-item-check">
-                        <i className="fas fa-check"></i>
-                      </div>
-                    )}
+              {/* Standard Grid Pagination Bar */}
+              {totalPages > 1 && (
+                <div className="library-pagination-bar">
+                  <button
+                    type="button"
+                    className="library-page-btn"
+                    disabled={currentPage <= 1}
+                    onClick={() => handlePageChange(1)}
+                    title="First Page"
+                  >
+                    <i className="fas fa-angles-left"></i>
+                  </button>
+                  <button
+                    type="button"
+                    className="library-page-btn"
+                    disabled={currentPage <= 1}
+                    onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                    title="Previous Page"
+                  >
+                    <i className="fas fa-chevron-left"></i> Prev
+                  </button>
+
+                  <div className="library-page-numbers">
+                    {getPageNumbers(currentPage, totalPages).map((pageNum, idx) => (
+                      pageNum === '...' ? (
+                        <span key={`ellipsis-${idx}`} className="library-page-ellipsis">…</span>
+                      ) : (
+                        <button
+                          key={`page-${pageNum}`}
+                          type="button"
+                          className={`library-page-num-btn ${currentPage === pageNum ? 'active' : ''}`}
+                          onClick={() => handlePageChange(pageNum)}
+                        >
+                          {pageNum}
+                        </button>
+                      )
+                    ))}
                   </div>
-                );
-              })}
-            </div>
+
+                  <button
+                    type="button"
+                    className="library-page-btn"
+                    disabled={currentPage >= totalPages}
+                    onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                    title="Next Page"
+                  >
+                    Next <i className="fas fa-chevron-right"></i>
+                  </button>
+                  <button
+                    type="button"
+                    className="library-page-btn"
+                    disabled={currentPage >= totalPages}
+                    onClick={() => handlePageChange(totalPages)}
+                    title="Last Page"
+                  >
+                    <i className="fas fa-angles-right"></i>
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
         

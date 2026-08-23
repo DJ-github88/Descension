@@ -1909,7 +1909,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-last-rebirth",
     "date": {
-    "year": 475,
+      "year": 475,
       "eraId": "freezing-era"
     },
     "title": "The Final Silent Window: 0%",
@@ -2640,6 +2640,242 @@ const SEEDED_EVENTS = [
     "classIds": [],
     "causes": [],
     "effects": []
+  },
+  {
+    "id": "event-whispering-pine-awakening",
+    "date": {
+      "year": 12,
+      "eraId": "star-fall-binding"
+    },
+    "title": "The Awakening of the Whispering Pine",
+    "type": "arcane",
+    "phase": "false-spring",
+    "description": "As the first continental frost-wave deepened, the ancient ironwood taiga absorbed trace volcanic sulfur from subterranean fissures. The needle-canopy began to vibrate in harmonic resonance with arctic gales, creating the eerie 'voices' that warned early Skald settlers of encroaching glacier wyrms.",
+    "locationIds": [
+      "whispering-pine",
+      "hrafnskogur",
+      "frostholm"
+    ],
+    "factionIds": [
+      "house-skalvyr",
+      "Corvani Flocks",
+      "Skald Keepers"
+    ],
+    "classIds": [
+      "animist",
+      "warden",
+      "augur"
+    ],
+    "causes": [
+      "event-entombment"
+    ],
+    "effects": [
+      "event-corvani-whispering-pact"
+    ],
+    "narrative": "When the sun was bound beneath Sundale, the cold plunged northward with terrifying speed. In the highland basin of the Icetalon, five million evergreen pines froze solid in a single night. Yet instead of snapping under the weight of ice, the ironwood trees drew upon deep geothermal steam vents, mineralizing their wood with iron and quartz. When the winds roared down from the peaks, the needles resonated like copper chimes. The Skald called it the 'Voice of the Ancestors' — an acoustic early-warning network that echoed across sixty leagues.",
+    "dmHook": "The oldest grandmother pine in the center of the forest still hums a specific three-chord progression before a Wyrd-storm. An Animist who sleeps with their ear pressed to its petrified root-bark will receive a vision of the exact hour the next celestial tremor will strike.",
+    "dateDisplay": "Year 12, Star-Fall Era"
+  },
+  {
+    "id": "event-corvani-whispering-pact",
+    "date": {
+      "year": 28,
+      "eraId": "star-fall-binding"
+    },
+    "title": "The Corvan Roost-Charter of Hrafnest",
+    "type": "political",
+    "phase": "false-spring",
+    "description": "Matriarch Morwenna of the Corvani Flocks negotiated the historic roosting treaty with King-Jarl Aethil Skalvyr, ceding timber harvesting rights in exchange for autonomous governance of the cliff-aeries and monopoly over inter-realm raven messengers.",
+    "locationIds": [
+      "hrafnest",
+      "whispering-pine",
+      "vesperas-perch",
+      "frostholm"
+    ],
+    "factionIds": [
+      "Corvani Flocks",
+      "house-skalvyr"
+    ],
+    "classIds": [
+      "minstrel",
+      "warden"
+    ],
+    "causes": [
+      "event-whispering-pine-awakening"
+    ],
+    "effects": [
+      "event-snowcall-coalition"
+    ],
+    "narrative": "Faced with freezing skies and territorial competition from Skald lumberjacks, Matriarch Morwenna descended from the Icetalon spires with five thousand ravens swirling in a dark vortex. In the Great Meadhall of Frosthold, she laid three feathers of pure frost upon the high hearth and offered a bargain: the Corvani would serve as the living eyes and ears of Nordhalla, carrying letters through blizzards that would ground any human scout, if the Skald swore to never fell a roost-tree in Hrafnskógur.",
+    "dmHook": "A hidden clause in the original charcoal parchment of the Roost-Charter grants the Corvani Matriarch veto power over any timber harvest exceeding one hundred ironwood trunks. A rogue logging syndicate is currently attempting to burn the archive copy to expand their operations.",
+    "dateDisplay": "Year 28, Star-Fall Era"
+  },
+  {
+    "id": "event-bloodhammer-first-anvil",
+    "date": {
+      "year": 18,
+      "eraId": "star-fall-binding"
+    },
+    "title": "The First Cold-Iron Anvil at Bloodhammer Sump",
+    "type": "cultural",
+    "phase": "false-spring",
+    "description": "Grum Bloodhammer struck the first cold-iron anvil inside the volcanic crater of Bloodhammer Sump, creating runic alloy armor capable of enduring glacier-cold without fracturing.",
+    "locationIds": [
+      "bloodhammer-sump",
+      "frostholm",
+      "fjord-gate"
+    ],
+    "factionIds": [
+      "Bloodhammer Clan",
+      "house-skalvyr"
+    ],
+    "classIds": [
+      "ironclad",
+      "berserker"
+    ],
+    "causes": [
+      "event-entombment"
+    ],
+    "effects": [
+      "event-sunder-wall-erection"
+    ],
+    "narrative": "Traditional bronze and soft iron weapons shattered like glass against the frost-wraiths roaming the glacial moraine. Grum Bloodhammer, scorched from dipping his arms into sulfuric magma trenches, hauled a nine-hundred-pound meteoric iron block to the crater rim. Mixing volcanic sulfur with crushed magnetite and whale bone ash, he forged the legendary 'Frost-Cleaver' war-axes that allowed the Skald to reclaim the fjord valleys.",
+    "dmHook": "The original master-anvil upon which Grum forged the first runic axe is still embedded in the heart of Sump Vent 1. It is said that any weapon quenched in its magma-trough receives a permanent rune of unyielding kinetic force.",
+    "dateDisplay": "Year 18, Star-Fall Era"
+  },
+  {
+    "id": "event-silence-vow-thogn",
+    "date": {
+      "year": 42,
+      "eraId": "star-fall-binding"
+    },
+    "title": "The Silence-Vow of Þögn & the Breathless Stair",
+    "type": "ritual",
+    "phase": "false-spring",
+    "description": "Consecration of the Breathless Stair and the sacred Silence-Cliff of Þögn, where the first generation of Rime-Born elders climbed three thousand steps to freeze traumatic memories of the dying world.",
+    "locationIds": [
+      "thogn",
+      "breathless-stair",
+      "frozen-archive"
+    ],
+    "factionIds": [
+      "Skald Keepers",
+      "The Frozen Archive"
+    ],
+    "classIds": [
+      "augur",
+      "martyr",
+      "chronarch"
+    ],
+    "causes": [
+      "event-entombment"
+    ],
+    "effects": [],
+    "narrative": "The grief of watching green meadows die under mountains of ice drove dozens of early clan elders to despair. Seeking solace, hermit shamans discovered a granite precipice where the screaming polar gales dropped dead silent. They carved three thousand steps into the ice-covered rockface. Those who ascended to the top drank distilled rime-melt and chiseled their memories into the cliff face, feeling their sorrow freeze into numb, peaceful stillness.",
+    "dmHook": "A disgraced Augur who climbed Þögn forty years ago chiseled an unbroken sequence of future dates into the stone ledge before taking the Silence-Vow. The final date chiseled on the cliff is tomorrow's sunrise.",
+    "dateDisplay": "Year 42, Star-Fall Era"
+  },
+  {
+    "id": "event-swallow-heart-awakening",
+    "date": {
+      "year": 35,
+      "eraId": "star-fall-binding"
+    },
+    "title": "The Swallow-Heart Awakening at Sválghjarta",
+    "type": "calamity",
+    "phase": "false-spring",
+    "description": "Miners excavating obsidian beneath the Icetalon peaks broke into a subterranean cavern and unearthed the Swallow-Heart, an eldritch pulsating organ of dark heat that gave birth to the fanatical Hungríd Cult.",
+    "locationIds": [
+      "svalghjartas-keep",
+      "blodholl",
+      "mord-cradle-camp"
+    ],
+    "factionIds": [
+      "The Hungríd Cult",
+      "Skald Berserkers"
+    ],
+    "classIds": [
+      "blood_knight",
+      "berserker",
+      "inquisitor"
+    ],
+    "causes": [
+      "event-entombment"
+    ],
+    "effects": [
+      "event-blood-hall-rites"
+    ],
+    "narrative": "When miners struck the black glass vein, the ground groaned with the rhythmic thump of a giant heart. The air inside the cavern heated to blood-warmth within seconds, melting the glacier overhead and creating a labyrinth of steaming basalt galleries. Lord Vaelen Sválghjarta drank the ichor seeping from the heart, his skin turning obsidian black and his veins glowing crimson with unnatural heat. He declared that those who fed the Swallow-Heart with blood would never freeze.",
+    "dmHook": "The Hungríd Cult is secretly smuggling frozen corpses from the Heir-Mounds to feed the Swallow-Heart. The heart's pulse rate has doubled in the past three weeks, causing violent geothermal eruptions beneath Snowcall City.",
+    "dateDisplay": "Year 35, Star-Fall Era"
+  },
+  {
+    "id": "event-sunder-wall-erection",
+    "date": {
+      "year": 80,
+      "eraId": "star-fall-binding"
+    },
+    "title": "The Raising of the Sunder-Wall",
+    "type": "military",
+    "phase": "deepening-winter",
+    "description": "Following relentless raids by nomadic Øsling warbands and rampaging Jutul frost-giants, King-Jarl Halvar ('Iron-Tooth') commanded the construction of the 300-foot ice-and-iron Sunder-Wall across the valley mouth.",
+    "locationIds": [
+      "sunder-wall-gates",
+      "frostholm",
+      "ymirs-hold",
+      "frostfang-wastes"
+    ],
+    "factionIds": [
+      "house-skalvyr",
+      "Bloodhammer Clan",
+      "Øsling Clan Confederation"
+    ],
+    "classIds": [
+      "ironclad",
+      "warden",
+      "spellguard"
+    ],
+    "causes": [
+      "event-bloodhammer-first-anvil"
+    ],
+    "effects": [],
+    "narrative": "Five thousand Skald masons, Bloodhammer smiths, and Icechamber engineers worked continuously for five years in twenty-below blizzards. They anchored two thousand iron I-beams into mountain bedrock, packing the gaps with granite boulders and freezing them into solid monoliths with pumped seawater. The Sunder-Wall became the impenetrable shield protecting the civil fjord valleys from the feral monsters of the northern polar wastes.",
+    "dmHook": "A deep fracture has appeared along the southern foundation of the Sunder-Wall near Gate 3. Sabotage marks resembling Jutul giant stone-chisels have been discovered along the iron pins.",
+    "dateDisplay": "Year 80, Star-Fall Era"
+  },
+  {
+    "id": "event-snowcall-coalition",
+    "date": {
+      "year": 62,
+      "eraId": "star-fall-binding"
+    },
+    "title": "The Snowcall Charter & Free City Concord",
+    "type": "political",
+    "phase": "deepening-winter",
+    "description": "Signing of the Snowcall Charter between House Skalvyr, High Neth scholar-refugees, and Corvani roost-merchants, establishing Snowcall City as a neutral highland sanctuary of trade, legal archives, and commerce.",
+    "locationIds": [
+      "snowcall-city",
+      "saltgrinn",
+      "stonegrip",
+      "frostholm"
+    ],
+    "factionIds": [
+      "house-skalvyr",
+      "High Neth",
+      "Corvani Roost-Merchants"
+    ],
+    "classIds": [
+      "augur",
+      "minstrel",
+      "chronarch"
+    ],
+    "causes": [
+      "event-corvani-whispering-pact"
+    ],
+    "effects": [],
+    "narrative": "As civil unrest spread across the southern continents, hundreds of High Neth legal scribes and merchants fled north carrying cartloads of illuminated manuscripts and gold ingots. Meeting atop the geothermal terraces of the Icetalon, they swore the Snowcall Concord with Jarl Sigurd Skalvyr: the scholars would maintain the legal registries and trade ledgers of the north in exchange for permanent residential wards warmed by mountain steam conduits.",
+    "dmHook": "The Slate Scriptorium in Snowcall City houses a copy of the First Binding Charter that contains three lines of text missing from all southern copies — lines that name the original sacrifice required to relight the sun.",
+    "dateDisplay": "Year 62, Star-Fall Era"
   }
 ];
 

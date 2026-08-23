@@ -97,7 +97,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Cascading Current",
     icon: "spell_nature_chainlightning",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "fm_t1_fluid_transition",
     spell: {
       name: "Cascading Current",
@@ -124,7 +124,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Combo Weaving",
     icon: "ability_rogue_combatreadiness",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 1 },
     requires: "fm_t1_water_dance",
     spell: {
       name: "Combo Weaving",
@@ -146,7 +146,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Confluence Strike",
     icon: "spell_nature_riptide",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1, y: 2 },
     requires: "fm_t2_cascading_current",
     spell: {
       name: "Confluence Strike",
@@ -173,7 +173,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Liquid Motion",
     icon: "spell_nature_giftofthewaterspirit",
     maxRanks: 3,
-    position: { x: 3, y: 3 },
+    position: { x: 3, y: 2 },
     requires: "fm_t2_combo_weaving",
     spell: {
       name: "Liquid Motion",
@@ -195,7 +195,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Mist Slip",
     icon: "spell_nature_astralrecal",
     maxRanks: 3,
-    position: { x: 1, y: 4.5 },
+    position: { x: 1, y: 3 },
     requires: "fm_t3_confluence_strike",
     spell: {
       name: "Mist Slip",
@@ -220,7 +220,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Toll Absorption",
     icon: "spell_nature_skinofearth",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 3 },
     requires: "fm_t3_liquid_motion",
     spell: {
       name: "Toll Absorption",
@@ -243,7 +243,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Torrential Barrage",
     icon: "spell_nature_riptide",
     maxRanks: 2,
-    position: { x: 1, y: 6 },
+    position: { x: 1, y: 4 },
     requires: "fm_t4_mist_slip",
     spell: {
       name: "Torrential Barrage",
@@ -269,7 +269,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Eternal Momentum",
     icon: "spell_nature_giftofthewaterspirit",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3, y: 4 },
     requires: "fm_t4_toll_dancer",
     spell: {
       name: "Eternal Momentum",
@@ -291,7 +291,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Water Ascendant",
     icon: "spell_nature_acid_01",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "fm_t5_torrential_barrage",
     spell: {
       name: "Water Ascendant",
@@ -314,7 +314,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Fluvial Reflexes",
     icon: "ability_rogue_quickrecovery",
     maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
+    position: { x: 2.5, y: 5 },
     requires: "fm_t5_eternal_current",
     spell: {
       name: "Fluvial Reflexes",
@@ -333,7 +333,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Chimeric Flow",
     icon: "spell_nature_astralrecal",
     maxRanks: 2,
-    position: { x: 4, y: 7.5 },
+    position: { x: 4, y: 5 },
     requires: "fm_t5_eternal_current",
     spell: {
       name: "Chimeric Flow",
@@ -354,7 +354,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "The Living Cataract",
     icon: "spell_nature_unrelentingstorm",
     maxRanks: 1,
-    position: { x: 0.5, y: 8 },
+    position: { x: 0.5, y: 6 },
     requires: "fm_t6_water_ascendant",
     spell: {
       name: "The Living Cataract",
@@ -379,7 +379,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Flow Master Doctrine",
     icon: "spell_nature_riptide",
     maxRanks: 5,
-    position: { x: 1.5, y: 8 },
+    position: { x: 1.5, y: 6 },
     requires: "fm_t6_water_ascendant",
     spell: {
       name: "Flow Master Doctrine",
@@ -387,7 +387,7 @@ export const SHAPER_FLOW_MASTER = [
       flavorText: "Water shaped by will is sharper than steel.",
       source: "talent", class: "Shaper", treeId: "flow_master",
       spellType: "PASSIVE", category: "damage",
-      targetingMode: "self", damageTypes: ["physical", "frost"],
+      targetingMode: "self", damageTypes: ["smashing", "rime"],
       visualTheme: "primal", tags: ["passive", "capstone", "damage", "shaper"]
     },
     rankUpgrades: [
@@ -402,7 +402,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Infinite Flux Reservoir",
     icon: "spell_nature_chainlightning",
     maxRanks: 3,
-    position: { x: 2.5, y: 8 },
+    position: { x: 2.5, y: 6 },
     requires: "fm_t6_fluvial_mastery",
     spell: {
       name: "Infinite Flux Reservoir",
@@ -422,7 +422,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Hydrokinetic Crits",
     icon: "spell_nature_swiftness",
     maxRanks: 3,
-    position: { x: 3.5, y: 8 },
+    position: { x: 3.5, y: 6 },
     requires: "fm_t6_fluvial_mastery",
     spell: {
       name: "Hydrokinetic Crits",
@@ -442,7 +442,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Undying Fluidity",
     icon: "spell_nature_resistnature",
     maxRanks: 3,
-    position: { x: 4.5, y: 8 },
+    position: { x: 4.5, y: 6 },
     requires: "fm_t6_chimeric_perfection",
     spell: {
       name: "Undying Fluidity",

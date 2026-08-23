@@ -7,6 +7,7 @@ import {
   faUsers, faMagic, faBolt, faShieldAlt, faTimes, faSave
 } from '@fortawesome/free-solid-svg-icons';
 import CreatureSelectionWindow from '../common/CreatureSelectionWindow';
+import { showConfirm } from '../../../../utils/dialogService';
 
 
 const TableEntryEditor = ({
@@ -100,8 +101,14 @@ const TableEntryEditor = ({
     setEditingIndex(null);
   };
 
-  const handleRemove = (index) => {
-    if (window.confirm('Are you sure you want to remove this entry?')) {
+  const handleRemove = async (index) => {
+    const confirmed = await showConfirm({
+      title: 'Remove Table Entry',
+      message: 'Are you sure you want to remove this entry?',
+      confirmText: 'Remove Entry',
+      isDestructive: true
+    });
+    if (confirmed) {
       onRemoveEntry(index);
     }
   };

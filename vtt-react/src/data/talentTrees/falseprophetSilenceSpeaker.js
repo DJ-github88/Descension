@@ -32,7 +32,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     name: "Heretic's Whisper",
     icon: "spell_shadow_mindshear",
     maxRanks: 3,
-    position: { x: 1, y: 0.5 },
+    position: { x: 1, y: 0 },
     requires: null,
     spell: {
       name: "Heretic's Whisper",
@@ -59,7 +59,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     name: "Blinding Fervor",
     icon: "spell_shadow_nethercloak",
     maxRanks: 2,
-    position: { x: 3, y: 0.5 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Blinding Fervor",
@@ -80,7 +80,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     name: "Congregation's Grasp",
     icon: "spell_shadow_blackplague",
     maxRanks: 3,
-    position: { x: 0.5, y: 2 },
+    position: { x: 0.5, y: 1 },
     requires: "ss_t1_opening_hymn",
     spell: {
       name: "Congregation's Grasp",
@@ -100,7 +100,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     name: "Hellfire Passage",
     icon: "spell_shadow_shadowfury",
     maxRanks: 3,
-    position: { x: 3.5, y: 2 },
+    position: { x: 3.5, y: 1 },
     requires: "ss_t1_heretics_whisper",
     spell: {
       name: "Hellfire Passage",
@@ -128,7 +128,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     name: "Anointed Strike",
     icon: "spell_shadow_fingerofdeath",
     maxRanks: 3,
-    position: { x: 0.5, y: 3.5 },
+    position: { x: 0.5, y: 2 },
     requires: "ss_t2_congregations_grasp",
     spell: {
       name: "Anointed Strike",
@@ -155,7 +155,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     name: "Resonant Liturgy",
     icon: "spell_shadow_darkritual",
     maxRanks: 3,
-    position: { x: 3.5, y: 3.5 },
+    position: { x: 3.5, y: 2 },
     requires: "ss_t2_hellfire_passage",
     spell: {
       name: "Resonant Liturgy",
@@ -178,7 +178,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     name: "Apocalyptic Sermon",
     icon: "spell_shadow_shadesofdarkness",
     maxRanks: 3,
-    position: { x: 1, y: 5 },
+    position: { x: 1, y: 3 },
     requires: "ss_t3_anointed_strike",
     spell: {
       name: "Apocalyptic Sermon",
@@ -205,7 +205,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     name: "Embrace the Silence",
     icon: "spell_shadow_twilight",
     maxRanks: 2,
-    position: { x: 3, y: 5 },
+    position: { x: 3, y: 3 },
     requires: "ss_t3_resonant_liturgy",
     spell: {
       name: "Embrace the Silence",
@@ -226,7 +226,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     name: "Beacon of the Silence",
     icon: "spell_shadow_summonvoidwalkers",
     maxRanks: 3,
-    position: { x: 1.5, y: 6.5 },
+    position: { x: 1.5, y: 4 },
     requires: "ss_t4_apocalyptic_sermon",
     spell: {
       name: "Beacon of the Silence",
@@ -252,7 +252,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     name: "Transcendent Conviction",
     icon: "spell_shadow_demonicempathy",
     maxRanks: 2,
-    position: { x: 2.5, y: 6.5 },
+    position: { x: 2.5, y: 4 },
     requires: "ss_t4_embrace_the_silence",
     spell: {
       name: "Transcendent Conviction",
@@ -273,7 +273,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     name: "Conviction's Edge",
     icon: "spell_shadow_shadowwordpain",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "ss_t5_silence_beacon",
     spell: {
       name: "Conviction's Edge",
@@ -289,7 +289,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     name: "Fanatical Fervor",
     icon: "spell_shadow_unholyfrenzy",
     maxRanks: 2,
-    position: { x: 2, y: 7.5 },
+    position: { x: 2, y: 5 },
     requires: "ss_t5_silence_beacon",
     spell: {
       name: "Fanatical Fervor",
@@ -308,7 +308,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     name: "Dark Choir",
     icon: "spell_shadow_curseofsargeras",
     maxRanks: 2,
-    position: { x: 3, y: 7.5 },
+    position: { x: 3, y: 5 },
     requires: "ss_t5_transcendent_conviction",
     spell: {
       name: "Dark Choir",
@@ -330,7 +330,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     name: "The Final Revelation",
     icon: "spell_shadow_demonicempathy",
     maxRanks: 1,
-    position: { x: 0.5, y: 8 },
+    position: { x: 0.5, y: 6 },
     requires: "ss_t6_convictions_edge",
     spell: {
       name: "The Final Revelation",
@@ -355,7 +355,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     name: "Deeper Descent",
     icon: "spell_shadow_madness",
     maxRanks: 5,
-    position: { x: 1.5, y: 8 },
+    position: { x: 1.5, y: 6 },
     requires: "ss_t6_fanatical_fervor",
     spell: {
       name: "Deeper Descent",
@@ -377,7 +377,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     name: "Zealot's Fire",
     icon: "spell_shadow_shadowfury",
     maxRanks: 3,
-    position: { x: 2, y: 8 },
+    position: { x: 2, y: 6 },
     requires: "ss_t6_fanatical_fervor",
     spell: {
       name: "Zealot's Fire",
@@ -397,7 +397,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     name: "Voice of the Void",
     icon: "spell_shadow_mindshear",
     maxRanks: 3,
-    position: { x: 2.5, y: 8 },
+    position: { x: 2.5, y: 6 },
     requires: "ss_t6_dark_choir",
     spell: {
       name: "Voice of the Void",
@@ -418,7 +418,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
     name: "Unhearing",
     icon: "spell_shadow_twilight",
     maxRanks: 3,
-    position: { x: 3.5, y: 8 },
+    position: { x: 3.5, y: 6 },
     requires: "ss_t6_dark_choir",
     spell: {
       name: "Unhearing",

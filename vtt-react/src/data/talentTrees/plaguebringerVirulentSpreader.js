@@ -95,7 +95,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Vector Detonation",
     icon: "spell_shadow_plaguecloud",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "vs_t1_spore_volley",
     spell: {
       name: "Vector Detonation",
@@ -122,7 +122,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Chain Contagion",
     icon: "spell_nature_corrosivebreath",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 1 },
     requires: "vs_t1_rapid_contagion",
     spell: {
       name: "Chain Contagion",
@@ -146,7 +146,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Pandemic Gale",
     icon: "spell_shadow_contagion",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1, y: 2 },
     requires: "vs_t2_vector_detonation",
     spell: {
       name: "Pandemic Gale",
@@ -173,7 +173,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Infectious Miasma",
     icon: "spell_shadow_plaguecloud",
     maxRanks: 3,
-    position: { x: 3, y: 3 },
+    position: { x: 3, y: 2 },
     requires: "vs_t2_chain_infection",
     spell: {
       name: "Infectious Miasma",
@@ -197,7 +197,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Plague Zone",
     icon: "spell_shadow_contagion",
     maxRanks: 3,
-    position: { x: 1, y: 4.5 },
+    position: { x: 1, y: 3 },
     requires: "vs_t3_pandemic_wave",
     spell: {
       name: "Plague Zone",
@@ -225,7 +225,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Spore Multiplication",
     icon: "spell_fire_selfdestruct",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 3 },
     requires: "vs_t3_infectious_aura",
     spell: {
       name: "Spore Multiplication",
@@ -248,7 +248,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Epidemic Surge",
     icon: "ability_creature_disease_01",
     maxRanks: 2,
-    position: { x: 1, y: 6 },
+    position: { x: 1, y: 4 },
     requires: "vs_t4_plague_zone",
     spell: {
       name: "Epidemic Surge",
@@ -273,7 +273,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Pathogen Reservoir",
     icon: "inv_misc_slime_01",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3, y: 4 },
     requires: "vs_t4_viral_burst",
     spell: {
       name: "Pathogen Reservoir",
@@ -295,7 +295,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Global Pandemic",
     icon: "spell_shadow_plaguecloud",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "vs_t5_epidemic_surge",
     spell: {
       name: "Global Pandemic",
@@ -317,7 +317,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Vector Cascade",
     icon: "ability_creature_poison_03",
     maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
+    position: { x: 2.5, y: 5 },
     requires: "vs_t5_strain_banking",
     spell: {
       name: "Vector Cascade",
@@ -338,7 +338,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Superbug Mutation",
     icon: "spell_shadow_contagion",
     maxRanks: 2,
-    position: { x: 4, y: 7.5 },
+    position: { x: 4, y: 5 },
     requires: "vs_t5_strain_banking",
     spell: {
       name: "Superbug Mutation",
@@ -359,7 +359,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Patient Zero",
     icon: "spell_shadow_deathanddecay",
     maxRanks: 1,
-    position: { x: 0.5, y: 8 },
+    position: { x: 0.5, y: 6 },
     requires: "vs_t6_global_pandemic",
     spell: {
       name: "Patient Zero",
@@ -384,7 +384,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Waste Spore Doctrine",
     icon: "spell_shadow_darkritual",
     maxRanks: 5,
-    position: { x: 1.5, y: 8 },
+    position: { x: 1.5, y: 6 },
     requires: "vs_t6_global_pandemic",
     spell: {
       name: "Waste Spore Doctrine",
@@ -407,7 +407,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Continuous Blooming",
     icon: "ability_creature_poison_06",
     maxRanks: 3,
-    position: { x: 2.5, y: 8 },
+    position: { x: 2.5, y: 6 },
     requires: "vs_t6_cross_infection",
     spell: {
       name: "Continuous Blooming",
@@ -427,7 +427,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Pandemic Overdrive",
     icon: "spell_nature_cyclone",
     maxRanks: 3,
-    position: { x: 3.5, y: 8 },
+    position: { x: 3.5, y: 6 },
     requires: "vs_t6_cross_infection",
     spell: {
       name: "Pandemic Overdrive",
@@ -447,7 +447,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Living Pathogen",
     icon: "ability_creature_disease_02",
     maxRanks: 3,
-    position: { x: 4.5, y: 8 },
+    position: { x: 4.5, y: 6 },
     requires: "vs_t6_superbug_mutation",
     spell: {
       name: "Living Pathogen",

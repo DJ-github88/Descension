@@ -31,7 +31,7 @@ export const AUGUR_AUSPICE = [
     name: "Omen Synthesis",
     icon: "spell_arcane_arcane01",
     maxRanks: 3,
-    position: { x: 0.5, y: 1 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Omen Synthesis",
@@ -56,7 +56,7 @@ export const AUGUR_AUSPICE = [
     name: "Balanced Step",
     icon: "spell_holy_heroism",
     maxRanks: 2,
-    position: { x: 3.5, y: 1 },
+    position: { x: 3.5, y: 0 },
     requires: null,
     spell: {
       name: "Balanced Step",
@@ -76,7 +76,7 @@ export const AUGUR_AUSPICE = [
     name: "Dual Reading",
     icon: "spell_holy_divineprovidence",
     maxRanks: 3,
-    position: { x: 0, y: 2 },
+    position: { x: 0, y: 1 },
     requires: "aus_t1_harmonic_sight",
     spell: {
       name: "Dual Reading",
@@ -96,7 +96,7 @@ export const AUGUR_AUSPICE = [
     name: "Harmonic Bolt",
     icon: "spell_arcane_prismaticbolt",
     maxRanks: 3,
-    position: { x: 4, y: 2 },
+    position: { x: 4, y: 1 },
     requires: "aus_t1_omen_synthesis",
     spell: {
       name: "Harmonic Bolt",
@@ -124,7 +124,7 @@ export const AUGUR_AUSPICE = [
     name: "Zone of Balance",
     icon: "spell_arcane_portalironforge",
     maxRanks: 3,
-    position: { x: 1, y: 3.5 },
+    position: { x: 1, y: 2 },
     requires: "aus_t2_dual_reading",
     spell: {
       name: "Zone of Balance",
@@ -150,7 +150,7 @@ export const AUGUR_AUSPICE = [
     name: "Resource Flow",
     icon: "spell_holy_layonhands",
     maxRanks: 3,
-    position: { x: 3, y: 3.5 },
+    position: { x: 3, y: 2 },
     requires: "aus_t2_harmonic_bolt",
     spell: {
       name: "Resource Flow",
@@ -171,7 +171,7 @@ export const AUGUR_AUSPICE = [
     name: "Twin Blessing",
     icon: "spell_holy_prayerofmendingtga",
     maxRanks: 3,
-    position: { x: 1.5, y: 4.5 },
+    position: { x: 1.5, y: 3 },
     requires: "aus_t3_zone_of_balance",
     spell: {
       name: "Twin Blessing",
@@ -197,7 +197,7 @@ export const AUGUR_AUSPICE = [
     name: "Sign of Equilibrium",
     icon: "spell_holy_mindsoothe",
     maxRanks: 2,
-    position: { x: 2.5, y: 4.5 },
+    position: { x: 2.5, y: 3 },
     requires: "aus_t3_resource_flow",
     spell: {
       name: "Sign of Equilibrium",
@@ -217,7 +217,7 @@ export const AUGUR_AUSPICE = [
     name: "Perfect Balance",
     icon: "spell_holy_divineintervention",
     maxRanks: 3,
-    position: { x: 1.5, y: 5.5 },
+    position: { x: 1.5, y: 4 },
     requires: "aus_t4_twin_blessing",
     spell: {
       name: "Perfect Balance",
@@ -237,7 +237,7 @@ export const AUGUR_AUSPICE = [
     name: "Quick Interpret",
     icon: "inv_misc_rune_01",
     maxRanks: 2,
-    position: { x: 2.5, y: 5.5 },
+    position: { x: 2.5, y: 4 },
     requires: "aus_t4_sign_of_equilibrium",
     spell: {
       name: "Quick Interpret",
@@ -257,7 +257,7 @@ export const AUGUR_AUSPICE = [
     name: "Omen Mastery",
     icon: "spell_holy_exorcism",
     maxRanks: 1,
-    position: { x: 1, y: 6.5 },
+    position: { x: 1, y: 5 },
     requires: "aus_t5_perfect_balance",
     spell: {
       name: "Omen Mastery",
@@ -273,7 +273,7 @@ export const AUGUR_AUSPICE = [
     name: "Cosmic Echo",
     icon: "spell_holy_holyguidance",
     maxRanks: 2,
-    position: { x: 2, y: 6.5 },
+    position: { x: 2, y: 5 },
     requires: "aus_t5_quick_interpret",
     spell: {
       name: "Cosmic Echo",
@@ -292,7 +292,7 @@ export const AUGUR_AUSPICE = [
     name: "Auspice Aura",
     icon: "spell_arcane_prismaticcloak",
     maxRanks: 2,
-    position: { x: 3, y: 6.5 },
+    position: { x: 3, y: 5 },
     requires: "aus_t5_perfect_balance",
     spell: {
       name: "Auspice Aura",
@@ -312,7 +312,7 @@ export const AUGUR_AUSPICE = [
     name: "Auspice Supreme",
     icon: "spell_arcane_prismaticcloak",
     maxRanks: 1,
-    position: { x: 0.5, y: 8 },
+    position: { x: 0.5, y: 6 },
     requires: "aus_t6_omen_mastery",
     spell: {
       name: "Auspice Supreme",
@@ -333,7 +333,7 @@ export const AUGUR_AUSPICE = [
     name: "Equilibrium Mastery",
     icon: "spell_arcane_arcane_resistance",
     maxRanks: 5,
-    position: { x: 1.5, y: 8 },
+    position: { x: 1.5, y: 6 },
     requires: "aus_t6_cosmic_echo",
     spell: {
       name: "Equilibrium Mastery",
@@ -355,7 +355,7 @@ export const AUGUR_AUSPICE = [
     name: "Harmonic Overload",
     icon: "spell_arcane_prismaticbolt",
     maxRanks: 3,
-    position: { x: 2, y: 8 },
+    position: { x: 2, y: 6 },
     requires: "aus_t6_cosmic_echo",
     spell: {
       name: "Harmonic Overload",
@@ -376,7 +376,7 @@ export const AUGUR_AUSPICE = [
     name: "Balanced Vitality",
     icon: "spell_holy_powerwordbarrier",
     maxRanks: 3,
-    position: { x: 2.5, y: 8 },
+    position: { x: 2.5, y: 6 },
     requires: "aus_t6_auspice_aura",
     spell: {
       name: "Balanced Vitality",
@@ -396,7 +396,7 @@ export const AUGUR_AUSPICE = [
     name: "Duality Ward",
     icon: "spell_arcane_blink",
     maxRanks: 3,
-    position: { x: 3.5, y: 8 },
+    position: { x: 3.5, y: 6 },
     requires: "aus_t6_auspice_aura",
     spell: {
       name: "Duality Ward",

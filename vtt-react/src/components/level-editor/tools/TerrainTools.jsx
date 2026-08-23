@@ -197,7 +197,7 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
                                                 <span className="terrain-name">{terrain.name}</span>
                                                 {terrain.movementCost > 1 && (
                                                     <span className="movement-cost">
-                                                        {terrain.movementCost === 99 ? '∞' : `� - ${terrain.movementCost}`}
+                                                        {terrain.movementCost === 99 ? '∞' : `� - ${terrain.movementCost}`}
                                                     </span>
                                                 )}
                                                 {terrain.damage && (

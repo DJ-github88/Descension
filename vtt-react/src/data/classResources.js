@@ -1979,4 +1979,43 @@ CLASS_RESOURCE_TYPES['Augur'] = {
  ]
 };
 
+CLASS_RESOURCE_TYPES['Crusader'] = {
+ id: 'radiantFervor',
+ name: 'Radiant Fervor',
+ shortName: 'Fervor',
+ type: 'progress-bar',
+ description: 'The Crusader channels Solvan zeal, accumulating Radiant Fervor through martial strikes, righteous judgment, and standing fast against heresy. Reaching 50+ unlocks Harmonic Stance, while 100 Fervor unleashes devastating Solvan Judgment.',
+ visual: {
+  type: 'fervor-gauge',
+  baseColor: '#8B6508',
+  activeColor: '#FFD700',
+  glowColor: '#FFF8DC',
+  icon: 'fas fa-sun',
+  effects: ['radiance', 'sacred', 'fervor']
+ },
+ mechanics: {
+  max: 100,
+  current: 0,
+  consumeVerb: 'unleash',
+  gainVerb: 'kindle'
+ },
+ tooltip: {
+  title: 'Radiant Fervor: {current}/100',
+  description: 'Kindled by martial prowess and sacred devotion. At 50+ Fervor, Harmonic Stance empowers all strikes. At 100 Fervor, unleash Solvan Judgment.',
+  showGeneration: true,
+  showSpending: true,
+  showPassives: true
+ },
+ generation: [
+  { action: 'Melee weapon attack', fervor: '+5 to +10' },
+  { action: 'Righteous ability / Prayer', fervor: '+15 to +25' },
+  { action: 'Taking damage while defending allies', fervor: '+5' }
+ ],
+ spending: [
+  { cost: 25, ability: 'Consecrated Strike', effect: 'Empower strike with holy radiance' },
+  { cost: 50, ability: 'Harmonic Stance', effect: 'Enter enhanced combat stance' },
+  { cost: 100, ability: 'Solvan Judgment', effect: 'Unleash catastrophic radiant wrath' }
+ ]
+};
+
 // Doomsayer resource removed (merged into Harbinger as Mayhem gauge)

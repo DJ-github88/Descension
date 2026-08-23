@@ -631,7 +631,7 @@ Before you write a single sentence of lore, you need to know what's already true
 | The Incremental Cracks | Years 0–300 | Vreken massacre, Ordan purge, Frostwood meltdown crack Aex's shell |
 | Keth Amar Arrives | Year 300 | Trails Astril starlight; 25-yr Wyrd infiltration posing as Aethil |
 | Blizzard's End Massacre | Year 325 | Heirs devoured; Aex shatters into Aex Shards; Keth Amar wounded, retreats to sky as Wyrd |
-| The Freezing Era (Present Day) | Year 475 | 150 Years of Freezing Era; factions fight over Aex Shards; **North Halam launch campaign** |
+| The Freezing Era (Present Day) | Year 475 | 150 Years of Freezing Era; factions fight over Aex Shards; **Nordhalla launch campaign** |
 
 ### 6.1B Scrapped & Corrected Lore (DO NOT WRITE)
 * ❌ **SCRAPPED:** The Augurs' 41% doom prediction accuracy being tied to Sol's shell/security breakdown (caused by temporal friction and chronological dissonance instead).
@@ -648,7 +648,7 @@ Before you write a single sentence of lore, you need to know what's already true
 * **The Fexrick (Engine-Theft):** Gnomish/Dwarvish engineers of Cragjaw Peaks who dug too deep, uncovered a Primordial God's engine/vault, and were cursed with erratic twitching, manic paranoia, and an insatiable urge to build and tweak.
 
 ### 6.1E Primary Launch Region
-* **North Halam (Nordhalla):** The **sole, self-contained launch region** for the app map and initial gameplay release (Finnish, Greenlandic, Norse folklore textures: *Landvaettir*, *Qalupalik*, *Jutul*, *Glacier Wyrms*, *Fossegrim*). Other continents follow in future expansions.
+* **Nordhalla:** The **sole, self-contained launch region** for the app map and initial gameplay release (Finnish, Greenlandic, Norse folklore textures: *Landvaettir*, *Qalupalik*, *Jutul*, *Glacier Wyrms*, *Fossegrim*). Other continents follow in future expansions.
 
 ### 6.2 House Relationships — Who Stands Where
 

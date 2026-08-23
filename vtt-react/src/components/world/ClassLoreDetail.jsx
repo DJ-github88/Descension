@@ -175,9 +175,9 @@ const ClassLoreDetail = ({ classId, onClose }) => {
   const subclassInfo = getAllSubclassInfo(classId);
 
   const tabs = [
-    { key: 'overview', label: 'Overview & Philosophy', icon: 'fa-book-open' },
-    { key: 'history', label: 'History & Genesis', icon: 'fa-scroll' },
-    { key: 'organizations', label: 'Orders & Guilds', icon: 'fa-shield-halved' },
+    { key: 'overview', label: 'Tradition & Philosophy', icon: 'fa-book-open' },
+    { key: 'history', label: 'Origins & Canon Lore', icon: 'fa-scroll' },
+    { key: 'organizations', label: 'Aligned Orders & Guilds', icon: 'fa-shield-halved' },
     ...(subclassInfo && Object.keys(subclassInfo).length > 0
       ? Object.entries(subclassInfo).map(([key, sub]) => ({ key, label: sub.name || key, icon: 'fa-feather' }))
       : [])
@@ -199,7 +199,7 @@ const ClassLoreDetail = ({ classId, onClose }) => {
           </div>
           <div>
             <h2>{cls.name}</h2>
-            <span className="world-subtitle">{cls.roleplayIdentity?.title || cls.combatRole?.title || 'Living Class Dossier'}</span>
+            <span className="world-subtitle">{cls.roleplayIdentity?.title || cls.combatRole?.title || 'Living Class Codex'}</span>
           </div>
         </div>
       </div>
@@ -244,8 +244,8 @@ const OverviewTab = ({ cls, context }) => {
   return (
     <div className="world-section-stack">
       {profile && (
-        <div className="world-section world-section-highlight class-dossier-hero">
-          <div className="class-dossier-hero-header">
+        <div className="world-section world-section-highlight class-codex-hero">
+          <div className="class-codex-hero-header">
             <div>
               <span className="class-archetype-tag">{profile.tradition}</span>
               <h3 style={{ margin: '4px 0 8px 0', borderBottom: 'none' }}>{profile.role}</h3>

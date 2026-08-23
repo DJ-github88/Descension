@@ -5,6 +5,7 @@ import useFamilyTreeStore from '../../store/familyTreeStore';
 import useAuthStore from '../../store/authStore';
 import useCustomLineageStore from '../../store/customLineageStore';
 import campaignService from '../../services/campaignService';
+import { showConfirm } from '../../utils/dialogService';
 import './FamilyTreeStudio.css';
 
 const GENDER_OPTIONS = [
@@ -582,8 +583,16 @@ const FamilyTreeStudio = () => {
                     <button
                       type="button"
                       className="node-act-btn btn-act-delete"
-                      onClick={() => {
-                        if (window.confirm(`Remove ${node.name} from dynasty?`)) {
+                      onClick={async () => {
+                        const confirmed = await showConfirm({
+                          title: 'Remove Dynasty Member',
+                          message: `Remove ${node.name} from dynasty?`,
+                          subMessage: 'This will remove the character and their relationships from this family tree.',
+                          confirmText: 'Remove',
+                          cancelText: 'Cancel',
+                          isDestructive: true
+                        });
+                        if (confirmed) {
                           removeMember(activeTree.id, node.id);
                           syncToCloud(user?.uid);
                         }

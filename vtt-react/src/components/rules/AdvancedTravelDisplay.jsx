@@ -304,7 +304,7 @@ const AdvancedTravelDisplay = () => {
                 <div key={t.id} className="atd-info-card">
                   <div className="atd-info-card-header">
                     <span className="atd-info-card-name">{t.name}</span>
-                    <span className="atd-info-card-stat">Ã - {t.speedMod}</span>
+                    <span className="atd-info-card-stat">ï¿½ - {t.speedMod}</span>
                   </div>
                   <div className="atd-info-card-body">
                     <span className="atd-die-tag nav" style={{ fontSize: 10 }}>Nav: {t.navDie}</span>
@@ -321,7 +321,7 @@ const AdvancedTravelDisplay = () => {
                 <div key={m.id} className="atd-info-card">
                   <div className="atd-info-card-header">
                     <span className="atd-info-card-name">{m.name}</span>
-                    <span className="atd-info-card-stat">Ã - {m.speed} speed</span>
+                    <span className="atd-info-card-stat">ï¿½ - {m.speed} speed</span>
                   </div>
                   <div className="atd-info-card-body">
                     {m.restEvery && (

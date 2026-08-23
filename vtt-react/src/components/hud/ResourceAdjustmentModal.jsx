@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { getClassResourceConfig } from '../../data/classResources';
+import { showConfirm } from '../../utils/dialogService';
 import './styles/ResourceAdjustmentModal.css';
 
 const ResourceAdjustmentModal = ({
@@ -77,11 +78,19 @@ const ResourceAdjustmentModal = ({
         return newValue <= threshold;
     };
 
-    const applyAdjustment = (adjustment, mode) => {
+    const applyAdjustment = async (adjustment, mode) => {
         const newValue = getNewValue(adjustment, mode);
         if (isDestructiveHpChange(newValue)) {
             const clampedValue = Math.max(0, Math.min(newValue, maxValue));
-            if (!window.confirm(`This will reduce Health to ${clampedValue}. Continue?`)) {
+            const confirmed = await showConfirm({
+                title: 'Low Health Warning',
+                message: `This will reduce Health to ${clampedValue}. Continue?`,
+                subMessage: 'Your character will enter critical condition.',
+                confirmText: 'Apply Damage',
+                variant: 'danger',
+                isDestructive: true
+            });
+            if (!confirmed) {
                 return false;
             }
         }
@@ -89,19 +98,19 @@ const ResourceAdjustmentModal = ({
         return true;
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const value = parseInt(inputValue);
         if (!isNaN(value)) {
             const adjustment = adjustmentMode === 'relative' ? value : value - currentValue;
-            if (applyAdjustment(adjustment, adjustmentMode)) {
+            if (await applyAdjustment(adjustment, adjustmentMode)) {
                 setInputValue('');
                 onClose();
             }
         }
     };
 
-    const handleQuickAdjust = (amount) => {
-        if (applyAdjustment(amount, 'relative')) {
+    const handleQuickAdjust = async (amount) => {
+        if (await applyAdjustment(amount, 'relative')) {
             onClose();
         }
     };

@@ -94,7 +94,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Submediant Ward",
     icon: "spell_holy_divineprovidence",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "hw_t1_soothing_hymn",
     spell: {
       name: "Submediant Ward",
@@ -119,7 +119,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Cadence Memory",
     icon: "spell_holy_powerwordbarrier",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 1 },
     requires: "hw_t1_tonic_resonance",
     spell: {
       name: "Cadence Memory",
@@ -141,7 +141,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Authentic Cadence",
     icon: "spell_holy_layonhands",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1, y: 2 },
     requires: "hw_t2_submediant_shield",
     spell: {
       name: "Authentic Cadence",
@@ -167,7 +167,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Plagal Flow",
     icon: "spell_holy_renew",
     maxRanks: 3,
-    position: { x: 3, y: 3 },
+    position: { x: 3, y: 2 },
     requires: "hw_t2_cadence_echo",
     spell: {
       name: "Plagal Flow",
@@ -191,7 +191,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Cleansing Stanza",
     icon: "spell_holy_divineprovidence",
     maxRanks: 3,
-    position: { x: 1, y: 4.5 },
+    position: { x: 1, y: 3 },
     requires: "hw_t3_authentic_mastery",
     spell: {
       name: "Cleansing Stanza",
@@ -216,7 +216,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Lullaby Ward",
     icon: "spell_holy_silence",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 3 },
     requires: "hw_t3_plagal_bounty",
     spell: {
       name: "Lullaby Ward",
@@ -237,7 +237,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Healing Chorus",
     icon: "spell_holy_prayerofhealing",
     maxRanks: 2,
-    position: { x: 1, y: 6 },
+    position: { x: 1, y: 4 },
     requires: "hw_t4_cleansing_stanza",
     spell: {
       name: "Healing Chorus",
@@ -262,7 +262,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Tonic Surge",
     icon: "spell_holy_powerwordbarrier",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3, y: 4 },
     requires: "hw_t4_lullaby_ward",
     spell: {
       name: "Tonic Surge",
@@ -284,7 +284,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Death-Defying Aria",
     icon: "spell_holy_resurrection",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "hw_t5_healing_chorus",
     spell: {
       name: "Death-Defying Aria",
@@ -307,7 +307,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Symphonic Harmony",
     icon: "spell_holy_divinehymn",
     maxRanks: 2,
-    position: { x: 2.5, y: 7.5 },
+    position: { x: 2.5, y: 5 },
     requires: "hw_t5_tonic_overflow",
     spell: {
       name: "Symphonic Harmony",
@@ -326,7 +326,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Tidal Sanctum",
     icon: "spell_holy_powerwordbarrier",
     maxRanks: 2,
-    position: { x: 4, y: 7.5 },
+    position: { x: 4, y: 5 },
     requires: "hw_t5_tonic_overflow",
     spell: {
       name: "Tidal Sanctum",
@@ -347,7 +347,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Mereval Symphony",
     icon: "spell_holy_divinehymn",
     maxRanks: 1,
-    position: { x: 0.5, y: 8 },
+    position: { x: 0.5, y: 6 },
     requires: "hw_t6_death_defying_aria",
     spell: {
       name: "Mereval Symphony",
@@ -371,7 +371,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Sacred Choir Doctrine",
     icon: "spell_holy_prayerofhealing",
     maxRanks: 5,
-    position: { x: 1.5, y: 8 },
+    position: { x: 1.5, y: 6 },
     requires: "hw_t6_death_defying_aria",
     spell: {
       name: "Sacred Choir Doctrine",
@@ -393,7 +393,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Endless Cadence",
     icon: "spell_holy_powerwordbarrier",
     maxRanks: 3,
-    position: { x: 2.5, y: 8 },
+    position: { x: 2.5, y: 6 },
     requires: "hw_t6_unbroken_chorus",
     spell: {
       name: "Endless Cadence",
@@ -413,7 +413,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Fountain of the Deep",
     icon: "spell_holy_renew",
     maxRanks: 3,
-    position: { x: 3.5, y: 8 },
+    position: { x: 3.5, y: 6 },
     requires: "hw_t6_unbroken_chorus",
     spell: {
       name: "Fountain of the Deep",
@@ -433,7 +433,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Immortal Cadence",
     icon: "spell_holy_divineprovidence",
     maxRanks: 3,
-    position: { x: 4.5, y: 8 },
+    position: { x: 4.5, y: 6 },
     requires: "hw_t6_tide_resilience",
     spell: {
       name: "Immortal Cadence",

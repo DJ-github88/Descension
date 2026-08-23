@@ -432,7 +432,7 @@ export function registerMapGridHandlers(ctx) {
         // Accept token if: (a) exact map match, or (b) both are 'default'
         const isMapMatch = tokenMapId === currentMapId || (tokenMapId === 'default' && (!currentMapId || currentMapId === 'default'));
         if (!isMapMatch) {
-          console.log(`ðŸŽ­ [sync_tokens] Skipping token ${tokenData.id} â€“ map mismatch (token: ${tokenMapId}, current: ${currentMapId})`);
+          console.log(`ðŸŽ­ [sync_tokens] Skipping token ${tokenData.id} "“ map mismatch (token: ${tokenMapId}, current: ${currentMapId})`);
           return;
         }
 
@@ -441,7 +441,7 @@ export function registerMapGridHandlers(ctx) {
           addCreature(tokenData.creature);
         }
 
-        // Add the token â€“ pass the creature object if available so addCreatureToken
+        // Add the token "“ pass the creature object if available so addCreatureToken
         // doesn't have to do a library lookup (which may fail for first-time sync)
         const creatureArg = tokenData.creature || tokenData.creatureId;
         addToken(creatureArg, tokenData.position, false, tokenData.id, tokenData.state, tokenMapId);

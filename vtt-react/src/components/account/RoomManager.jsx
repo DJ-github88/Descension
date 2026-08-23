@@ -14,6 +14,7 @@ import { logger } from '../../utils/logger';
 import RoomCard from '../common/RoomCard';
 import ConfirmationDialog from '../item-generation/ConfirmationDialog';
 import RoomToast from './RoomToast';
+import { showPrompt, showAlert } from '../../utils/dialogService';
 import './styles/RoomManager.css';
 
 const RoomManager = () => {
@@ -955,9 +956,15 @@ const RoomManager = () => {
                     <div className="room-actions">
                       <button
                         className="join-room-btn"
-                        onClick={() => {
+                        onClick={async () => {
                           // Store room selection for joining
-                          const password = prompt(`Enter password for "${room.name}":`);
+                          const password = await showPrompt({
+                            title: 'Join Room',
+                            message: `Enter password for "${room.name}":`,
+                            inputType: 'password',
+                            placeholder: 'Room password',
+                            confirmText: 'Join'
+                          });
                           if (password !== null && password.trim()) {
                             localStorage.setItem('selectedRoomId', room.id);
                             sessionStorage.setItem('selectedRoomPassword', password.trim());

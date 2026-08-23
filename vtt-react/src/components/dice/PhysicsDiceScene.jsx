@@ -6,7 +6,7 @@ import { LineSegments2 } from 'three/addons/lines/LineSegments2.js';
 import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
 import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js';
 import * as CANNON from 'cannon-es';
-import useDiceStore, { DICE_PRESETS } from '../../store/diceStore';
+import useDiceStore, { DICE_PRESETS, DICE_MATERIALS } from '../../store/diceStore';
 import useSettingsStore from '../../store/settingsStore';
 import { useAdaptivePerformance } from '../../hooks/useAdaptivePerformance';
 import './PhysicsDiceScene.css';
@@ -171,6 +171,199 @@ function disposeThemeBodyTextureCache() {
   themeBodyTextureCache.clear();
 }
 
+// Procedural SURFACE textures for weight materials (wood grain, granite).
+// The THEME stays the die's identity (ice, obsidian, ember...) — these
+// surfaces composite ON TOP of the theme paint (multiply blend) so a
+// frost+wood die still reads as an ICE die with visible timber grain.
+// Painted pale so material.color tinting can season them. Cached singletons,
+// shared by every die of that material.
+const materialSurfaceCache = {};
+
+function getWoodSurface() {
+  if (materialSurfaceCache.wood) return materialSurfaceCache.wood;
+  const size = 512;
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = size;
+  const ctx = canvas.getContext('2d');
+
+  // Base — pale seasoned timber, brightest at one corner (banding comes later).
+  const base = ctx.createLinearGradient(0, 0, size, size);
+  base.addColorStop(0, '#f0e4cc');
+  base.addColorStop(0.5, '#e3d3b3');
+  base.addColorStop(1, '#d3bf97');
+  ctx.fillStyle = base;
+  ctx.fillRect(0, 0, size, size);
+
+  // Long wavy grain streaks — the dominant feature. Bold beats dense at die
+  // scale, so 16 strong boards with varying darkness and width.
+  for (let g = 0; g < 16; g++) {
+    const y0 = (g / 16) * size + (Math.random() - 0.5) * 16;
+    const dark = 60 + Math.random() * 40 | 0;
+    ctx.strokeStyle = `rgba(${dark + 30},${dark - 8},${dark - 30},${0.32 + Math.random() * 0.26})`;
+    ctx.lineWidth = 2.5 + Math.random() * 3.5;
+    ctx.beginPath();
+    for (let x = 0; x <= size; x += 10) {
+      const y = y0 + Math.sin((x / size) * Math.PI * (2 + g % 3) + g * 1.9) * (7 + (g % 4) * 3);
+      if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+  // Fine secondary streaks between the boards — tight grain detail.
+  for (let g = 0; g < 26; g++) {
+    const y0 = Math.random() * size;
+    ctx.strokeStyle = `rgba(120,88,48,${0.10 + Math.random() * 0.12})`;
+    ctx.lineWidth = 0.8 + Math.random() * 0.8;
+    ctx.beginPath();
+    for (let x = 0; x <= size; x += 14) {
+      const y = y0 + Math.sin((x / size) * Math.PI * 3 + g * 1.4) * 6;
+      if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+  // Light streaks between dark grain — gives the bands depth/shine.
+  for (let g = 0; g < 8; g++) {
+    const y0 = Math.random() * size;
+    ctx.strokeStyle = `rgba(255,246,224,${0.18 + Math.random() * 0.14})`;
+    ctx.lineWidth = 3 + Math.random() * 4;
+    ctx.beginPath();
+    for (let x = 0; x <= size; x += 12) {
+      const y = y0 + Math.sin((x / size) * Math.PI * 2 + g) * 8;
+      if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+  // Knots — 2 knot cores with concentric growth rings around each.
+  for (let k = 0; k < 2; k++) {
+    const kx = 90 + Math.random() * (size - 180);
+    const ky = 90 + Math.random() * (size - 180);
+    const rot = Math.random() * Math.PI;
+    // Dark core
+    const core = ctx.createRadialGradient(kx, ky, 0, kx, ky, 12);
+    core.addColorStop(0, 'rgba(52,32,14,0.95)');
+    core.addColorStop(1, 'rgba(52,32,14,0)');
+    ctx.save();
+    ctx.translate(kx, ky);
+    ctx.rotate(rot);
+    ctx.fillStyle = core;
+    ctx.beginPath();
+    ctx.arc(0, 0, 12, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+    // Concentric rings, eccentric to mimic real growth around the knot.
+    for (let r = 10; r < 78; r += 6 + Math.random() * 3) {
+      ctx.strokeStyle = `rgba(${74 + Math.random() * 26 | 0},${50 + Math.random() * 18 | 0},22,${Math.max(0.08, 0.42 - r / 200)})`;
+      ctx.lineWidth = 2 + Math.random() * 1.5;
+      ctx.save();
+      ctx.translate(kx, ky);
+      ctx.rotate(rot);
+      ctx.beginPath();
+      ctx.ellipse(0, 0, r * 1.35, r * 0.8, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 4;
+  materialSurfaceCache.wood = { tex, canvas };
+  return materialSurfaceCache.wood;
+}
+
+function getStoneSurface() {
+  if (materialSurfaceCache.stone) return materialSurfaceCache.stone;
+  const size = 512;
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = size;
+  const ctx = canvas.getContext('2d');
+
+  // Base — pale mineral granite.
+  const base = ctx.createLinearGradient(0, 0, size, size);
+  base.addColorStop(0, '#ece9e2');
+  base.addColorStop(0.5, '#dcd7cc');
+  base.addColorStop(1, '#c9c3b6');
+  ctx.fillStyle = base;
+  ctx.fillRect(0, 0, size, size);
+
+  // Mineral speckle — three fleets of grains at die-readable sizes:
+  // dark biotite, bright quartz, mid feldspar.
+  const fleck = (count, colorFn, rMin, rMax) => {
+    for (let i = 0; i < count; i++) {
+      const x = Math.random() * size, y = Math.random() * size;
+      const r = rMin + Math.random() * (rMax - rMin);
+      ctx.fillStyle = colorFn();
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  };
+  fleck(520, () => `rgba(46,40,34,${0.25 + Math.random() * 0.3})`, 0.6, 1.6);   // biotite
+  fleck(420, () => `rgba(255,255,250,${0.3 + Math.random() * 0.3})`, 0.7, 1.9); // quartz
+  fleck(300, () => `rgba(158,148,132,${0.22 + Math.random() * 0.2})`, 1.0, 2.6); // feldspar
+  // Sparse larger mineral pools for coarse-grain granite feel.
+  fleck(48, () => `rgba(120,110,96,${0.16 + Math.random() * 0.14})`, 2.6, 4.5);
+
+  // A few hairline crystalline veins.
+  const veinPaths = generateCrackPaths(size, 4, { straightness: 0.8, steps: 18, branchChance: 0.15, maxDepth: 1 });
+  strokePaths(ctx, veinPaths, 1.1, (c) => { c.strokeStyle = 'rgba(92,86,76,0.30)'; c.stroke(); }, size);
+  strokePaths(ctx, veinPaths, 0.45, (c) => { c.strokeStyle = 'rgba(250,248,242,0.35)'; c.stroke(); }, size);
+
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 4;
+  materialSurfaceCache.stone = { tex, canvas };
+  return materialSurfaceCache.stone;
+}
+
+function getMaterialSurface(materialId) {
+  if (materialId === 'wood') return getWoodSurface();
+  if (materialId === 'stone') return getStoneSurface();
+  return null; // steel reads via reflections, glass via translucency
+}
+
+function disposeMaterialSurfaces() {
+  Object.values(materialSurfaceCache).forEach((s) => s.tex.dispose());
+  Object.keys(materialSurfaceCache).forEach((k) => delete materialSurfaceCache[k]);
+}
+
+// Theme albedo × material surface composites — "frost dice with wood grain",
+// "obsidian with granite speckle". Multiply-blend at ~0.6 keeps the theme's
+// features (ice veins, ember seams) dominant while the grain clearly shows.
+const compositeBodyTextureCache = new Map();
+
+function getCompositedBodyTexture(themeId, materialId) {
+  const surf = getMaterialSurface(materialId);
+  if (!surf) return null;
+  const themeEntry = themeId ? getThemeBodyTextures(themeId) : null;
+  // No painted theme (e.g. classic obsidian) — the surface IS the albedo.
+  if (!themeEntry || !themeEntry.map) return surf.tex;
+
+  const key = `${themeId}|${materialId}`;
+  let tex = compositeBodyTextureCache.get(key);
+  if (tex) return tex;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 512;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(themeEntry.albedoCanvas, 0, 0);
+  ctx.globalCompositeOperation = 'multiply';
+  ctx.globalAlpha = 0.62;
+  ctx.drawImage(surf.canvas, 0, 0);
+  ctx.globalAlpha = 1;
+  ctx.globalCompositeOperation = 'source-over';
+
+  tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 4;
+  compositeBodyTextureCache.set(key, tex);
+  return tex;
+}
+
+function disposeCompositeBodyTextureCache() {
+  compositeBodyTextureCache.forEach((t) => t.dispose());
+  compositeBodyTextureCache.clear();
+}
+
 // Random-walk crack/vein painter with recursive branches. Returns the list of
 // polylines so the albedo and emissive passes can stroke the SAME geometry.
 function generateCrackPaths(size, count, opts = {}) {
@@ -285,62 +478,71 @@ function createThemeBodyTextures(themeId) {
       }
     }
   } else if (themeId === 'fiery') {
-    // Molten ember. Key lesson from frozen: dice are SMALL on screen, so the
-    // base must be mid-tone and features BOLD and FEW. A near-black basalt
-    // base with dense cracks reads as mud — instead a warm ember body with
-    // seven wide lava fissures that glow hard.
+    // Clean "obsidian with lava seams". Prior versions were muddy brown and
+    // messy (wide smeared fissures, glow pools, dense embers). Recipe now:
+    // deep red-black charcoal base (red hue, NOT brown), exactly five crisp
+    // thin fissures that glow, nothing else. At die scale, LESS reads BETTER.
     const base = aCtx.createLinearGradient(0, 0, size, size);
-    base.addColorStop(0, '#8a3b16');
-    base.addColorStop(0.5, '#5c240d');
-    base.addColorStop(1, '#3a1607');
+    base.addColorStop(0, '#26070a');
+    base.addColorStop(0.55, '#180409');
+    base.addColorStop(1, '#0d0206');
     aCtx.fillStyle = base;
     aCtx.fillRect(0, 0, size, size);
-    // Few bold fissures — charred rim, molten body, white-hot core.
-    const paths = generateCrackPaths(size, 7, { straightness: 0.5, steps: 24, branchChance: 0.28, maxDepth: 2 });
-    strokePaths(aCtx, paths, 5.5, (c) => { c.strokeStyle = 'rgba(30,8,3,0.85)'; c.stroke(); }, size);
-    strokePaths(aCtx, paths, 3.0, (c) => { c.strokeStyle = 'rgba(255,130,35,0.95)'; c.stroke(); }, size);
-    strokePaths(aCtx, paths, 1.1, (c) => { c.strokeStyle = 'rgba(255,225,140,0.95)'; c.stroke(); }, size);
-    eCtx.shadowColor = 'rgba(255,110,20,0.9)';
-    eCtx.shadowBlur = 9;
-    strokePaths(eCtx, paths, 2.8, (c) => { c.strokeStyle = 'rgba(255,125,35,0.95)'; c.stroke(); }, size);
-    eCtx.shadowBlur = 0;
-    strokePaths(eCtx, paths, 1.0, (c) => { c.strokeStyle = 'rgba(255,235,160,0.95)'; c.stroke(); }, size);
-    // Sparse heat pools and embers — bold beats dense at die scale.
-    for (let i = 0; i < 4; i++) {
-      paintNebulaBlob(eCtx, Math.random() * size, Math.random() * size, 40 + Math.random() * 60, 'rgba(255,100,25,ALPHA)', 0.25);
+    // Faint red depth so the charcoal isn't flat dead black.
+    for (let i = 0; i < 5; i++) {
+      paintNebulaBlob(aCtx, Math.random() * size, Math.random() * size, 70 + Math.random() * 90, 'rgba(110,18,14,ALPHA)', 0.16);
     }
-    for (let i = 0; i < 28; i++) {
-      const x = Math.random() * size, y = Math.random() * size, r = 1 + Math.random() * 1.6;
-      eCtx.fillStyle = Math.random() < 0.3 ? 'rgba(255,220,150,0.95)' : 'rgba(255,140,50,0.8)';
-      eCtx.beginPath(); eCtx.arc(x, y, r, 0, Math.PI * 2); eCtx.fill();
+    // Five crisp fissures: narrow char rim, molten seam, white-hot hairline.
+    const paths = generateCrackPaths(size, 5, { straightness: 0.62, steps: 22, branchChance: 0.22, maxDepth: 2 });
+    strokePaths(aCtx, paths, 3.0, (c) => { c.strokeStyle = 'rgba(6,0,2,0.9)'; c.stroke(); }, size);
+    strokePaths(aCtx, paths, 1.5, (c) => { c.strokeStyle = 'rgba(255,96,24,0.9)'; c.stroke(); }, size);
+    strokePaths(aCtx, paths, 0.65, (c) => { c.strokeStyle = 'rgba(255,218,130,0.9)'; c.stroke(); }, size);
+    // Emissive carries the glow — thin seams only, no blur smears, no pools.
+    strokePaths(eCtx, paths, 1.3, (c) => { c.strokeStyle = 'rgba(255,88,20,0.9)'; c.stroke(); }, size);
+    strokePaths(eCtx, paths, 0.5, (c) => { c.strokeStyle = 'rgba(255,224,150,0.95)'; c.stroke(); }, size);
+    // A whisper of embers — sparse and tiny.
+    for (let i = 0; i < 10; i++) {
+      const x = Math.random() * size, y = Math.random() * size;
+      eCtx.fillStyle = 'rgba(255,140,50,0.8)';
+      eCtx.beginPath(); eCtx.arc(x, y, 0.8 + Math.random() * 0.5, 0, Math.PI * 2); eCtx.fill();
     }
   } else if (themeId === 'storm') {
-    // Charged stormglass. Same lesson: mid-tone slate base, ONE clean
-    // lightning web with a white-hot core. No background arc layer — two
-    // overlapping webs were the muddy part.
+    // Charged stormglass, take three. Prior version: pale flat slate base +
+    // white strokes on the ALBEDO read as chalk scratches, and the surge
+    // flicker pulsed weirdly. Recipe now: deeper storm-slate gradient with
+    // cloud-depth mottling; the lightning lives in the EMISSIVE as electric
+    // cyan-white arcs (glow, not paint); the albedo only carries a faint dark
+    // scorch under each arc so seams are visible even at low emissive.
     const base = aCtx.createLinearGradient(0, 0, size, size);
-    base.addColorStop(0, '#51628f');
-    base.addColorStop(0.5, '#36466e');
-    base.addColorStop(1, '#232f52');
+    base.addColorStop(0, '#3d4d75');
+    base.addColorStop(0.55, '#232e4e');
+    base.addColorStop(1, '#101830');
     aCtx.fillStyle = base;
     aCtx.fillRect(0, 0, size, size);
-    for (let i = 0; i < 5; i++) {
-      paintNebulaBlob(aCtx, Math.random() * size, Math.random() * size, 60 + Math.random() * 100, 'rgba(120,145,195,ALPHA)', 0.16);
+    // Cloud depth — darker cells plus one or two faint lightning-lit wisps.
+    for (let i = 0; i < 6; i++) {
+      paintNebulaBlob(aCtx, Math.random() * size, Math.random() * size, 70 + Math.random() * 110, 'rgba(14,22,46,ALPHA)', 0.35);
     }
-    const paths = generateCrackPaths(size, 9, { straightness: 0.65, steps: 20, branchChance: 0.4, maxDepth: 2 });
-    strokePaths(aCtx, paths, 2.4, (c) => { c.strokeStyle = 'rgba(205,225,255,0.9)'; c.stroke(); }, size);
-    strokePaths(aCtx, paths, 0.9, (c) => { c.strokeStyle = 'rgba(250,252,255,0.95)'; c.stroke(); }, size);
-    eCtx.shadowColor = 'rgba(150,190,255,0.95)';
-    eCtx.shadowBlur = 8;
-    strokePaths(eCtx, paths, 1.8, (c) => { c.strokeStyle = 'rgba(200,225,255,0.95)'; c.stroke(); }, size);
+    for (let i = 0; i < 3; i++) {
+      paintNebulaBlob(aCtx, Math.random() * size, Math.random() * size, 40 + Math.random() * 70, 'rgba(96,118,168,ALPHA)', 0.12);
+    }
+    // ONE lightning web. Albedo: faint scorch + whisper of cyan (no white).
+    const paths = generateCrackPaths(size, 7, { straightness: 0.7, steps: 20, branchChance: 0.35, maxDepth: 2 });
+    strokePaths(aCtx, paths, 2.0, (c) => { c.strokeStyle = 'rgba(8,14,32,0.5)'; c.stroke(); }, size);
+    strokePaths(aCtx, paths, 0.8, (c) => { c.strokeStyle = 'rgba(110,170,255,0.35)'; c.stroke(); }, size);
+    // Emissive: the actual arcs — cyan body, white-hot core, tight glow.
+    eCtx.shadowColor = 'rgba(110,190,255,0.85)';
+    eCtx.shadowBlur = 5;
+    strokePaths(eCtx, paths, 1.4, (c) => { c.strokeStyle = 'rgba(120,200,255,0.95)'; c.stroke(); }, size);
     eCtx.shadowBlur = 0;
-    strokePaths(eCtx, paths, 0.7, (c) => { c.strokeStyle = 'rgba(250,252,255,0.95)'; c.stroke(); }, size);
-    for (let i = 0; i < 16; i++) {
+    strokePaths(eCtx, paths, 0.55, (c) => { c.strokeStyle = 'rgba(238,249,255,0.98)'; c.stroke(); }, size);
+    // Sparse charged glints; two or three get a cross-flare.
+    for (let i = 0; i < 10; i++) {
       const x = Math.random() * size, y = Math.random() * size;
       eCtx.fillStyle = 'rgba(235,244,255,0.9)';
-      eCtx.fillRect(x, y, 1.6, 1.6);
+      eCtx.fillRect(x, y, 1.5, 1.5);
       if (Math.random() < 0.3) {
-        eCtx.fillStyle = 'rgba(170,200,255,0.5)';
+        eCtx.fillStyle = 'rgba(170,210,255,0.5)';
         eCtx.fillRect(x - 3, y, 7, 0.8);
         eCtx.fillRect(x, y - 3, 0.8, 7);
       }
@@ -466,7 +668,7 @@ function createThemeBodyTextures(themeId) {
       eCtx.beginPath(); eCtx.arc(x, y, 4, 0, Math.PI * 2); eCtx.fill();
     }
   } else {
-    return { map: null, emissiveMap: null };
+    return { map: null, emissiveMap: null, albedoCanvas: null };
   }
 
   const map = new THREE.CanvasTexture(albedo);
@@ -475,7 +677,7 @@ function createThemeBodyTextures(themeId) {
   const emissiveMap = new THREE.CanvasTexture(emissive);
   emissiveMap.colorSpace = THREE.SRGBColorSpace;
   emissiveMap.anisotropy = 4;
-  return { map, emissiveMap };
+  return { map, emissiveMap, albedoCanvas: albedo };
 }
 
 /**
@@ -696,14 +898,14 @@ const THEME_MATERIAL_OVERRIDES = {
   fiery: {
     clearcoat: 0.7, clearcoatRoughness: 0.25,
     envMapIntensity: 0.55,
-    emissiveIntensityMul: 1.5,
+    emissiveIntensityMul: 1.0,
     plateEmissiveIntensity: 0.65,
     bodyFlicker: 'fire',
   },
   storm: {
     clearcoat: 0.9, clearcoatRoughness: 0.15,
     envMapIntensity: 0.8,
-    emissiveIntensityMul: 1.25,
+    emissiveIntensityMul: 1.35,
     plateEmissiveIntensity: 0.55,
     bodyFlicker: 'storm',
   },
@@ -721,18 +923,19 @@ const THEME_MATERIAL_OVERRIDES = {
   },
 };
 
-// Animated emissive on the die body — a molten flicker for fire, a slow icy
-// shimmer for frost, crackling surges for storm.
+// Animated emissive on the die body — SLOW and subtle. Earlier versions
+// pulsed at 8-13Hz which read as strobing "weird colorization" on screen;
+// these low-frequency breathing rates keep the material alive without
+// flicker artifacts.
 function updateBodyFlicker(mesh, time) {
   const base = mesh.userData.baseEmissiveIntensity;
   const mode = mesh.userData.bodyFlicker;
   if (mode === 'fire') {
-    mesh.material.emissiveIntensity = base * (0.8 + 0.24 * Math.sin(time * 8.3 + 1.7) + 0.12 * Math.sin(time * 13.7));
+    mesh.material.emissiveIntensity = base * (0.92 + 0.08 * Math.sin(time * 1.7 + 1.3) + 0.04 * Math.sin(time * 2.9));
   } else if (mode === 'frost') {
     mesh.material.emissiveIntensity = base * (0.9 + 0.1 * Math.sin(time * 1.8));
   } else if (mode === 'storm') {
-    const burst = Math.sin(time * 11.0) * Math.sin(time * 2.3 + 1.0);
-    mesh.material.emissiveIntensity = base * (0.85 + 0.4 * Math.max(0, burst));
+    mesh.material.emissiveIntensity = base * (0.95 + 0.05 * Math.sin(time * 1.6) + 0.03 * Math.sin(time * 2.7 + 1.3));
   }
 }
 
@@ -764,20 +967,40 @@ function buildDiceObject(type, colorHex, preset, renderer, scene) {
   const themeMaps = preset?.id ? getThemeBodyTextures(preset.id) : null;
   const usePaintedBody = !!(themeMaps && themeMaps.map);
 
+  // Weight-material finish — the material also SHOWS: PBR surface identity
+  // (metalness/roughness/tint/clearcoat/transparency) layered on top of the
+  // theme paint. Wood/stone additionally carry a procedural SURFACE texture
+  // (grain / granite speckle) composited OVER the theme albedo — the theme
+  // stays the die's identity (frost still reads ICE), the material adds the
+  // surface you can feel. Steel reads via reflections, glass via
+  // translucency — no albedo texture for those.
+  const weightMat = DICE_MATERIALS[useDiceStore.getState().diceMaterial] || DICE_MATERIALS.stone;
+  const wv = weightMat.visual || {};
+  const matTint = new THREE.Color(wv.tint || '#ffffff');
+  const hasSurface = weightMat.id === 'wood' || weightMat.id === 'stone';
+  const finalBodyColor = usePaintedBody
+    ? (hasSurface ? new THREE.Color(wv.tintPainted || '#ffffff') : matTint)
+    : bodyColor.clone().lerp(matTint, 0.65);
+  const bodyMap = hasSurface
+    ? getCompositedBodyTexture(preset?.id, weightMat.id)
+    : (usePaintedBody ? themeMaps.map : null);
+
   const makeBodyMaterial = () => new THREE.MeshPhysicalMaterial({
-    color: usePaintedBody ? 0xffffff : bodyColor,
-    map: usePaintedBody ? themeMaps.map : null,
-    roughness: roughness,
-    metalness: metalness,
-    envMapIntensity: ov.envMapIntensity !== undefined ? ov.envMapIntensity : 0.3,
+    color: finalBodyColor,
+    map: bodyMap,
+    roughness: wv.roughness !== undefined ? wv.roughness : roughness,
+    metalness: wv.metalness !== undefined ? wv.metalness : metalness,
+    envMapIntensity: wv.envMapIntensity !== undefined
+      ? wv.envMapIntensity
+      : (ov.envMapIntensity !== undefined ? ov.envMapIntensity : 0.3),
     specularIntensity: 0.2,
     emissive: usePaintedBody ? '#ffffff' : emissive,
     emissiveMap: usePaintedBody ? themeMaps.emissiveMap : null,
     emissiveIntensity: emissiveIntensity * (ov.emissiveIntensityMul || 1),
-    transparent: ov.transparent !== undefined ? ov.transparent : transparent,
-    opacity: ov.opacity !== undefined ? ov.opacity : opacity,
-    clearcoat: ov.clearcoat || 0.0,
-    clearcoatRoughness: ov.clearcoatRoughness || 0.5,
+    transparent: wv.transparent !== undefined ? wv.transparent : (ov.transparent !== undefined ? ov.transparent : transparent),
+    opacity: wv.opacity !== undefined ? wv.opacity : (ov.opacity !== undefined ? ov.opacity : opacity),
+    clearcoat: wv.clearcoat !== undefined ? wv.clearcoat : (ov.clearcoat || 0.0),
+    clearcoatRoughness: wv.clearcoatRoughness !== undefined ? wv.clearcoatRoughness : (ov.clearcoatRoughness || 0.5),
     sheen: 0.1,
     sheenColor: new THREE.Color(preset?.glowColor || '#ffffff'),
     sheenRoughness: 0.4,
@@ -1094,6 +1317,52 @@ function createPhysicsBody(geom) {
   return shape;
 }
 
+// "Finish the topple" settle assist. When a die is arrested nearly-flat, the
+// real world would let it fall the last few degrees onto its face. This
+// computes the shortest-arc rotation that brings the winning face (d4: the
+// winning vertex) to point straight up — preserving the die's own yaw and
+// x/z position — plus the exact flat rest height. The tiny slerp reads as
+// the die completing its fall, NOT a presentation snap. Returns null when
+// the die is already flat enough (or on timeout-freak orientations, where
+// the caller just reads the closest face).
+function computeSettleAssist(die) {
+  const { diceObj, type, body } = die;
+  const q = new THREE.Quaternion(body.quaternion.x, body.quaternion.y, body.quaternion.z, body.quaternion.w);
+  const UP = new THREE.Vector3(0, 1, 0);
+
+  if (type === 'd4') {
+    let bestV = null, bestY = -Infinity;
+    diceObj.d4Verts.forEach(v => {
+      const wy = v.clone().applyQuaternion(q).y;
+      if (wy > bestY) { bestY = wy; bestV = v; }
+    });
+    if (!bestV) return null;
+    const vDir = bestV.clone().normalize();
+    const angle = vDir.angleTo(UP);
+    if (angle < 0.02) return null;
+    const delta = new THREE.Quaternion().setFromUnitVectors(vDir, UP);
+    const toQ = delta.multiply(q);
+    // Rest height: the base face is the one NOT touching the top vertex.
+    const base = diceObj.sides.find(s => !s.vertices.some(v => v.distanceTo(bestV) < 0.1));
+    const toY = base ? Math.abs(base.centroid.dot(base.normal)) : 0.55;
+    return { fromQ: q, toQ, fromY: body.position.y, toY, num: bestV.d4Num, angle };
+  }
+
+  let topSide = null, bestDot = -Infinity;
+  diceObj.sides.forEach(side => {
+    const dot = side.normal.clone().applyQuaternion(q).dot(UP);
+    if (dot > bestDot) { bestDot = dot; topSide = side; }
+  });
+  if (!topSide) return null;
+  const worldN = topSide.normal.clone().applyQuaternion(q);
+  const angle = worldN.angleTo(UP);
+  if (angle < 0.02) return null;
+  const delta = new THREE.Quaternion().setFromUnitVectors(worldN, UP);
+  const toQ = delta.multiply(q);
+  const toY = Math.abs(topSide.centroid.dot(topSide.normal));
+  return { fromQ: q, toQ, fromY: body.position.y, toY, num: topSide.num, angle };
+}
+
 const PhysicsDiceScene = ({
   diceToRoll = [],
   diceColor = '#14092b',
@@ -1118,7 +1387,6 @@ const PhysicsDiceScene = ({
   const timerRef = useRef(new THREE.Timer());
   const activeDiceRef = useRef([]);
   const physicsActiveRef = useRef(false);
-  const settlingFramesRef = useRef([]);
   const resultsRef = useRef([]);
   const onCompleteFiredRef = useRef(false);
   const dieGlowRef = useRef(null);
@@ -1127,6 +1395,7 @@ const PhysicsDiceScene = ({
   const groundBodyRef = useRef(null);
   const wallBodiesRef = useRef([]);
   const physicsMaterialRef = useRef(null);
+  const contactMaterialRef = useRef(null);
   const boundsRef = useRef({ x: 10, z: 10 });
   const groundMeshRef = useRef(null);
   const envMapRef = useRef(null);
@@ -1231,20 +1500,28 @@ const PhysicsDiceScene = ({
     groundMeshRef.current = ground;
 
     const world = new CANNON.World();
-    // Gravity scaled to the dice: bodies are ~1.5 units, so a stronger field
+    // Gravity scaled to the dice: bodies are ~1.5 units, so a strong field
     // makes falls/bounces read at real-dice speed instead of moon speed.
-    world.gravity.set(0, -55, 0);
+    // Baseline is the default stone material; the chosen material re-tunes
+    // this (and the contact) at every throw.
+    world.gravity.set(0, DICE_MATERIALS.stone.gravity, 0);
     world.broadphase = new CANNON.NaiveBroadphase();
     world.solver.iterations = 25;
 
     const physicsMaterial = new CANNON.Material('standard');
     physicsMaterialRef.current = physicsMaterial;
-    // Low friction + lively restitution = a craps-table feel: dice skid,
-    // clatter and ROLL out after landing instead of dying on first contact.
+    // Contact profile = the WEIGHT feel. Stiff contacts (no sink/overlap on
+    // impact) plus stone defaults; throwAllDice overrides per material.
     const contactMaterial = new CANNON.ContactMaterial(
-      physicsMaterial, physicsMaterial, { friction: 0.32, restitution: 0.46 }
+      physicsMaterial, physicsMaterial, {
+        friction: DICE_MATERIALS.stone.friction,
+        restitution: DICE_MATERIALS.stone.restitution,
+        contactEquationStiffness: DICE_MATERIALS.stone.stiffness,
+        contactEquationRelaxation: DICE_MATERIALS.stone.relaxation,
+      }
     );
     world.addContactMaterial(contactMaterial);
+    contactMaterialRef.current = contactMaterial;
 
     const groundBody = new CANNON.Body({ mass: 0, shape: new CANNON.Plane(), material: physicsMaterial });
     groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
@@ -1300,7 +1577,6 @@ const PhysicsDiceScene = ({
     });
     activeDiceRef.current = [];
     resultsRef.current = [];
-    settlingFramesRef.current = [];
     onCompleteFiredRef.current = false;
     setResultState(null);
     // Clear stale skill outcome and any line materials from the previous roll.
@@ -1310,6 +1586,19 @@ const PhysicsDiceScene = ({
 
     const { x: boundX, z: boundZ } = boundsRef.current;
     const preset = getPreset();
+
+    // Weight material — re-tunes the world BEFORE any bodies are thrown.
+    // Mutating the shared ContactMaterial is safe here: nothing steps
+    // between throws.
+    const mat = DICE_MATERIALS[useDiceStore.getState().diceMaterial] || DICE_MATERIALS.stone;
+    world.gravity.set(0, mat.gravity, 0);
+    const cm = contactMaterialRef.current;
+    if (cm) {
+      cm.friction = mat.friction;
+      cm.restitution = mat.restitution;
+      cm.contactEquationStiffness = mat.stiffness;
+      cm.contactEquationRelaxation = mat.relaxation;
+    }
 
     diceToRoll.forEach((die, index) => {
       const diceType = die.type;
@@ -1329,12 +1618,10 @@ const PhysicsDiceScene = ({
       const body = new CANNON.Body({
         mass: 10,
         material: physicsMaterialRef.current,
-        // Linear drag stays near zero so throws whip across the table. Small
-        // angular damping bleeds spin slowly — enough that a die can't spin
-        // like a top forever, but the tumble stays lively for several
-        // seconds. (The 9s force-settle in animate() is the hard backstop.)
-        linearDamping: 0.01,
-        angularDamping: 0.06,
+        // Damping carries the material's weight: heavy materials bleed spin
+        // fast (a steel die lands and STOPS tumbling), light ones linger.
+        linearDamping: mat.linearDamping,
+        angularDamping: mat.angularDamping,
       });
       body.addShape(shape);
       world.addBody(body);
@@ -1345,12 +1632,12 @@ const PhysicsDiceScene = ({
 
       const hasAim = rollCtx?.throwDirection && (Math.abs(rollCtx.throwDirection.x) > 0.05 || Math.abs(rollCtx.throwDirection.z) > 0.05);
 
-      // D&D Beyond-style throw geometry: dice are hurled in from a screen
-      // edge and arc toward a central "tray". Landing targets cover ~55% of
-      // the visible table so dice have room to scatter and roll out, while
-      // results still settle well inside the undistorted center.
-      const trayX = boundX * 0.55;
-      const trayZ = boundZ * 0.55;
+      // Throw geometry: dice FALL into frame from well above the table and
+      // land across the LOWER part of the screen (+z is screen-bottom with
+      // the top-down camera) — reads as weight being dropped onto the table
+      // in front of you, not a shallow bottom-edge skate.
+      const trayX = boundX * 0.82;
+      const trayZ = boundZ * 0.82;
 
       let targetX, targetZ, startX, startZ;
 
@@ -1360,16 +1647,17 @@ const PhysicsDiceScene = ({
         const normAimZ = rollCtx.throwDirection.z / dLen;
         // Aimed throws land along the aim direction, launched from the
         // opposite edge — the throw literally crosses the screen.
-        targetX = normAimX * boundX * 0.28 + (Math.random() - 0.5) * trayX * 0.8;
-        targetZ = normAimZ * boundZ * 0.28 + (Math.random() - 0.5) * trayZ * 0.8;
-        startX = -normAimX * boundX * 0.88 + (Math.random() - 0.5) * 1.4;
-        startZ = -normAimZ * boundZ * 0.88 + (Math.random() - 0.5) * 1.4;
+        targetX = normAimX * boundX * 0.55 + (Math.random() - 0.5) * trayX * 0.8;
+        targetZ = normAimZ * boundZ * 0.55 + (Math.random() - 0.5) * trayZ * 0.8;
+        startX = -normAimX * boundX * 0.9 + (Math.random() - 0.5) * 1.4;
+        startZ = -normAimZ * boundZ * 0.9 + (Math.random() - 0.5) * 1.4;
       } else {
-        // Default: hurled from the bottom edge of the screen toward the tray.
+        // Default: enter from the TOP edge (−z), land in the lower ~2/3 of
+        // the table (+z bias) so results sit "further down" on screen.
         targetX = (Math.random() - 0.5) * 2 * trayX;
-        targetZ = (Math.random() - 0.5) * 2 * trayZ;
+        targetZ = boundZ * (0.10 + Math.random() * 0.62);
         startX = targetX * 0.35 + (Math.random() - 0.5) * boundX * 0.45;
-        startZ = boundZ * 0.92;
+        startZ = -boundZ * (0.86 + Math.random() * 0.08);
       }
 
       targetX = THREE.MathUtils.clamp(targetX, -trayX, trayX);
@@ -1377,19 +1665,22 @@ const PhysicsDiceScene = ({
       startX = THREE.MathUtils.clamp(startX, -boundX * 0.95, boundX * 0.95);
       startZ = THREE.MathUtils.clamp(startZ, -boundZ * 0.95, boundZ * 0.95);
 
-      // Arced, energetic throw — a little hang time and height so the dice
-      // carry real energy into the table and bounce/roll out on landing
-      // instead of skidding dead on first contact.
-      const startY = 2.4 + Math.random() * 0.5 + index * 0.3;
+      // Heavy drop: dice enter well ABOVE the frame and fall onto the table
+      // — the free-fall beat before impact is what reads as weight. Stagger
+      // per index so a pool doesn't land as one simultaneous slap.
+      const startY = 6.5 + Math.random() * 0.6 + index * 0.35;
 
       // Ballistic solve: pick a flight time, then derive the initial
       // velocity that lands the die on the table at its target.
-      // y(t) = y0 + vy*t - (g/2)*t²  with g = 55 (world gravity).
-      const flightT = (0.48 + Math.random() * 0.12) / Math.sqrt(throwPower);
+      // y(t) = y0 + vy*t - (g/2)*t² with the material's gravity.
+      // ORGANIC pacing: base flight ~0.75s — a tap lob arcs gently down
+      // while a full-charge release (exponent 0.6) still slams in ~0.4s.
+      const g = Math.abs(mat.gravity);
+      const flightT = (0.68 + Math.random() * 0.14) / Math.pow(throwPower, 0.6);
       const restY = 0.9;
       const vx = (targetX - startX) / flightT;
       const vz = (targetZ - startZ) / flightT;
-      const vy = (restY - startY + 27.5 * flightT * flightT) / flightT;
+      const vy = (restY - startY + 0.5 * g * flightT * flightT) / flightT;
 
       body.position.set(startX, startY, startZ);
       body.quaternion.setFromEuler(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
@@ -1402,16 +1693,19 @@ const PhysicsDiceScene = ({
       const dirX = targetX - startX, dirZ = targetZ - startZ;
       const dLen = Math.hypot(dirX, dirZ) || 1;
       const dx = dirX / dLen, dz = dirZ / dLen;
-      const spinBase = (26 + Math.random() * 12) * Math.sqrt(throwPower);
-      const tumble = spinBase * (1.3 + Math.random() * 0.6);
+      // Readable tumble: slower spin that bleeds out slowly reads ORGANIC —
+      // fast blur-spin then a dead stop reads mechanical. Charge still adds
+      // spin; heavy materials translate more than they tumble.
+      const spinBase = (22 + Math.random() * 9) * Math.pow(throwPower, 0.6) * mat.spinMul;
+      const tumble = spinBase * (1.5 + Math.random() * 0.6);
       body.angularVelocity.set(
         dz * tumble + (Math.random() - 0.5) * spinBase,
         (Math.random() - 0.5) * spinBase * 1.2,
         -dx * tumble + (Math.random() - 0.5) * spinBase
       );
       // Clamp total spin so a max-power fling stays readable, not a blur.
-      if (body.angularVelocity.length() > 60) {
-        body.angularVelocity.scale(60 / body.angularVelocity.length(), body.angularVelocity);
+      if (body.angularVelocity.length() > 55) {
+        body.angularVelocity.scale(55 / body.angularVelocity.length(), body.angularVelocity);
       }
 
       activeDiceRef.current.push({
@@ -1422,7 +1716,7 @@ const PhysicsDiceScene = ({
         isPercentilePair: die.isPercentilePair || false,
         pairIndex: die.pairIndex,
         settled: false,
-        nudgeCount: 0,
+        assist: null,
         rolledNumber: 0,
       });
 
@@ -1433,8 +1727,6 @@ const PhysicsDiceScene = ({
           lineMaterialsRef.current.push(obj.material);
         }
       });
-
-      settlingFramesRef.current.push(0);
     });
 
     physicsActiveRef.current = true;
@@ -1494,67 +1786,79 @@ const PhysicsDiceScene = ({
       world.step(1 / 60, dt, 3);
 
       let allSettled = true;
-      activeDiceRef.current.forEach((die, idx) => {
+      activeDiceRef.current.forEach((die) => {
         if (die.settled) return;
         allSettled = false;
+
+        // Topple-assist tween: after a die is arrested, slerp it the last
+        // few degrees so the winning face points straight up (readable from
+        // the top-down camera). Runs purely on the visual transform — the
+        // physics body is already out of the sim.
+        if (die.assist) {
+          die.assist.t += dt;
+          const k = Math.min(1, die.assist.t / die.assist.dur);
+          const ease = 1 - Math.pow(1 - k, 3);
+          die.diceObj.group.quaternion.slerpQuaternions(die.assist.fromQ, die.assist.toQ, ease);
+          die.diceObj.group.position.y = THREE.MathUtils.lerp(die.assist.fromY, die.assist.toY, ease);
+          if (k >= 1) {
+            die.rolledNumber = die.assist.num;
+            die.assist = null;
+            die.settled = true;
+          }
+          return;
+        }
 
         die.diceObj.group.position.copy(die.body.interpolatedPosition);
         die.diceObj.group.quaternion.copy(die.body.interpolatedQuaternion);
 
-        // Dice resolve NATURALLY: no presentation snap, they rest exactly
-        // where physics leaves them (tilted against another die is fine).
-        // A die may only freeze when it is genuinely supported — on the
-        // ground or touching another body (a stacked die rests at ~2x ground
-        // height). Airborne dice keep falling until they make contact, which
-        // kills any hover-in-mid-air freeze.
-        const slow = die.body.velocity.length() < 0.55 && die.body.angularVelocity.length() < 0.55;
+        // A die may only freeze when genuinely supported — near the floor or
+        // touching a non-wall body (the ground or another die). Wall contact
+        // alone does NOT count: a die clipping an invisible wall mid-air
+        // must never freeze hovering.
+        // Organic resolve: dice keep tumbling until truly near-rest
+        // (0.25 — slow rocking is still motion; freezing it reads as a
+        // snap). Combined with the long damping tail, a die visibly rocks,
+        // tips, and settles on its face.
+        const slow = die.body.velocity.length() < 0.25 && die.body.angularVelocity.length() < 0.25;
         const tSinceThrow = performance.now() - rollStartRef.current;
-        const timedOut = tSinceThrow > 9000;
+        const timedOut = tSinceThrow > 12000;
+        const contactWith = (filterFn) => world.contacts.some(c => {
+          const other = c.bi === die.body ? c.bj : (c.bj === die.body ? c.bi : null);
+          return other != null && filterFn(other);
+        });
         const grounded =
           die.body.position.y < 1.05 ||
-          world.contacts.some(c => c.bi === die.body || c.bj === die.body);
-        if ((slow && grounded) || timedOut) {
-          // Fairness net: a die can come to rest balanced on an edge between
-          // two faces. If the top-face read is ambiguous, give it a small
-          // kick and let physics break the tie naturally — capped, after 3
-          // kicks the closest face wins.
-          const info = getTopFaceInfo(die);
-          const ambiguous = die.type === 'd4'
-            ? info.margin < 0.30
-            : info.margin < 0.20;
-          if (!timedOut && die.nudgeCount < 3 && ambiguous) {
-            die.nudgeCount += 1;
-            die.body.velocity.set(
-              (Math.random() - 0.5) * 3.0,
-              1.5 + Math.random() * 2.0,
-              (Math.random() - 0.5) * 3.0
-            );
-            die.body.angularVelocity.set(
-              (Math.random() - 0.5) * 14,
-              (Math.random() - 0.5) * 14,
-              (Math.random() - 0.5) * 14
-            );
-            settlingFramesRef.current[idx] = 0;
+          contactWith(other => !wallBodiesRef.current.includes(other));
+
+        if ((slow && grounded && tSinceThrow > 400) || timedOut) {
+          // Arrest instantly — no decaying velocity crawl (that drift read
+          // as the die "floaty aligning" instead of obeying physics).
+          die.body.velocity.setZero();
+          die.body.angularVelocity.setZero();
+
+          // Only a die RESTING ON TOP of another die keeps its physics pose
+          // — flattening it would clip it through its support. Merely
+          // touching the ground, a wall, or a side-by-side neighbor does
+          // NOT skip the flatten (side contact was wrongly exempting most
+          // pool dice, leaving them resting tilted).
+          const supportedFromBelow = contactWith(other =>
+            other !== groundBodyRef.current &&
+            !wallBodiesRef.current.includes(other) &&
+            other.position.y < die.body.position.y - 0.35);
+          world.removeBody(die.body);
+
+          const assist = supportedFromBelow ? null : computeSettleAssist(die);
+          if (assist) {
+            // Bigger topples take longer — a 5° tip eases in ~0.13s, an
+            // edge-balanced die falls over in ~0.3s.
+            assist.t = 0;
+            assist.dur = Math.min(0.3, 0.11 + assist.angle * 0.45);
+            die.assist = assist;
           } else {
-            settlingFramesRef.current[idx] = (settlingFramesRef.current[idx] || 0) + 1;
-
-            // Clamp hard so a nearly-stopped die never crawls across the grid.
-            die.body.velocity.scale(0.55, die.body.velocity);
-            die.body.angularVelocity.scale(0.55, die.body.angularVelocity);
-
-            if (settlingFramesRef.current[idx] > 5) {
-              // Fully arrest the body and drop it from the simulation — no
-              // background gravity/collision jitter while it rests.
-              die.body.velocity.setZero();
-              die.body.angularVelocity.setZero();
-              world.removeBody(die.body);
-
-              die.rolledNumber = info.num;
-              die.settled = true;
-            }
+            const info = getTopFaceInfo(die);
+            die.rolledNumber = info.num;
+            die.settled = true;
           }
-        } else {
-          settlingFramesRef.current[idx] = 0;
         }
       });
 
@@ -1774,6 +2078,8 @@ const PhysicsDiceScene = ({
       lineMaterialsRef.current.forEach((m) => m.dispose && m.dispose());
       lineMaterialsRef.current = [];
       disposeThemeBodyTextureCache();
+      disposeCompositeBodyTextureCache();
+      disposeMaterialSurfaces();
       disposeNumberTextureCache();
       disposeSurfaceTexturePool();
       if (rendererRef.current) {

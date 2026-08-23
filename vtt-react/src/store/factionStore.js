@@ -26,11 +26,11 @@ const SEEDED_FACTIONS = [
 
   hiddenAgenda:
 
-   'Preserve their bloodline\'s memories before the encroaching fog erases them entirely Ã¢â‚¬â€ the Fog Compact is slowly consuming their descendants\' identities, and the family is racing against its own bargain.',
+   'Preserve their bloodline\'s memories before the encroaching fog erases them entirely — the Fog Compact is slowly consuming their descendants\' identities, and the family is racing against its own bargain.',
 
   hiddenDescription:
 
-   'The fog that protects the Reach does not merely obscure Ã¢â‚¬â€ it erases. Every generation of Thalreth loses more of their ancestral memories. The current Lord can no longer recall his own mother\'s face. The ledger-libraries aren\'t just bureaucracy Ã¢â‚¬â€ they are the family\'s last thread connecting them to who they were.',
+   'The fog that protects the Reach does not merely obscure — it erases. Every generation of Thalreth loses more of their ancestral memories. The current Lord can no longer recall his own mother\'s face. The ledger-libraries aren\'t just bureaucracy — they are the family\'s last thread connecting them to who they were.',
 
   leader: {
 
@@ -68,7 +68,7 @@ const SEEDED_FACTIONS = [
 
     type: 'allied',
 
-    description: 'The Sentinels serve as Thalreth\'s archivists Ã¢â‚¬â€ their quills keep the ledgers that preserve the House\'s thinning memory'
+    description: 'The Sentinels serve as Thalreth\'s archivists — their quills keep the ledgers that preserve the House\'s thinning memory'
 
    },
 
@@ -88,7 +88,7 @@ const SEEDED_FACTIONS = [
 
     type: 'hostile',
 
-    description: 'The Florae reject the Fog Compact entirely, seeing it as spiritual surrender Ã¢â‚¬â€ they raid timber caravans and burn ledger-shrines'
+    description: 'The Florae reject the Fog Compact entirely, seeing it as spiritual surrender — they raid timber caravans and burn ledger-shrines'
 
    },
 
@@ -102,7 +102,7 @@ const SEEDED_FACTIONS = [
 
   secrets:
 
-   'The current Lord has forgotten the location of a critical ledger Ã¢â‚¬â€ the one that records the exact terms of the Fog Compact. Without it, no one knows when the fog\'s price will be paid in full.',
+   'The current Lord has forgotten the location of a critical ledger — the one that records the exact terms of the Fog Compact. Without it, no one knows when the fog\'s price will be paid in full.',
 
   quests: []
 
@@ -136,7 +136,7 @@ const SEEDED_FACTIONS = [
 
   hiddenDescription:
 
-   'The fog doesn\'t just eat memory Ã¢â‚¬â€  it makes memory malleable. A small cadre of elder Sentinels discovered they could rewrite the past by simply changing what the ledgers say. Since no one remembers the original events, no one can contradict them.',
+   'The fog doesn\'t just eat memory —  it makes memory malleable. A small cadre of elder Sentinels discovered they could rewrite the past by simply changing what the ledgers say. Since no one remembers the original events, no one can contradict them.',
 
   leader: {
 
@@ -170,7 +170,7 @@ const SEEDED_FACTIONS = [
 
     type: 'allied',
 
-    description: 'Officially neutral archivists, unofficially House Thalreth\'s most essential servants Ã¢â‚¬â€ their quills literally define Thalreth\'s reality'
+    description: 'Officially neutral archivists, unofficially House Thalreth\'s most essential servants — their quills literally define Thalreth\'s reality'
 
    },
 
@@ -220,7 +220,7 @@ const SEEDED_FACTIONS = [
 
    lore:
 
-   'Founded the same year as the Fog Compact by Thalreth family members who volunteered to have their memories erased before taking their vows, ensuring their objectivity. This tradition continues: every new Sentinel surrenders their past. Formally appointed at Greymark Keep, the Sentinels\' authority grew as the fog consumed more of the Reach. The Great Revision â€” the ongoing conspiracy of systematic ledger-editing â€” was begun by senior Sentinels long ago and has since grown beyond their control.',
+   'Founded the same year as the Fog Compact by Thalreth family members who volunteered to have their memories erased before taking their vows, ensuring their objectivity. This tradition continues: every new Sentinel surrenders their past. Formally appointed at Greymark Keep, the Sentinels\' authority grew as the fog consumed more of the Reach. The Great Revision — the ongoing conspiracy of systematic ledger-editing — was begun by senior Sentinels long ago and has since grown beyond their control.',
 
   secrets:
 
@@ -254,7 +254,7 @@ const SEEDED_FACTIONS = [
 
   hiddenAgenda:
 
-   'House Skalvyr is secretly negotiating with renegade Solari pyrofiends to weaponize geothermal heat as a last-resort power source Ã¢â‚¬â€ a dangerous alliance that could draw Keth-Amar\'s attention if the volatile energy signatures are detected.',
+   'House Skalvyr is secretly negotiating with renegade Solari pyrofiends to weaponize geothermal heat as a last-resort power source — a dangerous alliance that could draw Keth-Amar\'s attention if the volatile energy signatures are detected.',
 
   hiddenDescription:
 
@@ -294,7 +294,7 @@ const SEEDED_FACTIONS = [
 
     type: 'rival',
 
-    description: 'Covet the Reach\'s ironwood for construction Ã¢â‚¬â€ the Skalvyr offer nothing in return but cold disdain'
+    description: 'Covet the Reach\'s ironwood for construction — the Skalvyr offer nothing in return but cold disdain'
 
    },
 
@@ -352,19 +352,19 @@ const SEEDED_FACTIONS = [
 
   colors: { primary: '#2d5a1e', secondary: '#8b4513' },
 
-  publicGoal: 'Live free of the Fog Compact Ã¢â‚¬â€ reject the bargains that traded nature for survival',
+  publicGoal: 'Live free of the Fog Compact — reject the bargains that traded nature for survival',
 
   publicDescription:
 
-   'The Florae are the indigenous people of the Frostwood Reach who refused House Thalreth\'s Fog Compact. They live deep in the untouched ironwood groves, following the old ways Ã¢â‚¬â€ hunting, gathering, and maintaining a spiritual connection to the forest that predates the noble houses. They have no written language, no ledgers, and no memory-loss.',
+   'The Florae are the indigenous people of the Frostwood Reach who refused House Thalreth\'s Fog Compact. They live deep in the untouched ironwood groves, following the old ways — hunting, gathering, and maintaining a spiritual connection to the forest that predates the noble houses. They have no written language, no ledgers, and no memory-loss.',
 
   hiddenAgenda:
 
-   'The Florae\'s shamans have discovered a way to reverse the Fog Compact. It requires burning the original contract Ã¢â‚¬â€ which is stored in the Ledger Halls. They are planning a raid.',
+   'The Florae\'s shamans have discovered a way to reverse the Fog Compact. It requires burning the original contract — which is stored in the Ledger Halls. They are planning a raid.',
 
   hiddenDescription:
 
-   'The Florae shamans call the fog "Thalreth\'s Lie." They have spent generations studying its nature and believe it is not a permanent condition Ã¢â‚¬â€ it is a spell sustained by the Compact\'s original text. The text is a living document, and it feeds on the memories the fog consumes. Destroy the text, and the fog starves.',
+   'The Florae shamans call the fog "Thalreth\'s Lie." They have spent generations studying its nature and believe it is not a permanent condition — it is a spell sustained by the Compact\'s original text. The text is a living document, and it feeds on the memories the fog consumes. Destroy the text, and the fog starves.',
 
   leader: {
 
@@ -374,7 +374,7 @@ const SEEDED_FACTIONS = [
 
    description:
 
-    'The current Thorn-Speaker, whose birth name was surrendered to the forest. She speaks for the ironwoods, and the ironwoods speak through her Ã¢â‚¬â€ literally. Her voice carries the creak of ancient timber.'
+    'The current Thorn-Speaker, whose birth name was surrendered to the forest. She speaks for the ironwoods, and the ironwoods speak through her — literally. Her voice carries the creak of ancient timber.'
 
   },
 
@@ -406,7 +406,7 @@ const SEEDED_FACTIONS = [
 
     type: 'hostile',
 
-    description: 'The Sentinels patrol the mists that the Florae consider sacred Ã¢â‚¬â€ every patrol is an intrusion on hallowed ground'
+    description: 'The Sentinels patrol the mists that the Florae consider sacred — every patrol is an intrusion on hallowed ground'
 
    }
 
@@ -416,7 +416,7 @@ const SEEDED_FACTIONS = [
 
   lore:
 
-   'Florae children are not named at birth. They earn their names through a rite called the Thorn-Walk, where they enter the deepest ironwood grove alone and do not return until the forest gives them a name Ã¢â‚¬â€ or until three days pass, whichever comes first. Those who return nameless are cast out.',
+   'Florae children are not named at birth. They earn their names through a rite called the Thorn-Walk, where they enter the deepest ironwood grove alone and do not return until the forest gives them a name — or until three days pass, whichever comes first. Those who return nameless are cast out.',
 
   secrets:
 
@@ -446,7 +446,7 @@ const SEEDED_FACTIONS = [
 
   publicDescription:
 
-   'To most, the Unlit Veil are reliable information brokers and steppe guides Ã¢â‚¬â€ expensive but worth it. They control the message-routes through the Sundrift Vale, operate listening posts at every mound-camp, and offer "memory consultation" to settlements that can afford it.',
+   'To most, the Unlit Veil are reliable information brokers and steppe guides — expensive but worth it. They control the message-routes through the Sundrift Vale, operate listening posts at every mound-camp, and offer "memory consultation" to settlements that can afford it.',
 
   hiddenAgenda:
 
@@ -454,7 +454,7 @@ const SEEDED_FACTIONS = [
 
   hiddenDescription:
 
-   'The Veil\'s true power is the lie. Every Unlit broker is a trained observer. Every listening post is an intelligence hub. Every consultation contract includes a clause allowing the Veil to "review" the client\'s records. They know who is starving, who is hoarding, who is plotting, and who is vulnerable Ã¢â‚¬â€ and they sell this knowledge to the highest bidder, or withhold it from the lowest, as strategy demands.',
+   'The Veil\'s true power is the lie. Every Unlit broker is a trained observer. Every listening post is an intelligence hub. Every consultation contract includes a clause allowing the Veil to "review" the client\'s records. They know who is starving, who is hoarding, who is plotting, and who is vulnerable — and they sell this knowledge to the highest bidder, or withhold it from the lowest, as strategy demands.',
 
   leader: {
 
@@ -464,7 +464,7 @@ const SEEDED_FACTIONS = [
 
    description:
 
-    'No one knows the First Liar\'s real name or whether they are one Unlit or many sharing a title. Their orders arrive as memory-crystal fragments delivered by Unlit couriers who genuinely do not know what message they carry. The instructions are precise, impersonal, and structured in perfect iambic meter Ã¢â‚¬â€ a signature no forger has ever replicated.'
+    'No one knows the First Liar\'s real name or whether they are one Unlit or many sharing a title. Their orders arrive as memory-crystal fragments delivered by Unlit couriers who genuinely do not know what message they carry. The instructions are precise, impersonal, and structured in perfect iambic meter — a signature no forger has ever replicated.'
 
   },
 
@@ -496,7 +496,7 @@ const SEEDED_FACTIONS = [
 
     type: 'neutral',
 
-    description: 'Uneasy maritime truce Ã¢â‚¬â€ the Veil needs Mereval\'s ships; Mereval needs Veil intelligence. Neither trusts the other.'
+    description: 'Uneasy maritime truce — the Veil needs Mereval\'s ships; Mereval needs Veil intelligence. Neither trusts the other.'
 
    },
 
@@ -546,7 +546,7 @@ const SEEDED_FACTIONS = [
 
   publicDescription:
 
-   'House Ordavan traded fertile soil for the endless migration, ensuring the steppe\'s grass always returns to feed the great woolly herds Ã¢â‚¬â€ but nothing deeper than grass can take root. Their nomadic clans follow the herds along routes mapped by ancestral burial mounds that hum with the last recorded songs of the dead.',
+   'House Ordavan traded fertile soil for the endless migration, ensuring the steppe\'s grass always returns to feed the great woolly herds — but nothing deeper than grass can take root. Their nomadic clans follow the herds along routes mapped by ancestral burial mounds that hum with the last recorded songs of the dead.',
 
   hiddenAgenda:
 
@@ -584,7 +584,7 @@ const SEEDED_FACTIONS = [
 
     type: 'puppet',
 
-    description: 'The Unlit Veil control Ordavan trade policy through embedded advisors Ã¢â‚¬â€ the house is a figurehead'
+    description: 'The Unlit Veil control Ordavan trade policy through embedded advisors — the house is a figurehead'
 
    },
 
@@ -604,7 +604,7 @@ const SEEDED_FACTIONS = [
 
   lore:
 
-   'Ordavan\'s ancestral mounds are more than monuments Ã¢â‚¬â€  they are acoustic chambers. Each mound was constructed to capture and preserve the voice-print of a single ancestor. On the anniversary of a death, the mound "sings" Ã¢â‚¬â€  a playback of the last words the ancestor spoke. Some families gather at their mounds to hear the same final words, year after year, for generations.',
+   'Ordavan\'s ancestral mounds are more than monuments —  they are acoustic chambers. Each mound was constructed to capture and preserve the voice-print of a single ancestor. On the anniversary of a death, the mound "sings" —  a playback of the last words the ancestor spoke. Some families gather at their mounds to hear the same final words, year after year, for generations.',
 
   secrets:
 
@@ -800,7 +800,7 @@ const SEEDED_FACTIONS = [
     description:     'The Grand Admiral rules from the prow of the Wave-Kept, a ship that has not docked in forty years. In truth, the Admiral has been dead for three years; her first mate impersonates her voice through a Merryn throat-singing technique. The crew knows. No one has said anything.'
    },
    members: [
-     { npcId: 'mereval-admiral', role: 'Grand Admiral of Merrowport (Deceased â€” Impersonated)', locationId: 'merrowport' },
+     { npcId: 'mereval-admiral', role: 'Grand Admiral of Merrowport (Deceased — Impersonated)', locationId: 'merrowport' },
      { npcId: 'mereval-steward', role: 'Steward of Merrowport (De Facto Ruler)', locationId: 'merrowport' }
    ],
    headquarters: 'merrowport',
@@ -857,7 +857,7 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#3a2a4a', secondary: '#7a6a9a' },
   publicGoal: 'Govern the Bryngloom Forest in absentia: their authority is mediated entirely through Neth contract-law',
   publicDescription:
-   'House Morrath is the ghost among houses: the replacement seventh house elevated after Viridane fled the Blooding, yet the one with the least surviving record. Unlike the original six: they had nothing left to trade that Keth-Amar would accept, so they borrowed their survival from the Neth rather than striking their own Dark Bargain. The official records list them as the seventh house of the Great Binding, but the truth is subtler â€” they were installed to fill the gap Viridane left.',
+   'House Morrath is the ghost among houses: the replacement seventh house elevated after Viridane fled the Blooding, yet the one with the least surviving record. Unlike the original six: they had nothing left to trade that Keth-Amar would accept, so they borrowed their survival from the Neth rather than striking their own Dark Bargain. The official records list them as the seventh house of the Great Binding, but the truth is subtler — they were installed to fill the gap Viridane left.',
   hiddenAgenda:
    'House Morrath has been functionally extinct for three centuries. The Velun Pact-Lords of Atropolis continue to issue decrees in Morrath\'s name because a void in the seventh seat would legally invalidate the Bargain Compact.',
   leader: {
@@ -905,7 +905,7 @@ const SEEDED_FACTIONS = [
    territory: ['ironwood-heart', 'frostwood-reach'],
    relationships: [
 { targetFactionId: 'trueborn-florae', type: 'successor', description: 'The Trueborn Florae are the direct descendants of House Viridane: they carry the original fae contract in their blood and thorns' },
-    { targetFactionId: 'house-thalreth', type: 'rival', description: 'The Thalreth participated in the erasure of Viridane from every record and still enforce the Sovereign Ledger\'s silence on the original seventh house, now remembered by the folk as the "eighth house" â€” the wound in human history' }
+    { targetFactionId: 'house-thalreth', type: 'rival', description: 'The Thalreth participated in the erasure of Viridane from every record and still enforce the Sovereign Ledger\'s silence on the original seventh house, now remembered by the folk as the "eighth house" — the wound in human history' }
   ],
   classAffinities: ['lunarch', 'apex'],
   lore: 'House Viridane made a counter-bargain with ancient fae entities in the Frostwood\'s moonlit groves during their flight south generations ago. The Florae still carry this contract in their flesh: their thorns migrate toward unfulfilled promises. The seven houses spent three centuries erasing every trace of Viridane\'s existence. The Florae have been hiding ever since.',
@@ -1694,6 +1694,23 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#c4d4e0', secondary: '#8b9da8' },
   publicGoal: 'Tend the crystalline heritage of Lumia and maintain sacred traditions',
   publicDescription: 'The agrarian and pastoral Astril folk who maintain the Starfall Vale pilgrimage grounds and protect celestial crystal shards.',
+  leader: {
+  'npcId': 'elder-solas-stonekeeper',
+  'title': 'Stone-Father Solas',
+  'description': 'Elder Astril geomancer who reads terrestrial vibrations through crystalline skin nodes.'
+},
+  members: [
+  {
+    'npcId': 'elder-solas-stonekeeper',
+    'role': 'Stone-Father & Elder',
+    'locationId': 'starfall-vale'
+  },
+  {
+    'npcId': 'terra-gemcarver',
+    'role': 'Resonance Artisan',
+    'locationId': 'starfall-vale'
+  }
+],
   headquarters: 'starfall-vale',
   territory: ['starfall-vale', 'novas-heath'],
   relationships: [],
@@ -1711,6 +1728,23 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#5c4a3a', secondary: '#8b7355' },
   publicGoal: 'Reclaim ancestral deep delving territories and preserve Drall metallurgy',
   publicDescription: 'Independent clan communities of Drall master smiths and salvagers in the Cragjaw Peaks who reject guild hierarchy.',
+  leader: {
+  'npcId': 'baron-torvald-ironbreaker',
+  'title': 'Forge-Thane Torvald',
+  'description': 'A scarred Drall veteran who leads the free smiths with an adamantite warhammer.'
+},
+  members: [
+  {
+    'npcId': 'baron-torvald-ironbreaker',
+    'role': 'Forge-Thane',
+    'locationId': 'gearworks-gulch'
+  },
+  {
+    'npcId': 'brond-the-deep',
+    'role': 'Chief Sump-Excavator',
+    'locationId': 'sump-galleries'
+  }
+],
   headquarters: 'gearworks-gulch',
   territory: ['gearworks-gulch', 'sump-galleries'],
   relationships: [
@@ -1730,6 +1764,23 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#8b4513', secondary: '#d2691e' },
   publicGoal: 'Tend the volcanic forges and produce the finest heat resistant armaments',
   publicDescription: 'A guild consortium of Solari master blacksmiths who harness raw volcanic vents to forge legendary weapons and armors.',
+  leader: {
+  'npcId': 'master-ignis-solvan',
+  'title': 'High Pyro-Smith Ignis',
+  'description': 'Legendary Solari metallurgist capable of shaping molten volcanic slag barehanded.'
+},
+  members: [
+  {
+    'npcId': 'master-ignis-solvan',
+    'role': 'High Pyro-Smith',
+    'locationId': 'great-forge'
+  },
+  {
+    'npcId': 'vanya-the-bellows',
+    'role': 'Magma-Conduit Warden',
+    'locationId': 'slag-gulch'
+  }
+],
   headquarters: 'great-forge',
   territory: ['great-forge', 'slag-gulch'],
   relationships: [
@@ -1749,6 +1800,23 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#4a6b3a', secondary: '#7a9a6a' },
   publicGoal: 'Weave threads of destiny through living wood and root divination',
   publicDescription: 'An esoteric cult of wood-mystics and fate weavers in Aran Glen who shape living boughs and read the shifting probability of the future.',
+  leader: {
+  'npcId': 'matron-silva-branchweaver',
+  'title': 'Fate-Weaver Matron Silva',
+  'description': 'Ancient wood-mystic whose fingers are entwined with living briar threads.'
+},
+  members: [
+  {
+    'npcId': 'matron-silva-branchweaver',
+    'role': 'High Fate-Weaver',
+    'locationId': 'aran-glen'
+  },
+  {
+    'npcId': 'koran-thornseer',
+    'role': 'Root Astrologer',
+    'locationId': 'fangmere-grove'
+  }
+],
   headquarters: 'aran-glen',
   territory: ['aran-glen', 'fangmere-grove'],
   relationships: [
@@ -1768,6 +1836,23 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#6b5b3a', secondary: '#a08050' },
   publicGoal: 'Advance mechanical engineering through certified innovation and industrial design',
   publicDescription: 'The foremost engineering and machinery guild in the world, operating the massive clockwork infrastructure of Gearworks Gulch.',
+  leader: {
+  'npcId': 'chief-engineer-varos',
+  'title': 'Grand Mechanist Varos',
+  'description': 'Master of clockwork thermodynamics and lead architect of the great mountain turbines.'
+},
+  members: [
+  {
+    'npcId': 'chief-engineer-varos',
+    'role': 'Grand Mechanist',
+    'locationId': 'gearworks-gulch'
+  },
+  {
+    'npcId': 'lyra-gearwright',
+    'role': 'Chief Turbine Inspector',
+    'locationId': 'frostmaw-holdfast'
+  }
+],
   headquarters: 'gearworks-gulch',
   territory: ['gearworks-gulch', 'frostmaw-holdfast'],
   relationships: [
@@ -1787,6 +1872,23 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#2a5a6a', secondary: '#5a8a9a' },
   publicGoal: 'Maintain commerce fleets across the storm routes of the Iceheart Sea',
   publicDescription: 'An expansive mercantile shipping company operating merchant fleets between Merrowport, Sundale, and northern fjords.',
+  leader: {
+  'npcId': 'commodore-alden-merryn',
+  'title': 'High Commodore Alden',
+  'description': 'Seasoned sea dog with a silver sextant who commands the merchant galleons of Iceheart Sea.'
+},
+  members: [
+  {
+    'npcId': 'commodore-alden-merryn',
+    'role': 'High Commodore',
+    'locationId': 'merrowport'
+  },
+  {
+    'npcId': 'quartermaster-bryn',
+    'role': 'Harbor Factor',
+    'locationId': 'spindrift-lagoon'
+  }
+],
   headquarters: 'merrowport',
   territory: ['merrowport', 'spindrift-lagoon'],
   relationships: [
@@ -1806,6 +1908,23 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#3a2a1a', secondary: '#6a4a2a' },
   publicGoal: 'Harvest and refine Bryngloom peat for fuel, heat, and alchemy',
   publicDescription: 'A guild of hardworking marsh harvesters who extract energy rich fuel peat and alchemical bog substrate from the swamp floor.',
+  leader: {
+  'npcId': 'bog-marshal-joran',
+  'title': 'Bog-Marshal Joran',
+  'description': 'Grizzled marsh boss who navigates the sunken peat bogs without a torch.'
+},
+  members: [
+  {
+    'npcId': 'bog-marshal-joran',
+    'role': 'Bog-Marshal',
+    'locationId': 'morrens-bogpost'
+  },
+  {
+    'npcId': 'sari-peat-chemist',
+    'role': 'Alchemical Bog-Refiner',
+    'locationId': 'peat-bog-sinks'
+  }
+],
   headquarters: 'morrens-bogpost',
   territory: ['morrens-bogpost', 'peat-bog-sinks'],
   relationships: [
@@ -1825,6 +1944,23 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#2a8a7a', secondary: '#5abaaa' },
   publicGoal: 'Protect coral reefs and harvest bioluminescent maritime treasures',
   publicDescription: 'A coastal cultural clan of reef divers and coral cultivators who tend the bioluminescent marine gardens of Spindrift Lagoon.',
+  leader: {
+  'npcId': 'tide-matron-coralyn',
+  'title': 'Tide-Matron Coralyn',
+  'description': 'Reef singer whose coral flute can summon schools of luminescent bioluminescent deep fish.'
+},
+  members: [
+  {
+    'npcId': 'tide-matron-coralyn',
+    'role': 'Tide-Matron',
+    'locationId': 'spindrift-lagoon'
+  },
+  {
+    'npcId': 'kailo-reef-diver',
+    'role': 'Abyssal Harvester',
+    'locationId': 'deepwell-archipelago'
+  }
+],
   headquarters: 'spindrift-lagoon',
   territory: ['spindrift-lagoon', 'deepwell-archipelago'],
   relationships: [
@@ -1844,6 +1980,23 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#7a6a4a', secondary: '#b09a6a' },
   publicGoal: 'Follow seasonal grazing circuits across the vast grasslands',
   publicDescription: 'A free nomadic tribe of steppe herders and horse-masters who traverse the open expanses of the Sundrift Vale with the seasons.',
+  leader: {
+  'npcId': 'khan-batyr-windrider',
+  'title': 'Wind-Khan Batyr',
+  'description': 'Chieftain of the steppe riders whose eagle can spot a grazing herd ten miles away.'
+},
+  members: [
+  {
+    'npcId': 'khan-batyr-windrider',
+    'role': 'Wind-Khan',
+    'locationId': 'sundrift-vale'
+  },
+  {
+    'npcId': 'ulaan-steppe-shaman',
+    'role': 'Ancestor Chasm Drummer',
+    'locationId': 'starfall-vale'
+  }
+],
   headquarters: 'sundrift-vale',
   territory: ['sundrift-vale', 'starfall-vale'],
   relationships: [
@@ -1863,6 +2016,23 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#8ab4d4', secondary: '#4a7a9a' },
   publicGoal: 'Interpret glacier runes and commune with the eternal freeze',
   publicDescription: 'A mystical ice cult of Skald ascetics who venerate the primeval frost and meditate upon ancient glacier wall inscriptions.',
+  leader: {
+  'npcId': 'frost-seer-skadi',
+  'title': 'High Rime-Seer Skadi',
+  'description': 'Ascetic prophetess with frozen white hair who interprets glacier creaks as divine omens.'
+},
+  members: [
+  {
+    'npcId': 'frost-seer-skadi',
+    'role': 'High Rime-Seer',
+    'locationId': 'vargtor'
+  },
+  {
+    'npcId': 'einar-ice-monk',
+    'role': 'Glacier Hermit',
+    'locationId': 'frozen-archive'
+  }
+],
   headquarters: 'vargtor',
   territory: ['vargtor', 'frozen-archive'],
   relationships: [
@@ -1882,6 +2052,23 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#6a4a3a', secondary: '#9a7a5a' },
   publicGoal: 'Preserve lineage records and arbitrate bloodline succession',
   publicDescription: 'A prestigious guild of northern chroniclers and genealogists who maintain the lineage archives and arbitrate clan inheritance disputes.',
+  leader: {
+  'npcId': 'high-chronicler-snorri',
+  'title': 'High Genealogist Snorri',
+  'description': 'Elder keeper of the ivory runestones and chief arbitrator of northern clan inheritance.'
+},
+  members: [
+  {
+    'npcId': 'high-chronicler-snorri',
+    'role': 'High Genealogist',
+    'locationId': 'frozen-archive'
+  },
+  {
+    'npcId': 'astrid-vellum-keeper',
+    'role': 'Bloodline Archivist',
+    'locationId': 'frostholm'
+  }
+],
   headquarters: 'frozen-archive',
   territory: ['frozen-archive', 'frostholm'],
   relationships: [
@@ -1923,6 +2110,23 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#4a3a5a', secondary: '#8a6aaa' },
   publicGoal: 'Harvest and preserve memories through Mirror Mere memory glass',
   publicDescription: 'A sacred monastic order of seers and artisans who harvest memory glass from Mirror Mere, carving divination masks, lenses, and memory prisms.',
+  leader: {
+  'npcId': 'abbot-mimir-valen',
+  'title': 'High Abbot Valen',
+  'description': 'Blind mirror-carver who discerns memories by touching the resonance of lakebed glass.'
+},
+  members: [
+  {
+    'npcId': 'abbot-mimir-valen',
+    'role': 'High Abbot',
+    'locationId': 'mirror-mere'
+  },
+  {
+    'npcId': 'sister-mira-glass-shaper',
+    'role': 'Master Prism Carver',
+    'locationId': 'frostwood-reach'
+  }
+],
   headquarters: 'mirror-mere',
   territory: ['mirror-mere', 'frostwood-reach'],
   relationships: [
@@ -1942,6 +2146,23 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#5a4a7a', secondary: '#9a7aaa' },
   publicGoal: 'Ensure the Glen Compact remains consistent with the First Contract',
   publicDescription: 'A distinguished Neth patrician house serving as judicial ambassadors between Aran Glen and Atropolis, overseeing binding legal pacts.',
+  leader: {
+  'npcId': 'consul-tiberius-velun',
+  'title': 'High Chancellor Tiberius',
+  'description': 'Elder jurist who authored the supplementary clauses of the First Contract.'
+},
+  members: [
+  {
+    'npcId': 'consul-tiberius-velun',
+    'role': 'High Chancellor',
+    'locationId': 'atropolis'
+  },
+  {
+    'npcId': 'lady-cassandra-velun',
+    'role': 'Pact Envoy to the Glens',
+    'locationId': 'aran-glen'
+  }
+],
   headquarters: 'atropolis',
   territory: ['atropolis', 'aran-glen'],
   relationships: [

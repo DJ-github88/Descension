@@ -10,6 +10,7 @@ import {
   deleteCustomMap
 } from '../../data/subregionMaps';
 import { REGION_POLYGONS } from '../../data/regionPolygons';
+import { showConfirm } from '../../utils/dialogService';
 import './styles/AccountMapManager.css';
 
 const CANONICAL_REALM_IMAGES = {
@@ -149,7 +150,14 @@ const AccountMapManager = () => {
       showToast('Custom Maps require the Archmage (Ultimate) tier.');
       return;
     }
-    if (window.confirm(`Are you sure you want to delete custom map "${mapTitle}"?`)) {
+    const confirmed = await showConfirm({
+      title: 'Delete Custom Map',
+      message: `Are you sure you want to delete custom map "${mapTitle}"?`,
+      subMessage: 'This will permanently remove the map file and its data.',
+      confirmText: 'Delete Map',
+      isDestructive: true
+    });
+    if (confirmed) {
       const deleted = await deleteCustomMap(mapId);
       if (deleted) {
         // Clean up the cloud-stored image, if any

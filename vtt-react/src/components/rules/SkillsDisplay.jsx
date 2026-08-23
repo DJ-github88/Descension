@@ -1204,7 +1204,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                                     <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Catastrophic with complications</span>
                                                 </div>
                                                 <div className="table-preview-entry failure" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
-                                                    <span style={{ fontWeight: '600', color: '#D84315' }}>âœ -  Failure</span>
+                                                    <span style={{ fontWeight: '600', color: '#D84315' }}>ï¿½ -  Failure</span>
                                                     <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Attempt fails</span>
                                                 </div>
                                                 <div className="table-preview-entry normal" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>

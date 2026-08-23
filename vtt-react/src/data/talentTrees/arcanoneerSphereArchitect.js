@@ -97,7 +97,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Mana Crystal",
     icon: "inv_misc_gem_crystal_01",
     maxRanks: 3,
-    position: { x: 2, y: 2 },
+    position: { x: 2, y: 1 },
     requires: "sa_t1_sphere_manipulation",
     spell: {
       name: "Mana Crystal",
@@ -122,7 +122,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Sphere Lock",
     icon: "spell_arcane_portalshattrath",
     maxRanks: 3,
-    position: { x: 0.5, y: 2 },
+    position: { x: 0.5, y: 1 },
     requires: "sa_t1_runic_precision",
     spell: {
       name: "Sphere Lock",
@@ -144,7 +144,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Precision Casting",
     icon: "spell_arcane_blast",
     maxRanks: 2,
-    position: { x: 3.5, y: 2 },
+    position: { x: 3.5, y: 1 },
     requires: "sa_t1_efficient_banking",
     spell: {
       name: "Precision Casting",
@@ -165,7 +165,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Runic Matrix",
     icon: "spell_arcane_rune",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 1, y: 2 },
     requires: "sa_t2_sphere_lock",
     spell: {
       name: "Runic Matrix",
@@ -192,7 +192,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Sphere Synthesis",
     icon: "spell_arcane_polymorph",
     maxRanks: 3,
-    position: { x: 3.5, y: 4 },
+    position: { x: 3.5, y: 2 },
     requires: "sa_t2_mana_crystal",
     spell: {
       name: "Sphere Synthesis",
@@ -221,7 +221,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Sphere Network",
     icon: "spell_arcane_arcanetorrent",
     maxRanks: 3,
-    position: { x: 1, y: 5.5 },
+    position: { x: 1, y: 3 },
     requires: "sa_t3_runic_matrix",
     spell: {
       name: "Sphere Network",
@@ -242,7 +242,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Perfect Control",
     icon: "spell_arcane_mindmastery",
     maxRanks: 2,
-    position: { x: 3.5, y: 5.5 },
+    position: { x: 3.5, y: 3 },
     requires: "sa_t3_sphere_synthesis",
     spell: {
       name: "Perfect Control",
@@ -263,7 +263,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Runic Ascendancy",
     icon: "spell_arcane_portaldarnassus",
     maxRanks: 1,
-    position: { x: 0.5, y: 7 },
+    position: { x: 0.5, y: 4 },
     requires: "sa_t4_sphere_network",
     spell: {
       name: "Runic Ascendancy",
@@ -281,7 +281,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Crystal Bastion",
     icon: "inv_misc_gem_crystal_02",
     maxRanks: 2,
-    position: { x: 2.5, y: 7 },
+    position: { x: 2.5, y: 4 },
     requires: "sa_t4_perfect_control",
     spell: {
       name: "Crystal Bastion",
@@ -305,7 +305,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Scheduled Withdrawal",
     icon: "inv_misc_rune_02",
     maxRanks: 1,
-    position: { x: 4, y: 7 },
+    position: { x: 4, y: 4 },
     requires: "sa_t4_sphere_network",
     spell: {
       name: "Scheduled Withdrawal",
@@ -324,7 +324,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Arcane Efficiency",
     icon: "spell_arcane_arcane04",
     maxRanks: 2,
-    position: { x: 0.5, y: 7.5 },
+    position: { x: 0.5, y: 5 },
     requires: "sa_t5_runic_ascendancy",
     spell: {
       name: "Arcane Efficiency",
@@ -343,7 +343,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Rune Optimization",
     icon: "spell_arcane_rune",
     maxRanks: 3,
-    position: { x: 2.5, y: 7.5 },
+    position: { x: 2.5, y: 5 },
     requires: "sa_t5_crystal_bastion",
     spell: {
       name: "Rune Optimization",
@@ -365,7 +365,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Elemental Convergence",
     icon: "spell_arcane_portalironforge",
     maxRanks: 1,
-    position: { x: 0, y: 8 },
+    position: { x: 0, y: 6 },
     requires: "sa_t5_runic_ascendancy",
     spell: {
       name: "Elemental Convergence",
@@ -387,7 +387,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Ledger Mastery",
     icon: "inv_misc_book_09",
     maxRanks: 5,
-    position: { x: 1, y: 8 },
+    position: { x: 1, y: 6 },
     requires: "sa_t6_arcane_efficiency",
     spell: {
       name: "Ledger Mastery",
@@ -409,7 +409,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Deep Vault",
     icon: "inv_misc_gem_bubble",
     maxRanks: 3,
-    position: { x: 2, y: 8 },
+    position: { x: 2, y: 6 },
     requires: "sa_t6_rune_optimization",
     spell: {
       name: "Deep Vault",
@@ -429,7 +429,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Matrix Lattice",
     icon: "spell_arcane_rune",
     maxRanks: 3,
-    position: { x: 3, y: 8 },
+    position: { x: 3, y: 6 },
     requires: "sa_t6_rune_optimization",
     spell: {
       name: "Matrix Lattice",
@@ -451,7 +451,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "First Contract's Heir",
     icon: "spell_arcane_portal_dalaran",
     maxRanks: 3,
-    position: { x: 4, y: 8 },
+    position: { x: 4, y: 6 },
     requires: "sa_t5_crystal_bastion",
     spell: {
       name: "First Contract's Heir",

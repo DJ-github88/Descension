@@ -5,163 +5,9 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../config/firebase';
 
 // Built-in starter interactive maps with hierarchical drilldown (World -> Continent -> Region -> Dungeon)
-const DEFAULT_STARTER_MAPS = [
-  {
-    id: 'map-mythril-world',
-    name: 'Mythrill — Planetary Master Map',
-    type: 'world',
-    imageUrl: '/assets/images/backgrounds/Mythril.jpeg',
-    parentMapId: null,
-    description: 'The master celestial map of the known realm of Mythrill.',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  },
-  {
-    id: 'map-nordhalla',
-    name: 'Nordhalla Continental Realm',
-    type: 'continent',
-    imageUrl: '/assets/images/backgrounds/nordhalla.jpeg',
-    parentMapId: 'map-mythril-world',
-    description: 'The frozen northern continent ruled by the high clans, Skald strongholds, and Frostwood compact.',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  },
-  {
-    id: 'map-rime-spire',
-    name: 'Rime-Spire Peaks & Glacial Reach',
-    type: 'region',
-    imageUrl: '/assets/images/backgrounds/rime-spire-peaks.jpg',
-    parentMapId: 'map-nordhalla',
-    description: 'The high peaks where ancient ice drakes nest and the obsidian spires rise.',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  }
-];
+const DEFAULT_STARTER_MAPS = [];
 
-const DEFAULT_STARTER_PINS = [
-  // World Map Pins
-  {
-    id: 'pin-nordhalla-entry',
-    mapId: 'map-mythril-world',
-    x: 48,
-    y: 28,
-    title: 'Nordhalla High Realm',
-    description: 'The great northern ice kingdom. Click to dive into the continental map.',
-    icon: 'fa-mountain-sun',
-    color: '#3498db',
-    type: 'city',
-    layerId: 'poi',
-    isSecretGM: false,
-    targetMapId: 'map-nordhalla',
-    isDiscovered: true
-  },
-  {
-    id: 'pin-frostwood-reach',
-    mapId: 'map-mythril-world',
-    x: 62,
-    y: 42,
-    title: 'Frostwood Reach',
-    description: 'Dense primeval taiga shrouded in arcane mist.',
-    icon: 'fa-tree',
-    color: '#27ae60',
-    type: 'poi',
-    layerId: 'poi',
-    isSecretGM: false,
-    targetMapId: null,
-    isDiscovered: true
-  },
-  // Continental Pins
-  {
-    id: 'pin-rime-spire-entry',
-    mapId: 'map-nordhalla',
-    x: 58,
-    y: 48,
-    title: "Skald's Peaks & Rime-Spire",
-    description: 'The soaring ice spires and dragon-roost peaks. Click to dive into the high-res regional sub-map.',
-    icon: 'fa-monument',
-    color: '#9b59b6',
-    type: 'city',
-    layerId: 'poi',
-    isSecretGM: false,
-    targetMapId: 'map-rime-spire',
-    isDiscovered: true
-  },
-  {
-    id: 'pin-snowcall-castle',
-    mapId: 'map-nordhalla',
-    x: 53,
-    y: 28,
-    title: 'Snowcall Castle',
-    description: 'The ancestral fortress of the Northern High Kings, carved directly into the living granite peaks.',
-    icon: 'fa-chess-rook',
-    color: '#3498db',
-    type: 'city',
-    layerId: 'poi',
-    isSecretGM: false,
-    targetMapId: null,
-    isDiscovered: true
-  },
-  {
-    id: 'pin-midhofn-port',
-    mapId: 'map-nordhalla',
-    x: 36,
-    y: 52,
-    title: 'Midhöfn Fjord Harbor',
-    description: 'The central maritime trading hub where longships unload silver, salted sturgeon, and enchanted runestones.',
-    icon: 'fa-anchor',
-    color: '#1abc9c',
-    type: 'city',
-    layerId: 'poi',
-    isSecretGM: false,
-    targetMapId: null,
-    isDiscovered: true
-  },
-  {
-    id: 'pin-saltgrinn-fort',
-    mapId: 'map-nordhalla',
-    x: 21,
-    y: 64,
-    title: 'Saltgrinn Citadel',
-    description: 'Heavy stone fortress guarding the southern fjords against raiding sea serpents and ice drakes.',
-    icon: 'fa-shield-halved',
-    color: '#e67e22',
-    type: 'poi',
-    layerId: 'poi',
-    isSecretGM: false,
-    targetMapId: null,
-    isDiscovered: true
-  },
-  {
-    id: 'pin-dragon-maw-secret',
-    mapId: 'map-nordhalla',
-    x: 48,
-    y: 20,
-    title: "Lair of Draugur's Deep (GM Secret)",
-    description: 'Ancient slumbering frost wyrm hoard. Contains 5,000 GP and the Frostbite Relic.',
-    icon: 'fa-dragon',
-    color: '#e74c3c',
-    type: 'hazard',
-    layerId: 'secrets',
-    isSecretGM: true,
-    targetMapId: null,
-    isDiscovered: false
-  },
-  {
-    id: 'pin-tavern-wayfarer',
-    mapId: 'map-nordhalla',
-    x: 30,
-    y: 68,
-    title: "The Wayfarer's Hearth Tavern",
-    description: 'Cozy coastal inn serving spiced dwarven mead, smoked seal-fish, and roaring hearthfires.',
-    icon: 'fa-beer-mug-empty',
-    color: '#f39c12',
-    type: 'tavern',
-    layerId: 'poi',
-    isSecretGM: false,
-    targetMapId: null,
-    isDiscovered: true
-  }
-];
+const DEFAULT_STARTER_PINS = [];
 
 const DEFAULT_LAYERS = [
   { id: 'terrain', name: 'Geography & Landmarks', isVisible: true, isGMOnly: false, icon: 'fa-mountain' },
@@ -172,11 +18,7 @@ const DEFAULT_LAYERS = [
   { id: 'secrets', name: 'GM Secrets & Traps', isVisible: true, isGMOnly: true, icon: 'fa-eye-slash' }
 ];
 
-const DEFAULT_WAYPOINTS = [
-  { id: 'wp-1', mapId: 'map-nordhalla', x: 21, y: 64, title: 'Saltgrinn Departure', dayType: 'day', day: 1, notes: 'Purchased provisions and iron crampons for the frozen pass.', isSecretGM: false, isDiscovered: true },
-  { id: 'wp-2', mapId: 'map-nordhalla', x: 36, y: 52, title: 'Midhöfn Ferry Encampment', dayType: 'range', day: 3, endDay: 5, stayDuration: 3, notes: 'Crossed the fjord on a dwarven longship; parleyed with harbor master and camped for 3 days to resupply.', isSecretGM: false, isDiscovered: true },
-  { id: 'wp-3', mapId: 'map-nordhalla', x: 58, y: 48, title: "Skald's Peaks Ascent", dayType: 'day', day: 6, notes: 'Reached the high pass. Camped beneath the obsidian overhang.', isSecretGM: false, isDiscovered: true }
-];
+const DEFAULT_WAYPOINTS = [];
 
 const useInteractiveMapStore = create(
   persist(
@@ -184,7 +26,7 @@ const useInteractiveMapStore = create(
       maps: DEFAULT_STARTER_MAPS,
       pins: DEFAULT_STARTER_PINS,
       layers: DEFAULT_LAYERS,
-      activeMapId: 'map-nordhalla',
+      activeMapId: null,
       selectedPinId: null,
       selectedWaypointId: null,
       isStudioOpen: false,
@@ -198,24 +40,14 @@ const useInteractiveMapStore = create(
       fogBrushSize: 90, // px radius
       mapFogData: {}, // { [mapId]: Array<{ id, x, y, radius, isReveal }> }
       journeyWaypoints: DEFAULT_WAYPOINTS,
-      partyMarker: {
-        mapId: 'map-nordhalla',
-        x: 58,
-        y: 48,
-        name: 'The Party',
-        notes: 'Camped by the edge of the Glimmering Forest. Current marching order: Dorus (Front), Lyra (Scout), Roland (Rear). Ration supplies: 14 days.',
-        reminders: [
-          { id: 'rem-1', text: 'Watch for Frostwood wolf patrols at dusk', done: false },
-          { id: 'rem-2', text: 'Lyra requires herbalist kit restock at next outpost', done: false },
-          { id: 'rem-3', text: 'Check ancient sigil stone near Twin Gates', done: true }
-        ]
-      },
+      partyMarker: null,
 
       isMapLocked: false,
 
       // Navigation & Studio State
       openStudio: (mapId = null, targetPinId = null) => {
-        const targetMapId = mapId || get().activeMapId || 'map-nordhalla';
+        const availableMaps = get().maps || [];
+        const targetMapId = mapId || (availableMaps.length > 0 ? (get().activeMapId || availableMaps[0]?.id) : null);
         set({
           isStudioOpen: true,
           activeMapId: targetMapId,
@@ -383,6 +215,11 @@ const useInteractiveMapStore = create(
 
       // Pin Management
       addPin: (pinData) => {
+        const pinSize = pinData.size || 'medium';
+        const pinScale = pinData.scale !== undefined 
+          ? pinData.scale 
+          : (pinSize === 'small' ? 0.75 : pinSize === 'large' ? 1.35 : pinSize === 'epic' ? 1.75 : 1.0);
+
         const newPin = {
           id: `pin-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
           mapId: pinData.mapId || get().activeMapId,
@@ -393,12 +230,23 @@ const useInteractiveMapStore = create(
           icon: pinData.icon || 'fa-location-dot',
           color: pinData.color || '#d4af37',
           type: pinData.type || 'poi',
+          size: pinSize,
+          scale: pinScale,
           layerId: pinData.layerId || 'poi',
           isSecretGM: Boolean(pinData.isSecretGM),
           targetMapId: pinData.targetMapId || null,
           linkedLoreId: pinData.linkedLoreId || null,
           isDiscovered: pinData.isDiscovered !== false,
-          isLocked: Boolean(pinData.isLocked)
+          isLocked: Boolean(pinData.isLocked),
+          // Campaign linkage — all optional, additive
+          linkedEntities: pinData.linkedEntities || {
+            npcIds: [],
+            factionIds: [],
+            questIds: [],
+            timelineEventIds: [],
+            locationId: null,
+            journalNotes: ''
+          }
         };
 
         set(state => ({
@@ -407,6 +255,32 @@ const useInteractiveMapStore = create(
         }));
 
         return newPin;
+      },
+
+      loadMythrilWorldPreset: () => {
+        const existing = get().maps.find(m => m.id === 'map-mythril-world');
+        if (existing) {
+          set({ activeMapId: existing.id });
+          return existing;
+        }
+        const publicUrl = process.env.PUBLIC_URL || '';
+        const mythrilMap = {
+          id: 'map-mythril-world',
+          name: 'Mythril — Known World',
+          type: 'world',
+          imageUrl: `${publicUrl}/assets/images/backgrounds/Mythril.jpeg`,
+          parentMapId: null,
+          description: 'The vast realm of Mythril, forged across sundering epochs.',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+        set(state => ({
+          maps: [mythrilMap, ...state.maps],
+          activeMapId: mythrilMap.id,
+          selectedPinId: null,
+          selectedWaypointId: null
+        }));
+        return mythrilMap;
       },
 
       updatePin: (pinId, updates) => {

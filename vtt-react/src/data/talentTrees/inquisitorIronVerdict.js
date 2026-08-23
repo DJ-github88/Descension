@@ -79,7 +79,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Mana Vortex",
     icon: "spell_shadow_manafeed",
     maxRanks: 3,
-    position: { x: 0.5, y: 1.5 },
+    position: { x: 0.5, y: 1 },
     requires: "iv_t1_spell_intercept",
     spell: {
       name: "Mana Vortex",
@@ -100,7 +100,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Empowered Strikes",
     icon: "spell_fire_firebolt",
     maxRanks: 3,
-    position: { x: 4, y: 1.5 },
+    position: { x: 4, y: 1 },
     requires: "iv_t1_iron_grip",
     spell: {
       name: "Empowered Strikes",
@@ -123,7 +123,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Spell Nullification",
     icon: "spell_shadow_antimagicshell",
     maxRanks: 3,
-    position: { x: 0.5, y: 3 },
+    position: { x: 0.5, y: 2 },
     requires: "iv_t2_mana_vortex",
     spell: {
       name: "Spell Nullification",
@@ -144,7 +144,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Dominant Wrath",
     icon: "spell_shadow_metamorphosis",
     maxRanks: 3,
-    position: { x: 3.5, y: 3 },
+    position: { x: 3.5, y: 2 },
     requires: "iv_t2_empowered_strikes",
     spell: {
       name: "Dominant Wrath",
@@ -167,7 +167,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Hound's Verdict",
     icon: "ability_paladin_judgementsofthejust",
     maxRanks: 3,
-    position: { x: 0.5, y: 5 },
+    position: { x: 0.5, y: 3 },
     requires: "iv_t3_spell_nullification",
     spell: {
       name: "Hound's Verdict",
@@ -195,7 +195,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Dispel Field",
     icon: "spell_holy_dispelmagic",
     maxRanks: 2,
-    position: { x: 3.5, y: 5 },
+    position: { x: 3.5, y: 3 },
     requires: "iv_t3_dominant_wrath",
     spell: {
       name: "Dispel Field",
@@ -224,7 +224,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Arcane Dominator",
     icon: "spell_shadow_antishadow",
     maxRanks: 2,
-    position: { x: 1, y: 6.5 },
+    position: { x: 1, y: 4 },
     requires: "iv_t4_hounds_verdict",
     spell: {
       name: "Arcane Dominator",
@@ -244,7 +244,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Counter's Doctrine",
     icon: "spell_holy_counterspell",
     maxRanks: 3,
-    position: { x: 3, y: 6.5 },
+    position: { x: 3, y: 4 },
     requires: "iv_t4_dispel_field",
     spell: {
       name: "Counter's Doctrine",
@@ -267,7 +267,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "The Bench",
     icon: "spell_holy_divinejudgment",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "iv_t5_arcane_dominator",
     spell: {
       name: "The Bench",
@@ -292,7 +292,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Iron Ledger",
     icon: "inv_scroll_03",
     maxRanks: 2,
-    position: { x: 2, y: 7.5 },
+    position: { x: 2, y: 5 },
     requires: "iv_t5_counters_doctrine",
     spell: {
       name: "Iron Ledger",
@@ -311,7 +311,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Verdant Null",
     icon: "spell_shadow_antimagic",
     maxRanks: 2,
-    position: { x: 3, y: 7.5 },
+    position: { x: 3, y: 5 },
     requires: "iv_t5_arcane_dominator",
     spell: {
       name: "Verdant Null",
@@ -332,7 +332,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Final Verdict",
     icon: "spell_holy_divinejudgment",
     maxRanks: 1,
-    position: { x: 0, y: 8 },
+    position: { x: 0, y: 6 },
     requires: "iv_t6_the_bench",
     spell: {
       name: "Final Verdict",
@@ -356,7 +356,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Long Writ",
     icon: "inv_scroll_03",
     maxRanks: 5,
-    position: { x: 1, y: 8 },
+    position: { x: 1, y: 6 },
     requires: "iv_t6_iron_ledger",
     spell: {
       name: "Long Writ",
@@ -378,7 +378,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Contempt of Power",
     icon: "spell_shadow_manaburn",
     maxRanks: 3,
-    position: { x: 2, y: 8 },
+    position: { x: 2, y: 6 },
     requires: "iv_t6_iron_ledger",
     spell: {
       name: "Contempt of Power",
@@ -399,7 +399,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Iron Sanction",
     icon: "ability_warrior_weaponmastery",
     maxRanks: 3,
-    position: { x: 3, y: 8 },
+    position: { x: 3, y: 6 },
     requires: "iv_t6_verdant_null",
     spell: {
       name: "Iron Sanction",
@@ -420,7 +420,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "The Stand",
     icon: "ability_paladin_judgementofwisdom",
     maxRanks: 3,
-    position: { x: 4, y: 8 },
+    position: { x: 4, y: 6 },
     requires: "iv_t6_verdant_null",
     spell: {
       name: "The Stand",

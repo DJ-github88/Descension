@@ -1,5 +1,5 @@
 // Athletics Skill Multi-Dimensional Tables
-// 7 proficiency levels Ã -  6 dice types = 42 tables total
+// 7 proficiency levels ï¿½ -  6 dice types = 42 tables total
 
 export const ATHLETICS_TABLES = {
     // UNTRAINED - d4 through d20

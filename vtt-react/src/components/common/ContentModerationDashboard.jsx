@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { showConfirm } from '../../utils/dialogService';
 import {
   getContentReports,
   moderateContent,
@@ -95,7 +96,13 @@ const ContentModerationDashboard = ({ isOpen, onClose }) => {
   };
 
   const handleRemoveWord = async (wordId) => {
-    if (!window.confirm('Are you sure you want to remove this filtered word?')) return;
+    const confirmed = await showConfirm({
+      title: 'Remove Filtered Word',
+      message: 'Are you sure you want to remove this filtered word?',
+      confirmText: 'Remove Word',
+      isDestructive: true
+    });
+    if (!confirmed) return;
 
     try {
       const result = await removeFilteredWord(wordId);
@@ -131,7 +138,7 @@ const ContentModerationDashboard = ({ isOpen, onClose }) => {
       <div className="moderation-dashboard">
         <div className="moderation-header">
           <h2>Content Moderation Dashboard</h2>
-          <button className="close-btn" onClick={onClose}>Ã - </button>
+          <button className="close-btn" onClick={onClose}>ï¿½ - </button>
         </div>
 
         {stats && (

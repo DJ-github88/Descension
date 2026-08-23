@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import useFactionStore, { RELATIONSHIP_TYPES, FACTION_TYPES } from '../../store/factionStore';
+import { sanitizeLoreText } from './WorldDashboard';
 import './FactionWebGraph.css';
 
 const CANVAS_WIDTH = 1800;
@@ -133,6 +134,38 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
 
     return { connectedFactionIds: neighborIds, directEdgeSet: edgeSet };
   }, [activeFocusFactionId, visibleEdges]);
+
+  // Dynamic Clustered Positions: when hovering or selecting a node, move related factions together!
+  const renderedNodePositions = useMemo(() => {
+    if (!activeFocusFactionId) {
+      return nodePositions;
+    }
+
+    const focusPos = nodePositions[activeFocusFactionId];
+    if (!focusPos) return nodePositions;
+
+    const connectedNeighbors = Array.from(connectedFactionIds).filter(id => id !== activeFocusFactionId);
+    if (connectedNeighbors.length === 0) return nodePositions;
+
+    const dynamicPositions = { ...nodePositions };
+    const numNeighbors = connectedNeighbors.length;
+    // Compact orbital radius to pull related factions close together
+    const orbitRadius = Math.min(250, Math.max(160, 110 + numNeighbors * 14));
+
+    connectedNeighbors.forEach((neighborId, idx) => {
+      const origPos = nodePositions[neighborId] || focusPos;
+      const origAngle = Math.atan2(origPos.y - focusPos.y, origPos.x - focusPos.x);
+      const distributedAngle = (idx / numNeighbors) * Math.PI * 2 - Math.PI / 2;
+      const targetAngle = numNeighbors <= 3 ? origAngle : (origAngle * 0.35 + distributedAngle * 0.65);
+
+      dynamicPositions[neighborId] = {
+        x: Math.max(70, Math.min(CANVAS_WIDTH - 70, focusPos.x + Math.cos(targetAngle) * orbitRadius)),
+        y: Math.max(50, Math.min(CANVAS_HEIGHT - 50, focusPos.y + Math.sin(targetAngle) * orbitRadius))
+      };
+    });
+
+    return dynamicPositions;
+  }, [activeFocusFactionId, connectedFactionIds, nodePositions]);
 
   // Active Focus Faction Object & Relationships List
   const activeFocusFaction = useMemo(() => {
@@ -411,8 +444,8 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
             </defs>
 
             {visibleEdges.map((edge) => {
-              const from = nodePositions[edge.source];
-              const to = nodePositions[edge.target];
+              const from = renderedNodePositions[edge.source];
+              const to = renderedNodePositions[edge.target];
               if (!from || !to) return null;
 
               const edgeKey = `${edge.source}--${edge.target}`;
@@ -420,15 +453,15 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
               const rel = relTypes[edge.type] || relTypes.neutral || { color: '#888', lineStyle: 'solid' };
 
               // Determine Edge Visibility / Opacity
-              let edgeOpacity = 0.16;
+              let edgeOpacity = 0.22;
               let edgeStrokeWidth = 1.6;
 
               if (activeFocusFactionId) {
                 if (isDirectConnected) {
                   edgeOpacity = 1.0;
-                  edgeStrokeWidth = 3.6;
+                  edgeStrokeWidth = 3.8;
                 } else {
-                  edgeOpacity = 0.02; // Hide unrelated edges completely when hovering a faction!
+                  edgeOpacity = 0.02; // Hide unrelated edges completely when hovering/selecting a faction!
                 }
               }
 
@@ -481,21 +514,26 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
 
           {/* Faction Nodes */}
           {visibleFactions.map((faction) => {
-            const pos = nodePositions[faction.id] || { x: CANVAS_WIDTH / 2, y: CANVAS_HEIGHT / 2 };
+            const pos = renderedNodePositions[faction.id] || { x: CANVAS_WIDTH / 2, y: CANVAS_HEIGHT / 2 };
             const isSelected = selectedNodeId === faction.id;
             const isHovered = hoveredFactionId === faction.id;
             const isConnected = connectedFactionIds.has(faction.id);
             const isMatchesSearch = searchQuery && faction.name.toLowerCase().includes(searchQuery.toLowerCase());
 
-            // Node Opacity & Dimming
+            // Node Opacity, Blur & Interaction Dimming
             let nodeOpacity = 1.0;
+            let nodeFilter = 'none';
+            let pointerEvents = 'auto';
+
             if (activeFocusFactionId) {
               if (!isConnected && !isHovered && !isSelected) {
-                nodeOpacity = 0.22; // Dim unrelated nodes
+                nodeOpacity = 0.07; // Fade out unrelated nodes
+                nodeFilter = 'blur(1.5px)';
+                pointerEvents = 'none';
               }
             }
             if (searchQuery && !isMatchesSearch) {
-              nodeOpacity = 0.2;
+              nodeOpacity = 0.15;
             }
 
             return (
@@ -506,6 +544,8 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
                   left: `${pos.x}px`,
                   top: `${pos.y}px`,
                   opacity: nodeOpacity,
+                  filter: nodeFilter,
+                  pointerEvents: pointerEvents,
                   '--fac-color-primary': faction.colors?.primary || '#8b5a1a',
                   '--fac-color-secondary': faction.colors?.secondary || '#444'
                 }}
@@ -517,12 +557,12 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
                   setSelectedNodeId(faction.id);
                 }}
                 onDoubleClick={() => onFactionClick && onFactionClick(faction.id)}
-                title="Drag to reposition • Click to inspect • Double-click to open full dossier"
+                title="Drag to reposition • Click to inspect • Double-click to open full chronicle"
               >
                 <div className="node-card-body">
                   <div className="node-color-accent" style={{ background: faction.colors?.primary || '#8b5a1a' }} />
                   <div className="node-info">
-                    <span className="node-name">{faction.name}</span>
+                    <span className="node-name">{sanitizeLoreText(faction.name)}</span>
                     <span className="node-type-pill">{(FACTION_TYPES[faction.type]?.label || faction.type?.replace(/_/g, ' ')).toUpperCase()}</span>
                   </div>
                 </div>
@@ -541,14 +581,14 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
         {hoveredEdge && (
           <div className="edge-floating-tooltip" style={{ pointerEvents: 'none' }}>
             <div className="edge-tooltip-header">
-              <strong>{hoveredEdge.sourceName}</strong>
+              <strong>{sanitizeLoreText(hoveredEdge.sourceName)}</strong>
               <span className={`badge-rel-type ${hoveredEdge.type}`}>
                 {relTypes[hoveredEdge.type]?.label || hoveredEdge.type}
               </span>
-              <strong>{hoveredEdge.targetName}</strong>
+              <strong>{sanitizeLoreText(hoveredEdge.targetName)}</strong>
             </div>
             {hoveredEdge.description && (
-              <p className="edge-tooltip-desc">{hoveredEdge.description}</p>
+              <p className="edge-tooltip-desc">{sanitizeLoreText(hoveredEdge.description)}</p>
             )}
           </div>
         )}
@@ -562,7 +602,7 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
                   <i className={`fas fa-${FACTION_TYPES[activeFocusFaction.type]?.icon || 'shield-halved'}`}></i>
                 </div>
                 <div>
-                  <h4>{activeFocusFaction.name}</h4>
+                  <h4>{sanitizeLoreText(activeFocusFaction.name)}</h4>
                   <span className="inspector-type">
                     {FACTION_TYPES[activeFocusFaction.type]?.label || activeFocusFaction.type?.replace(/_/g, ' ')}
                   </span>
@@ -634,7 +674,7 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
                 className="btn-open-dossier"
                 onClick={() => onFactionClick && onFactionClick(activeFocusFaction.id)}
               >
-                <i className="fas fa-scroll"></i> Open Full Faction Dossier ↗
+                <i className="fas fa-book-open"></i> Read Full Order Chronicle ↗
               </button>
             </div>
           </aside>

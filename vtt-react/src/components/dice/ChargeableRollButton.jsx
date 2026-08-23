@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import './ChargeableRollButton.css';
 
 /**
@@ -19,6 +20,8 @@ const ChargeableRollButton = ({
   const [isCharging, setIsCharging] = useState(false);
   const [shakeTransform, setShakeTransform] = useState('');
   const [dragVector, setDragVector] = useState({ dx: 0, dy: 0, dist: 0, angle: 0 });
+  // Screen-space anchor of the button for the portaled charge UI.
+  const [anchor, setAnchor] = useState(null);
 
   const isChargingRef = useRef(false);
   const startTimeRef = useRef(0);
@@ -27,17 +30,34 @@ const ChargeableRollButton = ({
   const animFrameRef = useRef(null);
   const hasFiredRef = useRef(false);
   const flingDirRef = useRef({ x: 0, z: 0 });
+  const wrapperRef = useRef(null);
 
-  // Maximum hold time for 100% full charge (1.4s)
-  const MAX_CHARGE_TIME = 1400;
+  // Mario Party-style OSCILLATING meter: while held, power sweeps 0→1→0 in
+  // a triangle wave. Release timing decides the throw — nail the peak for a
+  // max-power fling, release early for a gentle toss.
+  const OSCILLATE_PERIOD = 1300; // ms for a full 0→1→0 sweep
+  const QUICK_TAP_MS = 160;      // below this, treat as a plain click roll
+
+  // Triangle-wave charge value 0..1 at a given hold time.
+  const chargeAt = (elapsed) => {
+    const ph = (elapsed % OSCILLATE_PERIOD) / OSCILLATE_PERIOD;
+    return ph < 0.5 ? ph * 2 : (1 - ph) * 2;
+  };
 
   const updateCharge = useCallback(() => {
     if (!isChargingRef.current) return;
 
     const now = performance.now();
     const elapsed = now - startTimeRef.current;
-    const progress = Math.min(1, elapsed / MAX_CHARGE_TIME);
+    const progress = chargeAt(elapsed);
     setChargeProgress(progress);
+
+    // Track the button's screen anchor so the portaled indicator/arrow can
+    // follow it (portals live on <body>, outside the clipped dropdown).
+    if (wrapperRef.current) {
+      const r = wrapperRef.current.getBoundingClientRect();
+      setAnchor({ x: r.left + r.width / 2, y: r.top + r.height / 2, top: r.top });
+    }
 
     // Calculate dynamic rumble jitter based on progress
     const amp = progress * 6.5; // up to 6.5px shake
@@ -88,9 +108,10 @@ const ChargeableRollButton = ({
     flingDirRef.current = { x: 0, z: 0 };
     setDragVector({ dx: 0, dy: 0, dist: 0, angle: 0 });
     startTimeRef.current = performance.now();
-
-    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-    animFrameRef.current = requestAnimationFrame(updateCharge);
+    // NOTE: the charge rAF loop is scheduled by the isCharging effect below,
+    // NOT here. Scheduling here gets cancelled by the effect cleanup that
+    // runs when isCharging flips true (same commit) — that killed the loop
+    // on the first frame and the meter never appeared.
   };
 
   const handleGlobalPointerMove = useCallback((e) => {
@@ -111,15 +132,20 @@ const ChargeableRollButton = ({
     }
 
     const elapsed = performance.now() - startTimeRef.current;
-    const finalProgress = Math.min(1, elapsed / MAX_CHARGE_TIME);
 
-    // Scaling: 0% charge = 0.8x velocity (gentle drop), 100% = 2.8x velocity (powerful fling)
-    const throwPower = 0.8 + finalProgress * 2.0;
+    // Quick tap = plain roll at default power. Held = the oscillating meter
+    // decides — and a held release is NEVER weaker than a tap: the floor is
+    // the tap power (0.9) and a peak release hits 2.8x.
+    let throwPower = 0.9;
+    if (elapsed >= QUICK_TAP_MS) {
+      throwPower = 0.9 + chargeAt(elapsed) * 1.9;
+    }
     const finalFlingDir = { ...flingDirRef.current };
 
     setIsCharging(false);
     setChargeProgress(0);
     setShakeTransform('');
+    setAnchor(null);
     setDragVector({ dx: 0, dy: 0, dist: 0, angle: 0 });
 
     if (onRoll) {
@@ -134,6 +160,11 @@ const ChargeableRollButton = ({
       window.addEventListener('touchmove', handleGlobalPointerMove, { passive: true });
       window.addEventListener('touchend', handleRelease);
       window.addEventListener('touchcancel', handleRelease);
+      // (Re)start the charge rAF loop HERE. The cleanup below cancels any
+      // loop whenever deps change (e.g. onRoll identity on parent renders),
+      // so this effect must also be the one to revive it.
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+      animFrameRef.current = requestAnimationFrame(updateCharge);
     }
     return () => {
       window.removeEventListener('mousemove', handleGlobalPointerMove);
@@ -145,21 +176,28 @@ const ChargeableRollButton = ({
         cancelAnimationFrame(animFrameRef.current);
       }
     };
-  }, [isCharging, handleGlobalPointerMove, handleRelease]);
+  }, [isCharging, handleGlobalPointerMove, handleRelease, updateCharge]);
 
   const powerPercent = Math.round(chargeProgress * 100);
   const isAiming = isCharging && dragVector.dist > 15;
   const arrowLength = Math.min(85, Math.max(28, dragVector.dist));
 
-  return (
-    <div className="chargeable-roll-button-wrapper" style={{ display: 'inline-block', position: 'relative' }}>
-      {/* Floating Aim Trajectory Arrow & Indicator */}
+  // Charge UI renders through a portal on <body>: the dice dropdown panel
+  // has overflow:hidden, which would clip a floating bar/arrow anchored to
+  // the button. Fixed positioning from the tracked anchor escapes all
+  // ancestor clipping.
+  const chargeOverlay = (typeof document !== 'undefined' && anchor) ? (
+    <>
       {isAiming && (
         <div
           className="roll-aim-arrow-container"
           style={{
-            transform: `translate(-50%, -50%) rotate(${dragVector.angle}deg)`,
-            width: `${arrowLength}px`
+            position: 'fixed',
+            left: `${anchor.x}px`,
+            top: `${anchor.y}px`,
+            zIndex: 10006,
+            transform: `rotate(${dragVector.angle}deg)`,
+            width: `${arrowLength}px`,
           }}
         >
           <div className="roll-aim-line" />
@@ -170,9 +208,23 @@ const ChargeableRollButton = ({
         </div>
       )}
 
-      {/* Floating Charge Power Indicator */}
-      {isCharging && chargeProgress > 0.05 && (
-        <div className="roll-charge-indicator" style={{ opacity: Math.min(1, chargeProgress * 1.5) }}>
+      {chargeProgress > 0.05 && (
+        <div
+          className="roll-charge-indicator"
+          style={{
+            position: 'fixed',
+            left: `${anchor.x}px`,
+            top: `${anchor.top - 8}px`,
+            // The stylesheet's `bottom: calc(100% + 8px)` was written for the
+            // old in-dropdown absolute placement. With fixed positioning +
+            // inline `top`, a lingering `bottom` makes the browser stretch
+            // the box to a negative height — neutralize it.
+            bottom: 'auto',
+            zIndex: 10006,
+            transform: 'translate(-50%, -100%)',
+            opacity: Math.min(1, chargeProgress * 1.5),
+          }}
+        >
           <div className="roll-charge-text">
             {chargeProgress >= 0.95 ? (
               <span className="roll-charge-max">
@@ -197,6 +249,12 @@ const ChargeableRollButton = ({
           </div>
         </div>
       )}
+    </>
+  ) : null;
+
+  return (
+    <div className="chargeable-roll-button-wrapper" ref={wrapperRef} style={{ display: 'inline-block', position: 'relative' }}>
+      {createPortal(chargeOverlay, document.body)}
 
       <button
         type="button"
@@ -211,9 +269,10 @@ const ChargeableRollButton = ({
         onMouseDown={handlePointerDown}
         onTouchStart={handlePointerDown}
         onClick={() => {
-          // Keyboard trigger or quick click fallback
+          // Keyboard trigger or quick click fallback — same power as the
+          // held-release floor so tap vs low-charge hold feel identical.
           if (!hasFiredRef.current) {
-            onRoll && onRoll(1.0, { x: 0, z: 0 });
+            onRoll && onRoll(0.9, { x: 0, z: 0 });
           }
         }}
       >

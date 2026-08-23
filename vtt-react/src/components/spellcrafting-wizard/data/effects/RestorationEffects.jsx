@@ -1180,7 +1180,7 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
                             onClick={() => handleRemoveProgressiveStage(index)}
                             disabled={restorationConfig.overTimeProgressiveStages.length <= 1}
                           >
-                            Ã - 
+                            ï¿½ - 
                           </button>
                         </div>
                         <div className="stage-content">

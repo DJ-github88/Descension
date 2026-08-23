@@ -11,7 +11,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Hollow Pursuit",
     icon: "ability_hunter_markedfordeath",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 0 },
     requires: null,
     spell: {
       name: "Hollow Pursuit",
@@ -32,7 +32,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Wyrd Embrace",
     icon: "spell_shadow_possession",
     maxRanks: 3,
-    position: { x: 2, y: 3 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
       name: "Wyrd Embrace",
@@ -54,7 +54,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Pursuit Mastery",
     icon: "ability_rogue_sprint",
     maxRanks: 2,
-    position: { x: 3, y: 1.5 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Pursuit Mastery",
@@ -75,7 +75,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Corruption Aura",
     icon: "spell_shadow_contagion",
     maxRanks: 3,
-    position: { x: 0, y: 1.5 },
+    position: { x: 0, y: 1 },
     requires: "hsw_t1_wyrd_embrace",
     spell: {
       name: "Corruption Aura",
@@ -97,7 +97,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Condemn",
     icon: "ability_paladin_judgementsofthejust",
     maxRanks: 3,
-    position: { x: 4, y: 1.5 },
+    position: { x: 4, y: 1 },
     requires: "hsw_t1_pursuit_mastery",
     spell: {
       name: "Condemn",
@@ -125,7 +125,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Inner Peace",
     icon: "spell_shadow_mindrot",
     maxRanks: 3,
-    position: { x: 1, y: 4 },
+    position: { x: 1, y: 2 },
     requires: "hsw_t2_corruption_aura",
     spell: {
       name: "Inner Peace",
@@ -146,7 +146,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Marked for Death",
     icon: "ability_hunter_assassinate",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 3, y: 2 },
     requires: "hsw_t2_condemn",
     spell: {
       name: "Marked for Death",
@@ -175,7 +175,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Rein In Fury",
     icon: "spell_shadow_darkregeneration",
     maxRanks: 3,
-    position: { x: 1.5, y: 5.5 },
+    position: { x: 1.5, y: 3 },
     requires: "hsw_t3_inner_peace",
     spell: {
       name: "Rein In Fury",
@@ -200,7 +200,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Corruption Nova",
     icon: "spell_shadow_shadowfury",
     maxRanks: 2,
-    position: { x: 2.5, y: 5.5 },
+    position: { x: 2.5, y: 3 },
     requires: "hsw_t3_marked_for_death",
     spell: {
       name: "Corruption Nova",
@@ -227,7 +227,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Hound's Endurance",
     icon: "spell_shadow_soul_link",
     maxRanks: 3,
-    position: { x: 1.5, y: 6.5 },
+    position: { x: 1.5, y: 4 },
     requires: "hsw_t4_rein_in_fury",
     spell: {
       name: "Hound's Endurance",
@@ -249,7 +249,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "No Escape",
     icon: "ability_hunter_passthrough",
     maxRanks: 2,
-    position: { x: 2.5, y: 6.5 },
+    position: { x: 2.5, y: 4 },
     requires: "hsw_t4_corruption_nova",
     spell: {
       name: "No Escape",
@@ -270,7 +270,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Hollow Sovereign",
     icon: "spell_shadow_summonfelguard",
     maxRanks: 1,
-    position: { x: 1, y: 7.5 },
+    position: { x: 1, y: 5 },
     requires: "hsw_t5_hounds_endurance",
     spell: {
       name: "Hollow Sovereign",
@@ -288,7 +288,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Confession",
     icon: "spell_shadow_psychicscream",
     maxRanks: 2,
-    position: { x: 2, y: 7.5 },
+    position: { x: 2, y: 5 },
     requires: "hsw_t5_no_escape",
     spell: {
       name: "Confession",
@@ -309,7 +309,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Hollow Bones",
     icon: "spell_shadow_shadetruesight",
     maxRanks: 2,
-    position: { x: 3, y: 7.5 },
+    position: { x: 3, y: 5 },
     requires: "hsw_t5_hounds_endurance",
     spell: {
       name: "Hollow Bones",
@@ -329,7 +329,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Saint and Hound",
     icon: "spell_shadow_metamorphosis",
     maxRanks: 1,
-    position: { x: 0, y: 8 },
+    position: { x: 0, y: 6 },
     requires: "hsw_t6_ascended_form",
     spell: {
       name: "Saint and Hound",
@@ -352,7 +352,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Writ of Hunger",
     icon: "inv_scroll_03",
     maxRanks: 5,
-    position: { x: 1, y: 8 },
+    position: { x: 1, y: 6 },
     requires: "hsw_t6_hollow_bones",
     spell: {
       name: "Writ of Hunger",
@@ -374,7 +374,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Tireless Pursuer",
     icon: "ability_rogue_sprint",
     maxRanks: 3,
-    position: { x: 2, y: 8 },
+    position: { x: 2, y: 6 },
     requires: "hsw_t6_hollow_bones",
     spell: {
       name: "Tireless Pursuer",
@@ -395,7 +395,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Rot Crown",
     icon: "spell_shadow_contagion",
     maxRanks: 3,
-    position: { x: 3, y: 8 },
+    position: { x: 3, y: 6 },
     requires: "hsw_t6_confession",
     spell: {
       name: "Rot Crown",
@@ -416,7 +416,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Last Confession",
     icon: "ability_paladin_judgementsofthejust",
     maxRanks: 3,
-    position: { x: 4, y: 8 },
+    position: { x: 4, y: 6 },
     requires: "hsw_t6_confession",
     spell: {
       name: "Last Confession",

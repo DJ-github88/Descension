@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { showConfirm } from '../../utils/dialogService';
 
 const DominanceDieResourceBar = ({
   dominanceState,
@@ -299,8 +300,15 @@ const DominanceDieResourceBar = ({
                                             </button>
                                             <button
                                                 className="context-menu-button danger"
-                                                onClick={() => {
-                                                    if (window.confirm(`Release ${currentDemon.name}?`)) {
+                                                onClick={async () => {
+                                                    const confirmed = await showConfirm({
+                                                        title: 'Release Demon',
+                                                        message: `Release ${currentDemon.name}?`,
+                                                        subMessage: 'The demon bond will be dissolved.',
+                                                        confirmText: 'Release',
+                                                        isDestructive: true
+                                                    });
+                                                    if (confirmed) {
                                                         const updatedDemons = [...boundDemons];
                                                         updatedDemons[selectedDemonIndex] = null;
                                                         setBoundDemons(updatedDemons);

@@ -214,21 +214,26 @@
   width: 145px;
   cursor: pointer;
   z-index: 10;
-  transition: transform 0.12s ease, opacity 0.2s ease;
+  transition: left 0.38s cubic-bezier(0.16, 1, 0.3, 1), top 0.38s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, filter 0.25s ease;
+}
+
+.is-dragging-node .world-graph-node {
+  transition: none !important;
 }
 
 .world-graph-node:hover {
-  transform: translate(-50%, -50%) scale(1.08);
-  z-index: 20;
+  transform: translate(-50%, -50%) scale(1.14);
+  z-index: 30;
 }
 
 .world-graph-node.is-selected {
-  transform: translate(-50%, -50%) scale(1.12);
-  z-index: 24;
+  transform: translate(-50%, -50%) scale(1.18);
+  z-index: 35;
 }
 
 .world-graph-node.is-connected-target {
-  z-index: 18;
+  transform: translate(-50%, -50%) scale(1.08);
+  z-index: 25;
 }
 
 .node-card-body {
@@ -237,23 +242,23 @@
   border-radius: 6px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
 }
 
 .world-graph-node:hover .node-card-body {
   border-color: #ffd700;
-  box-shadow: 0 6px 18px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 6px 18px rgba(212, 175, 55, 0.4);
 }
 
 .world-graph-node.is-selected .node-card-body {
   border-color: #ffd700;
   background: #ffffff;
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+  box-shadow: 0 0 24px rgba(255, 215, 0, 0.8);
 }
 
 .world-graph-node.is-connected-target .node-card-body {
-  border-color: #27ae60;
-  box-shadow: 0 0 14px rgba(39, 174, 96, 0.4);
+  border-color: #d4af37;
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.45);
 }
 
 .node-color-accent {

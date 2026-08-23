@@ -31,7 +31,7 @@ export const AUGUR_HARBINGER = [
     name: "Ill Omen",
     icon: "spell_shadow_antishadow",
     maxRanks: 3,
-    position: { x: 1.5, y: 1 },
+    position: { x: 1.5, y: 0 },
     requires: null,
     spell: {
       name: "Ill Omen",
@@ -56,7 +56,7 @@ export const AUGUR_HARBINGER = [
     name: "Wasting Portent",
     icon: "spell_shadow_shadowworddominate",
     maxRanks: 2,
-    position: { x: 3, y: 1 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Wasting Portent",
@@ -76,7 +76,7 @@ export const AUGUR_HARBINGER = [
     name: "Sign of Decay",
     icon: "spell_shadow_lifedrain",
     maxRanks: 3,
-    position: { x: 0, y: 3 },
+    position: { x: 0, y: 1 },
     requires: "hb_t1_dark_portent",
     spell: {
       name: "Sign of Decay",
@@ -103,7 +103,7 @@ export const AUGUR_HARBINGER = [
     name: "Misfortune Aura",
     icon: "spell_shadow_unstableaffliction",
     maxRanks: 3,
-    position: { x: 4, y: 3 },
+    position: { x: 4, y: 1 },
     requires: "hb_t1_ill_omen",
     spell: {
       name: "Misfortune Aura",
@@ -124,7 +124,7 @@ export const AUGUR_HARBINGER = [
     name: "Terrain of Ill",
     icon: "spell_shadow_ward",
     maxRanks: 3,
-    position: { x: 0, y: 4.5 },
+    position: { x: 0, y: 2 },
     requires: "hb_t2_sign_of_decay",
     spell: {
       name: "Terrain of Decay",
@@ -152,7 +152,7 @@ export const AUGUR_HARBINGER = [
     name: "Curse Stack",
     icon: "spell_shadow_fingerofdeath",
     maxRanks: 3,
-    position: { x: 4, y: 4.5 },
+    position: { x: 4, y: 2 },
     requires: "hb_t2_misfortune_aura",
     spell: {
       name: "Curse Stack",
@@ -179,7 +179,7 @@ export const AUGUR_HARBINGER = [
     name: "Omen of Frailty",
     icon: "spell_holy_searinglightpriest",
     maxRanks: 3,
-    position: { x: 0, y: 5.5 },
+    position: { x: 0, y: 3 },
     requires: "hb_t3_terrain_of_ill",
     spell: {
       name: "Omen of Frailty",
@@ -200,7 +200,7 @@ export const AUGUR_HARBINGER = [
     name: "Dark Conviction",
     icon: "spell_shadow_mindtwisting",
     maxRanks: 2,
-    position: { x: 4, y: 5.5 },
+    position: { x: 4, y: 3 },
     requires: "hb_t3_curse_stack",
     spell: {
       name: "Dark Conviction",
@@ -220,7 +220,7 @@ export const AUGUR_HARBINGER = [
     name: "Malediction Overflow",
     icon: "spell_shadow_shadowbolt",
     maxRanks: 3,
-    position: { x: 0.5, y: 5.5 },
+    position: { x: 0.5, y: 4 },
     requires: "hb_t4_omen_of_frailty",
     spell: {
       name: "Malediction Overflow",
@@ -242,7 +242,7 @@ export const AUGUR_HARBINGER = [
     name: "Void Gaze",
     icon: "spell_shadow_telepathy",
     maxRanks: 2,
-    position: { x: 3.5, y: 5.5 },
+    position: { x: 3.5, y: 4 },
     requires: "hb_t4_dark_conviction",
     spell: {
       name: "Void Gaze",
@@ -262,7 +262,7 @@ export const AUGUR_HARBINGER = [
     name: "Ultimate Portent",
     icon: "spell_holy_borrowedtime",
     maxRanks: 1,
-    position: { x: 1, y: 4 },
+    position: { x: 1, y: 5 },
     requires: "hb_t5_malediction_overflow",
     spell: {
       name: "Ultimate Portent",
@@ -303,7 +303,7 @@ export const AUGUR_HARBINGER = [
     name: "Lingering Doom",
     icon: "spell_shadow_curseofsargeras",
     maxRanks: 2,
-    position: { x: 3, y: 4 },
+    position: { x: 3, y: 5 },
     requires: "hb_t5_void_gaze",
     spell: {
       name: "Lingering Doom",
@@ -323,7 +323,7 @@ export const AUGUR_HARBINGER = [
     name: "Harbinger Supreme",
     icon: "spell_shadow_curseofsargeras",
     maxRanks: 1,
-    position: { x: 0.5, y: 4.5 },
+    position: { x: 0.5, y: 6 },
     requires: "hb_t6_ultimate_portent",
     spell: {
       name: "Harbinger Supreme",
@@ -346,7 +346,7 @@ export const AUGUR_HARBINGER = [
     name: "Portent Depth",
     icon: "spell_shadow_shadowward",
     maxRanks: 5,
-    position: { x: 1, y: 5.5 },
+    position: { x: 1, y: 6 },
     requires: "hb_t6_dark_revelation",
     spell: {
       name: "Portent Depth",
@@ -368,7 +368,7 @@ export const AUGUR_HARBINGER = [
     name: "Cursed Momentum",
     icon: "spell_shadow_manafeed",
     maxRanks: 3,
-    position: { x: 2, y: 5.5 },
+    position: { x: 2, y: 6 },
     requires: "hb_t6_dark_revelation",
     spell: {
       name: "Cursed Momentum",
@@ -388,7 +388,7 @@ export const AUGUR_HARBINGER = [
     name: "Fractured Fate",
     icon: "spell_shadow_soulleech",
     maxRanks: 3,
-    position: { x: 3, y: 5.5 },
+    position: { x: 3, y: 6 },
     requires: "hb_t6_lingering_doom",
     spell: {
       name: "Fractured Fate",
@@ -408,7 +408,7 @@ export const AUGUR_HARBINGER = [
     name: "Doom Siphon",
     icon: "spell_shadow_lifedrain02",
     maxRanks: 3,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 6 },
     requires: "hb_t6_lingering_doom",
     spell: {
       name: "Doom Siphon",

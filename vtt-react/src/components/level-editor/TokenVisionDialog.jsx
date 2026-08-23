@@ -99,7 +99,7 @@ const TokenVisionDialog = ({ token, creature, isOpen, onClose }) => {
             <div className="token-vision-dialog">
                 <div className="dialog-header">
                     <h3 className="dialog-title">Configure Vision: {creatureName}</h3>
-                    <button className="close-btn" onClick={onClose}>Ã - </button>
+                    <button className="close-btn" onClick={onClose}>ï¿½ - </button>
                 </div>
 
                 <div className="dialog-content">

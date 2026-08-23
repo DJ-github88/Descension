@@ -1,6 +1,5 @@
 import { getStore } from './storeRegistry';
 import { create } from 'zustand';
-import { PROFESSIONAL_TERRAIN_TYPES } from '../components/level-editor/terrain/TerrainSystem';
 import { getGridSystem } from '../utils/InfiniteGridSystem';
 // CRITICAL: Helper functions to get current map's data from mapStore
 // This prevents map-specific data bleeding between maps
@@ -280,6 +279,205 @@ const mapUpdateBatcher = {
 
 // Export the batcher for external use (e.g. clearing on map switch)
 export { mapUpdateBatcher };
+
+// Professional terrain types with proper grid integration
+export const PROFESSIONAL_TERRAIN_TYPES = {
+  // Natural Terrain
+  grass: {
+    id: 'grass',
+    name: 'Grass',
+    category: 'natural',
+    color: '#4a7c59',
+    tileVariations: [
+      '/assets/tiles/Grass1.png'
+    ],
+    movementCost: 1,
+    description: 'Natural grassland'
+  },
+  dirt: {
+    id: 'dirt',
+    name: 'Dirt',
+    category: 'natural',
+    color: '#8b6914',
+    tileVariations: [
+      '/assets/tiles/Dirt1.png'
+    ],
+    movementCost: 1,
+    description: 'Bare earth and soil'
+  },
+  stone: {
+    id: 'stone',
+    name: 'Stone',
+    category: 'natural',
+    color: '#6b6b6b',
+    tileVariations: ['/assets/tiles/Stone1.png'],
+    movementCost: 1,
+    description: 'Natural stone surface'
+  },
+  sand: {
+    id: 'sand',
+    name: 'Sand',
+    category: 'natural',
+    color: '#c2b280',
+    tileVariations: ['/assets/tiles/Sand1.png'],
+    movementCost: 2,
+    description: 'Sandy terrain'
+  },
+  water: {
+    id: 'water',
+    name: 'Water',
+    category: 'natural',
+    color: '#4682b4',
+    tileVariations: ['/assets/tiles/Water2.png'],
+    movementCost: 4,
+    description: 'Deep water'
+  },
+  cobblestone: {
+    id: 'cobblestone',
+    name: 'Cobblestone',
+    category: 'natural',
+    color: '#8a8a8a',
+    tileVariations: [
+      '/assets/tiles/Cobble1.png'
+    ],
+    movementCost: 1,
+    description: 'Cobblestone path or road'
+  },
+
+  // Dungeon Terrain
+  dungeon_floor: {
+    id: 'dungeon_floor',
+    name: 'Dungeon Floor',
+    category: 'dungeon',
+    color: '#5a5a5a',
+    tileVariations: ['/assets/tiles/Dungeon1.png'],
+    movementCost: 1,
+    description: 'Stone dungeon flooring'
+  },
+  marble_floor: {
+    id: 'marble_floor',
+    name: 'Marble Floor',
+    category: 'dungeon',
+    color: '#f0f0f0',
+    tileVariations: ['/assets/tiles/Marble1.png'],
+    movementCost: 1,
+    description: 'Polished marble flooring'
+  },
+  wooden_floor: {
+    id: 'wooden_floor',
+    name: 'Wooden Floor',
+    category: 'dungeon',
+    color: '#8b4513',
+    tileVariations: ['/assets/tiles/Wood1.png'],
+    movementCost: 1,
+    description: 'Wooden planked flooring'
+  },
+  snow: {
+    id: 'snow',
+    name: 'Snow',
+    category: 'natural',
+    color: '#ffffff',
+    tileVariations: ['/assets/tiles/Snow1.png'],
+    movementCost: 2,
+    description: 'Fresh, powdery snow'
+  },
+
+  // Difficult Terrain
+  mud: {
+    id: 'mud',
+    name: 'Mud',
+    category: 'difficult',
+    color: '#654321',
+    tileVariations: ['/assets/tiles/Mud1.png'],
+    movementCost: 2,
+    description: 'Muddy, difficult terrain'
+  },
+  swamp: {
+    id: 'swamp',
+    name: 'Swamp',
+    category: 'difficult',
+    color: '#556b2f',
+    tileVariations: ['/assets/tiles/Swamp1.png'],
+    movementCost: 3,
+    description: 'Swampy, treacherous ground'
+  },
+  ice: {
+    id: 'ice',
+    name: 'Ice',
+    category: 'difficult',
+    color: '#b0e0e6',
+    tileVariations: ['/assets/tiles/Ice1.png'],
+    movementCost: 2,
+    description: 'Slippery ice surface'
+  },
+  fungal_growth: {
+    id: 'fungal_growth',
+    name: 'Fungal Growth',
+    category: 'difficult',
+    color: '#7b68ee',
+    tileVariations: ['/assets/tiles/Fungal1.png'],
+    movementCost: 2,
+    description: 'Spongy, glowing fungal matter'
+  },
+
+  // Special Terrain
+  lava: {
+    id: 'lava',
+    name: 'Lava',
+    category: 'hazard',
+    color: '#ff4500',
+    tileVariations: ['/assets/tiles/Lava1.png'],
+    movementCost: 99,
+    damage: '2d6 fire',
+    description: 'Molten lava - extremely dangerous'
+  },
+  acid: {
+    id: 'acid',
+    name: 'Acid Pool',
+    category: 'hazard',
+    color: '#32cd32',
+    tileVariations: ['/assets/tiles/Acid1.png'],
+    movementCost: 99,
+    damage: '1d6 acid',
+    description: 'Corrosive acid pool'
+  },
+  pit: {
+    id: 'pit',
+    name: 'Pit',
+    category: 'hazard',
+    color: '#2f2f2f',
+    tileVariations: ['/assets/tiles/Pit1.png'],
+    movementCost: 99,
+    description: 'Deep pit or chasm'
+  },
+  abyss: {
+    id: 'abyss',
+    name: 'The Abyss',
+    category: 'hazard',
+    color: '#000000',
+    tileVariations: ['/assets/tiles/Abyss1.png'],
+    movementCost: 99,
+    description: 'Infinite dark Silence'
+  },
+  crystal_floor: {
+    id: 'crystal_floor',
+    name: 'Crystal Floor',
+    category: 'dungeon',
+    color: '#e0ffff',
+    tileVariations: ['/assets/tiles/Crystal1.png'],
+    movementCost: 1,
+    description: 'Resonant crystalline surface'
+  },
+  gold_floor: {
+    id: 'gold_floor',
+    name: 'Gold Floor',
+    category: 'dungeon',
+    color: '#ffd700',
+    tileVariations: ['/assets/tiles/Gold1.png'],
+    movementCost: 1,
+    description: 'Opulent solid gold flooring'
+  }
+};
 
 // Terrain categories for organization
 export const TERRAIN_CATEGORIES = {

@@ -11,7 +11,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Silence Predator",
     icon: "ability_stealth",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 1, y: 0 },
     requires: null,
     spell: {
       name: "Silence Predator",
@@ -37,7 +37,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Shadow Cloak",
     icon: "spell_shadow_nethercloak",
     maxRanks: 2,
-    position: { x: 2, y: 0.5 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
       name: "Shadow Cloak",
@@ -61,7 +61,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Ambush Mastery",
     icon: "ability_rogue_ambush",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Ambush Mastery",
@@ -84,7 +84,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Phantom Step",
     icon: "spell_shadow_shadowstep",
     maxRanks: 3,
-    position: { x: 0, y: 5 },
+    position: { x: 1, y: 1 },
     requires: "ps_t1_silence_predator",
     spell: {
       name: "Phantom Step",
@@ -109,7 +109,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Shadow Eruption",
     icon: "spell_shadow_shadowbolt",
     maxRanks: 3,
-    position: { x: 0, y: 3 },
+    position: { x: 3, y: 1 },
     requires: "ps_t1_ambush_mastery",
     spell: {
       name: "Shadow Eruption",
@@ -132,7 +132,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Darkness Within",
     icon: "spell_shadow_shadowform",
     maxRanks: 3,
-    position: { x: 3, y: 7 },
+    position: { x: 3, y: 2 },
     requires: "ps_t2_phantom_step",
     spell: {
       name: "Darkness Within",
@@ -152,7 +152,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Eternal Darkness",
     icon: "spell_shadow_darkritual",
     maxRanks: 3,
-    position: { x: 1, y: 7 },
+    position: { x: 1, y: 2 },
     requires: "ps_t2_shadow_eruption",
     spell: {
       name: "Eternal Darkness",
@@ -179,7 +179,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Shadow Mutation",
     icon: "spell_shadow_demonicempathy",
     maxRanks: 3,
-    position: { x: 0, y: 4 },
+    position: { x: 0, y: 3 },
     requires: "ps_t3_darkness_within",
     spell: {
       name: "Shadow Mutation",
@@ -201,7 +201,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Shadow Weaving",
     icon: "spell_shadow_blackplague",
     maxRanks: 2,
-    position: { x: 4, y: 4 },
+    position: { x: 4, y: 3 },
     requires: "ps_t3_eternal_darkness",
     spell: {
       name: "Shadow Weaving",
@@ -221,7 +221,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Dance of Shadows",
     icon: "spell_shadow_gathershadows",
     maxRanks: 3,
-    position: { x: 0.5, y: 4.5 },
+    position: { x: 0.5, y: 4 },
     requires: "ps_t4_shadow_mutation",
     spell: {
       name: "Dance of Shadows",
@@ -241,7 +241,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Umbral Hunger",
     icon: "spell_shadow_soulleech",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 4 },
     requires: "ps_t4_shadow_weaving",
     spell: {
       name: "Umbral Hunger",
@@ -263,7 +263,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Shadow Ascendant",
     icon: "spell_shadow_demonicempathy",
     maxRanks: 1,
-    position: { x: 1.5, y: 4 },
+    position: { x: 1.5, y: 5 },
     requires: "ps_t5_dance_of_shadows",
     spell: {
       name: "Shadow Ascendant",
@@ -285,7 +285,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Predator's Economy",
     icon: "ability_rogue_findweakness",
     maxRanks: 2,
-    position: { x: 2, y: 4.5 },
+    position: { x: 2, y: 5 },
     requires: "ps_t5_umbral_hunger",
     spell: {
       name: "Predator's Economy",
@@ -305,7 +305,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Night's Cartography",
     icon: "spell_shadow_darkritual",
     maxRanks: 2,
-    position: { x: 2.5, y: 4 },
+    position: { x: 2.5, y: 5 },
     requires: "ps_t5_umbral_hunger",
     spell: {
       name: "Night's Cartography",
@@ -325,7 +325,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "The Silence Between",
     icon: "spell_shadow_gathershadows",
     maxRanks: 1,
-    position: { x: 1, y: 4 },
+    position: { x: 0, y: 6 },
     requires: "ps_t6_shadow_ascendant",
     spell: {
       name: "The Silence Between",
@@ -348,7 +348,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Abyssal Flux",
     icon: "spell_shadow_shadowward",
     maxRanks: 5,
-    position: { x: 1, y: 5 },
+    position: { x: 1, y: 6 },
     requires: "ps_t6_predators_economy",
     spell: {
       name: "Abyssal Flux",
@@ -370,7 +370,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Veilwalker",
     icon: "spell_shadow_shadowwalk",
     maxRanks: 3,
-    position: { x: 2, y: 5 },
+    position: { x: 2, y: 6 },
     requires: "ps_t6_nights_cartography",
     spell: {
       name: "Veilwalker",
@@ -390,7 +390,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Night Terror",
     icon: "spell_shadow_twilight",
     maxRanks: 3,
-    position: { x: 3, y: 5 },
+    position: { x: 3, y: 6 },
     requires: "ps_t6_predators_economy",
     spell: {
       name: "Night Terror",
@@ -412,7 +412,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Dark Communion",
     icon: "spell_shadow_metamorphosis",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 4, y: 6 },
     requires: "ps_t6_nights_cartography",
     spell: {
       name: "Dark Communion",

@@ -8,6 +8,7 @@ import useGameStore from '../../store/gameStore';
 import { canUseFeature } from '../../services/subscriptionService';
 import BUILT_IN_TRACKS from '../../data/builtInAudio';
 import './Lutebox.css';
+import { showConfirm } from '../../utils/dialogService';
 
 const TAG_COLORS = {
   ambient: '#4a9eff',
@@ -116,7 +117,13 @@ export default function JukeboxPanel({ isGM = false }) {
   const handleYouTubeAdd = async (url, metadata) => addYouTubeLink(userId, url, metadata);
 
   const handleDelete = async (track) => {
-    if (window.confirm(`Remove "${track.name}" from your library?`)) {
+    const confirmed = await showConfirm({
+      title: 'Remove Track',
+      message: `Remove "${track.name}" from your library?`,
+      confirmText: 'Remove Track',
+      isDestructive: true
+    });
+    if (confirmed) {
       await deleteTrack(userId, track);
     }
   };

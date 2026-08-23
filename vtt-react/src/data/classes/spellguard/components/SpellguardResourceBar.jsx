@@ -39,7 +39,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
             glowColor: '#6495ED',
             icon: 'fa-shield',
             passive: 'Lead-Lined Ribcage',
-            passiveDesc: 'Generate 1.5x Resonance from absorbed magical damage. Necrotic damage from Arcane Radiation is halved (max HP reduction remains full).'
+            passiveDesc: 'Generate 1.5x AEP from absorbed magical damage. Necrotic damage from Arcane Radiation is halved (max HP reduction remains full).'
         },
         spellBreaker: {
             name: 'Entropic Eraser',
@@ -300,11 +300,11 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
             {/* Tooltip */}
             {showTooltip && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
-                    <div className="tooltip-header">Silence Resonance (AEP)</div>
+                    <div className="tooltip-header">Arcane Energy Points (AEP)</div>
 
                     <div className="tooltip-section">
                         <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                            <strong>Current:</strong> {localAEP}/{maxAEP} Resonance
+                            <strong>Current:</strong> {localAEP}/{maxAEP} AEP
                         </div>
                         <div style={{ fontSize: '0.9rem' }}>
                             <strong>Status:</strong> {
@@ -321,7 +321,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                     <div className="tooltip-section">
                         <div className="tooltip-label" style={{ color: '#B22222' }}>Arcane Radiation</div>
                         <div className="passive-desc" style={{ color: '#8B0000' }}>
-                            Ending your round with unspent Resonance deals necrotic damage = (Resonance / 10) and reduces your max HP by the same amount until a long rest. +50% vulnerability to Bludgeoning & Slashing damage.
+                            Ending your round with unspent AEP deals necrotic damage = (AEP / 10) and reduces your max HP by the same amount until a long rest. +50% vulnerability to Bludgeoning & Slashing damage.
                         </div>
                     </div>
 
@@ -331,7 +331,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                             <div className="tooltip-section">
                                 <div className="tooltip-label" style={{ color: '#B22222' }}>Critical Meltdown Imminent</div>
                                 <div className="passive-desc" style={{ color: '#8B0000' }}>
-                                    Hitting 100 Resonance triggers a Critical Meltdown: 10d6 to everything within 30 ft (allies included), you drop to 1 HP, and your armor shatters. Purge now.
+                                    Hitting 100 AEP triggers a Critical Meltdown: 10d6 to everything within 30 ft (allies included), you drop to 1 HP, and your armor shatters. Purge now.
                                 </div>
                             </div>
                         </>
@@ -340,7 +340,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                     <div className="tooltip-divider"></div>
 
                     <div className="tooltip-section">
-                        <div className="tooltip-label">Resonance Management</div>
+                        <div className="tooltip-label">AEP Management</div>
                         <div className="level-management">
                             <strong>Generate:</strong>
                             <span>Intercept magical dmg (+1/dmg), Physical (+1/3), Mana Drain (+1)</span>
@@ -390,7 +390,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                     }}
                 >
                     <div className="context-menu-main">
-                        <div className="menu-title">Silence Resonance: {localAEP}/{maxAEP}</div>
+                        <div className="menu-title">Arcane Energy Points: {localAEP}/{maxAEP}</div>
 
                         <div className="spellguard-info-text">
                             {context === 'party' ? (
