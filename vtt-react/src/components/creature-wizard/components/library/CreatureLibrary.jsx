@@ -99,11 +99,25 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [creatureToDelete, setCreatureToDelete] = useState(null);
   const [shareDialog, setShareDialog] = useState(null);
-  const dragFromHandleRef = useRef(false);
-  const suppressCardClickUntilRef = useRef(0);
-
   // Auth store for community sharing
   const { user } = useAuthStore();
+
+  const [localSearchQuery, setLocalSearchQuery] = useState(library.filters.query || '');
+
+  // Keep local query in sync if external filters change
+  useEffect(() => {
+    setLocalSearchQuery(library.filters.query || '');
+  }, [library.filters.query]);
+
+  // Debounced filter dispatch to keep typing responsive
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if ((library.filters.query || '') !== localSearchQuery) {
+        dispatch(libraryActionCreators.filterCreatures({ query: localSearchQuery }));
+      }
+    }, 180);
+    return () => clearTimeout(timer);
+  }, [localSearchQuery, library.filters.query, dispatch]);
 
   // Set initial tooltip position when creature is selected (no ResizeObserver to prevent resizing)
   useEffect(() => {
@@ -476,13 +490,16 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
             <input
               type="text"
               placeholder="Search..."
-              value={library.filters.query || ''}
-              onChange={(e) => dispatch(libraryActionCreators.filterCreatures({ query: e.target.value }))}
+              value={localSearchQuery}
+              onChange={(e) => setLocalSearchQuery(e.target.value)}
             />
-            {library.filters.query && (
+            {localSearchQuery && (
               <button
                 className="clear-search-button"
-                onClick={() => dispatch(libraryActionCreators.filterCreatures({ query: '' }))}
+                onClick={() => {
+                  setLocalSearchQuery('');
+                  dispatch(libraryActionCreators.filterCreatures({ query: '' }));
+                }}
                 title="Clear Search"
               >
                 <i className="fas fa-times"></i>

@@ -35,29 +35,41 @@ const calculateModifier = (value) => {
   return Math.floor((value - 10) / 2);
 };
 
-// Look up a creature's illustration from BESTIARY_DATA by id / creatureId / name.
+// Pre-index bestiary creatures by ID and lowercase name for O(1) lookups
+const BESTIARY_LOOKUP_MAP = new Map();
+if (BESTIARY_DATA?.regions) {
+  for (const region of BESTIARY_DATA.regions) {
+    for (const c of (region.creatures || [])) {
+      const entry = {
+        illustration: c.illustration,
+        illustrationCaption: c.illustrationCaption,
+        name: c.name,
+        region: region.name,
+        role: c.role,
+        dangerLevel: c.dangerLevel,
+        folkloreInspiration: c.folkloreInspiration,
+        loreClassification: c.loreClassification,
+        loreCanon: c.loreCanon,
+        loreNote: c.loreNote
+      };
+      if (c.id) BESTIARY_LOOKUP_MAP.set(c.id, entry);
+      if (c.name) BESTIARY_LOOKUP_MAP.set(c.name.toLowerCase(), entry);
+    }
+  }
+}
+
+// Look up a creature's illustration from BESTIARY_DATA by id / creatureId / name in O(1) time.
 // Bestiary-sourced creatures carry rich lore (origin, nature, habitat, depth) but
 // the library/token copies don't include the illustration, so we resolve it here.
 const findBestiaryIllustration = (creature) => {
   if (!creature) return null;
   const id = creature.id || creature.creatureId;
+  if (id && BESTIARY_LOOKUP_MAP.has(id)) {
+    return BESTIARY_LOOKUP_MAP.get(id);
+  }
   const name = creature.name ? String(creature.name).toLowerCase() : null;
-  for (const region of BESTIARY_DATA.regions) {
-    for (const c of region.creatures) {
-      if ((id && c.id === id) || (name && c.name.toLowerCase() === name)) {
-        return {
-          illustration: c.illustration,
-          illustrationCaption: c.illustrationCaption,
-          name: c.name,
-          region: region.name,
-          role: c.role,
-          dangerLevel: c.dangerLevel,
-          loreClassification: c.loreClassification,
-          loreCanon: c.loreCanon,
-          loreNote: c.loreNote
-        };
-      }
-    }
+  if (name && BESTIARY_LOOKUP_MAP.has(name)) {
+    return BESTIARY_LOOKUP_MAP.get(name);
   }
   return null;
 };
@@ -2458,10 +2470,23 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       .filter((entry) => !entry.endsWith(': '))
       .join('\n') : '';
 
+    const folkloreInspiration = creature?.folkloreInspiration || bestiaryMatch?.folkloreInspiration;
+
     const loreEntries = [
       layerSummary && { icon: 'fa-layer-group', title: 'Mythrill Layer', text: `${layerSummary}${loreNote ? `\n${loreNote}` : ''}` },
       loreOrigin && { icon: 'fa-feather-pointed', title: 'Mythic Provenance', text: loreOrigin },
       loreFolklore && { icon: 'fa-book-open', title: 'Folklore Record', text: loreFolklore },
+      folkloreInspiration && {
+        icon: 'fa-book-journal-whills',
+        title: 'Real-World Folklore & Cryptid Roots',
+        text: [
+          folkloreInspiration.primaryMyth && `Mythological Root: ${folkloreInspiration.primaryMyth}`,
+          folkloreInspiration.traditions?.length > 0 && `Traditions: ${folkloreInspiration.traditions.join(', ')}`,
+          folkloreInspiration.cryptidRoots && `Archetype: ${folkloreInspiration.cryptidRoots}`,
+          folkloreInspiration.description,
+          folkloreInspiration.settingAdaptation && `Mythrill Adaptation: ${folkloreInspiration.settingAdaptation}`
+        ].filter(Boolean).join('\n\n')
+      },
       loreFunction && { icon: 'fa-dragon', title: 'Nature & World Function', text: loreFunction },
       creature?.habitat && { icon: 'fa-map-location-dot', title: 'Habitat', text: creature.habitat },
       loreValues && { icon: 'fa-shield-heart', title: 'Values & Guardianship', text: loreValues },

@@ -18,7 +18,7 @@ import useFactionStore from '../../store/factionStore';
 import './PlayerJournalWindow.css';
 
 const CANONICAL_MAP_PRESETS = [
-  { id: 'mythril', name: 'Mythrill - Planetary World Map', image: '/assets/images/backgrounds/Mythril.jpeg', type: 'World Master Map' },
+  { id: 'mythril', name: 'Mythrill', image: '/assets/images/backgrounds/Mythril.jpeg', type: 'World Master Map' },
   { id: 'nordhalla', name: 'Nordhalla Continental Map', image: '/assets/images/backgrounds/nordhalla.jpeg', type: 'Canonical Realm' },
   { id: 'nordhalla-glacier-heart', name: 'Rime-Spire Peaks Subregion', image: '/assets/images/backgrounds/rime-spire-peaks.jpg', type: 'Subregion Map' },
   { id: 'frostwood-reach', name: 'Frostwood Reach', image: '/assets/images/backgrounds/Mythril.jpeg', type: 'Canonical Realm' },

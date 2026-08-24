@@ -5,6 +5,9 @@
   display: flex;
   flex-direction: column;
   font-family: 'Bookman Old Style', 'Garamond', serif;
+  content-visibility: auto;
+  contain-intrinsic-size: 260px 220px;
+  contain: layout paint;
 }
 
 /* D&D/Pathfinder style card with parchment background */

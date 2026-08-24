@@ -299,6 +299,16 @@ const NAVIGATION_BUTTONS = [
         </>
     },
     {
+        id: 'locationscene',
+        title: 'Exploration Mode',
+        shortcut: 'M',
+        gmOnly: true,
+        svg: <>
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" />
+            <circle cx="12" cy="9" r="2.5" fill="currentColor"/>
+        </>
+    },
+    {
         id: 'toolkit',
         title: 'GM Toolkit',
         shortcut: 'K',
@@ -317,7 +327,7 @@ const NAVIGATION_BUTTONS = [
 
 const BUTTON_CATEGORY = {
     character: 'character', inventory: 'character', spellbook: 'character', journal: 'character',
-    quests: 'adventure', combat: 'adventure', travel: 'adventure', campaign: 'adventure',
+    quests: 'adventure', combat: 'adventure', travel: 'adventure', campaign: 'adventure', locationscene: 'adventure',
     crafting: 'tools', library: 'tools', leveleditor: 'tools', toolkit: 'tools', community: 'tools',
     settings: 'system',
 };
@@ -773,9 +783,7 @@ const InventoryHeaderButton = () => {
 export default function Navigation({ onReturnToLanding }) {
     const [openWindows, setOpenWindows] = useState(new Set());
     const [showExitConfirm, setShowExitConfirm] = useState(false);
-    const [isNavCollapsed, setIsNavCollapsed] = useState(() => {
-        try { return localStorage.getItem('mythrill-nav-collapsed') === 'true'; } catch { return false; }
-    });
+    const [isNavCollapsed, setIsNavCollapsed] = useState(false);
     const [isNavHovered, setIsNavHovered] = useState(false);
     const [orbPosition, setOrbPosition] = useState(() => {
         try {
@@ -800,6 +808,7 @@ export default function Navigation({ onReturnToLanding }) {
 
     // Game store for GM mode and camera position - granular selectors to prevent excessive re-renders
     const isGMMode = useGameStore(state => state.isGMMode);
+    const activeSceneMode = useGameStore(state => state.activeSceneMode);
     const cameraX = useGameStore(state => state.cameraX);
     const cameraY = useGameStore(state => state.cameraY);
     const gridSize = useGameStore(state => state.gridSize);
@@ -807,6 +816,17 @@ export default function Navigation({ onReturnToLanding }) {
     const gridOffsetY = useGameStore(state => state.gridOffsetY);
     const gridBackgroundColor = useGameStore(state => state.gridBackgroundColor);
     const setCameraPosition = useGameStore(state => state.setCameraPosition);
+
+    // Guarantee navigation bar is visible and expanded when changing scene modes
+    useEffect(() => {
+        setIsNavCollapsed(false);
+        try { localStorage.removeItem('mythrill-nav-collapsed'); } catch {}
+        const curSize = getInitialSize();
+        setPosition({
+            x: Math.max(20, (window.innerWidth - curSize.width) / 2),
+            y: 20
+        });
+    }, [activeSceneMode]);
 
     // State for coordinate input popup
     const [showCoordinatePopup, setShowCoordinatePopup] = useState(false);
@@ -1049,6 +1069,25 @@ export default function Navigation({ onReturnToLanding }) {
         // Special handling for level editor
         if (windowId === 'leveleditor') {
             setEditorMode(!isEditorMode);
+            return;
+        }
+
+        // Special handling for Location Scene mode toggle
+        if (windowId === 'locationscene') {
+            const currentGameStore = useGameStore.getState();
+            const nextMode = currentGameStore.activeSceneMode === 'location' ? 'tactical' : 'location';
+            currentGameStore.setActiveSceneMode(nextMode);
+
+            // Broadcast over socket if in multiplayer
+            const socket = currentGameStore.multiplayerSocket;
+            const room = currentGameStore.multiplayerRoom;
+            if (socket && socket.connected && room?.id) {
+                socket.emit('set_scene_mode', {
+                    roomId: room.id,
+                    mode: nextMode,
+                    activeLocationMapId: currentGameStore.activeLocationMapId
+                });
+            }
             return;
         }
 
@@ -1694,6 +1733,13 @@ export default function Navigation({ onReturnToLanding }) {
                             <div
                                 ref={nodeRef}
                                 className={`nav-wrapper ${isNavCollapsed ? 'nav-wrapper--collapsed' : ''}`}
+                                style={{
+                                    position: 'fixed',
+                                    top: 0,
+                                    left: 0,
+                                    zIndex: 1000,
+                                    pointerEvents: isNavCollapsed ? 'none' : 'auto'
+                                }}
                                 onMouseEnter={() => setIsNavHovered(true)}
                                 onMouseLeave={() => setIsNavHovered(false)}
                             >

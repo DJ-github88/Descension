@@ -52,6 +52,7 @@ import './services/roomService';
 // Lazy loaded auxiliary components
 const PerformanceDashboard = lazy(() => import("./components/common/PerformanceDashboard"));
 const WorldMapImmerse = lazy(() => import("./components/world-map/WorldMapImmerse"));
+const LocationSceneStage = lazy(() => import("./components/location-scene/LocationSceneStage"));
 
 import './components/world-map/styles/ImmersionTransition.css';
 import './styles/player-notification.css';
@@ -311,7 +312,7 @@ const PhoneGate = ({ featureName, children }) => {
 
 function GameScreen() {
   const location = useLocation();
-  const { isGMMode, setGMMode, gridSize, gridOffsetX, gridOffsetY } = useGameStore();
+  const { isGMMode, setGMMode, gridSize, gridOffsetX, gridOffsetY, activeSceneMode, activeLocationMapId } = useGameStore();
   const [isGameHydrated, setIsGameHydrated] = useState(false);
   
   // Selectors for better performance - avoid re-rendering entire screen on unrelated store changes
@@ -783,12 +784,40 @@ function GameScreen() {
           <FloatingCombatTextManager />
         </ErrorBoundary>
         <Suspense fallback={<LoadingFallback message="Loading game..." />}>
-          <ErrorBoundary name="Grid">
-            <Grid />
-          </ErrorBoundary>
-          <ErrorBoundary name="GridItems">
-            <GridItemsManager />
-          </ErrorBoundary>
+          {activeSceneMode === 'location' ? (
+            <ErrorBoundary name="LocationSceneStage">
+              <LocationSceneStage
+                isGM={isGMMode}
+                activeLocationMapId={activeLocationMapId}
+              />
+            </ErrorBoundary>
+          ) : (
+            <>
+              <ErrorBoundary name="Grid">
+                <Grid />
+              </ErrorBoundary>
+              <ErrorBoundary name="GridItems">
+                <GridItemsManager />
+              </ErrorBoundary>
+              {/* Keep all managers mounted but conditionally active to prevent loading flashes */}
+              {isGMMode && (
+                <>
+                  <ErrorBoundary name="DynamicFog">
+                    <DynamicFogManager disabled={!isGMMode} />
+                  </ErrorBoundary>
+                  <ErrorBoundary name="DynamicLighting">
+                    <DynamicLightingManager disabled={!isGMMode} />
+                  </ErrorBoundary>
+                  <ErrorBoundary name="AtmosphericEffects">
+                    <AtmosphericEffectsManager />
+                  </ErrorBoundary>
+                </>
+              )}
+              <ErrorBoundary name="MemorySnapshot">
+                <MemorySnapshotManager isGMMode={isGMMode} gridSize={gridSize} gridOffsetX={gridOffsetX} gridOffsetY={gridOffsetY} />
+              </ErrorBoundary>
+            </>
+          )}
           <ErrorBoundary name="Achievements">
             <AchievementNotificationOverlay />
           </ErrorBoundary>
@@ -803,23 +832,6 @@ function GameScreen() {
           </ErrorBoundary>
           <ErrorBoundary name="CombatTimeline">
             <CombatTimeline />
-          </ErrorBoundary>
-          {/* Keep all managers mounted but conditionally active to prevent loading flashes */}
-          {isGMMode && (
-            <>
-              <ErrorBoundary name="DynamicFog">
-                <DynamicFogManager disabled={!isGMMode} />
-              </ErrorBoundary>
-              <ErrorBoundary name="DynamicLighting">
-                <DynamicLightingManager disabled={!isGMMode} />
-              </ErrorBoundary>
-              <ErrorBoundary name="AtmosphericEffects">
-                <AtmosphericEffectsManager />
-              </ErrorBoundary>
-            </>
-          )}
-          <ErrorBoundary name="MemorySnapshot">
-            <MemorySnapshotManager isGMMode={isGMMode} gridSize={gridSize} gridOffsetX={gridOffsetX} gridOffsetY={gridOffsetY} />
           </ErrorBoundary>
           <ErrorBoundary name="Dialogue">
             <DialogueSystem />

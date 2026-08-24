@@ -566,8 +566,35 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
               // Logic to set thumbnail would go here
             }
           });
-          console.log('Ã°Å¸—ÂºÃ¯Â¸Â MapStore initialized with maps:', Object.keys(room.gameState.maps));
+          console.log('🗺️ MapStore initialized with maps:', Object.keys(room.gameState.maps));
         });
+      }
+
+      // 1b. Initialize Location Scene Mode & interactiveMapStore if present in room.gameState
+      if (room.gameState) {
+        const sceneMode = room.gameState.activeSceneMode || 'tactical';
+        const locMapId = room.gameState.activeLocationMapId || null;
+        const freeRoam = room.gameState.isFreeRoamAllowed || false;
+
+        import('../../store/gameStore').then(({ default: useGameStore }) => {
+          useGameStore.getState().setSceneModeAndLocation(sceneMode, locMapId, freeRoam);
+        });
+
+        if (room.gameState.locationScenes) {
+          import('../../store/interactiveMapStore').then(({ default: useInteractiveMapStore }) => {
+            const locStore = useInteractiveMapStore.getState();
+            locStore.ensureStarterMaps();
+            if (locMapId && room.gameState.locationScenes[locMapId]) {
+              const sceneData = room.gameState.locationScenes[locMapId];
+              locStore.syncLocationSceneState({
+                mapId: locMapId,
+                pins: sceneData.pins,
+                partyMarker: sceneData.partyMarker
+              });
+              locStore.setActiveMap(locMapId);
+            }
+          });
+        }
       }
 
       // 2. Determine correct start map for this player

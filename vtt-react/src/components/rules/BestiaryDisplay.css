@@ -179,16 +179,36 @@
 }
 
 .bestiary-region-header {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     padding-bottom: 1rem;
     border-bottom: 2px double #c9b38c;
+}
+
+.bestiary-region-title-wrap {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 0.35rem;
 }
 
 .bestiary-region-header h2 {
     font-family: 'Cinzel', serif;
     font-size: 1.8rem;
     color: #332211;
-    margin: 0 0 0.35rem 0;
+    margin: 0;
+}
+
+.bestiary-results-count {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #8c7355;
+    background: rgba(201, 179, 140, 0.2);
+    border: 1px solid #c9b38c;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
 }
 
 .bestiary-folklore-label {
@@ -206,7 +226,145 @@
 }
 
 /* ==========================================================================
-   CREATURE GRID VIEW
+   CONTROLS TOOLBAR: SEARCH & DANGER FILTER PILLS
+   ========================================================================== */
+
+.bestiary-controls-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(145deg, rgba(251, 247, 238, 0.9) 0%, rgba(243, 236, 216, 0.8) 100%);
+    border: 1.5px solid #c9b38c;
+    padding: 0.85rem 1.15rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(139, 115, 85, 0.1);
+}
+
+.bestiary-search-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.bestiary-search-box {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.bestiary-search-box i.fa-search {
+    position: absolute;
+    left: 1rem;
+    color: #8c6d3f;
+    pointer-events: none;
+    font-size: 0.95rem;
+}
+
+.bestiary-search-input {
+    width: 100%;
+    padding: 0.6rem 4.5rem 0.6rem 2.4rem;
+    border: 1.5px solid #c9b38c;
+    border-radius: 8px;
+    background: #fdfaf4;
+    font-family: 'Crimson Text', serif;
+    font-size: 1.05rem;
+    color: #332211;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+.bestiary-search-input:focus {
+    border-color: #8a1a10;
+    box-shadow: 0 0 0 3px rgba(138, 26, 16, 0.12);
+}
+
+.bestiary-search-clear {
+    position: absolute;
+    right: 0.65rem;
+    background: rgba(139, 115, 85, 0.12);
+    border: 1px solid #c9b38c;
+    border-radius: 6px;
+    color: #5c4728;
+    cursor: pointer;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.8rem;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.bestiary-search-clear:hover {
+    background: #8a1a10;
+    color: #fff;
+    border-color: #8a1a10;
+}
+
+.bestiary-filters-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+}
+
+.bestiary-filter-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #5c4728;
+    margin-right: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.bestiary-filter-pill {
+    font-size: 0.78rem;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    border: 1px solid #c9b38c;
+    background: #fbf8f0;
+    color: #4a381f;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    user-select: none;
+}
+
+.bestiary-filter-pill:hover {
+    background: #eee3cb;
+    border-color: #8c6d3f;
+    transform: translateY(-1px);
+}
+
+.bestiary-filter-pill.active {
+    background: #2d2215;
+    color: #f7f3e8;
+    border-color: #1a140b;
+    box-shadow: 0 2px 6px rgba(26, 20, 11, 0.25);
+}
+
+.bestiary-filter-pill-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
+}
+
+/* ==========================================================================
+   CREATURE GRID VIEW (PERFORMANCE OPTIMIZED)
    ========================================================================== */
 
 .bestiary-creature-grid {
@@ -222,31 +380,22 @@
     border-radius: 10px;
     overflow: hidden;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(139, 115, 85, 0.1);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 3px 8px rgba(139, 115, 85, 0.12);
+    transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.2s cubic-bezier(0.2, 0, 0, 1), border-color 0.2s;
     display: flex;
     flex-direction: column;
     position: relative;
-}
-
-.bestiary-creature-card::after {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    border: 1px solid transparent;
-    border-radius: 9px;
-    pointer-events: none;
-    transition: border-color 0.2s;
+    /* CSS Containment: Skips layout/paint for offscreen cards, saving CPU/GPU on slow devices */
+    content-visibility: auto;
+    contain-intrinsic-size: 290px 360px;
+    contain: layout paint;
+    transform: translateZ(0);
 }
 
 .bestiary-creature-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 24px rgba(139, 115, 85, 0.25);
+    transform: translateY(-4px) translateZ(0);
+    box-shadow: 0 8px 18px rgba(139, 115, 85, 0.22);
     border-color: #bfa882;
-}
-
-.bestiary-creature-card:hover::after {
-    border-color: rgba(201, 179, 140, 0.4);
 }
 
 .bestiary-card-image {
@@ -264,16 +413,25 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    transition: transform 0.5s ease;
+    transition: opacity 0.25s ease;
 }
 
-.bestiary-creature-card:hover .bestiary-card-image img {
-    transform: scale(1.05);
+.bestiary-card-image-skeleton {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(90deg, #eae2cb 0%, #f4edd9 50%, #eae2cb 100%);
+    background-size: 200% 100%;
+    animation: bestiarySkeletonShimmer 1.4s infinite;
+}
+
+@keyframes bestiarySkeletonShimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }
 
 .fallback-card-icon {
     font-size: 3rem;
-    color: rgba(226, 209, 166, 0.3);
+    color: rgba(226, 209, 166, 0.35);
 }
 
 .bestiary-card-body {
@@ -327,6 +485,93 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+
+/* Empty Results & Load More */
+.bestiary-empty-results {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: rgba(255, 255, 255, 0.35);
+    border: 2px dashed #c9b38c;
+    border-radius: 12px;
+    margin: 1rem 0;
+}
+
+.bestiary-empty-results i {
+    font-size: 3rem;
+    color: #c9b38c;
+    margin-bottom: 1rem;
+}
+
+.bestiary-empty-results h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    color: #4a381f;
+    margin: 0 0 0.5rem 0;
+}
+
+.bestiary-empty-results p {
+    font-size: 1rem;
+    color: #7d6a50;
+    margin: 0 0 1.5rem 0;
+}
+
+.bestiary-empty-reset-btn {
+    background: linear-gradient(135deg, #8a1a10 0%, #681008 100%);
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.4rem;
+    border-radius: 6px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(138, 26, 16, 0.25);
+    transition: all 0.2s ease;
+}
+
+.bestiary-empty-reset-btn:hover {
+    background: linear-gradient(135deg, #a52015 0%, #7d130a 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(138, 26, 16, 0.35);
+}
+
+.bestiary-load-more-btn {
+    display: block;
+    width: 100%;
+    margin: 1.75rem auto 1rem;
+    padding: 0.85rem 1.5rem;
+    background: linear-gradient(135deg, #fbf7ee 0%, #ece2c9 100%);
+    border: 2px solid #c9b38c;
+    border-radius: 8px;
+    color: #4a381f;
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(139, 115, 85, 0.12);
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.bestiary-load-more-btn:hover {
+    background: linear-gradient(135deg, #f3ecd8 0%, #dfd2b1 100%);
+    border-color: #8a1a10;
+    color: #8a1a10;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 14px rgba(138, 26, 16, 0.18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bestiary-creature-card,
+    .bestiary-region-item,
+    .bestiary-load-more-btn,
+    .bestiary-card-image img,
+    .bestiary-card-image-skeleton {
+        transition: none !important;
+        animation: none !important;
+        transform: none !important;
+    }
 }
 
 /* ==========================================================================
@@ -1259,5 +1504,158 @@
         opacity: 1;
         filter: drop-shadow(0 0 6px rgba(138, 43, 226, 0.8));
     }
+}
+
+/* ==========================================================================
+   REAL-WORLD FOLKLORE & CRYPTID ORIGINS CARD
+   ========================================================================== */
+
+.bestiary-folklore-card {
+    background: linear-gradient(135deg, #fcf9f2 0%, #f4ede0 100%);
+    border: 1.5px solid #2d6a4f;
+    border-left: 5px solid #2d6a4f;
+    border-radius: 10px;
+    padding: 1.4rem 1.6rem;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 14px rgba(45, 106, 79, 0.08);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bestiary-folklore-card:hover {
+    box-shadow: 0 6px 18px rgba(45, 106, 79, 0.14);
+    transform: translateY(-2px);
+}
+
+.bestiary-folklore-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1.5px dashed #c9b38c;
+}
+
+.bestiary-folklore-header h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1b4332;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bestiary-folklore-header h4 i {
+    color: #2d6a4f;
+}
+
+.bestiary-folklore-archetype-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    background: #e8f5e9;
+    color: #1b4332;
+    border: 1px solid #2d6a4f;
+    padding: 0.25rem 0.75rem;
+    border-radius: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.bestiary-folklore-primary-myth {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+    font-size: 1.05rem;
+}
+
+.bestiary-folklore-label-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #5c4728;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.bestiary-folklore-myth-name {
+    color: #8a1a10;
+    font-weight: 700;
+    font-family: 'Cinzel', serif;
+    font-size: 1.05rem;
+}
+
+.bestiary-folklore-traditions-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-bottom: 1rem;
+}
+
+.bestiary-folklore-tradition-pill {
+    font-size: 0.8rem;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    background: #f0e6d2;
+    color: #4a381f;
+    border: 1px solid #c9b38c;
+    padding: 0.2rem 0.65rem;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.bestiary-folklore-tradition-pill i {
+    color: #8c6d3f;
+}
+
+.bestiary-folklore-narrative {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: #3b3020;
+    margin-bottom: 1rem;
+}
+
+.bestiary-folklore-adaptation-box {
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid #c9b38c;
+    border-radius: 8px;
+    padding: 0.9rem 1.15rem;
+    margin-top: 0.75rem;
+}
+
+.bestiary-folklore-adaptation-box h5 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #7b2cbf;
+    margin: 0 0 0.4rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.bestiary-folklore-adaptation-box h5 i {
+    color: #9d4edd;
+}
+
+.bestiary-folklore-adaptation-box p {
+    font-size: 0.98rem;
+    line-height: 1.55;
+    color: #43281c;
+    margin: 0;
 }
 

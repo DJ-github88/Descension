@@ -5,14 +5,85 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../config/firebase';
 
 // Built-in starter interactive maps with hierarchical drilldown (World -> Continent -> Region -> Dungeon)
-const DEFAULT_STARTER_MAPS = [];
+const DEFAULT_STARTER_MAPS = [
+  {
+    id: 'map-mythril-world',
+    name: 'Mythrill',
+    type: 'world',
+    imageUrl: `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`,
+    parentMapId: null,
+    description: 'The vast realm of Mythrill, forged across sundering epochs.',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  }
+];
 
-const DEFAULT_STARTER_PINS = [];
+const DEFAULT_STARTER_PINS = [
+  {
+    id: 'pin-ironjaw-port',
+    mapId: 'map-mythril-world',
+    x: 40.5,
+    y: 50.2,
+    title: 'Ironjaw Port',
+    type: 'poi',
+    icon: 'fa-city',
+    color: '#8c6738',
+    size: 'medium',
+    description: 'A bustling coastal harbor and trading bastion overlooking the western straits. Merchant vessels and adventuring guilds frequent its taverns and docks.',
+    linkedEntities: { npcIds: [], questIds: [], factionIds: [], locationId: null, journalNotes: '' },
+    isSecretGM: false,
+    isDiscovered: true
+  },
+  {
+    id: 'pin-emberspire',
+    mapId: 'map-mythril-world',
+    x: 44.5,
+    y: 39.5,
+    title: 'Emberspire Peaks',
+    type: 'dungeon',
+    icon: 'fa-mountain-sun',
+    color: '#a83232',
+    size: 'medium',
+    description: 'Volcanic mountain ridge housing ancient forge temples and dwarven excavations beneath the fiery crags.',
+    linkedEntities: { npcIds: [], questIds: [], factionIds: [], locationId: null, journalNotes: '' },
+    isSecretGM: false,
+    isDiscovered: true
+  },
+  {
+    id: 'pin-cinderbloom',
+    mapId: 'map-mythril-world',
+    x: 34.0,
+    y: 31.0,
+    title: 'Cinderbloom Grove',
+    type: 'poi',
+    icon: 'fa-tree',
+    color: '#27ae60',
+    size: 'medium',
+    description: 'A twilight forest sanctuary glowing with bioluminescent moss and ancient standing stones.',
+    linkedEntities: { npcIds: [], questIds: [], factionIds: [], locationId: null, journalNotes: '' },
+    isSecretGM: false,
+    isDiscovered: true
+  },
+  {
+    id: 'pin-heathens-gate',
+    mapId: 'map-mythril-world',
+    x: 67.5,
+    y: 30.5,
+    title: "Heathen's Gate",
+    type: 'dungeon',
+    icon: 'fa-chess-rook',
+    color: '#8e44ad',
+    size: 'medium',
+    description: 'A fortified mountain stronghold guarding the perilous entrance into the Deep of Ilisha.',
+    linkedEntities: { npcIds: [], questIds: [], factionIds: [], locationId: null, journalNotes: '' },
+    isSecretGM: false,
+    isDiscovered: true
+  }
+];
 
 const DEFAULT_LAYERS = [
-  { id: 'terrain', name: 'Geography & Landmarks', isVisible: true, isGMOnly: false, icon: 'fa-mountain' },
-  { id: 'poi', name: 'Cities, Taverns & Quests', isVisible: true, isGMOnly: false, icon: 'fa-city' },
-  { id: 'political', name: 'Political Borders', isVisible: true, isGMOnly: false, icon: 'fa-flag' },
+  { id: 'pins', name: 'Landmark Pins & POIs', isVisible: true, isGMOnly: false, icon: 'fa-location-dot' },
+  { id: 'labels', name: 'Text Labels & Regions', isVisible: true, isGMOnly: false, icon: 'fa-font' },
   { id: 'journey', name: 'Party Journey Trail', isVisible: true, isGMOnly: false, icon: 'fa-route' },
   { id: 'fog', name: 'Fog of War (Shroud)', isVisible: true, isGMOnly: false, icon: 'fa-smog' },
   { id: 'secrets', name: 'GM Secrets & Traps', isVisible: true, isGMOnly: true, icon: 'fa-eye-slash' }
@@ -266,11 +337,11 @@ const useInteractiveMapStore = create(
         const publicUrl = process.env.PUBLIC_URL || '';
         const mythrilMap = {
           id: 'map-mythril-world',
-          name: 'Mythril — Known World',
+          name: 'Mythrill',
           type: 'world',
           imageUrl: `${publicUrl}/assets/images/backgrounds/Mythril.jpeg`,
           parentMapId: null,
-          description: 'The vast realm of Mythril, forged across sundering epochs.',
+          description: 'The vast realm of Mythrill, forged across sundering epochs.',
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
         };
@@ -317,13 +388,95 @@ const useInteractiveMapStore = create(
         }));
       },
 
-      // Layer Management
-      toggleLayerVisibility: (layerId) => {
+      revealPin: (pinId) => {
         set(state => ({
-          layers: state.layers.map(l =>
-            l.id === layerId ? { ...l, isVisible: !l.isVisible } : l
+          pins: state.pins.map(p =>
+            p.id === pinId ? { ...p, isSecretGM: false, isDiscovered: true } : p
           )
         }));
+      },
+
+      hidePin: (pinId) => {
+        set(state => ({
+          pins: state.pins.map(p =>
+            p.id === pinId ? { ...p, isSecretGM: true } : p
+          )
+        }));
+      },
+
+      // Real-time synchronization payload from server
+      syncLocationSceneState: ({ mapId, pins, partyMarker, maps }) => {
+        set(state => {
+          const updates = {};
+          if (maps && Array.isArray(maps)) {
+            updates.maps = maps;
+          }
+          if (pins && Array.isArray(pins)) {
+            if (mapId) {
+              const otherMapPins = state.pins.filter(p => p.mapId !== mapId);
+              updates.pins = [...otherMapPins, ...pins];
+            } else {
+              updates.pins = pins;
+            }
+          }
+          if (partyMarker !== undefined) {
+            updates.partyMarker = partyMarker;
+          }
+          return updates;
+        });
+      },
+
+      ensureStarterMaps: () => {
+        const state = get();
+        if (!state.maps || state.maps.length === 0) {
+          const publicUrl = process.env.PUBLIC_URL || '';
+          const defaultMap = {
+            id: 'map-mythril-world',
+            name: 'Mythrill',
+            type: 'world',
+            imageUrl: `${publicUrl}/assets/images/backgrounds/Mythril.jpeg`,
+            parentMapId: null,
+            description: 'The vast realm of Mythrill, forged across sundering epochs.',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          };
+          set({ maps: [defaultMap], activeMapId: defaultMap.id, pins: DEFAULT_STARTER_PINS });
+          return [defaultMap];
+        }
+        // Migrate old default map names
+        if (state.maps.some(m => m.id === 'map-mythril-world' && (m.name === 'Mythril — Known World' || m.name?.includes('Planetary')))) {
+          set({
+            maps: state.maps.map(m => m.id === 'map-mythril-world' && (m.name === 'Mythril — Known World' || m.name?.includes('Planetary')) ? { ...m, name: 'Mythrill' } : m)
+          });
+        }
+        if (!state.pins || state.pins.length === 0) {
+          set({ pins: DEFAULT_STARTER_PINS });
+        }
+        if (!state.layers || state.layers.length === 0 || !state.layers.some(l => l.id === 'pins')) {
+          set({ layers: DEFAULT_LAYERS });
+        }
+        if (!state.activeMapId && state.maps.length > 0) {
+          set({ activeMapId: state.maps[0].id });
+        }
+        return state.maps;
+      },
+
+      // Layer Management
+      toggleLayerVisibility: (layerId) => {
+        set(state => {
+          const currentLayers = (state.layers && state.layers.length > 0) ? state.layers : DEFAULT_LAYERS;
+          const exists = currentLayers.some(l => l.id === layerId);
+          if (!exists) {
+            return {
+              layers: [...currentLayers, { id: layerId, isVisible: false, name: layerId, isGMOnly: false, icon: 'fa-layer-group' }]
+            };
+          }
+          return {
+            layers: currentLayers.map(l =>
+              l.id === layerId ? { ...l, isVisible: !l.isVisible } : l
+            )
+          };
+        });
       },
 
       // Journey Trails & Waypoint Traversal
@@ -406,12 +559,20 @@ const useInteractiveMapStore = create(
         }));
       },
 
+      deleteJourneyWaypoint: (waypointId) => {
+        get().removeJourneyWaypoint(waypointId);
+      },
+
       clearJourneyTrail: (mapId = null) => {
         const targetMapId = mapId || get().activeMapId || 'map-mythril-world';
         set(state => ({
           journeyWaypoints: state.journeyWaypoints.filter(w => (w.mapId || 'map-mythril-world') !== targetMapId),
           selectedWaypointId: null
         }));
+      },
+
+      clearJourneyWaypoints: (mapId = null) => {
+        get().clearJourneyTrail(mapId);
       },
 
       setPartyMarkerPosition: (x, y, mapId = null) => {

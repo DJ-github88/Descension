@@ -385,6 +385,147 @@ function registerMapHandlers(ctx) {
       logger.error('[sync_map_state] Error:', { error: error.message });
     }
   });
+
+  socket.on('set_scene_mode', async(data, callback) => {
+    try {
+      const validation = validateRoomMembership(socket, data.roomId, true);
+      if (!validation.valid) {
+        if (typeof callback === 'function') callback({ success: false, error: 'Unauthorized' });
+        return;
+      }
+
+      const { room, player } = validation;
+      const mode = data.mode === 'location' ? 'location' : 'tactical';
+      room.gameState.activeSceneMode = mode;
+      if (data.activeLocationMapId !== undefined) {
+        room.gameState.activeLocationMapId = data.activeLocationMapId;
+      }
+      if (data.isFreeRoamAllowed !== undefined) {
+        room.gameState.isFreeRoamAllowed = Boolean(data.isFreeRoamAllowed);
+      }
+
+      const payload = {
+        mode: room.gameState.activeSceneMode,
+        activeLocationMapId: room.gameState.activeLocationMapId,
+        isFreeRoamAllowed: room.gameState.isFreeRoamAllowed,
+        updatedBy: player.id,
+        sequence: getNextEventSequence()
+      };
+
+      io.to(room.id).emit('scene_mode_changed', payload);
+      logger.info(`[set_scene_mode] GM ${player.name} switched scene mode to ${mode} (map: ${room.gameState.activeLocationMapId})`);
+
+      firebaseBatchWriter.queueWrite(room.id, room.gameState);
+
+      if (typeof callback === 'function') {
+        callback({ success: true, payload });
+      }
+    } catch (error) {
+      logger.error('[set_scene_mode] Error:', { error: error.message });
+      if (typeof callback === 'function') {
+        callback({ success: false, error: error.message });
+      }
+    }
+  });
+
+  socket.on('sync_location_scene_state', async(data, callback) => {
+    try {
+      const validation = validateRoomMembership(socket, data.roomId, true);
+      if (!validation.valid) {
+        if (typeof callback === 'function') callback({ success: false, error: 'Unauthorized' });
+        return;
+      }
+
+      const { room, player } = validation;
+      if (!room.gameState.locationScenes) {
+        room.gameState.locationScenes = {};
+      }
+
+      const mapId = data.mapId || 'map-mythril-world';
+      room.gameState.locationScenes[mapId] = {
+        id: mapId,
+        pins: data.pins || [],
+        partyMarker: data.partyMarker || null,
+        isFreeRoamAllowed: data.isFreeRoamAllowed !== undefined ? Boolean(data.isFreeRoamAllowed) : (room.gameState.isFreeRoamAllowed || false),
+        updatedAt: new Date().toISOString()
+      };
+
+      const payload = {
+        mapId,
+        pins: data.pins || [],
+        partyMarker: data.partyMarker || null,
+        maps: data.maps || null,
+        isFreeRoamAllowed: data.isFreeRoamAllowed,
+        updatedBy: player.id,
+        sequence: getNextEventSequence()
+      };
+
+      socket.to(room.id).emit('location_scene_synced', payload);
+      logger.info(`[sync_location_scene_state] Synced location scene ${mapId} by GM ${player.name} (${(data.pins || []).length} pins)`);
+
+      firebaseBatchWriter.queueWrite(room.id, room.gameState);
+
+      if (typeof callback === 'function') {
+        callback({ success: true, sequence: payload.sequence });
+      }
+    } catch (error) {
+      logger.error('[sync_location_scene_state] Error:', { error: error.message });
+      if (typeof callback === 'function') {
+        callback({ success: false, error: error.message });
+      }
+    }
+  });
+
+  socket.on('sync_party_marker', async(data, callback) => {
+    try {
+      const validation = validateRoomMembership(socket, data.roomId, true);
+      if (!validation.valid) {
+        if (typeof callback === 'function') callback({ success: false, error: 'Unauthorized' });
+        return;
+      }
+
+      const { room, player } = validation;
+      const mapId = data.mapId || 'map-mythril-world';
+
+      if (!room.gameState.locationScenes) {
+        room.gameState.locationScenes = {};
+      }
+      if (!room.gameState.locationScenes[mapId]) {
+        room.gameState.locationScenes[mapId] = { id: mapId, pins: [] };
+      }
+
+      const marker = {
+        x: data.x,
+        y: data.y,
+        name: data.name || 'The Party',
+        mapId,
+        updatedAt: new Date().toISOString()
+      };
+      room.gameState.locationScenes[mapId].partyMarker = marker;
+
+      const payload = {
+        mapId,
+        position: { x: data.x, y: data.y },
+        name: marker.name,
+        updatedBy: player.id,
+        sequence: getNextEventSequence()
+      };
+
+      io.to(room.id).emit('party_marker_moved', payload);
+      logger.debug(`[sync_party_marker] Party marker moved on ${mapId} to (${data.x}, ${data.y}) by GM ${player.name}`);
+
+      firebaseBatchWriter.queueWrite(room.id, room.gameState);
+
+      if (typeof callback === 'function') {
+        callback({ success: true });
+      }
+    } catch (error) {
+      logger.error('[sync_party_marker] Error:', { error: error.message });
+      if (typeof callback === 'function') {
+        callback({ success: false, error: error.message });
+      }
+    }
+  });
 }
 
 module.exports = { registerMapHandlers };

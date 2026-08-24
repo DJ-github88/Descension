@@ -1028,8 +1028,77 @@ export function registerGmHandlers(ctx) {
         }
 
         usePartyStore.getState().setPlayerMapAssignment(currentPlayerRef.current?.id, data.newMapId);
-        console.log(`âœ… [player_map_changed] Player view switched to map: ${data.newMapName || data.newMapId}`);
+        console.log(`✅ [player_map_changed] Player view switched to map: ${data.newMapName || data.newMapId}`);
       }, mapSwapDelay);
+    });
+
+    socket.on('scene_mode_changed', (data) => {
+      console.log('📍 [Location Scene] Scene mode changed:', data);
+      if (!data) return;
+
+      const { mode, activeLocationMapId, isFreeRoamAllowed } = data;
+
+      if (setMapTransition && showMapTransitions) {
+        setMapTransition({
+          isActive: true,
+          mapName: mode === 'location' ? 'Exploration Scene' : 'Tactical Battle Grid',
+          transferredByGM: true
+        });
+      }
+
+      useGameStore.getState().setSceneModeAndLocation(mode, activeLocationMapId, isFreeRoamAllowed);
+
+      if (activeLocationMapId) {
+        import('../../../store/interactiveMapStore').then(({ default: useInteractiveMapStore }) => {
+          useInteractiveMapStore.getState().setActiveMap(activeLocationMapId);
+        });
+      }
+
+      if (addNotificationRef?.current) {
+        addNotificationRef.current('social', {
+          sender: { name: 'Realm', class: 'system', level: 0 },
+          content: mode === 'location' 
+            ? 'The Game Master has shifted the view to Exploration Scene mode.'
+            : 'The Game Master has returned the view to the Tactical Battle Grid.',
+          isSystem: true,
+          timestamp: new Date().toISOString()
+        });
+      }
+    });
+
+    socket.on('location_scene_synced', (data) => {
+      console.log('📍 [Location Scene] Scene state received:', data);
+      if (!data) return;
+
+      import('../../../store/interactiveMapStore').then(({ default: useInteractiveMapStore }) => {
+        const store = useInteractiveMapStore.getState();
+        store.syncLocationSceneState({
+          mapId: data.mapId,
+          pins: data.pins,
+          partyMarker: data.partyMarker,
+          maps: data.maps
+        });
+        if (data.mapId && store.activeMapId !== data.mapId) {
+          store.setActiveMap(data.mapId);
+        }
+      });
+
+      if (data.isFreeRoamAllowed !== undefined) {
+        useGameStore.getState().setIsFreeRoamAllowed(data.isFreeRoamAllowed);
+      }
+    });
+
+    socket.on('party_marker_moved', (data) => {
+      console.log('📍 [Location Scene] Party marker moved:', data);
+      if (!data || !data.position) return;
+
+      import('../../../store/interactiveMapStore').then(({ default: useInteractiveMapStore }) => {
+        const store = useInteractiveMapStore.getState();
+        store.setPartyMarkerPosition(data.position.x, data.position.y, data.mapId);
+        if (data.name) {
+          store.updatePartyMarker({ name: data.name });
+        }
+      });
     });
 
   return () => {
@@ -1040,5 +1109,8 @@ export function registerGmHandlers(ctx) {
     socket.off('gm_location_changed');
     socket.off('fresh_positions_received');
     socket.off('player_map_changed');
+    socket.off('scene_mode_changed');
+    socket.off('location_scene_synced');
+    socket.off('party_marker_moved');
   };
 }

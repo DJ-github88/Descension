@@ -14,6 +14,11 @@ const initialState = {
     // Global GM/Player mode for controlling access to features
     isGMMode: true, // GM can see all features, Player mode restricts access
 
+    // Scene Viewport Mode ('tactical' | 'location')
+    activeSceneMode: 'tactical', // 'tactical' (combat/grid canvas) | 'location' (exploration scene)
+    activeLocationMapId: null, // Active map ID in Location Scene Mode
+    isFreeRoamAllowed: false, // Whether players are allowed to navigate sub-maps independently
+
     // Multiplayer state
     isInMultiplayer: false,
     multiplayerRoom: null,
@@ -724,6 +729,16 @@ const useGameStore = create((set, get) => ({
             multiplayerSocket: null
         });
     },
+
+    // Scene Mode Management
+    setActiveSceneMode: (mode) => set({ activeSceneMode: mode }),
+    setActiveLocationMapId: (mapId) => set({ activeLocationMapId: mapId }),
+    setIsFreeRoamAllowed: (allowed) => set({ isFreeRoamAllowed: allowed }),
+    setSceneModeAndLocation: (mode, mapId, isFreeRoamAllowed = null) => set(state => ({
+        activeSceneMode: mode,
+        activeLocationMapId: mapId !== undefined ? mapId : state.activeLocationMapId,
+        isFreeRoamAllowed: isFreeRoamAllowed !== null ? isFreeRoamAllowed : state.isFreeRoamAllowed
+    })),
 
     // Multiplayer token movement is handled by creatureStore
 

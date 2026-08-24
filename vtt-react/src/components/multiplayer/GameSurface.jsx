@@ -8,6 +8,7 @@ import useChatStore from '../../store/chatStore';
 import QuestShareDialog from '../quest-log/QuestShareDialog';
 import QuestRewardDeliveryDialog from '../quest-log/QuestRewardDeliveryDialog';
 import Grid from '../Grid';
+import LocationSceneStage from '../location-scene/LocationSceneStage';
 import Navigation from '../Navigation';
 import CursorTracker from './CursorTracker';
 import UnifiedTransitionOverlay, { TRANSITION_TIMINGS } from './UnifiedTransitionOverlay';
@@ -53,6 +54,9 @@ const MultiplayerGameContent = ({
 }) => {
   const { enterMultiplayerRoom, exitRoom } = useRoomContext();
   const { maps, currentMapId } = useMapStore();
+
+  const activeSceneMode = useGameStore(state => state.activeSceneMode);
+  const activeLocationMapId = useGameStore(state => state.activeLocationMapId);
 
   // CRITICAL FIX: For players, use playerCurrentMapId to show their actual map location
   // For GM, use currentMapId (their editing view)
@@ -164,8 +168,26 @@ const MultiplayerGameContent = ({
     <div className="multiplayer-vtt">
       {/* Full VTT Interface */}
       <div className="vtt-game-screen">
-        <Grid />
-        <GridItemsManager />
+        {activeSceneMode === 'location' ? (
+          <LocationSceneStage
+            currentRoom={currentRoom}
+            isGM={isGM}
+            socket={socket}
+            activeLocationMapId={activeLocationMapId}
+          />
+        ) : (
+          <>
+            <Grid />
+            <GridItemsManager />
+            {/* Disable expensive background managers in player mode for performance */}
+            {isGMMode && <DynamicFogManager />}
+            {isGMMode && <DynamicLightingManager />}
+            <AtmosphericEffectsManager />
+            {/* Memory system runs in both modes - tracks exploration when viewingFromToken is set */}
+            <MemorySnapshotManager isGMMode={isGMMode} gridSize={gridSize} gridOffsetX={gridOffsetX} gridOffsetY={gridOffsetY} />
+          </>
+        )}
+
         <Suspense fallback={null}>
           <HUDContainer />
         </Suspense>
@@ -173,12 +195,6 @@ const MultiplayerGameContent = ({
         <CombatSelectionWindow />
         <CombatTimeline />
         <FloatingCombatTextManager />
-        {/* Disable expensive background managers in player mode for performance */}
-        {isGMMode && <DynamicFogManager />}
-        {isGMMode && <DynamicLightingManager />}
-        <AtmosphericEffectsManager />
-        {/* Memory system runs in both modes - tracks exploration when viewingFromToken is set */}
-        <MemorySnapshotManager isGMMode={isGMMode} gridSize={gridSize} gridOffsetX={gridOffsetX} gridOffsetY={gridOffsetY} />
         <DialogueSystem />
         {isGMMode && <DialogueControls />}
         <DiceRollingSystem />
@@ -189,7 +205,7 @@ const MultiplayerGameContent = ({
           status={connectionStatus}
           isJoiningRoom={isJoiningRoom}
           playerCount={actualPlayerCount}
-          currentMapName={currentMapName}
+          currentMapName={activeSceneMode === 'location' ? 'Exploration Mode' : currentMapName}
           onMapIconClick={() => window.dispatchEvent(new CustomEvent('open-window', { detail: 'map-library' }))}
         />
       </div>

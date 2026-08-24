@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useRef, useEffect, useCallback, memo } from 'react';
 import BESTIARY_DATA from '../../data/creatureData.json';
 import './BestiaryDisplay.css';
 
@@ -10,6 +10,8 @@ const DANGER_COLORS = {
   'Very High': { bg: '#9b2226', text: '#fff' },
   Extreme: { bg: '#7b2cb7', text: '#fff' }
 };
+
+const DANGER_LEVELS = ['Trivial', 'Low', 'Medium', 'High', 'Very High', 'Extreme'];
 
 const REGION_ICONS = {
   'frostwood-reach': 'fa-tree',
@@ -43,6 +45,8 @@ const ELEMENT_DETAILS = {
   lightning: { label: 'Lightning', color: '#2196f3', icon: 'fa-bolt' }
 };
 
+const ITEMS_PER_PAGE = 18;
+
 // Core Helper Functions
 const calculateModifier = (value) => {
   return Math.floor((value - 10) / 2);
@@ -59,18 +63,11 @@ const getCreatureThumb = (illustration) => {
     .replace(/\.png$/i, '.jpg');
 };
 
-
-
 // Dynamic Game-Mechanic Formatter
 // Converts raw text descriptions of damage rolls, save DCs, etc., into gorgeous, styled inline RPG badges
 const formatCombatMechanicsText = (text) => {
   if (!text) return null;
   
-  // Regular expressions to catch:
-  // 1. Damage rolls (e.g. 2d10+5, 1d6, 6d8, 10d10) plus optional elemental damage types
-  // 2. Difficulty Checks (e.g. DC 14 STR, DC 18 SPI, DC 16 CON)
-  // 3. Spacial Ranges and Radii (e.g. 30-ft radius, 60-ft, 30 ft, 60 ft)
-  // 4. Hit Points/DR listings (e.g. 40 HP, DR 5)
   const regex = /(\b\d+d\d+(?:\+\d+)?\b(?:\s+(?:piercing|bludgeoning|slashing|cold|fire|psychic|necrotic|radiant|poison|lightning|acid|physical))?|\bDC\s+\d+\s+[A-Z]{3,4}\b|\b\d+-ft\s+(?:radius|cone|range|diameter)?\b|\b\d+\s+HP,\s+DR\s+\d+\b)/gi;
   
   const parts = text.split(regex);
@@ -120,24 +117,211 @@ const isCosmicWyrdCreature = (classification = {}) => {
     || status.includes('wyrdspawn');
 };
 
+/**
+ * Highly optimized, memoized Bestiary card component.
+ * Features asynchronous decoding, skeleton placeholder, and fallback handling.
+ */
+const BestiaryCreatureCard = memo(({ creature, onSelect, regionIcon }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+  const [thumbSrc, setThumbSrc] = useState(() => getCreatureThumb(creature.illustration));
+
+  const handleImageError = useCallback(() => {
+    if (thumbSrc !== creature.illustration) {
+      setThumbSrc(creature.illustration);
+    } else {
+      setImageError(true);
+    }
+  }, [thumbSrc, creature.illustration]);
+
+  const dangerStyle = DANGER_COLORS[creature.dangerLevel] || DANGER_COLORS.Medium;
+  const originSnippet = useMemo(() => {
+    if (!creature.origin) return '';
+    return creature.origin.split('.')[0] + '.';
+  }, [creature.origin]);
+
+  return (
+    <div
+      className="bestiary-creature-card"
+      onClick={() => onSelect(creature.id)}
+      style={{ borderTopColor: dangerStyle.bg }}
+    >
+      <div className="bestiary-card-image">
+        {creature.illustration && !imageError ? (
+          <>
+            {!imageLoaded && <div className="bestiary-card-image-skeleton" />}
+            <img
+              src={thumbSrc}
+              alt={creature.name}
+              loading="lazy"
+              decoding="async"
+              width="290"
+              height="160"
+              onLoad={() => setImageLoaded(true)}
+              onError={handleImageError}
+              style={{ opacity: imageLoaded ? 1 : 0 }}
+            />
+          </>
+        ) : (
+          <i className={`fas ${regionIcon || 'fa-globe'} fallback-card-icon`}></i>
+        )}
+      </div>
+      <div className="bestiary-card-body">
+        <div className="bestiary-card-header">
+          <h3>{creature.name}</h3>
+          <span
+            className="bestiary-card-badge"
+            style={{ 
+              backgroundColor: dangerStyle.bg, 
+              color: dangerStyle.text 
+            }}
+          >
+            {creature.dangerLevel}
+          </span>
+        </div>
+        <p className="bestiary-card-role">{creature.role}</p>
+        <p className="bestiary-card-origin">{originSnippet}</p>
+      </div>
+    </div>
+  );
+});
+
 const BestiaryDisplay = () => {
   const [selectedRegion, setSelectedRegion] = useState(BESTIARY_DATA.regions[0].id);
+  const [selectedDanger, setSelectedDanger] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [selectedCreature, setSelectedCreature] = useState(null);
   const [activeTab, setActiveTab] = useState('lore'); // 'lore' | 'combat' | 'tactics'
 
-  const currentRegion = BESTIARY_DATA.regions.find(r => r.id === selectedRegion);
-  const currentCreature = selectedCreature
-    ? currentRegion?.creatures.find(c => c.id === selectedCreature)
-    : null;
+  const sentinelRef = useRef(null);
+
+  // Total creatures count across all regions
+  const totalCreaturesCount = useMemo(() => {
+    return BESTIARY_DATA.regions.reduce((acc, r) => acc + (r.creatures?.length || 0), 0);
+  }, []);
+
+  // Pre-filter creatures based on selected continent, danger, and search query
+  const filteredCreatures = useMemo(() => {
+    let list = [];
+    if (selectedRegion === 'all') {
+      list = BESTIARY_DATA.regions.flatMap(r => 
+        (r.creatures || []).map(c => ({ ...c, regionName: r.name, regionId: r.id }))
+      );
+    } else {
+      const reg = BESTIARY_DATA.regions.find(r => r.id === selectedRegion);
+      list = (reg?.creatures || []).map(c => ({ ...c, regionName: reg.name, regionId: reg.id }));
+    }
+
+    if (selectedDanger !== 'all') {
+      list = list.filter(c => c.dangerLevel === selectedDanger);
+    }
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      list = list.filter(c => {
+        const folk = c.folkloreInspiration || {};
+        const folkTrad = Array.isArray(folk.traditions) ? folk.traditions.join(' ').toLowerCase() : '';
+        const folkMyth = (folk.primaryMyth || '').toLowerCase();
+        const folkCryptid = (folk.cryptidRoots || '').toLowerCase();
+        const folkDesc = (folk.description || '').toLowerCase();
+        const folkAdapt = (folk.settingAdaptation || '').toLowerCase();
+
+        return (
+          (c.name && c.name.toLowerCase().includes(q)) ||
+          (c.role && c.role.toLowerCase().includes(q)) ||
+          (c.origin && c.origin.toLowerCase().includes(q)) ||
+          (c.nature && c.nature.toLowerCase().includes(q)) ||
+          (c.heritage && c.heritage.toLowerCase().includes(q)) ||
+          (c.regionName && c.regionName.toLowerCase().includes(q)) ||
+          folkTrad.includes(q) ||
+          folkMyth.includes(q) ||
+          folkCryptid.includes(q) ||
+          folkDesc.includes(q) ||
+          folkAdapt.includes(q)
+        );
+      });
+    }
+
+    return list;
+  }, [selectedRegion, selectedDanger, searchQuery]);
+
+  // Progressive slice for low-overhead rendering
+  const displayedCreatures = useMemo(() => {
+    return filteredCreatures.slice(0, visibleCount);
+  }, [filteredCreatures, visibleCount]);
+
+  const hasMore = visibleCount < filteredCreatures.length;
+
+  // Infinite scroll intersection observer
+  useEffect(() => {
+    if (!sentinelRef.current || !hasMore) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setVisibleCount(prev => Math.min(prev + ITEMS_PER_PAGE, filteredCreatures.length));
+      }
+    }, { rootMargin: '250px', threshold: 0.1 });
+
+    observer.observe(sentinelRef.current);
+    return () => observer.disconnect();
+  }, [hasMore, filteredCreatures.length]);
+
+  // Reset pagination when filter conditions change
+  const handleRegionSelect = useCallback((regionId) => {
+    setSelectedRegion(regionId);
+    setSelectedCreature(null);
+    setVisibleCount(ITEMS_PER_PAGE);
+  }, []);
+
+  const handleDangerSelect = useCallback((danger) => {
+    setSelectedDanger(prev => prev === danger ? 'all' : danger);
+    setVisibleCount(ITEMS_PER_PAGE);
+  }, []);
+
+  const handleSearchChange = useCallback((e) => {
+    setSearchQuery(e.target.value);
+    setVisibleCount(ITEMS_PER_PAGE);
+  }, []);
+
+  const handleClearFilters = useCallback(() => {
+    setSearchQuery('');
+    setSelectedDanger('all');
+    setVisibleCount(ITEMS_PER_PAGE);
+  }, []);
+
+  // Determine current region and creature for detail view
+  const currentRegion = useMemo(() => {
+    if (selectedRegion === 'all') {
+      if (selectedCreature) {
+        const found = BESTIARY_DATA.regions.find(r => r.creatures?.some(c => c.id === selectedCreature));
+        if (found) return found;
+      }
+      return { id: 'all', name: 'All Continents', folklore: 'Pan-Mythrill Compendium' };
+    }
+    return BESTIARY_DATA.regions.find(r => r.id === selectedRegion) || BESTIARY_DATA.regions[0];
+  }, [selectedRegion, selectedCreature]);
+
+  const currentCreature = useMemo(() => {
+    if (!selectedCreature) return null;
+    for (const region of BESTIARY_DATA.regions) {
+      const found = region.creatures?.find(c => c.id === selectedCreature);
+      if (found) return found;
+    }
+    return null;
+  }, [selectedCreature]);
+
   const loreClassification = currentCreature?.loreClassification || {};
   const loreCanon = currentCreature?.loreCanon || {};
-  const loreClassificationRows = [
+  
+  const loreClassificationRows = useMemo(() => [
     ['Status', loreClassification.status],
     ['Origin class', loreClassification.originClass],
     ['Wyrd relationship', loreClassification.wyrdRelationship]
   ]
     .map(([label, value]) => [label, readLoreText(value)])
-    .filter(([, value]) => value);
+    .filter(([, value]) => value), [loreClassification]);
+
   const loreNote = readLoreText(currentCreature?.loreNote);
   const loreOrigin = readLoreText(loreCanon.trueOrigin) || readLoreText(currentCreature?.origin);
   const loreFolklore = readLoreText(loreCanon.folklore) || readLoreText(currentCreature?.heritage);
@@ -148,25 +332,40 @@ const BestiaryDisplay = () => {
   const loreWyrdRelationship = readLoreText(loreCanon.wyrdRelationship)
     || readLoreText(loreClassification.wyrdRelationship)
     || readLoreText(currentCreature?.depth);
-  const cosmicLoreRows = cosmicWyrd ? [
-    ['Cosmic provenance', loreCanon.cosmicProvenance],
-    ['Wyrd function', loreCanon.wyrdFunction],
-    ['Mythrill anchor', loreCanon.anchor],
-    ['Keth-Amar relationship', loreCanon.kethRelationship],
-    ['Current independence', loreCanon.independence],
-    ['Countermeasure', loreCanon.countermeasure]
-  ]
-    .map(([label, value]) => [label, readLoreText(value)])
-    .filter(([, value]) => value) : [];
+
+  const cosmicLoreRows = useMemo(() => {
+    if (!cosmicWyrd) return [];
+    return [
+      ['Cosmic provenance', loreCanon.cosmicProvenance],
+      ['Wyrd function', loreCanon.wyrdFunction],
+      ['Mythrill anchor', loreCanon.anchor],
+      ['Keth-Amar relationship', loreCanon.kethRelationship],
+      ['Current independence', loreCanon.independence],
+      ['Countermeasure', loreCanon.countermeasure]
+    ]
+      .map(([label, value]) => [label, readLoreText(value)])
+      .filter(([, value]) => value);
+  }, [cosmicWyrd, loreCanon]);
+
   const hasLayerMetadata = loreClassificationRows.length > 0 || Boolean(loreNote);
   const hasTruthBeneath = Boolean(loreWyrdRelationship) || cosmicLoreRows.length > 0;
 
-  const handleBack = () => {
-    setSelectedCreature(null);
-    setActiveTab('lore'); // Reset tab state
-  };
+  // Memoized formatted combat text
+  const formattedCombatMechanics = useMemo(() => {
+    return formatCombatMechanicsText(currentCreature?.combat);
+  }, [currentCreature?.combat]);
 
-  const renderResistanceBadge = (type, value, isVuln = false) => {
+  const handleBack = useCallback(() => {
+    setSelectedCreature(null);
+    setActiveTab('lore');
+  }, []);
+
+  const handleSelectCreature = useCallback((creatureId) => {
+    setSelectedCreature(creatureId);
+    setActiveTab('lore');
+  }, []);
+
+  const renderResistanceBadge = useCallback((type, value, isVuln = false) => {
     const details = ELEMENT_DETAILS[type.toLowerCase()] || { label: type, color: '#888', icon: 'fa-shield-alt' };
     const style = {
       border: `1.5px solid ${details.color}`,
@@ -185,7 +384,7 @@ const BestiaryDisplay = () => {
         </span>
       </div>
     );
-  };
+  }, []);
 
   return (
     <div className="bestiary-display">
@@ -207,18 +406,29 @@ const BestiaryDisplay = () => {
         <div className="bestiary-sidebar">
           <h4 className="bestiary-sidebar-title">Continents</h4>
           <ul className="bestiary-region-list">
+            <li
+              className={`bestiary-region-item ${selectedRegion === 'all' ? 'active' : ''}`}
+              onClick={() => handleRegionSelect('all')}
+            >
+              <i className="fas fa-globe bestiary-region-icon"></i>
+              <div className="bestiary-region-info">
+                <span className="bestiary-region-name">All Regions</span>
+                <span className="bestiary-region-folklore">Entire World</span>
+              </div>
+              <span className="bestiary-region-count">{totalCreaturesCount}</span>
+            </li>
             {BESTIARY_DATA.regions.map(region => (
               <li
                 key={region.id}
                 className={`bestiary-region-item ${selectedRegion === region.id ? 'active' : ''}`}
-                onClick={() => { setSelectedRegion(region.id); setSelectedCreature(null); }}
+                onClick={() => handleRegionSelect(region.id)}
               >
                 <i className={`fas ${REGION_ICONS[region.id] || 'fa-globe'} bestiary-region-icon`}></i>
                 <div className="bestiary-region-info">
                   <span className="bestiary-region-name">{region.name}</span>
                   <span className="bestiary-region-folklore">{region.folklore}</span>
                 </div>
-                <span className="bestiary-region-count">{region.creatures.length}</span>
+                <span className="bestiary-region-count">{region.creatures?.length || 0}</span>
               </li>
             ))}
           </ul>
@@ -239,8 +449,8 @@ const BestiaryDisplay = () => {
                   <span
                     className="bestiary-detail-badge"
                     style={{ 
-                      backgroundColor: DANGER_COLORS[currentCreature.dangerLevel].bg, 
-                      color: DANGER_COLORS[currentCreature.dangerLevel].text 
+                      backgroundColor: (DANGER_COLORS[currentCreature.dangerLevel] || DANGER_COLORS.Medium).bg, 
+                      color: (DANGER_COLORS[currentCreature.dangerLevel] || DANGER_COLORS.Medium).text 
                     }}
                   >
                     {currentCreature.dangerLevel} Danger
@@ -283,7 +493,7 @@ const BestiaryDisplay = () => {
                     </div>
                   )}
 
-                  {/* Quick Stats Panel (Matching wizard-derived stats) */}
+                  {/* Quick Stats Panel */}
                   {currentCreature.stats && (
                     <div className="bestiary-quick-stats-card">
                       <h4 className="bestiary-quick-stats-title">
@@ -326,7 +536,7 @@ const BestiaryDisplay = () => {
 
                 {/* Column 2: Tabbed Details */}
                 <div className="bestiary-tabs-col">
-                  {/* Premium Tab Buttons */}
+                  {/* Tab Buttons */}
                   <div className="bestiary-tabs-navigation">
                     <button 
                       className={`bestiary-tab-btn ${activeTab === 'lore' ? 'active' : ''}`}
@@ -427,6 +637,54 @@ const BestiaryDisplay = () => {
                           )}
                         </div>
                       )}
+
+                      {/* Real-World Folklore & Cryptid Inspiration Section */}
+                      {currentCreature.folkloreInspiration && (
+                        <div className="bestiary-lore-section bestiary-folklore-card">
+                          <div className="bestiary-folklore-header">
+                            <h4>
+                              <i className="fas fa-book-journal-whills"></i> Real-World Folklore &amp; Cryptid Roots
+                            </h4>
+                            {currentCreature.folkloreInspiration.cryptidRoots && (
+                              <span className="bestiary-folklore-archetype-badge">
+                                <i className="fas fa-paw"></i> {currentCreature.folkloreInspiration.cryptidRoots}
+                              </span>
+                            )}
+                          </div>
+
+                          {currentCreature.folkloreInspiration.primaryMyth && (
+                            <div className="bestiary-folklore-primary-myth">
+                              <span className="bestiary-folklore-label-tag">Mythological Root:</span>
+                              <span className="bestiary-folklore-myth-name">{currentCreature.folkloreInspiration.primaryMyth}</span>
+                            </div>
+                          )}
+
+                          {currentCreature.folkloreInspiration.traditions && currentCreature.folkloreInspiration.traditions.length > 0 && (
+                            <div className="bestiary-folklore-traditions-row">
+                              {currentCreature.folkloreInspiration.traditions.map((t, idx) => (
+                                <span key={idx} className="bestiary-folklore-tradition-pill">
+                                  <i className="fas fa-globe-americas"></i> {t}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+
+                          {currentCreature.folkloreInspiration.description && (
+                            <div className="bestiary-folklore-narrative">
+                              <p>{currentCreature.folkloreInspiration.description}</p>
+                            </div>
+                          )}
+
+                          {currentCreature.folkloreInspiration.settingAdaptation && (
+                            <div className="bestiary-folklore-adaptation-box">
+                              <h5>
+                                <i className="fas fa-feather-pointed"></i> Mythrill Adaptation &amp; Subversion
+                              </h5>
+                              <p>{currentCreature.folkloreInspiration.settingAdaptation}</p>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   )}
 
@@ -435,7 +693,7 @@ const BestiaryDisplay = () => {
                     <div className="bestiary-tab-content fade-in">
                       {currentCreature.stats ? (
                         <>
-                          {/* D&D Character Sheet Style Attributes Shield Grid */}
+                          {/* Attributes Shield Grid */}
                           <div className="bestiary-attributes-section">
                             <h4 className="bestiary-section-subtitle">
                               <i className="fas fa-shield"></i> Core Attributes
@@ -523,19 +781,17 @@ const BestiaryDisplay = () => {
                   {/* Tab 3 Content: Tactics & Actions */}
                   {activeTab === 'tactics' && (
                     <div className="bestiary-tab-content fade-in">
-                      {/* Combat Guidelines (With dynamically formatted dice/DCs/radii) */}
                       {currentCreature.combat && (
                         <div className="bestiary-tactics-section">
                           <h4 className="bestiary-section-subtitle">
                             <i className="fas fa-chess-board"></i> Combat Behavior &amp; Abilities
                           </h4>
                           <div className="bestiary-narrative-mechanics-card">
-                            <p>{formatCombatMechanicsText(currentCreature.combat)}</p>
+                            <p>{formattedCombatMechanics}</p>
                           </div>
                         </div>
                       )}
 
-                      {/* Quest Approaches / GM Adventure Hooks */}
                       {currentCreature.hooks && currentCreature.hooks.length > 0 && (
                         <div className="bestiary-tactics-section">
                           <h4 className="bestiary-section-subtitle">
@@ -558,64 +814,112 @@ const BestiaryDisplay = () => {
             </div>
           ) : (
             <>
-              {/* Continent Overview Title */}
+              {/* Continent Overview Title & Active Search Info */}
               <div className="bestiary-region-header">
-                <h2>{currentRegion?.name}</h2>
+                <div className="bestiary-region-title-wrap">
+                  <h2>{currentRegion?.name}</h2>
+                  <span className="bestiary-results-count">
+                    Showing {displayedCreatures.length} of {filteredCreatures.length} creatures
+                  </span>
+                </div>
                 <p className="bestiary-folklore-label">
                   <i className="fas fa-book-open"></i> Folklore Blueprint: {currentRegion?.folklore}
                 </p>
               </div>
 
-              {/* Creatures Grid */}
-              <div className="bestiary-creature-grid">
-                {currentRegion?.creatures.map(creature => (
-                  <div
-                    key={creature.id}
-                    className="bestiary-creature-card"
-                    onClick={() => { setSelectedCreature(creature.id); setActiveTab('lore'); }}
-                    style={{ borderTopColor: DANGER_COLORS[creature.dangerLevel].bg }}
-                  >
-                    <div className="bestiary-card-image">
-                      {creature.illustration ? (
-                        <img
-                          src={getCreatureThumb(creature.illustration)}
-                          alt={creature.name}
-                          loading="lazy"
-                          decoding="async"
-                          width="512"
-                          height="512"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = creature.illustration;
-                            e.target.onerror = () => {
-                              e.target.onerror = null;
-                              e.target.style.display = 'none';
-                            };
-                          }}
-                        />
-                      ) : (
-                        <i className={`fas ${REGION_ICONS[currentRegion.id] || 'fa-globe'} fallback-card-icon`}></i>
-                      )}
-                    </div>
-                    <div className="bestiary-card-body">
-                      <div className="bestiary-card-header">
-                        <h3>{creature.name}</h3>
-                        <span
-                          className="bestiary-card-badge"
-                          style={{ 
-                            backgroundColor: DANGER_COLORS[creature.dangerLevel].bg, 
-                            color: DANGER_COLORS[creature.dangerLevel].text 
-                          }}
-                        >
-                          {creature.dangerLevel}
-                        </span>
-                      </div>
-                      <p className="bestiary-card-role">{creature.role}</p>
-                      <p className="bestiary-card-origin">{creature.origin.split('.')[0]}.</p>
-                    </div>
+              {/* Controls Toolbar: Instant Search & Danger Level Filter Pills */}
+              <div className="bestiary-controls-bar">
+                <div className="bestiary-search-row">
+                  <div className="bestiary-search-box">
+                    <i className="fas fa-search"></i>
+                    <input
+                      type="text"
+                      className="bestiary-search-input"
+                      placeholder="Search creatures by name, role, folklore, or keywords..."
+                      value={searchQuery}
+                      onChange={handleSearchChange}
+                    />
+                    {(searchQuery || selectedDanger !== 'all') && (
+                      <button
+                        type="button"
+                        className="bestiary-search-clear"
+                        onClick={handleClearFilters}
+                        title="Clear filters"
+                      >
+                        <i className="fas fa-times"></i> Clear
+                      </button>
+                    )}
                   </div>
-                ))}
+                </div>
+
+                <div className="bestiary-filters-row">
+                  <span className="bestiary-filter-label">
+                    <i className="fas fa-skull"></i> Danger Level:
+                  </span>
+                  <button
+                    type="button"
+                    className={`bestiary-filter-pill ${selectedDanger === 'all' ? 'active' : ''}`}
+                    onClick={() => handleDangerSelect('all')}
+                  >
+                    All
+                  </button>
+                  {DANGER_LEVELS.map(level => {
+                    const color = DANGER_COLORS[level];
+                    const isCurrent = selectedDanger === level;
+                    return (
+                      <button
+                        key={level}
+                        type="button"
+                        className={`bestiary-filter-pill ${isCurrent ? 'active' : ''}`}
+                        onClick={() => handleDangerSelect(level)}
+                      >
+                        <span 
+                          className="bestiary-filter-pill-dot" 
+                          style={{ backgroundColor: color.bg }} 
+                        />
+                        {level}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
+
+              {/* Creatures Grid */}
+              {displayedCreatures.length === 0 ? (
+                <div className="bestiary-empty-results">
+                  <i className="fas fa-shield-virus"></i>
+                  <h3>No Creatures Found</h3>
+                  <p>No creatures matched your search query or danger level filters.</p>
+                  <button className="bestiary-empty-reset-btn" onClick={handleClearFilters}>
+                    Reset Filters
+                  </button>
+                </div>
+              ) : (
+                <div className="bestiary-creature-grid">
+                  {displayedCreatures.map(creature => (
+                    <BestiaryCreatureCard
+                      key={creature.id}
+                      creature={creature}
+                      onSelect={handleSelectCreature}
+                      regionIcon={REGION_ICONS[creature.regionId || currentRegion?.id]}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Progressive loading sentinel and manual fallback button */}
+              {hasMore && (
+                <>
+                  <div ref={sentinelRef} className="bestiary-sentinel" style={{ height: '20px', margin: '10px 0' }} />
+                  <button
+                    type="button"
+                    className="bestiary-load-more-btn"
+                    onClick={() => setVisibleCount(prev => Math.min(prev + ITEMS_PER_PAGE, filteredCreatures.length))}
+                  >
+                    <i className="fas fa-chevron-down"></i> Load More Creatures ({filteredCreatures.length - displayedCreatures.length} remaining)
+                  </button>
+                </>
+              )}
             </>
           )}
         </div>
