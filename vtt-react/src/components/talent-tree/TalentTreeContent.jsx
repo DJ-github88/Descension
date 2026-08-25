@@ -587,7 +587,9 @@ export const TalentTreeContent = ({
                                             onError={(e) => { e.target.src = getIconUrl('Utility/Utility', 'abilities'); }}
                                         />
                                         <h4>{tree.name}</h4>
-                                        <span className="talent-summary-count-tag">{learned.length} Talents Learned</span>
+                                        <span className={`talent-summary-count-tag ${learned.length > 0 ? 'has-learned' : ''}`}>
+                                            {learned.length} Talents Learned
+                                        </span>
                                     </div>
 
                                     {learned.length === 0 ? (

@@ -1,7 +1,14 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import WorldDashboard, { sanitizeLoreText, formatDisplayName } from '../WorldDashboard';
 import useFactionStore from '../../../store/factionStore';
+
+const renderDashboard = () => render(
+  <MemoryRouter>
+    <WorldDashboard />
+  </MemoryRouter>
+);
 
 describe('WorldDashboard - Factions, Regions & Lore View', () => {
   beforeEach(() => {
@@ -45,14 +52,16 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
   });
 
   it('renders WorldDashboard with hero stats and tabs', () => {
-    render(<WorldDashboard />);
+    renderDashboard();
     expect(screen.getByText('Mythrill')).toBeInTheDocument();
     expect(screen.getByText(/Living World-Building/i)).toBeInTheDocument();
-    expect(screen.getByText(/Factions \(/i)).toBeInTheDocument();
+    expect(screen.getByText(/Factions & Orders/i)).toBeInTheDocument();
+    expect(screen.getByText(/Timeline & Epochs/i)).toBeInTheDocument();
+    expect(screen.getByText(/World Atlas & Maps/i)).toBeInTheDocument();
   });
 
   it('allows clicking on a region to open RegionDetail and view its locations and subregions', () => {
-    render(<WorldDashboard />);
+    renderDashboard();
 
     // Click on Nordhalla region card
     const nordhallaCard = screen.getByText('Nordhalla');
@@ -84,7 +93,7 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
   });
 
   it('supports filtering locations by subregion, search query and view mode switching', () => {
-    render(<WorldDashboard />);
+    renderDashboard();
 
     // Click Nordhalla
     fireEvent.click(screen.getByText('Nordhalla'));
@@ -106,20 +115,38 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
   });
 
   it('renders Chronicle & Epochs timeline in RegionDetail', () => {
-    render(<WorldDashboard />);
+    renderDashboard();
 
     // Click Nordhalla
     fireEvent.click(screen.getByText('Nordhalla'));
     // Go to Chronicle & Epochs
     fireEvent.click(screen.getByRole('button', { name: /Chronicle & Epochs/i }));
 
-    // Verify Era banner and search
-    expect(screen.getByPlaceholderText(/Search epochal events/i)).toBeInTheDocument();
+    // Verify Chronicon header, Era banner and search
+    expect(screen.getByText(/The Mythrill Chronicon/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/Search chronicle entries/i)).toBeInTheDocument();
     expect(screen.getAllByText(/The Freezing Era & Present Day/i).length).toBeGreaterThan(0);
   });
 
+  it('renders Timeline & Epochs tab with Chronicon header and Celestial Calendar', () => {
+    renderDashboard();
+
+    // Switch to Timeline & Epochs tab
+    const timelineTab = screen.getByRole('button', { name: /Timeline & Epochs/i });
+    fireEvent.click(timelineTab);
+
+    // Verify Chronicon header and Era Stepper
+    expect(screen.getByText(/The Mythrill Chronicon/i)).toBeInTheDocument();
+    expect(screen.getByText(/Historical Epochs/i)).toBeInTheDocument();
+
+    // Open Celestial Calendar drawer
+    const calBtn = screen.getByRole('button', { name: /Celestial Calendar/i });
+    fireEvent.click(calBtn);
+    expect(screen.getByText(/The Mythrill Celestial Calendar/i)).toBeInTheDocument();
+  });
+
   it('renders Factions tab with search, categories, and clean text formatting for classes like False Prophets', () => {
-    render(<WorldDashboard />);
+    renderDashboard();
 
     // Click Factions tab
     const factionsTab = screen.getByRole('button', { name: /Factions/i });
@@ -139,7 +166,7 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
   });
 
   it('renders Faction Detail with royal heraldic banner and populated timeline', () => {
-    render(<WorldDashboard />);
+    renderDashboard();
 
     // Navigate to Factions tab
     const factionsTab = screen.getByRole('button', { name: /Factions/i });
@@ -163,7 +190,7 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
   });
 
   it('renders LocationDetail with atmospheric hero header, breadcrumbs, founding strip, and people roster', () => {
-    render(<WorldDashboard />);
+    renderDashboard();
 
     // Click Nordhalla
     fireEvent.click(screen.getByText('Nordhalla'));
@@ -201,6 +228,19 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
     expect(formatDisplayName('false_prophets')).toBe('False Prophets');
     expect(formatDisplayName('noble_house')).toBe('Noble House');
     expect(formatDisplayName('the-first-liar')).toBe('The First Liar');
+  });
+
+  it('renders World Atlas & Maps tab with Atlas header and Planetary Canvas launch button', () => {
+    renderDashboard();
+
+    // Click World Atlas & Maps tab
+    const atlasTab = screen.getByRole('button', { name: /World Atlas & Maps/i });
+    fireEvent.click(atlasTab);
+
+    // Verify Atlas & Cartography Studio
+    expect(screen.getByText(/The Mythrill Atlas & Cartography Studio/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Launch World Map Canvas/i })).toBeInTheDocument();
+    expect(screen.getByText(/Canonical Setting Realms/i)).toBeInTheDocument();
   });
 });
 

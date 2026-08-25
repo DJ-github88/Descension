@@ -6,8 +6,21 @@ import useInteractiveMapStore from '../../store/interactiveMapStore';
 import useFamilyTreeStore from '../../store/familyTreeStore';
 import './RichLoreText.css';
 
-const parseInlineTokens = (text, onEntityHover, onEntityLeave, onEntityClick) => {
-  if (!text || typeof text !== 'string') return text || '';
+const parseInlineTokens = (rawText, onEntityHover, onEntityLeave, onEntityClick) => {
+  if (!rawText || typeof rawText !== 'string') return rawText || '';
+
+  const text = rawText
+    .replace(/³(.*?)³/g, '*$1*')
+    .replace(/³/g, '*')
+    .replace(/Ã¢â‚¬â€\x9D/g, '"')
+    .replace(/Ã¢â‚¬â€/g, '—')
+    .replace(/Ã¢â‚¬â„¢/g, "'")
+    .replace(/Ã¢â‚¬Å“/g, '"')
+    .replace(/Ã¢â‚¬Â/g, '"')
+    .replace(/â€”/g, '—')
+    .replace(/â€™/g, "'")
+    .replace(/â€œ/g, '"')
+    .replace(/â€/g, '"');
 
   const regex = /(\[\[.*?\]\]|@[a-zA-Z0-9_-]+|\*\*.*?\*\*|\*.*?\*|<u>.*?<\/u>|__.*?__|~~.*?~~|==.*?==|`.*?`)/g;
   const elements = [];

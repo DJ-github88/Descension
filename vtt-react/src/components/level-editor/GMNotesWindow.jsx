@@ -543,7 +543,30 @@ const GMNotesWindow = ({
                                     </td>
                                     <td className="gm-npc-race-cell">
                                         {isSession ? (npc.race || '-') : (
-                                            <input type="text" className="gm-npc-input" value={npc.race} onChange={(e) => updateNpc(npc.id, 'race', e.target.value)} placeholder="Human, Elf..." />
+                                            <>
+                                                <input 
+                                                    type="text" 
+                                                    className="gm-npc-input" 
+                                                    value={npc.race} 
+                                                    onChange={(e) => updateNpc(npc.id, 'race', e.target.value)} 
+                                                    placeholder="Choose or enter lineage..." 
+                                                    list="gm-lineage-list"
+                                                />
+                                                <datalist id="gm-lineage-list">
+                                                    <option value="Human (Thalren)" />
+                                                    <option value="Human (Nordhallan)" />
+                                                    <option value="Human (Sundale)" />
+                                                    <option value="Myrathil (Foam-Born)" />
+                                                    <option value="Mimir (Rune-Kin)" />
+                                                    <option value="Florae (Sporeborn)" />
+                                                    <option value="Groven (Stoneborn)" />
+                                                    <option value="Solari (Sunforged)" />
+                                                    <option value="Vreken (Mist-Stalkers)" />
+                                                    <option value="Neth (Ash & Iron Kin)" />
+                                                    <option value="Astril (Void-Touched)" />
+                                                    <option value="Fexrick (Forge-Folk)" />
+                                                </datalist>
+                                            </>
                                         )}
                                     </td>
                                     <td className="gm-npc-desc-cell">

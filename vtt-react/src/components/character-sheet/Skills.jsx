@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import useCharacterStore from '../../store/characterStore';
 import { useInspectionCharacter } from '../../contexts/InspectionContext';
 import { SKILL_CATEGORIES, SKILL_DEFINITIONS, SKILL_RANKS } from '../../constants/skillDefinitions';
@@ -14,6 +14,7 @@ import useDiceStore from '../../store/diceStore';
 import ChargeableRollButton from '../dice/ChargeableRollButton';
 import DiceThemeSelector from '../dice/DiceThemeSelector';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
+import { getWeaponArchetype, getWeaponSimpleTable, WEAPON_TYPE_TIERS, WEAPON_TYPE_SIMPLE_TABLES } from '../../constants/weaponTypeSimpleTables';
 
 import '../../styles/skills.css';
 
@@ -54,148 +55,8 @@ const buildWeaponRankStyles = (color) => {
     };
 };
 
-export const WEAPON_FACE_TEXT = {
-    sword: {
-        1: 'Blade overextends; lose 1 AP and you cannot riposte this round.',
-        2: 'Edge scrapes; shallow cut only.',
-        3: 'Measured cut; steady but simple.',
-        4: 'Quick slash; you may step 1 after the hit.',
-        5: 'Pommel check; on hit, target reels and loses 1 tile of movement.',
-        6: 'Cross-cut; on hit, roll weapon die again and add half.',
-        7: 'Riposte set; if target attacks you before your next turn, make a free counter at -2.',
-        8: 'Dancing steel; make a free follow-up slash at half damage.'
-    },
-    axe: {
-        1: 'Head bites and lodges; spend 1 AP to wrench it free.',
-        2: 'Heavy chop skids; half damage.',
-        3: 'Wide arc forces them back 1 tile on hit.',
-        4: 'Hack through; +2 damage versus shields or hard cover.',
-        5: 'Cleave; on hit, deal 2 damage to an adjacent foe.',
-        6: 'Hook and yank; pull target 1 tile on hit.',
-        7: 'Rending blow; on hit, target suffers a bleeding nick (GM: minor ongoing).',
-        8: 'Sundering chop; on hit, knock a durability step off the target’s armor or shield, or deal +4 damage.'
-    },
-    mace: {
-        1: 'Shock up the arm; you drop 1 AP after this swing.',
-        2: 'Glancing crown; half damage.',
-        3: 'Bruising tap; normal damage.',
-        4: 'Ringing strike; on hit, target’s next action is -1.',
-        5: 'Shatter guard; knock a durability step off the target’s armor for this hit.',
-        6: 'Crush limb; on hit, target’s move is -1 until end of next turn.',
-        7: 'Concussive blow; on hit, target is dazed (loses 1 AP) or takes +3 damage.',
-        8: 'Skull-rattler; on hit, target is stunned for a turn or takes +5 damage.'
-    },
-    dagger: {
-        1: 'Slip; nick yourself for 1 damage.',
-        2: 'Short slash; half damage.',
-        3: 'Close stab; normal damage.',
-        4: 'Gut jab; +1 damage and you may hide weapon-side if fiction allows.',
-        5: 'Hamstring; on hit, target’s speed -1 until it recovers.',
-        6: 'Quickhand; on hit, make a second dagger jab at -3 to hit.',
-        7: 'Bleed line; on hit, target suffers minor ongoing bleed (GM adjudicates).',
-        8: 'Assassin’s flick; on hit, add weapon die again and step 1 for free.'
-    },
-    greatsword: {
-        1: 'Mass overbalances; fall prone unless you spend 1 AP to steady.',
-        2: 'Draggy swing; half damage.',
-        3: 'Wide arc; push target 1 on hit.',
-        4: 'Driving cut; +2 damage.',
-        5: 'Mighty sweep; on hit, also deal 2 damage to an adjacent foe.',
-        6: 'Batter through; ignore heavy cover for this attack.',
-        7: 'Cleaving stride; on hit, move 1 tile and strike a second adjacent foe at -2 to hit.',
-        8: 'Heaving execution; on hit, add weapon die again and force target prone or take +5 damage.'
-    },
-    greataxe: {
-        1: 'Head bites stone; you must spend 1 AP to free it.',
-        2: 'Wild chop; half damage and you stagger 1 tile.',
-        3: 'Raking cut; normal damage.',
-        4: 'Hefted cleave; +2 damage.',
-        5: 'Armor split; on hit, knock a durability step off the target’s armor for this strike.',
-        6: 'Sweeping murder; cleave an adjacent foe for half damage.',
-        7: 'Bonebreaker; on hit, target’s next move is halved; if it can’t move, +3 damage.',
-        8: 'Executioner’s arc; on hit, add weapon die again and the target is rattled (loses 1 AP).'
-    },
-    maul: {
-        1: 'Recoil numbs arms; lose 1 AP after this attack.',
-        2: 'Head drags; half damage.',
-        3: 'Thudding hit; normal damage.',
-        4: 'Cratering blow; +2 damage.',
-        5: 'Ring their bell; on hit, target is dazed (loses 1 AP) or takes +3 damage.',
-        6: 'Ground-shake; on hit, target is knocked prone.',
-        7: 'Stunning smash; on hit, target is stunned for a turn.',
-        8: 'Pulverize; on hit, add weapon die again and shove target 2 tiles.'
-    },
-    polearm: {
-        1: 'Hook catches; you cannot move this turn.',
-        2: 'Overreach; half damage.',
-        3: 'Set vs advance; if target moves toward you, it takes +2 damage on hit.',
-        4: 'Lever pull; on hit, pull target 2 or push 2.',
-        5: 'Trip arc; on hit, target is knocked prone.',
-        6: 'Pin and post; target’s move is -2 until end of next turn.',
-        7: 'Crow’s beak; add +3 damage and pull the target 1 tile.',
-        8: 'Whirl hook; on hit, reposition the target 3 tiles and follow into its tile.'
-    },
-    staff: {
-        1: 'Misstep; you fall prone unless you spend 1 AP to steady.',
-        2: 'Glance; half damage.',
-        3: 'Quick rap; normal damage.',
-        4: 'Low sweep; on hit, target’s next attack roll is -1.',
-        5: 'Disarm flick; on hit, target drops a held item or takes +2 damage.',
-        6: 'Trip and follow; on hit, target goes prone and you may step 1.',
-        7: 'Sweeping arc; on hit, target is knocked prone or stunned for a turn.',
-        8: 'Whirling stave; on hit, strike a second adjacent foe for half damage and move 1 tile.'
-    },
-    bow: {
-        1: 'String frays; next shot costs +1 AP to ready.',
-        2: 'Wind catches; half damage.',
-        3: 'Arced shot; normal damage.',
-        4: 'Pinning arrow; on hit, target’s next move is -2.',
-        5: 'Seam seeker; ignore cover on this shot.',
-        6: 'Marked; on hit, next ally to shoot this target gains +2 to hit.',
-        7: 'Whistling arc; on hit, add +2 range to your next shot and deal +2 damage now.',
-        8: 'Twin release; fire a second arrow at the same target for half damage.'
-    },
-    crossbow: {
-        1: 'Latch jams; spend 1 AP to clear before next shot.',
-        2: 'Bolt skitters; half damage.',
-        3: 'Solid bolt; normal damage.',
-        4: 'Pinned limb; on hit, target’s next action is -1.',
-        5: 'Crank and fire; ignore cover on this shot.',
-        6: 'Punch-through; on hit, add +3 damage.',
-        7: 'Rattling hit; on hit, target loses 1 AP next turn.',
-        8: 'Snap reload; after this hit, reload for free and gain +1 damage on the next shot.'
-    },
-    thrown: {
-        1: 'Slip; weapon drops at your feet.',
-        2: 'Off-line; half damage.',
-        3: 'Solid throw; normal damage.',
-        4: 'Pin cloak; on hit, target’s speed -2.',
-        5: 'Gouging strike; on hit, target is dazzled-its next attack roll is -1.',
-        6: 'Ricochet; on hit, choose a second nearby target for 2 damage.',
-        7: 'Crippling toss; on hit, target’s next action is -1 and it bleeds (GM adjudicates).',
-        8: 'Bullseye; on hit, add weapon die again and you may immediately retrieve the weapon.'
-    },
-    wand: {
-        1: 'Mana sputter; lose 1 mana/charge.',
-        2: 'Wild spark; half damage, minor harmless sparks.',
-        3: 'Arcane dart; normal damage.',
-        4: 'Channel; on hit, regain 1 mana/charge.',
-        5: 'Spell lash; on hit, target’s next action is -1.',
-        6: 'Force pulse; on hit, push target 2.',
-        7: 'Focused surge; on hit, regain 2 mana/charges.',
-        8: 'Overchannel; on hit, add weapon die again and choose: regain 2 mana/charges or deal +4 damage.'
-    },
-    unarmed: {
-        1: 'Wild swing; you overextend and lose 1 AP.',
-        2: 'Glancing jab; half damage.',
-        3: 'Solid hit; normal damage.',
-        4: 'Counter palm; on hit, shove target 1 tile.',
-        5: 'Elbow in; on hit, target’s next attack is -1.',
-        6: 'Sweep the leg; on hit, target is knocked prone.',
-        7: 'Stunning strike; on hit, target is dazed (loses 1 AP) or takes +3 damage.',
-        8: 'Open-hand finale; on hit, add weapon die again and move 1 tile into a better position.'
-    }
-};
+// Shared 1-20 weapon flavor tables from weaponTypeSimpleTables
+export const WEAPON_FACE_TEXT = WEAPON_TYPE_SIMPLE_TABLES;
 
 export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSkill: propSetSelectedSkill, selectedCategory: propCategory } = {}) {
     // Use inspection context if available, otherwise use regular character store
@@ -233,8 +94,26 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedDie, setSelectedDie] = useState('d20'); // Default to d20 (hardest)
     const [selectedWeaponType, setSelectedWeaponType] = useState('sword');
+    const [weaponCategoryFilter, setWeaponCategoryFilter] = useState('all');
+
+    const WEAPON_CATEGORIES = useMemo(() => ({
+        'one-handed': ['sword', 'axe', 'mace', 'dagger', 'rapier', 'katana', 'saber', 'sickle', 'flail', 'fist weapon', 'parrying dagger', 'off hand blade', 'war mace', 'unarmed'],
+        'two-handed': ['greatsword', 'greataxe', 'maul', 'polearm', 'staff', 'halberd', 'scythe', 'jousting spear', 'double sided sword'],
+        'ranged': ['bow', 'crossbow', 'thrown', 'wand', 'blowgun', 'sling', 'boomerang', 'chakram', 'shuriken', 'dart'],
+        'instruments': ['harp', 'lute', 'flute', 'drum', 'horn', 'violin', 'guitar']
+    }), []);
+
+    const filteredWeaponEntries = useMemo(() => {
+        const entries = Object.entries(WEAPON_TYPE_META);
+        if (weaponCategoryFilter === 'all') return entries;
+        const targetKeys = WEAPON_CATEGORIES[weaponCategoryFilter] || [];
+        return entries.filter(([key]) => targetKeys.includes(key));
+    }, [weaponCategoryFilter, WEAPON_CATEGORIES]);
+
     const [showCompletedQuests, setShowCompletedQuests] = useState(true);
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+    const [stuntFilter, setStuntFilter] = useState('all');
+    const [inspectedStuntFace, setInspectedStuntFace] = useState(null);
     // Per-skill roll mode: 'normal' | 'advantage' | 'disadvantage'.
     // Advantage rolls 2× the die and keeps the better outcome; disadvantage
     // keeps the worse. Applies to both simple (DC) and table skill rolls.
@@ -512,13 +391,256 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
         'double-disadvantage': 3,
     };
 
+    // Render the dynamic Combat Stunt Techniques matching the active weapon die and modifier bounds
+    const renderWeaponStuntTechniques = (weaponType, breakdown, rank) => {
+        const archetype = getWeaponArchetype(weaponType);
+        const table = WEAPON_FACE_TEXT[weaponType] || WEAPON_FACE_TEXT[archetype] || getWeaponSimpleTable(weaponType) || WEAPON_FACE_TEXT.sword;
+        if (!table) return null;
+
+        const dieSize = DIE_SIZE_MAP[rank?.key] || 4;
+        const mod = breakdown?.totalMod || 0;
+        
+        // Bounds calculation
+        const rawMin = 1;
+        const rawMax = dieSize;
+        const minStandard = rawMin + mod;
+        const maxStandard = rawMax + mod;
+        const clampedMaxStandard = Math.min(20, Math.max(1, maxStandard));
+        const clampedMinStandard = Math.min(20, Math.max(1, minStandard));
+        const maxUnlockedFace = Math.min(20, Math.max(dieSize, clampedMaxStandard));
+
+        const entries = Object.entries(table);
+        
+        // Filter entries based on stuntFilter
+        const filteredEntries = entries.filter(([faceStr]) => {
+            const face = parseInt(faceStr, 10);
+            if (stuntFilter === 'base-die') {
+                return face <= rawMax;
+            }
+            if (stuntFilter === 'reachable') {
+                return face >= clampedMinStandard && face <= clampedMaxStandard;
+            }
+            if (stuntFilter === 'max-standard') {
+                return face === clampedMaxStandard;
+            }
+            if (stuntFilter === 'exploding') {
+                return face > clampedMaxStandard && face <= Math.min(20, clampedMaxStandard + 6);
+            }
+            if (stuntFilter === 'all-20') {
+                return true;
+            }
+            // 'all' default: show all currently unlocked tiers up to maxUnlockedFace, or at least up to 8
+            return face <= Math.max(8, maxUnlockedFace);
+        });
+
+        const activeInspectedFace = inspectedStuntFace ? parseInt(inspectedStuntFace, 10) : null;
+        const activeInspectedDesc = activeInspectedFace ? table[activeInspectedFace] : null;
+
+        return (
+            <div className="weapon-face-techniques-grid">
+                <div className="techniques-header-bar">
+                    <div className="techniques-title-group">
+                        <span className="techniques-title">
+                            <i className="fas fa-burst"></i> Combat Stunt Techniques
+                        </span>
+                        <span className="techniques-die-tag" style={{ color: rank?.color || '#d4af37' }}>
+                            Rank Die: <strong>d{dieSize}</strong> ({rank?.name})
+                        </span>
+                    </div>
+
+                    <div className="techniques-range-summary">
+                        <span className="range-summary-chip base" title={`Raw die roll range on current rank: 1 to ${dieSize}`}>
+                            Base Die: <strong>1–{dieSize}</strong>
+                        </span>
+                        <span className="range-summary-chip mod" title={`Standard achievable outcome range: 1+(${mod}) to ${dieSize}+(${mod})`}>
+                            With Mod ({mod >= 0 ? `+${mod}` : mod}): <strong>{minStandard}–{maxStandard}</strong>
+                        </span>
+                        <span className="range-summary-chip peak" title={`Maximum standard achievable stunt without exploding die`}>
+                            <i className="fas fa-crown"></i> Max Standard: <strong>[{clampedMaxStandard}] {WEAPON_TYPE_TIERS[clampedMaxStandard]?.name || ''}</strong>
+                        </span>
+                        {clampedMaxStandard < 20 && (
+                            <span className="range-summary-chip explode" title={`Achievable via exploding die roll on d${dieSize} or higher mastery ranks`}>
+                                <i className="fas fa-bolt"></i> Surge / Upgrade: <strong>[{clampedMaxStandard + 1}–20]</strong>
+                            </span>
+                        )}
+                    </div>
+                </div>
+
+                <div className="techniques-filter-pills">
+                    <span className="filter-label"><i className="fas fa-sliders"></i> Filter Stunts:</span>
+                    {[
+                        { id: 'all', label: `Unlocked (1–${Math.max(8, maxUnlockedFace)})` },
+                        { id: 'base-die', label: `Base Die (1–${dieSize})` },
+                        { id: 'reachable', label: `Reachable (${clampedMinStandard}–${clampedMaxStandard})` },
+                        { id: 'max-standard', label: `Max Standard ([${clampedMaxStandard}])` },
+                        ...(clampedMaxStandard < 20 ? [{ id: 'exploding', label: `⚡ Surge (${clampedMaxStandard + 1}+)` }] : []),
+                        { id: 'all-20', label: 'Full Tree (1–20)' }
+                    ].map(tab => (
+                        <button
+                            key={tab.id}
+                            type="button"
+                            className={`stunt-filter-pill ${stuntFilter === tab.id ? 'active' : ''}`}
+                            onClick={() => setStuntFilter(tab.id)}
+                        >
+                            {tab.label}
+                        </button>
+                    ))}
+                    {inspectedStuntFace && (
+                        <button
+                            type="button"
+                            className="stunt-clear-inspect-btn"
+                            onClick={() => setInspectedStuntFace(null)}
+                            title="Clear stunt inspection"
+                        >
+                            <i className="fas fa-times"></i> Clear Inspection
+                        </button>
+                    )}
+                </div>
+
+                {/* Inspected Stunt Tactical Callout Banner */}
+                {activeInspectedFace && activeInspectedDesc && (() => {
+                    const tTier = WEAPON_TYPE_TIERS[activeInspectedFace] || {};
+                    const isLocked = activeInspectedFace > dieSize && activeInspectedFace > maxStandard;
+                    return (
+                        <div className="technique-inspect-callout">
+                            <div className="callout-header">
+                                <span className="callout-tier-badge">
+                                    Tier [{activeInspectedFace}] • {tTier.name || 'Stunt'} ({tTier.delta || ''})
+                                    {tTier.rankReq && (
+                                        <span className="callout-rank-gate-badge"> — Unlocks at {tTier.rankReq} (d{tTier.dieReq})</span>
+                                    )}
+                                </span>
+                                <span className="callout-requirement">
+                                    {activeInspectedFace === clampedMaxStandard ? (
+                                        <span className="req-gold"><i className="fas fa-star"></i> Peak Standard Outcome: Achieved on rolling a {dieSize} on d{dieSize} + Mod ({mod >= 0 ? `+${mod}` : mod}) = {activeInspectedFace}</span>
+                                    ) : activeInspectedFace >= clampedMinStandard && activeInspectedFace <= clampedMaxStandard ? (
+                                        <span className="req-green"><i className="fas fa-check-circle"></i> Standard Reachable: Roll a {activeInspectedFace - mod} on d{dieSize} + Mod ({mod >= 0 ? `+${mod}` : mod}) = {activeInspectedFace}</span>
+                                    ) : isLocked ? (
+                                        <span className="req-purple"><i className="fas fa-bolt"></i> Exploding Surge / Rank Gate: Requires d{dieSize} explosion (max roll {dieSize}+) or upgrading rank to {tTier.rankReq || `d${tTier.dieReq}`}</span>
+                                    ) : (
+                                        <span className="req-gray"><i className="fas fa-arrow-down"></i> Sub-roll: Result sum = {activeInspectedFace}</span>
+                                    )}
+                                </span>
+                            </div>
+                            <p className="callout-description">{activeInspectedDesc}</p>
+                        </div>
+                    );
+                })()}
+
+                <div className="techniques-chips">
+                    {filteredEntries.map(([faceStr, desc]) => {
+                        const face = parseInt(faceStr, 10);
+                        const isMaxStandard = face === clampedMaxStandard;
+                        const isInRange = face >= clampedMinStandard && face <= clampedMaxStandard;
+                        const isExploding = face > clampedMaxStandard;
+                        const isLockedByDie = face > dieSize && face > maxStandard;
+                        const isSelected = activeInspectedFace === face;
+                        const tierMeta = WEAPON_TYPE_TIERS[face] || {};
+
+                        let statusClass = 'in-range';
+                        let statusLabel = `In Range (${face - mod} + ${mod >= 0 ? `+${mod}` : mod})`;
+                        let statusIcon = 'fa-check';
+
+                        if (isMaxStandard) {
+                            statusClass = 'max-standard';
+                            statusLabel = `★ Max Standard (${dieSize} + ${mod >= 0 ? `+${mod}` : mod})`;
+                            statusIcon = 'fa-crown';
+                        } else if (isLockedByDie) {
+                            statusClass = 'locked-rank';
+                            statusLabel = tierMeta.rankReq ? `🔒 ${tierMeta.rankReq} (d${tierMeta.dieReq}) / Surge` : `⚡ Surge (${dieSize}+)`;
+                            statusIcon = tierMeta.rankReq ? 'fa-lock' : 'fa-bolt';
+                        } else if (isExploding) {
+                            statusClass = 'exploding-surge';
+                            statusLabel = `⚡ Exploding Surge (${dieSize}+)`;
+                            statusIcon = 'fa-bolt';
+                        } else if (!isInRange) {
+                            statusClass = 'out-of-range';
+                            statusLabel = 'Low Outcome';
+                            statusIcon = 'fa-minus';
+                        }
+
+                        return (
+                            <div
+                                key={face}
+                                className={`technique-chip ${statusClass} ${isSelected ? 'inspected' : ''}`}
+                                onClick={() => setInspectedStuntFace(isSelected ? null : face)}
+                                title={`Click to inspect Tier [${face}] ${tierMeta.name || ''} stunt technique`}
+                                role="button"
+                                tabIndex={0}
+                                onKeyPress={(e) => (e.key === 'Enter' || e.key === ' ') && setInspectedStuntFace(isSelected ? null : face)}
+                            >
+                                <div className="technique-chip-header">
+                                    <div className="technique-num-wrap">
+                                        <span className="technique-num">[{face}]</span>
+                                        <span className="technique-tier-name">{tierMeta.name || ''}</span>
+                                    </div>
+                                    <span className={`technique-status-tag ${statusClass}`}>
+                                        <i className={`fas ${statusIcon}`}></i> {statusLabel}
+                                    </span>
+                                </div>
+                                <span className="technique-text">{desc}</span>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    };
+
+    // Calculate full breakdown of skill modifier
+    const getSkillModifierBreakdown = (skillObj, skillId) => {
+        const resolvedSkillId = skillId || selectedSkill;
+        const isWeaponMastery = resolvedSkillId === 'weaponMastery';
+        const weaponMeta = isWeaponMastery ? (WEAPON_TYPE_META[selectedWeaponType] || {}) : null;
+
+        const primaryStat = isWeaponMastery
+            ? (weaponMeta?.primaryStat || 'strength')
+            : (skillObj?.primaryStat || 'strength');
+        const secondaryStat = isWeaponMastery
+            ? (weaponMeta?.secondaryStat || null)
+            : (skillObj?.secondaryStat || null);
+        
+        const primaryStatVal = (stats[primaryStat] || 10) + (equipmentBonuses[primaryStat] || 0);
+        const primaryMod = calculateStatModifier(primaryStatVal);
+        
+        const secondaryStatVal = secondaryStat ? (stats[secondaryStat] || 10) + (equipmentBonuses[secondaryStat] || 0) : 0;
+        const secondaryMod = secondaryStat ? calculateStatModifier(secondaryStatVal) : 0;
+        const secondaryHalf = Math.floor(secondaryMod / 2);
+        
+        const rank = isWeaponMastery ? getWeaponTypeRank(selectedWeaponType) : getSkillRank(resolvedSkillId);
+        const rankKeys = Object.keys(SKILL_RANKS);
+        const rankIndex = Math.max(0, rankKeys.indexOf(rank?.key || 'UNTRAINED'));
+        const rankBonus = rankIndex;
+        
+        const totalMod = primaryMod + secondaryHalf + rankBonus;
+        return {
+            primaryStat,
+            primaryStatVal,
+            primaryMod,
+            secondaryStat,
+            secondaryStatVal,
+            secondaryMod,
+            secondaryHalf,
+            rank,
+            rankBonus,
+            totalMod
+        };
+    };
+
+    // Calculate skill modifier
+    const getSkillModifier = (skillObj, skillId) => {
+        return getSkillModifierBreakdown(skillObj, skillId).totalMod;
+    };
+
     // Simple skill roll: trigger 3D physical dice rolling with velocity
-    const rollSimpleSkill = (skill, skillId, throwPower = 1.0, throwDirection = { x: 0, z: 0 }) => {
-        const rank = getSkillRank(skillId);
-        const dieSize = DIE_SIZE_MAP[rank.key];
+    const rollSimpleSkill = (skillObj, skillId, throwPower = 1.0, throwDirection = { x: 0, z: 0 }) => {
+        const isWeaponMastery = (skillId || selectedSkill) === 'weaponMastery';
+        const rank = isWeaponMastery ? getWeaponTypeRank(selectedWeaponType) : getSkillRank(skillId);
+        const dieSize = DIE_SIZE_MAP[rank.key] || 4;
         const dieType = `d${dieSize}`;
         const mode = getRollMode(skillId);
         const quantity = QUANTITY_BY_MODE[mode] || 1;
+        const modBreakdown = getSkillModifierBreakdown(skillObj, skillId);
 
         const diceStore = useDiceStore.getState();
         diceStore.clearSelectedDice();
@@ -526,23 +648,26 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
         diceStore.startRoll({
             type: 'skill',
             skillId,
-            skillName: skill.name,
+            skillName: isWeaponMastery ? `${WEAPON_TYPE_META[selectedWeaponType]?.label || 'Weapon'} Mastery` : (skillObj?.name || 'Skill'),
             rollType: 'simple',
             dieSize,
             mode,
+            modifier: modBreakdown.totalMod,
+            modifierBreakdown: modBreakdown,
             throwPower,
             throwDirection
         });
     };
 
     // Roll on a skill table: trigger 3D physical dice rolling with velocity
-    const rollSkillTable = (skill, skillId, throwPower = 1.0, throwDirection = { x: 0, z: 0 }) => {
+    const rollSkillTable = (skillObj, skillId, throwPower = 1.0, throwDirection = { x: 0, z: 0 }) => {
         const rank = getSkillRank(skillId);
         const isWeaponMastery = (skillId || selectedSkill) === 'weaponMastery';
         const dieKey = isWeaponMastery ? 'd8' : selectedDie;
-        const tableId = getCurrentRollableTable(skill, skillId, rank.key, dieKey);
+        const tableId = getCurrentRollableTable(skillObj, skillId, rank.key, dieKey);
         const mode = getRollMode(skillId);
         const quantity = QUANTITY_BY_MODE[mode] || 1;
+        const modBreakdown = getSkillModifierBreakdown(skillObj, skillId);
 
         const diceStore = useDiceStore.getState();
         diceStore.clearSelectedDice();
@@ -550,25 +675,17 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
         diceStore.startRoll({
             type: 'skill',
             skillId,
-            skillName: skill.name,
+            skillName: isWeaponMastery ? `${WEAPON_TYPE_META[selectedWeaponType]?.label || 'Weapon'} Mastery` : (skillObj?.name || 'Skill'),
             rollType: 'table',
             tableId,
             dieKey,
             weaponType: selectedWeaponType,
             mode,
+            modifier: modBreakdown.totalMod,
+            modifierBreakdown: modBreakdown,
             throwPower,
             throwDirection
         });
-    };
-
-    // Calculate skill modifier
-    const getSkillModifier = (skill) => {
-        const primaryMod = calculateStatModifier(stats[skill.primaryStat] + (equipmentBonuses[skill.primaryStat] || 0));
-        const secondaryMod = calculateStatModifier(stats[skill.secondaryStat] + (equipmentBonuses[skill.secondaryStat] || 0));
-        const rank = getSkillRank(Object.keys(SKILL_DEFINITIONS).find(key => SKILL_DEFINITIONS[key] === skill));
-        const rankBonus = Object.keys(SKILL_RANKS).indexOf(rank.key);
-
-        return primaryMod + Math.floor(secondaryMod / 2) + rankBonus;
     };
 
     const getWeaponTypeRank = (weaponType) => getSkillRank('weaponMastery', weaponType);
@@ -598,22 +715,21 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                         <button
                             key={opt.key}
                             type="button"
-                            className={`roll-mode-btn roll-mode-${opt.key} ${mode === opt.key ? 'active' : ''}`}
+                            className={`roll-mode-btn ${mode === opt.key ? 'active' : ''}`}
                             onClick={() => setRollMode(skillId, opt.key)}
                             title={`${opt.label}: ${opt.desc}`}
-                            aria-label={opt.label}
                             aria-pressed={mode === opt.key}
                         >
                             <i className={`fas ${opt.icon}`}></i>
                         </button>
                     ))}
                 </div>
-                <div className="roll-mode-description">{currentMode.desc}</div>
+                <div className="roll-mode-hint">{currentMode.desc}</div>
             </div>
         );
     };
 
-    // Render skill detail view (right side)
+    // Render skill detail view
     const renderSkillDetail = () => {
         if (!selectedSkill) {
             return (
@@ -631,36 +747,94 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
 
         const skill = SKILL_DEFINITIONS[selectedSkill];
         const isWeaponMastery = selectedSkill === 'weaponMastery';
-        const rank = getSkillRank(selectedSkill);
+        const rank = isWeaponMastery ? getWeaponTypeRank(selectedWeaponType) : getSkillRank(selectedSkill);
         const effectiveRank = rank;
-        const modifier = getSkillModifier(skill);
+        const modBreakdown = getSkillModifierBreakdown(skill, selectedSkill);
+        const modifier = modBreakdown.totalMod;
         const quests = getAvailableQuests(selectedSkill);
         const progressKey = getProgressKey(selectedSkill);
         const currentProgress = skillProgress[progressKey] || { completedQuests: [] };
         const completedQuests = currentProgress.completedQuests || [];
+        const description = isWeaponMastery 
+            ? (WEAPON_TYPE_META[selectedWeaponType]?.hint || skill.description) 
+            : skill.description;
+        const skillDisplayName = isWeaponMastery 
+            ? `${WEAPON_TYPE_META[selectedWeaponType]?.label || 'Weapon'} Mastery` 
+            : skill.name;
+        const skillIconUrl = isWeaponMastery
+            ? (WEAPON_TYPE_META[selectedWeaponType]?.icon || (skill.icon.startsWith('http') ? skill.icon : getCustomIconUrl(skill.icon, 'abilities')))
+            : (skill.icon.startsWith('http') ? skill.icon : getCustomIconUrl(skill.icon, 'abilities'));
 
         return (
             <div className="skill-detail-view">
                 {isSimpleMode ? (
                     <div className="skill-simple-header">
                         <div className="skill-simple-header-left">
-                            <img
-                                src={skill.icon.startsWith('http') ? skill.icon : getCustomIconUrl(skill.icon, 'abilities')}
-                                alt={skill.name}
-                                className="skill-simple-icon"
-                            />
+                            <div className="skill-header-icon-box">
+                                <img
+                                    src={skillIconUrl}
+                                    alt={skillDisplayName}
+                                    className="skill-simple-icon"
+                                />
+                            </div>
                             <div className="skill-simple-title-block">
-                                <h2 className="skill-simple-name">{skill.name}</h2>
-                                <p className="skill-simple-description">{skill.description}</p>
-                                <div className="skill-simple-attrs">
-                                    <span className="skill-attr-badge primary">
-                                        <i className="fas fa-star"></i> {skill.primaryStat?.toUpperCase() || 'N/A'}
+                                <div className="skill-simple-name-row">
+                                    <h2 className="skill-simple-name">
+                                        {skillDisplayName}
+                                    </h2>
+                                    <span className="skill-active-rank-pill" style={{ color: rank.color || '#d4af37' }}>
+                                        {effectiveRank.name} (d{DIE_SIZE_MAP[effectiveRank.key]})
                                     </span>
-                                    {skill.secondaryStat && (
-                                        <span className="skill-attr-badge secondary">
-                                            <i className="fas fa-plus"></i> {skill.secondaryStat.toUpperCase()}
-                                        </span>
+                                </div>
+                                <p className="skill-simple-description">{description}</p>
+                                <div className="skill-simple-attrs">
+                                    <span 
+                                        className="skill-attr-badge primary" 
+                                        title={`${modBreakdown.primaryStat.toUpperCase()} Score: ${modBreakdown.primaryStatVal} → Modifier: ${modBreakdown.primaryMod >= 0 ? `+${modBreakdown.primaryMod}` : modBreakdown.primaryMod}`}
+                                    >
+                                        <i className="fas fa-star"></i> {modBreakdown.primaryStat.toUpperCase()} ({modBreakdown.primaryMod >= 0 ? `+${modBreakdown.primaryMod}` : modBreakdown.primaryMod})
+                                    </span>
+                                    {modBreakdown.secondaryStat && (
+                                        <>
+                                            <span className="skill-attr-operator">+</span>
+                                            <span 
+                                                className="skill-attr-badge secondary" 
+                                                title={`${modBreakdown.secondaryStat.toUpperCase()} Score: ${modBreakdown.secondaryStatVal} (Mod: ${modBreakdown.secondaryMod >= 0 ? `+${modBreakdown.secondaryMod}` : modBreakdown.secondaryMod}) → Half Applied: ${modBreakdown.secondaryHalf >= 0 ? `+${modBreakdown.secondaryHalf}` : modBreakdown.secondaryHalf}`}
+                                            >
+                                                <i className="fas fa-shield"></i> {modBreakdown.secondaryStat.toUpperCase()} ({modBreakdown.secondaryHalf >= 0 ? `+${modBreakdown.secondaryHalf}` : modBreakdown.secondaryHalf})
+                                            </span>
+                                        </>
                                     )}
+                                    <span className="skill-attr-operator">+</span>
+                                    <span 
+                                        className="skill-attr-badge rank" 
+                                        title={`Rank ${effectiveRank.name} grants +${modBreakdown.rankBonus} tier bonus`}
+                                    >
+                                        <i className="fas fa-award"></i> RANK ({modBreakdown.rankBonus >= 0 ? `+${modBreakdown.rankBonus}` : modBreakdown.rankBonus})
+                                    </span>
+                                    <span className="skill-attr-operator">=</span>
+                                    <span 
+                                        className="skill-attr-badge modifier" 
+                                        title={`Total Modifier = Primary (${modBreakdown.primaryMod >= 0 ? `+${modBreakdown.primaryMod}` : modBreakdown.primaryMod}) + Secondary Half (${modBreakdown.secondaryHalf >= 0 ? `+${modBreakdown.secondaryHalf}` : modBreakdown.secondaryHalf}) + Rank (${modBreakdown.rankBonus >= 0 ? `+${modBreakdown.rankBonus}` : modBreakdown.rankBonus}) = ${modifier >= 0 ? `+${modifier}` : modifier}`}
+                                    >
+                                        <i className="fas fa-shield-halved"></i> MODIFIER: {modifier >= 0 ? `+${modifier}` : modifier}
+                                    </span>
+                                </div>
+
+                                {/* Mathematical Resolution & Exploding Die Banner */}
+                                <div className="skill-resolution-formula-banner">
+                                    <div className="resolution-formula-item">
+                                        <span className="formula-tag">ROLL FORMULA</span>
+                                        <span className="formula-math">
+                                            <strong>d{DIE_SIZE_MAP[effectiveRank.key]}</strong> <span className="formula-muted">(Die)</span>
+                                            {modifier >= 0 ? ' + ' : ' - '}
+                                            <strong className="formula-highlight">{Math.abs(modifier)}</strong> <span className="formula-muted">(Mod)</span>
+                                        </span>
+                                    </div>
+                                    <div className="resolution-exploding-item">
+                                        <i className="fas fa-bolt"></i>
+                                        <span><strong>Exploding Dice:</strong> Max roll on d{DIE_SIZE_MAP[effectiveRank.key]} rolls again and adds to total!</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -676,10 +850,18 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                     className="skill-rank-dropdown skill-simple-dropdown"
                                     value={effectiveRank.key}
                                     onChange={(e) => {
-                                        if (setSkillRank) {
-                                            setSkillRank(selectedSkill, e.target.value);
+                                        if (isWeaponMastery) {
+                                            if (setSkillRank) {
+                                                setSkillRank('weaponMastery', e.target.value, selectedWeaponType);
+                                            } else {
+                                                useCharacterStore.getState().setSkillRank('weaponMastery', e.target.value, selectedWeaponType);
+                                            }
                                         } else {
-                                            useCharacterStore.getState().setSkillRank(selectedSkill, e.target.value);
+                                            if (setSkillRank) {
+                                                setSkillRank(selectedSkill, e.target.value);
+                                            } else {
+                                                useCharacterStore.getState().setSkillRank(selectedSkill, e.target.value);
+                                            }
                                         }
                                     }}
                                     title="Change skill die"
@@ -690,55 +872,83 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                         </option>
                                     ))}
                                 </select>
-                                {renderRollModeToggle(selectedSkill)}
-                                <DiceThemeSelector compact={true} />
-                                <ChargeableRollButton
-                                    className="roll-table-btn skill-simple-roll"
-                                    onRoll={(power, dir) => rollSimpleSkill(skill, selectedSkill, power, dir)}
-                                    title="Click or Hold & Release to throw dice with velocity"
-                                >
-                                    <i className="fas fa-dice-d20"></i> ROLL
-                                </ChargeableRollButton>
+                                <div className="skill-controls-action-row">
+                                    {renderRollModeToggle(selectedSkill)}
+                                    <DiceThemeSelector compact={true} />
+                                    <ChargeableRollButton
+                                        className="roll-table-btn skill-simple-roll"
+                                        onRoll={(power, dir) => rollSimpleSkill(skill, selectedSkill, power, dir)}
+                                        title="Click or Hold & Release to throw dice with velocity"
+                                    >
+                                        <i className="fas fa-dice-d20"></i> ROLL
+                                    </ChargeableRollButton>
+                                </div>
                             </div>
                         </div>
                     </div>
                 ) : (
                     <div className="skill-detail-header">
-                        <img src={skill.icon.startsWith('http') ? skill.icon : getCustomIconUrl(skill.icon, 'abilities')} alt={skill.name} className="skill-detail-icon" />
+                        <div className="skill-header-icon-box">
+                            <img src={skillIconUrl} alt={skillDisplayName} className="skill-detail-icon" />
+                        </div>
                         <div className="skill-detail-title-section">
-                            <h2 className="skill-detail-name" style={{ color: rank.color }}>
-                                {isWeaponMastery
-                                    ? `${WEAPON_TYPE_LABELS[selectedWeaponType] || 'Weapon'} Mastery`
-                                    : skill.name}
-                            </h2>
-                            <p className="skill-detail-description">{skill.description}</p>
-                            <div className="skill-detail-stats">
-                                <div className="skill-rank-selector-wrapper">
-                                    <span className="skill-rank" style={{ marginRight: '6px' }}>{effectiveRank.name}</span>
-                                    <span className="skill-die-size" title="Skill die size">({DIE_SIZE_MAP[effectiveRank.key]}▼)</span>
-                                    <select
-                                        className="skill-rank-dropdown"
-                                        value={effectiveRank.key}
-                                        onChange={(e) => {
-                                            if (setSkillRank) {
-                                                setSkillRank(selectedSkill, e.target.value);
-                                            } else {
-                                                useCharacterStore.getState().setSkillRank(selectedSkill, e.target.value);
-                                            }
-                                        }}
-                                        title="Change skill level"
-                                    >
-                                        {Object.entries(SKILL_RANKS).map(([key, data]) => (
-                                            <option key={key} value={key}>
-                                                {data.name}: d{DIE_SIZE_MAP[key]}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <span className="skill-modifier">+{modifier}</span>
-                                <span className="skill-progress">
-                                    {completedQuests.length}/{quests.length} Quests
+                            <div className="skill-simple-name-row">
+                                <h2 className="skill-detail-name" style={{ color: rank.color }}>
+                                    {skillDisplayName}
+                                </h2>
+                                <span className="skill-active-rank-pill" style={{ color: rank.color || '#d4af37' }}>
+                                    {effectiveRank.name} (d{DIE_SIZE_MAP[effectiveRank.key]})
                                 </span>
+                            </div>
+                            <p className="skill-detail-description">{description}</p>
+                            
+                            <div className="skill-simple-attrs">
+                                <span 
+                                    className="skill-attr-badge primary" 
+                                    title={`${modBreakdown.primaryStat.toUpperCase()} Score: ${modBreakdown.primaryStatVal} → Modifier: ${modBreakdown.primaryMod >= 0 ? `+${modBreakdown.primaryMod}` : modBreakdown.primaryMod}`}
+                                >
+                                    <i className="fas fa-star"></i> {modBreakdown.primaryStat.toUpperCase()} ({modBreakdown.primaryMod >= 0 ? `+${modBreakdown.primaryMod}` : modBreakdown.primaryMod})
+                                </span>
+                                {modBreakdown.secondaryStat && (
+                                    <>
+                                        <span className="skill-attr-operator">+</span>
+                                        <span 
+                                            className="skill-attr-badge secondary" 
+                                            title={`${modBreakdown.secondaryStat.toUpperCase()} Score: ${modBreakdown.secondaryStatVal} (Mod: ${modBreakdown.secondaryMod >= 0 ? `+${modBreakdown.secondaryMod}` : modBreakdown.secondaryMod}) → Half Applied: ${modBreakdown.secondaryHalf >= 0 ? `+${modBreakdown.secondaryHalf}` : modBreakdown.secondaryHalf}`}
+                                        >
+                                            <i className="fas fa-shield"></i> {modBreakdown.secondaryStat.toUpperCase()} ({modBreakdown.secondaryHalf >= 0 ? `+${modBreakdown.secondaryHalf}` : modBreakdown.secondaryHalf})
+                                        </span>
+                                    </>
+                                )}
+                                <span className="skill-attr-operator">+</span>
+                                <span 
+                                    className="skill-attr-badge rank" 
+                                    title={`Rank ${effectiveRank.name} grants +${modBreakdown.rankBonus} tier bonus`}
+                                >
+                                    <i className="fas fa-award"></i> RANK ({modBreakdown.rankBonus >= 0 ? `+${modBreakdown.rankBonus}` : modBreakdown.rankBonus})
+                                </span>
+                                <span className="skill-attr-operator">=</span>
+                                <span 
+                                    className="skill-attr-badge modifier" 
+                                    title={`Total Modifier = Primary (${modBreakdown.primaryMod >= 0 ? `+${modBreakdown.primaryMod}` : modBreakdown.primaryMod}) + Secondary Half (${modBreakdown.secondaryHalf >= 0 ? `+${modBreakdown.secondaryHalf}` : modBreakdown.secondaryHalf}) + Rank (${modBreakdown.rankBonus >= 0 ? `+${modBreakdown.rankBonus}` : modBreakdown.rankBonus}) = ${modifier >= 0 ? `+${modifier}` : modifier}`}
+                                >
+                                    <i className="fas fa-shield-halved"></i> MODIFIER: {modifier >= 0 ? `+${modifier}` : modifier}
+                                </span>
+                            </div>
+
+                            <div className="skill-resolution-formula-banner" style={{ marginTop: '8px' }}>
+                                <div className="resolution-formula-item">
+                                    <span className="formula-tag">ROLL FORMULA</span>
+                                    <span className="formula-math">
+                                        <strong>d{DIE_SIZE_MAP[effectiveRank.key]}</strong> <span className="formula-muted">(Die)</span>
+                                        {modifier >= 0 ? ' + ' : ' - '}
+                                        <strong className="formula-highlight">{Math.abs(modifier)}</strong> <span className="formula-muted">(Mod)</span>
+                                    </span>
+                                </div>
+                                <div className="resolution-exploding-item">
+                                    <i className="fas fa-bolt"></i>
+                                    <span><strong>Exploding Dice:</strong> Max roll on d{DIE_SIZE_MAP[effectiveRank.key]} rolls again and adds to total!</span>
+                                </div>
                             </div>
                         </div>
                         {(skill.rollableTable || skill.rollableTables) && (
@@ -758,30 +968,121 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                 )}
 
                 {isWeaponMastery && (
-                    <div className="damage-type-section">
-                        <h4>Weapon Type (for quests & rolls)</h4>
-                        <div className="damage-type-grid weapon-type-grid">
-                            {Object.entries(WEAPON_TYPE_META).map(([weaponKey, meta]) => {
+                    <div className="weapon-mastery-section">
+                        <div className="weapon-mastery-header-row">
+                            <div className="weapon-mastery-title-wrap">
+                                <i className="fas fa-shield-halved" style={{ color: '#d4af37' }}></i>
+                                <h4>Weapon Disciplines & Mastery Arsenal</h4>
+                                <span className="weapon-mastery-count-pill">{filteredWeaponEntries.length} Disciplines</span>
+                            </div>
+                            <div className="weapon-category-filter-pills">
+                                {[
+                                    { id: 'all', label: 'All' },
+                                    { id: 'one-handed', label: 'One-Handed' },
+                                    { id: 'two-handed', label: 'Two-Handed' },
+                                    { id: 'ranged', label: 'Ranged' },
+                                    { id: 'instruments', label: 'Instruments' }
+                                ].map(cat => (
+                                    <button
+                                        key={cat.id}
+                                        type="button"
+                                        className={`weapon-cat-pill ${weaponCategoryFilter === cat.id ? 'active' : ''}`}
+                                        onClick={() => setWeaponCategoryFilter(cat.id)}
+                                    >
+                                        {cat.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="weapon-mastery-grid">
+                            {filteredWeaponEntries.map(([weaponKey, meta]) => {
                                 const weaponRank = getWeaponTypeRank(weaponKey);
-                                const weaponRankStyleVars = buildWeaponRankStyles(weaponRank.color);
+                                const isSelected = selectedWeaponType === weaponKey;
                                 return (
                                     <div
                                         key={weaponKey}
-                                        className={`damage-type-option weapon-type-option ${selectedWeaponType === weaponKey ? 'selected' : ''}`}
+                                        className={`weapon-mastery-card ${isSelected ? 'selected' : ''}`}
                                         onClick={() => setSelectedWeaponType(weaponKey)}
                                         role="button"
                                         tabIndex={0}
                                         title={`${meta.label}: ${meta.hint}`}
                                         onKeyPress={(e) => (e.key === 'Enter' || e.key === ' ') && setSelectedWeaponType(weaponKey)}
-                                        style={weaponRankStyleVars}
                                     >
-                                        <span className="weapon-rank-chip">{weaponRank.name}</span>
-                                        <img src={meta.icon} alt={meta.label} className="damage-type-icon weapon-type-icon" />
-                                        <div className="weapon-type-name">{meta.label}</div>
+                                        <div className="weapon-card-rank-chip" style={{ background: weaponRank.color || '#7f8c8d' }}>
+                                            {weaponRank.name}
+                                        </div>
+                                        <div className="weapon-card-icon-frame">
+                                            <img src={meta.icon} alt={meta.label} className="weapon-card-icon" />
+                                        </div>
+                                        <div className="weapon-card-info">
+                                            <span className="weapon-card-name">{meta.label}</span>
+                                            <span className="weapon-card-die">d{DIE_SIZE_MAP[weaponRank.key] || 4}</span>
+                                        </div>
                                     </div>
                                 );
                             })}
                         </div>
+
+                        {selectedWeaponType && (() => {
+                            const wMeta = WEAPON_TYPE_META[selectedWeaponType] || {};
+                            const wRank = getWeaponTypeRank(selectedWeaponType);
+                            const wBreakdown = getSkillModifierBreakdown(skill, 'weaponMastery');
+                            return (
+                                <div className="weapon-discipline-detail-card">
+                                    <div className="weapon-discipline-hero">
+                                        <div className="discipline-icon-box">
+                                            <img src={wMeta.icon} alt="" />
+                                        </div>
+                                        <div className="discipline-info">
+                                            <div className="discipline-title-row">
+                                                <h3>{wMeta.label} Mastery</h3>
+                                                <span className="discipline-rank-tag" style={{ color: wRank.color }}>
+                                                    {wRank.name} (d{DIE_SIZE_MAP[wRank.key] || 4})
+                                                </span>
+                                            </div>
+                                            <p className="discipline-hint">{wMeta.hint}</p>
+
+                                            <div className="skill-simple-attrs" style={{ marginTop: '4px' }}>
+                                                <span 
+                                                    className="skill-attr-badge primary" 
+                                                    title={`${wBreakdown.primaryStat.toUpperCase()} Score: ${wBreakdown.primaryStatVal} → Modifier: ${wBreakdown.primaryMod >= 0 ? `+${wBreakdown.primaryMod}` : wBreakdown.primaryMod}`}
+                                                >
+                                                    <i className="fas fa-star"></i> {wBreakdown.primaryStat.toUpperCase()} ({wBreakdown.primaryMod >= 0 ? `+${wBreakdown.primaryMod}` : wBreakdown.primaryMod})
+                                                </span>
+                                                {wBreakdown.secondaryStat && (
+                                                    <>
+                                                        <span className="skill-attr-operator">+</span>
+                                                        <span 
+                                                            className="skill-attr-badge secondary" 
+                                                            title={`${wBreakdown.secondaryStat.toUpperCase()} Score: ${wBreakdown.secondaryStatVal} (Mod: ${wBreakdown.secondaryMod >= 0 ? `+${wBreakdown.secondaryMod}` : wBreakdown.secondaryMod}) → Half Applied: ${wBreakdown.secondaryHalf >= 0 ? `+${wBreakdown.secondaryHalf}` : wBreakdown.secondaryHalf}`}
+                                                        >
+                                                            <i className="fas fa-shield"></i> {wBreakdown.secondaryStat.toUpperCase()} ({wBreakdown.secondaryHalf >= 0 ? `+${wBreakdown.secondaryHalf}` : wBreakdown.secondaryHalf})
+                                                        </span>
+                                                    </>
+                                                )}
+                                                <span className="skill-attr-operator">+</span>
+                                                <span 
+                                                    className="skill-attr-badge rank" 
+                                                    title={`Rank ${wRank.name} grants +${wBreakdown.rankBonus} tier bonus`}
+                                                >
+                                                    <i className="fas fa-award"></i> RANK ({wBreakdown.rankBonus >= 0 ? `+${wBreakdown.rankBonus}` : wBreakdown.rankBonus})
+                                                </span>
+                                                <span className="skill-attr-operator">=</span>
+                                                <span 
+                                                    className="skill-attr-badge modifier" 
+                                                    title={`Total Modifier = Primary (${wBreakdown.primaryMod >= 0 ? `+${wBreakdown.primaryMod}` : wBreakdown.primaryMod}) + Secondary Half (${wBreakdown.secondaryHalf >= 0 ? `+${wBreakdown.secondaryHalf}` : wBreakdown.secondaryHalf}) + Rank (${wBreakdown.rankBonus >= 0 ? `+${wBreakdown.rankBonus}` : wBreakdown.rankBonus}) = ${wBreakdown.totalMod >= 0 ? `+${wBreakdown.totalMod}` : wBreakdown.totalMod}`}
+                                                >
+                                                    <i className="fas fa-shield-halved"></i> MODIFIER: {wBreakdown.totalMod >= 0 ? `+${wBreakdown.totalMod}` : wBreakdown.totalMod}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {renderWeaponStuntTechniques(selectedWeaponType, wBreakdown, wRank)}
+                                </div>
+                            );
+                        })()}
                     </div>
                 )}
 
@@ -872,7 +1173,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
 
                     const renderWeaponFlavor = (entry) => {
                         const rollFace = Array.isArray(entry.roll) ? entry.roll[0] : entry.roll || 1;
-                        const faceText = WEAPON_FACE_TEXT[selectedWeaponType]?.[Math.min(8, Math.max(1, rollFace))];
+                        const faceText = WEAPON_FACE_TEXT[selectedWeaponType]?.[Math.min(20, Math.max(1, rollFace))];
                         return faceText || entry.result;
                     };
 

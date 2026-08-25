@@ -92,24 +92,33 @@ const BOARD_ICONS = [
 
 // Icon options for knowledge orbs
 const ORB_ICONS = [
-  { id: 'scroll', icon: 'fa-scroll', label: 'Scroll' },
-  { id: 'book', icon: 'fa-book', label: 'Book' },
-  { id: 'map', icon: 'fa-map', label: 'Map' },
-  { id: 'gem', icon: 'fa-gem', label: 'Gem' },
-  { id: 'skull', icon: 'fa-skull', label: 'Skull' },
-  { id: 'crown', icon: 'fa-crown', label: 'Crown' },
-  { id: 'shield', icon: 'fa-shield-alt', label: 'Shield' },
-  { id: 'star', icon: 'fa-star', label: 'Star' },
-  { id: 'key', icon: 'fa-key', label: 'Key' },
-  { id: 'eye', icon: 'fa-eye', label: 'Eye' },
-  { id: 'user', icon: 'fa-user', label: 'Person' },
-  { id: 'location', icon: 'fa-map-marker-alt', label: 'Location' },
-  { id: 'question', icon: 'fa-question', label: 'Unknown' },
+  { id: 'scroll', icon: 'fa-scroll', label: 'Scroll / Codex' },
+  { id: 'book', icon: 'fa-book-open', label: 'Book / Tome' },
+  { id: 'feather', icon: 'fa-feather-pointed', label: 'Quill / Chronicle' },
+  { id: 'map', icon: 'fa-map', label: 'Map / Realm' },
+  { id: 'location', icon: 'fa-map-marker-alt', label: 'Location Pin' },
+  { id: 'landmark', icon: 'fa-landmark', label: 'Hold / Keep' },
+
+  { id: 'user', icon: 'fa-user', label: 'Character / NPC' },
+  { id: 'crown', icon: 'fa-crown', label: 'Royalty / Lineage' },
+  { id: 'shield', icon: 'fa-shield-halved', label: 'Faction / Order' },
+  { id: 'skull', icon: 'fa-skull', label: 'Undead / Danger' },
+  { id: 'dragon', icon: 'fa-dragon', label: 'Monster / Beast' },
+  { id: 'ghost', icon: 'fa-ghost', label: 'Spirit / Entity' },
+
+  { id: 'gem', icon: 'fa-gem', label: 'Relic / Crystal' },
+  { id: 'coins', icon: 'fa-coins', label: 'Treasure / Vault' },
+  { id: 'key', icon: 'fa-key', label: 'Secret / Key' },
+  { id: 'eye', icon: 'fa-eye', label: 'Clue / Mystery' },
+  { id: 'fire', icon: 'fa-fire', label: 'Ember / Flame' },
+  { id: 'snowflake', icon: 'fa-snowflake', label: 'Rime / Frost' },
+
+  { id: 'star', icon: 'fa-star', label: 'Quest Hook' },
+  { id: 'heart', icon: 'fa-heart', label: 'Ally / Life' },
+  { id: 'tree', icon: 'fa-tree', label: 'Wilderness' },
+  { id: 'mountain', icon: 'fa-mountain', label: 'Mountain' },
   { id: 'exclamation', icon: 'fa-exclamation', label: 'Important' },
-  { id: 'heart', icon: 'fa-heart', label: 'Heart' },
-  { id: 'dragon', icon: 'fa-dragon', label: 'Monster' },
-  { id: 'coins', icon: 'fa-coins', label: 'Treasure' },
-  { id: 'landmark', icon: 'fa-landmark', label: 'Building' }
+  { id: 'question', icon: 'fa-question', label: 'Unknown / Rumor' }
 ];
 
 // Color options for orbs
@@ -213,16 +222,39 @@ const AccountJournalManager = ({ user }) => {
   const [noteImage, setNoteImage] = useState(null);
   const [noteEditMode, setNoteEditMode] = useState('edit');
   const [showPromoteMenu, setShowPromoteMenu] = useState(false);
+  const promoteMenuRef = useRef(null);
   const [showCampaignWeaverModal, setShowCampaignWeaverModal] = useState(false);
   const [campaignWeaverTab, setCampaignWeaverTab] = useState('all');
   const [campaignWeaverSearch, setCampaignWeaverSearch] = useState('');
   const { openWizard: openLineageWizard } = useCustomLineageStore();
 
+  // Close promote dropdown when clicking outside
+  useEffect(() => {
+    const handleOutsidePromoteClick = (e) => {
+      if (promoteMenuRef.current && !promoteMenuRef.current.contains(e.target)) {
+        setShowPromoteMenu(false);
+      }
+    };
+    if (showPromoteMenu) {
+      document.addEventListener('mousedown', handleOutsidePromoteClick);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleOutsidePromoteClick);
+    };
+  }, [showPromoteMenu]);
+
   const handlePromoteNote = (targetType) => {
     const title = noteTitle.trim() || 'Untitled Note Entity';
     const content = noteContent.trim();
-    if (!content && !noteTitle) {
-      alert('Please write something in your note before promoting it to the world.');
+    if (!content && !noteTitle.trim()) {
+      showAlert({
+        title: 'Note Draft Empty',
+        message: 'Please write a title or lore content before promoting to the world.',
+        subMessage: 'Enter your note title or manuscript paragraphs in the editor on the left.',
+        variant: 'warning',
+        icon: 'fa-feather-pointed',
+        confirmText: 'Understood'
+      });
       return;
     }
 
@@ -242,10 +274,24 @@ const AccountJournalManager = ({ user }) => {
         publicGoal: content || 'Custom faction created from Journal brainstorm.',
         colors: { primary: '#d4af37', secondary: '#333' }
       });
-      alert(`Created Faction "${title}"! It is now visible in the World Dashboard and Faction Web.`);
+      showAlert({
+        title: 'Custom Faction Created',
+        message: `Created Faction "${title}"!`,
+        subMessage: 'It is now active in the World Dashboard and Faction Diplomatic Web.',
+        variant: 'success',
+        icon: 'fa-shield-halved',
+        confirmText: 'Great'
+      });
     } else if (targetType === 'map_pin') {
       window.dispatchEvent(new CustomEvent('mythrill_navigate_map', { detail: { title, content } }));
-      alert(`Sent "${title}" to Immerse Map! Open the World section to place or view this location.`);
+      showAlert({
+        title: 'Sent to Immerse Map',
+        message: `Sent "${title}" to Immerse Map!`,
+        subMessage: 'Open the World Atlas to place or view this location pin.',
+        variant: 'success',
+        icon: 'fa-map-location-dot',
+        confirmText: 'Got It'
+      });
     } else if (['npc', 'location', 'quest', 'homebrew_item', 'lore'].includes(targetType)) {
       const currentId = campaignService.getCurrentCampaignId();
       const campaign = currentId ? campaignService.getCampaign(currentId) : null;
@@ -253,19 +299,54 @@ const AccountJournalManager = ({ user }) => {
       
       if (targetType === 'npc') {
         cData.npcs = [...(cData.npcs || []), { id: Date.now(), name: title, description: content, location: '', relationship: 'neutral', plotRelevance: 'minor', notes: '' }];
-        alert(`Promoted "${title}" to Campaign NPC!`);
+        showAlert({
+          title: 'Campaign NPC Created',
+          message: `Promoted "${title}" to Campaign NPC!`,
+          subMessage: 'You can now manage their stats, relationships, and inventory in the Campaigns tab.',
+          variant: 'success',
+          icon: 'fa-user-tag',
+          confirmText: 'Great'
+        });
       } else if (targetType === 'location') {
         cData.locations = [...(cData.locations || []), { id: Date.now(), name: title, description: content, type: 'city', region: '', notableFeatures: '', notes: '' }];
-        alert(`Promoted "${title}" to Campaign Location!`);
+        showAlert({
+          title: 'Campaign Location Created',
+          message: `Promoted "${title}" to Campaign Location!`,
+          subMessage: 'Added to your active campaign locations roster.',
+          variant: 'success',
+          icon: 'fa-landmark',
+          confirmText: 'Got It'
+        });
       } else if (targetType === 'quest') {
         cData.quests = [...(cData.quests || []), { id: Date.now(), title: title, description: content, type: 'side', status: 'not-started', objectives: [], rewards: '', notes: '' }];
-        alert(`Promoted "${title}" to Campaign Quest!`);
+        showAlert({
+          title: 'Campaign Quest Created',
+          message: `Promoted "${title}" to Campaign Quest!`,
+          subMessage: 'Active quest hook registered for this campaign.',
+          variant: 'success',
+          icon: 'fa-scroll',
+          confirmText: 'Got It'
+        });
       } else if (targetType === 'homebrew_item') {
         cData.homebrew = { ...(cData.homebrew || {}), items: [...(cData.homebrew?.items || []), { id: Date.now(), name: title, type: 'wondrous', rarity: 'rare', description: content, properties: '', effects: '', notes: '' }] };
-        alert(`Promoted "${title}" to Campaign Custom Item!`);
+        showAlert({
+          title: 'Custom Item Created',
+          message: `Promoted "${title}" to Campaign Custom Item!`,
+          subMessage: 'Saved into your campaign vault inventory.',
+          variant: 'success',
+          icon: 'fa-gem',
+          confirmText: 'Got It'
+        });
       } else if (targetType === 'lore') {
         cData.homebrew = { ...(cData.homebrew || {}), lore: [...(cData.homebrew?.lore || []), { id: Date.now(), title: title, category: 'history', content: content, tags: [], isSecret: false, notes: '' }] };
-        alert(`Promoted "${title}" to Campaign Lore Article!`);
+        showAlert({
+          title: 'Campaign Lore Article Created',
+          message: `Promoted "${title}" to Campaign Lore Article!`,
+          subMessage: 'Saved into your campaign codex.',
+          variant: 'success',
+          icon: 'fa-book-open',
+          confirmText: 'Got It'
+        });
       }
 
       if (currentId) {
@@ -599,7 +680,13 @@ const AccountJournalManager = ({ user }) => {
   const handleImageUpload = useCallback((file, callback) => {
     if (!file) return;
     if (!file.type.startsWith('image/')) {
-      alert('Please select an image file (PNG, JPG, WebP).');
+      showAlert({
+        title: 'Invalid File',
+        message: 'Please select a valid image file (PNG, JPG, WebP).',
+        variant: 'warning',
+        icon: 'fa-image',
+        confirmText: 'Understood'
+      });
       return;
     }
     const reader = new FileReader();
@@ -633,7 +720,13 @@ const AccountJournalManager = ({ user }) => {
             .then((url) => { if (url) callback(url); })
             .catch((err) => {
               console.error('Journal image upload failed:', err);
-              alert(err.message || 'Image upload failed. Please try a smaller file.');
+              showAlert({
+                title: 'Upload Failed',
+                message: err.message || 'Image upload failed. Please try a smaller file.',
+                variant: 'danger',
+                icon: 'fa-triangle-exclamation',
+                confirmText: 'Dismiss'
+              });
             });
         }, 'image/jpeg', 0.7);
       };
@@ -1055,7 +1148,14 @@ const AccountJournalManager = ({ user }) => {
     const posY = 120 + (Math.floor(count / 4) * 140);
     addKnowledgeOrb(targetNoteId, { x: posX, y: posY }, 'note', 'scroll', '#d4af37');
     syncToCloud(user?.uid);
-    alert(`Added "${title}" as an Orb to your Knowledge Board!`);
+    showAlert({
+      title: 'Knowledge Orb Created',
+      message: `Added "${title}" as an Orb to your Knowledge Board!`,
+      subMessage: 'Switch to the Knowledge Board tab to organize and link this orb.',
+      variant: 'success',
+      icon: 'fa-project-diagram',
+      confirmText: 'Great'
+    });
   };
 
   // Get current folder name
@@ -1268,10 +1368,10 @@ const AccountJournalManager = ({ user }) => {
                   type="button"
                   className="btn-vtt-action btn-vtt-weave"
                   onClick={() => setShowCampaignWeaverModal(true)}
-                  title="Import NPCs, Locations, Quests, Items, and Factions from Campaign directly into Knowledge Board"
+                  title="Import revealed NPCs, Locations, Quests, or Notes directly onto your Knowledge Board"
                 >
                   <i className="fas fa-network-wired"></i>
-                  <span>Weave Campaign</span>
+                  <span>Import Clues</span>
                 </button>
 
                 <button
@@ -1293,26 +1393,6 @@ const AccountJournalManager = ({ user }) => {
                 >
                   <i className={`fas ${isPhysicsRunning ? 'fa-spinner fa-spin' : 'fa-circle-nodes'}`}></i>
                   <span>{isPhysicsRunning ? 'Simulating...' : 'Graph Physics'}</span>
-                </button>
-
-                <button
-                  type="button"
-                  className="btn-vtt-action btn-vtt-family"
-                  onClick={() => useFamilyTreeStore.getState().openStudio()}
-                  title="Open Family Tree & Dynasties Studio (Ancestry charts & Bloodlines)"
-                >
-                  <i className="fas fa-sitemap"></i>
-                  <span>Family Trees</span>
-                </button>
-
-                <button
-                  type="button"
-                  className="btn-vtt-action btn-vtt-atlas-studio"
-                  onClick={() => useInteractiveMapStore.getState().openStudio()}
-                  title="Open Interactive Map Maker, Pins & Multi-Tier Atlas"
-                >
-                  <i className="fas fa-map-location-dot"></i>
-                  <span>Interactive Maps</span>
                 </button>
 
                 <button
@@ -1603,10 +1683,10 @@ const AccountJournalManager = ({ user }) => {
                         type="button"
                         className="empty-hero-btn btn-weaver"
                         onClick={() => setShowCampaignWeaverModal(true)}
-                        title="Import campaign NPCs, locations, or quests"
+                        title="Import revealed campaign clues, locations, NPCs, or personal notes"
                       >
                         <i className="fas fa-network-wired"></i>
-                        <span>Weave Campaign</span>
+                        <span>Import Clues & Notes</span>
                       </button>
 
                       <button
@@ -1618,43 +1698,25 @@ const AccountJournalManager = ({ user }) => {
                           setBgModalMode(currentBackground?.bgMode || 'canvas');
                           setShowBackgroundModal(true);
                         }}
-                        title="Choose a battlemap or regional scenery backdrop"
+                        title="Choose a tactical map or regional scenery backdrop"
                       >
-                        <i className="fas fa-map"></i>
-                        <span>Set Map Canvas</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        className="empty-hero-btn btn-family-tree"
-                        style={{ background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(139, 69, 19, 0.35) 100%)', border: '1px solid #d4af37', color: '#f5d77f' }}
-                        onClick={() => useFamilyTreeStore.getState().openStudio()}
-                        title="Create or view noble family trees, bloodlines & dynasties"
-                      >
-                        <i className="fas fa-sitemap"></i>
-                        <span>Family Trees</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        className="empty-hero-btn btn-interactive-atlas"
-                        style={{ background: 'linear-gradient(135deg, rgba(41, 128, 185, 0.25) 0%, rgba(21, 67, 96, 0.45) 100%)', border: '1px solid #3498db', color: '#aed6f1' }}
-                        onClick={() => useInteractiveMapStore.getState().openStudio()}
-                        title="Open Interactive Map Studio, Pins & Journey Tracker"
-                      >
-                        <i className="fas fa-map-location-dot"></i>
-                        <span>Interactive Atlas</span>
+                        <i className="fas fa-image"></i>
+                        <span>Set Canvas Backdrop</span>
                       </button>
                     </div>
 
                     <div className="empty-hero-tips">
                       <div className="hero-tip-item">
                         <i className="fas fa-circle-nodes"></i>
-                        <span>Use <strong>Connect</strong> to link orbs with custom relationship labels</span>
+                        <span>Use <strong>Connect</strong> to link clues and orbs with custom relationship labels</span>
                       </div>
                       <div className="hero-tip-item">
                         <i className="fas fa-sitemap"></i>
-                        <span>Orbs can hold nested <strong>Sub-Boards</strong> for infinite regional drilldowns</span>
+                        <span>Orbs can hold nested <strong>Sub-Boards</strong> for regional or thematic drilldowns</span>
+                      </div>
+                      <div className="hero-tip-item">
+                        <i className="fas fa-wand-magic-sparkles"></i>
+                        <span>Use <strong>Graph Physics</strong> to auto-cluster connected knowledge into constellations</span>
                       </div>
                     </div>
                   </div>
@@ -1819,7 +1881,7 @@ const AccountJournalManager = ({ user }) => {
                         onClick={() => {
                           setEditingNote(note);
                           setNoteTitle(note.title);
-                          setNoteContent(note.content);
+                          setNoteContent((note.content || '').replace(/³(.*?)³/g, '*$1*').replace(/³/g, '*'));
                           setNoteImage(note.image || null);
                         }}
                       >
@@ -2038,7 +2100,10 @@ const AccountJournalManager = ({ user }) => {
                       {noteTitle && (
                         <h1 className="manuscript-headline">{noteTitle}</h1>
                       )}
-                      <RichLoreText text={noteContent || '*Start typing on the left to watch your manuscript render live in parchment style...*'} />
+                      <RichLoreText 
+                        text={noteContent || '*Start typing on the left to watch your manuscript render live in parchment style...*'} 
+                        className="parchment-theme"
+                      />
                     </div>
                   </div>
                 )}
@@ -2060,17 +2125,20 @@ const AccountJournalManager = ({ user }) => {
 
                 <div className="studio-footer-actions">
                   {/* Promote to World Dropdown */}
-                  <div className="note-promote-dropdown-wrapper">
+                  <div className="note-promote-dropdown-wrapper" ref={promoteMenuRef}>
                     <button
                       type="button"
                       className="btn-studio-promote"
-                      onClick={() => setShowPromoteMenu(!showPromoteMenu)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowPromoteMenu((prev) => !prev);
+                      }}
                       title="Promote this note into a Lineage, Faction, or Map Pin"
                     >
                       <i className="fas fa-bolt" style={{ color: '#d4af37' }}></i> Promote to World ▾
                     </button>
                     {showPromoteMenu && (
-                      <div className="studio-promote-menu">
+                      <div className="studio-promote-menu" onClick={(e) => e.stopPropagation()}>
                         <button type="button" onClick={() => handlePromoteNote('npc')}>
                           <i className="fas fa-user-tag" style={{ color: '#e67e22' }}></i>
                           <div>
@@ -2421,7 +2489,7 @@ const AccountJournalManager = ({ user }) => {
                       className={`orb-tab-btn ${orbEditorTab === 'subboard' ? 'active' : ''}`}
                       onClick={() => setOrbEditorTab('subboard')}
                     >
-                      <i className="fas fa-network-wired"></i> Sub-Board Drilldown
+                      <i className="fas fa-network-wired"></i> Sub-Boards
                       {showOrbEditor.linkedBoardId && <span className="orb-tab-indicator" title="Sub-Board Linked">✓</span>}
                     </button>
                     <button
@@ -2429,7 +2497,7 @@ const AccountJournalManager = ({ user }) => {
                       className={`orb-tab-btn ${orbEditorTab === 'appearance' ? 'active' : ''}`}
                       onClick={() => setOrbEditorTab('appearance')}
                     >
-                      <i className="fas fa-palette"></i> Icon & Appearance
+                      <i className="fas fa-palette"></i> Appearance
                     </button>
                   </div>
 
@@ -2648,7 +2716,10 @@ const AccountJournalManager = ({ user }) => {
                                   <span>Live Parchment Render</span>
                                 </div>
                                 <div className="orb-preview-pane-body">
-                                  <RichLoreText text={orbEditorContent || '*Start writing lore or TTRPG blocks on the left to see live render...*'} />
+                                  <RichLoreText 
+                                    text={orbEditorContent || '*Start writing lore or TTRPG blocks on the left to see live render...*'} 
+                                    className="parchment-theme"
+                                  />
                                 </div>
                               </div>
                             )}
@@ -2850,109 +2921,151 @@ const AccountJournalManager = ({ user }) => {
                     {/* TAB 4: ICON & APPEARANCE */}
                     {orbEditorTab === 'appearance' && (
                       <div className="orb-tab-pane orb-tab-appearance">
-                        {/* Custom Image / Portrait Upload */}
-                        <div className="form-field">
-                          <label><i className="fas fa-image"></i> Custom Portrait / Icon Artwork</label>
-                          <div className="orb-image-uploader-row">
-                            <div
-                              className="orb-image-preview-badge"
-                              style={{
-                                borderColor: showOrbEditor.color || '#d4af37',
-                                boxShadow: `0 0 14px ${showOrbEditor.color || '#d4af37'}40`
-                              }}
-                            >
-                              {showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType) ? (
-                                <img
-                                  src={getOrbIconUrl(showOrbEditor.iconType)}
-                                  alt=""
-                                  className="orb-preview-img"
-                                />
-                              ) : (
-                                <i className={`fas ${ORB_ICONS.find(i => i.id === showOrbEditor.iconType)?.icon || 'fa-scroll'}`}></i>
-                              )}
-                            </div>
-                            <div className="orb-image-actions">
-                              <label className="orb-image-upload-btn">
-                                <i className="fas fa-upload"></i>
-                                <span>Upload PNG / Image</span>
-                                <input
-                                  type="file"
-                                  accept="image/png,image/jpeg,image/webp,image/gif"
-                                  style={{ display: 'none' }}
-                                  onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                      const previousImage = showOrbEditor.iconType;
-                                      handleImageUpload(file, (dataUrl) => {
-                                        if (previousImage && isCustomIcon(previousImage)) {
-                                          removeImage(previousImage).catch((err) => console.warn('Failed to remove replaced orb image:', err));
-                                        }
-                                        updateOrb(showOrbEditor.id, { iconType: dataUrl, customImage: dataUrl });
-                                        setShowOrbEditor(prev => ({ ...prev, iconType: dataUrl, customImage: dataUrl }));
-                                      });
-                                    }
-                                  }}
-                                />
-                              </label>
-                              {showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType) && (
-                                <button
-                                  type="button"
-                                  className="orb-image-reset-btn"
-                                  onClick={() => {
-                                    if (showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType)) {
-                                      removeImage(showOrbEditor.iconType).catch((err) => console.warn('Failed to remove orb image:', err));
-                                    }
-                                    updateOrb(showOrbEditor.id, { iconType: 'scroll', customImage: null });
-                                    setShowOrbEditor(prev => ({ ...prev, iconType: 'scroll', customImage: null }));
-                                  }}
-                                >
-                                  <i className="fas fa-undo"></i> Reset to icon
-                                </button>
-                              )}
+                        {/* Live Canvas Orb Showcase Stage */}
+                        <div className="orb-appearance-preview-stage">
+                          <div
+                            className="stage-glow-ambient"
+                            style={{ background: `radial-gradient(circle, ${showOrbEditor.color || '#d4af37'}30 0%, transparent 70%)` }}
+                          />
+                          <div
+                            className="orb-live-showcase-node"
+                            style={{
+                              borderColor: showOrbEditor.color || '#d4af37',
+                              boxShadow: `0 0 22px ${showOrbEditor.color || '#d4af37'}88, inset 0 0 10px ${showOrbEditor.color || '#d4af37'}33`
+                            }}
+                          >
+                            {showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType) ? (
+                              <img
+                                src={getOrbIconUrl(showOrbEditor.iconType)}
+                                alt=""
+                                className="orb-showcase-img"
+                              />
+                            ) : (
+                              <i className={`fas ${ORB_ICONS.find(i => i.id === showOrbEditor.iconType)?.icon || 'fa-scroll'}`}></i>
+                            )}
+                          </div>
+                          <div className="orb-showcase-info">
+                            <div className="orb-showcase-title">{orbEditorLabel || showOrbEditor.label || 'Knowledge Node'}</div>
+                            <div className="orb-showcase-meta">
+                              <span className="showcase-badge-type">
+                                {showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType) ? (
+                                  <>
+                                    <i className="fas fa-image" style={{ color: '#d4af37', marginRight: 4 }}></i> Custom Artwork
+                                  </>
+                                ) : (
+                                  <>
+                                    <i className={`fas ${ORB_ICONS.find(i => i.id === showOrbEditor.iconType)?.icon || 'fa-scroll'}`} style={{ color: '#d4af37', marginRight: 4 }}></i>
+                                    {(ORB_ICONS.find(i => i.id === showOrbEditor.iconType)?.label || 'Standard').split('/')[0].trim()}
+                                  </>
+                                )}
+                              </span>
+                              <span className="showcase-badge-color" style={{ borderColor: `${showOrbEditor.color || '#d4af37'}55` }}>
+                                <span className="color-dot" style={{ backgroundColor: showOrbEditor.color || '#d4af37' }} />
+                                {showOrbEditor.color || '#d4af37'}
+                              </span>
                             </div>
                           </div>
                         </div>
 
-                        {/* Standard Icons Grid */}
-                        <div className="form-field">
-                          <label><i className="fas fa-icons"></i> Or Choose Standard Icon</label>
-                          <div className="orb-editor-icon-grid">
-                            {ORB_ICONS.map(icon => (
+                        {/* Custom Portrait Artwork Upload */}
+                        <div className="form-field orb-appearance-field">
+                          <label><i className="fas fa-image"></i> Custom Portrait / Token Artwork</label>
+                          <div className="orb-artwork-upload-box">
+                            <label className="orb-custom-upload-btn">
+                              <i className="fas fa-arrow-up-from-bracket"></i>
+                              <span>{showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType) ? 'Replace Artwork File' : 'Upload PNG / JPG / WebP Portrait'}</span>
+                              <input
+                                type="file"
+                                accept="image/png,image/jpeg,image/webp,image/gif"
+                                style={{ display: 'none' }}
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    const previousImage = showOrbEditor.iconType;
+                                    handleImageUpload(file, (dataUrl) => {
+                                      if (previousImage && isCustomIcon(previousImage)) {
+                                        removeImage(previousImage).catch((err) => console.warn('Failed to remove replaced orb image:', err));
+                                      }
+                                      updateOrb(showOrbEditor.id, { iconType: dataUrl, customImage: dataUrl });
+                                      setShowOrbEditor(prev => ({ ...prev, iconType: dataUrl, customImage: dataUrl }));
+                                    });
+                                  }
+                                }}
+                              />
+                            </label>
+                            {showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType) && (
                               <button
-                                key={icon.id}
                                 type="button"
-                                className={`orb-editor-icon-btn ${showOrbEditor.iconType === icon.id ? 'selected' : ''}`}
+                                className="orb-artwork-clear-btn"
                                 onClick={() => {
                                   if (showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType)) {
                                     removeImage(showOrbEditor.iconType).catch((err) => console.warn('Failed to remove orb image:', err));
                                   }
-                                  updateOrb(showOrbEditor.id, { iconType: icon.id, customImage: null });
-                                  setShowOrbEditor(prev => ({ ...prev, iconType: icon.id, customImage: null }));
+                                  updateOrb(showOrbEditor.id, { iconType: 'scroll', customImage: null });
+                                  setShowOrbEditor(prev => ({ ...prev, iconType: 'scroll', customImage: null }));
                                 }}
-                                title={icon.label}
+                                title="Revert to standard icon glyph"
                               >
-                                <i className={`fas ${icon.icon}`}></i>
+                                <i className="fas fa-rotate-left"></i> Revert to Icon
                               </button>
-                            ))}
+                            )}
                           </div>
                         </div>
 
-                        {/* Color Swatches Grid */}
-                        <div className="form-field">
-                          <label><i className="fas fa-palette"></i> Orb Glow Color</label>
-                          <div className="folder-color-grid">
-                            {ORB_COLORS.map(color => (
-                              <button
-                                key={color}
-                                type="button"
-                                className={`folder-color-btn ${showOrbEditor.color === color ? 'selected' : ''}`}
-                                style={{ backgroundColor: color }}
-                                onClick={() => {
-                                  updateOrb(showOrbEditor.id, { color });
-                                  setShowOrbEditor(prev => ({ ...prev, color }));
-                                }}
-                              />
-                            ))}
+                        {/* Standard Icons Grid */}
+                        <div className="form-field orb-appearance-field">
+                          <label><i className="fas fa-icons"></i> Standard Icons & Glyphs</label>
+                          <div className="orb-editor-icon-grid">
+                            {ORB_ICONS.map(icon => {
+                              const isSelected = showOrbEditor.iconType === icon.id && !isCustomIcon(showOrbEditor.iconType);
+                              return (
+                                <button
+                                  key={icon.id}
+                                  type="button"
+                                  className={`orb-editor-icon-btn ${isSelected ? 'selected' : ''}`}
+                                  onClick={() => {
+                                    if (showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType)) {
+                                      removeImage(showOrbEditor.iconType).catch((err) => console.warn('Failed to remove orb image:', err));
+                                    }
+                                    updateOrb(showOrbEditor.id, { iconType: icon.id, customImage: null });
+                                    setShowOrbEditor(prev => ({ ...prev, iconType: icon.id, customImage: null }));
+                                  }}
+                                  title={icon.label}
+                                >
+                                  <i className={`fas ${icon.icon}`}></i>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+
+                        {/* Luminous Glow Swatches (2 rows of 6) */}
+                        <div className="form-field orb-appearance-field">
+                          <label><i className="fas fa-palette"></i> Luminous Aura Glow</label>
+                          <div className="orb-color-aura-grid">
+                            {ORB_COLORS.map(color => {
+                              const isSelected = showOrbEditor.color === color;
+                              return (
+                                <button
+                                  key={color}
+                                  type="button"
+                                  className={`orb-color-aura-btn ${isSelected ? 'selected' : ''}`}
+                                  style={{
+                                    backgroundColor: color,
+                                    boxShadow: isSelected
+                                      ? `0 0 16px ${color}, 0 0 0 2.5px #d4af37, inset 0 0 4px rgba(255,255,255,0.6)`
+                                      : `0 2px 5px rgba(0,0,0,0.2)`
+                                  }}
+                                  onClick={() => {
+                                    updateOrb(showOrbEditor.id, { color });
+                                    setShowOrbEditor(prev => ({ ...prev, color }));
+                                  }}
+                                  title={color}
+                                >
+                                  {isSelected && <i className="fas fa-check orb-color-check"></i>}
+                                </button>
+                              );
+                            })}
                           </div>
                         </div>
                       </div>

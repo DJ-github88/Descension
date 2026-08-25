@@ -1582,26 +1582,34 @@
 .character-view-content .stats-section-header,
 .character-view-content .skills-section-header,
 .character-view-content .lore-section-header {
-  background: rgba(122, 59, 46, 0.15);
-  border-bottom: 2px solid #7a3b2e;
-  border-radius: 0;
-  padding: 12px 20px;
-  margin: 0;
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.16) 0%, rgba(139, 69, 19, 0.09) 60%, rgba(212, 175, 55, 0.03) 100%);
+  border-left: 4px solid #d4af37;
+  border-top: 1px solid rgba(212, 175, 55, 0.35);
+  border-bottom: 1.5px solid rgba(139, 69, 19, 0.3);
+  border-right: 1px solid rgba(212, 175, 55, 0.15);
+  border-radius: 8px;
+  padding: 14px 20px;
+  margin: 0 0 20px 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  gap: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
 
 .character-view-content .character-section-title,
 .character-view-content .stats-section-title,
 .character-view-content .skills-section-title,
 .character-view-content .lore-section-title {
-  color: #5a3825;
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
-  text-align: center;
+  color: #2b1408;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+  text-align: left;
   font-family: 'Cinzel', serif;
+  font-size: 20px;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1.6px;
+  line-height: 1.2;
 }
 
 /* Lore fields container */

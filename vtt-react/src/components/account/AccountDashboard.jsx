@@ -143,7 +143,6 @@ const AccountDashboard = ({ user }) => {
   const isPhone = useIsPhone();
   // Phones default to Characters — Rooms leads into the desktop-only VTT grid.
   const [activeTab, setActiveTab] = useState(() => (isPhone ? 'characters' : 'rooms'));
-  const [worldSectionTab, setWorldSectionTab] = useState('lore');
   const [subscriptionStatus, setSubscriptionStatus] = useState(null);
   const [characterLimitInfo, setCharacterLimitInfo] = useState(null);
 
@@ -1161,37 +1160,9 @@ const AccountDashboard = ({ user }) => {
 
           {activeTab === 'maps' && (
             <div className="tab-content account-world-tab-content">
-              <div className="account-world-subnav" style={{
-                display: 'flex',
-                gap: '12px',
-                marginBottom: '18px',
-                borderBottom: '1px solid #2a2a4a',
-                paddingBottom: '12px',
-                alignItems: 'center'
-              }}>
-                <button
-                  className={`btn ${worldSectionTab === 'lore' ? 'btn-primary' : 'btn-secondary'}`}
-                  onClick={() => setWorldSectionTab('lore')}
-                  style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', fontSize: '14px', fontWeight: '600' }}
-                >
-                  <i className="fas fa-book-atlas"></i> Living World & Lore
-                </button>
-                <button
-                  className={`btn ${worldSectionTab === 'maps' ? 'btn-primary' : 'btn-secondary'}`}
-                  onClick={() => setWorldSectionTab('maps')}
-                  style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', fontSize: '14px', fontWeight: '600' }}
-                >
-                  <i className="fas fa-map"></i> Atlas & Custom Maps
-                </button>
+              <div className="account-world-lore-wrapper" style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid #2a2a4a' }}>
+                <WorldDashboard />
               </div>
-
-              {worldSectionTab === 'lore' ? (
-                <div className="account-world-lore-wrapper" style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid #2a2a4a' }}>
-                  <WorldDashboard />
-                </div>
-              ) : (
-                <AccountMapManager />
-              )}
             </div>
           )}
 

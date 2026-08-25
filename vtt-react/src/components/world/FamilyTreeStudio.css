@@ -146,6 +146,17 @@
   background: linear-gradient(135deg, #f5d77f 0%, #d4af37 100%);
 }
 
+.btn-studio-action.btn-delete-tree {
+  background: rgba(192, 57, 43, 0.08);
+  border-color: rgba(192, 57, 43, 0.35);
+  color: #c0392b;
+}
+.btn-studio-action.btn-delete-tree:hover {
+  background: #c0392b;
+  border-color: #962d22;
+  color: #ffffff;
+}
+
 .btn-studio-action.btn-close-studio {
   background: rgba(192, 57, 43, 0.12);
   border-color: rgba(192, 57, 43, 0.35);

@@ -196,12 +196,42 @@ const ExternalRecipePreview = ({ recipeData, windowPosition, windowSize, isOpen 
                 fontSize: '12px'
               }}>
                 <span>
-                  {resultItem.weaponSlot === 'TWO_HANDED' ? 'Two-Handed' :
-                    resultItem.weaponSlot === 'RANGED' ? 'Ranged' :
-                      resultItem.weaponSlot === 'ONE_HANDED' && resultItem.hand === 'OFF_HAND' ? 'Off Hand' :
-                        resultItem.weaponSlot === 'ONE_HANDED' && resultItem.hand === 'ONE_HAND' ? 'One Hand' :
-                          resultItem.weaponSlot === 'ONE_HANDED' && resultItem.hand === 'MAIN_HAND' ? 'Main Hand' :
-                            'Main Hand'}
+                  {(() => {
+                    const rawSlot = String(resultItem.weaponSlot || '').toUpperCase().replace(/[\s_-]/g, '');
+                    const rawHand = String(resultItem.hand || '').toUpperCase().replace(/[\s_-]/g, '');
+                    const subtypeUpper = String(resultItem.subtype || '').toUpperCase();
+                    const slotsArr = Array.isArray(resultItem.slots) ? resultItem.slots.map(s => String(s).toLowerCase()) : [];
+
+                    const rangedSubtypes = ['BOW', 'CROSSBOW', 'WAND', 'THROWN', 'SLING', 'BLOWGUN', 'BOOMERANG', 'CHAKRAM', 'SHURIKEN', 'DART', 'GUN'];
+                    if (rawSlot === 'RANGED' || slotsArr.includes('ranged') || rangedSubtypes.includes(subtypeUpper)) {
+                      return 'Ranged';
+                    }
+
+                    const twoHandedSubtypes = ['GREATSWORD', 'GREATAXE', 'MAUL', 'POLEARM', 'STAFF', 'HALBERD', 'SCYTHE', 'JOUSTING_SPEAR', 'DOUBLE_SIDED_SWORD'];
+                    if (rawSlot === 'TWOHANDED' || slotsArr.includes('twohand') || slotsArr.includes('two_handed') || twoHandedSubtypes.includes(subtypeUpper)) {
+                      return 'Two-Handed';
+                    }
+
+                    const offHandSubtypes = ['PARRYING_DAGGER', 'OFF_HAND_BLADE', 'OFFHAND_BLADE'];
+                    if (rawSlot === 'OFFHAND' || rawHand === 'OFFHAND' || slotsArr.includes('offhand') || slotsArr.includes('off_hand') || offHandSubtypes.includes(subtypeUpper)) {
+                      return 'Off Hand';
+                    }
+
+                    const mainHandSubtypes = ['RAPIER', 'KATANA', 'WAR_MACE', 'MAIN_HAND_MACE'];
+                    if (rawSlot === 'MAINHAND' || rawHand === 'MAINHAND' || mainHandSubtypes.includes(subtypeUpper)) {
+                      return 'Main Hand';
+                    }
+
+                    if (rawSlot === 'ONEHANDED' || rawSlot === 'ONEHAND' || rawHand === 'ONEHAND') {
+                      return 'One Hand';
+                    }
+
+                    if (resultItem.type === 'weapon' || !!resultItem.weaponStats) {
+                      return 'One Hand';
+                    }
+
+                    return resultItem.weaponSlot || 'Main Hand';
+                  })()}
                 </span>
                 <span>
                   {resultItem.subtype ? resultItem.subtype.split('_').map(word =>

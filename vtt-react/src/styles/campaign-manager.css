@@ -3058,6 +3058,28 @@
   color: #fff;
 }
 
+.campaign-lineage-delete-btn {
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.4);
+  color: #c0392b;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+
+.campaign-lineage-delete-btn:hover {
+  background: #c0392b;
+  border-color: #962d22;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
 /* ==========================================================================
    Campaign Manager Redesign: Library Inventory Slots & Homebrew Crafting Cards
    ========================================================================== */
@@ -3899,6 +3921,91 @@
   border-bottom: 1.5px solid rgba(139, 69, 19, 0.2);
 }
 
+.session-dossier-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.session-date-input {
+  height: 36px;
+  min-height: 36px;
+  max-height: 36px;
+  padding: 6px 10px;
+  border: 1.5px solid #c8b9a1;
+  border-radius: 7px;
+  font-family: 'Crimson Text', serif;
+  font-size: 14px;
+  background: #ffffff;
+  color: #2d1810;
+  width: 140px;
+  max-width: 140px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.session-date-input:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.18);
+}
+
+.session-status-select {
+  height: 36px;
+  min-height: 36px;
+  max-height: 36px;
+  padding: 6px 12px;
+  border: 1.5px solid #c8b9a1;
+  border-radius: 7px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: #ffffff;
+  color: #2d1810;
+  width: auto;
+  min-width: 110px;
+  max-width: 130px;
+  flex-shrink: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.session-status-select:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.18);
+}
+
+.session-status-select.planned {
+  border-color: rgba(33, 150, 243, 0.4);
+  color: #1976d2;
+  background: rgba(33, 150, 243, 0.06);
+}
+
+.session-status-select.in-progress {
+  border-color: rgba(255, 152, 0, 0.5);
+  color: #ef6c00;
+  background: rgba(255, 152, 0, 0.08);
+}
+
+.session-status-select.completed {
+  border-color: rgba(76, 175, 80, 0.5);
+  color: #2e7d32;
+  background: rgba(76, 175, 80, 0.08);
+}
+
+.session-dossier-header .remove-card-btn,
+.session-remove-btn {
+  height: 36px;
+  width: 36px;
+  min-width: 36px;
+  margin-top: 0;
+  align-self: center;
+}
+
 .session-dossier-badge {
   background: #8b4513;
   color: #fdfbf7;
@@ -4536,49 +4643,54 @@
 }
 
 .location-card-subtabs-strip {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   background: rgba(139, 69, 19, 0.06);
   border: 1px solid rgba(139, 69, 19, 0.18);
-  border-radius: 6px;
-  padding: 2px;
-  gap: 2px;
+  border-radius: 8px;
+  padding: 4px;
+  gap: 4px;
   margin: 10px 0 12px 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.location-card-subtabs-strip::-webkit-scrollbar {
-  display: none;
 }
 
 .loc-subtab-btn {
-  background: transparent;
-  border: none;
-  color: #8b5a1a;
-  padding: 4px 8px;
-  font-size: 0.68rem;
-  font-weight: 700;
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(139, 69, 19, 0.15);
+  color: #7c4a16;
+  padding: 5px 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 5px;
   cursor: pointer;
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   transition: all 0.15s ease;
   font-family: inherit;
   white-space: nowrap;
+  line-height: 1.2;
+}
+
+.loc-subtab-btn i {
+  font-size: 0.72rem;
   line-height: 1;
+  display: inline-block;
+  flex-shrink: 0;
 }
 
 .loc-subtab-btn:hover {
-  background: rgba(197, 155, 63, 0.2);
+  background: rgba(197, 155, 63, 0.25);
+  border-color: rgba(197, 155, 63, 0.5);
   color: #5a2e10;
 }
 
 .loc-subtab-btn.active {
   background: #c59b3f;
+  border-color: #a87f28;
   color: #1a0f05;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 .loc-quick-entity-bar {

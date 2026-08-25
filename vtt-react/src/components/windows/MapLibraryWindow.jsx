@@ -1169,7 +1169,7 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
                                                     title={`Drag to transfer ${player.name || player.characterName || 'Player'} to another map`}
                                                 >
                                                     {player.id === usePartyStore.getState().leaderId ? (
-                                                        <span style={{ color: '#ffd700', marginRight: '4px', fontSize: '10px' }}>👑</span>
+                                                        <span style={{ color: '#ffd700', marginRight: '4px', fontSize: '10px' }}><i className="fas fa-crown"></i></span>
                                                     ) : (
                                                         <FaUserAlt style={{ marginRight: '4px', fontSize: '10px' }} />
                                                     )}

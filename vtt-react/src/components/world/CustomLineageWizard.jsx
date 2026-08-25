@@ -4,6 +4,7 @@ import useWorldStore from '../../store/worldStore';
 import { REGION_POLYGONS } from '../../data/regionPolygons';
 import { SUBREGIONS } from '../../data/subregions';
 import { getCustomMaps } from '../../data/subregionMaps';
+import { showConfirm } from '../../utils/dialogService';
 import './CustomLineageWizard.css';
 
 const STEPS = [
@@ -18,7 +19,7 @@ const STEPS = [
 const ABILITY_KEYS = ['STR', 'AGI', 'CON', 'INT', 'SPI', 'CHA'];
 
 const CustomLineageWizard = ({ isOpen, onClose, initialData = null }) => {
-  const { isWizardOpen, wizardDraft, closeWizard, saveLineage, setWizardDraft } = useCustomLineageStore();
+  const { isWizardOpen, wizardDraft, closeWizard, saveLineage, deleteLineage, setWizardDraft } = useCustomLineageStore();
   const { regions } = useWorldStore();
   
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
@@ -297,26 +298,26 @@ const CustomLineageWizard = ({ isOpen, onClose, initialData = null }) => {
                     value={form.originRegionId || 'frostwood-reach'}
                     onChange={(e) => updateField('originRegionId', e.target.value)}
                   >
-                    <optgroup label="🌍 Mythrill Continents & Realms">
+                    <optgroup label="Mythrill Continents & Realms">
                       {availableOrigins.canonicalRealms.map((r) => (
                         <option key={r.id} value={r.id}>{r.name}</option>
                       ))}
                     </optgroup>
                     {availableOrigins.customMapsList.length > 0 && (
-                      <optgroup label="🗺️ Custom Worlds & User Maps">
+                      <optgroup label="Custom Worlds & User Maps">
                         {availableOrigins.customMapsList.map((r) => (
                           <option key={r.id} value={r.id}>{r.name}</option>
                         ))}
                       </optgroup>
                     )}
                     {availableOrigins.storeRegions.length > 0 && (
-                      <optgroup label="🏛️ Living World Regions">
+                      <optgroup label="Living World Regions">
                         {availableOrigins.storeRegions.map((r) => (
                           <option key={r.id} value={r.id}>{r.name}</option>
                         ))}
                       </optgroup>
                     )}
-                    <optgroup label="🏔️ Canonical Subregions & Territories">
+                    <optgroup label="Canonical Subregions & Territories">
                       {availableOrigins.canonicalSubs.map((r) => (
                         <option key={r.id} value={r.id}>{r.name}</option>
                       ))}
@@ -710,7 +711,31 @@ const CustomLineageWizard = ({ isOpen, onClose, initialData = null }) => {
             ← Previous
           </button>
 
-          <div className="lineage-footer-right">
+          <div className="lineage-footer-right" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            {form?.id && form?.isCustom && (
+              <button
+                type="button"
+                className="lineage-footer-btn delete"
+                style={{ background: 'rgba(231, 76, 60, 0.12)', border: '1px solid rgba(231, 76, 60, 0.4)', color: '#c0392b', marginRight: 'auto' }}
+                onClick={async () => {
+                  const confirmed = await showConfirm({
+                    title: 'Delete Custom Lineage',
+                    message: `Are you sure you want to delete "${form.name}"?`,
+                    subMessage: 'This custom species will be removed from your world and character creator.',
+                    confirmText: 'Delete Lineage',
+                    cancelText: 'Cancel',
+                    isDestructive: true
+                  });
+                  if (confirmed) {
+                    deleteLineage(form.id);
+                    closeWizard();
+                  }
+                }}
+                title="Delete this custom lineage"
+              >
+                <i className="fas fa-trash-alt"></i> Delete Lineage
+              </button>
+            )}
             {currentStepIdx < STEPS.length - 1 ? (
               <button
                 className="lineage-footer-btn next"

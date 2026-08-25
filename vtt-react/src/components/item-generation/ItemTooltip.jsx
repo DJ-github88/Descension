@@ -1925,14 +1925,48 @@ function ItemTooltip({ item }) {
                     alignItems: 'center'
                 }}>
                     <span>
-                        {item.weaponSlot === 'TWO_HANDED' ? 'Two-Handed' :
-                            item.weaponSlot === 'RANGED' ? 'Ranged' :
-                                item.weaponSlot === 'OFF_HAND' || 
-                                (item.weaponSlot === 'ONE_HANDED' && item.hand === 'OFF_HAND') ? 'Off Hand' :
-                                    item.weaponSlot === 'MAIN_HAND' ||
-                                    (item.weaponSlot === 'ONE_HANDED' && item.hand === 'MAIN_HAND') ? 'Main Hand' :
-                                        item.weaponSlot === 'ONE_HANDED' && item.hand === 'ONE_HAND' ? 'One Hand' :
-                                            item.weaponSlot || 'Main Hand'}
+                        {(() => {
+                            const rawSlot = String(item.weaponSlot || '').toUpperCase().replace(/[\s_-]/g, '');
+                            const rawHand = String(item.hand || '').toUpperCase().replace(/[\s_-]/g, '');
+                            const subtypeUpper = String(item.subtype || '').toUpperCase();
+                            const slotsArr = Array.isArray(item.slots) ? item.slots.map(s => String(s).toLowerCase()) : [];
+
+                            // 1. Ranged: explicit slot, slots array contains ranged, or ranged weapon subtype
+                            const rangedSubtypes = ['BOW', 'CROSSBOW', 'WAND', 'THROWN', 'SLING', 'BLOWGUN', 'BOOMERANG', 'CHAKRAM', 'SHURIKEN', 'DART', 'GUN'];
+                            if (rawSlot === 'RANGED' || slotsArr.includes('ranged') || rangedSubtypes.includes(subtypeUpper)) {
+                                return 'Ranged';
+                            }
+
+                            // 2. Two-handed: explicit slot, slots array contains twoHand, or two-handed subtype
+                            const twoHandedSubtypes = ['GREATSWORD', 'GREATAXE', 'MAUL', 'POLEARM', 'STAFF', 'HALBERD', 'SCYTHE', 'JOUSTING_SPEAR', 'DOUBLE_SIDED_SWORD'];
+                            if (rawSlot === 'TWOHANDED' || slotsArr.includes('twohand') || slotsArr.includes('two_handed') || twoHandedSubtypes.includes(subtypeUpper)) {
+                                return 'Two-Handed';
+                            }
+
+                            // 3. Off-hand only
+                            const offHandSubtypes = ['PARRYING_DAGGER', 'OFF_HAND_BLADE', 'OFFHAND_BLADE'];
+                            if (rawSlot === 'OFFHAND' || rawHand === 'OFFHAND' || slotsArr.includes('offhand') || slotsArr.includes('off_hand') || offHandSubtypes.includes(subtypeUpper)) {
+                                return 'Off Hand';
+                            }
+
+                            // 4. Main-hand only
+                            const mainHandSubtypes = ['RAPIER', 'KATANA', 'WAR_MACE', 'MAIN_HAND_MACE'];
+                            if (rawSlot === 'MAINHAND' || rawHand === 'MAINHAND' || mainHandSubtypes.includes(subtypeUpper)) {
+                                return 'Main Hand';
+                            }
+
+                            // 5. One-handed flexible (either hand)
+                            if (rawSlot === 'ONEHANDED' || rawSlot === 'ONEHAND' || rawHand === 'ONEHAND') {
+                                return 'One Hand';
+                            }
+
+                            // 6. Generic weapon fallback
+                            if (item.type === 'weapon' || !!item.weaponStats) {
+                                return 'One Hand';
+                            }
+
+                            return item.weaponSlot || 'Main Hand';
+                        })()}
                     </span>
                     <span>
                         {item.subtype ? (() => {

@@ -349,8 +349,9 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
   const [isGenerating, setIsGenerating] = useState(false);
 
   // State for weapon properties
-  const [weaponSlot, setWeaponSlot] = useState('ONE_HANDED');
-  const [weaponHand, setWeaponHand] = useState('MAIN_HAND');
+  const [weaponSlot, setWeaponSlot] = useState(() => initialData?.weaponSlot || (initialData?.subtype && ITEM_SUBTYPES.weapon[initialData.subtype]?.slot) || 'ONE_HANDED');
+  const [weaponHand, setWeaponHand] = useState(() => initialData?.hand || (initialData?.subtype && ITEM_SUBTYPES.weapon[initialData.subtype]?.defaultHand) || 'ONE_HAND');
+  const prevSubtypeRef = useRef(subtype);
 
   // State for armor properties
   const [armorSlot, setArmorSlot] = useState('chest');
@@ -572,7 +573,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
         quality: containerOpts.itemQuality,
         description: generateItemDescription(randomType, itemSubtype, containerOpts.itemQuality),
         type: randomType,
-      subtype: subtype,
+        subtype: itemSubtype,
         iconId: getRandomIconForType(randomType, itemSubtype),
         imageUrl: `getIconUrl('${getRandomIconForType(randomType, itemSubtype)}', 'items')`,
         value: (() => {
@@ -679,9 +680,19 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
           };
 
           // Set weapon slots
-          if (itemWidth === 2 || itemHeight === 3) {
+          const subtypeInfo = ITEM_SUBTYPES.weapon[itemSubtype];
+          if (subtypeInfo?.slot === 'RANGED') {
+            item.slots = ['ranged'];
+            item.weaponSlot = 'RANGED';
+            item.hand = 'RANGED';
+          } else if (subtypeInfo?.slot === 'TWO_HANDED' || itemWidth === 2 || itemHeight === 3) {
             item.slots = ['mainHand']; // Two-handed weapons only go in main hand
             item.weaponSlot = 'TWO_HANDED';
+            item.hand = 'TWO_HAND';
+          } else if (subtypeInfo?.slot === 'OFF_HAND') {
+            item.slots = ['offHand'];
+            item.weaponSlot = 'OFF_HAND';
+            item.hand = 'OFF_HAND';
           } else {
             item.slots = ['mainHand', 'offHand']; // One-handed weapons can go in either hand
             item.weaponSlot = 'ONE_HANDED';
@@ -1847,28 +1858,16 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
     currencyOptions
   ]);
 
-  // Update weapon slot and hand when subtype changes, but only on initial selection
+  // Update weapon slot and hand when subtype changes
   useEffect(() => {
     if (type === 'weapon' && subtype) {
-      const weaponInfo = ITEM_SUBTYPES.weapon[subtype];
-      if (weaponInfo) {
-        // Only update if the user hasn't explicitly selected a slot/hand
-        // or if the subtype has changed
-        setWeaponSlot(prevSlot => {
-          // If user has already selected a slot, keep it
-          if (prevSlot && prevSlot !== '') {
-            return prevSlot;
-          }
-          return weaponInfo.slot || 'ONE_HANDED';
-        });
+      const subtypeChanged = prevSubtypeRef.current !== subtype;
+      prevSubtypeRef.current = subtype;
 
-        setWeaponHand(prevHand => {
-          // If user has already selected a hand, keep it
-          if (prevHand && prevHand !== '') {
-            return prevHand;
-          }
-          return weaponInfo.defaultHand || 'ONE_HAND';
-        });
+      const weaponInfo = ITEM_SUBTYPES.weapon[subtype];
+      if (weaponInfo && subtypeChanged) {
+        setWeaponSlot(weaponInfo.slot || 'ONE_HANDED');
+        setWeaponHand(weaponInfo.defaultHand || (weaponInfo.slot === 'RANGED' ? 'RANGED' : 'ONE_HAND'));
 
         // Force immediate preview update
         setTimeout(() => generatePreviewItem(), 0);

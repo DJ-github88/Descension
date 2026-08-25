@@ -19,13 +19,16 @@ import useCreatureStore from '../../store/creatureStore';
 import useShareableStore from '../../store/shareableStore';
 import useChatStore from '../../store/chatStore';
 import campaignService from '../../services/campaignService';
+import { showConfirm } from '../../utils/dialogService';
 import { useCampaignPersistence } from '../../hooks/useCampaignPersistence';
 import { useMediaUpload } from '../../hooks/useMediaUpload';
 import { SPELL_DAMAGE_TYPES, getDamageType } from '../../data/damageTypes';
 import RichLoreText from '../common/RichLoreText';
 import CodexLoreEditor from '../common/CodexLoreEditor';
+import RichCampaignEditor from '../common/RichCampaignEditor';
 import CustomLineageWizard from '../world/CustomLineageWizard';
 import useCustomLineageStore from '../../store/customLineageStore';
+import { RACE_DATA } from '../../data/raceData';
 import useWorldStore from '../../store/worldStore';
 import useFactionStore from '../../store/factionStore';
 import FamilyTreeStudio from '../world/FamilyTreeStudio';
@@ -184,6 +187,21 @@ const CampaignManager = ({ user }) => {
   const [selectedAtlasLocationId, setSelectedAtlasLocationId] = useState(null); // 'cards' | 'graph'
   const [atlasSearch, setAtlasSearch] = useState('');
   const [atlasTypeFilter, setAtlasTypeFilter] = useState('all');
+
+  // Plot Thread state
+  const [plotViewMode, setPlotViewMode] = useState('timeline'); // 'timeline' | 'cards' | 'matrix'
+  const [plotCardTabs, setPlotCardTabs] = useState({});
+  const [plotFilterType, setPlotFilterType] = useState('all');
+  const [plotFilterStatus, setPlotFilterStatus] = useState('all');
+  const [plotSearchQuery, setPlotSearchQuery] = useState('');
+  const [selectedTimelinePlotId, setSelectedTimelinePlotId] = useState('all');
+
+  // Quest state & filtering
+  const [questFilterType, setQuestFilterType] = useState('all');
+  const [questFilterStatus, setQuestFilterStatus] = useState('all');
+  const [questFilterNPC, setQuestFilterNPC] = useState('all');
+  const [questFilterLocation, setQuestFilterLocation] = useState('all');
+  const [questSearchQuery, setQuestSearchQuery] = useState('');
 
   // Modal state
   const [inputModal, setInputModal] = useState({ isOpen: false, title: '', placeholder: '', callback: null });
@@ -552,6 +570,16 @@ const CampaignManager = ({ user }) => {
     ...(campaignData.quests || []).map(q => ({ ...q, faIcon: 'fa-scroll', _source: q.priority ? `${q.priority.toUpperCase()} Priority` : 'Quest', _badgeColor: '#f39c12' }))
   ];
 
+  const getAllCampaignPlotThreads = () => [
+    ...(campaignData.plotThreads || []).map(p => ({
+      ...p,
+      icon: p.image,
+      faIcon: p.type === 'character' ? 'fa-user-ninja' : p.type === 'faction' ? 'fa-shield-halved' : p.type === 'world' ? 'fa-meteor' : p.type === 'side' ? 'fa-magnifying-glass' : 'fa-crown',
+      _source: p.type ? `${p.type.toUpperCase()} Thread` : 'Plot Thread',
+      _badgeColor: '#8e44ad'
+    }))
+  ];
+
   const getLinkedItems = (ids = []) => {
     const all = getAllCampaignItems();
     return (ids || []).map(id => all.find(i => String(i.id) === String(id))).filter(Boolean);
@@ -585,6 +613,33 @@ const CampaignManager = ({ user }) => {
   const getLinkedQuests = (ids = []) => {
     const all = getAllCampaignQuests();
     return (ids || []).map(id => all.find(q => String(q.id) === String(id))).filter(Boolean);
+  };
+
+  const getLinkedQuestsForNPC = (npc) => {
+    if (!npc) return [];
+    const directIds = npc.questIds || [];
+    const allQuests = getAllCampaignQuests();
+    return allQuests.filter(q =>
+      directIds.some(id => String(id) === String(q.id)) ||
+      (q.npcIds || []).some(id => String(id) === String(npc.id)) ||
+      String(q.giverNpcId) === String(npc.id)
+    );
+  };
+
+  const getLinkedQuestsForLocation = (location) => {
+    if (!location) return [];
+    const directIds = location.questIds || [];
+    const allQuests = getAllCampaignQuests();
+    return allQuests.filter(q =>
+      directIds.some(id => String(id) === String(q.id)) ||
+      (q.locationIds || []).some(id => String(id) === String(location.id)) ||
+      String(q.primaryLocationId) === String(location.id)
+    );
+  };
+
+  const getLinkedPlotThreads = (ids = []) => {
+    const all = getAllCampaignPlotThreads();
+    return (ids || []).map(id => all.find(p => String(p.id) === String(id))).filter(Boolean);
   };
 
   const openLinkerModal = (title, items, currentIds = [], onSave, onBrowseLibrary = null, onCreateHomebrew = null) => {
@@ -834,9 +889,9 @@ const CampaignManager = ({ user }) => {
           tokenIcon: c.tokenIcon || c.icon || 'inv_misc_questionmark'
         });
       });
-      alert(`⚔️ Successfully spawned ${creatures.length} encounter tokens directly onto the active VTT Canvas!`);
+      alert(`Successfully spawned ${creatures.length} encounter tokens directly onto the active VTT Canvas!`);
     } else {
-      alert(`⚔️ ${creatures.length} encounter creature(s) prepped and ready for live game!`);
+      alert(`${creatures.length} encounter creature(s) prepped and ready for live game!`);
     }
   };
 
@@ -853,12 +908,12 @@ const CampaignManager = ({ user }) => {
       chatStore.addNotification({
         type: 'loot',
         sender: 'Campaign Director',
-        text: `💎 Party Loot Uncovered: ${itemListText}`,
+        text: `Party Loot Uncovered: ${itemListText}`,
         timestamp: Date.now()
       });
-      alert(`💎 Broadcasted ${items.length} loot item(s) to party chat!`);
+      alert(`Broadcasted ${items.length} loot item(s) to party chat!`);
     } else {
-      alert(`💎 Loot: ${itemListText}`);
+      alert(`Loot: ${itemListText}`);
     }
   };
 
@@ -880,7 +935,7 @@ const CampaignManager = ({ user }) => {
         });
       }
     });
-    alert(`📜 Revealed ${loreArticles.length} handout(s) to the party display!`);
+    alert(`Revealed ${loreArticles.length} handout(s) to the party display!`);
   };
 
   // Modal helpers
@@ -1145,36 +1200,123 @@ const CampaignManager = ({ user }) => {
   };
 
   // ============ PLOT THREAD MANAGEMENT ============
-  const addPlotThread = () => {
+  const addPlotThread = (defaultType = 'main') => {
     showInputModal('New Plot Thread', 'Enter plot thread title...', (plotTitle) => {
+      const typeStr = typeof defaultType === 'string' ? defaultType : 'main';
       const newPlot = {
         id: Date.now(),
         title: plotTitle,
+        type: typeStr, // main, character, faction, world, side
         description: '',
-        status: 'active',
-        priority: 'medium',
+        status: 'active', // active, on-hold, resolved, abandoned
+        priority: 'medium', // low, medium, high, critical
+        stage: 'Act 1: Inciting Incident',
+        gmSecrets: '',
+        questIds: [],
+        npcIds: [],
+        locationIds: [],
+        loreIds: [],
+        itemIds: [],
+        monsterIds: [],
         relatedNPCs: [],
         relatedLocations: [],
+        beats: [
+          {
+            id: `beat-${Date.now()}-1`,
+            title: 'Inciting Incident / Hook',
+            description: 'The party discovers the initial clue or encounter that initiates this thread.',
+            type: 'hook', // hook, clue, encounter, revelation, decision, climax, resolution
+            status: 'completed', // completed, active, pending, failed
+            questId: '',
+            locationId: '',
+            npcId: ''
+          },
+          {
+            id: `beat-${Date.now()}-2`,
+            title: 'Investigation & Rising Stakes',
+            description: 'Exploring leads, uncovering conspiracies, and confronting escalating opposition.',
+            type: 'clue',
+            status: 'active',
+            questId: '',
+            locationId: '',
+            npcId: ''
+          },
+          {
+            id: `beat-${Date.now()}-3`,
+            title: 'Climax & Confrontation',
+            description: 'Final battle, revelation, or high-stakes choice deciding the outcome.',
+            type: 'climax',
+            status: 'pending',
+            questId: '',
+            locationId: '',
+            npcId: ''
+          }
+        ],
         notes: ''
       };
-      updateCampaignData({ plotThreads: [...campaignData.plotThreads, newPlot] });
+      updateCampaignData({ plotThreads: [...(campaignData.plotThreads || []), newPlot] });
     });
   };
 
   const updatePlotThread = (plotId, updates) => {
     updateCampaignData({
-      plotThreads: campaignData.plotThreads.map(p => p.id === plotId ? { ...p, ...updates } : p)
+      plotThreads: (campaignData.plotThreads || []).map(p => p.id === plotId ? { ...p, ...updates } : p)
     });
   };
 
   const removePlotThread = (plotId) => {
     showConfirmModal('Remove Plot Thread', 'Are you sure you want to remove this plot thread?', () => {
-      const removedPlot = campaignData.plotThreads.find(plot => plot.id === plotId);
+      const removedPlot = (campaignData.plotThreads || []).find(plot => plot.id === plotId);
       if (removedPlot?.image) {
         removeImage(removedPlot.image).catch((err) => console.warn('Failed to remove plot media:', err));
       }
-      updateCampaignData({ plotThreads: campaignData.plotThreads.filter(p => p.id !== plotId) });
+      updateCampaignData({ plotThreads: (campaignData.plotThreads || []).filter(p => p.id !== plotId) });
     });
+  };
+
+  const addPlotBeat = (plotId, type = 'clue') => {
+    const plot = (campaignData.plotThreads || []).find(p => p.id === plotId);
+    if (!plot) return;
+    const currentBeats = plot.beats || [];
+    const newBeat = {
+      id: `beat-${Date.now()}`,
+      title: `Story Beat ${currentBeats.length + 1}`,
+      description: '',
+      type, // hook, clue, encounter, revelation, decision, climax, resolution
+      status: 'pending',
+      questId: '',
+      locationId: '',
+      npcId: ''
+    };
+    updatePlotThread(plotId, { beats: [...currentBeats, newBeat] });
+  };
+
+  const updatePlotBeat = (plotId, beatId, updates) => {
+    const plot = (campaignData.plotThreads || []).find(p => p.id === plotId);
+    if (!plot) return;
+    const updatedBeats = (plot.beats || []).map(b => b.id === beatId ? { ...b, ...updates } : b);
+    updatePlotThread(plotId, { beats: updatedBeats });
+  };
+
+  const removePlotBeat = (plotId, beatId) => {
+    const plot = (campaignData.plotThreads || []).find(p => p.id === plotId);
+    if (!plot) return;
+    const updatedBeats = (plot.beats || []).filter(b => b.id !== beatId);
+    updatePlotThread(plotId, { beats: updatedBeats });
+  };
+
+  const movePlotBeat = (plotId, beatId, direction) => {
+    const plot = (campaignData.plotThreads || []).find(p => p.id === plotId);
+    if (!plot || !plot.beats) return;
+    const index = plot.beats.findIndex(b => b.id === beatId);
+    if (index === -1) return;
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= plot.beats.length) return;
+    const newBeats = [...plot.beats];
+    const temp = newBeats[index];
+    newBeats[index] = newBeats[targetIndex];
+    newBeats[targetIndex] = temp;
+    updatePlotThread(plotId, { beats: newBeats });
   };
 
   // ============ QUEST MANAGEMENT ============
@@ -1184,11 +1326,15 @@ const CampaignManager = ({ user }) => {
         id: Date.now(),
         title: questTitle,
         description: '',
-        type: 'side', // main, side, bounty
+        type: 'side', // main, side, bounty, personal
         status: 'not-started', // not-started, in-progress, completed, failed
         priority: 'medium',
         giver: '',
+        giverNpcId: '',
         location: '',
+        primaryLocationId: '',
+        npcIds: [],
+        locationIds: [],
         objectives: [],
         rewards: '',
         notes: '',
@@ -1207,7 +1353,21 @@ const CampaignManager = ({ user }) => {
 
   const removeQuest = (questId) => {
     showConfirmModal('Remove Quest', 'Are you sure you want to remove this quest?', () => {
-      updateCampaignData({ quests: (campaignData.quests || []).filter(q => q.id !== questId) });
+      updateCampaignData({
+        quests: (campaignData.quests || []).filter(q => q.id !== questId),
+        npcs: (campaignData.npcs || []).map(n => ({
+          ...n,
+          questIds: (n.questIds || []).filter(id => String(id) !== String(questId))
+        })),
+        locations: (campaignData.locations || []).map(l => ({
+          ...l,
+          questIds: (l.questIds || []).filter(id => String(id) !== String(questId))
+        })),
+        plotThreads: (campaignData.plotThreads || []).map(p => ({
+          ...p,
+          questIds: (p.questIds || []).filter(id => String(id) !== String(questId))
+        }))
+      });
     });
   };
 
@@ -1761,7 +1921,7 @@ const CampaignManager = ({ user }) => {
                   <div key={session.id} className="content-card session-dossier-card">
                     {/* Header */}
                     <div className="session-dossier-header">
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, minWidth: 0 }}>
                         <span className="session-dossier-badge">Session #{session.number}</span>
                         <input
                           type="text"
@@ -1772,17 +1932,17 @@ const CampaignManager = ({ user }) => {
                           placeholder="Session Title..."
                         />
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <div className="session-dossier-header-actions">
                         <input
                           type="date"
                           value={session.date}
                           onChange={(e) => updateSession(session.id, { date: e.target.value })}
-                          className="date-input"
+                          className="session-date-input"
                         />
                         <select
-                          value={session.status}
+                          value={session.status || 'planned'}
                           onChange={(e) => updateSession(session.id, { status: e.target.value })}
-                          className="status-select"
+                          className={`session-status-select ${session.status || 'planned'}`}
                         >
                           <option value="planned">Planned</option>
                           <option value="in-progress">In Progress</option>
@@ -1831,14 +1991,24 @@ const CampaignManager = ({ user }) => {
 
                       <div className="dossier-command-field">
                         <label><i className="fas fa-scroll"></i> Active Quests & Plot Objectives</label>
-                        <button
-                          type="button"
-                          className="entity-chip-add-btn"
-                          style={{ width: 'fit-content', padding: '5px 10px' }}
-                          onClick={() => openLinkerModal('Link Quests for this Session', getAllCampaignQuests(), session.questIds || [], (newIds) => updateSession(session.id, { questIds: newIds }))}
-                        >
-                          <i className="fas fa-plus"></i> Select Active Quests ({getLinkedQuests(session.questIds).length})
-                        </button>
+                        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                          <button
+                            type="button"
+                            className="entity-chip-add-btn"
+                            style={{ width: 'fit-content', padding: '5px 10px' }}
+                            onClick={() => openLinkerModal('Link Quests for this Session', getAllCampaignQuests(), session.questIds || [], (newIds) => updateSession(session.id, { questIds: newIds }))}
+                          >
+                            <i className="fas fa-scroll"></i> Quests ({getLinkedQuests(session.questIds).length})
+                          </button>
+                          <button
+                            type="button"
+                            className="entity-chip-add-btn"
+                            style={{ width: 'fit-content', padding: '5px 10px', background: '#fdfbf7', borderColor: '#8e44ad', color: '#7d3c98' }}
+                            onClick={() => openLinkerModal('Link Plot Threads Advanced in this Session', getAllCampaignPlotThreads(), session.plotThreadIds || [], (newIds) => updateSession(session.id, { plotThreadIds: newIds }))}
+                          >
+                            <i className="fas fa-project-diagram"></i> Plot Threads ({getLinkedPlotThreads(session.plotThreadIds).length})
+                          </button>
+                        </div>
                       </div>
                     </div>
 
@@ -2036,10 +2206,26 @@ const CampaignManager = ({ user }) => {
         {activeSection === 'npcs' && (
           <div className="list-section">
             <div className="section-header">
-              <h3>NPC Management</h3>
-              <button className="add-btn" onClick={addNPC}>
-                <i className="fas fa-plus"></i> Add NPC
-              </button>
+              <div>
+                <h3>NPC Management & Bloodlines</h3>
+                <p style={{ margin: 0, fontSize: '0.85rem', color: '#8b5a1a' }}>
+                  Track campaign characters, allies, villains, and noble dynasties.
+                </p>
+              </div>
+              <div className="section-header-actions" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <button
+                  type="button"
+                  className="add-btn secondary"
+                  style={{ background: 'linear-gradient(135deg, #d4af37 0%, #aa8014 100%)', color: '#1a0f05', borderColor: '#8b6508', fontWeight: 700 }}
+                  onClick={() => useFamilyTreeStore.getState().openStudio()}
+                  title="Open Family Tree & Dynasties Studio to create and edit noble bloodlines & ancestry"
+                >
+                  <i className="fas fa-sitemap"></i> Family Trees
+                </button>
+                <button className="add-btn" onClick={addNPC}>
+                  <i className="fas fa-plus"></i> Add NPC
+                </button>
+              </div>
             </div>
             <div className="cards-grid">
               {(campaignData.npcs || []).length > 0 ? (
@@ -2110,18 +2296,76 @@ const CampaignManager = ({ user }) => {
                           </button>
                         </div>
 
-                        <div className="field-group">
-                          <label className="field-label"><i className="fas fa-map-marker-alt"></i> Location</label>
-                          <input
-                            type="text"
-                            value={npc.location}
-                            onChange={(e) => updateNPC(npc.id, { location: e.target.value })}
-                            placeholder="e.g. Ironforge Tavern..."
-                            className="card-field-input"
-                          />
+                        <div className="card-meta-grid-2col">
+                          <div className="field-group">
+                            <label className="field-label"><i className="fas fa-map-marker-alt"></i> Location</label>
+                            <input
+                              type="text"
+                              value={npc.location || ''}
+                              onChange={(e) => updateNPC(npc.id, { location: e.target.value })}
+                              placeholder="e.g. Greymark Keep..."
+                              className="card-field-input"
+                            />
+                          </div>
+
+                          <div className="field-group">
+                            <label className="field-label"><i className="fas fa-dna"></i> Lineage / Race</label>
+                            <select
+                              value={npc.race || ''}
+                              onChange={(e) => updateNPC(npc.id, { race: e.target.value, subrace: '' })}
+                              className="card-field-select"
+                            >
+                              <option value="">-- Choose Lineage --</option>
+                              <optgroup label="Canon Lineages">
+                                {Object.values(RACE_DATA).map(r => (
+                                  <option key={r.id} value={r.id}>
+                                    {r.name} ({r.essence || 'Canon'})
+                                  </option>
+                                ))}
+                              </optgroup>
+                              {useCustomLineageStore.getState().getAllLineages().length > 0 && (
+                                <optgroup label="Custom Species">
+                                  {useCustomLineageStore.getState().getAllLineages().map(cl => (
+                                    <option key={cl.id} value={cl.id}>
+                                      {cl.name} (Custom)
+                                    </option>
+                                  ))}
+                                </optgroup>
+                              )}
+                              {npc.race && !RACE_DATA[npc.race] && !useCustomLineageStore.getState().getLineage(npc.race) && (
+                                <option value={npc.race}>{npc.race}</option>
+                              )}
+                            </select>
+                          </div>
                         </div>
 
-                        <div className="card-meta-grid-2col">
+                        {/* Subrace / Bloodline selector if available */}
+                        {(() => {
+                          const selectedRaceObj = RACE_DATA[npc.race] || useCustomLineageStore.getState().getLineage(npc.race);
+                          const subraces = selectedRaceObj?.subraces 
+                            ? (Array.isArray(selectedRaceObj.subraces) ? selectedRaceObj.subraces : Object.values(selectedRaceObj.subraces))
+                            : [];
+                          if (subraces.length === 0) return null;
+                          return (
+                            <div className="field-group" style={{ marginTop: '6px' }}>
+                              <label className="field-label"><i className="fas fa-code-branch"></i> Subrace / Bloodline Heritage</label>
+                              <select
+                                value={npc.subrace || ''}
+                                onChange={(e) => updateNPC(npc.id, { subrace: e.target.value })}
+                                className="card-field-select"
+                              >
+                                <option value="">-- Choose Subrace / Bloodline --</option>
+                                {subraces.map((sr, idx) => (
+                                  <option key={sr.id || idx} value={sr.id || sr.name}>
+                                    {sr.name} {sr.description ? `— ${sr.description.slice(0, 45)}...` : ''}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          );
+                        })()}
+
+                        <div className="card-meta-grid-2col" style={{ marginTop: '6px' }}>
                           <div className="field-group">
                             <label className="field-label"><i className="fas fa-shield-halved"></i> Attitude</label>
                             <select
@@ -2154,23 +2398,25 @@ const CampaignManager = ({ user }) => {
 
                     <div className="card-body-fields">
                       <div className="field-group">
-                        <label className="field-label"><i className="fas fa-feather-pointed"></i> Physical Description & Persona</label>
-                        <textarea
-                          value={npc.description}
-                          onChange={(e) => updateNPC(npc.id, { description: e.target.value })}
+                        <RichCampaignEditor
+                          label="Physical Description & Persona"
+                          icon="fa-feather-pointed"
+                          value={npc.description || ''}
+                          onChange={(val) => updateNPC(npc.id, { description: val })}
                           placeholder="Physical description, personality, tone of voice, quirks..."
                           rows={2}
-                          className="card-field-textarea"
+                          compact={true}
                         />
                       </div>
                       <div className="field-group">
-                        <label className="field-label"><i className="fas fa-key"></i> GM Secrets, Plot Hooks & Notes</label>
-                        <textarea
-                          value={npc.notes}
-                          onChange={(e) => updateNPC(npc.id, { notes: e.target.value })}
+                        <RichCampaignEditor
+                          label="GM Secrets, Plot Hooks & Notes"
+                          icon="fa-key"
+                          value={npc.notes || ''}
+                          onChange={(val) => updateNPC(npc.id, { notes: val })}
                           placeholder="Plot hooks, secrets, quest connections, inventory..."
                           rows={2}
-                          className="card-field-textarea"
+                          compact={true}
                         />
                       </div>
 
@@ -2277,6 +2523,109 @@ const CampaignManager = ({ user }) => {
                             ))}
                             {(!npc.loreIds || npc.loreIds.length === 0) && (
                               <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No lore attached</span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="entity-chips-rack">
+                          <div className="entity-rack-header">
+                            <span><i className="fas fa-project-diagram" style={{ color: '#8e44ad' }}></i> Plot Threads ({getLinkedPlotThreads(npc.plotThreadIds).length})</span>
+                            <button
+                              type="button"
+                              className="entity-chip-add-btn"
+                              style={{ borderColor: '#8e44ad', color: '#7d3c98' }}
+                              onClick={() => openLinkerModal(
+                                `Entangle ${npc.name || 'NPC'} in Plot Threads`,
+                                getAllCampaignPlotThreads(),
+                                npc.plotThreadIds || [],
+                                (newIds) => updateNPC(npc.id, { plotThreadIds: newIds })
+                              )}
+                            >
+                              <i className="fas fa-link"></i> Link Threads
+                            </button>
+                          </div>
+                          <div className="entity-chips-list">
+                            {getLinkedPlotThreads(npc.plotThreadIds).map(p => (
+                              <span key={p.id} className="entity-chip-pill" style={{ borderLeft: '3px solid #8e44ad' }}>
+                                <i className="fas fa-project-diagram" style={{ color: '#8e44ad', fontSize: '11px' }}></i>
+                                <span className="entity-chip-pill-name">{p.title}</span>
+                                <button
+                                  type="button"
+                                  className="entity-chip-remove"
+                                  onClick={() => updateNPC(npc.id, { plotThreadIds: (npc.plotThreadIds || []).filter(id => String(id) !== String(p.id)) })}
+                                >
+                                  <i className="fas fa-times"></i>
+                                </button>
+                              </span>
+                            ))}
+                            {(!npc.plotThreadIds || npc.plotThreadIds.length === 0) && (
+                              <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No plot threads connected</span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="entity-chips-rack">
+                          <div className="entity-rack-header">
+                            <span><i className="fas fa-scroll" style={{ color: '#f39c12' }}></i> Tied Quests ({getLinkedQuestsForNPC(npc).length})</span>
+                            <button
+                              type="button"
+                              className="entity-chip-add-btn quest-btn"
+                              onClick={() => openLinkerModal(
+                                `Tie Quests to ${npc.name || 'NPC'}`,
+                                getAllCampaignQuests(),
+                                (getLinkedQuestsForNPC(npc) || []).map(q => q.id),
+                                (newIds) => {
+                                  updateNPC(npc.id, { questIds: newIds });
+                                  (campaignData.quests || []).forEach(q => {
+                                    const currentNpcIds = q.npcIds || [];
+                                    const isLinked = newIds.some(id => String(id) === String(q.id));
+                                    const hasNpc = currentNpcIds.some(id => String(id) === String(npc.id));
+                                    if (isLinked && !hasNpc) {
+                                      updateQuest(q.id, { npcIds: [...currentNpcIds, npc.id] });
+                                    } else if (!isLinked && hasNpc) {
+                                      const updates = { npcIds: currentNpcIds.filter(id => String(id) !== String(npc.id)) };
+                                      if (String(q.giverNpcId) === String(npc.id)) updates.giverNpcId = '';
+                                      updateQuest(q.id, updates);
+                                    }
+                                  });
+                                }
+                              )}
+                            >
+                              <i className="fas fa-link"></i> Link Quests
+                            </button>
+                          </div>
+                          <div className="entity-chips-list">
+                            {getLinkedQuestsForNPC(npc).map(q => (
+                              <span key={q.id} className="entity-chip-pill quest-chip">
+                                <i className="fas fa-scroll" style={{ color: '#f39c12', fontSize: '11px' }}></i>
+                                <span className="entity-chip-pill-name">{q.title}</span>
+                                <span className="entity-picker-source-badge" style={{ fontSize: '0.6rem', padding: '0 4px', background: 'rgba(243, 156, 18, 0.15)', borderColor: '#f39c12', color: '#d35400' }}>
+                                  {q.status || 'Active'}
+                                </span>
+                                {String(q.giverNpcId) === String(npc.id) && (
+                                  <span className="entity-picker-source-badge" style={{ fontSize: '0.58rem', padding: '0 3px', background: 'rgba(212, 175, 55, 0.2)', borderColor: '#d4af37', color: '#8b5a1a' }}>
+                                    Giver
+                                  </span>
+                                )}
+                                <button
+                                  type="button"
+                                  className="entity-chip-remove"
+                                  onClick={() => {
+                                    const updatedIds = (npc.questIds || []).filter(id => String(id) !== String(q.id));
+                                    updateNPC(npc.id, { questIds: updatedIds });
+                                    const qNpcIds = (q.npcIds || []).filter(id => String(id) !== String(npc.id));
+                                    const qUpdates = { npcIds: qNpcIds };
+                                    if (String(q.giverNpcId) === String(npc.id)) qUpdates.giverNpcId = '';
+                                    updateQuest(q.id, qUpdates);
+                                  }}
+                                  title="Untie quest from NPC"
+                                >
+                                  <i className="fas fa-times"></i>
+                                </button>
+                              </span>
+                            ))}
+                            {getLinkedQuestsForNPC(npc).length === 0 && (
+                              <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No quests tied to this NPC</span>
                             )}
                           </div>
                         </div>
@@ -2423,7 +2772,7 @@ const CampaignManager = ({ user }) => {
                       if (allLocs.length === 0) {
                         return (
                           <div className="empty-state" style={{ padding: '60px 0', textAlign: 'center' }}>
-                            <i className="fas fa-map-plus" style={{ fontSize: '2.5rem', color: '#c59b3f', marginBottom: '12px' }}></i>
+                            <i className="fas fa-map-marked-alt empty-state-icon" style={{ fontSize: '2.5rem', color: '#c59b3f', marginBottom: '12px' }}></i>
                             <p style={{ color: '#6b3a10', fontWeight: 600 }}>No locations created yet.</p>
                             <button type="button" className="add-btn" onClick={addLocation} style={{ margin: '12px auto 0 auto' }}>
                               <i className="fas fa-plus"></i> Add First Location
@@ -2784,42 +3133,48 @@ const CampaignManager = ({ user }) => {
                           className={`loc-subtab-btn ${(locationCardTabs[location.id] || 'overview') === 'overview' ? 'active' : ''}`}
                           onClick={() => setLocationCardTabs(prev => ({ ...prev, [location.id]: 'overview' }))}
                         >
-                          <i className="fas fa-align-left"></i> Overview
+                          <i className="fas fa-align-left"></i>
+                          <span>Overview</span>
                         </button>
                         <button
                           type="button"
                           className={`loc-subtab-btn ${(locationCardTabs[location.id] || 'overview') === 'inhabitants' ? 'active' : ''}`}
                           onClick={() => setLocationCardTabs(prev => ({ ...prev, [location.id]: 'inhabitants' }))}
                         >
-                          <i className="fas fa-dragon"></i> Lair ({getLinkedCreatures(location.monsterIds).length})
+                          <i className="fas fa-dragon"></i>
+                          <span>Lair ({getLinkedCreatures(location.monsterIds).length})</span>
                         </button>
                         <button
                           type="button"
                           className={`loc-subtab-btn ${(locationCardTabs[location.id] || 'overview') === 'loot' ? 'active' : ''}`}
                           onClick={() => setLocationCardTabs(prev => ({ ...prev, [location.id]: 'loot' }))}
                         >
-                          <i className="fas fa-gem"></i> Loot ({getLinkedItems(location.lootIds).length})
+                          <i className="fas fa-gem"></i>
+                          <span>Loot ({getLinkedItems(location.lootIds).length})</span>
                         </button>
                         <button
                           type="button"
                           className={`loc-subtab-btn ${(locationCardTabs[location.id] || 'overview') === 'quests' ? 'active' : ''}`}
                           onClick={() => setLocationCardTabs(prev => ({ ...prev, [location.id]: 'quests' }))}
                         >
-                          <i className="fas fa-scroll"></i> Quests ({getLinkedQuests(location.questIds).length})
+                          <i className="fas fa-scroll"></i>
+                          <span>Quests ({getLinkedQuests(location.questIds).length})</span>
                         </button>
                         <button
                           type="button"
                           className={`loc-subtab-btn ${(locationCardTabs[location.id] || 'overview') === 'sublocations' ? 'active' : ''}`}
                           onClick={() => setLocationCardTabs(prev => ({ ...prev, [location.id]: 'sublocations' }))}
                         >
-                          <i className="fas fa-sitemap"></i> Sub-Places ({getLinkedLocations(location.connectedLocationIds || location.subLocationIds).length})
+                          <i className="fas fa-sitemap"></i>
+                          <span>Sub-Places ({getLinkedLocations(location.connectedLocationIds || location.subLocationIds).length})</span>
                         </button>
                         <button
                           type="button"
                           className={`loc-subtab-btn ${(locationCardTabs[location.id] || 'overview') === 'npcs' ? 'active' : ''}`}
                           onClick={() => setLocationCardTabs(prev => ({ ...prev, [location.id]: 'npcs' }))}
                         >
-                          <i className="fas fa-users"></i> NPCs ({getLinkedNPCs(location.npcIds).length})
+                          <i className="fas fa-users"></i>
+                          <span>NPCs ({getLinkedNPCs(location.npcIds).length})</span>
                         </button>
                       </div>
 
@@ -2828,23 +3183,25 @@ const CampaignManager = ({ user }) => {
                         {(locationCardTabs[location.id] || 'overview') === 'overview' && (
                           <>
                             <div className="field-group">
-                              <label className="field-label"><i className="fas fa-align-left"></i> Description & Atmosphere</label>
-                              <textarea
-                                value={location.description}
-                                onChange={(e) => updateLocation(location.id, { description: e.target.value })}
+                              <RichCampaignEditor
+                                label="Description & Atmosphere"
+                                icon="fa-align-left"
+                                value={location.description || ''}
+                                onChange={(val) => updateLocation(location.id, { description: val })}
                                 placeholder="Describe the atmosphere, environment, smells, architecture..."
-                                rows={2}
-                                className="card-field-textarea"
+                                rows={3}
+                                compact={true}
                               />
                             </div>
                             <div className="field-group">
-                              <label className="field-label"><i className="fas fa-compass"></i> Notable Landmarks & Features</label>
-                              <textarea
-                                value={location.notableFeatures}
-                                onChange={(e) => updateLocation(location.id, { notableFeatures: e.target.value })}
+                              <RichCampaignEditor
+                                label="Notable Landmarks & Features"
+                                icon="fa-compass"
+                                value={location.notableFeatures || ''}
+                                onChange={(val) => updateLocation(location.id, { notableFeatures: val })}
                                 placeholder="Taverns, guilds, districts, monuments, dungeon entrances..."
                                 rows={2}
-                                className="card-field-textarea"
+                                compact={true}
                               />
                             </div>
 
@@ -3064,7 +3421,7 @@ const CampaignManager = ({ user }) => {
                         {(locationCardTabs[location.id] || 'overview') === 'quests' && (
                           <div className="entity-chips-rack">
                             <div className="entity-rack-header">
-                              <span><i className="fas fa-scroll"></i> Quests & Objectives Here ({getLinkedQuests(location.questIds).length})</span>
+                              <span><i className="fas fa-scroll"></i> Quests & Objectives Here ({getLinkedQuestsForLocation(location).length})</span>
                               <div className="entity-rack-actions">
                                 <button
                                   type="button"
@@ -3072,8 +3429,22 @@ const CampaignManager = ({ user }) => {
                                   onClick={() => openLinkerModal(
                                     `Link Quests for ${location.name || 'Location'}`,
                                     getAllCampaignQuests(),
-                                    location.questIds || [],
-                                    (newIds) => updateLocation(location.id, { questIds: newIds }),
+                                    (getLinkedQuestsForLocation(location) || []).map(q => q.id),
+                                    (newIds) => {
+                                      updateLocation(location.id, { questIds: newIds });
+                                      (campaignData.quests || []).forEach(q => {
+                                        const currentLocIds = q.locationIds || [];
+                                        const isLinked = newIds.some(id => String(id) === String(q.id));
+                                        const hasLoc = currentLocIds.some(id => String(id) === String(location.id));
+                                        if (isLinked && !hasLoc) {
+                                          updateQuest(q.id, { locationIds: [...currentLocIds, location.id] });
+                                        } else if (!isLinked && hasLoc) {
+                                          const updates = { locationIds: currentLocIds.filter(id => String(id) !== String(location.id)) };
+                                          if (String(q.primaryLocationId) === String(location.id)) updates.primaryLocationId = '';
+                                          updateQuest(q.id, updates);
+                                        }
+                                      });
+                                    },
                                     null,
                                     () => addQuestToLocation(location.id)
                                   )}
@@ -3090,24 +3461,36 @@ const CampaignManager = ({ user }) => {
                               </div>
                             </div>
                             <div className="entity-chips-list">
-                              {getLinkedQuests(location.questIds).map(q => (
+                              {getLinkedQuestsForLocation(location).map(q => (
                                 <span key={q.id} className="entity-chip-pill quest-chip">
                                   <i className="fas fa-scroll" style={{ color: '#f39c12', fontSize: '11px' }}></i>
                                   <span className="entity-chip-pill-name">{q.title}</span>
                                   <span className="entity-picker-source-badge" style={{ fontSize: '0.6rem', padding: '0 4px', background: 'rgba(243, 156, 18, 0.15)', borderColor: '#f39c12', color: '#d35400' }}>
                                     {q.status || 'Active'}
                                   </span>
+                                  {String(q.primaryLocationId) === String(location.id) && (
+                                    <span className="entity-picker-source-badge" style={{ fontSize: '0.58rem', padding: '0 3px', background: 'rgba(212, 175, 55, 0.2)', borderColor: '#d4af37', color: '#8b5a1a' }}>
+                                      Primary
+                                    </span>
+                                  )}
                                   <button
                                     type="button"
                                     className="entity-chip-remove"
-                                    onClick={() => updateLocation(location.id, { questIds: (location.questIds || []).filter(id => String(id) !== String(q.id)) })}
+                                    onClick={() => {
+                                      const updatedIds = (location.questIds || []).filter(id => String(id) !== String(q.id));
+                                      updateLocation(location.id, { questIds: updatedIds });
+                                      const qLocIds = (q.locationIds || []).filter(id => String(id) !== String(location.id));
+                                      const qUpdates = { locationIds: qLocIds };
+                                      if (String(q.primaryLocationId) === String(location.id)) qUpdates.primaryLocationId = '';
+                                      updateQuest(q.id, qUpdates);
+                                    }}
                                     title="Unlink quest from location"
                                   >
                                     <i className="fas fa-times"></i>
                                   </button>
                                 </span>
                               ))}
-                              {(!location.questIds || location.questIds.length === 0) && (
+                              {getLinkedQuestsForLocation(location).length === 0 && (
                                 <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No quests tied to this location</span>
                               )}
                             </div>
@@ -3257,34 +3640,171 @@ const CampaignManager = ({ user }) => {
           </div>
         )}
 
-        {activeSection === 'quests' && (
-          <div className="list-section">
-            <div className="section-header">
-              <div>
-                <h3>Quest & Objective Log</h3>
-                <p style={{ margin: 0, fontSize: '0.85rem', color: '#8b5a1a' }}>
-                  Track active quests, main story arcs, bounties, and checklist objectives.
-                </p>
-              </div>
-              <div className="section-header-actions">
-                <button className="add-btn" onClick={addQuest}>
-                  <i className="fas fa-plus"></i> New Quest
-                </button>
-              </div>
-            </div>
+        {activeSection === 'quests' && (() => {
+          const filteredQuests = (campaignData.quests || []).filter(quest => {
+            if (questFilterType !== 'all' && (quest.type || 'side') !== questFilterType) return false;
+            if (questFilterStatus !== 'all' && (quest.status || 'not-started') !== questFilterStatus) return false;
+            if (questFilterNPC !== 'all') {
+              const hasNpc = (quest.npcIds || []).some(id => String(id) === String(questFilterNPC)) ||
+                String(quest.giverNpcId) === String(questFilterNPC) ||
+                (quest.giver && (campaignData.npcs || []).find(n => String(n.id) === String(questFilterNPC))?.name?.toLowerCase() === quest.giver.toLowerCase()) ||
+                (campaignData.npcs || []).find(n => String(n.id) === String(questFilterNPC))?.questIds?.some(id => String(id) === String(quest.id));
+              if (!hasNpc) return false;
+            }
+            if (questFilterLocation !== 'all') {
+              const hasLoc = (quest.locationIds || []).some(id => String(id) === String(questFilterLocation)) ||
+                String(quest.primaryLocationId) === String(questFilterLocation) ||
+                (quest.location && (campaignData.locations || []).find(l => String(l.id) === String(questFilterLocation))?.name?.toLowerCase() === quest.location.toLowerCase()) ||
+                (campaignData.locations || []).find(l => String(l.id) === String(questFilterLocation))?.questIds?.some(id => String(id) === String(quest.id));
+              if (!hasLoc) return false;
+            }
+            if (questSearchQuery.trim()) {
+              const q = questSearchQuery.toLowerCase();
+              const matchTitle = (quest.title || '').toLowerCase().includes(q);
+              const matchDesc = (quest.description || '').toLowerCase().includes(q);
+              const matchGiver = (quest.giver || '').toLowerCase().includes(q);
+              const matchLoc = (quest.location || '').toLowerCase().includes(q);
+              const matchRewards = (quest.rewards || '').toLowerCase().includes(q);
+              if (!matchTitle && !matchDesc && !matchGiver && !matchLoc && !matchRewards) return false;
+            }
+            return true;
+          });
 
-            <div className="cards-grid">
-              {(campaignData.quests || []).length > 0 ? (
-                (campaignData.quests || []).map(quest => (
-                  <div key={quest.id} className="content-card quest-card">
-                    {/* Top Hero Banner */}
-                    <div className="card-media-banner-container">
-                      {quest.image ? (
-                        <div className="media-banner-preview">
-                          <img src={quest.image} alt={quest.title} />
-                          <div className="media-hover-overlay">
-                            <label className="media-change-btn" title="Change quest artwork">
-                              <i className="fas fa-camera"></i> Change Artwork
+          return (
+            <div className="list-section">
+              <div className="section-header">
+                <div>
+                  <h3>Quest & Objective Log</h3>
+                  <p style={{ margin: 0, fontSize: '0.85rem', color: '#8b5a1a' }}>
+                    Track active quests, main story arcs, bounties, and checklist objectives. Tie quests to NPCs and locations.
+                  </p>
+                </div>
+                <div className="section-header-actions">
+                  <button className="add-btn" onClick={addQuest}>
+                    <i className="fas fa-plus"></i> New Quest
+                  </button>
+                </div>
+              </div>
+
+              {/* Quest Filter & Search Toolbar */}
+              <div className="plot-toolbar-container" style={{ marginBottom: '16px' }}>
+                <div className="plot-filter-group" style={{ flex: 1, display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+                  <input
+                    type="text"
+                    placeholder="Search quests by title, giver, location, summary..."
+                    value={questSearchQuery}
+                    onChange={(e) => setQuestSearchQuery(e.target.value)}
+                    className="card-field-input"
+                    style={{ minWidth: '180px', flex: '1 1 200px' }}
+                  />
+                  <select
+                    value={questFilterType}
+                    onChange={(e) => setQuestFilterType(e.target.value)}
+                    className="card-field-select"
+                    style={{ width: 'auto', minWidth: '120px' }}
+                  >
+                    <option value="all">All Types</option>
+                    <option value="main">Main Quests</option>
+                    <option value="side">Side Quests</option>
+                    <option value="bounty">Bounties / Contracts</option>
+                    <option value="personal">Personal / Backstory</option>
+                  </select>
+                  <select
+                    value={questFilterStatus}
+                    onChange={(e) => setQuestFilterStatus(e.target.value)}
+                    className="card-field-select"
+                    style={{ width: 'auto', minWidth: '120px' }}
+                  >
+                    <option value="all">All Statuses</option>
+                    <option value="not-started">Not Started</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                    <option value="failed">Failed</option>
+                  </select>
+                  <select
+                    value={questFilterNPC}
+                    onChange={(e) => setQuestFilterNPC(e.target.value)}
+                    className="card-field-select"
+                    style={{ width: 'auto', minWidth: '140px' }}
+                  >
+                    <option value="all">All NPCs</option>
+                    {(campaignData.npcs || []).map(npc => (
+                      <option key={npc.id} value={npc.id}>{npc.name || 'Unnamed NPC'}</option>
+                    ))}
+                  </select>
+                  <select
+                    value={questFilterLocation}
+                    onChange={(e) => setQuestFilterLocation(e.target.value)}
+                    className="card-field-select"
+                    style={{ width: 'auto', minWidth: '140px' }}
+                  >
+                    <option value="all">All Locations</option>
+                    {(campaignData.locations || []).map(loc => (
+                      <option key={loc.id} value={loc.id}>{loc.name || 'Unnamed Location'}</option>
+                    ))}
+                  </select>
+                  {(questFilterType !== 'all' || questFilterStatus !== 'all' || questFilterNPC !== 'all' || questFilterLocation !== 'all' || questSearchQuery.trim()) && (
+                    <button
+                      type="button"
+                      className="entity-chip-add-btn"
+                      onClick={() => {
+                        setQuestFilterType('all');
+                        setQuestFilterStatus('all');
+                        setQuestFilterNPC('all');
+                        setQuestFilterLocation('all');
+                        setQuestSearchQuery('');
+                      }}
+                      title="Reset all quest filters"
+                    >
+                      <i className="fas fa-undo"></i> Reset
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <div className="cards-grid">
+                {filteredQuests.length > 0 ? (
+                  filteredQuests.map(quest => {
+                    const linkedNPCs = getLinkedNPCs(quest.npcIds);
+                    const linkedLocations = getLinkedLocations(quest.locationIds);
+
+                    return (
+                      <div key={quest.id} className="content-card quest-card">
+                        {/* Top Hero Banner */}
+                        <div className="card-media-banner-container">
+                          {quest.image ? (
+                            <div className="media-banner-preview">
+                              <img src={quest.image} alt={quest.title} />
+                              <div className="media-hover-overlay">
+                                <label className="media-change-btn" title="Change quest artwork">
+                                  <i className="fas fa-camera"></i> Change Artwork
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    style={{ display: 'none' }}
+                                    onChange={(e) => {
+                                      const file = e.target.files?.[0];
+                                      if (file) handleMediaUpload(file, 'quests', (url) => updateQuest(quest.id, { image: url }), quest.image);
+                                    }}
+                                  />
+                                </label>
+                                <button
+                                  type="button"
+                                  className="media-clear-btn-pill"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleMediaRemove(quest.image, () => updateQuest(quest.id, { image: null }));
+                                  }}
+                                  title="Remove artwork"
+                                >
+                                  <i className="fas fa-trash-alt"></i> Remove
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <label className="media-banner-placeholder" title="Upload quest artwork or map">
+                              <i className="fas fa-scroll"></i>
+                              <span>Upload Quest Artwork or Handout</span>
                               <input
                                 type="file"
                                 accept="image/*"
@@ -3295,338 +3815,1515 @@ const CampaignManager = ({ user }) => {
                                 }}
                               />
                             </label>
-                            <button
-                              type="button"
-                              className="media-clear-btn-pill"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleMediaRemove(quest.image, () => updateQuest(quest.id, { image: null }));
-                              }}
-                              title="Remove artwork"
-                            >
-                              <i className="fas fa-trash-alt"></i> Remove
-                            </button>
-                          </div>
-                        </div>
-                      ) : (
-                        <label className="media-banner-placeholder" title="Upload quest artwork or map">
-                          <i className="fas fa-scroll"></i>
-                          <span>Upload Quest Artwork or Handout</span>
-                          <input
-                            type="file"
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                            onChange={(e) => {
-                              const file = e.target.files?.[0];
-                              if (file) handleMediaUpload(file, 'quests', (url) => updateQuest(quest.id, { image: url }), quest.image);
-                            }}
-                          />
-                        </label>
-                      )}
-                    </div>
-
-                    <div className="card-header-fields">
-                      <div className="card-field-header-top">
-                        <div className="field-group flex-1">
-                          <label className="field-label"><i className="fas fa-scroll"></i> Quest Title</label>
-                          <input
-                            type="text"
-                            value={quest.title}
-                            onChange={(e) => updateQuest(quest.id, { title: e.target.value })}
-                            className="card-title-input full-width"
-                            placeholder="Quest title..."
-                          />
-                        </div>
-                        <button className="remove-card-btn" onClick={() => removeQuest(quest.id)} title="Delete Quest">
-                          <i className="fas fa-trash-alt"></i>
-                        </button>
-                      </div>
-
-                      <div className="card-meta-grid-2col">
-                        <div className="field-group">
-                          <label className="field-label"><i className="fas fa-tag"></i> Type</label>
-                          <select
-                            value={quest.type || 'side'}
-                            onChange={(e) => updateQuest(quest.id, { type: e.target.value })}
-                            className="card-field-select"
-                          >
-                            <option value="main">Main Quest</option>
-                            <option value="side">Side Quest</option>
-                            <option value="bounty">Bounty / Contract</option>
-                            <option value="personal">Personal / Backstory</option>
-                          </select>
-                        </div>
-                        <div className="field-group">
-                          <label className="field-label"><i className="fas fa-tasks"></i> Status</label>
-                          <select
-                            value={quest.status || 'not-started'}
-                            onChange={(e) => updateQuest(quest.id, { status: e.target.value })}
-                            className="card-field-select"
-                          >
-                            <option value="not-started">Not Started</option>
-                            <option value="in-progress">In Progress</option>
-                            <option value="completed">Completed</option>
-                            <option value="failed">Failed</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div className="card-meta-grid-2col" style={{ marginTop: '6px' }}>
-                        <div className="field-group">
-                          <label className="field-label"><i className="fas fa-user"></i> Quest Giver</label>
-                          <input
-                            type="text"
-                            value={quest.giver || ''}
-                            onChange={(e) => updateQuest(quest.id, { giver: e.target.value })}
-                            placeholder="e.g. Captain Vane..."
-                            className="card-field-input"
-                          />
-                        </div>
-                        <div className="field-group">
-                          <label className="field-label"><i className="fas fa-map-pin"></i> Target Location</label>
-                          <input
-                            type="text"
-                            value={quest.location || ''}
-                            onChange={(e) => updateQuest(quest.id, { location: e.target.value })}
-                            placeholder="e.g. Sunken Ruins..."
-                            className="card-field-input"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="card-body-fields">
-                      <div className="field-group">
-                        <label className="field-label"><i className="fas fa-align-left"></i> Summary & Objectives Brief</label>
-                        <textarea
-                          value={quest.description || ''}
-                          onChange={(e) => updateQuest(quest.id, { description: e.target.value })}
-                          placeholder="Describe the quest premise, stakes, and player briefings..."
-                          rows={2}
-                          className="card-field-textarea"
-                        />
-                      </div>
-
-                      {/* Quest Checklist Objectives */}
-                      <div className="field-group">
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-                          <label className="field-label" style={{ margin: 0 }}><i className="fas fa-check-square"></i> Objectives ({(quest.objectives || []).filter(o => o.completed).length}/{(quest.objectives || []).length})</label>
-                          <button
-                            type="button"
-                            className="entity-chip-add-btn quest-btn"
-                            onClick={() => addQuestObjective(quest.id)}
-                          >
-                            <i className="fas fa-plus"></i> Add Step
-                          </button>
-                        </div>
-                        <div className="quest-objectives-checklist" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                          {(quest.objectives || []).map(obj => (
-                            <div key={obj.id} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#fdfbf7', border: '1px solid rgba(139,69,19,0.15)', borderRadius: '4px', padding: '3px 6px' }}>
-                              <input
-                                type="checkbox"
-                                checked={obj.completed || false}
-                                onChange={(e) => updateQuestObjective(quest.id, obj.id, { completed: e.target.checked })}
-                                style={{ cursor: 'pointer' }}
-                              />
-                              <input
-                                type="text"
-                                value={obj.text}
-                                onChange={(e) => updateQuestObjective(quest.id, obj.id, { text: e.target.value })}
-                                placeholder="Objective description..."
-                                style={{ flex: 1, border: 'none', background: 'transparent', fontSize: '0.75rem', textDecoration: obj.completed ? 'line-through' : 'none', color: obj.completed ? '#888' : '#2d1810' }}
-                              />
-                              <button
-                                type="button"
-                                onClick={() => removeQuestObjective(quest.id, obj.id)}
-                                style={{ background: 'none', border: 'none', color: '#c0392b', cursor: 'pointer', fontSize: '0.7rem' }}
-                              >
-                                <i className="fas fa-times"></i>
-                              </button>
-                            </div>
-                          ))}
-                          {(!quest.objectives || quest.objectives.length === 0) && (
-                            <div style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No objective checklist steps added yet</div>
                           )}
                         </div>
-                      </div>
 
-                      {/* Rewards */}
-                      <div className="field-group">
-                        <label className="field-label"><i className="fas fa-gift"></i> Rewards & Bounty</label>
-                        <input
-                          type="text"
-                          value={quest.rewards || ''}
-                          onChange={(e) => updateQuest(quest.id, { rewards: e.target.value })}
-                          placeholder="e.g. 500 Gold, Obsidian Dagger, Clan Favors..."
-                          className="card-field-input"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="empty-state">
-                  <i className="fas fa-scroll"></i>
-                  <p>No quests recorded yet. Click <strong>+ New Quest</strong> to add story missions and contracts!</p>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* ============ PLOT THREADS ============ */}
-        {activeSection === 'plots' && (
-          <div className="list-section">
-            <div className="section-header">
-              <h3>Plot Thread Management</h3>
-              <button className="add-btn" onClick={addPlotThread}>
-                <i className="fas fa-plus"></i> New Plot Thread
-              </button>
-            </div>
-            <div className="cards-grid">
-              {(campaignData.plotThreads || []).length > 0 ? (
-                (campaignData.plotThreads || []).map(plot => (
-                  <div key={plot.id} className="content-card plot-card">
-                    {/* Top Hero Banner */}
-                    <div className="card-media-banner-container">
-                      {plot.image ? (
-                        <div className="media-banner-preview">
-                          <img src={plot.image} alt={plot.title} />
-                          <div className="media-hover-overlay">
-                            <label className="media-change-btn" title="Change banner">
-                              <i className="fas fa-camera"></i> Change Banner
+                        <div className="card-header-fields">
+                          <div className="card-field-header-top">
+                            <div className="field-group flex-1">
+                              <label className="field-label"><i className="fas fa-scroll"></i> Quest Title</label>
                               <input
-                                type="file"
-                                accept="image/*"
-                                style={{ display: 'none' }}
-                                onChange={(e) => {
-                                  const file = e.target.files?.[0];
-                                  if (file) handleMediaUpload(file, 'banners', (url) => updatePlotThread(plot.id, { image: url }), plot.image);
-                                }}
+                                type="text"
+                                value={quest.title}
+                                onChange={(e) => updateQuest(quest.id, { title: e.target.value })}
+                                className="card-title-input full-width"
+                                placeholder="Quest title..."
                               />
-                            </label>
-                            <button
-                              type="button"
-                              className="media-clear-btn-pill"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleMediaRemove(plot.image, () => updatePlotThread(plot.id, { image: null }));
-                              }}
-                              title="Remove banner"
-                            >
-                              <i className="fas fa-trash-alt"></i> Remove
+                            </div>
+                            <button className="remove-card-btn" onClick={() => removeQuest(quest.id)} title="Delete Quest">
+                              <i className="fas fa-trash-alt"></i>
                             </button>
                           </div>
-                        </div>
-                      ) : (
-                        <label className="media-banner-placeholder" title="Upload quest/plot artwork">
-                          <i className="fas fa-scroll"></i>
-                          <span>Upload Plot Banner</span>
-                          <input
-                            type="file"
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                            onChange={(e) => {
-                              const file = e.target.files?.[0];
-                              if (file) handleMediaUpload(file, 'banners', (url) => updatePlotThread(plot.id, { image: url }), plot.image);
-                            }}
-                          />
-                        </label>
-                      )}
-                    </div>
 
-                    <div className="card-header-fields">
-                      <div className="card-field-header-top">
-                        <div className="field-group flex-1">
-                          <label className="field-label"><i className="fas fa-feather"></i> Plot Title</label>
-                          <input
-                            type="text"
-                            value={plot.title}
-                            onChange={(e) => updatePlotThread(plot.id, { title: e.target.value })}
-                            className="card-title-input full-width"
-                            placeholder="Plot thread title..."
-                          />
-                        </div>
-                        <button className="remove-card-btn" onClick={() => removePlotThread(plot.id)} title="Delete Thread">
-                          <i className="fas fa-trash-alt"></i>
-                        </button>
-                      </div>
+                          <div className="card-meta-grid-2col">
+                            <div className="field-group">
+                              <label className="field-label"><i className="fas fa-tag"></i> Type</label>
+                              <select
+                                value={quest.type || 'side'}
+                                onChange={(e) => updateQuest(quest.id, { type: e.target.value })}
+                                className="card-field-select"
+                              >
+                                <option value="main">Main Quest</option>
+                                <option value="side">Side Quest</option>
+                                <option value="bounty">Bounty / Contract</option>
+                                <option value="personal">Personal / Backstory</option>
+                              </select>
+                            </div>
+                            <div className="field-group">
+                              <label className="field-label"><i className="fas fa-tasks"></i> Status</label>
+                              <select
+                                value={quest.status || 'not-started'}
+                                onChange={(e) => updateQuest(quest.id, { status: e.target.value })}
+                                className="card-field-select"
+                              >
+                                <option value="not-started">Not Started</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="completed">Completed</option>
+                                <option value="failed">Failed</option>
+                              </select>
+                            </div>
+                          </div>
 
-                      <div className="card-meta-grid-2col">
-                        <div className="field-group">
-                          <label className="field-label"><i className="fas fa-bars-progress"></i> Status</label>
-                          <select
-                            value={plot.status || 'active'}
-                            onChange={(e) => updatePlotThread(plot.id, { status: e.target.value })}
-                            className="card-field-select"
-                          >
-                            <option value="active">Active</option>
-                            <option value="on-hold">On Hold</option>
-                            <option value="resolved">Resolved</option>
-                            <option value="abandoned">Abandoned</option>
-                          </select>
-                        </div>
-                        <div className="field-group">
-                          <label className="field-label"><i className="fas fa-circle-exclamation"></i> Priority</label>
-                          <select
-                            value={plot.priority || 'medium'}
-                            onChange={(e) => updatePlotThread(plot.id, { priority: e.target.value })}
-                            className={`card-field-select priority-${plot.priority}`}
-                          >
-                            <option value="low">Low</option>
-                            <option value="medium">Medium</option>
-                            <option value="high">High</option>
-                            <option value="critical">Critical</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
+                          {/* Quest Giver & Primary Location Pickers */}
+                          <div className="card-meta-grid-2col" style={{ marginTop: '6px' }}>
+                            <div className="field-group">
+                              <label className="field-label"><i className="fas fa-user"></i> Quest Giver / Contact</label>
+                              <select
+                                value={
+                                  quest.giverNpcId ||
+                                  (campaignData.npcs || []).find(n => n.name === quest.giver)?.id ||
+                                  (quest.giver ? '__custom__' : '')
+                                }
+                                onChange={(e) => {
+                                  const val = e.target.value;
+                                  if (val === '__custom__') {
+                                    updateQuest(quest.id, { giverNpcId: '', giver: quest.giver || '' });
+                                  } else if (!val) {
+                                    const prevGiverId = quest.giverNpcId;
+                                    updateQuest(quest.id, { giverNpcId: '', giver: '' });
+                                    if (prevGiverId) {
+                                      const targetNpc = (campaignData.npcs || []).find(n => String(n.id) === String(prevGiverId));
+                                      if (targetNpc) {
+                                        updateNPC(targetNpc.id, { questIds: (targetNpc.questIds || []).filter(id => String(id) !== String(quest.id)) });
+                                      }
+                                    }
+                                  } else {
+                                    const selectedNpc = (campaignData.npcs || []).find(n => String(n.id) === String(val));
+                                    if (selectedNpc) {
+                                      const curNpcIds = quest.npcIds || [];
+                                      const updatedNpcIds = curNpcIds.some(id => String(id) === String(selectedNpc.id))
+                                        ? curNpcIds
+                                        : [...curNpcIds, selectedNpc.id];
+                                      updateQuest(quest.id, {
+                                        giver: selectedNpc.name,
+                                        giverNpcId: selectedNpc.id,
+                                        npcIds: updatedNpcIds
+                                      });
+                                      const curQuestIds = selectedNpc.questIds || [];
+                                      if (!curQuestIds.some(id => String(id) === String(quest.id))) {
+                                        updateNPC(selectedNpc.id, { questIds: [...curQuestIds, quest.id] });
+                                      }
+                                    }
+                                  }
+                                }}
+                                className="card-field-select"
+                              >
+                                <option value="">-- Select Campaign NPC --</option>
+                                {(campaignData.npcs || []).map(npc => (
+                                  <option key={npc.id} value={npc.id}>
+                                    {npc.name} ({npc.relationship ? formatTag(npc.relationship) : 'NPC'})
+                                  </option>
+                                ))}
+                                <option value="__custom__">Custom / Other Giver...</option>
+                              </select>
+                              {(!quest.giverNpcId && (quest.giver || (campaignData.npcs || []).length === 0)) ||
+                               (!quest.giverNpcId && !(campaignData.npcs || []).some(n => n.name === quest.giver) && quest.giver) ? (
+                                <input
+                                  type="text"
+                                  value={quest.giver || ''}
+                                  onChange={(e) => updateQuest(quest.id, { giver: e.target.value })}
+                                  placeholder="Enter custom giver name..."
+                                  className="card-field-input"
+                                  style={{ marginTop: '4px' }}
+                                />
+                              ) : null}
+                            </div>
 
-                    <div className="card-body-fields">
-                      <div className="field-group">
-                        <label className="field-label"><i className="fas fa-book-open"></i> Story Arc & Narrative</label>
-                        <textarea
-                          value={plot.description}
-                          onChange={(e) => updatePlotThread(plot.id, { description: e.target.value })}
-                          placeholder="Describe the storyline, underlying conspiracy, stakes..."
-                          rows={2}
-                          className="card-field-textarea"
-                        />
+                            <div className="field-group">
+                              <label className="field-label"><i className="fas fa-map-pin"></i> Target / Primary Location</label>
+                              <select
+                                value={
+                                  quest.primaryLocationId ||
+                                  (campaignData.locations || []).find(l => l.name === quest.location)?.id ||
+                                  (quest.location ? '__custom__' : '')
+                                }
+                                onChange={(e) => {
+                                  const val = e.target.value;
+                                  if (val === '__custom__') {
+                                    updateQuest(quest.id, { primaryLocationId: '', location: quest.location || '' });
+                                  } else if (!val) {
+                                    const prevLocId = quest.primaryLocationId;
+                                    updateQuest(quest.id, { primaryLocationId: '', location: '' });
+                                    if (prevLocId) {
+                                      const targetLoc = (campaignData.locations || []).find(l => String(l.id) === String(prevLocId));
+                                      if (targetLoc) {
+                                        updateLocation(targetLoc.id, { questIds: (targetLoc.questIds || []).filter(id => String(id) !== String(quest.id)) });
+                                      }
+                                    }
+                                  } else {
+                                    const selectedLoc = (campaignData.locations || []).find(l => String(l.id) === String(val));
+                                    if (selectedLoc) {
+                                      const curLocIds = quest.locationIds || [];
+                                      const updatedLocIds = curLocIds.some(id => String(id) === String(selectedLoc.id))
+                                        ? curLocIds
+                                        : [...curLocIds, selectedLoc.id];
+                                      updateQuest(quest.id, {
+                                        location: selectedLoc.name,
+                                        primaryLocationId: selectedLoc.id,
+                                        locationIds: updatedLocIds
+                                      });
+                                      const curQuestIds = selectedLoc.questIds || [];
+                                      if (!curQuestIds.some(id => String(id) === String(quest.id))) {
+                                        updateLocation(selectedLoc.id, { questIds: [...curQuestIds, quest.id] });
+                                      }
+                                    }
+                                  }
+                                }}
+                                className="card-field-select"
+                              >
+                                <option value="">-- Select Campaign Location --</option>
+                                {(campaignData.locations || []).map(loc => (
+                                  <option key={loc.id} value={loc.id}>
+                                    {loc.name} ({loc.type ? formatTag(loc.type) : 'Location'})
+                                  </option>
+                                ))}
+                                <option value="__custom__">Custom / Other Location...</option>
+                              </select>
+                              {(!quest.primaryLocationId && (quest.location || (campaignData.locations || []).length === 0)) ||
+                               (!quest.primaryLocationId && !(campaignData.locations || []).some(l => l.name === quest.location) && quest.location) ? (
+                                <input
+                                  type="text"
+                                  value={quest.location || ''}
+                                  onChange={(e) => updateQuest(quest.id, { location: e.target.value })}
+                                  placeholder="Enter custom location name..."
+                                  className="card-field-input"
+                                  style={{ marginTop: '4px' }}
+                                />
+                              ) : null}
+                            </div>
+                          </div>
+
+                          <div className="field-group" style={{ marginTop: '6px' }}>
+                            <label className="field-label"><i className="fas fa-project-diagram"></i> Assigned Plot Thread</label>
+                            <select
+                              value={quest.plotThreadId || ''}
+                              onChange={(e) => {
+                                const selectedPlotId = e.target.value;
+                                updateQuest(quest.id, { plotThreadId: selectedPlotId });
+                                (campaignData.plotThreads || []).forEach(plot => {
+                                  const currentQuestIds = plot.questIds || [];
+                                  if (String(plot.id) === String(selectedPlotId)) {
+                                    if (!currentQuestIds.some(id => String(id) === String(quest.id))) {
+                                      updatePlotThread(plot.id, { questIds: [...currentQuestIds, quest.id] });
+                                    }
+                                  } else if (currentQuestIds.some(id => String(id) === String(quest.id))) {
+                                    updatePlotThread(plot.id, { questIds: currentQuestIds.filter(id => String(id) !== String(quest.id)) });
+                                  }
+                                });
+                              }}
+                              className="card-field-select"
+                            >
+                              <option value="">-- No Plot Thread Assigned --</option>
+                              {(campaignData.plotThreads || []).map(p => (
+                                <option key={p.id} value={p.id}>{p.title} ({p.type ? p.type.toUpperCase() : 'MAIN'})</option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className="card-body-fields">
+                          <div className="field-group">
+                            <RichCampaignEditor
+                              label="Summary & Objectives Brief"
+                              icon="fa-align-left"
+                              value={quest.description || ''}
+                              onChange={(val) => updateQuest(quest.id, { description: val })}
+                              placeholder="Describe the quest premise, stakes, and player briefings..."
+                              rows={3}
+                              compact={true}
+                            />
+                          </div>
+
+                          {/* Quest Checklist Objectives */}
+                          <div className="field-group">
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                              <label className="field-label" style={{ margin: 0 }}><i className="fas fa-check-square"></i> Objectives ({(quest.objectives || []).filter(o => o.completed).length}/{(quest.objectives || []).length})</label>
+                              <button
+                                type="button"
+                                className="entity-chip-add-btn quest-btn"
+                                onClick={() => addQuestObjective(quest.id)}
+                              >
+                                <i className="fas fa-plus"></i> Add Step
+                              </button>
+                            </div>
+                            <div className="quest-objectives-checklist" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                              {(quest.objectives || []).map(obj => (
+                                <div key={obj.id} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#fdfbf7', border: '1px solid rgba(139,69,19,0.15)', borderRadius: '4px', padding: '3px 6px' }}>
+                                  <input
+                                    type="checkbox"
+                                    checked={obj.completed || false}
+                                    onChange={(e) => updateQuestObjective(quest.id, obj.id, { completed: e.target.checked })}
+                                    style={{ cursor: 'pointer' }}
+                                  />
+                                  <input
+                                    type="text"
+                                    value={obj.text}
+                                    onChange={(e) => updateQuestObjective(quest.id, obj.id, { text: e.target.value })}
+                                    placeholder="Objective description..."
+                                    style={{ flex: 1, border: 'none', background: 'transparent', fontSize: '0.75rem', textDecoration: obj.completed ? 'line-through' : 'none', color: obj.completed ? '#888' : '#2d1810' }}
+                                  />
+                                  <button
+                                    type="button"
+                                    onClick={() => removeQuestObjective(quest.id, obj.id)}
+                                    style={{ background: 'none', border: 'none', color: '#c0392b', cursor: 'pointer', fontSize: '0.7rem' }}
+                                  >
+                                    <i className="fas fa-times"></i>
+                                  </button>
+                                </div>
+                              ))}
+                              {(!quest.objectives || quest.objectives.length === 0) && (
+                                <div style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No objective checklist steps added yet</div>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Rewards */}
+                          <div className="field-group">
+                            <label className="field-label"><i className="fas fa-gift"></i> Rewards & Bounty</label>
+                            <input
+                              type="text"
+                              value={quest.rewards || ''}
+                              onChange={(e) => updateQuest(quest.id, { rewards: e.target.value })}
+                              placeholder="e.g. 500 Gold, Obsidian Dagger, Clan Favors..."
+                              className="card-field-input"
+                            />
+                          </div>
+
+                          {/* Entity Weaver Block: Tied NPCs & Tied Locations */}
+                          <div className="entity-weaver-block">
+                            {/* Tied NPCs Rack */}
+                            <div className="entity-chips-rack">
+                              <div className="entity-rack-header">
+                                <span><i className="fas fa-users" style={{ color: '#2ecc71' }}></i> Tied NPCs ({linkedNPCs.length})</span>
+                                <button
+                                  type="button"
+                                  className="entity-chip-add-btn"
+                                  style={{ borderColor: '#2ecc71', color: '#27ae60' }}
+                                  onClick={() => openLinkerModal(
+                                    `Tie NPCs to ${quest.title || 'Quest'}`,
+                                    getAllCampaignNPCs(),
+                                    quest.npcIds || [],
+                                    (newIds) => {
+                                      updateQuest(quest.id, { npcIds: newIds });
+                                      (campaignData.npcs || []).forEach(n => {
+                                        const currentQuestIds = n.questIds || [];
+                                        const isLinked = newIds.some(id => String(id) === String(n.id));
+                                        const hasQuest = currentQuestIds.some(id => String(id) === String(quest.id));
+                                        if (isLinked && !hasQuest) {
+                                          updateNPC(n.id, { questIds: [...currentQuestIds, quest.id] });
+                                        } else if (!isLinked && hasQuest) {
+                                          updateNPC(n.id, { questIds: currentQuestIds.filter(id => String(id) !== String(quest.id)) });
+                                        }
+                                      });
+                                    }
+                                  )}
+                                >
+                                  <i className="fas fa-plus"></i> Tie NPC
+                                </button>
+                              </div>
+                              <div className="entity-chips-list">
+                                {linkedNPCs.map(npc => (
+                                  <span key={npc.id} className="entity-chip-pill" style={{ borderLeft: '3px solid #2ecc71' }}>
+                                    {npc.icon ? (
+                                      <img src={npc.icon} alt="" className="entity-chip-pill-icon" />
+                                    ) : (
+                                      <i className="fas fa-user" style={{ color: '#2ecc71', fontSize: '11px' }}></i>
+                                    )}
+                                    <span className="entity-chip-pill-name">{npc.name}</span>
+                                    {npc.relationship && (
+                                      <span className="entity-picker-source-badge" style={{ fontSize: '0.6rem', padding: '0 4px', background: 'rgba(46, 204, 113, 0.15)', borderColor: '#2ecc71', color: '#27ae60' }}>
+                                        {formatTag(npc.relationship)}
+                                      </span>
+                                    )}
+                                    {String(quest.giverNpcId) === String(npc.id) && (
+                                      <span className="entity-picker-source-badge" style={{ fontSize: '0.58rem', padding: '0 3px', background: 'rgba(212, 175, 55, 0.2)', borderColor: '#d4af37', color: '#8b5a1a' }}>
+                                        Giver
+                                      </span>
+                                    )}
+                                    <button
+                                      type="button"
+                                      className="entity-chip-remove"
+                                      onClick={() => {
+                                        const updatedIds = (quest.npcIds || []).filter(id => String(id) !== String(npc.id));
+                                        const updates = { npcIds: updatedIds };
+                                        if (String(quest.giverNpcId) === String(npc.id)) {
+                                          updates.giverNpcId = '';
+                                        }
+                                        updateQuest(quest.id, updates);
+                                        updateNPC(npc.id, { questIds: (npc.questIds || []).filter(id => String(id) !== String(quest.id)) });
+                                      }}
+                                      title="Untie NPC"
+                                    >
+                                      <i className="fas fa-times"></i>
+                                    </button>
+                                  </span>
+                                ))}
+                                {linkedNPCs.length === 0 && (
+                                  <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No NPCs tied to this quest</span>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Tied Locations Rack */}
+                            <div className="entity-chips-rack">
+                              <div className="entity-rack-header">
+                                <span><i className="fas fa-map-marker-alt" style={{ color: '#e67e22' }}></i> Tied Locations ({linkedLocations.length})</span>
+                                <button
+                                  type="button"
+                                  className="entity-chip-add-btn"
+                                  style={{ borderColor: '#e67e22', color: '#d35400' }}
+                                  onClick={() => openLinkerModal(
+                                    `Tie Locations to ${quest.title || 'Quest'}`,
+                                    getAllCampaignLocations(),
+                                    quest.locationIds || [],
+                                    (newIds) => {
+                                      updateQuest(quest.id, { locationIds: newIds });
+                                      (campaignData.locations || []).forEach(l => {
+                                        const currentQuestIds = l.questIds || [];
+                                        const isLinked = newIds.some(id => String(id) === String(l.id));
+                                        const hasQuest = currentQuestIds.some(id => String(id) === String(quest.id));
+                                        if (isLinked && !hasQuest) {
+                                          updateLocation(l.id, { questIds: [...currentQuestIds, quest.id] });
+                                        } else if (!isLinked && hasQuest) {
+                                          updateLocation(l.id, { questIds: currentQuestIds.filter(id => String(id) !== String(quest.id)) });
+                                        }
+                                      });
+                                    }
+                                  )}
+                                >
+                                  <i className="fas fa-plus"></i> Tie Location
+                                </button>
+                              </div>
+                              <div className="entity-chips-list">
+                                {linkedLocations.map(loc => (
+                                  <span key={loc.id} className="entity-chip-pill" style={{ borderLeft: '3px solid #e67e22' }}>
+                                    {loc.icon ? (
+                                      <img src={loc.icon} alt="" className="entity-chip-pill-icon" />
+                                    ) : (
+                                      <i className="fas fa-map-marker-alt" style={{ color: '#e67e22', fontSize: '11px' }}></i>
+                                    )}
+                                    <span className="entity-chip-pill-name">{loc.name}</span>
+                                    {loc.type && (
+                                      <span className="entity-picker-source-badge" style={{ fontSize: '0.6rem', padding: '0 4px', background: 'rgba(230, 126, 34, 0.15)', borderColor: '#e67e22', color: '#d35400' }}>
+                                        {formatTag(loc.type)}
+                                      </span>
+                                    )}
+                                    {String(quest.primaryLocationId) === String(loc.id) && (
+                                      <span className="entity-picker-source-badge" style={{ fontSize: '0.58rem', padding: '0 3px', background: 'rgba(212, 175, 55, 0.2)', borderColor: '#d4af37', color: '#8b5a1a' }}>
+                                        Primary
+                                      </span>
+                                    )}
+                                    <button
+                                      type="button"
+                                      className="entity-chip-remove"
+                                      onClick={() => {
+                                        const updatedIds = (quest.locationIds || []).filter(id => String(id) !== String(loc.id));
+                                        const updates = { locationIds: updatedIds };
+                                        if (String(quest.primaryLocationId) === String(loc.id)) {
+                                          updates.primaryLocationId = '';
+                                        }
+                                        updateQuest(quest.id, updates);
+                                        updateLocation(loc.id, { questIds: (loc.questIds || []).filter(id => String(id) !== String(quest.id)) });
+                                      }}
+                                      title="Untie Location"
+                                    >
+                                      <i className="fas fa-times"></i>
+                                    </button>
+                                  </span>
+                                ))}
+                                {linkedLocations.length === 0 && (
+                                  <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No locations tied to this quest</span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="field-group">
-                        <label className="field-label"><i className="fas fa-users"></i> Key Characters & Related NPCs</label>
-                        <input
-                          type="text"
-                          value={Array.isArray(plot.relatedNPCs) ? plot.relatedNPCs.join(', ') : ''}
-                          onChange={(e) => updatePlotThread(plot.id, {
-                            relatedNPCs: e.target.value ? e.target.value.split(',').map(n => n.trim()).filter(n => n) : []
-                          })}
-                          placeholder="e.g. Lord Boros, Captain Valen..."
-                          className="card-field-input"
-                        />
-                      </div>
-                      <div className="field-group">
-                        <label className="field-label"><i className="fas fa-clock-rotate-left"></i> Timeline, Clues & Progression</label>
-                        <textarea
-                          value={plot.notes}
-                          onChange={(e) => updatePlotThread(plot.id, { notes: e.target.value })}
-                          placeholder="Key milestones, discovered clues, branching decisions..."
-                          rows={2}
-                          className="card-field-textarea"
-                        />
-                      </div>
-                    </div>
+                    );
+                  })
+                ) : (
+                  <div className="empty-state">
+                    <i className="fas fa-scroll"></i>
+                    <p>
+                      {(campaignData.quests || []).length === 0
+                        ? 'No quests recorded yet. Click + New Quest to add story missions and contracts!'
+                        : 'No quests match your active filter / search query.'}
+                    </p>
                   </div>
-                ))
-              ) : (
-                <div className="empty-state">
-                  <i className="fas fa-project-diagram"></i>
-                  <p>No plot threads yet. Create storylines to organize your campaign!</p>
+                )}
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* ============ PLOT THREADS ============ */}
+        {activeSection === 'plots' && (() => {
+          const filteredPlots = (campaignData.plotThreads || []).filter(plot => {
+            if (plotFilterType !== 'all' && (plot.type || 'main') !== plotFilterType) return false;
+            if (plotFilterStatus !== 'all' && (plot.status || 'active') !== plotFilterStatus) return false;
+            if (plotSearchQuery.trim()) {
+              const q = plotSearchQuery.toLowerCase();
+              const matchTitle = (plot.title || '').toLowerCase().includes(q);
+              const matchDesc = (plot.description || '').toLowerCase().includes(q);
+              const matchStage = (plot.stage || '').toLowerCase().includes(q);
+              if (!matchTitle && !matchDesc && !matchStage) return false;
+            }
+            if (selectedTimelinePlotId !== 'all' && String(plot.id) !== String(selectedTimelinePlotId)) return false;
+            return true;
+          });
+
+          const calculatePlotProgress = (plot) => {
+            const beats = plot.beats || [];
+            if (beats.length === 0) return 0;
+            const completedBeats = beats.filter(b => b.status === 'completed').length;
+            return Math.round((completedBeats / beats.length) * 100);
+          };
+
+          return (
+            <div className="list-section">
+              <div className="section-header">
+                <div>
+                  <h3>Plot Thread Management & Story Loom</h3>
+                  <p style={{ margin: 0, fontSize: '0.85rem', color: '#8b5a1a' }}>
+                    Weave campaign storylines, track narrative arcs, connect quests, NPCs & locations, and chart sequential story beats.
+                  </p>
+                </div>
+                <div className="section-header-actions" style={{ display: 'flex', gap: '8px' }}>
+                  <button className="add-btn" onClick={() => addPlotThread('main')}>
+                    <i className="fas fa-crown"></i> + Main Arc
+                  </button>
+                  <button className="add-btn" style={{ background: '#6b350e' }} onClick={() => addPlotThread('side')}>
+                    <i className="fas fa-plus"></i> + Subplot
+                  </button>
+                </div>
+              </div>
+
+              {/* View Modes & Filter Toolbar */}
+              <div className="plot-toolbar-container">
+                <div className="plot-view-modes">
+                  <button
+                    type="button"
+                    className={`plot-view-btn ${plotViewMode === 'timeline' ? 'active' : ''}`}
+                    onClick={() => setPlotViewMode('timeline')}
+                    title="Interactive Thread Flow & Storyline Spine"
+                  >
+                    <i className="fas fa-timeline"></i> Thread Flow
+                  </button>
+                  <button
+                    type="button"
+                    className={`plot-view-btn ${plotViewMode === 'cards' ? 'active' : ''}`}
+                    onClick={() => setPlotViewMode('cards')}
+                    title="Chronicle Cards & Entity Dossier"
+                  >
+                    <i className="fas fa-address-card"></i> Cards View
+                  </button>
+                  <button
+                    type="button"
+                    className={`plot-view-btn ${plotViewMode === 'matrix' ? 'active' : ''}`}
+                    onClick={() => setPlotViewMode('matrix')}
+                    title="Story Connection Matrix"
+                  >
+                    <i className="fas fa-table-cells"></i> Story Matrix
+                  </button>
+                </div>
+
+                <div className="plot-filter-group">
+                  <input
+                    type="text"
+                    placeholder="Search plot threads..."
+                    value={plotSearchQuery}
+                    onChange={(e) => setPlotSearchQuery(e.target.value)}
+                    className="plot-filter-select"
+                    style={{ minWidth: '160px' }}
+                  />
+                  <select
+                    value={plotFilterType}
+                    onChange={(e) => setPlotFilterType(e.target.value)}
+                    className="plot-filter-select"
+                  >
+                    <option value="all">All Thread Types</option>
+                    <option value="main">Main Story Arcs</option>
+                    <option value="character">Character Arcs</option>
+                    <option value="faction">Faction Intrigues</option>
+                    <option value="world">World Events / Threats</option>
+                    <option value="side">Side Mysteries</option>
+                  </select>
+                  <select
+                    value={plotFilterStatus}
+                    onChange={(e) => setPlotFilterStatus(e.target.value)}
+                    className="plot-filter-select"
+                  >
+                    <option value="all">All Statuses</option>
+                    <option value="active">Active</option>
+                    <option value="on-hold">On Hold</option>
+                    <option value="resolved">Resolved</option>
+                    <option value="abandoned">Abandoned</option>
+                  </select>
+                  {plotViewMode === 'timeline' && (campaignData.plotThreads || []).length > 1 && (
+                    <select
+                      value={selectedTimelinePlotId}
+                      onChange={(e) => setSelectedTimelinePlotId(e.target.value)}
+                      className="plot-filter-select"
+                      style={{ borderStyle: 'dashed', borderColor: '#d4af37' }}
+                    >
+                      <option value="all">View All Threads</option>
+                      {(campaignData.plotThreads || []).map(p => (
+                        <option key={p.id} value={p.id}>{p.title}</option>
+                      ))}
+                    </select>
+                  )}
+                </div>
+              </div>
+
+              {/* ============ VIEW 1: THREAD FLOW (STORY LOOM / TIMELINE) ============ */}
+              {plotViewMode === 'timeline' && (
+                <div className="plot-thread-flow-layout">
+                  {filteredPlots.length > 0 ? (
+                    filteredPlots.map(plot => {
+                      const beats = plot.beats || [];
+                      const progressPct = calculatePlotProgress(plot);
+                      const linkedQuests = getLinkedQuests(plot.questIds);
+                      const linkedLocs = getLinkedLocations(plot.locationIds);
+                      const linkedNPCs = getLinkedNPCs(plot.npcIds);
+                      const linkedLore = getLinkedLore(plot.loreIds);
+                      const plotType = plot.type || 'main';
+
+                      return (
+                        <div key={plot.id} className="plot-thread-lane">
+                          {/* Thread Hero Header */}
+                          <div className="plot-thread-hero">
+                            <div className="plot-thread-hero-top">
+                              <div className="plot-thread-title-area">
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                                  <span className={`plot-thread-type-pill type-${plotType}`}>
+                                    <i className={`fas ${plotType === 'character' ? 'fa-user-ninja' : plotType === 'faction' ? 'fa-shield-halved' : plotType === 'world' ? 'fa-meteor' : plotType === 'side' ? 'fa-magnifying-glass' : 'fa-crown'}`}></i>
+                                    {plotType === 'character' ? 'Character Arc' : plotType === 'faction' ? 'Faction Intrigue' : plotType === 'world' ? 'World Event' : plotType === 'side' ? 'Side Mystery' : 'Main Arc'}
+                                  </span>
+                                  <select
+                                    value={plot.type || 'main'}
+                                    onChange={(e) => updatePlotThread(plot.id, { type: e.target.value })}
+                                    className="plot-filter-select"
+                                    style={{ fontSize: '0.75rem', padding: '2px 6px', height: '24px' }}
+                                  >
+                                    <option value="main">Main Arc</option>
+                                    <option value="character">Character Arc</option>
+                                    <option value="faction">Faction Intrigue</option>
+                                    <option value="world">World Event</option>
+                                    <option value="side">Side Mystery</option>
+                                  </select>
+                                  <select
+                                    value={plot.status || 'active'}
+                                    onChange={(e) => updatePlotThread(plot.id, { status: e.target.value })}
+                                    className="plot-filter-select"
+                                    style={{ fontSize: '0.75rem', padding: '2px 6px', height: '24px' }}
+                                  >
+                                    <option value="active">Active</option>
+                                    <option value="on-hold">On Hold</option>
+                                    <option value="resolved">Resolved</option>
+                                    <option value="abandoned">Abandoned</option>
+                                  </select>
+                                  <select
+                                    value={plot.priority || 'medium'}
+                                    onChange={(e) => updatePlotThread(plot.id, { priority: e.target.value })}
+                                    className={`plot-filter-select priority-${plot.priority}`}
+                                    style={{ fontSize: '0.75rem', padding: '2px 6px', height: '24px' }}
+                                  >
+                                    <option value="low">Low Priority</option>
+                                    <option value="medium">Medium Priority</option>
+                                    <option value="high">High Priority</option>
+                                    <option value="critical">Critical Priority</option>
+                                  </select>
+                                </div>
+                                <input
+                                  type="text"
+                                  value={plot.title}
+                                  onChange={(e) => updatePlotThread(plot.id, { title: e.target.value })}
+                                  placeholder="Plot thread title..."
+                                  className="plot-thread-title-input"
+                                />
+                                <textarea
+                                  value={plot.description || ''}
+                                  onChange={(e) => updatePlotThread(plot.id, { description: e.target.value })}
+                                  placeholder="Describe the storyline premise, stakes, conspiracies, and narrative arc..."
+                                  rows={1}
+                                  className="plot-thread-summary-input"
+                                />
+                              </div>
+
+                              <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                                <button
+                                  type="button"
+                                  className="entity-chip-add-btn"
+                                  onClick={() => addPlotBeat(plot.id, 'clue')}
+                                  title="Add new story milestone beat"
+                                >
+                                  <i className="fas fa-plus"></i> Add Beat
+                                </button>
+                                <button
+                                  type="button"
+                                  className="remove-card-btn"
+                                  onClick={() => removePlotThread(plot.id)}
+                                  title="Delete this plot thread"
+                                >
+                                  <i className="fas fa-trash-alt"></i>
+                                </button>
+                              </div>
+                            </div>
+
+                            {/* Progress Bar & Quick Stats */}
+                            <div className="plot-thread-progress-wrapper">
+                              <span className="plot-thread-progress-text">
+                                <i className="fas fa-spinner" style={{ color: '#d4af37' }}></i> {beats.filter(b => b.status === 'completed').length}/{beats.length} Beats ({progressPct}%)
+                              </span>
+                              <div className="plot-thread-progress-bar-bg">
+                                <div className="plot-thread-progress-bar-fill" style={{ width: `${progressPct}%` }}></div>
+                              </div>
+                              <div className="plot-thread-stats-ribbon">
+                                <span
+                                  className="plot-thread-stat-badge"
+                                  style={{ cursor: 'pointer' }}
+                                  onClick={() => openLinkerModal(`Link Quests for ${plot.title}`, getAllCampaignQuests(), plot.questIds || [], (newIds) => updatePlotThread(plot.id, { questIds: newIds }))}
+                                  title="Click to manage linked Quests"
+                                >
+                                  <i className="fas fa-scroll" style={{ color: '#f39c12' }}></i> {linkedQuests.length} Quests
+                                </span>
+                                <span
+                                  className="plot-thread-stat-badge"
+                                  style={{ cursor: 'pointer' }}
+                                  onClick={() => openLinkerModal(`Link NPCs for ${plot.title}`, getAllCampaignNPCs(), plot.npcIds || [], (newIds) => updatePlotThread(plot.id, { npcIds: newIds }))}
+                                  title="Click to manage linked Key NPCs"
+                                >
+                                  <i className="fas fa-users" style={{ color: '#2ecc71' }}></i> {linkedNPCs.length} NPCs
+                                </span>
+                                <span
+                                  className="plot-thread-stat-badge"
+                                  style={{ cursor: 'pointer' }}
+                                  onClick={() => openLinkerModal(`Link Locations for ${plot.title}`, getAllCampaignLocations(), plot.locationIds || [], (newIds) => updatePlotThread(plot.id, { locationIds: newIds }))}
+                                  title="Click to manage linked Locations & Stages"
+                                >
+                                  <i className="fas fa-map-marker-alt" style={{ color: '#e67e22' }}></i> {linkedLocs.length} Locations
+                                </span>
+                                <span
+                                  className="plot-thread-stat-badge"
+                                  style={{ cursor: 'pointer' }}
+                                  onClick={() => openLinkerModal(`Link Clues & Lore for ${plot.title}`, getAllCampaignLore(), plot.loreIds || [], (newIds) => updatePlotThread(plot.id, { loreIds: newIds }))}
+                                  title="Click to manage linked Lore & Clues"
+                                >
+                                  <i className="fas fa-book-open" style={{ color: '#3498db' }}></i> {linkedLore.length} Clues
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* The Narrative Loom Spine (Visual Sequential Beats) */}
+                          <div className="plot-thread-spine-container">
+                            <div className="plot-thread-spine-line"></div>
+
+                            {beats.map((beat, index) => {
+                              const beatStatus = beat.status || 'pending';
+                              const beatType = beat.type || 'clue';
+
+                              return (
+                                <div key={beat.id} className="plot-beat-row">
+                                  {/* Milestone Marker */}
+                                  <div
+                                    className={`plot-beat-marker status-${beatStatus}`}
+                                    onClick={() => {
+                                      const nextStatus = beatStatus === 'pending' ? 'active' : beatStatus === 'active' ? 'completed' : beatStatus === 'completed' ? 'failed' : 'pending';
+                                      updatePlotBeat(plot.id, beat.id, { status: nextStatus });
+                                    }}
+                                    title={`Step ${index + 1}: ${beatStatus.toUpperCase()} (Click to cycle status)`}
+                                  >
+                                    {beatStatus === 'completed' ? (
+                                      <i className="fas fa-check"></i>
+                                    ) : beatStatus === 'active' ? (
+                                      <i className="fas fa-play" style={{ fontSize: '0.7rem' }}></i>
+                                    ) : beatStatus === 'failed' ? (
+                                      <i className="fas fa-times"></i>
+                                    ) : (
+                                      <span>{index + 1}</span>
+                                    )}
+                                  </div>
+
+                                  {/* Beat Card */}
+                                  <div className="plot-beat-card">
+                                    <div className="plot-beat-card-header">
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: 1 }}>
+                                        <select
+                                          value={beat.type || 'clue'}
+                                          onChange={(e) => updatePlotBeat(plot.id, beat.id, { type: e.target.value })}
+                                          className={`plot-beat-type-tag type-${beatType}`}
+                                          style={{ border: 'none', cursor: 'pointer', outline: 'none' }}
+                                        >
+                                          <option value="hook">Clue / Hook</option>
+                                          <option value="clue">Investigation</option>
+                                          <option value="encounter">Encounter</option>
+                                          <option value="revelation">Revelation</option>
+                                          <option value="decision">Major Decision</option>
+                                          <option value="climax">Climax</option>
+                                          <option value="resolution">Resolution</option>
+                                        </select>
+                                        <input
+                                          type="text"
+                                          value={beat.title}
+                                          onChange={(e) => updatePlotBeat(plot.id, beat.id, { title: e.target.value })}
+                                          placeholder="Story Beat Title..."
+                                          className="plot-beat-title-input"
+                                        />
+                                      </div>
+
+                                      <div className="plot-beat-actions">
+                                        <select
+                                          value={beat.status || 'pending'}
+                                          onChange={(e) => updatePlotBeat(plot.id, beat.id, { status: e.target.value })}
+                                          className="plot-filter-select"
+                                          style={{ fontSize: '0.72rem', padding: '2px 5px', height: '22px' }}
+                                        >
+                                          <option value="pending">Pending</option>
+                                          <option value="active">Active</option>
+                                          <option value="completed">Completed</option>
+                                          <option value="failed">Diverged / Failed</option>
+                                        </select>
+                                        <button
+                                          type="button"
+                                          className="plot-beat-btn-icon"
+                                          onClick={() => movePlotBeat(plot.id, beat.id, 'up')}
+                                          disabled={index === 0}
+                                          title="Move Beat Up"
+                                        >
+                                          <i className="fas fa-arrow-up"></i>
+                                        </button>
+                                        <button
+                                          type="button"
+                                          className="plot-beat-btn-icon"
+                                          onClick={() => movePlotBeat(plot.id, beat.id, 'down')}
+                                          disabled={index === beats.length - 1}
+                                          title="Move Beat Down"
+                                        >
+                                          <i className="fas fa-arrow-down"></i>
+                                        </button>
+                                        <button
+                                          type="button"
+                                          className="plot-beat-btn-icon danger"
+                                          onClick={() => removePlotBeat(plot.id, beat.id)}
+                                          title="Delete Beat"
+                                        >
+                                          <i className="fas fa-trash-alt"></i>
+                                        </button>
+                                      </div>
+                                    </div>
+
+                                    <textarea
+                                      value={beat.description || ''}
+                                      onChange={(e) => updatePlotBeat(plot.id, beat.id, { description: e.target.value })}
+                                      placeholder="Describe what happens in this story beat, clues revealed, challenges faced, and branching outcomes..."
+                                      className="plot-beat-desc-input"
+                                    />
+
+                                    {/* Direct Entity Attachments for this Beat */}
+                                    <div className="plot-beat-entity-row">
+                                      <span style={{ fontSize: '0.72rem', color: '#8b5a1a', fontWeight: 600 }}>
+                                        <i className="fas fa-link"></i> Beat Links:
+                                      </span>
+                                      {/* Quest Link */}
+                                      <select
+                                        value={beat.questId || ''}
+                                        onChange={(e) => {
+                                          const qId = e.target.value;
+                                          updatePlotBeat(plot.id, beat.id, { questId: qId });
+                                          if (qId && !(plot.questIds || []).includes(qId)) {
+                                            updatePlotThread(plot.id, { questIds: [...(plot.questIds || []), qId] });
+                                          }
+                                        }}
+                                        className="plot-beat-entity-select"
+                                      >
+                                        <option value="">-- Attach Quest --</option>
+                                        {(campaignData.quests || []).map(q => (
+                                          <option key={q.id} value={q.id}>{q.title}</option>
+                                        ))}
+                                      </select>
+
+                                      {/* Location Link */}
+                                      <select
+                                        value={beat.locationId || ''}
+                                        onChange={(e) => {
+                                          const locId = e.target.value;
+                                          updatePlotBeat(plot.id, beat.id, { locationId: locId });
+                                          if (locId && !(plot.locationIds || []).includes(locId)) {
+                                            updatePlotThread(plot.id, { locationIds: [...(plot.locationIds || []), locId] });
+                                          }
+                                        }}
+                                        className="plot-beat-entity-select"
+                                      >
+                                        <option value="">-- Attach Location --</option>
+                                        {(campaignData.locations || []).map(loc => (
+                                          <option key={loc.id} value={loc.id}>{loc.name}</option>
+                                        ))}
+                                      </select>
+
+                                      {/* NPC Link */}
+                                      <select
+                                        value={beat.npcId || ''}
+                                        onChange={(e) => {
+                                          const npcId = e.target.value;
+                                          updatePlotBeat(plot.id, beat.id, { npcId: npcId });
+                                          if (npcId && !(plot.npcIds || []).includes(npcId)) {
+                                            updatePlotThread(plot.id, { npcIds: [...(plot.npcIds || []), npcId] });
+                                          }
+                                        }}
+                                        className="plot-beat-entity-select"
+                                      >
+                                        <option value="">-- Attach NPC --</option>
+                                        {(campaignData.npcs || []).map(n => (
+                                          <option key={n.id} value={n.id}>{n.name}</option>
+                                        ))}
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
+
+                            {/* Append Next Beat Button */}
+                            <div className="plot-add-beat-row">
+                              <div className="plot-add-beat-marker">
+                                <i className="fas fa-plus"></i>
+                              </div>
+                              <button
+                                type="button"
+                                className="plot-add-beat-btn"
+                                onClick={() => addPlotBeat(plot.id, 'clue')}
+                              >
+                                <i className="fas fa-plus-circle"></i> Add Next Story Beat
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div className="empty-state">
+                      <i className="fas fa-project-diagram"></i>
+                      <p>No plot threads matching your filters. Create your first storyline or adjust filters above!</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ============ VIEW 2: CHRONICLE CARDS VIEW ============ */}
+              {plotViewMode === 'cards' && (
+                <div className="cards-grid">
+                  {filteredPlots.length > 0 ? (
+                    filteredPlots.map(plot => {
+                      const currentTab = plotCardTabs[plot.id] || 'overview';
+                      const setCardTab = (tab) => setPlotCardTabs(prev => ({ ...prev, [plot.id]: tab }));
+                      const plotType = plot.type || 'main';
+
+                      const linkedQuests = getLinkedQuests(plot.questIds);
+                      const linkedNPCs = getLinkedNPCs(plot.npcIds);
+                      const linkedLocs = getLinkedLocations(plot.locationIds);
+                      const linkedLore = getLinkedLore(plot.loreIds);
+                      const linkedItems = getLinkedItems(plot.itemIds);
+                      const linkedCreatures = getLinkedCreatures(plot.monsterIds);
+
+                      return (
+                        <div key={plot.id} className="content-card plot-card">
+                          {/* Top Hero Banner */}
+                          <div className="card-media-banner-container">
+                            {plot.image ? (
+                              <div className="media-banner-preview">
+                                <img src={plot.image} alt={plot.title} />
+                                <div className="media-hover-overlay">
+                                  <label className="media-change-btn" title="Change banner">
+                                    <i className="fas fa-camera"></i> Change Banner
+                                    <input
+                                      type="file"
+                                      accept="image/*"
+                                      style={{ display: 'none' }}
+                                      onChange={(e) => {
+                                        const file = e.target.files?.[0];
+                                        if (file) handleMediaUpload(file, 'banners', (url) => updatePlotThread(plot.id, { image: url }), plot.image);
+                                      }}
+                                    />
+                                  </label>
+                                  <button
+                                    type="button"
+                                    className="media-clear-btn-pill"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleMediaRemove(plot.image, () => updatePlotThread(plot.id, { image: null }));
+                                    }}
+                                    title="Remove banner"
+                                  >
+                                    <i className="fas fa-trash-alt"></i> Remove
+                                  </button>
+                                </div>
+                              </div>
+                            ) : (
+                              <label className="media-banner-placeholder" title="Upload quest/plot artwork">
+                                <i className="fas fa-scroll"></i>
+                                <span>Upload Plot Banner</span>
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  style={{ display: 'none' }}
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) handleMediaUpload(file, 'banners', (url) => updatePlotThread(plot.id, { image: url }), plot.image);
+                                  }}
+                                />
+                              </label>
+                            )}
+                          </div>
+
+                          <div className="card-header-fields">
+                            <div className="card-field-header-top">
+                              <div className="field-group flex-1">
+                                <label className="field-label"><i className="fas fa-feather"></i> Plot Title</label>
+                                <input
+                                  type="text"
+                                  value={plot.title}
+                                  onChange={(e) => updatePlotThread(plot.id, { title: e.target.value })}
+                                  className="card-title-input full-width"
+                                  placeholder="Plot thread title..."
+                                />
+                              </div>
+                              <button className="remove-card-btn" onClick={() => removePlotThread(plot.id)} title="Delete Thread">
+                                <i className="fas fa-trash-alt"></i>
+                              </button>
+                            </div>
+
+                            <div className="card-meta-grid-2col">
+                              <div className="field-group">
+                                <label className="field-label"><i className="fas fa-tag"></i> Arc Type</label>
+                                <select
+                                  value={plot.type || 'main'}
+                                  onChange={(e) => updatePlotThread(plot.id, { type: e.target.value })}
+                                  className="card-field-select"
+                                >
+                                  <option value="main">Main Story Arc</option>
+                                  <option value="character">Character Arc</option>
+                                  <option value="faction">Faction Intrigue</option>
+                                  <option value="world">World Threat</option>
+                                  <option value="side">Side Mystery</option>
+                                </select>
+                              </div>
+                              <div className="field-group">
+                                <label className="field-label"><i className="fas fa-bars-progress"></i> Status</label>
+                                <select
+                                  value={plot.status || 'active'}
+                                  onChange={(e) => updatePlotThread(plot.id, { status: e.target.value })}
+                                  className="card-field-select"
+                                >
+                                  <option value="active">Active</option>
+                                  <option value="on-hold">On Hold</option>
+                                  <option value="resolved">Resolved</option>
+                                  <option value="abandoned">Abandoned</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div className="card-meta-grid-2col" style={{ marginTop: '6px' }}>
+                              <div className="field-group">
+                                <label className="field-label"><i className="fas fa-circle-exclamation"></i> Priority</label>
+                                <select
+                                  value={plot.priority || 'medium'}
+                                  onChange={(e) => updatePlotThread(plot.id, { priority: e.target.value })}
+                                  className={`card-field-select priority-${plot.priority}`}
+                                >
+                                  <option value="low">Low Priority</option>
+                                  <option value="medium">Medium Priority</option>
+                                  <option value="high">High Priority</option>
+                                  <option value="critical">Critical Priority</option>
+                                </select>
+                              </div>
+                              <div className="field-group">
+                                <label className="field-label"><i className="fas fa-stairs"></i> Stage / Act</label>
+                                <input
+                                  type="text"
+                                  value={plot.stage || ''}
+                                  onChange={(e) => updatePlotThread(plot.id, { stage: e.target.value })}
+                                  placeholder="e.g. Act 1: The Whispering Plague"
+                                  className="card-field-input"
+                                />
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Card Subtabs */}
+                          <div className="plot-card-subtabs">
+                            <button
+                              type="button"
+                              className={`plot-card-subtab-btn ${currentTab === 'overview' ? 'active' : ''}`}
+                              onClick={() => setCardTab('overview')}
+                            >
+                              <i className="fas fa-book-open"></i> Overview
+                            </button>
+                            <button
+                              type="button"
+                              className={`plot-card-subtab-btn ${currentTab === 'beats' ? 'active' : ''}`}
+                              onClick={() => setCardTab('beats')}
+                            >
+                              <i className="fas fa-timeline"></i> Beats ({(plot.beats || []).length})
+                            </button>
+                            <button
+                              type="button"
+                              className={`plot-card-subtab-btn ${currentTab === 'quests' ? 'active' : ''}`}
+                              onClick={() => setCardTab('quests')}
+                            >
+                              <i className="fas fa-scroll"></i> Quests ({linkedQuests.length})
+                            </button>
+                            <button
+                              type="button"
+                              className={`plot-card-subtab-btn ${currentTab === 'npcs' ? 'active' : ''}`}
+                              onClick={() => setCardTab('npcs')}
+                            >
+                              <i className="fas fa-users"></i> Cast ({linkedNPCs.length})
+                            </button>
+                            <button
+                              type="button"
+                              className={`plot-card-subtab-btn ${currentTab === 'stages' ? 'active' : ''}`}
+                              onClick={() => setCardTab('stages')}
+                            >
+                              <i className="fas fa-map-marker-alt"></i> Places ({linkedLocs.length})
+                            </button>
+                            <button
+                              type="button"
+                              className={`plot-card-subtab-btn ${currentTab === 'clues' ? 'active' : ''}`}
+                              onClick={() => setCardTab('clues')}
+                            >
+                              <i className="fas fa-key"></i> Clues & Lore ({linkedLore.length + linkedItems.length})
+                            </button>
+                          </div>
+
+                          <div className="card-body-fields">
+                            {currentTab === 'overview' && (
+                              <>
+                                <div className="field-group">
+                                  <RichCampaignEditor
+                                    label="Story Arc & Narrative Premise"
+                                    icon="fa-book-open"
+                                    value={plot.description || ''}
+                                    onChange={(val) => updatePlotThread(plot.id, { description: val })}
+                                    placeholder="Describe the storyline, underlying conspiracy, stakes..."
+                                    rows={3}
+                                    compact={true}
+                                  />
+                                </div>
+                                <div className="field-group">
+                                  <RichCampaignEditor
+                                    label="GM Secrets, Branching Stakes & Notes"
+                                    icon="fa-user-secret"
+                                    value={plot.gmSecrets || plot.notes || ''}
+                                    onChange={(val) => updatePlotThread(plot.id, { gmSecrets: val, notes: val })}
+                                    placeholder="Hidden truths, villain motivations, timeline triggers, failure consequences..."
+                                    rows={2}
+                                    compact={true}
+                                  />
+                                </div>
+
+                                {/* Quick Entity Summary Bar */}
+                                <div className="loc-quick-entity-bar">
+                                  <span className="loc-quick-pill" onClick={() => setCardTab('beats')}>
+                                    <i className="fas fa-timeline" style={{ color: '#d4af37' }}></i> {(plot.beats || []).length} Story Beats
+                                  </span>
+                                  <span className="loc-quick-pill" onClick={() => setCardTab('quests')}>
+                                    <i className="fas fa-scroll" style={{ color: '#f39c12' }}></i> {linkedQuests.length} Quests
+                                  </span>
+                                  <span className="loc-quick-pill" onClick={() => setCardTab('npcs')}>
+                                    <i className="fas fa-users" style={{ color: '#2ecc71' }}></i> {linkedNPCs.length} Cast & NPCs
+                                  </span>
+                                  <span className="loc-quick-pill" onClick={() => setCardTab('stages')}>
+                                    <i className="fas fa-map-marker-alt" style={{ color: '#e67e22' }}></i> {linkedLocs.length} Locations
+                                  </span>
+                                  <span className="loc-quick-pill" onClick={() => setCardTab('clues')}>
+                                    <i className="fas fa-book-open" style={{ color: '#3498db' }}></i> {linkedLore.length} Clues
+                                  </span>
+                                </div>
+                              </>
+                            )}
+
+                            {currentTab === 'beats' && (
+                              <div className="entity-chips-rack">
+                                <div className="entity-rack-header">
+                                  <span><i className="fas fa-timeline"></i> Storyline Beats & Milestones ({(plot.beats || []).length})</span>
+                                  <button
+                                    type="button"
+                                    className="entity-chip-add-btn"
+                                    onClick={() => addPlotBeat(plot.id, 'clue')}
+                                  >
+                                    <i className="fas fa-plus"></i> Add Beat
+                                  </button>
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                  {(plot.beats || []).map((b, idx) => (
+                                    <div key={b.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#fdfbf7', border: '1px solid rgba(139,69,19,0.15)', borderRadius: '4px', padding: '4px 8px' }}>
+                                      <input
+                                        type="checkbox"
+                                        checked={b.status === 'completed'}
+                                        onChange={(e) => updatePlotBeat(plot.id, b.id, { status: e.target.checked ? 'completed' : 'pending' })}
+                                        style={{ cursor: 'pointer' }}
+                                      />
+                                      <input
+                                        type="text"
+                                        value={b.title}
+                                        onChange={(e) => updatePlotBeat(plot.id, b.id, { title: e.target.value })}
+                                        placeholder="Beat title..."
+                                        style={{ flex: 1, border: 'none', background: 'transparent', fontSize: '0.8rem', textDecoration: b.status === 'completed' ? 'line-through' : 'none', color: b.status === 'completed' ? '#888' : '#2d1810', fontWeight: 600 }}
+                                      />
+                                      <select
+                                        value={b.type || 'clue'}
+                                        onChange={(e) => updatePlotBeat(plot.id, b.id, { type: e.target.value })}
+                                        className={`plot-beat-type-tag type-${b.type || 'clue'}`}
+                                        style={{ border: 'none', cursor: 'pointer', padding: '1px 5px' }}
+                                      >
+                                        <option value="hook">Hook</option>
+                                        <option value="clue">Investigation</option>
+                                        <option value="encounter">Encounter</option>
+                                        <option value="revelation">Revelation</option>
+                                        <option value="decision">Decision</option>
+                                        <option value="climax">Climax</option>
+                                        <option value="resolution">Resolution</option>
+                                      </select>
+                                      <button
+                                        type="button"
+                                        onClick={() => removePlotBeat(plot.id, b.id)}
+                                        style={{ background: 'none', border: 'none', color: '#c0392b', cursor: 'pointer', fontSize: '0.7rem' }}
+                                      >
+                                        <i className="fas fa-times"></i>
+                                      </button>
+                                    </div>
+                                  ))}
+                                  {(!plot.beats || plot.beats.length === 0) && (
+                                    <span style={{ fontSize: '0.75rem', color: '#a08c70', fontStyle: 'italic' }}>No story beats charted yet</span>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+
+                            {currentTab === 'quests' && (
+                              <div className="entity-chips-rack">
+                                <div className="entity-rack-header">
+                                  <span><i className="fas fa-scroll"></i> Connected Quests ({linkedQuests.length})</span>
+                                  <button
+                                    type="button"
+                                    className="entity-chip-add-btn quest-btn"
+                                    onClick={() => openLinkerModal(
+                                      `Link Quests to ${plot.title}`,
+                                      getAllCampaignQuests(),
+                                      plot.questIds || [],
+                                      (newIds) => updatePlotThread(plot.id, { questIds: newIds })
+                                    )}
+                                  >
+                                    <i className="fas fa-link"></i> Link Quests
+                                  </button>
+                                </div>
+                                <div className="entity-chips-list">
+                                  {linkedQuests.map(q => (
+                                    <span key={q.id} className="entity-chip-pill" style={{ borderLeft: '3px solid #f39c12' }}>
+                                      <i className="fas fa-scroll" style={{ color: '#f39c12', fontSize: '11px' }}></i>
+                                      <span className="entity-chip-pill-name">{q.title}</span>
+                                      <span className="entity-picker-source-badge" style={{ fontSize: '0.6rem', padding: '0 4px', background: 'rgba(243, 156, 18, 0.15)', color: '#b95c00' }}>
+                                        {q.status || 'Active'}
+                                      </span>
+                                      <button
+                                        type="button"
+                                        className="entity-chip-remove"
+                                        onClick={() => updatePlotThread(plot.id, { questIds: (plot.questIds || []).filter(id => String(id) !== String(q.id)) })}
+                                        title="Unlink Quest"
+                                      >
+                                        <i className="fas fa-times"></i>
+                                      </button>
+                                    </span>
+                                  ))}
+                                  {linkedQuests.length === 0 && (
+                                    <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No quests linked to this thread</span>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+
+                            {currentTab === 'npcs' && (
+                              <div className="entity-chips-rack">
+                                <div className="entity-rack-header">
+                                  <span><i className="fas fa-users"></i> Key Characters & Cast ({linkedNPCs.length})</span>
+                                  <button
+                                    type="button"
+                                    className="entity-chip-add-btn npc-btn"
+                                    onClick={() => openLinkerModal(
+                                      `Link NPCs to ${plot.title}`,
+                                      getAllCampaignNPCs(),
+                                      plot.npcIds || [],
+                                      (newIds) => updatePlotThread(plot.id, { npcIds: newIds })
+                                    )}
+                                  >
+                                    <i className="fas fa-link"></i> Link NPCs
+                                  </button>
+                                </div>
+                                <div className="entity-chips-list">
+                                  {linkedNPCs.map(n => (
+                                    <span key={n.id} className="entity-chip-pill npc-chip">
+                                      <i className="fas fa-user" style={{ color: '#2ecc71', fontSize: '11px' }}></i>
+                                      <span className="entity-chip-pill-name">{n.name}</span>
+                                      {n.role && (
+                                        <span className="entity-picker-source-badge" style={{ fontSize: '0.6rem', padding: '0 4px', background: 'rgba(46, 204, 113, 0.15)', color: '#27ae60' }}>
+                                          {n.role}
+                                        </span>
+                                      )}
+                                      <button
+                                        type="button"
+                                        className="entity-chip-remove"
+                                        onClick={() => updatePlotThread(plot.id, { npcIds: (plot.npcIds || []).filter(id => String(id) !== String(n.id)) })}
+                                        title="Unlink NPC"
+                                      >
+                                        <i className="fas fa-times"></i>
+                                      </button>
+                                    </span>
+                                  ))}
+                                  {linkedNPCs.length === 0 && (
+                                    <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No key characters linked</span>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+
+                            {currentTab === 'stages' && (
+                              <div className="entity-chips-rack">
+                                <div className="entity-rack-header">
+                                  <span><i className="fas fa-map-marker-alt"></i> Key Stages & Locations ({linkedLocs.length})</span>
+                                  <button
+                                    type="button"
+                                    className="entity-chip-add-btn location-btn"
+                                    onClick={() => openLinkerModal(
+                                      `Link Locations to ${plot.title}`,
+                                      getAllCampaignLocations(),
+                                      plot.locationIds || [],
+                                      (newIds) => updatePlotThread(plot.id, { locationIds: newIds })
+                                    )}
+                                  >
+                                    <i className="fas fa-link"></i> Link Locations
+                                  </button>
+                                </div>
+                                <div className="entity-chips-list">
+                                  {linkedLocs.map(loc => (
+                                    <span key={loc.id} className="entity-chip-pill loc-chip">
+                                      <i className="fas fa-map-marker-alt" style={{ color: '#e67e22', fontSize: '11px' }}></i>
+                                      <span className="entity-chip-pill-name">{loc.name}</span>
+                                      <button
+                                        type="button"
+                                        className="entity-chip-remove"
+                                        onClick={() => updatePlotThread(plot.id, { locationIds: (plot.locationIds || []).filter(id => String(id) !== String(loc.id)) })}
+                                        title="Unlink Location"
+                                      >
+                                        <i className="fas fa-times"></i>
+                                      </button>
+                                    </span>
+                                  ))}
+                                  {linkedLocs.length === 0 && (
+                                    <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No stages or locations linked</span>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+
+                            {currentTab === 'clues' && (
+                              <div className="entity-chips-rack">
+                                <div className="entity-rack-header">
+                                  <span><i className="fas fa-book-open"></i> Clues, Relics & Codex ({linkedLore.length + linkedItems.length})</span>
+                                  <div style={{ display: 'flex', gap: '4px' }}>
+                                    <button
+                                      type="button"
+                                      className="entity-chip-add-btn lore-btn"
+                                      onClick={() => openLinkerModal(
+                                        `Link Lore & Handouts to ${plot.title}`,
+                                        getAllCampaignLore(),
+                                        plot.loreIds || [],
+                                        (newIds) => updatePlotThread(plot.id, { loreIds: newIds })
+                                      )}
+                                    >
+                                      <i className="fas fa-scroll"></i> Lore
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className="entity-chip-add-btn"
+                                      onClick={() => openLinkerModal(
+                                        `Link Key Artifacts to ${plot.title}`,
+                                        getAllCampaignItems(),
+                                        plot.itemIds || [],
+                                        (newIds) => updatePlotThread(plot.id, { itemIds: newIds })
+                                      )}
+                                    >
+                                      <i className="fas fa-gem"></i> Artifacts
+                                    </button>
+                                  </div>
+                                </div>
+                                <div className="entity-chips-list">
+                                  {linkedLore.map(l => (
+                                    <span key={l.id} className="entity-chip-pill lore-chip">
+                                      <i className="fas fa-scroll" style={{ color: '#3498db', fontSize: '11px' }}></i>
+                                      <span className="entity-chip-pill-name">{l.title}</span>
+                                      <button
+                                        type="button"
+                                        className="entity-chip-remove"
+                                        onClick={() => updatePlotThread(plot.id, { loreIds: (plot.loreIds || []).filter(id => String(id) !== String(l.id)) })}
+                                        title="Unlink Lore"
+                                      >
+                                        <i className="fas fa-times"></i>
+                                      </button>
+                                    </span>
+                                  ))}
+                                  {linkedItems.map(i => (
+                                    <span key={i.id} className="entity-chip-pill item-chip">
+                                      <i className="fas fa-gem" style={{ color: '#d4af37', fontSize: '11px' }}></i>
+                                      <span className="entity-chip-pill-name">{i.name}</span>
+                                      <button
+                                        type="button"
+                                        className="entity-chip-remove"
+                                        onClick={() => updatePlotThread(plot.id, { itemIds: (plot.itemIds || []).filter(id => String(id) !== String(i.id)) })}
+                                        title="Unlink Item"
+                                      >
+                                        <i className="fas fa-times"></i>
+                                      </button>
+                                    </span>
+                                  ))}
+                                  {linkedLore.length === 0 && linkedItems.length === 0 && (
+                                    <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>No clues or relics attached</span>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div className="empty-state">
+                      <i className="fas fa-project-diagram"></i>
+                      <p>No plot threads match your search or filters.</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ============ VIEW 3: STORY MATRIX VIEW ============ */}
+              {plotViewMode === 'matrix' && (
+                <div className="plot-matrix-container">
+                  <table className="plot-matrix-table">
+                    <thead>
+                      <tr>
+                        <th>Plot Thread</th>
+                        <th>Type & Priority</th>
+                        <th>Status & Progress</th>
+                        <th>Connected Quests</th>
+                        <th>Key NPCs</th>
+                        <th>Key Locations</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredPlots.length > 0 ? (
+                        filteredPlots.map(plot => {
+                          const progressPct = calculatePlotProgress(plot);
+                          const linkedQuests = getLinkedQuests(plot.questIds);
+                          const linkedNPCs = getLinkedNPCs(plot.npcIds);
+                          const linkedLocs = getLinkedLocations(plot.locationIds);
+                          const plotType = plot.type || 'main';
+
+                          return (
+                            <tr key={plot.id}>
+                              <td>
+                                <div style={{ fontWeight: 700, color: '#2d1810', fontSize: '0.95rem' }}>{plot.title}</div>
+                                <div style={{ fontSize: '0.75rem', color: '#8b5a1a', maxWidth: '240px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                  {plot.description || 'No description'}
+                                </div>
+                              </td>
+                              <td>
+                                <span className={`plot-thread-type-pill type-${plotType}`} style={{ fontSize: '0.65rem' }}>
+                                  {plotType.toUpperCase()}
+                                </span>
+                                <div style={{ fontSize: '0.75rem', color: '#5a3010', marginTop: '2px', textTransform: 'capitalize' }}>
+                                  {plot.priority || 'medium'} Priority
+                                </div>
+                              </td>
+                              <td>
+                                <div style={{ fontWeight: 600, color: '#2d1810', textTransform: 'capitalize', fontSize: '0.8rem' }}>
+                                  {plot.status || 'active'}
+                                </div>
+                                <div style={{ width: '90px', height: '6px', background: '#e0d5c1', borderRadius: '3px', overflow: 'hidden', marginTop: '4px' }}>
+                                  <div style={{ height: '100%', width: `${progressPct}%`, background: '#27ae60' }}></div>
+                                </div>
+                                <span style={{ fontSize: '0.68rem', color: '#7a583e' }}>{progressPct}% Done</span>
+                              </td>
+                              <td>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px', maxWidth: '180px' }}>
+                                  {linkedQuests.map(q => (
+                                    <span key={q.id} className="plot-thread-stat-badge" style={{ fontSize: '0.65rem', padding: '1px 5px' }}>
+                                      {q.title}
+                                    </span>
+                                  ))}
+                                  {linkedQuests.length === 0 && <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>None</span>}
+                                </div>
+                              </td>
+                              <td>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px', maxWidth: '180px' }}>
+                                  {linkedNPCs.map(n => (
+                                    <span key={n.id} className="plot-thread-stat-badge" style={{ fontSize: '0.65rem', padding: '1px 5px' }}>
+                                      {n.name}
+                                    </span>
+                                  ))}
+                                  {linkedNPCs.length === 0 && <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>None</span>}
+                                </div>
+                              </td>
+                              <td>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px', maxWidth: '180px' }}>
+                                  {linkedLocs.map(l => (
+                                    <span key={l.id} className="plot-thread-stat-badge" style={{ fontSize: '0.65rem', padding: '1px 5px' }}>
+                                      {l.name}
+                                    </span>
+                                  ))}
+                                  {linkedLocs.length === 0 && <span style={{ fontSize: '0.7rem', color: '#a08c70', fontStyle: 'italic' }}>None</span>}
+                                </div>
+                              </td>
+                              <td>
+                                <div style={{ display: 'flex', gap: '4px' }}>
+                                  <button
+                                    type="button"
+                                    className="entity-chip-add-btn"
+                                    onClick={() => {
+                                      setSelectedTimelinePlotId(plot.id);
+                                      setPlotViewMode('timeline');
+                                    }}
+                                    title="Open in Thread Flow Timeline"
+                                  >
+                                    <i className="fas fa-timeline"></i>
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="plot-beat-btn-icon danger"
+                                    onClick={() => removePlotThread(plot.id)}
+                                    title="Delete Thread"
+                                  >
+                                    <i className="fas fa-trash-alt"></i>
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      ) : (
+                        <tr>
+                          <td colSpan={7} style={{ textAlign: 'center', padding: '20px', color: '#8b5a1a', fontStyle: 'italic' }}>
+                            No plot threads match your search.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
                 </div>
               )}
             </div>
-          </div>
-        )}
+          );
+        })()}
 
         {/* ============ HOMEBREW ============ */}
         {activeSection === 'homebrew' && (
@@ -4664,11 +6361,28 @@ const CampaignManager = ({ user }) => {
                             {lineage.isCustom && (
                               <div className="campaign-lineage-actions">
                                 <button
+                                  type="button"
                                   className="campaign-lineage-edit-btn"
                                   onClick={() => useCustomLineageStore.getState().openWizard(lineage)}
                                   title="Edit Lineage"
                                 >
                                   <i className="fas fa-edit"></i> Edit
+                                </button>
+                                <button
+                                  type="button"
+                                  className="campaign-lineage-delete-btn"
+                                  onClick={() => {
+                                    showConfirmModal(
+                                      'Delete Custom Lineage',
+                                      `Are you sure you want to delete "${lineage.name}"? This cannot be undone.`,
+                                      () => {
+                                        useCustomLineageStore.getState().deleteLineage(lineage.id);
+                                      }
+                                    );
+                                  }}
+                                  title="Delete Custom Lineage"
+                                >
+                                  <i className="fas fa-trash-alt"></i> Delete
                                 </button>
                               </div>
                             )}
@@ -4703,12 +6417,30 @@ const CampaignManager = ({ user }) => {
                             <span className="campaign-lineage-essence">{tree.nodes.length} Members • {tree.relationships.length} Lineage Links</span>
                             <div className="campaign-lineage-actions">
                               <button
+                                type="button"
                                 className="campaign-lineage-edit-btn"
                                 style={{ background: 'linear-gradient(135deg, #d4af37 0%, #b8860b 100%)', color: '#1a0f05' }}
                                 onClick={() => useFamilyTreeStore.getState().openStudio(tree.id)}
                                 title="Open Interactive Family Tree Canvas"
                               >
                                 <i className="fas fa-sitemap"></i> Explore Tree ↗
+                              </button>
+                              <button
+                                type="button"
+                                className="campaign-lineage-delete-btn"
+                                onClick={() => {
+                                  showConfirmModal(
+                                    'Delete Dynasty Family Tree',
+                                    `Are you sure you want to delete the dynasty tree "${tree.name}"? All members and lineage connections will be removed.`,
+                                    () => {
+                                      useFamilyTreeStore.getState().deleteTree(tree.id);
+                                      useFamilyTreeStore.getState().syncToCloud(user?.uid);
+                                    }
+                                  );
+                                }}
+                                title="Delete Dynasty Family Tree"
+                              >
+                                <i className="fas fa-trash-alt"></i> Delete
                               </button>
                             </div>
                           </div>

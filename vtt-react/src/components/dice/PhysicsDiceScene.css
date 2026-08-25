@@ -20,6 +20,14 @@
   display: block;
 }
 
+/* Once dice have settled, the overlay captures clicks anywhere to clear the
+ * table (dice stay on the table until then). While rolling it stays
+ * click-through so the game beneath remains usable. */
+.dice-3d-overlay.clickable {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
 .dice-3d-canvas-container {
   position: absolute;
   inset: 0;

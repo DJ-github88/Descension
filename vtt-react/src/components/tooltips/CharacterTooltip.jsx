@@ -149,8 +149,8 @@ const CharacterTooltip = ({
         {/* Combat / target status */}
         {(isInCombat || isTargeted) && (
           <div className={`tt-combat-status ${isMyTurn ? 'my-turn' : ''} ${isTargeted && !isMyTurn ? 'targeted' : ''}`}>
-            {isTargeted && <span style={{ marginRight: 6 }}>🎯 Targeted</span>}
-            {isInCombat && (isMyTurn ? '⚔ Current Turn' : '⏳ Waiting')}
+            {isTargeted && <span style={{ marginRight: 6 }}><i className="fas fa-crosshairs"></i> Targeted</span>}
+            {isInCombat && (isMyTurn ? 'Current Turn' : 'Waiting')}
           </div>
         )}
 

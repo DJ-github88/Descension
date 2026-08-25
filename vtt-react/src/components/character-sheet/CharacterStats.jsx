@@ -2483,12 +2483,19 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
 
             <div className="stats-content-area">
                 <div className="stats-section-header">
-                    <img
-                        src={statGroups[selectedStatGroup].icon}
-                        alt=""
-                        className="stats-section-icon"
-                    />
-                    <h2 className="stats-section-title">{statGroups[selectedStatGroup].title}</h2>
+                    <div className="stats-header-icon-box">
+                        <img
+                            src={statGroups[selectedStatGroup]?.icon}
+                            alt=""
+                            className="stats-section-icon"
+                        />
+                    </div>
+                    <div className="stats-header-text">
+                        <h2 className="stats-section-title">{statGroups[selectedStatGroup]?.title}</h2>
+                        {statGroups[selectedStatGroup]?.description && (
+                            <span className="stats-section-subtitle">{statGroups[selectedStatGroup]?.description}</span>
+                        )}
+                    </div>
                 </div>
 
                 <div className="stats-fields">

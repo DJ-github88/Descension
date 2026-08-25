@@ -1378,7 +1378,16 @@ const NewQuickItemWizard = ({ onComplete, onCancel, initialData }) => {
         // Generate weapon stats for weapons
         if (type === 'weapon') {
             weaponStats = generateWeaponStats(itemSubtype, quality, powerScale);
-            slots = ['mainHand'];
+            const weaponData = WEAPON_SUBTYPES[itemSubtype];
+            if (weaponData?.slot === 'RANGED') {
+                slots = ['ranged'];
+            } else if (weaponData?.slot === 'TWO_HANDED') {
+                slots = ['twoHand'];
+            } else if (weaponData?.slot === 'OFF_HAND') {
+                slots = ['offHand'];
+            } else {
+                slots = ['mainHand', 'offHand'];
+            }
         }
 
         // Generate slots for armor

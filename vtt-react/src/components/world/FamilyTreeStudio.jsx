@@ -6,6 +6,7 @@ import useAuthStore from '../../store/authStore';
 import useCustomLineageStore from '../../store/customLineageStore';
 import campaignService from '../../services/campaignService';
 import { showConfirm } from '../../utils/dialogService';
+import RichCampaignEditor from '../common/RichCampaignEditor';
 import './FamilyTreeStudio.css';
 
 const GENDER_OPTIONS = [
@@ -15,17 +16,17 @@ const GENDER_OPTIONS = [
 ];
 
 const RELATION_TYPES = [
-  { id: 'biological', label: 'Biological Child', icon: 'fa-dna' },
-  { id: 'adoptive', label: 'Adopted Child', icon: 'fa-heart' },
-  { id: 'illegitimate', label: 'Illegitimate / Natural Child', icon: 'fa-shield-halved' },
-  { id: 'clone', label: 'Magical Clone / Homunculus', icon: 'fa-flask' }
+  { id: 'biological', label: 'Biological Child', desc: 'Natural-born blood descendant', icon: 'fa-dna' },
+  { id: 'adoptive', label: 'Adopted Child', desc: 'Legally or formally adopted descendant', icon: 'fa-heart' },
+  { id: 'illegitimate', label: 'Illegitimate / Natural Child', desc: 'Born out of wedlock / unofficial heir', icon: 'fa-shield-halved' },
+  { id: 'clone', label: 'Magical Clone / Created', desc: 'Created through alchemy, magic, or divine forge', icon: 'fa-flask' }
 ];
 
 const SPOUSE_STATUSES = [
-  { id: 'married', label: 'Married Union', icon: 'fa-ring' },
-  { id: 'betrothed', label: 'Betrothed / Promised', icon: 'fa-gem' },
-  { id: 'consort', label: 'Consort / Paramour', icon: 'fa-feather' },
-  { id: 'divorced', label: 'Separated / Dissolved', icon: 'fa-link-slash' }
+  { id: 'married', label: 'Married (Spouse)', desc: 'Official marriage or primary spouse', icon: 'fa-ring' },
+  { id: 'betrothed', label: 'Engaged / Betrothed', desc: 'Arranged marriage, fiancé(e), or promised union', icon: 'fa-gem' },
+  { id: 'consort', label: 'Partner / Consort', desc: 'Romantic partner, companion, or unofficial consort', icon: 'fa-feather' },
+  { id: 'divorced', label: 'Divorced / Separated', desc: 'Former spouse, separated, or dissolved union', icon: 'fa-link-slash' }
 ];
 
 const FamilyTreeStudio = () => {
@@ -339,6 +340,30 @@ const FamilyTreeStudio = () => {
               <i className="fas fa-plus"></i>
               <span>New Dynasty</span>
             </button>
+            {activeTree && (
+              <button
+                type="button"
+                className="btn-studio-action btn-delete-tree"
+                onClick={async () => {
+                  const confirmed = await showConfirm({
+                    title: 'Delete Dynasty Family Tree',
+                    message: `Are you sure you want to delete the dynasty tree "${activeTree.name}"?`,
+                    subMessage: 'All members, generations, and lineage relationships in this family tree will be permanently removed.',
+                    confirmText: 'Delete Dynasty',
+                    cancelText: 'Cancel',
+                    isDestructive: true
+                  });
+                  if (confirmed) {
+                    deleteTree(activeTree.id);
+                    syncToCloud(user?.uid);
+                  }
+                }}
+                title="Delete this dynasty family tree"
+              >
+                <i className="fas fa-trash-alt"></i>
+                <span>Delete Dynasty</span>
+              </button>
+            )}
           </div>
         </div>
 
@@ -436,6 +461,27 @@ const FamilyTreeStudio = () => {
             })}
           </div>
 
+          {!activeTree && (
+            <div className="canvas-empty-state" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', color: '#8b6f47', background: 'rgba(255,255,255,0.92)', padding: '30px 40px', borderRadius: '12px', border: '1.5px dashed #c59b3f', boxShadow: '0 8px 24px rgba(0,0,0,0.08)', zIndex: 10 }}>
+              <i className="fas fa-sitemap" style={{ fontSize: '3rem', color: '#d4af37', marginBottom: '12px', opacity: 0.85, display: 'block' }}></i>
+              <h3 style={{ fontFamily: 'Cinzel, serif', color: '#4a2711', margin: '0 0 8px 0', fontSize: '1.25rem' }}>No Dynasty Trees Found</h3>
+              <p style={{ margin: '0 0 16px 0', fontSize: '0.9rem', maxWidth: '340px' }}>This dynasty was removed. Create a new dynasty family tree to track bloodlines.</p>
+              <button
+                type="button"
+                className="btn-studio-action btn-new-tree"
+                style={{ margin: '0 auto', display: 'inline-flex' }}
+                onClick={() => {
+                  setNewTreeName('');
+                  setNewTreeDesc('');
+                  setShowCreateTreeModal(true);
+                }}
+              >
+                <i className="fas fa-plus"></i>
+                <span>Forge New Dynasty</span>
+              </button>
+            </div>
+          )}
+
           {/* SVG Relationship Connector Lines */}
           <svg className="family-tree-svg" style={{ overflow: 'visible' }}>
             {activeTree && activeTree.relationships.map(rel => {
@@ -458,8 +504,9 @@ const FamilyTreeStudio = () => {
                       x1={x1} y1={y1} x2={x2} y2={y2}
                       className={`rel-line spouse-line ${rel.status || 'married'}`}
                     />
-                    <circle cx={midX} cy={midY} r={8} className="marriage-ring-badge" />
-                    <text x={midX} y={midY + 3.5} textAnchor="middle" className="marriage-ring-icon">💍</text>
+                    <circle cx={midX} cy={midY} r={9} className="marriage-ring-badge" fill="#d4af37" stroke="#8b5a1a" strokeWidth="1.5" />
+                    <circle cx={midX - 3} cy={midY} r={3.5} fill="none" stroke="#2b1408" strokeWidth="1.2" />
+                    <circle cx={midX + 3} cy={midY} r={3.5} fill="none" stroke="#2b1408" strokeWidth="1.2" />
                   </g>
                 );
               }
@@ -816,30 +863,155 @@ const FamilyTreeStudio = () => {
 
               {/* Bio & Chronicle Notes */}
               <div className="form-group">
-                <label><i className="fas fa-scroll"></i> Bio, Deeds & Secrets</label>
-                <textarea
-                  rows={4}
+                <RichCampaignEditor
+                  label="Bio, Deeds & Secrets"
+                  icon="fa-scroll"
                   placeholder="Record bloodline secrets, heroic deeds, magical inheritances, or GM secrets..."
                   value={editingMember.notes || ''}
-                  onChange={e => setEditingMember(prev => ({ ...prev, notes: e.target.value }))}
+                  onChange={val => setEditingMember(prev => ({ ...prev, notes: val }))}
+                  rows={4}
+                  compact={true}
                 />
               </div>
 
+              {/* Linked Relationships & Unlink Actions */}
+              {!editingMember.isNew && activeTree && (
+                <div className="form-group">
+                  <label><i className="fas fa-link"></i> Linked Dynastic Relationships</label>
+                  <div className="drawer-rel-list" style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '4px' }}>
+                    {activeTree.relationships
+                      .filter(r => (
+                        (r.type === 'spouse' && (r.sourceId === editingMember.id || r.targetId === editingMember.id)) ||
+                        (r.type === 'parent_child' && (r.childId === editingMember.id || r.parentId1 === editingMember.id || r.parentId2 === editingMember.id))
+                      ))
+                      .map(rel => {
+                        let relLabel = '';
+                        let targetNodeName = '';
+                        if (rel.type === 'spouse') {
+                          const partnerId = rel.sourceId === editingMember.id ? rel.targetId : rel.sourceId;
+                          const partner = activeTree.nodes.find(n => n.id === partnerId);
+                          const spouseMeta = SPOUSE_STATUSES.find(s => s.id === rel.status) || SPOUSE_STATUSES[0];
+                          relLabel = spouseMeta.label;
+                          targetNodeName = partner?.name || 'Partner';
+                        } else if (rel.type === 'parent_child') {
+                          if (rel.childId === editingMember.id) {
+                            const p1 = activeTree.nodes.find(n => n.id === rel.parentId1);
+                            const p2 = rel.parentId2 ? activeTree.nodes.find(n => n.id === rel.parentId2) : null;
+                            relLabel = 'Parent';
+                            targetNodeName = [p1?.name, p2?.name].filter(Boolean).join(' & ') || 'Parent';
+                          } else {
+                            const child = activeTree.nodes.find(n => n.id === rel.childId);
+                            const childMeta = RELATION_TYPES.find(r => r.id === rel.relationType) || RELATION_TYPES[0];
+                            relLabel = childMeta.label;
+                            targetNodeName = child?.name || 'Child';
+                          }
+                        }
+
+                        return (
+                          <div
+                            key={rel.id}
+                            className="drawer-rel-row"
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              background: '#fbf9f4',
+                              border: '1px solid rgba(139, 69, 19, 0.2)',
+                              borderRadius: '6px',
+                              padding: '5px 10px',
+                              fontSize: '0.8rem'
+                            }}
+                          >
+                            <span>
+                              <strong style={{ color: '#8b5a1a' }}>{relLabel}:</strong> {targetNodeName}
+                            </span>
+                            <button
+                              type="button"
+                              className="btn-unlink-rel"
+                              style={{
+                                background: 'transparent',
+                                border: 'none',
+                                color: '#c0392b',
+                                cursor: 'pointer',
+                                padding: '2px 6px',
+                                fontSize: '0.75rem',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '4px'
+                              }}
+                              onClick={async () => {
+                                const confirmed = await showConfirm({
+                                  title: 'Unlink Relationship',
+                                  message: `Remove relationship between ${editingMember.name} and ${targetNodeName}?`,
+                                  confirmText: 'Unlink',
+                                  cancelText: 'Cancel',
+                                  isDestructive: true
+                                });
+                                if (confirmed) {
+                                  removeRelationship(activeTree.id, rel.id);
+                                  syncToCloud(user?.uid);
+                                }
+                              }}
+                              title="Unlink this relationship"
+                            >
+                              <i className="fas fa-link-slash"></i> Unlink
+                            </button>
+                          </div>
+                        );
+                      })}
+                    {activeTree.relationships.filter(r => (
+                      (r.type === 'spouse' && (r.sourceId === editingMember.id || r.targetId === editingMember.id)) ||
+                      (r.type === 'parent_child' && (r.childId === editingMember.id || r.parentId1 === editingMember.id || r.parentId2 === editingMember.id))
+                    )).length === 0 && (
+                      <span style={{ fontSize: '0.78rem', color: '#997c60', fontStyle: 'italic' }}>
+                        No linked spouses or descendants yet. Link from canvas action buttons.
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
+
               {/* Drawer Actions */}
-              <div className="drawer-actions">
-                <button
-                  type="button"
-                  className="btn-drawer cancel"
-                  onClick={() => setShowMemberDrawer(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="btn-drawer save"
-                >
-                  <i className="fas fa-check"></i> Save Member
-                </button>
+              <div className="drawer-actions" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px' }}>
+                {!editingMember.isNew && (
+                  <button
+                    type="button"
+                    className="btn-drawer delete"
+                    style={{ background: 'rgba(231, 76, 60, 0.12)', border: '1px solid rgba(231, 76, 60, 0.4)', color: '#c0392b', padding: '7px 12px', borderRadius: '6px', fontWeight: 600, cursor: 'pointer' }}
+                    onClick={async () => {
+                      const confirmed = await showConfirm({
+                        title: 'Remove Dynasty Member',
+                        message: `Remove ${editingMember.name} from dynasty?`,
+                        subMessage: 'This will remove the character and their relationships from this family tree.',
+                        confirmText: 'Remove Member',
+                        cancelText: 'Cancel',
+                        isDestructive: true
+                      });
+                      if (confirmed) {
+                        removeMember(activeTree.id, editingMember.id);
+                        syncToCloud(user?.uid);
+                        setShowMemberDrawer(false);
+                      }
+                    }}
+                  >
+                    <i className="fas fa-trash-alt"></i> Delete Member
+                  </button>
+                )}
+                <div style={{ display: 'flex', gap: '8px', marginLeft: 'auto' }}>
+                  <button
+                    type="button"
+                    className="btn-drawer cancel"
+                    onClick={() => setShowMemberDrawer(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn-drawer save"
+                  >
+                    <i className="fas fa-check"></i> Save Member
+                  </button>
+                </div>
               </div>
             </form>
           </aside>
@@ -937,7 +1109,7 @@ const FamilyTreeStudio = () => {
 
               {showRelModal.type === 'spouse' && (
                 <div className="form-group">
-                  <label>Union Status</label>
+                  <label>Relationship / Union Status</label>
                   <select
                     value={relCustomStatus}
                     onChange={e => setRelCustomStatus(e.target.value)}
@@ -946,12 +1118,16 @@ const FamilyTreeStudio = () => {
                       <option key={s.id} value={s.id}>{s.label}</option>
                     ))}
                   </select>
+                  <small className="form-hint" style={{ color: '#7a5230', marginTop: '4px', display: 'block', fontSize: '0.78rem' }}>
+                    <i className="fas fa-info-circle" style={{ marginRight: '4px' }}></i>
+                    {SPOUSE_STATUSES.find(s => s.id === relCustomStatus)?.desc}
+                  </small>
                 </div>
               )}
 
               {showRelModal.type === 'child' && (
                 <div className="form-group">
-                  <label>Lineage Connection Type</label>
+                  <label>Child Descent Type</label>
                   <select
                     value={relCustomStatus}
                     onChange={e => setRelCustomStatus(e.target.value)}
@@ -960,6 +1136,10 @@ const FamilyTreeStudio = () => {
                       <option key={r.id} value={r.id}>{r.label}</option>
                     ))}
                   </select>
+                  <small className="form-hint" style={{ color: '#7a5230', marginTop: '4px', display: 'block', fontSize: '0.78rem' }}>
+                    <i className="fas fa-info-circle" style={{ marginRight: '4px' }}></i>
+                    {RELATION_TYPES.find(r => r.id === relCustomStatus)?.desc}
+                  </small>
                 </div>
               )}
 

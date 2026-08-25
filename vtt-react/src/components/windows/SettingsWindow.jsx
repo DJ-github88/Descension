@@ -750,9 +750,9 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
             <div className="settings-group">
               <div style={{ display: 'flex', gap: '8px', flexDirection: 'column' }}>
                 {[
-                  { value: 'vague', label: '🌫 Vague', desc: 'Players see health status (e.g. "Bloodied") and color-coded speed/armor labels. No numbers.' },
-                  { value: 'partial', label: '📊 Partial', desc: 'Players see a health bar + descriptive labels (e.g. "Fast", "Well-Armored"). No exact values.' },
-                  { value: 'full', label: '📋 Full', desc: 'Players see exact HP, Speed and all stats: same as GM.' }
+                  { value: 'vague', label: 'Vague', desc: 'Players see health status (e.g. "Bloodied") and color-coded speed/armor labels. No numbers.' },
+                  { value: 'partial', label: 'Partial', desc: 'Players see a health bar + descriptive labels (e.g. "Fast", "Well-Armored"). No exact values.' },
+                  { value: 'full', label: 'Full', desc: 'Players see exact HP, Speed and all stats: same as GM.' }
                 ].map(opt => (
                   <label
                     key={opt.value}
@@ -800,8 +800,8 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
             <div className="settings-group">
               <div style={{ display: 'flex', gap: '8px', flexDirection: 'column' }}>
                 {[
-                  { value: 'simple', label: '🎲 Simple', desc: 'Players see die sizes (d4, d6, d8…) and roll against DCs. No quests or rollable tables. Clean and fast.' },
-                  { value: 'advanced', label: '📜 Advanced', desc: 'Full quest-based advancement with rank progression, rollable outcome tables, and skill quests.' }
+                  { value: 'simple', label: 'Simple (Die Sizes)', desc: 'Players see die sizes (d4, d6, d8…) and roll against DCs. No quests or rollable tables. Clean and fast.' },
+                  { value: 'advanced', label: 'Advanced (Rank & Quest)', desc: 'Full quest-based advancement with rank progression, rollable outcome tables, and skill quests.' }
                 ].map(opt => (
                   <label
                     key={opt.value}

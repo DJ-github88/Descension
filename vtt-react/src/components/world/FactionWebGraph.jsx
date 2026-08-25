@@ -3,8 +3,8 @@ import useFactionStore, { RELATIONSHIP_TYPES, FACTION_TYPES } from '../../store/
 import { sanitizeLoreText } from './WorldDashboard';
 import './FactionWebGraph.css';
 
-const CANVAS_WIDTH = 1800;
-const CANVAS_HEIGHT = 1200;
+const CANVAS_WIDTH = 2400;
+const CANVAS_HEIGHT = 1600;
 
 const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
   const { factions, getFullRelationshipGraph, getRelationshipTypes } = useFactionStore();
@@ -40,7 +40,7 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
     return list;
   }, [factions, showSecrets]);
 
-  // Initial Organic Multi-Ring Layout Generator
+  // Initial Organic Multi-Ring Layout Generator with generous spacing
   const defaultPositions = useMemo(() => {
     const positions = {};
     const centerHouses = visibleFactions.filter(f => f.type === 'noble_house');
@@ -50,30 +50,30 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
     const cx = CANVAS_WIDTH / 2;
     const cy = CANVAS_HEIGHT / 2;
 
-    // Ring 1: Noble Houses (Radius 280)
+    // Ring 1: Noble Houses (Inner Ring)
     centerHouses.forEach((f, i) => {
       const angle = (i / (centerHouses.length || 1)) * Math.PI * 2 - Math.PI / 2;
       positions[f.id] = {
-        x: cx + Math.cos(angle) * 290,
-        y: cy + Math.sin(angle) * 230
+        x: cx + Math.cos(angle) * 360,
+        y: cy + Math.sin(angle) * 270
       };
     });
 
-    // Ring 2: Guilds, Orders & Military (Radius 520)
+    // Ring 2: Guilds, Orders & Military (Middle Ring)
     guildsAndOrders.forEach((f, i) => {
       const angle = (i / (guildsAndOrders.length || 1)) * Math.PI * 2 - Math.PI / 4;
       positions[f.id] = {
-        x: cx + Math.cos(angle) * 550,
-        y: cy + Math.sin(angle) * 410
+        x: cx + Math.cos(angle) * 720,
+        y: cy + Math.sin(angle) * 520
       };
     });
 
-    // Ring 3: Secret Societies, Cults & Outer Factions (Radius 760)
+    // Ring 3: Secret Societies, Cults & Outer Factions (Outer Ring)
     outerFactions.forEach((f, i) => {
       const angle = (i / (outerFactions.length || 1)) * Math.PI * 2;
       positions[f.id] = {
-        x: cx + Math.cos(angle) * 780,
-        y: cy + Math.sin(angle) * 530
+        x: cx + Math.cos(angle) * 1050,
+        y: cy + Math.sin(angle) * 700
       };
     });
 
@@ -82,8 +82,8 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
       if (!positions[f.id]) {
         const angle = (i / visibleFactions.length) * Math.PI * 2;
         positions[f.id] = {
-          x: cx + Math.cos(angle) * 600,
-          y: cy + Math.sin(angle) * 450
+          x: cx + Math.cos(angle) * 800,
+          y: cy + Math.sin(angle) * 580
         };
       }
     });
@@ -96,76 +96,46 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
     return { ...defaultPositions, ...customPositions };
   }, [defaultPositions, customPositions]);
 
-  // Filtered Edges
+  // Stable rendered node positions without clumping collision
+  const renderedNodePositions = nodePositions;
+
+  // Active focus faction ID (hovered or selected)
+  const activeFocusFactionId = hoveredFactionId || selectedNodeId || null;
+
+  // Filtered Edges based on filter & visibility
   const visibleEdges = useMemo(() => {
-    let edges = graph;
-    if (!showSecrets) {
-      edges = edges.filter((e) => !['secret_ally', 'secret_rival'].includes(e.type));
-    }
-    if (activeRelFilter !== 'all') {
-      if (activeRelFilter === 'secret') {
-        edges = edges.filter((e) => ['secret_ally', 'secret_rival'].includes(e.type));
-      } else {
-        edges = edges.filter((e) => e.type === activeRelFilter);
-      }
-    }
-    return edges;
-  }, [graph, showSecrets, activeRelFilter]);
+    const validIds = new Set(visibleFactions.map(f => f.id));
+    return (graph.edges || []).filter(edge => {
+      if (!validIds.has(edge.source) || !validIds.has(edge.target)) return false;
+      if (activeRelFilter === 'all') return true;
+      if (activeRelFilter === 'allied') return edge.type === 'allied' || edge.type === 'friendly' || edge.type === 'vassal';
+      if (activeRelFilter === 'rival') return edge.type === 'rival' || edge.type === 'distrustful' || edge.type === 'competing';
+      if (activeRelFilter === 'hostile') return edge.type === 'hostile' || edge.type === 'war' || edge.type === 'nemesis';
+      if (activeRelFilter === 'secret') return edge.type === 'infiltrating' || edge.type === 'puppet_master' || edge.type === 'blackmail';
+      return edge.type === activeRelFilter;
+    });
+  }, [graph.edges, visibleFactions, activeRelFilter]);
 
-  // Active Focus Faction (either hovered or selected)
-  const activeFocusFactionId = hoveredFactionId || selectedNodeId;
-
-  // Connected Neighbors & Connected Edges to the Active Focus
+  // Connected Faction IDs and Direct Edge Set for active focus faction
   const { connectedFactionIds, directEdgeSet } = useMemo(() => {
-    if (!activeFocusFactionId) {
-      return { connectedFactionIds: new Set(), directEdgeSet: new Set() };
-    }
-    const neighborIds = new Set([activeFocusFactionId]);
-    const edgeSet = new Set();
+    const connected = new Set();
+    const directEdges = new Set();
+    if (!activeFocusFactionId) return { connectedFactionIds: connected, directEdgeSet: directEdges };
 
-    visibleEdges.forEach((e) => {
-      if (e.source === activeFocusFactionId || e.target === activeFocusFactionId) {
-        neighborIds.add(e.source);
-        neighborIds.add(e.target);
-        edgeSet.add(`${e.source}--${e.target}`);
-        edgeSet.add(`${e.target}--${e.source}`);
+    visibleEdges.forEach(edge => {
+      if (edge.source === activeFocusFactionId) {
+        connected.add(edge.target);
+        directEdges.add(`${edge.source}--${edge.target}`);
+        directEdges.add(`${edge.target}--${edge.source}`);
+      } else if (edge.target === activeFocusFactionId) {
+        connected.add(edge.source);
+        directEdges.add(`${edge.source}--${edge.target}`);
+        directEdges.add(`${edge.target}--${edge.source}`);
       }
     });
 
-    return { connectedFactionIds: neighborIds, directEdgeSet: edgeSet };
+    return { connectedFactionIds: connected, directEdgeSet: directEdges };
   }, [activeFocusFactionId, visibleEdges]);
-
-  // Dynamic Clustered Positions: when hovering or selecting a node, move related factions together!
-  const renderedNodePositions = useMemo(() => {
-    if (!activeFocusFactionId) {
-      return nodePositions;
-    }
-
-    const focusPos = nodePositions[activeFocusFactionId];
-    if (!focusPos) return nodePositions;
-
-    const connectedNeighbors = Array.from(connectedFactionIds).filter(id => id !== activeFocusFactionId);
-    if (connectedNeighbors.length === 0) return nodePositions;
-
-    const dynamicPositions = { ...nodePositions };
-    const numNeighbors = connectedNeighbors.length;
-    // Compact orbital radius to pull related factions close together
-    const orbitRadius = Math.min(250, Math.max(160, 110 + numNeighbors * 14));
-
-    connectedNeighbors.forEach((neighborId, idx) => {
-      const origPos = nodePositions[neighborId] || focusPos;
-      const origAngle = Math.atan2(origPos.y - focusPos.y, origPos.x - focusPos.x);
-      const distributedAngle = (idx / numNeighbors) * Math.PI * 2 - Math.PI / 2;
-      const targetAngle = numNeighbors <= 3 ? origAngle : (origAngle * 0.35 + distributedAngle * 0.65);
-
-      dynamicPositions[neighborId] = {
-        x: Math.max(70, Math.min(CANVAS_WIDTH - 70, focusPos.x + Math.cos(targetAngle) * orbitRadius)),
-        y: Math.max(50, Math.min(CANVAS_HEIGHT - 50, focusPos.y + Math.sin(targetAngle) * orbitRadius))
-      };
-    });
-
-    return dynamicPositions;
-  }, [activeFocusFactionId, connectedFactionIds, nodePositions]);
 
   // Active Focus Faction Object & Relationships List
   const activeFocusFaction = useMemo(() => {

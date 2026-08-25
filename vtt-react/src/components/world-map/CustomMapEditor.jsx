@@ -423,7 +423,7 @@ const CustomMapEditor = ({
                           <span className="outliner-swatch" style={{ background: zone.color || '#9c27b0' }}></span>
                           <div className="outliner-info">
                             <strong>{zone.name || 'Unnamed Continent'}</strong>
-                            <small>{zone.points?.length || 0} pts {zone.lore ? '· 📖 Lore added' : ''}</small>
+                            <small>{zone.points?.length || 0} pts {zone.lore ? '· Lore added' : ''}</small>
                           </div>
                         </div>
                         <div className="outliner-card-actions">
@@ -466,7 +466,7 @@ const CustomMapEditor = ({
                             <small>
                               {zone.points?.length || 0} pts
                               {zone.parentId && parentName(zone.parentId) ? ` · in ${parentName(zone.parentId)}` : ''}
-                              {zone.lore ? ' · 📖' : ''}
+                              {zone.lore ? ' · (Lore)' : ''}
                             </small>
                           </div>
                         </div>
@@ -510,7 +510,7 @@ const CustomMapEditor = ({
                             <small>
                               {zone.points?.length || 0} pts
                               {zone.parentId && parentName(zone.parentId) ? ` · in ${parentName(zone.parentId)}` : ''}
-                              {zone.lore ? ' · 📖' : ''}
+                              {zone.lore ? ' · (Lore)' : ''}
                             </small>
                           </div>
                         </div>
@@ -553,7 +553,7 @@ const CustomMapEditor = ({
                             <strong>{zone.name || 'Unnamed Location'}</strong>
                             <small>
                               {zone.parentId && parentName(zone.parentId) ? `In ${parentName(zone.parentId)}` : 'World Landmark'}
-                              {zone.lore ? ' · 📖' : ''}
+                              {zone.lore ? ' · (Lore)' : ''}
                             </small>
                           </div>
                         </div>

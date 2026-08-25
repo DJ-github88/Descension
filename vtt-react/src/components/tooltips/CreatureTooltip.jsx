@@ -146,7 +146,7 @@ const CreatureTooltip = ({
                 {specialMove.map((move, i) => (
                   <div key={i} className="tt-special-move">
                     <span className="tt-special-move-icon">
-                      {move.type === 'fly' ? '🦅' : '🌊'}
+                      {move.type === 'fly' ? <i className="fas fa-feather-pointed"></i> : <i className="fas fa-water"></i>}
                     </span>
                     <span className="tt-special-move-label">
                       {move.type === 'fly' ? 'Fly' : 'Swim'}
@@ -221,7 +221,7 @@ const CreatureTooltip = ({
             {/* Combat status */}
             {isInCombat && combatInfo && (
               <div className={`tt-combat-status ${combatInfo.isMyTurn ? 'my-turn' : ''}`}>
-                {combatInfo.isMyTurn ? '⚔ Current Turn' : '⏳ Waiting'}
+                {combatInfo.isMyTurn ? 'Current Turn' : 'Waiting'}
               </div>
             )}
           </>

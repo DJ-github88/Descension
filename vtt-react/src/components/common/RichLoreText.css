@@ -4,9 +4,10 @@
 
 .rich-lore-container {
   color: #e6ded2;
-  font-family: -apple-system, BlinkMacSystemFont, 'Cinzel', 'Segoe UI', Roboto, serif;
-  font-size: 14px;
-  line-height: 1.6;
+  font-family: 'Spectral', 'Crimson Text', Georgia, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, serif;
+  font-size: 15px;
+  line-height: 1.65;
+  text-transform: none;
 }
 
 .rich-h1 {
@@ -27,20 +28,28 @@
 }
 
 .rich-h3 {
+  font-family: 'Cinzel', serif;
   color: #a89f91;
   font-size: 1.05rem;
   margin: 10px 0 4px 0;
 }
 
 .rich-paragraph {
-  margin: 0 0 10px 0;
+  margin: 0 0 12px 0;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-transform: none;
 }
 
 .rich-list-item {
   margin-left: 20px;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   list-style-type: square;
-  color: #d8cebf;
+  color: inherit;
+  font-family: inherit;
+  text-transform: none;
 }
 
 .rich-spacer {
@@ -49,7 +58,7 @@
 
 .rich-bold {
   color: #fff;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .rich-italic {
@@ -73,6 +82,97 @@
 .rich-strike {
   color: #888;
   text-decoration: line-through;
+}
+
+/* ==========================================================================
+   Parchment Light Mode Theme (Journal, Manuscript & World Pages)
+   ========================================================================== */
+.rich-lore-container.parchment-theme,
+.parchment-theme .rich-lore-container,
+.manuscript-parchment-sheet .rich-lore-container {
+  color: #2b1408 !important;
+  font-family: 'Crimson Text', 'Spectral', Georgia, serif !important;
+  font-size: 16px !important;
+  line-height: 1.75 !important;
+  text-transform: none !important;
+}
+
+.rich-lore-container.parchment-theme .rich-paragraph,
+.parchment-theme .rich-lore-container .rich-paragraph,
+.manuscript-parchment-sheet .rich-lore-container .rich-paragraph {
+  color: #2b1408 !important;
+  font-family: 'Crimson Text', 'Spectral', Georgia, serif !important;
+  font-size: 16px !important;
+  line-height: 1.75 !important;
+  text-transform: none !important;
+  margin: 0 0 12px 0 !important;
+}
+
+.rich-lore-container.parchment-theme .rich-h1,
+.parchment-theme .rich-lore-container .rich-h1,
+.manuscript-parchment-sheet .rich-lore-container .rich-h1 {
+  font-family: 'Cinzel', serif !important;
+  color: #3d1c0b !important;
+  font-size: 1.45rem !important;
+  border-bottom: 2px solid #8b5a1a !important;
+  text-shadow: none !important;
+  margin: 18px 0 10px 0 !important;
+}
+
+.rich-lore-container.parchment-theme .rich-h2,
+.parchment-theme .rich-lore-container .rich-h2,
+.manuscript-parchment-sheet .rich-lore-container .rich-h2 {
+  font-family: 'Cinzel', serif !important;
+  color: #5a2e12 !important;
+  font-size: 1.25rem !important;
+  text-shadow: none !important;
+  margin: 14px 0 8px 0 !important;
+}
+
+.rich-lore-container.parchment-theme .rich-h3,
+.parchment-theme .rich-lore-container .rich-h3,
+.manuscript-parchment-sheet .rich-lore-container .rich-h3 {
+  font-family: 'Cinzel', serif !important;
+  color: #79431f !important;
+  font-size: 1.1rem !important;
+  text-shadow: none !important;
+  margin: 12px 0 6px 0 !important;
+}
+
+.rich-lore-container.parchment-theme .rich-bold,
+.parchment-theme .rich-lore-container .rich-bold,
+.manuscript-parchment-sheet .rich-lore-container .rich-bold {
+  color: #1a0a03 !important;
+  font-weight: 700 !important;
+}
+
+.rich-lore-container.parchment-theme .rich-italic,
+.parchment-theme .rich-lore-container .rich-italic,
+.manuscript-parchment-sheet .rich-lore-container .rich-italic {
+  color: #6a3a1b !important;
+  font-style: italic !important;
+}
+
+.rich-lore-container.parchment-theme .rich-list-item,
+.parchment-theme .rich-lore-container .rich-list-item,
+.manuscript-parchment-sheet .rich-lore-container .rich-list-item {
+  color: #2b1408 !important;
+}
+
+.rich-lore-container.parchment-theme .rich-wikilink,
+.parchment-theme .rich-lore-container .rich-wikilink,
+.manuscript-parchment-sheet .rich-lore-container .rich-wikilink {
+  background: rgba(139, 69, 19, 0.08) !important;
+  color: #8b4513 !important;
+  border: 1px solid rgba(139, 69, 19, 0.35) !important;
+}
+
+.rich-lore-container.parchment-theme .rich-wikilink:hover,
+.parchment-theme .rich-lore-container .rich-wikilink:hover,
+.manuscript-parchment-sheet .rich-lore-container .rich-wikilink:hover {
+  background: rgba(139, 69, 19, 0.18) !important;
+  color: #4a1f05 !important;
+  border-color: #8b4513 !important;
 }
 
 /* ── [[WikiLinks]] ── */

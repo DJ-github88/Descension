@@ -1294,7 +1294,8 @@
   grid-column: 1 / -1;
 }
 
-.empty-state i {
+.empty-state > i,
+.empty-state-icon {
   font-size: 3.5rem;
   color: #a08c70;
   margin-bottom: 20px;
@@ -1302,6 +1303,15 @@
   /* Fixed z-index for icons */
   position: relative;
   z-index: 1;
+}
+
+.empty-state button i,
+.empty-state .add-btn i,
+.empty-state .campaign-add-btn i {
+  font-size: 0.85rem !important;
+  margin-bottom: 0 !important;
+  opacity: 1 !important;
+  position: static !important;
 }
 
 .empty-state p {
@@ -3128,6 +3138,28 @@
   color: #fff;
 }
 
+.campaign-lineage-delete-btn {
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.4);
+  color: #c0392b;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+
+.campaign-lineage-delete-btn:hover {
+  background: #c0392b;
+  border-color: #962d22;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
 /* ============ HOMEBREW BEIGE PATHFINDER STYLING ============ */
 .campaign-parchment-card,
 .content-card.monster-card,
@@ -4113,6 +4145,91 @@
   border-bottom: 1.5px solid rgba(139, 69, 19, 0.2);
 }
 
+.session-dossier-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.session-date-input {
+  height: 36px;
+  min-height: 36px;
+  max-height: 36px;
+  padding: 6px 10px;
+  border: 1.5px solid #c8b9a1;
+  border-radius: 7px;
+  font-family: 'Crimson Text', serif;
+  font-size: 14px;
+  background: #ffffff;
+  color: #2d1810;
+  width: 140px;
+  max-width: 140px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.session-date-input:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.18);
+}
+
+.session-status-select {
+  height: 36px;
+  min-height: 36px;
+  max-height: 36px;
+  padding: 6px 12px;
+  border: 1.5px solid #c8b9a1;
+  border-radius: 7px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: #ffffff;
+  color: #2d1810;
+  width: auto;
+  min-width: 110px;
+  max-width: 130px;
+  flex-shrink: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.session-status-select:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.18);
+}
+
+.session-status-select.planned {
+  border-color: rgba(33, 150, 243, 0.4);
+  color: #1976d2;
+  background: rgba(33, 150, 243, 0.06);
+}
+
+.session-status-select.in-progress {
+  border-color: rgba(255, 152, 0, 0.5);
+  color: #ef6c00;
+  background: rgba(255, 152, 0, 0.08);
+}
+
+.session-status-select.completed {
+  border-color: rgba(76, 175, 80, 0.5);
+  color: #2e7d32;
+  background: rgba(76, 175, 80, 0.08);
+}
+
+.session-dossier-header .remove-card-btn,
+.session-remove-btn {
+  height: 36px;
+  width: 36px;
+  min-width: 36px;
+  margin-top: 0;
+  align-self: center;
+}
+
 .session-dossier-badge {
   background: #8b4513;
   color: #fdfbf7;
@@ -4750,49 +4867,54 @@
 }
 
 .location-card-subtabs-strip {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   background: rgba(139, 69, 19, 0.06);
   border: 1px solid rgba(139, 69, 19, 0.18);
-  border-radius: 6px;
-  padding: 2px;
-  gap: 2px;
+  border-radius: 8px;
+  padding: 4px;
+  gap: 4px;
   margin: 10px 0 12px 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.location-card-subtabs-strip::-webkit-scrollbar {
-  display: none;
 }
 
 .loc-subtab-btn {
-  background: transparent;
-  border: none;
-  color: #8b5a1a;
-  padding: 4px 8px;
-  font-size: 0.68rem;
-  font-weight: 700;
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(139, 69, 19, 0.15);
+  color: #7c4a16;
+  padding: 5px 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 5px;
   cursor: pointer;
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   transition: all 0.15s ease;
   font-family: inherit;
   white-space: nowrap;
+  line-height: 1.2;
+}
+
+.loc-subtab-btn i {
+  font-size: 0.72rem;
   line-height: 1;
+  display: inline-block;
+  flex-shrink: 0;
 }
 
 .loc-subtab-btn:hover {
-  background: rgba(197, 155, 63, 0.2);
+  background: rgba(197, 155, 63, 0.25);
+  border-color: rgba(197, 155, 63, 0.5);
   color: #5a2e10;
 }
 
 .loc-subtab-btn.active {
   background: #c59b3f;
+  border-color: #a87f28;
   color: #1a0f05;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 .loc-quick-entity-bar {
@@ -5096,3 +5218,659 @@
   flex-direction: column;
   gap: 12px;
 }
+
+/* ==========================================================================
+   PLOT THREAD MANAGEMENT & THREAD FLOW (STORY LOOM) STYLING
+   ========================================================================== */
+
+/* Mode Switcher & Filter Controls */
+.plot-toolbar-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(145deg, #fdfbf7 0%, #f4eee1 100%);
+  border: 1px solid rgba(139, 69, 19, 0.25);
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.plot-view-modes {
+  display: inline-flex;
+  background: #ede3d1;
+  padding: 3px;
+  border-radius: 6px;
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  gap: 3px;
+}
+
+.plot-view-btn {
+  background: transparent;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #6b4c35;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.plot-view-btn:hover {
+  color: #2d1810;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.plot-view-btn.active {
+  background: #8b4513;
+  color: #fdfbf7;
+  box-shadow: 0 2px 4px rgba(139, 69, 19, 0.3);
+}
+
+.plot-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.plot-filter-select {
+  background: #fdfbf7;
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.85rem;
+  color: #2d1810;
+  outline: none;
+  cursor: pointer;
+}
+
+.plot-filter-select:focus {
+  border-color: #8b4513;
+}
+
+/* Thread Flow Layout (Story Loom / Timeline View) */
+.plot-thread-flow-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.plot-thread-lane {
+  background: linear-gradient(145deg, #fdfbf7 0%, #f7f2e7 60%, #f3ebdb 100%);
+  border: 1.5px solid rgba(139, 69, 19, 0.3);
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.2s ease;
+}
+
+.plot-thread-lane:hover {
+  border-color: rgba(139, 69, 19, 0.55);
+}
+
+.plot-thread-hero {
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(237, 227, 209, 0.8) 0%, rgba(245, 238, 225, 0.5) 100%);
+  border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.plot-thread-hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.plot-thread-type-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+}
+
+.plot-thread-type-pill.type-main {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: #d4af37;
+  color: #8c6d12;
+}
+
+.plot-thread-type-pill.type-character {
+  background: rgba(155, 89, 182, 0.15);
+  border-color: #9b59b6;
+  color: #732d91;
+}
+
+.plot-thread-type-pill.type-faction {
+  background: rgba(52, 152, 219, 0.15);
+  border-color: #3498db;
+  color: #1f618d;
+}
+
+.plot-thread-type-pill.type-world {
+  background: rgba(231, 76, 60, 0.15);
+  border-color: #e74c3c;
+  color: #922b21;
+}
+
+.plot-thread-type-pill.type-side {
+  background: rgba(46, 204, 113, 0.15);
+  border-color: #2ecc71;
+  color: #1e8449;
+}
+
+.plot-thread-title-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.plot-thread-title-input {
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2d1810;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin-left: -6px;
+  transition: all 0.15s ease;
+  width: 100%;
+}
+
+.plot-thread-title-input:hover {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(139, 69, 19, 0.2);
+}
+
+.plot-thread-title-input:focus {
+  background: #ffffff;
+  border-color: #8b4513;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.15);
+}
+
+.plot-thread-summary-input {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  color: #5a3010;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 4px 6px;
+  margin-left: -6px;
+  resize: vertical;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.plot-thread-summary-input:hover {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(139, 69, 19, 0.2);
+}
+
+.plot-thread-summary-input:focus {
+  background: #ffffff;
+  border-color: #8b4513;
+  outline: none;
+}
+
+.plot-thread-progress-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(139, 69, 19, 0.15);
+  border-radius: 6px;
+  padding: 6px 12px;
+}
+
+.plot-thread-progress-bar-bg {
+  flex: 1;
+  height: 8px;
+  background: #e0d5c1;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+.plot-thread-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #d4af37 0%, #27ae60 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.plot-thread-progress-text {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #5a3010;
+  white-space: nowrap;
+}
+
+.plot-thread-stats-ribbon {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.plot-thread-stat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #fdfbf7;
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 0.72rem;
+  color: #4a2c16;
+  font-weight: 600;
+}
+
+.plot-thread-stat-badge i {
+  color: #d4af37;
+}
+
+/* The Narrative Loom Spine (Visual Thread Timeline) */
+.plot-thread-spine-container {
+  padding: 20px 24px 24px 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.plot-thread-spine-line {
+  position: absolute;
+  top: 30px;
+  bottom: 40px;
+  left: 42px;
+  width: 3px;
+  background: linear-gradient(180deg, #d4af37 0%, #8b4513 50%, #c0392b 100%);
+  border-radius: 2px;
+  z-index: 1;
+  box-shadow: 0 0 4px rgba(212, 175, 55, 0.4);
+}
+
+.plot-beat-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.plot-beat-marker {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #fdfbf7;
+  border: 2.5px solid #8b4513;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #5a3010;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.plot-beat-marker:hover {
+  transform: scale(1.1);
+}
+
+.plot-beat-marker.status-completed {
+  background: #27ae60;
+  border-color: #1e8449;
+  color: #ffffff;
+  box-shadow: 0 0 8px rgba(39, 174, 96, 0.4);
+}
+
+.plot-beat-marker.status-active {
+  background: #d4af37;
+  border-color: #8c6d12;
+  color: #1a0f05;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+  animation: pulseBeatMarker 2s infinite ease-in-out;
+}
+
+.plot-beat-marker.status-failed {
+  background: #c0392b;
+  border-color: #922b21;
+  color: #ffffff;
+}
+
+@keyframes pulseBeatMarker {
+  0%, 100% { box-shadow: 0 0 6px rgba(212, 175, 55, 0.4); }
+  50% { box-shadow: 0 0 12px rgba(212, 175, 55, 0.8); }
+}
+
+.plot-beat-card {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid rgba(139, 69, 19, 0.25);
+  border-radius: 8px;
+  padding: 12px 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.plot-beat-card:hover {
+  border-color: rgba(139, 69, 19, 0.5);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.plot-beat-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.plot-beat-type-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+}
+
+.plot-beat-type-tag.type-hook {
+  background: rgba(243, 156, 18, 0.15);
+  border-color: #f39c12;
+  color: #b95c00;
+}
+
+.plot-beat-type-tag.type-clue {
+  background: rgba(52, 152, 219, 0.15);
+  border-color: #3498db;
+  color: #1f618d;
+}
+
+.plot-beat-type-tag.type-encounter {
+  background: rgba(231, 76, 60, 0.15);
+  border-color: #e74c3c;
+  color: #922b21;
+}
+
+.plot-beat-type-tag.type-revelation {
+  background: rgba(155, 89, 182, 0.15);
+  border-color: #9b59b6;
+  color: #732d91;
+}
+
+.plot-beat-type-tag.type-decision {
+  background: rgba(230, 126, 34, 0.15);
+  border-color: #e67e22;
+  color: #a04000;
+}
+
+.plot-beat-type-tag.type-climax {
+  background: rgba(192, 57, 43, 0.18);
+  border-color: #c0392b;
+  color: #78281f;
+  font-weight: 800;
+}
+
+.plot-beat-type-tag.type-resolution {
+  background: rgba(46, 204, 113, 0.15);
+  border-color: #2ecc71;
+  color: #1e8449;
+}
+
+.plot-beat-title-input {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #2d1810;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 3px 6px;
+  background: transparent;
+  flex: 1;
+}
+
+.plot-beat-title-input:hover {
+  background: #fdfbf7;
+  border-color: rgba(139, 69, 19, 0.2);
+}
+
+.plot-beat-title-input:focus {
+  background: #ffffff;
+  border-color: #8b4513;
+  outline: none;
+}
+
+.plot-beat-desc-input {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.88rem;
+  color: #4a2c16;
+  border: 1px solid rgba(139, 69, 19, 0.15);
+  border-radius: 4px;
+  padding: 6px 8px;
+  background: #fdfbf7;
+  resize: vertical;
+  min-height: 48px;
+  outline: none;
+}
+
+.plot-beat-desc-input:focus {
+  border-color: #8b4513;
+  background: #ffffff;
+}
+
+.plot-beat-entity-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding-top: 4px;
+  border-top: 1px dashed rgba(139, 69, 19, 0.15);
+}
+
+.plot-beat-entity-select {
+  background: #fdfbf7;
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  border-radius: 4px;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.76rem;
+  color: #4a2c16;
+  padding: 2px 6px;
+  cursor: pointer;
+  max-width: 180px;
+}
+
+.plot-beat-entity-select:focus {
+  border-color: #8b4513;
+  outline: none;
+}
+
+.plot-beat-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.plot-beat-btn-icon {
+  background: transparent;
+  border: none;
+  color: #8b5a1a;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  transition: all 0.15s ease;
+}
+
+.plot-beat-btn-icon:hover {
+  background: rgba(139, 69, 19, 0.1);
+  color: #2d1810;
+}
+
+.plot-beat-btn-icon.danger:hover {
+  background: rgba(192, 57, 43, 0.15);
+  color: #c0392b;
+}
+
+.plot-add-beat-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+  margin-top: 4px;
+}
+
+.plot-add-beat-marker {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #fdfbf7;
+  border: 2px dashed rgba(139, 69, 19, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b5a1a;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.plot-add-beat-btn {
+  background: #fdfbf7;
+  border: 1.5px dashed rgba(139, 69, 19, 0.4);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #8b5a1a;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.plot-add-beat-btn:hover {
+  background: #d4af37;
+  border-color: #8b4513;
+  color: #1a0f05;
+  border-style: solid;
+  transform: translateY(-1px);
+}
+
+/* Card Subtabs for Plot Threads */
+.plot-card-subtabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+}
+
+.plot-card-subtab-btn {
+  background: transparent;
+  border: none;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #7a583e;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+
+.plot-card-subtab-btn:hover {
+  background: rgba(139, 69, 19, 0.08);
+  color: #2d1810;
+}
+
+.plot-card-subtab-btn.active {
+  background: #8b4513;
+  color: #fdfbf7;
+}
+
+/* Story Web / Matrix Table View */
+.plot-matrix-container {
+  background: #fdfbf7;
+  border: 1.5px solid rgba(139, 69, 19, 0.3);
+  border-radius: 10px;
+  overflow-x: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.plot-matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.88rem;
+}
+
+.plot-matrix-table th {
+  background: linear-gradient(135deg, #f7f1e4 0%, #ebe0cd 100%);
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: #2d1810;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1.5px solid rgba(139, 69, 19, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.plot-matrix-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.15);
+  color: #2d1810;
+  vertical-align: top;
+}
+
+.plot-matrix-table tr:hover {
+  background: rgba(212, 175, 55, 0.05);
+}
+

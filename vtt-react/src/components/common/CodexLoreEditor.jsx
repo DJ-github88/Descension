@@ -555,7 +555,7 @@ const CodexLoreEditor = ({
               </div>
             )}
             <div className="codex-preview-body">
-              <RichLoreText text={article.content || '*No content written yet. Use the editor to begin chronicle.*'} />
+              <RichLoreText text={article.content || '*No content written yet. Use the editor to begin chronicle.*'} className="parchment-theme" />
             </div>
           </div>
         )}

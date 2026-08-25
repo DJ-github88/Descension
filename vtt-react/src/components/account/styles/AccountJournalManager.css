@@ -777,27 +777,27 @@
 }
 
 .empty-hero-btn.btn-weaver {
-  background: linear-gradient(135deg, rgba(142, 68, 173, 0.25) 0%, rgba(91, 44, 111, 0.45) 100%) !important;
-  border: 1px solid rgba(155, 89, 182, 0.6) !important;
-  color: #e8daef !important;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(139, 69, 19, 0.25) 100%) !important;
+  border: 1px solid rgba(212, 175, 55, 0.45) !important;
+  color: #f5eed8 !important;
 }
 
 .empty-hero-btn.btn-weaver:hover {
-  background: rgba(142, 68, 173, 0.5) !important;
-  border-color: #bb8fce !important;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(139, 69, 19, 0.4) 100%) !important;
+  border-color: #d4af37 !important;
   color: #ffffff !important;
   transform: translateY(-1px) !important;
 }
 
 .empty-hero-btn.btn-backdrop {
-  background: linear-gradient(135deg, rgba(83, 151, 190, 0.2) 0%, rgba(40, 80, 110, 0.4) 100%) !important;
-  border: 1px solid rgba(83, 151, 190, 0.5) !important;
-  color: #d4e6f1 !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0.25) 100%) !important;
+  border: 1px solid rgba(139, 69, 19, 0.4) !important;
+  color: #e0d4c0 !important;
 }
 
 .empty-hero-btn.btn-backdrop:hover {
-  background: rgba(83, 151, 190, 0.45) !important;
-  border-color: #aed6f1 !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.35) 100%) !important;
+  border-color: #d4af37 !important;
   color: #ffffff !important;
   transform: translateY(-1px) !important;
 }
@@ -1743,8 +1743,8 @@
 
 /* Orb Editor Modal */
 .orb-editor-modal {
-  width: 580px !important;
-  max-width: 94vw !important;
+  width: 680px !important;
+  max-width: 95vw !important;
   max-height: 90vh !important;
   background: linear-gradient(160deg, #fbf7ee 0%, #f4ebd7 50%, #eadcc2 100%) !important;
   border: 2px solid #8b5a1a !important;
@@ -1759,38 +1759,46 @@
 }
 
 .orb-editor-modal.is-split-modal {
-  width: 960px !important;
-  max-width: 95vw !important;
+  width: 1020px !important;
+  max-width: 96vw !important;
 }
 
 /* Tab Bar Navigation */
 .orb-editor-tab-bar {
-  display: flex;
-  background: #2a160b;
-  border-bottom: 1.5px solid #8b5a1a;
-  padding: 0 16px;
-  gap: 6px;
-  overflow-x: auto;
+  display: flex !important;
+  background: #1c0e06 !important;
+  border-bottom: 1.5px solid #8b5a1a !important;
+  padding: 0 8px !important;
+  gap: 2px !important;
+  overflow-x: hidden !important;
+  scrollbar-width: none !important;
+  flex-wrap: nowrap !important;
+}
+
+.orb-editor-tab-bar::-webkit-scrollbar {
+  display: none !important;
 }
 
 .orb-tab-btn {
+  flex: 1 !important;
   background: transparent !important;
   border: none !important;
   border-bottom: 3px solid transparent !important;
   color: #cbb89d !important;
   font-family: 'Cinzel', serif !important;
-  font-size: 12px !important;
+  font-size: 11.5px !important;
   font-weight: 700 !important;
-  padding: 10px 14px !important;
+  padding: 10px 8px !important;
   cursor: pointer !important;
   display: inline-flex !important;
   align-items: center !important;
-  gap: 8px !important;
+  justify-content: center !important;
+  gap: 6px !important;
   transition: all 0.15s ease !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   text-shadow: none !important;
-  letter-spacing: 0.4px !important;
+  letter-spacing: 0.3px !important;
   white-space: nowrap !important;
 }
 
@@ -1802,7 +1810,7 @@
 .orb-tab-btn.active {
   color: #f5d77f !important;
   border-bottom-color: #d4af37 !important;
-  background: rgba(212, 175, 55, 0.12) !important;
+  background: rgba(212, 175, 55, 0.14) !important;
 }
 
 .orb-tab-indicator {
@@ -2551,47 +2559,269 @@
   text-decoration: underline;
 }
 
-/* Scoped Orb Editor Icon Grid (No black backgrounds!) */
+/* --- Orb Appearance Tab & Live Showcase --- */
+.orb-tab-appearance {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+}
+
+.orb-appearance-preview-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #241409 0%, #150903 100%);
+  border: 1.5px solid #d4af37;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.stage-glow-ambient {
+  position: absolute;
+  top: -30px;
+  left: 20px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(20px);
+}
+
+.orb-live-showcase-node {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #4a2d18 0%, #1c0d05 100%);
+  border: 2px solid #d4af37;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: #fdfbf7;
+  flex-shrink: 0;
+  z-index: 2;
+  transition: all 0.2s ease;
+  animation: orbNodePulse 3s infinite ease-in-out;
+}
+
+@keyframes orbNodePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+.orb-showcase-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.orb-showcase-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  z-index: 2;
+}
+
+.orb-showcase-title {
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fdfbf7;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.orb-showcase-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.showcase-badge-type {
+  font-family: 'Cinzel', serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #e6ded2;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  padding: 3px 8px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.showcase-badge-color {
+  font-family: 'Spectral', Georgia, serif;
+  font-size: 11px;
+  font-style: italic;
+  color: #d4af37;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  padding: 2px 8px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.color-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  box-shadow: 0 0 4px currentColor;
+}
+
+/* Custom Artwork Upload Box */
+.orb-appearance-field {
+  margin-bottom: 0 !important;
+}
+
+.orb-artwork-upload-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.orb-custom-upload-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #ffffff 0%, #fdfbf7 100%);
+  border: 1.5px solid #8b5a1a;
+  border-radius: 8px;
+  color: #4a240f;
+  font-family: 'Cinzel', serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(139, 69, 19, 0.12);
+  transition: all 0.15s ease;
+}
+
+.orb-custom-upload-btn:hover {
+  background: #fbf6ea;
+  border-color: #d4af37;
+  color: #2b1408;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+  transform: translateY(-1px);
+}
+
+.orb-artwork-clear-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: rgba(192, 57, 43, 0.1);
+  border: 1.5px solid rgba(192, 57, 43, 0.35);
+  border-radius: 8px;
+  color: #a93226;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.orb-artwork-clear-btn:hover {
+  background: rgba(192, 57, 43, 0.2);
+  border-color: #c0392b;
+  color: #922b21;
+}
+
+/* Scoped Orb Editor Icon Grid (6 columns x 4 rows) */
 .orb-editor-icon-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 8px;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.65);
-  border: 1.5px solid rgba(139, 69, 19, 0.22);
+  gap: 7px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1.5px solid rgba(139, 69, 19, 0.25);
   border-radius: 10px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .orb-editor-icon-btn {
-  width: 44px;
-  height: 44px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1.5px solid rgba(139, 69, 19, 0.25);
-  border-radius: 8px;
+  height: 42px;
+  background: #ffffff;
+  border: 1.5px solid rgba(139, 69, 19, 0.2);
+  border-radius: 7px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #5a1e12;
-  font-size: 16px;
+  font-size: 15px;
   transition: all 0.15s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .orb-editor-icon-btn:hover {
-  background: #fff;
-  border-color: #d4af37;
-  color: #8B4513;
+  background: #fdfbf7;
+  border-color: #8b5a1a;
+  color: #2b1408;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(139, 69, 19, 0.18);
+  box-shadow: 0 4px 10px rgba(139, 69, 19, 0.2);
 }
 
 .orb-editor-icon-btn.selected {
-  background: linear-gradient(135deg, #5c4e42 0%, #483c32 100%);
-  border: 2px solid #d4af37;
-  color: #d4af37;
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.4), 0 4px 10px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(135deg, #2b1509 0%, #150a04 100%) !important;
+  border: 2px solid #d4af37 !important;
+  color: #f5d77f !important;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.5), inset 0 0 6px rgba(212, 175, 55, 0.3) !important;
   transform: scale(1.08);
+}
+
+/* Luminous Aura Grid (2 rows of 6) */
+.orb-color-aura-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1.5px solid rgba(139, 69, 19, 0.25);
+  border-radius: 10px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.orb-color-aura-btn {
+  height: 38px;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.orb-color-aura-btn:hover {
+  transform: scale(1.1);
+  filter: brightness(1.15);
+}
+
+.orb-color-aura-btn.selected {
+  transform: scale(1.12);
+}
+
+.orb-color-check {
+  color: #ffffff;
+  font-size: 13px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 6px rgba(0, 0, 0, 0.8);
 }
 
 /* Note Image Attachment in Note Editor */
@@ -4703,6 +4933,8 @@
   border-top: 1.5px solid rgba(139, 69, 19, 0.25);
   gap: 12px;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 100;
 }
 
 .studio-footer-stats {
@@ -4738,6 +4970,12 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  position: relative;
+}
+
+.note-promote-dropdown-wrapper {
+  position: relative;
+  display: inline-flex;
 }
 
 .btn-studio-promote {
@@ -4762,18 +5000,18 @@
 
 .studio-promote-menu {
   position: absolute;
-  bottom: calc(100% + 6px);
+  bottom: calc(100% + 8px);
   left: 0;
-  background: linear-gradient(160deg, #3d2314 0%, #29160a 100%);
+  background: linear-gradient(160deg, #2b1509 0%, #150a04 100%);
   border: 2px solid #d4af37;
   border-radius: 8px;
-  padding: 6px;
-  min-width: 240px;
-  z-index: 1000;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  padding: 8px;
+  min-width: 270px;
+  z-index: 99999;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7), 0 0 18px rgba(212, 175, 55, 0.3);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 
 .studio-promote-menu button {
@@ -4867,12 +5105,9 @@
   background: #d4af37;
 }
 
-/* ==========================================================================
-   Obsidian Graph & Bi-Directional Links UI
-   ========================================================================== */
 .btn-vtt-physics {
-  background: linear-gradient(135deg, #4a235a 0%, #2e1138 100%) !important;
-  border: 1.5px solid #6c3483 !important;
+  background: linear-gradient(135deg, #2b1f14 0%, #1e150d 100%) !important;
+  border: 1.5px solid rgba(212, 175, 55, 0.4) !important;
   color: #fdfbf7 !important;
   font-family: 'Cinzel', serif !important;
   font-size: 11.5px !important;
@@ -4882,49 +5117,25 @@
   transition: all 0.15s ease !important;
 }
 .btn-vtt-physics span {
-  color: #ffffff !important;
+  color: #f5eed8 !important;
   font-weight: 700 !important;
 }
 .btn-vtt-physics i {
-  color: #f5d77f !important;
+  color: #d4af37 !important;
   font-size: 13px !important;
 }
 .btn-vtt-physics:hover {
-  background: linear-gradient(135deg, #6c3483 0%, #4a235a 100%) !important;
-  border-color: #bb8fce !important;
+  background: linear-gradient(135deg, #3d2b1c 0%, #2b1f14 100%) !important;
+  border-color: #d4af37 !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 12px rgba(108, 52, 131, 0.45) !important;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.35) !important;
   transform: translateY(-1px) !important;
 }
 .btn-vtt-physics.is-simulating {
-  background: linear-gradient(135deg, #7d3c98 0%, #512e5f 100%) !important;
-  box-shadow: 0 0 14px rgba(187, 143, 206, 0.6) !important;
-  border-color: #d7bde2 !important;
+  background: linear-gradient(135deg, #5a3d1c 0%, #3a2712 100%) !important;
+  box-shadow: 0 0 14px rgba(212, 175, 55, 0.6) !important;
+  border-color: #f5d77f !important;
   cursor: wait !important;
-}
-
-.btn-vtt-family {
-  background: linear-gradient(135deg, #d4af37 0%, #aa8014 100%) !important;
-  border-color: #8b6508 !important;
-  color: #1a0f05 !important;
-  font-weight: 700 !important;
-}
-.btn-vtt-family:hover {
-  background: linear-gradient(135deg, #f5d77f 0%, #d4af37 100%) !important;
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.45) !important;
-  transform: translateY(-1px) !important;
-}
-
-.btn-vtt-atlas-studio {
-  background: linear-gradient(135deg, #2980b9 0%, #1a5276 100%) !important;
-  border-color: #154360 !important;
-  color: #ffffff !important;
-  font-weight: 700 !important;
-}
-.btn-vtt-atlas-studio:hover {
-  background: linear-gradient(135deg, #3498db 0%, #2471a3 100%) !important;
-  box-shadow: 0 4px 12px rgba(41, 128, 185, 0.45) !important;
-  transform: translateY(-1px) !important;
 }
 
 .orb-graph-hero-card {

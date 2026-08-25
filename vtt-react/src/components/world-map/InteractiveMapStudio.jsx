@@ -1134,7 +1134,7 @@ const InteractiveMapStudio = () => {
                 ))}
                 <option disabled>──────────</option>
                 <option value="__new_custom__">+ Create Custom Map...</option>
-                <option value="__load_mythril__">✨ Use Mythril's World</option>
+                <option value="__load_mythril__">Use Mythril's World Map</option>
               </select>
             </div>
             <button

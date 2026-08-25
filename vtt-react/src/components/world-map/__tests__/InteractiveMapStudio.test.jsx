@@ -135,11 +135,10 @@ describe('Interactive Map Studio - Stays & Stop Numbering', () => {
     fireEvent.click(campaignBtn);
 
     // Sidebar should be open
-    expect(screen.getByText('Campaign & Journal Codex')).toBeInTheDocument();
     expect(screen.getByText('Quests')).toBeInTheDocument();
     expect(screen.getByText('NPCs')).toBeInTheDocument();
-    expect(screen.getByText('Factions & Lore')).toBeInTheDocument();
-    expect(screen.getByText('Journal & Notes')).toBeInTheDocument();
+    expect(screen.getByText('Factions')).toBeInTheDocument();
+    expect(screen.getByText('Journal')).toBeInTheDocument();
 
     // Click NPCs tab
     const npcsTab = screen.getByRole('button', { name: /NPCs/i });

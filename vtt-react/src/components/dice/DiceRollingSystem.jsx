@@ -106,41 +106,58 @@ const DiceRollingSystem = ({ hideSelectionBar = false }) => {
           const summed = exploded.reduce((s, e) => s + e.value, 0);
           const allRolls = exploded.flatMap((e) => e.rolls);
           const explodedAny = exploded.some((e) => e.exploded);
-          chosen = { value: summed, label: exploded.length > 1 ? allRolls.join(' + ') + ' = ' + summed : String(summed), rolls: allRolls, exploded: explodedAny, source: mode };
+          chosen = { 
+            value: summed, 
+            label: allRolls.length > 1 ? `${allRolls.join(' + ')} = ${summed}` : String(summed), 
+            rolls: allRolls, 
+            exploded: explodedAny, 
+            source: mode 
+          };
         } else {
           const sorted = [...exploded].sort((a, b) => a.value - b.value);
           // Keep the highest (advantage) or lowest (disadvantage). All other
           // dice are discarded and listed in the breakdown.
           const keepIdx = isAdv ? sorted.length - 1 : 0;
           const kept = sorted[keepIdx];
-          chosen = { value: kept.value, label: kept.rolls.length > 1 ? kept.rolls.join(' + ') + ' = ' + kept.value : String(kept.value), rolls: kept.rolls, exploded: kept.exploded, source: mode };
+          chosen = { 
+            value: kept.value, 
+            label: kept.rolls.length > 1 ? `${kept.rolls.join(' + ')} = ${kept.value}` : String(kept.value), 
+            rolls: kept.rolls, 
+            exploded: kept.exploded, 
+            source: mode 
+          };
           discarded = sorted.filter((_, i) => i !== keepIdx);
         }
 
-        // No auto-outcome: a 2 on a d4 isn't inherently a "failure" — the GM
-        // and player decide what the number means against the chosen DC. The
-        // chip just shows the rolled value; the breakdown message explains
-        // advantage/disadvantage + explosion.
-
+        const skillMod = typeof rollContext.modifier === 'number' ? rollContext.modifier : 0;
+        const finalTotal = chosen.value + skillMod;
         const modeLabel = MODE_LABEL[mode] || '';
         const discardedNote = discarded.length > 0
-          ? ` Kept ${chosen.value} over ${discarded.map((d) => d.value).join(', ')}.`
+          ? ` Kept ${chosen.value} over ${discarded.map((d) => d.rolls.length > 1 ? `(${d.rolls.join('+')}=${d.value})` : d.value).join(', ')}.`
           : '';
-        const message = `Rolled ${chosen.label} on d${dieSize}${chosen.exploded ? ' (exploded!)' : ''}${modeLabel}.${discardedNote}`;
+
+        // Precise mathematical breakdown
+        const dieMath = chosen.exploded
+          ? `d${dieSize} [${chosen.rolls.join(' + ')} (Exploded = ${chosen.value})]`
+          : `d${dieSize} [${chosen.value}]`;
+        const modMath = skillMod !== 0
+          ? ` + Mod (${skillMod >= 0 ? `+${skillMod}` : skillMod}) = ${finalTotal}`
+          : '';
+        const fullFormulaText = `${dieMath}${modMath}`;
+        const message = `Rolled ${finalTotal} • ${fullFormulaText}${modeLabel}.${discardedNote}`;
 
         // Save skill outcome to the Zustand store so PhysicsDiceScene renders it!
-        // type: 'rolled' is the neutral marker (no success/failure/crit styling).
         useDiceStore.setState({
           skillOutcome: {
             skillName,
             message,
-            flavor: '',
+            flavor: chosen.exploded ? `💥 Exploding Die! Rolled ${chosen.rolls.join(' + ')} = ${chosen.value}` : '',
             type: 'rolled',
-            mode: mode, // 'normal' | 'advantage' | 'double-advantage' | 'disadvantage' | 'double-disadvantage'
-            chosenValue: chosen.value,
-            // Kept for backward compat: first discarded value (if any).
+            mode: mode,
+            chosenValue: finalTotal,
+            rawDieValue: chosen.value,
+            dieMath: fullFormulaText,
             discardedValue: discarded[0]?.value ?? null,
-            // New: all discarded values for double modes.
             discardedValues: discarded.map((d) => d.value),
             dieSize
           }
@@ -151,7 +168,7 @@ const DiceRollingSystem = ({ hideSelectionBar = false }) => {
           id: `skill_roll_${Date.now()}`,
           type: 'combat_resource',
           attacker: characterName || 'Player',
-          message: `${characterName || 'Player'} rolled ${chosen.label} on d${dieSize} for ${skillName}${modeLabel}${discardedNote}!`,
+          message: `${characterName || 'Player'} rolled ${finalTotal} for ${skillName}: ${fullFormulaText}${modeLabel}${discardedNote}`,
           timestamp: new Date().toISOString()
         });
       } else if (rollType === 'table') {
@@ -184,7 +201,7 @@ const DiceRollingSystem = ({ hideSelectionBar = false }) => {
 
             let resultText = chosen.entry.result;
             if (skillId === 'weaponMastery') {
-              const faceText = WEAPON_FACE_TEXT[weaponType]?.[Math.min(8, Math.max(1, chosen.value))];
+              const faceText = WEAPON_FACE_TEXT[weaponType]?.[Math.min(20, Math.max(1, chosen.value))];
               resultText = faceText || chosen.entry.result;
             }
 

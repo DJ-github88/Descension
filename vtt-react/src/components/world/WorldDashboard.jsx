@@ -12,6 +12,7 @@ import ClassLoreDetail from './ClassLoreDetail';
 import CustomLineageWizard from './CustomLineageWizard';
 import ClassIcon from '../common/ClassIcon';
 import { TimelineView, MiniCalendar } from './TimelineView';
+import AccountMapManager from '../account/AccountMapManager';
 import { showPrompt } from '../../utils/dialogService';
 import './WorldDashboard.css';
 
@@ -170,6 +171,7 @@ const WorldDashboard = () => {
   const [factionViewMode, setFactionViewMode] = useState('chronicle'); // 'chronicle' | 'banner' | 'ledger'
   const [factionSortBy, setFactionSortBy] = useState('name'); // 'name' | 'region' | 'holdings' | 'allies' | 'rivals'
   const [searchFilter, setSearchFilter] = useState('');
+  const [lineageCategoryFilter, setLineageCategoryFilter] = useState('all'); // 'all' | 'canon' | 'custom'
   const [selectedClassArchetype, setSelectedClassArchetype] = useState('all');
   const [classSearchFilter, setClassSearchFilter] = useState('');
 
@@ -191,8 +193,8 @@ const WorldDashboard = () => {
     setView(VIEWS.FACTION);
   };
 
-  const navigateToClass = (clsId) => {
-    setSelectedClassId(clsId);
+  const navigateToClass = (classId) => {
+    setSelectedClassId(classId);
     setView(VIEWS.CLASS);
   };
 
@@ -283,11 +285,22 @@ const WorldDashboard = () => {
   }, [filteredFactions, factionSortBy]);
 
   // Filtered Lineages
-  const filteredLineages = allLineages.filter(l => 
-    !searchFilter || 
-    l.name.toLowerCase().includes(searchFilter.toLowerCase()) || 
-    (l.essence && l.essence.toLowerCase().includes(searchFilter.toLowerCase()))
-  );
+  const filteredLineages = useMemo(() => {
+    return allLineages.filter(l => {
+      if (lineageCategoryFilter === 'canon' && l.isCustom) return false;
+      if (lineageCategoryFilter === 'custom' && !l.isCustom) return false;
+      if (searchFilter.trim()) {
+        const q = searchFilter.toLowerCase();
+        const matchName = l.name?.toLowerCase().includes(q);
+        const matchEssence = l.essence?.toLowerCase().includes(q);
+        const matchDesc = (l.description || l.overview || l.cardFlavor)?.toLowerCase().includes(q);
+        const subracesList = l.subraces ? (Array.isArray(l.subraces) ? l.subraces : Object.values(l.subraces)) : [];
+        const matchSub = subracesList.some(s => s.name?.toLowerCase().includes(q) || s.description?.toLowerCase().includes(q));
+        if (!matchName && !matchEssence && !matchDesc && !matchSub) return false;
+      }
+      return true;
+    });
+  }, [allLineages, lineageCategoryFilter, searchFilter]);
 
   // --- Detail Views ---
   if (view === VIEWS.REGION && selectedRegionId) {
@@ -322,50 +335,165 @@ const WorldDashboard = () => {
 
   if (view === VIEWS.LINEAGE && selectedLineageId) {
     const lineage = getLineage(selectedLineageId);
-    return (
-      <div className="world-panel">
-        <div className="world-panel-header">
-          <button className="world-back-btn" onClick={navigateToDashboard}>← Dashboard</button>
-          <div>
-            <h2>{lineage?.name} {lineage?.isCustom && <span className="world-badge world-badge-custom">Custom Lineage</span>}</h2>
-            <span className="world-subtitle">{lineage?.essence || 'Lineage Profile'}</span>
+    if (!lineage) {
+      return (
+        <div className="world-panel animate-fade-in">
+          <div className="world-panel-header">
+            <button className="world-back-btn" onClick={navigateToDashboard}>← Dashboard</button>
+            <h2>Lineage Not Found</h2>
           </div>
-          {lineage?.isCustom && (
+        </div>
+      );
+    }
+
+    const baseTraits = lineage.baseTraits || {};
+    const subraces = lineage.subraces 
+      ? (Array.isArray(lineage.subraces) ? lineage.subraces : Object.values(lineage.subraces))
+      : [];
+    const notableFigures = lineage.notableFigures || [];
+
+    return (
+      <div className="world-panel animate-fade-in">
+        <div className="world-panel-header lineage-detail-hero">
+          <button className="world-back-btn" onClick={navigateToDashboard}>← Lineages &amp; Peoples</button>
+          <div className="lineage-detail-hero-title">
+            <div className="lineage-title-row">
+              <i className={`fas ${lineage.icon || 'fa-dna'} lineage-hero-icon`}></i>
+              <div>
+                <h2>
+                  {lineage.name} {lineage.isCustom ? <span className="world-badge world-badge-custom">Custom Species</span> : <span className="world-badge">Canon Lineage</span>}
+                </h2>
+                <span className="world-subtitle">{lineage.essence || 'Ancestral Lineage of Mythrill'}</span>
+              </div>
+            </div>
+          </div>
+          {lineage.isCustom && (
             <button 
-              className="world-action-btn"
+              className="world-action-btn primary"
               style={{ marginLeft: 'auto' }}
               onClick={() => openLineageWizard(lineage)}
             >
-              <i className="fas fa-edit"></i> Edit Lineage
+              <i className="fas fa-edit"></i> Edit Custom Lineage
             </button>
           )}
         </div>
-        <div className="world-tab-content">
-          <div className="world-section-stack">
-            <div className="world-section">
-              <h3>Essence & Overview</h3>
-              <p className="world-prose">{lineage?.description || lineage?.overview || lineage?.cardFlavor}</p>
+
+        <div className="world-tab-content lineage-detail-content">
+          {/* Vital Stats Strip */}
+          <div className="lineage-vital-strip">
+            <div className="vital-item">
+              <i className="fas fa-hourglass-half"></i>
+              <div>
+                <span className="vital-label">Lifespan</span>
+                <span className="vital-val">{baseTraits.lifespan || '70-100 years'}</span>
+              </div>
             </div>
-            {lineage?.culturalBackground && (
-              <div className="world-section">
-                <h3>Cultural Background & Traditions</h3>
-                <p className="world-prose">{lineage?.culturalBackground}</p>
+            <div className="vital-item">
+              <i className="fas fa-person-running"></i>
+              <div>
+                <span className="vital-label">Base Speed</span>
+                <span className="vital-val">{baseTraits.baseSpeed || 30} ft {baseTraits.swimSpeed ? `(Swim ${baseTraits.swimSpeed}ft)` : ''}</span>
+              </div>
+            </div>
+            <div className="vital-item">
+              <i className="fas fa-ruler-vertical"></i>
+              <div>
+                <span className="vital-label">Size &amp; Build</span>
+                <span className="vital-val">{baseTraits.size || 'Medium'} • {baseTraits.build || 'Standard'}</span>
+              </div>
+            </div>
+            <div className="vital-item">
+              <i className="fas fa-language"></i>
+              <div>
+                <span className="vital-label">Languages</span>
+                <span className="vital-val">{(baseTraits.languages || ['Common']).join(', ')}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="world-section-stack">
+            {/* Visual Description & Physiology */}
+            {lineage.visualDescription && (
+              <div className="world-section lineage-physio-box">
+                <h3><i className="fas fa-eye"></i> Physical Appearance &amp; Physiology</h3>
+                <p className="world-prose">{lineage.visualDescription}</p>
               </div>
             )}
-            {lineage?.meaningfulTradeoffs && (
+
+            {/* Overview & Essence */}
+            <div className="world-section">
+              <h3><i className="fas fa-feather-pointed"></i> Essence &amp; Overview</h3>
+              <p className="world-prose">{lineage.overview || lineage.description || lineage.cardFlavor}</p>
+            </div>
+
+            {/* Cultural Background & Living Traditions */}
+            {lineage.culturalBackground && (
+              <div className="world-section">
+                <h3><i className="fas fa-landmark"></i> Cultural Background &amp; Traditions</h3>
+                <p className="world-prose">{lineage.culturalBackground}</p>
+              </div>
+            )}
+
+            {/* Meaningful Tradeoffs / Mortal Flaw */}
+            {lineage.meaningfulTradeoffs && (
               <div className="world-section world-section-highlight">
-                <h3>Meaningful Tradeoff / Mortal Flaw</h3>
-                <p className="world-prose">{lineage?.meaningfulTradeoffs}</p>
+                <h3><i className="fas fa-triangle-exclamation"></i> Meaningful Tradeoff &amp; Mortal Flaw</h3>
+                <p className="world-prose">{lineage.meaningfulTradeoffs}</p>
               </div>
             )}
-            {lineage?.subraces && (
+
+            {/* Regional Bloodlines & Subraces */}
+            {subraces.length > 0 && (
               <div className="world-section">
-                <h3>Regional Bloodlines & Subraces</h3>
-                <div className="world-card-grid">
-                  {(Array.isArray(lineage.subraces) ? lineage.subraces : Object.values(lineage.subraces)).map((sub, i) => (
-                    <div key={i} className="world-info-card">
-                      <h4>{sub.name}</h4>
+                <h3><i className="fas fa-code-branch"></i> Regional Bloodlines &amp; Subraces ({subraces.length})</h3>
+                <div className="world-card-grid subraces-card-grid">
+                  {subraces.map((sub, i) => (
+                    <div key={i} className="world-info-card subrace-card">
+                      <div className="subrace-card-head">
+                        <i className="fas fa-dna subrace-icon"></i>
+                        <h4>{sub.name}</h4>
+                      </div>
                       <p className="world-card-meta">{sub.description}</p>
+                      {sub.perks && sub.perks.length > 0 && (
+                        <div className="subrace-perks-list">
+                          {sub.perks.map((p, pIdx) => (
+                            <span key={pIdx} className="subrace-perk-tag">{p}</span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Epic Ancestral History */}
+            {lineage.epicHistory && (
+              <div className="world-section">
+                <h3><i className="fas fa-book-atlas"></i> Epic Ancestral History &amp; Mythos</h3>
+                <div className="world-prose historical-prose">
+                  {lineage.epicHistory.split('\n\n').filter(Boolean).map((para, idx) => (
+                    <p key={idx}>{para.trim()}</p>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Notable Historical Figures */}
+            {notableFigures.length > 0 && (
+              <div className="world-section">
+                <h3><i className="fas fa-crown"></i> Legends of the Bloodline ({notableFigures.length})</h3>
+                <div className="world-card-grid notable-figures-grid">
+                  {notableFigures.map((fig, idx) => (
+                    <div key={idx} className="world-info-card figure-card">
+                      <div className="figure-card-head">
+                        <i className="fas fa-user-shield figure-icon"></i>
+                        <div>
+                          <h4>{fig.name}</h4>
+                          <span className="figure-title">{fig.title}</span>
+                        </div>
+                      </div>
+                      <p className="world-card-meta figure-backstory">{fig.backstory?.trim()}</p>
                     </div>
                   ))}
                 </div>
@@ -414,19 +542,19 @@ const WorldDashboard = () => {
           <span className="world-subtitle">Living World-Building &amp; Lore Engine</span>
         </div>
         <div className="world-header-stats-strip">
-          <div className="world-stat-pill" title="Explorable Continents &amp; Realms">
+          <div className="world-stat-pill" onClick={() => setActiveTab('regions')} style={{ cursor: 'pointer' }} title="Explorable Continents & Realms">
             <i className="fas fa-map-location-dot"></i> <span>{regions.length} Realms</span>
           </div>
-          <div className="world-stat-pill" title="Houses, Tribes, and Guilds">
+          <div className="world-stat-pill" onClick={() => setActiveTab('factions')} style={{ cursor: 'pointer' }} title="Houses, Tribes, and Guilds">
             <i className="fas fa-shield-halved"></i> <span>{factions.length} Factions</span>
           </div>
-          <div className="world-stat-pill" title="Ancestral Lineages">
+          <div className="world-stat-pill" onClick={() => setActiveTab('lineages')} style={{ cursor: 'pointer' }} title="Ancestral Lineages">
             <i className="fas fa-dna"></i> <span>{allLineages.length} Lineages</span>
           </div>
-          <div className="world-stat-pill" title="Combat &amp; Magic Traditions">
+          <div className="world-stat-pill" onClick={() => setActiveTab('classes')} style={{ cursor: 'pointer' }} title="Combat & Magic Traditions">
             <i className="fas fa-scroll"></i> <span>{classes.length} Traditions</span>
           </div>
-          <button className="world-timeline-hero-btn" onClick={navigateToTimeline} title="Inspect Continental Timeline">
+          <button className="world-timeline-hero-btn" onClick={() => setActiveTab('timeline')} title="Inspect Continental Timeline">
             <i className="fas fa-hourglass-half"></i> World Timeline
           </button>
         </div>
@@ -434,11 +562,12 @@ const WorldDashboard = () => {
 
       <div className="world-tabs">
         {[
-          { key: 'regions', label: `Regions (${regions.length})`, icon: 'fa-earth-americas' },
-          { key: 'factions', label: `Factions (${factions.length})`, icon: 'fa-shield-halved' },
+          { key: 'regions', label: `Realms (${regions.length})`, icon: 'fa-earth-americas' },
+          { key: 'timeline', label: 'Timeline & Epochs', icon: 'fa-hourglass-half' },
+          { key: 'factions', label: `Factions & Orders (${factions.length})`, icon: 'fa-shield-halved' },
           { key: 'lineages', label: `Lineages & Peoples (${allLineages.length})`, icon: 'fa-dna' },
-          { key: 'classes', label: `Classes (${classes.length})`, icon: 'fa-wand-magic-sparkles' },
-          { key: 'quicklinks', label: 'Quick Links', icon: 'fa-compass' }
+          { key: 'classes', label: `Traditions & Classes (${classes.length})`, icon: 'fa-wand-magic-sparkles' },
+          { key: 'atlas', label: 'World Atlas & Maps', icon: 'fa-map' }
         ].map((tab) => (
           <button
             key={tab.key}
@@ -496,6 +625,12 @@ const WorldDashboard = () => {
                 )}
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === 'timeline' && (
+          <div className="world-timeline-tab-container">
+            <TimelineView />
           </div>
         )}
 
@@ -572,11 +707,15 @@ const WorldDashboard = () => {
                   >
                     <i className="fas fa-scroll"></i> Ledger
                   </button>
+                  <button
+                    className={`btn-view-mode ${factionViewMode === 'graph' ? 'active' : ''}`}
+                    onClick={() => setFactionViewMode('graph')}
+                    title="Interactive Faction Relationship Web"
+                  >
+                    <i className="fas fa-project-diagram"></i> Relationship Web
+                  </button>
                 </div>
 
-                <button className="world-action-btn" onClick={navigateToGraph} title="View Faction Diplomatic Network Web">
-                  <i className="fas fa-project-diagram" /> Relationship Web
-                </button>
                 <button className="world-action-btn primary" onClick={handleAddFaction}>
                   <i className="fas fa-plus" /> Forge Faction
                 </button>
@@ -829,7 +968,7 @@ const WorldDashboard = () => {
                   );
                 })}
               </div>
-            ) : (
+            ) : factionViewMode === 'ledger' ? (
               /* --- 3. DIPLOMATIC LEDGER VIEW --- */
               <div className="world-factions-ledger-table-wrapper">
                 <table className="world-factions-ledger-table">
@@ -918,7 +1057,7 @@ const WorldDashboard = () => {
                               </button>
                               <button
                                 className="btn-ledger-action"
-                                onClick={() => { setSelectedFactionId(faction.id); navigateToGraph(); }}
+                                onClick={() => { setSelectedFactionId(faction.id); setFactionViewMode('graph'); }}
                                 title="View in Relationship Web"
                               >
                                 <i className="fas fa-project-diagram"></i>
@@ -931,54 +1070,116 @@ const WorldDashboard = () => {
                   </tbody>
                 </table>
               </div>
+            ) : (
+              /* --- 4. RELATIONSHIP WEB VIEW --- */
+              <div className="world-factions-inline-graph">
+                <FactionWebGraph onFactionClick={navigateToFaction} selectedFactionId={selectedFactionId} />
+              </div>
             )}
           </div>
         )}
 
         {activeTab === 'lineages' && (
-          <div>
-            <div className="world-section-actions" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <input
-                type="text"
-                className="world-search-input"
-                placeholder="Search lineages and peoples..."
-                value={searchFilter}
-                onChange={(e) => setSearchFilter(e.target.value)}
-                style={{
-                  background: '#141428',
-                  border: '1px solid #2a2a4a',
-                  borderRadius: '6px',
-                  padding: '8px 12px',
-                  color: '#fff',
-                  width: '260px'
-                }}
-              />
+          <div className="world-lineages-tab">
+            <div className="world-section-actions" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                <div className="lineages-search-wrapper" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                  <i className="fas fa-search" style={{ position: 'absolute', left: '12px', color: '#8b5a1a', pointerEvents: 'none' }}></i>
+                  <input
+                    type="text"
+                    className="world-search-input"
+                    placeholder="Search lineages, traits, and bloodlines..."
+                    value={searchFilter}
+                    onChange={(e) => setSearchFilter(e.target.value)}
+                    style={{
+                      background: '#fdfbf7',
+                      border: '1.5px solid #cdb592',
+                      borderRadius: '6px',
+                      padding: '8px 14px 8px 34px',
+                      color: '#2b1408',
+                      fontFamily: "'Spectral', Georgia, serif",
+                      fontSize: '13.5px',
+                      width: '280px',
+                      outline: 'none'
+                    }}
+                  />
+                </div>
+
+                {/* Category Filter Pills */}
+                <div className="world-category-pills" style={{ display: 'flex', gap: '6px' }}>
+                  {[
+                    { id: 'all', label: 'All Lineages', count: allLineages.length, icon: 'fa-dna' },
+                    { id: 'canon', label: 'Canon Bloodlines', count: allLineages.filter(l => !l.isCustom).length, icon: 'fa-landmark' },
+                    { id: 'custom', label: 'Custom Species', count: allLineages.filter(l => l.isCustom).length, icon: 'fa-hat-wizard' }
+                  ].map(cat => (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      className={`world-archetype-pill ${lineageCategoryFilter === cat.id ? 'active' : ''}`}
+                      onClick={() => setLineageCategoryFilter(cat.id)}
+                    >
+                      <i className={`fas ${cat.icon}`}></i>
+                      <span>{cat.label}</span>
+                      <span className="pill-count" style={{ opacity: 0.8, fontSize: '10px', marginLeft: '4px' }}>{cat.count}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <button className="world-action-btn primary" onClick={() => openLineageWizard()}>
                 <i className="fas fa-dna" /> + Forge Custom Lineage
               </button>
             </div>
 
             <div className="world-card-grid">
-              {filteredLineages.map((lineage) => (
-                <div
-                  key={lineage.id}
-                  className="world-info-card world-clickable lineage-card"
-                  onClick={() => navigateToLineage(lineage.id)}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <h4>{lineage.name}</h4>
-                    {lineage.isCustom ? (
-                      <span className="world-badge world-badge-custom">Custom</span>
-                    ) : (
-                      <span className="world-badge">Canon</span>
-                    )}
+              {filteredLineages.map((lineage) => {
+                const baseTraits = lineage.baseTraits || {};
+                const subraces = lineage.subraces 
+                  ? (Array.isArray(lineage.subraces) ? lineage.subraces : Object.values(lineage.subraces))
+                  : [];
+
+                return (
+                  <div
+                    key={lineage.id}
+                    className="lineage-rich-card world-clickable"
+                    onClick={() => navigateToLineage(lineage.id)}
+                  >
+                    <div className="lineage-card-header">
+                      <div>
+                        <h4>{lineage.name}</h4>
+                        <span className="lineage-card-essence">{lineage.essence || 'Ancestral Bloodline'}</span>
+                      </div>
+                      {lineage.isCustom ? (
+                        <span className="world-badge world-badge-custom">Custom</span>
+                      ) : (
+                        <span className="world-badge">Canon</span>
+                      )}
+                    </div>
+                    
+                    <p className="world-card-meta" style={{ margin: '4px 0', fontSize: '12.5px', color: '#4a2810', lineHeight: 1.5 }}>
+                      {lineage.cardFlavor || (lineage.description ? lineage.description.slice(0, 120) + '...' : 'An ancient lineage of Mythrill.')}
+                    </p>
+
+                    <div className="lineage-card-stats-strip">
+                      {baseTraits.lifespan && (
+                        <span className="lineage-card-stat-pill">
+                          <i className="fas fa-hourglass-half"></i> {baseTraits.lifespan}
+                        </span>
+                      )}
+                      {baseTraits.baseSpeed && (
+                        <span className="lineage-card-stat-pill">
+                          <i className="fas fa-person-running"></i> {baseTraits.baseSpeed}ft
+                        </span>
+                      )}
+                      {subraces.length > 0 && (
+                        <span className="lineage-card-stat-pill" style={{ background: '#f0e6d6', color: '#8b5a1a' }}>
+                          <i className="fas fa-code-branch"></i> {subraces.length} Bloodlines
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <span className="lineage-card-essence">{lineage.essence || 'The Unbound'}</span>
-                  <p className="world-card-meta">
-                    {lineage.cardFlavor || lineage.description?.slice(0, 110) + '...'}
-                  </p>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
@@ -1117,24 +1318,9 @@ const WorldDashboard = () => {
           </div>
         )}
 
-        {activeTab === 'quicklinks' && (
-          <div className="world-quick-links">
-            <button className="world-quick-link" onClick={navigateToGraph}>
-              <i className="fas fa-project-diagram" />
-              <span>Faction Relationship Web</span>
-              <small>Interactive graph of all faction alliances, rivalries, and secret pacts</small>
-            </button>
-            <button className="world-quick-link" onClick={navigateToTimeline}>
-              <i className="fas fa-history" />
-              <span>World Timeline</span>
-              <small>Chronological history from the Star-Fall to the present age</small>
-            </button>
-            <button className="world-quick-link" onClick={() => openLineageWizard()}>
-              <i className="fas fa-dna" />
-              <span>Forge Custom Lineage</span>
-              <small>Create a new playable species integrated into Character Creation</small>
-            </button>
-            <MiniCalendar />
+        {activeTab === 'atlas' && (
+          <div className="world-atlas-tab-container">
+            <AccountMapManager />
           </div>
         )}
       </div>

@@ -558,7 +558,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
     const filterWeaponTypeResult = (resultText, rollFace = 1) => {
         if (!resultText) return '';
         const profIndex = Math.max(0, PROFICIENCY_ORDER.indexOf(selectedProficiency));
-        const clampedRoll = Math.min(8, Math.max(1, rollFace));
+        const clampedRoll = Math.min(20, Math.max(1, rollFace));
         const template = WEAPON_MASTERY_EFFECTS[profIndex]?.[clampedRoll - 1];
         const flavor = WEAPON_FLAVOR[selectedWeaponType] || { weapon: 'weapon', part: 'grip', verb: 'strike' };
         const flavorize = (text) =>

@@ -1,9 +1,11 @@
-﻿import {
+import {
   normalizeEquipment,
   createEmptyEquipment,
   EQUIPMENT_SLOT_KEYS,
   createEquipmentItem,
-  createInventoryItem
+  createInventoryItem,
+  getCompatibleSlots,
+  isTwoHandedWeapon
 } from '../equipmentUtils';
 
 describe('equipmentUtils', () => {
@@ -74,6 +76,32 @@ describe('equipmentUtils', () => {
       expect(normalized.mainHand.id).toBe('w1');
       expect(normalized.ring1.id).toBe('r1');
       expect(normalized.chest).toBeNull();
+    });
+  });
+
+  describe('getCompatibleSlots', () => {
+    it('correctly maps wand to ranged slot', () => {
+      const wand = { id: 'w1', name: 'Apprentice Wand', type: 'weapon', subtype: 'wand' };
+      expect(getCompatibleSlots(wand)).toEqual(['ranged']);
+    });
+
+    it('correctly maps bow and crossbow to ranged slot', () => {
+      const bow = { id: 'b1', name: 'Longbow', type: 'weapon', subtype: 'bow' };
+      const xbow = { id: 'x1', name: 'Crossbow', type: 'weapon', subtype: 'crossbow' };
+      expect(getCompatibleSlots(bow)).toEqual(['ranged']);
+      expect(getCompatibleSlots(xbow)).toEqual(['ranged']);
+    });
+
+    it('maps two-handed weapons to mainHand only', () => {
+      const staff = { id: 's1', name: 'Archmage Staff', type: 'weapon', subtype: 'staff' };
+      const greatsword = { id: 'g1', name: 'Claymore', type: 'weapon', subtype: 'greatsword' };
+      expect(getCompatibleSlots(staff)).toEqual(['mainHand']);
+      expect(getCompatibleSlots(greatsword)).toEqual(['mainHand']);
+    });
+
+    it('maps one-handed weapons to either hand', () => {
+      const sword = { id: 's1', name: 'Shortsword', type: 'weapon', subtype: 'sword', weaponSlot: 'ONE_HANDED', hand: 'ONE_HAND' };
+      expect(getCompatibleSlots(sword)).toEqual(['mainHand', 'offHand']);
     });
   });
 });

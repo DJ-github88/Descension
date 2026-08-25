@@ -1317,52 +1317,6 @@ function createPhysicsBody(geom) {
   return shape;
 }
 
-// "Finish the topple" settle assist. When a die is arrested nearly-flat, the
-// real world would let it fall the last few degrees onto its face. This
-// computes the shortest-arc rotation that brings the winning face (d4: the
-// winning vertex) to point straight up — preserving the die's own yaw and
-// x/z position — plus the exact flat rest height. The tiny slerp reads as
-// the die completing its fall, NOT a presentation snap. Returns null when
-// the die is already flat enough (or on timeout-freak orientations, where
-// the caller just reads the closest face).
-function computeSettleAssist(die) {
-  const { diceObj, type, body } = die;
-  const q = new THREE.Quaternion(body.quaternion.x, body.quaternion.y, body.quaternion.z, body.quaternion.w);
-  const UP = new THREE.Vector3(0, 1, 0);
-
-  if (type === 'd4') {
-    let bestV = null, bestY = -Infinity;
-    diceObj.d4Verts.forEach(v => {
-      const wy = v.clone().applyQuaternion(q).y;
-      if (wy > bestY) { bestY = wy; bestV = v; }
-    });
-    if (!bestV) return null;
-    const vDir = bestV.clone().normalize();
-    const angle = vDir.angleTo(UP);
-    if (angle < 0.02) return null;
-    const delta = new THREE.Quaternion().setFromUnitVectors(vDir, UP);
-    const toQ = delta.multiply(q);
-    // Rest height: the base face is the one NOT touching the top vertex.
-    const base = diceObj.sides.find(s => !s.vertices.some(v => v.distanceTo(bestV) < 0.1));
-    const toY = base ? Math.abs(base.centroid.dot(base.normal)) : 0.55;
-    return { fromQ: q, toQ, fromY: body.position.y, toY, num: bestV.d4Num, angle };
-  }
-
-  let topSide = null, bestDot = -Infinity;
-  diceObj.sides.forEach(side => {
-    const dot = side.normal.clone().applyQuaternion(q).dot(UP);
-    if (dot > bestDot) { bestDot = dot; topSide = side; }
-  });
-  if (!topSide) return null;
-  const worldN = topSide.normal.clone().applyQuaternion(q);
-  const angle = worldN.angleTo(UP);
-  if (angle < 0.02) return null;
-  const delta = new THREE.Quaternion().setFromUnitVectors(worldN, UP);
-  const toQ = delta.multiply(q);
-  const toY = Math.abs(topSide.centroid.dot(topSide.normal));
-  return { fromQ: q, toQ, fromY: body.position.y, toY, num: topSide.num, angle };
-}
-
 const PhysicsDiceScene = ({
   diceToRoll = [],
   diceColor = '#14092b',
@@ -1573,7 +1527,14 @@ const PhysicsDiceScene = ({
     activeDiceRef.current.forEach(d => {
       scene.remove(d.diceObj.group);
       world.removeBody(d.body);
-      // Surface textures are pooled/shared — nothing per-die to dispose.
+      // Result-highlight outlines are per-roll — dispose their geometry and
+      // materials (the shared number/surface textures are pooled, not ours).
+      (d.resultOutlines || []).forEach(l => {
+        l.geometry.dispose();
+        const idx = lineMaterialsRef.current.indexOf(l.material);
+        if (idx !== -1) lineMaterialsRef.current.splice(idx, 1);
+        l.material.dispose();
+      });
     });
     activeDiceRef.current = [];
     resultsRef.current = [];
@@ -1632,80 +1593,89 @@ const PhysicsDiceScene = ({
 
       const hasAim = rollCtx?.throwDirection && (Math.abs(rollCtx.throwDirection.x) > 0.05 || Math.abs(rollCtx.throwDirection.z) > 0.05);
 
-      // Throw geometry: dice FALL into frame from well above the table and
-      // land across the LOWER part of the screen (+z is screen-bottom with
-      // the top-down camera) — reads as weight being dropped onto the table
-      // in front of you, not a shallow bottom-edge skate.
+      // DDB-style throw: dice ENTER from a table edge already moving fast and
+      // let physics decide the rest — no ballistic targeting. An exact-solve
+      // trajectory (land exactly at X in exactly T seconds) reads "on rails";
+      // a fast edge entry + invisible walls reads as a real handful of dice
+      // flung across a tray, scattering wherever momentum takes them.
       const trayX = boundX * 0.82;
       const trayZ = boundZ * 0.82;
 
-      let targetX, targetZ, startX, startZ;
-
+      let spawnX, spawnZ;
       if (hasAim) {
-        const dLen = Math.hypot(rollCtx.throwDirection.x, rollCtx.throwDirection.z) || 1;
-        const normAimX = rollCtx.throwDirection.x / dLen;
-        const normAimZ = rollCtx.throwDirection.z / dLen;
-        // Aimed throws land along the aim direction, launched from the
-        // opposite edge — the throw literally crosses the screen.
-        targetX = normAimX * boundX * 0.55 + (Math.random() - 0.5) * trayX * 0.8;
-        targetZ = normAimZ * boundZ * 0.55 + (Math.random() - 0.5) * trayZ * 0.8;
-        startX = -normAimX * boundX * 0.9 + (Math.random() - 0.5) * 1.4;
-        startZ = -normAimZ * boundZ * 0.9 + (Math.random() - 0.5) * 1.4;
+        // Aimed throws enter from the edge OPPOSITE the aim direction —
+        // the throw literally crosses the screen along the fling vector.
+        const aLen = Math.hypot(rollCtx.throwDirection.x, rollCtx.throwDirection.z) || 1;
+        spawnX = -(rollCtx.throwDirection.x / aLen) * boundX * 0.9 + (Math.random() - 0.5) * 1.2;
+        spawnZ = -(rollCtx.throwDirection.z / aLen) * boundZ * 0.9 + (Math.random() - 0.5) * 1.2;
       } else {
-        // Default: enter from the TOP edge (−z), land in the lower ~2/3 of
-        // the table (+z bias) so results sit "further down" on screen.
-        targetX = (Math.random() - 0.5) * 2 * trayX;
-        targetZ = boundZ * (0.10 + Math.random() * 0.62);
-        startX = targetX * 0.35 + (Math.random() - 0.5) * boundX * 0.45;
-        startZ = -boundZ * (0.86 + Math.random() * 0.08);
+        // Unaimed: mostly from the top edge (results land in the lower 2/3,
+        // clear of the result chip), sometimes the sides for variety.
+        const r = Math.random();
+        if (r < 0.5) {
+          spawnX = (Math.random() - 0.5) * 1.6 * trayX;
+          spawnZ = -boundZ * 0.9;
+        } else if (r < 0.75) {
+          spawnX = -boundX * 0.9;
+          spawnZ = (Math.random() - 0.5) * 1.4 * trayZ;
+        } else {
+          spawnX = boundX * 0.9;
+          spawnZ = (Math.random() - 0.5) * 1.4 * trayZ;
+        }
       }
+      spawnX = THREE.MathUtils.clamp(spawnX, -boundX * 0.95, boundX * 0.95);
+      spawnZ = THREE.MathUtils.clamp(spawnZ, -boundZ * 0.95, boundZ * 0.95);
 
-      targetX = THREE.MathUtils.clamp(targetX, -trayX, trayX);
-      targetZ = THREE.MathUtils.clamp(targetZ, -trayZ, trayZ);
-      startX = THREE.MathUtils.clamp(startX, -boundX * 0.95, boundX * 0.95);
-      startZ = THREE.MathUtils.clamp(startZ, -boundZ * 0.95, boundZ * 0.95);
+      // Aim point across the central tray (opposite-biased from the spawn so
+      // throws cross the middle and scatter wide instead of hugging an edge).
+      const aimX = THREE.MathUtils.clamp(
+        -spawnX * (0.4 + Math.random() * 0.35) + (Math.random() - 0.5) * trayX * 0.6,
+        -trayX, trayX
+      );
+      const aimZ = THREE.MathUtils.clamp(
+        -spawnZ * (0.4 + Math.random() * 0.35) + (Math.random() - 0.5) * trayZ * 0.6,
+        -trayZ, trayZ
+      );
 
-      // Heavy drop: dice enter well ABOVE the frame and fall onto the table
-      // — the free-fall beat before impact is what reads as weight. Stagger
-      // per index so a pool doesn't land as one simultaneous slap.
-      const startY = 6.5 + Math.random() * 0.6 + index * 0.35;
-
-      // Ballistic solve: pick a flight time, then derive the initial
-      // velocity that lands the die on the table at its target.
-      // y(t) = y0 + vy*t - (g/2)*t² with the material's gravity.
-      // ORGANIC pacing: base flight ~0.75s — a tap lob arcs gently down
-      // while a full-charge release (exponent 0.6) still slams in ~0.4s.
-      const g = Math.abs(mat.gravity);
-      const flightT = (0.68 + Math.random() * 0.14) / Math.pow(throwPower, 0.6);
-      const restY = 0.9;
-      const vx = (targetX - startX) / flightT;
-      const vz = (targetZ - startZ) / flightT;
-      const vy = (restY - startY + 0.5 * g * flightT * flightT) / flightT;
-
-      body.position.set(startX, startY, startZ);
-      body.quaternion.setFromEuler(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
-      body.velocity.set(vx, vy, vz);
-      // Directional tumble: concentrate the spin on the axis perpendicular to
-      // the throw so the die tumbles end-over-end down the table like a real
-      // throw, plus a lighter random component for variety. Purely random
-      // spin mostly grinds against the felt — forward tumble is what makes a
-      // die visibly ROLL after it lands.
-      const dirX = targetX - startX, dirZ = targetZ - startZ;
+      let dirX = aimX - spawnX, dirZ = aimZ - spawnZ;
       const dLen = Math.hypot(dirX, dirZ) || 1;
-      const dx = dirX / dLen, dz = dirZ / dLen;
-      // Readable tumble: slower spin that bleeds out slowly reads ORGANIC —
-      // fast blur-spin then a dead stop reads mechanical. Charge still adds
-      // spin; heavy materials translate more than they tumble.
-      const spinBase = (22 + Math.random() * 9) * Math.pow(throwPower, 0.6) * mat.spinMul;
-      const tumble = spinBase * (1.5 + Math.random() * 0.6);
+      dirX /= dLen;
+      dirZ /= dLen;
+
+      // Entry speed carries the charge: a tap crosses the tray briskly, a
+      // full-charge fling slams in and ricochets off the far wall. Per-die
+      // jitter staggers the pool naturally (no timed delays needed).
+      const speed = Math.min(30, (19 + 12 * throwPower) * (0.92 + Math.random() * 0.16));
+
+      // Enter low over the table — the first ground strike, not a dead drop
+      // from the sky, is what makes the bounce rhythm read DDB-crisp.
+      const startY = 1.6 + Math.random() * 1.5 + index * 0.1;
+
+      body.position.set(spawnX, startY, spawnZ);
+      body.quaternion.setFromEuler(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+      body.velocity.set(dirX * speed, 0.5 + Math.random() * 2.5, dirZ * speed);
+
+      // Chaotic all-axis tumble — the DDB signature. Concentric
+      // end-over-end spin (all spin on the axis ⊥ the throw) looks metered,
+      // like dice rotating on a spit; a random axis per die makes every
+      // throw unpredictable and lets dice transition into genuine rolls.
+      // d6 boxes carry more spin than polys: their flat faces shed rotation
+      // on every face-plant, so they need a deeper energy budget to keep
+      // tumbling as long as the round dice.
+      const d6Mul = diceType === 'd6' ? 1.4 : 1.0;
+      const spinMag = (40 + 18 * Math.pow(throwPower, 0.8)) * mat.spinMul * (0.8 + Math.random() * 0.4) * d6Mul;
+      // Uniform random point on a sphere (y damped a touch — pure flat-spin
+      // yaw doesn't tumble visually and grinds the felt).
+      const sphA = Math.random() * Math.PI * 2;
+      const sphB = Math.acos(2 * Math.random() - 1);
       body.angularVelocity.set(
-        dz * tumble + (Math.random() - 0.5) * spinBase,
-        (Math.random() - 0.5) * spinBase * 1.2,
-        -dx * tumble + (Math.random() - 0.5) * spinBase
+        Math.sin(sphB) * Math.cos(sphA) * spinMag,
+        Math.cos(sphB) * spinMag * 0.6,
+        Math.sin(sphB) * Math.sin(sphA) * spinMag
       );
       // Clamp total spin so a max-power fling stays readable, not a blur.
-      if (body.angularVelocity.length() > 55) {
-        body.angularVelocity.scale(55 / body.angularVelocity.length(), body.angularVelocity);
+      if (body.angularVelocity.length() > 45) {
+        body.angularVelocity.scale(45 / body.angularVelocity.length(), body.angularVelocity);
       }
 
       activeDiceRef.current.push({
@@ -1716,7 +1686,10 @@ const PhysicsDiceScene = ({
         isPercentilePair: die.isPercentilePair || false,
         pairIndex: die.pairIndex,
         settled: false,
-        assist: null,
+        stillTime: 0,
+        slowTime: 0,
+        damped: false,
+        kickCount: 0,
         rolledNumber: 0,
       });
 
@@ -1753,7 +1726,7 @@ const PhysicsDiceScene = ({
         else if (wy > runnerY) { runnerY = wy; }
       });
       const scale = diceObj.d4Verts[0].length() || 1;
-      return { num: bestV ? bestV.d4Num : 1, margin: (bestY - runnerY) / scale };
+      return { num: bestV ? bestV.d4Num : 1, margin: (bestY - runnerY) / scale, vertex: bestV };
     }
 
     let bestDot = -Infinity, secondDot = -Infinity, topSide = null;
@@ -1765,10 +1738,113 @@ const PhysicsDiceScene = ({
     });
 
     if (type === 'dpercent') {
-      return { num: topSide ? topSide.num * 10 : 0, margin: bestDot - secondDot };
+      return { num: topSide ? topSide.num * 10 : 0, margin: bestDot - secondDot, side: topSide };
     }
-    return { num: topSide ? topSide.num : 1, margin: bestDot - secondDot };
+    return { num: topSide ? topSide.num : 1, margin: bestDot - secondDot, side: topSide };
   }, []);
+
+  // Attach the result highlight to a settled die: a glowing outline around
+  // the winning face (d4: the three faces meeting at the winning vertex)
+  // plus a gentle emissive lift on that face's number plate. The outline is
+  // built from the face's own perimeter vertices, ordered around the
+  // centroid — works for triangles (d20/d8/d4), quads (d6/d12), and kites
+  // (d10) alike. Lines use depthTest:false + high renderOrder so the glow
+  // reads cleanly from the top-down camera.
+  const attachResultHighlight = useCallback((die, info) => {
+    const group = die.diceObj.group;
+    const preset = getPreset();
+    const outlineColor = new THREE.Color(preset?.numberColor || '#dbb85c')
+      .lerp(new THREE.Color('#ffffff'), 0.35);
+    const res = new THREE.Vector2(
+      containerRef.current?.clientWidth || 800,
+      containerRef.current?.clientHeight || 600
+    );
+
+    const sidesToMark = [];
+    if (die.type === 'd4' && info.vertex) {
+      die.diceObj.sides.forEach(s => {
+        if (s.vertices.some(v => v.distanceTo(info.vertex) < 0.1)) sidesToMark.push(s);
+      });
+    } else if (info.side) {
+      sidesToMark.push(info.side);
+    }
+
+    die.resultOutlines = [];
+    die.resultPlates = [];
+
+    sidesToMark.forEach(side => {
+      if (!side.plate) return;
+      let pts = null;
+      const n = side.normal.clone().normalize();
+
+      if (die.type === 'd6') {
+        // d6 sides carry only a centroid placeholder — build the flat-face
+        // rectangle (1.5 body minus 0.16 bevel ⇒ ±0.59) from the axis.
+        let u = Math.abs(n.x) > 0.9 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
+        u.sub(n.clone().multiplyScalar(n.dot(u))).normalize();
+        const w = new THREE.Vector3().crossVectors(n, u);
+        const h = 0.59;
+        const c = side.centroid.clone();
+        pts = [
+          c.clone().addScaledVector(u, h).addScaledVector(w, h),
+          c.clone().addScaledVector(u, -h).addScaledVector(w, h),
+          c.clone().addScaledVector(u, -h).addScaledVector(w, -h),
+          c.clone().addScaledVector(u, h).addScaledVector(w, -h),
+        ].map(p => p.addScaledVector(n, 0.03));
+      } else {
+        // Unique perimeter vertices, sorted by angle in the face plane.
+        const uniq = [];
+        side.vertices.forEach(v => {
+          if (!uniq.some(q => q.distanceTo(v) < 0.02)) uniq.push(v.clone());
+        });
+        if (uniq.length >= 3) {
+          const centroid = new THREE.Vector3();
+          uniq.forEach(v => centroid.add(v));
+          centroid.divideScalar(uniq.length);
+          let u = Math.abs(n.x) > 0.9 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
+          u.sub(n.clone().multiplyScalar(n.dot(u))).normalize();
+          const w = new THREE.Vector3().crossVectors(n, u);
+          uniq.sort((a, b) => {
+            const aa = Math.atan2(a.clone().sub(centroid).dot(w), a.clone().sub(centroid).dot(u));
+            const bb = Math.atan2(b.clone().sub(centroid).dot(w), b.clone().sub(centroid).dot(u));
+            return aa - bb;
+          });
+          pts = uniq.map(p => p.clone().addScaledVector(n, 0.03));
+        }
+      }
+
+      if (pts) {
+        const positions = [];
+        for (let i = 0; i < pts.length; i++) {
+          const a = pts[i], b = pts[(i + 1) % pts.length];
+          positions.push(a.x, a.y, a.z, b.x, b.y, b.z);
+        }
+        const geo = new LineSegmentsGeometry();
+        geo.setPositions(positions);
+        const mat = new LineMaterial({
+          color: outlineColor,
+          linewidth: 3,
+          worldUnits: false,
+          transparent: true,
+          opacity: 0.9,
+          depthTest: false,
+        });
+        mat.resolution.copy(res);
+        const line = new LineSegments2(geo, mat);
+        line.computeLineDistances();
+        line.renderOrder = 999;
+        group.add(line);
+        lineMaterialsRef.current.push(mat);
+
+        die.resultOutlines.push(line);
+        const plate = side.plate;
+        if (plate.userData.basePlateEmissive === undefined) {
+          plate.userData.basePlateEmissive = plate.material.emissiveIntensity;
+        }
+        die.resultPlates.push(plate);
+      }
+    });
+  }, [getPreset]);
 
   const animate = useCallback(() => {
     animFrameRef.current = requestAnimationFrame(animate);
@@ -1783,81 +1859,97 @@ const PhysicsDiceScene = ({
     const dt = Math.min(timerRef.current.getDelta(), 0.05);
 
     if (physicsActiveRef.current && activeDiceRef.current.length > 0) {
-      world.step(1 / 60, dt, 3);
+      // 120Hz fixed stepping: at DDB entry speeds (~28 u/s) a 60Hz step lets
+      // dice sink 0.45u into contacts before resolving — mushy first strikes.
+      // Halving the step keeps impacts crisp and die-die contacts exact.
+      world.step(1 / 120, dt, 8);
 
       let allSettled = true;
       activeDiceRef.current.forEach((die) => {
         if (die.settled) return;
         allSettled = false;
 
-        // Topple-assist tween: after a die is arrested, slerp it the last
-        // few degrees so the winning face points straight up (readable from
-        // the top-down camera). Runs purely on the visual transform — the
-        // physics body is already out of the sim.
-        if (die.assist) {
-          die.assist.t += dt;
-          const k = Math.min(1, die.assist.t / die.assist.dur);
-          const ease = 1 - Math.pow(1 - k, 3);
-          die.diceObj.group.quaternion.slerpQuaternions(die.assist.fromQ, die.assist.toQ, ease);
-          die.diceObj.group.position.y = THREE.MathUtils.lerp(die.assist.fromY, die.assist.toY, ease);
-          if (k >= 1) {
-            die.rolledNumber = die.assist.num;
-            die.assist = null;
-            die.settled = true;
-          }
-          return;
-        }
-
         die.diceObj.group.position.copy(die.body.interpolatedPosition);
         die.diceObj.group.quaternion.copy(die.body.interpolatedQuaternion);
 
-        // A die may only freeze when genuinely supported — near the floor or
-        // touching a non-wall body (the ground or another die). Wall contact
-        // alone does NOT count: a die clipping an invisible wall mid-air
-        // must never freeze hovering.
-        // Organic resolve: dice keep tumbling until truly near-rest
-        // (0.25 — slow rocking is still motion; freezing it reads as a
-        // snap). Combined with the long damping tail, a die visibly rocks,
-        // tips, and settles on its face.
-        const slow = die.body.velocity.length() < 0.25 && die.body.angularVelocity.length() < 0.25;
+        // DDB-style resolve: a die freezes only after staying GENUINELY
+        // still for a beat — no scripted re-orientation after the stop, the
+        // physics pose IS the result. (A rare edge-balance gets a small
+        // physical kick below so it topples naturally, never a tween.)
+        const speed = die.body.velocity.length();
+        const spin = die.body.angularVelocity.length();
         const tSinceThrow = performance.now() - rollStartRef.current;
-        const timedOut = tSinceThrow > 12000;
         const contactWith = (filterFn) => world.contacts.some(c => {
           const other = c.bi === die.body ? c.bj : (c.bj === die.body ? c.bi : null);
           return other != null && filterFn(other);
         });
+        // A die may only freeze when genuinely supported — near the floor or
+        // touching a non-wall body (the ground or another die). Wall contact
+        // alone does NOT count: a die clipping an invisible wall mid-air
+        // must never freeze hovering.
         const grounded =
           die.body.position.y < 1.05 ||
           contactWith(other => !wallBodiesRef.current.includes(other));
 
-        if ((slow && grounded && tSinceThrow > 400) || timedOut) {
-          // Arrest instantly — no decaying velocity crawl (that drift read
-          // as the die "floaty aligning" instead of obeying physics).
-          die.body.velocity.setZero();
-          die.body.angularVelocity.setZero();
+        if (tSinceThrow > 350 && grounded && speed < 0.12 && spin < 0.25) {
+          die.stillTime += dt;
+        } else {
+          die.stillTime = 0;
+        }
 
-          // Only a die RESTING ON TOP of another die keeps its physics pose
-          // — flattening it would clip it through its support. Merely
+        // Slow-but-not-still trap: a die stuck micro-rocking on a corner,
+        // chattering against a neighbor, or sliding forever in the slow band
+        // would drag the roll out (or ride the timeout). After 1s in the
+        // band, escalate its damping so PHYSICS bleeds the motion out —
+        // after 2.4s, accept it as settled through the normal read path.
+        if (tSinceThrow > 350 && grounded && speed < 0.6 && spin < 1.2) {
+          die.slowTime += dt;
+        } else if (die.slowTime < 1) {
+          die.slowTime = 0;
+        }
+        if (die.slowTime > 1 && !die.damped) {
+          die.damped = true;
+          die.body.linearDamping = 0.5;
+          die.body.angularDamping = 0.55;
+        }
+        const forceSettle = die.slowTime > 2.4;
+
+        const timedOut = tSinceThrow > 8000;
+        if (die.stillTime >= 0.35 || timedOut || forceSettle) {
+          const info = getTopFaceInfo(die);
+          // Only a die RESTING ON TOP of another die keeps an ambiguous
+          // pose — toppling it would clip it through its support. Merely
           // touching the ground, a wall, or a side-by-side neighbor does
-          // NOT skip the flatten (side contact was wrongly exempting most
-          // pool dice, leaving them resting tilted).
+          // NOT exempt it.
           const supportedFromBelow = contactWith(other =>
             other !== groundBodyRef.current &&
             !wallBodiesRef.current.includes(other) &&
             other.position.y < die.body.position.y - 0.35);
-          world.removeBody(die.body);
+          const marginThresh = die.type === 'd4' ? 0.3 : 0.22;
 
-          const assist = supportedFromBelow ? null : computeSettleAssist(die);
-          if (assist) {
-            // Bigger topples take longer — a 5° tip eases in ~0.13s, an
-            // edge-balanced die falls over in ~0.3s.
-            assist.t = 0;
-            assist.dur = Math.min(0.3, 0.11 + assist.angle * 0.45);
-            die.assist = assist;
+          if (!timedOut && !supportedFromBelow && info.margin < marginThresh && die.kickCount < 3) {
+            // Edge-balanced rest (top face ambiguous): pop it with a small
+            // PHYSICAL impulse so it topples like a table was bumped —
+            // honest physics, max 3 attempts, closest face then wins. The
+            // kick must be strong enough to clear a near-edge lean (weak
+            // nudges just wobble the die back onto the same edge).
+            die.kickCount += 1;
+            die.stillTime = 0;
+            die.slowTime = 0;
+            die.body.velocity.y += 7.5 + Math.random() * 3.5;
+            die.body.velocity.x += (Math.random() - 0.5) * 3.5;
+            die.body.velocity.z += (Math.random() - 0.5) * 3.5;
+            die.body.angularVelocity.x += (Math.random() - 0.5) * 16;
+            die.body.angularVelocity.y += (Math.random() - 0.5) * 16;
+            die.body.angularVelocity.z += (Math.random() - 0.5) * 16;
           } else {
-            const info = getTopFaceInfo(die);
+            // Arrest cleanly and read the face the physics left on top.
+            die.body.velocity.setZero();
+            die.body.angularVelocity.setZero();
+            world.removeBody(die.body);
             die.rolledNumber = info.num;
             die.settled = true;
+            attachResultHighlight(die, info);
           }
         }
       });
@@ -1874,6 +1966,20 @@ const PhysicsDiceScene = ({
         updateBodyFlicker(die.diceObj.bodyMesh, timerRef.current.getElapsed());
       }
     });
+
+    // Result highlight: winning-face outline breathes (~0.8Hz — faster reads
+    // as a strobing bug) and the number plate glows slightly with it.
+    if (activeDiceRef.current.some(d => d.resultOutlines?.length)) {
+      const tNow = timerRef.current.getElapsed();
+      activeDiceRef.current.forEach((die, i) => {
+        if (!die.resultOutlines?.length) return;
+        const pulse = 0.5 + 0.5 * Math.sin(tNow * 5 + i * 1.3);
+        die.resultOutlines.forEach(l => { l.material.opacity = 0.55 + 0.4 * pulse; });
+        die.resultPlates?.forEach(p => {
+          p.material.emissiveIntensity = p.userData.basePlateEmissive * (1.45 + 0.4 * pulse);
+        });
+      });
+    }
 
     const allSettledComplete = activeDiceRef.current.every(d => d.settled);
 
@@ -2096,20 +2202,17 @@ const PhysicsDiceScene = ({
     };
   }, []);
 
-  // Auto-dismiss the result chip after a few seconds — it is informational,
-  // not modal. A reroll or a manual Dismiss clears the timer.
+  // Dice REMAIN on the table after resolving — the user clicks them away.
+  // No auto-dismiss: the only dismissal paths are a click anywhere on the
+  // overlay (handled in the JSX below), the Dismiss button, or Esc/parent.
   useEffect(() => {
-    if (!resultState || isRolling || !onDismiss) return;
-    dismissTimerRef.current = setTimeout(() => {
-      onDismiss();
-    }, 7000);
     return () => {
       if (dismissTimerRef.current) {
         clearTimeout(dismissTimerRef.current);
         dismissTimerRef.current = null;
       }
     };
-  }, [resultState, isRolling, onDismiss]);
+  }, []);
 
   const formatResultDisplay = useCallback((value, type) => {
     if (type === 'd10' && value === 10) return '0';
@@ -2119,7 +2222,17 @@ const PhysicsDiceScene = ({
   }, []);
 
   return (
-    <div className={`dice-3d-overlay ${isVisible ? 'visible' : ''}`}>
+    <div
+      className={`dice-3d-overlay ${isVisible ? 'visible' : ''} ${resultState && !isRolling ? 'clickable' : ''}`}
+      onClick={(e) => {
+        // Once the dice have settled, clicking anywhere on the table clears
+        // them. Clicks on the result chip itself (Reroll/Dismiss buttons)
+        // are excluded — they manage their own actions.
+        if (resultState && !isRolling && onDismiss && !e.target.closest('.dice-3d-result-area')) {
+          onDismiss();
+        }
+      }}
+    >
       <div className="dice-3d-canvas-container" ref={containerRef} />
 
       {resultState && (

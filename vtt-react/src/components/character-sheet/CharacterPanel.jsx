@@ -1248,6 +1248,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         const meleeBreakdown = getDerivedStatBreakdown('melee damage', characterContext);
         const rangedBreakdown = getDerivedStatBreakdown('ranged damage', characterContext);
         const initiativeBreakdown = getDerivedStatBreakdown('initiative', characterContext);
+        const healthRegenBreakdown = getDerivedStatBreakdown('healthRegen', characterContext);
         const maxHealthBreakdown = getDerivedStatBreakdown('maxHealth', characterContext);
         const movementBreakdown = getDerivedStatBreakdown('movement', characterContext);
 
@@ -1316,6 +1317,22 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                     onMouseEnter={(e) => {
                         setHoveredStat({
                             type: 'derived',
+                            key: 'healthRegen',
+                            breakdown: healthRegenBreakdown
+                        });
+                        setMousePosition({ x: e.clientX, y: e.clientY });
+                    }}
+                    onMouseMove={(e) => setMousePosition({ x: e.clientX, y: e.clientY })}
+                    onMouseLeave={() => setHoveredStat(null)}
+                >
+                    <span className="vitals-stat-label">HP Regen</span>
+                    <span className="vitals-stat-value">{healthRegenBreakdown.finalValue}</span>
+                </div>
+                <div
+                    className="vitals-stat-tile"
+                    onMouseEnter={(e) => {
+                        setHoveredStat({
+                            type: 'derived',
                             key: 'maxHealth',
                             breakdown: maxHealthBreakdown
                         });
@@ -1370,7 +1387,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                     onClick={() => cycleSpellPower(1)}
                     onMouseEnter={(e) => {
                         const intB = getAttributeBreakdown('intelligence', characterContext);
-                        const intSpBonus = intB.modifier * 2;
+                        const intSpBonus = (Number(intB?.modifier) || 0) * 2;
                         const legacyMap = {
                             ember: 'fire',
                             rime: 'frost',
@@ -1382,21 +1399,31 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                             primal: 'nature'
                         };
                         const legacyId = legacyMap[current.id];
-                        const baseVal = spellPower?.[current.id]?.value || spellPower?.[current.id] || (legacyId ? (spellPower?.[legacyId]?.value || spellPower?.[legacyId] || 0) : 0);
-                        const eqVal = (equipmentBonuses?.spellDamageTypes?.[current.id] || 0) +
-                            (legacyId ? (equipmentBonuses?.spellDamageTypes?.[legacyId] || 0) : 0) +
-                            (equipmentBonuses?.spellDamage || 0) +
-                            (equipmentBonuses?.spellPower || 0);
-                        const totalStatsBonus = (totalStats?.[`${current.id}SpellPower`] || 0) +
-                            (legacyId ? (totalStats?.[`${legacyId}SpellPower`] || 0) : 0);
-                        const totalSpellVal = Math.round(intSpBonus + baseVal + eqVal + totalStatsBonus);
+                        const parseRawVal = (v) => {
+                            if (typeof v === 'number') return Number.isFinite(v) ? v : 0;
+                            if (typeof v === 'object' && v !== null) return Number(v.value ?? v.power ?? v.bonus ?? v.level) || 0;
+                            if (typeof v === 'string') {
+                                const p = parseFloat(v);
+                                return Number.isFinite(p) ? p : 0;
+                            }
+                            return 0;
+                        };
+                        const baseVal = parseRawVal(spellPower?.[current.id]) || (legacyId ? parseRawVal(spellPower?.[legacyId]) : 0);
+                        const eqVal = (Number(equipmentBonuses?.spellDamageTypes?.[current.id]) || 0) +
+                            (legacyId ? (Number(equipmentBonuses?.spellDamageTypes?.[legacyId]) || 0) : 0) +
+                            (Number(equipmentBonuses?.spellDamage) || 0) +
+                            (Number(equipmentBonuses?.spellPower) || 0);
+                        const totalStatsBonus = (Number(totalStats?.[`${current.id}SpellPower`]) || 0) +
+                            (legacyId ? (Number(totalStats?.[`${legacyId}SpellPower`]) || 0) : 0);
+                        const calcTotal = Math.round(intSpBonus + baseVal + eqVal + totalStatsBonus);
+                        const totalSpellVal = Number.isFinite(calcTotal) ? calcTotal : 0;
                         setHoveredStat({
                             type: 'derived',
                             key: `Spell Power (${current.name})`,
                             breakdown: {
                                 stat: `Spell Power (${current.name})`,
                                 description: `Increases the damage and effectiveness of ${current.name} spells. Scaled by Intelligence (INT Mod × 2) and school-specific gear.`,
-                                baseLabel: `INT Mod (${intB.modifier}) × 2`,
+                                baseLabel: `INT Mod (${intB?.modifier ?? 0}) × 2`,
                                 baseValue: intSpBonus,
                                 equipment: eqVal,
                                 racial: baseVal,
@@ -1491,7 +1518,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
     // by combining Intelligence scaling (INT Mod × 2) + per-element value from store + equipment bonuses.
     const getSpellPowerForType = (typeId) => {
         const intB = getAttributeBreakdown('intelligence', characterContext);
-        const intSpBonus = intB.modifier * 2;
+        const intSpBonus = (Number(intB?.modifier) || 0) * 2;
         const legacyMap = {
             ember: 'fire',
             rime: 'frost',
@@ -1503,14 +1530,24 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
             primal: 'nature'
         };
         const legacyId = legacyMap[typeId];
-        const baseVal = spellPower?.[typeId]?.value || spellPower?.[typeId] || (legacyId ? (spellPower?.[legacyId]?.value || spellPower?.[legacyId] || 0) : 0);
-        const eqVal = (equipmentBonuses?.spellDamageTypes?.[typeId] || 0) +
-            (legacyId ? (equipmentBonuses?.spellDamageTypes?.[legacyId] || 0) : 0) +
-            (equipmentBonuses?.spellDamage || 0) +
-            (equipmentBonuses?.spellPower || 0);
-        const totalStatsBonus = (totalStats?.[`${typeId}SpellPower`] || 0) +
-            (legacyId ? (totalStats?.[`${legacyId}SpellPower`] || 0) : 0);
-        return Math.round(intSpBonus + baseVal + eqVal + totalStatsBonus);
+        const parseRawVal = (v) => {
+            if (typeof v === 'number') return Number.isFinite(v) ? v : 0;
+            if (typeof v === 'object' && v !== null) return Number(v.value ?? v.power ?? v.bonus ?? v.level) || 0;
+            if (typeof v === 'string') {
+                const p = parseFloat(v);
+                return Number.isFinite(p) ? p : 0;
+            }
+            return 0;
+        };
+        const baseVal = parseRawVal(spellPower?.[typeId]) || (legacyId ? parseRawVal(spellPower?.[legacyId]) : 0);
+        const eqVal = (Number(equipmentBonuses?.spellDamageTypes?.[typeId]) || 0) +
+            (legacyId ? (Number(equipmentBonuses?.spellDamageTypes?.[legacyId]) || 0) : 0) +
+            (Number(equipmentBonuses?.spellDamage) || 0) +
+            (Number(equipmentBonuses?.spellPower) || 0);
+        const totalStatsBonus = (Number(totalStats?.[`${typeId}SpellPower`]) || 0) +
+            (legacyId ? (Number(totalStats?.[`${legacyId}SpellPower`]) || 0) : 0);
+        const calcTotal = Math.round(intSpBonus + baseVal + eqVal + totalStatsBonus);
+        return Number.isFinite(calcTotal) ? calcTotal : 0;
     };
 
     // Render the modified-resistances strip (only non-100% entries) - shown on the right side

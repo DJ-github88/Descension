@@ -1257,325 +1257,965 @@
 }
 
 /* Character sheet weapon type grid overrides:
-   keep the icons bigger and clustered without huge grid gutters */
-.character-sheet .weapon-type-grid.damage-type-grid {
-    display: flex !important;
-    flex-wrap: wrap;
-    gap: 6px 10px;
-    padding: 4px 0 0;
-    margin: 0 auto;
-    justify-content: center;
-    align-items: flex-start;
-    width: 100%;
-    max-width: 640px;
-    grid-template-columns: none !important;
+/* ============================================================
+   WEAPON MASTERY ARSENAL & DISCIPLINE GRID
+   ============================================================ */
+
+.weapon-mastery-section {
+    margin-top: 20px;
+    padding: 20px 22px;
+    background: linear-gradient(135deg, rgba(254, 252, 246, 0.85) 0%, rgba(246, 240, 226, 0.75) 100%);
+    border: 1.5px solid rgba(212, 175, 55, 0.4);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(90, 30, 18, 0.06);
 }
 
-.character-sheet .weapon-type-option {
-    position: relative;
-    flex: 0 0 auto;
-    width: 112px;
-    height: 112px;
-    padding: 8px;
-    border-radius: 14px;
+.weapon-mastery-header-row {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: linear-gradient(135deg,
-        rgba(255, 255, 255, 0.98) 0%,
-        var(--weapon-rank-color-soft, rgba(248, 245, 240, 0.96)) 100%);
-    border: 1px solid var(--weapon-rank-color, #c6a02d);
-    box-shadow:
-        0 2px 5px rgba(0, 0, 0, 0.12),
-        0 0 0 1px var(--weapon-rank-color-soft, rgba(198, 160, 45, 0.35));
-    overflow: visible;
-    transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1.5px solid rgba(212, 175, 55, 0.35);
 }
 
-.character-sheet .weapon-type-option.selected {
-    border-color: var(--weapon-rank-color, #b8941f);
-    box-shadow:
-        0 0 0 3px var(--weapon-rank-color-strong, rgba(184, 148, 31, 0.4)),
-        0 5px 14px rgba(0, 0, 0, 0.2),
-        inset 0 0 18px var(--weapon-rank-color-soft, rgba(184, 148, 31, 0.25));
-    transform: translateY(-2px);
-    background: linear-gradient(135deg,
-        rgba(255, 251, 235, 0.98) 0%,
-        var(--weapon-rank-color-soft, rgba(250, 240, 200, 0.95)) 100%);
+.weapon-mastery-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.character-sheet .weapon-rank-chip {
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 4px 10px;
-    background: var(--weapon-rank-color, #c6a02d);
-    color: #fdfaf3;
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    border-radius: 999px;
+.weapon-mastery-title-wrap h4 {
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #2b1408;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.weapon-mastery-count-pill {
+    padding: 2px 9px;
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 12px;
     font-family: 'Cinzel', serif;
     font-size: 11px;
     font-weight: 700;
+    color: #8b6914;
     letter-spacing: 0.5px;
+}
+
+.weapon-category-filter-pills {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.weapon-cat-pill {
+    padding: 4px 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(139, 69, 19, 0.25);
+    background: rgba(255, 255, 255, 0.85);
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #5a3825;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.weapon-cat-pill:hover {
+    border-color: #d4af37;
+    background: rgba(255, 255, 255, 1);
+    color: #2b1408;
+    transform: translateY(-1px);
+}
+
+.weapon-cat-pill.active {
+    background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+    border-color: #b8860b;
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+    transform: translateY(-1px);
+}
+
+/* Responsive Weapon Mastery Card Grid */
+.weapon-mastery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.weapon-mastery-card {
+    position: relative;
+    height: 122px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 8px 8px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(252, 248, 238, 0.94) 100%);
+    border: 1.5px solid rgba(184, 148, 31, 0.3);
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    outline: none;
+}
+
+.weapon-mastery-card:hover {
+    transform: translateY(-3px);
+    border-color: #d4af37;
+    box-shadow: 0 6px 16px rgba(139, 69, 19, 0.16);
+    background: linear-gradient(135deg, #ffffff 0%, #fbf5e6 100%);
+}
+
+.weapon-mastery-card.selected {
+    background: linear-gradient(135deg, #ffffff 0%, #fdf5df 100%);
+    border: 2px solid #d4af37;
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.4), 0 8px 20px rgba(139, 69, 19, 0.22);
+    transform: translateY(-3px);
+}
+
+.weapon-card-rank-chip {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #ffffff;
     text-transform: uppercase;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-    pointer-events: none;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
     white-space: nowrap;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    z-index: 2;
 }
 
-.character-sheet .weapon-type-option.selected .weapon-rank-chip {
-    box-shadow: 0 4px 14px var(--weapon-rank-color-strong, rgba(184, 148, 31, 0.35));
+.weapon-card-icon-frame {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, rgba(139, 69, 19, 0.05) 70%, transparent 100%);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 6px;
+    transition: all 0.2s ease;
 }
 
-.character-sheet .weapon-type-icon {
-    width: 96px !important;
-    height: 96px !important;
-    margin: 0;
-    display: block;
+.weapon-mastery-card:hover .weapon-card-icon-frame,
+.weapon-mastery-card.selected .weapon-card-icon-frame {
+    transform: scale(1.06);
+    border-color: #d4af37;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, rgba(139, 69, 19, 0.1) 70%, transparent 100%);
+}
+
+.weapon-card-icon {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
 }
 
-.character-sheet .weapon-type-option.selected .weapon-type-icon {
-    filter: drop-shadow(0 0 10px var(--weapon-rank-color-strong, rgba(184, 148, 31, 0.6)));
-    transform: scale(1.04);
+.weapon-card-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 2px;
+    gap: 4px;
+}
+
+.weapon-card-name {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #2b1408;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.3px;
+}
+
+.weapon-card-die {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: #8b6914;
+    background: rgba(212, 175, 55, 0.18);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    padding: 1px 4px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+/* Active Weapon Discipline Inspector Banner */
+.weapon-discipline-detail-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(250, 246, 235, 0.95) 100%);
+    border: 1.5px solid #d4af37;
+    border-left: 5px solid #d4af37;
+    border-radius: 10px;
+    padding: 16px 20px;
+    box-shadow: 0 4px 14px rgba(90, 30, 18, 0.08);
+}
+
+.weapon-discipline-hero {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.discipline-icon-box {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    background: radial-gradient(circle at 35% 35%, #3d2314 0%, #1a0c04 100%);
+    border: 2px solid #d4af37;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 4px;
+    flex-shrink: 0;
+}
+
+.discipline-icon-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.discipline-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.discipline-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.discipline-title-row h3 {
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #2b1408;
+    letter-spacing: 0.8px;
+}
+
+.discipline-rank-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid currentColor;
+    border-radius: 12px;
+}
+
+.discipline-hint {
+    margin: 0;
+    font-family: 'Spectral', Georgia, serif;
+    font-size: 13px;
+    font-style: italic;
+    color: #6a3a1b;
+}
+
+.weapon-face-techniques-grid {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(212, 175, 55, 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.techniques-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.techniques-title-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.techniques-title {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #4a2711;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.techniques-title i {
+    color: #d4af37;
+    text-shadow: 0 0 6px rgba(212, 175, 55, 0.4);
+}
+
+.techniques-die-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 8px;
+    background: rgba(212, 175, 55, 0.12);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 6px;
+}
+
+.techniques-range-summary {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.range-summary-chip {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.range-summary-chip.base {
+    background: rgba(139, 69, 19, 0.08);
+    border: 1px solid rgba(139, 69, 19, 0.25);
+    color: #5a3825;
+}
+
+.range-summary-chip.mod {
+    background: rgba(30, 86, 49, 0.08);
+    border: 1px solid rgba(30, 86, 49, 0.3);
+    color: #1e5631;
+}
+
+.range-summary-chip.peak {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.08) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.6);
+    color: #6a4a0a;
+    box-shadow: 0 1px 4px rgba(212, 175, 55, 0.15);
+}
+
+.range-summary-chip.peak i {
+    color: #d4af37;
+}
+
+.range-summary-chip.explode {
+    background: linear-gradient(135deg, rgba(142, 68, 173, 0.18) 0%, rgba(142, 68, 173, 0.06) 100%);
+    border: 1px solid rgba(142, 68, 173, 0.45);
+    color: #6c3483;
+}
+
+.range-summary-chip.explode i {
+    color: #8e44ad;
+}
+
+.techniques-filter-pills {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-top: 2px;
+}
+
+.techniques-filter-pills .filter-label {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #6a4a2a;
+    margin-right: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.stunt-filter-pill {
+    padding: 3px 9px;
+    border-radius: 6px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(139, 69, 19, 0.25);
+    color: #5a3825;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.stunt-filter-pill:hover {
+    background: rgba(212, 175, 55, 0.18);
+    border-color: rgba(212, 175, 55, 0.6);
+    color: #2b1408;
+}
+
+.stunt-filter-pill.active {
+    background: linear-gradient(135deg, #7a481e 0%, #522d10 100%);
+    border-color: #d4af37;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.stunt-clear-inspect-btn {
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    background: rgba(192, 57, 43, 0.1);
+    border: 1px solid rgba(192, 57, 43, 0.35);
+    color: #c0392b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.technique-inspect-callout {
+    background: linear-gradient(135deg, rgba(255, 250, 240, 0.95) 0%, rgba(250, 240, 220, 0.9) 100%);
+    border: 1.5px solid #d4af37;
+    border-radius: 8px;
+    padding: 8px 12px;
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    animation: fadeInCallout 0.2s ease-out;
+}
+
+@keyframes fadeInCallout {
+    from { opacity: 0; transform: translateY(-3px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.technique-inspect-callout .callout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    border-bottom: 1px dashed rgba(212, 175, 55, 0.35);
+    padding-bottom: 4px;
+}
+
+.technique-inspect-callout .callout-tier-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #5a2e10;
+}
+
+.technique-inspect-callout .callout-requirement {
+    font-size: 11px;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+}
+
+.req-gold { color: #8b6914; }
+.req-green { color: #1e5631; }
+.req-purple { color: #6c3483; }
+.req-gray { color: #7f8c8d; }
+
+.technique-inspect-callout .callout-description {
+    margin: 0;
+    font-family: 'Spectral', Georgia, serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #2b1408;
+    line-height: 1.35;
+}
+
+.techniques-chips {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.technique-chip {
+    padding: 8px 10px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(139, 69, 19, 0.2);
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.35;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+}
+
+.technique-chip:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+.technique-chip.inspected {
+    box-shadow: 0 0 0 2px #d4af37, 0 4px 12px rgba(212, 175, 55, 0.25) !important;
+}
+
+.technique-chip.max-standard {
+    background: linear-gradient(135deg, rgba(255, 250, 235, 0.95) 0%, rgba(253, 242, 215, 0.9) 100%);
+    border: 1.5px solid #d4af37;
+    box-shadow: 0 2px 6px rgba(212, 175, 55, 0.2);
+}
+
+.technique-chip.in-range {
+    background: linear-gradient(135deg, rgba(245, 252, 245, 0.92) 0%, rgba(235, 248, 235, 0.85) 100%);
+    border: 1px solid rgba(46, 125, 50, 0.35);
+}
+
+.technique-chip.exploding-surge {
+    background: linear-gradient(135deg, rgba(250, 245, 255, 0.9) 0%, rgba(243, 235, 253, 0.85) 100%);
+    border: 1px dashed rgba(142, 68, 173, 0.45);
+}
+
+.technique-chip.out-of-range {
+    background: rgba(245, 245, 245, 0.75);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    opacity: 0.85;
+}
+
+.technique-chip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4px;
+}
+
+.technique-num-wrap {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.technique-num {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #6a4a0a;
+}
+
+.technique-tier-name {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #7a5030;
+    text-transform: uppercase;
+}
+
+.technique-status-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.technique-inspect-callout .callout-rank-gate-badge {
+    color: #8e44ad;
+    font-size: 11px;
+    font-style: italic;
+}
+
+.technique-chip.locked-rank {
+    background: linear-gradient(135deg, rgba(248, 243, 252, 0.9) 0%, rgba(238, 230, 248, 0.85) 100%);
+    border: 1px dashed rgba(142, 68, 173, 0.5);
+}
+
+.technique-status-tag.locked-rank {
+    background: rgba(142, 68, 173, 0.18);
+    color: #6c3483;
+    border: 1px solid rgba(142, 68, 173, 0.4);
+}
+
+.technique-status-tag.max-standard {
+    background: rgba(212, 175, 55, 0.25);
+    color: #7a5000;
+    border: 1px solid rgba(212, 175, 55, 0.6);
+}
+
+.technique-status-tag.in-range {
+    background: rgba(46, 125, 50, 0.15);
+    color: #1e5631;
+    border: 1px solid rgba(46, 125, 50, 0.35);
+}
+
+.technique-status-tag.exploding-surge {
+    background: rgba(142, 68, 173, 0.15);
+    color: #6c3483;
+    border: 1px solid rgba(142, 68, 173, 0.35);
+}
+
+.technique-status-tag.out-of-range {
+    background: rgba(120, 120, 120, 0.12);
+    color: #555;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.technique-text {
+    font-family: 'Spectral', Georgia, serif;
+    color: #2b1408;
+    font-size: 12px;
 }
 
 /* ============================================================
    SIMPLE MODE: CLEAN DIE-BASED SKILL VIEW
    ============================================================ */
 
-/* Simple Header */
-.skill-simple-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 20px 24px;
+/* Simple Header & Detail Header */
+.skill-simple-header,
+.skill-detail-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 20px !important;
+    padding: 18px 22px !important;
     background: linear-gradient(135deg,
         rgba(255, 255, 255, 0.98) 0%,
-        rgba(253, 250, 242, 0.96) 100%);
-    border: 2px solid #8b7355;
-    border-radius: 16px;
-    box-shadow: 0 6px 20px rgba(90, 30, 18, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        rgba(252, 248, 238, 0.96) 60%,
+        rgba(246, 238, 222, 0.92) 100%) !important;
+    border: 1.5px solid rgba(212, 175, 55, 0.4) !important;
+    border-left: 5px solid #d4af37 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 6px 20px rgba(90, 30, 18, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04) !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    margin-bottom: 20px !important;
 }
 
-.skill-simple-header:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(90, 30, 18, 0.15), 0 4px 8px rgba(0, 0, 0, 0.08);
-    border-color: #6b5344;
+.skill-simple-header:hover,
+.skill-detail-header:hover {
+    box-shadow: 0 10px 25px rgba(90, 30, 18, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06) !important;
 }
 
-.skill-simple-header-left {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    flex: 1;
-    min-width: 0;
+.skill-simple-header-left,
+.skill-detail-title-section {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    flex: 1 !important;
+    min-width: 0 !important;
 }
 
-.skill-simple-icon {
-    width: 72px;
-    height: 72px;
-    border-radius: 14px;
-    border: 2px solid #8b7355;
-    flex-shrink: 0;
-    box-shadow: 0 3px 10px rgba(90, 30, 18, 0.2);
-    object-fit: contain;
-    transition: all 0.3s ease;
+.skill-header-icon-box {
+    width: 58px !important;
+    height: 58px !important;
+    border-radius: 12px !important;
+    background: radial-gradient(circle at 35% 35%, #3d2314 0%, #1a0c04 100%) !important;
+    border: 2px solid #d4af37 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 10px rgba(212, 175, 55, 0.25) !important;
+    flex-shrink: 0 !important;
+    overflow: hidden !important;
+    padding: 4px !important;
 }
 
-.skill-simple-header:hover .skill-simple-icon {
-    transform: scale(1.05) rotate(2deg);
-    border-color: #6b5344;
-    box-shadow: 0 5px 15px rgba(90, 30, 18, 0.3);
+.skill-simple-icon,
+.skill-detail-icon {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 8px !important;
+    border: none !important;
+    flex-shrink: 0 !important;
+    object-fit: contain !important;
+    box-shadow: none !important;
 }
 
 .skill-simple-title-block {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-width: 0;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    min-width: 0 !important;
 }
 
-.skill-simple-name {
-    font-family: 'Cinzel', serif;
-    font-size: 26px;
-    font-weight: 700;
-    margin: 0;
-    color: #3e2723;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.15), 0 0 8px rgba(255,255,255,0.5);
-    line-height: 1.2;
+.skill-simple-name-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-wrap: wrap !important;
 }
 
-.skill-simple-description {
-    font-size: 14px;
-    color: #6b4423;
-    margin: 0;
-    line-height: 1.5;
-    font-style: italic;
+.skill-simple-name,
+.skill-detail-name {
+    font-family: 'Cinzel', serif !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    margin: 0 !important;
+    color: #2b1408 !important;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6) !important;
+    line-height: 1.2 !important;
+    letter-spacing: 1.2px !important;
+    text-transform: uppercase !important;
+}
+
+.skill-active-rank-pill {
+    font-family: 'Cinzel', serif !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    padding: 2px 9px !important;
+    background: rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid currentColor !important;
+    border-radius: 12px !important;
+}
+
+.skill-simple-description,
+.skill-detail-description {
+    font-family: 'Spectral', Georgia, serif !important;
+    font-size: 13px !important;
+    color: #6a3a1b !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+    font-style: italic !important;
 }
 
 .skill-simple-attrs {
-    display: flex;
-    gap: 8px;
-    margin-top: 4px;
-    flex-wrap: wrap;
+    display: flex !important;
+    gap: 8px !important;
+    margin-top: 2px !important;
+    flex-wrap: wrap !important;
 }
 
 .skill-attr-badge {
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-family: 'Cinzel', serif;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
+    padding: 3px 9px !important;
+    border-radius: 12px !important;
+    font-family: 'Cinzel', serif !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
 }
 
 .skill-attr-badge.primary {
-    background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(212,175,55,0.08) 100%);
-    border: 1px solid rgba(212,175,55,0.4);
-    color: #8b6914;
+    background: linear-gradient(135deg, rgba(212,175,55,0.18) 0%, rgba(212,175,55,0.08) 100%) !important;
+    border: 1px solid rgba(212,175,55,0.45) !important;
+    color: #8b6914 !important;
 }
 
 .skill-attr-badge.secondary {
-    background: linear-gradient(135deg, rgba(139,69,19,0.1) 0%, rgba(139,69,19,0.05) 100%);
-    border: 1px solid rgba(139,69,19,0.3);
-    color: #6b5344;
+    background: linear-gradient(135deg, rgba(139,69,19,0.12) 0%, rgba(139,69,19,0.05) 100%) !important;
+    border: 1px solid rgba(139,69,19,0.35) !important;
+    color: #6b5344 !important;
+}
+
+.skill-attr-badge.modifier {
+    background: linear-gradient(135deg, rgba(46, 125, 50, 0.12) 0%, rgba(46, 125, 50, 0.05) 100%) !important;
+    border: 1px solid rgba(46, 125, 50, 0.35) !important;
+    color: #2e7d32 !important;
+}
+
+.skill-attr-badge.rank {
+    background: linear-gradient(135deg, rgba(142, 68, 173, 0.15) 0%, rgba(142, 68, 173, 0.05) 100%) !important;
+    border: 1px solid rgba(142, 68, 173, 0.4) !important;
+    color: #6c3483 !important;
+}
+
+.skill-attr-operator {
+    font-family: 'Cinzel', serif !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #8b6914 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    user-select: none !important;
+    padding: 0 2px !important;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+}
+
+.skill-resolution-formula-banner {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    flex-wrap: wrap !important;
+    margin-top: 8px !important;
+    padding: 6px 12px !important;
+    background: rgba(212, 175, 55, 0.08) !important;
+    border: 1px dashed rgba(212, 175, 55, 0.45) !important;
+    border-radius: 8px !important;
+}
+
+.resolution-formula-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-family: 'Cinzel', serif !important;
+    font-size: 11px !important;
+}
+
+.formula-tag {
+    font-weight: 700 !important;
+    color: #8b6914 !important;
+    letter-spacing: 0.6px !important;
+    text-transform: uppercase !important;
+}
+
+.formula-math {
+    color: #2b1408 !important;
+    font-size: 12px !important;
+}
+
+.formula-muted {
+    font-size: 10px !important;
+    color: #7a5c40 !important;
+    font-family: 'Spectral', Georgia, serif !important;
+    font-style: italic !important;
+}
+
+.formula-highlight {
+    color: #8a2e1d !important;
+    font-weight: 700 !important;
+}
+
+.resolution-exploding-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-family: 'Spectral', Georgia, serif !important;
+    font-size: 12px !important;
+    color: #5c3c24 !important;
+    border-left: 1px solid rgba(212, 175, 55, 0.35) !important;
+    padding-left: 12px !important;
+}
+
+.resolution-exploding-item i {
+    color: #d4af37 !important;
+    font-size: 11px !important;
 }
 
 /* Simple Header Right: Die Badge + Controls */
 .skill-simple-header-right {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex-shrink: 0;
-}
-
-.skill-simple-die-badge {
-    width: 90px;
-    height: 90px;
-    border: none;
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.98) 0%,
-        rgba(252,248,238,0.95) 100%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0px;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    flex-shrink: 0;
-    padding-top: 6px;
-    filter: drop-shadow(0 0 2px var(--die-border-color, #8b7355)) drop-shadow(0 4px 8px rgba(90, 30, 18, 0.2));
-}
-
-/* Die shape variants */
-.die-shape-4 {
-    clip-path: polygon(50% 2%, 2% 98%, 98% 98%);
-    border-radius: 0;
-}
-.die-shape-6 {
-    clip-path: polygon(8% 8%, 92% 8%, 92% 92%, 8% 92%);
-    border-radius: 0;
-}
-.die-shape-8 {
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    border-radius: 0;
-}
-.die-shape-10 {
-    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
-    border-radius: 0;
-}
-.die-shape-12 {
-    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-    border-radius: 0;
-}
-.die-shape-20 {
-    clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
-    border-radius: 0;
-}
-
-.skill-simple-die-badge:hover {
-    transform: scale(1.08) rotate(5deg);
-    filter: drop-shadow(0 0 4px var(--die-border-color, #8b7355)) drop-shadow(0 8px 16px rgba(90, 30, 18, 0.3));
-}
-
-.die-badge-size {
-    font-family: 'Cinzel', serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: #3e2723;
-    line-height: 1;
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    flex-shrink: 0 !important;
 }
 
 .skill-simple-die-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 3px !important;
+}
+
+.skill-simple-die-badge {
+    width: 48px !important;
+    height: 48px !important;
+    background: radial-gradient(circle at 35% 35%, #3d2314 0%, #1a0c04 100%) !important;
+    border: 2px solid var(--die-border-color, #d4af37) !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(212, 175, 55, 0.25) !important;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+    flex-shrink: 0 !important;
+}
+
+.die-badge-size {
+    font-family: 'Cinzel', serif !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #fdf5df !important;
+    line-height: 1 !important;
 }
 
 .die-badge-rank {
-    font-family: 'Cinzel', serif;
-    font-size: 9px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: #8b7355;
-    text-align: center;
+    font-family: 'Cinzel', serif !important;
+    font-size: 9px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px !important;
+    color: #8b6914 !important;
+    text-align: center !important;
 }
 
 .skill-simple-controls {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-    min-width: 150px;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 6px !important;
+    min-width: 160px !important;
+}
+
+.skill-controls-action-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
 }
 
 .skill-simple-dropdown {
-    width: 100%;
-    font-size: 12px;
-    padding: 6px 10px;
-    border-radius: 6px;
-    border: 1px solid #8b7355;
-    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(252,248,238,0.9) 100%);
-    color: #3e2723;
-    font-family: 'Cinzel', serif;
-    font-weight: 600;
-    cursor: pointer;
+    width: 100% !important;
+    font-size: 12px !important;
+    padding: 6px 10px !important;
+    border-radius: 6px !important;
+    border: 1px solid rgba(139, 69, 19, 0.35) !important;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(252,248,238,0.9) 100%) !important;
+    color: #2b1408 !important;
+    font-family: 'Cinzel', serif !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
 }
 
 .character-sheet-container .skill-simple-roll,
 .character-sheet .skill-simple-roll,
 .skill-simple-roll {
-    width: 100%;
-    padding: 9px 18px;
-    font-size: 14px;
-    background: linear-gradient(135deg, #8a2e1d 0%, #5e1c10 100%);
+    flex: 1 !important;
+    padding: 7px 14px !important;
+    font-size: 13px !important;
+    background: linear-gradient(135deg, #8a2e1d 0%, #5e1c10 100%) !important;
     color: #ffffff !important;
-    border: 2px solid #5a2a0f;
-    border-radius: 8px;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 10px rgba(90, 30, 18, 0.25);
-    position: relative;
-    overflow: hidden;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
+    border: 1.5px solid #5a2a0f !important;
+    border-radius: 6px !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 3px 8px rgba(90, 30, 18, 0.25) !important;
+    cursor: pointer !important;
+    font-family: 'Cinzel', serif !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.8px !important;
 }
 
 .character-sheet-container .skill-simple-roll i,

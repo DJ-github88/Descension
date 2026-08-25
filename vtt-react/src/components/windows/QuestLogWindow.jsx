@@ -431,7 +431,7 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
         {isGMMode && activeQuestShares && activeQuestShares[selectedQuestObj.id] && (
           <div className="quest-share-status">
             <div className="quest-share-status-header">
-              <span className="share-status-icon">📤</span>
+              <span className="share-status-icon"><i className="fas fa-share-nodes"></i></span>
               <span className="share-status-title">Quest Shared</span>
             </div>
             <div className="quest-share-status-players">
@@ -441,9 +441,9 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
                   className={`share-player-status status-${player.status}`}
                 >
                   <span className="player-status-icon">
-                    {player.status === 'pending' && '⏳'}
-                    {player.status === 'accepted' && '✅'}
-                    {player.status === 'declined' && '❌'}
+                    {player.status === 'pending' && <i className="fas fa-hourglass-half"></i>}
+                    {player.status === 'accepted' && <i className="fas fa-check" style={{ color: '#27ae60' }}></i>}
+                    {player.status === 'declined' && <i className="fas fa-times" style={{ color: '#c0392b' }}></i>}
                   </span>
                   <span className="player-name">{player.name}</span>
                   <span className="player-status-text">
@@ -455,7 +455,7 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
               ))}
               {Object.keys(activeQuestShares[selectedQuestObj.id].players || {}).length === 0 && (
                 <div className="share-status-waiting">
-                  <span className="waiting-icon">📡</span>
+                  <span className="waiting-icon"><i className="fas fa-satellite-dish"></i></span>
                   <span>Waiting for player responses...</span>
                 </div>
               )}
@@ -490,7 +490,7 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
                 }}
                 title={questSharingAllowed ? "Share this quest with all players" : "Unlock Quest Sharing (Dungeon Master+)"}
               >
-                Share Quest {!questSharingAllowed && ' 🔒'}
+                Share Quest {!questSharingAllowed && <i className="fas fa-lock" style={{ marginLeft: "4px" }}></i>}
               </button>
             )}
           </div>
@@ -516,7 +516,7 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
                 }}
                 title={questSharingAllowed ? "Share this quest with all players" : "Unlock Quest Sharing (Dungeon Master+)"}
               >
-                Share Quest {!questSharingAllowed && ' 🔒'}
+                Share Quest {!questSharingAllowed && <i className="fas fa-lock" style={{ marginLeft: "4px" }}></i>}
               </button>
             )}
           </div>
