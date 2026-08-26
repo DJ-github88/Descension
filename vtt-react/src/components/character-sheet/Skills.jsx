@@ -701,31 +701,26 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
         { key: 'double-disadvantage',  label: 'Double Disadvantage', icon: 'fa-angles-down', desc: 'Roll 3 dice, keep the lowest.' },
     ];
 
+    const cycleRollMode = (skillId) => {
+        const mode = getRollMode(skillId);
+        const currentIndex = ROLL_MODES.findIndex((m) => m.key === mode);
+        const nextIndex = (currentIndex + 1) % ROLL_MODES.length;
+        setRollMode(skillId, ROLL_MODES[nextIndex].key);
+    };
+
     const renderRollModeToggle = (skillId) => {
         const mode = getRollMode(skillId);
         const currentMode = ROLL_MODES.find((m) => m.key === mode) || ROLL_MODES[0];
         return (
-            <div className="roll-mode-wrapper">
-                <div
-                    className="roll-mode-toggle"
-                    role="group"
-                    aria-label="Roll with advantage or disadvantage"
-                >
-                    {ROLL_MODES.map((opt) => (
-                        <button
-                            key={opt.key}
-                            type="button"
-                            className={`roll-mode-btn ${mode === opt.key ? 'active' : ''}`}
-                            onClick={() => setRollMode(skillId, opt.key)}
-                            title={`${opt.label}: ${opt.desc}`}
-                            aria-pressed={mode === opt.key}
-                        >
-                            <i className={`fas ${opt.icon}`}></i>
-                        </button>
-                    ))}
-                </div>
-                <div className="roll-mode-hint">{currentMode.desc}</div>
-            </div>
+            <button
+                type="button"
+                className={`single-roll-mode-btn mode-${currentMode.key}`}
+                onClick={() => cycleRollMode(skillId)}
+                title={`Click to cycle: ${currentMode.label} (${currentMode.desc})`}
+            >
+                <i className={`fas ${currentMode.icon}`}></i>
+                <span className="single-roll-mode-label">{currentMode.label}</span>
+            </button>
         );
     };
 
@@ -780,7 +775,11 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                 )}
                 {isSimpleMode ? (
                     <div className="skill-simple-header">
-                        <div className="skill-simple-header-left">
+                        {/* Top Hero Row: [Mode Button] [Icon] [Roll Button] */}
+                        <div className="skill-hero-top-row">
+                            <div className="skill-hero-side left">
+                                {renderRollModeToggle(selectedSkill)}
+                            </div>
                             <div className="skill-header-icon-box">
                                 <img
                                     src={skillIconUrl}
@@ -788,75 +787,23 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                     className="skill-simple-icon"
                                 />
                             </div>
-                            <div className="skill-simple-title-block">
-                                <div className="skill-simple-name-row">
-                                    <h2 className="skill-simple-name">
-                                        {skillDisplayName}
-                                    </h2>
-                                    <span className="skill-active-rank-pill" style={{ color: rank.color || '#d4af37' }}>
-                                        {effectiveRank.name} (d{DIE_SIZE_MAP[effectiveRank.key]})
-                                    </span>
-                                </div>
-                                <p className="skill-simple-description">{description}</p>
-                                <div className="skill-simple-attrs">
-                                    <span 
-                                        className="skill-attr-badge primary" 
-                                        title={`${modBreakdown.primaryStat.toUpperCase()} Score: ${modBreakdown.primaryStatVal} → Modifier: ${modBreakdown.primaryMod >= 0 ? `+${modBreakdown.primaryMod}` : modBreakdown.primaryMod}`}
-                                    >
-                                        <i className="fas fa-star"></i> {modBreakdown.primaryStat.toUpperCase()} ({modBreakdown.primaryMod >= 0 ? `+${modBreakdown.primaryMod}` : modBreakdown.primaryMod})
-                                    </span>
-                                    {modBreakdown.secondaryStat && (
-                                        <>
-                                            <span className="skill-attr-operator">+</span>
-                                            <span 
-                                                className="skill-attr-badge secondary" 
-                                                title={`${modBreakdown.secondaryStat.toUpperCase()} Score: ${modBreakdown.secondaryStatVal} (Mod: ${modBreakdown.secondaryMod >= 0 ? `+${modBreakdown.secondaryMod}` : modBreakdown.secondaryMod}) → Half Applied: ${modBreakdown.secondaryHalf >= 0 ? `+${modBreakdown.secondaryHalf}` : modBreakdown.secondaryHalf}`}
-                                            >
-                                                <i className="fas fa-shield"></i> {modBreakdown.secondaryStat.toUpperCase()} ({modBreakdown.secondaryHalf >= 0 ? `+${modBreakdown.secondaryHalf}` : modBreakdown.secondaryHalf})
-                                            </span>
-                                        </>
-                                    )}
-                                    <span className="skill-attr-operator">+</span>
-                                    <span 
-                                        className="skill-attr-badge rank" 
-                                        title={`Rank ${effectiveRank.name} grants +${modBreakdown.rankBonus} tier bonus`}
-                                    >
-                                        <i className="fas fa-award"></i> RANK ({modBreakdown.rankBonus >= 0 ? `+${modBreakdown.rankBonus}` : modBreakdown.rankBonus})
-                                    </span>
-                                    <span className="skill-attr-operator">=</span>
-                                    <span 
-                                        className="skill-attr-badge modifier" 
-                                        title={`Total Modifier = Primary (${modBreakdown.primaryMod >= 0 ? `+${modBreakdown.primaryMod}` : modBreakdown.primaryMod}) + Secondary Half (${modBreakdown.secondaryHalf >= 0 ? `+${modBreakdown.secondaryHalf}` : modBreakdown.secondaryHalf}) + Rank (${modBreakdown.rankBonus >= 0 ? `+${modBreakdown.rankBonus}` : modBreakdown.rankBonus}) = ${modifier >= 0 ? `+${modifier}` : modifier}`}
-                                    >
-                                        <i className="fas fa-shield-halved"></i> MODIFIER: {modifier >= 0 ? `+${modifier}` : modifier}
-                                    </span>
-                                </div>
-
-                                {/* Mathematical Resolution & Exploding Die Banner */}
-                                <div className="skill-resolution-formula-banner">
-                                    <div className="resolution-formula-item">
-                                        <span className="formula-tag">ROLL FORMULA</span>
-                                        <span className="formula-math">
-                                            <strong>d{DIE_SIZE_MAP[effectiveRank.key]}</strong> <span className="formula-muted">(Die)</span>
-                                            {modifier >= 0 ? ' + ' : ' - '}
-                                            <strong className="formula-highlight">{Math.abs(modifier)}</strong> <span className="formula-muted">(Mod)</span>
-                                        </span>
-                                    </div>
-                                    <div className="resolution-exploding-item">
-                                        <i className="fas fa-bolt"></i>
-                                        <span><strong>Exploding Dice:</strong> Max roll on d{DIE_SIZE_MAP[effectiveRank.key]} rolls again and adds to total!</span>
-                                    </div>
-                                </div>
+                            <div className="skill-hero-side right">
+                                <ChargeableRollButton
+                                    className="roll-table-btn skill-hero-roll-btn"
+                                    onRoll={(power, dir) => rollSimpleSkill(skill, selectedSkill, power, dir)}
+                                    title="Click or Hold & Release to throw dice with velocity"
+                                >
+                                    <i className="fas fa-dice-d20"></i> ROLL
+                                </ChargeableRollButton>
                             </div>
                         </div>
-                        <div className="skill-simple-header-right">
-                            <div className="skill-simple-die-wrapper">
-                                <div className={`skill-simple-die-badge die-shape-${DIE_SIZE_MAP[effectiveRank.key]}`} style={{ '--die-border-color': rank.color }}>
-                                    <span className="die-badge-size">d{DIE_SIZE_MAP[effectiveRank.key]}</span>
-                                </div>
-                                <span className="die-badge-rank">{effectiveRank.name}</span>
-                            </div>
-                            <div className="skill-simple-controls">
+
+                        {/* Title, Rank Selector Dropdown, and Description */}
+                        <div className="skill-simple-title-block">
+                            <h2 className="skill-simple-name">
+                                {skillDisplayName}
+                            </h2>
+                            <div className="skill-rank-dropdown-wrap">
                                 <select
                                     className="skill-rank-dropdown skill-simple-dropdown"
                                     value={effectiveRank.key}
@@ -875,7 +822,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                             }
                                         }
                                     }}
-                                    title="Change skill die"
+                                    title="Change skill die rank"
                                 >
                                     {Object.entries(SKILL_RANKS).map(([key, data]) => (
                                         <option key={key} value={key}>
@@ -883,16 +830,57 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                         </option>
                                     ))}
                                 </select>
-                                <div className="skill-controls-action-row">
-                                    {renderRollModeToggle(selectedSkill)}
-                                    <DiceThemeSelector compact={true} />
-                                    <ChargeableRollButton
-                                        className="roll-table-btn skill-simple-roll"
-                                        onRoll={(power, dir) => rollSimpleSkill(skill, selectedSkill, power, dir)}
-                                        title="Click or Hold & Release to throw dice with velocity"
-                                    >
-                                        <i className="fas fa-dice-d20"></i> ROLL
-                                    </ChargeableRollButton>
+                            </div>
+                            <p className="skill-simple-description">{description}</p>
+                            
+                            {/* Attribute breakdown pills */}
+                            <div className="skill-simple-attrs">
+                                <span 
+                                    className="skill-attr-badge primary" 
+                                    title={`${modBreakdown.primaryStat.toUpperCase()} Score: ${modBreakdown.primaryStatVal} → Modifier: ${modBreakdown.primaryMod >= 0 ? `+${modBreakdown.primaryMod}` : modBreakdown.primaryMod}`}
+                                >
+                                    <i className="fas fa-star"></i> {modBreakdown.primaryStat.toUpperCase()} ({modBreakdown.primaryMod >= 0 ? `+${modBreakdown.primaryMod}` : modBreakdown.primaryMod})
+                                </span>
+                                {modBreakdown.secondaryStat && (
+                                    <>
+                                        <span className="skill-attr-operator">+</span>
+                                        <span 
+                                            className="skill-attr-badge secondary" 
+                                            title={`${modBreakdown.secondaryStat.toUpperCase()} Score: ${modBreakdown.secondaryStatVal} (Mod: ${modBreakdown.secondaryMod >= 0 ? `+${modBreakdown.secondaryMod}` : modBreakdown.secondaryMod}) → Half Applied: ${modBreakdown.secondaryHalf >= 0 ? `+${modBreakdown.secondaryHalf}` : modBreakdown.secondaryHalf}`}
+                                        >
+                                            <i className="fas fa-shield"></i> {modBreakdown.secondaryStat.toUpperCase()} ({modBreakdown.secondaryHalf >= 0 ? `+${modBreakdown.secondaryHalf}` : modBreakdown.secondaryHalf})
+                                        </span>
+                                    </>
+                                )}
+                                <span className="skill-attr-operator">+</span>
+                                <span 
+                                    className="skill-attr-badge rank" 
+                                    title={`Rank ${effectiveRank.name} grants +${modBreakdown.rankBonus} tier bonus`}
+                                >
+                                    <i className="fas fa-award"></i> RANK ({modBreakdown.rankBonus >= 0 ? `+${modBreakdown.rankBonus}` : modBreakdown.rankBonus})
+                                </span>
+                                <span className="skill-attr-operator">=</span>
+                                <span 
+                                    className="skill-attr-badge modifier" 
+                                    title={`Total Modifier = Primary (${modBreakdown.primaryMod >= 0 ? `+${modBreakdown.primaryMod}` : modBreakdown.primaryMod}) + Secondary Half (${modBreakdown.secondaryHalf >= 0 ? `+${modBreakdown.secondaryHalf}` : modBreakdown.secondaryHalf}) + Rank (${modBreakdown.rankBonus >= 0 ? `+${modBreakdown.rankBonus}` : modBreakdown.rankBonus}) = ${modifier >= 0 ? `+${modifier}` : modifier}`}
+                                >
+                                    <i className="fas fa-shield-halved"></i> MODIFIER: {modifier >= 0 ? `+${modifier}` : modifier}
+                                </span>
+                            </div>
+
+                            {/* Mathematical Resolution & Exploding Die Banner */}
+                            <div className="skill-resolution-formula-banner">
+                                <div className="resolution-formula-item">
+                                    <span className="formula-tag">ROLL FORMULA</span>
+                                    <span className="formula-math">
+                                        <strong>d{DIE_SIZE_MAP[effectiveRank.key]}</strong> <span className="formula-muted">(Die)</span>
+                                        {modifier >= 0 ? ' + ' : ' - '}
+                                        <strong className="formula-highlight">{Math.abs(modifier)}</strong> <span className="formula-muted">(Mod)</span>
+                                    </span>
+                                </div>
+                                <div className="resolution-exploding-item">
+                                    <i className="fas fa-bolt"></i>
+                                    <span><strong>Exploding Dice:</strong> Max roll on d{DIE_SIZE_MAP[effectiveRank.key]} rolls again and adds to total!</span>
                                 </div>
                             </div>
                         </div>
