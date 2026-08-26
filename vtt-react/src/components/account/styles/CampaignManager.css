@@ -4239,6 +4239,7 @@
   padding: 4px 10px;
   border-radius: 6px;
   letter-spacing: 0.5px;
+  flex-shrink: 0;
 }
 
 .session-dossier-command-strip {
@@ -4255,6 +4256,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 
 .dossier-command-field label {
@@ -4269,6 +4271,12 @@
   display: flex;
   gap: 6px;
   align-items: center;
+  width: 100%;
+}
+
+.dossier-select-wrapper select {
+  flex: 1;
+  min-width: 0;
 }
 
 .dossier-grid-sections {
@@ -4278,6 +4286,35 @@
 }
 
 @media (max-width: 860px) {
+  .session-dossier-card {
+    padding: 10px 12px !important;
+  }
+  .session-dossier-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .session-dossier-header-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 6px;
+  }
+  .session-date-input {
+    flex: 1 1 120px;
+    width: auto;
+    max-width: none;
+    min-width: 100px;
+  }
+  .session-status-select {
+    flex: 1 1 110px;
+    width: auto;
+    max-width: none;
+    min-width: 100px;
+  }
+  .session-dossier-command-strip {
+    grid-template-columns: 1fr;
+    padding: 8px 10px;
+  }
   .dossier-grid-sections {
     grid-template-columns: 1fr;
   }

@@ -1214,6 +1214,19 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
               </div>
             );
           })}
+
+          {/* Integrated Dice Roller Cog Button */}
+          <button
+            type="button"
+            className="spell-action-cog-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              window.dispatchEvent(new CustomEvent('toggle-dice-roller'));
+            }}
+            title="Dice Roller / Tools"
+          >
+            <i className="fas fa-cog"></i>
+          </button>
         </div>
       </div>
 

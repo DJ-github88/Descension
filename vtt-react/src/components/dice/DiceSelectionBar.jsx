@@ -32,15 +32,22 @@ const DiceSelectionBar = () => {
   const [selectedOrb, setSelectedOrb] = useState(null); // 'dice', 'cards', or null
   const dropdownRef = useRef(null);
 
-  // Close dropdown when clicking outside
+  // Close dropdown when clicking outside or toggle from external button
   useEffect(() => {
+    const handleToggle = () => {
+      setIsOpen(prev => !prev);
+      setSelectedOrb(null);
+    };
+
+    window.addEventListener('toggle-dice-roller', handleToggle);
+
     const handleClickOutside = (event) => {
       // Do not close if clicking inside a 3D scene overlay portal
       if (
         event.target &&
         event.target.closest &&
         event.target.closest(
-          '.physics-card-overlay, .physics-coin-overlay, .physics-dice-overlay, .landed-coin-marker, .card-3d-result-area, .coin-3d-result-area'
+          '.physics-card-overlay, .physics-coin-overlay, .physics-dice-overlay, .landed-coin-marker, .card-3d-result-area, .coin-3d-result-area, .spell-action-cog-btn'
         )
       ) {
         return;
@@ -54,8 +61,12 @@ const DiceSelectionBar = () => {
 
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
     }
+
+    return () => {
+      window.removeEventListener('toggle-dice-roller', handleToggle);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, [isOpen]);
 
   const totalDice = getTotalDiceCount();

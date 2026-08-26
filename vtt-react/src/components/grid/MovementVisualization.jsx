@@ -1,9 +1,10 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useEffect, useRef } from 'react';
 import useGameStore from '../../store/gameStore';
 import useCombatStore from '../../store/combatStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import useCharacterStore from '../../store/characterStore';
+import { useShallow } from 'zustand/react/shallow';
 
 const MovementVisualization = ({
     startPosition,
@@ -17,39 +18,44 @@ const MovementVisualization = ({
         movementLineWidth,
         movementLineDashArray,
         feetPerTile
-    } = useGameStore();
+    } = useGameStore(useShallow((state) => ({
+        showMovementVisualization: state.showMovementVisualization,
+        movementLineColor: state.movementLineColor,
+        movementLineWidth: state.movementLineWidth,
+        movementLineDashArray: state.movementLineDashArray,
+        feetPerTile: state.feetPerTile
+    })));
 
     const {
         isInCombat,
         validateMovement,
         getTotalUnlockedMovement
-    } = useCombatStore();
-    const { tokens, creatures } = useCreatureStore();
-    const { characterTokens } = useCharacterTokenStore();
-    const characterData = useCharacterStore();
+    } = useCombatStore(useShallow((state) => ({
+        isInCombat: state.isInCombat,
+        validateMovement: state.validateMovement,
+        getTotalUnlockedMovement: state.getTotalUnlockedMovement
+    })));
+    const { tokens, creatures } = useCreatureStore(useShallow((state) => ({
+        tokens: state.tokens,
+        creatures: state.creatures
+    })));
+    const characterTokens = useCharacterTokenStore(state => state.characterTokens);
+    const characterData = useCharacterStore(useShallow((state) => ({
+        name: state.name,
+        derivedStats: state.derivedStats
+    })));
 
-    // Animation state for stippled line (marching ants effect)
-    const [dashOffset, setDashOffset] = useState(0);
+    // Animated stippled line (marching ants) - driven imperatively via ref so the
+    // component does not re-render at animation frequency
+    const lineRef = useRef(null);
 
-    // Animate the dash offset for marching ants effect with throttled updates
     useEffect(() => {
         let animationFrameId;
-        let lastTime = Date.now();
-        let lastUpdateTime = Date.now();
 
-        const animate = () => {
-            const currentTime = Date.now();
-            const deltaTime = currentTime - lastTime;
-            const timeSinceUpdate = currentTime - lastUpdateTime;
-            lastTime = currentTime;
-
-            // Throttle state updates to 30fps to reduce re-renders and improve performance
-            if (timeSinceUpdate >= 33) { // ~30fps
-                // Update dash offset (move 15 pixels per second)
-                setDashOffset(prev => (prev + (deltaTime * 0.015)) % 12);
-                lastUpdateTime = currentTime;
+        const animate = (now) => {
+            if (lineRef.current) {
+                lineRef.current.setAttribute('stroke-dashoffset', String(-((now * 0.015) % 12)));
             }
-
             animationFrameId = requestAnimationFrame(animate);
         };
 
@@ -224,6 +230,7 @@ const MovementVisualization = ({
             >
                 {/* Movement line with animated stippled effect */}
                 <line
+                    ref={lineRef}
                     x1={relativeStartX}
                     y1={relativeStartY}
                     x2={relativeCurrentX}
@@ -231,7 +238,7 @@ const MovementVisualization = ({
                     stroke={movementData.lineColor}
                     strokeWidth={movementLineWidth}
                     strokeDasharray={movementLineDashArray}
-                    strokeDashoffset={-dashOffset}
+                    strokeDashoffset={0}
                     strokeOpacity={movementData.lineOpacity}
                     strokeLinecap="round"
                 />

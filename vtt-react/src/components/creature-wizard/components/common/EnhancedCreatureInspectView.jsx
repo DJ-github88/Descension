@@ -9,6 +9,7 @@ import GeneralStatTooltip from '../../../tooltips/GeneralStatTooltip';
 import ResistanceTooltip from '../../../tooltips/ResistanceTooltip';
 import UnifiedSpellCard from '../../../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import SmartTabButton from '../../../common/SmartTabButton';
+import InlineMarkdown from '../../../common/InlineMarkdown';
 import { DAMAGE_TYPES } from '../../../spellcrafting-wizard/core/data/damageTypes';
 import { getQualityColor } from '../../../../constants/itemConstants';
 import { getAbilityIconUrl, getCustomIconUrl, getIconUrl } from '../../../../utils/assetManager';
@@ -2570,7 +2571,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                 <h4 className="creature-lore-title">
                   <i className={`fas ${entry.icon}`}></i> {entry.title}
                 </h4>
-                <div className="creature-lore-content">{entry.text}</div>
+                <div className="creature-lore-content"><InlineMarkdown text={entry.text} /></div>
               </div>
             ))}
           </div>

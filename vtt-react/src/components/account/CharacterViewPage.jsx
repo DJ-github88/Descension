@@ -371,11 +371,6 @@ const CharacterViewPage = () => {
           </div>
 
           <div className="header-right-col">
-            <DiceThemeSelector compact={true} />
-            <div className="character-view-sync-chip" title="Changes auto-save to Firebase in real time">
-              <i className="fas fa-arrows-rotate"></i>
-              <span>Auto-saving</span>
-            </div>
             <button onClick={handleBack} className="back-button-compact" title="Back to Account">
               <i className="fas fa-arrow-left"></i>
             </button>

@@ -1498,3 +1498,39 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* Mobile Responsiveness for Mythrill Atlas */
+@media (max-width: 768px) {
+  .account-map-manager-container {
+    padding: 4px 2px;
+    gap: 14px;
+  }
+
+  .atlas-master-header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px 14px;
+    gap: 12px;
+  }
+
+  .atlas-header-title-row {
+    gap: 10px;
+  }
+
+  .atlas-main-title {
+    font-size: 18px !important;
+  }
+
+  .atlas-header-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .btn-atlas-primary,
+  .btn-atlas-secondary {
+    flex: 1 1 auto;
+    justify-content: center;
+    font-size: 11.5px;
+    padding: 8px 12px;
+  }
+}

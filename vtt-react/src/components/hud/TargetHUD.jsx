@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import Draggable from 'react-draggable';
 import { createPortal } from 'react-dom';
+import { useShallow } from 'zustand/react/shallow';
 import useTargetingStore from '../../store/targetingStore';
 import useGameStore from '../../store/gameStore';
 import useSettingsStore from '../../store/settingsStore';
@@ -151,16 +152,40 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     clearTarget,
     targetHUDPosition,
     setTargetHUDPosition
-  } = useTargetingStore();
-  const { isGMMode } = useGameStore();
+  } = useTargetingStore(useShallow((state) => ({
+    currentTarget: state.currentTarget,
+    targetType: state.targetType,
+    clearTarget: state.clearTarget,
+    targetHUDPosition: state.targetHUDPosition,
+    setTargetHUDPosition: state.setTargetHUDPosition
+  })));
+  const isGMMode = useGameStore(state => state.isGMMode);
   const showCreatureManaBar = useSettingsStore(state => state.showCreatureManaBar ?? true);
   const showCreatureAPBar = useSettingsStore(state => state.showCreatureAPBar ?? true);
   const hudPortraitSize = useSettingsStore(state => state.hudPortraitSize || 'small');
-  const { updatePartyMember } = usePartyStore();
-  const { updateResource, updateClassResource, activeCharacter, updateTempResource } = useCharacterStore();
-  const { updateTokenState, getCreature, creatures } = useCreatureStore();
-  const { characterTokens } = useCharacterTokenStore();
-  const { addCombatNotification } = useChatStore();
+  const updatePartyMember = usePartyStore(state => state.updatePartyMember);
+  const {
+    updateResource,
+    updateClassResource,
+    activeCharacter,
+    updateTempResource
+  } = useCharacterStore(useShallow((state) => ({
+    updateResource: state.updateResource,
+    updateClassResource: state.updateClassResource,
+    activeCharacter: state.activeCharacter,
+    updateTempResource: state.updateTempResource
+  })));
+  const {
+    updateTokenState,
+    getCreature,
+    creatures
+  } = useCreatureStore(useShallow((state) => ({
+    updateTokenState: state.updateTokenState,
+    getCreature: state.getCreature,
+    creatures: state.creatures
+  })));
+  const characterTokens = useCharacterTokenStore(state => state.characterTokens);
+  const addCombatNotification = useChatStore(state => state.addCombatNotification);
 
   // Get current player data for comparison
   const currentPlayerData = activeCharacter;
@@ -170,11 +195,18 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     updateConditionTimers,
     getActiveEffects,
     removeCondition
-  } = useConditionStore();
+  } = useConditionStore(useShallow((state) => ({
+    getConditionsForTarget: state.getConditionsForTarget,
+    getRemainingTime: state.getRemainingTime,
+    updateConditionTimers: state.updateConditionTimers,
+    getActiveEffects: state.getActiveEffects,
+    removeCondition: state.removeCondition
+  })));
 
   // Real-time updates for condition timers - also cleans up expired conditions
   useEffect(() => {
     const interval = setInterval(() => {
+      if (document.hidden) return;
       setCurrentTime(Date.now());
       // Clean up expired buffs and debuffs (this also syncs with token.state.conditions)
       updateConditionTimers('buff');
@@ -227,7 +259,27 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
   // Get reactive store data for proper memoization
   const partyMembers = usePartyStore(state => state.partyMembers);
-  const characterState = useCharacterStore(state => state);
+  const characterState = useCharacterStore(useShallow((state) => ({
+    name: state.name,
+    class: state.class,
+    race: state.race,
+    raceDisplayName: state.raceDisplayName,
+    background: state.background,
+    backgroundDisplayName: state.backgroundDisplayName,
+    path: state.path,
+    pathDisplayName: state.pathDisplayName,
+    alignment: state.alignment,
+    exhaustionLevel: state.exhaustionLevel,
+    health: state.health,
+    mana: state.mana,
+    actionPoints: state.actionPoints,
+    tempHealth: state.tempHealth,
+    tempMana: state.tempMana,
+    tempActionPoints: state.tempActionPoints,
+    classResource: state.classResource,
+    level: state.level,
+    lore: state.lore
+  })));
   const tokens = useCreatureStore(state => state.tokens);
 
   // Helper function to calculate modified stats for a creature including buff/debuff effects

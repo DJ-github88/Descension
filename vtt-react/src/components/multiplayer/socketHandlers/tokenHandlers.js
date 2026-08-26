@@ -70,23 +70,11 @@ export function registerTokenHandlers(ctx) {
     });
 
     socket.on('token_moved', (data) => {
-      // Enhanced debug logging for multiplayer sync testing
-      const myRole = isGMRef.current ? 'GM' : 'Player';
-      console.log(`ðŸ“¨ [${myRole}] Received token_moved:`, {
-        tokenId: data.tokenId || data.id,
-        creatureId: data.creatureId,
-        position: data.position,
-        isDragging: data.isDragging,
-        fromPlayerId: data.playerId,
-        isFromSelf: data.playerId === socket?.id
-      });
-
       // CRITICAL FIX: Filter by mapId to prevent cross-map contamination
       const currentMapId = useMapStore.getState().currentMapId || 'default';
       const tokenMapId = data.mapId || data.token?.mapId || 'default';
 
       if (tokenMapId !== currentMapId) {
-        console.log(`ðŸŽ­ Skipping token_moved - different map (token: ${tokenMapId}, current: ${currentMapId})`);
         return;
       }
 
@@ -194,13 +182,6 @@ export function registerTokenHandlers(ctx) {
                     const shouldUpdate = data.isDragging || distance > 1 || distance === 0;
 
                     if (shouldUpdate) {
-                      const myRole = isGMRef.current ? 'GM' : 'Player';
-                      console.log(`âœ… [${myRole}] Updating ${isCreature ? 'creature' : 'character'} token position:`, {
-                        tokenId: token.id,
-                        from: { x: Math.round(currentTokenPosition.x), y: Math.round(currentTokenPosition.y) },
-                        to: { x: Math.round(update.position.x), y: Math.round(update.position.y) }
-                      });
-
                       if (isCreature) {
                         updateCreatureTokenPosition(token.id, {
                           ...update.position,
@@ -339,19 +320,6 @@ export function registerTokenHandlers(ctx) {
     });
 
     socket.on('character_moved', (data) => {
-      // CRITICAL DEBUG: Log all received character_moved events with clear info
-      // If tokenId is undefined here, the event won't update the correct token!
-      console.log('ðŸ“¥ Received character_moved:', {
-        tokenId: data.tokenId,        // Should be the token's UUID (e.g., "fbdd8929-...")
-        characterId: data.characterId, // Should be the token owner's player ID
-        playerId: data.playerId,       // Who moved the token (sender - could be GM)
-        position: data.position,
-        mySocketId: socket?.id,
-        myPlayerId: currentPlayerRef.current?.id,
-        hasTokenId: !!data.tokenId,    // Quick check - if false, we have a problem!
-        hasCharacterId: !!data.characterId
-      });
-
       // FIXED: Use tokenId or characterId consistently for character tokens
       const senderId = data.playerId;
 
@@ -420,23 +388,15 @@ export function registerTokenHandlers(ctx) {
       const recentMovementTime = recentMovementEntry?.timestamp;
 
       if (isOwnMovement || isDraggingOurToken) {
-        if (isOwnMovement) console.log('ðŸš« Skipping character_moved - isOwnMovement:', { targetCharacterId });
-        if (isDraggingOurToken) console.log('ðŸš« Skipping character_moved - currently dragging:', { targetCharacterId });
         return;
       }
 
       // CRITICAL FIX: Check if this token was recently moved locally (by any of our tokens)
       // This catches echoes that come back with different sender IDs
       if (recentMovementEntry && recentMovementEntry.isLocal && (Date.now() - (recentMovementTime || 0) < 1000)) {
-        console.log('ðŸš« Skipping character_moved - recent local movement:', { recentMovementEntry });
         // Skip server echo for this token - we moved it locally recently
         return;
       }
-
-      console.log('âœ… Processing character_moved - updating token:', {
-        targetCharacterId,
-        newPosition: data.position
-      });
 
       // Throttle character token position updates
       const throttleKey = `character_${targetCharacterId}`;

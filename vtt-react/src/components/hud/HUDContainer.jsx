@@ -1,7 +1,7 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import PartyHUD from './PartyHUD';
 import TargetHUD from './TargetHUD';
-import usePartyStore from '../../store/partyStore';
 import useTargetingStore from '../../store/targetingStore';
 import MythrillWindow from '../windows/MythrillWindow';
 import { InspectionProvider } from '../../contexts/InspectionContext';
@@ -89,9 +89,13 @@ const HUDContainer = () => {
     const [isInspectingSelf, setIsInspectingSelf] = useState(false);
 
     // Store data
-    const {} = usePartyStore();
-    const { currentTarget } = useTargetingStore();
-    const { restOverlayOpen, restOverlayType, restOverlayText, hideRestOverlay } = useGameStore();
+    const currentTarget = useTargetingStore(state => state.currentTarget);
+    const { restOverlayOpen, restOverlayType, restOverlayText, hideRestOverlay } = useGameStore(useShallow((state) => ({
+        restOverlayOpen: state.restOverlayOpen,
+        restOverlayType: state.restOverlayType,
+        restOverlayText: state.restOverlayText,
+        hideRestOverlay: state.hideRestOverlay
+    })));
 
     // Listen for character sheet open events from tokens
     useEffect(() => {

@@ -10,31 +10,81 @@
 export class InfiniteGridSystem {
   constructor(gameStore) {
     this.gameStore = gameStore;
+    this._gridStateCache = null;
   }
 
   /**
-   * Get current grid state from the game store
+   * Get current grid state from the game store.
+   * Cached and rebuilt only when an underlying store value changes - this method
+   * is called hundreds of times per frame, so allocating fresh objects each call
+   * creates significant GC pressure on low-end machines.
    */
   getGridState() {
-    const state = this.gameStore.getState();
-    return {
-      gridSize: state.gridSize,
-      gridType: state.gridType || 'square', // 'square' or 'hex'
-      cameraX: state.cameraX,
-      cameraY: state.cameraY,
-      zoomLevel: state.zoomLevel,
-      playerZoom: state.playerZoom,
-      effectiveZoom: state.zoomLevel * state.playerZoom, // Combined zoom
-      gridOffsetX: state.gridOffsetX,
-      gridOffsetY: state.gridOffsetY,
-      gridMovesWithBackground: state.gridMovesWithBackground,
-      gridExtent: state.gridExtent,
-      showGrid: state.showGrid,
-      gridLineColor: state.gridLineColor,
-      gridLineThickness: state.gridLineThickness,
-      minZoom: state.minZoom,
-      maxZoom: state.maxZoom
+    const s = this.gameStore.getState();
+    const cached = this._gridStateCache;
+    const src = cached && cached.src;
+    if (
+      src &&
+      src.gridSize === s.gridSize &&
+      src.gridType === s.gridType &&
+      src.cameraX === s.cameraX &&
+      src.cameraY === s.cameraY &&
+      src.zoomLevel === s.zoomLevel &&
+      src.playerZoom === s.playerZoom &&
+      src.gridOffsetX === s.gridOffsetX &&
+      src.gridOffsetY === s.gridOffsetY &&
+      src.gridMovesWithBackground === s.gridMovesWithBackground &&
+      src.gridExtent === s.gridExtent &&
+      src.showGrid === s.showGrid &&
+      src.gridLineColor === s.gridLineColor &&
+      src.gridLineThickness === s.gridLineThickness &&
+      src.minZoom === s.minZoom &&
+      src.maxZoom === s.maxZoom
+    ) {
+      return cached.state;
+    }
+
+    const state = {
+      gridSize: s.gridSize,
+      gridType: s.gridType || 'square', // 'square' or 'hex'
+      cameraX: s.cameraX,
+      cameraY: s.cameraY,
+      zoomLevel: s.zoomLevel,
+      playerZoom: s.playerZoom,
+      effectiveZoom: s.zoomLevel * s.playerZoom, // Combined zoom
+      gridOffsetX: s.gridOffsetX,
+      gridOffsetY: s.gridOffsetY,
+      gridMovesWithBackground: s.gridMovesWithBackground,
+      gridExtent: s.gridExtent,
+      showGrid: s.showGrid,
+      gridLineColor: s.gridLineColor,
+      gridLineThickness: s.gridLineThickness,
+      minZoom: s.minZoom,
+      maxZoom: s.maxZoom
     };
+
+    this._gridStateCache = {
+      state,
+      src: {
+        gridSize: s.gridSize,
+        gridType: s.gridType,
+        cameraX: s.cameraX,
+        cameraY: s.cameraY,
+        zoomLevel: s.zoomLevel,
+        playerZoom: s.playerZoom,
+        gridOffsetX: s.gridOffsetX,
+        gridOffsetY: s.gridOffsetY,
+        gridMovesWithBackground: s.gridMovesWithBackground,
+        gridExtent: s.gridExtent,
+        showGrid: s.showGrid,
+        gridLineColor: s.gridLineColor,
+        gridLineThickness: s.gridLineThickness,
+        minZoom: s.minZoom,
+        maxZoom: s.maxZoom
+      }
+    };
+
+    return state;
   }
 
   /**

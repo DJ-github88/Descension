@@ -61,9 +61,11 @@
 
 /* Background Selection Modal */
 .background-selection-modal {
-  min-width: 600px;
+  width: 92vw;
   max-width: 800px;
-  padding: 24px;
+  min-width: 0;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .background-selection-modal .modal-header {
@@ -3130,6 +3132,22 @@
 
 /* Responsive */
 @media (max-width: 900px) {
+  .journal-manager-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+
+  .journal-folder-selector {
+    width: 100%;
+  }
+
+  .folder-select {
+    width: 100%;
+    min-width: 0;
+  }
+
   .journal-notes-section {
     grid-template-columns: 1fr;
   }
@@ -3165,9 +3183,12 @@
   background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 100%);
   border: 3px solid #8B4513;
   border-radius: 12px;
-  padding: 24px;
-  min-width: 340px;
+  padding: 20px;
+  width: 90vw;
+  max-width: 440px;
+  min-width: 0;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
 }
 
 .orb-editor h4 {

@@ -870,8 +870,34 @@
 }
 
 /* ---- Small screens ---- */
-@media (max-width: 640px) {
+@media (max-width: 768px) {
+  .dice-roller-compact {
+    bottom: 8px;
+    left: 8px;
+  }
+
+  .dice-button {
+    width: 36px;
+    height: 36px;
+    font-size: 15px;
+  }
+
   .dice-dropdown {
     width: min(390px, calc(100vw - 24px));
+    left: 0;
+    bottom: 46px;
   }
+}
+
+/* In Character View, the cog is cleanly integrated into the action bar */
+.character-view-page ~ .dice-rolling-system .dice-roller-compact .dice-button,
+.character-view-page .dice-roller-compact .dice-button,
+body:has(.character-view-page) .dice-roller-compact .dice-button {
+  display: none !important;
+}
+
+body:has(.character-view-page) .dice-roller-compact {
+  bottom: 56px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
 }

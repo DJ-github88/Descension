@@ -5315,7 +5315,21 @@
   }
 
   .account-main {
-    padding: 1.5rem 0.8rem;
+    padding: 1rem 0.5rem;
+    overflow-x: hidden;
+  }
+
+  .account-danger-zone {
+    margin: 1.5rem 0.5rem 2rem !important;
+    padding: 1rem !important;
+    box-sizing: border-box !important;
+    max-width: 100% !important;
+    word-break: break-word !important;
+  }
+
+  .account-danger-zone input {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   .account-dashboard .header-actions {

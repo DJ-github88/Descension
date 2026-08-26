@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect, useCallback, memo } from 'react';
 import BESTIARY_DATA from '../../data/creatureData.json';
+import InlineMarkdown from '../common/InlineMarkdown';
 import './BestiaryDisplay.css';
 
 const DANGER_COLORS = {
@@ -671,7 +672,7 @@ const BestiaryDisplay = () => {
 
                           {currentCreature.folkloreInspiration.description && (
                             <div className="bestiary-folklore-narrative">
-                              <p>{currentCreature.folkloreInspiration.description}</p>
+                              <p><InlineMarkdown text={currentCreature.folkloreInspiration.description} /></p>
                             </div>
                           )}
 
@@ -680,7 +681,7 @@ const BestiaryDisplay = () => {
                               <h5>
                                 <i className="fas fa-feather-pointed"></i> Mythrill Adaptation &amp; Subversion
                               </h5>
-                              <p>{currentCreature.folkloreInspiration.settingAdaptation}</p>
+                              <p><InlineMarkdown text={currentCreature.folkloreInspiration.settingAdaptation} /></p>
                             </div>
                           )}
                         </div>

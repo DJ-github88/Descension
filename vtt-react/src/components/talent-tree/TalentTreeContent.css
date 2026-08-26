@@ -1109,13 +1109,55 @@
 }
 
 @media (max-width: 768px) {
+    .talent-tree-content-root {
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    .talent-tree-top-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: 8px 10px;
+    }
+    .talent-spec-header-title {
+        font-size: 1rem;
+    }
+    .talent-spec-header-desc {
+        max-width: 100%;
+        white-space: normal;
+        font-size: 0.76rem;
+    }
+    .talent-stats-bar {
+        width: 100%;
+        justify-content: space-between;
+        gap: 6px;
+        margin: 0;
+    }
     .talent-split-book-layout {
         flex-direction: column;
-        overflow-y: auto;
+        height: auto;
+        min-height: 100%;
+        overflow: visible;
+    }
+    .talent-tree-page-canvas {
+        flex: none;
+        width: 100%;
+        min-width: 0;
+        height: 500px;
+        min-height: 500px;
+        position: relative;
+    }
+    .talent-tree-scroll-container {
+        padding: 10px 14px 20px 36px !important;
     }
     .talent-inspector-page {
+        flex: none;
+        width: 100%;
         max-width: 100%;
-        min-height: 300px;
+        min-height: 280px;
+        overflow: visible;
+        padding: 12px 14px 40px;
+        box-sizing: border-box;
     }
     .talent-book-spine-divider {
         width: 100%;
@@ -1125,8 +1167,5 @@
     .talent-spine-stitch {
         width: 14px;
         height: 3px;
-    }
-    .talent-stats-bar {
-        margin-right: 0;
     }
 }

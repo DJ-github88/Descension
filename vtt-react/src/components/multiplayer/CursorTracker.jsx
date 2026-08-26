@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import useSettingsStore from '../../store/settingsStore';
 import useGameStore from '../../store/gameStore';
+import { useShallow } from 'zustand/react/shallow';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import './CursorTracker.css';
 
@@ -33,6 +34,11 @@ const CursorTracker = ({ socket }) => {
         console.log('🖱️ CursorTracker: Setting up cursor_move listener');
         */
 
+        // Buffer incoming cursor packets and flush once per frame to avoid
+        // re-rendering at network packet frequency (dozens/sec per player)
+        const pendingCursors = {};
+        let flushRafId = null;
+
         // Listen for cursor movements from other players
         const handleCursorMove = (data) => {
             const { playerId, playerName, playerColor, worldX, worldY, x, y } = data;
@@ -43,17 +49,24 @@ const CursorTracker = ({ socket }) => {
 
             // console.log(`鼠标 CursorTracker: Received cursor from ${playerName} at world (${finalWorldX}, ${finalWorldY})`);
 
-            // Update cursor position
-            setCursors(prev => ({
-                ...prev,
-                [playerId]: {
-                    worldX: finalWorldX,
-                    worldY: finalWorldY,
-                    playerName: playerName || 'Unknown',
-                    playerColor: playerColor || '#4a90e2',
-                    timestamp: Date.now()
-                }
-            }));
+            pendingCursors[playerId] = {
+                worldX: finalWorldX,
+                worldY: finalWorldY,
+                playerName: playerName || 'Unknown',
+                playerColor: playerColor || '#4a90e2',
+                timestamp: Date.now()
+            };
+
+            if (flushRafId === null) {
+                flushRafId = requestAnimationFrame(() => {
+                    flushRafId = null;
+                    const updates = pendingCursors;
+                    const count = Object.keys(updates).length;
+                    if (count === 0) return;
+                    setCursors(prev => ({ ...prev, ...updates }));
+                    Object.keys(pendingCursors).forEach(k => delete pendingCursors[k]);
+                });
+            }
 
             // Clear existing timeout for this player
             if (cursorTimeouts.current[playerId]) {
@@ -74,6 +87,10 @@ const CursorTracker = ({ socket }) => {
 
         return () => {
             socket.off('cursor_move', handleCursorMove);
+            if (flushRafId !== null) {
+                cancelAnimationFrame(flushRafId);
+                flushRafId = null;
+            }
             // Clear all timeouts
             Object.values(cursorTimeouts.current).forEach(clearTimeout);
             cursorTimeouts.current = {};
@@ -84,12 +101,12 @@ const CursorTracker = ({ socket }) => {
     }, [socket, showCursorTracking]);
 
     // Subscribe to game store and viewport dimensions to re-render cursors on move/zoom
-    const gameStore = useGameStore(state => ({
+    const gameStore = useGameStore(useShallow(state => ({
         cameraX: state.cameraX,
         cameraY: state.cameraY,
         zoomLevel: state.zoomLevel,
         playerZoom: state.playerZoom
-    }));
+    })));
 
     // Calculate screen positions for all cursors
     const visibleCursors = useMemo(() => {

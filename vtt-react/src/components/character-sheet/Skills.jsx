@@ -694,7 +694,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
     // (lost on full page reload). The selected mode rolls 1, 2, or 3 dice
     // and the "kept" value is the highest (advantage) or lowest (disadvantage).
     const ROLL_MODES = [
-        { key: 'normal',               label: 'Normal',           icon: 'fa-equals',          desc: 'Roll the die normally.' },
+        { key: 'normal',               label: 'Normal',           icon: 'fa-minus',           desc: 'Roll the die normally.' },
         { key: 'advantage',            label: 'Advantage',        icon: 'fa-arrow-trend-up',  desc: 'Roll 2 dice, keep the highest.' },
         { key: 'double-advantage',     label: 'Double Advantage', icon: 'fa-angles-up',       desc: 'Roll 3 dice, keep the highest.' },
         { key: 'disadvantage',         label: 'Disadvantage',     icon: 'fa-arrow-trend-down',desc: 'Roll 2 dice, keep the lowest.' },
@@ -767,6 +767,17 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
 
         return (
             <div className="skill-detail-view">
+                {selectedSkill && (
+                    <button
+                        type="button"
+                        className="mobile-back-to-skills-btn"
+                        onClick={() => setSelectedSkill(null)}
+                        title="Back to Skills List"
+                    >
+                        <i className="fas fa-arrow-left"></i>
+                        <span>Back to Skills List</span>
+                    </button>
+                )}
                 {isSimpleMode ? (
                     <div className="skill-simple-header">
                         <div className="skill-simple-header-left">

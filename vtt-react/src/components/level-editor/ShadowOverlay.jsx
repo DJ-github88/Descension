@@ -13,24 +13,20 @@ const ShadowOverlay = () => {
     const shadowDataRef = useRef({});
     
     // Level editor store
-    const {
-        lightSources,
-        lightingEnabled,
-        wallData,
-        performanceMode
-    } = useLevelEditorStore();
+    const lightSources = useLevelEditorStore(state => state.lightSources);
+    const lightingEnabled = useLevelEditorStore(state => state.lightingEnabled);
+    const wallData = useLevelEditorStore(state => state.wallData);
+    const performanceMode = useLevelEditorStore(state => state.performanceMode);
 
     // Game store for positioning
-    const {
-        gridSize,
-        gridOffsetX,
-        gridOffsetY,
-        cameraX,
-        cameraY,
-        zoomLevel,
-        playerZoom,
-        isGMMode
-    } = useGameStore();
+    const gridSize = useGameStore(state => state.gridSize);
+    const gridOffsetX = useGameStore(state => state.gridOffsetX);
+    const gridOffsetY = useGameStore(state => state.gridOffsetY);
+    const cameraX = useGameStore(state => state.cameraX);
+    const cameraY = useGameStore(state => state.cameraY);
+    const zoomLevel = useGameStore(state => state.zoomLevel);
+    const playerZoom = useGameStore(state => state.playerZoom);
+    const isGMMode = useGameStore(state => state.isGMMode);
 
     const effectiveZoom = zoomLevel * playerZoom;
     const tileSize = gridSize || 50;
@@ -173,34 +169,6 @@ const ShadowOverlay = () => {
         
         return () => window.removeEventListener('resize', updateCanvasSize);
     }, [renderShadows]);
-
-    // Animation loop for dynamic shadows - deferred start to avoid competing during initial load
-    useEffect(() => {
-        if (!lightingEnabled) return;
-
-        renderShadows();
-
-        let animationId;
-        
-        const startLoop = () => {
-            const animate = () => {
-                renderShadows();
-                animationId = requestAnimationFrame(animate);
-            };
-            if (Object.keys(shadowDataRef.current).length > 0) {
-                animationId = requestAnimationFrame(animate);
-            }
-        };
-
-        const startDelay = setTimeout(startLoop, 2000);
-
-        return () => {
-            clearTimeout(startDelay);
-            if (animationId) {
-                cancelAnimationFrame(animationId);
-            }
-        };
-    }, [lightingEnabled, renderShadows]);
 
     // Don't render if shadows are disabled
     if (!lightingEnabled) {

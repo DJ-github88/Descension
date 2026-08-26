@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState, Suspense } from 'react';
 import lazy from './utils/lazyWithRetry';
 import { shouldReduceMotion } from './utils/accessibility';
+import { useShallow } from 'zustand/react/shallow';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation, useParams } from 'react-router-dom';
 import GameProvider from "./components/GameProvider";
 import { SpellLibraryProvider } from "./components/spellcrafting-wizard/context/SpellLibraryContext";
@@ -312,7 +313,15 @@ const PhoneGate = ({ featureName, children }) => {
 
 function GameScreen() {
   const location = useLocation();
-  const { isGMMode, setGMMode, gridSize, gridOffsetX, gridOffsetY, activeSceneMode, activeLocationMapId } = useGameStore();
+  const { isGMMode, setGMMode, gridSize, gridOffsetX, gridOffsetY, activeSceneMode, activeLocationMapId } = useGameStore(useShallow((state) => ({
+    isGMMode: state.isGMMode,
+    setGMMode: state.setGMMode,
+    gridSize: state.gridSize,
+    gridOffsetX: state.gridOffsetX,
+    gridOffsetY: state.gridOffsetY,
+    activeSceneMode: state.activeSceneMode,
+    activeLocationMapId: state.activeLocationMapId
+  })));
   const [isGameHydrated, setIsGameHydrated] = useState(false);
   
   // Selectors for better performance - avoid re-rendering entire screen on unrelated store changes

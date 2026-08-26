@@ -407,10 +407,38 @@ function GridComponent({
   setViewingFromToken,
   dynamicFogEnabled,
   setDynamicFogEnabled
- } = useLevelEditorStore();
+ } = useLevelEditorStore(useShallow((state) => ({
+  isEditorMode: state.isEditorMode,
+  activeTool: state.activeTool,
+  activeTerrainType: state.activeTerrainType,
+  activeObjectType: state.activeObjectType,
+  activeDndElement: state.activeDndElement,
+  brushSize: state.brushSize,
+  setTerrain: state.setTerrain,
+  getTerrain: state.getTerrain,
+  clearTerrain: state.clearTerrain,
+  addEnvironmentalObject: state.addEnvironmentalObject,
+  addDndElement: state.addDndElement,
+  setFogOfWar: state.setFogOfWar,
+  getFogOfWar: state.getFogOfWar,
+  environmentalObjects: state.environmentalObjects,
+  dndElements: state.dndElements,
+  wallData: state.wallData,
+  showWallLayer: state.showWallLayer,
+  removeWall: state.removeWall,
+  updateWall: state.updateWall,
+  drawingLayers: state.drawingLayers,
+  viewingFromToken: state.viewingFromToken,
+  setViewingFromToken: state.setViewingFromToken,
+  dynamicFogEnabled: state.dynamicFogEnabled,
+  setDynamicFogEnabled: state.setDynamicFogEnabled
+ })));
 
  // Get map store for initialization
- const { initializeWithCurrentState, currentMapId } = useMapStore();
+ const { initializeWithCurrentState, currentMapId } = useMapStore(useShallow((state) => ({
+  initializeWithCurrentState: state.initializeWithCurrentState,
+  currentMapId: state.currentMapId
+ })));
 
  // Level editor persistence hook
  const { scheduleAutoSave } = useLevelEditorPersistence();
@@ -2341,23 +2369,23 @@ function GridComponent({
  }, [isDraggingCreature, addToken, tileSize, addItemToGrid, currentMapId]);
 
  // Handle removing a token
- const handleRemoveToken = (tokenId) => {
+ const handleRemoveToken = useCallback((tokenId) => {
   removeToken(tokenId);
- };
+ }, [removeToken]);
 
  // Handle removing a character token
- const handleRemoveCharacterToken = (tokenId) => {
+ const handleRemoveCharacterToken = useCallback((tokenId) => {
   removeCharacterToken(tokenId);
- };
+ }, [removeCharacterToken]);
 
  // Handle character inspection from token
- const handleCharacterTokenInspect = (characterData, isSelf) => {
+ const handleCharacterTokenInspect = useCallback((characterData, isSelf) => {
   // Dispatch a custom event that HUDContainer can listen for
   const inspectEvent = new CustomEvent('openCharacterSheet', {
    detail: { character: characterData, isSelf }
   });
   window.dispatchEvent(inspectEvent);
- };
+ }, []);
 
  // Helper function to check if there's a GM notes object at the clicked position
  const getGMNotesObjectAtPosition = (screenX, screenY) => {

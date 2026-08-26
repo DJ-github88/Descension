@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo, memo } from 'react';
 import ReactDOM from 'react-dom';
+import { useShallow } from 'zustand/react/shallow';
 import useInventoryStore from '../../store/inventoryStore';
 import useItemStore from '../../store/itemStore';
 import useCharacterStore from '../../store/characterStore';
@@ -72,11 +73,11 @@ const InventoryWindow = memo(() => {
     const [refreshKey, setRefreshKey] = useState(0);
 
     // Get character stats for dynamic grid sizing
-    const { stats, derivedStats, equipmentBonuses } = useCharacterStore(state => ({
+    const { stats, derivedStats, equipmentBonuses } = useCharacterStore(useShallow((state) => ({
         stats: state.stats,
         derivedStats: state.derivedStats,
         equipmentBonuses: state.equipmentBonuses
-    }));
+    })));
 
     // Calculate current grid size based on carrying capacity - make it reactive
     const GRID_SIZE = useMemo(() => {
@@ -128,7 +129,7 @@ const InventoryWindow = memo(() => {
         removeItem,
         splitStack,
         rotateItem
-    } = useInventoryStore(state => ({
+    } = useInventoryStore(useShallow((state) => ({
         currency: state.currency,
         items: state.items,
         encumbranceState: state.encumbranceState,
@@ -138,16 +139,16 @@ const InventoryWindow = memo(() => {
         removeItem: state.removeItem,
         splitStack: state.splitStack,
         rotateItem: state.rotateItem
-    }));
+    })));
 
-    const { items: itemStoreItems } = useItemStore(state => ({
+    const { items: itemStoreItems } = useItemStore(useShallow((state) => ({
         items: state.items
-    }));
+    })));
 
     // Character store for equipment management and resource updates
     const {
         equipItem
-    } = useCharacterStore(state => ({
+    } = useCharacterStore(useShallow((state) => ({
         equipItem: state.equipItem,
         updateResource: state.updateResource,
         health: state.health,
@@ -157,17 +158,17 @@ const InventoryWindow = memo(() => {
         tempMana: state.tempMana || 0,
         tempActionPoints: state.tempActionPoints || 0,
         updateTempResource: state.updateTempResource
-    }));
+    })));
 
     // Crafting store for learning recipes
-    const { learnRecipe } = useCraftingStore(state => ({
+    const { learnRecipe } = useCraftingStore(useShallow((state) => ({
         learnRecipe: state.learnRecipe
-    }));
+    })));
 
     // Condition store for consumable effects
-    const { addCondition } = useConditionStore(state => ({
+    const { addCondition } = useConditionStore(useShallow((state) => ({
         addCondition: state.addCondition
-    }));
+    })));
 
     // Use local state for open containers instead of the item store
     const [localOpenContainers, setLocalOpenContainers] = useState(new Set());
@@ -328,9 +329,8 @@ const InventoryWindow = memo(() => {
         });
     };
 
-    // Mobile touch handlers: long-press initiates drag, quick tap opens popup
+    // Mobile touch handlers: drag items around naturally or tap to inspect
     const handleItemTouchStart = (e, item) => {
-        if (!isMobile) return;
         const touch = e.touches[0];
         if (!touch) return;
 
@@ -360,15 +360,13 @@ const InventoryWindow = memo(() => {
                 height: item.height || 1,
                 rotation: item.rotation || 0
             };
-            // Haptic feedback if available
             if (navigator.vibrate) {
-                try { navigator.vibrate(40); } catch (err) {}
+                try { navigator.vibrate(30); } catch (err) {}
             }
-        }, TOUCH_DRAG_LONG_PRESS_MS);
+        }, 150);
     };
 
     const handleItemTouchMove = (e) => {
-        if (!isMobile) return;
         if (!touchDragState.pendingLongPress && !touchDragState.isDragging) return;
 
         const touch = e.touches[0];
@@ -380,17 +378,26 @@ const InventoryWindow = memo(() => {
 
         if (touchDragState.pendingLongPress) {
             if (distance > TOUCH_DRAG_MOVE_THRESHOLD) {
+                // If user starts moving finger, start dragging immediately!
                 clearTimeout(longPressTimerRef.current);
-                setTouchDragState({
-                    isDragging: false,
+                setTouchDragState(prev => ({
+                    ...prev,
                     pendingLongPress: false,
-                    item: null,
-                    startX: 0,
-                    startY: 0,
-                    currentX: 0,
-                    currentY: 0,
-                    highlightedCells: []
-                });
+                    isDragging: true,
+                    currentX: touch.clientX,
+                    currentY: touch.clientY
+                }));
+                setDraggedItem(touchDragState.item);
+                window.isDraggingItem = true;
+                window.draggedItemInfo = {
+                    item: touchDragState.item,
+                    width: touchDragState.item.width || 1,
+                    height: touchDragState.item.height || 1,
+                    rotation: touchDragState.item.rotation || 0
+                };
+                if (navigator.vibrate) {
+                    try { navigator.vibrate(30); } catch (err) {}
+                }
             }
             return;
         }
@@ -412,8 +419,6 @@ const InventoryWindow = memo(() => {
     };
 
     const handleItemTouchEnd = (e) => {
-        if (!isMobile) return;
-
         if (touchDragState.pendingLongPress) {
             // Quick tap -> open popup
             clearTimeout(longPressTimerRef.current);

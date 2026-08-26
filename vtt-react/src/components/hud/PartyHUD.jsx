@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
+import { useShallow } from 'zustand/react/shallow';
 import Draggable from 'react-draggable';
 // Removed: Resizable - not used
 import usePartyStore from '../../store/partyStore';
@@ -202,6 +203,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
         
         // Always return a cleanup function to ensure consistent hook count
         const interval = setInterval(() => {
+            if (document.hidden) return;
             // Global condition cleanup only needs to run once per client; gate to the
             // current player's interval to avoid N redundant cleanups for N party members.
             if (isCurrentPlayer) {
@@ -1752,27 +1754,43 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         setMemberPosition,
         currentParty,
         leaderId // Get leaderId from store hook for reactivity
-    } = usePartyStore();
-    const { setTarget, currentTarget, clearTarget } = useTargetingStore();
-    const { updateResource, updateClassResource } = useCharacterStore();
-    const {
-        removeCondition,
-        updateConditionDuration,
-        getRemainingTime,
-        getConditionsForTarget
-    } = useConditionStore();
-    const { addNotification, addCombatNotification } = useChatStore();
+    } = usePartyStore(useShallow((state) => ({
+        partyMembers: state.partyMembers,
+        isInParty: state.isInParty,
+        removePartyMember: state.removePartyMember,
+        updatePartyMember: state.updatePartyMember,
+        getMemberPosition: state.getMemberPosition,
+        setMemberPosition: state.setMemberPosition,
+        currentParty: state.currentParty,
+        leaderId: state.leaderId
+    })));
+    const setTarget = useTargetingStore(state => state.setTarget);
+    const currentTarget = useTargetingStore(state => state.currentTarget);
+    const clearTarget = useTargetingStore(state => state.clearTarget);
+    const updateResource = useCharacterStore(state => state.updateResource);
+    const updateClassResource = useCharacterStore(state => state.updateClassResource);
+    const removeCondition = useConditionStore(state => state.removeCondition);
+    const updateConditionDuration = useConditionStore(state => state.updateConditionDuration);
+    const getRemainingTime = useConditionStore(state => state.getRemainingTime);
+    const getConditionsForTarget = useConditionStore(state => state.getConditionsForTarget);
+    const addNotification = useChatStore(state => state.addNotification);
+    const addCombatNotification = useChatStore(state => state.addCombatNotification);
     const {
         isGMMode,
         toggleGMMode,
         isInMultiplayer,
         multiplayerRoom
-    } = useGameStore();
+    } = useGameStore(useShallow((state) => ({
+        isGMMode: state.isGMMode,
+        toggleGMMode: state.toggleGMMode,
+        isInMultiplayer: state.isInMultiplayer,
+        multiplayerRoom: state.multiplayerRoom
+    })));
     const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
     const alignment = useCharacterStore(state => state.alignment);
     const exhaustionLevel = useCharacterStore(state => state.exhaustionLevel);
 
-    const currentPlayerData = useCharacterStore(state => ({
+    const currentPlayerData = useCharacterStore(useShallow(state => ({
         // Use baseName or name from store, but we'll override this with lobby name if needed
         name: state.name,
         baseName: state.baseName,
@@ -1799,7 +1817,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         classResource: state.classResource,
         lore: state.lore,
         tokenSettings: state.tokenSettings
-    }));
+    })));
 
     // Context menu handlers
     const handleContextMenu = (e, member) => {

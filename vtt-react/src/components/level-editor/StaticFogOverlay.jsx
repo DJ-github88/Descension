@@ -67,15 +67,11 @@ const StaticFogOverlay = () => {
     const gridSize = useGameStore(state => state.gridSize) || 50;
     const gridOffsetX = useGameStore(state => state.gridOffsetX) || 0;
     const gridOffsetY = useGameStore(state => state.gridOffsetY) || 0;
-    const { cameraX, cameraY, zoomLevel, playerZoom, isGMMode: storeIsGMMode } = useGameStore(state => ({
-        cameraX: state.cameraX ?? 0,
-        cameraY: state.cameraY ?? 0,
-        zoomLevel: state.zoomLevel ?? 1,
-        playerZoom: state.playerZoom ?? 1,
-        isGMMode: state.isGMMode
-    }));
-
-    const isGMMode = storeIsGMMode;
+    const cameraX = useGameStore(state => state.cameraX) || 0;
+    const cameraY = useGameStore(state => state.cameraY) || 0;
+    const zoomLevel = useGameStore(state => state.zoomLevel) ?? 1;
+    const playerZoom = useGameStore(state => state.playerZoom) ?? 1;
+    const isGMMode = useGameStore(state => state.isGMMode);
 
     // PERFORMANCE: RAF-based camera tracking ref: avoids React re-render on every camera move
     const cameraRafRef = useRef(null);

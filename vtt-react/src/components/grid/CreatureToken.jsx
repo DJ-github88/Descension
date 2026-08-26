@@ -268,44 +268,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     return unique;
   }, [token?.state?.conditions, tokenId]);
 
-  // Remaining time helper for tooltips - re-renders each second
-  const [now, setNow] = useState(Date.now());
-  useEffect(() => {
-    const interval = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const getConditionRemaining = useCallback((condition) => {
-    const findMatch = () => {
-      const matchBuff = (activeBuffs || []).find(b => b.targetId === tokenId && (b.name === condition.name || b.id === condition.id));
-      if (matchBuff) return matchBuff;
-      const matchDebuff = (activeDebuffs || []).find(d => d.targetId === tokenId && (d.name === condition.name || d.id === condition.id));
-      return matchDebuff || null;
-    };
-
-    const fromStore = findMatch();
-    const durationType = fromStore?.durationType || condition.durationType;
-
-    // Round-based
-    if (durationType === 'rounds') {
-      const rounds = fromStore?.remainingRounds ?? fromStore?.durationValue ?? condition.remainingRounds ?? condition.durationValue;
-      return { label: rounds ? `${rounds} rounds` : '' };
-    }
-
-    const endTime = fromStore?.endTime
-      || (fromStore?.duration ? (fromStore.startTime || fromStore.startTime === 0 ? fromStore.startTime + fromStore.duration * 1000 : Date.now() + fromStore.duration * 1000) : null)
-      || (condition.appliedAt && condition.duration ? condition.appliedAt + condition.duration : null);
-
-    if (!endTime) return { label: '' };
-
-    const remainingMs = Math.max(0, endTime - now);
-    const totalSeconds = Math.ceil(remainingMs / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    const label = minutes > 0 ? `${minutes}:${seconds.toString().padStart(2, '0')}` : `${seconds}s`;
-    return { label };
-  }, [activeBuffs, activeDebuffs, tokenId, now]);
-
   // Helper function to update token position with enhanced multiplayer sync
   const updateTokenPositionWithSync = (tokenId, position, sendToServer = true) => {
     // 1. Always update locally immediately (true optimistic UI)

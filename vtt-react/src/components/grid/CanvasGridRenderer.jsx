@@ -280,6 +280,7 @@ const CanvasGridRenderer = ({
     
     // Track drag state in ref for use in render loop
     const isDraggingCameraRef = useRef(false);
+    const lastCamRenderKeyRef = useRef(null);
     useEffect(() => {
         isDraggingCameraRef.current = isDraggingCamera;
     }, [isDraggingCamera]);
@@ -289,7 +290,12 @@ const CanvasGridRenderer = ({
         if (renderRafRef.current !== null) return; // Already running
         
         const renderLoop = () => {
-            renderGrid();
+            const s = useGameStore.getState();
+            const camKey = `${s.cameraX}|${s.cameraY}|${s.zoomLevel * s.playerZoom}`;
+            if (camKey !== lastCamRenderKeyRef.current) {
+                lastCamRenderKeyRef.current = camKey;
+                renderGrid();
+            }
             // Check current drag state from ref
             if (isDraggingCameraRef.current) {
                 renderRafRef.current = requestAnimationFrame(renderLoop);
@@ -314,7 +320,6 @@ const CanvasGridRenderer = ({
             }
             // Throttle renders to ~60fps when not dragging to reduce desync with React
             if (zoomRenderRafRef.current === null) {
-                requestAnimationFrame(renderGrid);
                 zoomRenderRafRef.current = requestAnimationFrame(() => {
                     renderGrid();
                     zoomRenderRafRef.current = null;
@@ -410,7 +415,6 @@ const CanvasGridRenderer = ({
 
         // Check if the event target is a grid item - if so, don't handle it here
         if (event.target && event.target.classList.contains('grid-item-orb')) {
-            console.log('Canvas: ignoring event on grid item');
             return;
         }
 
@@ -424,13 +428,11 @@ const CanvasGridRenderer = ({
             elementAtPoint.closest('.character-token') ||
             elementAtPoint.closest('.grid-item-orb')
         )) {
-            console.log('Canvas: interactive element found at mouse position, ignoring event');
             return;
         }
 
         // Additional safety check: if any token is currently being dragged, ignore canvas events
         if (window.multiplayerDragState && window.multiplayerDragState.size > 0) {
-            console.log('Canvas: token is being dragged, ignoring canvas interaction');
             return;
         }
 
@@ -438,15 +440,7 @@ const CanvasGridRenderer = ({
         if (event.type === 'click' || event.type === 'mousedown') {
             // CRITICAL FIX: Completely disable left-click handling when not in special modes
             if (event.button === 0 && !isDraggingItem && !isDraggingCharacterToken) {
-                console.log('Canvas: Left-click ignored - only drag and drop should move tokens');
                 return; // Don't process left-clicks when not in special modes
-            }
-
-            // Check if we're in any special mode that should handle clicks differently
-            if (!isDraggingItem && !isDraggingCharacterToken) {
-                // Not in any dragging mode, so this is a regular grid click
-                // Only proceed if we're sure this isn't interfering with token interactions
-                console.log('Canvas: processing grid click event');
             }
         }
 
