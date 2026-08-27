@@ -11,15 +11,15 @@ import RegionDetail from './RegionDetail';
 import ClassLoreDetail from './ClassLoreDetail';
 import CustomLineageWizard from './CustomLineageWizard';
 import ClassIcon from '../common/ClassIcon';
-import { TimelineView, MiniCalendar } from './TimelineView';
+import { TimelineView } from './TimelineView';
 import AccountMapManager from '../account/AccountMapManager';
 import FamilyTreeStudio from './FamilyTreeStudio';
 import UniversalEntityGraph from './UniversalEntityGraph';
-import UniversalTagManager from './UniversalTagManager';
-// Lazy-loaded to avoid circular chunk initialization with AccountDashboard
-const BookDocumentEditor = lazy(() => import('../journal/BookDocumentEditor'));
 import { showPrompt } from '../../utils/dialogService';
 import './WorldDashboard.css';
+
+// Lazy-loaded to avoid circular chunk initialization with AccountDashboard
+const BookDocumentEditor = lazy(() => import('../journal/BookDocumentEditor'));
 
 const VIEWS = {
   DASHBOARD: 'dashboard',

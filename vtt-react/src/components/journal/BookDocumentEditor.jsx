@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo } from 'react';
 import RichLoreText from '../common/RichLoreText';
 import tagRegistryService from '../../services/tagRegistryService';
 import './BookDocumentEditor.css';
@@ -87,8 +87,6 @@ export const BookDocumentEditor = ({
   const [doc, setDoc] = useState(initialDoc);
   const [activeMode, setActiveMode] = useState('reader'); // 'edit' | 'reader'
   const [editingBlockId, setEditingBlockId] = useState(null);
-  const [showAddBlockMenu, setShowAddBlockMenu] = useState(false);
-  const [addInsertIndex, setAddInsertIndex] = useState(null);
 
   // Entities for embed picker
   const availableEntities = useMemo(() => {
@@ -150,7 +148,6 @@ export const BookDocumentEditor = ({
     });
 
     setEditingBlockId(newBlock.id);
-    setShowAddBlockMenu(false);
   };
 
   const updateBlock = (id, updates) => {

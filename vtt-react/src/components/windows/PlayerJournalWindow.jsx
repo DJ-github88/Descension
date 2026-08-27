@@ -4,7 +4,6 @@ import MythrillWindow from './MythrillWindow';
 import useShareableStore from '../../store/shareableStore';
 import useGameStore from '../../store/gameStore';
 import { getCustomIconUrl } from '../../utils/assetManager';
-import { BUILTIN_SUBREGION_MAPS, getCustomMaps } from '../../data/subregionMaps';
 import campaignService from '../../services/campaignService';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
 import { useMediaUpload } from '../../hooks/useMediaUpload';
@@ -12,12 +11,13 @@ import RichLoreText from '../common/RichLoreText';
 import WikiAutocomplete from '../common/WikiAutocomplete';
 import QuickPeekDrawer from '../common/QuickPeekDrawer';
 import CustomLineageWizard from '../world/CustomLineageWizard';
-// Lazy-loaded to avoid circular chunk initialization
-const BookDocumentEditor = lazy(() => import('../journal/BookDocumentEditor'));
 import useCustomLineageStore from '../../store/customLineageStore';
-import useWorldStore from '../../store/worldStore';
 import useFactionStore from '../../store/factionStore';
 import './PlayerJournalWindow.css';
+
+// Lazy-loaded to avoid circular chunk initialization
+const BookDocumentEditor = lazy(() => import('../journal/BookDocumentEditor'));
+
 
 const CANONICAL_MAP_PRESETS = [
   { id: 'mythril', name: 'Mythrill', image: '/assets/images/backgrounds/Mythril.jpeg', type: 'World Master Map' },
