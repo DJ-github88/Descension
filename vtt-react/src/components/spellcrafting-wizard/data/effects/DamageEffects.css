@@ -27,7 +27,9 @@
 }
 
 /* Two Column Layout */
-.two-column {
+.damage-effect .two-column,
+.damage-effects-container .two-column,
+.effect-builder .two-column {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 15px;

@@ -10,6 +10,12 @@ import useShareableStore from '../store/shareableStore';
 import useClassLoreStore from '../store/classLoreStore';
 import campaignService from './campaignService';
 
+const asText = (v) => {
+  if (typeof v === 'string') return v;
+  if (v == null) return '';
+  return '';
+};
+
 class UniversalEntityService {
   escapeRegex(str) {
     if (!str || typeof str !== 'string') return '';
@@ -514,6 +520,131 @@ class UniversalEntityService {
     const start = Math.max(0, idx - 40);
     const end = Math.min(content.length, idx + keyword.length + 60);
     return (start > 0 ? '...' : '') + content.slice(start, end).replace(/[\n\r]+/g, ' ') + (end < content.length ? '...' : '');
+  }
+
+  /**
+   * Compendium sources: static/curated game data (creatures, classes, races, items).
+   * Loaded once via dynamic imports so they stay in async chunks and never bloat the main bundle.
+   */
+  async _loadCompendium() {
+    if (this._compendiumCache) return this._compendiumCache;
+    const entries = [];
+
+    try {
+      const creatureMod = await import('../data/creatureData.json');
+      const creatures = (creatureMod.default?.regions || []).flatMap((r) => r.creatures || []);
+      creatures.forEach((c) => {
+        const name = c.name || c.title;
+        if (!name) return;
+        entries.push({
+          id: `creature:${c.id || name.toLowerCase().replace(/\s+/g, '-')}`,
+          type: 'creature',
+          category: 'Bestiary Creature',
+          title: name,
+          subtitle: [c.type, c.challenge || c.cr, c.region].filter((x) => typeof x === 'string').join(' · ') || 'Creature of Mythrill',
+          icon: 'fa-dragon',
+          color: '#8e44ad',
+          raw: c,
+          summary: asText(c.description) || asText(c.lore) || asText(c.summary) || 'A creature documented in the Mythrill bestiary.'
+        });
+      });
+    } catch (_) {}
+
+    try {
+      const classMod = await import('../data/classes/index.js');
+      const allClasses = classMod.ALL_CLASSES_DATA || {};
+      Object.entries(allClasses).forEach(([name, data]) => {
+        if (!name) return;
+        entries.push({
+          id: `class:${name.toLowerCase().replace(/\s+/g, '-')}`,
+          type: 'class',
+          category: 'Character Class',
+          title: name,
+          subtitle: asText(data.playstyle) || asText(data.tagline) || 'A calling of Mythrill',
+          icon: 'fa-hat-wizard',
+          color: '#c0392b',
+          raw: { name, ...data },
+          summary: asText(data.description) || asText(data.overview) || asText(data.playstyle) || 'One of the 21 callings.'
+        });
+      });
+    } catch (_) {}
+
+    try {
+      const raceMod = await import('../data/races/index.js');
+      const allRaces = raceMod.ALL_RACES || {};
+      Object.entries(allRaces).forEach(([key, data]) => {
+        const name = data?.name || key;
+        entries.push({
+          id: `race:${key}`,
+          type: 'race',
+          category: 'People of Mythrill',
+          title: name,
+          subtitle: asText(data.tagline) || asText(data.summary) || 'A people of the world',
+          icon: 'fa-people-group',
+          color: '#16a085',
+          raw: { key, ...data },
+          summary: asText(data.description) || asText(data.overview) || asText(data.lore) || 'A lineage of Mythrill.'
+        });
+      });
+    } catch (_) {}
+
+    try {
+      const { default: useItemStore } = await import('../store/itemStore.js');
+      const items = useItemStore.getState().items || [];
+      items.forEach((it) => {
+        const name = it.name || it.title;
+        if (!name) return;
+        entries.push({
+          id: `item:${it.id || name.toLowerCase().replace(/\s+/g, '-')}`,
+          type: 'item',
+          category: 'Item Compendium',
+          title: name,
+          subtitle: [it.itemType || it.type, it.rarity].filter((x) => typeof x === 'string').join(' · ') || 'Item',
+          icon: 'fa-gem',
+          color: '#f39c12',
+          raw: it,
+          summary: asText(it.description) || asText(it.flavorText) || 'An item of Mythrill.'
+        });
+      });
+    } catch (_) {}
+
+    this._compendiumCache = entries;
+    return entries;
+  }
+
+  /**
+   * Everything embeddable in a book: live world/campaign/journal graph + compendium.
+   * Normalized to { id, type, name, icon, summary, category } for embed pickers.
+   */
+  async getAllBookEmbeddables(options = {}) {
+    const { limit = 2000, includeCompendium = true } = options;
+    const seen = new Set();
+    const out = [];
+
+    const push = (e) => {
+      if (!e) return;
+      const key = `${e.type}:${e.id}`;
+      if (seen.has(key) || out.length >= limit) return;
+      seen.add(key);
+      out.push({
+        id: e.id,
+        type: e.type,
+        name: e.title || e.name || 'Unnamed',
+        icon: (e.icon || '').startsWith('fa') ? e.icon : 'fa-circle-dot',
+        summary: e.summary || e.subtitle || '',
+        category: e.category || e.type,
+        raw: e.raw || null
+      });
+    };
+
+    this.searchAll('', { limit }).forEach(push);
+
+    if (includeCompendium) {
+      const compendium = await this._loadCompendium();
+      compendium.forEach(push);
+    }
+
+    return out;
   }
 }
 

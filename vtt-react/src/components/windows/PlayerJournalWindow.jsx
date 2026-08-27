@@ -16,7 +16,7 @@ import useFactionStore from '../../store/factionStore';
 import './PlayerJournalWindow.css';
 
 // Lazy-loaded to avoid circular chunk initialization
-const BookDocumentEditor = lazy(() => import('../journal/BookDocumentEditor'));
+const BookManager = lazy(() => import('../books/BookManager'));
 
 
 const CANONICAL_MAP_PRESETS = [
@@ -184,6 +184,8 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   const [noteTags, setNoteTags] = useState('');
   const noteTextareaRef = useRef(null);
   const [noteImage, setNoteImage] = useState(null);
+  const [notesSearchQuery, setNotesSearchQuery] = useState('');
+  const [notesArchetypeFilter, setNotesArchetypeFilter] = useState(null);
   const [orbEditorLabel, setOrbEditorLabel] = useState('');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
   const boardRef = useRef(null);
@@ -262,6 +264,7 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   const [showFolderDropdown, setShowFolderDropdown] = useState(false);
   const [draggedOverFolder, setDraggedOverFolder] = useState(null);
   const [showReceivedFolderDropdown, setShowReceivedFolderDropdown] = useState(false);
+  const [receivedSearchTerm, setReceivedSearchTerm] = useState('');
   const folderDropdownRef = useRef(null);
   const receivedFolderDropdownRef = useRef(null);
   
@@ -361,15 +364,43 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   }, [playerKnowledge, currentFolderId]);
 
   const filteredNotes = useMemo(() => {
-    if (!currentFolderId) return playerNotes;
-    return playerNotes.filter(n => n.folderId === currentFolderId);
-  }, [playerNotes, currentFolderId]);
+    let list = playerNotes;
+    if (currentFolderId) {
+      list = list.filter(n => n.folderId === currentFolderId);
+    }
+    if (notesArchetypeFilter) {
+      list = list.filter(n => (n.archetype || 'note') === notesArchetypeFilter);
+    }
+    if (notesSearchQuery && notesSearchQuery.trim()) {
+      const q = notesSearchQuery.trim().toLowerCase();
+      list = list.filter(n =>
+        (n.title && n.title.toLowerCase().includes(q)) ||
+        (n.content && n.content.toLowerCase().includes(q)) ||
+        (n.aliases && (Array.isArray(n.aliases) ? n.aliases.join(' ') : String(n.aliases)).toLowerCase().includes(q))
+      );
+    }
+    return list;
+  }, [playerNotes, currentFolderId, notesArchetypeFilter, notesSearchQuery]);
 
   // Filter orbs based on current BOARD (separate from folders)
   const filteredOrbs = useMemo(() => {
     if (!currentBoardId) return knowledgeOrbs;
     return knowledgeOrbs.filter(o => o.boardId === currentBoardId);
   }, [knowledgeOrbs, currentBoardId]);
+
+  const campaignNPCs = campaignData?.npcs || [];
+  const campaignLocations = campaignData?.locations || [];
+  const campaignPlots = campaignData?.plotThreads || [];
+  const campaignLore = campaignData?.homebrew?.lore || campaignData?.lore || [];
+
+  const searchedCampaignItems = useMemo(() => {
+    const s = addOrbSearchTerm.toLowerCase();
+    const npcs = campaignNPCs.filter(n => !s || n.name?.toLowerCase().includes(s) || n.description?.toLowerCase().includes(s)).map(n => ({ ...n, campaignKind: 'npc' }));
+    const locs = campaignLocations.filter(l => !s || l.name?.toLowerCase().includes(s) || l.description?.toLowerCase().includes(s)).map(l => ({ ...l, campaignKind: 'location' }));
+    const plots = campaignPlots.filter(p => !s || p.title?.toLowerCase().includes(s) || p.description?.toLowerCase().includes(s)).map(p => ({ ...p, campaignKind: 'plot' }));
+    const lore = campaignLore.filter(l => !s || l.title?.toLowerCase().includes(s) || l.description?.toLowerCase().includes(s)).map(l => ({ ...l, campaignKind: 'lore' }));
+    return [...npcs, ...locs, ...plots, ...lore];
+  }, [campaignNPCs, campaignLocations, campaignPlots, campaignLore, addOrbSearchTerm]);
 
   // Filter for add orb popup
   const searchedKnowledge = useMemo(() => {
@@ -416,8 +447,8 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   // Tabs for the journal
   const tabs = [
     { id: 'board', label: 'Knowledge Board', icon: 'fa-project-diagram' },
-    { id: 'sourcebook', label: 'Book & Chapter Builder', icon: 'fa-book-open' },
-    { id: 'received', label: 'Received', icon: 'fa-inbox' },
+    { id: 'sourcebook', label: 'Books & Chapters', icon: 'fa-book-open' },
+    { id: 'received', label: 'Received Handouts', icon: 'fa-inbox' },
     { id: 'notes', label: 'My Notes', icon: 'fa-sticky-note' }
   ];
 
@@ -1033,13 +1064,28 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
       setDraggedOverFolder(null);
     };
 
+    const filterBySearch = (list) => {
+      if (!receivedSearchTerm.trim()) return list;
+      const q = receivedSearchTerm.trim().toLowerCase();
+      return list.filter(k => 
+        (k.title && k.title.toLowerCase().includes(q)) ||
+        (k.content && typeof k.content === 'string' && k.content.toLowerCase().includes(q)) ||
+        (k.description && k.description.toLowerCase().includes(q))
+      );
+    };
+
     // Get items in each folder
     const getItemsInFolder = (folderId) => {
+      let items;
       if (folderId === null) {
-        return playerKnowledge.filter(k => !k.folderId);
+        items = playerKnowledge.filter(k => !k.folderId);
+      } else {
+        items = playerKnowledge.filter(k => k.folderId === folderId);
       }
-      return playerKnowledge.filter(k => k.folderId === folderId);
+      return filterBySearch(items);
     };
+
+    const displayedKnowledge = filterBySearch(filteredKnowledge);
 
     return (
       <div className="journal-received-container">
@@ -1054,7 +1100,7 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
               }}
               title="Filter by folder"
             >
-              <i className="fas fa-folder"></i>
+              <i className="fas fa-folder-open"></i>
               <span>{getCurrentFolderName()}</span>
               <i className={`fas fa-chevron-${showReceivedFolderDropdown ? 'up' : 'down'}`} style={{ fontSize: '10px', marginLeft: '4px' }}></i>
             </button>
@@ -1068,7 +1114,7 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
                   }}
                 >
                   <i className="fas fa-globe"></i>
-                  <span>All</span>
+                  <span>All Folders ({playerKnowledge.length})</span>
                 </button>
                 {journalFolders.map(folder => (
                   <button
@@ -1109,6 +1155,24 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
               </div>
             )}
           </div>
+
+          {/* Search Box */}
+          <div className="received-search-wrapper">
+            <i className="fas fa-search received-search-icon"></i>
+            <input
+              type="text"
+              className="received-search-input"
+              placeholder="Search handouts & lore..."
+              value={receivedSearchTerm}
+              onChange={(e) => setReceivedSearchTerm(e.target.value)}
+            />
+            {receivedSearchTerm && (
+              <button className="received-search-clear" onClick={() => setReceivedSearchTerm('')}>
+                <i className="fas fa-times"></i>
+              </button>
+            )}
+          </div>
+
           <button
             className="toolbar-btn primary"
             onClick={() => {
@@ -1120,11 +1184,11 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
             title="Create a new folder"
           >
             <i className="fas fa-folder-plus"></i>
-            New Folder
+            <span>New Folder</span>
           </button>
         </div>
 
-        {/* Folders List */}
+        {/* Folders List (When All Folders selected) */}
         {!currentFolderId && (
           <div className="received-folders-list">
             {journalFolders.map(folder => {
@@ -1142,11 +1206,13 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
                   onDragLeave={handleFolderDragLeave}
                 >
                   <div className="received-folder-header">
-                    <i className={`fas ${folder.icon || 'fa-folder'}`} style={{ color: folder.color }}></i>
-                    <span className="received-folder-name">{folder.name}</span>
-                    <span className="received-folder-count">({itemsInFolder.length})</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <i className={`fas ${folder.icon || 'fa-folder'}`} style={{ color: folder.color }}></i>
+                      <span className="received-folder-name">{folder.name}</span>
+                    </div>
+                    <span className="received-folder-count">{itemsInFolder.length} item{itemsInFolder.length !== 1 ? 's' : ''}</span>
                   </div>
-                  {itemsInFolder.length > 0 && (
+                  {itemsInFolder.length > 0 ? (
                     <div className="received-folder-items">
                       {itemsInFolder.map(knowledge => (
                         <div
@@ -1164,51 +1230,101 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
                             {knowledge.type === 'image' ? (
                               <img src={knowledge.content} alt="" />
                             ) : (
-                              <i className="fas fa-file-alt"></i>
+                              <i className="fas fa-scroll"></i>
                             )}
                           </div>
                           <div className="received-item-info">
                             <span className="received-item-title">{knowledge.title}</span>
                             <span className="received-item-date">
+                              <i className="fas fa-calendar-alt" style={{ marginRight: '4px', opacity: 0.7 }}></i>
                               {new Date(knowledge.receivedAt).toLocaleDateString()}
                             </span>
                           </div>
-                          <i className="fas fa-grip-vertical drag-handle"></i>
+                          <i className="fas fa-grip-vertical drag-handle" title="Drag to Knowledge Board"></i>
                         </div>
                       ))}
                     </div>
-                  )}
-                  {itemsInFolder.length === 0 && (
-                    <div style={{ padding: '12px', textAlign: 'center', color: '#8b7355', fontStyle: 'italic', fontSize: '12px' }}>
-                      Drag items here to organize
+                  ) : (
+                    <div className="received-folder-empty-hint">
+                      <i className="fas fa-arrow-down" style={{ marginRight: '6px' }}></i>
+                      Drag handouts here to organize
                     </div>
                   )}
                 </div>
               );
             })}
+
+            {/* Uncategorized Items */}
+            <div 
+              className={`received-folder uncategorized ${draggedOverFolder === null ? 'drag-over' : ''}`}
+              onDrop={(e) => {
+                handleFolderDrop(e, null);
+                setDraggedOverFolder(null);
+              }}
+              onDragOver={handleFolderDragOver}
+              onDragEnter={(e) => handleFolderDragEnter(e, null)}
+              onDragLeave={handleFolderDragLeave}
+            >
+              <div className="received-folder-header">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <i className="fas fa-inbox" style={{ color: '#d4af37' }}></i>
+                  <span className="received-folder-name">General Handouts</span>
+                </div>
+                <span className="received-folder-count">{getItemsInFolder(null).length} item{getItemsInFolder(null).length !== 1 ? 's' : ''}</span>
+              </div>
+              {getItemsInFolder(null).length > 0 ? (
+                <div className="received-folder-items">
+                  {getItemsInFolder(null).map(knowledge => (
+                    <div
+                      key={knowledge.id}
+                      className="received-item"
+                      draggable
+                      onDragStart={(e) => {
+                        e.dataTransfer.setData('knowledge/id', knowledge.id);
+                        e.dataTransfer.setData('source/type', 'knowledge');
+                      }}
+                      onClick={() => setShowKnowledgePopup({ ...knowledge, sourceType: 'knowledge' })}
+                      onContextMenu={(e) => handleItemContextMenu(e, knowledge, 'knowledge')}
+                    >
+                      <div className="received-item-icon">
+                        {knowledge.type === 'image' ? (
+                          <img src={knowledge.content} alt="" />
+                        ) : (
+                          <i className="fas fa-scroll"></i>
+                        )}
+                      </div>
+                      <div className="received-item-info">
+                        <span className="received-item-title">{knowledge.title}</span>
+                        <span className="received-item-date">
+                          <i className="fas fa-calendar-alt" style={{ marginRight: '4px', opacity: 0.7 }}></i>
+                          {new Date(knowledge.receivedAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <i className="fas fa-grip-vertical drag-handle" title="Drag to Knowledge Board"></i>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="received-folder-empty-hint">
+                  {playerKnowledge.length === 0 ? 'No handouts received yet.' : 'All handouts are organized in folders.'}
+                </div>
+              )}
+            </div>
           </div>
         )}
 
-        {/* Uncategorized Items */}
-        {!currentFolderId && (
-          <div 
-            className={`received-folder uncategorized ${draggedOverFolder === null ? 'drag-over' : ''}`}
-            onDrop={(e) => {
-              handleFolderDrop(e, null);
-              setDraggedOverFolder(null);
-            }}
-            onDragOver={handleFolderDragOver}
-            onDragEnter={(e) => handleFolderDragEnter(e, null)}
-            onDragLeave={handleFolderDragLeave}
-          >
-            <div className="received-folder-header">
-              <i className="fas fa-globe"></i>
-              <span className="received-folder-name">Uncategorized</span>
-              <span className="received-folder-count">({getItemsInFolder(null).length})</span>
-            </div>
-            {getItemsInFolder(null).length > 0 && (
-              <div className="received-folder-items">
-                {getItemsInFolder(null).map(knowledge => (
+        {/* Filtered Items (when a single folder is selected) */}
+        {currentFolderId && (
+          <div className="received-list-single-folder">
+            {displayedKnowledge.length === 0 ? (
+              <div className="received-empty-state">
+                <i className="fas fa-inbox"></i>
+                <p>No handouts in this folder</p>
+                <span>{receivedSearchTerm ? 'No items match your search.' : 'Drag items into this folder or select "All Folders"'}</span>
+              </div>
+            ) : (
+              <div className="received-items-grid">
+                {displayedKnowledge.map(knowledge => (
                   <div
                     key={knowledge.id}
                     className="received-item"
@@ -1224,61 +1340,20 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
                       {knowledge.type === 'image' ? (
                         <img src={knowledge.content} alt="" />
                       ) : (
-                        <i className="fas fa-file-alt"></i>
+                        <i className="fas fa-scroll"></i>
                       )}
                     </div>
                     <div className="received-item-info">
                       <span className="received-item-title">{knowledge.title}</span>
                       <span className="received-item-date">
+                        <i className="fas fa-calendar-alt" style={{ marginRight: '4px', opacity: 0.7 }}></i>
                         {new Date(knowledge.receivedAt).toLocaleDateString()}
                       </span>
                     </div>
-                    <i className="fas fa-grip-vertical drag-handle"></i>
+                    <i className="fas fa-grip-vertical drag-handle" title="Drag to Knowledge Board"></i>
                   </div>
                 ))}
               </div>
-            )}
-          </div>
-        )}
-
-        {/* Filtered Items (when a folder is selected) */}
-        {currentFolderId && (
-          <div className="received-list">
-            {filteredKnowledge.length === 0 ? (
-              <div className="received-empty-state">
-                <i className="fas fa-inbox"></i>
-                <p>No items in this folder</p>
-                <span>Try selecting "All" or drag items into this folder</span>
-              </div>
-            ) : (
-              filteredKnowledge.map(knowledge => (
-                <div
-                  key={knowledge.id}
-                  className="received-item"
-                  draggable
-                  onDragStart={(e) => {
-                    e.dataTransfer.setData('knowledge/id', knowledge.id);
-                    e.dataTransfer.setData('source/type', 'knowledge');
-                  }}
-                  onClick={() => setShowKnowledgePopup({ ...knowledge, sourceType: 'knowledge' })}
-                  onContextMenu={(e) => handleItemContextMenu(e, knowledge, 'knowledge')}
-                >
-                  <div className="received-item-icon">
-                    {knowledge.type === 'image' ? (
-                      <img src={knowledge.content} alt="" />
-                    ) : (
-                      <i className="fas fa-file-alt"></i>
-                    )}
-                  </div>
-                  <div className="received-item-info">
-                    <span className="received-item-title">{knowledge.title}</span>
-                    <span className="received-item-date">
-                      {new Date(knowledge.receivedAt).toLocaleDateString()}
-                    </span>
-                  </div>
-                  <i className="fas fa-grip-vertical drag-handle"></i>
-                </div>
-              ))
             )}
           </div>
         )}
@@ -1287,165 +1362,44 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
         {!currentFolderId && journalFolders.length === 0 && playerKnowledge.length === 0 && (
           <div className="received-empty-state">
             <i className="fas fa-inbox"></i>
-            <p>No knowledge received yet</p>
-            <span>The GM will share information with you during the game</span>
+            <p>No Handouts Received Yet</p>
+            <span>The GM will share letters, maps, quest clues, and secrets with you during the campaign.</span>
           </div>
         )}
       </div>
     );
   };
 
-  // Render notes tab with create/edit functionality
-  const renderNotesTab = () => (
-    <div className="journal-notes-container">
-      {/* Note Editor */}
-      <div className="note-editor">
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '8px' }}>
-          <input
-            type="text"
-            className="note-title-input"
-            style={{ flex: 1, margin: 0 }}
-            value={noteTitle}
-            onChange={(e) => setNoteTitle(e.target.value)}
-            placeholder="Note title..."
-          />
-          <div className="note-editor-mode-toggle" style={{ display: 'flex', gap: '4px' }}>
-            <button 
-              type="button"
-              className={`toolbar-btn ${noteEditMode === 'edit' ? 'active' : ''}`}
-              onClick={() => setNoteEditMode('edit')}
-              style={{ fontSize: '11px', padding: '4px 8px', borderRadius: '4px' }}
-              title="Edit markdown"
-            >
-              <i className="fas fa-pen"></i> Edit
-            </button>
-            <button 
-              type="button"
-              className={`toolbar-btn ${noteEditMode === 'preview' ? 'active' : ''}`}
-              onClick={() => setNoteEditMode('preview')}
-              style={{ fontSize: '11px', padding: '4px 8px', borderRadius: '4px' }}
-              title="Rich markdown preview with [[Wiki]] links and blocks"
-            >
-              <i className="fas fa-eye"></i> Preview
-            </button>
-          </div>
-        </div>
+  // Render notes tab with comprehensive Master-Detail 2-column layout
+  const renderNotesTab = () => {
+    const wordCount = noteContent.trim() ? noteContent.trim().split(/\s+/).length : 0;
+    const charCount = noteContent.length;
 
-        {/* Archetype & Aliases Row */}
-        <div className="note-editor-archetype-row" style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '11px', color: '#8b7355', fontWeight: 600 }}>Archetype:</span>
-          {[
-            { id: 'note', label: 'Note', icon: 'fa-sticky-note', color: '#3498db' },
-            { id: 'npc', label: 'NPC', icon: 'fa-user-ninja', color: '#e74c3c' },
-            { id: 'location', label: 'Location', icon: 'fa-landmark', color: '#2ecc71' },
-            { id: 'faction', label: 'Faction', icon: 'fa-shield-halved', color: '#e67e22' },
-            { id: 'item', label: 'Item', icon: 'fa-gem', color: '#9b59b6' },
-            { id: 'lore', label: 'Lore', icon: 'fa-book-bookmark', color: '#d4af37' }
-          ].map(arch => (
-            <button
-              key={arch.id}
-              type="button"
-              className={`toolbar-btn ${noteArchetype === arch.id ? 'active' : ''}`}
-              style={{
-                fontSize: '11px',
-                padding: '3px 8px',
-                borderRadius: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-                borderColor: noteArchetype === arch.id ? arch.color : 'rgba(212,175,55,0.2)'
-              }}
-              onClick={() => setNoteArchetype(arch.id)}
-            >
-              <i className={`fas ${arch.icon}`} style={{ color: arch.color }}></i>
-              {arch.label}
-            </button>
-          ))}
-          <input
-            type="text"
-            placeholder="Aliases (e.g. Iron-Tooth, Jarl)..."
-            value={noteAliases}
-            onChange={(e) => setNoteAliases(e.target.value)}
-            style={{
-              flex: 1,
-              minWidth: '160px',
-              background: '#0d0f15',
-              border: '1px solid rgba(212,175,55,0.25)',
-              color: '#e6ded2',
-              fontSize: '11px',
-              padding: '3px 8px',
-              borderRadius: '4px'
-            }}
-          />
-        </div>
+    const archetypesList = [
+      { id: 'note', label: 'Note', icon: 'fa-sticky-note', color: '#3498db' },
+      { id: 'npc', label: 'NPC', icon: 'fa-user-ninja', color: '#e74c3c' },
+      { id: 'location', label: 'Location', icon: 'fa-landmark', color: '#2ecc71' },
+      { id: 'faction', label: 'Faction', icon: 'fa-shield-halved', color: '#e67e22' },
+      { id: 'item', label: 'Item', icon: 'fa-gem', color: '#9b59b6' },
+      { id: 'lore', label: 'Lore', icon: 'fa-book-bookmark', color: '#d4af37' },
+      { id: 'quest', label: 'Quest', icon: 'fa-scroll', color: '#f39c12' }
+    ];
 
-        {noteEditMode === 'edit' ? (
-          <div style={{ position: 'relative' }}>
-            <textarea
-              ref={noteTextareaRef}
-              className="note-content-input"
-              value={noteContent}
-              onChange={(e) => setNoteContent(e.target.value)}
-              placeholder="Write your note here...
-• Type [[ to link or create any NPC, Location, Faction, or Lore on the fly
-• Use [[Entity Name|Display Alias]] for custom link text
-• Drag notes to the Knowledge Board to create visual connections!"
-              rows={8}
-            />
-            <WikiAutocomplete
-              textareaRef={noteTextareaRef}
-              value={noteContent}
-              onChange={(nextVal) => setNoteContent(nextVal)}
-            />
-          </div>
-        ) : (
-          <div className="note-content-preview" style={{ background: '#11141c', padding: '14px', borderRadius: '6px', minHeight: '160px', maxHeight: '220px', overflowY: 'auto', border: '1px solid rgba(212,175,55,0.25)', marginBottom: '10px' }}>
-            <RichLoreText text={noteContent || '*No content to preview*'} />
-          </div>
-        )}
-
-        <div className="note-editor-actions" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div className="note-promote-dropdown-wrapper" style={{ position: 'relative', display: 'inline-block' }}>
-            <button
-              type="button"
-              className="note-promote-btn"
-              style={{
-                background: 'linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(160,120,30,0.35) 100%)',
-                border: '1px solid #d4af37',
-                color: '#f1d779',
-                padding: '6px 12px',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                fontSize: '12px',
-                fontWeight: '600',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px'
-              }}
-              onClick={() => setShowPromoteMenu(!showPromoteMenu)}
-              title="Convert this note into a permanent worldbuilding entity"
-            >
-              <i className="fas fa-bolt"></i> Promote to World ▾
-            </button>
-            {showPromoteMenu && (
-              <div className="note-promote-menu" style={{ position: 'absolute', bottom: '110%', left: 0, background: '#151821', border: '1px solid #d4af37', borderRadius: '6px', padding: '4px', minWidth: '190px', zIndex: 1000, boxShadow: '0 8px 24px rgba(0,0,0,0.85)' }}>
-                <button style={{ width: '100%', textAlign: 'left', background: 'transparent', border: 'none', color: '#fff', padding: '6px 10px', fontSize: '12px', cursor: 'pointer', display: 'flex', gap: '8px', alignItems: 'center' }} onClick={() => handlePromoteNote('lineage')}>
-                  <i className="fas fa-dna" style={{ color: '#d4af37' }}></i> <strong>Custom Lineage</strong>
-                </button>
-                <button style={{ width: '100%', textAlign: 'left', background: 'transparent', border: 'none', color: '#fff', padding: '6px 10px', fontSize: '12px', cursor: 'pointer', display: 'flex', gap: '8px', alignItems: 'center' }} onClick={() => handlePromoteNote('faction')}>
-                  <i className="fas fa-shield-halved" style={{ color: '#3498db' }}></i> <strong>Custom Faction</strong>
-                </button>
-                <button style={{ width: '100%', textAlign: 'left', background: 'transparent', border: 'none', color: '#fff', padding: '6px 10px', fontSize: '12px', cursor: 'pointer', display: 'flex', gap: '8px', alignItems: 'center' }} onClick={() => handlePromoteNote('map_pin')}>
-                  <i className="fas fa-map-location-dot" style={{ color: '#2ecc71' }}></i> <strong>Immerse Map Pin</strong>
-                </button>
-              </div>
-            )}
-          </div>
-
-          <div style={{ display: 'flex', gap: '8px' }}>
-            {editingNote && (
-              <button 
-                className="note-cancel-btn"
+    return (
+      <div className="journal-notes-master-detail">
+        {/* Left Sidebar: Master List of Notes */}
+        <aside className="notes-master-sidebar">
+          {/* Sidebar Top: Action & Heading */}
+          <div className="notes-sidebar-header">
+            <div className="notes-sidebar-title-row">
+              <span className="notes-sidebar-heading">
+                <i className="fas fa-feather-pointed" style={{ color: '#d4af37' }}></i>
+                Chronicles
+                <span className="notes-count-badge">{filteredNotes.length}</span>
+              </span>
+              <button
+                type="button"
+                className="btn-new-note"
                 onClick={() => {
                   setEditingNote(null);
                   setNoteTitle('');
@@ -1453,90 +1407,347 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
                   setNoteArchetype('note');
                   setNoteAliases('');
                   setNoteTags('');
+                  setNoteEditMode('edit');
                 }}
+                title="Create a new note"
               >
-                Cancel
+                <i className="fas fa-plus"></i> New Note
               </button>
-            )}
-            <button 
-              className="note-save-btn"
-              onClick={handleSaveNote}
-              disabled={!noteTitle.trim()}
-            >
-              <i className="fas fa-save"></i>
-              {editingNote ? 'Update Note' : 'Save Note'}
-            </button>
-          </div>
-        </div>
-      </div>
-      
-      {/* Notes List */}
-      <div className="notes-list">
-        <h4>Your Notes {filteredNotes.length > 0 && `(${filteredNotes.length})`}</h4>
-        {filteredNotes.length === 0 ? (
-          <div className="notes-empty-state">
-            <i className="fas fa-sticky-note"></i>
-            <p>No notes yet</p>
-            <span>Create a note above to get started</span>
-          </div>
-        ) : (
-          filteredNotes.map(note => {
-            const arch = note.archetype || 'note';
-            let archIcon = 'fa-sticky-note';
-            let archColor = '#3498db';
-            if (arch === 'npc') { archIcon = 'fa-user-ninja'; archColor = '#e74c3c'; }
-            else if (arch === 'location') { archIcon = 'fa-landmark'; archColor = '#2ecc71'; }
-            else if (arch === 'faction') { archIcon = 'fa-shield-halved'; archColor = '#e67e22'; }
-            else if (arch === 'item') { archIcon = 'fa-gem'; archColor = '#9b59b6'; }
-            else if (arch === 'quest') { archIcon = 'fa-scroll'; archColor = '#f39c12'; }
-            else if (arch === 'lore') { archIcon = 'fa-book-bookmark'; archColor = '#d4af37'; }
+            </div>
 
-            return (
-              <div
-                key={note.id}
-                className="note-item"
-                draggable
-                onDragStart={(e) => {
-                  e.dataTransfer.setData('note/id', note.id);
-                  e.dataTransfer.setData('source/type', 'note');
-                }}
-                onClick={() => {
-                  setEditingNote(note);
-                  setNoteTitle(note.title);
-                  setNoteContent(note.content);
-                  setNoteArchetype(note.archetype || 'note');
-                  setNoteAliases(Array.isArray(note.aliases) ? note.aliases.join(', ') : '');
-                  setNoteTags(Array.isArray(note.tags) ? note.tags.join(', ') : '');
-                }}
-                onContextMenu={(e) => handleItemContextMenu(e, note, 'note')}
+            {/* Search Input */}
+            <div className="notes-search-wrapper">
+              <i className="fas fa-search notes-search-icon"></i>
+              <input
+                type="text"
+                className="notes-search-input"
+                placeholder="Search notes, lore..."
+                value={notesSearchQuery}
+                onChange={(e) => setNotesSearchQuery(e.target.value)}
+              />
+              {notesSearchQuery && (
+                <button className="notes-search-clear" onClick={() => setNotesSearchQuery('')}>
+                  <i className="fas fa-times"></i>
+                </button>
+              )}
+            </div>
+
+            {/* Archetype Filter Chips */}
+            <div className="notes-filter-chips">
+              <button
+                type="button"
+                className={`filter-chip ${notesArchetypeFilter === null ? 'active' : ''}`}
+                onClick={() => setNotesArchetypeFilter(null)}
               >
-                <div className="note-item-icon" style={{ color: archColor }}>
-                  <i className={`fas ${archIcon}`}></i>
-                </div>
-                <div className="note-item-info">
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span className="note-item-title">{note.title}</span>
-                    {note.archetype && note.archetype !== 'note' && (
-                      <span style={{ fontSize: '9px', textTransform: 'uppercase', color: archColor, background: 'rgba(255,255,255,0.06)', padding: '1px 4px', borderRadius: '3px', fontWeight: 700 }}>
-                        {note.archetype}
-                      </span>
-                    )}
-                  </div>
-                  <span className="note-item-preview">
-                    {note.content.substring(0, 50)}{note.content.length > 50 ? '...' : ''}
-                  </span>
-                  <span className="note-item-date">
-                    {new Date(note.lastModified).toLocaleDateString()}
-                  </span>
-                </div>
-                <i className="fas fa-grip-vertical drag-handle"></i>
+                All ({playerNotes.length})
+              </button>
+              {archetypesList.map(arch => {
+                const count = playerNotes.filter(n => (n.archetype || 'note') === arch.id).length;
+                if (count === 0 && notesArchetypeFilter !== arch.id) return null;
+                return (
+                  <button
+                    key={arch.id}
+                    type="button"
+                    className={`filter-chip ${notesArchetypeFilter === arch.id ? 'active' : ''}`}
+                    onClick={() => setNotesArchetypeFilter(notesArchetypeFilter === arch.id ? null : arch.id)}
+                    style={{
+                      '--chip-color': arch.color
+                    }}
+                  >
+                    <i className={`fas ${arch.icon}`} style={{ color: arch.color }}></i>
+                    {arch.label} ({count})
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Notes Cards List */}
+          <div className="notes-card-list">
+            {filteredNotes.length === 0 ? (
+              <div className="notes-list-empty">
+                <i className="fas fa-scroll notes-empty-icon"></i>
+                <p className="notes-empty-title">No Notes Found</p>
+                <span className="notes-empty-desc">
+                  {notesSearchQuery || notesArchetypeFilter
+                    ? 'No notes match your filter criteria.'
+                    : 'Click "+ New Note" above to write your first entry!'}
+                </span>
+                {(notesSearchQuery || notesArchetypeFilter) && (
+                  <button
+                    type="button"
+                    className="btn-clear-filters"
+                    onClick={() => {
+                      setNotesSearchQuery('');
+                      setNotesArchetypeFilter(null);
+                    }}
+                  >
+                    Clear Filters
+                  </button>
+                )}
               </div>
-            );
-          })
-        )}
+            ) : (
+              filteredNotes.map(note => {
+                const arch = note.archetype || 'note';
+                const archDef = archetypesList.find(a => a.id === arch) || archetypesList[0];
+                const isSelected = editingNote?.id === note.id;
+
+                return (
+                  <div
+                    key={note.id}
+                    className={`note-master-card ${isSelected ? 'is-selected' : ''}`}
+                    draggable
+                    onDragStart={(e) => {
+                      e.dataTransfer.setData('note/id', note.id);
+                      e.dataTransfer.setData('source/type', 'note');
+                    }}
+                    onClick={() => {
+                      setEditingNote(note);
+                      setNoteTitle(note.title || '');
+                      setNoteContent(note.content || '');
+                      setNoteArchetype(note.archetype || 'note');
+                      setNoteAliases(Array.isArray(note.aliases) ? note.aliases.join(', ') : (note.aliases || ''));
+                      setNoteTags(Array.isArray(note.tags) ? note.tags.join(', ') : (note.tags || ''));
+                    }}
+                    onContextMenu={(e) => handleItemContextMenu(e, note, 'note')}
+                  >
+                    <div className="note-card-icon-box" style={{ background: `${archDef.color}22`, borderColor: archDef.color }}>
+                      <i className={`fas ${archDef.icon}`} style={{ color: archDef.color }}></i>
+                    </div>
+
+                    <div className="note-card-body">
+                      <div className="note-card-top-row">
+                        <span className="note-card-title">{note.title || 'Untitled Note'}</span>
+                        {note.archetype && note.archetype !== 'note' && (
+                          <span
+                            className="note-card-archetype-pill"
+                            style={{ color: archDef.color, borderColor: `${archDef.color}55` }}
+                          >
+                            {archDef.label}
+                          </span>
+                        )}
+                      </div>
+                      <p className="note-card-snippet">
+                        {note.content ? note.content.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, '$2 || $1').substring(0, 65) : 'Empty note...'}
+                      </p>
+                      <div className="note-card-footer">
+                        <span className="note-card-date">
+                          <i className="fas fa-clock"></i> {new Date(note.lastModified || note.createdAt || Date.now()).toLocaleDateString()}
+                        </span>
+                        <div className="note-card-drag-hint" title="Drag to Knowledge Board">
+                          <i className="fas fa-grip-vertical"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+        </aside>
+
+        {/* Right Detail / Note Editor Pane */}
+        <main className="notes-detail-pane">
+          {/* Top Header: Title & Quick Actions */}
+          <div className="notes-detail-header">
+            <div className="notes-title-input-wrapper">
+              <input
+                type="text"
+                className="notes-title-input"
+                value={noteTitle}
+                onChange={(e) => setNoteTitle(e.target.value)}
+                placeholder="Note title (e.g. Iron-Tooth Tavern, Lord Cassian)..."
+              />
+            </div>
+
+            <div className="notes-header-actions">
+              {/* Mode Toggle: Edit vs Preview */}
+              <div className="notes-view-mode-toggle">
+                <button
+                  type="button"
+                  className={`mode-toggle-btn ${noteEditMode === 'edit' ? 'active' : ''}`}
+                  onClick={() => setNoteEditMode('edit')}
+                  title="Markdown Editor"
+                >
+                  <i className="fas fa-pen-nib"></i> Edit
+                </button>
+                <button
+                  type="button"
+                  className={`mode-toggle-btn ${noteEditMode === 'preview' ? 'active' : ''}`}
+                  onClick={() => setNoteEditMode('preview')}
+                  title="Rich Preview"
+                >
+                  <i className="fas fa-eye"></i> Preview
+                </button>
+              </div>
+
+              {/* Promote Dropdown */}
+              <div className="note-promote-dropdown-wrapper" style={{ position: 'relative' }}>
+                <button
+                  type="button"
+                  className="btn-promote-world"
+                  onClick={() => setShowPromoteMenu(!showPromoteMenu)}
+                  title="Convert this note into a worldbuilding entity"
+                >
+                  <i className="fas fa-bolt" style={{ color: '#ffd700' }}></i>
+                  <span>Promote ▾</span>
+                </button>
+                {showPromoteMenu && (
+                  <div className="note-promote-menu">
+                    <button onClick={() => handlePromoteNote('lineage')}>
+                      <i className="fas fa-dna" style={{ color: '#d4af37' }}></i>
+                      <span><strong>Custom Lineage</strong> — Open Lineage Wizard</span>
+                    </button>
+                    <button onClick={() => handlePromoteNote('faction')}>
+                      <i className="fas fa-shield-halved" style={{ color: '#3498db' }}></i>
+                      <span><strong>Custom Faction</strong> — Add to Faction Web</span>
+                    </button>
+                    <button onClick={() => handlePromoteNote('map_pin')}>
+                      <i className="fas fa-map-location-dot" style={{ color: '#2ecc71' }}></i>
+                      <span><strong>Immerse Map Pin</strong> — Pin to World Map</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Delete Button */}
+              {editingNote && (
+                <button
+                  type="button"
+                  className="btn-note-danger"
+                  onClick={() => {
+                    if (window.confirm(`Delete note "${editingNote.title}"?`)) {
+                      removeNote(editingNote.id);
+                      setEditingNote(null);
+                      setNoteTitle('');
+                      setNoteContent('');
+                      setNoteArchetype('note');
+                      setNoteAliases('');
+                      setNoteTags('');
+                    }
+                  }}
+                  title="Delete this note"
+                >
+                  <i className="fas fa-trash-alt"></i>
+                </button>
+              )}
+
+              {/* Save / Update Button */}
+              <button
+                type="button"
+                className="btn-note-save"
+                onClick={handleSaveNote}
+                disabled={!noteTitle.trim()}
+              >
+                <i className="fas fa-save"></i>
+                <span>{editingNote ? 'Update Note' : 'Save Note'}</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Archetype & Aliases & Tags Toolbar */}
+          <div className="notes-metadata-toolbar">
+            <div className="notes-archetype-selector">
+              <span className="metadata-label">Archetype:</span>
+              <div className="archetype-buttons-group">
+                {archetypesList.map(arch => (
+                  <button
+                    key={arch.id}
+                    type="button"
+                    className={`archetype-select-btn ${noteArchetype === arch.id ? 'active' : ''}`}
+                    style={{
+                      '--btn-color': arch.color
+                    }}
+                    onClick={() => setNoteArchetype(arch.id)}
+                  >
+                    <i className={`fas ${arch.icon}`} style={{ color: arch.color }}></i>
+                    <span>{arch.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="notes-meta-inputs-row">
+              <div className="meta-input-group">
+                <i className="fas fa-tags meta-input-icon"></i>
+                <input
+                  type="text"
+                  className="meta-text-input"
+                  placeholder="Aliases (e.g. Iron-Tooth, Jarl)..."
+                  value={noteAliases}
+                  onChange={(e) => setNoteAliases(e.target.value)}
+                  title="Aliases for [[Wiki]] autocomplete linking"
+                />
+              </div>
+              <div className="meta-input-group">
+                <i className="fas fa-hashtag meta-input-icon"></i>
+                <input
+                  type="text"
+                  className="meta-text-input"
+                  placeholder="Tags (e.g. tavern, secret, act1)..."
+                  value={noteTags}
+                  onChange={(e) => setNoteTags(e.target.value)}
+                  title="Comma-separated tags"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Main Content Area */}
+          <div className="notes-content-body">
+            {noteEditMode === 'edit' ? (
+              <div className="notes-editor-container">
+                <textarea
+                  ref={noteTextareaRef}
+                  className="notes-main-textarea"
+                  value={noteContent}
+                  onChange={(e) => setNoteContent(e.target.value)}
+                  placeholder={`Write your chronicle or note here...
+• Type [[ to link or create any NPC, Location, Faction, or Lore on the fly
+• Use [[Entity Name|Display Alias]] for custom link text
+• Drag notes to the Knowledge Board to create visual connections!
+• Markdown supported: **bold**, *italic*, # Headers, - Lists`}
+                  spellCheck={false}
+                />
+                <WikiAutocomplete
+                  textareaRef={noteTextareaRef}
+                  value={noteContent}
+                  onChange={(nextVal) => setNoteContent(nextVal)}
+                />
+              </div>
+            ) : (
+              <div className="notes-preview-container">
+                {noteContent.trim() ? (
+                  <RichLoreText text={noteContent} />
+                ) : (
+                  <div className="notes-preview-empty">
+                    <i className="fas fa-pen-fancy"></i>
+                    <p>No content to preview.</p>
+                    <span>Switch to Edit mode to write lore or notes.</span>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Footer Bar */}
+          <div className="notes-detail-footer">
+            <div className="notes-footer-stats">
+              <span><i className="fas fa-font"></i> {wordCount} words</span>
+              <span><i className="fas fa-keyboard"></i> {charCount} characters</span>
+              {editingNote?.lastModified && (
+                <span><i className="fas fa-history"></i> Last saved: {new Date(editingNote.lastModified).toLocaleTimeString()}</span>
+              )}
+            </div>
+            <div className="notes-footer-tips">
+              <i className="fas fa-lightbulb" style={{ color: '#d4af37' }}></i>
+              <span>Type <code>[[</code> for wiki linking &bull; Drag note to board to connect</span>
+            </div>
+          </div>
+        </main>
       </div>
-    </div>
-  );
+    );
+  };
 
   const renderBoardLockedView = () => {
     return (
@@ -1584,7 +1795,7 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
         return (
           <div className="journal-sourcebook-tab-container" style={{ height: '100%', width: '100%' }}>
             <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#8b6f47', fontFamily: 'Georgia, serif' }}>Loading...</div>}>
-              <BookDocumentEditor isGM={isGMMode} />
+              <BookManager isGM={isGMMode} />
             </Suspense>
           </div>
         );
@@ -1633,9 +1844,9 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
       <MythrillWindow
         isOpen={isOpen}
         onClose={onClose}
-        title={isGMMode ? "Creative Workbench & Journal" : "Player Journal"}
-        defaultSize={{ width: 950, height: 700 }}
-        defaultPosition={{ x: 100, y: 100 }}
+        title="Campaign Chronicles & Notes"
+        defaultSize={{ width: 1440, height: 880 }}
+        defaultPosition={{ x: 80, y: 60 }}
         customHeader={
           <div className="spellbook-tab-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
             <div style={{ display: 'flex' }}>
@@ -1654,11 +1865,6 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
                 );
               })}
             </div>
-            {isGMMode && (
-              <span className="gm-workbench-badge" style={{ background: 'rgba(212,175,55,0.18)', border: '1px solid #d4af37', color: '#f1d779', padding: '3px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: 'bold', marginRight: '10px' }}>
-                <i className="fas fa-crown"></i> GM Workbench
-              </span>
-            )}
           </div>
         }
       >

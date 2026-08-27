@@ -18,6 +18,7 @@ import AccountSocialManager from './AccountSocialManager';
 import AccountMapManager from './AccountMapManager';
 import WorldDashboard from '../world/WorldDashboard';
 import StorageUsageWidget from './StorageUsageWidget';
+import BookManager from '../books/BookManager';
 import './styles/AccountDashboard.css';
 import './styles/AccountDashboardIsolation.css';
 import './styles/RoomManager.css'; // Import existing modal styles
@@ -73,15 +74,18 @@ const AccountDashboard = ({ user }) => {
     const handleNavJournal = () => setActiveTab('journal');
     const handleNavCampaign = () => setActiveTab('campaigns');
     const handleNavWorld = () => setActiveTab('maps');
+    const handleNavBooks = () => setActiveTab('books');
 
     window.addEventListener('mythrill_navigate_journal', handleNavJournal);
     window.addEventListener('mythrill_navigate_campaign', handleNavCampaign);
     window.addEventListener('mythrill_open_world_dossier', handleNavWorld);
+    window.addEventListener('mythrill_navigate_books', handleNavBooks);
 
     return () => {
       window.removeEventListener('mythrill_navigate_journal', handleNavJournal);
       window.removeEventListener('mythrill_navigate_campaign', handleNavCampaign);
       window.removeEventListener('mythrill_open_world_dossier', handleNavWorld);
+      window.removeEventListener('mythrill_navigate_books', handleNavBooks);
     };
   }, []);
 
@@ -526,6 +530,14 @@ const AccountDashboard = ({ user }) => {
                   <span>World</span>
                 </button>
               )}
+              {!isGuest && (
+                <button
+                  className={`fan-tab ${activeTab === 'books' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('books')}
+                >
+                  <span>Books</span>
+                </button>
+              )}
               <button
                 className={`fan-tab ${activeTab === 'membership' ? 'active' : ''}`}
                 onClick={() => setActiveTab('membership')}
@@ -700,6 +712,15 @@ const AccountDashboard = ({ user }) => {
               >
                 <i className="fas fa-atlas"></i>
                 World
+              </button>
+            )}
+            {!isGuest && (
+              <button
+                className={`account-mobile-nav-item ${activeTab === 'books' ? 'active' : ''}`}
+                onClick={() => { setActiveTab('books'); setMobileMenuOpen(false); }}
+              >
+                <i className="fas fa-book-bookmark"></i>
+                Books
               </button>
             )}
             <button
@@ -1163,6 +1184,12 @@ const AccountDashboard = ({ user }) => {
               <div className="account-world-lore-wrapper" style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid #2a2a4a' }}>
                 <WorldDashboard />
               </div>
+            </div>
+          )}
+
+          {activeTab === 'books' && (
+            <div className="tab-content account-books-tab-content" style={{ height: 'calc(100vh - 120px)', minHeight: '600px', display: 'flex', flexDirection: 'column' }}>
+              <BookManager isGM={true} />
             </div>
           )}
 

@@ -78,13 +78,17 @@
 }
 
 /* Grid layouts */
-.two-column {
+.healing-effects-container .two-column,
+.healing-effect-config .two-column,
+.effect-builder .two-column {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 
-.three-column {
+.healing-effects-container .three-column,
+.healing-effect-config .three-column,
+.effect-builder .three-column {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;

@@ -13,13 +13,11 @@ import CustomLineageWizard from './CustomLineageWizard';
 import ClassIcon from '../common/ClassIcon';
 import { TimelineView } from './TimelineView';
 import AccountMapManager from '../account/AccountMapManager';
-import FamilyTreeStudio from './FamilyTreeStudio';
 import UniversalEntityGraph from './UniversalEntityGraph';
 import { showPrompt } from '../../utils/dialogService';
 import './WorldDashboard.css';
 
-// Lazy-loaded to avoid circular chunk initialization with AccountDashboard
-const BookDocumentEditor = lazy(() => import('../journal/BookDocumentEditor'));
+const FamilyTreeStudio = lazy(() => import('./FamilyTreeStudio'));
 
 const VIEWS = {
   DASHBOARD: 'dashboard',
@@ -606,7 +604,6 @@ const WorldDashboard = () => {
           { key: 'factions', label: `Factions & Orders (${factions.length})`, icon: 'fa-shield-halved' },
           { key: 'entity_graph', label: 'Relationship Web', icon: 'fa-network-wired' },
           { key: 'family_trees', label: 'Dynasty Trees', icon: 'fa-users' },
-          { key: 'sourcebooks', label: 'Sourcebooks & Books', icon: 'fa-book-open' },
           { key: 'lineages', label: `Lineages & Peoples (${allLineages.length})`, icon: 'fa-dna' },
           { key: 'classes', label: `Traditions & Classes (${classes.length})`, icon: 'fa-wand-magic-sparkles' },
           { key: 'atlas', label: 'World Atlas & Maps', icon: 'fa-map' }
@@ -1380,14 +1377,6 @@ const WorldDashboard = () => {
         {activeTab === 'family_trees' && (
           <div className="world-family-trees-tab-container" style={{ minHeight: '650px', width: '100%' }}>
             <FamilyTreeStudio />
-          </div>
-        )}
-
-        {activeTab === 'sourcebooks' && (
-          <div className="world-sourcebooks-tab-container" style={{ height: '750px', width: '100%', borderRadius: '8px', overflow: 'hidden' }}>
-            <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#8b6f47', fontFamily: 'Georgia, serif' }}>Loading Sourcebook Editor...</div>}>
-              <BookDocumentEditor />
-            </Suspense>
           </div>
         )}
       </div>

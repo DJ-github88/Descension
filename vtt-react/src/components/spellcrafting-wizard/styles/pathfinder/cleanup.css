@@ -380,18 +380,26 @@
 .card-selection-grid,
 .dice-visuals,
 .example-cards,
-.two-column,
-.three-column {
+.spell-wizard .two-column,
+.spell-wizard .three-column,
+.spellbook-layout .two-column,
+.spellbook-layout .three-column,
+.effect-builder .two-column,
+.effect-builder .three-column {
   display: grid !important;
   gap: var(--my-space-4) !important;
   margin-bottom: var(--my-space-4) !important;
 }
 
-.two-column {
+.spell-wizard .two-column,
+.spellbook-layout .two-column,
+.effect-builder .two-column {
   grid-template-columns: 1fr 1fr !important;
 }
 
-.three-column {
+.spell-wizard .three-column,
+.spellbook-layout .three-column,
+.effect-builder .three-column {
   grid-template-columns: 1fr 1fr 1fr !important;
 }
 

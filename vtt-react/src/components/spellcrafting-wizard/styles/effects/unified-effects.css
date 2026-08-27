@@ -973,13 +973,17 @@
 
 /* ===== GRID LAYOUTS ===== */
 
-.two-column {
+.unified-effects .two-column,
+.effect-configuration .two-column,
+.effect-builder .two-column {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--my-space-4);
 }
 
-.three-column {
+.unified-effects .three-column,
+.effect-configuration .three-column,
+.effect-builder .three-column {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: var(--my-space-4);
