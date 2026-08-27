@@ -1,0 +1,507 @@
+/* ==========================================================================
+   Pathfinder Universal Relationship Web CSS — Beige & Warm Parchment Aesthetic
+   ========================================================================== */
+
+.pathfinder-relationship-web-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #140d07;
+  border-radius: 8px;
+  border: 1.5px solid #8b5a1a;
+  overflow: hidden;
+  box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.7), 0 8px 30px rgba(0, 0, 0, 0.5);
+  font-family: 'Spectral', 'Georgia', serif;
+  color: #2b1408;
+}
+
+/* Ribbon Toolbar */
+.pathfinder-graph-toolbar {
+  height: 52px;
+  background: linear-gradient(180deg, #f8f4ec 0%, #ede4d6 100%);
+  border-bottom: 1.5px solid rgba(139, 69, 19, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  z-index: 30;
+  flex-shrink: 0;
+  gap: 10px;
+}
+
+.toolbar-left,
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toolbar-separator {
+  width: 1px;
+  height: 24px;
+  background: rgba(139, 69, 19, 0.3);
+  margin: 0 4px;
+}
+
+/* Filter Chips (Parchment buttons) */
+.pathfinder-pill-group {
+  display: flex;
+  gap: 6px;
+}
+
+.pathfinder-filter-chip {
+  background: #f7f2ea;
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  color: #5a2e12;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.pathfinder-filter-chip:hover {
+  background: #ede4d6;
+  border-color: #8b5a1a;
+  color: #2b1408;
+  transform: translateY(-1px);
+}
+
+.pathfinder-filter-chip.active.faction {
+  background: #8b261e;
+  border-color: #5c140e;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(139, 38, 30, 0.3);
+}
+
+.pathfinder-filter-chip.active.location {
+  background: #2d5a3c;
+  border-color: #1a3824;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(45, 90, 60, 0.3);
+}
+
+.pathfinder-filter-chip.active.family {
+  background: #966014;
+  border-color: #633e08;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(150, 96, 20, 0.3);
+}
+
+/* Select Dropdowns */
+.pathfinder-select-group {
+  display: flex;
+  gap: 6px;
+}
+
+.pathfinder-select {
+  background: #fcf9f2;
+  border: 1px solid rgba(139, 69, 19, 0.35);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-family: 'Spectral', Georgia, serif;
+  font-size: 12px;
+  color: #2b1408;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+}
+
+.pathfinder-select:focus {
+  border-color: #8b5a1a;
+  box-shadow: 0 0 5px rgba(139, 90, 26, 0.25);
+}
+
+/* Search Box */
+.pathfinder-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.pathfinder-search-box i {
+  position: absolute;
+  left: 9px;
+  color: #8b5a1a;
+  font-size: 11px;
+  pointer-events: none;
+}
+
+.pathfinder-search-input {
+  background: #ffffff;
+  border: 1px solid rgba(139, 69, 19, 0.35);
+  border-radius: 4px;
+  padding: 4px 24px 4px 26px;
+  color: #2b1408;
+  font-family: 'Spectral', Georgia, serif;
+  font-size: 12px;
+  width: 150px;
+  transition: width 0.2s ease;
+}
+
+.pathfinder-search-input:focus {
+  outline: none;
+  border-color: #8b5a1a;
+  width: 190px;
+  box-shadow: 0 0 6px rgba(139, 90, 26, 0.2);
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 6px;
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0;
+}
+
+/* Toggle & Zoom Buttons */
+.pathfinder-toggle-btn {
+  background: #f7f2ea;
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  color: #5a2e12;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 9px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+
+.pathfinder-toggle-btn.active {
+  background: #d4af37;
+  border-color: #a07138;
+  color: #1a0f05;
+}
+
+.zoom-controls {
+  display: flex;
+  gap: 3px;
+}
+
+.zoom-controls button {
+  background: #f7f2ea;
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  color: #5a2e12;
+  border-radius: 4px;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  transition: all 0.15s;
+}
+
+.zoom-controls button:hover {
+  background: #ede4d6;
+  border-color: #8b5a1a;
+  color: #2b1408;
+}
+
+/* ==========================================================================
+   Canvas Workspace (Parchment Chart Backdrop)
+   ========================================================================== */
+.pathfinder-canvas-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  cursor: grab;
+  background-color: #160f0a;
+  background-image: 
+    radial-gradient(circle at center, rgba(139, 90, 26, 0.08) 0%, transparent 70%),
+    linear-gradient(rgba(139, 90, 26, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 90, 26, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+}
+
+.pathfinder-canvas-container:active {
+  cursor: grabbing;
+}
+
+.pathfinder-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  user-select: none;
+}
+
+.pathfinder-svg-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: all;
+}
+
+/* ==========================================================================
+   Node Badges (Crisp Parchment Cards with Antique Borders)
+   ========================================================================== */
+.pathfinder-graph-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: #fcf9f2;
+  border: 1.5px solid #a07138;
+  border-left-width: 5px;
+  border-radius: 6px;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(139, 90, 26, 0.08);
+  cursor: grab;
+  transition: box-shadow 0.15s, transform 0.15s, opacity 0.2s;
+  min-width: 130px;
+  max-width: 190px;
+  z-index: 10;
+}
+
+.pathfinder-graph-node:hover {
+  transform: translate(-50%, -50%) scale(1.06);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(139, 90, 26, 0.15);
+  border-color: #5c140e;
+  z-index: 25;
+}
+
+.pathfinder-graph-node.selected {
+  border-color: #d4af37 !important;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.5), 0 8px 24px rgba(0, 0, 0, 0.7);
+  background: #fffdf9;
+  z-index: 30;
+}
+
+.pathfinder-graph-node.dimmed {
+  opacity: 0.2;
+  filter: grayscale(0.5);
+}
+
+.crest-seal {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: 1px solid rgba(139, 90, 26, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.node-text-block {
+  overflow: hidden;
+}
+
+.node-title {
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #2b1408;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.node-subtitle {
+  font-size: 9.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 1px;
+}
+
+/* ==========================================================================
+   Codex Drawer (Pathfinder Illuminated Manuscript)
+   ========================================================================== */
+.pathfinder-codex-drawer {
+  position: absolute;
+  top: 64px;
+  right: 16px;
+  bottom: 16px;
+  width: 330px;
+  background: #fdfbf7;
+  border: 2px solid #8b5a1a;
+  border-radius: 8px;
+  box-shadow: -4px 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 40px rgba(139, 90, 26, 0.08);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.codex-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: linear-gradient(180deg, #ede4d6 0%, #e2d4be 100%);
+  border-bottom: 1.5px solid #8b5a1a;
+}
+
+.codex-drawer-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.drawer-crest {
+  font-size: 18px;
+}
+
+.codex-drawer-title h3 {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  color: #2b1408;
+}
+
+.codex-type {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  display: block;
+}
+
+.codex-close-btn {
+  background: transparent;
+  border: none;
+  color: #6e4823;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.codex-close-btn:hover {
+  color: #a8241b;
+}
+
+.codex-drawer-body {
+  padding: 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.codex-portrait-frame {
+  width: 100%;
+  height: 140px;
+  border-radius: 4px;
+  border: 1px solid #8b5a1a;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.codex-portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.codex-section h4 {
+  margin: 0 0 6px 0;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  color: #5c140e;
+  border-bottom: 1px solid rgba(139, 90, 26, 0.3);
+  padding-bottom: 3px;
+  text-transform: uppercase;
+}
+
+.codex-section p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #3b2211;
+}
+
+.codex-links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.codex-link-chip {
+  background: #f7f2ea;
+  border: 1px solid rgba(139, 90, 26, 0.3);
+  border-radius: 4px;
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.codex-link-chip:hover {
+  background: #ede4d6;
+  border-color: #8b5a1a;
+  transform: translateX(2px);
+}
+
+.link-rel-badge {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  font-weight: 700;
+  border: 1px solid;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: #ffffff;
+}
+
+.link-target-name {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #2b1408;
+  flex: 1;
+  margin: 0 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.link-arrow {
+  font-size: 10px;
+  color: #8b5a1a;
+}
+
+.codex-footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+.btn-center-node {
+  background: linear-gradient(180deg, #ede4d6 0%, #dfcfb8 100%);
+  border: 1px solid #8b5a1a;
+  color: #2b1408;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-center-node:hover {
+  background: #d4af37;
+  color: #1a0f05;
+}

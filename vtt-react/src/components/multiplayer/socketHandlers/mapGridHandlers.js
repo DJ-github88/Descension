@@ -637,6 +637,52 @@ export function registerMapGridHandlers(ctx) {
       }
     });
 
+    socket.on('players_pulled_to_map', (data) => {
+      console.log('🗺️ [players_pulled_to_map] Received pull event from server:', data);
+      const { mapId, mapName, pulledBy, gmId, mapSnapshot } = data;
+
+      if (!mapId) return;
+
+      // Update reference to current map ID
+      playerCurrentMapIdRef.current = mapId;
+
+      // Update map store with the target map
+      import('../../../store/mapStore').then(({ default: useMapStore }) => {
+        const mapStore = useMapStore.getState();
+        if (mapStore.currentMapId !== mapId) {
+          mapStore.setCurrentMapId(mapId);
+          mapStore.loadMap(mapId);
+        }
+      }).catch(err => console.error('Failed to load map on pull:', err));
+
+      // Update level editor state if snapshot provided
+      if (mapSnapshot) {
+        import('../../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
+          const levelEditorStore = useLevelEditorStore.getState();
+          if (mapSnapshot.terrainData !== undefined) levelEditorStore.setTerrainData(mapSnapshot.terrainData);
+          if (mapSnapshot.wallData !== undefined) levelEditorStore.setWallData(mapSnapshot.wallData);
+          if (mapSnapshot.fogOfWarData !== undefined) levelEditorStore.setFogOfWarData(mapSnapshot.fogOfWarData);
+          if (mapSnapshot.fogOfWarPaths !== undefined) levelEditorStore.setFogOfWarPaths(mapSnapshot.fogOfWarPaths);
+          if (mapSnapshot.fogErasePaths !== undefined) levelEditorStore.setFogErasePaths(mapSnapshot.fogErasePaths);
+          if (mapSnapshot.exploredAreas !== undefined) levelEditorStore.setExploredAreas(mapSnapshot.exploredAreas);
+          if (mapSnapshot.environmentalObjects !== undefined) levelEditorStore.setEnvironmentalObjects(mapSnapshot.environmentalObjects);
+          if (mapSnapshot.drawingPaths !== undefined) levelEditorStore.setDrawingPaths(mapSnapshot.drawingPaths);
+          if (mapSnapshot.drawingLayers !== undefined) levelEditorStore.setDrawingLayers(mapSnapshot.drawingLayers);
+          if (mapSnapshot.dndElements !== undefined) levelEditorStore.setDndElements(mapSnapshot.dndElements);
+        }).catch(err => console.error('Failed to apply level editor snapshot on pull:', err));
+      }
+
+      // Add system chat notification if someone else pulled us
+      if (gmId !== currentPlayerRef.current?.id && addNotification) {
+        addNotification('social', {
+          sender: { name: 'System', class: 'system', level: 0 },
+          content: `${pulledBy || 'The GM'} transferred all players to ${mapName || 'the map'}.`,
+          type: 'system',
+          timestamp: new Date().toISOString()
+        });
+      }
+    });
+
   return () => {
     socket.off('level_editor_state_synced');
     socket.off('map_update');
@@ -651,5 +697,6 @@ export function registerMapGridHandlers(ctx) {
     socket.off('window_update');
     socket.off('container_update');
     socket.off('area_remove');
+    socket.off('players_pulled_to_map');
   };
 }

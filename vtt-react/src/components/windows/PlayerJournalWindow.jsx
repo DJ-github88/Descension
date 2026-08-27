@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo, lazy, Suspense } from 'react';
 import { createPortal } from 'react-dom';
 import MythrillWindow from './MythrillWindow';
 import useShareableStore from '../../store/shareableStore';
@@ -12,6 +12,8 @@ import RichLoreText from '../common/RichLoreText';
 import WikiAutocomplete from '../common/WikiAutocomplete';
 import QuickPeekDrawer from '../common/QuickPeekDrawer';
 import CustomLineageWizard from '../world/CustomLineageWizard';
+// Lazy-loaded to avoid circular chunk initialization
+const BookDocumentEditor = lazy(() => import('../journal/BookDocumentEditor'));
 import useCustomLineageStore from '../../store/customLineageStore';
 import useWorldStore from '../../store/worldStore';
 import useFactionStore from '../../store/factionStore';
@@ -414,6 +416,7 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   // Tabs for the journal
   const tabs = [
     { id: 'board', label: 'Knowledge Board', icon: 'fa-project-diagram' },
+    { id: 'sourcebook', label: 'Book & Chapter Builder', icon: 'fa-book-open' },
     { id: 'received', label: 'Received', icon: 'fa-inbox' },
     { id: 'notes', label: 'My Notes', icon: 'fa-sticky-note' }
   ];
@@ -1577,6 +1580,14 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
     switch (activeTab) {
       case 'board':
         return journalFullAllowed ? renderBoardTab() : renderBoardLockedView();
+      case 'sourcebook':
+        return (
+          <div className="journal-sourcebook-tab-container" style={{ height: '100%', width: '100%' }}>
+            <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#8b6f47', fontFamily: 'Georgia, serif' }}>Loading...</div>}>
+              <BookDocumentEditor isGM={isGMMode} />
+            </Suspense>
+          </div>
+        );
       case 'received':
         return renderReceivedTab();
       case 'notes':

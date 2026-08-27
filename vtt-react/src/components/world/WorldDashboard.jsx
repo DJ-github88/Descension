@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import useWorldStore from '../../store/worldStore';
 import useFactionStore from '../../store/factionStore';
 import useClassLoreStore from '../../store/classLoreStore';
@@ -13,6 +13,11 @@ import CustomLineageWizard from './CustomLineageWizard';
 import ClassIcon from '../common/ClassIcon';
 import { TimelineView, MiniCalendar } from './TimelineView';
 import AccountMapManager from '../account/AccountMapManager';
+import FamilyTreeStudio from './FamilyTreeStudio';
+import UniversalEntityGraph from './UniversalEntityGraph';
+import UniversalTagManager from './UniversalTagManager';
+// Lazy-loaded to avoid circular chunk initialization with AccountDashboard
+const BookDocumentEditor = lazy(() => import('../journal/BookDocumentEditor'));
 import { showPrompt } from '../../utils/dialogService';
 import './WorldDashboard.css';
 
@@ -24,7 +29,9 @@ const VIEWS = {
   FACTION_GRAPH: 'faction_graph',
   CLASS: 'class',
   LINEAGE: 'lineage',
-  TIMELINE: 'timeline'
+  TIMELINE: 'timeline',
+  ENTITY_GRAPH: 'entity_graph',
+  FAMILY_TREE: 'family_tree'
 };
 
 const CLASS_ARCHETYPES = [
@@ -533,6 +540,35 @@ const WorldDashboard = () => {
     );
   }
 
+  if (view === VIEWS.ENTITY_GRAPH) {
+    return (
+      <div className="world-panel">
+        <div className="world-panel-header">
+          <button className="world-back-btn" onClick={navigateToDashboard}>← Dashboard</button>
+          <h2>Universal Relationship Web</h2>
+        </div>
+        <UniversalEntityGraph
+          onEntityClick={(ent) => {
+            if (ent.type === 'faction') navigateToFaction(ent.rawId);
+            else if (ent.type === 'location') navigateToLocation(ent.rawId);
+          }}
+        />
+      </div>
+    );
+  }
+
+  if (view === VIEWS.FAMILY_TREE) {
+    return (
+      <div className="world-panel">
+        <div className="world-panel-header">
+          <button className="world-back-btn" onClick={navigateToDashboard}>← Dashboard</button>
+          <h2>Dynasty & Family Trees</h2>
+        </div>
+        <FamilyTreeStudio />
+      </div>
+    );
+  }
+
   // --- Dashboard View ---
   return (
     <div className="world-panel world-dashboard">
@@ -554,6 +590,9 @@ const WorldDashboard = () => {
           <div className="world-stat-pill" onClick={() => setActiveTab('classes')} style={{ cursor: 'pointer' }} title="Combat & Magic Traditions">
             <i className="fas fa-scroll"></i> <span>{classes.length} Traditions</span>
           </div>
+          <button className="world-timeline-hero-btn" onClick={() => setActiveTab('entity_graph')} title="Universal Entity Relationship Web">
+            <i className="fas fa-network-wired"></i> Relationship Web
+          </button>
           <button className="world-timeline-hero-btn" onClick={() => setActiveTab('timeline')} title="Inspect Continental Timeline">
             <i className="fas fa-hourglass-half"></i> World Timeline
           </button>
@@ -565,6 +604,9 @@ const WorldDashboard = () => {
           { key: 'regions', label: `Realms (${regions.length})`, icon: 'fa-earth-americas' },
           { key: 'timeline', label: 'Timeline & Epochs', icon: 'fa-hourglass-half' },
           { key: 'factions', label: `Factions & Orders (${factions.length})`, icon: 'fa-shield-halved' },
+          { key: 'entity_graph', label: 'Relationship Web', icon: 'fa-network-wired' },
+          { key: 'family_trees', label: 'Dynasty Trees', icon: 'fa-users' },
+          { key: 'sourcebooks', label: 'Sourcebooks & Books', icon: 'fa-book-open' },
           { key: 'lineages', label: `Lineages & Peoples (${allLineages.length})`, icon: 'fa-dna' },
           { key: 'classes', label: `Traditions & Classes (${classes.length})`, icon: 'fa-wand-magic-sparkles' },
           { key: 'atlas', label: 'World Atlas & Maps', icon: 'fa-map' }
@@ -1321,6 +1363,31 @@ const WorldDashboard = () => {
         {activeTab === 'atlas' && (
           <div className="world-atlas-tab-container">
             <AccountMapManager />
+          </div>
+        )}
+
+        {activeTab === 'entity_graph' && (
+          <div className="world-entity-graph-tab-container" style={{ height: '700px', width: '100%', borderRadius: '8px', overflow: 'hidden' }}>
+            <UniversalEntityGraph
+              onEntityClick={(ent) => {
+                if (ent.type === 'faction') navigateToFaction(ent.rawId);
+                else if (ent.type === 'location') navigateToLocation(ent.rawId);
+              }}
+            />
+          </div>
+        )}
+
+        {activeTab === 'family_trees' && (
+          <div className="world-family-trees-tab-container" style={{ minHeight: '650px', width: '100%' }}>
+            <FamilyTreeStudio />
+          </div>
+        )}
+
+        {activeTab === 'sourcebooks' && (
+          <div className="world-sourcebooks-tab-container" style={{ height: '750px', width: '100%', borderRadius: '8px', overflow: 'hidden' }}>
+            <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#8b6f47', fontFamily: 'Georgia, serif' }}>Loading Sourcebook Editor...</div>}>
+              <BookDocumentEditor />
+            </Suspense>
           </div>
         )}
       </div>

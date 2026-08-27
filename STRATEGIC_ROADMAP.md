@@ -1,5 +1,9 @@
 # Mythrill VTT — Comprehensive Strategic Roadmap
 
+> [!WARNING]
+> **SUPERSEDED / HISTORICAL REFERENCE ONLY**
+> This roadmap document represents the June 17, 2026 state of the codebase. The project has since progressed significantly across all 5 Pillars (Exploration M2, 21-Class Talent System, Party Frames, and Lore stores). Do not use this file for current task planning or architecture decisions — refer to active session memory and the 5-Pillar Launch Plan.
+
 **Authored:** Jun 17, 2026
 **Scope:** Full-app analysis covering Lore & Narrative, Frontend/UX, Game Mechanics, Backend/Realtime, and State/Code Architecture.
 **Purpose:** A prioritized, multi-iteration action plan synthesizing every audit performed on the codebase. Designed to be worked through phase-by-phase across future chats.

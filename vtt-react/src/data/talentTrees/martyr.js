@@ -7,3 +7,4 @@
 export { MARTYR_REDEMPTION } from './martyrRedemption.js';
 export { MARTYR_ZEALOT } from './martyrZealot.js';
 export { MARTYR_ASCETIC } from './martyrAscetic.js';
+export { MARTYR_IRONCLAD } from './martyrIronclad.js';

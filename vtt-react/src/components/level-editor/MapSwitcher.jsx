@@ -4,11 +4,13 @@ import useGameStore from '../../store/gameStore';
 import useSettingsStore from '../../store/settingsStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useCreatureStore from '../../store/creatureStore';
+import useDialogueStore from '../../store/dialogueStore';
 import { TRANSITION_TIMINGS } from '../multiplayer/UnifiedTransitionOverlay';
 import './styles/MapSwitcher.css';
 
 const MapSwitcher = () => {
     const [isExpanded, setIsExpanded] = useState(false);
+    const [isPulling, setIsPulling] = useState(false);
 
     // Map store
     const {
@@ -30,6 +32,62 @@ const MapSwitcher = () => {
     const { tokens } = useCreatureStore(); // Use tokens to count creatures on the map
 
     const currentMap = maps.find(m => m.id === currentMapId);
+    const isMultiplayerGM = gameStore.isInMultiplayer && gameStore.isGMMode;
+
+    // Handle pulling all players in room to a specific map
+    const handlePullPlayersToMap = async (targetMapId, e) => {
+        if (e) e.stopPropagation();
+        const mapIdToPull = targetMapId || currentMapId;
+        const targetMap = maps.find(m => m.id === mapIdToPull);
+        if (!targetMap) return;
+
+        const socket = useDialogueStore.getState().multiplayerSocket || window._multiplayerSocket;
+        if (!socket || !socket.connected) {
+            console.warn('[MapSwitcher] Cannot pull players: multiplayer socket not connected');
+            return;
+        }
+
+        setIsPulling(true);
+
+        try {
+            // Save current map state first to ensure latest edits are included
+            await saveCurrentMapState(gameStore, levelEditorStore);
+
+            const mapState = targetMap;
+            const roomId = gameStore.currentRoomId || gameStore.roomId;
+
+            socket.emit('pull_players_to_map', {
+                roomId,
+                mapId: mapIdToPull,
+                mapName: targetMap.name || 'Map',
+                mapSnapshot: {
+                    terrainData: mapState.terrainData || levelEditorStore.terrainData || {},
+                    wallData: mapState.wallData || levelEditorStore.wallData || {},
+                    fogOfWarData: mapState.fogOfWarData || levelEditorStore.fogOfWarData || {},
+                    fogOfWarPaths: mapState.fogOfWarPaths || levelEditorStore.fogOfWarPaths || [],
+                    fogErasePaths: mapState.fogErasePaths || levelEditorStore.fogErasePaths || [],
+                    exploredAreas: mapState.exploredAreas || levelEditorStore.exploredAreas || {},
+                    environmentalObjects: mapState.environmentalObjects || levelEditorStore.environmentalObjects || [],
+                    drawingPaths: mapState.drawingPaths || levelEditorStore.drawingPaths || [],
+                    drawingLayers: mapState.drawingLayers || levelEditorStore.drawingLayers || [],
+                    dndElements: mapState.dndElements || levelEditorStore.dndElements || []
+                }
+            }, (response) => {
+                setIsPulling(false);
+                if (response && response.success) {
+                    console.log('✅ [MapSwitcher] Successfully pulled players to map:', mapIdToPull);
+                }
+            });
+
+            // If GM is not already on this map, switch GM to it
+            if (mapIdToPull !== currentMapId) {
+                await handleMapSwitch(mapIdToPull);
+            }
+        } catch (err) {
+            console.error('[MapSwitcher] Error pulling players to map:', err);
+            setIsPulling(false);
+        }
+    };
 
     // Handle map switching with state preservation
     const handleMapSwitch = async (mapId) => {
@@ -176,6 +234,9 @@ const MapSwitcher = () => {
                 if (levelEditorStore.setFogErasePaths && mapState.fogErasePaths !== undefined) {
                     levelEditorStore.setFogErasePaths(mapState.fogErasePaths);
                 }
+                if (levelEditorStore.setExploredAreas && mapState.exploredAreas !== undefined) {
+                    levelEditorStore.setExploredAreas(mapState.exploredAreas);
+                }
                 if (levelEditorStore.setWallData) {
                     levelEditorStore.setWallData(mapState.wallData || {});
                 }
@@ -208,20 +269,15 @@ const MapSwitcher = () => {
     };
 
     const formatMapStats = (map) => {
-        // For current map, use real-time data from stores for reactive updates
-        // For other maps, use stored data from map object
         const isCurrentMap = map.id === currentMapId;
 
-        // Count connections (portals) - use real-time data for current map
         const connections = isCurrentMap
             ? dndElements.filter(el => el.type === 'portal').length
             : (map.dndElements || []).filter(el => el.type === 'portal').length;
 
-        // Count creatures (tokens on the map) - use real-time data for current map
-        // For other maps, count tokens from stored map data
         const creaturesCount = isCurrentMap
-            ? tokens.length // Count tokens on current map
-            : (map.tokens || []).length; // Count tokens from stored map data
+            ? tokens.length
+            : (map.tokens || []).length;
 
         return { connections, creaturesCount };
     };
@@ -230,7 +286,7 @@ const MapSwitcher = () => {
         <div className="map-switcher">
             <div className="map-switcher-header">
                 <div className="current-map-display">
-                    <span className="map-icon">� - �️</span>
+                    <span className="map-icon">🗺️</span>
                     <div className="map-info">
                         <div className="map-name">{currentMap?.name || 'No Map'}</div>
                         <div className="map-stats">
@@ -238,7 +294,7 @@ const MapSwitcher = () => {
                                 const stats = formatMapStats(currentMap);
                                 return (
                                     <>
-                                        <span title="Connections">� -  {stats.connections}</span>
+                                        <span title="Connections">🚪 {stats.connections}</span>
                                         <span title="Creatures">👹 {stats.creaturesCount}</span>
                                     </>
                                 );
@@ -248,6 +304,16 @@ const MapSwitcher = () => {
                 </div>
 
                 <div className="map-switcher-controls">
+                    {isMultiplayerGM && (
+                        <button
+                            className="pull-players-header-btn"
+                            onClick={(e) => handlePullPlayersToMap(currentMapId, e)}
+                            disabled={isPulling}
+                            title="Pull all players in room to this map"
+                        >
+                            {isPulling ? '⏳ Pulling...' : '👥 Pull Players'}
+                        </button>
+                    )}
                     <button
                         className="expand-button"
                         onClick={() => setIsExpanded(!isExpanded)}
@@ -286,16 +352,27 @@ const MapSwitcher = () => {
                                     <div className="map-item-info">
                                         <div className="map-item-name">{map.name}</div>
                                         <div className="map-item-stats">
-                                            <span>� -  {stats.connections}</span>
+                                            <span>🚪 {stats.connections}</span>
                                             <span>👹 {stats.creaturesCount}</span>
                                         </div>
                                     </div>
 
-                                    {isCurrent && (
-                                        <div className="current-indicator">
-                                            ✓
-                                        </div>
-                                    )}
+                                    <div className="map-item-actions">
+                                        {isMultiplayerGM && (
+                                            <button
+                                                className="pull-players-item-btn"
+                                                onClick={(e) => handlePullPlayersToMap(map.id, e)}
+                                                title={`Pull all players to ${map.name}`}
+                                            >
+                                                🚀 Pull
+                                            </button>
+                                        )}
+                                        {isCurrent && (
+                                            <div className="current-indicator">
+                                                ✓
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             );
                         })}

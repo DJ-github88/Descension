@@ -1,6 +1,10 @@
-﻿# Class Resource Bar Improvement Plan
+# Class Resource Bar Improvement Plan
 
-> **Status:** Proposal  -  not yet implemented
+> [!WARNING]
+> **SUPERSEDED / COMPLETED & EVOLVED**
+> The unified compact bar and context-menu popover patterns proposed in this document have been implemented across active classes. Refer to live components (`vtt-react/src/components/party/` and `vtt-react/src/components/character-sheet/`) and active memory for current resource bar implementations.
+
+> **Status:** Proposal / Historical
 > **Scope:** All class resource bars across `ClassResourceBar.jsx` (inline) and the six separate component bars (`Plaguebringer`, `Pyrofiend`, `Spellguard`, `Toxicologist`, `Warden`, `Augur`)
 > **Reference implementation:** The redesigned **Minstrel** musical-notes bar (`musical-notes-combo.css` + `renderMusicalNotesCombo`) is the gold standard this plan measured against.
 

@@ -25,15 +25,6 @@
  * }
  */
 
-// Helper function to create backdrop image URL for class/spec
-/*
-// Import the moved talent trees
-// Temporarily commented out to resolve duplicate declarations
-*/
-// 'Dreadnaught' talent trees removed (absorbed into Martyr as Ironclad specialization)
-
-// Titan talent trees removed (absorbed into Warden as Monolith specialization)
-
 import {
   TOXICOLOGIST_VENOMANCER,
   TOXICOLOGIST_GADGETEER,
@@ -73,7 +64,8 @@ import {
 import {
   MARTYR_REDEMPTION,
   MARTYR_ZEALOT,
-  MARTYR_ASCETIC
+  MARTYR_ASCETIC,
+  MARTYR_IRONCLAD
 } from './talentTrees/martyr.js';
 
 import {
@@ -88,7 +80,6 @@ import {
   INQUISITOR_IRON_VERDICT,
   INQUISITOR_HOLLOW_SAINT
 } from './talentTrees/inquisitor.js';
-
 
 import {
   PLAGUEBRINGER_VIRULENT_SPREADER,
@@ -121,9 +112,10 @@ import {
   ARCANONEER_SPHERE_ARCHITECT
 } from './talentTrees/arcanoneer.js';
 
-
-
 import {
+  BERSERKER_SAVAGE,
+  BERSERKER_JUGGERNAUT,
+  BERSERKER_WARLORD,
   BERSERKER_PRIMAL_RAGE,
   BERSERKER_BLOOD_FRENZY,
   BERSERKER_SAVAGE_INSTINCTS
@@ -142,6 +134,9 @@ import {
 } from './talentTrees/shaper.js';
 
 import {
+  LUNARCH_HOLLOW_SENTINEL,
+  LUNARCH_SILENCE_SPEAKER,
+  LUNARCH_SANGUINE_WARDEN,
   LUNARCH_MOONLIGHT_SENTINEL,
   LUNARCH_STARFALL_INVOKER,
   LUNARCH_MOONWELL_GUARDIAN
@@ -155,16 +150,23 @@ import {
 
 import {
   WARDEN_SHADOWBLADE,
-  WARDEN_JAILER,
-  WARDEN_VENGEANCE_SEEKER
+  WARDEN_VENGEANCE_SEEKER,
+  WARDEN_MONOLITH
 } from './talentTrees/warden.js';
+
+import {
+  CRUSADER_SOLAR_JUSTICIAR,
+  CRUSADER_DAWN_BASTION,
+  CRUSADER_HARMONIC_INQUISITOR
+} from './talentTrees/crusader.js';
+
 export const getTreeBackdrop = (className, specId) => {
   // Map class and specialization to high-res thematic background images from /assets/Backgrounds/
   const backdropMap = {
     'Pyrofiend': {
       'inferno': 'url(/assets/Backgrounds/Volcano.png)',
       'wildfire': 'url(/assets/Backgrounds/Embers.png)',
-      'hellfire': 'url(/assets/Backgrounds/Volcano%20Lake.png)'
+      'apostate': 'url(/assets/Backgrounds/Volcano%20Lake.png)'
     },
     'Minstrel': {
       'soulsinger': 'url(/assets/Backgrounds/Flowers.png)',
@@ -209,6 +211,9 @@ export const getTreeBackdrop = (className, specId) => {
       'hollow_saint': 'url(/assets/Backgrounds/Temple.png)'
     },
     'Lunarch': {
+      'hollow-sentinel': 'url(/assets/Backgrounds/NightFrost.png)',
+      'silence-speaker': 'url(/assets/Backgrounds/MountainSky.png)',
+      'sanguine-warden': 'url(/assets/Backgrounds/FrozTemple.png)',
       'moonlight-sentinel': 'url(/assets/Backgrounds/NightFrost.png)',
       'starfall-invoker': 'url(/assets/Backgrounds/MountainSky.png)',
       'moonwell-guardian': 'url(/assets/Backgrounds/FrozTemple.png)'
@@ -220,11 +225,8 @@ export const getTreeBackdrop = (className, specId) => {
     },
     'Warden': {
       'shadowblade': 'url(/assets/Backgrounds/Forest2.png)',
-      'jailer': 'url(/assets/Backgrounds/mountains1.png)',
-      'avenger': 'url(/assets/Backgrounds/mountains3.png)',
-      'monolith': 'url(/assets/Backgrounds/mountains1.png)',
-      'primal_stalker': 'url(/assets/Backgrounds/Forest2.png)',
-      'earth_shaper': 'url(/assets/Backgrounds/mountains3.png)'
+      'vengeance-seeker': 'url(/assets/Backgrounds/mountains3.png)',
+      'monolith': 'url(/assets/Backgrounds/mountains1.png)'
     },
     'Gambit': {
       'probability_savant': 'url(/assets/Backgrounds/Stonehedge.png)',
@@ -235,9 +237,7 @@ export const getTreeBackdrop = (className, specId) => {
       'redemption': 'url(/assets/Backgrounds/Temple.png)',
       'zealot': 'url(/assets/Backgrounds/DesertTemple.png)',
       'ascetic': 'url(/assets/Backgrounds/Stonehedge.png)',
-      'protector': 'url(/assets/Backgrounds/Temple.png)',
-      'redeemer': 'url(/assets/Backgrounds/DesertTemple.png)',
-      'avenger': 'url(/assets/Backgrounds/Stonehedge.png)'
+      'ironclad': 'url(/assets/Backgrounds/Volcano.png)'
     },
     'False Prophet': {
       'silence_speaker': 'url(/assets/Backgrounds/DesertTemple.png)',
@@ -263,6 +263,9 @@ export const getTreeBackdrop = (className, specId) => {
       'mana_reaver': 'url(/assets/Backgrounds/Temple.png)'
     },
     'Berserker': {
+      'savage': 'url(/assets/Backgrounds/Volcano.png)',
+      'juggernaut': 'url(/assets/Backgrounds/mountains2.png)',
+      'warlord': 'url(/assets/Backgrounds/Forest1.png)',
       'primal_rage': 'url(/assets/Backgrounds/Volcano.png)',
       'blood_frenzy': 'url(/assets/Backgrounds/mountains2.png)',
       'savage_instincts': 'url(/assets/Backgrounds/Forest1.png)'
@@ -271,6 +274,11 @@ export const getTreeBackdrop = (className, specId) => {
       'auspex': 'url(/assets/Backgrounds/NightFrost.png)',
       'harbinger': 'url(/assets/Backgrounds/Stonehedge.png)',
       'hierophant': 'url(/assets/Backgrounds/DesertTemple.png)'
+    },
+    'Crusader': {
+      'solar_justiciar': 'url(/assets/Backgrounds/DesertTemple.png)',
+      'dawn_bastion': 'url(/assets/Backgrounds/Temple.png)',
+      'harmonic_inquisitor': 'url(/assets/Backgrounds/MountainSky.png)'
     }
   };
 
@@ -290,9 +298,8 @@ export const getFallbackBackground = (treeIndex) => {
   ];
   return backgrounds[treeIndex % backgrounds.length];
 };
+
 export const TALENT_TREES = {
-  // 'Dreadnaught' tree map removed (absorbed into Martyr as Ironclad specialization)
-  // 'Titan' tree map removed (absorbed into Warden as Monolith specialization)
   'Toxicologist': {
     'venomancer': TOXICOLOGIST_VENOMANCER,
     'gadgeteer': TOXICOLOGIST_GADGETEER,
@@ -301,7 +308,7 @@ export const TALENT_TREES = {
   'Pyrofiend': {
     'inferno': PYROFIEND_INFERNO,
     'wildfire': PYROFIEND_WILDFIRE,
-    'hellfire': PYROFIEND_HELLFIRE
+    'apostate': PYROFIEND_HELLFIRE
   },
   'Minstrel': {
     'soulsinger': MINSTREL_HARMONIC_WEAVING,
@@ -326,7 +333,8 @@ export const TALENT_TREES = {
   'Martyr': {
     'redemption': MARTYR_REDEMPTION,
     'zealot': MARTYR_ZEALOT,
-    'ascetic': MARTYR_ASCETIC
+    'ascetic': MARTYR_ASCETIC,
+    'ironclad': MARTYR_IRONCLAD
   },
   'False Prophet': {
     'silence_speaker': FALSE_PROPHET_SILENCE_SPEAKER,
@@ -338,9 +346,9 @@ export const TALENT_TREES = {
     'torment_weaver': PLAGUEBRINGER_TORMENT_WEAVER,
     'decay_harbinger': PLAGUEBRINGER_DECAY_HARBINGER
   },
-  // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
   'Revenant': {
     'sanguine_harvest': REVENANT_SANGUINE_HARVEST,
+    'frost_soVEREIGN': REVENANT_FROST_SOVEREIGN,
     'frost_sovereign': REVENANT_FROST_SOVEREIGN,
     'phylactery_anchor': REVENANT_PHYLACTERY_ANCHOR
   },
@@ -359,7 +367,6 @@ export const TALENT_TREES = {
     'entropy_weaver': ARCANONEER_ENTROPY_WEAVER,
     'sphere_architect': ARCANONEER_SPHERE_ARCHITECT
   },
-  // 'Bladedancer' and 'Formbender' merged into Shaper as Phase 1.8 consolidation
   'Shaper': {
     'flow-master': SHAPER_FLOW_MASTER,
     'iron-dancer': SHAPER_IRON_DANCER,
@@ -370,11 +377,14 @@ export const TALENT_TREES = {
     'iron_verdict': INQUISITOR_IRON_VERDICT,
     'hollow_saint': INQUISITOR_HOLLOW_SAINT
   },
-
   'Lunarch': {
-    'moonlight-sentinel': LUNARCH_MOONLIGHT_SENTINEL,
-    'starfall-invoker': LUNARCH_STARFALL_INVOKER,
-    'moonwell-guardian': LUNARCH_MOONWELL_GUARDIAN
+    'hollow-sentinel': LUNARCH_HOLLOW_SENTINEL,
+    'silence-speaker': LUNARCH_SILENCE_SPEAKER,
+    'sanguine-warden': LUNARCH_SANGUINE_WARDEN,
+    // Legacy aliases
+    'moonlight-sentinel': LUNARCH_HOLLOW_SENTINEL,
+    'starfall-invoker': LUNARCH_SILENCE_SPEAKER,
+    'moonwell-guardian': LUNARCH_SANGUINE_WARDEN
   },
   'Apex': {
     'shadowblade': APEX_SHADOWBLADE,
@@ -383,20 +393,28 @@ export const TALENT_TREES = {
   },
   'Warden': {
     'shadowblade': WARDEN_SHADOWBLADE,
-    'jailer': WARDEN_JAILER,
-    'avenger': WARDEN_VENGEANCE_SEEKER,
-    'vengeance-seeker': WARDEN_VENGEANCE_SEEKER
+    'vengeance-seeker': WARDEN_VENGEANCE_SEEKER,
+    'monolith': WARDEN_MONOLITH
   },
   'Berserker': {
-    'primal_rage': BERSERKER_PRIMAL_RAGE,
-    'blood_frenzy': BERSERKER_BLOOD_FRENZY,
-    'savage_instincts': BERSERKER_SAVAGE_INSTINCTS
+    'savage': BERSERKER_SAVAGE,
+    'juggernaut': BERSERKER_JUGGERNAUT,
+    'warlord': BERSERKER_WARLORD,
+    // Legacy aliases
+    'primal_rage': BERSERKER_SAVAGE,
+    'blood_frenzy': BERSERKER_WARLORD,
+    'savage_instincts': BERSERKER_JUGGERNAUT
   },
   'Augur': {
     'auspex': AUGUR_AUSPICE,
     'harbinger': AUGUR_HARBINGER,
     'hierophant': AUGUR_HIEROPHANT
   },
+  'Crusader': {
+    'solar_justiciar': CRUSADER_SOLAR_JUSTICIAR,
+    'dawn_bastion': CRUSADER_DAWN_BASTION,
+    'harmonic_inquisitor': CRUSADER_HARMONIC_INQUISITOR
+  }
 };
 
 // Helper function to get talents for a specific class and specialization

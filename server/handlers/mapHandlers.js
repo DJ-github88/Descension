@@ -526,6 +526,88 @@ function registerMapHandlers(ctx) {
       }
     }
   });
+
+  socket.on('pull_players_to_map', async(data, callback) => {
+    try {
+      const validation = validateRoomMembership(socket, data.roomId, true);
+      if (!validation.valid) {
+        if (typeof callback === 'function') callback({ success: false, error: 'Unauthorized: GM only' });
+        return;
+      }
+
+      const { room, player } = validation;
+      const mapId = data.mapId;
+      if (!mapId) {
+        if (typeof callback === 'function') callback({ success: false, error: 'Missing mapId' });
+        return;
+      }
+
+      const map = validateMapExists(room, mapId, data.mapName);
+
+      // Update room default / active map and all player assignments
+      room.gameState.defaultMapId = mapId;
+      if (!room.gameState.playerMapAssignments) {
+        room.gameState.playerMapAssignments = {};
+      }
+
+      // Assign all active players in room to this map
+      for (const [sid, p] of players.entries()) {
+        if (p.roomId === room.id) {
+          p.currentMapId = mapId;
+          room.gameState.playerMapAssignments[p.id] = mapId;
+        }
+      }
+
+      // If full map snapshot was attached from GM prep, persist it to the room state
+      if (data.mapSnapshot) {
+        if (data.mapSnapshot.terrainData) map.terrainData = data.mapSnapshot.terrainData;
+        if (data.mapSnapshot.wallData) map.wallData = data.mapSnapshot.wallData;
+        if (data.mapSnapshot.fogOfWarData) map.fogOfWarData = data.mapSnapshot.fogOfWarData;
+        if (data.mapSnapshot.fogOfWarPaths) map.fogOfWarPaths = data.mapSnapshot.fogOfWarPaths;
+        if (data.mapSnapshot.fogErasePaths) map.fogErasePaths = data.mapSnapshot.fogErasePaths;
+        if (data.mapSnapshot.exploredAreas) map.exploredAreas = data.mapSnapshot.exploredAreas;
+        if (data.mapSnapshot.environmentalObjects) map.environmentalObjects = data.mapSnapshot.environmentalObjects;
+        if (data.mapSnapshot.drawingPaths) map.drawingPaths = data.mapSnapshot.drawingPaths;
+        if (data.mapSnapshot.drawingLayers) map.drawingLayers = data.mapSnapshot.drawingLayers;
+        if (data.mapSnapshot.dndElements) map.dndElements = data.mapSnapshot.dndElements;
+        if (data.mapSnapshot.gridSettings) map.gridSettings = data.mapSnapshot.gridSettings;
+      }
+
+      const payload = {
+        mapId,
+        mapName: data.mapName || map.name || 'Map',
+        pulledBy: player.name || 'Game Master',
+        gmId: player.id,
+        mapSnapshot: data.mapSnapshot || {
+          terrainData: map.terrainData || {},
+          wallData: map.wallData || {},
+          fogOfWarData: map.fogOfWarData || {},
+          fogOfWarPaths: map.fogOfWarPaths || [],
+          fogErasePaths: map.fogErasePaths || [],
+          exploredAreas: map.exploredAreas || {},
+          environmentalObjects: map.environmentalObjects || [],
+          drawingPaths: map.drawingPaths || [],
+          gridSettings: map.gridSettings || null,
+          dndElements: map.dndElements || []
+        },
+        sequence: getNextEventSequence()
+      };
+
+      io.to(room.id).emit('players_pulled_to_map', payload);
+      logger.info(`🗺️ [pull_players_to_map] GM ${player.name} pulled all players to map ${mapId} (${payload.mapName})`);
+
+      firebaseBatchWriter.queueWrite(room.id, room.gameState);
+
+      if (typeof callback === 'function') {
+        callback({ success: true, payload });
+      }
+    } catch (error) {
+      logger.error('[pull_players_to_map] Error:', { error: error.message });
+      if (typeof callback === 'function') {
+        callback({ success: false, error: error.message });
+      }
+    }
+  });
 }
 
 module.exports = { registerMapHandlers };

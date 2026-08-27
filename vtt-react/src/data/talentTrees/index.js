@@ -2,11 +2,6 @@
 // TALENT TREES INDEX - CENTRAL EXPORT
 // ============================================
 
-// Import all class talent trees
-// 'Dreadnaught' talent trees removed (absorbed into Martyr as Ironclad specialization)
-
-// Titan talent trees removed (absorbed into Warden as Monolith specialization)
-
 export {
   TOXICOLOGIST_VENOMANCER,
   TOXICOLOGIST_GADGETEER,
@@ -46,8 +41,15 @@ export {
 export {
   MARTYR_REDEMPTION,
   MARTYR_ZEALOT,
-  MARTYR_ASCETIC
+  MARTYR_ASCETIC,
+  MARTYR_IRONCLAD
 } from './martyr.js';
+
+export {
+  WARDEN_SHADOWBLADE,
+  WARDEN_VENGEANCE_SEEKER,
+  WARDEN_MONOLITH
+} from './warden.js';
 
 export {
   FALSE_PROPHET_SILENCE_SPEAKER,
@@ -55,13 +57,11 @@ export {
   FALSE_PROPHET_CULTIST
 } from './falseprophet.js';
 
-// Inquisitor talent trees (merged from Covenbane + Exorcist in Phase 1.9)
 export {
   INQUISITOR_WITCH_HAMMER,
   INQUISITOR_IRON_VERDICT,
   INQUISITOR_HOLLOW_SAINT
 } from './inquisitor.js';
-
 
 export {
   PLAGUEBRINGER_VIRULENT_SPREADER,
@@ -69,7 +69,6 @@ export {
   PLAGUEBRINGER_DECAY_HARBINGER
 } from './plaguebringer.js';
 
-// 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
 export {
   REVENANT_SANGUINE_HARVEST,
   REVENANT_FROST_SOVEREIGN,
@@ -95,10 +94,22 @@ export {
 } from './shaper.js';
 
 export {
+  BERSERKER_SAVAGE,
+  BERSERKER_JUGGERNAUT,
+  BERSERKER_WARLORD,
   BERSERKER_PRIMAL_RAGE,
   BERSERKER_BLOOD_FRENZY,
   BERSERKER_SAVAGE_INSTINCTS
 } from './berserker.js';
+
+export {
+  LUNARCH_HOLLOW_SENTINEL,
+  LUNARCH_SILENCE_SPEAKER,
+  LUNARCH_SANGUINE_WARDEN,
+  LUNARCH_MOONLIGHT_SENTINEL,
+  LUNARCH_STARFALL_INVOKER,
+  LUNARCH_MOONWELL_GUARDIAN
+} from './lunarch.js';
 
 export {
   AUGUR_AUSPICE,
@@ -106,7 +117,11 @@ export {
   AUGUR_HIEROPHANT
 } from './augur.js';
 
-
+export {
+  CRUSADER_SOLAR_JUSTICIAR,
+  CRUSADER_DAWN_BASTION,
+  CRUSADER_HARMONIC_INQUISITOR
+} from './crusader.js';
 
 // Re-export all existing talent trees from the main file
 export {
