@@ -277,10 +277,10 @@ export const BookDocumentEditor = ({
 
   const addBlock = (type, index = null, overrides = {}) => {
     const newBlock = {
-      id: `b-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-      type,
       ...JSON.parse(JSON.stringify(NEW_BLOCK_DEFAULTS[type] || {})),
-      ...overrides
+      ...overrides,
+      id: `b-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      type
     };
 
     mutatePageBlocks((blocks) => {
@@ -306,10 +306,14 @@ export const BookDocumentEditor = ({
   };
 
   const handleSaveItemBlock = (itemData) => {
+    const payload = {
+      ...itemData,
+      itemType: itemData.subtype || (itemData.type !== 'item_card' ? itemData.type : itemData.itemType)
+    };
     if (itemStudioTarget?.block) {
-      updateBlock(itemStudioTarget.block.id, itemData);
+      updateBlock(itemStudioTarget.block.id, payload);
     } else if (itemStudioTarget?.index !== undefined) {
-      addBlock('item_card', itemStudioTarget.index, itemData);
+      addBlock('item_card', itemStudioTarget.index, payload);
     }
     setItemStudioTarget(null);
   };
@@ -318,15 +322,11 @@ export const BookDocumentEditor = ({
     if (lorePickerTarget?.block) {
       updateBlock(lorePickerTarget.block.id, {
         title: loreData.name,
+        category: loreData.category,
+        content: loreData.content,
+        summary: loreData.summary,
         icon: loreData.icon,
-        content: loreData.content || loreData.summary
-      });
-    } else if (lorePickerTarget?.index !== undefined) {
-      addBlock('callout', lorePickerTarget.index, {
-        title: loreData.name,
-        icon: loreData.icon,
-        calloutType: 'lore',
-        content: loreData.content || loreData.summary
+        entityId: loreData.id
       });
     }
     setLorePickerTarget(null);
@@ -334,7 +334,7 @@ export const BookDocumentEditor = ({
 
   const updateBlock = (blockId, updates) => {
     mutatePageBlocks((blocks) =>
-      blocks.map((b) => (b.id === blockId ? { ...b, ...updates } : b))
+      blocks.map((b) => (b.id === blockId ? { ...b, ...updates, id: b.id, type: b.type } : b))
     );
   };
 
@@ -591,12 +591,18 @@ export const BookDocumentEditor = ({
         );
 
       case 'item_card':
+      case 'weapon':
+      case 'armor':
+      case 'accessory':
+      case 'consumable':
+      case 'container':
+      case 'miscellaneous':
         return wrap(
           <ItemRelicBlock
             block={block}
             isWrite={effectiveIsWrite}
             onUpdate={(patch) => updateBlock(block.id, patch)}
-            onOpenStudio={(b) => setItemStudioTarget({ block: b })}
+            onOpenStudio={(b) => setItemStudioTarget({ block: block })}
           />
         );
 

@@ -1048,11 +1048,11 @@ export const normalizeBookItemData = (block = {}) => {
   if (rawQuality === 'very-rare' || rawQuality === 'very rare') quality = 'epic';
 
   // Determine standard item type
-  let type = block.type;
+  let type = block.type && block.type !== 'item_card' ? block.type : undefined;
   if (!type) {
-    const rawType = (block.itemType || '').toLowerCase();
-    if (rawType.includes('weapon') || block.damage) type = 'weapon';
-    else if (rawType.includes('armor') || rawType.includes('shield')) type = 'armor';
+    const rawType = (block.subtype || block.itemType || '').toLowerCase();
+    if (rawType.includes('weapon') || block.damage || block.weaponStats) type = 'weapon';
+    else if (rawType.includes('armor') || rawType.includes('shield') || block.armor) type = 'armor';
     else if (rawType.includes('potion') || rawType.includes('consumable')) type = 'consumable';
     else if (rawType.includes('ring') || rawType.includes('cloak') || rawType.includes('amulet') || rawType.includes('accessory')) type = 'accessory';
     else if (rawType.includes('container') || rawType.includes('bag')) type = 'container';
