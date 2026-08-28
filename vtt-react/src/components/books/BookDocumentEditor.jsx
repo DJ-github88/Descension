@@ -440,38 +440,25 @@ export const BookDocumentEditor = ({
       setTimeout(() => setSaveState('idle'), 3000);
     }
   };
-
-  const handleCreateSnapshot = () => {
-    const desc = window.prompt('Describe this checkpoint version:', `Manual Save - Chapter ${currentPage?.pageNumber || 1}`);
-    if (desc !== null) {
-      createRevisionSnapshot(book.id, desc);
-    }
-  };
-
-  // Block hover controls component
-  const BlockControls = ({ block, index, isFirst, isLast }) => {
+  // Block hover controls component - perched horizontal pill
+  const BlockControls = ({ block, index, isFirst, isLast, colContext = {} }) => {
     if (activeMode === 'read') return null;
 
-    const currentBlockCol = block.column || 'left';
+    const currentBlockCol = block.column || colContext.colName || 'left';
 
     const setBlockColumn = (colVal, e) => {
       e.stopPropagation();
       updateBlock(block.id, { column: colVal });
     };
 
-    const currentAlign = block.alignment || 'full';
-
-    const setBlockAlignment = (alignVal, e) => {
-      e.stopPropagation();
-      updateBlock(block.id, { alignment: alignVal });
-    };
-
     const isSideBySide = block.type === 'side_by_side';
+    const isFirstInCol = colContext.isFirstInCol ?? isFirst;
+    const isLastInCol = colContext.isLastInCol ?? isLast;
 
     return (
       <div className="book-block-controls" onClick={(e) => e.stopPropagation()}>
-        {/* Column Placement Controls */}
-        <div className="ctrl-group col-group">
+        {/* Placement Segment */}
+        <div className="ctrl-segment placement-segment">
           <button
             type="button"
             className={`col-btn ${currentBlockCol === 'left' ? 'active' : ''}`}
@@ -492,45 +479,17 @@ export const BookDocumentEditor = ({
             type="button"
             className={`col-btn ${currentBlockCol === 'full' ? 'active' : ''}`}
             onClick={(e) => setBlockColumn('full', e)}
-            title="Span Full Width Across Columns"
+            title="Span Full Width Across Both Columns"
           >
             <i className="fas fa-arrows-left-right"></i>
           </button>
         </div>
 
-        {/* Text Flow & Float Controls */}
-        <div className="ctrl-group flow-group">
-          <button
-            type="button"
-            className={`align-ctrl-btn ${currentAlign === 'float-left' ? 'active' : ''}`}
-            onClick={(e) => setBlockAlignment(currentAlign === 'float-left' ? 'full' : 'float-left', e)}
-            title="Float Left (Text wraps to the right)"
-          >
-            <i className="fas fa-align-left"></i>
-          </button>
-          <button
-            type="button"
-            className={`align-ctrl-btn ${currentAlign === 'float-right' ? 'active' : ''}`}
-            onClick={(e) => setBlockAlignment(currentAlign === 'float-right' ? 'full' : 'float-right', e)}
-            title="Float Right (Text wraps to the left)"
-          >
-            <i className="fas fa-align-right"></i>
-          </button>
-          <button
-            type="button"
-            className={`align-ctrl-btn ${currentAlign === 'center' ? 'active' : ''}`}
-            onClick={(e) => setBlockAlignment(currentAlign === 'center' ? 'full' : 'center', e)}
-            title="Center / Column Fit"
-          >
-            <i className="fas fa-align-center"></i>
-          </button>
-        </div>
-
-        {/* Side-by-Side Split Action */}
+        {/* Side-by-Side Companion */}
         {!isSideBySide && (
           <button
             type="button"
-            className="split-side-btn"
+            className="ctrl-action-btn split-side-btn"
             onClick={(e) => {
               e.stopPropagation();
               handleSplitWithSideText(block.id, 'right');
@@ -541,33 +500,37 @@ export const BookDocumentEditor = ({
           </button>
         )}
 
-        {/* Reordering & Delete */}
-        <div className="ctrl-group order-group">
+        {/* Reordering */}
+        <div className="ctrl-segment order-segment">
           <button
             type="button"
-            disabled={isFirst}
-            onClick={() => moveBlock(index, -1)}
+            className="ctrl-action-btn move-btn"
+            disabled={isFirstInCol && currentBlockCol === 'left'}
+            onClick={() => moveBlockInColumn(block.id, -1)}
             title="Move block up"
           >
             <i className="fas fa-arrow-up"></i>
           </button>
           <button
             type="button"
-            disabled={isLast}
-            onClick={() => moveBlock(index, 1)}
+            className="ctrl-action-btn move-btn"
+            disabled={isLastInCol && currentBlockCol === 'right'}
+            onClick={() => moveBlockInColumn(block.id, 1)}
             title="Move block down"
           >
             <i className="fas fa-arrow-down"></i>
           </button>
-          <button
-            type="button"
-            className="delete-block-btn"
-            onClick={() => deleteBlock(block.id)}
-            title="Delete block"
-          >
-            <i className="fas fa-trash"></i>
-          </button>
         </div>
+
+        {/* Delete */}
+        <button
+          type="button"
+          className="ctrl-action-btn delete-block-btn"
+          onClick={() => deleteBlock(block.id)}
+          title="Delete block"
+        >
+          <i className="fas fa-trash"></i>
+        </button>
       </div>
     );
   };
@@ -595,7 +558,7 @@ export const BookDocumentEditor = ({
   };
 
   // Render individual publication block
-  const renderPublicationBlock = (block, index, isWriteMode = true) => {
+  const renderPublicationBlock = (block, index, isWriteMode = true, colContext = {}) => {
     const isEditing = editingBlockId === block.id;
     const effectiveIsWrite = isWriteMode && activeMode === 'write';
     const currentAlign = block.alignment || (block.type === 'image' && block.alignment ? block.alignment : 'full');
@@ -612,8 +575,9 @@ export const BookDocumentEditor = ({
           <BlockControls
             block={block}
             index={index}
-            isFirst={index === 0}
-            isLast={index === (currentPage?.blocks || []).length - 1}
+            isFirst={colContext.isFirstInCol ?? (index === 0)}
+            isLast={colContext.isLastInCol ?? (index === (currentPage?.blocks || []).length - 1)}
+            colContext={colContext}
           />
         )}
       </div>
@@ -867,28 +831,17 @@ export const BookDocumentEditor = ({
     const right = [];
     const full = [];
 
-    const hasExplicit = blocks.some((b) => b.column === 'left' || b.column === 'right' || b.column === 'full');
-
-    if (hasExplicit) {
-      blocks.forEach((b, idx) => {
-        if (b.column === 'right') {
-          right.push({ block: b, index: idx });
-        } else if (b.column === 'full') {
-          full.push({ block: b, index: idx });
-        } else {
-          left.push({ block: b, index: idx });
-        }
-      });
-    } else {
-      const half = Math.ceil(blocks.length / 2);
-      blocks.forEach((b, idx) => {
-        if (idx < half) {
-          left.push({ block: b, index: idx });
-        } else {
-          right.push({ block: b, index: idx });
-        }
-      });
-    }
+    const half = Math.ceil(blocks.length / 2);
+    blocks.forEach((b, idx) => {
+      const col = b.column || (idx < half ? 'left' : 'right');
+      if (col === 'right') {
+        right.push({ block: b, index: idx });
+      } else if (col === 'full') {
+        full.push({ block: b, index: idx });
+      } else {
+        left.push({ block: b, index: idx });
+      }
+    });
 
     return { leftColumnBlocks: left, rightColumnBlocks: right, fullColumnBlocks: full };
   }, [currentPage?.blocks]);
@@ -903,9 +856,13 @@ export const BookDocumentEditor = ({
         <div className="book-columns-grid">
           {/* Left Column */}
           <div className="book-column left-column">
-            {leftColumnBlocks.map(({ block, index }) => (
+            {leftColumnBlocks.map(({ block, index }, colIdx) => (
               <React.Fragment key={block.id}>
-                {renderPublicationBlock(block, index, true)}
+                {renderPublicationBlock(block, index, true, {
+                  colName: 'left',
+                  isFirstInCol: colIdx === 0,
+                  isLastInCol: colIdx === leftColumnBlocks.length - 1
+                })}
                 <InsertRail index={index + 1} />
               </React.Fragment>
             ))}
@@ -918,9 +875,13 @@ export const BookDocumentEditor = ({
 
           {/* Right Column */}
           <div className="book-column right-column">
-            {rightColumnBlocks.map(({ block, index }) => (
+            {rightColumnBlocks.map(({ block, index }, colIdx) => (
               <React.Fragment key={block.id}>
-                {renderPublicationBlock(block, index, true)}
+                {renderPublicationBlock(block, index, true, {
+                  colName: 'right',
+                  isFirstInCol: colIdx === 0,
+                  isLastInCol: colIdx === rightColumnBlocks.length - 1
+                })}
                 <InsertRail index={index + 1} />
               </React.Fragment>
             ))}
@@ -935,9 +896,13 @@ export const BookDocumentEditor = ({
         {/* Full-width spanned blocks at bottom */}
         {fullColumnBlocks.length > 0 && (
           <div className="book-fullwidth-blocks">
-            {fullColumnBlocks.map(({ block, index }) => (
+            {fullColumnBlocks.map(({ block, index }, colIdx) => (
               <React.Fragment key={block.id}>
-                {renderPublicationBlock(block, index, true)}
+                {renderPublicationBlock(block, index, true, {
+                  colName: 'full',
+                  isFirstInCol: colIdx === 0,
+                  isLastInCol: colIdx === fullColumnBlocks.length - 1
+                })}
                 <InsertRail index={index + 1} />
               </React.Fragment>
             ))}
@@ -949,12 +914,17 @@ export const BookDocumentEditor = ({
 
   // Render publication Single-Column Body
   const renderSingleColumnBody = () => {
+    const total = (currentPage?.blocks || []).length;
     return (
       <div className="book-page-body">
         <InsertRail index={0} isFirst />
         {(currentPage?.blocks || []).map((block, idx) => (
           <React.Fragment key={block.id}>
-            {renderPublicationBlock(block, idx, true)}
+            {renderPublicationBlock(block, idx, true, {
+              colName: 'single',
+              isFirstInCol: idx === 0,
+              isLastInCol: idx === total - 1
+            })}
             <InsertRail index={idx + 1} />
           </React.Fragment>
         ))}

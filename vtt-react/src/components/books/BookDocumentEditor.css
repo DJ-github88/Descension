@@ -881,78 +881,101 @@
   background: #8a2f1d;
 }
 
+/* Perched Horizontal Block Controls */
 .book-block-controls {
   position: absolute;
-  right: -32px;
-  top: 0;
+  top: -14px;
+  right: 8px;
   display: flex !important;
-  flex-direction: column !important;
-  gap: 4px;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 5px;
   opacity: 0;
-  transition: opacity 0.15s ease;
-  z-index: 30;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  transform: translateY(2px);
+  z-index: 50;
+  background: rgba(254, 250, 240, 0.98);
+  padding: 3px 6px;
+  border: 1.5px solid #8b5a1a;
+  border-radius: 6px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(4px);
 }
 
-.book-block-wrap.align-float-right > .book-block-controls {
-  right: auto;
-  left: -32px;
-}
-
-.book-block-wrap:hover > .book-block-controls {
+.book-block-wrap:hover > .book-block-controls,
+.book-block-wrap.editing > .book-block-controls {
   opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
-.book-block-controls .ctrl-group {
+.book-block-controls .ctrl-segment {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 2px;
+  background: rgba(139, 90, 43, 0.08);
   padding: 2px;
-  background: rgba(253, 245, 230, 0.95);
-  border: 1px solid #d8ccb4;
   border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(139, 90, 43, 0.15);
 }
 
 .book-block-controls button {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 3px;
   background: #fffdf8;
   border: 1px solid #c9b99e;
   color: #58180d;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
+  font-family: var(--book-font-heading, serif);
   font-weight: 700;
   cursor: pointer;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  transition: all 0.12s ease;
+  padding: 0;
 }
 
 .book-block-controls button:hover:not(:disabled) {
   background: #58180d;
   color: #ffd700;
   border-color: #ffd700;
+  transform: scale(1.08);
+}
+
+.book-block-controls button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  background: #eee8dc;
+  border-color: #dcd0bf;
+  color: #998877;
 }
 
 .book-block-controls button.active {
   background: #58180d !important;
   color: #ffd700 !important;
   border-color: #ffd700 !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .book-block-controls .split-side-btn {
   background: #58180d;
   color: #ffd700;
   border-color: #ffd700;
-  width: 24px;
-  height: 24px;
-  border-radius: 3px;
 }
 
 .book-block-controls .split-side-btn:hover {
   background: #8a2f1d;
+  transform: scale(1.08);
+}
+
+.book-block-controls .delete-block-btn:hover {
+  background: #900c3f;
+  color: #fff;
+  border-color: #900c3f;
 }
 
 /* Side-by-Side Split Row Block */
