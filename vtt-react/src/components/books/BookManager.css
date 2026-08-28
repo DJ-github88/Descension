@@ -7,8 +7,59 @@
   color: #3a2f1e;
   font-family: 'Georgia', 'Bookman Old Style', serif;
   overflow-y: auto;
+  position: relative;
 }
 
+/* Toast Notifications */
+.book-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #2d1c0c;
+  color: #fdfbf7;
+  border: 1px solid #d4af37;
+  border-radius: 8px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  z-index: 10000;
+  font-size: 0.9rem;
+  animation: bookToastSlideIn 0.25s ease-out;
+}
+
+@keyframes bookToastSlideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.book-toast i.fa-circle-check {
+  color: #55b355;
+  font-size: 1.1rem;
+}
+
+.book-toast-close {
+  background: transparent;
+  border: none;
+  color: #a89476;
+  cursor: pointer;
+  padding: 2px 6px;
+  margin-left: 8px;
+  font-size: 0.85rem;
+}
+
+.book-toast-close:hover {
+  color: #fdfbf7;
+}
+
+/* Header */
 .book-manager-header {
   display: flex;
   align-items: flex-end;
@@ -81,6 +132,9 @@
   font-size: 0.85rem;
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .book-new-btn:hover {
@@ -93,6 +147,100 @@
   padding: 10px 20px;
 }
 
+.book-empty-trash-btn {
+  background: linear-gradient(145deg, #7a1f1d, #9c2826);
+  color: #fff2f0;
+  border: 1px solid #581514;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.book-empty-trash-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(122, 31, 29, 0.4);
+}
+
+/* Tabs Bar */
+.book-manager-tabs-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 22px;
+  background: rgba(220, 204, 172, 0.4);
+  border-bottom: 1px solid #d4c29d;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.book-tabs-left {
+  display: flex;
+  gap: 8px;
+}
+
+.book-nav-tab {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: #634f37;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.book-nav-tab:hover {
+  background: rgba(255, 252, 240, 0.6);
+  color: #3a2f1e;
+}
+
+.book-nav-tab.active {
+  background: rgba(255, 252, 240, 0.95);
+  border-color: #b9a274;
+  color: #4a3012;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(60, 42, 18, 0.1);
+}
+
+.book-tab-badge {
+  background: #d4c29d;
+  color: #4a3b22;
+  font-size: 0.72rem;
+  padding: 2px 7px;
+  border-radius: 12px;
+  font-weight: normal;
+}
+
+.book-tab-badge.trash-active {
+  background: #a94442;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.trash-retention-notice {
+  font-size: 0.78rem;
+  color: #7b5936;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.trash-retention-notice i {
+  color: #8b5a2b;
+}
+
+/* New Book Form */
 .book-new-form {
   margin: 14px 22px 0;
   background: rgba(255, 252, 240, 0.95);
@@ -176,6 +324,7 @@
   cursor: pointer;
 }
 
+/* Grid & Cards */
 .book-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -197,10 +346,25 @@
   box-shadow: 0 8px 20px rgba(60, 42, 18, 0.35);
 }
 
+.book-card.trashed-card {
+  filter: grayscale(20%);
+  opacity: 0.9;
+  border: 1px dashed #b98a58;
+}
+
+.book-card.trashed-card:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
 .book-card-spine {
   width: 10px;
   flex-shrink: 0;
   background: linear-gradient(180deg, #4a3212, #6b4a2a);
+}
+
+.trashed-card .book-card-spine {
+  background: linear-gradient(180deg, #63433b, #7d5248);
 }
 
 .cover-parchment .book-card-face { background: linear-gradient(165deg, #f0e2bd 0%, #e2cf9f 100%); }
@@ -242,10 +406,7 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  border: 2px solid rgba(120, 90, 50, 0.25);
-  border-left: none;
-  border-right: none;
-  border-top: none;
+  border-bottom: 2px solid rgba(120, 90, 50, 0.25);
   min-height: 170px;
 }
 
@@ -284,6 +445,34 @@
   color: #8b7355;
 }
 
+/* Trash countdown pill */
+.trash-countdown-pill {
+  margin: 6px 10px 0;
+  padding: 3px 8px;
+  background: rgba(90, 40, 20, 0.1);
+  border: 1px solid rgba(139, 50, 30, 0.3);
+  border-radius: 12px;
+  font-size: 0.68rem;
+  color: #78351b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-weight: bold;
+}
+
+.trash-countdown-pill.expiring-soon {
+  background: rgba(180, 40, 30, 0.18);
+  border-color: #a94442;
+  color: #8a201c;
+  animation: pulseExpire 2s infinite ease-in-out;
+}
+
+@keyframes pulseExpire {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 0.6; }
+}
+
 .book-card-meta {
   display: flex;
   justify-content: space-between;
@@ -296,6 +485,7 @@
 .cover-grimoire .book-card-meta,
 .cover-royal .book-card-meta { color: #b8b09a; background: rgba(255, 255, 255, 0.05); }
 
+/* Card Toolbars */
 .book-card-toolbar {
   position: absolute;
   top: 6px;
@@ -304,12 +494,12 @@
   gap: 4px;
   opacity: 0;
   transition: opacity 0.15s ease;
+  z-index: 5;
 }
 
 .book-card:hover .book-card-toolbar { opacity: 1; }
 
 .book-card-toolbar button {
-  width: 26px;
   height: 26px;
   border: 1px solid rgba(90, 59, 30, 0.4);
   border-radius: 5px;
@@ -319,13 +509,39 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
+  padding: 0 8px;
+  gap: 4px;
 }
 
 .book-card-toolbar button:hover { background: #e8d9b0; }
 .book-card-toolbar button.danger { color: #8b2020; }
 .book-card-toolbar button.danger:hover { background: #f0d5d5; }
 
+.book-card-toolbar button.restore-btn {
+  background: #3e5a32;
+  color: #f5faee;
+  border-color: #2b3f22;
+  font-weight: bold;
+}
+
+.book-card-toolbar button.restore-btn:hover {
+  background: #4c6f3d;
+}
+
+.book-card-toolbar button.permanent-btn {
+  background: #7a1e1e;
+  color: #fff2f2;
+  border-color: #4f1010;
+  width: 26px;
+  padding: 0;
+}
+
+.book-card-toolbar button.permanent-btn:hover {
+  background: #9b2828;
+}
+
+/* Empty State */
 .book-empty-state {
   grid-column: 1 / -1;
   text-align: center;
@@ -354,6 +570,255 @@
   line-height: 1.4;
 }
 
+/* ==========================================================================
+   Custom Delete / Trash Modal (Pathfinder Parchment Theme)
+   ========================================================================== */
+.book-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 10, 5, 0.72);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  padding: 20px;
+  animation: bookFadeIn 0.15s ease-out;
+}
+
+@keyframes bookFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.book-delete-modal {
+  width: 100%;
+  max-width: 480px;
+  background: linear-gradient(165deg, #f7efe0 0%, #ebe0c6 100%);
+  border: 2px solid #b89860;
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 245, 220, 0.4) inset;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: bookPopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes bookPopIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.book-delete-modal-header {
+  padding: 16px 20px;
+  border-bottom: 2px solid #d4c29d;
+  background: rgba(220, 204, 172, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.book-delete-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #fdfbf7;
+  border: 1px solid #c9b68c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.book-delete-icon-trash {
+  color: #8b5a2b;
+}
+
+.book-delete-icon-perm {
+  color: #9c2826;
+}
+
+.book-delete-modal-title {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #4a3012;
+  font-family: 'Georgia', serif;
+}
+
+.book-delete-modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  color: #3e3220;
+}
+
+.book-delete-card-preview {
+  display: flex;
+  gap: 14px;
+  padding: 12px;
+  background: rgba(255, 252, 240, 0.85);
+  border: 1px solid #d4c29d;
+  border-radius: 8px;
+  align-items: center;
+}
+
+.book-delete-preview-cover {
+  width: 48px;
+  height: 60px;
+  background: linear-gradient(145deg, #4a3212, #6b4a2a);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e8d9b0;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.book-delete-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.book-delete-preview-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.book-delete-preview-title {
+  margin: 0 0 2px;
+  font-size: 0.95rem;
+  color: #4a3212;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.book-delete-preview-sub {
+  margin: 0 0 6px;
+  font-size: 0.76rem;
+  font-style: italic;
+  color: #7a6a4f;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.book-delete-preview-stats {
+  display: flex;
+  gap: 12px;
+  font-size: 0.72rem;
+  color: #8b7355;
+}
+
+.book-delete-preview-stats span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.book-delete-info-banner {
+  display: flex;
+  gap: 12px;
+  padding: 12px 14px;
+  background: rgba(139, 90, 43, 0.09);
+  border: 1px solid #c9b68c;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #4e3a20;
+}
+
+.book-delete-info-icon {
+  font-size: 1.2rem;
+  color: #8b5a2b;
+  margin-top: 2px;
+}
+
+.book-delete-warning-banner {
+  display: flex;
+  gap: 12px;
+  padding: 12px 14px;
+  background: rgba(180, 40, 30, 0.1);
+  border: 1px solid #d48a88;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #6a1a18;
+}
+
+.book-delete-warning-banner i {
+  font-size: 1.2rem;
+  color: #a94442;
+  margin-top: 2px;
+}
+
+.book-delete-confirm-prompt {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #55442f;
+  font-style: italic;
+}
+
+.book-delete-modal-footer {
+  padding: 14px 20px;
+  background: rgba(220, 204, 172, 0.4);
+  border-top: 2px solid #d4c29d;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.book-delete-btn {
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.book-delete-btn-cancel {
+  background: transparent;
+  border: 1px solid #b9a274;
+  color: #5a452a;
+}
+
+.book-delete-btn-cancel:hover {
+  background: rgba(255, 252, 240, 0.8);
+  color: #3a2f1e;
+}
+
+.book-delete-btn-trash {
+  background: linear-gradient(145deg, #7a5028, #946332);
+  color: #fdfbf7;
+  border: 1px solid #5a3818;
+  font-weight: bold;
+}
+
+.book-delete-btn-trash:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(90, 56, 24, 0.35);
+}
+
+.book-delete-btn-danger {
+  background: linear-gradient(145deg, #8a201c, #aa2c27);
+  color: #ffffff;
+  border: 1px solid #5e1411;
+  font-weight: bold;
+}
+
+.book-delete-btn-danger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(138, 32, 28, 0.4);
+}
+
 @media (max-width: 768px) {
   .book-manager-header {
     flex-direction: column;
@@ -367,5 +832,10 @@
   .book-search-box {
     min-width: 0;
     flex: 1;
+  }
+
+  .book-manager-tabs-bar {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

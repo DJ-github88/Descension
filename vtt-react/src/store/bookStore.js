@@ -5,6 +5,8 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../config/firebase';
 
 const nowIso = () => new Date().toISOString();
+export const TRASH_RETENTION_DAYS = 7;
+export const TRASH_RETENTION_MS = TRASH_RETENTION_DAYS * 24 * 60 * 60 * 1000;
 
 /**
  * Normalizes a book object into the modern Chapter -> Page -> Blocks hierarchy.
@@ -24,6 +26,7 @@ export const normalizeBook = (book) => {
     tags: Array.isArray(book.tags) ? book.tags : [],
     customTerms: Array.isArray(book.customTerms) ? book.customTerms : [],
     revisions: Array.isArray(book.revisions) ? book.revisions : [],
+    trashedAt: book.trashedAt || null,
     createdAt: book.createdAt || nowIso(),
     updatedAt: book.updatedAt || nowIso(),
     chapters: []
@@ -196,12 +199,13 @@ const useBookStore = create(
   persist(
     (set, get) => ({
       books: STARTER_BOOKS.map(normalizeBook),
+      trashedBooks: [],
       activeBookId: null,
       lastCloudSyncAt: null,
 
       setActiveBook: (bookId) => set({ activeBookId: bookId }),
 
-      // --- Book CRUD ---
+      // --- Book CRUD & Trash Management ---
       createBook: (meta = {}) => {
         const title = (meta.title || '').trim() || 'Untitled Chronicle';
         const bookId = `book-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
@@ -256,10 +260,61 @@ const useBookStore = create(
         return copy.id;
       },
 
-      deleteBook: (bookId) => set((state) => ({
+      moveToTrash: (bookId) => {
+        const target = get().books.find((b) => b.id === bookId);
+        if (!target) return;
+        const trashedBook = {
+          ...normalizeBook(target),
+          trashedAt: nowIso(),
+          updatedAt: nowIso()
+        };
+        set((state) => ({
+          books: state.books.filter((b) => b.id !== bookId),
+          trashedBooks: [trashedBook, ...(state.trashedBooks || []).filter((b) => b.id !== bookId)],
+          activeBookId: state.activeBookId === bookId ? null : state.activeBookId
+        }));
+      },
+
+      restoreBook: (bookId) => {
+        const target = (get().trashedBooks || []).find((b) => b.id === bookId);
+        if (!target) return;
+        const restoredBook = {
+          ...normalizeBook(target),
+          trashedAt: null,
+          updatedAt: nowIso()
+        };
+        set((state) => ({
+          trashedBooks: (state.trashedBooks || []).filter((b) => b.id !== bookId),
+          books: [restoredBook, ...state.books.filter((b) => b.id !== bookId)]
+        }));
+      },
+
+      permanentlyDeleteBook: (bookId) => set((state) => ({
         books: state.books.filter((b) => b.id !== bookId),
+        trashedBooks: (state.trashedBooks || []).filter((b) => b.id !== bookId),
         activeBookId: state.activeBookId === bookId ? null : state.activeBookId
       })),
+
+      emptyTrash: () => set({ trashedBooks: [] }),
+
+      purgeExpiredTrash: () => {
+        const now = Date.now();
+        set((state) => ({
+          trashedBooks: (state.trashedBooks || []).filter((b) => {
+            if (!b.trashedAt) return false;
+            const trashedTime = new Date(b.trashedAt).getTime();
+            return !isNaN(trashedTime) && (now - trashedTime) < TRASH_RETENTION_MS;
+          })
+        }));
+      },
+
+      deleteBook: (bookId, permanent = false) => {
+        if (permanent) {
+          get().permanentlyDeleteBook(bookId);
+        } else {
+          get().moveToTrash(bookId);
+        }
+      },
 
       // --- Chapter Operations ---
       addChapter: (bookId, chapterMeta = {}) => {
@@ -581,7 +636,11 @@ const useBookStore = create(
         if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'books');
-          await setDoc(docRef, { books: get().books.map(normalizeBook), updatedAt: nowIso() }, { merge: true });
+          await setDoc(docRef, {
+            books: get().books.map(normalizeBook),
+            trashedBooks: (get().trashedBooks || []).map(normalizeBook),
+            updatedAt: nowIso()
+          }, { merge: true });
           set({ lastCloudSyncAt: nowIso() });
           return true;
         } catch (err) {
@@ -595,9 +654,20 @@ const useBookStore = create(
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'books');
           const snap = await getDoc(docRef);
-          if (snap.exists() && Array.isArray(snap.data()?.books)) {
-            set({ books: snap.data().books.map(normalizeBook) });
-            return true;
+          if (snap.exists()) {
+            const data = snap.data();
+            const updates = {};
+            if (Array.isArray(data?.books)) {
+              updates.books = data.books.map(normalizeBook);
+            }
+            if (Array.isArray(data?.trashedBooks)) {
+              updates.trashedBooks = data.trashedBooks.map(normalizeBook);
+            }
+            if (Object.keys(updates).length > 0) {
+              set(updates);
+              get().purgeExpiredTrash();
+              return true;
+            }
           }
         } catch (err) {
           console.debug('Books cloud hydration skipped:', err?.message || err);
@@ -608,6 +678,7 @@ const useBookStore = create(
     createStorageConfig('mythrill_books_storage', {
       partialize: (state) => ({
         books: state.books.map(normalizeBook),
+        trashedBooks: (state.trashedBooks || []).map(normalizeBook),
         activeBookId: state.activeBookId,
         lastCloudSyncAt: state.lastCloudSyncAt
       })

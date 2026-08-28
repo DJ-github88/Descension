@@ -130,4 +130,55 @@ describe('bookStore - Hierarchical Book Architecture', () => {
     book = useBookStore.getState().books.find((b) => b.id === bookId);
     expect(book.chapters.length).toBe(1);
   });
+
+  test('trash can supports 7-day soft delete, restore, permanent deletion, and auto-purge', () => {
+    const { createBook, moveToTrash, restoreBook, permanentlyDeleteBook, emptyTrash, purgeExpiredTrash } = useBookStore.getState();
+    const book1Id = createBook({ title: 'Book One' });
+    const book2Id = createBook({ title: 'Book Two' });
+
+    // Soft delete / Move to trash
+    moveToTrash(book1Id);
+    let state = useBookStore.getState();
+    expect(state.books.find((b) => b.id === book1Id)).toBeUndefined();
+    expect(state.trashedBooks.length).toBe(1);
+    expect(state.trashedBooks[0].id).toBe(book1Id);
+    expect(state.trashedBooks[0].trashedAt).toBeDefined();
+
+    // Restore from trash
+    restoreBook(book1Id);
+    state = useBookStore.getState();
+    expect(state.books.find((b) => b.id === book1Id)).toBeDefined();
+    expect(state.trashedBooks.length).toBe(0);
+
+    // Soft delete book 2, then permanently delete
+    moveToTrash(book2Id);
+    state = useBookStore.getState();
+    expect(state.trashedBooks.length).toBe(1);
+    permanentlyDeleteBook(book2Id);
+    state = useBookStore.getState();
+    expect(state.trashedBooks.length).toBe(0);
+    expect(state.books.find((b) => b.id === book2Id)).toBeUndefined();
+
+    // Test emptyTrash
+    const book3Id = createBook({ title: 'Book Three' });
+    moveToTrash(book3Id);
+    expect(useBookStore.getState().trashedBooks.length).toBe(1);
+    emptyTrash();
+    expect(useBookStore.getState().trashedBooks.length).toBe(0);
+
+    // Test purgeExpiredTrash (older than 7 days)
+    const eightDaysAgo = new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString();
+    const twoDaysAgo = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString();
+    useBookStore.setState({
+      trashedBooks: [
+        { id: 'expired-book', title: 'Old Discarded', trashedAt: eightDaysAgo },
+        { id: 'fresh-book', title: 'Recent Discarded', trashedAt: twoDaysAgo }
+      ]
+    });
+    purgeExpiredTrash();
+    state = useBookStore.getState();
+    expect(state.trashedBooks.length).toBe(1);
+    expect(state.trashedBooks[0].id).toBe('fresh-book');
+  });
 });
+
