@@ -374,14 +374,43 @@ export const BookDocumentEditor = ({
     );
   };
 
-  const moveBlock = (index, direction) => {
+  const moveBlockInColumn = (blockId, direction) => {
     mutatePageBlocks((blocks) => {
-      const targetIdx = index + direction;
-      if (targetIdx < 0 || targetIdx >= blocks.length) return blocks;
+      const bIdx = blocks.findIndex((b) => b.id === blockId);
+      if (bIdx === -1) return blocks;
+      const targetBlock = blocks[bIdx];
+      const half = Math.ceil(blocks.length / 2);
+      const col = targetBlock.column || (bIdx < half ? 'left' : 'right');
+
+      // Find all blocks in the same column
+      const sameColIndices = [];
+      blocks.forEach((b, i) => {
+        const c = b.column || (i < half ? 'left' : 'right');
+        if (c === col) sameColIndices.push(i);
+      });
+
+      const posInCol = sameColIndices.indexOf(bIdx);
+      const targetPosInCol = posInCol + direction;
+
+      if (targetPosInCol < 0) {
+        if (col === 'right') {
+          return blocks.map((b) => (b.id === blockId ? { ...b, column: 'left' } : b));
+        }
+        return blocks;
+      }
+
+      if (targetPosInCol >= sameColIndices.length) {
+        if (col === 'left') {
+          return blocks.map((b) => (b.id === blockId ? { ...b, column: 'right' } : b));
+        }
+        return blocks;
+      }
+
+      const swapWithIdx = sameColIndices[targetPosInCol];
       const next = [...blocks];
-      const temp = next[index];
-      next[index] = next[targetIdx];
-      next[targetIdx] = temp;
+      const temp = next[bIdx];
+      next[bIdx] = next[swapWithIdx];
+      next[swapWithIdx] = temp;
       return next;
     });
   };
