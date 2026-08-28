@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './BookDocumentEditor.css';
 
 const SNAPSHOT_TAGS = [
   { id: 'Draft', label: 'Draft', icon: 'fa-pencil', color: '#3498db' },

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import universalEntityService from '../../services/universalEntityService';
+import './BookDocumentEditor.css';
 
 const FILTER_CATEGORIES = [
   { key: 'all', label: 'All Lore & Notes', icon: 'fa-globe' },

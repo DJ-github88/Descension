@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import useAuthStore from '../../store/authStore';
 import { uploadAsset } from '../../services/firebase/uploadService';
+import './BookDocumentEditor.css';
 
 export const CHARACTER_ART_PRESETS = [
   // --- Races & Lineages ---

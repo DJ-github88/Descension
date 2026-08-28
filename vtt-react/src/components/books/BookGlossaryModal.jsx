@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import RichLoreText from '../common/RichLoreText';
+import './BookDocumentEditor.css';
 
 const CATEGORIES = [
   { id: 'Concept', label: 'Concept & Philosophy', icon: 'fa-brain', color: '#9b59b6' },
