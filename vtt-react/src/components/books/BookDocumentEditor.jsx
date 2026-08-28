@@ -426,6 +426,13 @@ export const BookDocumentEditor = ({
       updateBlock(block.id, { column: nextCol });
     };
 
+    const currentAlign = block.alignment || 'full';
+
+    const setBlockAlignment = (alignVal, e) => {
+      e.stopPropagation();
+      updateBlock(block.id, { alignment: alignVal });
+    };
+
     return (
       <div className="book-block-controls" onClick={(e) => e.stopPropagation()}>
         {isTwoCol && (
@@ -438,6 +445,30 @@ export const BookDocumentEditor = ({
             <span className="col-ctrl-pill">{currentBlockCol === 'full' ? 'FULL' : currentBlockCol === 'right' ? 'R' : 'L'}</span>
           </button>
         )}
+        <button
+          type="button"
+          className={`align-ctrl-btn ${currentAlign === 'float-left' ? 'active' : ''}`}
+          onClick={(e) => setBlockAlignment(currentAlign === 'float-left' ? 'full' : 'float-left', e)}
+          title="Float Left (Text flows to the right)"
+        >
+          <i className="fas fa-align-left"></i>
+        </button>
+        <button
+          type="button"
+          className={`align-ctrl-btn ${currentAlign === 'float-right' ? 'active' : ''}`}
+          onClick={(e) => setBlockAlignment(currentAlign === 'float-right' ? 'full' : 'float-right', e)}
+          title="Float Right (Text flows to the left)"
+        >
+          <i className="fas fa-align-right"></i>
+        </button>
+        <button
+          type="button"
+          className={`align-ctrl-btn ${currentAlign === 'center' ? 'active' : ''}`}
+          onClick={(e) => setBlockAlignment(currentAlign === 'center' ? 'full' : 'center', e)}
+          title="Center / Column Fit"
+        >
+          <i className="fas fa-align-center"></i>
+        </button>
         <button
           type="button"
           disabled={isFirst}
@@ -492,11 +523,13 @@ export const BookDocumentEditor = ({
   const renderPublicationBlock = (block, index, isWriteMode = true) => {
     const isEditing = editingBlockId === block.id;
     const effectiveIsWrite = isWriteMode && activeMode === 'write';
+    const currentAlign = block.alignment || (block.type === 'image' && block.alignment ? block.alignment : 'full');
+    const isFloating = currentAlign === 'float-left' || currentAlign === 'float-right';
 
     const wrap = (children) => (
       <div
         key={block.id}
-        className={`book-block-wrap type-${block.type} ${isEditing ? 'editing' : ''}`}
+        className={`book-block-wrap type-${block.type} align-${currentAlign} ${isFloating ? 'is-floating' : ''} ${isEditing ? 'editing' : ''}`}
         onClick={() => { if (effectiveIsWrite) setEditingBlockId(block.id); }}
       >
         {children}

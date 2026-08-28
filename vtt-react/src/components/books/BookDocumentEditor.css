@@ -740,11 +740,47 @@
 
 .book-block-wrap {
   position: relative;
-  margin-bottom: 6px;
-  display: block !important;
+  margin-bottom: 8px;
+  display: block;
   box-sizing: border-box;
+  width: 100%;
+  height: auto;
+}
+
+/* Universal Block Alignments & Text Flow */
+.book-block-wrap.align-float-left {
+  float: left !important;
+  width: 48% !important;
+  max-width: 48% !important;
+  margin: 4px 20px 14px 0 !important;
+  clear: left !important;
+}
+
+.book-block-wrap.align-float-right {
+  float: right !important;
+  width: 48% !important;
+  max-width: 48% !important;
+  margin: 4px 0 14px 20px !important;
+  clear: right !important;
+}
+
+.book-block-wrap.align-center {
+  margin: 14px auto !important;
+  width: 85% !important;
+  max-width: 85% !important;
+  clear: both !important;
+}
+
+.book-block-wrap.align-full {
   width: 100% !important;
-  height: auto !important;
+  clear: both !important;
+  margin: 14px 0 !important;
+}
+
+.book-block-controls .align-ctrl-btn.active {
+  background: #58180d !important;
+  color: #ffd700 !important;
+  border-color: #ffd700 !important;
 }
 
 /* Headings */
@@ -1942,7 +1978,7 @@
   inset: 0 !important;
   background: rgba(14, 10, 8, 0.78) !important;
   backdrop-filter: blur(4px) !important;
-  z-index: 10000 !important;
+  z-index: 1000000 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -3738,7 +3774,7 @@
 
 .alignment-button-group {
   display: flex !important;
-  gap: 6px !important;
+  gap: 8px !important;
   flex-wrap: wrap !important;
   margin-top: 4px !important;
 }
@@ -3746,29 +3782,35 @@
 .align-btn {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 6px !important;
-  padding: 6px 10px !important;
-  background: #fffdf8 !important;
+  justify-content: center !important;
+  width: 44px !important;
+  height: 38px !important;
+  background: #ffffff !important;
   border: 1.5px solid #c9b99e !important;
   border-radius: 6px !important;
-  font-family: var(--book-font-heading) !important;
-  font-size: 0.74rem !important;
-  font-weight: 600 !important;
-  color: #5c3e24 !important;
+  color: #111111 !important;
   cursor: pointer !important;
   transition: all 0.15s ease !important;
 }
 
+.align-btn i {
+  color: #111111 !important;
+  font-size: 1.1rem !important;
+}
+
 .align-btn:hover {
-  background: #fbf3e4 !important;
+  background: #fdf5e6 !important;
   border-color: #8b5a1a !important;
 }
 
 .align-btn.active {
   background: #58180d !important;
-  color: #ffd700 !important;
   border-color: #ffd700 !important;
-  font-weight: 700 !important;
+  box-shadow: 0 2px 6px rgba(88, 24, 13, 0.3) !important;
+}
+
+.align-btn.active i {
+  color: #ffd700 !important;
 }
 
 .form-grid-2 {

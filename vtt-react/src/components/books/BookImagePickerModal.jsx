@@ -556,10 +556,24 @@ const BookImagePickerModal = ({
                       }}
                     >
                       <div className="atlas-card-thumb">
-                        <img src={art.thumbnail} alt={art.name} onError={(e) => { e.target.style.display = 'none'; }} />
+                        <img
+                          src={art.thumbnail}
+                          alt={art.name}
+                          loading="lazy"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.style.display = 'none';
+                            const parent = e.target.parentElement;
+                            if (parent && !parent.querySelector('.thumb-fallback-icon')) {
+                              const icon = document.createElement('i');
+                              icon.className = 'fas fa-image thumb-fallback-icon';
+                              parent.appendChild(icon);
+                            }
+                          }}
+                        />
                         <span className="map-badge">{art.type}</span>
                       </div>
-                      <span className="atlas-card-label">{art.name}</span>
+                      <span className="atlas-card-label" title={art.name}>{art.name}</span>
                     </div>
                   ))}
                   {filteredArtPresets.length === 0 && (
@@ -624,7 +638,6 @@ const BookImagePickerModal = ({
                         onClick={() => setAlignment(opt.value)}
                       >
                         <i className={`fas ${opt.icon}`}></i>
-                        <span>{opt.label}</span>
                       </button>
                     ))}
                   </div>
