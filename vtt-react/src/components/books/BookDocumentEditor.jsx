@@ -13,7 +13,8 @@ import {
   BookImageBlock,
   BookCalloutBlock,
   MapEmbedBlock,
-  TableOfContentsBlock
+  TableOfContentsBlock,
+  SideBySideBlock
 } from './BookTtrpgBlocks';
 import BookGlossaryModal from './BookGlossaryModal';
 import BookImagePickerModal from './BookImagePickerModal';
@@ -38,6 +39,11 @@ const LAYOUT_OPTIONS = [
 const NEW_BLOCK_DEFAULTS = {
   header: { level: 2, text: 'New Section Title' },
   paragraph: { text: 'The quill awaits your words...', hasDropCap: false },
+  side_by_side: {
+    ratio: '50-50',
+    left: { type: 'image', url: '/assets/images/races/merryn_illustration.png', caption: 'Merryn Wave-Rider' },
+    right: { type: 'paragraph', text: 'Across the misty frontiers, legends are written in iron and frost...' }
+  },
   callout: { calloutType: 'lore', title: 'Historical Note', icon: 'fa-scroll', content: 'Ancient chronicles record that the realm was once united under a single banner...' },
   creature_statblock: {
     name: 'Frost Wyrd Revenant',
@@ -135,6 +141,7 @@ const NEW_BLOCK_DEFAULTS = {
 const INSERT_PALETTE = [
   { type: 'header', label: 'Heading', icon: 'fa-heading', hint: 'H1, H2, or H3 Section Title' },
   { type: 'paragraph', label: 'Paragraph', icon: 'fa-paragraph', hint: 'Prose with drop cap & [[wiki]] terms' },
+  { type: 'side_by_side', label: 'Side-by-Side Split', icon: 'fa-table-columns', hint: 'Art / Item / Statblock beside Text' },
   { type: 'callout', label: 'Callout Box', icon: 'fa-scroll', hint: 'Lore, secret, hazard, read aloud' },
   { type: 'lore_import', label: 'Import World Lore', icon: 'fa-feather-pointed', hint: 'Pull from Factions, Regions, Journals' },
   { type: 'creature_statblock', label: 'Creature Statblock', icon: 'fa-dragon', hint: 'Descension monster / NPC statblock' },
@@ -297,7 +304,9 @@ export const BookDocumentEditor = ({
   };
 
   const handleSaveImageBlock = (imgData) => {
-    if (imagePickerTarget?.block) {
+    if (imagePickerTarget?.customCallback) {
+      imagePickerTarget.customCallback(imgData);
+    } else if (imagePickerTarget?.block) {
       updateBlock(imagePickerTarget.block.id, imgData);
     } else if (imagePickerTarget?.index !== undefined) {
       addBlock('image', imagePickerTarget.index, imgData);
@@ -310,12 +319,39 @@ export const BookDocumentEditor = ({
       ...itemData,
       itemType: itemData.subtype || (itemData.type !== 'item_card' ? itemData.type : itemData.itemType)
     };
-    if (itemStudioTarget?.block) {
+    if (itemStudioTarget?.customCallback) {
+      itemStudioTarget.customCallback(payload);
+    } else if (itemStudioTarget?.block) {
       updateBlock(itemStudioTarget.block.id, payload);
     } else if (itemStudioTarget?.index !== undefined) {
       addBlock('item_card', itemStudioTarget.index, payload);
     }
     setItemStudioTarget(null);
+  };
+
+  const handleSplitWithSideText = (blockId, side = 'right') => {
+    mutatePageBlocks((blocks) =>
+      blocks.map((b) => {
+        if (b.id !== blockId) return b;
+        const currentBlockCopy = { ...b };
+        delete currentBlockCopy.alignment;
+
+        const companionText = {
+          type: 'paragraph',
+          text: 'Add detailed lore, tactical advice, statistics, or narrative notes here...'
+        };
+
+        return {
+          id: b.id,
+          type: 'side_by_side',
+          column: b.column || 'left',
+          alignment: 'full',
+          ratio: '50-50',
+          left: side === 'right' ? currentBlockCopy : companionText,
+          right: side === 'right' ? companionText : currentBlockCopy
+        };
+      })
+    );
   };
 
   const handleSelectLore = (loreData) => {
@@ -416,14 +452,11 @@ export const BookDocumentEditor = ({
   const BlockControls = ({ block, index, isFirst, isLast }) => {
     if (activeMode === 'read') return null;
 
-    const currentLayout = currentPage?.layout || book.layout || 'two-column';
-    const isTwoCol = currentLayout === 'two-column';
     const currentBlockCol = block.column || 'left';
 
-    const toggleColumn = (e) => {
+    const setBlockColumn = (colVal, e) => {
       e.stopPropagation();
-      const nextCol = currentBlockCol === 'left' ? 'right' : currentBlockCol === 'right' ? 'full' : 'left';
-      updateBlock(block.id, { column: nextCol });
+      updateBlock(block.id, { column: colVal });
     };
 
     const currentAlign = block.alignment || 'full';
@@ -433,66 +466,108 @@ export const BookDocumentEditor = ({
       updateBlock(block.id, { alignment: alignVal });
     };
 
+    const isSideBySide = block.type === 'side_by_side';
+
     return (
       <div className="book-block-controls" onClick={(e) => e.stopPropagation()}>
-        {isTwoCol && (
+        {/* Column Placement Controls */}
+        <div className="ctrl-group col-group">
           <button
             type="button"
-            className="col-toggle-btn"
-            onClick={toggleColumn}
-            title={`Column: ${currentBlockCol.toUpperCase()} (Click to toggle Left / Right / Full)`}
+            className={`col-btn ${currentBlockCol === 'left' ? 'active' : ''}`}
+            onClick={(e) => setBlockColumn('left', e)}
+            title="Place in Left Column"
           >
-            <span className="col-ctrl-pill">{currentBlockCol === 'full' ? 'FULL' : currentBlockCol === 'right' ? 'R' : 'L'}</span>
+            L
+          </button>
+          <button
+            type="button"
+            className={`col-btn ${currentBlockCol === 'right' ? 'active' : ''}`}
+            onClick={(e) => setBlockColumn('right', e)}
+            title="Place in Right Column"
+          >
+            R
+          </button>
+          <button
+            type="button"
+            className={`col-btn ${currentBlockCol === 'full' ? 'active' : ''}`}
+            onClick={(e) => setBlockColumn('full', e)}
+            title="Span Full Width Across Columns"
+          >
+            <i className="fas fa-arrows-left-right"></i>
+          </button>
+        </div>
+
+        {/* Text Flow & Float Controls */}
+        <div className="ctrl-group flow-group">
+          <button
+            type="button"
+            className={`align-ctrl-btn ${currentAlign === 'float-left' ? 'active' : ''}`}
+            onClick={(e) => setBlockAlignment(currentAlign === 'float-left' ? 'full' : 'float-left', e)}
+            title="Float Left (Text wraps to the right)"
+          >
+            <i className="fas fa-align-left"></i>
+          </button>
+          <button
+            type="button"
+            className={`align-ctrl-btn ${currentAlign === 'float-right' ? 'active' : ''}`}
+            onClick={(e) => setBlockAlignment(currentAlign === 'float-right' ? 'full' : 'float-right', e)}
+            title="Float Right (Text wraps to the left)"
+          >
+            <i className="fas fa-align-right"></i>
+          </button>
+          <button
+            type="button"
+            className={`align-ctrl-btn ${currentAlign === 'center' ? 'active' : ''}`}
+            onClick={(e) => setBlockAlignment(currentAlign === 'center' ? 'full' : 'center', e)}
+            title="Center / Column Fit"
+          >
+            <i className="fas fa-align-center"></i>
+          </button>
+        </div>
+
+        {/* Side-by-Side Split Action */}
+        {!isSideBySide && (
+          <button
+            type="button"
+            className="split-side-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleSplitWithSideText(block.id, 'right');
+            }}
+            title="Add text to side (Split into 2 columns)"
+          >
+            <i className="fas fa-table-columns"></i>
           </button>
         )}
-        <button
-          type="button"
-          className={`align-ctrl-btn ${currentAlign === 'float-left' ? 'active' : ''}`}
-          onClick={(e) => setBlockAlignment(currentAlign === 'float-left' ? 'full' : 'float-left', e)}
-          title="Float Left (Text flows to the right)"
-        >
-          <i className="fas fa-align-left"></i>
-        </button>
-        <button
-          type="button"
-          className={`align-ctrl-btn ${currentAlign === 'float-right' ? 'active' : ''}`}
-          onClick={(e) => setBlockAlignment(currentAlign === 'float-right' ? 'full' : 'float-right', e)}
-          title="Float Right (Text flows to the left)"
-        >
-          <i className="fas fa-align-right"></i>
-        </button>
-        <button
-          type="button"
-          className={`align-ctrl-btn ${currentAlign === 'center' ? 'active' : ''}`}
-          onClick={(e) => setBlockAlignment(currentAlign === 'center' ? 'full' : 'center', e)}
-          title="Center / Column Fit"
-        >
-          <i className="fas fa-align-center"></i>
-        </button>
-        <button
-          type="button"
-          disabled={isFirst}
-          onClick={() => moveBlock(index, -1)}
-          title="Move block up"
-        >
-          <i className="fas fa-arrow-up"></i>
-        </button>
-        <button
-          type="button"
-          disabled={isLast}
-          onClick={() => moveBlock(index, 1)}
-          title="Move block down"
-        >
-          <i className="fas fa-arrow-down"></i>
-        </button>
-        <button
-          type="button"
-          className="delete-block-btn"
-          onClick={() => deleteBlock(block.id)}
-          title="Delete block"
-        >
-          <i className="fas fa-trash"></i>
-        </button>
+
+        {/* Reordering & Delete */}
+        <div className="ctrl-group order-group">
+          <button
+            type="button"
+            disabled={isFirst}
+            onClick={() => moveBlock(index, -1)}
+            title="Move block up"
+          >
+            <i className="fas fa-arrow-up"></i>
+          </button>
+          <button
+            type="button"
+            disabled={isLast}
+            onClick={() => moveBlock(index, 1)}
+            title="Move block down"
+          >
+            <i className="fas fa-arrow-down"></i>
+          </button>
+          <button
+            type="button"
+            className="delete-block-btn"
+            onClick={() => deleteBlock(block.id)}
+            title="Delete block"
+          >
+            <i className="fas fa-trash"></i>
+          </button>
+        </div>
       </div>
     );
   };
@@ -613,6 +688,27 @@ export const BookDocumentEditor = ({
           />
         );
       }
+
+      case 'side_by_side':
+        return wrap(
+          <SideBySideBlock
+            block={block}
+            isWrite={effectiveIsWrite}
+            onUpdate={(patch) => updateBlock(block.id, patch)}
+            onOpenImagePicker={(slotData, callback) => {
+              setImagePickerTarget({
+                block: { id: block.id },
+                customCallback: callback
+              });
+            }}
+            onOpenItemStudio={(slotData, callback) => {
+              setItemStudioTarget({
+                block: { id: block.id },
+                customCallback: callback
+              });
+            }}
+          />
+        );
 
       case 'creature_statblock':
         return wrap(

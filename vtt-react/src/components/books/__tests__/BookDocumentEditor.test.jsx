@@ -11,7 +11,8 @@ import {
   BookImageBlock,
   BookCalloutBlock,
   MapEmbedBlock,
-  TableOfContentsBlock
+  TableOfContentsBlock,
+  SideBySideBlock
 } from '../BookTtrpgBlocks';
 import BookImagePickerModal from '../BookImagePickerModal';
 import BookItemCreatorModal from '../BookItemCreatorModal';
@@ -226,6 +227,20 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
 
     expect(screen.getByText('Table of Contents')).toBeInTheDocument();
     expect(screen.getByText('Chapter I: The Rime Wastes')).toBeInTheDocument();
+  });
+
+  test('renders SideBySideBlock with dual columns and text editing', () => {
+    const sideBlock = {
+      type: 'side_by_side',
+      ratio: '50-50',
+      left: { type: 'image', url: '/assets/images/races/merryn_illustration.png', caption: 'Merryn Wave-Rider' },
+      right: { type: 'paragraph', text: 'Across the misty frontiers, legends are written in iron.' }
+    };
+
+    render(<SideBySideBlock block={sideBlock} isWrite={true} onUpdate={() => {}} />);
+    expect(screen.getByText('Merryn Wave-Rider')).toBeInTheDocument();
+    expect(screen.getByText(/Across the misty frontiers/i)).toBeInTheDocument();
+    expect(screen.getByText('Swap Sides')).toBeInTheDocument();
   });
 
   test('allows switching modes and toggling sidebar tabs', () => {

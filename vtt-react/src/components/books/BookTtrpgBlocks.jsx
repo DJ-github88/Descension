@@ -1288,6 +1288,158 @@ export const MapEmbedBlock = ({
 };
 
 /**
+ * Side-by-Side Split Row Block
+ * Allows placing any block (Illustration, Item, NPC, Creature, Location, Spell) on one side
+ * with an editable companion text/prose or secondary block on the other side.
+ */
+export const SideBySideBlock = ({
+  block = {},
+  isWrite = false,
+  onUpdate = () => {},
+  onOpenImagePicker = () => {},
+  onOpenItemStudio = () => {}
+}) => {
+  const ratio = block.ratio || '50-50'; // '50-50' | '40-60' | '60-40' | '30-70' | '70-30'
+  const left = block.left || { type: 'image', url: '/assets/images/races/merryn_illustration.png', caption: 'Merryn Wave-Rider' };
+  const right = block.right || { type: 'paragraph', text: 'Across the misty frontiers, legends are written in iron and frost...' };
+
+  const handleSwap = () => {
+    onUpdate({ left: right, right: left });
+  };
+
+  const handleRatioChange = (newRatio) => {
+    onUpdate({ ratio: newRatio });
+  };
+
+  const updateSide = (side, patch) => {
+    if (side === 'left') {
+      onUpdate({ left: { ...left, ...patch } });
+    } else {
+      onUpdate({ right: { ...right, ...patch } });
+    }
+  };
+
+  const renderSlotContent = (slotData, side) => {
+    const slotType = slotData.type || (typeof slotData === 'string' ? 'text' : 'paragraph');
+
+    if (slotType === 'image') {
+      return (
+        <div className="side-slot-image-wrap">
+          <div className="side-slot-image-container">
+            <img src={slotData.url || '/assets/images/races/solari_illustration.png'} alt={slotData.caption || 'Illustration'} className="side-slot-img" />
+            {isWrite && (
+              <div className="side-slot-img-overlay">
+                <button
+                  type="button"
+                  className="side-img-change-btn"
+                  onClick={() => onOpenImagePicker(slotData, (newImg) => updateSide(side, newImg))}
+                >
+                  <i className="fas fa-image"></i> Change Art
+                </button>
+              </div>
+            )}
+          </div>
+          {slotData.caption && <div className="side-slot-caption"><em>{slotData.caption}</em></div>}
+        </div>
+      );
+    }
+
+    if (slotType === 'item_card' || slotType === 'item') {
+      const norm = normalizeBookItemData(slotData);
+      return (
+        <div className="side-slot-item-wrap">
+          <ItemTooltip item={norm} />
+          {isWrite && (
+            <button
+              type="button"
+              className="side-item-change-btn"
+              onClick={() => onOpenItemStudio(norm, (newItem) => updateSide(side, newItem))}
+            >
+              <i className="fas fa-gem"></i> Change Item
+            </button>
+          )}
+        </div>
+      );
+    }
+
+    // Default: Editable Rich Text / Paragraph
+    const textContent = slotData.text !== undefined ? slotData.text : (typeof slotData === 'string' ? slotData : slotData.content || '');
+
+    return (
+      <div className="side-slot-text-pane">
+        {slotData.title && (
+          <h4 className="side-text-title">
+            {isWrite ? (
+              <input
+                type="text"
+                value={slotData.title}
+                onChange={(e) => updateSide(side, { title: e.target.value })}
+                className="side-text-title-input"
+                placeholder="Section / Subsection Title..."
+              />
+            ) : (
+              slotData.title
+            )}
+          </h4>
+        )}
+        {isWrite ? (
+          <textarea
+            className="side-text-textarea"
+            value={textContent}
+            onChange={(e) => updateSide(side, { text: e.target.value })}
+            placeholder="Type companion prose, lore, tactical notes, or stats..."
+            rows={5}
+          />
+        ) : (
+          <div className="side-text-rendered">
+            <RichLoreText text={textContent} />
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <div className={`book-side-by-side-block ratio-${ratio}`}>
+      {isWrite && (
+        <div className="side-by-side-toolbar" onClick={(e) => e.stopPropagation()}>
+          <div className="ratio-selector-group">
+            {['50-50', '40-60', '60-40', '30-70', '70-30'].map((r) => (
+              <button
+                key={r}
+                type="button"
+                className={`ratio-btn ${ratio === r ? 'active' : ''}`}
+                onClick={() => handleRatioChange(r)}
+                title={`Split Ratio: ${r.replace('-', ' / ')}`}
+              >
+                {r.replace('-', ':')}
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            className="swap-sides-btn"
+            onClick={handleSwap}
+            title="Swap Left & Right Columns"
+          >
+            <i className="fas fa-right-left"></i> Swap Sides
+          </button>
+        </div>
+      )}
+
+      <div className="side-by-side-columns">
+        <div className="side-slot side-left">
+          {renderSlotContent(left, 'left')}
+        </div>
+        <div className="side-slot side-right">
+          {renderSlotContent(right, 'right')}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/**
  * Table of Contents Block
  */
 export const TableOfContentsBlock = ({
@@ -1328,3 +1480,5 @@ export const TableOfContentsBlock = ({
     </div>
   );
 };
+
+
