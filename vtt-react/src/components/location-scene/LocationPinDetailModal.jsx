@@ -8,6 +8,7 @@ import useInventoryStore from '../../store/inventoryStore';
 import useItemStore from '../../store/itemStore';
 import useCharacterStore from '../../store/characterStore';
 import usePartyStore from '../../store/partyStore';
+import useMapStore from '../../store/mapStore';
 import universalEntityService from '../../services/universalEntityService';
 import RichLoreText from '../common/RichLoreText';
 import ItemTooltip from '../item-generation/ItemTooltip';
@@ -116,11 +117,11 @@ const LocationPinDetailModal = ({
   const hasCreatures = (linked.creatureIds?.length || 0) > 0;
   const hasQuests = (linked.questIds?.length || 0) > 0;
   const hasItems = (linked.itemIds?.length || 0) > 0;
-  const hasLore = linked.locationId || (linked.factionIds?.length || 0) > 0;
-  const hasNotes = isGM && linked.journalNotes;
-  const hasMultipleTabs = Boolean(hasNpcs || hasCreatures || hasQuests || hasItems || hasLore || hasNotes);
-
-  const targetSubMap = pin.targetMapId ? maps.find(m => m.id === pin.targetMapId) : null;
+  const tacticalMaps = useMapStore(state => state.maps) || [];
+  const targetExplorationMap = pin.targetMapId ? maps.find(m => m.id === pin.targetMapId) : null;
+  const targetTacticalMap = pin.targetMapId ? tacticalMaps.find(m => m.id === pin.targetMapId) : null;
+  const targetSubMap = targetExplorationMap || targetTacticalMap;
+  const isTacticalSubMap = !targetExplorationMap && Boolean(targetTacticalMap);
 
   return ReactDOM.createPortal(
     <div className="location-pin-modal-backdrop" onClick={onClose}>
@@ -242,10 +243,10 @@ const LocationPinDetailModal = ({
                   }}
                 >
                   <div>
-                    <div style={{ fontSize: '11px', textTransform: 'uppercase', fontWeight: 800, color: '#196f3d', letterSpacing: '0.5px' }}>
-                      <i className="fas fa-door-open" /> Connected Scene / Area
+                    <div style={{ fontSize: '11px', textTransform: 'uppercase', fontWeight: 800, color: isTacticalSubMap ? '#8c3838' : '#196f3d', letterSpacing: '0.5px' }}>
+                      <i className={`fas ${isTacticalSubMap ? 'fa-chess-board' : 'fa-door-open'}`} /> {isTacticalSubMap ? 'Tactical Battle Realm' : 'Connected Scene / Area'}
                     </div>
-                    <div style={{ fontSize: '15px', fontWeight: 800, color: '#145a32', fontFamily: 'Cinzel, Georgia, serif' }}>
+                    <div style={{ fontSize: '15px', fontWeight: 800, color: isTacticalSubMap ? '#641e16' : '#145a32', fontFamily: 'Cinzel, Georgia, serif' }}>
                       {targetSubMap.name}
                     </div>
                   </div>
@@ -256,9 +257,11 @@ const LocationPinDetailModal = ({
                       onClose();
                     }}
                     style={{
-                      background: 'linear-gradient(180deg, #27ae60 0%, #1e824c 100%)',
+                      background: isTacticalSubMap 
+                        ? 'linear-gradient(180deg, #c0392b 0%, #962d22 100%)' 
+                        : 'linear-gradient(180deg, #27ae60 0%, #1e824c 100%)',
                       color: '#fff',
-                      border: '1.5px solid #145a32',
+                      border: isTacticalSubMap ? '1.5px solid #78281f' : '1.5px solid #145a32',
                       padding: '8px 16px',
                       borderRadius: '6px',
                       fontWeight: 800,
@@ -271,7 +274,7 @@ const LocationPinDetailModal = ({
                       whiteSpace: 'nowrap'
                     }}
                   >
-                    <i className="fas fa-door-open" /> Enter &amp; Explore ↗
+                    <i className={`fas ${isTacticalSubMap ? 'fa-swords' : 'fa-door-open'}`} /> {isTacticalSubMap ? 'Enter Battle Grid ↗' : 'Enter & Explore ↗'}
                   </button>
                 </div>
               )}
@@ -763,7 +766,7 @@ const LocationPinDetailModal = ({
                 className="btn-enter-submap"
                 onClick={() => onEnterSubMap(pin.targetMapId)}
               >
-                <i className="fas fa-magnifying-glass-plus"></i> Enter Sub-Map: {targetSubMap.name} ↗
+                <i className={`fas ${isTacticalSubMap ? 'fa-chess-board' : 'fa-magnifying-glass-plus'}`}></i> {isTacticalSubMap ? `Enter Battle Grid: ${targetSubMap.name} ↗` : `Enter Sub-Map: ${targetSubMap.name} ↗`}
               </button>
             )}
           </div>

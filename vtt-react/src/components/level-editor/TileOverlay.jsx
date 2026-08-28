@@ -14,6 +14,7 @@ import GMNotesWindow from './GMNotesWindow';
 import ConnectionContextMenu from './ConnectionContextMenu';
 import { PROFESSIONAL_OBJECTS } from './objects/ObjectSystem';
 import useMapStore from '../../store/mapStore';
+import useInteractiveMapStore from '../../store/interactiveMapStore';
 import useSettingsStore from '../../store/settingsStore';
 import { TRANSITION_TIMINGS } from '../multiplayer/UnifiedTransitionOverlay';
 import '../../styles/character-sheet.css'; // Import character sheet CSS for tooltip styling
@@ -392,9 +393,46 @@ const TileOverlay = () => {
       return;
     }
 
-    // GM: Center view on destination connection
+    // Check if destination is an Exploration Scene map
+    const explorationMaps = useInteractiveMapStore.getState().maps || [];
+    const destinationExpMap = explorationMaps.find(m => m.id === destinationMapId);
+    const isExplorationDest = Boolean(destinationExpMap || portal.properties?.destinationMode === 'location');
+
+    // GM: Center view on destination connection / transfer
     if (isGMMode) {
       try {
+        if (isExplorationDest) {
+          const expMapName = destinationExpMap?.name || 'Exploration Realm';
+          if (showMapTransitions && isInMultiplayer) {
+            window.dispatchEvent(new CustomEvent('manual_map_transition_requested', {
+              detail: {
+                mapName: expMapName,
+                transferredByGM: false
+              }
+            }));
+            await new Promise(resolve => setTimeout(resolve, TRANSITION_TIMINGS.SAFE_SWAP_MS));
+          }
+
+          useInteractiveMapStore.getState().setActiveMap(destinationMapId);
+          const gameStore = useGameStore.getState();
+          gameStore.setActiveLocationMapId(destinationMapId);
+          gameStore.setActiveSceneMode('location');
+
+          if (isInMultiplayer) {
+            const socket = gameStore.multiplayerSocket;
+            const room = gameStore.multiplayerRoom;
+            if (socket && socket.connected && room?.id) {
+              socket.emit('set_scene_mode', {
+                roomId: room.id,
+                mode: 'location',
+                activeLocationMapId: destinationMapId,
+                isFreeRoamAllowed: false
+              });
+            }
+          }
+          return;
+        }
+
         // Get destination map
         const destinationMap = maps.find(m => m.id === destinationMapId);
         if (!destinationMap) {
@@ -588,7 +626,8 @@ const TileOverlay = () => {
         destinationPosition: resolvedPosition,
         destinationPositionType: 'world',
         destinationConnectionId: targetConnection.id,
-        connectedToId: targetConnection.id // Keep for backwards compatibility
+        connectedToId: targetConnection.id, // Keep for backwards compatibility
+        destinationMode: targetConnection.isExploration ? 'location' : 'tactical'
       }
     });
 

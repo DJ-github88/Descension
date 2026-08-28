@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import MythrillWindow from '../windows/MythrillWindow';
 import useMapStore from '../../store/mapStore';
+import useInteractiveMapStore from '../../store/interactiveMapStore';
 import useSettingsStore from '../../store/settingsStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { TRANSITION_TIMINGS } from '../multiplayer/UnifiedTransitionOverlay';
@@ -13,23 +14,34 @@ const PortalTransferDialog = ({
     position = { x: 400, y: 300 }
 }) => {
     const { maps, switchToMap } = useMapStore();
+    const explorationMaps = useInteractiveMapStore(state => state.maps) || [];
     const [isTransferring, setIsTransferring] = useState(false);
 
     // Get destination map info
     const destinationMapId = portal?.properties?.destinationMapId;
     const destinationConnectionId = portal?.properties?.destinationConnectionId || portal?.properties?.connectedToId;
-    const destinationMap = maps.find(map => map.id === destinationMapId);
+    const destinationExpMap = (explorationMaps || []).find(m => m.id === destinationMapId);
+    const destinationMap = (maps || []).find(map => map.id === destinationMapId) || (destinationExpMap ? { ...destinationExpMap, isExploration: true } : null);
+    const isExplorationDest = Boolean(destinationExpMap || destinationMap?.isExploration || portal?.properties?.destinationMode === 'location');
     const portalName = portal?.properties?.portalName || 'Portal';
 
     // Get destination connection name
     let destinationConnectionName = null;
     if (destinationConnectionId && destinationMap) {
-        const destinationConnections = destinationMap.dndElements || [];
-        const destinationConnection = destinationConnections.find(el =>
-            (el.type === 'portal' || el.type === 'connection') && el.id === destinationConnectionId
-        );
-        if (destinationConnection) {
-            destinationConnectionName = destinationConnection.properties?.portalName || 'Connection';
+        if (isExplorationDest) {
+            const expPins = useInteractiveMapStore.getState().pins || [];
+            const foundPin = expPins.find(p => p.id === destinationConnectionId);
+            if (foundPin) {
+                destinationConnectionName = foundPin.title;
+            }
+        } else {
+            const destinationConnections = destinationMap.dndElements || [];
+            const destinationConnection = destinationConnections.find(el =>
+                (el.type === 'portal' || el.type === 'connection') && el.id === destinationConnectionId
+            );
+            if (destinationConnection) {
+                destinationConnectionName = destinationConnection.properties?.portalName || 'Connection';
+            }
         }
     }
 
@@ -66,6 +78,28 @@ const PortalTransferDialog = ({
                 // Close the dialog - the server will trigger the map transition
                 onClose();
                 console.log(`Emitted player_use_connection for ${portal.id}`);
+                return;
+            }
+
+            // If destination is Exploration Mode scene
+            if (isExplorationDest) {
+                const showMapTransitions = useSettingsStore.getState().showMapTransitions;
+                if (showMapTransitions) {
+                    window.dispatchEvent(new CustomEvent('manual_map_transition_requested', {
+                        detail: {
+                            mapName: destinationMap?.name || 'Exploration Scene',
+                            transferredByGM: false
+                        }
+                    }));
+                    await new Promise(resolve => setTimeout(resolve, TRANSITION_TIMINGS.SAFE_SWAP_MS));
+                }
+
+                useInteractiveMapStore.getState().setActiveMap(destinationMapId);
+                gameStore.setActiveLocationMapId(destinationMapId);
+                gameStore.setActiveSceneMode('location');
+
+                setIsTransferring(false);
+                onClose();
                 return;
             }
 

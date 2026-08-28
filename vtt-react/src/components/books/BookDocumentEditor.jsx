@@ -57,13 +57,18 @@ const NEW_BLOCK_DEFAULTS = {
   },
   item_card: {
     name: 'Rime-Forged Dagger',
-    itemType: 'Weapon (Dagger)',
-    rarity: 'rare',
-    attunement: true,
-    damage: '1d4 + 1 Piercing + 1d6 Rime',
-    value: '750 gp',
-    properties: 'Finesse, Light, Thrown (20/60 ft.)',
-    icon: 'fa-hand-fist',
+    type: 'weapon',
+    subtype: 'Dagger',
+    quality: 'rare',
+    durability: 'd8',
+    maxDurability: 'd8',
+    weaponStats: {
+      baseDamage: '1d4 + 1 Piercing + 1d6 Rime',
+      weaponType: 'Dagger',
+      damageType: 'rime'
+    },
+    value: { gold: 750, silver: 0, copper: 0, platinum: 0 },
+    iconId: 'Weapons/Shortblade/dagger-basic-steel-crossguard',
     description: 'Forged in the sub-zero thermal vents of Greymark Keep, this blade never loses its glacial edge.',
     flavorText: 'Cold as the grave, sharp as regret.'
   },

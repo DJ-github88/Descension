@@ -168,9 +168,9 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
     render(<ItemRelicBlock block={block} isWrite={false} onUpdate={() => {}} />);
 
     expect(screen.getByText('Rime-Forged Dagger')).toBeInTheDocument();
-    expect(screen.getByText(/rare/i)).toBeInTheDocument();
-    expect(screen.getByText('1d4 + 1 Piercing + 1d6 Rime')).toBeInTheDocument();
-    expect(screen.getByText('750 gp')).toBeInTheDocument();
+    expect(screen.getByText(/Weapon \(dagger\)/i)).toBeInTheDocument();
+    expect(screen.getByText('Glacial edge that never dulls.')).toBeInTheDocument();
+    expect(screen.getByText('750')).toBeInTheDocument();
   });
 
   test('renders SpellFormulaBlock with UnifiedSpellCard in-game format', () => {
@@ -257,7 +257,7 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
     expect(screen.getByText('Solari Cinder-Walker')).toBeInTheDocument();
   });
 
-  test('renders BookItemCreatorModal with TTRPG presets', () => {
+  test('renders BookItemCreatorModal with Item Library and Item Wizard controls', () => {
     render(
       <BookItemCreatorModal
         isOpen={true}
@@ -267,10 +267,9 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
       />
     );
 
-    expect(screen.getByText('TTRPG Equipment & Relic Studio')).toBeInTheDocument();
-    expect(screen.getByText(/Item Presets & Relics/i)).toBeInTheDocument();
-    expect(screen.getByText('Frostbrand Longsword')).toBeInTheDocument();
-    expect(screen.getByText('Cloak of the Archmage')).toBeInTheDocument();
+    expect(screen.getByText('Item Library & Relic Studio')).toBeInTheDocument();
+    expect(screen.getByText(/Create New with Item Wizard/i)).toBeInTheDocument();
+    expect(screen.getByText(/Live In-Game Item Layout/i)).toBeInTheDocument();
   });
 
   test('renders BookLorePickerModal with search and categories', () => {

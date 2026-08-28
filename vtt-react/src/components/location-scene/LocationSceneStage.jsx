@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useMemo, useCallback, Fragment } fr
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import useInteractiveMapStore from '../../store/interactiveMapStore';
 import useGameStore from '../../store/gameStore';
+import useMapStore from '../../store/mapStore';
 import LocationSceneToolbar from './LocationSceneToolbar';
 import LocationPinDetailModal from './LocationPinDetailModal';
 import LocationPinEditorModal from './LocationPinEditorModal';
@@ -600,26 +601,51 @@ const LocationSceneStage = ({
     }
   };
 
-  // Sub-Map entry with smooth fade transition
+  // Sub-Map or Tactical Map entry with smooth fade transition
   const handleEnterSubMap = (targetMapId) => {
     if (!targetMapId) return;
-    const targetMap = maps.find(m => m.id === targetMapId);
-    const targetName = targetMap?.name || 'Sub-Map';
+    const targetExplorationMap = maps.find(m => m.id === targetMapId);
+    const tacticalMaps = useMapStore.getState().maps || [];
+    const targetTacticalMap = tacticalMaps.find(m => m.id === targetMapId);
+    const targetName = targetExplorationMap?.name || targetTacticalMap?.name || 'Area';
 
     setSubMapTransition({ isActive: true, name: targetName });
 
-    setTimeout(() => {
-      setActiveMap(targetMapId);
+    setTimeout(async () => {
       setSelectedPinForDetail(null);
 
-      // If GM and not free-roam, pull players along automatically
-      if (isGM && !isFreeRoamAllowed && socket && socket.connected && currentRoom?.id) {
-        socket.emit('set_scene_mode', {
-          roomId: currentRoom.id,
-          mode: 'location',
-          activeLocationMapId: targetMapId,
-          isFreeRoamAllowed: false
+      if (targetExplorationMap) {
+        setActiveMap(targetMapId);
+
+        // If GM and not free-roam, pull players along automatically
+        if (isGM && !isFreeRoamAllowed && socket && socket.connected && currentRoom?.id) {
+          socket.emit('set_scene_mode', {
+            roomId: currentRoom.id,
+            mode: 'location',
+            activeLocationMapId: targetMapId,
+            isFreeRoamAllowed: false
+          });
+        }
+      } else if (targetTacticalMap) {
+        // Transition to tactical grid mode
+        const gameStore = useGameStore.getState();
+        gameStore.setActiveSceneMode('tactical');
+        await useMapStore.getState().switchToMap(targetMapId, {
+          source: 'location-pin-transition'
         });
+
+        if (isGM && socket && socket.connected && currentRoom?.id) {
+          socket.emit('set_scene_mode', {
+            roomId: currentRoom.id,
+            mode: 'tactical',
+            activeLocationMapId: targetMapId,
+            isFreeRoamAllowed: false
+          });
+          socket.emit('switch_map', {
+            roomId: currentRoom.id,
+            mapId: targetMapId
+          });
+        }
       }
 
       setTimeout(() => {

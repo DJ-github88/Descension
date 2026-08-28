@@ -1,18 +1,23 @@
 import React, { useState, useMemo } from 'react';
 import MythrillWindow from '../windows/MythrillWindow';
 import useLevelEditorStore from '../../store/levelEditorStore';
+import useInteractiveMapStore from '../../store/interactiveMapStore';
 import './styles/ConnectionSelectorDialog.css';
 
 const ConnectionSelectorDialog = ({ isOpen, onClose, sourceConnection, maps, currentMapId, onConnect }) => {
     const [selectedConnection, setSelectedConnection] = useState(null);
     const { dndElements: currentMapDndElements } = useLevelEditorStore();
+    const explorationMaps = useInteractiveMapStore(state => state.maps) || [];
+    const explorationPins = useInteractiveMapStore(state => state.pins) || [];
 
     const allConnections = useMemo(() => {
         const connections = [];
-        maps.forEach(map => {
+
+        // 1. Tactical Battle Map Connections
+        (maps || []).forEach(map => {
             let mapConnections;
             if (map.id === currentMapId) {
-                mapConnections = currentMapDndElements.filter(el => el.type === 'portal' || el.type === 'connection');
+                mapConnections = (currentMapDndElements || []).filter(el => el.type === 'portal' || el.type === 'connection');
             } else {
                 mapConnections = (map.dndElements || []).filter(el => el.type === 'portal' || el.type === 'connection');
             }
@@ -23,12 +28,48 @@ const ConnectionSelectorDialog = ({ isOpen, onClose, sourceConnection, maps, cur
                 connections.push({
                     ...conn,
                     mapId: map.id,
-                    mapName: map.name
+                    mapName: map.name,
+                    isExploration: false,
+                    displayName: conn.properties?.portalName || 'Tactical Portal / Connection'
                 });
             });
         });
+
+        // 2. Exploration Scenes & Landmark Pins
+        explorationMaps.forEach(expMap => {
+            // Overworld/Exploration scene entry anchor
+            connections.push({
+                id: `exp-map-${expMap.id}`,
+                mapId: expMap.id,
+                mapName: expMap.name,
+                isExploration: true,
+                displayName: `${expMap.name} (Exploration Scene Entry)`,
+                properties: {
+                    portalName: `${expMap.name} (Overworld Entry)`,
+                    icon: 'fa-compass'
+                }
+            });
+
+            // Specific landmark pins on this exploration map
+            const mapPins = explorationPins.filter(p => p.mapId === expMap.id);
+            mapPins.forEach(pin => {
+                connections.push({
+                    id: pin.id,
+                    mapId: expMap.id,
+                    mapName: `${expMap.name} (Exploration)`,
+                    isExploration: true,
+                    displayName: `📍 ${pin.title} (${pin.type || 'POI'})`,
+                    position: { x: pin.x, y: pin.y },
+                    properties: {
+                        portalName: pin.title,
+                        icon: pin.icon || 'fa-location-dot'
+                    }
+                });
+            });
+        });
+
         return connections;
-    }, [maps, currentMapId, currentMapDndElements, sourceConnection?.id]);
+    }, [maps, currentMapId, currentMapDndElements, sourceConnection?.id, explorationMaps, explorationPins]);
 
     const handleConnect = () => {
         if (selectedConnection) {
@@ -60,8 +101,9 @@ const ConnectionSelectorDialog = ({ isOpen, onClose, sourceConnection, maps, cur
                     <div className="connection-list">
                         {allConnections.map(conn => {
                             const isSelected = selectedConnection?.id === conn.id && selectedConnection?.mapId === conn.mapId;
-                            const displayName = conn.properties?.portalName || 'Unnamed Connection';
+                            const displayName = conn.displayName || conn.properties?.portalName || 'Unnamed Connection';
                             const mapLabel = conn.mapId === currentMapId ? 'Current Map' : conn.mapName;
+                            const isExploration = conn.isExploration;
 
                             return (
                                 <div
@@ -70,12 +112,12 @@ const ConnectionSelectorDialog = ({ isOpen, onClose, sourceConnection, maps, cur
                                     onClick={() => setSelectedConnection(conn)}
                                 >
                                     <div className="connection-item-header">
-                                        <i className="fas fa-link connection-item-icon-symbol"></i>
+                                        <i className={`fas ${isExploration ? (conn.properties?.icon || 'fa-compass') : 'fa-link'} connection-item-icon-symbol`} style={isExploration ? { color: '#27ae60' } : {}}></i>
                                         <span className="connection-item-name">{displayName}</span>
                                     </div>
                                     <div className="connection-item-realm-badge">
-                                        <i className="fas fa-map-marked-alt realm-icon"></i>
-                                        <span className="realm-label">DESTINATION REALM:</span>
+                                        <i className={`fas ${isExploration ? 'fa-compass' : 'fa-map-marked-alt'} realm-icon`} style={isExploration ? { color: '#27ae60' } : {}}></i>
+                                        <span className="realm-label">{isExploration ? 'EXPLORATION SCENE:' : 'DESTINATION REALM:'}</span>
                                         <span className="realm-name">{mapLabel}</span>
                                     </div>
                                 </div>

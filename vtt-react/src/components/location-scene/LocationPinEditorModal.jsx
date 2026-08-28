@@ -6,6 +6,7 @@ import useQuestStore from '../../store/questStore';
 import useFactionStore from '../../store/factionStore';
 import useInventoryStore from '../../store/inventoryStore';
 import useInteractiveMapStore from '../../store/interactiveMapStore';
+import useMapStore from '../../store/mapStore';
 import universalEntityService from '../../services/universalEntityService';
 import BESTIARY_DATA from '../../data/creatureData.json';
 
@@ -52,6 +53,7 @@ const LocationPinEditorModal = ({
   onSave,
   onClose
 }) => {
+  const tacticalMaps = useMapStore(state => state.maps) || [];
   const [title, setTitle] = useState(initialPin?.title || '');
   const [type, setType] = useState(initialPin?.type || 'poi');
   const [icon, setIcon] = useState(initialPin?.icon || 'fa-location-dot');
@@ -1046,12 +1048,21 @@ const LocationPinEditorModal = ({
                     fontWeight: 600
                   }}
                 >
-                  <option value="">(No Sub-Map Attached — Click to view lore card only)</option>
-                  {maps.filter(m => m.id !== mapId).map(m => (
-                    <option key={m.id} value={m.id}>
-                      {m.name} ({m.type || 'Sub-Map'})
-                    </option>
-                  ))}
+                  <option value="">(No Connection / Sub-Map Attached — Lore Card Only)</option>
+                  <optgroup label="Exploration Scenes & Sub-Maps">
+                    {maps.filter(m => m.id !== mapId).map(m => (
+                      <option key={`exp-${m.id}`} value={m.id}>
+                        🗺️ {m.name} ({m.type || 'Sub-Map'})
+                      </option>
+                    ))}
+                  </optgroup>
+                  <optgroup label="Tactical Battle Maps (Grid)">
+                    {tacticalMaps.map(tm => (
+                      <option key={`tac-${tm.id}`} value={tm.id}>
+                        ⚔️ {tm.name} (Tactical Battle Map)
+                      </option>
+                    ))}
+                  </optgroup>
                 </select>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>

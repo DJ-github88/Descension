@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import RichLoreText from '../common/RichLoreText';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import { SpellLibraryProvider } from '../spellcrafting-wizard/context/SpellLibraryContext';
+import ItemTooltip from '../item-generation/ItemTooltip';
 
 /**
  * Standard danger level normalization helper
@@ -1039,8 +1040,72 @@ export const QuestHookBlock = ({
   );
 };
 
+export const normalizeBookItemData = (block = {}) => {
+  if (!block) return { name: 'Unnamed Item', quality: 'common', type: 'miscellaneous' };
+
+  const rawQuality = (block.quality || block.rarity || 'common').toLowerCase();
+  let quality = rawQuality;
+  if (rawQuality === 'very-rare' || rawQuality === 'very rare') quality = 'epic';
+
+  // Determine standard item type
+  let type = block.type;
+  if (!type) {
+    const rawType = (block.itemType || '').toLowerCase();
+    if (rawType.includes('weapon') || block.damage) type = 'weapon';
+    else if (rawType.includes('armor') || rawType.includes('shield')) type = 'armor';
+    else if (rawType.includes('potion') || rawType.includes('consumable')) type = 'consumable';
+    else if (rawType.includes('ring') || rawType.includes('cloak') || rawType.includes('amulet') || rawType.includes('accessory')) type = 'accessory';
+    else if (rawType.includes('container') || rawType.includes('bag')) type = 'container';
+    else type = 'miscellaneous';
+  }
+
+  // Parse legacy currency strings (e.g. "750 gp", "5,000 gp")
+  let value = block.value;
+  if (typeof value === 'string') {
+    const gpMatch = value.match(/([\d,]+)\s*gp/i);
+    const spMatch = value.match(/([\d,]+)\s*sp/i);
+    const cpMatch = value.match(/([\d,]+)\s*cp/i);
+    const ppMatch = value.match(/([\d,]+)\s*pp/i);
+    if (gpMatch || spMatch || cpMatch || ppMatch) {
+      value = {
+        platinum: ppMatch ? parseInt(ppMatch[1].replace(/,/g, ''), 10) : 0,
+        gold: gpMatch ? parseInt(gpMatch[1].replace(/,/g, ''), 10) : 0,
+        silver: spMatch ? parseInt(spMatch[1].replace(/,/g, ''), 10) : 0,
+        copper: cpMatch ? parseInt(cpMatch[1].replace(/,/g, ''), 10) : 0
+      };
+    }
+  }
+
+  const weaponStats = block.weaponStats || (block.damage ? {
+    baseDamage: block.damage,
+    weaponType: block.itemType || 'Weapon'
+  } : undefined);
+
+  return {
+    ...block,
+    id: block.id || 'book-item-' + (block.name || 'item'),
+    name: block.name || 'Unnamed Relic',
+    quality: quality,
+    type: type,
+    subtype: block.subtype || block.itemType || '',
+    description: block.description || '',
+    flavor: block.flavor || block.flavorText || '',
+    iconId: block.iconId || (block.icon && !block.icon.startsWith('fa-') ? block.icon : 'inv_sword_04'),
+    imageUrl: block.imageUrl || null,
+    durability: block.durability || (['weapon', 'armor', 'accessory'].includes(type) ? 'd8' : undefined),
+    maxDurability: block.maxDurability || (['weapon', 'armor', 'accessory'].includes(type) ? 'd8' : undefined),
+    value: value || { gold: 0, silver: 0, copper: 0, platinum: 0 },
+    baseStats: block.baseStats || {},
+    combatStats: block.combatStats || {},
+    utilityStats: block.utilityStats || {},
+    weaponStats: weaponStats,
+    properties: block.properties || ''
+  };
+};
+
 /**
  * Item & Relic Card Block
+ * Renders the authentic in-game ItemTooltip layout inside book documents.
  */
 export const ItemRelicBlock = ({
   block,
@@ -1048,76 +1113,23 @@ export const ItemRelicBlock = ({
   onUpdate = () => {},
   onOpenStudio = () => {}
 }) => {
-  const rarity = (block.rarity || 'common').toLowerCase();
+  const itemData = normalizeBookItemData(block);
 
   return (
-    <div className={'book-item-card-wrapper rarity-' + rarity}>
-      <div className="item-card-header">
-        <div className="item-icon-ring">
-          <i className={'fas ' + (block.icon || 'fa-gem')}></i>
-        </div>
-        <div className="item-title-group">
-          {isWrite ? (
-            <input
-              type="text"
-              className="item-input-name"
-              value={block.name || ''}
-              placeholder="Item or Artifact Name..."
-              onChange={(e) => onUpdate({ name: e.target.value })}
-            />
-          ) : (
-            <h3 className="item-card-name">{block.name || 'Mystic Relic'}</h3>
-          )}
-          <div className="item-meta-sub">
-            <span>{block.itemType || 'Wondrous Item'} • {block.rarity || 'Common'}</span>
-            {block.damage && <span className="item-damage-badge">{block.damage}</span>}
-            {block.value && (
-              <span className="item-value-badge">
-                <i className="fas fa-coins"></i> {block.value}
-              </span>
-            )}
-          </div>
-        </div>
+    <div className="book-item-block-container">
+      <div className="book-item-tooltip-embed">
+        <ItemTooltip item={itemData} />
       </div>
-
-      <div className="item-card-divider" />
-
-      {block.properties && (
-        <div className="item-properties-row">
-          {block.properties.split(',').map((prop, idx) => (
-            <span key={idx} className="prop-chip">
-              <i className="fas fa-sparkles"></i> {prop.trim()}
-            </span>
-          ))}
-        </div>
-      )}
-
-      <div className="item-desc-prose">
-        {isWrite ? (
-          <textarea
-            className="item-input-desc"
-            rows={2}
-            value={block.description || ''}
-            placeholder="Item magical abilities and lore..."
-            onChange={(e) => onUpdate({ description: e.target.value })}
-          />
-        ) : (
-          <RichLoreText text={block.description || 'A relic imbued with extraordinary properties.'} className="parchment-theme" />
-        )}
-      </div>
-
-      {block.flavor && (
-        <blockquote className="item-card-flavor">"{block.flavor}"</blockquote>
-      )}
 
       {isWrite && (
-        <div className="item-write-toolbar">
+        <div className="item-block-write-actions">
           <button
             type="button"
-            className="open-item-studio-btn"
-            onClick={() => onOpenStudio(block)}
+            className="book-item-action-btn"
+            onClick={() => onOpenStudio(itemData)}
+            title="Configure in Item Studio & Wizard"
           >
-            <i className="fas fa-wand-magic-sparkles"></i> Open Item Studio
+            <i className="fas fa-wand-magic-sparkles"></i> Open in Item Wizard
           </button>
         </div>
       )}

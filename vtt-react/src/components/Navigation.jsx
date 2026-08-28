@@ -1077,6 +1077,21 @@ export default function Navigation({ onReturnToLanding }) {
 
         // Special handling for level editor
         if (windowId === 'leveleditor') {
+            const currentGameStore = useGameStore.getState();
+            if (currentGameStore.activeSceneMode === 'location') {
+                currentGameStore.setActiveSceneMode('tactical');
+                const socket = currentGameStore.multiplayerSocket;
+                const room = currentGameStore.multiplayerRoom;
+                if (socket && socket.connected && room?.id) {
+                    socket.emit('set_scene_mode', {
+                        roomId: room.id,
+                        mode: 'tactical',
+                        activeLocationMapId: currentGameStore.activeLocationMapId
+                    });
+                }
+                setEditorMode(true);
+                return;
+            }
             setEditorMode(!isEditorMode);
             return;
         }

@@ -1578,7 +1578,59 @@
 .quest-objective-item { display: flex; align-items: center; gap: 6px; padding: 4px 6px; background: #fff; border: 1px solid #e5d7ba; border-radius: 4px; font-size: 0.84rem; color: #24160e; }
 .quest-objective-item.is-complete { background: rgba(46, 204, 113, 0.08); border-color: #2ecc71; color: #27ae60; text-decoration: line-through; }
 
-/* Item Relic */
+/* Item Relic Block */
+.book-item-block-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 14px 0;
+  width: 100%;
+}
+
+.book-item-tooltip-embed {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  justify-content: center;
+}
+
+.book-item-tooltip-embed .item-tooltip {
+  width: 100% !important;
+  max-width: 440px !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  position: relative !important;
+}
+
+.item-block-write-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.book-item-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #58180d;
+  color: #ffd700;
+  border: 1px solid #ffd700;
+  border-radius: 4px;
+  font-family: var(--book-font-heading);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.book-item-action-btn:hover {
+  background: #7a2313;
+  box-shadow: 0 2px 8px rgba(88, 24, 13, 0.4);
+}
+
 .book-item-card-wrapper {
   background: #faf6ec;
   border: 1.5px solid #8b5a1a;
@@ -1599,6 +1651,247 @@
 .item-desc-prose { font-size: 0.98rem; line-height: 1.55; color: #1f140e; }
 .item-card-flavor { margin: 6px 0 0; padding: 4px 10px; border-left: 2.5px solid #8b5a1a; font-style: italic; font-size: 0.85rem; color: #4a2c17; }
 .open-item-studio-btn { display: inline-flex; align-items: center; gap: 4px; background: #58180d; border: 1px solid #ffd700; color: #ffd700; border-radius: 4px; padding: 4px 8px; font-size: 0.74rem; font-family: var(--book-font-heading); font-weight: 700; cursor: pointer; }
+
+/* Item Studio Modal Controls & Body */
+.book-item-studio-controls {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  padding: 10px 18px !important;
+  background: #faf5ea !important;
+  border-bottom: 1.5px solid #d8ccb4 !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+}
+
+.book-item-studio-controls .search-wrap {
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: #fff !important;
+  border: 1.5px solid #c9b99e !important;
+  border-radius: 6px !important;
+  padding: 6px 12px !important;
+  color: #58180d !important;
+  box-sizing: border-box !important;
+}
+
+.book-item-studio-controls .search-wrap input {
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  width: 100% !important;
+  font-family: inherit !important;
+  font-size: 0.88rem !important;
+  color: #1f140e !important;
+}
+
+.book-item-studio-controls .filter-dropdowns {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-shrink: 0 !important;
+}
+
+.book-item-studio-controls .filter-dropdowns select {
+  width: auto !important;
+  min-width: 130px !important;
+  max-width: 180px !important;
+}
+
+.create-new-btn {
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+.book-item-studio-body {
+  display: grid !important;
+  grid-template-columns: 380px 1fr !important;
+  flex: 1 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  background: #fdfaf3 !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+}
+
+.book-item-picker-list {
+  display: flex !important;
+  flex-direction: column !important;
+  border-right: 1.5px solid #d8ccb4 !important;
+  background: #fbf7ee !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.picker-list-header {
+  padding: 8px 14px !important;
+  font-family: var(--book-font-heading) !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  color: #5c3e24 !important;
+  border-bottom: 1px solid #e5d7ba !important;
+  background: #f5eedf !important;
+  flex-shrink: 0 !important;
+}
+
+.picker-list-scroll {
+  flex: 1 !important;
+  overflow-y: auto !important;
+  padding: 8px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+
+.book-item-list-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 8px 10px !important;
+  background: #fffdf8 !important;
+  border: 1.5px solid #d8ccb4 !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+.book-item-list-row:hover {
+  background: #fbf3e4 !important;
+  border-color: #8b5a1a !important;
+  transform: translateX(2px) !important;
+}
+
+.book-item-list-row.selected {
+  background: #fcf0db !important;
+  border-color: #58180d !important;
+  box-shadow: 0 2px 8px rgba(88, 24, 13, 0.18) !important;
+  border-left: 4px solid #58180d !important;
+}
+
+.row-icon-box {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  border-radius: 4px !important;
+  overflow: hidden !important;
+  background: #111 !important;
+  border: 1px solid #555 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+.row-icon-box img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+.row-info {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.row-name {
+  font-family: var(--book-font-heading) !important;
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  line-height: 1.3 !important;
+}
+
+.row-meta {
+  font-size: 0.74rem !important;
+  color: #6b4d32 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  margin-top: 2px !important;
+}
+
+.row-type {
+  text-transform: capitalize !important;
+  color: #8a5a2b !important;
+  font-weight: 600 !important;
+}
+
+.quick-select-btn {
+  background: #58180d !important;
+  color: #ffd700 !important;
+  border: 1px solid #ffd700 !important;
+  border-radius: 4px !important;
+  width: 28px !important;
+  height: 28px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
+  opacity: 0.8 !important;
+  transition: opacity 0.15s ease !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+}
+
+.quick-select-btn:hover {
+  opacity: 1 !important;
+  background: #7a2313 !important;
+}
+
+.book-item-preview-pane {
+  display: flex !important;
+  flex-direction: column !important;
+  background: #fffdf8 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.preview-pane-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 10px 18px !important;
+  font-family: var(--book-font-heading) !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  color: #58180d !important;
+  border-bottom: 1.5px solid #d8ccb4 !important;
+  background: #fdfaf3 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  flex-shrink: 0 !important;
+}
+
+.preview-tooltip-container {
+  flex: 1 !important;
+  overflow-y: auto !important;
+  padding: 18px !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  background: #fffdf8 !important;
+}
+
+.embedded-tooltip-wrapper {
+  width: 100% !important;
+  max-width: 380px !important;
+}
+
+.embedded-tooltip-wrapper .item-tooltip {
+  width: 100% !important;
+  max-width: 380px !important;
+  margin: 0 !important;
+  position: relative !important;
+}
 
 /* Image & Map & TOC */
 .book-image-wrapper { margin: 12px 0; }

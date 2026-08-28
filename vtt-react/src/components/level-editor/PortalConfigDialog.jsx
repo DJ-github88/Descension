@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import MythrillWindow from '../windows/MythrillWindow';
 import useMapStore from '../../store/mapStore';
+import useInteractiveMapStore from '../../store/interactiveMapStore';
 import './styles/PortalConfigDialog.css';
 
 const PortalConfigDialog = ({
@@ -12,35 +13,30 @@ const PortalConfigDialog = ({
     mode = 'edit' // 'edit' for editing existing portal, 'create' for creating new portal template
 }) => {
     const { maps = [], getCurrentMapId } = useMapStore();
+    const explorationMaps = useInteractiveMapStore(state => state.maps) || [];
     const currentMapId = getCurrentMapId();
-
-
 
     // For template creation, show all maps. For editing, filter out current map
     // In create mode, we want to show all maps including the current one
     // In edit mode, we filter out the current map to prevent self-referencing portals
     const availableMaps = useMemo(() => {
-        if (!Array.isArray(maps)) {
-            return [
-                { id: 'test1', name: 'Test Map 1' },
-                { id: 'test2', name: 'Test Map 2' },
-                { id: 'test3', name: 'Test Map 3' }
-            ];
-        }
+        const tacticalList = Array.isArray(maps) ? maps.map(m => ({ ...m, isExploration: false })) : [];
+        const explorationList = explorationMaps.map(m => ({ ...m, name: `${m.name} (Exploration)`, isExploration: true }));
+        const all = [...tacticalList, ...explorationList];
 
-        const filteredMaps = mode === 'create' ? maps : maps.filter(map => map.id !== currentMapId);
+        const filteredMaps = mode === 'create' ? all : all.filter(map => map.id !== currentMapId);
 
         // Always provide test maps for debugging if no real maps available
         if (filteredMaps.length === 0) {
             return [
-                { id: 'test1', name: 'Test Map 1' },
-                { id: 'test2', name: 'Test Map 2' },
-                { id: 'test3', name: 'Test Map 3' }
+                { id: 'test1', name: 'Test Map 1', isExploration: false },
+                { id: 'test2', name: 'Test Map 2', isExploration: false },
+                { id: 'test3', name: 'Test Map 3', isExploration: false }
             ];
         }
 
         return filteredMaps;
-    }, [maps, mode, currentMapId]);
+    }, [maps, explorationMaps, mode, currentMapId]);
 
 
 
@@ -104,9 +100,12 @@ const PortalConfigDialog = ({
     }, [onClose]);
 
     const getDestinationMapName = useCallback((mapId) => {
-        const map = maps.find(m => m.id === mapId);
-        return map ? map.name : 'Unknown Map';
-    }, [maps]);
+        const map = (maps || []).find(m => m.id === mapId);
+        if (map) return map.name;
+        const expMap = (explorationMaps || []).find(m => m.id === mapId);
+        if (expMap) return `${expMap.name} (Exploration)`;
+        return 'Unknown Map';
+    }, [maps, explorationMaps]);
 
     return (
         <MythrillWindow
