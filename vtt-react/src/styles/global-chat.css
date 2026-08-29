@@ -198,6 +198,26 @@
   pointer-events: auto;
 }
 
+/* Portal variant — rendered at body level, position:fixed, always visible */
+.header-dropdown-menu--portal {
+  position: fixed !important;
+  top: unset;
+  left: unset;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  pointer-events: auto !important;
+  z-index: 99999 !important;
+  border-top: 1px solid rgba(212, 175, 55, 0.5);
+  border-radius: 0 0 8px 8px;
+  animation: headerDropdownIn 0.15s ease;
+}
+
+@keyframes headerDropdownIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* Keep the parent tab highlighted while its dropdown is open */
 .header-tab-dropdown:hover .spellbook-tab-button {
   background: linear-gradient(to bottom,
