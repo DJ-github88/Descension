@@ -27,6 +27,40 @@ function createSocketAuthMiddleware({ firebaseService, logger }) {
         return next();
       }
 
+      // Handle development tokens in non-production environments
+      if (!isProduction && typeof token === 'string' && (token.startsWith('dev-token') || token.startsWith('dev-user-') || token === 'dev-user-123' || token === 'admin-dev-user' || token === 'admin' || token === 'mock-token' || token === 'test-token')) {
+        const devUid = token.startsWith('dev-token-')
+          ? token.replace('dev-token-', '')
+          : (token === 'admin-dev-user' || token === 'admin' ? 'admin-dev-user' : (token === 'mock-token' || token === 'test-token' ? 'dev-user-123' : token));
+        socket.data.authenticated = true;
+        socket.data.userId = devUid;
+        socket.data.email = `${devUid}@example.com`;
+        socket.data.isGuest = false;
+        logger.info('Socket authenticated via development token', { socketId: socket.id, userId: devUid });
+        return next();
+      }
+
+      // In development mode, if it is a JWT token (3 parts), decode the payload
+      if (!isProduction && typeof token === 'string' && token.includes('.')) {
+        try {
+          const parts = token.split('.');
+          if (parts.length === 3) {
+            const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString('utf8'));
+            const uid = payload.user_id || payload.sub || payload.uid;
+            if (uid) {
+              socket.data.authenticated = true;
+              socket.data.userId = uid;
+              socket.data.email = payload.email || `${uid}@example.com`;
+              socket.data.isGuest = false;
+              logger.info('Socket authenticated via decoded development JWT', { socketId: socket.id, userId: uid });
+              return next();
+            }
+          }
+        } catch (jwtErr) {
+          logger.debug('Could not decode JWT in development, falling back to verifyIdToken', { error: jwtErr.message });
+        }
+      }
+
       const decodedToken = await firebaseService.verifyIdToken(token);
       if (decodedToken) {
         socket.data.authenticated = true;

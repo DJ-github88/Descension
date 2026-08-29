@@ -10,19 +10,15 @@ import ContentModerationDashboard from '../common/ContentModerationDashboard';
 import PlayerSelector from '../common/PlayerSelector';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/settings-window.css';
-import { useWindowIntros } from '../../hooks/useWindowIntros';
-
 const ResourceBarToggles = memo(function ResourceBarToggles() {
   const showPartyAPBar = useSettingsStore(state => state.showPartyAPBar ?? true);
   const showPartyManaBar = useSettingsStore(state => state.showPartyManaBar ?? true);
   const showCreatureAPBar = useSettingsStore(state => state.showCreatureAPBar ?? true);
   const showCreatureManaBar = useSettingsStore(state => state.showCreatureManaBar ?? true);
-  const hudPortraitSize = useSettingsStore(state => state.hudPortraitSize || 'small');
   const setShowPartyAPBar = useSettingsStore(state => state.setShowPartyAPBar);
   const setShowPartyManaBar = useSettingsStore(state => state.setShowPartyManaBar);
   const setShowCreatureAPBar = useSettingsStore(state => state.setShowCreatureAPBar);
   const setShowCreatureManaBar = useSettingsStore(state => state.setShowCreatureManaBar);
-  const setHudPortraitSize = useSettingsStore(state => state.setHudPortraitSize);
 
   const toggleStyle = {
     display: 'flex', alignItems: 'center', gap: '10px',
@@ -37,34 +33,11 @@ const ResourceBarToggles = memo(function ResourceBarToggles() {
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', gap: '12px' }}>
         <i className="fas fa-id-card" style={{ fontSize: '20px', color: '#c0392b' }}></i>
         <div>
-          <h3 style={{ margin: '0 0 4px 0', color: '#c0392b', fontSize: '20px', fontFamily: 'Cinzel, serif', fontWeight: '600' }}>HUD Frame & Resource Bar Settings</h3>
-          <p style={{ margin: '0', color: '#8b6f47', fontSize: '14px', fontStyle: 'italic' }}>Customize HUD artwork, portrait box size, and bar visibility</p>
+          <h3 style={{ margin: '0 0 4px 0', color: '#c0392b', fontSize: '20px', fontFamily: 'Cinzel, serif', fontWeight: '600' }}>HUD Resource Bar Settings</h3>
+          <p style={{ margin: '0', color: '#8b6f47', fontSize: '14px', fontStyle: 'italic' }}>Customize resource bar visibility for party members and creatures</p>
         </div>
       </div>
       <div className="settings-group" style={{ display: 'flex', gap: '8px', flexDirection: 'column' }}>
-        <div style={{ ...toggleStyle, cursor: 'default', justifyContent: 'space-between' }}>
-          <div>
-            <div style={{ fontWeight: '600', color: '#7a3b2e', fontSize: '14px', fontFamily: 'Cinzel, serif' }}>HUD Frame Style & Portrait Size</div>
-            <div style={{ fontSize: '12px', color: '#8b6f47', marginTop: '2px', fontStyle: 'italic' }}>Choose between standard small portrait frame or ornate large portrait frame</div>
-          </div>
-          <select
-            value={hudPortraitSize}
-            onChange={(e) => setHudPortraitSize(e.target.value)}
-            style={{
-              padding: '6px 12px',
-              borderRadius: '4px',
-              border: '1px solid #a08c70',
-              background: '#f8f5eb',
-              color: '#3a2f1f',
-              fontWeight: '600',
-              fontFamily: 'Cinzel, serif',
-              cursor: 'pointer'
-            }}
-          >
-            <option value="small">Small Portrait Frame</option>
-            <option value="large">Large Portrait Frame</option>
-          </select>
-        </div>
         <label style={toggleStyle}>
           <input type="checkbox" checked={showPartyAPBar} onChange={(e) => setShowPartyAPBar(e.target.checked)} style={{ marginRight: '8px', accentColor: '#9a5e15' }} />
           <div>
@@ -193,8 +166,6 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
   // Settings from new settings store (with persistence)
   const windowScale = useSettingsStore(state => state.windowScale);
   const setWindowScale = useSettingsStore(state => state.setWindowScale);
-  const hudPortraitSize = useSettingsStore(state => state.hudPortraitSize || 'small');
-  const setHudPortraitSize = useSettingsStore(state => state.setHudPortraitSize);
   const feetPerTile = useSettingsStore(state => state.feetPerTile);
   const setFeetPerTile = useSettingsStore(state => state.setFeetPerTile);
   const showMovementVisualization = useSettingsStore(state => state.showMovementVisualization);
@@ -238,8 +209,6 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
   // Player selection state for multiplayer GM actions
   const [selectedPlayersForXP, setSelectedPlayersForXP] = useState([]);
   const [selectedPlayersForRest] = useState([]);
-
-  const { enabled: introsEnabled, seenCount: introsSeenCount, total: introsTotal, resetSeen: resetIntros, setEnabled: setIntrosEnabled } = useWindowIntros();
 
   // Update activeTab when prop changes (memoized to prevent unnecessary re-renders)
   useEffect(() => {
@@ -355,27 +324,6 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
   const renderInterfaceTab = () => (
     <div className="settings-content-clean">
       <div style={{ padding: '24px', maxWidth: '800px', margin: '0 auto' }}>
-        <div style={{ marginBottom: '20px', padding: '16px', background: 'rgba(212, 175, 55, 0.08)', border: '1px solid #d4af37', borderRadius: '8px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-            <i className="fas fa-compass" style={{ fontSize: '20px', color: '#d4af37' }}></i>
-            <div>
-              <h3 style={{ margin: '0 0 4px 0', color: '#7a3b2e', fontSize: '18px', fontFamily: 'Cinzel, serif' }}>Window Introductions</h3>
-              <p style={{ margin: '0', color: '#8b6f47', fontSize: '14px', fontStyle: 'italic' }}>The Lamplighter explains each window the first time you open it.</p>
-            </div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#5a3a1a', fontSize: '14px', cursor: 'pointer' }}>
-              <input type="checkbox" checked={introsEnabled} onChange={(e) => setIntrosEnabled(e.target.checked)} />
-              Show introductions ({introsSeenCount}/{introsTotal} seen)
-            </label>
-            <button
-              onClick={resetIntros}
-              style={{ padding: '6px 14px', background: 'rgba(139, 69, 19, 0.08)', border: '1px solid #8B4513', color: '#5a3a1a', borderRadius: '4px', fontFamily: 'Cinzel, serif', fontWeight: '600', fontSize: '12px', cursor: 'pointer' }}
-            >
-              Replay all
-            </button>
-          </div>
-        </div>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', gap: '12px' }}>
           <i className="fas fa-expand-arrows-alt" style={{ fontSize: '20px', color: '#7a3b2e' }}></i>
           <div>
@@ -438,39 +386,6 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
             <button className={`control-button primary ${hasScaleChanges ? 'pulse' : ''}`} onClick={applyWindowScale} disabled={!hasScaleChanges} style={{ minWidth: '120px' }}>
               <i className="fas fa-check" style={{ marginRight: '6px' }}></i>{hasScaleChanges ? 'Apply Changes' : 'No Changes'}
             </button>
-          </div>
-        </div>
-
-        <div style={{ marginBottom: '20px', padding: '16px', background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(212, 175, 55, 0.03))', border: '1px solid rgba(212, 175, 55, 0.3)', borderRadius: '8px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px', gap: '12px' }}>
-            <i className="fas fa-id-card" style={{ fontSize: '20px', color: '#7a3b2e' }}></i>
-            <div>
-              <h3 style={{ margin: '0 0 4px 0', color: '#7a3b2e', fontSize: '18px', fontFamily: 'Cinzel, serif' }}>HUD Frame Style & Portrait Size</h3>
-              <p style={{ margin: '0', color: '#8b6f47', fontSize: '14px', fontStyle: 'italic' }}>Choose your personal character HUD frame artwork (Small vs Large Portrait)</p>
-            </div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(160,140,112,0.3)', borderRadius: '6px' }}>
-            <div>
-              <div style={{ fontWeight: '600', color: '#7a3b2e', fontSize: '14px', fontFamily: 'Cinzel, serif' }}>Personal HUD Frame Style</div>
-              <div style={{ fontSize: '12px', color: '#8b6f47', marginTop: '2px', fontStyle: 'italic' }}>Select between standard compact frame or ornate large portrait frame</div>
-            </div>
-            <select
-              value={hudPortraitSize}
-              onChange={(e) => setHudPortraitSize(e.target.value)}
-              style={{
-                padding: '8px 14px',
-                borderRadius: '6px',
-                border: '1px solid #a08c70',
-                background: '#f8f5eb',
-                color: '#3a2f1f',
-                fontWeight: '600',
-                fontFamily: 'Cinzel, serif',
-                cursor: 'pointer'
-              }}
-            >
-              <option value="small">Small Portrait Frame</option>
-              <option value="large">Large Portrait Frame</option>
-            </select>
           </div>
         </div>
 

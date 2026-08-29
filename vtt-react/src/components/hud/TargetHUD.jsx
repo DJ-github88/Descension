@@ -162,7 +162,6 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
   const isGMMode = useGameStore(state => state.isGMMode);
   const showCreatureManaBar = useSettingsStore(state => state.showCreatureManaBar ?? true);
   const showCreatureAPBar = useSettingsStore(state => state.showCreatureAPBar ?? true);
-  const hudPortraitSize = useSettingsStore(state => state.hudPortraitSize || 'small');
   const updatePartyMember = usePartyStore(state => state.updatePartyMember);
   const {
     updateResource,
@@ -2044,7 +2043,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         >
           <div ref={nodeRef} className="target-frame" style={{ position: 'relative' }}>
             <div
-              className={`party-member-frame target-frame-style portrait-size-${hudPortraitSize} ${hasClassResource ? 'has-class-resource' : ''} ${hasClassResource ? `class-${classResourceType}` : ''}`}
+              className={`party-member-frame target-frame-style ${hasClassResource ? 'has-class-resource' : ''} ${hasClassResource ? `class-${classResourceType}` : ''}`}
               onContextMenu={handleRightClick}
             >
               {/* Portrait */}

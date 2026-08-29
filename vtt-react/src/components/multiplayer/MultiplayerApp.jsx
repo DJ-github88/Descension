@@ -1193,24 +1193,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         onReturnToLanding={onReturnToSinglePlayer}
         onJoinAttempt={(roomId) => {
           sessionStorage.setItem('enteringMultiplayer', 'true');
-          try {
-            const partyState = usePartyStore.getState();
-            const currentMembers = partyState.partyMembers || [];
-            if (currentMembers.length > 0) {
-              console.log('🧹 Clearing social party members on join attempt', {
-                count: currentMembers.length,
-                names: currentMembers.map(m => m.name)
-              });
-              if (typeof partyState.leaveParty === 'function') {
-                partyState.leaveParty();
-              } else {
-                partyState.clearPartyMembers();
-              }
-            }
-          } catch (e) {
-            console.warn('⚠️ Failed to clear party members on join attempt:', e);
-          }
-
           isAutoJoinSequenceRef.current = true;
           startJoiningRoom();
         }}

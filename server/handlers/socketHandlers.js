@@ -129,7 +129,19 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
     const requireAuth = (callback) => {
       return (...args) => {
+        const isProduction = process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT;
         if (!socket.data.authenticated) {
+          const payload = args[0];
+          // In development mode, auto-authenticate if client provided explicit user identification (and isn't an explicit guest)
+          if (!isProduction && payload && (payload.userId || payload.character?.userId) && !payload.isGuest && payload.userId !== 'guest' && socket.data.isGuest !== true) {
+            const devUid = payload.userId || payload.character?.userId;
+            socket.data.authenticated = true;
+            socket.data.userId = devUid;
+            socket.data.isGuest = false;
+            logger.info('Socket auto-authenticated in development from event payload', { socketId: socket.id, userId: devUid });
+            return callback(...args);
+          }
+
           logger.warn('Unauthenticated socket attempted restricted action', { socketId: socket.id, isGuest: socket.data.isGuest });
           socket.emit('auth_error', { error: 'Authentication required. Please log in to perform this action.' });
           return;
@@ -383,8 +395,67 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       }
     };
 
-    const notifyPartyMembersOfGMJoin = (userId, roomId, gmData) => {
-      logger.info('GM joined room - checking for party', { userId, roomId, gmName: gmData.name });
+    const notifyPartyMembersOfGMJoin = (userId, roomId, gmData, explicitPartyMembers = []) => {
+      logger.info('GM joined room - checking for party', { userId, roomId, gmName: gmData.name, explicitPartyCount: explicitPartyMembers.length });
+
+      const room = rooms.get(roomId);
+      if (!room) {
+        logger.warn('Room not found for GM session notification');
+        return;
+      }
+
+      const roomMemberUserIds = new Set();
+      for (const [socketId, player] of players.entries()) {
+        if (player.roomId === roomId) {
+          const s = io.sockets.sockets.get(socketId);
+          if (s?.data?.userId) {
+            roomMemberUserIds.add(s.data.userId);
+          }
+          const socialUser = onlineSocialUsers.get(socketId);
+          if (socialUser?.userId) {
+            roomMemberUserIds.add(socialUser.userId);
+          }
+        }
+      }
+
+      const notifiedSocketIds = new Set();
+
+      const sendInvitationToSockets = (targetSockets, partyName = room.name, partyId = 'explicit-party') => {
+        if (!targetSockets || targetSockets.length === 0) return;
+
+        const invitation = {
+          id: uuidv4(),
+          partyId,
+          roomId,
+          partyName: room.name || partyName,
+          roomName: room.name,
+          gmName: gmData.name,
+          gmCharacterName: gmData.characterName,
+          gmClass: gmData.characterClass,
+          gmLevel: gmData.characterLevel,
+          isPermanent: room.isPermanent || false,
+          roomDescription: room.settings?.description || gmData.description || room.description || '',
+          description: room.settings?.description || gmData.description || room.description || '',
+          currentPlayers: Array.from(room.players.values()).map(p => ({
+            id: p.id,
+            name: p.name,
+            class: p.character?.class || 'Unknown'
+          })),
+          status: 'pending',
+          createdAt: Date.now(),
+          expiresAt: Date.now() + INVITATION_EXPIRY_MS
+        };
+
+        partyInvitations.set(invitation.id, invitation);
+
+        targetSockets.forEach(s => {
+          if (!notifiedSocketIds.has(s.id)) {
+            notifiedSocketIds.add(s.id);
+            s.emit('gm_session_invitation', invitation);
+            logger.info('GM session invitation sent to socket', { socketId: s.id, roomId, partyName });
+          }
+        });
+      };
 
       const partyId = userToParty.get(userId);
       logger.info('Party lookup result', { userId, partyId, userToPartySize: userToParty.size });
@@ -400,94 +471,37 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           memberIds: Object.keys(party.members)
         });
 
-        if (party.isActive !== false) {  // Treat undefined as active (default)
+        if (party.isActive !== false) {
           logger.info('GM has active party, notifying members', { partyId, partyName: party.name });
 
-          const room = rooms.get(roomId);
-          if (!room) {
-            logger.warn('Room not found for GM session notification');
-            return;
-          }
-
-          const roomMemberUserIds = new Set();
-          for (const [socketId, player] of players.entries()) {
-            if (player.roomId === roomId) {
-              const s = io.sockets.sockets.get(socketId);
-              if (s?.data?.userId) {
-                roomMemberUserIds.add(s.data.userId);
-              }
-              const socialUser = onlineSocialUsers.get(socketId);
-              if (socialUser?.userId) {
-                roomMemberUserIds.add(socialUser.userId);
-              }
-            }
-          }
-
-          logger.info('Room member UIDs', { roomId, roomMemberUserIds: Array.from(roomMemberUserIds) });
-
           const partyMembersNotInRoom = Object.keys(party.members).filter(memberId => {
-            const isGM = memberId === party.leaderId;
+            const isGM = memberId === party.leaderId || memberId === userId;
             const isAlreadyInRoom = roomMemberUserIds.has(memberId);
-            logger.info('Checking party member', { memberId, isGM, isAlreadyInRoom });
             return !isGM && !isAlreadyInRoom;
           });
 
-          logger.info('Party members to invite', { partyMembersNotInRoom, count: partyMembersNotInRoom.length });
+          logger.info('Party members to invite from social party', { partyMembersNotInRoom, count: partyMembersNotInRoom.length });
 
           partyMembersNotInRoom.forEach(memberId => {
-            const memberData = party.members[memberId];
-
-            if (memberData) {
-              const memberSockets = getSocketsByUserId(memberId);
-              logger.info('Found sockets for member', { memberId, socketCount: memberSockets.length });
-
-              if (memberSockets.length > 0) {
-                const invitation = {
-                  id: uuidv4(),
-                  partyId,
-                  roomId,
-                  partyName: room.name || party.name,
-                  roomName: room.name,
-                  gmName: gmData.name,
-                  gmCharacterName: gmData.characterName,
-                  gmClass: gmData.characterClass,
-                  gmLevel: gmData.characterLevel,
-                  isPermanent: room.isPermanent || false,
-                  roomDescription: room.settings?.description || gmData.description || room.description || '',
-                  description: room.settings?.description || gmData.description || room.description || '',
-                  currentPlayers: Array.from(room.players.values()).map(p => ({
-                    id: p.id,
-                    name: p.name,
-                    class: p.character?.class || 'Unknown'
-                  })),
-                  status: 'pending',
-                  createdAt: Date.now(),
-                  expiresAt: Date.now() + INVITATION_EXPIRY_MS
-                };
-
-                partyInvitations.set(invitation.id, invitation);
-
-                memberSockets.forEach(s => {
-                  s.emit('gm_session_invitation', invitation);
-                });
-
-                logger.info('GM session invitation sent', {
-                  to: memberId,
-                  party: party.name,
-                  room: roomId,
-                  gm: gmData.name,
-                  socketIds: memberSockets.map(s => s.id)
-                });
-              } else {
-                logger.warn('Party member not connected for GM session notification', { memberId });
-              }
-            }
+            const memberSockets = getSocketsByUserId(memberId);
+            sendInvitationToSockets(memberSockets, party.name, partyId);
           });
-        } else {
-          logger.info('Party is not active or no members', { partyId, isActive: party.isActive, memberCount: Object.keys(party.members).length });
         }
-      } else {
-        logger.info('GM joined room but has no active party', { userId, partyId, partiesCount: parties.size });
+      }
+
+      // Also process explicit party members passed in room creation
+      if (Array.isArray(explicitPartyMembers) && explicitPartyMembers.length > 0) {
+        explicitPartyMembers.forEach(member => {
+          const memberId = member.userId || member.id;
+          if (memberId && memberId !== userId && memberId !== 'current-player' && !roomMemberUserIds.has(memberId)) {
+            let memberSockets = getSocketsByUserId(memberId);
+            if (memberSockets.length === 0 && member.socketId) {
+              const directSocket = io.sockets.sockets.get(member.socketId);
+              if (directSocket) memberSockets = [directSocket];
+            }
+            sendInvitationToSockets(memberSockets, room.name, partyId || 'explicit-party');
+          }
+        });
       }
     };
 

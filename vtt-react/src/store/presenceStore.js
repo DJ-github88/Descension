@@ -844,8 +844,12 @@ const usePresenceStore = create((set, get) => ({
     try {
       const authStore = getStore('authStore');
       const authState = authStore.getState();
-      if (authState.user && !authState.isDevelopmentBypass && !authState.user.isGuest && authState.user.getIdToken) {
+      if (authState.user && !authState.isDevelopmentBypass && !authState.user.isGuest && typeof authState.user.getIdToken === 'function') {
         authToken = await authState.user.getIdToken();
+      } else if (authState.user && !authState.user?.isGuest) {
+        authToken = `dev-token-${authState.user.uid || 'admin-dev-user'}`;
+      } else if (authState.isDevelopmentBypass || authState.isAdminBypass || authState.isAuthenticated) {
+        authToken = `dev-token-${authState.user?.uid || 'admin-dev-user'}`;
       }
     } catch (error) {
       console.warn('Could not get auth token for global socket:', error);

@@ -1592,17 +1592,15 @@
 }
 
 /* ========================================================= */
-/* VARIANT 1: SMALL PORTRAIT FRAME (hud-frame-base.png)     */
+/* PERSONAL HUD FRAME (hud-frame-base.png)                  */
 /* ========================================================= */
-.party-member-frame.portrait-size-small,
-.party-member-frame:not(.portrait-size-large) {
+.party-member-frame {
     width: 310px;
     min-height: 165px;
     height: auto;
 }
 
-.party-member-frame.portrait-size-small::after,
-.party-member-frame:not(.portrait-size-large)::after {
+.party-member-frame::after {
     content: '';
     position: absolute;
     top: 0;
@@ -1616,8 +1614,7 @@
     z-index: 2;
 }
 
-.party-member-frame.portrait-size-small .party-portrait,
-.party-member-frame:not(.portrait-size-large) .party-portrait {
+.party-member-frame .party-portrait {
     position: absolute !important;
     left: 6.13% !important;
     top: 10.96% !important;
@@ -1628,8 +1625,7 @@
     overflow: hidden;
 }
 
-.party-member-frame.portrait-size-small .party-member-info,
-.party-member-frame:not(.portrait-size-large) .party-member-info {
+.party-member-frame .party-member-info {
     position: relative;
     z-index: 3;
     flex: 1;
@@ -1640,14 +1636,12 @@
     box-sizing: border-box;
 }
 
-.party-member-frame.portrait-size-small .member-header,
-.party-member-frame:not(.portrait-size-large) .member-header {
+.party-member-frame .member-header {
     padding-left: 20%;
     margin-bottom: 4px;
 }
 
-.party-member-frame.portrait-size-small .resource-bars-container,
-.party-member-frame:not(.portrait-size-large) .resource-bars-container {
+.party-member-frame .resource-bars-container {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -1656,79 +1650,12 @@
     margin-bottom: 2px;
 }
 
-.party-member-frame.portrait-size-small.has-class-resource {
+.party-member-frame.has-class-resource {
     min-height: 185px;
 }
 
-.party-member-frame.portrait-size-small.class-chronarch {
+.party-member-frame.class-chronarch {
     min-height: 225px;
-}
-
-/* ========================================================= */
-/* VARIANT 2: LARGE PORTRAIT FRAME (hud-frame-large.png)    */
-/* ========================================================= */
-.party-member-frame.portrait-size-large {
-    width: 360px;
-    min-height: 205px;
-    height: auto;
-}
-
-.party-member-frame.portrait-size-large::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('../assets/ui/hud-frame-large.png');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    pointer-events: none;
-    z-index: 2;
-}
-
-.party-member-frame.portrait-size-large .party-portrait {
-    position: absolute !important;
-    left: 5.30% !important;
-    top: 9.42% !important;
-    width: 20.90% !important;
-    height: 38.23% !important;
-    margin: 0 !important;
-    z-index: 1 !important;
-    overflow: hidden;
-}
-
-.party-member-frame.portrait-size-large .party-member-info {
-    position: relative;
-    z-index: 3;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 9% 7.5% 8.5% 7.5%;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.party-member-frame.portrait-size-large .member-header {
-    padding-left: 31.5%; /* Fully clears right wooden border of the large portrait frame */
-    margin-bottom: 4px;
-}
-
-.party-member-frame.portrait-size-large .resource-bars-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    margin-top: 26px; /* Shifts resource bars down below the portrait box frame */
-    margin-bottom: 2px;
-}
-
-.party-member-frame.portrait-size-large.has-class-resource {
-    min-height: 235px;
-}
-
-.party-member-frame.portrait-size-large.class-chronarch {
-    min-height: 275px;
 }
 
 .member-name {

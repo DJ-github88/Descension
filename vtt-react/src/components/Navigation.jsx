@@ -16,7 +16,6 @@ import TalentTreeContent from './talent-tree/TalentTreeContent';
 import { SKILL_CATEGORIES, SKILL_DEFINITIONS } from '../constants/skillDefinitions';
 import ErrorBoundary from './common/ErrorBoundary';
 import '../styles/resizable-nav.css';
-import { useWindowIntros } from '../hooks/useWindowIntros';
 import { useNavAssets } from '../hooks/useNavAssets';
 
 const SettingsWindow = lazy(() => import('./windows/SettingsWindow'));
@@ -874,9 +873,6 @@ export default function Navigation({ onReturnToLanding }) {
     const whisperTabs = usePresenceStore(state => state.whisperTabs);
     const partyChatUnreadCount = usePresenceStore(state => state.partyChatUnreadCount);
 
-    // Per-window first-open introductions (typewriter) via the dialogue system
-    const { triggerIfFirstOpen: triggerWindowIntro } = useWindowIntros();
-
     // Navigation sprite assets (parchment background, button images)
     const { assets: navAssets } = useNavAssets();
 
@@ -1090,8 +1086,6 @@ export default function Navigation({ onReturnToLanding }) {
     };
 
     const handleButtonClick = useCallback((windowId) => {
-        if (isGMMode) triggerWindowIntro(windowId);
-
         // Special handling for level editor
         if (windowId === 'leveleditor') {
             const currentGameStore = useGameStore.getState();
@@ -1160,7 +1154,7 @@ export default function Navigation({ onReturnToLanding }) {
             newOpenWindows.add(windowId);
         }
         setOpenWindows(newOpenWindows);
-    }, [openWindows, isEditorMode, setEditorMode, isGMMode, isSelectionMode, isInCombat, startSelectionMode, cancelSelectionMode, isCommunityWindowOpen, setCommunityWindowOpen, triggerWindowIntro]);
+    }, [openWindows, isEditorMode, setEditorMode, isGMMode, isSelectionMode, isInCombat, startSelectionMode, cancelSelectionMode, isCommunityWindowOpen, setCommunityWindowOpen]);
 
     const handleKeyPress = useCallback((e) => {
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;

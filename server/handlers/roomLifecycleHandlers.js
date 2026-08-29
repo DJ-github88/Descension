@@ -248,7 +248,7 @@ function registerRoomHandlers(ctx) {
           characterClass: data.character?.class,
           characterLevel: data.character?.level,
           description: data.description || room.settings?.description
-        });
+        }, data.partyMembers || []);
       } else {
         logger.warn('[create_room] No GM userId found, cannot notify party members', {
           socketId: socket.id,

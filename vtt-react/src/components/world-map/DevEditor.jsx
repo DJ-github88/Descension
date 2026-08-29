@@ -968,14 +968,14 @@ const DevEditor = ({
                             <i className="fas fa-search-minus" /> No matching lore locations found.
                           </div>
                         ) : (
-                          filteredWorldZones.map((z) => {
+                          filteredWorldZones.map((z, zIdx) => {
                             const isSelected = selectedZoneId === z.id;
                             const isPlaced = !!LOCATION_COORDINATES[z.id];
                             const hasDeep = !!DEEP_LOCATIONS[z.id];
                             const coord = LOCATION_COORDINATES[z.id];
                             return (
                               <button
-                                key={z.id}
+                                key={`${z.id}-${zIdx}`}
                                 type="button"
                                 className={`lore-picker-item ${isSelected ? 'active' : ''} ${isPlaced ? 'placed' : 'unplaced'}`}
                                 onClick={() => {

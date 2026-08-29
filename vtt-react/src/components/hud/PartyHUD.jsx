@@ -107,7 +107,6 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     const isGMMode = useGameStore(state => state.isGMMode);
     const showPartyManaBar = useSettingsStore(state => state.showPartyManaBar ?? true);
     const showPartyAPBar = useSettingsStore(state => state.showPartyAPBar ?? true);
-    const hudPortraitSize = useSettingsStore(state => state.hudPortraitSize || 'small');
     const updatePartyMember = usePartyStore(state => state.updatePartyMember);
 
     // Get current player data directly from character store (always call hook, but only use if isCurrentPlayer)
@@ -877,7 +876,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
             <div
                 ref={frameRef}
                 data-player-id={member.id}
-                className={`party-member-frame portrait-size-${hudPortraitSize} ${isCurrentPlayer ? 'current-player' : ''} ${isTargeted ? 'targeted' : ''} ${hasClassResource ? 'has-class-resource' : ''} ${hasClassResource ? `class-${classResourceType}` : ''}`}
+                className={`party-member-frame ${isCurrentPlayer ? 'current-player' : ''} ${isTargeted ? 'targeted' : ''} ${hasClassResource ? 'has-class-resource' : ''} ${hasClassResource ? `class-${classResourceType}` : ''}`}
                 onContextMenu={handleRightClick}
             >
                 {/* Portrait: absolutely positioned by CSS into the frame's portrait cutout */}

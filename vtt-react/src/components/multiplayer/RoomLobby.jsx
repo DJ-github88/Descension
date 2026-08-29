@@ -447,6 +447,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
     socket.on('reconnect_error', handleReconnectError);
     socket.on('room_created', handleRoomCreated);
     socket.on('room_joined', handleRoomJoined);
+    socket.on('auth_error', handleError);
+    socket.on('room_error', handleError);
     socket.on('error', handleError);
     socket.on('room_list_updated', handleRoomListUpdated);
 
@@ -468,6 +470,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
       socket.off('reconnect_error', handleReconnectError);
       socket.off('room_created', handleRoomCreated);
       socket.off('room_joined', handleRoomJoined);
+      socket.off('auth_error', handleError);
+      socket.off('room_error', handleError);
       socket.off('error', handleError);
       socket.off('room_list_updated', handleRoomListUpdated);
     };
@@ -772,6 +776,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
         partyMembers: isInParty ? partyMembers.filter(m => m.id !== 'current-player').map(m => ({
           name: m.name,
           id: m.id,
+          userId: m.userId || m.id,
+          socketId: m.socketId,
           character: m.character
         })) : []
       };
@@ -869,6 +875,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
       partyMembers: isInParty ? partyMembers.filter(m => m.id !== 'current-player').map(m => ({
         name: m.name,
         id: m.id,
+        userId: m.userId || m.id,
+        socketId: m.socketId,
         character: m.character
       })) : [] // Include party members (excluding current player who is the GM)
     };
@@ -1136,7 +1144,35 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
         <div className="fog-layer fog-2"></div>
       </div>
       <div className="lobby-container">
-        <div className="lobby-header">
+        <div className="lobby-top-bar">
+          <div className="lobby-header-brand">
+            <h1>Mythrill D&D</h1>
+            <span className="lobby-header-subtitle">Multiplayer Realm</span>
+          </div>
+
+          <div className="lobby-tabs">
+            <button
+              className={`tab-button ${activeTab === 'join' ? 'active' : ''}`}
+              onClick={() => setActiveTab('join')}
+            >
+              <i className="fas fa-door-open"></i> Join Room
+            </button>
+            <button
+              className={`tab-button ${activeTab === 'create' ? 'active' : ''}`}
+              onClick={() => setActiveTab('create')}
+            >
+              <i className="fas fa-hammer"></i> Create Room
+            </button>
+            {isAuthenticated && (
+              <button
+                className={`tab-button ${activeTab === 'my-rooms' ? 'active' : ''}`}
+                onClick={() => setActiveTab('my-rooms')}
+              >
+                <i className="fas fa-scroll"></i> My Rooms
+              </button>
+            )}
+          </div>
+
           <button
             className="back-to-landing-btn"
             onClick={onReturnToLanding}
@@ -1144,8 +1180,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
           >
             <i className="fas fa-times"></i>
           </button>
-          <h1>Mythrill D&D</h1>
-          <p>Join or create a multiplayer session</p>
         </div>
 
         {error && (
@@ -1169,439 +1203,428 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
           </div>
         )}
 
-        <div className="player-name-section">
-          <div className="player-name-row">
-            <div className="name-input-group">
-              <label htmlFor="playerName">Your Name:</label>
-              <div className="player-name-container">
-                <div className="relative-input-wrapper">
-                  <input
-                    id="playerName"
-                    type="text"
-                    value={playerName}
-                    onChange={(e) => setPlayerName(e.target.value)}
-                    placeholder={getActiveCharacter() ? "Character name will be used automatically" : "Enter your display name"}
-                    disabled={isConnecting || !!getActiveCharacter()}
-                    readOnly={!!getActiveCharacter()}
-                    autoComplete="off"
-                    className={getActiveCharacter() ? "character-auto-filled" : ""}
-                  />
-                  {!getActiveCharacter() && (
+        {/* JOIN ROOM TAB */}
+        {activeTab === 'join' && (
+          <div className="lobby-split-layout">
+            {/* Left Column: Player Identity & Direct Code Join */}
+            <div className="lobby-sidebar">
+              <div className="sidebar-card identity-card">
+                <h4 className="sidebar-card-title">
+                  <i className="fas fa-user-shield"></i> Adventurer Identity
+                </h4>
+
+                <div className="form-input-group">
+                  <label htmlFor="playerName">Display Name:</label>
+                  <div className="relative-input-wrapper">
+                    <input
+                      id="playerName"
+                      type="text"
+                      value={playerName}
+                      onChange={(e) => setPlayerName(e.target.value)}
+                      placeholder={getActiveCharacter() ? "Character name used" : "Enter display name"}
+                      disabled={isConnecting || !!getActiveCharacter()}
+                      readOnly={!!getActiveCharacter()}
+                      autoComplete="off"
+                      className={getActiveCharacter() ? "character-auto-filled" : ""}
+                    />
+                    {!getActiveCharacter() && (
+                      <button
+                        type="button"
+                        className="randomize-name-btn"
+                        onClick={() => {
+                          const newName = getRandomCharacterName();
+                          setPlayerName(newName);
+                          playerNameRef.current = newName;
+                        }}
+                        title="Randomize player name"
+                        disabled={isConnecting}
+                      >
+                        <i className="fas fa-dice"></i>
+                      </button>
+                    )}
+                  </div>
+                  {(() => {
+                    const activeCharacter = getActiveCharacter();
+                    if (activeCharacter) {
+                      return (
+                        <div className="character-selected-notice">
+                          <i className="fas fa-user-check"></i>
+                          <span>Using: {activeCharacter.name}</span>
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div className="no-character-notice">
+                          <i className="fas fa-info-circle"></i>
+                          <span>No champion selected.</span>
+                        </div>
+                      );
+                    }
+                  })()}
+                </div>
+
+                <div className="form-input-group">
+                  <label htmlFor="playerColor">Chat Color:</label>
+                  <div
+                    className="color-picker-container premium-preview"
+                    onClick={() => !isConnecting && colorInputRef.current?.click()}
+                    title="Click to change your chat color"
+                  >
+                    <input
+                      id="playerColor"
+                      ref={colorInputRef}
+                      type="color"
+                      value={playerColor}
+                      onChange={(e) => setPlayerColor(e.target.value)}
+                      disabled={isConnecting}
+                      className="color-picker-hidden"
+                      style={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0 }}
+                    />
+                    <div
+                      className="color-preview-v2"
+                      style={{
+                        background: `linear-gradient(135deg, ${playerColor}, ${playerColor}dd)`,
+                        borderColor: playerColor,
+                        boxShadow: `0 3px 10px ${playerColor}44, inset 0 2px 4px rgba(255,255,255,0.3)`
+                      }}
+                    >
+                      <span className="player-name-preview">
+                        {playerName || 'Your Name'}
+                      </span>
+                      <div className="color-edit-icon">
+                        <i className="fas fa-palette"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="sidebar-card direct-join-card">
+                <h4 className="sidebar-card-title">
+                  <i className="fas fa-key"></i> Direct Portal Join
+                </h4>
+                <form className="manual-join" onSubmit={(e) => { e.preventDefault(); handleJoinRoom(); }}>
+                  <div className="form-input-group">
+                    <label htmlFor="roomId">Room ID:</label>
+                    <input
+                      id="roomId"
+                      type="text"
+                      value={roomId}
+                      onChange={(e) => setRoomId(e.target.value)}
+                      placeholder="Enter room ID or code"
+                      autoComplete="off"
+                      disabled={isConnecting}
+                      className="form-input"
+                    />
+                  </div>
+
+                  <div className="form-input-group">
+                    <label htmlFor="joinPassword">Password (Optional):</label>
+                    <input
+                      id="joinPassword"
+                      type="password"
+                      value={joinPassword}
+                      onChange={(e) => setJoinPassword(e.target.value)}
+                      placeholder="Password if protected"
+                      autoComplete="current-password"
+                      disabled={isConnecting}
+                      className="form-input"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isConnecting || !playerNameRef.current.trim() || !roomId.trim()}
+                    className="join-realm-button"
+                  >
+                    <i className={isConnecting ? 'fas fa-spinner fa-spin' : 'fas fa-door-open'}></i>
+                    {isConnecting ? 'Connecting...' : 'Enter Portal'}
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            {/* Right Column: Available Active Rooms */}
+            <div className="lobby-main-panel">
+              <div className="available-rooms-header">
+                <div className="rooms-header-title">
+                  <h3>Active Realms</h3>
+                  <span className="rooms-count-badge">{availableRooms.length} available</span>
+                </div>
+                <button
+                  onClick={fetchAvailableRooms}
+                  className="refresh-button"
+                  disabled={isConnecting}
+                  title="Refresh active rooms list"
+                >
+                  <i className="fas fa-sync-alt"></i> Refresh
+                </button>
+              </div>
+
+              <div className="available-rooms-scroll-container">
+                {availableRooms.length === 0 ? (
+                  <div className="empty-rooms-message">
+                    <div className="empty-rooms-icon">
+                      <i className="fas fa-dungeon"></i>
+                    </div>
+                    <h4>The Tavern Stands Empty</h4>
+                    <p>No active multiplayer sessions were found in this realm. Be the first to light the hearth!</p>
+                    <button
+                      className="create-room-prompt-btn"
+                      onClick={() => setActiveTab('create')}
+                    >
+                      <i className="fas fa-plus-circle"></i> Create a Room
+                    </button>
+                  </div>
+                ) : (
+                  <div className="room-card-modern-grid">
+                    {availableRooms.map(room => (
+                      <div key={room.id} className="room-card-modern">
+                        <div className="room-card-modern-top">
+                          <div className="room-card-modern-title-section">
+                            <h3 className="room-card-modern-title">{room.name}</h3>
+                            <div className="room-card-modern-badge">
+                              <i className="fas fa-crown"></i>
+                              <span>GM: {room.gm}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="room-card-modern-stats">
+                          <div className="room-card-modern-stat">
+                            <div className={`room-card-modern-stat-icon ${room.gmOnline !== false ? 'status-online' : 'status-offline'}`}>
+                              <i className="fas fa-circle"></i>
+                            </div>
+                            <div className="room-card-modern-stat-content">
+                              <div className="room-card-modern-stat-label">Status</div>
+                              <div className="room-card-modern-stat-value">{room.gmOnline !== false ? 'Online' : 'Offline'}</div>
+                            </div>
+                          </div>
+                          <div className="room-card-modern-stat">
+                            <div className="room-card-modern-stat-icon">
+                              <i className="fas fa-users"></i>
+                            </div>
+                            <div className="room-card-modern-stat-content">
+                              <div className="room-card-modern-stat-label">Adventurers</div>
+                              <div className="room-card-modern-stat-value">{room.playerCount} / {room.maxPlayers}</div>
+                            </div>
+                          </div>
+                          <div className="room-card-modern-stat">
+                            <div className="room-card-modern-stat-icon">
+                              <i className="fas fa-clock"></i>
+                            </div>
+                            <div className="room-card-modern-stat-content">
+                              <div className="room-card-modern-stat-label">Created</div>
+                              <div className="room-card-modern-stat-value">{(() => {
+                                const date = new Date(room.createdAt);
+                                if (isNaN(date.getTime())) return 'Unknown';
+                                const day = date.getDate();
+                                const ordinal = day === 1 || day === 21 || day === 31 ? 'st'
+                                  : day === 2 || day === 22 ? 'nd'
+                                    : day === 3 || day === 23 ? 'rd' : 'th';
+                                const month = date.toLocaleDateString('en-US', { month: 'short' });
+                                const time = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+                                return `${month} ${day}${ordinal}, ${time}`;
+                              })()}</div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="room-card-modern-action">
+                          <button
+                            onClick={() => handleQuickJoin(room)}
+                            disabled={isConnecting || !playerNameRef.current.trim() || room.playerCount >= room.maxPlayers}
+                            className="room-card-modern-button"
+                            title={room.playerCount >= room.maxPlayers ? 'Room is full' : 'Join this room'}
+                          >
+                            <i className={room.playerCount >= room.maxPlayers ? 'fas fa-ban' : (isJoiningRoom ? 'fas fa-spinner fa-spin' : 'fas fa-play')}></i>
+                            {room.playerCount >= room.maxPlayers ? 'Room Full' : (isJoiningRoom ? 'Joining...' : 'Join Room')}
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* CREATE ROOM TAB */}
+        {activeTab === 'create' && (
+          <div className="create-room-wizard">
+            <div className="create-room-columns">
+              <div className="create-col-left">
+                <div className="form-input-group">
+                  <label htmlFor="roomName">
+                    Room Name:
+                    <button
+                      type="button"
+                      onClick={refreshCharacterNames}
+                      className="refresh-character-btn"
+                      title="Use active character name"
+                      disabled={isConnecting}
+                    >
+                      <i className="fas fa-sync-alt"></i> Use Character Name
+                    </button>
+                  </label>
+                  <div className="relative-input-wrapper">
+                    <input
+                      id="roomName"
+                      type="text"
+                      value={roomName}
+                      onChange={(e) => setRoomName(e.target.value)}
+                      placeholder="Enter room or campaign name"
+                      autoComplete="off"
+                      disabled={isConnecting}
+                      maxLength={30}
+                      className="form-input"
+                    />
                     <button
                       type="button"
                       className="randomize-name-btn"
-                      onClick={() => {
-                        const newName = getRandomCharacterName();
-                        setPlayerName(newName);
-                        playerNameRef.current = newName;
-                      }}
-                      title="Randomize player name"
+                      onClick={() => setRoomName(getRandomRoomName())}
+                      title="Randomize room name"
                       disabled={isConnecting}
                     >
                       <i className="fas fa-dice"></i>
                     </button>
+                  </div>
+                </div>
+
+                <div className="form-input-group">
+                  <label htmlFor="roomDescription">Description (Optional):</label>
+                  <textarea
+                    id="roomDescription"
+                    value={roomDescription}
+                    onChange={(e) => setRoomDescription(e.target.value)}
+                    placeholder="Describe your quest, rules, or setting for players joining..."
+                    autoComplete="off"
+                    disabled={isConnecting}
+                    maxLength={200}
+                    rows={4}
+                    className="form-input"
+                  />
+                </div>
+              </div>
+
+              <div className="create-col-right">
+                <div className="form-input-group password-toggle-group">
+                  <label className="password-toggle-label">
+                    <span className="password-toggle-text">
+                      <i className={usePasswordProtection ? 'fas fa-lock' : 'fas fa-lock-open'}></i>
+                      Password Protection
+                    </span>
+
+                    <div className="toggle-switch-container">
+                      <input
+                        type="checkbox"
+                        checked={usePasswordProtection}
+                        onChange={(e) => {
+                          setUsePasswordProtection(e.target.checked);
+                          if (!e.target.checked) {
+                            setRoomPassword('');
+                          }
+                        }}
+                        disabled={isConnecting}
+                        className="toggle-switch-input"
+                      />
+                      <span className="toggle-switch-slider"></span>
+                    </div>
+                  </label>
+                </div>
+
+                {usePasswordProtection && (
+                  <div className="form-input-group password-field">
+                    <label htmlFor="roomPassword">Room Password:</label>
+                    <input
+                      id="roomPassword"
+                      type="password"
+                      value={roomPassword}
+                      onChange={(e) => setRoomPassword(e.target.value)}
+                      placeholder="Enter password for room access"
+                      disabled={isConnecting}
+                      maxLength={50}
+                      className="form-input"
+                      autoFocus
+                      autoComplete="new-password"
+                    />
+                  </div>
+                )}
+
+                <div className="form-input-group permanent-toggle-group">
+                  <label className="permanent-toggle-label">
+                    <span className="permanent-toggle-text">
+                      <i className={makePermanent ? 'fas fa-save' : 'fas fa-undo'}></i>
+                      Permanent Room
+                    </span>
+                    <span className="toggle-hint">Saves state across restarts</span>
+                    <div className="toggle-switch-container">
+                      <input
+                        type="checkbox"
+                        checked={makePermanent}
+                        onChange={(e) => setMakePermanent(e.target.checked)}
+                        disabled={isConnecting}
+                        className="toggle-switch-input"
+                      />
+                      <span className="toggle-switch-slider"></span>
+                    </div>
+                  </label>
+                </div>
+
+                <div className="gm-info">
+                  <p><i className="fas fa-crown"></i> <strong>Game Master Mode:</strong> You will be the GM of this room with control over the board and tokens.</p>
+                  {isInParty && (
+                    <p><i className="fas fa-users"></i> <strong>Party Notice:</strong> {partyMembers.filter(m => m.id !== 'current-player').length} party member(s) will be automatically invited.</p>
                   )}
                 </div>
-                {(() => {
-                  const activeCharacter = getActiveCharacter();
-                  if (activeCharacter) {
-                    return (
-                      <div className="character-selected-notice">
-                        <i className="fas fa-user-check"></i>
-                        <span>Using character: {activeCharacter.name}</span>
-                      </div>
-                    );
-                  } else {
-                    return (
-                      <div className="no-character-notice">
-                        <i className="fas fa-exclamation-triangle"></i>
-                        <span>No champion chosen-visit Account → Characters to select one.</span>
-                      </div>
-                    );
-                  }
-                })()}
-              </div>
-            </div>
-            <div className="color-input-group">
-              <label htmlFor="playerColor">Chat Color:</label>
-              <div
-                className="color-picker-container premium-preview"
-                onClick={() => !isConnecting && colorInputRef.current?.click()}
-                title="Click to change your chat color"
-              >
-                <input
-                  id="playerColor"
-                  ref={colorInputRef}
-                  type="color"
-                  value={playerColor}
-                  onChange={(e) => setPlayerColor(e.target.value)}
-                  disabled={isConnecting}
-                  className="color-picker-hidden"
-                  style={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0 }}
-                />
-                <div
-                  className="color-preview-v2"
-                  style={{
-                    background: `linear-gradient(135deg, ${playerColor}, ${playerColor}dd)`,
-                    borderColor: playerColor,
-                    boxShadow: `0 4px 12px ${playerColor}44, inset 0 2px 4px rgba(255,255,255,0.3)`
-                  }}
-                >
-                  <span className="player-name-preview">
-                    {playerName || 'Your Name'}
-                  </span>
-                  <div className="color-edit-icon">
-                    <i className="fas fa-palette"></i>
-                  </div>
+
+                <div className="create-buttons">
+                  <button
+                    onClick={handleCreateRoom}
+                    disabled={isConnecting || !roomName.trim()}
+                    className="create-button"
+                  >
+                    <i className={isCreatingRoom ? 'fas fa-spinner fa-spin' : 'fas fa-magic'}></i>
+                    {isCreatingRoom ? 'Creating...' : 'Create Temporary Room'}
+                  </button>
+
+                  {isAuthenticated && (
+                    <button
+                      onClick={handleCreatePersistentRoom}
+                      disabled={isConnecting || !roomName.trim()}
+                      className="create-button persistent"
+                    >
+                      <i className={isCreatingRoom ? 'fas fa-spinner fa-spin' : 'fas fa-save'}></i>
+                      {isCreatingRoom ? 'Creating...' : 'Create Permanent Room'}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
 
-        <div className="lobby-tabs">
-          <button
-            className={`tab-button ${activeTab === 'join' ? 'active' : ''}`}
-            onClick={() => setActiveTab('join')}
-          >
-            Join Room
-          </button>
-          <button
-            className={`tab-button ${activeTab === 'create' ? 'active' : ''}`}
-            onClick={() => setActiveTab('create')}
-          >
-            Create Room
-          </button>
-          {isAuthenticated && (
-            <button
-              className={`tab-button ${activeTab === 'my-rooms' ? 'active' : ''}`}
-              onClick={() => setActiveTab('my-rooms')}
-            >
-              My Rooms
-            </button>
-          )}
-        </div>
-
-        <div className={`join-room-section ${activeTab !== 'join' ? 'hidden' : ''}`}>
-
-          <form className="manual-join" onSubmit={(e) => { e.preventDefault(); handleJoinRoom(); }}>
-            <div className="form-input-group">
-              <label htmlFor="roomId">Room ID:</label>
-              <input
-                id="roomId"
-                type="text"
-                value={roomId}
-                onChange={(e) => setRoomId(e.target.value)}
-                placeholder="Enter room ID"
-                autoComplete="off"
-                disabled={isConnecting}
-                className="form-input"
-              />
-            </div>
-
-            <div className="form-input-group">
-              <label htmlFor="joinPassword">Room Password (Optional):</label>
-              <div className="password-input-with-button">
-                <input
-                  id="joinPassword"
-                  type="password"
-                  value={joinPassword}
-                  onChange={(e) => setJoinPassword(e.target.value)}
-                  placeholder="Leave empty if room has no password"
-                  autoComplete="current-password"
-                  disabled={isConnecting}
-                  className="form-input"
-                />
-                <button
-                  type="submit"
-                  disabled={isConnecting || !playerNameRef.current.trim() || !roomId.trim()}
-                  className="join-button"
-                >
-                  {isConnecting ? 'Joining...' : 'Join'}
-                </button>
-              </div>
-            </div>
-          </form>
-
-          <div className="available-rooms">
-            <h3>Available Rooms</h3>
-            <button
-              onClick={fetchAvailableRooms}
-              className="refresh-button"
-              disabled={isConnecting}
-            >
-              Refresh
-            </button>
-
-            {availableRooms.length === 0 ? (
-              <div className="empty-rooms-message">
-                <div className="empty-rooms-icon">
-                  <i className="fas fa-dungeon"></i>
-                </div>
-                <h4>No Active Rooms</h4>
-                <p>The tavern stands empty. Be the first to light the hearth and gather your adventurers!</p>
-                <button
-                  className="create-room-prompt-btn"
-                  onClick={() => setActiveTab('create')}
-                >
-                  <i className="fas fa-plus-circle"></i>
-                  Create a Room
-                </button>
-              </div>
-            ) : (
-              <div className="room-card-modern-grid">
-                {availableRooms.map(room => (
-                  <div key={room.id} className="room-card-modern">
-                    <div className="room-card-modern-top">
-                      <div className="room-card-modern-title-section">
-                        <h3 className="room-card-modern-title">{room.name}</h3>
-                        <div className="room-card-modern-badge">
-                          <i className="fas fa-crown"></i>
-                          <span>GM: {room.gm}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="room-card-modern-stats">
-                      <div className="room-card-modern-stat">
-                        <div className={`room-card-modern-stat-icon ${room.gmOnline !== false ? 'status-online' : 'status-offline'}`}>
-                          <i className="fas fa-circle"></i>
-                        </div>
-                        <div className="room-card-modern-stat-content">
-                          <div className="room-card-modern-stat-label">Status</div>
-                          <div className="room-card-modern-stat-value">{room.gmOnline !== false ? 'Online' : 'Offline'}</div>
-                        </div>
-                      </div>
-                      <div className="room-card-modern-stat">
-                        <div className="room-card-modern-stat-icon">
-                          <i className="fas fa-users"></i>
-                        </div>
-                        <div className="room-card-modern-stat-content">
-                          <div className="room-card-modern-stat-label">Players</div>
-                          <div className="room-card-modern-stat-value">{room.playerCount} / {room.maxPlayers}</div>
-                        </div>
-                      </div>
-                      <div className="room-card-modern-stat">
-                        <div className="room-card-modern-stat-icon">
-                          <i className="fas fa-clock"></i>
-                        </div>
-                        <div className="room-card-modern-stat-content">
-                          <div className="room-card-modern-stat-label">Created</div>
-                          <div className="room-card-modern-stat-value">{(() => {
-                            const date = new Date(room.createdAt);
-                            if (isNaN(date.getTime())) return 'Unknown';
-                            const day = date.getDate();
-                            const ordinal = day === 1 || day === 21 || day === 31 ? 'st'
-                              : day === 2 || day === 22 ? 'nd'
-                                : day === 3 || day === 23 ? 'rd' : 'th';
-                            const month = date.toLocaleDateString('en-US', { month: 'long' });
-                            const time = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
-                            return `${day}${ordinal} of ${month} at ${time}`;
-                          })()}</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="room-card-modern-action">
-                      <button
-                        onClick={() => handleQuickJoin(room)}
-                        disabled={isConnecting || !playerNameRef.current.trim() || room.playerCount >= room.maxPlayers}
-                        className="room-card-modern-button"
-                        title={room.playerCount >= room.maxPlayers ? 'Room is full' : 'Join this room'}
-                      >
-                        <i className={room.playerCount >= room.maxPlayers ? 'fas fa-ban' : (isJoiningRoom ? 'fas fa-spinner fa-spin' : 'fas fa-play')}></i>
-                        {room.playerCount >= room.maxPlayers ? 'Room Full' : (isJoiningRoom ? 'Joining...' : 'Join Room')}
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className={`create-room-section ${activeTab !== 'create' ? 'hidden' : ''}`}>
-          <h3>Create New Room</h3>
-          <div className="form-input-group">
-            <label htmlFor="roomName">
-              Room Name:
-              <button
-                type="button"
-                onClick={refreshCharacterNames}
-                className="refresh-character-btn"
-                title="Use active character name"
-                disabled={isConnecting}
-              >
-                <i className="fas fa-sync-alt"></i>
-              </button>
-            </label>
-            <div className="relative-input-wrapper">
-              <input
-                id="roomName"
-                type="text"
-                value={roomName}
-                onChange={(e) => setRoomName(e.target.value)}
-                placeholder="Enter room name"
-                autoComplete="off"
-                disabled={isConnecting}
-                maxLength={30}
-                className="form-input"
-              />
-              <button
-                type="button"
-                className="randomize-name-btn"
-                onClick={() => setRoomName(getRandomRoomName())}
-                title="Randomize room name"
-                disabled={isConnecting}
-              >
-                <i className="fas fa-dice"></i>
-              </button>
-            </div>
-          </div>
-
-          <div className="form-input-group">
-            <label htmlFor="roomDescription">Description (Optional):</label>
-            <textarea
-              id="roomDescription"
-              value={roomDescription}
-              onChange={(e) => setRoomDescription(e.target.value)}
-              placeholder="Describe your campaign or session"
-              autoComplete="off"
-              disabled={isConnecting}
-              maxLength={200}
-              rows={3}
-              className="form-input"
-            />
-          </div>
-
-          <div className="form-input-group password-toggle-group">
-            <label className="password-toggle-label">
-              <span className="password-toggle-text">
-                <i className={usePasswordProtection ? 'fas fa-lock' : 'fas fa-lock-open'}></i>
-                Password Protection
-              </span>
-
-              <div className="toggle-switch-container">
-                <input
-                  type="checkbox"
-                  checked={usePasswordProtection}
-                  onChange={(e) => {
-                    setUsePasswordProtection(e.target.checked);
-                    if (!e.target.checked) {
-                      setRoomPassword(''); // Clear password when unchecked
-                    }
-                  }}
-                  disabled={isConnecting}
-                  className="toggle-switch-input"
-                />
-                <span className="toggle-switch-slider"></span>
-              </div>
-            </label>
-          </div>
-
-          <div className="form-input-group permanent-toggle-group">
-            <label className="permanent-toggle-label">
-              <span className="permanent-toggle-text">
-                <i className={makePermanent ? 'fas fa-save' : 'fas fa-undo'}></i>
-                Permanent Room
-              </span>
-              <span className="toggle-hint">Saves across server restarts</span>
-              <div className="toggle-switch-container">
-                <input
-                  type="checkbox"
-                  checked={makePermanent}
-                  onChange={(e) => setMakePermanent(e.target.checked)}
-                  disabled={isConnecting}
-                  className="toggle-switch-input"
-                />
-                <span className="toggle-switch-slider"></span>
-              </div>
-            </label>
-          </div>
-
-          {usePasswordProtection && (
-            <form
-              className="form-input-group password-field"
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (!isConnecting && roomName.trim()) {
-                  handleCreateRoom();
-                }
-              }}
-            >
-              <label htmlFor="roomPassword">Room Password:</label>
-              <input
-                id="roomPassword"
-                type="password"
-                value={roomPassword}
-                onChange={(e) => setRoomPassword(e.target.value)}
-                placeholder="Enter password for room access"
-                disabled={isConnecting}
-                maxLength={50}
-                className="form-input"
-                autoFocus
-                autoComplete="new-password"
-              />
-              <button type="submit" style={{ display: 'none' }} />
-            </form>
-          )}
-
-          <div className="create-buttons">
-            <button
-              onClick={handleCreateRoom}
-              disabled={isConnecting || !roomName.trim()}
-              className="create-button"
-            >
-              <i className={isCreatingRoom ? 'fas fa-spinner fa-spin' : 'fas fa-magic'}></i>
-              {isCreatingRoom ? 'Creating...' : 'Create Temporary Room'}
-            </button>
-
-            {isAuthenticated && (
-              <button
-                onClick={handleCreatePersistentRoom}
-                disabled={isConnecting || !roomName.trim()}
-                className="create-button persistent"
-              >
-                <i className={isCreatingRoom ? 'fas fa-spinner fa-spin' : 'fas fa-save'}></i>
-                {isCreatingRoom ? 'Creating...' : 'Create Permanent Room'}
-              </button>
-            )}
-          </div>
-
-          <div className="gm-info">
-            <p><strong>Note:</strong> You will be the Game Master (GM) of this room.</p>
-            <p>As GM, you have full control over the game state and can manage players.</p>
-            {usePasswordProtection && (
-              <p><strong>Password Protected:</strong> Players will need the password to join this room.</p>
-            )}
-            {!usePasswordProtection && (
-              <p><strong>Open Room:</strong> Anyone with the room code can join without a password.</p>
-            )}
-            {!isAuthenticated && (
-              <p><strong>Tip:</strong> Sign in to create Permanent Rooms that save your progress!</p>
-            )}
-          </div>
-        </div>
-
+        {/* MY ROOMS TAB */}
         {activeTab === 'my-rooms' && isAuthenticated && (
-          <div className={`my-rooms-section ${activeTab !== 'my-rooms' ? 'hidden' : ''}`}>
-            <h3>My Rooms</h3>
+          <div className="my-rooms-section">
+            <div className="my-rooms-header">
+              <h3>Saved Campaigns & Rooms</h3>
+            </div>
             {userRooms.length === 0 ? (
               <div className="no-rooms">
                 <i className="fas fa-dungeon"></i>
                 <h3>No Multiplayer Rooms Yet</h3>
-                <p>Create your first persistent room to start a campaign that saves your progress.</p>
+                <p>Create your first persistent room to start a campaign that saves your progress across sessions.</p>
+                <button className="create-room-prompt-btn" onClick={() => setActiveTab('create')}>
+                  <i className="fas fa-plus-circle"></i> Create Room
+                </button>
               </div>
             ) : (
               <div className="multiplayer-rooms-grid">
                 {userRooms.map(room => {
-                  const getRoleIcon = (role) => {
-                    return role === 'gm' ? 'fas fa-crown' : 'fas fa-user';
-                  };
-
-                  const getRoleColor = (role) => {
-                    return role === 'gm' ? '#FFD700' : '#506e30';
-                  };
+                  const getRoleIcon = (role) => role === 'gm' ? 'fas fa-crown' : 'fas fa-user';
+                  const getRoleColor = (role) => role === 'gm' ? '#FFD700' : '#506e30';
 
                   return (
                     <div key={room.id} className={`multiplayer-room-card ${room.isTestRoom ? 'test-room' : ''}`}>
