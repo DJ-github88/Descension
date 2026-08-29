@@ -75,7 +75,13 @@
 }
 
 .world-map-immersive.sidebar-open .map-controls-fixed {
-  transform: translateX(-360px);
+  transform: translateX(calc(-1 * clamp(390px, 32vw, 490px) - 16px));
+}
+
+@media (max-width: 1024px) {
+  .world-map-immersive.sidebar-open .map-controls-fixed {
+    transform: none;
+  }
 }
 
 .map-ctrl-group {
@@ -756,26 +762,27 @@
 /* Custom Map Editor Tabbed Workspace & Tools                                */
 /* ========================================================================= */
 .custom-map-tabs {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 4px;
+  display: flex;
+  gap: 6px;
   margin: 14px 0 16px;
   padding: 4px;
-  background: #e8dfcb;
-  border: 1px solid #c8b88a;
+  background: #f4ebd0;
+  border: 1px solid #d4c4a8;
   border-radius: 8px;
+  box-shadow: inset 0 1px 3px rgba(60, 35, 15, 0.08);
 }
 
 .custom-map-tab-btn {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  padding: 8px 4px;
+  padding: 8px 6px;
   border: 1px solid transparent;
   border-radius: 6px;
   background: transparent;
-  color: #6b1a1a;
+  color: #5c3e24;
   cursor: pointer;
   font-family: 'Cinzel', serif;
   font-size: 10px;
@@ -786,18 +793,29 @@
 
 .custom-map-tab-btn i {
   font-size: 13px;
+  color: #8c6b23;
+  transition: color 0.2s ease;
 }
 
 .custom-map-tab-btn:hover {
-  color: #8b2626;
-  background: rgba(139, 38, 38, 0.1);
+  color: #2b170c;
+  background: rgba(140, 107, 35, 0.12);
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+.custom-map-tab-btn:hover i {
+  color: #5c3e24;
 }
 
 .custom-map-tab-btn.active {
+  color: #ffffff;
+  background: linear-gradient(135deg, #8c6b23 0%, #5c3e24 100%);
+  border: 1px solid #c29d46;
+  box-shadow: 0 2px 8px rgba(60, 35, 15, 0.25);
+}
+
+.custom-map-tab-btn.active i {
   color: #fdfbf7;
-  background: linear-gradient(135deg, #8b2626 0%, #6b1a1a 100%);
-  border: 1px solid #c49a45;
-  box-shadow: 0 2px 8px rgba(139, 38, 38, 0.3);
 }
 
 /* Layer selector chips */
@@ -813,29 +831,29 @@
   align-items: center;
   gap: 8px;
   padding: 8px 10px;
-  border: 1.5px solid #c8b88a;
+  border: 1.5px solid #d4c4a8;
   border-radius: 6px;
-  background: #faf6ed;
-  color: #4a382c;
+  background: #fbf7ee;
+  color: #4a2f18;
   cursor: pointer;
   font-family: 'Cinzel', serif;
   font-size: 11px;
   font-weight: 700;
   transition: all 0.2s ease;
-  box-shadow: 0 1px 3px rgba(60, 40, 20, 0.05);
+  box-shadow: 0 1px 3px rgba(60, 35, 15, 0.05);
 }
 
 .layer-chip:hover {
-  border-color: #8b2626;
-  background: #f0e6d2;
-  color: #8b2626;
+  border-color: #c29d46;
+  background: #f5eedc;
+  color: #2b170c;
 }
 
 .layer-chip.active {
-  border-color: #c49a45;
-  background: linear-gradient(135deg, #8b2626 0%, #6b1a1a 100%);
+  border-color: #c29d46;
+  background: linear-gradient(135deg, #8c6b23 0%, #5c3e24 100%);
   color: #fdfbf7;
-  box-shadow: 0 2px 8px rgba(139, 38, 38, 0.3);
+  box-shadow: 0 2px 8px rgba(60, 35, 15, 0.25);
 }
 
 /* Location Category Tags Picker */
@@ -3941,10 +3959,7 @@
   color: rgba(240, 160, 160, 0.9);
 }
 
-/* Lore sidebar-open: shift everything left */
-.world-map-immersive.sidebar-open .map-controls-fixed {
-  transform: translateX(-360px);
-}
+/* Lore sidebar-open handled in main control block */
 
 
 .toolbar-btn {

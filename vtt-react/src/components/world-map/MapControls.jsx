@@ -9,7 +9,9 @@ const MapControls = ({
   onToggleDev,
   customMapMode,
   onToggleCustomMap,
-  canAccessCustomMaps
+  canAccessCustomMaps,
+  borderEnabled = true,
+  onToggleBorder
 }) => {
 
   return (
@@ -45,6 +47,17 @@ const MapControls = ({
           <i className="fas fa-compress"></i>
         </button>
       </div>
+
+      {onToggleBorder && (
+        <button
+          className={`map-ctrl-btn map-ctrl-border ${borderEnabled ? 'active' : ''}`}
+          onClick={onToggleBorder}
+          title={borderEnabled ? "Hide Burned Parchment Border" : "Show Burned Parchment Border"}
+          aria-label="Toggle burned parchment border"
+        >
+          <i className={borderEnabled ? "fas fa-scroll" : "fas fa-border-none"}></i>
+        </button>
+      )}
 
       {canAccessCustomMaps && (
         <button

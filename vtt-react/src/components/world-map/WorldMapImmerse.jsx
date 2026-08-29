@@ -88,15 +88,22 @@ try {
  console.warn('Could not restore cached subregion polygons:', e);
 }
 
+const LOCATION_COORDINATES_CACHE_VERSION = 'mythrill-clean-pins-v1';
 try {
- const cachedCoords = localStorage.getItem('mythrill_location_coordinates');
- if (cachedCoords) {
-  const parsed = JSON.parse(cachedCoords);
-  Object.keys(LOCATION_COORDINATES).forEach(key => delete LOCATION_COORDINATES[key]);
-  Object.assign(LOCATION_COORDINATES, parsed);
- }
+  if (localStorage.getItem('mythrill_location_coordinates_version') !== LOCATION_COORDINATES_CACHE_VERSION) {
+    localStorage.removeItem('mythrill_location_coordinates');
+    localStorage.setItem('mythrill_location_coordinates_version', LOCATION_COORDINATES_CACHE_VERSION);
+    Object.keys(LOCATION_COORDINATES).forEach(key => delete LOCATION_COORDINATES[key]);
+  } else {
+    const cachedCoords = localStorage.getItem('mythrill_location_coordinates');
+    if (cachedCoords) {
+      const parsed = JSON.parse(cachedCoords);
+      Object.keys(LOCATION_COORDINATES).forEach(key => delete LOCATION_COORDINATES[key]);
+      Object.assign(LOCATION_COORDINATES, parsed);
+    }
+  }
 } catch (e) {
- console.warn('Could not restore cached location coordinates:', e);
+  console.warn('Could not restore cached location coordinates:', e);
 }
 
 // Restore hand-drawn subregion polygons drawn on regional maps (regional 4096x3072 space)
@@ -170,6 +177,25 @@ const MAP_HEIGHT = 3072;
 const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTransform, initialMapId: propInitialMapId }) => {
   const [phase, setPhase] = useState('entering');
   const [showBorder, setShowBorder] = useState(false);
+  const [borderEnabled, setBorderEnabled] = useState(() => {
+    try {
+      const saved = localStorage.getItem('mythrill_map_border_enabled');
+      return saved !== null ? JSON.parse(saved) : true;
+    } catch {
+      return true;
+    }
+  });
+
+  const handleToggleBorder = useCallback(() => {
+    setBorderEnabled(prev => {
+      const next = !prev;
+      try {
+        localStorage.setItem('mythrill_map_border_enabled', JSON.stringify(next));
+      } catch {}
+      return next;
+    });
+  }, []);
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedRegionId, setSelectedRegionId] = useState(null);
   const [selectedLocationId, setSelectedLocationId] = useState(null);
@@ -1040,6 +1066,35 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
    }
    return;
   }
+
+  // Player Freehand Route / Stylus Trail Logic
+  if (activeTool === 'freehandRoute') {
+   if (!user?.uid) return;
+
+   if (playerDrawingPoints.length === 0) {
+    setPlayerDrawingPoints([coords]);
+   } else {
+    const last = playerDrawingPoints[playerDrawingPoints.length - 1];
+    const dist = Math.hypot(coords[0] - last[0], coords[1] - last[1]);
+
+    // Double click or close distance to finish trail
+    if (dist < 15 && playerDrawingPoints.length >= 2) {
+      addArea(user.uid, {
+        points: playerDrawingPoints,
+        title: 'Campaign Trail',
+        type: 'trail',
+        color: '#d4af37',
+        strokeWidth: 4,
+        status: 'active'
+      });
+      setPlayerDrawingPoints([]);
+      setActiveTool('none');
+    } else {
+      setPlayerDrawingPoints([...playerDrawingPoints, coords]);
+    }
+   }
+   return;
+  }
   
   // Default click outside closes sidebars
   setSidebarOpen(false);
@@ -1055,7 +1110,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
      setCursorPos(coords);
    } else if (devMode && devTool === 'drawRegion' && drawingPoints.length > 0) {
 setCursorPos(coords);
-} else if (activeTool === 'drawArea' && playerDrawingPoints.length > 0) {
+} else if ((activeTool === 'drawArea' || activeTool === 'freehandRoute') && playerDrawingPoints.length > 0) {
     setCursorPos(coords);
    }
    }, [customMapMode, customDrawingActive, customDrawingPoints, customEntryType, devMode, devTool, drawingPoints, activeTool, playerDrawingPoints]);
@@ -1277,7 +1332,7 @@ setCursorPos(coords);
 
   return (
    <div className={`world-map-immersive phase-${phase} ${sidebarOpen ? 'sidebar-open' : ''}`}>
-    <BurnedParchmentBorder visible={showBorder} />
+    <BurnedParchmentBorder visible={showBorder && borderEnabled} />
 
     {/* Subregion Breadcrumb Bar */}
     {activeMapId !== 'mythril' && (
@@ -1311,6 +1366,8 @@ setCursorPos(coords);
       activeMapId={activeMapId}
       targetZoomPoint={targetZoomPoint}
       onEnterSubregionMap={handleEnterSubregionMap}
+      borderEnabled={borderEnabled}
+      onToggleBorder={handleToggleBorder}
       devMode={devMode}
       devTool={devTool}
       currentRegion={currentRegion}
@@ -1431,20 +1488,6 @@ setCursorPos(coords);
        onSelectZone={(zoneId) => setSelectedCustomZoneId(zoneId)}
        currentCampaign={currentCampaign}
     />
-    )}
-
-    {/* Floating Toolbar Gated by Subscription Tier */}
-    {!customMapMode && tierInfo && tierInfo.tierKey !== 'GUEST' && (
-      <AnnotationToolbar
-        activeTool={activeTool}
-        setActiveTool={setActiveTool}
-        tierInfo={tierInfo}
-        pendingSharesCount={shares.length}
-        onOpenShares={() => setShowInbox(true)}
-        onOpenShareDialog={() => setShowShareDialog(true)}
-        selectedPinType={playerPinIconType}
-        setSelectedPinType={setPlayerPinIconType}
-      />
     )}
 
     {/* Detail Editor Popup */}

@@ -1,0 +1,324 @@
+/* =========================================================================
+   PATHFINDER BEIGE & LEATHER STYLUS DRAWING STUDIO
+   ========================================================================= */
+
+.stylus-canvas-container.pathfinder-theme {
+  display: flex;
+  flex-direction: column;
+  background: #fbf7ee;
+  border: 1.5px solid #d4c4a8;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(60, 35, 15, 0.12);
+  position: relative;
+  user-select: none;
+  font-family: inherit;
+  margin: 1.2rem 0;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stylus-canvas-container.pathfinder-theme:hover {
+  border-color: #c29d46;
+  box-shadow: 0 6px 22px rgba(60, 35, 15, 0.16);
+}
+
+/* Fullscreen Studio View */
+.stylus-canvas-container.pathfinder-theme.stylus-fullscreen-mode {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  border-radius: 0;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  box-shadow: none;
+}
+
+/* Header Banner */
+.stylus-canvas-container.pathfinder-theme .stylus-canvas-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(180deg, #f5eedc 0%, #ece2cb 100%);
+  padding: 0.45rem 0.85rem;
+  border-bottom: 1.5px solid #d8caa9;
+  color: #3d2614;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stylus-canvas-container.pathfinder-theme .header-icon {
+  color: #8c6b23;
+  font-size: 0.95rem;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-header-title {
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+  letter-spacing: 0.04em;
+  color: #2b170c;
+  text-transform: uppercase;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-active-badge {
+  background: rgba(21, 128, 61, 0.12);
+  color: #15803d;
+  border: 1px solid rgba(21, 128, 61, 0.3);
+  font-size: 0.72rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 600;
+  font-family: sans-serif;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-header-btn {
+  background: #fdfbf7;
+  border: 1px solid #c9b794;
+  color: #5c3e24;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-header-btn:hover:not(:disabled) {
+  background: #8c6b23;
+  color: #ffffff;
+  border-color: #6b5015;
+  transform: translateY(-1px);
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-header-btn.btn-danger:hover:not(:disabled) {
+  background: #991b1b;
+  color: #ffffff;
+  border-color: #7f1d1d;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-header-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-header-btn.active {
+  background: #8c6b23;
+  color: #ffffff;
+  border-color: #6b5015;
+  box-shadow: 0 0 6px rgba(140, 107, 35, 0.4);
+}
+
+/* Floating Stylus Toolbar */
+.stylus-canvas-container.pathfinder-theme .stylus-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  background: #f2e9d2;
+  padding: 0.35rem 0.7rem;
+  border-bottom: 1.5px solid #d8caa9;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-tool-group {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-tool-btn {
+  background: #fdfbf7;
+  border: 1px solid #c9b794;
+  color: #4a2f18;
+  width: 32px;
+  height: 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  padding: 0;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-tool-btn:hover {
+  background: #e8dbc0;
+  color: #1f140e;
+  border-color: #b59f77;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-tool-btn.active {
+  background: #8c6b23;
+  color: #ffffff;
+  border-color: #5c3e24;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25), 0 0 6px rgba(140, 107, 35, 0.4);
+  transform: translateY(1px);
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-toolbar-divider {
+  width: 1px;
+  height: 20px;
+  background: #cdbe9f;
+  margin: 0 0.15rem;
+}
+
+/* Color Swatches */
+.stylus-canvas-container.pathfinder-theme .stylus-color-group {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-swatch-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(60, 35, 15, 0.35);
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-swatch-btn:hover {
+  transform: scale(1.2);
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-swatch-btn.selected {
+  transform: scale(1.25);
+  border-color: #8c6b23;
+  box-shadow: 0 0 0 2px #fdfbf7, 0 0 6px rgba(140, 107, 35, 0.6);
+}
+
+/* Stroke Size Slider */
+.stylus-canvas-container.pathfinder-theme .stylus-size-group {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.stylus-canvas-container.pathfinder-theme .size-indicator-label {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #5c3e24;
+  min-width: 28px;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-size-slider {
+  width: 60px;
+  height: 4px;
+  accent-color: #8c6b23;
+  cursor: pointer;
+}
+
+/* Background Dropdown */
+.stylus-canvas-container.pathfinder-theme .stylus-bg-group {
+  margin-left: auto;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-bg-select {
+  background: #fdfbf7;
+  color: #3d2614;
+  border: 1px solid #c9b794;
+  border-radius: 4px;
+  padding: 0.25rem 0.45rem;
+  font-size: 0.78rem;
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-bg-select:focus {
+  outline: none;
+  border-color: #8c6b23;
+}
+
+/* Viewport & Textures */
+.stylus-canvas-container.pathfinder-theme .stylus-drawing-viewport {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-render-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-drawing-viewport.pattern-dots {
+  background-image: radial-gradient(#a38f73 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-drawing-viewport.pattern-grid {
+  background-image: 
+    linear-gradient(to right, rgba(139, 69, 19, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(139, 69, 19, 0.15) 1px, transparent 1px);
+  background-size: 25px 25px;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-drawing-viewport.pattern-blueprint-grid {
+  background-image: 
+    linear-gradient(to right, rgba(200, 220, 240, 0.2) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(200, 220, 240, 0.2) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Empty Hint Overlay */
+.stylus-canvas-container.pathfinder-theme .stylus-empty-hint {
+  position: absolute;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgba(92, 62, 36, 0.45);
+  text-align: center;
+  padding: 1rem;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-empty-hint i {
+  font-size: 1.8rem;
+  margin-bottom: 0.4rem;
+  color: rgba(140, 107, 35, 0.45);
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-empty-hint p {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0 0 0.2rem 0;
+  letter-spacing: 0.03em;
+  color: #4a2f18;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-empty-hint span {
+  font-size: 0.8rem;
+  max-width: 340px;
+  font-style: italic;
+}

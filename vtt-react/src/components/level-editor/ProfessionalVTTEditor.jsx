@@ -28,6 +28,8 @@ import { useEditorKeyboard } from './useEditorKeyboard';
 import './styles/ProfessionalVTTEditor.css';
 
 const ProfessionalVTTEditor = () => {
+    // eslint-disable-next-line no-console
+    console.log('[ed-render] ' + JSON.stringify({ n: (window.__edRenderN = (window.__edRenderN || 0) + 1), sel: window.useLevelEditorStore?.getState?.().selectedWallKey }));
     const [isOpen, setIsOpen] = useState(false);
     const [activeTab, setActiveTab] = useState('terrain');
     const [selectedTool, setSelectedTool] = useState('terrain_brush');
@@ -1320,11 +1322,13 @@ const ProfessionalVTTEditor = () => {
                     const selIsDoor = selWallType && selWallType.includes('door');
                     if (!selIsDoor) {
                         const pxPerGridUnit = (gridSize || 50) * (zoomLevel || 1) * (playerZoom || 1);
-                        // Grab radius matches the drawn handle in SCREEN pixels (~15px around
-                        // the circle), so what you can grab is exactly what you can see
-                        const endpointTol = 15 / (pxPerGridUnit || 50);
+                        // Grab radius enlarged to 28 screen pixels so the gold endpoint
+                        // handles are easy to click; matches the enlarged visual handles
+                        const endpointTol = 28 / (pxPerGridUnit || 50);
                         const d1 = Math.hypot(selClickX - ex1, selClickY - ey1);
                         const d2 = Math.hypot(selClickX - ex2, selClickY - ey2);
+                        // eslint-disable-next-line no-console
+                        console.log('[epcheck] ' + JSON.stringify({ selClickX: Math.round(selClickX * 100) / 100, selClickY: Math.round(selClickY * 100) / 100, ex1, ey1, ex2, ey2, tol: Math.round(endpointTol * 100) / 100, d1: Math.round(d1 * 100) / 100, d2: Math.round(d2 * 100) / 100 }));
                         if (d1 <= endpointTol || d2 <= endpointTol) {
                             dragWallRef.current = { x1: ex1, y1: ey1, x2: ex2, y2: ey2, key: selectedWallKey };
                             // Anchor = the endpoint that stays fixed; the grabbed one follows the mouse
@@ -1699,23 +1703,35 @@ const ProfessionalVTTEditor = () => {
                     if (validWallType !== toolSettings.selectedWallType) {
                         setToolSettings(prev => ({ ...prev, selectedWallType: validWallType }));
                     }
-                    // Track chain state for continuous mode: straight runs merge into a single
-                    // wall; a new segment is only started when the drag direction changes
+                    // Snap to nearest grid intersection (corner) for wall placement
+                    // Using Math.round instead of Math.floor so both X and Y advance
+                    // at tile centers, enabling clean diagonal walls across tiles
+                    const wdGs = gridSize || 50;
+                    const wdGox = gridOffsetX || 0;
+                    const wdGoy = gridOffsetY || 0;
+                    const wallStartGx = coords.worldX !== undefined
+                        ? Math.round((coords.worldX - wdGox) / wdGs)
+                        : coords.gridX;
+                    const wallStartGy = coords.worldY !== undefined
+                        ? Math.round((coords.worldY - wdGoy) / wdGs)
+                        : coords.gridY;
+                    // Track start and current endpoint for direct-line wall drawing
                     wallChainRef.current = {
-                        segStartX: coords.gridX,
-                        segStartY: coords.gridY,
-                        lastX: coords.gridX,
-                        lastY: coords.gridY,
+                        segStartX: wallStartGx,
+                        segStartY: wallStartGy,
+                        lastX: wallStartGx,
+                        lastY: wallStartGy,
                         dirX: null,
                         dirY: null,
                         wallType: validWallType,
                         committed: false
                     };
                     // Start drawing for both continuous and rectangle modes (+ live ghost preview)
+                    const wallStartCoord = { ...coords, gridX: wallStartGx, gridY: wallStartGy };
                     setIsCurrentlyDrawing(true);
                     setCurrentDrawingTool('wall_draw');
-                    setCurrentPath([coords]);
-                    setCurrentDrawingPath([coords]);
+                    setCurrentPath([wallStartCoord]);
+                    setCurrentDrawingPath([wallStartCoord]);
                 }
                 break;
             // Fog painting is handled above before this switch statement
@@ -1932,51 +1948,40 @@ const ProfessionalVTTEditor = () => {
                 // Continue wall drawing - update current path for real-time preview
                 const wallCoords = screenToGrid(e.clientX, e.clientY);
                 if (wallCoords && currentPath.length > 0) {
+                    // Snap to nearest grid intersection for wall placement
+                    // Using Math.round so both X and Y advance at tile midpoints,
+                    // enabling clean diagonal walls across tiles
+                    const wmGs = gridSize || 50;
+                    const wmGox = gridOffsetX || 0;
+                    const wmGoy = gridOffsetY || 0;
+                    const snapGx = wallCoords.worldX !== undefined
+                        ? Math.round((wallCoords.worldX - wmGox) / wmGs)
+                        : wallCoords.gridX;
+                    const snapGy = wallCoords.worldY !== undefined
+                        ? Math.round((wallCoords.worldY - wmGoy) / wmGs)
+                        : wallCoords.gridY;
+                    const snappedCoords = { ...wallCoords, gridX: snapGx, gridY: snapGy };
+
                     const wallMode = toolSettings.wallMode || 'continuous';
                     if (wallMode === 'rectangle') {
-                        // For rectangle mode, show rectangle preview
-                        const newPath = [currentPath[0], wallCoords];
+                        // For rectangle mode, show rectangle preview using snapped coords
+                        const newPath = [currentPath[0], snappedCoords];
                         setCurrentPath(newPath);
                         setCurrentDrawingPath(newPath);
                     } else if (wallChainRef.current) {
-                        // Continuous mode: merge straight runs into a single wall. A segment is
-                        // only committed when the drag direction CHANGES (corner); the current
-                        // straight run stays live as a ghost preview until mouseup commits it.
+                        // Direct-line mode: draw a straight wall from start to current cursor
+                        // Supports horizontal, vertical, AND diagonal walls
                         const chain = wallChainRef.current;
-                        const gx = wallCoords.gridX;
-                        const gy = wallCoords.gridY;
-                        if (gx !== chain.lastX || gy !== chain.lastY) {
-                            const ndx = Math.sign(gx - chain.lastX);
-                            const ndy = Math.sign(gy - chain.lastY);
-                            if (chain.dirX !== null && (ndx !== chain.dirX || ndy !== chain.dirY)) {
-                                // Direction changed: close out the previous straight run at the corner
-                                if (chain.segStartX !== chain.lastX || chain.segStartY !== chain.lastY) {
-                                    setWall(
-                                        chain.segStartX,
-                                        chain.segStartY,
-                                        chain.lastX,
-                                        chain.lastY,
-                                        chain.wallType,
-                                        activeMapIdRef.current
-                                    );
-                                    chain.committed = true;
-                                }
-                                chain.segStartX = chain.lastX;
-                                chain.segStartY = chain.lastY;
-                            }
-                            chain.dirX = ndx;
-                            chain.dirY = ndy;
-                            chain.lastX = gx;
-                            chain.lastY = gy;
-                        }
-                        // Ghost preview shows the current run from its start to the cursor
+                        chain.lastX = snapGx;
+                        chain.lastY = snapGy;
+                        // Ghost preview shows direct line from start to current position
                         setCurrentDrawingPath([
                             { gridX: chain.segStartX, gridY: chain.segStartY },
                             { gridX: chain.lastX, gridY: chain.lastY }
                         ]);
                     } else {
-                        // For continuous mode, show line from start to current position
-                        const newPath = [currentPath[0], wallCoords];
+                        // Fallback: show line from start to current position
+                        const newPath = [currentPath[0], snappedCoords];
                         setCurrentPath(newPath);
                         setCurrentDrawingPath(newPath);
                     }
@@ -1990,8 +1995,7 @@ const ProfessionalVTTEditor = () => {
                         const deltaX = moveCoords.gridX - lastDragPosRef.current.gridX;
                         const deltaY = moveCoords.gridY - lastDragPosRef.current.gridY;
 
-                        if (deltaX !== 0 || deltaY !== 0) {
-                            if (dragWindowRef.current) {
+                        if (dragWindowRef.current) {
                                 // Store latest mouse position for smooth dragging
                                 pendingWindowUpdateRef.current = {
                                     moveCoords,
@@ -2000,8 +2004,7 @@ const ProfessionalVTTEditor = () => {
                                     gridSize,
                                     findWallsNearPosition,
                                     moveWindowOverlay,
-                                    setSelectedWindow,
-                                    setWallDragStart
+                                    setSelectedWindow
                                 };
 
                                 // Chain RAF updates for smooth dragging - always use latest mouse position
@@ -2013,7 +2016,7 @@ const ProfessionalVTTEditor = () => {
                                             return;
                                         }
 
-                                        const { moveCoords, gridOffsetX, gridOffsetY, gridSize, findWallsNearPosition, moveWindowOverlay, setSelectedWindow, setWallDragStart } = update;
+                                        const { moveCoords, gridOffsetX, gridOffsetY, gridSize, findWallsNearPosition, moveWindowOverlay, setSelectedWindow } = update;
 
                                         // Always read fresh store state (prevents stale data inside RAF chain)
                                         const { wallData: freshWallData, windowOverlays: freshWindowOverlays } = useLevelEditorStore.getState();
@@ -2239,7 +2242,6 @@ const ProfessionalVTTEditor = () => {
                                             }
                                         };
                                         setSelectedWindow(newWindowData);
-                                        setWallDragStart({ gridX: moveCoords.gridX, gridY: moveCoords.gridY });
 
                                         // Continue RAF chain for smooth dragging - check for next update
                                         windowDragRafRef.current = requestAnimationFrame(updateWindowPosition);
@@ -2294,11 +2296,7 @@ const ProfessionalVTTEditor = () => {
                                     }
 
                                     lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
-                                    setWallDragStart({ gridX: moveCoords.gridX, gridY: moveCoords.gridY });
-                                    break;
-                                }
-
-                                if (isDoor) {
+                                } else if (isDoor) {
                                     // Store pending door update for RAF throttling (similar to windows)
                                     pendingDoorUpdateRef.current = {
                                         moveCoords,
@@ -2410,8 +2408,6 @@ const ProfessionalVTTEditor = () => {
                                             dragWallRef.current = { x1: newX1, y1: newY1, x2: newX2, y2: newY2, key: newKey };
                                             lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
 
-                                            setWallDragStart({ gridX: moveCoords.gridX, gridY: moveCoords.gridY });
-
                                             // Continue RAF chain
                                             doorDragRafRef.current = requestAnimationFrame(updateDoorPosition);
                                         };
@@ -2422,8 +2418,8 @@ const ProfessionalVTTEditor = () => {
 
                                     // Always update lastDragPos to track mouse movement
                                     lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
-                                } else {
-                                    // Regular wall - move freely by delta
+                                } else if (deltaX !== 0 || deltaY !== 0) {
+                                    // Regular wall - move freely by whole-tile delta (grid-snapped)
                                     const newX1 = x1 + deltaX;
                                     const newY1 = y1 + deltaY;
                                     const newX2 = x2 + deltaX;
@@ -2439,20 +2435,16 @@ const ProfessionalVTTEditor = () => {
                                     if (existingWall && newKey !== oldWallKey) {
                                         // Don't move - there's already a wall here
                                         lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
-                                        break;
+                                    } else {
+                                        moveWall(x1, y1, x2, y2, newX1, newY1, newX2, newY2, activeMapIdRef.current);
+
+                                        // Update ref for next drag event
+                                        dragWallRef.current = { x1: newX1, y1: newY1, x2: newX2, y2: newY2, key: newKey };
+                                        lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
                                     }
-
-                                    moveWall(x1, y1, x2, y2, newX1, newY1, newX2, newY2, activeMapIdRef.current);
-
-                                    // Update ref for next drag event
-                                    dragWallRef.current = { x1: newX1, y1: newY1, x2: newX2, y2: newY2, key: newKey };
-                                    lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
-
-                                    setWallDragStart({ gridX: moveCoords.gridX, gridY: moveCoords.gridY });
                                 }
                             }
                         }
-                    }
                 } else if (selectedWallKey) {
                     // Not dragging: show grab cursor when hovering the selected wall's endpoint handles
                     const hoverCoords = screenToGrid(e.clientX, e.clientY);
@@ -2461,7 +2453,7 @@ const ProfessionalVTTEditor = () => {
                         const hy = (hoverCoords.worldY - gridOffsetY) / gridSize;
                         const [hx1, hy1, hx2, hy2] = selectedWallKey.split(',').map(Number);
                         const hPxPerUnit = (gridSize || 50) * (zoomLevel || 1) * (playerZoom || 1);
-                        const hTol = 15 / (hPxPerUnit || 50);
+                        const hTol = 28 / (hPxPerUnit || 50);
                         const hovering = Math.hypot(hx - hx1, hy - hy1) <= hTol || Math.hypot(hx - hx2, hy - hy2) <= hTol;
                         setHandleHover(prev => (prev === hovering ? prev : hovering));
                     } else if (handleHover) {
@@ -2573,9 +2565,7 @@ const ProfessionalVTTEditor = () => {
         }
 
         // Handle wall placement separately from drawing paths
-        if (selectedTool === 'wall_draw' && currentPath.length === 2) {
-            const startPoint = currentPath[0];
-            const endPoint = currentPath[1];
+        if (selectedTool === 'wall_draw') {
             let wallType = toolSettings.selectedWallType || 'stone_wall';
             const wallTypeData = WALL_TYPES[wallType];
             // Ensure wall drawing never creates door/window objects
@@ -2585,8 +2575,8 @@ const ProfessionalVTTEditor = () => {
             const wallMode = toolSettings.wallMode || 'continuous';
 
             if (wallMode === 'continuous') {
-                // Continuous mode: commit the final straight run (corners were already
-                // committed live on direction changes)
+                // Direct-line mode: commit the wall from start to end point.
+                // Supports horizontal, vertical, and diagonal walls.
                 const chain = wallChainRef.current;
                 if (chain && (chain.segStartX !== chain.lastX || chain.segStartY !== chain.lastY)) {
                     setWall(
@@ -2598,8 +2588,10 @@ const ProfessionalVTTEditor = () => {
                         activeMapIdRef.current
                     );
                 }
-            } else if (wallMode === 'rectangle') {
+            } else if (wallMode === 'rectangle' && currentPath.length === 2) {
                 // Rectangle mode: place four walls
+                const startPoint = currentPath[0];
+                const endPoint = currentPath[1];
                 const gridSystem = getGridSystem();
                 const { gridType } = gridSystem.getGridState();
 

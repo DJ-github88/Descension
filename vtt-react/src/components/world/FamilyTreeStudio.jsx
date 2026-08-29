@@ -29,7 +29,7 @@ const SPOUSE_STATUSES = [
   { id: 'divorced', label: 'Divorced / Separated', desc: 'Former spouse, separated, or dissolved union', icon: 'fa-link-slash' }
 ];
 
-const FamilyTreeStudio = () => {
+const FamilyTreeStudio = ({ inline = false, onClose }) => {
   const { user } = useAuthStore();
   const {
     trees,
@@ -62,10 +62,11 @@ const FamilyTreeStudio = () => {
   } = useFamilyTreeStore();
 
   const { getAllLineages } = useCustomLineageStore();
-  const lineages = useMemo(() => getAllLineages(), [getAllLineages]);
+  const lineages = useMemo(() => (typeof getAllLineages === 'function' ? getAllLineages() : []) || [], [getAllLineages]);
 
   // Active Tree
   const activeTree = useMemo(() => {
+    if (!Array.isArray(trees) || trees.length === 0) return null;
     return trees.find(t => t.id === activeTreeId) || trees[0] || null;
   }, [trees, activeTreeId]);
 
@@ -99,17 +100,17 @@ const FamilyTreeStudio = () => {
 
   // Selected Member Object
   const selectedMember = useMemo(() => {
-    if (!activeTree || !selectedNodeId) return null;
+    if (!activeTree || !selectedNodeId || !Array.isArray(activeTree.nodes)) return null;
     return activeTree.nodes.find(n => n.id === selectedNodeId) || null;
   }, [activeTree, selectedNodeId]);
 
   // Filtered nodes based on search
   const searchedNodeIds = useMemo(() => {
-    if (!activeTree || !searchQuery.trim()) return new Set();
+    if (!activeTree || !searchQuery.trim() || !Array.isArray(activeTree.nodes)) return new Set();
     const q = searchQuery.toLowerCase().trim();
     const matches = activeTree.nodes.filter(
       n =>
-        n.name.toLowerCase().includes(q) ||
+        (n.name && n.name.toLowerCase().includes(q)) ||
         (n.title && n.title.toLowerCase().includes(q)) ||
         (n.role && n.role.toLowerCase().includes(q))
     );
@@ -164,8 +165,8 @@ const FamilyTreeStudio = () => {
     setSelectedNode(node.id);
     setDraggedNodeId(node.id);
 
-    const screenX = node.position.x * zoomLevel + panOffset.x;
-    const screenY = node.position.y * zoomLevel + panOffset.y;
+    const screenX = (node.position?.x ?? 0) * zoomLevel + panOffset.x;
+    const screenY = (node.position?.y ?? 0) * zoomLevel + panOffset.y;
 
     setDragOffset({
       x: e.clientX - screenX,
@@ -173,12 +174,42 @@ const FamilyTreeStudio = () => {
     });
   };
 
-  // Zoom Handler
-  const handleWheel = (e) => {
-    e.preventDefault();
-    const zoomFactor = e.deltaY < 0 ? 1.12 : 0.89;
-    setZoomLevel(prev => Math.min(2.5, Math.max(0.35, +(prev * zoomFactor).toFixed(2))));
-  };
+  // Native non-passive Wheel Zoom to Prevent Page Scrolling
+  useEffect(() => {
+    const el = canvasRef.current;
+    if (!el) return;
+
+    const handleNativeWheel = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const zoomFactor = e.deltaY < 0 ? 1.12 : 0.89;
+      const rect = el.getBoundingClientRect();
+      const cursorX = e.clientX - rect.left;
+      const cursorY = e.clientY - rect.top;
+
+      setZoomLevel((prevZoom) => {
+        const newZoom = Math.min(2.5, Math.max(0.35, +(prevZoom * zoomFactor).toFixed(2)));
+        if (newZoom === prevZoom) return prevZoom;
+
+        setPanOffset((prevPan) => {
+          const worldX = (cursorX - prevPan.x) / prevZoom;
+          const worldY = (cursorY - prevPan.y) / prevZoom;
+          return {
+            x: Math.round(cursorX - worldX * newZoom),
+            y: Math.round(cursorY - worldY * newZoom)
+          };
+        });
+
+        return newZoom;
+      });
+    };
+
+    el.addEventListener('wheel', handleNativeWheel, { passive: false });
+    return () => {
+      el.removeEventListener('wheel', handleNativeWheel);
+    };
+  }, [setZoomLevel, setPanOffset]);
 
   // Quick Member Form Submission
   const handleSaveMemberForm = (e) => {
@@ -300,28 +331,30 @@ const FamilyTreeStudio = () => {
 
   // Compute Generations
   const maxGenerationTier = useMemo(() => {
-    if (!activeTree || activeTree.nodes.length === 0) return 3;
-    const maxTier = Math.max(...activeTree.nodes.map(n => n.generationTier || 1));
+    if (!activeTree || !Array.isArray(activeTree.nodes) || activeTree.nodes.length === 0) return 3;
+    const maxTier = Math.max(...activeTree.nodes.map(n => n.generationTier || 1), 1);
     return Math.max(3, maxTier + 1);
   }, [activeTree]);
 
-  if (!isStudioOpen) return null;
+  if (!inline && !isStudioOpen) return null;
 
-  return ReactDOM.createPortal(
-    <div className="family-tree-studio-overlay">
+  const studioContent = (
+    <div className={`family-tree-studio-overlay ${inline ? 'inline-mode' : ''}`}>
       {/* Studio Header Toolbar */}
       <header className="family-tree-header">
         <div className="header-primary-row">
           <div className="header-left">
-            <button
-              type="button"
-              className="btn-studio-action btn-back-studio"
-              onClick={closeStudio}
-              title="Exit Family Tree Studio"
-            >
-              <i className="fas fa-arrow-left"></i>
-              <span className="btn-label">Exit</span>
-            </button>
+            {!inline && (
+              <button
+                type="button"
+                className="btn-studio-action btn-back-studio"
+                onClick={onClose || closeStudio}
+                title="Exit Family Tree Studio"
+              >
+                <i className="fas fa-arrow-left"></i>
+                <span className="btn-label">Exit</span>
+              </button>
+            )}
             <div className="header-icon-box" title="Dynasty Lineage Studio">
               <i className="fas fa-sitemap"></i>
             </div>
@@ -330,15 +363,15 @@ const FamilyTreeStudio = () => {
                 className="tree-select"
                 value={activeTree?.id || ''}
                 onChange={(e) => setActiveTree(e.target.value)}
-                disabled={trees.length === 0}
+                disabled={!Array.isArray(trees) || trees.length === 0}
                 title={activeTree ? activeTree.name : 'No dynasty selected'}
               >
-                {trees.length === 0 ? (
+                {!Array.isArray(trees) || trees.length === 0 ? (
                   <option value="">No Dynasty</option>
                 ) : (
                   trees.map(t => (
                     <option key={t.id} value={t.id}>
-                      {t.name} ({t.nodes.length} {t.nodes.length === 1 ? 'Member' : 'Members'})
+                      {t.name} ({(t.nodes || []).length} {(t.nodes || []).length === 1 ? 'Member' : 'Members'})
                     </option>
                   ))
                 )}
@@ -475,7 +508,6 @@ const FamilyTreeStudio = () => {
         className={`family-tree-canvas ${isPanning ? 'is-panning' : ''}`}
         ref={canvasRef}
         onMouseDown={handleCanvasMouseDown}
-        onWheel={handleWheel}
       >
         {/* Canvas World Container */}
         <div
@@ -537,17 +569,17 @@ const FamilyTreeStudio = () => {
 
           {/* SVG Relationship Connector Lines */}
           <svg className="family-tree-svg" style={{ overflow: 'visible' }}>
-            {activeTree && activeTree.relationships.map(rel => {
+            {activeTree && (activeTree.relationships || []).map(rel => {
               // 1. Marriage / Spouse Bridge Lines
               if (rel.type === 'spouse') {
-                const node1 = activeTree.nodes.find(n => n.id === rel.sourceId);
-                const node2 = activeTree.nodes.find(n => n.id === rel.targetId);
+                const node1 = (activeTree.nodes || []).find(n => n.id === (rel.sourceId || rel.fromId));
+                const node2 = (activeTree.nodes || []).find(n => n.id === (rel.targetId || rel.toId));
                 if (!node1 || !node2) return null;
 
-                const x1 = node1.position.x + 45;
-                const y1 = node1.position.y + 45;
-                const x2 = node2.position.x + 45;
-                const y2 = node2.position.y + 45;
+                const x1 = (node1.position?.x ?? 0) + 45;
+                const y1 = (node1.position?.y ?? 0) + 45;
+                const x2 = (node2.position?.x ?? 0) + 45;
+                const y2 = (node2.position?.y ?? 0) + 45;
                 const midX = (x1 + x2) / 2;
                 const midY = (y1 + y2) / 2;
 
@@ -566,22 +598,22 @@ const FamilyTreeStudio = () => {
 
               // 2. Parent-Child Vertical Drop Lines
               if (rel.type === 'parent_child') {
-                const parent1 = activeTree.nodes.find(n => n.id === rel.parentId1);
-                const parent2 = rel.parentId2 ? activeTree.nodes.find(n => n.id === rel.parentId2) : null;
-                const child = activeTree.nodes.find(n => n.id === rel.childId);
+                const parent1 = (activeTree.nodes || []).find(n => n.id === rel.parentId1);
+                const parent2 = rel.parentId2 ? (activeTree.nodes || []).find(n => n.id === rel.parentId2) : null;
+                const child = (activeTree.nodes || []).find(n => n.id === rel.childId);
                 if (!parent1 || !child) return null;
 
-                let startX = parent1.position.x + 45;
-                let startY = parent1.position.y + 45;
+                let startX = (parent1.position?.x ?? 0) + 45;
+                let startY = (parent1.position?.y ?? 0) + 45;
 
                 // If two parents, drop from marriage midpoint
                 if (parent2) {
-                  startX = (parent1.position.x + parent2.position.x) / 2 + 45;
-                  startY = (parent1.position.y + parent2.position.y) / 2 + 45;
+                  startX = ((parent1.position?.x ?? 0) + (parent2.position?.x ?? 0)) / 2 + 45;
+                  startY = ((parent1.position?.y ?? 0) + (parent2.position?.y ?? 0)) / 2 + 45;
                 }
 
-                const endX = child.position.x + 45;
-                const endY = child.position.y + 45;
+                const endX = (child.position?.x ?? 0) + 45;
+                const endY = (child.position?.y ?? 0) + 45;
                 const midY = startY + (endY - startY) * 0.55;
 
                 // Stepped hierarchical path
@@ -603,18 +635,20 @@ const FamilyTreeStudio = () => {
           </svg>
 
           {/* Member Node Tokens */}
-          {activeTree && activeTree.nodes.map(node => {
+          {activeTree && (activeTree.nodes || []).map((node, nodeIdx) => {
             const isSelected = selectedNodeId === node.id;
             const isSearched = searchedNodeIds.has(node.id);
-            const lineage = lineages.find(l => l.id === node.lineageId);
+            const lineage = (lineages || []).find(l => l.id === node.lineageId);
+            const posX = node.position?.x ?? ((nodeIdx % 4) * 220 + 200);
+            const posY = node.position?.y ?? (Math.floor(nodeIdx / 4) * 200 + 120);
 
             return (
               <div
                 key={node.id}
                 className={`family-tree-node ${isSelected ? 'is-selected' : ''} ${isSearched ? 'is-highlighted' : ''} ${node.isDeceased ? 'is-deceased' : ''}`}
                 style={{
-                  left: `${node.position.x}px`,
-                  top: `${node.position.y}px`
+                  left: `${posX}px`,
+                  top: `${posY}px`
                 }}
                 onMouseDown={(e) => handleNodeMouseDown(e, node)}
                 onDoubleClick={() => openMemberEditor(node)}
@@ -1278,9 +1312,14 @@ const FamilyTreeStudio = () => {
           </div>
         </div>
       )}
-    </div>,
-    document.body
+    </div>
   );
+
+  if (inline) {
+    return studioContent;
+  }
+
+  return ReactDOM.createPortal(studioContent, document.body);
 };
 
 export default FamilyTreeStudio;

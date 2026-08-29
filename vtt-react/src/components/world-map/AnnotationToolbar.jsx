@@ -76,6 +76,22 @@ const AnnotationToolbar = ({
             {!canDrawArea && <i className="fas fa-lock lock-icon"></i>}
           </button>
 
+          <button
+            className={`toolbar-btn ${activeTool === 'freehandRoute' ? 'active' : ''} ${!canDrawArea ? 'locked' : ''}`}
+            onClick={() => {
+              if (!canDrawArea) {
+                notify('Dungeon Master tier or higher is required to draw stylus trails.', 'warning');
+                return;
+              }
+              setActiveTool(activeTool === 'freehandRoute' ? 'none' : 'freehandRoute');
+            }}
+            title={canDrawArea ? "Draw freehand expedition trail with Apple Pencil / Stylus" : "Stylus Trails (Locked - DM/Archmage required)"}
+          >
+            <i className="fas fa-pen-nib"></i>
+            <span>Stylus Trail</span>
+            {!canDrawArea && <i className="fas fa-lock lock-icon"></i>}
+          </button>
+
           {activeTool === 'placePin' && (
             <div className="toolbar-sub-section pin-selector-container">
               <div className="pin-type-selector">
@@ -97,6 +113,13 @@ const AnnotationToolbar = ({
             <div className="toolbar-sub-section drawing-info-alert">
               <i className="fas fa-info-circle"></i>
               <span>Click map to add points. Click near first point to close.</span>
+            </div>
+          )}
+
+          {activeTool === 'freehandRoute' && (
+            <div className="toolbar-sub-section drawing-info-alert">
+              <i className="fas fa-pen-fancy"></i>
+              <span>Drag or use Apple Pencil to draw freehand campaign trails and rivers.</span>
             </div>
           )}
 

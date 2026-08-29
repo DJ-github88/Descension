@@ -25,6 +25,7 @@ import { SPELL_DAMAGE_TYPES, getDamageType } from '../../data/damageTypes';
 import RichLoreText from '../common/RichLoreText';
 import CodexLoreEditor from '../common/CodexLoreEditor';
 import RichCampaignEditor from '../common/RichCampaignEditor';
+import ErrorBoundary from '../common/ErrorBoundary';
 import CustomLineageWizard from '../world/CustomLineageWizard';
 import useCustomLineageStore from '../../store/customLineageStore';
 import { RACE_DATA } from '../../data/raceData';
@@ -34,6 +35,7 @@ import FamilyTreeStudio from '../world/FamilyTreeStudio';
 import useFamilyTreeStore from '../../store/familyTreeStore';
 import InteractiveMapStudio from '../world-map/InteractiveMapStudio';
 import useInteractiveMapStore from '../../store/interactiveMapStore';
+import PlotConspiracyBoard from './PlotConspiracyBoard';
 import { getIconUrl, getCreatureTokenIconUrl, getCustomIconUrl, getWowIconUrl } from '../../utils/assetManager';
 
 // Access control configuration - can be modified to restrict access by subscription tier
@@ -1586,6 +1588,7 @@ const CampaignManager = ({ user }) => {
     { id: 'locations', label: 'Locations', icon: 'fa-map-marker-alt' },
     { id: 'quests', label: 'Quests', icon: 'fa-scroll' },
     { id: 'plots', label: 'Plot Threads', icon: 'fa-project-diagram' },
+    { id: 'dynasties', label: 'Dynasty Trees', icon: 'fa-crown' },
     { id: 'homebrew', label: 'Homebrew', icon: 'fa-flask' }
   ];
 
@@ -4335,37 +4338,57 @@ const CampaignManager = ({ user }) => {
                     type="button"
                     className={`plot-view-btn ${plotViewMode === 'timeline' ? 'active' : ''}`}
                     onClick={() => setPlotViewMode('timeline')}
-                    title="Interactive Thread Flow & Storyline Spine"
+                    title="Interactive Thread Flow & Storyline Progression"
                   >
                     <i className="fas fa-timeline"></i> Thread Flow
                   </button>
                   <button
                     type="button"
+                    className={`plot-view-btn ${plotViewMode === 'corkboard' ? 'active' : ''}`}
+                    onClick={() => setPlotViewMode('corkboard')}
+                    title="Story Web & Investigation Pinboard"
+                  >
+                    <i className="fas fa-network-wired"></i> Story Web
+                  </button>
+                  <button
+                    type="button"
                     className={`plot-view-btn ${plotViewMode === 'cards' ? 'active' : ''}`}
                     onClick={() => setPlotViewMode('cards')}
-                    title="Chronicle Cards & Entity Dossier"
+                    title="Dossier Cards & Entity Breakdown"
                   >
-                    <i className="fas fa-address-card"></i> Cards View
+                    <i className="fas fa-address-card"></i> Dossier Cards
                   </button>
                   <button
                     type="button"
                     className={`plot-view-btn ${plotViewMode === 'matrix' ? 'active' : ''}`}
                     onClick={() => setPlotViewMode('matrix')}
-                    title="Story Connection Matrix"
+                    title="High-level Matrix Overview"
                   >
-                    <i className="fas fa-table-cells"></i> Story Matrix
+                    <i className="fas fa-table-cells"></i> Matrix Overview
                   </button>
                 </div>
 
                 <div className="plot-filter-group">
-                  <input
-                    type="text"
-                    placeholder="Search plot threads..."
-                    value={plotSearchQuery}
-                    onChange={(e) => setPlotSearchQuery(e.target.value)}
-                    className="plot-filter-select"
-                    style={{ minWidth: '160px' }}
-                  />
+                  <div className="plot-search-box">
+                    <i className="fas fa-search plot-search-icon"></i>
+                    <input
+                      type="text"
+                      placeholder="Search plot threads..."
+                      value={plotSearchQuery}
+                      onChange={(e) => setPlotSearchQuery(e.target.value)}
+                      className="plot-search-input"
+                    />
+                    {plotSearchQuery && (
+                      <button
+                        type="button"
+                        className="plot-search-clear"
+                        onClick={() => setPlotSearchQuery('')}
+                        title="Clear search"
+                      >
+                        <i className="fas fa-times"></i>
+                      </button>
+                    )}
+                  </div>
                   <select
                     value={plotFilterType}
                     onChange={(e) => setPlotFilterType(e.target.value)}
@@ -4393,14 +4416,28 @@ const CampaignManager = ({ user }) => {
                     <select
                       value={selectedTimelinePlotId}
                       onChange={(e) => setSelectedTimelinePlotId(e.target.value)}
-                      className="plot-filter-select"
-                      style={{ borderStyle: 'dashed', borderColor: '#d4af37' }}
+                      className="plot-filter-select focus-thread-select"
                     >
                       <option value="all">View All Threads</option>
                       {(campaignData.plotThreads || []).map(p => (
                         <option key={p.id} value={p.id}>{p.title}</option>
                       ))}
                     </select>
+                  )}
+                  {(plotSearchQuery || plotFilterType !== 'all' || plotFilterStatus !== 'all' || (selectedTimelinePlotId && selectedTimelinePlotId !== 'all')) && (
+                    <button
+                      type="button"
+                      className="plot-filter-reset-btn"
+                      onClick={() => {
+                        setPlotSearchQuery('');
+                        setPlotFilterType('all');
+                        setPlotFilterStatus('all');
+                        setSelectedTimelinePlotId('all');
+                      }}
+                      title="Reset all filters"
+                    >
+                      <i className="fas fa-undo"></i> Reset
+                    </button>
                   )}
                 </div>
               </div>
@@ -5351,9 +5388,38 @@ const CampaignManager = ({ user }) => {
                   </table>
                 </div>
               )}
+
+              {/* ============ VIEW 4: CONSPIRACY CORKBOARD (PEPE SILVIA RED YARN WEB) ============ */}
+              {plotViewMode === 'corkboard' && (
+                <PlotConspiracyBoard
+                  campaignData={campaignData}
+                  updateCampaignData={updateCampaignData}
+                  onOpenEntity={(entityNode) => {
+                    if (entityNode.entityType === 'plot') {
+                      setSelectedTimelinePlotId(entityNode.entityId);
+                      setPlotViewMode('timeline');
+                    } else if (entityNode.entityType === 'npc') {
+                      setActiveSection('npcs');
+                    } else if (entityNode.entityType === 'quest') {
+                      setActiveSection('quests');
+                    } else if (entityNode.entityType === 'location') {
+                      setActiveSection('locations');
+                    }
+                  }}
+                />
+              )}
             </div>
           );
         })()}
+
+        {/* ============ DYNASTY TREES ============ */}
+        {activeSection === 'dynasties' && (
+          <div className="dynasty-trees-campaign-container" style={{ height: 'calc(100vh - 200px)', minHeight: '620px', width: '100%', position: 'relative' }}>
+            <ErrorBoundary name="DynastyTreesStudio">
+              <FamilyTreeStudio inline={true} />
+            </ErrorBoundary>
+          </div>
+        )}
 
         {/* ============ HOMEBREW ============ */}
         {activeSection === 'homebrew' && (

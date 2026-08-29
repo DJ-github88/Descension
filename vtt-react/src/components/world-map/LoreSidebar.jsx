@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import useWorldStore from '../../store/worldStore';
 import { getEnrichedZone } from '../../data/deepLocationData';
 import { LOCATION_COORDINATES } from '../../data/locationCoordinates';
@@ -49,6 +49,16 @@ const categorize = (loc) => {
   return 'civic';
 };
 
+const getSubregionIcon = (subId = '') => {
+  const s = String(subId || '').toLowerCase();
+  if (s.includes('glacier') || s.includes('peak') || s.includes('mountain') || s.includes('spire') || s.includes('crag') || s.includes('height')) return 'fa-mountain-sun';
+  if (s.includes('coast') || s.includes('fjord') || s.includes('sea') || s.includes('mere') || s.includes('bayou') || s.includes('water') || s.includes('estuary') || s.includes('port') || s.includes('drown')) return 'fa-water';
+  if (s.includes('waste') || s.includes('frost') || s.includes('ice') || s.includes('tundra') || s.includes('cold') || s.includes('snow')) return 'fa-snowflake';
+  if (s.includes('ash') || s.includes('cinder') || s.includes('ember') || s.includes('volcano') || s.includes('forge') || s.includes('sun') || s.includes('fire')) return 'fa-fire';
+  if (s.includes('forest') || s.includes('grove') || s.includes('fen') || s.includes('vale') || s.includes('wood') || s.includes('pine') || s.includes('green')) return 'fa-tree';
+  return 'fa-compass';
+};
+
 const FILTER_CHIPS = [{ id: 'all', label: 'All Categories', shortLabel: 'All', icon: 'fa-layer-group' }, ...CATEGORIES];
 
 const LoreSidebar = ({
@@ -63,7 +73,10 @@ const LoreSidebar = ({
   const { getRegion } = useWorldStore();
   const [expandedLocation, setExpandedLocation] = useState(null);
   const [collapsedGroups, setCollapsedGroups] = useState(() => new Set());
+  const [collapsedSubrealmGroups, setCollapsedSubrealmGroups] = useState(() => new Set());
   const [activeFilter, setActiveFilter] = useState('all');
+  const [activeSubregionFilter, setActiveSubregionFilter] = useState('all');
+  const [groupBy, setGroupBy] = useState('category'); // 'category' | 'subrealm'
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('locations'); // 'locations' | 'subregions' | 'overview'
@@ -80,6 +93,12 @@ const LoreSidebar = ({
       next.clear();
       return next;
     });
+    setCollapsedSubrealmGroups((prev) => {
+      if (!prev.size) return prev;
+      const next = new Set(prev);
+      next.clear();
+      return next;
+    });
     const timer = setTimeout(() => {
       const el = document.getElementById(`lore-loc-${selectedLocationId}`);
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -90,9 +109,11 @@ const LoreSidebar = ({
   // Reset transient views when switching regions.
   useEffect(() => {
     setActiveFilter('all');
+    setActiveSubregionFilter('all');
     setHoveredCategory(null);
     setSearchTerm('');
     setCollapsedGroups(new Set());
+    setCollapsedSubrealmGroups(new Set());
     setMobileMinimized(false);
   }, [regionId]);
 
@@ -118,6 +139,27 @@ const LoreSidebar = ({
   }, [regionId, subregionObj, parentRegion, getRegion]);
 
   const regionAccent = REGION_POLYGONS[regionId]?.glowColor || (subregionObj ? 'rgba(212, 175, 55, 0.9)' : 'rgba(139, 38, 38, 0.85)');
+
+  const subregionsList = useMemo(() => {
+    if (subregionObj) {
+      return getSubregionsByRegion(subregionObj.regionId);
+    }
+    return getSubregionsByRegion(regionId);
+  }, [regionId, subregionObj]);
+
+  // Resolve which subregion a location belongs to
+  const getSubregionForLoc = useCallback((locId, locSubregionId) => {
+    if (locSubregionId && SUBREGIONS[locSubregionId]) {
+      return SUBREGIONS[locSubregionId];
+    }
+    const zone = ZONE_DATA.find((z) => z.id === locId);
+    if (zone?.subregionId && SUBREGIONS[zone.subregionId]) {
+      return SUBREGIONS[zone.subregionId];
+    }
+    const found = subregionsList.find((sub) => sub.zoneIds && sub.zoneIds.includes(locId));
+    if (found) return found;
+    return null;
+  }, [subregionsList]);
 
   // Resolve placed pins for this region or subregion into enriched location objects.
   const enrichedLocations = useMemo(() => {
@@ -206,18 +248,39 @@ const LoreSidebar = ({
     return counts;
   }, [enrichedLocations]);
 
-  // Apply search + category filter.
+  // Aggregate subregion counts.
+  const subregionCounts = useMemo(() => {
+    const counts = {};
+    subregionsList.forEach((sub) => { counts[sub.id] = 0; });
+    counts['other'] = 0;
+    enrichedLocations.forEach((loc) => {
+      const sub = getSubregionForLoc(loc.id, loc.subregionId);
+      if (sub && counts[sub.id] !== undefined) counts[sub.id] += 1;
+      else counts['other'] += 1;
+    });
+    return counts;
+  }, [enrichedLocations, subregionsList, getSubregionForLoc]);
+
+  // Apply search + category filter + subregion filter.
   const filteredLocations = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
     return enrichedLocations.filter((loc) => {
       if (activeFilter !== 'all' && categorize(loc.type) !== activeFilter) return false;
+      if (activeSubregionFilter !== 'all') {
+        const sub = getSubregionForLoc(loc.id, loc.subregionId);
+        if (activeSubregionFilter === 'other') {
+          if (sub) return false;
+        } else if (!sub || sub.id !== activeSubregionFilter) {
+          return false;
+        }
+      }
       if (term) {
         const hay = `${loc.name} ${loc.type} ${loc.description || ''}`.toLowerCase();
         if (!hay.includes(term)) return false;
       }
       return true;
     });
-  }, [enrichedLocations, activeFilter, searchTerm]);
+  }, [enrichedLocations, activeFilter, activeSubregionFilter, searchTerm, getSubregionForLoc]);
 
   // Aggregate region overview stats.
   const stats = useMemo(() => {
@@ -228,13 +291,6 @@ const LoreSidebar = ({
       major: major ? major.name : null
     };
   }, [enrichedLocations]);
-
-  const subregionsList = useMemo(() => {
-    if (subregionObj) {
-      return getSubregionsByRegion(subregionObj.regionId);
-    }
-    return getSubregionsByRegion(regionId);
-  }, [regionId, subregionObj]);
 
   // If closed or no region, do not render.
   if (!open || !regionId) return null;
@@ -248,13 +304,32 @@ const LoreSidebar = ({
     });
   };
 
+  const toggleSubrealmGroup = (subId) => {
+    setCollapsedSubrealmGroups((prev) => {
+      const next = new Set(prev);
+      if (next.has(subId)) next.delete(subId);
+      else next.add(subId);
+      return next;
+    });
+  };
+
   const toggleAllGroups = () => {
-    const allCatIds = CATEGORIES.map((c) => c.id);
-    const areAllCollapsed = allCatIds.every((id) => collapsedGroups.has(id));
-    if (areAllCollapsed) {
-      setCollapsedGroups(new Set());
+    if (groupBy === 'category') {
+      const allCatIds = CATEGORIES.map((c) => c.id);
+      const areAllCollapsed = allCatIds.every((id) => collapsedGroups.has(id));
+      if (areAllCollapsed) {
+        setCollapsedGroups(new Set());
+      } else {
+        setCollapsedGroups(new Set(allCatIds));
+      }
     } else {
-      setCollapsedGroups(new Set(allCatIds));
+      const allSubIds = [...subregionsList.map((s) => s.id), 'other'];
+      const areAllCollapsed = allSubIds.every((id) => collapsedSubrealmGroups.has(id));
+      if (areAllCollapsed) {
+        setCollapsedSubrealmGroups(new Set());
+      } else {
+        setCollapsedSubrealmGroups(new Set(allSubIds));
+      }
     }
   };
 
@@ -428,7 +503,16 @@ const LoreSidebar = ({
   };
 
   return (
-    <div className={`lore-sidebar ${open ? 'open' : ''} ${mobileMinimized ? 'minimized' : ''}`} ref={containerRef}>
+    <>
+      {/* Responsive Backdrop for Mobile & Tablet */}
+      {open && (
+        <div
+          className="lore-sidebar-backdrop"
+          onClick={onClose}
+          aria-hidden="true"
+        />
+      )}
+      <div className={`lore-sidebar ${open ? 'open' : ''} ${mobileMinimized ? 'minimized' : ''}`} ref={containerRef}>
       {/* Mobile Drawer Header & Controls */}
       <div className="lore-mobile-handle-bar">
         <button
@@ -502,14 +586,8 @@ const LoreSidebar = ({
                   </div>
                   <div className="lore-subregions-btn-grid">
                     {subregionsList.map((sub) => {
-                      const icon = sub.id === 'nordhalla-glacier-heart'
-                        ? 'fa-mountain-sun'
-                        : sub.id === 'nordhalla-fjord-coast'
-                        ? 'fa-water'
-                        : sub.id === 'nordhalla-frostfang-wastes'
-                        ? 'fa-snowflake'
-                        : 'fa-compass';
-                      const locCount = sub.zoneIds?.length || 0;
+                      const icon = getSubregionIcon(sub.id);
+                      const locCount = subregionCounts[sub.id] || sub.zoneIds?.length || 0;
 
                       return (
                         <button
@@ -677,7 +755,6 @@ const LoreSidebar = ({
                               aria-label={`${chip.label} (${count})`}
                             >
                               <i className={`fas ${chip.icon}`} />
-                              {count > 0 && <span className="lore-dock-micro-dot" />}
                             </button>
                           </div>
                         );
@@ -716,61 +793,248 @@ const LoreSidebar = ({
                       )}
                     </div>
                   </div>
+
+                  {/* Subrealm Filter Chips (Visible when subrealms exist) */}
+                  {subregionsList.length > 0 && (
+                    <div className="lore-subrealm-filter-container">
+                      <div className="lore-subrealm-filter-header">
+                        <span className="subrealm-filter-title">
+                          <i className="fas fa-compass" /> Subrealm:
+                        </span>
+                        {activeSubregionFilter !== 'all' && (
+                          <button
+                            type="button"
+                            className="subrealm-filter-clear"
+                            onClick={() => setActiveSubregionFilter('all')}
+                          >
+                            <i className="fas fa-times" /> Show All
+                          </button>
+                        )}
+                      </div>
+                      <div className="lore-subrealm-filter-strip" role="tablist" aria-label="Filter locations by subrealm">
+                        <button
+                          type="button"
+                          className={`lore-subrealm-chip ${activeSubregionFilter === 'all' ? 'active' : ''}`}
+                          onClick={() => setActiveSubregionFilter('all')}
+                        >
+                          <i className="fas fa-globe" />
+                          <span className="chip-name">All Subrealms</span>
+                          <span className="chip-count">{enrichedLocations.length}</span>
+                        </button>
+                        {subregionsList.map((sub) => {
+                          const count = subregionCounts[sub.id] || 0;
+                          const isActive = activeSubregionFilter === sub.id;
+                          return (
+                            <button
+                              key={sub.id}
+                              type="button"
+                              className={`lore-subrealm-chip ${isActive ? 'active' : ''}`}
+                              onClick={() => setActiveSubregionFilter(isActive ? 'all' : sub.id)}
+                              title={`Filter to ${sub.name} (${count} locations)`}
+                            >
+                              <i className={`fas ${getSubregionIcon(sub.id)}`} />
+                              <span className="chip-name">{sub.name}</span>
+                              <span className="chip-count">{count}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                {/* List Summary & Collapse/Expand Toggle */}
+                {/* List Summary & Sectioning Mode Switch & Collapse/Expand Toggle */}
                 <div className="lore-list-header-row">
-                  <span className="lore-list-count-text">
-                    Showing <strong>{filteredLocations.length}</strong> of {stats.total} locations
-                  </span>
-                  <button
-                    type="button"
-                    className="lore-toggle-all-btn"
-                    onClick={toggleAllGroups}
-                    title="Toggle expand / collapse all groups"
-                  >
-                    <i className="fas fa-arrows-up-down" /> Toggle All
-                  </button>
+                  <div className="lore-list-count-badge">
+                    <span className="lore-list-count-text">
+                      Showing <strong>{filteredLocations.length}</strong> of {stats.total} locations
+                    </span>
+                  </div>
+
+                  <div className="lore-sectioning-control-wrap">
+                    {subregionsList.length > 0 && (
+                      <div className="lore-sectioning-toggle-group" role="group" aria-label="Section locations by">
+                        <span className="sectioning-label">Section by:</span>
+                        <button
+                          type="button"
+                          className={`sectioning-btn ${groupBy === 'category' ? 'active' : ''}`}
+                          onClick={() => setGroupBy('category')}
+                          title="Section locations by stronghold category"
+                        >
+                          <i className="fas fa-layer-group" /> Categories
+                        </button>
+                        <button
+                          type="button"
+                          className={`sectioning-btn ${groupBy === 'subrealm' ? 'active' : ''}`}
+                          onClick={() => setGroupBy('subrealm')}
+                          title="Section locations by subrealm geography"
+                        >
+                          <i className="fas fa-compass" /> Subrealms
+                        </button>
+                      </div>
+                    )}
+
+                    <button
+                      type="button"
+                      className="lore-toggle-all-btn"
+                      onClick={toggleAllGroups}
+                      title="Toggle expand / collapse all groups"
+                    >
+                      <i className="fas fa-arrows-up-down" /> Toggle All
+                    </button>
+                  </div>
                 </div>
 
                 {/* Grouped Location Accordions in D&D Parchment Style */}
                 <div className="lore-locations-list">
-                  {CATEGORIES.map((cat) => {
-                    const groupLocs = filteredLocations.filter((l) => categorize(l.type) === cat.id);
-                    if (groupLocs.length === 0) return null;
-                    const isCollapsed = collapsedGroups.has(cat.id);
-                    return (
-                      <div key={cat.id} className="lore-category-group">
-                        <button
-                          className="lore-group-header"
-                          onClick={() => toggleGroup(cat.id)}
-                          type="button"
-                        >
-                          <div className="lore-group-title">
-                            <i className={`fas ${cat.icon} group-icon`} />
-                            <span className="group-label">{cat.label}</span>
-                            <span className="lore-group-count-pill">{groupLocs.length}</span>
+                  {groupBy === 'subrealm' ? (
+                    /* SUBREALMS GROUPING */
+                    <>
+                      {subregionsList.map((sub) => {
+                        const groupLocs = filteredLocations.filter((l) => {
+                          const s = getSubregionForLoc(l.id, l.subregionId);
+                          return s?.id === sub.id;
+                        });
+                        if (groupLocs.length === 0 && (activeFilter !== 'all' || activeSubregionFilter !== 'all' || searchTerm)) return null;
+                        const isCollapsed = collapsedSubrealmGroups.has(sub.id);
+                        const icon = getSubregionIcon(sub.id);
+
+                        return (
+                          <div key={sub.id} className="lore-subrealm-group">
+                            <button
+                              className="lore-subrealm-group-header"
+                              onClick={() => toggleSubrealmGroup(sub.id)}
+                              type="button"
+                            >
+                              <div className="lore-subrealm-group-title">
+                                <div className="lore-subrealm-icon-box">
+                                  <i className={`fas ${icon}`} />
+                                </div>
+                                <div className="lore-subrealm-header-info">
+                                  <span className="lore-subrealm-header-name">{sub.name}</span>
+                                  {sub.climate && (
+                                    <span className="lore-subrealm-header-climate">
+                                      {sub.climate}
+                                    </span>
+                                  )}
+                                </div>
+                                <span className="lore-subrealm-count-pill">{groupLocs.length}</span>
+                              </div>
+                              <div className="lore-subrealm-header-actions-right">
+                                {onEnterSubregionMap && (
+                                  <span
+                                    role="button"
+                                    tabIndex={0}
+                                    className="lore-subrealm-header-focus-btn"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      onEnterSubregionMap(sub.id);
+                                    }}
+                                    onKeyDown={(e) => {
+                                      if (e.key === 'Enter' || e.key === ' ') {
+                                        e.stopPropagation();
+                                        onEnterSubregionMap(sub.id);
+                                      }
+                                    }}
+                                    title={`Open ${sub.name} Regional Map`}
+                                  >
+                                    <i className="fas fa-compass" />
+                                  </span>
+                                )}
+                                <i className={`fas fa-chevron-down lore-group-chevron ${isCollapsed ? 'collapsed' : ''}`} />
+                              </div>
+                            </button>
+                            {!isCollapsed && (
+                              <div className="lore-group-items">
+                                {groupLocs.length > 0 ? (
+                                  groupLocs.map(renderLocationCard)
+                                ) : (
+                                  <div className="lore-subrealm-empty-hint">
+                                    <span>No matching locations in {sub.name}</span>
+                                  </div>
+                                )}
+                              </div>
+                            )}
                           </div>
-                          <i className={`fas fa-chevron-down lore-group-chevron ${isCollapsed ? 'collapsed' : ''}`} />
-                        </button>
-                        {!isCollapsed && (
-                          <div className="lore-group-items">
-                            {groupLocs.map(renderLocationCard)}
+                        );
+                      })}
+
+                      {/* Render unassigned / realm-wide locations if any */}
+                      {(() => {
+                        const unassignedLocs = filteredLocations.filter((l) => !getSubregionForLoc(l.id, l.subregionId));
+                        if (unassignedLocs.length === 0) return null;
+                        const isCollapsed = collapsedSubrealmGroups.has('other');
+                        return (
+                          <div key="other" className="lore-subrealm-group">
+                            <button
+                              className="lore-subrealm-group-header"
+                              onClick={() => toggleSubrealmGroup('other')}
+                              type="button"
+                            >
+                              <div className="lore-subrealm-group-title">
+                                <div className="lore-subrealm-icon-box">
+                                  <i className="fas fa-landmark" />
+                                </div>
+                                <div className="lore-subrealm-header-info">
+                                  <span className="lore-subrealm-header-name">Realm-Wide Strongholds</span>
+                                  <span className="lore-subrealm-header-climate">Across {region.name}</span>
+                                </div>
+                                <span className="lore-subrealm-count-pill">{unassignedLocs.length}</span>
+                              </div>
+                              <i className={`fas fa-chevron-down lore-group-chevron ${isCollapsed ? 'collapsed' : ''}`} />
+                            </button>
+                            {!isCollapsed && (
+                              <div className="lore-group-items">
+                                {unassignedLocs.map(renderLocationCard)}
+                              </div>
+                            )}
                           </div>
-                        )}
-                      </div>
-                    );
-                  })}
+                        );
+                      })()}
+                    </>
+                  ) : (
+                    /* CATEGORIES GROUPING */
+                    CATEGORIES.map((cat) => {
+                      const groupLocs = filteredLocations.filter((l) => categorize(l.type) === cat.id);
+                      if (groupLocs.length === 0) return null;
+                      const isCollapsed = collapsedGroups.has(cat.id);
+                      return (
+                        <div key={cat.id} className="lore-category-group">
+                          <button
+                            className="lore-group-header"
+                            onClick={() => toggleGroup(cat.id)}
+                            type="button"
+                          >
+                            <div className="lore-group-title">
+                              <i className={`fas ${cat.icon} group-icon`} />
+                              <span className="group-label">{cat.label}</span>
+                              <span className="lore-group-count-pill">{groupLocs.length}</span>
+                            </div>
+                            <i className={`fas fa-chevron-down lore-group-chevron ${isCollapsed ? 'collapsed' : ''}`} />
+                          </button>
+                          {!isCollapsed && (
+                            <div className="lore-group-items">
+                              {groupLocs.map(renderLocationCard)}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })
+                  )}
 
                   {filteredLocations.length === 0 && (
                     <div className="lore-empty-search">
                       <i className="fas fa-compass lore-empty-icon" />
                       <h4>No Locations Found</h4>
-                      <p>No locations match &ldquo;{searchTerm}&rdquo; in this category.</p>
+                      <p>No locations match &ldquo;{searchTerm}&rdquo; with active filters.</p>
                       <button
                         type="button"
                         className="lore-empty-reset-btn"
-                        onClick={() => { setSearchTerm(''); setActiveFilter('all'); }}
+                        onClick={() => {
+                          setSearchTerm('');
+                          setActiveFilter('all');
+                          setActiveSubregionFilter('all');
+                        }}
                       >
                         Reset Search &amp; Filters
                       </button>
@@ -814,16 +1078,30 @@ const LoreSidebar = ({
                           </div>
                         </div>
                       )}
-                      <button
-                        type="button"
-                        className="lore-focus-subregion-btn"
-                        onClick={() => {
-                          if (setSelectedLocationId) setSelectedLocationId(null);
-                          if (onEnterSubregionMap) onEnterSubregionMap(sub.id);
-                        }}
-                      >
-                        <i className="fas fa-crosshairs" /> Focus on Map
-                      </button>
+                      <div className="lore-subregion-card-actions">
+                        <button
+                          type="button"
+                          className="lore-subregion-view-locs-btn"
+                          onClick={() => {
+                            setActiveTab('locations');
+                            setGroupBy('subrealm');
+                            setActiveSubregionFilter(sub.id);
+                          }}
+                          title={`View all locations in ${sub.name}`}
+                        >
+                          <i className="fas fa-list-ul" /> View {sub.zoneIds?.length || subregionCounts[sub.id] || 0} Locations
+                        </button>
+                        <button
+                          type="button"
+                          className="lore-focus-subregion-btn"
+                          onClick={() => {
+                            if (setSelectedLocationId) setSelectedLocationId(null);
+                            if (onEnterSubregionMap) onEnterSubregionMap(sub.id);
+                          }}
+                        >
+                          <i className="fas fa-crosshairs" /> Focus on Map
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -879,6 +1157,7 @@ const LoreSidebar = ({
         )}
       </div>
     </div>
+    </>
   );
 };
 

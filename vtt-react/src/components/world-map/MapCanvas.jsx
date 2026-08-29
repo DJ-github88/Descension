@@ -59,8 +59,8 @@ const MapCanvas = ({
   onUpdate,
   currentCampaign,
   showConfirm,
-  
-  // New player annotations props
+  borderEnabled = true,
+  onToggleBorder,
   activeTool,
   playerDrawingPoints,
   onResolveClick,
@@ -1160,6 +1160,8 @@ const MapCanvas = ({
               customMapMode={customMapMode}
               onToggleCustomMap={onToggleCustomMap}
               canAccessCustomMaps={canAccessCustomMaps}
+              borderEnabled={borderEnabled}
+              onToggleBorder={onToggleBorder}
             />
 
             <div className="map-zoom-hint" style={{ opacity: phase === 'immersed' ? 1 : 0 }}>

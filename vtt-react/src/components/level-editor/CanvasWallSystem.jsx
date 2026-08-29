@@ -730,7 +730,7 @@ const CanvasWallSystem = () => {
         ctx.setLineDash([]);
 
         // Selection handles at endpoints (draggable to reshape the wall)
-        const handleSize = 8;
+        const handleSize = 12;
         [screenPos1, screenPos2].forEach(pos => {
           // Outer glow for visibility
           ctx.beginPath();

@@ -5035,29 +5035,55 @@
 .new-term-btn {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 5px !important;
-  background: linear-gradient(135deg, #58180d, #8a2f1d) !important;
-  border: 1px solid #ffd700 !important;
-  color: #ffd700 !important;
-  border-radius: 4px !important;
-  padding: 6px 12px !important;
-  font-family: var(--book-font-heading) !important;
-  font-size: 0.76rem !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  background: linear-gradient(135deg, #6b1d10 0%, #8f2715 100%) !important;
+  border: 1.5px solid #d4af37 !important;
+  color: #fff9e6 !important;
+  border-radius: 6px !important;
+  padding: 8px 16px !important;
+  font-family: var(--book-font-heading, 'Cinzel', serif) !important;
+  font-size: 0.82rem !important;
   font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
   cursor: pointer !important;
   white-space: nowrap !important;
+  box-shadow: 0 3px 8px rgba(88, 24, 13, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
   transition: all 0.15s ease !important;
 }
 
+.new-term-btn i {
+  font-size: 0.85rem !important;
+  color: #ffd700 !important;
+  margin: 0 !important;
+  display: inline-block !important;
+  line-height: 1 !important;
+}
+
 .new-term-btn:hover {
-  background: #8a2f1d !important;
-  transform: translateY(-1px) !important;
+  background: linear-gradient(135deg, #852414 0%, #ad301a 100%) !important;
+  border-color: #ffd700 !important;
+  color: #ffffff !important;
+  transform: translateY(-1.5px) !important;
+  box-shadow: 0 5px 14px rgba(88, 24, 13, 0.35) !important;
+}
+
+.new-term-btn:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 4px rgba(88, 24, 13, 0.3) !important;
 }
 
 .new-term-btn.large {
-  padding: 10px 20px !important;
-  font-size: 0.88rem !important;
-  margin-top: 14px !important;
+  padding: 11px 22px !important;
+  font-size: 0.9rem !important;
+  margin-top: 16px !important;
+  border-radius: 6px !important;
+}
+
+.new-term-btn.large i {
+  font-size: 0.95rem !important;
+  color: #ffd700 !important;
+  margin: 0 !important;
 }
 
 .glossary-filter-chips {
@@ -5458,10 +5484,12 @@
   height: 100% !important;
 }
 
-.editor-prompt-blank i {
-  font-size: 2.4rem !important;
-  color: #58180d !important;
-  margin-bottom: 14px !important;
+.editor-prompt-blank > i,
+.editor-prompt-blank .editor-prompt-blank-icon {
+  font-size: 2.2rem !important;
+  color: #8b3a2b !important;
+  margin-bottom: 12px !important;
+  opacity: 0.85 !important;
 }
 
 .editor-prompt-blank h4 {
@@ -8647,6 +8675,108 @@
     justify-content: space-between;
     box-sizing: border-box;
   }
+}
+
+/* =========================================================================
+   STYLUS SKETCH & CARTOGRAPHY BLOCK STYLING
+   ========================================================================= */
+.book-sketch-block-wrapper {
+  margin: 1.5rem 0;
+  width: 100%;
+  position: relative;
+}
+
+.book-sketch-meta-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.book-sketch-title-input {
+  font-family: var(--book-font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--book-ink-primary);
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed var(--book-gold);
+  padding: 0.3rem 0;
+  outline: none;
+  width: 100%;
+}
+
+.book-sketch-caption-input {
+  font-family: var(--book-font-body);
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--book-ink-secondary);
+  background: transparent;
+  border: none;
+  border-bottom: 1px dotted var(--book-border);
+  padding: 0.2rem 0;
+  outline: none;
+  width: 100%;
+}
+
+.book-sketch-view-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.book-sketch-view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--book-border-subtle);
+  padding-bottom: 0.35rem;
+}
+
+.book-sketch-view-title {
+  margin: 0;
+  font-family: var(--book-font-heading);
+  font-size: 1.1rem;
+  color: var(--book-ink-primary);
+  letter-spacing: 0.03em;
+}
+
+.book-sketch-annotate-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--book-bg-panel);
+  border: 1px solid var(--book-gold);
+  color: var(--book-ink-secondary);
+  font-family: var(--book-font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.book-sketch-annotate-toggle:hover {
+  background: var(--book-gold);
+  color: #fff;
+}
+
+.book-sketch-annotate-toggle.active {
+  background: #8b6b23;
+  color: #fff;
+  border-color: #d4af37;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+}
+
+.book-sketch-view-caption {
+  margin: 0.35rem 0 0 0;
+  font-size: 0.9rem;
+  font-style: italic;
+  text-align: center;
+  color: var(--book-ink-secondary);
 }
 
 

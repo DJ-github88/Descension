@@ -25,4 +25,14 @@ describe('MapControls custom maps access', () => {
 
     expect(screen.getByRole('button', { name: 'Toggle custom map workspace' })).toBeInTheDocument();
   });
+
+  it('renders parchment border toggle button and triggers onToggleBorder', () => {
+    const onToggleBorder = jest.fn();
+    render(<MapControls {...baseProps} borderEnabled={true} onToggleBorder={onToggleBorder} />);
+
+    const btn = screen.getByRole('button', { name: 'Toggle burned parchment border' });
+    expect(btn).toBeInTheDocument();
+    btn.click();
+    expect(onToggleBorder).toHaveBeenCalledTimes(1);
+  });
 });

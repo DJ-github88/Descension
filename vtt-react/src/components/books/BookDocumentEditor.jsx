@@ -17,7 +17,8 @@ import {
   SideBySideBlock,
   LineageShowcaseBlock,
   DynastyTreeBlock,
-  PlotThreadBlock
+  PlotThreadBlock,
+  BookSketchBlock
 } from './BookTtrpgBlocks';
 import BookGlossaryModal from './BookGlossaryModal';
 import BookImagePickerModal from './BookImagePickerModal';
@@ -203,13 +204,15 @@ const NEW_BLOCK_DEFAULTS = {
   },
   table_of_contents: { autoGenerate: true },
   entity_embed: { entityType: 'faction', entityId: '', displayMode: 'card' },
-  image: { url: '/assets/images/races/merryn_illustration.png', caption: 'Merryn Wave-Rider', alignment: 'full', frame: 'gold-frame', sizePreset: 'full' }
+  image: { url: '/assets/images/races/merryn_illustration.png', caption: 'Merryn Wave-Rider', alignment: 'full', frame: 'gold-frame', sizePreset: 'full' },
+  sketch_canvas: { title: 'Cartographic Sketch', caption: '', strokes: [], bgTheme: 'parchment' }
 };
 
 const INSERT_PALETTE = [
   { type: 'header', label: 'Heading', icon: 'fa-heading' },
   { type: 'paragraph', label: 'Prose', icon: 'fa-paragraph' },
   { type: 'side_by_side', label: 'Split View', icon: 'fa-table-columns' },
+  { type: 'sketch_canvas', label: 'Stylus Sketch', icon: 'fa-pen-fancy' },
   { type: 'item_card', label: 'Item Card', icon: 'fa-gem' },
   { type: 'creature_statblock', label: 'Creature', icon: 'fa-dragon' },
   { type: 'quest_hook', label: 'Quest', icon: 'fa-scroll' },
@@ -1191,6 +1194,15 @@ export const BookDocumentEditor = ({
             isWrite={effectiveIsWrite}
             onUpdate={(patch) => updateBlock(block.id, patch)}
             onOpenPicker={(b) => setImagePickerTarget({ block: b })}
+          />
+        );
+
+      case 'sketch_canvas':
+        return wrap(
+          <BookSketchBlock
+            block={block}
+            isEditMode={effectiveIsWrite}
+            onChange={(patch) => updateBlock(block.id, patch)}
           />
         );
 

@@ -14,10 +14,9 @@ import ClassIcon from '../common/ClassIcon';
 import { TimelineView } from './TimelineView';
 import AccountMapManager from '../account/AccountMapManager';
 import UniversalEntityGraph from './UniversalEntityGraph';
+import FamilyTreeStudio from './FamilyTreeStudio';
 import { showPrompt } from '../../utils/dialogService';
 import './WorldDashboard.css';
-
-const FamilyTreeStudio = lazy(() => import('./FamilyTreeStudio'));
 
 const VIEWS = {
   DASHBOARD: 'dashboard',
@@ -574,7 +573,7 @@ const WorldDashboard = () => {
           <button className="world-back-btn" onClick={navigateToDashboard}>← Dashboard</button>
           <h2>Dynasty & Family Trees</h2>
         </div>
-        <FamilyTreeStudio />
+        <FamilyTreeStudio inline={true} />
       </div>
     );
   }
@@ -1392,7 +1391,7 @@ const WorldDashboard = () => {
 
         {activeTab === 'family_trees' && (
           <div className="world-family-trees-tab-container" style={{ minHeight: '650px', width: '100%' }}>
-            <FamilyTreeStudio />
+            <FamilyTreeStudio inline={true} />
           </div>
         )}
       </div>

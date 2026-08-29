@@ -2,17 +2,26 @@ import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import useFactionStore from '../../store/factionStore';
 import useWorldStore from '../../store/worldStore';
 import useFamilyTreeStore from '../../store/familyTreeStore';
+import useCustomLineageStore from '../../store/customLineageStore';
 import './UniversalEntityGraph.css';
 
-const CANVAS_WIDTH = 2800;
-const CANVAS_HEIGHT = 2000;
+const CANVAS_WIDTH = 3200;
+const CANVAS_HEIGHT = 2400;
+const CX = CANVAS_WIDTH / 2;
+const CY = CANVAS_HEIGHT / 2;
 
 export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
   const factions = useFactionStore((state) => state.factions || []);
   const locations = useWorldStore((state) => state.locations || []);
   const trees = useFamilyTreeStore((state) => state.trees || []);
+  const customLineages = useCustomLineageStore((state) => state.customLineages || []);
+  const allLineages = useMemo(() => {
+    try {
+      return useWorldStore.getState().getAllLineages ? useWorldStore.getState().getAllLineages() : customLineages;
+    } catch { return customLineages; }
+  }, [customLineages]);
 
-  const [activeTypeFilters, setActiveTypeFilters] = useState(['faction', 'location', 'family_node']);
+  const [activeTypeFilters, setActiveTypeFilters] = useState(['faction', 'lineage', 'location', 'family_node', 'custom']);
   const [activeRelFilter, setActiveRelFilter] = useState('all');
   const [layoutMode, setLayoutMode] = useState('cluster'); // 'cluster' | 'orbital'
   const [hideDisconnected, setHideDisconnected] = useState(false);
@@ -23,31 +32,65 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
 
   // Pan & Zoom state
-  const [panOffset, setPanOffset] = useState({ x: -200, y: -100 });
-  const [zoomLevel, setZoomLevel] = useState(0.85);
+  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+  const [zoomLevel, setZoomLevel] = useState(0.55);
   const [isPanning, setIsPanning] = useState(false);
-  const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const containerRef = useRef(null);
 
-  // Node Dragging state
-  const [draggedNodeId, setDraggedNodeId] = useState(null);
-  const [dragStartPos, setDragStartPos] = useState({ x: 0, y: 0 });
-  const [customPositions, setCustomPositions] = useState({});
+  // Synchronized refs to eliminate stale closures and effect churn in event handlers
+  const panOffsetRef = useRef(panOffset);
+  panOffsetRef.current = panOffset;
+  const zoomLevelRef = useRef(zoomLevel);
+  zoomLevelRef.current = zoomLevel;
 
-  // Touch tracking refs
-  const touchStateRef = useRef({
-    mode: 'none', // 'none' | 'pan' | 'pinch' | 'dragNode'
-    startX: 0,
-    startY: 0,
-    lastX: 0,
-    lastY: 0,
-    nodeId: null,
-    hasMoved: false,
-    initialPinchDist: 0,
-    initialZoom: 1,
-    initialPan: { x: 0, y: 0 },
-    lastTapTime: 0
+  const isPanningRef = useRef(false);
+  const panStartRef = useRef({ x: 0, y: 0, startPanX: 0, startPanY: 0 });
+
+  // Node Dragging state
+  const draggedNodeIdRef = useRef(null);
+  const dragStartPosRef = useRef({ clientX: 0, clientY: 0, nodeX: 0, nodeY: 0 });
+  const [customPositions, setCustomPositions] = useState({});
+  const customPositionsRef = useRef(customPositions);
+  customPositionsRef.current = customPositions;
+
+  // Custom user-authored nodes & connections state (persisted)
+  const [customUserNodes, setCustomUserNodes] = useState(() => {
+    try {
+      const saved = localStorage.getItem('mythrill_custom_graph_nodes');
+      return saved ? JSON.parse(saved) : [];
+    } catch { return []; }
   });
+
+  const [customUserEdges, setCustomUserEdges] = useState(() => {
+    try {
+      const saved = localStorage.getItem('mythrill_custom_graph_edges');
+      return saved ? JSON.parse(saved) : [];
+    } catch { return []; }
+  });
+
+  // Authoring modals & link creation state
+  const [showAddNodeModal, setShowAddNodeModal] = useState(false);
+  const [showAddEdgeModal, setShowAddEdgeModal] = useState(false);
+  const [linkingSourceNodeId, setLinkingSourceNodeId] = useState(null);
+  const [newNodeName, setNewNodeName] = useState('');
+  const [newNodeType, setNewNodeType] = useState('lineage');
+  const [newNodeRegion, setNewNodeRegion] = useState('frostwood-reach');
+  const [newNodeDesc, setNewNodeDesc] = useState('');
+
+  const [newEdgeTargetId, setNewEdgeTargetId] = useState('');
+  const [newEdgeType, setNewEdgeType] = useState('alliance');
+  const [newEdgeLabel, setNewEdgeLabel] = useState('');
+
+  // Persist custom user nodes/edges to localStorage
+  const saveCustomNodes = (nodes) => {
+    setCustomUserNodes(nodes);
+    try { localStorage.setItem('mythrill_custom_graph_nodes', JSON.stringify(nodes)); } catch {}
+  };
+
+  const saveCustomEdges = (edges) => {
+    setCustomUserEdges(edges);
+    try { localStorage.setItem('mythrill_custom_graph_edges', JSON.stringify(edges)); } catch {}
+  };
 
   // 1. Build universal graph nodes
   const allNodes = useMemo(() => {
@@ -109,8 +152,44 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
       });
     });
 
+    // Lineages & Peoples (Species) nodes
+    allLineages.forEach((l) => {
+      nodes.push({
+        id: `lineage:${l.id}`,
+        rawId: l.id,
+        name: l.name,
+        type: 'lineage',
+        subType: l.category || (l.isCustom ? 'Custom Species' : 'Lineage'),
+        color: '#7d3c98',
+        crestBg: '#f4ecf7',
+        icon: 'fa-dna',
+        imageUrl: l.icon || l.imageUrl || null,
+        regionId: l.homelandRegionId || l.regionId || 'frostwood-reach',
+        description: l.description || l.summary || '',
+        data: l
+      });
+    });
+
+    // Custom user authored nodes
+    customUserNodes.forEach((cn) => {
+      nodes.push({
+        id: cn.id,
+        rawId: cn.id,
+        name: cn.name,
+        type: cn.type || 'custom',
+        subType: cn.subType || 'Custom Entity',
+        color: cn.color || '#d4af37',
+        crestBg: '#fffbf0',
+        icon: cn.icon || 'fa-sparkles',
+        regionId: cn.regionId || 'frostwood-reach',
+        description: cn.description || '',
+        isUserCreated: true,
+        data: cn
+      });
+    });
+
     return nodes;
-  }, [factions, locations, trees]);
+  }, [factions, locations, trees, allLineages, customUserNodes]);
 
   // 2. Build universal edges
   const allEdges = useMemo(() => {
@@ -180,10 +259,38 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
       });
     });
 
-    return edges;
-  }, [factions, trees]);
+    // Lineage ties to subraces or locations
+    allLineages.forEach((l) => {
+      if (l.homelandLocationId) {
+        edges.push({
+          id: `edge:lineage:homeland:${l.id}`,
+          source: `lineage:${l.id}`,
+          target: `location:${l.homelandLocationId}`,
+          type: 'territory',
+          label: 'Homeland',
+          color: '#7d3c98',
+          strokeDash: '4,4'
+        });
+      }
+    });
 
-  // Connection lookup map for quick connection tests
+    // Custom user-authored edges
+    customUserEdges.forEach((ce) => {
+      edges.push({
+        id: ce.id,
+        source: ce.source,
+        target: ce.target,
+        type: ce.type || 'alliance',
+        label: ce.label || 'Connection',
+        color: ce.color || (ce.type === 'hostile' ? '#a8241b' : ce.type === 'family' ? '#b03a74' : '#7d3c98'),
+        isUserCreated: true
+      });
+    });
+
+    return edges;
+  }, [factions, trees, allLineages, customUserEdges]);
+
+  // Connection lookup map
   const connectionMap = useMemo(() => {
     const map = new Map();
     allEdges.forEach((e) => {
@@ -195,7 +302,7 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
     return map;
   }, [allEdges]);
 
-  // 3. Filtered nodes and edges
+  // Filtered nodes
   const visibleNodes = useMemo(() => {
     return allNodes.filter((n) => {
       if (!activeTypeFilters.includes(n.type)) return false;
@@ -204,379 +311,432 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
       }
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
-        return n.name.toLowerCase().includes(q) || n.description.toLowerCase().includes(q);
+        const matchesName = n.name.toLowerCase().includes(q);
+        const matchesSub = n.subType.toLowerCase().includes(q);
+        const matchesDesc = n.description.toLowerCase().includes(q);
+        if (!matchesName && !matchesSub && !matchesDesc) return false;
       }
       return true;
     });
   }, [allNodes, activeTypeFilters, hideDisconnected, connectionMap, searchQuery]);
 
-  const visibleNodeIdSet = useMemo(() => new Set(visibleNodes.map((n) => n.id)), [visibleNodes]);
-
+  // Filtered edges
   const visibleEdges = useMemo(() => {
+    const validNodeIds = new Set(visibleNodes.map((n) => n.id));
     return allEdges.filter((e) => {
-      if (!visibleNodeIdSet.has(e.source) || !visibleNodeIdSet.has(e.target)) return false;
-      if (activeRelFilter !== 'all' && e.type !== activeRelFilter) return false;
-      return true;
+      if (!validNodeIds.has(e.source) || !validNodeIds.has(e.target)) return false;
+      if (activeRelFilter === 'all') return true;
+      if (activeRelFilter === 'territory') return e.type === 'territory';
+      if (activeRelFilter === 'family') return e.type === 'family';
+      if (activeRelFilter === 'alliance') return e.type === 'alliance' || e.type === 'allied' || e.type === 'friendly';
+      if (activeRelFilter === 'hostile') return e.type === 'hostile' || e.type === 'war' || e.type === 'rival';
+      return e.type === activeRelFilter;
     });
-  }, [allEdges, visibleNodeIdSet, activeRelFilter]);
+  }, [allEdges, visibleNodes, activeRelFilter]);
 
-  // 4. Default Positions Layout (Concentric Multi-Ring Layout)
+  // Dynamic Layout: Generous, responsive concentric arrangement
   const defaultPositions = useMemo(() => {
     const positions = {};
-    const cx = CANVAS_WIDTH / 2;
-    const cy = CANVAS_HEIGHT / 2;
 
-    if (layoutMode === 'orbital') {
-      const factionNodes = visibleNodes.filter((n) => n.type === 'faction');
-      const locationNodes = visibleNodes.filter((n) => n.type === 'location');
-      const familyNodes = visibleNodes.filter((n) => n.type === 'family_node');
+    const factionNodes = visibleNodes.filter((n) => n.type === 'faction');
+    const lineageNodes = visibleNodes.filter((n) => n.type === 'lineage');
+    const locationNodes = visibleNodes.filter((n) => n.type === 'location');
+    const familyNodes = visibleNodes.filter((n) => n.type === 'family_node');
+    const customNodes = visibleNodes.filter((n) => n.type === 'custom');
 
-      // Distribute factions in orbital tiers if dense
-      if (factionNodes.length <= 10) {
-        factionNodes.forEach((n, i) => {
-          const angle = (i / (factionNodes.length || 1)) * Math.PI * 2 - Math.PI / 2;
+    const totalActiveGroups = [factionNodes, lineageNodes, locationNodes, familyNodes, customNodes].filter(
+      (g) => g.length > 0
+    ).length;
+
+    // Adapt radial tiers based on whether only a single group or multiple groups are active
+    if (layoutMode === 'cluster' && totalActiveGroups <= 1) {
+      // Single category focused layout: arrange smoothly in expanding rings from center
+      const nodes = visibleNodes;
+      const count = nodes.length;
+      if (count <= 8) {
+        nodes.forEach((n, i) => {
+          const angle = (i / (count || 1)) * Math.PI * 2 - Math.PI / 2;
           positions[n.id] = {
-            x: cx + Math.cos(angle) * 320,
-            y: cy + Math.sin(angle) * 240
+            x: Math.round(CX + Math.cos(angle) * 320),
+            y: Math.round(CY + Math.sin(angle) * 240)
+          };
+        });
+      } else if (count <= 20) {
+        const ring1 = nodes.slice(0, 7);
+        const ring2 = nodes.slice(7);
+        ring1.forEach((n, i) => {
+          const angle = (i / (ring1.length || 1)) * Math.PI * 2 - Math.PI / 2;
+          positions[n.id] = {
+            x: Math.round(CX + Math.cos(angle) * 280),
+            y: Math.round(CY + Math.sin(angle) * 210)
+          };
+        });
+        ring2.forEach((n, i) => {
+          const angle = (i / (ring2.length || 1)) * Math.PI * 2 - Math.PI / 4;
+          positions[n.id] = {
+            x: Math.round(CX + Math.cos(angle) * 580),
+            y: Math.round(CY + Math.sin(angle) * 440)
           };
         });
       } else {
-        const half = Math.ceil(factionNodes.length / 2);
-        factionNodes.slice(0, half).forEach((n, i) => {
-          const angle = (i / half) * Math.PI * 2 - Math.PI / 2;
+        const ring1 = nodes.slice(0, 10);
+        const ring2 = nodes.slice(10, 28);
+        const ring3 = nodes.slice(28);
+        ring1.forEach((n, i) => {
+          const angle = (i / (ring1.length || 1)) * Math.PI * 2 - Math.PI / 2;
           positions[n.id] = {
-            x: cx + Math.cos(angle) * 260,
-            y: cy + Math.sin(angle) * 190
+            x: Math.round(CX + Math.cos(angle) * 320),
+            y: Math.round(CY + Math.sin(angle) * 240)
           };
         });
-        factionNodes.slice(half).forEach((n, i) => {
-          const count = factionNodes.length - half;
-          const angle = (i / count) * Math.PI * 2 - Math.PI / 4;
+        ring2.forEach((n, i) => {
+          const angle = (i / (ring2.length || 1)) * Math.PI * 2 - Math.PI / 4;
           positions[n.id] = {
-            x: cx + Math.cos(angle) * 440,
-            y: cy + Math.sin(angle) * 320
+            x: Math.round(CX + Math.cos(angle) * 640),
+            y: Math.round(CY + Math.sin(angle) * 480)
+          };
+        });
+        ring3.forEach((n, i) => {
+          const angle = (i / (ring3.length || 1)) * Math.PI * 2;
+          positions[n.id] = {
+            x: Math.round(CX + Math.cos(angle) * 940),
+            y: Math.round(CY + Math.sin(angle) * 700)
           };
         });
       }
-
-      // Middle ring: Locations
-      locationNodes.forEach((n, i) => {
-        const angle = (i / (locationNodes.length || 1)) * Math.PI * 2 - Math.PI / 4;
-        positions[n.id] = {
-          x: cx + Math.cos(angle) * 650,
-          y: cy + Math.sin(angle) * 480
-        };
-      });
-
-      // Outer ring: Dynasty Family Nodes
-      familyNodes.forEach((n, i) => {
-        const angle = (i / (familyNodes.length || 1)) * Math.PI * 2;
-        positions[n.id] = {
-          x: cx + Math.cos(angle) * 880,
-          y: cy + Math.sin(angle) * 650
-        };
-      });
-    } else {
-      // Clustered Concentric Multi-Ring Layout by Region
-      const realmClusters = {
-        'frostwood-reach': { cx: cx - 400, cy: cy - 100 },
-        'nordhalla': { cx: cx + 400, cy: cy - 100 },
-        'sundale': { cx: cx, cy: cy + 420 }
-      };
-
-      const buckets = {};
-      visibleNodes.forEach((n) => {
-        const r = n.regionId || 'frostwood-reach';
-        if (!buckets[r]) buckets[r] = [];
-        buckets[r].push(n);
-      });
-
-      Object.entries(buckets).forEach(([region, nodes]) => {
-        const center = realmClusters[region] || { cx, cy };
-
-        if (nodes.length <= 6) {
-          nodes.forEach((n, i) => {
-            const angle = (i / (nodes.length || 1)) * Math.PI * 2 - Math.PI / 2;
-            positions[n.id] = {
-              x: center.cx + Math.cos(angle) * 160,
-              y: center.cy + Math.sin(angle) * 130
-            };
-          });
-        } else {
-          // Concentric tiered rings with generous padding
-          const rings = [
-            { capacity: 6, rx: 160, ry: 130 },
-            { capacity: 12, rx: 320, ry: 250 },
-            { capacity: 18, rx: 490, ry: 380 },
-            { capacity: 24, rx: 670, ry: 510 },
-            { capacity: 30, rx: 860, ry: 650 },
-            { capacity: 40, rx: 1060, ry: 800 }
-          ];
-
-          let nodeIdx = 0;
-          for (let r = 0; r < rings.length && nodeIdx < nodes.length; r++) {
-            const ring = rings[r];
-            const remaining = nodes.length - nodeIdx;
-            const countInRing = Math.min(ring.capacity, remaining);
-            const angleOffset = r % 2 === 1 ? Math.PI / countInRing : 0;
-
-            for (let c = 0; c < countInRing; c++) {
-              const n = nodes[nodeIdx++];
-              const angle = (c / countInRing) * Math.PI * 2 - Math.PI / 2 + angleOffset;
-              positions[n.id] = {
-                x: center.cx + Math.cos(angle) * ring.rx,
-                y: center.cy + Math.sin(angle) * ring.ry
-              };
-            }
-          }
-        }
-      });
+      return positions;
     }
+
+    // Multi-group hierarchical / orbital layout
+    const innerFactions = factionNodes.slice(0, 14);
+    const midFactions = factionNodes.slice(14, 34);
+    const outerFactions = factionNodes.slice(34);
+
+    innerFactions.forEach((n, i) => {
+      const angle = (i / (innerFactions.length || 1)) * Math.PI * 2 - Math.PI / 2;
+      positions[n.id] = {
+        x: Math.round(CX + Math.cos(angle) * 340),
+        y: Math.round(CY + Math.sin(angle) * 260)
+      };
+    });
+
+    midFactions.forEach((n, i) => {
+      const angle = (i / (midFactions.length || 1)) * Math.PI * 2 - Math.PI / 4;
+      positions[n.id] = {
+        x: Math.round(CX + Math.cos(angle) * 620),
+        y: Math.round(CY + Math.sin(angle) * 460)
+      };
+    });
+
+    outerFactions.forEach((n, i) => {
+      const angle = (i / (outerFactions.length || 1)) * Math.PI * 2;
+      positions[n.id] = {
+        x: Math.round(CX + Math.cos(angle) * 880),
+        y: Math.round(CY + Math.sin(angle) * 650)
+      };
+    });
+
+    const lineageRadius = factionNodes.length > 0 ? 1080 : 420;
+    const lineageRadiusY = factionNodes.length > 0 ? 800 : 320;
+    lineageNodes.forEach((n, i) => {
+      const angle = (i / (lineageNodes.length || 1)) * Math.PI * 2 - Math.PI / 3;
+      positions[n.id] = {
+        x: Math.round(CX + Math.cos(angle) * lineageRadius),
+        y: Math.round(CY + Math.sin(angle) * lineageRadiusY)
+      };
+    });
+
+    const locationRadius = factionNodes.length + lineageNodes.length > 0 ? 1280 : 420;
+    const locationRadiusY = factionNodes.length + lineageNodes.length > 0 ? 940 : 320;
+    locationNodes.forEach((n, i) => {
+      const angle = (i / (locationNodes.length || 1)) * Math.PI * 2 + Math.PI / 6;
+      positions[n.id] = {
+        x: Math.round(CX + Math.cos(angle) * locationRadius),
+        y: Math.round(CY + Math.sin(angle) * locationRadiusY)
+      };
+    });
+
+    const others = familyNodes.concat(customNodes);
+    const othersRadius = factionNodes.length + lineageNodes.length + locationNodes.length > 0 ? 1440 : 420;
+    const othersRadiusY = factionNodes.length + lineageNodes.length + locationNodes.length > 0 ? 1060 : 320;
+    others.forEach((n, i) => {
+      const angle = (i / (others.length || 1)) * Math.PI * 2;
+      positions[n.id] = {
+        x: Math.round(CX + Math.cos(angle) * othersRadius),
+        y: Math.round(CY + Math.sin(angle) * othersRadiusY)
+      };
+    });
 
     return positions;
   }, [visibleNodes, layoutMode]);
 
   const getNodePos = useCallback(
     (id) => {
-      return customPositions[id] || defaultPositions[id] || { x: CANVAS_WIDTH / 2, y: CANVAS_HEIGHT / 2 };
+      return customPositions[id] || defaultPositions[id] || { x: CX, y: CY };
     },
     [customPositions, defaultPositions]
   );
 
-  // Focus on Selected Node
-  const centerOnNode = useCallback((nodeId) => {
-    const pos = getNodePos(nodeId);
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    setPanOffset({
-      x: rect.width / 2 - pos.x * zoomLevel,
-      y: rect.height / 2 - pos.y * zoomLevel
-    });
-  }, [getNodePos, zoomLevel]);
-
-  // Auto-fit all nodes to screen
+  // Auto-fit visible nodes to the screen
   const handleFitToScreen = useCallback(() => {
     if (!containerRef.current || visibleNodes.length === 0) return;
     const rect = containerRef.current.getBoundingClientRect();
+    const vWidth = rect.width || 1100;
+    const vHeight = rect.height || 720;
 
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
     visibleNodes.forEach((n) => {
-      const pos = getNodePos(n.id);
+      const pos = customPositionsRef.current[n.id] || defaultPositions[n.id] || { x: CX, y: CY };
       if (pos.x < minX) minX = pos.x;
       if (pos.x > maxX) maxX = pos.x;
       if (pos.y < minY) minY = pos.y;
       if (pos.y > maxY) maxY = pos.y;
     });
 
-    const padding = 140;
-    const width = Math.max(maxX - minX + padding * 2, 400);
-    const height = Math.max(maxY - minY + padding * 2, 400);
+    if (minX === Infinity) {
+      minX = CX - 300; maxX = CX + 300; minY = CY - 200; maxY = CY + 200;
+    }
 
-    const fitZoom = Math.max(0.35, Math.min(1.15, Math.min(rect.width / width, rect.height / height)));
+    const padding = 160;
+    const bWidth = Math.max(maxX - minX + padding * 2, 600);
+    const bHeight = Math.max(maxY - minY + padding * 2, 450);
+
+    const fitZoom = Math.max(0.25, Math.min(1.2, Math.min(vWidth / bWidth, vHeight / bHeight)));
     const centerX = (minX + maxX) / 2;
     const centerY = (minY + maxY) / 2;
 
-    setZoomLevel(fitZoom);
-    setPanOffset({
-      x: rect.width / 2 - centerX * fitZoom,
-      y: rect.height / 2 - centerY * fitZoom
-    });
-  }, [visibleNodes, getNodePos]);
+    const newZoom = +fitZoom.toFixed(2);
+    const newPan = {
+      x: Math.round(vWidth / 2 - centerX * newZoom),
+      y: Math.round(vHeight / 2 - centerY * newZoom)
+    };
 
-  // Center once on initial mount or filter change
+    setZoomLevel(newZoom);
+    setPanOffset(newPan);
+  }, [visibleNodes, defaultPositions]);
+
+  // Re-fit when user alters active filters, layout mode, or search
   useEffect(() => {
-    handleFitToScreen();
-  }, [visibleNodes.length, handleFitToScreen]);
+    const timer = setTimeout(() => {
+      handleFitToScreen();
+    }, 60);
+    return () => clearTimeout(timer);
+  }, [activeTypeFilters, activeRelFilter, layoutMode, hideDisconnected]);
 
-  // Reset custom layout positions
   const handleResetLayout = () => {
     setCustomPositions({});
     setTimeout(() => handleFitToScreen(), 50);
   };
 
-  // --- Mouse Pan & Drag Handlers ---
+  // Zoom by factor around viewport center
+  const handleZoomByFactor = (factor) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const prevZoom = zoomLevelRef.current;
+    const newZoom = Math.max(0.2, Math.min(2.5, +(prevZoom * factor).toFixed(2)));
+    if (newZoom === prevZoom) return;
+
+    const worldX = (centerX - panOffsetRef.current.x) / prevZoom;
+    const worldY = (centerY - panOffsetRef.current.y) / prevZoom;
+
+    const newPan = {
+      x: Math.round(centerX - worldX * newZoom),
+      y: Math.round(centerY - worldY * newZoom)
+    };
+
+    setZoomLevel(newZoom);
+    setPanOffset(newPan);
+  };
+
+  // --- Pan & Mouse Dragging Engine ---
   const handleMouseDown = (e) => {
-    if (e.target.closest('.pathfinder-graph-node') || e.target.closest('.pathfinder-graph-toolbar') || e.target.closest('.pathfinder-floating-hud')) {
+    if (
+      e.target.closest('.pathfinder-graph-node') ||
+      e.target.closest('.pathfinder-graph-toolbar') ||
+      e.target.closest('.pathfinder-floating-hud') ||
+      e.target.closest('.custom-rel-modal-overlay') ||
+      e.target.closest('.pathfinder-codex-drawer') ||
+      e.target.closest('.edge-label-pill')
+    ) {
       return;
     }
+    isPanningRef.current = true;
+    panStartRef.current = {
+      x: e.clientX,
+      y: e.clientY,
+      startPanX: panOffsetRef.current.x,
+      startPanY: panOffsetRef.current.y
+    };
     setIsPanning(true);
-    setPanStart({ x: e.clientX - panOffset.x, y: e.clientY - panOffset.y });
+    setSelectedNodeId(null);
   };
 
-  const handleMouseMove = (e) => {
-    if (isPanning) {
-      setPanOffset({ x: e.clientX - panStart.x, y: e.clientY - panStart.y });
-    } else if (draggedNodeId) {
-      const dx = (e.clientX - dragStartPos.x) / zoomLevel;
-      const dy = (e.clientY - dragStartPos.y) / zoomLevel;
-      const cur = getNodePos(draggedNodeId);
-      setCustomPositions((prev) => ({
-        ...prev,
-        [draggedNodeId]: { x: cur.x + dx, y: cur.y + dy }
-      }));
-      setDragStartPos({ x: e.clientX, y: e.clientY });
-    }
-  };
-
-  const handleMouseUp = () => {
-    setIsPanning(false);
-    setDraggedNodeId(null);
-  };
-
-  const handleWheel = (e) => {
-    e.preventDefault();
-    const zoomDelta = e.deltaY > 0 ? -0.07 : 0.07;
-    setZoomLevel((prev) => Math.max(0.35, Math.min(2.0, prev + zoomDelta)));
-  };
-
-  // --- Touch & Gesture Engine for Mobile Devices ---
-  const handleTouchStart = (e) => {
-    const touches = e.touches;
-
-    if (touches.length === 1) {
-      const touch = touches[0];
-      const targetNode = e.target.closest('.pathfinder-graph-node');
-      const isToolbarOrHUD = e.target.closest('.pathfinder-graph-toolbar') || e.target.closest('.pathfinder-floating-hud') || e.target.closest('.pathfinder-codex-drawer');
-
-      if (isToolbarOrHUD) return;
-
-      if (targetNode) {
-        const nodeId = targetNode.getAttribute('data-node-id');
-        touchStateRef.current = {
-          mode: 'dragNode',
-          startX: touch.clientX,
-          startY: touch.clientY,
-          lastX: touch.clientX,
-          lastY: touch.clientY,
-          nodeId: nodeId,
-          hasMoved: false,
-          initialPinchDist: 0,
-          initialZoom: zoomLevel,
-          initialPan: { ...panOffset },
-          lastTapTime: touchStateRef.current.lastTapTime
-        };
-      } else {
-        // Double tap detection on canvas
-        const now = Date.now();
-        if (now - touchStateRef.current.lastTapTime < 300) {
-          handleFitToScreen();
-          touchStateRef.current.lastTapTime = 0;
-          return;
-        }
-        touchStateRef.current.lastTapTime = now;
-
-        touchStateRef.current = {
-          mode: 'pan',
-          startX: touch.clientX,
-          startY: touch.clientY,
-          lastX: touch.clientX,
-          lastY: touch.clientY,
-          nodeId: null,
-          hasMoved: false,
-          initialPinchDist: 0,
-          initialZoom: zoomLevel,
-          initialPan: { ...panOffset },
-          lastTapTime: now
-        };
+  const handleNodeMouseDown = (e, nodeId) => {
+    e.stopPropagation();
+    if (linkingSourceNodeId) {
+      if (linkingSourceNodeId !== nodeId) {
+        setNewEdgeTargetId(nodeId);
+        setShowAddEdgeModal(true);
       }
-    } else if (touches.length === 2) {
-      // Pinch to zoom initialization
-      const t1 = touches[0];
-      const t2 = touches[1];
-      const dist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
-      const midX = (t1.clientX + t2.clientX) / 2;
-      const midY = (t1.clientY + t2.clientY) / 2;
-
-      touchStateRef.current = {
-        mode: 'pinch',
-        startX: midX,
-        startY: midY,
-        lastX: midX,
-        lastY: midY,
-        nodeId: null,
-        hasMoved: true,
-        initialPinchDist: dist,
-        initialZoom: zoomLevel,
-        initialPan: { ...panOffset },
-        lastTapTime: 0
-      };
+      setLinkingSourceNodeId(null);
+      return;
     }
+    const curPos = getNodePos(nodeId);
+    draggedNodeIdRef.current = nodeId;
+    dragStartPosRef.current = {
+      clientX: e.clientX,
+      clientY: e.clientY,
+      nodeX: curPos.x,
+      nodeY: curPos.y
+    };
+    setSelectedNodeId(nodeId);
   };
 
-  const handleTouchMove = (e) => {
-    const touches = e.touches;
-    const state = touchStateRef.current;
-
-    if (state.mode === 'pan' && touches.length === 1) {
-      const touch = touches[0];
-      const dx = touch.clientX - state.lastX;
-      const dy = touch.clientY - state.lastY;
-
-      if (Math.hypot(touch.clientX - state.startX, touch.clientY - state.startY) > 6) {
-        state.hasMoved = true;
-      }
-
-      setPanOffset((prev) => ({ x: prev.x + dx, y: prev.y + dy }));
-      state.lastX = touch.clientX;
-      state.lastY = touch.clientY;
-    } else if (state.mode === 'dragNode' && touches.length === 1 && state.nodeId) {
-      const touch = touches[0];
-      const totalDist = Math.hypot(touch.clientX - state.startX, touch.clientY - state.startY);
-
-      if (totalDist > 8) {
-        state.hasMoved = true;
-        const dx = (touch.clientX - state.lastX) / zoomLevel;
-        const dy = (touch.clientY - state.lastY) / zoomLevel;
-        const cur = getNodePos(state.nodeId);
-
+  // Global mouse move and mouse up listeners with stable refs (no churn)
+  useEffect(() => {
+    const handleGlobalMouseMove = (e) => {
+      if (isPanningRef.current) {
+        const dx = e.clientX - panStartRef.current.x;
+        const dy = e.clientY - panStartRef.current.y;
+        setPanOffset({
+          x: panStartRef.current.startPanX + dx,
+          y: panStartRef.current.startPanY + dy
+        });
+      } else if (draggedNodeIdRef.current) {
+        const nodeId = draggedNodeIdRef.current;
+        const dx = (e.clientX - dragStartPosRef.current.clientX) / zoomLevelRef.current;
+        const dy = (e.clientY - dragStartPosRef.current.clientY) / zoomLevelRef.current;
         setCustomPositions((prev) => ({
           ...prev,
-          [state.nodeId]: { x: cur.x + dx, y: cur.y + dy }
+          [nodeId]: {
+            x: Math.round(dragStartPosRef.current.nodeX + dx),
+            y: Math.round(dragStartPosRef.current.nodeY + dy)
+          }
         }));
       }
+    };
 
-      state.lastX = touch.clientX;
-      state.lastY = touch.clientY;
-    } else if (state.mode === 'pinch' && touches.length === 2) {
-      const t1 = touches[0];
-      const t2 = touches[1];
-      const currentDist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
-      const midX = (t1.clientX + t2.clientX) / 2;
-      const midY = (t1.clientY + t2.clientY) / 2;
-
-      if (state.initialPinchDist > 0 && containerRef.current) {
-        const factor = currentDist / state.initialPinchDist;
-        const newZoom = Math.max(0.35, Math.min(2.0, state.initialZoom * factor));
-
-        const rect = containerRef.current.getBoundingClientRect();
-        const cursorX = midX - rect.left;
-        const cursorY = midY - rect.top;
-
-        // Anchor pinch zoom around touch midpoint
-        const zoomRatio = newZoom / state.initialZoom;
-        const newPanX = cursorX - (cursorX - state.initialPan.x) * zoomRatio;
-        const newPanY = cursorY - (cursorY - state.initialPan.y) * zoomRatio;
-
-        setZoomLevel(newZoom);
-        setPanOffset({ x: newPanX, y: newPanY });
+    const handleGlobalMouseUp = () => {
+      if (isPanningRef.current) {
+        isPanningRef.current = false;
+        setIsPanning(false);
       }
-    }
+      if (draggedNodeIdRef.current) {
+        draggedNodeIdRef.current = null;
+      }
+    };
+
+    window.addEventListener('mousemove', handleGlobalMouseMove);
+    window.addEventListener('mouseup', handleGlobalMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleGlobalMouseMove);
+      window.removeEventListener('mouseup', handleGlobalMouseUp);
+    };
+  }, []);
+
+  // --- Wheel Zoom around cursor & ResizeObserver ---
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const handleNativeWheel = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const zoomFactor = e.deltaY < 0 ? 1.12 : 0.89;
+      const prevZoom = zoomLevelRef.current;
+      const newZoom = Math.max(0.2, Math.min(2.5, +(prevZoom * zoomFactor).toFixed(3)));
+      if (newZoom === prevZoom) return;
+
+      const rect = el.getBoundingClientRect();
+      const cursorX = e.clientX - rect.left;
+      const cursorY = e.clientY - rect.top;
+
+      const worldX = (cursorX - panOffsetRef.current.x) / prevZoom;
+      const worldY = (cursorY - panOffsetRef.current.y) / prevZoom;
+
+      const newPan = {
+        x: Math.round(cursorX - worldX * newZoom),
+        y: Math.round(cursorY - worldY * newZoom)
+      };
+
+      setZoomLevel(newZoom);
+      setPanOffset(newPan);
+    };
+
+    el.addEventListener('wheel', handleNativeWheel, { passive: false });
+
+    let prevW = el.clientWidth;
+    let prevH = el.clientHeight;
+
+    const ro = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect;
+        if (Math.abs(width - prevW) > 25 || Math.abs(height - prevH) > 25) {
+          prevW = width;
+          prevH = height;
+          handleFitToScreen();
+        }
+      }
+    });
+    ro.observe(el);
+
+    return () => {
+      el.removeEventListener('wheel', handleNativeWheel);
+      ro.disconnect();
+    };
+  }, [handleFitToScreen]);
+
+  // --- Authoring Handlers ---
+  const handleCreateCustomNode = () => {
+    if (!newNodeName.trim()) return;
+    const newNode = {
+      id: `custom:${Date.now()}`,
+      name: newNodeName.trim(),
+      type: newNodeType,
+      subType: newNodeType === 'lineage' ? 'Custom Lineage' : newNodeType === 'faction' ? 'Custom Order' : 'Custom Entity',
+      color: newNodeType === 'lineage' ? '#7d3c98' : newNodeType === 'faction' ? '#8b261e' : '#d4af37',
+      icon: newNodeType === 'lineage' ? 'fa-dna' : newNodeType === 'faction' ? 'fa-shield-halved' : 'fa-star',
+      regionId: newNodeRegion,
+      description: newNodeDesc.trim()
+    };
+    saveCustomNodes([...customUserNodes, newNode]);
+    setNewNodeName('');
+    setNewNodeDesc('');
+    setShowAddNodeModal(false);
   };
 
-  const handleTouchEnd = (e) => {
-    const state = touchStateRef.current;
+  const handleCreateCustomEdge = () => {
+    if (!linkingSourceNodeId && !selectedNodeId) return;
+    const source = linkingSourceNodeId || selectedNodeId;
+    const target = newEdgeTargetId;
+    if (!target || source === target) return;
 
-    // If tapped on a node without significant movement, select it
-    if (state.mode === 'dragNode' && !state.hasMoved && state.nodeId) {
-      const targetNode = allNodes.find((n) => n.id === state.nodeId);
-      if (targetNode) {
-        setSelectedNodeId(targetNode.id);
-        if (onEntityClick) onEntityClick(targetNode);
-      }
-    }
+    const newEdge = {
+      id: `custom_edge:${Date.now()}`,
+      source,
+      target,
+      type: newEdgeType,
+      label: newEdgeLabel.trim() || (newEdgeType === 'hostile' ? 'War' : newEdgeType === 'family' ? 'Bloodline' : 'Allied'),
+      color: newEdgeType === 'hostile' ? '#a8241b' : newEdgeType === 'family' ? '#b03a74' : '#7d3c98'
+    };
 
-    touchStateRef.current.mode = 'none';
-    touchStateRef.current.nodeId = null;
+    saveCustomEdges([...customUserEdges, newEdge]);
+    setNewEdgeLabel('');
+    setShowAddEdgeModal(false);
+    setLinkingSourceNodeId(null);
+  };
+
+  const deleteCustomNode = (nodeId) => {
+    saveCustomNodes(customUserNodes.filter((n) => n.id !== nodeId));
+    saveCustomEdges(customUserEdges.filter((e) => e.source !== nodeId && e.target !== nodeId));
+    if (selectedNodeId === nodeId) setSelectedNodeId(null);
+  };
+
+  const deleteCustomEdge = (edgeId) => {
+    saveCustomEdges(customUserEdges.filter((e) => e.id !== edgeId));
   };
 
   const toggleTypeFilter = (type) => {
@@ -589,7 +749,6 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
     return allNodes.find((n) => n.id === selectedNodeId) || null;
   }, [allNodes, selectedNodeId]);
 
-  // Connected nodes to the hovered/selected node for spotlighting
   const activeFocusId = hoveredNodeId || selectedNodeId;
   const directNeighborSet = useMemo(() => {
     if (!activeFocusId || !connectionMap.has(activeFocusId)) return null;
@@ -616,9 +775,18 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
             </button>
             <button
               type="button"
+              className={`pathfinder-filter-chip ${activeTypeFilters.includes('lineage') ? 'active lineage' : ''}`}
+              onClick={() => toggleTypeFilter('lineage')}
+              title="Toggle Lineages & Peoples (Species)"
+            >
+              <i className="fas fa-dna"></i>
+              <span>Lineages ({allLineages.length})</span>
+            </button>
+            <button
+              type="button"
               className={`pathfinder-filter-chip ${activeTypeFilters.includes('location') ? 'active location' : ''}`}
               onClick={() => toggleTypeFilter('location')}
-              title="Toggle Locations & Keeps"
+              title="Toggle Locations & Realms"
             >
               <i className="fas fa-map-pin"></i>
               <span>Locations ({locations.length})</span>
@@ -627,37 +795,49 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
               type="button"
               className={`pathfinder-filter-chip ${activeTypeFilters.includes('family_node') ? 'active family' : ''}`}
               onClick={() => toggleTypeFilter('family_node')}
-              title="Toggle Dynastic Lineages"
+              title="Toggle Dynasty Family Trees"
             >
               <i className="fas fa-crown"></i>
               <span>Dynasties ({trees.reduce((acc, t) => acc + (t.nodes || []).length, 0)})</span>
             </button>
+            {customUserNodes.length > 0 && (
+              <button
+                type="button"
+                className={`pathfinder-filter-chip ${activeTypeFilters.includes('custom') ? 'active custom' : ''}`}
+                onClick={() => toggleTypeFilter('custom')}
+                title="Toggle Custom Author Nodes"
+              >
+                <i className="fas fa-sparkles"></i>
+                <span>Custom ({customUserNodes.length})</span>
+              </button>
+            )}
           </div>
 
-          {/* Mobile search toggle & Connected-only quick toggle */}
-          <div className="toolbar-mobile-actions">
+          <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
             <button
               type="button"
-              className={`pathfinder-toggle-btn mobile-search-toggle ${showMobileSearch ? 'active' : ''}`}
-              onClick={() => setShowMobileSearch((prev) => !prev)}
-              title="Search graph"
+              className="pathfinder-action-btn primary"
+              onClick={() => setShowAddNodeModal(true)}
+              title="Create Custom Lineage, Faction or Entity in the Relationship Web"
             >
-              <i className="fas fa-search"></i>
+              <i className="fas fa-plus"></i> + Entity
             </button>
-
             <button
               type="button"
-              className={`pathfinder-toggle-btn ${hideDisconnected ? 'active' : ''}`}
-              onClick={() => setHideDisconnected((prev) => !prev)}
-              title={hideDisconnected ? 'Showing Connected Only' : 'Show All Nodes'}
+              className={`pathfinder-action-btn ${linkingSourceNodeId ? 'active' : ''}`}
+              onClick={() => {
+                if (linkingSourceNodeId) setLinkingSourceNodeId(null);
+                else if (selectedNodeId) setLinkingSourceNodeId(selectedNodeId);
+                else alert('Click any node on the web first, then click Link Relation!');
+              }}
+              title="Click a node and link a custom relation to another node"
             >
-              <i className="fas fa-link"></i>
-              <span className="btn-label-desktop">Connected</span>
+              <i className="fas fa-link"></i> {linkingSourceNodeId ? 'Click Target Node...' : '+ Link Relation'}
             </button>
           </div>
         </div>
 
-        {/* Secondary controls row: Filters, Layouts & Search */}
+        {/* Secondary controls row */}
         <div className={`toolbar-controls-row ${showMobileSearch ? 'show-search-mobile' : ''}`}>
           <div className="pathfinder-select-group">
             <select
@@ -679,7 +859,7 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
               className="pathfinder-select"
               title="Layout Organization Mode"
             >
-              <option value="cluster">Group by Realm</option>
+              <option value="cluster">Organic Clusters</option>
               <option value="orbital">Orbital Rings</option>
             </select>
           </div>
@@ -698,6 +878,7 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
                 type="button"
                 className="clear-search-btn"
                 onClick={() => setSearchQuery('')}
+                title="Clear Search"
               >
                 &times;
               </button>
@@ -709,22 +890,15 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
       {/* Main Canvas Workspace */}
       <div
         ref={containerRef}
-        className="pathfinder-canvas-container"
+        className={`pathfinder-canvas-container ${isPanning ? 'panning' : ''} ${linkingSourceNodeId ? 'linking-mode' : ''}`}
         onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onWheel={handleWheel}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        onTouchCancel={handleTouchEnd}
       >
-        {/* Floating Mobile Canvas HUD Controls */}
+        {/* Floating Canvas HUD Controls */}
         <div className="pathfinder-floating-hud">
           <button
             type="button"
             className="hud-btn"
-            onClick={() => setZoomLevel((z) => Math.min(2.0, z + 0.18))}
+            onClick={() => handleZoomByFactor(1.18)}
             title="Zoom In"
           >
             <i className="fas fa-plus"></i>
@@ -732,7 +906,7 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
           <button
             type="button"
             className="hud-btn"
-            onClick={() => setZoomLevel((z) => Math.max(0.35, z - 0.18))}
+            onClick={() => handleZoomByFactor(0.85)}
             title="Zoom Out"
           >
             <i className="fas fa-minus"></i>
@@ -741,7 +915,7 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
             type="button"
             className="hud-btn"
             onClick={handleFitToScreen}
-            title="Fit Entire Web to Screen"
+            title="Fit Graph to Screen"
           >
             <i className="fas fa-expand"></i>
           </button>
@@ -751,66 +925,66 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
             onClick={handleResetLayout}
             title="Reset to Default Layout"
           >
-            <i className="fas fa-arrows-rotate"></i>
+            <i className="fas fa-rotate"></i>
           </button>
         </div>
 
+        {/* Unified Transformed Stage Viewport */}
         <div
-          className="pathfinder-canvas"
+          className="pathfinder-canvas-stage"
           style={{
-            width: `${CANVAS_WIDTH}px`,
-            height: `${CANVAS_HEIGHT}px`,
             transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoomLevel})`
           }}
         >
-          {/* SVG Connection Lines */}
-          <svg className="pathfinder-svg-layer" width={CANVAS_WIDTH} height={CANVAS_HEIGHT}>
+          {/* SVG Canvas for Relationship Lines */}
+          <svg
+            className="pathfinder-graph-svg"
+            width={CANVAS_WIDTH}
+            height={CANVAS_HEIGHT}
+            viewBox={`0 0 ${CANVAS_WIDTH} ${CANVAS_HEIGHT}`}
+          >
             {visibleEdges.map((edge) => {
-              const src = getNodePos(edge.source);
-              const tgt = getNodePos(edge.target);
-              const isEdgeHovered = hoveredEdge?.id === edge.id;
-              const isHighlighted =
-                directNeighborSet &&
-                directNeighborSet.has(edge.source) &&
-                directNeighborSet.has(edge.target);
-              const isDimmed = directNeighborSet && !isHighlighted;
+              const p1 = getNodePos(edge.source);
+              const p2 = getNodePos(edge.target);
+              const isHovered = hoveredEdge === edge.id;
+              const isDirect =
+                activeFocusId &&
+                (edge.source === activeFocusId || edge.target === activeFocusId);
+              const isDimmed = activeFocusId && !isDirect;
+
+              const midX = (p1.x + p2.x) / 2;
+              const midY = (p1.y + p2.y) / 2;
 
               return (
-                <g key={edge.id} opacity={isDimmed ? 0.12 : isHighlighted || isEdgeHovered ? 1 : 0.65}>
+                <g
+                  key={edge.id}
+                  className={`graph-edge-group ${isDimmed ? 'dimmed' : ''} ${isHovered ? 'hovered' : ''}`}
+                  onMouseEnter={() => setHoveredEdge(edge.id)}
+                  onMouseLeave={() => setHoveredEdge(null)}
+                >
                   <line
-                    x1={src.x}
-                    y1={src.y}
-                    x2={tgt.x}
-                    y2={tgt.y}
-                    stroke={edge.color || '#8b5a1a'}
-                    strokeWidth={isHighlighted || isEdgeHovered ? 3.5 : 1.8}
-                    strokeDasharray={edge.strokeDash || undefined}
-                    onMouseEnter={() => setHoveredEdge(edge)}
-                    onMouseLeave={() => setHoveredEdge(null)}
-                    style={{ cursor: 'pointer' }}
+                    x1={p1.x}
+                    y1={p1.y}
+                    x2={p2.x}
+                    y2={p2.y}
+                    stroke={edge.color}
+                    strokeWidth={isHovered ? 4.5 : isDirect ? 3 : 1.8}
+                    strokeDasharray={edge.strokeDash || 'none'}
+                    className="edge-line"
                   />
-                  {(isEdgeHovered || isHighlighted) && (
-                    <g transform={`translate(${(src.x + tgt.x) / 2}, ${(src.y + tgt.y) / 2})`}>
+                  {edge.label && (
+                    <g transform={`translate(${midX}, ${midY})`} className="edge-label-pill">
                       <rect
-                        x="-38"
-                        y="-12"
-                        width="76"
+                        x={-(edge.label.length * 3.8 + 8)}
+                        y="-9"
+                        width={edge.label.length * 7.6 + 16}
                         height="18"
                         rx="4"
-                        fill="#fcf9f2"
-                        stroke={edge.color || '#8b5a1a'}
-                        strokeWidth="1"
+                        fill="#fefcf8"
+                        stroke={edge.color}
+                        strokeWidth="1.2"
                       />
-                      <text
-                        x="0"
-                        y="1"
-                        fill="#2b1408"
-                        fontSize="10"
-                        fontWeight="bold"
-                        fontFamily="'Cinzel', Georgia, serif"
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                      >
+                      <text x="0" y="3.5" textAnchor="middle" fill="#2b1408" fontSize="9.5" fontWeight="700">
                         {edge.label}
                       </text>
                     </g>
@@ -820,140 +994,259 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
             })}
           </svg>
 
-          {/* Node Cards */}
-          {visibleNodes.map((node) => {
-            const pos = getNodePos(node.id);
-            const isSelected = selectedNodeId === node.id;
-            const isHovered = hoveredNodeId === node.id;
-            const isDimmed = directNeighborSet && !directNeighborSet.has(node.id);
+          {/* Rendered Graph Nodes Layer */}
+          <div className="pathfinder-nodes-layer">
+            {visibleNodes.map((node) => {
+              const pos = getNodePos(node.id);
+              const isSelected = selectedNodeId === node.id;
+              const isHovered = hoveredNodeId === node.id;
+              const isLinkingSource = linkingSourceNodeId === node.id;
+              const isDirectNeighbor = directNeighborSet && directNeighborSet.has(node.id);
+              const isDimmed = directNeighborSet && !isDirectNeighbor;
 
-            return (
-              <div
-                key={node.id}
-                data-node-id={node.id}
-                className={`pathfinder-graph-node ${node.type} ${isSelected ? 'selected' : ''} ${
-                  isHovered ? 'hovered' : ''
-                } ${isDimmed ? 'dimmed' : ''}`}
-                style={{
-                  left: `${pos.x}px`,
-                  top: `${pos.y}px`,
-                  borderLeftColor: node.color
-                }}
-                onMouseDown={(e) => {
-                  e.stopPropagation();
-                  setDraggedNodeId(node.id);
-                  setDragStartPos({ x: e.clientX, y: e.clientY });
-                }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedNodeId(node.id);
-                  if (onEntityClick) onEntityClick(node);
-                }}
-                onMouseEnter={() => setHoveredNodeId(node.id)}
-                onMouseLeave={() => setHoveredNodeId(null)}
-              >
-                <div className="crest-seal" style={{ backgroundColor: node.crestBg, color: node.color }}>
-                  <i className={`fas ${node.icon}`}></i>
-                </div>
-                <div className="node-text-block">
-                  <div className="node-title" title={node.name}>
-                    {node.name}
+              return (
+                <div
+                  key={node.id}
+                  data-node-id={node.id}
+                  className={`pathfinder-graph-node ${node.type} ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''} ${isDimmed ? 'dimmed' : ''} ${isLinkingSource ? 'linking-source' : ''}`}
+                  style={{
+                    left: `${pos.x}px`,
+                    top: `${pos.y}px`,
+                    '--node-color': node.color,
+                    '--node-crest-bg': node.crestBg
+                  }}
+                  onMouseDown={(e) => handleNodeMouseDown(e, node.id)}
+                  onMouseEnter={() => setHoveredNodeId(node.id)}
+                  onMouseLeave={() => setHoveredNodeId(null)}
+                  onClick={() => {
+                    setSelectedNodeId(node.id);
+                    if (onEntityClick) onEntityClick(node);
+                  }}
+                >
+                  <div className="node-crest-seal">
+                    {node.imageUrl ? (
+                      <img src={node.imageUrl} alt={node.name} onError={(e) => { e.target.style.display = 'none'; }} />
+                    ) : (
+                      <i className={`fas ${node.icon}`}></i>
+                    )}
                   </div>
-                  <div className="node-subtitle" style={{ color: node.color }}>
-                    {node.subType}
+                  <div className="node-content-stack">
+                    <span className="node-name-text">{node.name}</span>
+                    <span className="node-type-badge">{node.subType}</span>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
 
-      {/* Selected Entity Codex Drawer / Bottom Sheet on mobile */}
+      {/* Selected Node Sidebar Inspector */}
       {selectedNode && (
-        <>
-          <div
-            className="pathfinder-codex-backdrop"
-            onClick={() => setSelectedNodeId(null)}
-          />
-          <div className="pathfinder-codex-drawer">
-            <div className="codex-drawer-handle" />
-            <div className="codex-drawer-header">
-              <div className="codex-drawer-title">
-                <span className="drawer-crest" style={{ color: selectedNode.color }}>
-                  <i className={`fas ${selectedNode.icon}`}></i>
-                </span>
-                <div>
-                  <h3>{selectedNode.name}</h3>
-                  <span className="codex-type" style={{ color: selectedNode.color }}>
-                    {selectedNode.type.toUpperCase()} • {selectedNode.subType}
-                  </span>
-                </div>
-              </div>
-              <button className="codex-close-btn" onClick={() => setSelectedNodeId(null)}>
-                <i className="fas fa-times"></i>
-              </button>
+        <div className="pathfinder-codex-drawer">
+          <div className="drawer-header" style={{ borderColor: selectedNode.color }}>
+            <div className="header-badge" style={{ background: selectedNode.color }}>
+              <i className={`fas ${selectedNode.icon}`}></i>
             </div>
+            <div>
+              <h3>{selectedNode.name}</h3>
+              <span className="sub-badge">{selectedNode.subType}</span>
+            </div>
+            <button
+              type="button"
+              className="btn-close-drawer"
+              onClick={() => setSelectedNodeId(null)}
+              title="Close Details"
+            >
+              &times;
+            </button>
+          </div>
 
-            <div className="codex-drawer-body">
-              {selectedNode.imageUrl && (
-                <div className="codex-portrait-frame">
-                  <img src={selectedNode.imageUrl} alt={selectedNode.name} className="codex-portrait" />
-                </div>
-              )}
+          <div className="drawer-body">
+            {selectedNode.description && (
+              <p className="drawer-desc">{selectedNode.description}</p>
+            )}
 
-              <div className="codex-section">
-                <h4>Chronicle &amp; Overview</h4>
-                <p>{selectedNode.description || 'No detailed records inscribed.'}</p>
-              </div>
-
-              {/* Direct Connections in Codex */}
-              <div className="codex-section">
-                <h4>Direct Inscribed Ties</h4>
-                <div className="codex-links-list">
-                  {visibleEdges
-                    .filter((e) => e.source === selectedNode.id || e.target === selectedNode.id)
-                    .map((edge) => {
-                      const otherId = edge.source === selectedNode.id ? edge.target : edge.source;
-                      const otherNode = allNodes.find((n) => n.id === otherId);
-                      if (!otherNode) return null;
-
-                      return (
-                        <div
-                          key={edge.id}
-                          className="codex-link-chip"
-                          onClick={() => {
-                            setSelectedNodeId(otherNode.id);
-                            centerOnNode(otherNode.id);
-                          }}
-                        >
-                          <span className="link-rel-badge" style={{ borderColor: edge.color, color: edge.color }}>
-                            {edge.label}
-                          </span>
-                          <span className="link-target-name">{otherNode.name}</span>
-                          <i className="fas fa-arrow-right-long link-arrow"></i>
-                        </div>
-                      );
-                    })}
-                </div>
-              </div>
-
-              <div className="codex-footer-actions">
+            <div style={{ marginTop: '8px', display: 'flex', gap: '6px' }}>
+              <button
+                type="button"
+                className="pathfinder-action-btn primary"
+                onClick={() => setLinkingSourceNodeId(selectedNode.id)}
+                style={{ flex: 1 }}
+              >
+                <i className="fas fa-link"></i> Link Relation
+              </button>
+              {selectedNode.isUserCreated && (
                 <button
                   type="button"
-                  className="btn-center-node"
-                  onClick={() => centerOnNode(selectedNode.id)}
+                  className="pathfinder-action-btn danger"
+                  onClick={() => deleteCustomNode(selectedNode.id)}
+                  title="Delete Custom Entity"
                 >
-                  <i className="fas fa-crosshairs"></i> Center View
+                  <i className="fas fa-trash-alt"></i>
                 </button>
-              </div>
+              )}
+            </div>
+
+            {/* Direct Connected Entities */}
+            <h4 style={{ marginTop: '14px', fontFamily: 'Cinzel', fontSize: '0.82rem', color: '#5a2e12' }}>
+              Direct Connections ({connectionMap.get(selectedNode.id)?.size || 0})
+            </h4>
+            <div className="connected-entities-list" style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '6px' }}>
+              {allEdges
+                .filter((e) => e.source === selectedNode.id || e.target === selectedNode.id)
+                .map((edge) => {
+                  const otherId = edge.source === selectedNode.id ? edge.target : edge.source;
+                  const otherNode = allNodes.find((n) => n.id === otherId);
+                  if (!otherNode) return null;
+
+                  return (
+                    <div
+                      key={edge.id}
+                      className="connected-entity-item"
+                      onClick={() => setSelectedNodeId(otherNode.id)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        background: '#fbf8f0',
+                        border: '1px solid #e3d5be',
+                        borderRadius: '4px',
+                        padding: '6px 8px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <i className={`fas ${otherNode.icon}`} style={{ color: otherNode.color, fontSize: '0.8rem' }}></i>
+                        <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#2b1408' }}>{otherNode.name}</span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <span style={{ fontSize: '0.72rem', color: edge.color, fontWeight: 700 }}>{edge.label}</span>
+                        {edge.isUserCreated && (
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteCustomEdge(edge.id);
+                            }}
+                            style={{ background: 'none', border: 'none', color: '#a8241b', cursor: 'pointer', fontSize: '0.75rem' }}
+                            title="Remove Connection"
+                          >
+                            <i className="fas fa-times"></i>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
             </div>
           </div>
-        </>
+        </div>
+      )}
+
+      {/* Modal: Add Custom Entity Node */}
+      {showAddNodeModal && (
+        <div className="custom-rel-modal-overlay" onClick={() => setShowAddNodeModal(false)}>
+          <div className="custom-rel-modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3><i className="fas fa-sparkles"></i> Create Lore Entity / Species / Faction</h3>
+            <div>
+              <label>Entity Name</label>
+              <input
+                type="text"
+                value={newNodeName}
+                onChange={(e) => setNewNodeName(e.target.value)}
+                placeholder="e.g. Frost Elves, House of Dawn, Sunken Spires..."
+                className="conspiracy-modal-input"
+              />
+            </div>
+            <div>
+              <label>Entity Category</label>
+              <select
+                value={newNodeType}
+                onChange={(e) => setNewNodeType(e.target.value)}
+                className="conspiracy-modal-input"
+              >
+                <option value="lineage">Lineage & Species (DNA Bloodline)</option>
+                <option value="faction">Faction & Order</option>
+                <option value="location">Settlement & Landmark</option>
+                <option value="custom">Custom Entity</option>
+              </select>
+            </div>
+            <div>
+              <label>Region / Realm</label>
+              <select
+                value={newNodeRegion}
+                onChange={(e) => setNewNodeRegion(e.target.value)}
+                className="conspiracy-modal-input"
+              >
+                <option value="frostwood-reach">Frostwood Reach</option>
+                <option value="nordhalla">Nordhalla</option>
+                <option value="sundale">Sundale</option>
+              </select>
+            </div>
+            <div>
+              <label>Description & Lore</label>
+              <textarea
+                value={newNodeDesc}
+                onChange={(e) => setNewNodeDesc(e.target.value)}
+                placeholder="Describe this species, faction, or entity..."
+                rows={3}
+                className="conspiracy-modal-input"
+              />
+            </div>
+            <div className="modal-actions">
+              <button type="button" className="pathfinder-action-btn" onClick={() => setShowAddNodeModal(false)}>
+                Cancel
+              </button>
+              <button type="button" className="pathfinder-action-btn primary" onClick={handleCreateCustomNode}>
+                + Add to Web
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Add Custom Relationship Edge */}
+      {showAddEdgeModal && (
+        <div className="custom-rel-modal-overlay" onClick={() => setShowAddEdgeModal(false)}>
+          <div className="custom-rel-modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3><i className="fas fa-link"></i> Forge Relationship Tie</h3>
+            <div>
+              <label>Relationship Type</label>
+              <select
+                value={newEdgeType}
+                onChange={(e) => setNewEdgeType(e.target.value)}
+                className="conspiracy-modal-input"
+              >
+                <option value="alliance">Alliance / Friendly Tie</option>
+                <option value="family">Kinship / Bloodline / Subrace</option>
+                <option value="territory">Homeland / Seat / Holding</option>
+                <option value="hostile">Hostility / War / Rival</option>
+              </select>
+            </div>
+            <div>
+              <label>Label / Title</label>
+              <input
+                type="text"
+                value={newEdgeLabel}
+                onChange={(e) => setNewEdgeLabel(e.target.value)}
+                placeholder="e.g. Allied Bloodline, Liege Lord, Ancient Feud..."
+                className="conspiracy-modal-input"
+              />
+            </div>
+            <div className="modal-actions">
+              <button type="button" className="pathfinder-action-btn" onClick={() => setShowAddEdgeModal(false)}>
+                Cancel
+              </button>
+              <button type="button" className="pathfinder-action-btn primary" onClick={handleCreateCustomEdge}>
+                + Forge Tie
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
 };
 
 export default UniversalEntityGraph;
-

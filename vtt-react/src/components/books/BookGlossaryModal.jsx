@@ -292,7 +292,7 @@ export const BookGlossaryModal = ({
               </form>
             ) : (
               <div className="editor-prompt-blank">
-                <i className="fas fa-hand-pointer"></i>
+                <i className="fas fa-hand-pointer editor-prompt-blank-icon"></i>
                 <h4>Select a Term or Create a New One</h4>
                 <p>Glossary terms are automatically indexed across all pages in this book. Whenever you or a reader hovers over an in-text term (or types <code>[[TermName]]</code>), this interactive tooltip appears seamlessly.</p>
                 <button type="button" className="new-term-btn large" onClick={startCreate}>

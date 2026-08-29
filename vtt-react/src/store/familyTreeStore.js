@@ -4,7 +4,7 @@ import { createStorageConfig } from '../utils/storageUtils';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../config/firebase';
 
-// Built-in starter family tree demo data (House Alduin / Tolavarak Dynasty)
+// Built-in starter family tree demo data
 const DEFAULT_STARTER_TREES = [
   {
     id: 'tree-alduin',
@@ -121,68 +121,140 @@ const DEFAULT_STARTER_TREES = [
       }
     ],
     relationships: [
-      // Nikolaos + Serena (Spouses)
+      { id: 'rel-nik-ser', type: 'spouse', sourceId: 'node-nikolaos', targetId: 'node-serena', status: 'married', label: 'Imperial Marriage' },
+      { id: 'rel-parent-munstus', type: 'parent_child', parentId1: 'node-nikolaos', parentId2: 'node-serena', childId: 'node-munstus', relationType: 'biological' },
+      { id: 'rel-parent-erasmus', type: 'parent_child', parentId1: 'node-nikolaos', parentId2: 'node-serena', childId: 'node-erasmus', relationType: 'biological' },
+      { id: 'rel-mun-zero', type: 'spouse', sourceId: 'node-munstus', targetId: 'node-zero', status: 'married', label: 'Gilded Union' },
+      { id: 'rel-era-mil', type: 'spouse', sourceId: 'node-erasmus', targetId: 'node-milenna', status: 'married', label: 'Alliance' },
+      { id: 'rel-parent-aurelia', type: 'parent_child', parentId1: 'node-munstus', parentId2: 'node-zero', childId: 'node-aurelia', relationType: 'biological' }
+    ]
+  },
+  {
+    id: 'tree-valen',
+    name: 'House Valen — Shadow-Weavers of the Sunken Spire',
+    description: 'Ancient elven bloodline master of arcana, illusions, and shadow pacts.',
+    coverImage: '/assets/images/backgrounds/frostwood.jpeg',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    nodes: [
       {
-        id: 'rel-nik-ser',
-        type: 'spouse',
-        sourceId: 'node-nikolaos',
-        targetId: 'node-serena',
-        status: 'married', // 'married' | 'betrothed' | 'divorced' | 'consort'
-        label: 'Imperial Marriage'
+        id: 'node-val-patriarch',
+        name: 'Lord Vaelin Valen',
+        title: 'High Arch-Mage',
+        lifespan: '620 - 780',
+        role: 'Founding Patriarch',
+        portraitUrl: null,
+        gender: 'male',
+        isDeceased: true,
+        generationTier: 1,
+        position: { x: 380, y: 120 },
+        notes: 'Bound the elemental shadow spirits to the family crest.',
+        lineageId: 'canon-elf'
       },
-      // Parents -> Munstus
       {
-        id: 'rel-parent-munstus',
-        type: 'parent_child',
-        parentId1: 'node-nikolaos',
-        parentId2: 'node-serena',
-        childId: 'node-munstus',
-        relationType: 'biological' // 'biological' | 'adoptive' | 'illegitimate' | 'clone'
+        id: 'node-val-matriarch',
+        name: 'Lady Sylphira Valen',
+        title: 'Lady of the Whispering Spire',
+        lifespan: '640 - 810',
+        role: 'Matriarch',
+        portraitUrl: null,
+        gender: 'female',
+        isDeceased: true,
+        generationTier: 1,
+        position: { x: 600, y: 120 },
+        notes: 'Ancient seeress of the Northern Astral Veil.',
+        lineageId: 'canon-elf'
       },
-      // Parents -> Erasmus
       {
-        id: 'rel-parent-erasmus',
-        type: 'parent_child',
-        parentId1: 'node-nikolaos',
-        parentId2: 'node-serena',
-        childId: 'node-erasmus',
-        relationType: 'biological'
-      },
-      // Munstus + Zero (Spouses)
-      {
-        id: 'rel-mun-zero',
-        type: 'spouse',
-        sourceId: 'node-munstus',
-        targetId: 'node-zero',
-        status: 'married',
-        label: 'Gilded Union'
-      },
-      // Erasmus + Milenna (Spouses)
-      {
-        id: 'rel-era-mil',
-        type: 'spouse',
-        sourceId: 'node-erasmus',
-        targetId: 'node-milenna',
-        status: 'married',
-        label: 'Alliance'
-      },
-      // Munstus & Zero -> Aurelia
-      {
-        id: 'rel-parent-aurelia',
-        type: 'parent_child',
-        parentId1: 'node-munstus',
-        parentId2: 'node-zero',
-        childId: 'node-aurelia',
-        relationType: 'biological'
+        id: 'node-val-heir',
+        name: 'Archon Malakor Valen',
+        title: 'Master of the Eclipse',
+        lifespan: '770 - Present',
+        role: 'Dynasty Lord',
+        portraitUrl: null,
+        gender: 'male',
+        isDeceased: false,
+        generationTier: 2,
+        position: { x: 490, y: 340 },
+        notes: 'Current ruler of the Valen Spire and Grand Council member.',
+        lineageId: 'canon-elf'
       }
+    ],
+    relationships: [
+      { id: 'rel-val-1', type: 'spouse', sourceId: 'node-val-patriarch', targetId: 'node-val-matriarch', status: 'married', label: 'Spiritual Union' },
+      { id: 'rel-val-2', type: 'parent_child', parentId1: 'node-val-patriarch', parentId2: 'node-val-matriarch', childId: 'node-val-heir', relationType: 'biological' }
     ]
   }
 ];
 
+export const normalizeTree = (t, idx = 0) => {
+  if (!t || typeof t !== 'object') return null;
+  const nodes = (t.nodes || []).map((node, nIdx) => ({
+    id: node.id || `node-${Date.now()}-${nIdx}`,
+    name: node.name || 'Unnamed Member',
+    title: node.title || '',
+    lifespan: node.lifespan || '',
+    role: node.role || '',
+    portraitUrl: node.portraitUrl || null,
+    gender: node.gender || 'other',
+    isDeceased: Boolean(node.isDeceased),
+    generationTier: node.generationTier || 1,
+    position: node.position && typeof node.position.x === 'number' && typeof node.position.y === 'number'
+      ? node.position
+      : { x: (nIdx % 4) * 220 + 200, y: Math.floor(nIdx / 4) * 200 + 120 },
+    notes: node.notes || '',
+    lineageId: node.lineageId || null,
+    npcId: node.npcId || null
+  }));
+
+  const relationships = (t.relationships || []).map((r, rIdx) => ({
+    id: r.id || `rel-${Date.now()}-${rIdx}`,
+    type: r.type || 'spouse',
+    sourceId: r.sourceId || r.fromId || '',
+    targetId: r.targetId || r.toId || '',
+    parentId1: r.parentId1 || '',
+    parentId2: r.parentId2 || null,
+    childId: r.childId || '',
+    status: r.status || 'married',
+    relationType: r.relationType || 'biological',
+    label: r.label || ''
+  }));
+
+  return {
+    id: t.id || `tree-${Date.now()}-${idx}`,
+    name: t.name || 'Untitled Dynasty',
+    description: t.description || '',
+    coverImage: t.coverImage || null,
+    createdAt: t.createdAt || new Date().toISOString(),
+    updatedAt: t.updatedAt || new Date().toISOString(),
+    nodes,
+    relationships
+  };
+};
+
+export const normalizeTrees = (trees) => {
+  if (!Array.isArray(trees) || trees.length === 0) {
+    return DEFAULT_STARTER_TREES.map((t, idx) => normalizeTree(t, idx));
+  }
+  const cleaned = trees.map((t, idx) => normalizeTree(t, idx)).filter(Boolean);
+  return cleaned.length > 0 ? cleaned : DEFAULT_STARTER_TREES.map((t, idx) => normalizeTree(t, idx));
+};
+
 const useFamilyTreeStore = create(
   persist(
     (set, get) => ({
-      trees: DEFAULT_STARTER_TREES,
+      trees: (() => {
+        try {
+          const raw = localStorage.getItem('mythrill_family_trees_storage');
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed?.state?.trees) {
+              return normalizeTrees(parsed.state.trees);
+            }
+          }
+        } catch {}
+        return normalizeTrees(DEFAULT_STARTER_TREES);
+      })(),
       activeTreeId: 'tree-alduin',
       selectedNodeId: null,
       isStudioOpen: false,
@@ -523,7 +595,14 @@ const useFamilyTreeStore = create(
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'familyTrees');
           const snap = await getDoc(docRef);
           if (snap.exists() && snap.data()?.trees) {
-            set({ trees: snap.data().trees });
+            const rawTrees = snap.data().trees;
+            if (Array.isArray(rawTrees) && rawTrees.length > 0) {
+              const normalized = normalizeTrees(rawTrees);
+              set({
+                trees: normalized,
+                activeTreeId: normalized.some(t => t.id === get().activeTreeId) ? get().activeTreeId : normalized[0].id
+              });
+            }
           }
         } catch (err) {
           console.debug('Family trees cloud hydration skipped:', err?.message || err);

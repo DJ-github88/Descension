@@ -132,8 +132,8 @@
 }
 
 .region-hero-stat-card {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  background: rgba(16, 9, 5, 0.75) !important;
+  border: 1.5px solid rgba(212, 175, 55, 0.45) !important;
   border-radius: 8px;
   padding: 10px 16px;
   display: flex;
@@ -141,20 +141,29 @@
   align-items: center;
   text-align: center;
   min-width: 90px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
 }
 
 .region-hero-stat-card .stat-value {
-  font-family: 'Cinzel', serif;
-  font-size: 20px;
-  font-weight: 800;
-  color: #ffd700;
+  font-family: 'Cinzel', serif !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  color: #ffd700 !important;
+  line-height: 1.1 !important;
+  margin-bottom: 3px !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important;
 }
 
 .region-hero-stat-card .stat-label {
-  font-size: 10.5px;
-  color: #bfa47d;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-size: 11px !important;
+  color: #f7edd9 !important;
+  font-family: 'Cinzel', serif !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.8px !important;
+  line-height: 1.2 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8) !important;
 }
 
 /* ==========================================================================

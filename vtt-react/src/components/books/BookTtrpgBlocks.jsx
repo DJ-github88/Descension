@@ -4,6 +4,7 @@ import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedS
 import { SpellLibraryProvider } from '../spellcrafting-wizard/context/SpellLibraryContext';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import { getIconUrl } from '../../utils/assetManager';
+import StylusDrawingCanvas from '../common/StylusDrawingCanvas';
 
 /**
  * Standard danger level normalization helper
@@ -3009,3 +3010,85 @@ export const TableOfContentsBlock = ({
     </div>
   );
 };
+
+/**
+ * Hand-Drawn Stylus Illustration / Cartographic Sketch Block
+ */
+export const BookSketchBlock = ({
+  block,
+  isEditMode = false,
+  onChange = () => {}
+}) => {
+  const [isAnnotating, setIsAnnotating] = useState(false);
+  const strokes = block.strokes || [];
+  const bgTheme = block.bgTheme || 'parchment';
+  const title = block.title || 'Cartographic Sketch';
+  const caption = block.caption || '';
+
+  const handleCanvasChange = ({ strokes: newStrokes, bgTheme: newBgTheme }) => {
+    onChange({
+      ...block,
+      strokes: newStrokes,
+      bgTheme: newBgTheme || bgTheme
+    });
+  };
+
+  return (
+    <div className="book-sketch-block-wrapper">
+      {isEditMode ? (
+        <div className="book-sketch-edit-container">
+          <div className="book-sketch-meta-inputs">
+            <input
+              type="text"
+              className="book-sketch-title-input"
+              value={title}
+              onChange={(e) => onChange({ ...block, title: e.target.value })}
+              placeholder="Illustration / Map Title..."
+            />
+            <input
+              type="text"
+              className="book-sketch-caption-input"
+              value={caption}
+              onChange={(e) => onChange({ ...block, caption: e.target.value })}
+              placeholder="Optional caption or scholar notes..."
+            />
+          </div>
+          <StylusDrawingCanvas
+            initialStrokes={strokes}
+            defaultBg={bgTheme}
+            title={title}
+            onChange={handleCanvasChange}
+            aspectRatio="16/9"
+            minHeight={340}
+          />
+        </div>
+      ) : (
+        <div className="book-sketch-view-container">
+          <div className="book-sketch-view-header">
+            {title && <h4 className="book-sketch-view-title">{title}</h4>}
+            <button
+              type="button"
+              className={`book-sketch-annotate-toggle ${isAnnotating ? 'active' : ''}`}
+              onClick={() => setIsAnnotating(!isAnnotating)}
+              title={isAnnotating ? "Lock Inks" : "Enable Scribe Inking / Annotation"}
+            >
+              <i className={`fas ${isAnnotating ? 'fa-lock' : 'fa-pen-nib'}`}></i>
+              <span>{isAnnotating ? 'Done Annotating' : 'Annotate / Doodle'}</span>
+            </button>
+          </div>
+          <StylusDrawingCanvas
+            initialStrokes={strokes}
+            defaultBg={bgTheme}
+            readOnly={!isAnnotating}
+            title={title}
+            onChange={handleCanvasChange}
+            aspectRatio="16/9"
+            minHeight={300}
+          />
+          {caption && <p className="book-sketch-view-caption">{caption}</p>}
+        </div>
+      )}
+    </div>
+  );
+};
+

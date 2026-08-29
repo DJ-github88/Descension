@@ -15,7 +15,8 @@ import {
   SideBySideBlock,
   LineageShowcaseBlock,
   DynastyTreeBlock,
-  PlotThreadBlock
+  PlotThreadBlock,
+  BookSketchBlock
 } from '../BookTtrpgBlocks';
 import BookImagePickerModal from '../BookImagePickerModal';
 import BookItemCreatorModal from '../BookItemCreatorModal';
@@ -661,6 +662,41 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
     expect(screen.getByDisplayValue('Merryn Wave-Rider')).toBeInTheDocument();
     expect(screen.getByText('Text beside the Merryn portrait.')).toBeInTheDocument();
     expect(screen.queryByText('+ Add block beside this')).not.toBeInTheDocument();
+  });
+
+  test('renders BookSketchBlock with stylus canvas and annotation controls', () => {
+    const sketchBlock = {
+      id: 'b-sketch-1',
+      type: 'sketch_canvas',
+      title: 'Ancient Dungeon Sigil',
+      caption: 'Inscribed by the Rune-Smiths of Greymark',
+      strokes: [],
+      bgTheme: 'parchment'
+    };
+
+    const { rerender } = render(
+      <BookSketchBlock
+        block={sketchBlock}
+        isEditMode={true}
+        onChange={() => {}}
+      />
+    );
+
+    expect(screen.getByDisplayValue('Ancient Dungeon Sigil')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('Inscribed by the Rune-Smiths of Greymark')).toBeInTheDocument();
+
+    // In read mode, shows view title, caption, and annotate button
+    rerender(
+      <BookSketchBlock
+        block={sketchBlock}
+        isEditMode={false}
+        onChange={() => {}}
+      />
+    );
+
+    expect(screen.getAllByText('Ancient Dungeon Sigil').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText('Inscribed by the Rune-Smiths of Greymark')).toBeInTheDocument();
+    expect(screen.getByText('Annotate / Doodle')).toBeInTheDocument();
   });
 });
 
