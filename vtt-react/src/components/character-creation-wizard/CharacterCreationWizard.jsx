@@ -23,8 +23,26 @@ import './styles/CharacterCreationWizard.css';
 const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, existingCharacter, isEditing }) => {
     const state = useCharacterWizardState();
     const dispatch = useCharacterWizardDispatch();
+    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const orbMenuRef = React.useRef(null);
 
+    // Close menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (orbMenuRef.current && !orbMenuRef.current.contains(event.target)) {
+                setIsMenuOpen(false);
+            }
+        };
 
+        if (isMenuOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+            document.addEventListener('touchstart', handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('touchstart', handleClickOutside);
+        };
+    }, [isMenuOpen]);
 
     // Load existing character data when editing
     useEffect(() => {
@@ -68,6 +86,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
     const handleStepClick = (stepNumber) => {
         // Allow navigation to any step
         dispatch(wizardActionCreators.setCurrentStep(stepNumber));
+        setIsMenuOpen(false);
     };
 
     const handleComplete = () => {
@@ -76,6 +95,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
             const characterData = {
                 name: state.characterData.name,
                 gender: state.characterData.gender,
+                alignment: state.characterData.alignment || 'Neutral Good',
                 race: state.characterData.race,
                 subrace: state.characterData.subrace,
                 class: state.characterData.class,
@@ -136,6 +156,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
 
     const isFirstStep = state.currentStep === 1;
     const isLastStep = state.currentStep === state.totalSteps;
+    const currentStepInfo = STEP_INFO[state.currentStep] || STEP_INFO[WIZARD_STEPS.CORE_DRAFT];
     const { iconBackgroundImage } = state.characterData;
     const backdropValue = iconBackgroundImage
         ? `linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.18)), url(/assets/Backgrounds/${encodeURIComponent(iconBackgroundImage)})`
@@ -147,7 +168,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
 
     return (
         <div className="character-wizard-container" style={wizardStyle}>
-            {/* Top Header with Cancel, Progress, and Navigation */}
+            {/* Top Header with Cancel and Step Title */}
             <div className="wizard-top-header">
                 <div className="header-left">
                     <button
@@ -160,47 +181,16 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                     >
                         <i className="fas fa-times"></i>
                     </button>
-
-                    {!isFirstStep && (
-                        <button
-                            type="button"
-                            className="wizard-btn wizard-btn-icon wizard-btn-prev"
-                            onClick={handlePrevious}
-                            disabled={isLoading}
-                            title="Previous step"
-                            aria-label="Previous step"
-                        >
-                            <i className="fas fa-chevron-left"></i>
-                        </button>
-                    )}
                 </div>
 
                 <div className="header-center">
-                    <div className="progress-steps-horizontal">
-                        {Object.values(WIZARD_STEPS).map((stepNumber) => {
-                            const stepInfo = STEP_INFO[stepNumber];
-                            const status = getStepStatus(stepNumber);
-                            const isLast = stepNumber === state.totalSteps;
-
-                            return (
-                                <React.Fragment key={stepNumber}>
-                                    <div
-                                        className={`progress-step-horizontal ${status}`}
-                                        onClick={() => handleStepClick(stepNumber)}
-                                    >
-                                        <div className="step-circle-horizontal">
-                                            {status === 'completed' ? (
-                                                <i className="fas fa-check"></i>
-                                            ) : (
-                                                <span className="step-number">{stepNumber}</span>
-                                            )}
-                                        </div>
-                                        <span className="step-name-horizontal">{stepInfo.name}</span>
-                                    </div>
-                                    {!isLast && <div className="step-connector"></div>}
-                                </React.Fragment>
-                            );
-                        })}
+                    <div className="wizard-header-title-block">
+                        <span className="wizard-step-badge">
+                            Step {state.currentStep} of {state.totalSteps}
+                        </span>
+                        <h2 className="wizard-step-title">
+                            {currentStepInfo.name}
+                        </h2>
                     </div>
                 </div>
 
@@ -223,16 +213,9 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                             )}
                         </button>
                     ) : (
-                        <button
-                            type="button"
-                            className="wizard-btn wizard-btn-icon wizard-btn-next"
-                            onClick={handleNext}
-                            disabled={isLoading}
-                            title="Next step"
-                            aria-label="Next step"
-                        >
-                            <i className="fas fa-chevron-right"></i>
-                        </button>
+                        <div className="header-step-counter-pill">
+                            <span>{state.currentStep}/{state.totalSteps}</span>
+                        </div>
                     )}
                 </div>
             </div>
@@ -242,6 +225,96 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 <div className="wizard-step-container">
                     {renderStep()}
                 </div>
+            </div>
+
+            {/* Floating Step Navigation Orb Cluster */}
+            <div className="wizard-navigation-orb-cluster" ref={orbMenuRef}>
+                {/* Previous Step Arrow Button */}
+                <button
+                    type="button"
+                    className="wizard-orb-arrow prev"
+                    onClick={handlePrevious}
+                    disabled={isFirstStep || isLoading}
+                    title="Previous step"
+                    aria-label="Previous step"
+                >
+                    <i className="fas fa-chevron-left"></i>
+                </button>
+
+                {/* Central Step Orb (Like Cogwheel Orb) */}
+                <div className="wizard-orb-wrapper">
+                    <button
+                        type="button"
+                        className={`wizard-step-orb ${isMenuOpen ? 'active' : ''}`}
+                        onClick={() => setIsMenuOpen(prev => !prev)}
+                        title="Quick step navigation"
+                        aria-label="Quick step navigation"
+                    >
+                        <span className="wizard-orb-step-label">Step</span>
+                        <span className="wizard-orb-number">{state.currentStep}</span>
+                    </button>
+
+                    {/* Step Quick Jump Popover Menu */}
+                    {isMenuOpen && (
+                        <div className="wizard-orb-menu">
+                            <div className="wizard-orb-menu-header">
+                                <span>Navigate Steps</span>
+                                <button type="button" className="orb-menu-close" onClick={() => setIsMenuOpen(false)}>
+                                    <i className="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div className="wizard-orb-menu-list">
+                                {Object.values(WIZARD_STEPS).map((stepNumber) => {
+                                    const stepInfo = STEP_INFO[stepNumber];
+                                    const status = getStepStatus(stepNumber);
+                                    const isCurrent = stepNumber === state.currentStep;
+
+                                    return (
+                                        <button
+                                            key={stepNumber}
+                                            type="button"
+                                            className={`wizard-orb-menu-item ${isCurrent ? 'current' : ''} ${status}`}
+                                            onClick={() => handleStepClick(stepNumber)}
+                                        >
+                                            <span className="orb-menu-num">{stepNumber}</span>
+                                            <div className="orb-menu-info">
+                                                <span className="orb-menu-name">{stepInfo.name}</span>
+                                                <span className="orb-menu-desc">{stepInfo.description}</span>
+                                            </div>
+                                            {status === 'completed' && <i className="fas fa-check orb-menu-check"></i>}
+                                            {isCurrent && <span className="orb-menu-badge">Active</span>}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* Next Step Arrow Button or Finish Check */}
+                {isLastStep ? (
+                    <button
+                        type="button"
+                        className="wizard-orb-arrow next finish"
+                        onClick={handleComplete}
+                        disabled={!state.isValid || isLoading}
+                        title={isEditing ? 'Update Character' : 'Create Character'}
+                        aria-label={isEditing ? 'Update Character' : 'Create Character'}
+                    >
+                        <i className="fas fa-check"></i>
+                    </button>
+                ) : (
+                    <button
+                        type="button"
+                        className="wizard-orb-arrow next"
+                        onClick={handleNext}
+                        disabled={isLoading}
+                        title="Next step"
+                        aria-label="Next step"
+                    >
+                        <i className="fas fa-chevron-right"></i>
+                    </button>
+                )}
             </div>
         </div>
     );

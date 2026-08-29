@@ -214,6 +214,7 @@ function generatePlaceholderCharacter(userId) {
         abilities: [],
         skillRanks: {},
         talents: {},
+        primarySpecialization: '',
         class_spells: { known_spells: startingKnownSpells },
         alignment: 'Neutral Good',
         lore: {
@@ -809,6 +810,7 @@ export const createCoreSlice = (set, get) => ({
                     class_spells: character.class_spells || { known_spells: [] },
                 levelUpHistory: character.levelUpHistory || {},
                 talents: character.talents || {},
+                primarySpecialization: character.primarySpecialization || '',
                 classResource: character.classResource || (character.class ? initializeClassResource(character.class, {
                     ...(character.stats || {}),
                     level: character.level || 1
@@ -1323,6 +1325,7 @@ export const createCoreSlice = (set, get) => ({
             class_spells: state.class_spells, // Include class spells
             levelUpHistory: state.levelUpHistory, // Include level-up history
             talents: state.talents, // Include talent tree selections
+            primarySpecialization: state.primarySpecialization, // Include primary specialization
             inventory: inventoryData, // Include inventory data
             classResource: state.classResource, // Include class resource
             updatedAt: new Date().toISOString()

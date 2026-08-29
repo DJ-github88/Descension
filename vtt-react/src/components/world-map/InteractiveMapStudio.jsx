@@ -189,6 +189,20 @@ const InteractiveMapStudio = () => {
   const [newMapDesc, setNewMapDesc] = useState('');
   const [previewPlayerFog, setPreviewPlayerFog] = useState(false);
 
+  // Mobile navigation & HUD visibility states
+  const [showLayersHud, setShowLayersHud] = useState(false);
+  const [showMobileToolsMenu, setShowMobileToolsMenu] = useState(false);
+
+  // Multi-Touch & Pinch Zoom Tracking Ref
+  const touchPinchRef = useRef({
+    isPinching: false,
+    initialDist: 0,
+    initialZoom: 1,
+    initialPan: { x: 0, y: 0 },
+    centerClient: { x: 0, y: 0 }
+  });
+  const touchStartPosRef = useRef({ x: 0, y: 0 });
+
   // ── Campaign & Journal Hub Sidebar State ──────────────────────────────────
   const [showCampaignSidebar, setShowCampaignSidebar] = useState(false);
   const [campaignSidebarTab, setCampaignSidebarTab] = useState('quests'); // 'quests' | 'npcs' | 'factions' | 'journal'
@@ -597,6 +611,19 @@ const InteractiveMapStudio = () => {
     return { pctX, pctY, mapX, mapY };
   }, [panOffset, zoomLevel]);
 
+  // Convert Touch client position to Map percentage coordinates & map pixels
+  const getMapCoordinatesFromTouch = useCallback((touch) => {
+    if (!canvasRef.current || !touch) return { pctX: 50, pctY: 50, mapX: 1200, mapY: 800 };
+    const rect = canvasRef.current.getBoundingClientRect();
+    const clickX = (touch.clientX - rect.left - panOffset.x) / zoomLevel;
+    const clickY = (touch.clientY - rect.top - panOffset.y) / zoomLevel;
+    const mapX = Math.max(0, Math.min(MAP_WIDTH, clickX));
+    const mapY = Math.max(0, Math.min(MAP_HEIGHT, clickY));
+    const pctX = Math.max(0.1, Math.min(99.9, +((mapX / MAP_WIDTH) * 100).toFixed(2)));
+    const pctY = Math.max(0.1, Math.min(99.9, +((mapY / MAP_HEIGHT) * 100).toFixed(2)));
+    return { pctX, pctY, mapX, mapY };
+  }, [panOffset, zoomLevel]);
+
   // Realtime Live Fog Brush drawing onto buffer and canvas
   const drawLiveFogStroke = useCallback((currPct, prevPct) => {
     if (!fogCanvasRef.current) return;
@@ -692,25 +719,27 @@ const InteractiveMapStudio = () => {
     if (!isFogToolActive && (
       e.target.closest('.map-pin-marker') ||
       e.target.closest('.waypoint-node-interactive') ||
+      e.target.closest('.party-token-marker') ||
       e.target.closest('.map-studio-hud') ||
       e.target.closest('.studio-drawer') ||
       e.target.closest('.map-floating-tool-hud') ||
       e.target.closest('.map-layers-hud') ||
-      e.target.closest('.map-viewport-controls-hud')
+      e.target.closest('.map-viewport-controls-hud') ||
+      e.target.closest('.map-mobile-action-dock')
     )) {
       return;
     }
 
     // Ignore clicks on HUDs even in fog mode
-    if (e.target.closest('.map-studio-hud') || e.target.closest('.studio-drawer') || e.target.closest('.map-floating-tool-hud') || e.target.closest('.map-layers-hud') || e.target.closest('.map-viewport-controls-hud')) {
+    if (e.target.closest('.map-studio-hud') || e.target.closest('.studio-drawer') || e.target.closest('.map-floating-tool-hud') || e.target.closest('.map-layers-hud') || e.target.closest('.map-viewport-controls-hud') || e.target.closest('.map-mobile-action-dock')) {
       return;
     }
 
-    const { pctX, pctY, mapX, mapY } = getMapCoordinates(e);
+    const { pctX, pctY } = getMapCoordinates(e);
 
     // 0. Quick Campaign / Journal Entity Placement from Sidebar
     if (placingEntity && activeMap) {
-      const newPin = addPin({
+      addPin({
         mapId: activeMap.id,
         x: pctX,
         y: pctY,
@@ -776,6 +805,67 @@ const InteractiveMapStudio = () => {
     setSelectedWaypoint(null);
   };
 
+  // Canvas Touch Start (1-finger Pan / Marker Drag, 2-finger Pinch Zoom)
+  const handleCanvasTouchStart = (e) => {
+    if (e.touches.length === 2) {
+      // 2-finger pinch to zoom
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+      const centerX = (t1.clientX + t2.clientX) / 2;
+      const centerY = (t1.clientY + t2.clientY) / 2;
+      touchPinchRef.current = {
+        isPinching: true,
+        initialDist: dist || 1,
+        initialZoom: zoomLevel,
+        initialPan: { ...panOffset },
+        centerClient: { x: centerX, y: centerY }
+      };
+      setIsPanning(false);
+      setIsPaintingFog(false);
+      return;
+    }
+
+    if (e.touches.length === 1) {
+      const touch = e.touches[0];
+      touchStartPosRef.current = { x: touch.clientX, y: touch.clientY };
+      didDragRef.current = false;
+
+      // Ignore touches on UI controls, overlays, or markers handled by their own listeners
+      if (!isFogToolActive && (
+        e.target.closest('.map-pin-marker') ||
+        e.target.closest('.waypoint-node-interactive') ||
+        e.target.closest('.party-token-marker') ||
+        e.target.closest('.map-studio-hud') ||
+        e.target.closest('.studio-drawer') ||
+        e.target.closest('.map-floating-tool-hud') ||
+        e.target.closest('.map-layers-hud') ||
+        e.target.closest('.map-viewport-controls-hud') ||
+        e.target.closest('.map-mobile-action-dock')
+      )) {
+        return;
+      }
+
+      if (e.target.closest('.map-studio-hud') || e.target.closest('.studio-drawer') || e.target.closest('.map-floating-tool-hud') || e.target.closest('.map-layers-hud') || e.target.closest('.map-viewport-controls-hud') || e.target.closest('.map-mobile-action-dock')) {
+        return;
+      }
+
+      const { pctX, pctY } = getMapCoordinatesFromTouch(touch);
+
+      // Fog painting with touch
+      if (isFogToolActive && activeMap) {
+        setIsPaintingFog(true);
+        activeStrokePointsRef.current = [{ x: pctX, y: pctY }];
+        drawLiveFogStroke({ x: pctX, y: pctY }, null);
+        return;
+      }
+
+      // Default: 1-finger canvas panning
+      setIsPanning(true);
+      setPanStart({ x: touch.clientX - panOffset.x, y: touch.clientY - panOffset.y });
+    }
+  };
+
   // Global Mouse Move
   const handleMouseMove = useCallback((e) => {
     const { pctX, pctY, mapX, mapY } = getMapCoordinates(e);
@@ -825,6 +915,69 @@ const InteractiveMapStudio = () => {
     }
   }, [isPanning, panStart, isPaintingFog, isFogToolActive, activeMap, drawLiveFogStroke, isDraggingParty, draggedPinId, draggedWaypointId, isMapLocked, getMapCoordinates, setPanOffset, setPartyMarkerPosition, updatePinPosition, updateWaypointPosition]);
 
+  // Global Touch Move (Pinch Zoom & 1-finger Canvas Panning / Marker Drag)
+  const handleTouchMove = useCallback((e) => {
+    // 2-finger pinch zoom
+    if (touchPinchRef.current.isPinching && e.touches.length === 2 && canvasRef.current) {
+      if (e.cancelable) e.preventDefault();
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+      const scaleFactor = dist / touchPinchRef.current.initialDist;
+      const newZoom = Math.min(3.5, Math.max(0.2, +(touchPinchRef.current.initialZoom * scaleFactor).toFixed(3)));
+
+      const rect = canvasRef.current.getBoundingClientRect();
+      const pinchCenterX = touchPinchRef.current.centerClient.x - rect.left;
+      const pinchCenterY = touchPinchRef.current.centerClient.y - rect.top;
+
+      const worldX = (pinchCenterX - touchPinchRef.current.initialPan.x) / touchPinchRef.current.initialZoom;
+      const worldY = (pinchCenterY - touchPinchRef.current.initialPan.y) / touchPinchRef.current.initialZoom;
+
+      const newPanX = pinchCenterX - worldX * newZoom;
+      const newPanY = pinchCenterY - worldY * newZoom;
+
+      setZoomLevel(newZoom);
+      setPanOffset({ x: newPanX, y: newPanY });
+      return;
+    }
+
+    // 1-finger drag / pan / paint
+    if (e.touches.length === 1 && !touchPinchRef.current.isPinching) {
+      const touch = e.touches[0];
+      const { pctX, pctY } = getMapCoordinatesFromTouch(touch);
+
+      if (Math.hypot(touch.clientX - touchStartPosRef.current.x, touch.clientY - touchStartPosRef.current.y) > 5) {
+        didDragRef.current = true;
+      }
+
+      if (isPanning) {
+        if (e.cancelable) e.preventDefault();
+        setPanOffset({
+          x: touch.clientX - panStart.x,
+          y: touch.clientY - panStart.y
+        });
+      } else if (isPaintingFog && isFogToolActive && activeMap) {
+        if (e.cancelable) e.preventDefault();
+        const points = activeStrokePointsRef.current;
+        const lastPt = points[points.length - 1];
+        if (!lastPt || Math.hypot(pctX - lastPt.x, pctY - lastPt.y) > 0.2) {
+          const newPt = { x: pctX, y: pctY };
+          points.push(newPt);
+          drawLiveFogStroke(newPt, lastPt);
+        }
+      } else if (isDraggingParty && canvasRef.current && !isMapLocked) {
+        if (e.cancelable) e.preventDefault();
+        setPartyMarkerPosition(pctX, pctY, activeMap?.id);
+      } else if (draggedPinId && canvasRef.current && !isMapLocked) {
+        if (e.cancelable) e.preventDefault();
+        updatePinPosition(draggedPinId, pctX, pctY);
+      } else if (draggedWaypointId && canvasRef.current && !isMapLocked) {
+        if (e.cancelable) e.preventDefault();
+        updateWaypointPosition(draggedWaypointId, pctX, pctY);
+      }
+    }
+  }, [panStart, isPanning, isPaintingFog, isFogToolActive, activeMap, drawLiveFogStroke, isDraggingParty, draggedPinId, draggedWaypointId, isMapLocked, getMapCoordinatesFromTouch, setPanOffset, setPartyMarkerPosition, updatePinPosition, updateWaypointPosition, setZoomLevel]);
+
   // Mouse Up
   const handleMouseUp = useCallback(() => {
     if (isPanning) setIsPanning(false);
@@ -857,14 +1010,102 @@ const InteractiveMapStudio = () => {
     }
   }, [isPanning, isPaintingFog, activeMap, fogBrushMode, fogBrushSize, isDraggingParty, draggedPinId, draggedWaypointId, addFogStroke, syncToCloud, user?.uid]);
 
+  // Touch End
+  const handleTouchEnd = useCallback((e) => {
+    if (touchPinchRef.current.isPinching) {
+      if (!e.touches || e.touches.length < 2) {
+        touchPinchRef.current.isPinching = false;
+      }
+      return;
+    }
+
+    if (isPanning) {
+      setIsPanning(false);
+    }
+
+    if (isPaintingFog && activeMap) {
+      setIsPaintingFog(false);
+      const points = activeStrokePointsRef.current;
+      if (points.length > 0) {
+        addFogStroke(activeMap.id, {
+          isReveal: fogBrushMode === 'reveal',
+          radius: fogBrushSize,
+          points: [...points]
+        });
+        activeStrokePointsRef.current = [];
+        syncToCloud(user?.uid);
+      }
+    }
+
+    if (isDraggingParty) {
+      setIsDraggingParty(false);
+      syncToCloud(user?.uid);
+    }
+    if (draggedPinId) {
+      setDraggedPinId(null);
+      syncToCloud(user?.uid);
+    }
+    if (draggedWaypointId) {
+      setDraggedWaypointId(null);
+      syncToCloud(user?.uid);
+    }
+
+    // Tap Handling (Movement < 5px) on Canvas
+    if (!didDragRef.current && e.changedTouches && e.changedTouches.length > 0) {
+      const touch = e.changedTouches[0];
+      const { pctX, pctY } = getMapCoordinatesFromTouch(touch);
+
+      if (placingEntity && activeMap) {
+        addPin({
+          mapId: activeMap.id,
+          x: pctX,
+          y: pctY,
+          title: placingEntity.title || 'New Landmark',
+          description: placingEntity.description || '',
+          icon: placingEntity.icon || 'fa-location-dot',
+          color: placingEntity.color || '#d4af37',
+          type: placingEntity.type || 'poi',
+          layerId: placingEntity.layerId || 'poi',
+          linkedEntities: placingEntity.linkedEntities || {
+            npcIds: [],
+            factionIds: [],
+            questIds: [],
+            timelineEventIds: [],
+            locationId: null,
+            journalNotes: ''
+          }
+        });
+        setPlacingEntity(null);
+        syncToCloud(user?.uid);
+      } else if (isDrawingRoute && activeMap) {
+        addJourneyWaypoint({
+          mapId: activeMap.id,
+          x: pctX,
+          y: pctY,
+          selectImmediately: false
+        });
+        syncToCloud(user?.uid);
+      } else if (isPlacingPin && activeMap) {
+        openPinEditor(null, pctX, pctY);
+        setIsPlacingPin(false);
+      }
+    }
+  }, [isPanning, isPaintingFog, activeMap, fogBrushMode, fogBrushSize, isDraggingParty, draggedPinId, draggedWaypointId, addFogStroke, syncToCloud, user?.uid, placingEntity, isDrawingRoute, isPlacingPin, addPin, addJourneyWaypoint, getMapCoordinatesFromTouch]);
+
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd);
+    window.addEventListener('touchcancel', handleTouchEnd);
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('touchcancel', handleTouchEnd);
     };
-  }, [handleMouseMove, handleMouseUp]);
+  }, [handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
 
   // Zoom towards mouse cursor position
   const handleWheel = (e) => {
@@ -1154,7 +1395,7 @@ const InteractiveMapStudio = () => {
             </button>
           </div>
 
-          {/* Breadcrumb drill-down trail */}
+          {/* Breadcrumb drill-down trail (Desktop) */}
           <nav className="map-breadcrumbs">
             {breadcrumbs.map((crumb, idx) => (
               <span key={crumb.id || `crumb-${idx}`} className="crumb-item-wrapper" style={{ display: 'inline-flex', alignItems: 'center' }}>
@@ -1177,6 +1418,17 @@ const InteractiveMapStudio = () => {
 
         {/* Action Controls */}
         <div className="header-right">
+          {/* Layers Toggle Button (High priority for Mobile) */}
+          <button
+            type="button"
+            className={`btn-map-action btn-layers-toggle ${showLayersHud ? 'active' : ''}`}
+            onClick={() => setShowLayersHud(prev => !prev)}
+            title="Toggle Map Layers Panel"
+          >
+            <i className="fas fa-layer-group"></i>
+            <span className="btn-text-desktop">Layers</span>
+          </button>
+
           {/* Drop Pin Tool */}
           <button
             type="button"
@@ -1185,7 +1437,7 @@ const InteractiveMapStudio = () => {
             title="Click to drop a landmark pin anywhere on the map"
           >
             <i className="fas fa-location-crosshairs"></i>
-            <span>{isPlacingPin ? 'Click Map to Place' : 'Drop Pin'}</span>
+            <span className="btn-text-desktop">{isPlacingPin ? 'Click to Place' : 'Drop Pin'}</span>
           </button>
 
           {/* Route Planner Tool */}
@@ -1196,7 +1448,7 @@ const InteractiveMapStudio = () => {
             title="Plan expedition path and waypoints"
           >
             <i className="fas fa-route"></i>
-            <span>{isDrawingRoute ? 'Plotting Route (Active)' : 'Plot Route'}</span>
+            <span className="btn-text-desktop">{isDrawingRoute ? 'Plotting' : 'Route'}</span>
           </button>
 
           {/* Dynamic Fog of War Tool */}
@@ -1207,7 +1459,7 @@ const InteractiveMapStudio = () => {
             title="Fog of War: Shroud unexplored areas or reveal secrets"
           >
             <i className="fas fa-smog"></i>
-            <span>{isFogToolActive ? 'Fog of War (Active)' : 'Fog of War'}</span>
+            <span className="btn-text-desktop">{isFogToolActive ? 'Fog Active' : 'Fog'}</span>
           </button>
 
           {/* Campaign & Journal Codex Hub */}
@@ -1224,21 +1476,21 @@ const InteractiveMapStudio = () => {
                 setPlacingEntity(null);
               }
             }}
-            title="Open Campaign & Journal Codex (Browse & Add Quests, NPCs, Factions, Lore, and Notes onto Map)"
+            title="Open Campaign & Journal Codex"
           >
             <i className="fas fa-book-atlas"></i>
-            <span>Campaign &amp; Journal</span>
+            <span className="btn-text-desktop">Codex</span>
           </button>
 
-          {/* Lock / Unlock Map Markers Toggle */}
+          {/* Lock / Unlock Map Markers Toggle (Desktop) */}
           <button
             type="button"
             className={`btn-map-action btn-lock-toggle ${isMapLocked ? 'is-locked' : ''}`}
             onClick={toggleMapLock}
-            title={isMapLocked ? 'Map Markers are LOCKED (Drag disabled) - Click to Unlock' : 'Lock Map Markers (Prevent accidental dragging)'}
+            title={isMapLocked ? 'Map Markers are LOCKED (Drag disabled)' : 'Lock Map Markers'}
           >
             <i className={`fas ${isMapLocked ? 'fa-lock' : 'fa-lock-open'}`}></i>
-            <span>{isMapLocked ? 'Locked' : 'Unlocked'}</span>
+            <span className="btn-text-desktop">{isMapLocked ? 'Locked' : 'Unlocked'}</span>
           </button>
 
           {/* GM vs Player Mode Toggle */}
@@ -1249,9 +1501,20 @@ const InteractiveMapStudio = () => {
             title="Toggle GM Secret Layer & Fog Transparency"
           >
             <i className={`fas ${isGMMode ? 'fa-eye' : 'fa-eye-slash'}`}></i>
-            <span>{isGMMode ? 'GM Mode (Visible)' : 'Player Mode (Filtered)'}</span>
+            <span className="btn-text-desktop">{isGMMode ? 'GM' : 'Player'}</span>
           </button>
 
+          {/* Mobile Tools Drawer Toggle */}
+          <button
+            type="button"
+            className={`btn-map-action btn-mobile-tools-toggle ${showMobileToolsMenu ? 'active' : ''}`}
+            onClick={() => setShowMobileToolsMenu(prev => !prev)}
+            title="Toggle Exploration Tools Bar"
+          >
+            <i className="fas fa-toolbox"></i>
+          </button>
+
+          {/* Close Studio Button — Always Visible and Clickable */}
           <button
             type="button"
             className="btn-map-action btn-close-studio"
@@ -1263,11 +1526,34 @@ const InteractiveMapStudio = () => {
         </div>
       </header>
 
+      {/* Responsive Breadcrumbs Sub-Bar for Mobile */}
+      {breadcrumbs.length > 1 && (
+        <div className="mobile-breadcrumbs-bar">
+          {breadcrumbs.map((crumb, idx) => (
+            <span key={crumb.id || `crumb-mob-${idx}`} className="crumb-item-wrapper" style={{ display: 'inline-flex', alignItems: 'center' }}>
+              {idx > 0 && <span className="crumb-sep">/</span>}
+              <button
+                type="button"
+                className={`crumb-btn ${crumb.id === activeMap?.id ? 'active' : ''}`}
+                onClick={() => setActiveMap(crumb.id)}
+              >
+                <i
+                  className={`fas ${crumb.type === 'world' ? 'fa-globe' : crumb.type === 'continent' ? 'fa-mountain' : 'fa-chess-rook'}`}
+                  style={{ marginRight: '4px' }}
+                />
+                {crumb.name}
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
+
       {/* Main Map Canvas Area */}
       <main
         className={`map-studio-canvas ${isPanning ? 'is-panning' : ''} ${isPlacingPin ? 'is-placing' : ''} ${isDrawingRoute ? 'is-routing' : ''} ${isFogToolActive ? 'is-fogging' : ''} ${placingEntity ? 'is-placing-entity' : ''}`}
         ref={canvasRef}
         onMouseDown={handleCanvasMouseDown}
+        onTouchStart={handleCanvasTouchStart}
         onWheel={handleWheel}
       >
         {/* Quick Placement Banner for Campaign & Journal Entities */}
@@ -1286,11 +1572,30 @@ const InteractiveMapStudio = () => {
             </button>
           </div>
         )}
+
+        {/* Mobile Backdrop for Layers HUD */}
+        {showLayersHud && (
+          <div
+            className="layers-hud-backdrop-mobile"
+            onClick={() => setShowLayersHud(false)}
+          />
+        )}
+
         {/* Layer Visibility Floating HUD */}
-        <div className="map-layers-hud" onClick={e => e.stopPropagation()}>
+        <div className={`map-layers-hud ${showLayersHud ? 'is-open-mobile' : ''}`} onClick={e => e.stopPropagation()}>
           <div className="layers-hud-header">
-            <i className="fas fa-layer-group"></i>
-            <span>Map Layers</span>
+            <div className="layers-hud-title">
+              <i className="fas fa-layer-group"></i>
+              <span>Map Layers</span>
+            </div>
+            <button
+              type="button"
+              className="btn-close-layers-hud"
+              onClick={() => setShowLayersHud(false)}
+              title="Close Map Layers"
+            >
+              <i className="fas fa-times"></i>
+            </button>
           </div>
           <div className="layers-list">
             {layers.map(layer => {
@@ -1617,6 +1922,17 @@ const InteractiveMapStudio = () => {
                     setDraggedWaypointId(w.id);
                   }
                 }}
+                onTouchStart={(e) => {
+                  if (e.target.closest('.waypoint-action-popup')) return;
+                  if (e.touches.length === 1) {
+                    didDragRef.current = false;
+                    const t = e.touches[0];
+                    touchStartPosRef.current = { x: t.clientX, y: t.clientY };
+                    if (!isMapLocked && !w.isLocked) {
+                      setDraggedWaypointId(w.id);
+                    }
+                  }
+                }}
                 onClick={(e) => {
                   if (e.target.closest('.waypoint-action-popup')) return;
                   e.stopPropagation();
@@ -1846,6 +2162,17 @@ const InteractiveMapStudio = () => {
                   setIsDraggingParty(true);
                 }
               }}
+              onTouchStart={(e) => {
+                if (e.target.closest('.party-notes-popup')) return;
+                if (e.touches.length === 1) {
+                  didDragRef.current = false;
+                  const t = e.touches[0];
+                  touchStartPosRef.current = { x: t.clientX, y: t.clientY };
+                  if (!isMapLocked) {
+                    setIsDraggingParty(true);
+                  }
+                }
+              }}
               onClick={(e) => {
                 if (e.target.closest('.party-notes-popup')) return;
                 e.stopPropagation();
@@ -1997,6 +2324,17 @@ const InteractiveMapStudio = () => {
                   dragStartPosRef.current = { x: e.clientX, y: e.clientY };
                   if (!isMapLocked && !pin.isLocked) {
                     setDraggedPinId(pin.id);
+                  }
+                }}
+                onTouchStart={(e) => {
+                  if (e.target.closest('.pin-action-popup')) return;
+                  if (e.touches.length === 1) {
+                    didDragRef.current = false;
+                    const t = e.touches[0];
+                    touchStartPosRef.current = { x: t.clientX, y: t.clientY };
+                    if (!isMapLocked && !pin.isLocked) {
+                      setDraggedPinId(pin.id);
+                    }
                   }
                 }}
                 onClick={(e) => {
@@ -2390,6 +2728,59 @@ const InteractiveMapStudio = () => {
           </button>
         </div>
       </main>
+
+      {/* Mobile Floating Action Dock (Quick Thumb-Friendly Tools) */}
+      <div className={`map-mobile-action-dock ${showMobileToolsMenu ? 'is-expanded' : ''}`} onClick={e => e.stopPropagation()}>
+        <button
+          type="button"
+          className={`mobile-dock-btn ${isPlacingPin ? 'active' : ''}`}
+          onClick={handleToggleDropPin}
+          title="Drop Landmark Pin"
+        >
+          <i className="fas fa-location-crosshairs"></i>
+          <span>Pin</span>
+        </button>
+
+        <button
+          type="button"
+          className={`mobile-dock-btn ${isDrawingRoute ? 'active' : ''}`}
+          onClick={handleToggleRoute}
+          title="Plot Route"
+        >
+          <i className="fas fa-route"></i>
+          <span>Route</span>
+        </button>
+
+        <button
+          type="button"
+          className={`mobile-dock-btn ${isFogToolActive ? 'active' : ''}`}
+          onClick={handleToggleFog}
+          title="Fog of War"
+        >
+          <i className="fas fa-smog"></i>
+          <span>Fog</span>
+        </button>
+
+        <button
+          type="button"
+          className={`mobile-dock-btn ${isMapLocked ? 'is-locked' : ''}`}
+          onClick={toggleMapLock}
+          title={isMapLocked ? 'Markers Locked' : 'Markers Unlocked'}
+        >
+          <i className={`fas ${isMapLocked ? 'fa-lock' : 'fa-lock-open'}`}></i>
+          <span>{isMapLocked ? 'Locked' : 'Unlock'}</span>
+        </button>
+
+        <button
+          type="button"
+          className={`mobile-dock-btn ${showLayersHud ? 'active' : ''}`}
+          onClick={() => setShowLayersHud(prev => !prev)}
+          title="Toggle Map Layers"
+        >
+          <i className="fas fa-layer-group"></i>
+          <span>Layers</span>
+        </button>
+      </div>
 
       {/* ── Campaign & Journal Hub Sidebar ─────────────────────── */}
       {showCampaignSidebar && (

@@ -23,7 +23,7 @@ export const APEX_SHADOWBLADE = [
     requires: null,
     spell: {
       name: "Shadow Strike",
-      description: "Strike from the gloom with an ironwood glaive: deals 2d8 physical/shadow damage and grants 2 Quarry Marks (QM). If cast from stealth, deals double damage and blinds the target for 1 round.",
+      description: "Strike from the gloom with an ironwood glaive: deals 2d8 physical/shadow damage and grants 2 Marks (QM). If cast from stealth, deals double damage and blinds the target for 1 round.",
       flavorText: "The ironwood glaive drinks deep from shadows before striking.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "ACTIVE", category: "damage",
@@ -70,7 +70,7 @@ export const APEX_SHADOWBLADE = [
     requires: null,
     spell: {
       name: "Quarry Tracker",
-      description: "While at 3 or more Quarry Marks, your melee attacks score critical hits on 19-20 and deal +1d6 bonus shadow damage.",
+      description: "While at 3 or more Marks, your melee attacks score critical hits on 19-20 and deal +1d6 bonus shadow damage.",
       flavorText: "The apex hunter waits with glaive poised.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "PASSIVE", category: "damage",
@@ -169,7 +169,7 @@ export const APEX_SHADOWBLADE = [
     requires: "sb_t2_shadow_synergy",
     spell: {
       name: "Lethal Execution",
-      description: "Your attacks against enemies below half maximum Hit Points deal +35 points bonus damage, and kills grant you maximum Quarry Marks.",
+      description: "Your attacks against enemies below half maximum Hit Points deal +35 points bonus damage, and kills grant you maximum Marks.",
       flavorText: "The wounded animal has no defense against the apex.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "PASSIVE", category: "damage",
@@ -395,7 +395,7 @@ export const APEX_SHADOWBLADE = [
     requires: "sb_t6_phantom_crits",
     spell: {
       name: "Apex Quarry Reservoir",
-      description: "Whenever you spend Quarry Marks, you have a chance on a d20 roll of 15+ to immediately regain 1 Quarry Marks. In combat, you generate 2 QM at the start of every turn.",
+      description: "Whenever you spend Marks, you have a chance on a d20 roll of 15+ to immediately regain 1 Marks. In combat, you generate 2 QM at the start of every turn.",
       flavorText: "A predator never loses the scent.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "PASSIVE", category: "utility",
@@ -701,7 +701,7 @@ export const APEX_BLADESTORM = [
     requires: "bs_t4_endless_ricochet",
     spell: {
       name: "Cyclone Momentum",
-      description: "Whenever your glaive deals damage to 4 or more enemies in a single round, gain 2 Action Points and 3 Quarry Marks immediately.",
+      description: "Whenever your glaive deals damage to 4 or more enemies in a single round, gain 2 Action Points and 3 Marks immediately.",
       flavorText: "Speed that feeds on crowded ranks.",
       source: "talent", class: "Apex", treeId: "bladestorm",
       spellType: "PASSIVE", category: "utility",
@@ -748,7 +748,7 @@ export const APEX_BLADESTORM = [
     requires: "bs_t5_cyclone_surge",
     spell: {
       name: "Severing Ricochets",
-      description: "All glaive bounces score critical hits on 18+ and critical bounces refund 1 Quarry Mark.",
+      description: "All glaive bounces score critical hits on 18+ and critical bounces refund 1 Mark.",
       flavorText: "Every bounce finds an exposed throat.",
       source: "talent", class: "Apex", treeId: "bladestorm",
       spellType: "PASSIVE", category: "damage",

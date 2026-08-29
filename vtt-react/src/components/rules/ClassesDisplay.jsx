@@ -159,7 +159,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
 
                         <h4><i className="fas fa-bolt"></i> Resource Systems</h4>
 
-                        <p>Every class channels power through a unique resource. A Berserker builds Rage by being struck. A Gambit bends probability with Fortune Points. A Revenant pays for forbidden power in blood. Understanding your resource loop is understanding your class.</p>
+                        <p>Every class channels power through a unique resource. A Berserker builds Rage by being struck. A Gambit bends probability with Fortune. A Revenant pays for forbidden power in blood. Understanding your resource loop is understanding your class.</p>
 
                     </div>
 

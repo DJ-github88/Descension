@@ -2,7 +2,7 @@ export const TOKEN_TEMPLATES = {
 
   // =========================================================================
   // ANIMIST (6 tokens  -  one per real summon spell in animistData.js)
-  // Class resource: Ancestral Resonance. Totems are stationary (speed 0) and
+  // Class resource: Resonance. Totems are stationary (speed 0) and
   // radiate an aura (auraRadius). Specters/guardians are mobile + mentally
   // controlled. spellId values match animist_* spellbook entries exactly.
   // =========================================================================
@@ -544,7 +544,7 @@ export const TOKEN_TEMPLATES = {
         size: 'MEDIUM',
         stats: { maxHp: 40, maxMana: 0, speed: 0 },
         tokenIcon: 'spell_shadow_twistedfaith',
-        abilities: ['Frightens enemies in 15ft', 'Generates 1d8 Madness Points'],
+        abilities: ['Frightens enemies in 15ft', 'Generates 1d8 Madness'],
       },
       quantity: 1,
       duration: { value: 3, unit: 'rounds' },
@@ -745,7 +745,7 @@ export const TOKEN_TEMPLATES = {
       quantity: 1,
       duration: { value: 0, unit: 'permanent' },
       controlType: 'mental',
-      resourceCost: { quarry_marks: 0, actionPoints: 0 },
+      resourceCost: { marks: 0, actionPoints: 0 },
     },
     {
       id: 'apex_primal_beast_spirits',
@@ -768,7 +768,7 @@ export const TOKEN_TEMPLATES = {
       quantity: 3,
       duration: { value: 3, unit: 'rounds' },
       controlType: 'mental',
-      resourceCost: { actionPoints: 3, quarry_marks: 5 },
+      resourceCost: { actionPoints: 3, marks: 5 },
     },
   ],
 

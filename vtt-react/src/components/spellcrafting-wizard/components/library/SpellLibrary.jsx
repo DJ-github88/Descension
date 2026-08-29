@@ -2205,7 +2205,9 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
               spellType: spell.spellType || 'ACTION',
               type: 'spell'
              };
-             e.dataTransfer.setData('application/json', JSON.stringify(spellData));
+             const spellJson = JSON.stringify(spellData);
+             e.dataTransfer.setData('application/json', spellJson);
+             e.dataTransfer.setData('text/plain', spellJson);
              e.dataTransfer.effectAllowed = 'copy';
 
              // Show just the spell icon as drag image
@@ -2473,12 +2475,36 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
             onContextMenu={(e) => {
              handleSpellContextMenu(e, spell.id);
             }}
+            draggable={true}
+            onDragStart={(e) => {
+             const iconName = spell?.typeConfig?.icon ||
+              spell?.icon ||
+              spell?.damageConfig?.icon ||
+              spell?.healingConfig?.icon ||
+              'inv_misc_questionmark';
+
+             const spellData = {
+              ...spell,
+              id: spell.id,
+              name: spell.name,
+              icon: iconName,
+              cooldown: spell.cooldown || 0,
+              level: spell.level || 1,
+              spellType: spell.spellType || 'ACTION',
+              type: 'spell'
+             };
+             const spellJson = JSON.stringify(spellData);
+             e.dataTransfer.setData('application/json', spellJson);
+             e.dataTransfer.setData('text/plain', spellJson);
+             e.dataTransfer.effectAllowed = 'copy';
+            }}
             style={{
              position: 'relative',
-             overflow: 'visible'
+             overflow: 'visible',
+             cursor: 'grab'
             }}
             data-spell-id={spell.id}
-            title="Click to select, right-click for options"
+            title="Click to select, drag to Action Bar, right-click for options"
            >
             {/* Clean edit button */}
             <div className="edit-button-container">
@@ -2622,7 +2648,11 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
        width: '90%',
        maxHeight: '90vh',
        overflow: 'auto',
-       cursor: 'default'
+       cursor: 'default',
+       display: 'flex',
+       flexDirection: 'column',
+       alignItems: 'center',
+       gap: '12px'
       }}
      >
       <UnifiedSpellCard
@@ -2634,6 +2664,58 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
        showTags={true}
        rollableTableData={getSpellRollableTable(selectedSpell)}
       />
+      <div style={{
+        display: 'flex',
+        gap: '10px',
+        alignItems: 'center',
+        background: 'rgba(26, 15, 8, 0.95)',
+        padding: '8px 16px',
+        borderRadius: '24px',
+        border: '1.5px solid #d4af37',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.6)'
+      }}>
+        <button
+          type="button"
+          style={{
+            background: 'linear-gradient(135deg, #d97706 0%, #b45309 100%)',
+            border: '1.5px solid #fde047',
+            color: '#ffffff',
+            padding: '6px 14px',
+            borderRadius: '16px',
+            fontFamily: 'Cinzel, serif',
+            fontSize: '0.8rem',
+            fontWeight: '700',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px'
+          }}
+          onClick={() => {
+            window.dispatchEvent(new CustomEvent('spell-action-bar-assign-item', {
+              detail: { spell: selectedSpell, type: 'spell' }
+            }));
+            setSelectedSpell(null);
+          }}
+        >
+          <i className="fas fa-plus"></i> Place on Action Bar
+        </button>
+        <button
+          type="button"
+          style={{
+            background: 'rgba(255,255,255,0.1)',
+            border: '1px solid rgba(212,175,55,0.4)',
+            color: '#e2d4bc',
+            padding: '6px 14px',
+            borderRadius: '16px',
+            fontFamily: 'Cinzel, serif',
+            fontSize: '0.8rem',
+            cursor: 'pointer'
+          }}
+          onClick={() => setSelectedSpell(null)}
+        >
+          Close
+        </button>
+      </div>
      </div>
     </div>,
     document.body

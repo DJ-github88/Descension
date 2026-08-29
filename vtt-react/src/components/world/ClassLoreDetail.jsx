@@ -84,7 +84,7 @@ const DEFAULT_CLASS_ORGANIZATIONS = {
       leader: 'Warlord Grum Bloodhammer',
       headquarters: 'Skalvyrhold (Nordhalla)',
       status: 'Active',
-      description: 'The ancestral warrior lodge carrying the Hunger Pact, training warriors in Blood Heat discipline and mammoth hide armor crafting.',
+      description: 'The ancestral warrior lodge carrying the Hunger Pact, training warriors in Rage discipline and mammoth hide armor crafting.',
       notableMembers: ['Torvald Frost-Biter', 'Sigrid Red-Axe']
     },
     {

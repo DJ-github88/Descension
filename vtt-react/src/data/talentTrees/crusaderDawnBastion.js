@@ -1,7 +1,7 @@
 // ============================================
 // CRUSADER — DAWN BASTION (v2: talents are spells)
 // Spec: Starlight Armor, Active Soak Scaling, Consecrated Bulwark, Party Protection
-// Resource: Radiant Fervor (0-100)
+// Resource: Fervor (0-100)
 // ============================================
 
 export const CRUSADER_DAWN_BASTION = [
@@ -24,7 +24,7 @@ export const CRUSADER_DAWN_BASTION = [
     },
     rankUpgrades: [
       { description: "Bonus increases to +3 Passive DR and +2 bonus to Active Soak die rolls." },
-      { description: "Bonus increases to +4 Passive DR and +3 bonus to Active Soak die rolls; taking physical damage generates +2 Radiant Fervor." }
+      { description: "Bonus increases to +4 Passive DR and +3 bonus to Active Soak die rolls; taking physical damage generates +2 Fervor." }
     ]
   },
   {
@@ -36,7 +36,7 @@ export const CRUSADER_DAWN_BASTION = [
     requires: null,
     spell: {
       name: "Radiant Shield Slam",
-      description: "Spend 1 AP: Slam your shield into target foe for 1d8 smashing + 1d6 sacred damage. Generates +10 Radiant Fervor and interrupts enemy concentration.",
+      description: "Spend 1 AP: Slam your shield into target foe for 1d8 smashing + 1d6 sacred damage. Generates +10 Fervor and interrupts enemy concentration.",
       flavorText: "A shield is an argument made of solid iron.",
       source: "talent", class: "Crusader", treeId: "dawn_bastion",
       spellType: "ACTIVE", category: "damage",
@@ -49,8 +49,8 @@ export const CRUSADER_DAWN_BASTION = [
       visualTheme: "holy", tags: ["melee", "builder", "interrupt", "crusader"]
     },
     rankUpgrades: [
-      { description: "Damage increases to 1d10 smashing + 1d8 sacred, and generates +15 Radiant Fervor.", primaryDamage: { dice: "1d10", flat: 0, procChance: 100 }, secondaryDamage: { dice: "1d8", flat: 0, procChance: 100, damageType: "sacred" } },
-      { description: "Damage increases to 2d8 smashing + 2d6 sacred; target is Dazed (-2 to hit for 1 round) and generates +20 Radiant Fervor.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 }, secondaryDamage: { dice: "2d6", flat: 0, procChance: 100, damageType: "sacred" } }
+      { description: "Damage increases to 1d10 smashing + 1d8 sacred, and generates +15 Fervor.", primaryDamage: { dice: "1d10", flat: 0, procChance: 100 }, secondaryDamage: { dice: "1d8", flat: 0, procChance: 100, damageType: "sacred" } },
+      { description: "Damage increases to 2d8 smashing + 2d6 sacred; target is Dazed (-2 to hit for 1 round) and generates +20 Fervor.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 }, secondaryDamage: { dice: "2d6", flat: 0, procChance: 100, damageType: "sacred" } }
     ]
   },
   {
@@ -62,7 +62,7 @@ export const CRUSADER_DAWN_BASTION = [
     requires: null,
     spell: {
       name: "Vow of the Aegis",
-      description: "Passive: Whenever an ally within 15 ft takes damage, gain +5 Radiant Fervor and redirect 15% of the damage into your own Active Soak pool.",
+      description: "Passive: Whenever an ally within 15 ft takes damage, gain +5 Fervor and redirect 15% of the damage into your own Active Soak pool.",
       flavorText: "Step behind the plate. Suffer nothing.",
       source: "talent", class: "Crusader", treeId: "dawn_bastion",
       spellType: "PASSIVE", category: "buff",
@@ -70,7 +70,7 @@ export const CRUSADER_DAWN_BASTION = [
       visualTheme: "holy", tags: ["passive", "redirect", "tank", "crusader"]
     },
     rankUpgrades: [
-      { description: "Redirect percentage increases to 25%, gain +10 Radiant Fervor, and radius extends to 25 ft." }
+      { description: "Redirect percentage increases to 25%, gain +10 Fervor, and radius extends to 25 ft." }
     ]
   },
 
@@ -255,7 +255,7 @@ export const CRUSADER_DAWN_BASTION = [
       visualTheme: "holy", tags: ["reaction", "cheat-death", "sacrifice", "crusader"]
     },
     rankUpgrades: [
-      { description: "After intercepting the strike, you gain +50 Radiant Fervor and immunity to all damage for 1 round." }
+      { description: "After intercepting the strike, you gain +50 Fervor and immunity to all damage for 1 round." }
     ]
   },
 
@@ -292,7 +292,7 @@ export const CRUSADER_DAWN_BASTION = [
     requires: "cdb_t5_sacred_redirection",
     spell: {
       name: "Heart of the Sun Fortress",
-      description: "Passive: Maximum Health increased by +25%. Whenever your health drops below 50%, immediately gain 50 Radiant Fervor and a 40 HP temporary shield (once per combat).",
+      description: "Passive: Maximum Health increased by +25%. Whenever your health drops below 50%, immediately gain 50 Fervor and a 40 HP temporary shield (once per combat).",
       flavorText: "Wounds only expose the starlight furnace within.",
       source: "talent", class: "Crusader", treeId: "dawn_bastion",
       spellType: "PASSIVE", category: "buff",

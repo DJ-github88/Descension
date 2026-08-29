@@ -15,7 +15,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
     "requires": null,
     "spell": {
       "name": "Calculated Nudge",
-      "description": "Spend 1 Fortune Point (FP) as a reaction: Alter any d20 roll within 60 feet by +1 or -1 after seeing the roll.",
+      "description": "Spend 1 Fortune (FP) as a reaction: Alter any d20 roll within 60 feet by +1 or -1 after seeing the roll.",
       "flavorText": "The Iceheart Sea teaches that every wave is a wager.",
       "source": "talent",
       "class": "Gambit",
@@ -65,7 +65,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
     "requires": null,
     "spell": {
       "name": "Balanced Ledger",
-      "description": "Passive: While you hold 2 or more Fortune Points, your weapon attacks gain +1 to hit and deal +1d4 psychic damage.",
+      "description": "Passive: While you hold 2 or more Fortune, your weapon attacks gain +1 to hit and deal +1d4 psychic damage.",
       "flavorText": "A book that always balances in the house's favor.",
       "source": "talent",
       "class": "Gambit",
@@ -845,7 +845,7 @@ export const GAMBIT_HIGH_ROLLER = [
     "requires": null,
     "spell": {
       "name": "All-In Strike",
-      "description": "Spend 3 Hit Points: Strike a foe for 1d8 ember damage and generate 1 Fortune Point.",
+      "description": "Spend 3 Hit Points: Strike a foe for 1d8 ember damage and generate 1 Fortune.",
       "flavorText": "Put your own blood on the table or leave the game.",
       "source": "talent",
       "class": "Gambit",

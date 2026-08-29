@@ -166,7 +166,7 @@ DEEP_LOCATIONS['frozen-archive'] = {
     { date: 'early in the Slow Cracks', event: 'The Skalvyr Glacier Bargain: Keth-Amar freezes glaciers through Aethil\'s framework; Frost-Tithe set on Rime-Born' },
    { date: 'just after Blizzard’s End', event: 'First Rebirth Window: Augurs measure 40% output; systematic logging begins' },
    { date: 'in the first centuries of the Freezing Era', event: 'Aldren Thalreth the Elder\'s self-entombment, his frozen chamber remains in the deepest vault' },
-   { date: 'in the first centuries of the Freezing Era', event: 'Berserker founding: Grum\'s Blood-Heat occurs in Emberspire\'s caldera, recorded in Archive annals' },
+   { date: 'in the first centuries of the Freezing Era', event: 'Berserker founding: Grum\'s Rage occurs in Emberspire\'s caldera, recorded in Archive annals' },
    { date: 'in the later centuries of the Freezing Era', event: 'False Dawn Riots: Archive seals outer gates for the first time as mobs attack Augurs' },
    { date: 'within living memory', event: 'Clandestine Silence-heat engine construction began beneath the Archive' },
    { date: 'within living memory', event: 'Silence-Heat Heresy: construction of the heat-engine beneath the Archive begins in earnest' },
@@ -1053,27 +1053,27 @@ DEEP_LOCATIONS['harath-vault'] = {
   militiaSize: 100,
   fortifications:
    'The vault is a natural volcanic chamber accessible only through a single basalt tunnel that narrows to a chokepoint wide enough for two combatants abreast. The tunnel is lined with geothermal vents that the Blood-Priest can trigger to flood the approach with superheated steam.',
-  watchPresence: 'Berserker Blood-Guards patrol the approach tunnel in pairs, their Blood-Heat makes them visible in thermal vision as walking furnaces'
+  watchPresence: 'Berserker Blood-Guards patrol the approach tunnel in pairs, their Rage makes them visible in thermal vision as walking furnaces'
  },
  economy: {
   primary: 'Masterwork forge-metal and ceremonial weapon production',
-  secondary: ['Geothermal energy distribution to Sundale surface settlements', 'Blood-Heat ritual training', 'Volcanic alloy refinement'],
+  secondary: ['Geothermal energy distribution to Sundale surface settlements', 'Rage ritual training', 'Volcanic alloy refinement'],
   status: 'stable'
  },
  atmosphere: {
-   mood: 'Reverent, violent, and incandescent. The Harath-Vault is not a settlement. It is a working temple to the Blood-Heat. The air throbs with the rhythm of forge-hammers and the chanting of Berserkers in meditation. Every surface is hot enough to burn bare skin. The Solari who live here have calloused lungs from the volcanic air.',
+   mood: 'Reverent, violent, and incandescent. The Harath-Vault is not a settlement. It is a working temple to the Rage. The air throbs with the rhythm of forge-hammers and the chanting of Berserkers in meditation. Every surface is hot enough to burn bare skin. The Solari who live here have calloused lungs from the volcanic air.',
   architecture: 'Carved directly into the volcanic basalt, no timber, no cloth, nothing that burns. The chambers are rough-hewn, the corridors narrow, and every major hall opens onto a forge-pit fed by geothermal vents. The deeper chambers date back to the Deep Alchemists, their geometric precision a jarring contrast to the rough Solari work.',
-  sounds: 'The rhythmic thunder of forge-hammers, the hiss of quenched metal, the low chanting of Berserkers preparing for the Blood-Heat, the rumble of volcanic activity beneath the floor, and the occasional roar of a successful ignition from the training pits.',
-  smells: 'Superheated basalt, molten metal, Solari sweat, volcanic sulfur, and the sharp, metallic tang of Blood-Heat ignition, ozone and hot iron.',
+  sounds: 'The rhythmic thunder of forge-hammers, the hiss of quenched metal, the low chanting of Berserkers preparing for the Rage, the rumble of volcanic activity beneath the floor, and the occasional roar of a successful ignition from the training pits.',
+  smells: 'Superheated basalt, molten metal, Solari sweat, volcanic sulfur, and the sharp, metallic tang of Rage ignition, ozone and hot iron.',
    lighting: 'Orange-red from the forge-pits and geothermal vents. The vault has no windows and no natural light. It is illuminated entirely by fire, metal, and the occasional eruption of volcanic glow from the deeper chambers.'
  },
  history: {
   founded: 'in the first centuries of the Freezing Era',
   foundedBy: 'Grum Bloodhammer',
   foundingStory:
-   'When Grum Bloodhammer first ignited the Blood-Heat in Emberspire\'s caldera, the Solvarn Vigil thought the buried star was returning. The eruption of fury he unleashed melted a tunnel through the basalt into this natural vault, where he established the Forge of Grum, the first Berserker training ground. The impression of his hammer is still preserved in the main forge-floor, and every Blood-Priest since has begun their term by pressing their own hammer into the cooling metal beside it.',
+   'When Grum Bloodhammer first ignited the Rage in Emberspire\'s caldera, the Solvarn Vigil thought the buried star was returning. The eruption of fury he unleashed melted a tunnel through the basalt into this natural vault, where he established the Forge of Grum, the first Berserker training ground. The impression of his hammer is still preserved in the main forge-floor, and every Blood-Priest since has begun their term by pressing their own hammer into the cooling metal beside it.',
   significantEvents: [
-   { date: 'in the first centuries of the Freezing Era', event: 'Grum Bloodhammer ignites the first Blood-Heat; the Forge of Grum is established in the newly-formed Harath-Vault' },
+   { date: 'in the first centuries of the Freezing Era', event: 'Grum Bloodhammer ignites the first Rage; the Forge of Grum is established in the newly-formed Harath-Vault' },
    { date: 'in the early centuries of the Freezing Era', event: 'The Skald Council formed to govern the growing Berserker order; the Vault becomes the Council\'s permanent seat' },
    { date: 'within living memory', event: 'The Silence-Heat Heresy reaches Sundale; Hark Ash-Hammer purges the Pact-less Unbound from the Vault' },
    { date: 'within living memory', event: 'Deep-tunnel settlers from Emberspire\'s lower reaches attempt to establish an independent forge-hold; Hark Ash-Hammer condemns it as heretical' }
@@ -1084,7 +1084,7 @@ DEEP_LOCATIONS['harath-vault'] = {
    id: 'the-forge-floor',
    name: 'The Forge Floor',
    type: 'great_hall',
-   description: 'The heart of the Harath-Vault, a massive chamber where the forge-pits glow with captured geothermal fire. The floor is scarred by seven centuries of hammer-strikes, ritual ignitions, and the Blood-Heat testing of every Berserker who has trained here. Grum\'s original hammer-impression is preserved under volcanic glass at the chamber\'s center.',
+   description: 'The heart of the Harath-Vault, a massive chamber where the forge-pits glow with captured geothermal fire. The floor is scarred by seven centuries of hammer-strikes, ritual ignitions, and the Rage testing of every Berserker who has trained here. Grum\'s original hammer-impression is preserved under volcanic glass at the chamber\'s center.',
    proprietor: 'Blood-Priest',
    notableFeatures: [
     'Grum\'s Impression: the volcanic glass seal preserving the founder\'s hammer-strike',
@@ -1095,10 +1095,10 @@ DEEP_LOCATIONS['harath-vault'] = {
    id: 'the-blood-pits',
    name: 'The Blood-Pits',
    type: 'military',
-   description: 'A series of descending training chambers where Berserkers practice the Blood-Heat under increasingly extreme conditions. The lowest pit, the Crucible, is a sealed volcanic chamber where the geothermal temperature exceeds what any un-ignited body can survive. Only those who have mastered the third ignition are permitted below the second catwalk.',
+   description: 'A series of descending training chambers where Berserkers practice the Rage under increasingly extreme conditions. The lowest pit, the Crucible, is a sealed volcanic chamber where the geothermal temperature exceeds what any un-ignited body can survive. Only those who have mastered the third ignition are permitted below the second catwalk.',
    proprietor: 'Berserker Order',
    notableFeatures: [
-    'The Crucible: the lowest pit, where final Blood-Heat mastery is tested in volcanic conditions',
+    'The Crucible: the lowest pit, where final Rage mastery is tested in volcanic conditions',
     'The Scar-Wall: a basalt face where Berserkers record their ignitions by carving their names with red-hot metal'
    ]
   }

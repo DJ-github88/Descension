@@ -193,8 +193,8 @@ const Step5Resources = () => {
    ]
   },
   {
-   id: 'devotion_gauge',
-   name: 'Devotion Gauge',
+   id: 'devotion',
+   name: 'Devotion',
    description: 'Martyr devotion and sacrifice mechanics',
    icon: faHeart,
    color: '#FFD700',
@@ -239,27 +239,27 @@ const Step5Resources = () => {
    ]
   },
   {
-   id: 'quarry_marks',
-   name: 'Quarry Marks',
+   id: 'marks',
+   name: 'Marks',
    description: 'Apex tracking and coordination mechanics',
    icon: faCrosshairs,
    color: '#8B4513',
    subcategories: [
-    { id: 'quarry_marks', name: 'Quarry Marks Cost', shortName: 'QM', icon: faCrosshairs, color: '#8B4513' },
-    { id: 'quarry_marks_generate', name: 'Quarry Marks Generate', shortName: 'QM Gen', icon: faCrosshairs, color: '#8B4513' },
-    { id: 'quarry_marks_cost', name: 'Quarry Marks Spend', shortName: 'QM Cost', icon: faCrosshairs, color: '#8B4513' },
+    { id: 'marks', name: 'Marks Cost', shortName: 'QM', icon: faCrosshairs, color: '#8B4513' },
+    { id: 'quarry_marks_generate', name: 'Marks Generate', shortName: 'QM Gen', icon: faCrosshairs, color: '#8B4513' },
+    { id: 'quarry_marks_cost', name: 'Marks Spend', shortName: 'QM Cost', icon: faCrosshairs, color: '#8B4513' },
    ]
   },
   {
-   id: 'vengeance_points',
-   name: 'Vengeance Points',
+   id: 'tension',
+   name: 'Tension',
    description: 'Warden justice and retribution mechanics',
    icon: faBalanceScale,
    color: '#8B0000',
    subcategories: [
-    { id: 'vengeance_points', name: 'Vengeance Points Cost', shortName: 'VP', icon: faBalanceScale, color: '#8B0000' },
-    { id: 'vengeance_points_generate', name: 'Vengeance Points Generate', shortName: 'VP Gen', icon: faBalanceScale, color: '#8B0000' },
-    { id: 'vengeance_points_cost', name: 'Vengeance Points Spend', shortName: 'VP Cost', icon: faBalanceScale, color: '#8B0000' },
+    { id: 'tension', name: 'Tension Cost', shortName: 'VP', icon: faBalanceScale, color: '#8B0000' },
+    { id: 'vengeance_points_generate', name: 'Tension Generate', shortName: 'VP Gen', icon: faBalanceScale, color: '#8B0000' },
+    { id: 'vengeance_points_cost', name: 'Tension Spend', shortName: 'VP Cost', icon: faBalanceScale, color: '#8B0000' },
    ]
   }
  ];
@@ -363,18 +363,18 @@ const Step5Resources = () => {
     return 'Wild Instinct generated from form-specific actions (usually 1-3 WI)';
    case 'wild_instinct_cost':
     return 'Wild Instinct spent on abilities (1-5 WI depending on spell tier)';
-   case 'quarry_marks':
-    return 'Quarry Marks cost (0-10, spent on companion commands and glaive enhancements)';
+   case 'marks':
+    return 'Marks cost (0-10, spent on companion commands and glaive enhancements)';
    case 'quarry_marks_generate':
-    return 'Quarry Marks generated from successful attacks (usually 1-2 QM per hit)';
+    return 'Marks generated from successful attacks (usually 1-2 QM per hit)';
    case 'quarry_marks_cost':
-    return 'Quarry Marks spent on abilities (1-5 QM depending on effect)';
-   case 'vengeance_points':
-    return 'Vengeance Points cost (0-10, spent on vengeance abilities and transformations)';
+    return 'Marks spent on abilities (1-5 QM depending on effect)';
+   case 'tension':
+    return 'Tension cost (0-10, spent on vengeance abilities and transformations)';
    case 'vengeance_points_generate':
-    return 'Vengeance Points generated from attacks and evasions (usually 1-2 VP)';
+    return 'Tension generated from attacks and evasions (usually 1-2 VP)';
    case 'vengeance_points_cost':
-    return 'Vengeance Points spent on abilities (1-10 VP depending on power)';
+    return 'Tension spent on abilities (1-10 VP depending on power)';
    default:
     return `Suggested cost for level ${level}: ${level * 5}-${level * 10}`;
   }

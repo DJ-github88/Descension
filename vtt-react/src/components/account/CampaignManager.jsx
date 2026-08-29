@@ -1,7 +1,6 @@
-// Campaign Manager component for Account Dashboard
-// Syncs with in-game CampaignManagerWindow using campaign service
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ReactDOM from 'react-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './styles/CampaignManager.css';
 import LibraryBrowserModal, { LIBRARY_TYPES as IMPORTED_LIBRARY_TYPES } from './LibraryBrowserModal';
 
@@ -179,7 +178,38 @@ const EntityLinkerModal = ({ isOpen, title, items = [], selectedIds = [], onTogg
 };
 
 const CampaignManager = ({ user }) => {
-  const [activeSection, setActiveSection] = useState('overview');
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [activeSection, setActiveSection] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const sp = new URLSearchParams(window.location.search);
+      const secParam = sp.get('section');
+      const validSections = ['overview', 'sessions', 'npcs', 'locations', 'quests', 'plots', 'homebrew'];
+      if (secParam && validSections.includes(secParam)) {
+        return secParam;
+      }
+    }
+    return 'overview';
+  });
+
+  // Sync activeSection when URL search parameters change (Back/Forward navigation)
+  useEffect(() => {
+    const sp = new URLSearchParams(location.search);
+    const secParam = sp.get('section');
+    const validSections = ['overview', 'sessions', 'npcs', 'locations', 'quests', 'plots', 'homebrew'];
+    if (secParam && validSections.includes(secParam)) {
+      setActiveSection(secParam);
+    }
+  }, [location.search]);
+
+  const handleSectionChange = useCallback((sectionId) => {
+    setActiveSection(sectionId);
+    const sp = new URLSearchParams(window.location.search);
+    sp.set('tab', 'campaigns');
+    sp.set('section', sectionId);
+    navigate(`/account?${sp.toString()}`, { replace: false });
+  }, [navigate]);
   const [homebrewSubTab, setHomebrewSubTab] = useState('items');
   const [lineageViewMode, setLineageViewMode] = useState('species'); // 'species' | 'family_trees'
   const [locationViewMode, setLocationViewMode] = useState('cards');
@@ -1790,7 +1820,7 @@ const CampaignManager = ({ user }) => {
           <button
             key={section.id}
             className={`section-nav-btn ${activeSection === section.id ? 'active' : ''}`}
-            onClick={() => setActiveSection(section.id)}
+            onClick={() => handleSectionChange(section.id)}
           >
             <i className={`fas ${section.icon}`}></i>
             <span>{section.label}</span>
@@ -2404,7 +2434,7 @@ const CampaignManager = ({ user }) => {
                           value={npc.description || ''}
                           onChange={(val) => updateNPC(npc.id, { description: val })}
                           placeholder="Physical description, personality, tone of voice, quirks..."
-                          rows={2}
+                          rows={3}
                           compact={true}
                         />
                       </div>
@@ -2415,7 +2445,7 @@ const CampaignManager = ({ user }) => {
                           value={npc.notes || ''}
                           onChange={(val) => updateNPC(npc.id, { notes: val })}
                           placeholder="Plot hooks, secrets, quest connections, inventory..."
-                          rows={2}
+                          rows={3}
                           compact={true}
                         />
                       </div>
@@ -6312,20 +6342,18 @@ const CampaignManager = ({ user }) => {
               {homebrewSubTab === 'lineages' && (
                 <div className="list-section">
                   <div className="section-header">
-                    <div className="lineage-view-toggle-bar" style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                    <div className="lineage-view-toggle-bar">
                       <button
                         type="button"
-                        className={`add-btn ${lineageViewMode === 'species' ? '' : 'secondary'}`}
+                        className={`lineage-toggle-btn ${lineageViewMode === 'species' ? 'active' : ''}`}
                         onClick={() => setLineageViewMode('species')}
-                        style={lineageViewMode === 'species' ? {} : { background: '#fdfbf7', color: '#5a2e12' }}
                       >
                         <i className="fas fa-dna"></i> Cultural Lineages & Species
                       </button>
                       <button
                         type="button"
-                        className={`add-btn ${lineageViewMode === 'family_trees' ? '' : 'secondary'}`}
+                        className={`lineage-toggle-btn ${lineageViewMode === 'family_trees' ? 'active dynasty' : ''}`}
                         onClick={() => setLineageViewMode('family_trees')}
-                        style={lineageViewMode === 'family_trees' ? { background: 'linear-gradient(135deg, #d4af37 0%, #b8860b 100%)', color: '#1a0f05', borderColor: '#8b6508' } : { background: '#fdfbf7', color: '#5a2e12' }}
                       >
                         <i className="fas fa-sitemap"></i> Dynasties & Family Trees
                       </button>

@@ -416,6 +416,7 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
     const safeTitle = title || 'Character Sheet';
 
     const characterClass = useCharacterStore(state => state.class);
+    const primarySpecialization = useCharacterStore(state => state.primarySpecialization);
     const [activeTalentTree, setActiveTalentTree] = useState(0);
 
     // Define character sheet sections with dropdown sub-sections matching the exact component tabs
@@ -486,11 +487,15 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
             icon: 'fas fa-sitemap',
             subSections: [
                 ...(characterClass && CLASS_SPECIALIZATIONS[characterClass]
-                    ? CLASS_SPECIALIZATIONS[characterClass].specializations.map((spec, idx) => ({
-                        id: `tree_${idx}`,
-                        label: spec.name,
-                        icon: 'fas fa-tree'
-                    }))
+                    ? CLASS_SPECIALIZATIONS[characterClass].specializations.map((spec, idx) => {
+                        const isPrimary = primarySpecialization === spec.id;
+                        return {
+                            id: `tree_${idx}`,
+                            label: isPrimary ? `${spec.name} ⭐` : spec.name,
+                            icon: isPrimary ? 'fas fa-crown' : 'fas fa-tree',
+                            isPrimary
+                        };
+                    })
                     : [
                         { id: 'tree_0', label: 'Tree 1', icon: 'fas fa-tree' },
                         { id: 'tree_1', label: 'Tree 2', icon: 'fas fa-tree' },
@@ -567,90 +572,102 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
 
                                 {isDropdownOpen && section.subSections && dropdownPos && ReactDOM.createPortal(
                                     <div
-                                        className="tab-dropdown-menu"
-                                        style={{ position: 'fixed', left: dropdownPos.left, top: dropdownPos.top, minWidth: Math.max(210, dropdownPos.width), marginTop: 4 }}
+                                        className="tab-dropdown-menu tab-dropdown-menu-scrollable"
+                                        style={{ position: 'fixed', left: dropdownPos.left, top: dropdownPos.top, minWidth: Math.max(220, dropdownPos.width), marginTop: 4 }}
                                         onMouseEnter={cancelCloseTabDropdown}
                                         onMouseLeave={scheduleCloseTabDropdown}
                                     >
-                                        {section.subSections.map(sub => {
-                                            const hasNestedSkills = key === 'skills' && section.skillItems?.[sub.id];
-                                            const isCategoryHovered = hoveredSkillCategory === sub.id;
-                                            return (
-                                                <div
-                                                    key={sub.id}
-                                                    className="tab-dropdown-item-wrapper"
-                                                    style={{ position: 'relative' }}
-                                                    onMouseEnter={() => hasNestedSkills && setHoveredSkillCategory(sub.id)}
-                                                    onMouseLeave={() => hasNestedSkills && setHoveredSkillCategory(null)}
-                                                >
-                                                    <button
-                                                        type="button"
-                                                        className={`tab-dropdown-item ${
-                                                            (activeTab === key && (
-                                                                (key === 'lore' && activeLoreSection === sub.id) ||
-                                                                (key === 'character' && activeInfoSection === sub.id) ||
-                                                                (key === 'stats' && activeStatGroup === sub.id) ||
-                                                                (key === 'skills' && activeSkillCategory === sub.id) ||
-                                                                (key === 'talents' && (
-                                                                    (sub.id === 'summary' && activeTalentTree === 3) ||
-                                                                    (sub.id === `tree_${activeTalentTree}`)
-                                                                ))
-                                                            )) ? 'active' : ''
-                                                        }`}
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            setActiveTab(key);
-                                                            if (key === 'lore') {
-                                                                setActiveLoreSection(sub.id);
-                                                            } else if (key === 'character') {
-                                                                setActiveInfoSection(sub.id);
-                                                            } else if (key === 'stats') {
-                                                                setActiveStatGroup(sub.id);
-                                                            } else if (key === 'skills') {
+                                        {key === 'skills' ? (
+                                            section.subSections.map(sub => {
+                                                const skillsForCat = section.skillItems?.[sub.id] || [];
+                                                const isCatActive = activeTab === 'skills' && activeSkillCategory === sub.id;
+                                                return (
+                                                    <div key={sub.id} className="tab-dropdown-section">
+                                                        <div
+                                                            className={`tab-dropdown-section-header ${isCatActive ? 'active' : ''}`}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setActiveTab('skills');
                                                                 setActiveSkillCategory(sub.id);
-                                                            } else if (key === 'talents') {
-                                                                if (sub.id === 'summary') {
-                                                                    setActiveTalentTree(3);
-                                                                } else {
-                                                                    const idx = parseInt(sub.id.replace('tree_', ''), 10);
-                                                                    setActiveTalentTree(isNaN(idx) ? 0 : idx);
+                                                                if (skillsForCat.length > 0) {
+                                                                    setSelectedSkillId(skillsForCat[0].id);
                                                                 }
-                                                            }
-                                                            setOpenDropdown(null);
-                                                        }}
-                                                    >
-                                                        <i className={sub.icon} style={{ width: '16px', textAlign: 'center', marginRight: '8px' }}></i>
-                                                        <span>{sub.label}</span>
-                                                        {hasNestedSkills && (
-                                                            <i className="fas fa-chevron-right" style={{ marginLeft: 'auto', fontSize: '9px', opacity: 0.6 }}></i>
-                                                        )}
-                                                    </button>
-                                                    {hasNestedSkills && isCategoryHovered && (
-                                                        <div className="tab-dropdown-submenu">
-                                                            {section.skillItems[sub.id].map(skill => (
-                                                                <button
-                                                                    key={skill.id}
-                                                                    type="button"
-                                                                    className={`tab-dropdown-item tab-dropdown-skill-item ${
-                                                                        (activeTab === 'skills' && activeSkillCategory === sub.id && selectedSkillId === skill.id) ? 'active' : ''
-                                                                    }`}
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation();
-                                                                        setActiveTab('skills');
-                                                                        setActiveSkillCategory(sub.id);
-                                                                        setSelectedSkillId(skill.id);
-                                                                        setOpenDropdown(null);
-                                                                    }}
-                                                                >
-                                                                    <i className={skill.icon} style={{ width: '14px', textAlign: 'center', marginRight: '6px', fontSize: '10px' }}></i>
-                                                                    <span>{skill.label}</span>
-                                                                </button>
-                                                            ))}
+                                                                setOpenDropdown(null);
+                                                            }}
+                                                            title={`View ${sub.label}`}
+                                                        >
+                                                            <i className={sub.icon} style={{ width: '16px', textAlign: 'center', marginRight: '8px' }}></i>
+                                                            <span className="tab-dropdown-section-title">{sub.label}</span>
+                                                            <span className="tab-dropdown-section-count">({skillsForCat.length})</span>
                                                         </div>
-                                                    )}
-                                                </div>
-                                            );
-                                        })}
+                                                        <div className="tab-dropdown-section-items">
+                                                            {skillsForCat.map(skill => {
+                                                                const isSkillActive = activeTab === 'skills' && activeSkillCategory === sub.id && selectedSkillId === skill.id;
+                                                                return (
+                                                                    <button
+                                                                        key={skill.id}
+                                                                        type="button"
+                                                                        className={`tab-dropdown-item tab-dropdown-skill-item ${isSkillActive ? 'active' : ''}`}
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            setActiveTab('skills');
+                                                                            setActiveSkillCategory(sub.id);
+                                                                            setSelectedSkillId(skill.id);
+                                                                            setOpenDropdown(null);
+                                                                        }}
+                                                                    >
+                                                                        <i className={skill.icon} style={{ width: '14px', textAlign: 'center', marginRight: '6px', fontSize: '10px' }}></i>
+                                                                        <span>{skill.label}</span>
+                                                                    </button>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })
+                                        ) : (
+                                            section.subSections.map(sub => {
+                                                const isSubActive = (activeTab === key && (
+                                                    (key === 'lore' && activeLoreSection === sub.id) ||
+                                                    (key === 'character' && activeInfoSection === sub.id) ||
+                                                    (key === 'stats' && activeStatGroup === sub.id) ||
+                                                    (key === 'talents' && (
+                                                        (sub.id === 'summary' && activeTalentTree === 3) ||
+                                                        (sub.id === `tree_${activeTalentTree}`)
+                                                    ))
+                                                ));
+                                                return (
+                                                    <div key={sub.id} className="tab-dropdown-item-wrapper" style={{ position: 'relative' }}>
+                                                        <button
+                                                            type="button"
+                                                            className={`tab-dropdown-item ${isSubActive ? 'active' : ''}`}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setActiveTab(key);
+                                                                if (key === 'lore') {
+                                                                    setActiveLoreSection(sub.id);
+                                                                } else if (key === 'character') {
+                                                                    setActiveInfoSection(sub.id);
+                                                                } else if (key === 'stats') {
+                                                                    setActiveStatGroup(sub.id);
+                                                                } else if (key === 'talents') {
+                                                                    if (sub.id === 'summary') {
+                                                                        setActiveTalentTree(3);
+                                                                    } else {
+                                                                        const idx = parseInt(sub.id.replace('tree_', ''), 10);
+                                                                        setActiveTalentTree(isNaN(idx) ? 0 : idx);
+                                                                    }
+                                                                }
+                                                                setOpenDropdown(null);
+                                                            }}
+                                                        >
+                                                            <i className={sub.icon} style={{ width: '16px', textAlign: 'center', marginRight: '8px' }}></i>
+                                                            <span>{sub.label}</span>
+                                                        </button>
+                                                    </div>
+                                                );
+                                            })
+                                        )}
                                     </div>,
                                     document.body
                                 )}
@@ -1228,6 +1245,15 @@ export default function Navigation({ onReturnToLanding }) {
         window.addEventListener('keydown', handleKeyPress);
         return () => window.removeEventListener('keydown', handleKeyPress);
     }, [handleKeyPress]);
+
+    // Listen for browser back interception or external exit requests to display confirmation dialog
+    useEffect(() => {
+        const handleRequestExit = () => {
+            setShowExitConfirm(true);
+        };
+        window.addEventListener('mythrill_request_exit_game', handleRequestExit);
+        return () => window.removeEventListener('mythrill_request_exit_game', handleRequestExit);
+    }, []);
 
     // Handle window resize and GM mode changes to adjust navigation bar position
     useEffect(() => {

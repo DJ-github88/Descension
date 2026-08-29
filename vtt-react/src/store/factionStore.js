@@ -1,4 +1,8 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { createStorageConfig } from '../utils/storageUtils';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { db, isFirebaseConfigured, auth } from '../config/firebase';
 
 
 
@@ -933,7 +937,7 @@ const SEEDED_FACTIONS = [
    { targetFactionId: 'house-solvan', type: 'allied', description: 'Both forge cults honor Grum; the legion keeps the Solvan forges lit beneath Emberspire.' }
   ],
   classAffinities: ['berserker'],
-  lore: 'Founded by Grum Bloodhammer when he first ignited the Blood Heat. Now fractured along the Unbound schism: Pact sworn elders hunt deep tunnel Berserkers who ignite without ritual.',
+  lore: 'Founded by Grum Bloodhammer when he first ignited the Rage. Now fractured along the Unbound schism: Pact sworn elders hunt deep tunnel Berserkers who ignite without ritual.',
   secrets: 'Pact sworn elders know the location of the deep tunnel Unbound settlement and have declined to burn it because three of their own bloodline ignite without the rite.',
   quests: []
  },
@@ -1186,8 +1190,8 @@ const SEEDED_FACTIONS = [
   icon: '/assets/icons/factions/covenant-of-the-scar.png',
   colors: { primary: '#555555', secondary: '#888888' },
   publicGoal: 'Tend the foundational scar and uphold the sacred vow of willing suffering',
-  publicDescription: 'A devoted Martyr order beneath Emberspire who take the pain of others into the Devotion Gauge to protect the faithful.',
-  leader: { npcId: 'sol-kaessen', title: 'Vigil Mother and Keeper of the First Scar', description: 'Sol Kaessen is a weathered Martyr whose arms bear the carved runes of suffering absorbed into the Devotion Gauge.' },
+  publicDescription: 'A devoted Martyr order beneath Emberspire who take the pain of others into the Devotion to protect the faithful.',
+  leader: { npcId: 'sol-kaessen', title: 'Vigil Mother and Keeper of the First Scar', description: 'Sol Kaessen is a weathered Martyr whose arms bear the carved runes of suffering absorbed into the Devotion.' },
   members: [
    { npcId: 'sol-kaessen', role: 'Vigil Mother and Keeper of the First Scar', locationId: 'emberspire-caldera' }
   ],
@@ -1199,7 +1203,7 @@ const SEEDED_FACTIONS = [
   ],
   classAffinities: ['martyr'],
   lore: 'Founded by Sera Solvan, who bore the first sacrificial brand. The order preserves the sacred alchemy of suffering.',
-  secrets: 'Sol Kaessen suspects the Devotion Gauge can be inverted to absorb immense cosmic energy in times of crisis.',
+  secrets: 'Sol Kaessen suspects the Devotion can be inverted to absorb immense cosmic energy in times of crisis.',
   quests: []
  },
  {
@@ -2259,163 +2263,153 @@ const FACTION_TYPES = {
 
 
 
-const useFactionStore = create((set, get) => ({
-
- factions: SEEDED_FACTIONS,
-
-
-
- getFaction: (factionId) => get().factions.find((f) => f.id === factionId) || null,
-
-
-
- getFactionsByRegion: (regionId) => get().factions.filter((f) => f.regionId === regionId),
-
-
-
- getFactionsByType: (type) => get().factions.filter((f) => f.type === type),
-
-
-
- getFactionsByClass: (classId) =>
-
-  get().factions.filter((f) => f.classAffinities && f.classAffinities.includes(classId)),
-
-
-
- getFactionRelationships: (factionId) => {
-
-  const faction = get().getFaction(factionId);
-
-  if (!faction) return [];
-
-  return (faction.relationships || []).map((rel) => ({
-
-   ...rel,
-
-   sourceFactionId: factionId,
-
-   sourceName: faction.name,
-
-   targetName: get().getFaction(rel.targetFactionId)?.name || rel.targetFactionId
-
-  }));
-
- },
-
-
-
- getFullRelationshipGraph: () => {
-
-  const factions = get().factions;
-
-  const edges = [];
-
-  const seen = new Set();
-
-
-
-  factions.forEach((faction) => {
-
-   (faction.relationships || []).forEach((rel) => {
-
-    const key = [faction.id, rel.targetFactionId].sort().join('|');
-
-    if (!seen.has(key)) {
-
-     seen.add(key);
-
-     edges.push({
-
-      source: faction.id,
-
-      target: rel.targetFactionId,
-
-      type: rel.type,
-
-      description: rel.description,
-
-      sourceName: faction.name,
-
-      targetName: factions.find((f) => f.id === rel.targetFactionId)?.name || rel.targetFactionId
-
-     });
-
-    }
-
-   });
-
-  });
-
-
-
-  return edges;
-
- },
-
-
-
- getNpcFactions: (npcId) =>
-
-  get().factions.filter((f) => f.members && f.members.some((m) => m.npcId === npcId)),
-
-
-
- getFactionMembersAtLocation: (locationId) => {
-
-  const result = [];
-
-  get().factions.forEach((faction) => {
-
-   (faction.members || [])
-
-    .filter((m) => m.locationId === locationId)
-
-    .forEach((m) => result.push({ ...m, factionId: faction.id, factionName: faction.name }));
-
-  });
-
-  return result;
-
- },
-
-
-
- addFaction: (faction) =>
-
-  set((state) => ({ factions: [...state.factions, { ...faction, id: faction.id || `faction-${Date.now()}` }] })),
-
-
-
- updateFaction: (factionId, updates) =>
-
-  set((state) => ({
-
-   factions: state.factions.map((f) => (f.id === factionId ? { ...f, ...updates } : f))
-
-  })),
-
-
-
- removeFaction: (factionId) =>
-
-  set((state) => ({
-
-   factions: state.factions.filter((f) => f.id !== factionId)
-
-  })),
-
-
-
- getRelationshipTypes: () => RELATIONSHIP_TYPES,
-
-
-
- getFactionTypes: () => FACTION_TYPES
-
-}));
-
-
+const triggerFactionAutoSync = () => {
+  const currentUid = auth?.currentUser?.uid;
+  if (currentUid && currentUid !== 'admin-dev-user' && currentUid !== 'dev-user-123' && !currentUid.startsWith('guest-')) {
+    useFactionStore.getState().syncToCloud(currentUid);
+  }
+};
+
+const useFactionStore = create(
+  persist(
+    (set, get) => ({
+      factions: SEEDED_FACTIONS,
+      lastCloudSyncAt: null,
+
+      getFaction: (factionId) => get().factions.find((f) => f.id === factionId) || null,
+
+      getFactionsByRegion: (regionId) => get().factions.filter((f) => f.regionId === regionId),
+
+      getFactionsByType: (type) => get().factions.filter((f) => f.type === type),
+
+      getFactionsByClass: (classId) =>
+        get().factions.filter((f) => f.classAffinities && f.classAffinities.includes(classId)),
+
+      getFactionRelationships: (factionId) => {
+        const faction = get().getFaction(factionId);
+        if (!faction) return [];
+        return (faction.relationships || []).map((rel) => ({
+          ...rel,
+          sourceFactionId: factionId,
+          sourceName: faction.name,
+          targetName: get().getFaction(rel.targetFactionId)?.name || rel.targetFactionId
+        }));
+      },
+
+      getFullRelationshipGraph: () => {
+        const factions = get().factions;
+        const edges = [];
+        const seen = new Set();
+
+        factions.forEach((faction) => {
+          (faction.relationships || []).forEach((rel) => {
+            const key = [faction.id, rel.targetFactionId].sort().join('|');
+            if (!seen.has(key)) {
+              seen.add(key);
+              edges.push({
+                source: faction.id,
+                target: rel.targetFactionId,
+                type: rel.type,
+                description: rel.description,
+                sourceName: faction.name,
+                targetName: factions.find((f) => f.id === rel.targetFactionId)?.name || rel.targetFactionId
+              });
+            }
+          });
+        });
+
+        return edges;
+      },
+
+      getNpcFactions: (npcId) =>
+        get().factions.filter((f) => f.members && f.members.some((m) => m.npcId === npcId)),
+
+      getFactionMembersAtLocation: (locationId) => {
+        const result = [];
+        get().factions.forEach((faction) => {
+          (faction.members || [])
+            .filter((m) => m.locationId === locationId)
+            .forEach((m) => result.push({ ...m, factionId: faction.id, factionName: faction.name }));
+        });
+        return result;
+      },
+
+      addFaction: (faction) => {
+        const newFaction = { ...faction, id: faction.id || `faction-${Date.now()}`, isCustom: true };
+        set((state) => ({ factions: [...state.factions, newFaction] }));
+        triggerFactionAutoSync();
+        return newFaction;
+      },
+
+      updateFaction: (factionId, updates) => {
+        set((state) => ({
+          factions: state.factions.map((f) => (f.id === factionId ? { ...f, ...updates, isCustom: true } : f))
+        }));
+        triggerFactionAutoSync();
+      },
+
+      removeFaction: (factionId) => {
+        set((state) => ({
+          factions: state.factions.filter((f) => f.id !== factionId)
+        }));
+        triggerFactionAutoSync();
+      },
+
+      getRelationshipTypes: () => RELATIONSHIP_TYPES,
+
+      getFactionTypes: () => FACTION_TYPES,
+
+      // --- Cloud Synchronization & Hydration ---
+      syncToCloud: async (userId) => {
+        if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
+        try {
+          const docRef = doc(db, 'users', userId, 'worldbuilding', 'factions');
+          const customFactions = get().factions.filter(f => f.isCustom || !SEEDED_FACTIONS.some(sf => sf.id === f.id));
+          await setDoc(docRef, {
+            customFactions,
+            updatedAt: new Date().toISOString()
+          }, { merge: true });
+          set({ lastCloudSyncAt: new Date().toISOString() });
+          return true;
+        } catch (err) {
+          console.debug('Factions cloud sync skipped/failed:', err?.message || err);
+          return false;
+        }
+      },
+
+      hydrateFromCloud: async (userId) => {
+        if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
+        try {
+          const docRef = doc(db, 'users', userId, 'worldbuilding', 'factions');
+          const snap = await getDoc(docRef);
+          if (snap.exists()) {
+            const data = snap.data();
+            if (Array.isArray(data?.customFactions) && data.customFactions.length > 0) {
+              const remoteCustomMap = new Map(data.customFactions.map(f => [f.id, f]));
+              const merged = SEEDED_FACTIONS.map(sf => remoteCustomMap.has(sf.id) ? remoteCustomMap.get(sf.id) : sf);
+              data.customFactions.forEach(cf => {
+                if (!merged.some(m => m.id === cf.id)) {
+                  merged.push(cf);
+                }
+              });
+              set({ factions: merged });
+              return true;
+            }
+          }
+        } catch (err) {
+          console.debug('Factions cloud hydration skipped/failed:', err?.message || err);
+        }
+        return false;
+      }
+    }),
+    createStorageConfig('mythrill_factions', {
+      partialize: (state) => ({
+        factions: state.factions,
+        lastCloudSyncAt: state.lastCloudSyncAt
+      })
+    })
+  )
+);
 
 export { RELATIONSHIP_TYPES, FACTION_TYPES, SEEDED_FACTIONS };
 

@@ -105,12 +105,12 @@ export const REVENANT_DATA = {
         name: "Blood Rites Kit",
         icon: "Necrotic/Drain Soul",
         items: [
-          "Ritual Dagger (1d6 slashing, blight resonance, HP sacrificed with this weapon generates +1 Death Toll per strike)",
+          "Ritual Dagger (1d6 slashing, blight resonance, HP sacrificed with this weapon generates +1 Toll per strike)",
           "Bloodstained Leather Armor (No agility penalty)",
           "Copper Chalice (ritual focus, reduces HP cost of first spell each combat by 1)",
         ],
         description:
-          "The close-quarters path. Your dagger is both weapon and conduit, every cut feeds the Death Toll. Best for Sanguine Harvest builds that plan to drain at melee range.",
+          "The close-quarters path. Your dagger is both weapon and conduit, every cut feeds the Toll. Best for Sanguine Harvest builds that plan to drain at melee range.",
       },
       {
         name: "Frost Phylactery Rig",
@@ -144,7 +144,7 @@ export const REVENANT_DATA = {
     currentLeader: {
       name: '<LoreLink termId="kor-vasseth">Threshold-Keeper Kor-Vasseth</LoreLink>',
       title: 'Warden of the Waking Graves',
-      characterization: `A Revenant of mixed Vreken-Neth descent who carries both founders' arts, <LoreLink termId="kora">Kora</LoreLink>'s Death Toll and <LoreLink termId="vesper">Vesper</LoreLink>'s Phylactery. He is calm, ancient, and speaks in a whisper layered with ancestral overtones. He has led the Twice-Born through three previous bog-grave awakenings. The fourth, the current one, is different, and the difference has him frightened for the first time in four centuries.`
+      characterization: `A Revenant of mixed Vreken-Neth descent who carries both founders' arts, <LoreLink termId="kora">Kora</LoreLink>'s Toll and <LoreLink termId="vesper">Vesper</LoreLink>'s Phylactery. He is calm, ancient, and speaks in a whisper layered with ancestral overtones. He has led the Twice-Born through three previous bog-grave awakenings. The fourth, the current one, is different, and the difference has him frightened for the first time in four centuries.`
     },
     headquarters: { name: 'The Cold Hearth, deep Bryngloom peat-sinks', locationId: 'bryngloom-forest' },
     crisisConnection: `<LoreLink termId="kor-vasseth">Kor-Vasseth</LoreLink> is investigating the twelve Revenants found drained of blood but unwounded, and the dead marching toward the <LoreLink termId="the_breach">Sundered Monoliths</LoreLink>. He has determined that the waking dead are *not* his order's doing: something is calling them, and the call routes through the Root-Veil. The Marked Revenants, distributed across that same network, are being dragged along as passengers. He cannot stop the march without severing the Root-Veil itself, which would kill every Marked Revenant, including half his order.`
@@ -178,9 +178,21 @@ Twelve revenants have been found drained of blood but showing no wounds. The Cul
 
 **The hook**: Your signature mechanic is **Strategic Resurrection**: when you die, your Phylactery triggers an immediate glacial nova that freezes all nearby enemies, allowing you to rise again with renewed vigor to finish the fight.
 
-**The resource bar & costs**: Your resource bar is **Death Toll** (built by sacrificing your own HP and slaying enemies) and **Phylactery Souls**. You can activate **Death Shroud** to spend your own health instead of mana for amplified frost and necrotic damage. Maintaining high Death Toll unlocks apocalyptic execution spells, but push it too high and you suffer necrotic rot.
+**The resource bar & costs**: Your resource bar is **Toll** (built by sacrificing your own HP and slaying enemies) and **Phylactery Souls**. You can activate **Death Shroud** to spend your own health instead of mana for amplified frost and necrotic damage. Maintaining high Toll unlocks apocalyptic execution spells, but push it too high and you suffer necrotic rot.
 
-**Bring one for**: Necromantic power, dark blood magic, and playing an immortal powerhouse who turns their own demise into a devastating party-saving counterattack.`
+**Bring one for**: Necromantic power, dark blood magic, and playing an immortal powerhouse who turns their own demise into a devastating party-saving counterattack.`,
+    roleplayIdentity: {
+      title: "Roleplay Identity",
+      content: "Practitioners carry a profound cultural and physical responsibility, marked by their tradition's unique legacy and societal perceptions."
+    },
+    combatRole: {
+      title: "Combat Role",
+      content: "Undying death-mage tank and necrotic controller who burns health for spellcasting and resurrects in an icy stasis nova when slain."
+    },
+    playstyle: {
+      title: "Playstyle & Turn 1 Flow",
+      content: "**Your Turn 1 in Combat**:\n1. **Toggle Death Shroud**: Spend HP instead of Mana for empowered frost and blight spellcraft.\n2. **Build Toll**: Cast `Necrotic Bolt` or `Tomb-Frost Shroud` to generate Toll and damage enemies.\n3. **Charge Phylactery**: Slay targets to bank soul charges, ensuring an immediate resurrection if you fall."
+    }
   },
 
     description: `A revenant is not alive and not dead. They walk between two necrotic traditions, and they still have work to finish.`,
@@ -253,11 +265,11 @@ The peat-bogs are reacting. In areas where Silence-stasis Revenants have congreg
       title: "The Undying Economy",
       content: `**Primary Role**: The only class that converts its own HP and death itself into explosive damage and tactical resurrection.
 
-**Why Bring a Revenant?**: No other class rides this razor's edge. They pay for power in flesh, every spell costs HP and/or Mana, and generate Death Toll that supercharges the next cast. At 16+ Toll, a single spell becomes a walking nuclear detonation. They drain life back from enemies. They toggle Death Shroud to burn HP for devastating frost+blight damage. They kill to charge their Phylactery, die strategically to trigger a battlefield-wide freeze, resurrect, and do it again. When the party needs something dead and the healer is down, the Revenant opens a vein, freezes the room, and solves the problem permanently.
+**Why Bring a Revenant?**: No other class rides this razor's edge. They pay for power in flesh, every spell costs HP and/or Mana, and generate Toll that supercharges the next cast. At 16+ Toll, a single spell becomes a walking nuclear detonation. They drain life back from enemies. They toggle Death Shroud to burn HP for devastating frost+blight damage. They kill to charge their Phylactery, die strategically to trigger a battlefield-wide freeze, resurrect, and do it again. When the party needs something dead and the healer is down, the Revenant opens a vein, freezes the room, and solves the problem permanently.
 
 **Damage Profile**:
 - Sustained necrotic/rime damage through HP sacrifice
-- Burst damage via Death Toll consumption
+- Burst damage via Toll consumption
 - Area denial through Death Shroud auras and spectral allies
 - Tactical death via Phylactery resurrection + Death Trigger freeze
 
@@ -268,7 +280,7 @@ The peat-bogs are reacting. In areas where Silence-stasis Revenants have congreg
 - Life drain for self-sustain
 
 **Weaknesses**:
-- Volatile Death Toll: your own resource is a bomb. At 6+ Toll, searing self-damage; at 11+, you cannot be healed; at 16+, your death detonates and kills nearby allies.
+- Volatile Toll: your own resource is a bomb. At 6+ Toll, searing self-damage; at 11+, you cannot be healed; at 16+, your death detonates and kills nearby allies.
 - HP is Fuel: every spell costs HP and/or Mana  -  you are always one bad trade from the grave, and a long fight with no drains empties you.
 - Death Shroud Bleeds: every turn in Shroud drains HP  -  sustained use is a slow suicide.
 - No Safety Net Empty: if the Phylactery is depleted, death is permanent  -  a foe who forces your deaths back-to-back ends you.
@@ -278,18 +290,18 @@ The peat-bogs are reacting. In areas where Silence-stasis Revenants have congreg
 
     playstyle: {
       title: "Playstyle",
-      content: `**Core Mechanic**: HP as fuel + Death as a tactical reset. Toggle Death Shroud to trade Mana for HP costs and gain frost enhancement. Build Death Toll through sacrifice and kills. Spend Toll for devastation. Die to trigger Phylactery resurrection and Death Trigger freeze.
+      content: `**Core Mechanic**: HP as fuel + Death as a tactical reset. Toggle Death Shroud to trade Mana for HP costs and gain frost enhancement. Build Toll through sacrifice and kills. Spend Toll for devastation. Die to trigger Phylactery resurrection and Death Trigger freeze.
 
 **Decision Points**:
 - When to activate Death Marks (permanent, irreversible consequences)
 - When to toggle Death Shroud (HP drain vs enhanced damage)
-- When to spend Death Toll before it becomes dangerous
+- When to spend Toll before it becomes dangerous
 - When dying is the right play (Death Trigger freeze)
 - How aggressively to kill (Phylactery charging)
 
 **Skill Expression**:
 - Managing HP as dual-purpose resource (fuel + health)
-- Timing Death Toll usage before volatility thresholds
+- Timing Toll usage before volatility thresholds
 - Toggling Death Shroud for maximum burst windows
 - Strategic death for Death Trigger freeze
 - Balancing aggression with Phylactery insurance
@@ -306,11 +318,11 @@ The peat-bogs are reacting. In areas where Silence-stasis Revenants have congreg
       title: "Combat Example: Death Is Fuel",
       content: `The crypt is cold. The undead knight does not breathe, does not blink, does not hurry  -  it has all the time in the world. You have a different relationship with time. You have died before. You know what it costs to come back. The question is not whether you can win. The question is what you are willing to pay.
 
-**The Setup**: Your party faces a powerful undead knight and three skeletal archers. You're a Level 4 Revenant (Sanguine Harvest) with 2 Death Marks active (Shrouded Veil, Crimson Pact). HP: 60/72, Mana: 40/50, Death Toll: 0, Phylactery: 10 HP, Death Shroud: OFF.
+**The Setup**: Your party faces a powerful undead knight and three skeletal archers. You're a Level 4 Revenant (Sanguine Harvest) with 2 Death Marks active (Shrouded Veil, Crimson Pact). HP: 60/72, Mana: 40/50, Toll: 0, Phylactery: 10 HP, Death Shroud: OFF.
 
 **Active Death Marks**:
 - **Shrouded Veil**: +2d6 blight damage to all spells, advantage on Stealth, -10% max HP (max 72, not 80)
-- **Crimson Pact**: Death Toll generates +1 extra per trigger, each Toll spent adds +1d8 damage (instead of +1d6)
+- **Crimson Pact**: Toll generates +1 extra per trigger, each Toll spent adds +1d8 damage (instead of +1d6)
 
 **Starting State**: HP: 60/72 | Mana: 40/50 | Toll: 0 | Phylactery: 10 | Shroud: OFF
 
@@ -318,13 +330,13 @@ The peat-bogs are reacting. In areas where Silence-stasis Revenants have congreg
 
 **Action**: Cast "Necrotic Bolt" (4 mana, costs 1d6 HP)
 **Health Cost Roll**: 1d6 → [4] = 4 HP sacrificed
-**Death Toll**: +4+1 (Crimson Pact bonus) = +5 Toll (now at 5)
+**Toll**: +4+1 (Crimson Pact bonus) = +5 Toll (now at 5)
 **HP**: 60 - 4 = 56 HP
 **Spell Damage**: 3d8 + 2d6 (Shrouded Veil) → [7,6,5] + [5,4] = 27 blight damage
 
 **Action (1 AP)**: Summon Spectral Allies (10 mana, costs 1d4 HP)
 **Health Cost Roll**: 1d4 → [3] = 3 HP sacrificed
-**Death Toll**: +3+1 = +4 (now at 9)
+**Toll**: +3+1 = +4 (now at 9)
 **HP**: 56 - 3 = 53 HP
 
 **End of Turn Drain**: Specters drain 1d4 HP each
@@ -346,15 +358,15 @@ The peat-bogs are reacting. In areas where Silence-stasis Revenants have congreg
 **Action**: Cast "Death's Embrace", costs HP in Shroud mode (10 mana value = 10 HP cost + 2d8 HP sacrifice)
 **Total HP Cost**: 10 + 2d8 → 10 + [6,5] = 21 HP
 **HP**: 44 - 21 = 23 HP
-**Death Toll**: +21+1 = +22, but capped at 20 (now at 20)
+**Toll**: +21+1 = +22, but capped at 20 (now at 20)
 **Mana**: 26 - 10 = 16
 
-**Spend ALL 20 Death Toll** to enhance the spell (+1d8 per Toll with Crimson Pact!)
+**Spend ALL 20 Toll** to enhance the spell (+1d8 per Toll with Crimson Pact!)
 **Spell Damage**: 4d6 base + 2d6 (Veil) + 20d8 (Toll) → massive devastation
 
 *The necrotic explosion obliterates the skeletal archers. The undead knight staggers.*
 
-**Death Toll**: 20 - 20 = 0
+**Toll**: 20 - 20 = 0
 
 **Current State**: HP: 23/72 | Mana: 16/50 | Toll: 0 | Phylactery: 10 | Shroud: ON
 
@@ -383,7 +395,7 @@ The peat-bogs are reacting. In areas where Silence-stasis Revenants have congreg
 
 **The Lesson**:
 1. HP is fuel, you sacrificed 32+ HP for spells
-2. Death Toll volatility, at 9 Toll you're in the "unstable" zone
+2. Toll volatility, at 9 Toll you're in the "unstable" zone
 3. Death Shroud converts Mana to HP costs for burst damage
 4. Phylactery resurrection turns death into a tactical weapon
 5. Death Trigger freeze is the strongest control effect in the game
@@ -394,29 +406,23 @@ You're not a mage who casts spells. You're an UNDYING PREDATOR who burns your ow
   },
 
   resourceSystem: {
-    title: "Death Toll & Phylactery",
-    subtitle: "Volatile blight energy + Kill-Harvested Resurrection",
+    title: "Toll: The Soul Phylactery",
+    subtitle: "How Your Resource Works (Beginner's Guide)",
 
-    description: `The Revenant's power is a dual economy built on death itself. **Death Toll** (0-20) is volatile blight energy generated through HP sacrifice and killing, spend it to devastating effect, or let it build and risk catastrophic self-damage. **Phylactery HP** is a kill-charged resurrection pool, every enemy felled by your spells adds life force to your soul anchor, and when you die, that stored life drags you back.
+    description: `**1. What is it? (The Soul Phylactery)**
+You do not use mana. Instead, you pay **Toll**—spending your own Health to cast frost and necrotic spells—while storing soul fragments in a basalt phylactery.
 
-**Death Shroud Toggle**:
-The Revenant can switch between two casting modes:
-- **Shroud OFF (Rest Mode)**: Spells cost Mana normally. Death Toll does not decay.
-- **Shroud ON (Death Mode)**: Spells cost HP instead of Mana. All spells deal +1d6 frost+blight damage. Enemies hit: DC 15 Con save or Chilled (-10 ft speed). Lose 1d6/1d8/1d10 HP at start of each turn (scales with level). Toggle is free, once per turn.
+**2. How do I build it?**
+- Slay enemies to charge your phylactery with soul fragments.
+- Siphon life from frostbitten foes to replenish your physical health pool.
 
-**Death Toll Volatility**:
-- **1-5 Toll**: Stable. No side effects.
-- **6-10 Toll**: Unstable. 1 blight damage/turn to self. Enemies within 5ft take 1 necrotic/Toll.
-- **11-15 Toll**: Volatile. 1d4 necrotic/Toll/turn. Cannot be healed by others. All spell saves at -2.
-- **16-20 Toll**: CRITICAL MASS. 1d6 necrotic/Toll/turn. Advantage on death saves but disadvantage on all other saves. If you die at 16+, ALL Toll detonates, 1d10 necrotic/Toll to EVERYTHING within 30ft (including allies).
-
-**Toll Decay**: -1 per round if no enemy killed and no HP sacrificed this round. Timer pressure forces aggression.
-
-**Differentiation**: Unlike the Inquisitor (who builds Authority through anti-magic friction and horror command), the Revenant builds Death Toll through raw HP sacrifice and body count. The Inquisitor is surgical; the Revenant is a chain reaction.`,
+**3. How do I spend it & what is the catch?**
+- Spend Health to cast empowered high-tier death magic without mana constraints.
+- **The Catch (Glacial Resurrection & Stasis)**: If your HP drops to 0, your charged phylactery triggers an automatic resurrection stasis nova, freezing nearby foes while you reform at 50% HP.`,
 
     cards: [
       {
-        title: "Death Toll (0-20)",
+        title: "Toll (0-20)",
         stats: "HP Sacrifice + Kills",
         details:
           "1 HP lost = 1 Toll (before bonuses). Kills add +1d6 Toll. Spend for +1d6 necrotic per Toll. VOLATILE: 6+ = self-damage, 11+ = can't be healed, 16+ = nuclear detonation on death. Decays -1/round without kills/sacrifice.",
@@ -509,7 +515,7 @@ The Revenant can switch between two casting modes:
     },
 
     deathTollTable: {
-      title: "Death Toll Mechanics",
+      title: "Toll Mechanics",
       headers: ["Threshold", "Effect", "Notes"],
       rows: [
         ["1-5 (Stable)", "No side effects", "Safe to accumulate"],
@@ -536,7 +542,7 @@ The Revenant can switch between two casting modes:
     playingInPerson: {
       title: "Playing Revenant In Person",
       content: `**Required Materials**:
-- **20 Red/Blue Beads**: Death Toll tokens (red for blood aspect, blue for frost aspect)
+- **20 Red/Blue Beads**: Toll tokens (red for blood aspect, blue for frost aspect)
 - **A Physical Timer**: Countdown for Toll decay
 - **Phylactery Tracker**: Separate HP tracker for stored resurrection HP
 - **Mode Toggle Card**: Shows Rest Mode / Death Mode
@@ -557,7 +563,7 @@ The Revenant can switch between two casting modes:
     specs: [
       {
         id: "sanguine_harvest",
-        name: "Sanguine Harvest",
+        name: "Toll",
         icon: "Necrotic/Drain Soul",
         color: "#8B0000",
         theme: "Aggressive Life Drain + Spectral Army",
@@ -569,7 +575,7 @@ The Revenant can switch between two casting modes:
         strengths: [
           "Excellent sustain through life drain",
           "Spectral minions from every kill (guaranteed)",
-          "High burst through Death Toll consumption",
+          "High burst through Toll consumption",
           "Strong in prolonged fights with enemies to drain",
         ],
         weaknesses: [
@@ -669,6 +675,159 @@ The Revenant can switch between two casting modes:
   },
 
   exampleSpells: [
+
+    // ===== EXPANDED REVENANT HIGH-TIER SPELLS =====
+    {
+      id: "rv_tomb_frost_shroud",
+      name: "Tomb-Frost Shroud",
+      description: "Wrap yourself in an icy mist of peat-frost. Enemies within 10ft suffer rime damage and disadvantage on physical attacks.",
+      level: 3,
+      spellType: "ACTION",
+      icon: "Frost/Ice Shard",
+      effectTypes: ["damage", "debuff"],
+      typeConfig: { school: "rime", icon: "Frost/Ice Shard", tags: ["damage", "aoe", "frost", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 10, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      damageConfig: { formula: "2d8 + intelligence", damageTypes: ["rime"], resolution: "DICE" },
+      tags: ["damage", "aoe", "frost", "revenant"]
+    },
+    {
+      id: "rv_corpse_explosion",
+      name: "Corpse Detonation",
+      description: "Detonate a fallen foe or summoned shade. Deals heavy blight damage in a 15ft radius and inflicts necrotic poison.",
+      level: 3,
+      spellType: "ACTION",
+      icon: "Force/Explosion Burst",
+      effectTypes: ["damage", "debuff"],
+      typeConfig: { school: "blight", icon: "Force/Explosion Burst", tags: ["damage", "aoe", "corpse", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 50, targetRestrictions: ["corpse", "enemy"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 7 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      damageConfig: { formula: "3d8 + intelligence", damageTypes: ["blight"], resolution: "DICE" },
+      tags: ["damage", "aoe", "corpse", "revenant"]
+    },
+    {
+      id: "rv_grave_mire_stasis",
+      name: "Grave-Mire Stasis",
+      description: "Freeze the ground in a 20ft radius with bog-frost. Enemies are rooted and take rime damage. Rooted foes who perish charge your Phylactery.",
+      level: 4,
+      spellType: "ACTION",
+      icon: "Frost/Cold CLothing",
+      effectTypes: ["damage", "crowd_control"],
+      typeConfig: { school: "rime", icon: "Frost/Cold CLothing", tags: ["damage", "aoe", "frost", "root", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, areaType: "circle", areaSize: 20, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      damageConfig: { formula: "3d8 + intelligence", damageTypes: ["rime"], resolution: "DICE" },
+      tags: ["damage", "aoe", "frost", "root", "revenant"]
+    },
+    {
+      id: "rv_soul_echo_flay",
+      name: "Soul-Echo Flay",
+      description: "Rip a shadow-echo from an enemy's soul. Deals blight damage; if the target is below 50% HP, heals the Revenant for half the damage dealt.",
+      level: 4,
+      spellType: "ACTION",
+      icon: "Necrotic/Death Mark",
+      effectTypes: ["damage", "healing"],
+      typeConfig: { school: "blight", icon: "Necrotic/Death Mark", tags: ["damage", "single_target", "drain", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      damageConfig: { formula: "4d8 + intelligence", damageTypes: ["blight"], resolution: "DICE" },
+      tags: ["damage", "single_target", "drain", "revenant"]
+    },
+    {
+      id: "rv_bog_marrow_drain",
+      name: "Bog Marrow Drain",
+      description: "Channel tendrils of dark bog ichor into up to 3 targets, siphoning life force to grant temporary HP.",
+      level: 5,
+      spellType: "ACTION",
+      icon: "Necrotic/Necrotic Wither",
+      effectTypes: ["damage", "buff"],
+      typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", tags: ["damage", "multi_target", "drain", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "multi", rangeType: "ranged", rangeDistance: 50, maxTargets: 3, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 9 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      damageConfig: { formula: "3d10 + intelligence", damageTypes: ["blight"], resolution: "DICE" },
+      tags: ["damage", "multi_target", "drain", "revenant"]
+    },
+    {
+      id: "rv_glacial_sepulcher",
+      name: "Glacial Sepulcher",
+      description: "Encase a high-value enemy in a pillar of black frost. The target is incapacitated for 1 round and shatters for heavy rime damage.",
+      level: 5,
+      spellType: "ACTION",
+      icon: "Frost/Ice Shard",
+      effectTypes: ["damage", "crowd_control"],
+      typeConfig: { school: "rime", icon: "Frost/Ice Shard", tags: ["damage", "single_target", "stun", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 40, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 9 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      damageConfig: { formula: "4d10 + intelligence", damageTypes: ["rime"], resolution: "DICE" },
+      tags: ["damage", "single_target", "stun", "revenant"]
+    },
+    {
+      id: "rv_crypt_chill_nova",
+      name: "Crypt Chill Nova",
+      description: "Release a 30ft shockwave of frozen tomb air that deals rime damage and stuns targets failing their save.",
+      level: 7,
+      spellType: "ACTION",
+      icon: "Frost/Cold CLothing",
+      effectTypes: ["damage", "crowd_control"],
+      typeConfig: { school: "rime", icon: "Frost/Cold CLothing", tags: ["damage", "aoe", "frost", "stun", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 30, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 11 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      damageConfig: { formula: "6d8 + intelligence * 2", damageTypes: ["rime"], resolution: "DICE" },
+      tags: ["damage", "aoe", "frost", "stun", "revenant"]
+    },
+    {
+      id: "rv_phylactery_cascade",
+      name: "Phylactery Cascade",
+      description: "Unleash stored souls from your basalt phylactery to strike 3 targets with combined blight and rime devastation.",
+      level: 7,
+      spellType: "ACTION",
+      icon: "Necrotic/Ritual",
+      effectTypes: ["damage"],
+      typeConfig: { school: "blight", icon: "Necrotic/Ritual", tags: ["damage", "multi_target", "phylactery", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "multi", rangeType: "ranged", rangeDistance: 60, maxTargets: 3, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 12 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      damageConfig: { formula: "5d8 + intelligence * 2", damageTypes: ["blight", "rime"], resolution: "DICE" },
+      tags: ["damage", "multi_target", "phylactery", "revenant"]
+    },
+    {
+      id: "rv_absolute_zero_coffin",
+      name: "Absolute Zero Coffin",
+      description: "Freeze a 25ft area to absolute zero. Deals catastrophic rime damage and freezes all surviving enemies in peat ice.",
+      level: 9,
+      spellType: "ACTION",
+      icon: "Frost/Ice Shard",
+      effectTypes: ["damage", "crowd_control"],
+      typeConfig: { school: "rime", icon: "Frost/Ice Shard", tags: ["damage", "aoe", "frost", "apocalypse", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 70, areaType: "circle", areaSize: 25, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 15 } },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      damageConfig: { formula: "8d10 + intelligence * 2", damageTypes: ["rime"], resolution: "DICE" },
+      tags: ["damage", "aoe", "frost", "apocalypse", "revenant"]
+    },
+    {
+      id: "rv_avatar_of_cold_hearth",
+      name: "Avatar of the Cold Hearth",
+      description: "Ascend as the supreme living nexus of Kora and Vesper. Radiate a lethal 30ft frost-necrotic aura and instantly recharge Phylactery.",
+      level: 10,
+      spellType: "ACTION",
+      icon: "Necrotic/Ritual",
+      effectTypes: ["buff", "damage"],
+      typeConfig: { school: "blight", icon: "Necrotic/Ritual", tags: ["buff", "aoe", "avatar", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "self", rangeType: "self" },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 18 } },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      damageConfig: { formula: "10d8", damageTypes: ["blight", "rime"], resolution: "DICE" },
+      tags: ["buff", "aoe", "avatar", "revenant"]
+    },
+  
     ...UTILITY_SPELLS,
     { id: "rv_necrotic_bolt",
       name: "Necrotic Bolt",
@@ -693,7 +852,7 @@ The Revenant can switch between two casting modes:
         requiresLineOfSight: true,
       },
       resourceCost: {
-        classResource: { type: "death_toll", cost: -3 },
+        classResource: { type: "toll", cost: -3 },
         resourceTypes: ["mana", "health"],
         resourceValues: { mana: 4 },
         actionPoints: 1,
@@ -714,7 +873,7 @@ The Revenant can switch between two casting modes:
           { id: "rv_blood_sacrifice_bolt",
             name: "Blood Sacrifice",
             triggerType: "on_cast",
-            action: "Sacrifice 1d6 HP. Generate Death Toll equal to HP lost.",
+            action: "Sacrifice 1d6 HP. Generate Toll equal to HP lost.",
           },
         ],
       },
@@ -776,7 +935,7 @@ The Revenant can switch between two casting modes:
         { id: "rv_blood_sacrifice_walk",
           name: "Blood Sacrifice",
           triggerType: "on_cast",
-          action: "Sacrifice 1d6 HP. Generate Death Toll equal to HP lost.",
+          action: "Sacrifice 1d6 HP. Generate Toll equal to HP lost.",
         },
       ],
       },
@@ -961,7 +1120,7 @@ The Revenant can switch between two casting modes:
         { id: "rv_blood_sacrifice_whisper",
           name: "Blood Sacrifice",
           triggerType: "on_cast",
-          action: "Sacrifice 1d6 HP. Generate Death Toll equal to HP lost.",
+          action: "Sacrifice 1d6 HP. Generate Toll equal to HP lost.",
         },
       ],
       },
@@ -1074,7 +1233,7 @@ The Revenant can switch between two casting modes:
       typeConfig: {
         school: "blight",
         icon: "Poison/Poison Plague",
-        tags: ["aoe", "damage", "death_toll", "ultimate", "revenant"],
+        tags: ["aoe", "damage", "toll", "ultimate", "revenant"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1100,7 +1259,7 @@ The Revenant can switch between two casting modes:
         { id: "rv_blood_sacrifice_cataclysm",
           name: "Blood Sacrifice",
           triggerType: "on_cast",
-          action: "Sacrifice 4d6 HP. Generate Death Toll equal to HP lost. Consume Death Toll for bonus damage.",
+          action: "Sacrifice 4d6 HP. Generate Toll equal to HP lost. Consume Toll for bonus damage.",
         },
       ],
       },
@@ -1120,7 +1279,7 @@ The Revenant can switch between two casting modes:
         effects: [
           { id: "rv_cataclysm_stun",
             name: "Cataclysm Shockwave",
-            description: "If 10+ Death Toll spent, all enemies Stunned for 1 round.",
+            description: "If 10+ Toll spent, all enemies Stunned for 1 round.",
             config: { thresholdToll: 10, stunDuration: 1 },
           },
         ],
@@ -1132,7 +1291,7 @@ The Revenant can switch between two casting modes:
         duration: 1,
         durationUnit: "rounds",
       },
-      tags: ["aoe", "damage", "death_toll", "ultimate", "revenant"],
+      tags: ["aoe", "damage", "toll", "ultimate", "revenant"],
     },
 
     { id: "rv_judgment_day",
@@ -1181,7 +1340,7 @@ The Revenant can switch between two casting modes:
         { id: "rv_blood_sacrifice_judgment",
           name: "Blood Sacrifice",
           triggerType: "on_cast",
-          action: "Sacrifice 6d6 HP. Generate Death Toll equal to HP lost.",
+          action: "Sacrifice 6d6 HP. Generate Toll equal to HP lost.",
         },
       ],
       },
@@ -1240,7 +1399,7 @@ The Revenant can switch between two casting modes:
         { id: "rv_blood_sacrifice_armageddon",
           name: "Blood Sacrifice",
           triggerType: "on_cast",
-          action: "Sacrifice 10d6 HP and 2d10 permanent HP. Generate Death Toll equal to HP lost.",
+          action: "Sacrifice 10d6 HP and 2d10 permanent HP. Generate Toll equal to HP lost.",
         },
       ],
       },
@@ -1433,3 +1592,4 @@ The Revenant can switch between two casting modes:
 export default REVENANT_DATA;
 
 REVENANT_DATA.spells = REVENANT_DATA.exampleSpells;
+export const REVENANT_SPELLS = REVENANT_DATA.spells;

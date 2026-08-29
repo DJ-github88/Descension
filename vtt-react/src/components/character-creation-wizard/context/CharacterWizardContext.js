@@ -59,6 +59,7 @@ const initialState = {
         // Basic information
         name: '',
         gender: 'male',
+        alignment: 'Neutral Good',
         characterImage: null,
         imageTransformations: null,
         characterIcon: null,
@@ -372,6 +373,7 @@ const characterWizardReducer = (state, action) => {
                     // Basic information
                     name: existingChar.name || '',
                     gender: existingChar.gender || 'male',
+                    alignment: existingChar.alignment || 'Neutral Good',
                     characterImage: existingChar.lore?.characterImage || existingChar.characterImage || null,
                     imageTransformations: existingChar.lore?.imageTransformations || existingChar.imageTransformations || null,
                     characterIcon: existingChar.lore?.characterIcon || existingChar.characterIcon || null,

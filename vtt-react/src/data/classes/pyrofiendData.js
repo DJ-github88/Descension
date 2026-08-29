@@ -166,7 +166,19 @@ Scathrach is calling in all debts simultaneously. The Final Convocation at Ember
 
 **The resource bar & costs**: Your resource bar is the **Inferno Veil** (Tiers 1–10). Every fire spell you cast builds Corruption and raises your Veil, granting explosive flat damage bonuses to all attacks. However, at Tier 5+, the Ashen Sovereign threatens to seize control, requiring Spirit saves to prevent your fire from scorching friends alongside foes.
 
-**Bring one for**: Unmatched raw damage-per-round, high-risk high-reward glass cannon playstyles, and the sheer spectacle of self-destructive fiery devastation.`
+**Bring one for**: Unmatched raw damage-per-round, high-risk high-reward glass cannon playstyles, and the sheer spectacle of self-destructive fiery devastation.`,
+    roleplayIdentity: {
+      title: "Roleplay Identity",
+      content: "Practitioners carry a profound cultural and physical responsibility, marked by their tradition's unique legacy and societal perceptions."
+    },
+    combatRole: {
+      title: "Combat Role",
+      content: "Damned fire conduit who ascends through 10 Inferno Veil levels to gain escalating fire damage, balancing demon whispers against a Level 9 death clock."
+    },
+    playstyle: {
+      title: "Playstyle & Turn 1 Flow",
+      content: "**Your Turn 1 in Combat**:\n1. **Ignite Inferno Veil**: Cast `Ashen Dart` or `Caldera Eruption` to ascend to Veil Level 1-2.\n2. **Ride the Heat Curve**: Deal escalating fire damage while monitoring the Veil 5+ demonic whisper check.\n3. **Vent Before Level 9**: Spend heat on massive release spells before hitting the 3-turn permanent death clock."
+    }
   },
 
  description: `The Pyrofiend is a chaotic, fire-wielder who has invited a parasitic Wyrd-intelligence, **Scathrach, the Ashen Sovereign**, to nest directly within their marrow. They do not command fire through careful study or sacred grace; they bleed it. The Pyrofiend's power is governed by the **Inferno Veil**, an escalating state of corruption that grows hotter, brighter, and more chaotic as battle progresses. The Pyrofiend deals devastating, explosive damage, but the horror within constantly claw at their sanity, demanding more heat, more ash, and more fuel.`,
@@ -484,10 +496,20 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
 
  // Resource System
  resourceSystem: {
- title: "Inferno Veil",
- subtitle: "Scathrach's Corruption Ascendant",
+ title: "Veil: The Thermometer",
+ subtitle: "How Your Resource Works (Beginner's Guide)",
 
- description: `Your power is a debt to Scathrach, the Ashen Sovereign. As you cast fire magic, you ascend through nine stages of Wyrd-touched corruption, each one rewriting your body into something less human and more furnace. Every level adds to your ember damage. Every level takes something from your flesh. Climb too high and the death clock begins. Stay too low and Scathrach grows impatient. The Veil is not a resource. It is a disease, and you chose to be infected.`,
+ description: `**1. What is it? (The Thermometer)**
+Veil (Levels 0–9) represents the infernal combustion burning inside your body. Each level adds flat bonus fire damage to all your attacks.
+
+**2. How do I build it?**
+- Cast fire and magma spells to ascend Veil levels (+1 level per major cast).
+
+**3. How do I spend it & what is the catch?**
+- Spend Veil levels to unleash catastrophic caldera eruptions and lava waves.
+- **The Catch (Level 9 Death Clock)**:
+  - Levels 5–8 impose demonic whisper checks that can cause minor self-harm.
+  - Reaching **Level 9 (Oblivion)** starts a strict **3-turn permanent death clock**—you must vent your heat before time expires or be consumed in ash.`,
 
  cards: [
   {
@@ -712,7 +734,7 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
  description: `Every Pyrofiend chooses how they respond to the parasite living inside them. Each specialization represents a different philosophy, not of power, but of survival. How long can you endure the furnace before Scathrach claims you? The answer depends on which path you walk.`,
 
  sharedPassive: {
-  name: "Infernal Surge",
+  name: "Veil",
   tier: "Path Passive",
   description:
   "When you ascend to Inferno Level 5 or higher, your next fire spell deals an additional 2d6 ember damage. This effect can only trigger once per ascension event.",

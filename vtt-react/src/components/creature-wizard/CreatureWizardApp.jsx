@@ -11,7 +11,176 @@ import Step5ShopConfiguration from './components/steps/Step5ShopConfiguration';
 import ExternalCreaturePreview from './components/common/ExternalCreaturePreview';
 import './styles/CreatureWizard.css';
 
-const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCancel, activeView = 'wizard' }) => {
+import { normalizeDangerLevel, CREATURE_PRESETS } from '../books/BookTtrpgBlocks';
+
+export const normalizeCreatureForWizard = (raw = {}) => {
+  if (!raw) return null;
+
+  const stats = raw.stats || {};
+  const hp = typeof raw.hp === 'object' ? (raw.hp.max || raw.hp.current || 100) : (stats.maxHp || raw.hp || 100);
+  const mana = typeof raw.mana === 'object' ? (raw.mana.max || raw.mana.current || 50) : (stats.maxMana || raw.mana || 50);
+  const ap = typeof raw.ap === 'number' ? raw.ap : (stats.maxActionPoints || raw.maxActionPoints || 3);
+  const rawSpeed = raw.speed || stats.speed || 30;
+  const speedNum = typeof rawSpeed === 'string' ? (parseInt(rawSpeed, 10) || 30) : (Number(rawSpeed) || 30);
+
+  // Extract type & size from creatureType or type/size
+  let rawTypeStr = String(raw.type || raw.creatureType || 'humanoid').toLowerCase();
+  let size = (raw.size || 'medium').toLowerCase();
+  const sizeMatches = rawTypeStr.match(/\b(tiny|small|medium|large|huge|gargantuan)\b/i);
+  if (sizeMatches) {
+    size = sizeMatches[1].toLowerCase();
+    rawTypeStr = rawTypeStr.replace(/\b(tiny|small|medium|large|huge|gargantuan)\b/i, '').trim();
+  }
+  // Remove trailing commas/alignments e.g. "humanoid, neutral evil" -> "humanoid"
+  const cleanType = rawTypeStr.split(/[,/]/)[0].trim() || 'humanoid';
+
+  // Build abilities list from existing abilities, traits, and actions
+  let abilities = [];
+  if (Array.isArray(raw.abilities) && raw.abilities.length > 0) {
+    abilities = raw.abilities.map((a) => ({
+      id: a.id || generateUniqueId(),
+      name: a.name || a.title || 'Ability',
+      type: a.type || 'melee',
+      description: a.description || a.desc || '',
+      actionPointCost: typeof a.actionPointCost === 'number' ? a.actionPointCost : (typeof a.cost === 'number' ? a.cost : 1),
+      manaCost: Number(a.manaCost) || 0,
+      damage: a.damage || { diceCount: 1, diceType: 6, bonus: 0, damageType: 'smashing' },
+      range: Number(a.range) || 5,
+      cooldown: Number(a.cooldown) || 0,
+      effects: Array.isArray(a.effects) ? a.effects : []
+    }));
+  } else {
+    if (Array.isArray(raw.traits)) {
+      raw.traits.forEach((t) => {
+        abilities.push({
+          id: generateUniqueId(),
+          name: t.name || 'Passive Trait',
+          type: 'special',
+          description: t.desc || t.description || '',
+          actionPointCost: 0,
+          manaCost: 0,
+          damage: { diceCount: 0, diceType: 0, bonus: 0, damageType: 'none' },
+          range: 0,
+          cooldown: 0,
+          effects: []
+        });
+      });
+    }
+    if (Array.isArray(raw.actions)) {
+      raw.actions.forEach((a) => {
+        const nameStr = a.name || 'Action';
+        const apMatch = nameStr.match(/\((\d+)\s*AP/i);
+        const apCost = apMatch ? parseInt(apMatch[1], 10) : 1;
+        const cleanName = nameStr.replace(/\s*\([^)]*\)/i, '').trim() || nameStr;
+        abilities.push({
+          id: generateUniqueId(),
+          name: cleanName,
+          type: 'melee',
+          description: a.desc || a.description || '',
+          actionPointCost: apCost,
+          manaCost: 0,
+          damage: { diceCount: 1, diceType: 8, bonus: 2, damageType: 'physical' },
+          range: 5,
+          cooldown: 0,
+          effects: []
+        });
+      });
+    }
+  }
+
+  const tokenIcon = raw.tokenIcon || raw.icon || raw.illustration || raw.image || 'inv_misc_questionmark';
+  const customImg = raw.customTokenImage || (raw.illustration || (raw.image && raw.image.startsWith('http') ? raw.image : null));
+
+  return {
+    id: raw.id || generateUniqueId(),
+    name: raw.name || raw.title || 'Unnamed Creature',
+    description: raw.description || raw.desc || raw.lore || '',
+    type: cleanType,
+    size: size || 'medium',
+    tags: Array.isArray(raw.tags) ? raw.tags : [],
+    tokenIcon,
+    tokenBorder: raw.tokenBorder || '#d4af37',
+    customTokenImage: customImg || null,
+    imageTransformations: raw.imageTransformations || null,
+    role: raw.role || '',
+    dangerLevel: normalizeDangerLevel(raw.dangerLevel || raw.danger || raw.challenge, raw.cr),
+    region: raw.region || '',
+    habitat: raw.habitat || '',
+    origin: raw.origin || '',
+    heritage: raw.heritage || '',
+    nature: raw.nature || '',
+    depth: raw.depth || '',
+    loreClassification: raw.loreClassification || {},
+    loreCanon: raw.loreCanon || {},
+    loreNote: raw.loreNote || '',
+    folkloreInspiration: raw.folkloreInspiration || null,
+    illustration: raw.illustration || (raw.image && raw.image.startsWith('http') ? raw.image : null),
+    illustrationCaption: raw.illustrationCaption || '',
+    stats: {
+      strength: Number(stats.strength ?? raw.strength ?? 10) || 10,
+      agility: Number(stats.agility ?? raw.agility ?? 10) || 10,
+      constitution: Number(stats.constitution ?? raw.constitution ?? 10) || 10,
+      intelligence: Number(stats.intelligence ?? raw.intelligence ?? 10) || 10,
+      spirit: Number(stats.spirit ?? raw.spirit ?? 10) || 10,
+      charisma: Number(stats.charisma ?? raw.charisma ?? 10) || 10,
+      maxHp: Number(hp) || 100,
+      currentHp: Number(hp) || 100,
+      maxMana: Number(mana) || 50,
+      currentMana: Number(mana) || 50,
+      maxActionPoints: Number(ap) || 3,
+      currentActionPoints: Number(ap) || 3,
+      armor: Number(stats.armor ?? raw.armorClass ?? raw.armor ?? 15) || 15,
+      initiative: Number(stats.initiative ?? 2) || 2,
+      speed: Number(speedNum) || 30
+    },
+    resistances: raw.resistances || {},
+    vulnerabilities: raw.vulnerabilities || {},
+    abilities,
+    tactics: raw.tactics || {
+      combatStyle: 'balanced',
+      targetPriority: 'balanced',
+      abilityUsage: 'strategic',
+      retreatThreshold: 30,
+      notes: ''
+    },
+    lootTable: raw.lootTable || {
+      currency: {
+        platinum: { min: 0, max: 0 },
+        gold: { min: 0, max: 0 },
+        silver: { min: 0, max: 0 },
+        copper: { min: 0, max: 0 }
+      },
+      items: []
+    },
+    isShopkeeper: Boolean(raw.isShopkeeper),
+    shopInventory: raw.shopInventory || {
+      shopName: '',
+      shopDescription: '',
+      restockOnLongRest: false,
+      buyRates: {
+        default: 50,
+        categories: {
+          weapon: 50,
+          armor: 50,
+          consumable: 50,
+          accessory: 50,
+          container: 50,
+          miscellaneous: 50
+        }
+      },
+      items: []
+    }
+  };
+};
+
+const CreatureWizardApp = ({
+  editMode = false,
+  creatureId = null,
+  initialCreature = null,
+  onSave,
+  onCancel,
+  activeView = 'wizard'
+}) => {
   const wizardState = useCreatureWizard();
   const wizardDispatch = useCreatureWizardDispatch();
   const library = useCreatureLibrary();
@@ -31,33 +200,55 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
     creatureWindowWidth <= 950 ? 'cw-size-md' :
     'cw-size-lg';
 
-  // Load creature data if in edit mode - using a ref to track if we've loaded
-  const hasLoaded = React.useRef(false);
+  // Load creature data when editing or when initialCreature is provided
+  const loadedRef = React.useRef(null);
 
   useEffect(() => {
-    if (editMode && creatureId && !hasLoaded.current) {
-      console.log('Loading creature for editing:', creatureId);
-      hasLoaded.current = true;
-
-      // Find the creature in the library
-      const creatureToEdit = library.creatures.find(c => c.id === creatureId);
-
-      if (creatureToEdit) {
-        console.log('Found creature to edit:', creatureToEdit);
-
-        // Load the creature data into the wizard
-        wizardDispatch(wizardActionCreators.loadCreature(creatureToEdit));
+    if (initialCreature && (initialCreature.name || initialCreature.id)) {
+      const initKey = `init_${initialCreature.id || initialCreature.name}`;
+      if (loadedRef.current !== initKey) {
+        loadedRef.current = initKey;
+        console.log('Loading initialCreature for wizard:', initialCreature.name);
+        const normalized = normalizeCreatureForWizard(initialCreature);
+        wizardDispatch(wizardActionCreators.loadCreature(normalized));
         wizardDispatch(wizardActionCreators.setEditMode(true));
-      } else {
-        console.error('Could not find creature with ID:', creatureId);
       }
-    } else if (!editMode && !hasLoaded.current) {
-      // Reset the wizard for a new creature
-      hasLoaded.current = true;
-      wizardDispatch(wizardActionCreators.resetWizard());
-      wizardDispatch(wizardActionCreators.setEditMode(false));
+      return;
     }
-  }, [editMode, creatureId]);
+
+    if (editMode && creatureId) {
+      const editKey = `edit_${creatureId}`;
+      if (loadedRef.current !== editKey) {
+        console.log('Loading creature for editing:', creatureId);
+
+        // Find the creature in library, customCreatures, or presets
+        let creatureToEdit = (library.creatures || []).find((c) => c.id === creatureId);
+        if (!creatureToEdit) {
+          const storeCreatures = creatureStore.creatures || creatureStore.customCreatures || [];
+          creatureToEdit = storeCreatures.find((c) => c.id === creatureId);
+        }
+        if (!creatureToEdit) {
+          creatureToEdit = CREATURE_PRESETS.find(
+            (c) => c.id === creatureId || (c.name && c.name.toLowerCase() === String(creatureId).toLowerCase())
+          );
+        }
+
+        if (creatureToEdit) {
+          loadedRef.current = editKey;
+          console.log('Found creature to edit:', creatureToEdit);
+          const normalized = normalizeCreatureForWizard(creatureToEdit);
+          wizardDispatch(wizardActionCreators.loadCreature(normalized));
+          wizardDispatch(wizardActionCreators.setEditMode(true));
+        }
+      }
+    } else if (!editMode && !initialCreature) {
+      if (loadedRef.current !== '__new__') {
+        loadedRef.current = '__new__';
+        wizardDispatch(wizardActionCreators.resetWizard());
+        wizardDispatch(wizardActionCreators.setEditMode(false));
+      }
+    }
+  }, [editMode, creatureId, initialCreature, library.creatures]);
 
   // Handle next step button click
   const handleNextStep = () => {
@@ -83,22 +274,49 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
         tags: wizardState.tags,
         tokenIcon: wizardState.tokenIcon,
         tokenBorder: wizardState.tokenBorder,
+        customTokenImage: wizardState.customTokenImage || null,
+        imageTransformations: wizardState.imageTransformations || null,
         stats: wizardState.stats,
         resistances: wizardState.resistances,
         vulnerabilities: wizardState.vulnerabilities,
         abilities: wizardState.abilities,
         tactics: wizardState.tactics,
-        lootTable: wizardState.lootTable
+        lootTable: wizardState.lootTable,
+        isShopkeeper: wizardState.isShopkeeper || false,
+        shopInventory: wizardState.shopInventory || null,
+
+        // Lore and Worldbuilding fields
+        role: wizardState.role || '',
+        dangerLevel: wizardState.dangerLevel || 'Medium',
+        region: wizardState.region || '',
+        habitat: wizardState.habitat || '',
+        origin: wizardState.origin || '',
+        heritage: wizardState.heritage || '',
+        nature: wizardState.nature || '',
+        depth: wizardState.depth || '',
+        loreClassification: wizardState.loreClassification || {},
+        loreCanon: wizardState.loreCanon || {},
+        loreNote: wizardState.loreNote || '',
+        folkloreInspiration: wizardState.folkloreInspiration || null,
+        illustration: wizardState.illustration || null,
+        illustrationCaption: wizardState.illustrationCaption || ''
       };
 
-      if (editMode) {
-        const targetId = wizardState.originalCreatureId;
+      let finalSavedCreature = null;
+
+      if (editMode || wizardState.originalCreatureId || creatureId) {
+        const targetId = wizardState.originalCreatureId || creatureId || generateUniqueId();
+        finalSavedCreature = {
+          ...creatureData,
+          id: targetId,
+          lastModified: new Date().toISOString()
+        };
 
         // 1. Update library context
-        libraryDispatch(libraryActionCreators.updateCreature(targetId, creatureData));
+        libraryDispatch(libraryActionCreators.updateCreature(targetId, finalSavedCreature));
 
         // 2. Update library array + all placed grid tokens in one synchronous call
-        creatureStore.updateCreature(targetId, creatureData);
+        creatureStore.updateCreature(targetId, finalSavedCreature);
 
         // 3. Persist to Firebase (if user is logged in and not a guest)
         try {
@@ -106,7 +324,7 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
           const { user } = useAuthStore.getState();
           if (user?.uid && !user?.isGuest) {
             const { updateUserCreature } = await import('../../services/firebase/userCreaturesService');
-            await updateUserCreature(user.uid, targetId, creatureData);
+            await updateUserCreature(user.uid, targetId, finalSavedCreature);
             console.log('✅ Creature updated in Firebase:', targetId);
           }
         } catch (fbErr) {
@@ -117,7 +335,7 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
       } else {
         // Generate a unique ID for the new creature
         const newCreatureId = generateUniqueId();
-        const creatureWithId = {
+        finalSavedCreature = {
           ...creatureData,
           id: newCreatureId,
           dateCreated: new Date().toISOString(),
@@ -125,11 +343,11 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
         };
 
         // 1. Add to library context
-        libraryDispatch(libraryActionCreators.addCreature(creatureWithId));
+        libraryDispatch(libraryActionCreators.addCreature(finalSavedCreature));
 
         // 2. Add to creature store (makes it immediately available for token placement)
-        console.log('🔄 Adding new creature to store:', creatureWithId.name, creatureWithId.id);
-        creatureStore.addCreature(creatureWithId);
+        console.log('🔄 Adding new creature to store:', finalSavedCreature.name, finalSavedCreature.id);
+        creatureStore.addCreature(finalSavedCreature);
 
         // 3. Persist to Firebase (if user is logged in and not a guest)
         try {
@@ -137,8 +355,8 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
           const { user } = useAuthStore.getState();
           if (user?.uid && !user?.isGuest) {
             const { saveUserCreature } = await import('../../services/firebase/userCreaturesService');
-            await saveUserCreature(user.uid, creatureWithId);
-            console.log('✅ New creature saved to Firebase:', creatureWithId.id);
+            await saveUserCreature(user.uid, finalSavedCreature);
+            console.log('✅ New creature saved to Firebase:', finalSavedCreature.id);
           }
         } catch (fbErr) {
           console.warn('⚠️ Could not persist new creature to Firebase (local save succeeded):', fbErr);
@@ -147,10 +365,10 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
         console.log('Added new creature to library:', creatureData.name);
       }
 
-      // Reset wizard and call onSave callback
+      // Reset wizard and call onSave callback with saved creature object
       wizardDispatch(wizardActionCreators.resetWizard());
       if (onSave) {
-        onSave();
+        onSave(finalSavedCreature);
       }
     } catch (error) {
       console.error('Error saving creature:', error);

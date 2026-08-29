@@ -1362,7 +1362,7 @@ When writing or rewriting lore, run through these checks:
 
 **33 entries** still have "X is a/the..." openers (down from 88). All are acceptable:
 - 29 are **location entries** with vivid imagery after the "is a/the" (acceptable per the Bryngloom precedent in §3.5 Example C).
-- 2 are **TIER B resource entries** (Inferno Veil, Devotion Gauge) where encyclopedia register is appropriate for a mechanical tooltip.
+- 2 are **TIER B resource entries** (Inferno Veil, Devotion) where encyclopedia register is appropriate for a mechanical tooltip.
 - 2 are the **Bryngloom guide example** and one class entry with vivid imagery.
 
 ### 9.5 Entries Rewritten (TIER A Blizzard prose)

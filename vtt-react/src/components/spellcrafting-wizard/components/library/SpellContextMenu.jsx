@@ -22,6 +22,20 @@ const SpellContextMenu = ({
 }) => {
   const menuItems = [];
 
+  // Assign to Action Bar
+  if (spell) {
+    menuItems.push({
+      icon: <i className="fas fa-wand-magic-sparkles"></i>,
+      label: 'Assign to Action Bar',
+      onClick: () => {
+        window.dispatchEvent(new CustomEvent('spell-action-bar-assign-item', {
+          detail: { spell, type: 'spell' }
+        }));
+        onClose();
+      }
+    });
+  }
+
   // Edit in Spell Wizard (only for custom spells)
   if (onEdit && isCustomSpell) {
     menuItems.push({

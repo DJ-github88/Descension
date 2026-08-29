@@ -286,7 +286,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                 ref={barRef}
                 className={`split-bar-container ${size} ${comboActive && selectedSpec === 'saboteur' ? 'combo-active' : ''}`}
             >
-                            {/* Left Half - Toxin Vials (Liquid) */}
+                            {/* Left Half - Vials (Liquid) */}
                             <div
                                 className="bar-half toxin-half"
                                 onClick={() => {
@@ -389,7 +389,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     {hoverSection === 'toxins' && (
                         <>
-                            <div className="tooltip-header">Toxin Vials</div>
+                            <div className="tooltip-header">Vials</div>
                             <div className="tooltip-section">
                                 <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
                                     <strong>Current:</strong> {localToxinVials}/{maxToxinVials} vials
@@ -441,7 +441,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                 document.body
             )}
 
-            {/* Toxin Vials Menu */}
+            {/* Vials Menu */}
             {showToxinMenu && barRef.current && ReactDOM.createPortal(
                 <div
                     className={`unified-context-menu compact toxicologist-context-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
@@ -470,7 +470,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                     }}
                 >
                     <div className="context-menu-main">
-                        <div className="menu-title">Toxin Vials: {localToxinVials}/{maxToxinVials}</div>
+                        <div className="menu-title">Vials: {localToxinVials}/{maxToxinVials}</div>
 
                         <div className="toxicologist-info-text">
                             <div>Generation: +1d4 per short rest</div>
@@ -489,7 +489,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                                         const amount = newValue - localToxinVials;
                                         setLocalToxinVials(newValue);
                                         if (amount > 0) {
-                                            logClassResourceChange('Toxin Vial', amount, true, 'toxinVials');
+                                            logClassResourceChange('Vial', amount, true, 'toxinVials');
                                             if (onClassResourceUpdate) onClassResourceUpdate('toxinVials', newValue);
                                         }
                                     }}
@@ -512,7 +512,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                                         const amount = localToxinVials - newValue;
                                         setLocalToxinVials(newValue);
                                         if (amount > 0) {
-                                            logClassResourceChange('Toxin Vial', amount, false, 'toxinVials');
+                                            logClassResourceChange('Vial', amount, false, 'toxinVials');
                                             if (onClassResourceUpdate) onClassResourceUpdate('toxinVials', newValue);
                                         }
                                     }}
@@ -528,7 +528,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                                         const amount = localToxinVials - newValue;
                                         setLocalToxinVials(newValue);
                                         if (amount > 0) {
-                                            logClassResourceChange('Toxin Vial', amount, false, 'toxinVials');
+                                            logClassResourceChange('Vial', amount, false, 'toxinVials');
                                             if (onClassResourceUpdate) onClassResourceUpdate('toxinVials', newValue);
                                         }
                                     }}
@@ -544,7 +544,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                                         const amount = localToxinVials - newValue;
                                         setLocalToxinVials(newValue);
                                         if (amount > 0) {
-                                            logClassResourceChange('Toxin Vial', amount, false, 'toxinVials');
+                                            logClassResourceChange('Vial', amount, false, 'toxinVials');
                                             if (onClassResourceUpdate) onClassResourceUpdate('toxinVials', newValue);
                                         }
                                     }}
@@ -564,7 +564,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                                     setLocalToxinVials(maxToxinVials);
                                     setShowToxinMenu(false);
                                     if (gainAmount > 0) {
-                                        logClassResourceChange('Toxin Vial', gainAmount, true, 'toxinVials');
+                                        logClassResourceChange('Vial', gainAmount, true, 'toxinVials');
                                         if (onClassResourceUpdate) onClassResourceUpdate('toxinVials', maxToxinVials);
                                     }
                                 }} 

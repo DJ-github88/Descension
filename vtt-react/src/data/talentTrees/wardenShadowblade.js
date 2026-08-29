@@ -2,7 +2,7 @@
 // WARDEN — SHADOWBLADE (v2: talents are spells)
 // Schema: see talentSystem.mjs. Rank N spell = rank N-1 + rankUpgrades[N-2].
 // Economy: 8/6/6/5/5/5 = 30 pts (tiers 1-6) + 15 pts (tier 7) = 50.
-// Resource: Vengeance Points (VP). The assassin tree: marks, stealth, executes.
+// Resource: Tension (VP). The assassin tree: marks, stealth, executes.
 // ============================================
 
 export const WARDEN_SHADOWBLADE = [

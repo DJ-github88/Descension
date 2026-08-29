@@ -36,6 +36,11 @@ const calculateModifier = (value) => {
   return Math.floor((value - 10) / 2);
 };
 
+const formatModifier = (mod) => {
+  const num = Number(mod) || 0;
+  return num >= 0 ? `+${num}` : `${num}`;
+};
+
 // Pre-index bestiary creatures by ID and lowercase name for O(1) lookups
 const BESTIARY_LOOKUP_MAP = new Map();
 if (BESTIARY_DATA?.regions) {
@@ -1614,13 +1619,20 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
         {/* Content area showing selected stat group */}
         <div className="stats-content-area">
           <div className="stats-section-header">
-            <img
-              src={statGroups[selectedStatGroup].icon}
-              alt=""
-              className="stats-section-icon"
-              onError={(e) => handleImageError(e, 'Utility/Utility')}
-            />
-            <h2 className="stats-section-title">{statGroups[selectedStatGroup].title}</h2>
+            <div className="stats-header-icon-box">
+              <img
+                src={statGroups[selectedStatGroup]?.icon}
+                alt=""
+                className="stats-section-icon"
+                onError={(e) => handleImageError(e, 'Utility/Utility')}
+              />
+            </div>
+            <div className="stats-header-text">
+              <h2 className="stats-section-title">{statGroups[selectedStatGroup]?.title}</h2>
+              {statGroups[selectedStatGroup]?.description && (
+                <span className="stats-section-subtitle">{statGroups[selectedStatGroup]?.description}</span>
+              )}
+            </div>
           </div>
 
           <div className="stats-fields">
@@ -2438,9 +2450,9 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     const bestiaryMatch = findBestiaryIllustration(creature);
     const illustration = creature?.illustration || bestiaryMatch?.illustration || null;
     const illustrationCaption = creature?.illustrationCaption || bestiaryMatch?.illustrationCaption || null;
-    const region = bestiaryMatch?.region || null;
+    const region = creature?.region || bestiaryMatch?.region || null;
     const role = creature?.role || bestiaryMatch?.role || null;
-    const dangerLevel = bestiaryMatch?.dangerLevel || null;
+    const dangerLevel = creature?.dangerLevel || bestiaryMatch?.dangerLevel || null;
     const loreClassification = creature?.loreClassification || bestiaryMatch?.loreClassification || {};
     const loreCanon = creature?.loreCanon || bestiaryMatch?.loreCanon || {};
     const loreNote = readLoreText(creature?.loreNote || bestiaryMatch?.loreNote);

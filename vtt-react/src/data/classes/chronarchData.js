@@ -184,7 +184,19 @@ Temporal Strain is the accumulated paradox-weight of every causality violation. 
 
 **The resource bar & costs**: Your resource bar is **Time Shards** (banked through basic chronomancy spells) and **Temporal Strain** (0–10). Spending Time Shards powers your reality-bending Flux abilities. However, every temporal manipulation adds Temporal Strain—if Strain reaches 10, the timeline violently snaps back with temporal backlash, creating temporal anomalies or clones.
 
-**Bring one for**: Supreme battlefield authority, action economy manipulation, and the power to literally rewind time to save your friends from death.`
+**Bring one for**: Supreme battlefield authority, action economy manipulation, and the power to literally rewind time to save your friends from death.`,
+    roleplayIdentity: {
+      title: "Roleplay Identity",
+      content: "Practitioners carry a profound cultural and physical responsibility, marked by their tradition's unique legacy and societal perceptions."
+    },
+    combatRole: {
+      title: "Combat Role",
+      content: "Clockwork temporal engineer who banks Time Shards from cantrips to dilate speed, freeze projectiles, displace allies, and rewind mortal damage."
+    },
+    playstyle: {
+      title: "Playstyle & Turn 1 Flow",
+      content: "**Your Turn 1 in Combat**:\n1. **Cast Builder Cantrips**: Use basic temporal actions to bank 2-3 Time Shards.\n2. **Deploy Stasis or Speed Buffs**: Spend Shards to grant extra AP to a heavy hitter or slow approaching enemies.\n3. **Monitor Temporal Strain**: Keep Strain under 10 to avoid catastrophic timeline backlash."
+    }
   },
 
  description: `The Chronarch did not choose this path, chronomancy chose them. They are Prisoners of Relativity, flesh-bound anchors tethered to a timeline that never wanted them. Every wound they rewind from an ally etches kinetic recoil onto their own body instead. Every frozen moment demands intense cellular focus. They carry hourglasses not as tools of mastery, but as reminders of the extreme metabolic cost that ticks faster with each spell cast. The Chronarch is the only living soul capable of reversing the combat state, undoing tactical errors, resetting cooldowns, trapping enemies in temporal loops of their own creation, while managing the high physical strain of altered reality.`,
@@ -289,9 +301,20 @@ If Nesta ceases to exist retroactively, the temporal friction she generated will
 
  // Resource System
  resourceSystem: {
- title: "Time Shards & Temporal Strain",
- subtitle: "Dual Resource Management System",
- description: "The Chronarch navigates the tides of time by stealing moments and paying for them in physical stamina. Time Shards represent stolen fragments of chronal energy stored in their focus. Temporal Strain measures immediate cellular fatigue as the caster bends causality. Push too far and the timeline snaps back, temporarily phasing them out of reality.",
+ title: "Shards & Strain: The Pocket Watch",
+ subtitle: "How Your Resource Works (Beginner's Guide)",
+ description: `**1. What is it? (The Pocket Watch & Spring)**
+You manage a dual temporal system:
+- **Time Shards (0–10)**: Discrete units of banked time spent to accelerate allies or freeze foes.
+- **Temporal Strain (0–10)**: Friction accumulated from rewriting reality.
+
+**2. How do I build it?**
+- Cast basic cantrips and temporal anchors to bank Time Shards (+1 to +2 Shards).
+- Every major timeline alteration adds +1 to +2 Temporal Strain.
+
+**3. How do I spend it & what is the catch?**
+- Spend Shards to grant extra Action Points to heavy hitters, freeze incoming arrows in mid-air, or rewind fatal wounds.
+- **The Catch (Timeline Backlash)**: If Temporal Strain reaches **10**, reality snaps back—triggering an immediate timeline backlash that stuns you and exhausts your banked Shards.`,
 
  cards: [
   {
@@ -388,7 +411,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
  specs: [
   {
   id : "stasis",
-  name: "Arc of Stasis",
+  name: "Shards",
   icon: "fas fa-snowflake",
   color: "#4A90E2",
   theme: "Warden of Still Moments",

@@ -178,6 +178,144 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
     resetCanvasView();
   }, [resetCanvasView]);
 
+  // Touch tracking refs
+  const touchStateRef = useRef({
+    mode: 'none',
+    startX: 0,
+    startY: 0,
+    lastX: 0,
+    lastY: 0,
+    nodeId: null,
+    hasMoved: false,
+    initialPinchDist: 0,
+    initialZoom: 1,
+    initialPan: { x: 0, y: 0 }
+  });
+
+  // Touch Event Handlers
+  const handleTouchStart = (e) => {
+    const touches = e.touches;
+    if (touches.length === 1) {
+      const touch = touches[0];
+      const targetNode = e.target.closest('.world-graph-node');
+      const isHUD = e.target.closest('.world-web-hud') || e.target.closest('.world-web-inspector') || e.target.closest('.faction-web-toolbar');
+      if (isHUD) return;
+
+      if (targetNode) {
+        const factionId = targetNode.getAttribute('data-faction-id');
+        touchStateRef.current = {
+          mode: 'dragNode',
+          startX: touch.clientX,
+          startY: touch.clientY,
+          lastX: touch.clientX,
+          lastY: touch.clientY,
+          nodeId: factionId,
+          hasMoved: false,
+          initialPinchDist: 0,
+          initialZoom: zoomLevel,
+          initialPan: { ...panOffset }
+        };
+      } else {
+        touchStateRef.current = {
+          mode: 'pan',
+          startX: touch.clientX,
+          startY: touch.clientY,
+          lastX: touch.clientX,
+          lastY: touch.clientY,
+          nodeId: null,
+          hasMoved: false,
+          initialPinchDist: 0,
+          initialZoom: zoomLevel,
+          initialPan: { ...panOffset }
+        };
+      }
+    } else if (touches.length === 2) {
+      const t1 = touches[0];
+      const t2 = touches[1];
+      const dist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+      const midX = (t1.clientX + t2.clientX) / 2;
+      const midY = (t1.clientY + t2.clientY) / 2;
+
+      touchStateRef.current = {
+        mode: 'pinch',
+        startX: midX,
+        startY: midY,
+        lastX: midX,
+        lastY: midY,
+        nodeId: null,
+        hasMoved: true,
+        initialPinchDist: dist,
+        initialZoom: zoomLevel,
+        initialPan: { ...panOffset }
+      };
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    const touches = e.touches;
+    const state = touchStateRef.current;
+
+    if (state.mode === 'pan' && touches.length === 1) {
+      const touch = touches[0];
+      const dx = touch.clientX - state.lastX;
+      const dy = touch.clientY - state.lastY;
+      if (Math.hypot(touch.clientX - state.startX, touch.clientY - state.startY) > 6) {
+        state.hasMoved = true;
+      }
+      setPanOffset(prev => ({ x: prev.x + dx, y: prev.y + dy }));
+      state.lastX = touch.clientX;
+      state.lastY = touch.clientY;
+    } else if (state.mode === 'dragNode' && touches.length === 1 && state.nodeId) {
+      const touch = touches[0];
+      if (Math.hypot(touch.clientX - state.startX, touch.clientY - state.startY) > 8) {
+        state.hasMoved = true;
+        const dx = (touch.clientX - state.lastX) / zoomLevel;
+        const dy = (touch.clientY - state.lastY) / zoomLevel;
+        const currentPos = nodePositions[state.nodeId] || { x: CANVAS_WIDTH / 2, y: CANVAS_HEIGHT / 2 };
+
+        setCustomPositions(prev => ({
+          ...prev,
+          [state.nodeId]: {
+            x: Math.max(80, Math.min(CANVAS_WIDTH - 80, currentPos.x + dx)),
+            y: Math.max(50, Math.min(CANVAS_HEIGHT - 50, currentPos.y + dy))
+          }
+        }));
+      }
+      state.lastX = touch.clientX;
+      state.lastY = touch.clientY;
+    } else if (state.mode === 'pinch' && touches.length === 2) {
+      const t1 = touches[0];
+      const t2 = touches[1];
+      const currentDist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+      const midX = (t1.clientX + t2.clientX) / 2;
+      const midY = (t1.clientY + t2.clientY) / 2;
+
+      if (state.initialPinchDist > 0 && containerRef.current) {
+        const factor = currentDist / state.initialPinchDist;
+        const newZoom = Math.max(0.35, Math.min(2.5, state.initialZoom * factor));
+        const rect = containerRef.current.getBoundingClientRect();
+        const cursorX = midX - rect.left;
+        const cursorY = midY - rect.top;
+
+        const zoomRatio = newZoom / state.initialZoom;
+        const newPanX = cursorX - (cursorX - state.initialPan.x) * zoomRatio;
+        const newPanY = cursorY - (cursorY - state.initialPan.y) * zoomRatio;
+
+        setZoomLevel(newZoom);
+        setPanOffset({ x: newPanX, y: newPanY });
+      }
+    }
+  };
+
+  const handleTouchEnd = () => {
+    const state = touchStateRef.current;
+    if (state.mode === 'dragNode' && !state.hasMoved && state.nodeId) {
+      setSelectedNodeId(state.nodeId);
+    }
+    touchStateRef.current.mode = 'none';
+    touchStateRef.current.nodeId = null;
+  };
+
   // Reset custom layout
   const handleResetLayout = () => {
     setCustomPositions({});
@@ -349,6 +487,10 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
         className={`faction-web-viewport ${isPanning ? 'is-panning' : ''} ${draggedNodeId ? 'is-dragging-node' : ''}`}
         ref={containerRef}
         onMouseDown={handleCanvasMouseDown}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchEnd}
       >
         {/* Floating Instructions & Zoom HUD */}
         <div className="world-web-hud">
@@ -460,20 +602,21 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
                         width="90"
                         height="22"
                         rx="4"
-                        fill="#1a1006"
+                        fill="#fcf9f2"
                         stroke={rel.color}
-                        strokeWidth="1.5"
-                        opacity="0.95"
+                        strokeWidth="1"
                       />
                       <text
+                        x="0"
+                        y="1"
+                        fill="#2b1408"
+                        fontSize="10.5"
+                        fontWeight="bold"
+                        fontFamily="'Cinzel', Georgia, serif"
                         textAnchor="middle"
-                        dy="0.32em"
-                        fill="#fdfbf7"
-                        fontSize="10"
-                        fontWeight="700"
-                        fontFamily="Cinzel, serif"
+                        dominantBaseline="middle"
                       >
-                        {rel.label || edge.type}
+                        {relTypes[edge.type]?.label || edge.type}
                       </text>
                     </g>
                   )}
@@ -509,6 +652,7 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
             return (
               <div
                 key={faction.id}
+                data-faction-id={faction.id}
                 className={`world-graph-node ${isSelected ? 'is-selected' : ''} ${isHovered ? 'is-hovered' : ''} ${isConnected && activeFocusFactionId ? 'is-connected-target' : ''} ${isMatchesSearch ? 'is-search-match' : ''}`}
                 style={{
                   left: `${pos.x}px`,

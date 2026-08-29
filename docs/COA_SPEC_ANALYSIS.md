@@ -8,7 +8,7 @@ This revision fixes problems found in critical assessment:
 |---|---|
 | Spellguard specs all generate from enemy magic = useless vs non-casters | Added baseline passive generation for all specs, bonus sources stay spec-specific |
 | Berserker Warlord builds from allies taking damage = passive, roots for friends to suffer | Changed to generates from BOTH dealing and taking damage at lower rates (leads from the front) |
-| Berserker Blind Fury = may attack allies = table friction | Replaced with cannot be healed by allies at high Blood-Heat (already in existing data, no PvP) |
+| Berserker Blind Fury = may attack allies = table friction | Replaced with cannot be healed by allies at high Rage (already in existing data, no PvP) |
 | Augur Harbinger/Hierophant CANNOT generate one resource at all = too rigid | Changed to generates the off-resource at 1/3 rate instead of zero |
 | Apex Prey Mentality (3+ enemies = disadvantage) conflicts with Bladestorm who wants to be surrounded | Replaced with Tunnel Vision (over-focusing one target makes you Exposed to others) |
 | Minstrel Instrument Dependency = total shutdown if disarmed | Softened to reduced effectiveness, can improvise with any object |
@@ -41,7 +41,7 @@ Your basic attacks cost 1 mana. At 0 mana, basic attacks deal half damage. You a
 
 **Assessment**: Spirit Binder has a runaway loop risk (specters generate resonance → summon more specters). Defiled Ground weakness is too punishing for dungeon-heavy campaigns. Quirk is niche.
 
-**Resource**: Ancestral Resonance (0-20)
+**Resource**: Resonance (0-20)
 
 ### Specs
 - **Thornwarden**  -  builds from enemies attacking creatures inside your totem network (+2). Spend 5 to make a totem pulse 3d6 primal in 10ft
@@ -60,7 +60,7 @@ At 15+ Resonance, you take 1d6 wyrd damage at the start of each turn (your body 
 
 **Assessment**: Prey Mentality directly conflicts with Bladestorm (wants to be surrounded). Quirk is too campaign-dependent.
 
-**Resource**: Quarry Marks (max 3)
+**Resource**: Marks (max 3)
 
 ### Specs
 - **Bladestorm**  -  builds from chaining to NEW targets (+1 per new target). Spend 3 to throw glaive 360° (all enemies in 10ft)
@@ -98,18 +98,18 @@ Your omens require fresh blood as a material component. Each spell costs 1 HP to
 
 **Assessment**: Pain Is Fuel quirk is excellent. Warlord's generation was too passive. Blind Fury causes table friction. Both fixed.
 
-**Resource**: Blood-Heat (0-100)
+**Resource**: Rage (0-100)
 
 ### Specs
 - **Savage**  -  builds from DEALING damage (+2/hit, +5/crit). At 80+, spend 20 to make the target Exposed to your next attack (+50% damage, bypasses equipment DR and resistances)
-- **Juggernaut**  -  builds from TAKING damage (+3/hit taken). At 40+, spend 10 Blood-Heat to gain flat damage reduction: each 2 Blood-Heat spent reduces incoming hits by 1 damage (max -10 per hit) for 2 rounds
+- **Juggernaut**  -  builds from TAKING damage (+3/hit taken). At 40+, spend 10 Rage to gain flat damage reduction: each 2 Rage spent reduces incoming hits by 1 damage (max -10 per hit) for 2 rounds
 - **Warlord**  -  builds from BOTH dealing and taking damage (+1 each way  -  versatile but slower per source). Spend 10 to grant one ally +2d6 on their next attack
 
 ### Quirk: Pain Is Fuel
-When you take damage from an external source, you may choose to take +50% damage from that hit. If you do, gain that much Blood-Heat. Deliberate tactical choice  -  you let the blow land harder to fuel your rage.
+When you take damage from an external source, you may choose to take +50% damage from that hit. If you do, gain that much Rage. Deliberate tactical choice  -  you let the blow land harder to fuel your rage.
 
 ### Weakness: Fury's Rejection
-At 80+ Blood-Heat, your body rejects all external healing. Spells, potions, and abilities from allies have no effect on you. You can only heal through your own abilities or by dropping below 80 Blood-Heat. (Already exists in Boiling Veins  -  codified as the class-wide weakness. No PvP friction.)
+At 80+ Rage, your body rejects all external healing. Spells, potions, and abilities from allies have no effect on you. You can only heal through your own abilities or by dropping below 80 Rage. (Already exists in Boiling Veins  -  codified as the class-wide weakness. No PvP friction.)
 
 ---
 
@@ -136,7 +136,7 @@ Each round of combat, movement drops 5ft (cumulative, max -25ft). Resets after c
 
 **Assessment**: Truth Aversion is excellent. Cultist's ritual-based generation is slow to start. Lie Detector quirk could trivialize social encounters.
 
-**Resource**: Madness Points (0-20)
+**Resource**: Madness (0-20)
 
 ### Specs
 - **Voidcaller**  -  builds from DAMAGE spells (1d4 per cast). At 15+, spend 5 to auto-crit your next damage spell
@@ -155,7 +155,7 @@ Each verifiable, undeniable truth you speak aloud deals 1 wyrd damage per senten
 
 **Assessment**: Solid specs. Karmic Magnet punishes players for allies' bad rolls  -  feels unfair. Quirk is standard.
 
-**Resource**: Fortune Points (spec-variable cap) + Karmic Debt
+**Resource**: Fortune (spec-variable cap) + Karmic Debt
 
 ### Specs
 - **Probability Savant**  -  FP from consistent plays (+1 per successful save, +1 per hit). Spend 3 FP to force enemy reroll a successful save
@@ -166,7 +166,7 @@ Each verifiable, undeniable truth you speak aloud deals 1 wyrd damage per senten
 Once per long rest, reroll any single d20. Must keep the new result.
 
 ### Weakness: Cosmic Interest
-Whenever you spend Fortune Points, you gain 1 Karmic Debt per 3 FP spent. Karmic Debt gives you -1 to all saves per 5 Debt. Debt decays at 1 per short rest. (The house always collects. Your power is borrowed, and the interest compounds. This makes FP spending a real decision, not just a resource to dump.)
+Whenever you spend Fortune, you gain 1 Karmic Debt per 3 FP spent. Karmic Debt gives you -1 to all saves per 5 Debt. Debt decays at 1 per short rest. (The house always collects. Your power is borrowed, and the interest compounds. This makes FP spending a real decision, not just a resource to dump.)
 
 ---
 
@@ -307,7 +307,7 @@ Rime damage deals +50% to you (Exposed). In rime-saturated environments (blizzar
 
 **Assessment**: Strong. Running water weakness is niche but the divine vulnerability is solid.
 
-**Resource**: Death Toll (0-20) + Death Shroud + Phylactery
+**Resource**: Toll (0-20) + Death Shroud + Phylactery
 
 ### Specs
 - **Sanguine Harvest**  -  builds from melee hits (+2) and kills (+5). Spend 8 to summon specter instantly
@@ -326,7 +326,7 @@ Divine damage deals +50% to you (Exposed). Divine-consecrated weapons and relics
 
 **Assessment**: Iron Dancer was matchup-dependent (needs melee attackers). Form Instability was too niche.
 
-**Resource**: Kinetic Flux (0-20) + Body Toll (0-10)
+**Resource**: Flux (0-20) + Body Toll (0-10)
 
 ### Specs
 - **Flow Master**  -  builds from form shifts (+3 per shift). Spend 5 to fuse 2 forms for 1 round (both passives)
@@ -364,7 +364,7 @@ Void-glass plating is fragile against brute force. You are Exposed to physical b
 
 **Assessment**: Already the strongest spec design (per-spec resources). Saboteur slightly matchup-dependent. Added baseline.
 
-**Resource**: Toxin Vials / Contraption Parts
+**Resource**: Vials / Contraption Parts
 
 ### Specs
 - **Venomancer**  -  builds from poison ticks (+2 per tick, max 8). Spend 5 Vials for super-toxin (+4d10 blight, DC 18 CON)
@@ -407,7 +407,7 @@ Your chains are spiritually tethered to you. When an enemy pulls, grapples, or f
 | Animist | Spirit Binder runaway loop (specters generate resonance → more specters → infinite) | Capped specter generation at +6/round max. Replaced Defiled Ground (too punishing for dungeons) with Spirit Erosion Fatigue (1d6 wyrd/turn at 15+ Resonance) | Pending |
 | Apex | Prey Mentality weakness (3+ enemies = disadvantage) conflicted directly with Bladestorm spec which wants to be surrounded | Replaced with Tunnel Vision: attacking same target 3+ times = Exposed to other enemies (+50% damage). Synergizes with chain mechanic | Pending |
 | Augur | Harbinger/Hierophant CANNOT generate off-resource at all (too rigid, useless in single-target boss fights) | Changed to generates off-resource at 1/3 rate. Replaced Gore-Sight (too narrow, only bleed) with Sanguine Dependency (every spell costs 1 HP) | Pending |
-| Berserker | Warlord built from allies taking damage = passive, roots for friends to suffer. Blind Fury = may attack allies = table friction | Warlord now builds from BOTH dealing and taking damage (+1 each way). Blind Fury replaced with Fury's Rejection: at 80+ Blood-Heat, body rejects all external healing (no PvP) | Pending |
+| Berserker | Warlord built from allies taking damage = passive, roots for friends to suffer. Blind Fury = may attack allies = table friction | Warlord now builds from BOTH dealing and taking damage (+1 each way). Blind Fury replaced with Fury's Rejection: at 80+ Rage, body rejects all external healing (no PvP) | Pending |
 | Chronarch | Nothing  -  cleanest design in roster | No changes needed | Clean |
 | False Prophet | Cultist ritual generation too slow to start. Lie Detector trivialized social encounters | Cultist now generates from any spell cast while ritual active (+1 per round AND +1 per spell). Lie Detector replaced with Empathetic Static (sense emotional state, not lies) | Pending |
 | Gambit | Karmic Magnet punished players for allies' bad rolls (felt unfair, no agency) | Replaced with Cosmic Interest: spending FP gains Karmic Debt at 1 per 3 FP. Debt gives -1 to all saves per 5 Debt. Player controls their own debt | Pending |

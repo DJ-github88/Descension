@@ -5615,3 +5615,213 @@ div.class-detail-content::-webkit-scrollbar-thumb,
     display: none;
   }
 }
+
+/* ==========================================================================
+   Specializations & Talent Trees Codex Integration
+   ========================================================================== */
+
+.spec-main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.spec-view-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(45, 24, 16, 0.08);
+  border: 1px solid rgba(139, 69, 19, 0.35);
+  border-radius: 20px;
+  padding: 3px;
+  gap: 4px;
+}
+
+.spec-mode-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 16px;
+  border: none;
+  background: transparent;
+  color: #5a1e12;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.spec-mode-btn:hover {
+  background: rgba(212, 175, 55, 0.18);
+  color: #3b110a;
+}
+
+.spec-mode-btn.active {
+  background: linear-gradient(135deg, #8b4513 0%, #5a1e12 100%);
+  color: #fff8e7;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.spec-card-actions {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(139, 69, 19, 0.3);
+}
+
+.spec-view-tree-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, rgba(45, 24, 16, 0.06) 0%, rgba(45, 24, 16, 0.12) 100%);
+  border: 1.5px solid var(--spec-btn-color, #8b4513);
+  border-radius: 6px;
+  color: #3d1a0a;
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.22s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.spec-view-tree-btn:hover {
+  background: var(--spec-btn-color, #8b4513);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+}
+
+.spec-view-tree-btn:active {
+  transform: translateY(0);
+}
+
+/* Talent Tree Section within Specializations Tab */
+.spec-talent-tree-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 12px;
+  width: 100%;
+}
+
+.spec-tree-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, rgba(248, 244, 230, 0.9) 0%, rgba(237, 228, 211, 0.9) 100%);
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.spec-back-to-cards-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: linear-gradient(135deg, #fbf7ee 0%, #eddcc6 100%);
+  border: 1.5px solid #8b4513;
+  border-radius: 6px;
+  color: #3d1a0a;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.spec-back-to-cards-btn:hover {
+  background: #8b4513;
+  color: #fff8e7;
+  transform: translateX(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
+}
+
+.spec-tree-nav-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.spec-nav-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1.5px solid rgba(139, 69, 19, 0.35);
+  border-radius: 20px;
+  color: #4a2110;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.spec-nav-pill:hover {
+  background: #ffffff;
+  border-color: var(--spec-accent, #8b4513);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+.spec-nav-pill.active {
+  background: linear-gradient(135deg, #3d1a0a 0%, #1f0d05 100%);
+  border-color: var(--spec-accent, #d4af37);
+  color: #ffd700;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+.spec-nav-pill-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.spec-nav-pill.summary-pill i {
+  color: #d4af37;
+  font-size: 0.9rem;
+}
+
+.spec-talent-tree-container {
+  width: 100%;
+  height: 720px;
+  min-height: 550px;
+  border: 2px solid rgba(139, 69, 19, 0.4);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+  background: #140d09;
+}
+
+@media (max-width: 900px) {
+  .spec-main-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .spec-talent-tree-container {
+    height: 800px;
+  }
+  .spec-tree-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .spec-tree-nav-pills {
+    justify-content: center;
+  }
+}
+

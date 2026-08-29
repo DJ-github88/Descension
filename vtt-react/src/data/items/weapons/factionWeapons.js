@@ -680,7 +680,7 @@ export const FACTION_WEAPONS = [
   },
   {
     id: 'blood-heat-greataxe',
-    name: 'Blood-Heat Greataxe',
+    name: 'Rage Greataxe',
     type: 'weapon',
     subtype: 'AXE',
     quality: 'rare',

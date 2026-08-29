@@ -21,12 +21,12 @@ export const BERSERKER_DATA = {
    "ordan_human"
   ],
   "narrativeUnlock": true,
-  "justification": "Requires Hunger Pact lineage (Skald) or deliberate Blood-Heat adoption (Waste-Solari). Mimir are too identity-fragile to sustain the emotional singularity. Neth can't suppress their contract-nature. Ordan reject self-destruction over migration."
+  "justification": "Requires Hunger Pact lineage (Skald) or deliberate Rage adoption (Waste-Solari). Mimir are too identity-fragile to sustain the emotional singularity. Neth can't suppress their contract-nature. Ordan reject self-destruction over migration."
  },
 
  /**
  * Subrace Variants, how each allowed subrace *lives* the Berserker path differently.
- * The Blood-Heat mechanic is universal; what the Heat *means*, where it comes from,
+ * The Rage mechanic is universal; what the Heat *means*, where it comes from,
  * and how the practitioner is received by their own people is not. A Skald who ignites
  * is performing a liturgy. A Waste-Solari who ignites is arguing with a mountain. A Groven
  * who ignites is reawakening the alchemy their ancestors bled to escape.
@@ -35,10 +35,10 @@ export const BERSERKER_DATA = {
  skald_human: {
   subraceName: 'Skald',
   title: 'The Hunger-Pact Sworn',
-  reframe: `The <LoreLink termId="skald">Skald</LoreLink> did not invent the Blood-Heat, they *inherited* it. During the three-winter blizzard that broke the old Nordhalla, the ancestors of the Bloodhammer line consumed their own fallen so the bloodline could persist through the cold. That act did not merely scar their history. It entered their marrow. When a Skald Berserker ignites, they do not simply burn, they relive the feast. Every surge of <LoreLink termId="blood_heat">Blood-Heat</LoreLink> carries the copper taste of kin-blood, the ancestral memory of eating the dead so the living could march another mile. The Skald do not consider this shameful. They consider it sacred: the consumed did not die, they were carried. A Skald Berserker's rage is a liturgy, and the liturgy is never finished.`,
+  reframe: `The <LoreLink termId="skald">Skald</LoreLink> did not invent the Rage, they *inherited* it. During the three-winter blizzard that broke the old Nordhalla, the ancestors of the Bloodhammer line consumed their own fallen so the bloodline could persist through the cold. That act did not merely scar their history. It entered their marrow. When a Skald Berserker ignites, they do not simply burn, they relive the feast. Every surge of <LoreLink termId="rage">Rage</LoreLink> carries the copper taste of kin-blood, the ancestral memory of eating the dead so the living could march another mile. The Skald do not consider this shameful. They consider it sacred: the consumed did not die, they were carried. A Skald Berserker's rage is a liturgy, and the liturgy is never finished.`,
   signatureAbility: {
   name: 'Hunger-Pact Ignition',
-  description: `Blood-Heat builds faster in the presence of the dying. Standing near a falling ally, a Skald Berserker ignites quicker, the ancestral reflex demanding they consume or be consumed. The dead feed the living, one more mile through the cold.`
+  description: `Rage builds faster in the presence of the dying. Standing near a falling ally, a Skald Berserker ignites quicker, the ancestral reflex demanding they consume or be consumed. The dead feed the living, one more mile through the cold.`
   },
   currentCrisisAngle: `The Unbound schism cuts deepest among the Skald, because the argument is theological, not tactical. To a Pact-sworn elder of the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>, an Unbound Berserker is not merely unauthorized, they are a blasphemy against the dead they did not eat. They burn hot with none of the lineage-respect that sanctifies the act. The Skald Council's execution order was not cruelty; it was doctrine. The Unbound settlement forming in Emberspire's deep tunnels is, to the Pact-sworn, a heretical church.`,
   signatureQuote: {
@@ -51,10 +51,10 @@ export const BERSERKER_DATA = {
   thrask_solari: {
    subraceName: 'Waste-Solari - Thyrm',
   title: 'The Caldera-Forged',
-  reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink> did not inherit the Hunger Pact, they stole it. When the Bloodhammer clans descended into the <LoreLink termId="harath_vault">Harath-Vault</LoreLink> tunnels, the Waste-Solari rangers who shared those volcanic darks watched the Skald ignite and wanted the fire for themselves. They could not eat their dead, Solari dead are committed to the Vault in sacred silence. So they found another door: geothermal resonance. A Waste-Solari Berserker's Blood-Heat is drawn not from ancestry but from the caldera itself. They do not taste kin-blood when they burn; they taste sulfur, basalt-dust, and the deep thermal hum of <LoreLink termId="emberspire">Emberspire</LoreLink>. Their fury is tectonic, not memorial. Where the Skald rage is a song to the dead, the Waste-Solari rage is an argument with the mountain.`,
+  reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink> did not inherit the Hunger Pact, they stole it. When the Bloodhammer clans descended into the <LoreLink termId="harath_vault">Harath-Vault</LoreLink> tunnels, the Waste-Solari rangers who shared those volcanic darks watched the Skald ignite and wanted the fire for themselves. They could not eat their dead, Solari dead are committed to the Vault in sacred silence. So they found another door: geothermal resonance. A Waste-Solari Berserker's Rage is drawn not from ancestry but from the caldera itself. They do not taste kin-blood when they burn; they taste sulfur, basalt-dust, and the deep thermal hum of <LoreLink termId="emberspire">Emberspire</LoreLink>. Their fury is tectonic, not memorial. Where the Skald rage is a song to the dead, the Waste-Solari rage is an argument with the mountain.`,
   signatureAbility: {
   name: 'Caldera-Draw',
-  description: `Blood-Heat rises faster near geothermal vents, magma-fractures, and the <LoreLink termId="sols_breath">Sol's Breath</LoreLink>'s residual warmth. A Waste-Solari Berserker fighting on volcanic terrain ignites with terrifying speed, and slides toward Metabolic Burnout just as fast. The mountain gives freely, and takes freely.`
+  description: `Rage rises faster near geothermal vents, magma-fractures, and the <LoreLink termId="sols_breath">Sol's Breath</LoreLink>'s residual warmth. A Waste-Solari Berserker fighting on volcanic terrain ignites with terrifying speed, and slides toward Metabolic Burnout just as fast. The mountain gives freely, and takes freely.`
   },
   currentCrisisAngle: `The Waste-Solari largely ignore the Unbound schism, it is a Skald argument about Skald ancestry, and the Waste-Solari never signed the Pact to begin with. But the Waste-Solari carry a quieter, worse crisis of their own: the caldera's vents are cooling as Sol's prison dims. A Waste-Solari Berserker who could once draw limitless Heat from the mountain now finds the well running dry. Some have begun, in desperation, to seek out Scathrach's deeper vents, the ones the Pyrofiends whisper about, trading geothermal fire for something far more expensive.`,
   signatureQuote: {
@@ -67,10 +67,10 @@ export const BERSERKER_DATA = {
  morgh_groven: {
   subraceName: 'Morgh Groven',
   title: 'The Vat-Woken',
-  reframe: `The <LoreLink termId="groven">Morgh Groven</LoreLink> were never meant to rage. The <LoreLink termId="deep_alchemists">Fexric Deep Alchemists</LoreLink> engineered the <LoreLink termId="thrumm">Thrumm</LoreLink> root-stock for docility, the one trait that made them perfect vat-subjects. When the first Groven shattered their containment vessels in the <LoreLink termId="vat_breakers_guild">Vat-Breakers' revolt</LoreLink>, they discovered something the Alchemists had accidentally bred into them: the regenerative Thrumm biology, supercharged by a thousand years of alchemical saturation, could be pushed past its design limit. A Morgh Berserker does not burn blood, they burn the dormant alchemy still circulating in their stone-scaled veins. The serums that were meant to make them obedient instead make them, when ignited, catastrophically free. Their Blood-Heat tastes of reagents and old Thrumm grief.`,
+  reframe: `The <LoreLink termId="groven">Morgh Groven</LoreLink> were never meant to rage. The <LoreLink termId="deep_alchemists">Fexric Deep Alchemists</LoreLink> engineered the <LoreLink termId="thrumm">Thrumm</LoreLink> root-stock for docility, the one trait that made them perfect vat-subjects. When the first Groven shattered their containment vessels in the <LoreLink termId="vat_breakers_guild">Vat-Breakers' revolt</LoreLink>, they discovered something the Alchemists had accidentally bred into them: the regenerative Thrumm biology, supercharged by a thousand years of alchemical saturation, could be pushed past its design limit. A Morgh Berserker does not burn blood, they burn the dormant alchemy still circulating in their stone-scaled veins. The serums that were meant to make them obedient instead make them, when ignited, catastrophically free. Their Rage tastes of reagents and old Thrumm grief.`,
   signatureAbility: {
   name: 'Vat-Overclock',
-  description: `Blood-Heat builds from the Groven's regenerative biology fighting itself. Each wound the Groven regenerates dumps waste-heat into serum-saturated blood, meaning a Morgh Berserker ignites fastest when they are being *healed*, the opposite of every other tradition. The alchemy that was meant to suppress them becomes, under pressure, the engine of their liberation.`
+  description: `Rage builds from the Groven's regenerative biology fighting itself. Each wound the Groven regenerates dumps waste-heat into serum-saturated blood, meaning a Morgh Berserker ignites fastest when they are being *healed*, the opposite of every other tradition. The alchemy that was meant to suppress them becomes, under pressure, the engine of their liberation.`
   },
   currentCrisisAngle: `The Morgh Groven Berserkers are few, and feared by their own kind. The Vat-Breakers' Guild considers Vat-Overclock a desecration, re-igniting the very alchemy their ancestors bled to escape. Worse, word has reached the sealed laboratories beneath <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>. To the Deep Alchemists, a Groven Berserker is not a threat, it is a successful prototype, generations overdue for retrieval. The Vat-Woken who vanish from the Ancestor-Spans are not, the Guild suspects, running. They are being collected.`,
   signatureQuote: {
@@ -94,7 +94,7 @@ export const BERSERKER_DATA = {
  founder: {
   name: '<LoreLink termId="grum-bloodhammer">Grum Bloodhammer</LoreLink>',
   status: `Dead, seven centuries. His forge still burns in the <LoreLink termId="emberspire">Emberspire</LoreLink> tunnels, tended by a single elderly Berserker who has not spoken in sixty years.`,
-  note: `The first to weaponize the Blood-Heat. He did not ignite it first  -  the Hunger Pact was always in Skald blood. But Grum was the first to survive turning a survival reflex into a weapon. The Skald who stayed in Nordhalla tell it differently: they say he was sacrificed by his lords to test whether a man could burn and stand. The disagreement is theological and unresolved.`
+  note: `The first to weaponize the Rage. He did not ignite it first  -  the Hunger Pact was always in Skald blood. But Grum was the first to survive turning a survival reflex into a weapon. The Skald who stayed in Nordhalla tell it differently: they say he was sacrificed by his lords to test whether a man could burn and stand. The disagreement is theological and unresolved.`
  },
  currentLeader: {
   name: '<LoreLink termId="hark-ash-hammer">Blood-Priest Hark Ash-Hammer</LoreLink>',
@@ -106,7 +106,7 @@ export const BERSERKER_DATA = {
  },
 
  worldFriction: [
- { region: 'bryngloom-forest', location: 'atropolis', status: 'banned', consequence: 'Berserkers are outlawed within Atropolis as rabid beasts, a volatile Blood-Heat burst in the silver law-chambers would be catastrophic. Any identified Berserker is denied entry at the Toll-Dikes and arrested on sight.', workaround: 'Travel cold and masked; register as a laborer or forge-hand. A Berserker who has not ignited in days is nearly indistinguishable from a scarred Waste-Solari smith, until the Heat rises.' },
+ { region: 'bryngloom-forest', location: 'atropolis', status: 'banned', consequence: 'Berserkers are outlawed within Atropolis as rabid beasts, a volatile Rage burst in the silver law-chambers would be catastrophic. Any identified Berserker is denied entry at the Toll-Dikes and arrested on sight.', workaround: 'Travel cold and masked; register as a laborer or forge-hand. A Berserker who has not ignited in days is nearly indistinguishable from a scarred Waste-Solari smith, until the Heat rises.' },
  { region: 'sundale', location: 'harath_vault', status: 'celebrated', consequence: 'In the Harath-Vault arenas, Berserkers are champion-entertainers and sacred survivors. Arena victors receive lodging, patrons, and legal immunity within Sundale for the duration of their winning streak.' },
  { region: 'nordhalla', location: 'frozen_archive', status: 'distrusted', consequence: 'The Skald elders of the Frozen Archive claim jurisdiction over who may carry the Hunger Pact; an Unbound Berserker in Nordhalla faces execution without trial.' },
   { region: 'cragjaw-peaks', status: 'tolerated', consequence: 'Fexric miners value Berserkers as biological heavy excavators who can ignore the cold-chill. However, House Tesshan requires them to wear steam-dampening shackles inside the keeps to prevent accidental rage explosions.', workaround: 'Berserkers work in the deep sumps where Jarl Tesshan\'s guards rarely patrol, selling their muscle-power directly to Clan-Free forge-masters.' }
@@ -119,11 +119,11 @@ export const BERSERKER_DATA = {
   illustrationCaption: "A Skald Bloodhammer Berserker with burning copper veins wielding twin axes on a frozen battlefield.",
  originStory: `Born not from rage but from memory  -  the Hunger Winter, three years of absolute cold following House Skalvyr's Glacier Bargain. The price of halting the glaciers was not merely eternal winter. The price was the land freezing solid. Nothing grew. Nothing hunted. Nothing survived except what the Skald carried in their own bodies. The ancestors consumed their dead to persist. They did not do this as ritual. They did it because the alternative was the end of their bloodline. The children who survived that winter were born with the Hunger Pact in their veins  -  the physiological memory of starvation, passed down through generations. When recalled, it literally boils the blood.
 
-This is the Blood-Heat. It is not a magical rage or a barbarian fury. It is the body remembering a time when it should have died and refusing to let that happen again. Every Berserker carries their ancestors' last meal in their blood  -  and that meal was family.
+This is the Rage. It is not a magical rage or a barbarian fury. It is the body remembering a time when it should have died and refusing to let that happen again. Every Berserker carries their ancestors' last meal in their blood  -  and that meal was family.
 
-The first to weaponize it was Grum the Iron-Smith. During the Bloodhammer migration south  -  when Torra Bloodhammer abandoned Nordhalla's frozen keeps and led the Skald clans through the Cragjaw into <LoreLink termId="sundale">Sundale</LoreLink>'s volcanic tunnels  -  Grum was working the forge when an ice-wyrm burst through the cooling vents. He did not choose the fury. The fury recognized a threat to the bloodline and ignited itself. His veins boiled, his tendons snapped, and he killed the wyrm with his bare hands. Afterward, he could not stand for three days. The Blood-Heat had never been meant for combat  -  it was a survival reflex. Grum was the first to survive turning it into a weapon. The Skald who stayed in Nordhalla  -  the ones who refused the migration  -  tell the story differently. They say Grum was sacrificed by his lords as a test. They say the Blood-Heat is not a gift but a curse, a sign that the Hunger Pact has been dishonored by making it a weapon instead of a memory. The disagreement has never been resolved.
+The first to weaponize it was Grum the Iron-Smith. During the Bloodhammer migration south  -  when Torra Bloodhammer abandoned Nordhalla's frozen keeps and led the Skald clans through the Cragjaw into <LoreLink termId="sundale">Sundale</LoreLink>'s volcanic tunnels  -  Grum was working the forge when an ice-wyrm burst through the cooling vents. He did not choose the fury. The fury recognized a threat to the bloodline and ignited itself. His veins boiled, his tendons snapped, and he killed the wyrm with his bare hands. Afterward, he could not stand for three days. The Rage had never been meant for combat  -  it was a survival reflex. Grum was the first to survive turning it into a weapon. The Skald who stayed in Nordhalla  -  the ones who refused the migration  -  tell the story differently. They say Grum was sacrificed by his lords as a test. They say the Rage is not a gift but a curse, a sign that the Hunger Pact has been dishonored by making it a weapon instead of a memory. The disagreement has never been resolved.
 
-From the Skald, the Blood-Heat spread through contact  -  never independently re-discovered, always learned. The Waste-Solari encountered it when the Bloodhammer migration reached Sundale; Waste-Solari forge-workers watched Skald warriors ignite during a volcanic vent-collapse and asked to learn. Lacking the Hunger Pact's ancestral memory, they substituted the mountain's geothermal heat. The Solari learned it from Waste-Solari forge-workers in Sundale, substituting religious ecstasy for the fire they could not inherit. The Morgh Groven absorbed it during the Toll Wars, when Groven bridge-tenders and Skald caravans fought side by side against Draskar raids  -  their alchemical serum residue igniting as a parallel mechanism, not the Pact itself. Four peoples, one fire, four different fuel sources: ancestral memory, geothermal resonance, religious faith, and alchemical residue.
+From the Skald, the Rage spread through contact  -  never independently re-discovered, always learned. The Waste-Solari encountered it when the Bloodhammer migration reached Sundale; Waste-Solari forge-workers watched Skald warriors ignite during a volcanic vent-collapse and asked to learn. Lacking the Hunger Pact's ancestral memory, they substituted the mountain's geothermal heat. The Solari learned it from Waste-Solari forge-workers in Sundale, substituting religious ecstasy for the fire they could not inherit. The Morgh Groven absorbed it during the Toll Wars, when Groven bridge-tenders and Skald caravans fought side by side against Draskar raids  -  their alchemical serum residue igniting as a parallel mechanism, not the Pact itself. Four peoples, one fire, four different fuel sources: ancestral memory, geothermal resonance, religious faith, and alchemical residue.
 
 Today, a Berserker\u2019s muscles literally tear themselves from the bone to swing harder. Their heart is a ticking engine of self-destruction. In the civilized plazas of <LoreLink termId="atropolis">Atropolis</LoreLink>, they are banned as rabid beasts. But in the arenas of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>, they are celebrated as the ultimate survivors of a world that tried to freeze them.
 
@@ -133,30 +133,42 @@ As a Berserker, you carry the Hunger Pact in your veins  -  or the substitute yo
     title: "Class Overview",
     content: `**Who they are**: The Berserker is an unstoppable, near-death juggernaut fueled by ancestral starvation and physical suffering. You don't fight with calm discipline; you awaken the Hunger Pact in your veins, transforming your own body into a self-destructive war engine that hits harder the closer you are to dying.
 
-**The hook**: Your signature mechanic is **Death's Door**: when your health drops below 30%, your strikes completely bypass all enemy physical armor and damage resistances. You thrive in the danger zone, turning what would be a fatal wound into an apocalyptic counter-assault.
+**The hook**: Your signature mechanic is **Death's Door**: when your health drops below 30%, your strikes completely bypass all enemy physical resistances and Damage Reduction (DR). You thrive in the danger zone, turning what would be a fatal wound into an apocalyptic counter-assault.
 
-**The resource bar & costs**: Your resource bar is **Blood-Heat** (0–100+), generated every time you land a strike or take damage. As your Heat climbs through escalating tiers, your melee damage, speed, and critical threat scale aggressively. Above 20 Heat, pain immunity kicks in—which also prevents allies from healing you. If you push past 100 Heat, you suffer Metabolic Burnout, taking self-inflicted thermal damage.
+**The resource bar & costs**: Your resource bar is **Rage** (0–100+), generated every time you land a strike or take damage. As your Rage climbs through escalating tiers, your melee damage, speed, and critical threat scale aggressively. Above 20 Rage, Battle-Trance kicks in—granting fear immunity while locking out outside healing. If you push past 100 Rage, you suffer Metabolic Burnout, taking self-inflicted thermal damage.
 
-**Bring one for**: Apocalyptic near-death damage output that turns certain defeat into mutual annihilation—no other class hits harder at the edge of the grave.`
+**Bring one for**: Apocalyptic near-death damage output that turns certain defeat into mutual annihilation—no other class hits harder at the edge of the grave.`,
+    roleplayIdentity: {
+      title: "Roleplay Identity",
+      content: "Practitioners carry a profound cultural and physical responsibility, marked by their tradition's unique legacy and societal perceptions."
+    },
+    combatRole: {
+      title: "Combat Role",
+      content: "Unstoppable execute juggernaut who converts pain into Rage (0-100), bypassing all enemy resistances when critically wounded below 30% HP."
+    },
+    playstyle: {
+      title: "Playstyle & Turn 1 Flow",
+      content: "**Your Turn 1 in Combat**:\n1. **Charge into Melee**: Strike with `Hemorrhagic Strike` or `Skull Splitter` to ignite Rage.\n2. **Enter Battle-Trance**: Note that above 20 Rage, outside healing is locked out—your survival is in your own hands.\n3. **Dump Heat at 80+**: Spend high Rage on massive cleaves before exceeding 100 to avoid Metabolic Burnout."
+    }
   },
 
-  description: `The Berserker represents the raw survival of flesh and bone. They do not wield magic; they push their own anatomy past its limits through pure adrenaline and boiling fury. As their Blood-Heat rises, their muscles strain beyond human tolerance to swing harder. This physiological meltdown grants terrifying strength but rapidly burns their metabolic reserves, leading toward inevitable systemic collapse.`,
+  description: `The Berserker represents the raw survival of flesh and bone. They do not wield magic; they push their own anatomy past its limits through pure adrenaline and boiling fury. As their Rage rises, their muscles strain beyond human tolerance to swing harder. This physiological meltdown grants terrifying strength but rapidly burns their metabolic reserves, leading toward inevitable systemic collapse.`,
 
  roleplayIdentity: {
   title: "Roleplay Identity",
   content: `**HISTORY: THE GENESIS**
 The Berserker's calling originates from the Hunger Winter  -  three years of absolute cold following House Skalvyr's Glacier Bargain, during which nothing grew, nothing hunted, and nothing survived except what the Skald carried in their own bodies. The ancestors consumed their dead to persist, and the children who survived were born with the Hunger Pact in their veins: the physiological memory of starvation, passed down through generations. When recalled, it literally boils the blood.
 
-The first to weaponize it was Grum the Iron-Smith during the Bloodhammer migration south  -  when Torra Bloodhammer led the Skald clans out of Nordhalla's frozen keeps through the Cragjaw into <LoreLink termId="sundale">Sundale</LoreLink>'s volcanic tunnels. An ice-wyrm burst through the cooling vents into Grum's forge. He did not choose the fury. The fury recognized a threat to the bloodline and ignited itself. He killed the wyrm with his bare hands. Afterward, he could not stand for three days. The Blood-Heat had never been meant for combat. Grum was the first to survive turning it into a weapon.
+The first to weaponize it was Grum the Iron-Smith during the Bloodhammer migration south  -  when Torra Bloodhammer led the Skald clans out of Nordhalla's frozen keeps through the Cragjaw into <LoreLink termId="sundale">Sundale</LoreLink>'s volcanic tunnels. An ice-wyrm burst through the cooling vents into Grum's forge. He did not choose the fury. The fury recognized a threat to the bloodline and ignited itself. He killed the wyrm with his bare hands. Afterward, he could not stand for three days. The Rage had never been meant for combat. Grum was the first to survive turning it into a weapon.
 
 **CITIES & CIVIL RECEPTION**
 Berserkers are completely outlawed within the silver law-chambers and administrative halls of <LoreLink termId="atropolis">Atropolis</LoreLink>, where their volatile fury is viewed as a threat to public order. However, they are highly celebrated in the geothermal arenas of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink> and the frontier keeps of the Skald, where their high-stamina survival engine is viewed as a sacred gift.
 
 **RACES & CULTURAL AFFILIATION**
-Born from the Skald Hunger Pact, the Blood-Heat spread through contact, not independent discovery. The Waste-Solari learned it during the Bloodhammer migration into Sundale, substituting geothermal resonance for ancestral memory. The Solari learned it from Waste-Solari forge-workers in Sundale, substituting religious ecstasy for the fire they could not inherit. The Morgh Groven absorbed it during the Toll Wars, their alchemical serum residue igniting as a parallel mechanism. Four peoples, one fire, four different fuel sources: memory, geothermal heat, faith, and alchemy.
+Born from the Skald Hunger Pact, the Rage spread through contact, not independent discovery. The Waste-Solari learned it during the Bloodhammer migration into Sundale, substituting geothermal resonance for ancestral memory. The Solari learned it from Waste-Solari forge-workers in Sundale, substituting religious ecstasy for the fire they could not inherit. The Morgh Groven absorbed it during the Toll Wars, their alchemical serum residue igniting as a parallel mechanism. Four peoples, one fire, four different fuel sources: memory, geothermal heat, faith, and alchemy.
 
 **NOTABLE FIGURES**
-* **Grum the Iron-Smith**: The smith who was the first to weaponize the Blood-Heat, killing an ice-wyrm with his bare hands when the Hunger Pact ignited in defense of the bloodline.
+* **Grum the Iron-Smith**: The smith who was the first to weaponize the Rage, killing an ice-wyrm with his bare hands when the Hunger Pact ignited in defense of the bloodline.
 * **Torra Bloodhammer**: The chieftain who led the Bloodhammer clans out of Nordhalla's frozen keeps into the geothermal vaults of Sundale, bringing the Hunger Pact south.`
  },
 
@@ -168,28 +180,28 @@ Born from the Skald Hunger Pact, the Blood-Heat spread through contact, not inde
 
  philosophy: {
   coreTenet: 'Survival is not passive. It is not endurance, patience, or faith. It is the willingness to destroy yourself before the world does it for you. A Berserker does not fight to win, they fight because stillness is death.',
-  relationship: 'The Blood-Heat is not rage in the emotional sense. It is a physiological state, the body\'s last-ditch survival protocol, normally reserved for mothers lifting boulders off their children. Berserkers have learned to trigger this state at will, and to endure its consequences. The Heat does not make them angry. It makes them efficient.',
-  paradox: 'The Berserker is simultaneously the most vulnerable and most dangerous combatant on any battlefield. At full health, they are merely dangerous. At the edge of death, with their Blood-Heat at critical levels, they become unstoppable, because the body, convinced it is dying, stops holding anything back. The paradox is that they must nearly die to truly live.'
+  relationship: 'The Rage is not rage in the emotional sense. It is a physiological state, the body\'s last-ditch survival protocol, normally reserved for mothers lifting boulders off their children. Berserkers have learned to trigger this state at will, and to endure its consequences. The Heat does not make them angry. It makes them efficient.',
+  paradox: 'The Berserker is simultaneously the most vulnerable and most dangerous combatant on any battlefield. At full health, they are merely dangerous. At the edge of death, with their Rage at critical levels, they become unstoppable, because the body, convinced it is dying, stops holding anything back. The paradox is that they must nearly die to truly live.'
  },
 
- currentCrisis: `The Hunger Pact is changing. For centuries, the Blood-Heat required the Pact ritual  -  the generational teaching that awakened the ancestral memory of starvation. But in the past decade, a new generation of Berserkers has emerged whose Blood-Heat ignites spontaneously, without the ritual, without the teaching. The elders call them "Unbound" and consider them abominations. The Unbound's existence suggests something terrifying: the physiological memory of the Hunger Winter is now strong enough to survive without generational instruction. The Pact was never the source of the Heat  -  only the leash.
+ currentCrisis: `The Hunger Pact is changing. For centuries, the Rage required the Pact ritual  -  the generational teaching that awakened the ancestral memory of starvation. But in the past decade, a new generation of Berserkers has emerged whose Rage ignites spontaneously, without the ritual, without the teaching. The elders call them "Unbound" and consider them abominations. The Unbound's existence suggests something terrifying: the physiological memory of the Hunger Winter is now strong enough to survive without generational instruction. The Pact was never the source of the Heat  -  only the leash.
 
 Tensions erupted into violence at the last Harath-Vault arena, when an Unbound Berserker who had never undergone the Pact ritual defeated three Pact-sworn champions in succession. The Skald Council declared the match invalid and ordered the Unbound executed. The Unbound escaped, and now there are rumors of an Unbound settlement forming in the deep volcanic tunnels  -  Berserkers who ignite without permission, the memory of starvation too powerful to require permission anymore.`,
 
- meaningfulTradeoffs: `To be a Berserker is to accept that your body is a temporary resource. Every fight shortens your lifespan. Every activation of the Blood-Heat cooks your internal organs a little more. Veteran Berserkers die young, not in battle, but in their sleep, when their hearts finally give out after years of thermal stress. They know this. They do not fear it. They fear being too weak to fight when the time comes. Berserkers measure their lives not in years but in worthy opponents, and they consider a death from organ failure to be the only truly shameful end.`,
+ meaningfulTradeoffs: `To be a Berserker is to accept that your body is a temporary resource. Every fight shortens your lifespan. Every activation of the Rage cooks your internal organs a little more. Veteran Berserkers die young, not in battle, but in their sleep, when their hearts finally give out after years of thermal stress. They know this. They do not fear it. They fear being too weak to fight when the time comes. Berserkers measure their lives not in years but in worthy opponents, and they consider a death from organ failure to be the only truly shameful end.`,
 
  classSpecificLocations: [
   {
   name: 'The Harath-Vault Arenas',
   locationId: 'harath-vault',
-  description: 'A network of geothermal arenas carved into the volcanic tunnels beneath Sundale. Here, Berserkers compete in ritual combat, not for glory, but to test their Blood-Heat thresholds against worthy opponents. The arenas are heated by exposed magma vents, which Berserkers claim helps them maintain the Heat between fights.',
+  description: 'A network of geothermal arenas carved into the volcanic tunnels beneath Sundale. Here, Berserkers compete in ritual combat, not for glory, but to test their Rage thresholds against worthy opponents. The arenas are heated by exposed magma vents, which Berserkers claim helps them maintain the Heat between fights.',
   purpose: 'Training, competition, and rite of passage, a Berserker is not considered blooded until they have won a match in the Vault',
   status: 'Active, but the Unbound schism has poisoned the atmosphere, with Pact-sworn Berserkers refusing to face Unbound opponents'
   },
   {
   name: 'The Forge of Grum',
   locationId: 'emberspire-caldera',
-  description: 'The original blacksmith\'s forge where Grum the Iron-Smith first experienced the Blood-Heat. The forge is still lit, the same coal-seam that burned before the sun was buried continues to smolder. Berserkers make pilgrimage here to press their bare hands against the anvil and feel the residual heat of the first transformation.',
+  description: 'The original blacksmith\'s forge where Grum the Iron-Smith first experienced the Rage. The forge is still lit, the same coal-seam that burned before the sun was buried continues to smolder. Berserkers make pilgrimage here to press their bare hands against the anvil and feel the residual heat of the first transformation.',
   purpose: 'Pilgrimage site and initiation ground, some Berserkers claim the Forge speaks to them, offering cryptic advice',
   status: 'Active, maintained by a single elderly Berserker who has tended the coals for sixty years without speaking a word'
   }
@@ -202,42 +214,42 @@ Tensions erupted into violence at the last Harath-Vault arena, when an Unbound B
 However, their weaknesses are absolute and exploitable:
 
 **Weaknesses**:
-- Pain Immunity Blocks Healing: while Raging (Blood-Heat over 20) you cannot be healed by allies  -  you solo your own survival until the fury ends.
+- Battle-Trance Healing Lockout: while Raging (Rage over 20) your accelerated metabolism rejects outside magical healing  -  you solo your own survival until your Rage cools below 21.
 - Zero Recovery: no self-heal, no lifesteal, none  -  every HP lost is gone until you stop raging and rest.
-- DoT Bait: Bleed and Poison silently drain you while you are pain-blind; a stacking DoT will kill you before you ever feel it.
-- Metabolic Burnout: push Blood-Heat past 100 and you have one round to dump it, or take 2d6 unresistable damage and crash to 0 Heat.
+- DoT Bait: Bleed and Poison silently drain you while you are in your trance; a stacking DoT will kill you before you notice the toll.
+- Metabolic Burnout: push Rage past 100 and you have one round to dump it, or take 2d6 unresistable damage and crash to 0 Heat.
 - Pain Starvation: two full rounds without dealing melee damage and the rage turns inward (mind decay)  -  kiting and hard CC shut you down.
-- Death's-Door Gamble: your peak damage requires being under 30 percent HP  -  misjudge the threshold and you simply die.`
-,
+- Death's-Door Gamble: your peak damage requires being under 30 percent HP  -  misjudge the threshold and you simply die.
+`,
  },
 
  playstyle: {
    title: "Strategic Self-Inflicted Strain",
   content: `Managing the Berserker is a dance of attrition.
   
-**The Sweet Spot (41-80 Blood-Heat)**: You hit with terrifying force and gain massive combat bonuses, but the thermal pressure is mounting.
+**The Sweet Spot (41-80 Rage)**: You hit with terrifying force and gain massive combat bonuses, but the thermal pressure is mounting.
 
-**The Danger Zone (81-100 Blood-Heat)**: Your strikes tear your own bone structure. If your Rage exceeds 100, you have exactly one round to spend it below the threshold, or your heart suffers **Metabolic Burnout**, dealing 2d6 unresistable damage and dropping your Rage to 0. Entering active masteries allows temporary overdrive states (101-150+) to unleash absolute catastrophe.
+**The Danger Zone (81-100 Rage)**: Your strikes tear your own bone structure. If your Rage exceeds 100, you have exactly one round to spend it below the threshold, or your heart suffers **Metabolic Burnout**, dealing 2d6 unresistable damage and dropping your Rage to 0. Entering active masteries allows temporary overdrive states (101-150+) to unleash absolute catastrophe.
 
-**Agonizing Recoil**: Every level 1-10 ability requires a toll of flesh. Attacks generate Blood-Heat but inflict physical self-damage or agonizing self-debuffs. Violence is your only oxygen; if you go two full rounds without dealing melee damage, you enter **Pain Starvation**, causing your rage to turn inward and decay your mind.`,
+**Agonizing Recoil**: Every level 1-10 ability requires a toll of flesh. Attacks generate Rage but inflict physical self-damage or agonizing self-debuffs. Violence is your only oxygen; if you go two full rounds without dealing melee damage, you enter **Pain Starvation**, causing your rage to turn inward and decay your mind.`,
  },
 
  immersiveCombatExample: {
   title: "Combat Example: The Tragic Toll",
-  content: `**The Setup**: You stand before an armored Iron Golem in a decaying crypt. Your heart rate is normal, your Blood-Heat is at 0. Your greataxe is heavy, dragging in the dirt.
+  content: `**The Setup**: You stand before an armored Iron Golem in a decaying crypt. Your heart rate is normal, your Rage is at 0. Your greataxe is heavy, dragging in the dirt.
 
-**Turn 1 - Splintering the Flesh (Rage: 0 ? 12)**
+**Turn 1 - Splintering the Flesh (Rage: 0 -> 12)**
 *You heave your axe with both hands, muscles tearing as you force the blade forward.*
-- **Action**: Cast **Hemorrhagic Strike** ? Hit!
-- **Blood-Heat**: Gain +12 Rage (now at 12).
+- **Action**: Cast **Hemorrhagic Strike** -> Hit!
+- **Rage**: Gain +12 Rage (now at 12).
 - **Recoil**: Take 1d4 smashing damage (tendons snapping).
-*The pain doesn't register as a warning,it is a chemical trigger. The blood in your neck begins to sizzle.*
+*The pain doesn't register as a warning, it is a chemical trigger. The blood in your neck begins to sizzle.*
 
-**Turn 2 - Boiling the Veins (Rage: 12 ? 35)**
+**Turn 2 - Boiling the Veins (Rage: 12 -> 35)**
 *You unlock your boiling veins, allowing the crimson fire to circulate. The Golem swings its heavy stone fist, striking your ribs.*
 - **Action**: Activate **Boiling Veins** stance.
 - **Golem Attack**: Hit! Take 12 damage.
-- **Pain Immunity Triggers**: Your Rage is now 35 (Frenzied State). The Golem's follow-up hit hurts, but you laugh,a wet, rattling sound. You are now immune to pain; the friendly Priest's healing spell washes over you, but has **no effect**.
+- **Battle-Trance Triggers**: Your Rage is now 35 (Frenzied State). The Golem's follow-up hit hurts, but you laugh—a fierce, rattling roar. You enter Battle-Trance (immune to fear); the friendly Priest's healing spell washes over you, but your hyper-accelerated metabolism burns through it with **no effect**.
 - **Self-Damage**: Lose 1 HP at the start of your turn.
 
 **Turn 3 - Death's Door (Rage: 35 ? 78)**
@@ -245,7 +257,7 @@ However, their weaknesses are absolute and exploitable:
 - **Action**: Cast **Frenzied Slash** ? Hit!
 - **Why Bring Me?**: Because you are under 30% HP, your strike completely bypasses the Golem's stone resistance!
 - **Damage**: Deal 45 unmitigated smashing damage.
-- **Blood-Heat**: Spend 8 Rage (drops to 27) but gain +15 Rage on hit (ends at 42 - Primal State).
+- **Rage**: Spend 8 Rage (drops to 27) but gain +15 Rage on hit (ends at 42 - Primal State).
 - **Recoil**: Take 1d4 smashing damage.
 *The Golem cracks, granite sundering under a strike that should have been physically impossible for a mortal frame. You stand blind with fury, your heart hammering a tragic dirge.*`,
  },
@@ -273,7 +285,7 @@ However, their weaknesses are absolute and exploitable:
    "Heavy Splinted Bracers (Armor 13, max Agility +2)",
    "2 Sinew-Bound Throwing Spikes (1d6 piercing, range 20/60)",
   ],
-  description: "More strikes per round to rapidly boil your Blood-Heat, forcing rapid transitions into paint-numbed states.",
+  description: "More strikes per round to rapidly boil your Rage, forcing rapid transitions into paint-numbed states.",
   },
  ],
  standardGear: [
@@ -297,31 +309,43 @@ However, their weaknesses are absolute and exploitable:
  {
   step: 3,
   title: "Bind Your Stance",
-  description: "Toggle Calloused Hide (+2 Armor, build Blood-Heat on pain) or Boiling Veins (+1d4 ember/smashing damage, constant HP drain).",
+  description: "Toggle Calloused Hide (+2 Armor, build Rage on pain) or Boiling Veins (+1d4 ember/smashing damage, constant HP drain).",
  },
  {
   step: 4,
   title: "Embrace Metabolic Burnout",
-  description: "Understand that you cannot heal. Learn to manage your Blood-Heat to avoid Overheat, which ruptures your heart.",
+  description: "Understand that you cannot heal. Learn to manage your Rage to avoid Overheat, which ruptures your heart.",
  },
  ],
 
  // Resource System Config
  resourceSystem: {
- title: "Blood-Heat & Pain Immunity",
-   subtitle: "The Price of the Flesh",
- description: "Blood-Heat is a thermal pressure gauge of your physiological decay. It builds through self-harm and taking pain, unlocking terrifying physical thresholds. However, once you boil, you are immune to pain, preventing your allies from healing you. If you exceed 100 heat, you suffer Metabolic Burnout.",
+ title: "Rage: The Boiling Kettle",
+   subtitle: "How Your Resource Works (Beginner's Guide)",
+ description: `**1. What is it? (The Boiling Kettle)**
+Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal and take damage, your Rage rises through escalating power tiers (Smoldering -> Frenzied -> Primal -> Carnage -> Cataclysm), boosting your melee attack rolls, movement speed, and physical damage.
+
+**2. How do I build it?**
+- Strike enemies with melee attacks (+1d6 to +2d6 Rage).
+- Take damage from enemy attacks (+1d4 Rage).
+- Score a critical hit or slay a foe (+1d8 to +2d6 Rage).
+
+**3. How do I spend it & what is the catch?**
+- Spend Rage on devastating cleaves, bone-crushing slams, and executes that bypass enemy physical resistances when you are below 30% HP (Death's Door).
+- **The Catch (Battle-Trance & Outside Healing Lockout)**:
+  - When your Rage reaches **21 or higher**, you enter a focused **Battle-Trance**. You become immune to fear and panic, but your hyper-accelerated metabolism rejects foreign magic—**allies cannot heal you with spells or potions while you are above 20 Rage**. You must solo your survival using your own defensive momentum or spend Rage to cool down.
+  - If Rage exceeds **100**, you suffer **Metabolic Burnout**: you have exactly 1 turn to spend Rage below 100, or your body overheats, dealing 2d6 unresistable damage and resetting Rage to 0.`,
  
  cards: [
   {
-  title: "Blood-Heat (0-100)",
+  title: "Rage (0-100)",
   stats: "Thermal Scale",
   details: "Rage represented as boiling blood. Built by striking, self-inflicted strain, and taking damage. Exceeding 100 triggers Metabolic Burnout.",
   },
  ],
 
  generationTable: {
-  headers: ["Action", "Blood-Heat Change", "Flesh Toll / Recoil"],
+  headers: ["Action", "Rage Change", "Flesh Toll / Recoil"],
   rows: [
   ["Cast Melee Ability", "+1d6", "Deals 1d4 smashing damage to self"],
   ["Taking Damage", "+1d4", "Pain translates directly into heat"],
@@ -333,34 +357,34 @@ However, their weaknesses are absolute and exploitable:
  },
 
  usage: {
-  momentum: "Blood-Heat costs range from 5 to 100. Pushing higher unlocks stronger states, but every ability deals recoil damage to your own frame.",
-  flourish: "?? Pain Immunity: While Blood-Heat is 21 or higher, you are entirely immune to pain. so, you cannot be healed by allies' spells or potions. You are a ticking clock.",
+  momentum: "Rage costs range from 5 to 100. Pushing higher unlocks stronger states, but every ability deals recoil damage to your own frame.",
+  flourish: "Battle-Trance: While Rage is 21 or higher, you enter a focused combat trance. You are immune to fear/panic, but your accelerated metabolism prevents outside healing spells or potions from affecting you until your Rage cools below 21.",
  },
 
  overheatRules: {
   title: "Metabolic Burnout",
-  content: `When your Blood-Heat exceeds 100, you enter the Obliteration State. Your organs are cooking from within.
+  content: `When your Rage exceeds 100, you enter the Obliteration State. Your organs are cooking from within.
   
-**You have EXACTLY ONE ROUND** to spend your Blood-Heat below 101. If you fail:
-- Your heart seizes: take **2d6 unresistable damage** (ignores all shields and Armor).
-- Your Blood-Heat **resets to 0** (complete metabolic exhaustion).
+**You have EXACTLY ONE ROUND** to spend your Rage below 101. If you fail:
+- Your heart seizes: take **2d6 unresistable damage** (ignores all shields and Damage Reduction (DR)).
+- Your Rage **resets to 0** (complete metabolic exhaustion).
 - You are **Stunned for 1 round** as your body suffers systemic shock.
 
 *Note: High-level overdrive masteries temporarily bypass instant burnout to allow access to higher thresholds.*`,
  },
 
  rageStatesTable: {
-  title: "Blood-Heat Thresholds",
+  title: "Rage Thresholds",
    headers: ["State", "Heat Range", "Unlocked Mechanics", "Strain / Penalty"],
   rows: [
   ["Smoldering", "0-20", "Basic strikes available. You feel the cold chill of mortality.", "None"],
-  ["Frenzied", "21-40", "+1 melee attack roll, +5 ft movement.", "Pain Immunity begins: Allies cannot heal you."],
-  ["Primal", "41-60", "+2 melee attack rolls, +2 damage.", "Armor reduced by 2. Muscles begin to snap."],
-  ["Carnage", "61-80", "+3 melee attack rolls, +4 damage.", "Armor reduced by 4, Agility check disadvantage."],
-  ["Cataclysm", "81-100", "+4 melee attack rolls, +6 damage, immune to fear.", "Armor reduced by 6, miss recoil increases by 1d4."],
-  ["Obliteration", "101-124", "+5 melee attack rolls, +8 damage, crits cleave.", "Armor reduced by 8, take 1d6 self-damage per turn."],
-  ["Annihilation", "125-149", "+6 melee attack rolls, +10 damage, +15 ft movement.", "Armor reduced by 10, take 1d10 self-damage per turn."],
-  ["Apocalypse", "150+", "+8 melee attack rolls, +15 damage, immune to all conditions.", "Armor reduced to 0, take 2d6 self-damage per turn, no defense possible."],
+  ["Frenzied", "21-40", "+1 melee attack roll, +5 ft movement.", "Battle-Trance begins: Immune to fear; outside healing locked out."],
+  ["Primal", "41-60", "+2 melee attack rolls, +2 damage.", "Durability Dice reduced by -2. Muscles begin to snap."],
+  ["Carnage", "61-80", "+3 melee attack rolls, +4 damage.", "Durability Dice reduced by -4, Agility check disadvantage."],
+  ["Cataclysm", "81-100", "+4 melee attack rolls, +6 damage, immune to fear.", "Durability Dice reduced by -6, miss recoil increases by 1d4."],
+  ["Obliteration", "101-124", "+5 melee attack rolls, +8 damage, crits cleave.", "Durability Dice reduced by -8, take 1d6 self-damage per turn."],
+  ["Annihilation", "125-149", "+6 melee attack rolls, +10 damage, +15 ft movement.", "Durability Dice reduced by -10, take 1d10 self-damage per turn."],
+  ["Apocalypse", "150+", "+8 melee attack rolls, +15 damage, immune to all conditions.", "Durability Dice reduced to 0, take 2d6 self-damage per turn, no defense possible."],
   ],
  },
  },
@@ -373,14 +397,14 @@ However, their weaknesses are absolute and exploitable:
  specs: [
   {
   id: "savage",
-  name: "Savage",
+  name: "Rage",
   icon: "Utility/Empowered Warrior",
   color: "#8B0000",
-  theme: "Hemorrhagic Ruin",
-  description: "The Savage is a whirlwind of pure, self-destructive violence. They refuse to defend themselves, pushing their Blood-Heat to catastrophic levels to shatter enemy armor with raw, overwhelming impact.",
+  theme: "Ancestral Starvation & Frenzied Execute",
+  description: "The Savage is a whirlwind of pure, self-destructive violence. They refuse to defend themselves, pushing their Rage to catastrophic levels to shatter enemy Damage Reduction with raw, overwhelming impact.",
   playstyle: "High-heat offensive fury, aggressive self-damage, and massive near-death executes.",
   strengths: [
-   "Accelerated Blood-Heat generation from every wound you inflict or suffer.",
+   "Accelerated Rage generation from every wound you inflict or suffer.",
    "Devastating damage scaling when fighting on the brink of death (below 30% HP).",
   ],
   weaknesses: [
@@ -389,44 +413,44 @@ However, their weaknesses are absolute and exploitable:
   ],
   keyAbilities: [
    "Savage Strike: A devastating overhead blow that unleashes raw kinetic impact.",
-   "Reckless Abandon: Instantly trigger a surge of Blood-Heat by splitting your own flesh.",
+   "Reckless Abandon: Instantly trigger a surge of Rage by splitting your own flesh.",
   ],
   specPassive: {
    name: "Unbridled Adrenaline",
-   description: "You generate Blood-Heat 50% faster. When your Health drops below 30%, your strikes completely bypass enemy physical resistances, tearing through armor like paper.",
+   description: "You generate Rage 50% faster. When your Health drops below 30%, your strikes completely bypass enemy physical resistances, tearing through defenses like paper.",
   },
   },
   {
   id: "juggernaut",
-  name: "Juggernaut",
+  name: "The Caldera-Forged",
   icon: "Utility/Shield",
   color: "#4169E1",
-  theme: "Calloused Husk",
+  theme: "Geothermal Iron Skin & Thermal Soak",
   description: "The Juggernaut turns physical trauma into a weapon. Instead of falling, they force their wounds to calcify into dense plates of grey scar tissue, turning enemy strikes into temporary layers of structural defense.",
   playstyle: "Defensive rage scaling, converting raw damage taken into heavy temporary barriers.",
   strengths: [
-   "Converts high Blood-Heat into thick layers of temporary, protective scar tissue.",
-   "Halved armor penalties from high-heat states compared to other Berserkers.",
+   "Converts high Rage into thick layers of temporary, protective scar tissue.",
+   "Halved Durability penalties from high-heat states compared to other Berserkers.",
   ],
   weaknesses: [
    "Lower immediate damage output in exchange for structural durability.",
    "Slightly reduced movement speed due to rigid, calcified skin.",
   ],
   keyAbilities: [
-   "Calloused Barrier: Instantly calcify your current Blood-Heat into a protective shield of bone and scar.",
+   "Calloused Barrier: Instantly calcify your current Rage into a protective shield of bone and scar.",
    "Bone Spines: Shatter your protective calluses outward to impale nearby attackers.",
   ],
   specPassive: {
    name: "Shattered Resilience",
-   description: "Your Blood-Heat decays half as fast. Every time you are struck by a physical attack, your skin calcifies, granting a layer of temporary Grit shields to absorb the next blow.",
+   description: "Your Rage decays half as fast. Every time you are struck by a physical attack, your skin calcifies, granting a layer of temporary Grit shields to absorb the next blow.",
   },
   },
   {
   id: "warlord",
-  name: "Warlord",
+  name: "The Unbound Blood-Chanter",
   icon: "Utility/Powerful Warrior",
   color: "#DAA520",
-  theme: "Tyrannical Dirge",
+  theme: "Battlefield War-Roars & Momentum Conductor",
    description: "The Warlord is a commanding terror on the battlefield. They direct their physical suffering outward, transforming their bellows of effort into thunderous roars that demoralize foes and whip allies into a bloodthirsty frenzy.",
   playstyle: "Tactical support, area-of-effect crowd control, and amplifying team-wide aggression.",
   strengths: [
@@ -451,6 +475,99 @@ However, their weaknesses are absolute and exploitable:
 
  // Level 1-10 Meticulously Normalized Spell List
  spells: [
+
+    // ===== NON-COMBAT & REACTION UTILITIES =====
+    {
+      id: "bsk_hunger_scent",
+      name: "Hunger Scent",
+      description: "Channel ancestral starvation to catch the scent of blood or wounded creatures up to 3 miles away. Reveals exact distance, direction, and whether the target is bleeding. Out of combat.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "Nature/Beast Mark",
+      effectTypes: ["utility"],
+      typeConfig: { school: "physical", icon: "Nature/Beast Mark", tags: ["utility", "tracking", "perception", "berserker"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "self", rangeType: "self" },
+      resourceCost: { actionPoints: 1, resourceTypes: ["health"], resourceValues: { health: 2 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      tags: ["utility", "tracking", "perception", "berserker"]
+    },
+    {
+      id: "bsk_caldera_warmth",
+      name: "Caldera Warmth",
+      description: "Exhale boiling metabolic body heat to keep yourself and allies within 15ft warm and dry in blizzards, arctic temperatures, or freezing rains for 4 hours. Out of combat.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "General/Campfire",
+      effectTypes: ["utility", "buff"],
+      typeConfig: { school: "physical", icon: "General/Campfire", tags: ["utility", "environment", "survival", "berserker"], castTime: 1, castTimeType: "MINUTES" },
+      targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 15, targetRestrictions: ["ally", "self"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["health"], resourceValues: { health: 4 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      tags: ["utility", "environment", "survival", "berserker"]
+    },
+    {
+      id: "bsk_retaliatory_cleave",
+      name: "Retaliatory Cleave",
+      description: "REACTION: When hit in melee by an enemy, instantly retaliate with a vicious counter-cleave for smashing damage and ignite +10 Rage.",
+      level: 2,
+      spellType: "REACTION",
+      icon: "Slashing/Greatsword Slash",
+      effectTypes: ["damage"],
+      typeConfig: { school: "smashing", icon: "Slashing/Greatsword Slash", tags: ["reaction", "melee", "damage", "berserker"], castTime: 0, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "single", rangeType: "melee", rangeDistance: 5, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 0, resourceTypes: ["health"], resourceValues: { health: 3 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      damageConfig: { formula: "2d8 + strength", damageTypes: ["smashing"], resolution: "DICE" },
+      tags: ["reaction", "melee", "damage", "berserker"]
+    },
+  
+
+    // ===== EXPANDED BERSERKER MID-TIER SPELLS =====
+    {
+      id: "bsk_caldera_slam",
+      name: "Caldera Slam",
+      description: "Leap forward up to 20ft and slam your weapon into the ground, dealing smashing damage and knocking down adjacent enemies. Generates +15 Rage.",
+      level: 4,
+      spellType: "ACTION",
+      icon: "Smashing/Earth Hammer",
+      effectTypes: ["damage", "crowd_control"],
+      typeConfig: { school: "smashing", icon: "Smashing/Earth Hammer", tags: ["damage", "aoe", "leap", "knockdown", "berserker"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 20, areaType: "circle", areaSize: 10, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 2, resourceTypes: ["health"], resourceValues: { health: 5 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      damageConfig: { formula: "3d10 + strength", damageTypes: ["smashing"], resolution: "DICE" },
+      tags: ["damage", "aoe", "leap", "knockdown", "berserker"]
+    },
+    {
+      id: "bsk_arterial_burst",
+      name: "Arterial Surge",
+      description: "Force adrenaline through your heart, gaining +2 AP and +10ft movement for 1 round. Generates +20 Rage. Suffer 1d6 self-damage.",
+      level: 5,
+      spellType: "ACTION",
+      icon: "Utility/Empowered Warrior",
+      effectTypes: ["buff"],
+      typeConfig: { school: "physical", icon: "Utility/Empowered Warrior", tags: ["buff", "self", "haste", "berserker"], castTime: 0, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "self", rangeType: "self" },
+      resourceCost: { actionPoints: 0, resourceTypes: ["health"], resourceValues: { health: 6 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      tags: ["buff", "self", "haste", "berserker"]
+    },
+    {
+      id: "bsk_unstoppable_onslaught",
+      name: "Unstoppable Onslaught",
+      description: "Charge through a 30ft line, striking all enemies in your path for slicing damage and ignoring all physical resistances and Damage Reduction (DR).",
+      level: 7,
+      spellType: "ACTION",
+      icon: "Slashing/Greatsword Slash",
+      effectTypes: ["damage"],
+      typeConfig: { school: "slicing", icon: "Slashing/Greatsword Slash", tags: ["damage", "line", "pierce", "berserker"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "line", rangeType: "self", areaSize: 30, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 2, resourceTypes: ["health"], resourceValues: { health: 10 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      damageConfig: { formula: "6d8 + strength * 2", damageTypes: ["slicing"], resolution: "DICE" },
+      tags: ["damage", "line", "pierce", "berserker"]
+    },
+  
  // ========================================
  // LEVEL 1 STARTING SPELLS (Flesh-Toll Starter Kit)
  // ========================================
@@ -458,7 +575,7 @@ However, their weaknesses are absolute and exploitable:
   id: "berserk_hemorrhagic_strike",
   name: "Hemorrhagic Strike",
   description:
-  "Heave your weapon with terrifying, uncontrolled force. Your muscles strain beyond their limit, dealing damage to yourself but building your Blood-Heat and tearing into your enemy.",
+  "Heave your weapon with terrifying, uncontrolled force. Your muscles strain beyond their limit, dealing damage to yourself but building your Rage and tearing into your enemy.",
   level: 1,
   spellType: "ACTION",
   icon: "Slashing/Cross Slash",
@@ -483,7 +600,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_generation"],
   resourceValues: { mana: 0, rage_generation: 6 },
-  classResource: { type: "blood_heat", cost: -6 }, // Negative cost means generation
+  classResource: { type: "rage", cost: -6 }, // Negative cost means generation
   components: ["verbal", "somatic"],
   verbalText: "A guttural, rattling gasp of raw exertion.",
   somaticText: "Heave your weapon back with explosive force, muscles visibly tearing as you force the blade forward."
@@ -550,9 +667,9 @@ However, their weaknesses are absolute and exploitable:
    { range: { min: 1, max: 2 }, customName: "Tendon Rupture", effect: "Your shoulder dislocates. Take 1d6 damage and your next attack has disadvantage." },
    { range: { min: 3, max: 5 }, customName: "Shallow Gash", effect: "Normal damage. You take 1d4 recoil damage." },
    { range: { min: 6, max: 10 }, customName: "Savage Rent", effect: "Deal +1d6 smashing damage. You take 1d4 recoil." },
-    { range: { min: 11, max: 15 }, customName: "Boiling Spray", effect: "Your boiling blood sprays the target. Deal +1d6 ember damage. Gain +2 additional Blood-Heat." },
+    { range: { min: 11, max: 15 }, customName: "Boiling Spray", effect: "Your boiling blood sprays the target. Deal +1d6 ember damage. Gain +2 additional Rage." },
     { range: { min: 16, max: 18 }, customName: "Deep Sunder", effect: "Deal +2d6 damage. Target is inflicted with Bleeding (1d4 damage/round for 2 rounds). Take 1d4 recoil." },
-    { range: { min: 19, max: 20 }, customName: "Blood-Heat Meltdown", effect: "Apocalyptic swing. Bypasses all armor. Deal +3d6 damage and gain +1d8 Blood-Heat. Take 2d4 recoil." },
+    { range: { min: 19, max: 20 }, customName: "Rage Meltdown", effect: "Apocalyptic swing. Bypasses all armor. Deal +3d6 damage and gain +1d8 Rage. Take 2d4 recoil." },
   ],
   },
  },
@@ -561,7 +678,7 @@ However, their weaknesses are absolute and exploitable:
   id: "berserk_calloused_hide",
   name: "Calloused Hide",
   description:
-  "Toggle a defensive posture. Your flesh thickens with crude scar tissue, hardening you against strikes and feeding your Blood-Heat when hit,but the rigid skin makes you slow and highly vulnerable to bleeding.",
+  "Toggle a defensive posture. Your flesh thickens with crude scar tissue, hardening you against strikes and feeding your Rage when hit,but the rigid skin makes you slow and highly vulnerable to bleeding.",
   level: 1,
   spellType: "PASSIVE",
   icon: "Utility/Deflecting Shield",
@@ -597,7 +714,7 @@ However, their weaknesses are absolute and exploitable:
    {
     id: "calloused_skin",
     name: "Calloused Skin",
-    description: "Gain +2 Armor. Every time an enemy hits you with a melee attack, gain +1d4 Blood-Heat.",
+    description: "Gain +2 Armor. Every time an enemy hits you with a melee attack, gain +1d4 Rage.",
     },
    {
    id: "rigid_flesh_drawback",
@@ -624,7 +741,7 @@ However, their weaknesses are absolute and exploitable:
    id: "stance_on_hit",
    name: "Pain-Driven Heat",
    triggerType: "passive",
-   action: "When hit by an enemy melee attack, gain +1d4 Blood-Heat."
+   action: "When hit by an enemy melee attack, gain +1d4 Rage."
    }
   ]
   },
@@ -641,7 +758,7 @@ However, their weaknesses are absolute and exploitable:
   id: "berserk_boiling_veins",
   name: "Boiling Veins",
   description:
-  "Toggle a terrifying offensive stance. You allow your Blood-Heat to boil within your vessels. Your melee attacks deal bonus ember/smashing damage and boil your adrenaline rapidly,but your vessels rupture, burning your own life away each turn.",
+  "Toggle a terrifying offensive stance. You allow your Rage to boil within your vessels. Your melee attacks deal bonus ember/smashing damage and boil your adrenaline rapidly,but your vessels rupture, burning your own life away each turn.",
   level: 1,
   spellType: "PASSIVE",
   icon: "Slashing/Bloody Slash",
@@ -677,8 +794,8 @@ However, their weaknesses are absolute and exploitable:
    {
    id: "boiling_blood_strike",
    name: "Boiling Blood Strike",
-   description: "Your melee attacks deal +1d4 bonus ember/smashing damage and generate +2 additional Blood-Heat on hit.",
-   mechanicsText: "+1d4 bonus ember/smashing damage, +2 Blood-Heat on hit",
+   description: "Your melee attacks deal +1d4 bonus ember/smashing damage and generate +2 additional Rage on hit.",
+   mechanicsText: "+1d4 bonus ember/smashing damage, +2 Rage on hit",
    statModifier: {
     stat: "damage",
     magnitude: "1d4",
@@ -716,7 +833,7 @@ However, their weaknesses are absolute and exploitable:
    id: "boiling_veins_hit",
    name: "Boiling Blood Strike",
    triggerType: "on_hit",
-   action: "Add +1d4 bonus ember/smashing damage and generate +2 Blood-Heat."
+   action: "Add +1d4 bonus ember/smashing damage and generate +2 Rage."
    }
   ]
   },
@@ -733,7 +850,7 @@ However, their weaknesses are absolute and exploitable:
   id: "berserker_metabolic_burnout",
   name: "Metabolic Burnout & Death's Door",
   description:
-  "CLASS PASSIVE. You have absolutely zero self-healing or lifesteal. While Blood-Heat is 21 or higher, you enter a pain-numbed frenzy: you cannot receive healing from allies. However, when your HP falls below 30%, you enter Death's Door, allowing your attacks to completely bypass enemy physical resistances.",
+  "CLASS PASSIVE. You have absolutely zero self-healing or lifesteal. While Rage is 21 or higher, you enter a pain-numbed frenzy: you cannot receive healing from allies. However, when your HP falls below 30%, you enter Death's Door, allowing your attacks to completely bypass enemy physical resistances.",
   level: 1,
   spellType: "PASSIVE",
   icon: "General/Rage",
@@ -757,7 +874,7 @@ However, their weaknesses are absolute and exploitable:
    id: "pain_numbed_frenzy",
    name: "Pain-Numbed Frenzy",
    triggerType: "passive",
-   action: "While Blood-Heat is 21 or higher, you cannot receive healing from allies."
+   action: "While Rage is 21 or higher, you cannot receive healing from allies."
    },
    {
    id: "deaths_door",
@@ -777,7 +894,7 @@ However, their weaknesses are absolute and exploitable:
   id: "berserk_frenzied_slash",
   name: "Frenzied Slash",
   description:
-  "Swing in a wider, reckless arc. It consumes a portion of your Blood-Heat to shred the target, but the strain forces your own veins to leak.",
+  "Swing in a wider, reckless arc. It consumes a portion of your Rage to shred the target, but the strain forces your own veins to leak.",
   level: 1,
   spellType: "ACTION",
   icon: "Slashing/Cleave",
@@ -802,7 +919,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 8 },
-  classResource: { type: "blood_heat", cost: 8 },
+  classResource: { type: "rage", cost: 8 },
   components: ["somatic"],
   somaticText: "Twist your torso past normal alignment, snapping muscle binds to unleash a wider greataxe sweep."
   },
@@ -893,7 +1010,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 10 },
-  classResource: { type: "blood_heat", cost: 10 },
+  classResource: { type: "rage", cost: 10 },
   components: ["verbal", "somatic"],
   verbalText: "A blood-choked, chest-vibrating roar of pure anatomical madness.",
   somaticText: "Expand your ribcage past its capacity, spraying a fine crimson mist from your lungs as you bellow."
@@ -1002,7 +1119,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_generation"],
   resourceValues: { mana: 0, rage_generation: 15 },
-  classResource: { type: "blood_heat", cost: -15 },
+  classResource: { type: "rage", cost: -15 },
   components: ["somatic"],
   somaticText: "Push off with bone-splintering power, jumping up to 30 ft and crashing down feet-first into the earth."
   },
@@ -1082,7 +1199,7 @@ However, their weaknesses are absolute and exploitable:
   id: "berserk_pain_starvation",
   name: "Pain Starvation",
   description:
-  "CLASS WEAKNESS. If you go 2 full rounds without dealing melee damage to an enemy, your body suffers immediate adrenaline withdrawal. Your Blood-Heat decays by 10 per round, and you gain disadvantage on all Dodge and Agility checks as your muscles shake.",
+  "CLASS WEAKNESS. If you go 2 full rounds without dealing melee damage to an enemy, your body suffers immediate adrenaline withdrawal. Your Rage decays by 10 per round, and you gain disadvantage on all Dodge and Agility checks as your muscles shake.",
   level: 3,
   spellType: "PASSIVE",
   icon: "Exhausted",
@@ -1106,7 +1223,7 @@ However, their weaknesses are absolute and exploitable:
    id: "pain_starvation_decay",
    name: "Adrenaline Withdrawal",
    triggerType: "end_of_turn",
-   action: "If no melee damage was dealt to an enemy for 2 rounds, Blood-Heat decays by 10 per round and you suffer disadvantage on Dodge/Agility checks."
+   action: "If no melee damage was dealt to an enemy for 2 rounds, Rage decays by 10 per round and you suffer disadvantage on Dodge/Agility checks."
    }
   ]
   },
@@ -1145,7 +1262,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 20 },
-  classResource: { type: "blood_heat", cost: 20 },
+  classResource: { type: "rage", cost: 20 },
   components: ["somatic"],
   somaticText: "Raise your heavy weapon overhead with locking joints, bringing it down like a falling guillotine."
   },
@@ -1232,7 +1349,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 25 },
-  classResource: { type: "blood_heat", cost: 25 },
+  classResource: { type: "rage", cost: 25 },
   components: ["somatic"],
   somaticText: "Clench your fists until your fingernails cut your palms, ignoring the severity of current wounds."
   },
@@ -1337,7 +1454,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 35 },
-  classResource: { type: "blood_heat", cost: 35 },
+  classResource: { type: "rage", cost: 35 },
   components: ["verbal", "somatic"],
   verbalText: "A deafening, beast-like bellow that ruptures vocal cords.",
   somaticText: "Slam your heavy weapon forward, letting the kinetic recoil sunder the flesh of your forearms."
@@ -1442,7 +1559,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 20 },
-  classResource: { type: "blood_heat", cost: 20 },
+  classResource: { type: "rage", cost: 20 },
   components: ["somatic"],
   somaticText: "Rip and tear off any physical restraints or bonds with raw, bloody muscular force."
   },
@@ -1548,7 +1665,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 50 },
-  classResource: { type: "blood_heat", cost: 50 },
+  classResource: { type: "rage", cost: 50 },
   components: ["verbal", "somatic"],
   verbalText: "A hoarse scream of absolute finality that bursts capillaries in your eyes.",
   somaticText: "Put every ounce of your structural momentum into a shattering, two-handed downward slash, ignoring the warning crunch of your shoulder joints."
@@ -1636,7 +1753,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 40 },
-  classResource: { type: "blood_heat", cost: 40 },
+  classResource: { type: "rage", cost: 40 },
   components: ["verbal", "somatic"],
   verbalText: "A rapid, chest-vibrating hyperventilation that rises into an animalistic screech.",
   somaticText: "Beat your chest rhythmically like a hammer, forcing your pulse to accelerate to terrifying, lethal speeds."
@@ -1743,7 +1860,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 30 },
-  classResource: { type: "blood_heat", cost: 30 },
+  classResource: { type: "rage", cost: 30 },
   components: ["somatic"],
   somaticText: "Slash your own forearms before entering battle, letting your pressurized, boiling blood spray over your weapons."
   },
@@ -1845,7 +1962,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 60 },
-  classResource: { type: "blood_heat", cost: 60 },
+  classResource: { type: "rage", cost: 60 },
   components: ["verbal", "somatic"],
   verbalText: "A continuous, furious, white-hot shriek of raw defiance.",
   somaticText: "Lock your joints and bones completely, ignoring structural breaks to keep fighting."
@@ -1945,7 +2062,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 50 },
-  classResource: { type: "blood_heat", cost: 50 },
+  classResource: { type: "rage", cost: 50 },
   components: ["verbal", "somatic"],
   verbalText: "A chest-shaking, window-rattling roar of destruction.",
   somaticText: "Leap slightly and slam both heavy weapons or fists straight into the ground with bone-shattering force."
@@ -2061,7 +2178,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 70 },
-  classResource: { type: "blood_heat", cost: 70 },
+  classResource: { type: "rage", cost: 70 },
   components: ["verbal", "somatic"],
   verbalText: "A blood-spitting, guttural roar of explosive release.",
   somaticText: "Force your adrenaline past its ceiling, driving your weapons into the earth with massive force."
@@ -2142,7 +2259,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 45 },
-  classResource: { type: "blood_heat", cost: 45 },
+  classResource: { type: "rage", cost: 45 },
   components: ["somatic"],
   somaticText: "Close your eyes briefly in the blood spray, focusing every fiber of your muscle memory into pure murder."
   },
@@ -2223,7 +2340,7 @@ However, their weaknesses are absolute and exploitable:
   id: "berserk_cataclysmic_fury",
   name: "Cataclysmic Fury",
   description:
-  "The ultimate explosion of Blood-Heat. Release every ounce of accumulated adrenaline in a catastrophic blast. The pressure nearly ruptures your heart, but turns all nearby life into ash.",
+  "The ultimate explosion of Rage. Release every ounce of accumulated adrenaline in a catastrophic blast. The pressure nearly ruptures your heart, but turns all nearby life into ash.",
   level: 10,
   spellType: "ACTION",
   icon: "Fire/Fiery Comet",
@@ -2249,10 +2366,10 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 90 },
-  classResource: { type: "blood_heat", cost: 90 },
+  classResource: { type: "rage", cost: 90 },
   components: ["verbal", "somatic"],
   verbalText: "A world-ending, blood-choked screech of catastrophic fury.",
-  somaticText: "Force all Blood-Heat outward in a thermal, seismic blast that literally cracks your own breastbone."
+  somaticText: "Force all Rage outward in a thermal, seismic blast that literally cracks your own breastbone."
   },
 
   resolution: "SAVE",
@@ -2317,7 +2434,7 @@ However, their weaknesses are absolute and exploitable:
   resolutionConfig: { diceType: "d20" },
   entries: [
    { range: { min: 1, max: 2 }, customName: "Cardiac Rupture", effect: "Your heart ruptures completely. Take 8d8 smashing damage and you are Stunned for 2 rounds." },
-   { range: { min: 3, max: 5 }, customName: "Systemic Collapse", effect: "Normal damage. You collapse to 1 HP. Your Blood-Heat is reset to 0." },
+   { range: { min: 3, max: 5 }, customName: "Systemic Collapse", effect: "Normal damage. You collapse to 1 HP. Your Rage is reset to 0." },
    { range: { min: 6, max: 12 }, customName: "Scorched Earth", effect: "All affected enemies are knocked prone and take +2d6 ember damage. You take normal self-damage." },
    { range: { min: 13, max: 17 }, customName: "Boiling Shockwave", effect: "All affected enemies take +4d6 ember damage. Area is ignited (1d8 ember/round for 3 rounds)." },
    { range: { min: 18, max: 20 }, customName: "Ragnarok Manifest", effect: "The blast sunders the room. All enemies take double damage (16d12 + Strength). Non-bosses are pulverized completely. You heal to full HP from pure adrenaline, and all your abilities are reset. Self-damage is completely bypassed." },
@@ -2329,7 +2446,7 @@ However, their weaknesses are absolute and exploitable:
   id: "berserk_battle_incarnate",
   name: "Battle Incarnate",
   description:
-  "Transform into an unstoppable colossus of war. Your boiling blood hardens your skin into living stone, replacing all your standard Blood-Heat state bonuses. The transformation is absolute,you cannot dodge, block, or retreat, only attack.",
+  "Transform into an unstoppable colossus of war. Your boiling blood hardens your skin into living stone, replacing all your standard Rage state bonuses. The transformation is absolute,you cannot dodge, block, or retreat, only attack.",
   level: 10,
   spellType: "ACTION",
   icon: "Bludgeoning/Blood Punch",
@@ -2352,7 +2469,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 80 },
-  classResource: { type: "blood_heat", cost: 80 },
+  classResource: { type: "rage", cost: 80 },
   components: ["verbal", "somatic"],
   verbalText: "A booming, monotonous roar of singular, murderous focus.",
   somaticText: "Tense your entire body, locking your arms and shoulders into heavy war-harness posture as grey scar-plates cement over your joints."
@@ -2368,7 +2485,7 @@ However, their weaknesses are absolute and exploitable:
   durationUnit: "rounds",
   power: "major",
   newForm: "Battle Incarnate",
-  description: "Transform into war itself. Your standard Blood-Heat thresholds are replaced by absolute combat perfection.",
+  description: "Transform into war itself. Your standard Rage thresholds are replaced by absolute combat perfection.",
   grantedAbilities: [
    {
    id: "incarnate_strike_bonus",
@@ -2456,7 +2573,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 100 },
-  classResource: { type: "blood_heat", cost: 100 },
+  classResource: { type: "rage", cost: 100 },
   components: ["verbal", "somatic"],
   verbalText: "An ear-splitting, primal scream of unmatched predatory dominance.",
   somaticText: "Rupture every capillary in your eyes and face, turning your vision blood-red as you force your body beyond its mechanical limits."
@@ -2641,7 +2758,7 @@ However, their weaknesses are absolute and exploitable:
    "icon": "Fire/Volcanic Corruption",
    "typeConfig": { "school": "smashing", "icon": "Fire/Volcanic Corruption", "tags": ["utility","exploration","infiltration","berserker"], "castTime": 1, "castTimeType": "IMMEDIATE" },
    "targetingConfig": { "targetingType": "single", "rangeType": "touch", "rangeDistance": 0 },
-   "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 6 }, "components": ["somatic"], "somaticText": "Grip the metal and pour heat from your palms until it sags", "classResource": { "type": "blood_heat", "cost": 8 } },
+   "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 6 }, "components": ["somatic"], "somaticText": "Grip the metal and pour heat from your palms until it sags", "classResource": { "type": "rage", "cost": 8 } },
    "resolution": "AUTOMATIC",
    "effectTypes": ["utility"],
    "utilityConfig": {
@@ -2655,7 +2772,7 @@ However, their weaknesses are absolute and exploitable:
   {
    "id": "berserk_unbroken_will",
    "name": "Unbroken Will",
-   "description": "The survival instinct that ignites your Blood-Heat will not let you kneel. For the duration you have advantage against charm, fear, sleep, and domination, and no magic can force you to grovel, confess, or surrender. You may still be restrained or imprisoned  -  but never made willing. Out of combat.",
+   "description": "The survival instinct that ignites your Rage will not let you kneel. For the duration you have advantage against charm, fear, sleep, and domination, and no magic can force you to grovel, confess, or surrender. You may still be restrained or imprisoned  -  but never made willing. Out of combat.",
    "level": 3,
    "spellType": "ACTION",
    "icon": "Utility/Empowered Warrior",

@@ -262,10 +262,13 @@
 }
 
 .auth-modal .form-group label {
-  color: var(--my-parchment-text);
-  font-size: 0.95rem;
-  font-weight: 600;
-  margin-bottom: 2px;
+  color: var(--my-parchment-text) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  font-style: normal !important;
+  margin-bottom: 2px !important;
+  letter-spacing: 0.5px !important;
 }
 
 .auth-modal .form-group label::before,
@@ -276,19 +279,20 @@
 }
 
 .auth-modal .form-group input:not([type="checkbox"]) {
-  padding: 12px 16px;
+  padding: 12px 16px !important;
   background: rgba(0, 0, 0, 0.3) !important;
   border: 2px solid rgba(212, 175, 55, 0.3) !important;
   border-radius: 8px !important;
   color: #ffffff !important;
-  font-family: 'Cinzel', serif;
-  font-size: 1rem;
-  transition: all 0.3s ease;
+  font-family: 'Cinzel', serif !important;
+  font-size: 1rem !important;
+  font-style: normal !important;
+  transition: all 0.3s ease !important;
   box-shadow: none !important;
 }
 
 .auth-modal .form-group input:not([type="checkbox"]):focus {
-  outline: none;
+  outline: none !important;
   border-color: #d4af37 !important;
   background: rgba(0, 0, 0, 0.5) !important;
   box-shadow: 0 0 12px rgba(212, 175, 55, 0.3) !important;
@@ -297,6 +301,8 @@
 
 .auth-modal .form-group input::placeholder {
   color: rgba(240, 230, 210, 0.5) !important;
+  font-style: normal !important;
+  font-family: 'Cinzel', serif !important;
 }
 
 .auth-modal .error-text {

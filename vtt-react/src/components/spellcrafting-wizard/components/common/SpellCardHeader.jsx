@@ -18,6 +18,19 @@ const SpellCardHeader = ({
   getDamageTypes,
 }) => {
   const [activeComponentTooltip, setActiveComponentTooltip] = useState(null);
+
+  React.useEffect(() => {
+    if (!activeComponentTooltip) return;
+    const handleOutsideClick = () => {
+      setActiveComponentTooltip(null);
+    };
+    document.addEventListener('click', handleOutsideClick);
+    document.addEventListener('touchend', handleOutsideClick);
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener('touchend', handleOutsideClick);
+    };
+  }, [activeComponentTooltip]);
   return (
     <>
       {/* Card Gloss Effect */}
@@ -251,33 +264,92 @@ const SpellCardHeader = ({
                   </div>
                 )}
 
-                {/* Compact icon-only component pills — full text shown via Pathfinder popover */}
+                {/* Compact icon-only component pills (V / S / M / C) — full text shown via popover */}
                 {(() => {
-                  const components = spell?.resourceCost?.components;
-                  if (!Array.isArray(components) || components.length === 0) return null;
-
                   const compMap = {
-                    verbal:   { label: 'V', name: 'Verbal Component', key: 'verbalText', icon: 'fa-comment' },
-                    somatic:  { label: 'S', name: 'Somatic Component', key: 'somaticText', icon: 'fa-hand-sparkles' },
-                    material: { label: 'M', name: 'Material Component', key: 'materialComponents', icon: 'fa-flask' },
+                    verbal: {
+                      label: 'V',
+                      name: 'Verbal Component',
+                      key: 'verbalText',
+                      icon: 'fa-comment',
+                      defaultText: 'Requires spoken incantations or words of power.'
+                    },
+                    somatic: {
+                      label: 'S',
+                      name: 'Somatic Component',
+                      key: 'somaticText',
+                      icon: 'fa-hand-sparkles',
+                      defaultText: 'Requires forceful, precise gestures and body movements.'
+                    },
+                    material: {
+                      label: 'M',
+                      name: 'Material Component',
+                      key: 'materialComponents',
+                      icon: 'fa-flask',
+                      defaultText: 'Requires physical reagents or an arcane focus.'
+                    },
+                    concentration: {
+                      label: 'C',
+                      name: 'Concentration',
+                      key: 'concentrationText',
+                      icon: 'fa-brain',
+                      defaultText: 'Requires active mental focus. Taking damage or casting another concentration spell may break it.'
+                    }
                   };
 
-                  const pills = components
-                    .filter(c => compMap[c] && spell.resourceCost[compMap[c].key])
+                  let componentsList = [];
+                  if (Array.isArray(spell?.resourceCost?.components)) {
+                    componentsList = [...spell.resourceCost.components];
+                  } else if (Array.isArray(spell?.components)) {
+                    componentsList = [...spell.components];
+                  }
+
+                  if (spell?.resourceCost?.verbalText && !componentsList.includes('verbal')) {
+                    componentsList.push('verbal');
+                  }
+                  if (spell?.resourceCost?.somaticText && !componentsList.includes('somatic')) {
+                    componentsList.push('somatic');
+                  }
+                  if ((spell?.resourceCost?.materialComponents || spell?.materialComponents) && !componentsList.includes('material')) {
+                    componentsList.push('material');
+                  }
+                  const hasConcentration = componentsList.includes('concentration') ||
+                    spell?.requiresConcentration ||
+                    spell?.durationConfig?.requiresConcentration ||
+                    spell?.resourceCost?.concentration ||
+                    spell?.durationType === 'concentration';
+
+                  if (hasConcentration && !componentsList.includes('concentration')) {
+                    componentsList.push('concentration');
+                  }
+
+                  const pills = componentsList
+                    .filter(c => compMap[c])
                     .map((c, i) => {
-                      const { label, name, key, icon } = compMap[c];
-                      const fullText = spell.resourceCost[key];
+                      const { label, name, key, icon, defaultText } = compMap[c];
+                      const fullText = (spell?.resourceCost && spell.resourceCost[key]) ||
+                        spell?.[key] ||
+                        (c === 'material' ? (spell?.resourceCost?.materialComponents || spell?.materialComponents) : null) ||
+                        defaultText;
                       const isOpen = activeComponentTooltip === c;
 
                       return (
                         <div
                           key={i}
                           className="spell-component-pill-wrapper"
-                          onMouseEnter={() => setActiveComponentTooltip(c)}
-                          onMouseLeave={() => setActiveComponentTooltip(null)}
+                          onMouseEnter={() => {
+                            if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: hover)').matches) {
+                              setActiveComponentTooltip(c);
+                            }
+                          }}
+                          onMouseLeave={() => {
+                            if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: hover)').matches) {
+                              setActiveComponentTooltip(null);
+                            }
+                          }}
                           onClick={(e) => {
                             e.stopPropagation();
-                            setActiveComponentTooltip(isOpen ? null : c);
+                            setActiveComponentTooltip(prev => prev === c ? null : c);
                           }}
                         >
                           <span

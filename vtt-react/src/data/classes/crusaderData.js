@@ -9,6 +9,98 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
  */
 
 export const CRUSADER_ABILITIES = [
+
+    // ===== NON-COMBAT & REACTION UTILITIES =====
+    {
+      id: "crusader_sanctified_hearth",
+      name: "Sanctified Hearth",
+      description: "Consecrate a 20ft campsite with starlight runes. Prevents nighttime ambushes, alerts the party to approaching threats, and allows restful sleep. Out of combat.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "General/Campfire",
+      effectTypes: ["utility", "buff"],
+      typeConfig: { school: "sacred", icon: "General/Campfire", tags: ["utility", "camp", "protection", "crusader"], castTime: 5, castTimeType: "MINUTES" },
+      targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 20, targetRestrictions: ["ally", "self"] },
+      resourceCost: { actionPoints: 1, mana: 4 },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      tags: ["utility", "camp", "protection", "crusader"]
+    },
+    {
+      id: "crusader_beacon_of_truth",
+      name: "Beacon of Truth",
+      description: "Ignite your greatsword with Aex's unburied light for 1 hour. Illuminates hidden passages, invisible runes, and reveals undead or Wyrd entities in 60ft. Out of combat.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Divinity",
+      effectTypes: ["utility", "detection"],
+      typeConfig: { school: "sacred", icon: "Radiant/Radiant Divinity", tags: ["utility", "light", "detection", "crusader"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "self", rangeType: "self" },
+      resourceCost: { actionPoints: 1, mana: 3 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      tags: ["utility", "light", "detection", "crusader"]
+    },
+    {
+      id: "crusader_starlight_interposition",
+      name: "Starlight Interposition",
+      description: "REACTION: Interpose your starlight shield when an ally within 10ft takes damage, reducing the damage by 50% and generating +10 Fervor.",
+      level: 2,
+      spellType: "REACTION",
+      icon: "Shield/Prismatic Shield",
+      effectTypes: ["buff", "defense"],
+      typeConfig: { school: "sacred", icon: "Shield/Prismatic Shield", tags: ["reaction", "defense", "shield", "crusader"], castTime: 0, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 10, targetRestrictions: ["ally"] },
+      resourceCost: { actionPoints: 0, mana: 4 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      tags: ["reaction", "defense", "shield", "crusader"]
+    },
+  
+
+    // ===== EXPANDED CRUSADER SPELLS =====
+    {
+      id: "crusader_solar_beacon",
+      name: "Solar Beacon",
+      description: "Plant a pillar of consecrated starlight. Allies within 15ft gain +2 to saves and recover 1d6 HP per round. Deals radiant damage to undead/wyrd foes.",
+      level: 3,
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Divinity",
+      effectTypes: ["buff", "healing", "damage"],
+      typeConfig: { school: "sacred", icon: "Radiant/Radiant Divinity", tags: ["sacred", "aoe", "beacon", "crusader"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 40, areaType: "circle", areaSize: 15, targetRestrictions: ["all"] },
+      resourceCost: { actionPoints: 1, mana: 5 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      damageConfig: { formula: "2d6 + spirit", damageTypes: ["sacred"], resolution: "DICE" },
+      customMechanic: "Generates +10 Fervor."
+    },
+    {
+      id: "crusader_aegis_of_the_martyred_sun",
+      name: "Aegis of the Martyred Sun",
+      description: "Surround an ally in a blazing solar mantle. Absorbs 40 damage and retaliates with 2d8 sacred damage to any melee attacker.",
+      level: 5,
+      spellType: "ACTION",
+      icon: "Shield/Prismatic Shield",
+      effectTypes: ["buff", "shield"],
+      typeConfig: { school: "sacred", icon: "Shield/Prismatic Shield", tags: ["sacred", "shield", "retaliation", "crusader"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["ally"] },
+      resourceCost: { actionPoints: 1, mana: 8 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      customMechanic: "Spends 25 Fervor."
+    },
+    {
+      id: "crusader_judgment_day_cataclysm",
+      name: "Solar Cataclysm Judgment",
+      description: "Call down the wrath of Aex's unburied light in a 30ft radius. Deals massive sacred and smashing damage, sundering all dark enchantments.",
+      level: 9,
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Divinity",
+      effectTypes: ["damage", "dispel"],
+      typeConfig: { school: "sacred", icon: "Radiant/Radiant Divinity", tags: ["sacred", "aoe", "judgment", "crusader"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, areaType: "circle", areaSize: 30, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 2, mana: 15 },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      damageConfig: { formula: "8d10 + strength * 2", damageTypes: ["sacred", "smashing"], resolution: "DICE" },
+      customMechanic: "Spends 50 Fervor."
+    },
+  
   // ━━━ LEVEL 1 ━━━
   {
     id: 'starlight_cleave',
@@ -45,7 +137,7 @@ export const CRUSADER_ABILITIES = [
       damageTypes: ['smashing', 'sacred'],
       resolution: 'DICE'
     },
-    customMechanic: 'Generates +15 Radiant Fervor on hit.'
+    customMechanic: 'Generates +15 Fervor on hit.'
   },
   {
     id: 'zealous_strike',
@@ -81,7 +173,7 @@ export const CRUSADER_ABILITIES = [
       damageTypes: ['sacred', 'smashing'],
       resolution: 'DICE'
     },
-    customMechanic: 'Generates +10 Radiant Fervor.'
+    customMechanic: 'Generates +10 Fervor.'
   },
   {
     id: 'bastion_stance',
@@ -265,7 +357,7 @@ export const CRUSADER_ABILITIES = [
       damageTypes: ['smashing', 'sacred'],
       resolution: 'DICE'
     },
-    customMechanic: 'Generates +20 Radiant Fervor. Target pushed 10 ft back.'
+    customMechanic: 'Generates +20 Fervor. Target pushed 10 ft back.'
   },
 
   // ━━━ LEVEL 4 ━━━
@@ -746,7 +838,7 @@ export const CRUSADER_ABILITIES = [
   {
     id: 'solvan_judgment_titanfall',
     name: 'Solvan Judgment / Titanfall',
-    description: 'Consume 100 Radiant Fervor to call down a titanic starlight hammer smash in a 20 ft radius, shattering armor and leaving permanent consecrated ground.',
+    description: 'Consume 100 Fervor to call down a titanic starlight hammer smash in a 20 ft radius, shattering armor and leaving permanent consecrated ground.',
     level: 10,
     spellType: 'ACTION',
     icon: 'Slashing/Assassins Blade',
@@ -880,17 +972,17 @@ export const CRUSADER_DATA = {
 
 When the Freezing Era fell post-Great Breach and the sun was extinguished from the heavens, six noble houses marched their firstborn heirs north to seal the dark bargains of survival. But House Solvan recognised that appeasement was merely a delayed death sentence. Led by Lord-Captain Vane Solvan, their smiths and knights broke into the sealed vaults of the fallen star Aex, prying loose fragments of pure, crystallized starlight. They did not store the relics in velvet boxes—they smelted the star-matter directly into the core of their heavy battle-plates and Greatswords.
 
-To channel Aex's Willing Sacrifice is an ordeal of agonizing physical friction. Starlight does not flow like gentle water; it surges like high-voltage holy electricity through bone, marrow, and blood vessels. Every heavy swing of your two-handed greatsword vibrates at the primordial binding frequency that holds reality together. When you take damage on the frontline, your heavy plate converts the kinetic trauma into blinding Radiant Fervor. At fifty Fervor, your blade glows white-hot with Aex's Harmonic Stance, slicing through enchanted shields and demonic hide as though they were dry parchment. At one hundred Fervor, you unleash Solvan Judgment—a catastrophic three-action pillar of descending starlight that shatters enemy armor and leaves the earth permanently consecrated.
+To channel Aex's Willing Sacrifice is an ordeal of agonizing physical friction. Starlight does not flow like gentle water; it surges like high-voltage holy electricity through bone, marrow, and blood vessels. Every heavy swing of your two-handed greatsword vibrates at the primordial binding frequency that holds reality together. When you take damage on the frontline, your heavy plate converts the kinetic trauma into blinding Fervor. At fifty Fervor, your blade glows white-hot with Aex's Harmonic Stance, slicing through enchanted shields and demonic hide as though they were dry parchment. At one hundred Fervor, you unleash Solvan Judgment—a catastrophic three-action pillar of descending starlight that shatters enemy armor and leaves the earth permanently consecrated.
 
 The cost of this zeal is complete, exhausting physical devotion. A Crusader cannot cast spells from a safe distance; you must be close enough to smell the enemy's breath to build Fervor. If you push your zeal too far without releasing a smite, the blinding starlight bleeds into your own optic nerves, causing peripheral Starlight Burnout. Today, the Dawn Vigil stands at a terrifying ideological crossroads: Hierophant Aethelgard commands all Crusaders to reforge the 7 Sundered Monoliths, unaware that the 7th Monolith is tainted by Keth-Amar. You march into the dark with a greatsword on your shoulder, knowing that if your faith falters for even a second, the light you carry will burn you alive from the inside out.`,
 
     quickOverview: {
       title: "Class Overview",
-      content: `**Who they are**: The Crusader is a frontline starlight juggernaut and sacred zealot who channels the primordial starlight of Aex through heavy greatswords and consecrated armor. You stand at the vanguard, converting martial combat and sacred conviction into unstoppable Radiant Fervor.
+      content: `**Who they are**: The Crusader is a frontline starlight juggernaut and sacred zealot who channels the primordial starlight of Aex through heavy greatswords and consecrated armor. You stand at the vanguard, converting martial combat and sacred conviction into unstoppable Fervor.
 
-**The hook**: You build **Radiant Fervor** by swinging heavy greatswords and absorbing enemy strikes. At 50+ Fervor, you enter **Harmonic Stance**, imbuing all your strikes with bonus sacred damage. At 100 Fervor, you unleash **Solvan Judgment**, an apocalyptic holy smite that shatters enemy armor.
+**The hook**: You build **Fervor** by swinging heavy greatswords and absorbing enemy strikes. At 50+ Fervor, you enter **Harmonic Stance**, imbuing all your strikes with bonus sacred damage. At 100 Fervor, you unleash **Solvan Judgment**, an apocalyptic holy smite that shatters enemy armor.
 
-**The resource bar & costs**: Your resource bar is **Radiant Fervor** (0–100). Generating Fervor powers your offensive stances and holy smites. However, maintaining maximum zeal strains your focus—failing to vent Fervor through smites can cause Starlight Burnout, requiring steady momentum.
+**The resource bar & costs**: Your resource bar is **Fervor** (0–100). Generating Fervor powers your offensive stances and holy smites. However, maintaining maximum zeal strains your focus—failing to vent Fervor through smites can cause Starlight Burnout, requiring steady momentum.
 
 **Bring one for**: Unstoppable frontline defense, heavy greatsword swings, sacred AoE smites, and playing an unstoppable holy warrior who purges corruption.`
     },
@@ -921,7 +1013,7 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
       paradox: 'To protect life, they must burn their own mortality in starlight zeal.'
     },
     currentCrisis: `The Dawn Vigil is divided: Hierophant Aethelgard commands all Crusaders to reforge the 7 Monoliths, while veteran Crusaders suspect the 7th Monolith is corrupted by Keth-Amar.`,
-    meaningfulTradeoffs: `High armor and holy smites come at the cost of mobility and heavy dependence on Radiant Fervor management.`,
+    meaningfulTradeoffs: `High armor and holy smites come at the cost of mobility and heavy dependence on Fervor management.`,
     classSpecificLocations: [
       {
         name: 'The Obsidian Citadel',
@@ -933,15 +1025,15 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
     ],
     combatRole: {
       title: "The Frontline Starlight Purger",
-      content: `Generates Radiant Fervor through physical strikes and soak rolls, unleashing sacred smites and starlight barriers.`
+      content: `Generates Fervor through physical strikes and soak rolls, unleashing sacred smites and starlight barriers.`
     },
     playstyle: {
       title: "Fervor-Driven Smite Engine",
-      content: `Balance physical weapon swings with Radiant Fervor spending. Build Fervor to 50 for Harmonic Stance, or dump 100 for Solvan Judgment.`
+      content: `Balance physical weapon swings with Fervor spending. Build Fervor to 50 for Harmonic Stance, or dump 100 for Solvan Judgment.`
     },
     immersiveCombatExample: {
       title: "Combat Example: Solvan Judgment",
-      content: `**Turn 1**: Strike with Starlight Cleave, building +15 Radiant Fervor. Absorbing hits builds +20 Fervor. At 100 Fervor, call down Solvan Judgment to obliterate Wyrd abominations.`
+      content: `**Turn 1**: Strike with Starlight Cleave, building +15 Fervor. Absorbing hits builds +20 Fervor. At 100 Fervor, call down Solvan Judgment to obliterate Wyrd abominations.`
     }
   },
 
@@ -952,7 +1044,7 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
       reframe: `The <LoreLink termId="skald">Skald</LoreLink> Crusaders merged the Hunger Pact with Solvan starlight doctrine during the Bloodhammer migration into <LoreLink termId="sundale">Sundale</LoreLink>. They treat their greatswords as mobile hearths in Nordhalla’s blizzards. When a Skald Crusader ignites their Fervor, the blade emits intense thermal warmth, keeping their party alive in whiteout blizzards.`,
       signatureAbility: {
         name: 'Hearth-Blade Ignition',
-        description: `Venting Radiant Fervor creates a 20 ft thermal aura. Allies standing within the aura take half damage from rime freezing hazards and gain Advantage on CON Saves.`
+        description: `Venting Fervor creates a 20 ft thermal aura. Allies standing within the aura take half damage from rime freezing hazards and gain Advantage on CON Saves.`
       },
       currentCrisisAngle: `The Skald Crusaders reject the Skald Council's execution order against the Unbound. They view the Unbound Berserkers as lost kin needing starlight guidance rather than heretics to be executed.`,
       signatureQuote: {
@@ -968,7 +1060,7 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
       reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink> Crusaders channel <LoreLink termId="scathrach">Scathrach's</LoreLink> uncorrupted ember to infuse heavy plate armor with geothermal heat. They view Aex's song as the magma-hum of <LoreLink termId="emberspire">Emberspire</LoreLink>. Their zeal is tectonic, welding heavy iron plate directly to their shoulders.`,
       signatureAbility: {
         name: 'Caldera-Cleave',
-        description: `Spending Radiant Fervor converts 50% of your sacred damage into ember damage, setting the ground on fire and dealing continuous ember ticks to enemies.`
+        description: `Spending Fervor converts 50% of your sacred damage into ember damage, setting the ground on fire and dealing continuous ember ticks to enemies.`
       },
       currentCrisisAngle: `As Emberspire's calderas cool, Waste-Solari Crusaders are forced deeper into Scathrach's subterranean vents, risking exposure to Wyrd-taint to keep their armor heated.`,
       signatureQuote: {
@@ -984,7 +1076,7 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
       reframe: `The <LoreLink termId="astril">Stellar Astril</LoreLink> Crusaders resonate with Aex's willing sacrifice, using their crystalline skin lattice to act as a tuning fork for starlight. When they absorb damage, the energy refracts through their skin, charging their blade with golden harmonic frequency.`,
       signatureAbility: {
         name: 'Refractive Armor',
-        description: `Rolling your Active Soak die against spell strikes generates +5 Radiant Fervor. Absorbing spell damage empowers your next strike with +1d6 bonus sacred damage.`
+        description: `Rolling your Active Soak die against spell strikes generates +5 Fervor. Absorbing spell damage empowers your next strike with +1d6 bonus sacred damage.`
       },
       currentCrisisAngle: `The accuracy collapse in Astril star-arithmetic has driven Stellar Crusaders to abandon passive observation entirely: they now enforce starlight justice through physical combat.`,
       signatureQuote: {
@@ -997,13 +1089,13 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
 
   combatRole: {
     title: "The Frontline Starlight Purger",
-    content: `The Crusader is a heavy offensive juggernaut that generates **Radiant Fervor** (0–100) through physical combat and starlight invocation. 
+    content: `The Crusader is a heavy offensive juggernaut that generates **Fervor** (0–100) through physical combat and starlight invocation. 
     
     When Fervor reaches 50+, the Crusader enters **Aex's Harmonic Stance**, causing all melee strikes to deal bonus **sacred** damage. Spending 100 Fervor unleashes **Solvan Judgment**, a 3 AP catastrophic AoE smite that shatters enemy Passive DR and leaves sanctified ground.`
   },
 
   resourceEngine: {
-    name: "Radiant Fervor",
+    name: "Fervor",
     max: 100,
     color: "#f59e0b",
     icon: "faCross",
@@ -1011,12 +1103,22 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
   },
 
   resourceSystem: {
-    title: "Radiant Fervor & Harmonic Stance",
-    subtitle: "Aex's Willing Sacrifice",
-    description: "Radiant Fervor (0-100) measures your starlight frequency and holy zeal. Generated by swinging greatswords, absorbing blows with your Active Soak die, and standing on consecrated ground. At 50+ Fervor, enter Harmonic Stance to empower all strikes with sacred damage. At 100 Fervor, unleash Solvan Judgment.",
+    title: "Fervor: The Solar Battery",
+    subtitle: "How Your Resource Works (Beginner's Guide)",
+    description: `**1. What is it? (The Solar Battery)**
+Fervor (0–100) is celestial starlight generated through martial vanguard combat and consecrated territory.
+
+**2. How do I build it?**
+- Strike enemies with greatsword and shield attacks (+10 to +15 Fervor).
+- Block incoming blows with your greatshield (+10 Fervor).
+- Stand within your own Consecrated ground (+5 per round).
+
+**3. How do I spend it & what is the catch?**
+- Spend Fervor on high-impact Solar Smites, protective party shields, and area-of-effect judgments.
+- **The Catch (Zealous Scorching)**: Storing **80+ unspent Fervor** causes radiant overload—the excessive starlight burns your own skin and imposes visual glare penalties until vented.`,
     cards: [
       {
-        title: "Radiant Fervor (0-100)",
+        title: "Fervor (0-100)",
         stats: "Holy Frequency Scale",
         details: "Starlight zeal built through melee strikes and defensive soak. Used to fuel holy flurries and unleash Solvan Judgment."
       },
@@ -1044,11 +1146,11 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
     specs: [
       {
         id: "solar_justiciar",
-        name: "Solar Justiciar",
+        name: "Fervor",
         icon: "Radiant/Divine Downward Sword",
         color: "#f59e0b",
         theme: "Heavy Greatsword Smites & Armor Destruction",
-        description: "The vanguard executioner of the Dawn Vigil. You wield massive two-handed greatswords, converting Radiant Fervor into armor-shattering holy smites that obliterate Wyrd abominations.",
+        description: "The vanguard executioner of the Dawn Vigil. You wield massive two-handed greatswords, converting Fervor into armor-shattering holy smites that obliterate Wyrd abominations.",
         playstyle: "Aggressive frontline burst DPS. Build Fervor with heavy swings and spend it on devastating single-target and cone smites.",
         strengths: [
           "Unmatched physical and sacred armor penetration",
@@ -1085,7 +1187,7 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
         ],
         specPassive: {
           name: "Aegis of the Star",
-          description: "Whenever an ally within 15 ft takes damage, gain +10 Radiant Fervor and redirect 25% of the damage into your own Active Soak die."
+          description: "Whenever an ally within 15 ft takes damage, gain +10 Fervor and redirect 25% of the damage into your own Active Soak die."
         }
       },
       {
@@ -1108,7 +1210,7 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
         ],
         specPassive: {
           name: "Discordant Reprimand",
-          description: "Successfully interrupting an enemy spell refunds 100% of the reaction's AP cost and grants +20 Radiant Fervor."
+          description: "Successfully interrupting an enemy spell refunds 100% of the reaction's AP cost and grants +20 Fervor."
         }
       }
     ]
@@ -1116,3 +1218,6 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
 
   spells: CRUSADER_ABILITIES
 };
+
+CRUSADER_DATA.spells = CRUSADER_ABILITIES;
+export const CRUSADER_SPELLS = CRUSADER_ABILITIES;

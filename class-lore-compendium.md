@@ -47,7 +47,7 @@ Every class discipline in Mythrill is rooted in one of four distinct historical 
 * **Skald ("The Rune-Keeper"):** Carves the names of dead warlords into scar tissue, using raised skin as a permanent dwelling for the spirit.
 * **Velun Neth ("The Ledger-Summoner"):** Files formal bureaucratic citations in high court to requisition ancestral aid as an outstanding legal claim.
 
-**Fatal Flaw / Crisis:** Channelling 15+ Ancestral Resonance causes physical collapse: fire burns twice as hot against their skin, conventional medical healing fails, and demanding spirits tear 1d6 Wyrd damage from their marrow every turn. Today, the three ancestral dialects are drifting out of alignment; young Animists trying to speak all three simultaneously suffer catastrophic brain hemorrhages.
+**Fatal Flaw / Crisis:** Channelling 15+ Resonance causes physical collapse: fire burns twice as hot against their skin, conventional medical healing fails, and demanding spirits tear 1d6 Wyrd damage from their marrow every turn. Today, the three ancestral dialects are drifting out of alignment; young Animists trying to speak all three simultaneously suffer catastrophic brain hemorrhages.
 
 **Founder(s):** Kael the Herd-Runner, Nyssa the Herbalist, and Theron the Scholar—all long dead. Current leader: Convenor Sera Three-Scars, the only surviving practitioner capable of holding all three ancestral dialects in her throat at once, a feat that is actively rotting her lungs.
 
@@ -57,7 +57,7 @@ Every class discipline in Mythrill is rooted in one of four distinct historical 
 
 **Origin:** Founded during the early decades of the freeze by Sylas, a frontier scout who sliced open his own eardrums to track invisible predators through the freezing fog. By surrendering his hearing, Sylas trained his nerves to feel the ground shudder when a beast took a breath fifty paces away. He hunted a mist-stalker through the ironwood for seven days, matching its breathing until he drove a shadow-glaive through its heart.
 
-**Identity:** A ruthless pack hunter who pairs a heavy bladed glaive with a trained war beast. The Apex fights without wasted movement, slipping through enemy flanks while their hunting beast tears open throats. Through the Quarry Mark system, the Apex marks targets for coordinated pack strikes—building lethal momentum not through brute force, but through relentless flanking pressure.
+**Identity:** A ruthless pack hunter who pairs a heavy bladed glaive with a trained war beast. The Apex fights without wasted movement, slipping through enemy flanks while their hunting beast tears open throats. Through the Mark system, the Apex marks targets for coordinated pack strikes—building lethal momentum not through brute force, but through relentless flanking pressure.
 
 **Role in World:** The primary vanguard against wilderness horrors. Frontier logging outposts and wooden wall garrisons hire Apex rangers to track maneaters and scout through blinding blizzards. They communicate strictly through hand signs and weapon taps, rarely speaking or entering heated taverns.
 
@@ -127,7 +127,7 @@ Every class discipline in Mythrill is rooted in one of four distinct historical 
 
 **Origin:** Founded during the great southern migration by Grum the Smith, who led his freezing clan into the volcanic caldera of Sundale. When an armored ice-wyrm smashed through their stone barricade, Grum dropped his smithing hammer, inhaled the sulfurous smoke from a magma fissure, and charged. His veins boiled with so much adrenaline that his bicep tendons snapped, yet he crushed the monster's skull with his bare fists.
 
-**Identity:** A walking engine of biological destruction. Berserkers do not wield spells; they force their own anatomy past human limits through boiling rage and chemical fury. This physical state is the Blood-Heat—muscles tear themselves from bone to strike with bone-crushing force, while the heart races like a runaway steam boiler.
+**Identity:** A walking engine of biological destruction. Berserkers do not wield spells; they force their own anatomy past human limits through boiling rage and chemical fury. This physical state is the Rage—muscles tear themselves from bone to strike with bone-crushing force, while the heart races like a runaway steam boiler.
 
 **Role in World:** Frontline shock troops and heavy tunnel-breakers. Mercenary companies hire Berserkers to smash through reinforced iron gates and clear cave-in rubble, though frontier taverns ban them on sight due to their lethal barroom brawls.
 
@@ -138,7 +138,7 @@ Every class discipline in Mythrill is rooted in one of four distinct historical 
 * **Thrask Emberth ("The Caldera-Forged"):** Inhales basalt dust and magma fumes, fighting as if carrying on a personal fistfight with the volcano.
 * **Morgh Groven ("The Vat-Woken"):** Engineered for docility, these heavy clay-clones weaponize dormant growth chemicals in their veins to tear off their own shock-collars.
 
-**Fatal Flaw / Crisis:** While in Blood-Heat, Berserkers ignore all incoming medical healing. Pushing past 100 Heat triggers total metabolic burnout, causing heart valves and lungs to seize. In the mountains, a new generation of berserkers is igniting Blood-Heat without performing the ancestral rituals, sparking a bloody civil war among clan elders.
+**Fatal Flaw / Crisis:** While in Rage, Berserkers ignore all incoming medical healing. Pushing past 100 Heat triggers total metabolic burnout, causing heart valves and lungs to seize. In the mountains, a new generation of berserkers is igniting Rage without performing the ancestral rituals, sparking a bloody civil war among clan elders.
 
 **Founder(s):** Grum Bloodhammer—dead for centuries, his colossal smithing hammer rests beside an active lava vent in Sundale. Current leader: Blood-Priest Hark Ash-Hammer, who guards the ancient anvil and orders the execution of any warrior who loses control of the fire.
 
@@ -169,14 +169,14 @@ Every class discipline in Mythrill is rooted in one of four distinct historical 
 
 **Origin:** Founded during the first decade of the freeze by Lady Vane of House Solvan, who refused to abandon the border keeps when the sun grew cold. She stripped the gold trim from her family armor, welded raw, glowing celestial shards into her breastplate, and led a vanguard into the blizzard to hunt down winter abominations. Her radiant fervor burned so hot that frost melted from her greatsword mid-swing.
 
-**Identity:** A heavy-armored juggernaut fueled by the dying warmth of the celestial sacrifice. Crusaders do not hide behind fragile wards; they plant heavy iron boots in the snow, raise two-handed greatswords, and build **Radiant Fervor** with every crushing blow. When their fervor peaks, they discharge blazing starlight waves that shatter enemy plate armor and burn Wyrd horrors to ash.
+**Identity:** A heavy-armored juggernaut fueled by the dying warmth of the celestial sacrifice. Crusaders do not hide behind fragile wards; they plant heavy iron boots in the snow, raise two-handed greatswords, and build **Fervor** with every crushing blow. When their fervor peaks, they discharge blazing starlight waves that shatter enemy plate armor and burn Wyrd horrors to ash.
 
 **Role in World:** The armored frontline fist of the Dawn Vigil. Crusaders spearhead expeditions into infested ruins, hold bridgeheads against swarming abominations, and execute corrupted nobles. While respected for their iron discipline, common folk fear their unyielding zeal and quickness to condemn suspects to the pyre.
 
 **Cultural Affiliation:** Practiced by Solari sun-loyalists, Skald heavy champions, and Marked Vreken penitents.
 
 *Three Specialization Paths:*
-* **Solvan Executioner:** Frontline shock breaker wielding colossal greatswords. Converts Radiant Fervor into armor-melting smites and creates permanent zones of consecrated fire.
+* **Solvan Executioner:** Frontline shock breaker wielding colossal greatswords. Converts Fervor into armor-melting smites and creates permanent zones of consecrated fire.
 * **Dawn Bastion:** An immovable shield-bearer who channels starlight into heavy tower plates, absorbing hits for allies and raising glowing barricades against missile fire.
 * **Harmonic Inquisitor:** A specialized anti-mage who uses starlight lightning like a tuning fork, interrupting enemy spellcasts and shattering magical wards.
 
@@ -255,7 +255,7 @@ Every class discipline in Mythrill is rooted in one of four distinct historical 
 
 **Origin:** Two centuries ago, two monster-hunting orders swore a blood oath to purge subterranean horrors. In the southern bogs, a hunter named Orven forged cold-iron blades to execute his own mutated kin. In the northern forests, a field surgeon named Elias opened his own forearm veins to lure face-stealing mist-mimics into physical flesh where they could be impaled. When the horror incursions tripled, the two survivors merged their disciplines into the Barbed Vow.
 
-**Identity:** A grim occult hunter who uses cold iron, silver needles, and bound void-mimics to destroy horrors. Inquisitors wield **Righteous Authority**, a combat momentum generated by parrying magical strikes and breaking occult wards. Their bodies are maps of self-inflicted scars, silver-poisoned veins, and bound parasites held under absolute mental control.
+**Identity:** A grim occult hunter who uses cold iron, silver needles, and bound void-mimics to destroy horrors. Inquisitors wield **Authority**, a combat momentum generated by parrying magical strikes and breaking occult wards. Their bodies are maps of self-inflicted scars, silver-poisoned veins, and bound parasites held under absolute mental control.
 
 **Role in World:** The ultimate defense against occult incursions. Frontier keeps grant Inquisitors full legal authority to execute suspects and purge contaminated livestock, though villagers bolt their shutters when an Inquisitor rides into town.
 

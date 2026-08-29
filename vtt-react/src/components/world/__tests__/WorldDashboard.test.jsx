@@ -230,17 +230,31 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
     expect(formatDisplayName('the-first-liar')).toBe('The First Liar');
   });
 
-  it('renders World Atlas & Maps tab with Atlas header and Planetary Canvas launch button', () => {
+  it('renders Traditions & Classes tab with archetype filter pills, counts, and search filter', () => {
     renderDashboard();
 
-    // Click World Atlas & Maps tab
-    const atlasTab = screen.getByRole('button', { name: /World Atlas & Maps/i });
-    fireEvent.click(atlasTab);
+    // Click Traditions & Classes tab
+    const classesTab = screen.getByRole('button', { name: /Traditions & Classes/i });
+    fireEvent.click(classesTab);
 
-    // Verify Atlas & Cartography Studio
-    expect(screen.getByText(/The Mythrill Atlas & Cartography Studio/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Launch World Map Canvas/i })).toBeInTheDocument();
-    expect(screen.getByText(/Canonical Setting Realms/i)).toBeInTheDocument();
+    // Verify search input
+    const searchInput = screen.getByPlaceholderText(/Search 21 classes, origins, roles/i);
+    expect(searchInput).toBeInTheDocument();
+
+    // Verify archetype pills and labels
+    expect(screen.getByText(/All Traditions \(21\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Martial Orders & Vanguard/i)).toBeInTheDocument();
+    expect(screen.getByText(/Arcane Academies & Weavers/i)).toBeInTheDocument();
+    expect(screen.getByText(/Primal Callings & Wardens/i)).toBeInTheDocument();
+
+    // Verify search filtering works
+    fireEvent.change(searchInput, { target: { value: 'animist' } });
+    expect(screen.getByText('Animist')).toBeInTheDocument();
+
+    // Clear search button
+    const clearBtn = screen.getByTitle('Clear search');
+    fireEvent.click(clearBtn);
+    expect(searchInput.value).toBe('');
   });
 });
 

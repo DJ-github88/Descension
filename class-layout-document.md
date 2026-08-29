@@ -13,7 +13,7 @@
 
 ---
 
-### 1. Animist (Support / Control / Terrain | Ancestral Resonance)
+### 1. Animist (Support / Control / Terrain | Resonance)
 
 **Description:** A walking archive of three dead traditions, written in scars, bone spurs, and spiritual static. The Animist channels three ancestral traditions — totemic bone eruption, spirit curse-invocation, and runic inscription — simultaneously, paying for every manifestation through the mounting toll of Spirit Erosion. They are a tragic, triple-blooded controller whose body physically transforms as they work.
 
@@ -21,7 +21,7 @@
 
 **Subraces allowed:** `ordan_human`, `vashir_astril`, `clean_vreken`, `morren_human`, `skald_human`, `velun_neth`
 
-**Flaw / World Weaving:** Triple catastrophic flaw — Spirit Erosion at 15+ Ancestral Resonance: 100% ember vulnerability, cannot receive party healing, forced movement shatters active runic networks dealing backlash, and the spirits demand service with 1d6 wyrd/turn if you hoard resonance without invoking. The ancestral language is fragmenting across the three traditions — young Animists attempting all three simultaneously suffer complete sensory collapse. Persecuted in Nordhalla (Runic Academies denounce ancestral communion) and Sundrift Vale (House Ordavan purges Sky-Singers).
+**Flaw / World Weaving:** Triple catastrophic flaw — Spirit Erosion at 15+ Resonance: 100% ember vulnerability, cannot receive party healing, forced movement shatters active runic networks dealing backlash, and the spirits demand service with 1d6 wyrd/turn if you hoard resonance without invoking. The ancestral language is fragmenting across the three traditions — young Animists attempting all three simultaneously suffer complete sensory collapse. Persecuted in Nordhalla (Runic Academies denounce ancestral communion) and Sundrift Vale (House Ordavan purges Sky-Singers).
 
 **Class Hooks:**
 - `ordan_human` → The Steppe-Throat: throat-sung overtones carry across vast open distances, fails indoors/underground
@@ -33,15 +33,15 @@
 
 ---
 
-### 2. Apex (Damage | Quarry Marks)
+### 2. Apex (Damage | Marks)
 
-**Description:** A master of close-range combat wielding the legendary Shadow Glaive capable of chaining deadly strikes between multiple enemies, accompanied by a loyal beast companion. Through the Quarry Marks system, she builds power through pack coordination — glaive hits alone generate no marks; it is the synchronized rhythm of hunter and beast that fills the reservoir.
+**Description:** A master of close-range combat wielding the legendary Shadow Glaive capable of chaining deadly strikes between multiple enemies, accompanied by a loyal beast companion. Through the Marks system, she builds power through pack coordination — glaive hits alone generate no marks; it is the synchronized rhythm of hunter and beast that fills the reservoir.
 
 **Cultural Affiliation:** Heavily practiced by the Woven Mimir (fog-sentinels), Masked Mimir (identity-stable trackers), Unwoven Mimir (fog-merged hunters), Skald humans (glacier-stalkers), Clean Vreken (bioluminescent spoor-trailers), Marked Vreken (mycelial web-sense trackers), and Ordan humans (steppe-scent trackers). The Silent Hunt tradition was founded by Sylas, who traded his hearing for absolute sensory focus to track native creatures and Wyrd entities through the Frostwood fog.
 
 **Subraces allowed:** `veiled_mimir`, `tethered_mimir`, `skald_human`, `clean_vreken`, `marked_vreken`, `ordan_human`
 
-**Flaw / World Weaving:** Kill the Beast, Cripple the Hunter — a dead companion means ZERO Quarry Marks until revived. If companion drops below 25% HP while you have 3+ Quarry Marks, the beast enters Primal Outrage (double damage but attacks nearest creature, friend or foe). Companion death causes Bond Sickness for 3 rounds. The mist is learning to hide — something is teaching the fog to actively evade Apex senses that have held for centuries; Unwoven trackers who dissolve into the fog to find it are not coming back.
+**Flaw / World Weaving:** Kill the Beast, Cripple the Hunter — a dead companion means ZERO Marks until revived. If companion drops below 25% HP while you have 3+ Marks, the beast enters Primal Outrage (double damage but attacks nearest creature, friend or foe). Companion death causes Bond Sickness for 3 rounds. The mist is learning to hide — something is teaching the fog to actively evade Apex senses that have held for centuries; Unwoven trackers who dissolve into the fog to find it are not coming back.
 
 **Class Hooks:**
 - `masked_mimir` → The Mask-Hunter: mask holds identity stable while senses range; cannot be eroded by fog's memory-decay while mask intact
@@ -91,20 +91,20 @@
 
 ---
 
-### 5. Berserker (Damage | Blood-Heat)
+### 5. Berserker (Damage | Rage)
 
-**Description:** A tragic, high-risk warrior whose body is a self-destructive engine of war. The Berserker channels the Hunger Pact — a physiological meltdown called Blood-Heat (0-100), where adrenaline boils their blood and snaps their tendons to force inhuman strikes. Pain Immunity blocks all incoming healing while raging. At the edge of death, their strikes bypass all physical resistances.
+**Description:** A tragic, high-risk warrior whose body is a self-destructive engine of war. The Berserker channels the Hunger Pact — a physiological meltdown called Rage (0-100), where adrenaline boils their blood and snaps their tendons to force inhuman strikes. Pain Immunity blocks all incoming healing while raging. At the edge of death, their strikes bypass all physical resistances.
 
-**Cultural Affiliation:** Heavily practiced by the Skald humans (Hunger-Pact Sworn, inheritors of the ancestral feast, whose rage is a liturgy of eating the dead to survive), Thrask Emberth (Caldera-Forged whose Blood-Heat is drawn from geothermal resonance rather than ancestry — an argument with the mountain), and Morgh Groven (Vat-Woken who burn dormant alchemy still circulating in stone-scaled veins — the serums that were meant to make them obedient instead make them catastrophically free).
+**Cultural Affiliation:** Heavily practiced by the Skald humans (Hunger-Pact Sworn, inheritors of the ancestral feast, whose rage is a liturgy of eating the dead to survive), Thrask Emberth (Caldera-Forged whose Rage is drawn from geothermal resonance rather than ancestry — an argument with the mountain), and Morgh Groven (Vat-Woken who burn dormant alchemy still circulating in stone-scaled veins — the serums that were meant to make them obedient instead make them catastrophically free).
 
 **Subraces allowed:** `skald_human`, `thrask_emberth`, `morgh_groven`
 
-**Flaw / World Weaving:** Push Blood-Heat past 100 and trigger Metabolic Burnout — one round to dump it or take 2d6 unresistable damage and crash to 0. While raging (21+ Heat), Pain Immunity blocks all healing from allies. Two full rounds without dealing melee damage causes Pain Starvation. The Bloodhammer clans are fracturing — Unbound Berserkers manifest the Heat without the ancestral Pact ritual; the Skald Council ordered them executed, and there are rumors of an Unbound settlement forming in the deep volcanic tunnels.
+**Flaw / World Weaving:** Push Rage past 100 and trigger Metabolic Burnout — one round to dump it or take 2d6 unresistable damage and crash to 0. While raging (21+ Heat), Pain Immunity blocks all healing from allies. Two full rounds without dealing melee damage causes Pain Starvation. The Bloodhammer clans are fracturing — Unbound Berserkers manifest the Heat without the ancestral Pact ritual; the Skald Council ordered them executed, and there are rumors of an Unbound settlement forming in the deep volcanic tunnels.
 
 **Class Hooks:**
-- `skald_human` → The Hunger-Pact Sworn: Blood-Heat builds faster near the dying; rage is a liturgy, the consumed dead are carried
-- `thrask_emberth` → The Caldera-Forged: Blood-Heat rises faster near geothermal vents and magma-fractures; the mountain gives and takes freely
-- `morgh_groven` → The Vat-Woken: Blood-Heat builds from regenerative biology fighting itself — ignites fastest when being *healed*, the opposite of every other tradition
+- `skald_human` → The Hunger-Pact Sworn: Rage builds faster near the dying; rage is a liturgy, the consumed dead are carried
+- `thrask_emberth` → The Caldera-Forged: Rage rises faster near geothermal vents and magma-fractures; the mountain gives and takes freely
+- `morgh_groven` → The Vat-Woken: Rage builds from regenerative biology fighting itself — ignites fastest when being *healed*, the opposite of every other tradition
 
 ---
 
@@ -125,9 +125,9 @@
 
 ---
 
-### 7. False Prophet (Control | Madness Points)
+### 7. False Prophet (Control | Madness)
 
-**Description:** A parasite caster who harvests Madness Points (0-20) by preaching the Silence — the void between stars, the quiet after death — as absolute truth. Each Madness point adds +1 damage to spells. At 20 Madness, Insanity Convulsion triggers with catastrophic self-harm. Their empathetic link is active from Level 1: Stitch of Suffering redirects ally suffering onto enemies.
+**Description:** A parasite caster who harvests Madness (0-20) by preaching the Silence — the void between stars, the quiet after death — as absolute truth. Each Madness point adds +1 damage to spells. At 20 Madness, Insanity Convulsion triggers with catastrophic self-harm. Their empathetic link is active from Level 1: Stitch of Suffering redirects ally suffering onto enemies.
 
 **Cultural Affiliation:** Practiced by Vashir Astril (False Stars whose manufactured faith borrows the credibility of genuine Lumia heritage resonance — indistinguishable from real divinity), Silath Astril (Gagged Evangelists who preach against their own suppressed heritage, harnessing the captive's screams as sacred conviction), and Morren humans (Debt-Preachers selling salvation from Neth contract-debt — devotion in lieu of gold, belief in lieu of blood). Founded by Li Wei, who gouged his eyes to see the Silence where Sol once shone.
 
@@ -142,15 +142,15 @@
 
 ---
 
-### 8. Gambit (Damage / Control | Fortune Points & Karmic Debt)
+### 8. Gambit (Damage / Control | Fortune & Karmic Debt)
 
-**Description:** A high-strung, dual-resource architect wielding stolen Fortune Points and pre-drawn Fate Reserve cards. They manipulate probability through gambling mechanics and cartomantic surgery simultaneously — fortune nudging for incremental adjustments, card overrides for absolute d20 replacement. Walk the knife-edge between Cosmic Bankruptcy (FP=0) and Wyrd Collapse (Karmic Debt=13).
+**Description:** A high-strung, dual-resource architect wielding stolen Fortune and pre-drawn Fate Reserve cards. They manipulate probability through gambling mechanics and cartomantic surgery simultaneously — fortune nudging for incremental adjustments, card overrides for absolute d20 replacement. Walk the knife-edge between Cosmic Bankruptcy (FP=0) and Wyrd Collapse (Karmic Debt=13).
 
 **Cultural Affiliation:** Practiced by Merryn humans (sea-omen gamblers who wager voyage-shares on salt-coral dice), Shore Myrathil (tide-readers who read probability in foam-patterns and stake their own bioluminescence), Kessen Neth (clause-gamblers who calculate probability as contract-law — every hand of cards is a clause analysis), and Ithran Groven (span-betters who gamble on when the inevitable arrives through structural failure-analysis).
 
 **Subraces allowed:** `merryn_human`, `shore_myrathil`, `kessen_neth`, `ithran_groven`
 
-**Flaw / World Weaving:** Every Fortune Point spent deals 1d4 irreducible wyrd damage. Karmic Debt amplifies all incoming damage. Jax is missing — walked into the Iceheart Sea to clear his debt with the storm-spirit in one final game. Lyra has gone radical — her Deck-Burners faction seeks to force the universe to choose, burning their cards to collapse probability into certainty.
+**Flaw / World Weaving:** Every Fortune spent deals 1d4 irreducible wyrd damage. Karmic Debt amplifies all incoming damage. Jax is missing — walked into the Iceheart Sea to clear his debt with the storm-spirit in one final game. Lyra has gone radical — her Deck-Burners faction seeks to force the universe to choose, burning their cards to collapse probability into certainty.
 
 **Class Hooks:**
 - `merryn_human` → The Sea-Omen Gambler: stakes fortune-points against sea-conditions; strongest on open water
@@ -178,9 +178,9 @@
 
 ---
 
-### 10. Inquisitor (Occult Arbiter / Wyrd-Binder | Righteous Authority)
+### 10. Inquisitor (Occult Arbiter / Wyrd-Binder | Authority)
 
-**Description:** A dual-purpose occult warrior who combines anti-magic negation with Wyrd-touched binding and purification. They swear the Barbed Vow, wielding cold iron against the Wyrd. Righteous Authority (0-8) is built through absorbing spells, breaking enchantments, striking supernatural targets, and executing the supernatural. Against mundane threats, they generate nothing.
+**Description:** A dual-purpose occult warrior who combines anti-magic negation with Wyrd-touched binding and purification. They swear the Barbed Vow, wielding cold iron against the Wyrd. Authority (0-8) is built through absorbing spells, breaking enchantments, striking supernatural targets, and executing the supernatural. Against mundane threats, they generate nothing.
 
 **Cultural Affiliation:** Primarily practiced by Marked Vreken (Mycelium-Hunters who track corruption through the forest's nervous system), Clean Vreken (Glow-Auditors who diagnose corrupted bonds by their bioluminescent signature), Thalren humans (Salt-Scarred who open their own veins to draw Wyrd face-stealers into living flesh through deliberately breakable oaths), and Morren humans (Contract-Severers who hunt rogue contracts with legal precision — drafted annulments).
 
@@ -216,11 +216,11 @@
 
 ---
 
-### 12. Martyr (Tank / Support | Devotion Gauge)
+### 12. Martyr (Tank / Support | Devotion)
 
-**Description:** A selfless protector who gains power through sacrifice — actively sacrificing HP to fill the Devotion Gauge (6 levels, thresholds at 10/20/40/60/80/100 damage taken). They are the ONLY class that can negate fatal blows by pulling damage vectors into their own body. Their form turns translucent at high Devotion, bones blazing with volatile golden energy in the Hollow Transfiguration.
+**Description:** A selfless protector who gains power through sacrifice — actively sacrificing HP to fill the Devotion (6 levels, thresholds at 10/20/40/60/80/100 damage taken). They are the ONLY class that can negate fatal blows by pulling damage vectors into their own body. Their form turns translucent at high Devotion, bones blazing with volatile golden energy in the Hollow Transfiguration.
 
-**Cultural Affiliation:** Heavily practiced by Solvarn humans (Sun-Vigil — wounds absorbed are small deaths in imitation of Sol's entombment, suffering as prayer), Korr Emberth (Vault-Silent — suffering as keeping watch over the Sol's Breath in sacred, wordless silence), Velun Neth (Contract-Martyrs — suffer per explicit contract terms, Devotion Gauge is a ledger of fulfilled clauses), and Skald humans (Ironclad — the Dreadnaught tradition reborn, converting absorbed suffering into furnace-armor combustion pressure and offensive counter-strikes).
+**Cultural Affiliation:** Heavily practiced by Solvarn humans (Sun-Vigil — wounds absorbed are small deaths in imitation of Sol's entombment, suffering as prayer), Korr Emberth (Vault-Silent — suffering as keeping watch over the Sol's Breath in sacred, wordless silence), Velun Neth (Contract-Martyrs — suffer per explicit contract terms, Devotion is a ledger of fulfilled clauses), and Skald humans (Ironclad — the Dreadnaught tradition reborn, converting absorbed suffering into furnace-armor combustion pressure and offensive counter-strikes).
 
 **Subraces allowed:** `solvarn_human`, `korr_emberth`, `velun_neth`, `skald_human`
 
@@ -287,15 +287,15 @@
 
 ---
 
-### 16. Revenant (Damage / Control | Death Toll & Phylactery)
+### 16. Revenant (Damage / Control | Toll & Phylactery)
 
-**Description:** A death caster who walks between two necrotic traditions — Kora's blood-fueled sacrifice and Vesper's frost-stasis phylactery. Build Death Toll (0-20) through HP sacrifice and kills. Toggle Death Shroud to burn HP instead of Mana for enhanced frost+blight spells. Kill enemies to charge the Phylactery; when killed, resurrect from stored HP and trigger battlefield-wide freeze.
+**Description:** A death caster who walks between two necrotic traditions — Kora's blood-fueled sacrifice and Vesper's frost-stasis phylactery. Build Toll (0-20) through HP sacrifice and kills. Toggle Death Shroud to burn HP instead of Mana for enhanced frost+blight spells. Kill enemies to charge the Phylactery; when killed, resurrect from stored HP and trigger battlefield-wide freeze.
 
 **Cultural Affiliation:** Heavily practiced by Clean Vreken (Ancestor-Bound — ancestors need a living voice to speak through, the Revenant state is continued service), Marked Vreken (Mycelium-Dead — consciousness distributed across the Root-Veil, dying everywhere and nowhere), Drun Neth (Contract-Expired — invisible to the Keeper, unbound by the First Contract, the freest undead), Morren humans (Debt-Revenants — undead sustained by contractual obligation; the more they owe, the harder they are to kill), and Tessen humans (Keep-Waked — soul anchored to ancestral architecture; as long as the keep stands, cannot be destroyed).
 
 **Subraces allowed:** `clean_vreken`, `marked_vreken`, `drun_neth`, `morren_human`, `tessen_human`
 
-**Flaw / World Weaving:** Death Toll at 6+ = self-damage. At 11+ = cannot be healed. At 16+ = nuclear detonation on death (kills nearby allies). The bog-graves are waking on their own — twelve Revenants found drained of blood but unwounded; the dead are marching toward the Sundered Monoliths without permission. The Cult of Forgotten Shadow offers Silence-stasis that requires no life force, but those who accept may be having their souls replaced.
+**Flaw / World Weaving:** Toll at 6+ = self-damage. At 11+ = cannot be healed. At 16+ = nuclear detonation on death (kills nearby allies). The bog-graves are waking on their own — twelve Revenants found drained of blood but unwounded; the dead are marching toward the Sundered Monoliths without permission. The Cult of Forgotten Shadow offers Silence-stasis that requires no life force, but those who accept may be having their souls replaced.
 
 **Class Hooks:**
 - `clean_vreken` → The Ancestor-Bound: Death-Toll generated through ancestral communion; dead willingly feed the host to keep their voice alive
@@ -306,18 +306,18 @@
 
 ---
 
-### 17. Shaper (Hybrid — Damage/Mobility/Adaptation | Kinetic Flux & Body Toll)
+### 17. Shaper (Hybrid — Damage/Mobility/Adaptation | Flux & Body Toll)
 
-**Description:** A combatant who treats their body as the ultimate weapon — merging hyper-accelerated kinetic combat with biological shape-shifting. Flow between 6 Shaping Forms (Ataxic Flow, Arterial Strike, Centrifugal Fury, Deadened Bastion, Fluid Apex, Silence Predator). Build Kinetic Flux through combat actions. Body Toll tracks the cumulative cost of every transformation.
+**Description:** A combatant who treats their body as the ultimate weapon — merging hyper-accelerated kinetic combat with biological shape-shifting. Flow between 6 Shaping Forms (Ataxic Flow, Arterial Strike, Centrifugal Fury, Deadened Bastion, Fluid Apex, Silence Predator). Build Flux through combat actions. Body Toll tracks the cumulative cost of every transformation.
 
-**Cultural Affiliation:** Heavily practiced by Masked Mimir (Form-Locked — mask holds self stable as fixed transformation axis), Woven Mimir (Sentinel-Shifters — each form is a posture of watching, configured for specific surveillance), Unwoven Mimir (The Dissolving — each held form briefly coheres a self that is otherwise fading; buying time), Morgh Groven (Vat-Sculpted — inherited the Deep Alchemists' body-sculpting heritage; the race sculpted against its will now sculpting itself), and Ithran Groven (Span-Dancers — build Kinetic Flux from bridge-running momentum, channeling it into extended-limb transformations).
+**Cultural Affiliation:** Heavily practiced by Masked Mimir (Form-Locked — mask holds self stable as fixed transformation axis), Woven Mimir (Sentinel-Shifters — each form is a posture of watching, configured for specific surveillance), Unwoven Mimir (The Dissolving — each held form briefly coheres a self that is otherwise fading; buying time), Morgh Groven (Vat-Sculpted — inherited the Deep Alchemists' body-sculpting heritage; the race sculpted against its will now sculpting itself), and Ithran Groven (Span-Dancers — build Flux from bridge-running momentum, channeling it into extended-limb transformations).
 
 **Subraces allowed:** `veiled_mimir`, `tethered_mimir`, `morgh_groven`, `ithran_groven`
 
 **Flaw / World Weaving:** 0 base Armor — every blow lands full. +50% wyrd vulnerability permanently. If rooted/grappled, Flux drops to 0 and takes 1d10 blight/round. Body Toll at 3+ locks joints, 5+ silences, 7+ sends Feral, 10 hands control to GM. Young Shapers experience Convergence Collapse — the body attempts every transformation at once, burning through crystalline skin in years; purists advocate single-tradition practice while convergers push deeper.
 
 **Class Hooks:**
-- `masked_mimir` → The Form-Locked: Kinetic Flux builds faster when mask remains untouched; most controlled, most limited — cannot reshape the face
+- `masked_mimir` → The Form-Locked: Flux builds faster when mask remains untouched; most controlled, most limited — cannot reshape the face
 - `woven_mimir` → The Sentinel-Shifter: generate Flux from detection (spotting enemies) as much as combat impact; the tradition's scouts
 - `unwoven_mimir` → The Dissolving: forms temporarily reverse dissolution, granting crisp identity; each reversion loses a little more baseline
 - `morgh_groven` → The Vat-Sculpted: draws on dormant alchemical substrate for violent precision; the most durable Shapers
@@ -344,9 +344,9 @@
 
 ---
 
-### 19. Toxicologist (Damage / Support | Toxin Vials & Contraption Parts)
+### 19. Toxicologist (Damage / Support | Vials & Contraption Parts)
 
-**Description:** The self-poisoned surgeon — the ONLY preparation-based alchemist whose veins run thick with weaponized toxin. They set traps before initiative, craft poisons mid-combat, and stack debilitating debuffs no other class can apply. Bleed Toxin Vials from saturated flesh, deploy Contraption Parts as battlefield traps, and watch enemies crumble under layered afflictions. All healing received is halved — their body rejects restoration.
+**Description:** The self-poisoned surgeon — the ONLY preparation-based alchemist whose veins run thick with weaponized toxin. They set traps before initiative, craft poisons mid-combat, and stack debilitating debuffs no other class can apply. Bleed Vials from saturated flesh, deploy Contraption Parts as battlefield traps, and watch enemies crumble under layered afflictions. All healing received is halved — their body rejects restoration.
 
 **Cultural Affiliation:** Heavily practiced by Thalren humans (Fog-Distillers — extract raw venom from fog-predators of the Frostwood, optimized for slow-acting area-denial), Unwoven Mimir (Floor-Brewers — cultivate toxins from undergrowth decay; longest-lasting persistent agents in the tradition), Morren humans / Grave Neth (Bog-Chemists — derive toxins from the Bryngloom's peat-acids, alchemical moss, and the preservative ichor that sustains the First Contract), Viridian Florae (Thorn-Venom — distill their own fae-touched thorn-blood; every Toxicologist's poisons unique to their bloodline), and Oken Florae (Veiled-Cuil — brew in absolute secret, optimized for untraceable delayed-onset toxins that mimic natural illness).
 
@@ -363,9 +363,9 @@
 
 ---
 
-### 20. Warden (Damage / Control | Tether Tension / Vengeance Points)
+### 20. Warden (Damage / Control | Tension / Tension)
 
-**Description:** The Penitent Jailer who drives rusted iron chains through their own forearms and spine. They physically chain themselves to abominations through the Iron Chain Tether — a 15-foot radius forced duel where the tethered enemy cannot target allies. Generate Tether Tension through pain and manual reeling; spend on bone-crushing flails, agony-infused braces, or ultimate Iron Ascendancy transformation.
+**Description:** The Penitent Jailer who drives rusted iron chains through their own forearms and spine. They physically chain themselves to abominations through the Iron Chain Tether — a 15-foot radius forced duel where the tethered enemy cannot target allies. Generate Tension through pain and manual reeling; spend on bone-crushing flails, agony-infused braces, or ultimate Iron Ascendancy transformation.
 
 **Cultural Affiliation:** Heavily practiced by Morgh Groven (Vat-Grounded — chains echo the containment they shattered in the revolt; voluntarily wearing chains is the entire point), Ithran Groven (Span-Tethers — distribute tether across multiple enemies the way bridges distribute load), Drall Fexrick (Gear-Tension — re-tune chain-configuration mid-combat as engineering), Kethrin Fexrick (Guild-Jailers — practice as guild discipline with certified specifications), Skald humans (Glacier-Chains — cold-iron contracts and stiffens in low temperature; arctic specialists), Clean Vreken (Glow-Tethers — bioluminescent chains map every tethered abomination's position in real time), and Marked Vreken (Mycelium-Leashes — extend tethers through the Root-Veil, miles-long holds across connected terrain).
 

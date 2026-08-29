@@ -400,11 +400,11 @@
     "term": "Grum Bloodhammer",
     "type": "historical_figure",
     "region": "sundale",
-    "summary": "The legendary forge-blacksmith of Emberspire in Sundale who first manifested the Berserker's Blood-Heat by surrendering to the volcanic forge during a wyrm attack.",
-    "fullEntry": "When the ice-wyrm burst into the Emberspire mining-chambers, every Solari ran. Grum Bloodhammer didn't. The master forge-blacksmith threw down his tools and surrendered to the forge-heat instead, igniting his own blood and muscles past anything a living body should survive. His bare fists shattered the wyrm's glacial hide. The workers lived. And the Berserker's Blood-Heat was born in that moment: the path of a man who chose to burn rather than flee.",
+    "summary": "The legendary forge-blacksmith of Emberspire in Sundale who first manifested the Berserker's Rage by surrendering to the volcanic forge during a wyrm attack.",
+    "fullEntry": "When the ice-wyrm burst into the Emberspire mining-chambers, every Solari ran. Grum Bloodhammer didn't. The master forge-blacksmith threw down his tools and surrendered to the forge-heat instead, igniting his own blood and muscles past anything a living body should survive. His bare fists shattered the wyrm's glacial hide. The workers lived. And the Berserker's Rage was born in that moment: the path of a man who chose to burn rather than flee.",
     "relatedTerms": [
       "berserker",
-      "blood_heat",
+      "rage",
       "emberspire",
       "sundale",
       "hark-ash-hammer",
@@ -419,7 +419,7 @@
     "summary": "The Solvarn mother who carved her sacrificed child's name into her flesh, becoming the first Martyr.",
     "fullEntry": "When the six houses marched their firstborn to the peaks to feed them to Keth-Amar, Sera Solvan of House Solvan went with a piece of volcanic obsidian and carved her child's name into her own forearm. The houses tried to purge the memory of what they'd done. The wound had other ideas. It healed into a glowing solar scar that pulsed with the heat of the child she had lost, and Sera became the first Martyr: one who takes the suffering meant for others and carries it in their own flesh. The Scar-Shrine beneath Emberspire still keeps the obsidian, and the scar still glows.",
     "relatedTerms": [
-      "devotion_gauge",
+      "devotion",
       "house_solvan",
       "martyr",
       "sundale",
@@ -440,7 +440,7 @@
       "keth_amar",
       "aex",
       "berserker",
-      "blood_heat",
+      "rage",
       "harath_vault",
       "first-cabal"
     ]
@@ -580,13 +580,13 @@
       "triune-founders"
     ]
   },
-  "blood_heat": {
-    "id": "blood_heat",
-    "term": "Blood-Heat",
+  "rage": {
+    "id": "rage",
+    "term": "Rage",
     "type": "resource",
     "region": "sundale",
     "summary": "The volatile physiological rage of the Berserker, where boiling blood turns pain into apocalyptic strength.",
-    "fullEntry": "Blood-Heat represents the dangerous physiological meltdown of the Berserker class. Triggered by intense kinetic strain and wounds, the blood within a Berserker's vessels surges in temperature, overriding pain receptors and granting supernatural strength. If this thermal pressure exceeds the maximum threshold, it triggers Metabolic Burnout, rupturing internal pathways and stalling the body in systemic shock.",
+    "fullEntry": "Rage represents the dangerous physiological meltdown of the Berserker class. Triggered by intense kinetic strain and wounds, the blood within a Berserker's vessels surges in temperature, overriding pain receptors and granting supernatural strength. If this thermal pressure exceeds the maximum threshold, it triggers Metabolic Burnout, rupturing internal pathways and stalling the body in systemic shock.",
     "relatedTerms": [
       "berserker",
       "grum",
@@ -606,13 +606,13 @@
       "sundale"
     ]
   },
-  "devotion_gauge": {
-    "id": "devotion_gauge",
-    "term": "Devotion Gauge",
+  "devotion": {
+    "id": "devotion",
+    "term": "Devotion",
     "type": "resource",
     "region": "sundale",
     "summary": "The spiritual threshold accumulated by Martyrs as they volunteer to absorb the suffering of their allies.",
-    "fullEntry": "The Devotion Gauge is the mechanical tracker of the Martyr class. Woven from the sacrifice of Sera Solvan, the Martyr generates spiritual resonance by absorbing the kinetic and magical strain directed at their allies. This suffering is not lost; it is cataloged and converted into radiant, defensive barriers and protective seals that shield the party.",
+    "fullEntry": "The Devotion is the mechanical tracker of the Martyr class. Woven from the sacrifice of Sera Solvan, the Martyr generates spiritual resonance by absorbing the kinetic and magical strain directed at their allies. This suffering is not lost; it is cataloged and converted into radiant, defensive barriers and protective seals that shield the party.",
     "relatedTerms": [
       "martyr",
       "sera"
@@ -882,7 +882,7 @@
     ]
   },
   "berserker": {
-    "nativeWeaving": "**Ecological.** Blood-Heat is the body's last-ditch survival protocol weaponized against two extremities, Nordhalla's starvation-cold and Sundale's forge-heat. **Cultural.** The Hunger Pact (consuming the dead) is the deepest scar of the Skald saga-culture; the Waste-Solari reframe is forge-cult. **Founder.** Grum ignited in Sundale's caldera, but the Bloodhammer line marched from Nordhalla's Glacier Bargain starvation. **Subrace-native.** Skald (Hunger-Pact ancestry), Waste-Solari (geothermal resonance), Morgh Groven (Vat-Overclock), each subrace's biology is a different Heat source.",
+    "nativeWeaving": "**Ecological.** Rage is the body's last-ditch survival protocol weaponized against two extremities, Nordhalla's starvation-cold and Sundale's forge-heat. **Cultural.** The Hunger Pact (consuming the dead) is the deepest scar of the Skald saga-culture; the Waste-Solari reframe is forge-cult. **Founder.** Grum ignited in Sundale's caldera, but the Bloodhammer line marched from Nordhalla's Glacier Bargain starvation. **Subrace-native.** Skald (Hunger-Pact ancestry), Waste-Solari (geothermal resonance), Morgh Groven (Vat-Overclock), each subrace's biology is a different Heat source.",
     "id": "berserker",
     "term": "Berserker",
     "type": "class",
@@ -890,10 +890,10 @@
     "secondaryRegions": [
       "sundale"
     ],
-    "summary": "A warrior of dual heritage, Skald ancestry from Nordhalla and the volcanic founding of Grum Bloodhammer in Sundale, who ignites their Blood-Heat to overdrive their physiology, trading control for catastrophic, self-burning strength.",
-    "fullEntry": "The Berserker carries two regions in their blood and one terrible inheritance. The Hunger Pact was forged in Nordhalla during the worst winter of the Glacier Bargain, when the ancestors of the Bloodhammer line consumed their own fallen so the bloodline could persist, and that act entered their marrow. The Blood-Heat itself was born in Sundale, when the Bloodhammer clans migrated south under Torra Bloodhammer into the volcanic tunnels of Emberspire and the smith Grum surrendered to the forge's heat to shatter an ice-wyrm bare-handed. Nordhalla gave the Berserker its ancestry. Sundale gave it its fire.\n\nBerserkers don't resist pain. They use it as fuel. The Blood-Heat tracks their thermal pressure as it builds from wounds and exertion: at low heat, fast and strong; at high heat, apocalyptic but self-damaging; at Metabolic Burnout, they collapse in systemic shock. The tradition trains in the Harath-Vault arenas of Sundale and pilgrimages to the Forge of Grum beneath Emberspire, while the Skald elders of the Frozen Archive still claim the right to decide who may carry the Pact.",
+    "summary": "A warrior of dual heritage, Skald ancestry from Nordhalla and the volcanic founding of Grum Bloodhammer in Sundale, who ignites their Rage to overdrive their physiology, trading control for catastrophic, self-burning strength.",
+    "fullEntry": "The Berserker carries two regions in their blood and one terrible inheritance. The Hunger Pact was forged in Nordhalla during the worst winter of the Glacier Bargain, when the ancestors of the Bloodhammer line consumed their own fallen so the bloodline could persist, and that act entered their marrow. The Rage itself was born in Sundale, when the Bloodhammer clans migrated south under Torra Bloodhammer into the volcanic tunnels of Emberspire and the smith Grum surrendered to the forge's heat to shatter an ice-wyrm bare-handed. Nordhalla gave the Berserker its ancestry. Sundale gave it its fire.\n\nBerserkers don't resist pain. They use it as fuel. The Rage tracks their thermal pressure as it builds from wounds and exertion: at low heat, fast and strong; at high heat, apocalyptic but self-damaging; at Metabolic Burnout, they collapse in systemic shock. The tradition trains in the Harath-Vault arenas of Sundale and pilgrimages to the Forge of Grum beneath Emberspire, while the Skald elders of the Frozen Archive still claim the right to decide who may carry the Pact.",
     "relatedTerms": [
-      "blood_heat",
+      "rage",
       "grum",
       "harath_vault",
       "nordhalla",
@@ -910,7 +910,7 @@
       "cragjaw-peaks"
     ],
     "summary": "A master of kinetic biology of dual origin, the Frostwood Reach momentum dance (Sylvanus) fused with the Frostmaw Holdfast biological body-sculpting (Torin) by the Mimir chronicler Veyra, who treats their body as a malleable weapon.",
-    "fullEntry": "The Shaper tradition was born when the Mimir chronicler Veyra proved two regional arts were one dance seen from two angles. In the Frostwood Reach, the kinetic momentum dance was born among the ironwood canopy: a hyper-accelerated combat art of wind-synced striking. In the Cragjaw Peaks, the biological body-sculpting art arose at Frostmaw Holdfast, where practitioners drank raw alchemical sulfur-clay to calcify and reshape their own skeletons. Veyra fused them decades into the Freezing Era, proving that momentum shapes form and form directs momentum. A Shaper navigates six Shaping Forms that blend kinetic stances with physical adaptation, building Kinetic Flux through combat and accumulating Body Toll from every transformation. The tradition is taught at the Shaping Hall in Frostmaw Holdfast and in the deep ironwood groves of the Frostwood Reach. The price is absolute: every shift erodes identity, calcifies skin, and frays the nervous system. The dance is killing them. They can't stop.",
+    "fullEntry": "The Shaper tradition was born when the Mimir chronicler Veyra proved two regional arts were one dance seen from two angles. In the Frostwood Reach, the kinetic momentum dance was born among the ironwood canopy: a hyper-accelerated combat art of wind-synced striking. In the Cragjaw Peaks, the biological body-sculpting art arose at Frostmaw Holdfast, where practitioners drank raw alchemical sulfur-clay to calcify and reshape their own skeletons. Veyra fused them decades into the Freezing Era, proving that momentum shapes form and form directs momentum. A Shaper navigates six Shaping Forms that blend kinetic stances with physical adaptation, building Flux through combat and accumulating Body Toll from every transformation. The tradition is taught at the Shaping Hall in Frostmaw Holdfast and in the deep ironwood groves of the Frostwood Reach. The price is absolute: every shift erodes identity, calcifies skin, and frays the nervous system. The dance is killing them. They can't stop.",
     "relatedTerms": [
       "bladedancer",
       "cragjaw-peaks",
@@ -1005,7 +1005,7 @@
     "type": "class",
     "region": "bryngloom-forest",
     "summary": "A death caster who has returned from the grave, combining blood-magic sacrifice (Kora's covenant) with frost-stasis harvest (Vesper's phylactery) into a unified economy of death.",
-    "fullEntry": "In the later decades of the Freezing Era, the bog-graves of the Bryngloom began waking on their own, and two death-magic schools recognized they'd been fighting the same war. Kora the Veil-Speaker had sacrificed her own life-force to keep the ancestral lights burning, and the curse for it was hearing the dead scream. Vesper the Scribe had bound his soul to a basalt phylactery and negotiated perpetual dying to escape the lung-rot of the sumps. Their traditions merged into the Revenant: a caster who carries both a volatile Death Toll of blood-derived necrotic energy and a kill-charged Phylactery for frost-stasis resurrection, toggling between Rest Mode and Death Shroud to burn their own HP for devastating power.",
+    "fullEntry": "In the later decades of the Freezing Era, the bog-graves of the Bryngloom began waking on their own, and two death-magic schools recognized they'd been fighting the same war. Kora the Veil-Speaker had sacrificed her own life-force to keep the ancestral lights burning, and the curse for it was hearing the dead scream. Vesper the Scribe had bound his soul to a basalt phylactery and negotiated perpetual dying to escape the lung-rot of the sumps. Their traditions merged into the Revenant: a caster who carries both a volatile Toll of blood-derived necrotic energy and a kill-charged Phylactery for frost-stasis resurrection, toggling between Rest Mode and Death Shroud to burn their own HP for devastating power.",
     "relatedTerms": [
       "bryngloom-forest",
       "deathcaller",
@@ -1022,11 +1022,11 @@
     "type": "concept",
     "region": "bryngloom-forest",
     "summary": "A dead Bryngloom blood-magic art that fed the caster's life-force to luminous ancestors. Lives on only inside the Revenant class.",
-    "fullEntry": "In the deep peat-bogs of the Bryngloom Forest, Kora the Veil-Speaker taught her covenant to feed their own blood to the ancestral lights. The dead rewarded them with luminous counsel and volatile Blood Tokens that could be spent on necrotic workings. It cost them their health. Kora could hear the dead screaming. By the end, she could hear little else.\n\nWhen Vesper the Scribe fused his basalt phylactery to the same bargain, the two traditions recognized they were fighting the same war. They merged into the Revenant class. The last pure Deathcaller covenant dissolved when its senior member could no longer hear the ancestors over the merged chorus.\n\nFormer Deathcallers who refused the merger were absorbed into Vreken ancestral-rite roles, or driven into the Over-Shanty as unlicensed blood-workers. The Veil-Speaker Shrine in the deep peat still marks where Kora first fed the lights, and Revenants of the blood-covenant inclination still make offerings there before major workings.\n\nIf you walk the Revenant's path, you carry Kora's blood-debt and Vesper's frost-chain both. A few blood-purists still run a hotter Death Toll and refuse the Death Shroud, burning out faster but hitting harder. The choice is yours.",
+    "fullEntry": "In the deep peat-bogs of the Bryngloom Forest, Kora the Veil-Speaker taught her covenant to feed their own blood to the ancestral lights. The dead rewarded them with luminous counsel and volatile Blood Tokens that could be spent on necrotic workings. It cost them their health. Kora could hear the dead screaming. By the end, she could hear little else.\n\nWhen Vesper the Scribe fused his basalt phylactery to the same bargain, the two traditions recognized they were fighting the same war. They merged into the Revenant class. The last pure Deathcaller covenant dissolved when its senior member could no longer hear the ancestors over the merged chorus.\n\nFormer Deathcallers who refused the merger were absorbed into Vreken ancestral-rite roles, or driven into the Over-Shanty as unlicensed blood-workers. The Veil-Speaker Shrine in the deep peat still marks where Kora first fed the lights, and Revenants of the blood-covenant inclination still make offerings there before major workings.\n\nIf you walk the Revenant's path, you carry Kora's blood-debt and Vesper's frost-chain both. A few blood-purists still run a hotter Toll and refuse the Death Shroud, burning out faster but hitting harder. The choice is yours.",
     "transition": {
       "aftermath": "Kora's blood-covenant practitioners who refused the merge were gradually absorbed into Vreken ancestral-rite roles or driven into the Over-Shanty as unlicensed blood-workers. The last pure Deathcaller covenant dissolved when its senior member could no longer hear the ancestors over the merged chorus.",
       "legacySite": "The Veil-Speaker Shrine in the deep peat-bogs marks where <LoreLink termId=\"kora\">Kora</LoreLink> first fed the ancestral lights; Revenants of the blood-covenant inclination still make offerings here before major workings.",
-      "survivorNote": "A few \"blood-purists\" maintain that the phylactery frost-mode dilutes the blood-covenant volatility; they run hotter Death Toll and refuse the Death Shroud, burning out faster but hitting harder."
+      "survivorNote": "A few \"blood-purists\" maintain that the phylactery frost-mode dilutes the blood-covenant volatility; they run hotter Toll and refuse the Death Shroud, burning out faster but hitting harder."
     },
     "relatedTerms": [
       "bryngloom-forest",
@@ -1041,11 +1041,11 @@
     "type": "concept",
     "region": "cragjaw-peaks",
     "summary": "A dead Cragjaw tradition of steam-powered iron juggernauts. The Groven furnace-armor guilds still stamp the old sigil on every plate of Ironclad Martyr-issue.",
-    "fullEntry": "In the vertical warrens of the Cragjaw Peaks, Groven troll-kin welded heating pipes to their own bodies and sealed themselves in iron plate to fight the Skreika. They became steam-powered juggernauts: slow, furnace-hot, and impossible to move from a corridor once they anchored. The Dreadnaughts held the deep tunnels when nothing else could.\n\nThe tradition did not die. It re-licensed. The old Dreadnaught foundries at Frostmaw now produce Ironclad plate under Steam-Line Cartel contracts, and the senior Dreadnaught smiths became the first Ironclad instructors. What was once a Groven defense-rite is now a specialization of the Martyr class, the furnace-bound path where penitents combine willing sacrifice with combustion-engine mechanics.\n\nA few elder pure-furnace Groven insist the Martyr theology corrupts the engineering. They run their boilers cold, without the Devotion Gauge, and there are fewer of them every winter. The Old Foundry beneath Frostmaw still stamps the Dreadnaught sigil, a pipe-crossed fist, onto every plate of Ironclad-issue as a maker-mark. It is the only public acknowledgment that the original tradition ever existed.\n\nWalk the Ironclad path and you wear a hundred years of Groven engineering on your back. The boiler still answers the old commands. The furnace still hungers.",
+    "fullEntry": "In the vertical warrens of the Cragjaw Peaks, Groven troll-kin welded heating pipes to their own bodies and sealed themselves in iron plate to fight the Skreika. They became steam-powered juggernauts: slow, furnace-hot, and impossible to move from a corridor once they anchored. The Dreadnaughts held the deep tunnels when nothing else could.\n\nThe tradition did not die. It re-licensed. The old Dreadnaught foundries at Frostmaw now produce Ironclad plate under Steam-Line Cartel contracts, and the senior Dreadnaught smiths became the first Ironclad instructors. What was once a Groven defense-rite is now a specialization of the Martyr class, the furnace-bound path where penitents combine willing sacrifice with combustion-engine mechanics.\n\nA few elder pure-furnace Groven insist the Martyr theology corrupts the engineering. They run their boilers cold, without the Devotion, and there are fewer of them every winter. The Old Foundry beneath Frostmaw still stamps the Dreadnaught sigil, a pipe-crossed fist, onto every plate of Ironclad-issue as a maker-mark. It is the only public acknowledgment that the original tradition ever existed.\n\nWalk the Ironclad path and you wear a hundred years of Groven engineering on your back. The boiler still answers the old commands. The furnace still hungers.",
     "transition": {
       "aftermath": "The <LoreLink termId=\"groven\">Groven</LoreLink> furnace-armor guilds did not dissolve, they re-licensed. The old Dreadnaught foundries at <LoreLink termId=\"frostmaw_holdfast\">Frostmaw</LoreLink> now produce Ironclad plate under Steam-Line Cartel contracts, and the senior Dreadnaught smiths became the first Ironclad instructors.",
       "legacySite": "The Old Foundry beneath Frostmaw still stamps the Dreadnaught sigil (a pipe-crossed fist) onto Ironclad plate as a maker-mark, the only surviving public acknowledgment of the original tradition.",
-      "survivorNote": "Elder \"pure-furnace\" Groven insist the Martyr theology corrupts the engineering; they maintain the original combustion-mechanics without the Devotion Gauge, running their boilers cold. They are fewer each winter."
+      "survivorNote": "Elder \"pure-furnace\" Groven insist the Martyr theology corrupts the engineering; they maintain the original combustion-mechanics without the Devotion, running their boilers cold. They are fewer each winter."
     },
     "relatedTerms": [
       "cragjaw-peaks",
@@ -1190,9 +1190,9 @@
     "type": "concept",
     "region": "bryngloom-forest",
     "summary": "A dead Bryngloom undeath art. Vesper's basalt phylactery still pulses in the Cold Hearth once an hour.",
-    "fullEntry": "Vesper the Scribe bound his soul to a basalt phylactery in the deep peat-bogs of the Bryngloom Forest to escape the lung-rot of the sumps. He called the result perpetual dying. His followers, the Lichborne, achieved a cold undeath in exchange for cold flesh and constant life-force harvesting.\n\nWhen the bog-graves began waking on their own, the Lichborne recognized their war was the same as Kora's Deathcaller covenant. The two traditions merged into the Revenant class. Lichborne who refused the blood-covenant merge retreated into deep peat-bog hermitage. A few cold-purists still maintain solitary phylacteries in the deep sumps, refusing the volatile Death Toll in favor of slow, cold unlife.\n\nVesper's own basalt stone is enshrined in the Cold Hearth and still pulses once per hour. Revenants of the frost-stasis inclination touch it before long operations. The cold-purists run colder and slower than merged Revenants, with less burst power but dramatically longer unlife. Several have been in continuous frost-stasis since before the merger and remember the Bryngloom before the Root-Veil began rejecting the Marked.\n\nWalk the Revenant's road and you carry Vesper's stone and Kora's blood in the same chest. The pulse still keeps time.",
+    "fullEntry": "Vesper the Scribe bound his soul to a basalt phylactery in the deep peat-bogs of the Bryngloom Forest to escape the lung-rot of the sumps. He called the result perpetual dying. His followers, the Lichborne, achieved a cold undeath in exchange for cold flesh and constant life-force harvesting.\n\nWhen the bog-graves began waking on their own, the Lichborne recognized their war was the same as Kora's Deathcaller covenant. The two traditions merged into the Revenant class. Lichborne who refused the blood-covenant merge retreated into deep peat-bog hermitage. A few cold-purists still maintain solitary phylacteries in the deep sumps, refusing the volatile Toll in favor of slow, cold unlife.\n\nVesper's own basalt stone is enshrined in the Cold Hearth and still pulses once per hour. Revenants of the frost-stasis inclination touch it before long operations. The cold-purists run colder and slower than merged Revenants, with less burst power but dramatically longer unlife. Several have been in continuous frost-stasis since before the merger and remember the Bryngloom before the Root-Veil began rejecting the Marked.\n\nWalk the Revenant's road and you carry Vesper's stone and Kora's blood in the same chest. The pulse still keeps time.",
     "transition": {
-      "aftermath": "<LoreLink termId=\"vesper\">Vesper</LoreLink>'s frost-stasis practitioners who refused the blood-covenant merge retreated into deep peat-bog hermitage; a few \"cold-purists\" still maintain solitary phylacteries in the deep sumps, refusing the volatile Death Toll in favor of slow, cold undeath.",
+      "aftermath": "<LoreLink termId=\"vesper\">Vesper</LoreLink>'s frost-stasis practitioners who refused the blood-covenant merge retreated into deep peat-bog hermitage; a few \"cold-purists\" still maintain solitary phylacteries in the deep sumps, refusing the volatile Toll in favor of slow, cold undeath.",
       "legacySite": "Vesper's Basalt-Phylactery (the founder's own stone) is enshrined in the Cold Hearth and still pulses once per hour; Revenants of the frost-stasis inclination touch it before long operations.",
       "survivorNote": "The cold-purists run colder and slower than merged Revenants, less burst power, but dramatically longer unlife. Several have been in continuous frost-stasis since before the merger and remember the Bryngloom before the Root-Veil began rejecting the Marked."
     },
@@ -1223,10 +1223,10 @@
     "term": "Martyr",
     "type": "class",
     "region": "sundale",
-    "summary": "A self-sacrificing healer and shield who absorbs the suffering of allies into their own body, converting it into protective power through the Devotion Gauge.",
-    "fullEntry": "Sera Solvan carved her sacrificed child's name into her forearm with volcanic obsidian just after the Great Binding, and the wound glowed instead of healing. That scar became the first Martyr's mark. A Martyr doesn't protect allies by standing between them and danger. They absorb what reaches allies into themselves, metabolizing kinetic and magical damage into spiritual resonance tracked in the Devotion Gauge. At low Devotion, a Martyr is a walking wound. At high Devotion, they are a radiant engine of protection that makes the whole party harder to harm. The tradition selects heavily for those who find meaning in suffering.",
+    "summary": "A self-sacrificing healer and shield who absorbs the suffering of allies into their own body, converting it into protective power through the Devotion.",
+    "fullEntry": "Sera Solvan carved her sacrificed child's name into her forearm with volcanic obsidian just after the Great Binding, and the wound glowed instead of healing. That scar became the first Martyr's mark. A Martyr doesn't protect allies by standing between them and danger. They absorb what reaches allies into themselves, metabolizing kinetic and magical damage into spiritual resonance tracked in the Devotion. At low Devotion, a Martyr is a walking wound. At high Devotion, they are a radiant engine of protection that makes the whole party harder to harm. The tradition selects heavily for those who find meaning in suffering.",
     "relatedTerms": [
-      "devotion_gauge",
+      "devotion",
       "dreadnaught",
       "house_solvan",
       "sera",
@@ -1337,7 +1337,7 @@
       "nordhalla"
     ],
     "summary": "A grim, penitent jailer of dual seat, the chain-graft tradition invented by the Groven Alaric in Frostmaw Holdfast (Cragjaw Peaks) and secondarily practiced through the surgical school of the Frozen Archive (Nordhalla).",
-    "fullEntry": "When the Deep Alchemists' vat-laboratories collapsed and their experiments poured into the tunnels, the Groven mine-guard Alaric drove an ore-hauling chain through his own forearm into the largest specimen and held for three days. The chain rusted into his bone. He wouldn't let them remove it. From that act came the Warden tradition: heavy-martial lockdown specialists who anchor themselves to the battlefield's greatest horrors by driving rusted hooks and chains directly into their own flesh, forcing abominations into a brutal duel of meat and bone while they build Tether Tension for devastating counter-strikes. Born in the Cragjaw, the tradition spread to Nordhalla, where the surgical school of the Frozen Archive learned the graft-rite and adapted it for glacier-hunting, producing the cold-iron Skald Wardens who tether the things that crawl from the fjords. The primary seat is the Chain-Hold at Frostmaw. The secondary is the Frozen Archive.",
+    "fullEntry": "When the Deep Alchemists' vat-laboratories collapsed and their experiments poured into the tunnels, the Groven mine-guard Alaric drove an ore-hauling chain through his own forearm into the largest specimen and held for three days. The chain rusted into his bone. He wouldn't let them remove it. From that act came the Warden tradition: heavy-martial lockdown specialists who anchor themselves to the battlefield's greatest horrors by driving rusted hooks and chains directly into their own flesh, forcing abominations into a brutal duel of meat and bone while they build Tension for devastating counter-strikes. Born in the Cragjaw, the tradition spread to Nordhalla, where the surgical school of the Frozen Archive learned the graft-rite and adapted it for glacier-hunting, producing the cold-iron Skald Wardens who tether the things that crawl from the fjords. The primary seat is the Chain-Hold at Frostmaw. The secondary is the Frozen Archive.",
     "relatedTerms": [
       "cragjaw-peaks",
       "frozen_archive",
@@ -3217,10 +3217,10 @@
     "role": "Blood-Priest of the Berserker Order",
     "region": "sundale",
     "summary": "Blood-Priest and Keeper of the First Forge, who countersigned the Skald Council execution order against the Pact-less Unbound.",
-    "fullEntry": "Hark Ash-Hammer keeps the Forge of Grum in the Harath-Vault arenas, and as Blood-Priest of the Berserker order he speaks for the Pact-sworn: those who honor the ancestral Hunger Pact and treat the Blood-Heat as a sacred liturgy passed down through the Bloodhammer line. He countersigned the Skald Council's execution order against the Unbound, the rogue Berserkers who ignite without the ritual, and he calls the deep-tunnel settlement forming beneath Emberspire a heretical church. Stand before the Forge of Grum and you stand before Hark's authority; the Blood-Heat answers the Pact-sworn, and Hark decides who counts.",
+    "fullEntry": "Hark Ash-Hammer keeps the Forge of Grum in the Harath-Vault arenas, and as Blood-Priest of the Berserker order he speaks for the Pact-sworn: those who honor the ancestral Hunger Pact and treat the Rage as a sacred liturgy passed down through the Bloodhammer line. He countersigned the Skald Council's execution order against the Unbound, the rogue Berserkers who ignite without the ritual, and he calls the deep-tunnel settlement forming beneath Emberspire a heretical church. Stand before the Forge of Grum and you stand before Hark's authority; the Rage answers the Pact-sworn, and Hark decides who counts.",
     "relatedTerms": [
       "harath_vault",
-      "blood_heat",
+      "rage",
       "emberspire",
       "sundale",
       "grum"
@@ -3368,15 +3368,15 @@
     "type": "character",
     "role": "Vigil-Mother of the Barbed Vow martyr-order",
     "region": "sundale",
-    "summary": "Keeper of the First Scar, guarding the Devotion Gauge as it corrupts into something predatory.",
-    "fullEntry": "Sol-Kaessen keeps the First Scar beneath Emberspire, Vigil-Mother of the Martyr order founded by Sera Solvan, who carved her sacrificed child's name into her arm and declared every willing wound a small death in imitation of the buried star. The Devotion Gauge, the measure of absorbed suffering that produces miraculous protection, was born from Sera's pain. Now the noble houses have perverted the founding sacrifice: they conscript Martyrs through child-training, and the Gauge itself is corrupting, drawing more suffering than was offered, feeding on the unprotected pain of anyone near a Martyr in combat. Take the Vow beneath Emberspire and you'll feel the Gauge pull more than you offered; Sol-Kaessen is the one who decides whether that pull is still sacred or already predatory.",
+    "summary": "Keeper of the First Scar, guarding the Devotion as it corrupts into something predatory.",
+    "fullEntry": "Sol-Kaessen keeps the First Scar beneath Emberspire, Vigil-Mother of the Martyr order founded by Sera Solvan, who carved her sacrificed child's name into her arm and declared every willing wound a small death in imitation of the buried star. The Devotion, the measure of absorbed suffering that produces miraculous protection, was born from Sera's pain. Now the noble houses have perverted the founding sacrifice: they conscript Martyrs through child-training, and the Gauge itself is corrupting, drawing more suffering than was offered, feeding on the unprotected pain of anyone near a Martyr in combat. Take the Vow beneath Emberspire and you'll feel the Gauge pull more than you offered; Sol-Kaessen is the one who decides whether that pull is still sacred or already predatory.",
     "relatedTerms": [
       "emberspire",
       "sundale",
       "house_solvan",
       "sera"
     ],
-    "worldFriction": "The Devotion Gauge is corrupting, drawing suffering that was never offered."
+    "worldFriction": "The Devotion is corrupting, drawing suffering that was never offered."
   },
   "mer-lyrisa": {
     "id": "mer-lyrisa",
@@ -3822,11 +3822,11 @@
     "type": "character",
     "role": "Founder of the Berserker Path",
     "region": "sundale",
-    "summary": "The first Berserker, who ignited the Blood-Heat in Emberspire's caldera. His forge still burns in the Harath-Vault.",
-    "fullEntry": "Grum Bloodhammer was the first to ignite the Blood-Heat, the metabolic fury that converts the body into a self-destructive engine of war. Where the Skald say the Hunger Pact originated in Nordhalla's three-winter blizzard, when ancestors consumed their own fallen to survive, Grum channeled that ancestral fire into something deliberate: a weapon. He lit the first Blood-Heat in the caldera of Emberspire, and his fury was so bright the Solvarn Vigil thought the buried star was returning. The Forge of Grum in the Harath-Vault, where Berserkers still train beneath the volcanic stone, carries the impression of his hammer in the floor. Strike the floor and you'll feel where he stood; the stone still remembers the heat of the first Berserker who burned himself into it.",
+    "summary": "The first Berserker, who ignited the Rage in Emberspire's caldera. His forge still burns in the Harath-Vault.",
+    "fullEntry": "Grum Bloodhammer was the first to ignite the Rage, the metabolic fury that converts the body into a self-destructive engine of war. Where the Skald say the Hunger Pact originated in Nordhalla's three-winter blizzard, when ancestors consumed their own fallen to survive, Grum channeled that ancestral fire into something deliberate: a weapon. He lit the first Rage in the caldera of Emberspire, and his fury was so bright the Solvarn Vigil thought the buried star was returning. The Forge of Grum in the Harath-Vault, where Berserkers still train beneath the volcanic stone, carries the impression of his hammer in the floor. Strike the floor and you'll feel where he stood; the stone still remembers the heat of the first Berserker who burned himself into it.",
     "relatedTerms": [
       "harath_vault",
-      "blood_heat",
+      "rage",
       "emberspire",
       "sundale",
       "skald",
@@ -3978,7 +3978,7 @@
     "role": "Founder of the Martyr Path",
     "region": "sundale",
     "summary": "The Solvarn noblewoman who carved her sacrificed child's name into her arm and founded willing suffering as a sacred art.",
-    "fullEntry": "Sera Solvan carved her sacrificed child's name into her own arm after the ritual that kept Sol imprisoned beneath Emberspire, and declared every wound willingly absorbed a small death in imitation of the buried star she helped entomb. The Devotion Gauge, the measure of accumulated suffering that generates miraculous protection, was born from her pain. Her house, the Solari, now conscript their own children into Martyr training. What Sera created as a personal act of atonement has become a factory of consecrated suffering. Take the Vow that Sera carved into her own skin and you inherit her grief and her Gauge; the question the Solari no longer ask is whether the suffering still serves the star, or whether it has started serving itself.",
+    "fullEntry": "Sera Solvan carved her sacrificed child's name into her own arm after the ritual that kept Sol imprisoned beneath Emberspire, and declared every wound willingly absorbed a small death in imitation of the buried star she helped entomb. The Devotion, the measure of accumulated suffering that generates miraculous protection, was born from her pain. Her house, the Solari, now conscript their own children into Martyr training. What Sera created as a personal act of atonement has become a factory of consecrated suffering. Take the Vow that Sera carved into her own skin and you inherit her grief and her Gauge; the question the Solari no longer ask is whether the suffering still serves the star, or whether it has started serving itself.",
     "relatedTerms": [
       "emberspire",
       "sundale",

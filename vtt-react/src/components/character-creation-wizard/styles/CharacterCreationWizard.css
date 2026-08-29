@@ -11331,6 +11331,20 @@ button.gender-option.selected {
     line-height: 1.5;
 }
 
+select.lore-field-input,
+.lore-field-select {
+    cursor: pointer;
+    background-color: #ffffff;
+    font-weight: 500;
+}
+
+select.lore-field-input option,
+.lore-field-select option {
+    background-color: #ffffff;
+    color: #1a1208;
+    padding: 0.5rem;
+}
+
 /* Keep the app-wide gold focus ring for consistency across the wizard */
 .lore-field-input:focus {
     outline: none;
@@ -14423,10 +14437,11 @@ button.gender-option.selected {
 @media (max-width: 768px) {
     .mobile-section-tabs-bar {
         display: flex;
-        gap: 0.4rem;
-        padding: 0.5rem 0.5rem 0;
+        gap: 0.5rem;
+        padding: 0.6rem 0.6rem 0.65rem;
+        margin-bottom: 0.75rem;
         background: rgba(60, 40, 20, 0.08);
-        border-bottom: 2px solid #997e55;
+        border-bottom: 1.5px solid rgba(153, 126, 85, 0.4);
         position: sticky;
         top: 0;
         z-index: 20;
@@ -14435,20 +14450,20 @@ button.gender-option.selected {
 
     .mobile-section-tab {
         flex: 1;
-        padding: 0.5rem 0.25rem;
+        padding: 0.55rem 0.35rem;
         border: 1px solid rgba(153, 126, 85, 0.35);
-        background: rgba(255, 250, 240, 0.55);
+        background: rgba(255, 250, 240, 0.65);
         color: #6b5a42;
         font-family: 'Crimson Text', serif;
-        font-size: 0.78rem;
+        font-size: 0.82rem;
         font-weight: 600;
         cursor: pointer;
-        border-radius: 12px;
+        border-radius: 10px;
         border-bottom: 1px solid rgba(153, 126, 85, 0.35);
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 0.2rem;
+        gap: 0.25rem;
         transition: color 0.15s, background 0.15s, border-color 0.15s;
         -webkit-tap-highlight-color: transparent;
     }
@@ -14459,9 +14474,10 @@ button.gender-option.selected {
 
     .mobile-section-tab.active {
         color: #2e1e0f;
-        background: rgba(200, 164, 92, 0.22);
+        background: rgba(200, 164, 92, 0.28);
         border-color: #c8a45c;
         border-bottom: 1px solid #c8a45c;
+        box-shadow: 0 2px 6px rgba(153, 126, 85, 0.2);
     }
 
     .mobile-section-tab:disabled {
@@ -14493,26 +14509,349 @@ button.gender-option.selected {
 }
 
 /* ============================================================
-   MOBILE HEADER - single row with compact arrow nav buttons
-   [Cancel][<]  [1 2 3 4 5]  [>] / [Create]
+   WIZARD HEADER & FLOATING NAVIGATION ORB CLUSTER STYLES
    ============================================================ */
+
+/* Header title block */
+.wizard-header-title-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 2px;
+}
+
+.wizard-step-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #8b5a1a;
+}
+
+.wizard-step-title {
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #2e1e0f;
+    letter-spacing: 0.5px;
+}
+
+.header-step-counter-pill {
+    background: rgba(153, 126, 85, 0.18);
+    border: 1px solid rgba(153, 126, 85, 0.4);
+    border-radius: 12px;
+    padding: 3px 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #5a3812;
+}
+
+/* Floating Step Navigation Orb Cluster */
+.wizard-navigation-orb-cluster {
+    position: fixed;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    pointer-events: auto;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.wizard-orb-wrapper {
+    position: relative;
+}
+
+/* Center Step Orb - Styled like the golden parchment cogwheel orb */
+.wizard-step-orb {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #e4d8bd 0%, #d4c5a9 55%, #c2b192 100%);
+    border: 2px solid rgba(139, 115, 85, 0.85);
+    color: #4e361d;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.35),
+        0 0 12px rgba(139, 115, 85, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        inset 0 -2px 4px rgba(120, 96, 60, 0.25);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    padding: 0;
+    font-family: 'Cinzel', serif;
+    touch-action: manipulation;
+}
+
+.wizard-step-orb:hover {
+    transform: scale(1.08);
+    box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.4),
+        0 0 16px rgba(139, 115, 85, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    border-color: #8b5a1a;
+}
+
+.wizard-step-orb:active,
+.wizard-step-orb.active {
+    transform: scale(0.96);
+    background: linear-gradient(145deg, #d9c9a8 0%, #c4b59a 55%, #b0a084 100%);
+    border-color: #5c3915;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.wizard-orb-step-label {
+    font-size: 8.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    opacity: 0.75;
+    line-height: 1;
+}
+
+.wizard-orb-number {
+    font-size: 19px;
+    font-weight: 800;
+    line-height: 1;
+    margin-top: 1px;
+    color: #2e1e0f;
+}
+
+/* Orb Left (<) and Right (>) Arrow Buttons */
+.wizard-orb-arrow {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #fcf9f2 0%, #ede4d6 100%);
+    border: 1.5px solid rgba(139, 115, 85, 0.65);
+    color: #5a3812;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    transition: all 0.15s ease;
+    touch-action: manipulation;
+}
+
+.wizard-orb-arrow:hover:not(:disabled) {
+    transform: scale(1.08);
+    background: #fdfbf7;
+    border-color: #8b5a1a;
+    color: #2e1e0f;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.wizard-orb-arrow:active:not(:disabled) {
+    transform: scale(0.95);
+    background: #d4c5a9;
+}
+
+.wizard-orb-arrow:disabled {
+    opacity: 0.28;
+    cursor: not-allowed;
+    box-shadow: none;
+    border-color: rgba(139, 115, 85, 0.3);
+}
+
+.wizard-orb-arrow.finish {
+    background: linear-gradient(135deg, #2d5a3c 0%, #1e3d29 100%);
+    color: #ffffff;
+    border-color: #1e3d29;
+    box-shadow: 0 3px 12px rgba(45, 90, 60, 0.4);
+}
+
+.wizard-orb-arrow.finish:hover:not(:disabled) {
+    background: linear-gradient(135deg, #376d49 0%, #244932 100%);
+    transform: scale(1.1);
+}
+
+/* Step Quick Jump Popover Menu */
+.wizard-orb-menu {
+    position: absolute;
+    bottom: 64px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 270px;
+    background: #fdfbf7;
+    border: 2px solid #8b5a1a;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(139, 90, 26, 0.06);
+    padding: 8px;
+    z-index: 10002;
+    animation: orbMenuSlideUp 0.18s ease-out;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+@keyframes orbMenuSlideUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.wizard-orb-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 8px 8px 8px;
+    border-bottom: 1px solid rgba(139, 90, 26, 0.25);
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #5c140e;
+}
+
+.orb-menu-close {
+    background: none;
+    border: none;
+    color: #8b5a1a;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.orb-menu-close:hover {
+    color: #a8241b;
+}
+
+.wizard-orb-menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 6px;
+}
+
+.wizard-orb-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 9px;
+    border: 1px solid rgba(139, 90, 26, 0.15);
+    border-radius: 6px;
+    background: #f7f2ea;
+    color: #2b1408;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.12s ease;
+    font-family: 'Spectral', Georgia, serif;
+}
+
+.wizard-orb-menu-item:hover {
+    background: #ede4d6;
+    border-color: #8b5a1a;
+    transform: translateX(2px);
+}
+
+.wizard-orb-menu-item.current {
+    background: rgba(212, 175, 55, 0.25);
+    border-color: #d4af37;
+    box-shadow: 0 0 0 1px #d4af37;
+}
+
+.wizard-orb-menu-item.completed:not(.current) {
+    border-left: 3px solid #2d5a3c;
+}
+
+.orb-menu-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #e2d5b8;
+    border: 1px solid rgba(139, 90, 26, 0.5);
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #4e361d;
+}
+
+.wizard-orb-menu-item.current .orb-menu-num {
+    background: #d4af37;
+    color: #1a0f05;
+    border-color: #8b5a1a;
+}
+
+.orb-menu-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.orb-menu-name {
+    font-family: 'Cinzel', serif;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #2e1e0f;
+    line-height: 1.2;
+}
+
+.orb-menu-desc {
+    font-size: 10px;
+    color: #6b5a42;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.orb-menu-check {
+    color: #2d5a3c;
+    font-size: 11px;
+}
+
+.orb-menu-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: #d4af37;
+    color: #1a0f05;
+    text-transform: uppercase;
+}
+
+/* Ensure content has clearance at bottom for floating orb */
+.character-wizard-container .wizard-content {
+    padding-bottom: 80px !important;
+}
 
 @media (max-width: 768px) {
     .character-wizard-container .wizard-top-header {
         gap: 0.4rem !important;
-        padding: 0.4rem 0.5rem !important;
+        padding: 0.5rem 0.8rem !important;
         min-height: auto !important;
         flex-wrap: nowrap !important;
         justify-content: space-between !important;
-        /* Soften the desktop "3px double" hard edge into a thin hairline on
-           mobile (declared after the base rule at L11579 so it wins). */
-        border-bottom: 1px solid rgba(153, 126, 85, 0.22) !important;
+        border-bottom: 1px solid rgba(153, 126, 85, 0.25) !important;
         box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05) !important;
     }
 
     .character-wizard-container .header-left {
         flex: 0 0 auto !important;
-        gap: 0.35rem !important;
         min-width: 0 !important;
     }
 
@@ -14524,43 +14863,16 @@ button.gender-option.selected {
         min-width: 0 !important;
     }
 
-    .character-wizard-container .header-left,
-    .character-wizard-container .header-right {
-        /* Mobile: stop floating over the centered step row. Participate in the
-           normal flex row so Previous/Next can't overlap the step circles. */
-        position: static !important;
-        z-index: auto !important;
-        /* The base rule vertically-centers these via translateY(-50%) for their
-           desktop absolute positioning. Now that they're in normal flow that
-           transform shunts them above the header (y:-18). Kill it. */
-        transform: none !important;
-        top: auto !important;
-        align-self: center !important;
-    }
-
     .character-wizard-container .header-right {
         flex: 0 0 auto !important;
     }
 
-    /* Hide the step-row scrollbar but keep touch scrolling (native-app feel).
-       Content fits on phones, but on very small devices you can still swipe. */
-    .character-wizard-container .header-center {
-        overflow-x: auto !important;
-        overflow-y: hidden !important;
-        scrollbar-width: none !important;          /* Firefox */
-        -ms-overflow-style: none !important;       /* IE/legacy Edge */
-    }
-    .character-wizard-container .header-center::-webkit-scrollbar {
-        display: none !important;                  /* Chromium/Safari */
-    }
-
-    /* Compact Cancel icon-button so the whole row fits and stays balanced */
     .character-wizard-container .header-left .wizard-btn-cancel {
         padding: 0 !important;
-        width: 44px !important;
-        height: 44px !important;
-        min-width: 44px !important;
-        min-height: 44px !important;
+        width: 38px !important;
+        height: 38px !important;
+        min-width: 38px !important;
+        min-height: 38px !important;
         border-radius: 50% !important;
         display: inline-flex !important;
         align-items: center !important;
@@ -14568,64 +14880,12 @@ button.gender-option.selected {
         font-size: 0.95rem !important;
     }
 
-    /* Nav arrows: match the step-circle height so the whole row reads as one
-       unified stepper (was 44px — taller than the 36px circles, looked
-       mismatched). Override the .wizard-btn min-height too. */
-    .character-wizard-container .wizard-btn-icon {
-        width: 44px !important;
-        height: 44px !important;
-        min-width: 44px !important;
-        min-height: 44px !important;
+    .wizard-step-title {
         font-size: 0.95rem !important;
-        padding: 0 !important;
     }
 
-    /* The Previous arrow is redundant on mobile — the step circles are directly
-       tappable for back-navigation — and on step 5 the wider Create button plus
-       Cancel + Previous + 5 circles overcrowded/cut off the header. Drop it. */
-    .character-wizard-container .wizard-btn-icon[aria-label="Previous step"] {
-        display: none !important;
-    }
-
-    /* Compact Create button on the final step */
-    .character-wizard-container .header-right .wizard-btn-create {
-        padding: 0.4rem 0.7rem !important;
-        min-width: 0 !important;
-        font-size: 0.8rem !important;
-    }
-
-    /* Compress step indicators to small dots, hide labels/connectors */
-    .character-wizard-container .progress-steps-horizontal {
-        gap: 0.2rem !important;
-        justify-content: center !important;
-        flex-wrap: nowrap !important;
-    }
-
-    .character-wizard-container .progress-step-horizontal {
-        min-width: 0 !important;
-        max-width: none !important;
-        gap: 0 !important;
-    }
-
-    .character-wizard-container .step-name-horizontal,
-    .character-wizard-container .step-connector {
-        display: none !important;
-    }
-
-    /* Step indicators: min 44px touch targets */
-    .character-wizard-container .step-circle-horizontal {
-        width: 44px !important;
-        height: 44px !important;
-        min-width: 44px !important;
-        min-height: 44px !important;
-        max-width: 44px !important;
-        max-height: 44px !important;
-        font-size: 0.85rem !important;
-        border-width: 2px !important;
-    }
-
-    .character-wizard-container .progress-step-horizontal.active .step-circle-horizontal {
-        transform: scale(1.08) !important;
+    .wizard-step-badge {
+        font-size: 0.65rem !important;
     }
 }
 

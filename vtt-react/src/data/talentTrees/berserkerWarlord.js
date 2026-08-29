@@ -1,7 +1,7 @@
 // ============================================
 // BERSERKER — WARLORD (v2: talents are spells)
-// Spec: Sanguine Dictator, Tyrannical Dirge, Blood-Heat War Cries, Shared Frenzy, Lifesteal Auras
-// Resource: Blood-Heat (0-100)
+// Spec: Sanguine Dictator, Tyrannical Dirge, Rage War Cries, Shared Frenzy, Lifesteal Auras
+// Resource: Rage (0-100)
 // ============================================
 
 export const BERSERKER_WARLORD = [
@@ -24,7 +24,7 @@ export const BERSERKER_WARLORD = [
     },
     rankUpgrades: [
       { description: "Galvanized allies gain +1d8 bonus damage on their next strike, and radius extends to 40 ft.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } },
-      { description: "Galvanized allies gain +2d6 bonus damage and +10 ft movement speed; you gain +5 Blood-Heat per ally galvanized.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } }
+      { description: "Galvanized allies gain +2d6 bonus damage and +10 ft movement speed; you gain +5 Rage per ally galvanized.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -59,7 +59,7 @@ export const BERSERKER_WARLORD = [
     requires: null,
     spell: {
       name: "Kin-Blood Resonance",
-      description: "Passive: Whenever an ally within 30 ft lands a critical hit, gain +10 Blood-Heat. Whenever an ally falls below 50% health, your war cry ranges are doubled.",
+      description: "Passive: Whenever an ally within 30 ft lands a critical hit, gain +10 Rage. Whenever an ally falls below 50% health, your war cry ranges are doubled.",
       flavorText: "The Skald marrow connects all who bleed in the same circle.",
       source: "talent", class: "Berserker", treeId: "warlord",
       spellType: "PASSIVE", category: "buff",
@@ -67,7 +67,7 @@ export const BERSERKER_WARLORD = [
       visualTheme: "blood", tags: ["passive", "team-synergy", "blood-heat", "berserker"]
     },
     rankUpgrades: [
-      { description: "Ally critical hits grant +20 Blood-Heat, and you heal for 10% of damage dealt by ally critical hits." }
+      { description: "Ally critical hits grant +20 Rage, and you heal for 10% of damage dealt by ally critical hits." }
     ]
   },
 
@@ -230,7 +230,7 @@ export const BERSERKER_WARLORD = [
     requires: "bwl_t4_blood_tithe_command",
     spell: {
       name: "Shared Metabolic Surge",
-      description: "Passive: While you are at 75+ Blood-Heat, all party members share your heat benefits: they gain +2d6 ember bonus damage on attacks and ignore difficult terrain.",
+      description: "Passive: While you are at 75+ Rage, all party members share your heat benefits: they gain +2d6 ember bonus damage on attacks and ignore difficult terrain.",
       flavorText: "When the leader burns, the entire line turns white-hot.",
       source: "talent", class: "Berserker", treeId: "warlord",
       spellType: "PASSIVE", category: "buff",
@@ -239,8 +239,8 @@ export const BERSERKER_WARLORD = [
       visualTheme: "fire", tags: ["passive", "aura", "fire-buff", "heat-share", "berserker"]
     },
     rankUpgrades: [
-      { description: "Threshold lowers to 50+ Blood-Heat, and bonus damage increases to +3d6 ember.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } },
-      { description: "Threshold lowers to 40+ Blood-Heat; allies also gain Advantage on all physical saving throws." }
+      { description: "Threshold lowers to 50+ Rage, and bonus damage increases to +3d6 ember.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } },
+      { description: "Threshold lowers to 40+ Rage; allies also gain Advantage on all physical saving throws." }
     ]
   },
   {
@@ -260,7 +260,7 @@ export const BERSERKER_WARLORD = [
       visualTheme: "blood", tags: ["passive", "ap-reduction", "anti-silence", "berserker"]
     },
     rankUpgrades: [
-      { description: "Shouts also grant you 10 Blood-Heat on use and knock adjacent enemies back 5 ft." }
+      { description: "Shouts also grant you 10 Rage on use and knock adjacent enemies back 5 ft." }
     ]
   },
 

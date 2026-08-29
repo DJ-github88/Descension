@@ -1518,6 +1518,43 @@ const useLevelEditorStore = create((set, get) => ({
     return state.windowOverlays[`${gridX},${gridY}`] || null;
   },
 
+  // Move a window overlay in a single atomic update (prevents flicker/stutter while dragging)
+  moveWindowOverlay: (oldX, oldY, newX, newY, wallKey = null, mapId = null) => {
+    const state = get();
+    const oldKeyFormats = [
+      `${oldX},${oldY}`,
+      `${parseFloat(oldX).toFixed(1)},${parseFloat(oldY).toFixed(1)}`,
+      `${parseFloat(oldX).toFixed(3)},${parseFloat(oldY).toFixed(3)}`
+    ];
+    const newKey = `${parseFloat(newX).toFixed(3)},${parseFloat(newY).toFixed(3)}`;
+
+    const oldData = state.windowOverlays[oldKeyFormats[2]] ||
+      state.windowOverlays[oldKeyFormats[1]] ||
+      state.windowOverlays[oldKeyFormats[0]];
+
+    const newWindowOverlays = { ...state.windowOverlays };
+    oldKeyFormats.forEach(key => delete newWindowOverlays[key]);
+    newWindowOverlays[newKey] = {
+      type: oldData?.type || 'glass_window',
+      id: oldData?.id || Date.now().toString(),
+      gridX: parseFloat(parseFloat(newX).toFixed(3)),
+      gridY: parseFloat(parseFloat(newY).toFixed(3)),
+      wallKey
+    };
+
+    set({
+      windowOverlays: newWindowOverlays,
+      selectedWindowKey: (state.selectedWindowKey && oldKeyFormats.includes(state.selectedWindowKey))
+        ? newKey
+        : state.selectedWindowKey
+    });
+
+    // Emit window overlay update to multiplayer server via batcher
+    if (!window._isReceivingMapUpdate) {
+      mapUpdateBatcher.addUpdate('windowOverlays', newWindowOverlays, mapId);
+    }
+  },
+
   setWindowOverlays: (windowOverlays) => {
     set({ windowOverlays: windowOverlays || {} });
   },

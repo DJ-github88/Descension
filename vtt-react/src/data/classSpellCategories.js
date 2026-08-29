@@ -746,7 +746,7 @@ export const CLASS_SPECIALIZATIONS = {
   'Inquisitor': {
     id: 'inquisitor',
     name: 'Inquisitor',
-    path: 'Righteous Authority Path',
+    path: 'Authority Path',
     description: 'Cold-iron authority and the horror-jailer\'s art. Occult arbiters who combine anti-magic negation with Wyrd-touched binding and purification rituals.',
     specializations: [
       {

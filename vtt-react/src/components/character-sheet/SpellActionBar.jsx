@@ -12,7 +12,7 @@ import { ALL_CLASS_SPELLS } from '../../data/classSpellGenerator';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { migrateBlockId } from '../../utils/arcanoneerMigration';
 import { createDeck, drawCards } from '../spellcrafting-wizard/core/mechanics/cardSystem';
-import { flipCoin, flipMultipleCoins } from '../spellcrafting-wizard/core/mechanics/coinSystem';
+import { useCharacterSpells } from '../../hooks/useCharacterSpells';
 import './SpellActionBar.css';
 
 const DEFAULT_SLOT_COUNT = 10;
@@ -394,6 +394,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
   const [pendingSpellCast, setPendingSpellCast] = useState(null);
   const [resolutionResult, setResolutionResult] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [assignTab, setAssignTab] = useState('all'); // 'all' | 'spells' | 'consumables'
   const dragSourceSlotRef = useRef(null);
 
   // Auto-dismiss resolution toast after 8 seconds
@@ -411,6 +412,29 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
       console.warn('Could not save spell action bar to storage', e);
     }
   }, [slots, storageKey]);
+
+  // Listen for assign events from touch drag or item inspect panel
+  useEffect(() => {
+    const handleAssignEvent = (e) => {
+      const { slotIndex, item, spell, autoFindSlot } = e.detail || {};
+      if (item) {
+        if (autoFindSlot || slotIndex === undefined || slotIndex === null) {
+          handleAssignConsumable(item, null);
+        } else if (slotIndex >= 0 && slotIndex < DEFAULT_SLOT_COUNT) {
+          handleAssignConsumable(item, slotIndex);
+        }
+      } else if (spell) {
+        if (autoFindSlot || slotIndex === undefined || slotIndex === null) {
+          handleAssignSpell(spell, null);
+        } else if (slotIndex >= 0 && slotIndex < DEFAULT_SLOT_COUNT) {
+          handleAssignSpell(spell, slotIndex);
+        }
+      }
+    };
+
+    window.addEventListener('spell-action-bar-assign-item', handleAssignEvent);
+    return () => window.removeEventListener('spell-action-bar-assign-item', handleAssignEvent);
+  }, [slots]);
 
   // Handle Drag Over
   const handleDragOver = (e, index) => {
@@ -449,42 +473,27 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
         return;
       }
 
-      // Dropped from SpellLibrary
-      const rawData = e.dataTransfer.getData('application/json');
-      if (rawData) {
-        const spellData = JSON.parse(rawData);
-
-        setSlots(prev => {
-          const next = [...prev];
-          next[targetIndex] = {
-            ...spellData,
-            id: spellData.id,
-            name: spellData.name,
-            icon: spellData.icon || spellData.typeConfig?.icon,
-            spellType: spellData.spellType || 'ACTION',
-            description: spellData.description || '',
-            manaCost: spellData.resourceCost?.mana || spellData.manaCost || 0,
-            apCost: spellData.resourceCost?.actionPoints || spellData.apCost || 1,
-            damageFormula: spellData.damageConfig?.formula || spellData.primaryDamage?.dice || null,
-            healingFormula: spellData.healingConfig?.formula || spellData.healing?.dice || null
-          };
-          return next;
-        });
-        return;
+      // Dropped from SpellLibrary or Inventory
+      let rawData = e.dataTransfer.getData('application/json');
+      if (!rawData) {
+        rawData = e.dataTransfer.getData('text/plain');
       }
-
-      // Dropped from Inventory (consumable items)
-      const itemData = e.dataTransfer.getData('text/plain');
-      if (itemData) {
-        const data = JSON.parse(itemData);
+      if (rawData) {
+        let data = null;
+        try {
+          data = JSON.parse(rawData);
+        } catch (parseErr) {
+          console.warn('Could not parse dropped data as JSON', parseErr);
+          return;
+        }
 
         // Check if it's an inventory item and if it's consumable
-        if (data.type === 'inventory-item' && data.item && data.item.type === 'consumable') {
-          const item = data.item;
+        if ((data.type === 'inventory-item' && data.item && data.item.type === 'consumable') || (data.type === 'consumable' && (data.originalItemId || data.id))) {
+          const item = data.item || data;
           setSlots(prev => {
             const next = [...prev];
             next[targetIndex] = {
-              id: item.id,
+              id: item.id || item.originalItemId,
               name: item.name,
               icon: item.iconId || item.icon || 'inv_potion_51',
               type: 'consumable',
@@ -495,6 +504,29 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
             };
             return next;
           });
+          return;
+        }
+
+        // Dropped spell
+        if (data.id || data.name) {
+          const spellData = data;
+          setSlots(prev => {
+            const next = [...prev];
+            next[targetIndex] = {
+              ...spellData,
+              id: spellData.id,
+              name: spellData.name,
+              icon: spellData.icon || spellData.typeConfig?.icon,
+              spellType: spellData.spellType || 'ACTION',
+              description: spellData.description || '',
+              manaCost: spellData.resourceCost?.mana || spellData.manaCost || 0,
+              apCost: spellData.resourceCost?.actionPoints || spellData.apCost || 1,
+              damageFormula: spellData.damageConfig?.formula || spellData.primaryDamage?.dice || null,
+              healingFormula: spellData.healingConfig?.formula || spellData.healing?.dice || null
+            };
+            return next;
+          });
+          return;
         }
       }
     } catch (err) {
@@ -530,12 +562,36 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     setConfirmClearOpen(false);
   };
 
-  // Assign a spell from quick assign modal
+  // Assign a spell from quick assign modal or event
   const handleAssignSpell = (spell, targetSlotIndex = quickAssignSlotIndex) => {
-    if (targetSlotIndex === null) return;
+    let resolvedIndex = targetSlotIndex;
+    if (resolvedIndex === null || resolvedIndex === undefined) {
+      setSlots(prev => {
+        const firstEmpty = prev.findIndex(s => !s);
+        const idx = firstEmpty !== -1 ? firstEmpty : 0;
+        const next = [...prev];
+        next[idx] = {
+          ...spell,
+          id: spell.id,
+          name: spell.name,
+          icon: spell.icon || spell.typeConfig?.icon,
+          spellType: spell.spellType || 'ACTION',
+          description: spell.description || '',
+          manaCost: spell.resourceCost?.mana || spell.manaCost || 0,
+          apCost: spell.resourceCost?.actionPoints || spell.apCost || 1,
+          damageFormula: spell.damageConfig?.formula || spell.primaryDamage?.dice || null,
+          healingFormula: spell.healingConfig?.formula || spell.healing?.dice || null
+        };
+        return next;
+      });
+      setQuickAssignSlotIndex(null);
+      setSearchQuery('');
+      return;
+    }
+
     setSlots(prev => {
       const next = [...prev];
-      next[targetSlotIndex] = {
+      next[resolvedIndex] = {
         ...spell,
         id: spell.id,
         name: spell.name,
@@ -553,10 +609,103 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     setSearchQuery('');
   };
 
+  // Assign a consumable item from quick assign modal or event
+  const handleAssignConsumable = (item, targetSlotIndex = quickAssignSlotIndex) => {
+    let resolvedIndex = targetSlotIndex;
+    if (resolvedIndex === null || resolvedIndex === undefined) {
+      setSlots(prev => {
+        const firstEmpty = prev.findIndex(s => !s);
+        const idx = firstEmpty !== -1 ? firstEmpty : 0;
+        const next = [...prev];
+        next[idx] = {
+          id: item.id,
+          name: item.name,
+          icon: item.iconId || item.icon || 'inv_potion_51',
+          type: 'consumable',
+          originalItemId: item.originalItemId || item.id,
+          quality: item.quality || item.rarity || 'common',
+          rarity: item.rarity || item.quality || 'common',
+          description: item.description || ''
+        };
+        return next;
+      });
+      setQuickAssignSlotIndex(null);
+      setSearchQuery('');
+      return;
+    }
+
+    setSlots(prev => {
+      const next = [...prev];
+      next[resolvedIndex] = {
+        id: item.id,
+        name: item.name,
+        icon: item.iconId || item.icon || 'inv_potion_51',
+        type: 'consumable',
+        originalItemId: item.originalItemId || item.id,
+        quality: item.quality || item.rarity || 'common',
+        rarity: item.rarity || item.quality || 'common',
+        description: item.description || ''
+      };
+      return next;
+    });
+    setQuickAssignSlotIndex(null);
+    setSearchQuery('');
+  };
+
+  const characterSpellsData = useCharacterSpells(activeCharId);
+
   // Filter available spells for quick assign
   const availableSpells = (allSpells && allSpells.length > 0)
     ? allSpells
-    : (character?.spells || []);
+    : (characterSpellsData?.allSpells || []);
+
+  const availableConsumables = (characterSpellsData?.consumables || []);
+  const spellCounts = characterSpellsData?.counts || {
+    all: availableSpells.length,
+    class: 0,
+    talent: 0,
+    racial: 0,
+    skill: 0,
+    general: 0,
+    custom: 0,
+    consumable: availableConsumables.length
+  };
+
+  const characterClass = character?.class || useCharacterStore.getState().class;
+
+  // Filtered spells for Quick Assign based on search and active tab
+  const filteredQuickSpells = availableSpells.filter(s => {
+    if (assignTab !== 'all' && assignTab !== 'spells') {
+      if (assignTab === 'class' && s.category !== 'class') return false;
+      if (assignTab === 'talent' && s.category !== 'talent') return false;
+      if (assignTab === 'racial' && s.category !== 'racial' && s.category !== 'discipline') return false;
+      if (assignTab === 'skill' && s.category !== 'skill') return false;
+      if (assignTab === 'general' && s.category !== 'general') return false;
+      if (assignTab === 'custom' && s.category !== 'custom') return false;
+      if (assignTab === 'consumables') return false;
+    }
+    if (!searchQuery) return true;
+    const q = searchQuery.toLowerCase();
+    return s.name?.toLowerCase().includes(q) ||
+           s.spellType?.toLowerCase().includes(q) ||
+           s.category?.toLowerCase().includes(q) ||
+           s.sourceLabel?.toLowerCase().includes(q) ||
+           s.school?.toLowerCase().includes(q) ||
+           s.element?.toLowerCase().includes(q) ||
+           s.description?.toLowerCase().includes(q) ||
+           s.damageFormula?.toLowerCase().includes(q) ||
+           s.healingFormula?.toLowerCase().includes(q);
+  });
+
+  const filteredQuickConsumables = availableConsumables.filter(item => {
+    if (assignTab !== 'all' && assignTab !== 'consumables') return false;
+    if (!searchQuery) return true;
+    const q = searchQuery.toLowerCase();
+    return item.name?.toLowerCase().includes(q) ||
+           item.description?.toLowerCase().includes(q) ||
+           item.quality?.toLowerCase().includes(q) ||
+           item.rarity?.toLowerCase().includes(q);
+  });
 
   // Helper to get current quantity of a consumable item in the inventory
   const getItemQuantity = (itemId) => {
@@ -1108,12 +1257,6 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     setInspectingSpell({ ...spell, slotIndex: index });
   };
 
-  const filteredQuickSpells = availableSpells.filter(s => {
-    if (!searchQuery) return true;
-    return s.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-           s.spellType?.toLowerCase().includes(searchQuery.toLowerCase());
-  });
-
   return (
     <div className="spell-action-bar-container">
       <div className="spell-action-bar-header">
@@ -1152,6 +1295,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
             return (
               <div
                 key={`action-slot-${index}`}
+                data-slot-index={index}
                 className={`spell-action-slot ${spell ? 'has-spell' : ''} ${isDragOver ? 'drag-over' : ''}`}
                 style={rarityBorderColor ? { borderColor: rarityBorderColor } : undefined}
                 onDragOver={(e) => handleDragOver(e, index)}
@@ -1232,59 +1376,238 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
 
       {/* Quick Assign Modal (Mobile & Tap friendly) */}
       {quickAssignSlotIndex !== null && (
-        <div className="spell-quick-assign-overlay" onClick={() => setQuickAssignSlotIndex(null)}>
+        <div className="spell-quick-assign-overlay" onClick={() => { setQuickAssignSlotIndex(null); setSearchQuery(''); }}>
           <div className="spell-quick-assign-modal" onClick={(e) => e.stopPropagation()}>
             <div className="spell-quick-assign-header">
-              <h3>Assign Spell to Slot {HOTKEY_LABELS[quickAssignSlotIndex] || (quickAssignSlotIndex + 1)}</h3>
+              <div className="spell-quick-assign-header-title">
+                <i className="fas fa-wand-magic-sparkles"></i>
+                <h3>Assign to Slot {HOTKEY_LABELS[quickAssignSlotIndex] || (quickAssignSlotIndex + 1)}</h3>
+              </div>
               <button
                 type="button"
                 className="spell-quick-assign-close"
-                onClick={() => setQuickAssignSlotIndex(null)}
+                onClick={() => { setQuickAssignSlotIndex(null); setSearchQuery(''); }}
+                title="Close"
               >
                 <i className="fas fa-times"></i>
               </button>
             </div>
 
+            {/* Tab filter for Categories */}
+            <div className="spell-quick-assign-tabs">
+              <button
+                type="button"
+                className={`spell-quick-assign-tab ${assignTab === 'all' ? 'active' : ''}`}
+                onClick={() => setAssignTab('all')}
+              >
+                <i className="fas fa-sparkles"></i> All ({availableSpells.length + availableConsumables.length})
+              </button>
+              {spellCounts.class > 0 && (
+                <button
+                  type="button"
+                  className={`spell-quick-assign-tab ${assignTab === 'class' ? 'active' : ''}`}
+                  onClick={() => setAssignTab('class')}
+                >
+                  <i className="fas fa-wand-magic-sparkles"></i> {characterClass || 'Class'} ({spellCounts.class})
+                </button>
+              )}
+              {spellCounts.talent > 0 && (
+                <button
+                  type="button"
+                  className={`spell-quick-assign-tab ${assignTab === 'talent' ? 'active' : ''}`}
+                  onClick={() => setAssignTab('talent')}
+                >
+                  <i className="fas fa-tree"></i> Talents ({spellCounts.talent})
+                </button>
+              )}
+              {spellCounts.racial > 0 && (
+                <button
+                  type="button"
+                  className={`spell-quick-assign-tab ${assignTab === 'racial' ? 'active' : ''}`}
+                  onClick={() => setAssignTab('racial')}
+                >
+                  <i className="fas fa-shield-halved"></i> Racial & Path ({spellCounts.racial})
+                </button>
+              )}
+              {spellCounts.skill > 0 && (
+                <button
+                  type="button"
+                  className={`spell-quick-assign-tab ${assignTab === 'skill' ? 'active' : ''}`}
+                  onClick={() => setAssignTab('skill')}
+                >
+                  <i className="fas fa-graduation-cap"></i> Skills ({spellCounts.skill})
+                </button>
+              )}
+              {spellCounts.general > 0 && (
+                <button
+                  type="button"
+                  className={`spell-quick-assign-tab ${assignTab === 'general' ? 'active' : ''}`}
+                  onClick={() => setAssignTab('general')}
+                >
+                  <i className="fas fa-fist-raised"></i> General ({spellCounts.general})
+                </button>
+              )}
+              {availableConsumables.length > 0 && (
+                <button
+                  type="button"
+                  className={`spell-quick-assign-tab ${assignTab === 'consumables' ? 'active' : ''}`}
+                  onClick={() => setAssignTab('consumables')}
+                >
+                  <i className="fas fa-flask"></i> Consumables ({availableConsumables.length})
+                </button>
+              )}
+            </div>
+
             <div className="spell-quick-assign-search">
+              <i className="fas fa-search spell-search-glass-icon"></i>
               <input
                 type="text"
                 className="spell-quick-assign-input"
-                placeholder="Search spells by name or type..."
+                placeholder="Search spells or items by name, type, school, or effect..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 autoFocus
               />
+              {searchQuery && (
+                <button
+                  type="button"
+                  className="spell-search-clear-btn"
+                  onClick={() => setSearchQuery('')}
+                  title="Clear search"
+                >
+                  <i className="fas fa-times"></i>
+                </button>
+              )}
             </div>
 
             <div className="spell-quick-assign-list">
-              {filteredQuickSpells.length === 0 ? (
-                <p style={{ textAlign: 'center', color: '#c4a482', fontStyle: 'italic', padding: '16px' }}>
-                  No matching spells found.
-                </p>
-              ) : (
-                filteredQuickSpells.map((spell) => (
+              {assignTab !== 'consumables' && filteredQuickSpells.map((spell) => {
+                const slottedSlotIndex = slots.findIndex(s => s && s.id === spell.id);
+                const isSlotted = slottedSlotIndex !== -1;
+                const costSummary = getSpellTooltipCostSummary(spell);
+
+                return (
                   <div
-                    key={spell.id || spell.name}
-                    className="spell-quick-assign-item"
+                    key={`quick-spell-${spell.id || spell.name}`}
+                    className={`spell-quick-assign-item ${isSlotted ? 'is-slotted' : ''}`}
                     onClick={() => handleAssignSpell(spell, quickAssignSlotIndex)}
+                    title={isSlotted ? `Already placed in Slot ${HOTKEY_LABELS[slottedSlotIndex] || (slottedSlotIndex + 1)}. Click to place in Slot ${HOTKEY_LABELS[quickAssignSlotIndex] || (quickAssignSlotIndex + 1)}.` : `Assign to Slot ${HOTKEY_LABELS[quickAssignSlotIndex] || (quickAssignSlotIndex + 1)}`}
                   >
-                    <img
-                      src={getSpellSlotIconUrl(spell)}
-                      alt={spell.name}
-                      className="spell-quick-assign-icon"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
-                      }}
-                    />
+                    <div className="spell-quick-assign-icon-box">
+                      <img
+                        src={getSpellSlotIconUrl(spell)}
+                        alt={spell.name}
+                        className="spell-quick-assign-icon"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
+                        }}
+                      />
+                    </div>
                     <div className="spell-quick-assign-info">
-                      <span className="spell-quick-assign-name">{spell.name}</span>
-                      <span className="spell-quick-assign-type">
-                        {spell.spellType || 'Action'} {spell.manaCost > 0 ? `• ${spell.manaCost} Mana` : ''}
-                      </span>
+                      <div className="spell-quick-assign-row">
+                        <span className="spell-quick-assign-name">{spell.name}</span>
+                        <div className="spell-quick-assign-tags">
+                          {isSlotted && (
+                            <span className="spell-quick-assign-tag slotted">
+                              Slot {HOTKEY_LABELS[slottedSlotIndex] || (slottedSlotIndex + 1)}
+                            </span>
+                          )}
+                          <span className={`spell-quick-assign-tag ${spell.spellType === 'PASSIVE' ? 'passive' : 'spell'}`}>
+                            {spell.spellType || 'ACTION'}
+                          </span>
+                          {spell.sourceLabel && (
+                            <span className="spell-quick-assign-tag source">
+                              {spell.sourceLabel}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="spell-quick-assign-details">
+                        {costSummary ? (
+                          <span className="spell-quick-assign-cost-summary">{costSummary}</span>
+                        ) : (
+                          <span className="spell-quick-assign-desc">{spell.description || spell.spellType || 'Ability'}</span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="spell-quick-assign-action-btn">
+                      <i className="fas fa-plus"></i>
                     </div>
                   </div>
-                ))
+                );
+              })}
+
+              {(assignTab === 'all' || assignTab === 'consumables') && filteredQuickConsumables.map((item) => {
+                const qty = getItemQuantity(item.originalItemId || item.id);
+                const quality = item.quality || item.rarity || 'common';
+                const qualityColor = RARITY_COLORS[quality.toLowerCase()]?.border || '#8b4513';
+                const iconSrc = item.iconId ? getIconUrl(item.iconId, 'items') : getIconUrl(item.icon || 'inv_potion_51', 'items');
+                const slottedSlotIndex = slots.findIndex(s => s && s.type === 'consumable' && (s.originalItemId === (item.originalItemId || item.id) || s.id === item.id));
+                const isSlotted = slottedSlotIndex !== -1;
+
+                return (
+                  <div
+                    key={`quick-item-${item.id}`}
+                    className={`spell-quick-assign-item consumable ${isSlotted ? 'is-slotted' : ''}`}
+                    style={{ borderLeft: `4px solid ${qualityColor}` }}
+                    onClick={() => handleAssignConsumable(item, quickAssignSlotIndex)}
+                    title={`Assign consumable to Slot ${HOTKEY_LABELS[quickAssignSlotIndex] || (quickAssignSlotIndex + 1)}`}
+                  >
+                    <div className="spell-quick-assign-icon-box">
+                      <img
+                        src={iconSrc}
+                        alt={item.name}
+                        className="spell-quick-assign-icon"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = getIconUrl('inv_potion_51', 'items');
+                        }}
+                      />
+                    </div>
+                    <div className="spell-quick-assign-info">
+                      <div className="spell-quick-assign-row">
+                        <span className="spell-quick-assign-name">{item.name}</span>
+                        <div className="spell-quick-assign-tags">
+                          {isSlotted && (
+                            <span className="spell-quick-assign-tag slotted">
+                              Slot {HOTKEY_LABELS[slottedSlotIndex] || (slottedSlotIndex + 1)}
+                            </span>
+                          )}
+                          <span className="spell-quick-assign-tag consumable">CONSUMABLE</span>
+                        </div>
+                      </div>
+                      <div className="spell-quick-assign-details">
+                        <span className="spell-quick-assign-cost-summary" style={{ color: qualityColor }}>
+                          {qty > 0 ? `${qty} in bag` : '0 remaining'} • {quality.toUpperCase()}
+                        </span>
+                        {item.description && (
+                          <span className="spell-quick-assign-desc">{item.description}</span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="spell-quick-assign-action-btn">
+                      <i className="fas fa-plus"></i>
+                    </div>
+                  </div>
+                );
+              })}
+
+              {((assignTab !== 'consumables' && filteredQuickSpells.length === 0 && (assignTab !== 'all' || filteredQuickConsumables.length === 0)) ||
+                (assignTab === 'consumables' && filteredQuickConsumables.length === 0)) && (
+                <div className="spell-quick-assign-empty-msg">
+                  <i className="fas fa-book-open-reader"></i>
+                  <p>No matching spells or abilities found.</p>
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      className="spell-quick-assign-reset-search"
+                      onClick={() => setSearchQuery('')}
+                    >
+                      Clear Filter "{searchQuery}"
+                    </button>
+                  )}
+                </div>
               )}
             </div>
           </div>
@@ -1391,7 +1714,19 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
                 </button>
               )}
 
-
+              <button
+                type="button"
+                className="spell-inspect-btn replace"
+                onClick={() => {
+                  const targetSlot = inspectingSpell.slotIndex;
+                  setInspectingSpell(null);
+                  setQuickAssignSlotIndex(targetSlot);
+                }}
+                title="Choose a different spell or item for this slot"
+              >
+                <i className="fas fa-arrows-rotate"></i>
+                <span>Replace</span>
+              </button>
 
               <button
                 type="button"

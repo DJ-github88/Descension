@@ -38,7 +38,7 @@ const FortunePointsResourceBar = ({
         return (
             <div className={`class-resource-bar fortune-points-gambling ${size} ${context === 'party' ? 'party-context' : ''}`}>
                 <div className="gambler-single-bar" style={{ display: 'flex', alignItems: 'center', width: '100%', gap: '4px' }}>
-                    {/* Fortune Points Bar (Left) */}
+                    {/* Fortune Bar (Left) */}
                     <div
                         ref={fpBarRef}
                         className="fortune-points-bar"
@@ -179,10 +179,10 @@ const FortunePointsResourceBar = ({
                             <div className="menu-title">Gambit Ledger</div>
                             {renderStatusFlavor()}
 
-                            {/* Fortune Points Section */}
+                            {/* Fortune Section */}
                             <div className="context-menu-section">
                                 <div className="context-menu-section-header" style={{ color: '#8B6508', fontSize: '11px', fontWeight: 'bold' }}>
-                                    Fortune Points: {fpValue}/{maxFP}
+                                    Fortune: {fpValue}/{maxFP}
                                 </div>
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', marginBottom: '8px' }}>
                                     <button
@@ -192,7 +192,7 @@ const FortunePointsResourceBar = ({
                                             const amount = newValue - fpValue;
                                             setLocalFortunePoints(newValue);
                                             if (amount > 0) {
-                                                logClassResourceChange('Fortune Point', amount, true, 'fortunePoints');
+                                                logClassResourceChange('Fortune', amount, true, 'fortunePoints');
                                                 if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
                                             }
                                         }}
@@ -206,7 +206,7 @@ const FortunePointsResourceBar = ({
                                             const amount = newValue - fpValue;
                                             setLocalFortunePoints(newValue);
                                             if (amount > 0) {
-                                                logClassResourceChange('Fortune Point', amount, true, 'fortunePoints');
+                                                logClassResourceChange('Fortune', amount, true, 'fortunePoints');
                                                 if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
                                             }
                                         }}
@@ -220,7 +220,7 @@ const FortunePointsResourceBar = ({
                                             const amount = fpValue - newValue;
                                             setLocalFortunePoints(newValue);
                                             if (amount > 0) {
-                                                logClassResourceChange('Fortune Point', amount, false, 'fortunePoints');
+                                                logClassResourceChange('Fortune', amount, false, 'fortunePoints');
                                                 if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
                                             }
                                         }}
@@ -234,7 +234,7 @@ const FortunePointsResourceBar = ({
                                             const amount = fpValue - newValue;
                                             setLocalFortunePoints(newValue);
                                             if (amount > 0) {
-                                                logClassResourceChange('Fortune Point', amount, false, 'fortunePoints');
+                                                logClassResourceChange('Fortune', amount, false, 'fortunePoints');
                                                 if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
                                             }
                                         }}

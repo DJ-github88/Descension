@@ -265,6 +265,31 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                 </div>
             )}
 
+            {/* Select tool hints */}
+            {selectedTool === 'wall_select' && (
+                <div className="tool-section">
+                    <h4>Select &amp; Adjust</h4>
+                    <div className="wall-select-hints">
+                        <div className="wall-select-hint-row">
+                            <span className="hint-icon">🖱️</span>
+                            <span><strong>Click</strong> a wall, door or window to select it</span>
+                        </div>
+                        <div className="wall-select-hint-row">
+                            <span className="hint-icon">➤</span>
+                            <span><strong>Drag</strong> the selected object to move it</span>
+                        </div>
+                        <div className="wall-select-hint-row">
+                            <span className="hint-icon handle-demo">⦿</span>
+                            <span><strong>Drag the gold handles</strong> on a selected wall to reshape or extend it</span>
+                        </div>
+                        <div className="wall-select-hint-row">
+                            <span className="hint-icon">🚪</span>
+                            <span>Doors and windows slide <strong>along walls</strong> automatically</span>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Door/Window placement hint */}
             {(selectedTool === 'door_place' || selectedTool === 'window_place') && (
                 <div className="tool-section">
@@ -326,8 +351,8 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                                                     flexDirection: 'column',
                                                     alignItems: 'center',
                                                     justifyContent: 'center',
-                                                    padding: '12px',
-                                                    minHeight: '110px',
+                                                    padding: '8px 6px',
+                                                    minHeight: '58px',
                                                     border: selectedWallType === wallId ? '3px solid #d4af37' : '2px solid #a08c70'
                                                 }}
                                             >
@@ -335,12 +360,12 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                                                     className="wall-name"
                                                     style={{
                                                         color: '#ffffff',
-                                                        fontSize: '16px',
+                                                        fontSize: '12px',
                                                         fontWeight: 'bold',
                                                         textAlign: 'center',
                                                         textShadow: '2px 2px 4px rgba(0,0,0,0.9)',
-                                                        lineHeight: '1.2',
-                                                        marginBottom: '6px'
+                                                        lineHeight: '1.1',
+                                                        marginBottom: '4px'
                                                     }}
                                                 >
                                                     {wall.name}

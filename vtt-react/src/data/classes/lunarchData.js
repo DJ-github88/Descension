@@ -174,7 +174,19 @@ The elder parasites are communicating across their hosts. They are planning some
 
 **The resource bar & costs**: Your resource bar is your active **Lunar Phase** and **Gravity Flux**. Each phase transition grants powerful burst buffs and alters your spell effects. Managing the timing of your phase shifts allows you to unleash apocalyptic Full Moon strikes exactly when the boss is vulnerable.
 
-**Bring one for**: Dynamic shifting playstyles, cosmic gravity magic, and mastering a rhythmic phase cycle that delivers devastating bursts of celestial power.`
+**Bring one for**: Dynamic shifting playstyles, cosmic gravity magic, and mastering a rhythmic phase cycle that delivers devastating bursts of celestial power.`,
+    roleplayIdentity: {
+      title: "Roleplay Identity",
+      content: "Practitioners carry a profound cultural and physical responsibility, marked by their tradition's unique legacy and societal perceptions."
+    },
+    combatRole: {
+      title: "Combat Role",
+      content: "Celestial parasite host who cycles through 4 lunar phases every 3 rounds, shifting between impenetrable shadow defense and apocalyptic radiant bursts."
+    },
+    playstyle: {
+      title: "Playstyle & Turn 1 Flow",
+      content: "**Your Turn 1 in Combat**:\n1. **Check Active Phase**: Identify current moon phase (New, Waxing, Full, Waning) and its active buffs.\n2. **Cast Phase-Synergized Spells**: Unleash `Silence Rend` or `Waxing Crescent Scythe` to match phase bonuses.\n3. **Prepare for Transition**: Anticipate the 3-round shift and brace for Transition Shock rolls."
+    }
   },
 
     description: `The Lunarch is not a priest. The Lunarch is a host — a walking crime scene where an ancient, unfeeling celestial parasite has burrowed into the nervous system and refused to leave. The moon is not a symbol of hope or guidance; it is a cold, alien predator that has been feeding on the light of dying stars since before flesh existed. When it chose the Lunarch, it did not ask permission. It seeped into their spine through the soft tissue at the base of the skull, threaded tendrils of starlight through their nerve clusters, and began to feed.
@@ -453,10 +465,23 @@ Your unique utility. Key abilities let you add or remove rounds from effects, ex
   },
 
   resourceSystem: {
-    title: "The Lunar Parasite Economy",
-    subtitle: "Flesh Is the Currency of the Cosmos",
+    title: "Phases: The Clock Dial",
+    subtitle: "How Your Resource Works (Beginner's Guide)",
 
-    description: `The Lunar Cycle is not a tool. It is a feeding schedule imposed by an alien parasite fused to the Lunarch's nervous system. Every three rounds, the parasite FORCEFULLY REWRITES the host's physiology to extract a different nutrient — memory, sensation, sanity, or vitality. This is not optional. This is not free. Every natural cycle shift deals 2d6 irreducible blight damage as the Lunarch's flesh tears along invisible seams where starlight has replaced connective tissue. The Lunarch cannot stop the feeding. They can only direct it — choosing which horror to embrace at the cost of their own blood, and praying the parasite's hunger can be weaponized against their enemies before it consumes them entirely.`,
+    description: `**1. What is it? (The Rotating Lunar Clock)**
+Your celestial symbiote automatically rotates through 4 distinct Lunar Phases every 3 combat rounds:
+- **New Moon**: Shadow stealth, movement speed, and evasion.
+- **Waxing Moon**: Rapid builder velocity and kinetic pulling.
+- **Full Moon**: Apocalyptic radiant spell crits and area blasts.
+- **Waning Moon**: Vampiric healing and damage absorption.
+
+**2. How do I build it?**
+- The phase dial progresses automatically at the end of every 3rd round.
+- Casting phase-aligned spells generates bonus momentum.
+
+**3. How do I spend it & what is the catch?**
+- Align your biggest spells with the active phase to double their effectiveness.
+- **The Catch (Transition Shock)**: When the moon shifts, you must make a quick check; failure inflicts brief disorienting transition shock.`,
 
     cards: [
       {
@@ -599,7 +624,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     description: `The parasite has fused with your nervous system, but HOW it manifests depends on which part of your anatomy it has colonized most aggressively. Every Lunarch develops one dominant expression of the infection — a specialization that determines how the parasite's feeding is weaponized. These are not choices made at a temple or academy. They are biological mutations. The parasite reshapes you according to its own unknowable criteria, and you discover your specialization the first time you survive a phase shift that should have killed you.`,
 
     sharedPassive: {
-      name: "Parasitic Bond",
+      name: "Phases",
       icon: "Arcane/Star Trail Path",
       description:
         "The parasite grants you darkvision up to 60 feet — your eyes have been partially replaced with photosensitive starlight receptors. You are immune to magical charm and fear effects during Full Moon (Sanity Erosion) because there is nothing left of your 'self' for those effects to target. You can see the seams in reality where the parasite has touched the world.",
@@ -792,6 +817,157 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
   // Example Spells - showcasing Phase Shift mechanics
   exampleSpells: [
+
+    // ===== EXPANDED LUNARCH SPELLBOOK (LEVELS 4-10) =====
+    {
+      id: "lunarch_waxing_crescent_scythe",
+      name: "Waxing Crescent Scythe",
+      description: "Sweep a razor arc of cold starlight across a 15ft cone. Deals radiant damage. During Waxing Moon, inflicts Bleed and advances phase count by +1.",
+      level: 4,
+      spellType: "ACTION",
+      icon: "Arcane/Star Trail Path",
+      effectTypes: ["damage", "debuff"],
+      typeConfig: { school: "ember", icon: "Arcane/Star Trail Path", tags: ["damage", "cone", "radiant", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "cone", rangeType: "melee", rangeDistance: 5, areaSize: 15, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      damageConfig: { formula: "3d8 + intelligence", damageTypes: ["ember"], resolution: "DICE" },
+      tags: ["damage", "cone", "radiant", "lunarch"]
+    },
+    {
+      id: "lunarch_eclipse_aegis",
+      name: "Eclipse Aegis",
+      description: "Manifest a shimmering corona of lunar shadow around yourself or an ally. Absorbs damage; if shattered by melee, blinds the attacker for 1 round.",
+      level: 4,
+      spellType: "ACTION",
+      icon: "Shield/Prismatic Shield",
+      effectTypes: ["buff", "shield"],
+      typeConfig: { school: "arcane", icon: "Shield/Prismatic Shield", tags: ["buff", "shield", "defense", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 40, targetRestrictions: ["ally", "self"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      shieldConfig: { formula: "30 + intelligence * 2", shieldType: "temporary_hp" },
+      tags: ["buff", "shield", "defense", "lunarch"]
+    },
+    {
+      id: "lunarch_lunar_tide_pull",
+      name: "Lunar Tide Pull",
+      description: "Manipulate gravitational shear to yank all enemies in a 30ft radius toward a focal point, dealing force damage and reducing movement to 0 for 1 round.",
+      level: 4,
+      spellType: "ACTION",
+      icon: "Force/Explosion Burst",
+      effectTypes: ["damage", "crowd_control"],
+      typeConfig: { school: "arcane", icon: "Force/Explosion Burst", tags: ["damage", "aoe", "gravity", "pull", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 50, areaType: "circle", areaSize: 20, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      damageConfig: { formula: "2d10 + intelligence", damageTypes: ["arcane"], resolution: "DICE" },
+      tags: ["damage", "aoe", "gravity", "pull", "lunarch"]
+    },
+    {
+      id: "lunarch_starlight_delirium",
+      name: "Starlight Delirium",
+      description: "Infect an enemy's mind with cosmic static. Deals radiant damage and forces the target to attack the nearest creature on failed save.",
+      level: 5,
+      spellType: "ACTION",
+      icon: "Psychic/Psychic Bolt",
+      effectTypes: ["damage", "crowd_control"],
+      typeConfig: { school: "ember", icon: "Psychic/Psychic Bolt", tags: ["damage", "single_target", "charm", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 9 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      damageConfig: { formula: "4d8 + intelligence", damageTypes: ["ember"], resolution: "DICE" },
+      tags: ["damage", "single_target", "charm", "lunarch"]
+    },
+    {
+      id: "lunarch_apogee_cataclysm",
+      name: "Apogee Cataclysm",
+      description: "Call down a devastating pillar of starlight in a 20ft radius. Deals heavy radiant damage and leaves behind a blazing lunar crater for 2 rounds.",
+      level: 6,
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Divinity",
+      effectTypes: ["damage", "aoe"],
+      typeConfig: { school: "ember", icon: "Radiant/Radiant Divinity", tags: ["damage", "aoe", "radiant", "apocalypse", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, areaType: "circle", areaSize: 20, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 10 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      damageConfig: { formula: "6d8 + intelligence * 2", damageTypes: ["ember"], resolution: "DICE" },
+      tags: ["damage", "aoe", "radiant", "apocalypse", "lunarch"]
+    },
+    {
+      id: "lunarch_gravity_singularity",
+      name: "Gravitational Singularity",
+      description: "Crush a 15ft zone with intense lunar gravity. Deals force damage and pins targets to the floor, immobilizing them for 1 round.",
+      level: 6,
+      spellType: "ACTION",
+      icon: "Force/Explosion Burst",
+      effectTypes: ["damage", "crowd_control"],
+      typeConfig: { school: "arcane", icon: "Force/Explosion Burst", tags: ["damage", "aoe", "gravity", "immobilize", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 50, areaType: "circle", areaSize: 15, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 10 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      damageConfig: { formula: "5d8 + intelligence", damageTypes: ["arcane"], resolution: "DICE" },
+      tags: ["damage", "aoe", "gravity", "immobilize", "lunarch"]
+    },
+    {
+      id: "lunarch_phase_shatter_nova",
+      name: "Phase Shatter Nova",
+      description: "Force an instant phase transition without rolling Transition Shock, violently discharging excess celestial friction in a 25ft shockwave.",
+      level: 7,
+      spellType: "ACTION",
+      icon: "Force/Explosion Burst",
+      effectTypes: ["damage", "aoe"],
+      typeConfig: { school: "arcane", icon: "Force/Explosion Burst", tags: ["damage", "aoe", "phase_shift", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 25, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 11 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      damageConfig: { formula: "6d6 + intelligence * 2", damageTypes: ["arcane", "ember"], resolution: "DICE" },
+      tags: ["damage", "aoe", "phase_shift", "lunarch"]
+    },
+    {
+      id: "lunarch_symbiote_overdrive",
+      name: "Symbiote Overdrive",
+      description: "Awaken the celestial parasite fully for 2 rounds. Gain +4 DR, +3d8 to all spell damage, and crit on 18-20. Suffer 2d8 self-damage upon expiration.",
+      level: 8,
+      spellType: "ACTION",
+      icon: "Utility/Empowered Warrior",
+      effectTypes: ["buff"],
+      typeConfig: { school: "ember", icon: "Utility/Empowered Warrior", tags: ["buff", "self", "overdrive", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "self", rangeType: "self" },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 13 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      tags: ["buff", "self", "overdrive", "lunarch"]
+    },
+    {
+      id: "lunarch_supernova_collapse",
+      name: "Supernova Collapse",
+      description: "Detonate a dying star core on the battlefield. Deals catastrophic radiant and fire damage across 30ft, incinerating low-health targets.",
+      level: 9,
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Divinity",
+      effectTypes: ["damage", "aoe"],
+      typeConfig: { school: "ember", icon: "Radiant/Radiant Divinity", tags: ["damage", "aoe", "radiant", "apocalypse", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, areaType: "circle", areaSize: 30, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 15 } },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      damageConfig: { formula: "9d10 + intelligence * 2", damageTypes: ["ember"], resolution: "DICE" },
+      tags: ["damage", "aoe", "radiant", "apocalypse", "lunarch"]
+    },
+    {
+      id: "lunarch_celestial_symbiosis",
+      name: "Celestial Symbiosis",
+      description: "Achieve complete unison with the alien host. You freely select your active moon phase each round without rolling shock, and mana costs are halved for 3 rounds.",
+      level: 10,
+      spellType: "ACTION",
+      icon: "General/Commune",
+      effectTypes: ["buff"],
+      typeConfig: { school: "arcane", icon: "General/Commune", tags: ["buff", "self", "ultimate", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "self", rangeType: "self" },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 18 } },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      tags: ["buff", "self", "ultimate", "lunarch"]
+    },
+  
     ...UTILITY_SPELLS,
     // MOONLIGHT SENTINEL - Precision Archery ? HOLLOW SENTINEL - Precision Killer
     { id : "lunarch_parasitic_bolt",
@@ -1865,3 +2041,4 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 };
 
 LUNARCH_DATA.spells = LUNARCH_DATA.exampleSpells;
+export const LUNARCH_SPELLS = LUNARCH_DATA.spells;

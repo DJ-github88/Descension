@@ -280,7 +280,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **Skald humans** — broad-shouldered, frost-scarred, raw physical endurance. Pale, blue-eyed, white or fair hair. Wear fur-trimmed leather, carved runic cold-iron jewelry, whale-bone amulets. Speak Old Nord. Their dead are entombed standing in glacier-ice.
 - **Rime-Born** — frost-touched survivors of the Hunger Pact. Skin feels like stone left in shadow; breath freezes even in southern heat. Blue-skinned **Frostbound** carry Keth-Amar's lingering attention. Use Ice-Cradles carved into glacier faces.
 - **Corvani** — raven-marked, fate-bonded to Corvid Fate-Spirits. Dwell in eyries carved into mile-high ice sheets. Read destiny in raven flight patterns. Their price for any service is a memory. Have shifting raven-markings across their skin.
-- **Berserkers (Bloodhammer Clan)** — Skald warriors who channel the Hunger Pact's fury into the Blood-Heat
+- **Berserkers (Bloodhammer Clan)** — Skald warriors who channel the Hunger Pact's fury into the Rage
 - **Fredløse** — outlaw nomad clans on the southern shore
 
 ### Creatures & Monsters
@@ -967,7 +967,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 For the map artist: these tensions should be **visible in the world-state** even if the political borders are stable. The map should feel like the world is on the edge of something.
 
 1. **The tide has gone silent** — the Iceheart's deep-current songs have ceased
-2. **The Devotion Gauge is corrupting** — Martyrs' suffering is being drawn without offering
+2. **The Devotion is corrupting** — Martyrs' suffering is being drawn without offering
 3. **The Unbound are forming** — rogue Berserkers in Emberspire's deep tunnels
 4. **The Deep-Born are fleeing** — Myrathil leaving the Treakous Rift
 5. **The bog-dead are rising without covenant** — the Waking Graves

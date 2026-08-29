@@ -186,6 +186,37 @@
   color: #ffffff !important;
 }
 
+.btn-mobile-tools-toggle {
+  display: none;
+}
+
+/* Sub-bar breadcrumbs for mobile */
+.mobile-breadcrumbs-bar {
+  display: none;
+  background: #23140a;
+  padding: 6px 12px;
+  border-bottom: 1.5px solid rgba(139, 69, 19, 0.45);
+  overflow-x: auto;
+  white-space: nowrap;
+  align-items: center;
+  gap: 6px;
+  z-index: 45;
+  -webkit-overflow-scrolling: touch;
+}
+.mobile-breadcrumbs-bar .crumb-btn {
+  color: #eedcc0;
+  font-size: 11px;
+  padding: 3px 6px;
+}
+.mobile-breadcrumbs-bar .crumb-btn.active {
+  color: #ffd700;
+  font-weight: 700;
+}
+.mobile-breadcrumbs-bar .crumb-sep {
+  color: rgba(212, 175, 55, 0.6);
+  font-size: 11px;
+}
+
 /* ==========================================================================
    Canvas Viewport Area
    ========================================================================== */
@@ -196,6 +227,7 @@
   background: #140b05;
   cursor: grab;
   user-select: none;
+  touch-action: none;
 }
 
 .map-studio-canvas.is-panning {
@@ -218,6 +250,16 @@
   pointer-events: none !important;
 }
 
+/* Mobile backdrop for Layers HUD */
+.layers-hud-backdrop-mobile {
+  display: none;
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+  z-index: 39;
+}
+
 /* Layers Floating HUD */
 .map-layers-hud {
   position: absolute;
@@ -236,6 +278,7 @@
 .layers-hud-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 6px;
   font-family: 'Cinzel', serif;
   font-size: 11.5px;
@@ -244,6 +287,25 @@
   border-bottom: 1.5px solid rgba(139, 69, 19, 0.2);
   padding-bottom: 6px;
   margin-bottom: 8px;
+}
+
+.layers-hud-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-close-layers-hud {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #8b5a1a;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+.btn-close-layers-hud:hover {
+  color: #c0392b;
 }
 
 .layers-list {
@@ -3624,6 +3686,237 @@
   color: #5a2e12;
   min-width: 44px;
   text-align: right;
+}
+
+/* ==========================================================================
+   Mobile Quick Action Dock & Responsive Exploration Layout
+   ========================================================================== */
+.map-mobile-action-dock {
+  display: none;
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(26, 14, 7, 0.94);
+  border: 1.5px solid #8b5a1a;
+  border-radius: 30px;
+  padding: 5px 12px;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.75), 0 0 14px rgba(212, 175, 55, 0.25);
+  backdrop-filter: blur(10px);
+  z-index: 55;
+  gap: 6px;
+  align-items: center;
+  pointer-events: auto;
+  max-width: 95vw;
+}
+
+.mobile-dock-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 18px;
+  color: #ebd9be;
+  padding: 6px 11px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.mobile-dock-btn i {
+  font-size: 15px;
+  color: #d4af37;
+}
+
+.mobile-dock-btn:hover,
+.mobile-dock-btn:active {
+  background: rgba(212, 175, 55, 0.18);
+  color: #ffd700;
+}
+
+.mobile-dock-btn.active {
+  background: linear-gradient(135deg, #d4af37 0%, #a67c1e 100%);
+  color: #1a0802;
+  border-color: #ffd700;
+  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.4);
+}
+
+.mobile-dock-btn.active i {
+  color: #1a0802;
+}
+
+.mobile-dock-btn.is-locked {
+  background: rgba(231, 76, 60, 0.2);
+  border-color: rgba(231, 76, 60, 0.5);
+  color: #e74c3c;
+}
+
+.mobile-dock-btn.is-locked i {
+  color: #e74c3c;
+}
+
+/* ── Mobile Responsive Overrides ────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .map-studio-header {
+    height: 52px;
+    padding: 0 8px;
+    gap: 6px;
+  }
+
+  .header-left {
+    gap: 6px;
+    min-width: 0;
+    flex-shrink: 1;
+  }
+
+  .map-hierarchy-selector {
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .map-brand-badge {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+  }
+
+  .map-dropdown {
+    min-width: 0 !important;
+    max-width: 140px !important;
+    font-size: 11.5px !important;
+    padding: 4px 7px !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .btn-header-add-map {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .map-breadcrumbs {
+    display: none !important;
+  }
+
+  .mobile-breadcrumbs-bar {
+    display: flex;
+  }
+
+  .header-right {
+    gap: 5px;
+    flex-shrink: 0;
+  }
+
+  .btn-text-desktop {
+    display: none !important;
+  }
+
+  .btn-map-action {
+    padding: 6px 9px;
+    font-size: 13px;
+    gap: 0;
+  }
+
+  .btn-map-action i {
+    font-size: 14px;
+  }
+
+  .btn-drop-pin,
+  .btn-route-tool,
+  .btn-fog-tool,
+  .btn-lock-toggle {
+    display: none !important;
+  }
+
+  .btn-mobile-tools-toggle {
+    display: inline-flex;
+  }
+
+  .map-mobile-action-dock {
+    display: flex;
+  }
+
+  /* Layers HUD on Mobile: Hidden by default, slide up when opened */
+  .map-layers-hud {
+    display: none;
+    position: fixed;
+    top: auto;
+    bottom: 76px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90vw;
+    max-width: 320px;
+    z-index: 60;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  }
+
+  .map-layers-hud.is-open-mobile {
+    display: block;
+    animation: mobileSheetUp 0.2s ease forwards;
+  }
+
+  .layers-hud-backdrop-mobile {
+    display: block;
+  }
+
+  .btn-close-layers-hud {
+    display: block;
+  }
+
+  /* Floating HUDs Clamped */
+  .map-floating-tool-hud {
+    top: 58px;
+    right: 8px;
+    left: 8px;
+    width: auto;
+    max-width: calc(100vw - 16px);
+  }
+
+  .map-studio-hud {
+    bottom: 80px;
+    right: 10px;
+  }
+
+  /* Popups Clamping */
+  .pin-action-popup,
+  .waypoint-action-popup,
+  .party-notes-popup {
+    max-width: 88vw !important;
+    max-height: 70vh !important;
+    overflow-y: auto !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .map-dropdown {
+    max-width: 105px !important;
+    font-size: 11px !important;
+  }
+
+  .btn-map-action {
+    padding: 5px 7px;
+  }
+
+  .mobile-dock-btn {
+    padding: 5px 8px;
+    font-size: 8.5px;
+  }
+
+  .mobile-dock-btn i {
+    font-size: 13px;
+  }
+}
+
+@keyframes mobileSheetUp {
+  from { opacity: 0; transform: translate(-50%, 15px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
 }
 
 

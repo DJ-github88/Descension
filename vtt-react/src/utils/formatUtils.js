@@ -26,9 +26,9 @@ export function formatResourceName(resourceType) {
     case 'health':
       return 'Health';
     case 'rage':
-      return 'Rage (legacy — use blood_heat)';
-    case 'blood_heat':
-      return 'Blood-Heat';
+      return 'Rage (legacy — use rage)';
+    case 'rage':
+      return 'Rage';
     case 'energy':
       return 'Energy';
     case 'focus':

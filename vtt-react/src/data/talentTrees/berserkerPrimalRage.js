@@ -15,7 +15,7 @@ export const BERSERKER_PRIMAL_RAGE = [
     "requires": null,
     "spell": {
       "name": "Savage Leap",
-      "description": "Spend 1 AP: Leap up to 30 feet to an enemy, crashing down for 1d8 smashing damage and generating 10 Blood-Heat.",
+      "description": "Spend 1 AP: Leap up to 30 feet to an enemy, crashing down for 1d8 smashing damage and generating 10 Rage.",
       "flavorText": "The fastest route between two points is an angry warrior.",
       "source": "talent",
       "class": "Berserker",
@@ -107,7 +107,7 @@ export const BERSERKER_PRIMAL_RAGE = [
         "description": "Bonus damage increases to +1d6 physical damage."
       },
       {
-        "description": "Bonus damage increases to +1d8 physical damage and attacks generate +5 additional Blood-Heat."
+        "description": "Bonus damage increases to +1d8 physical damage and attacks generate +5 additional Rage."
       }
     ]
   },
@@ -185,7 +185,7 @@ export const BERSERKER_PRIMAL_RAGE = [
     },
     "rankUpgrades": [
       {
-        "description": "Enemies suffer -2 to attack rolls and generate 10 Blood-Heat for you upon roar."
+        "description": "Enemies suffer -2 to attack rolls and generate 10 Rage for you upon roar."
       },
       {
         "description": "Enemies suffer -2 to attack rolls, and you gain 10 temporary Hit Points."
@@ -249,7 +249,7 @@ export const BERSERKER_PRIMAL_RAGE = [
     "requires": "prg_t2_battle_cry",
     "spell": {
       "name": "Carnage Cleave",
-      "description": "Spend 1 AP and 20 Blood-Heat: Swing your weapon in a 10-foot wide arc dealing 2d8 slicing damage to up to 3 adjacent enemies and sundering 1 point of Armor.",
+      "description": "Spend 1 AP and 20 Rage: Swing your weapon in a 10-foot wide arc dealing 2d8 slicing damage to up to 3 adjacent enemies and sundering 1 point of Armor.",
       "flavorText": "One wide sweep to clear the circle.",
       "source": "talent",
       "class": "Berserker",
@@ -314,7 +314,7 @@ export const BERSERKER_PRIMAL_RAGE = [
     "requires": "prg_t2_crushing_momentum",
     "spell": {
       "name": "Unyielding Fury",
-      "description": "Passive: When you take damage, gain 5 Blood-Heat. While at Carnage or higher Rage State, you are immune to Fear and Slow effects.",
+      "description": "Passive: When you take damage, gain 5 Rage. While at Carnage or higher Rage State, you are immune to Fear and Slow effects.",
       "flavorText": "Wrath burns away doubt and hesitation.",
       "source": "talent",
       "class": "Berserker",
@@ -332,10 +332,10 @@ export const BERSERKER_PRIMAL_RAGE = [
     },
     "rankUpgrades": [
       {
-        "description": "Taking damage generates 8 Blood-Heat; gain +1 to hit while below half health."
+        "description": "Taking damage generates 8 Rage; gain +1 to hit while below half health."
       },
       {
-        "description": "Taking damage generates 10 Blood-Heat; gain +2 to hit and +1 DR while below half health."
+        "description": "Taking damage generates 10 Rage; gain +2 to hit and +1 DR while below half health."
       }
     ]
   },
@@ -354,7 +354,7 @@ export const BERSERKER_PRIMAL_RAGE = [
     ],
     "spell": {
       "name": "Cataclysmic Blow",
-      "description": "Spend 1 AP and 30 Blood-Heat: Slam your weapon into the ground, dealing 2d10 smashing damage to all enemies within 15 feet and knocking them Prone on a failed Fortitude save.",
+      "description": "Spend 1 AP and 30 Rage: Slam your weapon into the ground, dealing 2d10 smashing damage to all enemies within 15 feet and knocking them Prone on a failed Fortitude save.",
       "flavorText": "When the titan falls, the earth shakes.",
       "source": "talent",
       "class": "Berserker",
@@ -406,7 +406,7 @@ export const BERSERKER_PRIMAL_RAGE = [
     "requires": "prg_t4_cataclysmic_blow",
     "spell": {
       "name": "Seismic Roar",
-      "description": "Spend 1 AP and 25 Blood-Heat: Bellow with sonic fury. Deals 2d6 sonic damage to enemies within 20 feet and Dazes them for 1 round.",
+      "description": "Spend 1 AP and 25 Rage: Bellow with sonic fury. Deals 2d6 sonic damage to enemies within 20 feet and Dazes them for 1 round.",
       "flavorText": "Shattering stones with vocal thunder.",
       "source": "talent",
       "class": "Berserker",
@@ -508,7 +508,7 @@ export const BERSERKER_PRIMAL_RAGE = [
     ],
     "spell": {
       "name": "Obliterating Strike",
-      "description": "Spend 2 AP and 50 Blood-Heat: Deliver a world-shattering melee strike dealing 4d8 smashing damage, bypassing all enemy Armor, and knocking the target 20 feet back.",
+      "description": "Spend 2 AP and 50 Rage: Deliver a world-shattering melee strike dealing 4d8 smashing damage, bypassing all enemy Armor, and knocking the target 20 feet back.",
       "flavorText": "The culmination of unstoppable physical power.",
       "source": "talent",
       "class": "Berserker",

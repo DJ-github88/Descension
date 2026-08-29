@@ -15,6 +15,7 @@ import {  STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData
 import { ALL_BACKGROUND_EQUIPMENT } from '../../../data/equipment/backgroundEquipment';
 import ItemTooltip from '../../item-generation/ItemTooltip';
 import ClassIcon from '../../common/ClassIcon';
+import UnifiedSpellCard from '../../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import { ALL_CLASS_SPELLS, CLASS_DATA_MAP } from '../../../data/classSpellGenerator';
 
 import '../styles/Step9CharacterSummary.css';
@@ -192,8 +193,9 @@ const formatDescriptionText = (text) => {
 };const Step9CharacterSummary = () => {
   const state = useCharacterWizardState();
   const { characterData } = state;
-  const [tooltip, setTooltip] = useState({ show: false, item: null, x: 0, y: 0 });
+  const [tooltip, setTooltip] = useState({ show: false, item: null, x: 0, y: 0, isPinned: false });
   const [spellTooltip, setSpellTooltip] = useState({ show: false, spell: null, x: 0, y: 0 });
+  const [selectedSpellModal, setSelectedSpellModal] = useState(null);
   const [isBagOpen, setIsBagOpen] = useState(false);
   const [mobilePanel, setMobilePanel] = useState('hero');
   const [checklistOpen, setChecklistOpen] = useState(false);
@@ -265,9 +267,9 @@ const formatDescriptionText = (text) => {
     }).filter(item => item); // Remove undefined items
   };
 
-  // Equipment hover handlers (same as equipment selection)
-  const handleItemMouseEnter = (e, item) => {
-    const rect = e.currentTarget.getBoundingClientRect();
+  // Equipment tooltip positioning helper
+  const calculateItemTooltipPosition = (targetEl) => {
+    const rect = targetEl.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
@@ -299,57 +301,60 @@ const formatDescriptionText = (text) => {
     x = Math.max(margin, Math.min(x, viewportWidth - tooltipWidth - margin));
     y = Math.max(margin, Math.min(y, viewportHeight - tooltipHeight - margin));
 
+    return { x, y };
+  };
+
+  // Equipment hover handlers (same as equipment selection)
+  const handleItemMouseEnter = (e, item) => {
+    if (tooltip.isPinned) return;
+    const pos = calculateItemTooltipPosition(e.currentTarget);
     setTooltip({
       show: true,
       item: item,
-      x: x,
-      y: y
+      x: pos.x,
+      y: pos.y,
+      isPinned: false
     });
   };
 
   const handleItemMouseMove = (e) => {
-    if (tooltip.show) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-
-      const tooltipWidth = 280;
-      const tooltipHeight = 250;
-      const margin = 15;
-
-      let x = rect.right + margin;
-      let y = rect.top;
-
-      const fitsRight = (x + tooltipWidth) <= viewportWidth;
-      const fitsBelow = (y + tooltipHeight) <= viewportHeight;
-
-      if (!fitsRight) {
-        x = rect.left - tooltipWidth - margin;
-        if (x < margin) {
-          x = (viewportWidth - tooltipWidth) / 2;
-        }
-      }
-
-      if (!fitsBelow) {
-        y = rect.top - tooltipHeight - margin;
-        if (y < margin) {
-          y = Math.max(margin, viewportHeight - tooltipHeight - margin);
-        }
-      }
-
-      x = Math.max(margin, Math.min(x, viewportWidth - tooltipWidth - margin));
-      y = Math.max(margin, Math.min(y, viewportHeight - tooltipHeight - margin));
-
+    if (tooltip.show && !tooltip.isPinned) {
+      const pos = calculateItemTooltipPosition(e.currentTarget);
       setTooltip(prev => ({
         ...prev,
-        x: x,
-        y: y
+        x: pos.x,
+        y: pos.y
       }));
     }
   };
 
   const handleItemMouseLeave = () => {
-    setTooltip({ show: false, item: null, x: 0, y: 0 });
+    if (!tooltip.isPinned) {
+      setTooltip({ show: false, item: null, x: 0, y: 0, isPinned: false });
+    }
+  };
+
+  // Item click handler: toggle/pin tooltip on click
+  const handleItemClick = (e, item) => {
+    e.stopPropagation();
+    const pos = calculateItemTooltipPosition(e.currentTarget);
+    setTooltip(prev => {
+      if (prev.show && prev.item?.id === item.id && prev.isPinned) {
+        return { show: false, item: null, x: 0, y: 0, isPinned: false };
+      }
+      return {
+        show: true,
+        item: item,
+        x: pos.x,
+        y: pos.y,
+        isPinned: true
+      };
+    });
+  };
+
+  const handleItemTouchStart = (e, item) => {
+    if (e.touches && e.touches.length > 1) return;
+    handleItemClick(e, item);
   };
 
   // Spell hover handlers
@@ -414,8 +419,30 @@ const formatDescriptionText = (text) => {
   // Fetch starting spells chosen
   const chosenSpells = (characterData.class_spells?.known_spells || []).map(spellId => {
     const classSpells = ALL_CLASS_SPELLS[characterData.class] || [];
-    return classSpells.find(s => s.id === spellId);
-  }).filter(s => s);
+    let spell = classSpells.find(s => s.id === spellId);
+    if (!spell) {
+      const classData = CLASS_DATA_MAP[characterData.class];
+      const pool = classData?.spells || classData?.exampleSpells || [];
+      spell = pool.find(s => s.id === spellId);
+    }
+    if (!spell) return null;
+    return {
+      ...spell,
+      infernoRequired: spell.specialMechanics?.infernoLevel?.required,
+      infernoAscend: spell.specialMechanics?.infernoLevel?.ascendBy,
+      infernoDescend: spell.specialMechanics?.infernoLevel?.descendBy,
+      musicalCombo: spell.specialMechanics?.musicalCombo,
+      timeShardGenerate: spell.specialMechanics?.timeShards?.generated,
+      timeShardCost: spell.specialMechanics?.temporalFlux?.shardCost,
+      temporalStrainGain: spell.specialMechanics?.temporalFlux?.strainGained,
+      temporalStrainReduce: spell.specialMechanics?.temporalFlux?.strainReduced,
+      mayhemGenerate: spell.resourceFormulas?.mayhem_generate,
+      mayhemCost: spell.resourceValues?.mayhem_spend || spell.resourceValues?.mayhem_cost,
+      devotionRequired: spell.specialMechanics?.devotionLevel?.required,
+      devotionCost: spell.specialMechanics?.devotionLevel?.cost || spell.specialMechanics?.devotionLevel?.amplifiedCost,
+      devotionGain: spell.specialMechanics?.devotionLevel?.gain
+    };
+  }).filter(Boolean);
 
   // Image style mapping for token image custom positioning
   const getImageStyle = () => {
@@ -623,6 +650,7 @@ const formatDescriptionText = (text) => {
             <span className="meta-tag gender-tag">{formatValue(characterData.gender)}</span>
             <span className="meta-tag race-tag">{selectedSubrace?.name || characterData.race || 'No Race'}</span>
             <span className="meta-tag class-tag">{characterData.class ? (CLASS_DATA_MAP[characterData.class]?.name || characterData.class) : 'No Class'}</span>
+            <span className="meta-tag alignment-tag" style={{ background: 'rgba(212, 175, 55, 0.15)', color: '#8a6d1c', borderColor: 'rgba(212, 175, 55, 0.35)' }}>{characterData.alignment || 'Neutral Good'}</span>
           </div>
         </div>
       </div>
@@ -727,6 +755,7 @@ const formatDescriptionText = (text) => {
                   <span className="meta-tag gender-tag">{formatValue(characterData.gender)}</span>
                   <span className="meta-tag race-tag">{selectedSubrace?.name || characterData.race || 'No Race'}</span>
                   <span className="meta-tag class-tag">{characterData.class ? (CLASS_DATA_MAP[characterData.class]?.name || characterData.class) : 'No Class'}</span>
+                  <span className="meta-tag alignment-tag" style={{ background: 'rgba(212, 175, 55, 0.15)', color: '#8a6d1c', borderColor: 'rgba(212, 175, 55, 0.35)' }}>{characterData.alignment || 'Neutral Good'}</span>
                 </div>
               </div>
             </div>
@@ -792,7 +821,7 @@ const formatDescriptionText = (text) => {
             <h3 className="section-title">
               <i className="fas fa-user-shield"></i> Basic Info
             </h3>
-            <div className="detail-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.4rem' }}>
+            <div className="detail-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.4rem' }}>
               <div className="detail-item">
                 <span className="detail-label">Calling:</span>
                 <span className="detail-value">{formatValue(characterData.class) || 'N/A'}</span>
@@ -800,6 +829,10 @@ const formatDescriptionText = (text) => {
               <div className="detail-item">
                 <span className="detail-label">Background:</span>
                 <span className="detail-value">{backgroundData?.name || formatValue(characterData.background) || 'N/A'}</span>
+              </div>
+              <div className="detail-item">
+                <span className="detail-label">Alignment:</span>
+                <span className="detail-value">{characterData.alignment || 'Neutral Good'}</span>
               </div>
             </div>
           </div>
@@ -947,8 +980,13 @@ const formatDescriptionText = (text) => {
                   <div 
                     key={spell.id || index} 
                     className="summary-spell-grid-cell"
+                    onClick={() => {
+                      setSpellTooltip({ show: false, spell: null, x: 0, y: 0 });
+                      setSelectedSpellModal(spell);
+                    }}
                     onMouseEnter={(e) => handleSpellMouseEnter(e, spell)}
                     onMouseLeave={handleSpellMouseLeave}
+                    title={`${spell.name} (Click to view spell card)`}
                   >
                     <img 
                       src={getSpellIconUrl(spell.icon)} 
@@ -1018,8 +1056,22 @@ const formatDescriptionText = (text) => {
 
       {/* Backpack Inventory Popup Window Overlay */}
       {isBagOpen && (
-        <div className="backpack-modal-overlay" onClick={() => setIsBagOpen(false)}>
-          <div className="bag-popup" onClick={(e) => e.stopPropagation()}>
+        <div 
+          className="backpack-modal-overlay" 
+          onClick={() => {
+            setIsBagOpen(false);
+            setTooltip({ show: false, item: null, x: 0, y: 0, isPinned: false });
+          }}
+        >
+          <div 
+            className="bag-popup" 
+            onClick={(e) => {
+              e.stopPropagation();
+              if (tooltip.isPinned) {
+                setTooltip({ show: false, item: null, x: 0, y: 0, isPinned: false });
+              }
+            }}
+          >
             <div className="bag-popup-header">
               <div className="bag-popup-title-row">
                 <img 
@@ -1029,7 +1081,13 @@ const formatDescriptionText = (text) => {
                 />
                 <span className="bag-popup-title">Adventurer Backpack</span>
               </div>
-              <button className="bag-popup-close-btn" onClick={() => setIsBagOpen(false)}>
+              <button 
+                className="bag-popup-close-btn" 
+                onClick={() => {
+                  setIsBagOpen(false);
+                  setTooltip({ show: false, item: null, x: 0, y: 0, isPinned: false });
+                }}
+              >
                 <i className="fas fa-times"></i>
               </button>
             </div>
@@ -1110,9 +1168,12 @@ const formatDescriptionText = (text) => {
                             width: `${itemWidth * CELL_SIZE + (itemWidth - 1) * GAP}px`,
                             height: `${itemHeight * CELL_SIZE + (itemHeight - 1) * GAP}px`
                           }}
+                          onClick={(e) => handleItemClick(e, cellItem)}
+                          onTouchStart={(e) => handleItemTouchStart(e, cellItem)}
                           onMouseEnter={(e) => handleItemMouseEnter(e, cellItem)}
                           onMouseMove={handleItemMouseMove}
                           onMouseLeave={handleItemMouseLeave}
+                          title={`${cellItem.name} (Click to inspect)`}
                         >
                           <div
                             className="bag-inv-item-icon"
@@ -1193,7 +1254,7 @@ const formatDescriptionText = (text) => {
             position: 'fixed',
             left: tooltip.x,
             top: tooltip.y,
-            zIndex: 10000,
+            zIndex: 10001,
             pointerEvents: 'none'
           }}
         >
@@ -1201,15 +1262,15 @@ const formatDescriptionText = (text) => {
         </div>
       )}
 
-      {/* Spell Tooltip Overlay */}
-      {spellTooltip.show && spellTooltip.spell && (
+      {/* Spell Tooltip Overlay (Hover Preview) */}
+      {spellTooltip.show && spellTooltip.spell && !selectedSpellModal && (
         <div
           className="item-tooltip-overlay"
           style={{
             position: 'fixed',
             left: spellTooltip.x,
             top: spellTooltip.y,
-            zIndex: 10000,
+            zIndex: 10001,
             pointerEvents: 'none',
             background: '#1c120c',
             border: '2px solid #997e55',
@@ -1234,6 +1295,43 @@ const formatDescriptionText = (text) => {
             </div>
             <div className="summary-spell-tooltip-desc" style={{ fontSize: '0.72rem', color: '#fff', lineHeight: 1.35, borderTop: '1px solid rgba(153, 126, 85, 0.25)', paddingTop: '0.3rem', marginTop: '0.2rem' }}>
               {spellTooltip.spell.description}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Spell Card Detail Modal Popup */}
+      {selectedSpellModal && (
+        <div className="spell-modal-overlay" onClick={() => setSelectedSpellModal(null)}>
+          <div
+            className="spell-modal-container"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="spell-modal-header">
+              <div className="spell-modal-title-row">
+                <span className="spell-modal-icon">
+                  <i className="fas fa-book-sparkles"></i>
+                </span>
+                <h3 className="spell-modal-title">{selectedSpellModal.name}</h3>
+              </div>
+              <button
+                type="button"
+                className="spell-modal-close-btn"
+                onClick={() => setSelectedSpellModal(null)}
+                aria-label="Close spell card"
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <div className="spell-modal-body">
+              <UnifiedSpellCard
+                spell={selectedSpellModal}
+                variant="wizard"
+                showActions={false}
+                showDescription={true}
+                showStats={true}
+                showTags={true}
+              />
             </div>
           </div>
         </div>

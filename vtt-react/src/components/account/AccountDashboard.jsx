@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
@@ -61,20 +61,35 @@ const AccountDashboard = ({ user }) => {
   // Close mobile menu on navigation
   useEffect(() => {
     setMobileMenuOpen(false);
-  }, [location.pathname]);
+  }, [location.pathname, location.search]);
 
-  // Support location state tab changes and cross-app navigation events
+  // Support location.search (?tab=...) and location.state tab changes for clean browser Back/Forward history
   useEffect(() => {
-    if (location.state?.tab) {
+    const searchParams = new URLSearchParams(location.search);
+    const tabParam = searchParams.get('tab');
+    const validTabs = ['rooms', 'characters', 'campaigns', 'journal', 'social', 'maps', 'books', 'membership'];
+    if (tabParam && validTabs.includes(tabParam)) {
+      setActiveTab(tabParam);
+    } else if (location.state?.tab && validTabs.includes(location.state.tab)) {
       setActiveTab(location.state.tab);
+    } else if (location.state?.activeTab && validTabs.includes(location.state.activeTab)) {
+      setActiveTab(location.state.activeTab);
     }
-  }, [location.state]);
+  }, [location.search, location.state]);
+
+  const handleTabChange = useCallback((newTab) => {
+    setActiveTab(newTab);
+    const currentParams = new URLSearchParams(window.location.search);
+    if (currentParams.get('tab') !== newTab) {
+      navigate(`/account?tab=${newTab}`, { replace: false });
+    }
+  }, [navigate]);
 
   useEffect(() => {
-    const handleNavJournal = () => setActiveTab('journal');
-    const handleNavCampaign = () => setActiveTab('campaigns');
-    const handleNavWorld = () => setActiveTab('maps');
-    const handleNavBooks = () => setActiveTab('books');
+    const handleNavJournal = () => handleTabChange('journal');
+    const handleNavCampaign = () => handleTabChange('campaigns');
+    const handleNavWorld = () => handleTabChange('maps');
+    const handleNavBooks = () => handleTabChange('books');
 
     window.addEventListener('mythrill_navigate_journal', handleNavJournal);
     window.addEventListener('mythrill_navigate_campaign', handleNavCampaign);
@@ -87,7 +102,7 @@ const AccountDashboard = ({ user }) => {
       window.removeEventListener('mythrill_open_world_dossier', handleNavWorld);
       window.removeEventListener('mythrill_navigate_books', handleNavBooks);
     };
-  }, []);
+  }, [handleTabChange]);
 
   // Initialize social listeners and presence tracking
   useEffect(() => {
@@ -146,7 +161,17 @@ const AccountDashboard = ({ user }) => {
   const isGuest = user?.isGuest || false;
   const isPhone = useIsPhone();
   // Phones default to Characters — Rooms leads into the desktop-only VTT grid.
-  const [activeTab, setActiveTab] = useState(() => (isPhone ? 'characters' : 'rooms'));
+  const [activeTab, setActiveTab] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const sp = new URLSearchParams(window.location.search);
+      const tabParam = sp.get('tab');
+      const validTabs = ['rooms', 'characters', 'campaigns', 'journal', 'social', 'maps', 'books', 'membership'];
+      if (tabParam && validTabs.includes(tabParam)) {
+        return tabParam;
+      }
+    }
+    return isPhone ? 'characters' : 'rooms';
+  });
   const [subscriptionStatus, setSubscriptionStatus] = useState(null);
   const [characterLimitInfo, setCharacterLimitInfo] = useState(null);
 
@@ -488,20 +513,20 @@ const AccountDashboard = ({ user }) => {
             <div className="fan-container">
               <button
                 className={`fan-tab ${activeTab === 'rooms' ? 'active' : ''}`}
-                onClick={() => setActiveTab('rooms')}
+                onClick={() => handleTabChange('rooms')}
               >
                 <span>Rooms</span>
               </button>
               <button
                 className={`fan-tab ${activeTab === 'characters' ? 'active' : ''}`}
-                onClick={() => setActiveTab('characters')}
+                onClick={() => handleTabChange('characters')}
               >
                 <span>Characters</span>
               </button>
               {!isGuest && (
                 <button
                   className={`fan-tab ${activeTab === 'campaigns' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('campaigns')}
+                  onClick={() => handleTabChange('campaigns')}
                 >
                   <span>Campaigns</span>
                 </button>
@@ -509,7 +534,7 @@ const AccountDashboard = ({ user }) => {
               {!isGuest && (
                 <button
                   className={`fan-tab ${activeTab === 'journal' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('journal')}
+                  onClick={() => handleTabChange('journal')}
                 >
                   <span>Journal</span>
                 </button>
@@ -517,7 +542,7 @@ const AccountDashboard = ({ user }) => {
               {!isGuest && (
                 <button
                   className={`fan-tab ${activeTab === 'social' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('social')}
+                  onClick={() => handleTabChange('social')}
                 >
                   <span>Social</span>
                 </button>
@@ -525,7 +550,7 @@ const AccountDashboard = ({ user }) => {
               {!isGuest && (
                 <button
                   className={`fan-tab ${activeTab === 'maps' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('maps')}
+                  onClick={() => handleTabChange('maps')}
                 >
                   <span>World</span>
                 </button>
@@ -533,14 +558,14 @@ const AccountDashboard = ({ user }) => {
               {!isGuest && (
                 <button
                   className={`fan-tab ${activeTab === 'books' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('books')}
+                  onClick={() => handleTabChange('books')}
                 >
                   <span>Books</span>
                 </button>
               )}
               <button
                 className={`fan-tab ${activeTab === 'membership' ? 'active' : ''}`}
-                onClick={() => setActiveTab('membership')}
+                onClick={() => handleTabChange('membership')}
               >
                 <span>Membership</span>
               </button>
@@ -558,9 +583,9 @@ const AccountDashboard = ({ user }) => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
-                background: 'rgba(212, 175, 55, 0.12)',
-                border: '1px solid rgba(212, 175, 55, 0.35)',
-                color: '#d4af37',
+                background: 'rgba(90, 30, 18, 0.08)',
+                border: '1px solid rgba(139, 69, 19, 0.35)',
+                color: '#4a2b1f',
                 padding: '6px 12px',
                 borderRadius: '8px',
                 cursor: 'pointer',
@@ -569,7 +594,7 @@ const AccountDashboard = ({ user }) => {
                 transition: 'all 0.15s ease'
               }}
             >
-              <i className="fas fa-search"></i>
+              <i className="fas fa-search" style={{ color: '#6b4423' }}></i>
               <span>Search (Ctrl+K)</span>
             </button>
 
@@ -630,7 +655,7 @@ const AccountDashboard = ({ user }) => {
             {!isGuest && subscriptionStatus?.canUpgrade && (
               <button
                 className="action-btn upgrade-plan-btn"
-                onClick={() => setActiveTab('membership')}
+                onClick={() => handleTabChange('membership')}
                 title="Upgrade your membership"
               >
                 <i className="fas fa-crown"></i>
@@ -666,14 +691,14 @@ const AccountDashboard = ({ user }) => {
           <nav className="account-mobile-nav">
             <button
               className={`account-mobile-nav-item ${activeTab === 'rooms' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('rooms'); setMobileMenuOpen(false); }}
+              onClick={() => { handleTabChange('rooms'); setMobileMenuOpen(false); }}
             >
               <i className="fas fa-door-open"></i>
               Rooms
             </button>
             <button
               className={`account-mobile-nav-item ${activeTab === 'characters' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('characters'); setMobileMenuOpen(false); }}
+              onClick={() => { handleTabChange('characters'); setMobileMenuOpen(false); }}
             >
               <i className="fas fa-user-friends"></i>
               Characters
@@ -681,7 +706,7 @@ const AccountDashboard = ({ user }) => {
             {!isGuest && (
               <button
                 className={`account-mobile-nav-item ${activeTab === 'campaigns' ? 'active' : ''}`}
-                onClick={() => { setActiveTab('campaigns'); setMobileMenuOpen(false); }}
+                onClick={() => { handleTabChange('campaigns'); setMobileMenuOpen(false); }}
               >
                 <i className="fas fa-map"></i>
                 Campaigns
@@ -690,7 +715,7 @@ const AccountDashboard = ({ user }) => {
             {!isGuest && (
               <button
                 className={`account-mobile-nav-item ${activeTab === 'journal' ? 'active' : ''}`}
-                onClick={() => { setActiveTab('journal'); setMobileMenuOpen(false); }}
+                onClick={() => { handleTabChange('journal'); setMobileMenuOpen(false); }}
               >
                 <i className="fas fa-book"></i>
                 Journal
@@ -699,7 +724,7 @@ const AccountDashboard = ({ user }) => {
             {!isGuest && (
               <button
                 className={`account-mobile-nav-item ${activeTab === 'social' ? 'active' : ''}`}
-                onClick={() => { setActiveTab('social'); setMobileMenuOpen(false); }}
+                onClick={() => { handleTabChange('social'); setMobileMenuOpen(false); }}
               >
                 <i className="fas fa-heart"></i>
                 Social
@@ -708,7 +733,7 @@ const AccountDashboard = ({ user }) => {
             {!isGuest && (
               <button
                 className={`account-mobile-nav-item ${activeTab === 'maps' ? 'active' : ''}`}
-                onClick={() => { setActiveTab('maps'); setMobileMenuOpen(false); }}
+                onClick={() => { handleTabChange('maps'); setMobileMenuOpen(false); }}
               >
                 <i className="fas fa-atlas"></i>
                 World
@@ -717,7 +742,7 @@ const AccountDashboard = ({ user }) => {
             {!isGuest && (
               <button
                 className={`account-mobile-nav-item ${activeTab === 'books' ? 'active' : ''}`}
-                onClick={() => { setActiveTab('books'); setMobileMenuOpen(false); }}
+                onClick={() => { handleTabChange('books'); setMobileMenuOpen(false); }}
               >
                 <i className="fas fa-book-bookmark"></i>
                 Books
@@ -725,7 +750,7 @@ const AccountDashboard = ({ user }) => {
             )}
             <button
               className={`account-mobile-nav-item ${activeTab === 'membership' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('membership'); setMobileMenuOpen(false); }}
+              onClick={() => { handleTabChange('membership'); setMobileMenuOpen(false); }}
             >
               <i className="fas fa-star"></i>
               Membership
@@ -1157,7 +1182,7 @@ const AccountDashboard = ({ user }) => {
                     <h3>Campaign Manager</h3>
                     <p>Organize your campaigns with session tracking, multi-room management, and more.</p>
                     <p className="upgrade-prompt-required">Requires <strong>Dungeon Master</strong> or above</p>
-                    <button className="upgrade-prompt-btn" onClick={() => setActiveTab('membership')}>
+                    <button className="upgrade-prompt-btn" onClick={() => handleTabChange('membership')}>
                       <i className="fas fa-arrow-right"></i>
                       View Plans
                     </button>
@@ -1188,7 +1213,7 @@ const AccountDashboard = ({ user }) => {
           )}
 
           {activeTab === 'books' && (
-            <div className="tab-content account-books-tab-content" style={{ height: 'calc(100vh - 120px)', minHeight: '600px', display: 'flex', flexDirection: 'column' }}>
+            <div className="tab-content account-books-tab-content">
               <BookManager isGM={true} />
             </div>
           )}

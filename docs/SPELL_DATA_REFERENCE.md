@@ -1094,33 +1094,33 @@ Run this against EVERY spell. Fix any violation.
 >
 > **The engine key in the table below is the source of truth**  -  it is what `ClassResourceBar.jsx`
 > and `classResources.js` read. The "Display name" is the lore label. Some classes' lore uses a
-> fancier name than the canonical key (e.g. Berserker lore says "Blood-Heat" but the canonical key
+> fancier name than the canonical key (e.g. Berserker lore says "Rage" but the canonical key
 > is `rage`); the key wins.
 
 ## Master Class Resource Table (20 classes)
 
 | # | Class | File | Consolidated from | Resource (display) | **Engine key** | Encoding in spells |
 |---|---|---|---|---|---|---|
-| 1 | **Animist** | animistData.js | Primalist+Witch Doctor+Inscriptor | Ancestral Resonance | `resonance` | `classResource:{type:'resonance', cost}` (negative = generate) |
-| 2 | **Apex** | apexData.js | Huntress | Quarry Marks | `quarry_marks` | `classResource:{type:'quarry_marks', cost\|gain}` |
+| 1 | **Animist** | animistData.js | Primalist+Witch Doctor+Inscriptor | Resonance | `resonance` | `classResource:{type:'resonance', cost}` (negative = generate) |
+| 2 | **Apex** | apexData.js | Huntress | Marks | `marks` | `classResource:{type:'marks', cost\|gain}` |
 | 3 | **Arcanoneer** | arcanoneerData.js | (kept) | Elemental Spheres | `arcane_sphere`/`fire_sphere`/`ice_sphere`/… | `resourceCost.resourceValues:{<sphere>:N}` + `resourceCost.spheres:[…]` |
 | 4 | **Augur** | augurData.js | Oracle | Benediction / Malediction | `benediction` / `malediction` | `classResource:{type:'benediction'\|'malediction', cost}` |
-| 5 | **Berserker** | berserkerData.js | (kept; lore calls it "Blood-Heat") | Rage States | `rage` | `classResource:{type:'rage', cost}` (negative = generate). **Note:** lore name "Blood-Heat" is flavor; the engine key `rage` is canonical (`classResources.js:1403`). |
+| 5 | **Berserker** | berserkerData.js | (kept; lore calls it "Rage") | Rage States | `rage` | `classResource:{type:'rage', cost}` (negative = generate). **Note:** lore name "Rage" is flavor; the engine key `rage` is canonical (`classResources.js:1403`). |
 | 6 | **Chronarch** | chronarchData.js | (kept) | Time Shards + Temporal Strain | `time_shards` | `classResource:{type:'time_shards', cost}`. **⚠ Temporal Strain is declared in lore but NOT modeled in any spell** (known gap). |
 | 7 | **False Prophet** | falseProphetData.js | (Doomsayer echo) | Madness | `madness` | `resourceGainConfig.resources:[{type:'madness'}]` + `specialMechanics.madnessGeneration` |
-| 8 | **Gambit** | gambitData.js | Gambler+Fate Weaver | Fortune Points + Karmic Debt | `fortune_points` | `classResource:{type:'fortune_points', cost}` (spenders) + `specialMechanics.fortunePoints.generates` (generators). **⚠ Karmic Debt is declared but NOT modeled in any spell** (known gap). |
+| 8 | **Gambit** | gambitData.js | Gambler+Fate Weaver | Fortune + Karmic Debt | `fortune` | `classResource:{type:'fortune', cost}` (spenders) + `specialMechanics.fortunePoints.generates` (generators). **⚠ Karmic Debt is declared but NOT modeled in any spell** (known gap). |
 | 9 | **Harbinger** | harbingerData.js | Chaos Weaver+Doomsayer | Mayhem | `mayhem` | `classResource:{type:'mayhem', cost}` (negative = generate) |
-| 10 | **Inquisitor** | inquisitorData.js | Covenbane+Exorcist | Righteous Authority | `righteousAuthority` (camelCase) | `classResource:{type:'righteousAuthority', cost\|gain\|gainOnKill\|gainOnSupernatural}` |
+| 10 | **Inquisitor** | inquisitorData.js | Covenbane+Exorcist | Authority | `righteousAuthority` (camelCase) | `classResource:{type:'righteousAuthority', cost\|gain\|gainOnKill\|gainOnSupernatural}` |
 | 11 | **Lunarch** | lunarchData.js | (original) | Lunar Phase cycle | _none (environmental)_ | No per-spell resource cost; phase interactions live in `specialMechanics.phaseInteraction`. **⚠ Design gap: no resource-management loop** (report §3.4). |
-| 12 | **Martyr** | martyrData.js | Martyr+Dreadnaught (Ironclad spec) | Devotion Gauge | `devotion` | top-level `devotionCost`/`devotionGain`/`devotionRequired` (non-standard; one spell uses `resourceValues:{devotion:N}`) |
+| 12 | **Martyr** | martyrData.js | Martyr+Dreadnaught (Ironclad spec) | Devotion | `devotion` | top-level `devotionCost`/`devotionGain`/`devotionRequired` (non-standard; one spell uses `resourceValues:{devotion:N}`) |
 | 13 | **Minstrel** | minstrelData.js | (kept) | Musical Notes I-VII | (notes, not a single key) | `musicalCombo:{type:'builder'\|'resolver', generates:[{note,count}]}` |
 | 14 | **Plaguebringer** | plaguebringerData.js | (kept) | Virulence | `virulence` | `classResource:{type:'virulence', gain}` (every spell generates; spend is implicit via category progression) |
 | 15 | **Pyrofiend** | pyrofiendData.js | (kept) | Inferno Veil | `inferno_ascend` / `inferno_required` | `resourceCost.resourceValues:{inferno_ascend:N, inferno_required:N}` |
-| 16 | **Revenant** | revenantData.js | Deathcaller+Lichborne | Death Toll + Phylactery | `deathToll` | `resourceValues:{deathToll:N}` + HP cost via `resourceFormulas:{health:'XdY'}` |
-| 17 | **Shaper** | shaperData.js | Bladedancer+Formbender | Kinetic Flux + Body Toll | `kinetic_flux` | `classResource:{type:'kinetic_flux', cost\|'ALL'}` + top-level `bodyTollCost`/`bodyTollGenerated` + `formRequirement` |
+| 16 | **Revenant** | revenantData.js | Deathcaller+Lichborne | Toll + Phylactery | `deathToll` | `resourceValues:{deathToll:N}` + HP cost via `resourceFormulas:{health:'XdY'}` |
+| 17 | **Shaper** | shaperData.js | Bladedancer+Formbender | Flux + Body Toll | `flux` | `classResource:{type:'flux', cost\|'ALL'}` + top-level `bodyTollCost`/`bodyTollGenerated` + `formRequirement` |
 | 18 | **Spellguard** | spellguardData.js | (kept; lore calls it "Void Resonance/AEP") | Arcane Energy Points | `arcane_energy_points` | `classResource:{type:'arcane_energy_points', cost}` (negative = generate). **Note:** lore name "Void Resonance" is flavor; engine key `arcane_energy_points` is canonical. |
-| 19 | **Toxicologist** | toxicologistData.js | (kept) | Toxin Vials + Contraption Parts | `toxinVials` | `resourceCost.toxinVials:N` (flat) OR `resourceValues:{toxinVials:N}`. **⚠ Contraption Parts is declared but NOT modeled as a spell cost** (known gap). |
-| 20 | **Warden** | wardenData.js | Warden+Titan (Monolith spec) | Tether Tension | `tether_tension` | `classResource:{type:'tether_tension', cost}` (negative = generate) |
+| 19 | **Toxicologist** | toxicologistData.js | (kept) | Vials + Contraption Parts | `toxinVials` | `resourceCost.toxinVials:N` (flat) OR `resourceValues:{toxinVials:N}`. **⚠ Contraption Parts is declared but NOT modeled as a spell cost** (known gap). |
+| 20 | **Warden** | wardenData.js | Warden+Titan (Monolith spec) | Tension | `tension` | `classResource:{type:'tension', cost}` (negative = generate) |
 
 ### ⚠ Declared-but-unmodeled resources (known design gaps)
 
@@ -2800,8 +2800,8 @@ propagation: { method, behavior, count, range, decay, secondaryRadius }
 | `rage_state` (6 sub-states) | _(spec only has rageCost/rageGain)_ | Berserker state selector |
 | `drp` (Dark Resilience Points) | `furnace_pressure` | **Dreadnaught: completely different name** |
 | `note_i`–`note_vii` | `musicalCombo.notes: ['C','E','G']` | **Minstrel: different schema entirely** |
-| `quarry_marks` (snake_case) | `quarryMarkCost` (camelCase) | **Huntress: naming convention mismatch** |
-| `vengeance_points` (snake_case) | `vengeanceCost` (camelCase) | **Warden: naming convention mismatch** |
+| `marks` (snake_case) | `quarryMarkCost` (camelCase) | **Huntress: naming convention mismatch** |
+| `tension` (snake_case) | `vengeanceCost` (camelCase) | **Warden: naming convention mismatch** |
 | `mayhem_generate`/`mayhem_spend` | `classResource: {type:'mayhem', cost:N}` | **Chaos Weaver: different schema** |
 | `ascension_required` | _(not in spec)_ | Deathcaller extra resource |
 
@@ -2811,7 +2811,7 @@ Augur (Benediction/Malediction), Bladedancer (Momentum/Flourish), Covenbane (Hex
 Exorcist (Dominance Dice), False Prophet (Madness), Inscriptor (Runic Resonance),
 Lichborne (Phylactery), Lunarch (Moon Phase), Oracle (Prophetic Visions),
 Plaguebringer (Virulence), Primalist (Totemic Synergy), Spellguard (AEP),
-Titan (Celestial Devotion), Toxicologist (Toxin Vials), Witch Doctor (Voodoo Essence)
+Titan (Celestial Devotion), Toxicologist (Vials), Witch Doctor (Voodoo Essence)
 
 ---
 

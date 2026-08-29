@@ -14,12 +14,18 @@ import {
   BookCalloutBlock,
   MapEmbedBlock,
   TableOfContentsBlock,
-  SideBySideBlock
+  SideBySideBlock,
+  LineageShowcaseBlock,
+  DynastyTreeBlock,
+  PlotThreadBlock
 } from './BookTtrpgBlocks';
 import BookGlossaryModal from './BookGlossaryModal';
 import BookImagePickerModal from './BookImagePickerModal';
 import BookItemCreatorModal from './BookItemCreatorModal';
+import BookCreaturePickerModal from './BookCreaturePickerModal';
+import BookQuestPickerModal from './BookQuestPickerModal';
 import BookLorePickerModal from './BookLorePickerModal';
+import BookMapPickerModal from './BookMapPickerModal';
 import BookSnapshotModal from './BookSnapshotModal';
 import './BookDocumentEditor.css';
 
@@ -53,6 +59,7 @@ const NEW_BLOCK_DEFAULTS = {
     mana: 40,
     ap: 4,
     speed: '30 ft.',
+    tokenIcon: 'inv_misc_questionmark',
     stats: { strength: 16, agility: 14, constitution: 16, intelligence: 12, spirit: 16, charisma: 10 },
     resistances: 'Rime 50%, Wyrd 25%, Ember Weakness',
     traits: [{ name: 'Chilling Aura', desc: 'Creatures within 10 ft. take 1d6 Rime damage at turn start and suffer -5 ft. speed.' }],
@@ -94,6 +101,41 @@ const NEW_BLOCK_DEFAULTS = {
     resourceCosts: { mana: { baseAmount: 15 }, action_points: { baseAmount: 2 } },
     tags: ['offensive', 'damage', 'rime']
   },
+  lineage_showcase: {
+    name: 'Solari',
+    essence: 'The Cinder-Bound',
+    description: 'Born of the molten volcanic caldrons, their skin bears living ember runes and volcanic fortitude.',
+    baseTraits: { size: 'Medium', baseSpeed: 30, baseHp: 25, baseMana: 15, languages: ['Common', 'Solari'], lifespan: '120-180 yrs' },
+    abilityModifiers: { STR: 2, AGI: -1, CON: 1, INT: 0, SPI: 1, CHA: -1 },
+    racialPassives: [{ name: 'Cinder Blood', description: 'Immune to heat strain and +2 to saving throws against fire hazards.' }],
+    racialAbilities: [{ name: 'Molten Surge', actionPointCost: 2, manaCost: 10, description: 'Cleave with blazing flame dealing 2d6 Ember damage.' }],
+    meaningfulTradeoffs: 'Takes +15% additional damage from extreme Rime (Frost) environmental strain.',
+    subraces: [{ name: 'Caldera Walker', description: 'Deep caldera denizens.' }]
+  },
+  dynasty_tree: {
+    name: 'House Alduin — The High Kings of Nordhalla',
+    description: 'The ancient ruling dynasty of the Frostwood Reach and Nordhalla high peaks.',
+    nodes: [
+      { id: 'n-1', name: 'Nikolaos Alduin', title: 'High King', lifespan: '750 - 825', role: 'Ruler of the Realm', gender: 'male' },
+      { id: 'n-2', name: 'Serena Tolavarak', title: 'High Queen Consort', lifespan: '760 - 835', role: 'Matriarch of the Vale', gender: 'female' }
+    ],
+    relationships: [
+      { fromId: 'n-1', toId: 'n-2', type: 'Royal Consort & Spouse' }
+    ]
+  },
+  plot_thread: {
+    title: 'The Shadow of Greymark',
+    type: 'main',
+    status: 'Active',
+    act: 1,
+    theme: 'Political Intrigue & Ancient Seal',
+    summary: 'The thermal core beneath Greymark Citadel is fracturing as rival factions vie for the obsidian key.',
+    beats: [
+      { title: 'The Omens at Twilight', description: 'Cracks appear across the lower thermal vaults.', completed: true },
+      { title: 'The Stolen Key', description: 'Recover the rusted iron key from Gref the Memory-Merchant.', completed: false },
+      { title: 'The Sealed Vault', description: 'Unlock the gate beneath the weeping birch before solstice.', completed: false }
+    ]
+  },
   location_showcase: {
     name: 'Greymark Citadel',
     locationType: 'Fortress / Sanctuary',
@@ -119,41 +161,70 @@ const NEW_BLOCK_DEFAULTS = {
     giver: 'Elder Moira of Drunhold',
     status: 'Active',
     objectives: [
-      { text: 'Locate Gref near the misty crossroads at twilight', done: false },
-      { text: 'Trade a memory of equal value for the rusted iron key', done: false },
-      { text: 'Unlock the sealed vault beneath the weeping birch', done: false }
+      { text: 'Locate Gref near the misty crossroads at twilight', completed: false },
+      { text: 'Trade a memory of equal value for the rusted iron key', completed: false },
+      { text: 'Unlock the sealed vault beneath the weeping birch', completed: false }
     ],
     reward: '150 Gold, Seelie Amulet of Warding',
     description: 'An ancient vault in the village of Drunhold was locked centuries ago during the Long Winter, and only a twilight merchant holds the original key.'
   },
   map_embed: {
     title: 'Frostwood Reach & Surrounding Lands',
-    region: 'Canonical Realm',
-    mapId: 'frostwood',
-    pinCount: 14,
-    imageUrl: '/assets/images/backgrounds/nordhalla.jpeg'
+    region: 'Frostwood Reach',
+    mapId: 'frostwood-reach',
+    subtitle: "The Mist-Archivists' Forest & Sovereign Ledger",
+    imageUrl: '/assets/images/backgrounds/Mythril.jpeg',
+    buttonText: 'Open Map',
+    heightStyle: 'standard',
+    zoom: 1.0,
+    focalPoint: { x: 50, y: 50 },
+    activeLocationId: 'loc-all',
+    locations: [
+      { id: 'loc-all', name: 'Overview', focalPoint: { x: 50, y: 50 }, zoom: 1.0, description: 'Complete regional overview.' },
+      { id: 'loc-skald', name: "Skald's Peaks", focalPoint: { x: 52, y: 38 }, zoom: 1.85, description: 'Jagged mountain range guarding the northern pass.' },
+      { id: 'loc-midhofn', name: 'Midhöfn', focalPoint: { x: 38, y: 46 }, zoom: 2.1, description: 'Harbor citadel connecting the frozen waterways.' },
+      { id: 'loc-taiga', name: 'Frostwood Taiga', focalPoint: { x: 74, y: 32 }, zoom: 1.75, description: 'Dense pine forest shrouded in arcane mist.' }
+    ],
+    trails: [
+      {
+        id: 'trail-1',
+        name: "King's Pass Route",
+        color: '#ffd700',
+        strokeWidth: 3,
+        dashed: true,
+        points: [{ x: 38, y: 46 }, { x: 44, y: 42 }, { x: 52, y: 38 }, { x: 62, y: 35 }, { x: 74, y: 32 }]
+      }
+    ],
+    markers: [
+      { id: 'pin-1', label: 'Midhöfn Citadel', x: 38, y: 46, icon: 'fa-fort-awesome', color: '#ffd700' },
+      { id: 'pin-2', label: "Skald's Lair", x: 52, y: 38, icon: 'fa-skull', color: '#ef4444' },
+      { id: 'pin-3', label: 'Taiga Outpost', x: 74, y: 32, icon: 'fa-campground', color: '#10b981' }
+    ]
   },
   table_of_contents: { autoGenerate: true },
   entity_embed: { entityType: 'faction', entityId: '', displayMode: 'card' },
-  image: { url: '/assets/images/races/solari_illustration.png', caption: 'Solari Cinder-Walker in the Deep Caldrons', alignment: 'full', frame: 'gold-frame', sizePreset: 'full' }
+  image: { url: '/assets/images/races/merryn_illustration.png', caption: 'Merryn Wave-Rider', alignment: 'full', frame: 'gold-frame', sizePreset: 'full' }
 };
 
 const INSERT_PALETTE = [
-  { type: 'header', label: 'Heading', icon: 'fa-heading', hint: 'H1, H2, or H3 Section Title' },
-  { type: 'paragraph', label: 'Paragraph', icon: 'fa-paragraph', hint: 'Prose with drop cap & [[wiki]] terms' },
-  { type: 'side_by_side', label: 'Side-by-Side Split', icon: 'fa-table-columns', hint: 'Art / Item / Statblock beside Text' },
-  { type: 'callout', label: 'Callout Box', icon: 'fa-scroll', hint: 'Lore, secret, hazard, read aloud' },
-  { type: 'lore_import', label: 'Import World Lore', icon: 'fa-feather-pointed', hint: 'Pull from Factions, Regions, Journals' },
-  { type: 'creature_statblock', label: 'Creature Statblock', icon: 'fa-dragon', hint: 'Descension monster / NPC statblock' },
-  { type: 'spell_formula', label: 'Spell Card', icon: 'fa-wand-magic-sparkles', hint: 'In-game arcane spellcard' },
-  { type: 'item_card', label: 'Item & Relic', icon: 'fa-gem', hint: 'Weapons, armor, magic items studio' },
-  { type: 'location_showcase', label: 'Location & POI', icon: 'fa-landmark', hint: 'Showcase city, dungeon, fortress, or tavern' },
-  { type: 'npc_dossier', label: 'NPC Dossier', icon: 'fa-user-ninja', hint: 'Campaign NPC profile & disposition' },
-  { type: 'quest_hook', label: 'Quest & Plot Hook', icon: 'fa-list-check', hint: 'Adventure objectives & rewards' },
-  { type: 'image', label: 'Illustration / Art', icon: 'fa-image', hint: 'Upload or choose character art' },
-  { type: 'map_embed', label: 'Atlas Map Pin', icon: 'fa-map-location-dot', hint: 'Interactive map preview' },
-  { type: 'table_of_contents', label: 'Table of Contents', icon: 'fa-list-ol', hint: 'Auto-updating book index' },
-  { type: 'divider', label: 'Flourish Divider', icon: 'fa-feather-pointed', hint: 'Ornamental break' }
+  { type: 'header', label: 'Heading', icon: 'fa-heading' },
+  { type: 'paragraph', label: 'Prose', icon: 'fa-paragraph' },
+  { type: 'side_by_side', label: 'Split View', icon: 'fa-table-columns' },
+  { type: 'item_card', label: 'Item Card', icon: 'fa-gem' },
+  { type: 'creature_statblock', label: 'Creature', icon: 'fa-dragon' },
+  { type: 'quest_hook', label: 'Quest', icon: 'fa-scroll' },
+  { type: 'lore_import', label: 'Import Lore', icon: 'fa-feather-pointed' },
+  { type: 'lineage_showcase', label: 'Lineage', icon: 'fa-dna' },
+  { type: 'dynasty_tree', label: 'Dynasty', icon: 'fa-sitemap' },
+  { type: 'spell_formula', label: 'Spell', icon: 'fa-wand-magic-sparkles' },
+  { type: 'location_showcase', label: 'Location', icon: 'fa-landmark' },
+  { type: 'npc_dossier', label: 'NPC', icon: 'fa-user-shield' },
+  { type: 'image', label: 'Art', icon: 'fa-image' },
+  { type: 'callout', label: 'Callout', icon: 'fa-bookmark' },
+  { type: 'plot_thread', label: 'Plot Arc', icon: 'fa-diagram-project' },
+  { type: 'map_embed', label: 'Map', icon: 'fa-map-location-dot' },
+  { type: 'table_of_contents', label: 'Contents', icon: 'fa-list-ol' },
+  { type: 'divider', label: 'Divider', icon: 'fa-minus' }
 ];
 
 const EditableText = ({ value, onCommit, className = '', tagName = 'span', placeholder = '', disabled = false }) => {
@@ -194,7 +265,8 @@ export const BookDocumentEditor = ({
   isGM = true,
   onSave,
   onClose,
-  onBack
+  onBack,
+  onNavigateMap
 }) => {
   const rawBook = useBookStore((s) => s.books.find((b) => b.id === bookId));
   const updateBookMeta = useBookStore((s) => s.updateBookMeta);
@@ -223,22 +295,24 @@ export const BookDocumentEditor = ({
   // Mode: 'write' | 'read'
   const [activeMode, setActiveMode] = useState(isGM ? 'write' : 'read');
   const [activeSidebarTab, setActiveSidebarTab] = useState('toc'); // 'toc' | 'structure' | 'search' | 'history' | 'styling'
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() => (typeof window !== 'undefined' ? window.innerWidth > 768 : true));
   const [editingBlockId, setEditingBlockId] = useState(null);
   const [isGlossaryOpen, setIsGlossaryOpen] = useState(false);
   const [isSnapshotOpen, setIsSnapshotOpen] = useState(false);
   const [saveState, setSaveState] = useState('idle');
 
   // Insertion & Pickers State
-  const [insertAt, setInsertAt] = useState(null);
-  const [entityPickAt, setEntityPickAt] = useState(null);
+  const [insertAt, setInsertAt] = useState(null); // { index, column, slotAlign, sizePreset, x, y }
   const [entities, setEntities] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
   // Specialized Modals Targets
-  const [imagePickerTarget, setImagePickerTarget] = useState(null); // { block, index }
-  const [itemStudioTarget, setItemStudioTarget] = useState(null); // { block, index }
-  const [lorePickerTarget, setLorePickerTarget] = useState(null); // { block, index }
+  const [imagePickerTarget, setImagePickerTarget] = useState(null); // { block, index, column, slotAlign, sizePreset }
+  const [itemStudioTarget, setItemStudioTarget] = useState(null); // { block, index, column, slotAlign, sizePreset, customCallback }
+  const [creatureStudioTarget, setCreatureStudioTarget] = useState(null); // { block, index, column, slotAlign, sizePreset, customCallback }
+  const [questPickerTarget, setQuestPickerTarget] = useState(null); // { block, index, column, slotAlign, sizePreset, customCallback }
+  const [lorePickerTarget, setLorePickerTarget] = useState(null); // { block, index, column, slotAlign, sizePreset, customCallback }
+  const [mapPickerTarget, setMapPickerTarget] = useState(null); // { block, index, column, slotAlign, sizePreset, customCallback }
 
   // Find active chapter & active page
   const currentChapter = useMemo(() => {
@@ -298,18 +372,27 @@ export const BookDocumentEditor = ({
     });
 
     setInsertAt(null);
-    setEntityPickAt(null);
     setEditingBlockId(newBlock.id);
     return newBlock.id;
   };
 
   const handleSaveImageBlock = (imgData) => {
+    const formatted = {
+      ...imgData,
+      imageUrl: imgData.url || imgData.imageUrl,
+      thumbnailUrl: imgData.thumbnail || imgData.thumbnailUrl || imgData.url || imgData.imageUrl,
+      url: imgData.url || imgData.imageUrl
+    };
     if (imagePickerTarget?.customCallback) {
-      imagePickerTarget.customCallback(imgData);
+      imagePickerTarget.customCallback(formatted);
     } else if (imagePickerTarget?.block) {
-      updateBlock(imagePickerTarget.block.id, imgData);
+      updateBlock(imagePickerTarget.block.id, formatted);
     } else if (imagePickerTarget?.index !== undefined) {
-      addBlock('image', imagePickerTarget.index, imgData);
+      addBlock('image', imagePickerTarget.index, {
+        ...formatted,
+        ...(imagePickerTarget.column ? { column: imagePickerTarget.column } : {}),
+        ...(imagePickerTarget.slotAlign ? { slotAlign: imagePickerTarget.slotAlign, sizePreset: 'half' } : {})
+      });
     }
     setImagePickerTarget(null);
   };
@@ -317,16 +400,74 @@ export const BookDocumentEditor = ({
   const handleSaveItemBlock = (itemData) => {
     const payload = {
       ...itemData,
+      type: 'item_card',
       itemType: itemData.subtype || (itemData.type !== 'item_card' ? itemData.type : itemData.itemType)
     };
     if (itemStudioTarget?.customCallback) {
       itemStudioTarget.customCallback(payload);
-    } else if (itemStudioTarget?.block) {
+    } else if (itemStudioTarget?.block?.id) {
       updateBlock(itemStudioTarget.block.id, payload);
     } else if (itemStudioTarget?.index !== undefined) {
-      addBlock('item_card', itemStudioTarget.index, payload);
+      addBlock('item_card', itemStudioTarget.index, {
+        ...payload,
+        ...(itemStudioTarget.column ? { column: itemStudioTarget.column } : {}),
+        ...(itemStudioTarget.slotAlign ? { slotAlign: itemStudioTarget.slotAlign, sizePreset: 'half' } : {})
+      });
     }
     setItemStudioTarget(null);
+  };
+
+  const handleSaveCreatureBlock = (creatureData) => {
+    if (creatureStudioTarget?.customCallback) {
+      creatureStudioTarget.customCallback(creatureData);
+    } else if (creatureStudioTarget?.block) {
+      updateBlock(creatureStudioTarget.block.id, creatureData);
+    } else if (creatureStudioTarget?.index !== undefined) {
+      addBlock('creature_statblock', creatureStudioTarget.index, {
+        ...creatureData,
+        ...(creatureStudioTarget.column ? { column: creatureStudioTarget.column } : {}),
+        ...(creatureStudioTarget.slotAlign ? { slotAlign: creatureStudioTarget.slotAlign, sizePreset: 'half' } : {})
+      });
+    }
+    setCreatureStudioTarget(null);
+  };
+
+  const handleSaveQuestBlock = (questData) => {
+    const payload = {
+      ...questData,
+      type: 'quest_hook'
+    };
+    if (questPickerTarget?.customCallback) {
+      questPickerTarget.customCallback(payload);
+    } else if (questPickerTarget?.block?.id) {
+      updateBlock(questPickerTarget.block.id, payload);
+    } else if (questPickerTarget?.index !== undefined) {
+      addBlock('quest_hook', questPickerTarget.index, {
+        ...payload,
+        ...(questPickerTarget.column ? { column: questPickerTarget.column } : {}),
+        ...(questPickerTarget.slotAlign ? { slotAlign: questPickerTarget.slotAlign, sizePreset: 'half' } : {})
+      });
+    }
+    setQuestPickerTarget(null);
+  };
+
+  const handleSaveMapBlock = (mapData) => {
+    const payload = {
+      ...mapData,
+      type: 'map_embed'
+    };
+    if (mapPickerTarget?.customCallback) {
+      mapPickerTarget.customCallback(payload);
+    } else if (mapPickerTarget?.block?.id) {
+      updateBlock(mapPickerTarget.block.id, payload);
+    } else if (mapPickerTarget?.index !== undefined) {
+      addBlock('map_embed', mapPickerTarget.index, {
+        ...payload,
+        ...(mapPickerTarget.column ? { column: mapPickerTarget.column } : {}),
+        ...(mapPickerTarget.slotAlign ? { slotAlign: mapPickerTarget.slotAlign, sizePreset: 'half' } : {})
+      });
+    }
+    setMapPickerTarget(null);
   };
 
   const handleSplitWithSideText = (blockId, side = 'right') => {
@@ -335,6 +476,7 @@ export const BookDocumentEditor = ({
         if (b.id !== blockId) return b;
         const currentBlockCopy = { ...b };
         delete currentBlockCopy.alignment;
+        delete currentBlockCopy.slotAlign;
 
         const companionText = {
           type: 'paragraph',
@@ -355,15 +497,105 @@ export const BookDocumentEditor = ({
   };
 
   const handleSelectLore = (loreData) => {
-    if (lorePickerTarget?.block) {
-      updateBlock(lorePickerTarget.block.id, {
-        title: loreData.name,
-        category: loreData.category,
-        content: loreData.content,
-        summary: loreData.summary,
-        icon: loreData.icon,
-        entityId: loreData.id
-      });
+    const extraOverrides = {
+      ...(lorePickerTarget?.column ? { column: lorePickerTarget.column } : {}),
+      ...(lorePickerTarget?.slotAlign ? { slotAlign: lorePickerTarget.slotAlign, sizePreset: 'half' } : {})
+    };
+
+    if (lorePickerTarget?.customCallback) {
+      lorePickerTarget.customCallback(loreData);
+    } else if (lorePickerTarget?.block) {
+      const b = lorePickerTarget.block;
+      if (loreData.type === 'lineage' || loreData.category?.includes('Lineage')) {
+        updateBlock(b.id, {
+          type: 'lineage_showcase',
+          name: loreData.name,
+          essence: loreData.raw?.essence || loreData.summary,
+          description: loreData.raw?.description || loreData.content,
+          abilityModifiers: loreData.raw?.abilityModifiers || { STR: 0, AGI: 0, CON: 0, INT: 0, SPI: 0, CHA: 0 },
+          baseTraits: loreData.raw?.baseTraits || { size: 'Medium', baseSpeed: 30, baseHp: 25, baseMana: 15, languages: ['Common'], lifespan: '60-100 yrs' },
+          racialPassives: loreData.raw?.racialPassives || [],
+          racialAbilities: loreData.raw?.racialAbilities || []
+        });
+      } else if (loreData.type === 'dynasty' || loreData.category?.includes('Dynasty')) {
+        updateBlock(b.id, {
+          type: 'dynasty_tree',
+          name: loreData.name,
+          description: loreData.raw?.description || loreData.summary,
+          nodes: loreData.raw?.nodes || [],
+          relationships: loreData.raw?.relationships || []
+        });
+      } else if (loreData.type === 'plot' || loreData.type === 'plot_thread') {
+        updateBlock(b.id, {
+          type: 'plot_thread',
+          title: loreData.name,
+          type: loreData.raw?.type || 'main',
+          status: loreData.raw?.status || 'Active',
+          act: loreData.raw?.act || 1,
+          theme: loreData.raw?.theme || '',
+          summary: loreData.raw?.summary || loreData.content,
+          beats: loreData.raw?.beats || []
+        });
+      } else if (loreData.type === 'quest') {
+        updateBlock(b.id, {
+          type: 'quest_hook',
+          title: loreData.name,
+          status: loreData.raw?.status || 'Active',
+          description: loreData.raw?.description || loreData.content,
+          objectives: loreData.raw?.objectives || [],
+          reward: loreData.raw?.rewards ? JSON.stringify(loreData.raw.rewards) : ''
+        });
+      } else {
+        updateBlock(b.id, {
+          title: loreData.name,
+          category: loreData.category,
+          content: loreData.content,
+          summary: loreData.summary,
+          icon: loreData.icon,
+          entityId: loreData.id
+        });
+      }
+    } else if (lorePickerTarget?.index !== undefined) {
+      if (loreData.type === 'lineage') {
+        addBlock('lineage_showcase', lorePickerTarget.index, {
+          name: loreData.name,
+          essence: loreData.raw?.essence || loreData.summary,
+          description: loreData.raw?.description || loreData.content,
+          abilityModifiers: loreData.raw?.abilityModifiers,
+          racialPassives: loreData.raw?.racialPassives,
+          racialAbilities: loreData.raw?.racialAbilities,
+          ...extraOverrides
+        });
+      } else if (loreData.type === 'dynasty') {
+        addBlock('dynasty_tree', lorePickerTarget.index, {
+          name: loreData.name,
+          description: loreData.raw?.description || loreData.summary,
+          nodes: loreData.raw?.nodes || [],
+          relationships: loreData.raw?.relationships || [],
+          ...extraOverrides
+        });
+      } else if (loreData.type === 'plot' || loreData.type === 'plot_thread') {
+        addBlock('plot_thread', lorePickerTarget.index, {
+          title: loreData.name,
+          summary: loreData.raw?.summary || loreData.content,
+          beats: loreData.raw?.beats || [],
+          ...extraOverrides
+        });
+      } else if (loreData.type === 'quest') {
+        addBlock('quest_hook', lorePickerTarget.index, {
+          title: loreData.name,
+          description: loreData.raw?.description || loreData.content,
+          objectives: loreData.raw?.objectives || [],
+          ...extraOverrides
+        });
+      } else {
+        addBlock('callout', lorePickerTarget.index, {
+          title: loreData.name,
+          content: loreData.content || loreData.summary,
+          icon: loreData.icon || 'fa-scroll',
+          ...extraOverrides
+        });
+      }
     }
     setLorePickerTarget(null);
   };
@@ -422,6 +654,9 @@ export const BookDocumentEditor = ({
   const navigateTo = ({ chapterId, pageId }) => {
     if (chapterId) setActiveChapterId(chapterId);
     if (pageId) setActivePageId(pageId);
+    if (typeof window !== 'undefined' && window.innerWidth <= 768) {
+      setSidebarOpen(false);
+    }
   };
 
   // Stepper calculations
@@ -469,15 +704,36 @@ export const BookDocumentEditor = ({
       setTimeout(() => setSaveState('idle'), 3000);
     }
   };
-  // Block hover controls component - perched horizontal pill
+
+  // Block hover controls component - elevated, clearly labelled, with sub-column side placement
   const BlockControls = ({ block, index, isFirst, isLast, colContext = {} }) => {
     if (activeMode === 'read') return null;
 
     const currentBlockCol = block.column || colContext.colName || 'left';
+    const isLeftHalf = block.slotAlign === 'left' || (block.sizePreset === 'half' && block.slotAlign !== 'right' && block.alignment !== 'float-right');
+    const isRightHalf = block.slotAlign === 'right';
+    const isFullCol = (block.sizePreset === 'full' || (!block.slotAlign && !block.sizePreset)) && block.alignment !== 'float-left' && block.alignment !== 'float-right';
+    const isFloatLeft = block.alignment === 'float-left';
+    const isFloatRight = block.alignment === 'float-right';
 
     const setBlockColumn = (colVal, e) => {
       e.stopPropagation();
       updateBlock(block.id, { column: colVal });
+    };
+
+    const setBlockSlotAlign = (slotVal, e) => {
+      e.stopPropagation();
+      if (slotVal === 'left') {
+        updateBlock(block.id, { slotAlign: 'left', sizePreset: 'half', alignment: 'full' });
+      } else if (slotVal === 'right') {
+        updateBlock(block.id, { slotAlign: 'right', sizePreset: 'half', alignment: 'full' });
+      } else if (slotVal === 'full') {
+        updateBlock(block.id, { slotAlign: 'full', sizePreset: 'full', alignment: 'full' });
+      } else if (slotVal === 'float-left') {
+        updateBlock(block.id, { slotAlign: 'full', sizePreset: 'full', alignment: 'float-left' });
+      } else if (slotVal === 'float-right') {
+        updateBlock(block.id, { slotAlign: 'full', sizePreset: 'full', alignment: 'float-right' });
+      }
     };
 
     const isSideBySide = block.type === 'side_by_side';
@@ -485,81 +741,135 @@ export const BookDocumentEditor = ({
     const isLastInCol = colContext.isLastInCol ?? isLast;
 
     return (
-      <div className="book-block-controls" onClick={(e) => e.stopPropagation()}>
-        {/* Placement Segment */}
-        <div className="ctrl-segment placement-segment">
+      <div
+        className={`book-block-controls ${isLeftHalf ? 'anchor-left' : 'anchor-right'}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Page Column: Left Page, Right Page, Spread */}
+        <div className="ctrl-group placement-group">
           <button
             type="button"
-            className={`col-btn ${currentBlockCol === 'left' ? 'active' : ''}`}
+            className={`ctrl-btn icon-only ${currentBlockCol === 'left' ? 'active' : ''}`}
             onClick={(e) => setBlockColumn('left', e)}
-            title="Place in Left Column"
+            title="Place in Left Page Column"
           >
-            L
+            <span className="btn-col-badge">L</span>
           </button>
           <button
             type="button"
-            className={`col-btn ${currentBlockCol === 'right' ? 'active' : ''}`}
+            className={`ctrl-btn icon-only ${currentBlockCol === 'right' ? 'active' : ''}`}
             onClick={(e) => setBlockColumn('right', e)}
-            title="Place in Right Column"
+            title="Place in Right Page Column"
           >
-            R
+            <span className="btn-col-badge">R</span>
           </button>
           <button
             type="button"
-            className={`col-btn ${currentBlockCol === 'full' ? 'active' : ''}`}
+            className={`ctrl-btn icon-only ${currentBlockCol === 'full' ? 'active' : ''}`}
             onClick={(e) => setBlockColumn('full', e)}
-            title="Span Full Width Across Both Columns"
+            title="Span Full Width Across Both Columns (Spread)"
           >
             <i className="fas fa-arrows-left-right"></i>
           </button>
         </div>
 
-        {/* Side-by-Side Companion */}
-        {!isSideBySide && (
-          <button
-            type="button"
-            className="ctrl-action-btn split-side-btn"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleSplitWithSideText(block.id, 'right');
-            }}
-            title="Add text to side (Split into 2 columns)"
-          >
-            <i className="fas fa-table-columns"></i>
-          </button>
-        )}
+        <div className="ctrl-divider" />
 
-        {/* Reordering */}
-        <div className="ctrl-segment order-segment">
+        {/* Width & Side Placement */}
+        <div className="ctrl-group sizing-group">
           <button
             type="button"
-            className="ctrl-action-btn move-btn"
+            className={`ctrl-btn icon-only ${isLeftHalf ? 'active' : ''}`}
+            onClick={(e) => setBlockSlotAlign('left', e)}
+            title="Place on Left Side (½ width) — Opens space on the right"
+          >
+            <span className="icon-glyph">◧</span>
+          </button>
+          <button
+            type="button"
+            className={`ctrl-btn icon-only ${isRightHalf ? 'active' : ''}`}
+            onClick={(e) => setBlockSlotAlign('right', e)}
+            title="Place on Right Side (½ width) — Opens space on the left"
+          >
+            <span className="icon-glyph">◨</span>
+          </button>
+          <button
+            type="button"
+            className={`ctrl-btn icon-only ${isFullCol ? 'active' : ''}`}
+            onClick={(e) => setBlockSlotAlign('full', e)}
+            title="Full Column Width (100%)"
+          >
+            <span className="icon-glyph">■</span>
+          </button>
+        </div>
+
+        <div className="ctrl-divider" />
+
+        {/* Flow & Float */}
+        <div className="ctrl-group flow-group">
+          <button
+            type="button"
+            className={`ctrl-btn icon-only ${isFloatLeft ? 'active' : ''}`}
+            onClick={(e) => setBlockSlotAlign('float-left', e)}
+            title="Float Left (Text wraps around it)"
+          >
+            <i className="fas fa-align-left"></i>
+          </button>
+          <button
+            type="button"
+            className={`ctrl-btn icon-only ${isFloatRight ? 'active' : ''}`}
+            onClick={(e) => setBlockSlotAlign('float-right', e)}
+            title="Float Right (Text wraps around it)"
+          >
+            <i className="fas fa-align-right"></i>
+          </button>
+        </div>
+
+        <div className="ctrl-divider" />
+
+        {/* Actions Segment: Split, Reorder, Delete */}
+        <div className="ctrl-group actions-group">
+          {!isSideBySide && (
+            <button
+              type="button"
+              className="ctrl-btn icon-only split-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSplitWithSideText(block.id, 'right');
+              }}
+              title="Split into Dual Side-by-Side container"
+            >
+              <i className="fas fa-table-columns"></i>
+            </button>
+          )}
+
+          <button
+            type="button"
+            className="ctrl-btn icon-only move-btn"
             disabled={isFirstInCol && currentBlockCol === 'left'}
             onClick={() => moveBlockInColumn(block.id, -1)}
             title="Move block up"
           >
-            <i className="fas fa-arrow-up"></i>
+            <i className="fas fa-chevron-up"></i>
           </button>
           <button
             type="button"
-            className="ctrl-action-btn move-btn"
+            className="ctrl-btn icon-only move-btn"
             disabled={isLastInCol && currentBlockCol === 'right'}
             onClick={() => moveBlockInColumn(block.id, 1)}
             title="Move block down"
           >
-            <i className="fas fa-arrow-down"></i>
+            <i className="fas fa-chevron-down"></i>
+          </button>
+          <button
+            type="button"
+            className="ctrl-btn icon-only delete-btn"
+            onClick={() => deleteBlock(block.id)}
+            title="Delete block"
+          >
+            <i className="fas fa-trash"></i>
           </button>
         </div>
-
-        {/* Delete */}
-        <button
-          type="button"
-          className="ctrl-action-btn delete-block-btn"
-          onClick={() => deleteBlock(block.id)}
-          title="Delete block"
-        >
-          <i className="fas fa-trash"></i>
-        </button>
       </div>
     );
   };
@@ -590,13 +900,16 @@ export const BookDocumentEditor = ({
   const renderPublicationBlock = (block, index, isWriteMode = true, colContext = {}) => {
     const isEditing = editingBlockId === block.id;
     const effectiveIsWrite = isWriteMode && activeMode === 'write';
-    const currentAlign = block.alignment || (block.type === 'image' && block.alignment ? block.alignment : 'full');
+    const isHalf = colContext.isHalfSlot || block.slotAlign === 'left' || block.slotAlign === 'right' || block.sizePreset === 'half';
+    const slotClass = colContext.isHalfSlot ? `slot-${colContext.isHalfSlot}` : (block.slotAlign ? `slot-${block.slotAlign}` : '');
+    const currentAlign = block.alignment || 'full';
+    const currentSize = isHalf ? 'half' : (block.sizePreset || 'full');
     const isFloating = currentAlign === 'float-left' || currentAlign === 'float-right';
 
     const wrap = (children) => (
       <div
         key={block.id}
-        className={`book-block-wrap type-${block.type} align-${currentAlign} ${isFloating ? 'is-floating' : ''} ${isEditing ? 'editing' : ''}`}
+        className={`book-block-wrap type-${block.type} align-${currentAlign} size-${currentSize} ${slotClass} ${isFloating ? 'is-floating' : ''} ${isHalf ? 'is-half-width' : ''} ${isEditing ? 'editing' : ''}`}
         onClick={() => { if (effectiveIsWrite) setEditingBlockId(block.id); }}
       >
         {children}
@@ -677,7 +990,7 @@ export const BookDocumentEditor = ({
             block={block}
             isWrite={effectiveIsWrite}
             onUpdate={(patch) => updateBlock(block.id, patch)}
-            onImportLore={(b) => setLorePickerTarget({ block: b })}
+            onOpenLorePicker={(b) => setLorePickerTarget({ block: b })}
           />
         );
       }
@@ -690,16 +1003,41 @@ export const BookDocumentEditor = ({
             onUpdate={(patch) => updateBlock(block.id, patch)}
             onOpenImagePicker={(slotData, callback) => {
               setImagePickerTarget({
-                block: { id: block.id },
+                block: { id: block.id, ...(slotData || {}) },
                 customCallback: callback
               });
             }}
             onOpenItemStudio={(slotData, callback) => {
               setItemStudioTarget({
-                block: { id: block.id },
+                block: { id: block.id, ...(slotData || {}) },
                 customCallback: callback
               });
             }}
+            onOpenCreatureWizard={(slotData, callback) => {
+              setCreatureStudioTarget({
+                block: { id: block.id, ...(slotData || {}) },
+                customCallback: callback
+              });
+            }}
+            onOpenQuestPicker={(slotData, callback) => {
+              setQuestPickerTarget({
+                block: { id: block.id, ...(slotData || {}) },
+                customCallback: callback
+              });
+            }}
+            onOpenLorePicker={(slotData, callback) => {
+              setLorePickerTarget({
+                block: { id: block.id, ...(slotData || {}) },
+                customCallback: callback
+              });
+            }}
+            onOpenMapPicker={(slotData, callback) => {
+              setMapPickerTarget({
+                block: { id: block.id, ...(slotData || {}) },
+                customCallback: callback
+              });
+            }}
+            onNavigateMap={onNavigateMap}
           />
         );
 
@@ -708,7 +1046,40 @@ export const BookDocumentEditor = ({
           <CreatureStatblockBlock
             block={block}
             isWrite={effectiveIsWrite}
+            compact={isHalf}
             onUpdate={(patch) => updateBlock(block.id, patch)}
+            onOpenWizard={(b) => setCreatureStudioTarget({ block: { ...(b || block), openWizardDirectly: true } })}
+            onOpenPicker={(b) => setCreatureStudioTarget({ block: b || block })}
+          />
+        );
+
+      case 'lineage_showcase':
+        return wrap(
+          <LineageShowcaseBlock
+            block={block}
+            isWrite={effectiveIsWrite}
+            onUpdate={(patch) => updateBlock(block.id, patch)}
+            onOpenPicker={() => setLorePickerTarget({ block })}
+          />
+        );
+
+      case 'dynasty_tree':
+        return wrap(
+          <DynastyTreeBlock
+            block={block}
+            isWrite={effectiveIsWrite}
+            onUpdate={(patch) => updateBlock(block.id, patch)}
+            onOpenPicker={() => setLorePickerTarget({ block })}
+          />
+        );
+
+      case 'plot_thread':
+        return wrap(
+          <PlotThreadBlock
+            block={block}
+            isWrite={effectiveIsWrite}
+            onUpdate={(patch) => updateBlock(block.id, patch)}
+            onOpenPicker={() => setLorePickerTarget({ block })}
           />
         );
 
@@ -723,6 +1094,7 @@ export const BookDocumentEditor = ({
           <ItemRelicBlock
             block={block}
             isWrite={effectiveIsWrite}
+            compact={isHalf}
             onUpdate={(patch) => updateBlock(block.id, patch)}
             onOpenStudio={(b) => setItemStudioTarget({ block: block })}
           />
@@ -743,6 +1115,7 @@ export const BookDocumentEditor = ({
             block={block}
             isWrite={effectiveIsWrite}
             onUpdate={(patch) => updateBlock(block.id, patch)}
+            onOpenPicker={() => setLorePickerTarget({ block })}
           />
         );
 
@@ -752,6 +1125,7 @@ export const BookDocumentEditor = ({
             block={block}
             isWrite={effectiveIsWrite}
             onUpdate={(patch) => updateBlock(block.id, patch)}
+            onOpenPicker={() => setLorePickerTarget({ block })}
           />
         );
 
@@ -761,6 +1135,7 @@ export const BookDocumentEditor = ({
             block={block}
             isWrite={effectiveIsWrite}
             onUpdate={(patch) => updateBlock(block.id, patch)}
+            onOpenPicker={(b) => setQuestPickerTarget({ block: b || block })}
           />
         );
 
@@ -770,6 +1145,9 @@ export const BookDocumentEditor = ({
             block={block}
             isWrite={effectiveIsWrite}
             onUpdate={(patch) => updateBlock(block.id, patch)}
+            onOpenPicker={(b) => setMapPickerTarget({ block: b || block })}
+            onOpenImagePicker={(b) => setImagePickerTarget({ block: b || block })}
+            onNavigateMap={onNavigateMap}
           />
         );
 
@@ -875,7 +1253,122 @@ export const BookDocumentEditor = ({
     return { leftColumnBlocks: left, rightColumnBlocks: right, fullColumnBlocks: full };
   }, [currentPage?.blocks]);
 
-  // Render publication Two-Column Grid
+  // Render a list of column blocks with automatic pairing of left/right half blocks and companion slots
+  const renderColumnBlocks = (colBlocks, colName) => {
+    const total = colBlocks.length;
+    const elements = [];
+    let i = 0;
+
+    while (i < total) {
+      const { block: b, index: originalIdx } = colBlocks[i];
+      const isLeft = b.slotAlign === 'left' || (b.sizePreset === 'half' && b.slotAlign !== 'right' && b.alignment !== 'float-right');
+      const isRight = b.slotAlign === 'right';
+
+      if (isLeft) {
+        // Check if there is an adjacent right-aligned half block to pair with
+        const nextItem = i + 1 < total ? colBlocks[i + 1] : null;
+        const isNextRight = nextItem && (nextItem.block.slotAlign === 'right' || (nextItem.block.sizePreset === 'half' && nextItem.block.slotAlign !== 'left'));
+
+        if (isNextRight) {
+          elements.push(
+            <div key={`pair-${b.id}-${nextItem.block.id}`} className="book-paired-row">
+              {renderPublicationBlock(b, originalIdx, true, { colName, isHalfSlot: 'left', isPaired: true })}
+              {renderPublicationBlock(nextItem.block, nextItem.index, true, { colName, isHalfSlot: 'right', isPaired: true })}
+            </div>
+          );
+          elements.push(<InsertRail key={`rail-${nextItem.index + 1}`} index={nextItem.index + 1} />);
+          i += 2;
+        } else {
+          // Unpaired left block -> render companion slot on the right
+          elements.push(
+            <div key={`pair-${b.id}-open-right`} className="book-paired-row">
+              {renderPublicationBlock(b, originalIdx, true, { colName, isHalfSlot: 'left', isPaired: false })}
+              {isWrite ? (
+                <div
+                  className="book-companion-empty-slot slot-right"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    setInsertAt({
+                      index: originalIdx + 1,
+                      column: colName,
+                      slotAlign: 'right',
+                      sizePreset: 'half',
+                      x: rect.left + rect.width / 2,
+                      y: rect.bottom + 6
+                    });
+                  }}
+                  title="Add a companion block on the right"
+                >
+                  <div className="empty-slot-inner">
+                    <i className="fas fa-plus-circle empty-slot-icon"></i>
+                    <span className="empty-slot-label">+ Add block beside this</span>
+                    <span className="empty-slot-hint">Text, Item, Creature, Image, Lore</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="book-companion-empty-spacer" />
+              )}
+            </div>
+          );
+          elements.push(<InsertRail key={`rail-${originalIdx + 1}`} index={originalIdx + 1} />);
+          i += 1;
+        }
+      } else if (isRight) {
+        // Unpaired right block -> render companion slot on the left
+        elements.push(
+          <div key={`pair-open-left-${b.id}`} className="book-paired-row">
+            {isWrite ? (
+              <div
+                className="book-companion-empty-slot slot-left"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  setInsertAt({
+                    index: originalIdx,
+                    column: colName,
+                    slotAlign: 'left',
+                    sizePreset: 'half',
+                    x: rect.left + rect.width / 2,
+                    y: rect.bottom + 6
+                  });
+                }}
+                title="Add a companion block on the left"
+              >
+                <div className="empty-slot-inner">
+                  <i className="fas fa-plus-circle empty-slot-icon"></i>
+                  <span className="empty-slot-label">+ Add block beside this</span>
+                  <span className="empty-slot-hint">Text, Item, Creature, Image, Lore</span>
+                </div>
+              </div>
+            ) : (
+              <div className="book-companion-empty-spacer" />
+            )}
+            {renderPublicationBlock(b, originalIdx, true, { colName, isHalfSlot: 'right', isPaired: false })}
+          </div>
+        );
+        elements.push(<InsertRail key={`rail-${originalIdx + 1}`} index={originalIdx + 1} />);
+        i += 1;
+      } else {
+        // Full width or floating block
+        elements.push(
+          <React.Fragment key={b.id}>
+            {renderPublicationBlock(b, originalIdx, true, {
+              colName,
+              isFirstInCol: i === 0,
+              isLastInCol: i === total - 1
+            })}
+            <InsertRail index={originalIdx + 1} />
+          </React.Fragment>
+        );
+        i += 1;
+      }
+    }
+
+    return elements;
+  };
+
+  // Render publication Two-Column Grid with flex flow for 2+2 layout
   const renderTwoColumnGrid = () => {
     const blocks = currentPage?.blocks || [];
 
@@ -885,16 +1378,9 @@ export const BookDocumentEditor = ({
         <div className="book-columns-grid">
           {/* Left Column */}
           <div className="book-column left-column">
-            {leftColumnBlocks.map(({ block, index }, colIdx) => (
-              <React.Fragment key={block.id}>
-                {renderPublicationBlock(block, index, true, {
-                  colName: 'left',
-                  isFirstInCol: colIdx === 0,
-                  isLastInCol: colIdx === leftColumnBlocks.length - 1
-                })}
-                <InsertRail index={index + 1} />
-              </React.Fragment>
-            ))}
+            <div className="book-column-content">
+              {renderColumnBlocks(leftColumnBlocks, 'left')}
+            </div>
             {leftColumnBlocks.length === 0 && isWrite && (
               <div className="empty-column-zone" onClick={() => addBlock('paragraph', 0, { column: 'left' })}>
                 <i className="fas fa-plus"></i> Add block to Left Column
@@ -904,16 +1390,9 @@ export const BookDocumentEditor = ({
 
           {/* Right Column */}
           <div className="book-column right-column">
-            {rightColumnBlocks.map(({ block, index }, colIdx) => (
-              <React.Fragment key={block.id}>
-                {renderPublicationBlock(block, index, true, {
-                  colName: 'right',
-                  isFirstInCol: colIdx === 0,
-                  isLastInCol: colIdx === rightColumnBlocks.length - 1
-                })}
-                <InsertRail index={index + 1} />
-              </React.Fragment>
-            ))}
+            <div className="book-column-content">
+              {renderColumnBlocks(rightColumnBlocks, 'right')}
+            </div>
             {rightColumnBlocks.length === 0 && isWrite && (
               <div className="empty-column-zone" onClick={() => addBlock('paragraph', blocks.length, { column: 'right' })}>
                 <i className="fas fa-plus"></i> Add block to Right Column
@@ -925,16 +1404,7 @@ export const BookDocumentEditor = ({
         {/* Full-width spanned blocks at bottom */}
         {fullColumnBlocks.length > 0 && (
           <div className="book-fullwidth-blocks">
-            {fullColumnBlocks.map(({ block, index }, colIdx) => (
-              <React.Fragment key={block.id}>
-                {renderPublicationBlock(block, index, true, {
-                  colName: 'full',
-                  isFirstInCol: colIdx === 0,
-                  isLastInCol: colIdx === fullColumnBlocks.length - 1
-                })}
-                <InsertRail index={index + 1} />
-              </React.Fragment>
-            ))}
+            {renderColumnBlocks(fullColumnBlocks, 'full')}
           </div>
         )}
       </div>
@@ -943,20 +1413,13 @@ export const BookDocumentEditor = ({
 
   // Render publication Single-Column Body
   const renderSingleColumnBody = () => {
-    const total = (currentPage?.blocks || []).length;
+    const allColBlocks = (currentPage?.blocks || []).map((b, idx) => ({ block: b, index: idx }));
     return (
       <div className="book-page-body">
         <InsertRail index={0} isFirst />
-        {(currentPage?.blocks || []).map((block, idx) => (
-          <React.Fragment key={block.id}>
-            {renderPublicationBlock(block, idx, true, {
-              colName: 'single',
-              isFirstInCol: idx === 0,
-              isLastInCol: idx === total - 1
-            })}
-            <InsertRail index={idx + 1} />
-          </React.Fragment>
-        ))}
+        <div className="book-column-content">
+          {renderColumnBlocks(allColBlocks, 'single')}
+        </div>
       </div>
     );
   };
@@ -970,9 +1433,8 @@ export const BookDocumentEditor = ({
         {/* Navigation & Modes Left */}
         <div className="toolbar-left">
           {onBack && (
-            <button type="button" className="toolbar-btn back-btn" onClick={onBack} title="Back to Library">
+            <button type="button" className="toolbar-btn back-btn" onClick={onBack} title="Back to Library" aria-label="Back to Library">
               <i className="fas fa-arrow-left"></i>
-              <span>Library</span>
             </button>
           )}
 
@@ -980,7 +1442,8 @@ export const BookDocumentEditor = ({
             type="button"
             className={`toolbar-btn sidebar-toggle-btn ${sidebarOpen ? 'active' : ''}`}
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            title="Toggle Navigator Drawer"
+            title="Toggle Book Navigator Drawer (TOC, Pages, Search, History, Style)"
+            aria-label="Toggle Book Navigator Drawer"
           >
             <i className="fas fa-bars"></i>
           </button>
@@ -992,16 +1455,18 @@ export const BookDocumentEditor = ({
               className={`mode-btn ${activeMode === 'write' ? 'active' : ''}`}
               onClick={() => setActiveMode('write')}
               title="Publication Direct Authoring & Edit Mode"
+              aria-label="Write Mode"
             >
-              <i className="fas fa-feather-pointed"></i> <span>Write</span>
+              <i className="fas fa-feather-pointed"></i>
             </button>
             <button
               type="button"
               className={`mode-btn ${activeMode === 'read' ? 'active' : ''}`}
               onClick={() => setActiveMode('read')}
               title="Clean Distraction-Free Tabletop Reader"
+              aria-label="Read Mode"
             >
-              <i className="fas fa-book-open"></i> <span>Read</span>
+              <i className="fas fa-book-open"></i>
             </button>
           </div>
         </div>
@@ -1052,7 +1517,9 @@ export const BookDocumentEditor = ({
               <i className="fas fa-chevron-left"></i>
             </button>
             <span className="stepper-label">
-              <strong>{currentChapter?.title || 'Chapter I'}</strong> • Page {currentPage?.pageNumber || 1} of {allPagesList.length || 1}
+              <strong className="stepper-ch-name">{currentChapter?.title || 'Chapter I'}</strong>
+              <span className="stepper-separator"> • </span>
+              <span className="stepper-pg-count">Page {currentPage?.pageNumber || 1} of {allPagesList.length || 1}</span>
             </span>
             <button
               type="button"
@@ -1072,20 +1539,20 @@ export const BookDocumentEditor = ({
             type="button"
             className="toolbar-btn glossary-btn"
             onClick={() => setIsGlossaryOpen(true)}
-            title="Manage Custom Glossary & Hover Terms"
+            title={`Manage Custom Glossary & Hover Terms (${(book.customTerms || []).length})`}
+            aria-label={`Glossary (${(book.customTerms || []).length} terms)`}
           >
             <i className="fas fa-book-bookmark"></i>
-            <span>Glossary ({(book.customTerms || []).length})</span>
           </button>
 
           <button
             type="button"
             className="toolbar-btn snapshot-btn"
             onClick={() => setIsSnapshotOpen(true)}
-            title="Manage Revision Snapshots & Checkpoints"
+            title={`Manage Revision Snapshots & Checkpoints (${(book.revisions || []).length})`}
+            aria-label={`Revision Snapshots (${(book.revisions || []).length})`}
           >
             <i className="fas fa-clock-rotate-left"></i>
-            <span>Snapshot ({(book.revisions || []).length})</span>
           </button>
 
           <button
@@ -1093,13 +1560,14 @@ export const BookDocumentEditor = ({
             className={`save-doc-btn ${saveState !== 'idle' && saveState !== 'saving' ? 'saved' : ''}`}
             onClick={handleSave}
             disabled={saveState === 'saving'}
+            title={saveLabel}
+            aria-label={saveLabel}
           >
             <i className={`fas ${saveState === 'saving' ? 'fa-spinner fa-spin' : 'fa-floppy-disk'}`}></i>
-            <span>{saveLabel}</span>
           </button>
 
           {onClose && (
-            <button type="button" className="close-doc-btn" onClick={onClose} title="Close Document">
+            <button type="button" className="close-doc-btn" onClick={onClose} title="Close Document" aria-label="Close Document">
               <i className="fas fa-times"></i>
             </button>
           )}
@@ -1108,9 +1576,29 @@ export const BookDocumentEditor = ({
 
       {/* Main Studio Viewport */}
       <div className="book-studio-layout">
+        {/* Mobile Backdrop for Sidebar Drawer */}
+        {sidebarOpen && (
+          <div
+            className="book-sidebar-backdrop"
+            onClick={() => setSidebarOpen(false)}
+            aria-hidden="true"
+          />
+        )}
+
         {/* Left Navigation Sidebar Drawer */}
         {sidebarOpen && (
           <aside className="book-sidebar-drawer">
+            <div className="sidebar-mobile-header">
+              <span className="sidebar-mobile-title"><i className="fas fa-book-open"></i> Book Navigation</span>
+              <button
+                type="button"
+                className="sidebar-close-mobile-btn"
+                onClick={() => setSidebarOpen(false)}
+                title="Close Navigation Drawer"
+              >
+                &times;
+              </button>
+            </div>
             <div className="sidebar-tab-strip">
               <button
                 type="button"
@@ -1216,7 +1704,7 @@ export const BookDocumentEditor = ({
                   </div>
 
                   <div className="chapters-structure-list">
-                    {book.chapters.map((ch, idx) => (
+                    {book.chapters.map((ch) => (
                       <div key={ch.id} className={`structure-chapter-card ${activeChapterId === ch.id ? 'active' : ''}`}>
                         <div className="ch-card-header" onClick={() => navigateTo({ chapterId: ch.id, pageId: ch.pages?.[0]?.id })}>
                           <div className="ch-title-wrap">
@@ -1237,8 +1725,8 @@ export const BookDocumentEditor = ({
                                 className="danger"
                                 title="Delete Chapter"
                                 onClick={(e) => {
-                                  e.stopPropagation();
-                                  if (window.confirm(`Delete "${ch.title}"?`)) deleteChapter(book.id, ch.id);
+                                   e.stopPropagation();
+                                   if (window.confirm(`Delete "${ch.title}"?`)) deleteChapter(book.id, ch.id);
                                 }}
                               >
                                 <i className="fas fa-trash"></i>
@@ -1406,7 +1894,7 @@ export const BookDocumentEditor = ({
         )}
 
         {/* Center: Book Page Viewport */}
-        <main className="book-document-viewport" onClick={() => { setInsertAt(null); setEntityPickAt(null); }}>
+        <main className="book-document-viewport" onClick={() => { setInsertAt(null); }}>
           <div className={`book-page-sheet layout-${currentLayout}`}>
             <header className="book-page-header">
               <h1 className="book-doc-title">
@@ -1449,12 +1937,18 @@ export const BookDocumentEditor = ({
       {insertAt && (
         <div
           className="book-insert-popover"
-          style={{ left: Math.min(window.innerWidth - 320, Math.max(20, insertAt.x - 140)), top: insertAt.y }}
+          style={{
+            left: Math.min(window.innerWidth - 490, Math.max(20, (insertAt.x || 300) - 240)),
+            top: Math.max(20, (insertAt.y || 200))
+          }}
           onClick={(e) => e.stopPropagation()}
         >
           <div className="book-insert-popover-head">
-            <i className="fas fa-feather-pointed"></i>
-            <span>Insert Block at Position {insertAt.index + 1}</span>
+            <div className="popover-head-title">
+              <i className="fas fa-feather-pointed"></i>
+              <span>Insert Block {insertAt.slotAlign ? `(${insertAt.slotAlign} side)` : `(Position ${insertAt.index + 1})`}</span>
+            </div>
+            <button type="button" className="close-popover-x" onClick={() => setInsertAt(null)} title="Close">&times;</button>
           </div>
           <div className="book-insert-popover-grid">
             {INSERT_PALETTE.map((item) => (
@@ -1464,23 +1958,30 @@ export const BookDocumentEditor = ({
                 className="book-insert-option"
                 onClick={() => {
                   const idx = insertAt.index;
+                  const col = insertAt.column;
+                  const slotAlign = insertAt.slotAlign;
+                  const sizePreset = insertAt.sizePreset;
                   setInsertAt(null);
                   if (item.type === 'image') {
-                    setImagePickerTarget({ index: idx });
+                    setImagePickerTarget({ index: idx, column: col, slotAlign, sizePreset });
                   } else if (item.type === 'item_card') {
-                    setItemStudioTarget({ index: idx });
+                    setItemStudioTarget({ index: idx, column: col, slotAlign, sizePreset });
+                  } else if (item.type === 'creature_statblock') {
+                    setCreatureStudioTarget({ index: idx, column: col, slotAlign, sizePreset });
+                  } else if (item.type === 'quest_hook') {
+                    setQuestPickerTarget({ index: idx, column: col, slotAlign, sizePreset });
                   } else if (item.type === 'lore_import') {
-                    setLorePickerTarget({ index: idx });
+                    setLorePickerTarget({ index: idx, column: col, slotAlign, sizePreset });
                   } else {
-                    addBlock(item.type, idx);
+                    addBlock(item.type, idx, {
+                      ...(col ? { column: col } : {}),
+                      ...(slotAlign ? { slotAlign, sizePreset: sizePreset || 'half' } : {})
+                    });
                   }
                 }}
               >
                 <i className={`fas ${item.icon}`}></i>
-                <div className="opt-meta">
-                  <span className="opt-title">{item.label}</span>
-                  <span className="opt-hint">{item.hint}</span>
-                </div>
+                <span className="opt-title">{item.label}</span>
               </button>
             ))}
           </div>
@@ -1513,11 +2014,35 @@ export const BookDocumentEditor = ({
         onSave={handleSaveItemBlock}
       />
 
+      {/* Official Creature & NPC Wizard Modal */}
+      <BookCreaturePickerModal
+        isOpen={!!creatureStudioTarget}
+        onClose={() => setCreatureStudioTarget(null)}
+        initialData={creatureStudioTarget?.block || {}}
+        onSave={handleSaveCreatureBlock}
+      />
+
+      {/* Quest & Adventure Hook Picker Modal */}
+      <BookQuestPickerModal
+        isOpen={!!questPickerTarget}
+        onClose={() => setQuestPickerTarget(null)}
+        initialData={questPickerTarget?.block || {}}
+        onSave={handleSaveQuestBlock}
+      />
+
       {/* World & Campaign Lore Importer Modal */}
       <BookLorePickerModal
         isOpen={!!lorePickerTarget}
         onClose={() => setLorePickerTarget(null)}
         onSelectLore={handleSelectLore}
+      />
+
+      {/* Map & Atlas Studio Picker Modal */}
+      <BookMapPickerModal
+        isOpen={!!mapPickerTarget}
+        onClose={() => setMapPickerTarget(null)}
+        initialData={mapPickerTarget?.block || {}}
+        onSave={handleSaveMapBlock}
       />
 
       {/* Revision Snapshots & Checkpoints Modal */}

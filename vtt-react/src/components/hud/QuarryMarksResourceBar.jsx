@@ -62,7 +62,7 @@ const QuarryMarksResourceBar = ({
         return (
             <div className={`class-resource-bar quarry-marks-companion ${size}`}>
                 <div className="huntress-single-bar" style={{ display: 'flex', alignItems: 'center', width: '100%', gap: '4px' }}>
-                    {/* Quarry Marks Bar (Left) */}
+                    {/* Marks Bar (Left) */}
                     <div
                         className="qm-bar-wrapper"
                         ref={qmBarRef}
@@ -81,7 +81,7 @@ const QuarryMarksResourceBar = ({
                         }}
                         style={{ cursor: isOwner ? 'pointer' : 'default', flex: 1 }}
                     >
-                        {/* Segmented Quarry Marks */}
+                        {/* Segmented Marks */}
                         <div
                             className="qm-segments"
                             style={{ display: 'flex', gap: '2px', width: '100%' }}
@@ -196,10 +196,10 @@ const QuarryMarksResourceBar = ({
                             <div className="menu-title">Apex Hunting Ledger</div>
                             {renderStatusFlavor()}
 
-                            {/* Quarry Marks Section */}
+                            {/* Marks Section */}
                             <div className="context-menu-section">
                                 <div className="context-menu-section-header" style={{ color: specColor, fontSize: '11px', fontWeight: 'bold' }}>
-                                    Quarry Marks: {qmValue}/{maxQM}
+                                    Marks: {qmValue}/{maxQM}
                                 </div>
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', marginBottom: '8px' }}>
                                     <button
@@ -209,7 +209,7 @@ const QuarryMarksResourceBar = ({
                                             const amount = newValue - qmValue;
                                             setLocalQuarryMarks(newValue);
                                             if (amount > 0) {
-                                                logClassResourceChange('Quarry Mark', amount, true, 'quarryMarks');
+                                                logClassResourceChange('Mark', amount, true, 'quarryMarks');
                                                 if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
                                             }
                                         }}
@@ -223,7 +223,7 @@ const QuarryMarksResourceBar = ({
                                             const amount = newValue - qmValue;
                                             setLocalQuarryMarks(newValue);
                                             if (amount > 0) {
-                                                logClassResourceChange('Quarry Mark', amount, true, 'quarryMarks');
+                                                logClassResourceChange('Mark', amount, true, 'quarryMarks');
                                                 if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
                                             }
                                         }}
@@ -237,7 +237,7 @@ const QuarryMarksResourceBar = ({
                                             const amount = qmValue - newValue;
                                             setLocalQuarryMarks(newValue);
                                             if (amount > 0) {
-                                                logClassResourceChange('Quarry Mark', amount, false, 'quarryMarks');
+                                                logClassResourceChange('Mark', amount, false, 'quarryMarks');
                                                 if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
                                             }
                                         }}
@@ -251,7 +251,7 @@ const QuarryMarksResourceBar = ({
                                             const amount = qmValue - newValue;
                                             setLocalQuarryMarks(newValue);
                                             if (amount > 0) {
-                                                logClassResourceChange('Quarry Mark', amount, false, 'quarryMarks');
+                                                logClassResourceChange('Mark', amount, false, 'quarryMarks');
                                                 if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
                                             }
                                         }}

@@ -1,18 +1,20 @@
 // Campaign Service - Manages multiple campaigns with room and player state persistence
 import { v4 as uuidv4 } from 'uuid';
 import { validateCampaignName } from '../utils/validationUtils';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { db, isFirebaseConfigured, auth } from '../config/firebase';
 
 const CAMPAIGNS_KEY = 'mythrill-campaigns';
 const CURRENT_CAMPAIGN_KEY = 'mythrill-current-campaign-id';
 
 /**
  * Campaign Service for managing multiple campaigns
- * Each campaign can have multiple rooms, and each room maintains its own state
- * Each player maintains per-room state within each campaign
+ * Supports fast local storage caching, auto-migration, and Firestore cloud synchronization
  */
 class CampaignService {
   constructor() {
     this.campaigns = this.loadCampaigns();
+    this.lastCloudSyncAt = null;
   }
 
   /**
@@ -39,9 +41,6 @@ class CampaignService {
     }
   }
 
-  /**
-   * Create a new campaign
-   */
   /**
    * Get default campaign data structure
    */
@@ -100,6 +99,7 @@ class CampaignService {
 
     this.campaigns.push(campaign);
     this.saveCampaigns();
+    this.triggerAutoSync();
     return campaign;
   }
 
@@ -142,11 +142,11 @@ class CampaignService {
         lastModified: new Date().toISOString()
       };
       this.saveCampaigns();
+      this.triggerAutoSync();
       return this.campaigns[campaignIndex];
     }
     
     console.warn(`Campaign not found: ${campaignId}. Available campaigns:`, this.campaigns.map(c => c.id));
-    // Don't throw error, just return null to prevent crashes
     return null;
   }
 
@@ -158,17 +158,16 @@ class CampaignService {
       console.warn('Attempted to delete campaign with no ID');
       return;
     }
-    // Convert to string for comparison to handle type mismatches
     const idStr = String(campaignId);
     this.campaigns = this.campaigns.filter(c => String(c.id) !== idStr);
     this.saveCampaigns();
+    this.triggerAutoSync();
   }
 
   /**
    * Set current campaign
    */
   setCurrentCampaign(campaignId) {
-    // Always store as string to ensure consistency
     localStorage.setItem(CURRENT_CAMPAIGN_KEY, String(campaignId));
   }
 
@@ -177,7 +176,6 @@ class CampaignService {
    */
   getCurrentCampaignId() {
     const id = localStorage.getItem(CURRENT_CAMPAIGN_KEY);
-    // Ensure we return a string or null (never a number)
     return id ? String(id) : null;
   }
 
@@ -195,7 +193,6 @@ class CampaignService {
   addRoomToCampaign(campaignId, roomId) {
     const campaign = this.getCampaign(campaignId);
     if (campaign) {
-      // Ensure rooms array exists
       if (!campaign.rooms || !Array.isArray(campaign.rooms)) {
         campaign.rooms = [];
       }
@@ -203,6 +200,7 @@ class CampaignService {
         campaign.rooms.push(roomId);
         campaign.lastModified = new Date().toISOString();
         this.saveCampaigns();
+        this.triggerAutoSync();
       }
     }
   }
@@ -213,15 +211,74 @@ class CampaignService {
   removeRoomFromCampaign(campaignId, roomId) {
     const campaign = this.getCampaign(campaignId);
     if (campaign) {
-      // Ensure rooms array exists
       if (!campaign.rooms || !Array.isArray(campaign.rooms)) {
         campaign.rooms = [];
       } else {
         campaign.rooms = campaign.rooms.filter(id => id !== roomId);
         campaign.lastModified = new Date().toISOString();
         this.saveCampaigns();
+        this.triggerAutoSync();
       }
     }
+  }
+
+  // --- Cloud Synchronization & Hydration ---
+
+  triggerAutoSync() {
+    const currentUid = auth?.currentUser?.uid;
+    if (currentUid && currentUid !== 'admin-dev-user' && currentUid !== 'dev-user-123' && !currentUid.startsWith('guest-')) {
+      if (this.syncTimeout) clearTimeout(this.syncTimeout);
+      this.syncTimeout = setTimeout(() => {
+        this.syncToCloud(currentUid);
+      }, 1200);
+    }
+  }
+
+  async syncToCloud(userId) {
+    if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
+    try {
+      const docRef = doc(db, 'users', userId, 'worldbuilding', 'campaigns');
+      await setDoc(docRef, {
+        campaigns: this.campaigns,
+        currentCampaignId: this.getCurrentCampaignId(),
+        updatedAt: new Date().toISOString()
+      }, { merge: true });
+      this.lastCloudSyncAt = new Date().toISOString();
+      return true;
+    } catch (err) {
+      console.debug('Campaigns cloud sync skipped/failed:', err?.message || err);
+      return false;
+    }
+  }
+
+  async hydrateFromCloud(userId) {
+    if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
+    try {
+      const docRef = doc(db, 'users', userId, 'worldbuilding', 'campaigns');
+      const snap = await getDoc(docRef);
+      if (snap.exists()) {
+        const data = snap.data();
+        if (Array.isArray(data?.campaigns) && data.campaigns.length > 0) {
+          this.campaigns = data.campaigns;
+          this.saveCampaigns();
+          if (data.currentCampaignId) {
+            this.setCurrentCampaign(data.currentCampaignId);
+          }
+          return true;
+        } else if (this.campaigns.length > 0) {
+          // Cloud doc exists but empty: auto-upload existing local campaigns to cloud
+          await this.syncToCloud(userId);
+          return true;
+        }
+      } else if (this.campaigns.length > 0) {
+        // Initial cloud migration for existing local campaigns
+        await this.syncToCloud(userId);
+        return true;
+      }
+    } catch (err) {
+      console.debug('Campaigns cloud hydration skipped/failed:', err?.message || err);
+    }
+    return false;
   }
 }
 

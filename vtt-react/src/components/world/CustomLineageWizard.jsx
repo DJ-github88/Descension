@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import useCustomLineageStore, { LINEAGE_TEMPLATE, PRESET_LINEAGES } from '../../store/customLineageStore';
 import useWorldStore from '../../store/worldStore';
 import { REGION_POLYGONS } from '../../data/regionPolygons';
@@ -24,6 +24,17 @@ const CustomLineageWizard = ({ isOpen, onClose, initialData = null }) => {
   
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
   const [form, setForm] = useState(initialData || LINEAGE_TEMPLATE);
+  const stepButtonRefs = useRef([]);
+
+  useEffect(() => {
+    if (stepButtonRefs.current[currentStepIdx]) {
+      stepButtonRefs.current[currentStepIdx].scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center'
+      });
+    }
+  }, [currentStepIdx]);
 
   const activeOpen = isOpen !== undefined ? isOpen : isWizardOpen;
 
@@ -224,6 +235,7 @@ const CustomLineageWizard = ({ isOpen, onClose, initialData = null }) => {
           {STEPS.map((s, idx) => (
             <button
               key={s.id}
+              ref={(el) => (stepButtonRefs.current[idx] = el)}
               className={`lineage-step-btn ${currentStepIdx === idx ? 'active' : ''} ${idx < currentStepIdx ? 'completed' : ''}`}
               onClick={() => setCurrentStepIdx(idx)}
             >

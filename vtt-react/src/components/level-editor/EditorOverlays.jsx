@@ -71,15 +71,19 @@ export const AreaRemoveSelection = ({ selectionRect, overlayRef }) => {
 
 export const WallSelectionIndicator = ({ selectedWindow, selectedWallKey, wallData, onUnlock }) => {
     if (!(selectedWallKey || selectedWindow)) return null;
+    const isDoor = selectedWallKey && wallData[selectedWallKey]?.type?.includes('door');
     const label = selectedWindow
         ? 'Window'
-        : (wallData[selectedWallKey]?.type?.includes('door') ? 'Door' : 'Wall');
+        : (isDoor ? 'Door' : 'Wall');
+    const hint = (!selectedWindow && !isDoor)
+        ? 'Drag to move • Drag gold handles to reshape'
+        : 'Drag to move';
     return (
         <div className="vtt-selection-indicator">
             <span className="vtt-selection-label">
                 Selected: <strong>{label}</strong>
             </span>
-            <span className="vtt-selection-hint">Drag to move</span>
+            <span className="vtt-selection-hint">{hint}</span>
             <button className="vtt-selection-unlock-btn" onClick={onUnlock}>
                 Unlock
             </button>

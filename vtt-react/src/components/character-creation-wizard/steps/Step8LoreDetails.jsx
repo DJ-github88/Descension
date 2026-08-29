@@ -8,13 +8,40 @@ import React, { useState, useEffect } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import { LORE_PLACEHOLDERS, LORE_FIELD_HINTS } from '../../../constants/loreConstants';
 
+const ALIGNMENT_OPTIONS = [
+    { value: 'Lawful Good', label: 'Lawful Good', desc: 'Acts with honor, compassion, and duty.' },
+    { value: 'Neutral Good', label: 'Neutral Good', desc: 'Guided by conscience to do what is right.' },
+    { value: 'Chaotic Good', label: 'Chaotic Good', desc: 'Follows a personal moral compass without dogma.' },
+    { value: 'Lawful Neutral', label: 'Lawful Neutral', desc: 'Driven by order, tradition, and code.' },
+    { value: 'True Neutral', label: 'True Neutral', desc: 'Prefers balance and avoids extreme stances.' },
+    { value: 'Chaotic Neutral', label: 'Chaotic Neutral', desc: 'Values individual freedom and passion above all.' },
+    { value: 'Lawful Evil', label: 'Lawful Evil', desc: 'Methodically exploits hierarchy and authority.' },
+    { value: 'Neutral Evil', label: 'Neutral Evil', desc: 'Self-serving and willing to do whatever it takes.' },
+    { value: 'Chaotic Evil', label: 'Chaotic Evil', desc: 'Driven by greed, spite, or destructive impulse.' }
+];
+
 const LORE_GROUPS = [
     {
         key: 'narrative',
-        label: 'Origin',
+        label: 'Origin & Moral Alignment',
         icon: 'fas fa-book-open',
         fields: [
-            { key: 'backstory', label: 'Origin Story', hint: LORE_FIELD_HINTS.backstory, icon: 'fas fa-feather-alt', placeholder: LORE_PLACEHOLDERS.backstory, rows: 6 }
+            {
+                key: 'alignment',
+                label: 'Moral Alignment',
+                hint: 'Alignment',
+                icon: 'fas fa-balance-scale',
+                type: 'select',
+                options: ALIGNMENT_OPTIONS
+            },
+            {
+                key: 'backstory',
+                label: 'Origin Story',
+                hint: LORE_FIELD_HINTS.backstory,
+                icon: 'fas fa-feather-alt',
+                placeholder: LORE_PLACEHOLDERS.backstory,
+                rows: 6
+            }
         ]
     },
     {
@@ -66,6 +93,7 @@ const Step8LoreDetails = () => {
     const dispatch = useCharacterWizardDispatch();
     const { characterData } = state;
 
+    const [alignment, setAlignment] = useState(characterData.alignment || 'Neutral Good');
     const [loreData, setLoreData] = useState(characterData.lore || {
         backstory: '',
         personalityTraits: '',
@@ -81,16 +109,25 @@ const Step8LoreDetails = () => {
         notes: ''
     });
 
+    // Keep alignment in sync with context basic info / characterData
+    useEffect(() => {
+        dispatch(wizardActionCreators.updateBasicInfo({ alignment }));
+    }, [alignment, dispatch]);
+
     // Update context when lore data changes
     useEffect(() => {
         dispatch(wizardActionCreators.updateLore(loreData));
     }, [loreData, dispatch]);
 
     const handleLoreChange = (field, value) => {
-        setLoreData({
-            ...loreData,
+        setLoreData((prev) => ({
+            ...prev,
             [field]: value
-        });
+        }));
+    };
+
+    const handleAlignmentChange = (value) => {
+        setAlignment(value);
     };
 
     return (
@@ -103,7 +140,7 @@ const Step8LoreDetails = () => {
                             Forging Your Story
                         </h2>
                         <p className="lore-description">
-                            The Wyrd finds its way in through the unwritten. Set down your character's origin, their oaths, and the fears that hunt them in a world where the sun is dead and the fog eats memories. All fields are optional — but the blanks are where the dark gets in.
+                            The Wyrd finds its way in through the unwritten. Set down your character's moral alignment, origin, oaths, and the fears that hunt them in a world where the sun is dead and the fog eats memories.
                         </p>
                     </div>
 
@@ -121,13 +158,27 @@ const Step8LoreDetails = () => {
                                             {field.label}
                                         </label>
                                         {field.hint && <span className="lore-field-hint">{field.hint}</span>}
-                                        <textarea
-                                            className="lore-field-input"
-                                            placeholder={field.placeholder}
-                                            value={loreData[field.key] || ''}
-                                            onChange={(e) => handleLoreChange(field.key, e.target.value)}
-                                            rows={field.rows}
-                                        />
+                                        {field.type === 'select' ? (
+                                            <select
+                                                className="lore-field-input lore-field-select"
+                                                value={alignment}
+                                                onChange={(e) => handleAlignmentChange(e.target.value)}
+                                            >
+                                                {field.options.map((opt) => (
+                                                    <option key={opt.value} value={opt.value}>
+                                                        {opt.label} — {opt.desc}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        ) : (
+                                            <textarea
+                                                className="lore-field-input"
+                                                placeholder={field.placeholder}
+                                                value={loreData[field.key] || ''}
+                                                onChange={(e) => handleLoreChange(field.key, e.target.value)}
+                                                rows={field.rows}
+                                            />
+                                        )}
                                     </div>
                                 ))}
                             </div>

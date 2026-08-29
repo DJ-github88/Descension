@@ -1,7 +1,7 @@
 // ============================================
 // BERSERKER — SAVAGE (v2: talents are spells)
 // Spec: Hemorrhagic Ruin, High-Heat Burst, Self-Damage Scaling, Near-Death Executes
-// Resource: Blood-Heat (0-100)
+// Resource: Rage (0-100)
 // ============================================
 
 export const BERSERKER_SAVAGE = [
@@ -15,7 +15,7 @@ export const BERSERKER_SAVAGE = [
     requires: null,
     spell: {
       name: "Hunger Pact Ignition",
-      description: "Passive: Your ancestral starvation flares. Generate +50% more Blood-Heat from all attacks, and taking damage generates 1 Heat per 3 damage suffered.",
+      description: "Passive: Your ancestral starvation flares. Generate +50% more Rage from all attacks, and taking damage generates 1 Heat per 3 damage suffered.",
       flavorText: "The copper taste of kin-blood in the marrow.",
       source: "talent", class: "Berserker", treeId: "savage",
       spellType: "PASSIVE", category: "buff",
@@ -23,8 +23,8 @@ export const BERSERKER_SAVAGE = [
       visualTheme: "blood", tags: ["passive", "builder", "blood-heat", "berserker"]
     },
     rankUpgrades: [
-      { description: "Generate +75% more Blood-Heat from all attacks; melee strikes deal +1d4 slicing bonus damage.", primaryDamage: { dice: "1d4", flat: 0, procChance: 100 } },
-      { description: "Generate +100% more Blood-Heat; critical hits grant an immediate +15 Blood-Heat and deal +1d8 slicing.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } }
+      { description: "Generate +75% more Rage from all attacks; melee strikes deal +1d4 slicing bonus damage.", primaryDamage: { dice: "1d4", flat: 0, procChance: 100 } },
+      { description: "Generate +100% more Rage; critical hits grant an immediate +15 Rage and deal +1d8 slicing.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -36,7 +36,7 @@ export const BERSERKER_SAVAGE = [
     requires: null,
     spell: {
       name: "Reckless Abandon",
-      description: "Spend 1 AP & 5 HP: Split your own flesh to generate 20 Blood-Heat and strike with wild fury for 1d10 slicing + 1d6 smashing damage.",
+      description: "Spend 1 AP & 5 HP: Split your own flesh to generate 20 Rage and strike with wild fury for 1d10 slicing + 1d6 smashing damage.",
       flavorText: "Pain is merely kinetic momentum waiting for direction.",
       source: "talent", class: "Berserker", treeId: "savage",
       spellType: "ACTIVE", category: "damage",
@@ -49,7 +49,7 @@ export const BERSERKER_SAVAGE = [
       visualTheme: "blood", tags: ["melee", "self-damage", "builder", "berserker"]
     },
     rankUpgrades: [
-      { description: "Damage increases to 2d8 slicing + 1d8 smashing; generates 25 Blood-Heat.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 }, secondaryDamage: { dice: "1d8", flat: 0, procChance: 100, damageType: "smashing" } },
+      { description: "Damage increases to 2d8 slicing + 1d8 smashing; generates 25 Rage.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 }, secondaryDamage: { dice: "1d8", flat: 0, procChance: 100, damageType: "smashing" } },
       { description: "Damage increases to 2d10 slicing + 2d6 smashing; critical hits cost no HP and refund 1 AP.", primaryDamage: { dice: "2d10", flat: 0, procChance: 100 }, secondaryDamage: { dice: "2d6", flat: 0, procChance: 100, damageType: "smashing" } }
     ]
   },
@@ -62,7 +62,7 @@ export const BERSERKER_SAVAGE = [
     requires: null,
     spell: {
       name: "Boiling Momentum",
-      description: "Passive: Gain +5 ft movement speed. While in High-Heat (50+ Blood-Heat), you gain Advantage on checks to avoid or break grapples and difficult terrain costs no extra movement.",
+      description: "Passive: Gain +5 ft movement speed. While in High-Heat (50+ Rage), you gain Advantage on checks to avoid or break grapples and difficult terrain costs no extra movement.",
       flavorText: "He runs like the blizzard is at his throat.",
       source: "talent", class: "Berserker", treeId: "savage",
       spellType: "PASSIVE", category: "buff",
@@ -70,7 +70,7 @@ export const BERSERKER_SAVAGE = [
       visualTheme: "blood", tags: ["passive", "mobility", "heat-scaling", "berserker"]
     },
     rankUpgrades: [
-      { description: "Movement speed bonus increases to +10 ft; at 75+ Blood-Heat you can charge through enemy squares freely." }
+      { description: "Movement speed bonus increases to +10 ft; at 75+ Rage you can charge through enemy squares freely." }
     ]
   },
 
@@ -109,7 +109,7 @@ export const BERSERKER_SAVAGE = [
     requires: "bsv_t1_reckless_slash",
     spell: {
       name: "Sundering Hack",
-      description: "Passive: Spending 25+ Blood-Heat shreds 3 Passive DR from the target for 2 rounds, stacking up to 2 times.",
+      description: "Passive: Spending 25+ Rage shreds 3 Passive DR from the target for 2 rounds, stacking up to 2 times.",
       flavorText: "Hacking bone until armor falls off the frame.",
       source: "talent", class: "Berserker", treeId: "savage",
       spellType: "PASSIVE", category: "debuff",
@@ -153,7 +153,7 @@ export const BERSERKER_SAVAGE = [
     requires: "bsv_t2_meat_cleaver",
     spell: {
       name: "Red Mist Surge",
-      description: "Spend 1 AP: Instantly jump to 75 Blood-Heat at the cost of 10% max HP. For 2 rounds, gain +1 extra attack per round.",
+      description: "Spend 1 AP: Instantly jump to 75 Rage at the cost of 10% max HP. For 2 rounds, gain +1 extra attack per round.",
       flavorText: "A red veil descends. Thinking stops; butchery commences.",
       source: "talent", class: "Berserker", treeId: "savage",
       spellType: "ACTIVE", category: "buff",
@@ -210,7 +210,7 @@ export const BERSERKER_SAVAGE = [
       visualTheme: "blood", tags: ["passive", "lifesteal", "sustain", "berserker"]
     },
     rankUpgrades: [
-      { description: "Healing increases to 25% of damage dealt and also restores 10 Blood-Heat." },
+      { description: "Healing increases to 25% of damage dealt and also restores 10 Rage." },
       { description: "Healing increases to 35% of damage dealt; excess healing is converted into temporary Grit shielding." }
     ]
   },
@@ -225,7 +225,7 @@ export const BERSERKER_SAVAGE = [
     requires: "bsv_t4_decapitating_strike",
     spell: {
       name: "Caldera Eruption",
-      description: "Passive: While at 80+ Blood-Heat, all your melee strikes erupt with volcanic heat: deal +2d8 ember damage and ignite enemies for 1d8 ember per round for 2 rounds.",
+      description: "Passive: While at 80+ Rage, all your melee strikes erupt with volcanic heat: deal +2d8 ember damage and ignite enemies for 1d8 ember per round for 2 rounds.",
       flavorText: "The blood does not merely flow; it boils into slag.",
       source: "talent", class: "Berserker", treeId: "savage",
       spellType: "PASSIVE", category: "damage",
@@ -247,7 +247,7 @@ export const BERSERKER_SAVAGE = [
     requires: "bsv_t4_flesh_harvest",
     spell: {
       name: "Pain-Driven Fury",
-      description: "Passive: You cannot be Stunned or Incapacitated while above 50 Blood-Heat. Taking critical hits grants +30 Blood-Heat.",
+      description: "Passive: You cannot be Stunned or Incapacitated while above 50 Rage. Taking critical hits grants +30 Rage.",
       flavorText: "Concussion is merely another reason to swing harder.",
       source: "talent", class: "Berserker", treeId: "savage",
       spellType: "PASSIVE", category: "buff",
@@ -255,7 +255,7 @@ export const BERSERKER_SAVAGE = [
       visualTheme: "blood", tags: ["passive", "cc-immunity", "berserker"]
     },
     rankUpgrades: [
-      { description: "You are also immune to Fear, Charm, and Sleep while above 50 Blood-Heat; critical hits taken grant +50 Blood-Heat." }
+      { description: "You are also immune to Fear, Charm, and Sleep while above 50 Rage; critical hits taken grant +50 Rage." }
     ]
   },
 
@@ -295,7 +295,7 @@ export const BERSERKER_SAVAGE = [
     requires: "bsv_t5_berserk_resilience",
     spell: {
       name: "Limitless Furnace",
-      description: "Passive: Maximum Blood-Heat increased to 125. Overheat / Metabolic Burnout penalties are halved.",
+      description: "Passive: Maximum Rage increased to 125. Overheat / Metabolic Burnout penalties are halved.",
       flavorText: "His heart was forged to withstand a caldera.",
       source: "talent", class: "Berserker", treeId: "savage",
       spellType: "PASSIVE", category: "buff",
@@ -303,7 +303,7 @@ export const BERSERKER_SAVAGE = [
       visualTheme: "blood", tags: ["passive", "cap-increase", "burnout-mitigation", "berserker"]
     },
     rankUpgrades: [
-      { description: "Maximum Blood-Heat increased to 150, and you are completely immune to Metabolic Burnout penalties." }
+      { description: "Maximum Rage increased to 150, and you are completely immune to Metabolic Burnout penalties." }
     ]
   },
 

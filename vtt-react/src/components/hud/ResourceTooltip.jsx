@@ -846,7 +846,7 @@ const ResourceTooltip = ({
                     {/* False Prophet Madness Tooltip */}
                     {finalConfig.visual?.type === 'madness-gauge' && falseProphetHoverSection === 'madness' && (
                         <>
-                            <div className="tooltip-header">Madness Points</div>
+                            <div className="tooltip-header">Madness</div>
                             <div className="tooltip-section">
                                 <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
                                     <strong>Current:</strong> {localMadness}/20 ({getDangerLevel(localMadness).name})
@@ -989,10 +989,10 @@ const ResourceTooltip = ({
 
                                 <div className="tooltip-section">
                                     <div style={{ fontSize: '0.9rem', marginBottom: '4px', color: '#8B6508' }}>
-                                        <strong>Fortune Points:</strong> {fpValue}/{maxFP} FP
+                                        <strong>Fortune:</strong> {fpValue}/{maxFP} FP
                                     </div>
                                     <div style={{ fontSize: '0.85rem', color: '#4E342E' }}>
-                                        Spend Fortune Points to influence fate and adjust rolls. Gain points from successful actions and critical hits.
+                                        Spend Fortune to influence fate and adjust rolls. Gain points from successful actions and critical hits.
                                     </div>
                                 </div>
 
@@ -1010,7 +1010,7 @@ const ResourceTooltip = ({
                         );
                     })()}
 
-                    {/* Apex Quarry Marks & Companion Tooltip */}
+                    {/* Apex Marks & Companion Tooltip */}
                     {finalConfig.visual?.type === 'quarry-marks-companion' && huntressHoverSection && (
                         <div>
                             {huntressHoverSection === 'marks' && (() => {
@@ -1019,7 +1019,7 @@ const ResourceTooltip = ({
 
                                 return (
                                     <>
-                                        <div className="tooltip-header">Quarry Marks</div>
+                                        <div className="tooltip-header">Marks</div>
                                         <div className="tooltip-section">
                                             <div style={{ fontSize: '0.9rem', marginBottom: '4px', color: '#8B0000' }}>
                                                 <strong>Marks:</strong> {qmValue}/{maxQM}
@@ -1056,7 +1056,7 @@ const ResourceTooltip = ({
                     {/* Animist Tooltip */}
                     {finalConfig.visual?.type === 'ancestral-resonance' && animistHoverSection === 'resonance' && (
                         <div>
-                            <div className="tooltip-header">Ancestral Resonance</div>
+                            <div className="tooltip-header">Resonance</div>
                             <div className="tooltip-section">
                                 <div style={{ fontSize: '0.9rem', marginBottom: '4px', color: '#1B5E20' }}>
                                     <strong>Current:</strong> {finalClassResource.current ?? 0}/{finalClassResource.max ?? 20} AR

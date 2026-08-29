@@ -5,8 +5,8 @@ export const CLASS_RESOURCE_TYPES = {
  // INFERNAL PATH
  'Pyrofiend': {
   id: 'infernoVeil',
-  name: 'Inferno Veil',
-  shortName: 'Inferno',
+  name: 'Veil',
+  shortName: 'Veil',
   type: 'stages',
   description: 'The Emberspire\'s nine circles burn within the corrupted soul. Ember corruption through 9 inferno levels, each granting ember damage but severe drawbacks',
   visual: {
@@ -34,7 +34,7 @@ export const CLASS_RESOURCE_TYPES = {
  },
  'Minstrel': {
   id: 'musicalNotes',
-  name: 'Musical Notes',
+  name: 'Notes',
   shortName: 'Notes',
   type: 'notes',
   description: 'The Old Revel melodies still echo through Revel Sylvan\'s groves. Musical notes that can be combined into powerful chord combinations',
@@ -173,8 +173,8 @@ export const CLASS_RESOURCE_TYPES = {
 
  'Chronarch': {
   id: 'timeShardsStrain',
-  name: 'Time Shards & Temporal Strain',
-  shortName: 'TS/TS',
+  name: 'Shards',
+  shortName: 'Shards',
   type: 'dual-resource',
   description: 'In Sundrift, the Frozen Hours crystallized time into something that could be held. Dual resource system: Time Shards (power) and Temporal Strain (risk)',
   visual: {
@@ -279,7 +279,7 @@ export const CLASS_RESOURCE_TYPES = {
  // TRICKSTER PATH
  'Harbinger': {
   id: 'mayhemGauge',
-  name: 'Mayhem Gauge',
+  name: 'Mayhem',
   shortName: 'Mayhem',
   type: 'mayhem',
   description: 'The Bleeding Eye of Keth-Amar sees all ends and whispers them into being. Passive chaos pressure gauge, CANNOT be spent. Passively amplifies all spells as it rises. Only release is Wild Surge at 100.',
@@ -424,8 +424,8 @@ export const CLASS_RESOURCE_TYPES = {
 
  'Gambit': {
   id: 'fortunePoints',
-  name: 'Fortune Points',
-  shortName: 'FP',
+  name: 'Fortune',
+  shortName: 'Fortune',
   type: 'gambling',
   visual: {
    type: 'fortune-points-gambling',
@@ -478,7 +478,7 @@ export const CLASS_RESOURCE_TYPES = {
    persistence: 'until_long_rest'
   },
   tooltip: {
-   title: 'Fortune Points: {current}/{max}',
+   title: 'Fortune: {current}/{max}',
    showGeneration: true,
    showSpending: true,
    showPersistence: true
@@ -488,8 +488,8 @@ export const CLASS_RESOURCE_TYPES = {
  // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
  'Revenant': {
   id: 'blightAscension',
-  name: 'Blight Ascension & Blood Tokens',
-  shortName: 'BA/BT',
+  name: 'Toll',
+  shortName: 'Toll',
   type: 'ascension-blood',
   description: 'Deep beneath the Frozen Archive, Aldren Thalreth learned to harvest frost from undeath itself. Dual resource system: Blight Ascension Paths (permanent power/curses) and Blood Tokens (VOLATILE ticking time bombs with escalating self-damage). The Revenant combines volatile blood magic with methodical frost harvesting.',
   visual: {
@@ -602,7 +602,7 @@ export const CLASS_RESOURCE_TYPES = {
  // DIVINE PATH
  'Martyr': {
   id: 'devotionGauge',
-  name: 'Devotion Gauge',
+  name: 'Devotion',
   shortName: 'Devotion',
   type: 'devotion-gauge',
   description: 'Sundale Sol\'s Breath, the Sun-That-Was, taught that true devotion requires willing bleed. ACTIVE sacrifice required, bleed willingly or Devotion decays. Voluntary Offering (1d8 HP free action) accelerates progress. Lose 1 level after 2 rounds without damage/sacrifice. The Martyr BLEEDS; the Ironclad endures.',
@@ -699,7 +699,7 @@ export const CLASS_RESOURCE_TYPES = {
 
  'False Prophet': {
   id: 'madnessPoints',
-  name: 'Madness Points',
+  name: 'Madness',
   shortName: 'Madness',
   type: 'madness',
   description: 'The Lie whispers from the Silence behind the Emberspire\'s corruption. Eldritch madness that empowers shadow damage but risks Insanity Convulsion at 20 points',
@@ -724,13 +724,13 @@ export const CLASS_RESOURCE_TYPES = {
    regen: 0,
    consumeVerb: 'spend',
    gainVerb: 'accumulate',
-   damageBonus: 1 // +1 damage per Madness Point to all False Prophet damage types (wyrd, blight)
+   damageBonus: 1 // +1 damage per Madness to all False Prophet damage types (wyrd, blight)
   },
   tooltip: {
    sections: [
     {
      type: 'header',
-     content: 'Madness Points: {current}/20'
+     content: 'Madness: {current}/20'
     },
     {
      type: 'mechanics',
@@ -781,8 +781,8 @@ export const CLASS_RESOURCE_TYPES = {
  },
 
  'Inquisitor': {
-  id: 'righteous_authority',
-  name: 'Righteous Authority',
+  id: 'authority',
+  name: 'Authority',
   shortName: 'Authority',
   type: 'hexbreaker-charges',
   description: 'Cold-iron chains and binding-wards make the Inquisitor the horror-jailer of the Emberspire. Unified anti-magic friction and Wyrd-touched binding authority (0-8). Built through supernatural contact, spent on negation and command.',
@@ -807,7 +807,7 @@ export const CLASS_RESOURCE_TYPES = {
    demonCapacity: 2,
   },
   tooltip: {
-   title: 'Righteous Authority',
+   title: 'Authority',
    description: 'Negation is the Inquisitor\'s scripture, written in cold-iron and binding-wards. Anti-magic friction and horror command authority',
   },
  },
@@ -1085,9 +1085,9 @@ CLASS_RESOURCE_TYPES['Spellguard'] = {
 // ANIMIST PATH
 CLASS_RESOURCE_TYPES['Animist'] = {
  id: 'ancestralResonance',
- name: 'Ancestral Resonance',
+ name: 'Resonance',
  shortName: 'AR',
- type: 'ancestral_resonance',
+ type: 'resonance',
  description: 'In Bryngloom\'s ancestral mists, the Old Spirits still answer those who call. Channel ancestral spirits to build resonance. Spend resonance to invoke spirit abilities and empower totems.',
  visual: {
   type: 'ancestral-resonance',
@@ -1138,7 +1138,7 @@ CLASS_RESOURCE_TYPES['Animist'] = {
   gainVerb: 'channel'
  },
  tooltip: {
-  title: 'Ancestral Resonance: {current}/{max}',
+  title: 'Resonance: {current}/{max}',
   description: 'Through Bryngloom\'s mists, the ancestral spirits lend their resonance to the worthy. Channel ancestral spirits to build resonance. Spend to invoke spirit abilities and empower totems.',
   showResonance: true,
   showSpirits: true,
@@ -1282,10 +1282,10 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
 
 CLASS_RESOURCE_TYPES['Shaper'] = {
  id: 'kineticFluxBodyToll',
- name: 'Kinetic Flux & Body Toll',
+ name: 'Flux & Body Toll',
  shortName: 'KF/BT',
  type: 'dual-resource',
- description: 'The body learns a kinetic rhythm, flowing through stances like water through stone. Dual resource system: Kinetic Flux (combat rhythm, 0-20) and Body Toll (transformation cost, 0-10)',
+ description: 'The body learns a kinetic rhythm, flowing through stances like water through stone. Dual resource system: Flux (combat rhythm, 0-20) and Body Toll (transformation cost, 0-10)',
  visual: {
   type: 'stance-flow',
   momentum: {
@@ -1386,7 +1386,7 @@ CLASS_RESOURCE_TYPES['Shaper'] = {
  },
  tooltip: {
   title: 'Flux: {momentum}/20 | Toll: {flourish}/10 | Form: {stance}',
-  description: 'Every transformation exacts its toll upon the flesh, paid in the currency of stance-flow. Build Kinetic Flux through combat, accumulate Body Toll from transformations',
+  description: 'Every transformation exacts its toll upon the flesh, paid in the currency of stance-flow. Build Flux through combat, accumulate Body Toll from transformations',
   showMomentum: true,
   showFlourish: true,
   showStance: true
@@ -1432,13 +1432,13 @@ CLASS_RESOURCE_TYPES['Shaper'] = {
  }
 };
 
-// REAVER PATH (Blood-Heat per lore compendium: Class Data 2026-07-28 audit)
+// REAVER PATH (Rage per lore compendium: Class Data 2026-07-28 audit)
 CLASS_RESOURCE_TYPES['Berserker'] = {
  id: 'bloodHeat',
- name: 'Blood-Heat',
+ name: 'Rage',
  shortName: 'BLOOD-HEAT',
- type: 'blood_heat',
- description: 'The Hunger Pact fuses Nordhalla cold and Sundale heat into a single fury. The blood boils from smoldering ember to full apocalypse. Escalating fury from 0-100 with six distinct Blood-Heat States',
+ type: 'rage',
+ description: 'The Hunger Pact fuses Nordhalla cold and Sundale heat into a single fury. The blood boils from smoldering ember to full apocalypse. Escalating fury from 0-100 with six distinct Rage States',
  visual: {
   type: 'dual-dice',
   count: 2,
@@ -1448,7 +1448,7 @@ CLASS_RESOURCE_TYPES['Berserker'] = {
   activeColor: '#8B0000',
   glowColor: '#FF4500',
   icon: 'fas fa-axe-battle',
-  effects: ['blood_heat', 'fury', 'escalation']
+  effects: ['rage', 'fury', 'escalation']
  },
  mechanics: {
   max: 100,
@@ -1551,10 +1551,10 @@ CLASS_RESOURCE_TYPES['Berserker'] = {
 // MERCENARY PATH
 CLASS_RESOURCE_TYPES['Toxicologist'] = {
  id: 'toxinVialsContraptions',
- name: 'Toxin Vials & Contraption Parts',
+ name: 'Vials & Contraption Parts',
  shortName: 'TV/CP',
  type: 'dual-resource',
- description: 'Alchemy turns poison into art, and every trap is a masterpiece waiting to spring. Dual resource system: Toxin Vials (crafting) and Contraption Parts (deployment)',
+ description: 'Alchemy turns poison into art, and every trap is a masterpiece waiting to spring. Dual resource system: Vials (crafting) and Contraption Parts (deployment)',
  visual: {
   type: 'alchemical-arsenal',
   toxinVials: {
@@ -1611,7 +1611,7 @@ CLASS_RESOURCE_TYPES['Toxicologist'] = {
   }
  },
  tooltip: {
-  title: 'Toxin Vials: {toxinVials}/{maxVials} | Contraption Parts: {contraptionParts}/5',
+  title: 'Vials: {toxinVials}/{maxVials} | Contraption Parts: {contraptionParts}/5',
   description: 'The alchemist\'s bench holds vials of death and parts of cunning contrivance. Vials for poisons/concoctions, Parts for contraptions/traps',
   showToxinVials: true,
   showContraptionParts: true
@@ -1638,7 +1638,7 @@ CLASS_RESOURCE_TYPES['Toxicologist'] = {
  }
 };
 
-// Covenbane Hexbreaker Charges removed (Covenbane merged with Exorcist into Inquisitor, now uses Righteous Authority)
+// Covenbane Hexbreaker Charges removed (Covenbane merged with Exorcist into Inquisitor, now uses Authority)
 // See CLASS_RESOURCE_TYPES['Inquisitor'] for the merged resource
 
 // LUNARCH - LUNAR PHASES
@@ -1721,10 +1721,10 @@ CLASS_RESOURCE_TYPES['Lunarch'] = {
 
 CLASS_RESOURCE_TYPES['Apex'] = {
  id: 'quarryMarksCompanion',
- name: 'Quarry Marks & Companion',
+ name: 'Marks & Companion',
  shortName: 'QM',
  type: 'hunter',
- description: 'The hunter reads the quarry\'s marks while the pack hunts as one. Track prey with Quarry Marks and command your companion in battle',
+ description: 'The hunter reads the quarry\'s marks while the pack hunts as one. Track prey with Marks and command your companion in battle',
  visual: {
   type: 'quarry-marks-companion',
   quarryMarks: {
@@ -1779,7 +1779,7 @@ CLASS_RESOURCE_TYPES['Apex'] = {
    turnCap: 3,
    beastmasterTurnCap: 4,
    decay: '1 per minute outside combat (after 1 min grace period)',
-   companionDeathRule: 'If companion is dead, ZERO Quarry Marks can be generated until revived',
+   companionDeathRule: 'If companion is dead, ZERO Marks can be generated until revived',
    persistence: 'Marks persist between combats'
   },
   companion: {
@@ -1790,7 +1790,7 @@ CLASS_RESOURCE_TYPES['Apex'] = {
   }
  },
  tooltip: {
-  title: 'Quarry Marks: {current}/5 | Companion: {companionHP}/{maxCompanionHP} HP',
+  title: 'Marks: {current}/5 | Companion: {companionHP}/{maxCompanionHP} HP',
   description: 'Pack-tactics and the beast-companion\'s synergy are the true source of every mark. Generate marks through COMPANION SYNERGY only, coordinated strikes, companion hits, and pack tactics. Solo glaive hits generate NOTHING. Keep your companion alive.',
   showQuarryMarks: true,
   showCompanion: true,
@@ -1829,7 +1829,7 @@ export const getResourceDisplayText = (classResource, config) => {
 
 CLASS_RESOURCE_TYPES['Warden'] = {
  id: 'vengeance-points',
- name: 'Vengeance Points',
+ name: 'Tension',
  shortName: 'VP',
  type: 'vengeance-points',
  description: 'The Warden\'s pursuit is relentless, each glaive-strike adding to the debt of vengeance. Build power through attacks, evasions, and critical hits to unleash devastating abilities. Pursuit Movement: +5ft speed per VP toward marked target (max +50ft). The Warden does NOT teleport.',
@@ -1850,7 +1850,7 @@ CLASS_RESOURCE_TYPES['Warden'] = {
   gainVerb: 'generate'
  },
  tooltip: {
-  title: 'Vengeance Points: {current}/10',
+  title: 'Tension: {current}/10',
   description: '',
   showGeneration: true,
   showSpending: true,
@@ -1981,10 +1981,10 @@ CLASS_RESOURCE_TYPES['Augur'] = {
 
 CLASS_RESOURCE_TYPES['Crusader'] = {
  id: 'radiantFervor',
- name: 'Radiant Fervor',
+ name: 'Fervor',
  shortName: 'Fervor',
  type: 'progress-bar',
- description: 'The Crusader channels Solvan zeal, accumulating Radiant Fervor through martial strikes, righteous judgment, and standing fast against heresy. Reaching 50+ unlocks Harmonic Stance, while 100 Fervor unleashes devastating Solvan Judgment.',
+ description: 'The Crusader channels Solvan zeal, accumulating Fervor through martial strikes, righteous judgment, and standing fast against heresy. Reaching 50+ unlocks Harmonic Stance, while 100 Fervor unleashes devastating Solvan Judgment.',
  visual: {
   type: 'fervor-gauge',
   baseColor: '#8B6508',
@@ -2000,7 +2000,7 @@ CLASS_RESOURCE_TYPES['Crusader'] = {
   gainVerb: 'kindle'
  },
  tooltip: {
-  title: 'Radiant Fervor: {current}/100',
+  title: 'Fervor: {current}/100',
   description: 'Kindled by martial prowess and sacred devotion. At 50+ Fervor, Harmonic Stance empowers all strikes. At 100 Fervor, unleash Solvan Judgment.',
   showGeneration: true,
   showSpending: true,

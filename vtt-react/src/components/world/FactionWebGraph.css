@@ -135,6 +135,8 @@
   background: radial-gradient(circle at center, #24140a 0%, #120904 100%);
   cursor: grab;
   user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
 }
 
 .faction-web-viewport.is-panning {
@@ -552,3 +554,54 @@
   background: #ffd700;
   transform: translateY(-1px);
 }
+
+/* ==========================================================================
+   Mobile Responsive Rules
+   ========================================================================== */
+@media (max-width: 768px) {
+  .faction-web-toolbar {
+    height: auto;
+    flex-direction: column;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .faction-web-toolbar .toolbar-left,
+  .faction-web-toolbar .toolbar-right {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .web-filter-pills {
+    overflow-x: auto;
+    width: 100%;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+  .web-filter-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .web-search-box input {
+    width: 100%;
+  }
+
+  .world-web-inspector {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-height: 65vh;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.7);
+  }
+
+  .world-web-hud {
+    bottom: 12px;
+    top: auto;
+    left: 12px;
+  }
+}
+

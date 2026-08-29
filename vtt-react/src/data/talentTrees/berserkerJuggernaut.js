@@ -1,7 +1,7 @@
 // ============================================
 // BERSERKER — JUGGERNAUT (v2: talents are spells)
 // Spec: Calloused Husk, Trauma Calcification, Grit Shields, Reactive Bone Spines
-// Resource: Blood-Heat (0-100)
+// Resource: Rage (0-100)
 // ============================================
 
 export const BERSERKER_JUGGERNAUT = [
@@ -15,7 +15,7 @@ export const BERSERKER_JUGGERNAUT = [
     requires: null,
     spell: {
       name: "Shattered Resilience",
-      description: "Passive: Your Blood-Heat decays half as fast. Taking physical damage causes your skin to calcify into grey scar tissue, granting +2 Passive DR and a 5 HP temporary Grit shield.",
+      description: "Passive: Your Rage decays half as fast. Taking physical damage causes your skin to calcify into grey scar tissue, granting +2 Passive DR and a 5 HP temporary Grit shield.",
       flavorText: "Wounds do not open; they solidify into granite.",
       source: "talent", class: "Berserker", treeId: "juggernaut",
       spellType: "PASSIVE", category: "buff",
@@ -24,7 +24,7 @@ export const BERSERKER_JUGGERNAUT = [
     },
     rankUpgrades: [
       { description: "Passive DR increases to +4 and temporary Grit shield increases to 10 HP." },
-      { description: "Passive DR increases to +6; at 50+ Blood-Heat, your armor penalties from High-Heat are completely eliminated." }
+      { description: "Passive DR increases to +6; at 50+ Rage, your armor penalties from High-Heat are completely eliminated." }
     ]
   },
   {
@@ -36,7 +36,7 @@ export const BERSERKER_JUGGERNAUT = [
     requires: null,
     spell: {
       name: "Caldera Headbutt",
-      description: "Spend 1 AP: Smash your forehead into target foe for 1d8 smashing damage. Dazes the target (-2 to hit for 1 round) and generates +15 Blood-Heat.",
+      description: "Spend 1 AP: Smash your forehead into target foe for 1d8 smashing damage. Dazes the target (-2 to hit for 1 round) and generates +15 Rage.",
       flavorText: "Nordhalla ice is hard. His skull is harder.",
       source: "talent", class: "Berserker", treeId: "juggernaut",
       spellType: "ACTIVE", category: "damage",
@@ -48,7 +48,7 @@ export const BERSERKER_JUGGERNAUT = [
       visualTheme: "blood", tags: ["melee", "builder", "daze", "berserker"]
     },
     rankUpgrades: [
-      { description: "Damage increases to 2d8 smashing, generates +20 Blood-Heat, and knocks target back 5 ft.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } },
+      { description: "Damage increases to 2d8 smashing, generates +20 Rage, and knocks target back 5 ft.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } },
       { description: "Damage increases to 3d8 smashing; target must make a CON Save or be Stunned for 1 round.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
     ]
   },
@@ -61,7 +61,7 @@ export const BERSERKER_JUGGERNAUT = [
     requires: null,
     spell: {
       name: "Tectonic Mass",
-      description: "Passive: You cannot be pushed, pulled, or knocked Prone while at 40+ Blood-Heat. Count as one size larger for grapple contests.",
+      description: "Passive: You cannot be pushed, pulled, or knocked Prone while at 40+ Rage. Count as one size larger for grapple contests.",
       flavorText: "Try shoving an avalanche uphill.",
       source: "talent", class: "Berserker", treeId: "juggernaut",
       spellType: "PASSIVE", category: "buff",
@@ -69,7 +69,7 @@ export const BERSERKER_JUGGERNAUT = [
       visualTheme: "blood", tags: ["passive", "anchor", "stability", "berserker"]
     },
     rankUpgrades: [
-      { description: "Threshold lowers to 20+ Blood-Heat; you deal 1d8 smashing damage to anyone attempting to grapple or displace you.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } }
+      { description: "Threshold lowers to 20+ Rage; you deal 1d8 smashing damage to anyone attempting to grapple or displace you.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } }
     ]
   },
 
@@ -83,7 +83,7 @@ export const BERSERKER_JUGGERNAUT = [
     requires: "bjn_t1_calcified_hide",
     spell: {
       name: "Calloused Barrier",
-      description: "Spend 1 AP & 25 Heat: Instantly calcify stored Blood-Heat into a massive bone-scar shield granting 25 temporary HP and +4 Passive DR for 2 rounds.",
+      description: "Spend 1 AP & 25 Heat: Instantly calcify stored Rage into a massive bone-scar shield granting 25 temporary HP and +4 Passive DR for 2 rounds.",
       flavorText: "The flesh remembers every hit and weaves an armor out of grief.",
       source: "talent", class: "Berserker", treeId: "juggernaut",
       spellType: "ACTIVE", category: "buff",
@@ -155,7 +155,7 @@ export const BERSERKER_JUGGERNAUT = [
     requires: "bjn_t2_bone_spines",
     spell: {
       name: "Living Obsidian",
-      description: "Passive: While above 60 Blood-Heat, convert 30% of all incoming physical and fire damage into temporary HP.",
+      description: "Passive: While above 60 Rage, convert 30% of all incoming physical and fire damage into temporary HP.",
       flavorText: "Heat fuses the ash and iron into black glass.",
       source: "talent", class: "Berserker", treeId: "juggernaut",
       spellType: "PASSIVE", category: "buff",
@@ -163,7 +163,7 @@ export const BERSERKER_JUGGERNAUT = [
       visualTheme: "blood", tags: ["passive", "absorb", "temp-hp", "berserker"]
     },
     rankUpgrades: [
-      { description: "Conversion percentage increases to 50%, and threshold lowers to 40+ Blood-Heat." }
+      { description: "Conversion percentage increases to 50%, and threshold lowers to 40+ Rage." }
     ]
   },
 
@@ -177,7 +177,7 @@ export const BERSERKER_JUGGERNAUT = [
     requires: "bjn_t3_ground_crush",
     spell: {
       name: "Colossus Tenacity",
-      description: "Passive: Maximum Health increased by +30%. Whenever you drop below 35% health, gain 100 Blood-Heat and a 50 HP stone shield instantly.",
+      description: "Passive: Maximum Health increased by +30%. Whenever you drop below 35% health, gain 100 Rage and a 50 HP stone shield instantly.",
       flavorText: "The harder you hit the boulder, the sharper the edges become.",
       source: "talent", class: "Berserker", treeId: "juggernaut",
       spellType: "PASSIVE", category: "buff",

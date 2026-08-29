@@ -96,7 +96,7 @@ Present year ≈ **Year 800 of the Dimming**. Founding-year canon from CANON_REF
 #### N-01 [CRITICAL] Kor-Vasseth age "431 / four centuries" impossible — Revenant class only ~250 years old
 - **Location:** `npcStore.js:584` (age `'431'`), `:585` (status `'frightened for the first time in four centuries'`), `:587` (`'frightened for the first time in four centuries'`)
 - **Canon says:** Revenant class founded **Year 550 of the Dimming** (CANON_REFERENCE §11). Present ≈ Year 800 → Revenant tradition is only **~250 years** old.
-- **Lore says:** Kor-Vasseth, Threshold-Keeper of the Twice-Born (a Revenant order carrying "both founders' arts, Kora's Death Toll and Vesper's Phylactery"), is **431 years old** and has been frightened "for the first time in four centuries."
+- **Lore says:** Kor-Vasseth, Threshold-Keeper of the Twice-Born (a Revenant order carrying "both founders' arts, Kora's Toll and Vesper's Phylactery"), is **431 years old** and has been frightened "for the first time in four centuries."
 - **Notes:** Same class of error as v3 A-03. A Revenant cannot have been one for 400 years when the class has existed for only ~250. Either drop the age to ≤~250 / "two centuries," or reframe him as pre-Revenant lineage. **New finding (deeper Revenant age-math issue).**
 
 #### N-02 [CRITICAL] Vesper (Revenant co-founder) — race AND gender contradict across sources

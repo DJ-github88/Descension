@@ -91,7 +91,7 @@ const Berserker = () => (
         </defs>
         <rect width="1200" height="140" fill="#140203" />
 
-        {/* Central volcanic Blood-Heat core aura */}
+        {/* Central volcanic Rage core aura */}
         <circle cx="600" cy="70" r="170" fill="url(#bers-rage-glow)" />
 
         {/* Nordhalla Melting Frost Crystals on edges */}

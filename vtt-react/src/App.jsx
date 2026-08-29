@@ -25,6 +25,7 @@ import { initializePerformanceMonitoring } from "./services/performanceService";
 import { initializeAnalytics } from "./services/analyticsService";
 import characterBackupService from "./services/firebase/characterBackupService";
 import AccessibilityController from "./components/common/AccessibilityController";
+import useGameNavigationGuard from "./hooks/useGameNavigationGuard";
 
 // Core components that are always needed
 import LandingPage from "./components/landing/LandingPage";
@@ -310,6 +311,60 @@ const PhoneGate = ({ featureName, children }) => {
   }
   return children;
 };
+
+function GameRouteWrapper({ children }) {
+  useGameNavigationGuard(true);
+  return children;
+}
+
+function LoginTransitionOverlay({ onComplete }) {
+  const [phase, setPhase] = useState('entering');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (shouldReduceMotion()) {
+      navigate('/account');
+      const t = setTimeout(onComplete, 0);
+      return () => clearTimeout(t);
+    }
+    // Navigate EARLY so the account page (lazy-loaded via Suspense) mounts
+    // and finishes loading BEHIND the opaque overlay. The overlay then fades
+    // out to reveal the already-rendered account page, eliminating the
+    // landing-page flash that happened when onComplete unmounted the
+    // overlay before the route had changed.
+    const t1 = setTimeout(() => setPhase('showing'), 50);
+    const t2 = setTimeout(() => navigate('/account'), 850);
+    const t3 = setTimeout(() => setPhase('exiting'), 1500);
+    const t4 = setTimeout(() => {
+      setPhase('complete');
+      onComplete();
+    }, 2200);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
+  }, [navigate, onComplete]);
+
+  return (
+    <div className={`login-transition-overlay ${phase}`}>
+      <div className="login-transition-glow" />
+      <div className="login-transition-particles">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div key={i} className="login-transition-particle" />
+        ))}
+      </div>
+      <div className="login-transition-content">
+        <div className="login-transition-medallion">
+          <div className="login-transition-medallion-ring" />
+          <i className="fas fa-dragon login-transition-emblem" />
+        </div>
+        <h1 className="login-transition-title">MYTHRILL</h1>
+        <div className="login-transition-line">
+          <span className="login-transition-ornament left" />
+          <span className="login-transition-ornament right" />
+        </div>
+        <p className="login-transition-subtitle">Your adventure awaits</p>
+      </div>
+    </div>
+  );
+}
 
 function GameScreen() {
   const location = useLocation();
@@ -1116,55 +1171,6 @@ export default function App() {
   );
 }
 
-function LoginTransitionOverlay({ onComplete }) {
-  const [phase, setPhase] = useState('entering');
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (shouldReduceMotion()) {
-      navigate('/account');
-      const t = setTimeout(onComplete, 0);
-      return () => clearTimeout(t);
-    }
-    // Navigate EARLY so the account page (lazy-loaded via Suspense) mounts
-    // and finishes loading BEHIND the opaque overlay. The overlay then fades
-    // out to reveal the already-rendered account page, eliminating the
-    // landing-page flash that happened when onComplete unmounted the
-    // overlay before the route had changed.
-    const t1 = setTimeout(() => setPhase('showing'), 50);
-    const t2 = setTimeout(() => navigate('/account'), 850);
-    const t3 = setTimeout(() => setPhase('exiting'), 1500);
-    const t4 = setTimeout(() => {
-      setPhase('complete');
-      onComplete();
-    }, 2200);
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
-  }, [navigate, onComplete]);
-
-  return (
-    <div className={`login-transition-overlay ${phase}`}>
-      <div className="login-transition-glow" />
-      <div className="login-transition-particles">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="login-transition-particle" />
-        ))}
-      </div>
-      <div className="login-transition-content">
-        <div className="login-transition-medallion">
-          <div className="login-transition-medallion-ring" />
-          <i className="fas fa-dragon login-transition-emblem" />
-        </div>
-        <h1 className="login-transition-title">MYTHRILL</h1>
-        <div className="login-transition-line">
-          <span className="login-transition-ornament left" />
-          <span className="login-transition-ornament right" />
-        </div>
-        <p className="login-transition-subtitle">Your adventure awaits</p>
-      </div>
-    </div>
-  );
-}
-
 // Component that uses navigate hook - must be inside Router
 const AppContent = ({
   isAuthenticated,
@@ -1410,36 +1416,40 @@ const AppContent = ({
 
         {/* Game routes */}
         <Route path="/game" element={
-          <PhoneGate featureName="The tactical grid">
-            <div className="spell-wizard-container">
-              <GameScreen />
-              <Suspense fallback={<LoadingFallback message="Loading navigation..." />}>
-                <Navigation
-                  onReturnToLanding={handleReturnToLandingWithNavigation}
-                  onShowLogin={handleShowLogin}
-                  onShowUserProfile={handleShowUserProfile}
-                  isAuthenticated={isAuthenticated}
-                  user={user}
-                />
-              </Suspense>
-            </div>
-          </PhoneGate>
+          <GameRouteWrapper>
+            <PhoneGate featureName="The tactical grid">
+              <div className="spell-wizard-container">
+                <GameScreen />
+                <Suspense fallback={<LoadingFallback message="Loading navigation..." />}>
+                  <Navigation
+                    onReturnToLanding={handleReturnToLandingWithNavigation}
+                    onShowLogin={handleShowLogin}
+                    onShowUserProfile={handleShowUserProfile}
+                    isAuthenticated={isAuthenticated}
+                    user={user}
+                  />
+                </Suspense>
+              </div>
+            </PhoneGate>
+          </GameRouteWrapper>
         } />
 
         <Route path="/multiplayer/:roomCode?" element={
-          <PhoneGate featureName="Online play">
-            <Suspense fallback={<LoadingFallback message="Loading multiplayer..." />}>
-              <ErrorBoundary name="MultiplayerApp">
-                <MultiplayerApp
-                  onReturnToSinglePlayer={handleReturnToLandingWithNavigation}
-                  onShowLogin={handleShowLogin}
-                  onShowUserProfile={handleShowUserProfile}
-                  isAuthenticated={isAuthenticated}
-                  user={user}
-                />
-              </ErrorBoundary>
-            </Suspense>
-          </PhoneGate>
+          <GameRouteWrapper>
+            <PhoneGate featureName="Online play">
+              <Suspense fallback={<LoadingFallback message="Loading multiplayer..." />}>
+                <ErrorBoundary name="MultiplayerApp">
+                  <MultiplayerApp
+                    onReturnToSinglePlayer={handleReturnToLandingWithNavigation}
+                    onShowLogin={handleShowLogin}
+                    onShowUserProfile={handleShowUserProfile}
+                    isAuthenticated={isAuthenticated}
+                    user={user}
+                  />
+                </ErrorBoundary>
+              </Suspense>
+            </PhoneGate>
+          </GameRouteWrapper>
         } />
 
         {/* Privacy Policy - public, no auth required */}

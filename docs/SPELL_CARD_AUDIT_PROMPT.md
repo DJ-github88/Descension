@@ -189,15 +189,15 @@ Read the entire class data file (and any spell subdirectory files). Understand t
 | Doomsayer | Havoc | `resourceCost.classResource` | `{ type: 'havoc', cost: N }` |
 | Dreadnaught | Dark Resilience Points | `resourceCost.resourceValues` or flat fields | DRP cost/gain |
 | Exorcist | Dominance Dice | `resourceCost.resourceValues` or flat fields | Dominance dice cost |
-| False Prophet | Madness Points | `resourceCost.resourceValues` or flat fields | `madnessCost`, `madnessGain` |
+| False Prophet | Madness | `resourceCost.resourceValues` or flat fields | `madnessCost`, `madnessGain` |
 | Fate Weaver | Threads of Destiny | `specialMechanics.threadsOfDestiny` | `threads_spend`, `threads_generate` |
 | Formbender | Wild Instinct | `resourceCost.resourceValues` or flat fields | Wild Instinct cost/gain |
-| Gambler | Fortune Points | `specialMechanics.fortunePoints` or `resourceCost` | Fortune Point cost/gain |
-| Huntress | Quarry Marks | `resourceCost.resourceValues` or flat fields | Quarry Mark cost/gain |
+| Gambler | Fortune | `specialMechanics.fortunePoints` or `resourceCost` | Fortune cost/gain |
+| Huntress | Marks | `resourceCost.resourceValues` or flat fields | Mark cost/gain |
 | Inscriptor | Runic Resonance | `resourceCost.resourceValues` or flat fields | Resonance cost, rune cost |
 | Lichborne | HP (Aura Mode) / Phylactery | `resourceCost.resourceValues` | `hp` cost in Aura mode, phylactery cost |
 | Lunarch | Moon Phase | Flat fields or `resourceCost` | Phase requirement, mana to shift |
-| Martyr | Devotion Gauge | Flat top-level props | `devotionRequired`, `devotionGain`, `devotionCost` |
+| Martyr | Devotion | Flat top-level props | `devotionRequired`, `devotionGain`, `devotionCost` |
 | Minstrel | Musical Notes / Combos | `musicalCombo` or `specialMechanics` | `notes`, `cadenceName`, `cadenceNotes` |
 | Oracle | Prophetic Visions | `resourceCost.resourceValues` or flat fields | Vision cost/gain |
 | Plaguebringer | Virulence / Afflictions | `effectMechanicsConfigs` | Affliction application |
@@ -205,8 +205,8 @@ Read the entire class data file (and any spell subdirectory files). Understand t
 | Pyrofiend | Inferno Veil | `resourceCost.resourceValues` | `inferno_ascend`, `inferno_descend`, `inferno_required` |
 | Spellguard | Arcane Energy Points | `resourceCost.resourceValues` | AEP cost/gain |
 | Titan | Celestial Devotion | Flat top-level field | `devotionRequired: 'Solara'` (or Lunara/Astraeus/Terranox/Zephyra) |
-| Toxicologist | Toxin Vials / Contraption Parts | `resourceCost.resourceValues` or `effectMechanicsConfigs` | Vial cost, part cost |
-| Warden | Vengeance Points | `resourceCost.resourceValues` or flat fields | VP cost/gain |
+| Toxicologist | Vials / Contraption Parts | `resourceCost.resourceValues` or `effectMechanicsConfigs` | Vial cost, part cost |
+| Warden | Tension | `resourceCost.resourceValues` or flat fields | VP cost/gain |
 | Witch Doctor | Voodoo Essence | `resourceCost.resourceValues` or flat fields | Essence cost/gain |
 
 **Valid resource cost examples:**

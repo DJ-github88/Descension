@@ -17,7 +17,7 @@ These source files were deleted during Phase 1 consolidation. The spell definiti
 
 **Confirmed by**: `SPELL_DATA_REFERENCE.md` Section 8 states: *"implemented: false  -  class has no spells; gated out of selection."*
 
-**Impact**: Animist cannot be played. It needs ~30-50 original spells created from scratch, themed around Ancestral Resonance, totems, specters, and runic inscription  -  NOT just re-referencing old class spell IDs.
+**Impact**: Animist cannot be played. It needs ~30-50 original spells created from scratch, themed around Resonance, totems, specters, and runic inscription  -  NOT just re-referencing old class spell IDs.
 
 **Fix Priority**: P0  -  highest priority in the entire roster.
 
@@ -93,9 +93,9 @@ Four classes declare a secondary resource in their `resourceSystem` lore but NO 
 | Class | Phantom Resource | Impact |
 |---|---|---|
 | Chronarch | Temporal Strain | Every spell references Time Shards but never Strain. The "risk" dimension of chronomancy doesn't exist mechanically. |
-| Gambit | Karmic Debt | Fortune Points are modeled, but Debt (the "cost" of fate manipulation) is pure flavor. No spell generates or spends it. |
+| Gambit | Karmic Debt | Fortune are modeled, but Debt (the "cost" of fate manipulation) is pure flavor. No spell generates or spends it. |
 | Revenant | Phylactery HP Pool | Declared as a kill-charged resurrection battery, but no spell interacts with it. |
-| Toxicologist | Contraption Parts | Declared as a resource for the Gadgeteer spec, but no spell costs Contraption Parts  -  only Toxin Vials are modeled. |
+| Toxicologist | Contraption Parts | Declared as a resource for the Gadgeteer spec, but no spell costs Contraption Parts  -  only Vials are modeled. |
 
 **Fix**: Either model these resources in spells (add `classResource` costs/gains), or remove them from the `resourceSystem` documentation to stop misleading players.
 
@@ -137,7 +137,7 @@ Classes use three different formats to store spells, making any cross-class tool
 
 | Class | Assessment |
 |---|---|
-| **Berserker** | Excellent. Pain Is Fuel, Blood-Heat escalation, self-damage tradeoffs  -  every spell reinforces the rage fantasy. |
+| **Berserker** | Excellent. Pain Is Fuel, Rage escalation, self-damage tradeoffs  -  every spell reinforces the rage fantasy. |
 | **Pyrofiend** | Excellent. Inferno Veil, Scathrach's demon, ember escalation  -  the fire/demon pact is consistent throughout. |
 | **Plaguebringer** | Strong. Garden/cultivation metaphor, five-category system, Virulence escalation  -  thematically tight. |
 | **False Prophet** | Strong. Madness/void preaching, sermon/rite/congregation language  -  fits the false-god fantasy well. |
@@ -182,7 +182,7 @@ But `damageTypes.js` defines **9 types** including `divine`. The `LEGACY_TYPE_MA
 
 ## Recommended Action Order
 
-1. **P0  -  Animist spell creation**: Write 30-50 original Animist spells themed around Ancestral Resonance, totems, specters, and runes. This is the only class that is literally unplayable.
+1. **P0  -  Animist spell creation**: Write 30-50 original Animist spells themed around Resonance, totems, specters, and runes. This is the only class that is literally unplayable.
 
 2. **P1a  -  Augur grimdark cleanup**: Rename and reflavor all visceral spell names to match the kinetic/high-exertion mandate. ~12-15 spells need renaming.
 

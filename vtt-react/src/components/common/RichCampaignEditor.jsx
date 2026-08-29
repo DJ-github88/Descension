@@ -108,142 +108,155 @@ const RichCampaignEditor = ({
 
   return (
     <div className={'rich-campaign-editor ' + className + (compact ? ' compact' : '')}>
-      {/* Editor Header Bar with Toolbar */}
-      <div className="rich-editor-header">
-        {label && (
+      {/* Editor Top Bar: Label & Mode Switcher */}
+      <div className="rich-editor-top-bar">
+        {label ? (
           <label className="rich-editor-label">
             {icon && <i className={'fas ' + icon}></i>}
-            {label}
+            <span>{label}</span>
           </label>
-        )}
+        ) : <div />}
 
-        <div className="rich-editor-toolbar">
+        {/* Mode Switcher */}
+        <div className="rich-mode-toggle">
           <button
             type="button"
-            className="rich-tool-btn"
-            onClick={() => insertText('**', '**', 'bold text')}
-            title="Bold (**text**)"
+            className={'rich-mode-btn ' + (mode === 'write' ? 'active' : '')}
+            onClick={() => setMode('write')}
+            title="Edit Markdown Text"
           >
-            <i className="fas fa-bold"></i>
+            <i className="fas fa-pen"></i> <span>Write</span>
           </button>
           <button
             type="button"
-            className="rich-tool-btn"
-            onClick={() => insertText('*', '*', 'italic text')}
-            title="Italic (*text*)"
+            className={'rich-mode-btn ' + (mode === 'preview' ? 'active' : '')}
+            onClick={() => setMode('preview')}
+            title="View Thematic D&D Rendered Preview"
           >
-            <i className="fas fa-italic"></i>
+            <i className="fas fa-eye"></i> <span>Preview</span>
           </button>
-          <button
-            type="button"
-            className="rich-tool-btn"
-            onClick={() => insertText('<u>', '</u>', 'underlined')}
-            title="Underline (<u>text</u>)"
-          >
-            <i className="fas fa-underline"></i>
-          </button>
+        </div>
+      </div>
 
-          <div className="rich-toolbar-divider"></div>
-
-          <button
-            type="button"
-            className="rich-tool-btn header-btn"
-            onClick={() => insertHeader(2)}
-            title="Section Header (## Header)"
-          >
-            <strong>H2</strong>
-          </button>
-          <button
-            type="button"
-            className="rich-tool-btn header-btn"
-            onClick={() => insertHeader(3)}
-            title="Subheader (### Header)"
-          >
-            <strong>H3</strong>
-          </button>
-
-          <div className="rich-toolbar-divider"></div>
-
-          <button
-            type="button"
-            className="rich-tool-btn narrative-btn"
-            onClick={insertReadAloud}
-            title="D&D Boxed Read-Aloud Text (:::readaloud)"
-          >
-            <i className="fas fa-book-open-reader"></i>
-            {!compact && <span>Read-Aloud</span>}
-          </button>
-
-          <button
-            type="button"
-            className="rich-tool-btn secret-btn"
-            onClick={insertGmNote}
-            title="GM Secret Note (:::gmnote)"
-          >
-            <i className="fas fa-eye-slash"></i>
-            {!compact && <span>GM Secret</span>}
-          </button>
-
-          {allowImageUpload && (
+      {/* Dedicated Formatting Toolbar (only in write mode) */}
+      {mode === 'write' && (
+        <div className="rich-editor-toolbar-strip">
+          <div className="rich-tool-group">
             <button
               type="button"
-              className="rich-tool-btn image-btn"
-              onClick={() => setShowImageModal(true)}
-              title="Insert or Upload Image (![alt](url))"
+              className="rich-tool-btn"
+              onClick={() => insertText('**', '**', 'bold text')}
+              title="Bold (**text**)"
             >
-              <i className="fas fa-image"></i>
-              {!compact && <span>Image</span>}
-            </button>
-          )}
-
-          <button
-            type="button"
-            className="rich-tool-btn"
-            onClick={() => insertText('- ', '', 'List item')}
-            title="Bullet List (- item)"
-          >
-            <i className="fas fa-list-ul"></i>
-          </button>
-
-          <button
-            type="button"
-            className="rich-tool-btn"
-            onClick={insertTable}
-            title="Markdown Table"
-          >
-            <i className="fas fa-table"></i>
-          </button>
-
-          <button
-            type="button"
-            className="rich-tool-btn"
-            onClick={() => insertText('\n---\n')}
-            title="Divider (---)"
-          >
-            <i className="fas fa-minus"></i>
-          </button>
-
-          {/* Mode Switcher */}
-          <div className="rich-mode-toggle">
-            <button
-              type="button"
-              className={'rich-mode-btn ' + (mode === 'write' ? 'active' : '')}
-              onClick={() => setMode('write')}
-              title="Edit Markdown Text"
-            >
-              <i className="fas fa-pen"></i> Write
+              <i className="fas fa-bold"></i>
             </button>
             <button
               type="button"
-              className={'rich-mode-btn ' + (mode === 'preview' ? 'active' : '')}
-              onClick={() => setMode('preview')}
-              title="View Thematic D&D Rendered Preview"
+              className="rich-tool-btn"
+              onClick={() => insertText('*', '*', 'italic text')}
+              title="Italic (*text*)"
             >
-              <i className="fas fa-eye"></i> Preview
+              <i className="fas fa-italic"></i>
+            </button>
+            <button
+              type="button"
+              className="rich-tool-btn"
+              onClick={() => insertText('<u>', '</u>', 'underlined')}
+              title="Underline (<u>text</u>)"
+            >
+              <i className="fas fa-underline"></i>
+            </button>
+          </div>
+
+          <div className="rich-toolbar-divider"></div>
+
+          <div className="rich-tool-group">
+            <button
+              type="button"
+              className="rich-tool-btn header-btn"
+              onClick={() => insertHeader(2)}
+              title="Section Header (## Header)"
+            >
+              <strong>H2</strong>
+            </button>
+            <button
+              type="button"
+              className="rich-tool-btn header-btn"
+              onClick={() => insertHeader(3)}
+              title="Subheader (### Header)"
+            >
+              <strong>H3</strong>
+            </button>
+          </div>
+
+          <div className="rich-toolbar-divider"></div>
+
+          <div className="rich-tool-group">
+            <button
+              type="button"
+              className="rich-tool-btn narrative-btn"
+              onClick={insertReadAloud}
+              title="D&D Boxed Read-Aloud Text (:::readaloud)"
+            >
+              <i className="fas fa-book-open-reader"></i>
+              <span className="btn-label-text">Read-Aloud</span>
+            </button>
+
+            <button
+              type="button"
+              className="rich-tool-btn secret-btn"
+              onClick={insertGmNote}
+              title="GM Secret Note (:::gmnote)"
+            >
+              <i className="fas fa-eye-slash"></i>
+              <span className="btn-label-text">GM Secret</span>
+            </button>
+
+            {allowImageUpload && (
+              <button
+                type="button"
+                className="rich-tool-btn image-btn"
+                onClick={() => setShowImageModal(true)}
+                title="Insert or Upload Image (![alt](url))"
+              >
+                <i className="fas fa-image"></i>
+                <span className="btn-label-text">Image</span>
+              </button>
+            )}
+          </div>
+
+          <div className="rich-toolbar-divider"></div>
+
+          <div className="rich-tool-group">
+            <button
+              type="button"
+              className="rich-tool-btn"
+              onClick={() => insertText('- ', '', 'List item')}
+              title="Bullet List (- item)"
+            >
+              <i className="fas fa-list-ul"></i>
+            </button>
+
+            <button
+              type="button"
+              className="rich-tool-btn"
+              onClick={insertTable}
+              title="Markdown Table"
+            >
+              <i className="fas fa-table"></i>
+            </button>
+
+            <button
+              type="button"
+              className="rich-tool-btn"
+              onClick={() => insertText('\n---\n')}
+              title="Divider (---)"
+            >
+              <i className="fas fa-minus"></i>
             </button>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Editor Content Area */}
       <div className="rich-editor-content" style={minHeight ? { minHeight } : {}}>

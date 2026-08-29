@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import useShareableStore from '../../store/shareableStore';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
 import { useMediaUpload } from '../../hooks/useMediaUpload';
@@ -180,9 +181,40 @@ const getBackgroundImageUrl = (imagePath) => {
 };
 
 const AccountJournalManager = ({ user }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { allowed: journalFullAllowed } = useFeatureFlag('journalFull');
   const defaultSection = journalFullAllowed ? 'board' : 'received';
-  const [activeSection, setActiveSection] = useState(defaultSection);
+
+  const [activeSection, setActiveSection] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const sp = new URLSearchParams(window.location.search);
+      const secParam = sp.get('section');
+      const validSections = ['board', 'received', 'notes'];
+      if (secParam && validSections.includes(secParam)) {
+        return secParam;
+      }
+    }
+    return defaultSection;
+  });
+
+  // Sync activeSection when URL search parameters change (Back/Forward navigation)
+  useEffect(() => {
+    const sp = new URLSearchParams(location.search);
+    const secParam = sp.get('section');
+    const validSections = ['board', 'received', 'notes'];
+    if (secParam && validSections.includes(secParam)) {
+      setActiveSection(secParam);
+    }
+  }, [location.search]);
+
+  const handleSectionChange = useCallback((sectionId) => {
+    setActiveSection(sectionId);
+    const sp = new URLSearchParams(window.location.search);
+    sp.set('tab', 'journal');
+    sp.set('section', sectionId);
+    navigate(`/account?${sp.toString()}`, { replace: false });
+  }, [navigate]);
   const [connectingFrom, setConnectingFrom] = useState(null);
   const [showKnowledgePopup, setShowKnowledgePopup] = useState(null);
   const [showOrbEditor, setShowOrbEditor] = useState(null);
@@ -425,8 +457,20 @@ const AccountJournalManager = ({ user }) => {
 
   const [showBoardAtlasModal, setShowBoardAtlasModal] = useState(false);
   const [newTagInput, setNewTagInput] = useState('');
-  const [noteViewMode, setNoteViewMode] = useState('split'); // 'split' | 'edit' | 'preview'
+  const [noteViewMode, setNoteViewMode] = useState(() => (typeof window !== 'undefined' && window.innerWidth <= 768) ? 'edit' : 'split'); // 'split' | 'edit' | 'preview'
+  const [mobileNoteTab, setMobileNoteTab] = useState('list'); // 'list' | 'editor'
   const [noteSearchTerm, setNoteSearchTerm] = useState('');
+
+  // Fallback away from Live Split on mobile screens or resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (typeof window !== 'undefined' && window.innerWidth <= 768 && noteViewMode === 'split') {
+        setNoteViewMode('edit');
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [noteViewMode]);
 
   // Canvas Pan & Zoom States
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
@@ -831,6 +875,86 @@ const AccountJournalManager = ({ user }) => {
     document.addEventListener('mouseup', handleMouseUp);
   }, [connectingFrom, addConnection, updateOrbPosition, getContentByOrb, zoomLevel]);
 
+  // Handle orb touch drag for mobile
+  const handleOrbTouchStart = useCallback((e, orb) => {
+    if (e.touches.length !== 1) return;
+    const touch = e.touches[0];
+
+    if (connectingFrom) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (connectingFrom === 'waiting') {
+        setConnectingFrom(orb.id);
+        return;
+      } else if (connectingFrom === orb.id) {
+        setConnectingFrom(null);
+        return;
+      } else {
+        addConnection(connectingFrom, orb.id);
+        setConnectingFrom(null);
+        syncToCloud(user?.uid);
+        return;
+      }
+    }
+
+    e.stopPropagation();
+
+    const startX = touch.clientX;
+    const startY = touch.clientY;
+    const startOrbX = orb.position.x;
+    const startOrbY = orb.position.y;
+
+    let hasMoved = false;
+    const DRAG_THRESHOLD = 8;
+
+    setDraggedOrb(orb.id);
+
+    const handleTouchMove = (moveEvent) => {
+      if (moveEvent.touches.length !== 1) return;
+      const t = moveEvent.touches[0];
+      const deltaX = (t.clientX - startX) / zoomLevel;
+      const deltaY = (t.clientY - startY) / zoomLevel;
+
+      if (Math.abs(t.clientX - startX) > DRAG_THRESHOLD || Math.abs(t.clientY - startY) > DRAG_THRESHOLD) {
+        hasMoved = true;
+      }
+
+      const newX = Math.round(startOrbX + deltaX);
+      const newY = Math.round(startOrbY + deltaY);
+
+      updateOrbPosition(orb.id, { x: newX, y: newY });
+    };
+
+    const handleTouchEnd = () => {
+      setDraggedOrb(null);
+      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('touchend', handleTouchEnd);
+      document.removeEventListener('touchcancel', handleTouchEnd);
+
+      if (!hasMoved) {
+        const content = getContentByOrb(orb);
+        if (content) {
+          setShowKnowledgePopup({
+            ...content,
+            orbId: orb.id,
+            orbLabel: orb.label || content.title || content.name || 'Knowledge Record',
+            sourceType: orb.sourceType,
+            linkedBoardId: orb.linkedBoardId,
+            tags: orb.tags || content.tags || (orb.entityType ? [orb.entityType.toUpperCase()] : ['NOTE']),
+            entityType: orb.entityType || content.entityType || 'note'
+          });
+        }
+      } else {
+        syncToCloud(user?.uid);
+      }
+    };
+
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.addEventListener('touchend', handleTouchEnd);
+    document.addEventListener('touchcancel', handleTouchEnd);
+  }, [connectingFrom, addConnection, updateOrbPosition, getContentByOrb, zoomLevel, syncToCloud, user?.uid]);
+
   // Handle dropping onto board
   const handleBoardDrop = useCallback((e) => {
     e.preventDefault();
@@ -942,6 +1066,66 @@ const AccountJournalManager = ({ user }) => {
 
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
+  };
+
+  // Touch Panning & Pinch Zoom for Mobile
+  const touchStateRef = useRef(null);
+
+  const handleBoardTouchStart = (e) => {
+    if (
+      e.target.closest('.board-orb') ||
+      e.target.closest('.connection-hitbox') ||
+      e.target.closest('.canvas-floating-hud') ||
+      e.target.closest('.canvas-floating-breadcrumbs') ||
+      e.target.closest('button') ||
+      e.target.closest('input')
+    ) {
+      return;
+    }
+
+    if (e.touches.length === 1) {
+      setIsPanning(true);
+      const touch = e.touches[0];
+      touchStateRef.current = {
+        mode: 'pan',
+        startX: touch.clientX - panOffset.x,
+        startY: touch.clientY - panOffset.y
+      };
+    } else if (e.touches.length === 2) {
+      setIsPanning(true);
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+      touchStateRef.current = {
+        mode: 'pinch',
+        initialDist: dist,
+        initialZoom: zoomLevel,
+        initialPan: { ...panOffset }
+      };
+    }
+  };
+
+  const handleBoardTouchMove = (e) => {
+    if (!touchStateRef.current) return;
+    if (touchStateRef.current.mode === 'pan' && e.touches.length === 1) {
+      const touch = e.touches[0];
+      setPanOffset({
+        x: touch.clientX - touchStateRef.current.startX,
+        y: touch.clientY - touchStateRef.current.startY
+      });
+    } else if (touchStateRef.current.mode === 'pinch' && e.touches.length === 2) {
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+      const scaleChange = dist / (touchStateRef.current.initialDist || 1);
+      const nextZoom = Math.min(2.5, Math.max(0.35, +(touchStateRef.current.initialZoom * scaleChange).toFixed(3)));
+      setZoomLevel(nextZoom);
+    }
+  };
+
+  const handleBoardTouchEnd = () => {
+    setIsPanning(false);
+    touchStateRef.current = null;
   };
 
   // Wheel Zoom Listener
@@ -1124,6 +1308,7 @@ const AccountJournalManager = ({ user }) => {
     setNoteTitle('');
     setNoteContent('');
     setNoteImage(null);
+    setMobileNoteTab('list');
   };
 
   const discardUnsavedNoteImage = () => {
@@ -1324,7 +1509,7 @@ const AccountJournalManager = ({ user }) => {
             <button
               key={section.id}
               className={`section-tab ${activeSection === section.id ? 'active' : ''}`}
-              onClick={() => setActiveSection(section.id)}
+              onClick={() => handleSectionChange(section.id)}
             >
               <i className={`fas ${section.icon}`}></i>
               <span>{section.label}</span>
@@ -1457,6 +1642,10 @@ const AccountJournalManager = ({ user }) => {
                 return {};
               })()}
               onMouseDown={handleBoardMouseDown}
+              onTouchStart={handleBoardTouchStart}
+              onTouchMove={handleBoardTouchMove}
+              onTouchEnd={handleBoardTouchEnd}
+              onTouchCancel={handleBoardTouchEnd}
               onDrop={handleBoardDrop}
               onDragOver={(e) => e.preventDefault()}
             >
@@ -1609,6 +1798,7 @@ const AccountJournalManager = ({ user }) => {
                         '--orb-color': orb.color
                       }}
                       onMouseDown={(e) => handleOrbMouseDown(e, orb)}
+                      onTouchStart={(e) => handleOrbTouchStart(e, orb)}
                       onContextMenu={(e) => {
                         e.preventDefault();
                         openOrbEditor(orb);
@@ -1822,7 +2012,7 @@ const AccountJournalManager = ({ user }) => {
 
         {/* Notes Section: Codex Manuscript Studio */}
         {activeSection === 'notes' && (
-          <div className="journal-notes-studio">
+          <div className={`journal-notes-studio mobile-tab-${mobileNoteTab}`}>
             {/* Left Column: Notes List & Navigation Sidebar */}
             <div className="studio-sidebar">
               <div className="studio-sidebar-header">
@@ -1838,6 +2028,7 @@ const AccountJournalManager = ({ user }) => {
                     setNoteTitle('');
                     setNoteContent('');
                     discardUnsavedNoteImage();
+                    setMobileNoteTab('editor');
                   }}
                   title="Create a new note"
                 >
@@ -1883,6 +2074,7 @@ const AccountJournalManager = ({ user }) => {
                           setNoteTitle(note.title);
                           setNoteContent((note.content || '').replace(/³(.*?)³/g, '*$1*').replace(/³/g, '*'));
                           setNoteImage(note.image || null);
+                          setMobileNoteTab('editor');
                         }}
                       >
                         {note.image && (
@@ -1925,7 +2117,16 @@ const AccountJournalManager = ({ user }) => {
               {/* Studio Top Control Bar */}
               <div className="studio-header-bar">
                 <div className="studio-title-wrap">
-                  <i className="fas fa-feather" style={{ color: '#8b5a1a', fontSize: '18px' }}></i>
+                  <button
+                    type="button"
+                    className="btn-mobile-back-notes"
+                    onClick={() => setMobileNoteTab('list')}
+                    title="Back to Notes List"
+                  >
+                    <i className="fas fa-arrow-left"></i>
+                    <span>Notes</span>
+                  </button>
+                  <i className="fas fa-feather studio-feather-icon" style={{ color: '#8b5a1a', fontSize: '18px' }}></i>
                   <input
                     type="text"
                     className="studio-title-input"
@@ -1940,7 +2141,7 @@ const AccountJournalManager = ({ user }) => {
                   <div className="studio-view-toggle">
                     <button
                       type="button"
-                      className={`view-toggle-btn ${noteViewMode === 'split' ? 'active' : ''}`}
+                      className={`view-toggle-btn view-toggle-btn-split ${noteViewMode === 'split' ? 'active' : ''}`}
                       onClick={() => setNoteViewMode('split')}
                       title="Side-by-side editing and real-time live manuscript preview"
                     >

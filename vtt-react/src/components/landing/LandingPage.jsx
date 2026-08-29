@@ -553,7 +553,21 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
     <header className="landing-header">
       <div className="header-content" ref={headerRef}>
        <div className="header-left" ref={headerLeftRef}>
-        <div className="logo">
+        <div
+          className="logo"
+          onClick={() => handleNavClick('home')}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleNavClick('home');
+            }
+          }}
+          title="Return to Mythrill Home"
+          aria-label="Return to Mythrill Home"
+          style={{ cursor: 'pointer', userSelect: 'none' }}
+        >
          <i className="fas fa-gem"></i>
          <span>Mythrill</span>
         </div>

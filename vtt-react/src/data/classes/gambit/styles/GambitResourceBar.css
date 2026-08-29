@@ -1,0 +1,249 @@
+/* ===== GAMBIT DUAL SPLIT RESOURCE BAR (FORTUNE & DEBT) ===== */
+
+/* Wrapper */
+.gambit-dual-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 3px 0;
+    z-index: 1;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.party-member-frame .gambit-dual-wrapper,
+.character-card .gambit-dual-wrapper,
+.character-card-compact .gambit-dual-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 2px 0 !important;
+}
+
+/* Dual Bar Container */
+.gambit-dual-bar-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 320px;
+    height: 18px;
+    gap: 4px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.gambit-dual-wrapper.small .gambit-dual-bar-container {
+    height: 14px;
+    max-width: 220px;
+}
+
+.gambit-dual-wrapper.large .gambit-dual-bar-container {
+    height: 22px;
+    max-width: 360px;
+}
+
+/* Individual Sub-Bar (Left = Fortune, Right = Debt) */
+.gambit-sub-bar {
+    position: relative;
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    overflow: hidden;
+    box-sizing: border-box;
+    transition: transform 0.15s ease, filter 0.2s ease, border-color 0.2s ease;
+}
+
+.gambit-sub-bar:hover {
+    transform: translateY(-1px);
+}
+
+/* Left: Fortune Points Bar (0–7 FP) */
+.gambit-sub-bar.fp-bar {
+    background: rgba(30, 24, 15, 0.85);
+    border: 1.5px solid rgba(212, 175, 55, 0.65);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.gambit-sub-bar.fp-bar:hover {
+    border-color: rgba(255, 215, 0, 0.95);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 6px rgba(255, 215, 0, 0.4);
+}
+
+.gambit-sub-bar.fp-bar.bust-warning {
+    border-color: rgba(231, 76, 60, 0.8);
+    background: rgba(40, 15, 15, 0.85);
+}
+
+/* Right: Karmic Debt Bar (0–13 Debt) */
+.gambit-sub-bar.debt-bar {
+    background: rgba(25, 12, 18, 0.85);
+    border: 1.5px solid rgba(169, 50, 38, 0.65);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.gambit-sub-bar.debt-bar:hover {
+    border-color: rgba(231, 76, 60, 0.95);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 6px rgba(231, 76, 60, 0.4);
+}
+
+.gambit-sub-bar.debt-bar.collapse-warning {
+    border-color: #e74c3c;
+    animation: debtDangerPulse 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes debtDangerPulse {
+    0% { box-shadow: inset 0 0 4px rgba(231, 76, 60, 0.4), 0 0 4px rgba(231, 76, 60, 0.4); }
+    100% { box-shadow: inset 0 0 8px rgba(231, 76, 60, 0.8), 0 0 10px rgba(231, 76, 60, 0.8); }
+}
+
+/* Fills */
+.gambit-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+.gambit-fill.fp-fill {
+    background: linear-gradient(90deg, rgba(184, 134, 11, 0.5) 0%, rgba(255, 215, 0, 0.7) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.gambit-fill.debt-fill {
+    background: linear-gradient(90deg, rgba(108, 19, 41, 0.6) 0%, rgba(192, 57, 43, 0.8) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Center Divider Symbol */
+.gambit-center-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1px;
+    z-index: 3;
+}
+
+.gambit-center-divider .divider-icon {
+    font-size: 11px;
+    color: #d4af37;
+    text-shadow: 0 0 4px rgba(255, 215, 0, 0.6);
+    user-select: none;
+}
+
+/* 7 Coin Pips Track on Left */
+.gambit-pips-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+    box-sizing: border-box;
+    z-index: 2;
+}
+
+.gambit-pip.coin-pip {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    background: rgba(20, 15, 10, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.gambit-pip.coin-pip:hover {
+    transform: scale(1.3);
+    border-color: #ffd700;
+}
+
+.gambit-pip.coin-pip.filled {
+    background: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
+    border-color: #fff;
+    box-shadow: 0 0 4px rgba(255, 215, 0, 0.7);
+}
+
+.gambit-pip.coin-pip .pip-label {
+    display: none; /* Keep clean and minimal */
+}
+
+/* 13 Tick Track on Right */
+.gambit-ticks-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3px;
+    box-sizing: border-box;
+    z-index: 2;
+}
+
+.gambit-tick {
+    flex: 1;
+    height: 60%;
+    margin: 0 1px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 1px;
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.gambit-tick:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scaleY(1.2);
+}
+
+.gambit-tick.active {
+    background: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+.gambit-tick.active.danger-tick {
+    background: #ff7675;
+    box-shadow: 0 0 4px #ff7675;
+}
+
+/* Centered Labels */
+.gambit-bar-label {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-family: 'Cinzel', 'Bookman Old Style', serif;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.gambit-bar-label.fp-label {
+    color: #fce79a;
+}
+
+.gambit-bar-label.debt-label {
+    color: #f8c9c4;
+}
+
+.gambit-dual-wrapper.small .gambit-bar-label {
+    font-size: 8.5px;
+}

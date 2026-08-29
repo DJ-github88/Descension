@@ -217,11 +217,23 @@ The fog is changing chemistry. Compounds that remained viable for years now degr
     title: "Class Overview",
     content: `**Who they are**: The Toxicologist is a master alchemical prep-specialist and poison surgeon whose veins run thick with weaponized reagents. You are the only preparation-based alchemist in Mythrill—rigging choke points with chemical traps and brewing lethal compounds mid-fight from your own saturated blood.
 
-**The hook**: You prepare for battle through **Chemical Traps & Dynamic Brewing**: before initiative is rolled, you can seed the battlefield with vapor mines and spike traps. In combat, you bleed Toxin Vials to craft custom poisons tailored to enemy weaknesses.
+**The hook**: You prepare for battle through **Chemical Traps & Dynamic Brewing**: before initiative is rolled, you can seed the battlefield with vapor mines and spike traps. In combat, you bleed Vials to craft custom poisons tailored to enemy weaknesses.
 
-**The resource bar & costs**: Your resource bar is **Toxin Vials** (bled from your own vitality) and **Contraption Parts**. You spend Vials to apply debilitating debuffs—weakening enemy attacks, slowing movement, shredding armor, and causing internal hemorrhaging.
+**The resource bar & costs**: Your resource bar is **Vials** (bled from your own vitality) and **Contraption Parts**. You spend Vials to apply debilitating debuffs—weakening enemy attacks, slowing movement, shredding armor, and causing internal hemorrhaging.
 
-**Bring one for**: Tactical pre-fight preparation, debuffing enemies into helplessness, and playing a cunning alchemical mastermind who dismantles bosses before they take an action.`
+**Bring one for**: Tactical pre-fight preparation, debuffing enemies into helplessness, and playing a cunning alchemical mastermind who dismantles bosses before they take an action.`,
+    roleplayIdentity: {
+      title: "Roleplay Identity",
+      content: "Practitioners carry a profound cultural and physical responsibility, marked by their tradition's unique legacy and societal perceptions."
+    },
+    combatRole: {
+      title: "Combat Role",
+      content: "Self-poisoned apothecary and preparation specialist who distills weapon toxins, deploys aerosol mines, and layers debilitating debuffs."
+    },
+    playstyle: {
+      title: "Playstyle & Turn 1 Flow",
+      content: "**Your Turn 1 in Combat**:\n1. **Deploy Pre-Combat Traps**: Trigger placed aerosol mines or toss `Acid Spring Traps` to control terrain.\n2. **Coat Weapons in Toxin**: Apply multi-stage neurotoxins or paralytics to your weapons or ally ammo.\n3. **Layer Afflictions**: Bleed Vials from your saturated flesh to amplify DoT ticks on enemies."
+    }
   },
 
     description: `A toxicologist is a self-poisoned surgeon whose veins run thick with weaponized toxin. The body rejects restoration. Every poison costs blood. Every antidote is for someone else.`,
@@ -330,7 +342,7 @@ Whatever the cause, the Toxicologists are losing their arsenal. Their most power
 
 **Weaknesses**:
 - Slow to Boot Up: contraptions and brewed concoctions cost actions to deploy  -  a fast ambush before you're set leaves you a basic combatant with a body full of toxins and nowhere to spend them.
-- Two-Resource Bind: Toxin Vials and Contraption Parts are separate pools that don't substitute  -  running one dry guts half your kit, and a foe who burns your prep time starves both.
+- Two-Resource Bind: Vials and Contraption Parts are separate pools that don't substitute  -  running one dry guts half your kit, and a foe who burns your prep time starves both.
 - Chronic Tremors (social): your hands shake from years of toxin exposure, worse under stress (combat, a lie, interrogation); fine work, steady pours, signed names, and Sleight of Hand all suffer, and your stained fingers mark you plainly as a poisoner.
 - Less effective against poison-immune enemies
 - 50% healing reduction makes you dangerously fragile
@@ -345,7 +357,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
       content: `Playing a Toxicologist is about preparation, adaptation, and tactical resource management. Key strategic considerations:
 
 **Resource Management**:
-- **Toxin Vials**: INT mod + 3 (min 4), regain 1d4 per short rest
+- **Vials**: INT mod + 3 (min 4), regain 1d4 per short rest
 - **Contraption Parts**: Max 5, recovered after combat (reclaimed); destroyed contraptions recover 1 part per short rest
 - **Weapon Poisons**: 1 vial each, quick-apply to weapon for 3 attacks
 - **Brewed Concoctions**: 1-3 vials, more powerful crafted items
@@ -397,11 +409,11 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
       title: "Combat Example: The Alchemist's Laboratory",
       content: `The bandit leader laughs when you kneel to set up your apparatus. Good. Let him laugh. He does not know that the glass vials at your belt hold compounds refined from fog-predator venom, that the contraptions unfolding at your feet have killed things much larger than him, that his bloodstream is about to become your laboratory.
 
-**The Setup**: You're a Toxicologist (Venomancer specialization) facing a group of bandits (5 bandits + 1 bandit leader). Your party is with you. Starting Resources: Toxin Vials: 7/7, Contraption Parts: 5/5. Starting Mana: 40/50. Your goal: Deploy contraptions to control the battlefield, apply poisons to your weapon, and craft concoctions mid-combat to adapt to the situation.
+**The Setup**: You're a Toxicologist (Venomancer specialization) facing a group of bandits (5 bandits + 1 bandit leader). Your party is with you. Starting Resources: Vials: 7/7, Contraption Parts: 5/5. Starting Mana: 40/50. Your goal: Deploy contraptions to control the battlefield, apply poisons to your weapon, and craft concoctions mid-combat to adapt to the situation.
 
 *This example assumes you have 1 minute of pre-combat preparation to deploy contraptions before initiative is rolled.*
 
-**Starting State**: Toxin Vials: 7/7 | Contraption Parts: 5/5 | Mana: 40/50 | HP: 50/50 | Weapon Poison: None
+**Starting State**: Vials: 7/7 | Contraption Parts: 5/5 | Mana: 40/50 | HP: 50/50 | Weapon Poison: None
 
 **Pre-Combat - Setting the Trap (Parts: 5 â†’ 3)**
 
@@ -448,7 +460,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 *You coat your blade with a viscous green poison. It GLISTENS with toxicity.*
 
-**Toxin Vials**: 7 - 1 = **6/7**
+**Vials**: 7 - 1 = **6/7**
 
 **Action**: Melee attack Bandit #1 (immobilized, has Neurotoxin on weapon)
 **Attack Roll**: d20+5 â†’ [16] = Hit!
@@ -464,7 +476,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 *You quickly mix chemicals from your vials. The concoction BUBBLES and SMOKES.*
 
-**Toxin Vials**: 6 - 3 = **3/7**
+**Vials**: 6 - 3 = **3/7**
 
 **Your Party's Mage**: "You're crafting explosives MID-COMBAT?!"
 **You**: "Explosive Concoction. Costs 3 toxin vials. I'll throw it next turn."
@@ -497,7 +509,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 *You coat your blade with a BLACK poison that seems to absorb light.*
 
-**Toxin Vials**: 3 - 1 = **2/7**
+**Vials**: 3 - 1 = **2/7**
 
 **Current State**: Vials: 2/7 | Parts: 2/5 | Mana: 40/50 | Weapon: Cytotoxin
 
@@ -519,7 +531,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 *You mix a healing concoction, just in case your Tank got hit by residual gas.*
 
-**Toxin Vials**: 2 - 1 = **1/7**
+**Vials**: 2 - 1 = **1/7**
 
 **Your Party's Healer**: "You're almost out of vials!"
 **You**: "I still have 1 vial left, and I'll regain 1d4 on a short rest. Plus my contraption parts come back after combat."
@@ -575,19 +587,22 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
 
   // Resource System
   resourceSystem: {
-    title: "Alchemical Arsenal",
-    subtitle: "Toxin Vials & Contraption Parts",
+    title: "Vials: The Alchemist's Belt",
+    subtitle: "How Your Resource Works (Beginner's Guide)",
 
-    description: `Your arsenal is fed by blood extraction and scavenged wreckage. **Toxin Vials** are filled by lancing your own flesh — each vial drawn from a body already saturated with reagents, your blood mixing with venom until the distinction is meaningless. **Contraption Parts** are pried from battlefield debris, salvaged from the dead, or assembled from components no surgeon would sanction.
+    description: `**1. What is it? (The Alchemist's Belt)**
+Vials (0–10) represent distilled alchemical compounds and chemical reagents carried in your belt to coat weapons and arm traps.
 
-**Two Crafting Systems:**
-- **Weapon Poisons** (1 vial, 1 AP): Quick-apply poisons to your weapon. Lasts 3 attacks or until end of combat. Choose from 5 poison types (Neurotoxin, Hemotoxin, Cytotoxin, Myotoxin, Cardiotoxin).
-- **Brewed Concoctions** (1-3 vials, 1 AP): More powerful crafted items — Explosive Concoctions, Smoke Bombs, Antidotes, Healing Mist. These have stronger effects but higher vial costs.
+**2. How do I build it?**
+- Brew and prep vials during short rests or before combat.
+- Bleed small amounts of chemical reagents from your saturated veins during combat (+2 Vials).
 
-**Active Contraption Limit:** A Toxicologist can have up to 3 active contraptions on the battlefield at once (Gadgeteer specialization: up to 4). Contraption parts are **recovered after combat** when you reclaim your devices — you do not lose parts permanently by deploying contraptions that survive the encounter. Destroyed or triggered consumable contraptions (Explosive Mine) have their parts spent until recovered on rest.`,
+**3. How do I spend it & what is the catch?**
+- Spend Vials to apply multi-stage neurotoxins to weapons or deploy aerosol spring mines.
+- **The Catch (Prep-Heavy & Supply Depletion)**: If you run out of prepared Vials mid-combat, you must take physical self-damage to synthesize emergency toxins on the fly.`,
     cards: [
       {
-        title: "Toxin Vials",
+        title: "Vials",
         stats: "INT mod + 3 (min 4)",
         details:
           "Spent to craft poisons, concoctions, and antidotes mid-combat. Crafting costs 1 AP. Recover 1d4 per short rest, full on long rest.",
@@ -633,11 +648,11 @@ Both resources compete for your limited rest economy. Spending 3 vials on an Exp
 - **Pacing Rule of Thumb**: Spend no more than half your vials in any single non-boss encounter. Save the heavy recipes for fights that matter.`,
     },
 
-    // Toxin Vial Recipes Table
+    // Vial Recipes Table
     toxinVialRecipesTable: {
-      title: "Toxin Vial Recipes",
+      title: "Vial Recipes",
       description:
-        "Concoctions and poisons that can be crafted using Toxin Vials. Crafting takes 1 AP.",
+        "Concoctions and poisons that can be crafted using Vials. Crafting takes 1 AP.",
       headers: ["Recipe", "Vial Cost", "Effect", "Duration", "Notes"],
       rows: [
         [
@@ -829,7 +844,7 @@ You have limited vials. Explosive Concoctions (3 vials) are powerful but expensi
       content: `The Toxicologist is the most tactile class at the table. Vials, traps, poison tokens, and recipe cards make your turn a hands-on alchemy experience that everyone can see and track.
 
 **Required Materials**:
-- **Green Beads/Tokens** — Toxin Vials (INT mod + 3, min 4). Remove one each time you craft.
+- **Green Beads/Tokens** — Vials (INT mod + 3, min 4). Remove one each time you craft.
 - **Gray Tokens** — Contraption Parts (max 5). Remove when deploying.
 - **Colored Skull Tokens** — One per poison type to mark affected enemies (e.g., red = neurotoxin, blue = hemotoxin, purple = cytotoxin).
 - **Inagility Cards** — Pre-write your top 5 recipes for fast reference during combat.
@@ -886,7 +901,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
 
     description: "Three ways to weaponize your own decay. Each path deepens your corruption in a different direction — Venomancers become the poison itself, Gadgeteers build killing machines from refuse, and Saboteurs turn the enemy's own body against them. Choose how you suffer.",
     passiveAbility: {
-      name: "Alchemical Expertise",
+      name: "Vials",
       description:
         "All Toxicologists can craft poisons and concoctions for 1 AP, and deploy contraptions as an action. Gain immunity to your own poisons and resistance to all blight damage.",
     },
@@ -906,19 +921,19 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         keyAbilities: [
           {
             name: "Concentrated Venom",
-            cost: "2 Toxin Vials",
+            cost: "2 Vials",
             effect:
               "Apply a super-concentrated poison to your weapon. Next attack deals 4d8 blight damage and target is poisoned for 1 minute (DC 17 CON save to halve damage and negate poisoned condition).",
           },
           {
             name: "Toxic Cloud",
-            cost: "3 Toxin Vials",
+            cost: "3 Vials",
             effect:
               "Create a 20ft radius poison cloud. All enemies in area take 3d6 blight damage per round and have -2 to all rolls. Lasts 4 rounds. DC 16 CON save for half damage.",
           },
           {
             name: "Lethal Injection",
-            cost: "4 Toxin Vials",
+            cost: "4 Vials",
             effect:
               "Inject target with lethal toxin. Target takes 6d10 blight damage immediately and 2d10 blight damage per round for 5 rounds. DC 18 CON save to halve initial damage and reduce DoT to 1d10.",
           },
@@ -970,19 +985,19 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         keyAbilities: [
           {
             name: "Crippling Toxin",
-            cost: "2 Toxin Vials",
+            cost: "2 Vials",
             effect:
               "Apply a debilitating poison. Target has -4 to attack rolls, -2 armor, -10ft movement, and disadvantage on all saves for 5 rounds. DC 16 CON save to reduce penalties by half.",
           },
           {
             name: "Chaos Grenade",
-            cost: "3 Toxin Vials + 1 Contraption Part",
+            cost: "3 Vials + 1 Contraption Part",
             effect:
               "Throw a grenade that combines poison and mechanical chaos. 20ft radius: 2d8 poison + 2d8 ember damage, enemies are confused (attack random target) for 2 rounds. DC 17 INT save to negate confusion.",
           },
           {
             name: "Total Shutdown",
-            cost: "4 Toxin Vials + 2 Contraption Parts",
+            cost: "4 Vials + 2 Contraption Parts",
             effect:
               "Target enemy is severely debilitated. They cannot take actions for 1 round (reactions only), have -3 armor, and have disadvantage on all saves. DC 19 CON save to reduce to: no action penalty, -1 armor, and disadvantage on saves for 1 round only.",
           },
@@ -3505,9 +3520,9 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       level: 1, spellType: "ACTION", icon: "Poison/Poison Flask",
       typeConfig: { school: "blight", icon: "Poison/Poison Flask", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","infiltration","toxicologist"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, components: ["somatic"], classResource: { type: "toxin_vials", cost: 1 }, somaticText: "Decant just enough acid to do the work and no more  -  hands shaking" },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, components: ["somatic"], classResource: { type: "vials", cost: 1 }, somaticText: "Decant just enough acid to do the work and no more  -  hands shaking" },
       resolution: "AUTOMATIC", effectTypes: ["utility"],
-      utilityConfig: { utilityType: "demolition", selectedEffects: [ { "id": "caustic_flask_etch", "name": "Precision Corrosive", "description": "Dissolve a lock, hinge, thin metal, rope, or document; or etch a small hole. Costs 1 Toxin Vial; 1 blight back-splash to you. Reinforced/magical materials resist.", "mechanicsText": "Acid-open a lock/hinge/metal/rope; costs 1 vial, 1 blight self." } ], power: "moderate" },
+      utilityConfig: { utilityType: "demolition", selectedEffects: [ { "id": "caustic_flask_etch", "name": "Precision Corrosive", "description": "Dissolve a lock, hinge, thin metal, rope, or document; or etch a small hole. Costs 1 Vial; 1 blight back-splash to you. Reinforced/magical materials resist.", "mechanicsText": "Acid-open a lock/hinge/metal/rope; costs 1 vial, 1 blight self." } ], power: "moderate" },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       tags: ["utility","exploration","infiltration","toxicologist"]
     },
@@ -3518,7 +3533,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       level: 2, spellType: "ACTION", icon: "Nature/Wind Gust",
       typeConfig: { school: "blight", icon: "Nature/Wind Gust", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","infiltration","toxicologist"] },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 30, areaType: "circle", areaSize: 20 },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 5 }, components: ["somatic"], classResource: { type: "toxin_vials", cost: 1 }, somaticText: "Crush the pellet and let the chemical fog boil out" },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 5 }, components: ["somatic"], classResource: { type: "vials", cost: 1 }, somaticText: "Crush the pellet and let the chemical fog boil out" },
       resolution: "NONE", effectTypes: ["utility"],
       utilityConfig: { utilityType: "stealth", selectedEffects: [ { "id": "smoke_screen_cloud", "name": "Reagent Fog", "description": "A 20 ft smoke cloud blocks vision, defeats scent tracking, and irritates lungs (pursuers cough, -10 ft speed) for 1 minute. Masks your party's numbers and retreat.", "mechanicsText": "20 ft smoke: blocks vision/scent, slows coughing pursuers, 1 min." } ], duration: 1, durationUnit: "minutes", power: "moderate" },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
@@ -3531,9 +3546,9 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       level: 2, spellType: "ACTION", icon: "Healing/Golden Heart",
       typeConfig: { school: "blight", icon: "Healing/Golden Heart", castTime: 10, castTimeType: "MINUTES", tags: ["utility","investigation","exploration","toxicologist"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0, targetRestrictions: ["any"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["somatic"], classResource: { type: "toxin_vials", cost: 1 }, somaticText: "Draw a little of your own toxic blood to seed the counter-agent" },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["somatic"], classResource: { type: "vials", cost: 1 }, somaticText: "Draw a little of your own toxic blood to seed the counter-agent" },
       resolution: "AUTOMATIC", effectTypes: ["utility"],
-      utilityConfig: { utilityType: "protection", selectedEffects: [ { "id": "brew_antidote_cure", "name": "Cultured Antidote", "description": "Neutralize one diagnosed poison/venom/disease in another creature. Cannot self-administer (your blood rejects it). Costs 1 Toxin Vial and 1 blight to brew.", "mechanicsText": "Cure one diagnosed poison/venom/disease in another; no self-cure." } ], power: "major" },
+      utilityConfig: { utilityType: "protection", selectedEffects: [ { "id": "brew_antidote_cure", "name": "Cultured Antidote", "description": "Neutralize one diagnosed poison/venom/disease in another creature. Cannot self-administer (your blood rejects it). Costs 1 Vial and 1 blight to brew.", "mechanicsText": "Cure one diagnosed poison/venom/disease in another; no self-cure." } ], power: "major" },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       tags: ["utility","investigation","exploration","toxicologist"]
     },
@@ -3544,9 +3559,9 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       level: 3, spellType: "ACTION", icon: "Poison/Poison Flask",
       typeConfig: { school: "blight", icon: "Poison/Poison Flask", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","social","infiltration","toxicologist"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 }, components: ["somatic"], classResource: { type: "toxin_vials", cost: 2 }, somaticText: "Decant the colorless, tasteless reagent into the cup with a steady(ish) hand" },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 }, components: ["somatic"], classResource: { type: "vials", cost: 2 }, somaticText: "Decant the colorless, tasteless reagent into the cup with a steady(ish) hand" },
       resolution: "AUTOMATIC", effectTypes: ["utility"],
-      utilityConfig: { utilityType: "social", selectedEffects: [ { "id": "slow_taint_dose", "name": "Delayed Dose", "description": "Taint one food/drink; 1d4 hours later the drinker suffers cramping sickness (disadvantage on all checks for a day), weakness, or deep sleep  -  no obvious cause. A paranoid taster (DC 13) detects it first. Costs 2 Toxin Vials.", "mechanicsText": "Slip a delayed sickness/sleep poison into food/drink; DC 13 to detect." } ], power: "major" },
+      utilityConfig: { utilityType: "social", selectedEffects: [ { "id": "slow_taint_dose", "name": "Delayed Dose", "description": "Taint one food/drink; 1d4 hours later the drinker suffers cramping sickness (disadvantage on all checks for a day), weakness, or deep sleep  -  no obvious cause. A paranoid taster (DC 13) detects it first. Costs 2 Vials.", "mechanicsText": "Slip a delayed sickness/sleep poison into food/drink; DC 13 to detect." } ], power: "major" },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       tags: ["utility","social","infiltration","toxicologist"]
     }

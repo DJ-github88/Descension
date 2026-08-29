@@ -423,8 +423,8 @@ const ITEM_LORE = {
   },
   'berserker-axe': {
     origin: 'nordhalla',
-    loreText: 'Hark Ash-Hammer blesses these axes in Blood-Heat ceremonies. A berserker who carries one feels no pain, no fear — only the red arithmetic of slaughter.',
-    relatedLore: ['nordhalla', 'hark-ash-hammer', 'blood_heat']
+    loreText: 'Hark Ash-Hammer blesses these axes in Rage ceremonies. A berserker who carries one feels no pain, no fear — only the red arithmetic of slaughter.',
+    relatedLore: ['nordhalla', 'hark-ash-hammer', 'rage']
   },
   'battle-halberd': {
     origin: 'sundale',
@@ -825,8 +825,8 @@ const ITEM_LORE = {
   },
   'blood-pact': {
     origin: 'nordhalla',
-    loreText: 'Hark Ash-Hammer approves blood-pact rings for berserkers past the Blood-Heat trial. The ring shares pain between two bonded warriors.',
-    relatedLore: ['nordhalla', 'hark-ash-hammer', 'blood_heat']
+    loreText: 'Hark Ash-Hammer approves blood-pact rings for berserkers past the Rage trial. The ring shares pain between two bonded warriors.',
+    relatedLore: ['nordhalla', 'hark-ash-hammer', 'rage']
   },
   'pain-remembrance': {
     origin: 'nordhalla',
@@ -880,8 +880,8 @@ const ITEM_LORE = {
   },
   'flameheart-ring': {
     origin: 'sundale',
-    loreText: 'Sol-Vareths forged the first from a drop of his Blood-Heat. It burns eternally — a pilot light for the inferno within.',
-    relatedLore: ['sundale', 'sol-vareths', 'blood_heat']
+    loreText: 'Sol-Vareths forged the first from a drop of his Rage. It burns eternally — a pilot light for the inferno within.',
+    relatedLore: ['sundale', 'sol-vareths', 'rage']
   },
   'frostbite-amulet': {
     origin: 'nordhalla',
@@ -945,8 +945,8 @@ const ITEM_LORE = {
   },
   'iron-will-amulet': {
     origin: 'nordhalla',
-    loreText: 'Skalvyr berserkers wear these to anchor themselves during Blood-Heat frenzies. Without it, they might never return from the red rage.',
-    relatedLore: ['nordhalla', 'hark-ash-hammer', 'blood_heat', 'house_skalvyr']
+    loreText: 'Skalvyr berserkers wear these to anchor themselves during Rage frenzies. Without it, they might never return from the red rage.',
+    relatedLore: ['nordhalla', 'hark-ash-hammer', 'rage', 'house_skalvyr']
   },
   'poison-ward-trinket': {
     origin: 'bryngloom-forest',
@@ -1659,7 +1659,7 @@ const ITEM_LORE = {
   'blood-heat-greataxe': {
     origin: 'nordhalla',
     loreText: 'Hark Ash-Hammer blessed this axe in the boiling blood of a stel-beast\'s heart. The blade grows hotter with each swing, eventually reaching a temperature that cauterizes wounds as it makes them.',
-    relatedLore: ['nordhalla', 'hark-ash-hammer', 'blood_heat', 'stel']
+    relatedLore: ['nordhalla', 'hark-ash-hammer', 'rage', 'stel']
   },
   'luck-ledger-cutlass': {
     origin: 'iceheart-sea',

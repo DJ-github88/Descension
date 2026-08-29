@@ -127,8 +127,8 @@ Each class entry documents: origin story, founding figure(s), region, which race
 | **Origin** | Grum the Iron-Smith in Sundale's volcanic caldera tunnels. When an ice-wyrm burst into the forge-halls, Grum let furnace-heat occupy his marrow  -  veins boiled, tendons snapped, he shattered the wyrm with bare hands. The Bloodhammer clans had migrated south from Nordhalla under Torra Bloodhammer. |
 | **Region** | Sundale (Harath-Vault, Emberspire caldera tunnels) with Nordhalla ancestry |
 | **Practiced By (lore)** | Heavily practiced by massive Skald and hot-headed Thrask Emberth |
-| **Implied Barriers** | Requires Hunger Pact lineage (Skald) or deliberate Blood-Heat adoption (Thrask). Mimir are too identity-fragile to sustain the emotional singularity. Neth can't suppress their contract-nature. Ordan reject self-destruction over migration. |
-| **Current Crisis** | "Unbound" Berserkers manifest Blood-Heat spontaneously without the Hunger Pact ritual. Elders call them abominations. |
+| **Implied Barriers** | Requires Hunger Pact lineage (Skald) or deliberate Rage adoption (Thrask). Mimir are too identity-fragile to sustain the emotional singularity. Neth can't suppress their contract-nature. Ordan reject self-destruction over migration. |
+| **Current Crisis** | "Unbound" Berserkers manifest Rage spontaneously without the Hunger Pact ritual. Elders call them abominations. |
 
 ### Chronarch
 | Field | Detail |
@@ -287,7 +287,7 @@ This section applies the **WoW Classic Rule**: why can Race A be this class but 
 | **Animist** | Multi | Emberth, Fexrick, Myrathil, Tessen | Ordan, Sylen Astril, Clean Vreken, Morren, Rune Keeper Skald, Velun Neth | Yes (DM backstory: outsider trained by a wandering Animist) | Requires ancestral spirit-channeling. Emberth commune with volcanic entities (different paradigm). Fexrick see spirits as machine-failure states. Tessen isolation prevents access. Myrathil have no land spirit tradition. |
 | **Arcanoneer** | Bryngloom | All non-Neth | Velun Neth only | No | Requires inability to lie (Neth-specific biological/legal trait). Contract-magic syntax requires Neth neurology. Non-Neth would breach First Contract terms causing soul-fading. |
 | **Augur** | Nordhalla | Merryn, Ordan, Morren, Myrathil | Rune Keeper Skald, Astril, Tessen, Vreken | Yes (outsider who studied at the Frozen Archive) | Requires proximity to preserved dead (glacier-tombs) and access to Frozen Archive's runic mathematics. Cultures without burial-preservation can't maintain ancestral connection. |
-| **Berserker** | Sundale/ Nordhalla | Mimir, Neth, Astril, Merryn, Ordan | Skald, Thrask Emberth, Morgh Groven | Yes (adopted into a Bloodhammer clan) | Requires Hunger Pact lineage or deliberate Blood-Heat adoption. Mimir too identity-fragile. Neth can't suppress contract-nature. Ordan reject self-destruction. |
+| **Berserker** | Sundale/ Nordhalla | Mimir, Neth, Astril, Merryn, Ordan | Skald, Thrask Emberth, Morgh Groven | Yes (adopted into a Bloodhammer clan) | Requires Hunger Pact lineage or deliberate Rage adoption. Mimir too identity-fragile. Neth can't suppress contract-nature. Ordan reject self-destruction. |
 | **Chronarch** | Cragjaw | All non-Cragjaw natives | Kethrin Fexrick, Ithran Groven, Tessen | Yes | Requires temporal-suspension training only available in Cragjaw. Outsiders have never learned it  -  needs Fexric gear-craft and Groven bone-knowledge. |
 | **False Prophet** | Sundrift Vale | Skald, Thalren, Tessen, Emberth | Ordan, Unlit Astril, Morren | Yes | Requires a population desperate enough for manufactured meaning. Skald/Thalren too institutionally rigid. Emberth have the Dawn Vigil (competing faith). |
 | **Gambit** | Iceheart/ Multi | Tessen, Skald, Ordan, Astril | Merryn, Breakers-Born Myrathil, Kessen Neth, Ithran Groven | Yes | Requires risk-calculation culture. Tessen too isolated. Skald view gambling as dishonorable. Ordan too pragmatic. Astril too spiritually governed (spirit forbids chance). |
@@ -315,7 +315,7 @@ For each race/subrace, here is how they *differently practice* the same class:
 | **Ordan** | Animist | Throat-sung spirit-channeling, the totem is woven from the steppe-horse's mane, the ancestor speaks through harmonic overtones |
 | **Vreken** | Animist | Fungal-spore invocation  -  the loa are inhaled, the spirit speaks through bioluminescent patterns on the skin |
 | **Skald** | Berserker | The Hunger Pact is literal  -  the first Berserker rage was born from consuming one's own dead to survive. Every rage is a partial reliving of that meal |
-| **Thrask Emberth** | Berserker | Blood-Heat is geothermal, not ancestral. They burn because the caldera burns, not because of what their ancestors ate |
+| **Thrask Emberth** | Berserker | Rage is geothermal, not ancestral. They burn because the caldera burns, not because of what their ancestors ate |
 | **Merryn** | Gambit | Sea-omen gambling  -  the dice are weighted with salt-coral, the stakes are always voyage-shares, the loss is always someone else's debt added to yours |
 | **Myrathil** | Gambit | Tide-probability reading  -  the odds are written in foam patterns, the gamble is with the sea mother herself, and the payment is always in memory |
 | **Neth** | Gambit | Contract-probability calculation  -  every hand of cards is a clause analysis, the opponent's tells are legal vulnerabilities, the prize is always a renegotiated term |

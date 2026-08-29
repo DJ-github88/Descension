@@ -1,7 +1,7 @@
 // ============================================
 // CRUSADER — SOLAR JUSTICIAR (v2: talents are spells)
 // Spec: Two-Handed Greatsword Smites, Armor Sundering, Radiant Burst
-// Resource: Radiant Fervor (0-100)
+// Resource: Fervor (0-100)
 // ============================================
 
 export const CRUSADER_SOLAR_JUSTICIAR = [
@@ -15,7 +15,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     requires: null,
     spell: {
       name: "Zealot's Edge",
-      description: "Passive: Your greatsword strikes burn with Aex's original furnace. Melee attacks deal +1d4 sacred damage and generate +3 bonus Radiant Fervor.",
+      description: "Passive: Your greatsword strikes burn with Aex's original furnace. Melee attacks deal +1d4 sacred damage and generate +3 bonus Fervor.",
       flavorText: "The blade is heavy so that the prayer cannot wander.",
       source: "talent", class: "Crusader", treeId: "solar_justiciar",
       spellType: "PASSIVE", category: "damage",
@@ -24,8 +24,8 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
       visualTheme: "holy", tags: ["passive", "builder", "sacred", "crusader"]
     },
     rankUpgrades: [
-      { description: "Melee attacks deal +1d6 sacred damage and generate +6 bonus Radiant Fervor.", primaryDamage: { dice: "1d6", flat: 0, procChance: 100 } },
-      { description: "Melee attacks deal +1d8 sacred damage, generate +10 bonus Radiant Fervor, and critical hits grant +10 additional Fervor.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } }
+      { description: "Melee attacks deal +1d6 sacred damage and generate +6 bonus Fervor.", primaryDamage: { dice: "1d6", flat: 0, procChance: 100 } },
+      { description: "Melee attacks deal +1d8 sacred damage, generate +10 bonus Fervor, and critical hits grant +10 additional Fervor.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -63,7 +63,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     requires: null,
     spell: {
       name: "Unflinching Stride",
-      description: "Passive: Gain +5 ft base movement speed. While at 50+ Radiant Fervor, movement-slowing effects against you are reduced by 50%.",
+      description: "Passive: Gain +5 ft base movement speed. While at 50+ Fervor, movement-slowing effects against you are reduced by 50%.",
       flavorText: "He marches as though the mountain were already leveled.",
       source: "talent", class: "Crusader", treeId: "solar_justiciar",
       spellType: "PASSIVE", category: "buff",
@@ -71,7 +71,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
       visualTheme: "holy", tags: ["passive", "mobility", "fervor-scaling", "crusader"]
     },
     rankUpgrades: [
-      { description: "Movement speed bonus increases to +10 ft; at 50+ Radiant Fervor you are completely immune to Slow and Immobilize effects." }
+      { description: "Movement speed bonus increases to +10 ft; at 50+ Fervor you are completely immune to Slow and Immobilize effects." }
     ]
   },
 
@@ -134,7 +134,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     requires: "csj_t2_sundering_wrath",
     spell: {
       name: "Harmonic Overdrive",
-      description: "Passive: While at 75+ Radiant Fervor, your greatsword hums with Solvan resonance: your melee weapon range increases by 5 ft and melee strikes deal +2d6 sacred damage.",
+      description: "Passive: While at 75+ Fervor, your greatsword hums with Solvan resonance: your melee weapon range increases by 5 ft and melee strikes deal +2d6 sacred damage.",
       flavorText: "The blade extends where the light reaches.",
       source: "talent", class: "Crusader", treeId: "solar_justiciar",
       spellType: "PASSIVE", category: "buff",
@@ -143,8 +143,8 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
       visualTheme: "holy", tags: ["passive", "reach", "fervor-scaling", "crusader"]
     },
     rankUpgrades: [
-      { description: "Threshold lowers to 50+ Radiant Fervor; bonus sacred damage increases to +3d6.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } },
-      { description: "Threshold lowers to 40+ Radiant Fervor; while active, your strikes ignore 50% of the target's Active Soak rolls." }
+      { description: "Threshold lowers to 50+ Fervor; bonus sacred damage increases to +3d6.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } },
+      { description: "Threshold lowers to 40+ Fervor; while active, your strikes ignore 50% of the target's Active Soak rolls." }
     ]
   },
   {
@@ -250,7 +250,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     requires: "csj_t4_fervent_execution",
     spell: {
       name: "Unyielding Fervor",
-      description: "Passive: Radiant Fervor decays 50% slower outside of combat, and taking damage generates 1 Fervor per 5 damage suffered.",
+      description: "Passive: Fervor decays 50% slower outside of combat, and taking damage generates 1 Fervor per 5 damage suffered.",
       flavorText: "Pain is merely fuel awaiting direction.",
       source: "talent", class: "Crusader", treeId: "solar_justiciar",
       spellType: "PASSIVE", category: "buff",
@@ -258,7 +258,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
       visualTheme: "holy", tags: ["passive", "resource-gen", "crusader"]
     },
     rankUpgrades: [
-      { description: "Radiant Fervor never naturally decays during combat encounters, and taking damage generates 1 Fervor per 3 damage suffered." }
+      { description: "Fervor never naturally decays during combat encounters, and taking damage generates 1 Fervor per 3 damage suffered." }
     ]
   },
 
@@ -298,7 +298,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     requires: "csj_t5_unyielding_fervor",
     spell: {
       name: "Vow of the Sunblade",
-      description: "Passive: Maximum Radiant Fervor increased to 120. When entering combat, start with 30 free Radiant Fervor.",
+      description: "Passive: Maximum Fervor increased to 120. When entering combat, start with 30 free Fervor.",
       flavorText: "He does not warm to the fight. He arrives already boiling.",
       source: "talent", class: "Crusader", treeId: "solar_justiciar",
       spellType: "PASSIVE", category: "buff",
@@ -306,7 +306,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
       visualTheme: "holy", tags: ["passive", "cap-increase", "start-fervor", "crusader"]
     },
     rankUpgrades: [
-      { description: "Maximum Radiant Fervor increased to 150, and combat opener grants 50 free Radiant Fervor." }
+      { description: "Maximum Fervor increased to 150, and combat opener grants 50 free Fervor." }
     ]
   },
 
@@ -343,7 +343,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     requires: "csj_t6_dawn_zealot_vow",
     spell: {
       name: "Incarnate of Wrath",
-      description: "Passive: Whenever you reach maximum Radiant Fervor, enter Solar Overdrive for 2 rounds: all AP costs are reduced by 1 (minimum 1) and your greatsword smites double their critical hit chance.",
+      description: "Passive: Whenever you reach maximum Fervor, enter Solar Overdrive for 2 rounds: all AP costs are reduced by 1 (minimum 1) and your greatsword smites double their critical hit chance.",
       flavorText: "When the vessel overflows, the world catches fire.",
       source: "talent", class: "Crusader", treeId: "solar_justiciar",
       spellType: "PASSIVE", category: "buff",

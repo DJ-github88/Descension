@@ -158,7 +158,7 @@ export const BACKGROUND_DATA = {
       { classId: 'spellguard', bridge: 'Anti-Wyrd paranoia and contract-literacy are the Thalren half of the Spellguard tradition.' }
     ],
     tensionPairings: [
-      { classId: 'berserker', tension: 'An archivist chained to their journals cannot sustain the emotional singularity the Blood-Heat demands.' }
+      { classId: 'berserker', tension: 'An archivist chained to their journals cannot sustain the emotional singularity the Rage demands.' }
     ],
     name: 'Scribe',
     description: 'In the Frostwood Reach, a region where a living fog literally erases people\'s memories, the fog eats memory, and Jarl-Archivist Kaelen Thalreth eats dissent. You kept the identity-ledgers at Greymark Keep, where a citizen is only as real as their last entry in the Sovereign Ledger, the official registry of citizens. If the fog takes your name and no scribe records the loss, you become one of the Forgotten, and no law protects the unrecorded. The Scribe-Cartel holds the monopoly on Soot-Resin Ink and Peat-Parchment. Your chained journals were the only proof that thousands of people existed. You checked papers at the Ironwood Palisade, catalogued lineages at Greythorn Copse, and bent over the prehistoric carvings at Mistbarrow trying to read what the fog had already half-erased. Kaelen\'s father Aldren started the Ledger Purge generations ago to strip the undocumented from the record. Now Aldren sits in his chambers re-reading his own journals, trying to remember who he is. The fog took him. Kaelen tells himself it won\'t take the Reach. You hold the quill that decides who is real and who is forgotten. The ink dries fast, and the fog never sleeps.',
@@ -249,7 +249,7 @@ export const BACKGROUND_DATA = {
       { classId: 'harbinger', bridge: 'Academics who model the dimming of Lumia\'s echo slide naturally into the doom-arithmetic.' }
     ],
     tensionPairings: [
-      { classId: 'berserker', tension: 'A scholar tempered by crystal archives and throat-sung theory rarely survives the Blood-Heat.' }
+      { classId: 'berserker', tension: 'A scholar tempered by crystal archives and throat-sung theory rarely survives the Rage.' }
     ],
     name: 'Scholar',
     description: 'The Synod Hold, a crystal academy of living stone, rises from the Sundrift steppe like a crystal thorn, the walls singing when the wind finds the right key. You studied there, learning to read the echo-lineages that the Astril (descendants of refugees from the devoured world Lumia) have carried since their first ancestors knelt in the stone circles and opened themselves to the resonance of a dead world. The crystal-lattice archives preserve every echo-signature that still resonates. You learned the forbidden Echo-Songs, the throat-sung maps of lineages that went dark when the echo overwhelmed the host. You catalogued echo-lineages carved on bone Steppe-Staves (record-keeping poles), learned to bypass the basalt Cairn-Checkpoints, and navigate Starfall Vale where the crystalline remnants of Lumia\'s memory fall. You learned to identify the Unlit Veil\'s spies inside the Synod itself. The echo is fading. Every season, another vessel goes silent, another song loses its referent. The Synod studies the archives while the memories go dark. You have the training to read the patterns. Whether you use it to preserve what remains or to understand what is killing the echoes is the choice the steppe has laid at your feet.',
@@ -290,7 +290,7 @@ export const BACKGROUND_DATA = {
       "justification": "Bloodhammer Sump skirmishes and Hunger Glacier defense are Nordhalla-specific."
     },
     classHooks: [
-      { classId: 'berserker', bridge: 'The Hunger Pact lives in a Veteran\'s blood; the Blood-Heat is its combat expression.' },
+      { classId: 'berserker', bridge: 'The Hunger Pact lives in a Veteran\'s blood; the Rage is its combat expression.' },
       { classId: 'warden', bridge: 'Frozen Archive proximity and geothermal-tunnel warfare are the surgical-graft on-ramp into the Bound.' },
       { classId: 'augur', bridge: 'A veteran of the glacier defenses has plenty of preserved dead to read at the Frozen Archive.' }
     ],
@@ -347,7 +347,7 @@ export const BACKGROUND_DATA = {
       { classId: 'gambit', bridge: 'Reading loopholes and hidden clauses is the same art as reading probability-webs, just applied to law instead of fate.' }
     ],
     tensionPairings: [
-      { classId: 'berserker', tension: 'Contract discipline and the Blood-Heat fury are mutually exclusive states of mind.' }
+      { classId: 'berserker', tension: 'Contract discipline and the Rage fury are mutually exclusive states of mind.' }
     ],
     name: 'Debt Negotiator',
     description: 'In Atropolis, a canopy city built in the treetops, everything has a price and every price is negotiable. You studied the First Contract (the foundational legal text of the Neth people) and Neth legal tradition in the canopy city\'s contract-halls, guiding clients through Regent Morrath\'s Great Registry (a total debt-and-citizenship registry) and navigating the debt-peonage that underpins the Bryngloom economy. In the Bryngloom Forest, debt is a living thing: every agreement binds, every handshake traps, and the Postmortem Corvee can conscript your corpse for labor if you die in default. You negotiated Memory-Glass Covenants, contracts that store and trade years of lifespan, for clients desperate to buy extra time. You learned to read a Neth contract by its silver-leaf binding and to spot the trap-clauses that bind the unwary. And you memorized the cautionary tale every negotiator learns: Saren-Vel, the greatest contract-lawyer of her generation, who burned her own name from the Contract and became the first of the Drun (the legally nonexistent), living in the Over-Shanty beyond the reach of every law she once mastered. The contract-halls are busier than ever. Morvane waits beneath the roots, patient as the mycelium, and the debt-economy grows. You have the silver tongue and the eye for loopholes. The quill is in your hand. Whose contracts hold and whose names burn is the only question the ink keeps asking.',
@@ -433,7 +433,7 @@ export const BACKGROUND_DATA = {
     classHooks: [
       { classId: 'spellguard', bridge: 'The Damon tradition treats magical defense as forge-engineering; a Smith is already half-trained.' },
       { classId: 'warden', bridge: 'Chain-craft and gear-work are the mechanical backbone of the chain-graft surgical tradition.' },
-      { classId: 'berserker', bridge: 'Skald and Waste-Solari forge-workers who absorbed enough forge-heat sometimes find the Blood-Heat igniting on its own.' }
+      { classId: 'berserker', bridge: 'Skald and Waste-Solari forge-workers who absorbed enough forge-heat sometimes find the Rage igniting on its own.' }
     ],
     tensionPairings: [
       { classId: 'plaguebringer', tension: 'The sterile forge and the cultivated bog-disease are opposite relationships to material, creation versus decay.' }
@@ -633,7 +633,7 @@ export const BACKGROUND_DATA = {
       { classId: 'toxicologist', bridge: 'Trading bog-reagents and memory-glass builds the pharmacological literacy the Distillery requires.' }
     ],
     tensionPairings: [
-      { classId: 'berserker', tension: 'Trade demands patience and read of the other party; the Blood-Heat dissolves both in seconds.' }
+      { classId: 'berserker', tension: 'Trade demands patience and read of the other party; the Rage dissolves both in seconds.' }
     ],
     name: 'Black Market Trader',
     description: 'The Bryngloom Forest trades in three currencies: memory-glass (crystallized memories), peat-oil, and the years left in a lifespan. You ran goods across its root-tangled expanse under Regent Morrath\'s Great Registry, dealing in wyrd-warded curios (trinkets enchanted against supernatural forces) and the covenants that bind them. The living-ironwood Toll-Dikes tax every road, but you learned the bypasses. You bargained with Drun smugglers (the legally nonexistent outcasts) beneath the canopy, traded lifelines at the Mist-Gate Market where a desperate soul will sell five years for a chest of peat-oil, and rested at Morren\'s Bogpost where the forest meets the steppe. Your ledger is warded against the Inquisition\'s audit. Every entry is legal, or at least defensibly ambiguous. The Registry tightens its tariffs every season, and the Drun routes grow more dangerous as the Root-Veil spreads and the old crossings rot beneath it. You know the prices, the paths, and the faces that pay. No one else is bringing these goods through. The trade-routes close the season you stop running them, and the Forest does not forgive silence.',
@@ -821,7 +821,7 @@ export const BACKGROUND_DATA = {
       { classId: 'toxicologist', bridge: 'Floor-toxin brewing and intruder-detection are the Fractured Mimir half of the Distillery.' }
     ],
     tensionPairings: [
-      { classId: 'berserker', tension: 'A Guardian exists to preserve fixed identity; the Blood-Heat dissolves it. The two are philosophical opposites, and a Mimir cannot be a Berserker anyway.' }
+      { classId: 'berserker', tension: 'A Guardian exists to preserve fixed identity; the Rage dissolves it. The two are philosophical opposites, and a Mimir cannot be a Berserker anyway.' }
     ],
     name: 'Guardian',
     description: 'The Mimir are a masked people whose masks are ancient relics, and the Hunters (mask-collecting cartels) pay fortunes for them on the black market. You stand between the mask-wearers and the cartels that hunt them. You patrol the fog-spider-silk rope-bridges of the Spire-Aeries, watch the Watch-Bells for the next alarm, and track the detection-specialists who probe the misty Vales with ever-refining tools. The Mimir Purge took the birthing chambers and the last Mask-Mothers (the only ones who could craft new masks) with them. The Rupture that followed restricted every surviving mask to a first-born heir, and the mothers who could have made more are ashes. Since then, Keepers have guarded what remains. Whether you are an Arch Mimir scholar or a Fractured Mimir sentinel, you learned to read the spore-trails intruders leave and the silence the fog carves when an outsider moves through it. The Hunters are better funded than they have been in generations, and every mask that falls feeds a collection that grows bolder. You know their methods because you have buried the ones who got careless. The Vales will not defend themselves, and the Hunters have deeper coffers every season. Every mask you lose ends in a glass case in a city that calls it art.',
@@ -964,7 +964,7 @@ export const BACKGROUND_DATA = {
       { classId: 'harbinger', bridge: 'Scholars who model Lumia\'s fading echo slide into the doom-arithmetic of the Doom-Choir.' }
     ],
     tensionPairings: [
-      { classId: 'berserker', tension: 'Crystal-archive discipline and the Blood-Heat fury cannot coexist in the same nervous system.' }
+      { classId: 'berserker', tension: 'Crystal-archive discipline and the Rage fury cannot coexist in the same nervous system.' }
     ],
     name: 'Stargazer',
     description: 'Every Astril carries Lumia\'s echo in their crystalline markings, the biological resonance of a dead world\'s biosphere, and the Synod (the council that governs the Astril\'s relationship with that heritage) regulates the bond. You trained under its hierarchy, learning the crystal-lattice techniques that keep Lumia\'s echo from overwhelming the host. Whether you are Earthen Astril, who embraces the passenger\'s wild power, or Stellar Astril, who cages it behind mental discipline, you studied the same disciplines and survived them. You catalogued echo-lineages on memory-glass, learned the forbidden Echo-Songs that map the fading signatures of those lost to Lumia\'s call, and trained to recognize the resonance-signatures of an echo approaching the Submersion threshold, the point at which the host\'s consciousness is consumed entirely. Beyond that threshold, the Synod has no technique that brings either back. Lumia\'s echo is dimming. Every cycle, another host flickers toward Submersion, and the Synod\'s crystal techniques buy less time than they did a generation ago. You know the signs and the songs and the lattice-work that holds a dead world inside a living chest. The echo will not keep itself stable. That is your work, and the alternative is finding out what silence sounds like when the last fragment of Lumia goes dark.',

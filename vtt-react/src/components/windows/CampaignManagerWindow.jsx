@@ -6226,20 +6226,18 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                 {homebrewSubTab === 'lineages' && (
                                     <div className="homebrew-section">
                                         <div className="campaign-section-header">
-                                            <div className="lineage-view-toggle-bar" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                            <div className="lineage-view-toggle-bar">
                                                 <button
                                                     type="button"
-                                                    className={`campaign-add-btn ${lineageViewMode === 'species' ? '' : 'btn-ghost'}`}
+                                                    className={`lineage-toggle-btn ${lineageViewMode === 'species' ? 'active' : ''}`}
                                                     onClick={() => setLineageViewMode('species')}
-                                                    style={lineageViewMode === 'species' ? {} : { background: '#fdfbf7', color: '#5a2e12', border: '1px solid rgba(139,69,19,0.3)' }}
                                                 >
                                                     <i className="fas fa-dna"></i> Cultural Lineages & Species
                                                 </button>
                                                 <button
                                                     type="button"
-                                                    className={`campaign-add-btn ${lineageViewMode === 'family_trees' ? '' : 'btn-ghost'}`}
+                                                    className={`lineage-toggle-btn ${lineageViewMode === 'family_trees' ? 'active dynasty' : ''}`}
                                                     onClick={() => setLineageViewMode('family_trees')}
-                                                    style={lineageViewMode === 'family_trees' ? { background: 'linear-gradient(135deg, #d4af37 0%, #b8860b 100%)', color: '#1a0f05' } : { background: '#fdfbf7', color: '#5a2e12', border: '1px solid rgba(139,69,19,0.3)' }}
                                                 >
                                                     <i className="fas fa-sitemap"></i> Dynasties & Family Trees
                                                 </button>

@@ -46,7 +46,7 @@
 | 80 | Bloodhammer Migration South (event-bloodhammer-migration) | Skald march to Emberspire over decades | house-skalvyr; **berserker** |
 | 89 | Ledger Purge (event-northern-schism / stasis-of-aldren) | Aldren Thalreth consolidates ledgers; later sealed in glacier ice | house-thalreth |
 | 100 | Sovereign Ledger Established (event-sovereign-ledger) | Ledgered vs Forgotten; Scribe-Cartel formed | house-thalreth, scribe-sentinels, scribe-cartel |
-| 100 | Grum Ignites Blood-Heat (event-berserker-founding) | Berserker tradition born at Emberspire | house-solvan; berserker |
+| 100 | Grum Ignites Rage (event-berserker-founding) | Berserker tradition born at Emberspire | house-solvan; berserker |
 | 100 | Deep Myrathil Emerge (event-deep-born-emerge) | Abyssal Myrathil | minstrel |
 | 110 | First Thermal War (event-first-thermal-war) | Groven vs Fexric vs refugees over vents; Torin’s precursor act | vat-breakers-guild; **shaper** |
 | 150 | Fogwood Schism (event-fogwood-schism) | Preservationists vs Adaptationists; Forgotten underclass | house-thalreth, scribe-cartel |

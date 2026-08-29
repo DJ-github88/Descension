@@ -36,7 +36,7 @@ Era key: **BtD** = Before the Deepening · **Deepening** = Year 3 (Binding) / Ye
 | 20 | **Toxicologist** | Varis the Trembling (Thalren) | **~Year 380** (~420 yrs ago) | Aligned: Self. Opposed: Vigil (censorship). Chemistry as weapon; Wyrd has chemical signatures. | — | Independent / syndicates | Fog-Distiller, Floor-Brewer, Bog-Chemist, Thorn-Venom, Hidden-Cuil |
 
 **Explicit user-request confirmations:**
-- ✅ **Berserker** fuses Nordhalla cold + Sundale heat via the Hunger Pact (Bloodhammer line migrated south under Torra Bloodhammer into Emberspire; Grum ignited the Blood-Heat). Consistent in compendium, lore.json, berserkerData, GM guide.
+- ✅ **Berserker** fuses Nordhalla cold + Sundale heat via the Hunger Pact (Bloodhammer line migrated south under Torra Bloodhammer into Emberspire; Grum ignited the Rage). Consistent in compendium, lore.json, berserkerData, GM guide.
 - ✅ **Pyrofiend** patron = Scathrach the Ashen Sovereign (fragment of Aex's hide). Consistent everywhere — *except* one internal line (CL-18).
 - ✅ **Lunarch** = lunar parasites from the Dead Moon (a dormant star; fragment fell in Frostwood groves). Correct in lunarchData.js + compendium. **The `lore.json` lunarch entry is the outlier (CL-17).** No "Watcher/Viridane" confusion — Selene Viridane is correctly the Briaran founder; the parasite is correctly Dead-Moon-sourced.
 

@@ -775,61 +775,49 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                 )}
                 {isSimpleMode ? (
                     <div className="skill-simple-header">
-                        {/* Top Hero Row: [Mode Button] [Icon] [Roll Button] */}
-                        <div className="skill-hero-top-row">
-                            <div className="skill-hero-side left">
-                                {renderRollModeToggle(selectedSkill)}
-                            </div>
-                            <div className="skill-header-icon-box">
-                                <img
-                                    src={skillIconUrl}
-                                    alt={skillDisplayName}
-                                    className="skill-simple-icon"
-                                />
-                            </div>
-                            <div className="skill-hero-side right">
-                                <ChargeableRollButton
-                                    className="roll-table-btn skill-hero-roll-btn"
-                                    onRoll={(power, dir) => rollSimpleSkill(skill, selectedSkill, power, dir)}
-                                    title="Click or Hold & Release to throw dice with velocity"
-                                >
-                                    <i className="fas fa-dice-d20"></i> ROLL
-                                </ChargeableRollButton>
-                            </div>
+                        {/* Skill Icon */}
+                        <div className="skill-header-icon-box">
+                            <img
+                                src={skillIconUrl}
+                                alt={skillDisplayName}
+                                className="skill-simple-icon"
+                            />
                         </div>
 
-                        {/* Title, Rank Selector Dropdown, and Description */}
+                        {/* Title, Rank Selector Dropdown, Attributes & Formula */}
                         <div className="skill-simple-title-block">
-                            <h2 className="skill-simple-name">
-                                {skillDisplayName}
-                            </h2>
-                            <div className="skill-rank-dropdown-wrap">
-                                <select
-                                    className="skill-rank-dropdown skill-simple-dropdown"
-                                    value={effectiveRank.key}
-                                    onChange={(e) => {
-                                        if (isWeaponMastery) {
-                                            if (setSkillRank) {
-                                                setSkillRank('weaponMastery', e.target.value, selectedWeaponType);
+                            <div className="skill-simple-name-row">
+                                <h2 className="skill-simple-name">
+                                    {skillDisplayName}
+                                </h2>
+                                <div className="skill-rank-dropdown-wrap">
+                                    <select
+                                        className="skill-rank-dropdown skill-simple-dropdown"
+                                        value={effectiveRank.key}
+                                        onChange={(e) => {
+                                            if (isWeaponMastery) {
+                                                if (setSkillRank) {
+                                                    setSkillRank('weaponMastery', e.target.value, selectedWeaponType);
+                                                } else {
+                                                    useCharacterStore.getState().setSkillRank('weaponMastery', e.target.value, selectedWeaponType);
+                                                }
                                             } else {
-                                                useCharacterStore.getState().setSkillRank('weaponMastery', e.target.value, selectedWeaponType);
+                                                if (setSkillRank) {
+                                                    setSkillRank(selectedSkill, e.target.value);
+                                                } else {
+                                                    useCharacterStore.getState().setSkillRank(selectedSkill, e.target.value);
+                                                }
                                             }
-                                        } else {
-                                            if (setSkillRank) {
-                                                setSkillRank(selectedSkill, e.target.value);
-                                            } else {
-                                                useCharacterStore.getState().setSkillRank(selectedSkill, e.target.value);
-                                            }
-                                        }
-                                    }}
-                                    title="Change skill die rank"
-                                >
-                                    {Object.entries(SKILL_RANKS).map(([key, data]) => (
-                                        <option key={key} value={key}>
-                                            d{DIE_SIZE_MAP[key]}: {data.name}
-                                        </option>
-                                    ))}
-                                </select>
+                                        }}
+                                        title="Change skill die rank"
+                                    >
+                                        {Object.entries(SKILL_RANKS).map(([key, data]) => (
+                                            <option key={key} value={key}>
+                                                d{DIE_SIZE_MAP[key]}: {data.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
                             <p className="skill-simple-description">{description}</p>
                             
@@ -883,6 +871,20 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                     <span><strong>Exploding Dice:</strong> Max roll on d{DIE_SIZE_MAP[effectiveRank.key]} rolls again and adds to total!</span>
                                 </div>
                             </div>
+                        </div>
+
+                        {/* Actions Block: Mode Toggle + Hero Roll Button */}
+                        <div className="skill-simple-actions-block">
+                            <div className="skill-action-mode-wrap">
+                                {renderRollModeToggle(selectedSkill)}
+                            </div>
+                            <ChargeableRollButton
+                                className="roll-table-btn skill-hero-roll-btn"
+                                onRoll={(power, dir) => rollSimpleSkill(skill, selectedSkill, power, dir)}
+                                title="Click or Hold & Release to throw dice with velocity"
+                            >
+                                <i className="fas fa-dice-d20"></i> ROLL
+                            </ChargeableRollButton>
                         </div>
                     </div>
                 ) : (
@@ -1303,23 +1305,34 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
         }));
     };
 
-    // Filter categories when controlled via dropdown
+    // Filter categories mapping
     const CATEGORY_ID_MAP = {
         combat: 'Combat Mastery',
         exploration: 'Exploration & Survival',
         social: 'Social & Influence',
         arcane: 'Arcane Studies'
     };
-    const filteredCategories = propCategory !== undefined
-        ? Object.entries(skillsByCategory).filter(([categoryName]) => {
-            const targetName = CATEGORY_ID_MAP[propCategory];
-            return categoryName === targetName;
-        })
-        : Object.entries(skillsByCategory);
+
+    // Auto-select first skill of category or first available skill if none selected
+    useEffect(() => {
+        if (!selectedSkill) {
+            if (propCategory && CATEGORY_ID_MAP[propCategory]) {
+                const targetName = CATEGORY_ID_MAP[propCategory];
+                const catSkills = skillsByCategory[targetName];
+                if (catSkills && catSkills.length > 0) {
+                    setSelectedSkill(catSkills[0].id);
+                    return;
+                }
+            }
+            const allCategories = Object.values(skillsByCategory);
+            if (allCategories.length > 0 && allCategories[0].length > 0) {
+                setSelectedSkill(allCategories[0][0].id);
+            }
+        }
+    }, [propCategory, selectedSkill, skillsByCategory, setSelectedSkill]);
 
     return (
         <div className={`skills-container ${selectedSkill ? 'has-selected-skill' : ''}`}>
-            {propCategory === undefined && (
             <div className={`skills-sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
                 <button
                     className="skills-sidebar-toggle-button"
@@ -1459,7 +1472,6 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                     })
                 ))}
             </div>
-            )}
 
             <div className={`skills-content ${selectedSkill ? 'active-skill-detail' : ''}`}>
                 {renderSkillDetail()}

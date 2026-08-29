@@ -6,11 +6,11 @@
 // SPEC IDENTITY: The Form-Shifting Fluidist / Kinetic Momentum Master.
 // While Iron Dancer focuses on heavy stone stances and Primal Shadow on stealth ambush,
 // Flow Master turns the Shaper into a mercurial kinetic dancer who seamlessly weaves
-// between animal and elemental forms, accumulating massive Kinetic Flux, dodging blows
+// between animal and elemental forms, accumulating massive Flux, dodging blows
 // in water-stance, chaining multi-form combos, and moving like a roaring river.
 //
 // SIGNATURE ACTIVES:
-//   - Fluid Transition (t1):    Instant zero-friction stance shift that grants Kinetic Flux
+//   - Fluid Transition (t1):    Instant zero-friction stance shift that grants Flux
 //   - Water Dance (t1):         Active evasion dodge redirecting attacker momentum
 //   - Cascading Current (t2):   Multi-hit form combo strike generating Flux
 //   - Confluence Strike (t3):   Unleash combined features of 2 forms in a single attack
@@ -30,7 +30,7 @@ export const SHAPER_FLOW_MASTER = [
     requires: null,
     spell: {
       name: "Fluid Transition",
-      description: "Instantly transition into any unlocked shapeshift form without paying Body Toll: gain 2 Kinetic Flux and +10ft movement speed for 1 round.",
+      description: "Instantly transition into any unlocked shapeshift form without paying Body Toll: gain 2 Flux and +10ft movement speed for 1 round.",
       flavorText: "The current does not ask which way. It knows.",
       source: "talent", class: "Shaper", treeId: "flow_master",
       spellType: "ACTIVE", category: "buff",
@@ -42,8 +42,8 @@ export const SHAPER_FLOW_MASTER = [
       buffs: ["fluid-haste"], visualTheme: "primal", tags: ["shift", "flux", "mobility", "shaper"]
     },
     rankUpgrades: [
-      { description: "Gain 3 Kinetic Flux, +15ft movement speed, and your next form attack deals +2d6 bonus physical damage.", cooldownValue: 3 },
-      { description: "Gain 4 Kinetic Flux, +20ft speed, next attack deals +3d6 damage and can be used twice per round.", cooldownValue: 2 }
+      { description: "Gain 3 Flux, +15ft movement speed, and your next form attack deals +2d6 bonus physical damage.", cooldownValue: 3 },
+      { description: "Gain 4 Flux, +20ft speed, next attack deals +3d6 damage and can be used twice per round.", cooldownValue: 2 }
     ]
   },
   {
@@ -80,7 +80,7 @@ export const SHAPER_FLOW_MASTER = [
     requires: null,
     spell: {
       name: "Momentum Reserve",
-      description: "Your Kinetic Flux decays 50 points slower, and you gain +1 Durability Steps to equipped durability for every 3 Flux you currently maintain.",
+      description: "Your Flux decays 50 points slower, and you gain +1 Durability Steps to equipped durability for every 3 Flux you currently maintain.",
       flavorText: "The bridge remembers every crossing.",
       source: "talent", class: "Shaper", treeId: "flow_master",
       spellType: "PASSIVE", category: "buff",
@@ -273,7 +273,7 @@ export const SHAPER_FLOW_MASTER = [
     requires: "fm_t4_toll_dancer",
     spell: {
       name: "Eternal Momentum",
-      description: "Your Kinetic Flux cannot decay below 4 in combat. While at 6 or more Flux, all your physical damage is increased by +1d8 damage and you gain heals you for 2d6 Hit Points on hit.",
+      description: "Your Flux cannot decay below 4 in combat. While at 6 or more Flux, all your physical damage is increased by +1d8 damage and you gain heals you for 2d6 Hit Points on hit.",
       flavorText: "Every wave adds to the permanent tide.",
       source: "talent", class: "Shaper", treeId: "flow_master",
       spellType: "PASSIVE", category: "buff",
@@ -406,7 +406,7 @@ export const SHAPER_FLOW_MASTER = [
     requires: "fm_t6_fluvial_mastery",
     spell: {
       name: "Infinite Flux Reservoir",
-      description: "Your maximum Kinetic Flux increases by 5. At the start of every combat turn, you generate 3 Kinetic Flux.",
+      description: "Your maximum Flux increases by 5. At the start of every combat turn, you generate 3 Flux.",
       flavorText: "An ocean in a teacup, constantly spilling over.",
       source: "talent", class: "Shaper", treeId: "flow_master",
       spellType: "PASSIVE", category: "utility",

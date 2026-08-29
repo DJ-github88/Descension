@@ -95,6 +95,8 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const tooltipRef = useRef(null);
   const libraryRef = useRef(null);
+  const dragFromHandleRef = useRef(false);
+  const suppressCardClickUntilRef = useRef(0);
   const [inspectingCreature, setInspectingCreature] = useState(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [creatureToDelete, setCreatureToDelete] = useState(null);

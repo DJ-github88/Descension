@@ -2446,6 +2446,57 @@
     justify-content: center;
   }
 
+  .homebrew-subtabs {
+    padding: 10px 12px;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .homebrew-subtab {
+    padding: 8px 12px;
+    font-size: 0.78rem;
+    gap: 6px;
+    flex: 1 1 calc(50% - 6px);
+    justify-content: center;
+    text-align: center;
+  }
+
+  .lineage-view-toggle-bar {
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .lineage-toggle-btn {
+    width: 100%;
+    justify-content: center;
+    white-space: normal;
+    text-align: center;
+    padding: 10px 12px;
+    font-size: 0.8rem;
+  }
+
+  .campaign-lineage-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .campaign-lineage-title {
+    font-size: 15px;
+  }
+
+  .campaign-lineage-essence {
+    margin-left: 0;
+    width: 100%;
+    font-size: 13.5px;
+  }
+
+  .campaign-lineage-actions {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
   .quick-stats {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -2485,6 +2536,38 @@
 
   .cards-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  .card-hero-row {
+    gap: 10px;
+  }
+
+  .card-media-hero.portrait-hero {
+    margin-top: 15px;
+  }
+
+  .media-hero-preview.portrait,
+  .media-hero-placeholder.portrait {
+    width: 105px;
+    height: 142px;
+    min-width: 105px;
+    padding: 6px;
+  }
+
+  .card-field-header-top {
+    gap: 6px;
+  }
+
+  .card-meta-grid-2col {
+    gap: 6px;
+  }
+
+  .card-meta-grid-2col .field-label {
+    font-size: 9.5px;
+    gap: 3px;
+    letter-spacing: 0.2px;
   }
 }
 
@@ -2685,6 +2768,7 @@
 
 .card-media-hero.portrait-hero {
   flex-shrink: 0;
+  margin-top: 18px;
 }
 
 .media-hero-preview.portrait {
@@ -2874,6 +2958,28 @@
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   width: 100%;
+  align-items: end;
+}
+
+.card-meta-grid-2col .field-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+.card-meta-grid-2col .field-group .card-field-input,
+.card-meta-grid-2col .field-group .card-field-select {
+  margin-top: auto;
+  width: 100%;
+}
+
+.card-meta-grid-2col .field-label {
+  min-height: 24px;
+  display: flex;
+  align-items: flex-end;
+  line-height: 1.15;
+  margin-bottom: 2px;
 }
 
 .card-meta-grid {
@@ -3158,6 +3264,51 @@
   border-color: #962d22;
   color: #fff;
   transform: translateY(-1px);
+}
+
+/* ============ LINEAGE VIEW TOGGLE BAR ============ */
+.lineage-view-toggle-bar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.lineage-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #fdfbf7;
+  border: 1.5px solid rgba(139, 69, 19, 0.25);
+  border-radius: 8px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #5a2e12;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.lineage-toggle-btn:hover {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: #8b4513;
+  color: #2d1810;
+}
+
+.lineage-toggle-btn.active {
+  background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+  border-color: #5a1e12;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.2);
+}
+
+.lineage-toggle-btn.active.dynasty {
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+  border-color: #8b6508;
+  color: #1a0f05;
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
 }
 
 /* ============ HOMEBREW BEIGE PATHFINDER STYLING ============ */

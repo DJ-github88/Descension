@@ -22,7 +22,7 @@ CoA's strength is that each spec has a one-line hook. Audit yours for the same.
 ### Signature First-Session Moment
 CoA gives every class a "first combat hook"  -  Necromancer raises a skeleton on their first kill, Tinker builds a turret. Add one line to each class's `overview.immersiveCombatExample`:
 
-- **Berserker**: First killing blow sprays blood  -  gain +2 Blood-Heat immediately.
+- **Berserker**: First killing blow sprays blood  -  gain +2 Rage immediately.
 - **Apex**: First glaive throw ricochets to a second target.
 - **Revenant**: First death = Death Shroud triggers, frost spreads under you.
 - **Pyrofiend**: First spell ignites the ground for 1 round.
@@ -87,7 +87,7 @@ Specs that should use Empower:
 ### Resource-as-Transformation
 CoA's Son of Arugal builds Rage in caster form, then transforms into a Worgen with a new ability bar. Mythrill's Berserker can borrow this:
 
-- **Berserker**: At 100 Blood-Heat, enter **Overdrive**. For 2 rounds, your ability bar changes: melee attacks deal +2d6, you cannot be healed, but every attack costs 1d4 HP. This is already partially in the "Boiling Veins" stance  -  codify it as a transformation state with visual flair.
+- **Berserker**: At 100 Rage, enter **Overdrive**. For 2 rounds, your ability bar changes: melee attacks deal +2d6, you cannot be healed, but every attack costs 1d4 HP. This is already partially in the "Boiling Veins" stance  -  codify it as a transformation state with visual flair.
 
 ### Damage-Type Exploitation
 CoA's core combat depth: different classes are strong against different creature types. Formalize this:
@@ -125,7 +125,7 @@ Add a `strongAgainst` and `weakAgainst` field to each spec. The UI shows it as a
 | Animist | Thornwarden "Claim Territory" rooted buff | Stormscribe "Stormbrand Transfer" jump mechanic |
 | Apex | Quiver-swap stance (Razor / Whirlwind / Venom) | Beastmaster "Feral Rescue" companion intercept |
 | Augur | Gore-Scale DR = BN + ML | Equilibrium Strike (double-conditional) |
-| Berserker | Overdrive transformation at 100 Blood-Heat | Reckless Overdrive (2x generation, no dodge) |
+| Berserker | Overdrive transformation at 100 Rage | Reckless Overdrive (2x generation, no dodge) |
 | Chronarch | Time Stack damage escalation over freeze cycles | Temporal Gate portal system |
 | False Prophet | Insanity balance-window mechanic (15-19 MP = peak) | God-pact choice (4 pantheon options = diff passives) |
 | Gambit | Fate's Bargain (transfer FP to ally) | Loaded Deck (draw 2 choose 1) |
@@ -160,7 +160,7 @@ Add a `strongAgainst` and `weakAgainst` field to each spec. The UI shows it as a
 **Week 1 (P0):**
 1. Damage-type weakness chart → `rulesData.js` + class card tooltips
 2. Empower keyword → 5 new passives across support specs
-3. Overdrive transformation → Berserker Blood-Heat capstone
+3. Overdrive transformation → Berserker Rage capstone
 
 **Week 2 (P1):**
 4. Signature first-session moments → all 20 overviews (1-2 lines each)

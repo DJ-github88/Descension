@@ -203,6 +203,29 @@ const ActionBar = () => {
         }
     }, [currentCharacterId, currentRoomId]);
 
+    useEffect(() => {
+        const handleAssignEvent = (e) => {
+            const { slotIndex, item } = e.detail || {};
+            if (slotIndex !== undefined && slotIndex >= 0 && slotIndex < 10 && item) {
+                const iconId = item.iconId || item.icon || 'inv_potion_51';
+                const newConsumableSlot = {
+                    id: item.id,
+                    name: item.name,
+                    icon: iconId,
+                    cooldown: 0,
+                    maxCooldown: 0,
+                    type: 'consumable',
+                    originalItemId: item.originalItemId || item.id,
+                    quality: item.quality || item.rarity || 'common',
+                    rarity: item.rarity || item.quality || 'common'
+                };
+                updateSlot(slotIndex, newConsumableSlot);
+            }
+        };
+        window.addEventListener('action-bar-assign-item', handleAssignEvent);
+        return () => window.removeEventListener('action-bar-assign-item', handleAssignEvent);
+    }, [updateSlot]);
+
     // Handle turn-based cooldown progression in combat
     useEffect(() => {
         if (!isInCombat || !turnOrder || turnOrder.length === 0) {
@@ -1876,6 +1899,7 @@ const ActionBar = () => {
                     return (
                         <div
                             key={index}
+                            data-slot-index={index}
                             className={`action-slot ${item ? 'filled' : 'empty'} ${
                                 item && item.cooldown > 0 ? 'on-cooldown' : ''
                             } ${isOutOfStock ? 'out-of-stock' : ''} ${

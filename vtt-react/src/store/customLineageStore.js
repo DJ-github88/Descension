@@ -1,5 +1,9 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
+import { createStorageConfig } from '../utils/storageUtils';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { db, isFirebaseConfigured, auth } from '../config/firebase';
 
 const STORAGE_KEY = 'mythrill_custom_lineages';
 
@@ -81,120 +85,158 @@ export const LINEAGE_TEMPLATE = {
 // Default preset lineages (empty by default)
 export const PRESET_LINEAGES = [];
 
-const loadStoredLineages = () => {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      return [];
-    }
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed.filter(p => !p.isPreset) : [];
-  } catch (e) {
-    console.error('Error loading custom lineages:', e);
-    return [];
+const triggerLineageAutoSync = () => {
+  const currentUid = auth?.currentUser?.uid;
+  if (currentUid && currentUid !== 'admin-dev-user' && currentUid !== 'dev-user-123' && !currentUid.startsWith('guest-')) {
+    useCustomLineageStore.getState().syncToCloud(currentUid);
   }
 };
 
-const saveStoredLineages = (lineages) => {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(lineages));
-  } catch (e) {
-    console.error('Error saving custom lineages:', e);
-  }
-};
+const useCustomLineageStore = create(
+  persist(
+    (set, get) => ({
+      lineages: [],
+      selectedLineageId: null,
+      isWizardOpen: false,
+      wizardDraft: null,
+      lastCloudSyncAt: null,
 
-const useCustomLineageStore = create((set, get) => ({
-  lineages: loadStoredLineages(),
-  selectedLineageId: null,
-  isWizardOpen: false,
-  wizardDraft: null,
+      openWizard: (initialData = null) => {
+        const draft = initialData ? { ...LINEAGE_TEMPLATE, ...initialData, id: initialData.id || `lineage_${uuidv4()}` } : { ...LINEAGE_TEMPLATE, id: `lineage_${uuidv4()}` };
+        set({ isWizardOpen: true, wizardDraft: draft });
+      },
 
-  openWizard: (initialData = null) => {
-    const draft = initialData ? { ...LINEAGE_TEMPLATE, ...initialData, id: initialData.id || `lineage_${uuidv4()}` } : { ...LINEAGE_TEMPLATE, id: `lineage_${uuidv4()}` };
-    set({ isWizardOpen: true, wizardDraft: draft });
-  },
+      closeWizard: () => {
+        set({ isWizardOpen: false, wizardDraft: null });
+      },
 
-  closeWizard: () => {
-    set({ isWizardOpen: false, wizardDraft: null });
-  },
+      setWizardDraft: (updates) => {
+        set((state) => ({
+          wizardDraft: state.wizardDraft ? { ...state.wizardDraft, ...updates } : null
+        }));
+      },
 
-  setWizardDraft: (updates) => {
-    set((state) => ({
-      wizardDraft: state.wizardDraft ? { ...state.wizardDraft, ...updates } : null
-    }));
-  },
+      saveLineage: (lineageData) => {
+        const now = new Date().toISOString();
+        const finalData = {
+          ...LINEAGE_TEMPLATE,
+          ...lineageData,
+          id: lineageData.id || `lineage_${uuidv4()}`,
+          updatedAt: now,
+          createdAt: lineageData.createdAt || now,
+          isCustom: true
+        };
 
-  saveLineage: (lineageData) => {
-    const now = new Date().toISOString();
-    const finalData = {
-      ...LINEAGE_TEMPLATE,
-      ...lineageData,
-      id: lineageData.id || `lineage_${uuidv4()}`,
-      updatedAt: now,
-      createdAt: lineageData.createdAt || now,
-      isCustom: true
-    };
+        set((state) => {
+          const exists = state.lineages.some((l) => l.id === finalData.id);
+          const nextLineages = exists
+            ? state.lineages.map((l) => (l.id === finalData.id ? finalData : l))
+            : [finalData, ...state.lineages];
 
-    set((state) => {
-      const exists = state.lineages.some((l) => l.id === finalData.id);
-      const nextLineages = exists
-        ? state.lineages.map((l) => (l.id === finalData.id ? finalData : l))
-        : [finalData, ...state.lineages];
+          return { lineages: nextLineages, isWizardOpen: false, wizardDraft: null, selectedLineageId: finalData.id };
+        });
 
-      saveStoredLineages(nextLineages);
-      return { lineages: nextLineages, isWizardOpen: false, wizardDraft: null, selectedLineageId: finalData.id };
-    });
+        triggerLineageAutoSync();
+        return finalData;
+      },
 
-    return finalData;
-  },
+      deleteLineage: (id) => {
+        set((state) => {
+          const nextLineages = state.lineages.filter((l) => l.id !== id);
+          return {
+            lineages: nextLineages,
+            selectedLineageId: state.selectedLineageId === id ? null : state.selectedLineageId
+          };
+        });
+        triggerLineageAutoSync();
+      },
 
-  deleteLineage: (id) => {
-    set((state) => {
-      const nextLineages = state.lineages.filter((l) => l.id !== id);
-      saveStoredLineages(nextLineages);
-      return {
-        lineages: nextLineages,
-        selectedLineageId: state.selectedLineageId === id ? null : state.selectedLineageId
-      };
-    });
-  },
+      getLineage: (id) => {
+        return get().lineages.find((l) => l.id === id) || null;
+      },
 
-  getLineage: (id) => {
-    return get().lineages.find((l) => l.id === id) || null;
-  },
+      getAllLineages: () => {
+        return get().lineages;
+      },
 
-  getAllLineages: () => {
-    return get().lineages;
-  },
+      getPlayableLineages: () => {
+        return get().lineages.map((l) => ({
+          ...l,
+          // Map to standard Character Wizard format
+          cardFlavor: l.cardFlavor || l.essence,
+          subraces: (l.subraces || []).reduce((acc, sub) => {
+            acc[sub.id || sub.name.toLowerCase().replace(/\s+/g, '_')] = sub;
+            return acc;
+          }, {})
+        }));
+      },
 
-  getPlayableLineages: () => {
-    return get().lineages.map((l) => ({
-      ...l,
-      // Map to standard Character Wizard format
-      cardFlavor: l.cardFlavor || l.essence,
-      subraces: (l.subraces || []).reduce((acc, sub) => {
-        acc[sub.id || sub.name.toLowerCase().replace(/\s+/g, '_')] = sub;
-        return acc;
-      }, {})
-    }));
-  },
+      exportLineageJson: (id) => {
+        const lineage = get().getLineage(id);
+        if (!lineage) return null;
+        return JSON.stringify(lineage, null, 2);
+      },
 
-  exportLineageJson: (id) => {
-    const lineage = get().getLineage(id);
-    if (!lineage) return null;
-    return JSON.stringify(lineage, null, 2);
-  },
+      importLineageJson: (jsonStr) => {
+        try {
+          const parsed = JSON.parse(jsonStr);
+          if (!parsed.name) throw new Error('Invalid lineage data: missing name');
+          return get().saveLineage({ ...parsed, id: `lineage_${uuidv4()}` });
+        } catch (err) {
+          console.error('Failed to import lineage JSON:', err);
+          return null;
+        }
+      },
 
-  importLineageJson: (jsonStr) => {
-    try {
-      const parsed = JSON.parse(jsonStr);
-      if (!parsed.name) throw new Error('Invalid lineage data: missing name');
-      return get().saveLineage({ ...parsed, id: `lineage_${uuidv4()}` });
-    } catch (err) {
-      console.error('Failed to import lineage JSON:', err);
-      return null;
-    }
-  }
-}));
+      // --- Cloud Synchronization & Hydration ---
+      syncToCloud: async (userId) => {
+        if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
+        try {
+          const docRef = doc(db, 'users', userId, 'worldbuilding', 'lineages');
+          await setDoc(docRef, {
+            lineages: get().lineages,
+            updatedAt: new Date().toISOString()
+          }, { merge: true });
+          set({ lastCloudSyncAt: new Date().toISOString() });
+          return true;
+        } catch (err) {
+          console.debug('Lineages cloud sync skipped/failed:', err?.message || err);
+          return false;
+        }
+      },
+
+      hydrateFromCloud: async (userId) => {
+        if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
+        try {
+          const docRef = doc(db, 'users', userId, 'worldbuilding', 'lineages');
+          const snap = await getDoc(docRef);
+          if (snap.exists()) {
+            const data = snap.data();
+            if (Array.isArray(data?.lineages) && data.lineages.length > 0) {
+              set({ lineages: data.lineages });
+              return true;
+            } else if (get().lineages.length > 0) {
+              await get().syncToCloud(userId);
+              return true;
+            }
+          } else if (get().lineages.length > 0) {
+            await get().syncToCloud(userId);
+            return true;
+          }
+        } catch (err) {
+          console.debug('Lineages cloud hydration skipped/failed:', err?.message || err);
+        }
+        return false;
+      }
+    }),
+    createStorageConfig(STORAGE_KEY, {
+      partialize: (state) => ({
+        lineages: state.lineages,
+        selectedLineageId: state.selectedLineageId,
+        lastCloudSyncAt: state.lastCloudSyncAt
+      })
+    })
+  )
+);
 
 export default useCustomLineageStore;

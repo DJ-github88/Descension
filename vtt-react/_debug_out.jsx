@@ -1155,7 +1155,7 @@ const ClassResourceBar = ({
         }
     }, []);
 
-    // Calculate and store Fortune Points menu positions
+    // Calculate and store Fortune menu positions
     const updateFortunePointsPositions = useCallback(() => {
         if (fpBarRef.current) {
             const rect = fpBarRef.current.getBoundingClientRect();
@@ -1177,7 +1177,7 @@ const ClassResourceBar = ({
         }
     }, []);
 
-    // Calculate and store Quarry Marks menu positions
+    // Calculate and store Marks menu positions
     const updateQuarryMarksPositions = useCallback(() => {
         if (qmBarRef.current) {
             const rect = qmBarRef.current.getBoundingClientRect();

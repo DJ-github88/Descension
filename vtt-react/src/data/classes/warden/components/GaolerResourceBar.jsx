@@ -75,7 +75,7 @@ const GaolerResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
             sharedPassive: 'Relentless Hunter',
             sharedPassiveDesc: 'Advantage on Survival/Perception to track. Move at full speed while tracking.',
             uniquePassive: 'Ossified Anchor + Terminal Density',
-            uniquePassiveDesc: 'Spending Vengeance Points converts it to Calcified Armor (DR bonus, max +10), decaying by 2/turn. Cannot be dragged while Calcified Armor is active. Advantage vs being moved/pushed/prone, but Dodge locked to 0 while calcified. +50% blight damage dissolves all Calcified Armor.'
+            uniquePassiveDesc: 'Spending Tension converts it to Calcified Armor (DR bonus, max +10), decaying by 2/turn. Cannot be dragged while Calcified Armor is active. Advantage vs being moved/pushed/prone, but Dodge locked to 0 while calcified. +50% blight damage dissolves all Calcified Armor.'
         }
     };
 
@@ -215,7 +215,7 @@ const GaolerResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
             const newValue = Math.max(0, Math.min(maxVP, prev + delta));
             const actualAmount = Math.abs(newValue - prev);
             if (actualAmount > 0) {
-                logClassResourceChange('Vengeance Points', actualAmount, delta > 0, 'vengeancePoints');
+                logClassResourceChange('Tension', actualAmount, delta > 0, 'vengeancePoints');
                 if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
             }
             return newValue;
@@ -547,7 +547,7 @@ const GaolerResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
                                         setLocalVP(0);
                                         setShowControls(false);
                                         if (resetAmount > 0) {
-                                            logClassResourceChange('Vengeance Points', resetAmount, false, 'vengeancePoints');
+                                            logClassResourceChange('Tension', resetAmount, false, 'vengeancePoints');
                                             if (onClassResourceUpdate) onClassResourceUpdate('current', 0);
                                         }
                                     }}
@@ -563,7 +563,7 @@ const GaolerResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
                                         setLocalVP(maxVP);
                                         setShowControls(false);
                                         if (gainAmount > 0) {
-                                            logClassResourceChange('Vengeance Points', gainAmount, true, 'vengeancePoints');
+                                            logClassResourceChange('Tension', gainAmount, true, 'vengeancePoints');
                                             if (onClassResourceUpdate) onClassResourceUpdate('current', maxVP);
                                         }
                                     }}
@@ -588,7 +588,7 @@ const GaolerResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
             {/* Simplified Tooltip */}
             {showTooltip && !showControls && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
-                    <div className="tooltip-title">Vengeance Points: {localVP}/{maxVP}</div>
+                    <div className="tooltip-title">Tension: {localVP}/{maxVP}</div>
 
                     <div className="tooltip-divider"></div>
 

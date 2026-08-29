@@ -47,7 +47,7 @@
 
 ### S2 — 🔴 CRITICAL — `determineMartyrSpecialization` returns Martyr spec IDs that match NEITHER canonical list
 - **Location:** `data/classSpellGenerator.js:744-774` (returns `redeemer`/`avenger`/`protector`)
-- **Canon says:** Martyr specializations = `redemption`, `zealot`, `ascetic` (`classSpellCategories.js:314-364`, matched by `classResources.js:663-697` Devotion Gauge spec passives).
+- **Canon says:** Martyr specializations = `redemption`, `zealot`, `ascetic` (`classSpellCategories.js:314-364`, matched by `classResources.js:663-697` Devotion spec passives).
 - **Lore says:** Generator emits `redeemer`/`avenger`/`protector` — the OLD scheme, orphaned by the rename. Corroborating evidence: `talentTreeData.js:229-231` backdrop map is scrambled in the same way —
   ```
   'redemption' → martyr-protector.jpg

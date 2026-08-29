@@ -233,7 +233,66 @@ describe('Interactive Map Studio - Stays & Stop Numbering', () => {
     expect(useInteractiveMapStore.getState().selectedPinId).toBe('pin-tower');
     expect(screen.getByText('Ancient beacon.')).toBeInTheDocument();
   });
+
+  it('supports toggling Layers HUD and mobile tools dock', () => {
+    render(<InteractiveMapStudio />);
+
+    const layersBtn = screen.getByTitle('Toggle Map Layers Panel');
+    expect(layersBtn).toBeInTheDocument();
+
+    // Click layers toggle button
+    fireEvent.click(layersBtn);
+
+    const closeLayersBtn = screen.getByTitle('Close Map Layers');
+    expect(closeLayersBtn).toBeInTheDocument();
+
+    // Click close layers button
+    fireEvent.click(closeLayersBtn);
+
+    const toolsBtn = screen.getByTitle('Toggle Exploration Tools Bar');
+    expect(toolsBtn).toBeInTheDocument();
+    fireEvent.click(toolsBtn);
+  });
+
+  it('handles touch gestures (touch start, move, and end) on canvas', () => {
+    render(<InteractiveMapStudio />);
+    const canvas = document.querySelector('.map-studio-canvas');
+    expect(canvas).toBeInTheDocument();
+
+    // Simulate 1-finger touch pan
+    fireEvent.touchStart(canvas, {
+      touches: [{ clientX: 150, clientY: 150 }]
+    });
+
+    fireEvent.touchMove(window, {
+      touches: [{ clientX: 200, clientY: 200 }]
+    });
+
+    fireEvent.touchEnd(window, {
+      changedTouches: [{ clientX: 200, clientY: 200 }]
+    });
+
+    // Simulate 2-finger pinch zoom
+    fireEvent.touchStart(canvas, {
+      touches: [
+        { clientX: 100, clientY: 100 },
+        { clientX: 200, clientY: 200 }
+      ]
+    });
+
+    fireEvent.touchMove(window, {
+      touches: [
+        { clientX: 80, clientY: 80 },
+        { clientX: 220, clientY: 220 }
+      ]
+    });
+
+    fireEvent.touchEnd(window, {
+      touches: []
+    });
+  });
 });
+
 
 
 

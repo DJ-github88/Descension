@@ -37,6 +37,7 @@ export const createInfoSlice = (set, get) => ({
 
     // Talent tree selections { talentId: rank }
     talents: {},
+    primarySpecialization: '', // Primary chosen specialization ID (e.g. 'thornwarden')
 
     // Class-specific spell tracking (for Arcanoneer and other spell-learning classes)
     class_spells: {
@@ -925,6 +926,22 @@ export const createInfoSlice = (set, get) => ({
         }
 
         if (get().currentCharacterId) {
+            triggerCharacterAutoSave(() => get().saveCurrentCharacter());
+        }
+
+        get().syncWithMultiplayer();
+    },
+
+    setPrimarySpecialization: (specId) => {
+        set({ primarySpecialization: specId });
+
+        if (get().currentCharacterId) {
+            const userId = getCurrentUserId();
+            if (userId) {
+                updateCharacterData(get().currentCharacterId, { primarySpecialization: specId }, userId).catch(error => {
+                    console.error('Failed to store primary specialization update offline:', error);
+                });
+            }
             triggerCharacterAutoSave(() => get().saveCurrentCharacter());
         }
 

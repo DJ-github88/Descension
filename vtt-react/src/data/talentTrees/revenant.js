@@ -23,7 +23,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: null,
     spell: {
       name: "Sanguine Syphon Strike",
-      description: "Strike a target within 10 feet: deals 2d8 blight damage, heals you for half of the damage dealt, and generates 1 Death Toll (DT).",
+      description: "Strike a target within 10 feet: deals 2d8 blight damage, heals you for half of the damage dealt, and generates 1 Toll (DT).",
       flavorText: "Paid in crimson, the power of the Frozen Archive endures.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "ACTIVE", category: "damage",
@@ -51,7 +51,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: null,
     spell: {
       name: "Blood-Scribe Mastery",
-      description: "Your maximum Death Toll capacity increases by 4. All life drain effects restore 20 points more health.",
+      description: "Your maximum Toll capacity increases by 4. All life drain effects restore 20 points more health.",
       flavorText: "The blood-scribes write life into stolen flesh.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "PASSIVE", category: "healing",
@@ -169,7 +169,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: "sh_t2_rush_of_blood",
     spell: {
       name: "Vampiric Feast",
-      description: "Whenever an enemy dies from your life drain spells, gain 3 Death Toll, heal for 25 points of max HP, and all your abilities deal +1d6 bonus damage for 2 rounds.",
+      description: "Whenever an enemy dies from your life drain spells, gain 3 Toll, heal for 25 points of max HP, and all your abilities deal +1d6 bonus damage for 2 rounds.",
       flavorText: "The Archive rewards draining the weak with sovereign vitality.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "PASSIVE", category: "buff",
@@ -267,7 +267,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: "sh_t4_blood_barrier",
     spell: {
       name: "Blood Sovereign Form",
-      description: "While at 5+ Death Toll, you gain +2 Durability Steps to equipped durability, 4 Damage Reduction against all-damage, and all your attacks deal +1d8 bonus blight damage.",
+      description: "While at 5+ Toll, you gain +2 Durability Steps to equipped durability, 4 Damage Reduction against all-damage, and all your attacks deal +1d8 bonus blight damage.",
       flavorText: "Clothed in the living blood of a thousand fallen foes.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "PASSIVE", category: "buff",
@@ -396,14 +396,14 @@ export const REVENANT_SANGUINE_HARVEST = [
   },
   {
     id: "sh_t7_infinite_toll_engine",
-    name: "Endless Death Toll Reservoir",
+    name: "Endless Toll Reservoir",
     icon: "spell_shadow_soulleech_3",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "sh_t6_blood_criticality",
     spell: {
-      name: "Endless Death Toll Reservoir",
-      description: "Your maximum Death Toll increases by 8. Whenever you deal blight damage, generate 1 Death Toll.",
+      name: "Endless Toll Reservoir",
+      description: "Your maximum Toll increases by 8. Whenever you deal blight damage, generate 1 Toll.",
       flavorText: "Every cut registers a toll in the ledger.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "PASSIVE", category: "utility",
@@ -443,7 +443,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     requires: "sh_t6_undying_bloodline",
     spell: {
       name: "Bloodpool Rebirth",
-      description: "While at 3+ Death Toll, lethal damage dissolves you into a pool of blood: prevents death, restores 24 Hit Points, 30 temp HP, and sets DT to 5 (cooldown: 180s).",
+      description: "While at 3+ Toll, lethal damage dissolves you into a pool of blood: prevents death, restores 24 Hit Points, 30 temp HP, and sets DT to 5 (cooldown: 180s).",
       flavorText: "You cannot bleed to death when you are made of blood.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "PASSIVE", category: "buff",
@@ -470,7 +470,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     requires: null,
     spell: {
       name: "Glacial Shatter Lance",
-      description: "Hurl a spear of black necrotic ice within 50 feet: deals 2d8 rime damage, freezes the target for 1 round, and generates 2 Death Toll.",
+      description: "Hurl a spear of black necrotic ice within 50 feet: deals 2d8 rime damage, freezes the target for 1 round, and generates 2 Toll.",
       flavorText: "The Frozen Archive's chill focuses into deadly precision.",
       source: "talent", class: "Revenant", treeId: "frost_sovereign",
       spellType: "ACTIVE", category: "damage",
@@ -714,7 +714,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     requires: "fs_t4_frost_shield",
     spell: {
       name: "Endless Winter Engine",
-      description: "Your maximum Death Toll increases by 6. At 5+ Death Toll, all your frost spells freeze enemies unconditionally on hit for 1 round.",
+      description: "Your maximum Toll increases by 6. At 5+ Toll, all your frost spells freeze enemies unconditionally on hit for 1 round.",
       flavorText: "Winter with no end and no spring.",
       source: "talent", class: "Revenant", treeId: "frost_sovereign",
       spellType: "PASSIVE", category: "utility",
@@ -766,7 +766,7 @@ export const REVENANT_FROST_SOVEREIGN = [
       targetingMode: "self", visualTheme: "rime", tags: ["passive", "crit", "triple-damage", "revenant"]
     },
     rankUpgrades: [
-      { description: "Crits on 16+; deals quadruple damage and critical hits refund 2 Death Toll." }
+      { description: "Crits on 16+; deals quadruple damage and critical hits refund 2 Toll." }
     ]
   },
   {
@@ -847,7 +847,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     requires: "fs_t6_shatter_criticality",
     spell: {
       name: "Glacial Core Reservoir",
-      description: "Your maximum Death Toll increases by 10. Whenever an enemy is frozen, generate 2 Death Toll.",
+      description: "Your maximum Toll increases by 10. Whenever an enemy is frozen, generate 2 Toll.",
       flavorText: "A battery cooled to absolute zero.",
       source: "talent", class: "Revenant", treeId: "frost_sovereign",
       spellType: "PASSIVE", category: "utility",
@@ -914,7 +914,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     requires: null,
     spell: {
       name: "Phylactery Soul Shield",
-      description: "Channel necrotic frost into your soul phylactery: gain a 30-damage soul shield for 1 minute, +2 Durability Steps to equipped durability, and generate 2 Death Toll.",
+      description: "Channel necrotic frost into your soul phylactery: gain a 30-damage soul shield for 1 minute, +2 Durability Steps to equipped durability, and generate 2 Toll.",
       flavorText: "The Archive's necrotic frost anchors souls beyond the veil.",
       source: "talent", class: "Revenant", treeId: "phylactery_anchor",
       spellType: "ACTIVE", category: "buff",
@@ -1103,7 +1103,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     requires: "pa_t3_eternal_guardian",
     spell: {
       name: "Ambient Soul Harvest",
-      description: "Whenever an enemy dies anywhere within 50 feet, your phylactery charges for 20 HP and you gain 2 Death Toll.",
+      description: "Whenever an enemy dies anywhere within 50 feet, your phylactery charges for 20 HP and you gain 2 Toll.",
       flavorText: "Dying souls are pulled into the Archive's cold embrace.",
       source: "talent", class: "Revenant", treeId: "phylactery_anchor",
       spellType: "PASSIVE", category: "utility",
@@ -1148,7 +1148,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     requires: "pa_t4_soul_siphon_passive",
     spell: {
       name: "Undying Soul Anchor",
-      description: "Your maximum Death Toll increases by 6. While phylactery is above 50 points HP, you and all allies gain +3 Durability Steps to equipped durability and +15 points damage reduction.",
+      description: "Your maximum Toll increases by 6. While phylactery is above 50 points HP, you and all allies gain +3 Durability Steps to equipped durability and +15 points damage reduction.",
       flavorText: "An unbreakable anchor pinned into the bedrock of life.",
       source: "talent", class: "Revenant", treeId: "phylactery_anchor",
       spellType: "PASSIVE", category: "buff",
@@ -1282,7 +1282,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     requires: "pa_t6_phylactery_criticality",
     spell: {
       name: "Perpetual Reliquary Engine",
-      description: "Your maximum Death Toll increases by 10. Your phylactery charges for 10 HP at the start of every combat turn.",
+      description: "Your maximum Toll increases by 10. Your phylactery charges for 10 HP at the start of every combat turn.",
       flavorText: "An engine that feeds on ambient soul flux.",
       source: "talent", class: "Revenant", treeId: "phylactery_anchor",
       spellType: "PASSIVE", category: "utility",

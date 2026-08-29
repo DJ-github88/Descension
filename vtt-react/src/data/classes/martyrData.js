@@ -26,7 +26,7 @@ export const MARTYR_DATA = {
   },
 
   // Class Resource, generated per spell. Resource range/balance per design.
-  // Lore name: Devotion / Devotion Gauge
+  // Lore name: Devotion / Devotion
   classResource: { type: "devotion", base: 0, max: 100, generationNote: "Built by willingly absorbing damage for allies. Decays by 1 per round of no absorption. At 0: Faithless state, healing halved, no Intervene." },
 
 
@@ -48,7 +48,7 @@ export const MARTYR_DATA = {
   solvarn_human: {
     subraceName: 'Solari',
     title: 'The Sun-Vigil',
-   reframe: `This is <LoreLink termId="sera">Sera Solvan</LoreLink>'s original tradition. To the <LoreLink termId="house_solvan">Solari</LoreLink>, every wound willingly absorbed is a small death in imitation of <LoreLink termId="the_deepening">Sol's entombment</LoreLink>, suffering as prayer, the Martyr's body a living tomb-mass. A Solari Martyr does not protect the party by standing in front of it; they protect it by *re-enacting the founding sacrifice*, over and over, until the Devotion Gauge glows like a buried star.`,
+   reframe: `This is <LoreLink termId="sera">Sera Solvan</LoreLink>'s original tradition. To the <LoreLink termId="house_solvan">Solari</LoreLink>, every wound willingly absorbed is a small death in imitation of <LoreLink termId="the_deepening">Sol's entombment</LoreLink>, suffering as prayer, the Martyr's body a living tomb-mass. A Solari Martyr does not protect the party by standing in front of it; they protect it by *re-enacting the founding sacrifice*, over and over, until the Devotion glows like a buried star.`,
    signatureAbility: {
     name: 'Solar-Imitation',
     description: `Devotion-generation is amplified when the Martyr absorbs damage that would have struck a *specifically named* ally, the Solari must name who they are dying for, mirroring Sera naming her child. Generalized protection generates less Devotion than the deliberate, named sacrifice.`
@@ -80,7 +80,7 @@ export const MARTYR_DATA = {
   velun_neth: {
    subraceName: 'Velun Neth',
    title: 'The Contract-Martyr',
-   reframe: `The <LoreLink termId="neth">Velun Neth</LoreLink> sacrifice per *explicit contract terms*, the suffering legally binding and the protection it generates a delivered obligation. A Velun Neth Marty the protection it generates a delivered obligation. A Velun Neth Martyr does not suffer out of love or faith; they suffer because the contract *requires* it, and the Devotion Gauge is, to them, a ledger of fulfilled clauses.`,
+   reframe: `The <LoreLink termId="neth">Velun Neth</LoreLink> sacrifice per *explicit contract terms*, the suffering legally binding and the protection it generates a delivered obligation. A Velun Neth Marty the protection it generates a delivered obligation. A Velun Neth Martyr does not suffer out of love or faith; they suffer because the contract *requires* it, and the Devotion is, to them, a ledger of fulfilled clauses.`,
    signatureAbility: {
     name: 'Covenant-Absorption',
     description: `Devotion-generation requires a *prior written covenant* naming the protected party and the terms of sacrifice; the Martyr cannot protect strangers, only contracted allies. In return, the protection is absolute, Morvane enforces the transfer. No waste, no ambiguity, no mercy.`
@@ -112,7 +112,7 @@ export const MARTYR_DATA = {
    morren_human: {
     subraceName: 'Vreken',
     title: 'The Debt-Flesh',
-    reframe: `A <LoreLink termId="house_morrath">Vreken</LoreLink> who can no longer pay interest in gold or labor pays in flesh instead. The <LoreLink termId="neth">Neth</LoreLink> contract-economy recognizes suffering as a valid form of payment  -  <LoreLink termId="keeper_of_the_last_threshold">Morvane</LoreLink>'s pact respects sacrifice. A Vreken Martyr has been absorbing pain since childhood, first for family, then for creditors, now for anyone within reach. Their Devotion Gauge fills from contractual obligation, not faith. Every wound absorbed is a line-item on a ledger that never balances. The Vreken Martyr does not hope for salvation. They hope for a debt so large that even death cannot collect it.`,
+    reframe: `A <LoreLink termId="house_morrath">Vreken</LoreLink> who can no longer pay interest in gold or labor pays in flesh instead. The <LoreLink termId="neth">Neth</LoreLink> contract-economy recognizes suffering as a valid form of payment  -  <LoreLink termId="keeper_of_the_last_threshold">Morvane</LoreLink>'s pact respects sacrifice. A Vreken Martyr has been absorbing pain since childhood, first for family, then for creditors, now for anyone within reach. Their Devotion fills from contractual obligation, not faith. Every wound absorbed is a line-item on a ledger that never balances. The Vreken Martyr does not hope for salvation. They hope for a debt so large that even death cannot collect it.`,
     signatureAbility: {
      name: 'Debt-Absorption',
      description: `Devotion-generation is tracked as *ledger-entries*: every wound absorbed is a line-item in an internal contract with Morvane. The Vreken Martyr can extend their Devotion persistence beyond standard limits by accruing "interest"  -  additional voluntary HP sacrifice that extends their Devotion gauge's decay timer by one round per 5 HP sacrificed. The cost compounds: the longer they stay alive, the more they owe.`
@@ -144,15 +144,15 @@ export const MARTYR_DATA = {
   currentLeader: {
    name: '<LoreLink termId="sol-kaessen">Vigil-Mother Sol-Kaessen</LoreLink>',
    title: 'Keeper of the First Scar',
-       characterization: `A Solari woman who has absorbed so much suffering that she glows faintly in the dark, the Devotion Gauge made visible. She is the Covenant's moral center and its greatest hypocrisy: she genuinely believes in the willing sacrifice, and she has presided over the noble houses' conscription program without intervening, because the conscripted Martyrs keep the people of <LoreLink termId="sundale">Sundale</LoreLink> alive. She has not decided whether she is a saint or a collaborator.`
+       characterization: `A Solari woman who has absorbed so much suffering that she glows faintly in the dark, the Devotion made visible. She is the Covenant's moral center and its greatest hypocrisy: she genuinely believes in the willing sacrifice, and she has presided over the noble houses' conscription program without intervening, because the conscripted Martyrs keep the people of <LoreLink termId="sundale">Sundale</LoreLink> alive. She has not decided whether she is a saint or a collaborator.`
   },
   headquarters: { name: 'The Scar-Shrine, beneath Emberspire', locationId: 'emberspire' },
-  crisisConnection: `<LoreLink termId="sol-kaessen">Sol-Kaessen</LoreLink> is being crushed between the Covenant's founding principle (willing sacrifice) and the houses' practice (conscripted child-training). The conscripted Martyrs heal less cleanly, and several have begun *absorbing without consent*, pulling suffering from allies who did not offer it, the Devotion Gauge corrupting into something predatory. <LoreLink termId="sol-kaessen">Sol-Kaessen</LoreLink> suspects the houses know and consider it a feature. She is one quiet order away from open schism with Sundale's theocracy.`
+  crisisConnection: `<LoreLink termId="sol-kaessen">Sol-Kaessen</LoreLink> is being crushed between the Covenant's founding principle (willing sacrifice) and the houses' practice (conscripted child-training). The conscripted Martyrs heal less cleanly, and several have begun *absorbing without consent*, pulling suffering from allies who did not offer it, the Devotion corrupting into something predatory. <LoreLink termId="sol-kaessen">Sol-Kaessen</LoreLink> suspects the houses know and consider it a feature. She is one quiet order away from open schism with Sundale's theocracy.`
  },
 
  worldFriction: [
   { region: 'sundale', status: 'celebrated-and-conscripted', consequence: 'The noble houses draft Martyrs as strategic resources; a Martyr cadre extends a battalion fight-duration threefold. Celebrated in public procession, a Sundale Martyr is in practice a conscript, refusal of "muster" is treated as desertion. The Vow-corruption (predatory absorption) is officially denied.', workaround: 'A Martyr who refuses the formal Vow but still absorbs covertly can operate as a "freelance", legally ambiguous, but the houses cannot conscript what they cannot document.' },
-  { region: 'bryngloom-forest', status: 'distrusted', consequence: 'The Neth read the Devotion Gauge as an unfiled transfer of suffering, a Martyr in Atropolis who absorbs an ally wound without a prior covenant is in technical breach of contract-law. The Velun tolerate only their own Contract-Martyr variant.' },
+  { region: 'bryngloom-forest', status: 'distrusted', consequence: 'The Neth read the Devotion as an unfiled transfer of suffering, a Martyr in Atropolis who absorbs an ally wound without a prior covenant is in technical breach of contract-law. The Velun tolerate only their own Contract-Martyr variant.' },
    { region: 'nordhalla', status: 'hunted', consequence: 'House Skalvyr outlaws the Martyr\'s blood-vow, declaring that transferring wounds between mortals violates the ancestral lineage of the Rime-Born.', workaround: 'Martyrs serve in secret among the thrall-caste of the glacier-keeps, taking their beatings and freezing wounds onto themselves in the lightless sumps.' }
  ],
 
@@ -165,7 +165,7 @@ The wound did not heal correctly. It became a glowing solar scar that pulsed wit
 
 The noble houses noticed. What Sera had done out of grief, they saw as a military asset. A battalion with a martyr cadre fights three times as long. A martyr at a siege absorbs the artillery. The houses began drafting children, training them from birth to associate pain with duty, conditioning their bodies to accept the scar before they were old enough to understand what they were accepting. The free martyrs chose their suffering. The conscripted ones had it chosen for them.
 
-Each subrace approaches the sacrifice differently. The Solari treat every wound as a small death in imitation of Sol's entombment, the original tradition, suffering as prayer. The Hollow-Solari frame sacrifice as silent vigil over Sol's Breath, Devotion amplified by absolute physical stillness during absorption. The Velun Neth sacrifice per explicit contract terms, Morvane enforcing the transfer with precision, the Devotion Gauge a ledger of fulfilled clauses. The Skald Ironclad tradition converts absorbed suffering into combustion pressure inside riveted iron plate, the only variant that transforms pain into offensive output. The Vreken pay interest in flesh when gold runs out, the Neth accepting suffering as valid debt payment.
+Each subrace approaches the sacrifice differently. The Solari treat every wound as a small death in imitation of Sol's entombment, the original tradition, suffering as prayer. The Hollow-Solari frame sacrifice as silent vigil over Sol's Breath, Devotion amplified by absolute physical stillness during absorption. The Velun Neth sacrifice per explicit contract terms, Morvane enforcing the transfer with precision, the Devotion a ledger of fulfilled clauses. The Skald Ironclad tradition converts absorbed suffering into combustion pressure inside riveted iron plate, the only variant that transforms pain into offensive output. The Vreken pay interest in flesh when gold runs out, the Neth accepting suffering as valid debt payment.
 
 Sera is dead seven centuries. Her scarred forearm is preserved beneath Emberspire, still faintly warm. Her private grief has been industrialized so long that most conscripts do not know her name. The ones who do tend to become free martyrs. The ones who do not tend to die.`,
   title: "The Martyr",
@@ -177,12 +177,24 @@ Sera is dead seven centuries. Her scarred forearm is preserved beneath Emberspir
 
 **The hook**: Your signature ability is **Intervene**: whenever an ally would take a devastating or lethal hit, you can instantly intercept the blow into your own body, negating the hit on your ally and supercharging your own healing magic.
 
-**The resource bar & costs**: Your resource bar is the **Devotion Gauge** (Tiers 1–6), which climbs higher every time you take damage or intercept attacks for allies. Higher Devotion tiers massively amplify your healing output, sacred damage, and protective auras. If you go too long without taking damage, your Devotion decays, requiring you to stay right in the thick of the fight.
+**The resource bar & costs**: Your resource bar is the **Devotion** (Tiers 1–6), which climbs higher every time you take damage or intercept attacks for allies. Higher Devotion tiers massively amplify your healing output, sacred damage, and protective auras. If you go too long without taking damage, your Devotion decays, requiring you to stay right in the thick of the fight.
 
-**Bring one for**: Transforming personal catastrophe into party survival—pulling allies back from the brink of death and turning your own wounds into miraculous party-wide healing.`
+**Bring one for**: Transforming personal catastrophe into party survival—pulling allies back from the brink of death and turning your own wounds into miraculous party-wide healing.`,
+    roleplayIdentity: {
+      title: "Roleplay Identity",
+      content: "Practitioners carry a profound cultural and physical responsibility, marked by their tradition's unique legacy and societal perceptions."
+    },
+    combatRole: {
+      title: "Combat Role",
+      content: "Sacrificial guardian and radiant conduit who absorbs lethal blows meant for allies, converting suffering into Devotion tiers and solar retaliation."
+    },
+    playstyle: {
+      title: "Playstyle & Turn 1 Flow",
+      content: "**Your Turn 1 in Combat**:\n1. **Establish Intercept Range**: Position within 15ft of squishy allies.\n2. **Activate Protective Vow**: Use `Intervene` or `Shared Agony` to redirect incoming ally damage into yourself.\n3. **Convert Pain to Devotion**: Spend accumulated Devotion levels on explosive radiant shockwaves and team barriers."
+    }
   },
 
-  description: `The Martyr is not a protector. A protector uses a shield. The Martyr uses the fragile body of their own to catch weapons swung at their companions. Through the Devotion Gauge, a resource that fills as they deliberately bleed themselves for allies, the Martyr transforms willing suffering into powerful acts of emergency healing. Their power is not generosity. It is a transaction with something old and hungry that dwells in the space between flesh and faith. The more they bleed, the more that thing stirs. Unlike the Ironclad specialization which passively absorbs whatever hits them through furnace-plate armor, the standard Martyr must CHOOSE to suffer: casting self-damaging spells, using Intervene to intercept attacks, and offering their own HP to cross Devotion thresholds faster. Each wound they volunteer for becomes a wound closed on someone else. Theirutility is singular and terrifying: the ability to completely negate fatal blows tracking toward allies by pulling the entire damage vector into their own anatomy and releasing localized bursts of vitality that scale with accumulated suffering. No other class can do this. But their connection to the sacred is fragile. If they stop bleeding, the connection asphyxiates. Devotion Collapse is the Martyr's constant companion, a spiral into the Faithless state where their healing rots to half strength and their reactions lock down. They are a crisis tool with an expiration date, and that date is measured in rounds since their last wound.`,
+  description: `The Martyr is not a protector. A protector uses a shield. The Martyr uses the fragile body of their own to catch weapons swung at their companions. Through the Devotion, a resource that fills as they deliberately bleed themselves for allies, the Martyr transforms willing suffering into powerful acts of emergency healing. Their power is not generosity. It is a transaction with something old and hungry that dwells in the space between flesh and faith. The more they bleed, the more that thing stirs. Unlike the Ironclad specialization which passively absorbs whatever hits them through furnace-plate armor, the standard Martyr must CHOOSE to suffer: casting self-damaging spells, using Intervene to intercept attacks, and offering their own HP to cross Devotion thresholds faster. Each wound they volunteer for becomes a wound closed on someone else. Theirutility is singular and terrifying: the ability to completely negate fatal blows tracking toward allies by pulling the entire damage vector into their own anatomy and releasing localized bursts of vitality that scale with accumulated suffering. No other class can do this. But their connection to the sacred is fragile. If they stop bleeding, the connection asphyxiates. Devotion Collapse is the Martyr's constant companion, a spiral into the Faithless state where their healing rots to half strength and their reactions lock down. They are a crisis tool with an expiration date, and that date is measured in rounds since their last wound.`,
 
   roleplayIdentity: {
    title: "Roleplay Identity",
@@ -208,13 +220,13 @@ The class is heavily practiced by the Solari and the <LoreLink termId="solari">H
 
   philosophy: {
    coreTenet: 'Suffering is not meaningless. Pain is a currency, and the Martyr spends it freely. Every wound they take is a debt the universe owes to someone else. They bleed so others can stand. They burn so others can feel warmth. The balance must be maintained, and the Martyr is the scale.',
-   relationship: 'A Martyr\'s power comes from the sympathetic bond between their pain and their allies\' survival. When they Intervene, they do not just take damage, they absorb the spiritual weight of the injury. The wound that was meant for their ally exists in their body instead. The Devotion Gauge is not a resource they generate, it is a measure of how much suffering they have volunteered to carry. Every point of Devotion is a wound that belongs to someone else.',
+   relationship: 'A Martyr\'s power comes from the sympathetic bond between their pain and their allies\' survival. When they Intervene, they do not just take damage, they absorb the spiritual weight of the injury. The wound that was meant for their ally exists in their body instead. The Devotion is not a resource they generate, it is a measure of how much suffering they have volunteered to carry. Every point of Devotion is a wound that belongs to someone else.',
    paradox: 'The Martyr heals others by refusing to heal themselves. Their power is maximized when they are at their most vulnerable. A Martyr with full health is useless. A Martyr at death\'s door can raise the entire party from the brink. This creates an intense incentive structure: the better a Martyr is at their job, the closer they are to dying. They must walk the exact line between enough sacrifice and too much, and the line moves every time.'
   },
 
   currentCrisis: `The Martyr's Vow is being weaponized. Sera's original covenant was a personal oath, a mother's refusal to let her child be forgotten. But the noble houses have discovered that organized groups of Martyrs can be used as a strategic resource. A battalion supported by a Martyr cadre can fight for three times as long as a normal one.
 
-Several houses have begun "recruiting" Martyrs, some by indoctrination, some by coercion, some by simply taking children and training them from birth to associate pain with duty. These conscripted Martyrs do not carry the Vow willingly. Their Devotion Gauge fills more slowly, and their wounds heal less cleanly. The original Martyrs, those who took the Vow freely, have publicly condemned this practice, but they are outnumbered. The debate has split the Martyr tradition: free Martyrs versus conscripted Martyrs, and the conscripts are winning through sheer numbers.`,
+Several houses have begun "recruiting" Martyrs, some by indoctrination, some by coercion, some by simply taking children and training them from birth to associate pain with duty. These conscripted Martyrs do not carry the Vow willingly. Their Devotion fills more slowly, and their wounds heal less cleanly. The original Martyrs, those who took the Vow freely, have publicly condemned this practice, but they are outnumbered. The debate has split the Martyr tradition: free Martyrs versus conscripted Martyrs, and the conscripts are winning through sheer numbers.`,
 
   meaningfulTradeoffs: `To be a Martyr is to be in pain, always. The sympathetic bond means they feel every wound that their allies take, whether they Intervene or not. An ally who stubs their toe causes a Martyr a moment of sharp discomfort. An ally who dies causes the Martyr to experience that death in full, visceral detail. The Martyr cannot turn this off. They are permanently, intimately connected to the suffering of everyone they have sworn to protect. Most develop elaborate pain-management rituals, breathing exercises, meditation, or simply gritting their teeth until the wave passes. They never stop gritting.`,
 
@@ -468,10 +480,19 @@ You're not a traditional healer. You're a LIVING SACRIFICE. You intercept attack
  },
 
  resourceSystem: {
-  title: "Devotion Gauge",
-  subtitle: "Power Through Sacrifice, The Currency of Devotion",
+  title: "Devotion: The Lightning Rod",
+  subtitle: "How Your Resource Works (Beginner's Guide)",
 
-  description: `The Devotion Gauge is not a resource. It is a living metric that measures how much of the Martyr's body has been offered to something old and hungry that lives between flesh and faith. By absorbing damage meant for allies, the Martyr builds this gauge, unlocking passive auras and radiant strikes that grow more powerful with each threshold crossed. At lower tiers, the Martyr is merely a bruised faithful with good intentions. At higher tiers, their form turns translucent, their bones ignite with volatile golden light, and they become something that transcends mortal limits: a radiant vessel whose sacrifice fuels mercy. Each wound is not a prayer, it is a payment. Each scar is not a blessing, it is a receipt. And if the payments stop, the connection dies. Devotion Collapse is not a risk. It is a certainty. The only question is when.`,
+  description: `**1. What is it? (The Protective Lightning Rod)**
+Devotion (Tiers 1–6) builds as you absorb damage and debuffs meant for your allies through protective vows.
+
+**2. How do I build it?**
+- Intercept attacks targeted at nearby squishy allies (+1 to +2 Devotion tiers).
+- Absolve incoming hostile damage using your defensive bastion (+1 tier).
+
+**3. How do I spend it & what is the catch?**
+- Spend Devotion tiers to unleash radiant shockwaves, cleanse party debuffs, or project invulnerable team barriers.
+- **The Catch (Threat Magnetism)**: Higher Devotion tiers make you radiate brilliant light, forcing intelligent enemies to focus their attacks exclusively on you.`,
 
   cards: [
    {
@@ -563,7 +584,7 @@ You're not a traditional healer. You're a LIVING SACRIFICE. You intercept attack
 
 **The Minor Hit Mana Loop**: Not every intercepted blow needs to build Devotion. When you intercept a hit dealing less than 10 damage, you gain no Devotion, but you immediately restore 1d4 Mana. This creates a tactical decision: do you need ancestral power (major hit ? Devotion) or casting endurance (minor hit ? Mana)? Late-game, when Devotion is stable, the minor hit loop becomes your primary sustain mechanic.
 
-**The Self-Damage Loop**: Some spells, like Penance of Pain, hurt you to heal others. This is a double-win: you provide necessary support while manually pushing your Devotion Gauge into the next tier. However, self-damage from amplified spells does NOT contribute to your total damage taken for Devotion threshold purposes. This prevents infinite loops where amplified spell self-damage immediately recovers spent Devotion Levels.
+**The Self-Damage Loop**: Some spells, like Penance of Pain, hurt you to heal others. This is a double-win: you provide necessary support while manually pushing your Devotion into the next tier. However, self-damage from amplified spells does NOT contribute to your total damage taken for Devotion threshold purposes. This prevents infinite loops where amplified spell self-damage immediately recovers spent Devotion Levels.
 
 **Wrath Tithe (Zealot)**: Zealot-spec Martyrs must treat their own offensive casts as additional self-harm events. At Devotion 6, every radiant spell costs you HP equal to half the bonus damage. Factor this into your survival calculations, a Zealot at low HP who casts offensively may kill themselves before the enemy does.
 
@@ -610,7 +631,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
   specs: [
    { id : "redemption",
-    name: "Redemption",
+    name: "Devotion",
     icon: "Radiant/Radiant Bolt",
     color: "#FFD700",
     theme: "Healing Through Sacrifice, The Open Vein",

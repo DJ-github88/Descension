@@ -7,6 +7,8 @@ import useCharacterStore from '../../store/characterStore';
 import ResourceCanvasBar from './canvas/ResourceCanvasBar';
 import PlaguebringerResourceBar from '../../data/classes/plaguebringer/components/PlaguebringerResourceBar';
 import PyrofiendResourceBar from '../../data/classes/pyrofiend/components/PyrofiendResourceBar';
+import HarbingerResourceBar from '../../data/classes/harbinger/components/HarbingerResourceBar';
+import GambitResourceBar from '../../data/classes/gambit/components/GambitResourceBar';
 import SpellguardResourceBar from '../../data/classes/spellguard/components/SpellguardResourceBar';
 import ToxicologistResourceBar from '../../data/classes/toxicologist/components/ToxicologistResourceBar';
 import GaolerResourceBar from '../../data/classes/warden/components/GaolerResourceBar';
@@ -992,7 +994,7 @@ const ClassResourceBar = ({
         }
     }, []);
 
-    // Calculate and store Fortune Points menu positions
+    // Calculate and store Fortune menu positions
     const updateFortunePointsPositions = useCallback(() => {
         if (fpBarRef.current) {
             const rect = fpBarRef.current.getBoundingClientRect();
@@ -1014,7 +1016,7 @@ const ClassResourceBar = ({
         }
     }, []);
 
-    // Calculate and store Quarry Marks menu positions
+    // Calculate and store Marks menu positions
     const updateQuarryMarksPositions = useCallback(() => {
         if (qmBarRef.current) {
             const rect = qmBarRef.current.getBoundingClientRect();
@@ -1367,22 +1369,7 @@ const ClassResourceBar = ({
                     logClassResourceChange={logClassResourceChange}
                 />;
             case 'fortune-points-gambling':
-                return <FortunePointsResourceBar
-                    gamblerState={gamblerState}
-                    setGamblerState={setGamblerState}
-                    uiState={uiState}
-                    setUiState={setUiState}
-                    finalClassResource={finalClassResource}
-                    finalConfig={finalConfig}
-                    character={character}
-                    isOwner={isOwner}
-                    onClassResourceUpdate={onClassResourceUpdate}
-                    size={size}
-                    context={context}
-                    fpBarRef={fpBarRef}
-                    renderStatusFlavor={renderStatusFlavor}
-                    logClassResourceChange={logClassResourceChange}
-                />;
+                return <GambitResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'quarry-marks-companion':
                 return <QuarryMarksResourceBar
                     huntressState={huntressState}
@@ -1511,161 +1498,7 @@ const ClassResourceBar = ({
             case 'vengeance-points':
                 return <GaolerResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'mayhem-gauge':
-                return (
-                    <div
-                        className={`class-resource-bar mayhem-gauge ${size}`}
-                        ref={mayhemBarRef}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            if (isOwner) setShowModifierMenu(!showModifierMenu);
-                        }}
-                        onMouseEnter={(e) => {
-                            if (!showModifierMenu) {
-                                setChaosWeaverHoverSection('mayhem');
-                                const rect = e.currentTarget.getBoundingClientRect();
-                                setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
-                                setShowTooltip(true);
-                            }
-                        }}
-                        onMouseLeave={() => {
-                            setChaosWeaverHoverSection(null);
-                            setShowTooltip(false);
-                        }}
-                        style={{ cursor: isOwner ? 'pointer' : 'default', overflow: 'visible', width: '100%', position: 'relative' }}
-                    >
-                        <ResourceCanvasBar
-                            rendererType="mayhem-bar"
-                            size={size}
-                            layoutMode="bar"
-                            current={finalClassResource.current || 0}
-                            max={finalClassResource.max || 100}
-                            config={{
-                                ...finalConfig,
-                                currentPressure: finalClassResource.current || 0,
-                                maxPressure: finalClassResource.max || 100,
-                                specialization: 'pandemonium'
-                            }}
-                            isOwner={isOwner}
-                        />
-                        {showModifierMenu && mayhemBarRef.current && ReactDOM.createPortal(
-                            <div
-                                className={`unified-context-menu compact context-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
-                                onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                                onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                                style={{
-                                    position: 'fixed',
-                                    top: (() => {
-                                        if (!mayhemBarRef.current) return '50%';
-                                        const rect = mayhemBarRef.current.getBoundingClientRect();
-                                        let hudContainer = mayhemBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
-                                        let hudBottom = rect.bottom;
-                                        if (hudContainer) {
-                                            const hudRect = hudContainer.getBoundingClientRect();
-                                            hudBottom = hudRect.bottom;
-                                        }
-                                        return hudBottom + 8;
-                                    })(),
-                                    left: (() => {
-                                        if (!mayhemBarRef.current) return '50%';
-                                        const rect = mayhemBarRef.current.getBoundingClientRect();
-                                        return rect.left + (rect.width / 2);
-                                    })(),
-                                    transform: 'translateX(-50%)',
-                                    zIndex: 100000
-                                }}
-                            >
-                                <div className="context-menu-main">
-                                    <div className="menu-title">Mayhem Control</div>
-                                    {renderStatusFlavor()}
-                                    <div className="context-menu-section">
-                                        <div className="context-menu-section-header" style={{ color: '#5E35B1', fontSize: '11px', fontWeight: 'bold' }}>
-                                            Mayhem: {finalClassResource.current || 0}/{finalClassResource.max || 100}
-                                        </div>
-                                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', marginBottom: '8px' }}>
-                                            <button
-                                                className="context-menu-button gain"
-                                                onClick={() => {
-                                                    const cur = finalClassResource.current || 0;
-                                                    const maxVal = finalClassResource.max || 100;
-                                                    const newValue = Math.min(maxVal, cur + 5);
-                                                    const amount = newValue - cur;
-                                                    if (amount > 0) {
-                                                        logClassResourceChange('Mayhem', amount, true, 'mayhemGauge');
-                                                        if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
-                                                    }
-                                                }}
-                                            >
-                                                <i className="fas fa-plus"></i> +5 Mayhem
-                                            </button>
-                                            <button
-                                                className="context-menu-button gain"
-                                                onClick={() => {
-                                                    const cur = finalClassResource.current || 0;
-                                                    const maxVal = finalClassResource.max || 100;
-                                                    const newValue = Math.min(maxVal, cur + 10);
-                                                    const amount = newValue - cur;
-                                                    if (amount > 0) {
-                                                        logClassResourceChange('Mayhem', amount, true, 'mayhemGauge');
-                                                        if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
-                                                    }
-                                                }}
-                                            >
-                                                <i className="fas fa-plus-circle"></i> +10 Mayhem
-                                            </button>
-                                            <button
-                                                className="context-menu-button spend"
-                                                onClick={() => {
-                                                    const cur = finalClassResource.current || 0;
-                                                    const newValue = Math.max(0, cur - 5);
-                                                    const amount = cur - newValue;
-                                                    if (amount > 0) {
-                                                        logClassResourceChange('Mayhem', amount, false, 'mayhemGauge');
-                                                        if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
-                                                    }
-                                                }}
-                                            >
-                                                <i className="fas fa-minus"></i> -5 Mayhem
-                                            </button>
-                                            <button
-                                                className="context-menu-button spend"
-                                                onClick={() => {
-                                                    const cur = finalClassResource.current || 0;
-                                                    const newValue = Math.max(0, cur - 10);
-                                                    const amount = cur - newValue;
-                                                    if (amount > 0) {
-                                                        logClassResourceChange('Mayhem', amount, false, 'mayhemGauge');
-                                                        if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
-                                                    }
-                                                }}
-                                            >
-                                                <i className="fas fa-minus-circle"></i> -10 Mayhem
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div style={{ display: 'flex', gap: '4px', marginTop: '8px' }}>
-                                        <button
-                                            onClick={() => {
-                                                if (onClassResourceUpdate) onClassResourceUpdate('current', 0);
-                                            }}
-                                            className="context-menu-button"
-                                            style={{ flex: 1 }}
-                                        >
-                                            <i className="fas fa-undo"></i> Reset
-                                        </button>
-                                        <button
-                                            onClick={() => setShowModifierMenu(false)}
-                                            className="context-menu-button close"
-                                            style={{ flex: 1 }}
-                                        >
-                                            <i className="fas fa-times"></i> Close
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>,
-                            document.body
-                        )}
-                    </div>
-                );
+                return <HarbingerResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'dual-omen':
                 return <AugurResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'havoc':

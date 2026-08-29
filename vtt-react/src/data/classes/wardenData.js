@@ -196,7 +196,7 @@ export const WARDEN_DATA = {
 
 **The hook**: Your signature mechanic is **Forced Tethering**: you drive iron chain-hooks into priority enemies, locking them in place and forcing them to attack only you while your party safely focuses them down.
 
-**The resource bar & costs**: Your resource bar is **Vengeance Points (VP)**, generated through successful attacks, striking marked targets, evasions, and critical hits. You spend VP on bone-cracking chain strikes, Whirling Glaive AoE, Hunter's Resolve, and forced Cages of Vengeance.
+**The resource bar & costs**: Your resource bar is **Tension (VP)**, generated through successful attacks, striking marked targets, evasions, and critical hits. You spend VP on bone-cracking chain strikes, Whirling Glaive AoE, Hunter's Resolve, and forced Cages of Vengeance.
 
 **Bring one for**: Absolute, inescapable crowd control and lockdown, ensuring the most dangerous boss on the field cannot touch your fragile allies.`
     },
@@ -260,7 +260,7 @@ The chains are becoming brittle in the Cragjaw cold. The Caustic Fexric propose 
 **Combat Strengths**:
 - **Inescapable forced dueling**: The exclusive *Iron Chain Tether* creates an unbreakable 15-foot radius. The tethered enemy physically cannot target the Warden's allies.
 - **Massive crowd control**: Able to lock down high-threat targets, preventing all teleportation and movement beyond the chain's reach.
-- **Aggression-driven resource economy**: Vengeance Points scale with combat aggression, attacks, and evasions, feeding their most devastating close-range abilities.
+- **Aggression-driven resource economy**: Tension scale with combat aggression, attacks, and evasions, feeding their most devastating close-range abilities.
 - **Unrivaled tanking utility**: Keeps fragile allies completely safe from the tethered abomination.
 
 **Combat Weaknesses**:
@@ -274,8 +274,8 @@ The chains are becoming brittle in the Cragjaw cold. The Caustic Fexric propose 
 
     playstyle: {
       title: "Playstyle & Strategy",
-      content: `**Vengeance Points (VP) Management**:
-Warden combat is a high-wire balancing act of pursuit and control. Vengeance Points cap at 10. You must constantly manage your VP:
+      content: `**Tension (VP) Management**:
+Warden combat is a high-wire balancing act of pursuit and control. Tension cap at 10. You must constantly manage your VP:
 - **Pursuit and Strike**: Start combat by marking priority targets and striking with your melee weapons (+1 to +2 VP per hit).
 - **Relentless Momentum**: Build VP by landing attacks, evading blows (+1 VP), and scoring critical hits (+2 VP).
 - **Spend to Subdue**: Consume VP to activate heavy defensive braces (*Hunter's Resolve*, 4 VP), devastating strikes (*Whirling Glaive*, 3 VP), or inescapable cages (*Cage of Vengeance*, 6 VP [4 VP Jailer]).
@@ -295,21 +295,30 @@ Be wary of tethering high-strength targets. If they move, you are dragged. Use *
 
   // Resource System
   resourceSystem: {
-    title: "Vengeance Points (VP)",
-    subtitle: "The Debt of Retribution",
+    title: "Tension: The Stretched Chain",
+    subtitle: "How Your Resource Works (Beginner's Guide)",
 
-    description: `The Warden's core resource is Vengeance Points (VP), a representation of accumulated retributive momentum. Built through persistent strikes, hunting marked targets, and evading enemy blows, VP is consumed to unleash crushing strikes, activate resilient defensive braces, lock targets in cages of vengeance, and ascend into the Avatar of Vengeance.`,
+    description: `**1. What is it? (The Stretched Chain)**
+Tension (0–10) builds in the cold-iron chains driven through your forearms when you tether a monster into a 15ft forced duel.
+
+**2. How do I build it?**
+- Drive a cold-iron chain into a priority enemy to establish a 15ft Tether.
+- Tension rises by +1 to +2 every time the tethered target attempts to move away or attacks someone other than you.
+
+**3. How do I spend it & what is the catch?**
+- Spend Tension to violently reel the target across broken ground, slam them prone, or lock them in an iron cage.
+- **The Catch (Tether Snap)**: If the tethered target manages to break the chain through extreme distance or force, the recoil stuns you for 1 turn.`,
 
     cards: [
       {
-        title: "Vengeance Points (0-10)",
+        title: "Tension (0-10)",
         stats: "10 VP Max | Gain on Attack/Mark/Evade/Crit",
-        details: "Vengeance Points represent your escalating focus on bringing judgment to your quarry. Generating VP fuels both your mobility and your most devastating retributive techniques."
+        details: "Tension represent your escalating focus on bringing judgment to your quarry. Generating VP fuels both your mobility and your most devastating retributive techniques."
       },
       {
         title: "Pursuit Movement",
         stats: "+5ft Speed per VP (Max +50ft)",
-        details: "Each point of banked Vengeance Points increases your movement speed toward your marked quarry by +5ft, allowing you to relentlessly close distance and prevent escape."
+        details: "Each point of banked Tension increases your movement speed toward your marked quarry by +5ft, allowing you to relentlessly close distance and prevent escape."
       },
       {
         title: "Retributive Spends",
@@ -325,7 +334,7 @@ Be wary of tethering high-strength targets. If they move, you are dragged. Use *
 
     overheatRules: {
       title: "Vengeance Escalation",
-      content: `Managing your Vengeance Points determines your combat flow:
+      content: `Managing your Tension determines your combat flow:
 
 **0-3 VP (Gathering Retribution)**:
 Standard combat state. You are actively hunting your mark and building retributive momentum.
@@ -339,7 +348,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
 
     resourceTables: [
       {
-        title: "Vengeance Points Generation",
+        title: "Tension Generation",
         headers: ["Action", "VP Gained", "Notes"],
         rows: [
           ["Successful Melee Attack", "1 VP", "Base generation on landed hit"],
@@ -349,7 +358,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         ]
       },
       {
-        title: "Vengeance Points Expenditure",
+        title: "Tension Expenditure",
         headers: ["Cost", "Ability", "Effect"],
         rows: [
           ["2 VP", "Vengeful Strike", "Empower strike with +2d6 damage"],
@@ -379,7 +388,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     startingEquipment: {
       weapons: [
         {
-          name: "Grafted Iron Chains",
+          name: "Tension",
           damage: "2d6 slashing or bludgeoning",
           properties: "Heavy-martial, grafted to forearms. 15-foot range. Cannot be disarmed or removed."
         }
@@ -587,7 +596,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         description: "The Monolith Penitent grafts volcanic iron into their skeletal structure, fusing the penitent jailer tradition with the calcified juggernaut arts of the Emberspire forge-clans. Their chains do not merely tether enemies; they anchor the Monolith to the earth itself, weaponizing bone density and localized gravity to become an immovable stone sentinel.",
         playstyle: "Extreme defensive body-blocking and gravitational control, sacrificing all mobility to become an unbreakable battlefield anchor.",
         strengths: [
-          "Converts Vengeance Points into Calcified Armor at a 1:1 ratio (up to +10 DR)",
+          "Converts Tension into Calcified Armor at a 1:1 ratio (up to +10 DR)",
           "Tethered targets cannot drag the Monolith due to gravitational anchoring",
           "Absorbs 75% of AoE damage directed at tethered targets instead of 50%",
           "Unrivaled chokepoint defense and damage interception"
@@ -602,7 +611,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
           {
             name: "Ossified Anchor",
             icon: "Nature/Strangle",
-            description: "When you spend Vengeance Points, convert the spent amount into temporary Calcified Armor (DR bonus, max +10). Calcified Armor decays by 2 at the start of each turn. You cannot be dragged by tethered targets while you have Calcified Armor active."
+            description: "When you spend Tension, convert the spent amount into temporary Calcified Armor (DR bonus, max +10). Calcified Armor decays by 2 at the start of each turn. You cannot be dragged by tethered targets while you have Calcified Armor active."
           }
         ]
       }
@@ -639,7 +648,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     },
     { id : "warden_evasive_maneuvers",
       name: "Iron Brace",
-      description: "When targeted by an attack, brace your armor and brace the chains. Gain a DR bonus. Whether the attack lands or misses, you gain 1 Vengeance Point by evading or absorbing the strike.",
+      description: "When targeted by an attack, brace your armor and brace the chains. Gain a DR bonus. Whether the attack lands or misses, you gain 1 Tension by evading or absorbing the strike.",
       spellType: "REACTION",
       icon: "Utility/Parry",
       level: 1,
@@ -707,8 +716,8 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
       resourceCost: {
         components: ['verbal', 'somatic'], actionPoints: 0,
         mana: 0,
-        resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 0 }
+        resourceTypes: ["tension"],
+        resourceValues: { tension: 0 }
       },
       resolution: "AUTOMATIC",
       buffConfig: {
@@ -761,9 +770,9 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
       resourceCost: {
         components: ['verbal', 'somatic'], actionPoints: 1,
         mana: 0,
-        resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 0 },
-        classResource: { type: "vengeance_points", cost: -2 }
+        resourceTypes: ["tension"],
+        resourceValues: { tension: 0 },
+        classResource: { type: "tension", cost: -2 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -810,10 +819,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 2 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 2 },
         actionPoints: 1,
-        classResource: { type: "vengeance_points", cost: 2 }
+        classResource: { type: "tension", cost: 2 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -861,10 +870,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 3 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 3 },
         actionPoints: 1,
-        classResource: { type: "vengeance_points", cost: 3 }
+        classResource: { type: "tension", cost: 3 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -892,7 +901,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_whirling_glaive_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 3 Vengeance Points, claiming retribution." }
+      { id: "warden_whirling_glaive_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 3 Tension, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -924,10 +933,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 4 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 4 },
         actionPoints: 1,
-        classResource: { type: "vengeance_points", cost: 4 }
+        classResource: { type: "tension", cost: 4 }
       },
       resolution: "AUTOMATIC",
       buffConfig: {
@@ -947,7 +956,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_hunters_resolve_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 4 Vengeance Points, claiming retribution." }
+      { id: "warden_hunters_resolve_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 4 Tension, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -984,10 +993,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 6 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 6 },
         actionPoints: 1,
-        classResource: { type: "vengeance_points", cost: 6 }
+        classResource: { type: "tension", cost: 6 }
       },
       resolution: "SAVE",
       controlConfig: {
@@ -1032,7 +1041,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_cage_of_vengeance_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 6 Vengeance Points, claiming retribution." }
+      { id: "warden_cage_of_vengeance_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 6 Tension, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -1065,10 +1074,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 3 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 3 },
         actionPoints: 1,
-        classResource: { type: "vengeance_points", cost: 3 }
+        classResource: { type: "tension", cost: 3 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1086,7 +1095,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_hunters_fury_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 3 Vengeance Points, claiming retribution." }
+      { id: "warden_hunters_fury_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 3 Tension, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -1119,10 +1128,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 2 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 2 },
         actionPoints: 1,
-        classResource: { type: "vengeance_points", cost: 2 }
+        classResource: { type: "tension", cost: 2 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1164,10 +1173,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 4 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 4 },
         actionPoints: 1,
-        classResource: { type: "vengeance_points", cost: 4 }
+        classResource: { type: "tension", cost: 4 }
       },
       resolution: "SAVE",
       controlConfig: {
@@ -1190,7 +1199,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_cage_trap_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 4 Vengeance Points, claiming retribution." }
+      { id: "warden_cage_trap_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 4 Tension, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -1227,10 +1236,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 2 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 2 },
         actionPoints: 1,
-        classResource: { type: "vengeance_points", cost: 2 }
+        classResource: { type: "tension", cost: 2 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1284,10 +1293,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 3 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 3 },
         actionPoints: 1,
-        classResource: { type: "vengeance_points", cost: 3 }
+        classResource: { type: "tension", cost: 3 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1306,7 +1315,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_vengeful_leap_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 3 Vengeance Points, claiming retribution." }
+      { id: "warden_vengeful_leap_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 3 Tension, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -1343,10 +1352,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 10 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 10 },
         actionPoints: 1,
-        classResource: { type: "vengeance_points", cost: 10 }
+        classResource: { type: "tension", cost: 10 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1371,7 +1380,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_umbral_assault_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 Vengeance Points, claiming retribution." }
+      { id: "warden_umbral_assault_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 Tension, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -1404,10 +1413,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 10 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 10 },
         actionPoints: 1,
-        classResource: { type: "vengeance_points", cost: 10 }
+        classResource: { type: "tension", cost: 10 }
       },
       resolution: "SAVE",
       controlConfig: {
@@ -1430,7 +1439,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_prison_of_eternity_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 Vengeance Points, claiming retribution." }
+      { id: "warden_prison_of_eternity_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 Tension, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -1462,10 +1471,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 10 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 10 },
         actionPoints: 1,
-        classResource: { type: "vengeance_points", cost: 10 }
+        classResource: { type: "tension", cost: 10 }
       },
       resolution: "AUTOMATIC",
       buffConfig: {
@@ -1485,7 +1494,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_avatar_of_vengeance_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 Vengeance Points, claiming retribution." }
+      { id: "warden_avatar_of_vengeance_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 Tension, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -1522,10 +1531,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 5 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 5 },
         actionPoints: 2,
-        classResource: { type: "vengeance_points", cost: 5 }
+        classResource: { type: "tension", cost: 5 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1538,7 +1547,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_glaive_storm_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 5 Vengeance Points, claiming retribution." }
+      { id: "warden_glaive_storm_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 5 Tension, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -1571,10 +1580,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 4 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 4 },
         actionPoints: 1,
-        classResource: { type: "vengeance_points", cost: 4 }
+        classResource: { type: "tension", cost: 4 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1592,7 +1601,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_cage_slam_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 4 Vengeance Points, claiming retribution." }
+      { id: "warden_cage_slam_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 4 Tension, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -1629,10 +1638,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 7 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 7 },
         actionPoints: 2,
-        classResource: { type: "vengeance_points", cost: 7 }
+        classResource: { type: "tension", cost: 7 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1655,7 +1664,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_mark_execution_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 7 Vengeance Points, claiming retribution." }
+      { id: "warden_mark_execution_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 7 Tension, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -1688,10 +1697,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 6 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 6 },
         actionPoints: 2,
-        classResource: { type: "vengeance_points", cost: 6 }
+        classResource: { type: "tension", cost: 6 }
       },
       resolution: "SAVE",
       controlConfig: {
@@ -1714,7 +1723,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_shadow_cage_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 6 Vengeance Points, claiming retribution." }
+      { id: "warden_shadow_cage_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 6 Tension, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -1747,10 +1756,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 5 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 5 },
         actionPoints: 2,
-        classResource: { type: "vengeance_points", cost: 5 }
+        classResource: { type: "tension", cost: 5 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1763,7 +1772,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_hunters_wrath_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 5 Vengeance Points, claiming retribution." }
+      { id: "warden_hunters_wrath_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 5 Tension, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -1799,10 +1808,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 8 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 8 },
         actionPoints: 2,
-        classResource: { type: "vengeance_points", cost: 8 }
+        classResource: { type: "tension", cost: 8 }
       },
       resolution: "AUTOMATIC",
       buffConfig: {
@@ -1822,7 +1831,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_vengeance_incarnate_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 8 Vengeance Points, claiming retribution." }
+      { id: "warden_vengeance_incarnate_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 8 Tension, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -1855,10 +1864,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 8 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 8 },
         actionPoints: 2,
-        classResource: { type: "vengeance_points", cost: 8 }
+        classResource: { type: "tension", cost: 8 }
       },
       resolution: "SAVE",
       controlConfig: {
@@ -1881,7 +1890,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_eternal_cage_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 8 Vengeance Points, claiming retribution." }
+      { id: "warden_eternal_cage_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 8 Tension, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -1889,7 +1898,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
 },
     { id : "warden_relentless_assault",
       name: "Iron Lash",
-      description: "Lash out repeatedly with heavy chains, building 1 Vengeance Point with each hit as you relentlessly pursue your mark.",
+      description: "Lash out repeatedly with heavy chains, building 1 Tension with each hit as you relentlessly pursue your mark.",
       spellType: "ACTION",
       icon: "Bludgeoning/Mortal Strike",
       level: 8,
@@ -1914,10 +1923,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 6 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 6 },
         actionPoints: 2,
-        classResource: { type: "vengeance_points", cost: 6 }
+        classResource: { type: "tension", cost: 6 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1930,7 +1939,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_relentless_assault_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 6 Vengeance Points, claiming retribution." }
+      { id: "warden_relentless_assault_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 6 Tension, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -1967,10 +1976,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 8 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 8 },
         actionPoints: 2,
-        classResource: { type: "vengeance_points", cost: 8 }
+        classResource: { type: "tension", cost: 8 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -1983,7 +1992,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_justice_strikes_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 8 Vengeance Points, claiming retribution." }
+      { id: "warden_justice_strikes_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 8 Tension, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -2016,10 +2025,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 9 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 9 },
         actionPoints: 2,
-        classResource: { type: "vengeance_points", cost: 9 }
+        classResource: { type: "tension", cost: 9 }
       },
       resolution: "SAVE",
       controlConfig: {
@@ -2042,7 +2051,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_cage_mastery_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 9 Vengeance Points, claiming retribution." }
+      { id: "warden_cage_mastery_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 9 Tension, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -2075,10 +2084,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 7 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 7 },
         actionPoints: 2,
-        classResource: { type: "vengeance_points", cost: 7 }
+        classResource: { type: "tension", cost: 7 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -2103,7 +2112,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_no_escape_strike_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 7 Vengeance Points, claiming retribution." }
+      { id: "warden_no_escape_strike_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 7 Tension, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -2115,7 +2124,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     // ==========================================
     { id : "warden_ultimate_vengeance",
       name: "Cataclysm of Iron",
-      description: "Release all Vengeance Points in one final, cataclysmic flail. Shatter your chains to shreds, dealing colossal smashing damage to all tethered and nearby enemies.",
+      description: "Release all Tension in one final, cataclysmic flail. Shatter your chains to shreds, dealing colossal smashing damage to all tethered and nearby enemies.",
       spellType: "ACTION",
       icon: "General/Fiery Rage",
       level: 10,
@@ -2140,10 +2149,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 10 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 10 },
         actionPoints: 3,
-        classResource: { type: "vengeance_points", cost: 10 }
+        classResource: { type: "tension", cost: 10 }
       },
       resolution: "DICE",
       damageConfig: {
@@ -2156,7 +2165,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_ultimate_vengeance_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 Vengeance Points, claiming retribution." }
+      { id: "warden_ultimate_vengeance_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 Tension, claiming retribution." }
     ]
   },
   somaticText: "Wrench the iron chain taut, the links screaming as you drag your quarry into the light.",
@@ -2189,10 +2198,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 10 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 10 },
         actionPoints: 3,
-        classResource: { type: "vengeance_points", cost: 10 }
+        classResource: { type: "tension", cost: 10 }
       },
       resolution: "SAVE",
       controlConfig: {
@@ -2215,7 +2224,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_prison_realm_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 Vengeance Points, claiming retribution." }
+      { id: "warden_prison_realm_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 Tension, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -2247,10 +2256,10 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         durationUnit: "rounds"
       },
       resourceCost: {
-        components: ['verbal', 'somatic'], resourceTypes: ["vengeance_points"],
-        resourceValues: { vengeance_points: 10 },
+        components: ['verbal', 'somatic'], resourceTypes: ["tension"],
+        resourceValues: { tension: 10 },
         actionPoints: 3,
-        classResource: { type: "vengeance_points", cost: 10 }
+        classResource: { type: "tension", cost: 10 }
       },
       resolution: "AUTOMATIC",
       buffConfig: {
@@ -2270,7 +2279,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     ,
   triggerConfig: {
     triggers: [
-      { id: "warden_avatar_perfected_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 Vengeance Points, claiming retribution." }
+      { id: "warden_avatar_perfected_tether", name: "Tether Strain", triggerType: "on_cast", action: "Spends 10 Tension, claiming retribution." }
     ]
   },
   somaticText: "Slam the grave-iron manacles home, letting necrotic rust bite deep.",
@@ -2409,7 +2418,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     level: 2, spellType: "ACTION", icon: "Utility/Empowered Warrior",
     typeConfig: { school: "smashing", icon: "Utility/Empowered Warrior", castTime: 1, castTimeType: "MINUTES", tags: ["utility","rest","exploration","social","warden"] },
     targetingConfig: { targetingType: "self", rangeType: "self" },
-    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["somatic"], classResource: { type: "vengeance_points", cost: 2 }, somaticText: "Drive the hook deep and let the chain take your weight" },
+    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["somatic"], classResource: { type: "tension", cost: 2 }, somaticText: "Drive the hook deep and let the chain take your weight" },
     resolution: "NONE", effectTypes: ["utility"],
     utilityConfig: { utilityType: "rest", selectedEffects: [ { "id": "penitents_vigil_watch", "name": "The Watch", "description": "For up to 8 hours: you cannot be moved, need no sleep/food/rest, and cannot be snuck past  -  an immovable anchor on watch. You act slowly (disadvantage on non-vigil checks) and arrive tired when it ends, but nothing short of overwhelming force breaks the vigil.", "mechanicsText": "Immovable sleepless vigil 8h; disadvantage after." } ], duration: 8, durationUnit: "hours", power: "moderate" },
     cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },

@@ -164,4 +164,45 @@ describe('Talent Tree System Tests', () => {
     render(<TalentTreeContent />);
     expect(screen.getByText('Tier 1')).toBeInTheDocument();
   });
+
+  test('first talent point allocated automatically designates that tree as primary specialization', () => {
+    const { container } = render(<TalentTreeContent />);
+    expect(useCharacterStore.getState().primarySpecialization).toBeFalsy();
+
+    // Click the first learnable talent node (in Probability Savant)
+    const nodeButtons = container.querySelectorAll('.talent-node-button');
+    fireEvent.click(nodeButtons[0]);
+
+    // Character store should have primarySpecialization set to probability_savant
+    expect(useCharacterStore.getState().primarySpecialization).toBe('probability_savant');
+
+    // Primary specialization crown badge should be visible
+    expect(screen.getByText('Primary Specialization')).toBeInTheDocument();
+  });
+
+  test('Mastery Grimoire only shows innate passive traits for the active primary specialization and not unchosen trees', () => {
+    useCharacterStore.setState({
+      class: 'Gambit',
+      level: 10,
+      talents: { 'ps_t1_calculated_nudge': 1 },
+      primarySpecialization: 'probability_savant'
+    });
+
+    render(<TalentTreeContent selectedTreeIndex={3} />);
+    expect(screen.getByText('Mastery Grimoire')).toBeInTheDocument();
+    expect(screen.getAllByText('Active Innate Passive Traits:').length).toBe(1);
+    
+    // Only the active primary spec's passive is present
+    expect(screen.getByText('Balanced Ledger')).toBeInTheDocument();
+    expect(screen.queryByText('Double Down')).not.toBeInTheDocument();
+    expect(screen.queryByText('Loaded Deck')).not.toBeInTheDocument();
+  });
+
+  test('Codex readOnly mode displays innate passives for all specializations', () => {
+    render(<TalentTreeContent selectedTreeIndex={3} readOnly={true} />);
+    expect(screen.getAllByText('Active Innate Passive Traits:').length).toBe(3);
+    expect(screen.getAllByText('Balanced Ledger').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText('Double Down')).toBeInTheDocument();
+    expect(screen.getByText('Loaded Deck')).toBeInTheDocument();
+  });
 });

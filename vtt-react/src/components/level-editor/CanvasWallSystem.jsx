@@ -729,22 +729,30 @@ const CanvasWallSystem = () => {
         ctx.stroke();
         ctx.setLineDash([]);
 
-        // Selection handles at endpoints
-        ctx.fillStyle = '#FFD700';
-        ctx.strokeStyle = '#000';
-        ctx.lineWidth = 2;
-        ctx.shadowBlur = 0;
+        // Selection handles at endpoints (draggable to reshape the wall)
+        const handleSize = 8;
+        [screenPos1, screenPos2].forEach(pos => {
+          // Outer glow for visibility
+          ctx.beginPath();
+          ctx.arc(pos.x, pos.y, handleSize + 3, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(255, 215, 0, 0.3)';
+          ctx.fill();
 
-        const handleSize = 6;
-        ctx.beginPath();
-        ctx.arc(screenPos1.x, screenPos1.y, handleSize, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
+          // Gold ring
+          ctx.beginPath();
+          ctx.arc(pos.x, pos.y, handleSize, 0, Math.PI * 2);
+          ctx.fillStyle = '#FFD700';
+          ctx.strokeStyle = '#000';
+          ctx.lineWidth = 2;
+          ctx.fill();
+          ctx.stroke();
 
-        ctx.beginPath();
-        ctx.arc(screenPos2.x, screenPos2.y, handleSize, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
+          // White center dot
+          ctx.beginPath();
+          ctx.arc(pos.x, pos.y, Math.max(2, handleSize * 0.35), 0, Math.PI * 2);
+          ctx.fillStyle = '#fff';
+          ctx.fill();
+        });
 
         ctx.restore();
       }

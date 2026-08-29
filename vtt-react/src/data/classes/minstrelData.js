@@ -182,7 +182,19 @@ The Iceheart Sea has fallen silent. The oldest continuous frequency in the known
 
 **The resource bar & costs**: Your resource bar is your active **Note Bank** (storing up to 5 notes). Combining notes in different recipes produces over a dozen unique cadence effects. Failing a cadence or holding discordant notes too long causes acoustic feedback that strains your focus.
 
-**Bring one for**: Rhythm, combo-building, high-synergy support, and the satisfying feeling of executing a multi-note musical sequence that completely turns the tide of battle.`
+**Bring one for**: Rhythm, combo-building, high-synergy support, and the satisfying feeling of executing a multi-note musical sequence that completely turns the tide of battle.`,
+    roleplayIdentity: {
+      title: "Roleplay Identity",
+      content: "Practitioners carry a profound cultural and physical responsibility, marked by their tradition's unique legacy and societal perceptions."
+    },
+    combatRole: {
+      title: "Combat Role",
+      content: "Acoustic reality-conductor who harvests musical notes (I-VII) from collapsing dimensions to assemble powerful persistent Cadences and armor-shattering chords."
+    },
+    playstyle: {
+      title: "Playstyle & Turn 1 Flow",
+      content: "**Your Turn 1 in Combat**:\n1. **Equip Instrument & Play Builders**: Cast builder songs to harvest specific notes into your active hand.\n2. **Assemble Cadences**: Combine note sequences (e.g. I-III-V) to trigger team-wide buffs or sonic disruption.\n3. **Protect Your Position**: Maintain distance to avoid being silenced or taking hits during performance vulnerability."
+    }
   },
 
  description: `There is nothing beautiful about what the Minstrel does. They play instruments crafted from bone and grief, each chord progression a fresh wound torn in the fabric of existence. Their magic is not art, it is a fundamental violation of physics that demands biological payment. Every note they collect is a splinter stolen from a dying reality, and every cadence they resolve is an act of cosmic mutilation that rewrites the battlefield in blood and resonance. The music should not exist. It exists because the Minstrel forces it to, and the world pays the price.`,
@@ -453,10 +465,18 @@ You're not a simple support caster. You're a MUSICAL CONDUCTOR. You build notes 
 
  // Resource System
  resourceSystem: {
- title: "Musical Combo System",
- subtitle: "Harvesting the Death Cries of Collapsing Realities",
+ title: "Notes: The Musical Score",
+ subtitle: "How Your Resource Works (Beginner's Guide)",
 
- description: `The Minstrel's resource system is built on a foundation of cosmic theft. Every musical note is a splinter harvested from a dimension in its final moments of collapse, a dying reality's last frequency, captured and compressed into something a mortal mind can barely comprehend. Builder spells gouge these fragments from the fabric of existence, accumulating them in a terrible ledger. Resolving spells, cadences, then spend these hoarded fragments to commit fresh atrocities: guaranteeing critical wounds, stunning minds with impossible harmonics, or stitching allies back together through frequencies that should have stayed silent. Mastering the Minstrel means accepting that your power is stolen from the dead, and that every cadence you play hastens the entropy of everything around you.`,
+ description: `**1. What is it? (The Musical Score)**
+You collect discrete Musical Notes (I–VII) by playing builder melodies in combat, assembling them into powerful multi-note Cadences.
+
+**2. How do I build it?**
+- Cast builder songs to add specific notes (Tonic I, Subdominant IV, Dominant V, etc.) to your active performance hand.
+
+**3. How do I spend it & what is the catch?**
+- Assemble sequences (e.g. I–IV–V) to complete Cadences that grant team-wide speed, shatter enemy defenses, or soothe mental debuffs.
+- **The Catch (Performance Vulnerability)**: You cannot heal yourself with your own songs, and taking heavy hits can interrupt your cadence before it resolves.`,
 
  resourceBarExplanation: {
   title: "Understanding Your Musical Notes Interface",
@@ -889,7 +909,7 @@ Before combat, decide which cadences you want to prioritize:
   entries: [
   {
    id: "perfect_cadence",
-   name: "Perfect Cadence",
+   name: "Notes",
    epithet: "Harmonious Resolution",
    sequence: "I → IV → V → I",
    notes: { I: 2, IV: 1, V: 1 },

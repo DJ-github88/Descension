@@ -941,12 +941,13 @@
   border: 3px solid #8b4513;
   border-radius: 12px;
   width: 100%;
-  max-width: 520px;
-  max-height: 80vh;
+  max-width: 580px;
+  max-height: 85vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.8);
   overflow: hidden;
+  animation: slideUpModal 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .spell-quick-assign-header {
@@ -955,6 +956,19 @@
   align-items: center;
   padding: 12px 16px;
   border-bottom: 2px solid rgba(139, 69, 19, 0.3);
+  background: rgba(139, 69, 19, 0.06);
+}
+
+.spell-quick-assign-header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #3b1810;
+}
+
+.spell-quick-assign-header-title i {
+  color: #8b4513;
+  font-size: 1.1rem;
 }
 
 .spell-quick-assign-header h3 {
@@ -969,36 +983,111 @@
   background: transparent;
   border: none;
   color: #8b4513;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   cursor: pointer;
-  transition: color 0.15s ease;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
 }
 
 .spell-quick-assign-close:hover {
+  background: rgba(139, 69, 19, 0.15);
   color: #3b1810;
+}
+
+.spell-quick-assign-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 8px 12px 0;
+  border-bottom: 1.5px solid rgba(139, 69, 19, 0.25);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background: rgba(139, 69, 19, 0.03);
+}
+
+.spell-quick-assign-tabs::-webkit-scrollbar {
+  height: 4px;
+}
+
+.spell-quick-assign-tabs::-webkit-scrollbar-thumb {
+  background: rgba(139, 69, 19, 0.3);
+  border-radius: 2px;
+}
+
+.spell-quick-assign-tab {
+  padding: 6px 10px;
+  background: rgba(139, 69, 19, 0.08);
+  border: 1px solid rgba(139, 69, 19, 0.25);
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  color: #5c3310;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.spell-quick-assign-tab:hover {
+  background: rgba(139, 69, 19, 0.18);
+  color: #3b1810;
+}
+
+.spell-quick-assign-tab.active {
+  background: #ffffff;
+  border-color: rgba(139, 69, 19, 0.5);
+  color: #7c2d12;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.06);
 }
 
 .spell-quick-assign-search {
-  padding: 10px 16px;
+  padding: 8px 12px;
   border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  background: #ffffff;
+}
+
+.spell-search-glass-icon {
+  color: #8b4513;
+  font-size: 0.9rem;
+  opacity: 0.7;
 }
 
 .spell-quick-assign-input {
-  width: 100%;
-  padding: 8px 12px;
-  background: #ffffff;
-  border: 1.5px solid rgba(139, 69, 19, 0.4);
-  border-radius: 6px;
+  flex: 1;
+  padding: 7px 10px;
+  background: transparent;
+  border: none;
   color: #3b1810;
-  font-family: 'Crimson Text', serif;
+  font-family: 'Crimson Text', Georgia, serif;
   font-size: 0.95rem;
   box-sizing: border-box;
 }
 
 .spell-quick-assign-input:focus {
   outline: none;
-  border-color: #8b4513;
-  box-shadow: 0 0 8px rgba(139, 69, 19, 0.3);
+}
+
+.spell-search-clear-btn {
+  background: none;
+  border: none;
+  color: #8b4513;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 4px;
+  opacity: 0.7;
+}
+
+.spell-search-clear-btn:hover {
+  opacity: 1;
+  color: #3b1810;
 }
 
 .spell-quick-assign-list {
@@ -1008,42 +1097,74 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-height: 200px;
+  max-height: 52vh;
 }
 
 .spell-quick-assign-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 8px 10px;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(139, 69, 19, 0.25);
-  border-radius: 6px;
+  gap: 10px;
+  padding: 7px 10px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1.5px solid rgba(139, 69, 19, 0.2);
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.18s ease;
+  transition: all 0.16s ease;
+  position: relative;
 }
 
 .spell-quick-assign-item:hover {
   background: #ffffff;
   border-color: #8b4513;
-  transform: translateX(3px);
-  box-shadow: 0 2px 6px rgba(139, 69, 19, 0.15);
+  transform: translateX(4px);
+  box-shadow: 0 3px 8px rgba(139, 69, 19, 0.2);
 }
 
-.spell-quick-assign-item-icon {
-  width: 36px;
-  height: 36px;
+.spell-quick-assign-item.is-slotted {
+  background: rgba(254, 249, 195, 0.6);
+  border-color: #ca8a04;
+}
+
+.spell-quick-assign-item.is-slotted:hover {
+  background: #fefce8;
+  border-color: #a16207;
+}
+
+.spell-quick-assign-icon-box {
+  width: 40px;
+  height: 40px;
   border-radius: 6px;
-  object-fit: cover;
-  border: 1px solid #8b5a2b;
+  overflow: hidden;
+  border: 1.5px solid #8b5a2b;
   flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  background: #1c0e08;
 }
 
-.spell-quick-assign-item-info {
+.spell-quick-assign-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.spell-quick-assign-info {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.spell-quick-assign-item-name {
+.spell-quick-assign-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.spell-quick-assign-name {
   font-family: 'Cinzel', serif;
   font-size: 0.88rem;
   font-weight: 700;
@@ -1054,15 +1175,141 @@
   text-overflow: ellipsis;
 }
 
-.spell-quick-assign-item-desc {
-  font-family: 'Crimson Text', serif;
-  font-size: 0.76rem;
-  color: #7c2d12;
-  margin: 0;
+.spell-quick-assign-tags {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.spell-quick-assign-tag {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.spell-quick-assign-tag.spell {
+  background: rgba(59, 130, 246, 0.15);
+  color: #1d4ed8;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+}
+
+.spell-quick-assign-tag.passive {
+  background: rgba(147, 51, 234, 0.15);
+  color: #7e22ce;
+  border: 1px solid rgba(147, 51, 234, 0.35);
+}
+
+.spell-quick-assign-tag.source {
+  background: rgba(139, 69, 19, 0.1);
+  color: #78350f;
+  border: 1px solid rgba(139, 69, 19, 0.25);
+}
+
+.spell-quick-assign-tag.slotted {
+  background: #eab308;
+  color: #3b1810;
+  border: 1px solid #ca8a04;
+  font-weight: 900;
+}
+
+.spell-quick-assign-tag.consumable {
+  background: rgba(217, 119, 6, 0.15);
+  color: #b45309;
+  border: 1px solid rgba(217, 119, 6, 0.35);
+}
+
+.spell-quick-assign-details {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.spell-quick-assign-cost-summary {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #8b4513;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.spell-quick-assign-desc {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 0.8rem;
+  color: #78350f;
   font-style: italic;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.spell-quick-assign-action-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(139, 69, 19, 0.1);
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  color: #8b4513;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.spell-quick-assign-item:hover .spell-quick-assign-action-btn {
+  background: #8b4513;
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+.spell-quick-assign-empty-msg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 32px 16px;
+  color: #8b5a2b;
+  text-align: center;
+}
+
+.spell-quick-assign-empty-msg i {
+  font-size: 2rem;
+  opacity: 0.5;
+}
+
+.spell-quick-assign-empty-msg p {
+  margin: 0;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+.spell-quick-assign-reset-search {
+  background: #ffffff;
+  border: 1px solid #8b4513;
+  color: #8b4513;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.spell-quick-assign-reset-search:hover {
+  background: #8b4513;
+  color: #ffffff;
 }
 
 /* Spell & Item Inspection Popup (Direct card view without redundant modal wrapper) */
@@ -1223,6 +1470,19 @@
   background: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(212, 175, 55, 0.5);
+}
+
+.spell-inspect-btn.replace {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  border: 1.5px solid #38bdf8;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35);
+}
+
+.spell-inspect-btn.replace:hover {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.55);
 }
 
 .spell-inspect-btn.remove {

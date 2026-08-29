@@ -47,7 +47,7 @@
 
 | Key | Display | Type | Role |
 |---|---|---|---|
-| `grum` | Grum Bloodhammer | historical_figure | Berserker founder; Sundale forge-blacksmith who ignited Blood-Heat |
+| `grum` | Grum Bloodhammer | historical_figure | Berserker founder; Sundale forge-blacksmith who ignited Rage |
 | `sera` | Sera Solvan | historical_figure | Martyr founder; carved child's name into her flesh |
 | `scathrach` | (see A.1) | entity | Pyrofiend patron |
 | `mimir` | Mimir | race | Made by Sereth; mask-wearers |
@@ -66,9 +66,9 @@
 | `morvane` | (see A.1) | concept | Neth-daily-name facet of the Watcher |
 | `frost_tithe` | Frost-Tithe | concept | Skalvyr Bargain's per-birth death-price |
 | `silt_tide` | Silt-Tide | concept | Ordavan-Bargain-induced gravitational anomaly |
-| `blood_heat` | Blood-Heat | resource | Berserker rage mechanic |
+| `rage` | Rage | resource | Berserker rage mechanic |
 | `inferno_veil` | Inferno Veil | resource | Pyrofiend corruption mechanic |
-| `devotion_gauge` | Devotion Gauge | resource | Martyr suffering-absorption mechanic |
+| `devotion` | Devotion | resource | Martyr suffering-absorption mechanic |
 | `the_forgotten` | The Forgotten | concept | Undocumented Frostwood underclass |
 
 ### A.5 — RELATIONSHIP MAP (compact)

@@ -72,6 +72,49 @@ const initialState = {
   tags: [],
   tokenIcon: 'inv_misc_questionmark',
   tokenBorder: '#ffffff',
+  customTokenImage: null,
+  imageTransformations: null,
+
+  // Lore and Worldbuilding
+  role: '',
+  dangerLevel: 'Medium',
+  region: '',
+  habitat: '',
+  origin: '',
+  heritage: '',
+  nature: '',
+  depth: '',
+  loreClassification: {
+    status: '',
+    originClass: '',
+    wyrdRelationship: '',
+    agency: '',
+    regionRole: ''
+  },
+  loreCanon: {
+    trueOrigin: '',
+    folklore: '',
+    function: '',
+    values: '',
+    bindingEffect: '',
+    wyrdRelationship: '',
+    cosmicProvenance: '',
+    wyrdFunction: '',
+    anchor: '',
+    kethRelationship: '',
+    independence: '',
+    countermeasure: ''
+  },
+  loreNote: '',
+  folkloreInspiration: {
+    primaryMyth: '',
+    traditions: [],
+    cryptidRoots: '',
+    description: '',
+    settingAdaptation: ''
+  },
+  illustration: null,
+  illustrationCaption: '',
   
   // Statistics
   stats: { ...DEFAULT_STATS },

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import useLevelEditorStore from '../../store/levelEditorStore';
+import useLevelEditorStore, { WALL_TYPES } from '../../store/levelEditorStore';
 import useGameStore from '../../store/gameStore';
 import useGridItemStore from '../../store/gridItemStore';
 import useCreatureStore from '../../store/creatureStore';
@@ -44,10 +44,13 @@ const ProfessionalVTTEditor = () => {
     const [selectedWindow, setSelectedWindow] = useState(null); // { key, gridX, gridY, data }
     const [isDraggingWall, setIsDraggingWall] = useState(false);
     const [isObjectLocked, setIsObjectLocked] = useState(false); // When true, we're locked to selected object
+    const [handleHover, setHandleHover] = useState(false); // Cursor is over a selected wall's endpoint handle
 
     // Refs to track current dragging positions (avoids stale closure issues with state)
     const dragWindowRef = useRef(null); // { gridX, gridY, data } - current window position during drag
     const dragWallRef = useRef(null); // { x1, y1, x2, y2, key } - current wall position during drag
+    const dragEndpointRef = useRef(null); // { anchorX, anchorY } - fixed endpoint while reshaping a wall
+    const wallChainRef = useRef(null); // { lastX, lastY, wallType } - last committed point for continuous wall drawing
     const lastDragPosRef = useRef(null); // { gridX, gridY } - last mouse position during drag
     const windowDragRafRef = useRef(null); // RAF ref for throttling window drag updates
     const pendingWindowUpdateRef = useRef(null); // Pending window position update
@@ -138,6 +141,7 @@ const ProfessionalVTTEditor = () => {
         windowOverlays,
         setWindowOverlay,
         removeWindowOverlay,
+        moveWindowOverlay,
         selectedWindowKey,
         setSelectedWindowKey,
         clearTerrain,
@@ -378,11 +382,13 @@ const ProfessionalVTTEditor = () => {
     }, [wallData]);
 
     // Find all walls near a grid position (within 2.0 tile distance, doors get larger threshold)
+    // Reads fresh store state so it stays correct inside RAF drag loops
     const findWallsNearPosition = useCallback((clickX, clickY) => {
-        if (!wallData) return [];
+        const currentWallData = useLevelEditorStore.getState().wallData;
+        if (!currentWallData) return [];
 
         const walls = [];
-        for (const [wallKey, wall] of Object.entries(wallData)) {
+        for (const [wallKey, wall] of Object.entries(currentWallData)) {
             const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
 
             // Get wall type to determine selection threshold
@@ -439,7 +445,7 @@ const ProfessionalVTTEditor = () => {
             return a.distance - b.distance;
         });
         return walls;
-    }, [wallData]);
+    }, []);
 
     // Find object at screen position (for lantern selection)
     const getObjectAtScreenPosition = useCallback((screenX, screenY) => {
@@ -1304,6 +1310,38 @@ const ProfessionalVTTEditor = () => {
                     ? (wallSelectCoords.worldY - gridOffsetY) / gridSize
                     : selGy + 0.5;
 
+                // Endpoint handle grab: if a wall is selected and the click lands on one of its
+                // gold endpoint circles, start reshaping the wall instead of moving it
+                if (selectedWallKey && wallData[selectedWallKey]) {
+                    const [ex1, ey1, ex2, ey2] = selectedWallKey.split(',').map(Number);
+                    const selWallType = typeof wallData[selectedWallKey] === 'string'
+                        ? wallData[selectedWallKey]
+                        : wallData[selectedWallKey]?.type;
+                    const selIsDoor = selWallType && selWallType.includes('door');
+                    if (!selIsDoor) {
+                        const pxPerGridUnit = (gridSize || 50) * (zoomLevel || 1) * (playerZoom || 1);
+                        // Grab radius matches the drawn handle in SCREEN pixels (~15px around
+                        // the circle), so what you can grab is exactly what you can see
+                        const endpointTol = 15 / (pxPerGridUnit || 50);
+                        const d1 = Math.hypot(selClickX - ex1, selClickY - ey1);
+                        const d2 = Math.hypot(selClickX - ex2, selClickY - ey2);
+                        if (d1 <= endpointTol || d2 <= endpointTol) {
+                            dragWallRef.current = { x1: ex1, y1: ey1, x2: ex2, y2: ey2, key: selectedWallKey };
+                            // Anchor = the endpoint that stays fixed; the grabbed one follows the mouse
+                            dragEndpointRef.current = d1 <= d2
+                                ? { anchorX: ex2, anchorY: ey2 }
+                                : { anchorX: ex1, anchorY: ey1 };
+                            dragWindowRef.current = null;
+                            lastDragPosRef.current = { gridX: selGx, gridY: selGy };
+                            setIsObjectLocked(true);
+                            setWallDragStart({ gridX: selGx, gridY: selGy });
+                            setIsDraggingWall(true);
+                            setIsDrawing(true);
+                            return;
+                        }
+                    }
+                }
+
                 // First, try to find objects at click position (check for new selection)
                 let foundWindow = null;
                 let foundWall = null;
@@ -1377,6 +1415,7 @@ const ProfessionalVTTEditor = () => {
                         // Select new wall
                         const [x1, y1, x2, y2] = foundWall.key.split(',').map(Number);
                         dragWallRef.current = { x1, y1, x2, y2, key: foundWall.key };
+                        dragEndpointRef.current = null;
                         dragWindowRef.current = null;
                         lastDragPosRef.current = { gridX: selGx, gridY: selGy };
 
@@ -1412,6 +1451,7 @@ const ProfessionalVTTEditor = () => {
                         } else if (selectedWallKey) {
                             const [x1, y1, x2, y2] = selectedWallKey.split(',').map(Number);
                             dragWallRef.current = { x1, y1, x2, y2, key: selectedWallKey };
+                            dragEndpointRef.current = null;
                             dragWindowRef.current = null;
                         }
                         setWallDragStart({ gridX: selGx, gridY: selGy });
@@ -1455,6 +1495,7 @@ const ProfessionalVTTEditor = () => {
                     } else if (foundWall) {
                         const [x1, y1, x2, y2] = foundWall.key.split(',').map(Number);
                         dragWallRef.current = { x1, y1, x2, y2, key: foundWall.key };
+                        dragEndpointRef.current = null;
                         dragWindowRef.current = null;
                         lastDragPosRef.current = { gridX: selGx, gridY: selGy };
 
@@ -1658,7 +1699,21 @@ const ProfessionalVTTEditor = () => {
                     if (validWallType !== toolSettings.selectedWallType) {
                         setToolSettings(prev => ({ ...prev, selectedWallType: validWallType }));
                     }
-                    // Start drawing for both continuous and rectangle modes
+                    // Track chain state for continuous mode: straight runs merge into a single
+                    // wall; a new segment is only started when the drag direction changes
+                    wallChainRef.current = {
+                        segStartX: coords.gridX,
+                        segStartY: coords.gridY,
+                        lastX: coords.gridX,
+                        lastY: coords.gridY,
+                        dirX: null,
+                        dirY: null,
+                        wallType: validWallType,
+                        committed: false
+                    };
+                    // Start drawing for both continuous and rectangle modes (+ live ghost preview)
+                    setIsCurrentlyDrawing(true);
+                    setCurrentDrawingTool('wall_draw');
                     setCurrentPath([coords]);
                     setCurrentDrawingPath([coords]);
                 }
@@ -1667,7 +1722,7 @@ const ProfessionalVTTEditor = () => {
             default:
                 break;
         }
-    }, [isEditorMode, selectedTool, screenToGrid, toolSettings, paintTerrainBrush, removeTerrainAtPosition, paintTerrainLine, removeTerrainLine, removeFogAtPosition, gridSize, getObjectAtPosition, selectEnvironmentalObject, removeEnvironmentalObject, addEnvironmentalObject, clearAllFog, coverEntireMapWithFog, setIsDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool, setCurrentPath, setCurrentDrawingPath, pushHistorySnapshot]);
+    }, [isEditorMode, selectedTool, screenToGrid, toolSettings, paintTerrainBrush, removeTerrainAtPosition, paintTerrainLine, removeTerrainLine, removeFogAtPosition, gridSize, zoomLevel, playerZoom, getObjectAtPosition, selectEnvironmentalObject, removeEnvironmentalObject, addEnvironmentalObject, clearAllFog, coverEntireMapWithFog, setIsDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool, setCurrentPath, setCurrentDrawingPath, pushHistorySnapshot]);
 
     const handleMouseMove = useCallback((e) => {
         // For select tools, let ObjectSystem handle the events
@@ -1883,6 +1938,42 @@ const ProfessionalVTTEditor = () => {
                         const newPath = [currentPath[0], wallCoords];
                         setCurrentPath(newPath);
                         setCurrentDrawingPath(newPath);
+                    } else if (wallChainRef.current) {
+                        // Continuous mode: merge straight runs into a single wall. A segment is
+                        // only committed when the drag direction CHANGES (corner); the current
+                        // straight run stays live as a ghost preview until mouseup commits it.
+                        const chain = wallChainRef.current;
+                        const gx = wallCoords.gridX;
+                        const gy = wallCoords.gridY;
+                        if (gx !== chain.lastX || gy !== chain.lastY) {
+                            const ndx = Math.sign(gx - chain.lastX);
+                            const ndy = Math.sign(gy - chain.lastY);
+                            if (chain.dirX !== null && (ndx !== chain.dirX || ndy !== chain.dirY)) {
+                                // Direction changed: close out the previous straight run at the corner
+                                if (chain.segStartX !== chain.lastX || chain.segStartY !== chain.lastY) {
+                                    setWall(
+                                        chain.segStartX,
+                                        chain.segStartY,
+                                        chain.lastX,
+                                        chain.lastY,
+                                        chain.wallType,
+                                        activeMapIdRef.current
+                                    );
+                                    chain.committed = true;
+                                }
+                                chain.segStartX = chain.lastX;
+                                chain.segStartY = chain.lastY;
+                            }
+                            chain.dirX = ndx;
+                            chain.dirY = ndy;
+                            chain.lastX = gx;
+                            chain.lastY = gy;
+                        }
+                        // Ghost preview shows the current run from its start to the cursor
+                        setCurrentDrawingPath([
+                            { gridX: chain.segStartX, gridY: chain.segStartY },
+                            { gridX: chain.lastX, gridY: chain.lastY }
+                        ]);
                     } else {
                         // For continuous mode, show line from start to current position
                         const newPath = [currentPath[0], wallCoords];
@@ -1907,13 +1998,9 @@ const ProfessionalVTTEditor = () => {
                                     gridOffsetX,
                                     gridOffsetY,
                                     gridSize,
-                                    wallData,
-                                    windowOverlays,
                                     findWallsNearPosition,
-                                    removeWindowOverlay,
-                                    setWindowOverlay,
+                                    moveWindowOverlay,
                                     setSelectedWindow,
-                                    setSelectedWindowKey,
                                     setWallDragStart
                                 };
 
@@ -1926,7 +2013,10 @@ const ProfessionalVTTEditor = () => {
                                             return;
                                         }
 
-                                        const { moveCoords, gridOffsetX, gridOffsetY, gridSize, wallData, windowOverlays, findWallsNearPosition, removeWindowOverlay, setWindowOverlay, setSelectedWindow, setSelectedWindowKey, setWallDragStart } = update;
+                                        const { moveCoords, gridOffsetX, gridOffsetY, gridSize, findWallsNearPosition, moveWindowOverlay, setSelectedWindow, setWallDragStart } = update;
+
+                                        // Always read fresh store state (prevents stale data inside RAF chain)
+                                        const { wallData: freshWallData, windowOverlays: freshWindowOverlays } = useLevelEditorStore.getState();
 
                                         // Move window along walls - can snap to different walls when dragged near them
                                         const oldX = dragWindowRef.current.gridX;
@@ -1955,8 +2045,8 @@ const ProfessionalVTTEditor = () => {
                                         let validWalls = [];
                                         let shouldSearchForWalls = true;
 
-                                        if (currentWallKey && wallData[currentWallKey]) {
-                                            const currentWall = wallData[currentWallKey];
+                                        if (currentWallKey && freshWallData[currentWallKey]) {
+                                            const currentWall = freshWallData[currentWallKey];
                                             const wallType = typeof currentWall === 'string' ? currentWall : currentWall?.type;
                                             if (!(wallType && wallType.includes('door'))) {
                                                 const [x1, y1, x2, y2] = currentWallKey.split(',').map(Number);
@@ -1996,8 +2086,8 @@ const ProfessionalVTTEditor = () => {
                                             });
 
                                             // Add current wall if it's within reasonable distance
-                                            if (currentWallKey && wallData[currentWallKey] && !validWalls.find(w => w.key === currentWallKey)) {
-                                                const currentWall = wallData[currentWallKey];
+                                            if (currentWallKey && freshWallData[currentWallKey] && !validWalls.find(w => w.key === currentWallKey)) {
+                                                const currentWall = freshWallData[currentWallKey];
                                                 const wallType = typeof currentWall === 'string' ? currentWall : currentWall?.type;
                                                 if (!(wallType && wallType.includes('door'))) {
                                                     const [x1, y1, x2, y2] = currentWallKey.split(',').map(Number);
@@ -2029,7 +2119,7 @@ const ProfessionalVTTEditor = () => {
 
                                         if (validWalls.length === 0) {
                                             // No valid walls nearby, keep window on current wall if it exists
-                                            const currentWall = wallData[currentWallKey];
+                                            const currentWall = freshWallData[currentWallKey];
                                             if (!currentWall) {
                                                 // Current wall no longer exists, stop dragging
                                                 lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
@@ -2075,7 +2165,7 @@ const ProfessionalVTTEditor = () => {
                                         }
 
                                         // Get the wall we're using (either current or newly selected)
-                                        const wall = wallData[currentWallKey];
+                                        const wall = freshWallData[currentWallKey];
                                         if (!wall) {
                                             // Wall no longer exists, stop dragging
                                             lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
@@ -2119,7 +2209,7 @@ const ProfessionalVTTEditor = () => {
                                         }
 
                                         // Check if there's already a different window at the target position
-                                        const existingWindow = windowOverlays[newKey];
+                                        const existingWindow = freshWindowOverlays[newKey];
                                         if (existingWindow && newKey !== oldKey) {
                                             // Don't move - there's already a window here, but continue checking
                                             lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
@@ -2128,22 +2218,9 @@ const ProfessionalVTTEditor = () => {
                                             return;
                                         }
 
-                                        // Use the exact old key format when removing to prevent duplicates
-                                        const oldKeyFormats = [
-                                            `${oldX.toFixed(3)},${oldY.toFixed(3)}`,
-                                            `${oldX.toFixed(1)},${oldY.toFixed(1)}`,
-                                            `${Math.round(oldX)},${Math.round(oldY)}`
-                                        ];
-
-                                        // Remove from old position using all possible key formats
-                                        oldKeyFormats.forEach(key => {
-                                            if (windowOverlays[key]) {
-                                                removeWindowOverlay(parseFloat(key.split(',')[0]), parseFloat(key.split(',')[1]), activeMapIdRef.current);
-                                            }
-                                        });
-
-                                        // Add to new position with updated wallKey
-                                        setWindowOverlay(newX, newY, dragWindowRef.current.data.type, currentWallKey, activeMapIdRef.current);
+                                        // Atomic move: single store update removes the old key (any format),
+                                        // adds the new one and keeps the selection key in sync
+                                        moveWindowOverlay(oldX, oldY, newX, newY, currentWallKey, activeMapIdRef.current);
 
                                         // Update the ref immediately (sync) for next drag event
                                         dragWindowRef.current.gridX = newX;
@@ -2162,7 +2239,6 @@ const ProfessionalVTTEditor = () => {
                                             }
                                         };
                                         setSelectedWindow(newWindowData);
-                                        setSelectedWindowKey(newKey);
                                         setWallDragStart({ gridX: moveCoords.gridX, gridY: moveCoords.gridY });
 
                                         // Continue RAF chain for smooth dragging - check for next update
@@ -2178,9 +2254,49 @@ const ProfessionalVTTEditor = () => {
                             } else if (dragWallRef.current) {
                                 // Check if this is a door - doors should move along walls like windows
                                 const { x1, y1, x2, y2, key: oldWallKey } = dragWallRef.current;
-                                const currentWall = wallData[oldWallKey];
+                                // Fresh store read - the render-closure wallData can be one move behind
+                                const currentWall = useLevelEditorStore.getState().wallData[oldWallKey];
                                 const wallType = typeof currentWall === 'string' ? currentWall : currentWall?.type;
                                 const isDoor = wallType && wallType.includes('door');
+
+                                // Endpoint handle drag - reshape the wall by moving the grabbed
+                                // endpoint (snapped to the grid), keeping the anchor endpoint fixed
+                                if (dragEndpointRef.current && !isDoor) {
+                                    const { anchorX, anchorY } = dragEndpointRef.current;
+                                    const epClickX = moveCoords.worldX !== undefined && moveCoords.worldY !== undefined
+                                        ? (moveCoords.worldX - gridOffsetX) / gridSize
+                                        : moveCoords.gridX + 0.5;
+                                    const epClickY = moveCoords.worldX !== undefined && moveCoords.worldY !== undefined
+                                        ? (moveCoords.worldY - gridOffsetY) / gridSize
+                                        : moveCoords.gridY + 0.5;
+
+                                    // Snap the grabbed endpoint to the nearest grid node
+                                    const nx = Math.round(epClickX);
+                                    const ny = Math.round(epClickY);
+
+                                    // Guard: never collapse the wall to zero length
+                                    if (nx === anchorX && ny === anchorY) {
+                                        lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
+                                        break;
+                                    }
+
+                                    const epNewKey = nx < anchorX || (nx === anchorX && ny < anchorY)
+                                        ? `${nx},${ny},${anchorX},${anchorY}`
+                                        : `${anchorX},${anchorY},${nx},${ny}`;
+
+                                    if (epNewKey !== oldWallKey) {
+                                        // Fresh occupancy check against the live store
+                                        const existingWall = useLevelEditorStore.getState().wallData[epNewKey];
+                                        if (!existingWall) {
+                                            moveWall(x1, y1, x2, y2, nx, ny, anchorX, anchorY, activeMapIdRef.current);
+                                            dragWallRef.current = { x1: nx, y1: ny, x2: anchorX, y2: anchorY, key: epNewKey };
+                                        }
+                                    }
+
+                                    lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
+                                    setWallDragStart({ gridX: moveCoords.gridX, gridY: moveCoords.gridY });
+                                    break;
+                                }
 
                                 if (isDoor) {
                                     // Store pending door update for RAF throttling (similar to windows)
@@ -2189,7 +2305,6 @@ const ProfessionalVTTEditor = () => {
                                         gridOffsetX,
                                         gridOffsetY,
                                         gridSize,
-                                        wallData,
                                         findWallsNearPosition,
                                         moveWall,
                                         x1, y1, x2, y2, oldWallKey
@@ -2204,7 +2319,7 @@ const ProfessionalVTTEditor = () => {
                                                 return;
                                             }
 
-                                            const { moveCoords, gridOffsetX, gridOffsetY, gridSize, wallData, findWallsNearPosition, moveWall, x1, y1, x2, y2, oldWallKey } = update;
+                                            const { moveCoords, gridOffsetX, gridOffsetY, gridSize, findWallsNearPosition, moveWall, x1, y1, x2, y2, oldWallKey } = update;
 
                                             // Door dragging - constrain to walls like windows
                                             // Convert mouse position to precise grid coordinates
@@ -2262,18 +2377,26 @@ const ProfessionalVTTEditor = () => {
                                             const dirY = twdy / twLength;
 
                                             // Place door along the wall at projected point
-                                            const newX1 = projX - dirX * halfLength;
-                                            const newY1 = projY - dirY * halfLength;
-                                            const newX2 = projX + dirX * halfLength;
-                                            const newY2 = projY + dirY * halfLength;
+                                            // (rounded to 3 decimals to keep wall keys stable)
+                                            const newX1 = parseFloat((projX - dirX * halfLength).toFixed(3));
+                                            const newY1 = parseFloat((projY - dirY * halfLength).toFixed(3));
+                                            const newX2 = parseFloat((projX + dirX * halfLength).toFixed(3));
+                                            const newY2 = parseFloat((projY + dirY * halfLength).toFixed(3));
 
                                             // Calculate new key
                                             const newKey = newX1 < newX2 || (newX1 === newX2 && newY1 < newY2)
                                                 ? `${newX1},${newY1},${newX2},${newY2}`
                                                 : `${newX2},${newY2},${newX1},${newY1}`;
 
-                                            // Check if there's already a different wall at the target position
-                                            const existingWall = wallData[newKey];
+                                            // Skip if the door hasn't actually moved (prevents per-frame store churn)
+                                            if (newKey === oldWallKey) {
+                                                lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
+                                                doorDragRafRef.current = requestAnimationFrame(updateDoorPosition);
+                                                return;
+                                            }
+
+                                            // Check if there's already a different wall at the target position (fresh state)
+                                            const existingWall = useLevelEditorStore.getState().wallData[newKey];
                                             if (existingWall && newKey !== oldWallKey) {
                                                 // Don't move - there's already a wall here
                                                 lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
@@ -2311,8 +2434,8 @@ const ProfessionalVTTEditor = () => {
                                         ? `${newX1},${newY1},${newX2},${newY2}`
                                         : `${newX2},${newY2},${newX1},${newY1}`;
 
-                                    // Check if there's already a different wall at the target position
-                                    const existingWall = wallData[newKey];
+                                    // Check if there's already a different wall at the target position (fresh state)
+                                    const existingWall = useLevelEditorStore.getState().wallData[newKey];
                                     if (existingWall && newKey !== oldWallKey) {
                                         // Don't move - there's already a wall here
                                         lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
@@ -2330,6 +2453,22 @@ const ProfessionalVTTEditor = () => {
                             }
                         }
                     }
+                } else if (selectedWallKey) {
+                    // Not dragging: show grab cursor when hovering the selected wall's endpoint handles
+                    const hoverCoords = screenToGrid(e.clientX, e.clientY);
+                    if (hoverCoords && hoverCoords.worldX !== undefined) {
+                        const hx = (hoverCoords.worldX - gridOffsetX) / gridSize;
+                        const hy = (hoverCoords.worldY - gridOffsetY) / gridSize;
+                        const [hx1, hy1, hx2, hy2] = selectedWallKey.split(',').map(Number);
+                        const hPxPerUnit = (gridSize || 50) * (zoomLevel || 1) * (playerZoom || 1);
+                        const hTol = 15 / (hPxPerUnit || 50);
+                        const hovering = Math.hypot(hx - hx1, hy - hy1) <= hTol || Math.hypot(hx - hx2, hy - hy2) <= hTol;
+                        setHandleHover(prev => (prev === hovering ? prev : hovering));
+                    } else if (handleHover) {
+                        setHandleHover(false);
+                    }
+                } else if (handleHover) {
+                    setHandleHover(false);
                 }
                 break;
             case 'line':
@@ -2413,6 +2552,7 @@ const ProfessionalVTTEditor = () => {
             }
             pendingWindowUpdateRef.current = null;
             pendingDoorUpdateRef.current = null;
+            dragEndpointRef.current = null;
 
             setIsDrawing(false);
             setWallDragStart(null);
@@ -2445,15 +2585,19 @@ const ProfessionalVTTEditor = () => {
             const wallMode = toolSettings.wallMode || 'continuous';
 
             if (wallMode === 'continuous') {
-                // Continuous mode: place single wall
-                setWall(
-                    startPoint.gridX,
-                    startPoint.gridY,
-                    endPoint.gridX,
-                    endPoint.gridY,
-                    wallType,
-                    activeMapIdRef.current
-                );
+                // Continuous mode: commit the final straight run (corners were already
+                // committed live on direction changes)
+                const chain = wallChainRef.current;
+                if (chain && (chain.segStartX !== chain.lastX || chain.segStartY !== chain.lastY)) {
+                    setWall(
+                        chain.segStartX,
+                        chain.segStartY,
+                        chain.lastX,
+                        chain.lastY,
+                        wallType,
+                        activeMapIdRef.current
+                    );
+                }
             } else if (wallMode === 'rectangle') {
                 // Rectangle mode: place four walls
                 const gridSystem = getGridSystem();
@@ -2530,6 +2674,7 @@ const ProfessionalVTTEditor = () => {
         setIsDrawing(false);
         setCurrentPath([]);
         clearCurrentDrawing();
+        wallChainRef.current = null;
 
         // Ensure drawing state is fully reset
         setIsCurrentlyDrawing(false);
@@ -2862,7 +3007,11 @@ const ProfessionalVTTEditor = () => {
                         width: '100%',
                         height: '100%',
                         zIndex: 100,
-                        cursor: getToolCursor(activeTab, selectedTool),
+                        cursor: (selectedTool === 'wall_select' && isDraggingWall && dragEndpointRef.current)
+                            ? 'grabbing'
+                            : (selectedTool === 'wall_select' && handleHover)
+                                ? 'grab'
+                                : getToolCursor(activeTab, selectedTool),
                         pointerEvents: (selectedTool === 'select') ? 'none' : 'auto'
                     }}
                 />

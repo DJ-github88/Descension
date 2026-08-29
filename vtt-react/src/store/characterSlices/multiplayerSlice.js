@@ -74,7 +74,8 @@ export const createMultiplayerSlice = (set, get) => ({
                     selectedAbility: state.selectedAbility,
                     background: state.background,
                     backgroundDisplayName: state.backgroundDisplayName,
-                    talents: state.talents
+                    talents: state.talents,
+                    primarySpecialization: state.primarySpecialization
                 },
                 senderSocketId: socketId,
                 userId: userId, // Also at top level for convenience

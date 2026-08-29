@@ -277,7 +277,7 @@ Use the following three structural patterns when drafting or auditing high-risk,
 {
   id: "berserk_hemorrhagic_strike",
   name: "Hemorrhagic Strike",
-  description: "Heave your weapon with terrifying, uncontrolled force. Your muscles snap and tear from the bone, dealing damage to yourself but building your Blood-Heat.",
+  description: "Heave your weapon with terrifying, uncontrolled force. Your muscles snap and tear from the bone, dealing damage to yourself but building your Rage.",
   level: 1,
   spellType: "ACTION",
   icon: "Slashing/Cross Slash",
@@ -347,7 +347,7 @@ Use the following three structural patterns when drafting or auditing high-risk,
 {
   id: "berserk_calloused_hide",
   name: "Calloused Hide",
-  description: "Toggle a defensive posture. Your flesh thickens with crude scar tissue, hardening you against strikes and feeding your Blood-Heat when hit.",
+  description: "Toggle a defensive posture. Your flesh thickens with crude scar tissue, hardening you against strikes and feeding your Rage when hit.",
   level: 1,
   spellType: "PASSIVE",
   icon: "Utility/Deflecting Shield",
@@ -375,7 +375,7 @@ Use the following three structural patterns when drafting or auditing high-risk,
       {
         "id": "calloused_skin",
         "name": "Calloused Skin",
-        "description": "Your hide thickens; reduce damage from the next incoming attack by 2. Every time an enemy hits you with a melee attack, gain +1d4 Blood-Heat.",
+        "description": "Your hide thickens; reduce damage from the next incoming attack by 2. Every time an enemy hits you with a melee attack, gain +1d4 Rage.",
         "statModifier": { "stat": "incoming_damage_reduction", "magnitude": 2, "magnitudeType": "flat" }
       },
       {
@@ -396,7 +396,7 @@ Use the following three structural patterns when drafting or auditing high-risk,
         id: "stance_on_hit",
         name: "Pain-Driven Heat",
         triggerType: "passive",
-        action: "When hit by an enemy melee attack, gain +1d4 Blood-Heat."
+        action: "When hit by an enemy melee attack, gain +1d4 Rage."
       }
     ]
   },
@@ -446,7 +446,7 @@ Use the following three structural patterns when drafting or auditing high-risk,
       {
         id: "vessel_rupture",
         name: "Vessel Rupture Drawback",
-        description: "Your heart hammers dangerously fast. You lose 1 HP at the start of your turn. While toggled, your Blood-Heat is treated as being at least 21 (Frenzied State).",
+        description: "Your heart hammers dangerously fast. You lose 1 HP at the start of your turn. While toggled, your Rage is treated as being at least 21 (Frenzied State).",
         mechanicsText: "Lose 1 HP at start of turn. Pain Immunity active: Immune to pain, but cannot be healed by allies' spells or potions."
       }
     ],
@@ -466,7 +466,7 @@ Use the following three structural patterns when drafting or auditing high-risk,
         id: "veins_frenzied_passive",
         name: "Pain Immunity Active",
         triggerType: "passive",
-        action: "Forces Blood-Heat state minimum to 21 (Frenzied), preventing all friendly incoming healing."
+        action: "Forces Rage state minimum to 21 (Frenzied), preventing all friendly incoming healing."
       }
     ]
   },

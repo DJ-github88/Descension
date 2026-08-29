@@ -168,9 +168,36 @@ const VTTDrawingEngine = () => {
                 case 'polygon':
                     renderPolygonPath(ctx, currentDrawingPath);
                     break;
-                case 'wall_draw':
-                    // Don't render walls on main canvas - they're handled by wall system
+                case 'wall_draw': {
+                    // Ghost preview of the wall being drawn (dashed gold line + endpoint dots)
+                    if (currentDrawingPath.length < 2) break;
+                    const wallStart = gridToScreen(currentDrawingPath[0].gridX, currentDrawingPath[0].gridY);
+                    const wallEnd = gridToScreen(currentDrawingPath[currentDrawingPath.length - 1].gridX, currentDrawingPath[currentDrawingPath.length - 1].gridY);
+
+                    ctx.save();
+                    ctx.strokeStyle = '#FFD700';
+                    ctx.globalAlpha = 0.85;
+                    ctx.lineWidth = Math.max(3, ctx.lineWidth);
+                    ctx.setLineDash([10, 6]);
+                    ctx.beginPath();
+                    ctx.moveTo(wallStart.x, wallStart.y);
+                    ctx.lineTo(wallEnd.x, wallEnd.y);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+
+                    // Endpoint markers
+                    ctx.fillStyle = '#FFD700';
+                    ctx.strokeStyle = '#000';
+                    ctx.lineWidth = 1.5;
+                    [wallStart, wallEnd].forEach(pt => {
+                        ctx.beginPath();
+                        ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.stroke();
+                    });
+                    ctx.restore();
                     break;
+                }
                 default:
                     renderFreehandPath(ctx, currentDrawingPath);
                     break;

@@ -6,7 +6,7 @@
 // SPEC IDENTITY: The Retaliation Juggernaut / Burning Vengeance Avatar.
 // While Jailer locks enemies in arcane chains and Shadowblade strikes from stealth,
 // Vengeance Seeker welcomes incoming attacks, converting pain directly into
-// Vengeance Points (VP), counter-striking with searing blight fire, and transforming
+// Tension (VP), counter-striking with searing blight fire, and transforming
 // into a terrifying, towering Nemesis Avatar.
 // ============================================
 
@@ -21,7 +21,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     requires: null,
     spell: {
       name: "Vengeful Lash",
-      description: "Strike an enemy within 15 feet with a lash of burning shadow: deals 1d8 blight damage and grants 1 Vengeance Point (VP). Deals +1d4 bonus blight damage if the target damaged you since your last turn.",
+      description: "Strike an enemy within 15 feet with a lash of burning shadow: deals 1d8 blight damage and grants 1 Tension (VP). Deals +1d4 bonus blight damage if the target damaged you since your last turn.",
       flavorText: "Every wound is a deposit. This is the first withdrawal.",
       source: "talent", class: "Warden", treeId: "vengeance_seeker",
       spellType: "ACTIVE", category: "damage",

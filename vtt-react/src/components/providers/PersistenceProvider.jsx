@@ -120,6 +120,72 @@ const PersistenceProvider = ({ children }) => {
     }
   }, [user, persistenceStatus]);
 
+  // Centralized Worldbuilding & Campaign Cloud Hydration on User Login
+  useEffect(() => {
+    if (user && !user.isGuest && persistenceStatus.isOnline) {
+      const hydrateAllWorldbuilding = async () => {
+        try {
+          const { default: useBookStore } = await import('../../store/bookStore');
+          const { default: useInteractiveMapStore } = await import('../../store/interactiveMapStore');
+          const { default: useFamilyTreeStore } = await import('../../store/familyTreeStore');
+          const { default: useShareableStore } = await import('../../store/shareableStore');
+          const { default: useCustomLineageStore } = await import('../../store/customLineageStore');
+          const { default: useFactionStore } = await import('../../store/factionStore');
+          const { default: useTimelineStore } = await import('../../store/timelineStore');
+          const { default: useQuestStore } = await import('../../store/questStore');
+          const { default: campaignService } = await import('../../services/campaignService');
+
+          await Promise.allSettled([
+            useBookStore.getState().hydrateFromCloud?.(user.uid),
+            useInteractiveMapStore.getState().hydrateFromCloud?.(user.uid),
+            useFamilyTreeStore.getState().hydrateFromCloud?.(user.uid),
+            useShareableStore.getState().hydrateFromCloud?.(user.uid),
+            useCustomLineageStore.getState().hydrateFromCloud?.(user.uid),
+            useFactionStore.getState().hydrateFromCloud?.(user.uid),
+            useTimelineStore.getState().hydrateFromCloud?.(user.uid),
+            useQuestStore.getState().hydrateFromCloud?.(user.uid),
+            campaignService.hydrateFromCloud?.(user.uid)
+          ]);
+          console.log('🌌 Worldbuilding & Campaign cloud hydration synchronized for:', user.uid);
+        } catch (err) {
+          console.warn('Worldbuilding cloud hydration error:', err);
+        }
+      };
+
+      hydrateAllWorldbuilding();
+    }
+  }, [user, persistenceStatus.isOnline]);
+
+  // Helper to force save all worldbuilding stores
+  const saveAllWorldbuilding = async (uid) => {
+    if (!uid) return;
+    try {
+      const { default: useBookStore } = await import('../../store/bookStore');
+      const { default: useInteractiveMapStore } = await import('../../store/interactiveMapStore');
+      const { default: useFamilyTreeStore } = await import('../../store/familyTreeStore');
+      const { default: useShareableStore } = await import('../../store/shareableStore');
+      const { default: useCustomLineageStore } = await import('../../store/customLineageStore');
+      const { default: useFactionStore } = await import('../../store/factionStore');
+      const { default: useTimelineStore } = await import('../../store/timelineStore');
+      const { default: useQuestStore } = await import('../../store/questStore');
+      const { default: campaignService } = await import('../../services/campaignService');
+
+      await Promise.allSettled([
+        useBookStore.getState().syncToCloud?.(uid),
+        useInteractiveMapStore.getState().syncToCloud?.(uid),
+        useFamilyTreeStore.getState().syncToCloud?.(uid),
+        useShareableStore.getState().syncToCloud?.(uid),
+        useCustomLineageStore.getState().syncToCloud?.(uid),
+        useFactionStore.getState().syncToCloud?.(uid),
+        useTimelineStore.getState().syncToCloud?.(uid),
+        useQuestStore.getState().syncToCloud?.(uid),
+        campaignService.syncToCloud?.(uid)
+      ]);
+    } catch (err) {
+      console.warn('Worldbuilding emergency save error:', err);
+    }
+  };
+
   // Handle page unload - force save all data
   useEffect(() => {
     const handleBeforeUnload = async () => {
@@ -131,7 +197,8 @@ const PersistenceProvider = ({ children }) => {
             roomPersistence.forceSave?.(),
             userItemsPersistence.syncNewItems?.(),
             userCreaturesPersistence.syncNewCreatures?.(),
-            userMapsPersistence.syncNewMaps?.()
+            userMapsPersistence.syncNewMaps?.(),
+            saveAllWorldbuilding(user.uid)
           ]);
           console.log('💾 Emergency save completed before page unload');
         } catch (error) {
@@ -148,7 +215,8 @@ const PersistenceProvider = ({ children }) => {
             roomPersistence.forceSave?.(),
             userItemsPersistence.syncNewItems?.(),
             userCreaturesPersistence.syncNewCreatures?.(),
-            userMapsPersistence.syncNewMaps?.()
+            userMapsPersistence.syncNewMaps?.(),
+            saveAllWorldbuilding(user.uid)
           ]);
         } catch (error) {
           console.error('Background save failed:', error);
@@ -192,7 +260,8 @@ const PersistenceProvider = ({ children }) => {
             roomPersistence.forceSave?.(),
             userItemsPersistence.syncNewItems?.(),
             userCreaturesPersistence.syncNewCreatures?.(),
-            userMapsPersistence.syncNewMaps?.()
+            userMapsPersistence.syncNewMaps?.(),
+            saveAllWorldbuilding(user.uid)
           ]);
           return { success: true };
         } catch (error) {

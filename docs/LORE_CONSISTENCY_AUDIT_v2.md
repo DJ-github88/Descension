@@ -142,7 +142,7 @@ Search for entities referred to by different names in different files:
 Check these terms for consistent hyphenation:
 - "Scribe-Sentinel" (not "Scribe Sentinel")
 - "Keth-Amar" (not "Keth Amar")
-- "Blood-Heat" (not "Blood Heat" or "Bloodheat")
+- "Rage" (not "Rage" or "Bloodheat")
 - "First Contract" (always capitalized)
 - Region names: "Frostwood Reach" (not "the Frostwood" alone in formal contexts)
 
@@ -252,7 +252,7 @@ Verify the sequence makes sense: Binding (Year 3) → 8 years of Keth-Amar whisp
 For each class, verify the originStory's narrative directly supports the class's core mechanic:
 - Martyr: Sera's self-wounding → Vow absorbs others' wounds. Match?
 - Pyrofiend: Scathrach's parasitic fire → Inferno Veil kills the caster. Match?
-- Revenant: Kora's blood-as-currency → Death Toll damages the caster. Match?
+- Revenant: Kora's blood-as-currency → Toll damages the caster. Match?
 - Spellguard: Damon's absorbed solar flare → Void Resonance detonates if not purged. Match?
 - Plaguebringer: Vespera's hosted bog-rot → self-damage from cultivated diseases. Match?
 - Flag any class where the origin story does NOT explain why the mechanic works the way it does.

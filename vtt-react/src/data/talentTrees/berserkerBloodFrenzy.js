@@ -15,7 +15,7 @@ export const BERSERKER_BLOOD_FRENZY = [
     "requires": null,
     "spell": {
       "name": "Vein Tap",
-      "description": "Spend 3 Hit Points: Instantly generate 15 Blood-Heat and your next attack deals +1d4 bleed damage.",
+      "description": "Spend 3 Hit Points: Instantly generate 15 Rage and your next attack deals +1d4 bleed damage.",
       "flavorText": "The earth drinks. The veins provide.",
       "source": "talent",
       "class": "Berserker",
@@ -46,7 +46,7 @@ export const BERSERKER_BLOOD_FRENZY = [
     },
     "rankUpgrades": [
       {
-        "description": "Spend 3 HP: Generates 20 Blood-Heat and next attack deals +1d6 bleed damage.",
+        "description": "Spend 3 HP: Generates 20 Rage and next attack deals +1d6 bleed damage.",
         "primaryDamage": {
           "dice": "1d6",
           "flat": 0,
@@ -54,7 +54,7 @@ export const BERSERKER_BLOOD_FRENZY = [
         }
       },
       {
-        "description": "Spend 3 HP: Generates 25 Blood-Heat, next attack deals +1d8 bleed damage, and restores 3 HP on hit.",
+        "description": "Spend 3 HP: Generates 25 Rage, next attack deals +1d8 bleed damage, and restores 3 HP on hit.",
         "primaryDamage": {
           "dice": "1d8",
           "flat": 0,
@@ -146,7 +146,7 @@ export const BERSERKER_BLOOD_FRENZY = [
     "requires": "bf_t1_blood_magic",
     "spell": {
       "name": "Crimson Strike",
-      "description": "Spend 1 AP and 10 Blood-Heat: Deliver a vicious lacerating strike for 1d8 slicing damage and inflict Bleeding (1d4 damage per round for 2 rounds).",
+      "description": "Spend 1 AP and 10 Rage: Deliver a vicious lacerating strike for 1d8 slicing damage and inflict Bleeding (1d4 damage per round for 2 rounds).",
       "flavorText": "Open the artery, let the heat flow.",
       "source": "talent",
       "class": "Berserker",
@@ -214,7 +214,7 @@ export const BERSERKER_BLOOD_FRENZY = [
     "requires": "bf_t1_sanguine_resilience",
     "spell": {
       "name": "Hemorrhagic Ward",
-      "description": "Reaction: When you take damage, spend 10 Blood-Heat to immediately gain 6 temporary Hit Points.",
+      "description": "Reaction: When you take damage, spend 10 Rage to immediately gain 6 temporary Hit Points.",
       "flavorText": "Hardened coagulation turns bloodshed into armor.",
       "source": "talent",
       "class": "Berserker",
@@ -256,7 +256,7 @@ export const BERSERKER_BLOOD_FRENZY = [
     "requires": "bf_t2_crimson_slash",
     "spell": {
       "name": "Crimson Wave",
-      "description": "Spend 1 AP and 20 Blood-Heat: Unleash a spray of pressurized blood in a 15-foot cone. Deals 2d6 slicing damage and heals you for 2 Hit Points per enemy hit.",
+      "description": "Spend 1 AP and 20 Rage: Unleash a spray of pressurized blood in a 15-foot cone. Deals 2d6 slicing damage and heals you for 2 Hit Points per enemy hit.",
       "flavorText": "A red arc cutting across the ranks.",
       "source": "talent",
       "class": "Berserker",
@@ -345,10 +345,10 @@ export const BERSERKER_BLOOD_FRENZY = [
     },
     "rankUpgrades": [
       {
-        "description": "Burst deals 1d8 bleed damage and generates 10 Blood-Heat."
+        "description": "Burst deals 1d8 bleed damage and generates 10 Rage."
       },
       {
-        "description": "Burst deals 2d6 bleed damage, generates 10 Blood-Heat, and heals you for 4 Hit Points."
+        "description": "Burst deals 2d6 bleed damage, generates 10 Rage, and heals you for 4 Hit Points."
       }
     ]
   },
@@ -367,7 +367,7 @@ export const BERSERKER_BLOOD_FRENZY = [
     ],
     "spell": {
       "name": "Sanguine Detonation",
-      "description": "Spend 1 AP, 25 Blood-Heat, and 4 HP: Detonate a violent circle of boiling blood in a 15-foot radius. Deals 2d10 slicing damage to all enemies and grants you 8 temporary Hit Points.",
+      "description": "Spend 1 AP, 25 Rage, and 4 HP: Detonate a violent circle of boiling blood in a 15-foot radius. Deals 2d10 slicing damage to all enemies and grants you 8 temporary Hit Points.",
       "flavorText": "Your own blood becomes a shockwave of boiling iron.",
       "source": "talent",
       "class": "Berserker",
@@ -419,7 +419,7 @@ export const BERSERKER_BLOOD_FRENZY = [
     "requires": "bf_t4_sanguine_eruption",
     "spell": {
       "name": "Boiling Blood",
-      "description": "Passive: When you take 10 or more damage in a single hit, your blood boils with fury. Immediately gain 10 Blood-Heat and your next attack deals +1d8 bleed damage.",
+      "description": "Passive: When you take 10 or more damage in a single hit, your blood boils with fury. Immediately gain 10 Rage and your next attack deals +1d8 bleed damage.",
       "flavorText": "Every wound superheats your resolve.",
       "source": "talent",
       "class": "Berserker",
@@ -444,10 +444,10 @@ export const BERSERKER_BLOOD_FRENZY = [
     },
     "rankUpgrades": [
       {
-        "description": "Gain 15 Blood-Heat and next attack deals +2d6 bleed damage."
+        "description": "Gain 15 Rage and next attack deals +2d6 bleed damage."
       },
       {
-        "description": "Gain 20 Blood-Heat, next attack deals +2d8 bleed damage and has Advantage."
+        "description": "Gain 20 Rage, next attack deals +2d8 bleed damage and has Advantage."
       }
     ]
   },
@@ -499,7 +499,7 @@ export const BERSERKER_BLOOD_FRENZY = [
     ],
     "spell": {
       "name": "Blood Harvest Rite",
-      "description": "Spend 2 AP and 40 Blood-Heat: Create a swirling 20-foot vortex of razor blood. Deals 3d8 slicing damage to all enemies and restores 2d6 Hit Points to you.",
+      "description": "Spend 2 AP and 40 Rage: Create a swirling 20-foot vortex of razor blood. Deals 3d8 slicing damage to all enemies and restores 2d6 Hit Points to you.",
       "flavorText": "Reaping life force directly from the battlefield.",
       "source": "talent",
       "class": "Berserker",
@@ -749,7 +749,7 @@ export const BERSERKER_BLOOD_FRENZY = [
     "requires": "bf_t6_blood_harvest",
     "spell": {
       "name": "Sanguine Rebirth",
-      "description": "Passive: When you receive lethal damage, consume all current Blood-Heat to survive with 15 Hit Points and deal 2d8 bleed damage to all adjacent enemies (cooldown: 4 rounds).",
+      "description": "Passive: When you receive lethal damage, consume all current Rage to survive with 15 Hit Points and deal 2d8 bleed damage to all adjacent enemies (cooldown: 4 rounds).",
       "flavorText": "The blood remembers the beat even when the heart stops.",
       "source": "talent",
       "class": "Berserker",

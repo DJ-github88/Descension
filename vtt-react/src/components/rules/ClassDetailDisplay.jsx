@@ -5,6 +5,7 @@ import ClassResourceBar from '../hud/ClassResourceBar';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import { getClassResourceConfig } from '../../data/classResources';
 import SphereComboFinder from '../../data/classes/arcanoneer/components/SphereComboFinder';
+import TalentTreeContent from '../talent-tree/TalentTreeContent';
 import ClassIcon from '../common/ClassIcon';
 import './ClassDetailDisplay.css';
 import LoreLink from '../common/LoreLink';
@@ -907,6 +908,8 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
  const [currentPage, setCurrentPage] = useState(0);
  const [loadedImages, setLoadedImages] = useState(new Set());
  const [combatExampleOpen, setCombatExampleOpen] = useState(false);
+ const [specViewMode, setSpecViewMode] = useState('overview'); // 'overview' | 'talent-tree'
+ const [selectedSpecTreeIndex, setSelectedSpecTreeIndex] = useState(0);
   const contentContainerRef = useRef(null);
 
   const { data: rulesCategories } = useGameData('rules');
@@ -916,6 +919,8 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
 
   useEffect(() => {
    setActiveIllusIndex(0);
+   setSpecViewMode('overview');
+   setSelectedSpecTreeIndex(0);
   }, [classId]);
 
   const illustrationData = useMemo(() => {
@@ -2516,153 +2521,242 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
 
   return (
    <div className="class-detail-section parchment-content">
-    <div className="guide-badge-header">
-     <span className="guide-badge">
-      <i className="fas fa-medal"></i> SPECIALIZATIONS
-     </span>
-     <h3>{specializations.title}</h3>
+    <div className="guide-badge-header spec-main-header">
+     <div>
+      <span className="guide-badge">
+       <i className="fas fa-medal"></i> SPECIALIZATIONS & TALENT TREES
+      </span>
+      <h3>{specializations.title}</h3>
+     </div>
+
+     <div className="spec-view-mode-toggle">
+      <button
+       type="button"
+       className={`spec-mode-btn ${specViewMode === 'overview' ? 'active' : ''}`}
+       onClick={() => setSpecViewMode('overview')}
+      >
+       <i className="fas fa-id-card"></i> Overview Cards
+      </button>
+      <button
+       type="button"
+       className={`spec-mode-btn ${specViewMode === 'talent-tree' ? 'active' : ''}`}
+       onClick={() => setSpecViewMode('talent-tree')}
+      >
+       <i className="fas fa-sitemap"></i> Talent Trees Codex
+      </button>
+     </div>
     </div>
 
-    {specializations.subtitle && (
-     <div className="guide-subtitle">{specializations.subtitle}</div>
-    )}
+    {specViewMode === 'overview' ? (
+     <>
+      {specializations.subtitle && (
+       <div className="guide-subtitle">{specializations.subtitle}</div>
+      )}
 
-    <div className="guide-description">
-     {renderContent(specializations.description)}
-    </div>
-
-    {specializations.passiveAbility && (
-     <div className="shared-passive-card">
-      <div className="shared-passive-badge">
-       <i className="fas fa-star"></i> SHARED PASSIVE
+      <div className="guide-description">
+       {renderContent(specializations.description)}
       </div>
-      <div className="shared-passive-content">
-       <strong>{specializations.passiveAbility.name}</strong>
-       <p>{specializations.passiveAbility.description}</p>
+
+      {specializations.passiveAbility && (
+       <div className="shared-passive-card">
+        <div className="shared-passive-badge">
+         <i className="fas fa-star"></i> SHARED PASSIVE
+        </div>
+        <div className="shared-passive-content">
+         <strong>{specializations.passiveAbility.name}</strong>
+         <p>{specializations.passiveAbility.description}</p>
+        </div>
+       </div>
+      )}
+
+      <div className="specializations-grid premium-grid">
+       {specializations.specs.map((spec, idx) => (
+        <div key={spec.id} className="specialization-card premium-card" style={{ '--spec-color': spec.color }}>
+         <div className="spec-header premium-header" style={{ backgroundColor: spec.color }}>
+          <div className="spec-icon">
+           <img
+            src={getIconUrl(spec.icon, 'abilities')}
+            alt={spec.name}
+            onError={(e) => {
+             e.target.onerror = null;
+             e.target.src = getIconUrl('Utility/Utility', 'abilities');
+            }}
+           />
+          </div>
+          <div className="spec-title">
+           <h4>{spec.name}</h4>
+           <p className="spec-theme">{spec.theme}</p>
+          </div>
+         </div>
+
+         <div className="spec-body premium-body">
+          <p className="spec-description">{spec.description}</p>
+
+          <div className="spec-playstyle">
+           <strong>Combat Method:</strong> {spec.playstyle}
+          </div>
+
+          {spec.strengths && spec.strengths.length > 0 && (
+           <div className="spec-strengths">
+            <h5><i className="fas fa-plus-circle"></i> Strengths</h5>
+            <ul>
+             {spec.strengths.map((strength, i) => (
+              <li key={i}>{strength}</li>
+             ))}
+            </ul>
+           </div>
+          )}
+
+          {spec.weaknesses && spec.weaknesses.length > 0 && (
+           <div className="spec-weaknesses">
+            <h5><i className="fas fa-minus-circle"></i> Weaknesses</h5>
+            <ul>
+             {spec.weaknesses.map((weakness, i) => (
+              <li key={i}>{weakness}</li>
+             ))}
+            </ul>
+           </div>
+          )}
+
+          {spec.keyAbilities && (
+           <div className="spec-key-abilities">
+            <h5><i className="fas fa-bolt"></i> Key Abilities</h5>
+            <ul>
+             {spec.keyAbilities.map((ability, i) => (
+              <li key={i}>
+               {typeof ability === 'string' ? ability : (
+                <>
+                 <strong>{ability.name}</strong>
+                 {ability.type && <span> ({ability.type})</span>}
+                 {ability.cost && <span> - {ability.cost}</span>}
+                 {ability.description && <span>: {ability.description}</span>}
+                </>
+               )}
+              </li>
+             ))}
+            </ul>
+           </div>
+          )}
+
+          {(spec.passiveAbilities || spec.passiveAbility || spec.specPassive) && (
+           <div className="spec-passives">
+            <h5><i className="fas fa-star"></i> Passive Abilities</h5>
+
+            {spec.passiveAbilities && spec.passiveAbilities.map((passive, i) => (
+             <div key={i} className={`passive-ability ${passive.tier === 'Path Passive' ? 'shared' : 'unique'}`}>
+              <div className="passive-header">
+               <strong>{passive.name}</strong>
+               <span className="passive-tier">{passive.tier}</span>
+              </div>
+              <p className="passive-description">{passive.description}</p>
+              {passive.sharedBy && (
+               <p className="passive-note"><em>Shared by: {passive.sharedBy}</em></p>
+              )}
+              {passive.uniqueTo && (
+               <p className="passive-note"><em>Unique to: {passive.uniqueTo}</em></p>
+              )}
+             </div>
+            ))}
+
+            {spec.passiveAbility && (
+             <div className="passive-ability shared">
+              <div className="passive-header">
+               <strong>{spec.passiveAbility.name}</strong>
+               <span className="passive-tier">Path Passive</span>
+              </div>
+              <p className="passive-description">{spec.passiveAbility.description}</p>
+             </div>
+            )}
+
+            {spec.specPassive && (
+             <div className="passive-ability unique">
+              <div className="passive-header">
+               <strong>{spec.specPassive.name}</strong>
+               <span className="passive-tier">Specialization Passive</span>
+              </div>
+              <p className="passive-description">{spec.specPassive.description}</p>
+             </div>
+            )}
+           </div>
+          )}
+
+          {spec.recommendedFor && (
+           <div className="spec-recommendation">
+            <i className="fas fa-thumbs-up"></i> <strong>Recommended for:</strong> {spec.recommendedFor}
+           </div>
+          )}
+
+          <div className="spec-card-actions">
+           <button
+            type="button"
+            className="spec-view-tree-btn"
+            onClick={() => {
+             setSelectedSpecTreeIndex(idx);
+             setSpecViewMode('talent-tree');
+            }}
+            style={{ '--spec-btn-color': spec.color }}
+           >
+            <i className="fas fa-sitemap"></i> View {spec.name} Talent Tree
+           </button>
+          </div>
+         </div>
+        </div>
+       ))}
+      </div>
+     </>
+    ) : (
+     <div className="spec-talent-tree-section">
+      <div className="spec-tree-toolbar">
+       <button
+        type="button"
+        className="spec-back-to-cards-btn"
+        onClick={() => setSpecViewMode('overview')}
+       >
+        <i className="fas fa-arrow-left"></i> Back to Overview
+       </button>
+
+       <div className="spec-tree-nav-pills">
+        {specializations.specs.map((spec, idx) => (
+         <button
+          key={spec.id || idx}
+          type="button"
+          className={`spec-nav-pill ${selectedSpecTreeIndex === idx ? 'active' : ''}`}
+          onClick={() => setSelectedSpecTreeIndex(idx)}
+          style={{ '--spec-accent': spec.color || '#d4af37' }}
+         >
+          <img
+           src={getIconUrl(spec.icon, 'abilities')}
+           alt=""
+           className="spec-nav-pill-icon"
+           onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = getIconUrl('Utility/Utility', 'abilities');
+           }}
+          />
+          <span>{spec.name}</span>
+         </button>
+        ))}
+        <button
+         type="button"
+         className={`spec-nav-pill summary-pill ${selectedSpecTreeIndex === specializations.specs.length ? 'active' : ''}`}
+         onClick={() => setSelectedSpecTreeIndex(specializations.specs.length)}
+        >
+         <i className="fas fa-book-bookmark"></i>
+         <span>Mastery Grimoire</span>
+        </button>
+       </div>
+      </div>
+
+      <div className="spec-talent-tree-container">
+       <TalentTreeContent
+        customClass={classData.name}
+        selectedTreeIndex={selectedSpecTreeIndex}
+        onTreeSelect={setSelectedSpecTreeIndex}
+        readOnly={true}
+       />
       </div>
      </div>
     )}
-
-    <div className="specializations-grid premium-grid">
-     {specializations.specs.map((spec, idx) => (
-      <div key={spec.id} className="specialization-card premium-card" style={{ '--spec-color': spec.color }}>
-       <div className="spec-header premium-header" style={{ backgroundColor: spec.color }}>
-        <div className="spec-icon">
-         <img
-          src={getIconUrl(spec.icon, 'abilities')}
-          alt={spec.name}
-          onError={(e) => {
-           e.target.onerror = null;
-           e.target.src = getIconUrl('Utility/Utility', 'abilities');
-          }}
-         />
-        </div>
-        <div className="spec-title">
-         <h4>{spec.name}</h4>
-         <p className="spec-theme">{spec.theme}</p>
-        </div>
-       </div>
-
-       <div className="spec-body premium-body">
-        <p className="spec-description">{spec.description}</p>
-
-        <div className="spec-playstyle">
-         <strong>Combat Method:</strong> {spec.playstyle}
-        </div>
-
-        {spec.strengths && spec.strengths.length > 0 && (
-         <div className="spec-strengths">
-          <h5><i className="fas fa-plus-circle"></i> Strengths</h5>
-          <ul>
-           {spec.strengths.map((strength, i) => (
-            <li key={i}>{strength}</li>
-           ))}
-          </ul>
-         </div>
-        )}
-
-        {spec.weaknesses && spec.weaknesses.length > 0 && (
-         <div className="spec-weaknesses">
-          <h5><i className="fas fa-minus-circle"></i> Weaknesses</h5>
-          <ul>
-           {spec.weaknesses.map((weakness, i) => (
-            <li key={i}>{weakness}</li>
-           ))}
-          </ul>
-         </div>
-        )}
-
-        {spec.keyAbilities && (
-         <div className="spec-key-abilities">
-          <h5><i className="fas fa-bolt"></i> Key Abilities</h5>
-          <ul>
-           {spec.keyAbilities.map((ability, i) => (
-            <li key={i}>
-             {typeof ability === 'string' ? ability : (
-              <>
-               <strong>{ability.name}</strong>
-               {ability.type && <span> ({ability.type})</span>}
-               {ability.cost && <span> - {ability.cost}</span>}
-               {ability.description && <span>: {ability.description}</span>}
-              </>
-             )}
-            </li>
-           ))}
-          </ul>
-         </div>
-        )}
-
-        {(spec.passiveAbilities || spec.passiveAbility || spec.specPassive) && (
-         <div className="spec-passives">
-          <h5><i className="fas fa-star"></i> Passive Abilities</h5>
-
-          {spec.passiveAbilities && spec.passiveAbilities.map((passive, i) => (
-           <div key={i} className={`passive-ability ${passive.tier === 'Path Passive' ? 'shared' : 'unique'}`}>
-            <div className="passive-header">
-             <strong>{passive.name}</strong>
-             <span className="passive-tier">{passive.tier}</span>
-            </div>
-            <p className="passive-description">{passive.description}</p>
-            {passive.sharedBy && (
-             <p className="passive-note"><em>Shared by: {passive.sharedBy}</em></p>
-            )}
-            {passive.uniqueTo && (
-             <p className="passive-note"><em>Unique to: {passive.uniqueTo}</em></p>
-            )}
-           </div>
-          ))}
-
-          {spec.passiveAbility && (
-           <div className="passive-ability shared">
-            <div className="passive-header">
-             <strong>{spec.passiveAbility.name}</strong>
-             <span className="passive-tier">Path Passive</span>
-            </div>
-            <p className="passive-description">{spec.passiveAbility.description}</p>
-           </div>
-          )}
-
-          {spec.specPassive && (
-           <div className="passive-ability unique">
-            <div className="passive-header">
-             <strong>{spec.specPassive.name}</strong>
-             <span className="passive-tier">Specialization Passive</span>
-            </div>
-            <p className="passive-description">{spec.specPassive.description}</p>
-           </div>
-          )}
-         </div>
-        )}
-
-        {spec.recommendedFor && (
-         <div className="spec-recommendation">
-          <i className="fas fa-thumbs-up"></i> <strong>Recommended for:</strong> {spec.recommendedFor}
-         </div>
-        )}
-       </div>
-      </div>
-     ))}
-    </div>
    </div>
   );
  };

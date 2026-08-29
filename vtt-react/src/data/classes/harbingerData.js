@@ -123,7 +123,19 @@ The Chaos Pockets are becoming permanent. Grass grows sideways in the Sundrift V
 
 **The resource bar & costs**: Your resource bar is **Mayhem** (0–100), building passively every turn and whenever your prophecies progress. As Mayhem rises, all your spell damage, ranges, and target counts amplify significantly. You can spend Mayhem to stabilize prophecies. If your Mayhem gauge hits 100, you trigger an unavoidable **Master Wild Surge** that reshapes the battlefield in a chaotic storm of entropic power.
 
-**Bring one for**: Planting ticking time bombs, managing escalating chaos, and watching a carefully staged countdown wipe out an entire encounter in one catastrophic blast.`
+**Bring one for**: Planting ticking time bombs, managing escalating chaos, and watching a carefully staged countdown wipe out an entire encounter in one catastrophic blast.`,
+    roleplayIdentity: {
+      title: "Roleplay Identity",
+      content: "Practitioners carry a profound cultural and physical responsibility, marked by their tradition's unique legacy and societal perceptions."
+    },
+    combatRole: {
+      title: "Combat Role",
+      content: "Doomsday blaster and mayhem prophet who builds entropy pressure across 4 tiers, planting ticking prophecy bombs that detonate in chain reactions."
+    },
+    playstyle: {
+      title: "Playstyle & Turn 1 Flow",
+      content: "**Your Turn 1 in Combat**:\n1. **Plant Prophecy Bomb**: Tag the primary threat with a ticking countdown doom curse.\n2. **Build Mayhem Pressure**: Cast high-velocity entropy spells to advance Mayhem tiers.\n3. **Prepare for Wild Surges**: Detonate prophecies before reaching 100 Mayhem or coordinate around the d100 surge."
+    }
   },
 
   description: `To look upon a Harbinger is to watch reality struggle to maintain its grip while a prophet counts down to its end. Shadows around them rip free and tear in the wind. Their skin occasionally flickers out of phase, weeping the echoes of dead and deleted timelines. Their eyes carry a cold, blue certainty. They do not cast spells. They speak endings into flesh and invite local molecular collapse. This power is a turbulent stream that strains the caster's dimensional anchor and fractures their emotional core. Every time they channel the entropic wind, their molecular coherence wavers, and their body resonates with the high-pitched shriek of folding dimensions. Every prophecy they fulfill fills them with stolen entropy. The mathematics of doom are absolute, and the chaos of reality is the tool they use to enforce them.`,
@@ -253,9 +265,18 @@ Simultaneously, they cannot feel warmth, not physical, not emotional. They exper
   }
  },
  resourceSystem: {
-  title: "Mayhem",
-  subtitle: "Entropy Pressure & Prophecy Currency",
-  description: `Mayhem measures the build-up of spatial and temporal friction inside the Harbinger's physical body AND the stolen entropy ripped from fulfilled prophecies. It is a dual system: a passive pressure gauge that scales exclusively upward through spellcasting AND a spendable currency used to manipulate Prophecy Ranges. The passive gauge amplifies all spellcasting across four strict thresholds while exposing the caster to severe structural decay. The spendable currency can be used to widen Prophecy Ranges (+1 range per 1 Mayhem spent), making it easier to land Prophesied outcomes on your doom.`,
+  title: "Mayhem: The Pressure Cooker",
+  subtitle: "How Your Resource Works (Beginner's Guide)",
+  description: `**1. What is it? (The Pressure Cooker)**
+Mayhem (0–100) measures entropic friction. As you cast destructive spells, Mayhem builds across 4 progressive tiers, unlocking massive damage multipliers.
+
+**2. How do I build it?**
+- Cast high-velocity entropy, storm, and blight spells (+5 to +15 Mayhem).
+- Plant ticking Prophecy doom curses on enemies (+10 Mayhem).
+
+**3. How do I spend it & what is the catch?**
+- Spend Mayhem to detonate active Prophecy bombs ahead of their countdown for catastrophic burst damage.
+- **The Catch (Wild Surge Overload)**: If Mayhem hits **100**, the pressure valve ruptures—triggering an unpredictable d100 Wild Surge that warps reality across the entire zone.`,
 
   cards: [
    {
@@ -325,7 +346,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
   specs: [
    {
     id: "wild_prophet",
-    name: "Wild Prophet",
+    name: "Mayhem",
     icon: "Nature/Nature Wild 1",
     color: "#E74C3C",
     theme: "Area Surges & Prophecy Shrapnel",
@@ -546,7 +567,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
    resourceCost: { actionPoints: 1, mana: 2, classResource: { type: "mayhem", cost: -2 }, components: ["somatic"], somaticText: "Channel entropic touch through gesture" },
     cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, resolution: "DICE",
    damageConfig: { formula: "1d10 + intelligence", damageTypes: ["blight"], resolution: "DICE" },
-   debuffConfig: { debuffType: "statusEffect", effects: [{ id: "entropic_decay_debuff", name: "Entropic Rot", description: "Target Armor reduced by 2 for 3 rounds. Stacks up to 5 times." }], savingThrow: { ability: "constitution", difficultyClass: 13, saveOutcome: "negates" }, durationValue: 3, durationUnit: "rounds" },
+   debuffConfig: { debuffType: "statusEffect", effects: [{ id: "entropic_decay_debuff", name: "Entropic Rot", description: "Target Durability Dice reduced by -2 for 3 rounds. Stacks up to 5 times." }], savingThrow: { ability: "constitution", difficultyClass: 13, saveOutcome: "negates" }, durationValue: 3, durationUnit: "rounds" },
    tags: ["blight", "damage", "debuff", "deaths_seer"], specialization: "deaths_seer"
   },
   { id: "harbinger_universal_reality_flicker",
@@ -1386,3 +1407,4 @@ The Master Wild Surge table is structured across four absolute thematic categori
   ]
  }
 };
+HARBINGER_DATA.spells = HARBINGER_DATA.exampleSpells;

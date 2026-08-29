@@ -98,7 +98,7 @@ When Morð claims a mother during a difficult birth:
 
 ### The Cost & Coldfire
 - Berserkers die young; their bodies burn out from internal thermal shock.
-- The Blood-Heat, once ignited in battle, can become self-consuming.
+- The Rage, once ignited in battle, can become self-consuming.
 - A Berserker who absorbs too many Morð burdens without dying becomes a **Coldfire** — an aberration of living contradiction, half roaring flame, half creeping glacier.
 
 ### The Morð Cradle-Camps

@@ -687,10 +687,10 @@ The callings are presented roughly in the order a traveler meets them, moving fr
 ---
 
 ## 1. Apex  -  Shadow Glaive Wielder & Beast Companion
-*Resource: Quarry Marks  -  pack-coordination currency, not personal prowess.*
+*Resource: Marks  -  pack-coordination currency, not personal prowess.*
 
 ### The Calling
-The Apex is a silent hunter who wields the legendary Shadow Glaive and fights as half of a pack. Her power is not individual  -  it is the synchronized rhythm of hunter and beast, built through the Quarry Marks system that fills only when glaive and fang strike as one.
+The Apex is a silent hunter who wields the legendary Shadow Glaive and fights as half of a pack. Her power is not individual  -  it is the synchronized rhythm of hunter and beast, built through the Marks system that fills only when glaive and fang strike as one.
 
 ### History
 The ranger **Sylas** tracked the invisible spoor of native creatures and Wyrd entities through the Frostwood Reach by tuning his senses to the sub-vocal vibrations of pine needles and damp earth. In a fog-shrouded valley he stalked a conceptual entity for seven days, breathing only when the wind blew, training his eyes to trace faint disturbances in the fog-memory. To achieve this absolute sensory focus, he paid with his own hearing  -  becoming completely deaf to the voices of his kin.
@@ -763,10 +763,10 @@ The **Thalren** humans of the Frostwood, with their ledger-keeping precision, fo
 ---
 
 ## 5. Berserker  -  The Hemorrhagic Butcher
-*Resource: Blood-Heat (0–100)  -  a physiological meltdown that cooks the caster to fuel the strike.*
+*Resource: Rage (0–100)  -  a physiological meltdown that cooks the caster to fuel the strike.*
 
 ### The Calling
-The Berserker does not wield magic; they mutilate their own anatomy through pure adrenaline and boiling fury. As their Blood-Heat rises, their muscles literally tear themselves from the bone to swing harder. They possess Pain Immunity  -  completely immune to pain, but this horrific state blocks all incoming healing while the fury burns. They are a ticking engine of self-destruction.
+The Berserker does not wield magic; they mutilate their own anatomy through pure adrenaline and boiling fury. As their Rage rises, their muscles literally tear themselves from the bone to swing harder. They possess Pain Immunity  -  completely immune to pain, but this horrific state blocks all incoming healing while the fury burns. They are a ticking engine of self-destruction.
 
 ### History
 In the freezing wastes of Nordhalla, when the glaciers halted at the price of summer's return, the **Skald** were left in a land of absolute ice. In the darkest winter of the cataclysm, when starvation stalked the keeps of the Frozen Archive, the ancestors consumed their own fallen kin so the bloodline could persist  -  and that terrible act entered their very blood. The Bloodhammer clans tell of the first Berserker, **Grum the Iron-Smith**, trapped in a collapsing shaft by a glacier-wyrm, who threw down his hammer and allowed the furnace's heat to occupy his marrow. His veins boiled so violently his tendons snapped, yet he shattered the wyrm's frozen hide with his bare hands.
@@ -775,7 +775,7 @@ In the freezing wastes of Nordhalla, when the glaciers halted at the price of su
 Berserkers are banned outright in the silver law-chambers of Atropolis, where their volatile fury is treated as a public-order threat. They are celebrated as sacred survivors in the geothermal arenas of the Harath-Vault and the frontier keeps of the Skald, where high-stamina endurance is revered.
 
 ### Races & Cultural Affiliation
-Heavily practiced by the massive **Skald** and the hot-headed **Solari** (Thrask clans) who defaced their imperial marks to embrace the caldera's wild fury. The occasional **Groven** takes the path, their already-mutable flesh responding to Blood-Heat in unsettling ways.
+Heavily practiced by the massive **Skald** and the hot-headed **Solari** (Thrask clans) who defaced their imperial marks to embrace the caldera's wild fury. The occasional **Groven** takes the path, their already-mutable flesh responding to Rage in unsettling ways.
 
 > *"The world tried to freeze me. I chose to burn instead. Ask my enemies which temperature hurts more."*
 
@@ -823,7 +823,7 @@ Exclusively **Solvarn** at origin  -  the sun-martyrs of Sundale who refused to 
 *Resource: Devotion  -  filled by chosen suffering; if it stops flowing, the connection asphyxiates.* **(The Ironclad specialization is the old Dreadnaught discipline, absorbed when the two traditions recognized they bled for the same faith.)**
 
 ### The Calling
-The Martyr is not a protector  -  a protector uses a shield. The Martyr uses the soft meat of their own body to catch weapons swung at companions. Through the Devotion Gauge they transform willing suffering into grotesque emergency healing. Each wound they volunteer becomes a wound closed on someone else. But the connection is fragile: stop bleeding, and Devotion Collapse follows  -  a spiral into the Faithless state where healing rots to half strength.
+The Martyr is not a protector  -  a protector uses a shield. The Martyr uses the soft meat of their own body to catch weapons swung at companions. Through the Devotion they transform willing suffering into grotesque emergency healing. Each wound they volunteer becomes a wound closed on someone else. But the connection is fragile: stop bleeding, and Devotion Collapse follows  -  a spiral into the Faithless state where healing rots to half strength.
 
 ### History
 The **Solvarn** mother **Sera** refused to let her sacrificed child's name be erased by the noble houses' history-purge. She carved the name directly into her forearm with volcanic obsidian, swearing to bear the pain of the entire badlands to keep the memory alive. Her devotion opened a channel of sympathetic pain: her tissue burns with heat whenever an ally is struck, and she finds power only in her own suffering  -  converting blood to light, her skin cracking to reveal the solar embers of her vow.
@@ -915,10 +915,10 @@ No single race claims the Spellguard; the calling founds itself wherever a body 
 ---
 
 ## 13. False Prophet  -  The Lie That Devours the Living
-*Resource: Madness Points  -  accumulated wyrd pressure of every consciousness touched, compressed into weaponized willpower.*
+*Resource: Madness  -  accumulated wyrd pressure of every consciousness touched, compressed into weaponized willpower.*
 
 ### The Calling
-The False Prophet does not worship  -  they channel. They preach the void as divine revelation, accumulating Madness Points through sermons and psychic rituals that strip away the barriers between minds. This madness is not inspiration; it is the wyrd pressure of every consciousness they have touched. They walk a razor edge between transcendence and collapse, and every step is powered by the wyrd exhaustion of those who believed them.
+The False Prophet does not worship  -  they channel. They preach the void as divine revelation, accumulating Madness through sermons and psychic rituals that strip away the barriers between minds. This madness is not inspiration; it is the wyrd pressure of every consciousness they have touched. They walk a razor edge between transcendence and collapse, and every step is powered by the wyrd exhaustion of those who believed them.
 
 ### History
 In the starless grasslands of the Sundrift Vale, a nomadic **Ordan** herd-watcher named **Li Wei** followed a falling meteor into a deep, crystalline crater. He did not find a metal shard but an ancient, sundered monolith humming with a black, empty vacuum. When he looked directly into the void where Sol once shone, he saw not light but the gospel of the cosmic void  -  the silent architecture of the stars' demise. He returned with blank, white eyes and a mind permanently shattered by the competing voices of dead stars.
@@ -972,7 +972,7 @@ A **Vreken** discipline at root, drawn from the same fungal-alchemical tradition
 ---
 
 ## 16. Inquisitor  -  Cold Iron, Burning Salt, and the Barbed Leash of the Damned
-*Resource: Righteous Authority  -  fueled by the friction of magical confrontation and the command of bound entities.* **(Carries the merged vows of the cold-iron Covenbane and the demon-binding Exorcist; the two orders recognized their separate wars were the same war.)**
+*Resource: Authority  -  fueled by the friction of magical confrontation and the command of bound entities.* **(Carries the merged vows of the cold-iron Covenbane and the demon-binding Exorcist; the two orders recognized their separate wars were the same war.)**
 
 ### The Calling
 The ultimate arbiter of the occult, the Inquisitor wields both anti-magic negation and demonic binding as a single devastating doctrine. They shatter spells, bind demons, and purge corruption. The price is absolute: silver-poisoned bones, whispered demons in the blood, self-inflicted wounds to maintain control, and total isolation from the very communities they protect.
@@ -991,7 +991,7 @@ The dual origin ties the order to the **Vreken** of the Bryngloom (the Covenbane
 ---
 
 ## 17. Revenant  -  Death Is Fuel, the Grave Is a Door
-*Resource: Death Toll + Phylactery  -  boiling blight energy orbiting the body, plus harvested souls that drag the caster back from the threshold.* **(Walks the combined path of the Deathcaller and the Lichborne; Kora's blood-covenant and Vesper's frost-phylactery are one economy now.)**
+*Resource: Toll + Phylactery  -  boiling blight energy orbiting the body, plus harvested souls that drag the caster back from the threshold.* **(Walks the combined path of the Deathcaller and the Lichborne; Kora's blood-covenant and Vesper's frost-phylactery are one economy now.)**
 
 ### The Calling
 The Revenant walks between two necrotic traditions  -  the blood-fueled sacrifice of Kora's covenant and the frost-stasis harvest of Vesper's phylactery. Every spell costs life; every kill feeds the grave. They are the only class that converts their own death into a tactical weapon  -  the Death Trigger freeze that erupts from their resurrection is one of the strongest control effects in existence.
@@ -1003,7 +1003,7 @@ Two traditions of death magic, born in the same peat-bogs of the Bryngloom. The 
 The Revenant has no open presence in any mortal city. They operate from the forgotten ruins of the Frozen Archive's lowest vaults and the bottomless bog-caves of the Bryngloom, where they weave their death-webs in absolute secrecy. The Inquisition hunts them with extreme prejudice across all seven continents.
 
 ### Races & Cultural Affiliation
-The **Vreken** blood-covenant (Kora) and the Velun **Neth** phylactery-path (Vesper) are the twin roots. The merged tradition has since drawn **Skald** glacier-tomb keepers (whose cold-aligned dead adapt readily to Vesper's rite) and a growing **Neth** contingent who treat the Death Toll as just another renegotiated clause in the contract of mortality.
+The **Vreken** blood-covenant (Kora) and the Velun **Neth** phylactery-path (Vesper) are the twin roots. The merged tradition has since drawn **Skald** glacier-tomb keepers (whose cold-aligned dead adapt readily to Vesper's rite) and a growing **Neth** contingent who treat the Toll as just another renegotiated clause in the contract of mortality.
 
 > *"I hear six generations of the dead screaming in my veins. Death came for me in the peat-bogs and I told it to wait. It has been waiting two hundred years. We have an understanding now  -  I go first, and it follows close behind."*
 
@@ -1029,7 +1029,7 @@ By definition tri-cultural: **Ordan** humans (totemic), **Vreken** (spiritual), 
 ---
 
 ## 19. Gambit  -  The Wagering Architect
-*Resource: Fortune Points + Karmic Debt  -  probability siphoned as a wager and navigated as a tapestry.* **(Fuses the Merryn Gambler and the Kessen-Neth Fate Weaver; Jax and Lyra discovered they were manipulating the same force.)**
+*Resource: Fortune + Karmic Debt  -  probability siphoned as a wager and navigated as a tapestry.* **(Fuses the Merryn Gambler and the Kessen-Neth Fate Weaver; Jax and Lyra discovered they were manipulating the same force.)**
 
 ### The Calling
 A tragic ledger written in stolen luck and severed fate-threads. The Gambit does not play for gold or glory; they play for the next calculated breath. They wield both the Gambler's raw fortune-siphoning and the Fate Weaver's precise cartomantic surgery. Their nerves hum with the kinetic charge of stolen probability, and their mind splits across fractured timeline threads.

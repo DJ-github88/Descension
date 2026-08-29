@@ -6,24 +6,110 @@ import { getTalentsForSpec, getTreeBackdrop, getFallbackBackground } from '../..
 import { resolveTalentSpell, convertTalentSpellToLibrarySpell, extractTriggerFromDescription, talentTier, TALENT_SYSTEM } from '../../data/talentTrees/talentSystem.mjs';
 import { loadLibraryFromStorage, saveLibraryToStorage } from '../spellcrafting-wizard/core/utils/libraryManager';
 import { TalentArrowRenderer } from '../windows/TalentArrow';
+import { ALL_CLASSES_DATA } from '../../data/classes';
 import { getIconUrl } from '../../utils/assetManager';
 import './TalentTreeContent.css';
 
+// Helper to extract specific passive traits for a specialization
+export const getSpecPassives = (fullSpec, sharedPassive = null) => {
+    const passives = [];
+
+    // Specific Spec Passives
+    if (fullSpec?.passiveAbilities && Array.isArray(fullSpec.passiveAbilities)) {
+        fullSpec.passiveAbilities.forEach(p => {
+            if (p && !passives.some(existing => existing.name?.toLowerCase() === p.name?.toLowerCase())) {
+                passives.push({
+                    name: p.name,
+                    description: p.description,
+                    tier: p.tier || 'Specialization Passive',
+                    sharedBy: p.sharedBy,
+                    uniqueTo: p.uniqueTo,
+                    isShared: p.tier === 'Path Passive'
+                });
+            }
+        });
+    }
+
+    if (fullSpec?.specPassive) {
+        if (!passives.some(existing => existing.name?.toLowerCase() === fullSpec.specPassive.name?.toLowerCase())) {
+            passives.push({
+                name: fullSpec.specPassive.name,
+                description: fullSpec.specPassive.description,
+                tier: 'Specialization Passive',
+                isShared: false
+            });
+        }
+    }
+
+    if (fullSpec?.passiveAbility) {
+        if (!passives.some(existing => existing.name?.toLowerCase() === fullSpec.passiveAbility.name?.toLowerCase())) {
+            passives.push({
+                name: fullSpec.passiveAbility.name,
+                description: fullSpec.passiveAbility.description,
+                tier: 'Path Passive',
+                isShared: false
+            });
+        }
+    }
+
+    // Shared Path / Tradition Passive (if defined)
+    if (sharedPassive && !passives.some(existing => existing.name?.toLowerCase() === sharedPassive.name?.toLowerCase())) {
+        passives.push({
+            name: sharedPassive.name,
+            description: sharedPassive.description,
+            tier: 'Shared Path Passive',
+            isShared: true
+        });
+    }
+
+    return passives;
+};
+
 // Helper to extract specializations & talent lists for a class
-const getTalentTreesForClass = (className) => {
-    const classData = CLASS_SPECIALIZATIONS[className];
+export const getTalentTreesForClass = (className) => {
+    if (!className) return [];
+    let classData = CLASS_SPECIALIZATIONS[className];
+    let resolvedName = className;
+    if (!classData) {
+        const normalized = className.toLowerCase().replace(/[-_]/g, ' ');
+        const entry = Object.entries(CLASS_SPECIALIZATIONS).find(([key]) =>
+            key.toLowerCase() === normalized || key.toLowerCase().replace(/[-_]/g, ' ') === normalized
+        );
+        if (entry) {
+            classData = entry[1];
+            resolvedName = entry[0];
+        }
+    }
     if (!classData) return [];
 
-    return classData.specializations.map((spec, index) => ({
-        id: spec.id,
-        name: spec.name,
-        description: spec.description,
-        color: spec.color,
-        icon: spec.icon,
-        backdrop: getTreeBackdrop(className, spec.id) || getFallbackBackground(index),
-        fallbackBackground: getFallbackBackground(index),
-        talents: getTalentsForSpec(className, spec.id) || []
-    }));
+    const fullClassData = ALL_CLASSES_DATA[resolvedName] || Object.entries(ALL_CLASSES_DATA).find(([k]) =>
+        k.toLowerCase() === resolvedName.toLowerCase().replace(/[-_]/g, ' ')
+    )?.[1];
+
+    const sharedPassive = fullClassData?.specializations?.passiveAbility || null;
+
+    return classData.specializations.map((spec, index) => {
+        const fullSpec = fullClassData?.specializations?.specs?.find(s =>
+            s.id === spec.id || s.name?.toLowerCase() === spec.name?.toLowerCase()
+        ) || fullClassData?.specializations?.specs?.[index];
+
+        const passives = getSpecPassives(fullSpec, sharedPassive);
+
+        return {
+            id: spec.id,
+            name: spec.name,
+            description: spec.description || fullSpec?.description || '',
+            color: spec.color || fullSpec?.color || '#d4af37',
+            icon: spec.icon || fullSpec?.icon,
+            theme: fullSpec?.theme || '',
+            playstyle: fullSpec?.playstyle || '',
+            passives: passives,
+            sharedPassive: sharedPassive,
+            backdrop: getTreeBackdrop(resolvedName, spec.id) || getFallbackBackground(index),
+            fallbackBackground: getFallbackBackground(index),
+            talents: getTalentsForSpec(resolvedName, spec.id) || []
+        };
+    });
 };
 
 // Helper to determine node tier (1..7)
@@ -117,7 +203,7 @@ const renderSpellMetaChips = (spell) => {
 };
 
 // Dynamic description for tooltips & inspector
-const getDynamicDescription = (talent, currentRank) => {
+const getDynamicDescription = (talent, currentRank, readOnly = false) => {
     if (!talent) return null;
     const hasSpellData = Boolean(talent.spell);
 
@@ -128,12 +214,41 @@ const getDynamicDescription = (talent, currentRank) => {
     const maxRank = talent.maxRanks || 1;
     const parts = [];
 
+    if (readOnly) {
+        const baseSpell = resolveTalentSpell(talent, 1);
+        parts.push(
+            <div key="rank-1" className="talent-desc-block current-rank-block">
+                <div className="talent-rank-header current">
+                    <span className="rank-header-indicator"></span>
+                    <span className="rank-header-title">{baseSpell?.spellType === 'PASSIVE' ? 'Passive' : 'Spell'} — Rank 1 {maxRank === 1 ? '(Base & Max)' : '(Base Effect)'}</span>
+                </div>
+                <div className="talent-desc-text">{baseSpell?.description}</div>
+            </div>
+        );
+
+        for (let r = 2; r <= maxRank; r++) {
+            const upgradedSpell = resolveTalentSpell(talent, r);
+            parts.push(
+                <div key={`rank-${r}`} className="talent-desc-block next-rank-block">
+                    <div className="talent-rank-header next">
+                        <i className="fas fa-arrow-turn-up next-icon"></i>
+                        <span className="rank-header-title">Rank {r} Scaling:</span>
+                    </div>
+                    <div className="talent-desc-text">{upgradedSpell?.description}</div>
+                </div>
+            );
+        }
+
+        return <div className="talent-desc-container">{parts}</div>;
+    }
+
     if (currentRank > 0) {
         const currentSpell = resolveTalentSpell(talent, currentRank);
         parts.push(
             <div key="current" className="talent-desc-block current-rank-block">
                 <div className="talent-rank-header current">
-                    {currentSpell?.spellType === 'PASSIVE' ? 'Passive' : 'Spell'} — Rank {currentRank}
+                    <span className="rank-header-indicator"></span>
+                    <span className="rank-header-title">{currentSpell?.spellType === 'PASSIVE' ? 'Passive Effect' : 'Spell Effect'} — Rank {currentRank}</span>
                 </div>
                 <div className="talent-desc-text">{currentSpell?.description}</div>
             </div>
@@ -145,7 +260,8 @@ const getDynamicDescription = (talent, currentRank) => {
         parts.push(
             <div key="next" className="talent-desc-block next-rank-block">
                 <div className="talent-rank-header next">
-                    {currentRank === 0 ? 'Rank 1 Effect:' : 'Next Rank Upgrade (+1):'}
+                    <i className="fas fa-arrow-turn-up next-icon"></i>
+                    <span className="rank-header-title">{currentRank === 0 ? 'Rank 1 Effect:' : 'Next Rank Upgrade (+1):'}</span>
                 </div>
                 <div className="talent-desc-text">{nextSpell?.description}</div>
             </div>
@@ -161,12 +277,15 @@ export const TalentTreeContent = ({
     customClass = null,
     selectedTreeIndex = null,
     onTreeSelect = null,
-    hideHeader = false
+    hideHeader = false,
+    readOnly = false
 }) => {
     const characterStore = useCharacterStore();
     const characterClass = customClass || characterStore.class;
     const level = characterStore.level || 1;
     const currentCharacterId = characterStore.currentCharacterId;
+    const primarySpecialization = characterStore.primarySpecialization || '';
+    const setPrimarySpecialization = characterStore.setPrimarySpecialization;
 
     const [internalTree, setInternalTree] = useState(0);
     const [talents, setTalents] = useState({});
@@ -188,10 +307,14 @@ export const TalentTreeContent = ({
         }
     };
 
-    // Sync talents from store on mount / character switch
+    // Sync talents from store on mount / character switch (only when interactive)
     useEffect(() => {
-        setTalents(useCharacterStore.getState().talents || {});
-    }, [currentCharacterId]);
+        if (!readOnly) {
+            setTalents(useCharacterStore.getState().talents || {});
+        } else {
+            setTalents({});
+        }
+    }, [currentCharacterId, readOnly]);
 
     // Responsive container sizing for smooth scrolling tree board
     useEffect(() => {
@@ -362,6 +485,7 @@ export const TalentTreeContent = ({
 
     const handleTalentClick = (talentId, talent) => {
         setSelectedTalentId(talentId);
+        if (readOnly) return;
         if (!canLearnTalent(talent)) return;
         const currentRanks = talents[talentId] || 0;
         if (currentRanks >= (talent.maxRanks || 1)) return;
@@ -369,12 +493,24 @@ export const TalentTreeContent = ({
         const newTalents = { ...talents, [talentId]: currentRanks + 1 };
         setTalents(newTalents);
         useCharacterStore.getState().setTalents(newTalents);
+
+        // The tree receiving the first talent point unlocks its innate passives and becomes the primary specialization
+        const totalPointsBefore = Object.values(talents).reduce((sum, v) => sum + (v || 0), 0);
+        const currentPrimary = characterStore.primarySpecialization;
+        if (!currentPrimary || totalPointsBefore === 0) {
+            const targetTree = trees.find(tr => tr.talents?.some(t => t.id === talentId));
+            if (targetTree) {
+                useCharacterStore.getState().setPrimarySpecialization?.(targetTree.id);
+            }
+        }
+
         syncTalentSpell(talent, currentRanks + 1);
     };
 
     const handleTalentRightClick = (e, talentId, talent) => {
         e.preventDefault();
         setSelectedTalentId(talentId);
+        if (readOnly) return;
         const unlearnCheck = canUnlearnTalent(talentId);
         if (!unlearnCheck.canUnlearn) {
             const errorMsg = unlearnCheck.reason === 'tier_gate'
@@ -400,6 +536,13 @@ export const TalentTreeContent = ({
 
         setTalents(newTalents);
         useCharacterStore.getState().setTalents(newTalents);
+
+        // If no talent points are invested anywhere, reset primary specialization
+        const totalPointsAfter = Object.values(newTalents).reduce((sum, v) => sum + (v || 0), 0);
+        if (totalPointsAfter === 0) {
+            useCharacterStore.getState().setPrimarySpecialization?.('');
+        }
+
         syncTalentSpell(talent, currentRanks - 1);
     };
 
@@ -417,6 +560,7 @@ export const TalentTreeContent = ({
 
         setTalents({});
         useCharacterStore.getState().setTalents({});
+        useCharacterStore.getState().setPrimarySpecialization?.('');
     };
 
     const handleMouseEnter = (talent) => {
@@ -506,65 +650,89 @@ export const TalentTreeContent = ({
 
     return (
         <div className="talent-tree-content-root">
-            <div className="talent-tree-top-bar">
-                <div className="talent-tree-header-left">
-                    {activeTree < trees.length ? (
-                        <div className="talent-active-spec-header">
-                            <div className="talent-spec-header-crest">
-                                <img
-                                    src={getIconUrl(currentTree?.icon || 'Utility/Utility', 'abilities')}
-                                    alt=""
-                                    className="talent-spec-header-icon"
-                                    onError={(e) => { e.target.src = getIconUrl('Utility/Utility', 'abilities'); }}
-                                />
-                            </div>
-                            <div className="talent-spec-header-info">
-                                <div className="talent-spec-header-top-row">
-                                    <h3 className="talent-spec-header-title">{currentTree?.name}</h3>
-                                    <span className="talent-spec-class-tag">{characterClass} Specialization</span>
-                                    <span className="talent-spec-invested-pill">
-                                        <i className="fas fa-sparkles"></i> {spentInActiveTree} Pts Allocated
-                                    </span>
+            {!hideHeader && (
+                <div className="talent-tree-top-bar">
+                    <div className="talent-tree-header-left">
+                        {activeTree < trees.length ? (
+                            <div className="talent-active-spec-header">
+                                <div className="talent-spec-header-crest">
+                                    <img
+                                        src={getIconUrl(currentTree?.icon || 'Utility/Utility', 'abilities')}
+                                        alt=""
+                                        className="talent-spec-header-icon"
+                                        onError={(e) => { e.target.src = getIconUrl('Utility/Utility', 'abilities'); }}
+                                    />
                                 </div>
-                                <div className="talent-spec-header-desc" title={currentTree?.description}>
-                                    "{currentTree?.description}"
-                                </div>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="talent-active-spec-header">
-                            <div className="talent-spec-header-crest summary-crest">
-                                <i className="fas fa-book-bookmark"></i>
-                            </div>
-                            <div className="talent-spec-header-info">
-                                <div className="talent-spec-header-top-row">
-                                    <h3 className="talent-spec-header-title">Mastery Grimoire</h3>
-                                    <span className="talent-spec-class-tag">{characterClass} Compendium</span>
-                                    <span className="talent-spec-invested-pill summary-pill">
-                                        <i className="fas fa-layer-group"></i> {pointsSpent} Total Points
-                                    </span>
-                                </div>
-                                <div className="talent-spec-header-desc">
-                                    Complete compendium of all learned abilities, techniques, and stances across {characterClass} specializations.
+                                <div className="talent-spec-header-info">
+                                    <div className="talent-spec-header-top-row">
+                                        <h3 className="talent-spec-header-title">{currentTree?.name}</h3>
+                                        <span className="talent-spec-class-tag">{characterClass} Specialization</span>
+                                        {readOnly ? (
+                                            <span className="talent-spec-invested-pill codex-pill">
+                                                <i className="fas fa-sitemap"></i> 50 Capacity • 7 Tiers
+                                            </span>
+                                        ) : (
+                                            <>
+                                                <span className="talent-spec-invested-pill">
+                                                    <i className="fas fa-sparkles"></i> {spentInActiveTree} Pts Allocated
+                                                </span>
+                                                {primarySpecialization === currentTree?.id && spentInActiveTree > 0 && (
+                                                    <span className="talent-primary-spec-badge" title="Active Primary Specialization — granted from investing your first talent point">
+                                                        <i className="fas fa-crown"></i> Primary Specialization
+                                                    </span>
+                                                )}
+                                            </>
+                                        )}
+                                    </div>
+                                    <div className="talent-spec-header-desc" title={currentTree?.description}>
+                                        "{currentTree?.description}"
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
-                </div>
-
-                <div className="talent-stats-bar">
-                    <div className="talent-points-badge">
-                        <span>Talent Points:</span>
-                        <span className="points-val">{pointsSpent}</span>
-                        <span>/</span>
-                        <span className="points-avail">{availablePoints}</span>
-                        <span className="points-remaining-tag">({pointsRemaining} Left)</span>
+                        ) : (
+                            <div className="talent-active-spec-header">
+                                <div className="talent-spec-header-crest summary-crest">
+                                    <i className="fas fa-book-bookmark"></i>
+                                </div>
+                                <div className="talent-spec-header-info">
+                                    <div className="talent-spec-header-top-row">
+                                        <h3 className="talent-spec-header-title">Mastery Grimoire</h3>
+                                        <span className="talent-spec-class-tag">{characterClass} Compendium</span>
+                                        <span className="talent-spec-invested-pill summary-pill">
+                                            <i className="fas fa-layer-group"></i> {readOnly ? 'Full Ability Catalog' : `${pointsSpent} Total Points`}
+                                        </span>
+                                    </div>
+                                    <div className="talent-spec-header-desc">
+                                        Complete compendium of all learned abilities, techniques, and stances across {characterClass} specializations.
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
-                    <button type="button" className="talent-reset-btn" onClick={resetTalents} title="Refund all talent points in this character">
-                        Reset All
-                    </button>
+
+                    <div className="talent-stats-bar">
+                        {readOnly ? (
+                            <div className="talent-points-badge codex-badge">
+                                <i className="fas fa-book-open"></i>
+                                <span>Tradition Codex Mode</span>
+                            </div>
+                        ) : (
+                            <>
+                                <div className="talent-points-badge">
+                                    <span>Talent Points:</span>
+                                    <span className="points-val">{pointsSpent}</span>
+                                    <span>/</span>
+                                    <span className="points-avail">{availablePoints}</span>
+                                    <span className="points-remaining-tag">({pointsRemaining} Left)</span>
+                                </div>
+                                <button type="button" className="talent-reset-btn" onClick={resetTalents} title="Refund all talent points in this character">
+                                    Reset All
+                                </button>
+                            </>
+                        )}
+                    </div>
                 </div>
-            </div>
+            )}
 
             {activeTree === trees.length ? (
                 <div className="talent-summary-view-wrapper">
@@ -572,51 +740,105 @@ export const TalentTreeContent = ({
                         <div className="talent-summary-heading-box">
                             <i className="fas fa-scroll"></i>
                             <h3>Chronicled Talents & Masteries</h3>
-                            <p>Herein lies the complete record of abilities unlocked through your progression.</p>
+                            <p>{readOnly ? 'Complete reference of abilities and innate passive traits across all specializations.' : 'Herein lies the complete record of abilities and innate specialization passives unlocked through your progression.'}</p>
                         </div>
 
                         {trees.map((tree, tIdx) => {
-                            const learned = (tree.talents || []).filter(t => (talents[t.id] || 0) > 0);
+                            const displayTalents = readOnly ? (tree.talents || []) : (tree.talents || []).filter(t => (talents[t.id] || 0) > 0);
+                            const treePoints = (tree.talents || []).reduce((sum, t) => sum + (talents[t.id] || 0), 0);
+                            const isPrimaryTree = primarySpecialization === tree.id || (treePoints > 0 && (!primarySpecialization || primarySpecialization === tree.id));
+
                             return (
-                                <div key={tree.id || tIdx} className="talent-summary-tree-section">
+                                <div key={tree.id || tIdx} className={`talent-summary-tree-section ${isPrimaryTree && treePoints > 0 ? 'is-primary-spec-section' : ''}`}>
                                     <div className="talent-summary-tree-header">
-                                        <img
-                                            src={getIconUrl(tree.icon, 'abilities')}
-                                            alt={tree.name}
-                                            className="talent-summary-tree-icon"
-                                            onError={(e) => { e.target.src = getIconUrl('Utility/Utility', 'abilities'); }}
-                                        />
-                                        <h4>{tree.name}</h4>
-                                        <span className={`talent-summary-count-tag ${learned.length > 0 ? 'has-learned' : ''}`}>
-                                            {learned.length} Talents Learned
+                                        <div className="summary-tree-title-group">
+                                            <img
+                                                src={getIconUrl(tree.icon, 'abilities')}
+                                                alt={tree.name}
+                                                className="talent-summary-tree-icon"
+                                                onError={(e) => { e.target.src = getIconUrl('Utility/Utility', 'abilities'); }}
+                                            />
+                                            <h4>{tree.name}</h4>
+                                            {isPrimaryTree && treePoints > 0 && (
+                                                <span className="summary-primary-badge">
+                                                    <i className="fas fa-crown"></i> Primary Specialization
+                                                </span>
+                                            )}
+                                        </div>
+                                        <span className={`talent-summary-count-tag ${displayTalents.length > 0 ? 'has-learned' : ''}`}>
+                                            {readOnly ? `${displayTalents.length} Total Talents` : `${displayTalents.length} Talents Learned (${treePoints} Pts)`}
                                         </span>
                                     </div>
 
-                                    {learned.length === 0 ? (
+                                    {/* Innate Passive Traits for this Specialization - ONLY displayed for the Active Primary Specialization */}
+                                    {tree.passives && tree.passives.length > 0 && (readOnly || (isPrimaryTree && treePoints > 0)) && (
+                                        <div className="talent-summary-passives-section active-passives">
+                                            <div className="summary-passives-header-row">
+                                                <div className="summary-passives-label">
+                                                    <i className="fas fa-shield-halved"></i>
+                                                    <span>Active Innate Passive Traits:</span>
+                                                </div>
+                                                {!readOnly && (
+                                                    <span className="summary-passives-status active">
+                                                        <i className="fas fa-check-circle"></i> Specialization Passives Active
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="summary-passives-cards-grid">
+                                                {tree.passives.map((p, pIdx) => (
+                                                    <div key={pIdx} className={`summary-passive-card ${p.isShared ? 'shared-trait' : 'unique-trait'}`}>
+                                                        <div className="summary-passive-card-top">
+                                                            <span className="summary-passive-tier-badge">{p.tier || 'Passive'}</span>
+                                                            <strong className="summary-passive-title">{p.name}</strong>
+                                                        </div>
+                                                        <p className="summary-passive-desc">{p.description}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {displayTalents.length === 0 ? (
                                         <div className="talent-summary-empty-msg">
                                             No talent points invested in this specialization yet.
                                         </div>
                                     ) : (
                                         <div className="talent-summary-items-list">
-                                            {learned.map(talent => {
-                                                const curRanks = talents[talent.id];
+                                            {displayTalents.map(talent => {
+                                                const curRanks = readOnly ? (talent.maxRanks || 1) : (talents[talent.id] || 0);
+                                                const isMaxed = curRanks >= (talent.maxRanks || 1);
+                                                const talentTier = getNodeTier(talent);
+
                                                 return (
-                                                    <div key={talent.id} className="talent-summary-item-row">
-                                                        <img
-                                                            src={getIconUrl(talent.icon, 'abilities')}
-                                                            alt={talent.name}
-                                                            className="talent-summary-item-img"
-                                                            onError={(e) => { e.target.src = getIconUrl('Utility/Utility', 'abilities'); }}
-                                                        />
-                                                        <div className="talent-summary-item-info">
-                                                            <div className="talent-summary-item-name">
-                                                                {talent.name} <span className="talent-item-rank-chip">{curRanks}/{talent.maxRanks}</span>
+                                                    <div key={talent.id} className={`talent-summary-item-card ${isMaxed ? 'is-maxed' : 'is-learned'}`}>
+                                                        <div className="talent-summary-card-left">
+                                                            <div className="talent-summary-icon-frame">
+                                                                <img
+                                                                    src={getIconUrl(talent.icon, 'abilities')}
+                                                                    alt={talent.name}
+                                                                    className="talent-summary-item-img"
+                                                                    onError={(e) => { e.target.src = getIconUrl('Utility/Utility', 'abilities'); }}
+                                                                />
                                                             </div>
-                                                            <div className="talent-summary-item-meta">
-                                                                {renderSpellMetaChips(talent.spell)}
+                                                        </div>
+                                                        <div className="talent-summary-item-info">
+                                                            <div className="talent-summary-card-header">
+                                                                <div className="talent-summary-title-group">
+                                                                    <h5 className="talent-summary-item-name">{talent.name}</h5>
+                                                                    <span className={`talent-summary-rank-badge ${isMaxed ? 'maxed' : 'learned'}`}>
+                                                                        {readOnly
+                                                                            ? `${talent.maxRanks || 1} Rank${(talent.maxRanks || 1) > 1 ? 's' : ''}`
+                                                                            : `Rank ${curRanks} of ${talent.maxRanks || 1}${isMaxed ? ' (Maxed)' : ''}`
+                                                                        }
+                                                                    </span>
+                                                                    <span className="talent-summary-tier-tag">Tier {talentTier}</span>
+                                                                </div>
+                                                                <div className="talent-summary-item-meta">
+                                                                    {renderSpellMetaChips(talent.spell)}
+                                                                </div>
                                                             </div>
                                                             <div className="talent-summary-item-desc">
-                                                                {getDynamicDescription(talent, curRanks)}
+                                                                {getDynamicDescription(talent, curRanks, readOnly)}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -699,30 +921,39 @@ export const TalentTreeContent = ({
                                             style={{
                                                 left: `${posX}px`,
                                                 top: `${posY}px`,
+                                                transform: 'translate(-50%, -50%)',
                                                 width: `${talentSize}px`,
                                                 height: `${talentSize}px`
                                             }}
                                         >
-                                            <div
-                                                className={`talent-node-button ${curRanks > 0 ? 'learned' : ''} ${isLearnable ? 'learnable' : ''} ${isMaxed ? 'maxed' : ''} ${!canLearn && curRanks === 0 ? 'locked' : ''} ${isSelected ? 'selected' : ''}`}
-                                                style={{ width: `${talentSize}px`, height: `${talentSize}px` }}
-                                                onClick={() => handleTalentClick(talent.id, talent)}
-                                                onContextMenu={(e) => handleTalentRightClick(e, talent.id, talent)}
-                                                onMouseEnter={() => handleMouseEnter(talent)}
-                                                onMouseLeave={handleMouseLeave}
+                                            <button
+                                                type="button"
+                                                className={`talent-node-btn talent-node-button ${curRanks > 0 ? 'learned' : ''} ${isMaxed ? 'maxed' : ''} ${isLearnable ? 'learnable' : ''} ${isSelected ? 'selected' : ''}`}
+                                                onClick={() => {
+                                                    setSelectedTalentId(talent.id);
+                                                    if (!readOnly) {
+                                                        handleTalentClick(talent.id, talent);
+                                                    }
+                                                }}
+                                                onContextMenu={(e) => {
+                                                    if (!readOnly) {
+                                                        handleTalentRightClick(e, talent.id, talent);
+                                                    }
+                                                }}
+                                                onMouseEnter={() => setHoveredTalentId(talent.id)}
+                                                onMouseLeave={() => setHoveredTalentId(null)}
                                             >
-                                                <div className="talent-node-icon-box">
-                                                    <img
-                                                        src={getIconUrl(talent.icon, 'abilities')}
-                                                        alt={talent.name}
-                                                        className="talent-node-img"
-                                                        onError={(e) => { e.target.src = getIconUrl('Utility/Utility', 'abilities'); }}
-                                                    />
-                                                </div>
-                                                <div className="talent-node-rank-badge">
+                                                <img
+                                                    src={getIconUrl(talent.icon, 'abilities')}
+                                                    alt={talent.name}
+                                                    className="talent-node-icon"
+                                                    onError={(e) => { e.target.src = getIconUrl('Utility/Utility', 'abilities'); }}
+                                                />
+
+                                                <span className={`talent-node-rank-badge ${isMaxed ? 'maxed' : curRanks > 0 ? 'learned' : ''}`}>
                                                     {curRanks}/{talent.maxRanks || 1}
-                                                </div>
-                                            </div>
+                                                </span>
+                                            </button>
                                         </div>
                                     );
                                 })}
@@ -730,7 +961,8 @@ export const TalentTreeContent = ({
                         </div>
                     </div>
 
-                    <div className="talent-book-spine-divider">
+                    {/* Split Book Spine */}
+                    <div className="talent-split-spine">
                         <div className="talent-spine-stitch"></div>
                         <div className="talent-spine-stitch"></div>
                         <div className="talent-spine-stitch"></div>
@@ -756,9 +988,15 @@ export const TalentTreeContent = ({
                                     <div className="talent-inspector-title-block">
                                         <h4>{inspectedTalent.name}</h4>
                                         <div className="talent-inspector-rank-row">
-                                            <span className={`talent-inspector-rank-tag ${inspectedMaxed ? 'maxed' : inspectedRanks > 0 ? 'learned' : 'unlearned'}`}>
-                                                Rank {inspectedRanks} of {inspectedTalent.maxRanks || 1} {inspectedMaxed ? '(Maxed)' : inspectedCanLearn ? '(Learnable)' : ''}
-                                            </span>
+                                            {readOnly ? (
+                                                <span className="talent-inspector-rank-tag codex-rank-tag">
+                                                    {inspectedTalent.maxRanks || 1} Rank{(inspectedTalent.maxRanks || 1) > 1 ? 's' : ''} Max
+                                                </span>
+                                            ) : (
+                                                <span className={`talent-inspector-rank-tag ${inspectedMaxed ? 'maxed' : inspectedRanks > 0 ? 'learned' : 'unlearned'}`}>
+                                                    Rank {inspectedRanks} of {inspectedTalent.maxRanks || 1} {inspectedMaxed ? '(Maxed)' : inspectedCanLearn ? '(Learnable)' : ''}
+                                                </span>
+                                            )}
                                             <span className="talent-tier-pos-tag">Tier {inspectedTier}</span>
                                         </div>
                                     </div>
@@ -770,7 +1008,7 @@ export const TalentTreeContent = ({
 
                                 <div className="talent-inspector-body">
                                     <div className="talent-inspector-desc-scroll">
-                                        {getDynamicDescription(inspectedTalent, inspectedRanks)}
+                                        {getDynamicDescription(inspectedTalent, inspectedRanks, readOnly)}
                                     </div>
 
                                     {/* Requirements status */}
@@ -778,9 +1016,9 @@ export const TalentTreeContent = ({
                                         <div className="talent-inspector-reqs-box">
                                             <span className="req-box-title">Requirements:</span>
                                             {inspectedTier > 1 && (
-                                                <div className={`req-item-line ${isTierMet ? 'met' : 'unmet'}`}>
-                                                    <i className={`fas ${isTierMet ? 'fa-check-circle' : 'fa-lock'}`}></i>
-                                                    <span>Requires {inspectedReqTierPoints} points in {currentTree?.name || 'this tree'} ({treePointsSpent}/{inspectedReqTierPoints} spent)</span>
+                                                <div className={`req-item-line ${readOnly ? 'met' : isTierMet ? 'met' : 'unmet'}`}>
+                                                    <i className={`fas ${readOnly || isTierMet ? 'fa-check-circle' : 'fa-lock'}`}></i>
+                                                    <span>Requires {inspectedReqTierPoints} points spent in {currentTree?.name || 'this tree'}</span>
                                                 </div>
                                             )}
                                             {inspectedTalent.requires && (() => {
@@ -793,45 +1031,71 @@ export const TalentTreeContent = ({
                                                     const isMet = curReqRanks >= reqRanks;
 
                                                     return (
-                                                        <div key={reqId} className={`req-item-line ${isMet ? 'met' : 'unmet'}`}>
-                                                            <i className={`fas ${isMet ? 'fa-check-circle' : 'fa-lock'}`}></i>
-                                                            <span>{reqName} ({curReqRanks}/{reqRanks} points)</span>
+                                                        <div key={reqId} className={`req-item-line ${readOnly || isMet ? 'met' : 'unmet'}`}>
+                                                            <i className={`fas ${readOnly || isMet ? 'fa-check-circle' : 'fa-lock'}`}></i>
+                                                            <span>Prerequisite: {reqName} ({reqRanks} rank{reqRanks > 1 ? 's' : ''})</span>
                                                         </div>
                                                     );
                                                 });
                                             })()}
                                         </div>
                                     )}
+
                                 </div>
 
                                 {/* Direct Allocation Action Buttons */}
-                                <div className="talent-inspector-actions">
-                                    <button
-                                        type="button"
-                                        className="talent-action-btn learn-btn"
-                                        disabled={inspectedMaxed || !inspectedCanLearn}
-                                        onClick={() => handleTalentClick(inspectedTalent.id, inspectedTalent)}
-                                    >
-                                        <i className="fas fa-plus-circle"></i>
-                                        <span>Learn Rank (+1)</span>
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="talent-action-btn refund-btn"
-                                        disabled={inspectedRanks <= 0 || !inspectedCanUnlearn}
-                                        onClick={(e) => handleTalentRightClick(e, inspectedTalent.id, inspectedTalent)}
-                                    >
-                                        <i className="fas fa-rotate-left"></i>
-                                        <span>Refund (-1)</span>
-                                    </button>
-                                </div>
+                                {readOnly ? (
+                                    <div className="talent-inspector-actions codex-actions">
+                                        <div className="talent-codex-hint">
+                                            <i className="fas fa-eye"></i>
+                                            <span>Click nodes to view full rank progressions and mechanics.</span>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="talent-inspector-actions">
+                                        <button
+                                            type="button"
+                                            className="talent-action-btn learn-btn"
+                                            disabled={inspectedMaxed || !inspectedCanLearn}
+                                            onClick={() => handleTalentClick(inspectedTalent.id, inspectedTalent)}
+                                        >
+                                            <i className="fas fa-plus-circle"></i>
+                                            <span>Learn Rank (+1)</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="talent-action-btn refund-btn"
+                                            disabled={inspectedRanks <= 0 || !inspectedCanUnlearn}
+                                            onClick={(e) => handleTalentRightClick(e, inspectedTalent.id, inspectedTalent)}
+                                        >
+                                            <i className="fas fa-rotate-left"></i>
+                                            <span>Refund (-1)</span>
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                             );
                         })() : (
                             <div className="talent-inspector-empty">
                                 <i className="fas fa-scroll"></i>
-                                <h4>Specialization Codex</h4>
+                                <h4>{currentTree?.name || 'Specialization Codex'}</h4>
                                 <p>{currentTree?.description}</p>
+                                {currentTree?.passives && currentTree.passives.length > 0 && (
+                                    <div className="inspector-empty-passives">
+                                        <div className="empty-passives-title">
+                                            <i className="fas fa-shield-halved"></i> Innate Passive Traits
+                                        </div>
+                                        {currentTree.passives.map((p, idx) => (
+                                            <div key={idx} className={`inspector-passive-item ${p.isShared ? 'shared' : 'unique'}`}>
+                                                <div className="inspector-passive-header">
+                                                    <strong>{p.name}</strong>
+                                                    <span className="inspector-passive-tier">{p.tier || 'Passive'}</span>
+                                                </div>
+                                                <p className="inspector-passive-desc">{p.description}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
                                 <span>Click any talent node on the left to examine its scaling powers and assign points.</span>
                             </div>
                         )}

@@ -458,8 +458,8 @@ const BASE_TEMPLATE = {
     const classResourceMapping = {
       'pyrofiend': 'inferno',
       'primalist': 'totemicSynergy',
-      'berserker': 'blood_heat',
-      'inquisitor': 'righteous_authority',
+      'berserker': 'rage',
+      'inquisitor': 'authority',
       'dreadnaught': 'darkResilience',
       'warden': 'vengeance',
       'elementalist': 'elementalHarmony',

@@ -324,7 +324,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
     "requires": "svi_t2_hamstring",
     "spell": {
       "name": "Pack Coordination",
-      "description": "Passive: Whenever an ally within 20 feet scores a critical hit, you immediately gain +1 AP on your next turn and 10 Blood-Heat.",
+      "description": "Passive: Whenever an ally within 20 feet scores a critical hit, you immediately gain +1 AP on your next turn and 10 Rage.",
       "flavorText": "Blood in the water ignites the whole frenzy.",
       "source": "talent",
       "class": "Berserker",
@@ -342,10 +342,10 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
     },
     "rankUpgrades": [
       {
-        "description": "Gain +1 AP, 15 Blood-Heat, and your next attack deals +1d6 damage."
+        "description": "Gain +1 AP, 15 Rage, and your next attack deals +1d6 damage."
       },
       {
-        "description": "Gain +1 AP, 20 Blood-Heat, your next attack deals +1d8 damage, and you heal for 4 Hit Points."
+        "description": "Gain +1 AP, 20 Rage, your next attack deals +1d8 damage, and you heal for 4 Hit Points."
       }
     ]
   },

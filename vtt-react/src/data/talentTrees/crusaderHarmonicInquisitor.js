@@ -1,7 +1,7 @@
 // ============================================
 // CRUSADER — HARMONIC INQUISITOR (v2: talents are spells)
 // Spec: Aex Resonance, Anti-Caster Interrupts, Starlight Lightning, Ranged Chakrams
-// Resource: Radiant Fervor (0-100)
+// Resource: Fervor (0-100)
 // ============================================
 
 export const CRUSADER_HARMONIC_INQUISITOR = [
@@ -15,7 +15,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     requires: null,
     spell: {
       name: "Discordant Reprimand",
-      description: "Passive: Your melee strikes disrupt magical weaves. Hitting a creature concentrating on a spell forces a Constitution check with Disadvantage, and dealing damage to spellcasters generates +5 bonus Radiant Fervor.",
+      description: "Passive: Your melee strikes disrupt magical weaves. Hitting a creature concentrating on a spell forces a Constitution check with Disadvantage, and dealing damage to spellcasters generates +5 bonus Fervor.",
       flavorText: "Aex's song is the true chord. All else is noise to be struck down.",
       source: "talent", class: "Crusader", treeId: "harmonic_inquisitor",
       spellType: "PASSIVE", category: "damage",
@@ -142,7 +142,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     },
     rankUpgrades: [
       { description: "Magic damage reduction increases to 30%, and radius extends to 20 ft." },
-      { description: "Magic damage reduction increases to 40%; when you resist or save against a spell, gain +15 Radiant Fervor." }
+      { description: "Magic damage reduction increases to 40%; when you resist or save against a spell, gain +15 Fervor." }
     ]
   },
   {
@@ -251,7 +251,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     requires: "chi_t4_rebound_resonance",
     spell: {
       name: "Starlight Translocation",
-      description: "Spend 1 AP: Teleport instantly up to 30 ft to the location of your Chakram of Aex or to any Consecrated Ground tile. Generates +15 Radiant Fervor.",
+      description: "Spend 1 AP: Teleport instantly up to 30 ft to the location of your Chakram of Aex or to any Consecrated Ground tile. Generates +15 Fervor.",
       flavorText: "Step along the starlight beam before it fades.",
       source: "talent", class: "Crusader", treeId: "harmonic_inquisitor",
       spellType: "ACTIVE", category: "utility",
@@ -309,7 +309,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
       visualTheme: "holy", tags: ["passive", "extra-reaction", "ap-refund", "crusader"]
     },
     rankUpgrades: [
-      { description: "You gain a 3rd Reaction per round when at 75+ Radiant Fervor, and all Reaction AP costs are reduced to 0." }
+      { description: "You gain a 3rd Reaction per round when at 75+ Fervor, and all Reaction AP costs are reduced to 0." }
     ]
   },
 

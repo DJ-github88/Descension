@@ -282,7 +282,14 @@ export const getTreeBackdrop = (className, specId) => {
     }
   };
 
-  return backdropMap[className]?.[specId] || null;
+  if (!className) return null;
+  const direct = backdropMap[className]?.[specId];
+  if (direct) return direct;
+  const normalized = className.toLowerCase().replace(/[-_]/g, ' ');
+  const entry = Object.entries(backdropMap).find(([key]) =>
+    key.toLowerCase() === normalized || key.toLowerCase().replace(/[-_]/g, ' ') === normalized
+  );
+  return entry?.[1]?.[specId] || null;
 };
 
 // Fallback thematic backgrounds from the Backgrounds array for each tree index
@@ -419,7 +426,14 @@ export const TALENT_TREES = {
 
 // Helper function to get talents for a specific class and specialization
 export const getTalentsForSpec = (className, specId) => {
-  return TALENT_TREES[className]?.[specId] || PLACEHOLDER_TREE;
+  if (!className) return PLACEHOLDER_TREE;
+  const direct = TALENT_TREES[className]?.[specId];
+  if (direct) return direct;
+  const normalized = className.toLowerCase().replace(/[-_]/g, ' ');
+  const entry = Object.entries(TALENT_TREES).find(([key]) =>
+    key.toLowerCase() === normalized || key.toLowerCase().replace(/[-_]/g, ' ') === normalized
+  );
+  return entry?.[1]?.[specId] || PLACEHOLDER_TREE;
 };
 
 // Placeholder talent tree for missing or invalid specs

@@ -56,7 +56,7 @@ These cut across most/all bars and are the **highest-leverage** work.
 
 ### 2.3 Stale / fabricated specialization data 🔴
 Several bars ship spec IDs, names, and passives that **don't match the class data files**:
-- **Warden:** resource renamed "Vengeance Points" (data: **"Tether Tension"**); **Monolith spec missing** entirely; ability names are legacy ("Vengeful Strike" vs data's "Barbed Lash").
+- **Warden:** resource renamed "Tension" (data: **"Tension"**); **Monolith spec missing** entirely; ability names are legacy ("Vengeful Strike" vs data's "Barbed Lash").
 - **Spellguard:** resource renamed "Arcane Energy Points" (data: **"Void Resonance (AEP)"**); specs use stale names/passives ("Arcane Fortitude" vs data's "Lead-Lined Ribcage").
 - **Pyrofiend:** ships a **fabricated "Hellfire" spec**; the real third spec is **"The Apostate's Path"**. Stage names are also wrong (component's Mortal/Ember/... vs data's Dante-inspired Limbo/Lust/...).
 - **Plaguebringer:** spec IDs use camelCase (`virulentSpreader`) while data uses kebab-case (`virulent-spreader`)  -  a sync bug.
@@ -115,12 +115,12 @@ Priority key: 🔴 critical (broken UX / wrong data) · 🟠 important (notable 
 - **Issues:** Same icon-crowding as False Prophet (3 buttons/row); **mojibake card-suit characters** (`'â '`, `'â™¥'`) likely render as replacement glyphs  -  corrupted UTF-8.
 - **Fix:** Repair the unicode card suits (♠♥♦♣); adopt column buttons for the menu; 13 segments is dense in compact  -  consider collapsing to a `n/13` numeric bar with a pip strip.
 
-#### Gambit  -  Fortune Points / Karmic Debt 🟡
+#### Gambit  -  Fortune / Karmic Debt 🟡
 - **Bar:** Two side-by-side fills (gold + red) with a `♦` divider.
 - **Issues:** 9px labels with ellipsis clip `"7/7 FP"` → `"7/7…"`; both bars share one hover tooltip (`'fp'`) so hovering debt shows the fortune tooltip.
 - **Fix:** Split the hover section so each bar has its own tooltip; widen/abbreviate labels.
 
-#### Martyr  -  Devotion Gauge 🟡
+#### Martyr  -  Devotion 🟡
 - **Bar:** 6 level segments with inline 8px level numbers + damage threshold label.
 - **Issues:** Damage numeric input is cramped in 200px party menus.
 - **Fix:** Mostly fine; ensure the popup input scales.
@@ -140,7 +140,7 @@ Priority key: 🔴 critical (broken UX / wrong data) · 🟠 important (notable 
 - **Issues:** Momentum/Body Toll menus crowd icons over numbers (same bug); unused `.shaper-action-btn` exists; absolute overlay positioning (`calc(50% - 14px)`) is fragile.
 - **Fix:** Apply `.shaper-action-btn`; show at least a compact `{flux}/{bodyToll}` indicator on the bar in party mode; harden overlay positioning.
 
-#### Berserker  -  Blood-Heat Rage 🟡
+#### Berserker  -  Rage Rage 🟡
 - **Bar:** Canvas rage bar with `overheated` state; 2-buttons-per-row menu (so numbers fit).
 - **Status:** Least-bad instance of the action-button pattern. Keep the numeric `set` input pattern  -  it's a good idea worth copying to other bars.
 
@@ -156,7 +156,7 @@ Priority key: 🔴 critical (broken UX / wrong data) · 🟠 important (notable 
 
 ### Bars in separate component files
 
-#### Toxicologist  -  Toxin Vials + Contraption Parts 🟠 *(best data fidelity)*
+#### Toxicologist  -  Vials + Contraption Parts 🟠 *(best data fidelity)*
 - **Bar:** Split vertical-fill (green toxins | gear contraptions) + spec button parked at `left: -40px` **outside the bar**.
 - **Issues:** The external spec button is a **layout hazard** (clipped in narrow frames); three separate menus is a high discovery burden; count badges on liquid can have contrast issues.
 - **Fix:** Move the spec button inside the bar (icon in the divider); consolidate the three menus into one popover panel (Minstrel-style); ensure count badges have a dark outline.
@@ -177,10 +177,10 @@ Priority key: 🔴 critical (broken UX / wrong data) · 🟠 important (notable 
 - **Issues:** Hardcoded state ignores prop; spec IDs are camelCase (data is kebab); **the entire affliction depth is flattened**  -  data has 5 cultivation categories × 3 stages with distinct final archetypes, but the bar shows one `0–10` counter; the class's signature is invisible.
 - **Fix:** Read from prop; fix spec ID casing; redesign the affliction half to show stage/category (e.g. 5 category columns × pip rows) rather than a flat chip count.
 
-#### Warden  -  Vengeance Points 🔴
+#### Warden  -  Tension 🔴
 - **Bar:** 10 segments + large 20px `vp-number` overlay; complex menu with spec-state toggles.
-- **Issues:** Resource renamed away from data's **"Tether Tension"** (erases the flesh-graft fantasy); **Monolith spec missing**; ability names stale; the 20px number dominates/crowds segments at small size.
-- **Fix:** Restore "Tether Tension" naming; add the Monolith spec; align ability names; shrink the numeric overlay in compact mode.
+- **Issues:** Resource renamed away from data's **"Tension"** (erases the flesh-graft fantasy); **Monolith spec missing**; ability names stale; the 20px number dominates/crowds segments at small size.
+- **Fix:** Restore "Tension" naming; add the Monolith spec; align ability names; shrink the numeric overlay in compact mode.
 
 #### Spellguard  -  Arcane Energy Points 🔴
 - **Bar:** Single fill with rune glyphs, energy particles, spec overlays; the **only bar with a full party-context beige reskin** (good pattern!).

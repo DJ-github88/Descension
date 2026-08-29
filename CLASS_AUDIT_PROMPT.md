@@ -32,7 +32,7 @@ Systematic removal of graphic gore, body horror, and R-rated imagery.
 | Spellguard | 6 lines: vomiting→expelling, eyes bleed→scorch vision, tear→strain vocal cords, ripping→siphoning, crush/choke wording |
 | Pyrofiend | Corruption Manifestation Table: sloughing flesh→burning away, split joints→glowing joints, rendered fat/children weep/crematorium smell removed |
 | Lunarch | ~12 somatic/descriptions: tear/gouge/drive fingers→press/open/trace |
-| Berserker | Threshold names: Hemorrhagic→Blood-Heat, Arterial→Deep, Splatter→Spray |
+| Berserker | Threshold names: Hemorrhagic→Rage, Arterial→Deep, Splatter→Spray |
 | Shaper | Off-theme spells rethemed (storm/blight→physical), schools fixed |
 | Minstrel | "butchers of the battlefield"→"war drummers", graphic descriptions toned |
 

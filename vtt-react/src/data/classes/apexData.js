@@ -206,14 +206,26 @@ The mist is learning to hide deliberately. Something large has moved through the
     title: "Class Overview",
     content: `**Who they are**: The Apex is a silent hunter and primal predator who fights in flawless synchronization with a bonded Beast Companion. Armed with a shadow glaive, you hunt targets through fog and darkness, turning two combatants into a single lethal pack.
 
-**The hook**: Your power lies in **Pack Coordination**: as you and your beast flank and strike targets together, you build Quarry Marks that allow your shadow glaive to arc across multiple foes in a single sweeping chain, decimating enemy formations.
+**The hook**: Your power lies in **Pack Coordination**: as you and your beast flank and strike targets together, you build Marks that allow your shadow glaive to arc across multiple foes in a single sweeping chain, decimating enemy formations.
 
-**The resource bar & costs**: Your resource bar is **Quarry Marks**, earned through coordinated attacks, flanking, and predator maneuvers. Spending Marks empowers your glaive strikes with multi-target shadow chains, armor shredding, and execution strikes. If your companion is incapacitated, you lose mark generation, making beast management essential.
+**The resource bar & costs**: Your resource bar is **Marks**, earned through coordinated attacks, flanking, and predator maneuvers. Spending Marks empowers your glaive strikes with multi-target shadow chains, armor shredding, and execution strikes. If your companion is incapacitated, you lose mark generation, making beast management essential.
 
-**Bring one for**: The most efficient multi-target melee damage in the game, fluid companion coordination, and the fantasy of a shadow hunter carving through enemy lines.`
+**Bring one for**: The most efficient multi-target melee damage in the game, fluid companion coordination, and the fantasy of a shadow hunter carving through enemy lines.`,
+    roleplayIdentity: {
+      title: "Roleplay Identity",
+      content: "Practitioners carry a profound cultural and physical responsibility, marked by their tradition's unique legacy and societal perceptions."
+    },
+    combatRole: {
+      title: "Combat Role",
+      content: "Synchronized dual-striker and shadow hunter who flanks with a bonded beast companion to chain glaive strikes across clustered enemy ranks."
+    },
+    playstyle: {
+      title: "Playstyle & Turn 1 Flow",
+      content: "**Your Turn 1 in Combat**:\n1. **Designate Quarry**: Mark a priority target to initiate pack tracking.\n2. **Coordinate with Beast**: Command your companion to flank and strike, generating Marks.\n3. **Chain Glaive Strikes**: Spend Marks on multi-target shadow chains to shred enemy formations."
+    }
   },
 
- description: `The Apex is a master of close-range combat who wields the legendary Shadow Glaive, a weapon capable of chaining deadly strikes between multiple enemies. Accompanied by a loyal beast companion, the Apex excels at hit-and-run tactics, weaving through enemy lines with deadly grace. Through the Quarry Marks system, she builds power through the bond with her companion, Quarry Marks represent pack coordination, not individual prowess. Glaive hits alone generate no marks; it is the synchronized rhythm of hunter and beast that fills the reservoir. This shifting class rewards tactical positioning, companion management, and the synergy between hunter and beast.`,
+ description: `The Apex is a master of close-range combat who wields the legendary Shadow Glaive, a weapon capable of chaining deadly strikes between multiple enemies. Accompanied by a loyal beast companion, the Apex excels at hit-and-run tactics, weaving through enemy lines with deadly grace. Through the Marks system, she builds power through the bond with her companion, Marks represent pack coordination, not individual prowess. Glaive hits alone generate no marks; it is the synchronized rhythm of hunter and beast that fills the reservoir. This shifting class rewards tactical positioning, companion management, and the synergy between hunter and beast.`,
 
  roleplayIdentity: {
   title: "Roleplay Identity",
@@ -267,11 +279,11 @@ Some Apexes believe the fog is responding to the increased activity of the Wyrd,
 - Exceptional multi-target damage through glaive chaining
 - High mobility with Shadowstep and evasion abilities
 - Companion provides additional damage, defense, or utility
-- Strong burst damage when spending Quarry Marks
+- Strong burst damage when spending Marks
 - Excellent at controlling enemy positioning
 
 **Combat Weaknesses**:
-- Kill the Beast, Cripple the Hunter: a dead companion means you generate ZERO Quarry Marks until it is revived ï¿½ you become an ordinary glaive-fighter with no resource and no burst.
+- Kill the Beast, Cripple the Hunter: a dead companion means you generate ZERO Marks until it is revived ï¿½ you become an ordinary glaive-fighter with no resource and no burst.
 - Pack-Dependent Damage: your glaive alone hits for base damage; without grouped enemies to chain AND a living companion to feed marks, your output collapses.
 - Leather-Clad: light armor only ï¿½ caught without Shadowstep, you are a priority burst target.
 - Melee-Only, Kiteable: no ranged answer; fliers, archers, and spread-out formations shut you down.
@@ -284,8 +296,8 @@ Apexes excel at close range (5-15 feet), positioning themselves to maximize glai
 
  playstyle: {
   title: "Playstyle & Strategy",
-  content: `**Quarry Mark Management**:
-The key to mastering the Apex is generating and spending Quarry Marks efficiently. Marks are NOT generated by hitting enemies, they represent the bond between you and your companion. Generate marks through pack coordination:
+  content: `**Mark Management**:
+The key to mastering the Apex is generating and spending Marks efficiently. Marks are NOT generated by hitting enemies, they represent the bond between you and your companion. Generate marks through pack coordination:
 
 - **1 Mark**: Enhance companion's next attack (+1d6 damage)
 - **2 Marks**: Extend glaive chain by +1 target
@@ -330,9 +342,9 @@ Don't stand still. Use Shadowstep and Evasion to:
   title: "Combat Example: The Shadow Glaive Dance",
   content: `Five bandits, one formation, one target-rich environment. Fang whines low in her throat, muscles coiling, already reading the geometry of the kill. You feel the familiar shift in your perception ï¿½ the world slowing, heat signatures blooming behind every ribcage, the paths between them lighting up like drawn wire.
 
-**The Setup**: You're a Apex (Bladestorm specialization) with your wolf companion "Fang" facing a group of bandits (5 bandits in a tight formation). Your party is with you. Starting Quarry Marks: 2 (from previous encounter). Your goal: Use glaive chaining to hit multiple enemies, generate Quarry Marks through successful attacks, and coordinate with your companion for devastating combos.
+**The Setup**: You're a Apex (Bladestorm specialization) with your wolf companion "Fang" facing a group of bandits (5 bandits in a tight formation). Your party is with you. Starting Marks: 2 (from previous encounter). Your goal: Use glaive chaining to hit multiple enemies, generate Marks through successful attacks, and coordinate with your companion for devastating combos.
 
-**Starting State**: Quarry Marks: 2/5 | HP: 70/70 | Companion (Fang): 50/50 HP | Armor: 14
+**Starting State**: Marks: 2/5 | HP: 70/70 | Companion (Fang): 50/50 HP | Armor: 14
 
 **Initiative**: Bandits 16, You 12, Fang acts on your turn (companion acts when commanded)
 
@@ -361,7 +373,7 @@ Don't stand still. Use Shadowstep and Evasion to:
 *The shadow energy EXPLODES outward, striking four bandits in one swing. They stagger, wounded.*
 
 - **Total Damage**: 17 + 10 + 11 + 9 = **47 damage across 4 targets!**
-- **Quarry Marks Generated**: +1 QM per enemy hit = +4 potential, but turn cap is +3
+- **Marks Generated**: +1 QM per enemy hit = +4 potential, but turn cap is +3
 - **QM Calculation**: 2 + 3 = **5 QM** (cap reached, 1 mark lost to overflow)
 
 - **Bonus Action**: Command Fang to Attack Bandit #1
@@ -383,7 +395,7 @@ Don't stand still. Use Shadowstep and Evasion to:
 - **Your HP**: 70 - 12 = **58/70**
 
 **Your Turn** (initiative 12):
-- **Quick Action** (0 AP): Spend 2 Quarry Marks to extend glaive chain by +1 target (can grab an enemy outside normal chain range)
+- **Quick Action** (0 AP): Spend 2 Marks to extend glaive chain by +1 target (can grab an enemy outside normal chain range)
  - **QM: 5 - 2 = 3**
 
 *You focus your will. The Shadow Glaive pulses with darker energy. This next strike will chain further.*
@@ -416,7 +428,7 @@ Don't stand still. Use Shadowstep and Evasion to:
 **Bandit #2 Strike Roll** vs Fang ? 1d6 ? [1] ? **Fumble!**
 
 **Your Turn** (initiative 12):
-- **Quick Action** (0 AP): Spend 1 Quarry Mark to enhance Fang's next attack (+1d6 damage)
+- **Quick Action** (0 AP): Spend 1 Mark to enhance Fang's next attack (+1d6 damage)
  - **QM: 5 - 1 = 4**
 
 - **Bonus Action**: Command Fang to Attack Bandit #2
@@ -449,28 +461,38 @@ Don't stand still. Use Shadowstep and Evasion to:
 
 **The Lesson**: Apex gameplay is about:
 1. **Glaive Chaining**: Hit 1 primary target, chain to 3 nearby enemies = 4 hits in one attack (47 damage total in Turn 1)
-2. **Quarry Mark Management**: +1 QM per enemy hit (including chains), capped at +3 per turn (+4 for Beastmaster). Overflow marks are lost.
-3. **Quarry Mark Spending**: Spent 2 QM to extend chain by +1 target (Turn 2), spent 1 QM to enhance Fang's attack (Turn 3)
+2. **Mark Management**: +1 QM per enemy hit (including chains), capped at +3 per turn (+4 for Beastmaster). Overflow marks are lost.
+3. **Mark Spending**: Spent 2 QM to extend chain by +1 target (Turn 2), spent 1 QM to enhance Fang's attack (Turn 3)
 4. **Companion Commands**: Commanded Fang to Attack (Turn 1, 3) and Defend (Turn 2). Companion commands cost 1 AP.
 5. **Positioning**: Enemies grouped together = maximum chain effectiveness
 6. **Burst Damage**: Turn 1 dealt 47 damage across 4 targets, Turn 2 dealt 50 damage across 4 targets (killed 2)
 7. **Resource Banking**: Ended with 5 QM banked. Marks decay by 1/minute after a 1-minute grace period, rush to the next fight!
-8. **AP Economy**: Each turn you have 3 AP. Glaive attack costs 2 AP, companion command costs 1 AP. Quarry Mark effects are free to activate.
+8. **AP Economy**: Each turn you have 3 AP. Glaive attack costs 2 AP, companion command costs 1 AP. Mark effects are free to activate.
 
-You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies group up, your Shadow Glaive becomes a weapon of mass destruction. One swing, four hits. And with Quarry Marks, you can extend chains even further, empower your companion, or unleash ultimate abilities. The key is positioning,get enemies close together, then watch the shadow energy arc between them. And Fang isn't just a pet,he's a tactical asset. Attack when you need damage, Defend when you need protection. Together, you're unstoppable.`,
+You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies group up, your Shadow Glaive becomes a weapon of mass destruction. One swing, four hits. And with Marks, you can extend chains even further, empower your companion, or unleash ultimate abilities. The key is positioning,get enemies close together, then watch the shadow energy arc between them. And Fang isn't just a pet,he's a tactical asset. Attack when you need damage, Defend when you need protection. Together, you're unstoppable.`,
  },
  },
 
  // Resource System
  resourceSystem: {
- title: "Quarry Marks (QM)",
- subtitle: "The Rhythm of the Hunt",
+ title: "Marks: The Predator's Crosshairs",
+ subtitle: "How Your Resource Works (Beginner's Guide)",
 
- description: `The Apex is a master of focus and coordination. Your core resource is **Quarry Marks** (0-5), silver-blue moonlight energy built through the bond between you and your beast companion. Solo glaive hits generate NOTHING, Quarry Marks are earned through pack coordination, not individual prowess. While your Shadow Glaive clears the field, your Quarry Marks are what turn your loyal companion from a pet into a lethal extension of your own will.`,
+ description: `**1. What is it? (The Target Crosshairs)**
+Marks (0–5) track tactical vulnerability on priority targets. You and your bonded beast companion generate Marks by isolating, flanking, and harrying enemies.
+
+**2. How do I build it?**
+- Designate a Quarry and strike from stealth or elevation (+1 Mark).
+- Coordinate with your beast companion to flank a target (+1 Mark).
+- Critical hits with your twin glaives (+2 Marks).
+
+**3. How do I spend it & what is the catch?**
+- Spend Marks to unleash sweeping multi-target glaive chains, pierce physical resistances, or execute wounded prey.
+- **The Catch (Pack Dependency)**: If your bonded beast is incapacitated or immobilized, you cannot generate Marks through flanking. Protect your companion to maintain your combat momentum.`,
 
  cards: [
   {
-  title: "Quarry Marks (0-5)",
+  title: "Marks (0-5)",
   stats: "Cap: 5 Marks",
   details:
    "Build marks through companion synergy, coordinated strikes, companion hits, and pack tactics. Solo glaive hits generate NO marks.",
@@ -517,7 +539,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   [
    "Companion Dead",
    "+0 QM",
-   "If your companion is dead, you cannot generate ANY Quarry Marks until revived",
+   "If your companion is dead, you cannot generate ANY Marks until revived",
   ],
   ],
  },
@@ -531,7 +553,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
  overheatRules: {
   title: "Primal Outrage",
-  content: `If you begin your turn with 5 Quarry Marks and generate additional marks (through overflow), or if your companion drops below 25% HP while you have 3+ Quarry Marks, your beast enters a **Primal Outrage**.
+  content: `If you begin your turn with 5 Marks and generate additional marks (through overflow), or if your companion drops below 25% HP while you have 3+ Marks, your beast enters a **Primal Outrage**.
 
 **The Effect**: For the next 2 turns, your companion deals **Double Damage** but becomes **Frenzied**. A frenzied beast will move toward and attack the NEAREST creature at the start of its turn, regardless of affiliation. You must spend an Action (Command) to snap it out of the frenzy early.`,
  },
@@ -540,9 +562,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   title: "The Hunting Party",
   content: `**Beastmaster Spec**: Your turn cap for QM generation is increased from +3 to +4, allowing you to cycle through Companion Specials every single turn. Your companion also gains independent initiative.
 
-**The Companion Dependency**: If your companion dies, you lose ALL ability to generate Quarry Marks until it is revived. This is your greatest vulnerability.
+**The Companion Dependency**: If your companion dies, you lose ALL ability to generate Marks until it is revived. This is your greatest vulnerability.
 
-**Quarry Mark Decay**: Your Quarry Marks decay by 1 at the end of each round your companion takes damage. A wounded companion cannot maintain the pack coordination needed for marks. PROTECT YOUR PET or lose your fuel.
+**Mark Decay**: Your Marks decay by 1 at the end of each round your companion takes damage. A wounded companion cannot maintain the pack coordination needed for marks. PROTECT YOUR PET or lose your fuel.
 
 **Bond Sickness (Enhanced)**: When your companion drops to 0 HP, you suffer Bond Sickness for 3 rounds (not 2): roll 1d6 on the Bond Sickness table each round:
 | d6 | Effect |
@@ -554,7 +576,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
 **Banking**: Since marks persist between fights, always try to "finish" an encounter by building back up to 5 QM so you can open the next fight with an Ultimate.
 
-**Mark Decay**: Quarry Marks decay by 1 per minute outside of combat. You retain your marks for 1 full minute after combat ends before they begin fading. This rewards aggressive, back-to-back encounters without guaranteeing every fight opens at maximum power.`,
+**Mark Decay**: Marks decay by 1 per minute outside of combat. You retain your marks for 1 full minute after combat ends before they begin fading. This rewards aggressive, back-to-back encounters without guaranteeing every fight opens at maximum power.`,
  },
 
  playingInPerson: {
@@ -563,7 +585,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   content: `The Apex thrives when the player feels the "Build and Release" rhythm of the marks.
 
 **Required Materials**:
-- **5 Silver/Blue Tokens**: (Representing Quarry Marks).
+- **5 Silver/Blue Tokens**: (Representing Marks).
 - **Companion Miniature**: (Essential for tracking chain distances).
 - **A Trophy Bowl**: (For the physical hack).
 
@@ -587,7 +609,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
  specs: [
   { id : "bladestorm",
-  name: "Bladestorm",
+  name: "Marks",
   icon: "Piercing/Dagger Rain",
   color: "#DC143C",
   theme: "Multi-Target Devastation",
@@ -616,7 +638,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    name: "Whirling Blades",
    icon: "Slashing/Quick Slash",
    description:
-    "Your Shadow Glaive can chain to +1 additional target (total of 5 targets: 1d8 ? 1d6 ? 1d6 ? 1d6 ? 1d6). This does not cost Quarry Marks. Chain damage floor is raised to 1d6 at all levels.",
+    "Your Shadow Glaive can chain to +1 additional target (total of 5 targets: 1d8 ? 1d6 ? 1d6 ? 1d6 ? 1d6). This does not cost Marks. Chain damage floor is raised to 1d6 at all levels.",
    },
    {
    name: "Momentum",
@@ -634,7 +656,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   ],
   },
   { id : "beastmaster",
-  name: "Beastmaster",
+  name: "The Twin-Fang Predator",
   icon: "Nature/Spawn",
   color: "#228B22",
   theme: "Companion Synergy",
@@ -669,7 +691,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    name: "Pack Tactics",
    icon: "Nature/Sense",
    description:
-    "When you and your companion attack the same target, both of you gain advantage on attack rolls against that target until the end of your turn. and, your companion's attacks generate Quarry Marks as if they were your glaive attacks.",
+    "When you and your companion attack the same target, both of you gain advantage on attack rolls against that target until the end of your turn. and, your companion's attacks generate Marks as if they were your glaive attacks.",
    },
   ],
 
@@ -681,7 +703,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   ],
   },
   { id : "shadowblade",
-  name: "Shadowblade",
+  name: "The Mist-Stalker",
   icon: "Utility/Phantom Dash",
   color: "#4B0082",
   theme: "Stealth & Lethality",
@@ -840,7 +862,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   actionPoints: 1,
   components: ["somatic"],
   somaticText: "Throw glaive in spinning arc",
-  classResource: { type: "quarry_marks", gain: 1 },
+  classResource: { type: "marks", gain: 1 },
   },
 
   resolution: "DICE",
@@ -871,7 +893,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   quarryMarks: {
    generated: 1,
    perHit: true,
-   description: "Generate 1 Quarry Mark for each enemy hit",
+   description: "Generate 1 Mark for each enemy hit",
   },
   chainMechanic: {
    description: "Chains to enemies within 5 feet of previous target",
@@ -924,7 +946,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   actionPoints: 1,
   components: ["somatic"],
   somaticText: "Spin in place with glaive extended",
-  classResource: { type: "quarry_marks", cost: 2 },
+  classResource: { type: "marks", cost: 2 },
   },
 
   resolution: "DICE",
@@ -991,7 +1013,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   actionPoints: 1,
   components: ["somatic"],
   somaticText: "Rapid spinning strikes with glaive",
-  classResource: { type: "quarry_marks", cost: 5 },
+  classResource: { type: "marks", cost: 5 },
   },
 
   resolution: "DICE",
@@ -1017,7 +1039,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   specialMechanics: {
   quarryMarks: {
    cost: 5,
-   description: "Ultimate ability - costs all 5 Quarry Marks",
+   description: "Ultimate ability - costs all 5 Marks",
   },
   momentum: {
    description: "Grants maximum Momentum (+3) after use",
@@ -1067,7 +1089,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   actionPoints: 1,
   components: ["verbal"],
   verbalText: "Attack command to companion",
-  classResource: { type: "quarry_marks", gain: 1 },
+  classResource: { type: "marks", gain: 1 },
   },
 
   resolution: "DICE",
@@ -1092,7 +1114,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   specialMechanics: {
   quarryMarks: {
    generated: 1,
-   description: "Generate 1 Quarry Mark on hit",
+   description: "Generate 1 Mark on hit",
   },
   companionCommand: {
    type: "attack",
@@ -1143,7 +1165,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   components: ["verbal", "somatic"],
   verbalText: "Attack command",
   somaticText: "Point at target",
-  classResource: { type: "quarry_marks", cost: 2 },
+  classResource: { type: "marks", cost: 2 },
   },
 
   resolution: "DICE",
@@ -1220,7 +1242,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   actionPoints: 1,
   components: ["verbal"],
   verbalText: "Primal command to companion",
-  classResource: { type: "quarry_marks", cost: 5 },
+  classResource: { type: "marks", cost: 5 },
   },
 
   resolution: "AUTOMATIC",
@@ -1269,7 +1291,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   specialMechanics: {
   quarryMarks: {
    cost: 5,
-   description: "Ultimate ability - costs all 5 Quarry Marks",
+   description: "Ultimate ability - costs all 5 Marks",
   },
   beastmasterUltimate: {
    description: "Beastmaster specialization ultimate ability",
@@ -1316,7 +1338,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   actionPoints: 1,
   components: ["somatic"],
   somaticText: "Step into shadows",
-  classResource: { type: "quarry_marks", gain: 1 },
+  classResource: { type: "marks", gain: 1 },
   },
 
   resolution: "AUTOMATIC",
@@ -1416,7 +1438,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   actionPoints: 1,
   components: ["somatic"],
   somaticText: "Strike from stealth",
-  classResource: { type: "quarry_marks", cost: 3 },
+  classResource: { type: "marks", cost: 3 },
   },
 
   resolution: "DICE",
@@ -1499,7 +1521,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   components: ["verbal", "somatic"],
   verbalText: "Umbra multiplicare!",
   somaticText: "Throw glaive while creating shadow copies",
-  classResource: { type: "quarry_marks", cost: 5 },
+  classResource: { type: "marks", cost: 5 },
   },
 
   resolution: "DICE",
@@ -1525,7 +1547,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   specialMechanics: {
   quarryMarks: {
    cost: 5,
-   description: "Ultimate ability - costs all 5 Quarry Marks",
+   description: "Ultimate ability - costs all 5 Marks",
   },
   shadowbladeUltimate: {
    description: "Shadowblade specialization ultimate ability",
@@ -1577,7 +1599,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   components: ["verbal", "somatic"],
   verbalText: "Luna fortis!",
   somaticText: "Glaive glows with moonlight",
-  classResource: { type: "quarry_marks", gain: 1 },
+  classResource: { type: "marks", gain: 1 },
   },
 
   resolution: "DICE",
@@ -1642,7 +1664,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   specialMechanics: {
   quarryMarks: {
    generated: 1,
-   description: "Generate 1 Quarry Mark on hit",
+   description: "Generate 1 Mark on hit",
   },
   },
 
@@ -1763,7 +1785,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   actionPoints: 1,
   components: ["verbal"],
   verbalText: "Mark target as quarry",
-  classResource: { type: "quarry_marks", gain: 1 },
+  classResource: { type: "marks", gain: 1 },
   },
 
   resolution: "AUTOMATIC",
@@ -1774,7 +1796,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    {
    id: "mark_quarry",
    name: "Mark Quarry",
-   description: "Mark a target as your quarry. You sense its direction within 1 mile for 10 minutes. Generates 1 Quarry Mark.",
+   description: "Mark a target as your quarry. You sense its direction within 1 mile for 10 minutes. Generates 1 Mark.",
    },
   ],
   duration: 10,
@@ -1786,7 +1808,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   effects: {
   utility: {
    mark: {
-   description: "Generate 1 Quarry Mark immediately",
+   description: "Generate 1 Mark immediately",
    tracking: "You know the direction to marked target within 1 mile",
    duration: "10 minutes or until target dies",
    },
@@ -1796,7 +1818,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   specialMechanics: {
   quarryMarks: {
    generated: 1,
-   description: "Immediately gain 1 Quarry Mark",
+   description: "Immediately gain 1 Mark",
   },
   tracking: {
    description: "You can sense the marked target's direction",
@@ -1844,7 +1866,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   actionPoints: 1,
   components: ["somatic"],
   somaticText: "Rapid spinning strikes",
-  classResource: { type: "quarry_marks", cost: 1 },
+  classResource: { type: "marks", cost: 1 },
   },
 
   resolution: "DICE",
@@ -1926,7 +1948,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   components: ["verbal", "somatic"],
   verbalText: "Mark the quarry",
   somaticText: "Trace hunter's sigil toward target",
-  classResource: { type: "quarry_marks", cost: 1 },
+  classResource: { type: "marks", cost: 1 },
   },
 
   resolution: "DICE",
@@ -1967,7 +1989,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    generated: 1,
    perHit: true,
    description:
-   "Costs 1 QM to cast. Attacks against marked target generate +1 additional Quarry Mark (capped by per-turn limit)",
+   "Costs 1 QM to cast. Attacks against marked target generate +1 additional Mark (capped by per-turn limit)",
   },
   companionSynergy: {
    description: "Companion deals bonus damage to marked target",
@@ -2014,7 +2036,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   actionPoints: 1,
   components: ["somatic"],
   somaticText: "Phase through shadow and strike",
-  classResource: { type: "quarry_marks", cost: 2 },
+  classResource: { type: "marks", cost: 2 },
   },
 
   resolution: "DICE",
@@ -2041,7 +2063,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    cost: 2,
    generated: 2,
    description:
-   "Costs 2 Quarry Marks. Generates 2 Quarry Marks on hit (subject to per-turn cap)",
+   "Costs 2 Marks. Generates 2 Marks on hit (subject to per-turn cap)",
   },
   },
 
@@ -2082,7 +2104,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   actionPoints: 1,
   components: ["verbal"],
   verbalText: "Bind our spirits, brother",
-  classResource: { type: "quarry_marks", cost: 2 },
+  classResource: { type: "marks", cost: 2 },
   },
 
   resolution: "DICE",
@@ -2131,7 +2153,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   quarryMarks: {
    costReduction: true,
    description:
-   "Quarry Mark abilities cost -1 QM while bonded (minimum 0)",
+   "Mark abilities cost -1 QM while bonded (minimum 0)",
   },
   },
 
@@ -2174,7 +2196,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   actionPoints: 2,
   components: ["somatic"],
   somaticText: "Spin glaive in deadly arc through enemies",
-  classResource: { type: "quarry_marks", gain: 1 },
+  classResource: { type: "marks", gain: 1 },
   },
 
   resolution: "DICE",
@@ -2201,7 +2223,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   quarryMarks: {
    generated: 1,
    perHit: true,
-   description: "Generate 1 Quarry Mark per enemy hit",
+   description: "Generate 1 Mark per enemy hit",
   },
   },
 
@@ -2244,7 +2266,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   components: ["verbal", "somatic"],
   verbalText: "I am the apex!",
   somaticText: "Assume predator's stance, glaive blazing",
-  classResource: { type: "quarry_marks", cost: 3 },
+  classResource: { type: "marks", cost: 3 },
   },
 
   resolution: "DICE",
@@ -2276,7 +2298,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   specialMechanics: {
   quarryMarks: {
    generation: "double",
-   description: "Generate double Quarry Marks from all sources",
+   description: "Generate double Marks from all sources",
   },
   companionSynergy: {
    description: "Companion gains same bonuses",
@@ -2323,7 +2345,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   actionPoints: 2,
   components: ["somatic"],
   somaticText: "Leap skyward and crash down on target",
-  classResource: { type: "quarry_marks", gain: 1 },
+  classResource: { type: "marks", gain: 1 },
   },
 
   resolution: "DICE",
@@ -2349,7 +2371,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   specialMechanics: {
   quarryMarks: {
    generated: 3,
-   description: "Generate 3 Quarry Marks on successful hit",
+   description: "Generate 3 Marks on successful hit",
   },
   },
 
@@ -2392,7 +2414,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   components: ["verbal", "somatic"],
   verbalText: "Strike together, now!",
   somaticText: "Signal companion and charge as one",
-  classResource: { type: "quarry_marks", cost: 3 },
+  classResource: { type: "marks", cost: 3 },
   },
 
   resolution: "DICE",
@@ -2420,7 +2442,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   specialMechanics: {
   quarryMarks: {
    cost: 3,
-   description: "Costs 3 Quarry Marks to use",
+   description: "Costs 3 Marks to use",
   },
   companionSynergy: {
    description: "Companion attacks with advantage and deals +3d6 damage",
@@ -2472,7 +2494,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   components: ["verbal", "somatic"],
   verbalText: "Umbra revela!",
   somaticText: "Channel shadow energy through the glaive",
-  classResource: { type: "quarry_marks", cost: 3 },
+  classResource: { type: "marks", cost: 3 },
   },
 
   resolution: "DICE",
@@ -2508,7 +2530,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   specialMechanics: {
   quarryMarks: {
    generation: "enhanced",
-   description: "Generate +1 additional Quarry Mark per target hit",
+   description: "Generate +1 additional Mark per target hit",
   },
   glassiveSynergy: {
    description:
@@ -2558,7 +2580,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   actionPoints: 1,
   components: ["verbal"],
   verbalText: "Roar, companion! Break their nerve!",
-  classResource: { type: "quarry_marks", cost: 2 },
+  classResource: { type: "marks", cost: 2 },
   },
 
   resolution: "DICE",
@@ -2606,7 +2628,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   },
   quarryMarks: {
    cost: 2,
-   description: "Costs 2 Quarry Marks to use",
+   description: "Costs 2 Marks to use",
   },
   },
 
@@ -2648,7 +2670,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   actionPoints: 3,
   components: ["somatic"],
   somaticText: "Unleash furious flurry of glaive strikes",
-  classResource: { type: "quarry_marks", cost: 5 },
+  classResource: { type: "marks", cost: 5 },
   },
 
   resolution: "DICE",
@@ -2666,7 +2688,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   specialMechanics: {
   quarryMarks: {
    cost: 5,
-   description: "Costs 5 Quarry Marks (maximum) to use",
+   description: "Costs 5 Marks (maximum) to use",
   },
   criticalHit: {
    description:
@@ -2716,7 +2738,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   components: ["verbal", "somatic"],
   verbalText: "Tempestas umbra!",
   somaticText: "Sweep glaive in wide arc, summoning shadow storm",
-  classResource: { type: "quarry_marks", cost: 4 },
+  classResource: { type: "marks", cost: 4 },
   },
 
   resolution: "DICE",
@@ -2754,7 +2776,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   specialMechanics: {
   quarryMarks: {
    cost: 4,
-   description: "Costs 4 Quarry Marks to use",
+   description: "Costs 4 Marks to use",
   },
   },
 
@@ -2796,7 +2818,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   components: ["verbal", "somatic"],
   verbalText: "Una anima, una ferox!",
   somaticText: "Grasp companion's spirit and pull close",
-  classResource: { type: "quarry_marks", cost: 4 },
+  classResource: { type: "marks", cost: 4 },
   },
 
   resolution: "DICE",
@@ -2861,7 +2883,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   },
   quarryMarks: {
    generation: "triple",
-   description: "Generate triple Quarry Marks from all sources",
+   description: "Generate triple Marks from all sources",
   },
   },
 
@@ -2917,7 +2939,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   components: ["verbal", "somatic"],
   verbalText: "Pluat mors!",
   somaticText: "Raise glaive high, summoning rain of blades",
-  classResource: { type: "quarry_marks", gain: 2 },
+  classResource: { type: "marks", gain: 2 },
   channelingFrequency: "per_round",
   },
 
@@ -2955,7 +2977,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   quarryMarks: {
    generated: 2,
    perRound: true,
-   description: "Generate 2 Quarry Marks per round channeled",
+   description: "Generate 2 Marks per round channeled",
   },
   },
 
@@ -2998,7 +3020,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   components: ["verbal", "somatic"],
   verbalText: "I transcend the hunt!",
   somaticText: "Glaive and companion blaze with primal light",
-  classResource: { type: "quarry_marks", cost: 5 },
+  classResource: { type: "marks", cost: 5 },
   },
 
   resolution: "DICE",
@@ -3009,7 +3031,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    {
    id: "ultimate_hunter_bonus",
    name: "Ultimate Hunter",
-   description: "+3 to attack and damage rolls, double Quarry Mark generation, and companion shares all bonuses for 10 rounds.",
+   description: "+3 to attack and damage rolls, double Mark generation, and companion shares all bonuses for 10 rounds.",
    },
   ],
   durationType: "rounds",
@@ -3031,7 +3053,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   maintainEquipment: true,
   grantedAbilities: [
    { id: "ultimate_hunter_attack", name: "Hunter Precision", description: "+3 to attack and damage rolls." },
-   { id: "ultimate_hunter_qm", name: "Double Quarry Marks", description: "Generate double Quarry Marks from all sources." },
+   { id: "ultimate_hunter_qm", name: "Double Marks", description: "Generate double Marks from all sources." },
    { id: "ultimate_hunter_companion", name: "Shared Bond", description: "Companion shares all bonuses and cannot be killed while active." },
    { id: "ultimate_hunter_chains", name: "Extended Glaive", description: "Glaive chains to +2 additional targets." },
   ],
@@ -3047,7 +3069,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   specialMechanics: {
   quarryMarks: {
    generation: "double",
-   description: "Generate double Quarry Marks from all sources",
+   description: "Generate double Marks from all sources",
   },
   companionSynergy: {
    description:
@@ -3105,7 +3127,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   components: ["verbal", "somatic"],
   verbalText: "Mors te amat",
   somaticText: "Drive glaive forward, trailing death's shroud",
-  classResource: { type: "quarry_marks", cost: 5 },
+  classResource: { type: "marks", cost: 5 },
   },
 
   resolution: "DICE",
@@ -3140,7 +3162,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   specialMechanics: {
   quarryMarks: {
    cost: 5,
-   description: "Costs 5 Quarry Marks to use",
+   description: "Costs 5 Marks to use",
   },
   execute: {
    description:
@@ -3182,7 +3204,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 30 },
   actionPoints: 0,
   components: ["ritual"],
-  classResource: { type: "quarry_marks", cost: 5 },
+  classResource: { type: "marks", cost: 5 },
   },
 
   resolution: "DICE",
@@ -3193,7 +3215,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    {
    id: "eternal_hunt_auto_qm",
    name: "Eternal Hunt Marks",
-   description: "Automatically generate 1 Quarry Mark per round (subject to per-turn cap).",
+   description: "Automatically generate 1 Mark per round (subject to per-turn cap).",
    },
    {
    id: "eternal_hunt_revive",
@@ -3216,7 +3238,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   effects: {
   passive: {
    description:
-   "Generate 1 Quarry Mark per round automatically (subject to per-turn cap). Companion auto-revives after 1 round if killed. Glaive chains to +2 additional targets. Requires 1 QM per round to maintain or the effect ends.",
+   "Generate 1 Mark per round automatically (subject to per-turn cap). Companion auto-revives after 1 round if killed. Glaive chains to +2 additional targets. Requires 1 QM per round to maintain or the effect ends.",
   },
   },
 
@@ -3225,7 +3247,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    maintenanceCost: 1,
    automaticGeneration: 1,
    description:
-   "Automatically generate 1 Quarry Mark per round. Costs 1 QM per round to sustain the passive, if you cannot pay, the effect ends and must be reactivated with 5 QM.",
+   "Automatically generate 1 Mark per round. Costs 1 QM per round to sustain the passive, if you cannot pay, the effect ends and must be reactivated with 5 QM.",
   },
   companionSynergy: {
    description:
@@ -3282,7 +3304,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   components: ["verbal", "somatic"],
   verbalText: "Fall, eternal one!",
   somaticText: "Raise glaive in both hands, channel all fury",
-  classResource: { type: "quarry_marks", cost: 5 },
+  classResource: { type: "marks", cost: 5 },
   },
 
   resolution: "DICE",
@@ -3309,7 +3331,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   specialMechanics: {
   quarryMarks: {
    cost: 5,
-   description: "Costs 5 Quarry Marks to use",
+   description: "Costs 5 Marks to use",
   },
   ignoresDefenses: {
    description:
@@ -3370,7 +3392,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   components: ["verbal", "somatic"],
   verbalText: "Nature, answer my call!",
   somaticText: "Slam glaive into earth, unleashing primal cataclysm",
-  classResource: { type: "quarry_marks", cost: 5 },
+  classResource: { type: "marks", cost: 5 },
   },
 
   resolution: "DICE",
@@ -3441,7 +3463,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   specialMechanics: {
   quarryMarks: {
    cost: 5,
-   description: "Costs 5 Quarry Marks to use",
+   description: "Costs 5 Marks to use",
   },
   summons: {
    description:
@@ -3465,7 +3487,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   effectTypes: ["buff", "passive"],
   id : "apex_perfect_hunt",
   name: "Perfect Hunt",
-  description: "Ascend beyond imperfection: every Quarry Mark spent returns value, every strike finds its target, and the bond with your companion becomes absolute.",
+  description: "Ascend beyond imperfection: every Mark spent returns value, every strike finds its target, and the bond with your companion becomes absolute.",
   spellType: "PASSIVE",
   icon: "Piercing/On the Mark",
   level: 10,
@@ -3490,7 +3512,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 38 },
   actionPoints: 0,
   components: ["ritual"],
-  classResource: { type: "quarry_marks", cost: 5 },
+  classResource: { type: "marks", cost: 5 },
   },
 
   resolution: "DICE",
@@ -3501,7 +3523,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    {
    id: "perfect_hunt_cost",
    name: "Perfect Efficiency",
-   description: "All Quarry Mark abilities cost 1 less QM (minimum 0).",
+   description: "All Mark abilities cost 1 less QM (minimum 0).",
    },
    {
    id: "perfect_hunt_damage",
@@ -3529,7 +3551,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   effects: {
   passive: {
    description:
-   "All Quarry Mark abilities cost 1 less QM (minimum 0). Attacks deal +1d8 damage. Companion auto-revives after 1 round. Glaive chains to +3 additional targets. Requires 1 QM per round to maintain or the effect ends.",
+   "All Mark abilities cost 1 less QM (minimum 0). Attacks deal +1d8 damage. Companion auto-revives after 1 round. Glaive chains to +3 additional targets. Requires 1 QM per round to maintain or the effect ends.",
   },
   },
 
@@ -3715,7 +3737,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "smashing", icon: "Nature/Wolf Dash" },
    targetingConfig: { targetingType: "self", rangeType: "self" },
    durationConfig: { durationType: "minutes", duration: 10 },
-   resourceCost: { resourceTypes: ["mana"], resourceValues: { mana: 4 }, actionPoints: 1, components: ["somatic"], somaticText: "Touch brow to your companion's brow to open the link", classResource: { type: "quarry_marks", cost: 1 } },
+   resourceCost: { resourceTypes: ["mana"], resourceValues: { mana: 4 }, actionPoints: 1, components: ["somatic"], somaticText: "Touch brow to your companion's brow to open the link", classResource: { type: "marks", cost: 1 } },
    resolution: "NONE",
    utilityConfig: {
     utilityType: "scout",

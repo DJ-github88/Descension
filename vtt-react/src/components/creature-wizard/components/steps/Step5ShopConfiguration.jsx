@@ -40,6 +40,26 @@ const Step5ShopConfiguration = () => {
   const [editingItemIndex, setEditingItemIndex] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]); // For multi-select in item selector
   
+  // Safe shop inventory fallback
+  const shopInventory = wizardState.shopInventory || {
+    shopName: '',
+    shopDescription: '',
+    restockOnLongRest: false,
+    buyRates: {
+      default: 50,
+      categories: {
+        weapon: 50,
+        armor: 50,
+        consumable: 50,
+        accessory: 50,
+        container: 50,
+        miscellaneous: 50
+      }
+    },
+    items: []
+  };
+  const shopItems = Array.isArray(shopInventory.items) ? shopInventory.items : [];
+
   // Handle shopkeeper status toggle
   const handleShopkeeperToggle = (isShopkeeper) => {
     wizardDispatch(wizardActionCreators.setShopkeeperStatus(isShopkeeper));
@@ -64,7 +84,7 @@ const Step5ShopConfiguration = () => {
   // Handle buy rate changes
   const handleBuyRateChange = (field, value) => {
     const updatedBuyRates = {
-      ...wizardState.shopInventory.buyRates,
+      ...(shopInventory.buyRates || {}),
       [field]: value
     };
     wizardDispatch(wizardActionCreators.setShopInfo({ buyRates: updatedBuyRates }));
@@ -72,10 +92,11 @@ const Step5ShopConfiguration = () => {
 
   // Handle category-specific buy rate changes
   const handleCategoryBuyRateChange = (category, value) => {
+    const currentCategories = shopInventory.buyRates?.categories || {};
     const updatedBuyRates = {
-      ...wizardState.shopInventory.buyRates,
+      ...(shopInventory.buyRates || {}),
       categories: {
-        ...wizardState.shopInventory.buyRates.categories,
+        ...currentCategories,
         [category]: value
       }
     };
@@ -83,7 +104,7 @@ const Step5ShopConfiguration = () => {
   };
   
   // Filter and sort items
-  const filteredAndSortedItems = itemLibrary
+  const filteredAndSortedItems = (itemLibrary || [])
     .filter(item => {
       const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                            item.description?.toLowerCase().includes(searchQuery.toLowerCase());
@@ -91,7 +112,7 @@ const Step5ShopConfiguration = () => {
       const matchesQuality = selectedQuality === 'all' || item.quality === selectedQuality;
 
       // Don't show items already in shop
-      const alreadyInShop = wizardState.shopInventory.items.some(shopItem => shopItem.itemId === item.id);
+      const alreadyInShop = shopItems.some(shopItem => shopItem && shopItem.itemId === item.id);
 
       return matchesSearch && matchesType && matchesQuality && !alreadyInShop;
     })
@@ -196,16 +217,18 @@ const Step5ShopConfiguration = () => {
   
   // Handle updating shop item
   const handleUpdateShopItem = (index, field, value) => {
-    const currentItem = wizardState.shopInventory.items[index];
+    const currentItem = shopItems[index];
+    if (!currentItem) return;
     const updatedItem = { ...currentItem, [field]: value };
     wizardDispatch(wizardActionCreators.updateShopItem(index, updatedItem));
   };
   
   // Handle updating custom price
   const handlePriceChange = (index, currency, value) => {
-    const currentItem = wizardState.shopInventory.items[index];
+    const currentItem = shopItems[index];
+    if (!currentItem) return;
     const updatedPrice = {
-      ...currentItem.customPrice,
+      ...(currentItem.customPrice || {}),
       [currency]: Math.max(0, parseInt(value) || 0)
     };
     const updatedItem = { ...currentItem, customPrice: updatedPrice };
@@ -219,7 +242,7 @@ const Step5ShopConfiguration = () => {
   
   // Get item from library by ID
   const getItemById = (itemId) => {
-    return itemLibrary.find(item => item.id === itemId);
+    return (itemLibrary || []).find(item => item && item.id === itemId);
   };
   
   // Handle tooltip (immediate display like other working tooltips)
@@ -242,10 +265,10 @@ const Step5ShopConfiguration = () => {
   // Format currency display
   const formatCurrency = (price) => {
     const parts = [];
-    if (price.platinum > 0) parts.push(`${price.platinum}p`);
-    if (price.gold > 0) parts.push(`${price.gold}g`);
-    if (price.silver > 0) parts.push(`${price.silver}s`);
-    if (price.copper > 0) parts.push(`${price.copper}c`);
+    if (price?.platinum > 0) parts.push(`${price.platinum}p`);
+    if (price?.gold > 0) parts.push(`${price.gold}g`);
+    if (price?.silver > 0) parts.push(`${price.silver}s`);
+    if (price?.copper > 0) parts.push(`${price.copper}c`);
     return parts.length > 0 ? parts.join(' ') : '0c';
   };
   
@@ -260,7 +283,7 @@ const Step5ShopConfiguration = () => {
         <label className="checkbox-label">
           <input
             type="checkbox"
-            checked={wizardState.isShopkeeper}
+            checked={!!wizardState.isShopkeeper}
             onChange={(e) => handleShopkeeperToggle(e.target.checked)}
           />
           <span className="checkbox-custom"></span>
@@ -278,7 +301,7 @@ const Step5ShopConfiguration = () => {
               <input
                 type="text"
                 id="shopName"
-                value={wizardState.shopInventory.shopName}
+                value={shopInventory.shopName || ''}
                 onChange={(e) => handleShopInfoChange('shopName', e.target.value)}
                 placeholder="e.g., Thorin's Armory"
               />
@@ -287,7 +310,7 @@ const Step5ShopConfiguration = () => {
               <label htmlFor="shopDescription">Shop Description</label>
               <textarea
                 id="shopDescription"
-                value={wizardState.shopInventory.shopDescription}
+                value={shopInventory.shopDescription || ''}
                 onChange={(e) => handleShopInfoChange('shopDescription', e.target.value)}
                 placeholder="Describe the shop's atmosphere, specialties, or unique features..."
                 rows={3}
@@ -296,7 +319,7 @@ const Step5ShopConfiguration = () => {
             <label className="checkbox-label restock-checkbox">
               <input
                 type="checkbox"
-                checked={wizardState.shopInventory.restockOnLongRest}
+                checked={!!shopInventory.restockOnLongRest}
                 onChange={(e) => handleShopInfoChange('restockOnLongRest', e.target.checked)}
               />
               <span className="checkbox-custom"></span>
@@ -316,7 +339,7 @@ const Step5ShopConfiguration = () => {
                   id="defaultBuyRate"
                   min="0"
                   max="200"
-                  value={wizardState.shopInventory.buyRates?.default || 50}
+                  value={shopInventory.buyRates?.default ?? 50}
                   onChange={(e) => handleBuyRateChange('default', parseInt(e.target.value) || 0)}
                   placeholder="50"
                 />
@@ -328,7 +351,7 @@ const Step5ShopConfiguration = () => {
                   id="weaponRate"
                   min="0"
                   max="200"
-                  value={wizardState.shopInventory.buyRates?.categories?.weapon || 50}
+                  value={shopInventory.buyRates?.categories?.weapon ?? 50}
                   onChange={(e) => handleCategoryBuyRateChange('weapon', parseInt(e.target.value) || 0)}
                   placeholder="50"
                 />
@@ -340,7 +363,7 @@ const Step5ShopConfiguration = () => {
                   id="armorRate"
                   min="0"
                   max="200"
-                  value={wizardState.shopInventory.buyRates?.categories?.armor || 50}
+                  value={shopInventory.buyRates?.categories?.armor ?? 50}
                   onChange={(e) => handleCategoryBuyRateChange('armor', parseInt(e.target.value) || 0)}
                   placeholder="50"
                 />
@@ -352,7 +375,7 @@ const Step5ShopConfiguration = () => {
                   id="consumableRate"
                   min="0"
                   max="200"
-                  value={wizardState.shopInventory.buyRates?.categories?.consumable || 50}
+                  value={shopInventory.buyRates?.categories?.consumable ?? 50}
                   onChange={(e) => handleCategoryBuyRateChange('consumable', parseInt(e.target.value) || 0)}
                   placeholder="50"
                 />
@@ -364,7 +387,7 @@ const Step5ShopConfiguration = () => {
                   id="accessoryRate"
                   min="0"
                   max="200"
-                  value={wizardState.shopInventory.buyRates?.categories?.accessory || 50}
+                  value={shopInventory.buyRates?.categories?.accessory ?? 50}
                   onChange={(e) => handleCategoryBuyRateChange('accessory', parseInt(e.target.value) || 0)}
                   placeholder="50"
                 />
@@ -376,7 +399,7 @@ const Step5ShopConfiguration = () => {
                   id="containerRate"
                   min="0"
                   max="200"
-                  value={wizardState.shopInventory.buyRates?.categories?.container || 50}
+                  value={shopInventory.buyRates?.categories?.container ?? 50}
                   onChange={(e) => handleCategoryBuyRateChange('container', parseInt(e.target.value) || 0)}
                   placeholder="50"
                 />
@@ -388,7 +411,7 @@ const Step5ShopConfiguration = () => {
                   id="miscRate"
                   min="0"
                   max="200"
-                  value={wizardState.shopInventory.buyRates?.categories?.miscellaneous || 50}
+                  value={shopInventory.buyRates?.categories?.miscellaneous ?? 50}
                   onChange={(e) => handleCategoryBuyRateChange('miscellaneous', parseInt(e.target.value) || 0)}
                   placeholder="50"
                 />
@@ -409,13 +432,13 @@ const Step5ShopConfiguration = () => {
               </button>
             </div>
             
-            {wizardState.shopInventory.items.length === 0 ? (
+            {shopItems.length === 0 ? (
               <div className="empty-inventory">
                 <p>No items in shop inventory. Click "Add Item" to get started.</p>
               </div>
             ) : (
               <div className="shop-items-list">
-                {wizardState.shopInventory.items.map((shopItem, index) => {
+                {shopItems.map((shopItem, index) => {
                   const item = getItemById(shopItem.itemId);
                   if (!item) return null;
 

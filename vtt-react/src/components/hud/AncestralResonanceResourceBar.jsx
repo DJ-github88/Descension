@@ -106,7 +106,7 @@ const AncestralResonanceResourceBar = ({
                         letterSpacing: '0.5px',
                         textShadow: '0 0 3px rgba(0, 0, 0, 1), 0 1px 2px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)'
                     }}>
-                        <span>{size === 'small' ? 'Resonance' : 'Ancestral Resonance'}</span>
+                        <span>{size === 'small' ? 'Resonance' : 'Resonance'}</span>
                         <span>{curRes}/{maxRes} AR</span>
                     </div>
                 </div>
@@ -154,7 +154,7 @@ const AncestralResonanceResourceBar = ({
                                             const newValue = Math.min(maxRes, curRes + 1);
                                             const amount = newValue - curRes;
                                             if (amount > 0) {
-                                                logClassResourceChange('Ancestral Resonance', amount, true, 'ancestralResonance');
+                                                logClassResourceChange('Resonance', amount, true, 'ancestralResonance');
                                                 if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
                                             }
                                         }}
@@ -167,7 +167,7 @@ const AncestralResonanceResourceBar = ({
                                             const newValue = Math.min(maxRes, curRes + 5);
                                             const amount = newValue - curRes;
                                             if (amount > 0) {
-                                                logClassResourceChange('Ancestral Resonance', amount, true, 'ancestralResonance');
+                                                logClassResourceChange('Resonance', amount, true, 'ancestralResonance');
                                                 if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
                                             }
                                         }}
@@ -180,7 +180,7 @@ const AncestralResonanceResourceBar = ({
                                             const newValue = Math.max(0, curRes - 1);
                                             const amount = curRes - newValue;
                                             if (amount > 0) {
-                                                logClassResourceChange('Ancestral Resonance', amount, false, 'ancestralResonance');
+                                                logClassResourceChange('Resonance', amount, false, 'ancestralResonance');
                                                 if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
                                             }
                                         }}
@@ -193,7 +193,7 @@ const AncestralResonanceResourceBar = ({
                                             const newValue = Math.max(0, curRes - 5);
                                             const amount = curRes - newValue;
                                             if (amount > 0) {
-                                                logClassResourceChange('Ancestral Resonance', amount, false, 'ancestralResonance');
+                                                logClassResourceChange('Resonance', amount, false, 'ancestralResonance');
                                                 if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
                                             }
                                         }}

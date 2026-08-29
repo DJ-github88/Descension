@@ -187,7 +187,19 @@ During the Toll Wars (Years 280-340), Neth trade delegations at Ironjaw Port req
 
 **The resource bar & costs**: Your resource bar is your active **Sphere Bank** (holding up to 4 baseline spheres, or more through banking). You can cast fast 2-sphere combos immediately for adaptive counter-damage, or bank spheres across turns to build massive multi-sphere elemental storms. Releasing offensive weaves triggers a Recoil Anchor that pins your movement speed to zero for the turn, and incompatible element pairings can backfire with damaging backlash.
 
-**Bring one for**: Unmatched adaptive damage, enemy weakness exploitation, and the thrill of rolling a random hand of elements and concocting the cleverest spell combination for the exact tactical situation at hand.`
+**Bring one for**: Unmatched adaptive damage, enemy weakness exploitation, and the thrill of rolling a random hand of elements and concocting the cleverest spell combination for the exact tactical situation at hand.`,
+    roleplayIdentity: {
+      title: "Roleplay Identity",
+      content: "Practitioners carry a profound cultural and physical responsibility, marked by their tradition's unique legacy and societal perceptions."
+    },
+    combatRole: {
+      title: "Combat Role",
+      content: "Master elemental chemist who rolls raw aether-shards each turn, combining pairs of spheres into 36 dynamic compound spell weaves or siege ordnance."
+    },
+    playstyle: {
+      title: "Playstyle & Turn 1 Flow",
+      content: "**Your Turn 1 in Combat**:\n1. **Roll 4d8 Aether-Shards**: Check your rolled elements (fire, frost, storm, void, etc.).\n2. **Select Firing Profile & Combine**: Pick Attack, Defend, Buff, Area, or Trap, and combine two spheres into a compound weave.\n3. **Anchor & Fire**: Release the weave (accepting the Turn-1 Recoil Anchor movement penalty) or bank leftover shards for next turn."
+    }
   },
 
    description: `The Arcanoneer is an elemental weaver  —  a disciplined mind who combines raw elemental spheres into devastating compound effects. The craft is not about raw power; it is about precision, calculation, and the nerve to hold two forces that naturally repel each other and convince them to cooperate, briefly, before they remember they are enemies. Master of none but proficient in all, the Arcanoneer trades specialization for versatility, and every weave is a gamble that the elements will obey before they rebel.`,
@@ -495,29 +507,19 @@ With 1 AP remaining, you weave Arcane + Frost = **Crystal Shard** on a wounded b
 
  // Resource System
   resourceSystem: {
-   title: "Elemental Weaving & Sphere Mechanics",
-   subtitle: "Building Block Generation & Combination (Shifting Spell Crafting)",
-   description: `The Arcanoneer uses a specialized resource system centered around elemental spheres  —  condensed essences of raw magical energy drawn from ambient aether. The weaver's focus (crystal prism, contract-scroll, memory-glass lens, or mechanical regulator) channels and stabilizes these spheres for combination.
+   title: "Spheres: The Elemental Chemist",
+   subtitle: "How Your Resource Works (Beginner's Guide)",
+   description: `**1. What is it? (The Chemistry Set)**
+You do not have a fixed mana bar for elemental spells. Instead, at the start of every turn, you roll a 4d8 dice pool to generate raw Elemental Spheres (Fire, Frost, Storm, Arcane, Void, etc.).
 
-**Visual Representation**:
-- **Force Blocks**: Purple orbs of pure, humming force
-- **Light Blocks**: Golden orbs of searing, white-hot radiance
-- **Shadow Blocks**: Dark violet orbs of writhing, absolute darkness
-- **Heat Blocks**: Red-orange orbs of sputtering, explosive heat
-- **Cold Blocks**: Pale blue orbs of jagged frost and ice crystals
-- **Spark Blocks**: Green orbs crackling with thunderous ozone static
-- **Flesh Blocks**: Crimson orbs of pulsing, compressed biological tissue
-- **Wyrd Blocks**: Iridescent, shifting orbs of unstable, morphing energy
+**2. How do I build it?**
+- Roll 4d8 Aether-Shards at the start of every combat round.
+- Each die result produces 1 raw elemental sphere in your active hand.
+- Leftover unspent spheres can be banked into storage for subsequent turns.
 
-**How It Changes Each Turn**:
-- **Turn Start**: 4 new spheres condense from ambient aether (from your 4d8 roll)
-- **When Casting**: Spent spheres dissipate from your focus
-- **When Banking**: Unused spheres remain in orbit around your focus, accumulating over turns (max **12 banked**)
-- **Overflow**: If rolling would exceed 12, you choose which new spheres to keep. Excess are lost.
-- **Combat End**: All spheres dissipate, the focus cools and returns to rest
-- **Elemental Backlash**: Releasing a hostile weave anchors you in place; movement speed is reduced to 0 for the turn.
-
-**Reading the Bank at a Glance**: Your sphere bank represents your active arsenal. A bank full of Heat spheres indicates pure explosive potential. A diverse mix suggests high utility. You must constantly analyze what combinations and Recipes your current bank can supply. With 36 combinations and learned Recipes, managing your bank becomes a deadly calculus.`,
+**3. How do I spend it & what is the catch?**
+- Select a firing profile (Attack, Defend, Buff, Area, or Trap) and combine 2 spheres to create 1 of 36 devastating compound spell weaves.
+- **The Catch (Recoil Anchor)**: Firing heavy compound weaves on Turn 1 engages the Recoil Anchor, temporarily reducing your movement speed as you brace against explosive elemental backfire.`,
 
   mechanics: {
    title: "How It Works",
@@ -550,7 +552,7 @@ With 1 AP remaining, you weave Arcane + Frost = **Crystal Shard** on a wounded b
       "Pick one. Offensive profiles trigger Elemental Backlash, pinning movement to 0 for the turn. The Defend profile does not trigger backlash.",
      actions: [
       {
-       name: "Attack",
+       name: "Spheres",
        icon: "crosshairs",
        spheres: "2",
        mana: "5",

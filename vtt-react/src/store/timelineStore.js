@@ -1,4 +1,8 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { createStorageConfig } from '../utils/storageUtils';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { db, isFirebaseConfigured, auth } from '../config/firebase';
 
 const CHRONOLOGY_ERA_DISPLAY = [
   {
@@ -729,7 +733,7 @@ const SEEDED_EVENTS = [
     "title": "The Hunger Winter",
     "type": "disaster",
     "phase": "false-spring",
-    "description": "The first winter after the Glacier Bargain was so absolute that Nordhalla's Skald ancestors consumed their own dead to survive: a three-year blizzard that burned the practice into cultural memory and genetic inheritance. This act became the Hunger Pact: the cellular residue of ancestral cannibalism that, generations later, would ignite as the Blood-Heat in Grum Bloodhammer's veins. The Rime-Born began evolving from the refugees who survived, carrying the Frost-Tithe curse in their blood.",
+    "description": "The first winter after the Glacier Bargain was so absolute that Nordhalla's Skald ancestors consumed their own dead to survive: a three-year blizzard that burned the practice into cultural memory and genetic inheritance. This act became the Hunger Pact: the cellular residue of ancestral cannibalism that, generations later, would ignite as the Rage in Grum Bloodhammer's veins. The Rime-Born began evolving from the refugees who survived, carrying the Frost-Tithe curse in their blood.",
     "locationIds": [
       "nordhalla",
       "fjord-gate"
@@ -1019,7 +1023,7 @@ const SEEDED_EVENTS = [
     "title": "The Bloodhammer Migration South",
     "type": "migration",
     "phase": "first-ebbing",
-    "description": "With Nordhalla's geothermal sumps failing and the Hunger Pact festering in Skald blood for three generations, the Bloodhammer clans (led by Torra Bloodhammer) marched south toward Emberspire's caldera. The journey took decades, following the Hunger Road through the Ancestor-Spans (paying Groven tolls in blood and salvage) and into Sundale's volcanic warmth. Grum the Iron-Smith, Torra's descendant, would ultimately ignite the first Blood-Heat in the caldera: transforming the Hunger Pact from a cultural wound into a weapon.",
+    "description": "With Nordhalla's geothermal sumps failing and the Hunger Pact festering in Skald blood for three generations, the Bloodhammer clans (led by Torra Bloodhammer) marched south toward Emberspire's caldera. The journey took decades, following the Hunger Road through the Ancestor-Spans (paying Groven tolls in blood and salvage) and into Sundale's volcanic warmth. Grum the Iron-Smith, Torra's descendant, would ultimately ignite the first Rage in the caldera: transforming the Hunger Pact from a cultural wound into a weapon.",
     "locationIds": [
       "nordhalla",
       "cragjaw-peaks",
@@ -1045,10 +1049,10 @@ const SEEDED_EVENTS = [
       "year": 155,
       "eraId": "freezing-era"
     },
-    "title": "Grum Ignites the Blood-Heat",
+    "title": "Grum Ignites the Rage",
     "type": "founding",
     "phase": "first-ebbing",
-    "description": "At the end of the Bloodhammer migration, Grum the Iron-Smith (a Skald smith whose ancestors had consumed their own dead during the Hunger Winter) surrendered to forge-heat in Emberspire's caldera. The Hunger Pact that lived in his blood ignited: the Blood-Heat, a self-destructive adrenal meltdown where muscles tear from bone to swing harder. He shattered a glacier-wyrm barehanded. The Berserker tradition was born. The Forge of Grum, beneath Emberspire, still burns: tended by a mute elder who has never spoken Grum's actual name.",
+    "description": "At the end of the Bloodhammer migration, Grum the Iron-Smith (a Skald smith whose ancestors had consumed their own dead during the Hunger Winter) surrendered to forge-heat in Emberspire's caldera. The Hunger Pact that lived in his blood ignited: the Rage, a self-destructive adrenal meltdown where muscles tear from bone to swing harder. He shattered a glacier-wyrm barehanded. The Berserker tradition was born. The Forge of Grum, beneath Emberspire, still burns: tended by a mute elder who has never spoken Grum's actual name.",
     "locationIds": [
       "sundale",
       "emberspire-caldera"
@@ -2934,111 +2938,183 @@ const EVENT_TYPES = {
   }
 };
 
-const useTimelineStore = create((set, get) => ({
-  calendar: MYTHRILL_CALENDAR,
-  events: SEEDED_EVENTS,
-  rebirthCycles: AEX_SCREAM_PULSES,
-  warmthPhases: WARMTH_PHASES,
-  tradeRoutes: TRADE_ROUTES,
+const triggerTimelineAutoSync = () => {
+  const currentUid = auth?.currentUser?.uid;
+  if (currentUid && currentUid !== 'admin-dev-user' && currentUid !== 'dev-user-123' && !currentUid.startsWith('guest-')) {
+    useTimelineStore.getState().syncToCloud(currentUid);
+  }
+};
 
-  getEvent: (eventId) => get().events.find((e) => e.id === eventId) || null,
+const useTimelineStore = create(
+  persist(
+    (set, get) => ({
+      calendar: MYTHRILL_CALENDAR,
+      events: SEEDED_EVENTS,
+      customEvents: [],
+      rebirthCycles: AEX_SCREAM_PULSES,
+      warmthPhases: WARMTH_PHASES,
+      tradeRoutes: TRADE_ROUTES,
+      lastCloudSyncAt: null,
 
-  getEventsByEra: (eraId) => get().events.filter((e) => e.date.eraId === eraId),
+      getEvent: (eventId) => {
+        return get().customEvents.find((e) => e.id === eventId) || get().events.find((e) => e.id === eventId) || null;
+      },
 
-  getEventsByYear: (year) => get().events.filter((e) => e.date.year === year),
+      getAllEvents: () => [...get().events, ...(get().customEvents || [])],
 
-  getEventsByPhase: (phaseId) => get().events.filter((e) => e.phase === phaseId),
+      getEventsByEra: (eraId) => get().getAllEvents().filter((e) => e.date?.eraId === eraId),
 
-  getEventsByLocation: (locationId) =>
-    get().events.filter((e) => e.locationIds && e.locationIds.includes(locationId)),
+      getEventsByYear: (year) => get().getAllEvents().filter((e) => e.date?.year === year),
 
-  getEventsByFaction: (factionId) =>
-    get().events.filter((e) => e.factionIds && e.factionIds.includes(factionId)),
+      getEventsByPhase: (phaseId) => get().getAllEvents().filter((e) => e.phase === phaseId),
 
-  getEventsByClass: (classId) =>
-    get().events.filter((e) => e.classIds && e.classIds.includes(classId)),
+      getEventsByLocation: (locationId) =>
+        get().getAllEvents().filter((e) => e.locationIds && e.locationIds.includes(locationId)),
 
-  getEventsByType: (type) => get().events.filter((e) => e.type === type),
+      getEventsByFaction: (factionId) =>
+        get().getAllEvents().filter((e) => e.factionIds && e.factionIds.includes(factionId)),
 
-  getTimelineFor: ({ locationIds, factionIds, classIds }) => {
-    const filters = [];
-    if (locationIds) filters.push((e) => e.locationIds && locationIds.some((id) => e.locationIds.includes(id)));
-    if (factionIds) filters.push((e) => e.factionIds && factionIds.some((id) => e.factionIds.includes(id)));
-    if (classIds) filters.push((e) => e.classIds && classIds.some((id) => e.classIds.includes(id)));
+      getEventsByClass: (classId) =>
+        get().getAllEvents().filter((e) => e.classIds && e.classIds.includes(classId)),
 
-    if (filters.length === 0) return get().events;
+      getEventsByType: (type) => get().getAllEvents().filter((e) => e.type === type),
 
-    return get().events.filter((e) => filters.some((fn) => fn(e)));
-  },
+      getTimelineFor: ({ locationIds, factionIds, classIds }) => {
+        const filters = [];
+        if (locationIds) filters.push((e) => e.locationIds && locationIds.some((id) => e.locationIds.includes(id)));
+        if (factionIds) filters.push((e) => e.factionIds && factionIds.some((id) => e.factionIds.includes(id)));
+        if (classIds) filters.push((e) => e.classIds && classIds.some((id) => e.classIds.includes(id)));
 
-  getCausalChain: (eventId) => {
-    const event = get().getEvent(eventId);
-    if (!event) return { causes: [], effects: [] };
-    return {
-      causes: (event.causes || []).map((id) => get().getEvent(id)).filter(Boolean),
-      effects: (event.effects || []).map((id) => get().getEvent(id)).filter(Boolean)
-    };
-  },
+        if (filters.length === 0) return get().getAllEvents();
 
-  getChronology: () => CHRONOLOGY_ERA_DISPLAY,
+        return get().getAllEvents().filter((e) => filters.some((fn) => fn(e)));
+      },
 
-  getEraTimeline: () => {
-    const eras = get().calendar.eras;
-    return eras.map((era) => ({
-      ...era,
-      events: get()
-        .events.filter((e) => e.date.eraId === era.id)
-        .sort((a, b) => a.date.year - b.date.year)
-    }));
-  },
+      getCausalChain: (eventId) => {
+        const event = get().getEvent(eventId);
+        if (!event) return { causes: [], effects: [] };
+        return {
+          causes: (event.causes || []).map((id) => get().getEvent(id)).filter(Boolean),
+          effects: (event.effects || []).map((id) => get().getEvent(id)).filter(Boolean)
+        };
+      },
 
-  getPhaseTimeline: () => {
-    return get().warmthPhases.map((phase) => ({
-      ...phase,
-      events: get()
-        .events.filter((e) => e.phase === phase.id)
-        .sort((a, b) => a.date.year - b.date.year)
-    }));
-  },
+      getChronology: () => CHRONOLOGY_ERA_DISPLAY,
 
-  getMonth: (monthId) => get().calendar.months.find((m) => m.id === monthId) || null,
+      getEraTimeline: () => {
+        const eras = get().calendar.eras;
+        const allEvts = get().getAllEvents();
+        return eras.map((era) => ({
+          ...era,
+          events: allEvts
+            .filter((e) => e.date?.eraId === era.id)
+            .sort((a, b) => (a.date?.year || 0) - (b.date?.year || 0))
+        }));
+      },
 
-  getHoliday: (holidayId) => get().calendar.holidays.find((h) => h.id === holidayId) || null,
+      getPhaseTimeline: () => {
+        const allEvts = get().getAllEvents();
+        return get().warmthPhases.map((phase) => ({
+          ...phase,
+          events: allEvts
+            .filter((e) => e.phase === phase.id)
+            .sort((a, b) => (a.date?.year || 0) - (b.date?.year || 0))
+        }));
+      },
 
-  getEventTypes: () => EVENT_TYPES,
+      getMonth: (monthId) => get().calendar.months.find((m) => m.id === monthId) || null,
 
-  getRebirthCycle: (cycleNumber) => get().rebirthCycles.find((c) => c.cycle === cycleNumber) || null,
+      getHoliday: (holidayId) => get().calendar.holidays.find((h) => h.id === holidayId) || null,
 
-  getWarmthPhase: (phaseId) => get().warmthPhases.find((p) => p.id === phaseId) || null,
+      getEventTypes: () => EVENT_TYPES,
 
-  getWarmthPhaseForYear: (year) => {
-    const phases = get().warmthPhases;
-    for (const phase of phases) {
-      const [start, end] = phase.years.split('-').map(Number);
-      if (year >= start && year <= end) return phase;
-    }
-    return phases[phases.length - 1];
-  },
+      getRebirthCycle: (cycleNumber) => get().rebirthCycles.find((c) => c.cycle === cycleNumber) || null,
 
-  getTradeRoute: (routeId) => get().tradeRoutes.find((r) => r.id === routeId) || null,
+      getWarmthPhase: (phaseId) => get().warmthPhases.find((p) => p.id === phaseId) || null,
 
-  getTradeRoutesByLocation: (locationId) =>
-    get().tradeRoutes.filter((r) =>
-      r.origin === locationId || r.destination === locationId ||
-      (r.via && r.via.includes(locationId))
-    ),
+      getWarmthPhaseForYear: (year) => {
+        const phases = get().warmthPhases;
+        for (const phase of phases) {
+          const [start, end] = phase.years.split('-').map(Number);
+          if (year >= start && year <= end) return phase;
+        }
+        return phases[phases.length - 1];
+      },
 
-  addEvent: (event) =>
-    set((state) => ({ events: [...state.events, { ...event, id: event.id || `event-${Date.now()}` }] })),
+      getTradeRoute: (routeId) => get().tradeRoutes.find((r) => r.id === routeId) || null,
 
-  updateEvent: (eventId, updates) =>
-    set((state) => ({
-      events: state.events.map((e) => (e.id === eventId ? { ...e, ...updates } : e))
-    })),
+      getTradeRoutesByLocation: (locationId) =>
+        get().tradeRoutes.filter((r) =>
+          r.origin === locationId || r.destination === locationId ||
+          (r.via && r.via.includes(locationId))
+        ),
 
-  removeEvent: (eventId) =>
-    set((state) => ({ events: state.events.filter((e) => e.id !== eventId) }))
-}));
+      addEvent: (event) => {
+        const newEvent = { ...event, id: event.id || `event-custom-${Date.now()}`, isCustom: true };
+        set((state) => ({ customEvents: [...(state.customEvents || []), newEvent] }));
+        triggerTimelineAutoSync();
+        return newEvent;
+      },
+
+      updateEvent: (eventId, updates) => {
+        set((state) => ({
+          customEvents: (state.customEvents || []).map((e) => (e.id === eventId ? { ...e, ...updates } : e)),
+          events: state.events.map((e) => (e.id === eventId ? { ...e, ...updates } : e))
+        }));
+        triggerTimelineAutoSync();
+      },
+
+      removeEvent: (eventId) => {
+        set((state) => ({
+          customEvents: (state.customEvents || []).filter((e) => e.id !== eventId),
+          events: state.events.filter((e) => e.id !== eventId)
+        }));
+        triggerTimelineAutoSync();
+      },
+
+      // --- Cloud Synchronization & Hydration ---
+      syncToCloud: async (userId) => {
+        if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
+        try {
+          const docRef = doc(db, 'users', userId, 'worldbuilding', 'timelines');
+          await setDoc(docRef, {
+            customEvents: get().customEvents || [],
+            updatedAt: new Date().toISOString()
+          }, { merge: true });
+          set({ lastCloudSyncAt: new Date().toISOString() });
+          return true;
+        } catch (err) {
+          console.debug('Timelines cloud sync skipped/failed:', err?.message || err);
+          return false;
+        }
+      },
+
+      hydrateFromCloud: async (userId) => {
+        if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
+        try {
+          const docRef = doc(db, 'users', userId, 'worldbuilding', 'timelines');
+          const snap = await getDoc(docRef);
+          if (snap.exists()) {
+            const data = snap.data();
+            if (Array.isArray(data?.customEvents)) {
+              set({ customEvents: data.customEvents });
+              return true;
+            }
+          }
+        } catch (err) {
+          console.debug('Timelines cloud hydration skipped/failed:', err?.message || err);
+        }
+        return false;
+      }
+    }),
+    createStorageConfig('mythrill_custom_timelines', {
+      partialize: (state) => ({
+        customEvents: state.customEvents || [],
+        lastCloudSyncAt: state.lastCloudSyncAt
+      })
+    })
+  )
+);
 
 export { CHRONOLOGY_ERA_DISPLAY, MYTHRILL_CALENDAR, EVENT_TYPES, SEEDED_EVENTS, AEX_SCREAM_PULSES, WARMTH_PHASES, TRADE_ROUTES };
 export default useTimelineStore;

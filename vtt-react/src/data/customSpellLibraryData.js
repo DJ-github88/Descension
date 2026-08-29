@@ -62,7 +62,7 @@ export const SPELL_CATEGORIES = [
   {
     id: 'transformation-spells',
     name: 'Transformation Spells',
-    description: 'Shaper Kinetic Flux reshaping flesh the way wind reshapes ironwood. Spells that transform the caster or allies',
+    description: 'Shaper Flux reshaping flesh the way wind reshapes ironwood. Spells that transform the caster or allies',
     icon: 'ability_druid_catform',
     spells: [],
     color: '#10b981'

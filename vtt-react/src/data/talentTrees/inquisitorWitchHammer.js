@@ -2,7 +2,7 @@
 // INQUISITOR — WITCH HAMMER (v2: talents are spells)
 // Schema: see talentSystem.mjs. Rank N spell = rank N-1 + rankUpgrades[N-2].
 // Economy: 8/6/6/5/5/5 = 30 pts (tiers 1-6) + 15 pts (tier 7) = 50.
-// Resources: Righteous Authority + Dominance Dice (DD) for bound Wyrd-hounds.
+// Resources: Authority + Dominance Dice (DD) for bound Wyrd-hounds.
 // The pack tree: bind a Wyrd pack, strike from stealth with cold iron.
 // ============================================
 

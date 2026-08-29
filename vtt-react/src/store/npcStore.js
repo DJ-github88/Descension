@@ -482,9 +482,9 @@ const NPC_DATA = {
     ],
     "age": "67",
     "status": "Active",
-    "appearance": "A massive, scarred Skald elder whose every exhale steams in all but forge-heat. He carries a blacksmith's hammer too heavy for any living Berserker to lift, and his forearms are latticed with old burn-scars that flush dull red when his Blood-Heat rises in his sleep.",
+    "appearance": "A massive, scarred Skald elder whose every exhale steams in all but forge-heat. He carries a blacksmith's hammer too heavy for any living Berserker to lift, and his forearms are latticed with old burn-scars that flush dull red when his Rage rises in his sleep.",
     "personality": "Silent for years at a stretch, then devastatingly direct. Hark has maintained the Forge of Grum for forty years without speaking and considers words a waste of heat. He signed the Unbound execution order and has not slept soundly since.",
-    "backstory": "Hark leads the Bloodhammer Line from the Harath-Vault arenas, keeper of the Forge of Grum where the first Blood-Heat ignited. He countersigned the Skald Council's order to execute the Unbound and now hunts the deep-tunnel settlement of Pact-less Berserkers. Privately, he suspects the Unbound are right (that the Hunger Pact was a leash, not a source) and the hammer grows heavier each year.",
+    "backstory": "Hark leads the Bloodhammer Line from the Harath-Vault arenas, keeper of the Forge of Grum where the first Rage ignited. He countersigned the Skald Council's order to execute the Unbound and now hunts the deep-tunnel settlement of Pact-less Berserkers. Privately, he suspects the Unbound are right (that the Hunger Pact was a leash, not a source) and the hammer grows heavier each year.",
     "hooks": [
       "Hark knows the Unbound settlement's location but has not yet struck; a party could be hired by either side of the schism",
       "He alone can lift Grum's hammer; if he dies or defects, the line's claim to legitimacy dies with him",
@@ -719,9 +719,9 @@ const NPC_DATA = {
     ],
     "age": "47",
     "status": "Active",
-    "appearance": "A Solari woman who has absorbed so much allied suffering that she glows faintly in the dark: the Devotion Gauge made visible. Her forearms bear the original scar-pattern of the Covenant, and a fainter, newer set of marks she refuses to explain.",
+    "appearance": "A Solari woman who has absorbed so much allied suffering that she glows faintly in the dark: the Devotion made visible. Her forearms bear the original scar-pattern of the Covenant, and a fainter, newer set of marks she refuses to explain.",
     "personality": "Gentle, fierce, and torn in half. Sol-Kaessen genuinely believes in the willing sacrifice and has presided over the houses' conscription program without intervening, because the conscripted Martyrs keep Sundale's people alive. She has not decided whether she is a saint or a collaborator.",
-    "backstory": "Vigil-Mother of the Covenant of the Scar, Sol-Kaessen tends Sera Solvan's original scarred forearm beneath Emberspire. She is crushed between the Covenant's founding principle (willing sacrifice) and the houses' practice (conscripted child-training). The conscripted Martyrs heal less cleanly and have begun absorbing without consent: the Devotion Gauge corrupting into something predatory.",
+    "backstory": "Vigil-Mother of the Covenant of the Scar, Sol-Kaessen tends Sera Solvan's original scarred forearm beneath Emberspire. She is crushed between the Covenant's founding principle (willing sacrifice) and the houses' practice (conscripted child-training). The conscripted Martyrs heal less cleanly and have begun absorbing without consent: the Devotion corrupting into something predatory.",
     "hooks": [
       "Sol-Kaessen will shelter any party fleeing the Dawn Vigil's conscription: and ask them to prove the corruption",
       "She is one quiet order away from open schism with Sundale's theocracy",
@@ -814,7 +814,7 @@ const NPC_DATA = {
     "status": "Active: frightened for the first time in two centuries",
     "appearance": "An ancient Revenant of mixed Vreken-Neth descent, calm and whisper-layered with ancestral overtones. His skin is frost-stasis pale, his eyes the bioluminescent amber of Vreken dead-sight. One hand is silver-Neth, the other amber-Vreken: both traditions visible in his body.",
     "personality": "Calm, ancient, and newly afraid. Kor-Vasseth has led the Twice-Born through three previous bog-grave awakenings. The fourth is different, and the difference has him frightened for the first time in two centuries.",
-    "backstory": "Threshold-Keeper of the Twice-Born, Kor-Vasseth carries both founders' arts, Kora's Death Toll and Vesper's Phylactery. He is investigating the twelve Revenants found drained and the dead marching toward the Sundered Monoliths. The call routes through the Root-Veil, and he cannot stop the march without severing the Root-Veil itself. which would kill every Marked Revenant, half his order.",
+    "backstory": "Threshold-Keeper of the Twice-Born, Kor-Vasseth carries both founders' arts, Kora's Toll and Vesper's Phylactery. He is investigating the twelve Revenants found drained and the dead marching toward the Sundered Monoliths. The call routes through the Root-Veil, and he cannot stop the march without severing the Root-Veil itself. which would kill every Marked Revenant, half his order.",
     "hooks": [
       "Kor-Vasseth hires the party to escort a Drun Neth Revenant (immune to the routing) to the nearest Monolith to observe what calls the dead",
       "He alone knows which of the Twelve Drained Revenants left a final message: and it names the caller",

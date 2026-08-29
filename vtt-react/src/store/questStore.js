@@ -2,6 +2,8 @@ import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createStorageConfig } from '../utils/storageUtils';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { db, isFirebaseConfigured, auth } from '../config/firebase';
 
 // Base category for quests
 const BASE_CATEGORY = {
@@ -565,9 +567,66 @@ const useQuestStore = create(
       getQuestShareStatus: (questId) => {
         const state = get();
         return state.activeQuestShares[questId] || null;
+      },
+
+      // --- Cloud Synchronization & Hydration ---
+      lastCloudSyncAt: null,
+
+      syncToCloud: async (userId) => {
+        if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
+        try {
+          const docRef = doc(db, 'users', userId, 'worldbuilding', 'quests');
+          await setDoc(docRef, {
+            quests: get().quests || [],
+            categories: get().categories || [],
+            updatedAt: new Date().toISOString()
+          }, { merge: true });
+          set({ lastCloudSyncAt: new Date().toISOString() });
+          return true;
+        } catch (err) {
+          console.debug('Quests cloud sync skipped/failed:', err?.message || err);
+          return false;
+        }
+      },
+
+      hydrateFromCloud: async (userId) => {
+        if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
+        try {
+          const docRef = doc(db, 'users', userId, 'worldbuilding', 'quests');
+          const snap = await getDoc(docRef);
+          if (snap.exists()) {
+            const data = snap.data();
+            const updates = {};
+            if (Array.isArray(data?.quests) && data.quests.length > 0) {
+              updates.quests = data.quests;
+            }
+            if (Array.isArray(data?.categories) && data.categories.length > 0) {
+              updates.categories = data.categories;
+            }
+            if (Object.keys(updates).length > 0) {
+              set(updates);
+              return true;
+            } else if (get().quests.length > 0) {
+              await get().syncToCloud(userId);
+              return true;
+            }
+          } else if (get().quests.length > 0) {
+            await get().syncToCloud(userId);
+            return true;
+          }
+        } catch (err) {
+          console.debug('Quests cloud hydration skipped/failed:', err?.message || err);
+        }
+        return false;
       }
     }),
-    createStorageConfig('quest-store')
+    createStorageConfig('quest-store', {
+      partialize: (state) => ({
+        quests: state.quests,
+        categories: state.categories,
+        lastCloudSyncAt: state.lastCloudSyncAt
+      })
+    })
   )
 );
 

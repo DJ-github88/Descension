@@ -1,0 +1,230 @@
+/* ===== HARBINGER RESOURCE BAR (ILLUSTRATED GAME ASSETS) ===== */
+
+/* Wrapper */
+.harbinger-resource-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 2px 0;
+    z-index: 1;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.party-member-frame .harbinger-resource-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 2px 0 !important;
+}
+
+.harbinger-resource-wrapper.small {
+    margin: 1px 0;
+}
+
+.harbinger-resource-wrapper.large {
+    margin: 4px 0;
+}
+
+/* Main Illustrated Resource Bar */
+.harbinger-resource-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    aspect-ratio: 860 / 140;
+    min-height: 20px;
+    height: auto;
+    border-radius: 4px;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+    cursor: pointer;
+    overflow: visible;
+    box-sizing: border-box;
+}
+
+.harbinger-resource-bar.small {
+    width: 100%;
+    max-width: 220px;
+    min-height: 18px;
+}
+
+.harbinger-resource-bar.large {
+    width: 100%;
+    max-width: 360px;
+    min-height: 32px;
+}
+
+@media (max-width: 600px) {
+    .harbinger-resource-bar {
+        max-width: 260px;
+    }
+    .harbinger-resource-bar.small {
+        max-width: 190px;
+    }
+    .harbinger-resource-bar.large {
+        max-width: 290px;
+    }
+}
+
+.harbinger-resource-bar:hover {
+    transform: translateY(-1px) scale(1.012);
+}
+
+.harbinger-resource-bar:active {
+    transform: translateY(0) scale(0.99);
+}
+
+/* Base Void-Stone Bar Background Image Asset */
+.harbinger-bar-base-asset {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    pointer-events: none;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.75));
+    z-index: 1;
+}
+
+/* Runes Track Layer (10 Runes across the tablet) */
+.harbinger-runes-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3.5%;
+    box-sizing: border-box;
+    z-index: 3;
+}
+
+/* Individual Rune Slot */
+.harbinger-rune-slot {
+    position: relative;
+    flex: 1;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.harbinger-rune-slot:hover {
+    transform: scale(1.18);
+    z-index: 6;
+}
+
+/* Rune Image Assets - Normalized 80x80 format */
+.harbinger-rune-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s ease, filter 0.35s ease;
+}
+
+/* Unlit / Empty Rune State — Dark, recessed obsidian stone carving */
+.harbinger-rune-img.rune-empty {
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.95)) brightness(0.92);
+    opacity: 0.85;
+}
+
+.harbinger-rune-img.rune-empty.visible {
+    opacity: 0.85;
+    transform: scale(1);
+}
+
+.harbinger-rune-img.rune-empty.faded {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+/* Lit / Filled Rune State — Radiant Amethyst / Cosmic Violet Flame */
+.harbinger-rune-img.rune-filled {
+    filter: drop-shadow(0 0 5px rgba(187, 143, 206, 0.9)) drop-shadow(0 0 10px rgba(142, 68, 173, 0.7));
+    opacity: 1;
+}
+
+.harbinger-rune-img.rune-filled.visible {
+    opacity: 1;
+    transform: scale(1);
+    animation: runeCosmicPulse 2.4s infinite alternate ease-in-out;
+}
+
+.harbinger-rune-img.rune-filled.faded {
+    opacity: 0;
+    transform: scale(0.65);
+}
+
+/* Active tier pulse */
+.harbinger-rune-slot.current-active .rune-filled.visible {
+    filter: drop-shadow(0 0 7px rgba(224, 86, 253, 1)) drop-shadow(0 0 14px rgba(142, 68, 173, 0.95)) brightness(1.2);
+    animation: activeRuneSurge 1.4s infinite alternate ease-in-out;
+}
+
+/* Catastrophic Stage 10 (Master Wild Surge) State */
+.harbinger-rune-slot.catastrophic .rune-filled.visible {
+    filter: drop-shadow(0 0 10px #ff7675) drop-shadow(0 0 20px #e74c3c) brightness(1.4);
+    animation: catastrophicOmegaPulse 0.6s infinite alternate ease-in-out;
+}
+
+.harbinger-resource-wrapper.catastrophic-warning {
+    animation: catastrophicBarShake 2.5s infinite ease-in-out;
+}
+
+/* Animations */
+@keyframes runeCosmicPulse {
+    0% { filter: drop-shadow(0 0 4px rgba(187, 143, 206, 0.8)) drop-shadow(0 0 8px rgba(142, 68, 173, 0.6)); }
+    100% { filter: drop-shadow(0 0 7px rgba(224, 86, 253, 1)) drop-shadow(0 0 14px rgba(142, 68, 173, 0.9)); }
+}
+
+@keyframes activeRuneSurge {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.12); }
+}
+
+@keyframes catastrophicOmegaPulse {
+    0% { transform: scale(1); filter: drop-shadow(0 0 8px #ff7675) brightness(1.2); }
+    100% { transform: scale(1.18); filter: drop-shadow(0 0 18px #d63031) brightness(1.6); }
+}
+
+@keyframes catastrophicBarShake {
+    0%, 100% { transform: translate(0, 0); }
+    10%, 30%, 50%, 70%, 90% { transform: translate(-0.5px, 0.5px); }
+    20%, 40%, 60%, 80% { transform: translate(0.5px, -0.5px); }
+}
+
+/* Visual Intensity States */
+.harbinger-resource-bar.intensity-dormant {
+    filter: brightness(0.9);
+}
+
+.harbinger-resource-bar.intensity-whisper {
+    filter: brightness(1);
+}
+
+.harbinger-resource-bar.intensity-escalating {
+    filter: brightness(1.05) drop-shadow(0 0 4px rgba(142, 68, 173, 0.4));
+}
+
+.harbinger-resource-bar.intensity-volatile {
+    filter: brightness(1.1) drop-shadow(0 0 8px rgba(142, 68, 173, 0.6));
+}
+
+.harbinger-resource-bar.intensity-redline {
+    filter: brightness(1.15) drop-shadow(0 0 12px rgba(231, 76, 60, 0.75));
+}
+
+.harbinger-resource-bar.intensity-catastrophic {
+    filter: brightness(1.25) drop-shadow(0 0 18px rgba(214, 48, 49, 0.9));
+}

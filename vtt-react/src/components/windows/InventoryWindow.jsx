@@ -409,11 +409,24 @@ const InventoryWindow = memo(() => {
                 currentX: touch.clientX,
                 currentY: touch.clientY
             }));
-            const cellEl = document.elementFromPoint(touch.clientX, touch.clientY)?.closest('.inventory-cell');
+
+            const element = document.elementFromPoint(touch.clientX, touch.clientY);
+            const cellEl = element?.closest('.inventory-cell');
             if (cellEl) {
                 const row = parseInt(cellEl.dataset.row);
                 const col = parseInt(cellEl.dataset.col);
                 highlightTouchDragCells(touchDragState.item, row, col);
+            } else {
+                clearTouchDragHighlights();
+            }
+
+            // Visual feedback when dragged over action bar slots
+            const targetSlotEl = element?.closest('.spell-action-slot, .action-slot');
+            document.querySelectorAll('.spell-action-slot.drag-over, .action-slot.drag-over').forEach(el => {
+                if (el !== targetSlotEl) el.classList.remove('drag-over');
+            });
+            if (targetSlotEl) {
+                targetSlotEl.classList.add('drag-over');
             }
         }
     };
@@ -441,10 +454,34 @@ const InventoryWindow = memo(() => {
 
         if (touchDragState.isDragging && touchDragState.item) {
             const touch = e.changedTouches[0];
-            const cellEl = touch
-                ? document.elementFromPoint(touch.clientX, touch.clientY)?.closest('.inventory-cell')
+            const element = touch
+                ? document.elementFromPoint(touch.clientX, touch.clientY)
                 : null;
-            if (cellEl) {
+
+            // Clear any action bar drag-over highlights
+            document.querySelectorAll('.spell-action-slot.drag-over, .action-slot.drag-over').forEach(el => {
+                el.classList.remove('drag-over');
+            });
+
+            const spellSlotEl = element?.closest('.spell-action-slot');
+            const actionSlotEl = element?.closest('.action-slot');
+            const cellEl = element?.closest('.inventory-cell');
+
+            if (spellSlotEl) {
+                const slotIndex = parseInt(spellSlotEl.dataset.slotIndex);
+                if (!isNaN(slotIndex) && (touchDragState.item.type === 'consumable' || touchDragState.item.isConsumable)) {
+                    window.dispatchEvent(new CustomEvent('spell-action-bar-assign-item', {
+                        detail: { slotIndex, item: touchDragState.item }
+                    }));
+                }
+            } else if (actionSlotEl) {
+                const slotIndex = parseInt(actionSlotEl.dataset.slotIndex);
+                if (!isNaN(slotIndex) && (touchDragState.item.type === 'consumable' || touchDragState.item.isConsumable)) {
+                    window.dispatchEvent(new CustomEvent('action-bar-assign-item', {
+                        detail: { slotIndex, item: touchDragState.item }
+                    }));
+                }
+            } else if (cellEl) {
                 const row = parseInt(cellEl.dataset.row);
                 const col = parseInt(cellEl.dataset.col);
                 if (!isNaN(row) && !isNaN(col)) {
@@ -472,6 +509,9 @@ const InventoryWindow = memo(() => {
 
     const handleItemTouchCancel = () => {
         clearTimeout(longPressTimerRef.current);
+        document.querySelectorAll('.spell-action-slot.drag-over, .action-slot.drag-over').forEach(el => {
+            el.classList.remove('drag-over');
+        });
         clearTouchDragHighlights();
         setDraggedItem(null);
         window.isDraggingItem = false;
@@ -2148,6 +2188,19 @@ const InventoryWindow = memo(() => {
                                     </div>
 
                                     <div className="companion-actions-bar">
+                                        {(selectedItem.type === 'consumable' || selectedItem.isConsumable) && (
+                                            <button 
+                                                className="companion-btn assign-action-bar"
+                                                onClick={() => {
+                                                    window.dispatchEvent(new CustomEvent('spell-action-bar-assign-item', {
+                                                        detail: { item: selectedItem, autoFindSlot: true }
+                                                    }));
+                                                }}
+                                                title="Add consumable to Prepared Action Bar"
+                                            >
+                                                <i className="fas fa-wand-sparkles"></i> Action Bar
+                                            </button>
+                                        )}
                                         {getCompatibleSlots(selectedItem).length > 0 && (
                                             <button 
                                                 className="companion-btn equip"
@@ -2827,6 +2880,22 @@ const InventoryWindow = memo(() => {
                                     <i className="fas fa-edit"></i>
                                     <span>Rename</span>
                                 </button>
+
+                                {(item.type === 'consumable' || item.isConsumable) && (
+                                    <button
+                                        type="button"
+                                        className="item-action-btn"
+                                        onClick={() => {
+                                            window.dispatchEvent(new CustomEvent('spell-action-bar-assign-item', {
+                                                detail: { item, autoFindSlot: true }
+                                            }));
+                                            closePanel();
+                                        }}
+                                    >
+                                        <i className="fas fa-wand-sparkles"></i>
+                                        <span>Action Bar</span>
+                                    </button>
+                                )}
 
                                 {(item.type === 'consumable' || item.type === 'recipe') && (
                                     <button

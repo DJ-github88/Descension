@@ -4,8 +4,8 @@ import useWorldStore from '../../store/worldStore';
 import useFamilyTreeStore from '../../store/familyTreeStore';
 import './UniversalEntityGraph.css';
 
-const CANVAS_WIDTH = 1800;
-const CANVAS_HEIGHT = 1200;
+const CANVAS_WIDTH = 2800;
+const CANVAS_HEIGHT = 2000;
 
 export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
   const factions = useFactionStore((state) => state.factions || []);
@@ -20,10 +20,11 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
   const [selectedNodeId, setSelectedNodeId] = useState(selectedEntity?.id || null);
   const [hoveredNodeId, setHoveredNodeId] = useState(null);
   const [hoveredEdge, setHoveredEdge] = useState(null);
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
 
   // Pan & Zoom state
-  const [panOffset, setPanOffset] = useState({ x: -100, y: -50 });
-  const [zoomLevel, setZoomLevel] = useState(1.0);
+  const [panOffset, setPanOffset] = useState({ x: -200, y: -100 });
+  const [zoomLevel, setZoomLevel] = useState(0.85);
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const containerRef = useRef(null);
@@ -32,6 +33,21 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
   const [draggedNodeId, setDraggedNodeId] = useState(null);
   const [dragStartPos, setDragStartPos] = useState({ x: 0, y: 0 });
   const [customPositions, setCustomPositions] = useState({});
+
+  // Touch tracking refs
+  const touchStateRef = useRef({
+    mode: 'none', // 'none' | 'pan' | 'pinch' | 'dragNode'
+    startX: 0,
+    startY: 0,
+    lastX: 0,
+    lastY: 0,
+    nodeId: null,
+    hasMoved: false,
+    initialPinchDist: 0,
+    initialZoom: 1,
+    initialPan: { x: 0, y: 0 },
+    lastTapTime: 0
+  });
 
   // 1. Build universal graph nodes
   const allNodes = useMemo(() => {
@@ -204,7 +220,7 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
     });
   }, [allEdges, visibleNodeIdSet, activeRelFilter]);
 
-  // 4. Default Positions Layout (Clustered & Clean)
+  // 4. Default Positions Layout (Concentric Multi-Ring Layout)
   const defaultPositions = useMemo(() => {
     const positions = {};
     const cx = CANVAS_WIDTH / 2;
@@ -215,21 +231,40 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
       const locationNodes = visibleNodes.filter((n) => n.type === 'location');
       const familyNodes = visibleNodes.filter((n) => n.type === 'family_node');
 
-      // Center ring: Factions
-      factionNodes.forEach((n, i) => {
-        const angle = (i / (factionNodes.length || 1)) * Math.PI * 2 - Math.PI / 2;
-        positions[n.id] = {
-          x: cx + Math.cos(angle) * 280,
-          y: cy + Math.sin(angle) * 200
-        };
-      });
+      // Distribute factions in orbital tiers if dense
+      if (factionNodes.length <= 10) {
+        factionNodes.forEach((n, i) => {
+          const angle = (i / (factionNodes.length || 1)) * Math.PI * 2 - Math.PI / 2;
+          positions[n.id] = {
+            x: cx + Math.cos(angle) * 320,
+            y: cy + Math.sin(angle) * 240
+          };
+        });
+      } else {
+        const half = Math.ceil(factionNodes.length / 2);
+        factionNodes.slice(0, half).forEach((n, i) => {
+          const angle = (i / half) * Math.PI * 2 - Math.PI / 2;
+          positions[n.id] = {
+            x: cx + Math.cos(angle) * 260,
+            y: cy + Math.sin(angle) * 190
+          };
+        });
+        factionNodes.slice(half).forEach((n, i) => {
+          const count = factionNodes.length - half;
+          const angle = (i / count) * Math.PI * 2 - Math.PI / 4;
+          positions[n.id] = {
+            x: cx + Math.cos(angle) * 440,
+            y: cy + Math.sin(angle) * 320
+          };
+        });
+      }
 
       // Middle ring: Locations
       locationNodes.forEach((n, i) => {
         const angle = (i / (locationNodes.length || 1)) * Math.PI * 2 - Math.PI / 4;
         positions[n.id] = {
-          x: cx + Math.cos(angle) * 520,
-          y: cy + Math.sin(angle) * 360
+          x: cx + Math.cos(angle) * 650,
+          y: cy + Math.sin(angle) * 480
         };
       });
 
@@ -237,16 +272,16 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
       familyNodes.forEach((n, i) => {
         const angle = (i / (familyNodes.length || 1)) * Math.PI * 2;
         positions[n.id] = {
-          x: cx + Math.cos(angle) * 740,
-          y: cy + Math.sin(angle) * 480
+          x: cx + Math.cos(angle) * 880,
+          y: cy + Math.sin(angle) * 650
         };
       });
     } else {
-      // Cluster layout: Organized by Realms / Houses
+      // Clustered Concentric Multi-Ring Layout by Region
       const realmClusters = {
-        'frostwood-reach': { cx: cx - 280, cy: cy - 60 },
-        'nordhalla': { cx: cx + 280, cy: cy - 60 },
-        'sundale': { cx: cx, cy: cy + 280 }
+        'frostwood-reach': { cx: cx - 400, cy: cy - 100 },
+        'nordhalla': { cx: cx + 400, cy: cy - 100 },
+        'sundale': { cx: cx, cy: cy + 420 }
       };
 
       const buckets = {};
@@ -258,14 +293,43 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
 
       Object.entries(buckets).forEach(([region, nodes]) => {
         const center = realmClusters[region] || { cx, cy };
-        nodes.forEach((n, i) => {
-          const angle = (i / (nodes.length || 1)) * Math.PI * 2;
-          const radius = nodes.length > 5 ? 160 + (i % 2) * 60 : 140;
-          positions[n.id] = {
-            x: center.cx + Math.cos(angle) * radius,
-            y: center.cy + Math.sin(angle) * radius
-          };
-        });
+
+        if (nodes.length <= 6) {
+          nodes.forEach((n, i) => {
+            const angle = (i / (nodes.length || 1)) * Math.PI * 2 - Math.PI / 2;
+            positions[n.id] = {
+              x: center.cx + Math.cos(angle) * 160,
+              y: center.cy + Math.sin(angle) * 130
+            };
+          });
+        } else {
+          // Concentric tiered rings with generous padding
+          const rings = [
+            { capacity: 6, rx: 160, ry: 130 },
+            { capacity: 12, rx: 320, ry: 250 },
+            { capacity: 18, rx: 490, ry: 380 },
+            { capacity: 24, rx: 670, ry: 510 },
+            { capacity: 30, rx: 860, ry: 650 },
+            { capacity: 40, rx: 1060, ry: 800 }
+          ];
+
+          let nodeIdx = 0;
+          for (let r = 0; r < rings.length && nodeIdx < nodes.length; r++) {
+            const ring = rings[r];
+            const remaining = nodes.length - nodeIdx;
+            const countInRing = Math.min(ring.capacity, remaining);
+            const angleOffset = r % 2 === 1 ? Math.PI / countInRing : 0;
+
+            for (let c = 0; c < countInRing; c++) {
+              const n = nodes[nodeIdx++];
+              const angle = (c / countInRing) * Math.PI * 2 - Math.PI / 2 + angleOffset;
+              positions[n.id] = {
+                x: center.cx + Math.cos(angle) * ring.rx,
+                y: center.cy + Math.sin(angle) * ring.ry
+              };
+            }
+          }
+        }
       });
     }
 
@@ -280,7 +344,7 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
   );
 
   // Focus on Selected Node
-  const centerOnNode = (nodeId) => {
+  const centerOnNode = useCallback((nodeId) => {
     const pos = getNodePos(nodeId);
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
@@ -288,10 +352,10 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
       x: rect.width / 2 - pos.x * zoomLevel,
       y: rect.height / 2 - pos.y * zoomLevel
     });
-  };
+  }, [getNodePos, zoomLevel]);
 
-  // Auto-fit to screen
-  const handleFitToScreen = () => {
+  // Auto-fit all nodes to screen
+  const handleFitToScreen = useCallback(() => {
     if (!containerRef.current || visibleNodes.length === 0) return;
     const rect = containerRef.current.getBoundingClientRect();
 
@@ -304,11 +368,11 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
       if (pos.y > maxY) maxY = pos.y;
     });
 
-    const padding = 120;
+    const padding = 140;
     const width = Math.max(maxX - minX + padding * 2, 400);
     const height = Math.max(maxY - minY + padding * 2, 400);
 
-    const fitZoom = Math.max(0.45, Math.min(1.15, Math.min(rect.width / width, rect.height / height)));
+    const fitZoom = Math.max(0.35, Math.min(1.15, Math.min(rect.width / width, rect.height / height)));
     const centerX = (minX + maxX) / 2;
     const centerY = (minY + maxY) / 2;
 
@@ -317,16 +381,24 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
       x: rect.width / 2 - centerX * fitZoom,
       y: rect.height / 2 - centerY * fitZoom
     });
-  };
+  }, [visibleNodes, getNodePos]);
 
-  // Center once on initial mount
+  // Center once on initial mount or filter change
   useEffect(() => {
     handleFitToScreen();
-  }, [visibleNodes.length]);
+  }, [visibleNodes.length, handleFitToScreen]);
 
-  // Pan Handlers
+  // Reset custom layout positions
+  const handleResetLayout = () => {
+    setCustomPositions({});
+    setTimeout(() => handleFitToScreen(), 50);
+  };
+
+  // --- Mouse Pan & Drag Handlers ---
   const handleMouseDown = (e) => {
-    if (e.target.closest('.pathfinder-graph-node') || e.target.closest('.pathfinder-graph-toolbar')) return;
+    if (e.target.closest('.pathfinder-graph-node') || e.target.closest('.pathfinder-graph-toolbar') || e.target.closest('.pathfinder-floating-hud')) {
+      return;
+    }
     setIsPanning(true);
     setPanStart({ x: e.clientX - panOffset.x, y: e.clientY - panOffset.y });
   };
@@ -353,8 +425,158 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
 
   const handleWheel = (e) => {
     e.preventDefault();
-    const zoomDelta = e.deltaY > 0 ? -0.06 : 0.06;
-    setZoomLevel((prev) => Math.max(0.4, Math.min(1.8, prev + zoomDelta)));
+    const zoomDelta = e.deltaY > 0 ? -0.07 : 0.07;
+    setZoomLevel((prev) => Math.max(0.35, Math.min(2.0, prev + zoomDelta)));
+  };
+
+  // --- Touch & Gesture Engine for Mobile Devices ---
+  const handleTouchStart = (e) => {
+    const touches = e.touches;
+
+    if (touches.length === 1) {
+      const touch = touches[0];
+      const targetNode = e.target.closest('.pathfinder-graph-node');
+      const isToolbarOrHUD = e.target.closest('.pathfinder-graph-toolbar') || e.target.closest('.pathfinder-floating-hud') || e.target.closest('.pathfinder-codex-drawer');
+
+      if (isToolbarOrHUD) return;
+
+      if (targetNode) {
+        const nodeId = targetNode.getAttribute('data-node-id');
+        touchStateRef.current = {
+          mode: 'dragNode',
+          startX: touch.clientX,
+          startY: touch.clientY,
+          lastX: touch.clientX,
+          lastY: touch.clientY,
+          nodeId: nodeId,
+          hasMoved: false,
+          initialPinchDist: 0,
+          initialZoom: zoomLevel,
+          initialPan: { ...panOffset },
+          lastTapTime: touchStateRef.current.lastTapTime
+        };
+      } else {
+        // Double tap detection on canvas
+        const now = Date.now();
+        if (now - touchStateRef.current.lastTapTime < 300) {
+          handleFitToScreen();
+          touchStateRef.current.lastTapTime = 0;
+          return;
+        }
+        touchStateRef.current.lastTapTime = now;
+
+        touchStateRef.current = {
+          mode: 'pan',
+          startX: touch.clientX,
+          startY: touch.clientY,
+          lastX: touch.clientX,
+          lastY: touch.clientY,
+          nodeId: null,
+          hasMoved: false,
+          initialPinchDist: 0,
+          initialZoom: zoomLevel,
+          initialPan: { ...panOffset },
+          lastTapTime: now
+        };
+      }
+    } else if (touches.length === 2) {
+      // Pinch to zoom initialization
+      const t1 = touches[0];
+      const t2 = touches[1];
+      const dist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+      const midX = (t1.clientX + t2.clientX) / 2;
+      const midY = (t1.clientY + t2.clientY) / 2;
+
+      touchStateRef.current = {
+        mode: 'pinch',
+        startX: midX,
+        startY: midY,
+        lastX: midX,
+        lastY: midY,
+        nodeId: null,
+        hasMoved: true,
+        initialPinchDist: dist,
+        initialZoom: zoomLevel,
+        initialPan: { ...panOffset },
+        lastTapTime: 0
+      };
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    const touches = e.touches;
+    const state = touchStateRef.current;
+
+    if (state.mode === 'pan' && touches.length === 1) {
+      const touch = touches[0];
+      const dx = touch.clientX - state.lastX;
+      const dy = touch.clientY - state.lastY;
+
+      if (Math.hypot(touch.clientX - state.startX, touch.clientY - state.startY) > 6) {
+        state.hasMoved = true;
+      }
+
+      setPanOffset((prev) => ({ x: prev.x + dx, y: prev.y + dy }));
+      state.lastX = touch.clientX;
+      state.lastY = touch.clientY;
+    } else if (state.mode === 'dragNode' && touches.length === 1 && state.nodeId) {
+      const touch = touches[0];
+      const totalDist = Math.hypot(touch.clientX - state.startX, touch.clientY - state.startY);
+
+      if (totalDist > 8) {
+        state.hasMoved = true;
+        const dx = (touch.clientX - state.lastX) / zoomLevel;
+        const dy = (touch.clientY - state.lastY) / zoomLevel;
+        const cur = getNodePos(state.nodeId);
+
+        setCustomPositions((prev) => ({
+          ...prev,
+          [state.nodeId]: { x: cur.x + dx, y: cur.y + dy }
+        }));
+      }
+
+      state.lastX = touch.clientX;
+      state.lastY = touch.clientY;
+    } else if (state.mode === 'pinch' && touches.length === 2) {
+      const t1 = touches[0];
+      const t2 = touches[1];
+      const currentDist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+      const midX = (t1.clientX + t2.clientX) / 2;
+      const midY = (t1.clientY + t2.clientY) / 2;
+
+      if (state.initialPinchDist > 0 && containerRef.current) {
+        const factor = currentDist / state.initialPinchDist;
+        const newZoom = Math.max(0.35, Math.min(2.0, state.initialZoom * factor));
+
+        const rect = containerRef.current.getBoundingClientRect();
+        const cursorX = midX - rect.left;
+        const cursorY = midY - rect.top;
+
+        // Anchor pinch zoom around touch midpoint
+        const zoomRatio = newZoom / state.initialZoom;
+        const newPanX = cursorX - (cursorX - state.initialPan.x) * zoomRatio;
+        const newPanY = cursorY - (cursorY - state.initialPan.y) * zoomRatio;
+
+        setZoomLevel(newZoom);
+        setPanOffset({ x: newPanX, y: newPanY });
+      }
+    }
+  };
+
+  const handleTouchEnd = (e) => {
+    const state = touchStateRef.current;
+
+    // If tapped on a node without significant movement, select it
+    if (state.mode === 'dragNode' && !state.hasMoved && state.nodeId) {
+      const targetNode = allNodes.find((n) => n.id === state.nodeId);
+      if (targetNode) {
+        setSelectedNodeId(targetNode.id);
+        if (onEntityClick) onEntityClick(targetNode);
+      }
+    }
+
+    touchStateRef.current.mode = 'none';
+    touchStateRef.current.nodeId = null;
   };
 
   const toggleTypeFilter = (type) => {
@@ -380,7 +602,8 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
     <div className="pathfinder-relationship-web-wrapper">
       {/* Top Parchment Ribbon Toolbar */}
       <div className="pathfinder-graph-toolbar">
-        <div className="toolbar-left">
+        <div className="toolbar-top-row">
+          {/* Scrollable Entity Filter Chips */}
           <div className="pathfinder-pill-group">
             <button
               type="button"
@@ -388,7 +611,8 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
               onClick={() => toggleTypeFilter('faction')}
               title="Toggle Factions & Orders"
             >
-              <i className="fas fa-shield-halved"></i> Factions ({factions.length})
+              <i className="fas fa-shield-halved"></i>
+              <span>Factions ({factions.length})</span>
             </button>
             <button
               type="button"
@@ -396,7 +620,8 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
               onClick={() => toggleTypeFilter('location')}
               title="Toggle Locations & Keeps"
             >
-              <i className="fas fa-map-pin"></i> Locations ({locations.length})
+              <i className="fas fa-map-pin"></i>
+              <span>Locations ({locations.length})</span>
             </button>
             <button
               type="button"
@@ -404,12 +629,36 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
               onClick={() => toggleTypeFilter('family_node')}
               title="Toggle Dynastic Lineages"
             >
-              <i className="fas fa-crown"></i> Dynasties ({trees.reduce((acc, t) => acc + (t.nodes || []).length, 0)})
+              <i className="fas fa-crown"></i>
+              <span>Dynasties ({trees.reduce((acc, t) => acc + (t.nodes || []).length, 0)})</span>
             </button>
           </div>
 
-          <div className="toolbar-separator"></div>
+          {/* Mobile search toggle & Connected-only quick toggle */}
+          <div className="toolbar-mobile-actions">
+            <button
+              type="button"
+              className={`pathfinder-toggle-btn mobile-search-toggle ${showMobileSearch ? 'active' : ''}`}
+              onClick={() => setShowMobileSearch((prev) => !prev)}
+              title="Search graph"
+            >
+              <i className="fas fa-search"></i>
+            </button>
 
+            <button
+              type="button"
+              className={`pathfinder-toggle-btn ${hideDisconnected ? 'active' : ''}`}
+              onClick={() => setHideDisconnected((prev) => !prev)}
+              title={hideDisconnected ? 'Showing Connected Only' : 'Show All Nodes'}
+            >
+              <i className="fas fa-link"></i>
+              <span className="btn-label-desktop">Connected</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Secondary controls row: Filters, Layouts & Search */}
+        <div className={`toolbar-controls-row ${showMobileSearch ? 'show-search-mobile' : ''}`}>
           <div className="pathfinder-select-group">
             <select
               value={activeRelFilter}
@@ -434,9 +683,7 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
               <option value="orbital">Orbital Rings</option>
             </select>
           </div>
-        </div>
 
-        <div className="toolbar-right">
           <div className="pathfinder-search-box">
             <i className="fas fa-search"></i>
             <input
@@ -456,28 +703,6 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
               </button>
             )}
           </div>
-
-          <button
-            type="button"
-            className={`pathfinder-toggle-btn ${hideDisconnected ? 'active' : ''}`}
-            onClick={() => setHideDisconnected((prev) => !prev)}
-            title={hideDisconnected ? "Showing Connected Only" : "Show All Nodes"}
-          >
-            <i className="fas fa-link"></i>
-            <span>Connected Only</span>
-          </button>
-
-          <div className="zoom-controls">
-            <button type="button" onClick={() => setZoomLevel((z) => Math.min(1.8, z + 0.15))} title="Zoom In">
-              <i className="fas fa-plus"></i>
-            </button>
-            <button type="button" onClick={() => setZoomLevel((z) => Math.max(0.4, z - 0.15))} title="Zoom Out">
-              <i className="fas fa-minus"></i>
-            </button>
-            <button type="button" onClick={handleFitToScreen} title="Fit Entire Lore Web to Screen">
-              <i className="fas fa-expand"></i>
-            </button>
-          </div>
         </div>
       </div>
 
@@ -489,7 +714,47 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onWheel={handleWheel}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchEnd}
       >
+        {/* Floating Mobile Canvas HUD Controls */}
+        <div className="pathfinder-floating-hud">
+          <button
+            type="button"
+            className="hud-btn"
+            onClick={() => setZoomLevel((z) => Math.min(2.0, z + 0.18))}
+            title="Zoom In"
+          >
+            <i className="fas fa-plus"></i>
+          </button>
+          <button
+            type="button"
+            className="hud-btn"
+            onClick={() => setZoomLevel((z) => Math.max(0.35, z - 0.18))}
+            title="Zoom Out"
+          >
+            <i className="fas fa-minus"></i>
+          </button>
+          <button
+            type="button"
+            className="hud-btn"
+            onClick={handleFitToScreen}
+            title="Fit Entire Web to Screen"
+          >
+            <i className="fas fa-expand"></i>
+          </button>
+          <button
+            type="button"
+            className="hud-btn"
+            onClick={handleResetLayout}
+            title="Reset to Default Layout"
+          >
+            <i className="fas fa-arrows-rotate"></i>
+          </button>
+        </div>
+
         <div
           className="pathfinder-canvas"
           style={{
@@ -511,14 +776,14 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
               const isDimmed = directNeighborSet && !isHighlighted;
 
               return (
-                <g key={edge.id} opacity={isDimmed ? 0.15 : isHighlighted || isEdgeHovered ? 1 : 0.7}>
+                <g key={edge.id} opacity={isDimmed ? 0.12 : isHighlighted || isEdgeHovered ? 1 : 0.65}>
                   <line
                     x1={src.x}
                     y1={src.y}
                     x2={tgt.x}
                     y2={tgt.y}
                     stroke={edge.color || '#8b5a1a'}
-                    strokeWidth={isHighlighted || isEdgeHovered ? 3.5 : 2}
+                    strokeWidth={isHighlighted || isEdgeHovered ? 3.5 : 1.8}
                     strokeDasharray={edge.strokeDash || undefined}
                     onMouseEnter={() => setHoveredEdge(edge)}
                     onMouseLeave={() => setHoveredEdge(null)}
@@ -565,6 +830,7 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
             return (
               <div
                 key={node.id}
+                data-node-id={node.id}
                 className={`pathfinder-graph-node ${node.type} ${isSelected ? 'selected' : ''} ${
                   isHovered ? 'hovered' : ''
                 } ${isDimmed ? 'dimmed' : ''}`}
@@ -603,83 +869,91 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
         </div>
       </div>
 
-      {/* Selected Entity Codex Drawer */}
+      {/* Selected Entity Codex Drawer / Bottom Sheet on mobile */}
       {selectedNode && (
-        <div className="pathfinder-codex-drawer">
-          <div className="codex-drawer-header">
-            <div className="codex-drawer-title">
-              <span className="drawer-crest" style={{ color: selectedNode.color }}>
-                <i className={`fas ${selectedNode.icon}`}></i>
-              </span>
-              <div>
-                <h3>{selectedNode.name}</h3>
-                <span className="codex-type" style={{ color: selectedNode.color }}>
-                  {selectedNode.type.toUpperCase()} • {selectedNode.subType}
+        <>
+          <div
+            className="pathfinder-codex-backdrop"
+            onClick={() => setSelectedNodeId(null)}
+          />
+          <div className="pathfinder-codex-drawer">
+            <div className="codex-drawer-handle" />
+            <div className="codex-drawer-header">
+              <div className="codex-drawer-title">
+                <span className="drawer-crest" style={{ color: selectedNode.color }}>
+                  <i className={`fas ${selectedNode.icon}`}></i>
                 </span>
+                <div>
+                  <h3>{selectedNode.name}</h3>
+                  <span className="codex-type" style={{ color: selectedNode.color }}>
+                    {selectedNode.type.toUpperCase()} • {selectedNode.subType}
+                  </span>
+                </div>
               </div>
-            </div>
-            <button className="codex-close-btn" onClick={() => setSelectedNodeId(null)}>
-              <i className="fas fa-times"></i>
-            </button>
-          </div>
-
-          <div className="codex-drawer-body">
-            {selectedNode.imageUrl && (
-              <div className="codex-portrait-frame">
-                <img src={selectedNode.imageUrl} alt={selectedNode.name} className="codex-portrait" />
-              </div>
-            )}
-
-            <div className="codex-section">
-              <h4>Chronicle & Overview</h4>
-              <p>{selectedNode.description || 'No detailed records inscribed.'}</p>
-            </div>
-
-            {/* Direct Connections in Codex */}
-            <div className="codex-section">
-              <h4>Direct Inscribed Ties</h4>
-              <div className="codex-links-list">
-                {visibleEdges
-                  .filter((e) => e.source === selectedNode.id || e.target === selectedNode.id)
-                  .map((edge) => {
-                    const otherId = edge.source === selectedNode.id ? edge.target : edge.source;
-                    const otherNode = allNodes.find((n) => n.id === otherId);
-                    if (!otherNode) return null;
-
-                    return (
-                      <div
-                        key={edge.id}
-                        className="codex-link-chip"
-                        onClick={() => {
-                          setSelectedNodeId(otherNode.id);
-                          centerOnNode(otherNode.id);
-                        }}
-                      >
-                        <span className="link-rel-badge" style={{ borderColor: edge.color, color: edge.color }}>
-                          {edge.label}
-                        </span>
-                        <span className="link-target-name">{otherNode.name}</span>
-                        <i className="fas fa-arrow-right-long link-arrow"></i>
-                      </div>
-                    );
-                  })}
-              </div>
-            </div>
-
-            <div className="codex-footer-actions">
-              <button
-                type="button"
-                className="btn-center-node"
-                onClick={() => centerOnNode(selectedNode.id)}
-              >
-                <i className="fas fa-crosshairs"></i> Center View
+              <button className="codex-close-btn" onClick={() => setSelectedNodeId(null)}>
+                <i className="fas fa-times"></i>
               </button>
             </div>
+
+            <div className="codex-drawer-body">
+              {selectedNode.imageUrl && (
+                <div className="codex-portrait-frame">
+                  <img src={selectedNode.imageUrl} alt={selectedNode.name} className="codex-portrait" />
+                </div>
+              )}
+
+              <div className="codex-section">
+                <h4>Chronicle &amp; Overview</h4>
+                <p>{selectedNode.description || 'No detailed records inscribed.'}</p>
+              </div>
+
+              {/* Direct Connections in Codex */}
+              <div className="codex-section">
+                <h4>Direct Inscribed Ties</h4>
+                <div className="codex-links-list">
+                  {visibleEdges
+                    .filter((e) => e.source === selectedNode.id || e.target === selectedNode.id)
+                    .map((edge) => {
+                      const otherId = edge.source === selectedNode.id ? edge.target : edge.source;
+                      const otherNode = allNodes.find((n) => n.id === otherId);
+                      if (!otherNode) return null;
+
+                      return (
+                        <div
+                          key={edge.id}
+                          className="codex-link-chip"
+                          onClick={() => {
+                            setSelectedNodeId(otherNode.id);
+                            centerOnNode(otherNode.id);
+                          }}
+                        >
+                          <span className="link-rel-badge" style={{ borderColor: edge.color, color: edge.color }}>
+                            {edge.label}
+                          </span>
+                          <span className="link-target-name">{otherNode.name}</span>
+                          <i className="fas fa-arrow-right-long link-arrow"></i>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+
+              <div className="codex-footer-actions">
+                <button
+                  type="button"
+                  className="btn-center-node"
+                  onClick={() => centerOnNode(selectedNode.id)}
+                >
+                  <i className="fas fa-crosshairs"></i> Center View
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
 };
 
 export default UniversalEntityGraph;
+

@@ -5,7 +5,7 @@
 //
 // SPEC IDENTITY: The Gravitational Anchor / Calcified Juggernaut.
 // While Vengeance Seeker converts pain into retribution and Shadowblade hunts from
-// stealth, the Monolith becomes an unbreakable battlefield fixture: Vengeance Points
+// stealth, the Monolith becomes an unbreakable battlefield fixture: Tension
 // calcify into layered iron armor, tethered prey cannot move it, and chokepoints
 // belong to it alone. Immovable by choice, catastrophic to approach.
 //
@@ -26,7 +26,7 @@ export const WARDEN_MONOLITH = [
     requires: null,
     spell: {
       name: "Ossified Anchor",
-      description: "Passive: Whenever you spend Vengeance Points (VP), convert the spent amount into temporary Calcified Armor at a 1:1 ratio (max +5 Damage Reduction). Calcified Armor decays by 2 at the start of each of your turns. While you have any Calcified Armor, you cannot benefit from Dodge.",
+      description: "Passive: Whenever you spend Tension (VP), convert the spent amount into temporary Calcified Armor at a 1:1 ratio (max +5 Damage Reduction). Calcified Armor decays by 2 at the start of each of your turns. While you have any Calcified Armor, you cannot benefit from Dodge.",
       flavorText: "Pain is just ore that hasn't set yet.",
       source: "talent", class: "Warden", treeId: "monolith",
       spellType: "PASSIVE", category: "buff",
@@ -65,7 +65,7 @@ export const WARDEN_MONOLITH = [
     requires: null,
     spell: {
       name: "Chain Weight",
-      description: "Spend 1 AP: Swing your grafted chain mass in a crushing overhead blow within 15 feet: 1d8+STR smashing damage and the target's movement speed is reduced by 15 feet until the end of its next turn. Gain 1 Vengeance Point on hit.",
+      description: "Spend 1 AP: Swing your grafted chain mass in a crushing overhead blow within 15 feet: 1d8+STR smashing damage and the target's movement speed is reduced by 15 feet until the end of its next turn. Gain 1 Tension on hit.",
       flavorText: "Some chains are worn. This one is thrown.",
       source: "talent", class: "Warden", treeId: "monolith",
       spellType: "ACTIVE", category: "damage",
@@ -94,7 +94,7 @@ export const WARDEN_MONOLITH = [
     requires: "wm_t1_ossified_anchor",
     spell: {
       name: "Iron Brace",
-      description: "REACTION — When targeted by an attack, brace your grafted chains: gain +2 DR against the triggering attack. Whether it hits or misses, gain 1 Vengeance Point.",
+      description: "REACTION — When targeted by an attack, brace your grafted chains: gain +2 DR against the triggering attack. Whether it hits or misses, gain 1 Tension.",
       flavorText: "Brace. Breathe. Bank.",
       source: "talent", class: "Warden", treeId: "monolith",
       spellType: "REACTION", category: "defense",
@@ -107,7 +107,7 @@ export const WARDEN_MONOLITH = [
     },
     rankUpgrades: [
       { description: "DR bonus increases to +3." },
-      { description: "DR bonus increases to +4 and gain 2 Vengeance Points instead of 1." }
+      { description: "DR bonus increases to +4 and gain 2 Tension instead of 1." }
     ]
   },
   {
@@ -176,7 +176,7 @@ export const WARDEN_MONOLITH = [
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "round",
-      resourceCosts: { vengeance_points: { baseAmount: 2 } },
+      resourceCosts: { tension: { baseAmount: 2 } },
       durationConfig: { durationType: "rounds", durationValue: 1, durationUnit: "round" },
       visualTheme: "iron", tags: ["stance", "defense", "vp-cost", "penitent", "warden"]
     },
@@ -203,7 +203,7 @@ export const WARDEN_MONOLITH = [
       targetingMode: "single", rangeType: "ranged", range: 60, targetRestrictions: ["tethered-enemy"],
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "round",
-      resourceCosts: { vengeance_points: { baseAmount: 3 } },
+      resourceCosts: { tension: { baseAmount: 3 } },
       saveType: "fortitude",
       damageTypes: ["smashing"],
       primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
@@ -211,7 +211,7 @@ export const WARDEN_MONOLITH = [
     },
     rankUpgrades: [
       { description: "Deals 3d8 smashing damage; the slam also staggers (loses 1 AP next turn).", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
-      { description: "Drag distance increases to 15 feet and you gain 2 Vengeance Points when this ability hits." }
+      { description: "Drag distance increases to 15 feet and you gain 2 Tension when this ability hits." }
     ]
   },
   {
@@ -278,7 +278,7 @@ export const WARDEN_MONOLITH = [
       targetingMode: "single", rangeType: "ranged", range: 30, targetRestrictions: ["enemy"],
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "long", cooldownValue: 5, cooldownUnit: "round",
-      resourceCosts: { vengeance_points: { baseAmount: 6 } },
+      resourceCosts: { tension: { baseAmount: 6 } },
       durationConfig: { durationType: "rounds", durationValue: 2, durationUnit: "round" },
       saveType: "spirit",
       visualTheme: "iron", tags: ["control", "cage", "teleport-block", "vp-cost", "signature", "warden"]
@@ -307,7 +307,7 @@ export const WARDEN_MONOLITH = [
     },
     rankUpgrades: [
       { description: "Threshold drops to 3 points of Calcified Armor; you additionally count as one size larger for blocking corridors." },
-      { description: "Whenever you would lose Calcified Armor to decay while above the threshold, gain 1 Vengeance Point instead." }
+      { description: "Whenever you would lose Calcified Armor to decay while above the threshold, gain 1 Tension instead." }
     ]
   },
   {
@@ -347,7 +347,7 @@ export const WARDEN_MONOLITH = [
       targetingMode: "aoe", rangeType: "self-centered", range: 10,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "long", cooldownValue: 4, cooldownUnit: "round",
-      resourceCosts: { vengeance_points: { baseAmount: 4 } },
+      resourceCosts: { tension: { baseAmount: 4 } },
       saveType: "reflex",
       damageTypes: ["smashing"],
       primaryDamage: { dice: "4d6", flat: 0, procChance: 100 },
@@ -377,7 +377,7 @@ export const WARDEN_MONOLITH = [
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "once_per_combat", cooldownValue: 1, cooldownUnit: "combat",
-      resourceCosts: { vengeance_points: { baseAmount: 8 } },
+      resourceCosts: { tension: { baseAmount: 8 } },
       durationConfig: { durationType: "rounds", durationValue: 3, durationUnit: "round" },
       visualTheme: "iron", tags: ["capstone", "transformation", "immunity", "interception", "vp-cost", "signature", "warden"]
     },

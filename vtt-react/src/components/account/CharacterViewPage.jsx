@@ -41,6 +41,39 @@ const CharacterViewPage = () => {
   const [openVialPopup, setOpenVialPopup] = useState(null); // 'health' | 'mana' | 'actionPoints' | 'exhaustion' | null
   const [headerToast, setHeaderToast] = useState(null);
   const vialPopupRef = React.useRef(null);
+  const tabsRibbonRef = React.useRef(null);
+  const closeDropdownTimerRef = React.useRef(null);
+
+  const scheduleCloseDropdown = () => {
+    if (closeDropdownTimerRef.current) clearTimeout(closeDropdownTimerRef.current);
+    closeDropdownTimerRef.current = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 220);
+  };
+
+  const cancelCloseDropdown = () => {
+    if (closeDropdownTimerRef.current) {
+      clearTimeout(closeDropdownTimerRef.current);
+      closeDropdownTimerRef.current = null;
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (closeDropdownTimerRef.current) clearTimeout(closeDropdownTimerRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!openDropdown) return;
+    const handlePointerDownOutside = (e) => {
+      if (tabsRibbonRef.current && !tabsRibbonRef.current.contains(e.target)) {
+        setOpenDropdown(null);
+      }
+    };
+    document.addEventListener('pointerdown', handlePointerDownOutside);
+    return () => document.removeEventListener('pointerdown', handlePointerDownOutside);
+  }, [openDropdown]);
 
   // Auto-dismiss header toast
   useEffect(() => {
@@ -76,6 +109,7 @@ const CharacterViewPage = () => {
     loadCharacter,
     name,
     class: characterClass,
+    primarySpecialization,
     race,
     subrace,
     level,
@@ -200,11 +234,15 @@ const CharacterViewPage = () => {
       icon: 'fas fa-sitemap',
       subSections: [
         ...(characterClass && CLASS_SPECIALIZATIONS[characterClass]
-          ? CLASS_SPECIALIZATIONS[characterClass].specializations.map((spec, idx) => ({
-              id: `tree_${idx}`,
-              label: spec.name,
-              icon: 'fas fa-tree'
-            }))
+          ? CLASS_SPECIALIZATIONS[characterClass].specializations.map((spec, idx) => {
+              const isPrimary = primarySpecialization === spec.id;
+              return {
+                id: `tree_${idx}`,
+                label: isPrimary ? `${spec.name} ⭐` : spec.name,
+                icon: isPrimary ? 'fas fa-crown' : 'fas fa-tree',
+                isPrimary
+              };
+            })
           : [
               { id: 'tree_0', label: 'Tree 1', icon: 'fas fa-tree' },
               { id: 'tree_1', label: 'Tree 2', icon: 'fas fa-tree' },
@@ -700,7 +738,7 @@ const CharacterViewPage = () => {
       </header>
 
       {/* Tab Navigation Ribbon: responsive fantasy tabs with dropdowns */}
-      <nav className="character-view-tabs-ribbon">
+      <nav className="character-view-tabs-ribbon" ref={tabsRibbonRef}>
         <div className="character-view-tabs-track">
           {Object.entries(characterSections).map(([key, section]) => {
             const isActive = activeTab === key;
@@ -711,7 +749,13 @@ const CharacterViewPage = () => {
               <div
                 key={key}
                 className={`char-tab-wrapper tab-${key}`}
-                onMouseLeave={() => setOpenDropdown(null)}
+                onMouseEnter={() => {
+                  cancelCloseDropdown();
+                  if (hasSubSections) {
+                    setOpenDropdown(key);
+                  }
+                }}
+                onMouseLeave={scheduleCloseDropdown}
               >
                 <button
                   className={`char-tab-btn ${isActive ? 'active' : ''}`}
@@ -724,7 +768,6 @@ const CharacterViewPage = () => {
                       setOpenDropdown(null);
                     }
                   }}
-                  onMouseEnter={() => hasSubSections && setOpenDropdown(key)}
                   aria-expanded={isDropdownOpen}
                 >
                   <i className={`${section.icon} char-tab-icon`}></i>
@@ -737,100 +780,123 @@ const CharacterViewPage = () => {
                 </button>
 
                 {isDropdownOpen && section.subSections && (
-                  <div className="char-tab-dropdown-menu">
-                    {section.subSections.map(sub => {
-                      const hasNestedSkills = key === 'skills' && section.skillItems?.[sub.id];
-                      const isCategoryHovered = hoveredSkillCategory === sub.id;
-                      const isSubActive = activeTab === key && (
-                        (key === 'lore' && activeLoreSection === sub.id) ||
-                        (key === 'character' && activeInfoSection === sub.id) ||
-                        (key === 'stats' && activeStatGroup === sub.id) ||
-                        (key === 'skills' && activeSkillCategory === sub.id && (!selectedSkillId || !hasNestedSkills)) ||
-                        (key === 'talents' && (
-                          (sub.id === 'summary' && activeTalentTree === 3) ||
-                          (sub.id === `tree_${activeTalentTree}`)
-                        )) ||
-                        (key === 'inventory' && (
-                          (sub.id === 'equipment' && activeTab === 'inventory') ||
-                          (sub.id !== 'equipment' && activeTab === sub.id)
-                        ))
-                      );
+                  <div
+                    className="char-tab-dropdown-menu char-tab-dropdown-menu-scrollable"
+                    onMouseEnter={cancelCloseDropdown}
+                    onMouseLeave={scheduleCloseDropdown}
+                  >
+                    {key === 'skills' ? (
+                      // Sectioned scrollable dropdown for Skills
+                      section.subSections.map(sub => {
+                        const skillsForCat = section.skillItems?.[sub.id] || [];
+                        const isCatActive = activeTab === 'skills' && activeSkillCategory === sub.id;
 
-                      return (
-                        <div
-                          key={sub.id}
-                          className="char-dropdown-item-wrapper"
-                          onMouseEnter={() => hasNestedSkills && setHoveredSkillCategory(sub.id)}
-                          onMouseLeave={() => hasNestedSkills && setHoveredSkillCategory(null)}
-                        >
-                          <button
-                            type="button"
-                            className={`char-dropdown-item ${isSubActive ? 'active' : ''}`}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              if (key === 'lore') {
-                                setActiveTab(key);
-                                setActiveLoreSection(sub.id);
-                              } else if (key === 'character') {
-                                setActiveTab(key);
-                                setActiveInfoSection(sub.id);
-                              } else if (key === 'stats') {
-                                setActiveTab(key);
-                                setActiveStatGroup(sub.id);
-                              } else if (key === 'skills') {
-                                setActiveTab(key);
+                        return (
+                          <div key={sub.id} className="char-dropdown-section">
+                            <div
+                              className={`char-dropdown-section-header ${isCatActive ? 'active' : ''}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setActiveTab('skills');
                                 setActiveSkillCategory(sub.id);
-                                setSelectedSkillId(null);
-                              } else if (key === 'talents') {
-                                setActiveTab('talents');
-                                if (sub.id === 'summary') {
-                                  setActiveTalentTree(3);
-                                } else {
-                                  const idx = parseInt(sub.id.replace('tree_', ''), 10);
-                                  setActiveTalentTree(isNaN(idx) ? 0 : idx);
+                                if (skillsForCat.length > 0) {
+                                  setSelectedSkillId(skillsForCat[0].id);
                                 }
-                              } else if (key === 'inventory') {
-                                if (sub.id === 'equipment') {
-                                  setActiveTab('inventory');
-                                } else {
-                                  setActiveTab(sub.id);
-                                }
-                              }
-                              setOpenDropdown(null);
-                            }}
-                          >
-                            <i className={`${sub.icon} char-dropdown-icon`}></i>
-                            <span className="char-dropdown-text">{sub.label}</span>
-                            {hasNestedSkills && (
-                              <i className="fas fa-chevron-right char-submenu-chevron"></i>
-                            )}
-                          </button>
-                          {hasNestedSkills && isCategoryHovered && (
-                            <div className="char-tab-dropdown-submenu">
-                              {section.skillItems[sub.id].map(skill => (
-                                <button
-                                  key={skill.id}
-                                  type="button"
-                                  className={`char-dropdown-item char-skill-item ${
-                                    (activeTab === 'skills' && activeSkillCategory === sub.id && selectedSkillId === skill.id) ? 'active' : ''
-                                  }`}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setActiveTab('skills');
-                                    setActiveSkillCategory(sub.id);
-                                    setSelectedSkillId(skill.id);
-                                    setOpenDropdown(null);
-                                  }}
-                                >
-                                  <i className={`${skill.icon} char-dropdown-icon`}></i>
-                                  <span className="char-dropdown-text">{skill.label}</span>
-                                </button>
-                              ))}
+                                setOpenDropdown(null);
+                              }}
+                              title={`View ${sub.label}`}
+                            >
+                              <i className={`${sub.icon} char-dropdown-icon`}></i>
+                              <span className="char-dropdown-section-title">{sub.label}</span>
+                              <span className="char-dropdown-section-count">({skillsForCat.length})</span>
                             </div>
-                          )}
-                        </div>
-                      );
-                    })}
+                            <div className="char-dropdown-section-items">
+                              {skillsForCat.map(skill => {
+                                const isSkillActive =
+                                  activeTab === 'skills' &&
+                                  activeSkillCategory === sub.id &&
+                                  selectedSkillId === skill.id;
+
+                                return (
+                                  <button
+                                    key={skill.id}
+                                    type="button"
+                                    className={`char-dropdown-item char-skill-item ${isSkillActive ? 'active' : ''}`}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setActiveTab('skills');
+                                      setActiveSkillCategory(sub.id);
+                                      setSelectedSkillId(skill.id);
+                                      setOpenDropdown(null);
+                                    }}
+                                  >
+                                    <i className={`${skill.icon} char-dropdown-icon`}></i>
+                                    <span className="char-dropdown-text">{skill.label}</span>
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      // Standard section dropdowns (Lore, Info, Stats, Talents, Inventory)
+                      section.subSections.map(sub => {
+                        const isSubActive = activeTab === key && (
+                          (key === 'lore' && activeLoreSection === sub.id) ||
+                          (key === 'character' && activeInfoSection === sub.id) ||
+                          (key === 'stats' && activeStatGroup === sub.id) ||
+                          (key === 'talents' && (
+                            (sub.id === 'summary' && activeTalentTree === 3) ||
+                            (sub.id === `tree_${activeTalentTree}`)
+                          )) ||
+                          (key === 'inventory' && (
+                            (sub.id === 'equipment' && activeTab === 'inventory') ||
+                            (sub.id !== 'equipment' && activeTab === sub.id)
+                          ))
+                        );
+
+                        return (
+                          <div key={sub.id} className="char-dropdown-item-wrapper">
+                            <button
+                              type="button"
+                              className={`char-dropdown-item ${isSubActive ? 'active' : ''}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (key === 'lore') {
+                                  setActiveTab(key);
+                                  setActiveLoreSection(sub.id);
+                                } else if (key === 'character') {
+                                  setActiveTab(key);
+                                  setActiveInfoSection(sub.id);
+                                } else if (key === 'stats') {
+                                  setActiveTab(key);
+                                  setActiveStatGroup(sub.id);
+                                } else if (key === 'talents') {
+                                  setActiveTab('talents');
+                                  if (sub.id === 'summary') {
+                                    setActiveTalentTree(3);
+                                  } else {
+                                    const idx = parseInt(sub.id.replace('tree_', ''), 10);
+                                    setActiveTalentTree(isNaN(idx) ? 0 : idx);
+                                  }
+                                } else if (key === 'inventory') {
+                                  if (sub.id === 'equipment') {
+                                    setActiveTab('inventory');
+                                  } else {
+                                    setActiveTab(sub.id);
+                                  }
+                                }
+                                setOpenDropdown(null);
+                              }}
+                            >
+                              <i className={`${sub.icon} char-dropdown-icon`}></i>
+                              <span className="char-dropdown-text">{sub.label}</span>
+                            </button>
+                          </div>
+                        );
+                      })
+                    )}
                   </div>
                 )}
               </div>

@@ -311,118 +311,162 @@ const FamilyTreeStudio = () => {
     <div className="family-tree-studio-overlay">
       {/* Studio Header Toolbar */}
       <header className="family-tree-header">
-        <div className="header-left">
-          <div className="header-icon-box">
-            <i className="fas fa-sitemap"></i>
-          </div>
-          <div className="tree-selector-container">
-            <select
-              className="tree-select"
-              value={activeTree?.id || ''}
-              onChange={(e) => setActiveTree(e.target.value)}
-            >
-              {trees.map(t => (
-                <option key={t.id} value={t.id}>
-                  {t.name} ({t.nodes.length} Members)
-                </option>
-              ))}
-            </select>
+        <div className="header-primary-row">
+          <div className="header-left">
             <button
               type="button"
-              className="btn-studio-action btn-new-tree"
-              onClick={() => {
-                setNewTreeName('');
-                setNewTreeDesc('');
-                setShowCreateTreeModal(true);
-              }}
-              title="Create a new dynasty family tree"
+              className="btn-studio-action btn-back-studio"
+              onClick={closeStudio}
+              title="Exit Family Tree Studio"
             >
-              <i className="fas fa-plus"></i>
-              <span>New Dynasty</span>
+              <i className="fas fa-arrow-left"></i>
+              <span className="btn-label">Exit</span>
             </button>
-            {activeTree && (
+            <div className="header-icon-box" title="Dynasty Lineage Studio">
+              <i className="fas fa-sitemap"></i>
+            </div>
+            <div className="tree-selector-container">
+              <select
+                className="tree-select"
+                value={activeTree?.id || ''}
+                onChange={(e) => setActiveTree(e.target.value)}
+                disabled={trees.length === 0}
+                title={activeTree ? activeTree.name : 'No dynasty selected'}
+              >
+                {trees.length === 0 ? (
+                  <option value="">No Dynasty</option>
+                ) : (
+                  trees.map(t => (
+                    <option key={t.id} value={t.id}>
+                      {t.name} ({t.nodes.length} {t.nodes.length === 1 ? 'Member' : 'Members'})
+                    </option>
+                  ))
+                )}
+              </select>
               <button
                 type="button"
-                className="btn-studio-action btn-delete-tree"
-                onClick={async () => {
-                  const confirmed = await showConfirm({
-                    title: 'Delete Dynasty Family Tree',
-                    message: `Are you sure you want to delete the dynasty tree "${activeTree.name}"?`,
-                    subMessage: 'All members, generations, and lineage relationships in this family tree will be permanently removed.',
-                    confirmText: 'Delete Dynasty',
-                    cancelText: 'Cancel',
-                    isDestructive: true
-                  });
-                  if (confirmed) {
-                    deleteTree(activeTree.id);
-                    syncToCloud(user?.uid);
-                  }
+                className="btn-studio-action btn-new-tree"
+                onClick={() => {
+                  setNewTreeName('');
+                  setNewTreeDesc('');
+                  setShowCreateTreeModal(true);
                 }}
-                title="Delete this dynasty family tree"
+                title="Create a new dynasty family tree"
               >
-                <i className="fas fa-trash-alt"></i>
-                <span>Delete Dynasty</span>
+                <i className="fas fa-plus"></i>
+                <span className="btn-label">New Dynasty</span>
+              </button>
+              {activeTree && (
+                <button
+                  type="button"
+                  className="btn-studio-action btn-delete-tree"
+                  onClick={async () => {
+                    const confirmed = await showConfirm({
+                      title: 'Delete Dynasty Family Tree',
+                      message: `Are you sure you want to delete the dynasty tree "${activeTree.name}"?`,
+                      subMessage: 'All members, generations, and lineage relationships in this family tree will be permanently removed.',
+                      confirmText: 'Delete Dynasty',
+                      cancelText: 'Cancel',
+                      isDestructive: true
+                    });
+                    if (confirmed) {
+                      deleteTree(activeTree.id);
+                      syncToCloud(user?.uid);
+                    }
+                  }}
+                  title="Delete this dynasty family tree"
+                >
+                  <i className="fas fa-trash-alt"></i>
+                  <span className="btn-label">Delete Dynasty</span>
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Search Bar (Desktop) */}
+          <div className="header-search-container desktop-search">
+            <i className="fas fa-search search-icon"></i>
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search family member, title, or role..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                className="btn-clear-search"
+                onClick={() => setSearchQuery('')}
+                title="Clear search"
+              >
+                <i className="fas fa-times"></i>
               </button>
             )}
           </div>
-        </div>
 
-        {/* Search Bar */}
-        <div className="header-search-container">
-          <i className="fas fa-search search-icon"></i>
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search family member, title, or role..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          {searchQuery && (
+          {/* Action Controls */}
+          <div className="header-right">
+            {activeTree && (
+              <>
+                <button
+                  type="button"
+                  className="btn-studio-action btn-add-member"
+                  onClick={() => openMemberEditor(null, 1)}
+                  title="Add a new member to this dynasty"
+                >
+                  <i className="fas fa-user-plus"></i>
+                  <span className="btn-label">Add Member</span>
+                </button>
+
+                <button
+                  type="button"
+                  className="btn-studio-action btn-autolayout"
+                  onClick={() => {
+                    autoLayoutTree(activeTree.id);
+                    syncToCloud(user?.uid);
+                  }}
+                  title="Auto-arrange members into clean generation tiers"
+                >
+                  <i className="fas fa-wand-magic-sparkles"></i>
+                  <span className="btn-label">Auto-Arrange</span>
+                </button>
+              </>
+            )}
+
             <button
               type="button"
-              className="btn-clear-search"
-              onClick={() => setSearchQuery('')}
+              className="btn-studio-action btn-close-studio"
+              onClick={closeStudio}
+              title="Close Family Tree Studio"
             >
               <i className="fas fa-times"></i>
             </button>
-          )}
+          </div>
         </div>
 
-        {/* Action Controls */}
-        <div className="header-right">
-          <button
-            type="button"
-            className="btn-studio-action btn-add-member"
-            onClick={() => openMemberEditor(null, 1)}
-            title="Add a new member to this dynasty"
-          >
-            <i className="fas fa-user-plus"></i>
-            <span>Add Member</span>
-          </button>
-
-          <button
-            type="button"
-            className="btn-studio-action btn-autolayout"
-            onClick={() => {
-              if (activeTree) {
-                autoLayoutTree(activeTree.id);
-                syncToCloud(user?.uid);
-              }
-            }}
-            title="Auto-arrange members into clean generation tiers"
-          >
-            <i className="fas fa-wand-magic-sparkles"></i>
-            <span>Auto-Arrange</span>
-          </button>
-
-          <button
-            type="button"
-            className="btn-studio-action btn-close-studio"
-            onClick={closeStudio}
-            title="Close Family Tree Studio"
-          >
-            <i className="fas fa-times"></i>
-          </button>
+        {/* Mobile Search Bar Row */}
+        <div className="header-mobile-search-row">
+          <div className="header-search-container mobile-search">
+            <i className="fas fa-search search-icon"></i>
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search member, title, role..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                className="btn-clear-search"
+                onClick={() => setSearchQuery('')}
+                title="Clear search"
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            )}
+          </div>
         </div>
       </header>
 
@@ -466,19 +510,28 @@ const FamilyTreeStudio = () => {
               <i className="fas fa-sitemap" style={{ fontSize: '3rem', color: '#d4af37', marginBottom: '12px', opacity: 0.85, display: 'block' }}></i>
               <h3 style={{ fontFamily: 'Cinzel, serif', color: '#4a2711', margin: '0 0 8px 0', fontSize: '1.25rem' }}>No Dynasty Trees Found</h3>
               <p style={{ margin: '0 0 16px 0', fontSize: '0.9rem', maxWidth: '340px' }}>This dynasty was removed. Create a new dynasty family tree to track bloodlines.</p>
-              <button
-                type="button"
-                className="btn-studio-action btn-new-tree"
-                style={{ margin: '0 auto', display: 'inline-flex' }}
-                onClick={() => {
-                  setNewTreeName('');
-                  setNewTreeDesc('');
-                  setShowCreateTreeModal(true);
-                }}
-              >
-                <i className="fas fa-plus"></i>
-                <span>Forge New Dynasty</span>
-              </button>
+              <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                <button
+                  type="button"
+                  className="btn-studio-action btn-new-tree"
+                  onClick={() => {
+                    setNewTreeName('');
+                    setNewTreeDesc('');
+                    setShowCreateTreeModal(true);
+                  }}
+                >
+                  <i className="fas fa-plus"></i>
+                  <span>Forge New Dynasty</span>
+                </button>
+                <button
+                  type="button"
+                  className="btn-studio-action btn-back-studio"
+                  onClick={closeStudio}
+                >
+                  <i className="fas fa-arrow-left"></i>
+                  <span>Exit Studio</span>
+                </button>
+              </div>
             </div>
           )}
 

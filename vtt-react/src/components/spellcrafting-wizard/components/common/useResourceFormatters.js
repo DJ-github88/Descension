@@ -159,11 +159,11 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
       const drpTypes = ['drp'];
       const revenantTypes = ['bloodTokens', 'ascension_required', 'deathToll'];
 
-      // List of Apex Quarry Mark types to skip (handled separately below)
-      const quarryMarkTypes = ['quarry_marks', 'quarry_marks_generate', 'quarry_marks_cost'];
+      // List of Apex Mark types to skip (handled separately below)
+      const quarryMarkTypes = ['marks', 'quarry_marks_generate', 'quarry_marks_cost'];
 
-      // List of Warden Vengeance Point types to skip (handled separately below)
-      const vengeancePointTypes = ['vengeance_points', 'vengeance_points_generate', 'vengeance_points_cost'];
+      // List of Warden Tension types to skip (handled separately below)
+      const vengeancePointTypes = ['tension', 'vengeance_points_generate', 'vengeance_points_cost'];
 
       selectedTypes.forEach(type => {
         // Skip sphere types - they're handled separately below
@@ -221,12 +221,12 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
           return;
         }
 
-        // Skip Quarry Mark types - handled below
+        // Skip Mark types - handled below
         if (quarryMarkTypes.includes(type)) {
           return;
         }
 
-        // Skip Vengeance Point types - handled below
+        // Skip Tension types - handled below
         if (vengeancePointTypes.includes(type)) {
           return;
         }
@@ -921,12 +921,12 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
       });
     }
 
-    // Add Apex Quarry Marks (generate/cost)
+    // Add Apex Marks (generate/cost)
     if (spell.resourceCost && spell.resourceCost.resourceTypes) {
       const quarryMarkMap = {
-        'quarry_marks_generate': { name: 'Quarry Marks', color: '#8B4513', icon: faCrosshairs, sign: '+' },
-        'quarry_marks_cost': { name: 'Quarry Marks', color: '#8B4513', icon: faCrosshairs, sign: '' },
-        'quarry_marks': { name: 'Quarry Marks', color: '#8B4513', icon: faCrosshairs, sign: '' }
+        'quarry_marks_generate': { name: 'Marks', color: '#8B4513', icon: faCrosshairs, sign: '+' },
+        'quarry_marks_cost': { name: 'Marks', color: '#8B4513', icon: faCrosshairs, sign: '' },
+        'marks': { name: 'Marks', color: '#8B4513', icon: faCrosshairs, sign: '' }
       };
 
       spell.resourceCost.resourceTypes.forEach(type => {
@@ -949,12 +949,12 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
       });
     }
 
-    // Add Warden Vengeance Points (generate/cost)
+    // Add Warden Tension (generate/cost)
     if (spell.resourceCost && spell.resourceCost.resourceTypes) {
       const vengeancePointMap = {
-        'vengeance_points_generate': { name: 'Vengeance Points', color: '#8B0000', icon: faBalanceScale, sign: '+' },
-        'vengeance_points_cost': { name: 'Vengeance Points', color: '#8B0000', icon: faBalanceScale, sign: '' },
-        'vengeance_points': { name: 'Vengeance Points', color: '#8B0000', icon: faBalanceScale, sign: '' }
+        'vengeance_points_generate': { name: 'Tension', color: '#8B0000', icon: faBalanceScale, sign: '+' },
+        'vengeance_points_cost': { name: 'Tension', color: '#8B0000', icon: faBalanceScale, sign: '' },
+        'tension': { name: 'Tension', color: '#8B0000', icon: faBalanceScale, sign: '' }
       };
 
       spell.resourceCost.resourceTypes.forEach(type => {

@@ -30,10 +30,10 @@ The goal is to sharpen the identity, flair, and ability concepts of all 20 exist
 | Xoroth / Burning Legion | Scathrach (Pyrofiend's demon-parasite) |
 | Blood magic / viscera | Sanguine exertion, metabolic strain, kinetic overdrive |
 | Holy Light paladin | Ember-wielding crusader / Martyr theology |
-| Spirit / Loa | Ancestral Resonance, animistic totemic forces |
+| Spirit / Loa | Resonance, animistic totemic forces |
 | Hex / Voodoo | Primal binding, ancestral curse-weaving |
-| Necromancy | Blight-channeling, Death Toll resource, spectral binding |
-| Rune magic / Inscription | Runic inscription, Ancestral Resonance runes |
+| Necromancy | Blight-channeling, Toll resource, spectral binding |
+| Rune magic / Inscription | Runic inscription, Resonance runes |
 | Worgen curse / San'layn | Sanguine transformation, metabolic feral state |
 | Vrykul ancestry | Ancestral spirit-channeling, totemic lineage |
 
@@ -95,7 +95,7 @@ CoA gives each class a *first combat hook*: Necromancer raises a skeleton, Tinke
 
 | Mythrill Class | Signature First Moment |
 |---|---|
-| Berserker | Your first killing blow sends blood-spray in an arc  -  gain +2 Blood-Heat instantly. |
+| Berserker | Your first killing blow sends blood-spray in an arc  -  gain +2 Rage instantly. |
 | Apex | Your glaive ricochets off your first target and clips a second. Your companion finishes it. |
 | Revenant | Your first death (from a rat, whatever) triggers Death Shroud  -  you rise, frost covers the ground. |
 | Arcanoneer | Your first sphere-combo triggers: two Ember spheres produce a fire burst that catches your target. |
@@ -103,7 +103,7 @@ CoA gives each class a *first combat hook*: Necromancer raises a skeleton, Tinke
 | Pyrofiend | Your first spell ignites a patch of ground that burns for 1 round after. |
 | Inquisitor | Your first demon binds  -  a tiny Minor wretch that nibbles your enemy's ankles. |
 | Animist | Your first totem pulses  -  healing or damage, depending on placement. |
-| False Prophet | Your first sermon  -  1 random Madness Point, and the enemy flinches. |
+| False Prophet | Your first sermon  -  1 random Madness, and the enemy flinches. |
 | Minstrel | Your first cadence  -  2 random notes appear in your gauge. |
 | Gambit | Your first Lucky Strike  -  the die lands on 20, the table gasps. |
 | Martyr | Your first Intervene  -  you take 3 damage meant for an ally. The party looks at you sideways. |
@@ -233,12 +233,12 @@ The **Son of Arugal** is a CoA class built around the Worgen curse  -  a constan
 
 | Son of Arugal Spec | Thematic Core | Mythrill Class(es) That Can Borrow This Flavor |
 |---|---|---|
-| Ferocity | Build rage in caster form, transform into Worgen for savage melee | **Berserker**  -  the caster→feral transformation mirrors Blood-Heat building toward a high-heat state |
+| Ferocity | Build rage in caster form, transform into Worgen for savage melee | **Berserker**  -  the caster→feral transformation mirrors Rage building toward a high-heat state |
 | Blood | San'layn blood magic  -  HP as resource, blood bombs, life siphons | **Martyr / Revenant**  -  HP-as-resource identity, sanguine drains |
 | Packleader | Permanent worgen form + summon shadow wolf pack on damage/kills | **Apex** (Beastmaster)  -  companion-summoning from combat momentum |
 | Fleshweaver | Blood healing  -  pool Vitality from self-harm to fuel massive party heals | **Martyr** (Redemption)  -  convert personal suffering into party recovery |
 
-**Key flavor extraction**: The Worgen curse as a *class resource pendulum*  -  players start as a caster, build a resource (Rage), then transform into a melee beast with a new ability set. This mechanic could enrich Berserker's Blood-Heat: once Blood-Heat hits 100, you "transform" (enter Overdrive) with a different ability bar for 2 rounds.
+**Key flavor extraction**: The Worgen curse as a *class resource pendulum*  -  players start as a caster, build a resource (Rage), then transform into a melee beast with a new ability set. This mechanic could enrich Berserker's Rage: once Rage hits 100, you "transform" (enter Overdrive) with a different ability bar for 2 rounds.
 
 ---
 
@@ -333,7 +333,7 @@ Each entry follows this structure:
 - **Identity tighten**: You do not cast directly  -  you *inscribe your allies' weapons with fury*. Your damage comes through them.
 - **Flair upgrade**: Inscribed weapons glow with blue-white runes that pulse with the ally's heartbeat. Healing totems hum at a frequency that vibrates in the teeth.
 - **Ability concept  -  Stormbrand Transfer**: When an ally kills an enemy with an inscribed weapon, the Stormbrand jumps to a nearby enemy. Track the chain; each jump reduces damage by 1d4 but costs no resonance.
-- **Ability concept  -  Galvanic Overcharge**: Overcharge your Storm Totem. For 2 rounds, it deals +2d6 lightning, deals 1d6 to you per round, and generates +2 Ancestral Resonance per pulse. High risk, high generation.
+- **Ability concept  -  Galvanic Overcharge**: Overcharge your Storm Totem. For 2 rounds, it deals +2d6 lightning, deals 1d6 to you per round, and generates +2 Resonance per pulse. High risk, high generation.
 - **Ability concept  -  Inscribe: Fleet-Sigil**: Inscribe an ally's boots. For 3 rounds, they gain +15ft speed and leave a lightning trail that damages pursuers.
 
 ---
@@ -366,9 +366,9 @@ Each entry follows this structure:
 
 **Beastmaster**  -  *The Pack Leader*
 - **Identity tighten**: You and your companion are one combatant split across two bodies. The companion is not a pet  -  it is *your other half*.
-- **Flair upgrade**: Your companion shares your resource bar  -  it glows when you have Quarry Marks, and its attacks mirror your last glaive throw.
+- **Flair upgrade**: Your companion shares your resource bar  -  it glows when you have Marks, and its attacks mirror your last glaive throw.
 - **Ability concept  -  Coordinated Volley**: You throw your glaive at one target; your companion attacks a different target simultaneously. Both attacks roll separately but share your damage bonus pool.
-- **Ability concept  -  Pack Bond**: Your companion can take one Quarry Mark from you. While it holds the mark, both you and the companion deal +1d6 to the marked target.
+- **Ability concept  -  Pack Bond**: Your companion can take one Mark from you. While it holds the mark, both you and the companion deal +1d6 to the marked target.
 - **Ability concept  -  Feral Rescue**: When an ally within 15ft would take damage, your companion can intercept, taking the damage instead. Companion cannot use this again until after your next turn.
 
 **Shadowblade**  -  *The Silent Tracker*
@@ -428,7 +428,7 @@ Each entry follows this structure:
 **Current 3 Specs**:
 | Spec | Theme | Playstyle |
 |---|---|---|
-| Savage | Hemorrhagic Ruin | Fast Blood-Heat, execute scaling below 30% HP |
+| Savage | Hemorrhagic Ruin | Fast Rage, execute scaling below 30% HP |
 | Juggernaut | Calloused Husk | Convert damage to barriers, slower decay |
 | Warlord | Tyrannical Dirge | Tactical support, AoE roars, team-wide frenzy |
 
@@ -442,14 +442,14 @@ Each entry follows this structure:
 
 **Savage**  -  *The Unstoppable Executioner*
 - **Identity tighten**: You do not defend. You do not retreat. Every hit you take makes your next hit harder. You are a *transaction engine* trading HP for damage.
-- **Flair upgrade**: As Blood-Heat rises, your skin smokes. At high heat, your eyes bleed light.
-- **Ability concept  -  Flesh Toll Pact**: Permanently reduce your max HP by 5. In exchange, your Blood-Heat cap is 120 instead of 100. At 100+ heat, every attack costs 1d4 HP but deals +2d8 unresistable physical.
-- **Ability concept  -  Execute Threshold**: Below 30% HP, your Rending Throw (ranged axe) deals +3d6 bleed and returns to your hand. If it kills, you regain 1d6 HP and 10 Blood-Heat.
-- **Ability concept  -  Reckless Overdrive**: Spend one action to double your Blood-Heat generation for 2 rounds. During this time, you cannot dodge and all attacks against you have advantage.
+- **Flair upgrade**: As Rage rises, your skin smokes. At high heat, your eyes bleed light.
+- **Ability concept  -  Flesh Toll Pact**: Permanently reduce your max HP by 5. In exchange, your Rage cap is 120 instead of 100. At 100+ heat, every attack costs 1d4 HP but deals +2d8 unresistable physical.
+- **Ability concept  -  Execute Threshold**: Below 30% HP, your Rending Throw (ranged axe) deals +3d6 bleed and returns to your hand. If it kills, you regain 1d6 HP and 10 Rage.
+- **Ability concept  -  Reckless Overdrive**: Spend one action to double your Rage generation for 2 rounds. During this time, you cannot dodge and all attacks against you have advantage.
 
 **Juggernaut**  -  *The Calcified Mountain*
 - **Identity tighten**: You do not die  -  you *petrify*. Each wound is a layer of armor. Each scar is a shield.
-- **Flair upgrade**: Grey-white calluses grow visibly thicker during combat. At high Blood-Heat, your silhouette becomes blockier, more stone-like.
+- **Flair upgrade**: Grey-white calluses grow visibly thicker during combat. At high Rage, your silhouette becomes blockier, more stone-like.
 - **Ability concept  -  Scar-Thickened Hide**: Every time you take damage and survive, gain +1 permanent DR for that combat (max 5). Resets when combat ends.
 - **Ability concept  -  Petrification Rush**: Charge forward 20ft. Enemies in your path take 2d6 physical and are pushed aside. You cannot be stopped during the charge.
 - **Ability concept  -  Ancestral Shell**: Your calcified skin absorbs one critical hit per combat, turning it into a normal hit. Recharges when you kill an enemy.
@@ -458,8 +458,8 @@ Each entry follows this structure:
 - **Identity tighten**: Your voice is a weapon. You scream, enemies falter. You roar, allies surge. You do not swing  -  you *command*.
 - **Flair upgrade**: Your voice has a physical presence  -  visible shockwaves on shouts, audible subsonic rumble on roars.
 - **Ability concept  -  Tyrant's Roar**: All enemies in 30ft make a Spirit save or are Frightened of you for 1 round. All allies in the same radius gain +1 to hit for 2 rounds.
-- **Ability concept  -  Blood Frenzy (point)**: Designate one ally within 30ft. They gain +10 Blood-Heat and +2d6 on their next attack. You take 1d6 recoil. Can target enemies at +1d6 cost to you (they take 1d6 wyrd instead).
-- **Ability concept  -  War-Leader's Exchange**: When an ally within 30ft is targeted by an attack, you can bellow to redirect it to yourself. Gain 15 Blood-Heat and DR 5 against that attack.
+- **Ability concept  -  Blood Frenzy (point)**: Designate one ally within 30ft. They gain +10 Rage and +2d6 on their next attack. You take 1d6 recoil. Can target enemies at +1d6 cost to you (they take 1d6 wyrd instead).
+- **Ability concept  -  War-Leader's Exchange**: When an ally within 30ft is targeted by an attack, you can bellow to redirect it to yourself. Gain 15 Rage and DR 5 against that attack.
 
 ---
 
@@ -513,7 +513,7 @@ Each entry follows this structure:
 
 **CoA Source**: Cultist (godblade / corruption / influence / dreadnought) + Felsworn (infernal / slayer / tyrant) + Blood Mage (eternal)
 
-**Class Mechanic: Insanity**  -  Cultists generate Insanity when using powerful abilities. Higher Insanity = more damage. Full Insanity = death (mind-shatter). Players must balance between high power and self-destruction. This is already Mythrill's Madness Points under a different name.
+**Class Mechanic: Insanity**  -  Cultists generate Insanity when using powerful abilities. Higher Insanity = more damage. Full Insanity = death (mind-shatter). Players must balance between high power and self-destruction. This is already Mythrill's Madness under a different name.
 
 **CoA Cultist sub-god pact flavor**  -  Each Cultist chooses an Old God (N'zoth, Y'Shaarj, C'thun, Yogg-Saron) which changes their abilities. This could translate to False Prophet choosing which aspect of Keth-Amar / the Voice they serve, granting different passive bonuses.
 
@@ -906,7 +906,7 @@ Each entry follows this structure:
 **CoA-Extracted Ideas**:
 - CoA's Necromancer "multi-pet command"  -  *multiple undead minions with tactical control*  -  is already Sanguine Harvest's spectral army. Lean into tactical minion micro: "Rally Specters"  -  all specters attack the same target.
 - CoA's Necromancer "Rhyme" spec  -  *runic necromancy, chant-based death magic*  -  is a flavor overlay for Frost Sovereign. The "freeze-shatter" loop becomes a "chant-death" loop: each spell is a verse, and the shatter is the final rhyme.
-- CoA's Reaper "Souls"  -  *soul resource as currency*  -  is already Death Toll. Give each spec a unique spend: Sanguine Harvest spends Death Toll for specters, Frost Sovereign for freeze duration, Phylactery Anchor for phylactery capacity.
+- CoA's Reaper "Souls"  -  *soul resource as currency*  -  is already Toll. Give each spec a unique spend: Sanguine Harvest spends Toll for specters, Frost Sovereign for freeze duration, Phylactery Anchor for phylactery capacity.
 - CoA's Blood Mage "Eternal"  -  *sustain through endless rebirth*  -  directly maps to Phylactery Anchor. Every death is a planned tactical event.
 
 **Spec Polish Proposals**:
@@ -914,7 +914,7 @@ Each entry follows this structure:
 **Sanguine Harvest**  -  *The Bleeding General*
 - **Identity tighten**: Your blood is a currency. Your specters are an army. You trade one for the other, and the battlefield is your treasury.
 - **Flair upgrade**: Your specters share your face  -  hollow-eyed, warped versions of you. When they attack, they mimic your last gesture.
-- **Ability concept  -  Blood Tithe**: Pay 1d6 HP to grant all active specters +2 to attack for 2 rounds. While the tithe is active, each specter kill refunds 1d4 HP. Death Toll generated by specter kills is shared with you.
+- **Ability concept  -  Blood Tithe**: Pay 1d6 HP to grant all active specters +2 to attack for 2 rounds. While the tithe is active, each specter kill refunds 1d4 HP. Toll generated by specter kills is shared with you.
 - **Ability concept  -  Sanguine Phalanx**: Specters you control within 15ft of you gain DR 2 and cannot be individually targeted (must target you or the phalanx as a group). The phalanx deals +1d6 on coordinated attacks.
 - **Ability concept  -  Crimson Harvest**: When you kill an enemy, you may choose: gain a specter (if under cap) or heal 2d6. If the kill was with a melee attack, do both.
 
@@ -922,15 +922,15 @@ Each entry follows this structure:
 - **Identity tighten**: You do not cast spells. You recite *verses of ending*. Each verse freezes your target a little more. The last verse shatters them.
 - **Flair upgrade**: Your spells have audible rhyme-schemes  -  each line of the "chant" is a different frost spell. The third verse always arrives faster.
 - **Ability concept  -  Verse of Hoarfrost**: Your first spell against a target applies Rime (frost vulnerability  -  they take +1d6 from your next frost spell). Your second spell freezes them for 1 round. Your third spell shatters them for 4d6 bonus damage. The rhyme resets if you target someone else.
-- **Ability concept  -  Chant of Unmaking**: In Death Shroud, your next 3 spells are cast with +1 dice and cost 1d4 HP less. The third shatters automatically on hit, refunding 1 Death Toll.
+- **Ability concept  -  Chant of Unmaking**: In Death Shroud, your next 3 spells are cast with +1 dice and cost 1d4 HP less. The third shatters automatically on hit, refunding 1 Toll.
 - **Ability concept  -  Permafrost Echo**: When a frozen enemy is killed, their corpse remains frozen for 2 rounds. Enemies moving within 5ft of the corpse are Slowed. You can detonate the corpse early for 2d6 frost in a 10ft radius.
 
 **Phylactery Anchor**  -  *The Unkillable Strategist*
 - **Identity tighten**: You have died before. You will die again. Each death is a planned tactical event. You are not afraid  -  you are *prepared*.
 - **Flair upgrade**: Your phylactery is visible as a faint glow beneath your skin. When it charges, it pulses with a slow, deliberate rhythm.
 - **Ability concept  -  Calculated Demise**: As a free action, designate a "death zone" within 20ft. If you die while within that zone, you resurrect there instantly with 50% of your phylactery's stored HP and freeze all enemies within 15ft for 1 round.
-- **Ability concept  -  Phylactery Transfer**: Store up to 5 HP in an allied creature. If they fall below 0 HP, the phylactery charge activates, healing them for 5 HP instead. Costs 10 Death Toll to set. The charge lasts until used or you rest.
-- **Ability concept  -  Death Toll Overcharge**: When your Death Toll is maxed (20), you may overcharge your phylactery. Until your next death, your spells deal +1d6 blight and your phylactery capacity is doubled. On death, you explode for 5d6 rime in a 20ft radius.
+- **Ability concept  -  Phylactery Transfer**: Store up to 5 HP in an allied creature. If they fall below 0 HP, the phylactery charge activates, healing them for 5 HP instead. Costs 10 Toll to set. The charge lasts until used or you rest.
+- **Ability concept  -  Toll Overcharge**: When your Toll is maxed (20), you may overcharge your phylactery. Until your next death, your spells deal +1d6 blight and your phylactery capacity is doubled. On death, you explode for 5d6 rime in a 20ft radius.
 
 ---
 
@@ -1046,7 +1046,7 @@ Each entry follows this structure:
 - **Flair upgrade**: Venomancer's veins are visibly green. When they bleed, the blood sizzles on the ground. Their touch leaves a faint green residue.
 - **Ability concept  -  Potent Rot**: Your blight DoTs also reduce the target's STR or CON by 1 per stage (your choice when you apply). This decay is permanent until the target rests. Max reduction: 5.
 - **Ability concept  -  Venom Cascade**: When a target with your poison is hit by a physical attack, the poison concentrates. Their next poison tick deals +2d6. Cascades can stack (max 3).
-- **Ability concept  -  Lethal Injection**: Melee-range application. The target takes 4d10 blight immediately and 2d10 per round for 3 rounds. DC 18 CON to halve initial damage and reduce DoT to 1d10. Costs 3 Toxin Vials.
+- **Ability concept  -  Lethal Injection**: Melee-range application. The target takes 4d10 blight immediately and 2d10 per round for 3 rounds. DC 18 CON to halve initial damage and reduce DoT to 1d10. Costs 3 Vials.
 
 **Gadgeteer**  -  *The Contraption Master*
 - **Identity tighten**: You build solutions to problems that do not exist yet. Your contraptions are not weapons  -  they are *answers* to questions like "what if there were a spike trap here?"

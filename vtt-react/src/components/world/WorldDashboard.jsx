@@ -36,36 +36,48 @@ const CLASS_ARCHETYPES = [
   {
     id: 'all',
     label: 'All Traditions (21)',
+    shortLabel: 'All',
+    count: 21,
     icon: 'fa-scroll',
     classIds: []
   },
   {
     id: 'martial',
     label: 'Martial Orders & Vanguard',
+    shortLabel: 'Martial',
+    count: 5,
     icon: 'fa-shield-halved',
     classIds: ['berserker', 'crusader', 'martyr', 'apex', 'spellguard']
   },
   {
     id: 'arcane',
     label: 'Arcane Academies & Weavers',
+    shortLabel: 'Arcane',
+    count: 4,
     icon: 'fa-wand-magic-sparkles',
     classIds: ['arcanoneer', 'chronarch', 'shaper', 'pyrofiend']
   },
   {
     id: 'primal',
     label: 'Primal Callings & Wardens',
+    shortLabel: 'Primal',
+    count: 4,
     icon: 'fa-tree',
     classIds: ['animist', 'warden', 'toxicologist', 'plaguebringer']
   },
   {
     id: 'shadow',
     label: 'Inquisitions & Shadow Syndicates',
+    shortLabel: 'Shadow',
+    count: 4,
     icon: 'fa-mask',
     classIds: ['inquisitor', 'gambit', 'revenant', 'minstrel']
   },
   {
     id: 'divine',
     label: 'Faiths, Oracles & Eldritch Pacts',
+    shortLabel: 'Divine',
+    count: 4,
     icon: 'fa-sun',
     classIds: ['augur', 'lunarch', 'false_prophet', 'harbinger']
   }
@@ -1227,20 +1239,6 @@ const WorldDashboard = () => {
           <div className="world-classes-tab">
             {/* Archetype & Search Toolbar */}
             <div className="world-classes-toolbar">
-              <div className="world-archetype-pills">
-                {CLASS_ARCHETYPES.map((arch) => (
-                  <button
-                    key={arch.id}
-                    type="button"
-                    className={`world-archetype-pill ${selectedClassArchetype === arch.id ? 'active' : ''}`}
-                    onClick={() => setSelectedClassArchetype(arch.id)}
-                  >
-                    <i className={`fas ${arch.icon}`} />
-                    <span>{arch.label}</span>
-                  </button>
-                ))}
-              </div>
-
               <div className="classes-search-box">
                 <i className="fas fa-search" />
                 <input
@@ -1250,10 +1248,28 @@ const WorldDashboard = () => {
                   onChange={(e) => setClassSearchFilter(e.target.value)}
                 />
                 {classSearchFilter && (
-                  <button className="btn-clear-search" onClick={() => setClassSearchFilter('')}>
+                  <button className="btn-clear-search" onClick={() => setClassSearchFilter('')} title="Clear search">
                     <i className="fas fa-times" />
                   </button>
                 )}
+              </div>
+
+              <div className="world-archetype-pills-scroll-wrapper">
+                <div className="world-archetype-pills">
+                  {CLASS_ARCHETYPES.map((arch) => (
+                    <button
+                      key={arch.id}
+                      type="button"
+                      className={`world-archetype-pill ${selectedClassArchetype === arch.id ? 'active' : ''}`}
+                      onClick={() => setSelectedClassArchetype(arch.id)}
+                    >
+                      <i className={`fas ${arch.icon}`} />
+                      <span className="pill-full-label">{arch.label}</span>
+                      <span className="pill-short-label">{arch.shortLabel}</span>
+                      <span className="pill-count-badge">{arch.count}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 

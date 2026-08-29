@@ -73,26 +73,26 @@ classes' resource schemas merged.
 
 | File | Class | Spells | Declared resource | Actual spell key | Status |
 |---|---|---|---|---|---|
-| animistData.js | Animist | **0** | Ancestral Resonance |  -  | **UNIMPLEMENTED** |
-| apexData.js | Apex | 35 | Quarry Marks (0-5) | `classResource:{type:'quarry_marks'}` | ✅ (31/35) |
+| animistData.js | Animist | **0** | Resonance |  -  | **UNIMPLEMENTED** |
+| apexData.js | Apex | 35 | Marks (0-5) | `classResource:{type:'marks'}` | ✅ (31/35) |
 | arcanoneerData.js | Arcanoneer | 33 | Elemental Spheres | `resourceValues:{arcane_sphere…}` | ✅ non-standard encoding |
 | augurData.js | Augur | 33 | Benediction / Malediction | `classResource:{type:'benediction'\|'malediction'}` | ✅ (24/32) |
-| berserkerData.js | Berserker | 23 | **Blood-Heat** | `classResource:{type:'rage'}` | ⚠️ **KEY MISMATCH** |
+| berserkerData.js | Berserker | 23 | **Rage** | `classResource:{type:'rage'}` | ⚠️ **KEY MISMATCH** |
 | chronarchData.js | Chronarch | 35 | Time Shards + Temporal Strain | `classResource:{type:'time_shards'}` | ⚠️ Temporal Strain not modeled |
 | falseProphetData.js | False Prophet | 37 | Madness (0-20) | `resourceGainConfig.resources` + `specialMechanics` | ⚠️ non-standard encoding |
-| gambitData.js | Gambit | 63 | Fortune + Karmic Debt | `classResource:{type:'fortune_points'}` (11) + `specialMechanics` | ⚠️ Karmic Debt not modeled |
+| gambitData.js | Gambit | 63 | Fortune + Karmic Debt | `classResource:{type:'fortune'}` (11) + `specialMechanics` | ⚠️ Karmic Debt not modeled |
 | harbingerData.js | Harbinger | 39 | Mayhem (0-100) | `classResource:{type:'mayhem'}` | ✅ (38/39) |
-| inquisitorData.js | Inquisitor | 19 | Righteous Authority | `classResource:{type:'righteousAuthority'}` | ⚠️ **camelCase key** |
+| inquisitorData.js | Inquisitor | 19 | Authority | `classResource:{type:'righteousAuthority'}` | ⚠️ **camelCase key** |
 | lunarchData.js | Lunarch | 28 | Lunar Phase cycle | none (phase is environmental) | ⚠️ no per-spell cost |
-| martyrData.js | Martyr | 32 | Devotion Gauge | top-level `devotionCost/Gain/Required` | ⚠️ non-standard encoding |
+| martyrData.js | Martyr | 32 | Devotion | top-level `devotionCost/Gain/Required` | ⚠️ non-standard encoding |
 | minstrelData.js | Minstrel | 41 | Musical Notes I-VII | `musicalCombo.generates[]` | ⚠️ non-standard encoding |
 | plaguebringerData.js | Plaguebringer | 33 | Virulence (0-100) | `classResource:{type:'virulence',gain}` | ✅ (29/32, gain-only) |
 | pyrofiendData.js | Pyrofiend | 35 | Inferno Veil (0-9) | `resourceValues:{inferno_ascend, inferno_required}` | ✅ non-standard encoding |
-| revenantData.js | Revenant | 10 | Death Toll + Phylactery | `resourceValues:{deathToll}` + health formula | ✅ tight coupling |
-| shaperData.js | Shaper | 16 | Kinetic Flux + Body Toll | `classResource:{type:'kinetic_flux'}` + top-level `bodyTollCost` | ✅ (14/15) |
+| revenantData.js | Revenant | 10 | Toll + Phylactery | `resourceValues:{deathToll}` + health formula | ✅ tight coupling |
+| shaperData.js | Shaper | 16 | Flux + Body Toll | `classResource:{type:'flux'}` + top-level `bodyTollCost` | ✅ (14/15) |
 | spellguardData.js | Spellguard | 16 | **Void Resonance (AEP)** | `classResource:{type:'arcane_energy_points'}` | ⚠️ **KEY MISMATCH** |
-| toxicologistData.js | Toxicologist | 33 | Toxin Vials + Contraption Parts | top-level `toxinVials` + `resourceValues.toxinVials` | ⚠️ dual encoding + Contraption Parts absent |
-| wardenData.js | Warden | 33 | Tether Tension | `classResource:{type:'tether_tension'}` | ✅ (31/32) |
+| toxicologistData.js | Toxicologist | 33 | Vials + Contraption Parts | top-level `toxinVials` + `resourceValues.toxinVials` | ⚠️ dual encoding + Contraption Parts absent |
+| wardenData.js | Warden | 33 | Tension | `classResource:{type:'tension'}` | ✅ (31/32) |
 
 **Resource-encoding summary:** Only **9/20 classes** use the canonical `classResource:{type,cost}`
 field that `SPELL_DATA_REFERENCE.md` §6/§8 documents. The other 11 use `resourceValues`,
@@ -116,14 +116,14 @@ a "coming soon" flag.
 ### 3.2 Declared-vs-actual resource-key mismatches
 | Class | resourceSystem says | spells use | Spell count affected |
 |---|---|---|---|
-| Berserker | "Blood-Heat" | `type:'rage'` | 15/23 |
+| Berserker | "Rage" | `type:'rage'` | 15/23 |
 | Spellguard | "Void Resonance (AEP)" | `type:'arcane_energy_points'` | 13/16 |
-| Inquisitor | "Righteous Authority" | `type:'righteousAuthority'` (camelCase) | 17/19 |
+| Inquisitor | "Authority" | `type:'righteousAuthority'` (camelCase) | 17/19 |
 
 These rebrands never propagated to the spell data. Either rename the keys or update the lore.
 
 ### 3.3 Gambit  -  Karmic Debt modeled in prose only
-`resourceSystem` declares a Fortune Points (0-15) + **Karmic Debt (0-13)** dual ledger, but
+`resourceSystem` declares a Fortune (0-15) + **Karmic Debt (0-13)** dual ledger, but
 Karmic Debt never appears as a cost/gain key in any of the 63 spells. 50/63 spells generate
 Fortune via `specialMechanics.fortunePoints` rather than the canonical `classResource` field.
 Spenders are rare (11 spells).
@@ -333,7 +333,7 @@ have no class resource + ~39 class drawback/weakness passives like `*_burnout`, 
 ### Not yet addressed (need design decision  -  see §3, §6, §7 Tier C-D)
 
 1. **Animist unimplemented** (§3.1)  -  class has lore + `spellPools` referencing ~85 legacy spell IDs that don't exist anywhere.
-2. **3 resource-key mismatches** (§3.2)  -  spellguard `arcane_energy_points` vs "Void Resonance", berserker `rage` vs "Blood-Heat", inquisitor `righteousAuthority` camelCase. These render fine; the mismatch is lore-vs-key naming.
+2. **3 resource-key mismatches** (§3.2)  -  spellguard `arcane_energy_points` vs "Void Resonance", berserker `rage` vs "Rage", inquisitor `righteousAuthority` camelCase. These render fine; the mismatch is lore-vs-key naming.
 3. **Unmodeled declared resources**  -  Gambit Karmic Debt, Chronarch Temporal Strain, Toxicologist Contraption Parts.
 4. **11 classes use non-canonical resource encodings** (§2)  -  only 9/20 use the `classResource:{type,cost}` field the reference documents.
 5. **`docs/SPELL_DATA_REFERENCE.md §8` + audit prompt are stale**  -  list 30 classes, engine ships 20 (see §1 consolidation map).
