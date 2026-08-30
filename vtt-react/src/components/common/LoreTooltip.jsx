@@ -18,16 +18,15 @@ const entryIcons = {
 };
 
 const regionColors = {
-  'frostwood-reach': '#3d6e90', // Mist/water blue
-  'nordhalla': '#5c829e',       // Ice blue
-  'sundale': '#b23c1e',         // Volcano volcanic red
-  'iceheart-sea': '#1a3a6e',    // Deep ocean blue
-  'cragjaw-peaks': '#3a1a5e',   // Alpine/underdark violet
-  'sundrift-vale': '#9a6e10',   // Steppe gold
-  'bryngloom-forest': '#2b5e1a'  // Swamp green
+  'frostwood-reach': '#3d6e90',
+  'nordhalla': '#5c829e',
+  'sundale': '#b23c1e',
+  'iceheart-sea': '#1a3a6e',
+  'cragjaw-peaks': '#3a1a5e',
+  'sundrift-vale': '#9a6e10',
+  'bryngloom-forest': '#2b5e1a'
 };
 
-// worldFriction status badge styling
 const statusStyle = {
   banned:        { label: 'Forbidden',   color: '#a12323' },
   outlawed:      { label: 'Proscribed',  color: '#a12323' },
@@ -46,30 +45,22 @@ const LoreTooltip = ({ entry, position, onClose }) => {
   const [showReception, setShowReception] = useState(false);
   const tooltipRef = useRef(null);
 
-  // Keyboard Escape handler
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
+      if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
 
-  // Click anywhere (except action buttons) to close
   useEffect(() => {
     const handleGlobalClick = (e) => {
-      if (e.target.closest('.lore-action-btn')) {
-        return;
-      }
+      if (e.target.closest('.lore-action-btn')) return;
       onClose();
     };
-
     const timer = setTimeout(() => {
       document.addEventListener('click', handleGlobalClick);
     }, 50);
-
     return () => {
       clearTimeout(timer);
       document.removeEventListener('click', handleGlobalClick);
@@ -79,12 +70,11 @@ const LoreTooltip = ({ entry, position, onClose }) => {
   if (!entry) return null;
 
   const iconClass = entryIcons[entry.type] || 'fas fa-book';
-  const borderAccent = regionColors[entry.region] || '#b89c72';
+  const regionAccent = regionColors[entry.region] || '#8f6f35';
   const displayType = entry.type.replace('_', ' ');
   const isClass = entry.type === 'class';
   const isConcept = entry.type === 'concept';
 
-  // worldFriction lives on the class data, not the lore entry: look it up by id
   const classData = isClass ? Object.values(ALL_CLASSES_DATA).find(c => c.id === entry.id) : null;
   const worldFriction = classData?.worldFriction;
   const secondary = entry.secondaryRegions && entry.secondaryRegions.length ? entry.secondaryRegions : null;
@@ -92,17 +82,22 @@ const LoreTooltip = ({ entry, position, onClose }) => {
 
   const badgeStyle = {
     display: 'inline-block', padding: '1px 7px', borderRadius: '10px',
-    fontSize: '0.72rem', fontWeight: 600, color: '#fff', marginRight: '6px', textTransform: 'capitalize'
+    fontSize: '0.72rem', fontWeight: 700, color: '#fff', marginRight: '6px', textTransform: 'capitalize'
   };
-  const sectionLabel = { fontSize: '0.7rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9a8a6a', marginTop: '10px', marginBottom: '4px' };
+  const sectionLabel = {
+    fontFamily: "'Cinzel', serif",
+    fontSize: '0.68rem',
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase',
+    color: '#8f6f35',
+    marginTop: '12px',
+    marginBottom: '4px',
+    fontWeight: 700
+  };
 
   return (
     <TooltipPortal>
-      {/* Semi-transparent dark blur backdrop overlay */}
-      <div
-        className="lore-tooltip-overlay"
-        onClick={onClose}
-      />
+      <div className="lore-tooltip-overlay" onClick={onClose} />
       <div
         ref={tooltipRef}
         className="lore-tooltip-wrapper center-modal"
@@ -116,61 +111,56 @@ const LoreTooltip = ({ entry, position, onClose }) => {
       >
         <div
           className="lore-parchment"
-          style={{ borderColor: borderAccent }}
+          style={{ '--region-accent': regionAccent }}
         >
-          {/* Header */}
           <div className="lore-tooltip-header">
             <div className="lore-type-icon">
-              <i className={iconClass} style={{ color: borderAccent }} />
+              <i className={iconClass} />
             </div>
             <div className="lore-title-section">
               <div className="lore-title">{entry.term}</div>
-              <div className="lore-subtitle" style={{ color: borderAccent }}>{displayType}</div>
+              <div className="lore-subtitle">{displayType}</div>
             </div>
           </div>
 
-          {/* Body */}
           <div className="lore-tooltip-body">
             <div className="lore-summary">
               {entry.summary}
             </div>
 
-            {/* Class: secondary regions */}
             {isClass && secondary && (
-              <div style={{ fontSize: '0.8rem', marginTop: '8px', color: '#c8b890' }}>
-                <i className="fas fa-globe" style={{ marginRight: '5px', color: borderAccent }} />
+              <div style={{ fontSize: '0.8rem', marginTop: '8px', color: '#5d4037' }}>
+                <i className="fas fa-globe" style={{ marginRight: '5px', color: regionAccent }} />
                 Also practiced in: {secondary.map(prettify).join(', ')}
               </div>
             )}
 
-            {/* Class: native weaving */}
             {isClass && entry.nativeWeaving && (
               <>
                 <div style={sectionLabel}>Native Weaving</div>
-                <div style={{ fontSize: '0.8rem', lineHeight: 1.45, color: '#d8c9a0' }}>
+                <div style={{ fontSize: '0.8rem', lineHeight: 1.5, color: '#3d2a17', fontFamily: "'Crimson Text', serif" }}>
                   {stripTags(entry.nativeWeaving).split(/\*\*/).map((seg, i) =>
                     i % 2 === 1
-                      ? <strong key={i} style={{ color: borderAccent }}>{seg}</strong>
+                      ? <strong key={i} style={{ color: regionAccent }}>{seg}</strong>
                       : <span key={i}>{seg}</span>
                   )}
                 </div>
               </>
             )}
 
-            {/* Concept (merged class): transition block */}
             {isConcept && transition && (
               <>
                 <div className="lore-divider" />
                 <div style={sectionLabel}>Aftermath of the Merger</div>
-                {transition.aftermath && <div style={{ fontSize: '0.8rem', color: '#d8c9a0', marginBottom: '6px' }}>{stripTags(transition.aftermath)}</div>}
+                {transition.aftermath && <div style={{ fontSize: '0.84rem', color: '#3d2a17', marginBottom: '6px', lineHeight: 1.5 }}>{stripTags(transition.aftermath)}</div>}
                 {transition.legacySite && (
-                  <div style={{ fontSize: '0.8rem', color: '#c8b890', marginBottom: '6px' }}>
-                    <i className="fas fa-map-pin" style={{ marginRight: '5px', color: borderAccent }} />
+                  <div style={{ fontSize: '0.8rem', color: '#5d4037', marginBottom: '6px' }}>
+                    <i className="fas fa-map-pin" style={{ marginRight: '5px', color: regionAccent }} />
                     {stripTags(transition.legacySite)}
                   </div>
                 )}
                 {transition.survivorNote && (
-                  <div style={{ fontSize: '0.78rem', fontStyle: 'italic', color: '#b0a080' }}>
+                  <div style={{ fontSize: '0.8rem', fontStyle: 'italic', color: '#6d4c41', lineHeight: 1.5 }}>
                     {stripTags(transition.survivorNote)}
                   </div>
                 )}
@@ -186,7 +176,6 @@ const LoreTooltip = ({ entry, position, onClose }) => {
                 <button
                   className={`lore-action-btn ${isExpanded ? 'expanded' : ''}`}
                   onClick={() => setIsExpanded(!isExpanded)}
-                  style={{ color: borderAccent }}
                 >
                   {isExpanded ? 'Show Less' : 'Read More'}
                   <i className="fas fa-chevron-down" />
@@ -194,31 +183,30 @@ const LoreTooltip = ({ entry, position, onClose }) => {
               </>
             )}
 
-            {/* Class: world friction (reception): collapsible */}
             {isClass && worldFriction && worldFriction.length > 0 && (
               <>
                 <div className="lore-divider" />
                 <button
                   className="lore-action-btn"
                   onClick={() => setShowReception(!showReception)}
-                  style={{ color: borderAccent, width: '100%', textAlign: 'left' }}
+                  style={{ width: '100%', textAlign: 'left' }}
                 >
                   <i className="fas fa-bullhorn" style={{ marginRight: '6px' }} />
                   Reception in the World
                   <i className="fas fa-chevron-down" style={{ marginLeft: '6px', transition: 'transform .2s', transform: showReception ? 'rotate(180deg)' : 'none' }} />
                 </button>
                 {showReception && (
-                  <div style={{ marginTop: '6px' }}>
+                  <div style={{ marginTop: '8px' }}>
                     {worldFriction.map((wf, i) => {
                       const st = statusStyle[wf.status] || { label: wf.status, color: '#888888' };
                       return (
-                        <div key={i} style={{ marginBottom: '8px', fontSize: '0.8rem', lineHeight: 1.4 }}>
+                        <div key={i} style={{ marginBottom: '8px', fontSize: '0.82rem', lineHeight: 1.45 }}>
                           <span style={{ ...badgeStyle, backgroundColor: st.color }}>{st.label}</span>
-                          <span style={{ color: '#9a8a6a' }}>{prettify(wf.region)}{wf.location ? ` · ${prettify(wf.location)}` : ''}</span>
-                          <div style={{ color: '#d8c9a0', marginTop: '2px' }}>{stripTags(wf.consequence)}</div>
+                          <span style={{ color: '#6d4c41', fontFamily: "'Cinzel', serif", fontSize: '0.74rem', fontWeight: 600 }}>{prettify(wf.region)}{wf.location ? ` · ${prettify(wf.location)}` : ''}</span>
+                          <div style={{ color: '#3d2a17', marginTop: '3px', fontFamily: "'Crimson Text', serif" }}>{stripTags(wf.consequence)}</div>
                           {wf.workaround && (
-                            <div style={{ color: '#b0a080', fontStyle: 'italic', marginTop: '2px' }}>
-                              <i className="fas fa-user-secret" style={{ marginRight: '4px' }} />{stripTags(wf.workaround)}
+                            <div style={{ color: '#6d4c41', fontStyle: 'italic', marginTop: '3px', fontSize: '0.8rem' }}>
+                              <i className="fas fa-user-secret" style={{ marginRight: '4px', color: regionAccent }} />{stripTags(wf.workaround)}
                             </div>
                           )}
                         </div>

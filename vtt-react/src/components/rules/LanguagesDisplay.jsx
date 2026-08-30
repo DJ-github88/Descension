@@ -13,17 +13,23 @@ const LANG_WATERCOLOR = {
   special: 'watercolor_tome'
 };
 
+const CATEGORY_SCRIPT_META = {
+  standard: { scriptLabel: 'Trade Script', scriptSample: 'Well met, good merchant', ink: 'Ink: Iron-gall, common hand' },
+  exotic: { scriptLabel: 'Otherworld Script', scriptSample: "X'keth-vorath ix'amar", ink: 'Ink: Ash & ember-glass' },
+  racial: { scriptLabel: 'Ancestral Script', scriptSample: 'Frosthald hungrvegr', ink: 'Ink: Stone-dust & frost' },
+  elemental: { scriptLabel: 'Elemental Script', scriptSample: "Kh'aur-dra ign'vael", ink: 'Ink: Air, fire, water, earth' },
+  secret: { scriptLabel: 'Cipher Script', scriptSample: 'The red door is warm', ink: 'Ink: Invisible until shared' },
+  special: { scriptLabel: 'Scholar Script', scriptSample: 'Words without sound', ink: 'Ink: Universal gesture' }
+};
+
 const COMMON_LANGUAGES = LANGUAGES;
 
 const LanguagesDisplay = () => {
   const [selectedLanguage, setSelectedLanguage] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  // Group languages by category
   const languagesByCategory = COMMON_LANGUAGES.reduce((acc, lang) => {
-    if (!acc[lang.category]) {
-      acc[lang.category] = [];
-    }
+    if (!acc[lang.category]) acc[lang.category] = [];
     acc[lang.category].push(lang);
     return acc;
   }, {});
@@ -39,45 +45,115 @@ const LanguagesDisplay = () => {
   };
 
   const handleBackClick = () => {
-    if (selectedLanguage) {
-      setSelectedLanguage(null);
-    } else if (selectedCategory) {
-      setSelectedCategory(null);
-    }
+    if (selectedLanguage) setSelectedLanguage(null);
+    else if (selectedCategory) setSelectedCategory(null);
   };
 
-  // Step 1: Show all categories
+  // ── Step 1: Codex landing — parchment guide + illuminated Hall of Tongues ──
   if (!selectedCategory && !selectedLanguage) {
     return (
-      <div className="background-selector">
-        <div className="language-categories-view">
-          <div className="step-description">
-            <p>Languages allow your character to communicate with different creatures and cultures. Your race grants you certain languages automatically, and you can learn additional languages from your background, class, or through gameplay.</p>
+      <div className="languages-codex">
+        {/* Guide — same illuminated parchment language as Skills */}
+        <div className="languages-codex-guide">
+          <div className="premium-parchment-scroll">
+            <div className="scroll-title-header">
+              <span className="scroll-tag">
+                <i className="fas fa-feather-alt"></i> POLYGLOT CODEX
+              </span>
+              <h3>Tongues of Mythrill</h3>
+              <p className="scroll-subtitle">Standard, exotic, secret & elemental — a scribe&apos;s census of every tongue that still answers</p>
+            </div>
+
+            <div className="scroll-section">
+              <h5><i className="fas fa-scroll"></i> How Tongues Work</h5>
+              <p>Every creature that can be parleyed with speaks at least one tongue from this codex. <strong>Common</strong> carries you through markets and muster-fields; everything else opens a door that Common cannot — a closed court, a cold ritual, a whispering mycelium, a wind that answers back.</p>
+              <ul>
+                <li><strong>Your race speaks first</strong> — granted automatically and always legible on your sheet.</li>
+                <li><strong>Background & path</strong> add 1–2 learned tongues of your choice.</li>
+                <li><strong>Secret & exotic tongues</strong> demand a teacher, an oath, or a debt — they are never free.</li>
+              </ul>
+            </div>
+
+            <div className="scroll-section">
+              <h5><i className="fas fa-comments"></i> At the Table</h5>
+              <p>If you speak a tongue you can <strong>understand, be understood, read, and write</strong> in it. Magical comprehension still requires the tongue to be on your list — spells translate, they do not grant fluency.</p>
+              <div className="dc-reference-grid lang-at-table-grid">
+                <div className="dc-row"><span>Speak</span><strong>Be understood</strong><span>Whisper, shout, or throat-sing — if the listener knows it, they hear you</span></div>
+                <div className="dc-row"><span>Scribe</span><strong>Read & write</strong><span>Letters, contracts, frozen phylacteries — ink is the tongue made durable</span></div>
+                <div className="dc-row"><span>Cipher</span><strong>Secret cant</strong><span>Thieves&apos; marks, druidic knots, Trickster&apos;s nested lies — meaning hidden in plain speech</span></div>
+              </div>
+            </div>
+
+            <div className="scroll-section" style={{ marginBottom: 0 }}>
+              <h5><i className="fas fa-map"></i> Seven Regions, Thirty-Five Tongues</h5>
+              <p>From Gloom-Tongue murmured beneath Atropolis to Terran grinding in the Cragjaw deep, each language carries the <strong>memory of its people</strong> — their bargains, their exiles, their surviving gods. Learn the tongue and you inherit a fraction of that memory.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Directory — Hall of Tongues */}
+        <div className="languages-codex-directory">
+          <div className="languages-index-header">
+            <h3>Hall of Tongues</h3>
+            <p>Six houses of speech — choose a house to open its ledger</p>
           </div>
 
-          <div className="background-grid">
+          <div className="languages-codex-grid">
             {Object.entries(LANGUAGE_CATEGORIES).map(([categoryId, categoryData]) => {
               const languages = languagesByCategory[categoryId] || [];
+              const meta = CATEGORY_SCRIPT_META[categoryId] || {};
+              const teaser = languages[0];
               return (
                 <div
                   key={categoryId}
-                  className="background-card language-category-card"
+                  className="lang-codex-card"
+                  data-cat={categoryId}
                   onClick={() => handleCategoryClick(categoryId)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyPress={(e) => (e.key === 'Enter' || e.key === ' ') && handleCategoryClick(categoryId)}
                 >
                   {LANG_WATERCOLOR[categoryId] && (
                     <img
-                      className="category-watermark"
+                      className="lang-codex-watermark"
                       src={`${PUB}/assets/images/${LANG_WATERCOLOR[categoryId]}.png`}
                       alt=""
                       aria-hidden="true"
                       onError={(e) => { e.target.style.display = 'none'; }}
                     />
                   )}
-                  <div className="background-card-header">
-                    <h3>{categoryData.name}</h3>
-                    <span className="language-count">{languages.length}</span>
+
+                  <div className="lang-codex-card-top">
+                    <div className="lang-codex-seal">
+                      <i className={`fas ${categoryData.icon}`}></i>
+                    </div>
+                    <div className="lang-codex-count" title={`${languages.length} tongues in this house`}>
+                      <span className="lang-count-num">{languages.length}</span>
+                      <span className="lang-count-label">{languages.length === 1 ? 'tongue' : 'tongues'}</span>
+                    </div>
                   </div>
-                  <p className="background-description">{categoryData.description}</p>
+
+                  <div className="lang-codex-body">
+                    <h3 className="lang-codex-title">{categoryData.name}</h3>
+                    <p className="lang-codex-desc">{categoryData.description}</p>
+                  </div>
+
+                  <div className="lang-codex-divider" aria-hidden="true">
+                    <span className="lang-divider-line"></span>
+                    <span className="lang-divider-glyph">◆</span>
+                    <span className="lang-divider-line"></span>
+                  </div>
+
+                  <div className="lang-codex-script-preview">
+                    <span className="lang-script-label">{meta.scriptLabel}</span>
+                    <span className="lang-script-sample">&ldquo;{teaser?.example || meta.scriptSample}&rdquo;</span>
+                    <span className="lang-script-ink">{meta.ink}</span>
+                  </div>
+
+                  <div className="lang-codex-foot">
+                    <span className="lang-codex-cta">Open ledger</span>
+                    <i className="fas fa-chevron-right lang-codex-arrow"></i>
+                  </div>
                 </div>
               );
             })}
@@ -87,107 +163,133 @@ const LanguagesDisplay = () => {
     );
   }
 
-  // Step 2: Show languages in selected category
+  // Step 2: Category ledger
   if (selectedCategory && !selectedLanguage) {
     const categoryLanguages = languagesByCategory[selectedCategory];
     const categoryData = LANGUAGE_CATEGORIES[selectedCategory];
+    const meta = CATEGORY_SCRIPT_META[selectedCategory] || {};
 
     return (
-      <div className="background-selector">
-        <div className="language-list-view">
-          <button className="back-button" onClick={handleBackClick}>
-            <i className="fas fa-arrow-left"></i> Back to Categories
-          </button>
+      <div className="languages-codex">
+        <button className="back-button" onClick={handleBackClick}>
+          <i className="fas fa-arrow-left"></i> Back to Hall of Tongues
+        </button>
 
-          <div className="background-overview">
-            <h2>{categoryData.name}</h2>
-            <p>{categoryData.description}</p>
+        <div className="lang-ledger-header">
+          <div className="lang-ledger-header-main">
+            <div className="lang-ledger-seal">
+              <i className={`fas ${categoryData.icon}`}></i>
+            </div>
+            <div>
+              <h2>{categoryData.name}</h2>
+              <p>{categoryData.description}</p>
+              <div className="lang-ledger-meta">
+                <span className="lang-ledger-count"><i className="fas fa-feather"></i> {categoryLanguages.length} tongues</span>
+                <span className="lang-ledger-script"><i className="fas fa-pen-nib"></i> {meta.scriptLabel} — {meta.ink}</span>
+              </div>
+            </div>
           </div>
+          <div className="lang-ledger-ornament" aria-hidden="true">— ◆ —</div>
+        </div>
 
-          <div className="language-compact-grid">
-            {categoryLanguages.map((language) => (
-              <div
-                key={language.name}
-                className="language-compact-card"
-                onClick={() => handleLanguageClick(language)}
-              >
-                <div className="language-compact-header">
-                  <div className="language-compact-icon">
-                    <i className={`fas ${language.icon}`}></i>
-                  </div>
-                  <h4 className="language-compact-name">{language.name}</h4>
+        <div className="lang-ledger-grid">
+          {categoryLanguages.map((language) => (
+            <div
+              key={language.name}
+              className="lang-ledger-card"
+              onClick={() => handleLanguageClick(language)}
+              role="button"
+              tabIndex={0}
+              onKeyPress={(e) => (e.key === 'Enter' || e.key === ' ') && handleLanguageClick(language)}
+            >
+              <div className="lang-ledger-card-head">
+                <div className="lang-ledger-icon">
+                  <i className={`fas ${language.icon}`}></i>
                 </div>
-                <p className="language-compact-description">{language.description}</p>
-                <div className="language-compact-details">
-                  <div className="language-sound">
-                    <i className="fas fa-music"></i>
-                    <span className="language-sound-text">{language.sound}</span>
-                  </div>
-                  <div className="language-example">
-                    <i className="fas fa-quote-left"></i>
-                    <div className="language-example-content">
-                      <span className="language-example-text">"{language.example}"</span>
-                      <span className="language-example-translation">- {language.translation}</span>
-                    </div>
-                  </div>
+                <h4 className="lang-ledger-name">{language.name}</h4>
+              </div>
+              <p className="lang-ledger-desc">{language.description}</p>
+              <div className="lang-ledger-details">
+                <div className="lang-ledger-sound">
+                  <i className="fas fa-music"></i>
+                  <span>{language.sound}</span>
                 </div>
-                <div className="language-compact-badge">
-                  <i className={`fas ${categoryData.icon}`}></i>
-                  <span>{categoryData.name}</span>
+                <div className="lang-ledger-example">
+                  <i className="fas fa-quote-left"></i>
+                  <div className="lang-ledger-example-content">
+                    <span className="lang-ledger-example-text">"{language.example}"</span>
+                    <span className="lang-ledger-example-trans">— {language.translation}</span>
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
+              <div className="lang-ledger-badge">
+                <i className={`fas ${categoryData.icon}`}></i>
+                <span>{categoryData.name}</span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     );
   }
 
-  // Step 3: Show selected language details
+  // Step 3: Language folio
   if (selectedLanguage) {
     const categoryData = LANGUAGE_CATEGORIES[selectedLanguage.category];
 
     return (
-      <div className="background-selector">
+      <div className="languages-codex">
         <button className="back-button" onClick={handleBackClick}>
           <i className="fas fa-arrow-left"></i> Back to {categoryData.name}
         </button>
 
-        <div className="language-detail-view">
-          {/* Header */}
-          <div className="background-overview">
-            <h2>{selectedLanguage.name}</h2>
-            <p>{selectedLanguage.description}</p>
-            <div className="language-sound-example">
-              <div className="language-sound-detail">
-                <i className="fas fa-music"></i>
-                <strong>Sounds like:</strong> {selectedLanguage.sound}
+        <div className="lang-folio">
+
+          <div className="lang-folio-header">
+            <div className="lang-folio-header-row">
+              <div className="lang-folio-seal">
+                <i className={`fas ${selectedLanguage.icon}`}></i>
               </div>
-              <div className="language-example-detail">
+              <div className="lang-folio-title-block">
+                <span className="lang-folio-kicker"><i className={`fas ${categoryData.icon}`}></i> {categoryData.name}</span>
+                <h2>{selectedLanguage.name}</h2>
+                <p className="lang-folio-desc">{selectedLanguage.description}</p>
+              </div>
+            </div>
+
+            <div className="lang-folio-script-box">
+              <div className="lang-folio-script-row">
+                <i className="fas fa-music"></i>
+                <div>
+                  <strong>Sounds like</strong>
+                  <span>{selectedLanguage.sound}</span>
+                </div>
+              </div>
+              <div className="lang-folio-script-row">
                 <i className="fas fa-quote-left"></i>
-                <div className="language-example-detail-content">
-                  <strong>Example:</strong> <span className="language-example-phrase">"{selectedLanguage.example}"</span>
-                  <span className="language-example-translation">- {selectedLanguage.translation}</span>
+                <div className="lang-folio-quote">
+                  <strong>Example</strong>
+                  <span className="lang-folio-phrase">"{selectedLanguage.example}"</span>
+                  <span className="lang-folio-trans">— {selectedLanguage.translation}</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Category */}
           <div className="benefits-section">
-            <h4>Language Type</h4>
+            <h4>House Ledger — {categoryData.name}</h4>
             <ul className="equipment-items">
-              {languagesByCategory[selectedLanguage.category].map((language, index) => (
-                <li key={index}>
-                  <i className="fas fa-language"></i>
+              {languagesByCategory[selectedLanguage.category].map((language) => (
+                <li key={language.name} className={language.name === selectedLanguage.name ? 'is-active' : ''}>
+                  <i className={`fas ${language.icon}`}></i>
                   <span>{language.name}</span>
+                  {language.name === selectedLanguage.name && <em> — you are here</em>}
                 </li>
               ))}
             </ul>
-            <p className="language-type-description">{categoryData.description}</p>
+            <p className="language-type-description" style={{ marginTop: 12 }}>{categoryData.description}</p>
           </div>
 
-          {/* Typical Speakers */}
           <div className="benefits-section">
             <h4>Typical Speakers</h4>
             <ul className="equipment-items">
@@ -497,18 +599,17 @@ const LanguagesDisplay = () => {
             </ul>
           </div>
 
-          {/* How to Learn */}
           <div className="benefits-section">
-            <h4>Learning This Language</h4>
+            <h4>Learning This Tongue</h4>
             <ul className="equipment-items">
               <li><i className="fas fa-check"></i> Granted by your race (some races start with specific languages)</li>
-              <li><i className="fas fa-check"></i> Choose from your background (most backgrounds grant 1-2 additional languages)</li>
+              <li><i className="fas fa-check"></i> Choose from your background (most backgrounds grant 1–2 additional languages)</li>
               <li><i className="fas fa-check"></i> Choose from your path (some paths grant language options)</li>
               {selectedLanguage.category === 'secret' && (
-                <li><i className="fas fa-exclamation-triangle"></i> Secret languages require special training or membership</li>
+                <li><i className="fas fa-exclamation-triangle"></i> Secret tongues require special training or membership</li>
               )}
               {selectedLanguage.category === 'exotic' && (
-                <li><i className="fas fa-info-circle"></i> Exotic languages are rare and usually require special circumstances to learn</li>
+                <li><i className="fas fa-info-circle"></i> Exotic tongues are rare and usually require special circumstances to learn</li>
               )}
             </ul>
           </div>
@@ -521,4 +622,3 @@ const LanguagesDisplay = () => {
 };
 
 export default LanguagesDisplay;
-

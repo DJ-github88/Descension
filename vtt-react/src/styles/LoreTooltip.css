@@ -1,104 +1,159 @@
-/* LoreTooltip.css */
+/* LoreTooltip.css — Beige Pathfinder / Scriptorium theme
+   Matches app-wide parchment: #fbf6eb→#f4ecd6, gold #c4a060/#8f6f35,
+   Cinzel + Crimson Text, wax-seal accents. Replaces prior dark modal. */
 
 .lore-tooltip-wrapper {
   position: fixed;
   z-index: 2147483647;
   pointer-events: auto;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  max-width: 320px;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+  font-family: 'Crimson Text', 'Georgia', serif;
+  max-width: 380px;
+  filter: drop-shadow(0 12px 28px rgba(60, 40, 15, 0.28)) drop-shadow(0 2px 8px rgba(60, 40, 15, 0.15));
   animation: lore-fade-in 200ms ease-out forwards;
 }
 
 @keyframes lore-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
+/* Parchment folio — light beige, illuminated */
 .lore-parchment {
-  background-color: #1a1510; /* Very dark rich warm-brown parchment */
-  background-image: 
-    radial-gradient(circle at 50% 50%, rgba(35, 28, 20, 0.7), rgba(20, 15, 10, 0.95)),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
-  border: 1px solid #4a3c2c;
-  border-radius: 4px;
-  padding: 14px;
-  color: #dfd5c6; /* Soft parchment cream text */
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9);
+  position: relative;
+  background:
+    repeating-linear-gradient(0deg, rgba(120, 90, 50, 0.015) 0 1px, transparent 1px 3px),
+    radial-gradient(ellipse at 22% 8%, rgba(255, 250, 234, 0.85), transparent 55%),
+    radial-gradient(ellipse at 88% 96%, rgba(150, 110, 60, 0.08), transparent 60%),
+    linear-gradient(135deg, #fdfaf3 0%, #fbf6eb 35%, #f5ecd6 100%);
+  border: 2px solid #c4a060;
+  border-radius: 8px;
+  padding: 16px 16px 14px;
+  color: #2b1c11;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 250, 235, 0.7),
+    inset 0 0 42px rgba(120, 80, 40, 0.10),
+    0 2px 6px rgba(143, 111, 53, 0.12);
   transition: max-height 300ms cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
 }
 
-.lore-tooltip-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid rgba(223, 213, 198, 0.15);
-  padding-bottom: 8px;
-  margin-bottom: 8px;
+/* Inner dashed frame — like rules-summary-box */
+.lore-parchment::before {
+  content: '';
+  position: absolute;
+  top: 6px; left: 6px; right: 6px; bottom: 6px;
+  border: 1px dashed rgba(196, 160, 96, 0.38);
+  border-radius: 6px;
+  pointer-events: none;
 }
 
+/* Region accent — thin top rule in region color */
+.lore-parchment::after {
+  content: '';
+  position: absolute;
+  top: -2px; left: -2px; right: -2px;
+  height: 4px;
+  border-radius: 8px 8px 0 0;
+  background: var(--region-accent, #8f6f35);
+  opacity: 0.95;
+  pointer-events: none;
+}
+
+.lore-tooltip-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(196, 160, 96, 0.35);
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+/* Wax-seal icon — parchment seal with gold rim */
 .lore-type-icon {
-  font-size: 16px;
-  width: 24px;
-  height: 24px;
+  font-size: 15px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(223, 213, 198, 0.05);
+  background: radial-gradient(circle at 34% 28%, #fcf4e0, #e4d2ac);
   border-radius: 50%;
-  border: 1px solid rgba(223, 213, 198, 0.1);
-  color: #b89c72; /* Warm muted gold */
+  border: 1.5px solid #a8842f;
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 250, 235, 0.55),
+    inset 0 2px 6px rgba(90, 60, 20, 0.28),
+    0 1px 4px rgba(60, 40, 15, 0.18);
+  color: var(--region-accent, #8f6f35);
+  flex-shrink: 0;
 }
 
 .lore-title-section {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .lore-title {
   font-family: 'Cinzel', 'Georgia', serif;
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #f3e6d3; /* Brighter gold/cream */
+  letter-spacing: 0.6px;
+  color: #2b1c11;
   line-height: 1.2;
+  text-shadow: 0 1px 0 rgba(255, 250, 235, 0.8);
 }
 
 .lore-subtitle {
-  font-size: 10px;
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 9.5px;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: #8c7f6e; /* Muted brown */
-  margin-top: 2px;
+  color: var(--region-accent, #8f6f35);
+  margin-top: 3px;
+  opacity: 0.95;
 }
 
 .lore-tooltip-body {
-  font-size: 13px;
-  line-height: 1.5;
+  position: relative;
+  z-index: 1;
+  font-family: 'Crimson Text', 'Georgia', serif;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #3d2a17;
 }
 
 .lore-summary {
-  color: #dfd5c6;
+  color: #3d2a17;
   font-style: italic;
+  line-height: 1.55;
 }
 
 .lore-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(223, 213, 198, 0.2) 20%, rgba(223, 213, 198, 0.2) 80%, transparent);
-  margin: 10px 0;
+  background: linear-gradient(90deg, transparent, rgba(196, 160, 96, 0.45) 20%, rgba(196, 160, 96, 0.45) 80%, transparent);
+  margin: 12px 0;
+  position: relative;
+}
+.lore-divider::after {
+  content: '◆';
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 7px;
+  color: #c4a060;
+  background: #fdfaf3;
+  padding: 0 6px;
+  opacity: 0.9;
 }
 
 .lore-full-entry {
-  color: #c4b9a8;
-  font-size: 12.5px;
+  color: #4a3728;
+  font-size: 13px;
+  line-height: 1.6;
   max-height: 0;
   overflow: hidden;
   opacity: 0;
@@ -106,43 +161,44 @@
 }
 
 .lore-full-entry.expanded {
-  max-height: 250px;
+  max-height: 260px;
   overflow-y: auto;
   opacity: 1;
-  padding-right: 4px;
+  padding-right: 6px;
 }
 
-.lore-full-entry.expanded::-webkit-scrollbar {
-  width: 4px;
-}
-.lore-full-entry.expanded::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-}
-.lore-full-entry.expanded::-webkit-scrollbar-thumb {
-  background: rgba(184, 156, 114, 0.4);
-  border-radius: 2px;
-}
+.lore-full-entry.expanded::-webkit-scrollbar { width: 5px; }
+.lore-full-entry.expanded::-webkit-scrollbar-track { background: rgba(196, 160, 96, 0.12); border-radius: 3px; }
+.lore-full-entry.expanded::-webkit-scrollbar-thumb { background: rgba(143, 111, 53, 0.35); border-radius: 3px; }
+.lore-full-entry.expanded::-webkit-scrollbar-thumb:hover { background: rgba(143, 111, 53, 0.5); }
 
 .lore-action-btn {
-  background: none;
-  border: none;
-  color: #b89c72;
+  background: linear-gradient(135deg, rgba(251, 246, 235, 0.9) 0%, rgba(244, 232, 204, 0.9) 100%);
+  border: 1px solid rgba(196, 160, 96, 0.45);
+  color: var(--region-accent, #8f6f35);
   font-family: 'Cinzel', 'Georgia', serif;
-  font-size: 10px;
-  font-weight: bold;
-  letter-spacing: 0.5px;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
   text-transform: uppercase;
   cursor: pointer;
-  padding: 6px 0 0 0;
-  display: flex;
+  padding: 6px 10px;
+  margin-top: 8px;
+  border-radius: 4px;
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
-  transition: color 200ms ease;
+  gap: 6px;
+  transition: all 200ms ease;
   width: fit-content;
+  box-shadow: 0 1px 3px rgba(143, 111, 53, 0.12);
 }
 
 .lore-action-btn:hover {
-  color: #dfd5c6;
+  color: #2b1c11;
+  border-color: #c4a060;
+  background: linear-gradient(135deg, #fdfaf3 0%, #f5ecd6 100%);
+  box-shadow: 0 2px 6px rgba(143, 111, 53, 0.18);
+  transform: translateY(-1px);
 }
 
 .lore-action-btn i {
@@ -154,17 +210,22 @@
   transform: rotate(180deg);
 }
 
+/* Inline lore links in running text — keep amber dotted */
 .lore-link {
-  color: #b89c72;
+  color: #9b7840;
   text-decoration: none;
   cursor: pointer;
-  transition: color 150ms ease;
+  transition: color 150ms ease, border-color 150ms ease;
   display: inline;
-  font-weight: 500;
+  font-weight: 600;
+  border-bottom: 1px dotted rgba(155, 120, 64, 0.45);
+  padding-bottom: 0.5px;
 }
 
 .lore-link:hover {
-  color: #dfd5c6;
+  color: #6d4021;
+  border-bottom-color: rgba(109, 64, 33, 0.7);
+  border-bottom-style: solid;
 }
 
 .lore-link-icon {
@@ -175,38 +236,28 @@
   vertical-align: middle;
 }
 
-/* Semi-transparent blur backdrop overlay */
+/* Backdrop — slightly softer, warm */
 .lore-tooltip-overlay {
   position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  background: rgba(0, 0, 0, 0.45) !important;
+  top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
+  background: rgba(44, 28, 17, 0.32) !important;
   backdrop-filter: blur(1.5px) !important;
   z-index: 2147483640 !important;
   animation: lore-fade-overlay 200ms ease-out forwards !important;
 }
 
 @keyframes lore-fade-overlay {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; } to { opacity: 1; }
 }
 
-/* Center Modal scale/bounce animation for luxury feel */
+/* Center Modal */
 .lore-tooltip-wrapper.center-modal {
-  max-width: 360px !important;
-  width: 90% !important;
+  max-width: 400px !important;
+  width: 92% !important;
   animation: lore-modal-scale 280ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
 }
 
 @keyframes lore-modal-scale {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -46%) scale(0.93) !important;
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1) !important;
-  }
+  from { opacity: 0; transform: translate(-50%, -46%) scale(0.93) !important; }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1) !important; }
 }
