@@ -232,7 +232,7 @@
 
 
 
-/* Clear single slot button on hover (Spells only) */
+/* Clear single slot button on hover (Spells only on fine-pointer desktop) */
 .spell-slot-clear-btn {
   position: absolute;
   top: -6px;
@@ -252,8 +252,10 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
 }
 
-.spell-action-slot.has-spell:hover .spell-slot-clear-btn {
-  display: flex;
+@media (hover: hover) and (pointer: fine) {
+  .spell-action-slot.has-spell:hover .spell-slot-clear-btn {
+    display: flex;
+  }
 }
 
 .spell-slot-clear-btn:hover {
@@ -418,6 +420,22 @@
 .spell-confirm-btn.confirm-cast:hover {
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   box-shadow: 0 4px 14px rgba(245, 158, 11, 0.6);
+  transform: translateY(-1px);
+}
+
+.spell-confirm-btn.remove-slot-btn {
+  background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
+  border: 1.5px solid #ef4444;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.spell-confirm-btn.remove-slot-btn:hover {
+  background: linear-gradient(135deg, #991b1b 0%, #b91c1c 100%);
+  border-color: #f87171;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.5);
   transform: translateY(-1px);
 }
 
@@ -1619,9 +1637,19 @@
     font-size: 12px;
   }
 
-  .spell-inspect-popup {
-    max-width: 95vw;
-    max-height: 90vh;
+  /* Clear button on hover is disabled on mobile/touch to prevent accidental deletion */
+  .spell-slot-clear-btn {
+    display: none !important;
+  }
+
+  .spell-inspect-popup,
+  .spell-consume-confirm-modal,
+  .spell-confirm-modal,
+  .spell-quick-assign-modal {
+    max-width: 95vw !important;
+    max-height: 90vh !important;
+    box-sizing: border-box !important;
+    overflow-y: auto !important;
   }
 }
 

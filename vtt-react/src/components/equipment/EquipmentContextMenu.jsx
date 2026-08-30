@@ -5,7 +5,7 @@ import useItemStore from '../../store/itemStore';
 import DurabilityAdjustModal from '../item-generation/DurabilityAdjustModal';
 import '../../styles/unified-context-menu.css';
 
-const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
+const EquipmentContextMenu = ({ x, y, item, onClose, onEquip, onOpenDurability }) => {
     const menuRef = useRef(null);
     const [showDurabilityModal, setShowDurabilityModal] = useState(false);
     const updateItemDurability = useItemStore(state => state.updateItemDurability);
@@ -46,11 +46,20 @@ const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
 
     let content = null;
 
+    const handleDurabilityClick = () => {
+        if (onOpenDurability) {
+            onOpenDurability(item);
+        } else {
+            setShowDurabilityModal(true);
+        }
+    };
+
     const durabilityButton = item && ['weapon', 'armor', 'accessory'].includes(item.type) && item.maxDurability != null ? (
         <button
             key="durability-btn"
+            type="button"
             className="context-menu-button"
-            onClick={() => setShowDurabilityModal(true)}
+            onClick={handleDurabilityClick}
             style={{ color: (() => {
                 const cur = item.durability ?? item.maxDurability;
                 const max = item.maxDurability;
@@ -162,19 +171,22 @@ const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
 
     return (
         <>
-            <div
-                ref={menuRef}
-                className="unified-context-menu"
-                style={{
-                    position: 'fixed',
-                    left: x,
-                    top: y,
-                    zIndex: 10001
-                }}
-                onClick={e => e.stopPropagation()}
-            >
-                {content}
-            </div>
+            {!showDurabilityModal && (
+                <div
+                    ref={menuRef}
+                    className="unified-context-menu"
+                    style={{
+                        position: 'fixed',
+                        left: x,
+                        top: y,
+                        zIndex: 10001
+                    }}
+                    onClick={e => e.stopPropagation()}
+                    onMouseDown={e => e.stopPropagation()}
+                >
+                    {content}
+                </div>
+            )}
             {showDurabilityModal && item && (
                 <DurabilityAdjustModal
                     visible={showDurabilityModal}

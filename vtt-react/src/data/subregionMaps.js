@@ -738,6 +738,67 @@ const CUSTOM_MAPS_STORAGE_KEY = 'mythrill_custom_subregion_maps';
 // In-memory cache for immediate synchronous lookups
 let inMemoryCustomMaps = {};
 
+const PRIMARY_MAP_STORAGE_KEY = 'mythrill_primary_starter_map';
+
+/**
+ * Get the user's chosen primary immerse & starter page background map.
+ * Returns { id, name, image } or default Mythrill planetary map if unset.
+ */
+export const getPrimaryStarterMap = () => {
+  try {
+    const saved = localStorage.getItem(PRIMARY_MAP_STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed && parsed.image) {
+        return parsed;
+      }
+    }
+  } catch (e) {
+    // ignore
+  }
+
+  return {
+    id: 'mythril',
+    name: 'Mythrill Planetary Map',
+    image: `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`,
+    isDefault: true
+  };
+};
+
+/**
+ * Set a custom map or regional map as the primary starter & immerse map.
+ */
+export const setPrimaryStarterMap = (mapData) => {
+  try {
+    if (!mapData || mapData.id === 'mythril') {
+      localStorage.removeItem(PRIMARY_MAP_STORAGE_KEY);
+      window.dispatchEvent(new CustomEvent('mythrill_primary_map_changed', {
+        detail: {
+          id: 'mythril',
+          name: 'Mythrill Planetary Map',
+          image: `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`,
+          isDefault: true
+        }
+      }));
+      return;
+    }
+
+    const payload = {
+      id: mapData.id,
+      name: mapData.name,
+      image: mapData.image,
+      regionId: mapData.regionId || null,
+      mapType: mapData.mapType || 'custom',
+      isCustom: Boolean(mapData.isCustom)
+    };
+
+    localStorage.setItem(PRIMARY_MAP_STORAGE_KEY, JSON.stringify(payload));
+    window.dispatchEvent(new CustomEvent('mythrill_primary_map_changed', { detail: payload }));
+  } catch (e) {
+    console.warn('Failed to save primary starter map:', e);
+  }
+};
+
 // Initialize in-memory cache from localStorage on load if available
 try {
   const raw = localStorage.getItem(CUSTOM_MAPS_STORAGE_KEY);

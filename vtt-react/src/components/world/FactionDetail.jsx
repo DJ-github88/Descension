@@ -1,14 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import useFactionStore from '../../store/factionStore';
 import useWorldStore from '../../store/worldStore';
 import LoreLink from '../common/LoreLink';
+import RichLoreText from '../common/RichLoreText';
+import LoreEditorToolbar from '../common/LoreEditorToolbar';
 import { TimelineView } from './TimelineView';
 import { sanitizeLoreText, formatDisplayName, getFactionIcon, getFactionTypeIcon } from './WorldDashboard';
 
 const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
-  const { getFaction, getFactionRelationships } = useFactionStore();
-  const { getFullContextForFaction } = useWorldStore();
+  const { getFaction, getFactionRelationships, updateFaction, removeFaction, factions } = useFactionStore();
+  const { getFullContextForFaction, activeWorldId } = useWorldStore();
   const [activeTab, setActiveTab] = useState('overview');
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  // Edit form state
+  const [editName, setEditName] = useState('');
+  const [editType, setEditType] = useState('');
+  const [editLeaderTitle, setEditLeaderTitle] = useState('');
+  const [editHq, setEditHq] = useState('');
+  const [editPublicGoal, setEditPublicGoal] = useState('');
+  const [editHiddenAgenda, setEditHiddenAgenda] = useState('');
+  const [editLore, setEditLore] = useState('');
+  const [editTerritory, setEditTerritory] = useState('');
+  const [editColorPrimary, setEditColorPrimary] = useState('#8b5a1a');
+  const [editColorSecondary, setEditColorSecondary] = useState('#2b1408');
+
+  const loreTextareaRef = useRef(null);
+  const publicGoalTextareaRef = useRef(null);
 
   const faction = getFaction(factionId);
   const context = getFullContextForFaction(factionId);
@@ -24,6 +42,49 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
       </div>
     );
   }
+
+  const openEditModal = () => {
+    setEditName(faction.name || '');
+    setEditType(faction.type || 'noble_house');
+    setEditLeaderTitle(faction.leader?.title || faction.leader?.name || '');
+    setEditHq(faction.headquarters || '');
+    setEditPublicGoal(faction.publicGoal || faction.publicDescription || '');
+    setEditHiddenAgenda(faction.hiddenAgenda || faction.hiddenDescription || '');
+    setEditLore(faction.lore || '');
+    setEditTerritory((faction.territory || []).join(', '));
+    setEditColorPrimary(faction.colors?.primary || '#8b5a1a');
+    setEditColorSecondary(faction.colors?.secondary || '#2b1408');
+    setShowEditModal(true);
+  };
+
+  const handleSaveFaction = (e) => {
+    e.preventDefault();
+    if (!editName.trim()) return;
+
+    const territoryList = editTerritory
+      .split(',')
+      .map((t) => t.trim())
+      .filter(Boolean);
+
+    updateFaction(factionId, {
+      name: editName.trim(),
+      type: editType,
+      leader: { ...(faction.leader || {}), title: editLeaderTitle.trim() },
+      headquarters: editHq.trim(),
+      publicGoal: editPublicGoal.trim(),
+      publicDescription: editPublicGoal.trim(),
+      hiddenAgenda: editHiddenAgenda.trim(),
+      hiddenDescription: editHiddenAgenda.trim(),
+      lore: editLore.trim(),
+      territory: territoryList,
+      colors: {
+        primary: editColorPrimary,
+        secondary: editColorSecondary
+      }
+    });
+
+    setShowEditModal(false);
+  };
 
   const tabs = [
     { key: 'overview', label: 'Chronicle', icon: 'fa-book-open' },
@@ -52,6 +113,14 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
             <span className="current">{sanitizeLoreText(faction.name)}</span>
           </div>
           <div className="faction-hero-actions">
+            <button
+              className="btn-faction-hero-web"
+              onClick={openEditModal}
+              title="Edit Faction Details & Lore"
+              style={{ background: 'rgba(212, 175, 55, 0.2)', borderColor: '#d4af37', color: '#fff' }}
+            >
+              <i className="fas fa-pen-to-square"></i> Edit Faction
+            </button>
             <button
               className="btn-faction-hero-web"
               onClick={() => {
@@ -304,6 +373,153 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
           <TimelineView filterFactionId={factionId} compact />
         )}
       </div>
+
+      {/* ── Edit Faction Modal ── */}
+      {showEditModal && (
+        <div className="world-modal-overlay" onClick={() => setShowEditModal(false)}>
+          <div className="world-modal-card world-modal-card-lg" onClick={(e) => e.stopPropagation()}>
+            <div className="world-modal-header">
+              <div className="world-modal-title">
+                <i className="fas fa-pen-to-square"></i>
+                <h3>Edit Faction Dossier: {faction.name}</h3>
+              </div>
+              <button className="world-modal-close" onClick={() => setShowEditModal(false)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <form onSubmit={handleSaveFaction}>
+              <div className="world-modal-body">
+                <div className="world-form-row">
+                  <div className="world-form-group">
+                    <label>Faction / Order Name *</label>
+                    <input
+                      type="text"
+                      required
+                      value={editName}
+                      onChange={(e) => setEditName(e.target.value)}
+                      autoFocus
+                    />
+                  </div>
+                  <div className="world-form-group">
+                    <label>Faction Archetype / Type</label>
+                    <select value={editType} onChange={(e) => setEditType(e.target.value)}>
+                      <option value="noble_house">Noble House &amp; Dynastic Bloodline</option>
+                      <option value="military_order">Knightly / Military Order</option>
+                      <option value="religious_cult">Religious Cult / Faith</option>
+                      <option value="guild">Merchant / Artisan Guild</option>
+                      <option value="syndicate">Underworld / Shadow Syndicate</option>
+                      <option value="scholarly_circle">Scholarly / Arcane Academy</option>
+                      <option value="secret_society">Secret Society / Cabal</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="world-form-row">
+                  <div className="world-form-group">
+                    <label>Leader &amp; Authority Title</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Grand Inquisitor, Jarl-Archivist..."
+                      value={editLeaderTitle}
+                      onChange={(e) => setEditLeaderTitle(e.target.value)}
+                    />
+                  </div>
+                  <div className="world-form-group">
+                    <label>Seat &amp; Capital Stronghold</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Greymark Keep, Sunken Vaults..."
+                      value={editHq}
+                      onChange={(e) => setEditHq(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="world-form-group">
+                  <label>Public Mandate &amp; Doctrine</label>
+                  <LoreEditorToolbar
+                    textareaRef={publicGoalTextareaRef}
+                    value={editPublicGoal}
+                    onChange={(val) => setEditPublicGoal(val)}
+                  />
+                  <textarea
+                    ref={publicGoalTextareaRef}
+                    rows={3}
+                    placeholder="Publicly professed purpose, doctrine, and code of conduct..."
+                    value={editPublicGoal}
+                    onChange={(e) => setEditPublicGoal(e.target.value)}
+                    style={{ borderRadius: '0 0 6px 6px', borderTop: 'none' }}
+                  />
+                </div>
+
+                <div className="world-form-group">
+                  <label>GM Secret Agenda &amp; Dark Bargains</label>
+                  <textarea
+                    rows={2}
+                    placeholder="Classified true motives, occult pacts, conspiracies..."
+                    value={editHiddenAgenda}
+                    onChange={(e) => setEditHiddenAgenda(e.target.value)}
+                  />
+                </div>
+
+                <div className="world-form-group">
+                  <label>Illuminated Historical Origins &amp; Canon Lore</label>
+                  <LoreEditorToolbar
+                    textareaRef={loreTextareaRef}
+                    value={editLore}
+                    onChange={(val) => setEditLore(val)}
+                  />
+                  <textarea
+                    ref={loreTextareaRef}
+                    rows={6}
+                    placeholder="Complete historical chronicle, notable battles, :::quest, :::statblock, :::relic..."
+                    value={editLore}
+                    onChange={(e) => setEditLore(e.target.value)}
+                    style={{ borderRadius: '0 0 6px 6px', borderTop: 'none' }}
+                  />
+                </div>
+
+                <div className="world-form-group">
+                  <label>Fortified Holdings &amp; Outposts (comma-separated)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. greymark-keep, scribes-tower, the-shallows"
+                    value={editTerritory}
+                    onChange={(e) => setEditTerritory(e.target.value)}
+                  />
+                </div>
+
+                <div className="world-form-row">
+                  <div className="world-form-group">
+                    <label>Heraldic Primary Color</label>
+                    <input
+                      type="color"
+                      value={editColorPrimary}
+                      onChange={(e) => setEditColorPrimary(e.target.value)}
+                    />
+                  </div>
+                  <div className="world-form-group">
+                    <label>Heraldic Secondary Color</label>
+                    <input
+                      type="color"
+                      value={editColorSecondary}
+                      onChange={(e) => setEditColorSecondary(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="world-modal-actions">
+                <button type="button" className="world-action-btn" onClick={() => setShowEditModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="world-action-btn primary">
+                  <i className="fas fa-check"></i> Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

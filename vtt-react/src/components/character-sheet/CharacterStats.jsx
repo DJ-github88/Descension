@@ -395,6 +395,13 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
         totalStats.swimSpeed = calculatedDerivedStats.swimSpeed || 0;
         totalStats.climbSpeed = calculatedDerivedStats.climbSpeed || 0;
 
+        // Exhaustion Level 5+: Movement speed is reduced to 0 regardless of other modifiers
+        if (finalExhaustionLevel >= 5) {
+            totalStats.movementSpeed = 0;
+            totalStats.swimSpeed = 0;
+            totalStats.climbSpeed = 0;
+        }
+
         // Apply encumbrance effects to base stats for display purposes
         const encumbranceEffects = calculatedDerivedStats.encumbranceEffects;
         if (encumbranceEffects) {

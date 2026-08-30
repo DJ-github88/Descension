@@ -2221,16 +2221,21 @@ export const MapEmbedBlock = ({
           )}
         </svg>
 
-        {/* POI Markers & Pins (Clean Icon-Only Aesthetic) */}
+        {/* POI Markers & Pins (Clean Icon-Only Aesthetic with Scale Compensation) */}
         {markers.map((marker) => {
           const isSelected = selectedPinId === marker.id;
+          const pinScale = Math.max(0.45, Math.min(1.0, 1 / Math.sqrt(currentZoom || 1)));
           return (
             <div
               key={marker.id}
               className={`map-poi-pin ${isSelected ? 'selected' : ''} ${
                 hoveredPin?.id === marker.id ? 'active' : ''
               } ${draggingPinId === marker.id ? 'is-dragging' : ''}`}
-              style={{ left: `${marker.x}%`, top: `${marker.y}%` }}
+              style={{
+                left: `${marker.x}%`,
+                top: `${marker.y}%`,
+                transform: `translate(-50%, -100%) scale(${pinScale * (isSelected ? 1.15 : 1.0)})`
+              }}
               onMouseDown={(e) => {
                 if (isWrite) {
                   e.stopPropagation();
@@ -2257,6 +2262,7 @@ export const MapEmbedBlock = ({
                     className="pin-remove-btn"
                     onClick={(e) => handleRemovePin(marker.id, e)}
                     title="Delete pin"
+                    aria-label="Delete pin"
                   >
                     &times;
                   </button>
@@ -2266,119 +2272,6 @@ export const MapEmbedBlock = ({
           );
         })}
       </div>
-
-      {/* Floating Drawing & Asset Toolbar in Write Mode */}
-      {isWrite && (
-        <div className="map-draw-toolbar" onClick={(e) => e.stopPropagation()}>
-          <div className="map-draw-tools-left">
-            <button
-              type="button"
-              className="map-tool-chip-btn"
-              onClick={handlePickAsset}
-              title="Choose a map or illustration image"
-            >
-              <i className="fas fa-image"></i> Image
-            </button>
-
-            <button
-              type="button"
-              className={`map-tool-chip-btn ${drawMode === 'trail' ? 'active' : ''}`}
-              onClick={() => {
-                if (drawMode === 'trail') handleFinishTrail();
-                else {
-                  setDrawMode('trail');
-                  setDraftTrailPoints([]);
-                }
-              }}
-              title={drawMode === 'trail' ? 'Finish drawing trail' : 'Draw a trail or route by clicking on map'}
-            >
-              <i className="fas fa-route"></i> {drawMode === 'trail' ? 'Finish' : 'Trail'}
-            </button>
-
-            {drawMode === 'trail' && (
-              <>
-                {draftTrailPoints.length > 0 && (
-                  <button
-                    type="button"
-                    className="map-tool-chip-btn"
-                    onClick={handleUndoTrailPoint}
-                    title="Undo last point"
-                  >
-                    <i className="fas fa-rotate-left"></i>
-                  </button>
-                )}
-                <button
-                  type="button"
-                  className="map-tool-chip-btn"
-                  onClick={handleCancelTrail}
-                  title="Cancel drawing"
-                >
-                  <i className="fas fa-xmark"></i>
-                </button>
-              </>
-            )}
-
-            {trails.length > 0 && drawMode === 'idle' && (
-              <button
-                type="button"
-                className="map-tool-chip-btn text-danger"
-                onClick={handleClearTrails}
-                title="Clear drawn trails"
-              >
-                <i className="fas fa-trash"></i> Trails
-              </button>
-            )}
-
-            <button
-              type="button"
-              className={`map-tool-chip-btn ${drawMode === 'pin' ? 'active' : ''}`}
-              onClick={() => setDrawMode(drawMode === 'pin' ? 'idle' : 'pin')}
-              title="Click on map to place a location pin"
-            >
-              <i className="fas fa-location-dot"></i> Pin
-            </button>
-
-            {markers.length > 0 && drawMode === 'idle' && (
-              <button
-                type="button"
-                className="map-tool-chip-btn text-danger"
-                onClick={handleClearPins}
-                title="Clear all pins"
-              >
-                <i className="fas fa-trash"></i> Pins
-              </button>
-            )}
-          </div>
-
-          <div className="map-zoom-btn-group">
-            <button
-              type="button"
-              className="map-zoom-mini-btn"
-              onClick={() => handleZoomChange(0.3)}
-              title="Zoom In"
-            >
-              <i className="fas fa-plus"></i>
-            </button>
-            <span className="map-zoom-level-indicator">{Math.round(currentZoom * 100)}%</span>
-            <button
-              type="button"
-              className="map-zoom-mini-btn"
-              onClick={() => handleZoomChange(-0.3)}
-              title="Zoom Out"
-            >
-              <i className="fas fa-minus"></i>
-            </button>
-            <button
-              type="button"
-              className="map-zoom-mini-btn"
-              onClick={handleResetZoom}
-              title="Reset View"
-            >
-              <i className="fas fa-arrows-rotate"></i>
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Pin Icon & Color Selection Inspector Bar */}
       {isWrite && selectedPin && (
@@ -2577,23 +2470,160 @@ export const MapEmbedBlock = ({
     </div>
   );
 
+  // Render Integrated Card Header with Tools & Zoom Controls
+  const renderCardHeader = () => (
+    <div className="map-card-header" onClick={(e) => e.stopPropagation()}>
+      <div className="map-header-left">
+        {isWrite ? (
+          <div className="map-header-tools">
+            <button
+              type="button"
+              className="map-header-chip-btn"
+              onClick={handlePickAsset}
+              title="Choose Map / Illustration Image"
+              aria-label="Choose Map Image"
+            >
+              <i className="fas fa-image"></i>
+            </button>
+
+            <button
+              type="button"
+              className={`map-header-chip-btn ${drawMode === 'trail' ? 'active' : ''}`}
+              onClick={() => {
+                if (drawMode === 'trail') handleFinishTrail();
+                else {
+                  setDrawMode('trail');
+                  setDraftTrailPoints([]);
+                }
+              }}
+              title={drawMode === 'trail' ? 'Finish drawing trail' : 'Draw a trail route on map'}
+              aria-label="Draw Trail"
+            >
+              <i className={`fas ${drawMode === 'trail' ? 'fa-check' : 'fa-route'}`}></i>
+            </button>
+
+            {drawMode === 'trail' && (
+              <>
+                {draftTrailPoints.length > 0 && (
+                  <button
+                    type="button"
+                    className="map-header-chip-btn"
+                    onClick={handleUndoTrailPoint}
+                    title="Undo last point"
+                    aria-label="Undo trail point"
+                  >
+                    <i className="fas fa-rotate-left"></i>
+                  </button>
+                )}
+                <button
+                  type="button"
+                  className="map-header-chip-btn"
+                  onClick={handleCancelTrail}
+                  title="Cancel drawing trail"
+                  aria-label="Cancel drawing trail"
+                >
+                  <i className="fas fa-xmark"></i>
+                </button>
+              </>
+            )}
+
+            {trails.length > 0 && drawMode === 'idle' && (
+              <button
+                type="button"
+                className="map-header-chip-btn text-danger"
+                onClick={handleClearTrails}
+                title="Clear all drawn trails"
+                aria-label="Clear trails"
+              >
+                <i className="fas fa-trash-can"></i>
+              </button>
+            )}
+
+            <button
+              type="button"
+              className={`map-header-chip-btn ${drawMode === 'pin' ? 'active' : ''}`}
+              onClick={() => setDrawMode(drawMode === 'pin' ? 'idle' : 'pin')}
+              title="Click on map to place a location pin"
+              aria-label="Place Pin"
+            >
+              <i className="fas fa-location-dot"></i>
+            </button>
+
+            {markers.length > 0 && drawMode === 'idle' && (
+              <button
+                type="button"
+                className="map-header-chip-btn text-danger"
+                onClick={handleClearPins}
+                title="Clear all location pins"
+                aria-label="Clear all pins"
+              >
+                <i className="fas fa-trash-can"></i>
+              </button>
+            )}
+          </div>
+        ) : (
+          <div className="map-header-title-wrap">
+            <i className="fas fa-map-location-dot header-icon"></i>
+            <span className="map-header-title">Regional Cartography</span>
+          </div>
+        )}
+      </div>
+
+      <div className="map-header-right">
+        <div className="map-zoom-btn-group">
+          <button
+            type="button"
+            className="map-zoom-mini-btn"
+            onClick={() => handleZoomChange(-0.3)}
+            title="Zoom Out"
+            aria-label="Zoom Out"
+          >
+            <i className="fas fa-minus"></i>
+          </button>
+          <span className="map-zoom-level-indicator">{Math.round(currentZoom * 100)}%</span>
+          <button
+            type="button"
+            className="map-zoom-mini-btn"
+            onClick={() => handleZoomChange(0.3)}
+            title="Zoom In"
+            aria-label="Zoom In"
+          >
+            <i className="fas fa-plus"></i>
+          </button>
+          <button
+            type="button"
+            className="map-zoom-mini-btn"
+            onClick={handleResetZoom}
+            title="Reset View"
+            aria-label="Reset View"
+          >
+            <i className="fas fa-arrows-rotate"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div
       className={`book-map-embed-card layout-${layoutStyle} height-${heightStyle} ${
         isWrite ? 'is-write-mode' : 'is-read-mode'
       }`}
     >
-      {layoutStyle === 'side-right' ? (
-        <>
-          {renderWritingArea()}
-          {renderViewport()}
-        </>
-      ) : (
-        <>
-          {renderViewport()}
-          {renderWritingArea()}
-        </>
-      )}
+      {renderCardHeader()}
+      <div className="map-card-body-row">
+        {layoutStyle === 'side-right' ? (
+          <>
+            {renderWritingArea()}
+            {renderViewport()}
+          </>
+        ) : (
+          <>
+            {renderViewport()}
+            {renderWritingArea()}
+          </>
+        )}
+      </div>
     </div>
   );
 };
@@ -3059,7 +3089,7 @@ export const BookSketchBlock = ({
             title={title}
             onChange={handleCanvasChange}
             aspectRatio="16/9"
-            minHeight={340}
+            minHeight={220}
           />
         </div>
       ) : (
@@ -3083,7 +3113,7 @@ export const BookSketchBlock = ({
             title={title}
             onChange={handleCanvasChange}
             aspectRatio="16/9"
-            minHeight={300}
+            minHeight={200}
           />
           {caption && <p className="book-sketch-view-caption">{caption}</p>}
         </div>

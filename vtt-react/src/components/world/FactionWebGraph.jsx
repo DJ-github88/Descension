@@ -1,14 +1,31 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import useFactionStore, { RELATIONSHIP_TYPES, FACTION_TYPES } from '../../store/factionStore';
+import useWorldStore from '../../store/worldStore';
 import { sanitizeLoreText } from './WorldDashboard';
 import './FactionWebGraph.css';
 
 const CANVAS_WIDTH = 2400;
 const CANVAS_HEIGHT = 1600;
 
-const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
-  const { factions, getFullRelationshipGraph, getRelationshipTypes } = useFactionStore();
-  const graph = useMemo(() => getFullRelationshipGraph(), [getFullRelationshipGraph]);
+const FactionWebGraph = ({ onFactionClick, selectedFactionId, worldId }) => {
+  const activeWorldId = useWorldStore((state) => state.activeWorldId || 'mythrill');
+  const targetWorldId = worldId || activeWorldId;
+  const activeWorld = useWorldStore((state) => (state.getActiveWorld ? state.getActiveWorld() : null));
+
+  const { getAllFactions, getFullRelationshipGraph, getRelationshipTypes } = useFactionStore();
+  const worldFactions = useMemo(() => {
+    return getAllFactions ? getAllFactions(targetWorldId) : [];
+  }, [getAllFactions, targetWorldId]);
+
+  const rawGraph = useMemo(() => {
+    return getFullRelationshipGraph ? getFullRelationshipGraph(targetWorldId) : [];
+  }, [getFullRelationshipGraph, targetWorldId]);
+
+  // Normalize graph edges format (supports both array and object { edges: [] })
+  const graphEdges = useMemo(() => {
+    if (Array.isArray(rawGraph)) return rawGraph;
+    return rawGraph?.edges || [];
+  }, [rawGraph]);
 
   const [showSecrets, setShowSecrets] = useState(false);
   const [hoveredFactionId, setHoveredFactionId] = useState(null);
@@ -31,14 +48,14 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
 
   const relTypes = getRelationshipTypes();
 
-  // Filtered Factions
+  // Filtered Factions for the active world
   const visibleFactions = useMemo(() => {
-    let list = factions;
+    let list = worldFactions;
     if (!showSecrets) {
       list = list.filter((f) => f.type !== 'secret_society' || f.publicGoal);
     }
     return list;
-  }, [factions, showSecrets]);
+  }, [worldFactions, showSecrets]);
 
   // Initial Organic Multi-Ring Layout Generator with generous spacing
   const defaultPositions = useMemo(() => {
@@ -105,7 +122,7 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
   // Filtered Edges based on filter & visibility
   const visibleEdges = useMemo(() => {
     const validIds = new Set(visibleFactions.map(f => f.id));
-    return (graph.edges || []).filter(edge => {
+    return graphEdges.filter(edge => {
       if (!validIds.has(edge.source) || !validIds.has(edge.target)) return false;
       if (activeRelFilter === 'all') return true;
       if (activeRelFilter === 'allied') return edge.type === 'allied' || edge.type === 'friendly' || edge.type === 'vassal';
@@ -114,7 +131,7 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
       if (activeRelFilter === 'secret') return edge.type === 'infiltrating' || edge.type === 'puppet_master' || edge.type === 'blackmail';
       return edge.type === activeRelFilter;
     });
-  }, [graph.edges, visibleFactions, activeRelFilter]);
+  }, [graphEdges, visibleFactions, activeRelFilter]);
 
   // Connected Faction IDs and Direct Edge Set for active focus faction
   const { connectedFactionIds, directEdgeSet } = useMemo(() => {
@@ -493,6 +510,30 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
         onTouchCancel={handleTouchEnd}
       >
         {/* Floating Instructions & Zoom HUD */}
+        {visibleFactions.length === 0 ? (
+          <div className="world-graph-empty-overlay" style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            textAlign: 'center',
+            background: 'rgba(26, 15, 8, 0.92)',
+            padding: '30px 40px',
+            borderRadius: '12px',
+            border: '1.5px solid #a67c2e',
+            color: '#fdfbf7',
+            zIndex: 10,
+            maxWidth: '480px',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.6)'
+          }}>
+            <i className="fas fa-project-diagram" style={{ fontSize: '36px', color: '#d4af37', marginBottom: '14px', display: 'block' }}></i>
+            <h3 style={{ fontFamily: 'Cinzel, serif', color: '#f1d779', margin: '0 0 8px 0' }}>No Factions in {activeWorld?.name || 'this World'} Yet</h3>
+            <p style={{ fontSize: '13px', color: '#d5c7b3', margin: 0, lineHeight: 1.5 }}>
+              Forge sovereign noble houses, knightly orders, and guilds to chart diplomatic alliances, secret treaties, and rivalries on this relationship web.
+            </p>
+          </div>
+        ) : null}
+
         <div className="world-web-hud">
           <button
             type="button"

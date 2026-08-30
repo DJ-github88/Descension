@@ -6,6 +6,7 @@ import ItemWizard from '../item-generation/ItemWizard';
 import { getIconUrl } from '../../utils/assetManager';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { normalizeBookItemData } from './BookTtrpgBlocks';
+import '../../styles/item-tooltip.css';
 import './BookDocumentEditor.css';
 
 const QUALITY_FILTERS = [
@@ -52,6 +53,7 @@ const BookItemCreatorModal = ({
     return allAvailableItems[0] ? normalizeBookItemData(allAvailableItems[0]) : null;
   });
 
+  const [mobileTab, setMobileTab] = useState('list');
   const [showItemWizard, setShowItemWizard] = useState(false);
   const [wizardInitialData, setWizardInitialData] = useState(null);
 
@@ -156,10 +158,30 @@ const BookItemCreatorModal = ({
           </button>
         </div>
 
+        {/* Mobile View Switcher Tabs (Shown on small screens via CSS) */}
+        <div className="lore-mobile-nav-tabs">
+          <button
+            type="button"
+            className={`lore-mobile-tab-btn ${mobileTab === 'list' ? 'active' : ''}`}
+            onClick={() => setMobileTab('list')}
+          >
+            <i className="fas fa-list-ul"></i>
+            <span>Items ({filteredItems.length})</span>
+          </button>
+          <button
+            type="button"
+            className={`lore-mobile-tab-btn ${mobileTab === 'preview' ? 'active' : ''}`}
+            onClick={() => setMobileTab('preview')}
+          >
+            <i className="fas fa-eye"></i>
+            <span>Live Preview {selectedItem ? `(${selectedItem.name})` : ''}</span>
+          </button>
+        </div>
+
         {/* Modal Main Body */}
-        <div className="book-item-studio-body">
+        <div className={`book-item-studio-body mobile-show-${mobileTab}`}>
           {/* Left Column: Item Grid / List */}
-          <div className="book-item-picker-list">
+          <div className={`book-item-picker-list ${mobileTab === 'list' ? 'mobile-visible' : 'mobile-hidden'}`}>
             <div className="picker-list-header">
               <span>Matching Items ({filteredItems.length})</span>
             </div>
@@ -181,7 +203,10 @@ const BookItemCreatorModal = ({
                     <div
                       key={`${item.id || item.name}-${idx}`}
                       className={`book-item-list-row ${isSelected ? 'selected' : ''}`}
-                      onClick={() => setSelectedItem(norm)}
+                      onClick={() => {
+                        setSelectedItem(norm);
+                        setMobileTab('preview');
+                      }}
                       onDoubleClick={() => handleSelectAndConfirm(norm)}
                     >
                       <div className="row-icon-box" data-quality={qLower}>
@@ -224,7 +249,19 @@ const BookItemCreatorModal = ({
           </div>
 
           {/* Right Column: Live ItemTooltip Preview */}
-          <div className="book-item-preview-pane">
+          <div className={`book-item-preview-pane ${mobileTab === 'preview' ? 'mobile-visible' : 'mobile-hidden'}`}>
+            <div className="lore-mobile-back-row">
+              <button
+                type="button"
+                className="lore-mobile-back-btn"
+                onClick={() => setMobileTab('list')}
+                title="Back to Items List"
+              >
+                <i className="fas fa-arrow-left"></i>
+                <span>Back to Items ({filteredItems.length})</span>
+              </button>
+            </div>
+
             <div className="preview-pane-header">
               <i className="fas fa-eye"></i>
               <span>Live In-Game Item Layout</span>

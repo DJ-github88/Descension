@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import { createStorageConfig } from '../utils/storageUtils';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../config/firebase';
+import useWorldStore from './worldStore';
 
 // Built-in starter family tree demo data
 const DEFAULT_STARTER_TREES = [
@@ -302,12 +303,22 @@ const useFamilyTreeStore = create(
       },
 
       // Tree Management
-      createTree: (name, description = '', coverImage = null) => {
+      getAllTrees: (worldId = null) => {
+        const targetWorldId = worldId || useWorldStore.getState().activeWorldId || 'mythrill';
+        if (targetWorldId === 'mythrill') {
+          return get().trees.filter(t => !t.worldId || t.worldId === 'mythrill');
+        }
+        return get().trees.filter(t => t.worldId === targetWorldId);
+      },
+
+      createTree: (name, description = '', coverImage = null, worldId = null) => {
+        const targetWorldId = worldId || useWorldStore.getState().activeWorldId || 'mythrill';
         const newTree = {
           id: `tree-${Date.now()}`,
           name: name.trim() || 'New Family Dynasty',
           description: description.trim(),
           coverImage,
+          worldId: targetWorldId,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
           nodes: [],

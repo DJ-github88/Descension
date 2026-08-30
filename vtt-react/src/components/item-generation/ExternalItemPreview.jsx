@@ -7,8 +7,8 @@ import useSettingsStore from '../../store/settingsStore';
 const ExternalItemPreview = ({ itemData, windowPosition, windowSize, isOpen }) => {
   const windowScale = useSettingsStore(state => state.windowScale);
 
-  // Only show when the wizard is open and we have some item data
-  if (!isOpen || !itemData || Object.keys(itemData).length === 0) {
+  // Only show when the wizard is open, we have item data, and we are not on a small/mobile viewport
+  if (!isOpen || !itemData || Object.keys(itemData).length === 0 || typeof window !== 'undefined' && window.innerWidth < 900) {
     return null;
   }
 

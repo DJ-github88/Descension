@@ -15,6 +15,7 @@ import ContainerWindow from '../item-generation/ContainerWindow';
 import UnlockContainerModal from '../item-generation/UnlockContainerModal';
 import UnifiedCurrencyWithdrawModal from './UnifiedCurrencyWithdrawModal';
 import EquipmentContextMenu from '../equipment/EquipmentContextMenu';
+import DurabilityAdjustModal from '../item-generation/DurabilityAdjustModal';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getCompatibleSlots } from '../../utils/equipmentUtils';
 import { getInventoryGridDimensions } from '../../utils/characterUtils';
@@ -176,6 +177,7 @@ const InventoryWindow = memo(() => {
     const [] = useState(false);
     const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0, itemId: null });
     const [equipmentContextMenu, setEquipmentContextMenu] = useState({ visible: false, x: 0, y: 0, item: null });
+    const [durabilityModalItem, setDurabilityModalItem] = useState(null);
     const [showItemTooltip, setShowItemTooltip] = useState({ visible: false, itemId: null });
     const [itemActionPanel, setItemActionPanel] = useState({ visible: false, itemId: null, anchorRect: null });
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -2666,8 +2668,24 @@ const InventoryWindow = memo(() => {
                     item={equipmentContextMenu.item}
                     onClose={() => setEquipmentContextMenu({ visible: false })}
                     onEquip={handleEquipItem}
+                    onOpenDurability={(item) => {
+                        setEquipmentContextMenu({ visible: false });
+                        setDurabilityModalItem(item);
+                    }}
                 />,
                 document.body
+            )}
+
+            {/* Durability Adjust Modal */}
+            {durabilityModalItem && (
+                <DurabilityAdjustModal
+                    visible={!!durabilityModalItem}
+                    item={durabilityModalItem}
+                    onClose={() => setDurabilityModalItem(null)}
+                    onDurabilityChange={(itemId, newDurability) => {
+                        useItemStore.getState().updateItemDurability(itemId, newDurability);
+                    }}
+                />
             )}
 
             {/* Overheal Confirmation Modal */}

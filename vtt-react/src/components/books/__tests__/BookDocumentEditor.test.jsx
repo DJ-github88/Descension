@@ -381,8 +381,8 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
       />
     );
 
-    expect(screen.getByText('Trail')).toBeInTheDocument();
-    expect(screen.getByText('Pin')).toBeInTheDocument();
+    expect(screen.getByTitle(/draw a trail route/i)).toBeInTheDocument();
+    expect(screen.getByTitle(/place a location pin/i)).toBeInTheDocument();
     expect(screen.getByText('+ Add Current View')).toBeInTheDocument();
   });
 

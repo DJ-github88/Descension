@@ -6,6 +6,9 @@
 .conspiracy-board-root {
   position: relative;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   height: 820px;
   min-height: 700px;
   background: #1a120c;
@@ -133,10 +136,14 @@
 .conspiracy-viewport {
   position: relative;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   height: 100%;
   flex: 1;
   overflow: hidden;
   cursor: grab;
+  touch-action: none;
 }
 
 .conspiracy-viewport.panning {
@@ -1169,3 +1176,80 @@
   color: #7f6a55 !important;
   font-style: italic;
 }
+
+/* ============ MOBILE & RESPONSIVE ============ */
+@media (max-width: 768px) {
+  .conspiracy-board-root {
+    height: 540px;
+    min-height: 380px;
+    border-width: 6px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .conspiracy-top-bar {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 8px 10px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .conspiracy-top-left {
+    justify-content: space-between;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .conspiracy-badge-title {
+    font-size: 0.8rem;
+  }
+
+  .conspiracy-top-center {
+    overflow-x: auto;
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: nowrap;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+  }
+
+  .conspiracy-tool-btn {
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    padding: 4px 8px;
+  }
+
+  .conspiracy-top-right {
+    justify-content: flex-end;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .conspiracy-drawer {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .custom-rel-modal-content {
+    width: 92vw;
+    max-width: 380px;
+    padding: 16px;
+    box-sizing: border-box;
+  }
+}
+

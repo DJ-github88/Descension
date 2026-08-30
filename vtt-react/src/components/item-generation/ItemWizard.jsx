@@ -497,23 +497,34 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
         setModalZIndex(baseZIndex + 1);
     }, [baseZIndex]);
 
+    const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 768);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const [isDragging, setIsDragging] = useState(false);
     const [position, setPosition] = useState(() => ({
-        x: Math.max(50, (window.innerWidth - 800) / 2),
-        y: Math.max(50, (window.innerHeight - 600) / 2)
+        x: Math.max(10, (window.innerWidth - 800) / 2),
+        y: Math.max(10, (window.innerHeight - 700) / 2)
     }));
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
     const modalRef = useRef(null);
 
     // Window position and size for external preview
     const [windowPosition, setWindowPosition] = useState(() => ({
-        x: Math.max(50, (window.innerWidth - 800) / 2),
-        y: Math.max(50, (window.innerHeight - 600) / 2)
+        x: Math.max(10, (window.innerWidth - 800) / 2),
+        y: Math.max(10, (window.innerHeight - 700) / 2)
     }));
     const [windowSize, setWindowSize] = useState({ width: 800, height: 600 });
     const [tooltipPosition, setTooltipPosition] = useState({ visible: false, x: 0, y: 0, stepName: '' });
 
     const handleMouseDown = (e) => {
+        if (isMobile) return;
         // Allow dragging from anywhere on the window, but not from interactive elements
         if (!e.target.closest('button, input, select, textarea, .wizard-nav-controls, .close-button')) {
             setIsDragging(true);
@@ -581,14 +592,17 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     };
 
     const handleStepMouseEnter = (e, stepName, stepInfo) => {
+        if (isMobile) return;
         const rect = e.currentTarget.getBoundingClientRect();
-        // Account for window scaling - getBoundingClientRect already accounts for transforms
-        const tooltipX = rect.left + rect.width / 2; // Center horizontally
-        const tooltipY = rect.top - 12; // Position above the button (12px gap)
+        // Clamp tooltip horizontally so it stays on screen
+        const tooltipX = Math.max(120, Math.min(window.innerWidth - 120, rect.left + rect.width / 2));
+        const isNearTop = rect.top < 110;
+        const tooltipY = isNearTop ? rect.bottom + 8 : rect.top - 12;
         setTooltipPosition({
             visible: true,
             x: tooltipX,
             y: tooltipY,
+            placement: isNearTop ? 'bottom' : 'top',
             stepName,
             stepInfo
         });
@@ -668,16 +682,30 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 className="item-wizard-modal spellbook-wizard-layout"
                 data-quality={itemData.quality || 'common'}
                 style={{
-                    position: 'fixed',
-                    left: `${position.x}px`,
-                    top: `${position.y}px`,
-                    width: '800px',
-                    height: '700px',
-                    cursor: isDragging ? 'grabbing' : 'default',
-                    transformOrigin: 'top left',
-                    transform: `scale(${windowScale})`,
-                    willChange: 'transform',
-                    zIndex: modalZIndex // Use managed z-index
+                    zIndex: modalZIndex,
+                    ...(isMobile ? {
+                        position: 'fixed',
+                        left: '4px',
+                        top: '4px',
+                        right: '4px',
+                        bottom: '4px',
+                        width: 'calc(100vw - 8px)',
+                        maxWidth: 'calc(100vw - 8px)',
+                        height: 'calc(100dvh - 8px)',
+                        maxHeight: 'calc(100dvh - 8px)',
+                        transform: 'none',
+                        cursor: 'default'
+                    } : {
+                        position: 'fixed',
+                        left: `${position.x}px`,
+                        top: `${position.y}px`,
+                        width: '800px',
+                        height: '700px',
+                        cursor: isDragging ? 'grabbing' : 'default',
+                        transformOrigin: 'top left',
+                        transform: `scale(${windowScale})`,
+                        willChange: 'transform'
+                    })
                 }}
                 onMouseDown={handleMouseDown}
             >
@@ -732,14 +760,16 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
             />
 
             {/* Progress Bar Tooltip - Rendered outside modal to escape clipping */}
-            {tooltipPosition.visible && tooltipPosition.stepInfo && (
+            {!isMobile && tooltipPosition.visible && tooltipPosition.stepInfo && (
                 <div
                     className="step-tooltip-fixed"
                     style={{
                         position: 'fixed',
                         left: `${tooltipPosition.x}px`,
                         top: `${tooltipPosition.y}px`,
-                        transform: 'translateX(-50%) translateY(-100%)',
+                        transform: tooltipPosition.placement === 'bottom'
+                            ? 'translateX(-50%) translateY(0)'
+                            : 'translateX(-50%) translateY(-100%)',
                         zIndex: 99999,
                         pointerEvents: 'none'
                     }}

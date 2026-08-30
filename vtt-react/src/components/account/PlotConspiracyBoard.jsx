@@ -388,6 +388,28 @@ export default function PlotConspiracyBoard({
     };
   }, [pan, zoom]);
 
+  // Synchronous refs for smooth real-time drag/pan & pinch zoom
+  const touchPinchRef = useRef({
+    isPinching: false,
+    initialDist: 1,
+    initialZoom: 1,
+    initialPan: { x: 0, y: 0 },
+    centerClient: { x: 0, y: 0 }
+  });
+  const touchStartPosRef = useRef({ x: 0, y: 0 });
+  const isPanningRef = useRef(false);
+  const panStartRef = useRef({ x: 0, y: 0 });
+  const draggedNodeIdRef = useRef(null);
+  const dragOffsetRef = useRef({ x: 0, y: 0 });
+  const panRef = useRef(pan);
+  const zoomRef = useRef(zoom);
+  const nodesRef = useRef(nodes);
+  const didDragNodeRef = useRef(false);
+
+  useEffect(() => { panRef.current = pan; }, [pan]);
+  useEffect(() => { zoomRef.current = zoom; }, [zoom]);
+  useEffect(() => { nodesRef.current = nodes; }, [nodes]);
+
   // Initial Auto-Population if board is empty but plot threads exist
   useEffect(() => {
     if ((!nodes || nodes.length === 0) && campaignData?.plotThreads?.length > 0) {
@@ -398,45 +420,177 @@ export default function PlotConspiracyBoard({
   // ============ VIEWPORT PAN & ZOOM HANDLERS ============
   const handleViewportMouseDown = (e) => {
     if (e.target === viewportRef.current || e.target === canvasRef.current || e.target.classList.contains('conspiracy-canvas')) {
+      isPanningRef.current = true;
+      panStartRef.current = { x: e.clientX - panRef.current.x, y: e.clientY - panRef.current.y };
       setIsPanning(true);
-      setPanStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
       if (activeStringOrigin) setActiveStringOrigin(null);
       if (selectedString) setSelectedString(null);
       if (editingNode) setEditingNode(null);
     }
   };
 
-  const handleMouseMove = (e) => {
+  const handleViewportTouchStart = (e) => {
+    if (e.touches.length === 2) {
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+      const centerX = (t1.clientX + t2.clientX) / 2;
+      const centerY = (t1.clientY + t2.clientY) / 2;
+
+      touchPinchRef.current = {
+        isPinching: true,
+        initialDist: dist || 1,
+        initialZoom: zoomRef.current,
+        initialPan: { ...panRef.current },
+        centerClient: { x: centerX, y: centerY }
+      };
+      isPanningRef.current = false;
+      draggedNodeIdRef.current = null;
+      setIsPanning(false);
+      setDraggedNodeId(null);
+      return;
+    }
+
+    if (e.touches.length === 1) {
+      const touch = e.touches[0];
+      touchStartPosRef.current = { x: touch.clientX, y: touch.clientY };
+
+      if (e.target.closest('.conspiracy-tool-btn') || e.target.closest('.plot-filter-select') || e.target.closest('button') || e.target.closest('input')) {
+        return;
+      }
+
+      const nodeEl = e.target.closest('.conspiracy-node');
+      if (!nodeEl) {
+        isPanningRef.current = true;
+        panStartRef.current = { x: touch.clientX - panRef.current.x, y: touch.clientY - panRef.current.y };
+        setIsPanning(true);
+        if (activeStringOrigin) setActiveStringOrigin(null);
+        if (selectedString) setSelectedString(null);
+        if (editingNode) setEditingNode(null);
+      }
+    }
+  };
+
+  const handleGlobalMouseMove = useCallback((e) => {
     const canvasPos = getCanvasCoords(e.clientX, e.clientY);
     setMouseCanvasPos(canvasPos);
 
-    if (isPanning) {
-      setPan({
-        x: e.clientX - panStart.x,
-        y: e.clientY - panStart.y
-      });
-    } else if (draggedNodeId) {
-      const updatedNodes = nodes.map(node => {
-        if (node.id === draggedNodeId) {
+    if (isPanningRef.current) {
+      const newPan = {
+        x: e.clientX - panStartRef.current.x,
+        y: e.clientY - panStartRef.current.y
+      };
+      panRef.current = newPan;
+      setPan(newPan);
+    } else if (draggedNodeIdRef.current) {
+      didDragNodeRef.current = true;
+      const updatedNodes = nodesRef.current.map(node => {
+        if (node.id === draggedNodeIdRef.current) {
           return {
             ...node,
-            x: Math.max(20, Math.min(3200, canvasPos.x - dragOffset.x)),
-            y: Math.max(20, Math.min(2200, canvasPos.y - dragOffset.y))
+            x: Math.max(20, Math.min(3200, canvasPos.x - dragOffsetRef.current.x)),
+            y: Math.max(20, Math.min(2200, canvasPos.y - dragOffsetRef.current.y))
           };
         }
         return node;
       });
+      nodesRef.current = updatedNodes;
       setNodes(updatedNodes);
     }
-  };
+  }, [getCanvasCoords]);
 
-  const handleMouseUp = () => {
-    if (isPanning) setIsPanning(false);
-    if (draggedNodeId) {
-      setDraggedNodeId(null);
-      persistBoard(nodes, connections, theme);
+  const handleGlobalTouchMove = useCallback((e) => {
+    // 2-finger pinch zoom
+    if (touchPinchRef.current.isPinching && e.touches.length === 2 && viewportRef.current) {
+      if (e.cancelable) e.preventDefault();
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+      const scaleFactor = dist / touchPinchRef.current.initialDist;
+      const newZoom = Math.min(2.4, Math.max(0.35, +(touchPinchRef.current.initialZoom * scaleFactor).toFixed(2)));
+
+      const rect = viewportRef.current.getBoundingClientRect();
+      const pinchCenterX = touchPinchRef.current.centerClient.x - rect.left;
+      const pinchCenterY = touchPinchRef.current.centerClient.y - rect.top;
+
+      const worldX = (pinchCenterX - touchPinchRef.current.initialPan.x) / touchPinchRef.current.initialZoom;
+      const worldY = (pinchCenterY - touchPinchRef.current.initialPan.y) / touchPinchRef.current.initialZoom;
+
+      const newPanX = Math.round(pinchCenterX - worldX * newZoom);
+      const newPanY = Math.round(pinchCenterY - worldY * newZoom);
+
+      zoomRef.current = newZoom;
+      panRef.current = { x: newPanX, y: newPanY };
+      setZoom(newZoom);
+      setPan({ x: newPanX, y: newPanY });
+      return;
     }
-  };
+
+    // 1-finger move
+    if (e.touches.length === 1 && !touchPinchRef.current.isPinching) {
+      const touch = e.touches[0];
+      const canvasPos = getCanvasCoords(touch.clientX, touch.clientY);
+      setMouseCanvasPos(canvasPos);
+
+      if (isPanningRef.current) {
+        if (e.cancelable) e.preventDefault();
+        const newPan = {
+          x: touch.clientX - panStartRef.current.x,
+          y: touch.clientY - panStartRef.current.y
+        };
+        panRef.current = newPan;
+        setPan(newPan);
+      } else if (draggedNodeIdRef.current) {
+        if (e.cancelable) e.preventDefault();
+        didDragNodeRef.current = true;
+        const updatedNodes = nodesRef.current.map(node => {
+          if (node.id === draggedNodeIdRef.current) {
+            return {
+              ...node,
+              x: Math.max(20, Math.min(3200, canvasPos.x - dragOffsetRef.current.x)),
+              y: Math.max(20, Math.min(2200, canvasPos.y - dragOffsetRef.current.y))
+            };
+          }
+          return node;
+        });
+        nodesRef.current = updatedNodes;
+        setNodes(updatedNodes);
+      }
+    }
+  }, [getCanvasCoords]);
+
+  const handleGlobalPointerUp = useCallback(() => {
+    if (touchPinchRef.current.isPinching) {
+      touchPinchRef.current.isPinching = false;
+    }
+    if (isPanningRef.current) {
+      isPanningRef.current = false;
+      setIsPanning(false);
+    }
+    if (draggedNodeIdRef.current) {
+      draggedNodeIdRef.current = null;
+      setDraggedNodeId(null);
+      if (didDragNodeRef.current) {
+        persistBoard(nodesRef.current, connections, theme);
+      }
+    }
+    didDragNodeRef.current = false;
+  }, [connections, persistBoard, theme]);
+
+  useEffect(() => {
+    window.addEventListener('mousemove', handleGlobalMouseMove);
+    window.addEventListener('mouseup', handleGlobalPointerUp);
+    window.addEventListener('touchmove', handleGlobalTouchMove, { passive: false });
+    window.addEventListener('touchend', handleGlobalPointerUp);
+    window.addEventListener('touchcancel', handleGlobalPointerUp);
+    return () => {
+      window.removeEventListener('mousemove', handleGlobalMouseMove);
+      window.removeEventListener('mouseup', handleGlobalPointerUp);
+      window.removeEventListener('touchmove', handleGlobalTouchMove);
+      window.removeEventListener('touchend', handleGlobalPointerUp);
+      window.removeEventListener('touchcancel', handleGlobalPointerUp);
+    };
+  }, [handleGlobalMouseMove, handleGlobalTouchMove, handleGlobalPointerUp]);
 
   // Attach native non-passive wheel listener to prevent outer page scroll
   useEffect(() => {
@@ -507,11 +661,29 @@ export default function PlotConspiracyBoard({
       return;
     }
     const canvasPos = getCanvasCoords(e.clientX, e.clientY);
+    draggedNodeIdRef.current = node.id;
     setDraggedNodeId(node.id);
-    setDragOffset({
+    dragOffsetRef.current = {
       x: canvasPos.x - node.x,
       y: canvasPos.y - node.y
-    });
+    };
+    didDragNodeRef.current = false;
+  };
+
+  const handleNodeTouchStart = (e, node) => {
+    if (e.touches.length !== 1) return;
+    if (e.target.closest('.node-pushpin-anchor') || e.target.closest('.node-quick-actions') || e.target.closest('button') || e.target.closest('input') || e.target.closest('textarea')) {
+      return;
+    }
+    const touch = e.touches[0];
+    const canvasPos = getCanvasCoords(touch.clientX, touch.clientY);
+    draggedNodeIdRef.current = node.id;
+    setDraggedNodeId(node.id);
+    dragOffsetRef.current = {
+      x: canvasPos.x - node.x,
+      y: canvasPos.y - node.y
+    };
+    didDragNodeRef.current = false;
   };
 
   // ============ STRING ENGINE ============
@@ -1022,8 +1194,7 @@ export default function PlotConspiracyBoard({
         ref={viewportRef}
         className={`conspiracy-viewport ${isPanning ? 'panning' : ''} ${activeStringOrigin ? 'string-mode' : ''}`}
         onMouseDown={handleViewportMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
+        onTouchStart={handleViewportTouchStart}
       >
         <div
           ref={canvasRef}
@@ -1143,6 +1314,7 @@ export default function PlotConspiracyBoard({
                   transform: `rotate(${node.rotation || 0}deg)`
                 }}
                 onMouseDown={(e) => handleNodeMouseDown(e, node)}
+                onTouchStart={(e) => handleNodeTouchStart(e, node)}
                 onDoubleClick={() => startEditingNode(node)}
               >
                 {/* Pushpin Anchor */}

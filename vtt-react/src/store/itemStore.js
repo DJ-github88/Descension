@@ -1060,9 +1060,6 @@ const useItemStore = create(
 
       updateItemDurability: (itemId, newDurability) => {
         const state = get();
-        const item = state.items.find(i => i.id === itemId);
-        if (!item) return;
-
         let durabilityValue = newDurability;
         let isBroken = false;
 
@@ -1072,8 +1069,7 @@ const useItemStore = create(
             isBroken = true;
           }
         } else if (typeof newDurability === 'number') {
-          const maxDur = typeof item.maxDurability === 'number' ? item.maxDurability : 100;
-          const clamped = Math.max(0, Math.min(newDurability, maxDur));
+          const clamped = Math.max(0, newDurability);
           durabilityValue = clamped;
           if (clamped === 0) {
             isBroken = true;
@@ -1081,34 +1077,71 @@ const useItemStore = create(
         }
 
         const updates = { durability: durabilityValue, broken: isBroken };
-        state.updateItem(itemId, updates);
 
-        if (isBroken) {
-          try {
-            const characterStore = getStore('characterStore');
-            const charState = characterStore.getState();
-            if (charState.unequipItemByItemId) {
-              charState.unequipItemByItemId(itemId);
-            }
-          } catch (e) {
-            // Could not auto-unequip broken item
+        // 1. Update in itemStore items (if exists)
+        const item = state.items.find(i => i.id === itemId);
+        if (item) {
+          state.updateItem(itemId, updates);
+          const currentUser = useAuthStore.getState().user;
+          if (currentUser && !currentUser.isGuest) {
+            state.saveItemToFirebase({ ...item, durability: durabilityValue, broken: isBroken });
           }
+        }
 
-          if (typeof window !== 'undefined') {
+        // 2. Update in inventoryStore (if exists)
+        try {
+          const useInventoryStore = getStore('inventoryStore');
+          if (useInventoryStore) {
+            const invState = useInventoryStore.getState();
+            if (invState.items?.some(i => i.id === itemId)) {
+              invState.updateItem(itemId, updates);
+            }
+          }
+        } catch (e) {
+          console.warn('Could not update durability in inventoryStore:', e);
+        }
+
+        // 3. Update in characterStore equipment (if equipped)
+        try {
+          const characterStore = getStore('characterStore');
+          if (characterStore) {
+            const charState = characterStore.getState();
+            if (charState.updateEquippedItemDurability) {
+              charState.updateEquippedItemDurability(itemId, durabilityValue, isBroken);
+            } else if (charState.equipment && charState.updateEquipment) {
+              for (const [slot, eqItem] of Object.entries(charState.equipment)) {
+                if (eqItem && eqItem.id === itemId) {
+                  charState.updateEquipment(slot, { ...eqItem, ...updates });
+                  break;
+                }
+              }
+            }
+
+            if (isBroken && charState.unequipItemByItemId) {
+              const unequipped = charState.unequipItemByItemId(itemId);
+              if (unequipped) {
+                try {
+                  const useInventoryStore = getStore('inventoryStore');
+                  useInventoryStore?.getState().addItem?.(unequipped);
+                } catch (err) {}
+              }
+            }
+          }
+        } catch (e) {
+          console.warn('Could not update durability in characterStore:', e);
+        }
+
+        if (isBroken && typeof window !== 'undefined') {
+          try {
             const useNotificationStore = getStore('notificationStore');
-            useNotificationStore.getState().showError(
-              `${item.name || 'Item'} has broken!`,
+            useNotificationStore?.getState().showError(
+              `${item?.name || 'Item'} has broken!`,
               { title: 'Item Broken', duration: 3000 }
             );
-          }
+          } catch (e) {}
         }
 
-        state.syncItemUpdate('item_updated', { itemId, updates: { durability: durabilityValue, broken: isBroken } });
-
-        const currentUser = useAuthStore.getState().user;
-        if (currentUser && !currentUser.isGuest) {
-          state.saveItemToFirebase({ ...item, durability: durabilityValue, broken: isBroken });
-        }
+        state.syncItemUpdate('item_updated', { itemId, updates });
       },
 
       removeItem: (itemId) => set(state => {

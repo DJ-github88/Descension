@@ -8,12 +8,15 @@
   background: #fbf7ee;
   border: 1.5px solid #d4c4a8;
   border-radius: 8px;
-  overflow: hidden;
+  overflow: visible;
   box-shadow: 0 4px 18px rgba(60, 35, 15, 0.12);
   position: relative;
   user-select: none;
   font-family: inherit;
   margin: 1.2rem 0;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -32,73 +35,360 @@
   width: 100vw;
   height: 100vh;
   box-shadow: none;
+  border: none;
 }
 
-/* Header Banner */
+/* Header Banner & Dropdown Toolbar in One Sleek Row */
 .stylus-canvas-container.pathfinder-theme .stylus-canvas-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: linear-gradient(180deg, #f5eedc 0%, #ece2cb 100%);
-  padding: 0.45rem 0.85rem;
+  padding: 0.35rem 0.6rem;
   border-bottom: 1.5px solid #d8caa9;
   color: #3d2614;
+  gap: 0.4rem;
+  row-gap: 0.35rem;
+  min-height: 38px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 25;
+  flex-wrap: wrap;
 }
 
 .stylus-canvas-container.pathfinder-theme .stylus-header-left {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-readonly-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  overflow: hidden;
 }
 
 .stylus-canvas-container.pathfinder-theme .header-icon {
   color: #8c6b23;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  flex-shrink: 0;
 }
 
 .stylus-canvas-container.pathfinder-theme .stylus-header-title {
   font-family: 'Cinzel', Georgia, serif;
   font-weight: 700;
-  font-size: 0.88rem;
-  letter-spacing: 0.04em;
+  font-size: 0.84rem;
+  letter-spacing: 0.03em;
   color: #2b170c;
   text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.stylus-canvas-container.pathfinder-theme .stylus-active-badge {
-  background: rgba(21, 128, 61, 0.12);
-  color: #15803d;
-  border: 1px solid rgba(21, 128, 61, 0.3);
-  font-size: 0.72rem;
-  padding: 0.1rem 0.45rem;
-  border-radius: 10px;
+/* Dropdown Pill Controls (Minimal Buttons, Maximal Drawing Space) */
+.stylus-canvas-container.pathfinder-theme .stylus-dropdown-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-popover-anchor {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-dropdown-pill-btn {
+  background: #fffdf8;
+  border: 1px solid #c9b794;
+  color: #3d2614;
+  border-radius: 4px;
+  padding: 0.15rem 0.35rem;
+  font-size: 0.74rem;
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 700;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  font-weight: 600;
-  font-family: sans-serif;
+  gap: 0.2rem;
+  transition: all 0.15s ease;
+  height: 25px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(60, 35, 15, 0.06);
+  flex-shrink: 0;
 }
 
+.stylus-canvas-container.pathfinder-theme .stylus-dropdown-pill-btn:hover {
+  background: #f4ebd0;
+  border-color: #8c6b23;
+  color: #1f140e;
+}
+
+.stylus-canvas-container.pathfinder-theme .stylus-dropdown-pill-btn.active {
+  background: #8c6b23;
+  color: #ffffff;
+  border-color: #5c3e24;
+  box-shadow: 0 0 6px rgba(140, 107, 35, 0.4);
+}
+
+.stylus-canvas-container.pathfinder-theme .pill-caret {
+  font-size: 0.65rem;
+  opacity: 0.75;
+}
+
+.stylus-canvas-container.pathfinder-theme .dropdown-swatch-circle {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  display: inline-block;
+}
+
+.stylus-canvas-container.pathfinder-theme .dropdown-size-label {
+  font-size: 0.72rem;
+  min-width: 22px;
+}
+
+/* Floating Popover Menus */
+.stylus-canvas-container.pathfinder-theme .stylus-popover-menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  background: #fdfaf3;
+  border: 1.5px solid #8c6b23;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(40, 20, 5, 0.28), 0 2px 6px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem;
+  z-index: 100;
+  min-width: 170px;
+  animation: stylusPopoverFadeIn 0.15s ease-out;
+}
+
+@keyframes stylusPopoverFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-title {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #78350f;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.35rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px dashed rgba(140, 107, 35, 0.3);
+}
+
+/* Tool Grid in Popover */
+.stylus-canvas-container.pathfinder-theme .popover-tool-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-tool-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  color: #3d2614;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.12s ease;
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-tool-item i {
+  width: 16px;
+  text-align: center;
+  color: #8c6b23;
+  font-size: 0.85rem;
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-tool-item:hover {
+  background: #f2e7cc;
+  color: #1f140e;
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-tool-item.selected {
+  background: #8c6b23;
+  color: #ffffff;
+  border-color: #6b5015;
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-tool-item.selected i {
+  color: #ffd700;
+}
+
+/* Palette Grid in Popover */
+.stylus-canvas-container.pathfinder-theme .popover-palette-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-color-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.45rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.76rem;
+  color: #3d2614;
+  transition: all 0.12s ease;
+}
+
+.stylus-canvas-container.pathfinder-theme .color-swatch-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+}
+
+.stylus-canvas-container.pathfinder-theme .color-swatch-name {
+  flex: 1;
+}
+
+.stylus-canvas-container.pathfinder-theme .check-icon {
+  font-size: 0.72rem;
+  color: #8c6b23;
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-color-item:hover {
+  background: #f2e7cc;
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-color-item.selected {
+  background: #eadebe;
+  border-color: #c9b794;
+  font-weight: 700;
+}
+
+/* Size Presets in Popover */
+.stylus-canvas-container.pathfinder-theme .stylus-size-popover {
+  min-width: 190px;
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-size-presets {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.3rem;
+  margin-bottom: 0.45rem;
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-size-chip {
+  padding: 0.25rem 0.35rem;
+  border: 1px solid #c9b794;
+  background: #fffdf8;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 700;
+  color: #4a2f18;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.12s ease;
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-size-chip:hover {
+  background: #f2e7cc;
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-size-chip.selected {
+  background: #8c6b23;
+  color: #ffffff;
+  border-color: #5c3e24;
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-slider-row {
+  display: flex;
+  align-items: center;
+  padding-top: 0.35rem;
+  border-top: 1px dashed rgba(140, 107, 35, 0.25);
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-size-slider {
+  width: 100%;
+  height: 5px;
+  accent-color: #8c6b23;
+  cursor: pointer;
+}
+
+/* Theme List in Popover */
+.stylus-canvas-container.pathfinder-theme .popover-theme-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-theme-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.3rem 0.5rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 0.76rem;
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 600;
+  color: #3d2614;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-theme-item:hover {
+  background: #f2e7cc;
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-theme-item.selected {
+  background: #8c6b23;
+  color: #ffffff;
+  border-color: #6b5015;
+}
+
+.stylus-canvas-container.pathfinder-theme .popover-theme-item.selected .check-icon {
+  color: #ffd700;
+}
+
+/* Right Header Buttons */
 .stylus-canvas-container.pathfinder-theme .stylus-header-right {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.25rem;
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
 .stylus-canvas-container.pathfinder-theme .stylus-header-btn {
   background: #fdfbf7;
   border: 1px solid #c9b794;
   color: #5c3e24;
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   transition: all 0.15s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0;
+  flex-shrink: 0;
 }
 
 .stylus-canvas-container.pathfinder-theme .stylus-header-btn:hover:not(:disabled) {
@@ -126,132 +416,7 @@
   box-shadow: 0 0 6px rgba(140, 107, 35, 0.4);
 }
 
-/* Floating Stylus Toolbar */
-.stylus-canvas-container.pathfinder-theme .stylus-toolbar {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  background: #f2e9d2;
-  padding: 0.35rem 0.7rem;
-  border-bottom: 1.5px solid #d8caa9;
-}
-
-.stylus-canvas-container.pathfinder-theme .stylus-tool-group {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.stylus-canvas-container.pathfinder-theme .stylus-tool-btn {
-  background: #fdfbf7;
-  border: 1px solid #c9b794;
-  color: #4a2f18;
-  width: 32px;
-  height: 30px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s ease;
-  padding: 0;
-}
-
-.stylus-canvas-container.pathfinder-theme .stylus-tool-btn:hover {
-  background: #e8dbc0;
-  color: #1f140e;
-  border-color: #b59f77;
-}
-
-.stylus-canvas-container.pathfinder-theme .stylus-tool-btn.active {
-  background: #8c6b23;
-  color: #ffffff;
-  border-color: #5c3e24;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25), 0 0 6px rgba(140, 107, 35, 0.4);
-  transform: translateY(1px);
-}
-
-.stylus-canvas-container.pathfinder-theme .stylus-toolbar-divider {
-  width: 1px;
-  height: 20px;
-  background: #cdbe9f;
-  margin: 0 0.15rem;
-}
-
-/* Color Swatches */
-.stylus-canvas-container.pathfinder-theme .stylus-color-group {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.stylus-canvas-container.pathfinder-theme .stylus-swatch-btn {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(60, 35, 15, 0.35);
-  cursor: pointer;
-  padding: 0;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.stylus-canvas-container.pathfinder-theme .stylus-swatch-btn:hover {
-  transform: scale(1.2);
-}
-
-.stylus-canvas-container.pathfinder-theme .stylus-swatch-btn.selected {
-  transform: scale(1.25);
-  border-color: #8c6b23;
-  box-shadow: 0 0 0 2px #fdfbf7, 0 0 6px rgba(140, 107, 35, 0.6);
-}
-
-/* Stroke Size Slider */
-.stylus-canvas-container.pathfinder-theme .stylus-size-group {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.stylus-canvas-container.pathfinder-theme .size-indicator-label {
-  font-family: 'Cinzel', Georgia, serif;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: #5c3e24;
-  min-width: 28px;
-}
-
-.stylus-canvas-container.pathfinder-theme .stylus-size-slider {
-  width: 60px;
-  height: 4px;
-  accent-color: #8c6b23;
-  cursor: pointer;
-}
-
-/* Background Dropdown */
-.stylus-canvas-container.pathfinder-theme .stylus-bg-group {
-  margin-left: auto;
-}
-
-.stylus-canvas-container.pathfinder-theme .stylus-bg-select {
-  background: #fdfbf7;
-  color: #3d2614;
-  border: 1px solid #c9b794;
-  border-radius: 4px;
-  padding: 0.25rem 0.45rem;
-  font-size: 0.78rem;
-  font-family: 'Cinzel', Georgia, serif;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.stylus-canvas-container.pathfinder-theme .stylus-bg-select:focus {
-  outline: none;
-  border-color: #8c6b23;
-}
-
-/* Viewport & Textures */
+/* Viewport & Textures (Maximized Space) */
 .stylus-canvas-container.pathfinder-theme .stylus-drawing-viewport {
   position: relative;
   width: 100%;
@@ -260,6 +425,7 @@
   align-items: center;
   justify-content: center;
   touch-action: none;
+  min-height: 220px;
 }
 
 .stylus-canvas-container.pathfinder-theme .stylus-render-canvas {
@@ -303,14 +469,14 @@
 }
 
 .stylus-canvas-container.pathfinder-theme .stylus-empty-hint i {
-  font-size: 1.8rem;
-  margin-bottom: 0.4rem;
+  font-size: 1.6rem;
+  margin-bottom: 0.35rem;
   color: rgba(140, 107, 35, 0.45);
 }
 
 .stylus-canvas-container.pathfinder-theme .stylus-empty-hint p {
   font-family: 'Cinzel', Georgia, serif;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 700;
   margin: 0 0 0.2rem 0;
   letter-spacing: 0.03em;
@@ -318,7 +484,47 @@
 }
 
 .stylus-canvas-container.pathfinder-theme .stylus-empty-hint span {
-  font-size: 0.8rem;
-  max-width: 340px;
+  font-size: 0.76rem;
+  max-width: 300px;
   font-style: italic;
+}
+
+/* =========================================================================
+   MOBILE & RESPONSIVE DESIGN (<= 640px)
+   ========================================================================= */
+@media (max-width: 640px) {
+  .stylus-canvas-container.pathfinder-theme {
+    margin: 0.8rem 0;
+    border-radius: 6px;
+  }
+
+  .stylus-canvas-container.pathfinder-theme .stylus-canvas-header {
+    padding: 0.3rem 0.45rem;
+    gap: 0.25rem;
+  }
+
+  .stylus-canvas-container.pathfinder-theme .stylus-dropdown-controls {
+    gap: 0.25rem;
+  }
+
+  .stylus-canvas-container.pathfinder-theme .stylus-dropdown-pill-btn {
+    padding: 0.15rem 0.35rem;
+    font-size: 0.72rem;
+    height: 24px;
+  }
+
+  .stylus-canvas-container.pathfinder-theme .dropdown-pill-text {
+    display: none;
+  }
+
+  .stylus-canvas-container.pathfinder-theme .stylus-header-btn {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    font-size: 0.72rem;
+  }
+
+  .stylus-canvas-container.pathfinder-theme .stylus-drawing-viewport {
+    min-height: 200px !important;
+  }
 }

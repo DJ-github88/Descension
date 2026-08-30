@@ -558,6 +558,45 @@ export const createStatsSlice = (set, get) => ({
         return state.equipment[slotName];
     },
 
+    // Update the durability of an equipped item
+    updateEquippedItemDurability: (itemId, newDurability, isBroken) => {
+        const state = get();
+        const { equipment, updateEquipment } = state;
+        if (!equipment) return;
+
+        for (const [slot, eqItem] of Object.entries(equipment)) {
+            if (eqItem && eqItem.id === itemId) {
+                const updatedItem = {
+                    ...eqItem,
+                    durability: newDurability,
+                    broken: !!isBroken
+                };
+                updateEquipment(slot, updatedItem);
+
+                if (state.currentCharacterId) {
+                    setTimeout(() => {
+                        get().saveCurrentCharacter?.();
+                    }, 100);
+                }
+                break;
+            }
+        }
+    },
+
+    // Unequip an item by its ID (used when item breaks or is modified)
+    unequipItemByItemId: (itemId) => {
+        const state = get();
+        const { equipment, unequipItem } = state;
+        if (!equipment) return null;
+
+        for (const [slot, eqItem] of Object.entries(equipment)) {
+            if (eqItem && eqItem.id === itemId) {
+                return unequipItem(slot);
+            }
+        }
+        return null;
+    },
+
     updateResistance: (type, level) => {
         set(state => ({
             resistances: {

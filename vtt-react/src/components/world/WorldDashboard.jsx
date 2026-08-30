@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, lazy, Suspense } from 'react';
-import useWorldStore from '../../store/worldStore';
+import useWorldStore, { CANONICAL_REGIONS_META } from '../../store/worldStore';
 import useFactionStore from '../../store/factionStore';
 import useClassLoreStore from '../../store/classLoreStore';
 import useCustomLineageStore from '../../store/customLineageStore';
@@ -11,11 +11,12 @@ import RegionDetail from './RegionDetail';
 import ClassLoreDetail from './ClassLoreDetail';
 import CustomLineageWizard from './CustomLineageWizard';
 import ClassIcon from '../common/ClassIcon';
+import LoreEditorToolbar from '../common/LoreEditorToolbar';
 import { TimelineView } from './TimelineView';
 import AccountMapManager from '../account/AccountMapManager';
 import UniversalEntityGraph from './UniversalEntityGraph';
 import FamilyTreeStudio from './FamilyTreeStudio';
-import { showPrompt } from '../../utils/dialogService';
+import { showPrompt, showConfirm, showAlert } from '../../utils/dialogService';
 import './WorldDashboard.css';
 
 const VIEWS = {
@@ -169,9 +170,24 @@ export const formatDisplayName = (str) => {
 };
 
 const WorldDashboard = () => {
-  const { regions, getWorldOverview, getAllLineages, getLineage } = useWorldStore();
-  const { factions } = useFactionStore();
-  const { getAllClasses, loadClasses, loaded } = useClassLoreStore();
+  const {
+    activeWorldId,
+    getActiveWorld,
+    getAllWorlds,
+    switchWorld,
+    createWorld,
+    deleteWorld,
+    addCustomRegion,
+    getRegions,
+    getWorldOverview,
+    getAllLineages,
+    getLineage,
+    getAllClasses: getWorldClasses,
+    addCustomClass,
+    toggleClassStatus
+  } = useWorldStore();
+  const { factions, getAllFactions, addFaction } = useFactionStore();
+  const { loadClasses, loaded } = useClassLoreStore();
   const { openWizard: openLineageWizard, lineages: customLineages } = useCustomLineageStore();
 
   const [view, setView] = useState(VIEWS.DASHBOARD);
@@ -191,13 +207,75 @@ const WorldDashboard = () => {
   const [selectedClassArchetype, setSelectedClassArchetype] = useState('all');
   const [classSearchFilter, setClassSearchFilter] = useState('');
 
+  // Custom Class Authoring state
+  const [showAddClassModal, setShowAddClassModal] = useState(false);
+  const [newClassName, setNewClassName] = useState('');
+  const [newClassTradition, setNewClassTradition] = useState('Martial Orders & Vanguard');
+  const [newClassRole, setNewClassRole] = useState('Defender / Vanguard');
+  const [newClassTagline, setNewClassTagline] = useState('');
+  const [newClassResourceName, setNewClassResourceName] = useState('Mana / Focus');
+  const [newClassOrigin, setNewClassOrigin] = useState('');
+  const [newClassFeatures, setNewClassFeatures] = useState('');
+  const [newClassSpecialRules, setNewClassSpecialRules] = useState('');
+  const [newClassTradeoffs, setNewClassTradeoffs] = useState('');
+  const [newClassCrisis, setNewClassCrisis] = useState('');
+  const [newClassQuote, setNewClassQuote] = useState('');
+  const [newClassSpeaker, setNewClassSpeaker] = useState('');
+
+  // World Switcher & Creator state
+  const [showWorldModal, setShowWorldModal] = useState(false);
+  const [showCreateWorldModal, setShowCreateWorldModal] = useState(false);
+  const [newWorldName, setNewWorldName] = useState('');
+  const [newWorldSubtitle, setNewWorldSubtitle] = useState('');
+  const [newWorldTheme, setNewWorldTheme] = useState('dark-fantasy');
+  const [newWorldDesc, setNewWorldDesc] = useState('');
+
+  // Custom Region Creator state
+  const [showAddRegionModal, setShowAddRegionModal] = useState(false);
+  const [newRegionName, setNewRegionName] = useState('');
+  const [newRegionDanger, setNewRegionDanger] = useState('medium');
+  const [newRegionClimate, setNewRegionClimate] = useState('');
+  const [newRegionTerrain, setNewRegionTerrain] = useState('');
+  const [newRegionDesc, setNewRegionDesc] = useState('');
+
+  // Custom Faction Creator state
+  const [showAddFactionModal, setShowAddFactionModal] = useState(false);
+  const [newFactionName, setNewFactionName] = useState('');
+  const [newFactionType, setNewFactionType] = useState('noble_house');
+  const [newFactionRegionId, setNewFactionRegionId] = useState('');
+  const [newFactionMandate, setNewFactionMandate] = useState('');
+  const [newFactionOrigins, setNewFactionOrigins] = useState('');
+  const [newFactionHoldings, setNewFactionHoldings] = useState('');
+  const [newFactionSecrets, setNewFactionSecrets] = useState('');
+  const [newFactionLeaderTitle, setNewFactionLeaderTitle] = useState('');
+  const [newFactionColorPrimary, setNewFactionColorPrimary] = useState('#8b5a1a');
+  const [newFactionColorSecondary, setNewFactionColorSecondary] = useState('#2b1408');
+
   useEffect(() => {
     if (!loaded) loadClasses();
   }, [loaded, loadClasses]);
 
+  useEffect(() => {
+    const handleOpenFactionWeb = (e) => {
+      if (e.detail?.factionId) {
+        setSelectedFactionId(e.detail.factionId);
+      }
+      setView(VIEWS.FACTION_GRAPH);
+    };
+
+    window.addEventListener('mythrill_open_faction_web', handleOpenFactionWeb);
+    return () => {
+      window.removeEventListener('mythrill_open_faction_web', handleOpenFactionWeb);
+    };
+  }, []);
+
+  const activeWorld = getActiveWorld();
+  const allWorlds = getAllWorlds();
+  const regions = getRegions();
   const overview = getWorldOverview();
-  const classes = getAllClasses();
+  const classes = useMemo(() => (getWorldClasses ? getWorldClasses(activeWorldId) : []), [getWorldClasses, activeWorldId, activeWorld]);
   const allLineages = getAllLineages();
+  const worldFactions = useMemo(() => (getAllFactions ? getAllFactions(activeWorldId) : factions), [getAllFactions, factions, activeWorldId]);
 
   const navigateToLocation = (locId) => {
     setSelectedLocationId(locId);
@@ -240,29 +318,126 @@ const WorldDashboard = () => {
     window.dispatchEvent(new CustomEvent('mythrill_navigate_map', { detail: entityData }));
   };
 
-  const handleAddFaction = async () => {
-    const name = await showPrompt({
-      title: 'New Faction / House',
-      message: 'Enter name of new Faction / House:',
-      placeholder: 'e.g. House of Alduin',
-      confirmText: 'Create Faction',
-      required: true
+  const handleCreateWorldSubmit = (e) => {
+    e.preventDefault();
+    if (!newWorldName.trim()) return;
+    const wid = createWorld({
+      name: newWorldName.trim(),
+      subtitle: newWorldSubtitle.trim() || 'A Sovereign World Setting',
+      theme: newWorldTheme,
+      description: newWorldDesc.trim()
     });
-    if (!name || !name.trim()) return;
-    const facId = `fac_custom_${Date.now()}`;
-    useFactionStore.getState().factions.push({
+    setShowCreateWorldModal(false);
+    setShowWorldModal(false);
+    setNewWorldName('');
+    setNewWorldSubtitle('');
+    setNewWorldDesc('');
+    navigateToDashboard();
+  };
+
+  const handleAddCustomRegionSubmit = (e) => {
+    e.preventDefault();
+    if (!newRegionName.trim()) return;
+    const rid = addCustomRegion(activeWorldId, {
+      name: newRegionName.trim(),
+      dangerLevel: newRegionDanger,
+      climate: newRegionClimate.trim() || 'Temperate',
+      dominantTerrain: newRegionTerrain.trim() || 'Wilderness & Valleys',
+      description: newRegionDesc.trim()
+    });
+    setShowAddRegionModal(false);
+    setNewRegionName('');
+    setNewRegionClimate('');
+    setNewRegionTerrain('');
+    setNewRegionDesc('');
+    navigateToRegion(rid);
+  };
+
+  const handleAddFaction = () => {
+    setShowAddFactionModal(true);
+  };
+
+  const handleCreateFactionSubmit = (e) => {
+    e.preventDefault();
+    if (!newFactionName.trim()) return;
+    const facId = `fac-custom-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+    const holdingsList = newFactionHoldings
+      .split(',')
+      .map((h) => h.trim())
+      .filter(Boolean);
+
+    addFaction({
       id: facId,
-      name: name.trim(),
-      type: 'noble_house',
-      publicGoal: 'A powerful order navigating the dark bargains of Mythrill.',
-      colors: { primary: '#d4af37', secondary: '#444' }
+      name: newFactionName.trim(),
+      type: newFactionType,
+      worldId: activeWorldId,
+      regionId: newFactionRegionId || (regions[0]?.id || null),
+      publicGoal: newFactionMandate.trim() || `An influential order in ${activeWorld.name}.`,
+      publicDescription: newFactionMandate.trim() || `A sovereign faction operating in ${activeWorld.name}.`,
+      lore: newFactionOrigins.trim(),
+      hiddenAgenda: newFactionSecrets.trim(),
+      hiddenDescription: newFactionSecrets.trim(),
+      territory: holdingsList,
+      leader: newFactionLeaderTitle.trim() ? {
+        title: newFactionLeaderTitle.trim(),
+        description: `Supreme authority of ${newFactionName.trim()}`
+      } : null,
+      colors: {
+        primary: newFactionColorPrimary || '#8b5a1a',
+        secondary: newFactionColorSecondary || '#2b1408'
+      },
+      relationships: []
     });
+
+    setShowAddFactionModal(false);
+    setNewFactionName('');
+    setNewFactionMandate('');
+    setNewFactionOrigins('');
+    setNewFactionHoldings('');
+    setNewFactionSecrets('');
+    setNewFactionLeaderTitle('');
     navigateToFaction(facId);
   };
 
+  const handleCreateClassSubmit = (e) => {
+    e.preventDefault();
+    if (!newClassName.trim()) return;
+    const cid = addCustomClass(activeWorldId, {
+      name: newClassName.trim(),
+      tradition: newClassTradition,
+      role: newClassRole.trim() || 'Heroic Archetype',
+      tagline: newClassTagline.trim(),
+      resourceName: newClassResourceName.trim() || 'Mana / Focus',
+      description: newClassOrigin.trim() || `A heroic calling practiced in ${activeWorld.name}.`,
+      originStory: newClassOrigin.trim(),
+      keyFeatures: newClassFeatures.split(',').map((f) => f.trim()).filter(Boolean),
+      specialRules: newClassSpecialRules.trim(),
+      meaningfulTradeoffs: newClassTradeoffs.trim(),
+      currentCrisis: newClassCrisis.trim(),
+      signatureQuote: newClassQuote.trim() ? {
+        text: newClassQuote.trim(),
+        speaker: newClassSpeaker.trim() || `${newClassName.trim()} Doctrine`,
+        context: `Inscribed into the chronicle archives of ${activeWorld.name}`
+      } : null
+    });
+    setShowAddClassModal(false);
+    setNewClassName('');
+    setNewClassTagline('');
+    setNewClassResourceName('');
+    setNewClassOrigin('');
+    setNewClassFeatures('');
+    setNewClassSpecialRules('');
+    setNewClassTradeoffs('');
+    setNewClassCrisis('');
+    setNewClassQuote('');
+    setNewClassSpeaker('');
+    navigateToClass(cid);
+  };
+
   // Filtered Factions
-  const filteredFactions = factions.filter(f => {
+  const filteredFactions = worldFactions.filter(f => {
     if (selectedFactionCategory !== 'all') {
+
       const cat = FACTION_CATEGORIES.find(c => c.id === selectedFactionCategory);
       if (cat && cat.types.length > 0 && !cat.types.includes(f.type)) return false;
     }
@@ -557,9 +732,11 @@ const WorldDashboard = () => {
           <h2>Universal Relationship Web</h2>
         </div>
         <UniversalEntityGraph
-          onEntityClick={(ent) => {
+          onEntityDoubleClick={(ent) => {
             if (ent.type === 'faction') navigateToFaction(ent.rawId);
             else if (ent.type === 'location') navigateToLocation(ent.rawId);
+            else if (ent.type === 'lineage') navigateToLineage(ent.rawId);
+            else if (ent.type === 'family_node') setView(VIEWS.FAMILY_TREE);
           }}
         />
       </div>
@@ -583,27 +760,97 @@ const WorldDashboard = () => {
     <div className="world-panel world-dashboard">
       <div className="world-panel-header">
         <div className="world-header-title-block">
-          <h1>Mythrill</h1>
-          <span className="world-subtitle">Living World-Building &amp; Lore Engine</span>
+          <div className="world-title-main-row">
+            <h1 className="world-master-title">{activeWorld.name}</h1>
+            <button
+              type="button"
+              className="world-switcher-trigger-btn"
+              onClick={() => setShowWorldModal(true)}
+              title="Switch Realm Setting or Forge New World"
+              aria-label={`Worlds (${allWorlds.length})`}
+            >
+              <div className="world-switcher-btn-content">
+                <i className="fas fa-globe-americas world-switcher-globe-icon"></i>
+                <span className="world-switcher-label">Worlds</span>
+                <span className="world-switcher-count-badge">({allWorlds.length})</span>
+                <i className="fas fa-chevron-down world-switcher-chevron"></i>
+              </div>
+            </button>
+          </div>
+          <span className="world-subtitle">{activeWorld.subtitle || 'Living World-Building & Lore Engine'}</span>
         </div>
-        <div className="world-header-stats-strip">
-          <div className="world-stat-pill" onClick={() => setActiveTab('regions')} style={{ cursor: 'pointer' }} title="Explorable Continents & Realms">
-            <i className="fas fa-map-location-dot"></i> <span>{regions.length} Realms</span>
-          </div>
-          <div className="world-stat-pill" onClick={() => setActiveTab('factions')} style={{ cursor: 'pointer' }} title="Houses, Tribes, and Guilds">
-            <i className="fas fa-shield-halved"></i> <span>{factions.length} Factions</span>
-          </div>
-          <div className="world-stat-pill" onClick={() => setActiveTab('lineages')} style={{ cursor: 'pointer' }} title="Ancestral Lineages">
-            <i className="fas fa-dna"></i> <span>{allLineages.length} Lineages</span>
-          </div>
-          <div className="world-stat-pill" onClick={() => setActiveTab('classes')} style={{ cursor: 'pointer' }} title="Combat & Magic Traditions">
-            <i className="fas fa-scroll"></i> <span>{classes.length} Traditions</span>
-          </div>
-          <button className="world-timeline-hero-btn" onClick={() => setActiveTab('entity_graph')} title="Universal Entity Relationship Web">
-            <i className="fas fa-network-wired"></i> Relationship Web
+        <div className="world-header-icon-strip">
+          <button
+            type="button"
+            className={`world-header-icon-btn ${activeTab === 'regions' ? 'active' : ''}`}
+            onClick={() => setActiveTab('regions')}
+            title={`Realms (${regions.length})`}
+            aria-label="Quick Realms"
+          >
+            <i className="fas fa-earth-americas"></i>
           </button>
-          <button className="world-timeline-hero-btn" onClick={() => setActiveTab('timeline')} title="Inspect Continental Timeline">
-            <i className="fas fa-hourglass-half"></i> World Timeline
+          <button
+            type="button"
+            className={`world-header-icon-btn ${activeTab === 'factions' ? 'active' : ''}`}
+            onClick={() => setActiveTab('factions')}
+            title={`Factions (${worldFactions.length})`}
+            aria-label="Quick Orders"
+          >
+            <i className="fas fa-shield-halved"></i>
+          </button>
+          <button
+            type="button"
+            className={`world-header-icon-btn ${activeTab === 'lineages' ? 'active' : ''}`}
+            onClick={() => setActiveTab('lineages')}
+            title={`Lineages (${allLineages.length})`}
+            aria-label="Quick Lineages"
+          >
+            <i className="fas fa-dna"></i>
+          </button>
+          <button
+            type="button"
+            className={`world-header-icon-btn ${activeTab === 'classes' ? 'active' : ''}`}
+            onClick={() => setActiveTab('classes')}
+            title={`Traditions (${classes.length})`}
+            aria-label="Quick Traditions"
+          >
+            <i className="fas fa-wand-magic-sparkles"></i>
+          </button>
+          <button
+            type="button"
+            className={`world-header-icon-btn ${activeTab === 'entity_graph' ? 'active' : ''}`}
+            onClick={() => setActiveTab('entity_graph')}
+            title="Relationship Web"
+            aria-label="Quick Entity Web"
+          >
+            <i className="fas fa-network-wired"></i>
+          </button>
+          <button
+            type="button"
+            className={`world-header-icon-btn ${activeTab === 'timeline' ? 'active' : ''}`}
+            onClick={() => setActiveTab('timeline')}
+            title="World Timeline & Epochs"
+            aria-label="Quick Epochs"
+          >
+            <i className="fas fa-hourglass-half"></i>
+          </button>
+          <button
+            type="button"
+            className={`world-header-icon-btn ${activeTab === 'family_trees' ? 'active' : ''}`}
+            onClick={() => setActiveTab('family_trees')}
+            title="Dynasty Trees"
+            aria-label="Quick Dynasties"
+          >
+            <i className="fas fa-users"></i>
+          </button>
+          <button
+            type="button"
+            className={`world-header-icon-btn ${activeTab === 'atlas' ? 'active' : ''}`}
+            onClick={() => setActiveTab('atlas')}
+            title="World Atlas & Maps"
+            aria-label="Quick Atlas"
+          >
+            <i className="fas fa-map"></i>
           </button>
         </div>
       </div>
@@ -612,7 +859,7 @@ const WorldDashboard = () => {
         {[
           { key: 'regions', label: `Realms (${regions.length})`, icon: 'fa-earth-americas' },
           { key: 'timeline', label: 'Timeline & Epochs', icon: 'fa-hourglass-half' },
-          { key: 'factions', label: `Factions & Orders (${factions.length})`, icon: 'fa-shield-halved' },
+          { key: 'factions', label: `Factions & Orders (${worldFactions.length})`, icon: 'fa-shield-halved' },
           { key: 'entity_graph', label: 'Relationship Web', icon: 'fa-network-wired' },
           { key: 'family_trees', label: 'Dynasty Trees', icon: 'fa-users' },
           { key: 'lineages', label: `Lineages & Peoples (${allLineages.length})`, icon: 'fa-dna' },
@@ -632,49 +879,79 @@ const WorldDashboard = () => {
 
       <div className="world-tab-content">
         {activeTab === 'regions' && (
-          <div className="world-region-grid">
-            {overview.map((region) => (
-              <div
-                key={region.id}
-                className="world-region-card"
-                onClick={() => navigateToRegion(region.id)}
-              >
-                <div className="world-region-card-header">
-                  <h3>{region.name}</h3>
-                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-                    <button
-                      className="world-mini-map-btn"
-                      onClick={(e) => handleFlyToMap(e, { regionId: region.id, name: region.name })}
-                      title="Fly to on World Map"
-                    >
-                      <i className="fas fa-map-location-dot"></i>
-                    </button>
-                  </div>
-                </div>
-                <p className="world-region-desc">{region.description}</p>
-                <div className="world-region-stats">
-                  <span>{region.locationCount} locations</span>
-                  <span>{region.factionCount} factions</span>
-                </div>
-                {region.locations.length > 0 && (
-                  <div className="world-region-locations">
-                    {region.locations.map((loc) => (
-                      <button
-                        key={loc.id}
-                        className="world-location-chip"
-                        onClick={(e) => { e.stopPropagation(); navigateToLocation(loc.id); }}
-                      >
-                        <span className={`world-loc-type-dot world-loc-${loc.type}`} />
-                        {loc.name}
-                      </button>
-                    ))}
-                    {region.locationCount > 3 && (
-                      <span className="world-muted">+{region.locationCount - 3} more...</span>
-                    )}
-                  </div>
-                )}
+          <div className="world-regions-wrapper">
+            <div className="world-regions-toolbar">
+              <div className="world-regions-title-summary">
+                <span className="world-realm-badge"><i className="fas fa-earth-americas"></i> {activeWorld.name}</span>
+                <span className="world-muted-summary">{regions.length} Active Realms &amp; Continents</span>
               </div>
-            ))}
+              <button
+                type="button"
+                className="world-add-realm-btn"
+                onClick={() => setShowAddRegionModal(true)}
+              >
+                <i className="fas fa-plus"></i> Add Realm / Region
+              </button>
+            </div>
+            <div className="world-region-grid">
+              {overview.length === 0 ? (
+                <div className="world-regions-empty-state" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px 20px', background: 'rgba(255,255,255,0.7)', borderRadius: '10px', border: '1px dashed #d4af37' }}>
+                  <i className="fas fa-mountain-sun" style={{ fontSize: '32px', color: '#8b5a1a', marginBottom: '12px' }}></i>
+                  <h4 style={{ fontFamily: 'Cinzel, serif', color: '#2b1408', margin: '0 0 6px 0' }}>No Realms Established in {activeWorld.name}</h4>
+                  <p style={{ fontFamily: 'Spectral, Georgia, serif', color: '#6b4c2b', margin: '0 0 16px 0' }}>{activeWorld.name} has no recorded realms yet. Found your first realm or continent to begin charting this world.</p>
+                  <button
+                    type="button"
+                    className="world-action-btn primary"
+                    onClick={() => setShowAddRegionModal(true)}
+                  >
+                    <i className="fas fa-plus"></i> Found First Realm
+                  </button>
+                </div>
+              ) : (
+                overview.map((region) => (
+                  <div
+                    key={region.id}
+                    className="world-region-card"
+                    onClick={() => navigateToRegion(region.id)}
+                  >
+                  <div className="world-region-card-header">
+                    <h3>{region.name}</h3>
+                    <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                      <button
+                        className="world-mini-map-btn"
+                        onClick={(e) => handleFlyToMap(e, { regionId: region.id, name: region.name })}
+                        title="Fly to on World Map"
+                      >
+                        <i className="fas fa-map-location-dot"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <p className="world-region-desc">{region.description}</p>
+                  <div className="world-region-stats">
+                    <span>{region.locationCount} locations</span>
+                    <span>{region.factionCount} factions</span>
+                  </div>
+                  {region.locations.length > 0 && (
+                    <div className="world-region-locations">
+                      {region.locations.map((loc) => (
+                        <button
+                          key={loc.id}
+                          className="world-location-chip"
+                          onClick={(e) => { e.stopPropagation(); navigateToLocation(loc.id); }}
+                        >
+                          <span className={`world-loc-type-dot world-loc-${loc.type}`} />
+                          {loc.name}
+                        </button>
+                      ))}
+                      {region.locationCount > 3 && (
+                        <span className="world-muted">+{region.locationCount - 3} more...</span>
+                      )}
+                    </div>
+                  )}
+                </div>
+                ))
+              )}
+            </div>
           </div>
         )}
 
@@ -775,7 +1052,7 @@ const WorldDashboard = () => {
             {/* Category Filter Pills */}
             <div className="factions-category-pills">
               {FACTION_CATEGORIES.map(cat => {
-                const count = factions.filter(f => {
+                const count = worldFactions.filter(f => {
                   if (cat.id === 'all') return true;
                   return cat.types.includes(f.type);
                 }).length;
@@ -1131,32 +1408,26 @@ const WorldDashboard = () => {
 
         {activeTab === 'lineages' && (
           <div className="world-lineages-tab">
-            <div className="world-section-actions" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                <div className="lineages-search-wrapper" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                  <i className="fas fa-search" style={{ position: 'absolute', left: '12px', color: '#8b5a1a', pointerEvents: 'none' }}></i>
+            <div className="world-section-actions lineages-toolbar-actions">
+              <div className="lineages-search-and-filter">
+                <div className="lineages-search-wrapper">
+                  <i className="fas fa-search lineages-search-icon"></i>
                   <input
                     type="text"
-                    className="world-search-input"
+                    className="world-search-input lineages-search-input"
                     placeholder="Search lineages, traits, and bloodlines..."
                     value={searchFilter}
                     onChange={(e) => setSearchFilter(e.target.value)}
-                    style={{
-                      background: '#fdfbf7',
-                      border: '1.5px solid #cdb592',
-                      borderRadius: '6px',
-                      padding: '8px 14px 8px 34px',
-                      color: '#2b1408',
-                      fontFamily: "'Spectral', Georgia, serif",
-                      fontSize: '13.5px',
-                      width: '280px',
-                      outline: 'none'
-                    }}
                   />
+                  {searchFilter && (
+                    <button className="lineages-clear-search-btn" onClick={() => setSearchFilter('')} title="Clear search">
+                      <i className="fas fa-times"></i>
+                    </button>
+                  )}
                 </div>
 
                 {/* Category Filter Pills */}
-                <div className="world-category-pills" style={{ display: 'flex', gap: '6px' }}>
+                <div className="world-category-pills lineages-category-pills">
                   {[
                     { id: 'all', label: 'All Lineages', count: allLineages.length, icon: 'fa-dna' },
                     { id: 'canon', label: 'Canon Bloodlines', count: allLineages.filter(l => !l.isCustom).length, icon: 'fa-landmark' },
@@ -1170,7 +1441,7 @@ const WorldDashboard = () => {
                     >
                       <i className={`fas ${cat.icon}`}></i>
                       <span>{cat.label}</span>
-                      <span className="pill-count" style={{ opacity: 0.8, fontSize: '10px', marginLeft: '4px' }}>{cat.count}</span>
+                      <span className="pill-count">{cat.count}</span>
                     </button>
                   ))}
                 </div>
@@ -1270,6 +1541,16 @@ const WorldDashboard = () => {
                   ))}
                 </div>
               </div>
+
+              <button
+                type="button"
+                className="world-action-btn primary"
+                onClick={() => setShowAddClassModal(true)}
+                title="Forge a custom calling or tradition in this world"
+                style={{ marginLeft: 'auto', whiteSpace: 'nowrap' }}
+              >
+                <i className="fas fa-plus"></i> Forge Custom Tradition
+              </button>
             </div>
 
             {/* Classes Grid */}
@@ -1309,8 +1590,9 @@ const WorldDashboard = () => {
                   return (
                     <div
                       key={cls.id}
-                      className="world-info-card world-clickable world-class-card"
+                      className={`world-info-card world-clickable world-class-card ${cls.isExtinct ? 'class-card-extinct' : ''}`}
                       onClick={() => navigateToClass(cls.id)}
+                      style={cls.isExtinct ? { opacity: 0.55, filter: 'grayscale(85%)', border: '1px dashed #888' } : {}}
                     >
                       <div className="class-card-header">
                         <div className="class-card-identity">
@@ -1327,26 +1609,44 @@ const WorldDashboard = () => {
                             </div>
                           </div>
                           <div className="class-title-block">
-                            <h4>{cls.name}</h4>
-                            <span className="class-archetype-tag">{profile?.tradition || arch?.label?.split('&')[0] || 'Calling'}</span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                              <h4>{cls.name}</h4>
+                              {cls.isCustom && <span className="world-badge world-badge-custom" style={{ fontSize: '9px', padding: '1px 5px' }}>Custom</span>}
+                              {cls.isExtinct && <span className="world-badge" style={{ background: '#78281f', color: '#fff', fontSize: '9px', padding: '1px 5px' }}>Extinct / Inactive</span>}
+                            </div>
+                            <span className="class-archetype-tag">{cls.tradition || profile?.tradition || arch?.label?.split('&')[0] || 'Calling'}</span>
                           </div>
                         </div>
-                        <span className="class-role-pill">
-                          {profile?.role || roleData.role}
-                        </span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <button
+                            type="button"
+                            className="world-mini-map-btn"
+                            title={cls.isExtinct ? "Restore calling to active in this world" : "Mark calling as extinct / lost in this world"}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleClassStatus(cls.id, activeWorldId);
+                            }}
+                            style={{ width: '26px', height: '26px', fontSize: '11px', color: cls.isExtinct ? '#27ae60' : '#c0392b' }}
+                          >
+                            <i className={`fas ${cls.isExtinct ? 'fa-rotate-left' : 'fa-ban'}`}></i>
+                          </button>
+                          <span className="class-role-pill">
+                            {cls.role || profile?.role || roleData.role}
+                          </span>
+                        </div>
                       </div>
 
-                      {profile?.tagline && (
+                      {(cls.tagline || profile?.tagline) && (
                         <div className="class-tagline-box">
-                          <p className="class-tagline-text">"{profile.tagline}"</p>
+                          <p className="class-tagline-text">"{cls.tagline || profile.tagline}"</p>
                         </div>
                       )}
 
                       <div className="class-mechanics-pills">
                         <span className="class-pill class-resource-pill" title="Unique Resource">
-                          <i className={`fas ${profile?.resourceIcon || 'fa-bolt'}`} /> {profile?.resourceName || 'Unique Resource'}
+                          <i className={`fas ${profile?.resourceIcon || 'fa-bolt'}`} /> {cls.resourceName || profile?.resourceName || 'Unique Resource'}
                         </span>
-                        {(profile?.keyFeatures || []).slice(0, 2).map((feat, idx) => (
+                        {(cls.keyFeatures || profile?.keyFeatures || []).slice(0, 2).map((feat, idx) => (
                           <span key={idx} className="class-pill class-feature-pill">
                             <i className="fas fa-sparkles" /> {feat}
                           </span>
@@ -1381,9 +1681,11 @@ const WorldDashboard = () => {
         {activeTab === 'entity_graph' && (
           <div className="world-entity-graph-tab-container" style={{ height: '700px', width: '100%', borderRadius: '8px', overflow: 'hidden' }}>
             <UniversalEntityGraph
-              onEntityClick={(ent) => {
+              onEntityDoubleClick={(ent) => {
                 if (ent.type === 'faction') navigateToFaction(ent.rawId);
                 else if (ent.type === 'location') navigateToLocation(ent.rawId);
+                else if (ent.type === 'lineage') navigateToLineage(ent.rawId);
+                else if (ent.type === 'family_node') setActiveTab('family_trees');
               }}
             />
           </div>
@@ -1397,8 +1699,525 @@ const WorldDashboard = () => {
       </div>
 
       <CustomLineageWizard />
+
+      {/* World Switcher & Management Modal */}
+      {showWorldModal && (
+        <div className="world-modal-overlay" onClick={() => setShowWorldModal(false)}>
+          <div className="world-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="world-modal-header">
+              <div className="world-modal-title">
+                <i className="fas fa-globe"></i>
+                <h3>World Settings &amp; Universes</h3>
+              </div>
+              <button className="world-modal-close" onClick={() => setShowWorldModal(false)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <div className="world-modal-body">
+              <p className="world-modal-subtitle">
+                Switch active campaign setting or craft a brand-new sovereign world with custom realms, factions, and lineages.
+              </p>
+              <div className="world-switcher-grid">
+                {allWorlds.map((w) => {
+                  const isSelected = w.id === activeWorldId;
+                  return (
+                    <div
+                      key={w.id}
+                      className={`world-select-card ${isSelected ? 'active' : ''}`}
+                      onClick={() => {
+                        switchWorld(w.id);
+                        setShowWorldModal(false);
+                      }}
+                    >
+                      <div className="world-select-card-head">
+                        <h4>{w.name}</h4>
+                        {w.isCanonical ? (
+                          <span className="world-badge-canon">Canonical Setting</span>
+                        ) : (
+                          <span className="world-badge-custom">Custom World</span>
+                        )}
+                      </div>
+                      <p className="world-select-card-desc">{w.subtitle || w.description || 'Custom world setting'}</p>
+                      <div className="world-select-card-footer">
+                        <span className="world-select-regions-count">
+                          <i className="fas fa-earth-americas"></i> {w.id === 'mythrill' ? Object.keys(CANONICAL_REGIONS_META).length + (w.customRegions?.length || 0) : (w.customRegions?.length || 0)} Realms
+                        </span>
+                        {!w.isCanonical && (
+                          <button
+                            type="button"
+                            className="world-select-del-btn"
+                            title="Delete World"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteWorld(w.id);
+                            }}
+                          >
+                            <i className="fas fa-trash"></i>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="world-modal-actions">
+              <button
+                type="button"
+                className="world-action-btn primary"
+                onClick={() => {
+                  setShowWorldModal(false);
+                  setShowCreateWorldModal(true);
+                }}
+              >
+                <i className="fas fa-plus"></i> Create New World
+              </button>
+              <button type="button" className="world-action-btn" onClick={() => setShowWorldModal(false)}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Create New World Modal */}
+      {showCreateWorldModal && (
+        <div className="world-modal-overlay" onClick={() => setShowCreateWorldModal(false)}>
+          <div className="world-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="world-modal-header">
+              <div className="world-modal-title">
+                <i className="fas fa-feather-pointed"></i>
+                <h3>Forge a New Sovereign World</h3>
+              </div>
+              <button className="world-modal-close" onClick={() => setShowCreateWorldModal(false)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <form onSubmit={handleCreateWorldSubmit}>
+              <div className="world-modal-body">
+                <div className="world-form-group">
+                  <label>World / Universe Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Aethelgard, Neon Spire, Eldoria..."
+                    value={newWorldName}
+                    onChange={(e) => setNewWorldName(e.target.value)}
+                    autoFocus
+                  />
+                </div>
+                <div className="world-form-group">
+                  <label>Tagline / Epoch Subtitle</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. The Age of Clockwork & Ether"
+                    value={newWorldSubtitle}
+                    onChange={(e) => setNewWorldSubtitle(e.target.value)}
+                  />
+                </div>
+                <div className="world-form-group">
+                  <label>Cosmology Theme &amp; Genre</label>
+                  <select value={newWorldTheme} onChange={(e) => setNewWorldTheme(e.target.value)}>
+                    <option value="dark-fantasy">Dark Fantasy &amp; Eldritch Horror</option>
+                    <option value="high-fantasy">High Fantasy &amp; Arcane Empires</option>
+                    <option value="steampunk">Gothic Steampunk &amp; Airships</option>
+                    <option value="sci-fi">Cosmic Sci-Fi &amp; Void Frontiers</option>
+                    <option value="post-apoc">Post-Cataclysm &amp; Ashen Wastes</option>
+                  </select>
+                </div>
+                <div className="world-form-group">
+                  <label>Cosmological Lore &amp; Overview</label>
+                  <textarea
+                    rows={4}
+                    placeholder="Describe how your world was formed, celestial events, magic laws, or societal tenets..."
+                    value={newWorldDesc}
+                    onChange={(e) => setNewWorldDesc(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="world-modal-actions">
+                <button type="button" className="world-action-btn" onClick={() => setShowCreateWorldModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="world-action-btn primary">
+                  <i className="fas fa-wand-magic-sparkles"></i> Forge World
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Add Custom Region / Realm Modal */}
+      {showAddRegionModal && (
+        <div className="world-modal-overlay" onClick={() => setShowAddRegionModal(false)}>
+          <div className="world-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="world-modal-header">
+              <div className="world-modal-title">
+                <i className="fas fa-mountain-sun"></i>
+                <h3>Found a New Realm in {activeWorld.name}</h3>
+              </div>
+              <button className="world-modal-close" onClick={() => setShowAddRegionModal(false)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <form onSubmit={handleAddCustomRegionSubmit}>
+              <div className="world-modal-body">
+                <div className="world-form-group">
+                  <label>Realm / Region Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Sunspire Highlands, Whispering Wastes..."
+                    value={newRegionName}
+                    onChange={(e) => setNewRegionName(e.target.value)}
+                    autoFocus
+                  />
+                </div>
+                <div className="world-form-row">
+                  <div className="world-form-group">
+                    <label>Danger Level</label>
+                    <select value={newRegionDanger} onChange={(e) => setNewRegionDanger(e.target.value)}>
+                      <option value="low">Low (Civilized Sanctuary)</option>
+                      <option value="medium">Medium (Frontier Wilds)</option>
+                      <option value="high">High (Monster Domain)</option>
+                      <option value="extreme">Extreme (Cataclysmic / Deadly)</option>
+                    </select>
+                  </div>
+                  <div className="world-form-group">
+                    <label>Climate</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Sub-zero blizzards, ashfall..."
+                      value={newRegionClimate}
+                      onChange={(e) => setNewRegionClimate(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="world-form-group">
+                  <label>Dominant Terrain</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Basalt fjords, ancient ironwood canopy..."
+                    value={newRegionTerrain}
+                    onChange={(e) => setNewRegionTerrain(e.target.value)}
+                  />
+                </div>
+                <div className="world-form-group">
+                  <label>Geographic Overview &amp; Lore</label>
+                  <textarea
+                    rows={4}
+                    placeholder="Describe the atmosphere, hazards, historical significance, and natural wonders of this realm..."
+                    value={newRegionDesc}
+                    onChange={(e) => setNewRegionDesc(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="world-modal-actions">
+                <button type="button" className="world-action-btn" onClick={() => setShowAddRegionModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="world-action-btn primary">
+                  <i className="fas fa-map-location-dot"></i> Establish Realm
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      {/* Forge Faction Modal */}
+      {showAddFactionModal && (
+        <div className="world-modal-overlay" onClick={() => setShowAddFactionModal(false)}>
+          <div className="world-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="world-modal-header">
+              <div className="world-modal-title">
+                <i className="fas fa-shield-halved"></i>
+                <h3>Forge Faction / Order in {activeWorld.name}</h3>
+              </div>
+              <button className="world-modal-close" onClick={() => setShowAddFactionModal(false)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <form onSubmit={handleCreateFactionSubmit}>
+              <div className="world-modal-body">
+                <div className="world-form-group">
+                  <label>Faction / Order Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Brine Bond Syndicate, Obsidian Order..."
+                    value={newFactionName}
+                    onChange={(e) => setNewFactionName(e.target.value)}
+                    autoFocus
+                  />
+                </div>
+                <div className="world-form-row">
+                  <div className="world-form-group">
+                    <label>Order Type</label>
+                    <select value={newFactionType} onChange={(e) => setNewFactionType(e.target.value)}>
+                      <option value="noble_house">Noble House</option>
+                      <option value="guild">Guild / Syndicate</option>
+                      <option value="cult">Cult / Shadow Order</option>
+                      <option value="order">Holy Order / Chivalric</option>
+                      <option value="clan">Clan / Tribe</option>
+                      <option value="military">Military Faction</option>
+                      <option value="academy">Arcane Academy</option>
+                    </select>
+                  </div>
+                  <div className="world-form-group">
+                    <label>Primary Seat / Realm</label>
+                    <select value={newFactionRegionId} onChange={(e) => setNewFactionRegionId(e.target.value)}>
+                      <option value="">Select Realm (Optional)</option>
+                      {regions.map((r) => (
+                        <option key={r.id} value={r.id}>{r.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="world-form-row">
+                  <div className="world-form-group">
+                    <label>Heraldic Primary Color</label>
+                    <input
+                      type="color"
+                      value={newFactionColorPrimary}
+                      onChange={(e) => setNewFactionColorPrimary(e.target.value)}
+                    />
+                  </div>
+                  <div className="world-form-group">
+                    <label>Heraldic Secondary Color</label>
+                    <input
+                      type="color"
+                      value={newFactionColorSecondary}
+                      onChange={(e) => setNewFactionColorSecondary(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="world-form-group">
+                  <label>Supreme Leader / Authority Title</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Syndicate Chancellor, High Archivist, Grand Inquisitor..."
+                    value={newFactionLeaderTitle}
+                    onChange={(e) => setNewFactionLeaderTitle(e.target.value)}
+                  />
+                </div>
+
+                <div className="world-form-group">
+                  <label>Public Mandate &amp; Official Charter</label>
+                  <textarea
+                    rows={2}
+                    placeholder="The public doctrine, official motto, and recognized civic role..."
+                    value={newFactionMandate}
+                    onChange={(e) => setNewFactionMandate(e.target.value)}
+                  />
+                </div>
+
+                <div className="world-form-group">
+                  <label>Historical Origins &amp; Canon Lore</label>
+                  <textarea
+                    rows={3}
+                    placeholder="How this order was founded, ancient battles, founding pacts..."
+                    value={newFactionOrigins}
+                    onChange={(e) => setNewFactionOrigins(e.target.value)}
+                  />
+                </div>
+
+                <div className="world-form-group">
+                  <label>Controlled Holdings &amp; Strongholds (comma-separated)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Merrowport, Brinehorse Cove, Spindrift Lagoon"
+                    value={newFactionHoldings}
+                    onChange={(e) => setNewFactionHoldings(e.target.value)}
+                  />
+                </div>
+
+                <div className="world-form-group">
+                  <label>Forbidden Secrets &amp; Exploits (GM Only)</label>
+                  <textarea
+                    rows={2}
+                    placeholder="Secret fleets, dark bargains, covert assassination pacts..."
+                    value={newFactionSecrets}
+                    onChange={(e) => setNewFactionSecrets(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="world-modal-actions">
+                <button type="button" className="world-action-btn" onClick={() => setShowAddFactionModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="world-action-btn primary">
+                  <i className="fas fa-shield-halved"></i> Forge Order
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      {/* Forge Custom Class Modal */}
+      {showAddClassModal && (
+        <div className="world-modal-overlay" onClick={() => setShowAddClassModal(false)}>
+          <div className="world-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="world-modal-header">
+              <div className="world-modal-title">
+                <i className="fas fa-wand-magic-sparkles"></i>
+                <h3>Forge Custom Tradition / Class in {activeWorld.name}</h3>
+              </div>
+              <button className="world-modal-close" onClick={() => setShowAddClassModal(false)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <form onSubmit={handleCreateClassSubmit}>
+              <div className="world-modal-body">
+                <div className="world-form-group">
+                  <label>Class / Calling Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Solar Templar, Void Chronomancer, Blood Cleric..."
+                    value={newClassName}
+                    onChange={(e) => setNewClassName(e.target.value)}
+                    autoFocus
+                  />
+                </div>
+                <div className="world-form-row">
+                  <div className="world-form-group">
+                    <label>Tradition Archetype</label>
+                    <select value={newClassTradition} onChange={(e) => setNewClassTradition(e.target.value)}>
+                      <option value="Martial Orders & Vanguard">Martial Orders &amp; Vanguard</option>
+                      <option value="Arcane Academies & Weavers">Arcane Academies &amp; Weavers</option>
+                      <option value="Primal Callings & Wardens">Primal Callings &amp; Wardens</option>
+                      <option value="Faiths, Inquisitors & Zealots">Faiths, Inquisitors &amp; Zealots</option>
+                      <option value="Shadow Conspiracies & Stalkers">Shadow Conspiracies &amp; Stalkers</option>
+                      <option value="Forbidden / Lost Traditions">Forbidden / Lost Traditions</option>
+                    </select>
+                  </div>
+                  <div className="world-form-group">
+                    <label>Tactical Role</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Holy Healer / Radiant Striker"
+                      value={newClassRole}
+                      onChange={(e) => setNewClassRole(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="world-form-row">
+                  <div className="world-form-group">
+                    <label>Primary Resource Mechanic</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Divine Favor, Void Shards, Rage, Spell Slots..."
+                      value={newClassResourceName}
+                      onChange={(e) => setNewClassResourceName(e.target.value)}
+                    />
+                  </div>
+                  <div className="world-form-group">
+                    <label>Signature Quote / Tagline</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. In the dying light, we are the forge."
+                      value={newClassTagline}
+                      onChange={(e) => setNewClassTagline(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="world-form-group">
+                  <label>Origin Lore &amp; Philosophy (Illuminated Article)</label>
+                  <LoreEditorToolbar
+                    value={newClassOrigin}
+                    onChange={(val) => setNewClassOrigin(val)}
+                  />
+                  <textarea
+                    rows={4}
+                    placeholder="Describe how this class originated, founding pacts, training doctrines, and cultural presence in this world..."
+                    value={newClassOrigin}
+                    onChange={(e) => setNewClassOrigin(e.target.value)}
+                    style={{ borderRadius: '0 0 6px 6px', borderTop: 'none' }}
+                  />
+                </div>
+
+                <div className="world-form-group">
+                  <label>Special Tactical Rules &amp; Triggers (Gamified Mechanics)</label>
+                  <textarea
+                    rows={2}
+                    placeholder="e.g. Every 3rd offensive cast triggers a Solar Burst dealing +2d8 Radiant. Critical hits refund 1 Focus."
+                    value={newClassSpecialRules}
+                    onChange={(e) => setNewClassSpecialRules(e.target.value)}
+                  />
+                </div>
+
+                <div className="world-form-row">
+                  <div className="world-form-group">
+                    <label>Meaningful Sacrifices &amp; Tradeoffs</label>
+                    <textarea
+                      rows={2}
+                      placeholder="e.g. Must channel light continuously; cannot utilize shadow rites or stealth."
+                      value={newClassTradeoffs}
+                      onChange={(e) => setNewClassTradeoffs(e.target.value)}
+                    />
+                  </div>
+                  <div className="world-form-group">
+                    <label>Current Era Crisis &amp; Threat</label>
+                    <textarea
+                      rows={2}
+                      placeholder="e.g. Solar wells are running cold, forcing templars to sacrifice lifeblood for radiant power."
+                      value={newClassCrisis}
+                      onChange={(e) => setNewClassCrisis(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="world-form-row">
+                  <div className="world-form-group">
+                    <label>Inscribed Doctrine Quote</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. The elements do not ask if you are willing. They ask if you are precise."
+                      value={newClassQuote}
+                      onChange={(e) => setNewClassQuote(e.target.value)}
+                    />
+                  </div>
+                  <div className="world-form-group">
+                    <label>Speaker / Scriptor</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Valerius the Scriptor, Canopy-Ledger"
+                      value={newClassSpeaker}
+                      onChange={(e) => setNewClassSpeaker(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="world-form-group">
+                  <label>Key Features &amp; Passives (comma-separated)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Radiant Channeling, Heavy Armor Mastery, Smite of the Starless"
+                    value={newClassFeatures}
+                    onChange={(e) => setNewClassFeatures(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="world-modal-actions">
+                <button type="button" className="world-action-btn" onClick={() => setShowAddClassModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="world-action-btn primary">
+                  <i className="fas fa-wand-magic-sparkles"></i> Inscribe Calling
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default WorldDashboard;
+

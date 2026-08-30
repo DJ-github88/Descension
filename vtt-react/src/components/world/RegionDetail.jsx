@@ -43,7 +43,7 @@ const getLocationCategoryKey = (loc) => {
 };
 
 const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => {
-  const { getRegion, getLocationsByRegion, getFactionsByRegion } = useWorldStore();
+  const { getRegion, getLocationsByRegion, getFactionsByRegion, addCustomLocation, activeWorldId } = useWorldStore();
   const [activeTab, setActiveTab] = useState('overview');
 
   // Location Tab Filter & View States
@@ -54,6 +54,43 @@ const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => 
   const [locViewMode, setLocViewMode] = useState('subregions'); // 'subregions' | 'categorized' | 'explorer' | 'grid'
   const [selectedExplorerLocId, setSelectedExplorerLocId] = useState(null);
   const [collapsedSections, setCollapsedSections] = useState({});
+
+  // Add Location Modal state
+  const [showAddLocationModal, setShowAddLocationModal] = useState(false);
+  const [newLocName, setNewLocName] = useState('');
+  const [newLocType, setNewLocType] = useState('city');
+  const [newLocDesc, setNewLocDesc] = useState('');
+  const [newLocSight, setNewLocSight] = useState('');
+  const [newLocSound, setNewLocSound] = useState('');
+  const [newLocSmell, setNewLocSmell] = useState('');
+  const [newLocHook, setNewLocHook] = useState('');
+
+  const handleAddLocationSubmit = (e) => {
+    e.preventDefault();
+    if (!newLocName.trim()) return;
+    const newLocId = addCustomLocation(activeWorldId, {
+      regionId,
+      name: newLocName.trim(),
+      type: newLocType,
+      description: newLocDesc.trim(),
+      overview: newLocDesc.trim(),
+      sensoryProfile: {
+        sight: newLocSight.trim(),
+        sound: newLocSound.trim(),
+        smell: newLocSmell.trim(),
+        atmosphere: ''
+      },
+      dmHook: newLocHook.trim()
+    });
+    setShowAddLocationModal(false);
+    setNewLocName('');
+    setNewLocDesc('');
+    setNewLocSight('');
+    setNewLocSound('');
+    setNewLocSmell('');
+    setNewLocHook('');
+    if (onLocationClick) onLocationClick(newLocId);
+  };
 
   const region = getRegion(regionId);
   const locations = useMemo(() => getLocationsByRegion(regionId) || [], [getLocationsByRegion, regionId]);
@@ -545,6 +582,14 @@ const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => 
                     >
                       <i className="fas fa-border-all"></i> Grid
                     </button>
+                    <button
+                      type="button"
+                      className="btn-add-hold-location"
+                      onClick={() => setShowAddLocationModal(true)}
+                      title="Found a new Settlement, Keep, or Dungeon"
+                    >
+                      <i className="fas fa-plus"></i> Add Hold
+                    </button>
                   </div>
                 </div>
               </div>
@@ -952,8 +997,103 @@ const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => 
           </div>
         )}
       </div>
+
+      {/* Add Custom Location Modal */}
+      {showAddLocationModal && (
+        <div className="world-modal-overlay" onClick={() => setShowAddLocationModal(false)}>
+          <div className="world-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="world-modal-header">
+              <div className="world-modal-title">
+                <i className="fas fa-landmark"></i>
+                <h3>Found a New Hold in {region?.name || 'Realm'}</h3>
+              </div>
+              <button className="world-modal-close" onClick={() => setShowAddLocationModal(false)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <form onSubmit={handleAddLocationSubmit}>
+              <div className="world-modal-body">
+                <div className="world-form-group">
+                  <label>Hold / Settlement Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Citadel of the Ashen Dawn, Ironspire Port..."
+                    value={newLocName}
+                    onChange={(e) => setNewLocName(e.target.value)}
+                    autoFocus
+                  />
+                </div>
+                <div className="world-form-group">
+                  <label>Location Category</label>
+                  <select value={newLocType} onChange={(e) => setNewLocType(e.target.value)}>
+                    <option value="city">Major City / Metropolis</option>
+                    <option value="settlement">Town / Village</option>
+                    <option value="fortress">Fortress / Keep / Bastion</option>
+                    <option value="port">Port / Coastal Harbor</option>
+                    <option value="ruin">Ancient Ruin / Monolith</option>
+                    <option value="tomb">Crypt / Vault / Tomb</option>
+                    <option value="wilderness">Wilderness / Sacred Site</option>
+                  </select>
+                </div>
+                <div className="world-form-group">
+                  <label>Description &amp; Codex Overview</label>
+                  <textarea
+                    rows={3}
+                    placeholder="Describe the architecture, sovereign defense, history, or daily life..."
+                    value={newLocDesc}
+                    onChange={(e) => setNewLocDesc(e.target.value)}
+                  />
+                </div>
+                <div className="world-form-group">
+                  <label><i className="fas fa-eye"></i> 5-Sense Immersion: Sight, Sound &amp; Smell</label>
+                  <div className="world-form-row">
+                    <input
+                      type="text"
+                      placeholder="Sight (e.g. Basalt towers, glowing braziers)"
+                      value={newLocSight}
+                      onChange={(e) => setNewLocSight(e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Sound (e.g. Howling gales, rhythmic anvils)"
+                      value={newLocSound}
+                      onChange={(e) => setNewLocSound(e.target.value)}
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    style={{ marginTop: '8px' }}
+                    placeholder="Smell (e.g. Cold ash, cedar smoke, ozone)"
+                    value={newLocSmell}
+                    onChange={(e) => setNewLocSmell(e.target.value)}
+                  />
+                </div>
+                <div className="world-form-group">
+                  <label><i className="fas fa-mask"></i> GM Secret / Plot Hook</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. The vaults beneath the keep house an unfrozen relic..."
+                    value={newLocHook}
+                    onChange={(e) => setNewLocHook(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="world-modal-actions">
+                <button type="button" className="world-action-btn" onClick={() => setShowAddLocationModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="world-action-btn primary">
+                  <i className="fas fa-chess-rook"></i> Establish Hold
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default RegionDetail;
+

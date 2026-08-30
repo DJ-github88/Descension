@@ -345,7 +345,18 @@ const CharacterViewPage = () => {
     return subraceData ? subraceData.name : subrace;
   };
 
-  const subraceDisplayName = getSubraceDisplayName();
+  // Format race title with proper preposition
+  const formatRaceTitle = (raceStr) => {
+    if (!raceStr) return null;
+    const clean = raceStr.trim();
+    if (/^of\s+the\s+/i.test(clean)) return { prep: '', name: clean };
+    if (/^the\s+/i.test(clean)) return { prep: 'of ', name: clean };
+    if (/^of\s+/i.test(clean)) return { prep: '', name: clean };
+    return { prep: 'of the ', name: clean };
+  };
+
+  const displayRaceName = subraceDisplayName || race;
+  const raceTitleData = formatRaceTitle(displayRaceName);
 
   const effectiveClassResource = classResource || (characterClass ? initializeClassResource(characterClass, { ...(stats || {}), level: level || 1 }) : null);
 
@@ -399,13 +410,47 @@ const CharacterViewPage = () => {
           </div>
 
           <div className="header-center-col">
-            <h1 className="character-header-name">{name}</h1>
-            <div className="character-header-badge-group">
-              <span className="header-badge class">{characterClass}</span>
-              {(subraceDisplayName || race) && (
-                <span className="header-badge race">{subraceDisplayName || race}</span>
+            <h1 className="character-header-title">
+              {characterClass && (
+                <span
+                  className="character-title-part character-title-class"
+                  onClick={() => setActiveTab('talents')}
+                  role="button"
+                  tabIndex={0}
+                  title={`Class: ${characterClass}${primarySpecialization ? ` (${primarySpecialization})` : ''} • Click to view Talents`}
+                >
+                  {characterClass}
+                  <span className="title-part-tooltip">
+                    <span className="tooltip-title"><i className="fas fa-hat-wizard"></i> {characterClass}</span>
+                    {primarySpecialization && <span className="tooltip-subtitle">{primarySpecialization} Specialization</span>}
+                    <span className="tooltip-action">Click to view Talents</span>
+                  </span>
+                </span>
               )}
-            </div>
+              <span className="character-title-part character-title-name">
+                {name || 'Unnamed Adventurer'}
+              </span>
+              {raceTitleData && (
+                <span
+                  className="character-title-part character-title-race"
+                  onClick={() => {
+                    setActiveTab('lore');
+                    setActiveLoreSection('heritage');
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  title={`Ancestry: ${displayRaceName} • Click to view Heritage`}
+                >
+                  {raceTitleData.prep && <span className="title-race-prep">{raceTitleData.prep}</span>}
+                  <span className="title-race-name">{raceTitleData.name}</span>
+                  <span className="title-part-tooltip">
+                    <span className="tooltip-title"><i className="fas fa-dna"></i> {displayRaceName}</span>
+                    {subrace && race && subraceDisplayName !== race && <span className="tooltip-subtitle">{race} Lineage</span>}
+                    <span className="tooltip-action">Click to view Heritage</span>
+                  </span>
+                </span>
+              )}
+            </h1>
           </div>
 
           <div className="header-right-col">
@@ -612,125 +657,131 @@ const CharacterViewPage = () => {
           </div>
         )}
 
-        {/* Vial adjustment popup */}
+        {/* Vial adjustment popup with fixed backdrop overlay to eliminate any jump/jitter */}
         {openVialPopup && (
-          <div className={`vial-popup-wrapper popup-${openVialPopup}`} ref={vialPopupRef}>
-            <div className="vial-popup">
-              <div className="vial-popup-header">
-                <span className="vial-popup-title">
-                  {openVialPopup === 'health' && <><i className="fas fa-heart"></i> Health Points (HP)</>}
-                  {openVialPopup === 'mana' && <><i className="fas fa-flask"></i> Mana Points (MP)</>}
-                  {openVialPopup === 'actionPoints' && <><i className="fas fa-bolt"></i> Action Points (AP)</>}
-                  {openVialPopup === 'exhaustion' && <><i className="fas fa-face-tired"></i> Exhaustion (EXH)</>}
-                  {openVialPopup === 'level' && <><i className="fas fa-shield-halved"></i> Character Level</>}
-                </span>
-                <button className="vial-popup-close" onClick={() => setOpenVialPopup(null)} title="Close popup">
-                  <i className="fas fa-times"></i>
-                </button>
-              </div>
+          <div className="vial-popup-overlay" onClick={() => setOpenVialPopup(null)}>
+            <div
+              className={`vial-popup-wrapper popup-${openVialPopup}`}
+              ref={vialPopupRef}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="vial-popup">
+                <div className="vial-popup-header">
+                  <span className="vial-popup-title">
+                    {openVialPopup === 'health' && <><i className="fas fa-heart"></i> Health Points (HP)</>}
+                    {openVialPopup === 'mana' && <><i className="fas fa-flask"></i> Mana Points (MP)</>}
+                    {openVialPopup === 'actionPoints' && <><i className="fas fa-bolt"></i> Action Points (AP)</>}
+                    {openVialPopup === 'exhaustion' && <><i className="fas fa-face-tired"></i> Exhaustion (EXH)</>}
+                    {openVialPopup === 'level' && <><i className="fas fa-shield-halved"></i> Character Level</>}
+                  </span>
+                  <button className="vial-popup-close" onClick={() => setOpenVialPopup(null)} title="Close popup">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </div>
 
-              {/* Resource Descriptions & Exhaustion Breakdown */}
-              <div className="vial-popup-info-section">
-                {openVialPopup === 'health' && (
-                  <div className="vial-popup-info-body">
-                    <p className="vial-popup-desc">Hit Points represent physical endurance and overall health. Reaching 0 HP causes unconsciousness and death saves.</p>
-                    <div className="vial-popup-status-badge hp-badge">Current: {health?.current || 0} / {health?.max || 0} HP ({Math.round(healthPct)}%)</div>
-                  </div>
-                )}
-                {openVialPopup === 'mana' && (
-                  <div className="vial-popup-info-body">
-                    <p className="vial-popup-desc">Mana Points fuel spellcasting and magical class features.</p>
-                    <div className="vial-popup-status-badge mp-badge">Current: {mana?.current || 0} / {mana?.max || 0} MP ({Math.round(manaPct)}%)</div>
-                  </div>
-                )}
-                {openVialPopup === 'actionPoints' && (
-                  <div className="vial-popup-info-body">
-                    <p className="vial-popup-desc">Action Points are spent each turn to move, attack, and execute abilities in combat.</p>
-                    <div className="vial-popup-status-badge ap-badge">Current: {actionPoints?.current || 0} / {actionPoints?.max || 0} AP</div>
-                  </div>
-                )}
-                {openVialPopup === 'exhaustion' && (
-                  <div className="vial-popup-info-body">
-                    <p className="vial-popup-desc">Accumulating exhaustion degrades physical and mental combat capabilities across 6 stages.</p>
-                    <div className="exhaustion-stages-container">
-                      <div className="exhaustion-stages-title">Exhaustion Stages & Penalties:</div>
-                      {[
-                        { lvl: 0, label: 'Stage 0', effect: 'Healthy - No exhaustion penalties apply.' },
-                        { lvl: 1, label: 'Stage 1', effect: 'Disadvantage on all ability checks.' },
-                        { lvl: 2, label: 'Stage 2', effect: 'Movement speed is halved & disadvantage on checks.' },
-                        { lvl: 3, label: 'Stage 3', effect: 'Disadvantage on attack rolls and saving throws.' },
-                        { lvl: 4, label: 'Stage 4', effect: 'Maximum hit points are halved.' },
-                        { lvl: 5, label: 'Stage 5', effect: 'Movement speed reduced to 0.' },
-                        { lvl: 6, label: 'Stage 6', effect: 'Instant death.' }
-                      ].map(stage => {
-                        const isActive = (exhaustionLevel || 0) === stage.lvl;
-                        return (
-                          <div
-                            key={stage.lvl}
-                            className={`exhaustion-stage-row ${isActive ? 'active' : ''}`}
-                            onClick={() => updateCharacterInfo('exhaustionLevel', stage.lvl)}
-                            title="Click to set this exhaustion level"
-                          >
-                            <span className="exhaustion-stage-level">Lvl {stage.lvl}</span>
-                            <span className="exhaustion-stage-effect">{stage.effect}</span>
-                            {isActive && <span className="exhaustion-active-tag">ACTIVE</span>}
-                          </div>
-                        );
-                      })}
+                {/* Resource Descriptions & Exhaustion Breakdown */}
+                <div className="vial-popup-info-section">
+                  {openVialPopup === 'health' && (
+                    <div className="vial-popup-info-body">
+                      <p className="vial-popup-desc">Hit Points represent physical endurance and overall health. Reaching 0 HP causes unconsciousness and death saves.</p>
+                      <div className="vial-popup-status-badge hp-badge">Current: {health?.current || 0} / {health?.max || 0} HP ({Math.round(healthPct)}%)</div>
                     </div>
-                  </div>
-                )}
-                {openVialPopup === 'level' && (
-                  <div className="vial-popup-info-body">
-                    <p className="vial-popup-desc">Character Level determines proficiency bonus, stat scaling, and feature unlocks.</p>
-                    <div className="vial-popup-status-badge level-badge">Current Level: <strong>{level || 1}</strong></div>
-                  </div>
-                )}
-              </div>
+                  )}
+                  {openVialPopup === 'mana' && (
+                    <div className="vial-popup-info-body">
+                      <p className="vial-popup-desc">Mana Points fuel spellcasting and magical class features.</p>
+                      <div className="vial-popup-status-badge mp-badge">Current: {mana?.current || 0} / {mana?.max || 0} MP ({Math.round(manaPct)}%)</div>
+                    </div>
+                  )}
+                  {openVialPopup === 'actionPoints' && (
+                    <div className="vial-popup-info-body">
+                      <p className="vial-popup-desc">Action Points are spent each turn to move, attack, and execute abilities in combat.</p>
+                      <div className="vial-popup-status-badge ap-badge">Current: {actionPoints?.current || 0} / {actionPoints?.max || 0} AP</div>
+                    </div>
+                  )}
+                  {openVialPopup === 'exhaustion' && (
+                    <div className="vial-popup-info-body">
+                      <p className="vial-popup-desc">Accumulating exhaustion degrades physical and mental combat capabilities across 6 stages.</p>
+                      <div className="exhaustion-stages-container">
+                        <div className="exhaustion-stages-title">Exhaustion Stages & Penalties:</div>
+                        {[
+                          { lvl: 0, label: 'Stage 0', effect: 'Healthy - No exhaustion penalties apply.' },
+                          { lvl: 1, label: 'Stage 1', effect: 'Disadvantage on all ability checks.' },
+                          { lvl: 2, label: 'Stage 2', effect: 'Movement speed is halved & disadvantage on checks.' },
+                          { lvl: 3, label: 'Stage 3', effect: 'Disadvantage on attack rolls and saving throws.' },
+                          { lvl: 4, label: 'Stage 4', effect: 'Maximum hit points are halved.' },
+                          { lvl: 5, label: 'Stage 5', effect: 'Movement speed reduced to 0.' },
+                          { lvl: 6, label: 'Stage 6', effect: 'Instant death.' }
+                        ].map(stage => {
+                          const isActive = (exhaustionLevel || 0) === stage.lvl;
+                          return (
+                            <div
+                              key={stage.lvl}
+                              className={`exhaustion-stage-row ${isActive ? 'active' : ''}`}
+                              onClick={() => updateCharacterInfo('exhaustionLevel', stage.lvl)}
+                              title="Click to set this exhaustion level"
+                            >
+                              <span className="exhaustion-stage-level">Lvl {stage.lvl}</span>
+                              <span className="exhaustion-stage-effect">{stage.effect}</span>
+                              {isActive && <span className="exhaustion-active-tag">ACTIVE</span>}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                  {openVialPopup === 'level' && (
+                    <div className="vial-popup-info-body">
+                      <p className="vial-popup-desc">Character Level determines proficiency bonus, stat scaling, and feature unlocks.</p>
+                      <div className="vial-popup-status-badge level-badge">Current Level: <strong>{level || 1}</strong></div>
+                    </div>
+                  )}
+                </div>
 
-              <div className="vial-popup-buttons">
-                {openVialPopup === 'health' && (
-                  <>
-                    <button onClick={() => updateResource('health', Math.max(0, (health?.current || 0) - 10), health?.max || 1)}>-10</button>
-                    <button onClick={() => updateResource('health', Math.max(0, (health?.current || 0) - 5), health?.max || 1)}>-5</button>
-                    <button onClick={() => updateResource('health', Math.max(0, (health?.current || 0) - 1), health?.max || 1)}>-1</button>
-                    <button onClick={() => updateResource('health', Math.min(health?.max || 100, (health?.current || 0) + 1), health?.max || 1)}>+1</button>
-                    <button onClick={() => updateResource('health', Math.min(health?.max || 100, (health?.current || 0) + 5), health?.max || 1)}>+5</button>
-                    <button onClick={() => updateResource('health', Math.min(health?.max || 100, (health?.current || 0) + 10), health?.max || 1)}>+10</button>
-                  </>
-                )}
-                {openVialPopup === 'mana' && (
-                  <>
-                    <button onClick={() => updateResource('mana', Math.max(0, (mana?.current || 0) - 10), mana?.max || 1)}>-10</button>
-                    <button onClick={() => updateResource('mana', Math.max(0, (mana?.current || 0) - 5), mana?.max || 1)}>-5</button>
-                    <button onClick={() => updateResource('mana', Math.max(0, (mana?.current || 0) - 1), mana?.max || 1)}>-1</button>
-                    <button onClick={() => updateResource('mana', Math.min(mana?.max || 100, (mana?.current || 0) + 1), mana?.max || 1)}>+1</button>
-                    <button onClick={() => updateResource('mana', Math.min(mana?.max || 100, (mana?.current || 0) + 5), mana?.max || 1)}>+5</button>
-                    <button onClick={() => updateResource('mana', Math.min(mana?.max || 100, (mana?.current || 0) + 10), mana?.max || 1)}>+10</button>
-                  </>
-                )}
-                {openVialPopup === 'actionPoints' && (
-                  <>
-                    <button onClick={() => updateResource('actionPoints', Math.max(0, (actionPoints?.current || 0) - 3), actionPoints?.max || 1)}>-3</button>
-                    <button onClick={() => updateResource('actionPoints', Math.max(0, (actionPoints?.current || 0) - 1), actionPoints?.max || 1)}>-1</button>
-                    <button onClick={() => updateResource('actionPoints', Math.min(actionPoints?.max || 10, (actionPoints?.current || 0) + 1), actionPoints?.max || 1)}>+1</button>
-                    <button onClick={() => updateResource('actionPoints', Math.min(actionPoints?.max || 10, (actionPoints?.current || 0) + 3), actionPoints?.max || 1)}>+3</button>
-                  </>
-                )}
-                {openVialPopup === 'exhaustion' && (
-                  <>
-                    <button onClick={() => updateCharacterInfo('exhaustionLevel', Math.max(0, (exhaustionLevel || 0) - 1))}>-1</button>
-                    <button onClick={() => updateCharacterInfo('exhaustionLevel', 0)} className="btn-reset">Reset (0)</button>
-                    <button onClick={() => updateCharacterInfo('exhaustionLevel', Math.min(6, (exhaustionLevel || 0) + 1))}>+1</button>
-                  </>
-                )}
-                {openVialPopup === 'level' && (
-                  <>
-                    <button onClick={() => updateCharacterInfo('level', Math.max(1, (level || 1) - 1))}>-1</button>
-                    <button onClick={() => updateCharacterInfo('level', 1)} className="btn-reset">Reset (1)</button>
-                    <button onClick={() => updateCharacterInfo('level', Math.min(20, (level || 1) + 1))}>+1</button>
-                  </>
-                )}
+                <div className="vial-popup-buttons">
+                  {openVialPopup === 'health' && (
+                    <>
+                      <button onClick={() => updateResource('health', Math.max(0, (health?.current || 0) - 10), health?.max || 1)}>-10</button>
+                      <button onClick={() => updateResource('health', Math.max(0, (health?.current || 0) - 5), health?.max || 1)}>-5</button>
+                      <button onClick={() => updateResource('health', Math.max(0, (health?.current || 0) - 1), health?.max || 1)}>-1</button>
+                      <button onClick={() => updateResource('health', Math.min(health?.max || 100, (health?.current || 0) + 1), health?.max || 1)}>+1</button>
+                      <button onClick={() => updateResource('health', Math.min(health?.max || 100, (health?.current || 0) + 5), health?.max || 1)}>+5</button>
+                      <button onClick={() => updateResource('health', Math.min(health?.max || 100, (health?.current || 0) + 10), health?.max || 1)}>+10</button>
+                    </>
+                  )}
+                  {openVialPopup === 'mana' && (
+                    <>
+                      <button onClick={() => updateResource('mana', Math.max(0, (mana?.current || 0) - 10), mana?.max || 1)}>-10</button>
+                      <button onClick={() => updateResource('mana', Math.max(0, (mana?.current || 0) - 5), mana?.max || 1)}>-5</button>
+                      <button onClick={() => updateResource('mana', Math.max(0, (mana?.current || 0) - 1), mana?.max || 1)}>-1</button>
+                      <button onClick={() => updateResource('mana', Math.min(mana?.max || 100, (mana?.current || 0) + 1), mana?.max || 1)}>+1</button>
+                      <button onClick={() => updateResource('mana', Math.min(mana?.max || 100, (mana?.current || 0) + 5), mana?.max || 1)}>+5</button>
+                      <button onClick={() => updateResource('mana', Math.min(mana?.max || 100, (mana?.current || 0) + 10), mana?.max || 1)}>+10</button>
+                    </>
+                  )}
+                  {openVialPopup === 'actionPoints' && (
+                    <>
+                      <button onClick={() => updateResource('actionPoints', Math.max(0, (actionPoints?.current || 0) - 3), actionPoints?.max || 1)}>-3</button>
+                      <button onClick={() => updateResource('actionPoints', Math.max(0, (actionPoints?.current || 0) - 1), actionPoints?.max || 1)}>-1</button>
+                      <button onClick={() => updateResource('actionPoints', Math.min(actionPoints?.max || 10, (actionPoints?.current || 0) + 1), actionPoints?.max || 1)}>+1</button>
+                      <button onClick={() => updateResource('actionPoints', Math.min(actionPoints?.max || 10, (actionPoints?.current || 0) + 3), actionPoints?.max || 1)}>+3</button>
+                    </>
+                  )}
+                  {openVialPopup === 'exhaustion' && (
+                    <>
+                      <button onClick={() => updateCharacterInfo('exhaustionLevel', Math.max(0, (exhaustionLevel || 0) - 1))}>-1</button>
+                      <button onClick={() => updateCharacterInfo('exhaustionLevel', 0)} className="btn-reset">Reset (0)</button>
+                      <button onClick={() => updateCharacterInfo('exhaustionLevel', Math.min(6, (exhaustionLevel || 0) + 1))}>+1</button>
+                    </>
+                  )}
+                  {openVialPopup === 'level' && (
+                    <>
+                      <button onClick={() => updateCharacterInfo('level', Math.max(1, (level || 1) - 1))}>-1</button>
+                      <button onClick={() => updateCharacterInfo('level', 1)} className="btn-reset">Reset (1)</button>
+                      <button onClick={() => updateCharacterInfo('level', Math.min(20, (level || 1) + 1))}>+1</button>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>

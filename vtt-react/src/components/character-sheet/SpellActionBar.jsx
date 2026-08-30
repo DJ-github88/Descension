@@ -1912,6 +1912,20 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
             </div>
 
             <div className="spell-confirm-buttons">
+              {pendingConsumable.slotIndex !== undefined && pendingConsumable.slotIndex !== null && (
+                <button
+                  type="button"
+                  className="spell-confirm-btn remove-slot-btn"
+                  onClick={(e) => {
+                    handleClearSlot(e, pendingConsumable.slotIndex);
+                    setPendingConsumable(null);
+                  }}
+                  title="Remove from Action Bar"
+                >
+                  <i className="fas fa-trash-can"></i>
+                  <span>Remove from Bar</span>
+                </button>
+              )}
               <button
                 type="button"
                 className="spell-confirm-btn cancel"

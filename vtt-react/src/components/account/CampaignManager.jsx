@@ -2836,8 +2836,8 @@ const CampaignManager = ({ user }) => {
                               </div>
 
                               {loc.region && (
-                                <div style={{ fontSize: '0.72rem', color: '#8b5a1a', marginBottom: '4px' }}>
-                                  <i className="fas fa-compass" style={{ marginRight: '4px' }}></i> {loc.region}
+                                <div style={{ fontSize: '0.75rem', color: '#5a2e0a', fontWeight: 500, marginBottom: '4px' }}>
+                                  <i className="fas fa-compass" style={{ marginRight: '4px', color: '#8b5a1a' }}></i> {loc.region}
                                 </div>
                               )}
 
@@ -4461,7 +4461,7 @@ const CampaignManager = ({ user }) => {
                           <div className="plot-thread-hero">
                             <div className="plot-thread-hero-top">
                               <div className="plot-thread-title-area">
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                                <div className="plot-thread-hero-tags">
                                   <span className={`plot-thread-type-pill type-${plotType}`}>
                                     <i className={`fas ${plotType === 'character' ? 'fa-user-ninja' : plotType === 'faction' ? 'fa-shield-halved' : plotType === 'world' ? 'fa-meteor' : plotType === 'side' ? 'fa-magnifying-glass' : 'fa-crown'}`}></i>
                                     {plotType === 'character' ? 'Character Arc' : plotType === 'faction' ? 'Faction Intrigue' : plotType === 'world' ? 'World Event' : plotType === 'side' ? 'Side Mystery' : 'Main Arc'}
@@ -4517,7 +4517,7 @@ const CampaignManager = ({ user }) => {
                                 />
                               </div>
 
-                              <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                              <div className="plot-thread-hero-actions">
                                 <button
                                   type="button"
                                   className="entity-chip-add-btn"
@@ -4615,7 +4615,7 @@ const CampaignManager = ({ user }) => {
                                   {/* Beat Card */}
                                   <div className="plot-beat-card">
                                     <div className="plot-beat-card-header">
-                                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: 1 }}>
+                                      <div className="plot-beat-header-title-row">
                                         <select
                                           value={beat.type || 'clue'}
                                           onChange={(e) => updatePlotBeat(plot.id, beat.id, { type: e.target.value })}

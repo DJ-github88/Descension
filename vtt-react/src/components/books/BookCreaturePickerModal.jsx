@@ -1,13 +1,13 @@
-import React, { useState, useMemo, useEffect, Suspense, lazy } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import ErrorBoundary from '../common/ErrorBoundary';
 import useCreatureStore from '../../store/creatureStore';
 import { CreatureLibraryProvider } from '../creature-wizard/context/CreatureLibraryContext';
 import { CreatureWizardProvider } from '../creature-wizard/context/CreatureWizardContext';
+import CreatureWizardApp from '../creature-wizard/CreatureWizardApp';
 import { CREATURE_PRESETS, normalizeDangerLevel } from './BookTtrpgBlocks';
 import staticCreaturesData from '../../data/creatureData.json';
 import { getIconUrl } from '../../utils/assetManager';
 import './BookDocumentEditor.css';
-
-const CreatureWizardApp = lazy(() => import('../creature-wizard/CreatureWizardApp'));
 
 const DANGER_FILTERS = [
   { value: 'all', label: 'All Danger Levels' },
@@ -207,6 +207,7 @@ const BookCreaturePickerModal = ({
     }
     return allAvailableCreatures[0] ? normalizeBookCreatureData(allAvailableCreatures[0]) : null;
   });
+  const [mobileTab, setMobileTab] = useState('list');
 
   const [showCreatureWizard, setShowCreatureWizard] = useState(() => {
     return Boolean(initialData && initialData.openWizardDirectly);
@@ -302,7 +303,7 @@ const BookCreaturePickerModal = ({
             <div className="wizard-modal-body">
               <CreatureLibraryProvider>
                 <CreatureWizardProvider>
-                  <Suspense fallback={<div className="wizard-loading-spinner"><i className="fas fa-spinner fa-spin"></i> Loading Creature Wizard...</div>}>
+                  <ErrorBoundary fallback={<div className="wizard-loading-spinner" style={{ color: '#e74c3c' }}><i className="fas fa-exclamation-triangle"></i> Error loading Creature Wizard. Please try again.</div>}>
                     <CreatureWizardApp
                       editMode={Boolean(wizardInitialCreature || wizardCreatureId)}
                       creatureId={wizardCreatureId}
@@ -310,7 +311,7 @@ const BookCreaturePickerModal = ({
                       onSave={handleWizardSaved}
                       onCancel={() => setShowCreatureWizard(false)}
                     />
-                  </Suspense>
+                  </ErrorBoundary>
                 </CreatureWizardProvider>
               </CreatureLibraryProvider>
             </div>
@@ -371,10 +372,30 @@ const BookCreaturePickerModal = ({
               </select>
             </div>
 
+            {/* Mobile View Switcher Tabs (Shown only on small screens via CSS) */}
+            <div className="lore-mobile-nav-tabs">
+              <button
+                type="button"
+                className={`lore-mobile-tab-btn ${mobileTab === 'list' ? 'active' : ''}`}
+                onClick={() => setMobileTab('list')}
+              >
+                <i className="fas fa-list-ul"></i>
+                <span>Bestiary ({filteredCreatures.length})</span>
+              </button>
+              <button
+                type="button"
+                className={`lore-mobile-tab-btn ${mobileTab === 'preview' ? 'active' : ''}`}
+                onClick={() => setMobileTab('preview')}
+              >
+                <i className="fas fa-eye"></i>
+                <span>Statblock Preview</span>
+              </button>
+            </div>
+
             {/* Main Browser View: List + Live Preview Pane */}
-            <div className="creature-picker-main-grid">
+            <div className={`creature-picker-main-grid mobile-show-${mobileTab}`}>
               {/* Left Column: Filtered List */}
-              <div className="creatures-cards-list">
+              <div className={`creatures-cards-list ${mobileTab === 'list' ? 'mobile-visible' : 'mobile-hidden'}`}>
                 {filteredCreatures.map((c) => {
                   const norm = normalizeBookCreatureData(c);
                   const isSelected = selectedCreature?.name === norm.name;
@@ -382,7 +403,10 @@ const BookCreaturePickerModal = ({
                     <div
                       key={norm.id || norm.name}
                       className={`creature-list-card ${isSelected ? 'selected' : ''}`}
-                      onClick={() => setSelectedCreature(norm)}
+                      onClick={() => {
+                        setSelectedCreature(norm);
+                        setMobileTab('preview');
+                      }}
                       onDoubleClick={() => handleConfirmSelect(norm)}
                     >
                       <div className="c-card-icon-slot">
@@ -418,9 +442,22 @@ const BookCreaturePickerModal = ({
               </div>
 
               {/* Right Column: Live Inspect Preview */}
-              <div className="creature-preview-pane">
+              <div className={`creature-preview-pane ${mobileTab === 'preview' ? 'mobile-visible' : 'mobile-hidden'}`}>
                 {selectedCreature ? (
                   <div className="creature-inspect-card">
+                    {/* Mobile Back Button */}
+                    <div className="lore-mobile-back-row">
+                      <button
+                        type="button"
+                        className="lore-mobile-back-btn"
+                        onClick={() => setMobileTab('list')}
+                        title="Back to Bestiary List"
+                      >
+                        <i className="fas fa-arrow-left"></i>
+                        <span>Back to Bestiary</span>
+                      </button>
+                    </div>
+
                     <div className="inspect-head">
                       <div className="inspect-token">
                         <CreatureAvatar creature={selectedCreature} />

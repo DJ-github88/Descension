@@ -10,16 +10,32 @@ const CANVAS_HEIGHT = 2400;
 const CX = CANVAS_WIDTH / 2;
 const CY = CANVAS_HEIGHT / 2;
 
-export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
-  const factions = useFactionStore((state) => state.factions || []);
-  const locations = useWorldStore((state) => state.locations || []);
-  const trees = useFamilyTreeStore((state) => state.trees || []);
-  const customLineages = useCustomLineageStore((state) => state.customLineages || []);
+export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selectedEntity }) => {
+  const activeWorldId = useWorldStore((state) => state.activeWorldId || 'mythrill');
+  const activeWorld = useWorldStore((state) => state.getActiveWorld ? state.getActiveWorld() : null);
+  
+  const factions = useFactionStore((state) => {
+    return state.getAllFactions ? state.getAllFactions(activeWorldId) : (state.factions || []);
+  });
+
+  const locations = useWorldStore((state) => {
+    const actWorld = state.getActiveWorld ? state.getActiveWorld() : null;
+    const customLocs = actWorld?.customLocations || [];
+    if (activeWorldId === 'mythrill') {
+      return [...(state.locations || []), ...customLocs];
+    }
+    return customLocs;
+  });
+
+  const trees = useFamilyTreeStore((state) => {
+    return state.getAllTrees ? state.getAllTrees(activeWorldId) : (state.trees || []);
+  });
+
   const allLineages = useMemo(() => {
     try {
-      return useWorldStore.getState().getAllLineages ? useWorldStore.getState().getAllLineages() : customLineages;
-    } catch { return customLineages; }
-  }, [customLineages]);
+      return useWorldStore.getState().getAllLineages ? useWorldStore.getState().getAllLineages() : [];
+    } catch { return []; }
+  }, [activeWorldId]);
 
   const [activeTypeFilters, setActiveTypeFilters] = useState(['faction', 'lineage', 'location', 'family_node', 'custom']);
   const [activeRelFilter, setActiveRelFilter] = useState('all');
@@ -594,6 +610,22 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
     setSelectedNodeId(nodeId);
   };
 
+  // --- Touch Gesture State & Handlers ---
+  const touchStateRef = useRef({
+    mode: 'none',
+    startX: 0,
+    startY: 0,
+    startPanX: 0,
+    startPanY: 0,
+    nodeId: null,
+    nodeStartX: 0,
+    nodeStartY: 0,
+    hasMoved: false,
+    initialPinchDist: 0,
+    initialZoom: 1,
+    initialPan: { x: 0, y: 0 }
+  });
+
   // Global mouse move and mouse up listeners with stable refs (no churn)
   useEffect(() => {
     const handleGlobalMouseMove = (e) => {
@@ -635,6 +667,181 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
       window.removeEventListener('mouseup', handleGlobalMouseUp);
     };
   }, []);
+
+  // Native non-passive Touch handling for container (Pan, Node Drag, Pinch Zoom)
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const handleTouchStart = (e) => {
+      const isControl =
+        e.target.closest('.pathfinder-floating-hud') ||
+        e.target.closest('.pathfinder-codex-drawer') ||
+        e.target.closest('.custom-rel-modal-overlay') ||
+        e.target.closest('.pathfinder-graph-toolbar');
+      if (isControl) return;
+
+      const touches = e.touches;
+      if (touches.length === 1) {
+        const touch = touches[0];
+        const targetNode = e.target.closest('.pathfinder-graph-node');
+
+        if (targetNode) {
+          const nodeId = targetNode.getAttribute('data-node-id');
+          if (nodeId) {
+            const curPos = getNodePos(nodeId);
+            touchStateRef.current = {
+              mode: 'nodeDrag',
+              startX: touch.clientX,
+              startY: touch.clientY,
+              startPanX: panOffsetRef.current.x,
+              startPanY: panOffsetRef.current.y,
+              nodeId,
+              nodeStartX: curPos.x,
+              nodeStartY: curPos.y,
+              hasMoved: false,
+              initialPinchDist: 0,
+              initialZoom: zoomLevelRef.current,
+              initialPan: { ...panOffsetRef.current }
+            };
+            if (e.cancelable) e.preventDefault();
+            return;
+          }
+        }
+
+        // Background canvas panning
+        touchStateRef.current = {
+          mode: 'pan',
+          startX: touch.clientX,
+          startY: touch.clientY,
+          startPanX: panOffsetRef.current.x,
+          startPanY: panOffsetRef.current.y,
+          nodeId: null,
+          nodeStartX: 0,
+          nodeStartY: 0,
+          hasMoved: false,
+          initialPinchDist: 0,
+          initialZoom: zoomLevelRef.current,
+          initialPan: { ...panOffsetRef.current }
+        };
+        setIsPanning(true);
+        if (e.cancelable) e.preventDefault();
+      } else if (touches.length === 2) {
+        const t1 = touches[0];
+        const t2 = touches[1];
+        const dist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+        const midX = (t1.clientX + t2.clientX) / 2;
+        const midY = (t1.clientY + t2.clientY) / 2;
+
+        touchStateRef.current = {
+          mode: 'pinch',
+          startX: midX,
+          startY: midY,
+          startPanX: panOffsetRef.current.x,
+          startPanY: panOffsetRef.current.y,
+          nodeId: null,
+          nodeStartX: 0,
+          nodeStartY: 0,
+          hasMoved: true,
+          initialPinchDist: dist,
+          initialZoom: zoomLevelRef.current,
+          initialPan: { ...panOffsetRef.current }
+        };
+        if (e.cancelable) e.preventDefault();
+      }
+    };
+
+    const handleTouchMove = (e) => {
+      const state = touchStateRef.current;
+      if (state.mode === 'none') return;
+
+      const touches = e.touches;
+
+      if (state.mode === 'pan' && touches.length === 1) {
+        const touch = touches[0];
+        const dx = touch.clientX - state.startX;
+        const dy = touch.clientY - state.startY;
+        if (Math.hypot(dx, dy) > 4) {
+          state.hasMoved = true;
+        }
+        setPanOffset({
+          x: state.startPanX + dx,
+          y: state.startPanY + dy
+        });
+        if (e.cancelable) e.preventDefault();
+      } else if (state.mode === 'nodeDrag' && touches.length === 1 && state.nodeId) {
+        const touch = touches[0];
+        const dx = touch.clientX - state.startX;
+        const dy = touch.clientY - state.startY;
+        if (Math.hypot(dx, dy) > 6) {
+          state.hasMoved = true;
+        }
+        const scaledDx = dx / zoomLevelRef.current;
+        const scaledDy = dy / zoomLevelRef.current;
+        setCustomPositions((prev) => ({
+          ...prev,
+          [state.nodeId]: {
+            x: Math.round(state.nodeStartX + scaledDx),
+            y: Math.round(state.nodeStartY + scaledDy)
+          }
+        }));
+        if (e.cancelable) e.preventDefault();
+      } else if (state.mode === 'pinch' && touches.length === 2) {
+        const t1 = touches[0];
+        const t2 = touches[1];
+        const currentDist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+        const midX = (t1.clientX + t2.clientX) / 2;
+        const midY = (t1.clientY + t2.clientY) / 2;
+
+        if (state.initialPinchDist > 0) {
+          const factor = currentDist / state.initialPinchDist;
+          const newZoom = Math.max(0.2, Math.min(2.5, +(state.initialZoom * factor).toFixed(3)));
+          const rect = el.getBoundingClientRect();
+          const cursorX = midX - rect.left;
+          const cursorY = midY - rect.top;
+
+          const zoomRatio = newZoom / state.initialZoom;
+          const newPanX = cursorX - (cursorX - state.initialPan.x) * zoomRatio;
+          const newPanY = cursorY - (cursorY - state.initialPan.y) * zoomRatio;
+
+          setZoomLevel(newZoom);
+          setPanOffset({
+            x: Math.round(newPanX),
+            y: Math.round(newPanY)
+          });
+        }
+        if (e.cancelable) e.preventDefault();
+      }
+    };
+
+    const handleTouchEnd = (e) => {
+      const state = touchStateRef.current;
+      if (state.mode === 'nodeDrag' && !state.hasMoved && state.nodeId) {
+        // Tap on node: select it to open sidebar drawer
+        setSelectedNodeId(state.nodeId);
+      } else if (state.mode === 'pan' && !state.hasMoved) {
+        setSelectedNodeId(null);
+      }
+
+      if (e.touches.length === 0) {
+        setIsPanning(false);
+        touchStateRef.current.mode = 'none';
+        touchStateRef.current.nodeId = null;
+      }
+    };
+
+    el.addEventListener('touchstart', handleTouchStart, { passive: false });
+    el.addEventListener('touchmove', handleTouchMove, { passive: false });
+    el.addEventListener('touchend', handleTouchEnd, { passive: false });
+    el.addEventListener('touchcancel', handleTouchEnd, { passive: false });
+
+    return () => {
+      el.removeEventListener('touchstart', handleTouchStart);
+      el.removeEventListener('touchmove', handleTouchMove);
+      el.removeEventListener('touchend', handleTouchEnd);
+      el.removeEventListener('touchcancel', handleTouchEnd);
+    };
+  }, [allNodes, getNodePos, onEntityClick]);
 
   // --- Wheel Zoom around cursor & ResizeObserver ---
   useEffect(() => {
@@ -768,59 +975,66 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
               type="button"
               className={`pathfinder-filter-chip ${activeTypeFilters.includes('faction') ? 'active faction' : ''}`}
               onClick={() => toggleTypeFilter('faction')}
-              title="Toggle Factions & Orders"
+              title={`Toggle Factions & Orders (${factions.length})`}
             >
               <i className="fas fa-shield-halved"></i>
-              <span>Factions ({factions.length})</span>
+              <span className="chip-label">Factions</span>
+              <span className="chip-count">({factions.length})</span>
             </button>
             <button
               type="button"
               className={`pathfinder-filter-chip ${activeTypeFilters.includes('lineage') ? 'active lineage' : ''}`}
               onClick={() => toggleTypeFilter('lineage')}
-              title="Toggle Lineages & Peoples (Species)"
+              title={`Toggle Lineages & Species (${allLineages.length})`}
             >
               <i className="fas fa-dna"></i>
-              <span>Lineages ({allLineages.length})</span>
+              <span className="chip-label">Lineages</span>
+              <span className="chip-count">({allLineages.length})</span>
             </button>
             <button
               type="button"
               className={`pathfinder-filter-chip ${activeTypeFilters.includes('location') ? 'active location' : ''}`}
               onClick={() => toggleTypeFilter('location')}
-              title="Toggle Locations & Realms"
+              title={`Toggle Locations & Realms (${locations.length})`}
             >
               <i className="fas fa-map-pin"></i>
-              <span>Locations ({locations.length})</span>
+              <span className="chip-label">Locations</span>
+              <span className="chip-count">({locations.length})</span>
             </button>
             <button
               type="button"
               className={`pathfinder-filter-chip ${activeTypeFilters.includes('family_node') ? 'active family' : ''}`}
               onClick={() => toggleTypeFilter('family_node')}
-              title="Toggle Dynasty Family Trees"
+              title={`Toggle Dynasty Trees (${trees.reduce((acc, t) => acc + (t.nodes || []).length, 0)})`}
             >
               <i className="fas fa-crown"></i>
-              <span>Dynasties ({trees.reduce((acc, t) => acc + (t.nodes || []).length, 0)})</span>
+              <span className="chip-label">Dynasties</span>
+              <span className="chip-count">({trees.reduce((acc, t) => acc + (t.nodes || []).length, 0)})</span>
             </button>
             {customUserNodes.length > 0 && (
               <button
                 type="button"
                 className={`pathfinder-filter-chip ${activeTypeFilters.includes('custom') ? 'active custom' : ''}`}
                 onClick={() => toggleTypeFilter('custom')}
-                title="Toggle Custom Author Nodes"
+                title={`Toggle Custom Entities (${customUserNodes.length})`}
               >
                 <i className="fas fa-sparkles"></i>
-                <span>Custom ({customUserNodes.length})</span>
+                <span className="chip-label">Custom</span>
+                <span className="chip-count">({customUserNodes.length})</span>
               </button>
             )}
           </div>
 
-          <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+          <div className="toolbar-actions-group">
             <button
               type="button"
               className="pathfinder-action-btn primary"
               onClick={() => setShowAddNodeModal(true)}
               title="Create Custom Lineage, Faction or Entity in the Relationship Web"
+              aria-label="Add Entity"
             >
-              <i className="fas fa-plus"></i> + Entity
+              <i className="fas fa-plus"></i>
+              <span className="btn-label-desktop"> Entity</span>
             </button>
             <button
               type="button"
@@ -831,8 +1045,19 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
                 else alert('Click any node on the web first, then click Link Relation!');
               }}
               title="Click a node and link a custom relation to another node"
+              aria-label="Link Relation"
             >
-              <i className="fas fa-link"></i> {linkingSourceNodeId ? 'Click Target Node...' : '+ Link Relation'}
+              <i className="fas fa-link"></i>
+              <span className="btn-label-desktop">{linkingSourceNodeId ? ' Target...' : ' Link'}</span>
+            </button>
+            <button
+              type="button"
+              className={`pathfinder-action-btn mobile-search-toggle ${showMobileSearch ? 'active' : ''}`}
+              onClick={() => setShowMobileSearch((prev) => !prev)}
+              title="Toggle Search & Filters"
+              aria-label="Toggle Filters"
+            >
+              <i className="fas fa-sliders"></i>
             </button>
           </div>
         </div>
@@ -1018,9 +1243,14 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
                   onMouseDown={(e) => handleNodeMouseDown(e, node.id)}
                   onMouseEnter={() => setHoveredNodeId(node.id)}
                   onMouseLeave={() => setHoveredNodeId(null)}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setSelectedNodeId(node.id);
                     if (onEntityClick) onEntityClick(node);
+                  }}
+                  onDoubleClick={(e) => {
+                    e.stopPropagation();
+                    if (onEntityDoubleClick) onEntityDoubleClick(node);
                   }}
                 >
                   <div className="node-crest-seal">
@@ -1067,12 +1297,23 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
               <p className="drawer-desc">{selectedNode.description}</p>
             )}
 
-            <div style={{ marginTop: '8px', display: 'flex', gap: '6px' }}>
+            <div style={{ marginTop: '10px', display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+              {onEntityDoubleClick && (
+                <button
+                  type="button"
+                  className="pathfinder-action-btn primary"
+                  onClick={() => onEntityDoubleClick(selectedNode)}
+                  style={{ flex: '1 1 auto', minWidth: '110px' }}
+                  title="Open full codex / information site"
+                >
+                  <i className="fas fa-book-open"></i> Open Page
+                </button>
+              )}
               <button
                 type="button"
-                className="pathfinder-action-btn primary"
+                className="pathfinder-action-btn"
                 onClick={() => setLinkingSourceNodeId(selectedNode.id)}
-                style={{ flex: 1 }}
+                style={{ flex: '1 1 auto', minWidth: '110px' }}
               >
                 <i className="fas fa-link"></i> Link Relation
               </button>
@@ -1105,6 +1346,10 @@ export const UniversalEntityGraph = ({ onEntityClick, selectedEntity }) => {
                       key={edge.id}
                       className="connected-entity-item"
                       onClick={() => setSelectedNodeId(otherNode.id)}
+                      onDoubleClick={(e) => {
+                        e.stopPropagation();
+                        if (onEntityDoubleClick) onEntityDoubleClick(otherNode);
+                      }}
                       style={{
                         display: 'flex',
                         alignItems: 'center',

@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import DieIcon from './DieIcon';
 
 const getDiceValue = (die) => {
     if (!die) return 0;
     if (typeof die === 'number') return die;
-    const dieLower = String(die).toLowerCase();
+    const dieLower = String(die).toLowerCase().trim();
     if (dieLower === 'broken' || dieLower === '0') return 0;
     const match = dieLower.match(/^d(\d+)$/);
     if (match) return parseInt(match[1], 10);
@@ -13,25 +13,51 @@ const getDiceValue = (die) => {
 };
 
 const getDiceString = (val, defaultVal = 'd8') => {
-    if (!val) return defaultVal;
-    if (typeof val === 'string') return val.toLowerCase();
-    if (val <= 30) return 'd4';
-    if (val <= 50) return 'd6';
-    if (val <= 70) return 'd8';
-    if (val <= 100) return 'd10';
-    if (val <= 150) return 'd12';
-    return 'd20';
+    if (val == null || val === '') return defaultVal;
+    if (typeof val === 'string') {
+        const lower = val.toLowerCase().trim();
+        if (lower === 'broken' || lower === '0') return 'broken';
+        if (lower.startsWith('d')) return lower;
+        const parsed = parseInt(lower, 10);
+        if (!isNaN(parsed)) return getDiceString(parsed, defaultVal);
+        return lower;
+    }
+    if (typeof val === 'number') {
+        if (val <= 0) return 'broken';
+        if (val === 4) return 'd4';
+        if (val === 6) return 'd6';
+        if (val === 8) return 'd8';
+        if (val === 10) return 'd10';
+        if (val === 12) return 'd12';
+        if (val === 20) return 'd20';
+        if (val <= 30) return 'd4';
+        if (val <= 50) return 'd6';
+        if (val <= 70) return 'd8';
+        if (val <= 100) return 'd10';
+        if (val <= 150) return 'd12';
+        return 'd20';
+    }
+    return defaultVal;
 };
 
 const DurabilityAdjustModal = ({ visible, item, onClose, onDurabilityChange }) => {
+    const diceSteps = ['broken', 'd4', 'd6', 'd8', 'd10', 'd12', 'd20'];
+    const maxDurStr = item ? getDiceString(item.maxDurability, 'd8') : 'd8';
+    
+    const [curDurStr, setCurDurStr] = useState(() => 
+        item ? getDiceString(item.durability, maxDurStr) : maxDurStr
+    );
+
+    useEffect(() => {
+        if (item) {
+            setCurDurStr(getDiceString(item.durability, getDiceString(item.maxDurability, 'd8')));
+        }
+    }, [item?.durability, item?.maxDurability, item?.id]);
+
     if (!visible || !item) return null;
 
-    const diceSteps = ['broken', 'd4', 'd6', 'd8', 'd10', 'd12', 'd20'];
-    const maxDurStr = getDiceString(item.maxDurability, 'd8');
-    const curDurStr = getDiceString(item.durability, maxDurStr);
-
-    const maxIdx = diceSteps.indexOf(maxDurStr);
-    const curIdx = diceSteps.indexOf(curDurStr);
+    const maxIdx = Math.max(1, diceSteps.indexOf(maxDurStr) !== -1 ? diceSteps.indexOf(maxDurStr) : 3);
+    const curIdx = Math.max(0, diceSteps.indexOf(curDurStr) !== -1 ? diceSteps.indexOf(curDurStr) : 0);
 
     const getStepColor = (step) => {
         if (step === 'broken') return '#ff3838';
@@ -44,7 +70,14 @@ const DurabilityAdjustModal = ({ visible, item, onClose, onDurabilityChange }) =
     };
 
     const handleSelectStep = (step) => {
-        onDurabilityChange(item.id, step);
+        setCurDurStr(step);
+        if (item) {
+            item.durability = step;
+            item.broken = (step === 'broken');
+        }
+        if (onDurabilityChange) {
+            onDurabilityChange(item.id || item._id, step, item);
+        }
     };
 
     const handleOverlayClick = (e) => {
@@ -53,7 +86,7 @@ const DurabilityAdjustModal = ({ visible, item, onClose, onDurabilityChange }) =
         }
     };
 
-    const percentage = maxIdx > 1 ? ((curIdx - 1) / (maxIdx - 1)) * 100 : 0;
+    const percentage = maxIdx > 1 ? Math.max(0, Math.min(100, ((curIdx - 1) / (maxIdx - 1)) * 100)) : 0;
     const barColor = getStepColor(curDurStr);
 
     return createPortal(
@@ -65,10 +98,16 @@ const DurabilityAdjustModal = ({ visible, item, onClose, onDurabilityChange }) =
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                zIndex: 10000,
+                zIndex: 100000005,
                 backdropFilter: 'blur(3px)'
             }}
             onClick={handleOverlayClick}
+            onMouseDown={(e) => {
+                e.stopPropagation();
+            }}
+            onTouchStart={(e) => {
+                e.stopPropagation();
+            }}
         >
             <div
                 style={{
@@ -82,6 +121,8 @@ const DurabilityAdjustModal = ({ visible, item, onClose, onDurabilityChange }) =
                     color: '#d4a574'
                 }}
                 onClick={(e) => e.stopPropagation()}
+                onMouseDown={(e) => e.stopPropagation()}
+                onTouchStart={(e) => e.stopPropagation()}
             >
                 {/* Header */}
                 <div style={{
@@ -216,8 +257,10 @@ const DurabilityAdjustModal = ({ visible, item, onClose, onDurabilityChange }) =
                             return (
                                 <button
                                     key={step}
+                                    type="button"
                                     disabled={!isAllowed}
                                     onClick={() => handleSelectStep(step)}
+                                    onMouseDown={(e) => e.stopPropagation()}
                                     style={{
                                         display: 'flex',
                                         flexDirection: 'column',
@@ -270,7 +313,9 @@ const DurabilityAdjustModal = ({ visible, item, onClose, onDurabilityChange }) =
                     paddingTop: '16px'
                 }}>
                     <button
+                        type="button"
                         onClick={() => handleSelectStep(maxDurStr)}
+                        onMouseDown={(e) => e.stopPropagation()}
                         style={{
                             background: 'linear-gradient(135deg, #27ae60, #1e8449)',
                             border: '1px solid #27ae60',
@@ -297,7 +342,9 @@ const DurabilityAdjustModal = ({ visible, item, onClose, onDurabilityChange }) =
                         FULLY REPAIR
                     </button>
                     <button
+                        type="button"
                         onClick={() => handleSelectStep('broken')}
+                        onMouseDown={(e) => e.stopPropagation()}
                         style={{
                             background: 'linear-gradient(135deg, #7a2020, #5a1515)',
                             border: '1px solid #8b3030',

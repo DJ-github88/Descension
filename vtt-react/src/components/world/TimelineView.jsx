@@ -7,27 +7,55 @@ import useTimelineStore, {
 import useFactionStore from '../../store/factionStore';
 import useWorldStore from '../../store/worldStore';
 import RichLoreText from '../common/RichLoreText';
+import LoreEditorToolbar from '../common/LoreEditorToolbar';
 import { sanitizeLoreText, formatDisplayName } from './WorldDashboard';
 import './TimelineView.css';
 
 const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compact = false }) => {
-  const { calendar, events, getEraTimeline } = useTimelineStore();
+  const { calendar, getEraTimeline, getAllEvents, getChronology, addEvent, updateEvent, removeEvent, customEvents } = useTimelineStore();
   const { getFaction } = useFactionStore();
-  const { getRegion, getLocation } = useWorldStore();
+  const { getRegion, getLocation, activeWorldId, getActiveWorld, addCustomTimeline, updateCustomTimeline, deleteCustomTimeline } = useWorldStore();
 
-  const [selectedEra, setSelectedEra] = useState('freezing-era');
+  const activeWorld = getActiveWorld();
+  const isCanonWorld = activeWorldId === 'mythrill';
+  const chronology = useMemo(() => getChronology(activeWorldId), [getChronology, activeWorldId, activeWorld]);
+  const worldEvents = useMemo(() => getAllEvents(activeWorldId), [getAllEvents, activeWorldId, customEvents]);
+
+  const [selectedEra, setSelectedEra] = useState(chronology[0]?.id || 'freezing-era');
   const [selectedEventId, setSelectedEventId] = useState(null);
   const [typeFilter, setTypeFilter] = useState(null);
   const [timelineSearch, setTimelineSearch] = useState('');
   const [showCalendarDrawer, setShowCalendarDrawer] = useState(false);
   const [scopeAllEras, setScopeAllEras] = useState(false);
 
-  const eventListRef = useRef(null);
+  // Authoring & Editing Modal States
+  const [showAddEraModal, setShowAddEraModal] = useState(false);
+  const [showAddEventModal, setShowAddEventModal] = useState(false);
+  const [editingEvent, setEditingEvent] = useState(null);
+  const [editingEra, setEditingEra] = useState(null);
 
-  const eraTimeline = useMemo(() => getEraTimeline(), [getEraTimeline]);
+  // Form State - Epoch
+  const [newEraName, setNewEraName] = useState('');
+  const [newEraRange, setNewEraRange] = useState('');
+  const [newEraDesc, setNewEraDesc] = useState('');
+
+  // Form State - Event
+  const [newEventTitle, setNewEventTitle] = useState('');
+  const [newEventYear, setNewEventYear] = useState(0);
+  const [newEventEraId, setNewEventEraId] = useState('');
+  const [newEventType, setNewEventType] = useState('founding');
+  const [newEventDesc, setNewEventDesc] = useState('');
+  const [newEventNarrative, setNewEventNarrative] = useState('');
+  const [newEventHook, setNewEventHook] = useState('');
+
+  const eventListRef = useRef(null);
+  const narrativeTextareaRef = useRef(null);
+  const editNarrativeTextareaRef = useRef(null);
+
+  const eraTimeline = useMemo(() => getEraTimeline(activeWorldId), [getEraTimeline, activeWorldId]);
 
   const currentEra = useMemo(
-    () => eraTimeline.find((e) => e.id === selectedEra) || eraTimeline[eraTimeline.length - 1] || eraTimeline[0],
+    () => eraTimeline.find((e) => e.id === selectedEra) || eraTimeline[0] || null,
     [eraTimeline, selectedEra]
   );
 
@@ -35,7 +63,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
   const isScoped = Boolean(filterLocationId || filterFactionId || filterClassId);
 
   const filteredEvents = useMemo(() => {
-    let pool = isScoped || scopeAllEras ? events : (currentEra?.events || events);
+    let pool = isScoped || scopeAllEras ? worldEvents : (currentEra?.events || worldEvents);
     let results = pool;
 
     if (filterLocationId) {
@@ -57,8 +85,8 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
         return false;
       });
 
-      if (results.length === 0) {
-        results = events.filter((e) =>
+      if (results.length === 0 && isCanonWorld) {
+        results = worldEvents.filter((e) =>
           e.id === 'event-entombment' ||
           e.id === 'event-shattering-aex' ||
           e.id === 'event-freeze-front' ||
@@ -72,8 +100,8 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
 
     if (filterClassId) {
       results = results.filter((e) => e.classIds?.includes(filterClassId));
-      if (results.length === 0) {
-        results = events.slice(0, 5);
+      if (results.length === 0 && isCanonWorld) {
+        results = worldEvents.slice(0, 5);
       }
     }
 
@@ -96,24 +124,107 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
   }, [
     isScoped,
     scopeAllEras,
-    events,
+    worldEvents,
     currentEra,
     filterLocationId,
     filterFactionId,
     filterClassId,
     typeFilter,
     timelineSearch,
-    faction
+    faction,
+    isCanonWorld
   ]);
+
+  const handleCreateEraSubmit = (e) => {
+    e.preventDefault();
+    if (!newEraName.trim()) return;
+    const eraId = addCustomTimeline(activeWorldId, {
+      name: newEraName.trim(),
+      yearRange: newEraRange.trim() || 'Years 0–100',
+      description: newEraDesc.trim()
+    });
+    setSelectedEra(eraId);
+    setShowAddEraModal(false);
+    setNewEraName('');
+    setNewEraRange('');
+    setNewEraDesc('');
+  };
+
+  const handleCreateEventSubmit = (e) => {
+    e.preventDefault();
+    if (!newEventTitle.trim()) return;
+    const targetEra = newEventEraId || currentEra?.id || chronology[0]?.id || 'custom-era';
+    addEvent({
+      title: newEventTitle.trim(),
+      type: newEventType,
+      worldId: activeWorldId,
+      date: {
+        eraId: targetEra,
+        year: parseInt(newEventYear, 10) || 0
+      },
+      dateDisplay: `Year ${newEventYear}`,
+      description: newEventDesc.trim(),
+      narrative: newEventNarrative.trim(),
+      dmHook: newEventHook.trim()
+    });
+    setShowAddEventModal(false);
+    setNewEventTitle('');
+    setNewEventDesc('');
+    setNewEventNarrative('');
+    setNewEventHook('');
+  };
+
+  const handleUpdateEraSubmit = (e) => {
+    e.preventDefault();
+    if (!editingEra || !editingEra.name.trim()) return;
+    updateCustomTimeline(activeWorldId, editingEra.id, {
+      name: editingEra.name.trim(),
+      yearRange: editingEra.yearRange?.trim() || 'Years 0–100',
+      description: editingEra.description?.trim() || ''
+    });
+    setEditingEra(null);
+  };
+
+  const handleDeleteEra = (eraId) => {
+    deleteCustomTimeline(activeWorldId, eraId);
+    if (selectedEra === eraId) {
+      setSelectedEra(chronology.find((c) => c.id !== eraId)?.id || 'freezing-era');
+    }
+    setEditingEra(null);
+  };
+
+  const handleUpdateEventSubmit = (e) => {
+    e.preventDefault();
+    if (!editingEvent || !editingEvent.title.trim()) return;
+    updateEvent(editingEvent.id, {
+      title: editingEvent.title.trim(),
+      type: editingEvent.type,
+      date: {
+        eraId: editingEvent.date?.eraId || currentEra?.id || 'custom-era',
+        year: parseInt(editingEvent.date?.year, 10) || 0
+      },
+      dateDisplay: `Year ${editingEvent.date?.year ?? 0}`,
+      description: editingEvent.description?.trim() || '',
+      narrative: editingEvent.narrative?.trim() || '',
+      dmHook: editingEvent.dmHook?.trim() || ''
+    });
+    setEditingEvent(null);
+  };
+
+  const handleDeleteEvent = (eventId) => {
+    removeEvent(eventId);
+    if (selectedEventId === eventId) setSelectedEventId(null);
+    setEditingEvent(null);
+  };
 
   const selectedEvent = useMemo(() => {
     if (!selectedEventId) return null;
-    return events.find((e) => e.id === selectedEventId) || null;
-  }, [selectedEventId, events]);
+    return worldEvents.find((e) => e.id === selectedEventId) || null;
+  }, [selectedEventId, worldEvents]);
 
   const jumpToEvent = (eventId) => {
     setSelectedEventId(eventId);
-    const target = events.find((e) => e.id === eventId);
+    const target = worldEvents.find((e) => e.id === eventId);
     if (target?.date?.eraId && target.date.eraId !== selectedEra) {
       setSelectedEra(target.date.eraId);
     }
@@ -209,9 +320,11 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
           <div className="chronicon-title-row">
             <i className="fas fa-scroll chronicon-header-icon"></i>
             <div>
-              <h2 className="chronicon-title">The Mythrill Chronicon</h2>
+              <h2 className="chronicon-title">{isCanonWorld ? 'The Mythrill Chronicon' : `${activeWorld.name} Historical Chronicon`}</h2>
               <span className="chronicon-subtitle">
-                An illuminated record of the 150-year freeze, celestial pacts, and the deepening silence
+                {isCanonWorld
+                  ? 'An illuminated record of the 150-year freeze, celestial pacts, and the deepening silence'
+                  : `Living annals, historic epochs, and sovereign chronicle records of ${activeWorld.name}`}
               </span>
             </div>
           </div>
@@ -220,18 +333,40 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
         <div className="chronicon-header-actions">
           <button
             type="button"
-            className={`btn-chronicon-action ${showCalendarDrawer ? 'active' : ''}`}
-            onClick={() => setShowCalendarDrawer(!showCalendarDrawer)}
-            title="Open Celestial Calendar, 12 Months & Sacred Observances"
+            className="btn-chronicon-action"
+            onClick={() => setShowAddEraModal(true)}
+            title="Forge a new historical epoch"
           >
-            <i className="fas fa-calendar-days"></i>
-            <span>Celestial Calendar</span>
+            <i className="fas fa-landmark"></i>
+            <span>+ Forge Epoch</span>
           </button>
+
+          <button
+            type="button"
+            className="btn-chronicon-action primary"
+            onClick={() => setShowAddEventModal(true)}
+            title="Record a new chronicle event"
+          >
+            <i className="fas fa-feather-pointed"></i>
+            <span>+ Record Event</span>
+          </button>
+
+          {isCanonWorld && (
+            <button
+              type="button"
+              className={`btn-chronicon-action ${showCalendarDrawer ? 'active' : ''}`}
+              onClick={() => setShowCalendarDrawer(!showCalendarDrawer)}
+              title="Open Celestial Calendar, 12 Months & Sacred Observances"
+            >
+              <i className="fas fa-calendar-days"></i>
+              <span>Celestial Calendar</span>
+            </button>
+          )}
         </div>
       </div>
 
       {/* ── Slideable Calendar Drawer ────────────────────────── */}
-      {showCalendarDrawer && (
+      {showCalendarDrawer && isCanonWorld && (
         <div className="chronicon-calendar-drawer">
           <MiniCalendar onClose={() => setShowCalendarDrawer(false)} />
         </div>
@@ -241,53 +376,62 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
       <div className="chronicon-era-stepper">
         <div className="era-stepper-label">
           <i className="fas fa-landmark"></i>
-          <span>Historical Epochs</span>
+          <span>Historical Epochs ({chronology.length})</span>
         </div>
         <div className="era-stepper-track">
-          {CHRONOLOGY_ERA_DISPLAY.map((era, index) => {
-            const isActive = selectedEra === era.id && !scopeAllEras;
-            const eraEvents = events.filter((e) => e.date?.eraId === era.id);
-
-            return (
-              <button
-                key={era.id}
-                type="button"
-                className={`era-step-card ${isActive ? 'active' : ''}`}
-                onClick={() => {
-                  setScopeAllEras(false);
-                  setSelectedEra(era.id);
-                  setSelectedEventId(null);
-                }}
-              >
-                <div className="era-step-num">Epoch {index + 1}</div>
-                <div className="era-step-title">{era.name}</div>
-                <div className="era-step-range">{era.yearRange}</div>
-                <div className="era-step-footer">
-                  <span className="era-event-count">
-                    <i className="fas fa-feather-pointed"></i> {eraEvents.length} records
-                  </span>
-                </div>
-              </button>
-            );
-          })}
-
-          <button
-            type="button"
-            className={`era-step-card all-eras-step ${scopeAllEras ? 'active' : ''}`}
-            onClick={() => {
-              setScopeAllEras(true);
-              setSelectedEventId(null);
-            }}
-          >
-            <div className="era-step-num">Complete History</div>
-            <div className="era-step-title">All Eras</div>
-            <div className="era-step-range">Pre-0 → Year 475</div>
-            <div className="era-step-footer">
-              <span className="era-event-count">
-                <i className="fas fa-book-atlas"></i> {events.length} records
-              </span>
+          {chronology.length === 0 ? (
+            <div className="era-step-card-empty" onClick={() => setShowAddEraModal(true)}>
+              <i className="fas fa-plus-circle"></i>
+              <span>Found First Epoch</span>
             </div>
-          </button>
+          ) : (
+            chronology.map((era, index) => {
+              const isActive = selectedEra === era.id && !scopeAllEras;
+              const eraEvents = worldEvents.filter((e) => e.date?.eraId === era.id);
+
+              return (
+                <button
+                  key={era.id}
+                  type="button"
+                  className={`era-step-card ${isActive ? 'active' : ''}`}
+                  onClick={() => {
+                    setScopeAllEras(false);
+                    setSelectedEra(era.id);
+                    setSelectedEventId(null);
+                  }}
+                >
+                  <div className="era-step-num">Epoch {index + 1}</div>
+                  <div className="era-step-title">{era.name}</div>
+                  <div className="era-step-range">{era.yearRange}</div>
+                  <div className="era-step-footer">
+                    <span className="era-event-count">
+                      <i className="fas fa-feather-pointed"></i> {eraEvents.length} records
+                    </span>
+                  </div>
+                </button>
+              );
+            })
+          )}
+
+          {chronology.length > 0 && (
+            <button
+              type="button"
+              className={`era-step-card all-eras-step ${scopeAllEras ? 'active' : ''}`}
+              onClick={() => {
+                setScopeAllEras(true);
+                setSelectedEventId(null);
+              }}
+            >
+              <div className="era-step-num">Complete History</div>
+              <div className="era-step-title">All Eras</div>
+              <div className="era-step-range">Sovereign Timeline</div>
+              <div className="era-step-footer">
+                <span className="era-event-count">
+                  <i className="fas fa-book-atlas"></i> {worldEvents.length} records
+                </span>
+              </div>
+            </button>
+          )}
         </div>
       </div>
 
@@ -295,7 +439,18 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
       {!scopeAllEras && currentEra && (
         <div className="chronicon-era-banner">
           <div className="era-banner-left">
-            <span className="era-banner-badge">Active Epoch</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span className="era-banner-badge">Active Epoch</span>
+              <button
+                type="button"
+                className="btn-event-edit-action"
+                style={{ background: 'rgba(212, 175, 55, 0.15)', border: '1px solid rgba(212, 175, 55, 0.3)', color: '#d4af37', padding: '2px 8px', borderRadius: '4px', fontSize: '11px', cursor: 'pointer' }}
+                title="Edit Epoch Details"
+                onClick={() => setEditingEra({ ...currentEra })}
+              >
+                <i className="fas fa-pen-to-square"></i> Edit Epoch
+              </button>
+            </div>
             <h3 className="era-banner-heading">{currentEra.name}</h3>
             <span className="era-banner-dates">{currentEra.yearRange}</span>
           </div>
@@ -331,7 +486,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
             All Event Types ({filteredEvents.length})
           </button>
           {Object.entries(eventTypes).map(([key, val]) => {
-            const count = (scopeAllEras ? events : (currentEra?.events || events)).filter(
+            const count = (scopeAllEras ? worldEvents : (currentEra?.events || worldEvents)).filter(
               (e) => e.type === key
             ).length;
             if (count === 0) return null;
@@ -402,10 +557,29 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
                         <i className="fas fa-calendar"></i>
                         <span>{event.dateDisplay || `Year ${event.date?.year ?? 0}`}</span>
                       </div>
-                      <span className={`event-category-badge type-${event.type}`}>
-                        <i className={`fas fa-${eventTypes[event.type]?.icon || 'circle'}`}></i>
-                        {formatDisplayName(eventTypes[event.type]?.label || event.type)}
-                      </span>
+                      <div className="event-header-right">
+                        <span className={`event-category-badge type-${event.type}`}>
+                          <i className={`fas fa-${eventTypes[event.type]?.icon || 'circle'}`}></i>
+                          {formatDisplayName(eventTypes[event.type]?.label || event.type)}
+                        </span>
+                        <button
+                          type="button"
+                          className="btn-event-edit-action"
+                          title="Edit Chronicle Event"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setEditingEvent({
+                              ...event,
+                              date: {
+                                year: event.date?.year ?? 0,
+                                eraId: event.date?.eraId || selectedEra
+                              }
+                            });
+                          }}
+                        >
+                          <i className="fas fa-pen-to-square"></i>
+                        </button>
+                      </div>
                     </div>
 
                     {/* Event Title */}
@@ -436,7 +610,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
                                 </span>
                                 <div className="causal-chips">
                                   {event.causedBy.map((cId) => {
-                                    const match = events.find((e) => e.id === cId);
+                                    const match = worldEvents.find((e) => e.id === cId);
                                     return (
                                       <button
                                         key={cId}
@@ -461,7 +635,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
                                 </span>
                                 <div className="causal-chips">
                                   {event.causes.map((cId) => {
-                                    const match = events.find((e) => e.id === cId);
+                                    const match = worldEvents.find((e) => e.id === cId);
                                     return (
                                       <button
                                         key={cId}
@@ -491,6 +665,24 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
                             <p className="dm-seal-body">{sanitizeLoreText(event.dmHook)}</p>
                           </div>
                         )}
+
+                        <div className="event-drawer-quick-actions">
+                          <button
+                            type="button"
+                            className="btn-event-drawer-edit"
+                            onClick={() => {
+                              setEditingEvent({
+                                ...event,
+                                date: {
+                                  year: event.date?.year ?? 0,
+                                  eraId: event.date?.eraId || selectedEra
+                                }
+                              });
+                            }}
+                          >
+                            <i className="fas fa-feather-pointed"></i> Edit Entry &amp; Illuminated Text
+                          </button>
+                        </div>
                       </div>
                     )}
 
@@ -515,6 +707,360 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
           </div>
         )}
       </div>
+
+      {/* ── Forge Epoch Modal ── */}
+      {showAddEraModal && (
+        <div className="world-modal-overlay" onClick={() => setShowAddEraModal(false)}>
+          <div className="world-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="world-modal-header">
+              <div className="world-modal-title">
+                <i className="fas fa-landmark"></i>
+                <h3>Forge Historical Epoch in {activeWorld.name}</h3>
+              </div>
+              <button className="world-modal-close" onClick={() => setShowAddEraModal(false)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <form onSubmit={handleCreateEraSubmit}>
+              <div className="world-modal-body">
+                <div className="world-form-group">
+                  <label>Epoch / Age Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. The Age of Ether, Dawn of Iron..."
+                    value={newEraName}
+                    onChange={(e) => setNewEraName(e.target.value)}
+                    autoFocus
+                  />
+                </div>
+                <div className="world-form-group">
+                  <label>Year Range</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Years 0–300, Pre-Sundering..."
+                    value={newEraRange}
+                    onChange={(e) => setNewEraRange(e.target.value)}
+                  />
+                </div>
+                <div className="world-form-group">
+                  <label>Epoch Overview &amp; Lore</label>
+                  <textarea
+                    rows={4}
+                    placeholder="Describe the cosmological status, major treaties, celestial alignments, or technological state of this era..."
+                    value={newEraDesc}
+                    onChange={(e) => setNewEraDesc(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="world-modal-actions">
+                <button type="button" className="world-action-btn" onClick={() => setShowAddEraModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="world-action-btn primary">
+                  <i className="fas fa-feather-pointed"></i> Inscribe Epoch
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ── Edit Epoch Modal ── */}
+      {editingEra && (
+        <div className="world-modal-overlay" onClick={() => setEditingEra(null)}>
+          <div className="world-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="world-modal-header">
+              <div className="world-modal-title">
+                <i className="fas fa-landmark"></i>
+                <h3>Edit Historical Epoch: {editingEra.name}</h3>
+              </div>
+              <button className="world-modal-close" onClick={() => setEditingEra(null)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <form onSubmit={handleUpdateEraSubmit}>
+              <div className="world-modal-body">
+                <div className="world-form-group">
+                  <label>Epoch / Age Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingEra.name}
+                    onChange={(e) => setEditingEra({ ...editingEra, name: e.target.value })}
+                    autoFocus
+                  />
+                </div>
+                <div className="world-form-group">
+                  <label>Year Range</label>
+                  <input
+                    type="text"
+                    value={editingEra.yearRange || ''}
+                    onChange={(e) => setEditingEra({ ...editingEra, yearRange: e.target.value })}
+                  />
+                </div>
+                <div className="world-form-group">
+                  <label>Epoch Overview &amp; Lore</label>
+                  <textarea
+                    rows={4}
+                    value={editingEra.description || ''}
+                    onChange={(e) => setEditingEra({ ...editingEra, description: e.target.value })}
+                  />
+                </div>
+              </div>
+              <div className="world-modal-actions">
+                {editingEra.isCustom && (
+                  <button
+                    type="button"
+                    className="world-action-btn danger"
+                    onClick={() => handleDeleteEra(editingEra.id)}
+                    style={{ marginRight: 'auto' }}
+                  >
+                    <i className="fas fa-trash"></i> Delete Epoch
+                  </button>
+                )}
+                <button type="button" className="world-action-btn" onClick={() => setEditingEra(null)}>
+                  Cancel
+                </button>
+                <button type="submit" className="world-action-btn primary">
+                  <i className="fas fa-check"></i> Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ── Record Chronicle Event Modal ── */}
+      {showAddEventModal && (
+        <div className="world-modal-overlay" onClick={() => setShowAddEventModal(false)}>
+          <div className="world-modal-card world-modal-card-lg" onClick={(e) => e.stopPropagation()}>
+            <div className="world-modal-header">
+              <div className="world-modal-title">
+                <i className="fas fa-feather-pointed"></i>
+                <h3>Record Chronicle Event in {activeWorld.name}</h3>
+              </div>
+              <button className="world-modal-close" onClick={() => setShowAddEventModal(false)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <form onSubmit={handleCreateEventSubmit}>
+              <div className="world-modal-body">
+                <div className="world-form-group">
+                  <label>Chronicle Event Title *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. The Siege of the Sunken Spire, The Treaty of Rime..."
+                    value={newEventTitle}
+                    onChange={(e) => setNewEventTitle(e.target.value)}
+                    autoFocus
+                  />
+                </div>
+                <div className="world-form-row">
+                  <div className="world-form-group">
+                    <label>Year</label>
+                    <input
+                      type="number"
+                      placeholder="e.g. 150"
+                      value={newEventYear}
+                      onChange={(e) => setNewEventYear(e.target.value)}
+                    />
+                  </div>
+                  <div className="world-form-group">
+                    <label>Assigned Epoch</label>
+                    <select value={newEventEraId} onChange={(e) => setNewEventEraId(e.target.value)}>
+                      {chronology.map((era) => (
+                        <option key={era.id} value={era.id}>
+                          {era.name} ({era.yearRange})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="world-form-group">
+                  <label>Event Category</label>
+                  <select value={newEventType} onChange={(e) => setNewEventType(e.target.value)}>
+                    {Object.entries(eventTypes).map(([key, val]) => (
+                      <option key={key} value={key}>
+                        {val.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="world-form-group">
+                  <label>Summary Description</label>
+                  <textarea
+                    rows={2}
+                    placeholder="Brief public summary of what transpired..."
+                    value={newEventDesc}
+                    onChange={(e) => setNewEventDesc(e.target.value)}
+                  />
+                </div>
+                <div className="world-form-group">
+                  <label>Illuminated Narrative / Extended History (Article Codex)</label>
+                  <LoreEditorToolbar
+                    textareaRef={narrativeTextareaRef}
+                    value={newEventNarrative}
+                    onChange={(val) => setNewEventNarrative(val)}
+                  />
+                  <textarea
+                    ref={narrativeTextareaRef}
+                    rows={6}
+                    placeholder="Full historical record, quotes from chroniclers, tactical details, :::readaloud, :::statblock..."
+                    value={newEventNarrative}
+                    onChange={(e) => setNewEventNarrative(e.target.value)}
+                    style={{ borderRadius: '0 0 6px 6px', borderTop: 'none' }}
+                  />
+                </div>
+                <div className="world-form-group">
+                  <label>GM Secret &amp; Adventure Hook</label>
+                  <input
+                    type="text"
+                    placeholder="Hidden truth, undiscovered relic, or campaign hook..."
+                    value={newEventHook}
+                    onChange={(e) => setNewEventHook(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="world-modal-actions">
+                <button type="button" className="world-action-btn" onClick={() => setShowAddEventModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="world-action-btn primary">
+                  <i className="fas fa-scroll"></i> Record in Chronicle
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ── Edit Chronicle Event Modal ── */}
+      {editingEvent && (
+        <div className="world-modal-overlay" onClick={() => setEditingEvent(null)}>
+          <div className="world-modal-card world-modal-card-lg" onClick={(e) => e.stopPropagation()}>
+            <div className="world-modal-header">
+              <div className="world-modal-title">
+                <i className="fas fa-pen-to-square"></i>
+                <h3>Edit Chronicle Event: {editingEvent.title}</h3>
+              </div>
+              <button className="world-modal-close" onClick={() => setEditingEvent(null)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <form onSubmit={handleUpdateEventSubmit}>
+              <div className="world-modal-body">
+                <div className="world-form-group">
+                  <label>Chronicle Event Title *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingEvent.title}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, title: e.target.value })}
+                    autoFocus
+                  />
+                </div>
+                <div className="world-form-row">
+                  <div className="world-form-group">
+                    <label>Year</label>
+                    <input
+                      type="number"
+                      value={editingEvent.date?.year ?? 0}
+                      onChange={(e) =>
+                        setEditingEvent({
+                          ...editingEvent,
+                          date: { ...editingEvent.date, year: e.target.value }
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="world-form-group">
+                    <label>Assigned Epoch</label>
+                    <select
+                      value={editingEvent.date?.eraId || selectedEra}
+                      onChange={(e) =>
+                        setEditingEvent({
+                          ...editingEvent,
+                          date: { ...editingEvent.date, eraId: e.target.value }
+                        })
+                      }
+                    >
+                      {chronology.map((era) => (
+                        <option key={era.id} value={era.id}>
+                          {era.name} ({era.yearRange})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="world-form-group">
+                  <label>Event Category</label>
+                  <select
+                    value={editingEvent.type}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, type: e.target.value })}
+                  >
+                    {Object.entries(eventTypes).map(([key, val]) => (
+                      <option key={key} value={key}>
+                        {val.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="world-form-group">
+                  <label>Summary Description</label>
+                  <textarea
+                    rows={2}
+                    value={editingEvent.description || ''}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, description: e.target.value })}
+                  />
+                </div>
+                <div className="world-form-group">
+                  <label>Illuminated Narrative / Extended History (Article Codex)</label>
+                  <LoreEditorToolbar
+                    textareaRef={editNarrativeTextareaRef}
+                    value={editingEvent.narrative || ''}
+                    onChange={(val) => setEditingEvent({ ...editingEvent, narrative: val })}
+                  />
+                  <textarea
+                    ref={editNarrativeTextareaRef}
+                    rows={7}
+                    placeholder="Full historical record, quotes from chroniclers, tactical details, :::readaloud, :::statblock..."
+                    value={editingEvent.narrative || ''}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, narrative: e.target.value })}
+                    style={{ borderRadius: '0 0 6px 6px', borderTop: 'none' }}
+                  />
+                </div>
+                <div className="world-form-group">
+                  <label>GM Secret &amp; Adventure Hook</label>
+                  <input
+                    type="text"
+                    placeholder="Hidden truth, undiscovered relic, or campaign hook..."
+                    value={editingEvent.dmHook || ''}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, dmHook: e.target.value })}
+                  />
+                </div>
+              </div>
+              <div className="world-modal-actions">
+                <button
+                  type="button"
+                  className="world-action-btn danger"
+                  onClick={() => handleDeleteEvent(editingEvent.id)}
+                  style={{ marginRight: 'auto' }}
+                >
+                  <i className="fas fa-trash"></i> Delete Event
+                </button>
+                <button type="button" className="world-action-btn" onClick={() => setEditingEvent(null)}>
+                  Cancel
+                </button>
+                <button type="submit" className="world-action-btn primary">
+                  <i className="fas fa-check"></i> Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

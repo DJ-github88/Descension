@@ -211,6 +211,14 @@
 /* ===== CAMPAIGN MANAGER LAYOUT ISOLATION ===== */
 /* Protect campaign manager from game-mode CSS interference */
 
+.account-main .tab-content .campaign-manager-dashboard {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  overflow-x: clip !important;
+}
+
 /* Use very high specificity to override any game-mode styles */
 .account-main .tab-content .campaign-manager-dashboard .cards-grid {
   display: grid !important;

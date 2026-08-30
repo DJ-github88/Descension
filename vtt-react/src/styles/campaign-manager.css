@@ -4489,25 +4489,25 @@
 }
 
 .location-node-card.is-top-realm {
-  border-left: 4px solid #8e44ad;
   background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);
+  border-color: rgba(142, 68, 173, 0.35);
 }
 
 .location-node-card.is-city {
-  border-left: 4px solid #2980b9;
+  border-color: rgba(41, 128, 185, 0.35);
 }
 
 .location-node-card.is-dungeon {
-  border-left: 4px solid #c0392b;
   background: linear-gradient(135deg, #ffffff 0%, #fff5f5 100%);
+  border-color: rgba(192, 57, 43, 0.35);
 }
 
 .location-node-card.is-tavern {
-  border-left: 4px solid #e67e22;
+  border-color: rgba(230, 126, 34, 0.35);
 }
 
 .location-node-card.is-wilderness {
-  border-left: 4px solid #27ae60;
+  border-color: rgba(39, 174, 96, 0.35);
 }
 
 .node-header-row {
@@ -4519,72 +4519,78 @@
 }
 
 .node-title {
-  font-family: 'Cinzel', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   font-weight: 700;
-  font-size: 0.9rem;
-  color: #2d1810;
+  font-size: 0.92rem;
+  color: #1f140e;
   display: flex;
   align-items: center;
   gap: 6px;
+  letter-spacing: -0.01em;
 }
 
 .node-type-badge {
-  font-size: 0.62rem;
+  font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
-  padding: 1px 6px;
+  padding: 2px 7px;
   border-radius: 4px;
-  background: rgba(139, 69, 19, 0.1);
-  color: #8b5a1a;
+  background: #f4ece1;
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  color: #63360b;
+  letter-spacing: 0.03em;
 }
 
 .node-counters-row {
   display: flex;
   gap: 6px;
   margin: 8px 0;
-  font-size: 0.7rem;
-  color: #6b3a10;
+  font-size: 0.72rem;
+  color: #3b220d;
   flex-wrap: wrap;
 }
 
 .node-counter-pill {
-  background: rgba(139, 69, 19, 0.06);
-  border: 1px solid rgba(139, 69, 19, 0.15);
+  background: #fcf9f2;
+  border: 1px solid rgba(139, 69, 19, 0.2);
   border-radius: 4px;
-  padding: 1px 5px;
+  padding: 2px 6px;
   display: inline-flex;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
   font-weight: 600;
+  font-size: 0.72rem;
+  color: #3b220d;
 }
 
 .node-actions-row {
   display: flex;
-  gap: 5px;
+  gap: 6px;
   margin-top: 8px;
-  padding-top: 6px;
-  border-top: 1px solid rgba(139, 69, 19, 0.1);
+  padding-top: 8px;
+  border-top: 1px solid rgba(139, 69, 19, 0.12);
 }
 
 .node-action-btn {
-  background: transparent;
-  border: 1px solid rgba(139, 69, 19, 0.2);
-  color: #8b5a1a;
+  background: #faf6ee;
+  border: 1px solid rgba(139, 69, 19, 0.28);
+  color: #4a2608;
   border-radius: 4px;
-  padding: 2px 7px;
-  font-size: 0.68rem;
+  padding: 3px 8px;
+  font-size: 0.72rem;
   font-weight: 600;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
   transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .node-action-btn:hover {
-  background: #c59b3f;
-  color: #1a0f05;
-  border-color: #8b5a1a;
+  background: #8b5a1a;
+  color: #ffffff;
+  border-color: #6d420f;
 }
 
 .hierarchy-children-container {
@@ -5004,33 +5010,33 @@
 }
 
 .atlas-node-card-interactive.is-top-realm {
-  border-left: 5px solid #8e44ad;
   background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);
+  border-color: rgba(142, 68, 173, 0.4);
 }
 
 .atlas-node-card-interactive.is-city {
-  border-left: 5px solid #2980b9;
+  border-color: rgba(41, 128, 185, 0.4);
 }
 
 .atlas-node-card-interactive.is-town {
-  border-left: 5px solid #3498db;
+  border-color: rgba(52, 152, 219, 0.4);
 }
 
 .atlas-node-card-interactive.is-dungeon {
-  border-left: 5px solid #c0392b;
   background: linear-gradient(135deg, #ffffff 0%, #fff5f5 100%);
+  border-color: rgba(192, 57, 43, 0.4);
 }
 
 .atlas-node-card-interactive.is-fortress {
-  border-left: 5px solid #34495e;
+  border-color: rgba(52, 73, 94, 0.4);
 }
 
 .atlas-node-card-interactive.is-landmark {
-  border-left: 5px solid #e67e22;
+  border-color: rgba(230, 126, 34, 0.4);
 }
 
 .atlas-node-card-interactive.is-wilderness {
-  border-left: 5px solid #27ae60;
+  border-color: rgba(39, 174, 96, 0.4);
 }
 
 .atlas-children-branches {

@@ -706,6 +706,60 @@
   border-radius: 4px;
 }
 
+.event-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-event-edit-action {
+  background: transparent;
+  border: 1px solid rgba(139, 90, 26, 0.3);
+  color: #8b5a1a;
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  line-height: 1;
+}
+
+.btn-event-edit-action:hover {
+  background: #8b5a1a;
+  color: #fff;
+  border-color: #8b5a1a;
+}
+
+.event-drawer-quick-actions {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(139, 90, 26, 0.25);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-event-drawer-edit {
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(139, 90, 26, 0.35);
+  color: #5a2e12;
+  font-family: 'Cinzel', serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-event-drawer-edit:hover {
+  background: #8b5a1a;
+  color: #fff;
+  border-color: #8b5a1a;
+}
+
 .event-category-badge {
   font-family: 'Cinzel', serif;
   font-size: 11px;

@@ -7,10 +7,10 @@ import useShareableStore from '../../store/shareableStore';
 import './QuickSwitcher.css';
 
 const QUICK_ACTIONS = [
-  { id: 'act-new-note', title: 'Create New Journal Note', type: 'action', icon: 'fa-file-circle-plus', color: '#3498db', category: 'Action' },
-  { id: 'act-open-map', title: 'Open Planetary & Realm Atlas', type: 'action', icon: 'fa-globe', color: '#1abc9c', category: 'Action' },
-  { id: 'act-open-board', title: 'Open Knowledge Mindmap Board', type: 'action', icon: 'fa-diagram-project', color: '#d4af37', category: 'Action' },
-  { id: 'act-open-campaign', title: 'Open Campaign Manager', type: 'action', icon: 'fa-chess-rook', color: '#e74c3c', category: 'Action' }
+  { id: 'act-new-note', title: 'Create New Journal Note', type: 'action', icon: 'fa-file-circle-plus', color: '#8b4513', category: 'Action' },
+  { id: 'act-open-map', title: 'Open Planetary & Realm Atlas', type: 'action', icon: 'fa-globe', color: '#1f6f4d', category: 'Action' },
+  { id: 'act-open-board', title: 'Open Knowledge Mindmap Board', type: 'action', icon: 'fa-diagram-project', color: '#b8860b', category: 'Action' },
+  { id: 'act-open-campaign', title: 'Open Campaign Manager', type: 'action', icon: 'fa-chess-rook', color: '#7a3b2e', category: 'Action' }
 ];
 
 const CATEGORY_TABS = [
@@ -146,9 +146,33 @@ export const QuickSwitcher = ({ isOpen, onClose, onNavigate }) => {
             value={query}
             onChange={e => setQuery(e.target.value)}
             onKeyDown={handleInputKeyDown}
-            placeholder="Type to search notes, NPCs, quests, places, maps... (or Esc to exit)"
+            placeholder="Search notes, NPCs, quests, places, maps..."
+            aria-label="Search universal entities"
           />
-          <span className="quick-switcher-badge-esc">ESC</span>
+          {query && (
+            <button
+              type="button"
+              className="quick-switcher-clear-btn"
+              onClick={() => {
+                setQuery('');
+                inputRef.current?.focus();
+              }}
+              title="Clear search"
+              aria-label="Clear search"
+            >
+              <i className="fas fa-times"></i>
+            </button>
+          )}
+          <button
+            type="button"
+            className="quick-switcher-badge-esc"
+            onClick={onClose}
+            title="Close (Esc)"
+            aria-label="Close search modal"
+          >
+            <span className="esc-desktop-text">ESC</span>
+            <i className="fas fa-times esc-mobile-icon"></i>
+          </button>
         </div>
 
         {/* Filter Category Tabs */}
@@ -159,7 +183,7 @@ export const QuickSwitcher = ({ isOpen, onClose, onNavigate }) => {
               className={`quick-tab-btn ${activeCategory === tab.id ? 'active' : ''}`}
               onClick={() => setActiveCategory(tab.id)}
             >
-              <i className={`fas ${tab.icon}`}></i> {tab.label}
+              <i className={`fas ${tab.icon}`}></i> <span>{tab.label}</span>
             </button>
           ))}
         </div>
@@ -176,7 +200,7 @@ export const QuickSwitcher = ({ isOpen, onClose, onNavigate }) => {
                   onClick={() => handleSelect(item)}
                   onMouseEnter={() => setSelectedIndex(idx)}
                 >
-                  <div className="quick-item-icon" style={{ color: item.color || '#d4af37' }}>
+                  <div className="quick-item-icon" style={{ color: item.color || '#7a3b2e' }}>
                     <i className={`fas ${item.icon || 'fa-bookmark'}`}></i>
                   </div>
                   <div className="quick-item-details">
@@ -184,9 +208,15 @@ export const QuickSwitcher = ({ isOpen, onClose, onNavigate }) => {
                       <span className="quick-item-title">{item.title}</span>
                       <span className="quick-item-type-tag">{item.category || item.type}</span>
                     </div>
-                    <span className="quick-item-subtitle">{item.summary || item.subtitle}</span>
+                    {(item.summary || item.subtitle) && (
+                      <span className="quick-item-subtitle">{item.summary || item.subtitle}</span>
+                    )}
                   </div>
-                  {isSelected && <span className="quick-item-enter-hint"><i className="fas fa-turn-down-left"></i> Enter</span>}
+                  {isSelected && (
+                    <span className="quick-item-enter-hint">
+                      <i className="fas fa-turn-down-left"></i> Enter
+                    </span>
+                  )}
                 </div>
               );
             })
@@ -194,16 +224,19 @@ export const QuickSwitcher = ({ isOpen, onClose, onNavigate }) => {
             <div className="quick-switcher-empty">
               <i className="fas fa-feather-pointed"></i>
               <p>No matching entities found for "{query}"</p>
-              <button
-                className="quick-create-prompt-btn"
-                onClick={() => {
-                  const noteId = useShareableStore.getState().addNote(query, '');
-                  window.dispatchEvent(new CustomEvent('mythrill_navigate_journal', { detail: { noteId } }));
-                  onClose();
-                }}
-              >
-                <i className="fas fa-plus"></i> Create new note "{query}"
-              </button>
+              {query.trim() && (
+                <button
+                  type="button"
+                  className="quick-create-prompt-btn"
+                  onClick={() => {
+                    const noteId = useShareableStore.getState().addNote(query, '');
+                    window.dispatchEvent(new CustomEvent('mythrill_navigate_journal', { detail: { noteId } }));
+                    onClose();
+                  }}
+                >
+                  <i className="fas fa-plus"></i> Create new note "{query}"
+                </button>
+              )}
             </div>
           )}
         </div>

@@ -30,6 +30,8 @@ import useInteractiveMapStore from '../../store/interactiveMapStore';
 import PlotConspiracyBoard from '../account/PlotConspiracyBoard';
 import { getIconUrl, getCreatureTokenIconUrl, getCustomIconUrl, getWowIconUrl } from '../../utils/assetManager';
 import '../../styles/campaign-manager.css';
+import '../account/styles/CampaignManager.css';
+
 
 // Simple Confirm Modal Component - Uses Portal to render at document root for proper z-index
 const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }) => {
@@ -2803,8 +2805,8 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                               </div>
 
                               {loc.region && (
-                                <div style={{ fontSize: '0.72rem', color: '#8b5a1a', marginBottom: '4px' }}>
-                                  <i className="fas fa-compass" style={{ marginRight: '4px' }}></i> {loc.region}
+                                <div style={{ fontSize: '0.75rem', color: '#5a2e0a', fontWeight: 500, marginBottom: '4px' }}>
+                                  <i className="fas fa-compass" style={{ marginRight: '4px', color: '#8b5a1a' }}></i> {loc.region}
                                 </div>
                               )}
 
@@ -4396,7 +4398,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 <div className="plot-thread-hero">
                                                     <div className="plot-thread-hero-top">
                                                         <div className="plot-thread-title-area">
-                                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                                                            <div className="plot-thread-hero-tags">
                                                                 <span className={`plot-thread-type-pill type-${plotType}`}>
                                                                     <i className={`fas ${plotType === 'character' ? 'fa-user-ninja' : plotType === 'faction' ? 'fa-shield-halved' : plotType === 'world' ? 'fa-meteor' : plotType === 'side' ? 'fa-magnifying-glass' : 'fa-crown'}`}></i>
                                                                     {plotType.toUpperCase()}
@@ -4452,7 +4454,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                             />
                                                         </div>
 
-                                                        <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                                                        <div className="plot-thread-hero-actions">
                                                             <button
                                                                 type="button"
                                                                 className="entity-chip-add-btn"
@@ -4515,7 +4517,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
 
                                                                 <div className="plot-beat-card">
                                                                     <div className="plot-beat-card-header">
-                                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: 1 }}>
+                                                                        <div className="plot-beat-header-title-row">
                                                                             <select
                                                                                 value={beat.type || 'clue'}
                                                                                 onChange={(e) => updatePlotBeat(plot.id, beat.id, { type: e.target.value })}

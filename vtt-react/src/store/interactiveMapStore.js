@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import { createStorageConfig } from '../utils/storageUtils';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../config/firebase';
+import useWorldStore from './worldStore';
 
 // Built-in starter interactive maps with hierarchical drilldown (World -> Continent -> Region -> Dungeon)
 const DEFAULT_STARTER_MAPS = [
@@ -237,7 +238,16 @@ const useInteractiveMapStore = create(
       },
 
       // Map Management
+      getAllMaps: (worldId = null) => {
+        const targetWorldId = worldId || useWorldStore.getState().activeWorldId || 'mythrill';
+        if (targetWorldId === 'mythrill') {
+          return get().maps.filter(m => !m.worldId || m.worldId === 'mythrill');
+        }
+        return get().maps.filter(m => m.worldId === targetWorldId);
+      },
+
       createMap: (mapData) => {
+        const targetWorldId = mapData.worldId || useWorldStore.getState().activeWorldId || 'mythrill';
         const newMap = {
           id: `map-${Date.now()}`,
           name: mapData.name || 'New Regional Map',
@@ -245,6 +255,7 @@ const useInteractiveMapStore = create(
           imageUrl: mapData.imageUrl,
           parentMapId: mapData.parentMapId || null,
           description: mapData.description || '',
+          worldId: targetWorldId,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
         };

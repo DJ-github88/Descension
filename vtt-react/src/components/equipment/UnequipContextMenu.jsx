@@ -1,80 +1,120 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getEquipSlotDisplayName } from '../../utils/equipmentUtils';
 import useItemStore from '../../store/itemStore';
 import DurabilityAdjustModal from '../item-generation/DurabilityAdjustModal';
 import '../../styles/unified-context-menu.css';
 
-const UnequipContextMenu = ({ x, y, item, slotName, onClose, onUnequip }) => {
+const UnequipContextMenu = ({ x, y, item, slotName, onClose, onUnequip, onOpenDurability }) => {
+    const menuRef = useRef(null);
     const [showDurabilityModal, setShowDurabilityModal] = useState(false);
     const updateItemDurability = useItemStore(state => state.updateItemDurability);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                onClose();
+            }
+        };
+
+        const handleEscapeKey = (event) => {
+            if (event.key === 'Escape') {
+                onClose();
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('keydown', handleEscapeKey);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('keydown', handleEscapeKey);
+        };
+    }, [onClose]);
 
     if (!item) return null;
 
     const hasDurability = ['weapon', 'armor', 'accessory'].includes(item.type) && item.maxDurability != null;
 
+    const handleDurabilityClick = () => {
+        if (onOpenDurability) {
+            onOpenDurability(item);
+        } else {
+            setShowDurabilityModal(true);
+        }
+    };
+
     return (
         <>
-            <div
-                className="unified-context-menu"
-                style={{
-                    left: x,
-                    top: y
-                }}
-                onClick={e => e.stopPropagation()}
-            >
-                <div className="context-menu-main">
-                    <div className="context-menu-group">
-                        <div className="group-header">
-                            <i className="fas fa-shield-alt"></i>
-                            <span>Equipment Actions</span>
-                            <i className="fas fa-chevron-right"></i>
-                        </div>
-                        <div className="submenu">
-                            <div style={{ padding: '8px 16px', color: '#666', fontSize: '12px', fontStyle: 'italic', borderBottom: '1px solid #d5cbb0', marginBottom: '4px' }}>
-                                {item.name} - Currently equipped in {getEquipSlotDisplayName(slotName, item)}
+            {!showDurabilityModal && (
+                <div
+                    ref={menuRef}
+                    className="unified-context-menu"
+                    style={{
+                        position: 'fixed',
+                        left: x,
+                        top: y,
+                        zIndex: 10001
+                    }}
+                    onClick={e => e.stopPropagation()}
+                    onMouseDown={e => e.stopPropagation()}
+                >
+                    <div className="context-menu-main">
+                        <div className="context-menu-group">
+                            <div className="group-header">
+                                <i className="fas fa-shield-alt"></i>
+                                <span>Equipment Actions</span>
+                                <i className="fas fa-chevron-right"></i>
                             </div>
-                            <button
-                                className="context-menu-button"
-                                onClick={() => {
-                                    onUnequip(slotName);
-                                    onClose();
-                                }}
-                            >
-                                <i className="fas fa-arrow-left"></i>
-                                Unequip to Inventory
-                            </button>
-                            {hasDurability && (
+                            <div className="submenu">
+                                <div style={{ padding: '8px 16px', color: '#666', fontSize: '12px', fontStyle: 'italic', borderBottom: '1px solid #d5cbb0', marginBottom: '4px' }}>
+                                    {item.name} - Currently equipped in {getEquipSlotDisplayName(slotName, item)}
+                                </div>
                                 <button
+                                    type="button"
                                     className="context-menu-button"
-                                    onClick={() => setShowDurabilityModal(true)}
-                                    style={{ color: (() => {
-                                        const cur = item.durability ?? item.maxDurability;
-                                        const max = item.maxDurability;
-                                        if (cur === 0 || cur === 'broken') return '#ff4444';
-                                        const curVal = typeof cur === 'string' && String(cur).toLowerCase().startsWith('d') ? parseInt(cur.match(/d(\d+)/)?.[1] || '0', 10) : cur;
-                                        const maxVal = typeof max === 'string' && String(max).toLowerCase().startsWith('d') ? parseInt(max.match(/d(\d+)/)?.[1] || '0', 10) : max;
-                                        if (maxVal === 0) return 'inherit';
-                                        const ratio = curVal / maxVal;
-                                        if (ratio <= 0.25) return '#ff8844';
-                                        if (ratio <= 0.50) return '#ffaa00';
-                                        return 'inherit';
-                                    })() }}
+                                    onClick={() => {
+                                        onUnequip(slotName);
+                                        onClose();
+                                    }}
                                 >
-                                    <i className="fas fa-shield-alt"></i>
-                                    Durability: {item.durability ?? item.maxDurability}/{item.maxDurability}
+                                    <i className="fas fa-arrow-left"></i>
+                                    Unequip to Inventory
                                 </button>
-                            )}
-                            <button
-                                className="context-menu-button"
-                                onClick={onClose}
-                            >
-                                <i className="fas fa-times"></i>
-                                Cancel
-                            </button>
+                                {hasDurability && (
+                                    <button
+                                        type="button"
+                                        className="context-menu-button"
+                                        onClick={handleDurabilityClick}
+                                        style={{ color: (() => {
+                                            const cur = item.durability ?? item.maxDurability;
+                                            const max = item.maxDurability;
+                                            if (cur === 0 || cur === 'broken') return '#ff4444';
+                                            const curVal = typeof cur === 'string' && String(cur).toLowerCase().startsWith('d') ? parseInt(cur.match(/d(\d+)/)?.[1] || '0', 10) : cur;
+                                            const maxVal = typeof max === 'string' && String(max).toLowerCase().startsWith('d') ? parseInt(max.match(/d(\d+)/)?.[1] || '0', 10) : max;
+                                            if (maxVal === 0) return 'inherit';
+                                            const ratio = curVal / maxVal;
+                                            if (ratio <= 0.25) return '#ff8844';
+                                            if (ratio <= 0.50) return '#ffaa00';
+                                            return 'inherit';
+                                        })() }}
+                                    >
+                                        <i className="fas fa-shield-alt"></i>
+                                        Durability: {item.durability ?? item.maxDurability}/{item.maxDurability}
+                                    </button>
+                                )}
+                                <button
+                                    type="button"
+                                    className="context-menu-button"
+                                    onClick={onClose}
+                                >
+                                    <i className="fas fa-times"></i>
+                                    Cancel
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            )}
             {showDurabilityModal && item && (
                 <DurabilityAdjustModal
                     visible={showDurabilityModal}

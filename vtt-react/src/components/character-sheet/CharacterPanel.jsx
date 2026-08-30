@@ -10,6 +10,7 @@ import TooltipPortal from '../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../common/useTooltipPosition';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import UnequipContextMenu from '../equipment/UnequipContextMenu';
+import DurabilityAdjustModal from '../item-generation/DurabilityAdjustModal';
 import { isOffHandDisabled, normalizeEquipment } from '../../utils/equipmentUtils';
 import { calculateDerivedStats } from '../../utils/characterUtils';
 import { getClassResourceConfig } from '../../data/classResources';
@@ -711,6 +712,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
     const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, !!hoveredSlot || !!hoveredStat);
     const [tooltipDelay, setTooltipDelay] = useState(null);
     const [unequipContextMenu, setUnequipContextMenu] = useState({ visible: false, x: 0, y: 0, item: null, slotName: null });
+    const [durabilityModalItem, setDurabilityModalItem] = useState(null);
     const [lastRaceSubracePath, setLastRaceSubracePath] = useState({ race: '', subrace: '', path: '' });
     const [lastCharacterId, setLastCharacterId] = useState(null);
     const [showOverhealModal, setShowOverhealModal] = useState(false);
@@ -2671,8 +2673,28 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                     slotName={unequipContextMenu.slotName}
                     onClose={() => setUnequipContextMenu({ visible: false })}
                     onUnequip={handleUnequipItem}
+                    onOpenDurability={(item) => {
+                        setUnequipContextMenu({ visible: false });
+                        setDurabilityModalItem(item);
+                    }}
                 />,
                 document.body
+            )}
+
+            {/* Durability Adjust Modal for Equipped Items */}
+            {durabilityModalItem && (
+                <DurabilityAdjustModal
+                    visible={!!durabilityModalItem}
+                    item={durabilityModalItem}
+                    onClose={() => setDurabilityModalItem(null)}
+                    onDurabilityChange={(itemId, newDurability) => {
+                        useItemStore.getState().updateItemDurability(itemId, newDurability);
+                        const charStore = useCharacterStore.getState();
+                        if (charStore?.updateEquippedItemDurability) {
+                            charStore.updateEquippedItemDurability(itemId, newDurability, newDurability === 'broken');
+                        }
+                    }}
+                />
             )}
 
             {/* Overheal Confirmation Modal */}

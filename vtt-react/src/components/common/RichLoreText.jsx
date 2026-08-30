@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import EntityHovercard from './EntityHovercard';
+import LoreLink from './LoreLink';
 import universalEntityService from '../../services/universalEntityService';
 import useInteractiveMapStore from '../../store/interactiveMapStore';
 import useFamilyTreeStore from '../../store/familyTreeStore';
@@ -22,7 +23,7 @@ const parseInlineTokens = (rawText, onEntityHover, onEntityLeave, onEntityClick)
     .replace(/â€œ/g, '"')
     .replace(/â€/g, '"');
 
-  const regex = /(\[\[.*?\]\]|@[a-zA-Z0-9_-]+|\*\*.*?\*\*|\*.*?\*|<u>.*?<\/u>|__.*?__|~~.*?~~|==.*?==|`.*?`)/g;
+  const regex = /(<LoreLink termId="([^"]+)">([\s\S]*?)<\/LoreLink>|\[\[.*?\]\]|@[a-zA-Z0-9_-]+|\*\*.*?\*\*|\*.*?\*|<u>.*?<\/u>|__.*?__|~~.*?~~|==.*?==|`.*?`)/g;
   const elements = [];
   let lastIdx = 0;
   let match;
@@ -34,8 +35,18 @@ const parseInlineTokens = (rawText, onEntityHover, onEntityLeave, onEntityClick)
 
     const token = match[0];
 
+    // <LoreLink termId="...">Label</LoreLink>
+    if (match[2]) {
+      const termId = match[2];
+      const label = match[3];
+      elements.push(
+        <LoreLink key={`lorelink-${match.index}`} termId={termId}>
+          {parseInlineTokens(label, onEntityHover, onEntityLeave, onEntityClick)}
+        </LoreLink>
+      );
+    }
     // [[WikiLink]] or [[WikiLink|Alias]] or [[WikiLink#Section]] or [[WikiLink#Section|Alias]]
-    if (token.startsWith('[[') && token.endsWith(']]')) {
+    else if (token.startsWith('[[') && token.endsWith(']]')) {
       const rawInner = token.slice(2, -2).trim();
       let target = rawInner;
       let alias = null;

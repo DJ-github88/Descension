@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import { createStorageConfig } from '../utils/storageUtils';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured, auth } from '../config/firebase';
+import useWorldStore from './worldStore';
 
 
 
@@ -2278,12 +2279,20 @@ const useFactionStore = create(
 
       getFaction: (factionId) => get().factions.find((f) => f.id === factionId) || null,
 
-      getFactionsByRegion: (regionId) => get().factions.filter((f) => f.regionId === regionId),
+      getAllFactions: (worldId = null) => {
+        const targetWorldId = worldId || useWorldStore.getState().activeWorldId || 'mythrill';
+        if (targetWorldId === 'mythrill') {
+          return get().factions.filter(f => !f.worldId || f.worldId === 'mythrill');
+        }
+        return get().factions.filter(f => f.worldId === targetWorldId);
+      },
 
-      getFactionsByType: (type) => get().factions.filter((f) => f.type === type),
+      getFactionsByRegion: (regionId, worldId = null) => get().getAllFactions(worldId).filter((f) => f.regionId === regionId),
 
-      getFactionsByClass: (classId) =>
-        get().factions.filter((f) => f.classAffinities && f.classAffinities.includes(classId)),
+      getFactionsByType: (type, worldId = null) => get().getAllFactions(worldId).filter((f) => f.type === type),
+
+      getFactionsByClass: (classId, worldId = null) =>
+        get().getAllFactions(worldId).filter((f) => f.classAffinities && f.classAffinities.includes(classId)),
 
       getFactionRelationships: (factionId) => {
         const faction = get().getFaction(factionId);
@@ -2296,8 +2305,8 @@ const useFactionStore = create(
         }));
       },
 
-      getFullRelationshipGraph: () => {
-        const factions = get().factions;
+      getFullRelationshipGraph: (worldId = null) => {
+        const factions = get().getAllFactions(worldId);
         const edges = [];
         const seen = new Set();
 

@@ -66,6 +66,23 @@ const StylusDrawingCanvas = forwardRef(({
   const [backgroundTheme, setBackgroundTheme] = useState(defaultBg);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isStylusActive, setIsStylusActive] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null); // 'tool' | 'color' | 'size' | 'theme' | null
+  const toolbarRef = useRef(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (toolbarRef.current && !toolbarRef.current.contains(e.target)) {
+        setActiveDropdown(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, []);
 
   // Sync stroke size when switching tool
   const handleSelectTool = (toolId) => {
@@ -74,6 +91,23 @@ const StylusDrawingCanvas = forwardRef(({
     if (preset) {
       setStrokeSize(preset.defaultSize);
     }
+    setActiveDropdown(null);
+  };
+
+  const handleSelectColor = (color) => {
+    setSelectedColor(color);
+    setActiveDropdown(null);
+  };
+
+  const handleSelectSizePreset = (size) => {
+    setStrokeSize(size);
+    setActiveDropdown(null);
+  };
+
+  const handleSelectBgTheme = (themeId) => {
+    setBackgroundTheme(themeId);
+    onChange({ strokes, bgTheme: themeId });
+    setActiveDropdown(null);
   };
 
   // Render a single stroke
@@ -455,21 +489,177 @@ const StylusDrawingCanvas = forwardRef(({
   }), [strokes, backgroundTheme, handleClearAll, redrawCanvas]);
 
   const activeTheme = BACKGROUND_THEMES.find(t => t.id === backgroundTheme) || BACKGROUND_THEMES[0];
+  const activeToolPreset = TOOL_PRESETS.find(t => t.id === activeTool) || TOOL_PRESETS[0];
+  const activeInk = INK_PALETTE.find(i => i.color === selectedColor) || INK_PALETTE[0];
 
   return (
     <div className={`stylus-canvas-container pathfinder-theme ${isFullscreen ? 'stylus-fullscreen-mode' : ''} ${className}`}>
-      {/* Canvas Header */}
-      <div className="stylus-canvas-header">
+      {/* Streamlined Compact Studio Header & Dropdown Toolbar */}
+      <div className="stylus-canvas-header" ref={toolbarRef}>
+        {/* Left: Dropdown Menus for Minimal Buttons & Maximum Drawing Space */}
         <div className="stylus-header-left">
-          <i className="fas fa-feather-pointed header-icon"></i>
-          <span className="stylus-header-title">{title || 'Cartographic Sketch'}</span>
-          {isStylusActive && (
-            <span className="stylus-active-badge" title="Apple Pencil / Stylus Connected">
-              <i className="fas fa-pen"></i> Stylus
-            </span>
+          {!readOnly ? (
+            <div className="stylus-dropdown-controls">
+              {/* Tool Dropdown */}
+              <div className="stylus-popover-anchor">
+                <button
+                  type="button"
+                  className={`stylus-dropdown-pill-btn tool-pill ${activeDropdown === 'tool' ? 'active' : ''}`}
+                  onClick={() => setActiveDropdown(activeDropdown === 'tool' ? null : 'tool')}
+                  title={`Tool: ${activeToolPreset.name}`}
+                  aria-label={`Tool: ${activeToolPreset.name}`}
+                >
+                  <i className={`fas ${activeToolPreset.icon}`}></i>
+                  <i className="fas fa-caret-down pill-caret"></i>
+                </button>
+
+                {activeDropdown === 'tool' && (
+                  <div className="stylus-popover-menu stylus-tool-popover">
+                    <div className="popover-title">Select Scribe Tool</div>
+                    <div className="popover-tool-grid">
+                      {TOOL_PRESETS.map((tool) => (
+                        <button
+                          key={tool.id}
+                          type="button"
+                          className={`popover-tool-item ${activeTool === tool.id ? 'selected' : ''}`}
+                          onClick={() => handleSelectTool(tool.id)}
+                        >
+                          <i className={`fas ${tool.icon}`}></i>
+                          <span>{tool.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Color Dropdown */}
+              {activeTool !== 'eraser' && (
+                <div className="stylus-popover-anchor">
+                  <button
+                    type="button"
+                    className={`stylus-dropdown-pill-btn color-pill ${activeDropdown === 'color' ? 'active' : ''}`}
+                    onClick={() => setActiveDropdown(activeDropdown === 'color' ? null : 'color')}
+                    title={`Color: ${activeInk.name}`}
+                    aria-label={`Color: ${activeInk.name}`}
+                  >
+                    <span className="dropdown-swatch-circle" style={{ backgroundColor: selectedColor }}></span>
+                    <i className="fas fa-caret-down pill-caret"></i>
+                  </button>
+
+                  {activeDropdown === 'color' && (
+                    <div className="stylus-popover-menu stylus-color-popover">
+                      <div className="popover-title">Ink Palette</div>
+                      <div className="popover-palette-grid">
+                        {INK_PALETTE.map((ink) => (
+                          <button
+                            key={ink.id}
+                            type="button"
+                            className={`popover-color-item ${selectedColor === ink.color ? 'selected' : ''}`}
+                            onClick={() => handleSelectColor(ink.color)}
+                            title={ink.name}
+                          >
+                            <span className="color-swatch-dot" style={{ backgroundColor: ink.color }}></span>
+                            <span className="color-swatch-name">{ink.name}</span>
+                            {selectedColor === ink.color && <i className="fas fa-check check-icon"></i>}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Stroke Size Dropdown */}
+              <div className="stylus-popover-anchor">
+                <button
+                  type="button"
+                  className={`stylus-dropdown-pill-btn size-pill ${activeDropdown === 'size' ? 'active' : ''}`}
+                  onClick={() => setActiveDropdown(activeDropdown === 'size' ? null : 'size')}
+                  title={`Stroke Width: ${strokeSize}px`}
+                  aria-label={`Stroke Width: ${strokeSize}px`}
+                >
+                  <span className="dropdown-size-label">{strokeSize}px</span>
+                  <i className="fas fa-caret-down pill-caret"></i>
+                </button>
+
+                {activeDropdown === 'size' && (
+                  <div className="stylus-popover-menu stylus-size-popover">
+                    <div className="popover-title">Stroke Width: {strokeSize}px</div>
+                    <div className="popover-size-presets">
+                      {[
+                        { label: 'Fine', size: 1.5 },
+                        { label: 'Medium', size: 3.5 },
+                        { label: 'Bold', size: 7 },
+                        { label: 'Broad', size: 16 }
+                      ].map((preset) => (
+                        <button
+                          key={preset.label}
+                          type="button"
+                          className={`popover-size-chip ${strokeSize === preset.size ? 'selected' : ''}`}
+                          onClick={() => handleSelectSizePreset(preset.size)}
+                        >
+                          {preset.label} ({preset.size}px)
+                        </button>
+                      ))}
+                    </div>
+                    <div className="popover-slider-row">
+                      <input
+                        type="range"
+                        className="popover-size-slider"
+                        min={activeToolPreset.minSize || 1}
+                        max={activeToolPreset.maxSize || 40}
+                        step={0.5}
+                        value={strokeSize}
+                        onChange={(e) => setStrokeSize(parseFloat(e.target.value))}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Background Theme Dropdown */}
+              <div className="stylus-popover-anchor">
+                <button
+                  type="button"
+                  className={`stylus-dropdown-pill-btn theme-pill ${activeDropdown === 'theme' ? 'active' : ''}`}
+                  onClick={() => setActiveDropdown(activeDropdown === 'theme' ? null : 'theme')}
+                  title={`Texture: ${activeTheme.name}`}
+                  aria-label={`Texture: ${activeTheme.name}`}
+                >
+                  <i className="fas fa-scroll"></i>
+                  <i className="fas fa-caret-down pill-caret"></i>
+                </button>
+
+                {activeDropdown === 'theme' && (
+                  <div className="stylus-popover-menu stylus-theme-popover">
+                    <div className="popover-title">Paper Texture</div>
+                    <div className="popover-theme-list">
+                      {BACKGROUND_THEMES.map((theme) => (
+                        <button
+                          key={theme.id}
+                          type="button"
+                          className={`popover-theme-item ${backgroundTheme === theme.id ? 'selected' : ''}`}
+                          onClick={() => handleSelectBgTheme(theme.id)}
+                        >
+                          <span>{theme.name}</span>
+                          {backgroundTheme === theme.id && <i className="fas fa-check check-icon"></i>}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="stylus-readonly-label">
+              <i className="fas fa-feather-pointed header-icon"></i>
+              <span className="stylus-header-title">{title || 'Cartographic Sketch'}</span>
+            </div>
           )}
         </div>
 
+        {/* Right: Quick Action Controls */}
         <div className="stylus-header-right">
           {!readOnly && (
             <>
@@ -479,6 +669,7 @@ const StylusDrawingCanvas = forwardRef(({
                 onClick={handleUndo}
                 disabled={historyIndex <= 0}
                 title="Undo (Ctrl+Z)"
+                aria-label="Undo"
               >
                 <i className="fas fa-rotate-left"></i>
               </button>
@@ -488,6 +679,7 @@ const StylusDrawingCanvas = forwardRef(({
                 onClick={handleRedo}
                 disabled={historyIndex >= history.length - 1}
                 title="Redo"
+                aria-label="Redo"
               >
                 <i className="fas fa-rotate-right"></i>
               </button>
@@ -496,7 +688,8 @@ const StylusDrawingCanvas = forwardRef(({
                 className="stylus-header-btn btn-danger"
                 onClick={handleClearAll}
                 disabled={strokes.length === 0}
-                title="Clear All Strokes"
+                title="Clear All"
+                aria-label="Clear all strokes"
               >
                 <i className="fas fa-trash-can"></i>
               </button>
@@ -507,7 +700,8 @@ const StylusDrawingCanvas = forwardRef(({
             type="button"
             className="stylus-header-btn"
             onClick={handleExportPNG}
-            title="Download PNG Illustration"
+            title="Download PNG"
+            aria-label="Download PNG image"
           >
             <i className="fas fa-download"></i>
           </button>
@@ -515,12 +709,13 @@ const StylusDrawingCanvas = forwardRef(({
           {allowFullscreen && (
             <button
               type="button"
-              className={`stylus-header-btn ${isFullscreen ? 'active' : ''}`}
+              className={`stylus-header-btn btn-fullscreen ${isFullscreen ? 'active' : ''}`}
               onClick={() => {
                 setIsFullscreen(!isFullscreen);
                 setTimeout(resizeCanvas, 50);
               }}
               title={isFullscreen ? "Exit Studio View" : "Full Screen Studio View"}
+              aria-label="Toggle full screen studio view"
             >
               <i className={`fas ${isFullscreen ? 'fa-compress' : 'fa-expand'}`}></i>
             </button>
@@ -528,88 +723,14 @@ const StylusDrawingCanvas = forwardRef(({
         </div>
       </div>
 
-      {/* Floating Stylus Toolbar (Icon-Only, Clean Layout) */}
-      {!readOnly && (
-        <div className="stylus-toolbar">
-          {/* Tool Types (Icon-Only) */}
-          <div className="stylus-tool-group">
-            {TOOL_PRESETS.map((tool) => (
-              <button
-                key={tool.id}
-                type="button"
-                className={`stylus-tool-btn ${activeTool === tool.id ? 'active' : ''}`}
-                onClick={() => handleSelectTool(tool.id)}
-                title={tool.name}
-              >
-                <i className={`fas ${tool.icon}`}></i>
-              </button>
-            ))}
-          </div>
-
-          <div className="stylus-toolbar-divider"></div>
-
-          {/* Color Palette */}
-          {activeTool !== 'eraser' && (
-            <div className="stylus-color-group">
-              {INK_PALETTE.map((ink) => (
-                <button
-                  key={ink.id}
-                  type="button"
-                  className={`stylus-swatch-btn ${selectedColor === ink.color ? 'selected' : ''}`}
-                  style={{ backgroundColor: ink.color }}
-                  onClick={() => setSelectedColor(ink.color)}
-                  title={ink.name}
-                />
-              ))}
-            </div>
-          )}
-
-          <div className="stylus-toolbar-divider"></div>
-
-          {/* Stroke Width Slider */}
-          <div className="stylus-size-group" title={`Stroke Width: ${strokeSize}px`}>
-            <span className="size-indicator-label">{strokeSize}px</span>
-            <input
-              type="range"
-              className="stylus-size-slider"
-              min={TOOL_PRESETS.find(t => t.id === activeTool)?.minSize || 1}
-              max={TOOL_PRESETS.find(t => t.id === activeTool)?.maxSize || 40}
-              value={strokeSize}
-              onChange={(e) => setStrokeSize(parseFloat(e.target.value))}
-            />
-          </div>
-
-          <div className="stylus-toolbar-divider"></div>
-
-          {/* Background Canvas Paper Theme */}
-          <div className="stylus-bg-group">
-            <select
-              className="stylus-bg-select"
-              value={backgroundTheme}
-              onChange={(e) => {
-                setBackgroundTheme(e.target.value);
-                onChange({ strokes, bgTheme: e.target.value });
-              }}
-              title="Paper Grid Texture"
-            >
-              {BACKGROUND_THEMES.map((theme) => (
-                <option key={theme.id} value={theme.id}>
-                  {theme.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-      )}
-
-      {/* Main Drawing Viewport */}
+      {/* Main Drawing Viewport (Maximized Space) */}
       <div
         ref={containerRef}
         className={`stylus-drawing-viewport pattern-${activeTheme.pattern}`}
         style={{
           backgroundColor: activeTheme.bg,
-          minHeight: isFullscreen ? 'calc(100vh - 120px)' : `${minHeight}px`,
-          maxHeight: isFullscreen ? 'calc(100vh - 120px)' : `${maxHeight}px`,
+          minHeight: isFullscreen ? 'calc(100vh - 60px)' : `${minHeight}px`,
+          maxHeight: isFullscreen ? 'calc(100vh - 60px)' : `${maxHeight}px`,
           aspectRatio: isFullscreen ? 'auto' : aspectRatio
         }}
       >

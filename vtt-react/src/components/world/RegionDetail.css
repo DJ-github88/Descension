@@ -1380,3 +1380,27 @@
   line-height: 1.35;
 }
 
+.btn-add-hold-location {
+  background: linear-gradient(135deg, #7c471c 0%, #5a2e12 100%);
+  border: 1px solid #a67c2e;
+  color: #fff6e0;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-add-hold-location:hover {
+  background: linear-gradient(135deg, #8b5a1a 0%, #6d3916 100%);
+  border-color: #ffd700;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+

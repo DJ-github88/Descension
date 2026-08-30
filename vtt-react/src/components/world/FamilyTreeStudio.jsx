@@ -1,9 +1,9 @@
-import { uploadAsset } from '../../services/firebase/uploadService';
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import useFamilyTreeStore from '../../store/familyTreeStore';
 import useAuthStore from '../../store/authStore';
 import useCustomLineageStore from '../../store/customLineageStore';
+import useWorldStore from '../../store/worldStore';
 import campaignService from '../../services/campaignService';
 import { showConfirm } from '../../utils/dialogService';
 import RichCampaignEditor from '../common/RichCampaignEditor';
@@ -58,24 +58,50 @@ const FamilyTreeStudio = ({ inline = false, onClose }) => {
     removeRelationship,
     autoLayoutTree,
     syncToCloud,
-    hydrateFromCloud
+    hydrateFromCloud,
+    getAllTrees
   } = useFamilyTreeStore();
+
+  const { activeWorldId, getActiveWorld } = useWorldStore();
+  const activeWorld = getActiveWorld();
+  const worldTrees = useMemo(() => (getAllTrees ? getAllTrees(activeWorldId) : trees), [getAllTrees, trees, activeWorldId]);
 
   const { getAllLineages } = useCustomLineageStore();
   const lineages = useMemo(() => (typeof getAllLineages === 'function' ? getAllLineages() : []) || [], [getAllLineages]);
 
   // Active Tree
   const activeTree = useMemo(() => {
-    if (!Array.isArray(trees) || trees.length === 0) return null;
-    return trees.find(t => t.id === activeTreeId) || trees[0] || null;
-  }, [trees, activeTreeId]);
+    if (!Array.isArray(worldTrees) || worldTrees.length === 0) return null;
+    return worldTrees.find(t => t.id === activeTreeId) || worldTrees[0] || null;
+  }, [worldTrees, activeTreeId]);
 
   // Canvas Interaction States
   const canvasRef = useRef(null);
   const [isPanning, setIsPanning] = useState(false);
-  const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const [draggedNodeId, setDraggedNodeId] = useState(null);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+
+  // Synchronous refs for real-time gesture tracking without dependency re-creation
+  const isPanningRef = useRef(false);
+  const panStartRef = useRef({ x: 0, y: 0 });
+  const draggedNodeIdRef = useRef(null);
+  const dragOffsetRef = useRef({ x: 0, y: 0 });
+  const panOffsetRef = useRef(panOffset);
+  const zoomLevelRef = useRef(zoomLevel);
+  const activeTreeRef = useRef(activeTree);
+  const didDragRef = useRef(false);
+
+  // Keep refs synchronized with state
+  useEffect(() => {
+    panOffsetRef.current = panOffset;
+  }, [panOffset]);
+
+  useEffect(() => {
+    zoomLevelRef.current = zoomLevel;
+  }, [zoomLevel]);
+
+  useEffect(() => {
+    activeTreeRef.current = activeTree;
+  }, [activeTree]);
 
   // Modals & Drawers
   const [showMemberDrawer, setShowMemberDrawer] = useState(false);
@@ -117,62 +143,284 @@ const FamilyTreeStudio = ({ inline = false, onClose }) => {
     return new Set(matches.map(n => n.id));
   }, [activeTree, searchQuery]);
 
+  // Touch tracking refs
+  const touchPinchRef = useRef({
+    isPinching: false,
+    initialDist: 1,
+    initialZoom: 1,
+    initialPan: { x: 0, y: 0 },
+    centerClient: { x: 0, y: 0 }
+  });
+  const touchStartPosRef = useRef({ x: 0, y: 0 });
+
   // Canvas Mouse Down (Panning)
   const handleCanvasMouseDown = (e) => {
-    if (e.target.closest('.family-tree-node') || e.target.closest('.studio-floating-toolbar') || e.target.closest('.studio-drawer')) {
+    if (
+      e.target.closest('.family-tree-node') ||
+      e.target.closest('.studio-floating-hud') ||
+      e.target.closest('.studio-drawer') ||
+      e.target.closest('.node-floating-actions') ||
+      e.target.closest('.canvas-empty-state button') ||
+      e.target.closest('.btn-studio-action') ||
+      e.target.closest('button') ||
+      e.target.closest('input') ||
+      e.target.closest('select')
+    ) {
       return;
     }
+    isPanningRef.current = true;
+    panStartRef.current = { x: e.clientX - panOffsetRef.current.x, y: e.clientY - panOffsetRef.current.y };
     setIsPanning(true);
-    setPanStart({ x: e.clientX - panOffset.x, y: e.clientY - panOffset.y });
     setSelectedNode(null);
+  };
+
+  // Node Drag Start (Mouse)
+  const handleNodeMouseDown = (e, node) => {
+    e.stopPropagation();
+    if (
+      e.target.closest('.node-floating-actions') ||
+      e.target.closest('button') ||
+      e.target.closest('input')
+    ) {
+      return;
+    }
+    setSelectedNode(node.id);
+    draggedNodeIdRef.current = node.id;
+    setDraggedNodeId(node.id);
+    didDragRef.current = false;
+
+    const screenX = (node.position?.x ?? 0) * zoomLevelRef.current + panOffsetRef.current.x;
+    const screenY = (node.position?.y ?? 0) * zoomLevelRef.current + panOffsetRef.current.y;
+
+    dragOffsetRef.current = {
+      x: e.clientX - screenX,
+      y: e.clientY - screenY
+    };
+  };
+
+  // Node Drag Start (Touch)
+  const handleNodeTouchStart = (e, node) => {
+    if (e.touches.length !== 1) return;
+    if (
+      e.target.closest('.node-floating-actions') ||
+      e.target.closest('button') ||
+      e.target.closest('input')
+    ) {
+      return;
+    }
+    const touch = e.touches[0];
+    touchStartPosRef.current = { x: touch.clientX, y: touch.clientY };
+    didDragRef.current = false;
+    draggedNodeIdRef.current = node.id;
+    setDraggedNodeId(node.id);
+    isPanningRef.current = false;
+    setIsPanning(false);
+
+    const screenX = (node.position?.x ?? 0) * zoomLevelRef.current + panOffsetRef.current.x;
+    const screenY = (node.position?.y ?? 0) * zoomLevelRef.current + panOffsetRef.current.y;
+
+    dragOffsetRef.current = {
+      x: touch.clientX - screenX,
+      y: touch.clientY - screenY
+    };
+  };
+
+  // Canvas Touch Start (1-finger Pan/Drag node, 2-finger Pinch Zoom)
+  const handleCanvasTouchStart = (e) => {
+    if (e.touches.length === 2) {
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+      const centerX = (t1.clientX + t2.clientX) / 2;
+      const centerY = (t1.clientY + t2.clientY) / 2;
+
+      touchPinchRef.current = {
+        isPinching: true,
+        initialDist: dist || 1,
+        initialZoom: zoomLevelRef.current,
+        initialPan: { ...panOffsetRef.current },
+        centerClient: { x: centerX, y: centerY }
+      };
+      isPanningRef.current = false;
+      draggedNodeIdRef.current = null;
+      setIsPanning(false);
+      setDraggedNodeId(null);
+      return;
+    }
+
+    if (e.touches.length === 1) {
+      const touch = e.touches[0];
+      touchStartPosRef.current = { x: touch.clientX, y: touch.clientY };
+      didDragRef.current = false;
+
+      // Ignore touches on UI controls
+      if (
+        e.target.closest('.studio-floating-hud') ||
+        e.target.closest('.studio-drawer') ||
+        e.target.closest('.node-floating-actions') ||
+        e.target.closest('.canvas-empty-state button') ||
+        e.target.closest('.btn-studio-action') ||
+        e.target.closest('button') ||
+        e.target.closest('input') ||
+        e.target.closest('select')
+      ) {
+        return;
+      }
+
+      // Check if touching a node
+      const nodeEl = e.target.closest('.family-tree-node');
+      if (nodeEl) {
+        const nodeId = nodeEl.getAttribute('data-node-id');
+        const node = activeTreeRef.current?.nodes?.find(n => n.id === nodeId);
+        if (node) {
+          draggedNodeIdRef.current = node.id;
+          setDraggedNodeId(node.id);
+          const screenX = (node.position?.x ?? 0) * zoomLevelRef.current + panOffsetRef.current.x;
+          const screenY = (node.position?.y ?? 0) * zoomLevelRef.current + panOffsetRef.current.y;
+          dragOffsetRef.current = {
+            x: touch.clientX - screenX,
+            y: touch.clientY - screenY
+          };
+          isPanningRef.current = false;
+          setIsPanning(false);
+          return;
+        }
+      }
+
+      // Otherwise pan the canvas
+      draggedNodeIdRef.current = null;
+      setDraggedNodeId(null);
+      isPanningRef.current = true;
+      panStartRef.current = { x: touch.clientX - panOffsetRef.current.x, y: touch.clientY - panOffsetRef.current.y };
+      setIsPanning(true);
+    }
   };
 
   // Global Mouse Move (Drag node or Pan canvas)
   const handleMouseMove = useCallback((e) => {
-    if (isPanning) {
-      setPanOffset({
-        x: e.clientX - panStart.x,
-        y: e.clientY - panStart.y
-      });
-    } else if (draggedNodeId && activeTree) {
-      const newX = Math.round((e.clientX - panOffset.x - dragOffset.x) / zoomLevel);
-      const newY = Math.round((e.clientY - panOffset.y - dragOffset.y) / zoomLevel);
-      updateMemberPosition(activeTree.id, draggedNodeId, { x: newX, y: newY });
+    if (isPanningRef.current) {
+      const newPan = {
+        x: e.clientX - panStartRef.current.x,
+        y: e.clientY - panStartRef.current.y
+      };
+      panOffsetRef.current = newPan;
+      setPanOffset(newPan);
+    } else if (draggedNodeIdRef.current && activeTreeRef.current) {
+      didDragRef.current = true;
+      const newX = Math.round((e.clientX - panOffsetRef.current.x - dragOffsetRef.current.x) / zoomLevelRef.current);
+      const newY = Math.round((e.clientY - panOffsetRef.current.y - dragOffsetRef.current.y) / zoomLevelRef.current);
+      updateMemberPosition(activeTreeRef.current.id, draggedNodeIdRef.current, { x: newX, y: newY });
     }
-  }, [isPanning, panStart, panOffset, draggedNodeId, dragOffset, zoomLevel, activeTree, updateMemberPosition, setPanOffset]);
+  }, [setPanOffset, updateMemberPosition]);
+
+  // Global Touch Move
+  const handleTouchMove = useCallback((e) => {
+    // 2-finger Pinch Zoom
+    if (touchPinchRef.current.isPinching && e.touches.length === 2 && canvasRef.current) {
+      if (e.cancelable) e.preventDefault();
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+      const scaleFactor = dist / touchPinchRef.current.initialDist;
+      const newZoom = Math.min(2.5, Math.max(0.35, +(touchPinchRef.current.initialZoom * scaleFactor).toFixed(2)));
+
+      const rect = canvasRef.current.getBoundingClientRect();
+      const pinchCenterX = touchPinchRef.current.centerClient.x - rect.left;
+      const pinchCenterY = touchPinchRef.current.centerClient.y - rect.top;
+
+      const worldX = (pinchCenterX - touchPinchRef.current.initialPan.x) / touchPinchRef.current.initialZoom;
+      const worldY = (pinchCenterY - touchPinchRef.current.initialPan.y) / touchPinchRef.current.initialZoom;
+
+      const newPanX = Math.round(pinchCenterX - worldX * newZoom);
+      const newPanY = Math.round(pinchCenterY - worldY * newZoom);
+
+      zoomLevelRef.current = newZoom;
+      panOffsetRef.current = { x: newPanX, y: newPanY };
+      setZoomLevel(newZoom);
+      setPanOffset({ x: newPanX, y: newPanY });
+      return;
+    }
+
+    // 1-finger Move (Pan or Drag node)
+    if (e.touches.length === 1 && !touchPinchRef.current.isPinching) {
+      const touch = e.touches[0];
+      const moveDist = Math.hypot(touch.clientX - touchStartPosRef.current.x, touch.clientY - touchStartPosRef.current.y);
+      if (moveDist > 6) {
+        didDragRef.current = true;
+      }
+
+      if (isPanningRef.current) {
+        if (e.cancelable) e.preventDefault();
+        const newPan = {
+          x: touch.clientX - panStartRef.current.x,
+          y: touch.clientY - panStartRef.current.y
+        };
+        panOffsetRef.current = newPan;
+        setPanOffset(newPan);
+      } else if (draggedNodeIdRef.current && activeTreeRef.current) {
+        if (e.cancelable) e.preventDefault();
+        const newX = Math.round((touch.clientX - panOffsetRef.current.x - dragOffsetRef.current.x) / zoomLevelRef.current);
+        const newY = Math.round((touch.clientY - panOffsetRef.current.y - dragOffsetRef.current.y) / zoomLevelRef.current);
+        updateMemberPosition(activeTreeRef.current.id, draggedNodeIdRef.current, { x: newX, y: newY });
+      }
+    }
+  }, [setPanOffset, setZoomLevel, updateMemberPosition]);
 
   // Mouse Up
   const handleMouseUp = useCallback(() => {
-    if (isPanning) setIsPanning(false);
-    if (draggedNodeId) {
-      setDraggedNodeId(null);
-      syncToCloud(user?.uid);
+    if (isPanningRef.current) {
+      isPanningRef.current = false;
+      setIsPanning(false);
     }
-  }, [isPanning, draggedNodeId, syncToCloud, user?.uid]);
+    if (draggedNodeIdRef.current) {
+      draggedNodeIdRef.current = null;
+      setDraggedNodeId(null);
+      if (didDragRef.current) {
+        syncToCloud(user?.uid);
+      }
+    }
+    didDragRef.current = false;
+  }, [syncToCloud, user?.uid]);
+
+  // Touch End
+  const handleTouchEnd = useCallback(() => {
+    if (touchPinchRef.current.isPinching) {
+      touchPinchRef.current.isPinching = false;
+    }
+
+    if (draggedNodeIdRef.current) {
+      const touchedId = draggedNodeIdRef.current;
+      draggedNodeIdRef.current = null;
+      setDraggedNodeId(null);
+      if (didDragRef.current) {
+        syncToCloud(user?.uid);
+      } else {
+        setSelectedNode(touchedId);
+      }
+    } else if (isPanningRef.current) {
+      isPanningRef.current = false;
+      setIsPanning(false);
+      if (!didDragRef.current) {
+        setSelectedNode(null);
+      }
+    }
+    didDragRef.current = false;
+  }, [syncToCloud, user?.uid, setSelectedNode]);
 
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd);
+    window.addEventListener('touchcancel', handleTouchEnd);
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('touchcancel', handleTouchEnd);
     };
-  }, [handleMouseMove, handleMouseUp]);
-
-  // Node Drag Start
-  const handleNodeMouseDown = (e, node) => {
-    e.stopPropagation();
-    setSelectedNode(node.id);
-    setDraggedNodeId(node.id);
-
-    const screenX = (node.position?.x ?? 0) * zoomLevel + panOffset.x;
-    const screenY = (node.position?.y ?? 0) * zoomLevel + panOffset.y;
-
-    setDragOffset({
-      x: e.clientX - screenX,
-      y: e.clientY - screenY
-    });
-  };
+  }, [handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
 
   // Native non-passive Wheel Zoom to Prevent Page Scrolling
   useEffect(() => {
@@ -363,13 +611,13 @@ const FamilyTreeStudio = ({ inline = false, onClose }) => {
                 className="tree-select"
                 value={activeTree?.id || ''}
                 onChange={(e) => setActiveTree(e.target.value)}
-                disabled={!Array.isArray(trees) || trees.length === 0}
+                disabled={!Array.isArray(worldTrees) || worldTrees.length === 0}
                 title={activeTree ? activeTree.name : 'No dynasty selected'}
               >
-                {!Array.isArray(trees) || trees.length === 0 ? (
+                {!Array.isArray(worldTrees) || worldTrees.length === 0 ? (
                   <option value="">No Dynasty</option>
                 ) : (
-                  trees.map(t => (
+                  worldTrees.map(t => (
                     <option key={t.id} value={t.id}>
                       {t.name} ({(t.nodes || []).length} {(t.nodes || []).length === 1 ? 'Member' : 'Members'})
                     </option>
@@ -508,6 +756,7 @@ const FamilyTreeStudio = ({ inline = false, onClose }) => {
         className={`family-tree-canvas ${isPanning ? 'is-panning' : ''}`}
         ref={canvasRef}
         onMouseDown={handleCanvasMouseDown}
+        onTouchStart={handleCanvasTouchStart}
       >
         {/* Canvas World Container */}
         <div
@@ -645,12 +894,14 @@ const FamilyTreeStudio = ({ inline = false, onClose }) => {
             return (
               <div
                 key={node.id}
+                data-node-id={node.id}
                 className={`family-tree-node ${isSelected ? 'is-selected' : ''} ${isSearched ? 'is-highlighted' : ''} ${node.isDeceased ? 'is-deceased' : ''}`}
                 style={{
                   left: `${posX}px`,
                   top: `${posY}px`
                 }}
                 onMouseDown={(e) => handleNodeMouseDown(e, node)}
+                onTouchStart={(e) => handleNodeTouchStart(e, node)}
                 onDoubleClick={() => openMemberEditor(node)}
               >
                 {/* Circular Token Portrait */}

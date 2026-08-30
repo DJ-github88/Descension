@@ -37,6 +37,7 @@ const BookLorePickerModal = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
   const [selectedEntity, setSelectedEntity] = useState(null);
+  const [mobileTab, setMobileTab] = useState('list');
 
   useEffect(() => {
     if (!isOpen) return;
@@ -215,10 +216,30 @@ const BookLorePickerModal = ({
           </span>
         </div>
 
+        {/* Mobile View Switcher Tabs (Shown only on small screens via CSS) */}
+        <div className="lore-mobile-nav-tabs">
+          <button
+            type="button"
+            className={`lore-mobile-tab-btn ${mobileTab === 'list' ? 'active' : ''}`}
+            onClick={() => setMobileTab('list')}
+          >
+            <i className="fas fa-list-ul"></i>
+            <span>Archives ({filteredEntities.length})</span>
+          </button>
+          <button
+            type="button"
+            className={`lore-mobile-tab-btn ${mobileTab === 'preview' ? 'active' : ''}`}
+            onClick={() => setMobileTab('preview')}
+          >
+            <i className="fas fa-eye"></i>
+            <span>Preview &amp; Import</span>
+          </button>
+        </div>
+
         {/* Main Explorer Grid */}
-        <div className="lore-explorer-grid">
+        <div className={`lore-explorer-grid mobile-show-${mobileTab}`}>
           {/* Left Cards List */}
-          <div className="lore-list-column">
+          <div className={`lore-list-column ${mobileTab === 'list' ? 'mobile-visible' : 'mobile-hidden'}`}>
             {loading ? (
               <div className="lore-loading-state">
                 <i className="fas fa-spinner fa-spin"></i>
@@ -238,7 +259,10 @@ const BookLorePickerModal = ({
                     <div
                       key={`${ent.type}-${ent.id}`}
                       className={`lore-entry-card ${colorClass} ${isSelected ? 'selected' : ''}`}
-                      onClick={() => setSelectedEntity(ent)}
+                      onClick={() => {
+                        setSelectedEntity(ent);
+                        setMobileTab('preview');
+                      }}
                       onDoubleClick={() => handleConfirmImport(ent)}
                     >
                       <div className="lore-card-left">
@@ -261,12 +285,23 @@ const BookLorePickerModal = ({
           </div>
 
           {/* Right Preview Panel */}
-          <div className="lore-preview-column">
+          <div className={`lore-preview-column ${mobileTab === 'preview' ? 'mobile-visible' : 'mobile-hidden'}`}>
             {selectedEntity ? (
               <div className="lore-inspect-panel">
                 <div className="inspect-header-band">
-                  <div className={`inspect-icon-slot ${getCategoryColorClass(selectedEntity.type, selectedEntity.category)}`}>
-                    <i className={`fas ${selectedEntity.icon || 'fa-bookmark'}`}></i>
+                  <div className="inspect-header-left-group">
+                    <button
+                      type="button"
+                      className="lore-mobile-back-btn"
+                      onClick={() => setMobileTab('list')}
+                      title="Back to Archives List"
+                    >
+                      <i className="fas fa-arrow-left"></i>
+                      <span>Back to Archives</span>
+                    </button>
+                    <div className={`inspect-icon-slot ${getCategoryColorClass(selectedEntity.type, selectedEntity.category)}`}>
+                      <i className={`fas ${selectedEntity.icon || 'fa-bookmark'}`}></i>
+                    </div>
                   </div>
                   <div className="inspect-title-meta">
                     <h3 className="inspect-title">{selectedEntity.name}</h3>

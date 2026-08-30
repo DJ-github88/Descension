@@ -1,13 +1,11 @@
-import React, { useState, lazy, Suspense, memo } from 'react';
+import React, { useState, memo } from 'react';
 import ErrorBoundary from '../common/ErrorBoundary';
 import { CreatureLibraryProvider } from '../creature-wizard/context/CreatureLibraryContext';
 import { CreatureWizardProvider } from '../creature-wizard/context/CreatureWizardContext';
+import CreatureWizardApp from '../creature-wizard/CreatureWizardApp';
 import CreatureLibrary from '../creature-wizard/components/library/CreatureLibrary';
 import CommunityCreaturesTab from '../creature-wizard/components/library/CommunityCreaturesTab';
 import useAuthStore from '../../store/authStore';
-
-// Lazy load the wizard
-const CreatureWizardApp = lazy(() => import('../creature-wizard/CreatureWizardApp'));
 
 const CreatureWindow = memo(function CreatureWindow({
   initialCreatureId = null,
@@ -72,7 +70,7 @@ const CreatureWindow = memo(function CreatureWindow({
   const renderContent = () => {
     if (activeView === 'wizard') {
       return (
-        <Suspense fallback={<div className="loading-wizard">Loading Creature Wizard...</div>}>
+        <ErrorBoundary fallback={<div className="loading-wizard" style={{ color: '#e74c3c' }}><i className="fas fa-exclamation-triangle"></i> Error loading Creature Wizard.</div>}>
           <CreatureWizardApp
             editMode={!!editingCreatureId}
             creatureId={editingCreatureId}
@@ -80,7 +78,7 @@ const CreatureWindow = memo(function CreatureWindow({
             onCancel={handleBackToLibrary}
             activeView={activeView}
           />
-        </Suspense>
+        </ErrorBoundary>
       );
     }
 

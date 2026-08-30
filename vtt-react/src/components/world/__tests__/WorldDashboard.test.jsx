@@ -53,8 +53,8 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
 
   it('renders WorldDashboard with hero stats and tabs', () => {
     renderDashboard();
-    expect(screen.getByText('Mythrill')).toBeInTheDocument();
-    expect(screen.getByText(/Living World-Building/i)).toBeInTheDocument();
+    expect(screen.getAllByText('Mythrill').length).toBeGreaterThan(0);
+    expect(screen.getByText(/Sunless Realm/i)).toBeInTheDocument();
     expect(screen.getByText(/Factions & Orders/i)).toBeInTheDocument();
     expect(screen.getByText(/Timeline & Epochs/i)).toBeInTheDocument();
     expect(screen.getByText(/World Atlas & Maps/i)).toBeInTheDocument();
@@ -255,6 +255,102 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
     const clearBtn = screen.getByTitle('Clear search');
     fireEvent.click(clearBtn);
     expect(searchInput.value).toBe('');
+  });
+
+  it('supports World Switcher modal and founding a new realm in the active world', () => {
+    renderDashboard();
+
+    // Verify World Switcher trigger button is visible
+    const switcherBtn = screen.getByRole('button', { name: /Worlds \(\d+\)/i });
+    expect(switcherBtn).toBeInTheDocument();
+
+    // Click Worlds switcher
+    fireEvent.click(switcherBtn);
+    expect(screen.getByText('World Settings & Universes')).toBeInTheDocument();
+    expect(screen.getByText(/Canonical Setting/i)).toBeInTheDocument();
+
+    // Close modal
+    const closeBtn = screen.getAllByRole('button', { name: /Close/i })[0];
+    fireEvent.click(closeBtn);
+
+    // Open Add Realm modal
+    const addRealmBtn = screen.getByRole('button', { name: /Add Realm \/ Region/i });
+    fireEvent.click(addRealmBtn);
+
+    expect(screen.getByText(/Found a New Realm in Mythrill/i)).toBeInTheDocument();
+    const realmInput = screen.getByPlaceholderText(/Sunspire Highlands/i);
+    fireEvent.change(realmInput, { target: { value: 'Sunspire Highlands' } });
+
+    const establishBtn = screen.getByRole('button', { name: /Establish Realm/i });
+    fireEvent.click(establishBtn);
+
+    // Verify navigated to newly established realm
+    expect(screen.getAllByText(/Sunspire Highlands/i).length).toBeGreaterThan(0);
+  });
+
+  it('provides a clean blank slate when creating and switching to a sovereign custom world', () => {
+    renderDashboard();
+
+    // Open World Switcher
+    const switcherBtn = screen.getByRole('button', { name: /Worlds \(\d+\)/i });
+    fireEvent.click(switcherBtn);
+
+    // Click Create New World
+    const createWorldBtn = screen.getByRole('button', { name: /Create New World/i });
+    fireEvent.click(createWorldBtn);
+
+    // Fill in new world form
+    const nameInput = screen.getByPlaceholderText(/Aethelgard, Neon Spire, Eldoria/i);
+    fireEvent.change(nameInput, { target: { value: 'Aethelgard' } });
+
+    const forgeSubmit = screen.getByRole('button', { name: /Forge World/i });
+    fireEvent.click(forgeSubmit);
+
+    // Verify Active World is now Aethelgard with 0 Realms
+    expect(screen.getByText(/0 Active Realms & Continents/i)).toBeInTheDocument();
+    expect(screen.getByText(/Aethelgard has no recorded realms yet/i)).toBeInTheDocument();
+
+    // Verify Factions & Orders starts clean
+    const factionsTab = screen.getByRole('button', { name: /Factions & Orders/i });
+    fireEvent.click(factionsTab);
+    expect(screen.getByText(/Forge Faction/i)).toBeInTheDocument();
+  });
+
+  it('allows forging a custom class and toggling class active/extinct status in a world', () => {
+    renderDashboard();
+
+    // Navigate to Traditions & Classes tab
+    const classesTab = screen.getByRole('button', { name: /Traditions & Classes/i });
+    fireEvent.click(classesTab);
+
+    // Verify 21 canon classes are available
+    expect(screen.getByText(/All Traditions \(21\)/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Forge Custom Tradition/i })).toBeInTheDocument();
+
+    // Click Forge Custom Tradition
+    const forgeBtn = screen.getByRole('button', { name: /Forge Custom Tradition/i });
+    fireEvent.click(forgeBtn);
+
+    // Fill in custom class form with gamified rules
+    const classNameInput = screen.getByPlaceholderText(/Solar Templar, Void Chronomancer, Blood Cleric/i);
+    fireEvent.change(classNameInput, { target: { value: 'Solar Templar' } });
+
+    const rulesInput = screen.getByPlaceholderText(/Every 3rd offensive cast triggers a Solar Burst/i);
+    fireEvent.change(rulesInput, { target: { value: 'Every 3rd cast triggers Radiant Nova.' } });
+
+    const submitBtn = screen.getByRole('button', { name: /Inscribe Calling/i });
+    fireEvent.click(submitBtn);
+
+    // Verify navigated to the new custom class dossier with gamified special rules
+    expect(screen.getByText('Solar Templar')).toBeInTheDocument();
+    expect(screen.getByText('Every 3rd cast triggers Radiant Nova.')).toBeInTheDocument();
+
+    // Verify Spells, Rites & Spellcraft tab exists and can be opened
+    const spellsTabBtn = screen.getByRole('button', { name: /Spells, Rites & Spellcraft/i });
+    expect(spellsTabBtn).toBeInTheDocument();
+    fireEvent.click(spellsTabBtn);
+    expect(screen.getByRole('button', { name: /Inscribe Custom Rite/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Select from Library/i })).toBeInTheDocument();
   });
 });
 

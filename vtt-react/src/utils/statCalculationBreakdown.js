@@ -239,9 +239,14 @@ export function getDerivedStatBreakdown(statName, character = {}) {
 
             let calculated = fromCon + racialBase.hp + levelUpHP + eqHP + buffHP;
             let exhaustionHalved = false;
-            if (exhaustionLevel >= 4) {
+            let exhHpDesc = null;
+            if (exhaustionLevel >= 6) {
+                calculated = 0;
+                exhHpDesc = 'Instant Death (Exhaustion Lvl 6)';
+            } else if (exhaustionLevel >= 4) {
                 exhaustionHalved = true;
                 calculated = Math.floor(calculated / 2);
+                exhHpDesc = 'HP Halved (Exhaustion Lvl 4+)';
             }
 
             return {
@@ -254,7 +259,7 @@ export function getDerivedStatBreakdown(statName, character = {}) {
                 levelUp: levelUpHP,
                 equipment: eqHP,
                 buffs: buffHP,
-                exhaustionEffect: exhaustionHalved ? 'HP Halved (Exhaustion Lvl 4+)' : null,
+                exhaustionEffect: exhHpDesc,
                 finalValue: calculated
             };
         }
@@ -278,11 +283,6 @@ export function getDerivedStatBreakdown(statName, character = {}) {
             }
 
             let calculated = fromInt + racialBase.mana + levelUpMana + eqMana + buffMana;
-            let exhaustionHalved = false;
-            if (exhaustionLevel >= 5) {
-                exhaustionHalved = true;
-                calculated = Math.floor(calculated / 2);
-            }
 
             return {
                 stat: 'Max Mana',
@@ -294,7 +294,6 @@ export function getDerivedStatBreakdown(statName, character = {}) {
                 levelUp: levelUpMana,
                 equipment: eqMana,
                 buffs: buffMana,
-                exhaustionEffect: exhaustionHalved ? 'Mana Halved (Exhaustion Lvl 5+)' : null,
                 finalValue: calculated
             };
         }
@@ -326,9 +325,9 @@ export function getDerivedStatBreakdown(statName, character = {}) {
 
             let currentSpeed = baseSpeed + eqSpeed + encPenalty;
             let exhDesc = null;
-            if (exhaustionLevel >= 6) {
+            if (exhaustionLevel >= 5) {
                 currentSpeed = 0;
-                exhDesc = 'Speed 0 (Exhaustion Lvl 6)';
+                exhDesc = exhaustionLevel >= 6 ? 'Speed 0 (Exhaustion Lvl 6 - Death)' : 'Speed 0 (Exhaustion Lvl 5)';
             } else if (exhaustionLevel >= 2) {
                 currentSpeed = Math.floor(currentSpeed / 2);
                 exhDesc = 'Speed Halved (Exhaustion Lvl 2+)';

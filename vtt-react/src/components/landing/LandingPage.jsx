@@ -9,6 +9,7 @@ import RulesPage from '../rules/RulesPage';
 import MapMakingSection from './MapMakingSection';
 import { shouldReduceMotion } from '../../utils/accessibility';
 import { getCurrentMapTransform } from '../../utils/mapTransform';
+import { getPrimaryStarterMap } from '../../data/subregionMaps';
 import './styles/LandingPage.css';
 
 const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onShowRegister, onLoginTransition, isAuthenticated, user, onImmerse, isWorldMapActive }) => {
@@ -120,8 +121,21 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   const [isImmersingTransition, setIsImmersingTransition] = useState(false);
   const [isBgLoaded, setIsBgLoaded] = useState(false);
 
-  // Map background path
-  const mapImagePath = `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`;
+  // Map background path — use user's chosen primary starter map
+  const [primaryMap, setPrimaryMap] = useState(() => getPrimaryStarterMap());
+  const mapImagePath = primaryMap?.image || `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`;
+
+  // Listen for live changes when user sets a new primary map from AccountMapManager
+  useEffect(() => {
+    const handlePrimaryMapChanged = (e) => {
+      if (e.detail) {
+        setPrimaryMap(e.detail);
+        setIsBgLoaded(false); // trigger re-preload
+      }
+    };
+    window.addEventListener('mythrill_primary_map_changed', handlePrimaryMapChanged);
+    return () => window.removeEventListener('mythrill_primary_map_changed', handlePrimaryMapChanged);
+  }, []);
 
   // Preload starter page background image so it stays static until fully loaded
   useEffect(() => {

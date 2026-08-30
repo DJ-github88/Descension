@@ -7,9 +7,12 @@ import {
   BUILTIN_SUBREGION_MAPS,
   getCustomMaps,
   saveCustomMap,
-  deleteCustomMap
+  deleteCustomMap,
+  getPrimaryStarterMap,
+  setPrimaryStarterMap
 } from '../../data/subregionMaps';
 import { showConfirm } from '../../utils/dialogService';
+import useWorldStore from '../../store/worldStore';
 import './styles/AccountMapManager.css';
 
 const CANONICAL_REALM_IMAGES = {
@@ -37,6 +40,15 @@ const AccountMapManager = () => {
 
   // Lightbox Preview Modal State
   const [previewMap, setPreviewMap] = useState(null);
+  const [primaryMapId, setPrimaryMapId] = useState(() => getPrimaryStarterMap()?.id || 'mythril');
+
+  const handleSetPrimaryMap = (mapData) => {
+    setPrimaryStarterMap(mapData);
+    setPrimaryMapId(mapData?.id || 'mythril');
+    showToast(mapData?.id === 'mythril'
+      ? 'Starter map reset to default Mythrill planetary view'
+      : `"${mapData?.name}" set as your Primary Immerse & Starter Map`);
+  };
 
   const handleViewModeChange = (mode) => {
     setViewMode(mode);
@@ -185,14 +197,16 @@ const AccountMapManager = () => {
   };
 
   const allCustomMapList = isEligible ? Object.values(customMaps) : [];
+  const { activeWorldId } = useWorldStore();
+  const isCanonWorld = activeWorldId === 'mythrill';
   
-  const canonicalRealms = Object.values(BUILTIN_SUBREGION_MAPS).filter(
+  const canonicalRealms = isCanonWorld ? Object.values(BUILTIN_SUBREGION_MAPS).filter(
     (m) => !m.parentMapId || m.parentMapId === 'mythril'
-  );
+  ) : [];
 
   // Filtered lists based on search and category
   const filteredRealms = useMemo(() => {
-    if (categoryFilter === 'custom') return [];
+    if (categoryFilter === 'custom' || !isCanonWorld) return [];
     let list = canonicalRealms;
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
@@ -204,7 +218,7 @@ const AccountMapManager = () => {
       );
     }
     return list;
-  }, [canonicalRealms, searchQuery, categoryFilter]);
+  }, [canonicalRealms, searchQuery, categoryFilter, isCanonWorld]);
 
   const filteredCustomMaps = useMemo(() => {
     if (categoryFilter === 'realms') return [];
@@ -423,6 +437,15 @@ const AccountMapManager = () => {
                 >
                   <i className="fas fa-eye"></i> Quick Preview
                 </button>
+                <button
+                  type="button"
+                  className={`btn-set-primary-map ${primaryMapId === 'mythril' ? 'is-primary' : ''}`}
+                  onClick={() => handleSetPrimaryMap({ id: 'mythril', name: 'Mythrill Planetary Map', image: `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg` })}
+                  title={primaryMapId === 'mythril' ? 'Currently your Primary Immerse Map' : 'Set as Primary Immerse & Starter Map'}
+                >
+                  <i className={primaryMapId === 'mythril' ? 'fas fa-star' : 'far fa-star'}></i>
+                  {primaryMapId === 'mythril' ? ' Primary' : ' Set Primary'}
+                </button>
               </div>
             </div>
           </div>
@@ -619,6 +642,18 @@ const AccountMapManager = () => {
                         >
                           <i className="fas fa-info-circle"></i> Details
                         </button>
+                        <button
+                          type="button"
+                          className={`btn-set-primary-map-sm ${primaryMapId === realm.id ? 'is-primary' : ''}`}
+                          onClick={() => handleSetPrimaryMap({
+                            id: realm.id,
+                            name: realm.name,
+                            image: realm.image || bgImage
+                          })}
+                          title={primaryMapId === realm.id ? 'Currently your Primary Immerse Map' : 'Set as Primary Immerse & Starter Map'}
+                        >
+                          <i className={primaryMapId === realm.id ? 'fas fa-star' : 'far fa-star'}></i>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -740,6 +775,21 @@ const AccountMapManager = () => {
                           onClick={() => navigate(`/worldmap/${map.id}`)}
                         >
                           <i className="fas fa-compass"></i> Enter Canvas
+                        </button>
+                        <button
+                          type="button"
+                          className={`btn-set-primary-map-sm ${primaryMapId === map.id ? 'is-primary' : ''}`}
+                          onClick={() => handleSetPrimaryMap({
+                            id: map.id,
+                            name: map.name,
+                            image: map.image,
+                            mapType: map.mapType,
+                            regionId: map.regionId,
+                            isCustom: true
+                          })}
+                          title={primaryMapId === map.id ? 'Currently your Primary Immerse Map' : 'Set as Primary Immerse & Starter Map'}
+                        >
+                          <i className={primaryMapId === map.id ? 'fas fa-star' : 'far fa-star'}></i>
                         </button>
                         <button 
                           type="button" 

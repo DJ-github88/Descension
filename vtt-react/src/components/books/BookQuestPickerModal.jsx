@@ -201,6 +201,7 @@ const BookQuestPickerModal = ({
     }
     return SAMPLE_BOOK_QUESTS[0];
   });
+  const [mobileTab, setMobileTab] = useState('list');
 
   const filteredQuests = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -284,10 +285,30 @@ const BookQuestPickerModal = ({
           </span>
         </div>
 
+        {/* Mobile View Switcher Tabs (Shown only on small screens via CSS) */}
+        <div className="lore-mobile-nav-tabs">
+          <button
+            type="button"
+            className={`lore-mobile-tab-btn ${mobileTab === 'list' ? 'active' : ''}`}
+            onClick={() => setMobileTab('list')}
+          >
+            <i className="fas fa-list-ul"></i>
+            <span>Quests ({filteredQuests.length})</span>
+          </button>
+          <button
+            type="button"
+            className={`lore-mobile-tab-btn ${mobileTab === 'preview' ? 'active' : ''}`}
+            onClick={() => setMobileTab('preview')}
+          >
+            <i className="fas fa-eye"></i>
+            <span>Preview &amp; Import</span>
+          </button>
+        </div>
+
         {/* Main Grid */}
-        <div className="lore-explorer-grid">
+        <div className={`lore-explorer-grid mobile-show-${mobileTab}`}>
           {/* Left Cards List */}
-          <div className="lore-list-column">
+          <div className={`lore-list-column ${mobileTab === 'list' ? 'mobile-visible' : 'mobile-hidden'}`}>
             <div className="lore-cards-scroll">
               {filteredQuests.map((quest) => {
                 const isSelected = selectedQuest?.id === quest.id || selectedQuest?.title === quest.title;
@@ -296,7 +317,10 @@ const BookQuestPickerModal = ({
                   <div
                     key={quest.id}
                     className={`lore-entry-card cat-quest ${isSelected ? 'selected' : ''}`}
-                    onClick={() => setSelectedQuest(quest)}
+                    onClick={() => {
+                      setSelectedQuest(quest);
+                      setMobileTab('preview');
+                    }}
                     onDoubleClick={() => handleConfirm(quest)}
                   >
                     <div className="lore-card-left">
@@ -322,9 +346,22 @@ const BookQuestPickerModal = ({
           </div>
 
           {/* Right Preview Inspector */}
-          <div className="lore-preview-column">
+          <div className={`lore-preview-column ${mobileTab === 'preview' ? 'mobile-visible' : 'mobile-hidden'}`}>
             {selectedQuest ? (
               <div className="quest-inspect-full-parchment">
+                {/* Mobile Back Button */}
+                <div className="lore-mobile-back-row">
+                  <button
+                    type="button"
+                    className="lore-mobile-back-btn"
+                    onClick={() => setMobileTab('list')}
+                    title="Back to Quests List"
+                  >
+                    <i className="fas fa-arrow-left"></i>
+                    <span>Back to Quests</span>
+                  </button>
+                </div>
+
                 {/* Authentic In-Game Quest Header */}
                 <div className="quest-parchment-header">
                   <div className="quest-parchment-title-row">

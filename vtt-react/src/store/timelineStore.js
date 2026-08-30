@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import { createStorageConfig } from '../utils/storageUtils';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured, auth } from '../config/firebase';
+import useWorldStore from './worldStore';
 
 const CHRONOLOGY_ERA_DISPLAY = [
   {
@@ -2960,34 +2961,41 @@ const useTimelineStore = create(
         return get().customEvents.find((e) => e.id === eventId) || get().events.find((e) => e.id === eventId) || null;
       },
 
-      getAllEvents: () => [...get().events, ...(get().customEvents || [])],
+      getAllEvents: (worldId = null) => {
+        const targetWorldId = worldId || useWorldStore.getState().activeWorldId || 'mythrill';
+        const custom = (get().customEvents || []).filter(e => (!e.worldId && targetWorldId === 'mythrill') || e.worldId === targetWorldId);
+        if (targetWorldId === 'mythrill') {
+          return [...get().events, ...custom];
+        }
+        return custom;
+      },
 
-      getEventsByEra: (eraId) => get().getAllEvents().filter((e) => e.date?.eraId === eraId),
+      getEventsByEra: (eraId, worldId = null) => get().getAllEvents(worldId).filter((e) => e.date?.eraId === eraId),
 
-      getEventsByYear: (year) => get().getAllEvents().filter((e) => e.date?.year === year),
+      getEventsByYear: (year, worldId = null) => get().getAllEvents(worldId).filter((e) => e.date?.year === year),
 
-      getEventsByPhase: (phaseId) => get().getAllEvents().filter((e) => e.phase === phaseId),
+      getEventsByPhase: (phaseId, worldId = null) => get().getAllEvents(worldId).filter((e) => e.phase === phaseId),
 
-      getEventsByLocation: (locationId) =>
-        get().getAllEvents().filter((e) => e.locationIds && e.locationIds.includes(locationId)),
+      getEventsByLocation: (locationId, worldId = null) =>
+        get().getAllEvents(worldId).filter((e) => e.locationIds && e.locationIds.includes(locationId)),
 
-      getEventsByFaction: (factionId) =>
-        get().getAllEvents().filter((e) => e.factionIds && e.factionIds.includes(factionId)),
+      getEventsByFaction: (factionId, worldId = null) =>
+        get().getAllEvents(worldId).filter((e) => e.factionIds && e.factionIds.includes(factionId)),
 
-      getEventsByClass: (classId) =>
-        get().getAllEvents().filter((e) => e.classIds && e.classIds.includes(classId)),
+      getEventsByClass: (classId, worldId = null) =>
+        get().getAllEvents(worldId).filter((e) => e.classIds && e.classIds.includes(classId)),
 
-      getEventsByType: (type) => get().getAllEvents().filter((e) => e.type === type),
+      getEventsByType: (type, worldId = null) => get().getAllEvents(worldId).filter((e) => e.type === type),
 
-      getTimelineFor: ({ locationIds, factionIds, classIds }) => {
+      getTimelineFor: ({ locationIds, factionIds, classIds, worldId = null }) => {
         const filters = [];
         if (locationIds) filters.push((e) => e.locationIds && locationIds.some((id) => e.locationIds.includes(id)));
         if (factionIds) filters.push((e) => e.factionIds && factionIds.some((id) => e.factionIds.includes(id)));
         if (classIds) filters.push((e) => e.classIds && classIds.some((id) => e.classIds.includes(id)));
 
-        if (filters.length === 0) return get().getAllEvents();
+        if (filters.length === 0) return get().getAllEvents(worldId);
 
-        return get().getAllEvents().filter((e) => filters.some((fn) => fn(e)));
+        return get().getAllEvents(worldId).filter((e) => filters.some((fn) => fn(e)));
       },
 
       getCausalChain: (eventId) => {
@@ -2999,11 +3007,19 @@ const useTimelineStore = create(
         };
       },
 
-      getChronology: () => CHRONOLOGY_ERA_DISPLAY,
+      getChronology: (worldId = null) => {
+        const targetWorldId = worldId || useWorldStore.getState().activeWorldId || 'mythrill';
+        const activeWorld = useWorldStore.getState().getActiveWorld();
+        if (targetWorldId === 'mythrill') {
+          return [...CHRONOLOGY_ERA_DISPLAY, ...(activeWorld.customTimelines || [])];
+        }
+        return activeWorld.customTimelines || [];
+      },
 
-      getEraTimeline: () => {
-        const eras = get().calendar.eras;
-        const allEvts = get().getAllEvents();
+      getEraTimeline: (worldId = null) => {
+        const targetWorldId = worldId || useWorldStore.getState().activeWorldId || 'mythrill';
+        const eras = get().getChronology(targetWorldId);
+        const allEvts = get().getAllEvents(targetWorldId);
         return eras.map((era) => ({
           ...era,
           events: allEvts

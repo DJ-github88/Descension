@@ -261,7 +261,7 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
     return (
         <>
             <UnifiedContextMenu
-                visible={!showConfirmation}
+                visible={!showConfirmation && !showDurabilityModal}
                 x={x}
                 y={y}
                 onClose={onClose}
