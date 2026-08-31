@@ -2,7 +2,7 @@
 
 ## 1. CONTINENT OVERVIEW & BIOME
 * **Biome:** Polar arctic — halted glaciers, black granite fjords, geothermal vents, and a sky the color of old bone.
-* **Historical Significance:** The anchoring of the sun was bargained here, and so was its cost. When the heirs were devoured at Blizzard's End, the Mother's shell rained thickest across these peaks. Nordhalla holds the wound's epicenter and the fuel everyone else fights over.
+* **Historical Significance:** A Bloodline Pact with Aex was anchored here, and so was its cost. When the Blind Strike fractured the Mother's aegis (Year 325), shards rained thickest across these peaks. Nordhalla holds the wound's epicenter and the fuel everyone else fights over.
 * **Dominant Peoples:** Skald humans (Fastboende settlers, Fredløse outlaws, Øsling mammoth-clans), Rime-Born, Frostbound, Corvani.
 * **Major Powers:** House Skalvyr, the Icechamber Syndicate, the Frozen Archive, the Cleansing of the Hearth, the Masked Acolytes.
 
@@ -42,7 +42,7 @@ The cruel arithmetic: a family needs one hearth-winter per year to survive, and 
 ## 7. HISTORY IN BRIEF (the short, honest version)
 * **The Long Before:** Skald, Jutul, and glacier-wyrm. Mortals survive with powder, iron, and taboo — no magic, and no complaints filed about that.
 * **The Slow Cracks:** The Glacier Bargain halts the ice at the price of summer; the Frost-Tithe begins. The Hunger Winter teaches the Skald to eat their grief; the Berserker's Hunger Pact is born in the survivors' blood — an old art, older than the buried sun.
-* **Blizzard's End (Year 325):** The heirs die on the waste's highest peak; the Mother shatters; the shards fall thickest here. The Freeze begins and never lifts.
+* **The Blind Strike (Year 325 — mortal name: Blizzard's End):** Keth Amar crashes into the planetary ward; the Secret Aegis holds; the Mother's aegis fractures and shards rain thickest here. The Freeze begins and never lifts.
 * **The Freeze (325–475):** The Jarls consolidate. The Wall rises. The Syndicate moves in behind it. The Archive counts the shard-pulses as they fade.
 * **Living memory:** The Cleansing, the Acolytes, the failing vents — and Frigga's engine, humming under the ice.
 

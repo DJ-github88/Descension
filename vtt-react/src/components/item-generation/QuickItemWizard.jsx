@@ -1259,7 +1259,7 @@ const QuickItemWizard = ({ onComplete, onCancel, initialData }) => {
                         checked={useAI}
                         onChange={(e) => setUseAI(e.target.checked)}
                     />
-                    <label htmlFor="useAI">Use AI Generation</label>
+                    <label htmlFor="useAI" title="Local keyword parser — no external AI call">Use Hint Parser (local)</label>
                 </div>
 
                 {useAI && (

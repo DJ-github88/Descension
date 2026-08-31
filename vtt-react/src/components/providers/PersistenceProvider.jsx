@@ -122,6 +122,8 @@ const PersistenceProvider = ({ children }) => {
 
   // Centralized Worldbuilding & Campaign Cloud Hydration on User Login
   useEffect(() => {
+    let worldStoreUnsubscribe = null;
+    let cancelled = false;
     if (user && !user.isGuest && persistenceStatus.isOnline) {
       const hydrateAllWorldbuilding = async () => {
         try {
@@ -133,6 +135,9 @@ const PersistenceProvider = ({ children }) => {
           const { default: useFactionStore } = await import('../../store/factionStore');
           const { default: useTimelineStore } = await import('../../store/timelineStore');
           const { default: useQuestStore } = await import('../../store/questStore');
+          const { default: useWorldStore } = await import('../../store/worldStore');
+          const { default: useDeityStore } = await import('../../store/deityStore');
+          const { default: useLanguageStore } = await import('../../store/languageStore');
           const { default: campaignService } = await import('../../services/campaignService');
 
           await Promise.allSettled([
@@ -144,9 +149,23 @@ const PersistenceProvider = ({ children }) => {
             useFactionStore.getState().hydrateFromCloud?.(user.uid),
             useTimelineStore.getState().hydrateFromCloud?.(user.uid),
             useQuestStore.getState().hydrateFromCloud?.(user.uid),
+            useWorldStore.getState().hydrateFromCloud?.(user.uid),
+            useDeityStore.getState().hydrateFromCloud?.(user.uid),
+            useLanguageStore.getState().hydrateFromCloud?.(user.uid),
             campaignService.hydrateFromCloud?.(user.uid)
           ]);
+          if (cancelled) return;
           console.log('🌌 Worldbuilding & Campaign cloud hydration synchronized for:', user.uid);
+
+          // Debounced auto-sync for the world store (worlds/regions/locations/classes).
+          // Subscribing only AFTER hydration avoids pushing stale local data over newer cloud state.
+          let worldSyncTimer = null;
+          worldStoreUnsubscribe = useWorldStore.subscribe(() => {
+            clearTimeout(worldSyncTimer);
+            worldSyncTimer = setTimeout(() => {
+              useWorldStore.getState().syncToCloud?.(user.uid);
+            }, 2000);
+          });
         } catch (err) {
           console.warn('Worldbuilding cloud hydration error:', err);
         }
@@ -154,6 +173,10 @@ const PersistenceProvider = ({ children }) => {
 
       hydrateAllWorldbuilding();
     }
+    return () => {
+      cancelled = true;
+      if (worldStoreUnsubscribe) worldStoreUnsubscribe();
+    };
   }, [user, persistenceStatus.isOnline]);
 
   // Helper to force save all worldbuilding stores
@@ -168,6 +191,9 @@ const PersistenceProvider = ({ children }) => {
       const { default: useFactionStore } = await import('../../store/factionStore');
       const { default: useTimelineStore } = await import('../../store/timelineStore');
       const { default: useQuestStore } = await import('../../store/questStore');
+      const { default: useWorldStore } = await import('../../store/worldStore');
+      const { default: useDeityStore } = await import('../../store/deityStore');
+      const { default: useLanguageStore } = await import('../../store/languageStore');
       const { default: campaignService } = await import('../../services/campaignService');
 
       await Promise.allSettled([
@@ -179,6 +205,9 @@ const PersistenceProvider = ({ children }) => {
         useFactionStore.getState().syncToCloud?.(uid),
         useTimelineStore.getState().syncToCloud?.(uid),
         useQuestStore.getState().syncToCloud?.(uid),
+        useWorldStore.getState().syncToCloud?.(uid),
+        useDeityStore.getState().syncToCloud?.(uid),
+        useLanguageStore.getState().syncToCloud?.(uid),
         campaignService.syncToCloud?.(uid)
       ]);
     } catch (err) {

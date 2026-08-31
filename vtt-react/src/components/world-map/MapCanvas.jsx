@@ -79,6 +79,7 @@ const MapCanvas = ({
 
   // Immerse custom-map workspace props
   customMapMode = false,
+  customReadOnly = false,
   customMap = null,
   customZones = [],
   customEntryType = 'continent',
@@ -86,6 +87,7 @@ const MapCanvas = ({
   customDrawingPoints = [],
   onCustomImageFile,
   onToggleCustomMap,
+  onToggleCustomReadOnly,
   canAccessCustomMaps = false,
   selectedCustomZoneId = null,
   onSelectCustomZone = () => {},
@@ -344,26 +346,26 @@ const MapCanvas = ({
   }, []);
 
   const handleCustomDragOver = useCallback((event) => {
-    if (!customMapMode) return;
+    if (!customMapMode || customReadOnly) return;
     event.preventDefault();
     if (event.dataTransfer) event.dataTransfer.dropEffect = 'copy';
     setIsCustomDropActive(true);
-  }, [customMapMode]);
+  }, [customMapMode, customReadOnly]);
 
   const handleCustomDragLeave = useCallback((event) => {
-    if (!customMapMode) return;
+    if (!customMapMode || customReadOnly) return;
     if (event.currentTarget === event.target) setIsCustomDropActive(false);
-  }, [customMapMode]);
+  }, [customMapMode, customReadOnly]);
 
   const handleCustomDrop = useCallback((event) => {
-    if (!customMapMode) return;
+    if (!customMapMode || customReadOnly) return;
     event.preventDefault();
     setIsCustomDropActive(false);
     const file = event.dataTransfer?.files?.[0];
     if (file && file.type.startsWith('image/') && onCustomImageFile) {
       onCustomImageFile(file);
     }
-  }, [customMapMode, onCustomImageFile]);
+  }, [customMapMode, customReadOnly, onCustomImageFile]);
 
   const handleTransformed = useCallback((ref) => {
     if (onTransformChange && ref && ref.instance) {
@@ -559,7 +561,7 @@ const MapCanvas = ({
   };
 
   const isDrawingOrPlacing = customMapMode
-    ? customDrawingActive
+    ? (customReadOnly ? false : customDrawingActive)
     : Boolean(
         (devMode && (devTool === 'drawRegion' || devTool === 'placePin' || devTool === 'movePin' || devTool === 'erasePin')) ||
         (activeTool === 'drawArea' || activeTool === 'placePin' || (drawingPoints && drawingPoints.length > 0) || (playerDrawingPoints && playerDrawingPoints.length > 0)) ||
@@ -570,7 +572,7 @@ const MapCanvas = ({
 
   const toolCursor = (() => {
     if (draggedPinId || draggedPlayerPinId || draggedCustomZoneId) return 'grabbing';
-    if (customMapMode && customDrawingActive) return customEntryType === 'location' ? FLAG_CURSOR : PEN_CURSOR;
+    if (customMapMode && !customReadOnly && customDrawingActive) return customEntryType === 'location' ? FLAG_CURSOR : PEN_CURSOR;
     if (devMode && devTool === 'drawRegion') return PEN_CURSOR;
     if (devMode && devTool === 'placePin') return FLAG_CURSOR;
     if (devMode && devTool === 'movePin') return 'grab';
@@ -614,13 +616,13 @@ const MapCanvas = ({
         initialPositionX={initialTransform ? initialTransform.posX : 0}
         initialPositionY={initialTransform ? initialTransform.posY : 0}
         minScale={minScale}
-        maxScale={3}
+        maxScale={8}
         limitToBounds={false}
         centerOnInit={false}
         smooth={false}
-        wheel={{ step: 0.15, zoomAnimation: { disabled: false, animationTime: 100 } }}
-        doubleClick={{ disabled: false }}
-        panning={{ disabled: (customMapMode && customDrawingActive) || (devMode && devTool === 'drawRegion') || (activeTool === 'drawArea') || draggedPinId || draggedPlayerPinId || draggedCustomZoneId ? true : false }}
+        wheel={{ step: 0.18, zoomAnimation: { disabled: false, animationTime: 100 } }}
+        doubleClick={{ disabled: false, step: 0.7 }}
+        panning={{ disabled: (customMapMode && !customReadOnly && customDrawingActive) || (devMode && devTool === 'drawRegion') || (activeTool === 'drawArea') || draggedPinId || draggedPlayerPinId || draggedCustomZoneId ? true : false }}
         onTransformed={handleTransformed}
         onPanning={handleUserInteraction}
         onWheel={handleUserInteraction}
@@ -777,6 +779,7 @@ const MapCanvas = ({
                                 }
                               }}
                               onMouseDown={(e) => {
+                                if (customReadOnly) return;
                                 if (e.button === 0 && !customDrawingActive && !zone.isLocked) {
                                   e.stopPropagation();
                                   setDraggedCustomZoneId(zone.id);
@@ -787,7 +790,7 @@ const MapCanvas = ({
                               }}
                               onMouseEnter={() => setHoveredRegionId && setHoveredRegionId(zone.id)}
                               onMouseLeave={() => setHoveredRegionId && setHoveredRegionId(null)}
-                              style={{ cursor: customDrawingActive ? 'inherit' : (zone.isLocked ? 'pointer' : (isBeingDragged ? 'grabbing' : 'grab')) }}
+                              style={{ cursor: customReadOnly ? 'pointer' : (customDrawingActive ? 'inherit' : (zone.isLocked ? 'pointer' : (isBeingDragged ? 'grabbing' : 'grab'))) }}
                             >
                               {/* Selection & Hover pulse aura */}
                               {(isSelected || isHovered || isBeingDragged) && (
@@ -1158,7 +1161,9 @@ const MapCanvas = ({
               devMode={devMode}
               onToggleDev={onToggleDev}
               customMapMode={customMapMode}
+              customReadOnly={customReadOnly}
               onToggleCustomMap={onToggleCustomMap}
+              onToggleCustomReadOnly={onToggleCustomReadOnly}
               canAccessCustomMaps={canAccessCustomMaps}
               borderEnabled={borderEnabled}
               onToggleBorder={onToggleBorder}

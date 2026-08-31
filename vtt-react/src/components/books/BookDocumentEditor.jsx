@@ -1480,6 +1480,20 @@ export const BookDocumentEditor = ({
             >
               <i className="fas fa-book-open"></i>
             </button>
+            <button
+              type="button"
+              className="mode-btn"
+              onClick={() => {
+                const prev = activeMode;
+                setActiveMode('read');
+                setTimeout(() => window.print(), 150);
+                setTimeout(() => setActiveMode(prev), 800);
+              }}
+              title="Print / Export PDF"
+              aria-label="Print Book"
+            >
+              <i className="fas fa-print"></i>
+            </button>
           </div>
         </div>
 

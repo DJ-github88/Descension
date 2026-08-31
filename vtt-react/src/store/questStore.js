@@ -13,7 +13,8 @@ const BASE_CATEGORY = {
   parentId: null
 };
 
-// Sample quest for testing
+// Sample quest for testing — retained for reference / "Load Sample" action;
+// not auto-seeded into new campaigns (use questStore.loadSampleQuests() if needed).
 const SAMPLE_QUESTS = [
   {
     id: 'quest-001',
@@ -115,7 +116,8 @@ const useQuestStore = create(
   persist(
     (set, get) => ({
       // Quest Library state
-      quests: [...SAMPLE_QUESTS],
+      quests: [],
+  _sampleQuests: SAMPLE_QUESTS,
       categories: [BASE_CATEGORY],
       questCategories: {}, // {questId: Set(categoryIds)}
       selectedQuest: null,

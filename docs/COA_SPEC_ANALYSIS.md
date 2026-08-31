@@ -147,7 +147,7 @@ Each round of combat, movement drops 5ft (cumulative, max -25ft). Resets after c
 You sense the emotional state of any creature within 30ft (afraid, angry, deceptive, calm). This is not mind-reading  -  you feel what they feel, not what they think. Advantage on Insight checks.
 
 ### Weakness: Truth Aversion
-Each verifiable, undeniable truth you speak aloud deals 1 wyrd damage per sentence. You compulsively hedge, mislead, and reframe. This is not a choice  -  it is woven into your mind by Keth-Amar. (In combat, this rarely matters. In social/investigation scenes, it creates real tension  -  the party needs information, but you physically cannot just tell the truth plainly.)
+Each verifiable, undeniable truth you speak aloud deals 1 wyrd damage per sentence. You compulsively hedge, mislead, and reframe. This is not a choice  -  it is woven into your mind by Keth Amar. (In combat, this rarely matters. In social/investigation scenes, it creates real tension  -  the party needs information, but you physically cannot just tell the truth plainly.)
 
 ---
 

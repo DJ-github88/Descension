@@ -35,7 +35,7 @@ For the audit to be thorough, you **must** read or inspect every file in this in
 
 | # | File | Focus Areas |
 |---|------|------------|
-| 1 | `rulesData.js` | World lore, cosmology, regions, timeline summary, class origins, Keth-Amar monologue |
+| 1 | `rulesData.js` | World lore, cosmology, regions, timeline summary, class origins, Keth Amar monologue |
 | 2 | `loreDictionary.js` | ~200+ dictionary entries for every entity type |
 | 3 | `zoneData.js` | ~86 zone POIs with descriptions, factions, connections |
 | 4 | `deepLocationData.js` | Greymark Keep, Frozen Archive, Over-Shanty, Synod Hold deep profiles |
@@ -116,7 +116,7 @@ These files **contain inline lore summaries** that may differ from canonical dat
 Check EVERY mention of a year/date in every file against the canonical timeline in `timelineStore.js`. Look for:
 
 - [ ] **The Binding**: Is it consistently Year 0 (rulesData) vs. Year 3 (timelineStore)? Report every file that uses the wrong year.
-- [ ] **The Breach**: Is it consistently Year 11? Search for "Years 1–2", "Year 1", "Year 2", "Year 10", or any other date near "Breach", "Keth-Amar consumed", "heirs", "capitulation", "shattered seal".
+- [ ] **The Breach**: Is it consistently Year 11? Search for "Years 1–2", "Year 1", "Year 2", "Year 10", or any other date near "Breach", "Keth Amar consumed", "heirs", "capitulation", "shattered seal".
 - [ ] **The Fog Compact**: Year 5  -  consistent everywhere?
 - [ ] **The Glacier Bargain**: Year 7  -  consistent everywhere?
 - [ ] **The Vat-Breakers' Revolt**: Year ~40  -  used consistently?
@@ -408,12 +408,12 @@ For each of the 22 backgrounds:
 
 ## PART 10: NARRATIVE COHERENCE AUDIT
 
-### 10.1  -  The Keth-Amar arc
+### 10.1  -  The Keth Amar arc
 
 - [ ] Does the 8-year corruption arc (Year 3-11) appear consistently wherever the Breach is narrated?
-- [ ] Is Keth-Amar's growing influence (Ambient → Targeted → Coordinated → Active Assault) traceable through the timeline events?
-- [ ] Does the Keth-Amar monologue in `rulesData.js` align with the detailed event descriptions in `timelineStore.js`?
-- [ ] Are there places where Keth-Amar's influence is described as "sudden" or "immediate" when it should be gradual?
+- [ ] Is Keth Amar's growing influence (Ambient → Targeted → Coordinated → Active Assault) traceable through the timeline events?
+- [ ] Does the Keth Amar monologue in `rulesData.js` align with the detailed event descriptions in `timelineStore.js`?
+- [ ] Are there places where Keth Amar's influence is described as "sudden" or "immediate" when it should be gradual?
 
 ### 10.2  -  The warmth decline arc
 
@@ -454,7 +454,7 @@ For each of the 7 regions:
 
 - [ ] Do the 9 damage types' in-world descriptions (damageTypes.js) align with the cosmology?
 - [ ] "Ember = Sol's buried warmth"  -  is this consistent with the Sol's Breath-dimming narrative?
-- [ ] "Wyrd = Keth-Amar's corruption"  -  does the Wyrd's behavior in creature descriptions match this?
+- [ ] "Wyrd = Keth Amar's corruption"  -  does the Wyrd's behavior in creature descriptions match this?
 - [ ] "Rime = Nordhalla's bargained cold"  -  consistent with the Glacier Bargain description?
 
 ### 11.2  -  Creature lore
@@ -466,7 +466,7 @@ For each of the 7 regions:
 
 ### 11.3  -  Equipment lore
 
-- [ ] Do equipment descriptions with lore references (Keth-Amar contract-seals, Sol's Breath embers, etc.) reference valid entities?
+- [ ] Do equipment descriptions with lore references (Keth Amar contract-seals, Sol's Breath embers, etc.) reference valid entities?
 - [ ] Does equipment that claims a specific origin (e.g., "forged at Harath-Vault") align with the location's description?
 
 ### 11.4  -  Language lore

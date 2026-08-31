@@ -1,21 +1,21 @@
 # THE SEVEN CONTINENTS — MASTER REFERENCE
 ### The definitive world bible for Mythrill (for GMs, map-makers, and AI agents)
 
-> **Status:** Canonical Master Lore Update (475-Year Master Timeline).
+> **Status:** Canonical as of the **August 2026 "Fall of the Sun & The Broken Wyrd" lore lock** (475-Year Master Timeline).
 > **App Launch Focus:** **Nordhalla** is the **sole, self-contained launch region** for initial release. Other continents are slated for future expansions.
-> **Master Timeline:** 475 Years Total (Year 0 = Celestial Star-Fall & House Bargain; Year 300 = Keth Amar arrival & 25-yr Wyrd infiltration; Year 325 = Blizzard's End Massacre & Aex Shattering; Year 475 = Present Day / Freezing Era, 150 years after the fall).
+> **Master Timeline:** 475 Years Total (Year 0 = Star-Fall & Bloodline Pacts; Year 300 = Keth Amar arrival and Predatory Wyrd seeded; Years 300-325 the Whispered Purge; Year 325 the Blind Strike — mortal name: Blizzard's End — and the Secret Aegis; Year 475 = Present Day / Freezing Era, 150 years after the strike).
 
 ---
 
 ## COSMOLOGY QUICK-REFERENCE (Single Source of Truth)
 
-- **Pre-Star Mythrill (Primordial Anima & Ancient Magic)** — Long before the Star-Fall, Mythrill was an animistic, folklore-rich world steeped in ancient primal magic. Native beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits (*Landvaettir*, *Fossegrim*), and ancient non-human races (**Fexrick**, **Myrathil**, **Neth**, **Groven**) wielded elemental currents, geothermal power, and tidal magic. Mortal commoners survived through cold steel, tactical engineering, black powder matchlocks, archery, and strict taboos, while ancient disciplines (**Animist**, **Berserker**, **Warden**, **Shaper**, **Minstrel**) channeled the earth's natural resonance.
-- **Sol** — Infant unhatched sun entombed in a thermal shell deep within Mythrill's volcanic core.
-- **Aex & Aethil** — Celestial Mother & Father Deities. Forfeited Celestial status upon divine descent. Aex wrapped her form around Sol; her shattered body fell as **Aex Shards** across continents during the Blizzard's End massacre.
-- **The Sister Moon** — Slumbering moon frozen solid in orbit to act as a thermal buffer, anchoring **Rime Magic**.
-- **Keth-Amar** — Cosmic star-predator who devoured House heirs at Blizzard's End, was injured by Aex's core shield, and now drapes Mythrill in **Wyrd Magic** (madness, cognitive decay) from the sky.
-- **The Veiled House (The Shadow Crown / House of the Mask)** — Secret cult at *Vespera's Crown* created under an **Unknown Dominator Deity**. Forged a **Counterfeit Monolith** to fool Keth-Amar. Playable origin carrying the **Watcher's Spark** (cosmic entity conduit).
-- **Aex Cracks & Geothermal Topography** — Lineage deaths cracked Aex's shell, creating regional hot springs, volcanic bogs, and thermal pine wetlands.
+- **Pre-Star Mythrill (The Sleeping Soul & Natural Wyrd)** — Long before the Star-Fall, Mythrill was the loom of the Sleeping Soul. **Natural Wyrd** — collective belief, folklore, myth, fear and vow manifest into creatures — grew the native beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits (*Landvaettir*, *Fossegrim*), and ancient non-human races (**Fexrick**, **Myrathil**, **Neth**, **Groven**). Mortal commoners survived through cold steel, tactical engineering, black powder matchlocks, archery, and strict taboos, while ancient disciplines (**Animist**, **Berserker**, **Warden**, **Shaper**, **Minstrel**) channelled the earth's natural resonance.
+- **Sol** — The living, unhatched infant sun of Mythrill, prey of Keth Amar, entombed in the molten core; his light filters up through subterranean networks.
+- **Aex & Aethil** — Celestial Mother & Father. Aethil forfeited absolute divine status to anchor the celestial barrier around Mythrill's atmosphere; Aex forfeited her divine form to entomb and protect Sol in the molten core, sealing the vault with cosmic wards and **Bloodline Pacts**. Her broken aegis fell as **Aex Shards** when the Blind Strike fractured the continental ward (Year 325). Keth Amar still cannot enter while Aethil holds the sky.
+- **The Sister Moon (Selunis)** — The never-quickened moon-daughter egg, frozen in orbit as a thermal buffer to keep Sol from incinerating the world, anchoring **Rime Magic**. Keth Amar nested in her unquickened shell during its approach.
+- **Keth Amar** — Ancient, highly intelligent cosmic apex predator obsessed with consuming Sol. Blocked by Aethil's ward, it spewed **Predatory Wyrd** (Natural Wyrd infected) onto Mythrill, orchestrated the **Whispered Purge** (Years 300-325) to snap the Blood Seals, then launched the **Blind Strike** at Year 325. The **Secret Aegis** — the hidden lineage that erased itself from history — held; Keth Amar was wounded and repelled into the void. It now presses against the ward, its Predatory Wyrd seeping through every crack.
+- **The Seven Sundered Monoliths & the Counterfeit** — The seven greatest fallen shards of Aex's broken aegis, scattered across the continents. One seat is a lie: the **7th Counterfeit Monolith**, a Predatory Wyrd forgery standing in for the seal that was never written. Its keepers, the **Masked Acolytes** at *Vespera's Crown* — Keth Amar's whisper-cult — proselytize while their patron sees through their eyes as the **Hollow Sight**.
+- **Aex Cracks & Geothermal Topography** — A snapped Blood Seal cracks Aex's aegis; each severed lineage vented Sol's warmth into the crust, creating regional hot springs, volcanic bogs, and thermal pine wetlands.
 - **Astril Subrace Schism** — Stargazer Astril (scholars) vs Iron-Vigil Astril (martial zealots who enforced the Ordan purge). Ordan humans survive disguised as ordinary nomads.
 - **The Neth (The Primordial Well of Life)** — Predates Celestials; ancient guardians of the Well of Life. High Neth (pristine well-keepers), Grave Neth (severed shadow-brokers and outlaws), Hallowed Neth (transfigured spirit-conduits).
 - **The Fexrick (Titan-Engine Delvers)** — Ancient subterranean burrowers of Cragjaw Peaks who uncovered a Primordial Engine in the deep bedrock.
@@ -27,7 +27,7 @@
 
 | # | Continent | Biome | Danger | House Anchor | Geothermal / Regional Scar | Subregions | Status |
 |---|---|---|---|---|---|---|---|
-| 1 | **Nordhalla** | Arctic Glacier | Extreme | Skald | Blizzard's End massacre site | 3 | **Primary Launch Region** |
+| 1 | **Nordhalla** | Arctic Glacier | Extreme | Skald | Blind Strike impact site (mortal name: Blizzard's End) — shards rained thickest | 3 | **Primary Launch Region** |
 | 2 | Frostwood Reach | Thermal Forest | Medium | Thalren / Viridane | Artificial Sun meltdown steam vents | 3 | Expansion I |
 | 3 | Sundale | Volcanic Core | High | Solari | Sol's volcanic heat venting | 4 | Expansion II |
 | 4 | Iceheart Sea | Frozen Ocean | Extreme | Merryn | Sister Moon's icy tidal pull | 6 | Expansion III |
@@ -43,7 +43,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 # 1 · FROSTWOOD REACH — *"The Mist-Archivists' Forest"*
 **Vibe:** somber, hushed, paranoid, archival, fog-drenched. The only continent with a built-in **north/south climate split** — the visible scar of the Viridane secret.
 **House Thalreth** (Jarl-Archivist **Kaelen "The Quill-Lord"**) · **Bargain:** traded spatial clarity for insulating fog → **the fog eats memory**.
-**Monolith:** the **Fog-Hand** (Aex's closed right hand) — hidden in a mist-choked valley near Ironwood Heart. Also hides the **Viridane fragment** (the true cleansing seventh) in moonlit groves with the Florae.
+**Monolith:** the **Fog-Hand** — a great fallen shard of Aex's broken aegis, hidden in a mist-choked valley near Ironwood Heart. The Counterfeit stands in the place of the seal that was never written.
 **Folklore tradition:** Germanic/Celtic (face-stealers, fae, broken-oath horrors)  -  the local vocabulary that translates, not creates, the region's creatures.
 
 ### 1A · The Ironheart Vales *(warm south-central, political heart)*
@@ -82,7 +82,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 - **Creatures & Wyrd:** Gambrel, Drudehaunt, Oillipheist.
 - **Intricacies:** no Scribe-Sentinel enters; the Fen's geography rejects maps. Root-Veil mycelium spills in from Bryngloom's border.
 
-**Region-wide:** **Florae** (House Viridane's descendants) live hidden in moonlit groves where the fog thins; the erasure hides them from Keth-Amar.
+**Region-wide:** **Florae** (House Viridane's descendants) live hidden in moonlit groves where the fog thins; the erasure hides them from Keth Amar.
 
 ---
 ---
@@ -90,12 +90,12 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 # 2 · NORDHALLA — *"The Glacier Cathedral"*
 **Vibe:** brutal, severe, militaristic, blood-and-iron. Endurance as religion. The **farthest** continent from Sundale = polar.
 **House Skalvyr** (King-Jarl **Halvar "Járn-Tand" Skalvyr**) · **Bargain:** traded summer for halted glaciers → **eternal winter**.
-**Monolith:** the **Ice-Crown** (Aex's forehead/skull) — embedded in a glacier-cyst, pulses blue under winter ice; the Frost-Tithe feeds Keth-Amar through it.
+**Monolith:** the **Ice-Crown** — a great fallen shard of Aex's aegis embedded in a glacier-cyst, pulsing blue under winter ice. Mortals name it the Mother's skull; Predatory Wyrd seeps heaviest where it lies.
 **Folklore tradition:** Norse/Alpine.
 
 ### 2A · The Glacier-Heart *(interior mountains, glaciers, polar ice)*
 - **Geography:** polar, perpetual blizzard; glaciers, ice fields, frozen chasms, granite peaks.
-- **Races & subraces here:** **Rime-Born** (Hunger Pact survivors, stone-shadow skin); **Frostbound** (blue-skinned infants who survived the Frost-Tithe — carry Keth-Amar's attention, dwell in Gelid-Caverns); **Corvani** (raven-marked subfolk, fate-bonded to Corvid Fate-Spirits, eyries in mile-high ice); **Skald** royal clans.
+- **Races & subraces here:** **Rime-Born** (Hunger Pact survivors, stone-shadow skin); **Frostbound** (blue-skinned infants who survived the Frost-Tithe — carry Keth Amar's attention, dwell in Gelid-Caverns); **Corvani** (raven-marked subfolk, fate-bonded to Corvid Fate-Spirits, eyries in mile-high ice); **Skald** royal clans.
 - **Factions:** House Skalvyr (royal seat), Skald Keepers (glacier archivists).
 - **Settlements:**
   - **Cities:** Frosthold Citadel (royal seat, carved into Bearsbeard's Beak); The Frozen Archive (glacier-tomb city; dead stand upright in ice; birthplace of the Augur tradition).
@@ -133,8 +133,8 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 
 # 3 · SUNDALE — *"The Ashlands of the Buried Sun"*
 **Vibe:** incandescent, ash-choked, martyr-haunted, theocratic, industrially gothic. The **center & heart** = warmest.
-**House Solvan** (tragic, **sidelined** by the Dawn Vigil theocracy under Hierophant Aethelgard) · **Bargain:** the ur-bargain — Sol bound here; Emberspire is the wound Keth-Amar breaches through.
-**Monolith:** the **Still-Heart** (Aex's heart, beats once/hour) — beneath the oldest Solvan keep. (Genuine, often mistaken for the false one.)
+**House Solvan** (tragic, **sidelined** by the Dawn Vigil theocracy under Hierophant Aethelgard) · **Bargain:** the ur-bargain — Sol bound here; Emberspire is the wound Keth Amar breaches through.
+**Monolith:** the **Still-Heart** — a great fallen shard beneath the oldest Solvan keep, beating once per hour. Mortals call it the Mother's heart; the genuine shard is often mistaken for the Counterfeit.
 **Folklore tradition:** Mesopotamian/Egyptian (fire & judgment).
 
 ### 3A · The Ash-Heart *(dead volcanic core — uninhabitable)*
@@ -144,7 +144,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 - **Settlements:** (none) · **✦ Minor:** Cinderbloom Purification Camp, Sulfur-Prospect Camp, Pyrofiend Conventicle (hidden shrine).
 - **Landmarks:** **Emberspire / Emberspire Caldera** (the world-heart volcano), Sol's Anvil Mesa, Cinder Badlands, Spinstones Columns, Cinderbloom Crater.
 - **Ruins:** The Star Caves (lava-tubes, haunted by Husque).
-- **Creatures & Wyrd:** **Cinder-Fiend**, **Sun-Husk**, **Ash-Woven Oracle**, **Husque** (mobile reality-fissure), The Cinder, **Scathrach the Ashen Sovereign** (Aex-fragment demon-intelligence in the deepest vent; despises Keth-Amar).
+- **Creatures & Wyrd:** **Cinder-Fiend**, **Sun-Husk**, **Ash-Woven Oracle**, **Husque** (mobile reality-fissure), The Cinder, **Scathrach the Ashen Sovereign** (Aex-fragment demon-intelligence in the deepest vent; despises Keth Amar).
 - **Intricacies:** Caldera Ashfall deals fire damage without protective cloaks; water evaporates at 2× rate.
 
 ### 3B · The Ashen Fringe *(ash-plain ring & population belt)*
@@ -157,7 +157,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
   - **✦ Minor:** Ash-Dweller Shanty, Cinder-Brew Distillery, Martyr-Brigade Work-Camp, Obsidian Citadel Tollgate, Solvan-Sepulchre.
 - **Landmarks:** The Ashen Escarpment (signal-fire watchtowers), Vulkar's Karst.
 - **Creatures & Wyrd:** Cinder-Fiend, Sun-Husk, Ash-Woven Oracle, Husque.
-- **Intricacies:** the **Obsidian Citadels** chain blocks refugees — forced labor. **Faith schism:** Dawn Vigil (militant; secretly knows Monolith-reassembly summons Keth-Amar) vs **the Risen** (patient old Emberth faith) vs **the Scoured** (defaced heretics who want Sol to die in peace).
+- **Intricacies:** the **Obsidian Citadels** chain blocks refugees — forced labor. **Faith schism:** Dawn Vigil (militant; secretly knows Monolith-reassembly summons Keth Amar) vs **the Risen** (patient old Emberth faith) vs **the Scoured** (defaced heretics who want Sol to die in peace).
 
 ### 3C · The Green Rim *(warm coastal ring & breadbasket)*
 - **Geography:** warm, mild, sea-breezes; coastal plains, sheltered valleys, hot-springs, oasis groves.
@@ -187,7 +187,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 # 4 · ICEHEART SEA — *"The Storm-Lashed Heart"*
 **Vibe:** salt, storm, perpetual motion. The **largest continent by area** — a sea-empire of island-clusters, not a landmass.
 **House Mereval** (Grand Admiral **Varis Mereval**; the Wave-Kept flagship never docks) · **Bargain:** traded calm seas for navigable channels → **the sea never sleeps**.
-**Monolith:** the **Depth-Breath** (Aex's lungs) — bottom of the deepest trench; still breathes; the storm above (the Shard-Window) cycles with it.
+**Monolith:** the **Depth-Breath** — a great fallen shard at the bottom of the deepest trench. Mortals call it the Mother's lungs; it still seems to breathe, and the storm above it (the Shard-Window) cycles with it.
 **Folklore tradition:** Celtic/Greek maritime.
 
 ### 4A · The Merrow Archipelago *(central inhabited islands)*
@@ -251,7 +251,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 # 5 · CRAGJAW PEAKS — *"The Howling Vertical Labyrinth"*
 **Vibe:** vertical, claustrophobic, mechanical, gothic-industrial. Blizzard buries every landmark.
 **House Tesshan** (Jarl-Inca **Oda "The Knot-Lord" Tesshan**; the Knotted Decree — khipu-cords replace writing) · **Bargain:** traded visibility for the eternal blizzard-veil → **every landmark buried; no sky in ~25–30 generations**.
-**Monolith:** the **Wind-Bone** (Aex's rib) — crevasse on the highest unclimbed peak; the blizzard IS the Wyrd guarding it.
+**Monolith:** the **Wind-Bone** — a great fallen shard in a crevasse on the highest unclimbed peak. Mortals name it the Mother's rib; the blizzard guarding it is Predatory Wyrd made weather.
 **Folklore tradition:** Japanese Yokai / Andean.
 
 ### 5A · The Frostmaw Massif Range *(high alpine peaks & crater-keeps)*
@@ -295,7 +295,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 # 6 · SUNDRIFT VALE — *"The Starless Steppe"*
 **Vibe:** endless, windswept, mournful, nomadic. **The sky is permanently dark and starless** — Sol's celestial court was eaten.
 **House Ordavan** (Khatun **Bayarmaa "The Steel-Voiced" Ordavan**; Iron-Yurt Law; Steppe-Stave bone-tally ID) · **Bargain:** traded fertile soil for endless grass → **constellations erased from the firmament**.
-**Monolith:** the **Grass-Spine** (Aex's spine) — mile-long ridge of black crystalline vertebrae; eternal darkness overhead = Keth-Amar drinking light through it. **Most exposed Monolith; the Vale is a 40-year war zone.**
+**Monolith:** the **Grass-Spine** — a great fallen shard forming a mile-long ridge of black crystal. Mortals call it the Mother's spine; the eternal darkness overhead is Predatory Wyrd drinking light through the wound. **Most exposed shard; the Vale is a 40-year war zone.**
 **Folklore tradition:** Mongol/Turkic/Chinese.
 
 ### 6A · The Endless Steppe *(central grass plain — sea of land)*
@@ -353,7 +353,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 # 7 · BRYNGLOOM FOREST — *"The Twilight Swamp of the First Contract"*
 **Vibe:** twilight, bioluminescent, gothic, **legalistic**, monastic, sepulchral. Canopy admits no direct light.
 **House Morrath** is the substitute-signatory regent (**Regent Morrath Neth "The Scribe-King"**) — but the **Neth ancestors** are the true bargain-holders. · **Bargain:** death became a renegotiated clause; citizens born into default debt.
-**Monolith:** the **False Morrath Shard** — the hollow echo resting in a bottomless bog-pool, leaking drowned divers' memories; hums in anticipation, not pain. Keth-Amar senses it "sings wrong."
+**Monolith:** the **Counterfeit (False Morrath Shard)** — the Predatory Wyrd forgery resting in a bottomless bog-pool, leaking drowned divers' memories. It hums in anticipation, not pain; Keth Amar senses it "sings wrong."
 **Folklore tradition:** Slavic/Hindu.
 
 ### 7A · The Canopy-Heart *(central canopy-grove & political core)*

@@ -138,35 +138,50 @@ const CharacterToken = ({
   const partyMembers = usePartyStore(state => state.partyMembers);
   // FIX: Use multi-field matching to find party member by any ID type
   const partyMember = tokenPlayerId && isInMultiplayer
-    ? partyMembers.find(m => 
-      m.id === tokenPlayerId || 
-      m.socketId === tokenPlayerId || 
+    ? partyMembers.find(m =>
+      m.id === tokenPlayerId ||
+      m.socketId === tokenPlayerId ||
       m.userId === tokenPlayerId ||
       m.uid === tokenPlayerId
      )
     : null;
 
-  // Resolve character data for rendering. Prefer the snapshot attached to the token at
-  // creation time (works in single-player and for any party member), then the party roster,
-  // then the local player's character store. Without the snapshot, placed tokens render with
-  // no portrait/background because the party lookup is skipped outside multiplayer and the
-  // party-member seed carries no lore/tokenSettings.
+  // Is this the LOCAL player's own token? Own tokens prefer the LIVE character
+  // store so portrait/name edits in the character sheet reflect on the token
+  // immediately (the snapshot is stale by design — captured at placement time).
+  const currentPlayerForOwnership = useGameStore.getState().currentPlayer;
+  const myIdForOwnership = currentPlayerForOwnership?.id || 'current-player';
+  const mySocketIdForOwnership = multiplayerSocket?.id;
+  const isOwnTokenForRendering = tokenPlayerId === 'current-player' ||
+    (myIdForOwnership && tokenPlayerId === myIdForOwnership) ||
+    (mySocketIdForOwnership && tokenPlayerId === mySocketIdForOwnership) ||
+    (token?.isPlayerToken && !isInMultiplayer) ||
+    (!tokenPlayerId && !isInMultiplayer);
+
+  // Resolve character data for rendering. For another player's token, prefer
+  // the snapshot attached at creation time (works in single-player and for any
+  // party member), then the party roster, then the local player's character
+  // store. For the LOCAL player's own token, prefer the live character store
+  // over the placement snapshot so sheet edits (portrait, name, look) show up
+  // on the grid right away; the snapshot only fills fields the live store
+  // hasn't loaded yet.
+  const ownLiveData = isOwnTokenForRendering ? currentCharacterData : null;
   const snapshotCharacter = token?.character;
   const resolvedCharacterSource = snapshotCharacter || partyMember?.character;
   const characterData = resolvedCharacterSource ? {
-    name: snapshotCharacter?.name || partyMember?.name || currentCharacterData.name,
-    race: resolvedCharacterSource.race || currentCharacterData.race,
-    raceDisplayName: resolvedCharacterSource.raceDisplayName || currentCharacterData.raceDisplayName,
-    class: resolvedCharacterSource.class || currentCharacterData.class,
-    level: resolvedCharacterSource.level || currentCharacterData.level,
-    health: resolvedCharacterSource.health || currentCharacterData.health,
-    mana: resolvedCharacterSource.mana || currentCharacterData.mana,
-    actionPoints: resolvedCharacterSource.actionPoints || currentCharacterData.actionPoints,
-    tempHealth: resolvedCharacterSource.tempHealth !== undefined ? resolvedCharacterSource.tempHealth : currentCharacterData.tempHealth,
-    tempMana: resolvedCharacterSource.tempMana !== undefined ? resolvedCharacterSource.tempMana : currentCharacterData.tempMana,
-    tempActionPoints: resolvedCharacterSource.tempActionPoints !== undefined ? resolvedCharacterSource.tempActionPoints : currentCharacterData.tempActionPoints,
-    lore: resolvedCharacterSource.lore || currentCharacterData.lore,
-    tokenSettings: resolvedCharacterSource.tokenSettings || currentCharacterData.tokenSettings
+    name: ownLiveData?.name || snapshotCharacter?.name || partyMember?.name || currentCharacterData.name,
+    race: ownLiveData?.race || resolvedCharacterSource.race || currentCharacterData.race,
+    raceDisplayName: ownLiveData?.raceDisplayName || resolvedCharacterSource.raceDisplayName || currentCharacterData.raceDisplayName,
+    class: ownLiveData?.class || resolvedCharacterSource.class || currentCharacterData.class,
+    level: ownLiveData?.level || resolvedCharacterSource.level || currentCharacterData.level,
+    health: ownLiveData?.health || resolvedCharacterSource.health || currentCharacterData.health,
+    mana: ownLiveData?.mana || resolvedCharacterSource.mana || currentCharacterData.mana,
+    actionPoints: ownLiveData?.actionPoints || resolvedCharacterSource.actionPoints || currentCharacterData.actionPoints,
+    tempHealth: ownLiveData?.tempHealth !== undefined ? ownLiveData.tempHealth : (resolvedCharacterSource.tempHealth !== undefined ? resolvedCharacterSource.tempHealth : currentCharacterData.tempHealth),
+    tempMana: ownLiveData?.tempMana !== undefined ? ownLiveData.tempMana : (resolvedCharacterSource.tempMana !== undefined ? resolvedCharacterSource.tempMana : currentCharacterData.tempMana),
+    tempActionPoints: ownLiveData?.tempActionPoints !== undefined ? ownLiveData.tempActionPoints : (resolvedCharacterSource.tempActionPoints !== undefined ? resolvedCharacterSource.tempActionPoints : currentCharacterData.tempActionPoints),
+    lore: ownLiveData?.lore || resolvedCharacterSource.lore || currentCharacterData.lore,
+    tokenSettings: ownLiveData?.tokenSettings || resolvedCharacterSource.tokenSettings || currentCharacterData.tokenSettings
   } : currentCharacterData;
 
   // Check if this token is being viewed from and get visibility data

@@ -3,6 +3,8 @@ import useFactionStore from '../../store/factionStore';
 import useWorldStore from '../../store/worldStore';
 import useFamilyTreeStore from '../../store/familyTreeStore';
 import useCustomLineageStore from '../../store/customLineageStore';
+import useAuthStore from '../../store/authStore';
+import { syncEntityGraph, hydrateEntityGraph } from '../../services/firebase/entityGraphService';
 import './UniversalEntityGraph.css';
 
 const CANVAS_WIDTH = 3200;
@@ -35,6 +37,9 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
     try {
       return useWorldStore.getState().getAllLineages ? useWorldStore.getState().getAllLineages() : [];
     } catch { return []; }
+  }, [activeWorldId]);
+  const graphRegions = useMemo(() => {
+    try { const ws = useWorldStore.getState(); return ws.getRegions ? ws.getRegions() : []; } catch { return []; }
   }, [activeWorldId]);
 
   const [activeTypeFilters, setActiveTypeFilters] = useState(['faction', 'lineage', 'location', 'family_node', 'custom']);
@@ -69,7 +74,9 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
   const customPositionsRef = useRef(customPositions);
   customPositionsRef.current = customPositions;
 
-  // Custom user-authored nodes & connections state (persisted)
+  // Custom user-authored nodes & connections state (persisted locally +
+  // synced to Firestore users/{uid}/worldbuilding/entityGraph)
+  const { user: authUser } = useAuthStore();
   const [customUserNodes, setCustomUserNodes] = useState(() => {
     try {
       const saved = localStorage.getItem('mythrill_custom_graph_nodes');
@@ -84,6 +91,13 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
     } catch { return []; }
   });
 
+  // Latest lists for the debounced cloud flush (state closures go stale)
+  const customUserNodesRef = useRef(customUserNodes);
+  customUserNodesRef.current = customUserNodes;
+  const customUserEdgesRef = useRef(customUserEdges);
+  customUserEdgesRef.current = customUserEdges;
+  const cloudFlushTimerRef = useRef(null);
+
   // Authoring modals & link creation state
   const [showAddNodeModal, setShowAddNodeModal] = useState(false);
   const [showAddEdgeModal, setShowAddEdgeModal] = useState(false);
@@ -97,16 +111,77 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
   const [newEdgeType, setNewEdgeType] = useState('alliance');
   const [newEdgeLabel, setNewEdgeLabel] = useState('');
 
-  // Persist custom user nodes/edges to localStorage
+  // Hydrate custom nodes/edges from the cloud on mount. If the cloud doc is
+  // empty but local data exists (first sync after this feature shipped),
+  // push the local data up. Cloud wins when both exist (newest device state).
+  useEffect(() => {
+    const uid = authUser?.uid && !authUser.uid.startsWith('guest-') ? authUser.uid : null;
+    if (!uid) return;
+    let cancelled = false;
+    (async () => {
+      const cloud = await hydrateEntityGraph(uid);
+      if (cancelled || !cloud) return;
+      const hasCloudData = cloud.customNodes.length > 0 || cloud.customEdges.length > 0;
+      const hasLocalData = customUserNodesRef.current.length > 0 || customUserEdgesRef.current.length > 0;
+      if (hasCloudData) {
+        setCustomUserNodes(cloud.customNodes);
+        setCustomUserEdges(cloud.customEdges);
+        try {
+          localStorage.setItem('mythrill_custom_graph_nodes', JSON.stringify(cloud.customNodes));
+          localStorage.setItem('mythrill_custom_graph_edges', JSON.stringify(cloud.customEdges));
+        } catch {}
+      } else if (hasLocalData) {
+        syncEntityGraph(uid, {
+          customNodes: customUserNodesRef.current,
+          customEdges: customUserEdgesRef.current
+        });
+      }
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authUser?.uid]);
+
+  // Persist custom user nodes/edges to localStorage + debounced cloud sync
   const saveCustomNodes = (nodes) => {
     setCustomUserNodes(nodes);
     try { localStorage.setItem('mythrill_custom_graph_nodes', JSON.stringify(nodes)); } catch {}
+    scheduleCloudFlush();
   };
 
   const saveCustomEdges = (edges) => {
     setCustomUserEdges(edges);
     try { localStorage.setItem('mythrill_custom_graph_edges', JSON.stringify(edges)); } catch {}
+    scheduleCloudFlush();
   };
+
+  const scheduleCloudFlush = () => {
+    const uid = authUser?.uid && !authUser.uid.startsWith('guest-') ? authUser.uid : null;
+    if (!uid) return;
+    if (cloudFlushTimerRef.current) clearTimeout(cloudFlushTimerRef.current);
+    cloudFlushTimerRef.current = setTimeout(() => {
+      syncEntityGraph(uid, {
+        customNodes: customUserNodesRef.current,
+        customEdges: customUserEdgesRef.current
+      });
+    }, 2000);
+  };
+
+  // Flush pending cloud writes on unmount
+  useEffect(() => {
+    return () => {
+      if (cloudFlushTimerRef.current) {
+        clearTimeout(cloudFlushTimerRef.current);
+        const uid = authUser?.uid && !authUser.uid.startsWith('guest-') ? authUser.uid : null;
+        if (uid) {
+          syncEntityGraph(uid, {
+            customNodes: customUserNodesRef.current,
+            customEdges: customUserEdgesRef.current
+          });
+        }
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authUser?.uid]);
 
   // 1. Build universal graph nodes
   const allNodes = useMemo(() => {
@@ -1424,9 +1499,15 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
                 onChange={(e) => setNewNodeRegion(e.target.value)}
                 className="conspiracy-modal-input"
               >
-                <option value="frostwood-reach">Frostwood Reach</option>
-                <option value="nordhalla">Nordhalla</option>
-                <option value="sundale">Sundale</option>
+                {graphRegions.length > 0 ? graphRegions.map((r) => (
+                  <option key={r.id} value={r.id}>{r.name}</option>
+                )) : (
+                  <>
+                    <option value="frostwood-reach">Frostwood Reach</option>
+                    <option value="nordhalla">Nordhalla</option>
+                    <option value="sundale">Sundale</option>
+                  </>
+                )}
               </select>
             </div>
             <div>

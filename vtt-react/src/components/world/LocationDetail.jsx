@@ -3,6 +3,7 @@ import useWorldStore from '../../store/worldStore';
 import useMapStore from '../../store/mapStore';
 import useNpcStore from '../../store/npcStore';
 import useFactionStore from '../../store/factionStore';
+import { showConfirm } from '../../utils/dialogService';
 import { SUBREGIONS } from '../../data/subregions';
 import LoreLink from '../common/LoreLink';
 import { TimelineView } from './TimelineView';
@@ -36,16 +37,65 @@ const getSubregionForLocation = (loc, regionId) => {
 };
 
 const LocationDetail = ({ locationId, onBack, onClassClick, onFactionClick }) => {
-  const { getFullContextForLocation } = useWorldStore();
+  const { getFullContextForLocation, updateCustomLocation, deleteCustomLocation, activeWorldId } = useWorldStore();
   const { getMapsByLocation } = useMapStore();
   const { getNpcsByLocation } = useNpcStore();
   const [context, setContext] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
+  const [showEditLocModal, setShowEditLocModal] = useState(false);
+  const [editLocName, setEditLocName] = useState('');
+  const [editLocType, setEditLocType] = useState('city');
+  const [editLocDesc, setEditLocDesc] = useState('');
+  const [editLocSight, setEditLocSight] = useState('');
+  const [editLocSound, setEditLocSound] = useState('');
+  const [editLocSmell, setEditLocSmell] = useState('');
+  const [editLocHook, setEditLocHook] = useState('');
 
   useEffect(() => {
     const ctx = getFullContextForLocation(locationId);
     setContext(ctx);
   }, [locationId, getFullContextForLocation]);
+
+  const openEditLocModal = () => {
+    if (!context?.location) return;
+    const loc = context.location;
+    setEditLocName(loc.name || '');
+    setEditLocType(loc.type || 'city');
+    setEditLocDesc(loc.description || loc.overview || '');
+    setEditLocSight(loc.sensoryProfile?.sight || '');
+    setEditLocSound(loc.sensoryProfile?.sound || '');
+    setEditLocSmell(loc.sensoryProfile?.smell || '');
+    setEditLocHook(loc.dmHook || '');
+    setShowEditLocModal(true);
+  };
+
+  const handleEditLocSubmit = (e) => {
+    e.preventDefault();
+    if (!editLocName.trim()) return;
+    updateCustomLocation(activeWorldId, locationId, {
+      name: editLocName.trim(),
+      type: editLocType,
+      description: editLocDesc.trim(),
+      overview: editLocDesc.trim(),
+      sensoryProfile: { sight: editLocSight.trim(), sound: editLocSound.trim(), smell: editLocSmell.trim(), atmosphere: '' },
+      dmHook: editLocHook.trim()
+    });
+    setShowEditLocModal(false);
+    const ctx = getFullContextForLocation(locationId);
+    setContext(ctx);
+  };
+
+  const handleDeleteLoc = async () => {
+    const confirmed = await showConfirm({
+      title: 'Delete Hold',
+      message: `Delete "${context.location.name}"?`,
+      confirmText: 'Delete',
+      isDestructive: true
+    });
+    if (!confirmed) return;
+    deleteCustomLocation(activeWorldId, locationId);
+    if (onBack) onBack();
+  };
 
   if (!context) {
     return (
@@ -122,6 +172,16 @@ const LocationDetail = ({ locationId, onBack, onClassClick, onFactionClick }) =>
               >
                 <i className="fas fa-map-location-dot"></i> Maps ({connectedMaps.length})
               </button>
+            )}
+            {location.isCustom && (
+              <>
+                <button className="btn-loc-hero-action" onClick={openEditLocModal} title="Edit Hold" style={{ background: 'rgba(212,175,55,0.18)', borderColor: '#d4af37' }}>
+                  <i className="fas fa-pen"></i> Edit
+                </button>
+                <button className="btn-loc-hero-action" onClick={handleDeleteLoc} title="Delete Hold" style={{ background: 'rgba(180,40,40,0.18)', borderColor: '#a33', color: '#c0392b' }}>
+                  <i className="fas fa-trash"></i> Delete
+                </button>
+              </>
             )}
           </div>
         </div>
@@ -223,6 +283,47 @@ const LocationDetail = ({ locationId, onBack, onClassClick, onFactionClick }) =>
         {activeTab === 'maps' && <MapsTab connectedMaps={connectedMaps} />}
         {activeTab === 'history' && <LocationHistoryTab location={location} locationId={locationId} />}
       </div>
+
+      {/* Edit Hold Modal (custom only) */}
+      {showEditLocModal && (
+        <div className="world-modal-overlay" onClick={() => setShowEditLocModal(false)}>
+          <div className="world-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="world-modal-header">
+              <div className="world-modal-title"><i className="fas fa-pen"></i><h3>Edit Hold: {location?.name}</h3></div>
+              <button className="world-modal-close" onClick={() => setShowEditLocModal(false)}><i className="fas fa-times"></i></button>
+            </div>
+            <form onSubmit={handleEditLocSubmit}>
+              <div className="world-modal-body">
+                <div className="world-form-group"><label>Hold Name *</label><input type="text" required value={editLocName} onChange={(e) => setEditLocName(e.target.value)} autoFocus /></div>
+                <div className="world-form-group"><label>Category</label>
+                  <select value={editLocType} onChange={(e) => setEditLocType(e.target.value)}>
+                    <option value="city">Major City / Metropolis</option>
+                    <option value="settlement">Town / Village</option>
+                    <option value="fortress">Fortress / Keep / Bastion</option>
+                    <option value="port">Port / Coastal Harbor</option>
+                    <option value="ruin">Ancient Ruin / Monolith</option>
+                    <option value="tomb">Crypt / Vault / Tomb</option>
+                    <option value="wilderness">Wilderness / Sacred Site</option>
+                  </select>
+                </div>
+                <div className="world-form-group"><label>Description &amp; Codex Overview</label><textarea rows={3} value={editLocDesc} onChange={(e) => setEditLocDesc(e.target.value)} /></div>
+                <div className="world-form-group"><label><i className="fas fa-eye"></i> Sight / Sound / Smell</label>
+                  <div className="world-form-row">
+                    <input type="text" placeholder="Sight" value={editLocSight} onChange={(e) => setEditLocSight(e.target.value)} />
+                    <input type="text" placeholder="Sound" value={editLocSound} onChange={(e) => setEditLocSound(e.target.value)} />
+                  </div>
+                  <input type="text" style={{ marginTop: '8px' }} placeholder="Smell" value={editLocSmell} onChange={(e) => setEditLocSmell(e.target.value)} />
+                </div>
+                <div className="world-form-group"><label><i className="fas fa-mask"></i> GM Secret / Plot Hook</label><input type="text" value={editLocHook} onChange={(e) => setEditLocHook(e.target.value)} /></div>
+              </div>
+              <div className="world-modal-actions">
+                <button type="button" className="world-action-btn" onClick={() => setShowEditLocModal(false)}>Cancel</button>
+                <button type="submit" className="world-action-btn primary"><i className="fas fa-save"></i> Save Hold</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

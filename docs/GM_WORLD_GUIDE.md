@@ -2,13 +2,13 @@
 ## Game Master's World Guide
 
 > **CANONICAL SOURCE NOTICE & MASTER LORE DIRECTIVE**
-> This document is a convenience summary for GMs aligned with the **August 2026 Ratified Master Lore Patch**:
-> - **Primary Launch Region:** **Nordhalla** is the sole, self-contained launch region for the initial game release.
-> - **Pre-Star Primordial Anima:** Mythrill had innate biological elemental magic (*Jutul*, *Glacier Wyrms*, *Thrumm*, *Landvaettir*, *Fossegrim*); mortals had zero magic and survived by steel, matchlocks, black powder, archery, and taboos.
-> - **475-Year Master Timeline:** Year 0 Star-Fall & House Bargain; Year 325 Blizzard's End Massacre & Aex Shattering; Year 475 Present Day / 150-Year Ice Age.
-> - **Class Heritage Taxonomy:** Pre-Binding (Mortals), Celestial Bargain (Infused), Vreken Extortion (Blight), Cosmic Collision (Post-Keth Amar).
-> - **Ancestry Updates:** Neth (Well of Life: High Neth, Pale Neth, Hallowed Neth) and Fexrick (engine theft curse).
-> - **Scrapped Mechanics:** Augur 41% accuracy is NOT tied to Sol's shell/security breakdown; strict mathematical maternal death quotas (3-in-10 ratio) are scrapped in favor of atmospheric cold-strain lore.
+> This document is a convenience summary for GMs aligned with the **August 2026 "Fall of the Sun & The Broken Wyrd" lore lock** (supersedes earlier Ratified Patches):
+> - **Primary Launch Region:** **Nordhalla** is the sole launch region for the initial release.
+> - **The Sleeping Soul & the Two Wyrds:** Mythrill's primordial loom is **Natural Wyrd** (belief, folklore, myth and vow manifest into creatures); the hostile strain is **Predatory Wyrd**, Keth Amar's infection of that loom.
+> - **475-Year Master Timeline:** Year 0 Star-Fall & Bloodline Pacts; Year 300 Keth Amar arrives and seeds Predatory Wyrd; Years 300-325 the Whispered Purge; Year 325 the Blind Strike (mortal name: Blizzard's End) and the Secret Aegis; Year 475 Present Day / Freezing Era.
+> - **Class Heritage Taxonomy:** Pre-Binding (Mortals), Celestial Bargain (the Bound — Bloodline Pacts), Vreken Extortion (Blight), Cosmic Collision (Predatory Wyrd colliding with the pacts).
+> - **Ancestry Updates:** Neth (Well of Life), Fexrick (engine theft curse), and the Unwritten (the hidden lineage of the Secret Aegis).
+> - **Scrapped Mechanics:** Augur 41% accuracy is NOT tied to Sol's shell; strict maternal death quotas are scrapped; "the Wyrd arrived with Keth Amar" and "Keth Amar retreated as the Wyrd" are retired — Natural Wyrd is native, Predatory Wyrd is the infection.
 
 > **THE ELEVATOR PITCH**
 > **The sun is trapped underground. The world is freezing. Every civilization made a deal with a cosmic predator to survive. You are an adventurer. Go.**
@@ -22,50 +22,52 @@
 
 ## The State of the Age
 
-Mythrill is locked in an artificial ice age. Four hundred and seventy-five years after the celestial parents concealed an infant sun in the planet's volcanic core, and one hundred and fifty years after the guardian goddess Aex shattered defending it, surface civilizations fight for survival under a sunless sky. 
+Mythrill is locked in an artificial ice age. Four hundred and seventy-five years after the celestial parents concealed their living, unhatched infant sun in the planet's volcanic core — **Aex** the Mother entombing him and **Aethil** the Father anchoring the sky-ward — and one hundred and fifty years after the Blind Strike fractured that ward, surface civilizations fight for survival under a sunless sky.
 
-Warmth is an industrial commodity. Settlements huddle around volcanic vents or burn glowing **Aex Shards**—crystalline shrapnel from the shattered celestial shell that radiate concentrated forge-heat. Caravans cross blizzard-choked mountain passes on bridges grown from calcified bone. Navigators sail storm-tossed seas where icebergs drift like moving fortresses. Every society that endures does so through the physical adaptations and blood pacts struck by their ancestors to survive the winter.
+Warmth is an industrial commodity. Settlements huddle around volcanic vents or burn glowing **Aex Shards** — crystalline shrapnel from the Mother's broken divine aegis that radiate concentrated forge-heat. Caravans cross blizzard-choked mountain passes on bridges grown from calcified bone. Navigators sail storm-tossed seas where icebergs drift like moving fortresses. Every society that endures does so because its ancestors swore **Bloodline Pacts** to Aex and were changed by them — and because one hidden lineage, the Unwritten, never broke its oath.
 
-This is the **Freezing Era**. The seven Sundered Monoliths—towering fragments of Aex's sundered body scattered across the continents—have begun humming with synchronized resonance. In Sundale, the subterranean ember known as Sol's Breath is cooling. In the northern peaks of Nordhalla, ancient glacier-beasts stir beneath the ice. In the Cragjaw mountains, mining guilds battle over the last warm coal seams. And high above the clouds, the cosmic predator **Keth Amar** circles the world as a shimmering veil of **Wyrd** light, waiting for the core heat to die so it can devour the infant sun.
+This is the **Freezing Era**. The world is cold because **Sol is entombed in the core**; what reaches the surface is geothermal warmth venting through the cracks the Purge opened and the Blind Strike widened. The seven **Sundered Monoliths** — the seven greatest fallen shards of Aex's aegis — have begun humming with synchronized resonance, and the forgeries among them whisper back. In Sundale the subterranean ember called Sol's Breath is cooling. In the northern peaks of Nordhalla glacier-beasts stir beneath the ice. In the Cragjaw, mining guilds battle over the last warm seams. And high above the clouds, a wounded **Keth Amar** is pressed against the planetary ward in the void, its **Predatory Wyrd** seeping through the cracks, waiting for the core heat to die so it can finish the meal.
 
 Yet mortals do not surrender. Surviving four centuries of cold has turned human and non-human bloodlines into hardened survivalists. Solari forge-smiths build geothermal engines deep underground; silver-blooded Neth jurists enforce airtight survival contracts; and masked Mimir hunters track horrors through the freezing mist. Adventurers brave blizzard passes, excavate glowing Aex Shards from monster dens, and uncover the truth behind the sundered monoliths.
 
-## The Cosmological Anchor: The Star-Fall and Blizzard's End
+## The Cosmological Anchor: Star-Fall, the Whispered Purge and the Blind Strike
 
-Before celestial pacts touched mortals, Mythrill was an animistic world where elemental beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*) and land spirits held biological dominion over fire, ice, and storm. Early mortals had zero magic: they survived strictly through forged cold iron, black powder matchlocks, traps, and folk taboos.
+Before celestial pacts touched mortals, Mythrill was already a world of the **Sleeping Soul** and the **Natural Wyrd** — a loom in which collective belief, folklore, fear and vow grew into living creatures. Elemental beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*) and land spirits held biological dominion over fire, ice and storm. Early mortals had zero magic: they survived strictly through forged cold iron, black powder matchlocks, traps, and folk taboos. What they feared long enough, the Loom eventually grew.
 
-### 1. The Celestial Star-Fall (Year 0)
-When the celestial parents **Aex** (the Mother) and **Aelden** (the Father) sought a hiding place for their unhatched infant sun, **Sol**, they fled across the dark between stars to escape **Keth Amar**, an ancient cosmic predator that tracks and consumes young stellar bodies. The parents concealed Sol inside Mythrill’s volcanic mantle and froze Sol’s sister in orbit as a thermal buffer to keep the world from incinerating. 
+### 1. The Celestial Star-Fall and the Bloodline Pacts (Year 0)
+When the celestial parents **Aex** (the Mother) and **Aethil** (the Father) sought a hiding place for their living, unhatched infant sun, **Sol**, they fled across the dark between stars to escape **Keth Amar**, an ancient cosmic predator that tracks and consumes young stellar bodies. Aethil sacrificed his absolute divine status to anchor the celestial barrier around Mythrill's atmosphere; Aex sacrificed her divine form to entomb and protect Sol within the molten core, sealing the inner vault with cosmic wards and lineage pacts. The parents concealed Sol inside Mythrill's volcanic mantle and froze Sol's sister **Selunis** — the moon-daughter egg that never quickened — in orbit as a thermal buffer, lest Sol's heat incinerate the world. Keth Amar nested in Selunis's unquickened shell during its approach.
 
-To anchor Sol's protective casing, mortal noble houses struck the **House Bargain**: highborn lineages mutated into magical bloodlines, while commoners retained their firearms, black powder, and iron weapons.
+To anchor Sol's vault, ancient mortal lineages struck **Bloodline Pacts** with Aex, witnessed by Aethil. The warding shell holds only while each bound bloodline survives and upholds its oath — a **Blood Seal** per lineage. The divine magic channelled into them altered their biology and soul-resonance, producing the altered human sub-races. Highborn lineages became the Bound; commoners kept their firearms, black powder and iron weapons.
 
-### 2. The Incremental Cracks (Years 0–300)
-Over three centuries, noble betrayals and regional disasters cracked Aex's outer shell from within:
-* In **Bryngloom**, the Vreken noble massacre cracked the shell, venting boiling sulfur bogs.
-* In **Sundrift Vale**, the purge of Ordan nobility cracked the shell, creating geothermal river valleys.
-* In **Frostwood Reach**, an artificial sun experiment suffered a catastrophic meltdown, venting boiling steam geysers into the pine swamps. House Viridane discovered that heir deaths cracked the celestial casing and fled into the mist.
+### 2. The Slow Cracking (Years 0–300)
+Over three centuries, severed Blood Seals cracked Aex's aegis from within, each broken oath venting a little more of Sol's warmth into the crust:
+* In **Bryngloom**, the Vreken slaughter of their own nobility snapped a seal and vented boiling sulfur bogs.
+* In **Sundrift Vale**, the purge of Ordan nobility snapped a seal, creating geothermal river valleys.
+* In **Frostwood Reach**, an artificial sun experiment suffered a catastrophic meltdown, snapping a seal and venting boiling steam geysers into the pine swamps. House Viridane discovered that a dead lineage cracks the celestial aegis and fled into the mist.
 
-### 3. The Ingress & Blizzard's End (Years 300–325)
-In Year 300, Keth Amar arrived, trailing starlight. Posing as the celestial father Aelden, Keth Amar spent twenty-five years infiltrating noble councils and promising eternal warmth. In **Year 325**, Keth Amar struck at the mountaintop sanctuary of Nordhalla. The predator devoured the gathered noble heirs as vessel-keys to shatter the vault. 
+### 3. The Whispered Purge (Years 300–325)
+In Year 300, unable to breach Aethil's ward, Keth Amar spewed **Predatory Wyrd** — a corrupted strain of the Loom — onto Mythrill from the void. Because the world was already saturated with Natural Wyrd, the infection took deep root in soil and in the collective unconscious. For twenty-five years Keth Amar **posed as Aethil**, broadcasting whispers through the Predatory Wyrd, promising eternal warmth and stellar apotheosis to the Solari, Storm and Rime houses, and orchestrating the downfall of the remaining bound bloodlines through wars, hubris, tragic accidents and assassinations. Each severed lineage snapped another Blood Seal and cracked the aegis further. This is why the oldest codices describe Aethil as a cold mechanism without will — they are transcriptions of Keth Amar wearing a father's face.
 
-Aex threw herself into the blast to protect the infant sun. Her body shattered into millions of glowing **Aex Shards** that rained across the continents, and Sol vented volcanic magma through Emberspire. Severely wounded by Aex's core shield, Keth Amar retreated into the upper atmosphere, casting the glowing, hallucinatory **Wyrd** veil across the sky.
+### 4. The Blind Strike (Year 325) — Mortal Name: Blizzard's End
+Believing all lineage oaths severed, Keth Amar launched a full kinetic assault on Mythrill. Mortal history calls the night of that assault **Blizzard's End**. It crashed into the planetary ward — and **the Secret Aegis held**. One hidden family had forged a secret, undocumented pact with Aex, erased itself from all recorded history and undergone total physical and metaphysical metamorphosis into an unrecorded lineage — the **Unwritten**. That forgotten vow was the only seal that had never been spoken aloud, and therefore the only one Keth Amar could not find to break. The ward held. Keth Amar was severely wounded and repelled into the deep void. The impact fractured the continental ward; **crystalline shards of Aex's broken divine aegis** rained across the continents, permanently altering geography, weather and ley lines. Millions of smaller **Aex Shards** now warm hearths and fuel engines; their glow is all that keeps the surface alive.
 
-### 4. The Freezing Era & The 7th Monolith Shell Game (Year 325 – Present / Year 475)
-For the past 150 years, Mythrill has been trapped in a global ice age. Six true Monoliths stand across the continents, formed from parts of Aex's body:
-* **Fog-Hand** (Skin of right hand, Frostwood Reach)
-* **Ice-Crown** (Skull, Nordhalla)
-* **Wind-Bone** (Ribcage, Cragjaw Peaks)
-* **Depth-Breath** (Lungs, Iceheart Sea)
-* **Grass-Spine** (Spine, Sundrift Vale)
-* **Still-Heart** (Decoy organ, Sundale)
+### 5. The Sundered Monoliths and the 7th Counterfeit (Year 325 – Present / Year 475)
+The seven greatest of those fallen shards are the **Seven Sundered Monoliths** — pieces of a mother's armour, not keys to a lock:
+* **Fog-Hand** (a fallen shard lodged in Frostwood Reach, wreathed in memory-fog)
+* **Ice-Crown** (a shard frozen into Nordhalla's mile-high glacier)
+* **Wind-Bone** (a shard veining Cragjaw's peaks)
+* **Depth-Breath** (a shard drowned beneath the Iceheart Sea)
+* **Grass-Spine** (a shard threading Sundrift's valleys)
+* **Still-Heart** (a shard buried beneath Sundale's ash)
+* **The Counterfeit** (see below)
 
-A secret native deity created a **7th Counterfeit Monolith** to blind Keth Amar, creating a metaphysical puzzle so the predator cannot determine which key unlocks the core. Masked Acolytes of this secret 7th House operate in the shadows, pursuing total dominion while adventurers and mercenary companies wage trench wars over glowing Aex Shards for industrial fuel.
+One of the seven seats is a lie. The **7th Counterfeit Monolith** is a **Predatory Wyrd forgery** fabricated to stand in the place of the seal that was never written. It looks like a shard, burns like a shard, and whispers. The **Masked Acolytes** who tend it are **Keth Amar's whisper-cult**. Most of them believe they serve a native god; they serve the thing that forged the counterfeit. Capital at **Vespera's Crown**, they proselytize and do odd jobs while their patron sees through their eyes as the **Hollow Sight** — a Predatory Wyrd counterfeit of Morvane the Watcher's true sight. For the past 150 years, adventurers and mercenary companies have waged trench wars over glowing Aex Shards for industrial fuel while the cult hunts the monoliths for its master.
 
 ---
 
 # PART II: REGIONAL REALPOLITIK, GEOGRAPHY & CITIES
 
-Each of Mythrill's seven continents was shaped by a dark bargain struck between a noble family and the cosmic predator. These bargains determined the climate, the dangers, and the very soul of each region. No land is neutral. Every horizon is a contract with fine print written in frost and ash.
+Each of Mythrill's seven continents was shaped by a **Bloodline Pact** with **Aex** — and then twisted by **Keth Amar's** Predatory Wyrd. The Pacts determined each region's climate, the dangers it inherited, and the curse that keeps it breathing. The Purge that broke them and the Blind Strike that scarred the world afterward determined the rest. No land is neutral. Every horizon is a contract with fine print written in frost and ash.
 
 > [!NOTE]
 > ### Key Terms in Frostwood Reach
@@ -126,7 +128,7 @@ In Greymark Keep, a typical tavern (such as *The Ink-stained Finger*) is a low c
 > - **House Skalvyr:** The unyielding noble family that accepted eternal winter to stop the glaciers.
 > - **The Frozen Archive:** A clockwork and runic city-library carved inside a mile-high glacier.
 > - **The Rime-Born:** The frost-touched, stone-skinned survivors of the ancestral Hunger Pact.
-> - **The Frost-Tithe:** Keth-Amar's birth-debt on Rime-Born mothers, draining their warmth to collect the bargain's interest.
+> - **The Frost-Tithe:** Keth Amar's birth-debt on Rime-Born mothers, draining their warmth to collect the bargain's interest.
 > - **The Sunder-Wall:** Járn-Tand's massive barrier of ice and basalt constructed to regulate and tax the clans.
 > - **The Icechamber Syndicate:** A southern cartel holding a monopoly on exports and overcharging for grain.
 
@@ -138,7 +140,7 @@ To consolidate his rule, the newly crowned **King-Jarl Halvar Skalvyr (known as 
 
 South of the Archive, **Skadi's Col** serves as a treacherous mountain pass winding between collapsed ice-sheets, now a vital smuggling corridor for those evading Járn-Tand's taxes. High above the glacier line, the watchtower garrison of **Vargtor** rises from a basalt pillar, its signal-fires burning day and night to coordinate patrols. At the northernmost reach of the coastline, **Rook's Promontory** juts from the cliffs like a broken finger, a high, wind-scoured crag where the Corvani gather in murmuring congregations before dispersing to their glacier-eyries.
 
-**The Dark Bargain:** House Skalvyr bargained to halt the grinding advance of massive glaciers that threatened to crush their mountain keeps. Keth-Amar froze the ice sheets permanently in place - but decreed that **summer would never return to the north**.
+**The Dark Bargain:** House Skalvyr bargained to halt the grinding advance of massive glaciers that threatened to crush their mountain keeps. Keth Amar froze the ice sheets permanently in place - but decreed that **summer would never return to the north**.
 
 **The Seat of Power: The Frozen Archive**
 
@@ -187,11 +189,11 @@ Taverns in fjord-keeps (such as *The Hearth-Glow*) are built over steaming volca
 
 Sundale is a volcanic desert of ashfall, obsidian rivers, and smoldering badlands surrounding Emberspire  -  the world-heart volcano, the tomb and cradle of Sol itself. The air is thick with particulate, the sky a permanent rust-orange smear. Lava-flows cut through the landscape like slow, deliberate arteries. 
 
-As Emberspire's vents cool, the traditional nobility of House Solvan has collapsed. Political control has been seized by **Hierophant Aethelgard** and the **Dawn Vigil**, who rule Sundale’s settlements as a martial-theocracy. The Dawn Vigil enforces a single dictate: all resources must be dedicated to gathering and reforging the seven Sundered Monoliths to free Sol. To prevent populations from fleeing, they man the **Obsidian Citadels** along **The Ashen Escarpment** - a sheer cliff-face of compacted volcanic ash. These fortresses act as toll-gates, blocking refugees and forcing them to remain in the ash-wastes as labor.
+As Emberspire's vents cool, the traditional nobility of House Solvan has collapsed. Political control has been seized by **Hierophant Aethelgard** and the **Dawn Vigil**, who rule Sundale's settlements as a martial-theocracy. The Dawn Vigil enforces a single dictate: all resources must be dedicated to gathering the seven Sundered Monoliths — the greatest fallen shards of Aex's aegis — to rekindle Sol. To prevent populations from fleeing, they man the **Obsidian Citadels** along **The Ashen Escarpment** — a sheer cliff-face of compacted volcanic ash. These fortresses act as toll-gates, blocking refugees and forcing them to remain in the ash-wastes as labor.
 
-South of the Shyr, the landscape is punctuated by **Cinderhoodoo**, a cluster of fire-scorched rock spires that local herders swear moan when the wind shifts, and **Magma-Fracturing Sumps** - industrial mining outposts where Korr engineers detonate alchemical charges to force fresh lava to the surface. This fracturing has triggered severe earthquakes, tearing open reality fissures that leak the Wyrd.
+South of the Shyr, the landscape is punctuated by **Cinderhoodoo**, a cluster of fire-scorched rock spires that local herders swear moan when the wind shifts, and **Magma-Fracturing Sumps** — industrial mining outposts where Korr engineers detonate alchemical charges to force fresh lava to the surface. This fracturing has triggered severe earthquakes, tearing open reality fissures that leak Predatory Wyrd.
 
-**The Dark Bargain:** Sundale's bargain is the ur-bargain  -  the original sin from which all others descend. Sol was bound beneath this continent. Emberspire is the wound through which Keth-Amar breached the seal. The predator now feeds on Sol's embers from inside the binding, and the region's noble family, House Solvan, watches their ancestral lands slowly die beneath ashfall.
+**The Dark Bargain:** Sundale's bargain is the ur-bargain — the original sin from which all others descend. Aex entombed Sol's vault beneath the world's molten core; its deepest wound surfaces beneath Sundale as Emberspire. The Blind Strike fractured Aex's aegis and rained shards across the world; Predatory Wyrd now seeps through every crack, and the region's noble family, House Solvan, watches its ancestral lands slowly die beneath ashfall while a wounded predator presses against the ward above.
 
 **The Seat of Power: The Harath-Vault & The Levies**
 
@@ -451,7 +453,7 @@ The five human bloodlines are: the **Thalren** of Frostwood Reach (journal-keepe
 
 Yet they trade. Human merchant networks span the continents, not because humans trust each other but because the Thalren need Nordhalla iron, the Solari need Iceheart timber, the Tessen need Sundrift herd-hides, and survival has always been more persuasive than pride.
 
-The folk speak of an "eighth house" — **House Viridane** — the family that refused Keth-Amar's bargain. The name was struck from every record. The truth is more subtle: there were seven original signatories including Viridane, who was erased and replaced by House Morrath to maintain the fiction of seven signatures. The Florae, descendants of Viridane's flight, call themselves the eighth house in defiance: the living proof that one family refused. Every human culture deals with this differently: the Thalren have forgotten them (the fog took that memory), the Skald despise them as cowards, the Solvarn envy their courage to say no, and the Morren know fragments of the truth through Neth records.
+The folk speak of an "eighth house" — **House Viridane** — the family that refused Keth Amar's bargain. The name was struck from every record. The truth is more subtle: there were seven original signatories including Viridane, who was erased and replaced by House Morrath to maintain the fiction of seven signatures. The Florae, descendants of Viridane's flight, call themselves the eighth house in defiance: the living proof that one family refused. Every human culture deals with this differently: the Thalren have forgotten them (the fog took that memory), the Skald despise them as cowards, the Solvarn envy their courage to say no, and the Morren know fragments of the truth through Neth records.
 
 **Proximal Relations**
 
@@ -1196,13 +1198,13 @@ A world sunless for nearly five centuries does not heal cleanly. The survival st
 
 ### The Frost-Tithe of Nordhalla
 
-The ancestral bargain of House Skalvyr saved **Nordhalla** from the glaciers, but Keth-Amar set a price. Every frost-touched birth among the **Rime-Born** must bear the burden of the cold — the bargain's metaphysical interest collected on each new generation. This supernatural debt is known as the **Frost-Tithe**.
+The ancestral bargain of House Skalvyr saved **Nordhalla** from the glaciers, but Keth Amar set a price. Every frost-touched birth among the **Rime-Born** must bear the burden of the cold — the bargain's metaphysical interest collected on each new generation. This supernatural debt is known as the **Frost-Tithe**.
 
 As a Rime-Born mother begins labor, the ambient temperature in the room plummets, frost crawling across the walls and freezing water in its basins. The tithe drains the mother's natural warmth, pulling her vitality into the child. The child survives by absorbing the surrounding heat — not as biology, but as the bargain's debt collection. This severe cold-strain extracts a heavy toll across northern generations.
 
 The surviving infants emerge permanently altered. Known as the **Frostbound**, their skin is pale blue, brittle as thin ice, and their blood flows gelid and slow. They cannot feel warmth, and physical heat causes them intense, blistering pain.
 
-To quiet the tithe's pull, the frost-touched have developed the **Ice-Cradles**: hollows carved into living glacier faces where the deep cold suppresses Keth-Amar's attention. Frostbound infants are placed in these suspended, rime-lined chambers for their first year, the glacier's ancient cold counteracting the tithe's demand. The tragedy has deeply strained relations between the frost-touched bloodlines and the warm-blooded Skald clans. The Skald humans, who do not suffer from the Frost-Tithe, are often accused of hoarding geothermal coal, while the frost-touched view the warm-blooded humans' survival as an insult to the mothers who froze to secure the north.
+To quiet the tithe's pull, the frost-touched have developed the **Ice-Cradles**: hollows carved into living glacier faces where the deep cold suppresses Keth Amar's attention. Frostbound infants are placed in these suspended, rime-lined chambers for their first year, the glacier's ancient cold counteracting the tithe's demand. The tragedy has deeply strained relations between the frost-touched bloodlines and the warm-blooded Skald clans. The Skald humans, who do not suffer from the Frost-Tithe, are often accused of hoarding geothermal coal, while the frost-touched view the warm-blooded humans' survival as an insult to the mothers who froze to secure the north.
 
 ### The Fungal Hush of the Bryngloom
 Deep within the bogs of the **Bryngloom Forest** grows the **Ghost-Mycelium**, a parasitic fungus that emits a soft, silver-blue phosphorescence. This fungus is the source of the **Fungal Hush**  -  the most pervasive and tragic addiction in the sunless world.
@@ -1218,7 +1220,7 @@ Connecting the volcanic calderas of **Sundale** to the frozen keeps of the north
 The Shyr is a geological anomaly: a massive, slow-moving river of lava that cools and contracts at its edges into predictable, interlocking basalt pillars. The **Solari** have built their primary trade route directly upon this moving highway. Because the stone is warmed from below, it is the only road in the western hemisphere that never accumulates ice.
 However, navigating the Shyr is a high-stakes gamble:
 * **The Basalt Shifts:** The basalt pillars are not static. The road moves, buckling and contracting. A caravan that stops for too long risks being swallowed by a sudden magma-vent or trapped on an isolated basalt island as the surrounding road melts back into the river.
-* **The Husque-Rifts:** The Shyr runs parallel to the Emberspire caldera. The Wyrd-leakage is intense here, and **Husque-Rifts**  -  tears in reality that leak Keth-Amar's hunger  -  frequently manifest along the road, vaporizing beasts of burden and consuming the memories of the merchants.
+* **The Husque-Rifts:** The Shyr runs parallel to the Emberspire caldera. The Wyrd-leakage is intense here, and **Husque-Rifts**  -  tears in reality that leak Keth Amar's hunger  -  frequently manifest along the road, vaporizing beasts of burden and consuming the memories of the merchants.
 * **The Caldera-Tolls:** The road is patrolled by the **Thrask** forge-rangers. Evolving wind-scarred skin and thick muscle, the Thrask demand a heavy toll in "blood-ore" and alchemical reagents from any southern merchant seeking to pass. Those who cannot pay are abandoned on the basalt margins, left to the mercy of the cooling stone.
 
 ---

@@ -336,6 +336,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
 
   // Account-backed custom map workspace state
   const [customMapMode, setCustomMapMode] = useState(false);
+  const [customReadOnly, setCustomReadOnly] = useState(false);
    const [customDrawingActive, setCustomDrawingActive] = useState(false);
    const [customDrawingPoints, setCustomDrawingPoints] = useState([]);
    const [customZoneName, setCustomZoneName] = useState('');
@@ -485,6 +486,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
   useEffect(() => {
    if (canAccessCustomMaps || !customMapMode) return;
    setCustomMapMode(false);
+   setCustomReadOnly(false);
    setCustomDrawingActive(false);
    setCustomDrawingPoints([]);
   }, [canAccessCustomMaps, customMapMode]);
@@ -588,6 +590,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
     setCustomDrawingActive(false);
     setCustomDrawingPoints([]);
     setCursorPos(null);
+    setCustomReadOnly(false);
     if (next) {
      setDevMode(false);
      setActiveTool('none');
@@ -595,10 +598,31 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
      setSelectedRegionId(null);
      setSelectedLocationId(null);
      setSelectedCustomZoneId(null);
+    } else {
+     setSelectedCustomZoneId(null);
     }
     return next;
    });
   }, [canAccessCustomMaps, denyCustomMapAccess, setSelectedCustomZoneId]);
+
+  const handleToggleCustomReadOnly = useCallback(() => {
+   if (!canAccessCustomMaps) return denyCustomMapAccess();
+   setCustomReadOnly((prev) => {
+    const next = !prev;
+    if (next) {
+     setCustomDrawingActive(false);
+     setCustomDrawingPoints([]);
+     setCursorPos(null);
+     setDevMode(false);
+     setActiveTool('none');
+    }
+    return next;
+   });
+  }, [canAccessCustomMaps, denyCustomMapAccess]);
+
+  const handleExitCustomReadOnlyToEdit = useCallback(() => {
+   setCustomReadOnly(false);
+  }, []);
 
   const handleSelectCustomZone = useCallback((zone) => {
     if (!zone) {
@@ -883,6 +907,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
     // Custom-map zone drawing is deliberately separate from canonical regions
     // and player annotation areas.
     if (customMapMode) {
+     if (customReadOnly) return;
      if (!canAccessCustomMaps) {
       denyCustomMapAccess();
       return;
@@ -1100,20 +1125,20 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
   setSidebarOpen(false);
   setSelectedRegionId(null);
   setSelectedLocationId(null);
-   }, [customMapMode, canAccessCustomMaps, denyCustomMapAccess, currentCustomMap, customDrawingActive, customDrawingPoints, customEntryType, handleCompleteCustomLocation, handleCompleteCustomZone, devMode, devTool, currentRegion, selectedRegionId, drawingPoints, selectedPinType, selectedZoneId, activeMapId, activeTool, playerDrawingPoints, playerPinIconType, user, pins.length, tierInfo, addPin, addArea, pinSourceType, selectedCampaignLocId, selectedCampaignLoreId, customPinName, customPinDesc, showConfirm, showDevToast]);
+   }, [customMapMode, customReadOnly, canAccessCustomMaps, denyCustomMapAccess, currentCustomMap, customDrawingActive, customDrawingPoints, customEntryType, handleCompleteCustomLocation, handleCompleteCustomZone, devMode, devTool, currentRegion, selectedRegionId, drawingPoints, selectedPinType, selectedZoneId, activeMapId, activeTool, playerDrawingPoints, playerPinIconType, user, pins.length, tierInfo, addPin, addArea, pinSourceType, selectedCampaignLocId, selectedCampaignLoreId, customPinName, customPinDesc, showConfirm, showDevToast]);
 
  const handleMapMouseMove = useCallback((e, transformRef) => {
   const coords = getImageCoords(e, transformRef);
   if (!coords) return;
 
-    if (customMapMode && customDrawingActive && (customDrawingPoints.length > 0 || customEntryType === 'location')) {
+    if (customMapMode && !customReadOnly && customDrawingActive && (customDrawingPoints.length > 0 || customEntryType === 'location')) {
      setCursorPos(coords);
    } else if (devMode && devTool === 'drawRegion' && drawingPoints.length > 0) {
 setCursorPos(coords);
 } else if ((activeTool === 'drawArea' || activeTool === 'freehandRoute') && playerDrawingPoints.length > 0) {
     setCursorPos(coords);
    }
-   }, [customMapMode, customDrawingActive, customDrawingPoints, customEntryType, devMode, devTool, drawingPoints, activeTool, playerDrawingPoints]);
+   }, [customMapMode, customReadOnly, customDrawingActive, customDrawingPoints, customEntryType, devMode, devTool, drawingPoints, activeTool, playerDrawingPoints]);
 
  const handleTransformChange = useCallback((state) => {
   setTransformState(state || { scale: 0.4, positionX: 0, positionY: 0 });
@@ -1389,6 +1414,7 @@ setCursorPos(coords);
       onClose={handleClose}
       onToggleDev={() => setDevMode(!devMode)}
       customMapMode={customMapMode && canAccessCustomMaps}
+      customReadOnly={customReadOnly}
       customMap={currentCustomMap}
       customZones={customDraftZones}
       customEntryType={customEntryType}
@@ -1396,6 +1422,7 @@ setCursorPos(coords);
       customDrawingPoints={customDrawingPoints}
       onCustomImageFile={handleCustomImageFile}
       onToggleCustomMap={handleToggleCustomMap}
+      onToggleCustomReadOnly={handleToggleCustomReadOnly}
       canAccessCustomMaps={canAccessCustomMaps}
       selectedCustomZoneId={selectedCustomZoneId}
       onSelectCustomZone={handleSelectCustomZone}
@@ -1433,7 +1460,7 @@ setCursorPos(coords);
     onSelectForMove={(id) => setSelectedDevPinId(id)}
     />
 
-    {customMapMode && canAccessCustomMaps && (
+    {customMapMode && canAccessCustomMaps && !customReadOnly && (
      <CustomMapEditor
       maps={customMaps}
       currentMap={currentCustomMap}
@@ -1474,6 +1501,24 @@ setCursorPos(coords);
      />
     )}
 
+    {customMapMode && canAccessCustomMaps && customReadOnly && (
+     <div className="custom-readonly-bar animate-fade-in-down" role="toolbar" aria-label="Custom map immersive view controls">
+      <div className="custom-readonly-label">
+       <i className="fas fa-eye"></i>
+       <span>Immersive View</span>
+       <small>Reading & exploring — edits hidden</small>
+      </div>
+      <div className="custom-readonly-actions">
+       <button type="button" className="custom-readonly-btn secondary" onClick={handleExitCustomReadOnlyToEdit}>
+        <i className="fas fa-pen"></i> Back to Edit
+       </button>
+       <button type="button" className="custom-readonly-btn primary" onClick={handleToggleCustomMap}>
+        <i className="fas fa-times"></i> Exit Custom Map
+       </button>
+      </div>
+     </div>
+    )}
+
     {/* Custom Zone Sidebar Popup Drawer */}
     {customMapMode && canAccessCustomMaps && selectedCustomZone && (
      <CustomZoneSidebar
@@ -1487,6 +1532,8 @@ setCursorPos(coords);
        onAddLocationToRegion={handleAddLocationToRegion}
        onSelectZone={(zoneId) => setSelectedCustomZoneId(zoneId)}
        currentCampaign={currentCampaign}
+       readOnly={customReadOnly}
+       onExitReadOnly={handleExitCustomReadOnlyToEdit}
     />
     )}
 

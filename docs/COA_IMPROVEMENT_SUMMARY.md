@@ -151,7 +151,7 @@ Add a `strongAgainst` and `weakAgainst` field to each spec. The UI shows it as a
 | 4th specs (yet) | You chose "polish existing 3 specs"  -  adding 4th specs is a separate project |
 | Talent trees (yet) | On hold by design  -  revisit after core spec identities are tight |
 | PvP modes / Hardcore trials | These are system features, not class improvements. Deferred. |
-| Rename everything | Keep Mythrill-native names (Keth-Amar, not Old Gods; Scathrach, not Xoroth) |
+| Rename everything | Keep Mythrill-native names (Keth Amar, not Old Gods; Scathrach, not Xoroth) |
 
 ---
 

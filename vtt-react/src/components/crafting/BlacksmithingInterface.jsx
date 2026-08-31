@@ -48,17 +48,17 @@ function BlacksmithingInterface({ onBack, activeTab, onTabChange, onLearnAllReci
     const { addLootNotification } = useChatStore();
 
     // Subscribe directly to store values to ensure re-renders when they change
-    const firstAidLevel = professionLevels?.['blacksmithing'] ?? SKILL_LEVELS.UNTRAINED.level;
-    const firstAidExperience = professionExperience?.['blacksmithing'] ?? 0;
+    const blacksmithingLevel = professionLevels?.['blacksmithing'] ?? SKILL_LEVELS.UNTRAINED.level;
+    const blacksmithingExperience = professionExperience?.['blacksmithing'] ?? 0;
 
     // Calculate experience for next level
     const experienceForNextLevel = (() => {
-        if (firstAidLevel >= 9) return null; // Max level reached
-        const nextLevel = firstAidLevel + 1;
+        if (blacksmithingLevel >= 9) return null; // Max level reached
+        const nextLevel = blacksmithingLevel + 1;
         const skillLevel = Object.values(SKILL_LEVELS).find(level => level.level === nextLevel);
         return skillLevel ? skillLevel.experienceRequired : null;
     })();
-    const skillLevelInfo = Object.values(SKILL_LEVELS).find(skill => skill.level === firstAidLevel);
+    const skillLevelInfo = Object.values(SKILL_LEVELS).find(skill => skill.level === blacksmithingLevel);
     // Subscribe to knownRecipes directly to trigger re-renders when it changes
     const knownRecipes = (typeof getKnownRecipesForProfession === 'function')
         ? getKnownRecipesForProfession('blacksmithing')
@@ -68,18 +68,18 @@ function BlacksmithingInterface({ onBack, activeTab, onTabChange, onLearnAllReci
                 recipe.profession === 'blacksmithing' && knownIds.includes(recipe.id)
             );
         })();
-    const allFirstAidRecipes = (typeof getRecipesForProfession === 'function')
+    const allBlacksmithingRecipes = (typeof getRecipesForProfession === 'function')
         ? getRecipesForProfession('blacksmithing')
         : ((availableRecipes || []).filter(recipe => recipe.profession === 'blacksmithing'));
 
     // Access knownRecipes from store to create subscription
-    const firstAidKnownRecipes = storeKnownRecipes?.['blacksmithing'] || [];
+    const blacksmithingKnownRecipes = storeKnownRecipes?.['blacksmithing'] || [];
 
     // Force re-render when knownRecipes changes
     useEffect(() => {
         // This ensures the component re-renders when knownRecipes changes
-        console.log('BlacksmithingInterface: knownRecipes updated', firstAidKnownRecipes);
-    }, [firstAidKnownRecipes]);
+        console.log('BlacksmithingInterface: knownRecipes updated', blacksmithingKnownRecipes);
+    }, [blacksmithingKnownRecipes]);
 
 
     // Removed excessive logging that was firing on every render
@@ -130,11 +130,11 @@ function BlacksmithingInterface({ onBack, activeTab, onTabChange, onLearnAllReci
 
     // Calculate skill progress for the bar
     const getSkillProgress = () => {
-        if (firstAidLevel >= 9) return 100; // Max level
+        if (blacksmithingLevel >= 9) return 100; // Max level
 
-        const currentLevelExp = firstAidLevel === 0 ? 0 : Object.values(SKILL_LEVELS).find(level => level.level === firstAidLevel)?.experienceRequired || 0;
+        const currentLevelExp = blacksmithingLevel === 0 ? 0 : Object.values(SKILL_LEVELS).find(level => level.level === blacksmithingLevel)?.experienceRequired || 0;
         const nextLevelExp = experienceForNextLevel || currentLevelExp + 100;
-        const currentExpInLevel = firstAidExperience - currentLevelExp;
+        const currentExpInLevel = blacksmithingExperience - currentLevelExp;
         const expNeededForLevel = nextLevelExp - currentLevelExp;
 
         return Math.min(100, Math.max(0, (currentExpInLevel / expNeededForLevel) * 100));
@@ -155,7 +155,7 @@ function BlacksmithingInterface({ onBack, activeTab, onTabChange, onLearnAllReci
 
     const canCraftRecipe = (recipe) => {
         // Check skill level requirement
-        if (firstAidLevel < recipe.requiredLevel) {
+        if (blacksmithingLevel < recipe.requiredLevel) {
             return { canCraft: false, reason: 'Insufficient skill level' };
         }
 
@@ -557,10 +557,10 @@ function BlacksmithingInterface({ onBack, activeTab, onTabChange, onLearnAllReci
                                     <span className="badge-label">Skill</span>
                                     <span className="badge-value">{Object.values(SKILL_LEVELS).find(s => s.level === selectedRecipe.requiredLevel)?.name || 'Untrained'}</span>
                                 </div>
-                                <div className={`recipe-stat-badge ${firstAidLevel >= selectedRecipe.requiredLevel ? 'met' : 'unmet'}`}>
+                                <div className={`recipe-stat-badge ${blacksmithingLevel >= selectedRecipe.requiredLevel ? 'met' : 'unmet'}`}>
                                     <i className="fas fa-user-shield"></i>
                                     <span className="badge-label">Yours</span>
-                                    <span className="badge-value">{Object.values(SKILL_LEVELS).find(s => s.level === firstAidLevel)?.name || 'Untrained'}</span>
+                                    <span className="badge-value">{Object.values(SKILL_LEVELS).find(s => s.level === blacksmithingLevel)?.name || 'Untrained'}</span>
                                 </div>
                                 <div className="recipe-stat-badge">
                                     <i className="fas fa-clock"></i>
@@ -704,7 +704,7 @@ function BlacksmithingInterface({ onBack, activeTab, onTabChange, onLearnAllReci
                                                 className="queue-progress-fill"
                                                 style={{
                                                     width: `${progress}%`,
-                                                    background: `linear-gradient(90deg, ${getSkillLevelColor(firstAidLevel)}, ${getSkillLevelColor(Math.min(9, firstAidLevel + 1))})`
+                                                    background: `linear-gradient(90deg, ${getSkillLevelColor(blacksmithingLevel)}, ${getSkillLevelColor(Math.min(9, blacksmithingLevel + 1))})`
                                                 }}
                                             ></div>
                                         </div>
@@ -733,8 +733,8 @@ function BlacksmithingInterface({ onBack, activeTab, onTabChange, onLearnAllReci
             <CraftingStatusBar
                 professionId="blacksmithing"
                 professionName={PROFESSIONS?.BLACKSMITHING?.name || 'Blacksmithing'}
-                professionLevel={firstAidLevel}
-                professionExperience={firstAidExperience}
+                professionLevel={blacksmithingLevel}
+                professionExperience={blacksmithingExperience}
                 experienceForNextLevel={experienceForNextLevel}
                 skillProgress={getSkillProgress()}
                 skillColor={getSkillLevelColor}

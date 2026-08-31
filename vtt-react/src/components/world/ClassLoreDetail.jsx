@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useContext } from 'react';
 import useClassLoreStore from '../../store/classLoreStore';
 import useWorldStore from '../../store/worldStore';
 import { getClassFlavorProfile } from '../../data/classes/classFlavorProfiles';
@@ -6,6 +6,7 @@ import { CLASS_SPECIALIZATIONS } from '../../data/classSpellCategories';
 import ClassIcon from '../common/ClassIcon';
 import LoreLink from '../common/LoreLink';
 import RichLoreText from '../common/RichLoreText';
+import { SpellLibraryStateContext, SpellLibraryDispatchContext } from '../spellcrafting-wizard/context/SpellLibraryContext';
 
 // Helper to sanitize em-dashes and AI punctuation artifacts
 const cleanEmdashes = (text) => {
@@ -112,7 +113,7 @@ const DEFAULT_CLASS_ORGANIZATIONS = {
       leader: 'Grand Inquisitor Morren Scribe',
       headquarters: 'Synod Hold (Sundrift Vale)',
       status: 'Active',
-      description: 'Dogmatic witch hunters hunting heretical cults of Keth-Amar and prosecuting violations of the Sovereign Ledger.',
+      description: 'Dogmatic witch hunters hunting heretical cults of Keth Amar and prosecuting violations of the Sovereign Ledger.',
       notableMembers: ['Inquisitor Daniel the Stern']
     }
   ],
@@ -244,8 +245,44 @@ const ClassLoreDetail = ({ classId, onClose }) => {
   );
 };
 
-const OverviewTab = ({ cls, context }) => {
-  const profile = getClassFlavorProfile(cls.id);
+// Subclass/spec tab — was referenced but never defined, so opening any
+// subclass tab crashed the codex. Renders the seeded subclass lore fields.
+const SubclassTab = ({ subclass }) => {
+  if (!subclass) return null;
+  const sections = [
+    { label: 'Philosophy', icon: 'fa-book-open', body: subclass.philosophy },
+    { label: 'Psychological Profile', icon: 'fa-brain', body: subclass.psychologicalProfile },
+    { label: 'Role in Society', icon: 'fa-landmark', body: subclass.roleInSociety },
+    { label: 'Forbidden Practices', icon: 'fa-ban', body: subclass.forbiddenPractices },
+    { label: 'Signature Ritual', icon: 'fa-wand-sparkles', body: subclass.signatureRitual },
+    { label: 'Description', icon: 'fa-feather', body: subclass.description }
+  ].filter((s) => s.body);
+
+  return (
+    <div className="world-section-stack">
+      <div className="world-section world-section-highlight class-codex-hero">
+        <div className="class-codex-hero-header">
+          <div>
+            <span className="class-archetype-tag">Specialization</span>
+            <h3 style={{ margin: '4px 0 8px 0', borderBottom: 'none' }}>{subclass.name}</h3>
+          </div>
+        </div>
+        {sections.map((s) => (
+          <section key={s.label} className="world-section" style={{ marginTop: '10px' }}>
+            <h3><i className={`fas ${s.icon}`} style={{ color: '#d4af37', marginRight: '8px' }}></i>{s.label}</h3>
+            <div className="world-prose">
+              {cleanEmdashes(s.body).split(/\n{2,}/).map((p, idx) => (
+                <p key={idx} style={{ margin: '0 0 8px 0' }}>{p}</p>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const OverviewTab = ({ cls, context }) => {  const profile = getClassFlavorProfile(cls.id);
   const traditionName = cls.tradition || profile?.tradition || 'Living Calling';
   const roleName = cls.role || profile?.role || 'Tactical Vanguard';
   const resourceName = cls.resourceName || profile?.resourceName || 'Unique Resource';
@@ -524,11 +561,53 @@ const OrganizationsTab = ({ cls, context, classId }) => {
 const SpellsTab = ({ cls }) => {
   const [activeSpecialization, setActiveSpecialization] = useState('all');
   const [spellSearch, setSpellSearch] = useState('');
-  const [customSpells, setCustomSpells] = useState([]);
-  const [librarySpells, setLibrarySpells] = useState([]);
   const [showQuickCraftModal, setShowQuickCraftModal] = useState(false);
   const [showLibraryPickerModal, setShowLibraryPickerModal] = useState(false);
   const [selectedLibrarySpellId, setSelectedLibrarySpellId] = useState('');
+
+  // Shared spell library context — the same library the Spellcrafting wizard
+  // uses. Routing rites through the context (instead of raw localStorage)
+  // keeps them cloud-synced via the SpellPersistenceBridge and lets edits made
+  // elsewhere show up here reactively. Consumed via the raw contexts because
+  // this codex can render outside the provider (tests / embeds); in that case
+  // we fall back to reading + writing the shared localStorage library.
+  const libraryState = useContext(SpellLibraryStateContext);
+  const dispatchSpell = useContext(SpellLibraryDispatchContext);
+
+  const librarySpells = useMemo(
+    () => libraryState?.spells || [],
+    [libraryState]
+  );
+  const customSpells = useMemo(() => {
+    const normName = cls.name?.toLowerCase();
+    const normId = cls.id?.toLowerCase();
+    return librarySpells.filter((s) => {
+      const sClass = (s.class || s.characterClass || s.associatedClass || '').toLowerCase();
+      return sClass === normName || sClass === normId;
+    });
+  }, [librarySpells, cls.name, cls.id]);
+
+  // Add a rite to the shared library: via the provider when present (gets
+  // cloud-synced), otherwise direct to the shared localStorage library.
+  const addRiteToLibrary = (spellObj) => {
+    if (dispatchSpell) {
+      dispatchSpell({ type: 'ADD_SPELL_DIRECT', payload: spellObj });
+      return;
+    }
+    try {
+      const stored = localStorage.getItem('spell_library_data');
+      let storedLibrary = { spells: [] };
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        storedLibrary = parsed.data || parsed;
+        if (!storedLibrary.spells) storedLibrary.spells = [];
+      }
+      storedLibrary.spells.push(spellObj);
+      localStorage.setItem('spell_library_data', JSON.stringify({ version: 1, data: storedLibrary }));
+    } catch (err) {
+      console.error('Error saving spell to library:', err);
+    }
+  };
 
   // Form states for quick crafting
   const [newSpellName, setNewSpellName] = useState('');
@@ -542,28 +621,6 @@ const SpellsTab = ({ cls }) => {
   // Mythrill class specialization mapping lookup
   const classSpecInfo = CLASS_SPECIALIZATIONS[cls.name] || null;
   const specList = classSpecInfo?.specializations || [];
-
-  // Load custom spells and library spells mapped to this class from localStorage
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem('spell_library_data');
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        const list = parsed.data?.spells || parsed.spells || [];
-        setLibrarySpells(list);
-
-        const normName = cls.name?.toLowerCase();
-        const normId = cls.id?.toLowerCase();
-        const filtered = list.filter((s) => {
-          const sClass = (s.class || s.characterClass || s.associatedClass || '').toLowerCase();
-          return sClass === normName || sClass === normId;
-        });
-        setCustomSpells(filtered);
-      }
-    } catch (e) {
-      console.warn('Error reading spells from library:', e);
-    }
-  }, [cls]);
 
   const handleLaunchSpellWizard = () => {
     const spellEvent = new CustomEvent('openSpellWizardForClass', {
@@ -588,20 +645,9 @@ const SpellsTab = ({ cls }) => {
       isCustom: true
     };
 
-    try {
-      const stored = localStorage.getItem('spell_library_data');
-      let library = { spells: [] };
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        library = parsed.data || parsed;
-        if (!library.spells) library.spells = [];
-      }
-      library.spells.push(attached);
-      localStorage.setItem('spell_library_data', JSON.stringify({ version: 1, data: library }));
-      setCustomSpells((prev) => [...prev, attached]);
-    } catch (err) {
-      console.error('Error attaching spell to class:', err);
-    }
+    // Route through the shared spell library so the rite is persisted and
+    // cloud-synced when the provider is available.
+    addRiteToLibrary(attached);
 
     setShowLibraryPickerModal(false);
     setSelectedLibrarySpellId('');
@@ -630,20 +676,9 @@ const SpellsTab = ({ cls }) => {
       dateCreated: new Date().toISOString()
     };
 
-    try {
-      const stored = localStorage.getItem('spell_library_data');
-      let library = { spells: [] };
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        library = parsed.data || parsed;
-        if (!library.spells) library.spells = [];
-      }
-      library.spells.push(newSpellObj);
-      localStorage.setItem('spell_library_data', JSON.stringify({ version: 1, data: library }));
-      setCustomSpells((prev) => [...prev, newSpellObj]);
-    } catch (err) {
-      console.error('Error saving spell to library:', err);
-    }
+    // Route through the shared spell library so the rite is persisted and
+    // cloud-synced when the provider is available.
+    addRiteToLibrary(newSpellObj);
 
     setShowQuickCraftModal(false);
     setNewSpellName('');

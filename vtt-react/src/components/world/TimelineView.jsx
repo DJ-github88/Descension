@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import useTimelineStore, {
   EVENT_TYPES,
   WARMTH_PHASES,
@@ -6,6 +6,7 @@ import useTimelineStore, {
 } from '../../store/timelineStore';
 import useFactionStore from '../../store/factionStore';
 import useWorldStore from '../../store/worldStore';
+import useClassLoreStore from '../../store/classLoreStore';
 import RichLoreText from '../common/RichLoreText';
 import LoreEditorToolbar from '../common/LoreEditorToolbar';
 import { sanitizeLoreText, formatDisplayName } from './WorldDashboard';
@@ -47,6 +48,27 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
   const [newEventDesc, setNewEventDesc] = useState('');
   const [newEventNarrative, setNewEventNarrative] = useState('');
   const [newEventHook, setNewEventHook] = useState('');
+  const [newEventFactionIds, setNewEventFactionIds] = useState([]);
+  const [newEventLocationIds, setNewEventLocationIds] = useState([]);
+  const [newEventClassIds, setNewEventClassIds] = useState([]);
+
+  // Linked entities for new event form
+  const toggleNewEventFaction = (fid) => setNewEventFactionIds((prev) => prev.includes(fid) ? prev.filter((id) => id !== fid) : [...prev, fid]);
+  const toggleNewEventLocation = (lid) => setNewEventLocationIds((prev) => prev.includes(lid) ? prev.filter((id) => id !== lid) : [...prev, lid]);
+  const toggleNewEventClass = (cid) => setNewEventClassIds((prev) => prev.includes(cid) ? prev.filter((id) => id !== cid) : [...prev, cid]);
+
+  const tlFactions = useMemo(() => {
+    try { const s = useFactionStore.getState(); return s.getAllFactions ? s.getAllFactions(activeWorldId) : s.factions || []; } catch { return []; }
+  }, [activeWorldId]);
+  const tlLocations = useMemo(() => {
+    try { const ws = useWorldStore.getState(); const regs = ws.getRegions ? ws.getRegions() : []; const locs = []; regs.forEach((r) => { const rl = ws.getLocationsByRegion ? ws.getLocationsByRegion(r.id) : []; locs.push(...rl); }); return locs.slice(0, 80); } catch { return []; }
+  }, [activeWorldId]);
+  const tlClasses = useMemo(() => {
+    try { const cs = useClassLoreStore.getState(); return cs.classes || cs.getAllClasses?.() || []; } catch { return []; }
+  }, [activeWorldId]);
+
+  const [draggingEventId, setDraggingEventId] = useState(null);
+  const railRef = useRef(null);
 
   const eventListRef = useRef(null);
   const narrativeTextareaRef = useRef(null);
@@ -93,7 +115,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
           e.id === 'event-thirteenth-silence' ||
           e.id === 'event-sol-deepening' ||
           e.type === 'cosmic' ||
-          e.type === 'cataclysm'
+          e.type === 'catastrophe'
         );
       }
     }
@@ -135,6 +157,29 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
     isCanonWorld
   ]);
 
+  // Visual rail drag — move custom events along the year axis
+  useEffect(() => {
+    if (!draggingEventId) return;
+    const handleUp = (e) => {
+      if (!railRef.current || !draggingEventId) { setDraggingEventId(null); return; }
+      const rect = railRef.current.getBoundingClientRect();
+      const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+      const pct = rect.width ? x / rect.width : 0;
+      const years = filteredEvents.map((ev) => ev.date?.year ?? 0);
+      const minY = years.length ? Math.min(...years, 0) : 0;
+      const maxY = years.length ? Math.max(...years, 100) : 100;
+      const range = Math.max(1, maxY - minY);
+      const newYear = Math.round(minY + pct * range);
+      const target = filteredEvents.find((ev) => ev.id === draggingEventId);
+      if (target && target.isCustom) {
+        updateEvent(draggingEventId, { date: { ...(target.date || {}), year: newYear }, dateDisplay: `Year ${newYear}` });
+      }
+      setDraggingEventId(null);
+    };
+    window.addEventListener('mouseup', handleUp);
+    return () => window.removeEventListener('mouseup', handleUp);
+  }, [draggingEventId, filteredEvents, updateEvent]);
+
   const handleCreateEraSubmit = (e) => {
     e.preventDefault();
     if (!newEraName.trim()) return;
@@ -165,13 +210,19 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
       dateDisplay: `Year ${newEventYear}`,
       description: newEventDesc.trim(),
       narrative: newEventNarrative.trim(),
-      dmHook: newEventHook.trim()
+      dmHook: newEventHook.trim(),
+      factionIds: [...newEventFactionIds],
+      locationIds: [...newEventLocationIds],
+      classIds: [...newEventClassIds]
     });
     setShowAddEventModal(false);
     setNewEventTitle('');
     setNewEventDesc('');
     setNewEventNarrative('');
     setNewEventHook('');
+    setNewEventFactionIds([]);
+    setNewEventLocationIds([]);
+    setNewEventClassIds([]);
   };
 
   const handleUpdateEraSubmit = (e) => {
@@ -206,7 +257,10 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
       dateDisplay: `Year ${editingEvent.date?.year ?? 0}`,
       description: editingEvent.description?.trim() || '',
       narrative: editingEvent.narrative?.trim() || '',
-      dmHook: editingEvent.dmHook?.trim() || ''
+      dmHook: editingEvent.dmHook?.trim() || '',
+      factionIds: Array.isArray(editingEvent.factionIds) ? [...editingEvent.factionIds] : [],
+      locationIds: Array.isArray(editingEvent.locationIds) ? [...editingEvent.locationIds] : [],
+      classIds: Array.isArray(editingEvent.classIds) ? [...editingEvent.classIds] : []
     });
     setEditingEvent(null);
   };
@@ -459,6 +513,67 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
           </div>
         </div>
       )}
+
+      {/* ── Visual Timeline Rail — drag custom events to re-date ── */}
+      {filteredEvents.length > 0 && (() => {
+        const years = filteredEvents.map((ev) => ev.date?.year ?? 0);
+        const minY = Math.min(...years, 0);
+        const maxY = Math.max(...years, 100);
+        const range = Math.max(1, maxY - minY);
+        return (
+          <div
+            className="chronicon-visual-rail"
+            ref={railRef}
+            style={{
+              position: 'relative',
+              height: '56px',
+              margin: '12px 0 6px 0',
+              background: 'linear-gradient(90deg, #fdf8ef 0%, #f5e6c8 100%)',
+              border: '1px solid #cdb592',
+              borderRadius: '8px',
+              overflow: 'hidden'
+            }}
+            title="Drag custom (gold-rimmed) events to change their year"
+          >
+            <div style={{ position: 'absolute', left: '8px', right: '8px', top: '50%', height: '2px', background: '#cdb592', transform: 'translateY(-50%)' }} />
+            <div style={{ position: 'absolute', left: '8px', top: '6px', fontSize: '10px', color: '#8b7355' }}>Year {minY}</div>
+            <div style={{ position: 'absolute', right: '8px', top: '6px', fontSize: '10px', color: '#8b7355' }}>Year {maxY}</div>
+            {filteredEvents.map((ev) => {
+              const pct = ((ev.date?.year ?? 0) - minY) / range;
+              const left = 8 + pct * 100; // 8px padding compensation will be handled via calc
+              const isCustom = !!ev.isCustom;
+              const isDragging = draggingEventId === ev.id;
+              return (
+                <div
+                  key={ev.id}
+                  onMouseDown={(e) => {
+                    if (!isCustom) return;
+                    e.preventDefault();
+                    setDraggingEventId(ev.id);
+                  }}
+                  onClick={() => setSelectedEventId(ev.id)}
+                  title={`${ev.title} — Year ${ev.date?.year ?? 0}${isCustom ? ' (drag to re-date)' : ''}`}
+                  style={{
+                    position: 'absolute',
+                    left: `calc(8px + ${pct * 100}% - 8px)`,
+                    top: '50%',
+                    transform: `translate(-50%, -50%) ${isDragging ? 'scale(1.3)' : 'scale(1)'}`,
+                    width: '14px',
+                    height: '14px',
+                    borderRadius: '50%',
+                    background: isCustom ? '#d4af37' : '#8b7355',
+                    border: `2px solid ${ev.id === selectedEventId ? '#2b1408' : '#fff'}`,
+                    boxShadow: isDragging ? '0 2px 8px rgba(0,0,0,0.35)' : '0 1px 3px rgba(0,0,0,0.25)',
+                    cursor: isCustom ? 'grab' : 'pointer',
+                    zIndex: isDragging ? 5 : 1,
+                    transition: isDragging ? 'none' : 'transform 0.12s'
+                  }}
+                />
+              );
+            })}
+          </div>
+        );
+      })()}
 
       {/* ── Toolbar & Event Type Filters ─────────────────────── */}
       <div className="chronicon-toolbar">
@@ -889,6 +1004,42 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
                   </select>
                 </div>
                 <div className="world-form-group">
+                  <label><i className="fas fa-shield-halved"></i> Linked Factions (optional)</label>
+                  <div className="world-entity-picker" style={{ maxHeight: '90px', overflowY: 'auto', display: 'flex', flexWrap: 'wrap', gap: '6px', padding: '8px', border: '1px solid #cdb592', borderRadius: '6px', background: '#fffaf0' }}>
+                    {tlFactions.slice(0, 30).map((f) => (
+                      <label key={f.id} className={`world-entity-chip ${newEventFactionIds.includes(f.id) ? 'active' : ''}`} style={{ cursor: 'pointer', padding: '3px 8px', borderRadius: '10px', fontSize: '11px', border: `1px solid ${newEventFactionIds.includes(f.id) ? '#8b5a1a' : '#cdb592'}`, background: newEventFactionIds.includes(f.id) ? '#8b5a1a' : '#fff', color: newEventFactionIds.includes(f.id) ? '#fff' : '#5a2e12' }}>
+                        <input type="checkbox" checked={newEventFactionIds.includes(f.id)} onChange={() => toggleNewEventFaction(f.id)} style={{ display: 'none' }} />
+                        {f.name}
+                      </label>
+                    ))}
+                    {tlFactions.length === 0 && <span className="world-muted" style={{ fontSize: '11px' }}>No factions in this world yet.</span>}
+                  </div>
+                </div>
+                <div className="world-form-group">
+                  <label><i className="fas fa-location-dot"></i> Linked Locations (optional)</label>
+                  <div className="world-entity-picker" style={{ maxHeight: '90px', overflowY: 'auto', display: 'flex', flexWrap: 'wrap', gap: '6px', padding: '8px', border: '1px solid #cdb592', borderRadius: '6px', background: '#fffaf0' }}>
+                    {tlLocations.slice(0, 30).map((l) => (
+                      <label key={l.id} className={`world-entity-chip ${newEventLocationIds.includes(l.id) ? 'active' : ''}`} style={{ cursor: 'pointer', padding: '3px 8px', borderRadius: '10px', fontSize: '11px', border: `1px solid ${newEventLocationIds.includes(l.id) ? '#8b5a1a' : '#cdb592'}`, background: newEventLocationIds.includes(l.id) ? '#8b5a1a' : '#fff', color: newEventLocationIds.includes(l.id) ? '#fff' : '#5a2e12' }}>
+                        <input type="checkbox" checked={newEventLocationIds.includes(l.id)} onChange={() => toggleNewEventLocation(l.id)} style={{ display: 'none' }} />
+                        {l.name}
+                      </label>
+                    ))}
+                    {tlLocations.length === 0 && <span className="world-muted" style={{ fontSize: '11px' }}>No locations yet — add holds to your realms first.</span>}
+                  </div>
+                </div>
+                <div className="world-form-group">
+                  <label><i className="fas fa-hat-wizard"></i> Linked Classes (optional)</label>
+                  <div className="world-entity-picker" style={{ maxHeight: '90px', overflowY: 'auto', display: 'flex', flexWrap: 'wrap', gap: '6px', padding: '8px', border: '1px solid #cdb592', borderRadius: '6px', background: '#fffaf0' }}>
+                    {tlClasses.slice(0, 30).map((c) => (
+                      <label key={c.id || c.name} className={`world-entity-chip ${newEventClassIds.includes(c.id || c.name) ? 'active' : ''}`} style={{ cursor: 'pointer', padding: '3px 8px', borderRadius: '10px', fontSize: '11px', border: `1px solid ${newEventClassIds.includes(c.id || c.name) ? '#8b5a1a' : '#cdb592'}`, background: newEventClassIds.includes(c.id || c.name) ? '#8b5a1a' : '#fff', color: newEventClassIds.includes(c.id || c.name) ? '#fff' : '#5a2e12' }}>
+                        <input type="checkbox" checked={newEventClassIds.includes(c.id || c.name)} onChange={() => toggleNewEventClass(c.id || c.name)} style={{ display: 'none' }} />
+                        {c.name || c.id}
+                      </label>
+                    ))}
+                    {tlClasses.length === 0 && <span className="world-muted" style={{ fontSize: '11px' }}>No classes loaded.</span>}
+                  </div>
+                </div>
+                <div className="world-form-group">
                   <label>Summary Description</label>
                   <textarea
                     rows={2}
@@ -1006,6 +1157,50 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
                       </option>
                     ))}
                   </select>
+                </div>
+                <div className="world-form-group">
+                  <label><i className="fas fa-shield-halved"></i> Linked Factions</label>
+                  <div className="world-entity-picker" style={{ maxHeight: '90px', overflowY: 'auto', display: 'flex', flexWrap: 'wrap', gap: '6px', padding: '8px', border: '1px solid #cdb592', borderRadius: '6px', background: '#fffaf0' }}>
+                    {tlFactions.slice(0, 30).map((f) => {
+                      const fid = f.id;
+                      const active = (editingEvent.factionIds || []).includes(fid);
+                      return (
+                        <label key={fid} className="world-entity-chip" style={{ cursor: 'pointer', padding: '3px 8px', borderRadius: '10px', fontSize: '11px', border: `1px solid ${active ? '#8b5a1a' : '#cdb592'}`, background: active ? '#8b5a1a' : '#fff', color: active ? '#fff' : '#5a2e12' }}>
+                          <input type="checkbox" checked={active} onChange={() => setEditingEvent({ ...editingEvent, factionIds: active ? (editingEvent.factionIds || []).filter((id) => id !== fid) : [...(editingEvent.factionIds || []), fid] })} style={{ display: 'none' }} />
+                          {f.name}
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div className="world-form-group">
+                  <label><i className="fas fa-location-dot"></i> Linked Locations</label>
+                  <div className="world-entity-picker" style={{ maxHeight: '90px', overflowY: 'auto', display: 'flex', flexWrap: 'wrap', gap: '6px', padding: '8px', border: '1px solid #cdb592', borderRadius: '6px', background: '#fffaf0' }}>
+                    {tlLocations.slice(0, 30).map((l) => {
+                      const active = (editingEvent.locationIds || []).includes(l.id);
+                      return (
+                        <label key={l.id} className="world-entity-chip" style={{ cursor: 'pointer', padding: '3px 8px', borderRadius: '10px', fontSize: '11px', border: `1px solid ${active ? '#8b5a1a' : '#cdb592'}`, background: active ? '#8b5a1a' : '#fff', color: active ? '#fff' : '#5a2e12' }}>
+                          <input type="checkbox" checked={active} onChange={() => setEditingEvent({ ...editingEvent, locationIds: active ? (editingEvent.locationIds || []).filter((id) => id !== l.id) : [...(editingEvent.locationIds || []), l.id] })} style={{ display: 'none' }} />
+                          {l.name}
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div className="world-form-group">
+                  <label><i className="fas fa-hat-wizard"></i> Linked Classes</label>
+                  <div className="world-entity-picker" style={{ maxHeight: '90px', overflowY: 'auto', display: 'flex', flexWrap: 'wrap', gap: '6px', padding: '8px', border: '1px solid #cdb592', borderRadius: '6px', background: '#fffaf0' }}>
+                    {tlClasses.slice(0, 30).map((c) => {
+                      const cid = c.id || c.name;
+                      const active = (editingEvent.classIds || []).includes(cid);
+                      return (
+                        <label key={cid} className="world-entity-chip" style={{ cursor: 'pointer', padding: '3px 8px', borderRadius: '10px', fontSize: '11px', border: `1px solid ${active ? '#8b5a1a' : '#cdb592'}`, background: active ? '#8b5a1a' : '#fff', color: active ? '#fff' : '#5a2e12' }}>
+                          <input type="checkbox" checked={active} onChange={() => setEditingEvent({ ...editingEvent, classIds: active ? (editingEvent.classIds || []).filter((id) => id !== cid) : [...(editingEvent.classIds || []), cid] })} style={{ display: 'none' }} />
+                          {c.name || cid}
+                        </label>
+                      );
+                    })}
+                  </div>
                 </div>
                 <div className="world-form-group">
                   <label>Summary Description</label>

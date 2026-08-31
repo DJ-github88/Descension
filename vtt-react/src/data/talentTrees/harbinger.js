@@ -24,7 +24,7 @@ export const HARBINGER_WILD_PROPHET = [
     spell: {
       name: "Chaos Prophecy Eruption",
       description: "Cast an unstable chaos rune within 45 feet for 1 round: erupts dealing 2d6 random elemental damage (ember, rime, storm, or wyrd) to all enemies in a 20-foot area, generating 2 Mayhem.",
-      flavorText: "The Wyrd-threads of Keth-Amar fray with every chaos pulse.",
+      flavorText: "The Wyrd-threads of Keth Amar fray with every chaos pulse.",
       source: "talent", class: "Harbinger", treeId: "wild_prophet",
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 45, aoeShape: "circle", aoeSize: 20,
@@ -195,7 +195,7 @@ export const HARBINGER_WILD_PROPHET = [
     spell: {
       name: "Cataclysmic Disintegration Beam",
       description: "Spend 5 Mayhem: channel a 60-foot beam of pure unraveling chaos for 1 instant: deals 3d8 damage of 3 random elements simultaneously to all enemies in a line and burns them for 1d8 damage over 2 rounds.",
-      flavorText: "Keth-Amar speaks the names of calamities yet to come.",
+      flavorText: "Keth Amar speaks the names of calamities yet to come.",
       source: "talent", class: "Harbinger", treeId: "wild_prophet",
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 60, aoeShape: "line", aoeSize: 60,
@@ -291,7 +291,7 @@ export const HARBINGER_WILD_PROPHET = [
     spell: {
       name: "Cataclysm Incarnate",
       description: "Spend 8 Mayhem: enter the Cataclysm State for 2 rounds: every single spell you cast triggers 2 guaranteed Wild Magic Surges, all surge damage is doubled, and all your area prophecies auto-detonate every round without cooldown.",
-      flavorText: "Keth-Amar walks through you, and reality trembles.",
+      flavorText: "Keth Amar walks through you, and reality trembles.",
       source: "talent", class: "Harbinger", treeId: "wild_prophet",
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
@@ -355,7 +355,7 @@ export const HARBINGER_WILD_PROPHET = [
     requires: "wp_t6_cataclysm_incarnate",
     spell: {
       name: "Avatar of the Chaos Void",
-      description: "ULTIMATE: Spend 10 Mayhem: transform into the Living Herald of Keth-Amar for 1 minute: continuous elemental storms blanket the entire 60-foot battlefield dealing 8d10 damage per round, and all your attacks score critical hits on 18+.",
+      description: "ULTIMATE: Spend 10 Mayhem: transform into the Living Herald of Keth Amar for 1 minute: continuous elemental storms blanket the entire 60-foot battlefield dealing 8d10 damage per round, and all your attacks score critical hits on 18+.",
       flavorText: "Reality is unmade. In the center of the void stands the Prophet.",
       source: "talent", class: "Harbinger", treeId: "wild_prophet",
       spellType: "ACTIVE", category: "buff",
@@ -498,7 +498,7 @@ export const HARBINGER_DEATHS_SEER = [
     spell: {
       name: "Necrotic Decay Aura",
       description: "All your single-target blight and doom spells deal +10 points increased damage, and your attacks ignore 10 points of enemy durability.",
-      flavorText: "The entropy of Keth-Amar spreads like a plague.",
+      flavorText: "The entropy of Keth Amar spreads like a plague.",
       source: "talent", class: "Harbinger", treeId: "deaths_seer",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", damageTypes: ["blight"],
@@ -519,7 +519,7 @@ export const HARBINGER_DEATHS_SEER = [
     spell: {
       name: "Shroud of Inevitable Decay",
       description: "You gain +2 Durability Steps to equipped durability and take 25 points less blight damage. Attackers who strike you take 1d6 blight damage in retaliation.",
-      flavorText: "Keth-Amar shrouds its prophets in an aura of decay.",
+      flavorText: "Keth Amar shrouds its prophets in an aura of decay.",
       source: "talent", class: "Harbinger", treeId: "deaths_seer",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", damageTypes: ["blight"],
@@ -718,7 +718,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     spell: {
       name: "Army of the Fallen Wyrd",
       description: "You can maintain up to 3 revenant servants simultaneously. Revenants have +25 points health and +2 Durability Steps to equipped durability.",
-      flavorText: "Keth-Amar defies even death, raising what it consumes.",
+      flavorText: "Keth Amar defies even death, raising what it consumes.",
       source: "talent", class: "Harbinger", treeId: "deaths_seer",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "pet-cap", "undead-buff", "harbinger"]
@@ -803,7 +803,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     requires: "ds_t6_death_incarnate",
     spell: {
       name: "Avatar of the Black Reaper",
-      description: "ULTIMATE: Spend 10 Mayhem: summon the Great Scythe of Keth-Amar for 1 minute: all marked enemies take 8d10 blight damage every round, any target below half maximum Hit Points is executed instantly, and each death raises a giant undead behemoth for 1 minute.",
+      description: "ULTIMATE: Spend 10 Mayhem: summon the Great Scythe of Keth Amar for 1 minute: all marked enemies take 8d10 blight damage every round, any target below half maximum Hit Points is executed instantly, and each death raises a giant undead behemoth for 1 minute.",
       flavorText: "The harvest is complete. No seed remains ungathered.",
       source: "talent", class: "Harbinger", treeId: "deaths_seer",
       spellType: "ACTIVE", category: "damage",

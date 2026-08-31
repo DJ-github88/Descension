@@ -255,7 +255,7 @@ const CodexLoreEditor = ({
             type="text"
             value={article.title || ''}
             onChange={(e) => onUpdate({ title: e.target.value })}
-            placeholder="Article Title (e.g. The Siege of Ironspire, Blood-Pacts of Keth-Amar)..."
+            placeholder="Article Title (e.g. The Siege of Ironspire, Blood-Pacts of Keth Amar)..."
             className="codex-title-input"
           />
           {onDelete && (

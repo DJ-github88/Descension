@@ -282,7 +282,7 @@ export const CLASS_RESOURCE_TYPES = {
   name: 'Mayhem',
   shortName: 'Mayhem',
   type: 'mayhem',
-  description: 'The Bleeding Eye of Keth-Amar sees all ends and whispers them into being. Passive chaos pressure gauge, CANNOT be spent. Passively amplifies all spells as it rises. Only release is Wild Surge at 100.',
+  description: 'The Bleeding Eye of Keth Amar sees all ends and whispers them into being. Passive chaos pressure gauge, CANNOT be spent. Passively amplifies all spells as it rises. Only release is Wild Surge at 100.',
   visual: {
    type: 'mayhem-gauge',
    count: 100,
@@ -318,7 +318,7 @@ export const CLASS_RESOURCE_TYPES = {
    consumeVerb: 'release',
    gainVerb: 'accumulate',
    unspendable: true,
-   description: 'Keth-Amar\'s doom-sight fills the vessel until it must burst. Mayhem CANNOT be spent. It passively amplifies all spells, more targets, bigger dice, wider AoE. At 100, triggers Wild Surge (uncontrollable release).'
+   description: 'Keth Amar\'s doom-sight fills the vessel until it must burst. Mayhem CANNOT be spent. It passively amplifies all spells, more targets, bigger dice, wider AoE. At 100, triggers Wild Surge (uncontrollable release).'
   },
   tooltip: {
    title: 'Mayhem Pressure: {current}/{max}',

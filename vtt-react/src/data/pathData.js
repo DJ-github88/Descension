@@ -156,7 +156,7 @@ export const PATH_DATA = {
     indebted: {
         id: 'indebted',
         name: 'The Indebted',
-        description: 'You have made a bargain with something dangerous, Keth-Amar, a Wyrd-entity, Morvane, Scathrach, and the debt is still outstanding. Every region made a Dark Bargain. Yours was personal. Your power comes from the creditor, and the creditor is patient.',
+        description: 'You have made a bargain with something dangerous, Keth Amar, a Wyrd-entity, Morvane, Scathrach, and the debt is still outstanding. Every region made a Dark Bargain. Yours was personal. Your power comes from the creditor, and the creditor is patient.',
         icon: 'fas fa-handshake',
         statModifiers: {
             intelligence: 1,

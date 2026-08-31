@@ -33,7 +33,7 @@ const DAMAGE_TYPES = {
     },
     rime: {
       name: 'Rime',
-      description: 'Born from Keth-Amar\'s cosmic vacuum-cold and Nordhalla\'s glaciers. Frigid energy that numbs movement and shatters defenses.',
+      description: 'Born from Keth Amar\'s cosmic vacuum-cold and Nordhalla\'s glaciers. Frigid energy that numbs movement and shatters defenses.',
       color: '#2C5F7C',
       icon: 'Frost/Frostbite Variant 2'
     },
@@ -63,7 +63,7 @@ const DAMAGE_TYPES = {
     },
     wyrd: {
       name: 'Wyrd',
-      description: 'The entropic predator-breath of Keth-Amar. Mind magic, fate manipulation, psychic resonance, and temporal chaos.',
+      description: 'The entropic predator-breath of Keth Amar. Mind magic, fate manipulation, psychic resonance, and temporal chaos.',
       color: '#7A2040',
       icon: 'Psychic/Psychic Telepathy'
     },

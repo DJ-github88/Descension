@@ -59,7 +59,7 @@ export const LANGUAGES = [
     name: 'Abyssal',
     icon: 'fa-fire',
     category: 'exotic',
-    description: 'The corrupted tongue of Keth-Amar\'s silence-spawn and Wyrd-touched intelligences. Scathrach the Ashen Sovereign speaks it in Emberspire\'s deepest volcanic vent. Burns the throat of mortal speakers and leaves ash-taste for days.',
+    description: 'The corrupted tongue of Keth Amar\'s silence-spawn and Wyrd-touched intelligences. Scathrach the Ashen Sovereign speaks it in Emberspire\'s deepest volcanic vent. Burns the throat of mortal speakers and leaves ash-taste for days.',
     sound: 'Corrupted and searing, with sounds that seem to scorch the air. Each word carries volcanic heat.',
     example: 'X\'keth-vorath ix\'amar\'neth',
     translation: 'The eater hungers, the silence consumes forever'
@@ -95,7 +95,7 @@ export const LANGUAGES = [
     name: 'Infernal',
     icon: 'fa-fire-flame-curved',
     category: 'exotic',
-    description: 'The structured binding-language of Aethil\'s enforcement, the universe\'s mechanism of consequence. Every syllable is a clause; every pause, a penalty. Used in Neth contract-houses for clauses that must survive death. The First Contract\'s oldest sections are in Infernal.',
+    description: 'The structured binding-language of Aethil — Sol\'s father who holds the sky and witnesses every Bloodline Pact — the grammar of consequence that makes a vow a wall. Every syllable is a clause; every pause, a penalty. Used in Neth contract-houses for clauses that must survive death. The First Contract\'s oldest sections are in Infernal, written while Keth Amar wore Aethil\'s face and scribes mistook the predator\'s self-portrait for a god of exchange.',
     sound: 'Precise and binding, with measured syllables and formal cadence that carries metaphysical weight.',
     example: 'Contractum aeternum vinctura anima',
     translation: 'The eternal contract binds the soul'

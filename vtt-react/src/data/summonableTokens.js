@@ -560,7 +560,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'harbinger_chaos_gate',
       name: 'Chaos Gate Entities',
-      description: 'The Bleeding Eye of Keth-Amar weeps, and chaos bleeds through the rift. 5 chaos entities from a random rollable table.',
+      description: 'The Bleeding Eye of Keth Amar weeps, and chaos bleeds through the rift. 5 chaos entities from a random rollable table.',
       level: 7,
       spellId: 'harbinger-fate_rift-ultimate_chaos',
       creature: {

@@ -45,7 +45,7 @@ const BookLorePickerModal = ({
 
     Promise.all([
       universalEntityService.getAllBookEmbeddables({ limit: 1000 }),
-      Promise.resolve(useCustomLineageStore.getState().customLineages || []),
+      Promise.resolve(useCustomLineageStore.getState().lineages || []),
       Promise.resolve(useFamilyTreeStore.getState().trees || [])
     ])
       .then(([items, customLineages, familyTrees]) => {

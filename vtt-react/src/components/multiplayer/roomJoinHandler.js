@@ -793,7 +793,9 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
                   charTokenData.id,
                   charTokenData.position,
                   charTokenData.playerId,
-                  charTokenData.mapId || startMapId
+                  charTokenData.mapId || startMapId,
+                  charTokenData.character || null,
+                  charTokenData.name || null
                 );
               }
             }

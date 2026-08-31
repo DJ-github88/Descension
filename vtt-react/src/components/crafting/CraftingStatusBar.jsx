@@ -79,22 +79,24 @@ function CraftingStatusBar({
                         )}
                     </div>
                 </div>
+                {process.env.NODE_ENV !== 'production' && (
                 <div className="crafting-header-title-right">
                     <button
                         className="crafting-icon-btn"
                         onClick={onLearnAllRecipes}
-                        title="Learn all recipes"
+                        title="Learn all recipes (dev)"
                     >
                         <i className="fas fa-book-open"></i>
                     </button>
                     <button
                         className="crafting-icon-btn"
                         onClick={onAddTestMaterials}
-                        title="Add test materials"
+                        title="Add test materials (dev)"
                     >
                         <i className="fas fa-flask"></i>
                     </button>
                 </div>
+                )}
             </div>
 
             {/* ── Tier 2: Active crafting progress (conditional) ── */}

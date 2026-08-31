@@ -998,10 +998,10 @@ const NPC_DATA = {
     "status": "Active",
     "appearance": "A Solari noble who carved his own sun-sword from a fragment of Emberspire's caldera glass. He bears the weathered, ash-stained look of someone who has spent decades on the Ashen Escarpment.",
     "personality": "Disciplined, silent, and utterly focused on the Order's mission. He has held the Grandmaster post for seventeen years — longer than any predecessor since the Freezing Era began.",
-    "backstory": "Elected by the Chapter of Ten for a seven-year term (or until death), the current Grandmaster has been renewed twice. He knows the Dawn Vigil's true purpose and has quietly prepared the Order to stand against Keth-Amar itself.",
+    "backstory": "Elected by the Chapter of Ten for a seven-year term (or until death), the current Grandmaster has been renewed twice. He knows the Dawn Vigil's true purpose and has quietly prepared the Order to stand against Keth Amar itself.",
     "hooks": [
       "The Grandmaster knows the location of three hidden Monolith fragments the Order has collected for study",
-      "He is preparing a counter-ritual he believes can sever Keth-Amar's connection to the seal"
+      "He is preparing a counter-ritual he believes can sever Keth Amar's connection to the seal"
     ]
   },
   "solbrand-captain-ashen": {

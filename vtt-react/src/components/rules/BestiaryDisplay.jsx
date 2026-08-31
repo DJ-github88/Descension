@@ -340,7 +340,7 @@ const BestiaryDisplay = () => {
       ['Cosmic provenance', loreCanon.cosmicProvenance],
       ['Wyrd function', loreCanon.wyrdFunction],
       ['Mythrill anchor', loreCanon.anchor],
-      ['Keth-Amar relationship', loreCanon.kethRelationship],
+      ['Keth Amar relationship', loreCanon.kethRelationship],
       ['Current independence', loreCanon.independence],
       ['Countermeasure', loreCanon.countermeasure]
     ]
@@ -396,7 +396,7 @@ const BestiaryDisplay = () => {
             Mythrill's bestiary begins with native beasts, spirits, mythic peoples, constructs, and land beings that inhabited these regions before the Great Binding.
             The Wyrd is a distinct cosmic medium and ecology: Ancient Cosmic Wyrdkin come from beyond Mythrill, Keth-spawn/Wyrdspawn are narrower direct local
             manifestations, and Wyrd-touched natives are individuals or branches changed by exposure. Folklore records, translates, or camouflages what is there;
-            it does not create the native bestiary or ancient Wyrdkin. Some Wyrd entities remain anchored in Mythrill after Keth-Amar retreats, so identify the
+            it does not create the native bestiary or ancient Wyrdkin. Some Wyrd entities remain anchored in Mythrill after Keth Amar retreats, so identify the
             creature's layer and anchor before choosing its weakness.
           </p>
         </div>

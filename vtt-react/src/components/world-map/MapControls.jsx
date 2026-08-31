@@ -8,7 +8,9 @@ const MapControls = ({
   devMode,
   onToggleDev,
   customMapMode,
+  customReadOnly = false,
   onToggleCustomMap,
+  onToggleCustomReadOnly,
   canAccessCustomMaps,
   borderEnabled = true,
   onToggleBorder
@@ -63,10 +65,21 @@ const MapControls = ({
         <button
           className={`map-ctrl-btn map-ctrl-custom-map ${customMapMode ? 'active' : ''}`}
           onClick={onToggleCustomMap}
-          title="Toggle custom map workspace"
+          title={customMapMode ? "Exit custom map workspace" : "Open custom map workspace"}
           aria-label="Toggle custom map workspace"
         >
           <i className="fas fa-map"></i>
+        </button>
+      )}
+
+      {customMapMode && canAccessCustomMaps && onToggleCustomReadOnly && (
+        <button
+          className={`map-ctrl-btn map-ctrl-custom-view ${customReadOnly ? 'active' : ''}`}
+          onClick={onToggleCustomReadOnly}
+          title={customReadOnly ? "Back to Edit Mode" : "Enter Immersive View (read-only)"}
+          aria-label={customReadOnly ? "Back to edit mode" : "Enter immersive view"}
+        >
+          <i className={customReadOnly ? "fas fa-pen" : "fas fa-eye"}></i>
         </button>
       )}
 

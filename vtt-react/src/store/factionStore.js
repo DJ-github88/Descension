@@ -259,7 +259,7 @@ const SEEDED_FACTIONS = [
 
   hiddenAgenda:
 
-   'House Skalvyr is secretly negotiating with renegade Solari pyrofiends to weaponize geothermal heat as a last-resort power source — a dangerous alliance that could draw Keth-Amar\'s attention if the volatile energy signatures are detected.',
+   'House Skalvyr is secretly negotiating with renegade Solari pyrofiends to weaponize geothermal heat as a last-resort power source — a dangerous alliance that could draw Keth Amar\'s attention if the volatile energy signatures are detected.',
 
   hiddenDescription:
 
@@ -726,8 +726,8 @@ const SEEDED_FACTIONS = [
   icon: '/assets/icons/factions/solvan.png',
   colors: { primary: '#d4700a', secondary: '#1a1a1a' },
   publicGoal: 'Rule Sundale badlands and refuse to abandon the tomb of their star',
-  publicDescription:
-   'House Solvan is the most narratively significant of the seven houses: it was Solvan who wielded the knife that flayed Aex to weave the binding seal. Their descendants remain in the scorched, soot-choked badlands, refusing to leave because leaving would mean admitting the sacrifice was meaningless.',
+   publicDescription:
+    'House Solvan is the most narratively significant of the seven houses: it was Solvan who swore the first Bloodline Pact that bound Aex around Sol. Their descendants remain in the scorched, soot-choked badlands, refusing to leave because leaving would mean admitting the sacrifice was meaningless.',
   hiddenAgenda:
    'The current Steward of Emberspire believes one of the original Solvan heirs survived, and is funding expeditions to find the lost heir bloodline.',
   leader: {
@@ -862,7 +862,7 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#3a2a4a', secondary: '#7a6a9a' },
   publicGoal: 'Govern the Bryngloom Forest in absentia: their authority is mediated entirely through Neth contract-law',
   publicDescription:
-   'House Morrath is the ghost among houses: the replacement seventh house elevated after Viridane fled the Blooding, yet the one with the least surviving record. Unlike the original six: they had nothing left to trade that Keth-Amar would accept, so they borrowed their survival from the Neth rather than striking their own Dark Bargain. The official records list them as the seventh house of the Great Binding, but the truth is subtler — they were installed to fill the gap Viridane left.',
+   'House Morrath is the ghost among houses: the replacement seventh house elevated after Viridane fled the Blooding, yet the one with the least surviving record. Unlike the original six: they had nothing left to trade that Keth Amar would accept, so they borrowed their survival from the Neth rather than striking their own Dark Bargain. The official records list them as the seventh house of the Great Binding, but the truth is subtler — they were installed to fill the gap Viridane left.',
   hiddenAgenda:
    'House Morrath has been functionally extinct for three centuries. The Velun Pact-Lords of Atropolis continue to issue decrees in Morrath\'s name because a void in the seventh seat would legally invalidate the Bargain Compact.',
   leader: {
@@ -895,9 +895,9 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#2d5a27', secondary: '#8fbc8f' },
   publicGoal: 'Survive. Remember. Wait.',
   publicDescription:
-   'The forgotten seventh house: struck from every record by the six houses who sealed Keth-Amar\'s bargain. When the other houses marched their firstborn to the northern peaks as sacrifice, Viridane refused and fled south through the Frostwood Reach, making a counter-bargain with fae entities in the moonlit groves. Their descendants are the Florae.',
+   'The forgotten seventh house: struck from every record by the six houses who sealed Keth Amar\'s bargain. When the other houses marched their firstborn to the northern peaks as sacrifice, Viridane refused and fled south through the Frostwood Reach, making a counter-bargain with fae entities in the moonlit groves. Their descendants are the Florae.',
   hiddenAgenda:
-   'House Viridane does not seek restoration. The original bloodline made peace with being forgotten a century and a half ago. What they seek is the final truth: what spoke to them in the moonlit groves before Keth-Amar\'s whispers could reach them, and whether that presence has a price that is still due.',
+   'House Viridane does not seek restoration. The original bloodline made peace with being forgotten a century and a half ago. What they seek is the final truth: what spoke to them in the moonlit groves before Keth Amar\'s whispers could reach them, and whether that presence has a price that is still due.',
   leader: {
    npcId: 'thorn-speaker',
    title: 'Voice of the Ironwood',

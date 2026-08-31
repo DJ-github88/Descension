@@ -426,6 +426,10 @@ function useSpellLibraryDispatch() {
   return context;
 }
 
+// Raw contexts for components that may render OUTSIDE the provider (e.g.
+// world codex embeds / tests) and need a null-safe read instead of a throw.
+export { SpellLibraryStateContext, SpellLibraryDispatchContext };
+
 // Hook for accessing the selected spell
 function useSelectedSpell() {
   const { selectedSpell, spells } = useSpellLibrary();

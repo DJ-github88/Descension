@@ -163,6 +163,47 @@ class PersistenceService {
   }
 
   /**
+   * Track the absolute size of a named data fragment (journal doc, one
+   * campaign, one room state, etc.) and apply only the delta to the usage
+   * counters. Previous calls blindly ADDED the full payload size on every
+   * save, so recurring debounced saves inflated the totals unboundedly.
+   *
+   * @param {string} key stable fragment key, e.g. 'campaign:<id>'
+   * @param {string} category counter category, e.g. 'campaigns'
+   * @param {number} newSize serialized size of the fragment being saved
+   */
+  async setStorageUsageSize(userId, key, category, newSize) {
+    if (!userId || userId.startsWith('guest-')) return;
+
+    try {
+      const userRef = doc(db, 'users', userId);
+      const currentUsage = await this.getStorageUsage(userId);
+      const sizes = currentUsage.sizes || {};
+      const oldSize = sizes[key] || 0;
+      const delta = newSize - oldSize;
+      if (delta === 0) return currentUsage;
+
+      const newUsage = {
+        ...currentUsage,
+        sizes: { ...sizes, [key]: newSize },
+        [category]: Math.max(0, (currentUsage[category] || 0) + delta),
+        total: Math.max(0, currentUsage.total + delta),
+        lastUpdated: Date.now()
+      };
+
+      const sanitizedUsage = sanitizeForFirestore({
+        storageUsage: newUsage,
+        lastModified: serverTimestamp()
+      });
+
+      await setDoc(userRef, sanitizedUsage, { merge: true });
+      return newUsage;
+    } catch (error) {
+      console.error('Error updating storage usage size:', error);
+    }
+  }
+
+  /**
    * Validate data size before saving
    */
   async validateDataSize(userId, data, dataType) {
@@ -193,7 +234,7 @@ class PersistenceService {
     const result = await this.services.characterState.saveCharacterState(userId, characterId, characterState);
 
     if (result.success) {
-      await this.updateStorageUsage(userId, 'characters', dataSize);
+      await this.setStorageUsageSize(userId, `charState:${characterId}`, 'characters', dataSize);
     }
 
     return result;
@@ -216,7 +257,7 @@ class PersistenceService {
     const result = await this.services.roomState.saveRoomState(userId, roomId, roomState);
 
     if (result.success) {
-      await this.updateStorageUsage(userId, 'rooms', dataSize);
+      await this.setStorageUsageSize(userId, `roomState:${roomId}`, 'rooms', dataSize);
     }
 
     return result;
@@ -239,7 +280,7 @@ class PersistenceService {
     const result = await this.services.roomState.saveMapData(userId, roomId, mapData);
 
     if (result.success) {
-      await this.updateStorageUsage(userId, 'rooms', dataSize);
+      await this.setStorageUsageSize(userId, `roomMap:${roomId}`, 'rooms', dataSize);
     }
 
     return result;
@@ -262,7 +303,7 @@ class PersistenceService {
     const result = await this.services.roomState.saveCombatState(userId, roomId, combatState);
 
     if (result.success) {
-      await this.updateStorageUsage(userId, 'rooms', dataSize);
+      await this.setStorageUsageSize(userId, `roomCombat:${roomId}`, 'rooms', dataSize);
     }
 
     return result;
@@ -285,7 +326,7 @@ class PersistenceService {
     const result = await this.services.roomState.saveBuffsAndDebuffs(userId, roomId, buffsData);
 
     if (result.success) {
-      await this.updateStorageUsage(userId, 'rooms', dataSize);
+      await this.setStorageUsageSize(userId, `roomBuffs:${roomId}`, 'rooms', dataSize);
     }
 
     return result;
@@ -308,7 +349,7 @@ class PersistenceService {
     const result = await this.services.characterState.saveQuestProgress(userId, characterId, questData);
 
     if (result.success) {
-      await this.updateStorageUsage(userId, 'characters', dataSize);
+      await this.setStorageUsageSize(userId, `questProgress:${characterId}`, 'characters', dataSize);
     }
 
     return result;
@@ -331,7 +372,7 @@ class PersistenceService {
     const result = await this.services.roomState.saveChatHistory(userId, roomId, chatData);
 
     if (result.success) {
-      await this.updateStorageUsage(userId, 'rooms', dataSize);
+      await this.setStorageUsageSize(userId, `roomChat:${roomId}`, 'rooms', dataSize);
     }
 
     return result;
@@ -354,7 +395,7 @@ class PersistenceService {
     const result = await this.services.journal.saveJournal(userId, journalData);
 
     if (result.success) {
-      await this.updateStorageUsage(userId, 'journals', dataSize);
+      await this.setStorageUsageSize(userId, 'journal:main', 'journals', dataSize);
     }
 
     return result;
@@ -377,7 +418,7 @@ class PersistenceService {
     const result = await this.services.campaign.saveCampaign(userId, campaignId, campaignData);
 
     if (result.success) {
-      await this.updateStorageUsage(userId, 'campaigns', dataSize);
+      await this.setStorageUsageSize(userId, `campaign:${campaignId}`, 'campaigns', dataSize);
     }
 
     return result;

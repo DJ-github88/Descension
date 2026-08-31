@@ -50,17 +50,17 @@ Mythrill was never a barren rock; it was an animistic world where native behemot
 
 While ancient mortal disciplines (**Animists**, **Berserkers**, **Wardens**, **Shapers**, **Minstrels**) communed with the land's primal resonance, common folk survived strictly through forged steel, tactical engineering, black powder matchlocks, archery, and strict cultural taboos.
 
-### The Celestial Star-Fall (Year 0)
-Celestial Parents (**AEX**, the Mother, and **AETHIL**, the Father) fled across the cosmos to hide their unhatched infant sun (**SOL**) in Mythrill's volcanic core from the cosmic predator **KETH AMAR**. The Sister Moon was frozen in orbit as a thermal buffer to anchor **Rime Magic**.
+### The Celestial Star-Fall and the Bloodline Pacts (Year 0)
+Celestial Parents (**AEX**, the Mother, and **AETHIL**, the Father) fled across the cosmos to hide their living, unhatched infant sun (**SOL**) in Mythrill's volcanic core from the cosmic predator **KETH AMAR**. Aethil sacrificed his absolute divine status to anchor the celestial barrier around the atmosphere; Aex sacrificed her divine form to entomb and protect Sol in the molten core, sealing the vault with cosmic wards and **Bloodline Pacts** with ancient mortal lineages. Each pact is a **Blood Seal**. The Sister Moon (**Selunis**) — the never-quickened moon-daughter egg — was frozen in orbit as a thermal buffer to anchor **Rime Magic**; Keth Amar nested in her unquickened shell during its approach.
 
-### The House Bargain & Infusion
-Mortal Houses struck blood pacts with the Celestials to gain cosmic power against ancient terrors:
+### The Bloodline Pacts & the Bound
+Ancient mortal lineages struck Bloodline Pacts with Aex, witnessed by Aethil. The ward holds only while each bound bloodline survives and keeps its oath. The pact changed them: the **Bound** became altered human sub-races.
 - **Infused Bloodlines:** Mortal dynasties supercharged with celestial power (*Thalren*, *Skald*, *Solvarn*, *Solari*, *Astril*).
-- **The Forest Exiles:** House Viridane refused Keth-Amar's sacrifice, fled south, and made an ancient grove pact that transformed them into the **Florae** (**Viridian** and **Oken**).
-- **Common & Wild Folk:** Preserved traditional black powder, matchlocks, and melee combat, or drew upon the ancient primordial animism of the land (*Moraine Clans*).
+- **The Forest Exiles:** The bloodline that refused the Whisper was saved by the Sleeping Soul of Mythrill and transformed in moonlit groves into the **Florae** (**Viridian** and **Oken**) — the lineage history erased along with its name.
+- **Common & Wild Folk:** Preserved traditional black powder, matchlocks, and melee combat, or drew upon the Natural Wyrd of the Sleeping Soul (*Moraine Clans*).
 
-### The Shattering & Freezing Era (Year 325 – Present / Year 475)
-Over three centuries, noble deaths cracked Aex's shell. In Year 325, during the Blizzard's End Massacre, Keth Amar devoured the noble heirs, Aex shattered into **Aex Shards**, Sol vented volcanic fires, and Keth Amar was repelled into the sky as the **Wyrd**. Mythrill is now trapped in a 150-Year Ice Age (Year 475), fighting over glowing Aex Shards for warmth and fuel.
+### The Whispered Purge, the Blind Strike and the Freezing Era (Years 300–325 – Present / Year 475)
+Over three centuries, severed Blood Seals cracked Aex's aegis, each dead lineage venting a little more of Sol's warmth. From **Year 300**, unable to breach Aethil's ward, Keth Amar spewed **Predatory Wyrd** onto Mythrill and orchestrated the **Whispered Purge** — twenty-five years posing as Aethil, snapping the remaining seals through whispers, wars and engineered tragedies. In **Year 325** came the **Blind Strike** (mortal name: Blizzard's End): Keth Amar crashed into the planetary ward. The **Secret Aegis** — the hidden lineage that erased itself from history — held; Keth Amar was severely wounded and repelled into the void. The impact fractured Aex's continental ward; crystalline **Aex Shards** — the greatest of them the Seven Sundered Monoliths, one of which is the Predatory Wyrd Counterfeit — rained across the continents. Sol vented volcanic fire through Emberspire. Mythrill is now trapped in a 150-Year Ice Age (Year 475), fighting over glowing shards for warmth and fuel.
 
 ---
 
@@ -110,7 +110,7 @@ Staffed by Berserkers who have volunteered for terminal duty. The camp near Snow
 ## PART V: SVÁLGHJARTA AND THE HUNGRÍD
 
 ### The Artifact — Sválghjarta (The Swallow-Heart)
-When Keth-Amar tore pieces from Aex, he infused each piece with **Wyrd** — cosmic corruption. **Sválghjarta** is Aex's heart, frozen in a ring of ice deep beneath the northern glacier. It does not beat; it hungers. 
+When Keth Amar tore pieces from Aex, he infused each piece with **Wyrd** — cosmic corruption. **Sválghjarta** is Aex's heart, frozen in a ring of ice deep beneath the northern glacier. It does not beat; it hungers. 
 
 The heart feeds on **unrealized potential** — the roads not taken, the futures aborted. It is building a colossal **carcass** around itself—a shell of ice, mammoth bones, and stolen stone to protect it while it feasts. It selectively hungers for the children of Morð—those marked with dormant celestial and animist potential.
 
@@ -256,7 +256,7 @@ Immigrant Neth scholars from Bryngloom Forest who manage contract-magic and draf
 Reclusive, dark-adapted Neth outcasts who control the Eldøyane volcanic tidal pools. They live in salt-stained cliff huts, build fish-pens out of inverted longship hulls, and broker black-market passage.
 
 ### 6. The Astril Scholar-Quarter (Frostholm)
-Quiet, alien scholars who remember the cosmic truth of Keth-Amar. Burdened by guilt for failing to warn the Skaldic houses during the Star-Fall, they quietly observe the Doom-Choir and avoid speaking Keth-Amar's true name.
+Quiet, alien scholars who remember the cosmic truth of Keth Amar. Burdened by guilt for failing to warn the Skaldic houses during the Star-Fall, they quietly observe the Doom-Choir and avoid speaking Keth Amar's true name.
 
 ### 7. The Fexric Slaves (The Sorte Market)
 Victims of Frigga Skalvyr’s illegal maritime slave pipeline. Clockwork and Caustic Fexric labor in steam-choked sweatshops beneath Frostholm, maintaining heat-conduits and forging clockwork gear with heat-scorched spanners.

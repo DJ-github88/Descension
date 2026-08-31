@@ -36,8 +36,27 @@ export function registerTokenHandlers(ctx) {
     socket.on('character_token_created', (data) => {
       if (deltaSyncTokensEnabled()) return;
       if (data && data.position) {
-        // CRITICAL: Pass mapId for proper map isolation
-        useCharacterTokenStore.getState().addCharacterTokenFromServer(data.tokenId, data.position, data.playerId, data.mapId);
+        // CRITICAL: Pass mapId for proper map isolation (+ character snapshot for portraits)
+        useCharacterTokenStore.getState().addCharacterTokenFromServer(
+          data.tokenId,
+          data.position,
+          data.playerId,
+          data.mapId,
+          data.token?.character || data.character || null,
+          data.token?.name || data.name || null
+        );
+      }
+    });
+
+    // Another player refreshed their token (portrait/name edit in their sheet)
+    socket.on('character_token_updated', (data) => {
+      if (deltaSyncTokensEnabled()) return;
+      if (data && data.tokenId) {
+        useCharacterTokenStore.getState().updateCharacterTokenSnapshot(
+          data.tokenId,
+          data.character || null,
+          data.name || null
+        );
       }
     });
 

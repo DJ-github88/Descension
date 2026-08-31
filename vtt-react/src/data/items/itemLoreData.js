@@ -130,7 +130,7 @@ const ITEM_LORE = {
   },
   'dim-orb': {
     origin: 'sundrift-vale',
-    loreText: 'Astril stargazers once read celestial patterns in orbs like this, before Keth-Amar devoured the stars. Now they are dim relics of a sky that no longer speaks.',
+    loreText: 'Astril stargazers once read celestial patterns in orbs like this, before Keth Amar devoured the stars. Now they are dim relics of a sky that no longer speaks.',
     relatedLore: ['sundrift-vale', 'astril', 'keth_amar']
   },
   'glowing-orb': {
@@ -492,7 +492,7 @@ const ITEM_LORE = {
   },
   voidreaver: {
     origin: 'iceheart-sea',
-    loreText: 'The Silent Seventh\'s deepest vaults beneath the Iceheart Sea yielded this weapon. Its edge is a tear in reality; wielders hear the whispers of Keth-Amar.',
+    loreText: 'The Silent Seventh\'s deepest vaults beneath the Iceheart Sea yielded this weapon. Its edge is a tear in reality; wielders hear the whispers of Keth Amar.',
     relatedLore: ['iceheart-sea', 'silent_seventh', 'keth_amar']
   },
   stormbreaker: {
@@ -736,7 +736,7 @@ const ITEM_LORE = {
   },
   'faction-tabard': {
     origin: 'sundale',
-    loreText: 'Dawn Vigil tabards are solar gold with an eclipse motif. Only High Command knows whether it represents Keth-Amar or Sol\'s final mercy.',
+    loreText: 'Dawn Vigil tabards are solar gold with an eclipse motif. Only High Command knows whether it represents Keth Amar or Sol\'s final mercy.',
     relatedLore: ['sundale', 'dawn_vigil', 'keth_amar']
   },
   'shattered-ward': {
@@ -910,7 +910,7 @@ const ITEM_LORE = {
   },
   'phoenix-heart-ring': {
     origin: 'sundale',
-    loreText: 'The Risen believe these contain a spark of Sol\'s original fire — before Keth-Amar began feeding. Hope, set in gold and worn on a finger.',
+    loreText: 'The Risen believe these contain a spark of Sol\'s original fire — before Keth Amar began feeding. Hope, set in gold and worn on a finger.',
     relatedLore: ['sundale', 'the_risen', 'sol', 'keth_amar']
   },
   'stormlord-amulet': {
@@ -1192,7 +1192,7 @@ const ITEM_LORE = {
   },
   'sky-iron': {
     origin: 'sundrift-vale',
-    loreText: 'Meteoric iron that fell from the sky Keth-Amar devoured. It is not from this world — and some say it remembers the stars it came from.',
+    loreText: 'Meteoric iron that fell from the sky Keth Amar devoured. It is not from this world — and some say it remembers the stars it came from.',
     relatedLore: ['sundrift-vale', 'keth_amar']
   },
 

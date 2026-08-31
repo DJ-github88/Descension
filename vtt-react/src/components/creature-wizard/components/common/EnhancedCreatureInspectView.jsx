@@ -2475,7 +2475,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       ['Cosmic provenance', loreCanon.cosmicProvenance],
       ['Wyrd function', loreCanon.wyrdFunction],
       ['Mythrill anchor', loreCanon.anchor],
-      ['Keth-Amar relationship', loreCanon.kethRelationship],
+      ['Keth Amar relationship', loreCanon.kethRelationship],
       ['Current independence', loreCanon.independence],
       ['Countermeasure', loreCanon.countermeasure]
     ]

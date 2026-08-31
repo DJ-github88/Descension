@@ -24,15 +24,20 @@ const CustomZoneSidebar = ({
   onFocusZone,
   onAddLocationToRegion,
   onSelectZone,
-  currentCampaign = null
+  currentCampaign = null,
+  readOnly = false,
+  onExitReadOnly = null
 }) => {
-  const [loreMode, setLoreMode] = useState('write'); // 'write' | 'preview'
+  const [loreMode, setLoreMode] = useState(readOnly ? 'preview' : 'write'); // 'write' | 'preview'
   const [showImageUrlInput, setShowImageUrlInput] = useState(false);
   const [tempImageUrl, setTempImageUrl] = useState('');
   const [sidebarWidth, setSidebarWidth] = useState(null); // custom drag-resized width (px)
   const [showCampaignPicker, setShowCampaignPicker] = useState(false);
   const [campaignTab, setCampaignTab] = useState('npcs'); // 'npcs' | 'locations' | 'plots' | 'lore'
   const [campaignSearch, setCampaignSearch] = useState('');
+  React.useEffect(() => {
+    if (readOnly) setLoreMode('preview');
+  }, [readOnly]);
   const sidebarRef = useRef(null);
   const textareaRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -290,6 +295,18 @@ ${item.notes ? `**Notes:**\n${item.notes}` : ''}`;
         </div>
       )}
 
+      {readOnly && (
+        <div className="custom-zone-readonly-banner">
+          <i className="fas fa-eye"></i>
+          <span>Immersive reading — edits hidden</span>
+          {onExitReadOnly && (
+            <button type="button" className="readonly-exit-btn" onClick={onExitReadOnly}>
+              <i className="fas fa-pen"></i> Edit
+            </button>
+          )}
+        </div>
+      )}
+
       {/* Title & Kind */}
       <div className="custom-zone-title-block">
         <input
@@ -297,10 +314,13 @@ ${item.notes ? `**Notes:**\n${item.notes}` : ''}`;
           className="custom-zone-name-input"
           value={zone.name || ''}
           placeholder="Name this landmark or region..."
-          onChange={(e) => onUpdateZone && onUpdateZone(zone.id, { name: e.target.value })}
+          onChange={(e) => !readOnly && onUpdateZone && onUpdateZone(zone.id, { name: e.target.value })}
           aria-label="Zone name"
+          readOnly={readOnly}
+          disabled={readOnly}
         />
 
+        {!readOnly && (
         <div className="custom-zone-kind-pills">
           {(['region', 'settlement', 'landmark', 'dungeon', 'poi', 'location']).map((k) => (
             <button
@@ -314,6 +334,7 @@ ${item.notes ? `**Notes:**\n${item.notes}` : ''}`;
             </button>
           ))}
         </div>
+        )}
       </div>
 
       {/* Action Toolbar */}
@@ -330,7 +351,7 @@ ${item.notes ? `**Notes:**\n${item.notes}` : ''}`;
           </button>
         )}
 
-        {!isPolygon && (
+        {!readOnly && !isPolygon && (
           <button
             type="button"
             className={`zone-action-btn lock-btn ${zone.isLocked ? 'is-locked' : 'is-unlocked'}`}
@@ -342,6 +363,7 @@ ${item.notes ? `**Notes:**\n${item.notes}` : ''}`;
           </button>
         )}
 
+        {!readOnly && (
         <button
           type="button"
           className="zone-action-btn campaign-link-btn"
@@ -351,8 +373,9 @@ ${item.notes ? `**Notes:**\n${item.notes}` : ''}`;
           <i className="fas fa-scroll"></i>
           <span>Import Campaign</span>
         </button>
+        )}
 
-        {isPolygon && onAddLocationToRegion && (
+        {!readOnly && isPolygon && onAddLocationToRegion && (
           <button
             type="button"
             className="zone-action-btn add-loc-btn"
@@ -364,7 +387,7 @@ ${item.notes ? `**Notes:**\n${item.notes}` : ''}`;
           </button>
         )}
 
-        {onDeleteZone && (
+        {!readOnly && onDeleteZone && (
           <button
             type="button"
             className="zone-action-btn delete-btn"
@@ -398,8 +421,8 @@ ${item.notes ? `**Notes:**\n${item.notes}` : ''}`;
             <div className="zone-meta-divider" />
             <div className="zone-meta-item coords-item">
               <div className="coords-inputs">
-                <label>X: <input type="number" value={Math.round(zone.position?.[0] || zone.points?.[0]?.[0] || 0)} onChange={(e) => handleCoordinateChange('x', e.target.value)} /></label>
-                <label>Y: <input type="number" value={Math.round(zone.position?.[1] || zone.points?.[0]?.[1] || 0)} onChange={(e) => handleCoordinateChange('y', e.target.value)} /></label>
+                <label>X: <input type="number" value={Math.round(zone.position?.[0] || zone.points?.[0]?.[0] || 0)} onChange={(e) => !readOnly && handleCoordinateChange('x', e.target.value)} disabled={readOnly} readOnly={readOnly} /></label>
+                <label>Y: <input type="number" value={Math.round(zone.position?.[1] || zone.points?.[0]?.[1] || 0)} onChange={(e) => !readOnly && handleCoordinateChange('y', e.target.value)} disabled={readOnly} readOnly={readOnly} /></label>
               </div>
               <span className="meta-lbl">Coordinates</span>
             </div>
@@ -428,6 +451,7 @@ ${item.notes ? `**Notes:**\n${item.notes}` : ''}`;
             <i className="fas fa-book-open"></i>
             <h4>Lore & Notes</h4>
           </div>
+          {!readOnly && (
           <div className="lore-mode-toggle">
             <button
               type="button"
@@ -454,10 +478,16 @@ ${item.notes ? `**Notes:**\n${item.notes}` : ''}`;
               <i className="fas fa-scroll"></i> Codex View
             </button>
           </div>
+          )}
+          {readOnly && (
+            <div className="lore-mode-toggle lore-readonly-badge">
+              <span className="readonly-lore-label"><i className="fas fa-book-open"></i> Codex View</span>
+            </div>
+          )}
         </div>
 
         {/* Markdown Toolbar (rendered in Write and Split modes) */}
-        {loreMode !== 'preview' && (
+        {!readOnly && loreMode !== 'preview' && (
           <div className="lore-format-toolbar">
             {/* ── Row 1: Inline Formatting ── */}
             <div className="format-toolbar-row">
@@ -775,6 +805,7 @@ Effect: Failed targets suffer 1 stack of Frost-Strain, reducing movement speed b
       </div>
 
       {/* Color Customization */}
+      {!readOnly && (
       <div className="custom-zone-section color-section">
         <div className="custom-zone-section-header">
           <div className="section-title-wrap">
@@ -815,6 +846,7 @@ Effect: Failed targets suffer 1 stack of Frost-Strain, reducing movement speed b
           })}
         </div>
       </div>
+      )}
 
       {/* Campaign Asset Picker Modal */}
       {showCampaignPicker && (

@@ -9621,3 +9621,9 @@
 
 
 
+@media print {
+  .book-editor-toolbar, .book-sidebar, .book-toc-sidebar, .book-document-sidebar, .book-editor-footer, .mode-toggle-group, .toolbar-center, .book-manager-header, .book-manager-tabs-bar { display:none !important; }
+  .book-document-editor, .book-read-preview, .book-page-sheet { box-shadow:none !important; border:none !important; margin:0 !important; padding:12px !important; width:100% !important; max-width:none !important; background:#fff !important; }
+  body { background:#fff !important; }
+  .book-block { break-inside: avoid; }
+}

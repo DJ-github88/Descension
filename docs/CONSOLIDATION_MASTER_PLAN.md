@@ -104,7 +104,7 @@ Merge 30 classes down to 20, collapse 16 damage types to 8, cap racial traits at
 | Storm | Lightning + Force | Kinetic fury |
 | Arcane | Pure magic | Binding ritual residue |
 | Primal | Living things, growth | The world's refusal to die |
-| Blight | Necrotic + Void + Poison | Keth-Amar's corruption |
+| Blight | Necrotic + Void + Poison | Keth Amar's corruption |
 | Wyrd | Chaos + Psychic | Spiritual rot |
 Magic should likewise physical be the super category as physical is, but for our magic damage types 
 Healing stays as a separate restorative category.

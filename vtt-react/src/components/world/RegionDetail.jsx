@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import useWorldStore from '../../store/worldStore';
 import useFactionStore from '../../store/factionStore';
+import { showConfirm } from '../../utils/dialogService';
 import { SUBREGIONS } from '../../data/subregions';
 import LoreLink from '../common/LoreLink';
 import { TimelineView } from './TimelineView';
@@ -43,7 +44,7 @@ const getLocationCategoryKey = (loc) => {
 };
 
 const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => {
-  const { getRegion, getLocationsByRegion, getFactionsByRegion, addCustomLocation, activeWorldId } = useWorldStore();
+  const { getRegion, getLocationsByRegion, getFactionsByRegion, addCustomLocation, updateCustomRegion, deleteCustomRegion, deleteCustomLocation, updateCustomLocation, activeWorldId } = useWorldStore();
   const [activeTab, setActiveTab] = useState('overview');
 
   // Location Tab Filter & View States
@@ -90,6 +91,67 @@ const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => 
     setNewLocSmell('');
     setNewLocHook('');
     if (onLocationClick) onLocationClick(newLocId);
+  };
+
+  // ── Edit / Delete Realm (custom worlds only) ──
+  const [showEditRegionModal, setShowEditRegionModal] = useState(false);
+  const [editRegionName, setEditRegionName] = useState('');
+  const [editRegionDanger, setEditRegionDanger] = useState('medium');
+  const [editRegionClimate, setEditRegionClimate] = useState('');
+  const [editRegionTerrain, setEditRegionTerrain] = useState('');
+  const [editRegionDesc, setEditRegionDesc] = useState('');
+  const [editRegionLore, setEditRegionLore] = useState('');
+  const [editRegionRuler, setEditRegionRuler] = useState('');
+
+  const openEditRegionModal = () => {
+    if (!region) return;
+    setEditRegionName(region.name || '');
+    setEditRegionDanger(region.dangerLevel || 'medium');
+    setEditRegionClimate(region.climate || '');
+    setEditRegionTerrain(region.dominantTerrain || '');
+    setEditRegionDesc(region.description || '');
+    setEditRegionLore(region.loreOverview || region.lore || '');
+    setEditRegionRuler(region.ruler || '');
+    setShowEditRegionModal(true);
+  };
+
+  const handleEditRegionSubmit = (e) => {
+    e.preventDefault();
+    if (!editRegionName.trim()) return;
+    updateCustomRegion(activeWorldId, regionId, {
+      name: editRegionName.trim(),
+      dangerLevel: editRegionDanger,
+      climate: editRegionClimate.trim() || 'Temperate',
+      dominantTerrain: editRegionTerrain.trim() || 'Wilderness & Valleys',
+      description: editRegionDesc.trim(),
+      loreOverview: editRegionLore.trim(),
+      ruler: editRegionRuler.trim()
+    });
+    setShowEditRegionModal(false);
+  };
+
+  const handleDeleteRegion = async () => {
+    const confirmed = await showConfirm({
+      title: 'Delete Realm',
+      message: `Delete "${region.name}" and all holds inside it?`,
+      subMessage: 'This cannot be undone. Custom locations in this realm will be orphaned.',
+      confirmText: 'Delete Realm',
+      isDestructive: true
+    });
+    if (!confirmed) return;
+    deleteCustomRegion(activeWorldId, regionId);
+    if (onBack) onBack();
+  };
+
+  const handleDeleteLocation = async (loc) => {
+    const confirmed = await showConfirm({
+      title: 'Delete Hold',
+      message: `Delete "${loc.name}"?`,
+      confirmText: 'Delete',
+      isDestructive: true
+    });
+    if (!confirmed) return;
+    deleteCustomLocation(activeWorldId, loc.id);
   };
 
   const region = getRegion(regionId);
@@ -315,10 +377,20 @@ const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => 
           </div>
         )}
 
-        <div className="location-card-footer">
-          <button className="btn-inspect-loc">
+        <div className="location-card-footer" style={{ display: 'flex', gap: '8px' }}>
+          <button className="btn-inspect-loc" style={{ flex: 1 }}>
             Inspect Location Codex <i className="fas fa-arrow-right"></i>
           </button>
+          {loc.isCustom && (
+            <button
+              className="btn-inspect-loc"
+              title="Delete Hold"
+              style={{ background: 'rgba(180,40,40,0.12)', borderColor: '#a33', color: '#a33', flex: '0 0 auto', padding: '6px 10px' }}
+              onClick={(e) => { e.stopPropagation(); handleDeleteLocation(loc); }}
+            >
+              <i className="fas fa-trash"></i>
+            </button>
+          )}
         </div>
       </div>
     );
@@ -345,6 +417,26 @@ const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => 
             >
               <i className="fas fa-map-location-dot"></i> View on World Map
             </button>
+            {region.isCustom && (
+              <>
+                <button
+                  className="btn-region-hero-action"
+                  onClick={openEditRegionModal}
+                  title="Edit Realm"
+                  style={{ background: 'rgba(212,175,55,0.18)', borderColor: '#d4af37' }}
+                >
+                  <i className="fas fa-pen"></i> Edit
+                </button>
+                <button
+                  className="btn-region-hero-action"
+                  onClick={handleDeleteRegion}
+                  title="Delete Realm"
+                  style={{ background: 'rgba(180,40,40,0.18)', borderColor: '#a33', color: '#c0392b' }}
+                >
+                  <i className="fas fa-trash"></i> Delete
+                </button>
+              </>
+            )}
           </div>
         </div>
 
@@ -1086,6 +1178,68 @@ const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => 
                 <button type="submit" className="world-action-btn primary">
                   <i className="fas fa-chess-rook"></i> Establish Hold
                 </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Realm Modal (custom only) */}
+      {showEditRegionModal && (
+        <div className="world-modal-overlay" onClick={() => setShowEditRegionModal(false)}>
+          <div className="world-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="world-modal-header">
+              <div className="world-modal-title">
+                <i className="fas fa-pen"></i>
+                <h3>Edit Realm: {region?.name}</h3>
+              </div>
+              <button className="world-modal-close" onClick={() => setShowEditRegionModal(false)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <form onSubmit={handleEditRegionSubmit}>
+              <div className="world-modal-body">
+                <div className="world-form-group">
+                  <label>Realm Name *</label>
+                  <input type="text" required value={editRegionName} onChange={(e) => setEditRegionName(e.target.value)} autoFocus />
+                </div>
+                <div className="world-form-row">
+                  <div className="world-form-group" style={{ flex: 1 }}>
+                    <label>Danger Level</label>
+                    <select value={editRegionDanger} onChange={(e) => setEditRegionDanger(e.target.value)}>
+                      <option value="low">Low — Sheltered</option>
+                      <option value="medium">Medium — Contested</option>
+                      <option value="high">High — Perilous</option>
+                      <option value="extreme">Extreme — Blighted</option>
+                    </select>
+                  </div>
+                  <div className="world-form-group" style={{ flex: 1 }}>
+                    <label>Ruler / Authority</label>
+                    <input type="text" placeholder="e.g. Jarl Sigrun, Council of Ash" value={editRegionRuler} onChange={(e) => setEditRegionRuler(e.target.value)} />
+                  </div>
+                </div>
+                <div className="world-form-row">
+                  <div className="world-form-group" style={{ flex: 1 }}>
+                    <label>Climate</label>
+                    <input type="text" placeholder="e.g. Subarctic, Temperate" value={editRegionClimate} onChange={(e) => setEditRegionClimate(e.target.value)} />
+                  </div>
+                  <div className="world-form-group" style={{ flex: 1 }}>
+                    <label>Dominant Terrain</label>
+                    <input type="text" placeholder="e.g. Glacial Plains & Fjords" value={editRegionTerrain} onChange={(e) => setEditRegionTerrain(e.target.value)} />
+                  </div>
+                </div>
+                <div className="world-form-group">
+                  <label>Short Description</label>
+                  <textarea rows={2} value={editRegionDesc} onChange={(e) => setEditRegionDesc(e.target.value)} />
+                </div>
+                <div className="world-form-group">
+                  <label>Living Lore Overview</label>
+                  <textarea rows={3} placeholder="Realm history, culture, binding lore..." value={editRegionLore} onChange={(e) => setEditRegionLore(e.target.value)} />
+                </div>
+              </div>
+              <div className="world-modal-actions">
+                <button type="button" className="world-action-btn" onClick={() => setShowEditRegionModal(false)}>Cancel</button>
+                <button type="submit" className="world-action-btn primary"><i className="fas fa-save"></i> Save Realm</button>
               </div>
             </form>
           </div>

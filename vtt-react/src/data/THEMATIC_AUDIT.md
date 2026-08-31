@@ -98,7 +98,7 @@ Every subrace from the race files appears in at least one class's `allowedSubrac
 
 - All 10 races tied to a specific region and noble house.
 - All 8 regions have detailed lore entries covering bargains, governance, economy, social stratification.
-- Cosmic lore (Sol, Aex, Keth-Amar, the Warden, the Watcher, the Breach, the Deepening) is consistent across all files.
+- Cosmic lore (Sol, Aex, Keth Amar, the Warden, the Watcher, the Breach, the Deepening) is consistent across all files.
 - Class founder stories (Valerius, Grum, Sera, Cassia, Veyra, Damon, Nesta, etc.) are consistent with their race and region origins.
 
 ### 4.2 Native Weaving

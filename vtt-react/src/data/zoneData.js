@@ -1677,7 +1677,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "The Shard-Window",
     "type": "wilderness",
-    "description": "A three-mile-wide circular storm-vortex above a Sundered Monolith in the Storm-Belt. The storm never rests; it is the binding-storm of the Shard, the leash Keth-Amar holds on the buried star. The vortex pulls ships into its eye; those that survive the descent say they can see, in the lightning-flashes, the shape of a star being eaten. The Storm-Speakers tend a shrine on the rim.",
+    "description": "A three-mile-wide circular storm-vortex above a Sundered Monolith in the Storm-Belt. The storm never rests; it is the binding-storm of the Shard, the leash Keth Amar holds on the buried star. The vortex pulls ships into its eye; those that survive the descent say they can see, in the lightning-flashes, the shape of a star being eaten. The Storm-Speakers tend a shrine on the rim.",
     "dangerLevel": "extreme",
     "factions": [
       "Stormspeakers"
@@ -1882,7 +1882,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "The Shifting Fen",
     "type": "wilderness",
-    "description": "A peat-bog in the eastern Fens whose geography rearranges itself overnight, paths taken at dawn are not there at dusk, islands become pools, pools become solid ground. The Tethered Mimir say the Fen is a wound where the Reach's memory-fog has eaten a hole in the world; the Forgotten who shelter here say it is a place where Keth-Amar's tendrils cannot reach, because nothing here stays the same long enough to be remembered.",
+    "description": "A peat-bog in the eastern Fens whose geography rearranges itself overnight, paths taken at dawn are not there at dusk, islands become pools, pools become solid ground. The Tethered Mimir say the Fen is a wound where the Reach's memory-fog has eaten a hole in the world; the Forgotten who shelter here say it is a place where Keth Amar's tendrils cannot reach, because nothing here stays the same long enough to be remembered.",
     "dangerLevel": "high",
     "factions": [
       "Tethered Mimir",
@@ -8496,7 +8496,7 @@ export const ZONE_DATA = [
     "subregionId": "nordhalla-glacier-heart",
     "history": {
       "founded": "Year 1 (Freezing Era)",
-      "foundedBy": "Aethil Skalvyr & Keth-Amar Pact Keepers",
+      "foundedBy": "Aethil Skalvyr & Keth Amar Pact Keepers",
       "foundingStory": "The sacred grotto where the original runes of the Glacier Bargain were inscribed into the living glacier floor.",
       "significantEvents": [
         {
@@ -9231,7 +9231,7 @@ export const ZONE_DATA = [
     "regionId": "nordhalla",
     "name": "Þögn",
     "type": "wilderness",
-    "description": "A cliff face perpetually frozen in rime where no wind blows and no sound carries. The Rime-Born claim the cliff is where Keth-Amar's breath touched the mountain during the Glacier Bargain. Ice sculptures of unknown figures stand frozen in attitudes of supplication along the cliff face, no one knows who carved them or who they depict.",
+    "description": "A cliff face perpetually frozen in rime where no wind blows and no sound carries. The Rime-Born claim the cliff is where Keth Amar's breath touched the mountain during the Glacier Bargain. Ice sculptures of unknown figures stand frozen in attitudes of supplication along the cliff face, no one knows who carved them or who they depict.",
     "dangerLevel": "high",
     "factions": [
       "Rime-Born Rune Keepers"

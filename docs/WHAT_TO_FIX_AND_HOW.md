@@ -18,7 +18,7 @@
 
 ### 3. The Watcher Doesn't Exist Anywhere
 **Files:** Needs to be in `loreDictionary.js`, `rulesData.js`, `timelineStore.js`, `lunarchData.js`
-**Problem:** Named in framework as "entity that reached Viridane before Keth-Amar." Zero references in any data file.
+**Problem:** Named in framework as "entity that reached Viridane before Keth Amar." Zero references in any data file.
 **Fix:** Add to minimum 3 files:
 - `loreDictionary.js`: new `historical_figure` entry for "The Watcher"  -  entity of unknown origin, reached House Viridane in the mist during the Binding
 - `rulesData.js`: cosmic mythos section, 3 sentences: who it is, what it did, why it's relevant to the current crisis
@@ -29,7 +29,7 @@
 ### 4. 7 Apolitical Classes Need Faction Alignment
 **Files:** `chronarchData.js`, `gambitData.js`, `minstrelData.js`, `shaperData.js`, `toxicologistData.js`, `revenantData.js`  -  each needs a `worldFriction` block (2-3 lines)
 **Fix per class:**
-- **Chronarch:** Pro-timeline-stabilization (allied with Augurs seeking unified timeline) vs. pro-accelerators (hired by Keth-Amar adherents to fracture time faster)
+- **Chronarch:** Pro-timeline-stabilization (allied with Augurs seeking unified timeline) vs. pro-accelerators (hired by Keth Amar adherents to fracture time faster)
 - **Gambit:** Sea-Charter enforcers (Mereval loyalists) vs. Press-Warrant resisters (Brine-Bond underground smuggling undocumented refugees)
 - **Minstrel:** The Last Verse as oral-resistance network against the Sovereign Ledger  -  they remember what the ink erases. Anti-Scribe-Cartel.
 - **Shaper:** Are they Groven-aligned (bone-sculpting Ancestor-Spans) or Fexrick-aligned (Lost Brood vat mechanics)? Pick one or make it a faction split.
@@ -72,7 +72,7 @@
 ### 11. Add Connective Thread Between All 7 Secrets
 **File:** `CORE_LORE_FRAMEWORK.md`
 **Fix:** Add this paragraph to the "Secrets" section:
-> "None of these mysteries is independent. The Watcher is causing the timeline fracture. The timeline fracture is accelerating the moon-egg's hatching. The moon-egg's hatching is what Selene is translating for the Watcher. The players can discover any entry point and find the same answer: something is unraveling the timeline to hasten or prevent the last thing Keth-Amar expects."
+> "None of these mysteries is independent. The Watcher is causing the timeline fracture. The timeline fracture is accelerating the moon-egg's hatching. The moon-egg's hatching is what Selene is translating for the Watcher. The players can discover any entry point and find the same answer: something is unraveling the timeline to hasten or prevent the last thing Keth Amar expects."
 
 ### 12. Name the Dead Moon
 **Files:** `lunarchData.js`, `loreDictionary.js`

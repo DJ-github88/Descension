@@ -46,6 +46,23 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId, worldId }) => {
   const [dragStartPos, setDragStartPos] = useState({ x: 0, y: 0 });
   const [customPositions, setCustomPositions] = useState({});
 
+  // Persist dragged positions per world (previously lost on reload)
+  useEffect(() => {
+    try {
+      const key = `mythrill_faction_graph_positions_${targetWorldId}`;
+      const saved = localStorage.getItem(key);
+      if (saved) setCustomPositions(JSON.parse(saved));
+      else setCustomPositions({});
+    } catch {}
+  }, [targetWorldId]);
+
+  useEffect(() => {
+    try {
+      const key = `mythrill_faction_graph_positions_${targetWorldId}`;
+      if (Object.keys(customPositions).length > 0) localStorage.setItem(key, JSON.stringify(customPositions));
+    } catch {}
+  }, [customPositions, targetWorldId]);
+
   const relTypes = getRelationshipTypes();
 
   // Filtered Factions for the active world
@@ -157,13 +174,13 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId, worldId }) => {
   // Active Focus Faction Object & Relationships List
   const activeFocusFaction = useMemo(() => {
     if (!activeFocusFactionId) return null;
-    return factions.find(f => f.id === activeFocusFactionId) || null;
-  }, [activeFocusFactionId, factions]);
+    return worldFactions.find(f => f.id === activeFocusFactionId) || null;
+  }, [activeFocusFactionId, worldFactions]);
 
   const activeFocusRelationships = useMemo(() => {
     if (!activeFocusFaction) return [];
     return (activeFocusFaction.relationships || []).map(rel => {
-      const target = factions.find(f => f.id === rel.targetFactionId);
+      const target = worldFactions.find(f => f.id === rel.targetFactionId);
       return {
         ...rel,
         targetName: target?.name || rel.targetFactionId,
@@ -171,7 +188,7 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId, worldId }) => {
         targetType: target?.type || 'faction'
       };
     });
-  }, [activeFocusFaction, factions]);
+  }, [activeFocusFaction, worldFactions]);
 
   // Reset Canvas View
   const resetCanvasView = useCallback(() => {
@@ -336,6 +353,7 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId, worldId }) => {
   // Reset custom layout
   const handleResetLayout = () => {
     setCustomPositions({});
+    try { localStorage.removeItem(`mythrill_faction_graph_positions_${targetWorldId}`); } catch {}
     resetCanvasView();
   };
 

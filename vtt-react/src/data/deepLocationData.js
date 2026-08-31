@@ -163,7 +163,7 @@ DEEP_LOCATIONS['frozen-archive'] = {
    'The Skald carved the Archive into the glacier as both fortress and tomb. The first chamber held their dead. The family believed that freezing their ancestors in ice would preserve not just their bodies but their wisdom. Over centuries, the vaults grew as chiselers added genealogies, star-charts, treaties, and prophecies.',
   significantEvents: [
    { date: 'at the Great Binding', event: 'First Augur reading: Cassia reads the failing of the warmth\'s hour in glacier-elk entrails' },
-    { date: 'early in the Slow Cracks', event: 'The Skalvyr Glacier Bargain: Keth-Amar freezes glaciers through Aethil\'s framework; Frost-Tithe set on Rime-Born' },
+    { date: 'early in the Slow Cracks', event: 'The Skalvyr Glacier Bargain: Keth Amar freezes glaciers through Aethil\'s framework; Frost-Tithe set on Rime-Born' },
    { date: 'just after Blizzard’s End', event: 'First Rebirth Window: Augurs measure 40% output; systematic logging begins' },
    { date: 'in the first centuries of the Freezing Era', event: 'Aldren Thalreth the Elder\'s self-entombment, his frozen chamber remains in the deepest vault' },
    { date: 'in the first centuries of the Freezing Era', event: 'Berserker founding: Grum\'s Rage occurs in Emberspire\'s caldera, recorded in Archive annals' },
@@ -354,7 +354,7 @@ DEEP_LOCATIONS['synod-hold'] = {
    'Originally a seasonal gathering site for nomadic clans, Synod Hold grew into a permanent settlement when the Ordavan realized that the steppe\'s trade value exceeded its grazing value. The Unlit Veil arrived within a generation and never left.',
 
   significantEvents: [
-   { date: 'before the Star-Fall', event: 'Astril First Landing: the refugee vessels from Lumia touch the steppe, carrying warning of Keth-Amar' },
+   { date: 'before the Star-Fall', event: 'Astril First Landing: the refugee vessels from Lumia touch the steppe, carrying warning of Keth Amar' },
    { date: 'in the early generations of the Freezing Era', event: 'Synod Hold established as a permanent trade post' },
    { date: 'in the early centuries of the Freezing Era', event: 'The first Synod delegates arrived, offering "trade consultation services"' },
    { date: 'in the early centuries of the Freezing Era', event: 'The Synod Organizes: formal ruling council established; first Echo-Submersion case recorded' },
@@ -984,7 +984,7 @@ DEEP_LOCATIONS['starfall-vale'] = {
   founded: 'at the Great Binding',
   foundedBy: 'Earthen Astril',
   foundingStory:
-    'When Keth-Amar devoured Lumia, fragments of that dying world\'s biosphere were carried by fleeing Astril refugees across the void. These crystalline shards, condensed remnants of Lumia\'s essence, impacted the steppe here before the Great Binding, creating a crater that the Earthen Astril found within hours of their arrival. They have never left.',
+    'When Keth Amar devoured Lumia, fragments of that dying world\'s biosphere were carried by fleeing Astril refugees across the void. These crystalline shards, condensed remnants of Lumia\'s essence, impacted the steppe here before the Great Binding, creating a crater that the Earthen Astril found within hours of their arrival. They have never left.',
   significantEvents: [
     { date: 'before the Star-Fall', event: 'The Starfall, crystalline residue from Lumia\'s destruction impacts the steppe; Earthen Astril claim the site within hours' },
    { date: 'in the first centuries of the Freezing Era', event: 'First Oracle-vision recorded, a prophecy of the Sundered Monoliths' },

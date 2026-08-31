@@ -9,7 +9,9 @@ import {
   doc,
   getDoc,
   setDoc,
-  serverTimestamp
+  serverTimestamp,
+  collection,
+  getDocs
 } from 'firebase/firestore';
 import { db, isMockOrDevUser, auth } from '../../config/firebase';
 
@@ -270,11 +272,99 @@ class StorageLimitService {
   }
 
   /**
+   * Measure the actual Firestore bytes used by world-building, journal,
+   * campaign, character, room, and custom-map documents.
+   *
+   * These documents are written as full overwrites (setDoc) by their stores
+   * and historically were not reflected in the counter-based storageUsage,
+   * so the header widget under-reported real cloud usage. This measures the
+   * stored documents directly to report truthful totals.
+   *
+   * Returns null when Firestore is unreachable so callers can fall back to
+   * the legacy counters.
+   */
+  async getCloudDataUsage(userId) {
+    if (!userId || userId.startsWith('guest-') || isMockOrDevUser(userId) || !auth?.currentUser || !db) {
+      return null;
+    }
+
+    const CACHE_TTL = 30 * 1000;
+    if (this._cloudUsageCache && this._cloudUsageCache.key === userId && (Date.now() - this._cloudUsageCache.at) < CACHE_TTL) {
+      return this._cloudUsageCache.data;
+    }
+
+    const DOC_OVERHEAD = 100; // approximate Firestore per-document metadata cost
+
+    const measureDoc = async (pathSegments) => {
+      try {
+        const snap = await getDoc(doc(db, ...pathSegments));
+        return snap.exists() ? this.estimateDataSize(snap.data()) + DOC_OVERHEAD : 0;
+      } catch (error) {
+        console.debug('Storage measurement failed for', pathSegments.join('/'), error?.message);
+        return null;
+      }
+    };
+
+    const measureCollection = async (pathSegments) => {
+      try {
+        const snap = await getDocs(collection(db, ...pathSegments));
+        let bytes = 0;
+        let count = 0;
+        snap.forEach((d) => {
+          bytes += this.estimateDataSize(d.data()) + DOC_OVERHEAD;
+          count += 1;
+        });
+        return { bytes, count };
+      } catch (error) {
+        console.debug('Storage measurement failed for', pathSegments.join('/'), error?.message);
+        return null;
+      }
+    };
+
+    const WORLDBUILDING_DOC_IDS = [
+      'worlds', 'books', 'factions', 'timelines',
+      'familyTrees', 'lineages', 'interactiveMaps', 'quests', 'entityGraph',
+      'deities', 'languages'
+    ];
+
+    const [worldLoreResults, journal, characters, rooms, campaigns, customMaps] = await Promise.all([
+      Promise.all(WORLDBUILDING_DOC_IDS.map((id) => measureDoc(['users', userId, 'worldbuilding', id]))),
+      measureDoc(['users', userId, 'journal', 'main']),
+      measureCollection(['users', userId, 'characterStates']),
+      measureCollection(['users', userId, 'roomStates']),
+      measureCollection(['users', userId, 'campaigns']),
+      measureCollection(['userCustomMaps', userId, 'maps'])
+    ]);
+
+    // If any measurement failed (offline/permissions), treat the whole
+    // measurement as unavailable so callers fall back to counters.
+    const parts = [...worldLoreResults, journal, characters, rooms, campaigns, customMaps];
+    if (parts.some((p) => p === null)) {
+      return null;
+    }
+
+    const worldLore = worldLoreResults.reduce((a, b) => a + b, 0);
+    const data = {
+      worldLore,
+      journal,
+      characters: characters.bytes,
+      rooms: rooms.bytes,
+      campaigns: { bytes: campaigns.bytes, count: campaigns.count },
+      customMaps: customMaps.bytes,
+      total: worldLore + journal + characters.bytes + rooms.bytes + campaigns.bytes + customMaps.bytes
+    };
+
+    this._cloudUsageCache = { key: userId, at: Date.now(), data };
+    return data;
+  }
+
+  /**
    * Get storage usage summary for UI display
    */
   async getStorageSummary(userId) {
     const { tier, limits } = await this.getUserTier(userId);
     const usage = await this.getStorageUsage(userId);
+    const measured = await this.getCloudDataUsage(userId);
 
     if (tier === 'GUEST') {
       return {
@@ -288,7 +378,17 @@ class StorageLimitService {
       };
     }
 
-    const percentage = limits.total > 0 ? (usage.total / limits.total) * 100 : 0;
+    // Counter-tracked categories that live in Firebase Storage / per-doc
+    // services with proper +/- delta accounting (not measurable via docs).
+    const counterOnly =
+      (usage.audioFiles || 0) + (usage.mediaFiles || 0) +
+      (usage.creatures || 0) + (usage.items || 0) + (usage.spells || 0);
+
+    const totalUsed = measured
+      ? counterOnly + measured.total
+      : (usage.total || 0);
+
+    const percentage = limits.total > 0 ? (totalUsed / limits.total) * 100 : 0;
 
     let status = 'good';
     let message = 'Storage usage is healthy';
@@ -303,14 +403,17 @@ class StorageLimitService {
 
     return {
       tier: tier.charAt(0).toUpperCase() + tier.slice(1).toLowerCase(),
-      totalUsed: usage.total,
+      totalUsed,
       totalLimit: limits.total,
       percentage: Math.round(percentage),
       breakdown: {
-        characters: usage.characters || 0,
-        rooms: usage.rooms || 0,
-        journals: usage.journals || 0,
-        campaigns: usage.campaigns || 0,
+        characters: measured ? measured.characters : (usage.characters || 0),
+        rooms: measured ? measured.rooms : (usage.rooms || 0),
+        journals: measured ? measured.journal : (usage.journals || 0),
+        campaigns: measured ? measured.campaigns.count : (usage.campaigns || 0),
+        campaignBytes: measured ? measured.campaigns.bytes : 0,
+        worldLore: measured ? measured.worldLore : 0,
+        customMaps: measured ? measured.customMaps : 0,
         audioFiles: usage.audioFiles || 0,
         mediaFiles: usage.mediaFiles || 0
       },

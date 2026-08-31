@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import useFactionStore from '../../store/factionStore';
 import useWorldStore from '../../store/worldStore';
+import { showConfirm } from '../../utils/dialogService';
 import LoreLink from '../common/LoreLink';
 import RichLoreText from '../common/RichLoreText';
 import LoreEditorToolbar from '../common/LoreEditorToolbar';
@@ -12,6 +13,10 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
   const { getFullContextForFaction, activeWorldId } = useWorldStore();
   const [activeTab, setActiveTab] = useState('overview');
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showAddRelModal, setShowAddRelModal] = useState(false);
+  const [newRelTargetId, setNewRelTargetId] = useState('');
+  const [newRelType, setNewRelType] = useState('allied');
+  const [newRelDesc, setNewRelDesc] = useState('');
 
   // Edit form state
   const [editName, setEditName] = useState('');
@@ -86,6 +91,36 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
     setShowEditModal(false);
   };
 
+  const handleDeleteFaction = async () => {
+    const confirmed = await showConfirm({
+      title: 'Delete Order',
+      message: `Delete "${faction.name}"? This cannot be undone.`,
+      confirmText: 'Delete',
+      isDestructive: true
+    });
+    if (!confirmed) return;
+    removeFaction(factionId);
+    if (onBack) onBack();
+  };
+
+  const handleAddRelationship = (e) => {
+    e.preventDefault();
+    if (!newRelTargetId) return;
+    const existing = (faction.relationships || []).some((r) => r.targetFactionId === newRelTargetId && r.type === newRelType);
+    if (existing) return;
+    const newRel = { targetFactionId: newRelTargetId, type: newRelType, description: newRelDesc.trim() };
+    updateFaction(factionId, { relationships: [...(faction.relationships || []), newRel] });
+    setShowAddRelModal(false);
+    setNewRelTargetId('');
+    setNewRelDesc('');
+    setNewRelType('allied');
+  };
+
+  const handleRemoveRelationship = (idx) => {
+    const next = (faction.relationships || []).filter((_, i) => i !== idx);
+    updateFaction(factionId, { relationships: next });
+  };
+
   const tabs = [
     { key: 'overview', label: 'Chronicle', icon: 'fa-book-open' },
     { key: 'members', label: `Hierarchy & Roster (${(faction.members || []).length || (faction.leader ? 1 : 0)})`, icon: 'fa-users-viewfinder' },
@@ -131,6 +166,14 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
               title="Inspect in Relationship Web"
             >
               <i className="fas fa-project-diagram"></i> Relationship Web
+            </button>
+            <button
+              className="btn-faction-hero-web"
+              onClick={handleDeleteFaction}
+              title="Delete Order"
+              style={{ background: 'rgba(180,40,40,0.22)', borderColor: '#a33', color: '#fff' }}
+            >
+              <i className="fas fa-trash"></i> Delete
             </button>
           </div>
         </div>
@@ -325,7 +368,12 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
         {activeTab === 'relations' && (
           <div className="world-section-stack">
             <section className="world-section">
-              <h3>Diplomatic Stances &amp; Alliances</h3>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                <h3 style={{ margin: 0 }}>Diplomatic Stances &amp; Alliances</h3>
+                <button className="world-action-btn primary" style={{ padding: '6px 14px', fontSize: '12px' }} onClick={() => setShowAddRelModal(true)}>
+                  <i className="fas fa-link"></i> Forge Bond
+                </button>
+              </div>
               <div className="world-relation-list" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {relationships.length === 0 && (
                   <p className="world-muted">No external relations formally recorded in sovereign ledgers.</p>
@@ -353,15 +401,25 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
                         <p className="world-card-meta" style={{ marginTop: '4px' }}>{sanitizeLoreText(rel.description)}</p>
                       )}
                     </div>
-                    {onNavigateFaction && rel.targetFactionId && (
+                    <div style={{ display: 'flex', gap: '6px' }}>
+                      {onNavigateFaction && rel.targetFactionId && (
+                        <button
+                          className="world-action-btn"
+                          style={{ padding: '4px 10px', fontSize: '11px' }}
+                          onClick={() => onNavigateFaction(rel.targetFactionId)}
+                        >
+                          Inspect →
+                        </button>
+                      )}
                       <button
                         className="world-action-btn"
-                        style={{ padding: '4px 10px', fontSize: '11px' }}
-                        onClick={() => onNavigateFaction(rel.targetFactionId)}
+                        title="Remove Bond"
+                        style={{ padding: '4px 8px', fontSize: '11px', background: 'rgba(180,40,40,0.12)', borderColor: '#a33', color: '#a33' }}
+                        onClick={() => handleRemoveRelationship(i)}
                       >
-                        Inspect →
+                        <i className="fas fa-unlink"></i>
                       </button>
-                    )}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -515,6 +573,43 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
                 <button type="submit" className="world-action-btn primary">
                   <i className="fas fa-check"></i> Save Changes
                 </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      {/* Forge Diplomatic Bond Modal */}
+      {showAddRelModal && (
+        <div className="world-modal-overlay" onClick={() => setShowAddRelModal(false)}>
+          <div className="world-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="world-modal-header">
+              <div className="world-modal-title"><i className="fas fa-link"></i><h3>Forge Diplomatic Bond</h3></div>
+              <button className="world-modal-close" onClick={() => setShowAddRelModal(false)}><i className="fas fa-times"></i></button>
+            </div>
+            <form onSubmit={handleAddRelationship}>
+              <div className="world-modal-body">
+                <div className="world-form-group"><label>Target Order *</label>
+                  <select required value={newRelTargetId} onChange={(e) => setNewRelTargetId(e.target.value)}>
+                    <option value="">Select a faction...</option>
+                    {factions.filter((f) => f.id !== factionId).map((f) => (
+                      <option key={f.id} value={f.id}>{f.name} ({f.type})</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="world-form-group"><label>Stance</label>
+                  <select value={newRelType} onChange={(e) => setNewRelType(e.target.value)}>
+                    {Object.entries(RELATIONSHIP_TYPES).map(([k, v]) => (
+                      <option key={k} value={k}>{v.label}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="world-form-group"><label>Narrative / Secret Context</label>
+                  <textarea rows={3} placeholder="Why this stance exists — public treaty or hidden pact..." value={newRelDesc} onChange={(e) => setNewRelDesc(e.target.value)} />
+                </div>
+              </div>
+              <div className="world-modal-actions">
+                <button type="button" className="world-action-btn" onClick={() => setShowAddRelModal(false)}>Cancel</button>
+                <button type="submit" className="world-action-btn primary"><i className="fas fa-link"></i> Forge Bond</button>
               </div>
             </form>
           </div>

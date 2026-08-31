@@ -3,6 +3,8 @@ import useWorldStore, { CANONICAL_REGIONS_META } from '../../store/worldStore';
 import useFactionStore from '../../store/factionStore';
 import useClassLoreStore from '../../store/classLoreStore';
 import useCustomLineageStore from '../../store/customLineageStore';
+import useDeityStore from '../../store/deityStore';
+import useLanguageStore from '../../store/languageStore';
 import { getClassFlavorProfile } from '../../data/classes/classFlavorProfiles';
 import FactionWebGraph from './FactionWebGraph';
 import FactionDetail from './FactionDetail';
@@ -177,6 +179,8 @@ const WorldDashboard = () => {
     switchWorld,
     createWorld,
     deleteWorld,
+    updateWorld,
+    duplicateWorld,
     addCustomRegion,
     getRegions,
     getWorldOverview,
@@ -229,6 +233,13 @@ const WorldDashboard = () => {
   const [newWorldSubtitle, setNewWorldSubtitle] = useState('');
   const [newWorldTheme, setNewWorldTheme] = useState('dark-fantasy');
   const [newWorldDesc, setNewWorldDesc] = useState('');
+  const [createWorldTemplate, setCreateWorldTemplate] = useState('blank');
+  const [showEditWorldModal, setShowEditWorldModal] = useState(false);
+  const [editingWorldId, setEditingWorldId] = useState(null);
+  const [editWorldName, setEditWorldName] = useState('');
+  const [editWorldSubtitle, setEditWorldSubtitle] = useState('');
+  const [editWorldTheme, setEditWorldTheme] = useState('dark-fantasy');
+  const [editWorldDesc, setEditWorldDesc] = useState('');
 
   // Custom Region Creator state
   const [showAddRegionModal, setShowAddRegionModal] = useState(false);
@@ -250,6 +261,23 @@ const WorldDashboard = () => {
   const [newFactionLeaderTitle, setNewFactionLeaderTitle] = useState('');
   const [newFactionColorPrimary, setNewFactionColorPrimary] = useState('#8b5a1a');
   const [newFactionColorSecondary, setNewFactionColorSecondary] = useState('#2b1408');
+
+  // Deity & Language Creator state
+  const [showAddDeityModal, setShowAddDeityModal] = useState(false);
+  const [newDeityName, setNewDeityName] = useState('');
+  const [newDeityTitle, setNewDeityTitle] = useState('');
+  const [newDeityDomain, setNewDeityDomain] = useState('Knowledge');
+  const [newDeityAlignment, setNewDeityAlignment] = useState('Neutral');
+  const [newDeityDesc, setNewDeityDesc] = useState('');
+  const [editingDeity, setEditingDeity] = useState(null);
+
+  const [showAddLanguageModal, setShowAddLanguageModal] = useState(false);
+  const [newLangName, setNewLangName] = useState('');
+  const [newLangScript, setNewLangScript] = useState('Common Script');
+  const [newLangFamily, setNewLangFamily] = useState('Isolate');
+  const [newLangDesc, setNewLangDesc] = useState('');
+  const [newLangSample, setNewLangSample] = useState('');
+  const [editingLanguage, setEditingLanguage] = useState(null);
 
   useEffect(() => {
     if (!loaded) loadClasses();
@@ -276,6 +304,10 @@ const WorldDashboard = () => {
   const classes = useMemo(() => (getWorldClasses ? getWorldClasses(activeWorldId) : []), [getWorldClasses, activeWorldId, activeWorld]);
   const allLineages = getAllLineages();
   const worldFactions = useMemo(() => (getAllFactions ? getAllFactions(activeWorldId) : factions), [getAllFactions, factions, activeWorldId]);
+  const { getAllDeities, addDeity, updateDeity, removeDeity } = useDeityStore();
+  const worldDeities = useMemo(() => getAllDeities(activeWorldId), [getAllDeities, activeWorldId]);
+  const { getAllLanguages, addLanguage, updateLanguage, removeLanguage } = useLanguageStore();
+  const worldLanguages = useMemo(() => getAllLanguages(activeWorldId), [getAllLanguages, activeWorldId]);
 
   const navigateToLocation = (locId) => {
     setSelectedLocationId(locId);
@@ -321,18 +353,74 @@ const WorldDashboard = () => {
   const handleCreateWorldSubmit = (e) => {
     e.preventDefault();
     if (!newWorldName.trim()) return;
-    const wid = createWorld({
-      name: newWorldName.trim(),
-      subtitle: newWorldSubtitle.trim() || 'A Sovereign World Setting',
-      theme: newWorldTheme,
-      description: newWorldDesc.trim()
-    });
+    let wid;
+    if (createWorldTemplate === 'mythrill') {
+      wid = duplicateWorld('mythrill');
+      if (wid) {
+        updateWorld(wid, {
+          name: newWorldName.trim(),
+          subtitle: newWorldSubtitle.trim() || 'A Sovereign World Setting',
+          theme: newWorldTheme,
+          description: newWorldDesc.trim()
+        });
+      }
+    } else {
+      wid = createWorld({
+        name: newWorldName.trim(),
+        subtitle: newWorldSubtitle.trim() || 'A Sovereign World Setting',
+        theme: newWorldTheme,
+        description: newWorldDesc.trim()
+      });
+    }
     setShowCreateWorldModal(false);
     setShowWorldModal(false);
     setNewWorldName('');
     setNewWorldSubtitle('');
     setNewWorldDesc('');
+    setCreateWorldTemplate('blank');
     navigateToDashboard();
+  };
+
+  const handleEditWorldSubmit = (e) => {
+    e.preventDefault();
+    if (!editingWorldId || !editWorldName.trim()) return;
+    updateWorld(editingWorldId, {
+      name: editWorldName.trim(),
+      subtitle: editWorldSubtitle.trim(),
+      theme: editWorldTheme,
+      description: editWorldDesc.trim()
+    });
+    setShowEditWorldModal(false);
+    setEditingWorldId(null);
+  };
+
+  const openEditWorldModal = (w) => {
+    setEditingWorldId(w.id);
+    setEditWorldName(w.name || '');
+    setEditWorldSubtitle(w.subtitle || '');
+    setEditWorldTheme(w.theme || 'dark-fantasy');
+    setEditWorldDesc(w.description || '');
+    setShowEditWorldModal(true);
+    setShowWorldModal(false);
+  };
+
+  const handleDuplicateWorld = (worldId) => {
+    const newId = duplicateWorld(worldId);
+    if (newId) {
+      switchWorld(newId);
+      setShowWorldModal(false);
+    }
+  };
+
+  const handleDeleteWorldWithConfirm = async (worldId, worldName) => {
+    const confirmed = await showConfirm({
+      title: 'Delete World',
+      message: `Delete "${worldName}" and all its custom realms, holds, and lore?`,
+      confirmText: 'Delete World',
+      isDestructive: true
+    });
+    if (!confirmed) return;
+    deleteWorld(worldId);
   };
 
   const handleAddCustomRegionSubmit = (e) => {
@@ -351,6 +439,60 @@ const WorldDashboard = () => {
     setNewRegionTerrain('');
     setNewRegionDesc('');
     navigateToRegion(rid);
+  };
+
+  const handleAddDeitySubmit = (e) => {
+    e.preventDefault();
+    if (!newDeityName.trim()) return;
+    if (editingDeity) {
+      updateDeity(editingDeity.id, {
+        name: newDeityName.trim(),
+        title: newDeityTitle.trim(),
+        domain: newDeityDomain,
+        alignment: newDeityAlignment,
+        description: newDeityDesc.trim()
+      });
+      setEditingDeity(null);
+    } else {
+      addDeity(activeWorldId, {
+        name: newDeityName.trim(),
+        title: newDeityTitle.trim(),
+        domain: newDeityDomain,
+        alignment: newDeityAlignment,
+        description: newDeityDesc.trim()
+      });
+    }
+    setShowAddDeityModal(false);
+    setNewDeityName('');
+    setNewDeityTitle('');
+    setNewDeityDesc('');
+  };
+
+  const handleAddLanguageSubmit = (e) => {
+    e.preventDefault();
+    if (!newLangName.trim()) return;
+    if (editingLanguage) {
+      updateLanguage(editingLanguage.id, {
+        name: newLangName.trim(),
+        script: newLangScript,
+        family: newLangFamily,
+        description: newLangDesc.trim(),
+        samplePhrase: newLangSample.trim()
+      });
+      setEditingLanguage(null);
+    } else {
+      addLanguage(activeWorldId, {
+        name: newLangName.trim(),
+        script: newLangScript,
+        family: newLangFamily,
+        description: newLangDesc.trim(),
+        samplePhrase: newLangSample.trim()
+      });
+    }
+    setShowAddLanguageModal(false);
+    setNewLangName('');
+    setNewLangDesc('');
+    setNewLangSample('');
   };
 
   const handleAddFaction = () => {
@@ -852,6 +994,24 @@ const WorldDashboard = () => {
           >
             <i className="fas fa-map"></i>
           </button>
+          <button
+            type="button"
+            className={`world-header-icon-btn ${activeTab === 'faiths' ? 'active' : ''}`}
+            onClick={() => setActiveTab('faiths')}
+            title={`Faiths & Pantheon (${worldDeities.length})`}
+            aria-label="Quick Faiths"
+          >
+            <i className="fas fa-place-of-worship"></i>
+          </button>
+          <button
+            type="button"
+            className={`world-header-icon-btn ${activeTab === 'tongues' ? 'active' : ''}`}
+            onClick={() => setActiveTab('tongues')}
+            title={`Tongues & Scripts (${worldLanguages.length})`}
+            aria-label="Quick Tongues"
+          >
+            <i className="fas fa-language"></i>
+          </button>
         </div>
       </div>
 
@@ -864,6 +1024,8 @@ const WorldDashboard = () => {
           { key: 'family_trees', label: 'Dynasty Trees', icon: 'fa-users' },
           { key: 'lineages', label: `Lineages & Peoples (${allLineages.length})`, icon: 'fa-dna' },
           { key: 'classes', label: `Traditions & Classes (${classes.length})`, icon: 'fa-wand-magic-sparkles' },
+          { key: 'faiths', label: `Faiths & Pantheon (${worldDeities.length})`, icon: 'fa-place-of-worship' },
+          { key: 'tongues', label: `Tongues & Scripts (${worldLanguages.length})`, icon: 'fa-language' },
           { key: 'atlas', label: 'World Atlas & Maps', icon: 'fa-map' }
         ].map((tab) => (
           <button
@@ -1696,6 +1858,87 @@ const WorldDashboard = () => {
             <FamilyTreeStudio inline={true} />
           </div>
         )}
+
+        {activeTab === 'faiths' && (
+          <div className="world-section-stack">
+            <div className="world-regions-toolbar">
+              <div className="world-regions-title-summary">
+                <span className="world-realm-badge"><i className="fas fa-place-of-worship"></i> {worldDeities.length} Deities &amp; Faiths</span>
+                <span className="world-muted-summary">Divine powers, cults, and sacred doctrines of {activeWorld.name}</span>
+              </div>
+              <button type="button" className="world-add-realm-btn" onClick={() => { setEditingDeity(null); setNewDeityName(''); setNewDeityTitle(''); setNewDeityDesc(''); setShowAddDeityModal(true); }}>
+                <i className="fas fa-plus"></i> Add Deity / Faith
+              </button>
+            </div>
+            {worldDeities.length === 0 ? (
+              <div className="world-regions-empty-state" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px 20px', background: 'rgba(255,255,255,0.7)', borderRadius: '10px', border: '1px dashed #d4af37' }}>
+                <i className="fas fa-place-of-worship" style={{ fontSize: '32px', color: '#8b5a1a', marginBottom: '12px' }}></i>
+                <h4 style={{ fontFamily: 'Cinzel, serif', color: '#2b1408', margin: '0 0 6px 0' }}>No Deities Recorded in {activeWorld.name}</h4>
+                <p style={{ fontFamily: 'Spectral, Georgia, serif', color: '#6b4c2b', margin: '0 0 16px 0' }}>Forge gods, spirits, and sacred doctrines that shape the faiths of this world.</p>
+                <button type="button" className="world-action-btn primary" onClick={() => setShowAddDeityModal(true)}><i className="fas fa-plus"></i> Forge First Deity</button>
+              </div>
+            ) : (
+              <div className="world-region-grid">
+                {worldDeities.map((d) => (
+                  <div key={d.id} className="world-region-card">
+                    <div className="world-region-card-header">
+                      <h3><i className={`fas ${d.symbol || 'fa-star'}`}></i> {d.name}</h3>
+                      <span className="world-badge-canon">{d.domain}</span>
+                    </div>
+                    {d.title && <p className="world-card-meta" style={{ fontStyle: 'italic', color: '#8b5a1a' }}>{d.title} — {d.alignment}</p>}
+                    <p className="world-region-desc">{d.description || 'No description.'}</p>
+                    {d.dogma && <p className="world-card-meta" style={{ marginTop: '8px' }}><strong>Dogma:</strong> {d.dogma}</p>}
+                    <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+                      <button className="world-action-btn" onClick={() => { setEditingDeity(d); setNewDeityName(d.name); setNewDeityTitle(d.title || ''); setNewDeityDomain(d.domain); setNewDeityAlignment(d.alignment); setNewDeityDesc(d.description || ''); setShowAddDeityModal(true); }}><i className="fas fa-pen"></i> Edit</button>
+                      <button className="world-action-btn" style={{ background: 'rgba(180,40,40,0.12)', borderColor: '#a33', color: '#a33' }} onClick={async () => { const ok = await showConfirm({ title: 'Delete Deity', message: `Delete "${d.name}"?`, confirmText: 'Delete', isDestructive: true }); if (ok) removeDeity(d.id); }}><i className="fas fa-trash"></i></button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeTab === 'tongues' && (
+          <div className="world-section-stack">
+            <div className="world-regions-toolbar">
+              <div className="world-regions-title-summary">
+                <span className="world-realm-badge"><i className="fas fa-language"></i> {worldLanguages.length} Tongues &amp; Scripts</span>
+                <span className="world-muted-summary">Languages, scripts, and lexicons of {activeWorld.name}</span>
+              </div>
+              <button type="button" className="world-add-realm-btn" onClick={() => { setEditingLanguage(null); setNewLangName(''); setNewLangDesc(''); setNewLangSample(''); setShowAddLanguageModal(true); }}>
+                <i className="fas fa-plus"></i> Add Tongue
+              </button>
+            </div>
+            {worldLanguages.length === 0 ? (
+              <div className="world-regions-empty-state" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px 20px', background: 'rgba(255,255,255,0.7)', borderRadius: '10px', border: '1px dashed #d4af37' }}>
+                <i className="fas fa-language" style={{ fontSize: '32px', color: '#8b5a1a', marginBottom: '12px' }}></i>
+                <h4 style={{ fontFamily: 'Cinzel, serif', color: '#2b1408', margin: '0 0 6px 0' }}>No Tongues Scribed in {activeWorld.name}</h4>
+                <p style={{ fontFamily: 'Spectral, Georgia, serif', color: '#6b4c2b', margin: '0 0 16px 0' }}>Create languages, scripts, and lexicons — give your peoples distinct voices.</p>
+                <button type="button" className="world-action-btn primary" onClick={() => setShowAddLanguageModal(true)}><i className="fas fa-plus"></i> Scribe First Tongue</button>
+              </div>
+            ) : (
+              <div className="world-region-grid">
+                {worldLanguages.map((l) => (
+                  <div key={l.id} className="world-region-card">
+                    <div className="world-region-card-header">
+                      <h3><i className="fas fa-book-open"></i> {l.name}</h3>
+                      <span className="world-badge-canon">{l.script}</span>
+                    </div>
+                    <p className="world-card-meta" style={{ fontStyle: 'italic', color: '#8b5a1a' }}>{l.family} family</p>
+                    <p className="world-region-desc">{l.description || 'No description.'}</p>
+                    {l.samplePhrase && <p className="world-card-meta" style={{ marginTop: '8px', fontStyle: 'italic' }}>"{l.samplePhrase}"</p>}
+                    {l.lexicon && l.lexicon.length > 0 && <p className="world-card-meta" style={{ marginTop: '6px' }}>{l.lexicon.length} lexicon entries</p>}
+                    <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+                      <button className="world-action-btn" onClick={() => { setEditingLanguage(l); setNewLangName(l.name); setNewLangScript(l.script); setNewLangFamily(l.family); setNewLangDesc(l.description || ''); setNewLangSample(l.samplePhrase || ''); setShowAddLanguageModal(true); }}><i className="fas fa-pen"></i> Edit</button>
+                      <button className="world-action-btn" style={{ background: 'rgba(180,40,40,0.12)', borderColor: '#a33', color: '#a33' }} onClick={async () => { const ok = await showConfirm({ title: 'Delete Tongue', message: `Delete "${l.name}"?`, confirmText: 'Delete', isDestructive: true }); if (ok) removeLanguage(l.id); }}><i className="fas fa-trash"></i></button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       <CustomLineageWizard />
@@ -1742,19 +1985,39 @@ const WorldDashboard = () => {
                         <span className="world-select-regions-count">
                           <i className="fas fa-earth-americas"></i> {w.id === 'mythrill' ? Object.keys(CANONICAL_REGIONS_META).length + (w.customRegions?.length || 0) : (w.customRegions?.length || 0)} Realms
                         </span>
-                        {!w.isCanonical && (
+                        <div style={{ display: 'flex', gap: '6px' }}>
                           <button
                             type="button"
                             className="world-select-del-btn"
-                            title="Delete World"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              deleteWorld(w.id);
-                            }}
+                            title="Duplicate World"
+                            onClick={(e) => { e.stopPropagation(); handleDuplicateWorld(w.id); }}
                           >
-                            <i className="fas fa-trash"></i>
+                            <i className="fas fa-copy"></i>
                           </button>
-                        )}
+                          {!w.isCanonical && (
+                            <button
+                              type="button"
+                              className="world-select-del-btn"
+                              title="Edit World"
+                              onClick={(e) => { e.stopPropagation(); openEditWorldModal(w); }}
+                            >
+                              <i className="fas fa-pen"></i>
+                            </button>
+                          )}
+                          {!w.isCanonical && (
+                            <button
+                              type="button"
+                              className="world-select-del-btn"
+                              title="Delete World"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteWorldWithConfirm(w.id, w.name);
+                              }}
+                            >
+                              <i className="fas fa-trash"></i>
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
                   );
@@ -1816,6 +2079,16 @@ const WorldDashboard = () => {
                   />
                 </div>
                 <div className="world-form-group">
+                  <label>World Template</label>
+                  <select value={createWorldTemplate} onChange={(e) => setCreateWorldTemplate(e.target.value)}>
+                    <option value="blank">Blank Canvas — no pre-filled realms</option>
+                    <option value="mythrill">Seed from Mythrill — copy Mythrill's realms as starting scaffold</option>
+                  </select>
+                  <span className="world-form-hint" style={{ fontSize: '11px', color: '#8b7355', display: 'block', marginTop: '4px' }}>
+                    {createWorldTemplate === 'mythrill' ? 'Creates a duplicate of Mythrill with all shared lore, then applies your new name & theme. You can prune it after.' : 'Start empty — add your first realm after forging.'}
+                  </span>
+                </div>
+                <div className="world-form-group">
                   <label>Cosmology Theme &amp; Genre</label>
                   <select value={newWorldTheme} onChange={(e) => setNewWorldTheme(e.target.value)}>
                     <option value="dark-fantasy">Dark Fantasy &amp; Eldritch Horror</option>
@@ -1842,6 +2115,53 @@ const WorldDashboard = () => {
                 <button type="submit" className="world-action-btn primary">
                   <i className="fas fa-wand-magic-sparkles"></i> Forge World
                 </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit World Modal */}
+      {showEditWorldModal && (
+        <div className="world-modal-overlay" onClick={() => setShowEditWorldModal(false)}>
+          <div className="world-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="world-modal-header">
+              <div className="world-modal-title">
+                <i className="fas fa-pen"></i>
+                <h3>Edit World: {allWorlds.find((w) => w.id === editingWorldId)?.name}</h3>
+              </div>
+              <button className="world-modal-close" onClick={() => setShowEditWorldModal(false)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <form onSubmit={handleEditWorldSubmit}>
+              <div className="world-modal-body">
+                <div className="world-form-group">
+                  <label>World / Universe Name *</label>
+                  <input type="text" required value={editWorldName} onChange={(e) => setEditWorldName(e.target.value)} autoFocus />
+                </div>
+                <div className="world-form-group">
+                  <label>Tagline / Epoch Subtitle</label>
+                  <input type="text" value={editWorldSubtitle} onChange={(e) => setEditWorldSubtitle(e.target.value)} />
+                </div>
+                <div className="world-form-group">
+                  <label>Cosmology Theme &amp; Genre</label>
+                  <select value={editWorldTheme} onChange={(e) => setEditWorldTheme(e.target.value)}>
+                    <option value="dark-fantasy">Dark Fantasy &amp; Eldritch Horror</option>
+                    <option value="high-fantasy">High Fantasy &amp; Arcane Empires</option>
+                    <option value="steampunk">Gothic Steampunk &amp; Airships</option>
+                    <option value="sci-fi">Cosmic Sci-Fi &amp; Void Frontiers</option>
+                    <option value="post-apoc">Post-Cataclysm &amp; Ashen Wastes</option>
+                  </select>
+                </div>
+                <div className="world-form-group">
+                  <label>Cosmological Lore &amp; Overview</label>
+                  <textarea rows={4} value={editWorldDesc} onChange={(e) => setEditWorldDesc(e.target.value)} />
+                </div>
+              </div>
+              <div className="world-modal-actions">
+                <button type="button" className="world-action-btn" onClick={() => setShowEditWorldModal(false)}>Cancel</button>
+                <button type="submit" className="world-action-btn primary"><i className="fas fa-save"></i> Save World</button>
               </div>
             </form>
           </div>
@@ -1920,6 +2240,68 @@ const WorldDashboard = () => {
                 <button type="submit" className="world-action-btn primary">
                   <i className="fas fa-map-location-dot"></i> Establish Realm
                 </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Add / Edit Deity Modal */}
+      {showAddDeityModal && (
+        <div className="world-modal-overlay" onClick={() => { setShowAddDeityModal(false); setEditingDeity(null); }}>
+          <div className="world-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="world-modal-header">
+              <div className="world-modal-title"><i className="fas fa-place-of-worship"></i><h3>{editingDeity ? `Edit Deity: ${editingDeity.name}` : `Forge Deity in ${activeWorld.name}`}</h3></div>
+              <button className="world-modal-close" onClick={() => { setShowAddDeityModal(false); setEditingDeity(null); }}><i className="fas fa-times"></i></button>
+            </div>
+            <form onSubmit={handleAddDeitySubmit}>
+              <div className="world-modal-body">
+                <div className="world-form-group"><label>Deity / Faith Name *</label><input type="text" required value={newDeityName} onChange={(e) => setNewDeityName(e.target.value)} placeholder="e.g. Solara Dawnkeeper, The Veiled Veil" autoFocus /></div>
+                <div className="world-form-row">
+                  <div className="world-form-group" style={{ flex: 1 }}><label>Title / Epithet</label><input type="text" value={newDeityTitle} onChange={(e) => setNewDeityTitle(e.target.value)} placeholder="e.g. Keeper of First Light" /></div>
+                  <div className="world-form-group" style={{ flex: 1 }}><label>Domain</label>
+                    <select value={newDeityDomain} onChange={(e) => setNewDeityDomain(e.target.value)}>
+                      <option>Knowledge</option><option>War</option><option>Death</option><option>Life</option><option>Nature</option><option>Trickery</option><option>Tempest</option><option>Light</option><option>Void</option><option>Forge</option><option>Shadow</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="world-form-group"><label>Alignment</label>
+                  <select value={newDeityAlignment} onChange={(e) => setNewDeityAlignment(e.target.value)}>
+                    <option>Lawful Good</option><option>Neutral Good</option><option>Chaotic Good</option><option>Lawful Neutral</option><option>Neutral</option><option>Chaotic Neutral</option><option>Lawful Evil</option><option>Neutral Evil</option><option>Chaotic Evil</option>
+                  </select>
+                </div>
+                <div className="world-form-group"><label>Description &amp; Lore</label><textarea rows={3} value={newDeityDesc} onChange={(e) => setNewDeityDesc(e.target.value)} placeholder="Myth, appearance, sacred symbols, worship rites..." /></div>
+              </div>
+              <div className="world-modal-actions">
+                <button type="button" className="world-action-btn" onClick={() => { setShowAddDeityModal(false); setEditingDeity(null); }}>Cancel</button>
+                <button type="submit" className="world-action-btn primary"><i className="fas fa-save"></i> {editingDeity ? 'Save Deity' : 'Forge Deity'}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Add / Edit Language Modal */}
+      {showAddLanguageModal && (
+        <div className="world-modal-overlay" onClick={() => { setShowAddLanguageModal(false); setEditingLanguage(null); }}>
+          <div className="world-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="world-modal-header">
+              <div className="world-modal-title"><i className="fas fa-language"></i><h3>{editingLanguage ? `Edit Tongue: ${editingLanguage.name}` : `Scribe Tongue in ${activeWorld.name}`}</h3></div>
+              <button className="world-modal-close" onClick={() => { setShowAddLanguageModal(false); setEditingLanguage(null); }}><i className="fas fa-times"></i></button>
+            </div>
+            <form onSubmit={handleAddLanguageSubmit}>
+              <div className="world-modal-body">
+                <div className="world-form-group"><label>Tongue / Language Name *</label><input type="text" required value={newLangName} onChange={(e) => setNewLangName(e.target.value)} placeholder="e.g. Frostcant, Emberscript" autoFocus /></div>
+                <div className="world-form-row">
+                  <div className="world-form-group" style={{ flex: 1 }}><label>Script</label><input type="text" value={newLangScript} onChange={(e) => setNewLangScript(e.target.value)} placeholder="e.g. Runic, Glyphic" /></div>
+                  <div className="world-form-group" style={{ flex: 1 }}><label>Family</label><input type="text" value={newLangFamily} onChange={(e) => setNewLangFamily(e.target.value)} placeholder="e.g. Northern Isolate" /></div>
+                </div>
+                <div className="world-form-group"><label>Description</label><textarea rows={2} value={newLangDesc} onChange={(e) => setNewLangDesc(e.target.value)} placeholder="Who speaks it, where, and how it sounds..." /></div>
+                <div className="world-form-group"><label>Sample Phrase</label><input type="text" value={newLangSample} onChange={(e) => setNewLangSample(e.target.value)} placeholder='e.g. "Vhaer sulli aen" — "The frost remembers"' /></div>
+              </div>
+              <div className="world-modal-actions">
+                <button type="button" className="world-action-btn" onClick={() => { setShowAddLanguageModal(false); setEditingLanguage(null); }}>Cancel</button>
+                <button type="submit" className="world-action-btn primary"><i className="fas fa-save"></i> {editingLanguage ? 'Save Tongue' : 'Scribe Tongue'}</button>
               </div>
             </form>
           </div>

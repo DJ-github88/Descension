@@ -11,7 +11,7 @@
 **Fix:** CORE_LORE_FRAMEWORK.md's definition ("spiritual detritus of the Breach") is the only true one. Spores become an *interface* to sense the Wyrd. The Void becomes a separate phenomenon the False Prophets channel (renamed "the Silence" to avoid confusion). Add a hierarchy paragraph to CORE_LORE_FRAMEWORK.md.
 
 ### 3. The Watcher doesn't exist in any data
-**Wrong:** Named in CORE_LORE_FRAMEWORK.md as "the entity that reached Viridane before Keth-Amar." Zero mentions in loreDictionary.js, rulesData.js, timelineStore.js, or any class file.
+**Wrong:** Named in CORE_LORE_FRAMEWORK.md as "the entity that reached Viridane before Keth Amar." Zero mentions in loreDictionary.js, rulesData.js, timelineStore.js, or any class file.
 **Fix:** Add entries to loreDictionary.js (historical_figure), rulesData.js (cosmic mythos section), timelineStore.js (crisis event), and a reference in lunarchData.js/briaran.js (since Viridane bloodline = Briaran/Lunarch).
 
 ## MODERATE

@@ -18,7 +18,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 
-import { RACE_DATA, applyRacialModifiers } from '../../../data/raceData';
+import { RACE_DATA, applyRacialModifiers, getRaceData } from '../../../data/raceData';
 import { BACKGROUND_DATA, BACKGROUND_FLAVOR_TEXT } from '../../../data/backgroundData';
 
 
@@ -36,6 +36,8 @@ import { useUnifiedTooltip } from '../../common/useUnifiedTooltip';
 
 import { uploadAsset } from '../../../services/firebase/uploadService';
 import useAuthStore from '../../../store/authStore';
+
+import useCustomLineageStore from '../../../store/customLineageStore';
 
 
 
@@ -524,6 +526,13 @@ const isClassCompatible = (className, raceId, subraceId) => {
 
     if (!raceId) return true;
 
+    // Custom lineages carry no heritage restrictions — every tradition is open.
+    if (!ALLOWED_CLASSES_BY_RACE[raceId] && !ALLOWED_CLASSES_BY_SUBRACE[subraceId]) {
+
+        return true;
+
+    }
+
     if (!subraceId) {
 
         // Fallback to parent race allowed classes if subrace not yet chosen
@@ -885,6 +894,8 @@ const Step1CoreDraft = () => {
 
     const user = useAuthStore(state => state.user);
 
+    const customLineages = useCustomLineageStore(state => state.lineages);
+
     const state = useCharacterWizardState();
 
     const dispatch = useCharacterWizardDispatch();
@@ -897,7 +908,7 @@ const Step1CoreDraft = () => {
 
 
 
-    const selectedRace = race ? RACE_DATA[race] : null;
+    const selectedRace = race ? getRaceData(race) : null;
 
     const selectedSubrace = selectedRace && subrace ? Object.values(selectedRace.subraces).find(sr => sr.id === subrace) : null;
 
@@ -1182,7 +1193,7 @@ const Step1CoreDraft = () => {
     // Race Handlers
 
     const getRaceList = () => {
-        return Object.entries(RACE_DATA).map(([raceId, raceData]) => ({
+        const canonRaces = Object.entries(RACE_DATA).map(([raceId, raceData]) => ({
             id: raceId,
             name: raceData.name,
             description: raceData.description,
@@ -1198,6 +1209,30 @@ const Step1CoreDraft = () => {
                 statModifiers: subraceData.statModifiers
             }))
         }));
+
+        // Custom lineages authored in the Custom Lineage Wizard surface here
+        // so they can actually be chosen during hero creation.
+        const customRaces = customLineages.map((l) => {
+            const adapted = getRaceData(l.id) || l;
+            return {
+                id: l.id,
+                name: l.name,
+                description: l.description || l.visualDescription || '',
+                essence: l.essence || l.name,
+                cardFlavor: l.cardFlavor || l.essence,
+                icon: 'fas fa-dna',
+                isCustom: true,
+                subraces: Object.entries(adapted.subraces || {}).map(([subraceKey, subraceData]) => ({
+                    id: subraceData.id,
+                    name: subraceData.name,
+                    description: subraceData.description,
+                    tooltipSummary: subraceData.tooltipSummary,
+                    statModifiers: subraceData.statModifiers
+                }))
+            };
+        });
+
+        return [...canonRaces, ...customRaces];
     };
 
 
@@ -1426,7 +1461,7 @@ const Step1CoreDraft = () => {
 
     // Helpers
 
-    const getSelectedRaceData = () => Object.values(RACE_DATA).find(r => r.id === race) || null;
+    const getSelectedRaceData = () => getRaceData(race) || null;
 
     const getSelectedClassData = () => CLASS_DATA_MAP[characterData.class] || null;
 
@@ -1632,7 +1667,7 @@ const Step1CoreDraft = () => {
 
                                     <span className="subrace-parent-label">
 
-                                        {RACE_DATA[activeRaceSelection]?.name}
+                                        {getRaceData(activeRaceSelection)?.name}
 
                                     </span>
 
@@ -1640,7 +1675,7 @@ const Step1CoreDraft = () => {
 
                                 <div className="subrace-buttons-grid">
 
-                                    {(RACE_DATA[activeRaceSelection]?.subraces ? Object.values(RACE_DATA[activeRaceSelection].subraces) : []).map((subObj) => {
+                                    {(getRaceData(activeRaceSelection)?.subraces ? Object.values(getRaceData(activeRaceSelection).subraces) : []).map((subObj) => {
 
                                         const isSelectedSubrace = subrace === subObj.id;
 

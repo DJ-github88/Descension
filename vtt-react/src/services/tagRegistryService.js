@@ -110,7 +110,7 @@ class TagRegistryService {
         }
       }
       if (entityType === 'lineage') {
-        const lineages = useCustomLineageStore.getState().customLineages || [];
+        const lineages = useCustomLineageStore.getState().lineages || [];
         return lineages.find(l => l.id === entityId) || null;
       }
     } catch (err) {
@@ -178,7 +178,7 @@ class TagRegistryService {
 
     // Custom Lineages
     try {
-      const lineages = useCustomLineageStore.getState().customLineages || [];
+      const lineages = useCustomLineageStore.getState().lineages || [];
       lineages.forEach(lin => {
         entities.push({
           type: 'lineage',

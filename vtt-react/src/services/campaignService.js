@@ -48,6 +48,7 @@ class CampaignService {
     return {
       name,
       description,
+      worldId: null,
       currentSession: 1,
       players: [],
       sessions: [],

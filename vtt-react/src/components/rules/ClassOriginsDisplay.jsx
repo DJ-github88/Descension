@@ -16,7 +16,7 @@ const REGIONS = [
   borderColor: '#a04000',
   glowColor: 'rgba(160, 64, 0, 0.12)',
   description: 'A volcanic ash-desert of smoldering badlands and obsidian rivers surrounding the Emberspire caldera. Here, the Solari live in constant, desperate proximity to the dying star Sol. Survival is a transaction paid in heat, and power is a combustion that devours the practitioner.',
-  darkBargain: 'House Solvan entombed Sol beneath the crust to save it from Keth-Amar, trading their firstborn heirs for geothermal heat.',
+  darkBargain: 'House Solvan entombed Sol beneath the crust to save it from Keth Amar, trading their firstborn heirs for geothermal heat.',
   classIds: ['pyrofiend', 'berserker', 'spellguard', 'martyr']
  },
  {

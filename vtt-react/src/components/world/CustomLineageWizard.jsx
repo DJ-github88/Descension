@@ -354,7 +354,7 @@ const CustomLineageWizard = ({ isOpen, onClose, initialData = null }) => {
           {currentStepIdx === 1 && (
             <div className="lineage-form-section">
               <h4>Folklore, Culture & The Sun's Death</h4>
-              <p className="lineage-hint">How did this people respond when Sol was entombed and Keth-Amar circled the dying sky?</p>
+              <p className="lineage-hint">How did this people respond when Sol was entombed and Keth Amar circled the dying sky?</p>
 
               <div className="lineage-field">
                 <label>Relation to Sol's Binding & The Cosmic Bargains</label>
@@ -362,7 +362,7 @@ const CustomLineageWizard = ({ isOpen, onClose, initialData = null }) => {
                   rows={3}
                   value={form.relationToSunDeath || ''}
                   onChange={(e) => updateField('relationToSunDeath', e.target.value)}
-                  placeholder="Did their ancestors capitulate to Keth-Amar, hide in fae fog like Viridane, or bind themselves to geothermal heat?"
+                  placeholder="Did their ancestors capitulate to Keth Amar, hide in fae fog like Viridane, or bind themselves to geothermal heat?"
                 />
               </div>
 

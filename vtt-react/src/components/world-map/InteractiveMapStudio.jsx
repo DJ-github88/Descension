@@ -9,6 +9,7 @@ import useWorldStore from '../../store/worldStore';
 import useShareableStore from '../../store/shareableStore';
 import RichLoreText from '../common/RichLoreText';
 import CampaignCodexSidebar from '../location-scene/CampaignCodexSidebar';
+import { compressImageToDataUrl } from '../../services/customMapService';
 import './InteractiveMapStudio.css';
 
 
@@ -187,6 +188,7 @@ const InteractiveMapStudio = () => {
   const [newMapImage, setNewMapImage] = useState('');
   const [newMapParentId, setNewMapParentId] = useState('');
   const [newMapDesc, setNewMapDesc] = useState('');
+  const [isUploadingMapImage, setIsUploadingMapImage] = useState(false);
   const [previewPlayerFog, setPreviewPlayerFog] = useState(false);
 
   // Mobile navigation & HUD visibility states
@@ -1277,6 +1279,22 @@ const InteractiveMapStudio = () => {
         syncToCloud(user?.uid);
       }
     });
+  };
+
+  const handleMapImageFile = async (e, setter) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) { alert('Please select an image file.'); return; }
+    setIsUploadingMapImage(true);
+    try {
+      const { dataUrl } = await compressImageToDataUrl(file);
+      setter(dataUrl);
+    } catch (err) {
+      alert('Image upload failed: ' + (err.message || 'unknown error'));
+    } finally {
+      setIsUploadingMapImage(false);
+      e.target.value = '';
+    }
   };
 
   // Create New Map Modal
@@ -3290,14 +3308,22 @@ const InteractiveMapStudio = () => {
                   </div>
 
                   <div className="form-group">
-                    <label>Map Image Asset URL</label>
+                    <label>Map Image Asset URL or Upload</label>
                     <input
                       type="text"
                       required
                       value={subMapImage}
                       onChange={(e) => setSubMapImage(e.target.value)}
-                      placeholder="/assets/images/backgrounds/nordhalla.jpeg or https://..."
+                      placeholder="/assets/images/backgrounds/nordhalla.jpeg or https://... or upload below"
                     />
+                    <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <input type="file" accept="image/*" onChange={(e) => handleMapImageFile(e, setSubMapImage)} style={{ fontSize: '12px' }} />
+                      {isUploadingMapImage && <span style={{ fontSize: '11px', color: '#8b5a1a' }}><i className="fas fa-spinner fa-spin"></i> Compressing...</span>}
+                      {subMapImage && subMapImage.startsWith('data:') && <span style={{ fontSize: '11px', color: '#2d8552' }}><i className="fas fa-check"></i> Image ready</span>}
+                    </div>
+                    {subMapImage && (
+                      <img src={subMapImage} alt="Sub-map preview" style={{ marginTop: '8px', maxWidth: '100%', maxHeight: '120px', borderRadius: '6px', border: '1px solid #cdb592', objectFit: 'cover' }} onError={(e) => { e.target.style.display='none'; }} />
+                    )}
                   </div>
 
                   <div className="form-group">
@@ -3642,14 +3668,22 @@ const InteractiveMapStudio = () => {
               </div>
 
               <div className="form-group">
-                <label>Map Image Asset URL</label>
+                <label>Map Image Asset URL or Upload</label>
                 <input
                   type="text"
                   required
                   value={newMapImage}
                   onChange={(e) => setNewMapImage(e.target.value)}
-                  placeholder="/assets/images/backgrounds/my-map.jpg or https://..."
+                  placeholder="/assets/images/backgrounds/my-map.jpg or https://... or upload below"
                 />
+                <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <input type="file" accept="image/*" onChange={(e) => handleMapImageFile(e, setNewMapImage)} style={{ fontSize: '12px' }} />
+                  {isUploadingMapImage && <span style={{ fontSize: '11px', color: '#8b5a1a' }}><i className="fas fa-spinner fa-spin"></i> Compressing...</span>}
+                  {newMapImage && newMapImage.startsWith('data:') && <span style={{ fontSize: '11px', color: '#2d8552' }}><i className="fas fa-check"></i> Image ready</span>}
+                </div>
+                {newMapImage && (
+                  <img src={newMapImage} alt="Map preview" style={{ marginTop: '8px', maxWidth: '100%', maxHeight: '140px', borderRadius: '6px', border: '1px solid #cdb592', objectFit: 'cover' }} onError={(e) => { e.target.style.display='none'; }} />
+                )}
               </div>
 
               <div className="form-group">

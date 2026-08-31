@@ -5,6 +5,7 @@ import useAuthStore from '../../store/authStore';
 import useCustomLineageStore from '../../store/customLineageStore';
 import useWorldStore from '../../store/worldStore';
 import campaignService from '../../services/campaignService';
+import { uploadAsset } from '../../services/firebase/uploadService';
 import { showConfirm } from '../../utils/dialogService';
 import RichCampaignEditor from '../common/RichCampaignEditor';
 import './FamilyTreeStudio.css';

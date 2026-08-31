@@ -33,7 +33,7 @@ const ORIGIN_CLASSES = [
   { value: 'native-lineage', label: 'Native Lineage (Mortal/Natural)' },
   { value: 'primordial-native', label: 'Primordial Native (Pre-Binding ancient)' },
   { value: 'ancient-cosmic-wyrdkin', label: 'Ancient Cosmic Wyrdkin' },
-  { value: 'keth-spawn', label: 'Keth-Amar Spawn' },
+  { value: 'keth-spawn', label: 'Keth Amar Spawn' },
   { value: 'binding-altered', label: 'Binding Altered / Winter Shifted' }
 ];
 

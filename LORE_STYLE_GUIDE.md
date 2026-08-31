@@ -621,27 +621,31 @@ Before you write a single sentence of lore, you need to know what's already true
 
 ### 6.1 The Master Timeline & Core World Premise
 
-* **Pre-Star Mythrill (Primordial Anima):** Mythrill was an animistic, folklore-rich world where native beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits (*Landvaettir*, *Fossegrim*), and non-human races possessed innate biological elemental abilities. Mortals had **zero magic** and survived via steel, tactical engineering, black powder, matchlocks, archery, and folk taboos.
-* **The Celestial Star-Fall (Year 0):** Aex & Aethil fled across the cosmos to hide infant sun *Sol* in Mythrill's core from *Keth Amar*. Mortal Houses unaligned with Old Gods struck the House Bargain: High Houses mutated into magical lineages (*Solari*, *Vreken*, *Neth*), while common folk received subtle physical adaptations while keeping traditional black-powder and melee combat.
+* **Pre-Star Mythrill (The Sleeping Soul & Natural Wyrd):** Mythrill is the loom of the Sleeping Soul. **Natural Wyrd** — collective belief, folklore, myth, fear and vow manifesting into creatures — grew the native beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits (*Landvaettir*, *Fossegrim*) and ancient non-human races. Its hostile strain, **Predatory Wyrd**, is Keth Amar's infection of that loom (see below). Mortals had **zero magic** and survived via steel, tactical engineering, black powder, matchlocks, archery, and folk taboos.
+* **The Celestial Star-Fall (Year 0):** Aex (the Mother) and Aethil (the Father) fled across the cosmos to hide their living, unhatched infant sun *Sol* in Mythrill's molten core from *Keth Amar*. Aethil sacrificed his absolute divine status to anchor the celestial barrier around Mythrill's atmosphere; Aex sacrificed her divine form to entomb and protect Sol in the core, sealing the vault with cosmic wards and **Bloodline Pacts**. The High Houses who swore those pacts mutated into the Bound (*Solari*, *Vreken*, etc.); common folk received subtle physical adaptations while keeping traditional black-powder and melee combat.
 * **The 475-Year Master Timeline:**
 
 | Epoch | Year | What Happened |
 |---|---|---|
-| The Celestial Star-Fall | Year 0 | Aex wraps Sol in core; House Bargain struck; Astril land in Sundrift Vale |
-| The Incremental Cracks | Years 0–300 | Vreken massacre, Ordan purge, Frostwood meltdown crack Aex's shell |
-| Keth Amar Arrives | Year 300 | Trails Astril starlight; 25-yr Wyrd infiltration posing as Aethil |
-| Blizzard's End Massacre | Year 325 | Heirs devoured; Aex shatters into Aex Shards; Keth Amar wounded, retreats to sky as Wyrd |
-| The Freezing Era (Present Day) | Year 475 | 150 Years of Freezing Era; factions fight over Aex Shards; **Nordhalla launch campaign** |
+| The Celestial Star-Fall | Year 0 | Aex entombs Sol in the core; Aethil anchors the sky-ward; Bloodline Pacts struck; Astril land in Sundrift Vale |
+| The Slow Cracking | Years 0–300 | Severed Blood Seals crack Aex's aegis (Vreken massacre, Ordan purge, Frostwood meltdown); Predatory Wyrd not yet seeded |
+| Keth Amar Arrives | Year 300 | Trails Astril starlight; spews Predatory Wyrd onto Mythrill |
+| The Whispered Purge | Years 300–325 | Keth Amar poses as Aethil for 25 years, snapping Blood Seals through wars, hubris, accidents and assassinations |
+| The Blind Strike (Blizzard's End) | Year 325 | Keth Amar crashes into the ward; the Secret Aegis (the Unwritten) holds; Keth Amar wounded and repelled into the void; Aex's aegis fractures into Aex Shards |
+| The Freezing Era (Present Day) | Year 475 | 150 Years of Freezing Era (cold because Sol is entombed in the core); factions fight over Aex Shards — the greatest shards are the Seven Sundered Monoliths (one is the Predatory Wyrd Counterfeit); **Nordhalla launch campaign** |
 
 ### 6.1B Scrapped & Corrected Lore (DO NOT WRITE)
+* ❌ **SCRAPPED:** "The Wyrd arrived with Keth Amar" / "Keth Amar retreated into the sky as the Wyrd" — Natural Wyrd is native (the Loom); Predatory Wyrd is Keth Amar's infection of it.
+* ❌ **SCRAPPED:** "The heirs were devoured as vessel-keys to shatter the vault" — the Whispered Purge snapped Blood Seals; the Blind Strike was the kinetic assault that followed, held only by the Secret Aegis.
 * ❌ **SCRAPPED:** The Augurs' 41% doom prediction accuracy being tied to Sol's shell/security breakdown (caused by temporal friction and chronological dissonance instead).
 * ❌ **SCRAPPED:** The strict "3-in-10 maternal death / Frost-Tithe" childbirth ratio (replaced with atmospheric lore, cold-strain, and metaphysical burden without rigid statistics).
+* ❌ **SCRAPPED:** The Father being called **Aelden** in new writing. The Father is **Aethil**; `Keth Amar` is spelled without a hyphen.
 
 ### 6.1C Class Heritage Taxonomy
-1. **Pre-Binding Classes (Traditional / Mortals):** Berserker, Apex, Minstrel, Warden, Toxicologist (steel, black powder, matchlocks, cold-iron traps, archery, physical mastery).
-2. **Celestial Bargain Classes (Infused Houses):** Spellguard, Arcanoneer, Chronarch, Shaper (direct elemental control born from Celestial pact).
-3. **Vreken Extortion (Blight Magic):** Blight-Weavers and Decay specialists (extorted divine desperation for ultimate power).
-4. **Cosmic Collision Classes (Post-Keth Amar):** Pyrofiend (Solari/Void demonic collision), Harbinger, Plaguebringer, Revenant.
+1. **Pre-Binding Classes (Traditional / Mortals):** Berserker, Apex, Minstrel, Warden, Toxicologist (steel, black powder, matchlocks, cold-iron traps, archery, physical mastery — grown from what the Natural Wyrd made and mortals learned to survive).
+2. **Celestial Bargain Classes (The Bound):** Spellguard, Arcanoneer, Chronarch, Shaper (direct elemental control born from the Bloodline Pacts sworn to Aex and witnessed by Aethil).
+3. **Vreken Extortion (Blight Magic):** Blight-Weavers and Decay specialists (extorted divine desperation for ultimate power from Aethil).
+4. **Cosmic Collision Classes (Post-Keth Amar):** Pyrofiend (Solari/Void demonic collision), Harbinger, Plaguebringer, Revenant — Predatory Wyrd colliding with the celestial pacts.
 
 ### 6.1D Ancestry Updates
 * **The Neth (Well of Life):** High Neth (half-filled pitcher, pristine, immortal-adjacent, Peter Pan helicopter parenting), Pale Neth (stolen urns, subterranean hoarders), Hallowed Neth (well-dippers, undead husks bound to Old God roots).
@@ -661,7 +665,7 @@ Before you write a single sentence of lore, you need to know what's already true
 | Tesshan | Cragjaw Peaks | Jarl-Inca Oda Tesshan | Knotted Decree | Grotto-secessionists | Veiled the peaks in perpetual blizzard |
 | Ordavan | Sundrift Vale | Khatun Bayarmaa Ordavan | Unlit Veil (unwillingly) | Traditionalist nomads | Unlit Veil manipulates the house |
 | Morrath | Bryngloom Forest | Regent Morrath Neth | Neth Kessen weavers, Keeper | Vreken (tension), debtors | Enforces the Great Registry |
-| Viridane | Frostwood Reach (erased) | None (extinct) | Florae (descendants) | All other houses | Erased after refusing Keth-Amar; Florae carry their blood |
+| Viridane | Frostwood Reach (erased) | None (extinct) | Florae (descendants) | All other houses | Erased after refusing Keth Amar; Florae carry their blood |
 
 ### 6.3 Name Rules
 
@@ -711,7 +715,7 @@ Rules for this block:
 ### 6.5B What Not To Do
 
 - **Don't contradict the timeline.** If the Mimir Purge is ~Year 220, you can't refer to "recent Purge" in present-day entries.
-- **Don't use real-world religions or mythologies.** No "gods," "heaven," "hell," "angels," "demons" — use Mythrill equivalents: the Warden, the Keeper, the Wyrd, Keth-Amar.
+- **Don't use real-world religions or mythologies.** No "gods," "heaven," "hell," "angels," "demons" — use Mythrill equivalents: the Warden, the Keeper, the Wyrd, Keth Amar.
 - **Don't mix region tones.** A Sundrift Vale entry shouldn't sound like a Nordhalla entry. The voice must match the place.
 - **Don't forget the erased houses.** House Viridane was erased. Referencing "the seven houses" without acknowledging the eighth is a lore error.
 - **Don't use generic fantasy proper nouns.** "The ancient temple" → "The Temple of the Moon" (Blizzard) / "The High Hearth" (Mythrill). Always name it.
@@ -856,7 +860,7 @@ Every file below needs rewriting to fit the Blizzard-style guide (18 rules). Fil
 ### Phase 10 — Component Lore (UI-facing text)
 
 - [x] `vtt-react/src/components/landing/MapMakingSection.jsx` — MASSIVE: full cartographer's guide with all 7 regions, settlements (Greymark Keep, Skald's Landing, Bloodhammer Sump, Harath-Vault, Emberspire, etc.), trade routes, Wyrd-density lore, House Viridane references (~1898 lines)
-- [x] `vtt-react/src/components/rules/ClassOriginsDisplay.jsx` — hardcoded region `description` and `darkBargain` lore for all 7 regions (Sol, Keth-Amar, Emberth, Skald, House Skalvyr, Hunger Winter, House Thalreth, Mimir, Briaran, Keeper, House Tesshan, Groven, House Ordavan, Astril Synod, Luminarchy)
+- [x] `vtt-react/src/components/rules/ClassOriginsDisplay.jsx` — hardcoded region `description` and `darkBargain` lore for all 7 regions (Sol, Keth Amar, Emberth, Skald, House Skalvyr, Hunger Winter, House Thalreth, Mimir, Briaran, Keeper, House Tesshan, Groven, House Ordavan, Astril Synod, Luminarchy)
 - [x] `vtt-react/src/components/character-creation-wizard/steps/Step8LoreDetails.jsx` — hardcoded placeholder strings (Sol's Breath, Keeper's ledger, Wyrd, caldera, Luminarchy, bog-iron, bone) + intro paragraph
 - [x] `vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx` — inline lore strings ("Inquisitor requires Marked Vreken heritage...", "highly unusual or physically constrained in Mythrill's history", subrace→icon map)
 - [x] `vtt-react/src/components/character-creation-wizard/steps/Step4BackgroundSelection.jsx` — "highly unusual or physically constrained in Mythrill's history" + restriction lore
@@ -894,7 +898,7 @@ Every file below needs rewriting to fit the Blizzard-style guide (18 rules). Fil
 
 ### Phase 12 — Skill Check Tables (Optional Mythrill-Specific Pass)
 
-The `src/constants/` directory contains 21 skill-check table files (~17,000 lines total) with generic D&D-style outcome strings. These are currently generic ("You invoke the wrong deity, commit blasphemy"). Consider rewriting them to reference Mythrill-specific lore (Sol, Keth-Amar, the Warden, the Sol's Breath, the Binding, etc.).
+The `src/constants/` directory contains 21 skill-check table files (~17,000 lines total) with generic D&D-style outcome strings. These are currently generic ("You invoke the wrong deity, commit blasphemy"). Consider rewriting them to reference Mythrill-specific lore (Sol, Keth Amar, the Warden, the Sol's Breath, the Binding, etc.).
 
 - [x] `vtt-react/src/constants/acrobaticsTables.js` — ~663 lines
 - [x] `vtt-react/src/constants/alchemyTables.js` — ~729 lines
@@ -910,7 +914,7 @@ The `src/constants/` directory contains 21 skill-check table files (~17,000 line
 - [x] `vtt-react/src/constants/natureTables.js` — ~728 lines
 - [x] `vtt-react/src/constants/perceptionTables.js` — ~728 lines
 - [x] `vtt-react/src/constants/performanceTables.js` — ~576 lines
-- [x] `vtt-react/src/constants/religionTables.js` — ~707 lines (prime candidate: replace generic "deity" with Sol/Keth-Amar/the Warden)
+- [x] `vtt-react/src/constants/religionTables.js` — ~707 lines (prime candidate: replace generic "deity" with Sol/Keth Amar/the Warden)
 - [x] `vtt-react/src/constants/ritualMagicTables.js` — ~728 lines (prime candidate: Wyrd, the Binding, the Sundered Monoliths)
 - [x] `vtt-react/src/constants/sleightOfHandTables.js` — ~576 lines
 - [x] `vtt-react/src/constants/socialSkillTables.js` — ~672 lines
@@ -1279,7 +1283,7 @@ Consistency checks before writing:
 - Check house relationships in section 6.2 — don't get alliances wrong
 - Use correct names per section 6.3 — Jarn-Tand not Iron-Tooth, Fexric not Fexrick
 - Match region tone per section 6.4
-- No real-world religions — use Mythrill equivalents (the Keeper, the Wyrd, Keth-Amar)
+- No real-world religions — use Mythrill equivalents (the Keeper, the Wyrd, Keth Amar)
 - Seven houses + Viridane (erased eighth), not seven
 
 AI words to never use: delve, testament, tapestry (unless proper noun), leverage, essence (unless game mechanic), embodies, inherently, multifaceted, nuanced, plethora, ecosystem, paradigm, underscores, utilize, seamless, transformative, facilitate, meticulous.

@@ -10,7 +10,7 @@ import { ABILITY_SCORES, getStatBreakdown, getTotalBonusPoints, calculateAvailab
 import {  getIconUrl, getCustomIconUrl, getAbilityIconUrl } from '../../../utils/assetManager';
 import { getBackgroundData, getBackgroundStatModifiers } from '../../../data/backgroundData';
 import { getBackgroundAbilities } from '../../../data/backgroundAbilities';
-import { applyRacialModifiers, RACE_DATA, getFullRaceData } from '../../../data/raceData';
+import { applyRacialModifiers, RACE_DATA, getFullRaceData, getRaceData } from '../../../data/raceData';
 import {  STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData';
 import { ALL_BACKGROUND_EQUIPMENT } from '../../../data/equipment/backgroundEquipment';
 import ItemTooltip from '../../item-generation/ItemTooltip';
@@ -393,9 +393,9 @@ const formatDescriptionText = (text) => {
   const backgroundData = characterData.background ? getBackgroundData(characterData.background) : null;
   const backgroundAbilities = characterData.background ? getBackgroundAbilities(characterData.background) : [];
 
-  // Get race/subrace objects
-  const selectedRace = characterData.race ? RACE_DATA[characterData.race] : null;
-  const selectedSubrace = selectedRace && characterData.subrace ? Object.values(selectedRace.subraces).find(sr => sr.id === characterData.subrace) : null;
+  // Get race/subrace objects (getRaceData resolves custom lineages too)
+  const selectedRace = characterData.race ? getRaceData(characterData.race) : null;
+  const selectedSubrace = selectedRace && characterData.subrace && selectedRace.subraces ? Object.values(selectedRace.subraces).find(sr => sr.id === characterData.subrace) : null;
 
   // Build completion checklist: kept in sync with the wizard's validation gate
   // (validateCurrentStep) so the UI never claims "ready" while Create is disabled.

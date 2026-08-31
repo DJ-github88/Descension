@@ -3,12 +3,6 @@ import ReactDOM from 'react-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './styles/CampaignManager.css';
 import LibraryBrowserModal, { LIBRARY_TYPES as IMPORTED_LIBRARY_TYPES } from './LibraryBrowserModal';
-
-const LIBRARY_TYPES = IMPORTED_LIBRARY_TYPES || {
-  CREATURES: 'creatures',
-  ITEMS: 'items',
-  SPELLS: 'spells'
-};
 import ItemTooltip from '../item-generation/ItemTooltip';
 import SimpleCreatureTooltip from '../creature-wizard/components/common/SimpleCreatureTooltip';
 import SpellTooltip from '../spellcrafting-wizard/components/common/SpellTooltip';
@@ -18,7 +12,7 @@ import useCreatureStore from '../../store/creatureStore';
 import useShareableStore from '../../store/shareableStore';
 import useChatStore from '../../store/chatStore';
 import campaignService from '../../services/campaignService';
-import { showConfirm } from '../../utils/dialogService';
+import { showConfirm, showAlert } from '../../utils/dialogService';
 import { useCampaignPersistence } from '../../hooks/useCampaignPersistence';
 import { useMediaUpload } from '../../hooks/useMediaUpload';
 import { SPELL_DAMAGE_TYPES, getDamageType } from '../../data/damageTypes';
@@ -28,6 +22,12 @@ import RichCampaignEditor from '../common/RichCampaignEditor';
 import ErrorBoundary from '../common/ErrorBoundary';
 import CustomLineageWizard from '../world/CustomLineageWizard';
 import useCustomLineageStore from '../../store/customLineageStore';
+
+const LIBRARY_TYPES = IMPORTED_LIBRARY_TYPES || {
+  CREATURES: 'creatures',
+  ITEMS: 'items',
+  SPELLS: 'spells'
+};
 import { RACE_DATA } from '../../data/raceData';
 import useWorldStore from '../../store/worldStore';
 import useFactionStore from '../../store/factionStore';
@@ -36,7 +36,7 @@ import useFamilyTreeStore from '../../store/familyTreeStore';
 import InteractiveMapStudio from '../world-map/InteractiveMapStudio';
 import useInteractiveMapStore from '../../store/interactiveMapStore';
 import PlotConspiracyBoard from './PlotConspiracyBoard';
-import { getIconUrl, getCreatureTokenIconUrl, getCustomIconUrl, getWowIconUrl } from '../../utils/assetManager';
+import { getIconUrl, getCreatureTokenIconUrl, getCustomIconUrl, getWowIconUrl, getAbilityIconUrl } from '../../utils/assetManager';
 
 // Access control configuration - can be modified to restrict access by subscription tier
 export const CAMPAIGN_ACCESS_CONFIG = {
@@ -114,7 +114,7 @@ const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }) => {
 };
 
 // Universal Entity Linker Picker Modal
-const EntityLinkerModal = ({ isOpen, title, items = [], selectedIds = [], onToggle, onClose }) => {
+const EntityLinkerModal = ({ isOpen, title, items = [], selectedIds = [], onToggle, onClose, onBrowseLibrary, onCreateHomebrew }) => {
   const [search, setSearch] = useState('');
 
   if (!isOpen) return null;
@@ -170,6 +170,20 @@ const EntityLinkerModal = ({ isOpen, title, items = [], selectedIds = [], onTogg
             </p>
           )}
         </div>
+        {(onBrowseLibrary || onCreateHomebrew) && (
+          <div style={{ display: 'flex', gap: '8px', marginTop: '12px', justifyContent: 'center' }}>
+            {onBrowseLibrary && (
+              <button type="button" className="campaign-modal-btn" onClick={onBrowseLibrary}>
+                <i className="fas fa-books"></i> Browse Library
+              </button>
+            )}
+            {onCreateHomebrew && (
+              <button type="button" className="campaign-modal-btn primary" onClick={onCreateHomebrew}>
+                <i className="fas fa-plus"></i> Create Homebrew
+              </button>
+            )}
+          </div>
+        )}
         <div className="campaign-modal-actions">
           <button type="button" className="campaign-modal-btn confirm" onClick={onClose}>Done</button>
         </div>
@@ -455,6 +469,7 @@ const CampaignManager = ({ user }) => {
   const [campaignData, setCampaignData] = useState({
     name: 'New Campaign',
     description: '',
+    worldId: null,
     currentSession: 1,
     players: [],
     sessions: [],
@@ -473,6 +488,9 @@ const CampaignManager = ({ user }) => {
     selectedItems: [],
     selectedSpells: []
   });
+  const allWorlds = useWorldStore((s) => {
+    try { return s.getAllWorlds ? s.getAllWorlds() : s.worlds || []; } catch { return []; }
+  });
 
   // Track if initial load is complete
   const [isInitialized, setIsInitialized] = useState(false);
@@ -490,7 +508,7 @@ const CampaignManager = ({ user }) => {
       if (url) apply(url);
     } catch (err) {
       console.error('Media upload failed:', err);
-      alert(err.message || 'Image upload failed. Please try a smaller file.');
+      showAlert({ title: 'Upload Failed', message: err.message || 'Image upload failed. Please try a smaller file.', variant: 'danger' });
     }
   };
 
@@ -899,7 +917,7 @@ const CampaignManager = ({ user }) => {
   const handleSpawnSessionEncounters = (session) => {
     const creatures = getLinkedCreatures(session.monsterIds);
     if (creatures.length === 0) {
-      alert('No encounter monsters linked to this session.');
+      showAlert({ title: 'No Encounters', message: 'No encounter monsters linked to this session.', variant: 'info' });
       return;
     }
 
@@ -921,16 +939,16 @@ const CampaignManager = ({ user }) => {
           tokenIcon: c.tokenIcon || c.icon || 'inv_misc_questionmark'
         });
       });
-      alert(`Successfully spawned ${creatures.length} encounter tokens directly onto the active VTT Canvas!`);
+      showAlert({ title: 'Tokens Spawned', message: `Successfully spawned ${creatures.length} encounter tokens directly onto the active VTT Canvas!`, variant: 'success' });
     } else {
-      alert(`${creatures.length} encounter creature(s) prepped and ready for live game!`);
+      showAlert({ title: 'Encounters Ready', message: `${creatures.length} encounter creature(s) prepped and ready for live game!`, variant: 'success' });
     }
   };
 
   const handleDropSessionLoot = (session) => {
     const items = getLinkedItems(session.lootIds);
     if (items.length === 0) {
-      alert('No loot items linked to this session.');
+      showAlert({ title: 'No Loot', message: 'No loot items linked to this session.', variant: 'info' });
       return;
     }
 
@@ -943,16 +961,16 @@ const CampaignManager = ({ user }) => {
         text: `Party Loot Uncovered: ${itemListText}`,
         timestamp: Date.now()
       });
-      alert(`Broadcasted ${items.length} loot item(s) to party chat!`);
+      showAlert({ title: 'Loot Broadcast', message: `Broadcasted ${items.length} loot item(s) to party chat!`, variant: 'success' });
     } else {
-      alert(`Loot: ${itemListText}`);
+      showAlert({ title: 'Loot', message: `Loot: ${itemListText}`, variant: 'info' });
     }
   };
 
   const handleRevealSessionHandouts = (session) => {
     const loreArticles = getLinkedLore(session.loreIds);
     if (loreArticles.length === 0) {
-      alert('No lore articles or handouts linked to this session.');
+      showAlert({ title: 'No Handouts', message: 'No lore articles or handouts linked to this session.', variant: 'info' });
       return;
     }
 
@@ -967,7 +985,7 @@ const CampaignManager = ({ user }) => {
         });
       }
     });
-    alert(`Revealed ${loreArticles.length} handout(s) to the party display!`);
+    showAlert({ title: 'Handouts Revealed', message: `Revealed ${loreArticles.length} handout(s) to the party display!`, variant: 'success' });
   };
 
   // Modal helpers
@@ -1846,6 +1864,27 @@ const CampaignManager = ({ user }) => {
                   placeholder="Describe your campaign's setting, themes, and goals..."
                   rows={4}
                 />
+              </div>
+
+              <div className="overview-card world-binding-card">
+                <h3><i className="fas fa-globe"></i> Bound World</h3>
+                <select
+                  value={campaignData.worldId || ''}
+                  onChange={(e) => updateCampaignData({ worldId: e.target.value || null })}
+                  style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cdb592', background: '#fffaf0' }}
+                >
+                  <option value="">No world bound — standalone campaign</option>
+                  {allWorlds.map((w) => (
+                    <option key={w.id} value={w.id}>
+                      {w.name} {w.isCanonical ? '(Canon)' : '(Custom)'} — {(w.customRegions?.length || 0) + (w.id === 'mythrill' ? 6 : 0)} realms
+                    </option>
+                  ))}
+                </select>
+                {campaignData.worldId && (
+                  <p className="world-binding-hint" style={{ fontSize: '11px', color: '#8b7355', marginTop: '6px' }}>
+                    Linked to <strong>{allWorlds.find((w) => w.id === campaignData.worldId)?.name || campaignData.worldId}</strong> — lineage picks, faction lookups, and map deep-links now resolve against that world's dossier.
+                  </p>
+                )}
               </div>
 
               <div className="overview-card stats-card campaign-stats-card">

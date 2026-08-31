@@ -953,7 +953,7 @@ export const CRUSADER_DATA = {
       characterization: 'An unyielding Solari zealot who treats starlight as a non-negotiable martial law.'
     },
     headquarters: { name: 'The Obsidian Citadel', locationId: 'sundale' },
-    crisisConnection: 'Aethelgard demands Crusaders reforge the 7 Sundered Monoliths, unaware that the 7th Monolith is tainted by Keth-Amar.'
+    crisisConnection: 'Aethelgard demands Crusaders reforge the 7 Sundered Monoliths, unaware that the 7th Monolith is tainted by Keth Amar.'
   },
 
   worldFriction: [
@@ -968,13 +968,13 @@ export const CRUSADER_DATA = {
     subtitle: "The Sol-Bound Zealot",
     illustration: "/assets/images/classes/crusader_illustration.png",
     illustrationCaption: "A Solari Crusader channeling Aex's starlight song through a shattered greatsword.",
-    originStory: `A Crusader is not a peaceful monk praying at an altar. You are a walking starlight furnace encased in sixty pounds of hammered iron and consecrated glass, standing on the rim of the dark and daring the monsters of Keth-Amar to try you.
+    originStory: `A Crusader is not a peaceful monk praying at an altar. You are a walking starlight furnace encased in sixty pounds of hammered iron and consecrated glass, standing on the rim of the dark and daring the monsters of Keth Amar to try you.
 
 When the Freezing Era fell post-Great Breach and the sun was extinguished from the heavens, six noble houses marched their firstborn heirs north to seal the dark bargains of survival. But House Solvan recognised that appeasement was merely a delayed death sentence. Led by Lord-Captain Vane Solvan, their smiths and knights broke into the sealed vaults of the fallen star Aex, prying loose fragments of pure, crystallized starlight. They did not store the relics in velvet boxes—they smelted the star-matter directly into the core of their heavy battle-plates and Greatswords.
 
 To channel Aex's Willing Sacrifice is an ordeal of agonizing physical friction. Starlight does not flow like gentle water; it surges like high-voltage holy electricity through bone, marrow, and blood vessels. Every heavy swing of your two-handed greatsword vibrates at the primordial binding frequency that holds reality together. When you take damage on the frontline, your heavy plate converts the kinetic trauma into blinding Fervor. At fifty Fervor, your blade glows white-hot with Aex's Harmonic Stance, slicing through enchanted shields and demonic hide as though they were dry parchment. At one hundred Fervor, you unleash Solvan Judgment—a catastrophic three-action pillar of descending starlight that shatters enemy armor and leaves the earth permanently consecrated.
 
-The cost of this zeal is complete, exhausting physical devotion. A Crusader cannot cast spells from a safe distance; you must be close enough to smell the enemy's breath to build Fervor. If you push your zeal too far without releasing a smite, the blinding starlight bleeds into your own optic nerves, causing peripheral Starlight Burnout. Today, the Dawn Vigil stands at a terrifying ideological crossroads: Hierophant Aethelgard commands all Crusaders to reforge the 7 Sundered Monoliths, unaware that the 7th Monolith is tainted by Keth-Amar. You march into the dark with a greatsword on your shoulder, knowing that if your faith falters for even a second, the light you carry will burn you alive from the inside out.`,
+The cost of this zeal is complete, exhausting physical devotion. A Crusader cannot cast spells from a safe distance; you must be close enough to smell the enemy's breath to build Fervor. If you push your zeal too far without releasing a smite, the blinding starlight bleeds into your own optic nerves, causing peripheral Starlight Burnout. Today, the Dawn Vigil stands at a terrifying ideological crossroads: Hierophant Aethelgard commands all Crusaders to reforge the 7 Sundered Monoliths, unaware that the 7th Monolith is tainted by Keth Amar. You march into the dark with a greatsword on your shoulder, knowing that if your faith falters for even a second, the light you carry will burn you alive from the inside out.`,
 
     quickOverview: {
       title: "Class Overview",
@@ -1009,10 +1009,10 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
     },
     philosophy: {
       coreTenet: 'Starlight is not a passive blessing. It is a sword forged in sacrifice, bought with Aex\'s blood, and sustained by those who stand in the dark.',
-      relationship: 'Crusaders see themselves as living seals holding back Keth-Amar.',
+      relationship: 'Crusaders see themselves as living seals holding back Keth Amar.',
       paradox: 'To protect life, they must burn their own mortality in starlight zeal.'
     },
-    currentCrisis: `The Dawn Vigil is divided: Hierophant Aethelgard commands all Crusaders to reforge the 7 Monoliths, while veteran Crusaders suspect the 7th Monolith is corrupted by Keth-Amar.`,
+    currentCrisis: `The Dawn Vigil is divided: Hierophant Aethelgard commands all Crusaders to reforge the 7 Monoliths, while veteran Crusaders suspect the 7th Monolith is corrupted by Keth Amar.`,
     meaningfulTradeoffs: `High armor and holy smites come at the cost of mobility and heavy dependence on Fervor management.`,
     classSpecificLocations: [
       {

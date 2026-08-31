@@ -11,6 +11,13 @@ import { db, isFirebaseConfigured } from '../config/firebase';
 import { processImage } from '../utils/imageProcessor';
 
 /**
+ * Upper bound for a stored map image data URL. Firestore documents cap at
+ * ~1 MB; a 700 KB data URL leaves headroom for the rest of the map document
+ * (zones, lore, metadata) while staying well under that limit.
+ */
+const MAX_DATA_URL_LENGTH = 700 * 1024;
+
+/**
  * Compress an image File/Blob into an optimized WebP data URL.
  * Returns { dataUrl, width, height }.
  */

@@ -20,13 +20,13 @@ The goal is to sharpen the identity, flair, and ability concepts of all 20 exist
 | CoA / WoW Term | Mythrill Translation |
 |---|---|
 | Holy / Light | Ember (Sol's warmth / divine fire) |
-| Shadow / Void | Wyrd (spiritual rot / Keth-Amar corruption) |
+| Shadow / Void | Wyrd (spiritual rot / Keth Amar corruption) |
 | Frost | Rime (the frozen world's grip) |
-| Nature / Poison | Blight / Primal (Keth-Amar decay / living world) |
+| Nature / Poison | Blight / Primal (Keth Amar decay / living world) |
 | Arcane / Magic | Arcane (binding ritual residue) |
 | Lightning / Force | Storm (kinetic fury) |
 | Elune / Lunar deity | Sol / Lunarch's parasite-as-eldritch-moon |
-| Old Gods / Void Lords | Keth-Amar / the Voice / the Unmaker |
+| Old Gods / Void Lords | Keth Amar / the Voice / the Unmaker |
 | Xoroth / Burning Legion | Scathrach (Pyrofiend's demon-parasite) |
 | Blood magic / viscera | Sanguine exertion, metabolic strain, kinetic overdrive |
 | Holy Light paladin | Ember-wielding crusader / Martyr theology |
@@ -515,7 +515,7 @@ Each entry follows this structure:
 
 **Class Mechanic: Insanity**  -  Cultists generate Insanity when using powerful abilities. Higher Insanity = more damage. Full Insanity = death (mind-shatter). Players must balance between high power and self-destruction. This is already Mythrill's Madness under a different name.
 
-**CoA Cultist sub-god pact flavor**  -  Each Cultist chooses an Old God (N'zoth, Y'Shaarj, C'thun, Yogg-Saron) which changes their abilities. This could translate to False Prophet choosing which aspect of Keth-Amar / the Voice they serve, granting different passive bonuses.
+**CoA Cultist sub-god pact flavor**  -  Each Cultist chooses an Old God (N'zoth, Y'Shaarj, C'thun, Yogg-Saron) which changes their abilities. This could translate to False Prophet choosing which aspect of Keth Amar / the Voice they serve, granting different passive bonuses.
 
 **Current 3 Specs**:
 | Spec | Theme | Playstyle |

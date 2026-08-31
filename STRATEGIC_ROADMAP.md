@@ -282,7 +282,7 @@ Each phase is sized to be roughly 1–3 chats of work. Phases are ordered by dep
 
 ### 4.1 Lore & Narrative (full detail)
 
-**World spine — excellent.** Sol buried beneath Emberspire to escape Keth-Amar ("the Sun-Eater"); seven noble houses bound it with the flayed hide of Aex; six later capitulated, cracking the seal into seven Sundered Monoliths; an eighth house (Viridane) refused and became the Briaran. Dated "Year X of the Dimming." `rulesData.js:26-56` opens with a first-person Keth-Amar monologue that is genuinely strong prose.
+**World spine — excellent.** Sol buried beneath Emberspire to escape Keth Amar ("the Sun-Eater"); seven noble houses bound it with the flayed hide of Aex; six later capitulated, cracking the seal into seven Sundered Monoliths; an eighth house (Viridane) refused and became the Briaran. Dated "Year X of the Dimming." `rulesData.js:26-56` opens with a first-person Keth Amar monologue that is genuinely strong prose.
 
 **Original ideas worth spotlighting:**
 - **The Silent Seventh** (`rulesData.js:86`): one of the seven "capitulating" families secretly also refused. Campaign-grade mystery.

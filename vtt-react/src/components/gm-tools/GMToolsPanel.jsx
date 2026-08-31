@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import useGameStore from '../../store/gameStore';
 import useCombatStore from '../../store/combatStore';
 import useChatStore from '../../store/chatStore';
+import useCharacterStore from '../../store/characterStore';
 import SocialEncounterGenerator from './SocialEncounterGenerator';
 import { showConfirm } from '../../utils/dialogService';
 import './GMToolsPanel.css';
@@ -148,7 +149,6 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
       }
 
       // Also apply locally for the GM's character if they have one
-      const useCharacterStore = require('../../store/characterStore').default;
       useCharacterStore.getState().awardExperience(xpAmount);
 
       addNotification('system', {
@@ -181,7 +181,6 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
         }
 
         // Also apply locally
-        const useCharacterStore = require('../../store/characterStore').default;
         const charStore = useCharacterStore.getState();
         charStore.updateResource('health', charStore.health.max, charStore.health.max);
 

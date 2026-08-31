@@ -27,25 +27,25 @@ Read this first. It is the canonical cosmology. Every other file must be checked
 
 1. **Six cosmic entities, no overlap:**
    - **The Warden** — The grammar of consequence. No will, no agenda. The rule that a cost exists.
-   - **Keth-Amar** — A *scheming* cosmic predator. Studies prey's folklore. Offered Sol's OWN warmth to the houses deceptively. Has never broken a bargain. Pressed against a partial seal, leeching through cracks. **Does not eat rebirths** — that was a mistaken theory.
+   - **Keth Amar** — A *scheming* cosmic predator. Studies prey's folklore. Offered Sol's OWN warmth to the houses deceptively. Has never broken a bargain. Pressed against a partial seal, leeching through cracks. **Does not eat rebirths** — that was a mistaken theory.
    - **Sol** — A star in forced torpor. Cannot rebirth, cannot die. Wrapped in Aex's hide.
    - **Aex** — Sol's firstborn. Willingly sacrificed for a *clean* seal (7 houses, 7 signatures). Sang during flaying. Agony started at the **Breach**, not the Binding. Lynched across the vault. The 7 Monoliths are parts of his body. The pulse is his scream. He screamed 65 times and has stopped. Monoliths wake because he can no longer hold them still.
-   - **The Watcher / Keeper** — One entity. Boundary between life/death/memory. The world's conscience — impartial, all-knowing, but quiescent (rarely acts). Did not outmaneuver Keth-Amar — acted at the last moment because total imbalance is the only thing it cannot permit. Hid the false Monolith once and cannot find it either. It is fracturing under Keth-Amar's pressure.
-   - **Scathrach** — Fragment of Aex's hide from the Binding itself (NOT older). Was Keth-Amar's puppet, then rejected the corruption. Now hates Keth-Amar. Independent. Pyrofiend patron.
+   - **The Watcher / Keeper** — One entity. Boundary between life/death/memory. The world's conscience — impartial, all-knowing, but quiescent (rarely acts). Did not outmaneuver Keth Amar — acted at the last moment because total imbalance is the only thing it cannot permit. Hid the false Monolith once and cannot find it either. It is fracturing under Keth Amar's pressure.
+   - **Scathrach** — Fragment of Aex's hide from the Binding itself (NOT older). Was Keth Amar's puppet, then rejected the corruption. Now hates Keth Amar. Independent. Pyrofiend patron.
 
 2. **The Pulse is NOT a fixed 12-year clock.** It is a natural harmonic of 7 scattered body parts trying to sync. Timing semi-predictable (~12 yrs ±variance), effects unpredictable. The Draining (between pulses) is the main narrative space.
 
 3. **The Breach:** 6 of 7 heirs consumed as vessel-keys. Viridane refused (Watcher reached them at the last possible moment). Seal cracked but did not shatter. 6 true Monoliths + 1 false (hollow echo).
 
-4. **Viridane's erasure:** Keth-Amar hunts through knowledge. Erased to prevent it tracking the thread. Memory-fog completes the hiding.
+4. **Viridane's erasure:** Keth Amar hunts through knowledge. Erased to prevent it tracking the thread. Memory-fog completes the hiding.
 
 5. **6 True Monoliths:** Thalreth=Fog-Hand (right hand skin, Frostwood), Skalvyr=Ice-Crown (skull, Nordhalla), Tesshan=Wind-Bone (rib, Cragjaw), Mereval=Depth-Breath (lungs, Iceheart Sea), Ordavan=Grass-Spine (spine, Sundrift Vale), Solvan=Still-Heart (false decoy, Sundale). **7th False Monolith:** Viridane's hollow echo, lost in Watcher's territory, hums in *anticipation* not pain.
 
-6. **Dead Moon:** A dormant star/very old sleeping deity. Keth-Amar nested in its corpse. Parasites are traces of its inner ecology.
+6. **Dead Moon:** A dormant star/very old sleeping deity. Keth Amar nested in its corpse. Parasites are traces of its inner ecology.
 
-7. **Three faith factions:** Dawn Vigil (wants to bind Keth-Amar by reassembling Monoliths), Risen/Korr (patience, wait for Sol), Scoured (seal the Breach permanently, let Sol die).
+7. **Three faith factions:** Dawn Vigil (wants to bind Keth Amar by reassembling Monoliths), Risen/Korr (patience, wait for Sol), Scoured (seal the Breach permanently, let Sol die).
 
-8. **The Watcher:** Impartial, all-knowing, the world's conscience. Quiescent — mostly does nothing. The Wyrd is psychological terror because the Watcher is the world's *memory* and Keth-Amar poisons memories.
+8. **The Watcher:** Impartial, all-knowing, the world's conscience. Quiescent — mostly does nothing. The Wyrd is psychological terror because the Watcher is the world's *memory* and Keth Amar poisons memories.
 
 ---
 
@@ -126,13 +126,13 @@ Read every one of these. Flag contradictions, tonal problems, redundancies, weak
 ## Specific Things to Look For
 
 ### 1. Residual Old-Model Language
-The setting was recently overhauled. Old model: "Sol tries to rekindle every 12 years, 65 failed rebirths, Keth-Amar eats each one." New model: "Aex screamed 65 times, the pulse is a natural harmonic, Keth-Amar presses against a partial seal." Find any file that still speaks in the old model.
+The setting was recently overhauled. Old model: "Sol tries to rekindle every 12 years, 65 failed rebirths, Keth Amar eats each one." New model: "Aex screamed 65 times, the pulse is a natural harmonic, Keth Amar presses against a partial seal." Find any file that still speaks in the old model.
 
 ### 2. Regions That Don't Feel Like Their Bargain
 Each region has a Dark Bargain that should be visible in every aspect of life there. Frostwood = fog eats memory. Nordhalla = eternal winter. Sundale = burning ashlands. Cragjaw = perpetual blizzard. Iceheart Sea = perpetual storm. Sundrift Vale = eternal darkness, starless sky. Do the region descriptions *feel* like these consequences? Or are they generic fantasy biomes with a stamp?
 
 ### 3. Races That Don't Need to Exist
-10 races is a lot for a TTRPG setting. Which ones serve the cosmic story? Which ones are just "I wanted a fantasy race"? Specifically: Mimir (doppelganger shapeshifters unrelated to cosmology), Vreken (bioluminescent fungus people unrelated to cosmology), Fexric (goblin engineers unrelated to cosmology), Groven (bridge-builders unrelated to cosmology). If a race has no connection to the Binding, the Breach, the Pulse, Keth-Amar, or the Watcher — flag it.
+10 races is a lot for a TTRPG setting. Which ones serve the cosmic story? Which ones are just "I wanted a fantasy race"? Specifically: Mimir (doppelganger shapeshifters unrelated to cosmology), Vreken (bioluminescent fungus people unrelated to cosmology), Fexric (goblin engineers unrelated to cosmology), Groven (bridge-builders unrelated to cosmology). If a race has no connection to the Binding, the Breach, the Pulse, Keth Amar, or the Watcher — flag it.
 
 ### 4. Classes That Don't Care About the Crisis
 The Aex-Pulse model means the world is actively ending. Every class should have a reason to care. Which classes are just "I'm good at fighting" with no narrative stake? Specifically: Chronarch, Gambit, Minstrel, Toxicologist, Plaguebringer, Shaper — do any of these have a real hook, or are they just mechanics waiting for a skin?
@@ -141,13 +141,13 @@ The Aex-Pulse model means the world is actively ending. Every class should have 
 The creator described the Watcher as "the world's conscience — not a force, a personality. It knows what justice is, remembers what was lost, weighs." The framework currently describes it as mostly inactive. Is this satisfying? If the world's conscience exists and sees injustice, why doesn't it act more?
 
 ### 6. The Dead Moon
-Recently redefined as "a dormant star / very old sleeping deity." This is the third definition (was an egg, then a corpse-Keth-Amar-nested-in, now a sleeping deity). Which version is the truth? Does it matter? Does the Lunarch class actually use this?
+Recently redefined as "a dormant star / very old sleeping deity." This is the third definition (was an egg, then a corpse-Keth Amar-nested-in, now a sleeping deity). Which version is the truth? Does it matter? Does the Lunarch class actually use this?
 
 ### 7. Wyrd's Definition
-The Wyrd is "Keth-Amar's corruption breathed into folklore." It grows from fear. But rulesData.js also describes it as a poison, a rot, a tangible substance. Is it a *psychological* threat or a *physical* one? Or both? Can it be both without contradiction?
+The Wyrd is "Keth Amar's corruption breathed into folklore." It grows from fear. But rulesData.js also describes it as a poison, a rot, a tangible substance. Is it a *psychological* threat or a *physical* one? Or both? Can it be both without contradiction?
 
 ### 8. The Secret
-What is the single secret that, if revealed, changes everything? Every great setting has one. The two candidates are: (a) reassembling the Monoliths summons Keth-Amar, not Sol (most characters don't know this). (b) Aex's heart Monolith is a decoy — the true heart was hidden. Is either of these "the secret," or is the setting missing a single core revelation that makes the whole story click?
+What is the single secret that, if revealed, changes everything? Every great setting has one. The two candidates are: (a) reassembling the Monoliths summons Keth Amar, not Sol (most characters don't know this). (b) Aex's heart Monolith is a decoy — the true heart was hidden. Is either of these "the secret," or is the setting missing a single core revelation that makes the whole story click?
 
 ---
 

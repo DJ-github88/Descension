@@ -207,7 +207,7 @@ const useCharacterTokenStore = create(
      import('./gameStore').then(({ default: useGameStore }) => {
       const gameStore = useGameStore.getState();
       if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-       // Get the token we just created to include its mapId
+       // Get the token we just created to include its mapId + character snapshot
        const token = get().characterTokens.find(t => t.id === tokenId);
        const mapId = token?.mapId || 'default';
 
@@ -220,7 +220,9 @@ const useCharacterTokenStore = create(
          playerId: playerId || 'local_player',
          position: finalPosition,
          mapId: mapId,
-         createdAt: Date.now()
+         createdAt: Date.now(),
+         name: token?.name || null,
+         character: token?.character || null
         },
         position: finalPosition,
         mapId: mapId,
@@ -282,40 +284,110 @@ const useCharacterTokenStore = create(
     return { characterTokens: updatedTokens };
    }),
 
-   // Update character token state (for conditions, etc.)
-   updateCharacterTokenState: (tokenId, stateUpdates, sendToServer = true) => set(state => {
-    const updatedTokens = state.characterTokens.map(token =>
-     token.id === tokenId
-      ? {
-       ...token,
-       state: {
-        ...token.state,
-        ...stateUpdates,
-        lastModified: new Date().toISOString()
+    // Update character token state (for conditions, etc.)
+    updateCharacterTokenState: (tokenId, stateUpdates, sendToServer = true) => set(state => {
+     const updatedTokens = state.characterTokens.map(token =>
+      token.id === tokenId
+       ? {
+        ...token,
+        state: {
+         ...token.state,
+         ...stateUpdates,
+         lastModified: new Date().toISOString()
+        }
+       }
+       : token
+     );
+
+     // Send state updates to server if requested
+     if (sendToServer) {
+      // Import game store dynamically to avoid circular dependencies
+      import('./gameStore').then(({ default: useGameStore }) => {
+       const gameStore = useGameStore.getState();
+       if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+        gameStore.multiplayerSocket.emit('character_token_updated', {
+         roomId: gameStore.multiplayerRoom?.id,
+         tokenId,
+         stateUpdates
+        });
+       }
+      }).catch(error => {
+       console.error('Failed to import gameStore for character token state update:', error);
+      });
+     }
+
+     return { characterTokens: updatedTokens };
+    }),
+
+    // Refresh the character snapshot on tokens that belong to the local player.
+    // Fires automatically when the player edits their portrait/name/token look in
+    // the character sheet, so placed tokens (and room saves) stay current without
+    // re-placing the token. Broadcasts the refresh in multiplayer.
+    refreshLocalPlayerSnapshot: () => {
+     Promise.all([
+      import('./characterStore'),
+      import('./gameStore')
+     ]).then(([{ default: useCharacterStore }, { default: useGameStore }]) => {
+      const s = useCharacterStore.getState();
+      const socketId = useGameStore.getState().multiplayerSocket?.id;
+      const ownNames = new Set([s.name, s.baseName].filter(Boolean));
+      const fresh = {
+       name: s.name,
+       race: s.race,
+       raceDisplayName: s.raceDisplayName,
+       class: s.class,
+       level: s.level,
+       health: s.health,
+       mana: s.mana,
+       actionPoints: s.actionPoints,
+       tempHealth: s.tempHealth,
+       tempMana: s.tempMana,
+       tempActionPoints: s.tempActionPoints,
+       lore: s.lore,
+       tokenSettings: s.tokenSettings
+      };
+
+      const isOwnToken = (t) =>
+       t.isPlayerToken ||
+       t.playerId === 'local_player' ||
+       t.playerId === 'current-player' ||
+       (socketId && t.playerId === socketId) ||
+       (t.playerId && ownNames.has(t.playerId));
+
+      const changedIds = [];
+      set(state => ({
+       characterTokens: state.characterTokens.map(t => {
+        if (!isOwnToken(t)) return t;
+        changedIds.push(t.id);
+        return { ...t, character: { ...fresh }, name: fresh.name || t.name };
+       })
+      }));
+
+      if (changedIds.length > 0) {
+       const gameStore = useGameStore.getState();
+       if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+        changedIds.forEach(tokenId => {
+         gameStore.multiplayerSocket.emit('character_token_updated', {
+          roomId: gameStore.multiplayerRoom?.id,
+          tokenId,
+          character: fresh,
+          name: fresh.name
+         });
+        });
        }
       }
-      : token
-    );
+     }).catch(() => {});
+    },
 
-    // Send state updates to server if requested
-    if (sendToServer) {
-     // Import game store dynamically to avoid circular dependencies
-     import('./gameStore').then(({ default: useGameStore }) => {
-      const gameStore = useGameStore.getState();
-      if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-       gameStore.multiplayerSocket.emit('character_token_updated', {
-        roomId: gameStore.multiplayerRoom?.id,
-        tokenId,
-        stateUpdates
-       });
-      }
-     }).catch(error => {
-      console.error('Failed to import gameStore for character token state update:', error);
-     });
-    }
-
-    return { characterTokens: updatedTokens };
-   }),
+    // Apply a snapshot refresh received from the multiplayer server (another
+    // player updated their portrait/name and the owning client broadcast it).
+    updateCharacterTokenSnapshot: (tokenId, character, name) => set(state => ({
+     characterTokens: state.characterTokens.map(t =>
+      t.id === tokenId || t.playerId === tokenId
+       ? { ...t, character: character || t.character, name: name || t.name }
+       : t
+     )
+    })),
 
    // Remove a character token
    removeCharacterToken: (tokenId, sendToServer = true) => set(state => {
@@ -376,60 +448,70 @@ const useCharacterTokenStore = create(
    },
 
 
-   // Add character token from server (for multiplayer sync)
-   addCharacterTokenFromServer: (tokenId, position, playerId, mapId = null) => set(state => {
-    // Find character token to update
-    const existingToken = state.characterTokens.find(token => token.id === tokenId);
+    // Add character token from server (for multiplayer sync)
+    addCharacterTokenFromServer: (tokenId, position, playerId, mapId = null, character = null, name = null) => set(state => {
+     // Find character token to update
+     const existingToken = state.characterTokens.find(token => token.id === tokenId);
 
-    // CRITICAL: Normalize position to ensure x/y exist
-    const targetPos = get().normalizePosition(position, existingToken?.position);
+     // CRITICAL: Normalize position to ensure x/y exist
+     const targetPos = get().normalizePosition(position, existingToken?.position);
 
-    // Standardized tracking key
-    const recentMoveKey = `token_${tokenId}`;
-    const now = Date.now();
+     // Standardized tracking key
+     const recentMoveKey = `token_${tokenId}`;
+     const now = Date.now();
 
-    if (!window.recentTokenMovements) {
-     window.recentTokenMovements = new Map();
-    }
-    const recentTokenMovements = window.recentTokenMovements;
-    const recentMove = recentTokenMovements.get(recentMoveKey);
+     if (!window.recentTokenMovements) {
+      window.recentTokenMovements = new Map();
+     }
+     const recentTokenMovements = window.recentTokenMovements;
+     const recentMove = recentTokenMovements.get(recentMoveKey);
 
-    if (recentMove && recentMove.isLocal && (now - recentMove.timestamp) < 500) {
-     console.log(`ðŸš« Ignoring stale character token position update for ${tokenId} (${now - recentMove.timestamp}ms old - local is authoritative)`);
-     return state;
-    }
+     if (recentMove && recentMove.isLocal && (now - recentMove.timestamp) < 500) {
+      console.log(`ðŸš« Ignoring stale character token position update for ${tokenId} (${now - recentMove.timestamp}ms old - local is authoritative)`);
+      return state;
+     }
 
-    // Track this movement to prevent future echoes
-    recentTokenMovements.set(recentMoveKey, {
-     tokenKey: tokenId,
-     position: targetPos,
-     timestamp: now
-    });
+     // Track this movement to prevent future echoes
+     recentTokenMovements.set(recentMoveKey, {
+      tokenKey: tokenId,
+      position: targetPos,
+      timestamp: now
+     });
 
-    // Update existing token or create new one with mapId for proper isolation
-    const updatedTokens = existingToken
-     ? state.characterTokens.map(token =>
-      token.id === tokenId ? { ...token, position: targetPos, mapId: mapId || token.mapId } : token
-     )
-     : [
-      ...state.characterTokens,
-      {
-       id: tokenId,
-       isPlayerToken: false, // FIXED: Server tokens are NOT local player's token
-       playerId: playerId,
-       position: targetPos,
-       mapId: mapId || 'default', // CRITICAL: Include mapId for proper isolation
-       createdAt: Date.now(),
-       // CRITICAL: Initialize state for consistency with creature tokens
-       state: {
-        conditions: [],
-        lastModified: new Date().toISOString()
+     // Update existing token or create new one with mapId for proper isolation
+     const updatedTokens = existingToken
+      ? state.characterTokens.map(token =>
+       token.id === tokenId
+        ? {
+         ...token,
+         position: targetPos,
+         mapId: mapId || token.mapId,
+         character: character || token.character,
+         name: name || token.name
+        }
+        : token
+      )
+      : [
+       ...state.characterTokens,
+       {
+        id: tokenId,
+        isPlayerToken: false, // FIXED: Server tokens are NOT local player's token
+        playerId: playerId,
+        position: targetPos,
+        mapId: mapId || 'default', // CRITICAL: Include mapId for proper isolation
+        createdAt: Date.now(),
+        name: name || null,
+        character: character || null,
+        // CRITICAL: Initialize state for consistency with creature tokens
+        state: {
+         conditions: [],
+         lastModified: new Date().toISOString()
+        }
        }
-      }
-     ];
+      ];
 
-    return { characterTokens: updatedTokens };
-   }),
+     return { characterTokens: updatedTokens };
+    }),
 
    // CRITICAL: Load character token quietly (no sync) - used for map switches
    loadCharacterToken: (tokenData) => {
@@ -526,6 +608,33 @@ const useCharacterTokenStore = create(
 
 // Note: Initialization is now handled by initCharacterTokenStore.js to avoid duplicates
 // This prevents race conditions and multiple initialization calls
+
+// Keep placed character tokens in sync with the owning player's character sheet.
+// When the local player edits their portrait/name/token look, the snapshot
+// attached to their grid token(s) is refreshed (and broadcast in multiplayer)
+// so token art stays current without re-placing the token.
+if (typeof window !== 'undefined') {
+  import('./characterStore').then(({ default: useCharacterStore }) => {
+    const selectSyncFields = (s) => [
+      s.name,
+      s.baseName,
+      s.race,
+      s.raceDisplayName,
+      s.class,
+      s.level,
+      s.lore?.characterImage || '',
+      s.lore?.characterIcon || '',
+      s.tokenSettings?.customIcon || '',
+      s.tokenSettings?.borderColor || '',
+      s.tokenSettings?.backgroundColor || ''
+    ].join('|');
+    useCharacterStore.subscribe(selectSyncFields, () => {
+      useCharacterTokenStore.getState().refreshLocalPlayerSnapshot();
+    });
+  }).catch((err) => {
+    console.warn('[characterTokenStore] Character sheet -> token sync subscription failed:', err);
+  });
+}
 
 // Expose store for debugging
 if (typeof window !== 'undefined') {

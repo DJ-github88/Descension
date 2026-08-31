@@ -302,6 +302,51 @@ function registerTokenHandlers(ctx) {
     }
   });
 
+  // Player updated their character token (portrait snapshot refresh or
+  // conditions state). Merged into the stored token and relayed so other
+  // clients (e.g. the GM's screen) render the current portrait.
+  socket.on('character_token_updated', async(data) => {
+    try {
+      const validation = validateRoomMembership(socket, data.roomId);
+      if (!validation.valid) {return;}
+
+      const { room } = validation;
+      const mapId = data.mapId || room.gameState.defaultMapId || 'default';
+      const map = validateMapExists(room, mapId);
+
+      const tokenId = data.tokenId;
+      if (!tokenId) {return;}
+
+      const existing = map.characterTokens[tokenId] || room.gameState.characterTokens[tokenId];
+      if (existing) {
+        const updated = {
+          ...existing,
+          ...(data.name ? { name: data.name } : {}),
+          ...(data.character ? { character: data.character } : {}),
+          ...(data.stateUpdates ? { state: { ...(existing.state || {}), ...data.stateUpdates } } : {})
+        };
+        map.characterTokens[tokenId] = updated;
+        room.gameState.characterTokens[tokenId] = updated; // Legacy support
+      }
+
+      // Relay to everyone EXCEPT the sender (their local state is already fresh)
+      if (!isTokensDeltaEnabled()) {
+        socket.to(room.id).emit('character_token_updated', {
+          ...data,
+          tokenId,
+          mapId,
+          updatedBy: socket.id,
+          sequence: getNextEventSequence()
+        });
+      }
+
+      firebaseBatchWriter.queueWrite(room.id, room.gameState);
+
+    } catch (error) {
+      logger.error('[character_token_updated] Error:', { error: error.message });
+    }
+  });
+
   socket.on('token_removed', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);

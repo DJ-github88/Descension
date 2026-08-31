@@ -252,6 +252,10 @@ const StorageUsageWidget = ({ compact = false, cloud = false }) => {
 
             <div className="storage-breakdown">
               <div className="breakdown-item">
+                <span><i className="fas fa-globe"></i> World Lore</span>
+                <span>{storageLimitService.formatBytes(breakdown.worldLore || 0)}</span>
+              </div>
+              <div className="breakdown-item">
                 <span><i className="fas fa-user"></i> Characters</span>
                 <span>{storageLimitService.formatBytes(breakdown.characters || 0)}</span>
               </div>
@@ -261,12 +265,21 @@ const StorageUsageWidget = ({ compact = false, cloud = false }) => {
               </div>
               <div className="breakdown-item">
                 <span><i className="fas fa-book"></i> Journals</span>
-                <span>{(breakdown.journals || 0) > 0 ? '1' : '0'} / 1</span>
+                <span>{storageLimitService.formatBytes(breakdown.journals || 0)}</span>
               </div>
               <div className="breakdown-item">
                 <span><i className="fas fa-map"></i> Campaigns</span>
-                <span>{breakdown.campaigns || 0} / {formatCategoryLimit(detailedUsage.limits.campaigns)}</span>
+                <span>
+                  {breakdown.campaigns || 0} / {formatCategoryLimit(detailedUsage.limits.campaigns)}
+                  {(breakdown.campaignBytes || 0) > 0 ? ` • ${storageLimitService.formatBytes(breakdown.campaignBytes)}` : ''}
+                </span>
               </div>
+              {(breakdown.customMaps || 0) > 0 && (
+                <div className="breakdown-item">
+                  <span><i className="fas fa-map-marked-alt"></i> Custom Maps</span>
+                  <span>{storageLimitService.formatBytes(breakdown.customMaps)}</span>
+                </div>
+              )}
               {(breakdown.audioFiles || 0) > 0 && (
                 <div className="breakdown-item">
                   <span><i className="fas fa-music"></i> Audio</span>
@@ -341,6 +354,10 @@ const StorageUsageWidget = ({ compact = false, cloud = false }) => {
 
         <div className="storage-breakdown">
           <div className="breakdown-item">
+            <span>World Lore</span>
+            <span>{storageLimitService.formatBytes(breakdown.worldLore || 0)}</span>
+          </div>
+          <div className="breakdown-item">
             <span>Characters</span>
             <span>{storageLimitService.formatBytes(breakdown.characters || 0)}</span>
           </div>
@@ -350,12 +367,21 @@ const StorageUsageWidget = ({ compact = false, cloud = false }) => {
           </div>
           <div className="breakdown-item">
             <span>Journals</span>
-            <span>{(breakdown.journals || 0) > 0 ? '1' : '0'} / 1</span>
+            <span>{storageLimitService.formatBytes(breakdown.journals || 0)}</span>
           </div>
           <div className="breakdown-item">
             <span>Campaigns</span>
-            <span>{breakdown.campaigns || 0} / {formatCategoryLimit(detailedUsage.limits.campaigns)}</span>
+            <span>
+              {breakdown.campaigns || 0} / {formatCategoryLimit(detailedUsage.limits.campaigns)}
+              {(breakdown.campaignBytes || 0) > 0 ? ` • ${storageLimitService.formatBytes(breakdown.campaignBytes)}` : ''}
+            </span>
           </div>
+          {(breakdown.customMaps || 0) > 0 && (
+            <div className="breakdown-item">
+              <span>Custom Maps</span>
+              <span>{storageLimitService.formatBytes(breakdown.customMaps)}</span>
+            </div>
+          )}
           {(breakdown.audioFiles || 0) > 0 && (
             <div className="breakdown-item">
               <span>Audio</span>

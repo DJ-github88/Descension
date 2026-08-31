@@ -20,6 +20,7 @@ import WorldDashboard from '../world/WorldDashboard';
 import StorageUsageWidget from './StorageUsageWidget';
 import BookManager from '../books/BookManager';
 import './styles/AccountDashboard.css';
+import { showAlert } from '../../utils/dialogService';
 import './styles/AccountDashboardIsolation.css';
 import './styles/RoomManager.css'; // Import existing modal styles
 
@@ -145,19 +146,7 @@ const AccountDashboard = ({ user }) => {
 
   const receivedRequests = (pendingRequests || []).filter(r => r.type === 'received' && r.status === 'pending');
 
-  // Debug: Log all character data on component mount
-  useEffect(() => {
-    if (characters.length > 0) {
-      console.log('🔍 All character data:', characters.map(char => ({
-        name: char.name,
-        stats: char.stats,
-        health: char.health,
-        mana: char.mana,
-        resources: char.resources,
-        rawData: char
-      })));
-    }
-  }, [characters]);
+
   const isGuest = user?.isGuest || false;
   const isPhone = useIsPhone();
   // Phones default to Characters — Rooms leads into the desktop-only VTT grid.
@@ -279,7 +268,7 @@ const AccountDashboard = ({ user }) => {
         return;
       }
 
-      alert(`Character limit reached!\n\nYour ${tierName} membership allows ${limit} character${limit === 1 ? '' : 's'}.\nYou currently have ${limitInfo.currentCount} character${limitInfo.currentCount === 1 ? '' : 's'}.\n\nUpgrade your membership to create more characters.`);
+      showAlert({ title: 'Character Limit Reached', message: `Your ${tierName} membership allows ${limit} character${limit === 1 ? '' : 's'}. You currently have ${limitInfo.currentCount}. Upgrade your membership to create more characters.`, variant: 'warning' });
       return;
     }
 
@@ -317,7 +306,7 @@ const AccountDashboard = ({ user }) => {
       setSelectedCharacter(null);
     } catch (error) {
       console.error('❌ Failed to delete character:', error);
-      alert(`Failed to delete character: ${error.message}`);
+      showAlert({ title: 'Delete Failed', message: `Failed to delete character: ${error.message}`, variant: 'danger' });
       setShowDeleteConfirm(false);
       setSelectedCharacter(null);
     }
@@ -346,9 +335,9 @@ const AccountDashboard = ({ user }) => {
       navigate('/', { replace: true });
     } catch (error) {
       if (error.code === 'auth/requires-recent-login') {
-        alert('For security, please sign out and sign back in before deleting your account.');
+        showAlert({ title: 'Re-auth Required', message: 'For security, please sign out and sign back in before deleting your account.', variant: 'warning' });
       } else {
-        alert(`Failed to delete account: ${error.message}`);
+        showAlert({ title: 'Delete Failed', message: `Failed to delete account: ${error.message}`, variant: 'danger' });
       }
     } finally {
       setIsDeletingAccount(false);
@@ -425,27 +414,6 @@ const AccountDashboard = ({ user }) => {
     // Use stored current values but ensure they don't exceed new max values
     const storedHealth = character.health || character.resources?.health || { current: maxHealth, max: maxHealth };
     const storedMana = character.mana || character.resources?.mana || { current: maxMana, max: maxMana };
-
-    // Debug logging for character resource calculation (temporary)
-    if (character.name === 'YAD') {
-      console.log('🔍 AccountDashboard character resource calculation:', {
-        characterName: character.name,
-        constitution: character.stats?.constitution,
-        intelligence: character.stats?.intelligence,
-        storedHealth,
-        storedMana,
-        calculatedMaxHealth: maxHealth,
-        calculatedMaxMana: maxMana,
-        finalHealth: {
-          current: Math.min(storedHealth.current || maxHealth, maxHealth),
-          max: maxHealth
-        },
-        finalMana: {
-          current: Math.min(storedMana.current || maxMana, maxMana),
-          max: maxMana
-        }
-      });
-    }
 
     return {
       health: {
@@ -1322,8 +1290,8 @@ const AccountDashboard = ({ user }) => {
                           ) : tier.price === 0 ? (
                             <span className="plan-note">Free with account</span>
                           ) : (
-                            <button className="plan-btn upgrade-btn" disabled>
-                              Coming Soon
+                            <button className="plan-btn upgrade-btn" onClick={() => showAlert({ title: 'Upgrade Coming Soon', message: 'Paid membership upgrades are not yet available. Enjoy the free tier and watch for announcements!', variant: 'info' })}>
+                              Coming Soon — Notify Me
                             </button>
                           )}
                         </div>

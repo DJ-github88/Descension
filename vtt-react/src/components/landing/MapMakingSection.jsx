@@ -1037,7 +1037,7 @@ const CHECKLIST_TEMPLATE = {
     { category: 'routes', action: 'DRAW', text: 'Cairn-checkpoints across the Blizzard Bluff (Ordan March Wardens)', why: 'Border watch to Frostwood', inkarnate: 'Checkpoint icons' },
     { category: 'routes', action: 'DRAW', text: 'Cairn-Checkpoints (basalt) at every major crossroads', why: 'Herd-Tithe and migration control', inkarnate: 'Basalt stone markers' },
     // EFFECTS
-    { category: 'effects', action: 'COLOR', text: 'Permanently dark sky (#2a2a2a base, NO stars)', why: 'Keth-Amar devoured the constellation-forge, the defining feature', inkarnate: 'Dark sky overlay' },
+    { category: 'effects', action: 'COLOR', text: 'Permanently dark sky (#2a2a2a base, NO stars)', why: 'Keth Amar devoured the constellation-forge, the defining feature', inkarnate: 'Dark sky overlay' },
     { category: 'effects', action: 'COLOR', text: 'Pale silver-white glow from Lien-stalks, woolly herd antlers, Astril patterns', why: 'The only natural light in the dark sky', inkarnate: 'Pale glow patches' },
     { category: 'effects', action: 'FOG',   text: 'Wind-streak texture across the entire Vale (perpetual wind)', why: 'The wind never stops', inkarnate: 'Wind-line overlay' },
     // LABELS
@@ -1114,7 +1114,7 @@ const CHECKLIST_TEMPLATE = {
       category: 'effects',
       action: 'COLOR',
       text: 'Indicate the Wyrd-density (concentrated at the Sundered Monoliths)',
-      why: 'The Wyrd bleeds through the cracks Keth-Amar opened, warping magic, spoiling venoms, and causing augur inaccuracies. It concentrates around the Monoliths.',
+      why: 'The Wyrd bleeds through the cracks Keth Amar opened, warping magic, spoiling venoms, and causing augur inaccuracies. It concentrates around the Monoliths.',
       inkarnate: 'Use a soft purple or dark magenta color wash around the 7 Monolith areas (e.g. Treakous Rift, Shard-Window, beneath Frostmaw) to represent the Wyrd-mist density.'
     },
     {
@@ -1128,7 +1128,7 @@ const CHECKLIST_TEMPLATE = {
       category: 'labels',
       action: 'LABEL',
       text: 'Indicate where House Viridane used to be (negative space)',
-      why: 'The erased 8th house. House Viridane refused Keth-Amar\'s bargain and was struck from all history. Leave a visible gap or broken sigil in the Frostwood Reach to hint at their hidden Florae survivors.',
+      why: 'The erased 8th house. House Viridane refused Keth Amar\'s bargain and was struck from all history. Leave a visible gap or broken sigil in the Frostwood Reach to hint at their hidden Florae survivors.',
       inkarnate: 'Leave an empty, unmapped clearing or add a faint, cracked sigil stamp.'
     },
     {

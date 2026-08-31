@@ -460,7 +460,7 @@ export function registerMapGridHandlers(ctx) {
         Object.values(data.characterTokens).forEach(token => {
           const tokenMapId = token.mapId || 'default';
           if (tokenMapId === currentMapId) {
-            addCharacterTokenFromServer(token.id, token.position, token.playerId, tokenMapId);
+            addCharacterTokenFromServer(token.id, token.position, token.playerId, tokenMapId, token.character || null, token.name || null);
           }
         });
       } catch (error) {
