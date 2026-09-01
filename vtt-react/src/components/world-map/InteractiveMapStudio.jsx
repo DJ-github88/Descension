@@ -1362,6 +1362,17 @@ const InteractiveMapStudio = () => {
       {/* Studio Header Toolbar */}
       <header className="map-studio-header">
         <div className="header-left">
+          {/* Back button to exit map studio */}
+          <button
+            type="button"
+            className="btn-map-back"
+            onClick={closeStudio}
+            title="Close Map Studio"
+          >
+            <i className="fas fa-arrow-left"></i>
+            <span className="btn-text-mobile">Back</span>
+          </button>
+
           <div className="map-hierarchy-selector">
             <div className="map-brand-badge" title="Atlas & Map Studio">
               <i className="fas fa-compass"></i>

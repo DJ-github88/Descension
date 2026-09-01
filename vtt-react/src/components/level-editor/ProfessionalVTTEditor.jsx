@@ -22,6 +22,7 @@ import AdvancedLightingPanel from './AdvancedLightingPanel';
 import { EraserCursorPreview, TextInputOverlay, AreaRemoveSelection, WallSelectionIndicator } from './EditorOverlays';
 import { EDITOR_TABS as vttTools, getToolCursor, getFirstTool } from './editorTools';
 import LayersPanel from './LayersPanel';
+import TabDropdownButton from '../../components/common/TabDropdownButton';
 
 import { useEditorKeyboard } from './useEditorKeyboard';
 
@@ -2877,18 +2878,11 @@ const ProfessionalVTTEditor = () => {
                 defaultPosition={{ x: 50, y: 50 }}
                 minConstraints={[400, 450]}
                 customHeader={
-                    <div className="spellbook-tab-container">
-                        {Object.entries(vttTools).map(([key, category]) => (
-                            <button
-                                key={key}
-                                className={`spellbook-tab-button ${activeTab === key ? 'active' : ''}`}
-                                onClick={() => handleTabChange(key)}
-                                title={`${category.name} - Professional tools for map creation`}
-                            >
-                                <span className="tab-text">{category.name}</span>
-                            </button>
-                        ))}
-                    </div>
+                    <TabDropdownButton
+                        tabs={Object.entries(vttTools).map(([id, category]) => ({ id, label: category.name }))}
+                        activeTab={activeTab}
+                        onTabClick={handleTabChange}
+                    />
                 }
                 className="professional-vtt-editor"
             >

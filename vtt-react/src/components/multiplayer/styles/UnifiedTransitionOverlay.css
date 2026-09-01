@@ -1,11 +1,16 @@
+/* UnifiedTransitionOverlay — Beige Pathfinder Parchment
+   Adheres to app-wide parchment: #fdfaf3 → #f5ecd6, gold #c4a060 / #8f6f35,
+   Cinzel + Crimson Text. Replaces prior dark ( #0a0a0f / rgba(10,10,15) ) backdrop
+   that clashed with the beige theme used everywhere else. */
+
 .unified-transition-overlay {
-    --transition-gold: #d4af37;
-    --transition-gold-light: #f0c850;
-    --transition-gold-dark: #8b4513;
-    --transition-text: #f0e6d2;
-    --transition-text-muted: rgba(240, 230, 210, 0.6);
-    --transition-bg-dark: rgba(10, 10, 15, 0.98);
-    --transition-bg-light: rgba(20, 18, 25, 0.95);
+    --transition-gold: #c4a060;
+    --transition-gold-light: #e4d2ac;
+    --transition-gold-dark: #8f6f35;
+    --transition-text: #2b1c11;
+    --transition-text-muted: rgba(61, 42, 23, 0.68);
+    --transition-bg-dark: rgba(44, 28, 17, 0.32);
+    --transition-bg-light: rgba(248, 244, 230, 0.96);
     
     position: fixed;
     top: 0;
@@ -67,74 +72,114 @@
         visibility 0s linear 2.5s;
 }
 
+/* Warm translucent backdrop — parchment veil over the realm */
 .unified-backdrop {
     position: absolute;
     inset: 0;
-    background: 
-        radial-gradient(ellipse at center, var(--transition-bg-light) 0%, var(--transition-bg-dark) 70%);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: var(--transition-bg-dark);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     z-index: 0;
 }
 
+/* Parchment folio — the actual card */
 .unified-transition-content {
     position: relative;
     z-index: 2;
     text-align: center;
     max-width: 500px;
-    padding: 2rem;
+    width: 90%;
+    padding: 2.4rem 2.6rem 2rem;
+    
+    background:
+        repeating-linear-gradient(0deg, rgba(120, 90, 50, 0.015) 0 1px, transparent 1px 3px),
+        radial-gradient(ellipse at 22% 8%, rgba(255, 250, 234, 0.85), transparent 55%),
+        radial-gradient(ellipse at 88% 96%, rgba(150, 110, 60, 0.08), transparent 60%),
+        linear-gradient(135deg, #fdfaf3 0%, #fbf6eb 35%, #f5ecd6 100%);
+    border: 2px solid #c4a060;
+    border-radius: 8px;
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 250, 235, 0.7),
+        inset 0 0 42px rgba(120, 80, 40, 0.10),
+        0 16px 48px rgba(60, 40, 15, 0.28),
+        0 2px 8px rgba(60, 40, 15, 0.15);
     
     opacity: 0;
-    transform: translateY(20px);
-    animation: unifiedSlideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
+    transform: translateY(18px) scale(0.97);
+    animation: unifiedSlideUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.08s forwards;
+}
+
+.unified-transition-content::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px dashed rgba(196, 160, 96, 0.38);
+    border-radius: 6px;
+    pointer-events: none;
+}
+
+.unified-transition-content::after {
+    content: '';
+    position: absolute;
+    top: -2px; left: -2px; right: -2px;
+    height: 4px;
+    border-radius: 8px 8px 0 0;
+    background: var(--transition-gold-dark);
+    opacity: 0.95;
+    pointer-events: none;
 }
 
 @keyframes unifiedSlideUp {
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 
 .unified-icon-container {
     position: relative;
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 2rem;
+    width: 110px;
+    height: 110px;
+    margin: 0 auto 1.6rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
 }
 
 .unified-icon-ring {
     position: absolute;
     inset: 0;
-    border: 2px solid rgba(212, 175, 55, 0.3);
+    border: 2px dashed rgba(196, 160, 96, 0.38);
+    border-top-color: #8f6f35;
+    border-right-color: rgba(143, 111, 53, 0.72);
     border-radius: 50%;
     animation: unifiedRingPulse 3s ease-in-out infinite;
 }
 
 .unified-icon-ring.inner {
-    inset: 15px;
-    border-color: rgba(212, 175, 55, 0.2);
+    inset: 14px;
+    border-style: dotted;
+    border-color: rgba(196, 160, 96, 0.30);
+    border-bottom-color: #a8842f;
     animation-delay: -1.5s;
 }
 
 @keyframes unifiedRingPulse {
     0%, 100% {
         transform: scale(1);
-        opacity: 0.3;
+        opacity: 0.32;
     }
     50% {
-        transform: scale(1.1);
-        opacity: 0.6;
+        transform: scale(1.06);
+        opacity: 0.58;
     }
 }
 
 .unified-spinner-icon {
-    font-size: 3.5rem;
-    color: var(--transition-gold);
-    filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
+    font-size: 3.2rem;
+    color: #8f6f35;
+    filter: drop-shadow(0 1px 3px rgba(60, 40, 15, 0.18)) drop-shadow(0 0 10px rgba(196, 160, 96, 0.28));
     transform-origin: center center;
     /* Sailing helm: continuous course corrections, turning to each side like a helmsman
        steering through open water. Never a single endless spin in one direction. */
@@ -154,36 +199,41 @@
 }
 
 .unified-title {
+    position: relative;
+    z-index: 1;
     font-family: 'Cinzel', serif;
-    font-size: 2.5rem;
-    font-weight: 600;
-    color: var(--transition-gold);
-    margin: 0 0 0.5rem;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #2b1c11;
+    margin: 0 0 0.45rem;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    text-shadow: 
-        0 2px 10px rgba(0, 0, 0, 0.8),
-        0 0 30px rgba(212, 175, 55, 0.3);
+    letter-spacing: 0.13em;
+    text-shadow: 0 1px 0 rgba(255, 250, 235, 0.85);
 }
 
 .unified-subtitle {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.1rem;
-    color: var(--transition-text-muted);
+    position: relative;
+    z-index: 1;
+    font-family: 'Crimson Text', 'Georgia', serif;
+    font-size: 1.02rem;
+    color: #3d2a17;
     font-style: italic;
-    letter-spacing: 0.05em;
-    margin: 0 0 1.5rem;
+    letter-spacing: 0.03em;
+    margin: 0 0 1.35rem;
+    opacity: 0.82;
 }
 
 .unified-progress-container {
-    margin: 2rem 0;
+    position: relative;
+    z-index: 1;
+    margin: 1.6rem 0 0.3rem;
     opacity: 0;
-    animation: unifiedFadeIn 0.5s ease-out 0.3s forwards;
+    animation: unifiedFadeIn 0.5s ease-out 0.28s forwards;
 }
 
 .unified-progress-container.map-mode {
-    margin-top: 2rem;
-    animation-delay: 0.8s;
+    margin-top: 1.6rem;
+    animation-delay: 0.75s;
 }
 
 @keyframes unifiedFadeIn {
@@ -193,20 +243,18 @@
 .unified-progress-bar {
     display: flex;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .unified-progress-track {
     flex: 1;
-    height: 10px;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(212, 175, 55, 0.25);
-    border-radius: 5px;
+    height: 8px;
+    background: rgba(196, 160, 96, 0.15);
+    border: 1px solid rgba(196, 160, 96, 0.35);
+    border-radius: 4px;
     overflow: hidden;
     position: relative;
-    box-shadow: 
-        inset 0 2px 4px rgba(0, 0, 0, 0.5),
-        0 0 15px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 1px 3px rgba(90, 60, 20, 0.12);
 }
 
 .unified-progress-fill {
@@ -214,16 +262,14 @@
     background: linear-gradient(
         90deg,
         var(--transition-gold-dark) 0%,
-        var(--transition-gold) 40%,
-        var(--transition-gold-light) 60%,
-        var(--transition-gold) 100%
+        var(--transition-gold) 52%,
+        var(--transition-gold-light) 78%,
+        #d4af37 100%
     );
     border-radius: 4px;
     position: relative;
     transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 
-        0 0 15px rgba(212, 175, 55, 0.5),
-        inset 0 1px 2px rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.28);
     overflow: hidden;
 }
 
@@ -233,12 +279,8 @@
 }
 
 @keyframes unifiedCinematicFill {
-    0% {
-        width: 0%;
-    }
-    100% {
-        width: 100%;
-    }
+    0% { width: 0%; }
+    100% { width: 100%; }
 }
 
 .unified-progress-shimmer {
@@ -250,67 +292,67 @@
     background: linear-gradient(
         90deg,
         transparent 0%,
-        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 252, 240, 0.55) 50%,
         transparent 100%
     );
     animation: unifiedShimmer 2s ease-in-out infinite;
 }
 
 @keyframes unifiedShimmer {
-    0% {
-        left: -100%;
-    }
-    100% {
-        left: 100%;
-    }
+    0% { left: -100%; }
+    100% { left: 100%; }
 }
 
 .unified-progress-text {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    color: var(--transition-text-muted);
-    letter-spacing: 0.05em;
-    margin: 0.5rem 0 0;
-    min-height: 1.2em;
+    font-family: 'Crimson Text', 'Georgia', serif;
+    font-size: 0.84rem;
+    color: #3d2a17;
+    letter-spacing: 0.02em;
+    margin: 0.55rem 0 0;
+    min-height: 1.15em;
+    opacity: 0.78;
+    font-style: italic;
 }
 
 .unified-continue-btn {
-    margin-top: 2rem;
-    padding: 16px 48px;
+    position: relative;
+    z-index: 1;
+    margin-top: 1.7rem;
+    padding: 13px 38px;
     font-family: 'Cinzel', serif;
-    font-size: 1.2rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
     text-transform: uppercase;
-    color: #1a1a1a;
-    background: linear-gradient(135deg, var(--transition-gold) 0%, var(--transition-gold-light) 50%, var(--transition-gold) 100%);
-    border: 2px solid var(--transition-gold);
-    border-radius: 8px;
+    color: #2b1c11;
+    background:
+        repeating-linear-gradient(0deg, rgba(120,90,50,0.015) 0 1px, transparent 1px 3px),
+        linear-gradient(135deg, #fdfaf3 0%, #f5ecd6 100%);
+    border: 1.5px solid #c4a060;
+    border-radius: 6px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.22s ease;
     box-shadow:
-        0 4px 20px rgba(212, 175, 55, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        0 1px 3px rgba(143, 111, 53, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.75);
     animation: unifiedButtonFadeIn 0.5s ease-out forwards;
 }
 
 @keyframes unifiedButtonFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 .unified-continue-btn:hover {
-    transform: translateY(-2px) scale(1.02);
+    color: #2b1c11;
+    border-color: #8f6f35;
+    background:
+        repeating-linear-gradient(0deg, rgba(120,90,50,0.015) 0 1px, transparent 1px 3px),
+        linear-gradient(135deg, #fffdf6 0%, #fdfaf3 40%, #f5ecd6 100%);
     box-shadow:
-        0 8px 30px rgba(212, 175, 55, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    background: linear-gradient(135deg, var(--transition-gold-light) 0%, #ffd860 50%, var(--transition-gold-light) 100%);
+        0 3px 10px rgba(143, 111, 53, 0.20),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    transform: translateY(-1px);
 }
 
 .unified-continue-btn:active {
@@ -318,31 +360,38 @@
 }
 
 .unified-continue-btn i {
-    margin-right: 12px;
+    margin-right: 10px;
+    color: #8f6f35;
 }
 
 .unified-waiting {
-    margin-top: 1.5rem;
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    color: var(--transition-text);
+    position: relative;
+    z-index: 1;
+    margin-top: 1.35rem;
+    font-family: 'Crimson Text', 'Georgia', serif;
+    font-size: 0.92rem;
+    color: #3d2a17;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 9px;
+    font-style: italic;
+    opacity: 0.78;
     animation: unifiedPulse 1.5s ease-in-out infinite;
 }
 
 .unified-waiting i {
-    color: var(--transition-gold);
+    color: #8f6f35;
 }
 
 @keyframes unifiedPulse {
-    0%, 100% { opacity: 0.7; }
+    0%, 100% { opacity: 0.68; }
     50% { opacity: 1; }
 }
 
 .unified-fading-content {
+    position: relative;
+    z-index: 1;
     animation: unifiedFadeInContent 0.3s ease-out;
 }
 
@@ -352,41 +401,38 @@
 }
 
 .unified-fading-message {
-    margin-top: 1.5rem;
+    margin-top: 1.3rem;
     font-family: 'Cinzel', serif;
-    font-size: 1.3rem;
-    color: var(--transition-gold);
-    letter-spacing: 0.1em;
+    font-size: 1.08rem;
+    color: #8f6f35;
+    letter-spacing: 0.08em;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+    gap: 10px;
+    text-shadow: 0 1px 0 rgba(255, 250, 235, 0.85);
     animation: unifiedGlowPulse 1s ease-in-out infinite alternate;
 }
 
 @keyframes unifiedGlowPulse {
-    from {
-        opacity: 0.7;
-        transform: scale(0.98);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1.02);
-    }
+    from { opacity: 0.72; transform: scale(0.985); }
+    to   { opacity: 1;    transform: scale(1.015); }
 }
 
 .unified-gm-notice {
-    margin-bottom: 1.5rem;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
-    color: rgba(212, 175, 55, 0.8);
-    letter-spacing: 0.2em;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 1.25rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #8f6f35;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
+    gap: 0.65rem;
     animation: unifiedFadeIn 0.5s ease-out 0.2s forwards;
     opacity: 0;
 }
@@ -396,84 +442,70 @@
 }
 
 @keyframes unifiedMagicPulse {
-    0%, 100% {
-        opacity: 0.6;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1.2);
-    }
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.15); }
 }
 
 .unified-map-title-container {
-    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 1.25rem;
     animation: unifiedFadeIn 0.5s ease-out 0.3s forwards;
     opacity: 0;
 }
 
 .unified-map-prefix {
     display: block;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    color: rgba(180, 160, 140, 0.7);
-    letter-spacing: 0.3em;
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: rgba(61, 42, 23, 0.62);
+    letter-spacing: 0.28em;
     text-transform: uppercase;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.38rem;
 }
 
 .unified-map-name {
     font-family: 'Cinzel', serif;
-    font-size: 3rem;
-    font-weight: 600;
-    color: var(--transition-text);
-    text-shadow:
-        0 0 20px rgba(212, 175, 55, 0.4),
-        0 0 40px rgba(212, 175, 55, 0.2),
-        0 4px 8px rgba(0, 0, 0, 0.8);
+    font-size: 2.55rem;
+    font-weight: 700;
+    color: #2b1c11;
+    text-shadow: 0 1px 0 rgba(255, 250, 235, 0.85);
     margin: 0;
-    letter-spacing: 0.1em;
-    animation: unifiedTitleGlow 2s ease-in-out infinite;
+    letter-spacing: 0.08em;
+    animation: unifiedTitleGlow 2.2s ease-in-out infinite;
 }
 
 @keyframes unifiedTitleGlow {
-    0%, 100% {
-        text-shadow:
-            0 0 20px rgba(212, 175, 55, 0.4),
-            0 0 40px rgba(212, 175, 55, 0.2),
-            0 4px 8px rgba(0, 0, 0, 0.8);
-    }
-    50% {
-        text-shadow:
-            0 0 30px rgba(212, 175, 55, 0.6),
-            0 0 60px rgba(212, 175, 55, 0.3),
-            0 4px 8px rgba(0, 0, 0, 0.8);
-    }
+    0%, 100% { text-shadow: 0 1px 0 rgba(255, 250, 235, 0.85), 0 0 14px rgba(196, 160, 96, 0.18); }
+    50%      { text-shadow: 0 1px 0 rgba(255, 250, 235, 0.90), 0 0 22px rgba(196, 160, 96, 0.30); }
 }
 
 .unified-flourish {
+    position: relative;
+    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
-    margin: 1.5rem 0;
+    gap: 1.3rem;
+    margin: 1.2rem 0;
     animation: unifiedFadeIn 0.5s ease-out 0.5s forwards;
     opacity: 0;
 }
 
 .unified-flourish-line {
-    width: 80px;
-    height: 2px;
-    background: linear-gradient(90deg, transparent 0%, rgba(212, 175, 55, 0.6) 100%);
+    width: 72px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(196, 160, 96, 0.55) 100%);
 }
 
 .unified-flourish-line.right {
-    background: linear-gradient(90deg, rgba(212, 175, 55, 0.6) 0%, transparent 100%);
+    background: linear-gradient(90deg, rgba(196, 160, 96, 0.55) 0%, transparent 100%);
 }
 
 .unified-flourish i {
-    color: rgba(212, 175, 55, 0.8);
-    font-size: 1.5rem;
+    color: rgba(143, 111, 53, 0.78);
+    font-size: 1.25rem;
     animation: unifiedCompassSpin 3s ease-in-out infinite;
 }
 
@@ -494,15 +526,15 @@
 
 .unified-particle {
     position: absolute;
-    width: 4px;
-    height: 4px;
-    background: var(--transition-gold);
+    width: 3.5px;
+    height: 3.5px;
+    background: #c4a060;
     border-radius: 50%;
     opacity: 0;
     left: var(--x);
     bottom: -10px;
     animation: unifiedParticleRise var(--duration) ease-out var(--delay) infinite;
-    box-shadow: 0 0 6px rgba(212, 175, 55, 0.5);
+    box-shadow: 0 0 5px rgba(196, 160, 96, 0.45);
 }
 
 @keyframes unifiedParticleRise {
@@ -511,12 +543,10 @@
         transform: translateY(0) scale(0);
     }
     10% {
-        opacity: 0.8;
+        opacity: 0.55;
         transform: translateY(-10vh) scale(1);
     }
-    90% {
-        opacity: 0.3;
-    }
+    90% { opacity: 0.18; }
     100% {
         opacity: 0;
         transform: translateY(-100vh) scale(0.5);
@@ -524,31 +554,30 @@
 }
 
 @media (max-width: 768px) {
+    .unified-transition-content {
+        padding: 1.6rem 1.4rem 1.3rem;
+    }
     .unified-title {
-        font-size: 1.8rem;
-        letter-spacing: 0.1em;
+        font-size: 1.65rem;
+        letter-spacing: 0.09em;
     }
-
     .unified-map-name {
-        font-size: 2rem;
+        font-size: 1.9rem;
     }
-
     .unified-continue-btn {
-        padding: 14px 36px;
-        font-size: 1rem;
+        padding: 11px 22px;
+        font-size: 0.92rem;
+        width: 100%;
     }
-
     .unified-flourish-line {
-        width: 50px;
+        width: 42px;
     }
-
     .unified-icon-container {
-        width: 90px;
-        height: 90px;
+        width: 88px;
+        height: 88px;
     }
-
     .unified-spinner-icon {
-        font-size: 2.5rem;
+        font-size: 2.4rem;
     }
 }
 
@@ -568,7 +597,6 @@
         animation: none !important;
         transition: opacity 0.3s ease !important;
     }
-
     .unified-progress-fill {
         transition: width 0.2s ease !important;
     }

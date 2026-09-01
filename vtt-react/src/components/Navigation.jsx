@@ -16,6 +16,7 @@ import TalentTreeContent from './talent-tree/TalentTreeContent';
 import { SKILL_CATEGORIES, SKILL_DEFINITIONS } from '../constants/skillDefinitions';
 import ErrorBoundary from './common/ErrorBoundary';
 import '../styles/resizable-nav.css';
+import useTabOverflow from './common/useTabOverflow';
 import { useNavAssets } from '../hooks/useNavAssets';
 
 const SettingsWindow = lazy(() => import('./windows/SettingsWindow'));
@@ -505,6 +506,68 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
         }
     };
 
+    const sectionKeys = Object.keys(characterSections);
+    const { containerRef: tabsTrackRef, hiddenIds: hiddenTabIds } = useTabOverflow({
+        itemIds: sectionKeys,
+        triggerWidth: 36
+    });
+    const [tabOverflowOpen, setTabOverflowOpen] = useState(false);
+    const [tabOverflowPos, setTabOverflowPos] = useState(null);
+    const tabOverflowBtnRef = useRef(null);
+    const overflowCloseTimerRef = useRef(null);
+
+    const openTabOverflowMenu = useCallback((rect) => {
+        if (overflowCloseTimerRef.current) {
+            clearTimeout(overflowCloseTimerRef.current);
+            overflowCloseTimerRef.current = null;
+        }
+        setTabOverflowPos({
+            top: rect.bottom + 4,
+            left: Math.max(8, Math.min(rect.left, window.innerWidth - 230))
+        });
+        setTabOverflowOpen(true);
+    }, []);
+
+    const scheduleCloseTabOverflow = useCallback(() => {
+        if (overflowCloseTimerRef.current) return;
+        overflowCloseTimerRef.current = setTimeout(() => {
+            overflowCloseTimerRef.current = null;
+            setTabOverflowOpen(false);
+        }, 150);
+    }, []);
+
+    const cancelCloseTabOverflow = useCallback(() => {
+        if (overflowCloseTimerRef.current) {
+            clearTimeout(overflowCloseTimerRef.current);
+            overflowCloseTimerRef.current = null;
+        }
+    }, []);
+
+    useEffect(() => {
+        if (hiddenTabIds.length === 0) setTabOverflowOpen(false);
+    }, [hiddenTabIds.length]);
+
+    useEffect(() => {
+        if (!tabOverflowOpen) return undefined;
+        const handlePointerDown = (e) => {
+            if (tabOverflowBtnRef.current && tabOverflowBtnRef.current.contains(e.target)) return;
+            setTabOverflowOpen(false);
+        };
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') setTabOverflowOpen(false);
+        };
+        document.addEventListener('pointerdown', handlePointerDown, true);
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('pointerdown', handlePointerDown, true);
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [tabOverflowOpen]);
+
+    useEffect(() => () => {
+        if (overflowCloseTimerRef.current) clearTimeout(overflowCloseTimerRef.current);
+    }, []);
+
     const renderContent = () => {
         switch (activeTab) {
             case 'character':
@@ -536,14 +599,16 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
             onDrag={handleDrag}
             onResize={handleResize}
             customHeader={
-                <div className="spellbook-tab-container">
-                    {Object.entries(characterSections).map(([key, section]) => {
+                <div className="spellbook-tab-container tab-overflow-root" ref={tabsTrackRef}>
+                    {sectionKeys.filter(key => !hiddenTabIds.includes(key)).map(key => {
+                        const section = characterSections[key];
                         const isActive = activeTab === key;
                         const isDropdownOpen = openDropdown === key;
                         return (
-                            <div 
-                                key={key} 
-                                className="tab-dropdown-wrapper" 
+                            <div
+                                key={key}
+                                data-overflow-id={key}
+                                className="tab-dropdown-wrapper"
                                 style={{ position: 'relative' }}
                                 onMouseLeave={scheduleCloseTabDropdown}
                             >
@@ -673,6 +738,58 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
                             </div>
                         );
                     })}
+
+                    {hiddenTabIds.length > 0 && (
+                        <button
+                            type="button"
+                            ref={tabOverflowBtnRef}
+                            className={`tab-overflow-trigger ${tabOverflowOpen ? 'open' : ''} ${hiddenTabIds.includes(activeTab) ? 'has-active' : ''}`}
+                            onClick={(e) => {
+                                if (tabOverflowOpen) {
+                                    setTabOverflowOpen(false);
+                                } else {
+                                    openTabOverflowMenu(e.currentTarget.getBoundingClientRect());
+                                }
+                            }}
+                            onMouseEnter={(e) => openTabOverflowMenu(e.currentTarget.getBoundingClientRect())}
+                            onMouseLeave={scheduleCloseTabOverflow}
+                            aria-haspopup="menu"
+                            aria-expanded={tabOverflowOpen}
+                            title="More sections"
+                        >
+                            ⋮
+                        </button>
+                    )}
+
+                    {tabOverflowOpen && hiddenTabIds.length > 0 && ReactDOM.createPortal(
+                        <div
+                            className="tab-dropdown-menu tab-dropdown-menu-scrollable"
+                            style={tabOverflowPos ? { position: 'fixed', left: tabOverflowPos.left, top: tabOverflowPos.top, minWidth: 200 } : { position: 'fixed', minWidth: 200 }}
+                            onMouseEnter={cancelCloseTabOverflow}
+                            onMouseLeave={scheduleCloseTabOverflow}
+                        >
+                            {hiddenTabIds.map(key => {
+                                const section = characterSections[key];
+                                return (
+                                    <button
+                                        key={key}
+                                        type="button"
+                                        className={`tab-dropdown-item ${activeTab === key ? 'active' : ''}`}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setActiveTab(key);
+                                            setOpenDropdown(null);
+                                            setTabOverflowOpen(false);
+                                        }}
+                                    >
+                                        <i className={section.icon} style={{ width: '16px', textAlign: 'center', marginRight: '8px' }}></i>
+                                        <span>{section.title}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>,
+                        document.body
+                    )}
                 </div>
             }
         >

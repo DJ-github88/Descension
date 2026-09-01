@@ -1,12 +1,16 @@
-/* Asset Loading Overlay Styles */
+/* Asset Loading Overlay Styles — Beige Pathfinder Parchment
+   Matches app-wide parchment: #fdfaf3 → #f5ecd6, gold #c4a060 / #8f6f35,
+   Cinzel + Crimson Text, wax-seal accents. Replaces prior dark overlay
+   (rgba(12,10,18) / #1a1423) to adhere to the beige theme used everywhere else. */
+
 .asset-loading-overlay {
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 99999;
-  background: rgba(12, 10, 18, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(44, 28, 17, 0.32);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
@@ -18,6 +22,7 @@
   bottom: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
 }
 
 .asset-loading-overlay.inline {
@@ -30,23 +35,55 @@
 }
 
 .asset-loading-overlay.transparent-bg {
-  background: rgba(10, 8, 15, 0.65);
+  background: rgba(248, 244, 230, 0.58);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
 
+/* Parchment folio card — mirrors LoreTooltip / Codex parchment */
 .loading-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 2.5rem 3rem;
-  border-radius: 16px;
-  background: linear-gradient(145deg, rgba(26, 20, 35, 0.95), rgba(16, 12, 22, 0.98));
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6), 0 0 24px rgba(212, 175, 55, 0.15);
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(0deg, rgba(120, 90, 50, 0.015) 0 1px, transparent 1px 3px),
+    radial-gradient(ellipse at 22% 8%, rgba(255, 250, 234, 0.85), transparent 55%),
+    radial-gradient(ellipse at 88% 96%, rgba(150, 110, 60, 0.08), transparent 60%),
+    linear-gradient(135deg, #fdfaf3 0%, #fbf6eb 35%, #f5ecd6 100%);
+  border: 2px solid #c4a060;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 250, 235, 0.7),
+    inset 0 0 42px rgba(120, 80, 40, 0.10),
+    0 12px 28px rgba(60, 40, 15, 0.28),
+    0 2px 8px rgba(60, 40, 15, 0.15);
   max-width: 440px;
   width: 90%;
   text-align: center;
   animation: loadingCardFadeIn 0.35s ease-out;
+}
+
+.loading-card::before {
+  content: '';
+  position: absolute;
+  top: 6px; left: 6px; right: 6px; bottom: 6px;
+  border: 1px dashed rgba(196, 160, 96, 0.38);
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+.loading-card::after {
+  content: '';
+  position: absolute;
+  top: -2px; left: -2px; right: -2px;
+  height: 4px;
+  border-radius: 8px 8px 0 0;
+  background: #8f6f35;
+  opacity: 0.95;
+  pointer-events: none;
 }
 
 @keyframes loadingCardFadeIn {
@@ -60,7 +97,7 @@
   }
 }
 
-/* Rune Spinner */
+/* Rune Spinner — wax-seal on parchment */
 .rune-spinner-container {
   position: relative;
   width: 80px;
@@ -69,6 +106,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 }
 
 .rune-ring {
@@ -78,16 +116,16 @@
 
 .rune-ring.outer-ring {
   inset: 0;
-  border: 2px dashed rgba(212, 175, 55, 0.4);
-  border-top-color: #f39c12;
-  border-right-color: rgba(212, 175, 55, 0.8);
+  border: 2px dashed rgba(196, 160, 96, 0.38);
+  border-top-color: #8f6f35;
+  border-right-color: rgba(143, 111, 53, 0.78);
   animation: runeSpin 4s linear infinite;
 }
 
 .rune-ring.inner-ring {
   inset: 10px;
-  border: 2px dotted rgba(234, 192, 108, 0.3);
-  border-bottom-color: #e67e22;
+  border: 2px dotted rgba(196, 160, 96, 0.32);
+  border-bottom-color: #a8842f;
   animation: runeSpinReverse 2.5s linear infinite;
 }
 
@@ -95,18 +133,23 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(16, 12, 22, 0.8) 100%);
+  background: radial-gradient(circle at 34% 28%, #fcf4e0, #e4d2ac);
+  border: 1.5px solid #a8842f;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 16px rgba(243, 156, 18, 0.4);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 250, 235, 0.55),
+    inset 0 2px 6px rgba(90, 60, 20, 0.28),
+    0 1px 4px rgba(60, 40, 15, 0.18),
+    0 0 14px rgba(196, 160, 96, 0.28);
   animation: runePulse 2s ease-in-out infinite alternate;
 }
 
 .rune-icon {
   font-size: 1.3rem;
-  color: #f39c12;
-  filter: drop-shadow(0 0 6px rgba(243, 156, 18, 0.8));
+  color: #8f6f35;
+  filter: drop-shadow(0 0 4px rgba(143, 111, 53, 0.32));
 }
 
 @keyframes runeSpin {
@@ -122,53 +165,72 @@
 @keyframes runePulse {
   0% {
     transform: scale(0.92);
-    box-shadow: 0 0 12px rgba(243, 156, 18, 0.3);
+    box-shadow:
+      inset 0 0 0 2px rgba(255, 250, 235, 0.55),
+      inset 0 2px 6px rgba(90, 60, 20, 0.22),
+      0 1px 4px rgba(60, 40, 15, 0.14),
+      0 0 8px rgba(196, 160, 96, 0.20);
   }
   100% {
     transform: scale(1.08);
-    box-shadow: 0 0 24px rgba(243, 156, 18, 0.7);
+    box-shadow:
+      inset 0 0 0 2px rgba(255, 250, 235, 0.65),
+      inset 0 2px 6px rgba(90, 60, 20, 0.30),
+      0 1px 6px rgba(60, 40, 15, 0.22),
+      0 0 18px rgba(196, 160, 96, 0.38);
   }
 }
 
-/* Typography */
+/* Typography — ink on parchment */
 .loading-title {
+  position: relative;
+  z-index: 1;
   font-family: 'Cinzel', serif, system-ui;
-  color: #f8f5eb;
+  color: #2b1c11;
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.05em;
   margin: 0 0 0.5rem 0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 0 rgba(255, 250, 235, 0.8);
 }
 
 .loading-subtext {
-  font-family: 'Inter', sans-serif;
-  color: rgba(248, 245, 235, 0.65);
+  position: relative;
+  z-index: 1;
+  font-family: 'Crimson Text', 'Georgia', serif;
+  color: #3d2a17;
   font-size: 0.85rem;
   margin: 0 0 1.5rem 0;
-  line-height: 1.4;
+  line-height: 1.45;
+  opacity: 0.82;
 }
 
-/* Progress Track & Bar */
+/* Progress Track & Bar — parchment groove */
 .loading-progress-track {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.08);
+  height: 8px;
+  background: rgba(196, 160, 96, 0.15);
   border-radius: 4px;
   overflow: hidden;
-  position: relative;
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  border: 1px solid rgba(196, 160, 96, 0.35);
+  box-shadow: inset 0 1px 3px rgba(90, 60, 20, 0.12);
 }
 
 .loading-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #d4af37, #f39c12, #e67e22);
+  background: linear-gradient(90deg, #8f6f35, #c4a060 55%, #d4af37);
   border-radius: 4px;
   transition: width 0.3s ease-out;
   position: relative;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.28);
 }
 
 .loading-progress-fill.indeterminate {
+  position: absolute;
+  top: 0;
+  left: -45%;
   width: 45%;
   animation: indeterminateProgress 1.6s ease-in-out infinite;
 }
@@ -179,17 +241,19 @@
   right: 0;
   width: 10px;
   height: 100%;
-  background: #ffffff;
-  box-shadow: 0 0 10px #ffffff, 0 0 5px #f39c12;
+  background: #fffcf0;
+  box-shadow: 0 0 10px rgba(255, 252, 240, 0.9), 0 0 5px #c4a060;
   border-radius: 50%;
   opacity: 0.75;
 }
 
 @keyframes indeterminateProgress {
-  0% {
-    left: -45%;
-  }
-  100% {
-    left: 100%;
+  0% { left: -45%; }
+  100% { left: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rune-ring, .rune-core, .loading-card, .loading-progress-fill.indeterminate {
+    animation: none !important;
   }
 }

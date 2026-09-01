@@ -307,7 +307,7 @@ export const SUBREGIONS = {
     climate: 'Cold maritime, sea-foam spray',
     dominantTerrain: 'Basalt sea-spires, sea-caves, sunken ruins',
     primaryRaces: ['Skald Exiles', 'Spectral Dukedom shades'],
-    primaryFactions: ['Three Dukes Confederacy', 'Fredløse pirates'],
+    primaryFactions: ['Three Dukes Confederacy', 'Øsling freebooters'],
     zoneIds: ['the-three-dukes']
   },
   'iceheart-twin-gates': {

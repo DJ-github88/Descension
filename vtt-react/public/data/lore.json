@@ -58,7 +58,7 @@
     "type": "region",
     "region": "nordhalla",
     "summary": "A brutalist cathedral of frozen black fjords and towering glaciers in the northern reaches, fractured by King-Jarl Jarn-Tand's consolidation and the Sunder-Wall.",
-    "fullEntry": "House Skalvyr halted the titanic glaciers of Nordhalla with a bargain, and the price of that halt is eternal winter. It is currently ruled with an iron fist by King-Jarl Halvar Skalvyr, called Jarn-Tand, who unified the region's clans by force. Jarn-Tand constructed the Sunder-Wall to regulate the nomadic Fredløse clans and enforce a trade monopoly through the Icechamber Syndicate. The region is marked by intense conflict between loyal Fastboende and outlaw clans, and a campaign of religious persecution, the Cleansing of the Hearth, which targets tribal Animists.",
+    "fullEntry": "House Skalvyr halted the titanic glaciers of Nordhalla with a bargain, and the price of that halt is eternal winter. It is currently ruled with an iron fist by King-Jarl Halvar Skalvyr, called Jarn-Tand, who unified the region's clans by force. Jarn-Tand constructed the Sunder-Wall to regulate the nomadic Øsling clans and enforce a trade monopoly through the Icechamber Syndicate. The region is marked by intense conflict between loyal Vaegfolk and outlaw clans, and a campaign of religious persecution, the Cleansing of the Hearth, which targets tribal Animists.",
     "relatedTerms": [
       "augur",
       "berserker",
@@ -3539,7 +3539,7 @@
     "role": "High King-Jarl of Nordhalla",
     "region": "nordhalla",
     "summary": "Jarn-Tand, who built the Sunder-Wall to funnel the nomad clans through taxed checkpoints and broke their traditional free passage with it.",
-    "fullEntry": "Halvar Skalvyr, called Jarn-Tand (Iron-Tooth), took Nordhalla by force and then built the wall that made the taking stick. The Sunder-Wall funnels every nomad migration through taxed checkpoints, and the Ordan clans who once crossed free now pay Skalvyr tolls for the land they were born on. His power rests on two pillars: the Frozen Archive's runic authority and Skalvyr steel. He governs the fjord-keeps with an iron grip, and the glaciers outside the wall do his quiet work for him. Cross the Sunder-Wall and you pay Halvar's price. The Fredløse clans beyond it are the ones who refused, and the cold remembers what they chose.",
+    "fullEntry": "Halvar Skalvyr, called Jarn-Tand (Iron-Tooth), took Nordhalla by force and then built the wall that made the taking stick. The Sunder-Wall funnels every nomad migration through taxed checkpoints, and the Ordan clans who once crossed free now pay Skalvyr tolls for the land they were born on. His power rests on two pillars: the Frozen Archive's runic authority and Skalvyr steel. He governs the fjord-keeps with an iron grip, and the glaciers outside the wall do his quiet work for him. Cross the Sunder-Wall and you pay Halvar's price. The Øsling clans beyond it are the ones who refused, and the cold remembers what they chose.",
     "relatedTerms": [
       "fjord_gate",
       "nordhalla",
@@ -4557,13 +4557,13 @@
       "the-great-revision"
     ]
   },
-  "the_fredlose": {
-    "id": "the_fredlose",
-    "term": "The Fredløse",
+  "the_osling": {
+    "id": "the_osling",
+    "term": "The Øsling",
     "type": "concept",
     "region": "nordhalla",
     "summary": "The outlaw clans of Nordhalla. They refuse King-Jarl Halvar Skalvyr's iron crown and keep the old songs the Runic Academies want burned.",
-    "fullEntry": "Beyond the Sunder-Wall, in the frozen wastes no Skalvyr tax-collector reaches, the Fredløse clans live as they did before the Glacier Bargain. Fredløse is Old Nord for \"the lawless,\" and the clans wear the name as a boast. They refuse fealty to King-Jarl Halvar Skalvyr and his iron crown. They answer to no jarl at all.\n\nThey survive by raiding, by mammoth-hunting, and by the old ways the Runic Academies seek to burn. The Frost Chanters among them preserve the oral-history traditions that predate the Glacier Bargain, songs and stories the settled Fastboende have forgotten or been forbidden to sing. Where the Fastboende buried their past beneath the ice to halt the glaciers, the Fredløse kept theirs alive in throat and memory.\n\nThe Fredløse are divided from the settled Fastboende not by blood but by choice. The boundary between them is the Sunder-Wall. A Fastboende who walks beyond it can become Fredløse in a single winter. A Fredløse who walks back can never quite become Fastboende again: the songs do not wash out of the throat.\n\nCross the Sunder-Wall and the Fredløse will test you. Bring a song they have not heard, and they may let you sit at their fire. The glaciers do not negotiate with the iron crown, and neither do they.",
+    "fullEntry": "Beyond the Sunder-Wall, in the frozen wastes no Skalvyr tax-collector reaches, the Øsling clans live as they did before the Glacier Bargain. Øsling is Old Nord for \"the lawless,\" and the clans wear the name as a boast. They refuse fealty to King-Jarl Halvar Skalvyr and his iron crown. They answer to no jarl at all.\n\nThey survive by raiding, by mammoth-hunting, and by the old ways the Runic Academies seek to burn. The Frost Chanters among them preserve the oral-history traditions that predate the Glacier Bargain, songs and stories the settled Vaegfolk have forgotten or been forbidden to sing. Where the Vaegfolk buried their past beneath the ice to halt the glaciers, the Øsling kept theirs alive in throat and memory.\n\nThe Øsling are divided from the settled Vaegfolk not by blood but by choice. The boundary between them is the Sunder-Wall. A Vaegfolk who walks beyond it can become Øsling in a single winter. A Øsling who walks back can never quite become Vaegfolk again: the songs do not wash out of the throat.\n\nCross the Sunder-Wall and the Øsling will test you. Bring a song they have not heard, and they may let you sit at their fire. The glaciers do not negotiate with the iron crown, and neither do they.",
     "relatedTerms": [
       "nordhalla",
       "house_skalvyr"
@@ -5300,11 +5300,11 @@
     "type": "faction",
     "region": "nordhalla",
     "summary": "The Nordhalla merchant cartel that corners coal, grain, and mammoth-hide — and farms the Sunder-Wall's gate-tariffs for the crown that believes it rules them.",
-    "fullEntry": "The Syndicate began as a coal-buyers' bench in Frosthold's ice-cut vaults: a circle of merchants who met in a frozen chamber because no one else wanted the room. Two centuries later the Icechamber owns the vertical — coal from the Bloodhammer seams, grain pressed in the Cragjaw vent-terraces, mammoth-hide from the Fredlose hunts they license but do not govern — and the north eats what the Icechamber prices.\n\nTheir masterstroke was the Sunder-Wall. King-Jarl Halvar built it to fence the outland clans; the Syndicate offered to staff its gates, and now collects the gate-tariffs \"on the crown's behalf.\" The crown counts heads; the Syndicate counts hearth-winters, and knows to the coin which gates pay. Every winter the Jarl's treasury grows leaner and the Icechamber's granaries grow fuller, and both parties pretend not to notice the direction of the flow.\n\nThey are not villains of the fable kind. When the vents fail, the Syndicate's grain moves or the north starves, and everyone knows it. They are simply what survives a freeze: patient, arithmetic, and warm.",
+    "fullEntry": "The Syndicate began as a coal-buyers' bench in Frosthold's ice-cut vaults: a circle of merchants who met in a frozen chamber because no one else wanted the room. Two centuries later the Icechamber owns the vertical — coal from the Bloodhammer seams, grain pressed in the Cragjaw vent-terraces, mammoth-hide from the Øsling hunts they license but do not govern — and the north eats what the Icechamber prices.\n\nTheir masterstroke was the Sunder-Wall. King-Jarl Halvar built it to fence the outland clans; the Syndicate offered to staff its gates, and now collects the gate-tariffs \"on the crown's behalf.\" The crown counts heads; the Syndicate counts hearth-winters, and knows to the coin which gates pay. Every winter the Jarl's treasury grows leaner and the Icechamber's granaries grow fuller, and both parties pretend not to notice the direction of the flow.\n\nThey are not villains of the fable kind. When the vents fail, the Syndicate's grain moves or the north starves, and everyone knows it. They are simply what survives a freeze: patient, arithmetic, and warm.",
     "relatedTerms": [
       "nordhalla",
       "house_skalvyr",
-      "the_fredlose",
+      "the_osling",
       "hearth_winter",
       "aex_shards"
     ]
@@ -5491,6 +5491,18 @@
       "bloodline_pacts",
       "blood_seals",
       "the_secret_aegis"
+    ]
+  },
+  "the_fredlose": {
+    "id": "the_fredlose",
+    "term": "The Øsling",
+    "type": "concept",
+    "region": "nordhalla",
+    "summary": "The outlaw clans of Nordhalla. They refuse King-Jarl Halvar Skalvyr's iron crown and keep the old songs the Runic Academies want burned.",
+    "fullEntry": "Beyond the Sunder-Wall, in the frozen wastes no Skalvyr tax-collector reaches, the Øsling clans live as they did before the Glacier Bargain. Øsling is Old Nord for \"the lawless,\" and the clans wear the name as a boast. They refuse fealty to King-Jarl Halvar Skalvyr and his iron crown. They answer to no jarl at all.\n\nThey survive by raiding, by mammoth-hunting, and by the old ways the Runic Academies seek to burn. The Frost Chanters among them preserve the oral-history traditions that predate the Glacier Bargain, songs and stories the settled Vaegfolk have forgotten or been forbidden to sing. Where the Vaegfolk buried their past beneath the ice to halt the glaciers, the Øsling kept theirs alive in throat and memory.\n\nThe Øsling are divided from the settled Vaegfolk not by blood but by choice. The boundary between them is the Sunder-Wall. A Vaegfolk who walks beyond it can become Øsling in a single winter. A Øsling who walks back can never quite become Vaegfolk again: the songs do not wash out of the throat.\n\nCross the Sunder-Wall and the Øsling will test you. Bring a song they have not heard, and they may let you sit at their fire. The glaciers do not negotiate with the iron crown, and neither do they.",
+    "relatedTerms": [
+      "nordhalla",
+      "house_skalvyr"
     ]
   }
 }

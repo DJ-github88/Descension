@@ -9,6 +9,7 @@
   display: flex;
   flex-direction: column;
   color: #d5cbb0;
+  position: relative;
 }
 
 /* Header - Same rustic red as spellcard wizard headers */
@@ -16,10 +17,10 @@
 .character-view-header {
   background: linear-gradient(135deg, #2d1810 0%, #452418 50%, #1a0f0a 100%);
   border-bottom: 2px solid #5c4033;
-  padding: 6px 12px;
+  padding: 10px 16px 8px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
   position: relative;
   z-index: 5000;
@@ -113,7 +114,7 @@
 .character-header-title {
   margin: 0;
   font-size: 20px;
-  line-height: 1.25;
+  line-height: 1.3;
   color: #f0ead6;
   font-family: 'Cinzel', serif;
   font-weight: 700;
@@ -121,7 +122,8 @@
   align-items: baseline;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 6px;
+  column-gap: 14px;
+  row-gap: 4px;
   text-align: center;
   max-width: 100%;
 }
@@ -165,6 +167,9 @@
   cursor: pointer;
   border-bottom: 1.5px dotted rgba(252, 211, 77, 0.4);
   padding-bottom: 1px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
 }
 
 .character-title-race:hover,
@@ -181,8 +186,58 @@
   font-weight: 400;
   color: #d5cbb0;
   font-size: 0.9em;
-  margin-right: 2px;
   text-shadow: none;
+}
+
+@media (max-width: 640px) {
+  .character-view-header {
+    padding: 8px 10px 6px;
+  }
+  .header-top-row {
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+  .header-left-col {
+    flex: 0 0 auto;
+  }
+  .header-center-col {
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: none;
+    justify-content: center;
+  }
+  .header-right-col {
+    flex: 0 0 auto;
+  }
+  .header-badge.level {
+    width: 32px;
+    height: 32px;
+    font-size: 15px;
+    border-width: 1.5px;
+  }
+  .back-button-compact {
+    width: 26px;
+    height: 26px;
+    font-size: 10px;
+  }
+  .character-header-title {
+    font-size: 15px;
+    column-gap: 8px;
+    row-gap: 2px;
+    justify-content: center;
+    text-align: center;
+    max-width: 60vw;
+  }
+  .character-title-race .title-race-prep {
+    font-size: 0.85em;
+  }
+  .header-resources-row {
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 
 /* Hover tooltips for title parts */
@@ -1256,7 +1311,7 @@
     height: 100% !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
-    padding: 10px 8px 80px 8px !important;
+    padding: 10px 8px 24px 8px !important;
     box-sizing: border-box !important;
   }
 
@@ -3753,12 +3808,6 @@
   grid-auto-rows: minmax(52px, 1fr);
 }
 
-.character-view-spells-tab .spell-action-bar-container {
-  margin-top: auto;
-  margin-bottom: 24px;
-  flex-shrink: 0;
-}
-
 /* ==========================================================================
    INVENTORY SUB-NAVIGATION & ITEM LIBRARY / GENERATOR
    ========================================================================== */
@@ -3787,19 +3836,9 @@
   padding: 0 !important;
 }
 
-.character-view-inventory-wrapper .spell-action-bar-container {
-  background: rgba(139, 115, 85, 0.14) !important;
-  border: 1.5px solid rgba(139, 69, 19, 0.3) !important;
-  border-radius: 8px !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
-  margin-top: 4px !important;
-  margin-bottom: 0 !important;
-  padding: 8px 6px !important;
-}
-
 @media (max-width: 768px) {
   .character-view-spells-tab {
-    padding: 8px 6px 36px 6px;
+    padding: 8px 6px 12px 6px;
     gap: 10px;
   }
 
@@ -3945,6 +3984,121 @@
   background: transparent !important;
 }
 
+/* ==========================================================================
+   PERSISTENT SPELL ACTION BAR — FLOATING OVERLAY (visible on ALL tabs)
+   Phone-first quick-access bar for in-person play. Floats over the bottom of
+   the content instead of occupying its own section. Scrollable tab containers
+   reserve bottom space via --cv-actionbar-h so nothing is trapped behind it.
+   ========================================================================== */
+.character-view-action-bar-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(18, 9, 5, 0) 0%, rgba(18, 9, 5, 0.55) 22%, rgba(18, 9, 5, 0.92) 100%);
+  border-top: 2px solid #5c4033;
+  box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.45);
+  padding: 14px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+  z-index: 4000;
+  pointer-events: none; /* let content behind the fade-in zone stay clickable */
+}
+
+.character-view-action-bar-footer .spell-action-bar-container {
+  pointer-events: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 100%;
+  max-width: 880px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  box-shadow:
+    0 4px 18px rgba(0, 0, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -2px 0 rgba(139, 69, 19, 0.2),
+    0 0 0 1px rgba(139, 69, 19, 0.3);
+}
+
+.character-view-action-bar-footer .spell-action-bar-header {
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+}
+
+/* Reserve scroll space inside each tab's real scroll container so the overlay
+   never permanently covers content. --cv-actionbar-h is kept in sync with the
+   actual footer height via ResizeObserver in CharacterViewPage. */
+.character-view-content .book-page-content,
+.character-view-content .character-content-area,
+.character-view-content .stats-content-area,
+.character-view-content .skills-content,
+.character-view-content .wow-spell-list-container,
+.character-view-content .talent-tree-scroll-container,
+.character-view-content .talent-inspector-body,
+.character-view-inventory-wrapper {
+  padding-bottom: calc(var(--cv-actionbar-h, 150px) + 16px) !important;
+}
+
+/* Mobile: keep the overlay slim so content keeps maximum height */
+@media (max-width: 768px) {
+  .character-view-action-bar-footer {
+    padding: 8px 4px calc(4px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .character-view-action-bar-footer .spell-action-bar-container {
+    padding: 4px 6px;
+    border-width: 2px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  }
+}
 
 
 
+
+
+
+/* ===== TAB OVERFLOW (?) TRIGGER FOR CHARACTER RIBBON ===== */
+
+.char-tab-overflow-wrap {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    flex: 0 0 auto;
+}
+
+.char-tab-overflow-btn {
+    width: 42px;
+    min-width: 42px;
+    height: 38px;
+    padding: 0;
+    margin: 0 4px;
+    border: 1px solid rgba(240, 230, 210, 0.35);
+    border-radius: 6px;
+    background: linear-gradient(180deg, #4a2f1d 0%, #2b1a0f 100%);
+    box-shadow: inset 0 1px 0 rgba(212, 175, 55, 0.4);
+    color: #d4af37;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', 'Trajan Pro', serif;
+    transition: transform 0.15s ease, filter 0.15s ease, color 0.15s ease;
+}
+
+.char-tab-overflow-btn:hover,
+.char-tab-overflow-btn.open {
+    filter: brightness(1.25);
+    color: #ffd700;
+    transform: translateY(-2px);
+}
+
+.char-tab-overflow-btn.has-active {
+    color: #ffd700;
+    box-shadow:
+        inset 0 1px 0 rgba(212, 175, 55, 0.4),
+        0 0 10px rgba(212, 175, 55, 0.45);
+}

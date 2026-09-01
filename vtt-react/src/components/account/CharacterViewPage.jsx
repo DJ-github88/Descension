@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useParams, useNavigate } from 'react-router-dom';
+import useTabOverflow from '../common/useTabOverflow';
 import useCharacterStore from '../../store/characterStore';
 import useConditionStore from '../../store/conditionStore';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
@@ -43,8 +45,33 @@ const CharacterViewPage = () => {
   const vialPopupRef = React.useRef(null);
   const tabsRibbonRef = React.useRef(null);
   const closeDropdownTimerRef = React.useRef(null);
+  const lastHoverOpenRef = React.useRef(null);
+
+  const isHoverCapable = React.useCallback(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return false;
+    return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  }, []);
+
+  // Floating action bar overlay: keep --cv-actionbar-h in sync with the real
+  // footer height so scrollable tab containers can reserve matching space and
+  // no content gets permanently trapped behind the bar.
+  const [actionBarEl, setActionBarEl] = React.useState(null);
+  const [actionBarHeight, setActionBarHeight] = React.useState(150);
+  React.useEffect(() => {
+    if (!actionBarEl || typeof ResizeObserver === 'undefined') return;
+    const measure = () => setActionBarHeight(Math.ceil(actionBarEl.getBoundingClientRect().height));
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(actionBarEl);
+    window.addEventListener('resize', measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', measure);
+    };
+  }, [actionBarEl]);
 
   const scheduleCloseDropdown = () => {
+    if (!isHoverCapable()) return;
     if (closeDropdownTimerRef.current) clearTimeout(closeDropdownTimerRef.current);
     closeDropdownTimerRef.current = setTimeout(() => {
       setOpenDropdown(null);
@@ -52,6 +79,7 @@ const CharacterViewPage = () => {
   };
 
   const cancelCloseDropdown = () => {
+    if (!isHoverCapable()) return;
     if (closeDropdownTimerRef.current) {
       clearTimeout(closeDropdownTimerRef.current);
       closeDropdownTimerRef.current = null;
@@ -262,6 +290,49 @@ const CharacterViewPage = () => {
     }
   };
 
+  const sectionKeys = Object.keys(characterSections);
+  const { containerRef: tabsTrackRef, hiddenIds: hiddenTabIds } = useTabOverflow({
+    itemIds: sectionKeys,
+    triggerWidth: 52
+  });
+  const [tabOverflowOpen, setTabOverflowOpen] = useState(false);
+  const [tabOverflowPos, setTabOverflowPos] = useState(null);
+  const tabOverflowRef = React.useRef(null);
+
+  const openTabOverflowMenu = (rect) => {
+    setTabOverflowPos({
+      top: rect.bottom + 4,
+      left: Math.max(8, Math.min(rect.left, window.innerWidth - 230))
+    });
+    setTabOverflowOpen(true);
+  };
+
+  React.useEffect(() => {
+    if (hiddenTabIds.length === 0) setTabOverflowOpen(false);
+  }, [hiddenTabIds.length]);
+
+  React.useEffect(() => {
+    if (!tabOverflowOpen) return undefined;
+    const handlePointerDown = (e) => {
+      if (tabOverflowRef.current && tabOverflowRef.current.contains(e.target)) return;
+      setTabOverflowOpen(false);
+    };
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setTabOverflowOpen(false);
+    };
+    const handleClose = () => setTabOverflowOpen(false);
+    document.addEventListener('pointerdown', handlePointerDown, true);
+    document.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('scroll', handleClose, true);
+    window.addEventListener('resize', handleClose);
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown, true);
+      document.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('scroll', handleClose, true);
+      window.removeEventListener('resize', handleClose);
+    };
+  }, [tabOverflowOpen]);
+
   const renderContent = () => {
     switch (activeTab) {
       case 'character':
@@ -282,14 +353,12 @@ const CharacterViewPage = () => {
             <SpellLibraryProvider>
               <SpellLibrary />
             </SpellLibraryProvider>
-            <SpellActionBar characterId={characterId} />
           </div>
         );
       case 'inventory':
         return (
           <div className="character-view-inventory-wrapper">
             <InventoryWindow />
-            <SpellActionBar characterId={characterId} />
           </div>
         );
       case 'library':
@@ -355,6 +424,7 @@ const CharacterViewPage = () => {
     return { prep: 'of the ', name: clean };
   };
 
+  const subraceDisplayName = getSubraceDisplayName();
   const displayRaceName = subraceDisplayName || race;
   const raceTitleData = formatRaceTitle(displayRaceName);
 
@@ -395,7 +465,7 @@ const CharacterViewPage = () => {
   };
 
   return (
-    <div className="character-view-page">
+    <div className="character-view-page" style={{ '--cv-actionbar-h': `${actionBarHeight}px` }}>
       {/* Header */}
       <header className="character-view-header">
         <div className="header-top-row">
@@ -790,8 +860,9 @@ const CharacterViewPage = () => {
 
       {/* Tab Navigation Ribbon: responsive fantasy tabs with dropdowns */}
       <nav className="character-view-tabs-ribbon" ref={tabsRibbonRef}>
-        <div className="character-view-tabs-track">
-          {Object.entries(characterSections).map(([key, section]) => {
+        <div className="character-view-tabs-track" ref={tabsTrackRef}>
+          {sectionKeys.filter(key => !hiddenTabIds.includes(key)).map(key => {
+            const section = characterSections[key];
             const isActive = activeTab === key;
             const isDropdownOpen = openDropdown === key;
             const hasSubSections = Boolean(section.subSections);
@@ -799,11 +870,14 @@ const CharacterViewPage = () => {
             return (
               <div
                 key={key}
+                data-overflow-id={key}
                 className={`char-tab-wrapper tab-${key}`}
                 onMouseEnter={() => {
+                  if (!isHoverCapable()) return;
                   cancelCloseDropdown();
                   if (hasSubSections) {
                     setOpenDropdown(key);
+                    lastHoverOpenRef.current = { key, time: Date.now() };
                   }
                 }}
                 onMouseLeave={scheduleCloseDropdown}
@@ -814,9 +888,17 @@ const CharacterViewPage = () => {
                     e.stopPropagation();
                     setActiveTab(key);
                     if (hasSubSections) {
+                      const justHovered = lastHoverOpenRef.current && lastHoverOpenRef.current.key === key && Date.now() - lastHoverOpenRef.current.time < 400;
+                      if (justHovered && openDropdown === key) {
+                        // Hover just opened this dropdown; don't toggle it closed on the same interaction (touch hover emulation)
+                        lastHoverOpenRef.current = null;
+                        return;
+                      }
                       setOpenDropdown(prev => prev === key ? null : key);
+                      lastHoverOpenRef.current = null;
                     } else {
                       setOpenDropdown(null);
+                      lastHoverOpenRef.current = null;
                     }
                   }}
                   aria-expanded={isDropdownOpen}
@@ -953,7 +1035,58 @@ const CharacterViewPage = () => {
               </div>
             );
           })}
+
+          {hiddenTabIds.length > 0 && (
+            <div className="char-tab-overflow-wrap" ref={tabOverflowRef}>
+              <button
+                type="button"
+                className={`char-tab-overflow-btn ${tabOverflowOpen ? 'open' : ''} ${hiddenTabIds.includes(activeTab) ? 'has-active' : ''}`}
+                onClick={(e) => {
+                  if (tabOverflowOpen) {
+                    setTabOverflowOpen(false);
+                  } else {
+                    openTabOverflowMenu(e.currentTarget.getBoundingClientRect());
+                  }
+                }}
+                onMouseEnter={(e) => openTabOverflowMenu(e.currentTarget.getBoundingClientRect())}
+                aria-haspopup="menu"
+                aria-expanded={tabOverflowOpen}
+                title="More sections"
+              >
+                ⋮
+              </button>
+            </div>
+          )}
         </div>
+        {tabOverflowOpen && hiddenTabIds.length > 0 && createPortal(
+          <div
+            className="tab-dropdown-menu tab-dropdown-menu-scrollable tab-overflow-menu"
+            style={tabOverflowPos ? { top: tabOverflowPos.top, left: tabOverflowPos.left, minWidth: 200 } : undefined}
+            role="menu"
+            onMouseLeave={() => setTabOverflowOpen(false)}
+          >
+            {hiddenTabIds.map(key => {
+              const section = characterSections[key];
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  role="menuitem"
+                  className={`tab-dropdown-item ${activeTab === key ? 'active' : ''}`}
+                  onClick={() => {
+                    setActiveTab(key);
+                    setOpenDropdown(null);
+                    setTabOverflowOpen(false);
+                  }}
+                >
+                  <i className={section.icon}></i>
+                  <span style={{ marginLeft: 8 }}>{section.title}</span>
+                </button>
+              );
+            })}
+          </div>,
+          document.body
+        )}
       </nav>
 
       {/* Content Area */}
@@ -962,6 +1095,14 @@ const CharacterViewPage = () => {
           {renderContent()}
         </div>
       </main>
+
+      {/* Persistent Spell Action Bar - floating overlay, visible on ALL tabs */}
+      <footer
+        ref={setActionBarEl}
+        className="character-view-action-bar-footer"
+      >
+        <SpellActionBar characterId={characterId} />
+      </footer>
     </div>
   );
 };

@@ -3763,20 +3763,24 @@
 /* ── Mobile Responsive Overrides ────────────────────────────────────────── */
 @media (max-width: 768px) {
   .map-studio-header {
-    height: 52px;
+    height: 56px;
     padding: 0 8px;
     gap: 6px;
+    align-items: center;
   }
 
   .header-left {
     gap: 6px;
     min-width: 0;
+    flex: 1;
+    align-items: center;
     flex-shrink: 1;
   }
 
   .map-hierarchy-selector {
     gap: 6px;
     min-width: 0;
+    flex: 1;
   }
 
   .map-brand-badge {
@@ -3787,12 +3791,16 @@
 
   .map-dropdown {
     min-width: 0 !important;
-    max-width: 140px !important;
+    flex: 1;
+    max-width: none !important;
     font-size: 11.5px !important;
     padding: 4px 7px !important;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    background: #ffffff;
+    border: 1.5px solid #8b5a1a !important;
+    border-radius: 6px;
   }
 
   .btn-header-add-map {
@@ -3810,8 +3818,9 @@
   }
 
   .header-right {
-    gap: 5px;
+    gap: 4px;
     flex-shrink: 0;
+    align-items: center;
   }
 
   .btn-text-desktop {
@@ -3820,8 +3829,8 @@
 
   .btn-map-action {
     padding: 6px 9px;
-    font-size: 13px;
-    gap: 0;
+    font-size: 12px;
+    gap: 4px;
   }
 
   .btn-map-action i {
@@ -3879,9 +3888,36 @@
     max-width: calc(100vw - 16px);
   }
 
+  /* Mobile: Vertical zoom/lock stack on right side instead of horizontal HUD */
   .map-studio-hud {
-    bottom: 80px;
-    right: 10px;
+    display: none;
+  }
+
+  /* Back button mobile styles */
+  .btn-map-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    color: #d4af37;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.12s ease;
+    flex-shrink: 0;
+  }
+  .btn-map-back:hover {
+    background: rgba(212, 175, 55, 0.35);
+    border-color: #d4af37;
+    color: #ffd700;
+    transform: scale(1.1);
+  }
+  .btn-map-back:active {
+    background: #d4af37;
+    color: #1a0802;
   }
 
   /* Popups Clamping */
@@ -3911,6 +3947,12 @@
 
   .mobile-dock-btn i {
     font-size: 13px;
+  }
+
+  .btn-map-back {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
   }
 }
 

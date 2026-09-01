@@ -24,24 +24,95 @@ const renderLoreText = (text) => {
   return result.length > 0 ? result : text;
 };
 
-// Formats a text block with a giant drop cap for the first letter
+const parseInlineMarkdown = (text) => {
+    if (!text || typeof text !== 'string') return text;
+    const result = [];
+    const regex = /(\*\*.*?\*\*|\*.*?\*)/g;
+    let lastIndex = 0;
+    let match;
+    let key = 0;
+    while ((match = regex.exec(text)) !== null) {
+        if (match.index > lastIndex) result.push(text.substring(lastIndex, match.index));
+        const token = match[0];
+        if (token.startsWith('**') && token.endsWith('**') && token.length >= 4) {
+            result.push(<strong key={`b-${key++}`}>{token.slice(2, -2)}</strong>);
+        } else if (token.startsWith('*') && token.endsWith('*') && token.length >= 3) {
+            result.push(<em key={`i-${key++}`}>{token.slice(1, -1)}</em>);
+        } else {
+            result.push(token);
+        }
+        lastIndex = regex.lastIndex;
+    }
+    if (lastIndex < text.length) result.push(text.substring(lastIndex));
+    return result.length ? result : text;
+};
+
+const parseWithMarkdownAndLore = (text) => {
+    const mdParts = parseInlineMarkdown(text);
+    const arr = Array.isArray(mdParts) ? mdParts : [mdParts];
+    const final = [];
+    let k = 0;
+    arr.forEach(part => {
+        if (typeof part === 'string') {
+            const lore = renderLoreText(part);
+            if (Array.isArray(lore)) {
+                lore.forEach(l => final.push(typeof l === 'string' ? l : React.cloneElement(l, { key: `l-${k++}` })));
+            } else {
+                final.push(lore);
+            }
+        } else if (React.isValidElement(part) && (part.type === 'em' || part.type === 'strong')) {
+            const inner = part.props.children;
+            const loreInner = renderLoreText(inner);
+            const innerNodes = Array.isArray(loreInner) ? loreInner : [loreInner];
+            final.push(React.cloneElement(part, { key: `md-${k++}` }, ...innerNodes));
+        } else {
+            final.push(part);
+        }
+    });
+    return final;
+};
+
+// Formats a text block with a giant drop cap for the first letter, handling markdown
 const formatTextWithDropCap = (text) => {
     if (!text || typeof text !== 'string') return text;
     const trimmed = text.trim();
     if (!trimmed) return text;
-    
-    // Find the first letter/word character
-    const match = trimmed.match(/^([a-zA-Z])(.*)/s);
-    if (!match) return trimmed;
-    
-    const firstLetter = match[1];
-    const restOfText = match[2];
-    
+
+    const paragraphs = trimmed.split(/\n\n+/).map(p => p.trim()).filter(Boolean);
+    if (paragraphs.length === 0) return text;
+
+    let flavor = null;
+    let bodyParagraphs = paragraphs;
+    const firstPara = paragraphs[0];
+    const isFlavor = firstPara.length >= 2 && firstPara.startsWith('*') && firstPara.endsWith('*') && !firstPara.startsWith('**');
+    if (isFlavor && paragraphs.length > 1) {
+        flavor = firstPara.slice(1, -1).trim();
+        bodyParagraphs = paragraphs.slice(1);
+    } else if (isFlavor && paragraphs.length === 1) {
+        return <p className="tome-body-text" style={{ fontStyle: 'italic', textAlign: 'center' }}><em>{parseInlineMarkdown(firstPara.slice(1, -1).trim())}</em></p>;
+    }
+
+    const renderWithDropCap = (para, key) => {
+        const t = para.trim();
+        const idx = t.search(/[a-zA-Z]/);
+        if (idx === -1) return <p key={key} className="tome-body-text">{parseWithMarkdownAndLore(t)}</p>;
+        const before = t.slice(0, idx);
+        const firstLetter = t[idx];
+        const after = t.slice(idx + 1);
+        return (
+            <div key={key} className="tome-body-text">
+                {before ? parseWithMarkdownAndLore(before) : null}
+                <span className="tome-drop-cap">{firstLetter}</span>
+                {parseWithMarkdownAndLore(after)}
+            </div>
+        );
+    };
+
     return (
-        <div className="tome-body-text">
-            <span className="tome-drop-cap">{firstLetter}</span>
-            {renderLoreText(restOfText)}
-        </div>
+        <>
+            {flavor && <p className="tome-body-text" style={{ fontStyle: 'italic', textAlign: 'center', opacity: 0.9 }}><em>{parseWithMarkdownAndLore(flavor)}</em></p>}
+            {bodyParagraphs.map((para, idx) => idx === 0 ? renderWithDropCap(para, `p-${idx}`) : <p key={`p-${idx}`} className="tome-body-text">{parseWithMarkdownAndLore(para)}</p>)}
+        </>
     );
 };
 

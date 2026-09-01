@@ -695,6 +695,68 @@
     }
 }
 
+/* ===== TAB OVERFLOW (⋮) SYSTEM ===== */
+
+.tab-overflow-root,
+.window-header .spellbook-tab-container.tab-overflow-root {
+    overflow: visible !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+.window-header .spellbook-tab-container.tab-overflow-root::-webkit-scrollbar {
+    display: none !important;
+}
+
+.tab-overflow-trigger {
+    flex: 0 0 auto;
+    width: 32px;
+    min-width: 32px !important;
+    max-width: 32px !important;
+    height: 38px;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none;
+    border-radius: 10px 10px 0 0;
+    background: linear-gradient(180deg, #4a2f1d 0%, #2b1a0f 100%);
+    box-shadow: inset 0 1px 0 rgba(212, 175, 55, 0.4), inset 0 0 0 1px rgba(212, 175, 55, 0.35);
+    color: #d4af37;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 1px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', 'Trajan Pro', serif;
+    transition: transform 0.15s ease, filter 0.15s ease, color 0.15s ease;
+    z-index: 20;
+}
+
+.tab-overflow-trigger:hover,
+.tab-overflow-trigger.open {
+    filter: brightness(1.25);
+    color: #ffd700;
+    transform: translateY(-2px);
+    z-index: 30;
+}
+
+.tab-overflow-trigger.has-active {
+    color: #ffd700;
+    box-shadow:
+        inset 0 1px 0 rgba(212, 175, 55, 0.4),
+        inset 0 0 0 1px rgba(212, 175, 55, 0.35),
+        0 0 10px rgba(212, 175, 55, 0.45);
+}
+
+.tab-overflow-menu {
+    position: fixed !important;
+    top: auto !important;
+    left: auto !important;
+    z-index: 10002 !important;
+}
+
 /* ===== MOBILE FULLSCREEN WINDOWS ===== */
 @media (max-width: 768px) {
     /* Make windows fullscreen on mobile */

@@ -6,6 +6,12 @@
 
 import React from 'react';
 
+const formatDesc = (text) => {
+  if (!text) return '';
+  let f = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\n\n/g, '<br/><br/>').replace(/\n/g, '<br/>');
+  return <span dangerouslySetInnerHTML={{ __html: f }} />;
+};
+
 const SubraceTab = ({
     subraces = [],
     selectedSubraceId = null,
@@ -43,7 +49,7 @@ const SubraceTab = ({
                 </div>
 
                 <div className="subrace-detail-description">
-                    <p>{selectedSubrace.description}</p>
+                    <p>{formatDesc(selectedSubrace.description)}</p>
                 </div>
 
                 {(selectedSubrace.culturalBackground || selectedSubrace.heritage) && (

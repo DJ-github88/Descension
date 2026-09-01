@@ -90,7 +90,7 @@ const DEFAULT_CLASS_ORGANIZATIONS = {
       notableMembers: ['Torvald Frost-Biter', 'Sigrid Red-Axe']
     },
     {
-      name: 'The Fredlose Outlaw Host',
+      name: 'The Øsling Outlaw Host',
       leader: 'Jarl Ulfgar the Exiled',
       headquarters: 'The Sunder Wall Glaciers',
       status: 'Hostile',

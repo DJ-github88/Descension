@@ -387,23 +387,87 @@ export default function Lore({ initialSection }) {
             transform: `scale(${lore.imageTransformations?.scale || 1}) rotate(${lore.imageTransformations?.rotation || 0}deg) translate(${lore.imageTransformations?.positionX || 0}px, ${lore.imageTransformations?.positionY || 0}px)`
         };
 
+    const parseInlineMarkdown = (text) => {
+        if (!text || typeof text !== 'string') return text;
+        const result = [];
+        const regex = /(\*\*.*?\*\*|\*.*?\*)/g;
+        let lastIndex = 0;
+        let match;
+        let key = 0;
+        while ((match = regex.exec(text)) !== null) {
+            if (match.index > lastIndex) {
+                result.push(text.substring(lastIndex, match.index));
+            }
+            const token = match[0];
+            if (token.startsWith('**') && token.endsWith('**') && token.length >= 4) {
+                const inner = token.slice(2, -2);
+                result.push(<strong key={`b-${key++}`}>{inner}</strong>);
+            } else if (token.startsWith('*') && token.endsWith('*') && token.length >= 3) {
+                const inner = token.slice(1, -1);
+                result.push(<em key={`i-${key++}`}>{inner}</em>);
+            } else {
+                result.push(token);
+            }
+            lastIndex = regex.lastIndex;
+        }
+        if (lastIndex < text.length) {
+            result.push(text.substring(lastIndex));
+        }
+        return result.length ? result : text;
+    };
+
+    const renderParagraphWithDropCap = (text, key) => {
+        if (!text || !text.trim()) return null;
+        const trimmed = text.trim();
+        const firstLetterIdx = trimmed.search(/[a-zA-Z]/);
+        if (firstLetterIdx === -1) {
+            return <p key={key} className="book-body-text">{parseInlineMarkdown(trimmed)}</p>;
+        }
+        const before = trimmed.slice(0, firstLetterIdx);
+        const firstLetter = trimmed[firstLetterIdx];
+        const after = trimmed.slice(firstLetterIdx + 1);
+        return (
+            <p key={key} className="book-body-text">
+                {before ? parseInlineMarkdown(before) : null}
+                <span className="drop-cap">{firstLetter}</span>
+                {parseInlineMarkdown(after)}
+            </p>
+        );
+    };
+
     const formatTextWithDropCap = (text) => {
         if (!text || typeof text !== 'string') return text;
         const trimmed = text.trim();
         if (!trimmed) return text;
-        
-        // Find the first letter/word character
-        const match = trimmed.match(/^([a-zA-Z])(.*)/s);
-        if (!match) return trimmed;
-        
-        const firstLetter = match[1];
-        const restOfText = match[2];
-        
+
+        // Split into paragraphs on double newline to handle flavor line + body correctly
+        const paragraphs = trimmed.split(/\n\n+/).map(p => p.trim()).filter(Boolean);
+        if (paragraphs.length === 0) return text;
+
+        // Detect flavor paragraph: first para is *...* (single stars, not **)
+        let flavor = null;
+        let bodyParagraphs = paragraphs;
+        const firstPara = paragraphs[0];
+        const isFlavor = firstPara.length >= 2 && firstPara.startsWith('*') && firstPara.endsWith('*') && !firstPara.startsWith('**');
+        if (isFlavor && paragraphs.length > 1) {
+            flavor = firstPara.slice(1, -1).trim();
+            bodyParagraphs = paragraphs.slice(1);
+        } else if (isFlavor && paragraphs.length === 1) {
+            // Single paragraph that is just flavor - render as italic without drop cap
+            const inner = firstPara.slice(1, -1).trim();
+            return <p className="heritage-flavor-text"><em>{parseInlineMarkdown(inner)}</em></p>;
+        }
+
         return (
-            <p className="book-body-text">
-                <span className="drop-cap">{firstLetter}</span>
-                {restOfText}
-            </p>
+            <>
+                {flavor && (
+                    <p className="heritage-flavor-text"><em>{parseInlineMarkdown(flavor)}</em></p>
+                )}
+                {bodyParagraphs.map((para, idx) => {
+                    if (idx === 0) return renderParagraphWithDropCap(para, `para-${idx}`);
+                    return <p key={`para-${idx}`} className="book-body-text">{parseInlineMarkdown(para)}</p>;
+                })}
+            </>
         );
     };
 

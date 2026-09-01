@@ -18,6 +18,8 @@ import SpellWizard from '../spellcrafting-wizard/SpellWizardWrapper';
 
 // Simple wrapper that uses UnifiedSpellCard for spellbook display
 
+import TabDropdownButton from '../../components/common/TabDropdownButton';
+
 const SpellWizardTab = () => {
   // No local state, just render the wizard (pre-loaded)
   return (
@@ -133,26 +135,13 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => { } }) => {
       centered={false} // Handle centering manually
       onDrag={handleWindowDrag}
       customHeader={
-        <div className="spellbook-tab-container">
-          {tabs.map(tab => (
-            <div
-              key={tab.id}
-              className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
-              onClick={() => setActiveTab(tab.id)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  setActiveTab(tab.id);
+                    <TabDropdownButton
+                        tabs={tabs}
+                        activeTab={activeTab}
+                        onTabClick={setActiveTab}
+                        onDropdownTabClick={setActiveTab}
+                    />
                 }
-              }}
-              style={{ cursor: 'pointer' }}
-            >
-              <span>{tab.label}</span>
-            </div>
-          ))}
-        </div>
-      }
     >
       <div className={`spellbook-content ${activeTab !== 'collections' ? 'spellbook-layout' : ''}`} style={{ position: 'relative', height: '100%' }}>
         {renderContent()}

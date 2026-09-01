@@ -2859,3 +2859,46 @@
         font-size: 0.58rem;
     }
 }
+
+/* ============================================================
+   PC PURGE: Skills sidebar removed on desktop — navigation via
+   header tab dropdowns (hover/click). Re-purges the sidebar
+   that re-emerged after mobile polish passes. Restores the
+   "dropdown-only" intent: more horizontal space for the
+   skill detail/content pane on PC.
+   Mobile (<=768px) keeps the sidebar list + Back button.
+   ============================================================ */
+@media (min-width: 769px) {
+    .character-sheet .skills-sidebar,
+    .skills-sidebar,
+    .character-view-content .skills-sidebar,
+    .character-view-page .skills-sidebar {
+        display: none !important;
+        width: 0 !important;
+        min-width: 0 !important;
+        flex: 0 0 0 !important;
+        border-right: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+    }
+
+    .character-sheet .skills-content,
+    .skills-content,
+    .character-view-content .skills-content,
+    .character-view-page .skills-content {
+        flex: 1 1 100% !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .skills-container,
+    .character-sheet .skills-container {
+        flex-direction: column !important;
+    }
+
+    /* Hide the collapse toggle too — irrelevant when purged */
+    .skills-sidebar-toggle-button {
+        display: none !important;
+    }
+}

@@ -385,7 +385,7 @@ const TRADE_ROUTES = [
     "cargo": "Nordhalla mammoth-furs, runic artifacts → Sundale volcanic coal, forged arms",
     "established": "Year ~50 (Freezing Era)",
     "status": "contested",
-    "history": "The path the Bloodhammer clans marched south during the Hunger Winter migration. Now a contested refugee and trade route. The Sunder-Wall divides settled Nordhalla from the Fredløse outlaws. The Steam-Line Cartel controls key geothermal resupply points along the route."
+    "history": "The path the Bloodhammer clans marched south during the Hunger Winter migration. Now a contested refugee and trade route. The Sunder-Wall divides settled Nordhalla from the Øsling outlaws. The Steam-Line Cartel controls key geothermal resupply points along the route."
   },
   {
     "id": "trade-steppe-circuit",

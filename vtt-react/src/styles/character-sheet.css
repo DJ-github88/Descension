@@ -543,17 +543,21 @@
     background: linear-gradient(90deg, #f39c12 0%, #e67e22 50%, #d35400 100%);
 }
 
-/* Resource Bar Controls */
+/* Resource Bar Controls - Bottom Overlay */
 .resource-controls {
     position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
     background: linear-gradient(135deg,
         rgba(240, 230, 210, 0.98) 0%,
         rgba(230, 220, 200, 0.95) 100%);
     border: 3px solid #8b7355;
-    border-radius: 8px;
-    padding: 0;
+    border-radius: 8px 8px 0 0;
+    padding: 12px 16px;
     box-shadow:
-        0 8px 24px rgba(0, 0, 0, 0.4),
+        0 -8px 24px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.3),
         inset 0 -1px 0 rgba(0, 0, 0, 0.1);
     z-index: 999999999;
@@ -562,6 +566,13 @@
     backdrop-filter: blur(5px);
     overflow: hidden;
     pointer-events: auto;
+}
+
+/* Reserve bottom space ONLY while the resource-controls popup overlay is open
+   (toggled via body class from BottleResource). The popup is a fixed bottom
+   overlay, so the sheet must not carry permanent bottom spacing. */
+body.resource-controls-open .character-sheet {
+    padding-bottom: 130px;
 }
 
 .resource-controls-header {
@@ -3059,6 +3070,40 @@
     border-left: 2.5px solid #8b7355;
     padding: 6px 0 6px 16px;
     margin-left: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.heritage-flavor-text {
+    font-family: 'Garamond', serif;
+    font-size: 14.5px;
+    font-style: italic;
+    line-height: 1.5;
+    color: #6b5344;
+    text-align: center;
+    background: linear-gradient(90deg, transparent 0%, rgba(139,115,85,0.08) 15%, rgba(139,115,85,0.08) 85%, transparent 100%);
+    border-left: none;
+    border-bottom: 1px solid rgba(139,115,85,0.15);
+    padding: 8px 16px 10px;
+    margin: 0 0 4px 0;
+    white-space: normal;
+}
+
+.heritage-flavor-text em,
+.heritage-readonly-text-enhanced em {
+    font-style: italic;
+    color: #5a3e2b;
+}
+
+.heritage-readonly-text-enhanced strong {
+    font-weight: 700;
+    color: #3b2210;
+}
+
+.heritage-readonly-text-enhanced .book-body-text {
+    white-space: normal;
+    text-align: justify;
 }
 
 .heritage-empty-enhanced {

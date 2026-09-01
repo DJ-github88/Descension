@@ -288,7 +288,7 @@ const CHECKLIST_TEMPLATE = {
       category: 'terrain',
       action: 'COLOR',
       text: 'Fjord-Coast (east): cold-temperate maritime, black granite fjords',
-      why: 'The Fjord-Coast is the cold-temperate maritime eastern face of Nordhalla. Carved into black granite cliffs, it is cut deep by dark saltwater inlets and glaciers. It is the only habitable area in the region, where the majority of the Skald clans and fastboende fishermen reside.',
+      why: 'The Fjord-Coast is the cold-temperate maritime eastern face of Nordhalla. Carved into black granite cliffs, it is cut deep by dark saltwater inlets and glaciers. It is the only habitable area in the region, where the majority of the Skald clans and Vaegfolk fishermen reside.',
       inkarnate: 'Coast + stone texture'
     },
     {
@@ -408,8 +408,8 @@ const CHECKLIST_TEMPLATE = {
     {
       category: 'cities',
       action: 'PLACE',
-      text: 'Smuggler\'s Cove: Fredløse outlaw hangout on the southern shore',
-      why: 'Smuggler\'s Cove is a hidden coastal inlet on the rocky southern shore. Surrounded by steep obsidian cliffs and treacherous reefs, it serves as a lawless haven for Fredløse outlaws who run smuggling operations to bypass taxes.',
+      text: 'Smuggler\'s Cove: Øsling outlaw hangout on the southern shore',
+      why: 'Smuggler\'s Cove is a hidden coastal inlet on the rocky southern shore. Surrounded by steep obsidian cliffs and treacherous reefs, it serves as a lawless haven for Øsling outlaws who run smuggling operations to bypass taxes.',
       inkarnate: 'Hidden cove icon'
     },
     {
@@ -876,7 +876,7 @@ const CHECKLIST_TEMPLATE = {
       category: 'cities',
       action: 'PLACE',
       text: 'Brinehorse Cove: black-market port behind ice-shoals',
-      why: 'Brinehorse Cove is a black-market port. Hidden behind a wall of shifting ice-shoals on the northern shore, it is surrounded by freezing waters, serving as a secret trading haven for Fredløse outlaws to exchange contraband.',
+      why: 'Brinehorse Cove is a black-market port. Hidden behind a wall of shifting ice-shoals on the northern shore, it is surrounded by freezing waters, serving as a secret trading haven for Øsling outlaws to exchange contraband.',
       inkarnate: 'Port icon'
     },
     // LANDMARKS

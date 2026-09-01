@@ -471,6 +471,17 @@ const BottleResource = ({ current, max, temp = 0, label, resourceType, onUpdate,
         }
     };
 
+    // While the adjustment popup is open (a fixed bottom overlay), reserve space
+    // at the bottom of the character sheet so content isn't hidden behind it.
+    useEffect(() => {
+        if (showControls) {
+            document.body.classList.add('resource-controls-open');
+        } else {
+            document.body.classList.remove('resource-controls-open');
+        }
+        return () => document.body.classList.remove('resource-controls-open');
+    }, [showControls]);
+
     const getTooltipContent = () => {
         switch (resourceType) {
             case 'health':
@@ -719,6 +730,21 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
     const [overhealData, setOverhealData] = useState(null); // { resourceType, adjustment, currentValue, maxValue }
     const [showLevelControls, setShowLevelControls] = useState(false);
     const [spellPowerTypeIndex, setSpellPowerTypeIndex] = useState(0);
+    const [isMobileView, setIsMobileView] = useState(() => typeof window !== 'undefined' ? window.innerWidth <= 768 : false);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobileView(window.innerWidth <= 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // When durability modal opens, close any open equipment menu/tooltip so it doesn't obstruct
+    useEffect(() => {
+        if (durabilityModalItem) {
+            setUnequipContextMenu({ visible: false, x: 0, y: 0, item: null, slotName: null });
+            setHoveredSlot(null);
+        }
+    }, [durabilityModalItem]);
 
     const cycleSpellPower = (direction = 1) => {
         setSpellPowerTypeIndex(prev => {
@@ -978,6 +1004,45 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
     };
 
     const handleSlotTap = (e, slotName) => {
+        // On mobile/touch, tapping an equipped slot should open the Unequip/Durability menu
+        // instead of just toggling the tooltip, so users can access Durability on touch devices.
+        let equippedItem = equipment?.[slotName];
+        if (!equippedItem && slotName === 'offHand') {
+            equippedItem = equipment?.['off_hand'] || equipment?.['offHand'] || null;
+        }
+        const offHandDisabled = slotName === 'offHand' && isOffHandDisabled(equipment);
+        if (offHandDisabled) {
+            e.stopPropagation();
+            const rect2 = e.currentTarget ? e.currentTarget.getBoundingClientRect() : { left: 0, top: 0, width: 0 };
+            const x2 = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : rect2.left + rect2.width / 2);
+            const y2 = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : rect2.top);
+            setMousePosition({ x: x2, y: y2 });
+            setHoveredSlot(prev => prev === slotName ? null : slotName);
+            return;
+        }
+        const isTouchLike = isMobileView
+            || (typeof window !== 'undefined' && ('ontouchstart' in window || (navigator.maxTouchPoints || 0) > 0))
+            || !!(e.touches && e.touches.length > 0);
+        if (equippedItem && isTouchLike) {
+            if (e.preventDefault) e.preventDefault();
+            e.stopPropagation();
+            const target = e.currentTarget;
+            const rect = target ? target.getBoundingClientRect() : null;
+            const rawX = e.clientX != null ? e.clientX : (e.touches?.[0]?.clientX ?? e.changedTouches?.[0]?.clientX ?? (rect ? rect.left + rect.width / 2 : window.innerWidth / 2));
+            const rawY = e.clientY != null ? e.clientY : (e.touches?.[0]?.clientY ?? e.changedTouches?.[0]?.clientY ?? (rect ? rect.top + rect.height / 2 : window.innerHeight / 2));
+            const menuW = 250;
+            const menuH = 220;
+            let x = rawX;
+            let y = rawY;
+            if (x + menuW > window.innerWidth - 8) x = window.innerWidth - menuW - 8;
+            if (y + menuH > window.innerHeight - 8) y = window.innerHeight - menuH - 8;
+            if (x < 8) x = 8;
+            if (y < 8) y = 8;
+            setHoveredSlot(null);
+            setMousePosition({ x, y });
+            setUnequipContextMenu({ visible: true, x, y, item: equippedItem, slotName });
+            return;
+        }
         e.stopPropagation();
         const rect = e.currentTarget ? e.currentTarget.getBoundingClientRect() : { left: 0, top: 0, width: 0 };
         const x = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : rect.left + rect.width / 2);

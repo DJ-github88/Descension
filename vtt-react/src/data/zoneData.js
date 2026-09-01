@@ -7728,10 +7728,10 @@ export const ZONE_DATA = [
     "regionId": "nordhalla",
     "name": "Xardin's Hearth",
     "type": "port",
-    "description": "A lawless geothermal port town sheltered beneath hanging glaciers. The Fredløse clans operate the infamous Sorte Market here, smuggling exotic fexric artifacts, forbidden southern grimoires, and un-taxed whale oil.",
+    "description": "A lawless geothermal port town sheltered beneath hanging glaciers. The Øsling clans operate the infamous Sorte Market here, smuggling exotic fexric artifacts, forbidden southern grimoires, and un-taxed whale oil.",
     "dangerLevel": "medium",
     "factions": [
-      "Fredløse Outlaws",
+      "Øsling Clans",
       "Icechamber Syndicate"
     ],
     "connections": [
@@ -8829,7 +8829,7 @@ export const ZONE_DATA = [
     "dangerLevel": "medium",
     "factions": [
       "Øsling Clan Confederation",
-      "Fredløse Outlaws"
+      "Øsling Clans"
     ],
     "connections": [
       "frostfang-wastes",
@@ -8917,7 +8917,7 @@ export const ZONE_DATA = [
     "description": "The volcanic ruins of an ancient mountain stronghold swallowed by glacier ice in the first century. Residual steam vents keep its basalt undercrofts warm, providing vital shelter for outlaws and hardy nomads.",
     "dangerLevel": "medium",
     "factions": [
-      "Fredløse Outlaws",
+      "Øsling Clans",
       "Øsling Clan Confederation"
     ],
     "connections": [
@@ -9034,7 +9034,7 @@ export const ZONE_DATA = [
     "description": "A subterranean thermal spring hidden beneath a glacier arch where banished outlaws, heretic animists, and escaped thralls maintain a covert underground haven and market.",
     "dangerLevel": "medium",
     "factions": [
-      "Fredløse Outlaws"
+      "Øsling Clans"
     ],
     "connections": [
       "mute-hearth-ruin",
@@ -9044,7 +9044,7 @@ export const ZONE_DATA = [
     "subregionId": "nordhalla-frostfang-wastes",
     "history": {
       "founded": "Year 88 (Freezing Era)",
-      "foundedBy": "The Fredløse Underground",
+      "foundedBy": "The Øsling Underground",
       "foundingStory": "Discovered deep in a glacier cave where a warm freshwater spring created an insulated cavern capable of housing two hundred outlaws.",
       "significantEvents": [
         {
@@ -9059,10 +9059,10 @@ export const ZONE_DATA = [
     "regionId": "nordhalla",
     "name": "Smuggler's Cove",
     "type": "settlement",
-    "description": "A secluded sea-cove hidden behind towering ice arches where Fredløse smugglers land contraband liquor, illegal iron, and refugees seeking passage into the north.",
+    "description": "A secluded sea-cove hidden behind towering ice arches where Øsling smugglers land contraband liquor, illegal iron, and refugees seeking passage into the north.",
     "dangerLevel": "medium",
     "factions": [
-      "Fredløse Outlaws",
+      "Øsling Clans",
       "Icechamber Syndicate"
     ],
     "connections": [

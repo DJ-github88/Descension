@@ -186,7 +186,7 @@ export const EXPLORATION_RULES = {
           requirement: 'Present a clan charter or pay the Syndicate toll.',
           options: [
             { path: 'Tax', effect: 'Pay 10% of carried goods or 5 silver.' },
-            { path: 'Fredløse Passage', skill: 'Deception (DC 13) or Stealth (DC 16)', success: 'Passed through hidden gaps.', failure: 'Conscription into glacial mining labor for 48 hours or open combat.' }
+            { path: 'Øsling Passage', skill: 'Deception (DC 13) or Stealth (DC 16)', success: 'Passed through hidden gaps.', failure: 'Conscription into glacial mining labor for 48 hours or open combat.' }
           ]
         }
       }
