@@ -4,7 +4,7 @@
   position: fixed;
   bottom: 30px;
   right: 20px;
-  z-index: 9998;
+  z-index: 898; /* below window layer so windows stack above */
 }
 
 /* Toggle Button */

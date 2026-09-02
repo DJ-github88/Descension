@@ -195,7 +195,7 @@ const ChargeableRollButton = ({
             position: 'fixed',
             left: `${anchor.x}px`,
             top: `${anchor.y}px`,
-            zIndex: 10006,
+            zIndex: 906,
             transform: `rotate(${dragVector.angle}deg)`,
             width: `${arrowLength}px`,
           }}
@@ -220,7 +220,7 @@ const ChargeableRollButton = ({
             // inline `top`, a lingering `bottom` makes the browser stretch
             // the box to a negative height — neutralize it.
             bottom: 'auto',
-            zIndex: 10006,
+            zIndex: 906,
             transform: 'translate(-50%, -100%)',
             opacity: Math.min(1, chargeProgress * 1.5),
           }}

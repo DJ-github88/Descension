@@ -17,7 +17,8 @@ const DraggableWindow = forwardRef(({
     onDrag = null,
     onDragStart = null,
     onDragStop = null,
-    resetSignal = 0
+    resetSignal = 0,
+    disableDragging = false
 }, ref) => {
     const windowScale = useSettingsStore(state => state.windowScale);
 
@@ -276,7 +277,7 @@ const DraggableWindow = forwardRef(({
 
     if (!isOpen) return null;
 
-    const disableDragging = isMobile;
+    const effectivelyDisabled = isMobile || disableDragging;
 
     // Compute scale-aware bounds. react-draggable's string bounds (e.g. "body")
     // measure the node's UNSCALED offsetWidth, so when windowScale != 1 the window
@@ -284,7 +285,7 @@ const DraggableWindow = forwardRef(({
     // We compute explicit bounds in visual pixels so dragging is correct at any scale,
     // and allow partial off-screen movement while keeping the header grabable.
     const effectiveBounds = (() => {
-        if (disableDragging || !bounds) return false;
+        if (effectivelyDisabled || !bounds) return false;
         if (typeof bounds === 'object') return bounds;
 
         const vw = typeof window !== 'undefined' ? window.innerWidth : 1920;
@@ -304,17 +305,17 @@ const DraggableWindow = forwardRef(({
 
     return (
         <Draggable
-            handle={disableDragging ? '' : `.${handleClassName}`}
-            position={disableDragging ? { x: 0, y: 0 } : position}
+            handle={effectivelyDisabled ? '' : `.${handleClassName}`}
+            position={effectivelyDisabled ? { x: 0, y: 0 } : position}
             nodeRef={nodeRef}
             bounds={effectiveBounds}
             grid={[1, 1]}
-            onStart={disableDragging ? undefined : handleDragStart}
-            onDrag={disableDragging ? undefined : handleDrag}
-            onStop={disableDragging ? undefined : handleDragStop}
+            onStart={effectivelyDisabled ? undefined : handleDragStart}
+            onDrag={effectivelyDisabled ? undefined : handleDrag}
+            onStop={effectivelyDisabled ? undefined : handleDragStop}
             scale={windowScale}
-            enableUserSelectHack={!disableDragging}
-            disabled={disableDragging}
+            enableUserSelectHack={!effectivelyDisabled}
+            disabled={effectivelyDisabled}
         >
             <div
                 ref={nodeRef}

@@ -2,6 +2,16 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { createPortal } from 'react-dom';
 import useTabOverflow from './useTabOverflow';
 
+const isIconUrl = icon => /^(https?:|\/|data:|\.\/|\.\.\/)/.test(icon);
+
+const TabIcon = ({ icon }) => {
+  if (!icon) return null;
+  if (isIconUrl(icon)) {
+    return <img src={icon} alt="" className="tab-icon-img" />;
+  }
+  return <i className={`${icon} tab-icon-glyph`}></i>;
+};
+
 const TabDropdownButton = ({ tabs, activeTab, onTabClick, onDropdownTabClick, className = '' }) => {
   const handleDropdownSelect = onDropdownTabClick || onTabClick;
 
@@ -9,8 +19,8 @@ const TabDropdownButton = ({ tabs, activeTab, onTabClick, onDropdownTabClick, cl
     if (!Array.isArray(tabs)) return [];
     return tabs.map(tab =>
       typeof tab === 'string'
-        ? { id: tab, label: tab }
-        : { id: tab.id, label: tab.label !== undefined ? tab.label : tab.id }
+        ? { id: tab, label: tab, icon: null }
+        : { id: tab.id, label: tab.label !== undefined ? tab.label : tab.id, icon: tab.icon || null }
     );
   }, [tabs]);
 
@@ -35,7 +45,7 @@ const TabDropdownButton = ({ tabs, activeTab, onTabClick, onDropdownTabClick, cl
     clearTimers();
     const rect = triggerRef.current ? triggerRef.current.getBoundingClientRect() : null;
     if (rect) {
-      const left = Math.max(8, Math.min(rect.left, window.innerWidth - 210));
+      const left = Math.max(8, Math.min(rect.left, window.innerWidth - 230));
       setMenuPos({ top: rect.bottom + 4, left });
     }
     setIsMenuOpen(true);
@@ -101,16 +111,17 @@ const TabDropdownButton = ({ tabs, activeTab, onTabClick, onDropdownTabClick, cl
     <div ref={containerRef} className={`spellbook-tab-container tab-overflow-root ${className}`.trim()}>
       {visibleIds.map(id => {
         const tab = itemMap.get(id);
+        const hasIcon = Boolean(tab.icon);
         return (
           <button
             key={id}
             type="button"
             data-overflow-id={id}
-            className={`spellbook-tab-button ${id === activeTab ? 'active' : ''}`}
+            className={`spellbook-tab-button ${hasIcon ? 'tab-icon-only' : ''} ${id === activeTab ? 'active' : ''}`}
             onClick={() => onTabClick && onTabClick(id)}
             title={tab.label}
           >
-            <span className="tab-text">{tab.label}</span>
+            {hasIcon ? <TabIcon icon={tab.icon} /> : <span className="tab-text">{tab.label}</span>}
           </button>
         );
       })}
@@ -119,6 +130,7 @@ const TabDropdownButton = ({ tabs, activeTab, onTabClick, onDropdownTabClick, cl
         <button
           ref={triggerRef}
           type="button"
+          data-overflow-trigger=""
           className={[
             'tab-overflow-trigger',
             isMenuOpen ? 'open' : '',
@@ -158,7 +170,8 @@ const TabDropdownButton = ({ tabs, activeTab, onTabClick, onDropdownTabClick, cl
                     closeMenu();
                   }}
                 >
-                  {tab.label}
+                  {tab.icon && <TabIcon icon={tab.icon} />}
+                  <span style={{ marginLeft: tab.icon ? 8 : 0 }}>{tab.label}</span>
                 </button>
               );
             })}

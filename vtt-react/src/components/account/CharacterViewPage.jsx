@@ -298,6 +298,7 @@ const CharacterViewPage = () => {
   const [tabOverflowOpen, setTabOverflowOpen] = useState(false);
   const [tabOverflowPos, setTabOverflowPos] = useState(null);
   const tabOverflowRef = React.useRef(null);
+  const tabOverflowMenuRef = React.useRef(null);
 
   const openTabOverflowMenu = (rect) => {
     setTabOverflowPos({
@@ -315,6 +316,7 @@ const CharacterViewPage = () => {
     if (!tabOverflowOpen) return undefined;
     const handlePointerDown = (e) => {
       if (tabOverflowRef.current && tabOverflowRef.current.contains(e.target)) return;
+      if (tabOverflowMenuRef.current && tabOverflowMenuRef.current.contains(e.target)) return;
       setTabOverflowOpen(false);
     };
     const handleKeyDown = (e) => {
@@ -883,7 +885,8 @@ const CharacterViewPage = () => {
                 onMouseLeave={scheduleCloseDropdown}
               >
                 <button
-                  className={`char-tab-btn ${isActive ? 'active' : ''}`}
+                  className={`char-tab-btn icon-only ${isActive ? 'active' : ''}`}
+                  title={`${section.title}${hasSubSections ? ' — hover for sections' : ''}`}
                   onClick={(e) => {
                     e.stopPropagation();
                     setActiveTab(key);
@@ -1041,6 +1044,7 @@ const CharacterViewPage = () => {
               <button
                 type="button"
                 className={`char-tab-overflow-btn ${tabOverflowOpen ? 'open' : ''} ${hiddenTabIds.includes(activeTab) ? 'has-active' : ''}`}
+                data-overflow-trigger=""
                 onClick={(e) => {
                   if (tabOverflowOpen) {
                     setTabOverflowOpen(false);
@@ -1060,6 +1064,7 @@ const CharacterViewPage = () => {
         </div>
         {tabOverflowOpen && hiddenTabIds.length > 0 && createPortal(
           <div
+            ref={tabOverflowMenuRef}
             className="tab-dropdown-menu tab-dropdown-menu-scrollable tab-overflow-menu"
             style={tabOverflowPos ? { top: tabOverflowPos.top, left: tabOverflowPos.left, minWidth: 200 } : undefined}
             role="menu"

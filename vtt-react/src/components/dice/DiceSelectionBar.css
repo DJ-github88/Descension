@@ -8,7 +8,7 @@
   position: fixed;
   bottom: 30px;
   left: 20px;
-  z-index: 10000;
+  z-index: 900; /* below window layer so windows stack above */
   font-family: 'Cinzel', 'Times New Roman', serif;
   pointer-events: auto;
 }
@@ -34,7 +34,7 @@
   position: relative;
   padding: 0;
   pointer-events: auto;
-  z-index: 10001;
+  z-index: 901;
 }
 
 .dice-button:hover {

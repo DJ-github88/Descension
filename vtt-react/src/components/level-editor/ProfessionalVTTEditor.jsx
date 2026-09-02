@@ -2879,7 +2879,11 @@ const ProfessionalVTTEditor = () => {
                 minConstraints={[400, 450]}
                 customHeader={
                     <TabDropdownButton
-                        tabs={Object.entries(vttTools).map(([id, category]) => ({ id, label: category.name }))}
+                        tabs={Object.entries(vttTools).map(([id, category]) => ({
+                            id,
+                            label: category.name,
+                            icon: category.icon
+                        }))}
                         activeTab={activeTab}
                         onTabClick={handleTabChange}
                     />

@@ -514,6 +514,7 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
     const [tabOverflowOpen, setTabOverflowOpen] = useState(false);
     const [tabOverflowPos, setTabOverflowPos] = useState(null);
     const tabOverflowBtnRef = useRef(null);
+    const tabOverflowMenuRef = useRef(null);
     const overflowCloseTimerRef = useRef(null);
 
     const openTabOverflowMenu = useCallback((rect) => {
@@ -551,6 +552,7 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
         if (!tabOverflowOpen) return undefined;
         const handlePointerDown = (e) => {
             if (tabOverflowBtnRef.current && tabOverflowBtnRef.current.contains(e.target)) return;
+            if (tabOverflowMenuRef.current && tabOverflowMenuRef.current.contains(e.target)) return;
             setTabOverflowOpen(false);
         };
         const handleKeyDown = (e) => {
@@ -613,7 +615,8 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
                                 onMouseLeave={scheduleCloseTabDropdown}
                             >
                                 <button
-                                    className={`spellbook-tab-button ${isActive ? 'active' : ''}`}
+                                    className={`spellbook-tab-button tab-icon-only ${isActive ? 'active' : ''}`}
+                                    title={section.title}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         setActiveTab(key);
@@ -625,11 +628,11 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
                                     }}
                                     onMouseEnter={(e) => openTabDropdown(key, e.currentTarget)}
                                 >
-                                    <span>{section.title}</span>
+                                    <i className={`${section.icon} tab-icon-glyph`}></i>
                                     {section.subSections && (
-                                        <i 
-                                            className={`fas fa-chevron-${isDropdownOpen ? 'up' : 'down'} tab-chevron`} 
-                                            style={{ marginLeft: '6px', fontSize: '9px', opacity: 0.8 }} 
+                                        <i
+                                            className={`fas fa-chevron-${isDropdownOpen ? 'up' : 'down'} tab-chevron`}
+                                            style={{ marginLeft: '4px', fontSize: '8px', opacity: 0.8 }}
                                         />
                                     )}
                                 </button>
@@ -744,6 +747,7 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
                             type="button"
                             ref={tabOverflowBtnRef}
                             className={`tab-overflow-trigger ${tabOverflowOpen ? 'open' : ''} ${hiddenTabIds.includes(activeTab) ? 'has-active' : ''}`}
+                            data-overflow-trigger=""
                             onClick={(e) => {
                                 if (tabOverflowOpen) {
                                     setTabOverflowOpen(false);
@@ -763,6 +767,7 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
 
                     {tabOverflowOpen && hiddenTabIds.length > 0 && ReactDOM.createPortal(
                         <div
+                            ref={tabOverflowMenuRef}
                             className="tab-dropdown-menu tab-dropdown-menu-scrollable"
                             style={tabOverflowPos ? { position: 'fixed', left: tabOverflowPos.left, top: tabOverflowPos.top, minWidth: 200 } : { position: 'fixed', minWidth: 200 }}
                             onMouseEnter={cancelCloseTabOverflow}

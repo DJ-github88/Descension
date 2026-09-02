@@ -1,9 +1,13 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
+const EXPAND_MARGIN = 12;
+
 const useTabOverflow = ({ itemIds, triggerWidth = 34 }) => {
   const containerRef = useRef(null);
   const widthsRef = useRef(new Map());
   const prevKeyRef = useRef(null);
+  const lastActionRef = useRef(null);
+  const lockRef = useRef(null);
   const [containerWidth, setContainerWidth] = useState(null);
   const [fontsTick, setFontsTick] = useState(0);
   const [visibleCount, setVisibleCount] = useState(itemIds.length);
@@ -12,6 +16,8 @@ const useTabOverflow = ({ itemIds, triggerWidth = 34 }) => {
 
   if (prevKeyRef.current !== idsKey) {
     prevKeyRef.current = idsKey;
+    lastActionRef.current = null;
+    lockRef.current = null;
     setVisibleCount(itemIds.length);
   }
 
@@ -50,27 +56,58 @@ const useTabOverflow = ({ itemIds, triggerWidth = 34 }) => {
       if (!idSet.has(id)) widthsRef.current.delete(id);
     });
 
-    const rect = root.getBoundingClientRect();
-    const W = containerWidth !== null ? containerWidth : rect.width;
-    if (!W || W <= 0) return null;
-
+    const rootRect = root.getBoundingClientRect();
+    if (!rootRect.width) return null;
+    const widthKey = Math.round(rootRect.width);
     const n = itemIds.length;
-    let used = 0;
-    let k = 0;
-    for (let i = 0; i < n; i++) {
-      const w = widthsRef.current.get(itemIds[i]);
-      if (w === undefined) break;
-      const nextUsed = used + (k > 0 ? gap : 0) + w;
-      const total = nextUsed + (k + 1 < n ? gap + triggerWidth : 0);
-      if (total <= W + 1) {
-        used = nextUsed;
-        k += 1;
-      } else {
-        break;
+
+    const items = Array.from(root.querySelectorAll('[data-overflow-id]'));
+    const triggerEl = root.querySelector('[data-overflow-trigger]');
+    const lastRect = items.length ? items[items.length - 1].getBoundingClientRect() : null;
+    const triggerRect = triggerEl ? triggerEl.getBoundingClientRect() : null;
+
+    const rowRight = triggerRect
+      ? triggerRect.right
+      : (lastRect ? lastRect.right : rootRect.left);
+    const overflowing = rowRight - rootRect.right > 1;
+
+    const baseRight = lastRect ? lastRect.right : rootRect.left;
+    const reserve = gap + (triggerRect ? gap + triggerRect.width : 0);
+    const freeForNext = rootRect.right - baseRight - reserve;
+
+    const locked =
+      lockRef.current !== null &&
+      Math.abs(lockRef.current.width - widthKey) <= 2 &&
+      lockRef.current.tick === fontsTick;
+
+    let next = visibleCount;
+    let action = null;
+    if (overflowing && visibleCount > 0) {
+      next = visibleCount - 1;
+      action = 'collapse';
+      if (lockRef.current === null || !locked) {
+        lockRef.current = { width: widthKey, tick: fontsTick };
+      }
+    } else {
+      const nextW = visibleCount < n ? widthsRef.current.get(itemIds[visibleCount]) : undefined;
+      if (
+        visibleCount < n &&
+        !locked &&
+        nextW !== undefined &&
+        freeForNext >= nextW + EXPAND_MARGIN
+      ) {
+        next = visibleCount + 1;
+        action = 'expand';
+      } else if (lockRef.current !== null && !locked) {
+        lockRef.current = null;
       }
     }
-    return k;
-  }, [containerWidth, fontsTick, idsKey, itemIds, triggerWidth]);
+
+    if (action === null) lastActionRef.current = null;
+    else lastActionRef.current = action;
+
+    return Math.max(0, Math.min(next, n));
+  }, [containerWidth, fontsTick, idsKey, itemIds, triggerWidth, visibleCount]);
 
   useLayoutEffect(() => {
     const k = computeFit();

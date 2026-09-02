@@ -150,7 +150,7 @@ const ClassOriginsDisplay = React.lazy(() => import('./ClassOriginsDisplay'));
 
 const SEARCH_FILTERS = [
   { id: 'all', label: 'All', icon: 'fas fa-globe' },
-  { id: 'rules', label: 'Rules', icon: 'fas fa-book' },
+  { id: 'rules', label: 'Laws & Lore', icon: 'fas fa-book' },
   { id: 'lore', label: 'Lore', icon: 'fas fa-landmark' },
   { id: 'combat', label: 'Combat', icon: 'fas fa-shield-alt' },
   { id: 'classes', label: 'Classes', icon: 'fas fa-hat-wizard' },

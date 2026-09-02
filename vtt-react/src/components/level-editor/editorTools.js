@@ -5,6 +5,7 @@
 export const EDITOR_TABS = {
     terrain: {
         name: 'Terrain',
+        icon: 'fas fa-mountain',
         tools: [
             { id: 'terrain_brush', name: 'Terrain Brush', icon: 'Utility/Utility Tool', cursor: 'crosshair' },
             { id: 'terrain_erase', name: 'Terrain Eraser', icon: 'Utility/Broken', cursor: 'crosshair' },
@@ -15,6 +16,7 @@ export const EDITOR_TABS = {
     },
     drawing: {
         name: 'Drawing',
+        icon: 'fas fa-pencil-ruler',
         tools: [
             { id: 'select', name: 'Select', icon: 'Utility/Target Crosshair', cursor: 'default' },
             { id: 'area_remove', name: 'Area Remove', icon: 'Utility/Broken', cursor: 'crosshair' },
@@ -29,6 +31,7 @@ export const EDITOR_TABS = {
     },
     walls: {
         name: 'Walls',
+        icon: 'fas fa-cubes',
         tools: [
             { id: 'wall_draw', name: 'Draw Wall', icon: 'Utility/Barred Shield', cursor: 'crosshair' },
             { id: 'door_place', name: 'Place Door', icon: 'Utility/Lockpick', cursor: 'crosshair' },
@@ -40,6 +43,7 @@ export const EDITOR_TABS = {
     },
     fog: {
         name: 'Fog',
+        icon: 'fas fa-smog',
         tools: [
             { id: 'fog_draw', name: 'Draw Fog', icon: 'Shadow/Shadow Invisibility', cursor: 'crosshair' },
             { id: 'fog_erase', name: 'Erase Fog', icon: 'Utility/Broken', cursor: 'crosshair' },
@@ -49,6 +53,7 @@ export const EDITOR_TABS = {
     },
     objects: {
         name: 'Objects',
+        icon: 'fas fa-cube',
         tools: [
             { id: 'object_place', name: 'Place Object', icon: 'Utility/Utility', cursor: 'crosshair' },
             { id: 'token_place', name: 'Place Token', icon: 'Social/Golden Crown', cursor: 'crosshair' },
@@ -60,6 +65,7 @@ export const EDITOR_TABS = {
     },
     grid: {
         name: 'Grid',
+        icon: 'fas fa-th',
         tools: [
             { id: 'grid_settings', name: 'Grid Settings', icon: 'Utility/Utility Gear', cursor: 'default' },
             { id: 'grid_toggle', name: 'Toggle Grid', icon: 'Utility/Utility Gear', cursor: 'default' },
@@ -68,6 +74,7 @@ export const EDITOR_TABS = {
     },
     lighting: {
         name: 'Lighting',
+        icon: 'fas fa-lightbulb',
         tools: [
             { id: 'lighting_settings', name: 'Lighting Settings', icon: 'Arcane/Arcane Brilliance', cursor: 'default' }
         ]

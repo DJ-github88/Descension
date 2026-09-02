@@ -30,7 +30,7 @@ export default function ClassesPage() {
             <i className="fas fa-arrow-left"></i> Home
           </Link>
           <span className="classes-breadcrumb">
-            <Link to="/rules">Rules</Link> &gt; Classes Codex
+            <Link to="/rules">Laws &amp; Lore</Link> &gt; Classes Codex
           </span>
         </div>
         <h1 className="classes-title">MYTHRILL CLASSES CODEX</h1>

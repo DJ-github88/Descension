@@ -69,9 +69,9 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => { } }) => {
 
   // Define tabs for consistent formatting - conditionally show Spell Wizard tab only for GMs
   const tabs = [
-    ...(isGMMode ? [{ id: 'wizard', label: 'Spell Wizard' }] : []),
-    { id: 'library', label: 'Spell Library' },
-    { id: 'collections', label: 'Community' }
+    ...(isGMMode ? [{ id: 'wizard', label: 'Spell Wizard', icon: 'fas fa-hat-wizard' }] : []),
+    { id: 'library', label: 'Spell Library', icon: 'fas fa-book-open' },
+    { id: 'collections', label: 'Community', icon: 'fas fa-users' }
   ];
 
   const renderContent = () => {

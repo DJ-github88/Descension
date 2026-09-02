@@ -534,7 +534,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
 
  const navigation = [
   { id: 'home', label: 'Home', icon: 'fas fa-home' },
-  { id: 'rules', label: 'Rules', icon: 'fas fa-book' },
+  { id: 'rules', label: 'Laws & Lore', icon: 'fas fa-book' },
   { id: 'membership', label: 'Membership', icon: 'fas fa-star' }
  ];
 

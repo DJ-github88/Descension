@@ -7,7 +7,7 @@
     bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     left: 50%;
     transform: translateX(-50%);
-    z-index: 10000;
+    z-index: 900; /* below window layer (windows start at 1000) so windows stack above the bar */
 
     /* Fallback parchment background (overridden by inline backgroundImage) */
     background:

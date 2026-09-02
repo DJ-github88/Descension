@@ -4102,3 +4102,31 @@
         inset 0 1px 0 rgba(212, 175, 55, 0.4),
         0 0 10px rgba(212, 175, 55, 0.45);
 }
+
+/* ===== ICON-ONLY COMPACT TABS (labels in tooltips + overflow menu) ===== */
+
+.char-tab-btn.icon-only {
+    min-width: 0 !important;
+    max-width: 68px !important;
+    flex: 0 0 auto !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+}
+
+.char-tab-btn.icon-only .char-tab-label {
+    display: none !important;
+}
+
+.char-tab-btn.icon-only .char-tab-icon {
+    margin: 0 !important;
+}
+
+.char-tab-btn.icon-only .char-tab-chevron {
+    margin-left: 4px !important;
+}
+
+.tab-dropdown-item .tab-icon-glyph {
+    width: 16px;
+    text-align: center;
+    font-size: 12px;
+}

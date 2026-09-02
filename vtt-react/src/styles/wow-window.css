@@ -33,6 +33,19 @@
     z-index: 10002 !important;
 }
 
+/* Maximize (full-view) button rules live at the END of this file so they win
+   the !important cascade against the later .window-close block. */
+
+/* Maximized (full view) state: fill the viewport, keep the 38px tab strip */
+.wow-window.wow-window-maximized {
+    margin-top: 38px !important;
+    max-width: none !important;
+    max-height: none !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    border-radius: 0 !important;
+}
+
 /* Modal backdrop: rendered by MythrillWindow when modal={true} and backdrop !== false.
    Sits at zIndex-1 (above regular windows, below the modal window itself). */
 .wow-window-modal-backdrop {
@@ -757,6 +770,41 @@
     z-index: 10002 !important;
 }
 
+/* Icon-only compact tabs (labels live in the â‹® dropdown / tooltips) */
+.spellbook-tab-button.tab-icon-only {
+    min-width: 44px !important;
+    max-width: 68px !important;
+    padding-left: clamp(8px, 1vw, 14px) !important;
+    padding-right: clamp(8px, 1vw, 14px) !important;
+    gap: 2px !important;
+}
+
+.spellbook-tab-button.tab-icon-only .tab-icon-img {
+    width: 20px !important;
+    height: 20px !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.spellbook-tab-button.tab-icon-only .tab-icon-glyph {
+    font-size: 15px;
+    line-height: 1;
+}
+
+.tab-dropdown-item .tab-icon-img {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    border-radius: 3px;
+}
+
+.tab-dropdown-item .tab-icon-glyph {
+    width: 16px;
+    text-align: center;
+    font-size: 12px;
+}
+
 /* ===== MOBILE FULLSCREEN WINDOWS ===== */
 @media (max-width: 768px) {
     /* Make windows fullscreen on mobile */
@@ -1433,4 +1481,26 @@
     opacity: 1;
     color: #ffffff;
     transform: translateX(3px);
-}
+}
+/* ===== MAXIMIZE / FULL-VIEW BUTTON =====
+   Must stay AFTER the .window-close block (and its mobile overrides) —
+   same-specificity !important rules resolve by source order, and
+   .window-close would otherwise pin this button underneath itself. */
+
+.wow-window .wow-window-maximize-btn {
+    right: 44px !important;
+    top: 6px !important;
+    z-index: 10002 !important;
+    font-size: 13px !important;
+}
+
+.wow-window .wow-window-maximize-btn i {
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    /* Mobile windows are already fullscreen — hide the redundant toggle */
+    .wow-window .wow-window-maximize-btn {
+        display: none !important;
+    }
+}

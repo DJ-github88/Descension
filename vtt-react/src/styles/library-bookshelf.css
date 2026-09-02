@@ -1,0 +1,498 @@
+/* ============================================================
+   LIBRARY BOOKCASE — one packed wooden shelf. Three section
+   tomes (Bestiary/Armory/Atlas) stand among nine readable
+   "hidden gem" tomes; hovering a gem teases it, clicking opens
+   a full outlined reading page. Drag surfaces: moldings +
+   shelf plank (.library-drag-handle) — tabs never drag.
+   Finish: matte leather, visible page blocks.
+   ============================================================ */
+
+.library-bookshelf {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #2a1a0d 0%, #36220f 22%, #2b1a0b 60%, #1e1005 100%);
+}
+
+/* --- carved wood moldings (drag handles) --- */
+.library-shelf-molding {
+  position: relative;
+  flex: 0 0 auto;
+  height: 16px;
+  cursor: grab;
+  background:
+    repeating-linear-gradient(90deg,
+      rgba(0, 0, 0, 0.14) 0 2px,
+      transparent 2px 26px),
+    linear-gradient(180deg, #5f4226 0%, #462d18 55%, #2c1b0c 100%);
+  border-bottom: 2px solid rgba(212, 175, 55, 0.22);
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.5);
+}
+
+.library-shelf-molding--bottom {
+  border-bottom: none;
+  border-top: 2px solid rgba(212, 175, 55, 0.22);
+  box-shadow: 0 -2px 7px rgba(0, 0, 0, 0.5);
+}
+
+.library-shelf-molding--thin {
+  height: 12px;
+}
+
+.library-shelf-molding:active {
+  cursor: grabbing;
+}
+
+.library-molding-hint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(212, 175, 55, 0.38);
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* --- the packed shelf row --- */
+.library-shelf-row {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 6px;
+  padding: 26px 30px 0;
+}
+
+/* --- tomes (shared by sections + hidden gems) --- */
+.library-book {
+  --tilt: 0deg;
+  --leather-a: #35200f;
+  --leather-b: #452a18;
+  --leather-c: #3b2413;
+  position: relative;
+  width: clamp(58px, 6.5vw, 80px);
+  height: clamp(190px, calc(100% - 22px), 310px);
+  margin: 0 4px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 5px 9px 3px 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background:
+    linear-gradient(90deg,
+      var(--leather-a) 0%,
+      var(--leather-b) 34%,
+      var(--leather-c) 62%,
+      var(--leather-b) 82%,
+      var(--leather-a) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.5),
+    inset -6px 0 10px rgba(0, 0, 0, 0.42),
+    0 7px 14px rgba(0, 0, 0, 0.5);
+  transform: rotate(var(--tilt));
+  transform-origin: bottom center;
+  transition: transform 0.3s cubic-bezier(0.34, 1.45, 0.5, 1), box-shadow 0.3s ease, filter 0.3s ease;
+  font-family: 'Cinzel', 'Trajan Pro', serif;
+}
+
+/* page block peeking out at the top of the covers */
+.library-book::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 8%;
+  right: 8%;
+  height: 6px;
+  border-radius: 4px 6px 0 0;
+  background: repeating-linear-gradient(180deg, #e6d9ba 0 1px, #c9b98f 1px 2px);
+  box-shadow: inset 0 -2px 2px rgba(0, 0, 0, 0.35);
+}
+
+/* page fore-edge on the outer side */
+.library-book::after {
+  content: '';
+  position: absolute;
+  top: 7px;
+  bottom: 9px;
+  right: -3px;
+  width: 4px;
+  border-radius: 0 2px 2px 0;
+  background: repeating-linear-gradient(90deg, #e6d9ba 0 1px, #c9b98f 1px 2px);
+  box-shadow: inset -1px 0 2px rgba(0, 0, 0, 0.35);
+}
+
+.library-book--creatures {
+  --leather-a: #301a0c;
+  --leather-b: #4c2a19;
+  --leather-c: #41220f;
+  --accent: #cf5947;
+  --tilt: -2deg;
+}
+
+.library-book--items {
+  --leather-a: #142238;
+  --leather-b: #23395c;
+  --leather-c: #1c2f4c;
+  --accent: #4a9bd4;
+  --tilt: 0.5deg;
+}
+
+.library-book--maps {
+  --leather-a: #122415;
+  --leather-b: #234830;
+  --leather-c: #1c3c26;
+  --accent: #3cc276;
+  --tilt: 2deg;
+}
+
+/* section tomes: grand volumes — taller, wider, gold-crowned */
+.library-book--creatures,
+.library-book--items,
+.library-book--maps {
+  width: clamp(66px, 7vw, 94px);
+  height: clamp(215px, calc(100% - 8px), 336px);
+  z-index: 1;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.5),
+    inset -6px 0 10px rgba(0, 0, 0, 0.42),
+    inset 0 0 0 2px rgba(212, 175, 55, 0.16),
+    0 7px 14px rgba(0, 0, 0, 0.55),
+    0 0 14px rgba(212, 175, 55, 0.1);
+}
+
+.library-book-crown {
+  flex: 0 0 auto;
+  padding-bottom: 10px;
+  color: #d4af37;
+  font-size: 9px;
+  line-height: 1;
+  text-shadow: 0 0 6px rgba(212, 175, 55, 0.45);
+  user-select: none;
+}
+
+/* grand tomes wear brighter gold */
+.library-book:not(.library-book--gem) .library-book-bands::after {
+  border-bottom-color: rgba(212, 175, 55, 0.6);
+}
+
+.library-book--creatures .library-book-title,
+.library-book--items .library-book-title,
+.library-book--maps .library-book-title {
+  color: #f0d78a;
+  text-shadow:
+    0 0 8px rgba(212, 175, 55, 0.35),
+    0 1px 2px rgba(0, 0, 0, 0.85);
+}
+
+.library-book--creatures .library-book-icon,
+.library-book--items .library-book-icon,
+.library-book--maps .library-book-icon {
+  opacity: 1;
+  filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.35));
+}
+
+/* hidden gems: clearly lesser volumes — smaller, dimmer, no gold tooling */
+.library-book--gem {
+  width: clamp(40px, 4.2vw, 56px);
+  height: clamp(148px, calc(100% - 84px), 232px);
+}
+
+.library-book--gem .library-book-bands {
+  display: none;
+}
+
+.library-book--gem .library-book-icon {
+  margin-top: 24px;
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+.library-book--gem .library-book-title {
+  font-size: clamp(8.5px, 0.85vw, 10.5px);
+  letter-spacing: 1.5px;
+  color: rgba(216, 196, 143, 0.55);
+  text-shadow: none;
+}
+
+/* gold tooled bands (matte) */
+.library-book-bands {
+  position: absolute;
+  top: 14px;
+  left: 12%;
+  right: 12%;
+  height: 12px;
+  pointer-events: none;
+  box-shadow: 0 14px 0 -6px rgba(212, 175, 55, 0.16);
+}
+
+.library-book-bands::before,
+.library-book-bands::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-top: 1px solid rgba(0, 0, 0, 0.45);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.34);
+}
+
+.library-book-bands::before { top: 0; }
+.library-book-bands::after { bottom: 0; }
+
+.library-book-icon {
+  margin-top: 42px;
+  color: var(--accent);
+  font-size: clamp(16px, 1.8vw, 21px);
+  opacity: 0.85;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+}
+
+.library-book-title {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  color: #d8c48f;
+  font-size: clamp(13px, 1.4vw, 17px);
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  padding: 10px 0 16px;
+  user-select: none;
+}
+
+/* pulling the tome out of the row */
+.library-book:hover,
+.library-book:focus-visible {
+  transform: translateX(-12px) translateY(-20px) rotate(-7deg) scale(1.04);
+  filter: brightness(1.06);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.5),
+    inset -6px 0 10px rgba(0, 0, 0, 0.42),
+    0 30px 34px rgba(0, 0, 0, 0.65),
+    0 0 12px rgba(212, 175, 55, 0.14);
+  z-index: 2;
+}
+
+.library-book:active {
+  transform: translateX(-8px) translateY(-14px) rotate(-5deg) scale(1.02);
+}
+
+/* --- the plank the row stands on (drag handle) --- */
+.library-shelf-plank {
+  flex: 0 0 auto;
+  height: 18px;
+  margin: 0 26px;
+  cursor: grab;
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(180deg, #5c3e24 0%, #452c16 45%, #30200e 100%);
+  border-top: 1px solid rgba(0, 0, 0, 0.4);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55);
+}
+
+.library-shelf-plank:active {
+  cursor: grabbing;
+}
+
+/* --- parchment note (portal to <body>, fixed position, viewport-clamped) --- */
+.library-book-note {
+  width: 280px;
+  padding: 11px 14px 12px;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(139, 100, 50, 0.12) 0%, transparent 40%),
+    linear-gradient(180deg, #f6ecd2 0%, #efe0bc 100%);
+  color: #4a3222;
+  border: 1px solid #b3925e;
+  border-radius: 5px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.5;
+  text-align: left;
+  pointer-events: none;
+  z-index: 10050;
+}
+
+.library-book-note--fixed {
+  position: fixed;
+}
+
+.library-book-note--fixed.library-book-note--above {
+  transform: translate(-50%, -100%) rotate(-0.6deg);
+}
+
+.library-book-note--fixed.library-book-note--below {
+  transform: translate(-50%, 0) rotate(-0.6deg);
+}
+
+.library-book-note-title {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #6b4423;
+  margin-bottom: 5px;
+  padding-bottom: 4px;
+  border-bottom: 1px dashed rgba(107, 68, 35, 0.4);
+}
+
+.library-book-note-open {
+  display: block;
+  margin-top: 7px;
+  font-family: 'Cinzel', serif;
+  font-style: normal;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #8a6a2a;
+}
+
+/* tabs stay clickable — never drag handles in the library window */
+.library-window .window-header {
+  cursor: default !important;
+}
+
+.library-window .spellbook-tab-button {
+  cursor: pointer !important;
+}
+
+/* ============================================================
+   READING PAGE — opened from a hidden-gem tome
+   ============================================================ */
+
+.library-book-page {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 26px 30px 36px;
+  background: linear-gradient(180deg, #241507 0%, #1a0e04 100%);
+}
+
+.library-book-page-sheet {
+  max-width: 780px;
+  margin: 0 auto;
+  position: relative;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(139, 100, 50, 0.1) 0%, transparent 35%),
+    linear-gradient(180deg, #f6ecd2 0%, #efe0bc 100%);
+  border: 2px solid #8b6f47;
+  border-radius: 4px;
+  box-shadow:
+    0 16px 34px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 5px rgba(239, 224, 188, 1),
+    inset 0 0 0 6px rgba(179, 146, 94, 0.65),
+    inset 0 0 46px rgba(139, 111, 71, 0.14);
+  padding: 36px 46px 28px;
+  color: #3d2b1d;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.library-book-page-ornament {
+  text-align: center;
+  color: #a68b52;
+  font-size: 18px;
+  letter-spacing: 12px;
+  margin-bottom: 6px;
+}
+
+.library-book-page-title {
+  margin: 0;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(20px, 2.4vw, 28px);
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #5a1e12;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.library-book-page-subtitle {
+  margin: 6px 0 0;
+  text-align: center;
+  font-style: italic;
+  font-size: 13px;
+  color: #7a5a3a;
+}
+
+.library-book-page-rule {
+  height: 3px;
+  margin: 18px auto 6px;
+  width: 200px;
+  background: linear-gradient(90deg, transparent, #a68b52 50%, transparent);
+  border-radius: 2px;
+}
+
+.library-book-page-section h3 {
+  margin: 24px 0 8px;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #7a3b2e;
+  border-bottom: 1px solid rgba(139, 111, 71, 0.35);
+  padding-bottom: 4px;
+}
+
+.library-book-page-section p {
+  margin: 0 0 12px;
+  font-size: 13.5px;
+  line-height: 1.75;
+}
+
+.library-book-page-section ul {
+  margin: 0 0 12px;
+  padding-left: 22px;
+}
+
+.library-book-page-section li {
+  margin: 7px 0;
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.library-book-page-section li::marker {
+  color: #a68b52;
+}
+
+.library-book-page-section:first-of-type p:first-of-type::first-letter {
+  font-family: 'Cinzel', serif;
+  font-size: 32px;
+  line-height: 1;
+  float: left;
+  padding: 3px 7px 0 0;
+  color: #5a1e12;
+}
+
+.library-book-page-footer {
+  margin-top: 28px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(139, 111, 71, 0.45);
+  text-align: center;
+  font-size: 10.5px;
+  font-style: italic;
+  color: #8a6a45;
+  user-select: none;
+}

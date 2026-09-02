@@ -48,6 +48,33 @@ const ELEMENT_DETAILS = {
 
 const ITEMS_PER_PAGE = 18;
 
+// Stable, flattened creature list computed ONCE at module load.
+// Object.assign keeps the original creature object identity stable, so
+// memoized cards skip re-renders during filtering/search (no object churn).
+// The pre-lowercased _haystack turns per-keystroke search into a single
+// includes() per creature instead of ~11 toLowerCase+includes calls.
+const ALL_CREATURES = BESTIARY_DATA.regions.flatMap(r =>
+  (r.creatures || []).map(c => {
+    const folk = c.folkloreInspiration || {};
+    const haystack = [
+      c.name,
+      c.role,
+      c.origin,
+      c.nature,
+      c.heritage,
+      r.name,
+      Array.isArray(folk.traditions) ? folk.traditions.join(' ') : folk.traditions,
+      folk.primaryMyth,
+      folk.cryptidRoots,
+      folk.description,
+      folk.settingAdaptation
+    ].map(v => (typeof v === 'string' ? v : '')).join(' ').toLowerCase();
+    return Object.assign(c, { regionName: r.name, regionId: r.id, _haystack: haystack });
+  })
+);
+
+const REGIONS_BY_ID = new Map(BESTIARY_DATA.regions.map(r => [r.id, r]));
+
 // Core Helper Functions
 const calculateModifier = (value) => {
   return Math.floor((value - 10) / 2);
@@ -191,61 +218,43 @@ const BestiaryDisplay = () => {
   const [selectedRegion, setSelectedRegion] = useState(BESTIARY_DATA.regions[0].id);
   const [selectedDanger, setSelectedDanger] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [selectedCreature, setSelectedCreature] = useState(null);
   const [activeTab, setActiveTab] = useState('lore'); // 'lore' | 'combat' | 'tactics'
 
   const sentinelRef = useRef(null);
 
+  // Debounce search so typing does not filter 190+ creatures on every keystroke
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedSearchQuery(searchQuery), 180);
+    return () => clearTimeout(t);
+  }, [searchQuery]);
+
   // Total creatures count across all regions
   const totalCreaturesCount = useMemo(() => {
     return BESTIARY_DATA.regions.reduce((acc, r) => acc + (r.creatures?.length || 0), 0);
   }, []);
 
-  // Pre-filter creatures based on selected continent, danger, and search query
+  // Pre-filter creatures based on selected continent, danger, and search query.
+  // Filters operate on the stable module-level ALL_CREATURES list — items keep
+  // their identity so memoized cards do not re-render unless actually new.
   const filteredCreatures = useMemo(() => {
-    let list = [];
-    if (selectedRegion === 'all') {
-      list = BESTIARY_DATA.regions.flatMap(r => 
-        (r.creatures || []).map(c => ({ ...c, regionName: r.name, regionId: r.id }))
-      );
-    } else {
-      const reg = BESTIARY_DATA.regions.find(r => r.id === selectedRegion);
-      list = (reg?.creatures || []).map(c => ({ ...c, regionName: reg.name, regionId: reg.id }));
+    const base = selectedRegion === 'all'
+      ? ALL_CREATURES
+      : (REGIONS_BY_ID.get(selectedRegion)?.creatures || []);
+
+    let result = selectedDanger !== 'all'
+      ? base.filter(c => c.dangerLevel === selectedDanger)
+      : base;
+
+    const q = debouncedSearchQuery.trim().toLowerCase();
+    if (q) {
+      result = result.filter(c => c._haystack && c._haystack.includes(q));
     }
 
-    if (selectedDanger !== 'all') {
-      list = list.filter(c => c.dangerLevel === selectedDanger);
-    }
-
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase().trim();
-      list = list.filter(c => {
-        const folk = c.folkloreInspiration || {};
-        const folkTrad = Array.isArray(folk.traditions) ? folk.traditions.join(' ').toLowerCase() : '';
-        const folkMyth = (folk.primaryMyth || '').toLowerCase();
-        const folkCryptid = (folk.cryptidRoots || '').toLowerCase();
-        const folkDesc = (folk.description || '').toLowerCase();
-        const folkAdapt = (folk.settingAdaptation || '').toLowerCase();
-
-        return (
-          (c.name && c.name.toLowerCase().includes(q)) ||
-          (c.role && c.role.toLowerCase().includes(q)) ||
-          (c.origin && c.origin.toLowerCase().includes(q)) ||
-          (c.nature && c.nature.toLowerCase().includes(q)) ||
-          (c.heritage && c.heritage.toLowerCase().includes(q)) ||
-          (c.regionName && c.regionName.toLowerCase().includes(q)) ||
-          folkTrad.includes(q) ||
-          folkMyth.includes(q) ||
-          folkCryptid.includes(q) ||
-          folkDesc.includes(q) ||
-          folkAdapt.includes(q)
-        );
-      });
-    }
-
-    return list;
-  }, [selectedRegion, selectedDanger, searchQuery]);
+    return result;
+  }, [selectedRegion, selectedDanger, debouncedSearchQuery]);
 
   // Progressive slice for low-overhead rendering
   const displayedCreatures = useMemo(() => {
@@ -472,6 +481,7 @@ const BestiaryDisplay = () => {
                         <img
                           src={currentCreature.illustration}
                           alt={currentCreature.illustrationCaption || currentCreature.name}
+                          loading="lazy"
                           decoding="async"
                           onError={(e) => {
                             e.target.onerror = null;

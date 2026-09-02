@@ -71,7 +71,7 @@ const getBadgeForCategory = (catId, subId) => {
   }
   if (catId === 'equipment-system') return { badge: 'Equipment', filter: 'equipment', color: '#f39c12' };
   if (catId === 'travel-exploration') return { badge: 'Travel', filter: 'travel', color: '#16a085' };
-  return { badge: 'Rules', filter: 'rules', color: '#d4af37' };
+  return { badge: 'Laws & Lore', filter: 'rules', color: '#d4af37' };
 };
 
 // Build a flat search index from all rules & lore content
