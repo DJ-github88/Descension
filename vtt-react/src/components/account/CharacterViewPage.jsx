@@ -778,8 +778,8 @@ const CharacterViewPage = () => {
                         <div className="exhaustion-stages-title">Exhaustion Stages & Penalties:</div>
                         {[
                           { lvl: 0, label: 'Stage 0', effect: 'Healthy - No exhaustion penalties apply.' },
-                          { lvl: 1, label: 'Stage 1', effect: 'Disadvantage on all ability checks.' },
-                          { lvl: 2, label: 'Stage 2', effect: 'Movement speed is halved & disadvantage on checks.' },
+                          { lvl: 1, label: 'Stage 1', effect: 'Disadvantage on ALL skill checks.' },
+                          { lvl: 2, label: 'Stage 2', effect: 'Movement speed is halved & disadvantage on ALL skill checks.' },
                           { lvl: 3, label: 'Stage 3', effect: 'Disadvantage on attack rolls and saving throws.' },
                           { lvl: 4, label: 'Stage 4', effect: 'Maximum hit points are halved.' },
                           { lvl: 5, label: 'Stage 5', effect: 'Movement speed reduced to 0.' },

@@ -12,7 +12,7 @@ import ItemTooltip from '../item-generation/ItemTooltip';
 import UnequipContextMenu from '../equipment/UnequipContextMenu';
 import DurabilityAdjustModal from '../item-generation/DurabilityAdjustModal';
 import { isOffHandDisabled, normalizeEquipment } from '../../utils/equipmentUtils';
-import { calculateDerivedStats } from '../../utils/characterUtils';
+import { calculateDerivedStats, getExhaustionEffectsList } from '../../utils/characterUtils';
 import { getClassResourceConfig } from '../../data/classResources';
 import { getRaceList, getSubraceList, getRacialSavingThrowModifiers } from '../../data/raceData';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../spellcrafting-wizard/context/SpellLibraryContext';
@@ -1692,6 +1692,26 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
             {/* Identity Header - centered name / race / class card */}
             {renderIdentityHeader()}
 
+            {/* Exhaustion status banner: surfaces active penalties right next to the stats (mobile friendly) */}
+            {(exhaustionLevel || 0) > 0 && (() => {
+                const exhEffects = getExhaustionEffectsList(exhaustionLevel || 0);
+                const severity = Math.min(6, exhaustionLevel || 0);
+                return (
+                    <div
+                        className={`exhaustion-status-banner severity-${severity}`}
+                        title={exhEffects.map(e => e.full).join(' • ')}
+                    >
+                        <i className={`fas ${severity >= 6 ? 'fa-skull' : 'fa-face-tired'} exhaustion-status-icon`}></i>
+                        <div className="exhaustion-status-text">
+                            <span className="exhaustion-status-title">Exhaustion Level {severity}</span>
+                            <span className="exhaustion-status-effects">
+                                {exhEffects.map(e => e.short).join(' · ')}
+                            </span>
+                        </div>
+                    </div>
+                );
+            })()}
+
             <div className="equipment-with-sides">
                 {/* LEFT SIDE: base stats + melee/physical stats */}
                 <aside className="equipment-side equipment-side--left" data-column-label="Attributes">
@@ -2114,7 +2134,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                 className="exhaustion-select"
                             >
                                 <option value="0">Level 0: Normal</option>
-                                <option value="1">Level 1: Disadvantage on checks</option>
+                                <option value="1">Level 1: Disadvantage on ALL skill checks</option>
                                 <option value="2">Level 2: Speed halved</option>
                                 <option value="3">Level 3: Disadvantage on attacks/saves</option>
                                 <option value="4">Level 4: Max HP halved</option>
@@ -2132,8 +2152,8 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                         </div>
                         <div className="effect-description">
                             {(exhaustionLevel || 0) === 0 && "Active and healthy. You suffer no exhaustion penalties."}
-                            {(exhaustionLevel || 0) === 1 && "Level 1: You have disadvantage on all ability checks."}
-                            {(exhaustionLevel || 0) === 2 && "Level 2: Your movement speed is halved (and disadvantage on checks)."}
+                            {(exhaustionLevel || 0) === 1 && "Level 1: Disadvantage on ALL skill checks."}
+                            {(exhaustionLevel || 0) === 2 && "Level 2: Your movement speed is halved (and disadvantage on ALL skill checks)."}
                             {(exhaustionLevel || 0) === 3 && "Level 3: You have disadvantage on attack rolls and saving throws."}
                             {(exhaustionLevel || 0) === 4 && "Level 4: Your maximum hit points are halved."}
                             {(exhaustionLevel || 0) === 5 && "Level 5: Your movement speed is reduced to 0."}
@@ -2710,8 +2730,8 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                     <div className="exhaustion-tooltip-title">Exhaustion Effect</div>
                                     <div className="exhaustion-tooltip-text">
                                         {(exhaustionLevel || 0) === 0 && "You are active and healthy. No exhaustion penalties apply."}
-                                        {(exhaustionLevel || 0) === 1 && "Level 1: Disadvantage on all ability checks."}
-                                        {(exhaustionLevel || 0) === 2 && "Level 2: Speed halved, disadvantage on ability checks."}
+                                        {(exhaustionLevel || 0) === 1 && "Level 1: Disadvantage on ALL skill checks."}
+                                        {(exhaustionLevel || 0) === 2 && "Level 2: Speed halved, disadvantage on ALL skill checks."}
                                         {(exhaustionLevel || 0) === 3 && "Level 3: Disadvantage on attack rolls and saving throws."}
                                         {(exhaustionLevel || 0) === 4 && "Level 4: Maximum hit points are halved."}
                                         {(exhaustionLevel || 0) === 5 && "Level 5: Movement speed reduced to 0."}

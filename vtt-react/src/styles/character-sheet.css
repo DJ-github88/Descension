@@ -4994,6 +4994,92 @@ body.resource-controls-open .character-sheet {
     line-height: 1.5;
 }
 
+/* Exhaustion status banner — compact penalty summary shown with the stats
+   (equipment section top). Visible in both the room sheet and character view. */
+.exhaustion-status-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 640px;
+    margin: -6px auto 10px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(255, 236, 236, 0.92) 0%, rgba(245, 215, 215, 0.88) 100%);
+    border: 1px solid rgba(168, 50, 50, 0.4);
+    box-shadow: 0 2px 6px rgba(90, 30, 18, 0.1);
+    cursor: help;
+    box-sizing: border-box;
+}
+
+.exhaustion-status-icon {
+    font-size: 16px;
+    color: #a83232;
+    flex-shrink: 0;
+}
+
+.exhaustion-status-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.exhaustion-status-title {
+    font-family: 'Cinzel', serif;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #8a1a1a;
+    line-height: 1.3;
+}
+
+.exhaustion-status-effects {
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 11px;
+    color: #6b3a3a;
+    line-height: 1.4;
+}
+
+/* Severity tinting: escalate background/border toward red, black at death */
+.exhaustion-status-banner.severity-1 { border-color: rgba(139, 195, 74, 0.5); background: linear-gradient(135deg, rgba(244, 252, 234, 0.92) 0%, rgba(228, 244, 208, 0.88) 100%); }
+.exhaustion-status-banner.severity-1 .exhaustion-status-icon,
+.exhaustion-status-banner.severity-1 .exhaustion-status-title { color: #4a7a1e; }
+.exhaustion-status-banner.severity-1 .exhaustion-status-effects { color: #556b3a; }
+.exhaustion-status-banner.severity-2 { border-color: rgba(230, 160, 0, 0.5); background: linear-gradient(135deg, rgba(255, 248, 225, 0.92) 0%, rgba(250, 235, 190, 0.88) 100%); }
+.exhaustion-status-banner.severity-2 .exhaustion-status-icon,
+.exhaustion-status-banner.severity-2 .exhaustion-status-title { color: #9c6b00; }
+.exhaustion-status-banner.severity-2 .exhaustion-status-effects { color: #7a5a20; }
+.exhaustion-status-banner.severity-3 { border-color: rgba(255, 130, 40, 0.5); background: linear-gradient(135deg, rgba(255, 240, 225, 0.92) 0%, rgba(250, 220, 195, 0.88) 100%); }
+.exhaustion-status-banner.severity-3 .exhaustion-status-icon,
+.exhaustion-status-banner.severity-3 .exhaustion-status-title { color: #b34a00; }
+.exhaustion-status-banner.severity-4 { border-color: rgba(220, 60, 50, 0.5); }
+.exhaustion-status-banner.severity-5 { border-color: rgba(160, 25, 25, 0.6); background: linear-gradient(135deg, rgba(255, 228, 228, 0.95) 0%, rgba(240, 195, 195, 0.9) 100%); }
+.exhaustion-status-banner.severity-6 { border-color: #1a1a1a; background: linear-gradient(135deg, rgba(40, 40, 40, 0.95) 0%, rgba(15, 15, 15, 0.95) 100%); }
+.exhaustion-status-banner.severity-6 .exhaustion-status-icon { color: #ff6b6b; }
+.exhaustion-status-banner.severity-6 .exhaustion-status-title { color: #eee; }
+.exhaustion-status-banner.severity-6 .exhaustion-status-effects { color: #bbb; }
+
+@media (max-width: 768px) {
+    .exhaustion-status-banner {
+        margin-top: 0;
+        padding: 6px 10px;
+        gap: 8px;
+    }
+
+    .exhaustion-status-icon {
+        font-size: 14px;
+    }
+
+    .exhaustion-status-title {
+        font-size: 10.5px;
+    }
+
+    .exhaustion-status-effects {
+        font-size: 10px;
+    }
+}
+
 .character-fields {
     display: flex;
     flex-direction: column;

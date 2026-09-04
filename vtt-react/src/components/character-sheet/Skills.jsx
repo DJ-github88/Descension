@@ -6,7 +6,7 @@ import { SKILL_QUESTS } from '../../constants/skillQuests';
 import { WEAPON_TYPE_QUEST_DATA } from '../../constants/weaponTypeQuests';
 import { WEAPON_TYPE_META } from '../../constants/weaponTypeMeta';
 import { ROLLABLE_TABLES } from '../../constants/rollableTables';
-import { calculateStatModifier } from '../../utils/characterUtils';
+import { calculateStatModifier, getEffectiveSkillRollMode, getExhaustionEffectsList } from '../../utils/characterUtils';
 import { showAchievementNotification } from '../../utils/achievementNotification';
 import usePresenceStore from '../../store/presenceStore';
 import useSettingsStore from '../../store/settingsStore';
@@ -74,6 +74,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
         equipmentBonuses,
         skillProgress = {},
         skillRanks = {},
+        exhaustionLevel,
         updateSkillProgress,
         setSkillRank
     } = dataSource;
@@ -117,10 +118,8 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
     // Per-skill roll mode: 'normal' | 'advantage' | 'disadvantage'.
     // Advantage rolls 2× the die and keeps the better outcome; disadvantage
     // keeps the worse. Applies to both simple (DC) and table skill rolls.
+    // (getRollMode / setRollMode are defined below, next to ROLL_MODES.)
     const [rollModeBySkill, setRollModeBySkill] = useState({});
-    const getRollMode = (skillId) => rollModeBySkill[skillId] || 'normal';
-    const setRollMode = (skillId, mode) =>
-        setRollModeBySkill((prev) => ({ ...prev, [skillId]: mode }));
 
     const WEAPON_TYPE_LABELS = {
         sword: 'Sword',
@@ -638,7 +637,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
         const rank = isWeaponMastery ? getWeaponTypeRank(selectedWeaponType) : getSkillRank(skillId);
         const dieSize = DIE_SIZE_MAP[rank.key] || 4;
         const dieType = `d${dieSize}`;
-        const mode = getRollMode(skillId);
+        const mode = getEffectiveRollMode(skillId);
         const quantity = QUANTITY_BY_MODE[mode] || 1;
         const modBreakdown = getSkillModifierBreakdown(skillObj, skillId);
 
@@ -665,7 +664,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
         const isWeaponMastery = (skillId || selectedSkill) === 'weaponMastery';
         const dieKey = isWeaponMastery ? 'd8' : selectedDie;
         const tableId = getCurrentRollableTable(skillObj, skillId, rank.key, dieKey);
-        const mode = getRollMode(skillId);
+        const mode = getEffectiveRollMode(skillId);
         const quantity = QUANTITY_BY_MODE[mode] || 1;
         const modBreakdown = getSkillModifierBreakdown(skillObj, skillId);
 
@@ -693,34 +692,61 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
     // Five-state roll-mode toggle. Persists per skill in component state
     // (lost on full page reload). The selected mode rolls 1, 2, or 3 dice
     // and the "kept" value is the highest (advantage) or lowest (disadvantage).
+    // Exhaustion level 1+ forces a step of disadvantage that cancels against
+    // the selected mode (5e convention) via getEffectiveSkillRollMode.
     const ROLL_MODES = [
-        { key: 'normal',               label: 'Normal',           icon: 'fa-minus',           desc: 'Roll the die normally.' },
-        { key: 'advantage',            label: 'Advantage',        icon: 'fa-arrow-trend-up',  desc: 'Roll 2 dice, keep the highest.' },
-        { key: 'double-advantage',     label: 'Double Advantage', icon: 'fa-angles-up',       desc: 'Roll 3 dice, keep the highest.' },
-        { key: 'disadvantage',         label: 'Disadvantage',     icon: 'fa-arrow-trend-down',desc: 'Roll 2 dice, keep the lowest.' },
-        { key: 'double-disadvantage',  label: 'Double Disadvantage', icon: 'fa-angles-down', desc: 'Roll 3 dice, keep the lowest.' },
+        { key: 'normal',               label: 'Normal',              icon: 'fa-minus',           desc: 'Roll the die normally.' },
+        { key: 'advantage',            label: 'Advantage',           icon: 'fa-arrow-trend-up',  desc: 'Roll 2 dice, keep the highest.' },
+        { key: 'double-advantage',     label: 'Double Advantage',    icon: 'fa-angles-up',       desc: 'Roll 3 dice, keep the highest.' },
+        { key: 'disadvantage',         label: 'Disadvantage',        icon: 'fa-arrow-trend-down',desc: 'Roll 2 dice, keep the lowest.' },
+        { key: 'double-disadvantage',  label: 'Double Disadvantage', icon: 'fa-angles-down',     desc: 'Roll 3 dice, keep the lowest.' },
     ];
 
-    const cycleRollMode = (skillId) => {
-        const mode = getRollMode(skillId);
-        const currentIndex = ROLL_MODES.findIndex((m) => m.key === mode);
-        const nextIndex = (currentIndex + 1) % ROLL_MODES.length;
-        setRollMode(skillId, ROLL_MODES[nextIndex].key);
+    const getRollMode = (skillId) => rollModeBySkill[skillId] || 'normal';
+
+    // Effective mode after exhaustion cancellation (exhaustion 1+ = forced
+    // disadvantage step on ALL skill checks; level 6 = dead, rolls moot).
+    const getEffectiveRollMode = (skillId) => {
+        const { mode } = getEffectiveSkillRollMode(getRollMode(skillId), exhaustionLevel || 0);
+        return mode;
     };
+
+    const setRollMode = (skillId, mode) =>
+        setRollModeBySkill((prev) => ({ ...prev, [skillId]: mode }));
 
     const renderRollModeToggle = (skillId) => {
         const mode = getRollMode(skillId);
         const currentMode = ROLL_MODES.find((m) => m.key === mode) || ROLL_MODES[0];
+        const effective = getEffectiveRollMode(skillId);
+        const { forcedByExhaustion } = getEffectiveSkillRollMode(mode, exhaustionLevel || 0);
         return (
-            <button
-                type="button"
-                className={`single-roll-mode-btn mode-${currentMode.key}`}
-                onClick={() => cycleRollMode(skillId)}
-                title={`Click to cycle: ${currentMode.label} (${currentMode.desc})`}
+            <select
+                className={`single-roll-mode-btn single-roll-mode-select mode-${effective}`}
+                value={mode}
+                onChange={(e) => setRollMode(skillId, e.target.value)}
+                title={`${currentMode.label}: ${currentMode.desc}${forcedByExhaustion ? ' • Exhaustion cancels part of this mode' : ''}`}
+                aria-label="Roll mode"
             >
-                <i className={`fas ${currentMode.icon}`}></i>
-                <span className="single-roll-mode-label">{currentMode.label}</span>
-            </button>
+                {ROLL_MODES.map((m) => (
+                    <option key={m.key} value={m.key}>{m.label}</option>
+                ))}
+            </select>
+        );
+    };
+
+    // Compact exhaustion notice shown next to the roll controls when the
+    // current exhaustion level imposes disadvantage on all skill checks.
+    const renderExhaustionRollNote = () => {
+        const lvl = exhaustionLevel || 0;
+        if (lvl < 1 || lvl >= 6) return null;
+        return (
+            <div
+                className="skill-exhaustion-note"
+                title={getExhaustionEffectsList(lvl).map(e => e.full).join(' • ')}
+            >
+                <i className="fas fa-face-tired"></i>
+                <span>Exhaustion Level {lvl}: Disadvantage on ALL skill checks</span>
+            </div>
         );
     };
 
@@ -877,6 +903,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                         <div className="skill-simple-actions-block">
                             <div className="skill-action-mode-wrap">
                                 {renderRollModeToggle(selectedSkill)}
+                                {renderExhaustionRollNote()}
                             </div>
                             <ChargeableRollButton
                                 className="roll-table-btn skill-hero-roll-btn"
@@ -963,6 +990,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                 >
                                     <i className="fas fa-dice"></i> Roll
                                 </ChargeableRollButton>
+                                {renderExhaustionRollNote()}
                             </div>
                         )}
                     </div>

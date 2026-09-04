@@ -1939,20 +1939,23 @@
 
 .skill-action-mode-wrap {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
     justify-content: center;
+    gap: 4px;
 }
 
-/* Single Roll Mode Cycle Button */
+/* Single Roll Mode Select — compact direct-choice dropdown */
 .single-roll-mode-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
-    padding: 6px 14px;
-    border-radius: 8px;
+    padding: 5px 12px;
+    border-radius: 7px;
     font-family: 'Cinzel', serif;
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 700;
     letter-spacing: 0.5px;
     text-transform: uppercase;
@@ -1964,6 +1967,23 @@
     box-shadow: 0 2px 5px rgba(0,0,0,0.08);
     width: 100%;
     box-sizing: border-box;
+}
+
+/* Select-specific resets so the dropdown matches the old pill look */
+.single-roll-mode-btn.single-roll-mode-select {
+    appearance: auto;
+    -webkit-appearance: auto;
+    text-align: center;
+    text-align-last: center;
+    line-height: 1.4;
+}
+
+.single-roll-mode-btn.single-roll-mode-select option {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    text-transform: none;
+    background: #fdf9ef;
+    color: #5c4033;
 }
 
 .single-roll-mode-btn:hover {
@@ -1993,6 +2013,31 @@
     border-color: #a83232;
     background: linear-gradient(135deg, rgba(255, 220, 220, 0.95) 0%, rgba(240, 180, 180, 0.85) 100%);
     color: #8a1a1a;
+}
+
+/* Exhaustion disadvantage notice next to the roll controls */
+.skill-exhaustion-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: rgba(168, 50, 50, 0.1);
+    border: 1px solid rgba(168, 50, 50, 0.35);
+    color: #8a1a1a;
+    font-family: 'Cinzel', serif;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.3;
+    cursor: help;
+}
+
+.skill-exhaustion-note i {
+    color: #a83232;
+    flex-shrink: 0;
 }
 
 /* Hero Roll Button */
@@ -2633,13 +2678,21 @@
         justify-self: start !important;
         display: flex !important;
         width: auto !important;
+        max-width: 100%;
     }
 
     .single-roll-mode-btn {
-        padding: 6px 10px !important;
-        font-size: 10.5px !important;
+        padding: 4px 8px !important;
+        font-size: 10px !important;
         gap: 4px !important;
         width: auto !important;
+        max-width: 100%;
+    }
+
+    .skill-exhaustion-note {
+        max-width: 100%;
+        font-size: 8.5px !important;
+        padding: 2px 6px !important;
     }
 
     .skill-simple-actions-block .roll-table-btn.skill-hero-roll-btn {

@@ -735,6 +735,66 @@ export function getExhaustionDisadvantages(exhaustionLevel = 0) {
 }
 
 /**
+ * Get the cumulative, player-facing list of active exhaustion effects.
+ * Effects are cumulative (D&D-5e style), so higher levels include all lower ones.
+ * Level 6 (death) overrides everything.
+ * @param {number} exhaustionLevel - Current exhaustion level (0-6)
+ * @returns {Array<{short: string, full: string}>} Active effects, ordered by level
+ */
+export function getExhaustionEffectsList(exhaustionLevel = 0) {
+  const lvl = Math.max(0, Math.min(6, exhaustionLevel || 0));
+  if (lvl >= 6) {
+    return [{ short: 'Dead', full: 'Exhaustion Level 6: Instant death' }];
+  }
+  const effects = [];
+  if (lvl >= 1) effects.push({ short: 'Disadvantage on ALL skill checks', full: 'Exhaustion Level 1: Disadvantage on ALL skill checks' });
+  if (lvl >= 2) effects.push({ short: 'Speed halved', full: 'Exhaustion Level 2: Movement speed halved' });
+  if (lvl >= 3) effects.push({ short: 'Disadvantage on attack rolls & saving throws', full: 'Exhaustion Level 3: Disadvantage on attack rolls and saving throws' });
+  if (lvl >= 4) effects.push({ short: 'Max HP halved', full: 'Exhaustion Level 4: Maximum hit points halved' });
+  if (lvl >= 5) effects.push({ short: 'Speed reduced to 0', full: 'Exhaustion Level 5: Movement speed reduced to 0' });
+  return effects;
+}
+
+/**
+ * Resolve the effective skill roll mode when exhaustion forces disadvantage
+ * on all ability checks (level 1+). Exhaustion contributes 1 step of
+ * disadvantage; the player-selected mode contributes its own advantage /
+ * disadvantage steps, and opposing steps cancel each other out
+ * (5e convention: advantage + disadvantage = normal).
+ *
+ * @param {string} userMode - 'normal' | 'advantage' | 'double-advantage' | 'disadvantage' | 'double-disadvantage'
+ * @param {number} exhaustionLevel - Current exhaustion level (0-6)
+ * @returns {{ mode: string, forcedByExhaustion: boolean, altered: boolean }}
+ *   mode: effective mode to roll with.
+ *   forcedByExhaustion: true when exhaustion pushed the net result to disadvantage.
+ *   altered: true when the effective mode differs from the user-selected one.
+ */
+export function getEffectiveSkillRollMode(userMode = 'normal', exhaustionLevel = 0) {
+  const MODE_TO_STEPS = {
+    'normal': 0,
+    'advantage': 1,
+    'double-advantage': 2,
+    'disadvantage': -1,
+    'double-disadvantage': -2
+  };
+  const STEPS_TO_MODE = {
+    '2': 'double-advantage',
+    '1': 'advantage',
+    '0': 'normal',
+    '-1': 'disadvantage',
+    '-2': 'double-disadvantage'
+  };
+  const exhaustionDisadvantage = (exhaustionLevel || 0) >= 1 && (exhaustionLevel || 0) < 6 ? -1 : 0;
+  const net = Math.max(-2, Math.min(2, (MODE_TO_STEPS[userMode] || 0) + exhaustionDisadvantage));
+  const mode = STEPS_TO_MODE[String(net)];
+  return {
+    mode,
+    forcedByExhaustion: exhaustionDisadvantage !== 0 && net < 0,
+    altered: mode !== userMode
+  };
+}
+
+/**
  * Check if a character should have disadvantage on ability checks due to exhaustion
  * @param {number} exhaustionLevel - Current exhaustion level
  * @returns {boolean} True if disadvantage applies
