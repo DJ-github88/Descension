@@ -21,7 +21,7 @@ export const EDITOR_TABS = {
             { id: 'select', name: 'Select', icon: 'Utility/Target Crosshair', cursor: 'default' },
             { id: 'area_remove', name: 'Area Remove', icon: 'Utility/Broken', cursor: 'crosshair' },
             { id: 'freehand', name: 'Freehand', icon: 'Utility/Utility Tool', cursor: 'crosshair' },
-            { id: 'line', name: 'Line', icon: 'Piercing/Piercing Shot', cursor: 'crosshair' },
+            { id: 'line', name: 'Line', icon: 'Piercing/Piercing Shots', cursor: 'crosshair' },
             { id: 'rectangle', name: 'Rectangle', icon: 'Utility/Utility', cursor: 'crosshair' },
             { id: 'circle', name: 'Circle', icon: 'Arcane/Orb Manipulation', cursor: 'crosshair' },
             { id: 'polygon', name: 'Polygon', icon: 'Utility/Utility', cursor: 'crosshair' },
@@ -34,7 +34,7 @@ export const EDITOR_TABS = {
         icon: 'fas fa-cubes',
         tools: [
             { id: 'wall_draw', name: 'Draw Wall', icon: 'Utility/Barred Shield', cursor: 'crosshair' },
-            { id: 'door_place', name: 'Place Door', icon: 'Utility/Lockpick', cursor: 'crosshair' },
+            { id: 'door_place', name: 'Place Door', icon: 'General/Lockpick', cursor: 'crosshair' },
             { id: 'window_place', name: 'Place Window', icon: 'Utility/All Seeing Eye', cursor: 'crosshair' },
             { id: 'barrier_magic', name: 'Magic Barrier', icon: 'Arcane/Orb Manipulation', cursor: 'crosshair' },
             { id: 'wall_select', name: 'Select', icon: 'Utility/Target Crosshair', cursor: 'pointer' },
@@ -45,10 +45,10 @@ export const EDITOR_TABS = {
         name: 'Fog',
         icon: 'fas fa-smog',
         tools: [
-            { id: 'fog_draw', name: 'Draw Fog', icon: 'Shadow/Shadow Invisibility', cursor: 'crosshair' },
+            { id: 'fog_draw', name: 'Draw Fog', icon: 'Utility/Hide', cursor: 'crosshair' },
             { id: 'fog_erase', name: 'Erase Fog', icon: 'Utility/Broken', cursor: 'crosshair' },
             { id: 'fog_clear_all', name: 'Clear All Fog', icon: 'Radiant/Radiant Sunburst', cursor: 'crosshair' },
-            { id: 'fog_cover_map', name: 'Cover Entire Map', icon: 'Shadow/Shadow Darkness', cursor: 'crosshair' }
+            { id: 'fog_cover_map', name: 'Cover Entire Map', icon: 'Necrotic/Gloomy Death', cursor: 'crosshair' }
         ]
     },
     objects: {
@@ -76,7 +76,7 @@ export const EDITOR_TABS = {
         name: 'Lighting',
         icon: 'fas fa-lightbulb',
         tools: [
-            { id: 'lighting_settings', name: 'Lighting Settings', icon: 'Arcane/Arcane Brilliance', cursor: 'default' }
+            { id: 'lighting_settings', name: 'Lighting Settings', icon: 'Arcane/Empowering Growth', cursor: 'default' }
         ]
     }
 };

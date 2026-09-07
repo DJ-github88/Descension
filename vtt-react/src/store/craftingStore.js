@@ -24,21 +24,21 @@ export const PROFESSIONS = {
     id: 'alchemy',
     name: 'Alchemy',
     description: 'The art of brewing potions, elixirs, and magical concoctions',
-    icon: 'professions/alchemy.png',
+    icon: 'Misc/Profession Resources/Alchemy/golden-orange-potion',
     implemented: true
   },
   BLACKSMITHING: {
     id: 'blacksmithing',
     name: 'Blacksmithing',
     description: 'The art of forging weapons and armor from metal',
-    icon: 'professions/blacksmithing.png',
+    icon: 'Misc/Profession Resources/Blacksmithing/resource-anvil-forge-brown-grey',
     implemented: true
   },
   FIRST_AID: {
     id: 'first-aid',
     name: 'First Aid',
     description: 'The skill of treating wounds and creating medical supplies',
-    icon: 'professions/first-aid.png',
+    icon: 'Misc/Profession Resources/First Aid/first-aid-bandage-rolled-fabric-beige-tan',
     implemented: true
   }
 };

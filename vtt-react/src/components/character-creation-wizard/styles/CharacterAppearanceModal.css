@@ -15,7 +15,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2000;
+    /* Above page chrome that otherwise covers this portal: character-view
+       action-bar footer (4000), header (5000), tooltips (7000), tab dropdowns
+       (10000) and managed windows (10000-14000). Stays below confirmation
+       dialogs (15000) and combat config (20000). */
+    z-index: 14500;
     backdrop-filter: blur(4px);
     font-family: 'Cinzel', serif;
     animation: pwFadeIn 0.15s ease-out;

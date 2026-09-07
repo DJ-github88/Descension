@@ -1,5 +1,6 @@
 import React from 'react';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import ClassTip from './ClassTip';
 
 const ResourceTooltip = ({
   finalConfig,
@@ -91,6 +92,7 @@ const ResourceTooltip = ({
             finalConfig.visual?.type === 'inferno-veil' ||
             finalConfig.visual?.type === 'arcane-absorption' ||
             finalConfig.visual?.type === 'devotion-gauge' ||
+            finalConfig.visual?.type === 'revenant-toll' ||
             finalConfig.visual?.type === 'elemental-spheres';
 
         // Hide tooltip when menus are open to prevent conflicts
@@ -165,90 +167,53 @@ const ResourceTooltip = ({
 
                     {/* Simple sphere count */}
                     {finalConfig.type === 'spheres' && (
-                        <>
-                            <div className="tooltip-header">Elemental Spheres</div>
-                            <div className="tooltip-section">
-                                <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                    <strong>Banked:</strong> {sphereCount} sphere{sphereCount !== 1 ? 's' : ''} / {finalConfig.mechanics?.max || 12}
-                                </div>
-                                {sphereCount > 0 && (
-                                    <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                        {Object.entries(sphereBreakdown).map(([name, count]) => (
-                                            <div key={name}>{name}: {count}</div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                            <div className="tooltip-divider"></div>
-                            <div className="tooltip-section">
-                                <div className="tooltip-label">Sphere Management</div>
-                                <div className="level-management">
-                                    <strong>Generate:</strong>
-                                    <span>Roll {activeSpecialization === 'entropy-weaver' ? '5d8' : '4d8'} each turn</span>
-                                    <strong>Combine:</strong>
-                                    <span>Spend matching spheres to cast spells</span>
-                                    <strong>Bank Cap:</strong>
-                                    <span>{activeSpecialization === 'sphere-architect' ? 15 : 12} spheres max</span>
-                                    <strong>Add:</strong>
-                                    <span>Left-click an element orb</span>
-                                    <strong>Remove:</strong>
-                                    <span>Right-click an active orb</span>
-                                </div>
-                            </div>
-                        </>
+                        <ClassTip
+                            icon="🔮"
+                            tint="#7b1fa2"
+                            title="Elemental Spheres"
+                            state={`${sphereCount}/${finalConfig.mechanics?.max || 12}`}
+                            stateTone={sphereCount > 0 ? 'good' : 'neutral'}
+                            mechanic={`Roll ${activeSpecialization === 'entropy-weaver' ? '5d8' : '4d8'} each turn; combine matching spheres to cast. Cap ${activeSpecialization === 'sphere-architect' ? 15 : 12}.`}
+                            status={Object.entries(sphereBreakdown).map(([name, count]) => `${name}: ${count}`)}
+                            usage="Left-click an orb to add · Right-click to remove."
+                        />
                     )}
 
                     {/* Shaper Tooltips */}
                     {finalConfig.type === 'dual-resource' && shaperHoverSection && (
                         <div>
                             {shaperHoverSection === 'momentum' && (
-                                <>
-                                    <div className="tooltip-header">Momentum</div>
-                                    <div className="tooltip-section">
-                                        <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                            <strong>Current:</strong> {shaperMomentum}/20
-                                        </div>
-                                    </div>
-                                    <div className="tooltip-divider"></div>
-                                    <div className="tooltip-section">
-                                        <div className="tooltip-label">Momentum Management</div>
-                                        <div className="level-management">
-                                            <strong>Gain:</strong>
-                                            <span>+1 on hit, +2 on max damage die (crit), +1 on dodge/parry</span>
-                                            <strong>Spend:</strong>
-                                            <span>2-4 for stance transitions, 3-6 for abilities</span>
-                                            <strong>Decay:</strong>
-                                            <span>-1 on lowest damage die (miss), -1 when taking damage</span>
-                                        </div>
-                                    </div>
-                                </>
+                                <ClassTip
+                                    icon="💨"
+                                    tint="#4a90d9"
+                                    title="Momentum"
+                                    state={`${shaperMomentum}/20`}
+                                    stateTone={shaperMomentum >= 12 ? 'good' : shaperMomentum >= 6 ? 'neutral' : 'warn'}
+                                    mechanic="Combat flow: +1 on hit (+2 on max damage die), +1 on dodge/parry. Decays on misses and hits taken."
+                                    status={[
+                                        shaperMomentum >= 6
+                                            ? `${shaperMomentum} banked — stance transitions (2–4) and abilities (3–6) available.`
+                                            : 'Too low to spend — land hits to build it.',
+                                    ]}
+                                    usage="Spend 2–4 for stance transitions, 3–6 for abilities."
+                                />
                             )}
 
                             {shaperHoverSection === 'flourish' && (
-                                <>
-                                    <div className="tooltip-header">Flourish</div>
-                                    <div className="tooltip-section">
-                                        <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                            <strong>Current:</strong> {shaperFlourish}/5
-                                        </div>
-                                    </div>
-                                    <div className="tooltip-divider"></div>
-                                    <div className="tooltip-section">
-                                        <div className="tooltip-label">Flourish Management</div>
-                                        <div className="level-management">
-                                            <strong>Gain:</strong>
-                                            <span>+1 per signature move (each stance has 1 signature move)</span>
-                                            <strong>Spend:</strong>
-                                            <span>2-5 for ultimate abilities</span>
-                                        </div>
-                                    </div>
-                                    <div className="tooltip-divider"></div>
-                                    <div className="tooltip-section">
-                                        <div style={{ fontSize: '0.85rem', fontStyle: 'italic', color: 'rgba(101, 67, 33, 0.8)' }}>
-                                            Does not decay - persists between combats
-                                        </div>
-                                    </div>
-                                </>
+                                <ClassTip
+                                    icon="✨"
+                                    tint="#9b59b6"
+                                    title="Flourish"
+                                    state={`${shaperFlourish}/5`}
+                                    stateTone={shaperFlourish >= 2 ? 'good' : 'neutral'}
+                                    mechanic="+1 per signature move (one per stance). Never decays — persists between combats."
+                                    status={[
+                                        shaperFlourish >= 2
+                                            ? `${shaperFlourish} banked — ultimates (2–5) available.`
+                                            : 'Need 2+ for ultimates — land signature moves.',
+                                    ]}
+                                    usage="Spend 2–5 on ultimate abilities."
+                                />
                             )}
 
                             {shaperHoverSection === 'stance' && (() => {
@@ -289,58 +254,19 @@ const ResourceTooltip = ({
                                 })();
 
                                 return (
-                                    <>
-                                        <div className="tooltip-header">{currentStance}</div>
-                                        <div className="tooltip-section">
-                                            <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                                <strong>Type:</strong> {currentStanceData.type}
-                                            </div>
-                                            {specBonus && (
-                                                <div style={{
-                                                    fontSize: '0.85rem',
-                                                    color: 'rgba(139, 69, 19, 1)',
-                                                    fontStyle: 'italic',
-                                                    marginTop: '4px',
-                                                    padding: '4px',
-                                                    background: 'rgba(160, 82, 45, 0.1)',
-                                                    borderRadius: '3px'
-                                                }}>
-                                                    ?  {specBonus}
-                                                </div>
-                                            )}
-                                        </div>
-                                        {details.bonuses.length > 0 && (
-                                            <>
-                                                <div className="tooltip-divider"></div>
-                                                <div className="tooltip-section">
-                                                    <div className="tooltip-label">Bonuses</div>
-                                                    {details.bonuses.map((bonus, i) => (
-                                                        <div key={i} style={{ fontSize: '0.85rem', marginBottom: '2px' }}>{bonus}</div>
-                                                    ))}
-                                                </div>
-                                            </>
-                                        )}
-                                        {details.penalties.length > 0 && (
-                                            <>
-                                                <div className="tooltip-divider"></div>
-                                                <div className="tooltip-section">
-                                                    <div className="tooltip-label">Penalties</div>
-                                                    {details.penalties.map((penalty, i) => (
-                                                        <div key={i} style={{ fontSize: '0.85rem', marginBottom: '2px', color: 'rgba(178, 34, 52, 1)' }}>{penalty}</div>
-                                                    ))}
-                                                </div>
-                                            </>
-                                        )}
-                                        {details.penalties.length === 0 && details.bonuses.length > 0 && (
-                                            <>
-                                                <div className="tooltip-divider"></div>
-                                                <div className="tooltip-section">
-                                                    <div className="tooltip-label">Penalties</div>
-                                                    <div style={{ fontSize: '0.85rem', fontStyle: 'italic', color: 'rgba(101, 67, 33, 0.7)' }}>None</div>
-                                                </div>
-                                            </>
-                                        )}
-                                    </>
+                                    <ClassTip
+                                        icon="🥋"
+                                        tint="#b7791f"
+                                        title={currentStance}
+                                        state={currentStanceData.type || null}
+                                        stateTone="neutral"
+                                        mechanic={specBonus || 'Your current combat stance.'}
+                                        status={[
+                                            details.bonuses.length > 0 ? `+ ${details.bonuses.join(' · ')}` : null,
+                                            details.penalties.length > 0 ? `− ${details.penalties.join(' · ')}` : null,
+                                        ]}
+                                        usage="Transitions cost 2–4 Momentum."
+                                    />
                                 );
                             })()}
                         </div>
@@ -350,93 +276,55 @@ const ResourceTooltip = ({
                     {finalConfig.visual?.type === 'time-shards-strain' && chronarchHoverSection && (
                         <div>
                             {chronarchHoverSection === 'shards' && (
-                                <>
-                                    <div className="tooltip-header">Time Shards</div>
-
-                                    <div className="tooltip-section">
-                                        <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                            <strong>Current:</strong> {chronarchTimeShards}/10 shards
-                                        </div>
-                                        <div style={{ fontSize: '0.9rem' }}>
-                                            <strong>Power resource:</strong> Accumulate to unleash time magic
-                                        </div>
-                                    </div>
-
-                                    <div className="tooltip-divider"></div>
-
-                                    <div className="tooltip-section">
-                                        <div className="tooltip-label">Shard Management</div>
-                                        <div className="level-management">
-                                            <strong>Gain:</strong>
-                                            <span>+1 per spell cast, persists between combats</span>
-                                            <strong>Spend:</strong>
-                                            <span>Temporal Flux spells (1-10 shards)</span>
-                                        </div>
-                                    </div>
-                                </>
+                                <ClassTip
+                                    icon="⏳"
+                                    tint="#4fc3f7"
+                                    title="Time Shards"
+                                    state={`${chronarchTimeShards}/10`}
+                                    stateTone={chronarchTimeShards >= 4 ? 'good' : 'neutral'}
+                                    mechanic="Fuel for Flux abilities. Every basic spell banks +1 shard; shards persist between fights."
+                                    status={[
+                                        chronarchTimeShards >= 4
+                                            ? `${chronarchTimeShards} banked — ready for heavy Flux.`
+                                            : chronarchTimeShards > 0
+                                                ? `Only ${chronarchTimeShards} banked — cast builders first.`
+                                                : 'Empty — cast a basic spell to bank the first shard.',
+                                    ]}
+                                    usage="Click a diamond to set · Right-click −1 · Bed opens the ledger."
+                                />
                             )}
 
                             {chronarchHoverSection === 'strain' && (() => {
                                 const strainValue = chronarchTemporalStrain;
                                 const getStrainState = (strain) => {
-                                    if (strain >= 10) return { name: 'BACKLASH!', color: '#8b3a2a' };
-                                    if (strain >= 9) return { name: 'Critical', color: '#C62828' };
-                                    if (strain >= 7) return { name: 'Danger', color: '#E53935' };
-                                    if (strain >= 5) return { name: 'Warning', color: '#FB8C00' };
-                                    if (strain >= 3) return { name: 'Caution', color: '#F9A825' };
-                                    return { name: 'Safe', color: '#2E7D32' };
+                                    if (strain >= 10) return { name: 'BACKLASH!', color: '#8b3a2a', tone: 'bad' };
+                                    if (strain >= 9) return { name: 'Critical', color: '#C62828', tone: 'bad' };
+                                    if (strain >= 7) return { name: 'Danger', color: '#E53935', tone: 'bad' };
+                                    if (strain >= 5) return { name: 'Warning', color: '#FB8C00', tone: 'warn' };
+                                    if (strain >= 3) return { name: 'Caution', color: '#F9A825', tone: 'warn' };
+                                    return { name: 'Safe', color: '#2E7D32', tone: 'good' };
                                 };
                                 const state = getStrainState(strainValue);
 
                                 return (
-                                    <>
-                                        <div className="tooltip-header">Temporal Strain</div>
-
-                                        <div className="tooltip-section">
-                                            <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                                <strong>Current:</strong> {strainValue}/10 ({state.name})
-                                            </div>
-                                            <div style={{ fontSize: '0.9rem' }}>
-                                                <strong>Risk resource:</strong> Balance power with safety
-                                            </div>
-                                        </div>
-
-                                        <div className="tooltip-divider"></div>
-
-                                        <div className="tooltip-section">
-                                            <div className="tooltip-label">Strain Management</div>
-                                            <div className="level-management">
-                                                <strong>Gain:</strong>
-                                                <span>+1 to +5 per Flux ability</span>
-                                                <strong>Decay:</strong>
-                                                <span>-1 per turn (if no Flux used)</span>
-                                            </div>
-                                        </div>
-
-                                        {strainValue >= 10 && (
-                                            <div>
-                                                <div className="tooltip-divider"></div>
-                                                <div className="tooltip-section">
-                                                    <div className="tooltip-label">Temporal Backlash</div>
-                                                    <div className="drawback-text">
-                                                        Lose next turn, take 4d6 Force damage, strain resets to 0
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {strainValue >= 7 && strainValue < 10 && (
-                                            <div>
-                                                <div className="tooltip-divider"></div>
-                                                <div className="tooltip-section">
-                                                    <div className="tooltip-label">Warning</div>
-                                                    <div className="drawback-text">
-                                                        Approaching Backlash threshold!
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </>
+                                    <ClassTip
+                                        icon="⌛"
+                                        tint={state.color}
+                                        title="Temporal Strain"
+                                        state={`${strainValue}/10 · ${state.name}`}
+                                        stateTone={state.tone}
+                                        mechanic="Paradox-weight from Flux abilities (+1 to +8 each). Decays −1 per turn when idle."
+                                        status={[
+                                            strainValue >= 10
+                                                ? 'BACKLASH: phase out, lose next turn, roll the Anomaly Table.'
+                                                : strainValue >= 7
+                                                    ? 'One more Flux risks Backlash — cool down or Mend.'
+                                                    : strainValue >= 4
+                                                        ? 'Climbing — space out heavy Flux.'
+                                                        : 'Safe — Flux freely.',
+                                        ]}
+                                        usage="Click a segment to set · Right-click −1 · Bed opens the ledger."
+                                    />
                                 );
                             })()}
                         </div>
@@ -465,82 +353,37 @@ const ResourceTooltip = ({
                                 const bonuses = getPassiveBonuses(chargesValue);
 
                                 return (
-                                    <>
-                                        <div className="tooltip-header">Hexbreaker Charges</div>
-
-                                        <div className="tooltip-section">
-                                            <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                                <strong>Current:</strong> {chargesValue}/{maxCharges} charges
-                                            </div>
-                                            <div style={{ fontSize: '0.9rem' }}>
-                                                <strong>Passive:</strong> {bonuses.damage} damage, {bonuses.speed} speed
-                                            </div>
-                                        </div>
-
-                                        <div className="tooltip-divider"></div>
-
-                                        <div className="tooltip-section">
-                                            <div className="tooltip-label">Charge Management</div>
-                                            <div className="level-management">
-                                                <strong>Gain:</strong>
-                                                <span>Combat abilities and attacks</span>
-                                                <strong>Spend:</strong>
-                                                <span>Shadow Step (1), Curse Eater (2), Dark Pursuit (3), Fury ({maxCharges})</span>
-                                            </div>
-                                        </div>
-
-                                        {chargesValue === maxCharges && (
-                                            <div>
-                                                <div className="tooltip-divider"></div>
-                                                <div className="tooltip-section">
-                                                    <div className="tooltip-label">Ultimate Ready</div>
-                                                    <div className="passive-desc">
-                                                        Hexbreaker Fury: Spend all {maxCharges} charges for AoE damage and stun.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                    </>
+                                    <ClassTip
+                                        icon="⛓️"
+                                        tint="#5d4037"
+                                        title="Hexbreaker Charges"
+                                        state={`${chargesValue}/${maxCharges}`}
+                                        stateTone={chargesValue === maxCharges ? 'good' : 'neutral'}
+                                        mechanic={`Combat abilities and attacks bank charges. Passive: ${bonuses.damage} damage, ${bonuses.speed} speed, crit ${bonuses.crit}.`}
+                                        status={[
+                                            chargesValue === maxCharges
+                                                ? `FULL — Hexbreaker Fury ready: spend all ${maxCharges} for AoE damage + stun.`
+                                                : `${chargesValue} banked — Shadow Step (1) · Curse Eater (2) · Dark Pursuit (3).`,
+                                        ]}
+                                        usage="Click the bar to spend charges."
+                                    />
                                 );
                             })()}
 
                             {hexbreakerHoverSection === 'counter' && (
-                                <>
-                                    <div className="tooltip-header">Attack Counter</div>
-
-                                    <div className="tooltip-section">
-                                        <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                            <strong>Current:</strong> {covenbaneAttackCounter}/3 attacks
-                                        </div>
-                                        <div style={{ fontSize: '0.9rem' }}>
-                                            <strong>Every 3rd attack:</strong> Deals bonus true damage
-                                        </div>
-                                    </div>
-
-                                    <div className="tooltip-divider"></div>
-
-                                    <div className="tooltip-section">
-                                        <div className="tooltip-label">True Damage Scaling</div>
-                                        <div className="passive-desc">
-                                            Base: +1d6 true damage<br />
-                                            At 6 charges: +4d8 true damage
-                                        </div>
-                                    </div>
-
-                                    {covenbaneAttackCounter === 3 && (
-                                        <>
-                                            <div className="tooltip-divider"></div>
-                                            <div className="tooltip-section">
-                                                <div className="tooltip-label">True Damage Ready</div>
-                                                <div className="passive-desc">
-                                                    Next attack deals bonus true damage (ignores armor/resistances)
-                                                </div>
-                                            </div>
-                                        </>
-                                    )}
-
-                                </>
+                                <ClassTip
+                                    icon="🎯"
+                                    tint="#b7791f"
+                                    title="Attack Counter"
+                                    state={`${covenbaneAttackCounter}/3`}
+                                    stateTone={covenbaneAttackCounter === 3 ? 'good' : 'neutral'}
+                                    mechanic="Every 3rd attack deals bonus true damage (ignores armor/resistances). Base +1d6, +4d8 at 6 charges."
+                                    status={[
+                                        covenbaneAttackCounter === 3
+                                            ? 'READY — next attack deals bonus true damage.'
+                                            : `${3 - covenbaneAttackCounter} attack(s) until true damage.`,
+                                    ]}
+                                />
                             )}
                         </div>
                     )}
@@ -554,46 +397,17 @@ const ResourceTooltip = ({
                                 const activePathsList = finalConfig.paths.filter((_, i) => pathsArray[i]);
 
                                 return (
-                                    <>
-                                        <div className="tooltip-header">Necrotic Ascension</div>
-                                        <div className="tooltip-section">
-                                            <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                                <strong>Active Paths:</strong> {activePaths}/7
-                                            </div>
-                                        </div>
-                                        {activePathsList.length > 0 && (
-                                            <>
-                                                <div className="tooltip-divider"></div>
-                                                <div className="tooltip-section">
-                                                    <div className="tooltip-label">Active Boons</div>
-                                                    {activePathsList.map((path, i) => (
-                                                        <div key={i} style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                                            <strong>{path.shortName}:</strong> {path.boon}
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                                <div className="tooltip-divider"></div>
-                                                <div className="tooltip-section">
-                                                    <div className="tooltip-label">Active Curses</div>
-                                                    {activePathsList.map((path, i) => (
-                                                        <div key={i} style={{ fontSize: '0.85rem', marginTop: '4px', color: '#8b3a2a' }}>
-                                                            <strong>{path.shortName}:</strong> {path.curse}
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </>
-                                        )}
-                                        {activePathsList.length === 0 && (
-                                            <>
-                                                <div className="tooltip-divider"></div>
-                                                <div className="tooltip-section">
-                                                    <div style={{ fontSize: '0.85rem', fontStyle: 'italic', color: '#4E342E' }}>
-                                                        No paths activated yet
-                                                    </div>
-                                                </div>
-                                            </>
-                                        )}
-                                    </>
+                                    <ClassTip
+                                        icon="💀"
+                                        tint="#6a1b9a"
+                                        title="Necrotic Ascension"
+                                        state={`${activePaths}/7 paths`}
+                                        stateTone={activePaths > 0 ? 'good' : 'neutral'}
+                                        mechanic="Each ascension path grants a boon — and a curse."
+                                        status={activePathsList.length > 0
+                                            ? activePathsList.map((path) => `${path.shortName}: +${path.boon} / −${path.curse}`)
+                                            : ['No paths activated yet.']}
+                                    />
                                 );
                             })()}
                             {ascensionHoverSection === 'tokens' && (() => {
@@ -603,54 +417,24 @@ const ResourceTooltip = ({
                                 const burstDamage = tokensValue; // 1d10 per token
 
                                 return (
-                                    <>
-                                        <div className="tooltip-header">Blood Tokens</div>
-                                        <div className="tooltip-section">
-                                            <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                                <strong>Current:</strong> {tokensValue} tokens
-                                            </div>
-                                        </div>
-                                        <div className="tooltip-divider"></div>
-                                        <div className="tooltip-section">
-                                            <div className="tooltip-label">Token Management</div>
-                                            <div className="level-management">
-                                                <strong>Gain:</strong>
-                                                <span>1 HP sacrificed = 1 Token (requires Crimson Pact path)</span>
-                                                <strong>Spend:</strong>
-                                                <span>1 Token = +1d6 necrotic damage (can spend multiple per spell)</span>
-                                            </div>
-                                        </div>
-                                        {tokensValue >= dangerThreshold && (
-                                            <>
-                                                <div className="tooltip-divider"></div>
-                                                <div className="tooltip-section">
-                                                    <div className="tooltip-label" style={{ color: '#8b3a2a' }}>
-                                                        EXTREME DANGER!
-                                                    </div>
-                                                    <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                                        <strong>Burst Damage:</strong> {burstDamage}d10 damage (~{Math.floor(burstDamage * 5.5)} average)
-                                                    </div>
-                                                    <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                                        <strong>Timer:</strong> 10 minutes (15 with Crimson Pact)
-                                                    </div>
-                                                </div>
-                                            </>
-                                        )}
-                                        {tokensValue >= warningThreshold && tokensValue < dangerThreshold && (
-                                            <div style={{
-                                                fontStyle: 'italic',
-                                                fontSize: '9px',
-                                                textAlign: 'center',
-                                                color: '#8b3a2a',
-                                                marginTop: '6px',
-                                                padding: '4px',
-                                                background: 'rgba(255, 107, 107, 0.15)',
-                                                borderRadius: '3px'
-                                            }}>
-                                                High token count - use soon or risk burst!
-                                            </div>
-                                        )}
-                                    </>
+                                    <ClassTip
+                                        icon="🩸"
+                                        tint="#c0392b"
+                                        title="Blood Tokens"
+                                        state={`${tokensValue} tokens`}
+                                        stateTone={tokensValue >= dangerThreshold ? 'bad' : tokensValue >= warningThreshold ? 'warn' : 'neutral'}
+                                        mechanic="1 HP sacrificed = 1 token (needs Crimson Pact). 1 token = +1d6 necrotic per spell."
+                                        status={[
+                                            tokensValue >= dangerThreshold
+                                                ? `EXTREME: ${burstDamage}d10 burst (~${Math.floor(burstDamage * 5.5)} avg) within 10 min — spend them now.`
+                                                : tokensValue >= warningThreshold
+                                                    ? 'High count — spend soon or risk burst.'
+                                                    : tokensValue > 0
+                                                        ? `${tokensValue} banked — safe to hold a little longer.`
+                                                        : 'Empty — sacrifice HP to mint tokens.',
+                                        ]}
+                                        usage="Spend tokens to empower necrotic spells."
+                                    />
                                 );
                             })()}
                         </div>
@@ -658,62 +442,19 @@ const ResourceTooltip = ({
 
                     {/* Dreadnaught DRP Tooltip */}
                     {finalConfig.visual?.type === 'drp-resilience' && resilienceHoverSection === 'drp' && (
-                        <>
-                            <div className="tooltip-header">Damage Resilience Points</div>
-                            <div className="tooltip-section">
-                                <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                    <strong>Current:</strong> {localDRP} DRP
-                                </div>
-                            </div>
-                            <div className="tooltip-divider"></div>
-                            <div className="tooltip-section">
-                                <div className="tooltip-label">DRP Management</div>
-                                <div className="level-management">
-                                    <strong>Gain:</strong>
-                                    <span>+1 DRP per 5 damage taken (calculated from full damage, before resistance)</span>
-                                    <strong>Spend:</strong>
-                                    <span>Shadow Shield (2:1 absorption), Wraith Strike (+1d6 per 5 DRP), Necrotic Aura (15 DRP)</span>
-                                </div>
-                            </div>
-                            {localDRP >= 10 && (
-                                <>
-                                    <div className="tooltip-divider"></div>
-                                    <div className="tooltip-section">
-                                        <div className="tooltip-label">Active Resistance</div>
-                                        <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                            <strong>Type:</strong> {selectedResistanceType}
-                                        </div>
-                                        <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                            Halves damage taken. DRP calculated from full damage.
-                                        </div>
-                                    </div>
-                                    <div className="tooltip-divider"></div>
-                                    <div className="tooltip-section">
-                                        <div className="tooltip-label">Regeneration</div>
-                                        <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                            <strong>+{Math.floor(localDRP / 10)} HP/turn</strong> (1 HP per 10 DRP)
-                                        </div>
-                                    </div>
-                                    <div className="tooltip-divider"></div>
-                                    <div className="tooltip-section">
-                                        <div className="tooltip-label">Dark Rebirth</div>
-                                        <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                            If you die, revive with <strong>{localDRP * 2} HP</strong>
-                                        </div>
-                                    </div>
-                                </>
-                            )}
-                            {localDRP < 10 && (
-                                <>
-                                    <div className="tooltip-divider"></div>
-                                    <div className="tooltip-section">
-                                        <div style={{ fontSize: '0.85rem', fontStyle: 'italic', color: '#4E342E' }}>
-                                            Need <strong>10+ DRP</strong> to activate passive benefits
-                                        </div>
-                                    </div>
-                                </>
-                            )}
-                        </>
+                        <ClassTip
+                            icon="🛡️"
+                            tint="#546e7a"
+                            title="Damage Resilience"
+                            state={`${localDRP} DRP`}
+                            stateTone={localDRP >= 10 ? 'good' : 'neutral'}
+                            mechanic={`+1 DRP per 5 damage taken (from full damage). Spend on Shadow Shield (2:1), Wraith Strike (+1d6 per 5 DRP), Necrotic Aura (15 DRP).${localDRP >= 10 ? ` Resisting: ${selectedResistanceType} (halved).` : ''}`}
+                            status={[
+                                localDRP >= 10
+                                    ? `Passives live: +${Math.floor(localDRP / 10)} HP/turn, revive at ${localDRP * 2} HP on death.`
+                                    : 'Need 10+ DRP for passive benefits — go take a hit.',
+                            ]}
+                        />
                     )}
 
                     {/* Exorcist Dominance Tooltip */}
@@ -741,103 +482,34 @@ const ResourceTooltip = ({
                                 // If no demon is bound, show binding instructions
                                 if (!isDemonBound) {
                                     return (
-                                        <>
-                                            <div className="tooltip-header">Dominance Die</div>
-                                            <div className="tooltip-section">
-                                                <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                                    <strong>Status:</strong> No Demon Bound
-                                                </div>
-                                            </div>
-                                            <div className="tooltip-divider"></div>
-                                            <div className="tooltip-section">
-                                                <div className="tooltip-label">Binding Ritual</div>
-                                                <div style={{ fontSize: '0.85rem' }}>
-                                                    Requires <strong>ritual</strong> (10 min). Target must be <strong>defeated</strong>.
-                                                </div>
-                                            </div>
-                                            <div className="tooltip-divider"></div>
-                                            <div className="tooltip-section">
-                                                <div className="tooltip-label">Demon Slots</div>
-                                                <div className="level-management">
-                                                    <strong>Base:</strong>
-                                                    <span>2 demons</span>
-                                                    <strong>Demonologist:</strong>
-                                                    <span>4 demons</span>
-                                                    <strong>Demon Lord:</strong>
-                                                    <span>1 demon</span>
-                                                </div>
-                                            </div>
-                                        </>
+                                        <ClassTip
+                                            icon="😈"
+                                            tint="#8B0000"
+                                            title="Dominance Die"
+                                            state="No demon bound"
+                                            stateTone="warn"
+                                            mechanic="Bind a defeated demon with a 10-minute ritual (2 slots, 4 as Demonologist). Its die decays d12 → d10 → d8 → d6 → 0 per action/hit."
+                                            usage="Bind a demon to begin."
+                                        />
                                     );
                                 }
 
                                 return (
-                                    <>
-                                        <div className="tooltip-header">Dominance Die</div>
-                                        <div className="tooltip-section">
-                                            <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                                <strong>Demon:</strong> {currentDemon.name} (Tier {currentDemon.tier})
-                                            </div>
-                                            <div style={{ fontSize: '0.9rem' }}>
-                                                <strong>Current DD:</strong> <span style={{ color: state.color, fontWeight: 'bold' }}>{ddLabel}</span> ({state.name})
-                                            </div>
-                                        </div>
-                                        <div className="tooltip-divider"></div>
-                                        <div className="tooltip-section">
-                                            <div className="tooltip-label">DD Progression</div>
-                                            <div style={{ fontSize: '0.85rem' }}>
-                                                <strong>Progression:</strong> d12 ? d10 ? d8 ? d6 ? 0
-                                            </div>
-                                            <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                                Decreases per action/hit
-                                            </div>
-                                        </div>
-                                        <div className="tooltip-divider"></div>
-                                        <div className="tooltip-section">
-                                            <div className="tooltip-label">At DD = 0</div>
-                                            <div style={{ fontSize: '0.85rem' }}>
-                                                <strong>Save DC:</strong> {currentDemon.saveDC}
-                                            </div>
-                                            <div style={{ fontSize: '0.85rem', marginTop: '4px', color: '#8b3a2a' }}>
-                                                Fail: Demon escapes
-                                            </div>
-                                        </div>
-
-                                        {currentDD <= 6 && currentDD > 0 && (
-                                            <>
-                                                <div className="tooltip-divider"></div>
-                                                <div className="tooltip-section">
-                                                    <div className="tooltip-label" style={{ color: currentDD === 6 ? '#8b3a2a' : '#8B6508' }}>
-                                                        {currentDD === 6 ? 'CRITICAL - Demon Near Escape!' : 'WARNING - Low Dominance'}
-                                                    </div>
-                                                    <div className="level-management" style={{ marginTop: '4px' }}>
-                                                        <strong>Reassert Dominance:</strong>
-                                                        <span>5 mana - Restore to max DD, +1 DD for 3 actions</span>
-                                                        <strong>Chain of Command:</strong>
-                                                        <span>4 mana - Restore to max DD, +1 DD for 3 actions</span>
-                                                    </div>
-                                                </div>
-                                            </>
-                                        )}
-
-                                        {currentDD === 0 && (
-                                            <>
-                                                <div className="tooltip-divider"></div>
-                                                <div className="tooltip-section">
-                                                    <div className="tooltip-label" style={{ color: '#8b3a2a' }}>
-                                                        DEMON ESCAPED!
-                                                    </div>
-                                                    <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                                        Demon flees or attacks. Must re-bind (ritual).
-                                                    </div>
-                                                    <div className="level-management" style={{ marginTop: '4px' }}>
-                                                        <strong>Behavior (d6):</strong>
-                                                        <span>1-2: Flees, 3-6: Attacks you</span>
-                                                    </div>
-                                                </div>
-                                            </>
-                                        )}
-                                    </>
+                                    <ClassTip
+                                        icon="⛓️"
+                                        tint={state.color}
+                                        title={`Dominance: ${currentDemon.name}`}
+                                        state={`${ddLabel} · ${state.name}`}
+                                        stateTone={currentDD <= 6 ? 'bad' : 'neutral'}
+                                        mechanic={`Tier ${currentDemon.tier} demon. Die decays per action/hit; at 0 it saves DC ${currentDemon.saveDC} or escapes (d6: 1–2 flees, 3–6 attacks you).`}
+                                        status={[
+                                            currentDD === 0
+                                                ? 'ESCAPED — re-bind with a ritual.'
+                                                : currentDD <= 6
+                                                    ? 'Near escape — Reassert Dominance (5 mana) or Chain of Command (4 mana) restores to max.'
+                                                    : 'Under control — spend actions freely.',
+                                        ]}
+                                    />
                                 );
                             })()}
                         </div>
@@ -845,135 +517,43 @@ const ResourceTooltip = ({
 
                     {/* False Prophet Madness Tooltip */}
                     {finalConfig.visual?.type === 'madness-gauge' && falseProphetHoverSection === 'madness' && (
-                        <>
-                            <div className="tooltip-header">Madness</div>
-                            <div className="tooltip-section">
-                                <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                    <strong>Current:</strong> {localMadness}/20 ({getDangerLevel(localMadness).name})
-                                </div>
-                                <div style={{ fontSize: '0.9rem' }}>
-                                    <strong>Shadow Damage:</strong> +{localMadness}
-                                </div>
-                                <div style={{ fontSize: '0.9rem' }}>
-                                    <strong>Next Threshold:</strong> {getNextThreshold(localMadness)}
-                                </div>
-                            </div>
-                            <div className="tooltip-divider"></div>
-                            <div className="tooltip-section">
-                                <div className="tooltip-label">Madness Management</div>
-                                <div className="level-management">
-                                    <strong>Gain:</strong>
-                                    <span>Spells generate Madness</span>
-                                    <strong>Spend:</strong>
-                                    <span>Some spells spend Madness</span>
-                                    <strong>At 10+:</strong>
-                                    <span>Next shadow spell +2d6</span>
-                                </div>
-                            </div>
-                            <div className="tooltip-divider"></div>
-                            <div className="tooltip-section">
-                                <div className="tooltip-label">Madness Thresholds</div>
-                                <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                    <strong>6:</strong> Veil of Shadows
-                                </div>
-                                <div style={{ fontSize: '0.85rem' }}>
-                                    <strong>9:</strong> Eldritch Vision
-                                </div>
-                                <div style={{ fontSize: '0.85rem' }}>
-                                    <strong>10:</strong> Empowerment (+2d6)
-                                </div>
-                                <div style={{ fontSize: '0.85rem' }}>
-                                    <strong>12:</strong> Apocalyptic Revelation
-                                </div>
-                                <div style={{ fontSize: '0.85rem', color: '#8b3a2a', marginTop: '4px' }}>
-                                    <strong>15:</strong> DANGER ZONE
-                                </div>
-                                <div style={{ fontSize: '0.85rem', color: '#8b3a2a' }}>
-                                    <strong>20:</strong> INSANITY CONVULSION
-                                </div>
-                            </div>
-                            {localMadness >= 15 && (
-                                <>
-                                    <div className="tooltip-divider"></div>
-                                    <div className="tooltip-section">
-                                        <div className="tooltip-label" style={{ color: localMadness === 20 ? '#8b3a2a' : '#8B6508' }}>
-                                            {localMadness === 20 ? 'INSANITY CONVULSION!' : 'HIGH CONVULSION RISK'}
-                                        </div>
-                                        {localMadness === 20 ? (
-                                            <>
-                                                <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                                    Roll 1d6 on Convulsion Table:
-                                                </div>
-                                                <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                                    <strong>1:</strong> Shadow Burst (5d6 necrotic AoE)
-                                                </div>
-                                                <div style={{ fontSize: '0.85rem' }}>
-                                                    <strong>2:</strong> Mind Shatter (stunned 2 rounds)
-                                                </div>
-                                                <div style={{ fontSize: '0.85rem' }}>
-                                                    <strong>3:</strong> Dark Whispers (disadvantage 3 rounds)
-                                                </div>
-                                                <div style={{ fontSize: '0.85rem' }}>
-                                                    <strong>4:</strong> Chaotic Pulse (teleport + 4d6 psychic)
-                                                </div>
-                                                <div style={{ fontSize: '0.85rem' }}>
-                                                    <strong>5:</strong> Psychic Scream (AoE fear 3 rounds)
-                                                </div>
-                                                <div style={{ fontSize: '0.85rem' }}>
-                                                    <strong>6:</strong> Nightmare Echoes (6d6 + madness)
-                                                </div>
-                                                <div style={{ fontSize: '0.85rem', fontStyle: 'italic', marginTop: '4px', color: '#4E342E' }}>
-                                                    After Convulsion: Madness resets to 0
-                                                </div>
-                                            </>
-                                        ) : (
-                                            <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                                Approaching Convulsion. Consider spending Madness or avoiding Madness-generating spells.
-                                            </div>
-                                        )}
-                                    </div>
-                                </>
-                            )}
-                        </>
+                        <ClassTip
+                            icon="🌀"
+                            tint="#6a1b9a"
+                            title="Madness"
+                            state={`${localMadness}/20 · ${getDangerLevel(localMadness).name}`}
+                            stateTone={localMadness >= 15 ? 'bad' : localMadness >= 10 ? 'warn' : 'neutral'}
+                            mechanic={`Spells generate Madness; some spend it. Shadow damage +${localMadness}. Next: ${getNextThreshold(localMadness)}. Milestones 6/9/10 (+2d6)/12 — 15 danger, 20 convulsion.`}
+                            status={[
+                                localMadness === 20
+                                    ? 'CONVULSION: roll 1d6 (burst · stun · disadvantage · teleport · fear · echoes), then reset to 0.'
+                                    : localMadness >= 15
+                                        ? 'Convulsion near — spend Madness or avoid generators.'
+                                        : localMadness >= 10
+                                            ? 'Empowered — next shadow spell +2d6.'
+                                            : 'Building — safe to generate.',
+                            ]}
+                            usage="Spend Madness on empowered shadow spells."
+                        />
                     )}
 
                     {/* Fate Weaver Threads Tooltip */}
                     {modifiedConfig.visual?.type === 'threads-of-destiny' && fateWeaverHoverSection === 'threads' && (
-                        <>
-                            <div className="tooltip-header">Threads of Destiny</div>
-
-                            <div className="tooltip-section">
-                                <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                    <strong>Current:</strong> {localThreads}/{modifiedConfig.mechanics?.max ?? 13} Threads
-                                </div>
-                                <div style={{ fontSize: '0.9rem' }}>
-                                    <strong>Level:</strong> {getThreadLevel(localThreads).name}
-                                </div>
-                            </div>
-
-                            <div className="tooltip-divider"></div>
-
-                            <div className="tooltip-section">
-                                <div className="tooltip-label">Thread Management</div>
-                                <div className="level-management">
-                                    <strong>Generate:</strong>
-                                    <span>Failures generate Threads</span>
-                                    <strong>Spend:</strong>
-                                    <span>2 Threads: Call specific card{selectedFateWeaverSpec === 'thread-weaver' && localThreads >= 3 ? ', 3 Threads: Force failure, 5 Threads: Force success' : ''}</span>
-                                </div>
-                            </div>
-
-                            <div className="tooltip-divider"></div>
-
-                            <div className="tooltip-section">
-                                <div className="tooltip-label">Specialization: {selectedFateWeaverSpec === 'fortune-teller' ? 'Fortune Teller' : selectedFateWeaverSpec === 'card-master' ? 'Card Master' : 'Thread Weaver'}</div>
-                                <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                    {selectedFateWeaverSpec === 'fortune-teller' && 'See top card always. 1 Thread for ally advantage.'}
-                                    {selectedFateWeaverSpec === 'card-master' && 'Hold 7 cards. Call 2 cards per 2 Threads.'}
-                                    {selectedFateWeaverSpec === 'thread-weaver' && '+1 Thread on all gains. 5T auto-success. 3T auto-fail.'}
-                                </div>
-                            </div>
-                        </>
+                        <ClassTip
+                            icon="🧵"
+                            tint="#7b1fa2"
+                            title="Threads of Destiny"
+                            state={`${localThreads}/${modifiedConfig.mechanics?.max ?? 13} · ${getThreadLevel(localThreads).name}`}
+                            stateTone={localThreads >= 5 ? 'good' : 'neutral'}
+                            mechanic={`Failures weave threads. Spend 2 to call a card${selectedFateWeaverSpec === 'thread-weaver' && localThreads >= 3 ? ', 3 to force failure, 5 to force success' : ''}. ${selectedFateWeaverSpec === 'fortune-teller' ? 'Seer: see top card always, 1 thread for ally advantage.' : selectedFateWeaverSpec === 'card-master' ? 'Hold 7 cards, call 2 per 2 threads.' : '+1 thread on all gains.'}`}
+                            status={[
+                                localThreads >= 5
+                                    ? `${localThreads} banked — fate-forcing available.`
+                                    : localThreads >= 2
+                                        ? 'Enough to call a card.'
+                                        : 'Fail forward to weave more threads.',
+                            ]}
+                        />
                     )}
 
                     {/* Gambit Dual Ledger Tooltip */}
@@ -984,29 +564,24 @@ const ResourceTooltip = ({
                         const maxRisk = 13;
 
                         return (
-                            <div>
-                                <div className="tooltip-header">Gambit Dual Ledger</div>
-
-                                <div className="tooltip-section">
-                                    <div style={{ fontSize: '0.9rem', marginBottom: '4px', color: '#8B6508' }}>
-                                        <strong>Fortune:</strong> {fpValue}/{maxFP} FP
-                                    </div>
-                                    <div style={{ fontSize: '0.85rem', color: '#4E342E' }}>
-                                        Spend Fortune to influence fate and adjust rolls. Gain points from successful actions and critical hits.
-                                    </div>
-                                </div>
-
-                                <div className="tooltip-divider"></div>
-
-                                <div className="tooltip-section">
-                                    <div style={{ fontSize: '0.9rem', marginBottom: '4px', color: '#8b3a2a' }}>
-                                        <strong>Karmic Debt:</strong> {riskValue}/{maxRisk} Debt
-                                    </div>
-                                    <div style={{ fontSize: '0.85rem', color: '#4E342E' }}>
-                                        Represents the accumulated cost of pushing your luck. Accumulated risk will eventually demand payment, imposing dangerous penalties or cascading effects.
-                                    </div>
-                                </div>
-                            </div>
+                            <ClassTip
+                                icon="🪙"
+                                tint="#b7791f"
+                                title="Gambit Dual Ledger"
+                                state={`${fpValue}/${maxFP} FP · ${riskValue}/${maxRisk} debt`}
+                                stateTone={riskValue >= 10 ? 'bad' : fpValue === 0 ? 'warn' : 'good'}
+                                mechanic="Spend Fortune to bend rolls (earned on successes and crits). Pushing luck accrues Karmic Debt — at 13 it demands payment in penalties."
+                                status={[
+                                    fpValue === 0
+                                        ? 'Broke — earn FP before betting on rolls.'
+                                        : `${fpValue} FP ready to spend.`,
+                                    riskValue >= 10
+                                        ? 'Debt nearly due — stop pushing.'
+                                        : riskValue > 0
+                                            ? `${riskValue} debt weighing on you.`
+                                            : 'No debt outstanding.',
+                                ]}
+                            />
                         );
                     })()}
 
@@ -1018,17 +593,21 @@ const ResourceTooltip = ({
                                 const maxQM = finalClassResource.max ?? 5;
 
                                 return (
-                                    <>
-                                        <div className="tooltip-header">Marks</div>
-                                        <div className="tooltip-section">
-                                            <div style={{ fontSize: '0.9rem', marginBottom: '4px', color: '#8B0000' }}>
-                                                <strong>Marks:</strong> {qmValue}/{maxQM}
-                                            </div>
-                                            <div style={{ fontSize: '0.85rem', color: '#4E342E' }}>
-                                                Used to enhance companion actions and unleash deadly glaive chains. Generated by successful hunter strikes.
-                                            </div>
-                                        </div>
-                                    </>
+                                    <ClassTip
+                                        icon="🎯"
+                                        tint="#8B0000"
+                                        title="Quarry Marks"
+                                        state={`${qmValue}/${maxQM}`}
+                                        stateTone={qmValue >= maxQM ? 'good' : 'neutral'}
+                                        mechanic="Hunter strikes mark the quarry. Marks empower companion actions and unleash glaive chains."
+                                        status={[
+                                            qmValue >= maxQM
+                                                ? 'FULL — unleash the glaive chain.'
+                                                : qmValue > 0
+                                                    ? `${qmValue} marked — keep striking to build.`
+                                                    : 'Unmarked — land a hunter strike.',
+                                        ]}
+                                    />
                                 );
                             })()}
 
@@ -1037,17 +616,21 @@ const ResourceTooltip = ({
                                 const companionMaxHPValue = finalClassResource.companionMaxHP ?? companionMaxHP;
 
                                 return (
-                                    <>
-                                        <div className="tooltip-header">Beast Companion</div>
-                                        <div className="tooltip-section">
-                                            <div style={{ fontSize: '0.9rem', marginBottom: '4px', color: '#1B5E20' }}>
-                                                <strong>HP:</strong> {companionHPValue}/{companionMaxHPValue}
-                                            </div>
-                                            <div style={{ fontSize: '0.85rem', color: '#4E342E' }}>
-                                                The vital health of your loyal beast companion. If they fall to 0 HP, they are incapacitated.
-                                            </div>
-                                        </div>
-                                    </>
+                                    <ClassTip
+                                        icon="🐺"
+                                        tint="#2E7D32"
+                                        title="Beast Companion"
+                                        state={`${companionHPValue}/${companionMaxHPValue} HP`}
+                                        stateTone={companionHPValue <= 0 ? 'bad' : companionHPValue < companionMaxHPValue / 2 ? 'warn' : 'good'}
+                                        mechanic="Your loyal beast fights beside you. At 0 HP it is incapacitated."
+                                        status={[
+                                            companionHPValue <= 0
+                                                ? 'DOWN — incapacitated until revived.'
+                                                : companionHPValue < companionMaxHPValue
+                                                    ? 'Wounded — protect or heal it.'
+                                                    : 'Healthy — fighting fit.',
+                                        ]}
+                                    />
                                 );
                             })()}
                         </div>
@@ -1056,15 +639,14 @@ const ResourceTooltip = ({
                     {/* Animist Tooltip */}
                     {finalConfig.visual?.type === 'ancestral-resonance' && animistHoverSection === 'resonance' && (
                         <div>
-                            <div className="tooltip-header">Resonance</div>
-                            <div className="tooltip-section">
-                                <div style={{ fontSize: '0.9rem', marginBottom: '4px', color: '#1B5E20' }}>
-                                    <strong>Current:</strong> {finalClassResource.current ?? 0}/{finalClassResource.max ?? 20} AR
-                                </div>
-                                <div style={{ fontSize: '0.85rem', color: '#4E342E' }}>
-                                    Represents your attunement with ancestral spirits. Used to power runic invocations, summon ancestral guides, and manifest spirit-ward shields.
-                                </div>
-                            </div>
+                            <ClassTip
+                                icon="🔥"
+                                tint="#2E7D32"
+                                title="Ancestral Resonance"
+                                state={`${finalClassResource.current ?? 0}/${finalClassResource.max ?? 20} AR`}
+                                stateTone="neutral"
+                                mechanic="Attunement with ancestral spirits. Powers runic invocations, spirit guides, and spirit-ward shields."
+                            />
                         </div>
                     )}
 
@@ -1078,41 +660,19 @@ const ResourceTooltip = ({
                                 const specName = currentSpec.name;
                                 
                                 return (
-                                    <>
-                                        <div className="tooltip-header">Phylactery</div>
-
-                                        <div className="tooltip-section">
-                                            <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                                <strong>HP:</strong> {localPhylacteryHP}/{maxPhylactery}
-                                            </div>
-                                            <div style={{ fontSize: '0.9rem' }}>
-                                                <strong>Style:</strong> {specName}
-                                            </div>
-                                        </div>
-
-                                        <div className="tooltip-divider"></div>
-
-                                        <div className="tooltip-section">
-                                            <div className="tooltip-label">Phylactery Management</div>
-                                            <div className="level-management">
-                                                <strong>Charge:</strong>
-                                                <span>+1d6 HP per enemy killed by frost spells</span>
-                                                <strong>Resurrect:</strong>
-                                                <span>Spend all stored HP, once per combat. Death Trigger: Freeze 15ft for 1 round.</span>
-                                            </div>
-                                        </div>
-
-                                        <div className="tooltip-divider"></div>
-
-                                        <div className="tooltip-section">
-                                            <div className="tooltip-label">{specName}</div>
-                                            <div className="passive-desc">
-                                                {lichborneSpec === 'frostbound_tyrant' && 'Freeze effects last +1d4 rounds. Frozen enemies take +1d6 damage. 50% Shatter chance (3d6 burst, ends freeze).'}
-                                                {lichborneSpec === 'spectral_reaper' && 'Frost spells deal +1d6 necrotic. Every kill raises a spectral minion (max 4). 10 HP, 1d6 dmg/turn.'}
-                                                {lichborneSpec === 'phylactery_guardian' && 'Phylactery stores 75 HP. Death Trigger freeze radius 25ft (vs 15ft).'}
-                                            </div>
-                                        </div>
-                                    </>
+                                    <ClassTip
+                                        icon="❄️"
+                                        tint="#4fc3f7"
+                                        title={`${specName} Phylactery`}
+                                        state={`${localPhylacteryHP}/${maxPhylactery} HP`}
+                                        stateTone={localPhylacteryHP <= 0 ? 'bad' : 'neutral'}
+                                        mechanic={`+1d6 HP per frost-spell kill banked. Death: spend it all to resurrect (once/combat) and freeze ${lichborneSpec === 'phylactery_guardian' ? '25' : '15'}ft for 1 round. ${lichborneSpec === 'frostbound_tyrant' ? 'Freeze +1d4 rounds, frozen foes +1d6, 50% shatter (3d6).' : lichborneSpec === 'spectral_reaper' ? 'Frost +1d6 necrotic; kills raise spectral minions (max 4).' : 'Stores 75 HP.'}`}
+                                        status={[
+                                            localPhylacteryHP <= 0
+                                                ? 'Empty — no resurrection banked. Secure frost kills.'
+                                                : `${localPhylacteryHP} HP banked — death will spend it to revive you.`,
+                                        ]}
+                                    />
                                 );
                             })()}
                         </div>
@@ -1144,99 +704,35 @@ const ResourceTooltip = ({
                                 const currentBonuses = getPhaseBonuses(currentLunarPhase);
 
                                 return (
-                                    <>
-                                        <div className="tooltip-header">Lunar Phases</div>
-
-                                        <div className="tooltip-section">
-                                            <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                                <strong>Current Phase:</strong> {currentPhaseConfig.name} ({currentBonuses.theme})
-                                            </div>
-                                            <div style={{ fontSize: '0.9rem' }}>
-                                                <strong>Phase Bonus:</strong> {currentBonuses.bonus}
-                                            </div>
-                                        </div>
-
-                                        <div className="tooltip-divider"></div>
-
-                                        <div className="tooltip-section">
-                                            <div className="tooltip-label">Phase Management</div>
-                                            <div className="level-management">
-                                                <strong>Duration:</strong>
-                                                <span>3 rounds per phase</span>
-                                                <strong>Manual Shift:</strong>
-                                                <span>8 mana (instant, resets timer)</span>
-                                                <strong>Natural Cycle:</strong>
-                                                <span>Auto-advances after 3 rounds</span>
-                                            </div>
-                                        </div>
-
-                                        <div className="tooltip-divider"></div>
-
-                                        <div className="tooltip-section">
-                                            <div className="tooltip-label">All Phases</div>
-                                            <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                                {phaseOrder.map((phase, idx) => {
-                                                    const phaseConfig = phases[phase];
-                                                    const bonuses = getPhaseBonuses(phase);
-                                                    return (
-                                                        <div key={phase} style={{ marginBottom: '3px' }}>
-                                                            <strong style={{ color: '#2C2416' }}>{phaseConfig.name}:</strong> {bonuses.bonus}
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
-                                        </div>
-
-                                        <div className="tooltip-divider"></div>
-
-                                        <div className="tooltip-section">
-                                            <div className="tooltip-label">Lunar Empowerment (Shared Passive)</div>
-                                            <div className="passive-desc">
-                                                Darkvision 60 ft. Advantage vs charm/fear during Full Moon.
-                                            </div>
-                                        </div>
-                                    </>
+                                    <ClassTip
+                                        icon="🌙"
+                                        tint="#7b1fa2"
+                                        title={currentPhaseConfig.name}
+                                        state={currentBonuses.theme}
+                                        stateTone="neutral"
+                                        mechanic={`3 rounds per phase, auto-advances New → Waxing → Full → Waning. Now: ${currentBonuses.bonus}${currentBonuses.penalty !== 'None' ? `, ${currentBonuses.penalty}` : ''}. Darkvision 60 ft; charm/fear advantage on Full Moon.`}
+                                        status={[
+                                            `All phases — New: +2 Armor · Waxing: +1d4 healing · Full: +2d6 damage · Waning: −2 mana costs.`,
+                                        ]}
+                                        usage="Shift phase early for 8 mana (resets the timer)."
+                                    />
                                 );
                             })()}
 
                             {lunarchHoverSection === 'timer' && (
-                                <>
-                                    <div className="tooltip-header">Phase Timer</div>
-
-                                    <div className="tooltip-section">
-                                        <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                            <strong>Current Round:</strong> {roundsInPhase + 1}/3
-                                        </div>
-                                        <div style={{ fontSize: '0.9rem' }}>
-                                            <strong>Rounds Remaining:</strong> {3 - roundsInPhase}
-                                        </div>
-                                    </div>
-
-                                    <div className="tooltip-divider"></div>
-
-                                    <div className="tooltip-section">
-                                        <div className="tooltip-label">Natural Cycling</div>
-                                        <div className="level-management">
-                                            <strong>Duration:</strong>
-                                            <span>3 rounds per phase</span>
-                                            <strong>Cycle Order:</strong>
-                                            <span>New ? Waxing ? Full ? Waning</span>
-                                            <strong>Auto-Advance:</strong>
-                                            <span>After round 3 completes</span>
-                                        </div>
-                                    </div>
-
-                                    <div className="tooltip-divider"></div>
-
-                                    <div className="tooltip-section">
-                                        <div className="tooltip-label">Specialization Passive</div>
-                                        <div className="passive-desc">
-                                            {lunarchSpec === 'moonlight_sentinel' && 'Critical hits during Full Moon deal +2d6 radiant damage.'}
-                                            {lunarchSpec === 'starfall_invoker' && 'AoE spells during Full Moon affect +5 ft radius.'}
-                                            {lunarchSpec === 'lunar_guardian' && 'Healing during Waxing Moon grants +1d6 temporary HP.'}
-                                        </div>
-                                    </div>
-                                </>
+                                <ClassTip
+                                    icon="⏱️"
+                                    tint="#7b1fa2"
+                                    title="Phase Timer"
+                                    state={`Round ${roundsInPhase + 1}/3`}
+                                    stateTone={roundsInPhase >= 2 ? 'warn' : 'neutral'}
+                                    mechanic={`Phase auto-advances after round 3.${lunarchSpec === 'moonlight_sentinel' ? ' Sentinel: Full-Moon crits +2d6 radiant.' : lunarchSpec === 'starfall_invoker' ? ' Invoker: Full-Moon AoE +5 ft.' : ' Guardian: Waxing healing +1d6 temp HP.'}`}
+                                    status={[
+                                        roundsInPhase >= 2
+                                            ? 'Last round — spend the current bonus now.'
+                                            : `${2 - roundsInPhase} round(s) left on this phase.`,
+                                    ]}
+                                />
                             )}
                         </div>
                     )}
@@ -1252,30 +748,19 @@ const ResourceTooltip = ({
                         const maxPerNote = finalConfig.mechanics?.maxPerNote || 5;
 
                         return (
-                            <>
-                                <div className="tooltip-header">{note.name}</div>
-
-                                <div className="tooltip-section">
-                                    <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                        <strong>Current:</strong> {count}/{maxPerNote} notes
-                                    </div>
-                                    <div style={{ fontSize: '0.9rem' }}>
-                                        <strong>Effect:</strong> {note.function}
-                                    </div>
-                                </div>
-
-                                <div className="tooltip-divider"></div>
-
-                                <div className="tooltip-section">
-                                    <div className="tooltip-label">Note Management</div>
-                                    <div className="level-management">
-                                        <strong>Generate:</strong>
-                                        <span>{note.generatedBy}</span>
-                                        <strong>Use:</strong>
-                                        <span>{note.usedIn?.[0] || 'Various cadences'}</span>
-                                    </div>
-                                </div>
-                            </>
+                            <ClassTip
+                                icon="♪"
+                                tint="#9370DB"
+                                title={note.name}
+                                state={`${count}/${maxPerNote}`}
+                                stateTone={count > 0 ? 'good' : 'neutral'}
+                                mechanic={`${note.function} — banked by ${note.generatedBy}, spent in ${note.usedIn?.[0] || 'cadences'}.`}
+                                status={[
+                                    count > 0
+                                        ? `${count} banked — spendable.`
+                                        : 'Empty — play builders first.',
+                                ]}
+                            />
                         );
                     })()}
 
@@ -1290,41 +775,22 @@ const ResourceTooltip = ({
                                 const visionsValue = localVisions;
 
                                 return (
-                                    <>
-                                        <div className="tooltip-header">{specName} Visions</div>
-
-                                        <div className="tooltip-section">
-                                            <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                                <strong>Current:</strong> {visionsValue}/{maxVisions} visions
-                                            </div>
-                                            <div style={{ fontSize: '0.9rem' }}>
-                                                <strong>Next Prediction:</strong> +1-3 visions
-                                            </div>
-                                        </div>
-
-                                        <div className="tooltip-divider"></div>
-
-                                        <div className="tooltip-section">
-                                            <div className="tooltip-label">Vision Management</div>
-                                            <div className="level-management">
-                                                <strong>Gain:</strong>
-                                                <span>Make predictions (simple +1, moderate +2, complex +3)</span>
-                                                <strong>Spend:</strong>
-                                                <span>Alter Fate (1-3 visions per use)</span>
-                                            </div>
-                                        </div>
-
-                                        <div className="tooltip-divider"></div>
-
-                                        <div className="tooltip-section">
-                                            <div className="tooltip-label">{specName} Passive</div>
-                                            <div className="passive-desc">
-                                                {oracleSpec === 'seer' && 'Gain +1 Vision per correct prediction. Predictions cost no action points. Advantage on initiative.'}
-                                                {oracleSpec === 'truthseeker' && 'Detect lies and illusions. Uncover hidden knowledge for +1 Vision each.'}
-                                                {oracleSpec === 'fateseer' && 'Premonition: When a prediction resolves correctly, spend 1 Vision to immediately apply a fate effect (reroll, -1d6, or advantage/disadvantage) related to that prediction.'}
-                                            </div>
-                                        </div>
-                                    </>
+                                    <ClassTip
+                                        icon="🔮"
+                                        tint="#5c6bc0"
+                                        title={`${specName} Visions`}
+                                        state={`${visionsValue}/${maxVisions}`}
+                                        stateTone={visionsValue >= 3 ? 'good' : 'neutral'}
+                                        mechanic={`Predictions bank visions (simple +1, moderate +2, complex +3). Spend 1–3 to Alter Fate. ${oracleSpec === 'seer' ? 'Seer: +1 per correct prediction, free predictions, initiative advantage.' : oracleSpec === 'truthseeker' ? 'Truthseeker: lies/illusions uncovered for +1 each.' : 'Fateseer: on a correct prediction, spend 1 for a fate effect (reroll, −1d6, adv/dis).'}`}
+                                        status={[
+                                            visionsValue >= 3
+                                                ? `${visionsValue} banked — Alter Fate freely.`
+                                                : visionsValue > 0
+                                                    ? 'Thin — make predictions to bank more.'
+                                                    : 'Empty — predict something.',
+                                        ]}
+                                        usage="Make predictions to gain; spend to Alter Fate."
+                                    />
                                 );
                             })()}
                         </div>
@@ -1339,51 +805,20 @@ const ResourceTooltip = ({
                                 const isOverheated = rageValue > 100;
 
                                 return (
-                                    <>
-                                        <div className="tooltip-header">Berserker Rage</div>
-
-                                        <div className="tooltip-section">
-                                            <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                                <strong>Current:</strong> {rageValue}/100 rage
-                                            </div>
-                                            {currentState && (
-                                                <div style={{ fontSize: '0.9rem' }}>
-                                                    <strong>State:</strong> {currentState.name}
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        {currentState && (
-                                            <>
-                                                <div className="tooltip-divider"></div>
-                                                <div className="tooltip-section">
-                                                    <div className="tooltip-label">Current Effects</div>
-                                                    {currentState.bonuses && currentState.bonuses.length > 0 && (
-                                                        <div style={{ fontSize: '0.85rem', marginBottom: '4px' }}>
-                                                            <strong>Bonuses:</strong> {currentState.bonuses.join(', ')}
-                                                        </div>
-                                                    )}
-                                                    {currentState.penalties && currentState.penalties.length > 0 && (
-                                                        <div style={{ fontSize: '0.85rem' }}>
-                                                            <strong>Penalties:</strong> {currentState.penalties.join(', ')}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </>
-                                        )}
-
-                                        {isOverheated && (
-                                            <>
-                                                <div className="tooltip-divider"></div>
-                                                <div className="tooltip-section">
-                                                    <div className="tooltip-label">Overheat Warning</div>
-                                                    <div className="drawback-text">
-                                                        Take 2d6 damage if not spent this round!
-                                                    </div>
-                                                </div>
-                                            </>
-                                        )}
-                                    </>
+                                    <ClassTip
+                                        icon="🔥"
+                                        tint="#e64a19"
+                                        title="Berserker Rage"
+                                        state={isOverheated ? `${rageValue} · OVERHEAT` : currentState ? `${rageValue}/100 · ${currentState.name}` : `${rageValue}/100`}
+                                        stateTone={isOverheated ? 'bad' : 'neutral'}
+                                        mechanic="Rage fuels brutal states — higher rage, harder hits, thinner control."
+                                        status={[
+                                            currentState && currentState.bonuses?.length > 0 ? `+ ${currentState.bonuses.join(' · ')}` : null,
+                                            currentState && currentState.penalties?.length > 0 ? `− ${currentState.penalties.join(' · ')}` : null,
+                                            isOverheated ? 'OVERHEAT: spend it this round or take 2d6 damage.' : null,
+                                        ]}
+                                        usage="Spend rage on brutal abilities before it overcooks."
+                                    />
                                 );
                             })()}
                         </div>
@@ -1392,15 +827,19 @@ const ResourceTooltip = ({
                     {/* Harbinger Tooltips */}
                     {finalConfig.visual?.type === 'mayhem-gauge' && chaosWeaverHoverSection === 'mayhem' && (
                         <div>
-                            <div className="tooltip-header">Mayhem Gauge</div>
-                            <div className="tooltip-section">
-                                <div style={{ fontSize: '0.9rem', marginBottom: '4px', color: '#5E35B1' }}>
-                                    <strong>Current:</strong> {finalClassResource.current || 0}/{finalClassResource.max || 100} Mayhem
-                                </div>
-                                <div style={{ fontSize: '0.85rem', color: '#4E342E' }}>
-                                    Passive chaos pressure gauge: CANNOT be spent. Passively amplifies all spells as it rises. Only release is Wild Surge at 100.
-                                </div>
-                            </div>
+                            <ClassTip
+                                icon="💥"
+                                tint="#5E35B1"
+                                title="Mayhem Gauge"
+                                state={`${finalClassResource.current || 0}/${finalClassResource.max || 100}`}
+                                stateTone={(finalClassResource.current || 0) >= 100 ? 'warn' : 'neutral'}
+                                mechanic="Chaos pressure: cannot be spent. Passively amplifies all spells as it rises — only release is Wild Surge at 100."
+                                status={[
+                                    (finalClassResource.current || 0) >= 100
+                                        ? 'MAXIMUM — Wild Surge ready. Unleash it.'
+                                        : 'Building — every spell hits a little harder.',
+                                ]}
+                            />
                         </div>
                     )}
 

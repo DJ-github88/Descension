@@ -1,13 +1,15 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import useCharacterStore from '../../store/characterStore';
+import { migrateBlockId } from '../../utils/arcanoneerMigration';
 import './SpellCastConfirmation.css';
 
-const SpellCastConfirmation = ({ spell, onConfirm, onCancel }) => {
+const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: classResourceProp }) => {
     // Get current resources to check availability (hooks must be called unconditionally)
     const currentMana = useCharacterStore(state => state.mana);
     const currentAP = useCharacterStore(state => state.actionPoints);
-    const currentClassResource = useCharacterStore(state => state.classResource);
+    const storeClassResource = useCharacterStore(state => state.classResource);
+    const currentClassResource = classResourceProp || storeClassResource;
 
     if (!spell) return null;
 
@@ -62,13 +64,63 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel }) => {
         }
     }
 
+    // Extract Arcanoneer elemental spheres requirement
+    const requiredSpheres = [];
+    if (Array.isArray(spell._arcanoneerElements)) {
+        spell._arcanoneerElements.forEach(el => requiredSpheres.push(migrateBlockId(el)));
+    } else if (Array.isArray(spell.elements)) {
+        spell.elements.forEach(el => requiredSpheres.push(migrateBlockId(el)));
+    } else if (Array.isArray(resourceCost.spheres)) {
+        resourceCost.spheres.forEach(el => requiredSpheres.push(migrateBlockId(el)));
+    } else if (resourceValues) {
+        Object.entries(resourceValues).forEach(([key, val]) => {
+            if (key.endsWith('_sphere')) {
+                const elem = migrateBlockId(key.replace('_sphere', ''));
+                const cnt = Number(val) || 0;
+                for (let i = 0; i < cnt; i++) requiredSpheres.push(elem);
+            }
+        });
+    }
+
+    const currentSpheres = Array.isArray(currentClassResource?.spheres)
+        ? currentClassResource.spheres.map(migrateBlockId)
+        : [];
+
+    const sphereCostCounts = {};
+    requiredSpheres.forEach(id => {
+        sphereCostCounts[id] = (sphereCostCounts[id] || 0) + 1;
+    });
+
+    const sphereBankCounts = {};
+    currentSpheres.forEach(id => {
+        sphereBankCounts[id] = (sphereBankCounts[id] || 0) + 1;
+    });
+
+    let hasEnoughSpheres = true;
+    const sphereResourceCosts = [];
+    Object.entries(sphereCostCounts).forEach(([elemId, reqCount]) => {
+        const available = sphereBankCounts[elemId] || 0;
+        const insufficient = available < reqCount;
+        if (insufficient) hasEnoughSpheres = false;
+        const elemName = elemId.charAt(0).toUpperCase() + elemId.slice(1);
+        sphereResourceCosts.push({
+            type: `sphere sphere-${elemId}`,
+            elemId,
+            amount: reqCount,
+            label: `${elemName} Sphere`,
+            current: available,
+            max: reqCount,
+            insufficient
+        });
+    });
+
     // Check resource availability
     // Note: infernoAscend is NOT checked here - it's a gain, not a requirement
     const hasEnoughMana = !manaCost || (currentMana && currentMana.current >= manaCost);
     const hasEnoughAP = !apCost || (currentAP && currentAP.current >= apCost);
     // Only check inferno_required - inferno_ascend does NOT block casting
     const hasEnoughInferno = !infernoRequired || (currentClassResource && currentClassResource.current >= infernoRequired);
-    const canCast = hasEnoughMana && hasEnoughAP && hasEnoughInferno;
+    const canCast = hasEnoughMana && hasEnoughAP && hasEnoughInferno && hasEnoughSpheres;
 
     // Build resource cost display with availability indicators
     const resourceCosts = [];
@@ -92,6 +144,8 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel }) => {
             insufficient: !hasEnoughAP
         });
     }
+    // Add elemental sphere costs
+    resourceCosts.push(...sphereResourceCosts);
 
     // Build resource changes display
     const resourceChanges = [];

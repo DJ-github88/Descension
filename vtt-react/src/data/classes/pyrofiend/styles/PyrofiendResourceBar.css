@@ -1,247 +1,173 @@
-/* ===== PYROFIEND RESOURCE BAR (ILLUSTRATED GAME ASSETS) ===== */
+/* ===== PYROFIEND RESOURCE BAR — SCATHRACH'S VEIL (NINE SWALLOWED COALS) ===== */
+/* Pure vector apparatus: obsidian slab, magma artery, nine coals. No text —
+   stage and bonus live in the hover tooltip and controls menu. */
 
-/* Wrapper */
 .pyrofiend-resource-wrapper {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin: 2px 0;
+    max-width: 100%;
+    margin: 0;
     z-index: 1;
     user-select: none;
     box-sizing: border-box;
 }
 
-.party-member-frame .pyrofiend-resource-wrapper {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 2px 0 !important;
+.pyrofiend-resource-wrapper .resource-bar-row {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.pyrofiend-resource-wrapper.small {
-    margin: 1px 0;
-}
-
-.pyrofiend-resource-wrapper.large {
-    margin: 4px 0;
-}
-
-/* Main Illustrated Resource Bar */
+/* Main vector bar (viewBox 0 0 300 64), full-bleed in its container */
 .pyrofiend-resource-bar {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     width: 100%;
-    max-width: 320px;
+    max-width: 100%;
+    height: 64px;
     margin: 0 auto;
-    aspect-ratio: 860 / 140;
-    min-height: 20px;
-    height: auto;
-    border-radius: 4px;
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    transition: filter 0.25s ease;
     cursor: pointer;
+    user-select: none;
+    outline: none;
+}
+
+.pyrofiend-resource-bar:focus-visible {
+    filter: drop-shadow(0 0 6px #ffb300);
+}
+
+.pyrofiend-caldera-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
     overflow: visible;
-    box-sizing: border-box;
 }
 
 .pyrofiend-resource-bar.small {
-    width: 100%;
-    max-width: 220px;
-    min-height: 18px;
+    height: 56px;
 }
 
 .pyrofiend-resource-bar.large {
-    width: 100%;
-    max-width: 360px;
-    min-height: 32px;
+    height: 76px;
 }
 
-@media (max-width: 600px) {
-    .pyrofiend-resource-bar {
-        max-width: 260px;
-    }
-    .pyrofiend-resource-bar.small {
-        max-width: 190px;
-    }
-    .pyrofiend-resource-bar.large {
-        max-width: 290px;
-    }
+/* Character card / compact hud sizing */
+.character-card .pyrofiend-resource-bar,
+.character-card-compact .pyrofiend-resource-bar {
+    height: 52px !important;
+    min-height: 52px !important;
 }
 
-.pyrofiend-resource-bar:hover {
-    transform: translateY(-1px) scale(1.012);
+/* Hover — a whisper of heat, nothing more */
+.pyrofiend-resource-bar.clickable:hover {
+    filter: drop-shadow(0 0 4px rgba(255, 90, 0, 0.55));
 }
 
-.pyrofiend-resource-bar:active {
-    transform: translateY(0) scale(0.99);
+.pyrofiend-resource-bar.clickable:active {
+    filter: drop-shadow(0 0 3px rgba(255, 69, 0, 0.6));
 }
 
-/* Base Stone Bar Background Image Asset */
-.pyrofiend-bar-base-asset {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-    pointer-events: none;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.75));
-    z-index: 1;
+/* Surging state (Stage 5+) — faint furnace breath; the runes carry the show */
+.pyrofiend-resource-bar.surging {
+    animation: pyroSurgePulse 2.6s infinite ease-in-out;
 }
 
-/* Runes Track Layer */
-.pyrofiend-runes-track {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 4.5%;
-    box-sizing: border-box;
-    z-index: 3;
-}
-
-/* Individual Rune Slot */
-.pyrofiend-rune-slot {
-    position: relative;
-    flex: 1;
-    height: 80%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.pyrofiend-rune-slot:hover {
-    transform: scale(1.18);
-    z-index: 6;
-}
-
-/* Rune Image Assets - Normalized 80x80 format */
-.pyrofiend-rune-img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    pointer-events: none;
-    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s ease, filter 0.35s ease;
-}
-
-/* Unlit / Empty Rune State — Dark, subtle recessed stone carving */
-.pyrofiend-rune-img.rune-empty {
-    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.95)) brightness(0.95);
-    opacity: 0.85;
-}
-
-.pyrofiend-rune-img.rune-empty.visible {
-    opacity: 0.85;
-    transform: scale(1);
-}
-
-.pyrofiend-rune-img.rune-empty.faded {
-    opacity: 0;
-    transform: scale(0.8);
-}
-
-/* Lit / Filled Rune State — Sharp Crisp Fiery Glyphs */
-.pyrofiend-rune-img.rune-filled {
-    filter: drop-shadow(0 0 3px rgba(255, 170, 0, 0.95)) drop-shadow(0 0 6px rgba(255, 69, 0, 0.75));
-}
-
-.pyrofiend-rune-img.rune-filled.visible {
-    opacity: 1;
-    transform: scale(1);
-    animation: runeFlameBreath 2.2s ease-in-out infinite alternate;
-}
-
-.pyrofiend-rune-img.rune-filled.faded {
-    opacity: 0;
-    transform: scale(0.65);
-}
-
-/* Staggered Flame Breathing on Lit Runes */
-.pyrofiend-rune-slot.slot-1 .rune-filled.visible { animation-delay: 0.0s; }
-.pyrofiend-rune-slot.slot-2 .rune-filled.visible { animation-delay: 0.2s; }
-.pyrofiend-rune-slot.slot-3 .rune-filled.visible { animation-delay: 0.4s; }
-.pyrofiend-rune-slot.slot-4 .rune-filled.visible { animation-delay: 0.6s; }
-.pyrofiend-rune-slot.slot-5 .rune-filled.visible { animation-delay: 0.8s; }
-.pyrofiend-rune-slot.slot-6 .rune-filled.visible { animation-delay: 1.0s; }
-.pyrofiend-rune-slot.slot-7 .rune-filled.visible { animation-delay: 1.2s; }
-.pyrofiend-rune-slot.slot-8 .rune-filled.visible { animation-delay: 1.4s; }
-.pyrofiend-rune-slot.slot-9 .rune-filled.visible { animation-delay: 1.6s; }
-
-@keyframes runeFlameBreath {
-    0% {
-        filter: drop-shadow(0 0 2px rgba(255, 180, 0, 0.85)) drop-shadow(0 0 5px rgba(255, 69, 0, 0.6));
-        transform: scale(1);
+@keyframes pyroSurgePulse {
+    0%, 100% {
+        filter: drop-shadow(0 0 3px rgba(255, 69, 0, 0.35));
     }
     50% {
-        filter: drop-shadow(0 0 4px rgba(255, 220, 50, 1)) drop-shadow(0 0 8px rgba(255, 69, 0, 0.85)) brightness(1.08);
-        transform: scale(1.04);
+        filter: drop-shadow(0 0 6px rgba(255, 102, 0, 0.5));
+    }
+}
+
+/* Heresy state (Stage 6+) — heat fully saturated */
+.pyrofiend-resource-bar.heresy .pyrofiend-caldera-svg {
+    filter: saturate(1.15);
+}
+
+/* Catastrophic state (Stage 9) — low red emberlight, no bloom */
+.pyrofiend-resource-bar.catastrophic,
+.pyrofiend-resource-wrapper.catastrophic-warning {
+    animation: pyroCataclysmPulse 1.4s infinite alternate ease-in-out;
+}
+
+@keyframes pyroCataclysmPulse {
+    0% {
+        filter: drop-shadow(0 0 4px rgba(200, 20, 0, 0.4));
     }
     100% {
-        filter: drop-shadow(0 0 3px rgba(255, 140, 0, 0.85)) drop-shadow(0 0 6px rgba(255, 30, 0, 0.65));
-        transform: scale(0.99);
+        filter: drop-shadow(0 0 8px rgba(255, 40, 0, 0.55));
     }
 }
 
-/* Active Tip Pulsing */
-.pyrofiend-rune-slot.current-active .rune-filled.visible {
-    filter: drop-shadow(0 0 5px rgba(255, 230, 100, 1)) drop-shadow(0 0 10px rgba(255, 80, 0, 0.95)) brightness(1.12);
-    animation: activeRuneSurge 1.4s ease-in-out infinite alternate;
+/* Current-stage halo heartbeat */
+.pyro-halo {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pyroHaloBeat 1.6s infinite ease-in-out;
 }
 
-@keyframes activeRuneSurge {
-    0% { transform: scale(1.02); }
-    100% { transform: scale(1.08); }
+@keyframes pyroHaloBeat {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.12); }
 }
 
-/* Catastrophic 9th Stage Flare */
-.pyrofiend-rune-slot.catastrophic .rune-filled.visible {
-    filter: drop-shadow(0 0 6px #ff3300) drop-shadow(0 0 12px #ff0000) brightness(1.2);
-    animation: catastrophicRuneShake 0.6s ease-in-out infinite alternate;
+/* Coal hover feedback */
+.pyro-rune-crucible {
+    transition: filter 0.15s ease;
 }
 
-@keyframes catastrophicRuneShake {
-    0% { transform: scale(1.04) rotate(-1deg); }
-    100% { transform: scale(1.10) rotate(1deg); }
+.pyro-rune-crucible:hover {
+    filter: brightness(1.3);
 }
 
-/* Context Menu Integration */
-.pyrofiend-resource-bar.clickable {
-    cursor: pointer;
+/* ── Demonic seals ────────────────────────────────────────── */
+/* Dormant: cold etching in the obsidian. Ignited: a soft fire
+   under-stroke breathes beneath a white-hot core stroke. */
+.pyro-rune-etch {
+    transition: stroke 0.2s ease;
 }
 
-/* Pathfinder Tooltip Typography & Coloration */
-.pyrofiend-tooltip {
-    background: linear-gradient(135deg, #f5ecd8 0%, #ebe0ca 100%) !important;
-    border: 2px solid #8b7355 !important;
-    color: #2C2416 !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+.pyro-rune-fire {
+    animation: pyroRuneBurn 1.8s infinite ease-in-out;
 }
 
-.pyrofiend-tooltip .tooltip-header {
-    color: #2C2416 !important;
-    font-weight: 700 !important;
-    border-bottom: 1px solid #8b7355 !important;
+.pyro-rune-core {
+    animation: pyroRunePulse 2.4s infinite ease-in-out;
 }
 
-.pyrofiend-tooltip .tooltip-label {
-    color: #2C2416 !important;
-    font-weight: 700 !important;
+.pyro-rune-heart {
+    animation: pyroRunePulse 1.5s infinite ease-in-out;
 }
 
-.pyrofiend-tooltip .tooltip-divider {
-    background: linear-gradient(90deg, transparent, #8B7355, transparent) !important;
+@keyframes pyroRuneBurn {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.95; }
 }
 
-.pyrofiend-tooltip .drawback-text {
-    font-weight: 600 !important;
-    line-height: 1.35 !important;
+@keyframes pyroRunePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.72; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .pyrofiend-resource-bar.surging,
+    .pyrofiend-resource-bar.catastrophic,
+    .pyrofiend-resource-wrapper.catastrophic-warning,
+    .pyro-halo,
+    .pyro-rune-fire,
+    .pyro-rune-core,
+    .pyro-rune-heart {
+        animation: none;
+    }
 }

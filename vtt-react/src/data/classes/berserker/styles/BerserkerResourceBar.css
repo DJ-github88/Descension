@@ -1,242 +1,258 @@
+/* ===== BERSERKER RESOURCE BAR (FANGED CALDERA JAW & KIN-BLOOD RIFT) ===== */
+
+.berserker-resource-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    z-index: 1;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.berserker-resource-container .resource-bar-row {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main Vector Resource Bar (Wide ViewBox 0 0 360 56) */
 .berserker-resource-bar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 15px;
-  background: linear-gradient(135deg, #3a2418 0%, #2d1810 100%);
-  border: 2px solid #8b4513;
-  border-radius: 10px;
-  min-width: 280px;
-  position: relative;
-  overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 360px;
+    height: 56px;
+    margin: 0 auto;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    transition: filter 0.25s ease;
+    cursor: pointer;
+    user-select: none;
 }
 
-.berserker-resource-bar::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%222%22%20fill%3D%22rgba%28255%2C0%2C0%2C0.1%29%22%2F%3E%3Ccircle%20cx%3D%2280%22%20cy%3D%2240%22%20r%3D%221.5%22%20fill%3D%22rgba%28255%2C0%2C0%2C0.1%29%22%2F%3E%3Ccircle%20cx%3D%2240%22%20cy%3D%2280%22%20r%3D%221%22%20fill%3D%22rgba%28255%2C0%2C0%2C0.1%29%22%2F%3E%3C%2Fsvg%3E');
-  opacity: 0.3;
-  pointer-events: none;
+.berserker-brand-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
 }
 
-.rage-state-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 10px;
+.berserker-resource-bar.small {
+    height: 44px;
+    max-width: 280px;
 }
 
-.rage-state-name {
-  font-size: 18px;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  text-shadow: 0 0 5px currentColor;
+.berserker-resource-bar.large {
+    height: 64px;
+    max-width: 400px;
 }
 
-.rage-amount {
-  font-size: 16px;
-  font-weight: bold;
-  color: #fff;
-  background: rgba(0,0,0,0.5);
-  padding: 2px 8px;
-  border-radius: 4px;
+/* Character card / compact hud sizing - UNLOCKED FULL WIDTH SPAN */
+.character-card .berserker-resource-bar,
+.character-card-compact .berserker-resource-bar {
+    height: 52px !important;
+    min-height: 52px !important;
+    max-width: 360px !important;
+    width: 100% !important;
 }
 
-.rage-dice-container {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 15px;
+/* Interactive Components */
+.berserker-flank-trigger {
+    cursor: pointer;
+    pointer-events: all;
+    user-select: none;
+    transition: filter 0.2s ease, transform 0.15s ease;
 }
 
-.rage-die {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: linear-gradient(135deg, #4a3020 0%, #3a2418 100%);
-  border: 2px solid #6b4a30;
-  border-radius: 8px;
-  padding: 10px;
-  min-width: 60px;
-  transition: all 0.3s ease;
+.berserker-flank-trigger * {
+    pointer-events: all;
 }
 
-.rage-die.animating {
-  animation: dieRoll 0.3s ease-in-out;
+.berserker-flank-trigger:hover {
+    filter: drop-shadow(0 0 6px #f59e0b) brightness(1.3);
 }
 
-@keyframes dieRoll {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.2) rotate(180deg); }
-  100% { transform: scale(1); }
+.berserker-flank-trigger:active {
+    transform: scale(0.95);
 }
 
-.die-value {
-  font-size: 24px;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 0 0 10px rgba(255,255,255,0.5);
+.berserker-heat-cell {
+    cursor: pointer;
+    transition: fill 0.2s ease;
 }
 
-.die-label {
-  font-size: 10px;
-  color: #c4a373;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-top: 2px;
+.berserker-heat-cell:hover {
+    fill: rgba(254, 240, 138, 0.18) !important;
 }
 
-.rage-bar-container {
-  position: relative;
-  width: 100%;
-  height: 20px;
-  background: #2d1810;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid #6b4a30;
+.berserker-brand-center {
+    cursor: pointer;
+    transition: filter 0.25s ease, transform 0.15s ease;
 }
 
-.rage-bar-fill {
-  height: 100%;
-  transition: all 0.3s ease;
-  position: relative;
+.berserker-brand-center:hover {
+    filter: drop-shadow(0 0 10px #f97316) drop-shadow(0 0 5px #fef08a);
 }
 
-.rage-bar-fill::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
-  animation: shimmer 2s infinite;
+/* Hover effects - pure glow, NO TRANSLATION OR SWAY */
+.berserker-resource-bar.clickable:hover {
+    filter: drop-shadow(0 0 8px #dc2626) drop-shadow(0 0 4px #ea580c);
 }
 
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+.berserker-resource-bar.clickable:active {
+    filter: drop-shadow(0 0 4px #dc2626);
 }
 
-.rage-bar-fill.light {
-  box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+/* Overheated state (101+ rage) */
+.berserker-resource-bar.overheated {
+    animation: berserkerOverheatPulse 0.9s infinite alternate ease-in-out;
 }
 
-.rage-bar-fill.moderate {
-  box-shadow: 0 0 15px currentColor, 0 0 30px currentColor, 0 0 45px currentColor;
+@keyframes berserkerOverheatPulse {
+    0% {
+        filter: drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 2px #f97316);
+    }
+    100% {
+        filter: drop-shadow(0 0 22px #dc2626) drop-shadow(0 0 10px #fef08a);
+    }
 }
 
-.rage-bar-fill.intense {
-  box-shadow: 0 0 20px currentColor, 0 0 40px currentColor, 0 0 60px currentColor;
-  animation: pulse 1s infinite;
+/* ===== UNIFIED PARCHMENT CONTEXT MENU (CALDERA RAGE POPOVER) ===== */
+.unified-context-menu.berserker-rage-popover {
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(213, 203, 176, 0.98) 100%) !important;
+    border: 2px solid #a08c70 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+    font-family: 'Bookman Old Style', 'Garamond', 'Georgia', serif !important;
+    color: #3a3a3a !important;
+    width: 320px;
+    padding: 10px;
+    box-sizing: border-box;
+    z-index: 100000;
 }
 
-@keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.7; }
-  100% { opacity: 1; }
+.berserker-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 6px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #8b4513 !important;
+    font-family: 'Cinzel', 'Trajan Pro', 'Georgia', serif !important;
+    font-size: 14px;
+    font-weight: bold;
+    color: #5e2e23 !important;
 }
 
-.rage-bar-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(255,255,255,0.1) 0px,
-    rgba(255,255,255,0.1) 2px,
-    transparent 2px,
-    transparent 4px
-  );
+.berserker-menu-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #5e2e23;
 }
 
-.rage-threshold {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: rgba(255,255,255,0.3);
-  z-index: 1;
+.berserker-menu-close-btn {
+    background: none;
+    border: none;
+    color: #8b4513;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: background 0.15s ease, color 0.15s ease;
 }
 
-.rage-threshold.danger {
-  background: #ff0000;
-  box-shadow: 0 0 5px #ff0000;
+.berserker-menu-close-btn:hover {
+    background: rgba(139, 69, 19, 0.15);
+    color: #5e2e23;
 }
 
-.overheat {
-  animation: overheatShake 0.5s infinite;
+/* Flavor text banner inside popover */
+.berserker-rage-popover .menu-status-flavor {
+    font-size: 11px;
+    font-style: italic;
+    padding: 6px 8px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(160, 140, 112, 0.5);
+    text-align: center;
+    line-height: 1.3;
 }
 
-@keyframes overheatShake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-2px); }
-  50% { transform: translateX(2px); }
-  75% { transform: translateX(-2px); }
-  100% { transform: translateX(0); }
+/* Parchment Buttons */
+.berserker-rage-popover .context-menu-button {
+    background: linear-gradient(180deg, #f5ecd8 0%, #e2d2b6 100%) !important;
+    border: 1px solid #a08c70 !important;
+    color: #3c2415 !important;
+    font-family: 'Bookman Old Style', 'Garamond', 'Georgia', serif !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    padding: 5px 8px !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
 }
 
-.overheat .rage-bar-fill {
-  background: linear-gradient(90deg, #8B0000, #DC143C, #FF4500) !important;
-  animation: overheatPulse 0.3s infinite alternate;
+.berserker-rage-popover .context-menu-button:hover {
+    background: linear-gradient(180deg, #fffdf6 0%, #ede0cb 100%) !important;
+    border-color: #7d6b53 !important;
+    color: #1a0e08 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15) !important;
 }
 
-@keyframes overheatPulse {
-  0% { opacity: 1; }
-  100% { opacity: 0.8; }
+.berserker-rage-popover .context-menu-button:active {
+    transform: translateY(0);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2) !important;
 }
 
-.overheat-warning {
-  position: absolute;
-  bottom: 5px;
-  left: 5px;
-  right: 5px;
-  background: rgba(255, 0, 0, 0.9);
-  color: white;
-  padding: 5px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: bold;
-  text-align: center;
-  animation: warningFlash 1s infinite;
-  z-index: 10;
+.berserker-rage-popover .context-menu-button.active {
+    background: linear-gradient(180deg, #b45309 0%, #78350f 100%) !important;
+    border-color: #451a03 !important;
+    color: #fef08a !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3) !important;
 }
 
-@keyframes warningFlash {
-  0% { opacity: 1; }
-  50% { opacity: 0.7; }
-  100% { opacity: 1; }
+.berserker-rage-popover .context-menu-button.danger {
+    background: linear-gradient(180deg, #7f1d1d 0%, #450a0a 100%) !important;
+    border-color: #991b1b !important;
+    color: #fef2f2 !important;
 }
 
-/* State-specific styling */
-.berserker-resource-bar[data-rage-state="Smoldering"] {
-  border-color: #8B4513;
+.berserker-rage-popover .context-menu-button.danger:hover {
+    background: linear-gradient(180deg, #991b1b 0%, #591010 100%) !important;
+    color: #ffffff !important;
 }
 
-.berserker-resource-bar[data-rage-state="Frenzied"] {
-  border-color: #FFA500;
+.berserker-rage-popover .context-menu-button.gain {
+    border-color: #c2410c !important;
+    color: #7c2d12 !important;
 }
 
-.berserker-resource-bar[data-rage-state="Primal"] {
-  border-color: #FF6347;
+.berserker-rage-popover .context-menu-button.gain:hover {
+    background: linear-gradient(180deg, #ffedd5 0%, #fed7aa 100%) !important;
+    color: #431407 !important;
 }
 
-.berserker-resource-bar[data-rage-state="Carnage"] {
-  border-color: #FF4500;
+.berserker-rage-popover .context-menu-button.spend {
+    border-color: #b91c1c !important;
+    color: #7f1d1d !important;
 }
 
-.berserker-resource-bar[data-rage-state="Cataclysm"] {
-  border-color: #DC143C;
-}
-
-.berserker-resource-bar[data-rage-state="Obliteration"] {
-  border-color: #8B0000;
-  box-shadow: 0 0 20px #8B0000;
+.berserker-rage-popover .context-menu-button.spend:hover {
+    background: linear-gradient(180deg, #fee2e2 0%, #fecaca 100%) !important;
+    color: #450a0a !important;
 }

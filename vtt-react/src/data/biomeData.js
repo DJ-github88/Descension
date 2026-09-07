@@ -10,7 +10,7 @@ export const BIOMES = [
     id: 'arctic',
     name: 'Arctic',
     icon: 'fa-snowflake',
-    localIcon: 'assets/icons/abilities/Frost/Snowflake.png',
+    localIcon: '/assets/icons/abilities/Frost/Snowflake.png',
     regionFlavor: {
       regionName: 'Nordhalla',
       curseName: 'Glacier Freeze',
@@ -125,7 +125,7 @@ export const BIOMES = [
     id: 'desert',
     name: 'Desert',
     icon: 'fa-sun',
-    localIcon: 'assets/icons/abilities/Fire/Sun Symbol.png',
+    localIcon: '/assets/icons/abilities/Fire/Sun Symbol.png',
     regionFlavor: {
       regionName: 'Sundale',
       curseName: 'Caldera Ashfall',
@@ -231,7 +231,7 @@ export const BIOMES = [
     id: 'forest',
     name: 'Forest',
     icon: 'fa-tree',
-    localIcon: 'assets/icons/abilities/Nature/Stylized Tree.png',
+    localIcon: '/assets/icons/abilities/Nature/Stylized Tree.png',
     regionFlavor: {
       regionName: 'Frostwood Reach',
       curseName: 'Memory Decay Mists',
@@ -336,7 +336,7 @@ export const BIOMES = [
     id: 'swamp',
     name: 'Swamp',
     icon: 'fa-water',
-    localIcon: 'assets/icons/abilities/Nature/River Through Forest.png',
+    localIcon: '/assets/icons/abilities/Nature/River Through Forest.png',
     regionFlavor: {
       regionName: 'Bryngloom Forest',
       curseName: 'Bog Preserves',
@@ -441,7 +441,7 @@ export const BIOMES = [
     id: 'ocean',
     name: 'Ocean',
     icon: 'fa-anchor',
-    localIcon: 'assets/icons/abilities/Nature/Swirling Vortex.png',
+    localIcon: '/assets/icons/abilities/Nature/Swirling Vortex.png',
     regionFlavor: {
       regionName: 'Iceheart Sea',
       curseName: 'Storm-Cycle Navigation',
@@ -547,7 +547,7 @@ export const BIOMES = [
     id: 'underdark',
     name: 'Underdark',
     icon: 'fa-dungeon',
-    localIcon: 'assets/icons/abilities/Nature/Cave Run.png',
+    localIcon: '/assets/icons/abilities/Nature/Cave Run.png',
     regionFlavor: {
       regionName: 'Cragjaw Peaks',
       curseName: 'Chasm Bridge Hazards',
@@ -653,7 +653,7 @@ export const BIOMES = [
     id: 'steppe',
     name: 'Steppe',
     icon: 'fa-wind',
-    localIcon: 'assets/icons/abilities/Nature/Stylized Tree.png',
+    localIcon: '/assets/icons/abilities/Nature/Stylized Tree.png',
     regionFlavor: {
       regionName: 'Sundrift Vale',
       curseName: 'Starless Navigation',

@@ -22,7 +22,7 @@ const DiceRollingSystem = ({ hideSelectionBar = false }) => {
     getFormattedRollString
   } = useDiceStore();
 
-  const { addNotification } = useChatStore();
+  const { addNotification, addCombatNotification } = useChatStore();
   const characterName = useCharacterStore((state) => state.name);
   const currentCharacterId = useCharacterStore((state) => state.currentCharacterId);
   const currentRoomId = useGameStore((state) => state.currentRoomId);
@@ -227,7 +227,7 @@ const DiceRollingSystem = ({ hideSelectionBar = false }) => {
             });
 
             // Add to combat chat log with custom message
-            addNotification('combat', {
+            addCombatNotification({
               id: `skill_roll_${Date.now()}`,
               type: 'combat_resource',
               attacker: characterName || 'Player',
@@ -239,7 +239,7 @@ const DiceRollingSystem = ({ hideSelectionBar = false }) => {
       }
     } else {
       // Default notification for manual rolls
-      addNotification('combat', {
+      addCombatNotification({
         type: 'dice_roll',
         sender: characterName || 'Player',
         rollString: rollString,
@@ -266,7 +266,7 @@ const DiceRollingSystem = ({ hideSelectionBar = false }) => {
         console.error('Failed to save dice roll to Firebase:', error);
       }
     }
-  }, [finishRoll, getFormattedRollString, addNotification, characterName, user, currentCharacterId, currentRoomId, handleDismiss]);
+  }, [finishRoll, getFormattedRollString, addNotification, addCombatNotification, characterName, user, currentCharacterId, currentRoomId, handleDismiss]);
 
   useEffect(() => {
     if (isRolling && selectedDice.length > 0) {

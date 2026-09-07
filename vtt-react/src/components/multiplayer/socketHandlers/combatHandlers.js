@@ -8,7 +8,9 @@ export function registerCombatHandlers(ctx) {
 
     socket.on('combat_started', (data) => {
       if (!data) return;
-      console.log('âš”ï¸ Received combat_started from server:', data);
+      console.log('⚔️ Received combat_started from server:', data);
+
+      const combatData = data.combat || data;
 
       // Update combat store with received state
       useCombatStore.getState().forceResetCombat(); // Clear any existing state
@@ -16,19 +18,19 @@ export function registerCombatHandlers(ctx) {
       // Set the combat state
       useCombatStore.setState({
         isInCombat: true,
-        turnOrder: data.turnOrder || [],
-        round: data.round || 1,
-        currentTurnIndex: data.currentTurnIndex || 0,
+        turnOrder: combatData.turnOrder || [],
+        round: combatData.round || 1,
+        currentTurnIndex: combatData.currentTurnIndex || 0,
         isSelectionMode: false,
         selectedTokens: new Set()
       });
 
-      console.log('âš”ï¸ Combat state synced - player should now see combat timeline');
+      console.log('⚔️ Combat state synced - player should now see combat timeline');
     });
 
     socket.on('combat_ended', (data) => {
       if (!data) return;
-      console.log('ðŸ³ï¸ Received combat_ended from server:', data);
+      console.log('ðŸ ³ï¸  Received combat_ended from server:', data);
 
       // Reset combat store
       useCombatStore.getState().forceResetCombat();

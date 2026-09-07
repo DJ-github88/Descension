@@ -797,7 +797,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
   // Fallback icon for broken image loads
   const handleIconError = (e) => {
     e.target.onerror = null;
-    e.target.src = getIconUrl('Utility/Utility');
+    e.target.src = getIconUrl('Arcane/Abstract Rune');
   };
 
   // Add a function to generate detailed effect descriptions based on the selected effect type and intensity level

@@ -76,12 +76,12 @@ They carry guilt the rest of the world does not know about. The leaders of Mythr
             name: 'Inverted Vision',
             description: 'Your eyes were shaped by Lumia\'s light, a spectrum that has nothing to do with the sun. You see the day as the natives see the night, and the night as the natives see the day. You have advantage on Perception checks made in darkness or dim light, but disadvantage on Perception checks in bright daylight. The world is clearest to you when the rest of it is asleep.',
             level: 1,
-            icon: 'fas fa-eye',
+            icon: 'Psychic/Hypnotic Eye',
             spellType: 'PASSIVE',
             effectTypes: ['buff', 'debuff'],
             typeConfig: {
                 school: 'primal',
-                icon: 'fas fa-eye',
+                icon: 'Psychic/Hypnotic Eye',
                 tags: ['inverted-vision', 'darkvision', 'light-sensitivity', 'passive', 'shared']
             },
             buffConfig: {
@@ -125,12 +125,12 @@ They carry guilt the rest of the world does not know about. The leaders of Mythr
             name: 'Luminous Eyes',
             description: 'Your reptilian eyes glow faintly with the moonlight echo of Lumia, a pale light visible in true darkness from farther than you would like. You have disadvantage on Stealth checks made in darkness, your eyes are the first thing anything hunting in the dark will see. Some Astril bind their eyes with dark cloth when they must hide. It helps only a little.',
             level: 1,
-            icon: 'fas fa-eye',
+            icon: 'Arcane/Glowing Eyes',
             spellType: 'PASSIVE',
             effectTypes: ['debuff'],
             typeConfig: {
                 school: 'primal',
-                icon: 'fas fa-eye',
+                icon: 'Arcane/Glowing Eyes',
                 tags: ['luminous-eyes', 'stealth-penalty', 'moonlight-glow', 'passive', 'shared']
             },
             debuffConfig: {
@@ -161,12 +161,12 @@ They carry guilt the rest of the world does not know about. The leaders of Mythr
             name: 'Lumia\'s Echo',
             description: 'You carry a fragment of a dead world\'s biosphere in your blood. The alien biology that kept your ancestors alive on frozen Lumia endures in you. You have advantage on Survival and Nature checks, and you have resistance to environmental extremes, cold that would kill a native of Mythrill barely slows you, and heat that would wither them you endure. The echo is not warmth, exactly. It is the memory of warmth, and the memory is enough.',
             level: 1,
-            icon: 'fas fa-leaf',
+            icon: 'Nature/Single Leaf',
             spellType: 'PASSIVE',
             effectTypes: ['buff'],
             typeConfig: {
                 school: 'primal',
-                icon: 'fas fa-leaf',
+                icon: 'Nature/Single Leaf',
                 tags: ['lumias-echo', 'survival', 'environmental-resistance', 'alien-biology', 'passive', 'shared']
             },
             buffConfig: {
@@ -191,12 +191,12 @@ They carry guilt the rest of the world does not know about. The leaders of Mythr
             name: 'Selunis\'s Quest',
             description: 'You are bound to the dormant lunar deity your people have served since they arrived on Mythrill. At night, beneath the moon, Selunis\'s dreaming presence steadies your spirit. You have advantage on Spirit saving throws made at night. Once per long rest, you may perform a brief ritual attunement (1 minute) under moonlight to gain temporary insight: your next ability check, attack roll, or saving throw within 1 hour gains advantage. The sleeper whispers to those who tend the rite.',
             level: 1,
-            icon: 'fas fa-moon',
+            icon: 'Utility/Crescent Moon',
             spellType: 'PASSIVE',
             effectTypes: ['buff'],
             typeConfig: {
                 school: 'ember',
-                icon: 'fas fa-moon',
+                icon: 'Utility/Crescent Moon',
                 tags: ['selunis', 'lunar-attunement', 'spirit-resistance', 'ritual', 'passive', 'shared']
             },
             buffConfig: {
@@ -320,7 +320,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                     name: 'Starlight Resonance',
                     description: 'Your starlight-infused blood grants 15% radiant and spirit damage resistance. The light of Lumia that endures in your veins protects your mind and spirit from corruption.',
                     level: 1,
-                    icon: 'fas fa-star',
+                    icon: 'Radiant/Divine Illumination',
                     spellType: 'PASSIVE',
                     actionPoints: 0,
                     components: [],
@@ -347,35 +347,23 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                 {
                     id: 'star_burst_vashir',
                     name: 'Star-Burst',
-                    description: 'Channel your skin\'s starlight markings into a bright flash. Spend 1 AP to deal 1d6 radiant damage to an enemy within 30 ft and blind them for 1 round.',
+                    description: 'Channel your skin\'s starlight markings into a blinding flash. Spend 1 AP to deal 1d6 radiant damage to an enemy within 30 ft. The target must make a DC 13 Constitution saving throw: on a failure, they are blinded for 1 round; on a success, they are dazzled (-2 to their next attack roll).',
                     level: 1,
-                    icon: 'fas fa-sun',
+                    icon: 'Fire/Sun Symbol',
                     spellType: 'ACTION',
                     actionPoints: 1,
                     components: ['somatic'],
-                    effectTypes: ['buff', 'debuff'],
-                    typeConfig: { category: 'racial', school: 'primal' },
-                    buffConfig: {
-                        buffType: 'combatEnhancement',
-                        effects: [
-                            {
-                                id: 'star_flash_vashir',
-                                name: 'Star-Flash',
-                                description: 'Deals 1d6 radiant damage and blinds target for 1 round.',
-                                mechanicsText: 'Deal 1d6 radiant damage and blind target for 1 round.',
-                                statusEffect: { level: 'moderate', description: 'Blinding starlight burst' }
-                            }
-                        ],
-                        durationValue: 1, durationType: 'rounds', durationUnit: 'rounds', canBeDispelled: false
-                    },
+                    effectTypes: ['damage', 'debuff'],
+                    typeConfig: { category: 'racial', school: 'primal', tags: ['radiant', 'damage', 'blind', 'save_con'] },
+                    damageConfig: { formula: '1d6', damageTypes: ['radiant'], resolution: 'DICE' },
                     debuffConfig: {
                         debuffType: 'statusEffect',
                         effects: [
                             {
                                 id: 'starlight_blindness_vashir',
                                 name: 'Blinded by Starlight',
-                                description: 'Target is blinded by sudden starlight.',
-                                mechanicsText: 'Target is blinded for 1 round.',
+                                description: 'Target is blinded on failed DC 13 Con save; dazzled on success.',
+                                mechanicsText: 'DC 13 Con save: blinded 1 round on failure, -2 to next attack on success.',
                                 statusEffect: { type: 'blinded', duration: 1, durationUnit: 'rounds' }
                             }
                         ],
@@ -388,22 +376,22 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                 {
                     id: 'lumian_vigil_vashir',
                     name: 'Lumian Vigil',
-                    description: 'At night or in complete dark, gain +1 AP and +2 Passive Perception. Your senses sharpen when the sun goes down.',
+                    description: 'At night or in complete darkness, your senses heighten to the lost frequencies of Lumia. You gain Darkvision 60ft, +2 to Perception checks and Initiative, and on your first turn of combat in darkness, you gain +1 bonus AP.',
                     level: 1,
-                    icon: 'fas fa-moon',
+                    icon: 'Utility/Crescent Moon',
                     spellType: 'PASSIVE',
                     actionPoints: 0,
                     components: [],
                     effectTypes: ['buff'],
-                    typeConfig: { category: 'racial', school: 'primal' },
+                    typeConfig: { category: 'racial', school: 'primal', tags: ['vigil', 'perception', 'initiative', 'passive'] },
                     buffConfig: {
                         buffType: 'statusEffectBuff',
                         effects: [
                             {
                                 id: 'night_vigil_vashir',
                                 name: 'Night Vigil',
-                                description: '+1 AP and +2 Passive Perception at night or in darkness.',
-                                mechanicsText: 'Gain +1 AP and +2 Passive Perception while in darkness.',
+                                description: '+2 Perception, +2 Initiative, Darkvision 60ft, and +1 AP on opening turn in darkness.',
+                                mechanicsText: 'Darkvision 60ft, +2 Perception/Initiative, and +1 AP on round 1 in darkness.',
                                 statusEffect: { level: 'moderate', description: 'Night brings heightened focus' }
                             }
                         ],
@@ -418,7 +406,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                     name: 'Constellation Reading',
                     description: 'Once per long rest, read the celestial lines in your skin to grant yourself or an ally within 30 ft advantage on their next check or saving throw within 1 hour.',
                     level: 1,
-                    icon: 'fas fa-star-of-david',
+                    icon: 'Radiant/Radiant Magical Rune',
                     spellType: 'ACTION',
                     actionPoints: 1,
                     components: ['somatic'],
@@ -447,13 +435,13 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
             id: 'silath_astril',
             name: 'Brutish Astril',
             illustration: '/assets/images/races/silath_illustration.png',
-            illustrationCaption: 'A Brutish Astril portrait showing dark violet-grey skin, fractured purple void-crystal lines, and martial starlight armor.',
+            illustrationCaption: 'A Brutish Astril portrait showing dark violet-grey skin, fractured purple void-crystal lines, and martial starlight plating.',
             illustration2: '/assets/images/races/silath_illustration_2.png',
             illustration2Caption: 'A Brutish Astril portrait variation highlighting dark void-crystal skin markings and conqueror gear.',
             cultureIllustration: '/assets/images/races/silath_culture_study.png',
             cultureIllustrationCaption: 'Brutish Astril inquisitors commanding star-tech fortresses in Sundrift Vale.',
 
-            visualDescription: `The Brutish Astril wear the martial, conqueror power of dark starlight. Their skin is dark violet-grey, etched with sharp purple void-crystal lines that pulse with military cosmic energy. Their dark eyes reflect abyssal starlight, and they favor heavy star-steel armor studded with void-crystal fragments.`,
+            visualDescription: `The Brutish Astril wear the martial, conqueror power of dark starlight. Their skin is dark violet-grey, etched with sharp purple void-crystal lines that pulse with military cosmic energy. Their dark eyes reflect abyssal starlight, and they favor heavy star-steel plating studded with void-crystal fragments.`,
             tooltipSummary: 'Warlike conquerors wielding dark starlight technology, the imperious martial caste who demanded the historic Ordan purge.',
             description: 'The Brutish Astril are the warlike conqueror caste of the Astril. Driven by fierce survivalism, they wield dark starlight weaponry and ruthless military precision. It was the Brutish Astril who captured the Ordan assassin and issued the terrifying ultimatum that forced him to purge his own lineage to save his sister.',
             culturalBackground: 'Brutish Astril enclaves operate as high-tech military strongholds in Sundrift Vale. They enforce strict surveillance over hidden human remnants, harnessing void-crystal technology to maintain undisputed dominance over their territories.',
@@ -466,7 +454,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                     name: 'Read the Tide',
                     description: 'You open yourself to the stellar memory in your blood, the consciousness of Lumia that remembers every star it ever shone upon. For 1 minute, your patterns brighten, your silver eyes go fully mirror-bright, and the dream of Selunis moves through you. You gain +2 to Spirit-based spell attack rolls and +1 to spell save DC, and you may cast one divination or ritual effect you know without spending mana. When the tide recedes, you are left shivering and faint: gain 1 level of exhaustion as the alien memory withdraws. The star\'s consciousness does not linger where it is not at home.',
                     level: 1,
-                    icon: 'fas fa-moon',
+                    icon: 'Arcane/Spiral Vortex',
                     spellType: 'ACTION',
                     actionPoints: 1,
                     components: ['verbal', 'somatic'],
@@ -512,7 +500,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                     name: 'Lunar Attunement',
                     description: 'Your silver eyes see what Selunis sees. You have advantage on Insight and Perception checks involving dreams, omens, or the lunar deity\'s influence, and you may cast a ritual to commune with Selunis\'s dream once per long rest, gaining a cryptic answer to a single question. Your translucent skin and pupil-less eyes mark you as the dreamer\'s own, and those who know the signs recognize a ritual-tender on sight.',
                     level: 1,
-                    icon: 'fas fa-moon',
+                    icon: 'Utility/Crescent Moon',
                     spellType: 'PASSIVE',
                     actionPoints: 0,
                     components: [],
@@ -540,7 +528,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                     name: 'Memory of Lumia',
                     description: 'When you fail a saving throw, the consciousness of the dead star within you surges to protect the vessel that carries it. You may reroll the saving throw and must accept the new result. After using this, your markings blaze with pale light for 1 minute, granting disadvantage on Stealth checks and revealing your position to all enemies within 60 feet. The memory does not let its bearer fall, but it exacts a price for the intervention.',
                     level: 1,
-                    icon: 'fas fa-star',
+                    icon: 'Radiant/Radiant Magical Rune',
                     spellType: 'REACTION',
                     actionPoints: 0,
                     components: [],
@@ -577,7 +565,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                     name: 'Silver Eyes',
                     description: 'Your pupil-less silver eyes read the surface of the world the way they read the sky. You have advantage on Insight checks against living creatures, catching the small tides of deception that ripple across a liar\'s face. You suffer disadvantage on Intimidation checks, your pale, unblinking gaze reads as unsettling or unwell to those who do not know you. The Stellar Astril see too much and threaten too little.',
                     level: 1,
-                    icon: 'fas fa-eye',
+                    icon: 'Psychic/Hypnotic Eye',
                     spellType: 'PASSIVE',
                     actionPoints: 0,
                     components: [],

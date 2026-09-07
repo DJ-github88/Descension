@@ -46,10 +46,10 @@ export const LUNARCH_DATA = {
 
   // EQUIPMENT (added 2026-07-28 audit fix)
   // TODO: design team to add startingEquipment and proficiencies.
-  // TODO: review weapon/armor lists for class accuracy per lore compendium.
+  // Protective gear and weapon loadouts per canonical compendium.
   equipment: {
    weapons: ['dagger', 'staff', 'sickle'],
-   armor: ['light_armor', 'robes'],
+   protectiveGear: ['light_ward', 'robes'],
    offHand: ['orb', 'tome', 'empty']
   },
   /**
@@ -637,10 +637,10 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         color: "#A0A0A0",
         theme: "Precision Killer",
 
-        description: `The parasite has hollowed out the Lunarch's eyes, replacing the vitreous humor with condensed starlight. They do not see the world as others do — they perceive it through the parasite's alien geometry, a lattice of angles and trajectories where every living thing is a target and every gap in armor is a screaming invitation. The Hollow Sentinel is a precision killer, and the parasite aims through them like a weapon. During Full Moon, their strikes bypass armor entirely — the starlight in their eyes can see through solid matter, finding the soft tissue beneath.`,
+        description: `The parasite has hollowed out the Lunarch's eyes, replacing the vitreous humor with condensed starlight. They do not see the world as others do — they perceive it through the parasite's alien geometry, a lattice of angles and trajectories where every living thing is a target and every gap in defenses is a screaming invitation. The Hollow Sentinel is a precision killer, and the parasite aims through them like a weapon. During Full Moon, their strikes bypass Durability and DR entirely — the starlight in their eyes can see through solid matter, finding the soft tissue beneath.`,
 
         playstyle:
-          "Precision ranged assassin who must carefully manage Full Moon (Sanity Erosion) to land devastating armor-ignoring critical strikes while surviving the Delirium Table",
+          "Precision ranged assassin who must carefully manage Full Moon (Sanity Erosion) to land devastating durability-ignoring critical strikes while surviving the Delirium Table",
 
         strengths: [
           "Ranged attacks ignore 25% of DR (the parasite calculates weak points)",
@@ -684,7 +684,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
         recommendedSpells: [
           "Parasitic Bolt - Your primary ranged attack, damages you as it damages them",
-          "Hollow Sight - Mark priority targets for armor-piercing elimination",
+          "Hollow Sight - Mark priority targets for durability-piercing elimination",
           "Hollow Volley - Multi-target execution during Full Moon",
           "Phase Tear - Force-shift to Full Moon when a target must die NOW",
         ],
@@ -829,7 +829,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["damage", "debuff"],
       typeConfig: { school: "ember", icon: "Arcane/Star Trail Path", tags: ["damage", "cone", "radiant", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "cone", rangeType: "melee", rangeDistance: 5, areaSize: 15, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 , classResource: { type: "lunar_phase", phaseAdvancement: 1 } } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       damageConfig: { formula: "3d8 + intelligence", damageTypes: ["ember"], resolution: "DICE" },
       tags: ["damage", "cone", "radiant", "lunarch"]
@@ -840,11 +840,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       description: "Manifest a shimmering corona of lunar shadow around yourself or an ally. Absorbs damage; if shattered by melee, blinds the attacker for 1 round.",
       level: 4,
       spellType: "ACTION",
-      icon: "Shield/Prismatic Shield",
+      icon: "Radiant/Radiant Golden Shield",
       effectTypes: ["buff", "shield"],
-      typeConfig: { school: "arcane", icon: "Shield/Prismatic Shield", tags: ["buff", "shield", "defense", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "arcane", icon: "Radiant/Radiant Golden Shield", tags: ["buff", "shield", "defense", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 40, targetRestrictions: ["ally", "self"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 , classResource: { type: "lunar_phase", cost: 1 } } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       shieldConfig: { formula: "30 + intelligence * 2", shieldType: "temporary_hp" },
       tags: ["buff", "shield", "defense", "lunarch"]
@@ -859,7 +859,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["damage", "crowd_control"],
       typeConfig: { school: "arcane", icon: "Force/Explosion Burst", tags: ["damage", "aoe", "gravity", "pull", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 50, areaType: "circle", areaSize: 20, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 , classResource: { type: "lunar_phase", phaseAdvancement: 1 } } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "2d10 + intelligence", damageTypes: ["arcane"], resolution: "DICE" },
       tags: ["damage", "aoe", "gravity", "pull", "lunarch"]
@@ -870,11 +870,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       description: "Infect an enemy's mind with cosmic static. Deals radiant damage and forces the target to attack the nearest creature on failed save.",
       level: 5,
       spellType: "ACTION",
-      icon: "Psychic/Psychic Bolt",
+      icon: "Psychic/Brain Psionics",
       effectTypes: ["damage", "crowd_control"],
-      typeConfig: { school: "ember", icon: "Psychic/Psychic Bolt", tags: ["damage", "single_target", "charm", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "ember", icon: "Psychic/Brain Psionics", tags: ["damage", "single_target", "charm", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 9 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 9 , classResource: { type: "lunar_phase", phaseAdvancement: 1 } } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "4d8 + intelligence", damageTypes: ["ember"], resolution: "DICE" },
       tags: ["damage", "single_target", "charm", "lunarch"]
@@ -889,7 +889,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["damage", "aoe"],
       typeConfig: { school: "ember", icon: "Radiant/Radiant Divinity", tags: ["damage", "aoe", "radiant", "apocalypse", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, areaType: "circle", areaSize: 20, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 10 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 10 , classResource: { type: "lunar_phase", cost: 4, phaseRequired: "eclipse" } } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "6d8 + intelligence * 2", damageTypes: ["ember"], resolution: "DICE" },
       tags: ["damage", "aoe", "radiant", "apocalypse", "lunarch"]
@@ -904,7 +904,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["damage", "crowd_control"],
       typeConfig: { school: "arcane", icon: "Force/Explosion Burst", tags: ["damage", "aoe", "gravity", "immobilize", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 50, areaType: "circle", areaSize: 15, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 10 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 10 , classResource: { type: "lunar_phase", phaseAdvancement: 1 } } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       damageConfig: { formula: "5d8 + intelligence", damageTypes: ["arcane"], resolution: "DICE" },
       tags: ["damage", "aoe", "gravity", "immobilize", "lunarch"]
@@ -919,7 +919,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["damage", "aoe"],
       typeConfig: { school: "arcane", icon: "Force/Explosion Burst", tags: ["damage", "aoe", "phase_shift", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 25, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 11 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 11 , classResource: { type: "lunar_phase", cost: 2, phaseRequired: "waning" } } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "6d6 + intelligence * 2", damageTypes: ["arcane", "ember"], resolution: "DICE" },
       tags: ["damage", "aoe", "phase_shift", "lunarch"]
@@ -934,7 +934,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["buff"],
       typeConfig: { school: "ember", icon: "Utility/Empowered Warrior", tags: ["buff", "self", "overdrive", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 13 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 13 , classResource: { type: "lunar_phase", cost: 2 } } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       tags: ["buff", "self", "overdrive", "lunarch"]
     },
@@ -948,7 +948,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["damage", "aoe"],
       typeConfig: { school: "ember", icon: "Radiant/Radiant Divinity", tags: ["damage", "aoe", "radiant", "apocalypse", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, areaType: "circle", areaSize: 30, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 15 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 15 , classResource: { type: "lunar_phase", cost: 4, phaseRequired: "full_moon" } } },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       damageConfig: { formula: "9d10 + intelligence * 2", damageTypes: ["ember"], resolution: "DICE" },
       tags: ["damage", "aoe", "radiant", "apocalypse", "lunarch"]
@@ -963,7 +963,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["buff"],
       typeConfig: { school: "arcane", icon: "General/Commune", tags: ["buff", "self", "ultimate", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 18 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 18 , classResource: { type: "lunar_phase", selectAnyPhase: true } } },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       tags: ["buff", "self", "ultimate", "lunarch"]
     },
@@ -1000,7 +1000,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 4 },
+        resourceValues: { mana: 4 , classResource: { type: "lunar_phase", phaseAdvancement: 1 } },
         actionPoints: 1,
         components: ["somatic"],
         somaticText: "Press palm open, channel starlight through",
@@ -1063,7 +1063,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 8 },
+        resourceValues: { mana: 8 , classResource: { type: "lunar_phase", phaseAdvancement: 1 } },
         actionPoints: 1,
         components: ["somatic"],
         somaticText: "Press into the starlight seams and pull",
@@ -1143,7 +1143,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 3 },
+        resourceValues: { mana: 3 , classResource: { type: "lunar_phase", phaseAdvancement: 1 } },
         actionPoints: 1,
         components: ["somatic"],
         somaticText: "Trace starlight-infused patterns across flesh",
@@ -1216,7 +1216,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 6 },
+        resourceValues: { mana: 6 , classResource: { type: "lunar_phase", phaseAdvancement: 1 } },
         actionPoints: 1,
         components: ["somatic"],
         somaticText: "Sweep arm, excrete crystallized parasite membrane",
@@ -1277,7 +1277,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 6 },
+        resourceValues: { mana: 6 , classResource: { type: "lunar_phase", phaseAdvancement: 1 } },
         actionPoints: 1,
         components: ["somatic"],
         somaticText: "Let the parasite pull, body phases partially",
@@ -1329,7 +1329,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         tags: ["passive", "lunarch", "fatal flaw"],
       },
       targetingConfig: { targetingType: "self" },
-      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resourceCost: { resourceTypes: [], resourceValues: { classResource: { type: "lunar_phase", phaseAdvancement: 1 } }, actionPoints: 0 },
       resolution: "AUTOMATIC",
       debuffConfig: {
         debuffType: "statusEffect",
@@ -1370,7 +1370,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         tags: ["passive", "lunarch", "weakness"],
       },
       targetingConfig: { targetingType: "self" },
-      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resourceCost: { resourceTypes: [], resourceValues: { classResource: { type: "lunar_phase", locksPhase: true } }, actionPoints: 0 },
       resolution: "AUTOMATIC",
       tags: ["passive", "lunarch", "weakness"],
     },
@@ -1389,7 +1389,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         tags: ["passive", "lunarch", "transition shock"],
       },
       targetingConfig: { targetingType: "self" },
-      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resourceCost: { resourceTypes: [], resourceValues: { classResource: { type: "lunar_phase", phaseAdvancement: 1 } }, actionPoints: 0 },
       resolution: "AUTOMATIC",
       tags: ["passive", "lunarch", "transition shock"],
     },
@@ -1427,7 +1427,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 8 },
+        resourceValues: { mana: 8 , classResource: { type: "lunar_phase", phaseAdvancement: 1 } },
         actionPoints: 1,
         components: ["verbal", "somatic"],
         verbalText: "A word that sounds like glass breaking in a vacuum",
@@ -1505,7 +1505,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 5 },
+        resourceValues: { mana: 5 , classResource: { type: "lunar_phase", phaseAdvancement: 1 } },
         actionPoints: 1,
         components: ["somatic"],
         somaticText: "Open a starlight seam along your forearm",
@@ -1543,7 +1543,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     { id : "lunarch_hollow_sight",
       name: "Hollow Sight",
       description:
-        "Focus the parasite's alien perception through your starlight sockets, searing a sigil into a target that only you can see. The sigil burns through armor, through walls, through flesh.",
+        "Focus the parasite's alien perception through your starlight sockets, searing a sigil into a target that only you can see. The sigil burns through Durability and DR, through walls, through flesh.",
       spellType: "ACTION",
       icon: "Piercing/Targeted Strike",
       level: 3,
@@ -1572,7 +1572,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 7 },
+        resourceValues: { mana: 7 , classResource: { type: "lunar_phase", phaseAdvancement: 1 } },
         actionPoints: 1,
         components: ["somatic"],
         somaticText: "Focus starlight through hollowed eyes",
@@ -1648,7 +1648,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 9 },
+        resourceValues: { mana: 9 , classResource: { type: "lunar_phase", phaseAdvancement: 1 } },
         actionPoints: 1,
         components: ["verbal", "somatic"],
         verbalText: "A sound like a star dying",
@@ -1729,7 +1729,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 10 },
+        resourceValues: { mana: 10 , classResource: { type: "lunar_phase", cost: 1 } },
         actionPoints: 1,
         components: ["verbal", "somatic"],
         verbalText: "A command in a language that predates speech",
@@ -1806,7 +1806,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 35 },
+        resourceValues: { mana: 35 , classResource: { type: "lunar_phase", cost: 3, phaseRequired: "waxing" } },
         actionPoints: 2,
         components: ["verbal", "somatic"],
         verbalText: "A syllable that sounds like a star collapsing",
@@ -1889,7 +1889,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 42 },
+        resourceValues: { mana: 42 , classResource: { type: "lunar_phase", phaseAdvancement: 1 } },
         actionPoints: 2,
         components: ["verbal", "somatic"],
         verbalText: "The names of six dead stars, spoken in sequence",
@@ -1967,7 +1967,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 60 },
+        resourceValues: { mana: 60 , classResource: { type: "lunar_phase", cost: 4, phaseRequired: "full_moon" } },
         actionPoints: 3,
         components: ["verbal", "somatic"],
         verbalText: "The sound of the sky being ripped open like cloth",
@@ -2003,8 +2003,8 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       "description": "The parasite has made your blood a piece of the Silence between stars. For the duration you radiate an otherworldly cold: freeze a plane of water, crust a wet surface in ice, snuff small flames and heat-signatures, and chill drinks or preserve food. The same aura marks you as deeply, unsettlingly alien  —  advantage on Intimidation, disadvantage on Persuasion and warmth-based rapport. Out of combat.",
       "level": 3,
       "spellType": "ACTION",
-      "icon": "Frost/Ice Shard",
-      "typeConfig": { "school": "rime", "icon": "Frost/Ice Shard", "tags": ["utility", "rime", "exploration", "social", "lunarch"], "castTime": 1, "castTimeType": "IMMEDIATE" },
+      "icon": "Frost/Frozen Wave",
+      "typeConfig": { "school": "rime", "icon": "Frost/Frozen Wave", "tags": ["utility", "rime", "exploration", "social", "lunarch"], "castTime": 1, "castTimeType": "IMMEDIATE" },
       "targetingConfig": { "targetingType": "self", "rangeType": "self" },
       "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 6 }, "components": ["somatic"], "somaticText": "Let the silence-cold bleed out through your skin" },
       "resolution": "NONE",

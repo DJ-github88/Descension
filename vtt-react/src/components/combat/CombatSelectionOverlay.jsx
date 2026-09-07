@@ -117,7 +117,7 @@ const CombatSelectionOverlay = () => {
                             <div className="combatants-grid">
                                 {selectedTokenData.map((tokenData, index) => {
                                     const iconUrl = tokenData.isCharacter
-                                        ? (tokenData.tokenIcon || getIconUrl('Utility/Utility', 'abilities'))
+                                        ? (tokenData.tokenIcon || getIconUrl('Arcane/Abstract Rune', 'abilities'))
                                         : getCreatureTokenIconUrl(tokenData.tokenIcon, tokenData.type);
 
                                     return (
@@ -129,7 +129,7 @@ const CombatSelectionOverlay = () => {
                                                     className="combatant-icon-img"
                                                     onError={(e) => {
                                                         e.target.onerror = null;
-                                                        e.target.src = getIconUrl('Utility/Utility', 'abilities');
+                                                        e.target.src = getIconUrl('Arcane/Abstract Rune', 'abilities');
                                                     }}
                                                 />
                                                 {tokenData.isCharacter && (

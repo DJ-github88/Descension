@@ -26,7 +26,7 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
         },
         dungeon: {
             name: 'Dungeon Floors',
-            icon: 'Utility/Lockpick',
+            icon: 'General/Lockpick',
             terrains: ['dungeon_floor', 'marble_floor', 'wooden_floor', 'crystal_floor', 'gold_floor']
         },
         difficult: {

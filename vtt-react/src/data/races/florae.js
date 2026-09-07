@@ -79,10 +79,10 @@ Whether a Florae appears 'Wild' (unkempt with leafy crowns and mossy shoulders i
       name: 'Branch-Arm Brawn & Regrowth',
       description: 'Your arms are crude, natural tree boughs ending in flexible twig-fingers. Your unarmed strikes deal 1d6 + Strength bludgeoning damage. If a twig-finger or branch is severed or broken, it naturally regrows over a short rest when watered.',
       level: 1,
-      icon: 'fas fa-tree',
+      icon: 'Nature/Tree',
       spellType: 'PASSIVE',
       effectTypes: ['buff'],
-      typeConfig: { school: 'primal', icon: 'fas fa-tree', tags: ['timber', 'unarmed', 'regrowth', 'passive'] },
+      typeConfig: { school: 'primal', icon: 'Nature/Tree', tags: ['timber', 'unarmed', 'regrowth', 'passive'] },
       buffConfig: {
         buffType: 'combatEnhancement',
         effects: [
@@ -104,10 +104,10 @@ Whether a Florae appears 'Wild' (unkempt with leafy crowns and mossy shoulders i
       name: 'Hearth-Water Vitality',
       description: 'Drinking or dousing yourself from your Hearth-Water Flask as a minor action restores 1d8 + Constitution HP and keeps your branch-limbs limber for 1 hour. You take +25% extra damage from fire effects, but taking fire damage ignites your bark into smoldering embers, adding +1d4 fire damage to your melee attacks for 2 rounds.',
       level: 1,
-      icon: 'fas fa-faucet-drip',
+      icon: 'Nature/River Through Forest',
       spellType: 'ACTION',
       effectTypes: ['buff', 'debuff'],
-      typeConfig: { school: 'primal', icon: 'fas fa-faucet-drip', tags: ['water', 'heal', 'ember-blaze'] },
+      typeConfig: { school: 'primal', icon: 'Nature/River Through Forest', tags: ['water', 'heal', 'ember-blaze'] },
       buffConfig: {
         buffType: 'statusEffectBuff',
         effects: [
@@ -141,10 +141,10 @@ Whether a Florae appears 'Wild' (unkempt with leafy crowns and mossy shoulders i
       name: 'Nature & Animal Attunement',
       description: 'Your sap smells like fresh blossom and your skin is living wood. You have advantage on Nature and Animal Handling checks. Small forest animals (squirrels, songbirds, chipmunks) are naturally friendly toward you and will perch on your shoulders to offer warnings of approaching danger.',
       level: 1,
-      icon: 'fas fa-paw',
+      icon: 'Nature/Sense',
       spellType: 'PASSIVE',
       effectTypes: ['buff'],
-      typeConfig: { school: 'primal', icon: 'fas fa-paw', tags: ['druidic', 'animals', 'passive'] },
+      typeConfig: { school: 'primal', icon: 'Nature/Sense', tags: ['druidic', 'animals', 'passive'] },
       buffConfig: {
         buffType: 'statusEffectBuff',
         effects: [
@@ -186,10 +186,10 @@ Their oral tradition is fierce and short-spoken. They keep the names of every ho
           name: 'Thorn-Barb Bristle',
           description: 'Your forearms bristle with living thorn-barbs that are the physical mark of the old fae-contract. Your unarmed strikes deal 1d6 + Dexterity piercing damage (thorns) instead of bludgeoning. When an enemy grapples you or hits you with a melee attack from within 5 feet, they take 1d4 piercing damage from your barbs. The thorns cannot be removed or suppressed; they are the contract made flesh.',
           level: 1,
-          icon: 'fas fa-bug',
+          icon: 'Nature/Thorny Entanglement',
           spellType: 'PASSIVE',
           effectTypes: ['buff'],
-          typeConfig: { school: 'primal', icon: 'fas fa-bug', tags: ['thorns', 'fae-contract', 'piercing', 'passive'] },
+          typeConfig: { school: 'primal', icon: 'Nature/Thorny Entanglement', tags: ['thorns', 'fae-contract', 'piercing', 'passive'] },
           buffConfig: {
             buffType: 'combatEnhancement',
             effects: [
@@ -211,10 +211,10 @@ Their oral tradition is fierce and short-spoken. They keep the names of every ho
           name: 'The Unwritten Word',
           description: 'The fae-contract inscribed a truth-sense into the Viridian bloodline. You have advantage on Insight checks to detect spoken lies, and you cannot be deceived by mundane falsehoods spoken aloud in your presence. The cost of this gift is symmetric: you have disadvantage on Deception checks to speak a direct verbal lie, though you may still mislead by omission, misdirection, or carefully chosen truths.',
           level: 1,
-          icon: 'fas fa-eye',
+          icon: 'Nature/Sense',
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
-          typeConfig: { school: 'primal', icon: 'fas fa-eye', tags: ['truth-sense', 'fae-contract', 'insight', 'passive'] },
+          typeConfig: { school: 'primal', icon: 'Nature/Sense', tags: ['truth-sense', 'fae-contract', 'insight', 'passive'] },
           buffConfig: {
             buffType: 'statusEffectBuff',
             effects: [
@@ -248,10 +248,10 @@ Their oral tradition is fierce and short-spoken. They keep the names of every ho
           name: 'Fog-Compact Refusal',
           description: 'The Viridian never accepted the Fog Compact, and the fog knows it. You have advantage on saving throws against memory-affecting, fog-based, and amnesia effects. When you would have a memory erased or altered by magical means, you may make a Wisdom save to retain the original memory. The Thalren ledger-wards can sense this refusal on you, and it adds +2 to the DC of any attempt to interrogate or magically extract information from you (the fog resists with you).',
           level: 1,
-          icon: 'fas fa-cloud',
+          icon: 'Dark Mist',
           spellType: 'PASSIVE',
           effectTypes: ['buff'],
-          typeConfig: { school: 'primal', icon: 'fas fa-cloud', tags: ['fog', 'memory', 'resistance', 'passive'] },
+          typeConfig: { school: 'primal', icon: 'Dark Mist', tags: ['fog', 'memory', 'resistance', 'passive'] },
           buffConfig: {
             buffType: 'statusEffectBuff',
             effects: [
@@ -307,7 +307,97 @@ Whether an Oken appears 'Wild' (unkempt with leafy crowns and mossy shoulders in
       statModifiers: { constitution: 2, wisdom: 1, strength: 1, charisma: -1 },
       baseStats: { hp: 9, mana: 6, ap: 3, initiative: 0 },
       savingThrowModifiers: { advantage: ['nature', 'survival'], disadvantage: ['fire'] },
-      traits: []
+      traits: [
+        {
+          id: 'heartwood_durability_oken',
+          name: 'Heartwood Density',
+          description: 'Your trunk and limbs are forged from dense living timber (oak, birch, or rowan) instead of soft flesh. You gain +1 Durability (flat reduction against all physical damage). However, this ancient timber density reduces your base movement speed by 5 feet.',
+          level: 1,
+          icon: 'Nature/Earth Shield',
+          spellType: 'PASSIVE',
+          effectTypes: ['buff', 'debuff'],
+          typeConfig: { school: 'primal', icon: 'Nature/Earth Shield', tags: ['timber', 'durability', 'heartwood', 'passive'] },
+          buffConfig: {
+            buffType: 'damageMitigation',
+            effects: [
+              {
+                id: 'heartwood_plate',
+                name: 'Heartwood Core',
+                description: '+1 Durability (flat physical damage reduction); -5 ft movement speed.',
+                mechanicsText: 'Gain +1 Durability against physical damage; base speed reduced by 5 ft.',
+                statModifier: { stat: 'durability', magnitude: 1, magnitudeType: 'flat' }
+              }
+            ],
+            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+          },
+          debuffConfig: {
+            debuffType: 'statusEffect',
+            effects: [
+              {
+                id: 'heartwood_speed_penalty',
+                name: 'Dense Timber Strides',
+                description: '-5 ft base movement speed.',
+                mechanicsText: 'Base movement speed reduced by 5 ft.',
+                statModifier: { stat: 'speed', magnitude: -5, magnitudeType: 'flat' }
+              }
+            ],
+            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+          },
+          targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+          resourceCost: { actionPoints: 0, mana: 0, components: [] },
+          cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+        },
+        {
+          id: 'canopy_reach_oken',
+          name: 'Canopy-Weaver Reach',
+          description: 'Your crude branch-arms flex and extend with druidic fluidity. You gain a +20 ft climbing speed, +5 feet of reach on melee attacks and touch interactions, and advantage on Athletics and Acrobatics checks made to traverse forest canopy or wooden architecture.',
+          level: 1,
+          icon: 'Nature/Wood Hand',
+          spellType: 'PASSIVE',
+          effectTypes: ['buff'],
+          typeConfig: { school: 'primal', icon: 'Nature/Wood Hand', tags: ['reach', 'climb', 'canopy', 'passive'] },
+          buffConfig: {
+            buffType: 'utility',
+            effects: [
+              {
+                id: 'extended_bough',
+                name: 'Extended Bough',
+                description: '+5 ft melee reach, +20 ft climb speed, advantage on canopy traversal.',
+                mechanicsText: '+5 ft melee reach and +20 ft climb speed.'
+              }
+            ],
+            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+          },
+          targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+          resourceCost: { actionPoints: 0, mana: 0, components: [] },
+          cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+        },
+        {
+          id: 'deep_root_anchor_oken',
+          name: 'Deep-Root Anchor',
+          description: 'Once per short rest as an Action (1 AP), sink your branch-feet into soil, moss, or fractured stone for up to 1 minute. While rooted, your movement speed is 0, but you are immune to prone and forced movement, and you gain +2 DR (Damage Reduction) against all attacks. You may uproot as a free action.',
+          level: 1,
+          icon: 'Nature/Roots',
+          spellType: 'ACTION',
+          effectTypes: ['buff'],
+          typeConfig: { school: 'primal', icon: 'Nature/Roots', tags: ['roots', 'defense', 'anchor', 'dr'] },
+          buffConfig: {
+            buffType: 'statusEffectBuff',
+            effects: [
+              {
+                id: 'rooted_bulwark',
+                name: 'Rooted Bulwark',
+                description: '+2 DR, immunity to prone and forced movement, movement speed 0.',
+                mechanicsText: 'Gain +2 DR and immunity to forced movement/prone; movement is 0 while rooted.'
+              }
+            ],
+            durationValue: 1, durationType: 'minutes', durationUnit: 'minutes', canBeDispelled: false
+          },
+          targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+          resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] },
+          cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
+        }
+      ]
     }
   }
 };

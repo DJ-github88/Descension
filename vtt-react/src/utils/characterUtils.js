@@ -491,9 +491,10 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
   const baseMoveSpeed = racialBaseStats.speed + (skillBonuses.movementSpeed || 0);
 
   // Physical damage scaling from primary attributes.
-  // Canonical mapping: Smashing <- Strength, Stabbing <- Agility, Slicing <- Strength + Agility equally.
-  // Each contributing stat adds its modifier; Smashing/Stabbing get mod*2 from one stat,
-  // Slicing gets mod*1 from each stat (so equals mod*2 when only one is high, scales with both).
+  // Canonical mapping: Smashing <- Strength, Stabbing <- Agility, Ranged <- Agility.
+  // Single-stat types add that stat's modifier x1; Slicing <- Strength + Agility
+  // averaged (floor((strMod + agiMod) / 2)) so dual scaling never out-scales a
+  // single-stat type.
   const strMod = Math.floor((modifiedStats.strength - 10) / 2);
   const agiMod = Math.floor((modifiedStats.agility - 10) / 2);
 
@@ -505,10 +506,10 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
     damage: 0 + (equipmentBonuses.damage || 0) + getMod(buffModifiers, ['damage', 'physDamage']), // Include buffs
     spellDamage: 0 + (equipmentBonuses.spellDamage || 0) + (skillBonuses.spellPower || 0) + getMod(buffModifiers, ['spellDamage', 'spellPower']), // Include buffs
     healingPower: baseHealingPower,
-    bludgeoningDamage: (strMod * 2) + (equipmentBonuses.bludgeoningDamage || 0) + getMod(buffModifiers, ['bludgeoningDamage']), // Smashing <- Strength
-    piercingDamage: (agiMod * 2) + (equipmentBonuses.piercingDamage || 0) + getMod(buffModifiers, ['piercingDamage']), // Stabbing <- Agility
-    rangedDamage: (agiMod * 2) + (equipmentBonuses.rangedDamage || 0) + getMod(buffModifiers, ['rangedDamage']), // Ranged -> Stabbing <- Agility
-    slashingDamage: (strMod + agiMod) + (equipmentBonuses.slashingDamage || 0) + getMod(buffModifiers, ['slashingDamage']), // Slicing <- Strength + Agility equally
+    bludgeoningDamage: strMod + (equipmentBonuses.bludgeoningDamage || 0) + getMod(buffModifiers, ['bludgeoningDamage']), // Smashing <- Strength
+    piercingDamage: agiMod + (equipmentBonuses.piercingDamage || 0) + getMod(buffModifiers, ['piercingDamage']), // Stabbing <- Agility
+    rangedDamage: agiMod + (equipmentBonuses.rangedDamage || 0) + getMod(buffModifiers, ['rangedDamage']), // Ranged -> Stabbing <- Agility
+    slashingDamage: Math.floor((strMod + agiMod) / 2) + (equipmentBonuses.slashingDamage || 0) + getMod(buffModifiers, ['slashingDamage']), // Slicing <- avg(Strength, Agility)
     moveSpeed: baseMoveSpeed + getMod(buffModifiers, ['moveSpeed', 'movementSpeed', 'speed']), // Include buffs
     swimSpeed: racialBaseStats.swimSpeed + getMod(buffModifiers, ['swimSpeed']), // Include buffs
     climbSpeed: racialBaseStats.climbSpeed + getMod(buffModifiers, ['climbSpeed']), // Include buffs
@@ -569,6 +570,18 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
               derivedStats.maxHealth = (derivedStats.maxHealth || 0) + magnitude;
             } else if (statName === 'initiative') {
               derivedStats.initiative = (derivedStats.initiative || 0) + magnitude;
+            } else if (statName === 'durability') {
+              derivedStats.durability = (derivedStats.durability || 0) + magnitude;
+            } else if (statName === 'damage_reduction' || statName === 'dr' || statName === 'damageReduction') {
+              derivedStats.damageReduction = (derivedStats.damageReduction || 0) + magnitude;
+            } else if (statName === 'reach') {
+              derivedStats.reach = (derivedStats.reach || 0) + magnitude;
+            } else if (statName === 'climb_speed' || statName === 'climbSpeed') {
+              derivedStats.climbSpeed = (derivedStats.climbSpeed || 0) + magnitude;
+            } else if (statName === 'swim_speed' || statName === 'swimSpeed') {
+              derivedStats.swimSpeed = (derivedStats.swimSpeed || 0) + magnitude;
+            } else if (statName === 'darkvision') {
+              derivedStats.darkvision = (derivedStats.darkvision || 0) + magnitude;
             }
           }
         });
@@ -710,6 +723,10 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
               derivedStats.moveSpeed = (derivedStats.moveSpeed || 30) + magnitude;
               // Ensure speed doesn't go below 0
               derivedStats.moveSpeed = Math.max(0, derivedStats.moveSpeed);
+            } else if (statName === 'durability') {
+              derivedStats.durability = (derivedStats.durability || 0) + magnitude;
+            } else if (statName === 'damage_reduction' || statName === 'dr' || statName === 'damageReduction') {
+              derivedStats.damageReduction = (derivedStats.damageReduction || 0) + magnitude;
             }
             // Add more stat mappings as needed
           }

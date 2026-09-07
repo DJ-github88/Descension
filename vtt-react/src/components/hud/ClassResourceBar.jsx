@@ -11,25 +11,28 @@ import HarbingerResourceBar from '../../data/classes/harbinger/components/Harbin
 import GambitResourceBar from '../../data/classes/gambit/components/GambitResourceBar';
 import SpellguardResourceBar from '../../data/classes/spellguard/components/SpellguardResourceBar';
 import ToxicologistResourceBar from '../../data/classes/toxicologist/components/ToxicologistResourceBar';
+import InquisitorResourceBar from '../../data/classes/inquisitor/components/InquisitorResourceBar';
 import GaolerResourceBar from '../../data/classes/warden/components/GaolerResourceBar';
+import CrusaderResourceBar from '../../data/classes/crusader/components/CrusaderResourceBar';
 import AugurResourceBar from '../../data/classes/augur/components/AugurResourceBar';
-import StanceFlowResourceBar from './StanceFlowResourceBar';
+import ShaperResourceBar from '../../data/classes/shaper/components/ShaperResourceBar';
 import AscensionBloodResourceBar from './AscensionBloodResourceBar';
 import TimeShardsStrainResourceBar from './TimeShardsStrainResourceBar';
 import MayhemModifiersResourceBar from './MayhemModifiersResourceBar';
 import PropheticVisionsResourceBar from './PropheticVisionsResourceBar';
 import DominanceDieResourceBar from './DominanceDieResourceBar';
-import QuarryMarksResourceBar from './QuarryMarksResourceBar';
+import ApexResourceBar from '../../data/classes/apex/components/ApexResourceBar';
 import DevotionGaugeResourceBar from './DevotionGaugeResourceBar';
+import MartyrResourceBar from '../../data/classes/martyr/components/MartyrResourceBar';
 import FortunePointsResourceBar from './FortunePointsResourceBar';
 import DRPResilienceResourceBar from './DRPResilienceResourceBar';
-import LunarPhasesResourceBar from './LunarPhasesResourceBar';
+import LunarchResourceBar from '../../data/classes/lunarch/components/LunarchResourceBar';
 import HexbreakerChargesResourceBar from './HexbreakerChargesResourceBar';
 import RageBarResourceBar from './RageBarResourceBar';
 import ThreadsOfDestinyResourceBar from './ThreadsOfDestinyResourceBar';
 import MadnessGaugeResourceBar from './MadnessGaugeResourceBar';
 import EternalFrostPhylacteryResourceBar from './EternalFrostPhylacteryResourceBar';
-import AncestralResonanceResourceBar from './AncestralResonanceResourceBar';
+import AnimistResourceBar from '../../data/classes/animist/components/AnimistResourceBar';
 import ResourceTooltip from './ResourceTooltip';
 import ArcanoneerResourceBar from '../../data/classes/arcanoneer/components/ArcanoneerResourceBar';
 // Arcanoneer combination matrix: passed through to ArcanoneerResourceBar so it can
@@ -40,6 +43,7 @@ import MinstrelResourceBar from '../../data/classes/minstrel/components/Minstrel
 // so it can render live "ready cadence" chips with hover-spellcards without a
 // separate import (and without creating a circular dep with minstrelData.js).
 import { MINSTREL_DATA } from '../../data/classes/minstrelData';
+import RevenantResourceBar from '../../data/classes/revenant/components/RevenantResourceBar';
 import { getResourceStatusFlavor } from '../../utils/resourceStatusFlavor';
 
 const ARCANONEER_COMBINATION_MATRIX = ARCANONEER_DATA?.combinationMatrix || null;
@@ -184,7 +188,7 @@ const ClassResourceBar = ({
 
     // Additional class states consolidated
     const [falseProphetState, setFalseProphetState] = useState({
-        localMadness: 8, // Start with 8 for demo
+        localMadness: null, // Null until the owner adjusts it — bar reads live classResource first
         showMadnessMenu: false,
         falseProphetHoverSection: null // 'madness' | null
     });
@@ -1228,22 +1232,14 @@ const ClassResourceBar = ({
                     renderStatusFlavor={renderStatusFlavor}
                 />;
             case 'stance-flow':
-                return <StanceFlowResourceBar
-                    shaperState={shaperState}
-                    setShaperState={setShaperState}
-                    finalClassResource={finalClassResource}
-                    finalConfig={finalConfig}
-                    character={character}
+                return <ShaperResourceBar
+                    classResource={finalClassResource}
+                    size={size}
+                    config={finalConfig}
+                    context={context}
                     isOwner={isOwner}
                     onClassResourceUpdate={onClassResourceUpdate}
-                    size={size}
-                    context={context}
-                    momentumBarRef={momentumBarRef}
-                    flourishBarRef={flourishBarRef}
-                    stanceBarRef={stanceBarRef}
-                    setShowTooltip={setShowTooltip}
-                    setTooltipPosition={setTooltipPosition}
-                    renderStatusFlavor={renderStatusFlavor}
+                    showcase={showcase}
                 />;
             case 'time-shards-strain':
                 return <TimeShardsStrainResourceBar
@@ -1371,40 +1367,24 @@ const ClassResourceBar = ({
             case 'fortune-points-gambling':
                 return <GambitResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'quarry-marks-companion':
-                return <QuarryMarksResourceBar
-                    huntressState={huntressState}
-                    setHuntressState={setHuntressState}
-                    uiState={uiState}
-                    setUiState={setUiState}
-                    finalClassResource={finalClassResource}
-                    finalConfig={finalConfig}
-                    character={character}
+            case 'apex-hunt':
+                return <ApexResourceBar
+                    classResource={finalClassResource}
+                    size={size}
+                    config={finalConfig}
+                    context={context}
                     isOwner={isOwner}
                     onClassResourceUpdate={onClassResourceUpdate}
-                    size={size}
-                    context={context}
-                    qmBarRef={qmBarRef}
-                    renderStatusFlavor={renderStatusFlavor}
-                    logClassResourceChange={logClassResourceChange}
                 />;
             case 'ancestral-resonance':
-                return <AncestralResonanceResourceBar
-                    showResonanceMenu={showResonanceMenu}
-                    setShowResonanceMenu={setShowResonanceMenu}
-                    animistHoverSection={animistHoverSection}
-                    setAnimistHoverSection={setAnimistHoverSectionSafe}
-                    uiState={uiState}
-                    setUiState={setUiState}
-                    finalClassResource={finalClassResource}
-                    finalConfig={finalConfig}
-                    character={character}
+                return <AnimistResourceBar
+                    classResource={finalClassResource}
+                    size={size}
+                    config={finalConfig}
+                    context={context}
                     isOwner={isOwner}
                     onClassResourceUpdate={onClassResourceUpdate}
-                    size={size}
-                    context={context}
-                    resonanceBarRef={resonanceBarRef}
-                    renderStatusFlavor={renderStatusFlavor}
-                    logClassResourceChange={logClassResourceChange}
+                    showcase={showcase}
                 />;
             case 'eternal-frost-phylactery':
                 return <EternalFrostPhylacteryResourceBar
@@ -1423,37 +1403,18 @@ const ClassResourceBar = ({
                     logClassResourceChange={logClassResourceChange}
                 />;
             case 'lunar-phases':
-                return <LunarPhasesResourceBar
-                    lunarchState={lunarchState}
-                    setLunarchState={setLunarchState}
-                    uiState={uiState}
-                    setUiState={setUiState}
-                    finalClassResource={finalClassResource}
-                    finalConfig={finalConfig}
-                    character={character}
+            case 'lunar_cycle':
+                return <LunarchResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
+            case 'devotion-gauge':
+                return <MartyrResourceBar
+                    classResource={finalClassResource}
+                    size={size}
+                    config={finalConfig}
+                    context={context}
                     isOwner={isOwner}
                     onClassResourceUpdate={onClassResourceUpdate}
-                    size={size}
-                    context={context}
-                    lunarPhaseBarRef={lunarPhaseBarRef}
-                />;
-            case 'devotion-gauge':
-                return <DevotionGaugeResourceBar
                     martyrState={martyrState}
                     setMartyrState={setMartyrState}
-                    uiState={uiState}
-                    setUiState={setUiState}
-                    finalClassResource={finalClassResource}
-                    finalConfig={finalConfig}
-                    character={character}
-                    isOwner={isOwner}
-                    onClassResourceUpdate={onClassResourceUpdate}
-                    size={size}
-                    context={context}
-                    devotionBarRef={devotionBarRef}
-                    martyrTooltipRef={martyrTooltipRef}
-                    renderStatusFlavor={renderStatusFlavor}
-                    getTooltipHeaderColor={getTooltipHeaderColor}
                 />;
             case 'musical-notes-combo':
                 // Minstrel "Musical Notes & Cadences": handled by external component.
@@ -1491,16 +1452,22 @@ const ClassResourceBar = ({
                 return <PyrofiendResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'arcane-absorption':
                 return <SpellguardResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
+            case 'fervor-gauge':
             case 'celestial-devotion':
-                return renderProgressBar();
+                return <CrusaderResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'alchemical-arsenal':
                 return <ToxicologistResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
+            case 'inquisitor-authority':
+            case 'hexbreaker-charges':
+                return <InquisitorResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'vengeance-points':
                 return <GaolerResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'mayhem-gauge':
                 return <HarbingerResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'dual-omen':
                 return <AugurResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
+            case 'revenant-toll':
+                return <RevenantResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} showcase={showcase} />;
             case 'havoc':
                 return renderProgressBar();
             case 'progress-bar':
@@ -1857,8 +1824,17 @@ const ClassResourceBar = ({
     // Helper function to get Berserker rage state
 
     const isArcanoneer = finalConfig.visual.type === 'elemental-spheres';
-                                                    const isMartyr = finalConfig.visual?.type === 'devotion-gauge';
-                        const isAugur = finalConfig.visual?.type === 'dual-omen';
+    const isMartyr = finalConfig.visual?.type === 'devotion-gauge';
+    const isAugur = finalConfig.visual?.type === 'dual-omen';
+    const isRevenant = finalConfig.visual?.type === 'revenant-toll';
+    const isSpellguard = finalConfig.visual?.type === 'arcane-absorption';
+    const isAnimist = finalConfig.visual?.type === 'ancestral-resonance';
+    const isShaper = finalConfig.visual?.type === 'stance-flow';
+    const isBerserker = finalConfig.visual?.type === 'dual-dice';
+    const isToxicologist = finalConfig.visual?.type === 'alchemical-arsenal';
+    const isInquisitor = finalConfig.visual?.type === 'inquisitor-authority' || finalConfig.visual?.type === 'hexbreaker-charges';
+    const isLunarch = finalConfig.visual?.type === 'lunar-phases' || finalConfig.visual?.type === 'lunar_cycle' || finalConfig.type === 'lunar_cycle';
+    const isApex = finalConfig.visual?.type === 'quarry-marks-companion' || finalConfig.visual?.type === 'apex-hunt' || finalClassResource?.className === 'Apex';
 
     // Hide CR bar if class has no resource system (max === 0)
     // This prevents showing "0/0" bars for GMs or characters without class resources
@@ -1878,7 +1854,7 @@ const ClassResourceBar = ({
                 style={{ cursor: isGMMode ? 'pointer' : 'default' }}
             >
                 {renderResourceDisplay()}
-                {!isMartyr && !isAugur && !isArcanoneer && (
+                {!isMartyr && !isAugur && !isArcanoneer && !isRevenant && !isSpellguard && !isAnimist && !isShaper && !isBerserker && !isToxicologist && !isInquisitor && !isLunarch && !isApex && (
                     <ResourceTooltip
                         finalConfig={finalConfig}
                         modifiedConfig={modifiedConfig}
@@ -1916,7 +1892,7 @@ const ClassResourceBar = ({
                         boundDemons={boundDemons}
                         selectedDemonIndex={selectedDemonIndex}
                         localDominanceDie={localDominanceDie}
-                        localMadness={localMadness}
+                        localMadness={localMadness ?? finalClassResource?.current ?? 0}
                         getDangerLevel={getDangerLevel}
                         getNextThreshold={getNextThreshold}
                         localThreads={localThreads}

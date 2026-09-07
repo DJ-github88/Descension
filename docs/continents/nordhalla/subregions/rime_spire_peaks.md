@@ -5,8 +5,8 @@ The warm accident at the top of the world: a west-central pocket where the vents
 ## GEOGRAPHY & THE IMPOSSIBLE PINES
 The Icetalon Peaks rake the sky; at their feet, the Whispering Pine forest drinks geothermal steam through roots that never froze. Blue ice spires, black-sand beaches, and alpine winds that file the granite like patient knives. This is the only forest in the north that still grows — which makes every stand of it worth a small war, and several are ongoing.
 
-## WHO HOLDS WHAT
-* **Snowcall City** — the Dal's loud sibling: timber money, vent-leases, and the best smugglers' lawyers in the north. Officially royal. Practically for sale.
+## WHO HOLDS WHAT (draw: Skald home, others as enclaves — no foreign quarters)
+* **Snowcall City** — the Dal's loud sibling: timber money, vent-leases, and the best smugglers' lawyers in the north. Officially royal. Practically for sale. Draw: small High Neth contract enclave (Scholars from Bryngloom) + Corvani market stalls — not a full quarter.
 * **The Corvani Roosts** (Rook's Promontory, Ravencall Eyrie) — raven-marked messengers bound to the Corvid Fate-Spirits. They trade memory for passage, remember every deal ever made in their hearing, and charge the crown double.
 * **Blóðhöll** — the Berserker trial-grounds, where the Hunger Pact is tested in governed fury. Elder Skalds still claim the right to decide who may carry the Pact — a claim the forges of Sundale quietly resent.
 * **Þögn, the Still Crag** — the cliff where no wind blows and no sound carries. The Skald say the Warden's breath touched the mountain at the anchoring and froze it to a silent witness. Ice sculptures of unknown figures stand in attitudes of supplication. Nothing hunts here; nothing speaks either.

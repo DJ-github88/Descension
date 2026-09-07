@@ -539,6 +539,38 @@ export const createCoreSlice = (set, get) => ({
                 experience: characterData.experience || 0
             };
 
+            // Hydrate racial data if race is provided
+            if (newCharacter.race) {
+                const fullRaceData = getFullRaceData(newCharacter.race, newCharacter.subrace);
+                if (fullRaceData) {
+                    if (!newCharacter.raceDisplayName) {
+                        newCharacter.raceDisplayName = fullRaceData.subrace?.name
+                            ? `${fullRaceData.subrace.name} (${fullRaceData.race.name})`
+                            : fullRaceData.race.name;
+                    }
+                    if (!newCharacter.racialTraits || newCharacter.racialTraits.length === 0) {
+                        newCharacter.racialTraits = getRacialSpells(newCharacter.race, newCharacter.subrace);
+                    }
+                    if (!newCharacter.movementSpeed) {
+                        newCharacter.movementSpeed = fullRaceData.combinedTraits.speed || 30;
+                    }
+                    const passives = getRacialStatModifiers(newCharacter.race, newCharacter.subrace);
+                    let initialDurability = newCharacter.durability || 0;
+                    let initialDR = newCharacter.damageReduction || 0;
+                    passives.forEach(p => {
+                        p.buffConfig?.effects?.forEach(eff => {
+                            if (eff.statModifier?.stat === 'durability') {
+                                initialDurability += eff.statModifier.magnitude || 0;
+                            } else if (['damage_reduction', 'dr', 'damageReduction'].includes(eff.statModifier?.stat)) {
+                                initialDR += eff.statModifier.magnitude || 0;
+                            }
+                        });
+                    });
+                    newCharacter.durability = initialDurability;
+                    newCharacter.damageReduction = initialDR;
+                }
+            }
+
             const useFirebase = shouldUseFirebase();
             const isGuest = isGuestUser();
 
@@ -848,14 +880,17 @@ export const createCoreSlice = (set, get) => ({
             }
 
             // Apply racial traits and resistances after loading
-            if (character.race && character.subrace) {
+            if (character.race) {
                 const raceData = getFullRaceData(character.race, character.subrace);
                 if (raceData) {
                     // Only include actual spells in racialTraits (filter out passive stat modifiers)
                     const updatedRacialTraits = getRacialSpells(character.race, character.subrace);
 
-                    // Apply passive stat modifiers (resistances, vulnerabilities, immunities) to character stats
+                    // Apply passive stat modifiers (resistances, vulnerabilities, immunities, durability, DR) to character stats
                     const passiveModifiers = getRacialStatModifiers(character.race, character.subrace);
+
+                    let racialDurability = 0;
+                    let racialDR = 0;
 
                     // Start with current resistances and immunities
                     let updatedResistances = { ...get().resistances };
@@ -871,14 +906,20 @@ export const createCoreSlice = (set, get) => ({
 
                     // Apply each passive modifier
                     passiveModifiers.forEach(modifier => {
-                        // Handle buff config (resistances and immunities)
+                        // Handle buff config (resistances, immunities, durability, DR)
                         if (modifier.buffConfig?.effects) {
                             modifier.buffConfig.effects.forEach(effect => {
-                                // Handle stat modifiers (resistances)
+                                // Handle stat modifiers (durability, DR, resistances)
                                 if (effect.statModifier) {
                                     const statName = effect.statModifier.stat;
                                     const magnitude = effect.statModifier.magnitude;
                                     const magnitudeType = effect.statModifier.magnitudeType;
+
+                                    if (statName === 'durability') {
+                                        racialDurability += magnitude;
+                                    } else if (statName === 'damage_reduction' || statName === 'dr' || statName === 'damageReduction') {
+                                        racialDR += magnitude;
+                                    }
 
                                     // Map resistance stat names to resistance types
                                     const resistanceMap = {
@@ -1056,11 +1097,13 @@ export const createCoreSlice = (set, get) => ({
                         }
                     });
 
-                    // Update state with racial traits, resistances, and immunities
+                    // Update state with racial traits, resistances, immunities, durability, and DR
                     set({
                         racialTraits: updatedRacialTraits,
                         racialLanguages: raceData.combinedTraits.languages,
                         racialSpeed: raceData.combinedTraits.speed,
+                        durability: (character.durability || 0) + racialDurability,
+                        damageReduction: (character.damageReduction || 0) + racialDR,
                         resistances: updatedResistances,
                         immunities: [...new Set(updatedImmunities)] // Remove duplicates
                     });

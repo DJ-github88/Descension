@@ -1,208 +1,102 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useId } from 'react';
 import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
 import useGameStore from '../../../../store/gameStore';
 import useCharacterStore from '../../../../store/characterStore';
 import '../styles/SpellguardResourceBar.css';
 import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
+import ClassTip from '../../../../components/hud/ClassTip';
 import '../../../../styles/unified-context-menu.css';
+import { getResourceStatusFlavor } from '../../../../utils/resourceStatusFlavor';
 
-const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
-    // Read AEP from the classResource prop (previously hardcoded useState(45) which never synced).
+// AEP Volatility & Radiation Tiers
+export const AEP_TIERS = [
+    { min: 0, max: 25, name: 'Grounded', color: '#38bdf8', glow: '#60a5fa', hot: '#bae6fd', desc: 'Cold iron dissipation. Conduits lead-quenched and stable.' },
+    { min: 26, max: 50, name: 'Energized', color: '#0284c7', glow: '#38bdf8', hot: '#e0f2fe', desc: 'Active Leyline Siphon. Clean energy banked for barrier deployment.' },
+    { min: 51, max: 75, name: 'Overcharged', color: '#7c3aed', glow: '#a78bfa', hot: '#f5d0fe', desc: 'Radiation seep. Veins hum with volatile trapped mana (+1d4 arcane).' },
+    { min: 76, max: 90, name: 'Critical Resonance', color: '#c026d3', glow: '#f472b6', hot: '#fdf2f8', desc: 'Heat-sink venting required. Max-HP erosion begins.' },
+    { min: 91, max: 100, name: 'Meltdown Imminent', color: '#ef4444', glow: '#f87171', hot: '#fee2e2', desc: 'CRITICAL MASS: 100 AEP triggers 10d6 30ft Meltdown Nova! Vent immediately!' }
+];
+
+export const getAepTier = (aep) => {
+    return AEP_TIERS.find(t => aep >= t.min && aep <= t.max) || AEP_TIERS[0];
+};
+
+const SpellguardResourceBar = ({
+    classResource = {},
+    size = 'normal',
+    config = {},
+    context = 'hud',
+    isOwner = true,
+    onClassResourceUpdate = null
+}) => {
     const propAEP = classResource?.current ?? classResource?.aep ?? classResource?.resonance ?? 0;
     const propSpec = classResource?.specialization ?? classResource?.spec;
 
     const [localAEP, setLocalAEP] = useState(propAEP);
-    // Normalize spec id: data uses snake_case (arcane_warden), component uses camelCase (arcaneWarden)
     const toCamelId = (id) => !id ? '' : id.replace(/[-_]([a-z])/g, (_, c) => c.toUpperCase());
     const [selectedSpec, setSelectedSpec] = useState(propSpec ? toCamelId(propSpec) : 'arcaneWarden');
     const [showTooltip, setShowTooltip] = useState(false);
     const [showControls, setShowControls] = useState(false);
-    const [isAbsorbing, setIsAbsorbing] = useState(false);
-    const [isSpending, setIsSpending] = useState(false);
 
     const barRef = useRef(null);
-    const tooltipRef = useResourceBarTooltip(barRef, showTooltip);
+    const controlsMenuRef = useRef(null);
 
     const maxAEP = 100;
+    const currentTier = getAepTier(localAEP);
+    const isOvercharged = localAEP >= 75;
+    const isCritical = localAEP >= 76 && localAEP <= 90;
+    const isMeltdown = localAEP >= 91;
 
-    // Keep local state in sync when the prop changes externally
+    const tooltipRef = useResourceBarTooltip(barRef, showTooltip && !showControls, [localAEP, selectedSpec, currentTier.name]);
+
     useEffect(() => { if (propAEP != null) setLocalAEP(propAEP); }, [propAEP]);
     useEffect(() => { if (propSpec) setSelectedSpec(toCamelId(propSpec)); }, [propSpec]);
 
-    // Specialization configurations, names/passives aligned to spellguardData.js
-    const specConfigs = {
-        arcaneWarden: {
-            name: 'Silence-Scarred Bastion',
-            baseColor: '#1E3A8A',
-            activeColor: '#4169E1',
-            glowColor: '#6495ED',
-            icon: 'fa-shield',
-            passive: 'Lead-Lined Ribcage',
-            passiveDesc: 'Generate 1.5x AEP from absorbed magical damage. Necrotic damage from Arcane Radiation is halved (max HP reduction remains full).'
-        },
-        spellBreaker: {
-            name: 'Entropic Eraser',
-            baseColor: '#4C1D95',
-            activeColor: '#9370DB',
-            glowColor: '#BA55D3',
-            icon: 'fa-bolt',
-            passive: 'Shattered Mirror Plating',
-            passiveDesc: 'Successful reflections grant +5 AEP. Reflected spells deal +25% damage. Reflection cooldowns reduced by 1 turn.'
-        },
-        manaReaver: {
-            name: 'Leyline Devourer',
-            baseColor: '#581C87',
-            activeColor: '#8B008B',
-            glowColor: '#9932CC',
-            icon: 'fa-skull',
-            passive: 'Starving Silence',
-            passiveDesc: 'Melee attacks drain 2x mana. Per 10 mana drained: +1d6 arcane damage (stacks 5x). Offensive abilities cost -5 AEP.'
-        }
-    };
-
-    const currentSpec = specConfigs[selectedSpec] || specConfigs.arcaneWarden;
-
-    // Calculate visual intensity based on AEP level
-    const getVisualIntensity = () => {
-        if (localAEP === 0) return 'empty';
-        if (localAEP <= 15) return 'low';
-        if (localAEP <= 40) return 'building';
-        if (localAEP <= 75) return 'optimal';
-        return 'maximum';
-    };
-
-    const visualIntensity = getVisualIntensity();
-    const percentage = (localAEP / maxAEP) * 100;
-
-    // Auto-adjust tooltip position
+    // Close controls menu when clicking outside
     useEffect(() => {
-        if (!showTooltip || !tooltipRef.current || !barRef.current) return;
-
-        const updatePosition = () => {
-            const tooltip = tooltipRef.current;
-            const bar = barRef.current;
-            if (!tooltip || !bar) return;
-
-            tooltip.style.opacity = '0';
-            tooltip.style.position = 'fixed';
-
-            const barRect = bar.getBoundingClientRect();
-            const tooltipRect = tooltip.getBoundingClientRect();
-
-            if (barRect.width === 0 && barRect.height === 0 && barRect.left === 0 && barRect.top === 0) {
-                requestAnimationFrame(updatePosition);
-                return;
-            }
-
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
-            const margin = 8;
-
-            let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
-            let hudBottom = barRect.bottom;
-
-            if (hudContainer) {
-                const hudRect = hudContainer.getBoundingClientRect();
-                hudBottom = hudRect.bottom;
-            }
-
-            const tooltipWidth = tooltipRect.width > 0 ? tooltipRect.width : 300;
-            const tooltipHeight = tooltipRect.height > 0 ? tooltipRect.height : 200;
-
-            let left = barRect.left + (barRect.width / 2) - (tooltipWidth / 2);
-            let top = hudBottom + margin;
-
-            if (tooltipRect.width === 0 || tooltipRect.height === 0) {
-                // Apply fallback positioning so it doesn't default to the top-left of the viewport,
-                // but keep it hidden (opacity 0) while waiting for layout dimensions to resolve.
-                tooltip.style.left = `${left}px`;
-                tooltip.style.top = `${top}px`;
-                tooltip.style.opacity = '0';
-                requestAnimationFrame(updatePosition);
-                return;
-            }
-
-            if (left < margin) left = margin;
-            if (left + tooltipWidth > viewportWidth - margin) {
-                left = viewportWidth - tooltipWidth - margin;
-            }
-
-            if (top + tooltipHeight > viewportHeight - margin) {
-                if (hudContainer) {
-                    const hudRect = hudContainer.getBoundingClientRect();
-                    top = hudRect.top - tooltipHeight - margin;
-                } else {
-                    top = barRect.top - tooltipHeight - margin;
-                }
-                if (top < margin) top = margin;
-            }
-
-            tooltip.style.left = `${left}px`;
-            tooltip.style.top = `${top}px`;
-            tooltip.style.transform = 'none';
-            tooltip.style.zIndex = '2147483647';
-            tooltip.style.opacity = '1';
+        if (!showControls) return;
+        const handleClickOutside = (e) => {
+            if (controlsMenuRef.current && controlsMenuRef.current.contains(e.target)) return;
+            if (barRef.current && barRef.current.contains(e.target)) return;
+            setShowControls(false);
         };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [showControls]);
 
-        updatePosition();
-        requestAnimationFrame(() => requestAnimationFrame(updatePosition));
-        const timeoutId = setTimeout(updatePosition, 50);
-
-        return () => {
-            clearTimeout(timeoutId);
-            if (tooltipRef.current) tooltipRef.current.style.opacity = '0';
-        };
-    }, [showTooltip, localAEP, selectedSpec]);
-
-    // Simulate absorption effect
-    const simulateAbsorption = () => {
-        setIsAbsorbing(true);
-        setTimeout(() => setIsAbsorbing(false), 800);
+    // Unique SVG ID namespace
+    const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
+    const ids = {
+        glow: `sgGlow${uid}`,
+        shadow: `sgShadow${uid}`,
+        cataGlow: `sgCataGlow${uid}`,
+        chassis: `sgChassis${uid}`,
+        borderGrad: `sgBorder${uid}`,
+        channelRecess: `sgRecess${uid}`,
+        plasmaGrad: `sgPlasma${uid}`,
+        meltdownPlasma: `sgMeltPlasma${uid}`,
+        coreLens: `sgCoreLens${uid}`
     };
 
-    // Simulate spending effect
-    const simulateSpending = () => {
-        setIsSpending(true);
-        setTimeout(() => setIsSpending(false), 600);
-    };
-
-    // Get chat store for combat notifications
     const { addCombatNotification } = useChatStore();
     const isGMMode = useGameStore(state => state.isGMMode);
     const currentPlayerName = useCharacterStore(state => state.name || 'Player');
-    
-    // Helper function to get the actor name
+
     const getActorName = () => {
         const actorName = currentPlayerName || 'Player';
         return isGMMode ? `${actorName} (GM)` : actorName;
     };
-    
-    // Helper function to log class resource changes
+
     const logClassResourceChange = (resourceName, amount, isPositive, resourceType = 'classResource') => {
         const absAmount = Math.abs(amount);
         const actorName = getActorName();
         const characterName = currentPlayerName || 'Character';
-        
-        let message = '';
-        if (isPositive) {
-            const messages = [
-                `${characterName} gained ${absAmount} ${resourceName}`,
-                `${characterName} acquired ${absAmount} ${resourceName}`,
-                `${absAmount} ${resourceName} was added to ${characterName}`,
-                `${characterName} received ${absAmount} ${resourceName}`
-            ];
-            message = messages[Math.floor(Math.random() * messages.length)];
-        } else {
-            const messages = [
-                `${characterName} spent ${absAmount} ${resourceName}`,
-                `${characterName} used ${absAmount} ${resourceName}`,
-                `${absAmount} ${resourceName} was consumed by ${characterName}`,
-                `${characterName} expended ${absAmount} ${resourceName}`
-            ];
-            message = messages[Math.floor(Math.random() * messages.length)];
-        }
-        
+
+        const message = isPositive
+            ? `${characterName} absorbed ${absAmount} ${resourceName} into Aegis`
+            : `${characterName} vented ${absAmount} ${resourceName} through heat-sinks`;
+
         addCombatNotification({
             type: 'combat_resource',
             attacker: actorName,
@@ -214,277 +108,703 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
         });
     };
 
-    const adjustAEP = (amount) => {
-        const newAEP = Math.max(0, Math.min(maxAEP, localAEP + amount));
-        const actualAmount = Math.abs(newAEP - localAEP);
-        setLocalAEP(newAEP);
-        
-        if (actualAmount > 0) {
-            logClassResourceChange('AEP', actualAmount, amount > 0, 'aep');
-            if (onClassResourceUpdate) onClassResourceUpdate('current', newAEP);
-        }
-        
-        if (amount > 0) {
-            simulateAbsorption();
-        } else if (amount < 0) {
-            simulateSpending();
+    const handleAEPChange = (delta) => {
+        if (!isOwner) return;
+        const newValue = Math.max(0, Math.min(maxAEP, localAEP + delta));
+        const diff = Math.abs(newValue - localAEP);
+        if (diff > 0) {
+            setLocalAEP(newValue);
+            logClassResourceChange('AEP', diff, delta > 0, 'aep');
+            if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
         }
     };
 
-    // Cycle through specializations
-    const cycleSpec = () => {
-        const specs = Object.keys(specConfigs);
-        const currentIndex = specs.indexOf(selectedSpec);
-        const nextIndex = (currentIndex + 1) % specs.length;
-        setSelectedSpec(specs[nextIndex]);
+    const handleAEPSet = (value) => {
+        if (!isOwner) return;
+        const newValue = Math.max(0, Math.min(maxAEP, value));
+        const diff = Math.abs(newValue - localAEP);
+        if (diff > 0) {
+            setLocalAEP(newValue);
+            logClassResourceChange('AEP', diff, newValue > localAEP, 'aep');
+            if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+        }
     };
+
+    // Keyboard accessibility
+    const handleKeyDown = (e) => {
+        if (!isOwner) return;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            handleAEPChange(e.shiftKey ? 25 : 10);
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            handleAEPChange(e.shiftKey ? -25 : -10);
+        } else if (e.key === 'v' || e.key === 'V') {
+            e.preventDefault();
+            handleAEPChange(-10);
+        } else if (e.key === 's' || e.key === 'S') {
+            e.preventDefault();
+            handleAEPChange(10);
+        } else if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setShowControls(prev => !prev);
+        } else if (e.key === 'Escape') {
+            setShowControls(false);
+            setShowTooltip(false);
+        }
+    };
+
+    // Status flavor text
+    const statusFlavor = getResourceStatusFlavor('Spellguard', { current: localAEP, max: maxAEP });
+
+    // 10 Capacitor Chamber definitions: Left bank (1-5) and Right bank (6-10)
+    const leftChambers = [10, 20, 30, 40, 50];
+    const rightChambers = [60, 70, 80, 90, 100];
 
     return (
-        <div className="spellguard-resource-container">
-            {/* Main Bar Row */}
-            <div className="resource-bar-row">
-                {/* Main Resource Bar */}
-                <div
-                    ref={barRef}
-                    className={`spellguard-resource-bar ${size} ${visualIntensity} ${isAbsorbing ? 'absorbing' : ''} ${isSpending ? 'spending' : ''} clickable`}
-                    context={context}
-                    onMouseEnter={() => setShowTooltip(true)}
-                    onMouseLeave={() => setShowTooltip(false)}
-                    onClick={() => { if (isOwner) setShowControls(!showControls); }}
-                    style={{
-                        '--spec-base-color': currentSpec.baseColor,
-                        '--spec-active-color': currentSpec.activeColor,
-                        '--spec-glow-color': currentSpec.glowColor
-                    }}
+        <div 
+            className={`class-resource-bar spellguard-resource-bar ${size} ${isOvercharged ? 'is-overcharged' : ''} ${isMeltdown ? 'is-meltdown' : ''}`}
+            ref={barRef}
+            role="slider"
+            tabIndex={isOwner ? 0 : -1}
+            aria-label={`Spellguard Aegis: ${localAEP} of ${maxAEP} AEP [${currentTier.name}]`}
+            aria-valuemin={0}
+            aria-valuemax={maxAEP}
+            aria-valuenow={localAEP}
+            onKeyDown={handleKeyDown}
+            onMouseEnter={() => { if (!showControls) setShowTooltip(true); }}
+            onMouseLeave={() => setShowTooltip(false)}
+        >
+            <div className="spellguard-bar-wrapper">
+                <svg
+                    className="spellguard-apparatus-svg"
+                    viewBox="0 0 296 60"
+                    preserveAspectRatio="xMidYMid meet"
+                    xmlns="http://www.w3.org/2000/svg"
                 >
-                {/* Background arcane pattern */}
-                <div className="arcane-background"></div>
+                    <defs>
+                        {/* Soft Arcane Plasma Glow */}
+                        <filter id={ids.glow} x="-30%" y="-30%" width="160%" height="160%">
+                            <feGaussianBlur stdDeviation="2" result="blur" />
+                            <feMerge>
+                                <feMergeNode in="blur" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
 
-                {/* Flowing runes overlay */}
-                <div className="runes-overlay">
-                    <div className="rune">◈</div>
-                    <div className="rune">◇</div>
-                    <div className="rune">◆</div>
-                    <div className="rune">◈</div>
-                </div>
+                        {/* Heavy Sarcophagus Drop Shadow */}
+                        <filter id={ids.shadow} x="-15%" y="-15%" width="130%" height="130%">
+                            <feDropShadow dx="0" dy="2.5" stdDeviation="2" floodColor="#000000" floodOpacity="0.85" />
+                        </filter>
 
-                {/* AEP fill bar */}
-                <div 
-                    className="aep-fill"
-                    style={{ width: `${percentage}%` }}
-                >
-                    <div className="energy-particles"></div>
-                </div>
+                        {/* Meltdown Critical Arc Glow */}
+                        <filter id={ids.cataGlow} x="-40%" y="-40%" width="180%" height="180%">
+                            <feGaussianBlur stdDeviation="3.5" result="blur" />
+                            <feMerge>
+                                <feMergeNode in="blur" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
 
-                {/* Spec-specific overlay effects */}
-                {selectedSpec === 'arcaneWarden' && localAEP > 40 && (
-                    <div className="shield-overlay"></div>
-                )}
-                {selectedSpec === 'spellBreaker' && localAEP > 40 && (
-                    <div className="mirror-pulse"></div>
-                )}
-                {selectedSpec === 'manaReaver' && localAEP > 40 && (
-                    <div className="siphon-tendrils"></div>
-                )}
+                        {/* Lead-Lined Cobalt-Mithril Chassis */}
+                        <linearGradient id={ids.chassis} x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#1e2c40" />
+                            <stop offset="40%" stopColor="#111a28" />
+                            <stop offset="100%" stopColor="#080e16" />
+                        </linearGradient>
 
-                {/* AEP display */}
-                <div className="aep-display">
-                    <span className="aep-current">{localAEP}</span>
-                    <span className="aep-separator">/</span>
-                    <span className="aep-max">{maxAEP}</span>
-                    <span className="aep-label">AEP</span>
-                </div>
-                </div>
-            </div>
+                        {/* Beveled Alloy Edge */}
+                        <linearGradient id={ids.borderGrad} x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#475569" />
+                            <stop offset="45%" stopColor="#1e293b" />
+                            <stop offset="100%" stopColor="#0f172a" />
+                        </linearGradient>
 
-            {/* Tooltip */}
-            {showTooltip && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
-                    <div className="tooltip-header">Arcane Energy Points (AEP)</div>
+                        {/* Recessed Conduit Channel Bed */}
+                        <linearGradient id={ids.channelRecess} x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#02060c" />
+                            <stop offset="50%" stopColor="#08101a" />
+                            <stop offset="100%" stopColor="#02060c" />
+                        </linearGradient>
 
-                    <div className="tooltip-section">
-                        <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                            <strong>Current:</strong> {localAEP}/{maxAEP} AEP
-                        </div>
-                        <div style={{ fontSize: '0.9rem' }}>
-                            <strong>Status:</strong> {
-                                localAEP === 0 ? 'Empty' :
-                                localAEP <= 15 ? 'Critical Low' :
-                                localAEP <= 40 ? 'Building' :
-                                localAEP <= 75 ? 'Optimal' : 'Maximum'
+                        {/* Standard Arcane Plasma Gradient */}
+                        <linearGradient id={ids.plasmaGrad} x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#bae6fd" />
+                            <stop offset="35%" stopColor="#38bdf8" />
+                            <stop offset="70%" stopColor="#2563eb" />
+                            <stop offset="100%" stopColor="#1d4ed8" />
+                        </linearGradient>
+
+                        {/* Overcharged Plasma Gradient */}
+                        <linearGradient id="sgOverchargeGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#fae8ff" />
+                            <stop offset="35%" stopColor="#c084fc" />
+                            <stop offset="70%" stopColor="#9333ea" />
+                            <stop offset="100%" stopColor="#581c87" />
+                        </linearGradient>
+
+                        {/* Meltdown Nova Plasma Gradient */}
+                        <linearGradient id={ids.meltdownPlasma} x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#fee2e2" />
+                            <stop offset="35%" stopColor="#f87171" />
+                            <stop offset="70%" stopColor="#dc2626" />
+                            <stop offset="100%" stopColor="#7f1d1d" />
+                        </linearGradient>
+
+                        {/* Keystone Crystalline Ley-Core */}
+                        <radialGradient id={ids.coreLens} cx="50%" cy="45%" r="55%">
+                            <stop offset="0%" stopColor="#ffffff" />
+                            <stop offset="25%" stopColor={isMeltdown ? '#fca5a5' : isOvercharged ? '#d8b4fe' : '#7dd3fc'} />
+                            <stop offset="70%" stopColor={isMeltdown ? '#dc2626' : isOvercharged ? '#7c3aed' : '#0284c7'} />
+                            <stop offset="100%" stopColor="#09101d" />
+                        </radialGradient>
+                    </defs>
+
+                    {/* ========================================================================= */}
+                    {/* 1. MITHRIL BASTION CHASSIS & LEAD BEVEL (Pure Vector Art)                 */}
+                    {/* ========================================================================= */}
+                    <g filter={`url(#${ids.shadow})`}>
+                        {/* Outer Lead-Forged Bevel */}
+                        <rect
+                            x="2"
+                            y="2"
+                            width="292"
+                            height="56"
+                            rx="5"
+                            fill={`url(#${ids.borderGrad})`}
+                            stroke={isMeltdown ? '#ef4444' : isCritical ? '#c026d3' : isOvercharged ? '#818cf8' : '#334155'}
+                            strokeWidth={isMeltdown ? 1.6 : 1.2}
+                        />
+
+                        {/* Inner Cobalt-Mithril Plate */}
+                        <rect
+                            x="4"
+                            y="4"
+                            width="288"
+                            height="52"
+                            rx="4"
+                            fill={`url(#${ids.chassis})`}
+                        />
+
+                        {/* Perimeter Grounding Seams */}
+                        <line x1="8" y1="5.5" x2="288" y2="5.5" stroke={isMeltdown ? 'rgba(239, 68, 68, 0.45)' : 'rgba(56, 189, 248, 0.25)'} strokeWidth="0.8" />
+                        <line x1="8" y1="54.5" x2="288" y2="54.5" stroke="rgba(15, 23, 42, 0.7)" strokeWidth="0.8" />
+
+                        {/* Four Corner Grounding Rivets */}
+                        {[
+                            [6.5, 6.5],
+                            [289.5, 6.5],
+                            [6.5, 53.5],
+                            [289.5, 53.5]
+                        ].map(([cx, cy], i) => (
+                            <g key={i}>
+                                <circle cx={cx} cy={cy} r="1.4" fill="#090e17" stroke="#475569" strokeWidth="0.6" />
+                                <circle cx={cx - 0.3} cy={cy - 0.3} r="0.4" fill="#94a3b8" />
+                            </g>
+                        ))}
+                    </g>
+
+                    {/* ========================================================================= */}
+                    {/* 2. LEFT FLANK: LEYLINE SIPHON VALVE (x: 7..39, Siphons +10 AEP)           */}
+                    {/* ========================================================================= */}
+                    <g
+                        className="sg-siphon-module"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            if (!isOwner) return;
+                            if (e.altKey || e.shiftKey) {
+                                handleAEPChange(-10);
+                            } else {
+                                handleAEPChange(10);
                             }
-                        </div>
-                    </div>
+                        }}
+                        style={{ cursor: isOwner ? 'pointer' : 'default' }}
+                    >
+                        {/* Socket Frame */}
+                        <rect
+                            x="7"
+                            y="6"
+                            width="32"
+                            height="48"
+                            rx="4"
+                            fill="#060c14"
+                            stroke={localAEP > 0 ? '#38bdf8' : '#1e293b'}
+                            strokeWidth="1"
+                            filter={localAEP > 0 ? `url(#${ids.glow})` : undefined}
+                        />
 
-                    <div className="tooltip-divider"></div>
+                        {/* Recessed Intake Well */}
+                        <rect
+                            x="9.5"
+                            y="8.5"
+                            width="27"
+                            height="43"
+                            rx="3"
+                            fill="#03070d"
+                            stroke="#0f172a"
+                            strokeWidth="0.8"
+                        />
 
-                    <div className="tooltip-section">
-                        <div className="tooltip-label" style={{ color: '#B22222' }}>Arcane Radiation</div>
-                        <div className="passive-desc" style={{ color: '#8B0000' }}>
-                            Ending your round with unspent AEP deals necrotic damage = (AEP / 10) and reduces your max HP by the same amount until a long rest. +50% vulnerability to Bludgeoning & Slashing damage.
-                        </div>
-                    </div>
+                        {/* Vector Siphon Vortex Blades */}
+                        <g transform="translate(23, 30)">
+                            {/* Outer intake ring */}
+                            <circle cx="0" cy="0" r="11" fill="none" stroke={localAEP > 0 ? '#38bdf8' : '#334155'} strokeWidth="1" />
+                            <circle cx="0" cy="0" r="8" fill="#08101a" stroke={localAEP > 0 ? '#60a5fa' : '#1e293b'} strokeWidth="0.8" />
+                            {/* Vortex absorption fins */}
+                            {[0, 60, 120, 180, 240, 300].map((angle, i) => (
+                                <line
+                                    key={i}
+                                    x1="0"
+                                    y1="-3"
+                                    x2="0"
+                                    y2="-9.5"
+                                    stroke={localAEP > 0 ? '#bae6fd' : '#475569'}
+                                    strokeWidth="1.2"
+                                    strokeLinecap="round"
+                                    transform={`rotate(${angle})`}
+                                />
+                            ))}
+                            {/* Center Siphon Spark */}
+                            <circle cx="0" cy="0" r="2.2" fill={localAEP > 0 ? '#ffffff' : '#475569'} filter={localAEP > 0 ? `url(#${ids.glow})` : undefined} />
+                        </g>
+                    </g>
 
-                    {localAEP >= 90 && (
-                        <>
-                            <div className="tooltip-divider"></div>
-                            <div className="tooltip-section">
-                                <div className="tooltip-label" style={{ color: '#B22222' }}>Critical Meltdown Imminent</div>
-                                <div className="passive-desc" style={{ color: '#8B0000' }}>
-                                    Hitting 100 AEP triggers a Critical Meltdown: 10d6 to everything within 30 ft (allies included), you drop to 1 HP, and your armor shatters. Purge now.
-                                </div>
+                    {/* ========================================================================= */}
+                    {/* 3. LEFT CAPACITOR BANK: 5 CHUNKY LEY-CHAMBERS (x: 43..118, 10-50 AEP)     */}
+                    {/* ========================================================================= */}
+                    <g className="sg-left-bank">
+                        {leftChambers.map((val, idx) => {
+                            const isFilled = localAEP >= val;
+                            const isCurrent = localAEP >= val - 9 && localAEP <= val;
+                            const cellX = 43 + (idx * 15.2);
+                            const cellY = 8;
+                            const cellW = 13.5;
+                            const cellH = 44;
+
+                            return (
+                                <g
+                                    key={`cell-l-${val}`}
+                                    className={`sg-chamber ${isFilled ? 'filled' : 'empty'} ${isCurrent ? 'current' : ''}`}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        if (!isOwner) return;
+                                        handleAEPSet(localAEP === val ? val - 10 : val);
+                                    }}
+                                    style={{ cursor: isOwner ? 'pointer' : 'default' }}
+                                >
+                                    {/* Chamber Outer Frame */}
+                                    <rect
+                                        x={cellX}
+                                        y={cellY}
+                                        width={cellW}
+                                        height={cellH}
+                                        rx="2.5"
+                                        fill={`url(#${ids.channelRecess})`}
+                                        stroke={isFilled ? (isCurrent ? '#ffffff' : '#38bdf8') : '#1e293b'}
+                                        strokeWidth={isCurrent ? '1.4' : '0.8'}
+                                        filter={isFilled ? `url(#${ids.glow})` : undefined}
+                                    />
+
+                                    {/* Glowing Cathode Plasma Column */}
+                                    {isFilled && (
+                                        <rect
+                                            x={cellX + 2}
+                                            y={cellY + 3}
+                                            width={cellW - 4}
+                                            height={cellH - 6}
+                                            rx="1.5"
+                                            fill={`url(#${ids.plasmaGrad})`}
+                                            opacity="0.9"
+                                        />
+                                    )}
+
+                                    {/* Central Filament Glint */}
+                                    {isFilled && (
+                                        <line
+                                            x1={cellX + cellW / 2}
+                                            y1={cellY + 6}
+                                            x2={cellX + cellW / 2}
+                                            y2={cellY + cellH - 6}
+                                            stroke="#ffffff"
+                                            strokeWidth="0.9"
+                                            strokeLinecap="round"
+                                            opacity="0.8"
+                                        />
+                                    )}
+                                </g>
+                            );
+                        })}
+
+                        {/* Mid-bank milestone mark at 25 AEP (between cell 2 and 3) */}
+                        <circle cx="80" cy="7" r="1.2" fill={localAEP >= 25 ? '#38bdf8' : '#334155'} />
+                    </g>
+
+                    {/* ========================================================================= */}
+                    {/* 4. CENTER: DAMON'S ALCHEMICAL TOWER SHIELD KEYSTONE (x: 122..174)         */}
+                    {/* ========================================================================= */}
+                    <g
+                        className={`sg-keystone-module ${isMeltdown ? 'is-meltdown' : ''}`}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setShowControls(prev => !prev);
+                        }}
+                        style={{ cursor: 'pointer' }}
+                        filter={isMeltdown ? `url(#${ids.cataGlow})` : isOvercharged ? `url(#${ids.glow})` : undefined}
+                    >
+                        {/* Outer Alchemical Tower Shield Casing */}
+                        <polygon
+                            points="123,7 173,7 173,34 148,54 123,34"
+                            fill="#0b121e"
+                            stroke={isMeltdown ? '#ef4444' : isCritical ? '#c026d3' : isOvercharged ? '#818cf8' : '#38bdf8'}
+                            strokeWidth={isMeltdown ? '2' : '1.4'}
+                        />
+
+                        {/* Inner Beveled Tower Shield Facet */}
+                        <polygon
+                            points="126,9.5 170,9.5 170,33 148,51 126,33"
+                            fill={`url(#${ids.coreLens})`}
+                            stroke={isMeltdown ? '#fca5a5' : isOvercharged ? '#c084fc' : '#7dd3fc'}
+                            strokeWidth="0.8"
+                            opacity="0.9"
+                        />
+
+                        {/* Center Warding Rune Lines */}
+                        <line x1="148" y1="11" x2="148" y2="47" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" />
+                        <line x1="132" y1="21" x2="164" y2="21" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" />
+
+                        {/* Meltdown Electrical Arc Sparks */}
+                        {isMeltdown && (
+                            <g stroke="#ffffff" strokeWidth="1.2" strokeLinecap="round">
+                                <line x1="120" y1="12" x2="126" y2="16" />
+                                <line x1="176" y1="12" x2="170" y2="16" />
+                                <line x1="148" y1="51" x2="148" y2="57" />
+                            </g>
+                        )}
+
+                        {/* Bold High-Contrast Central AEP Numeral */}
+                        <text
+                            x="148"
+                            y="33"
+                            fill="#ffffff"
+                            fontSize="13"
+                            fontWeight="900"
+                            textAnchor="middle"
+                            filter="drop-shadow(0 1.5px 3px rgba(0,0,0,0.95))"
+                        >
+                            {localAEP}
+                        </text>
+                    </g>
+
+                    {/* ========================================================================= */}
+                    {/* 5. RIGHT CAPACITOR BANK: 5 CHUNKY LEY-CHAMBERS (x: 178..254, 60-100 AEP)  */}
+                    {/* ========================================================================= */}
+                    <g className="sg-right-bank">
+                        {rightChambers.map((val, idx) => {
+                            const isFilled = localAEP >= val;
+                            const isCurrent = localAEP >= val - 9 && localAEP <= val;
+                            const isWarning = val >= 90;
+                            const cellX = 178 + (idx * 15.2);
+                            const cellY = 8;
+                            const cellW = 13.5;
+                            const cellH = 44;
+
+                            const cellPlasma = val >= 90 ? `url(#${ids.meltdownPlasma})` : val >= 60 && isOvercharged ? 'url(#sgOverchargeGrad)' : `url(#${ids.plasmaGrad})`;
+
+                            return (
+                                <g
+                                    key={`cell-r-${val}`}
+                                    className={`sg-chamber ${isFilled ? 'filled' : 'empty'} ${isCurrent ? 'current' : ''}`}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        if (!isOwner) return;
+                                        handleAEPSet(localAEP === val ? val - 10 : val);
+                                    }}
+                                    style={{ cursor: isOwner ? 'pointer' : 'default' }}
+                                >
+                                    {/* Chamber Outer Frame */}
+                                    <rect
+                                        x={cellX}
+                                        y={cellY}
+                                        width={cellW}
+                                        height={cellH}
+                                        rx="2.5"
+                                        fill={`url(#${ids.channelRecess})`}
+                                        stroke={isFilled ? (isWarning ? '#ef4444' : isCurrent ? '#ffffff' : '#818cf8') : isWarning ? '#451a1a' : '#1e293b'}
+                                        strokeWidth={isCurrent ? '1.4' : '0.8'}
+                                        filter={isFilled ? `url(#${ids.glow})` : undefined}
+                                    />
+
+                                    {/* Glowing Cathode Plasma Column */}
+                                    {isFilled && (
+                                        <rect
+                                            x={cellX + 2}
+                                            y={cellY + 3}
+                                            width={cellW - 4}
+                                            height={cellH - 6}
+                                            rx="1.5"
+                                            fill={cellPlasma}
+                                            opacity="0.9"
+                                        />
+                                    )}
+
+                                    {/* Central Filament Glint */}
+                                    {isFilled && (
+                                        <line
+                                            x1={cellX + cellW / 2}
+                                            y1={cellY + 6}
+                                            x2={cellX + cellW / 2}
+                                            y2={cellY + cellH - 6}
+                                            stroke="#ffffff"
+                                            strokeWidth="0.9"
+                                            strokeLinecap="round"
+                                            opacity="0.8"
+                                        />
+                                    )}
+                                </g>
+                            );
+                        })}
+
+                        {/* Mid-bank milestone mark at 75 AEP (between cell 7 and 8) */}
+                        <circle cx="216" cy="7" r="1.2" fill={localAEP >= 75 ? '#c026d3' : '#334155'} />
+                    </g>
+
+                    {/* ========================================================================= */}
+                    {/* 6. RIGHT FLANK: KINETIC DISCHARGE VENT & FORGE KEY (x: 258..288)          */}
+                    {/* ========================================================================= */}
+                    <g className="sg-actions-module">
+                        {/* A. Kinetic Vent Valve (Top Right, Discharges -10 AEP) */}
+                        <g
+                            className="sg-vent-module"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                if (!isOwner) return;
+                                handleAEPChange(-10);
+                            }}
+                            style={{ cursor: isOwner ? 'pointer' : 'default' }}
+                        >
+                            {/* Frame */}
+                            <rect
+                                x="257"
+                                y="6"
+                                width="32"
+                                height="22"
+                                rx="3.5"
+                                fill={localAEP >= 75 ? '#1a0b1e' : '#0a101b'}
+                                stroke={localAEP >= 75 ? '#c084fc' : '#334155'}
+                                strokeWidth="0.8"
+                            />
+                            {/* Vector Heat-Sink Exhaust Vents */}
+                            {[262, 267, 272, 277, 282].map((vx, i) => (
+                                <line
+                                    key={i}
+                                    x1={vx}
+                                    y1="10"
+                                    x2={vx}
+                                    y2="24"
+                                    stroke={localAEP >= 75 ? '#f472b6' : '#64748b'}
+                                    strokeWidth="1.2"
+                                    strokeLinecap="round"
+                                />
+                            ))}
+                        </g>
+
+                        {/* B. Forge-Tender Relic Key (Bottom Right, Opens Popover) */}
+                        <g
+                            className="sg-tender-key"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setShowControls(prev => !prev);
+                            }}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <rect
+                                x="257"
+                                y="32"
+                                width="32"
+                                height="22"
+                                rx="3.5"
+                                fill={showControls ? '#1e3a5f' : '#0a101b'}
+                                stroke={showControls ? '#38bdf8' : '#334155'}
+                                strokeWidth="0.8"
+                            />
+                            {/* Engraved Solari Forge Cross-Key */}
+                            <line x1="264" y1="43" x2="282" y2="43" stroke={showControls ? '#ffffff' : '#94a3b8'} strokeWidth="1.2" strokeLinecap="round" />
+                            <line x1="273" y1="36" x2="273" y2="50" stroke={showControls ? '#ffffff' : '#94a3b8'} strokeWidth="1.2" strokeLinecap="round" />
+                            <circle cx="273" cy="43" r="1.8" fill={showControls ? '#ffffff' : '#cbd5e1'} />
+                        </g>
+                    </g>
+                </svg>
+
+                {/* Floating Tactical Popover Menu Portal */}
+                {showControls && ReactDOM.createPortal(
+                    <div 
+                        className="sg-tender-popover unified-context-menu" 
+                        ref={controlsMenuRef}
+                        onClick={(e) => e.stopPropagation()}
+                        style={{
+                            position: 'fixed',
+                            top: (() => {
+                                if (!barRef.current) return '50%';
+                                const rect = barRef.current.getBoundingClientRect();
+                                const hudContainer = barRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                let hudBottom = rect.bottom;
+                                let hudTop = rect.top;
+                                if (hudContainer) {
+                                    const hudRect = hudContainer.getBoundingClientRect();
+                                    hudBottom = hudRect.bottom;
+                                    hudTop = hudRect.top;
+                                }
+                                if (hudBottom + 360 > window.innerHeight) {
+                                    return Math.max(10, hudTop - 360);
+                                }
+                                return hudBottom + 8;
+                            })(),
+                            left: (() => {
+                                if (!barRef.current) return '50%';
+                                const rect = barRef.current.getBoundingClientRect();
+                                return Math.max(165, Math.min(window.innerWidth - 165, rect.left + (rect.width / 2)));
+                            })(),
+                            transform: 'translateX(-50%)',
+                            zIndex: 100000
+                        }}
+                    >
+                        <div className="sg-tender-header">
+                            <div className="sg-tender-title">
+                                <i className="fas fa-shield-halved"></i>
+                                <span>The Damon Forge-Tender</span>
                             </div>
-                        </>
-                    )}
-
-                    <div className="tooltip-divider"></div>
-
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">AEP Management</div>
-                        <div className="level-management">
-                            <strong>Generate:</strong>
-                            <span>Intercept magical dmg (+1/dmg), Physical (+1/3), Mana Drain (+1)</span>
-                            <strong>Spend:</strong>
-                            <span>Arcane shields, spell reflections, magical strikes, purge to avoid radiation</span>
-                        </div>
-                    </div>
-
-                    <div className="tooltip-divider"></div>
-
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">Arcane Radiation</div>
-                        <div className="passive-desc" style={{ color: '#8B0000' }}>
-                            Holding unspent Resonance is lethal. End each round purged, or suffer the consequences.
-                        </div>
-                    </div>
-                </div>,
-                document.body
-            )}
-
-            {/* AEP Controls Menu */}
-            {showControls && barRef.current && ReactDOM.createPortal(
-                <div
-                    className={`unified-context-menu compact context-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
-                    onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                    onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                    style={{
-                        position: 'fixed',
-                        top: (() => {
-                            if (!barRef.current) return '50%';
-                            const rect = barRef.current.getBoundingClientRect();
-                            let hudContainer = barRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
-                            let hudBottom = rect.bottom;
-                            if (hudContainer) {
-                                const hudRect = hudContainer.getBoundingClientRect();
-                                hudBottom = hudRect.bottom;
-                            }
-                            return hudBottom + 8;
-                        })(),
-                        left: (() => {
-                            if (!barRef.current) return '50%';
-                            const rect = barRef.current.getBoundingClientRect();
-                            return rect.left + (rect.width / 2);
-                        })(),
-                        transform: 'translateX(-50%)',
-                        zIndex: 100000
-                    }}
-                >
-                    <div className="context-menu-main">
-                        <div className="menu-title">Arcane Energy Points: {localAEP}/{maxAEP}</div>
-
-                        <div className="spellguard-info-text">
-                            {context === 'party' ? (
-                                'Absorb magical damage to build AEP. Use for arcane shields, spell reflections, and magical strikes.'
-                            ) : (
-                                'Absorb magical damage to generate AEP. Spend on shields, reflections, and strikes.'
-                            )}
-                        </div>
-
-                        {/* Quick Set AEP */}
-                        <div className="context-menu-section">
-                            <div className="context-menu-section-header">Quick Set</div>
-                            <div className="spellguard-preset-grid">
-                                <button 
-                                    className="context-menu-button" 
-                                    onClick={(e) => { e.stopPropagation(); setLocalAEP(0); }} 
-                                    title="Empty (0 AEP)"
-                                >
-                                    0
-                                </button>
-                                <button 
-                                    className="context-menu-button" 
-                                    onClick={(e) => { e.stopPropagation(); setLocalAEP(25); }} 
-                                    title="Quarter (25 AEP)"
-                                >
-                                    ¼
-                                </button>
-                                <button 
-                                    className="context-menu-button" 
-                                    onClick={(e) => { e.stopPropagation(); setLocalAEP(50); }} 
-                                    title="Half (50 AEP)"
-                                >
-                                    ½
-                                </button>
-                                <button 
-                                    className="context-menu-button" 
-                                    onClick={(e) => { e.stopPropagation(); setLocalAEP(75); }} 
-                                    title="Three Quarters (75 AEP)"
-                                >
-                                    ¾
-                                </button>
-                                <button 
-                                    className="context-menu-button" 
-                                    onClick={(e) => { e.stopPropagation(); setLocalAEP(100); }} 
-                                    title="Full (100 AEP)"
-                                >
-                                    100
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Adjust AEP */}
-                        <div className="context-menu-section">
-                            <div className="context-menu-section-header">Adjust</div>
-                            <div className="spellguard-adjust-grid">
-                                <button 
-                                    className="context-menu-button negative" 
-                                    onClick={(e) => { e.stopPropagation(); adjustAEP(-10); }}
-                                >
-                                    -10
-                                </button>
-                                <button 
-                                    className="context-menu-button negative" 
-                                    onClick={(e) => { e.stopPropagation(); adjustAEP(-5); }}
-                                >
-                                    -5
-                                </button>
-                                <button 
-                                    className="context-menu-button positive" 
-                                    onClick={(e) => { e.stopPropagation(); adjustAEP(5); }}
-                                >
-                                    +5
-                                </button>
-                                <button 
-                                    className="context-menu-button positive" 
-                                    onClick={(e) => { e.stopPropagation(); adjustAEP(10); }}
-                                >
-                                    +10
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Close Button */}
-                        <div className="spellguard-quick-actions">
                             <button 
-                                onClick={(e) => { e.stopPropagation(); setShowControls(false); }} 
-                                className="context-menu-button"
-                                title="Close"
+                                className="sg-tender-close-btn"
+                                onClick={() => setShowControls(false)}
+                                title="Close tender"
                             >
-                                <i className="fas fa-times"></i>
-                                <span>Close</span>
+                                ×
                             </button>
                         </div>
-                    </div>
+
+                        {/* Status Flavor Banner */}
+                        {statusFlavor && (
+                            <div className="sg-status-flavor-banner" style={statusFlavor.style}>
+                                <i className="fas fa-quote-left"></i> {statusFlavor.text}
+                            </div>
+                        )}
+
+                        {/* Section 1: AEP Presets */}
+                        <div className="sg-tender-section">
+                            <div className="sg-section-label">
+                                <span>Arcane Energy Presets</span>
+                                <span className="sg-current-pill" style={{ color: currentTier.color }}>
+                                    {localAEP}/100 AEP ({currentTier.name})
+                                </span>
+                            </div>
+                            <div className="sg-preset-grid">
+                                <button 
+                                    className={`sg-preset-btn ${localAEP === 0 ? 'active' : ''}`}
+                                    onClick={() => handleAEPSet(0)}
+                                >
+                                    <span className="sg-btn-title">Grounded (0)</span>
+                                    <span className="sg-btn-sub">Cold iron base</span>
+                                </button>
+                                <button 
+                                    className={`sg-preset-btn ${localAEP === 25 ? 'active' : ''}`}
+                                    onClick={() => handleAEPSet(25)}
+                                >
+                                    <span className="sg-btn-title">Siphon (25)</span>
+                                    <span className="sg-btn-sub">Low radiation</span>
+                                </button>
+                                <button 
+                                    className={`sg-preset-btn ${localAEP === 50 ? 'active' : ''}`}
+                                    onClick={() => handleAEPSet(50)}
+                                >
+                                    <span className="sg-btn-title">Energized (50)</span>
+                                    <span className="sg-btn-sub">Balanced charge</span>
+                                </button>
+                                <button 
+                                    className={`sg-preset-btn ${localAEP === 75 ? 'active' : ''}`}
+                                    onClick={() => handleAEPSet(75)}
+                                >
+                                    <span className="sg-btn-title">Overcharge (75)</span>
+                                    <span className="sg-btn-sub">+1d4 Arcane dice</span>
+                                </button>
+                                <button 
+                                    className={`sg-preset-btn cata ${localAEP === 100 ? 'active' : ''}`}
+                                    onClick={() => handleAEPSet(100)}
+                                >
+                                    <span className="sg-btn-title">Meltdown (100)</span>
+                                    <span className="sg-btn-sub">Nova risk!</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Section 2: Tactical Absorption & Discharge */}
+                        <div className="sg-tender-section">
+                            <div className="sg-section-label">
+                                <span>Tactical Channeling</span>
+                            </div>
+                            <div className="sg-actions-grid">
+                                <button 
+                                    className="sg-action-btn gain"
+                                    onClick={() => handleAEPChange(15)}
+                                    disabled={localAEP >= maxAEP}
+                                >
+                                    <i className="fas fa-plus"></i> Intercept (+15)
+                                </button>
+                                <button 
+                                    className="sg-action-btn spend"
+                                    onClick={() => handleAEPChange(-25)}
+                                    disabled={localAEP < 25}
+                                >
+                                    <i className="fas fa-bolt"></i> Discharge (-25)
+                                </button>
+                                <button 
+                                    className="sg-action-btn spend"
+                                    onClick={() => handleAEPChange(-40)}
+                                    disabled={localAEP < 40}
+                                >
+                                    <i className="fas fa-shield"></i> Barrier (-40)
+                                </button>
+                                <button 
+                                    className="sg-action-btn purge"
+                                    onClick={() => handleAEPSet(0)}
+                                    disabled={localAEP === 0}
+                                >
+                                    <i className="fas fa-rotate-left"></i> Emergency Ground (0)
+                                </button>
+                            </div>
+                        </div>
+                    </div>,
+                    document.body
+                )}
+            </div>
+
+            {/* Tactical Hover Tooltip */}
+            {showTooltip && !showControls && ReactDOM.createPortal(
+                <div
+                    ref={tooltipRef}
+                    className="unified-resourcebar-tooltip pathfinder-tooltip"
+                    style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}
+                >
+                    <ClassTip
+                        icon="fas fa-shield-halved"
+                        tint={currentTier.color}
+                        title="Silence-Scarred Aegis (AEP)"
+                        state={`${localAEP}/100 • ${currentTier.name}`}
+                        stateTone={isMeltdown ? 'bad' : isCritical ? 'warn' : 'good'}
+                        mechanic="Absorb hostile spells and physical blows into living vascular tissue. Spend stored AEP on devastating shields, reflections, and kinetic strikes."
+                        status={[
+                            `Radiation Level: ${currentTier.name} — ${currentTier.desc}`,
+                            localAEP >= 91
+                                ? 'MELTDOWN IMMINENT: 100 AEP detonates 10d6 in a 30ft radius and drops you to 1 HP. Purge now!'
+                                : localAEP >= 76
+                                    ? 'Critical Resonance: Unspent AEP erodes max HP until rested.'
+                                    : localAEP >= 51
+                                        ? 'Overcharged: +1d4 arcane on all weapon and spell strikes.'
+                                        : 'Conduits grounded and cool.',
+                            `Capacity: ${localAEP}/100 AEP (${100 - localAEP} AEP head-room remaining)`
+                        ]}
+                        usage="Click chambers to set AEP · Click left valve to Siphon (+10) · Click right valve to Vent (-10) · Click Keystone for Tender."
+                        hint="Arrow keys step AEP (Shift for ±25). Press 'V' to vent, 'S' to siphon, Enter for Tender menu."
+                    />
                 </div>,
                 document.body
             )}
@@ -492,5 +812,4 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
     );
 };
 
-export default SpellguardResourceBar;
-
+export default React.memo(SpellguardResourceBar);

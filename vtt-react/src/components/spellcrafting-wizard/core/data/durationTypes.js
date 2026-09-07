@@ -4,26 +4,26 @@ const DURATION_TYPES = [
       id: 'instant',
       name: 'Instant',
       description: 'Effect occurs once and immediately',
-      icon: '/assets/icons/abilities/Nature/Natural.png',
+      icon: '/assets/icons/abilities/Nature/Nature Natural 4.png',
       actionPointModifier: 0
     },
     {
       id: 'rounds',
       name: 'Rounds',
       description: 'Effect lasts for a specific number of combat rounds',
-      icon: '/assets/icons/abilities/Radiant/Light Path.png',
+      icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
       actionPointModifier: 1
     },
     { id: 'turns', 
       name: 'Turns', 
       description: 'Effect lasts for a specific number of turns', 
-      icon: '/assets/icons/abilities/Nature/Natural.png', 
+      icon: '/assets/icons/abilities/Nature/Nature Natural 4.png', 
       actionPointModifier: 1 },
     {
       id: 'minutes',
       name: 'Minutes',
       description: 'Effect lasts for a specific number of minutes',
-      icon: '/assets/icons/abilities/Radiant/Light Path.png',
+      icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
       actionPointModifier: 2
     },
     {
@@ -37,7 +37,7 @@ const DURATION_TYPES = [
       id: 'concentration',
       name: 'Concentration',
       description: 'Effect lasts as long as caster maintains concentration',
-      icon: '/assets/icons/abilities/Arcane/Arcane.png',
+      icon: '/assets/icons/abilities/Arcane/Spiral Vortex.png',
       actionPointModifier: 1,
       requiresConcentration: true
     },
@@ -45,7 +45,7 @@ const DURATION_TYPES = [
       id: 'permanent',
       name: 'Permanent',
       description: 'Effect lasts until dispelled or ended by specific condition',
-      icon: '/assets/icons/abilities/Radiant/Light Path.png',
+      icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
       actionPointModifier: 4,
       requiresRitualCasting: true
     }

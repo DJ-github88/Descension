@@ -1,0 +1,137 @@
+/* ===== APEX RESOURCE BAR (THE SHADOW GLAIVE & BONDED PACKFANG ORRERY) ===== */
+
+.apex-resource-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    z-index: 1;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.apex-resource-container .resource-bar-row {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main Vector Resource Bar (viewBox 0 0 360 56) */
+.apex-resource-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 360px;
+    height: 56px;
+    margin: 0 auto;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    transition: filter 0.25s ease, transform 0.15s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+.apex-glaive-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+}
+
+.apex-resource-bar.small {
+    height: 44px;
+    max-width: 280px;
+}
+
+.apex-resource-bar.large {
+    height: 64px;
+    max-width: 400px;
+}
+
+/* Character card / compact hud sizing - Wide 360px footprint */
+.character-card .apex-resource-bar,
+.character-card-compact .apex-resource-bar {
+    height: 52px !important;
+    min-height: 52px !important;
+    max-width: 360px !important;
+    width: 100% !important;
+}
+
+/* Hover effects - crisp predator bloodfire glow */
+.apex-resource-bar.clickable:hover {
+    filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.45)) drop-shadow(0 0 4px rgba(254, 240, 138, 0.3));
+}
+
+.apex-resource-bar.clickable:active {
+    filter: drop-shadow(0 0 5px rgba(244, 63, 94, 0.6));
+}
+
+/* APEX EXECUTION READY SUPERNOVA RADIANCE */
+.apex-resource-bar.apex-execution-ready {
+    filter: drop-shadow(0 0 10px rgba(244, 63, 94, 0.65)) drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+    animation: apexSupernovaPulse 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes apexSupernovaPulse {
+    0% {
+        filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.5)) drop-shadow(0 0 3px rgba(255, 255, 255, 0.7));
+    }
+    100% {
+        filter: drop-shadow(0 0 14px rgba(244, 63, 94, 0.85)) drop-shadow(0 0 8px rgba(254, 240, 138, 0.95));
+    }
+}
+
+/* COMPANION DOWN WARNING */
+.apex-resource-bar.companion-down {
+    filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.5));
+}
+
+.apex-companion-sanctuary.downed {
+    animation: downedWarningPulse 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes downedWarningPulse {
+    0% {
+        filter: drop-shadow(0 0 2px #ef4444);
+    }
+    100% {
+        filter: drop-shadow(0 0 7px #ef4444) drop-shadow(0 0 12px #991b1b);
+    }
+}
+
+/* Talons, Beast Sanctuary & Flank Triggers Interactivity */
+.apex-mark-talon, .apex-flank-trigger, .apex-companion-sanctuary, .apex-center-collar {
+    transition: filter 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+}
+
+.apex-mark-talon:hover, .apex-flank-trigger:hover, .apex-companion-sanctuary:hover, .apex-center-collar:hover {
+    filter: brightness(1.25) drop-shadow(0 0 4px rgba(255, 255, 255, 0.45));
+}
+
+.apex-mark-talon.earned {
+    filter: drop-shadow(0 0 4px rgba(239, 68, 68, 0.5));
+}
+
+.apex-mark-talon.apex-tier {
+    animation: apexTalonPulse 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes apexTalonPulse {
+    0% {
+        filter: drop-shadow(0 0 4px #f43f5e) drop-shadow(0 0 2px #ffffff);
+    }
+    100% {
+        filter: drop-shadow(0 0 10px #f43f5e) drop-shadow(0 0 6px #fef08a);
+    }
+}
+
+.apex-flank-trigger:active {
+    transform: scale(0.95);
+}

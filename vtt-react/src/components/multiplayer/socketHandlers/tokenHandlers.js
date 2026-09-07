@@ -48,15 +48,24 @@ export function registerTokenHandlers(ctx) {
       }
     });
 
-    // Another player refreshed their token (portrait/name edit in their sheet)
+    // Another player refreshed their token (portrait/name edit in their sheet or condition/state change)
     socket.on('character_token_updated', (data) => {
       if (deltaSyncTokensEnabled()) return;
       if (data && data.tokenId) {
-        useCharacterTokenStore.getState().updateCharacterTokenSnapshot(
-          data.tokenId,
-          data.character || null,
-          data.name || null
-        );
+        if (data.character || data.name) {
+          useCharacterTokenStore.getState().updateCharacterTokenSnapshot(
+            data.tokenId,
+            data.character || null,
+            data.name || null
+          );
+        }
+        if (data.stateUpdates) {
+          useCharacterTokenStore.getState().updateCharacterTokenState(
+            data.tokenId,
+            data.stateUpdates,
+            false // don't echo back to server
+          );
+        }
       }
     });
 

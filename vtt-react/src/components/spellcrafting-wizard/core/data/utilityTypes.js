@@ -152,7 +152,7 @@ export const UTILITY_EFFECT_TYPES = [
           id: 'complex',
           name: 'Complex Illusion',
           description: 'Create fully interactive illusions that affect multiple senses simultaneously',
-          icon: '/assets/icons/abilities/Void/Void.png',
+          icon: '/assets/icons/abilities/Void/Consumed by Void.png',
           parameters: ['illusionComplexity', 'sensesCovered', 'interactive', 'believability', 'duration']
         },
         {
@@ -226,7 +226,7 @@ export const UTILITY_EFFECT_TYPES = [
           id: 'scrying',
           name: 'Scrying',
           description: 'View distant locations or subjects remotely',
-          icon: '/assets/icons/abilities/Void/Void.png',
+          icon: '/assets/icons/abilities/Void/Consumed by Void.png',
           parameters: ['scryRange', 'accuracy', 'sensorType', 'detection', 'duration']
         },
         {
@@ -247,7 +247,7 @@ export const UTILITY_EFFECT_TYPES = [
           id: 'truesight',
           name: 'Truesight',
           description: 'See through illusions, invisibility, and into other planes',
-          icon: '/assets/icons/abilities/Shadow/Shadow Darkness.png',
+          icon: '/assets/icons/abilities/Necrotic/Gloomy Death.png',
           parameters: ['truesightRange', 'planarVision', 'detectMagic', 'revealDisguises', 'duration']
         }
       ]
@@ -256,14 +256,14 @@ export const UTILITY_EFFECT_TYPES = [
       id: 'conjuration',
       name: 'Conjuration',
       description: 'Summons creatures, objects, or materials from elsewhere',
-      icon: '/assets/icons/abilities/Void/Void.png',
+      icon: '/assets/icons/abilities/Void/Consumed by Void.png',
       actionPointCost: 4,
       subtypes: [
         {
           id: 'creature',
           name: 'Creature Summoning',
           description: 'Summon creatures to aid you in battle or perform tasks',
-          icon: '/assets/icons/abilities/Void/Void.png',
+          icon: '/assets/icons/abilities/Void/Consumed by Void.png',
           parameters: ['creatureType', 'creatureLevel', 'controlType', 'duration', 'number']
         },
         {

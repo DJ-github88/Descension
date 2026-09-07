@@ -11,7 +11,7 @@ const FogTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =>
         {
             id: 'fog_draw',
             name: 'Draw Fog',
-            icon: 'Shadow/Shadow Invisibility',
+            icon: 'Utility/Hide',
             description: 'Paint fog onto areas'
         },
         {
@@ -29,7 +29,7 @@ const FogTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =>
         {
             id: 'fog_cover_map',
             name: 'Cover Entire Map',
-            icon: 'Shadow/Shadow Darkness',
+            icon: 'Necrotic/Gloomy Death',
             description: 'Cover the entire map with fog'
         }
     ];

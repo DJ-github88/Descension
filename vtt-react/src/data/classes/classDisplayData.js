@@ -46,13 +46,13 @@ export const CLASS_DISPLAY_DATA = [
         role: 'Hybrid Adaptation',
         resource: 'Flux',
         complexityRating: 4,
-        cognitiveTags: ['6 Dynamic Stances', '0 Base Armor', 'High APM'],
+        cognitiveTags: ['6 Dynamic Stances', '0 Base Durability', 'High APM'],
         playstyle: 'The Groven bone-readers of the Cragjaw Peaks learned the Shaping Forms from the ancestor spans. Your body is the weapon, reshaping bone, sinew, and kinetic force into fluid martial stances.',
         roleColor: '#e74c3c',
         damageTypes: ['smashing', 'stabbing', 'slicing'],
         quickStartPresets: {
             striker: { name: 'Centrifugal Striker', description: 'High-mobility kinetic attacker who spins between stances.', spells: ['shaper_bone_spike', 'shaper_centrifugal_fury', 'shaper_kinetic_glide'] },
-            tank: { name: 'Calcified Bastion', description: 'Hardens skeletal structure into biological armor.', spells: ['shaper_deadened_bastion', 'shaper_reactive_parry', 'shaper_anatomical_mimicry'] }
+            tank: { name: 'Calcified Bastion', description: 'Hardens skeletal structure into biological durability.', spells: ['shaper_deadened_bastion', 'shaper_reactive_parry', 'shaper_anatomical_mimicry'] }
         }
     },
     {
@@ -223,11 +223,11 @@ export const CLASS_DISPLAY_DATA = [
         resource: 'Notes',
         complexityRating: 2,
         cognitiveTags: ['Note Collecting (I-VII)', 'Cadence Chords', 'No Self-Heal'],
-        playstyle: 'Calm the storm gales with the maritime Tide Choir tradition. Weave acoustic melodies that shatter heavy armor, disrupt enemy incantations, and steady the resolve of your party.',
+        playstyle: 'Calm the storm gales with the maritime Tide Choir tradition. Weave acoustic melodies that shatter heavy plating and Durability, disrupt enemy incantations, and steady the resolve of your party.',
         roleColor: '#2ecc71',
         damageTypes: ['wyrd', 'storm'],
         quickStartPresets: {
-            commander: { name: 'Battlechoir', description: 'War chants that increase ally attack velocity and shatter armor.', spells: ['minstrel_tide_song', 'minstrel_resonance_shatter'] },
+            commander: { name: 'Battlechoir', description: 'War chants that increase ally attack velocity and shatter Durability and DR.', spells: ['minstrel_tide_song', 'minstrel_resonance_shatter'] },
             healer: { name: 'Soulsinger', description: 'Harmonic melodies that restore ally resolve and soothe mental debuffs.', spells: ['minstrel_calming_melody', 'minstrel_harmonic_shield'] }
         }
     },
@@ -255,7 +255,7 @@ export const CLASS_DISPLAY_DATA = [
         resource: 'Veil',
         complexityRating: 2,
         cognitiveTags: ['10 Veil Levels', 'Escalating Fire Damage', 'Level 9 Death Clock'],
-        playstyle: 'Swallow the volcanic embers of the Ashen Sovereign to become a living combustion chamber of volcanic fire. Trade stability for uncontrolled caldera heat capable of vaporizing armor.',
+        playstyle: 'Swallow the volcanic embers of the Ashen Sovereign to become a living combustion chamber of volcanic fire. Trade stability for uncontrolled caldera heat capable of vaporizing Durability.',
         roleColor: '#e74c3c',
         damageTypes: ['ember'],
         quickStartPresets: {
@@ -323,7 +323,7 @@ export const CLASS_DISPLAY_DATA = [
         roleColor: '#9b59b6',
         damageTypes: ['wyrd', 'ember'],
         quickStartPresets: {
-            debuffer: { name: 'Harbinger of Rot', description: 'Spend Odd d20 rolls to cripple enemy armor and inflict rot.', spells: ['augur_read_the_signs', 'augur_bone_splinter_omen'] },
+            debuffer: { name: 'Harbinger of Rot', description: 'Spend Odd d20 rolls to cripple enemy Durability and inflict rot.', spells: ['augur_read_the_signs', 'augur_bone_splinter_omen'] },
             healer: { name: 'Hierophant of Omens', description: 'Spend Even d20 rolls to ward allies and heal fatal strikes.', spells: ['augur_visceral_inscription', 'augur_fate_severance'] }
         }
     },

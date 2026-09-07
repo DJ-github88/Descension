@@ -9,7 +9,7 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
  * DESIGNER NOTES (v2.0 Surgical Overhaul):
  * - Tone: Heavy, tragic fantasy. Magic demands a heavy price, power demands a toll of vitality and blood.
  * - Normalized spell properties to comply with UnifiedSpellCard and Spellcrafting Wizard.
- * - Removed 5e terminology (Bonus Actions -> AP/Reaction, legacy armor-defense -> durability dice/Dodge, spell slots -> mana/virulence).
+ * - Removed 5e terminology (Bonus Actions -> AP/Reaction, legacy defenses -> durability dice/Dodge, spell slots -> mana/virulence).
  * - Fixed all damageTypes targets to use canonical system damage types ('blight', 'wyrd', 'primal').
  * - Fixed durationConfig.durationValue and durationUnit properties.
  * - Moved school into typeConfig.
@@ -52,10 +52,10 @@ export const PLAGUEBRINGER_DATA = {
  
   // EQUIPMENT (added 2026-07-28 audit fix)
   // TODO: design team to add startingEquipment and proficiencies.
-  // TODO: review weapon/armor lists for class accuracy per lore compendium.
+  // Protective gear and weapon loadouts per canonical compendium.
   equipment: {
    weapons: ['dagger', 'sickle', 'short_sword'],
-   armor: ['light_armor', 'robes'],
+   protectiveGear: ['light_ward', 'robes'],
    offHand: ['vial', 'tome', 'empty']
   },
 subraceVariants: {
@@ -110,6 +110,13 @@ subraceVariants: {
 
 
  id : "plaguebringer",
+  classResource: {
+    type: "virulence",
+    base: 0,
+    max: 100,
+    generationNote: "Cultivated through infecting hosts, spreading miasma, and fungal spore harvesting. Spent to detonate plagues.",
+    mechanicsNote: "Higher Virulence increases infection spread radius and passive necrotic damage ticks."
+  },
  name: "Plaguebringer",
  icon: "fas fa-biohazard",
  role: "Damage/Control",
@@ -270,7 +277,7 @@ The cause is unclear. Some blame the Silence contamination spreading through the
 
  immersiveCombatExample: {
   title: "Combat Example: Sowing the Rot",
-  content: `**The Setup**: You face a cluster of three armored knights in a damp dungeon corridor. Your party stands behind you. You start at 0 Virulence and 60/60 Mana.
+  content: `**The Setup**: You face a cluster of three shielded knights in a damp dungeon corridor. Your party stands behind you. You start at 0 Virulence and 60/60 Mana.
 
 **Turn 1 - Sowing the Seeds (Virulence: 0 ? 15)**
 *Your veins burn with black bile as you trace a rot-sigil in the air. The knights advance, unaware of the garden taking root in their marrow.*
@@ -289,7 +296,7 @@ The cause is unclear. Some blame the Silence contamination spreading through the
 - **State**: Lead Knight at Stage 1 (Weaken). All knights in fog have DR reduced. Virulence: 30 (Sprouting threshold met).
 
 **Turn 3 - The Bloom and Spread (Virulence: 30 ? 55)**
-*The lead knight staggers under his rotting armor. The rot wants to spread.*
+*The lead knight staggers under his rotting plate. The rot wants to spread.*
 - **Action**: Cast "Infectious Sores" (6 mana, 1 AP) on the lead Knight.
 - **Flesh Toll**: You take 5 blight damage as your skin blisters in sympathy.
 - **Effect**: Cultivates Wasting Curse to **Stage 2 (Fester)**. The sores rupture, spreading Wasting Curse as Stage 0 Seeds to the two adjacent knights.
@@ -374,7 +381,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   title: "The Five Cultivation Categories",
   headers: ["Category", "Identity", "Stage Effect", "Best For"],
   rows: [
-  ["Weaken", "The Sap", "Reduces target DR, Dodge, and physical attributes", "Softening heavily armored targets"],
+  ["Weaken", "The Sap", "Reduces target DR, Dodge, and physical attributes", "Softening high-Durability targets"],
   ["Torment", "The Whisper", "Inflicts wyrd damage and crowd control (Confusion/Fear)", "Disrupting casters and breaking enemy lines"],
   ["Fester", "The Creep", "Spreads active diseases to adjacent healthy targets", "Clearing tightly packed groups of enemies"],
   ["Decay", "The Rot", "Deals blight damage and drains maximum HP and healing", "Sapping bosses and locking down healers"],
@@ -530,7 +537,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
    level: 3,
    spellType: "ACTION",
    icon: "Poison/Acid Spray",
-   typeConfig: { school: "blight", icon: "Poison/Poison Cloud", tags: ["utility", "gaseous_form", "plaguebringer"], castTime: 1, castTimeType: "IMMEDIATE" },
+   typeConfig: { school: "blight", icon: "Poison/Poison Blight", tags: ["utility", "gaseous_form", "plaguebringer"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "self", rangeType: "self" },
    resourceCost: { actionPoints: 1, mana: 5 },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -2835,6 +2842,30 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     utilityConfig: { utilityType: "summon", selectedEffects: [ { id: "cadaver_puppet_servant", "name": "Macabre Servant", "description": "Animate one fresh corpse as a shambling servant for 1 hour: carry, pull levers, spring traps ahead of the party, block a door, or distract. It cannot fight effectively and drops when the rot runs dry.", "mechanicsText": "One corpse-servant for 1 hour; labor/trap-spring/distraction only." } ], duration: 1, durationUnit: "hours", power: "moderate" },
     cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
     tags: ["utility","exploration","infiltration","plaguebringer"]
+  },
+  { id: "pb_spore_scout",
+    name: "Spore Scout",
+    description: "Exhale a cloud of microscopic bioluminescent fungal spores that float up to 80ft ahead through passages, tunnels, or brush. They return tactile warnings of living creatures, hidden predators, or poisonous air directly to your nervous system. Out of combat.",
+    level: 1, spellType: "ACTION", icon: "Nature/Amplified Senses",
+    typeConfig: { school: "blight", icon: "Nature/Amplified Senses", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","detection","scout","exploration","plaguebringer"] },
+    targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 80 },
+    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, classResource: { type: "virulence", gain: 5 }, components: ["somatic"], somaticText: "Blow a pinch of dried puffball dust into the air current" },
+    resolution: "NONE", effectTypes: ["utility"],
+    utilityConfig: { utilityType: "perception", selectedEffects: [ { id: "spore_scout_sense", name: "Spore Reconnaissance", description: "Sense moving creatures and atmospheric toxicity within 80ft through drifting fungal filaments.", mechanicsText: "80ft aerial spore reconnaissance; alerts to ambush/toxicity." } ], duration: 10, durationUnit: "minutes", power: "moderate" },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+    tags: ["utility","detection","scout","exploration","plaguebringer"]
+  },
+  { id: "pb_miasma_veil",
+    name: "Miasma Veil",
+    description: "Release a low-hanging acrid mist in a 20ft radius around your party. Masks all human/humanoid scent, dissolves fresh footprints into black mulch, and gives tracking predators disadvantage on perception checks to follow you. Out of combat.",
+    level: 2, spellType: "ACTION", icon: "Poison/Poison Plague",
+    typeConfig: { school: "blight", icon: "Poison/Poison Plague", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","stealth","camp","survival","plaguebringer"] },
+    targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 20 },
+    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, classResource: { type: "virulence", cost: 10 }, components: ["somatic"], somaticText: "Crush moldy peat between your hands and scatter the spore-vapor" },
+    resolution: "NONE", effectTypes: ["utility"],
+    utilityConfig: { utilityType: "stealth", selectedEffects: [ { id: "miasma_veil_mask", name: "Scent Erasure", description: "Erase tracks and scent for up to 6 creatures for 1 hour; imposes disadvantage on all tracking checks against the group.", mechanicsText: "Masks scent and tracks in 20ft radius for 1 hour." } ], duration: 1, durationUnit: "hours", power: "moderate" },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+    tags: ["utility","stealth","camp","survival","plaguebringer"]
   }
  ],
 
@@ -2848,14 +2879,16 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   "plague_incubation_period",
   "virulent-lavender_mask",
   "pb_rot_touch",
-  "pb_mycelium_sense"
+  "pb_mycelium_sense",
+  "pb_spore_scout"
  ],
  2: [
   "pb_fever_dream",
   "pb_mark_of_the_pestilent",
   "pb_enfeebling_fog",
   "pb_plague_reader",
-  "pb_counter_culture"
+  "pb_counter_culture",
+  "pb_miasma_veil"
  ],
  3: [
   "pb_drain_vitality",

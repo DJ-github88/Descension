@@ -9,10 +9,11 @@ import { useState, useEffect, useMemo } from 'react';
 import useCharacterStore from '../store/characterStore';
 import { ALL_GENERAL_SPELLS } from '../data/generalSpellsData';
 import { UNIVERSAL_COMBAT_SPELLS } from '../data/universalCombatSpells';
-import { 
- createWeaponAttackSpell, 
- getAllWeaponAttackSpells, 
- enhanceSpellWithWeaponData 
+import {
+ createWeaponAttackSpell,
+ getAllWeaponAttackSpells,
+ enhanceSpellWithWeaponData,
+ getWeaponDamageNotation
 } from '../utils/weaponIntegration';
 
 /**
@@ -63,24 +64,27 @@ export const useWeaponEnhancedSpells = () => {
 
   // Enhance all weapon-dependent spells (like Riposte) with weapon data
   const enhancedSpellsList = spells.map(spell => {
-   if (spell.damageConfig?.weaponDependent === true && spell.id !== 'universal_attack') {
-    return enhanceSpellWithWeaponData(spell, 'mainHand');
-   }
-   return spell;
+    if (spell.damageConfig?.weaponDependent === true && spell.id !== 'universal_attack') {
+      return enhanceSpellWithWeaponData(spell, 'mainHand');
+    }
+    return spell;
   });
 
   return enhancedSpellsList;
- }, []);
- 
- // Get the primary attack spell (main hand weapon)
- const primaryAttackSpell = useMemo(() => {
-  return createWeaponAttackSpell('mainHand');
- }, []);
- 
- // Get all available attack options
- const allAttackSpells = useMemo(() => {
-  return getAllWeaponAttackSpells();
- }, []);
+  // Rebuild whenever equipment changes: attack spells read the equipment
+  // snapshot via useCharacterStore.getState(), so an empty/initial snapshot
+  // at mount would otherwise permanently hide Attack (Weapon)/Attack (Ranged).
+  }, [equipment]);
+
+  // Get the primary attack spell (main hand weapon)
+  const primaryAttackSpell = useMemo(() => {
+    return createWeaponAttackSpell('mainHand');
+  }, [equipment]);
+
+  // Get all available attack options
+  const allAttackSpells = useMemo(() => {
+    return getAllWeaponAttackSpells();
+  }, [equipment]);
  
  // Check if character has weapons equipped
  const hasWeaponsEquipped = useMemo(() => {
@@ -99,30 +103,27 @@ export const useWeaponEnhancedSpells = () => {
    const weapon = equipment.mainHand;
    summary.mainHand = {
     name: weapon.name,
-    damage: weapon.weaponStats?.baseDamage ? 
-     `${weapon.weaponStats.baseDamage.diceCount}d${weapon.weaponStats.baseDamage.diceType}` : '1d4',
+    damage: getWeaponDamageNotation(weapon),
     damageType: weapon.weaponStats?.baseDamage?.damageType || 'bludgeoning',
     type: weapon.subtype || 'UNKNOWN'
    };
   }
-  
+
   if (equipment?.offHand && equipment?.mainHand?.weaponSlot !== 'TWO_HANDED') {
    const weapon = equipment.offHand;
    summary.offHand = {
     name: weapon.name,
-    damage: weapon.weaponStats?.baseDamage ? 
-     `${weapon.weaponStats.baseDamage.diceCount}d${weapon.weaponStats.baseDamage.diceType}` : '1d4',
+    damage: getWeaponDamageNotation(weapon),
     damageType: weapon.weaponStats?.baseDamage?.damageType || 'bludgeoning',
     type: weapon.subtype || 'UNKNOWN'
    };
   }
-  
+
   if (equipment?.ranged) {
    const weapon = equipment.ranged;
    summary.ranged = {
     name: weapon.name,
-    damage: weapon.weaponStats?.baseDamage ? 
-     `${weapon.weaponStats.baseDamage.diceCount}d${weapon.weaponStats.baseDamage.diceType}` : '1d4',
+    damage: getWeaponDamageNotation(weapon),
     damageType: weapon.weaponStats?.baseDamage?.damageType || 'piercing',
     type: weapon.subtype || 'UNKNOWN'
    };

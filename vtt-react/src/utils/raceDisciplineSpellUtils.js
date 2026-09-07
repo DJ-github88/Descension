@@ -5,7 +5,7 @@
  */
 
 // Import race data
-import { RACE_DATA, getSubraceData } from '../data/raceData';
+import { RACE_DATA, getSubraceData, getFullRaceData } from '../data/raceData';
 
 // Import spell library context (avoid circular import by importing at top)
 import { libraryActionCreators } from '../components/spellcrafting-wizard/context/SpellLibraryContext';
@@ -126,87 +126,17 @@ export function getRacialSpells(raceId, subraceId) {
     const spells = [];
 
     if (!raceId || !RACE_DATA[raceId]) {
-        console.warn('⚠️ [getRacialSpells] Invalid raceId:', raceId);
         return spells;
     }
 
-    // Get subrace data using the helper function (handles ID lookup correctly)
-    if (subraceId) {
-        const subraceData = getSubraceData(raceId, subraceId);
-        
-        // Verify we got the correct subrace
-        if (subraceData && subraceData.id !== subraceId) {
-            console.error('❌ [getRacialSpells] Subrace ID mismatch!', {
-                requested: subraceId,
-                received: subraceData.id,
-                raceId
-            });
-            return spells; // Return empty array if ID mismatch
-        }
-        
-        console.log('🔍 [getRacialSpells] Subrace data:', {
-            raceId,
-            subraceId,
-            subraceName: subraceData?.name,
-            subraceIdFromData: subraceData?.id,
-            found: !!subraceData,
-            traitsCount: subraceData?.traits?.length || 0,
-            traitIds: subraceData?.traits?.map(t => t.id) || [],
-            traitNames: subraceData?.traits?.map(t => t.name) || []
-        });
-        
-        if (subraceData && subraceData.traits) {
-            // Filter out passive stat modifiers - only return actual spells
-            const allTraits = subraceData.traits;
-            const statModifiers = allTraits.filter(trait => {
-                const isPassive = isPassiveStatModifier(trait);
-                if (!isPassive && trait.name === 'Deep Frost') {
-                    console.warn('⚠️ [getRacialSpells] Deep Frost not identified as passive!', {
-                        trait,
-                        tags: trait.typeConfig?.tags,
-                        spellType: trait.spellType,
-                        hasImmunityStatusEffects: trait.buffConfig?.effects?.some(effect => {
-                            const effectName = (effect.name || '').toLowerCase();
-                            return effectName.includes('immunity') || effectName.includes('immune');
-                        })
-                    });
-                }
-                return isPassive;
-            });
-            const actualSpells = allTraits.filter(trait => !isPassiveStatModifier(trait));
-            
-            console.log('🔍 [getRacialSpells] Filtered traits:', {
-                subraceName: subraceData.name,
-                subraceId: subraceData.id,
-                totalTraits: allTraits.length,
-                statModifiersCount: statModifiers.length,
-                statModifierNames: statModifiers.map(s => s.name),
-                actualSpellsCount: actualSpells.length,
-                actualSpellIds: actualSpells.map(s => s.id),
-                actualSpellNames: actualSpells.map(s => s.name)
-            });
-            
-            // Double-check: ensure we're not adding spells that don't belong to this subrace
-            // Also filter out any spells that should be passives (safety check)
-            const safeSpells = actualSpells.filter(spell => {
-                if (spell.name === 'Deep Frost') {
-                    console.error('❌ [getRacialSpells] Deep Frost should not be in spells list! Filtering out.');
-                    return false;
-                }
-                return true;
-            });
-            spells.push(...safeSpells);
-        } else {
-            console.warn('⚠️ [getRacialSpells] No subrace data or traits found:', {
-                raceId,
-                subraceId,
-                hasSubraceData: !!subraceData,
-                hasTraits: !!subraceData?.traits
-            });
-        }
-    } else {
-        console.warn('⚠️ [getRacialSpells] No subraceId provided:', { raceId, subraceId });
+    const fullRaceData = getFullRaceData(raceId, subraceId);
+    if (!fullRaceData || !fullRaceData.combinedTraits?.traits) {
+        return spells;
     }
+
+    const allTraits = fullRaceData.combinedTraits.traits;
+    const actualSpells = allTraits.filter(trait => !isPassiveStatModifier(trait));
+    spells.push(...actualSpells);
 
     return spells;
 }
@@ -225,15 +155,13 @@ export function getRacialStatModifiers(raceId, subraceId) {
         return modifiers;
     }
 
-    // Get subrace data using the helper function (handles ID lookup correctly)
-    if (subraceId) {
-        const subraceData = getSubraceData(raceId, subraceId);
-        if (subraceData && subraceData.traits) {
-            // Only return passive stat modifiers
-            const passiveModifiers = subraceData.traits.filter(trait => isPassiveStatModifier(trait));
-            modifiers.push(...passiveModifiers);
-        }
+    const fullRaceData = getFullRaceData(raceId, subraceId);
+    if (!fullRaceData || !fullRaceData.combinedTraits?.traits) {
+        return modifiers;
     }
+
+    const passiveModifiers = fullRaceData.combinedTraits.traits.filter(trait => isPassiveStatModifier(trait));
+    modifiers.push(...passiveModifiers);
 
     return modifiers;
 }

@@ -1,8 +1,15 @@
+/* ===== FALSE PROPHET MADNESS WARD — THE SILENT EYE ===== */
+/* Pure vector apparatus: void-glass slab, twenty whisper-fractures fanning
+   from a blind eye. No text — milestones and bonus live in tooltip + menu. */
+
 .class-resource-bar.madness-gauge {
     background: transparent;
     border: none;
     height: auto;
-    min-height: 32px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 .madness-bar-wrapper {
@@ -10,104 +17,135 @@
     width: 100%;
 }
 
-.madness-bar-container {
+/* Main vector ward (viewBox 0 0 300 64), full-bleed in its container */
+.madness-ward {
     position: relative;
+    display: block;
     width: 100%;
-    height: 32px;
-    background: linear-gradient(180deg, #0a0a0f 0%, #1a0d2e 100%);
-    border: 2px solid #2d1b4e;
-    border-radius: 6px;
-    overflow: hidden;
+    max-width: 100%;
+    height: 64px;
+    margin: 0 auto;
+    background: transparent;
+    border: none;
+    outline: none;
     cursor: pointer;
-    transition: all 0.2s ease;
+    user-select: none;
+    transition: filter 0.25s ease;
 }
 
-.madness-bar-container:hover {
-    border-color: #9400D3;
-    box-shadow: 0 0 12px rgba(148, 0, 211, 0.4);
+.madness-ward:focus-visible {
+    filter: drop-shadow(0 0 5px #a855f7);
 }
 
-/* Segmented madness display */
-.madness-segments {
-    position: absolute;
-    top: 0;
-    left: 0;
+.madness-ward-svg {
     width: 100%;
     height: 100%;
-    display: flex;
-    gap: 1px;
-    padding: 2px;
+    display: block;
+    overflow: visible;
 }
 
-.madness-segment {
-    flex: 1;
-    border-radius: 2px;
-    border: 1px solid;
-    transition: all 0.3s ease;
-    position: relative;
+.class-resource-bar.madness-gauge.small .madness-ward {
+    height: 56px;
 }
 
-.madness-segment.filled {
-    animation: madnessPulse 2s ease-in-out infinite;
+.class-resource-bar.madness-gauge.large .madness-ward {
+    height: 76px;
 }
 
-.madness-segment.empty {
-    opacity: 0.3;
+.character-card .madness-ward,
+.character-card-compact .madness-ward {
+    height: 52px !important;
+    min-height: 52px !important;
 }
 
-@keyframes madnessPulse {
-    0%, 100% {
-        opacity: 1;
-        filter: brightness(1);
+/* Hover — a whisper of voidlight, nothing more */
+.madness-ward:hover {
+    filter: drop-shadow(0 0 4px rgba(148, 0, 211, 0.55));
+}
+
+/* Danger (15+) — low crimson emberlight on the frame only */
+.class-resource-bar.madness-gauge.danger .madness-ward {
+    animation: fpDangerPulse 2.2s infinite ease-in-out;
+}
+
+@keyframes fpDangerPulse {
+    0%, 100% { filter: drop-shadow(0 0 3px rgba(190, 20, 60, 0.35)); }
+    50% { filter: drop-shadow(0 0 6px rgba(220, 20, 60, 0.5)); }
+}
+
+/* Convulsion (20) — the ward shudders, runes keep burning */
+.class-resource-bar.madness-gauge.convulsion .madness-ward {
+    animation: fpConvulsePulse 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes fpConvulsePulse {
+    0% { filter: drop-shadow(0 0 4px rgba(255, 32, 32, 0.4)); }
+    100% { filter: drop-shadow(0 0 8px rgba(255, 32, 32, 0.55)); }
+}
+
+/* Current-fracture halo heartbeat */
+.fp-halo {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: fpHaloBeat 1.6s infinite ease-in-out;
+}
+
+@keyframes fpHaloBeat {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.12); }
+}
+
+/* ── Whisper-fractures ────────────────────────────────────── */
+/* Dormant: cold etching. Ignited: fire under-stroke breathing
+   beneath a hot core stroke. */
+.fp-fracture {
+    transition: filter 0.15s ease;
+}
+
+.fp-fracture:hover {
+    filter: brightness(1.35);
+}
+
+.fp-fracture-fire {
+    animation: fpFractureBurn 2s infinite ease-in-out;
+}
+
+.fp-fracture-core {
+    animation: fpFracturePulse 2.6s infinite ease-in-out;
+}
+
+@keyframes fpFractureBurn {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 0.9; }
+}
+
+@keyframes fpFracturePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* ── The Silent Eye ───────────────────────────────────────── */
+.fp-eye.convolsing {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: fpEyeShudder 0.5s infinite ease-in-out;
+}
+
+@keyframes fpEyeShudder {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(0.7px, -0.5px); }
+    50% { transform: translate(-0.6px, 0.4px); }
+    75% { transform: translate(0.4px, 0.6px); }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .class-resource-bar.madness-gauge.danger .madness-ward,
+    .class-resource-bar.madness-gauge.convulsion .madness-ward,
+    .fp-halo,
+    .fp-fracture-fire,
+    .fp-fracture-core,
+    .fp-eye.convolsing {
+        animation: none;
     }
-    50% {
-        opacity: 0.85;
-        filter: brightness(1.2);
-    }
 }
-
-/* Value labels */
-.madness-value-label {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: 'Crimson Text', serif;
-    font-size: 14px;
-    font-weight: bold;
-    color: #FFFFFF !important;
-    text-shadow:
-        0 0 8px rgba(0, 0, 0, 1),
-        0 0 12px rgba(0, 0, 0, 1),
-        1px 1px 4px rgba(0, 0, 0, 1),
-        -1px -1px 4px rgba(0, 0, 0, 1),
-        2px 2px 6px rgba(0, 0, 0, 1),
-        -2px -2px 6px rgba(0, 0, 0, 1);
-    pointer-events: none;
-    z-index: 100;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-}
-
-
-/* Size variations */
-.class-resource-bar.madness-gauge.small .madness-bar-container {
-    height: 24px;
-}
-
-.class-resource-bar.madness-gauge.small .madness-value-label {
-    font-size: 12px;
-}
-
-.class-resource-bar.madness-gauge.large .madness-bar-container {
-    height: 40px;
-}
-
-.class-resource-bar.madness-gauge.large .madness-value-label {
-    font-size: 16px;
-}
-
-
-/* ===================================
-   FATE WEAVER - THREADS OF DESTINY
-   =================================== */

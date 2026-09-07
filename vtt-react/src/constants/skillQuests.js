@@ -2215,7 +2215,7 @@ export const SKILL_QUESTS = {
       id: 'summoning_ritual',
       name: 'Summoning Ritual',
       description: 'Summon a powerful entity through ritual',
-      icon: 'Void/Void Portal Mage',
+      icon: 'Arcane/Portal Archway',
       rank: 'ADEPT',
       completed: false,
       unlocks: ['Summoning rituals']

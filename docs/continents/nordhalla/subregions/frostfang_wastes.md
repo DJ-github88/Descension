@@ -7,8 +7,8 @@ A polar desert of shifting crevasses and perpetual blizzard, where summer lasts 
 
 The Wastes hold the north's holiest and worst ground: Blizzard's End, the peak where the heirs died and the Mother shattered. The shard-fall struck thickest here. Even now, waste-walkers stake claims on glow-ice and defend them with everything, because a shard claim is a hearth that can't be besieged — only taken.
 
-## WHO HOLDS WHAT
-* **Øsling Clan Confederation** — mammoth-hunters and caravan-guides who never signed the Jarl's consolidation. Beyond the Wall, their word outranks the crown's ink. The Icechamber licenses their hunts; the Øsling accept the licenses as fire-starters.
+## WHO HOLDS WHAT (draw: Øsling + Jutul only — outsiders are passing, not living)
+* **Øsling Clan Confederation** — mammoth-hunters and caravan-guides who never signed the Jarl's consolidation. Beyond the Wall, their word outranks the crown's ink. The Icechamber licenses their hunts; the Øsling accept the licenses as fire-starters. Draw: rare Ordan in disguise hiding among them, occasional Vreken/Neth contract envoys — no settlements.
 * **The Stone-Speakers** — the last who still trade with the Jutul frost-giants, in the old way: gift for gift, grudge for grudge. Everyone else counts spearheads and distance.
 * **Blizzard's End** — the massacre site, now a pilgrimage for the faith-mad and the historically honest. The Vigil wants it consecrated. The Scoured want it sealed. The Øsling want the crowds to stop frightening the mammoths.
 * **The Heir-Mounds** — barrow-graves older than the Freeze, raising questions the houses refuse to answer. The bog-dead of other regions walk; the Mounds' occupants have, so far, only *listened*.

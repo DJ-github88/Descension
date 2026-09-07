@@ -453,22 +453,25 @@ export function getDerivedStatBreakdown(statName, character = {}) {
 
             let statMod = 0;
             let scalingLabel = '';
+            // Damage scaling rules: single-stat types add that stat's modifier (x1);
+            // dual-stat Slicing averages the two mods so it never out-scales a
+            // single-stat type ((STR + AGI) / 2, floored).
             switch (damageType) {
                 case 'stabbing':
                 case 'piercing':
-                    statMod = agiMod * 2;
-                    scalingLabel = `Agility modifier (${agiMod >= 0 ? `+${agiMod}` : agiMod}) × 2 = ${statMod >= 0 ? `+${statMod}` : statMod}`;
+                    statMod = agiMod;
+                    scalingLabel = `Agility modifier (${agiMod >= 0 ? `+${agiMod}` : agiMod})`;
                     break;
                 case 'slicing':
                 case 'slashing':
-                    statMod = strMod + agiMod;
-                    scalingLabel = `STR (${strMod >= 0 ? `+${strMod}` : strMod}) + AGI (${agiMod >= 0 ? `+${agiMod}` : agiMod}) = ${statMod >= 0 ? `+${statMod}` : statMod}`;
+                    statMod = Math.floor((strMod + agiMod) / 2);
+                    scalingLabel = `(STR (${strMod >= 0 ? `+${strMod}` : strMod}) + AGI (${agiMod >= 0 ? `+${agiMod}` : agiMod})) / 2 = ${statMod >= 0 ? `+${statMod}` : statMod}`;
                     break;
                 case 'smashing':
                 case 'bludgeoning':
                 default:
-                    statMod = strMod * 2;
-                    scalingLabel = `Strength modifier (${strMod >= 0 ? `+${strMod}` : strMod}) × 2 = ${statMod >= 0 ? `+${statMod}` : statMod}`;
+                    statMod = strMod;
+                    scalingLabel = `Strength modifier (${strMod >= 0 ? `+${strMod}` : strMod})`;
                     break;
             }
 
@@ -494,7 +497,7 @@ export function getDerivedStatBreakdown(statName, character = {}) {
 
             return {
                 stat: 'Melee Damage',
-                description: 'Physical weapon attack power. Derived from weapon dice + physical attribute modifier (STR for Smashing, AGI for Stabbing, STR/AGI for Slicing) + weapon and gear bonuses.',
+                description: 'Physical weapon attack power. Derived from weapon dice + physical attribute modifier (STR for Smashing, AGI for Stabbing, averaged STR/AGI for Slicing) + weapon and gear bonuses.',
                 baseValue: 0,
                 baseLabel: diceFormula,
                 finalValue: finalString,
@@ -531,8 +534,8 @@ export function getDerivedStatBreakdown(statName, character = {}) {
 
             const cleanDice = String(diceType).replace(/^d+/i, '');
             const diceFormula = `${diceCount}d${cleanDice}`;
-            const statMod = agiMod * 2;
-            const scalingLabel = `Agility modifier (${agiMod >= 0 ? `+${agiMod}` : agiMod}) × 2 = ${statMod >= 0 ? `+${statMod}` : statMod}`;
+            const statMod = agiMod;
+            const scalingLabel = `Agility modifier (${agiMod >= 0 ? `+${agiMod}` : agiMod})`;
 
             const otherEqDamage = Math.max(0, (eqBonuses.damage || 0) - weaponBonus) + (eqBonuses.rangedDamage || 0) + (eqBonuses[`${damageType}Damage`] || 0);
             const totalMod = statMod + weaponBonus + otherEqDamage;
@@ -550,7 +553,7 @@ export function getDerivedStatBreakdown(statName, character = {}) {
                 details.push(`Other Equipment: ${otherEqDamage > 0 ? `+${otherEqDamage}` : otherEqDamage}`);
             }
 
-            const calcParts = [`${diceFormula} (base dice)`, `${statMod >= 0 ? `+${statMod}` : statMod} (Agility mod × 2)`];
+            const calcParts = [`${diceFormula} (base dice)`, `${statMod >= 0 ? `+${statMod}` : statMod} (Agility modifier)`];
             if (weaponBonus !== 0) calcParts.push(`${weaponBonus > 0 ? `+${weaponBonus}` : weaponBonus} (weapon bonus)`);
             if (otherEqDamage !== 0) calcParts.push(`${otherEqDamage > 0 ? `+${otherEqDamage}` : otherEqDamage} (gear)`);
 

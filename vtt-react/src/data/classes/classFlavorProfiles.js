@@ -71,7 +71,7 @@ export const CLASS_FLAVOR_PROFILES = {
     tagline: 'Awaken the inherited memory of the Hunger Winter to boil your blood, shrug off mortal injuries, and cleave with unstoppable fury.',
     keyFeatures: ['Rage Scaling', 'Hunger Surge Tenacity', 'Unstoppable Cleaves'],
     loreSnippet: 'Passed down through Skald bloodlines, the Hunger Pact transforms the physiological trauma of surviving the Great Freeze into pure martial momentum.',
-    playstyle: 'Generate Rage by dealing and taking damage, converting pain into raw movement speed, damage resistance, and armor-shattering strikes.'
+    playstyle: 'Generate Rage by dealing and taking damage, converting pain into raw movement speed, damage resistance, and durability-shattering strikes.'
   },
 
   chronarch: {
@@ -195,9 +195,9 @@ export const CLASS_FLAVOR_PROFILES = {
     resourceName: 'Notes',
     resourceIcon: 'fa-volume-high',
     tagline: 'Channel the harmonic acoustics of ocean tides and monolith resonances, shattering enemy defenses and steadying allies through song.',
-    keyFeatures: ['Tidal Cadences', 'Acoustic Armor Disruption', 'Party Rhythm Buffs'],
+    keyFeatures: ['Tidal Cadences', 'Acoustic Durability Disruption', 'Party Rhythm Buffs'],
     loreSnippet: 'Trained in the maritime traditions of Merrowport, minstrels manipulate acoustic vibration to cut through storm winds and disrupt magical frequencies.',
-    playstyle: 'Build harmonic chord sequences across consecutive rounds to grant party-wide mobility, shatter heavy armor with sound, and interrupt enemy casts.'
+    playstyle: 'Build harmonic chord sequences across consecutive rounds to grant party-wide mobility, shatter heavy plating and Durability with sound, and interrupt enemy casts.'
   },
 
   plaguebringer: {
@@ -224,7 +224,7 @@ export const CLASS_FLAVOR_PROFILES = {
     resourceIcon: 'fa-fire-burner',
     tagline: 'Swallow volcanic caldera coals to become an explosive living combustion engine, unleashing wild thermal conflagrations.',
     keyFeatures: ['Inferno Overheating', 'Basalt Body Hardening', 'Molten Conflagrations'],
-    loreSnippet: 'Formed through deep caldera pacts beneath Emberspire, pyrofiends trade physical stability for raw volcanic heat capable of melting armor.',
+    loreSnippet: 'Formed through deep caldera pacts beneath Emberspire, pyrofiends trade physical stability for raw volcanic heat capable of melting Durability.',
     playstyle: 'Manage your internal heat gauge to boost spell damage, balancing maximum destructive power against the risk of self-immolation.'
   },
 
@@ -267,7 +267,7 @@ export const CLASS_FLAVOR_PROFILES = {
     tagline: 'Wield heavy runic fortress shields to catch and absorb incoming spellfire, discharging stored arcane energy back as kinetic shockwaves.',
     keyFeatures: ['Spell Absorption Wards', 'Prismatic Fortress Shields', 'Kinetic Arcane Discharge'],
     loreSnippet: 'Forged in the southern mountain passes during solar storms, spellguards serve as impenetrable front line barriers against destructive magical bombardments.',
-    playstyle: 'Intercept magical attacks aimed at your team, absorb the incoming spell power into your shield, and release it as armor-crushing kinetic shockwaves.'
+    playstyle: 'Intercept magical attacks aimed at your team, absorb the incoming spell power into your shield, and release it as durability-crushing kinetic shockwaves.'
   },
 
   toxicologist: {
@@ -292,7 +292,7 @@ export const CLASS_FLAVOR_PROFILES = {
     tradition: 'Primal Calling',
     resourceName: 'Tension',
     resourceIcon: 'fa-link',
-    tagline: 'Graft heavy cold-iron chains directly through bone and armor, physically tethering monstrous foes into inescapable single combats.',
+    tagline: 'Graft heavy cold-iron chains directly through bone and plating, physically tethering monstrous foes into inescapable single combats.',
     keyFeatures: ['Grafted Chain Tethers', 'Forced Single Duels', 'Area Lockdown'],
     loreSnippet: 'Originating from the subterranean bastions of Frostmaw Holdfast, wardens lock down colossal beasts and hold the line with unbreakable chain tactics.',
     playstyle: 'Harpoon and tether dangerous enemies to yourself, forcing them into a locked duel while generating Tension whenever they strike you.'

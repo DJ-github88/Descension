@@ -1,0 +1,120 @@
+/* ===== LUNARCH RESOURCE BAR (THE LIVING MOON-EYE OF VAEL & THE CELESTIAL ORRERY) ===== */
+
+.lunarch-resource-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    z-index: 1;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.lunarch-resource-container .resource-bar-row {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main Vector Resource Bar (viewBox 0 0 360 56) */
+.lunarch-resource-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 360px;
+    height: 56px;
+    margin: 0 auto;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    transition: filter 0.25s ease, transform 0.15s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+.lunarch-astrolabe-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+}
+
+.lunarch-resource-bar.small {
+    height: 44px;
+    max-width: 280px;
+}
+
+.lunarch-resource-bar.large {
+    height: 64px;
+    max-width: 400px;
+}
+
+/* Character card / compact hud sizing - Wide 360px footprint */
+.character-card .lunarch-resource-bar,
+.character-card-compact .lunarch-resource-bar {
+    height: 52px !important;
+    min-height: 52px !important;
+    max-width: 360px !important;
+    width: 100% !important;
+}
+
+/* Hover effects - crisp celestial starlight glow */
+.lunarch-resource-bar.clickable:hover {
+    filter: drop-shadow(0 0 8px rgba(129, 140, 248, 0.45)) drop-shadow(0 0 4px rgba(253, 224, 71, 0.35));
+}
+
+.lunarch-resource-bar.clickable:active {
+    filter: drop-shadow(0 0 5px rgba(129, 140, 248, 0.6));
+}
+
+/* Zenith Full Moon Radiance */
+.lunarch-resource-bar.zenith-radiance {
+    filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.6)) drop-shadow(0 0 4px rgba(255, 255, 255, 0.8));
+    animation: fullMoonPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes fullMoonPulse {
+    0% {
+        filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.5)) drop-shadow(0 0 3px rgba(255, 255, 255, 0.7));
+    }
+    100% {
+        filter: drop-shadow(0 0 14px rgba(250, 204, 21, 0.8)) drop-shadow(0 0 6px rgba(255, 255, 255, 0.95));
+    }
+}
+
+/* Moon Spheres, Center Astrolabe & Flank Triggers Interactivity */
+.lunar-phase-node, .lunar-flank-trigger, .lunar-center-astrolabe {
+    transition: filter 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+}
+
+.lunar-phase-node:hover, .lunar-flank-trigger:hover, .lunar-center-astrolabe:hover {
+    filter: brightness(1.25) drop-shadow(0 0 4px rgba(255, 255, 255, 0.4));
+}
+
+.lunar-phase-node.active {
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.6));
+}
+
+.lunar-flank-trigger:active {
+    transform: scale(0.95);
+}
+
+/* Shift Warning Pulse on the 3rd Star */
+.lunar-star-pearl.shift-warning {
+    animation: shiftStarPulse 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes shiftStarPulse {
+    0% {
+        filter: drop-shadow(0 0 2px #f43f5e);
+    }
+    100% {
+        filter: drop-shadow(0 0 6px #f43f5e) drop-shadow(0 0 10px #e11d48);
+    }
+}

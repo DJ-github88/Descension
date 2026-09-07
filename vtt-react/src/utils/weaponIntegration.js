@@ -25,6 +25,15 @@ export const getEquippedWeapon = (weaponSlot = 'mainHand') => {
 };
 
 /**
+ * Normalize a dice type value to a bare number ("d8" -> "8", 8 -> "8").
+ * Weapon catalogs store diceType with the leading "d", so it must be
+ * stripped before templating into "<count>d<type>" notation.
+ * @param {string|number} diceType - Raw dice type value
+ * @returns {string} Bare sides number as a string (defaults to "4")
+ */
+const normalizeDiceSides = (diceType) => String(diceType ?? 4).replace(/^d+/i, '') || '4';
+
+/**
  * Get weapon damage dice notation from weapon data
  * @param {Object} weapon - Weapon item data
  * @returns {string} Dice notation like "1d8" or "2d6"
@@ -33,9 +42,9 @@ export const getWeaponDamageNotation = (weapon) => {
  if (!weapon || !weapon.weaponStats || !weapon.weaponStats.baseDamage) {
  return '1d4'; // Default unarmed damage
  }
- 
+
  const { diceCount, diceType } = weapon.weaponStats.baseDamage;
- return `${diceCount || 1}d${diceType || 4}`;
+ return `${diceCount || 1}d${normalizeDiceSides(diceType)}`;
 };
 
 /**

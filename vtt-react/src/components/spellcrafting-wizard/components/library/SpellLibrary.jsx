@@ -36,7 +36,7 @@ const getSpellIconUrl = (spell) => {
 
  // If no icon is set, use default
  if (!iconId) {
-  return getCustomIconUrl('Utility/Utility', 'abilities');
+  return getCustomIconUrl('Arcane/Abstract Rune', 'abilities');
  }
 
  // If it's already a full URL (ability icon), return as-is
@@ -60,7 +60,7 @@ const getSpellIconUrl = (spell) => {
   }
 
  // Default fallback
- return getCustomIconUrl('Utility/Utility', 'abilities');
+ return getCustomIconUrl('Arcane/Abstract Rune', 'abilities');
 };
 
 // Category helpers to handle legacy/sluggified IDs consistently

@@ -535,7 +535,7 @@ export const CONSUMABLE_TYPES = {
     },
     FOOD: {
         name: 'Food',
-        icon: 'Food/Other/bread-loaf-rustic-artisan-slashes',
+        icon: 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
         description: 'Nourishing meals that restore health'
     },
     DRINK: {
@@ -564,7 +564,7 @@ export const MISC_TYPES = {
     },
     CRAFTING: {
         name: 'Crafting Material',
-        icon: 'Misc/Profession Resources/resource-bar-ingot-light-beige-golden',
+        icon: 'Misc/Profession Resources/Blacksmithing/resource-bar-ingot-brick-brown-orange',
         description: 'Resources used in professions'
     },
     TRADE_GOODS: {
@@ -579,7 +579,7 @@ export const MISC_TYPES = {
     },
     JUNK: {
         name: 'Junk',
-        icon: 'Misc/Bones/bone-animal-skull-quadruped-profile',
+        icon: 'Misc/Monster Parts/Bones/bone-fragment-curved-jagged-grey',
         description: 'Items that can be sold to vendors'
     }
 };

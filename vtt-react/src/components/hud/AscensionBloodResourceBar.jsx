@@ -177,15 +177,12 @@ const AscensionBloodResourceBar = ({
                                 </div>
                             );
                         })}
-                        {/* Overlay value */}
-                        <div style={{ position: 'absolute', right: '4px', top: '50%', transform: 'translateY(-50%)', fontSize: '8px', fontWeight: 'bold', color: '#DC143C', textShadow: '0 0 3px rgba(0,0,0,0.9)', pointerEvents: 'none', zIndex: 2, whiteSpace: 'nowrap' }}>
-                            {activePaths}/{pathsMax}
-                        </div>
                     </div>
 
-                    {/* Center Separator: skull */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                        <i className="fas fa-skull" style={{ fontSize: '11px', color: '#8B0000', textShadow: '0 0 4px rgba(220,20,60,0.5)', margin: '0 1px' }}></i>
+                    {/* Center Separator: skull and paths count */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, gap: '2px', padding: '0 3px' }}>
+                        <i className="fas fa-skull" style={{ fontSize: '10px', color: '#8B0000', textShadow: '0 0 4px rgba(220,20,60,0.5)' }}></i>
+                        <span style={{ fontSize: '8px', fontWeight: 'bold', color: '#ff6b6b', fontFamily: "'Cinzel', serif" }}>{activePaths}/{pathsMax}</span>
                     </div>
 
                     {/* Blood Tokens Bar (Right): fill bar */}

@@ -206,7 +206,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
     {
       id: 'still_claiming',
       name: 'Still-Claiming',
-      description: 'The mountain takes back what it gave. Every Groven knows this, feels it in the gradual stiffening of scales, the slow mineral creep at the joints, the way stone-scales grow thicker with age as the body prepares itself for the final calcification. When you are reduced to 0 hit points but not killed outright, you may choose to trigger the Still-Claiming early: your body calcifies into a temporary statue of living stone instead of falling Unconscious. While calcified, you are Petrified, immune to all damage but unable to move, speak, or act. Adjacent allies gain Half Cover (+2 AC) from your stone form. At the start of your next turn, the calcification cracks and crumbles, and you fall Unconscious at 0 HP (stable). This ability cannot be used again until you complete a long rest, the mountain will not be called lightly, and each premature calcification taxes the body more than the last.',
+      description: 'The mountain takes back what it gave. Every Groven knows this, feels it in the gradual stiffening of scales, the slow mineral creep at the joints, the way stone-scales grow thicker with age as the body prepares itself for the final calcification. When you are reduced to 0 hit points but not killed outright, you may choose to trigger the Still-Claiming early: your body calcifies into a temporary statue of living stone instead of falling Unconscious. While calcified, you are Petrified, immune to all damage but unable to move, speak, or act. Adjacent allies gain Half Cover (+2 DR and +2 Dodge) from your stone form. At the start of your next turn, the calcification cracks and crumbles, and you fall Unconscious at 0 HP (stable). This ability cannot be used again until you complete a long rest, the mountain will not be called lightly, and each premature calcification taxes the body more than the last.',
       level: 1,
       icon: 'spell_nature_stone',
       spellType: 'REACTION',
@@ -214,7 +214,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
       typeConfig: { category: 'racial', school: 'smashing', tags: ['still-claiming', 'calcification', 'defense', 'shared'] },
       buffConfig: {
         buffType: 'cover',
-        effects: [{ id: 'stone_body_cover', name: 'Stone Form', description: 'Your calcified body provides Half Cover (+2 AC) to adjacent allies until the start of your next turn.' }],
+        effects: [{ id: 'stone_body_cover', name: 'Stone Form', description: 'Your calcified body provides Half Cover (+2 DR and +2 Dodge) to adjacent allies until the start of your next turn.' }],
         durationValue: 1, durationType: 'round', durationUnit: 'round', canBeDispelled: false
       },
       utilityConfig: { utilityType: 'defense', selectedEffects: [{ id: 'death_delay_utility', name: 'Calcification', description: 'Petrified for 1 round instead of falling Unconscious at 0 HP. Cannot act but immune to damage. Stabilized when calcification ends.' }] },
@@ -239,24 +239,18 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
           caption: 'A Morgh Groven sentinel, hulking and stone-still, their granite hide indistinguishable from the boulders around them in a killing blizzard.'
         }
       ],
-      visualDescription: `Heavy-scaled, stocky, and craggy-featured, the Morgh carry the old Thrumm blood closest to the surface. Standing 4'11" to 5'3" (1.50m to 1.60m), they are broad-shouldered, deep-chested, and stone-hewn, built as immovable subterranean forge-smiths and hall-builders of Cragjaw Peaks. Their faces are flat and stone-slab, heavy-browed with deep-set amber eyes and lipless rock mouths. Their stone-scales grow in dense overlapping plates across shoulders, spine, and joints like natural granite armor. Their knuckles are obsidian points, and when a Morgh stands still among high crag boulders, living stone is indistinguishable from dead stone. They dress in tattered lichen-fiber wraps and carry long ash walking-staves.`,
+      visualDescription: `Heavy-scaled, stocky, and craggy-featured, the Morgh carry the old Thrumm blood closest to the surface. Standing 4'11" to 5'3" (1.50m to 1.60m), they are broad-shouldered, deep-chested, and stone-hewn, built as immovable subterranean forge-smiths and hall-builders of Cragjaw Peaks. Their faces are flat and stone-slab, heavy-browed with deep-set amber eyes and lipless rock mouths. Their stone-scales grow in dense overlapping plates across shoulders, spine, and joints like natural granite plating. Their knuckles are obsidian points, and when a Morgh stands still among high crag boulders, living stone is indistinguishable from dead stone. They dress in tattered lichen-fiber wraps and carry long ash walking-staves.`,
       tooltipSummary: 'Stocky stone-scaled forge-smiths (1.50m-1.60m) with ancestral thrumm mass, built as immovable dwarven hall-builders who carve the great mountain halls and guard the spans of Cragjaw Peaks.',
        description: 'Heavy-scaled, stocky, and craggy-featured, the Morgh carry the old Thrumm blood closest to the surface. Standing 1.50m to 1.60m (4\'11" to 5\'3"), they are broad-shouldered, deep-chested, and immovable, built as the dwarven forge-smiths and hall-builders of Cragjaw Peaks. Their stone-scales grow in dense, overlapping granite plates across shoulders, spine, and outer limbs. Their frames are powerful, their speech deliberate with long silences between words. They inhabit the great stone halls carved deep into the mid-crag, vast geothermal-warmed caverns where the clans gather around common hearth-fires, and they work the bridges with their hands, tending cables, reinforcing spans, and standing guard against raids. A Morgh on watch pulls a lichen-fiber hood low over their stony face, leans on a staff, and does not move. The Morgh have been the Groven\'s stone-craftsmen, hall-keepers, and forge-laborers since the Vat-Breakers\' Revolt.',
       culturalBackground: 'The Morgh trace their lineage to the Groven who fled the vats but could not shed the old Thrumm instincts, the need to build, to guard, to bear weight in silence. Their hall-hearths are great stone halls carved deep into the Cragjaw Peaks, communal caverns heated by geothermal vents, shared among extended family around one great central fire. They speak the old troll tongue in the hall depths, reserving Common for dealings with Ithran and outsiders. Their children learn bridge-tending before they learn bridge-tolling. Their elders die in the chasms, becoming the foundations of spans their grandchildren will walk.',
-      baseTraits: {
-        size: 'Small (stocky)',
-        height: '1.50m - 1.60m (4\'11" - 5\'3")',
-        weight: '180-260 lbs',
-        build: 'Broad-shouldered, deep-chested, and stone-hewn: a heavy-scaled subterranean humanoid with dense granite plates across shoulders, spine, and joints, obsidian-knuckled fists, and a low center of gravity built for the deep halls and bridge-foundations of the Cragjaw Peaks'
-      },
-      statModifiers: {
-        constitution: 2
-      },
+      statModifiers: { strength: 2, constitution: 2, agility: -1 },
+      baseStats: { hp: 12, mana: 5, ap: 3, initiative: -1 },
+      savingThrowModifiers: { advantage: ['constitution', 'strength'], disadvantage: ['agility', 'fire'] },
       traits: [
         {
           id: 'morgh_stone_scales',
           name: 'Stone-Scale Plating',
-          description: 'Your dense interlocking mineral plates grant 25% physical damage resistance (permanent). You have 100% ember vulnerability, and each ember hit cracks a plate, reducing your physical resistance by 5% (stacking to a maximum loss of -15%); you regrow cracked plates by spending 1 hour in direct contact with natural stone or living rock.',
+          description: 'Your dense interlocking mineral plates grant +1 Durability (flat damage reduction against physical damage) and 15% physical damage resistance (permanent). You have 100% ember vulnerability.',
           level: 1,
           icon: 'ability_warrior_shieldmastery',
           spellType: 'PASSIVE',
@@ -264,20 +258,21 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
           typeConfig: {
             category: 'racial',
             school: 'smashing',
-            tags: ['resistance', 'stone', 'passive', 'fire_vulnerability']
+            tags: ['resistance', 'stone', 'passive', 'fire_vulnerability', 'durability']
           },
           buffConfig: {
             buffType: 'damageMitigation',
             effects: [{
               id: 'stone_plating_resistance',
               name: 'Stone-Scale Plating',
-              description: '25% physical damage resistance from dense mineral plates.',
+              description: '+1 Durability and 15% physical damage resistance from dense mineral plates.',
               statModifier: {
+                durability: 1,
                 stat: 'smashing',
-                magnitude: 25,
+                magnitude: 15,
                 magnitudeType: 'resistance'
               },
-              mechanicsText: 'You resist 25% of all incoming physical damage from your dense mineral scale plating.'
+              mechanicsText: 'Gain +1 Durability against physical damage and resist 15% of incoming physical damage from your dense mineral scale plating.'
             }],
             durationValue: 0,
             durationType: 'permanent',

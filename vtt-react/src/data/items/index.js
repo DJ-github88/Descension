@@ -18,6 +18,7 @@ import { CONTAINERS } from './containers/index.js';
 import { MISCELLANEOUS } from './miscellaneous/index.js';
 import { RECIPE_ITEMS } from './recipes.js';
 import { CURRENCY } from './currency/index.js';
+import { ABERRANT_CURIOS } from './curios/index.js';
 import { enrichItemsWithLore } from './enrichItemsWithLore';
 
 // Combine all items into a single array
@@ -29,7 +30,8 @@ const COMBINED_ITEMS = [
   ...CONTAINERS,
   ...MISCELLANEOUS,
   ...RECIPE_ITEMS,
-  ...CURRENCY
+  ...CURRENCY,
+  ...ABERRANT_CURIOS
 ];
 
 // Enrich all items with lore data
@@ -48,6 +50,7 @@ export {
   CONTAINERS,
   MISCELLANEOUS,
   RECIPE_ITEMS,
-  CURRENCY
+  CURRENCY,
+  ABERRANT_CURIOS
 };
 

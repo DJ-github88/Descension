@@ -522,7 +522,7 @@ const LibraryBrowserModal = ({
 
   // Resolve item/spell/creature icon URL
   const resolveIcon = (item) => {
-    if (!item) return getIconUrl('Utility/Utility', 'abilities');
+    if (!item) return getIconUrl('Arcane/Abstract Rune', 'abilities');
     if (libraryType === LIBRARY_TYPES.CREATURES) {
       return getCreatureTokenIconUrl(item.icon, item.type);
     }
@@ -530,7 +530,7 @@ const LibraryBrowserModal = ({
       if (item.icon && (item.icon.includes('/') || item.icon.includes('\\'))) {
         return getCustomIconUrl(item.icon, 'abilities');
       }
-      return getIconUrl(item.icon || 'Utility/Utility', 'abilities');
+      return getIconUrl(item.icon || 'Arcane/Abstract Rune', 'abilities');
     }
     if (item.icon && (item.icon.includes('/') || item.icon.includes('\\'))) {
       return getCustomIconUrl(item.icon, 'items');
@@ -657,7 +657,7 @@ const LibraryBrowserModal = ({
                           src={resolveIcon(item)} 
                           alt={item.name}
                           onError={(e) => { 
-                            e.target.src = getIconUrl('Utility/Utility', 'abilities');
+                            e.target.src = getIconUrl('Arcane/Abstract Rune', 'abilities');
                           }}
                         />
                       </div>

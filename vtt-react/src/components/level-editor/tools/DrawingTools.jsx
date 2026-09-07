@@ -138,7 +138,7 @@ const DrawingTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
         {
             id: 'line',
             name: 'Line',
-            icon: 'Piercing/Piercing Shot',
+            icon: 'Piercing/Piercing Shots',
             description: 'Draw straight lines'
         },
         {

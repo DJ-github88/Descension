@@ -4,8 +4,7 @@ import useInventoryStore from '../../store/inventoryStore';
 import useDiceStore from '../../store/diceStore';
 import useChatStore from '../../store/chatStore';
 import useConditionStore from '../../store/conditionStore';
-import { getCustomIconUrl, getIconUrl } from '../../utils/assetManager';
-import { mapSpellIcon } from '../spellcrafting-wizard/components/common/spellFormatterUtils';
+import { getCustomIconUrl, getIconUrl, getAbilityIconUrl } from '../../utils/assetManager';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import { ALL_CLASS_SPELLS } from '../../data/classSpellGenerator';
@@ -336,22 +335,29 @@ export const resolveDynamicSpellFormula = (spellData, charStore) => {
 };
 
 export const getSpellSlotIconUrl = (spell) => {
-  if (!spell) return getCustomIconUrl('Utility/Utility', 'abilities');
+  const PLACEHOLDER = getCustomIconUrl('Arcane/Abstract Rune', 'abilities');
+  if (!spell) return PLACEHOLDER;
   const iconId = spell?.typeConfig?.icon || spell?.icon || spell?.damageConfig?.icon || spell?.healingConfig?.icon || null;
-  if (!iconId) return getCustomIconUrl('Utility/Utility', 'abilities');
-  if (typeof iconId === 'string' && iconId.startsWith('/assets/')) return iconId;
-  if (iconId.includes('/') && !iconId.startsWith('http')) return getCustomIconUrl(iconId, 'abilities');
+  if (!iconId || iconId === 'inv_misc_questionmark') return PLACEHOLDER;
+  if (typeof iconId !== 'string') return PLACEHOLDER;
+  if (iconId.startsWith('/assets/')) return iconId;
+  if (iconId.startsWith('http://') || iconId.startsWith('https://')) return iconId;
+  if (iconId.includes('/')) return getCustomIconUrl(iconId, 'abilities');
   if (iconId.startsWith('inv_') || iconId.startsWith('spell_') || iconId.startsWith('ability_') || iconId.startsWith('achievement_')) {
-    const mapped = mapSpellIcon(iconId);
-    if (mapped) return getCustomIconUrl(mapped, 'abilities');
+    // Same resolution chain the SpellLibrary uses (bigger mapping table +
+    // root-level file fallback) so the bar matches the book's icon.
+    return getAbilityIconUrl(iconId);
   }
-  return getCustomIconUrl('Utility/Utility', 'abilities');
+  // Bare icon name with no known prefix: try it as a root-level ability icon
+  // file before giving up (e.g. "Shadow Beast", "Stealth").
+  return getCustomIconUrl(iconId, 'abilities');
 };
 
 // Resolve the icon for a slot item (spell or consumable)
 export const getSlotItemIconUrl = (item) => {
-  if (!item) return getCustomIconUrl('Utility/Utility', 'abilities');
+  if (!item) return getCustomIconUrl('Arcane/Abstract Rune', 'abilities');
   if (item.type === 'consumable') {
+    if (item.imageUrl) return item.imageUrl;
     return getIconUrl(item.icon || 'inv_potion_51', 'items');
   }
   return getSpellSlotIconUrl(item);
@@ -413,29 +419,6 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     }
   }, [slots, storageKey]);
 
-  // Listen for assign events from touch drag or item inspect panel
-  useEffect(() => {
-    const handleAssignEvent = (e) => {
-      const { slotIndex, item, spell, autoFindSlot } = e.detail || {};
-      if (item) {
-        if (autoFindSlot || slotIndex === undefined || slotIndex === null) {
-          handleAssignConsumable(item, null);
-        } else if (slotIndex >= 0 && slotIndex < DEFAULT_SLOT_COUNT) {
-          handleAssignConsumable(item, slotIndex);
-        }
-      } else if (spell) {
-        if (autoFindSlot || slotIndex === undefined || slotIndex === null) {
-          handleAssignSpell(spell, null);
-        } else if (slotIndex >= 0 && slotIndex < DEFAULT_SLOT_COUNT) {
-          handleAssignSpell(spell, slotIndex);
-        }
-      }
-    };
-
-    window.addEventListener('spell-action-bar-assign-item', handleAssignEvent);
-    return () => window.removeEventListener('spell-action-bar-assign-item', handleAssignEvent);
-  }, [slots]);
-
   // Handle Drag Over
   const handleDragOver = (e, index) => {
     e.preventDefault();
@@ -496,6 +479,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
               id: item.id || item.originalItemId,
               name: item.name,
               icon: item.iconId || item.icon || 'inv_potion_51',
+              imageUrl: item.imageUrl || null,
               type: 'consumable',
               originalItemId: item.originalItemId || item.id,
               quality: item.quality || item.rarity || 'common',
@@ -516,7 +500,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
               ...spellData,
               id: spellData.id,
               name: spellData.name,
-              icon: spellData.icon || spellData.typeConfig?.icon,
+              icon: spellData.typeConfig?.icon || spellData.icon || spellData.damageConfig?.icon || spellData.healingConfig?.icon || null,
               spellType: spellData.spellType || 'ACTION',
               description: spellData.description || '',
               manaCost: spellData.resourceCost?.mana || spellData.manaCost || 0,
@@ -574,7 +558,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
           ...spell,
           id: spell.id,
           name: spell.name,
-          icon: spell.icon || spell.typeConfig?.icon,
+          icon: spell.typeConfig?.icon || spell.icon || spell.damageConfig?.icon || spell.healingConfig?.icon || null,
           spellType: spell.spellType || 'ACTION',
           description: spell.description || '',
           manaCost: spell.resourceCost?.mana || spell.manaCost || 0,
@@ -595,7 +579,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
         ...spell,
         id: spell.id,
         name: spell.name,
-        icon: spell.icon || spell.typeConfig?.icon,
+        icon: spell.typeConfig?.icon || spell.icon || spell.damageConfig?.icon || spell.healingConfig?.icon || null,
         spellType: spell.spellType || 'ACTION',
         description: spell.description || '',
         manaCost: spell.resourceCost?.mana || spell.manaCost || 0,
@@ -621,6 +605,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
           id: item.id,
           name: item.name,
           icon: item.iconId || item.icon || 'inv_potion_51',
+          imageUrl: item.imageUrl || null,
           type: 'consumable',
           originalItemId: item.originalItemId || item.id,
           quality: item.quality || item.rarity || 'common',
@@ -640,6 +625,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
         id: item.id,
         name: item.name,
         icon: item.iconId || item.icon || 'inv_potion_51',
+        imageUrl: item.imageUrl || null,
         type: 'consumable',
         originalItemId: item.originalItemId || item.id,
         quality: item.quality || item.rarity || 'common',
@@ -651,6 +637,32 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     setQuickAssignSlotIndex(null);
     setSearchQuery('');
   };
+
+  // Listen for assign events from touch drag, item inspect panel, or custom class bars
+  useEffect(() => {
+    const handleAssignEvent = (e) => {
+      const { slotIndex, item, spell, autoFindSlot } = e.detail || {};
+      const candidateSpell = spell || (item && (item.type === 'spell' || item.level !== undefined || item._cadenceNotes || (!item.isConsumable && item.type !== 'consumable')) ? item : null);
+      const candidateConsumable = !candidateSpell ? item : null;
+
+      if (candidateSpell) {
+        if (autoFindSlot || slotIndex === undefined || slotIndex === null) {
+          handleAssignSpell(candidateSpell, null);
+        } else if (slotIndex >= 0 && slotIndex < DEFAULT_SLOT_COUNT) {
+          handleAssignSpell(candidateSpell, slotIndex);
+        }
+      } else if (candidateConsumable) {
+        if (autoFindSlot || slotIndex === undefined || slotIndex === null) {
+          handleAssignConsumable(candidateConsumable, null);
+        } else if (slotIndex >= 0 && slotIndex < DEFAULT_SLOT_COUNT) {
+          handleAssignConsumable(candidateConsumable, slotIndex);
+        }
+      }
+    };
+
+    window.addEventListener('spell-action-bar-assign-item', handleAssignEvent);
+    return () => window.removeEventListener('spell-action-bar-assign-item', handleAssignEvent);
+  }, [slots]);
 
   const characterSpellsData = useCharacterSpells(activeCharId);
 
@@ -1118,6 +1130,32 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
       return false;
     }
 
+    // 8. Check Minstrel Musical Cadence Notes
+    const cadenceNotes = spellData._cadenceNotes || spellData.notes || spellData.resourceCost?.notes;
+    const NUMERAL_TO_INDEX = { I: 0, II: 1, III: 2, IV: 3, V: 4, VI: 5, VII: 6 };
+    if (cadenceNotes) {
+      const charNotes = Array.isArray(classRes.notes) ? classRes.notes : (Array.isArray(charStore.classResource?.notes) ? charStore.classResource.notes : null);
+      if (charNotes) {
+        const missingNotes = [];
+        for (const [numeral, reqCount] of Object.entries(cadenceNotes)) {
+          const idx = NUMERAL_TO_INDEX[numeral];
+          const currentBanked = idx !== undefined ? (charNotes[idx] || 0) : 0;
+          if (currentBanked < reqCount) {
+            missingNotes.push(`${numeral} (need ${reqCount}, have ${currentBanked})`);
+          }
+        }
+        if (missingNotes.length > 0) {
+          useChatStore.getState().addCombatNotification?.({
+            type: 'system',
+            sender: 'Combat',
+            content: `⚠️ Cannot cast ${spellData.name}: Missing banked cadence notes: ${missingNotes.join(', ')}!`,
+            timestamp: new Date().toISOString()
+          });
+          return false;
+        }
+      }
+    }
+
     // All checks passed! Apply Resource Deductions & Gains
     const changesLog = [];
 
@@ -1201,6 +1239,24 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
       changesLog.push(`+${shardGain} Time Shard${shardGain > 1 ? 's' : ''}`);
     }
 
+    // Minstrel Cadence Notes deduction
+    if (cadenceNotes) {
+      const charNotes = Array.isArray(classRes.notes) ? classRes.notes : (Array.isArray(charStore.classResource?.notes) ? charStore.classResource.notes : null);
+      if (charNotes) {
+        const nextNotes = [...charNotes];
+        const consumedList = [];
+        for (const [numeral, reqCount] of Object.entries(cadenceNotes)) {
+          const idx = NUMERAL_TO_INDEX[numeral];
+          if (idx !== undefined) {
+            nextNotes[idx] = Math.max(0, (nextNotes[idx] || 0) - reqCount);
+            consumedList.push(`${numeral}×${reqCount}`);
+          }
+        }
+        charStore.updateClassResource('notes', nextNotes);
+        changesLog.push(`Cadence Notes: -${consumedList.join(', -')}`);
+      }
+    }
+
     // Execute Resolution Mechanics (Cards, Coins, Dice)
     const isCardSpell = spellData.resolutionType === 'CARDS' || spellData.resolutionType === 'card' || !!spellData.cardConfig;
     const isCoinSpell = spellData.resolutionType === 'COINS' || spellData.resolutionType === 'coin' || !!spellData.coinConfig;
@@ -1259,27 +1315,6 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
 
   return (
     <div className="spell-action-bar-container">
-      <div className="spell-action-bar-header">
-        <h4 className="spell-action-bar-title">
-          <i className="fas fa-wand-sparkles"></i>
-          <span>Prepared Action Bar</span>
-        </h4>
-        <span className="spell-action-bar-hint">
-          Drag spells or consumable items here, or tap an empty slot to assign
-        </span>
-        <div className="spell-action-bar-actions">
-          <button
-            type="button"
-            className="spell-bar-btn"
-            onClick={() => setConfirmClearOpen(true)}
-            title="Clear Action Bar"
-          >
-            <i className="fas fa-trash-can"></i>
-            <span>Clear</span>
-          </button>
-        </div>
-      </div>
-
       <div className="spell-action-slots-wrapper">
         <div className="spell-action-slots-row">
           {slots.map((spell, index) => {
@@ -1320,7 +1355,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
                         e.target.onerror = null;
                         e.target.src = isConsumable
                           ? getIconUrl('inv_potion_51', 'items')
-                          : getCustomIconUrl('Utility/Utility', 'abilities');
+                          : getCustomIconUrl('Arcane/Abstract Rune', 'abilities');
                       }}
                     />
                     {!isConsumable && spell.manaCost > 0 && (
@@ -1371,6 +1406,19 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
           >
             <i className="fas fa-cog"></i>
           </button>
+
+          {/* Inline Clear-All Button (desktop; hidden on mobile) */}
+          <button
+            type="button"
+            className="spell-bar-clear-inline-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              setConfirmClearOpen(true);
+            }}
+            title="Clear Action Bar"
+          >
+            <i className="fas fa-trash-can"></i>
+          </button>
         </div>
       </div>
 
@@ -1393,67 +1441,102 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
               </button>
             </div>
 
-            {/* Tab filter for Categories */}
-            <div className="spell-quick-assign-tabs">
+            {/* Tab filter for Categories — icon-only with count badges; names live in tooltips */}
+            <div className="spell-quick-assign-tabs" role="tablist" aria-label="Spell categories">
               <button
                 type="button"
+                role="tab"
+                aria-selected={assignTab === 'all'}
                 className={`spell-quick-assign-tab ${assignTab === 'all' ? 'active' : ''}`}
                 onClick={() => setAssignTab('all')}
+                title={`All (${availableSpells.length + availableConsumables.length})`}
+                aria-label={`All (${availableSpells.length + availableConsumables.length})`}
               >
-                <i className="fas fa-sparkles"></i> All ({availableSpells.length + availableConsumables.length})
+                <i className="fas fa-sparkles"></i>
+                <span className="spell-quick-assign-tab-count">{availableSpells.length + availableConsumables.length}</span>
               </button>
               {spellCounts.class > 0 && (
                 <button
                   type="button"
+                  role="tab"
+                  aria-selected={assignTab === 'class'}
                   className={`spell-quick-assign-tab ${assignTab === 'class' ? 'active' : ''}`}
                   onClick={() => setAssignTab('class')}
+                  title={`${characterClass || 'Class'} (${spellCounts.class})`}
+                  aria-label={`${characterClass || 'Class'} (${spellCounts.class})`}
                 >
-                  <i className="fas fa-wand-magic-sparkles"></i> {characterClass || 'Class'} ({spellCounts.class})
+                  <i className="fas fa-wand-magic-sparkles"></i>
+                  <span className="spell-quick-assign-tab-count">{spellCounts.class}</span>
                 </button>
               )}
               {spellCounts.talent > 0 && (
                 <button
                   type="button"
+                  role="tab"
+                  aria-selected={assignTab === 'talent'}
                   className={`spell-quick-assign-tab ${assignTab === 'talent' ? 'active' : ''}`}
                   onClick={() => setAssignTab('talent')}
+                  title={`Talents (${spellCounts.talent})`}
+                  aria-label={`Talents (${spellCounts.talent})`}
                 >
-                  <i className="fas fa-tree"></i> Talents ({spellCounts.talent})
+                  <i className="fas fa-tree"></i>
+                  <span className="spell-quick-assign-tab-count">{spellCounts.talent}</span>
                 </button>
               )}
               {spellCounts.racial > 0 && (
                 <button
                   type="button"
+                  role="tab"
+                  aria-selected={assignTab === 'racial'}
                   className={`spell-quick-assign-tab ${assignTab === 'racial' ? 'active' : ''}`}
                   onClick={() => setAssignTab('racial')}
+                  title={`Racial & Path (${spellCounts.racial})`}
+                  aria-label={`Racial & Path (${spellCounts.racial})`}
                 >
-                  <i className="fas fa-shield-halved"></i> Racial & Path ({spellCounts.racial})
+                  <i className="fas fa-shield-halved"></i>
+                  <span className="spell-quick-assign-tab-count">{spellCounts.racial}</span>
                 </button>
               )}
               {spellCounts.skill > 0 && (
                 <button
                   type="button"
+                  role="tab"
+                  aria-selected={assignTab === 'skill'}
                   className={`spell-quick-assign-tab ${assignTab === 'skill' ? 'active' : ''}`}
                   onClick={() => setAssignTab('skill')}
+                  title={`Skills (${spellCounts.skill})`}
+                  aria-label={`Skills (${spellCounts.skill})`}
                 >
-                  <i className="fas fa-graduation-cap"></i> Skills ({spellCounts.skill})
+                  <i className="fas fa-graduation-cap"></i>
+                  <span className="spell-quick-assign-tab-count">{spellCounts.skill}</span>
                 </button>
               )}
               {spellCounts.general > 0 && (
                 <button
                   type="button"
+                  role="tab"
+                  aria-selected={assignTab === 'general'}
                   className={`spell-quick-assign-tab ${assignTab === 'general' ? 'active' : ''}`}
                   onClick={() => setAssignTab('general')}
+                  title={`General (${spellCounts.general})`}
+                  aria-label={`General (${spellCounts.general})`}
                 >
-                  <i className="fas fa-fist-raised"></i> General ({spellCounts.general})
+                  <i className="fas fa-fist-raised"></i>
+                  <span className="spell-quick-assign-tab-count">{spellCounts.general}</span>
                 </button>
               )}
               {availableConsumables.length > 0 && (
                 <button
                   type="button"
+                  role="tab"
+                  aria-selected={assignTab === 'consumables'}
                   className={`spell-quick-assign-tab ${assignTab === 'consumables' ? 'active' : ''}`}
                   onClick={() => setAssignTab('consumables')}
+                  title={`Consumables (${availableConsumables.length})`}
+                  aria-label={`Consumables (${availableConsumables.length})`}
                 >
-                  <i className="fas fa-flask"></i> Consumables ({availableConsumables.length})
+                  <i className="fas fa-flask"></i>
+                  <span className="spell-quick-assign-tab-count">{availableConsumables.length}</span>
                 </button>
               )}
             </div>
@@ -1500,7 +1583,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
                         className="spell-quick-assign-icon"
                         onError={(e) => {
                           e.target.onerror = null;
-                          e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
+                          e.target.src = getCustomIconUrl('Arcane/Abstract Rune', 'abilities');
                         }}
                       />
                     </div>
@@ -1542,7 +1625,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
                 const qty = getItemQuantity(item.originalItemId || item.id);
                 const quality = item.quality || item.rarity || 'common';
                 const qualityColor = RARITY_COLORS[quality.toLowerCase()]?.border || '#8b4513';
-                const iconSrc = item.iconId ? getIconUrl(item.iconId, 'items') : getIconUrl(item.icon || 'inv_potion_51', 'items');
+                const iconSrc = getSlotItemIconUrl(item);
                 const slottedSlotIndex = slots.findIndex(s => s && s.type === 'consumable' && (s.originalItemId === (item.originalItemId || item.id) || s.id === item.id));
                 const isSlotted = slottedSlotIndex !== -1;
 
@@ -1757,7 +1840,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
           <div className="spell-consume-confirm-modal" onClick={(e) => e.stopPropagation()}>
             <div className="spell-consume-confirm-header">
               <img
-                src={getIconUrl(pendingConsumable.item.iconId || pendingConsumable.item.icon || 'inv_potion_51', 'items')}
+                src={getSlotItemIconUrl(pendingConsumable.item)}
                 alt={pendingConsumable.item.name}
                 className="spell-consume-confirm-icon"
                 onError={(e) => {
@@ -1957,7 +2040,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
                 className="spell-consume-confirm-icon"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
+                  e.target.src = getCustomIconUrl('Arcane/Abstract Rune', 'abilities');
                 }}
               />
               <div className="spell-consume-confirm-title-block">

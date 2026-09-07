@@ -1290,17 +1290,17 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
         {
             id: 'library',
             label: 'Library',
-            icon: '/icons/book.png'
+            icon: '/assets/icons/items/Misc/Books/book-brown-decorative-panels.png'
         },
         {
             id: 'designer',
             label: 'Designer',
-            icon: '/icons/hammer.png'
+            icon: '/assets/icons/items/Weapons/Warhammer/warhammer-bronze-brown-tan-outline-circular-detail.png'
         },
         {
             id: 'community',
             label: 'Community',
-            icon: '/icons/globe.png'
+            icon: '/assets/icons/abilities/Social/Party Gathering.png'
         }
     ];
 

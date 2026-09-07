@@ -673,7 +673,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
   categoryIds: ['general_actions'],
   typeConfig: {
    school: undefined, // No damage type for item utility
-   icon: 'inv_misc_bag_08',
+   icon: 'Utility/Utility Tool',
    tags: ['item', 'combat', 'universal']
   },
   utilityConfig: {

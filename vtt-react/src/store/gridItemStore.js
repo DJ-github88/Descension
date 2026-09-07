@@ -611,12 +611,16 @@ const useGridItemStore = create((set, get) => ({
     if (sendToServer && gameStore.isInMultiplayer) {
      // In multiplayer, send to server to sync with other players
      if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+      const mapStore = getStore('mapStore');
+      const currentMapId = mapStore?.getState?.()?.currentMapId || 'default';
       gameStore.multiplayerSocket.emit('item_looted', {
+       roomId: gameStore.multiplayerRoom?.id,
        item: itemToUse,
        quantity: 1, // Currency is always quantity 1
        source: 'Grid Item',
        looter: looterName,
-       gridItemId: gridItemId
+       gridItemId: gridItemId,
+       mapId: currentMapId
       });
      }
     }
@@ -670,6 +674,7 @@ const useGridItemStore = create((set, get) => ({
         const currentMapId = mapStore.getState().currentMapId || 'default';
 
         gameStore.multiplayerSocket.emit('item_looted', {
+         roomId: gameStore.multiplayerRoom?.id,
          item: itemToUse,
          quantity: 1,
          source: 'Grid Item',

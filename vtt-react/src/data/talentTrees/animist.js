@@ -280,7 +280,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t6_the_ironwood_cage",
     name: "The Ironwood Cage",
-    icon: "inv_misc_platnumdisks",
+    icon: "Nature/Tree Rune",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "tw_t5_swamp_cataclysm",
@@ -724,7 +724,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t6_the_triune_ancestors",
     name: "The Triune Ancestors",
-    icon: "inv_misc_platnumdisks",
+    icon: "Nature/Nature Natural",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "sb_t5_grand_specter",
@@ -1171,7 +1171,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t6_the_ancestral_convergence",
     name: "The Ancestral Convergence",
-    icon: "inv_misc_platnumdisks",
+    icon: "Arcane/Spiral Vortex",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "ss_t5_galvanic_cataclysm",

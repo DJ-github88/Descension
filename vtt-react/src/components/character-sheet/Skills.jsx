@@ -609,9 +609,18 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
         const rank = isWeaponMastery ? getWeaponTypeRank(selectedWeaponType) : getSkillRank(resolvedSkillId);
         const rankKeys = Object.keys(SKILL_RANKS);
         const rankIndex = Math.max(0, rankKeys.indexOf(rank?.key || 'UNTRAINED'));
-        const rankBonus = rankIndex;
-        
-        const totalMod = primaryMod + secondaryHalf + rankBonus;
+
+        // Rebalanced modifier rules (mirror the damage-scaling philosophy):
+        // - dual-stat skills AVERAGE their stat mods: floor((primary + secondary) / 2)
+        // - single-stat skills add the primary mod (x1)
+        // - rank contributes a halved ladder (0, 0, 1, 1, 2, 2, 3) instead of 0-6,
+        //   so a maxed mastery no longer stacks +12 onto a d20 roll.
+        const statMod = secondaryStat
+            ? Math.floor((primaryMod + secondaryMod) / 2)
+            : primaryMod;
+        const rankBonus = Math.floor(rankIndex / 2);
+
+        const totalMod = statMod + rankBonus;
         return {
             primaryStat,
             primaryStatVal,
@@ -620,6 +629,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
             secondaryStatVal,
             secondaryMod,
             secondaryHalf,
+            statMod,
             rank,
             rankBonus,
             totalMod
@@ -860,9 +870,16 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                         <span className="skill-attr-operator">+</span>
                                         <span 
                                             className="skill-attr-badge secondary" 
-                                            title={`${modBreakdown.secondaryStat.toUpperCase()} Score: ${modBreakdown.secondaryStatVal} (Mod: ${modBreakdown.secondaryMod >= 0 ? `+${modBreakdown.secondaryMod}` : modBreakdown.secondaryMod}) → Half Applied: ${modBreakdown.secondaryHalf >= 0 ? `+${modBreakdown.secondaryHalf}` : modBreakdown.secondaryHalf}`}
+                                            title={`${modBreakdown.secondaryStat.toUpperCase()} Score: ${modBreakdown.secondaryStatVal} (Mod: ${modBreakdown.secondaryMod >= 0 ? `+${modBreakdown.secondaryMod}` : modBreakdown.secondaryMod}) → Averaged with ${modBreakdown.primaryStat.toUpperCase()}`}
                                         >
-                                            <i className="fas fa-shield"></i> {modBreakdown.secondaryStat.toUpperCase()} ({modBreakdown.secondaryHalf >= 0 ? `+${modBreakdown.secondaryHalf}` : modBreakdown.secondaryHalf})
+                                            <i className="fas fa-shield"></i> {modBreakdown.secondaryStat.toUpperCase()} ({modBreakdown.secondaryMod >= 0 ? `+${modBreakdown.secondaryMod}` : modBreakdown.secondaryMod})
+                                        </span>
+                                        <span className="skill-attr-operator">→</span>
+                                        <span 
+                                            className="skill-attr-badge primary" 
+                                            title={`Stat contribution: (${modBreakdown.primaryMod >= 0 ? `+${modBreakdown.primaryMod}` : modBreakdown.primaryMod} + ${modBreakdown.secondaryMod >= 0 ? `+${modBreakdown.secondaryMod}` : modBreakdown.secondaryMod}) / 2 = ${modBreakdown.statMod >= 0 ? `+${modBreakdown.statMod}` : modBreakdown.statMod}`}
+                                        >
+                                            <i className="fas fa-hand-fist"></i> STATS ({modBreakdown.statMod >= 0 ? `+${modBreakdown.statMod}` : modBreakdown.statMod})
                                         </span>
                                     </>
                                 )}
@@ -876,7 +893,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                 <span className="skill-attr-operator">=</span>
                                 <span 
                                     className="skill-attr-badge modifier" 
-                                    title={`Total Modifier = Primary (${modBreakdown.primaryMod >= 0 ? `+${modBreakdown.primaryMod}` : modBreakdown.primaryMod}) + Secondary Half (${modBreakdown.secondaryHalf >= 0 ? `+${modBreakdown.secondaryHalf}` : modBreakdown.secondaryHalf}) + Rank (${modBreakdown.rankBonus >= 0 ? `+${modBreakdown.rankBonus}` : modBreakdown.rankBonus}) = ${modifier >= 0 ? `+${modifier}` : modifier}`}
+                                    title={`Total Modifier = Stats (${modBreakdown.statMod >= 0 ? `+${modBreakdown.statMod}` : modBreakdown.statMod}) + Rank (${modBreakdown.rankBonus >= 0 ? `+${modBreakdown.rankBonus}` : modBreakdown.rankBonus}) = ${modifier >= 0 ? `+${modifier}` : modifier}`}
                                 >
                                     <i className="fas fa-shield-halved"></i> MODIFIER: {modifier >= 0 ? `+${modifier}` : modifier}
                                 </span>
@@ -942,9 +959,16 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                         <span className="skill-attr-operator">+</span>
                                         <span 
                                             className="skill-attr-badge secondary" 
-                                            title={`${modBreakdown.secondaryStat.toUpperCase()} Score: ${modBreakdown.secondaryStatVal} (Mod: ${modBreakdown.secondaryMod >= 0 ? `+${modBreakdown.secondaryMod}` : modBreakdown.secondaryMod}) → Half Applied: ${modBreakdown.secondaryHalf >= 0 ? `+${modBreakdown.secondaryHalf}` : modBreakdown.secondaryHalf}`}
+                                            title={`${modBreakdown.secondaryStat.toUpperCase()} Score: ${modBreakdown.secondaryStatVal} (Mod: ${modBreakdown.secondaryMod >= 0 ? `+${modBreakdown.secondaryMod}` : modBreakdown.secondaryMod}) → Averaged with ${modBreakdown.primaryStat.toUpperCase()}`}
                                         >
-                                            <i className="fas fa-shield"></i> {modBreakdown.secondaryStat.toUpperCase()} ({modBreakdown.secondaryHalf >= 0 ? `+${modBreakdown.secondaryHalf}` : modBreakdown.secondaryHalf})
+                                            <i className="fas fa-shield"></i> {modBreakdown.secondaryStat.toUpperCase()} ({modBreakdown.secondaryMod >= 0 ? `+${modBreakdown.secondaryMod}` : modBreakdown.secondaryMod})
+                                        </span>
+                                        <span className="skill-attr-operator">→</span>
+                                        <span 
+                                            className="skill-attr-badge primary" 
+                                            title={`Stat contribution: (${modBreakdown.primaryMod >= 0 ? `+${modBreakdown.primaryMod}` : modBreakdown.primaryMod} + ${modBreakdown.secondaryMod >= 0 ? `+${modBreakdown.secondaryMod}` : modBreakdown.secondaryMod}) / 2 = ${modBreakdown.statMod >= 0 ? `+${modBreakdown.statMod}` : modBreakdown.statMod}`}
+                                        >
+                                            <i className="fas fa-hand-fist"></i> STATS ({modBreakdown.statMod >= 0 ? `+${modBreakdown.statMod}` : modBreakdown.statMod})
                                         </span>
                                     </>
                                 )}
@@ -958,7 +982,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                 <span className="skill-attr-operator">=</span>
                                 <span 
                                     className="skill-attr-badge modifier" 
-                                    title={`Total Modifier = Primary (${modBreakdown.primaryMod >= 0 ? `+${modBreakdown.primaryMod}` : modBreakdown.primaryMod}) + Secondary Half (${modBreakdown.secondaryHalf >= 0 ? `+${modBreakdown.secondaryHalf}` : modBreakdown.secondaryHalf}) + Rank (${modBreakdown.rankBonus >= 0 ? `+${modBreakdown.rankBonus}` : modBreakdown.rankBonus}) = ${modifier >= 0 ? `+${modifier}` : modifier}`}
+                                    title={`Total Modifier = Stats (${modBreakdown.statMod >= 0 ? `+${modBreakdown.statMod}` : modBreakdown.statMod}) + Rank (${modBreakdown.rankBonus >= 0 ? `+${modBreakdown.rankBonus}` : modBreakdown.rankBonus}) = ${modifier >= 0 ? `+${modifier}` : modifier}`}
                                 >
                                     <i className="fas fa-shield-halved"></i> MODIFIER: {modifier >= 0 ? `+${modifier}` : modifier}
                                 </span>
@@ -1084,9 +1108,16 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                                         <span className="skill-attr-operator">+</span>
                                                         <span 
                                                             className="skill-attr-badge secondary" 
-                                                            title={`${wBreakdown.secondaryStat.toUpperCase()} Score: ${wBreakdown.secondaryStatVal} (Mod: ${wBreakdown.secondaryMod >= 0 ? `+${wBreakdown.secondaryMod}` : wBreakdown.secondaryMod}) → Half Applied: ${wBreakdown.secondaryHalf >= 0 ? `+${wBreakdown.secondaryHalf}` : wBreakdown.secondaryHalf}`}
+                                                            title={`${wBreakdown.secondaryStat.toUpperCase()} Score: ${wBreakdown.secondaryStatVal} (Mod: ${wBreakdown.secondaryMod >= 0 ? `+${wBreakdown.secondaryMod}` : wBreakdown.secondaryMod}) → Averaged with ${wBreakdown.primaryStat.toUpperCase()}`}
                                                         >
-                                                            <i className="fas fa-shield"></i> {wBreakdown.secondaryStat.toUpperCase()} ({wBreakdown.secondaryHalf >= 0 ? `+${wBreakdown.secondaryHalf}` : wBreakdown.secondaryHalf})
+                                                            <i className="fas fa-shield"></i> {wBreakdown.secondaryStat.toUpperCase()} ({wBreakdown.secondaryMod >= 0 ? `+${wBreakdown.secondaryMod}` : wBreakdown.secondaryMod})
+                                                        </span>
+                                                        <span className="skill-attr-operator">→</span>
+                                                        <span 
+                                                            className="skill-attr-badge primary" 
+                                                            title={`Stat contribution: (${wBreakdown.primaryMod >= 0 ? `+${wBreakdown.primaryMod}` : wBreakdown.primaryMod} + ${wBreakdown.secondaryMod >= 0 ? `+${wBreakdown.secondaryMod}` : wBreakdown.secondaryMod}) / 2 = ${wBreakdown.statMod >= 0 ? `+${wBreakdown.statMod}` : wBreakdown.statMod}`}
+                                                        >
+                                                            <i className="fas fa-hand-fist"></i> STATS ({wBreakdown.statMod >= 0 ? `+${wBreakdown.statMod}` : wBreakdown.statMod})
                                                         </span>
                                                     </>
                                                 )}
@@ -1100,7 +1131,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                                 <span className="skill-attr-operator">=</span>
                                                 <span 
                                                     className="skill-attr-badge modifier" 
-                                                    title={`Total Modifier = Primary (${wBreakdown.primaryMod >= 0 ? `+${wBreakdown.primaryMod}` : wBreakdown.primaryMod}) + Secondary Half (${wBreakdown.secondaryHalf >= 0 ? `+${wBreakdown.secondaryHalf}` : wBreakdown.secondaryHalf}) + Rank (${wBreakdown.rankBonus >= 0 ? `+${wBreakdown.rankBonus}` : wBreakdown.rankBonus}) = ${wBreakdown.totalMod >= 0 ? `+${wBreakdown.totalMod}` : wBreakdown.totalMod}`}
+                                                    title={`Total Modifier = Stats (${wBreakdown.statMod >= 0 ? `+${wBreakdown.statMod}` : wBreakdown.statMod}) + Rank (${wBreakdown.rankBonus >= 0 ? `+${wBreakdown.rankBonus}` : wBreakdown.rankBonus}) = ${wBreakdown.totalMod >= 0 ? `+${wBreakdown.totalMod}` : wBreakdown.totalMod}`}
                                                 >
                                                     <i className="fas fa-shield-halved"></i> MODIFIER: {wBreakdown.totalMod >= 0 ? `+${wBreakdown.totalMod}` : wBreakdown.totalMod}
                                                 </span>

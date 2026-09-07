@@ -951,7 +951,7 @@ const TraitIcon = React.memo(({ trait, isSelected, onTraitClick }) => (
         alt={trait.name}
         className="trait-icon"
         onError={(e) => {
-          e.target.src = getIconUrl('Utility/Utility', 'abilities');
+          e.target.src = getIconUrl('Arcane/Abstract Rune', 'abilities');
         }}
       />
     )}

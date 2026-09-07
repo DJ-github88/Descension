@@ -29,7 +29,7 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
     // Object categories for organization
     const categoryMetadata = {
         utility: { name: 'Utility & GM Tools', icon: 'Utility/Utility' },
-        furniture: { name: 'Furniture', icon: 'items/Container/Crate/wooden-crate-brown-planks-isometric' },
+        furniture: { name: 'Furniture', icon: 'items/Container/Chest/stone-block-chest' },
         props: { name: 'Props & Decorations', icon: 'Fire/Fire Logs' },
         structures: { name: 'Structures', icon: 'Utility/Falling Block' },
         nature: { name: 'Nature', icon: 'inv_misc_tree_01' },

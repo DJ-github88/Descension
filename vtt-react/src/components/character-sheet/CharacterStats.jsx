@@ -955,8 +955,26 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
         combat: {
             title: 'Combat Statistics',
             icon: getCustomIconUrl('General/Sword', 'abilities'),
-            description: 'Your character\'s combat capabilities and damage output',
+            description: 'Your character\'s combat capabilities, physical mitigation, and damage output',
             stats: [
+                {
+                    label: 'Durability',
+                    value: Math.round(totalStats.durability || 0),
+                    baseValue: 0,
+                    tooltip: true,
+                    icon: getCustomIconUrl('Utility/Barred Shield', 'abilities'),
+                    color: '#4682B4',
+                    description: 'Flat damage reduction subtracted directly from incoming physical damage hits (No AC)'
+                },
+                {
+                    label: 'Damage Reduction (DR)',
+                    value: Math.round(totalStats.damageReduction || 0),
+                    baseValue: 0,
+                    tooltip: true,
+                    icon: getCustomIconUrl('Utility/Deflecting Shield', 'abilities'),
+                    color: '#5F9EA0',
+                    description: 'Active soak and mitigation pool applied to incoming hits'
+                },
                 {
                     label: 'Slashing Damage',
                     value: Math.round(totalStats.slashingDamage || 0),

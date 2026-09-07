@@ -97,7 +97,6 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_jewelry_necklace_12': 'Armor/Neck/spiky-teal-gem-pendant',
   'inv_jewelry_necklace_15': 'Armor/Neck/spiky-teal-gem-pendant',
   'inv_jewelry_necklace_19': 'Armor/Neck/spiky-teal-gem-pendant',
-  'inv_jewelry_ring_01': 'Armor/Finger/finger-ancient-bronze-ring',
   'inv_jewelry_ring_03': 'Misc/Monster Parts/Finger',
   'inv_jewelry_ring_07': 'Misc/Monster Parts/Finger',
   'inv_jewelry_ring_14': 'Misc/Monster Parts/Finger',
@@ -136,7 +135,6 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_misc_bandage_01': 'Misc/Profession Resources/First Aid/first-aid-bandage-rolled-fabric-beige-tan',
   'inv_misc_bandage_02': 'Misc/Profession Resources/First Aid/first-aid-bandage-coiled-rope-orange-brown',
   'inv_misc_bandage_15': 'Misc/Profession Resources/First Aid/first-aid-gauze-patch-folded-brown-orange',
-  'inv_misc_bandage_16': 'Misc/Profession Resources/First Aid/first-aid-bandage-rolled-fabric-beige-tan',
   'inv_misc_bandage_17': 'Misc/Profession Resources/First Aid/first-aid-gauze-patch-folded-brown-orange',
   'inv_misc_bandage_18': 'Misc/Profession Resources/First Aid/first-aid-bandage-coiled-rope-orange-brown',
   'inv_misc_bannerpvp_02': 'Misc/Books/book-scroll-rolled-red-wax-seal',
@@ -162,7 +160,6 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_misc_candle_01': 'Misc/Books/book-treasure-map-island',
   'inv_misc_candle_02': 'Misc/Books/book-treasure-map-island',
   'inv_misc_candle_03': 'Misc/Books/book-treasure-map-island',
-  'inv_misc_cape_01': 'Armor/Cloak/beige-brown-collared-cloak',
   'inv_misc_cape_02': 'Armor/Cloak/beige-brown-collared-cloak',
   'inv_misc_cape_06': 'Armor/Cloak/cloak-simple-brown-cape',
   'inv_misc_cape_11': 'Armor/Cloak/beige-brown-collared-cloak',
@@ -343,7 +340,6 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_scroll_06': 'Misc/Books/book-scroll-teal-compass-runes-number',
   'inv_scroll_11': 'Misc/Books/book-scroll-rolled-red-wax-seal',
   'inv_shield_01': 'Weapons/Shields/shield-circular-beige-brown-boss-vertical-lines-segmented',
-  'inv_shield_04': 'Weapons/Shields/shield-circular-beige-brown-boss-vertical-lines-segmented',
   'inv_shield_05': 'Weapons/Shields/shield-circular-beige-brown-boss-vertical-lines-segmented',
   'inv_shield_06': 'Weapons/Shields/shield-circular-beige-brown-boss-vertical-lines-segmented',
   'inv_shield_09': 'Weapons/Shields/shield-circular-beige-brown-boss-vertical-lines-segmented',
@@ -386,6 +382,45 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_weapon_shortblade_25': 'Weapons/Swords/sword-dagger-curved-guard-reddish-brown',
   'spell_holy_sealofsacrifice': 'Misc/Profession Resources/First Aid/first-aid-cross-medical-brown-patched',
   'trade_alchemy': 'Misc/Profession Resources/Alchemy/golden-orange-potion',
+
+  // ===== Icon audit fixes (unmapped WoW item ids -> existing local item icons) =====
+  'inv_sword_23': 'Weapons/Swords/sword-basic-rectangular-beige-blade-brown-handle',
+  'inv_sword_01': 'Weapons/Swords/sword-basic-straight-beige-blade-brown-diamond-guard',
+  'inv_sword_25': 'Weapons/Swords/sword-basic-serrated-tan-blade-brown-hilt',
+  'inv_sword_30': 'Weapons/Swords/sword-basic-japanese-golden-guard-pommel',
+  'inv_sword_20': 'Weapons/Swords/sword-basic-serrated-tan-brown-simple',
+  'inv_sword_2h_01': 'Weapons/Swords/sword-basic-rectangular-beige-blade-brown-handle',
+  'inv_weapon_bow_07': 'Weapons/Bows/bow-brown-limb-tips-recurve',
+  'inv_weapon_crossbow_02': 'Weapons/Crossbow/crossbow-bow-arrow-fire-gradient-red-orange-yellow',
+  'inv_throwingaxe_03': 'Weapons/Throwing Axe/throwing-axe-brown-handle-beige-blade-standard',
+  'inv_spear_05': 'Weapons/Polearm/polearm-spear-fire-golden-wing-guard-red-wraps-ornate',
+  'inv_mace_21': 'Weapons/Mace/mace-spiked-club-brown-tan-bands-metal-spikes',
+  'inv_mace_20': 'Weapons/Mace/mace-fire-spiked-red-orange-yellow-glowing',
+  'inv_shield_61': 'Weapons/Shields/shield-abstract-curved-jagged-brown-orange-red-fire-magical',
+  'inv_chest_plate04': 'Armor/Chest/chest-dark-steel-plate',
+  'inv_helmet_01': 'Armor/Head/head-brown-tan-banded-helmet',
+  'inv_shoulder_01': 'Armor/Shoulder/shoulder-pauldron-rustic-leather-brown-tan-jagged-layered',
+  'inv_bracer_01': 'Armor/Wrist/cylindrical-tube-bracer',
+  'inv_gauntlets_01': 'Armor/Hands/hands-beige-armored-gauntlet',
+  'inv_pants_01': 'Armor/Leggings/beige-red-knee-gem-leggings',
+  'inv_boots_01': 'Armor/Feet/feet-brown-laced-boot',
+  'inv_misc_bandage_07': 'Misc/Profession Resources/First Aid/first-aid-bandage-rolled-fabric-beige-tan',
+  'inv_misc_bandage_19': 'Misc/Profession Resources/First Aid/first-aid-bandage-rolled-fabric-beige-tan',
+  'inv_misc_bandage_20': 'Misc/Profession Resources/Cooking/animal-fabric-bandage-folded-orange-tan-red-details',
+  'inv_misc_bandage_21': 'Misc/Profession Resources/First Aid/first-aid-bandage-rolled-fabric-beige-tan',
+  'inv_misc_bag_28_halloween': 'Container/Bag/brown-satchel-buckle-strap',
+  'inv_enchant_dustarcane': 'Misc/Profession Resources/Enchanting/resource-dark-circular-stone-cyan-triden-arrow-sparkles',
+  'inv_misc_tool_01': 'Misc/Profession Resources/Blacksmithing/resource-pickaxe-metallic-grey-brown-handle',
+  'inv_misc_tree_01': 'Misc/Profession Resources/Farming/resource-tree-stump-growth-rings',
+  'inv_stone_01': 'Misc/Profession Resources/Enchanting/resource-dark-circular-stone-teal-bird-wings-rune',
+  'inv_misc_desecrated_platehelm': 'Armor/Head/head-brown-tan-banded-helmet',
+  'inv_misc_head_orc_01': 'Misc/Monster Parts/Bones/bone-fragment-curved-jagged-grey',
+  'inv_misc_head_dragon_red': 'Misc/Monster Parts/Organs/organ-eye-monster-green-yellow',
+  'inv_misc_head_human_01': 'Misc/Monster Parts/Bones/bone-hand-skeletal-reach-gesture',
+  'inv_raven': 'Misc/Monster Parts/Organs/organ-eye-monster-green-yellow',
+  'inv_weapon_shortblade_16': 'Weapons/Throwing Knife/throwing-knife-beige-blade-brown-handle-pommel',
+  'inv_axe_17': 'Weapons/Axe/axe-brown-handle-beige-blade',
+  'trade_engineering': 'Weapons/Polearm/polearm-gear-cogwheel-brown-beige-center',
 };
 
 /**
@@ -426,7 +461,7 @@ export const convertWowIconToLocal = (wowIconId) => {
     return 'Misc/Books/book-brown-decorative-panels';
   }
   if (wowIconId.startsWith('inv_misc_coin_')) {
-    return 'Currency/coin-gold-simple';
+    return 'Container/Coins/golden-coin-single-isometric';
   }
   if (wowIconId.startsWith('inv_misc_herb_')) {
     return 'Misc/Profession Resources/Herbs and Plants/nature-horn-funnel-golden-brown-teal-interior';

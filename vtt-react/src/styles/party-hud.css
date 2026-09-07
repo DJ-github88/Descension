@@ -1552,7 +1552,6 @@
 }
 
 .party-member-frame:hover {
-    transform: translateY(-1px);
     filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.65));
 }
 
@@ -1568,6 +1567,43 @@
 .party-member-frame .portrait-backdrop-ring {
     display: block !important;
     pointer-events: none;
+}
+
+/* Golden Medal Level Badge: hangs off the portrait's bottom-right corner.
+   Portrait box = left 4.9% / top 7.2% / width 14.5% / height 28% (mounted above frame art,
+   aligned to the HUD's natural square so the painted frame margins stay visible). */
+.party-member-frame .portrait-level-orb {
+    position: absolute;
+    left: calc(4.9% + 14.5% - 12px);
+    top: calc(7.2% + 28% - 14px);
+    width: 32px;
+    height: 32px;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.75));
+    pointer-events: none;
+}
+
+.party-member-frame .portrait-level-orb .level-medal-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.party-member-frame .portrait-level-orb .level-number {
+    position: relative;
+    z-index: 1;
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #2e1e06;
+    text-shadow: 0 1px 0 rgba(255, 236, 190, 0.6);
+    line-height: 1;
+    margin-top: 1px;
 }
 
 /* Clean portrait image styling inside HUD frame */
@@ -1616,13 +1652,18 @@
 
 .party-member-frame .party-portrait {
     position: absolute !important;
-    left: 6.13% !important;
-    top: 10.96% !important;
-    width: 11.15% !important;
-    height: 21.15% !important;
+    left: 4.9% !important;
+    top: 7.2% !important;
+    width: 14.5% !important;
+    height: 28% !important;
     margin: 0 !important;
-    z-index: 1 !important;
+    z-index: 3 !important;
     overflow: hidden;
+    border: 2px solid #3b2e17;
+    border-radius: 3px;
+    box-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.65),
+        inset 0 0 0 1px rgba(212, 175, 55, 0.35);
 }
 
 .party-member-frame .party-member-info {
@@ -1637,8 +1678,151 @@
 }
 
 .party-member-frame .member-header {
-    padding-left: 20%;
-    margin-bottom: 4px;
+    padding-left: 19%;
+    padding-right: 4px;
+    margin-top: 1px;
+    margin-bottom: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    box-sizing: border-box;
+}
+
+.party-member-frame .member-header-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+}
+
+.party-member-frame .member-name-text {
+    font-family: 'Cinzel', serif;
+    font-size: 17px;
+    font-weight: 800;
+    color: #241307;
+    letter-spacing: 0.8px;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    width: 100%;
+    line-height: 1.18;
+    text-decoration: underline;
+    text-decoration-color: rgba(139, 90, 43, 0.85);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 3px;
+}
+
+/* Alignment Tag: Pinned Centered on the Top Wooden Frame Border
+   (handwritten feel — as if inked onto the plate) */
+.party-member-frame .member-alignment-tag {
+    position: absolute;
+    top: 2px;
+    left: 52%;
+    transform: translateX(-50%);
+    z-index: 15;
+    font-family: 'IM Fell English', 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    padding: 1.5px 9px;
+    border-radius: 3px;
+    background: linear-gradient(180deg, #25170d 0%, #160e07 100%);
+    border: 1px solid #b45309;
+    color: #fef08a;
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.8),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    line-height: 1.25;
+    pointer-events: auto;
+}
+
+.party-member-frame .member-alignment-tag.good {
+    border-color: #22c55e;
+    color: #86efac;
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.8),
+        0 0 5px rgba(34, 197, 94, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.party-member-frame .member-alignment-tag.evil {
+    border-color: #ef4444;
+    color: #fca5a5;
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.8),
+        0 0 5px rgba(239, 68, 68, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.party-member-frame .member-alignment-tag.neutral {
+    border-color: #d97706;
+    color: #fde047;
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.8),
+        0 0 5px rgba(245, 158, 11, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.party-member-frame .member-details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+}
+
+.party-member-frame .member-archetype-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 5px;
+    font-family: 'Cinzel', 'Crimson Text', serif;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #6e4d2d;
+    letter-spacing: 0.35px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.party-member-frame .detail-separator {
+    color: #b08d57;
+    font-size: 8px;
+    opacity: 0.75;
+}
+
+.party-member-frame .detail-part {
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.party-member-frame .archetype-icon {
+    font-size: 9px;
+    color: #a06a2c;
+    opacity: 0.9;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.party-member-frame .archetype-icon.lead {
+    margin-right: 1px;
+}
+
+.party-member-frame .archetype-icon.tail {
+    margin-left: 1px;
 }
 
 .party-member-frame .resource-bars-container {
@@ -1646,16 +1830,224 @@
     display: flex;
     flex-direction: column;
     gap: 3px;
-    margin-top: 4px;
-    margin-bottom: 2px;
+    margin-top: 34px;
+    margin-bottom: 10px;
+    align-items: center;
 }
 
 .party-member-frame.has-class-resource {
-    min-height: 185px;
+    min-height: 190px;
 }
 
-.party-member-frame.class-chronarch {
-    min-height: 225px;
+.party-member-frame.class-chronarch,
+.party-member-frame.class-musical-notes-combo,
+.party-member-frame.class-harbinger,
+.party-member-frame.class-mayhem-gauge,
+.party-member-frame.class-arcanoneer,
+.party-member-frame.class-revenant,
+.party-member-frame.class-spellguard {
+    min-height: 193px;
+}
+
+/* ========================================================= */
+/* CORNER MOUNTED STAT VIALS (HP, MANA, AP)                  */
+/* Pinned to the 4 corners of hud-frame-base.png             */
+/* ========================================================= */
+.party-corner-mount {
+    position: absolute !important;
+    z-index: 10 !important;
+    cursor: default;
+    user-select: none;
+    pointer-events: auto;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.party-corner-mount.adjustable {
+    cursor: pointer;
+}
+
+.party-corner-mount:hover {
+    z-index: 25 !important;
+}
+
+.party-corner-mount.mount-ap {
+    top: -10px !important;
+    left: -8px !important;
+    width: 36px !important;
+    height: 42px !important;
+}
+
+.party-corner-mount.mount-health {
+    bottom: -12px !important;
+    left: -10px !important;
+    width: 40px !important;
+    height: 48px !important;
+}
+
+.party-corner-mount.mount-mana {
+    bottom: -14px !important;
+    right: -8px !important;
+    width: 38px !important;
+    height: 52px !important;
+}
+
+.party-vial {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(var(--vial-tilt, 0deg));
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+}
+
+.party-corner-mount:hover .party-vial {
+    transform: rotate(var(--vial-tilt, 0deg));
+    filter: brightness(1.15) drop-shadow(0 0 6px rgba(255, 255, 255, 0.35));
+}
+
+.party-vial-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    pointer-events: none;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.85));
+}
+
+.vial-ap .party-vial-icon {
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 5px rgba(255, 200, 50, 0.5));
+}
+
+.vial-ap.vial-state-max .party-vial-icon {
+    filter: drop-shadow(0 0 8px rgba(255, 200, 50, 0.95)) drop-shadow(0 0 14px rgba(255, 160, 0, 0.85));
+}
+
+.party-vial-readout {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(22, 16, 12, 0.95);
+    border: 1px solid #8b7355;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: var(--my-font-serif, 'Cinzel', serif);
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff8eb;
+    white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+    z-index: 40;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: baseline;
+    gap: 1px;
+}
+
+.party-vial-readout .readout-current {
+    color: #ffe082;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.party-vial-readout .readout-max {
+    color: #c5b597;
+    font-size: 9px;
+}
+
+.party-vial-readout .readout-temp {
+    color: #81d4fa;
+    font-size: 10px;
+    margin-left: 2px;
+}
+
+/* Mount Adjustment Popup Menu */
+.mount-adjust-menu {
+    position: fixed;
+    z-index: 99999;
+    background: linear-gradient(135deg, #2b1f14, #1a120b);
+    border: 2px solid #8b7355;
+    border-radius: 6px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8), 0 0 10px rgba(139, 115, 85, 0.35);
+    padding: 8px 10px;
+    min-width: 140px;
+    font-family: var(--my-font-serif, 'Cinzel', serif);
+    user-select: none;
+    color: #f5deb3;
+}
+
+.mount-adjust-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #f5deb3;
+    text-align: center;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.4);
+}
+
+.mount-adjust-close {
+    position: absolute;
+    top: 3px;
+    right: 6px;
+    background: none;
+    border: none;
+    color: #c5b597;
+    font-size: 14px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.mount-adjust-close:hover {
+    color: #ff6b6b;
+}
+
+.mount-adjust-row {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+}
+
+.mount-adjust-btn {
+    flex: 1;
+    padding: 4px 6px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 3px;
+    border: 1px solid #8b7355;
+    cursor: pointer;
+    background: #3a2818;
+    color: #f5deb3;
+    transition: background 0.15s ease, transform 0.1s ease;
+    font-family: var(--my-font-serif, 'Cinzel', serif);
+}
+
+.mount-adjust-btn:hover {
+    background: #503822;
+    transform: scale(1.05);
+}
+
+.mount-adjust-btn.plus {
+    border-color: #27ae60;
+    color: #2ecc71;
+}
+
+.mount-adjust-btn.plus:hover {
+    background: rgba(46, 204, 113, 0.2);
+}
+
+.mount-adjust-btn.minus {
+    border-color: #c0392b;
+    color: #e74c3c;
+}
+
+.mount-adjust-btn.minus:hover {
+    background: rgba(231, 76, 60, 0.2);
 }
 
 .member-name {
@@ -1727,72 +2119,145 @@
     border-radius: 3px;
 }
 
-.party-exhaustion-badge {
+/* Exhaustion Plaque: Riveted metal plate pinned on the bottom wooden frame
+   border (drawn SVG plate renders behind the engraved text content) */
+.party-member-frame .party-exhaustion-badge {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 4px;
-    padding: 2px 6px;
-    background: rgba(40, 30, 20, 0.6);
-    border: 1px solid #c5b597;
-    border-radius: 4px;
-    color: #ffd100;
-    font-size: 11px;
-    font-weight: bold;
-    cursor: pointer;
-    position: relative;
-    user-select: none;
-    margin-left: 8px;
-    transition: all 0.2s ease;
-    vertical-align: middle;
-}
-
-.party-exhaustion-badge.level-0 {
-    opacity: 0.35;
-    color: #c5b597;
-    border-color: rgba(197, 181, 151, 0.35);
-    background: rgba(40, 30, 20, 0.25);
-}
-
-.party-exhaustion-badge:hover {
-    opacity: 1 !important;
-    border-color: #ffd100;
-    box-shadow: 0 0 6px rgba(255, 209, 0, 0.3);
-}
-
-.party-exhaustion-badge.level-0:hover {
-    color: #ffd100;
-    border-color: #ffd100;
-}
-
-.party-exhaustion-badge.level-1 {
-    color: #ffd100; /* Yellow */
-}
-
-.party-exhaustion-badge.level-2,
-.party-exhaustion-badge.level-3 {
-    color: #ff9f43; /* Orange */
-    border-color: #ff9f43;
-}
-
-.party-exhaustion-badge.level-4,
-.party-exhaustion-badge.level-5 {
-    color: #ff4d4d; /* Red */
-    border-color: #ff4d4d;
-}
-
-.party-exhaustion-badge.level-6 {
-    color: #000; /* Death */
-    background: #ff4d4d;
-    border-color: #ff4d4d;
-}
-
-.party-exhaustion-badge .exhaustion-icon {
-    font-size: 11px;
-}
-
-.party-exhaustion-badge .exhaustion-value {
     font-family: 'Cinzel', serif;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding: 2.5px 12px;
+    border-radius: 4px;
+    line-height: 1.25;
+    cursor: pointer;
+    user-select: none;
+    pointer-events: auto;
+    background: transparent;
+    transition: filter 0.2s ease;
+}
+
+.party-member-frame .party-exhaustion-badge .exhaustion-plate-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65));
+}
+
+.party-member-frame .party-exhaustion-badge .exhaustion-label,
+.party-member-frame .party-exhaustion-badge .exhaustion-value {
+    position: relative;
+    z-index: 1;
+}
+
+.party-member-frame .party-exhaustion-badge .exhaustion-label {
+    font-family: 'Cinzel', serif;
+    color: #3a2c12;
+    text-shadow: 0 1px 0 rgba(255, 240, 200, 0.45);
+}
+
+/* Level counter: bright enamel disc inset into the brass plate */
+.party-member-frame .party-exhaustion-badge .exhaustion-value {
+    font-family: 'Cinzel', serif;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 15px;
+    height: 15px;
+    padding: 0 2px;
+    margin-left: 2px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #3b2a14 0%, #1c1206 75%);
+    border: 1.5px solid #d9a94e;
+    color: #ffd100;
+    font-size: 11px;
+    font-weight: 900;
+    line-height: 1;
+    text-shadow: 0 0 4px rgba(255, 209, 0, 0.65);
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.9),
+        0 0 5px rgba(255, 209, 0, 0.35);
+}
+
+.party-member-frame .party-exhaustion-badge.level-0 {
+    opacity: 0.75;
+}
+
+.party-member-frame .party-exhaustion-badge.level-0 .exhaustion-plate-svg {
+    filter: saturate(0.6) brightness(0.92) drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65));
+}
+
+.party-member-frame .party-exhaustion-badge.level-0 .exhaustion-value {
+    color: #c5b597;
+    border-color: #a89257;
+    text-shadow: none;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+.party-member-frame .party-exhaustion-badge:hover {
+    opacity: 1;
+    filter: brightness(1.08);
+}
+
+.party-member-frame .party-exhaustion-badge.level-1 .exhaustion-plate-svg {
+    filter: drop-shadow(0 0 4px rgba(255, 209, 0, 0.35)) drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65));
+}
+
+.party-member-frame .party-exhaustion-badge.level-2 .exhaustion-value,
+.party-member-frame .party-exhaustion-badge.level-3 .exhaustion-value {
+    color: #ff9f43;
+    border-color: #ff9f43;
+    text-shadow: 0 0 4px rgba(255, 159, 67, 0.7);
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.9),
+        0 0 6px rgba(255, 159, 67, 0.5);
+}
+
+.party-member-frame .party-exhaustion-badge.level-2 .exhaustion-plate-svg,
+.party-member-frame .party-exhaustion-badge.level-3 .exhaustion-plate-svg {
+    filter: drop-shadow(0 0 4px rgba(255, 159, 67, 0.45)) drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65));
+}
+
+.party-member-frame .party-exhaustion-badge.level-4 .exhaustion-value,
+.party-member-frame .party-exhaustion-badge.level-5 .exhaustion-value {
+    color: #ff5252;
+    border-color: #ff5252;
+    text-shadow: 0 0 5px rgba(255, 82, 82, 0.8);
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.9),
+        0 0 7px rgba(255, 82, 82, 0.6);
+}
+
+.party-member-frame .party-exhaustion-badge.level-4 .exhaustion-plate-svg,
+.party-member-frame .party-exhaustion-badge.level-5 .exhaustion-plate-svg {
+    filter: drop-shadow(0 0 5px rgba(255, 77, 77, 0.5)) drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65));
+}
+
+.party-member-frame .party-exhaustion-badge.level-6 .exhaustion-plate-svg {
+    filter: drop-shadow(0 0 6px rgba(255, 77, 77, 0.7)) drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65)) saturate(1.15);
+}
+
+.party-member-frame .party-exhaustion-badge.level-6 .exhaustion-value {
+    color: #fff3d6;
+    background: radial-gradient(circle at 35% 30%, #a11212 0%, #5d0a0a 75%);
+    border-color: #ff5252;
+    text-shadow: 0 1px 2px rgba(30, 5, 5, 0.9);
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.9),
+        0 0 8px rgba(255, 82, 82, 0.8);
 }
 
 /* Select overlay for instant editing on click */
@@ -1806,6 +2271,7 @@
     cursor: pointer;
     -webkit-appearance: none;
     appearance: none;
+    z-index: 2;
 }
 
 .resource-bars-container {
@@ -1867,7 +2333,7 @@
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    margin-left: 6px;
+    margin: 0 0 16px 6px;
 }
 
 .status-dot {

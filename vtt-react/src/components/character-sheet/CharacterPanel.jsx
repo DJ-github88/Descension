@@ -111,18 +111,19 @@ const formatModifier = (value) => {
 };
 
 // Compute the damage modifier for a given damage type using the canonical mapping
-// from characterUtils.js. Smashing <- STR*2, Stabbing <- AGI*2, Slicing <- STR+AGI.
+// from characterUtils.js. Single-stat types add that stat's modifier x1
+// (Smashing <- STR, Stabbing <- AGI); Slicing averages both ((STR + AGI) / 2, floored).
 const computeDamageModifier = (damageType, strMod, agiMod) => {
     switch ((damageType || '').toLowerCase()) {
         case 'smashing':
         case 'bludgeoning':
-            return strMod * 2;
+            return strMod;
         case 'stabbing':
         case 'piercing':
-            return agiMod * 2;
+            return agiMod;
         case 'slicing':
         case 'slashing':
-            return strMod + agiMod;
+            return Math.floor((strMod + agiMod) / 2);
         default:
             return 0;
     }
@@ -1734,11 +1735,16 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                             {(() => {
                                 const bgImage = lore?.iconBackgroundImage;
                                 const bgColor = lore?.iconBackgroundColor || 'transparent';
+                                // Match the Portrait Workshop preview: scene scaled by
+                                // iconBackgroundScale and nudged by the icon offsets.
+                                const bgSizePct = (lore?.iconBackgroundScale || 2.5) * 100;
+                                const bgOffX = lore?.iconBackgroundOffsetX || 0;
+                                const bgOffY = lore?.iconBackgroundOffsetY || 0;
                                 const imageContainerStyle = bgImage
                                   ? {
-                                      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.25)), url(/assets/Backgrounds/${encodeURIComponent(bgImage)}))`,
-                                      backgroundSize: 'cover',
-                                      backgroundPosition: 'center',
+                                      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.25)), url(/assets/Backgrounds/${encodeURIComponent(bgImage)})`,
+                                      backgroundSize: `auto, ${bgSizePct}%`,
+                                      backgroundPosition: `center, calc(50% + ${bgOffX}px) calc(50% + ${bgOffY}px)`,
                                       backgroundRepeat: 'no-repeat',
                                       backgroundColor: bgColor
                                     }

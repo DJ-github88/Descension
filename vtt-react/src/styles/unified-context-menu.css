@@ -136,12 +136,14 @@
   min-width: 180px;
 }
 
-/* Ultra compact for Chronarch party context */
+/* Full-width fit for party HUD context (310px matching party frame) */
 .unified-context-menu.compact.chronarch-party {
-  width: 200px;
-  min-width: 180px;
-  font-size: 10px;
-  padding: 8px;
+  width: 310px;
+  min-width: 310px;
+  max-width: 310px;
+  box-sizing: border-box;
+  font-size: 11px;
+  padding: 8px 10px;
 }
 
 .unified-context-menu.compact.chronarch-party .context-menu-section {
@@ -149,27 +151,21 @@
 }
 
 .unified-context-menu.compact.chronarch-party .context-menu-button {
-  padding: 3px 6px;
-  font-size: 10px;
-  margin-bottom: 2px;
+  padding: 4px 8px;
+  font-size: 11px;
+  margin-bottom: 3px;
+  gap: 6px;
 }
 
 .unified-context-menu.compact.chronarch-party .context-menu-section-header {
-  font-size: 11px;
+  font-size: 12px;
   margin-bottom: 6px;
   padding: 0;
 }
 
-/* Party-context: shrink icons + gaps so amount labels (+1, -3, ...) fit
-   beside them in the narrow 200px menu. Fixes the "icon eats the button" bug. */
-.unified-context-menu.compact.chronarch-party .context-menu-button {
-  gap: 3px;
-  padding: 3px 4px;
-  min-width: 0;
-}
 .unified-context-menu.compact.chronarch-party .context-menu-button i {
-  width: 11px;
-  font-size: 11px;
+  width: 14px;
+  font-size: 12px;
 }
 .unified-context-menu.compact.chronarch-party .context-menu-button > span {
   min-width: 0;

@@ -107,7 +107,7 @@ const MECHANICS_SYSTEMS = {
 
       // Exotic Toxic Types
       { id: 'parasites', name: 'Parasites', description: 'Living organisms that drain health and mana', color: '#8B4513', wowIcon: 'Nature/Nature Natural' },
-      { id: 'radiation', name: 'Radiation', description: 'Arcane energy that mutates and weakens over time', color: '#00CED1', wowIcon: 'Arcane/Arcane Blast' },
+      { id: 'radiation', name: 'Radiation', description: 'Arcane energy that mutates and weakens over time', color: '#00CED1', wowIcon: 'Arcane/Magical Sword' },
       { id: 'corruption', name: 'Corruption', description: 'Dark energy that corrupts from within', color: '#4B0082', wowIcon: 'Shadow.png' },
       { id: 'contagion', name: 'Contagion', description: 'Rapidly spreading infection that jumps between targets', color: '#8B4513', wowIcon: 'Necrotic/Necrotic Skull' }
     ]

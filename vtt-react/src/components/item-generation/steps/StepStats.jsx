@@ -283,12 +283,12 @@ const StepStats = ({ itemData, updateItemData }) => {
                         },
                         powdered: {
                             name: 'Powdered',
-                            icon: 'items/Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-mortar-pestle-beige-bowl-brown-pestle',
+                            icon: 'items/Misc/Profession Resources/Tools/mortar-pestle-beige-reddish-brown',
                             description: 'Ground into a fine powder'
                         },
                         distilled: {
                             name: 'Distilled',
-                            icon: 'items/Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-bottle-skull-design-eye-sockets-nose-beige-upper',
+                            icon: 'items/Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-bottle-bulbous-golden-surface-line-beige-glass',
                             description: 'Refined through distillation'
                         },
                         crystallized: {
@@ -328,7 +328,7 @@ const StepStats = ({ itemData, updateItemData }) => {
                                                 }}
                                             >
                                                 <img
-                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, info.icon?.startsWith('items/') ? 'items' : 'abilities')}
+                                                    src={info.icon?.startsWith('http') ? info.icon : (info.icon?.startsWith('items/') ? getCustomIconUrl(info.icon.slice(6), 'items') : getCustomIconUrl(info.icon, 'abilities'))}
                                                     alt={info.name}
                                                     className="magic-icon"
                                                 />
@@ -481,7 +481,7 @@ const StepStats = ({ itemData, updateItemData }) => {
                         },
                         wood: {
                             name: 'Wood',
-                            icon: 'Misc/Profession Resources/Woodworking/resource-pile-logs-wooden',
+                            icon: 'Misc/Profession Resources/Woodworking/resource-log-wood-grain-cut-end',
                             description: 'Timber and wooden materials'
                         },
                         cloth: {
@@ -524,11 +524,11 @@ const StepStats = ({ itemData, updateItemData }) => {
                     // Define professions with icons
                     const PROFESSIONS = {
                         Alchemy: {
-                            icon: 'items/Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-bottle-skull-design-eye-sockets-nose-beige-upper',
+                            icon: 'items/Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-bottle-bulbous-golden-surface-line-beige-glass',
                             description: 'Create potions and elixirs'
                         },
                         Blacksmithing: {
-                            icon: 'items/Misc/Profession Resources/Blacksmithing/resource-anvil-blacksmith-brown-base',
+                            icon: 'items/Misc/Profession Resources/Blacksmithing/resource-anvil-forge-brown-grey',
                             description: 'Forge weapons and armor'
                         },
                         Leatherworking: {
@@ -556,7 +556,7 @@ const StepStats = ({ itemData, updateItemData }) => {
                             description: 'Create magical scrolls and glyphs'
                         },
                         Woodworking: {
-                            icon: 'items/Misc/Profession Resources/Woodworking/resource-pile-logs-wooden',
+                            icon: 'items/Misc/Profession Resources/Woodworking/resource-log-wood-grain-cut-end',
                             description: 'Craft wooden items and tools'
                         }
                     };
@@ -570,7 +570,7 @@ const StepStats = ({ itemData, updateItemData }) => {
                         },
                         herbalism: {
                             name: 'Herbalism',
-                            icon: 'abilities/Nature/Single Leaf',
+                            icon: 'Nature/Single Leaf',
                             description: 'Gathered from wild plants'
                         },
                         skinning: {
@@ -776,12 +776,12 @@ const StepStats = ({ itemData, updateItemData }) => {
                         },
                         spices: {
                             name: 'Spices',
-                            icon: 'items/Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-mortar-pestle-beige-bowl-brown-pestle',
+                            icon: 'items/Misc/Profession Resources/Tools/mortar-pestle-beige-reddish-brown',
                             description: 'Rare seasonings and flavors'
                         },
                         metals: {
                             name: 'Precious Metals',
-                            icon: 'items/Misc/Profession Resources/Mining/Gold Ore',
+                            icon: 'items/Container/Coins/golden-nuggets-pile-cluster',
                             description: 'Valuable metals and alloys'
                         },
                         gems: {
@@ -814,17 +814,17 @@ const StepStats = ({ itemData, updateItemData }) => {
                     const DEMAND_LEVELS = {
                         low: {
                             name: 'Low Demand',
-                            icon: 'items/Currency/gold-coins-stack-seven',
+                            icon: 'items/Container/Coins/golden-coins-stacks-piles',
                             description: 'Limited market interest'
                         },
                         moderate: {
                             name: 'Moderate Demand',
-                            icon: 'items/Currency/gold-nugget-pile',
+                            icon: 'items/Container/Coins/golden-nuggets-pile-cluster',
                             description: 'Steady market interest'
                         },
                         high: {
                             name: 'High Demand',
-                            icon: 'items/Currency/gold-ingot-stack',
+                            icon: 'items/Currency/blue-crystal-ingot',
                             description: 'Strong market interest'
                         },
                         very_high: {
@@ -1063,7 +1063,7 @@ const StepStats = ({ itemData, updateItemData }) => {
                         },
                         artifact: {
                             name: 'Artifact Security',
-                            icon: 'Arcane/Ornate Staff',
+                            icon: 'Utility/Ornate Staff',
                             description: 'Ancient and powerful protection'
                         }
                     };

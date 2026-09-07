@@ -1,0 +1,353 @@
+/* ==========================================================================
+   ANIMIST CLASS RESOURCE BAR: "The Ancestral Bone-Spur Spine & Overtone Skull"
+   Organic petrified bog-wood, erupted marrow-bone spurs, sinew wraps,
+   and bioluminescent root-veins. Completely distinct from any tech bar.
+   ========================================================================== */
+
+.class-resource-bar.animist-resource-bar {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    user-select: none;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.animist-bar-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.animist-apparatus-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 62px;
+    overflow: visible;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.85));
+    transition: filter 0.3s ease;
+}
+
+/* ==========================================================================
+   Organic Interactive Modules
+   ========================================================================== */
+
+/* Left Flank: Totem Root Knot */
+.animist-totem-knot {
+    cursor: pointer;
+    transition: transform 0.15s ease, filter 0.2s ease;
+}
+.animist-totem-knot:hover {
+    filter: drop-shadow(0 0 8px rgba(52, 211, 153, 0.75));
+}
+.animist-totem-knot:active {
+    transform: scale(0.96);
+}
+
+/* 20 Carved Bone Spurs (Vertebrae) */
+.animist-bone-spur {
+    cursor: pointer;
+    transition: transform 0.15s ease, filter 0.2s ease, opacity 0.15s ease;
+}
+.animist-bone-spur:hover {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 0 6px rgba(110, 231, 183, 0.9));
+}
+.animist-bone-spur.empty {
+    opacity: 0.55;
+}
+.animist-bone-spur.empty:hover {
+    opacity: 0.9;
+}
+.animist-bone-spur.current path {
+    stroke: #ffffff !important;
+    stroke-width: 1.4px !important;
+    filter: drop-shadow(0 0 5px #34d399);
+}
+
+/* Spurs 15-20: Spirit Erosion Crackle */
+.animist-bone-spur.erosion-spur.filled:hover {
+    filter: drop-shadow(0 0 7px rgba(239, 68, 68, 0.95));
+}
+
+/* Center: Shaman Ancestor Skull */
+.animist-skull-module {
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease;
+    transform-origin: 148px 28px;
+}
+.animist-skull-module:hover {
+    transform: scale(1.04);
+    filter: drop-shadow(0 0 12px rgba(52, 211, 153, 0.85));
+}
+.animist-skull-module:active {
+    transform: scale(0.97);
+}
+
+/* Right Flank: Spirit Whistle (Vent) */
+.animist-whistle-module {
+    cursor: pointer;
+    transition: filter 0.2s ease, transform 0.15s ease;
+}
+.animist-whistle-module:hover {
+    filter: drop-shadow(0 0 7px rgba(248, 113, 113, 0.8));
+}
+.animist-whistle-module:active {
+    transform: scale(0.96);
+}
+
+/* Right Flank: Ancestral Talisman (Council Key) */
+.animist-talisman-module {
+    cursor: pointer;
+    transition: filter 0.2s ease, transform 0.18s ease;
+    transform-origin: 273px 32px;
+}
+.animist-talisman-module:hover {
+    transform: rotate(6deg) scale(1.05);
+    filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.85));
+}
+.animist-talisman-module:active {
+    transform: scale(0.95);
+}
+
+/* ==========================================================================
+   Spirit Erosion & Volatility State Classes
+   ========================================================================== */
+
+/* 15-20 Resonance: Spirit Erosion Pulsing Keyframes */
+@keyframes animistSpineErosion {
+    0%, 100% {
+        filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.7)) drop-shadow(0 0 16px rgba(245, 158, 11, 0.5));
+    }
+    50% {
+        filter: drop-shadow(0 0 16px rgba(239, 68, 68, 0.95)) drop-shadow(0 0 26px rgba(220, 38, 38, 0.85));
+    }
+}
+
+@keyframes animistSkullChatter {
+    0%, 100% {
+        transform: scale(1) rotate(0deg);
+    }
+    25% {
+        transform: scale(1.02) rotate(-1deg);
+    }
+    75% {
+        transform: scale(1.02) rotate(1deg);
+    }
+}
+
+.animist-resource-bar.spirit-erosion .animist-apparatus-svg {
+    animation: animistSpineErosion 1.8s ease-in-out infinite;
+}
+
+.animist-skull-module.is-erosion {
+    animation: animistSkullChatter 1.2s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   Tactical Shaman Council Popover (Portalled to document.body)
+   ========================================================================== */
+
+.animist-council-popover {
+    width: 324px;
+    max-width: 92vw;
+    background: linear-gradient(180deg, #0e1c15 0%, #060e0a 100%);
+    border: 1px solid #10b981;
+    border-radius: 8px;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.9), 0 0 24px rgba(16, 185, 129, 0.25);
+    color: #e2e8f0;
+    font-family: inherit;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-sizing: border-box;
+    animation: animistPopoverFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes animistPopoverFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 6px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+.animist-council-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(16, 185, 129, 0.25);
+    padding-bottom: 6px;
+}
+
+.animist-council-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #34d399;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.animist-council-close-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 2px 5px;
+    border-radius: 4px;
+    transition: color 0.15s, background 0.15s;
+}
+.animist-council-close-btn:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Status Flavor Banner */
+.animist-status-flavor-banner {
+    background: rgba(16, 185, 129, 0.08);
+    border-left: 3px solid #10b981;
+    padding: 5px 8px;
+    font-size: 0.72rem;
+    color: #cbd5e1;
+    font-style: italic;
+    border-radius: 0 4px 4px 0;
+    line-height: 1.35;
+}
+
+/* Popover Sections */
+.animist-council-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.animist-section-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+.animist-current-pill {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Preset 6-Column Grid */
+.animist-preset-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+
+.animist-preset-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 4px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.animist-preset-btn:hover {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: #10b981;
+    transform: translateY(-1px);
+}
+.animist-preset-btn.active {
+    background: rgba(16, 185, 129, 0.25);
+    border-color: #34d399;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+}
+.animist-preset-btn.is-danger:hover {
+    background: rgba(239, 68, 68, 0.18);
+    border-color: #ef4444;
+}
+.animist-preset-btn.is-danger.active {
+    background: rgba(239, 68, 68, 0.3);
+    border-color: #f87171;
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+}
+
+.animist-btn-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #f1f5f9;
+}
+.animist-btn-sub {
+    font-size: 0.6rem;
+    color: #94a3b8;
+    margin-top: 1px;
+}
+
+/* Tactical Actions Grid */
+.animist-actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.animist-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    cursor: pointer;
+    color: #e2e8f0;
+    font-size: 0.7rem;
+    font-weight: 600;
+    transition: all 0.15s ease;
+}
+.animist-action-btn:hover {
+    background: rgba(16, 185, 129, 0.18);
+    border-color: #10b981;
+}
+.animist-action-btn.is-ground:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: #ef4444;
+}
+
+.animist-action-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.08);
+}

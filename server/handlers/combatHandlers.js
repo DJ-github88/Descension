@@ -61,11 +61,11 @@ function registerCombatHandlers(ctx) {
         currentTurnStartTime: Date.now()
       };
 
-      io.to(data.roomId).emit('combat_started', {
+      io.to(room.id).emit('combat_started', {
         combat: room.gameState.combat
       });
 
-      firebaseBatchWriter.queueWrite(data.roomId, room.gameState, true);
+      firebaseBatchWriter.queueWrite(room.id, room.gameState, true);
 
       if (typeof ackCallback === 'function') {
         ackCallback({ success: true, combat: room.gameState.combat });
@@ -79,7 +79,7 @@ function registerCombatHandlers(ctx) {
 
   socket.on('combat_ended', (data, ackCallback) => {
     try {
-      const validation = validateRoomMembership(socket, data.roomId);
+      const validation = validateRoomMembership(socket, data?.roomId);
       if (!validation.valid) {
         if (typeof ackCallback === 'function') {ackCallback({ success: false, error: 'Not a room member' });}
         return;
@@ -103,9 +103,9 @@ function registerCombatHandlers(ctx) {
         round: 0
       };
 
-      io.to(data.roomId).emit('combat_ended');
+      io.to(room.id).emit('combat_ended');
 
-      firebaseBatchWriter.queueWrite(data.roomId, room.gameState, true);
+      firebaseBatchWriter.queueWrite(room.id, room.gameState, true);
 
       if (typeof ackCallback === 'function') {
         ackCallback({ success: true });
@@ -119,9 +119,10 @@ function registerCombatHandlers(ctx) {
 
   socket.on('combat_log', (data) => {
     try {
-      const validation = validateRoomMembership(socket, data.roomId);
+      const validation = validateRoomMembership(socket, data?.roomId);
       if (!validation.valid) {return;}
 
+      const { room } = validation;
       const sanitized = {
         playerId: socket.player?.id || socket.id,
         playerName: data.playerName || socket.player?.name || 'Unknown',
@@ -129,22 +130,38 @@ function registerCombatHandlers(ctx) {
         timestamp: data.timestamp || new Date().toISOString()
       };
 
-      socket.to(data.roomId).emit('combat_log', sanitized);
+      socket.to(room.id).emit('combat_log', sanitized);
     } catch (error) {
       logger.error('[combat_log] Error:', { error: error.message });
     }
   });
 
+  socket.on('dice_update', (data) => {
+    try {
+      const validation = validateRoomMembership(socket, data?.roomId);
+      if (!validation.valid) {return;}
+
+      const { room, player } = validation;
+      socket.to(room.id).emit('dice_update', {
+        ...data,
+        playerId: player.id,
+        playerName: player.name
+      });
+    } catch (error) {
+      logger.error('[dice_update] Error:', { error: error.message });
+    }
+  });
+
   socket.on('combat_turn_changed', (data) => {
     try {
-      const validation = validateRoomMembership(socket, data.roomId);
+      const validation = validateRoomMembership(socket, data?.roomId);
       if (!validation.valid) {return;}
 
       const { room, player } = validation;
 
       if (!room.gameState.combat?.isActive) {
         logger.warn('[combat_turn_changed] ignored: combat not active', {
-          roomId: data.roomId, playerId: player?.id
+          roomId: data?.roomId || room.id, playerId: player?.id
         });
         return;
       }
@@ -177,7 +194,7 @@ function registerCombatHandlers(ctx) {
         room.gameState.combat.round = data.round;
       }
 
-      io.to(data.roomId).emit('combat_turn_changed', {
+      io.to(room.id).emit('combat_turn_changed', {
         currentTurnIndex: room.gameState.combat.currentTurnIndex,
         round: room.gameState.combat.round,
         turnOrder
@@ -194,24 +211,33 @@ function registerCombatHandlers(ctx) {
 
   socket.on('item_looted', async(data) => {
     try {
-      const validation = validateRoomMembership(socket, data.roomId);
+      const validation = validateRoomMembership(socket, data?.roomId);
       if (!validation.valid) {return;}
 
       const { room, player } = validation;
       const mapId = data.mapId || player.currentMapId || 'default';
       const map = room.gameState.maps && room.gameState.maps[mapId];
 
-      if (!map || !map.gridItems || !map.gridItems[data.gridItemId]) {
-        socket.emit('item_loot_rejected', {
-          gridItemId: data.gridItemId,
-          reason: 'item_not_found',
-          mapId,
-          timestamp: new Date().toISOString()
-        });
-        return;
+      let foundKey = data.gridItemId;
+      if (map && map.gridItems) {
+        if (!map.gridItems[foundKey]) {
+          const rawKey = String(foundKey || '');
+          const altKey = rawKey.startsWith('grid-item-') ? rawKey.slice(10) : `grid-item-${rawKey}`;
+          if (map.gridItems[altKey]) {
+            foundKey = altKey;
+          } else {
+            const match = Object.entries(map.gridItems).find(([k, v]) =>
+              k === foundKey || v?.id === foundKey || v?.itemId === foundKey || v?.originalItemId === foundKey
+            );
+            if (match) {
+              foundKey = match[0];
+            }
+          }
+        }
+        if (map.gridItems[foundKey]) {
+          delete map.gridItems[foundKey];
+        }
       }
-
-      delete map.gridItems[data.gridItemId];
 
       io.to(room.id).emit('item_looted', {
         gridItemId: data.gridItemId,
@@ -234,7 +260,7 @@ function registerCombatHandlers(ctx) {
 
   socket.on('inventory_update', async(data) => {
     try {
-      const validation = validateRoomMembership(socket, data.roomId);
+      const validation = validateRoomMembership(socket, data?.roomId);
       if (!validation.valid) {return;}
 
       const { room } = validation;

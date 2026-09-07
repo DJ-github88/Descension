@@ -5,30 +5,35 @@ import useGameStore from '../../../../store/gameStore';
 import useCharacterStore from '../../../../store/characterStore';
 import '../styles/ArcanoneerResourceBar.css';
 import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
+import ClassTip from '../../../../components/hud/ClassTip';
 import SpellTooltip from '../../../../components/spellcrafting-wizard/components/common/SpellTooltip';
 import { formulationToSpell } from '../formulationToSpell';
 import { migrateBlockId } from '../../../../utils/arcanoneerMigration';
+import SpellCastConfirmation from '../../../../components/ui/SpellCastConfirmation';
 
 /**
- * ArcanoneerResourceBar, the "Building Blocks" resource system.
+ * Single source of truth for canonical elements with rich Arcanoneer styling
+ */
+const CANONICAL_ELEMENTS = [
+    { id: 'arcane', name: 'Arcane', abbrev: 'ARC', color: '#9370DB', lightColor: '#d8b4fe', d8Value: 1, theme: 'Raw Magic', summary: 'Force damage, kinetic disorientation', flavor: 'The shape behind all other shapes, raw kinetic intent.' },
+    { id: 'sacred', name: 'Sacred', abbrev: 'SAC', color: '#eab308', lightColor: '#fef08a', d8Value: 2, theme: 'Divine Light', summary: 'Divine damage, radiant blinding', flavor: 'The first clause of the First Contract: let there be sight.' },
+    { id: 'blight', name: 'Blight', abbrev: 'BLI', color: '#8b5cf6', lightColor: '#c084fc', d8Value: 3, theme: 'Darkness', summary: 'Blight damage, curses, entropic decay', flavor: 'The silence after the clause, what the light leaves behind.' },
+    { id: 'ember', name: 'Ember', abbrev: 'EMB', color: '#ea580c', lightColor: '#fdba74', d8Value: 4, theme: 'Flames', summary: 'Fire damage, thermal ignition, combustion', flavor: 'The first tool humanity mastered, captured in a crystal shard.' },
+    { id: 'rime', name: 'Rime', abbrev: 'RIM', color: '#0284c7', lightColor: '#7dd3fc', d8Value: 5, theme: 'Frost', summary: 'Cold damage, glacial slowing, freezing', flavor: 'Entropy deferred, motion held still in crystal lattice.' },
+    { id: 'primal', name: 'Primal', abbrev: 'PRI', color: '#16a34a', lightColor: '#86efac', d8Value: 6, theme: 'Storm & Growth', summary: 'Lightning, thorny vines, poison', flavor: 'The green arc between seed and sky.' },
+    { id: 'storm', name: 'Storm', abbrev: 'STO', color: '#0891b2', lightColor: '#67e8f9', d8Value: 7, theme: 'Lightning & Thunder', summary: 'Lightning damage, stunning chain resonance', flavor: 'The sky\'s voice captured in crystal, raw current and sound.' },
+    { id: 'wyrd', name: 'Wyrd', abbrev: 'WYR', color: '#db2777', lightColor: '#f472b6', d8Value: 8, theme: 'Unpredictability', summary: 'Chaos magic, erratic variable damage', flavor: 'The clause Morvane will not interpret.', isGradient: true }
+];
+
+/**
+ * ArcanoneerResourceBar: "The Calibrated Iron Sleeve"
  *
- * Replaces the legacy canvas-based elemental-spheres renderer. Renders an 8-segment
- * pip bar where each segment is one of the 8 Building Blocks (Force, Light, Shadow,
- * Heat, Cold, Spark, Flesh, Wyrd). Each segment shows discrete pips for the count
- * banked. Includes:
- *
- *   - Hover tooltip per block: shows count, theme, flavor, and live list of which
- *     formulations the block currently enables (✓ ready / ✗ missing partner).
- *   - Click-to-edit portal menu per block: pip adjuster, +1/−1, reset.
- *   - Roll 4d8 button with animation; clamps to the 12-block bank cap.
- *   - Formulation chips: one per ready combination, with category tinting.
- *   - Compact mode for party-HUD: single thin row of fillable cells + popover.
- *
- * Single source of truth for block metadata: `classResources.js` `CLASS_RESOURCE_TYPES['Arcanoneer'].elements`.
- * Combination matrix: `arcanoneerData.js` `ARCANONEER_DATA.combinationMatrix`.
- *
- * Props follow the standard external resource-bar contract:
- *   { classResource, size, config, context, isOwner, onClassResourceUpdate }
+ * Magi-Ballistic Focus Cylinder in pure SVG & CSS.
+ * - Sized cleanly for the Party HUD without stretching the card (74px height).
+ * - Forged Gunmetal and Guild Brass apparatus with mechanical rivets & pressure gauge.
+ * - 8 Themed Elemental Chambers with radiant 3D crystal orbs, glyphs, and brass pips.
+ * - Kinetic Ignition Primer ("ROLL 4d8") with mechanical tumbler spin.
+ * - Non-scrolling Matrix Explorer modal: select an element to instantly view its 8 combinations.
  */
 const ArcanoneerResourceBar = ({
     classResource = {},
@@ -40,61 +45,69 @@ const ArcanoneerResourceBar = ({
     showcase = false,
 }) => {
     // ===== Configuration =====
-    const blocks = config?.elements || [];
+    const blocks = (config?.elements && config.elements.length > 0) ? config.elements : CANONICAL_ELEMENTS;
     const maxBank = config?.mechanics?.max || 12;
-    // The combination matrix is passed via config.combinationMatrix by ClassResourceBar's
-    // dispatcher. We don't import arcanoneerData directly to avoid a circular dependency
-    // and to keep this component pure.
     const matrix = config?.combinationMatrix || null;
     const matrixEntries = matrix?.entries || [];
 
     const canEdit = isOwner;
-    const isCompact = size === 'small' || context === 'party';
 
     // ===== State =====
-    // `spheres` is the canonical banked-blocks array (legacy field name, kept for save compat).
-    // Normalize every ID through migrateBlockId() so legacy saves (with IDs like 'ember',
-    // 'rime', 'nature', 'chaos') still match the new canonical block IDs ('heat', 'cold',
-    // 'spark', 'wyrd'). Without this, formulations never show as "ready" for characters
-    // whose Firebase data hasn't been through the persistence-migration hook yet.
     const normalizeSpheres = (arr) => Array.isArray(arr) ? arr.map(migrateBlockId) : [];
     const [localSpheres, setLocalSpheres] = useState(normalizeSpheres(classResource?.spheres));
     const [isRolling, setIsRolling] = useState(false);
     const [hoveredBlockId, setHoveredBlockId] = useState(null);
-    const [editMenuBlockId, setEditMenuBlockId] = useState(null);
-    const [showPanel, setShowPanel] = useState(false);
+    const [showMatrixModal, setShowMatrixModal] = useState(false);
     const [lastRollResult, setLastRollResult] = useState(null);
-    // In showcase mode (rules page), formulations are collapsed behind a toggle so the
-    // demo reads as a bar first, with detail available on demand.
-    const [showFormulations, setShowFormulations] = useState(false);
-    // Formulation spellcard hover, shows a full-screen foggy spellcard (same UX as
-    // hovering spells in the action bar) via SpellTooltip's fullscreenMode.
+
+    // Matrix search/picker state: null = all ready or prompt, elementId = filter by element
+    const [selectedElementA, setSelectedElementA] = useState(null);
+    const [selectedElementB, setSelectedElementB] = useState(null);
+
+    // Spell Cast Confirmation Modal state
+    const [spellToCast, setSpellToCast] = useState(null);
+
+    // Formulation spellcard hover
     const [hoveredFormulation, setHoveredFormulation] = useState(null);
     const formHoverTimeoutRef = useRef(null);
     const formHideTimeoutRef = useRef(null);
 
-    // Keep localSpheres in sync if the upstream classResource changes (e.g. multiplayer update).
+    // Keep localSpheres in sync if upstream changes
     useEffect(() => {
         const incoming = normalizeSpheres(classResource?.spheres);
-        // Shallow compare, only update if the upstream array actually changed.
-        if (incoming.length !== localSpheres.length ||
-            incoming.some((v, i) => v !== localSpheres[i])) {
+        if (incoming.length !== localSpheres.length || incoming.some((v, i) => v !== localSpheres[i])) {
             setLocalSpheres(incoming);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [classResource?.spheres]);
 
     const barRef = useRef(null);
-    const editMenuRef = useRef(null);
-    const panelRef = useRef(null);
+    const matrixModalRef = useRef(null);
 
-    // Shared tooltip hook positions the tooltip portal centered above/below the bar.
+    // Shared tooltip hook for element hovering
     const tooltipRef = useResourceBarTooltip(barRef, hoveredBlockId !== null, [hoveredBlockId, localSpheres], {
         preferredWidth: 320,
         preferredHeight: 240,
     });
 
-    // ===== Stores / logging =====
+    // Close Matrix Modal on outside click
+    useEffect(() => {
+        if (!showMatrixModal) return;
+        const onDown = (e) => {
+            const inModal = matrixModalRef.current && matrixModalRef.current.contains(e.target);
+            const inBar = barRef.current && barRef.current.contains(e.target);
+            if (!inModal && !inBar) {
+                setShowMatrixModal(false);
+            }
+        };
+        const id = setTimeout(() => document.addEventListener('mousedown', onDown), 0);
+        return () => {
+            clearTimeout(id);
+            document.removeEventListener('mousedown', onDown);
+        };
+    }, [showMatrixModal]);
+
+    // Stores & Combat Logging
     const { addCombatNotification } = useChatStore();
     const isGMMode = useGameStore(state => state.isGMMode);
     const currentPlayerName = useCharacterStore(state => state.name || 'Player');
@@ -109,7 +122,7 @@ const ArcanoneerResourceBar = ({
         if (absAmount === 0) return;
         const actorName = getActorName();
         const characterName = currentPlayerName || 'Character';
-        const verb = isPositive ? 'generated' : 'spent';
+        const verb = isPositive ? 'chambered' : 'expelled';
         addCombatNotification({
             type: 'combat_resource',
             attacker: actorName,
@@ -117,12 +130,11 @@ const ArcanoneerResourceBar = ({
             amount: absAmount,
             resourceType: 'classResource',
             isPositive,
-            customMessage: `${characterName} ${verb} ${absAmount} ${blockName} block${absAmount === 1 ? '' : 's'}`,
+            customMessage: `${characterName} ${verb} ${absAmount} ${blockName} sphere${absAmount === 1 ? '' : 's'}`
         });
     };
 
-    // ===== Derived values =====
-    // Count of each block currently banked.
+    // Derived values
     const blockCounts = useMemo(() => {
         const counts = {};
         for (const b of blocks) counts[b.id] = 0;
@@ -134,12 +146,11 @@ const ArcanoneerResourceBar = ({
 
     const totalBanked = localSpheres.length;
 
-    // Which 2-block formulations are currently castable (both required blocks banked)?
+    // Ready formulations
     const readyFormulations = useMemo(() => {
         const out = [];
         for (const entry of matrixEntries) {
             const [a, b] = entry.elements;
-            // Same-block pair (e.g. heat_heat) requires count >= 2.
             const need = (a === b) ? 2 : 1;
             if ((blockCounts[a] || 0) >= need && (blockCounts[b] || 0) >= need) {
                 out.push(entry);
@@ -150,7 +161,28 @@ const ArcanoneerResourceBar = ({
 
     const readyCount = readyFormulations.length;
 
-    // ===== Actions =====
+    // Filtered formulations for the Matrix Explorer (NO SCROLLING)
+    const filteredFormulations = useMemo(() => {
+        if (selectedElementA && selectedElementB) {
+            // Target exact pair
+            return matrixEntries.filter(entry => {
+                const [a, b] = entry.elements;
+                return (a === selectedElementA && b === selectedElementB) || (a === selectedElementB && b === selectedElementA);
+            });
+        }
+        if (selectedElementA) {
+            // Target all 8 combinations involving selectedElementA
+            return matrixEntries.filter(entry => entry.elements.includes(selectedElementA));
+        }
+        // Default when nothing selected: show ready formulations (if any), otherwise pure pairs (8 items)
+        if (readyFormulations.length > 0) {
+            return readyFormulations.slice(0, 8);
+        }
+        // Pure pairs (exactly 8 items, fits cleanly in 2x4 grid without scrolling)
+        return matrixEntries.filter(entry => entry.elements[0] === entry.elements[1]);
+    }, [matrixEntries, selectedElementA, selectedElementB, readyFormulations]);
+
+    // Actions
     const commitSpheres = (next, changeLog = null) => {
         const capped = next.slice(0, maxBank);
         setLocalSpheres(capped);
@@ -161,7 +193,8 @@ const ArcanoneerResourceBar = ({
     const addBlock = (blockId) => {
         if (!canEdit) return;
         if (totalBanked >= maxBank) return;
-        commitSpheres([...localSpheres, blockId], { name: blocks.find(b => b.id === blockId)?.name || 'Block', amount: 1, isPositive: true });
+        const blockName = blocks.find(b => b.id === blockId)?.name || 'Sphere';
+        commitSpheres([...localSpheres, blockId], { name: blockName, amount: 1, isPositive: true });
     };
 
     const removeBlock = (blockId) => {
@@ -170,49 +203,32 @@ const ArcanoneerResourceBar = ({
         if (idx < 0) return;
         const next = [...localSpheres];
         next.splice(idx, 1);
-        commitSpheres(next, { name: blocks.find(b => b.id === blockId)?.name || 'Block', amount: 1, isPositive: false });
-    };
-
-    const setBlockCount = (blockId, newCount) => {
-        if (!canEdit) return;
-        const current = blockCounts[blockId] || 0;
-        if (newCount === current) return;
-        const others = localSpheres.filter(s => s !== blockId);
-        // Cap so we don't exceed the bank max when refilling this block.
-        const room = Math.max(0, maxBank - others.length);
-        const capped = Math.min(newCount, room);
-        const next = [...others, ...Array.from({ length: capped }, () => blockId)];
-        const delta = capped - current;
-        commitSpheres(next, { name: blocks.find(b => b.id === blockId)?.name || 'Block', amount: Math.abs(delta), isPositive: delta > 0 });
+        const blockName = blocks.find(b => b.id === blockId)?.name || 'Sphere';
+        commitSpheres(next, { name: blockName, amount: 1, isPositive: false });
     };
 
     const clearAll = () => {
         if (!canEdit || totalBanked === 0) return;
         const cleared = [...localSpheres];
-        commitSpheres([], { name: 'all blocks', amount: cleared.length, isPositive: false });
+        commitSpheres([], { name: 'all spheres', amount: cleared.length, isPositive: false });
     };
 
-    /**
-     * Roll 4d8, the core generation mechanic.
-     * Each die maps to a block by d8Value; bank all four (respecting cap).
-     * Triggers a brief rolling animation, then commits.
-     */
-    const roll4d8 = () => {
-        if (!canEdit || isRolling) return;
+    const roll4d8 = (e) => {
+        if (e) e.stopPropagation();
+        if (!canEdit || isRolling || totalBanked >= maxBank) return;
         setIsRolling(true);
         setLastRollResult(null);
 
         const dice = [];
         const newBlocks = [];
         for (let i = 0; i < 4; i++) {
-            const roll = Math.floor(Math.random() * 8) + 1; // 1-8
+            const roll = Math.floor(Math.random() * 8) + 1;
             dice.push(roll);
             const block = blocks.find(b => b.d8Value === roll);
             if (block) newBlocks.push(block.id);
         }
         setLastRollResult({ dice, blocks: newBlocks });
 
-        // Animation delay before committing.
         setTimeout(() => {
             const next = [...localSpheres, ...newBlocks].slice(0, maxBank);
             const banked = next.length - localSpheres.length;
@@ -221,221 +237,159 @@ const ArcanoneerResourceBar = ({
         }, 480);
     };
 
-    /**
-     * Cast a formulation: consumes the two required blocks and logs it.
-     * Doesn't directly fire the spell, that's the combat resolver's job, but
-     * updates the bank so the player sees their blocks spent.
-     */
-    const castFormulation = (entry) => {
-        if (!canEdit) return;
-        const [a, b] = entry.elements;
-        const next = [...localSpheres];
-        // Remove first instance of a, then first instance of b.
-        const ia = next.indexOf(a);
-        if (ia >= 0) next.splice(ia, 1);
-        const ib = next.indexOf(b);
-        if (ib >= 0) next.splice(ib, 1);
-        if (ia < 0 || ib < 0) return; // safety check
-        commitSpheres(next, { name: entry.name + ' formulation', amount: 2, isPositive: false });
-    };
-
-    // ===== Outside-click handling =====
-    // Close edit menu when clicking outside it.
-    useEffect(() => {
-        if (!editMenuBlockId) return;
-        const onDown = (e) => {
-            const inMenu = editMenuRef.current?.contains(e.target);
-            const inBar = barRef.current?.contains(e.target);
-            if (!inMenu && !inBar) setEditMenuBlockId(null);
-        };
-        const id = setTimeout(() => document.addEventListener('mousedown', onDown), 0);
-        return () => { clearTimeout(id); document.removeEventListener('mousedown', onDown); };
-    }, [editMenuBlockId]);
-
-    // Close compact popover panel on outside click.
-    useEffect(() => {
-        if (!showPanel) return;
-        const onDown = (e) => {
-            const inPanel = panelRef.current?.contains(e.target);
-            const inBar = barRef.current?.contains(e.target);
-            if (!inPanel && !inBar) setShowPanel(false);
-        };
-        const id = setTimeout(() => document.addEventListener('mousedown', onDown), 0);
-        return () => { clearTimeout(id); document.removeEventListener('mousedown', onDown); };
-    }, [showPanel]);
-
-    // ===== Lookup helpers =====
     const getBlock = (id) => blocks.find(b => b.id === id);
     const formulationsUsingBlock = (blockId) => matrixEntries.filter(e => e.elements.includes(blockId));
 
-    // ========================================================================
-    // RENDER SUB-FRAGMENTS
-    // ========================================================================
-
-    // Tooltip content for the currently-hovered block.
-    // Uses the SAME unified classes as every other class resource bar tooltip
-    // (`.unified-resourcebar-tooltip.pathfinder-tooltip`) so it inherits the
-    // shared look. Content-specific colors are inline, matching the pattern
-    // used by Pyrofiend and Augur.
-    const renderHoverTooltip = () => {
-        if (!hoveredBlockId) return null;
-        const block = getBlock(hoveredBlockId);
-        if (!block) return null;
-        const count = blockCounts[block.id] || 0;
-        const forms = formulationsUsingBlock(block.id);
-        return ReactDOM.createPortal(
-            <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
-                <div className="tooltip-header">
-                    <span style={{ display: 'inline-block', width: '10px', height: '10px', borderRadius: '50%', background: block.isGradient ? 'conic-gradient(from 0deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #4B0082, #9400D3, #FF0000)' : block.color, border: '1px solid rgba(255,255,255,0.4)', marginRight: '6px' }} />
-                    {block.name}
-                    <span style={{ fontSize: '0.7rem', color: 'rgba(58,42,26,0.5)', marginLeft: '4px' }}>d8={block.d8Value}</span>
-                    <span style={{ marginLeft: 'auto', fontSize: '0.9rem', fontWeight: 700, color: block.isGradient ? '#FF00FF' : block.color }}>{count}</span>
-                </div>
-                <div className="tooltip-section">
-                    <div className="tooltip-label" style={{ color: block.isGradient ? '#FF00FF' : block.color }}>{block.theme}</div>
-                    <div style={{ fontSize: '0.85rem', color: 'rgba(58,42,26,0.85)' }}>{block.summary}</div>
-                    <div style={{ fontSize: '0.8rem', color: 'rgba(58,42,26,0.55)', fontStyle: 'italic', marginTop: '4px' }}>{block.flavor}</div>
-                </div>
-                {forms.length > 0 && (
-                    <>
-                        <div className="tooltip-divider" />
-                        <div className="tooltip-section">
-                            <div className="tooltip-label">Enabled Formulations ({forms.length})</div>
-                            <div style={{ fontSize: '0.8rem', lineHeight: 1.5 }}>
-                                {forms.slice(0, 8).map(f => {
-                                    const [a, b] = f.elements;
-                                    const need = a === b ? 2 : 1;
-                                    const ready = (blockCounts[a] || 0) >= need && (blockCounts[b] || 0) >= need;
-                                    const partner = a === block.id ? b : a;
-                                    const partnerName = getBlock(partner)?.name || partner;
-                                    const needStr = a === b ? `${block.name} ×2` : `${block.name} + ${partnerName}`;
-                                    return (
-                                        <div key={f.id} style={{ display: 'flex', gap: '4px', alignItems: 'baseline', marginBottom: '2px' }}>
-                                            <span style={{ color: ready ? '#2d8a4e' : 'rgba(58,42,26,0.3)', fontWeight: 700 }}>{ready ? '✓' : '✗'}</span>
-                                            <span style={{ flex: 1, color: ready ? 'rgba(58,42,26,0.9)' : 'rgba(58,42,26,0.5)' }}>{f.name}</span>
-                                            <span style={{ fontSize: '0.72rem', color: 'rgba(58,42,26,0.4)', fontStyle: 'italic' }}>{needStr}</span>
-                                        </div>
-                                    );
-                                })}
-                                {forms.length > 8 && <div style={{ fontSize: '0.72rem', color: 'rgba(58,42,26,0.4)', textAlign: 'center', paddingTop: '2px' }}>+{forms.length - 8} more</div>}
-                            </div>
-                        </div>
-                    </>
-                )}
-                {canEdit && (
-                    <>
-                        <div className="tooltip-divider" />
-                        <div className="tooltip-section">
-                            <div style={{ fontSize: '0.75rem', color: 'rgba(58,42,26,0.5)', fontStyle: 'italic' }}>
-                                Click segment to adjust · Right-click to remove one
-                            </div>
-                        </div>
-                    </>
-                )}
-            </div>,
-            document.body
-        );
+    // ===== Spell Casting Confirmation Handlers =====
+    const handleInitiateCast = (entry) => {
+        if (!entry) return;
+        const spell = formulationToSpell(entry, matrix);
+        if (spell) {
+            setSpellToCast(spell);
+        }
     };
 
-    // Single block segment, used by the full-mode bar.
-    // Height is set via inline style so it can't be overridden by external CSS
-    // (we had persistent specificity issues with the showcase-mode rules).
-    const segmentHeight = showcase ? 95 : (size === 'large' ? 86 : (size === 'small' ? 48 : 64));
-    const renderBlockSegment = (block) => {
-        const count = blockCounts[block.id] || 0;
-        const isHovered = hoveredBlockId === block.id;
-        return (
-            <div
-                key={block.id}
-                className={`arc-block-segment ${count > 0 ? 'filled' : 'empty'} ${isHovered ? 'hovered' : ''}`}
-                onClick={(e) => {
-                    e.stopPropagation();
-                    if (!canEdit) return;
-                    if (editMenuBlockId === block.id) {
-                        setEditMenuBlockId(null);
-                    } else {
-                        setEditMenuBlockId(block.id);
+    const handleSpellCastConfirm = () => {
+        if (!spellToCast) return;
+
+        // 1. Extract resource costs
+        const resourceCost = spellToCast.resourceCost || {};
+        const resourceValues = resourceCost.resourceValues || {};
+        const manaCost = resourceValues.mana || resourceCost.mana || 0;
+        const apCost = resourceCost.actionPoints || 0;
+
+        // Extract required elemental spheres
+        const requiredSpheres = [];
+        if (Array.isArray(spellToCast._arcanoneerElements)) {
+            spellToCast._arcanoneerElements.forEach(el => requiredSpheres.push(migrateBlockId(el)));
+        } else if (Array.isArray(spellToCast.elements)) {
+            spellToCast.elements.forEach(el => requiredSpheres.push(migrateBlockId(el)));
+        } else if (Array.isArray(resourceCost.spheres)) {
+            resourceCost.spheres.forEach(el => requiredSpheres.push(migrateBlockId(el)));
+        } else if (resourceValues) {
+            Object.entries(resourceValues).forEach(([key, val]) => {
+                if (key.endsWith('_sphere')) {
+                    const elem = migrateBlockId(key.replace('_sphere', ''));
+                    const cnt = Number(val) || 0;
+                    for (let i = 0; i < cnt; i++) requiredSpheres.push(elem);
+                }
+            });
+        }
+
+        // 2. Validate availability
+        const charStore = useCharacterStore.getState();
+        const currentMana = charStore.mana;
+        const currentAP = charStore.actionPoints;
+
+        if (manaCost > 0 && (!currentMana || currentMana.current < manaCost)) return;
+        if (apCost > 0 && (!currentAP || currentAP.current < apCost)) return;
+
+        const sphereBankCopy = [...localSpheres];
+        for (const req of requiredSpheres) {
+            const idx = sphereBankCopy.indexOf(req);
+            if (idx === -1) return; // Insufficient spheres
+            sphereBankCopy.splice(idx, 1);
+        }
+
+        // 3. Deduct Mana
+        if (manaCost > 0 && currentMana) {
+            const newMana = Math.max(0, currentMana.current - manaCost);
+            charStore.updateResource('mana', newMana);
+            try {
+                const usePartyStore = require('../../../../store/partyStore').default;
+                const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                if (currentMember) {
+                    usePartyStore.getState().updatePartyMember('current-player', {
+                        character: {
+                            ...currentMember.character,
+                            mana: { current: newMana, max: currentMana.max }
+                        }
+                    });
+                }
+            } catch (err) {}
+        }
+
+        // 4. Deduct AP
+        if (apCost > 0 && currentAP) {
+            const newAP = Math.max(0, currentAP.current - apCost);
+            charStore.updateResource('actionPoints', newAP);
+            try {
+                const usePartyStore = require('../../../../store/partyStore').default;
+                const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                if (currentMember) {
+                    usePartyStore.getState().updatePartyMember('current-player', {
+                        character: {
+                            ...currentMember.character,
+                            actionPoints: { current: newAP, max: currentAP.max }
+                        }
+                    });
+                }
+            } catch (err) {}
+        }
+
+        // 5. Retract / Deduct Spheres
+        commitSpheres(sphereBankCopy);
+        charStore.updateClassResource?.('spheres', sphereBankCopy);
+
+        try {
+            const usePartyStore = require('../../../../store/partyStore').default;
+            const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+            if (currentMember && currentMember.character?.classResource) {
+                usePartyStore.getState().updatePartyMember('current-player', {
+                    character: {
+                        ...currentMember.character,
+                        classResource: {
+                            ...currentMember.character.classResource,
+                            spheres: sphereBankCopy
+                        }
                     }
-                }}
-                onContextMenu={(e) => {
-                    if (!canEdit) return;
-                    e.preventDefault();
-                    e.stopPropagation();
-                    removeBlock(block.id);
-                }}
-                onMouseEnter={(e) => { setHoveredBlockId(block.id); }}
-                onMouseLeave={() => { setHoveredBlockId(null); }}
-                style={{
-                    height: `${segmentHeight}px`,
-                    cursor: canEdit ? 'pointer' : 'default',
-                    '--block-color': block.color,
-                    '--block-glow': block.glowColor,
-                    '--fill-percent': showcase ? `${Math.min((count / 5) * 100, 100)}%` : '0%',
-                }}
-            >
-                {showcase && count > 0 && <div className="arc-block-fill-overlay" />}
-                <div className="arc-block-pips">
-                    {Array.from({ length: 5 }).map((_, p) => (
-                        <span key={p} className={`arc-block-pip ${p < count ? 'on' : 'off'}`} />
-                    ))}
-                    {count > 5 && <span className="arc-block-pip-overflow">+{count - 5}</span>}
-                </div>
-                <div className="arc-block-label">
-                    <i className={`${block.icon} arc-block-icon`} />
-                    <span className="arc-block-name">{block.name}</span>
-                </div>
-                <div className="arc-block-count-badge">{count}</div>
-                <div className="arc-block-d8-badge">{block.d8Value}</div>
-            </div>
-        );
+                });
+            }
+        } catch (err) {}
+
+        // 6. Combat Log Notification
+        const actorName = getActorName();
+        const characterName = currentPlayerName || 'Character';
+        const sphereNames = requiredSpheres.map(s => blocks.find(b => b.id === s)?.name || s).join(' + ');
+        addCombatNotification({
+            type: 'spell_cast',
+            attacker: actorName,
+            target: characterName,
+            spellName: spellToCast.name,
+            customMessage: `${characterName} unleashed weave [${spellToCast.name}] (${sphereNames})! Consumed ${manaCost} Mana, ${apCost} AP, and chambered spheres.`
+        });
+
+        // 7. Multiplayer Emit
+        const gameStore = useGameStore.getState();
+        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected) {
+            gameStore.multiplayerSocket.emit('spell_cast', {
+                spellId: spellToCast.id,
+                spellName: spellToCast.name,
+                casterId: charStore.currentCharacterId || charStore.id,
+                targetIds: [],
+                targetPositions: [],
+                effects: spellToCast.effects || [],
+                damage: spellToCast.damage || 0,
+                healing: spellToCast.healing || 0,
+                timestamp: Date.now()
+            });
+        }
+
+        // 8. Close popup
+        setSpellToCast(null);
     };
 
-    // The hover-bar grid (8 segments), for full mode. In showcase mode (rules page)
-    // the grid switches to 4 columns so it fits a constrained container without overflow.
-    // Column count is set via inline style so it can't be accidentally overridden by CSS.
-    const renderBlockGrid = () => {
-        const cols = showcase ? 4 : 8;
-        return (
-            <div className="arc-block-grid" ref={barRef} style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
-                {blocks.map(renderBlockSegment)}
-            </div>
-        );
+    const handleSpellCastCancel = () => {
+        setSpellToCast(null);
     };
 
-    // Header showing totals + ready count + roll button.
-    const renderHeader = ({ compact = false } = {}) => (
-        <div className="arc-header">
-            <span className="arc-title-label"><i className="fas fa-dice-d8" /> Spheres</span>
-            <div className="arc-totals">
-                <span className="arc-total-count" title="Spheres banked">{totalBanked}/{maxBank}</span>
-                <span className={`arc-ready-badge ${readyCount > 0 ? 'has-ready' : ''}`} title={`${readyCount} formulation${readyCount === 1 ? '' : 's'} ready`}>
-                    <i className="fas fa-flask" /> {readyCount}
-                </span>
-                {canEdit && (
-                    <button
-                        className={`arc-roll-btn ${isRolling ? 'rolling' : ''}`}
-                        onClick={(e) => { e.stopPropagation(); roll4d8(); }}
-                        disabled={isRolling || totalBanked >= maxBank}
-                        title={totalBanked >= maxBank ? 'Bank full, spend spheres first' : 'Roll 4d8 to generate 4 Spheres'}
-                    >
-                        <i className={`fas fa-dice ${isRolling ? 'fa-spin' : ''}`} />
-                        {!compact && <span className="arc-roll-label">{isRolling ? 'Rolling…' : 'Roll 4d8'}</span>}
-                    </button>
-                )}
-            </div>
-        </div>
-    );
-
-    // Formulation chips, one per combination. Hover shows a full spellcard tooltip
-    // (via SpellTooltip + formulationToSpell adapter) so players can read the
-    // formulation's effect, range, damage, etc. without leaving the bar.
-    // Uses fullscreenMode, same foggy-backdrop presentation as action-bar spell hovers.
+    // Formulation Hover Handlers
     const handleFormHoverEnter = (entry) => {
         if (formHideTimeoutRef.current) { clearTimeout(formHideTimeoutRef.current); formHideTimeoutRef.current = null; }
         if (formHoverTimeoutRef.current) clearTimeout(formHoverTimeoutRef.current);
         formHoverTimeoutRef.current = setTimeout(() => {
             setHoveredFormulation(entry);
-        }, 300);
+        }, 200);
     };
     const handleFormHoverLeave = () => {
         if (formHoverTimeoutRef.current) clearTimeout(formHoverTimeoutRef.current);
@@ -462,242 +416,356 @@ const ArcanoneerResourceBar = ({
         );
     };
 
-    const renderFormulationChips = () => {
-        if (matrixEntries.length === 0) return null;
-        // In showcase mode (rules page), only show ready (castable) formulations
-        // so the section stays clean and readable instead of flooding with all 36.
-        const visibleEntries = showcase ? readyFormulations : matrixEntries;
-        if (showcase && visibleEntries.length === 0) {
-            return (
-                <div className="arc-formulation-chips arc-formulation-empty">
-                    <i className="fas fa-info-circle" />
-                    <span>Bank Spheres above to see which formulations become available.</span>
-                </div>
-            );
-        }
-        return (
-            <div className="arc-formulation-chips">
-                {visibleEntries.map(entry => {
-                    const [a, b] = entry.elements;
-                    const need = a === b ? 2 : 1;
-                    const ready = (blockCounts[a] || 0) >= need && (blockCounts[b] || 0) >= need;
-                    const isWyrd = !!entry.isChaosCombo;
-                    return (
-                        <div
-                            key={entry.id}
-                            className="arc-form-chip-wrapper"
-                            onMouseEnter={() => handleFormHoverEnter(entry)}
-                            onMouseLeave={handleFormHoverLeave}
-                        >
-                            <button
-                                className={`arc-form-chip ${ready ? 'ready' : ''} ${isWyrd ? 'is-wyrd' : ''}`}
-                                disabled={!ready || !canEdit}
-                                onClick={(e) => { e.stopPropagation(); castFormulation(entry); }}
-                                title={`${entry.name}\n${entry.elements.map(id => getBlock(id)?.name || id).join(' + ')}\n${ready ? '✓ Ready, click to cast' : '✗ Not enough spheres'}`}
-                            >
-                                <span className="arc-form-chip-name">{entry.name}</span>
-                                <span className="arc-form-chip-cost">
-                                    {entry.elements.map(id => getBlock(id)?.name?.charAt(0) || '?').join('+')}
-                                </span>
-                            </button>
-                        </div>
-                    );
-                })}
-                {renderFormulationTooltip()}
-            </div>
-        );
-    };
-
-    // Per-block edit menu (portal).
-    const renderEditMenu = () => {
-        if (!editMenuBlockId || !barRef.current) return null;
-        const block = getBlock(editMenuBlockId);
+    // Element Hover Tooltip
+    const renderHoverTooltip = () => {
+        if (!hoveredBlockId) return null;
+        const block = getBlock(hoveredBlockId);
         if (!block) return null;
         const count = blockCounts[block.id] || 0;
+        const forms = formulationsUsingBlock(block.id);
+        const readyForms = forms.filter(f => {
+            const [a, b] = f.elements;
+            const need = a === b ? 2 : 1;
+            return (blockCounts[a] || 0) >= need && (blockCounts[b] || 0) >= need;
+        });
+
+        return ReactDOM.createPortal(
+            <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none', zIndex: 100000 }}>
+                <ClassTip
+                    icon="fas fa-gem"
+                    tint={block.isGradient ? '#FF00FF' : block.color}
+                    title={`${block.name} (d8 = ${block.d8Value})`}
+                    state={`${count} banked`}
+                    stateTone={count > 0 ? 'good' : 'neutral'}
+                    mechanic={`${block.theme} — ${block.summary}`}
+                    status={[
+                        count > 0
+                            ? `${count} banked — chambered in iron sleeve.`
+                            : 'Chamber empty — roll 4d8 to draw elemental spheres.',
+                        readyForms.length > 0
+                            ? `Ready Combinations: ${readyForms.map(f => f.name).join(', ')}.`
+                            : forms.length > 0
+                                ? `No ready weave — requires partner sphere (${forms.length} matrix formulas use this).`
+                                : null,
+                    ]}
+                    usage={canEdit ? 'Click to chamber (+1) · Right-click to expel (-1)' : null}
+                    hint={block.flavor}
+                />
+            </div>,
+            document.body
+        );
+    };
+
+    // Vector elemental glyph paths centered at (cx, cy)
+    const renderElementalGlyph = (id, cx, cy, isFilled) => {
+        const strokeColor = isFilled ? '#ffffff' : 'rgba(251, 191, 36, 0.45)';
+        const fillColor = isFilled ? '#ffffff' : 'none';
+
+        switch (id) {
+            case 'arcane':
+                return (
+                    <g pointerEvents="none">
+                        <polygon
+                            points={`${cx},${cy - 6.5} ${cx + 2},${cy - 2} ${cx + 6.5},${cy} ${cx + 2},${cy + 2} ${cx},${cy + 6.5} ${cx - 2},${cy + 2} ${cx - 6.5},${cy} ${cx - 2},${cy - 2}`}
+                            fill={fillColor}
+                            stroke={strokeColor}
+                            strokeWidth="0.75"
+                        />
+                        <circle cx={cx} cy={cy} r="1.3" fill={isFilled ? '#3b0764' : '#fde047'} />
+                    </g>
+                );
+            case 'sacred':
+                return (
+                    <g pointerEvents="none">
+                        <circle cx={cx} cy={cy} r="3.2" fill={fillColor} stroke={strokeColor} strokeWidth="0.75" />
+                        <line x1={cx} y1={cy - 5.5} x2={cx} y2={cy - 4} stroke={strokeColor} strokeWidth="0.75" />
+                        <line x1={cx} y1={cy + 4} x2={cx} y2={cy + 5.5} stroke={strokeColor} strokeWidth="0.75" />
+                        <line x1={cx - 5.5} y1={cy} x2={cx - 4} y2={cy} stroke={strokeColor} strokeWidth="0.75" />
+                        <line x1={cx + 4} y1={cy} x2={cx + 5.5} y2={cy} stroke={strokeColor} strokeWidth="0.75" />
+                    </g>
+                );
+            case 'blight':
+                return (
+                    <g pointerEvents="none">
+                        <path
+                            d={`M ${cx - 3.8} ${cy - 3.5} C ${cx - 3.8} ${cy - 6}, ${cx + 3.8} ${cy - 6}, ${cx + 3.8} ${cy - 3.5} C ${cx + 3.8} ${cy - 1}, ${cx + 2.5} ${cy + 2.5}, ${cx + 1.5} ${cy + 4} L ${cx - 1.5} ${cy + 4} C ${cx - 2.5} ${cy + 2.5}, ${cx - 3.8} ${cy - 1}, ${cx - 3.8} ${cy - 3.5} Z`}
+                            fill={fillColor}
+                            stroke={strokeColor}
+                            strokeWidth="0.75"
+                        />
+                        <circle cx={cx - 1.5} cy={cy - 2.5} r="0.8" fill={isFilled ? '#180a24' : '#fde047'} />
+                        <circle cx={cx + 1.5} cy={cy - 2.5} r="0.8" fill={isFilled ? '#180a24' : '#fde047'} />
+                    </g>
+                );
+            case 'ember':
+                return (
+                    <g pointerEvents="none">
+                        <path
+                            d={`M ${cx} ${cy - 6.5} C ${cx + 3} ${cy - 3}, ${cx + 4.5} ${cy + 1}, ${cx + 3.5} ${cy + 4} C ${cx + 2.5} ${cy + 6.5}, ${cx - 2.5} ${cy + 6.5}, ${cx - 3.5} ${cy + 4} C ${cx - 4.5} ${cy + 1}, ${cx - 1.5} ${cy - 2.5}, ${cx} ${cy - 6.5} Z`}
+                            fill={fillColor}
+                            stroke={strokeColor}
+                            strokeWidth="0.75"
+                        />
+                        <path
+                            d={`M ${cx} ${cy - 2} C ${cx + 1.5} ${cy}, ${cx + 1.5} ${cy + 3}, ${cx} ${cy + 4} C ${cx - 1.5} ${cy + 3}, ${cx - 1.5} ${cy}, ${cx} ${cy - 2} Z`}
+                            fill={isFilled ? '#fef08a' : 'none'}
+                        />
+                    </g>
+                );
+            case 'rime':
+                return (
+                    <g pointerEvents="none">
+                        <line x1={cx} y1={cy - 5.5} x2={cx} y2={cy + 5.5} stroke={strokeColor} strokeWidth="0.85" />
+                        <line x1={cx - 4.8} y1={cy - 2.8} x2={cx + 4.8} y2={cy + 2.8} stroke={strokeColor} strokeWidth="0.85" />
+                        <line x1={cx - 4.8} y1={cy + 2.8} x2={cx + 4.8} y2={cy - 2.8} stroke={strokeColor} strokeWidth="0.85" />
+                        <circle cx={cx} cy={cy} r="1.3" fill="#ffffff" />
+                    </g>
+                );
+            case 'primal':
+                return (
+                    <g pointerEvents="none">
+                        <path
+                            d={`M ${cx - 4} ${cy + 4} C ${cx - 5} ${cy}, ${cx - 2.5} ${cy - 5}, ${cx + 4} ${cy - 5} C ${cx + 5} ${cy}, ${cx + 2.5} ${cy + 5}, ${cx - 4} ${cy + 4} Z`}
+                            fill={fillColor}
+                            stroke={strokeColor}
+                            strokeWidth="0.75"
+                        />
+                        <line x1={cx - 2} y1={cy + 2} x2={cx + 2} y2={cy - 2} stroke={isFilled ? '#14532d' : '#fde047'} strokeWidth="0.6" />
+                    </g>
+                );
+            case 'storm':
+                return (
+                    <g pointerEvents="none">
+                        <polygon
+                            points={`${cx + 1},${cy - 6.5} ${cx - 4},${cy} ${cx},${cy} ${cx - 1.5},${cy + 6.5} ${cx + 5},${cy - 0.5} ${cx + 1},${cy - 0.5}`}
+                            fill={fillColor}
+                            stroke={strokeColor}
+                            strokeWidth="0.75"
+                        />
+                    </g>
+                );
+            case 'wyrd':
+            default:
+                return (
+                    <g pointerEvents="none">
+                        <polygon
+                            points={`${cx},${cy - 5.5} ${cx + 4},${cy - 3.8} ${cx + 5.5},${cy} ${cx + 4},${cy + 3.8} ${cx},${cy + 5.5} ${cx - 4},${cy + 3.8} ${cx - 5.5},${cy} ${cx - 4},${cy - 3.8}`}
+                            fill={isFilled ? '#ffffff' : 'none'}
+                            stroke={strokeColor}
+                            strokeWidth="0.75"
+                        />
+                        <circle cx={cx} cy={cy} r="1.1" fill={isFilled ? '#ec4899' : '#fde047'} />
+                    </g>
+                );
+        }
+    };
+
+    // ========================================================================
+    // MATRIX EXPLORER MODAL (ZERO SCROLLING, ELEMENT-PICKER TARGETING)
+    // ========================================================================
+    const handleElementSelect = (elemId) => {
+        if (!selectedElementA) {
+            setSelectedElementA(elemId);
+            setSelectedElementB(null);
+        } else if (selectedElementA === elemId && !selectedElementB) {
+            // Deselect
+            setSelectedElementA(null);
+            setSelectedElementB(null);
+        } else if (!selectedElementB) {
+            setSelectedElementB(elemId);
+        } else if (selectedElementB === elemId) {
+            setSelectedElementB(null);
+        } else {
+            // Replace second
+            setSelectedElementB(elemId);
+        }
+    };
+
+    const handleClearFilter = () => {
+        setSelectedElementA(null);
+        setSelectedElementB(null);
+    };
+
+    const renderMatrixModal = () => {
+        if (!showMatrixModal || !barRef.current) return null;
         const barRect = barRef.current.getBoundingClientRect();
-        const menuWidth = 220;
-        let left = barRect.left + (barRect.width / 2) - (menuWidth / 2);
+        const modalWidth = 310;
+        let left = barRect.left + (barRect.width / 2) - (modalWidth / 2);
         if (left < 8) left = 8;
-        if (left + menuWidth > window.innerWidth - 8) left = window.innerWidth - menuWidth - 8;
+        if (left + modalWidth > window.innerWidth - 8) left = window.innerWidth - modalWidth - 8;
+
         const spaceBelow = window.innerHeight - barRect.bottom;
-        const top = spaceBelow > 240 ? barRect.bottom + 6 : Math.max(8, barRect.top - 240);
+        const top = spaceBelow > 230 ? barRect.bottom + 4 : Math.max(8, barRect.top - 225);
+
+        const isPairSelected = selectedElementA && selectedElementB;
+        const singleSelection = selectedElementA && !selectedElementB;
+        const blockA = selectedElementA ? getBlock(selectedElementA) : null;
+        const blockB = selectedElementB ? getBlock(selectedElementB) : null;
+
         return ReactDOM.createPortal(
             <div
-                ref={editMenuRef}
-                className="unified-context-menu compact context-menu-container"
+                ref={matrixModalRef}
+                className="arc-matrix-popup-frame"
                 onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent?.stopImmediatePropagation) e.nativeEvent.stopImmediatePropagation(); }}
                 onClick={(e) => { e.stopPropagation(); if (e.nativeEvent?.stopImmediatePropagation) e.nativeEvent.stopImmediatePropagation(); }}
-                style={{ position: 'fixed', top: `${top}px`, left: `${left}px`, width: `${menuWidth}px`, zIndex: 100000 }}
+                style={{ position: 'fixed', top: `${top}px`, left: `${left}px`, width: `${modalWidth}px`, zIndex: 100000 }}
             >
-                <div className="context-menu-main">
-                    <div className="context-menu-section">
-                        <div className="context-menu-section-header" style={{ color: block.isGradient ? '#FF00FF' : block.color }}>
-                            <i className={block.icon} style={{ marginRight: '5px' }} />
-                            {block.name}
-                            <span style={{ fontSize: '0.75rem', color: 'rgba(58,42,26,0.5)', marginLeft: 'auto' }}>{count}/{maxBank}</span>
-                        </div>
-                        <div style={{ fontSize: '0.78rem', color: 'rgba(58,42,26,0.65)', marginBottom: '6px', lineHeight: 1.35 }}>{block.summary}</div>
-
-                        <div className="context-menu-section-header" style={{ fontSize: '11px', marginTop: '4px' }}>Set Count</div>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '3px', marginBottom: '6px' }}>
-                            {Array.from({ length: Math.max(5, Math.min(maxBank, 8)) }).map((_, p) => {
-                                const val = p + 1;
-                                const isActive = val <= count;
-                                return (
-                                    <button
-                                        key={p}
-                                        className={`context-menu-button ${isActive ? 'gain' : ''}`}
-                                        onClick={(e) => { e.stopPropagation(); setBlockCount(block.id, val); }}
-                                        disabled={!canEdit}
-                                        title={`Set to ${val}`}
-                                        style={isActive ? { background: block.isGradient ? 'rgba(255,0,255,0.2)' : `${block.color}33`, borderColor: block.isGradient ? '#FF00FF' : block.color } : {}}
-                                    >
-                                        {val}
-                                    </button>
-                                );
-                            })}
-                        </div>
-
-                        <div style={{ display: 'flex', gap: '4px' }}>
-                            <button className="context-menu-button" onClick={(e) => { e.stopPropagation(); setBlockCount(block.id, Math.max(0, count - 1)); }} disabled={!canEdit || count === 0}>
-                                <i className="fas fa-minus-circle"></i> −1
-                            </button>
-                            <button className="context-menu-button gain" onClick={(e) => { e.stopPropagation(); setBlockCount(block.id, count + 1); }} disabled={!canEdit || totalBanked >= maxBank}>
-                                <i className="fas fa-plus-circle"></i> +1
-                            </button>
-                            <button className="context-menu-button" onClick={(e) => { e.stopPropagation(); setBlockCount(block.id, 0); }} disabled={!canEdit || count === 0} title="Reset to 0">
-                                <i className="fas fa-undo"></i>
-                            </button>
-                        </div>
+                {/* Header Strip */}
+                <div className="arc-matrix-header-bar">
+                    <div className="arc-matrix-title-badge">
+                        <i className="fas fa-gear" />
+                        <span>COMBINATION MATRIX</span>
                     </div>
+                    <div className="arc-matrix-header-status">
+                        <span className="arc-matrix-banked-text">Bank: {totalBanked}/12</span>
+                        {readyCount > 0 && <span className="arc-matrix-ready-pill">{readyCount} Ready</span>}
+                    </div>
+                    <button className="arc-matrix-close-btn" onClick={(e) => { e.stopPropagation(); setShowMatrixModal(false); }}>
+                        ✕
+                    </button>
                 </div>
-            </div>,
-            document.body
-        );
-    };
 
-    // Last-roll floating indicator.
-    const renderRollIndicator = () => {
-        if (!lastRollResult || !isRolling) return null;
-        return ReactDOM.createPortal(
-            <div className="arc-roll-indicator" style={{
-                position: 'fixed',
-                top: barRef.current ? barRef.current.getBoundingClientRect().top - 28 : '50%',
-                left: barRef.current ? barRef.current.getBoundingClientRect().left + (barRef.current.getBoundingClientRect().width / 2) : '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 100000,
-                pointerEvents: 'none',
-            }}>
-                🎲 {lastRollResult.dice.join(' · ')}
-            </div>,
-            document.body
-        );
-    };
-
-    // ========================================================================
-    // COMPACT MODE (party-HUD): single thin row + popover panel
-    // ========================================================================
-    const renderCompactRow = () => (
-        <div className={`class-resource-bar arcanoneer-blocks ${size} party-context`}>
-            <div className="arc-compact-row" ref={barRef}>
-                <div className="arc-compact-cells">
+                {/* Element Picker Bar: 8 Clickable Orbs */}
+                <div className="arc-matrix-picker-strip">
                     {blocks.map(block => {
+                        const isSelected = selectedElementA === block.id || selectedElementB === block.id;
                         const count = blockCounts[block.id] || 0;
-                        const fillPct = Math.min(100, (count / 5) * 100); // visual: 5 = full
                         return (
-                            <div
+                            <button
                                 key={block.id}
-                                className={`arc-compact-cell ${count > 0 ? 'filled' : 'empty'}`}
-                                onClick={(e) => { e.stopPropagation(); if (canEdit) setShowPanel(true); }}
-                                onMouseEnter={() => setHoveredBlockId(block.id)}
-                                onMouseLeave={() => setHoveredBlockId(null)}
-                                title={`${block.name} (d8=${block.d8Value}): ${count} banked`}
-                                style={count > 0 ? { '--block-color': block.color, '--block-glow': block.glowColor } : {}}
+                                className={`arc-matrix-picker-orb ${isSelected ? 'selected' : ''} ${count > 0 ? 'banked' : ''}`}
+                                onClick={(e) => { e.stopPropagation(); handleElementSelect(block.id); }}
+                                title={`${block.name} (d8=${block.d8Value}): ${count} banked. Click to filter formulas.`}
+                                style={{
+                                    '--elem-color': block.color,
+                                    '--elem-light': block.lightColor
+                                }}
                             >
-                                <div className="arc-compact-fill" style={{ height: `${fillPct}%` }} />
-                                <span className="arc-compact-glyph">{block.name.charAt(0)}</span>
-                            </div>
+                                <span className="arc-picker-glyph">{block.name.slice(0, 3)}</span>
+                                {count > 0 && <span className="arc-picker-dot" />}
+                            </button>
                         );
                     })}
+                    {(selectedElementA || selectedElementB) && (
+                        <button className="arc-matrix-reset-btn" onClick={handleClearFilter} title="Reset element filters">
+                            Clear
+                        </button>
+                    )}
                 </div>
-                <button
-                    className={`arc-compact-expand ${readyCount > 0 ? 'has-ready' : ''}`}
-                    onClick={(e) => { e.stopPropagation(); setShowPanel(!showPanel); }}
-                    title={readyCount > 0 ? `${readyCount} formulation${readyCount === 1 ? '' : 's'} ready, open to cast` : 'Open Spheres panel'}
-                >
-                    <i className={`fas ${showPanel ? 'fa-chevron-up' : 'fa-chevron-down'}`} />
-                    <span className="arc-compact-banked">{totalBanked}</span>
-                    {readyCount > 0 && <span className="arc-compact-ready">{readyCount}</span>}
-                </button>
-            </div>
-            {renderHoverTooltip()}
-            {renderCompactPanel()}
-        </div>
-    );
 
-    // Compact popover panel, full edit surface + formulation chips.
-    const renderCompactPanel = () => {
-        if (!showPanel || !barRef.current) return null;
-        const barRect = barRef.current.getBoundingClientRect();
-        const panelWidth = 300;
-        const panelHeight = 380;
-        let left = barRect.right - panelWidth;
-        if (left < 6) left = 6;
-        if (left + panelWidth > window.innerWidth - 6) left = window.innerWidth - panelWidth - 6;
-        const spaceBelow = window.innerHeight - barRect.bottom;
-        const top = spaceBelow > panelHeight + 6 ? barRect.bottom + 6 : Math.max(6, barRect.top - panelHeight - 6);
-        return ReactDOM.createPortal(
-            <div
-                ref={panelRef}
-                className="unified-context-menu compact arc-panel-menu"
-                onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent?.stopImmediatePropagation) e.nativeEvent.stopImmediatePropagation(); }}
-                onClick={(e) => { e.stopPropagation(); if (e.nativeEvent?.stopImmediatePropagation) e.nativeEvent.stopImmediatePropagation(); }}
-                style={{ position: 'fixed', top: `${top}px`, left: `${left}px`, width: `${panelWidth}px`, zIndex: 100000 }}
-            >
-                <div className="context-menu-main">
-                    {renderHeader({ compact: true })}
-                    <div className="arc-panel-section">
-                        <div className="arc-panel-section-label">Blocks</div>
-                        <div className="arc-panel-blocks">
-                            {blocks.map(block => {
-                                const count = blockCounts[block.id] || 0;
+                {/* Sub-Banner / Prompt */}
+                <div className="arc-matrix-filter-banner">
+                    {isPairSelected ? (
+                        <div className="arc-filter-banner-text">
+                            Targeting: <strong style={{ color: blockA?.color }}>{blockA?.name}</strong> + <strong style={{ color: blockB?.color }}>{blockB?.name}</strong>
+                        </div>
+                    ) : singleSelection ? (
+                        <div className="arc-filter-banner-text">
+                            Showing all 8 formulas using <strong style={{ color: blockA?.color }}>{blockA?.name}</strong>. Pick another to isolate:
+                        </div>
+                    ) : (
+                        <div className="arc-filter-banner-text">
+                            {readyCount > 0
+                                ? `Showing ${Math.min(8, readyCount)} Ready Formulas. Pick an element above to inspect:`
+                                : 'Select an element above to inspect its 8 formulas:'}
+                        </div>
+                    )}
+                </div>
+
+                {/* Body Content Area — Strictly NO SCROLL (Max 8 cards) */}
+                <div className="arc-matrix-cards-deck">
+                    {isPairSelected && filteredFormulations.length > 0 ? (
+                        // Exact Spotlight Card
+                        (() => {
+                            const entry = filteredFormulations[0];
+                            const [a, b] = entry.elements;
+                            const need = a === b ? 2 : 1;
+                            const isReady = (blockCounts[a] || 0) >= need && (blockCounts[b] || 0) >= need;
+                            return (
+                                <div
+                                    className={`arc-spotlight-card ${isReady ? 'ready' : 'unready'}`}
+                                    onMouseEnter={() => handleFormHoverEnter(entry)}
+                                    onMouseLeave={handleFormHoverLeave}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleInitiateCast(entry);
+                                    }}
+                                    title="Click to cast weave or inspect costs"
+                                >
+                                    <div className="arc-spotlight-header">
+                                        <span className="arc-spotlight-title">{entry.name}</span>
+                                        <span className={`arc-spotlight-status ${isReady ? 'ready' : 'unready'}`}>
+                                            {isReady ? '✓ READY TO CAST' : `✗ NEEDS ${need}x SPHERES`}
+                                        </span>
+                                    </div>
+                                    <div className="arc-spotlight-desc">{entry.effectDescription || entry.summary || 'Concentrated elemental burst.'}</div>
+                                    <div className="arc-spotlight-meta">
+                                        <span>Range: {entry.range || 60}ft</span>
+                                        <span>Target: {entry.targetType || 'single'}</span>
+                                        <button
+                                            className={`arc-spotlight-cast-btn ${isReady ? 'ready' : 'unready'}`}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleInitiateCast(entry);
+                                            }}
+                                            title={isReady ? `Cast ${entry.name}` : `Inspect costs for ${entry.name}`}
+                                        >
+                                            <i className="fas fa-bolt" /> {isReady ? 'CAST WEAVE' : 'INSPECT'}
+                                        </button>
+                                        <span className="arc-spotlight-formula">
+                                            {blockA?.name} + {blockB?.name}
+                                        </span>
+                                    </div>
+                                </div>
+                            );
+                        })()
+                    ) : (
+                        // Grid of up to 8 cards (2 columns x 4 rows, exact fit, zero scroll)
+                        <div className="arc-matrix-grid-8">
+                            {filteredFormulations.slice(0, 8).map(entry => {
+                                const [a, b] = entry.elements;
+                                const need = a === b ? 2 : 1;
+                                const isReady = (blockCounts[a] || 0) >= need && (blockCounts[b] || 0) >= need;
+                                const bA = getBlock(a);
+                                const bB = getBlock(b);
+
                                 return (
-                                    <div key={block.id} className="arc-panel-block-row" style={{ '--block-color': block.color, '--block-glow': block.glowColor }}>
-                                        <span className="arc-panel-block-icon"><i className={block.icon} /></span>
-                                        <span className="arc-panel-block-name">{block.name}</span>
-                                        <div className="arc-panel-block-pips">
-                                            {Array.from({ length: 5 }).map((_, p) => (
-                                                <span key={p} className={`arc-panel-pip ${p < count ? 'on' : 'off'}`} />
-                                            ))}
+                                    <div
+                                        key={entry.id}
+                                        className={`arc-grid-card ${isReady ? 'ready' : 'unready'}`}
+                                        onMouseEnter={() => handleFormHoverEnter(entry)}
+                                        onMouseLeave={handleFormHoverLeave}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            // Clicking an item targets its exact pair and prompts cast confirmation
+                                            setSelectedElementA(a);
+                                            setSelectedElementB(b);
+                                            handleInitiateCast(entry);
+                                        }}
+                                        title={`${entry.name}\n${bA?.name} + ${bB?.name}\nClick to cast · Hover for spellcard`}
+                                    >
+                                        <div className="arc-grid-card-pair">
+                                            <span style={{ color: bA?.color }}>{bA?.abbrev || bA?.name?.slice(0, 3)}</span>
+                                            <span className="plus">+</span>
+                                            <span style={{ color: bB?.color }}>{bB?.abbrev || bB?.name?.slice(0, 3)}</span>
                                         </div>
-                                        {canEdit ? (
-                                            <div className="arc-panel-block-controls">
-                                                <button className="arc-panel-mini-btn" onClick={(e) => { e.stopPropagation(); removeBlock(block.id); }} disabled={count === 0}>−</button>
-                                                <span className="arc-panel-block-count">{count}</span>
-                                                <button className="arc-panel-mini-btn" onClick={(e) => { e.stopPropagation(); addBlock(block.id); }} disabled={totalBanked >= maxBank}>+</button>
-                                            </div>
-                                        ) : (
-                                            <span className="arc-panel-block-count">{count}</span>
-                                        )}
+                                        <div className="arc-grid-card-name">{entry.name}</div>
+                                        {isReady && <span className="arc-grid-ready-icon" title="Ready to cast">⚡</span>}
                                     </div>
                                 );
                             })}
                         </div>
-                    </div>
-                    <div className="arc-panel-section">
-                        <div className="arc-panel-section-label">Formulations ({readyCount} ready)</div>
-                        {renderFormulationChips()}
-                    </div>
-                    <div className="arc-panel-footer">
-                        {canEdit && (
-                            <button className="context-menu-button" onClick={(e) => { e.stopPropagation(); clearAll(); }} disabled={totalBanked === 0}>
-                                <i className="fas fa-times" /> Clear All
-                            </button>
-                        )}
-                        <button className="context-menu-button" onClick={(e) => { e.stopPropagation(); setShowPanel(false); }}>
-                            <i className="fas fa-check" /> Close
+                    )}
+                </div>
+
+                {/* Footer Controls */}
+                <div className="arc-matrix-footer">
+                    {canEdit && totalBanked > 0 && (
+                        <button className="arc-matrix-vent-action" onClick={(e) => { e.stopPropagation(); clearAll(); }}>
+                            <i className="fas fa-wind" /> Vent Chamber ({totalBanked})
                         </button>
-                    </div>
+                    )}
+                    <span className="arc-matrix-footer-hint">Hover formulas for full spellcards</span>
                 </div>
             </div>,
             document.body
@@ -705,59 +773,367 @@ const ArcanoneerResourceBar = ({
     };
 
     // ========================================================================
-    // FULL MODE: header + block grid + (collapsible) formulation chips
+    // MASTER SVG RENDER: THE CALIBRATED IRON SLEEVE
     // ========================================================================
-    const renderFormulationSection = () => {
-        // In showcase mode (rules page), collapse the formulation chips behind a toggle
-        // so the demo reads as a bar first. Detail available on demand.
-        if (showcase) {
-            return (
-                <div className="arc-formulation-collapsible">
-                    <button
-                        className="arc-formulation-toggle"
-                        onClick={(e) => { e.stopPropagation(); setShowFormulations(!showFormulations); }}
-                        title={showFormulations ? 'Hide formulations' : 'Show all 36 formulations'}
-                    >
-                        <i className={`fas ${showFormulations ? 'fa-chevron-up' : 'fa-flask'}`} />
-                        <span>{showFormulations ? 'Hide' : 'Show'} Available Formulations</span>
-                        {readyCount > 0 && <span className="arc-formulation-toggle-count">{readyCount} ready</span>}
-                    </button>
-                    {showFormulations && renderFormulationChips()}
-                </div>
-            );
-        }
-        return renderFormulationChips();
-    };
+    return (
+        <div className={`class-resource-bar arcanoneer-blocks ${size} ${context}-context ${showcase ? 'showcase-mode' : ''}`}>
+            <div className="arc-apparatus-wrapper" ref={barRef}>
 
-    const renderFull = () => (
-        <div className={`class-resource-bar arcanoneer-blocks ${size} ${showcase ? 'showcase-mode' : ''}`}>
-            <div className="arc-container">
-                {renderHeader()}
-                {renderBlockGrid()}
-                {renderFormulationSection()}
-                {!showcase && canEdit && (
-                    <div className="arc-footer">
-                        <button className="arc-footer-btn" onClick={(e) => { e.stopPropagation(); clearAll(); }} disabled={totalBanked === 0}>
-                            <i className="fas fa-times" /> Clear All
-                        </button>
-                    </div>
-                )}
-                {!showcase && lastRollResult && (
-                    <div className="arc-last-roll">
-                        Last roll: <span className="arc-last-roll-dice">[{lastRollResult.dice.join(', ')}]</span> → {lastRollResult.blocks.map(id => getBlock(id)?.name || id).join(', ')}
-                    </div>
-                )}
+                <svg
+                    className="arc-master-svg"
+                    viewBox="0 0 286 74"
+                    xmlns="http://www.w3.org/2000/svg"
+                    role="img"
+                    aria-label={`Arcanoneer Calibrated Iron Sleeve. Spheres banked: ${totalBanked} of ${maxBank}.`}
+                >
+                    <defs>
+                        {/* Antique Forged Gunmetal & Ironwood Base Plate */}
+                        <linearGradient id="arcIronCasing" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#2c221a" />
+                            <stop offset="30%" stopColor="#201813" />
+                            <stop offset="70%" stopColor="#150f0b" />
+                            <stop offset="100%" stopColor="#0b0806" />
+                        </linearGradient>
+
+                        {/* Heavy Guild Brass Framing Rim */}
+                        <linearGradient id="arcGuildBrass" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stopColor="#5c3811" />
+                            <stop offset="15%" stopColor="#b45309" />
+                            <stop offset="45%" stopColor="#fef08a" />
+                            <stop offset="55%" stopColor="#fef08a" />
+                            <stop offset="85%" stopColor="#b45309" />
+                            <stop offset="100%" stopColor="#5c3811" />
+                        </linearGradient>
+
+                        {/* Mechanical Firing Primer (Roll 4d8) */}
+                        <linearGradient id="arcPrimerBed" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#7c2d12" />
+                            <stop offset="50%" stopColor="#451a03" />
+                            <stop offset="100%" stopColor="#200d02" />
+                        </linearGradient>
+
+                        <linearGradient id="arcPrimerBorder" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stopColor="#fde047" />
+                            <stop offset="50%" stopColor="#f97316" />
+                            <stop offset="100%" stopColor="#9a3412" />
+                        </linearGradient>
+
+                        {/* Matrix Button Plate */}
+                        <linearGradient id="arcMatrixDial" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#312e81" />
+                            <stop offset="50%" stopColor="#1e1b4b" />
+                            <stop offset="100%" stopColor="#0f172a" />
+                        </linearGradient>
+
+                        {/* Searing 3D Spheres Gradients */}
+                        <radialGradient id="arcSphere_arcane" cx="35%" cy="30%" r="65%">
+                            <stop offset="0%" stopColor="#faf5ff" />
+                            <stop offset="35%" stopColor="#c084fc" />
+                            <stop offset="75%" stopColor="#7e22ce" />
+                            <stop offset="100%" stopColor="#3b0764" />
+                        </radialGradient>
+                        <radialGradient id="arcSphere_sacred" cx="35%" cy="30%" r="65%">
+                            <stop offset="0%" stopColor="#ffffff" />
+                            <stop offset="35%" stopColor="#fde047" />
+                            <stop offset="75%" stopColor="#ca8a04" />
+                            <stop offset="100%" stopColor="#713f12" />
+                        </radialGradient>
+                        <radialGradient id="arcSphere_blight" cx="35%" cy="30%" r="65%">
+                            <stop offset="0%" stopColor="#f3e8ff" />
+                            <stop offset="35%" stopColor="#a855f7" />
+                            <stop offset="75%" stopColor="#6b21a8" />
+                            <stop offset="100%" stopColor="#2e1065" />
+                        </radialGradient>
+                        <radialGradient id="arcSphere_ember" cx="35%" cy="30%" r="65%">
+                            <stop offset="0%" stopColor="#fff7ed" />
+                            <stop offset="35%" stopColor="#fb923c" />
+                            <stop offset="75%" stopColor="#ea580c" />
+                            <stop offset="100%" stopColor="#7c2d12" />
+                        </radialGradient>
+                        <radialGradient id="arcSphere_rime" cx="35%" cy="30%" r="65%">
+                            <stop offset="0%" stopColor="#f0f9ff" />
+                            <stop offset="35%" stopColor="#38bdf8" />
+                            <stop offset="75%" stopColor="#0284c7" />
+                            <stop offset="100%" stopColor="#075985" />
+                        </radialGradient>
+                        <radialGradient id="arcSphere_primal" cx="35%" cy="30%" r="65%">
+                            <stop offset="0%" stopColor="#f0fdf4" />
+                            <stop offset="35%" stopColor="#4ade80" />
+                            <stop offset="75%" stopColor="#16a34a" />
+                            <stop offset="100%" stopColor="#14532d" />
+                        </radialGradient>
+                        <radialGradient id="arcSphere_storm" cx="35%" cy="30%" r="65%">
+                            <stop offset="0%" stopColor="#ecfeff" />
+                            <stop offset="35%" stopColor="#22d3ee" />
+                            <stop offset="75%" stopColor="#0891b2" />
+                            <stop offset="100%" stopColor="#164e63" />
+                        </radialGradient>
+                        <radialGradient id="arcSphere_wyrd" cx="35%" cy="30%" r="65%">
+                            <stop offset="0%" stopColor="#ffffff" />
+                            <stop offset="30%" stopColor="#f472b6" />
+                            <stop offset="65%" stopColor="#a855f7" />
+                            <stop offset="100%" stopColor="#3b0764" />
+                        </radialGradient>
+
+                        {/* Filter Glow */}
+                        <filter id="arcGlowShine" x="-30%" y="-30%" width="160%" height="160%">
+                            <feGaussianBlur stdDeviation="1.4" result="blur" />
+                            <feMerge>
+                                <feMergeNode in="blur" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs>
+
+                    {/* Outer Forged Iron Plate */}
+                    <rect
+                        x="1.5"
+                        y="1.5"
+                        width="283"
+                        height="71"
+                        rx="5"
+                        fill="url(#arcIronCasing)"
+                        stroke="url(#arcGuildBrass)"
+                        strokeWidth="1.2"
+                        className="arc-iron-casing"
+                    />
+
+                    {/* Inner Calibration Inset Bevel */}
+                    <rect
+                        x="3.5"
+                        y="3.5"
+                        width="279"
+                        height="67"
+                        rx="3.5"
+                        fill="none"
+                        stroke="rgba(251, 191, 36, 0.22)"
+                        strokeWidth="0.6"
+                        pointerEvents="none"
+                    />
+
+                    {/* Heavy Mechanical Corner Screws */}
+                    <circle cx="5.5" cy="5.5" r="1.3" fill="#451a03" stroke="#fde047" strokeWidth="0.4" pointerEvents="none" />
+                    <circle cx="280.5" cy="5.5" r="1.3" fill="#451a03" stroke="#fde047" strokeWidth="0.4" pointerEvents="none" />
+                    <circle cx="5.5" cy="68.5" r="1.3" fill="#451a03" stroke="#fde047" strokeWidth="0.4" pointerEvents="none" />
+                    <circle cx="280.5" cy="68.5" r="1.3" fill="#451a03" stroke="#fde047" strokeWidth="0.4" pointerEvents="none" />
+
+                    {/* ========================================================= */}
+                    {/* TOP MECHANICAL MANTLE                                     */}
+                    {/* ========================================================= */}
+
+                    {/* LEFT: Chamber Capacity Pressure Gauge */}
+                    <g className="arc-gauge-plate" pointerEvents="none">
+                        <rect x="7" y="4.5" width="74" height="17" rx="3" fill="#140c07" stroke="rgba(217, 119, 6, 0.4)" strokeWidth="0.75" />
+                        <text x="12" y="16.5" className="arc-gauge-title">CHAMBER</text>
+                        <text x="75" y="16.5" textAnchor="end" className="arc-gauge-reading">{totalBanked}/{maxBank}</text>
+                        {/* 12 Pressure Segment Cells */}
+                        <g>
+                            {Array.from({ length: 12 }).map((_, seg) => {
+                                const sx = 11 + seg * 5.6;
+                                const isFilled = seg < totalBanked;
+                                return (
+                                    <rect
+                                        key={seg}
+                                        x={sx}
+                                        y="18.5"
+                                        width="4.5"
+                                        height="1.5"
+                                        rx="0.5"
+                                        fill={isFilled ? (totalBanked >= maxBank ? '#ef4444' : '#f59e0b') : 'rgba(255,255,255,0.08)'}
+                                    />
+                                );
+                            })}
+                        </g>
+                    </g>
+
+                    {/* CENTER: Kinetic Ignition Primer ("ROLL 4d8") */}
+                    <g
+                        className={`arc-primer-trigger ${isRolling ? 'rolling' : ''} ${totalBanked >= maxBank ? 'bank-full' : ''}`}
+                        onClick={roll4d8}
+                        style={{ cursor: canEdit && !isRolling && totalBanked < maxBank ? 'pointer' : 'default' }}
+                    >
+                        <rect
+                            x="87"
+                            y="4"
+                            width="112"
+                            height="18"
+                            rx="4"
+                            fill="url(#arcPrimerBed)"
+                            stroke="url(#arcPrimerBorder)"
+                            strokeWidth="1"
+                            className="arc-primer-button"
+                        />
+                        {/* Knurled grip ticks on primer button sides */}
+                        <line x1="89" y1="8" x2="89" y2="18" stroke="rgba(254, 240, 138, 0.4)" strokeWidth="0.8" pointerEvents="none" />
+                        <line x1="197" y1="8" x2="197" y2="18" stroke="rgba(254, 240, 138, 0.4)" strokeWidth="0.8" pointerEvents="none" />
+
+                        {/* Kinetic d8 Octahedron Die Icon */}
+                        <polygon
+                            points="96,7 101,10 101,16 96,19 91,16 91,10"
+                            fill="rgba(254, 240, 138, 0.18)"
+                            stroke="#fef08a"
+                            strokeWidth="0.85"
+                            className={`arc-d8-tumbler ${isRolling ? 'tumbling' : ''}`}
+                        />
+                        <text x="106" y="16.5" className="arc-primer-label">
+                            {isRolling ? 'PRIMING…' : (lastRollResult ? `🎲 ${lastRollResult.dice.join('·')}` : 'ROLL 4d8')}
+                        </text>
+                    </g>
+
+                    {/* RIGHT: Matrix Registry Key (Opens Portal Modal) */}
+                    <g
+                        className={`arc-matrix-trigger ${showMatrixModal ? 'active' : ''} ${readyCount > 0 ? 'has-ready' : ''}`}
+                        onClick={(e) => { e.stopPropagation(); setShowMatrixModal(!showMatrixModal); }}
+                        style={{ cursor: 'pointer' }}
+                    >
+                        <rect
+                            x="205"
+                            y="4.5"
+                            width="74"
+                            height="17"
+                            rx="3"
+                            fill="url(#arcMatrixDial)"
+                            stroke={readyCount > 0 ? 'rgba(74, 222, 128, 0.75)' : 'rgba(217, 119, 6, 0.4)'}
+                            strokeWidth="0.85"
+                            className="arc-matrix-key"
+                        />
+                        {/* Codex / Matrix Dial Icon */}
+                        <path
+                            d="M 211 8.5 L 215 7.5 L 215 15.5 L 211 16.5 Z M 215 7.5 L 219 8.5 L 219 16.5 L 215 15.5 Z"
+                            fill="none"
+                            stroke={readyCount > 0 ? '#86efac' : '#fef08a'}
+                            strokeWidth="0.75"
+                            pointerEvents="none"
+                        />
+                        <text x="223" y="16.5" className="arc-matrix-label" pointerEvents="none">
+                            {readyCount > 0 ? `MATRIX (${readyCount})` : 'MATRIX'}
+                        </text>
+                    </g>
+
+                    {/* ========================================================= */}
+                    {/* 8 THEMED ELEMENTAL SPHERES (CYLINDER CHAMBERS)            */}
+                    {/* ========================================================= */}
+                    {blocks.map((block, i) => {
+                        const cx = 21 + i * 34.8;
+                        const cy = 44;
+                        const count = blockCounts[block.id] || 0;
+                        const isFilled = count > 0;
+                        const isHovered = hoveredBlockId === block.id;
+
+                        return (
+                            <g
+                                key={block.id}
+                                className={`arc-orb-cell ${isFilled ? 'filled' : 'dormant'} ${isHovered ? 'hovered' : ''}`}
+                                onMouseEnter={() => setHoveredBlockId(block.id)}
+                                onMouseLeave={() => setHoveredBlockId(null)}
+                                onClick={(e) => { e.stopPropagation(); addBlock(block.id); }}
+                                onContextMenu={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    removeBlock(block.id);
+                                }}
+                            >
+                                {/* Transparent Hitbox */}
+                                <rect x={cx - 16} y="24" width="32" height="46" fill="transparent" pointerEvents="all" />
+
+                                {/* Heavy Brass Socket Bezel Housing */}
+                                <circle
+                                    cx={cx}
+                                    cy={cy}
+                                    r="13"
+                                    fill="#120c08"
+                                    stroke={isHovered ? '#fef08a' : (isFilled ? block.color : 'rgba(217, 119, 6, 0.35)')}
+                                    strokeWidth={isHovered || isFilled ? '1.1' : '0.6'}
+                                    className="arc-socket-bezel"
+                                    pointerEvents="none"
+                                />
+
+                                {/* Subtle Mechanical Gear/Rivet Teeth on Socket Bezel */}
+                                <circle cx={cx - 12} cy={cy} r="0.6" fill="rgba(251, 191, 36, 0.4)" pointerEvents="none" />
+                                <circle cx={cx + 12} cy={cy} r="0.6" fill="rgba(251, 191, 36, 0.4)" pointerEvents="none" />
+
+                                {/* Dormant Chamber Shadow (when empty) */}
+                                {!isFilled && (
+                                    <circle cx={cx} cy={cy} r="11.5" fill="#0d0805" pointerEvents="none" />
+                                )}
+
+                                {/* Searing 3D Glowing Elemental Orb (when banked) */}
+                                {isFilled && (
+                                    <g pointerEvents="none">
+                                        <circle
+                                            cx={cx}
+                                            cy={cy}
+                                            r="11.5"
+                                            fill={block.id === 'wyrd' ? 'url(#arcSphere_wyrd)' : `url(#arcSphere_${block.id})`}
+                                            filter="url(#arcGlowShine)"
+                                            className="arc-sphere-body"
+                                        />
+                                        {/* Specular White Glass Sheen */}
+                                        <ellipse cx={cx - 3.5} cy={cy - 4.5} rx="4" ry="2.5" fill="rgba(255, 255, 255, 0.45)" />
+                                    </g>
+                                )}
+
+                                {/* Vector Elemental Glyph inside sphere */}
+                                {renderElementalGlyph(block.id, cx, cy, isFilled)}
+
+                                {/* Engraved Brass Pip Coin (Top-Right of Bezel) */}
+                                {isFilled && (
+                                    <g pointerEvents="none">
+                                        <circle cx={cx + 9} cy={cy - 8} r="4.5" fill="#180e07" stroke="#fde047" strokeWidth="0.75" />
+                                        <text x={cx + 9} y={cy - 6} textAnchor="middle" className="arc-pip-count-badge">
+                                            {count}
+                                        </text>
+                                    </g>
+                                )}
+
+                                {/* Micro Charge Dots (1-5 Pips at base of socket) */}
+                                <g pointerEvents="none">
+                                    {Array.from({ length: 5 }).map((_, p) => {
+                                        const px = cx - 6 + p * 3;
+                                        const on = p < count;
+                                        return (
+                                            <circle
+                                                key={p}
+                                                cx={px}
+                                                cy="61.5"
+                                                r="0.9"
+                                                fill={on ? (block.isGradient ? '#f43f5e' : block.color) : 'rgba(255,255,255,0.08)'}
+                                            />
+                                        );
+                                    })}
+                                </g>
+
+                                {/* Bottom Stamped Serial Plate */}
+                                <text x={cx} y="69.5" textAnchor="middle" className="arc-serial-stamp" pointerEvents="none">
+                                    {block.name.slice(0, 3).toUpperCase()}·{block.d8Value}
+                                </text>
+                            </g>
+                        );
+                    })}
+                </svg>
+
             </div>
+
+            {/* Matrix Explorer Modal (Portal - Zero Scrolling) */}
+            {renderMatrixModal()}
+
+            {/* Element Hover Tooltip (Portal) */}
             {renderHoverTooltip()}
-            {renderEditMenu()}
-            {renderRollIndicator()}
+
+            {/* Spellcard Hover Tooltip for Formulations (Portal) */}
+            {renderFormulationTooltip()}
+
+            {/* Spell Cast Confirmation Dialog (Portal) */}
+            {spellToCast && (
+                <SpellCastConfirmation
+                    spell={spellToCast}
+                    classResource={{ ...classResource, spheres: localSpheres }}
+                    onConfirm={handleSpellCastConfirm}
+                    onCancel={handleSpellCastCancel}
+                />
+            )}
         </div>
     );
-
-    if (isCompact) {
-        return renderCompactRow();
-    }
-    return renderFull();
 };
 
 export default ArcanoneerResourceBar;

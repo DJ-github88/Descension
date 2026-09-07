@@ -65,11 +65,11 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
 
     // Thickness presets
     const thicknessPresets = [
-        { value: 0.5, label: 'Thin', icon: 'Piercing/Piercing Shot' },
-        { value: 1, label: 'Normal', icon: 'Piercing/Piercing Shot' },
-        { value: 2, label: 'Thick', icon: 'Piercing/Piercing Shot' },
-        { value: 3, label: 'Very Thick', icon: 'Piercing/Piercing Shot' },
-        { value: 5, label: 'Ultra Thick', icon: 'Piercing/Piercing Shot' }
+        { value: 0.5, label: 'Thin', icon: 'Piercing/Piercing Shots' },
+        { value: 1, label: 'Normal', icon: 'Piercing/Piercing Shots' },
+        { value: 2, label: 'Thick', icon: 'Piercing/Piercing Shots' },
+        { value: 3, label: 'Very Thick', icon: 'Piercing/Piercing Shots' },
+        { value: 5, label: 'Ultra Thick', icon: 'Piercing/Piercing Shots' }
     ];
 
     // Color presets for grid lines

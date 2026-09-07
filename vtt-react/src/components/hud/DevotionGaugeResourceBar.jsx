@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ClassTip from './ClassTip';
 
 const DevotionGaugeResourceBar = ({
   martyrState,
@@ -309,53 +310,18 @@ const DevotionGaugeResourceBar = ({
                 {/* Tooltip */}
                 {showTooltip && martyrHoverSection === 'devotion' && ReactDOM.createPortal(
                     <div ref={martyrTooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
-                        <div className="tooltip-header" style={{ color: getTooltipHeaderColor('#9CA3AF') }}>Devotion</div>
-
-                        <div className="tooltip-section">
-                            <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                <strong>Level:</strong> {currentLevel} ({currentStage.name})
-                            </div>
-                            <div style={{ fontSize: '0.9rem' }}>
-                                <strong>Damage:</strong> {currentDamage}/{nextThreshold}
-                            </div>
-                        </div>
-
-                        <div className="tooltip-divider"></div>
-
-                        <div className="tooltip-section">
-                            <div className="tooltip-label">Devotion Management</div>
-                            <div className="level-management">
-                                <strong>Gain:</strong>
-                                <span>Take damage, +1 per Intervene</span>
-                                <strong>Spend:</strong>
-                                <span>Amplify spells (1-5 levels)</span>
-                            </div>
-                        </div>
-
-                        {currentLevel > 0 && (
-                            <div>
-                                <div className="tooltip-divider"></div>
-                                <div className="tooltip-section">
-                                    <div className="tooltip-label">Level {currentLevel} Passive</div>
-                                    <div className="passive-desc">
-                                        {currentStage.passive}
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {specData && (
-                            <div>
-                                <div className="tooltip-divider"></div>
-                                <div className="tooltip-section">
-                                    <div className="tooltip-label">{specData.name} Passives</div>
-                                    <div className="passive-desc">
-                                        <strong>Shared:</strong> {specData.sharedPassive.description}<br />
-                                        <strong>Unique:</strong> {specData.uniquePassive.description}
-                                    </div>
-                                </div>
-                            </div>
-                        )}
+                        <ClassTip
+                            icon="fas fa-cross"
+                            tint={getTooltipHeaderColor('#9CA3AF')}
+                            title="Devotion"
+                            state={`Lv ${currentLevel} · ${currentStage.name}`}
+                            stateTone={currentLevel > 0 ? 'good' : 'neutral'}
+                            mechanic={`Suffering feeds faith: take damage, +1 per Intervene. Spend devotion to amplify spells (1–5 levels).${specData ? ` ${specData.name}: ${specData.sharedPassive.description} ${specData.uniquePassive.description}` : ''}`}
+                            status={[
+                                `Damage banked: ${currentDamage}/${nextThreshold} to next level.`,
+                                currentLevel > 0 ? `Lv ${currentLevel} passive: ${currentStage.passive}` : 'No levels yet — step into harm\'s way.',
+                            ]}
+                        />
                     </div>,
                     document.body
                 )}

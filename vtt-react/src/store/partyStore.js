@@ -59,6 +59,30 @@ const isSelfMemberId = (memberId, userId) => {
   return selfIds.has(memberId) || (userId && selfIds.has(userId));
 };
 
+const PARTY_HUD_POSITIONS_KEY = 'mythrill_party_hud_positions';
+
+const loadSavedMemberPositions = () => {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const saved = window.localStorage.getItem(PARTY_HUD_POSITIONS_KEY);
+      return saved ? JSON.parse(saved) : {};
+    }
+  } catch (e) {
+    // Silent fail on storage error or SSR/test
+  }
+  return {};
+};
+
+const saveMemberPositions = (positions) => {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      window.localStorage.setItem(PARTY_HUD_POSITIONS_KEY, JSON.stringify(positions));
+    }
+  } catch (e) {
+    // Silent fail on storage error
+  }
+};
+
 // Initial state
 const initialState = {
   // Current party information
@@ -79,7 +103,7 @@ const initialState = {
   },
 
   // HUD and UI state
-  memberPositions: {}, // memberId -> { x, y }
+  memberPositions: loadSavedMemberPositions(), // memberId -> { x, y }
 
   // Map assignments: playerId -> mapId
   playerMapAssignments: {},
@@ -793,25 +817,51 @@ const usePartyStore = create(subscribeWithSelector((set, get) => ({
   /**
    * Get a member's HUD position
    */
-  getMemberPosition: (memberId) => {
-    return get().memberPositions[memberId];
+  getMemberPosition: (memberId, fallbackKeys = []) => {
+    const { memberPositions } = get();
+    if (memberId && memberPositions[memberId]) return memberPositions[memberId];
+    if (Array.isArray(fallbackKeys)) {
+      for (const key of fallbackKeys) {
+        if (key && memberPositions[key]) return memberPositions[key];
+      }
+    }
+    return undefined;
   },
 
   /**
    * Set a member's HUD position
    */
-  setMemberPosition: (memberId, position) => {
-    set(state => ({
-      memberPositions: {
-        ...state.memberPositions,
-        [memberId]: position
+  setMemberPosition: (memberId, position, aliasKeys = []) => {
+    if (!memberId && (!aliasKeys || aliasKeys.length === 0)) return;
+    set(state => {
+      const nextPositions = { ...state.memberPositions };
+      if (memberId) nextPositions[memberId] = position;
+      if (Array.isArray(aliasKeys)) {
+        aliasKeys.forEach(k => {
+          if (k) nextPositions[k] = position;
+        });
       }
-    }));
+      saveMemberPositions(nextPositions);
+      return { memberPositions: nextPositions };
+    });
+  },
+
+  /**
+   * Reset all member HUD positions
+   */
+  resetMemberPositions: () => {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.removeItem(PARTY_HUD_POSITIONS_KEY);
+      }
+    } catch (e) { }
+    set({ memberPositions: {} });
   },
 
   /**
    * Clear party members only (used when transitioning from social party to room party)
    * Prevents duplicate HUDs when entering a multiplayer room
+   * Note: preserves memberPositions so HUD layout is not lost on room transitions
    */
   clearPartyMembers: () => {
     set({
@@ -819,7 +869,6 @@ const usePartyStore = create(subscribeWithSelector((set, get) => ({
       isInParty: false,
       leaderId: null,
       leaderMode: false,
-      memberPositions: {},
       playerMapAssignments: {}
     });
   },

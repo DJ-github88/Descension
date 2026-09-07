@@ -697,6 +697,10 @@ export const createStatsSlice = (set, get) => ({
         totalStats.healthRegen = Math.round(derivedStats.healthRegen || 0);
         totalStats.manaRegen = Math.round(derivedStats.manaRegen || 0);
         totalStats.movementSpeed = Math.round(derivedStats.moveSpeed || 30);
+        totalStats.durability = Math.round(derivedStats.durability || state.durability || 0);
+        totalStats.damageReduction = Math.round(derivedStats.damageReduction || state.damageReduction || 0);
+        totalStats.swimSpeed = Math.round(derivedStats.swimSpeed || 0);
+        totalStats.climbSpeed = Math.round(derivedStats.climbSpeed || 0);
         totalStats.carryingCapacity = Math.round(derivedStats.carryingCapacity || 0);
         totalStats.damage = Math.round(derivedStats.damage || 0);
         totalStats.spellDamage = Math.round(derivedStats.spellDamage || 0);

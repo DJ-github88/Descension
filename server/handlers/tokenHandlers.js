@@ -307,17 +307,28 @@ function registerTokenHandlers(ctx) {
   // clients (e.g. the GM's screen) render the current portrait.
   socket.on('character_token_updated', async(data) => {
     try {
-      const validation = validateRoomMembership(socket, data.roomId);
+      const validation = validateRoomMembership(socket, data?.roomId);
       if (!validation.valid) {return;}
 
-      const { room } = validation;
-      const mapId = data.mapId || room.gameState.defaultMapId || 'default';
-      const map = validateMapExists(room, mapId);
+      const { room, player } = validation;
+      let mapId = data.mapId || player?.currentMapId || room.gameState.defaultMapId || 'default';
+      let map = validateMapExists(room, mapId);
 
       const tokenId = data.tokenId;
       if (!tokenId) {return;}
 
-      const existing = map.characterTokens[tokenId] || room.gameState.characterTokens[tokenId];
+      let existing = map.characterTokens[tokenId] || room.gameState.characterTokens?.[tokenId];
+      if (!existing && room.gameState.maps) {
+        for (const [mId, m] of Object.entries(room.gameState.maps)) {
+          if (m.characterTokens?.[tokenId]) {
+            existing = m.characterTokens[tokenId];
+            map = m;
+            mapId = mId;
+            break;
+          }
+        }
+      }
+
       if (existing) {
         const updated = {
           ...existing,
@@ -326,6 +337,7 @@ function registerTokenHandlers(ctx) {
           ...(data.stateUpdates ? { state: { ...(existing.state || {}), ...data.stateUpdates } } : {})
         };
         map.characterTokens[tokenId] = updated;
+        if (!room.gameState.characterTokens) room.gameState.characterTokens = {};
         room.gameState.characterTokens[tokenId] = updated; // Legacy support
       }
 

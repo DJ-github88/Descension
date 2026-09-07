@@ -65,10 +65,10 @@ Among themselves, the Myrathil are warm and direct. They are gullible and too ho
         name: 'Dehydration',
         description: 'Must submerge in water daily. 24 hours without submersion causes -2 to all attributes and halves speed.',
         level: 1,
-        icon: 'fas fa-tint-slash',
+        icon: 'Drop',
         spellType: 'PASSIVE',
         effectTypes: ['debuff'],
-        typeConfig: { school: 'primal', icon: 'fas fa-tint-slash', tags: ['weakness', 'debuff', 'shared'] },
+        typeConfig: { school: 'primal', icon: 'Drop', tags: ['weakness', 'debuff', 'shared'] },
         debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'dehydration', name: 'Dehydration', description: 'After 24 hours without submersion: -2 to all attributes and speed is halved.', mechanicsText: 'After 24 hours without submersion, the creature suffers -2 to all attributes and halved movement speed until it submerges.', statusEffect: { level: 'severe', description: '-2 to all attributes, speed halved after 24 hours without submersion.' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: true }
       }
     ],

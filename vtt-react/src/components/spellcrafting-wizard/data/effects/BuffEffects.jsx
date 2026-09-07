@@ -28,7 +28,7 @@ const STATUS_EFFECTS = [
     id: 'combat_advantage',
     name: 'Combat Advantage',
     description: 'Gain advantage on specific combat rolls',
-    icon: 'General/Powerful Warrior',
+    icon: 'Utility/Empowered Warrior',
     category: 'combat',
     hasAdvancedConfig: true,
     options: [
@@ -628,7 +628,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
   // Fallback icon for broken image loads
   const handleIconError = (e) => {
     e.target.onerror = null;
-    e.target.src = getIconUrl('Utility/Utility');
+    e.target.src = getIconUrl('Arcane/Abstract Rune');
   };
 
   // Get resistance scaling options

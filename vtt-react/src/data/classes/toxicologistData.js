@@ -33,10 +33,10 @@ export const TOXICOLOGIST_DATA = {
 
   // EQUIPMENT (added 2026-07-28 audit fix)
   // TODO: design team to add startingEquipment and proficiencies.
-  // TODO: review weapon/armor lists for class accuracy per lore compendium.
+  // Protective gear and weapon loadouts per canonical compendium.
   equipment: {
    weapons: ['dagger', 'blowgun', 'short_sword'],
-   armor: ['light_armor', 'robes'],
+   protectiveGear: ['light_ward', 'robes'],
    offHand: ['vial', 'empty']
   },
 
@@ -123,6 +123,14 @@ export const TOXICOLOGIST_DATA = {
   },
 
   id: "toxicologist",
+  classResource: {
+    type: "vials",
+    base: 4,
+    max: 10,
+    secondaryResource: { type: "contraption_parts", max: 6 },
+    generationNote: "Vials distilled during rests or synthesized from organic reagents. Contraptions deployed and reclaimed.",
+    mechanicsNote: "Toxin vials coat weapons or fill aerosol flasks. Contraption parts are spent on deployable turrets and needle traps."
+  },
   name: "Toxicologist",
   icon: "fas fa-flask",
   role: "Damage/Support",
@@ -219,7 +227,7 @@ The fog is changing chemistry. Compounds that remained viable for years now degr
 
 **The hook**: You prepare for battle through **Chemical Traps & Dynamic Brewing**: before initiative is rolled, you can seed the battlefield with vapor mines and spike traps. In combat, you bleed Vials to craft custom poisons tailored to enemy weaknesses.
 
-**The resource bar & costs**: Your resource bar is **Vials** (bled from your own vitality) and **Contraption Parts**. You spend Vials to apply debilitating debuffs—weakening enemy attacks, slowing movement, shredding armor, and causing internal hemorrhaging.
+**The resource bar & costs**: Your resource bar is **Vials** (bled from your own vitality) and **Contraption Parts**. You spend Vials to apply debilitating debuffs—weakening enemy attacks, slowing movement, shredding Durability, and causing internal hemorrhaging.
 
 **Bring one for**: Tactical pre-fight preparation, debuffing enemies into helplessness, and playing a cunning alchemical mastermind who dismantles bosses before they take an action.`,
     roleplayIdentity: {
@@ -322,7 +330,7 @@ Whatever the cause, the Toxicologists are losing their arsenal. Their most power
 
     combatRole: {
       title: "Combat Role",
-      content: `**Why Bring Me?** Because no other class can prepare the battlefield before initiative is rolled. You are the ONLY preparation-based alchemist. You set traps at choke points, craft poisons mid-combat, and stack debilitating debuffs — weakened, slowed, bleeding, armor-shredded — that no other class can apply. By the time the real fight starts, your enemies are already dying and don't know it yet.
+      content: `**Why Bring Me?** Because no other class can prepare the battlefield before initiative is rolled. You are the ONLY preparation-based alchemist. You set traps at choke points, craft poisons mid-combat, and stack debilitating debuffs — weakened, slowed, bleeding, durability-shredded — that no other class can apply. By the time the real fight starts, your enemies are already dying and don't know it yet.
 
 **Fatal Flaw**: You CANNOT heal yourself. All healing you receive from any source is reduced by 50% — your blood rejects medicine like it rejects purity. Fire and ember damage causes your active poisons to detonate INSIDE you. You are your own worst hazard zone. Without preparation time, you are a basic combatant carrying a body full of toxins with nowhere to spend them.
 
@@ -376,7 +384,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 - **Spike Trap** (1 part): 3d6 smashing damage, immobilized 1 round (DC 14 agility check)
 - **Healing Mist Dispenser** (2 parts): Heal 1d8 HP, remove 1 poison/disease when ally enters
 - **Smoke Grenade Launcher** (1 part): 15ft smoke cloud, obscures vision for 3 rounds
-- **Acid Sprayer** (2 parts): 2d8 blight damage, -3 armor for 3 rounds
+- **Acid Sprayer** (2 parts): 2d8 blight damage, -3 Durability for 3 rounds
 - **Alarm Bell** (1 part): Alert allies, +2 initiative for allies within 30ft
 
 **Concoction Crafting** (Mid-Combat, 1 AP each):
@@ -617,7 +625,7 @@ Vials (0–10) represent distilled alchemical compounds and chemical reagents ca
         title: "Poison Stacking",
         stats: "Multiple Active",
         details:
-          "Different poisons can stack on the same target. A poisoned, bleeding, weakened, and armor-shredded enemy is your masterpiece.",
+          "Different poisons can stack on the same target. A poisoned, bleeding, weakened, and durability-shredded enemy is your masterpiece.",
       },
     ],
 
@@ -672,9 +680,9 @@ Both resources compete for your limited rest economy. Spending 3 vials on an Exp
         [
           "Corrosive Acid",
           "2 vials",
-          "2d6 blight damage, -2 armor for 2 rounds",
+          "2d6 blight damage, -2 Durability for 2 rounds",
           "3 attacks",
-          "Eats through armor",
+          "eats through Durability and DR",
         ],
         [
           "Bleeding Venom",
@@ -753,7 +761,7 @@ Both resources compete for your limited rest economy. Spending 3 vials on an Exp
           "Acid Sprayer",
           "2 parts",
           "Enemy enters 5ft cone",
-          "2d8 blight damage, -3 armor for 3 rounds",
+          "2d8 blight damage, -3 Durability for 3 rounds",
           "Until triggered or 10 minutes",
         ],
         [
@@ -829,7 +837,7 @@ Apply weapon poison (1 AP) and throw an Explosive Concoction or Smoke Bomb at gr
 Craft concoctions reactively based on what the fight demands. Ally goes down? Healing Mist. Enemy caster is annoying? Smoke Bomb to obscure their line of sight. Getting swarmed? Acid Sprayer trap at your feet. Keep 1-2 vials in reserve at all times — the fight can always go sideways.
 
 **Stack & Finish (The Kill Combo)**:
-Stack Bleeding Venom + Weakening Toxin on priority targets for sustained damage and reduced accuracy. Against tanks, stack Corrosive Acid + Neurotoxin for armor shredding + attack debuff. Against bosses, lead with Cardiotoxin (stun on failed save) then follow up with your highest-damage poison while they can't fight back.
+Stack Bleeding Venom + Weakening Toxin on priority targets for sustained damage and reduced accuracy. Against tanks, stack Corrosive Acid + Neurotoxin for durability shredding + attack debuff. Against bosses, lead with Cardiotoxin (stun on failed save) then follow up with your highest-damage poison while they can't fight back.
 
 **Contraption Layering**:
 Place traps in sequence — Poison Gas Trap first (slows movement), then Spike Trap behind it (immobilizes slowed targets). Enemies trigger the gas, try to retreat, and hit the spikes. This combo alone can remove a minion from the fight for 2+ rounds.
@@ -861,7 +869,7 @@ Place a d6 or small token on the grid square where each contraption is deployed.
 Place colored tokens on enemy miniatures to show active poisons:
 - **Red bead** = Neurotoxin (attack penalty)
 - **Blue bead** = Hemotoxin (bleeding)
-- **Purple bead** = Cytotoxin (armor reduction)
+- **Purple bead** = Cytotoxin (Durability reduction)
 - **Green bead** = Myotoxin (movement penalty)
 - **Black bead** = Cardiotoxin (stun risk)
 
@@ -888,9 +896,9 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
 - **Contraption Map**: Before combat, physically place trap markers on the grid where you plan to deploy. This speeds up your turn and makes your battlefield control visible to allies.
 
 **Pro Tips**:
-- Tell your party what you're applying to which enemy. "I'm stacking neurotoxin and corrosive acid on the boss — he's at -2 to hit and -2 armor." This helps everyone play around your debuffs.
+- Tell your party what you're applying to which enemy. "I'm stacking neurotoxin and corrosive acid on the boss — he's at -2 to hit and -2 Durability." This helps everyone play around your debuffs.
 - Pre-write your "panic recipes" — the 1-vial concoctions you'd craft in an emergency (Antidote, Smoke Bomb). Keep them on a separate card for instant reference when things go wrong.
-- Coordinate with your party's melee fighters. They benefit most from weapon poisons applied to their weapons — a Fighter with Corrosive Acid on their greatsword shreds boss armor.`,
+- Coordinate with your party's melee fighters. They benefit most from weapon poisons applied to their weapons — a Fighter with Corrosive Acid on their greatsword shreds boss Durability.`,
     },
   },
 
@@ -987,7 +995,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
             name: "Crippling Toxin",
             cost: "2 Vials",
             effect:
-              "Apply a debilitating poison. Target has -4 to attack rolls, -2 armor, -10ft movement, and disadvantage on all saves for 5 rounds. DC 16 CON save to reduce penalties by half.",
+              "Apply a debilitating poison. Target has -4 to attack rolls, -2 Durability, -10ft movement, and disadvantage on all saves for 5 rounds. DC 16 CON save to reduce penalties by half.",
           },
           {
             name: "Chaos Grenade",
@@ -999,7 +1007,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
             name: "Total Shutdown",
             cost: "4 Vials + 2 Contraption Parts",
             effect:
-              "Target enemy is severely debilitated. They cannot take actions for 1 round (reactions only), have -3 armor, and have disadvantage on all saves. DC 19 CON save to reduce to: no action penalty, -1 armor, and disadvantage on saves for 1 round only.",
+              "Target enemy is severely debilitated. They cannot take actions for 1 round (reactions only), have -3 Durability, and have disadvantage on all saves. DC 19 CON save to reduce to: no action penalty, -1 Durability, and disadvantage on saves for 1 round only.",
           },
         ],
       },
@@ -1017,7 +1025,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       spellType: "ACTION",
       icon: "Poison/Acid Drip",
       specialization: "universal",
-      typeConfig: { school: "blight", icon: "Poison/Corrosive Acid", tags: ["utility", "lockpick", "acid", "toxicologist"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "blight", icon: "Poison/Acid Splash", tags: ["utility", "lockpick", "acid", "toxicologist"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 5 },
       resourceCost: { actionPoints: 1, mana: 0 },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
@@ -1030,7 +1038,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       spellType: "REACTION",
       icon: "Poison/Deadly Poison",
       specialization: "universal",
-      typeConfig: { school: "blight", icon: "Poison/Poison Vial", tags: ["utility", "feign_death", "stasis", "toxicologist"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "blight", icon: "Poison/Poison Flask", tags: ["utility", "feign_death", "stasis", "toxicologist"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { actionPoints: 1, mana: 0 },
       cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
@@ -1068,8 +1076,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         toxinVials: 2,
         actionPoints: 1,
         components: ["somatic"],
-        somaticText: "Strike with poisoned blade",
-      },
+        somaticText: "Strike with poisoned blade", classResource: { type: "vials", cost: 2 } },
 
       resolution: "ATTACK_ROLL",
       effectTypes: ["damage", "debuff"],
@@ -1171,8 +1178,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         actionPoints: 1,
         components: ["somatic", "material"],
         somaticText: "Throw vial at target location",
-        materialText: "Concentrated toxin vial",
-      },
+        materialText: "Concentrated toxin vial", classResource: { type: "vials", cost: 3 } },
 
       savingThrow: {
         enabled: true,
@@ -1364,8 +1370,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         actionPoints: 2,
         components: ["somatic", "verbal"],
         verbalText: "Activate network protocol!",
-        somaticText: "Link contraptions with arcane energy",
-      },
+        somaticText: "Link contraptions with arcane energy", classResource: { type: "contraption_parts", cost: 4 } },
 
       resolution: "AUTOMATIC",
       effectTypes: ["utility"],
@@ -1413,7 +1418,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_overcharged_trap",
       name: "Overcharged Trap",
       description:
-        "Deploy a supercharged contraption that erupts in a 15-foot blast of ember, dealing 8d6 ember damage, corroding 3 armor, and leaving 1d6 ember burning per round for 3 rounds (Agility DC 17 for half).",
+        "Deploy a supercharged contraption that erupts in a 15-foot blast of ember, dealing 8d6 ember damage, corroding 3 Durability, and leaving 1d6 ember burning per round for 3 rounds (Agility DC 17 for half).",
       spellType: "ACTION",
       icon: "Utility/Utility Tool",
       level: 6,
@@ -1445,8 +1450,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         actionPoints: 2,
         components: ["somatic", "material"],
         somaticText: "Deploy overcharged contraption",
-        materialText: "Enhanced contraption parts",
-      },
+        materialText: "Enhanced contraption parts", classResource: { type: "contraption_parts", cost: 3 } },
 
       savingThrow: {
         enabled: true,
@@ -1517,7 +1521,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_crippling_toxin",
       name: "Crippling Toxin",
       description:
-        "Apply a debilitating poison that deals 3d6 blight damage and withers the target for 5 rounds: -4 to attack, -2 armor, -10 feet of movement, and disadvantage on saves (Constitution DC 16 for reduced penalties).",
+        "Apply a debilitating poison that deals 3d6 blight damage and withers the target for 5 rounds: -4 to attack, -2 Durability, -10 feet of movement, and disadvantage on saves (Constitution DC 16 for reduced penalties).",
       spellType: "ACTION",
       icon: "Utility/Hide",
       level: 3,
@@ -1545,8 +1549,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         toxinVials: 2,
         actionPoints: 1,
         components: ["somatic"],
-        somaticText: "Apply crippling poison to weapon",
-      },
+        somaticText: "Apply crippling poison to weapon", classResource: { type: "vials", cost: 2 } },
 
       savingThrow: {
         enabled: true,
@@ -1572,9 +1575,9 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           { id : "crippled",
             name: "Crippled",
             description:
-              "-4 attack rolls, -2 armor, -10ft movement, disadvantage on saves for 5 rounds.",
+              "-4 attack rolls, -2 Durability, -10ft movement, disadvantage on saves for 5 rounds.",
             mechanicsText:
-              "-4 attack rolls, -2 armor, -10ft movement, disadvantage on saves for 5 rounds",
+              "-4 attack rolls, -2 Durability, -10ft movement, disadvantage on saves for 5 rounds",
             statModifier: {
               stat: "attack_rolls",
               magnitude: -4,
@@ -1642,8 +1645,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         actionPoints: 2,
         components: ["somatic", "material"],
         somaticText: "Throw chaos grenade",
-        materialText: "Alchemical explosive",
-      },
+        materialText: "Alchemical explosive", classResource: { type: "vials", cost: 3 } },
 
       savingThrow: {
         enabled: true,
@@ -1718,7 +1720,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_total_shutdown",
       name: "Total Shutdown",
       description:
-        "Flood the target with a rare neurotoxin that shuts down their body for 1 round - they can only react, lose 3 armor, and suffer disadvantage on all saves (Constitution DC 19 for a reduced effect).",
+        "Flood the target with a rare neurotoxin that shuts down their body for 1 round - they can only react, lose 3 Durability, and suffer disadvantage on all saves (Constitution DC 19 for a reduced effect).",
       spellType: "ACTION",
       icon: "Psychic/Mind Control",
       level: 7,
@@ -1750,8 +1752,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         components: ["verbal", "somatic", "material"],
         verbalText: "Total system failure!",
         somaticText: "Inject shutdown toxin",
-        materialText: "Rare neurotoxin compound",
-      },
+        materialText: "Rare neurotoxin compound", classResource: { type: "vials", cost: 4 } },
 
       savingThrow: {
         enabled: true,
@@ -1775,9 +1776,9 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           { id : "total_shutdown",
             name: "Total Shutdown",
             description:
-              "Severely poisoned: -3 armor, disadvantage on all saves and attack rolls, halved movement for 1 round. Target can still act but is greatly impaired.",
+              "Severely poisoned: -3 Durability, disadvantage on all saves and attack rolls, halved movement for 1 round. Target can still act but is greatly impaired.",
             mechanicsText:
-              "No actions (reactions only), -3 armor, disadvantage on all saves for 1 round, CON save DC 19",
+              "No actions (reactions only), -3 Durability, disadvantage on all saves for 1 round, CON save DC 19",
             statusType: "severely_poisoned",
             saveType: "constitution",
             saveDC: 19,
@@ -1836,8 +1837,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         toxinVials: 1,
         actionPoints: 1,
         components: ["somatic"],
-        somaticText: "Apply poison to weapon",
-      },
+        somaticText: "Apply poison to weapon", classResource: { type: "vials", cost: 1 } },
 
       resolution: "AUTOMATIC",
 
@@ -1900,8 +1900,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         actionPoints: 1,
         components: ["somatic", "material"],
         somaticText: "Administer antidote",
-        materialText: "Purifying reagents",
-      },
+        materialText: "Purifying reagents", classResource: { type: "vials", cost: 1 } },
 
       resolution: "AUTOMATIC",
       effectTypes: ["buff", "utility"],
@@ -1981,8 +1980,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         actionPoints: 1,
         components: ["somatic", "material"],
         somaticText: "Throw explosive vial",
-        materialText: "Volatile alchemical mixture",
-      },
+        materialText: "Volatile alchemical mixture", classResource: { type: "vials", cost: 3 } },
 
       savingThrow: {
         enabled: true,
@@ -2057,8 +2055,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         toxinVials: 1,
         actionPoints: 1,
         components: ["somatic"],
-        somaticText: "Throw smoke bomb",
-      },
+        somaticText: "Throw smoke bomb", classResource: { type: "vials", cost: 1 } },
 
       resolution: "AUTOMATIC",
 
@@ -2141,7 +2138,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
 
       resourceCost: {
         resourceTypes: ["mana", "toxinVials"],
-        resourceValues: { mana: 24, toxinVials: 3 },
+        resourceValues: { mana: 24, toxinVials: 3, classResource: { type: "vials", cost: 3 } },
         actionPoints: 2,
         components: ["somatic"],
         somaticText: "Release plague vial",
@@ -2202,7 +2199,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_mechanical_monstrosity",
       name: "Mechanical Monstrosity",
       description:
-        "Salvage and animate a Large mechanical monstrosity (80 HP, 18 armor) that fights at your command for 5 rounds, smashing foes for 4d10 or loosing missiles for 3d8 in a 15-foot spread.",
+        "Salvage and animate a Large mechanical monstrosity (80 HP, 4 Durability, 6 DR) that fights at your command for 5 rounds, smashing foes for 4d10 or loosing missiles for 3d8 in a 15-foot spread.",
       level: 8,
       spellType: "ACTION",
       icon: "Utility/Utility Tool",
@@ -2247,7 +2244,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
             type: "construct",
             stats: {
               maxHp: 80,
-              armor: 18,
+              durability: 4, drBonus: 6,
               maxMana: 0,
             },
             config: {
@@ -2372,7 +2369,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
 
       resourceCost: {
         resourceTypes: ["mana", "toxinVials"],
-        resourceValues: { mana: 27, toxinVials: 5 },
+        resourceValues: { mana: 27, toxinVials: 5, classResource: { type: "vials", cost: 5 } },
         actionPoints: 3,
         components: ["somatic"],
         somaticText: "Inject extinction toxin",
@@ -2408,7 +2405,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_war_machine",
       name: "War Machine",
       description:
-        "Deploy a Huge war machine (150 HP, 22 armor) bristling with weapons for 5 rounds - it crushes for 6d10, lobs artillery for 8d8 in a 30-foot radius, or projects shields granting allies +5 DR.",
+        "Deploy a Huge war machine (150 HP, 6 Durability, 8 DR) bristling with weapons for 5 rounds - it crushes for 6d10, lobs artillery for 8d8 in a 30-foot radius, or projects shields granting allies +5 DR.",
       level: 9,
       spellType: "ACTION",
       icon: "Utility/Utility Tool",
@@ -2453,7 +2450,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
             type: "construct",
             stats: {
               maxHp: 150,
-              armor: 22,
+              durability: 6, drBonus: 8,
               maxMana: 0,
             },
             config: {
@@ -2581,7 +2578,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
 
       resourceCost: {
         resourceTypes: ["mana", "toxinVials"],
-        resourceValues: { mana: 30, toxinVials: "all" },
+        resourceValues: { mana: 30, toxinVials: "all", classResource: { type: "vials", cost: "all" } },
         actionPoints: 3,
         components: ["somatic"],
         somaticText: "Release the apocalypse plague",
@@ -2635,7 +2632,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_mechanical_army",
       name: "Mechanical Army",
       description:
-        "Raise an army of eight mechanical soldiers (40 HP, 16 armor each) across a 30-foot radius, each striking for 2d10 damage over 5 rounds of relentless advance.",
+        "Raise an army of eight mechanical soldiers (40 HP, 3 Durability, 4 DR each) across a 30-foot radius, each striking for 2d10 damage over 5 rounds of relentless advance.",
       level: 10,
       spellType: "ACTION",
       icon: "Utility/Strange Brew",
@@ -2682,7 +2679,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
             type: "construct",
             stats: {
               maxHp: 40,
-              armor: 16,
+              durability: 3, drBonus: 4,
               maxMana: 0,
             },
             config: {
@@ -2861,8 +2858,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         resourceTypes: ["mana", "toxinVials"],
         resourceValues: {
           mana: 2,
-          toxinVials: 1,
-        },
+          toxinVials: 1, classResource: { type: "vials", cost: 1 } },
         actionPoints: 1,
         components: ["somatic"],
         somaticText: "Fire poison dart from wrist launcher",
@@ -2924,8 +2920,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         resourceTypes: ["mana", "toxinVials"],
         resourceValues: {
           mana: 2,
-          toxinVials: 1,
-        },
+          toxinVials: 1, classResource: { type: "vials", cost: 1 } },
         actionPoints: 1,
         components: ["verbal", "somatic"],
         verbalText: "Exhale the wasting breath",
@@ -2978,8 +2973,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         resourceTypes: ["mana", "toxinVials"],
         resourceValues: {
           mana: 2,
-          toxinVials: 1,
-        },
+          toxinVials: 1, classResource: { type: "vials", cost: 1 } },
         actionPoints: 1,
         components: ["verbal", "somatic", "material"],
         verbalText: "Drink deep the cup of clearing",
@@ -2997,7 +2991,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_venom_blast",
       name: "Venom Blast",
       description:
-        "Strike with concentrated venom for 4d6 blight damage that eats through the target's armor, corroding it by 2 for 2 rounds.",
+        "Strike with concentrated venom for 4d6 blight damage that eats through the target's Durability and DR, corroding Durability by 2 for 2 rounds.",
       level: 3,
       spellType: "ACTION",
       icon: "Poison/Deadly Poison",
@@ -3034,10 +3028,10 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       debuffConfig: {
         debuffType: "statReduction",
         effects: [
-          { id : "venom_blast_armor",
+          { id : "venom_blast_durability",
             name: "DR Corrosion",
-            description: "-2 armor for 2 rounds",
-            mechanicsText: "-2 armor for 2 rounds",
+            description: "-2 Durability for 2 rounds",
+            mechanicsText: "-2 Durability for 2 rounds",
           },
         ],
         durationValue: 2,
@@ -3050,8 +3044,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         resourceTypes: ["mana", "toxinVials"],
         resourceValues: {
           mana: 8,
-          toxinVials: 1,
-        },
+          toxinVials: 1, classResource: { type: "vials", cost: 1 } },
         actionPoints: 1,
         components: ["verbal", "somatic"],
         verbalText: "Corrode and consume!",
@@ -3128,8 +3121,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         resourceTypes: ["mana", "toxinVials"],
         resourceValues: {
           mana: 8,
-          toxinVials: 2,
-        },
+          toxinVials: 2, classResource: { type: "vials", cost: 2 } },
         actionPoints: 1,
         components: ["verbal", "somatic"],
         verbalText: "Grip and wrench the gut!",
@@ -3146,7 +3138,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_poison_bomb",
       name: "Poison Bomb",
       description:
-        "Throw a poison bomb that bursts in a 20-foot radius for 5d6 blight damage and corrodes 1 armor from every enemy caught in the cloud for 2 rounds (Constitution DC 16 for half).",
+        "Throw a poison bomb that bursts in a 20-foot radius for 5d6 blight damage and corrodes 1 Durability from every enemy caught in the cloud for 2 rounds (Constitution DC 16 for half).",
       level: 4,
       spellType: "ACTION",
       icon: "Arcane/Orb Manipulation",
@@ -3194,8 +3186,8 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         effects: [
           { id : "poison_bomb_corrosion",
             name: "Corroded",
-            description: "-1 armor for 2 rounds",
-            mechanicsText: "-1 armor for 2 rounds",
+            description: "-1 Durability for 2 rounds",
+            mechanicsText: "-1 Durability for 2 rounds",
           },
         ],
         durationValue: 2,
@@ -3208,8 +3200,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         resourceTypes: ["mana", "toxinVials"],
         resourceValues: {
           mana: 10,
-          toxinVials: 2,
-        },
+          toxinVials: 2, classResource: { type: "vials", cost: 2 } },
         actionPoints: 2,
         components: ["verbal", "somatic"],
         verbalText: "Shatter and spread!",
@@ -3272,8 +3263,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         resourceTypes: ["mana", "toxinVials"],
         resourceValues: {
           mana: 12,
-          toxinVials: 2,
-        },
+          toxinVials: 2, classResource: { type: "vials", cost: 2 } },
         actionPoints: 1,
         components: ["verbal", "somatic"],
         verbalText: "Thin the blood to water",
@@ -3352,8 +3342,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         resourceTypes: ["mana", "toxinVials"],
         resourceValues: {
           mana: 14,
-          toxinVials: 2,
-        },
+          toxinVials: 2, classResource: { type: "vials", cost: 2 } },
         actionPoints: 2,
         components: ["verbal", "somatic"],
         verbalText: "Rise and overwhelm!",
@@ -3413,8 +3402,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         resourceTypes: ["mana", "toxinVials"],
         resourceValues: {
           mana: 16,
-          toxinVials: 3,
-        },
+          toxinVials: 3, classResource: { type: "vials", cost: 3 } },
         actionPoints: 2,
         components: ["verbal", "somatic"],
         verbalText: "Spread, leap, consume!",

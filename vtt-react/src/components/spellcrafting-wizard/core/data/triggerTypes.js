@@ -19,7 +19,7 @@ const TARGETING_TYPES = [
     id: 'area',
     name: 'Area of Effect',
     description: 'Affects all targets within a defined area',
-    icon: '/assets/icons/abilities/Fire/Fire.png',
+    icon: '/assets/icons/abilities/Fire/Flame Burst.png',
     actionPointModifier: 1,
     tooltip: 'Create a magical effect that impacts everything in a specific area'
   },
@@ -35,7 +35,7 @@ const TARGETING_TYPES = [
     id: 'cone',
     name: 'Cone',
     description: 'Affects targets in a cone-shaped area',
-    icon: '/assets/icons/abilities/Fire/Fire.png',
+    icon: '/assets/icons/abilities/Fire/Flame Burst.png',
     actionPointModifier: 1,
     tooltip: 'Project your spell in a widening cone from your position'
   },
@@ -43,7 +43,7 @@ const TARGETING_TYPES = [
     id: 'line',
     name: 'Line',
     description: 'Affects targets in a line',
-    icon: '/assets/icons/abilities/Arcane/Arcane.png',
+    icon: '/assets/icons/abilities/Arcane/Spiral Vortex.png',
     actionPointModifier: 1,
     tooltip: 'Your spell strikes in a straight line, affecting all in its path'
   },
@@ -59,7 +59,7 @@ const TARGETING_TYPES = [
     id: 'smart',
     name: 'Smart Targeting',
     description: 'Automatically selects targets based on parameters',
-    icon: '/assets/icons/abilities/Radiant/Light Path.png',
+    icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
     actionPointModifier: 2,
     tooltip: 'Your spell intelligently chooses optimal targets based on the situation'
   }
@@ -70,7 +70,7 @@ const AOE_SHAPES = [
     id: 'circle',
     name: 'Circle',
     description: 'Affects all targets within a circular area',
-    icon: '/assets/icons/abilities/Radiant/Light Path.png',
+    icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
     defaultRadius: 20,
     parameterType: 'radius',
     tooltip: 'Creates a perfectly circular area of magical effect'
@@ -126,7 +126,7 @@ const AOE_SHAPES = [
     id: 'cylinder',
     name: 'Cylinder',
     description: 'Affects all targets within a cylinder',
-    icon: '/assets/icons/abilities/Radiant/Light Path.png',
+    icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
     defaultRadius: 10,
     defaultHeight: 20,
     parameterType: 'radiusHeight',
@@ -492,7 +492,7 @@ const PROXIMITY_TRIGGERS = [
     description: 'Triggers when a creature enters within a certain range of the target',
     parameters: [{ name: 'range', type: 'number', unit: 'feet', default: 30 }],
     entitiesAffected: ['allies', 'enemies', 'self'],
-    icon: '/assets/icons/abilities/Fire/Fire.png',
+    icon: '/assets/icons/abilities/Fire/Flame Burst.png',
   },
   {
     id: 'exit_range',
@@ -530,7 +530,7 @@ const STATUS_TRIGGERS = [
     description: 'Triggers when a status effect is applied',
     parameters: [{ name: 'status', type: 'string', default: 'any' }],
     entitiesAffected: ['allies', 'enemies', 'self'],
-    icon: '/assets/icons/abilities/Radiant/Light Path.png',
+    icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
   },
   {
     id: 'status_removed',
@@ -538,7 +538,7 @@ const STATUS_TRIGGERS = [
     description: 'Triggers when a status effect is removed',
     parameters: [{ name: 'status', type: 'string', default: 'any' }],
     entitiesAffected: ['allies', 'enemies', 'self'],
-    icon: '/assets/icons/abilities/Radiant/Light Path.png',
+    icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
   },
   {
     id: 'health_threshold',
@@ -549,7 +549,7 @@ const STATUS_TRIGGERS = [
       { name: 'condition', type: 'select', options: ['below', 'above', 'equals'], default: 'below' }
     ],
     entitiesAffected: ['allies', 'enemies', 'self'],
-    icon: '/assets/icons/abilities/Radiant/Light Path.png',
+    icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
   },
   {
     id: 'stun_break',
@@ -557,7 +557,7 @@ const STATUS_TRIGGERS = [
     description: 'Triggers when recovering from a stun effect',
     parameters: [],
     entitiesAffected: ['self', 'allies'],
-    icon: '/assets/icons/abilities/Radiant/Light Path.png',
+    icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
   }
 ];
 
@@ -683,7 +683,7 @@ const TURN_BASED_TRIGGERS = [
     description: 'Triggers at the start of a turn',
     parameters: [],
     entitiesAffected: ['self', 'allies', 'enemies'],
-    icon: '/assets/icons/abilities/Radiant/Light Path.png',
+    icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
   },
   {
     id: 'turn_end',
@@ -691,7 +691,7 @@ const TURN_BASED_TRIGGERS = [
     description: 'Triggers at the end of a turn',
     parameters: [],
     entitiesAffected: ['self', 'allies', 'enemies'],
-    icon: '/assets/icons/abilities/Radiant/Light Path.png',
+    icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
   },
   {
     id: 'round_start',
@@ -699,7 +699,7 @@ const TURN_BASED_TRIGGERS = [
     description: 'Triggers at the start of a combat round',
     parameters: [],
     entitiesAffected: ['global'],
-    icon: '/assets/icons/abilities/Radiant/Light Path.png',
+    icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
   },
   {
     id: 'round_end',
@@ -707,7 +707,7 @@ const TURN_BASED_TRIGGERS = [
     description: 'Triggers at the end of a combat round',
     parameters: [],
     entitiesAffected: ['global'],
-    icon: '/assets/icons/abilities/Radiant/Light Path.png',
+    icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
   },
   {
     id: 'nth_turn',
@@ -717,7 +717,7 @@ const TURN_BASED_TRIGGERS = [
       { name: 'turn', type: 'number', default: 3 }
     ],
     entitiesAffected: ['self'],
-    icon: '/assets/icons/abilities/Void/Void.png',
+    icon: '/assets/icons/abilities/Void/Consumed by Void.png',
   }
 ];
 
@@ -752,7 +752,7 @@ const MOVEMENT_TRIGGERS = [
     description: 'Triggers when taking fall damage',
     parameters: [],
     entitiesAffected: ['self', 'allies', 'enemies'],
-    icon: '/assets/icons/abilities/Psychic/Purple Star.png',
+    icon: '/assets/icons/abilities/Psychic/Brain Psionics.png',
   },
   {
     id: 'distance_traveled',
@@ -775,7 +775,7 @@ const SPELL_BASED_TRIGGERS = [
       { name: 'spell_type', type: 'select', options: ['any', 'damage', 'healing', 'buff', 'debuff', 'utility'], default: 'any' }
     ],
     entitiesAffected: ['self', 'allies', 'enemies'],
-    icon: '/assets/icons/abilities/Radiant/Light Path.png',
+    icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
   },
   {
     id: 'spell_reflected',
@@ -809,7 +809,7 @@ const SPELL_BASED_TRIGGERS = [
       { name: 'effect_type', type: 'select', options: ['any', 'buff', 'debuff'], default: 'any' }
     ],
     entitiesAffected: ['self', 'allies', 'enemies'],
-    icon: '/assets/icons/abilities/Radiant/Light Path.png',
+    icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
   }
 ];
 
@@ -836,7 +836,7 @@ const CLASS_SPECIFIC_TRIGGERS = [
     ],
     entitiesAffected: ['self'],
     class: 'paladin',
-    icon: '/assets/icons/abilities/Radiant/Light Path.png',
+    icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
   },
   // Mage
   {
@@ -848,7 +848,7 @@ const CLASS_SPECIFIC_TRIGGERS = [
     ],
     entitiesAffected: ['self'],
     class: 'mage',
-    icon: '/assets/icons/abilities/Arcane/Arcane.png',
+    icon: '/assets/icons/abilities/Arcane/Spiral Vortex.png',
   },
   // Rogue
   {
@@ -870,7 +870,7 @@ const CLASS_SPECIFIC_TRIGGERS = [
     ],
     entitiesAffected: ['self'],
     class: 'priest',
-    icon: '/assets/icons/abilities/Shadow/Shadow.png',
+    icon: '/assets/icons/abilities/Necrotic/Gloomy Death.png',
   },
   // Hunter
   {
@@ -907,7 +907,7 @@ const CLASS_SPECIFIC_TRIGGERS = [
     ],
     entitiesAffected: ['self'],
     class: 'druid',
-    icon: '/assets/icons/abilities/Nature/Natural.png',
+    icon: '/assets/icons/abilities/Nature/Nature Natural 4.png',
   }
 ];
 
@@ -924,7 +924,7 @@ const TRIGGER_CATEGORIES = [
     name: 'Status Effects',
     description: 'Triggers related to status effects and conditions',
     triggers: STATUS_TRIGGERS,
-    icon: '/assets/icons/abilities/Radiant/Light Path.png',
+    icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
   },
   {
     id: 'combat',
@@ -959,7 +959,7 @@ const TRIGGER_CATEGORIES = [
     name: 'Spell Based',
     description: 'Triggers based on spell interactions',
     triggers: SPELL_BASED_TRIGGERS,
-    icon: '/assets/icons/abilities/Radiant/Light Path.png',
+    icon: '/assets/icons/abilities/Radiant/Divine Beam.png',
   },
   {
     id: 'class_specific',

@@ -4441,6 +4441,15 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   font-style: italic;
 }
 
+/* Duration row sits in a parchment pill like the cooldown footer */
+.unified-spell-stat.duration-stat {
+  background: var(--my-gradient-parchment-light);
+  border: 1px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  box-shadow: var(--my-shadow-sm);
+  padding: 3px 8px;
+}
+
 /* Enhanced damage formula styling - removed outer box styling */
 .unified-spell-stat.damage-formula {
   justify-content: center;

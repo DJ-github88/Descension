@@ -223,7 +223,7 @@ export const POSITIVE_STATUS_EFFECTS = [
       id: 'empowered',
       name: 'Empowered',
       description: 'Increases the power of spells and abilities',
-      icon: '/assets/icons/abilities/Arcane/Arcane.png',
+      icon: '/assets/icons/abilities/Arcane/Spiral Vortex.png',
       category: 'enhancement',
       actionPointCost: 2,
       options: [
@@ -725,7 +725,7 @@ export const COMBAT_DISADVANTAGES = [
       id: 'disadvantage_save',
       name: 'Disadvantage on Saves',
       description: 'Roll twice and take the lower result on saving throws',
-      icon: '/assets/icons/abilities/Shadow/Shadow Darkness.png',
+      icon: '/assets/icons/abilities/Necrotic/Gloomy Death.png',
       category: 'debuff',
       actionPointCost: 2,
       options: [
@@ -736,7 +736,7 @@ export const COMBAT_DISADVANTAGES = [
         { id: 'strength', name: 'Strength', icon: '/assets/icons/abilities/Natural.png' },
         { id: 'agility', name: 'Agility', icon: '/assets/icons/abilities/Utility/Rest.png' },
         { id: 'constitution', name: 'Constitution', icon: '/assets/icons/abilities/Light Path.png' },
-        { id: 'intelligence', name: 'Intelligence', icon: '/assets/icons/abilities/Arcane/Arcane.png' },
+        { id: 'intelligence', name: 'Intelligence', icon: '/assets/icons/abilities/Arcane/Spiral Vortex.png' },
         { id: 'spirit', name: 'Spirit', icon: '/assets/icons/abilities/Light Path.png' },
         { id: 'charisma', name: 'Charisma', icon: '/assets/icons/abilities/Light Path.png' }
       ],
@@ -750,7 +750,7 @@ export const COMBAT_DISADVANTAGES = [
       id: 'damage_vulnerability',
       name: 'Vulnerability',
       description: 'Take increased damage from specific sources',
-      icon: '/assets/icons/abilities/Shadow/Shadow Darkness.png',
+      icon: '/assets/icons/abilities/Necrotic/Gloomy Death.png',
       category: 'debuff',
       actionPointCost: 3,
       options: [
@@ -769,7 +769,7 @@ export const COMBAT_DISADVANTAGES = [
       id: 'reduced_speed',
       name: 'Reduced Speed',
       description: 'Movement speed is reduced',
-      icon: '/assets/icons/abilities/Frost/Frost Bolt.png',
+      icon: '/assets/icons/abilities/Frost/Frozen in Ice.png',
       category: 'debuff',
       actionPointCost: 1,
       options: [

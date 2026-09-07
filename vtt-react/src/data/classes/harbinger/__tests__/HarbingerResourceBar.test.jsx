@@ -3,29 +3,41 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import HarbingerResourceBar from '../components/HarbingerResourceBar';
 import ClassResourceBar from '../../../../components/hud/ClassResourceBar';
 
-describe('HarbingerResourceBar Component', () => {
-    it('renders the illustrated Harbinger bar with 10 rune slots and base asset', () => {
-        render(
+describe('HarbingerResourceBar Component (Pure SVG/CSS Apparatus)', () => {
+    it('renders the pure SVG Harbinger bar with 10 rune slots and singularity core, without any image assets', () => {
+        const { container } = render(
             <HarbingerResourceBar
                 classResource={{ current: 3, max: 10 }}
                 isOwner={true}
             />
         );
 
-        const baseImg = screen.getByAltText('Harbinger Bar Base');
-        expect(baseImg).toBeInTheDocument();
-        expect(baseImg).toHaveAttribute('src', '/assets/ui/classes/harbinger/Empty Bar.PNG');
+        // Verify master SVG and viewBox
+        const svg = container.querySelector('svg.harbinger-master-svg');
+        expect(svg).toBeInTheDocument();
+        expect(svg.getAttribute('viewBox')).toBe('0 0 292 76');
 
-        // Check that all 10 rune stages are rendered
+        // Verify that NO img elements are rendered (pure vector)
+        const imgs = container.querySelectorAll('img');
+        expect(imgs.length).toBe(0);
+
+        // Check that all 10 rune stages are rendered as SVG groups
         for (let i = 1; i <= 10; i++) {
-            expect(screen.getByAltText(`Unlit Stage ${i}`)).toBeInTheDocument();
-            expect(screen.getByAltText(`Lit Stage ${i}`)).toBeInTheDocument();
+            const slot = container.querySelector(`[data-stage="${i}"]`);
+            expect(slot).toBeInTheDocument();
         }
+
+        // Check central core singularity
+        const core = container.querySelector('.harbinger-center-core');
+        expect(core).toBeInTheDocument();
+
+        // Stage 3 should have 3 filled slots and clean vector state
+        expect(container.querySelectorAll('.harbinger-rune-slot.filled').length).toBe(3);
     });
 
     it('renders unified context menu with level grid and Wild Surge trigger without talent spec selector', () => {
         const onUpdate = jest.fn();
-        render(
+        const { container } = render(
             <HarbingerResourceBar
                 classResource={{ current: 5, max: 10 }}
                 isOwner={true}
@@ -33,8 +45,8 @@ describe('HarbingerResourceBar Component', () => {
             />
         );
 
-        // Click bar to open unified context menu
-        const bar = screen.getByAltText('Harbinger Bar Base').closest('.harbinger-resource-bar');
+        // Click bar container to open unified context menu
+        const bar = container.querySelector('.harbinger-resource-bar');
         fireEvent.click(bar);
 
         expect(screen.getByText('Harbinger Mayhem Controls')).toBeInTheDocument();
@@ -50,13 +62,29 @@ describe('HarbingerResourceBar Component', () => {
         expect(onUpdate).toHaveBeenCalledWith('current', 6);
 
         // Click Level 8 button
-        const lvl8Btn = screen.getByText('8');
+        const lvl8Btn = screen.getByRole('button', { name: '8' });
         fireEvent.click(lvl8Btn);
         expect(onUpdate).toHaveBeenCalledWith('current', 8);
     });
 
+    it('allows clicking individual rune slots to set stage directly', () => {
+        const onUpdate = jest.fn();
+        const { container } = render(
+            <HarbingerResourceBar
+                classResource={{ current: 2, max: 10 }}
+                isOwner={true}
+                onClassResourceUpdate={onUpdate}
+            />
+        );
+
+        const slot7 = container.querySelector('[data-stage="7"]');
+        expect(slot7).toBeInTheDocument();
+        fireEvent.click(slot7);
+        expect(onUpdate).toHaveBeenCalledWith('current', 7);
+    });
+
     it('renders correctly through ClassResourceBar router', () => {
-        render(
+        const { container } = render(
             <ClassResourceBar
                 characterClass="Harbinger"
                 classResource={{ current: 7, max: 10 }}
@@ -64,7 +92,20 @@ describe('HarbingerResourceBar Component', () => {
             />
         );
 
-        expect(screen.getByAltText('Harbinger Bar Base')).toBeInTheDocument();
-        expect(screen.getByAltText('Unlit Stage 7')).toBeInTheDocument();
+        const svg = container.querySelector('svg.harbinger-master-svg');
+        expect(svg).toBeInTheDocument();
+        expect(container.querySelectorAll('.harbinger-rune-slot').length).toBe(10);
+    });
+
+    it('activates catastrophic and cataclysm-active states at Stage 10 without text clutter', () => {
+        const { container } = render(
+            <HarbingerResourceBar
+                classResource={{ current: 10, max: 10 }}
+                isOwner={true}
+            />
+        );
+
+        expect(container.querySelector('.harbinger-resource-wrapper.catastrophic-warning')).toBeInTheDocument();
+        expect(container.querySelector('.harbinger-center-core.cataclysm-active')).toBeInTheDocument();
     });
 });

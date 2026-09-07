@@ -46,6 +46,17 @@ export function cadenceToSpell(entry, matrix = {}) {
     if (!entry) return null;
 
     const school = (entry.damageTypes && entry.damageTypes[0]) || 'storm';
+    const SCHOOL_ICONS = {
+        ember: 'Fire/Flame Burst',
+        rime: 'Frost/Frozen in Ice',
+        storm: 'Lightning/Lightning Bolt',
+        arcane: 'Arcane/Spiral Vortex',
+        blight: 'Necrotic/Necrotic Wither',
+        sacred: 'Radiant/Radiant Divinity',
+        wyrd: 'Psychic/Psychic Telepathy',
+        primal: 'Nature/Nature Natural 11'
+    };
+    const schoolIcon = SCHOOL_ICONS[school] || 'Arcane/Spiral Vortex';
     const effectTypes = PRIMARY_EFFECT_TO_EFFECT_TYPES[entry.primaryEffect] || ['buff'];
 
     // Targeting translation, Minstrel cadences target allies, enemies, or areas.
@@ -127,12 +138,12 @@ export function cadenceToSpell(entry, matrix = {}) {
         description,
         level: 1,
         spellType: 'ACTION',
-        icon: `Arcane/${school}`,
+        icon: schoolIcon,
         rarity: 'common',
 
         typeConfig: {
             school,
-            icon: `Arcane/${school}`,
+            icon: schoolIcon,
             tags: [...(entry.damageTypes || []), 'cadence', 'minstrel'],
             castTime: 1,
             castTimeType: 'IMMEDIATE',
@@ -161,13 +172,18 @@ export function cadenceToSpell(entry, matrix = {}) {
         resourceCost: (() => {
             const mana = matrix.baseManaCost || 16;
             // Build per-note resource entries so the spellcard header shows each
-            // consumed note as a separate line (e.g. "Tonic (I) ×2").
+            // consumed note as a separate badge (e.g. "−2 Dominant (V)").
+            // Type names MUST be lowercase (`note_v`, not `note_V`) to match the
+            // musical-note path in useResourceFormatters, and values MUST be
+            // negative so they render as consumes (bass clef) rather than
+            // generates (treble clef). Positive/uppercase values fall through
+            // to the generic path and render with the fallback coin icon.
             const noteTypes = [];
             const noteValues = {};
             for (const [numeral, cnt] of Object.entries(entry.notes || {})) {
-                const typeName = `note_${numeral}`;
+                const typeName = `note_${String(numeral).toLowerCase()}`;
                 noteTypes.push(typeName);
-                noteValues[typeName] = cnt;
+                noteValues[typeName] = -Math.abs(cnt);
             }
             return {
                 actionPoints: 1,

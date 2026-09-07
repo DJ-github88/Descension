@@ -49,9 +49,41 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
       'holypower': faSun,
       'sacred-power': faSun,
       'astralpower': faMoon,
-      'astral-power': faMoon
+      'astral-power': faMoon,
+      // 21 Classes unique resources
+      'fortune': faCoins,
+      'fortunepoints': faCoins,
+      'fortune-points': faCoins,
+      'karmic_debt': faBalanceScale,
+      'karmicdebt': faBalanceScale,
+      'debt': faBalanceScale,
+      'authority': faShield,
+      'binding': faShield,
+      'madness': faBrain,
+      'fervor': faFire,
+      'benediction': faEye,
+      'malediction': faSkull,
+      'lunar_phase': faMoon,
+      'lunarphase': faMoon,
+      'phase': faMoon,
+      'resonance': faLeaf,
+      'ancestral_resonance': faGhost,
+      'flux': faWind,
+      'body_toll': faBolt,
+      'bodytoll': faBolt,
+      'virulence': faSkull,
+      'inferno': faFire,
+      'blood_tokens': faTint,
+      'bloodtokens': faTint,
+      'tension': faShield,
+      'vengeance_points': faShield,
+      'vengeance': faShield,
+      'quarry_marks': faCrosshairs,
+      'quarrymarks': faCrosshairs
     };
-    return resourceTypeMap[resourceType?.toLowerCase()?.replace(/\s+/g, '')] || faCoins;
+    return resourceTypeMap[resourceType?.toLowerCase()?.replace(/[\s_-]+/g, '')] ||
+           resourceTypeMap[resourceType?.toLowerCase()?.replace(/\s+/g, '')] ||
+           faCoins;
   };
 
   const getResourceColor = (resourceType) => {
@@ -90,9 +122,41 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
       'holypower': '#F1C40F',
       'sacred-power': '#F1C40F',
       'astralpower': '#9B59B6',
-      'astral-power': '#9B59B6'
+      'astral-power': '#9B59B6',
+      // 21 Classes unique resources
+      'fortune': '#FFD700',
+      'fortunepoints': '#FFD700',
+      'fortune-points': '#FFD700',
+      'karmic_debt': '#C0392B',
+      'karmicdebt': '#C0392B',
+      'debt': '#C0392B',
+      'authority': '#C5A059',
+      'binding': '#8E44AD',
+      'madness': '#9B59B6',
+      'fervor': '#E67E22',
+      'benediction': '#D4AF37',
+      'malediction': '#8E44AD',
+      'lunar_phase': '#87CEEB',
+      'lunarphase': '#87CEEB',
+      'phase': '#87CEEB',
+      'resonance': '#2ECC71',
+      'ancestral_resonance': '#2ECC71',
+      'flux': '#3498DB',
+      'body_toll': '#E74C3C',
+      'bodytoll': '#E74C3C',
+      'virulence': '#27AE60',
+      'inferno': '#E67E22',
+      'blood_tokens': '#8B0000',
+      'bloodtokens': '#8B0000',
+      'tension': '#D35400',
+      'vengeance_points': '#D35400',
+      'vengeance': '#D35400',
+      'quarry_marks': '#E74C3C',
+      'quarrymarks': '#E74C3C'
     };
-    return resourceColorMap[resourceType?.toLowerCase()?.replace(/\s+/g, '')] || '#95A5A6';
+    return resourceColorMap[resourceType?.toLowerCase()?.replace(/[\s_-]+/g, '')] ||
+           resourceColorMap[resourceType?.toLowerCase()?.replace(/\s+/g, '')] ||
+           '#95A5A6';
   };
   const formatResourceCosts = () => {
     if (!spell) return null;
@@ -196,8 +260,8 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
           return;
         }
 
-        // Skip Musical Note types - handled below
-        if (musicalNoteTypes.includes(type)) {
+        // Skip Musical Note types - handled below (case-insensitive)
+        if (musicalNoteTypes.includes(String(type).toLowerCase())) {
           return;
         }
 
@@ -286,19 +350,161 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
         }
       });
 
-      // Check for class resource (e.g., arcane_charges, holy_power, etc.)
-      if (spell.resourceCost.classResource && spell.resourceCost.classResource.cost > 0) {
-        const classResourceType = spell.resourceCost.classResource.type;
-        const classResourceCost = spell.resourceCost.classResource.cost;
+    }
 
+    // Universal class resource processor (handles builders/spenders across all 21 classes)
+    const rawClassResource = 
+      spell.resourceCost?.classResource || 
+      spell.resourceCost?.resourceValues?.classResource || 
+      spell.classResource;
+
+    if (rawClassResource && rawClassResource.type) {
+      const classResourceType = rawClassResource.type;
+      const classResourceKey = classResourceType.toLowerCase().replace(/[\s_]+/g, '-');
+
+      // Check for generation/gain (builders)
+      const isGain = (rawClassResource.gain !== undefined && rawClassResource.gain > 0) ||
+                     (rawClassResource.cost !== undefined && rawClassResource.cost < 0) ||
+                     (rawClassResource.generates !== undefined && typeof rawClassResource.generates === 'number' && rawClassResource.generates > 0);
+
+      const gainAmount = rawClassResource.gain ||
+                         (rawClassResource.cost !== undefined && rawClassResource.cost < 0 ? Math.abs(rawClassResource.cost) : null) ||
+                         rawClassResource.generates;
+
+      // Check for consumption/cost (spenders)
+      const isCost = (rawClassResource.cost !== undefined && rawClassResource.cost > 0) ||
+                     (rawClassResource.amount !== undefined && rawClassResource.amount > 0);
+
+      const costAmount = rawClassResource.cost || rawClassResource.amount;
+
+      // Lunarch phase advancement
+      if (rawClassResource.phaseAdvancement) {
+        if (!resources.some(r => r.type === 'lunar-phase-advancement')) {
+          resources.push({
+            type: 'lunar-phase-advancement',
+            amount: `+${rawClassResource.phaseAdvancement}`,
+            name: 'Phase',
+            icon: faMoon,
+            color: '#87CEEB',
+            isGain: true,
+            fullText: `Advances Lunar Phase by +${rawClassResource.phaseAdvancement}`
+          });
+        }
+      }
+
+      // Lunarch phase requirement
+      if (rawClassResource.phaseRequired) {
+        const formattedPhase = rawClassResource.phaseRequired.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        if (!resources.some(r => r.type === 'lunar-phase-required')) {
+          resources.push({
+            type: 'lunar-phase-required',
+            amount: `[${formattedPhase}]`,
+            name: 'Required',
+            icon: faMoon,
+            color: '#E0E0FF',
+            isRequired: true,
+            fullText: `Requires [${formattedPhase}] Phase`
+          });
+        }
+      }
+
+      if (isGain && gainAmount) {
+        const gainType = `${classResourceKey}-gain`;
+        if (!resources.some(r => r.type === gainType || r.type === classResourceKey)) {
+          resources.push({
+            type: gainType,
+            amount: `+${gainAmount}`,
+            name: formatResourceName(classResourceType),
+            icon: getResourceIcon(classResourceType),
+            color: '#2ECC71',
+            isGain: true,
+            fullText: `Generates +${gainAmount} ${formatResourceName(classResourceType)}`
+          });
+        }
+      } else if (isCost && costAmount) {
+        if (!resources.some(r => r.type === classResourceKey)) {
+          resources.push({
+            type: classResourceKey,
+            amount: costAmount,
+            name: formatResourceName(classResourceType),
+            icon: getResourceIcon(classResourceType),
+            color: getResourceColor(classResourceType),
+            fullText: `Costs ${costAmount} ${formatResourceName(classResourceType)}`
+          });
+        }
+      }
+    }
+
+    // Check specialMechanics fallbacks (e.g. Gambit Fortune / Debt, Shaper Flux / Body Toll)
+    if (spell.specialMechanics?.fortunePoints && !resources.some(r => r.type.includes('fortune'))) {
+      const fp = spell.specialMechanics.fortunePoints;
+      if (fp.generates && fp.generates !== 'variable' && Number(fp.generates) > 0) {
         resources.push({
-          type: classResourceType.toLowerCase().replace(/\s+/g, '-'),
-          amount: classResourceCost,
-          name: formatResourceName(classResourceType),
-          icon: getResourceIcon(classResourceType),
-          color: getResourceColor(classResourceType)
+          type: 'fortune-gain',
+          amount: `+${fp.generates}`,
+          name: 'Fortune',
+          icon: faCoins,
+          color: '#2ECC71',
+          isGain: true,
+          fullText: `Generates +${fp.generates} Fortune Points`
+        });
+      } else if (fp.cost && Number(fp.cost) > 0) {
+        resources.push({
+          type: 'fortune',
+          amount: fp.cost,
+          name: 'Fortune',
+          icon: faCoins,
+          color: '#FFD700',
+          fullText: `Costs ${fp.cost} Fortune Points`
         });
       }
+    }
+
+    if (spell.specialMechanics?.karmicDebt && !resources.some(r => r.type.includes('debt'))) {
+      const kd = spell.specialMechanics.karmicDebt;
+      if (kd.generates && Number(kd.generates) > 0) {
+        resources.push({
+          type: 'debt-gain',
+          amount: `+${kd.generates}`,
+          name: 'Debt',
+          icon: faBalanceScale,
+          color: '#E74C3C',
+          isGain: true,
+          fullText: `Generates +${kd.generates} Karmic Debt`
+        });
+      } else if (kd.cost && Number(kd.cost) > 0) {
+        resources.push({
+          type: 'debt',
+          amount: kd.cost,
+          name: 'Debt',
+          icon: faBalanceScale,
+          color: '#C0392B',
+          fullText: `Reduces Karmic Debt by ${kd.cost}`
+        });
+      }
+    }
+
+    if (spell.fluxGain && spell.fluxGain > 0 && !resources.some(r => r.type.includes('flux'))) {
+      resources.push({
+        type: 'flux-gain',
+        amount: `+${spell.fluxGain}`,
+        name: 'Flux',
+        icon: faWind,
+        color: '#2ECC71',
+        isGain: true,
+        fullText: `Generates +${spell.fluxGain} Flux`
+      });
+    }
+
+    if (spell.bodyTollCost && spell.bodyTollCost > 0 && !resources.some(r => r.type === 'body-toll')) {
+      resources.push({
+        type: 'body-toll',
+        amount: `+${spell.bodyTollCost}`,
+        name: 'Body Toll',
+        icon: faBolt,
+        color: '#E74C3C',
+        fullText: `Adds +${spell.bodyTollCost} Body Toll`
+      });
     }
 
     // Check for legacy resource costs (spellbook format) - only for actual spellbook spells
@@ -759,31 +965,29 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
       };
 
       spell.resourceCost.resourceTypes.forEach(type => {
-        if (musicalNoteTypeMap[type]) {
+        // Normalize case: adapters may emit `note_V` while the map is lowercase.
+        const noteKey = String(type).toLowerCase();
+        if (musicalNoteTypeMap[noteKey]) {
           const useFormula = spell.resourceCost.useFormulas && spell.resourceCost.useFormulas[type];
           const formula = spell.resourceCost.resourceFormulas && spell.resourceCost.resourceFormulas[type];
           const amount = spell.resourceCost.resourceValues && spell.resourceCost.resourceValues[type];
 
           if ((useFormula && formula) || (typeof amount === 'number' && amount !== 0)) {
-            const noteInfo = musicalNoteTypeMap[type];
+            const noteInfo = musicalNoteTypeMap[noteKey];
             // For formulas, check if formula string starts with '-' to determine consuming
             // For numeric amounts, check the sign directly
             const isGenerating = useFormula 
               ? !formula.trim().startsWith('-')
               : amount > 0;
 
-            // Format display text
+            // Format display text (always show the count so costs read unambiguously)
             let displayText;
             if (useFormula) {
               // Formula already contains sign, just add function name
               displayText = `${formula} ${noteInfo.functionName} (${noteInfo.note})`;
             } else {
               const absAmount = Math.abs(amount);
-              if (absAmount > 1) {
-                displayText = `${isGenerating ? '+' : '-'}${absAmount} ${noteInfo.functionName} (${noteInfo.note})`;
-              } else {
-                displayText = `${isGenerating ? '+' : '-'}${noteInfo.functionName} (${noteInfo.note})`;
-              }
+              displayText = `${isGenerating ? '+' : '-'}${absAmount} ${noteInfo.functionName} (${noteInfo.note})`;
             }
 
             resources.push({
@@ -1151,7 +1355,7 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
       return (
         <div
           key={index}
-          className={`pf-resource-cost ${resource.type} ${resource.isFormula ? 'formula' : ''}`}
+          className={`pf-resource-cost ${resource.type} ${resource.isFormula ? 'formula' : ''} ${resource.isGain ? 'resource-gain' : ''}`}
           title={resource.fullText || `${resource.name || resource.type}: ${resource.isFormula ? `Formula: ${resource.amount}` : resource.amount}`}
         >
           {resource.isMusicalNote ? (
@@ -1165,14 +1369,15 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
             <FontAwesomeIcon
               icon={resource.icon}
               className="pf-resource-icon"
-              style={{ color: resource.color || '#ffffff' }}
+              style={{ color: resource.color || (resource.isGain ? '#2ECC71' : '#ffffff') }}
             />
           )}
           
           <span 
             className="pf-resource-amount"
             style={{ 
-              fontWeight: resource.isRequired ? 'bold' : 'normal' 
+              fontWeight: resource.isRequired ? 'bold' : 'normal',
+              color: resource.isGain ? '#2ECC71' : undefined
             }}
           >
             {displayAmount}

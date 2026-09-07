@@ -32,10 +32,10 @@ export const PYROFIEND_DATA = {
 
   // EQUIPMENT (added 2026-07-28 audit fix)
   // TODO: design team to add startingEquipment and proficiencies.
-  // TODO: review weapon/armor lists for class accuracy per lore compendium.
+  // Protective gear and weapon loadouts per canonical compendium.
   equipment: {
    weapons: ['scorched_blade', 'fist', 'club'],
-   armor: ['light_armor', 'robes'],
+   protectiveGear: ['light_ward', 'robes'],
    offHand: ['empty', 'tome']
   },
  /**
@@ -52,7 +52,7 @@ export const PYROFIEND_DATA = {
   reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink>, badland rangers and forge-clans, know fire as a *tool*, and a Pyrofiend among them treats the Scathrach pact as the dark mirror of their craft. Where the forge-Solari tame heat to shape metal, the Waste-Solari Pyrofiend lets Scathrach's heat *reshape them*, the body itself as the workpiece, the Wyrd-fire as the forge. The pact is, to the Waste-Solari, a perverted apprenticeship.`,
   signatureAbility: {
   name: 'Forge-Conversion',
-  description: `The char-vessel conversion (flesh becoming volcanic material) is, for the Waste-Solari, partially *directable*, they can guide which parts of their body calcify into heat-resistant forge-plate, trading organs for armor. The most veteran Waste-Solari Pyrofiends are more basalt than flesh, and fight accordingly.`
+  description: `The char-vessel conversion (flesh becoming volcanic material) is, for the Waste-Solari, partially *directable*, they can guide which parts of their body calcify into heat-resistant forge-plate, trading organs for natural Durability. The most veteran Waste-Solari Pyrofiends are more basalt than flesh, and fight accordingly.`
   },
   currentCrisisAngle: `The mass debt-collection hits the Waste-Solari as a *deadline on their own conversion*: those who have not finished forging themselves into survivable char-vessels will be claimed raw. A race has begun in the deep caldera, Waste-Solari Pyrofiends desperately completing their self-forging before Scathrach arrives to collect the unfinished work. Some are choosing to forge their *hearts* last, knowing it will kill them, just to deny the Ashen Sovereign a complete tool.`,
   signatureQuote: {
@@ -162,7 +162,7 @@ Scathrach is calling in all debts simultaneously. The Final Convocation at Ember
     title: "Class Overview",
     content: `**Who they are**: The Pyrofiend is a reckless, explosive fire mage who has surrendered their flesh to Scathrach, the primordial Ashen Sovereign. You don't channel polite magic—you are a living volcanic combustion chamber whose fire burns hotter the more you push your own sanity to the brink.
 
-**The hook**: You wield **Uncapped Firepower**: your spells deal overwhelming area-of-effect and single-target fire damage that ignores ordinary fire resistances, melting armor and setting the very terrain ablaze.
+**The hook**: You wield **Uncapped Firepower**: your spells deal overwhelming area-of-effect and single-target fire damage that ignores ordinary fire resistances, melting Durability and setting the very terrain ablaze.
 
 **The resource bar & costs**: Your resource bar is the **Inferno Veil** (Tiers 1–10). Every fire spell you cast builds Corruption and raises your Veil, granting explosive flat damage bonuses to all attacks. However, at Tier 5+, the Ashen Sovereign threatens to seize control, requiring Spirit saves to prevent your fire from scorching friends alongside foes.
 
@@ -245,7 +245,7 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 - Death Clock at Veil 9: climb to the top and you have three turns to live, period. Over-ascend and you simply die by your own fire.
 - Wyrd-touched Friendly Fire: at Veil 5+ you may be forced to attack the nearest living thing  -  friend or foe; your party must position around you like a bomb.
 - No Healing at Veil 6+: Heresy blocks all outside healing  -  healers cannot save you once you climb past the line.
-- Squishy Furnace: light armor, and escalating self-damage/movement loss at high Veil  -  you hit the hardest and die the fastest.
+- Squishy Furnace: light protective weave, and escalating self-damage/movement loss at high Veil  -  you hit the hardest and die the fastest.
 - Burn-Touch (social): you char anything organic you touch  -  books, cloth, skin, food. You cannot hold a tome, embrace a friend, or eat a normal meal; affection is measured in millimeters of clearance.`
 ,
  },
@@ -954,7 +954,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
    level: 1,
    spellType: "ACTION",
    icon: "Fire/Burning Ember",
-   typeConfig: { school: "ember", icon: "Fire/Aura", tags: ["utility", "heat", "warmth", "pyrofiend"], castTime: 1, castTimeType: "IMMEDIATE" },
+   typeConfig: { school: "ember", icon: "Fire/Enveloping Fire", tags: ["utility", "heat", "warmth", "pyrofiend"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "area", rangeType: "self_centered", areaSize: 30 },
    resourceCost: { actionPoints: 1, mana: 2 },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
@@ -989,7 +989,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 3, inferno_ascend: 1, inferno_required: 0 },
+  resourceValues: { mana: 3, inferno_ascend: 1, inferno_required: 0 , classResource: { type: "inferno_veil", gain: 1 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -1032,7 +1032,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_smoldering_touch",
   name: "Smoldering Touch",
   description:
-  "Your hand glows with the heat of Scathrach's contempt. You press it into an enemy's flesh, not gently, searing through armor and leaving a smolder that burns for 1d4 ember damage per round for 2 rounds. The touch is not a spell. It is an imposition. You are sharing what lives inside you.",
+  "Your hand glows with the heat of Scathrach's contempt. You press it into an enemy's flesh, not gently, searing through Durability and DR and leaving a smolder that burns for 1d4 ember damage per round for 2 rounds. The touch is not a spell. It is an imposition. You are sharing what lives inside you.",
   level: 1,
   spellType: "ACTION",
   icon: "Fire/Fire Bolt",
@@ -1053,7 +1053,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 4, inferno_ascend: 1, inferno_required: 0 },
+  resourceValues: { mana: 4, inferno_ascend: 1, inferno_required: 0 , classResource: { type: "inferno_veil", gain: 1 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -1117,7 +1117,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 3, inferno_ascend: 1, inferno_required: 0 },
+  resourceValues: { mana: 3, inferno_ascend: 1, inferno_required: 0 , classResource: { type: "inferno_veil", gain: 1 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal"],
@@ -1256,7 +1256,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_scorching_grasp",
   name: "Scorching Grasp",
   description:
-  "Flames engulf your hand, not the warm orange of a hearth, but the sickly black-red of Scathrach's ire. You seize the enemy and the fire clings, searing through armor and flesh for 2d8 + INT/2 ember damage, then burning for 1d4 ember damage per round for 2 rounds. Your touch is a branding iron. The mark says: property of the Ashen Sovereign.",
+  "Flames engulf your hand, not the warm orange of a hearth, but the sickly black-red of Scathrach's ire. You seize the enemy and the fire clings, searing through Durability and DR and flesh for 2d8 + INT/2 ember damage, then burning for 1d4 ember damage per round for 2 rounds. Your touch is a branding iron. The mark says: property of the Ashen Sovereign.",
   level: 2,
   spellType: "ACTION",
   icon: "Fire/Scorching Rune",
@@ -1277,7 +1277,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 8, inferno_ascend: 1, inferno_required: 2 },
+  resourceValues: { mana: 8, inferno_ascend: 1, inferno_required: 2 , classResource: { type: "inferno_veil", gain: 1, minVeil: 2 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -1341,7 +1341,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 8, inferno_ascend: 1, inferno_required: 1 },
+  resourceValues: { mana: 8, inferno_ascend: 1, inferno_required: 1 , classResource: { type: "inferno_veil", gain: 1, minVeil: 1 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -1415,7 +1415,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 8, inferno_ascend: 2, inferno_required: 2 },
+  resourceValues: { mana: 8, inferno_ascend: 2, inferno_required: 2 , classResource: { type: "inferno_veil", gain: 2, minVeil: 2 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -1469,7 +1469,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 12, inferno_ascend: 2, inferno_required: 2 },
+  resourceValues: { mana: 12, inferno_ascend: 2, inferno_required: 2 , classResource: { type: "inferno_veil", gain: 2, minVeil: 2 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -1533,7 +1533,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 10, inferno_ascend: 2, inferno_required: 2 },
+  resourceValues: { mana: 10, inferno_ascend: 2, inferno_required: 2 , classResource: { type: "inferno_veil", gain: 2, minVeil: 2 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -1594,7 +1594,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 12, inferno_ascend: 1, inferno_required: 2 },
+  resourceValues: { mana: 12, inferno_ascend: 1, inferno_required: 2 , classResource: { type: "inferno_veil", gain: 1, minVeil: 2 } },
   useFormulas: {},
   actionPoints: 1, // Utility spell
   components: ["verbal"],
@@ -1672,7 +1672,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 20, inferno_ascend: 2, inferno_required: 1 },
+  resourceValues: { mana: 20, inferno_ascend: 2, inferno_required: 1 , classResource: { type: "inferno_veil", gain: 2, minVeil: 1 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -1753,7 +1753,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 16, inferno_ascend: 2, inferno_required: 1 },
+  resourceValues: { mana: 16, inferno_ascend: 2, inferno_required: 1 , classResource: { type: "inferno_veil", gain: 2, minVeil: 1 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -1829,7 +1829,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 16, inferno_ascend: 2, inferno_required: 2 },
+  resourceValues: { mana: 16, inferno_ascend: 2, inferno_required: 2 , classResource: { type: "inferno_veil", gain: 2, minVeil: 2 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -1899,7 +1899,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 20, inferno_ascend: 2, inferno_required: 2 },
+  resourceValues: { mana: 20, inferno_ascend: 2, inferno_required: 2 , classResource: { type: "inferno_veil", gain: 2, minVeil: 2 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -1948,7 +1948,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 20, inferno_ascend: 3, inferno_required: 3 },
+  resourceValues: { mana: 20, inferno_ascend: 3, inferno_required: 3 , classResource: { type: "inferno_veil", gain: 3, minVeil: 3 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -2012,7 +2012,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 18, inferno_ascend: 2, inferno_required: 3 },
+  resourceValues: { mana: 18, inferno_ascend: 2, inferno_required: 3 , classResource: { type: "inferno_veil", gain: 2, minVeil: 3 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -2084,7 +2084,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 24, inferno_ascend: 3, inferno_required: 3 },
+  resourceValues: { mana: 24, inferno_ascend: 3, inferno_required: 3 , classResource: { type: "inferno_veil", gain: 3, minVeil: 3 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic", "material"],
@@ -2150,7 +2150,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 24, inferno_ascend: 2, inferno_required: 4 },
+  resourceValues: { mana: 24, inferno_ascend: 2, inferno_required: 4 , classResource: { type: "inferno_veil", gain: 2, minVeil: 4 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -2214,7 +2214,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 22, inferno_ascend: 2, inferno_required: 4 },
+  resourceValues: { mana: 22, inferno_ascend: 2, inferno_required: 4 , classResource: { type: "inferno_veil", gain: 2, minVeil: 4 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -2304,7 +2304,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 28, inferno_ascend: 3, inferno_required: 6 },
+  resourceValues: { mana: 28, inferno_ascend: 3, inferno_required: 6 , classResource: { type: "inferno_veil", gain: 3, minVeil: 6 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic", "material"],
@@ -2409,7 +2409,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 26, inferno_ascend: 3, inferno_required: 5 },
+  resourceValues: { mana: 26, inferno_ascend: 3, inferno_required: 5 , classResource: { type: "inferno_veil", gain: 3, minVeil: 5 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -2471,7 +2471,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 24, inferno_ascend: 2, inferno_required: 5 },
+  resourceValues: { mana: 24, inferno_ascend: 2, inferno_required: 5 , classResource: { type: "inferno_veil", gain: 2, minVeil: 5 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -2568,7 +2568,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 32, inferno_ascend: 3, inferno_required: 7 },
+  resourceValues: { mana: 32, inferno_ascend: 3, inferno_required: 7 , classResource: { type: "inferno_veil", gain: 3, minVeil: 7 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -2636,7 +2636,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 30, inferno_ascend: 3, inferno_required: 8 },
+  resourceValues: { mana: 30, inferno_ascend: 3, inferno_required: 8 , classResource: { type: "inferno_veil", gain: 3, minVeil: 8 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -2687,7 +2687,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 32, inferno_ascend: 3, inferno_required: 8 },
+  resourceValues: { mana: 32, inferno_ascend: 3, inferno_required: 8 , classResource: { type: "inferno_veil", gain: 3, minVeil: 8 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -2752,7 +2752,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 36, inferno_ascend: 3, inferno_required: 7 },
+  resourceValues: { mana: 36, inferno_ascend: 3, inferno_required: 7 , classResource: { type: "inferno_veil", gain: 3, minVeil: 7 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -2830,7 +2830,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 36, inferno_ascend: 3, inferno_required: 9 },
+  resourceValues: { mana: 36, inferno_ascend: 3, inferno_required: 9 , classResource: { type: "inferno_veil", gain: 3, minVeil: 9 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -2885,7 +2885,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 34, inferno_ascend: 3, inferno_required: 0 },
+  resourceValues: { mana: 34, inferno_ascend: 3, inferno_required: 0 , classResource: { type: "inferno_veil", gain: 3 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic", "material"],
@@ -2980,7 +2980,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 30, inferno_ascend: 1, inferno_required: 8 },
+  resourceValues: { mana: 30, inferno_ascend: 1, inferno_required: 8 , classResource: { type: "inferno_veil", gain: 1, minVeil: 8 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal"],
@@ -3048,7 +3048,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 40, inferno_ascend: 3, inferno_required: 9 },
+  resourceValues: { mana: 40, inferno_ascend: 3, inferno_required: 9 , classResource: { type: "inferno_veil", gain: 3, minVeil: 9 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -3067,7 +3067,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     "+15 ember damage to all spells, +5 DR, ember damage immunity, flight (30 ft), and enemies within 15 feet take 3d6 ember damage at start of their turn. Requires Inferno Level 9. Death clock still ticks.",
    mechanicsText: "",
    },
-    { id : "demonicAscension_armor",
+    { id : "demonicAscension_durability",
     name: "Ashen Carapace",
     description: "+5 DR from Wyrd-touched carapace",
     mechanicsText: "",
@@ -3137,7 +3137,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
   resourceCost: {
   resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
-  resourceValues: { mana: 40, inferno_ascend: 3, inferno_required: 9 },
+  resourceValues: { mana: 40, inferno_ascend: 3, inferno_required: 9 , classResource: { type: "inferno_veil", gain: 3, minVeil: 9 } },
   useFormulas: {},
   actionPoints: 2,
   components: ["verbal", "somatic"],
@@ -3262,7 +3262,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     name: "Living Hearth",
     description: "Bank your inner fire to a gentle, even glow. For the duration you radiate safe warmth and soft ember-light: stave off cold exposure and frostbite for yourself and nearby allies, ignite a campfire or torch from your palm, and light a 30 ft radius. Costs 1 HP per hour held. Out of combat.",
     level: 1, spellType: "ACTION", icon: "Fire/Burning Forge",
-    typeConfig: { school: "ember", icon: "Fire/Ember Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","rest","pyrofiend"] },
+    typeConfig: { school: "ember", icon: "Fire/Flame Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","rest","pyrofiend"] },
     targetingConfig: { targetingType: "area", rangeType: "self_centered", areaType: "circle", areaSize: 30 },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 3 }, components: ["somatic"], somaticText: "Cup the ember in your palms and breathe it down to a glow" },
     resolution: "NONE", effectTypes: ["utility","buff"],
@@ -3310,7 +3310,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     name: "Cinder-Veil",
     description: "Bend the heat rising off your skin into a shimmering mirage that distorts your party's outlines. In hot, dry, or smoky environments the haze grants advantage on Stealth and hides your exact numbers/position from distant observers. Useless in cold, wet, or wind. Out of combat.",
     level: 3, spellType: "ACTION", icon: "Fire/Burning Touch",
-    typeConfig: { school: "ember", icon: "Fire/Ember Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","stealth","exploration","pyrofiend"] },
+    typeConfig: { school: "ember", icon: "Fire/Flame Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","stealth","exploration","pyrofiend"] },
     targetingConfig: { targetingType: "area", rangeType: "self_centered", areaType: "circle", areaSize: 20 },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["somatic"], somaticText: "Exhale a flat sheet of rippling heat across your party" },
     resolution: "NONE", effectTypes: ["utility","buff"],

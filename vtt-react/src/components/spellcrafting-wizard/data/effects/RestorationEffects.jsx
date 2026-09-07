@@ -754,14 +754,14 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
       id: 'health',
       name: 'Health',
       description: 'Vital life force that sustains all living beings',
-      icon: 'General/Heart',
+      icon: 'Healing/Heart Ripple',
       reactIcon: FaHeart
     },
     {
       id: 'mana',
       name: 'Mana',
       description: 'Magical energy used for spellcasting',
-      icon: 'General/Crystal Ball',
+      icon: 'Utility/All Seeing Eye',
       reactIcon: FaDroplet
     },
     {

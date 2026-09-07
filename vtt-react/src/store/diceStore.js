@@ -350,12 +350,14 @@ const useDiceStore = create(
         set({ isRolling: true, rollResults: [], rollContext: context });
       },
 
-      finishRoll: (results) => set(state => {
+      finishRoll: (results) => {
         const validResults = Array.isArray(results) ? results.filter(r => r && r.value !== undefined && r.value !== null && r.value > 0) : [];
+        const state = get();
         const shouldAddToHistory = validResults.length > 0 && state.selectedDice.length > 0;
         let newHistory = state.rollHistory;
+        let rollEntry = null;
         if (shouldAddToHistory) {
-          const rollEntry = {
+          rollEntry = {
             id: `roll_${Date.now()}`,
             timestamp: new Date().toISOString(),
             dice: state.selectedDice.map(d => ({ ...d })),
@@ -364,14 +366,17 @@ const useDiceStore = create(
           };
           newHistory = [rollEntry, ...state.rollHistory.slice(0, 49)];
         }
-        return {
+        set({
           isRolling: false,
           rollResults: validResults.length > 0 ? validResults : results,
           rollHistory: newHistory,
           rollContext: null,
           skillOutcome: null
-        };
-      }),
+        });
+        if (rollEntry) {
+          get().syncDiceUpdate('dice_rolled', rollEntry);
+        }
+      },
 
       syncDiceRoll: (results) => {
         const state = get();
@@ -419,6 +424,7 @@ const useDiceStore = create(
         const gameStore = useGameStore.getState();
         if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
           gameStore.multiplayerSocket.emit('dice_update', {
+            roomId: gameStore.multiplayerRoom?.id,
             type: updateType,
             data: data,
             timestamp: Date.now()

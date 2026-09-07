@@ -291,7 +291,7 @@ const getSpellIconUrl = (iconId) => {
 
   if (!iconId) {
 
-    return getCustomIconUrl('Utility/Utility', 'abilities');
+    return getCustomIconUrl('Arcane/Abstract Rune', 'abilities');
 
   }
 
@@ -321,7 +321,7 @@ const getSpellIconUrl = (iconId) => {
 
   }
 
-  return getCustomIconUrl('Utility/Utility', 'abilities');
+  return getCustomIconUrl('Arcane/Abstract Rune', 'abilities');
 
 };
 

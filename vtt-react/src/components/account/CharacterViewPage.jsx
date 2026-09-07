@@ -20,6 +20,7 @@ import SpellLibrary from '../spellcrafting-wizard/components/library/SpellLibrar
 import SpellActionBar from '../character-sheet/SpellActionBar';
 import DiceThemeSelector from '../dice/DiceThemeSelector';
 import ClassResourceBar from '../hud/ClassResourceBar';
+import StatVial from '../hud/StatVial';
 import { CLASS_SPECIALIZATIONS } from '../../data/classSpellCategories';
 import TalentTreeContent from '../talent-tree/TalentTreeContent';
 import '../../styles/character-sheet.css';
@@ -434,7 +435,6 @@ const CharacterViewPage = () => {
 
   const healthPct = health?.max ? Math.min(100, Math.max(0, (health.current / health.max) * 100)) : 0;
   const manaPct = mana?.max ? Math.min(100, Math.max(0, (mana.current / mana.max) * 100)) : 0;
-  const apPct = actionPoints?.max ? Math.min(100, Math.max(0, (actionPoints.current / actionPoints.max) * 100)) : 0;
 
 
   const isPlayerCondition = (c) => c.targetId === 'player' || c.targetId === 'current-player' || !c.targetId || c.targetId === characterId;
@@ -456,7 +456,7 @@ const CharacterViewPage = () => {
 
   const resolveBuffIcon = (c, defaultType = 'buff') => {
     if (!c.icon) {
-      return getCustomIconUrl('Utility/Utility', 'abilities');
+      return getCustomIconUrl('Arcane/Abstract Rune', 'abilities');
     }
     if (typeof c.icon === 'string') {
       if (c.icon.startsWith('http') || c.icon.startsWith('/assets/')) return c.icon;
@@ -532,92 +532,19 @@ const CharacterViewPage = () => {
           </div>
         </div>
 
-        <div className="header-resources-row">
-          {/* HP Vial */}
-          <div className="header-resource-counter health" onClick={() => setOpenVialPopup(openVialPopup === 'health' ? null : 'health')} title={`Health Points: ${health?.current || 0}/${health?.max || 0} HP. Click to view & adjust.`}>
-            <div className="resource-vial-bottle">
-              <div className="resource-vial-fill" style={{ height: `${healthPct}%`, background: 'linear-gradient(180deg, rgba(255, 107, 107, 0.8) 0%, rgba(200, 50, 50, 0.9) 100%)' }}></div>
-              <div className="resource-vial-bubbles hp-bubbles">
-                <span className="bubble"></span>
-                <span className="bubble"></span>
-                <span className="bubble"></span>
-              </div>
-            </div>
-            <span className="resource-vial-label">HP</span>
-            <span className="resource-vial-value">{health?.current || 0}/{health?.max || 0}</span>
-            <div className="resource-counter-desktop">
-              <i className="fas fa-heart"></i>
-              <button className="resource-adjust-btn" onClick={(e) => { e.stopPropagation(); updateResource('health', Math.max(0, (health?.current || 0) - 1), health?.max || 1); }}>−</button>
-              <span className="resource-counter-value">{health?.current || 0} / {health?.max || 0}</span>
-              <button className="resource-adjust-btn" onClick={(e) => { e.stopPropagation(); updateResource('health', Math.min(health?.max || 100, (health?.current || 0) + 1), health?.max || 1); }}>+</button>
+        {/* Vitals flanking the class soul — bare mounts, popups carry values */}
+        <div className="header-class-resource-row">
+          <div className="header-resource-mount health" onClick={() => setOpenVialPopup(openVialPopup === 'health' ? null : 'health')} title={`Health Points: ${health?.current || 0}/${health?.max || 0} HP. Click to view & adjust.`}>
+            <div className="mount-vial">
+              <StatVial kind="health" current={health?.current || 0} max={health?.max || 1} memberName={name || 'Character'} tilt={-10} />
             </div>
           </div>
-
-          {/* MP Vial */}
-          <div className="header-resource-counter mana" onClick={() => setOpenVialPopup(openVialPopup === 'mana' ? null : 'mana')} title={`Mana Points: ${mana?.current || 0}/${mana?.max || 0} MP. Click to view & adjust.`}>
-            <div className="resource-vial-bottle">
-              <div className="resource-vial-fill" style={{ height: `${manaPct}%`, background: 'linear-gradient(180deg, rgba(77, 171, 247, 0.8) 0%, rgba(30, 100, 200, 0.9) 100%)' }}></div>
-              <div className="resource-vial-bubbles mp-bubbles">
-                <span className="bubble"></span>
-                <span className="bubble"></span>
-                <span className="bubble"></span>
-                <span className="bubble"></span>
-              </div>
-            </div>
-            <span className="resource-vial-label">MP</span>
-            <span className="resource-vial-value">{mana?.current || 0}/{mana?.max || 0}</span>
-            <div className="resource-counter-desktop">
-              <i className="fas fa-flask"></i>
-              <button className="resource-adjust-btn" onClick={(e) => { e.stopPropagation(); updateResource('mana', Math.max(0, (mana?.current || 0) - 1), health?.max || 1); }}>−</button>
-              <span className="resource-counter-value">{mana?.current || 0} / {mana?.max || 0}</span>
-              <button className="resource-adjust-btn" onClick={(e) => { e.stopPropagation(); updateResource('mana', Math.min(mana?.max || 100, (mana?.current || 0) + 1), health?.max || 1); }}>+</button>
+          <div className="header-resource-mount mana" onClick={() => setOpenVialPopup(openVialPopup === 'mana' ? null : 'mana')} title={`Mana Points: ${mana?.current || 0}/${mana?.max || 0} MP. Click to view & adjust.`}>
+            <div className="mount-vial">
+              <StatVial kind="mana" current={mana?.current || 0} max={mana?.max || 1} memberName={name || 'Character'} tilt={8} />
             </div>
           </div>
-
-          {/* AP Vial */}
-          <div className="header-resource-counter action-points" onClick={() => setOpenVialPopup(openVialPopup === 'actionPoints' ? null : 'actionPoints')} title={`Action Points: ${actionPoints?.current || 0}/${actionPoints?.max || 0} AP. Click to view & adjust.`}>
-            <div className="resource-vial-bottle">
-              <div className="resource-vial-fill" style={{ height: `${apPct}%`, background: 'linear-gradient(180deg, rgba(255, 212, 59, 0.8) 0%, rgba(200, 150, 0, 0.9) 100%)' }}></div>
-              <div className="resource-vial-bubbles ap-bubbles">
-                <span className="bubble"></span>
-                <span className="bubble"></span>
-                <span className="bubble"></span>
-              </div>
-            </div>
-            <span className="resource-vial-label">AP</span>
-            <span className="resource-vial-value">{actionPoints?.current || 0}/{actionPoints?.max || 0}</span>
-            <div className="resource-counter-desktop">
-              <i className="fas fa-bolt"></i>
-              <button className="resource-adjust-btn" onClick={(e) => { e.stopPropagation(); updateResource('actionPoints', Math.max(0, (actionPoints?.current || 0) - 1), actionPoints?.max || 1); }}>−</button>
-              <span className="resource-counter-value">{actionPoints?.current || 0} / {actionPoints?.max || 0}</span>
-              <button className="resource-adjust-btn" onClick={(e) => { e.stopPropagation(); updateResource('actionPoints', Math.min(actionPoints?.max || 10, (actionPoints?.current || 0) + 1), actionPoints?.max || 1); }}>+</button>
-            </div>
-          </div>
-
-          {/* Exhaustion Vial */}
-          <div className="header-resource-counter exhaustion" onClick={() => setOpenVialPopup(openVialPopup === 'exhaustion' ? null : 'exhaustion')} title={`Exhaustion Level ${exhaustionLevel || 0}/6. Click to view stages & adjust.`}>
-            <div className="resource-vial-bottle">
-              <div className="resource-vial-fill" style={{ height: `${(exhaustionLevel / 6) * 100}%`, background: 'linear-gradient(180deg, rgba(160, 100, 200, 0.8) 0%, rgba(100, 50, 150, 0.9) 100%)' }} key={`exh-${exhaustionLevel}`}></div>
-              <div className="resource-vial-bubbles exh-bubbles">
-                <span className="bubble"></span>
-                <span className="bubble"></span>
-                <span className="bubble"></span>
-              </div>
-            </div>
-            <span className="resource-vial-label">EXH</span>
-            <span className="resource-vial-value">{exhaustionLevel}/6</span>
-            <div className="resource-counter-desktop">
-              <i className="fas fa-face-tired"></i>
-              <button className="resource-adjust-btn" onClick={(e) => { e.stopPropagation(); updateCharacterInfo('exhaustionLevel', Math.max(0, (exhaustionLevel || 0) - 1)); }}>−</button>
-              <span className="resource-counter-value">Lvl {exhaustionLevel}</span>
-              <button className="resource-adjust-btn" onClick={(e) => { e.stopPropagation(); updateCharacterInfo('exhaustionLevel', Math.min(6, (exhaustionLevel || 0) + 1)); }}>+</button>
-            </div>
-          </div>
-        </div>
-
-        {/* Unique Class Resource Bar */}
-        {characterClass && effectiveClassResource && (
-          <div className="header-class-resource-row">
+          {characterClass && effectiveClassResource && (
             <ClassResourceBar
               characterClass={characterClass}
               classResource={effectiveClassResource}
@@ -627,8 +554,17 @@ const CharacterViewPage = () => {
               onClassResourceUpdate={updateClassResource}
               context="account"
             />
+          )}
+          <div className="header-resource-mount action-points" onClick={() => setOpenVialPopup(openVialPopup === 'actionPoints' ? null : 'actionPoints')} title={`Action Points: ${actionPoints?.current || 0}/${actionPoints?.max || 0} AP. Click to view & adjust.`}>
+            <div className="mount-vial">
+              <StatVial kind="ap" current={actionPoints?.current || 0} max={actionPoints?.max || 1} memberName={name || 'Character'} tilt={-6} />
+            </div>
           </div>
-        )}
+          <div className="header-resource-mount exhaustion" onClick={() => setOpenVialPopup(openVialPopup === 'exhaustion' ? null : 'exhaustion')} title={`Exhaustion Level ${exhaustionLevel || 0}/6. Click to view stages & adjust.`}>
+            <i className="fas fa-face-tired"></i>
+            <span className="mount-level">{exhaustionLevel || 0}</span>
+          </div>
+        </div>
 
         {/* Active Buffs & Debuffs Row */}
         {(playerBuffs.length > 0 || playerDebuffs.length > 0) && (
@@ -698,7 +634,7 @@ const CharacterViewPage = () => {
                         className="effect-icon-img"
                         onError={(e) => {
                           e.target.onerror = null;
-                          e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
+                          e.target.src = getCustomIconUrl('Arcane/Abstract Rune', 'abilities');
                         }}
                       />
                       <span className="effect-timer-badge debuff">{timeStr}</span>

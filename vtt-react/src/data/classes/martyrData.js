@@ -32,10 +32,10 @@ export const MARTYR_DATA = {
 
   // EQUIPMENT (added 2026-07-28 audit fix)
   // TODO: design team to add startingEquipment and proficiencies.
-  // TODO: review weapon/armor lists for class accuracy per lore compendium.
+  // Protective gear and weapon loadouts per canonical compendium.
   equipment: {
    weapons: ['mace', 'sword', 'warhammer'],
-   armor: ['medium_armor', 'heavy_armor', 'shield'],
+   protectiveGear: ['reinforced_cuirass', 'heavy_plate', 'shield'],
    offHand: ['shield', 'tome', 'empty']
   },
  /**
@@ -96,10 +96,10 @@ export const MARTYR_DATA = {
   skald_human: {
    subraceName: 'Skald',
    title: 'The Ironclad',
-   reframe: `This is the <LoreLink termId="dreadnaught">Dreadnaught</LoreLink> tradition reborn, the furnace-armor juggernauts of the Cragjaw, absorbed into the Martyr path. The <LoreLink termId="skald">Skald</LoreLink> Ironclad does not absorb suffering as prayer or vigil; they absorb it as *fuel*, sealing themselves in riveted iron plate threaded with heating-pipes, converting incoming damage into combustion pressure. The Hunger Pact meets the furnace: the body as a weapon that gets stronger the more it is broken.`,
+   reframe: `This is the <LoreLink termId="dreadnaught">Dreadnaught</LoreLink> tradition reborn, the furnace-plating juggernauts of the Cragjaw, absorbed into the Martyr path. The <LoreLink termId="skald">Skald</LoreLink> Ironclad does not absorb suffering as prayer or vigil; they absorb it as *fuel*, sealing themselves in riveted iron plate threaded with heating-pipes, converting incoming damage into combustion pressure. The Hunger Pact meets the furnace: the body as a weapon that gets stronger the more it is broken.`,
    signatureAbility: {
     name: 'Furnace-Conversion',
-    description: `Devotion is tracked as *boiler-pressure* in the Martyr's furnace-armor; incoming damage heats the boiler rather than wounding the flesh directly, and vented pressure drives devastating counter-strikes. The Ironclad is the only Martyr variant that converts absorbed suffering into *offensive* output.`
+    description: `Devotion is tracked as *boiler-pressure* in the Martyr's furnace-plating; incoming damage heats the boiler rather than wounding the flesh directly, and vented pressure drives devastating counter-strikes. The Ironclad is the only Martyr variant that converts absorbed suffering into *offensive* output.`
    },
    currentCrisisAngle: `The Skald Ironclads are the variant the noble houses want most, a Martyr that fights back, and the conscription has hit them hardest. Worse, the furnace-pipes rely on Cragjaw geothermal design, and the Steam-Line Cartel has begun *licensing* Ironclad production to the houses, turning a sacred adaptation into a manufactured asset. The original Ironclads consider this a desecration; the houses consider it procurement.`,
     signatureQuote: {
@@ -173,7 +173,7 @@ Sera is dead seven centuries. Her scarred forearm is preserved beneath Emberspir
 
   quickOverview: {
     title: "Class Overview",
-    content: `**Who they are**: The Martyr is the ultimate frontline savior and bleeding faith-healer who wears no heavy armor, choosing instead to catch lethal attacks meant for their allies with their own body. You don't prevent damage; you absorb it, converting suffering into divine authority and restorative miracles.
+    content: `**Who they are**: The Martyr is the ultimate frontline savior and bleeding faith-healer who wears no heavy plate, choosing instead to catch lethal attacks meant for their allies with their own body. You don't prevent damage; you absorb it, converting suffering into divine authority and restorative miracles.
 
 **The hook**: Your signature ability is **Intervene**: whenever an ally would take a devastating or lethal hit, you can instantly intercept the blow into your own body, negating the hit on your ally and supercharging your own healing magic.
 
@@ -194,7 +194,7 @@ Sera is dead seven centuries. Her scarred forearm is preserved beneath Emberspir
     }
   },
 
-  description: `The Martyr is not a protector. A protector uses a shield. The Martyr uses the fragile body of their own to catch weapons swung at their companions. Through the Devotion, a resource that fills as they deliberately bleed themselves for allies, the Martyr transforms willing suffering into powerful acts of emergency healing. Their power is not generosity. It is a transaction with something old and hungry that dwells in the space between flesh and faith. The more they bleed, the more that thing stirs. Unlike the Ironclad specialization which passively absorbs whatever hits them through furnace-plate armor, the standard Martyr must CHOOSE to suffer: casting self-damaging spells, using Intervene to intercept attacks, and offering their own HP to cross Devotion thresholds faster. Each wound they volunteer for becomes a wound closed on someone else. Theirutility is singular and terrifying: the ability to completely negate fatal blows tracking toward allies by pulling the entire damage vector into their own anatomy and releasing localized bursts of vitality that scale with accumulated suffering. No other class can do this. But their connection to the sacred is fragile. If they stop bleeding, the connection asphyxiates. Devotion Collapse is the Martyr's constant companion, a spiral into the Faithless state where their healing rots to half strength and their reactions lock down. They are a crisis tool with an expiration date, and that date is measured in rounds since their last wound.`,
+  description: `The Martyr is not a protector. A protector uses a shield. The Martyr uses the fragile body of their own to catch weapons swung at their companions. Through the Devotion, a resource that fills as they deliberately bleed themselves for allies, the Martyr transforms willing suffering into powerful acts of emergency healing. Their power is not generosity. It is a transaction with something old and hungry that dwells in the space between flesh and faith. The more they bleed, the more that thing stirs. Unlike the Ironclad specialization which passively absorbs whatever hits them through furnace-plate plating, the standard Martyr must CHOOSE to suffer: casting self-damaging spells, using Intervene to intercept attacks, and offering their own HP to cross Devotion thresholds faster. Each wound they volunteer for becomes a wound closed on someone else. Theirutility is singular and terrifying: the ability to completely negate fatal blows tracking toward allies by pulling the entire damage vector into their own anatomy and releasing localized bursts of vitality that scale with accumulated suffering. No other class can do this. But their connection to the sacred is fragile. If they stop bleeding, the connection asphyxiates. Devotion Collapse is the Martyr's constant companion, a spiral into the Faithless state where their healing rots to half strength and their reactions lock down. They are a crisis tool with an expiration date, and that date is measured in rounds since their last wound.`,
 
   roleplayIdentity: {
    title: "Roleplay Identity",
@@ -278,7 +278,7 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
 
 **Devotion Level Strategy**:
 - **Level 1-2 (Building Phase)**: Basic defensive benefits, focus on accumulating damage through interception
-- **Level 3-4 (Power Phase)**: Strong passive effects, moderate amplification power, your wounds begin emitting light that hardens into ally armor
+- **Level 3-4 (Power Phase)**: Strong passive effects, moderate amplification power, your wounds begin emitting light that hardens into ally Durability
 - **Level 5-6 (The Hollow Transfiguration)**: Your form turns translucent, bones blaze with volatile golden energy. You become a weaponized, radiant vessel of sacrifice. Powerful auras and devastating amplified abilities. This is not beautiful. This is not clean. This is survival weaponized.
 
 **Spending Devotion**:
@@ -505,7 +505,7 @@ Devotion (Tiers 1–6) builds as you absorb damage and debuffs meant for your al
     title: "Radiant Sacrifice (Level 3-4)",
     stats: "+1 DR Aura | Resists for Allies",
     details:
-      "Your pain becomes their armor. Allies within 10ft gain protection only because your wounds emit light. Every point of resistance you grant was bought with an incision in your own body. The sacred does not give, it extracts.",
+      "Your pain becomes their Durability. Allies within 10ft gain protection only because your wounds emit light. Every point of resistance you grant was bought with an incision in your own body. The sacred does not give, it extracts.",
    },
    {
     title: "The Hollow Transfiguration (Level 5-6)",
@@ -554,7 +554,7 @@ Devotion (Tiers 1–6) builds as you absorb damage and debuffs meant for your al
 
   usage: {
    momentum:
-    'Use Intervene aggressively in the first three rounds. Your goal is to spike into Level 3 as fast as possible to unlock the ally armor aura. Target the biggest incoming hits, the ones that would kill your allies, because the Devotion payoff is proportional to the violence you absorb.',
+    'Use Intervene aggressively in the first three rounds. Your goal is to spike into Level 3 as fast as possible to unlock the ally Durability aura. Target the biggest incoming hits, the ones that would kill your allies, because the Devotion payoff is proportional to the violence you absorb.',
    flourish:
     "The Spending Trap: Amplified spells are seductive, but they strip your passive auras. If you spend Level 6 to save one person, you lose the resistance that was keeping the rest of the party alive. The Minor Hit Loop is your sustain valve, when Devotion is stable, intercept small hits to recover Mana instead of overstacking thresholds you cannot maintain.",
   },
@@ -568,8 +568,8 @@ Devotion (Tiers 1–6) builds as you absorb damage and debuffs meant for your al
 - **Strategy**: This is your peak state, and it is monstrous. You provide resistance to all damage types for the entire team because your transfigured suffering poisons reality itself with mercy. Do not spend these levels on amplified spells unless it is for a game-ending strike or a life-saving burst heal. The transfiguration demands its toll whether you use it or not.
 
 **Ascendant (Level 3-4)**:
-- **Effect**: Support Anchor. Your wounds emit light that hardens into armor around your allies.
-- **Strategy**: The optimal state for most of the battle. You provide balanced armor buffs and have moderate amplification power ready for emergency interventions. Your suffering is productive, controlled, and sustainable.
+- **Effect**: Support Anchor. Your wounds emit light that hardens into protective Durability around your allies.
+- **Strategy**: The optimal state for most of the battle. You provide balanced Durability buffs and have moderate amplification power ready for emergency interventions. Your suffering is productive, controlled, and sustainable.
 
 **Mortal (Level 0-2)**:
 - **Effect**: Vulnerability. You are just meat and misplaced faith.
@@ -773,7 +773,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
     color: "#d35400",
     theme: "Furnace-Bound Devotion, The Welded Martyr",
 
-    description: `Ironclad Martyrs have sealed themselves inside hundreds of pounds of crude, superheated iron plating, voluntarily. They combine the Martyr's theology of willing suffering with the Cragjaw Peaks' tradition of furnace-armor, welding alchemical steam-pistons to their own limbs and stoking their Devotion through literal combustion. Their armor is not worn; it is inhabited. Every wound they absorb for an ally heats the boiler, every Devotion threshold crossed vents scalding steam, and every step forward grinds pistons that scream with sacred friction. They do not dodge. They do not retreat. They are the iron wall that bleeds.
+    description: `Ironclad Martyrs have sealed themselves inside hundreds of pounds of crude, superheated iron plating, voluntarily. They combine the Martyr's theology of willing suffering with the Cragjaw Peaks' tradition of furnace-plating, welding alchemical steam-pistons to their own limbs and stoking their Devotion through literal combustion. Their plating is not worn; it is inhabited. Every wound they absorb for an ally heats the boiler, every Devotion threshold crossed vents scalding steam, and every step forward grinds pistons that scream with sacred friction. They do not dodge. They do not retreat. They are the iron wall that bleeds.
 
 Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs represent a heretical synthesis: instead of the Dreadnaught's passive absorption of punishment, the Ironclad chooses to suffer, channeling the Martyr's active self-sacrifice through furnace mechanics. Where a Dreadnaught is struck and endures, an Ironclad Martyr throws themselves into the blow and thanks the sacred for the coal.`,
 
@@ -789,7 +789,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
     weaknesses: [
      "Movement speed reduced by 10 feet, the slowest Martyr spec",
-     "Vulnerability to Storm damage (conductive armor) and Cold effects (lock pistons)",
+     "Vulnerability to Storm damage (conductive plating) and Cold effects (lock pistons)",
      "Cannot stealth, swim, or squeeze through narrow spaces",
      "Lower healing output than Redemption, you are a wall, not a transfusion",
     ],
@@ -806,7 +806,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
       name: "Ironclad Vow",
       tier: "Specialization Passive",
       description:
-       "Your furnace-plate armor scales with Devotion: at Devotion Level 3+, gain +2 DR. At Devotion Level 5+, enemies within 5 feet take 1d6 ember damage at the start of your turn from radiant furnace heat, and you are immune to physical crowd control (roots, grapples, slows) as your pistons crush all restraints. However, your movement speed is reduced by 10 feet, you have vulnerability to Storm damage, and Cold effects that would slow instead root you for 1 round as your pistons freeze.",
+       "Your furnace-plate plating scales with Devotion: at Devotion Level 3+, gain +2 DR. At Devotion Level 5+, enemies within 5 feet take 1d6 ember damage at the start of your turn from radiant furnace heat, and you are immune to physical crowd control (roots, grapples, slows) as your pistons crush all restraints. However, your movement speed is reduced by 10 feet, you have vulnerability to Storm damage, and Cold effects that would slow instead root you for 1 round as your pistons freeze.",
       uniqueTo: "Ironclad",
      },
     ],
@@ -977,7 +977,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 5 },
+    resourceValues: { mana: 5 , classResource: { type: "devotion", gain: 1 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -1030,7 +1030,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 4 },
+    resourceValues: { mana: 4 , classResource: { type: "devotion", gain: 2 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal"],
@@ -1092,7 +1092,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 6 },
+    resourceValues: { mana: 6 , classResource: { type: "devotion", cost: 1, gain: 1 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -1173,7 +1173,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 6 },
+    resourceValues: { mana: 6 , classResource: { type: "devotion", gain: 1 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -1247,7 +1247,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 4 },
+    resourceValues: { mana: 4 , classResource: { type: "devotion", gain: 2 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["somatic"],
@@ -1321,7 +1321,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 10 },
+    resourceValues: { mana: 10 , classResource: { type: "devotion", gain: 1 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -1404,7 +1404,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 10 },
+    resourceValues: { mana: 10 , classResource: { type: "devotion", gain: 2 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -1497,7 +1497,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 5 },
+    resourceValues: { mana: 5 , classResource: { type: "devotion", gain: 1 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -1585,7 +1585,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 10 },
+    resourceValues: { mana: 10 , classResource: { type: "devotion", gain: 1 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -1670,7 +1670,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 15 },
+    resourceValues: { mana: 15 , classResource: { type: "devotion", cost: 1 } },
     actionPoints: 1,
     components: ["verbal", "somatic"],
     verbalText: "Vinculum Sacrificii",
@@ -1736,7 +1736,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     },
    resourceCost: {
     resourceTypes: ["mana", "hp"],
-    resourceValues: { mana: 10, hp: 15 },
+    resourceValues: { mana: 10, hp: 15 , classResource: { type: "devotion", cost: 1 } },
     actionPoints: 1,
     components: ["verbal"],
     verbalText: "Ignis Sacrificii!",
@@ -1789,7 +1789,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 12 },
+    resourceValues: { mana: 12 , classResource: { type: "devotion", cost: 1 } },
     actionPoints: 1,
     components: ["somatic"],
     somaticText: "Lay hands on ally",
@@ -1843,7 +1843,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 18 },
+    resourceValues: { mana: 18 , classResource: { type: "devotion", cost: 2 } },
     actionPoints: 1,
     components: ["verbal", "somatic"],
     verbalText: "Scutum Fidei",
@@ -1912,7 +1912,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     },
    resourceCost: {
     resourceTypes: ["mana", "hp"],
-    resourceValues: { mana: 8, hp: 20 },
+    resourceValues: { mana: 8, hp: 20 , classResource: { type: "devotion", cost: 1 } },
     actionPoints: 1,
     components: ["somatic"],
     somaticText: "Channel life force",
@@ -1961,7 +1961,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 15 },
+    resourceValues: { mana: 15 , classResource: { type: "devotion", cost: 1 } },
     actionPoints: 1,
     components: ["verbal"],
     verbalText: "Signum Martyris!",
@@ -2028,7 +2028,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     },
    resourceCost: {
     resourceTypes: ["mana", "hp"],
-    resourceValues: { mana: 20, hp: 10 },
+    resourceValues: { mana: 20, hp: 10 , classResource: { type: "devotion", cost: 3 } },
     actionPoints: 2,
     components: ["verbal"],
     verbalText: "Passio Justa!",
@@ -2101,7 +2101,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     },
    resourceCost: {
     resourceTypes: ["mana", "hp"],
-    resourceValues: { mana: 22, hp: 15 },
+    resourceValues: { mana: 22, hp: 15 , classResource: { type: "devotion", cost: 3 } },
     actionPoints: 2,
     components: ["verbal", "somatic"],
     verbalText: "Pactum Sanguinis",
@@ -2162,7 +2162,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 22 },
+    resourceValues: { mana: 22 , classResource: { type: "devotion", cost: 4 } },
     actionPoints: 1,
     components: ["verbal"],
     verbalText: "Vindicta Divina!",
@@ -2251,7 +2251,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 26 },
+    resourceValues: { mana: 26 , classResource: { type: "devotion", cost: 3 } },
     actionPoints: 2,
     components: ["verbal", "somatic"],
     verbalText: "Terra Sancta!",
@@ -2337,7 +2337,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 26 },
+    resourceValues: { mana: 26 , classResource: { type: "devotion", cost: 5 } },
     actionPoints: 2,
     components: ["verbal"],
     verbalText: "Ego Sum Vas!",
@@ -2399,7 +2399,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 25 },
+    resourceValues: { mana: 25 , classResource: { type: "devotion", cost: 3 } },
     actionPoints: 1,
     components: ["somatic"],
     somaticText: "Melee weapon strike",
@@ -2465,7 +2465,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     },
    resourceCost: {
     resourceTypes: ["mana", "hp"],
-    resourceValues: { mana: 30, hp: 20 },
+    resourceValues: { mana: 30, hp: 20 , classResource: { type: "devotion", cost: 5 } },
     actionPoints: 3,
     components: ["verbal", "somatic"],
     verbalText: "Resurge Omnes!",
@@ -2515,7 +2515,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 30 },
+    resourceValues: { mana: 30 , classResource: { type: "devotion", cost: 4 } },
     actionPoints: 2,
     components: ["verbal", "somatic"],
     verbalText: "Spiritus Custos",
@@ -2577,7 +2577,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana", "devotion"],
-    resourceValues: { mana: 30, devotion: "all" },
+    resourceValues: { mana: 30, devotion: "all" , classResource: { type: "devotion", cost: 5 } },
     actionPoints: 2,
     components: ["verbal"],
     verbalText: "IRA SANCTA!",
@@ -2649,7 +2649,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 35 },
+    resourceValues: { mana: 35 , classResource: { type: "devotion", cost: 4 } },
     actionPoints: 0,
     components: ["verbal"],
     verbalText: "PROHIBERE!",
@@ -2714,7 +2714,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 35 },
+    resourceValues: { mana: 35 , classResource: { type: "devotion", cost: 4 } },
     actionPoints: 2,
     components: ["verbal", "somatic"],
     verbalText: "Dolor Communis",
@@ -2779,7 +2779,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 40 },
+    resourceValues: { mana: 40 , classResource: { type: "devotion", cost: 6 } },
     actionPoints: 2,
     components: ["verbal"],
     verbalText: "Ego Sum Sacrificium!",
@@ -2871,7 +2871,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     },
    resourceCost: {
     resourceTypes: ["mana", "hp"],
-    resourceValues: { mana: 40, hp: 40 },
+    resourceValues: { mana: 40, hp: 40 , classResource: { type: "devotion", cost: 6 } },
     actionPoints: 3,
     components: ["verbal"],
     verbalText: "DIES IUDICII!",
@@ -2939,7 +2939,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
    resourceCost: {
     resourceTypes: ["mana"],
-    resourceValues: { mana: 40 },
+    resourceValues: { mana: 40 , classResource: { type: "devotion", cost: 6 } },
     actionPoints: 3,
     components: ["verbal", "somatic"],
     verbalText: "Vinculum Aeternum",
@@ -3010,7 +3010,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     },
    resourceCost: {
     resourceTypes: ["hp"],
-    resourceValues: { hp: "all" },
+    resourceValues: { hp: "all" , classResource: { type: "devotion", cost: 6 } },
     actionPoints: 3,
     components: ["verbal"],
     verbalText: "SACRIFICIUM ULTIMUM!",
@@ -3124,7 +3124,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     },
    resourceCost: {
     resourceTypes: ["mana", "hp"],
-    resourceValues: { mana: 45, hp: 50 },
+    resourceValues: { mana: 45, hp: 50 , classResource: { type: "devotion", cost: 6 } },
     actionPoints: 3,
     components: ["verbal", "somatic"],
     verbalText: "Benedictio Finalis",
@@ -3204,7 +3204,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     name: "Sol's Breath Warmth",
     description: "Your obsidian scars flare with low Sol's Breath heat. For the duration you radiate gentle warmth and soft gold light: stave off frostbite and cold-exhaustion for yourself and nearby allies, kindle a fire from your own pain, dry soaked gear, or light a 30 ft radius. You take 1 HP of self-damage per hour maintained. Out of combat.",
     level: 1, spellType: "ACTION", icon: "Fire/Burning Ember",
-    typeConfig: { school: "ember", icon: "Fire/Ember Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","rest","martyr"] },
+    typeConfig: { school: "ember", icon: "Fire/Flame Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","rest","martyr"] },
     targetingConfig: { targetingType: "area", rangeType: "self_centered", areaType: "circle", areaSize: 30 },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 3 }, components: ["somatic"], somaticText: "Breathe into your scars until they glow" },
     resolution: "NONE", effectTypes: ["utility","buff"],

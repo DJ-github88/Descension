@@ -34,10 +34,10 @@ export const MINSTREL_DATA = {
 
   // EQUIPMENT (added 2026-07-28 audit fix)
   // TODO: design team to add startingEquipment and proficiencies.
-  // TODO: review weapon/armor lists for class accuracy per lore compendium.
+  // Protective gear and weapon loadouts per canonical compendium.
   equipment: {
    weapons: ['dagger', 'short_sword', 'rapier'],
-   armor: ['light_armor'],
+   protectiveGear: ['light_ward'],
    offHand: ['lute', 'empty']
   },
  /**
@@ -189,7 +189,7 @@ The Iceheart Sea has fallen silent. The oldest continuous frequency in the known
     },
     combatRole: {
       title: "Combat Role",
-      content: "Acoustic reality-conductor who harvests musical notes (I-VII) from collapsing dimensions to assemble powerful persistent Cadences and armor-shattering chords."
+      content: "Acoustic reality-conductor who harvests musical notes (I-VII) from collapsing dimensions to assemble powerful persistent Cadences and durability-shattering chords."
     },
     playstyle: {
       title: "Playstyle & Turn 1 Flow",
@@ -251,7 +251,7 @@ The Tide-Choir numbers sixty-four active Minstrels  —  one for every note in t
 
 **Cadence Architect**: No other class offers the Minstrel's note-building strategic depth. Through builder spells, they harvest musical notes from collapsing planes, then resolve them into devastating cadences, Perfect Cadence guarantees critical hits, Deceptive Cadence stuns enemies, Authentic Cadence heals the entire party. This is the ONLY combo-building support with cadence mechanics in existence.
 
-**Martyr's Bargain**: The Minstrel protects everyone except themselves. They CANNOT self-heal, all healing targets allies only. They require an instrument to cast; disarmed, they are utterly powerless. While performing any active song, they suffer -2 DR, the music demanding total vulnerability. Silence effects render them useless. They are a conductor stripped of armor, bleeding for the rhythm that keeps their allies alive.
+**Martyr's Bargain**: The Minstrel protects everyone except themselves. They CANNOT self-heal, all healing targets allies only. They require an instrument to cast; disarmed, they are utterly powerless. While performing any active song, they suffer -2 DR, the music demanding total vulnerability. Silence effects render them useless. They are a conductor stripped of defense, bleeding for the rhythm that keeps their allies alive.
 
 **Strengths**:
 - Unmatched combo-building support with cadence resolution
@@ -266,7 +266,7 @@ The Tide-Choir numbers sixty-four active Minstrels  —  one for every note in t
 - -2 DR while performing any active song, the music demands total vulnerability
 - Combo system requires planning and foresight across multiple turns
 - Vulnerable to silence and interruption effects, rendered completely useless
-- Fragile without armor, fragile with it, fragile always
+- Fragile without guard, fragile with it, fragile always
 
 The Minstrel shines when they can endure long enough to unleash a prepared cadence at the exact moment their party needs it most, a guaranteed crit on the killing blow, a desperate party heal when death is certain, a stun that buys one more round of survival. They are the doomed conductor of an orchestra that plays on only because they refuse to stop bleeding.`,
  },
@@ -336,7 +336,7 @@ Different instruments provide different bonuses and affect your playstyle:
 
 **Bandit #1's Turn**: Attacks tank ? Miss! (tank has +1 attack from your buff, turning a near-miss into a clean dodge)
 
-*The bandit's sword clangs off the tank's armor. The rhythm protected him.*
+*The bandit's sword clangs off the tank's shield. The rhythm protected him.*
 
 **Current State**: Notes: I(1), V(3), VII(1) | Mana: 47/60
 
@@ -1316,7 +1316,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 4 },
+  resourceValues: { mana: 4, classResource: { type: "musical_notes", gain: 3 } },
   useFormulas: {},
   actionPoints: 1,
   components: ["verbal", "somatic"],
@@ -1372,7 +1372,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 4 },
+  resourceValues: { mana: 4, classResource: { type: "musical_notes", gain: 3 } },
   useFormulas: {},
   actionPoints: 1,
   components: ["somatic"],
@@ -1425,7 +1425,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 3 },
+  resourceValues: { mana: 3, classResource: { type: "musical_notes", gain: 3 } },
   useFormulas: {},
   actionPoints: 1,
   components: ["verbal", "somatic"],
@@ -1499,7 +1499,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 4 },
+  resourceValues: { mana: 4, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   useFormulas: {},
   actionPoints: 1,
   components: ["verbal", "somatic"],
@@ -1554,7 +1554,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 3 },
+  resourceValues: { mana: 3, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   useFormulas: {},
   actionPoints: 1,
   components: ["verbal", "somatic"],
@@ -1629,7 +1629,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 4 },
+  resourceValues: { mana: 4, classResource: { type: "musical_notes", gain: 3 } },
   useFormulas: {},
   actionPoints: 1,
   components: ["verbal", "somatic"],
@@ -1643,7 +1643,7 @@ Before combat, decide which cadences you want to prioritize:
   buffConfig: {
   buffType: "statEnhancement",
   effects: [
-   { id : "armor_boost",
+   { id: "durability_boost",
     name: "DR Boost",
     description: "+2 DR for 2 turns",
     },
@@ -1703,7 +1703,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 4 },
+  resourceValues: { mana: 4, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 1,
   components: ["verbal"],
   verbalText: "Simple resolution phrase",
@@ -1769,7 +1769,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 4 },
+  resourceValues: { mana: 4, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 1,
   components: ["verbal"],
   verbalText: "Gentle healing melody",
@@ -1857,7 +1857,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 8 },
+  resourceValues: { mana: 8, classResource: { type: "musical_notes", gain: 3 } },
   actionPoints: 1,
   components: ["verbal"],
   verbalText: "Melodic healing verse",
@@ -1956,7 +1956,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 8 },
+  resourceValues: { mana: 8, classResource: { type: "musical_notes", gain: 3 } },
   actionPoints: 1,
   components: ["somatic"],
   somaticText: "Beat drum or stomp rhythmically",
@@ -2038,7 +2038,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 12 },
+  resourceValues: { mana: 12, classResource: { type: "musical_notes", gain: 4 } },
   actionPoints: 1,
   components: ["verbal"],
   verbalText: "Piercing discordant scream",
@@ -2135,7 +2135,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 16 },
+  resourceValues: { mana: 16, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 1,
   components: ["verbal", "somatic"],
   somaticText: "Channel perfect cadence through gesture",
@@ -2219,7 +2219,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 20 },
+  resourceValues: { mana: 20, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 1,
   components: ["verbal", "somatic"],
   somaticText: "Channel circle of fifths through gesture",
@@ -2292,7 +2292,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 20 },
+  resourceValues: { mana: 20, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 1,
   components: ["verbal", "somatic"],
   somaticText: "Channel authentic cadence through gesture",
@@ -2408,7 +2408,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 24 },
+  resourceValues: { mana: 24, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 1,
   components: ["verbal", "somatic"],
   somaticText: "Channel tritone substitution through gesture",
@@ -2503,7 +2503,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 24 },
+  resourceValues: { mana: 24, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 1,
   components: ["verbal", "somatic"],
   somaticText: "Channel picardy third through gesture",
@@ -2615,7 +2615,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 12 },
+  resourceValues: { mana: 12, classResource: { type: "musical_notes", gain: 2 } },
   actionPoints: 1,
   components: ["verbal", "somatic"],
   somaticText: "Channel stolen respite through gesture",
@@ -2699,7 +2699,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 8 },
+  resourceValues: { mana: 8, classResource: { type: "musical_notes", gain: 3 } },
   useFormulas: {},
   actionPoints: 1,
   components: ["verbal", "somatic"],
@@ -2782,7 +2782,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 10 },
+  resourceValues: { mana: 10, classResource: { type: "musical_notes", gain: 3 } },
   useFormulas: {},
   actionPoints: 1,
   components: ["verbal", "somatic"],
@@ -2876,7 +2876,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 16 },
+  resourceValues: { mana: 16, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 1,
   components: ["verbal", "somatic"],
   verbalText: "Fallax Resolutio!",
@@ -2956,7 +2956,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 16 },
+  resourceValues: { mana: 16, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 1,
   components: ["verbal", "somatic"],
   verbalText: "Surge Sanctus!",
@@ -3040,7 +3040,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 20 },
+  resourceValues: { mana: 20, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 1,
   components: ["verbal", "somatic"],
   verbalText: "Semper Custos!",
@@ -3143,7 +3143,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 20 },
+  resourceValues: { mana: 20, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 1,
   components: ["verbal", "somatic"],
   verbalText: "Virtus Antiqua!",
@@ -3235,7 +3235,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 24 },
+  resourceValues: { mana: 24, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 1,
   components: ["verbal", "somatic"],
   verbalText: "Exactio Perfecta!",
@@ -3317,7 +3317,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 28 },
+  resourceValues: { mana: 28, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 2,
   components: ["verbal", "somatic"],
   verbalText: "Destructio Symphonia!",
@@ -3399,7 +3399,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 28 },
+  resourceValues: { mana: 28, classResource: { type: "musical_notes", gain: 4 } },
   actionPoints: 2,
   components: ["verbal", "somatic"],
   verbalText: "Canticum Heroum!",
@@ -3470,7 +3470,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 28 },
+  resourceValues: { mana: 28, classResource: { type: "musical_notes", gain: 4 } },
   actionPoints: 1,
   components: ["verbal"],
   verbalText: "Piercing shriek of discord",
@@ -3572,7 +3572,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 32 },
+  resourceValues: { mana: 32, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 3,
   components: ["verbal", "somatic"],
   verbalText: "Opus Magnum Virtuoso!",
@@ -3643,7 +3643,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 32 },
+  resourceValues: { mana: 32, classResource: { type: "musical_notes", gain: 3 } },
   actionPoints: 2,
   components: ["verbal", "somatic"],
   verbalText: "Dark haunting melody",
@@ -3741,7 +3741,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 32 },
+  resourceValues: { mana: 32, classResource: { type: "musical_notes", gain: 3 } },
   actionPoints: 2,
   components: ["verbal", "somatic"],
   verbalText: "Harmonia Renovare!",
@@ -3806,7 +3806,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 36 },
+  resourceValues: { mana: 36, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 2,
   components: ["verbal", "somatic"],
   verbalText: "Crescendo Potentia!",
@@ -3877,7 +3877,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 36 },
+  resourceValues: { mana: 36, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 3,
   components: ["verbal", "somatic"],
   verbalText: "Requiem Aeternam Dona Eis!",
@@ -3962,7 +3962,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 36 },
+  resourceValues: { mana: 36, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 2,
   components: ["verbal", "somatic"],
   verbalText: "Tempus Dominium!",
@@ -4083,7 +4083,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 40 },
+  resourceValues: { mana: 40, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 3,
   components: ["verbal", "somatic"],
   verbalText: "Cantus Legendarum Ultimus!",
@@ -4173,7 +4173,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 40 },
+  resourceValues: { mana: 40, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 3,
   components: ["verbal", "somatic"],
   verbalText: "Cantus Creationis!",
@@ -4194,7 +4194,7 @@ Before combat, decide which cadences you want to prioritize:
    tokenIcon: "spell_holy_innerfire",
    stats: {
     maxHp: 100,
-    armor: 18,
+    durability: 4, drBonus: 6,
     maxMana: 0,
    },
    config: {
@@ -4277,7 +4277,7 @@ Before combat, decide which cadences you want to prioritize:
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 40 },
+  resourceValues: { mana: 40, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true } },
   actionPoints: 2,
   components: ["verbal", "somatic"],
   verbalText: "CADENZA FINALE!",
@@ -4352,7 +4352,7 @@ Before combat, decide which cadences you want to prioritize:
   resourceCost: {
   resourceTypes: ["mana"],
   resourceValues: {
-   mana: 16,
+   mana: 16, classResource: { type: "musical_notes", cost: 3, resolvesCadence: true }
   },
   actionPoints: 1,
   components: ["verbal", "somatic"],
@@ -4398,11 +4398,11 @@ Before combat, decide which cadences you want to prioritize:
   "While you are playing an active song or maintaining a cadence, your guard is lowered. You suffer -2 DR for the duration of any actively maintained musical effect. This penalty stacks with other effects but cannot reduce Passive DR below 0.",
   level: 1,
   spellType: "PASSIVE",
-  icon: "General/Broken Armor",
+  icon: "Utility/Shattered Shield",
   effectTypes: ["passive"],
   typeConfig: {
   school: "wyrd",
-  icon: "General/Broken Armor",
+  icon: "Utility/Shattered Shield",
   tags: ["passive", "minstrel", "weakness"],
   },
   targetingConfig: { targetingType: "self" },

@@ -1,405 +1,434 @@
+/* ========================================================= */
+/* CHRONARCH: TIME SHARDS & TEMPORAL STRAIN ASTROLABE        */
+/* Full-parchment apparatus for the expanded party card      */
+/* ========================================================= */
+
 .class-resource-bar.time-shards-strain {
     background: transparent;
     border: none;
     height: auto;
-    width: 100%; /* Ensure container takes full width */
-    display: block; /* Ensure it displays */
-    min-height: 0; /* Allow shrinking */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 0;
+    box-sizing: border-box;
+    user-select: none;
 }
 
 /* Party member frame specific styling */
 .party-member-frame .class-resource-bar.time-shards-strain {
     width: 100% !important;
-    min-width: 0; /* Allow flex shrinking */
-    flex: 0 1 auto; /* Don't force flex growth, allow natural sizing */
-    max-width: 100%; /* Prevent overflow */
-    box-sizing: border-box;
-    display: block !important; /* Ensure it displays */
-    min-height: 20px; /* Ensure minimum height for single bar */
-    /* Don't clip here - let the frame handle overflow */
-}
-
-.chronarch-single-bar {
-    position: relative;
+    max-width: 295px !important;
+    height: 76px !important;
+    min-height: 76px !important;
+    max-height: 76px !important;
+    margin: 6px auto 0 !important;
     display: flex !important;
-    flex-direction: row;
-    align-items: stretch;
-    gap: 2px;
-    background: linear-gradient(135deg, rgba(139, 69, 19, 0.08) 0%, rgba(101, 67, 33, 0.12) 100%);
-    border: 1px solid rgba(139, 69, 19, 0.35);
-    border-radius: 25px;
-    padding: 3px 6px;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
-    width: 100%;
+    justify-content: center !important;
+    align-items: center !important;
     box-sizing: border-box;
-    min-height: 24px;
 }
 
-/* Remove frame in party member context */
-.party-member-frame .chronarch-single-bar {
+/* Main Container */
+.chronarch-apparatus-container {
+    position: relative;
+    width: 100%;
+    max-width: 295px;
+    height: 76px;
+    max-height: 76px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+/* Master SVG Apparatus */
+.chronarch-master-svg {
+    width: 100%;
+    max-width: 295px;
+    height: 76px;
+    max-height: 76px;
+    display: block;
+    overflow: visible;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.75));
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.chronarch-master-svg:hover {
+    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 6px rgba(79, 195, 247, 0.25));
+}
+
+/* Chassis Base */
+.chrono-chassis-base {
+    transition: stroke 0.3s ease, filter 0.3s ease;
+}
+
+.chrono-chassis-base.critical {
+    animation: chronoChassisAlarm 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes chronoChassisAlarm {
+    0% {
+        stroke: #c0392b;
+        filter: drop-shadow(0 0 4px rgba(231, 76, 60, 0.6));
+    }
+    100% {
+        stroke: #e74c3c;
+        filter: drop-shadow(0 0 10px rgba(231, 76, 60, 0.95));
+    }
+}
+
+/* Astrolabe Gear Ring Rotation */
+.chrono-astrolabe-gear-ring {
+    transform-origin: 146px 38px;
+    animation: chronoRingRotate 45s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes chronoRingRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Centerpiece Hourglass Hover & Pulse - NO GEOMETRY SCALE */
+.chrono-center-core {
+    cursor: pointer;
+    transition: filter 0.2s ease;
+}
+
+.chrono-center-core:hover .chrono-center-jewel {
+    filter: drop-shadow(0 0 8px rgba(125, 232, 255, 1));
+}
+
+.chrono-center-core:hover .chrono-gimbal-ring {
+    stroke: #fbbf24;
+    filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.6));
+}
+
+/* Falling Chronomantic Sand */
+.chrono-sand-beam {
+    stroke-dasharray: 4 2;
+    animation: chronoSandFlow 1.2s linear infinite;
+}
+
+@keyframes chronoSandFlow {
+    from { stroke-dashoffset: 0; }
+    to { stroke-dashoffset: -12; }
+}
+
+/* Time Shard Slot & Crystal - NO TRANSFORM SCALE TO PREVENT HOVER FLICKER */
+.chrono-shard-slot {
+    cursor: pointer;
+}
+
+.chrono-shard-slot:hover .chrono-shard-empty {
+    stroke: #7de8ff;
+    stroke-width: 1.2;
+    fill: rgba(79, 195, 247, 0.3);
+    filter: drop-shadow(0 0 4px rgba(79, 195, 247, 0.7));
+}
+
+.chrono-shard-slot:hover .chrono-shard-crystal {
+    filter: drop-shadow(0 0 6px rgba(125, 232, 255, 1)) drop-shadow(0 0 10px rgba(56, 189, 248, 0.9));
+}
+
+/* Floating animation on filled crystals via filter glow, without moving hitboxes */
+.chrono-shard-crystal.filled {
+    animation: chronoShardPulse 2.8s ease-in-out infinite alternate;
+}
+
+.chrono-shard-slot:nth-child(even) .chrono-shard-crystal.filled {
+    animation-delay: 0.5s;
+}
+
+.chrono-shard-slot:nth-child(3n) .chrono-shard-crystal.filled {
+    animation-delay: 1s;
+}
+
+@keyframes chronoShardPulse {
+    0% {
+        filter: drop-shadow(0 0 3px rgba(79, 195, 247, 0.7));
+        opacity: 0.92;
+    }
+    50% {
+        filter: drop-shadow(0 0 7px rgba(125, 232, 255, 1)) drop-shadow(0 0 12px rgba(56, 189, 248, 0.7));
+        opacity: 1;
+    }
+    100% {
+        filter: drop-shadow(0 0 3px rgba(79, 195, 247, 0.8));
+        opacity: 0.95;
+    }
+}
+
+/* Prospective fill on hover */
+.chrono-shard-slot.prospective .chrono-shard-empty {
+    stroke: #38bdf8;
+    stroke-width: 1.2;
+    fill: rgba(56, 189, 248, 0.35);
+    filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.7));
+}
+
+.chrono-shard-slot.prospective-drop .chrono-shard-crystal {
+    opacity: 0.35;
+    filter: grayscale(0.5);
+}
+
+/* Temporal Strain Phial Slot - NO TRANSFORM SCALE */
+.chrono-strain-slot {
+    cursor: pointer;
+}
+
+.chrono-strain-slot:hover .chrono-strain-glass-tube {
+    stroke: #fbbf24;
+    stroke-width: 1.2;
+    filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.7));
+}
+
+.chrono-strain-slot:hover .chrono-strain-liquid-fill {
+    filter: brightness(1.25) drop-shadow(0 0 6px rgba(251, 146, 60, 0.9));
+}
+
+.chrono-strain-slot.prospective .chrono-strain-glass-tube {
+    stroke: #fb923c;
+    filter: drop-shadow(0 0 4px rgba(251, 146, 60, 0.6));
+}
+
+/* Strain Tube Liquid Transition */
+.chrono-strain-liquid-fill {
+    transition: fill 0.25s ease, filter 0.25s ease;
+}
+
+/* Critical Paradox Backlash Crackling (Strain 9+) */
+.chrono-paradox-fracture {
+    stroke: #ff4757;
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    filter: drop-shadow(0 0 4px #ff0000) drop-shadow(0 0 8px #ff4757);
+    animation: paradoxLightning 0.7s steps(2, start) infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes paradoxLightning {
+    0% {
+        opacity: 0.4;
+        stroke: #ff6b81;
+    }
+    50% {
+        opacity: 1;
+        stroke: #ffffff;
+        filter: drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 12px #ff4757);
+    }
+    100% {
+        opacity: 0.2;
+        stroke: #ff4757;
+    }
+}
+
+/* Warning Backlash Ribbon */
+.chrono-backlash-ribbon {
+    animation: backlashRibbonPulse 0.9s ease-in-out infinite alternate;
+}
+
+@keyframes backlashRibbonPulse {
+    0% {
+        opacity: 0.8;
+        filter: drop-shadow(0 0 3px rgba(239, 68, 68, 0.7));
+    }
+    100% {
+        opacity: 1;
+        filter: drop-shadow(0 0 7px rgba(239, 68, 68, 0.95));
+    }
+}
+
+/* Small / Compact Variant Support */
+.class-resource-bar.time-shards-strain.small .chronarch-apparatus-container {
+    max-width: 270px;
+}
+
+.class-resource-bar.time-shards-strain.large .chronarch-apparatus-container {
+    max-width: 330px;
+}
+
+/* ========================================================= */
+/* TEMPORAL FLUX CONSOLE POPOVER (ASTROLABE MENU)            */
+/* Antique brass & orichalcum aesthetic matching parchment   */
+/* ========================================================= */
+.chronarch-console-popover {
+    background: linear-gradient(135deg, rgba(246, 238, 222, 0.98) 0%, rgba(225, 212, 186, 0.98) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 6px;
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cinzel', 'Bookman Old Style', 'Garamond', serif;
+    color: #2b1d14;
+    animation: chronoConsoleFadeIn 0.16s ease-out;
+    user-select: none;
+    overflow: hidden;
+}
+
+@keyframes chronoConsoleFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chronarch-console-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
+    border-bottom: 2px solid #8b7355;
+    padding: 8px 12px;
+    margin: 0;
+    color: #f0e6d2;
+}
+
+.chronarch-console-title {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #f0e6d2;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.chronarch-console-close {
     background: transparent;
     border: none;
-    box-shadow: none;
-    padding: 2px 4px;
-    gap: 4px;
-    width: 100% !important; /* Ensure container stretches */
-    min-width: 0; /* Allow flex shrinking */
-    max-width: 100% !important; /* Prevent overflow */
-    box-sizing: border-box;
-    display: flex !important; /* Ensure it displays */
-    min-height: 18px !important; /* Ensure minimum height for single bar */
-    /* Don't clip here - bars need to be fully visible */
-}
-
-.party-member-frame .time-shards-bar,
-.party-member-frame .temporal-strain-bar {
-    padding: 2px 4px;
-    gap: 4px;
-    flex: 1 1 auto !important;
-    position: relative !important;
-    box-sizing: border-box !important;
-    overflow: visible;
-    min-height: 16px !important;
-}
-
-.party-member-frame .fluid-bar-container {
-    height: 6px !important;
-}
-
-.party-member-frame .chronarch-center {
-    width: 16px !important;
-}
-
-.party-member-frame .center-circle {
-    width: 4px !important;
-    height: 4px !important;
-}
-
-.party-member-frame .line {
-    width: 12px !important;
-    height: 1px !important;
-}
-
-.party-member-frame .time-shards-bar .bar-value,
-.party-member-frame .temporal-strain-bar .bar-value {
-    font-size: 8px;
-    min-width: auto;
-    color: #ffffff !important;
-    text-shadow:
-        0 0 3px rgba(0, 0, 0, 1),
-        0 1px 2px rgba(0, 0, 0, 1),
-        1px 1px 2px rgba(0, 0, 0, 1) !important;
-    text-align: center !important;
-    position: absolute !important;
-    left: 50% !important;
-    top: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    z-index: 10 !important;
-    pointer-events: none !important;
-    white-space: nowrap !important;
-    box-sizing: border-box;
-}
-
-/* Time Shards Bar (Left) - Fluid */
-.time-shards-bar {
-    position: relative;
-    display: flex !important;
-    align-items: center;
-    gap: 6px;
-    padding: 2px 6px;
-    background: linear-gradient(90deg, rgba(26, 77, 109, 0.15) 0%, rgba(26, 77, 109, 0.08) 50%, transparent 100%);
-    border: 1px solid rgba(79, 195, 247, 0.3);
-    border-radius: 20px 0 0 20px;
+    color: #f0e6d2;
+    font-size: 14px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-    flex: 1;
-    overflow: hidden;
-}
-
-.time-shards-bar:hover {
-    background: linear-gradient(90deg, rgba(26, 77, 109, 0.25) 0%, rgba(26, 77, 109, 0.15) 50%, transparent 100%);
-    border-color: rgba(79, 195, 247, 0.5);
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 6px rgba(79, 195, 247, 0.3);
-}
-
-/* Chronarch Center Ornament */
-.chronarch-center {
-    flex-shrink: 0;
-    width: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.center-ornament {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.center-circle {
-    width: 6px;
-    height: 6px;
-    background: radial-gradient(circle, #d4c5a9 0%, #b8a085 50%, #8b6f3d 100%);
-    border-radius: 50%;
-    box-shadow: 0 0 4px rgba(212, 197, 169, 0.6);
-    position: relative;
-    z-index: 2;
-}
-
-.center-lines {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.line {
-    position: absolute;
-    background: linear-gradient(to right, transparent 0%, #d4c5a9 50%, transparent 100%);
-    opacity: 0.4;
-}
-
-.line-1 { transform: rotate(0deg); width: 16px; height: 1px; }
-.line-2 { transform: rotate(45deg); width: 16px; height: 1px; }
-.line-3 { transform: rotate(90deg); width: 16px; height: 1px; }
-.line-4 { transform: rotate(135deg); width: 16px; height: 1px; }
-
-/* Temporal Strain Bar (Right) - Fluid */
-.temporal-strain-bar {
-    position: relative;
-    display: flex !important;
-    align-items: center;
-    gap: 6px;
     padding: 2px 6px;
-    background: linear-gradient(90deg, transparent 0%, rgba(66, 66, 66, 0.08) 50%, rgba(66, 66, 66, 0.15) 100%);
-    border: 1px solid rgba(46, 125, 50, 0.3);
-    border-radius: 0 20px 20px 0;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-    flex: 1;
-    overflow: hidden;
+    border-radius: 3px;
+    transition: color 0.15s ease;
 }
 
-.temporal-strain-bar:hover {
-    background: linear-gradient(90deg, transparent 0%, rgba(66, 66, 66, 0.15) 50%, rgba(66, 66, 66, 0.25) 100%);
-    border-color: rgba(46, 125, 50, 0.5);
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 6px rgba(46, 125, 50, 0.3);
-}
-
-/* Fluid Bar Container and Fill */
-.fluid-bar-container {
-    flex: 1;
-    height: 8px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-    overflow: hidden;
-    position: relative;
-}
-
-.fluid-bar-fill {
-    height: 100%;
-    border-radius: 4px;
-    transition: width 0.5s ease, background 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-}
-
-/* Temporal Strain bar fills from right to left */
-.temporal-strain-bar .fluid-bar-fill {
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-.fluid-bar-fill::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.1) 50%,
-        transparent 100%);
-    animation: fluidShimmer 2s ease-in-out infinite;
-}
-
-@keyframes fluidShimmer {
-    0%, 100% { opacity: 0; transform: translateX(-100%); }
-    50% { opacity: 1; transform: translateX(0%); }
-}
-
-/* Pulse animation for high strain */
-.temporal-strain-bar.pulse {
-    animation: strainPulse 1.5s ease-in-out infinite;
-}
-
-.temporal-strain-bar.pulse .fluid-bar-fill {
-    animation: strainPulseFill 1.5s ease-in-out infinite;
-}
-
-.temporal-strain-bar.flash {
-    animation: strainFlash 0.5s ease-in-out infinite;
-}
-
-.temporal-strain-bar.flash .fluid-bar-fill {
-    animation: strainFlashFill 0.5s ease-in-out infinite;
-}
-
-@keyframes strainPulse {
-    0%, 100% {
-        border-color: rgba(251, 140, 0, 0.3);
-        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 6px rgba(251, 140, 0, 0.2);
-    }
-    50% {
-        border-color: rgba(251, 140, 0, 0.6);
-        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 12px rgba(251, 140, 0, 0.4);
-    }
-}
-
-@keyframes strainPulseFill {
-    0%, 100% {
-        box-shadow: 0 0 8px currentColor;
-    }
-    50% {
-        box-shadow: 0 0 16px currentColor, 0 0 24px currentColor;
-    }
-}
-
-@keyframes strainFlash {
-    0%, 100% {
-        border-color: rgba(198, 40, 40, 0.5);
-        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 6px rgba(198, 40, 40, 0.3);
-    }
-    50% {
-        border-color: rgba(198, 40, 40, 0.9);
-        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 16px rgba(198, 40, 40, 0.6);
-    }
-}
-
-@keyframes strainFlashFill {
-    0%, 100% {
-        box-shadow: 0 0 12px currentColor;
-    }
-    50% {
-        box-shadow: 0 0 20px currentColor, 0 0 32px currentColor;
-    }
-}
-
-/* Bar Values */
-.time-shards-bar .bar-value {
-    font-family: 'Crimson Text', serif;
-    font-size: 10px;
-    font-weight: 700;
-    color: #81D4FA;
-    text-shadow:
-        0 0 3px rgba(0, 0, 0, 0.8),
-        0 1px 2px rgba(0, 0, 0, 0.6);
-    white-space: nowrap;
-    min-width: 30px;
-    text-align: left;
-    position: relative;
-    margin-left: auto;
-}
-
-.temporal-strain-bar .bar-value {
-    font-family: 'Crimson Text', serif;
-    font-size: 10px;
-    font-weight: 700;
+.chronarch-console-close:hover {
     color: #ffffff;
-    text-shadow:
-        0 0 3px rgba(0, 0, 0, 0.8),
-        0 1px 2px rgba(0, 0, 0, 0.6);
-    white-space: nowrap;
-    min-width: 30px;
-    text-align: right;
-    position: relative;
-    margin-right: auto;
 }
 
-/* Adjustment Menus */
-/* Chronarch menus now use unified-context-menu.css system */
-
-/* Size Variations */
-.class-resource-bar.time-shards-strain.small .chronarch-single-bar {
-    padding: 3px 5px;
-    gap: 2px;
-    min-height: 20px;
+.chronarch-console-section {
+    padding: 6px 10px;
+    margin-bottom: 0;
 }
 
-.class-resource-bar.time-shards-strain.small .chronarch-center {
-    width: 16px;
+.chronarch-console-section:first-of-type {
+    padding-top: 8px;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.25);
 }
 
-.class-resource-bar.time-shards-strain.small .center-circle {
-    width: 4px;
-    height: 4px;
+.chronarch-console-section:last-child {
+    padding-bottom: 8px;
 }
 
-.class-resource-bar.time-shards-strain.small .line {
-    width: 12px !important;
-    height: 1px !important;
+.chronarch-section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
 }
 
-.class-resource-bar.time-shards-strain.small .time-shards-bar,
-.class-resource-bar.time-shards-strain.small .temporal-strain-bar {
-    padding: 2px 4px;
+.chronarch-section-title.time-shards {
+    color: #0369a1;
+}
+
+.chronarch-section-title.temporal-strain {
+    color: #c2410c;
+}
+
+.chronarch-btn-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 4px;
 }
 
-.class-resource-bar.time-shards-strain.small .fluid-bar-container {
-    height: 6px;
-}
-
-.class-resource-bar.time-shards-strain.small .bar-value {
+.console-btn {
+    background: linear-gradient(180deg, #fbf7ee 0%, #e8dcbe 100%);
+    border: 1px solid #bba482;
+    border-radius: 4px;
+    color: #2b1d14;
     font-size: 9px;
-    min-width: 26px;
-}
-
-.class-resource-bar.time-shards-strain.large .chronarch-single-bar {
-    padding: 5px 8px;
+    font-weight: 700;
+    font-family: inherit;
+    padding: 5px 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 4px;
-    min-height: 32px;
+    transition: all 0.15s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
-.class-resource-bar.time-shards-strain.large .chronarch-center {
-    width: 24px;
+.console-btn:hover:not(:disabled) {
+    border-color: #8b5a2b;
+    background: #ffffff;
+    color: #1a0f08;
+    box-shadow: 0 2px 6px rgba(139, 90, 43, 0.25);
 }
 
-.class-resource-bar.time-shards-strain.large .center-circle {
-    width: 8px;
-    height: 8px;
+.console-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    filter: grayscale(0.8);
 }
 
-.class-resource-bar.time-shards-strain.large .line {
-    width: 20px !important;
-    height: 1px !important;
+/* Shard action variants */
+.console-btn.shard-add:hover:not(:disabled) {
+    background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+    border-color: #0284c7;
+    color: #ffffff;
+    box-shadow: 0 0 7px rgba(2, 132, 199, 0.5);
 }
 
-.class-resource-bar.time-shards-strain.large .time-shards-bar,
-.class-resource-bar.time-shards-strain.large .temporal-strain-bar {
-    padding: 3px 8px;
-    gap: 8px;
+.console-btn.shard-spend:hover:not(:disabled) {
+    background: linear-gradient(180deg, #7c3aed 0%, #6d28d9 100%);
+    border-color: #7c3aed;
+    color: #ffffff;
+    box-shadow: 0 0 7px rgba(124, 58, 237, 0.5);
 }
 
-.class-resource-bar.time-shards-strain.large .fluid-bar-container {
-    height: 12px;
+.console-btn.shard-reset:hover:not(:disabled) {
+    background: linear-gradient(180deg, #64748b 0%, #475569 100%);
+    border-color: #475569;
+    color: #ffffff;
 }
 
-.class-resource-bar.time-shards-strain.large .bar-value {
-    font-size: 12px;
-    min-width: 36px;
+/* Strain action variants */
+.console-btn.strain-add:hover:not(:disabled) {
+    background: linear-gradient(180deg, #ea580c 0%, #c2410c 100%);
+    border-color: #ea580c;
+    color: #ffffff;
+    box-shadow: 0 0 7px rgba(234, 88, 12, 0.5);
 }
 
-/* ========================================
-   COVENBANE - HEXBREAKER CHARGES
-   ======================================== */
+.console-btn.strain-decay:hover:not(:disabled) {
+    background: linear-gradient(180deg, #16a34a 0%, #15803d 100%);
+    border-color: #16a34a;
+    color: #ffffff;
+    box-shadow: 0 0 7px rgba(22, 163, 74, 0.5);
+}
+
+.console-btn.strain-backlash:hover:not(:disabled) {
+    background: linear-gradient(180deg, #dc2626 0%, #b91c1c 100%);
+    border-color: #dc2626;
+    color: #ffffff;
+    box-shadow: 0 0 8px rgba(220, 38, 38, 0.6);
+}

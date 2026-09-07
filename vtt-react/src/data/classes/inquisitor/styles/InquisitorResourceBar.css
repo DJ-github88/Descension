@@ -1,0 +1,92 @@
+/* ===== INQUISITOR RESOURCE BAR (THE BARBED LEASH OF THE DAMNED) ===== */
+
+.inquisitor-resource-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    z-index: 1;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.inquisitor-resource-container .resource-bar-row {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main Vector Resource Bar (viewBox 0 0 360 56) */
+.inquisitor-resource-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 360px;
+    height: 56px;
+    margin: 0 auto;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    transition: filter 0.25s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+.inquisitor-leash-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+}
+
+.inquisitor-resource-bar.small {
+    height: 44px;
+    max-width: 280px;
+}
+
+.inquisitor-resource-bar.large {
+    height: 64px;
+    max-width: 400px;
+}
+
+/* Character card / compact hud sizing - Wide 360px footprint */
+.character-card .inquisitor-resource-bar,
+.character-card-compact .inquisitor-resource-bar {
+    height: 52px !important;
+    min-height: 52px !important;
+    max-width: 360px !important;
+    width: 100% !important;
+}
+
+/* Hover effects - crisp ember and consecrated gold glow */
+.inquisitor-resource-bar.clickable:hover {
+    filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.5)) drop-shadow(0 0 4px rgba(245, 158, 11, 0.4));
+}
+
+.inquisitor-resource-bar.clickable:active {
+    filter: drop-shadow(0 0 5px rgba(220, 38, 38, 0.7));
+}
+
+/* Absolute Verdict 8/8 Blazing Aura */
+.inquisitor-resource-bar.verdict-absolute {
+    filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.6)) drop-shadow(0 0 5px rgba(254, 240, 138, 0.8));
+}
+
+/* Hex-Links, Demon Collar & Flank Triggers Interactivity */
+.inq-hex-link, .inq-flank-trigger, .inq-center-collar {
+    transition: filter 0.2s ease, opacity 0.2s ease;
+}
+
+.inq-hex-link:hover, .inq-flank-trigger:hover, .inq-center-collar:hover {
+    filter: brightness(1.3);
+}
+
+.inq-hex-link.sealed {
+    filter: drop-shadow(0 0 3px rgba(220, 38, 38, 0.65));
+}

@@ -1,0 +1,102 @@
+/* ===== CLASS TIP — shared class-resource tooltip body (SVG/CSS mix) ===== */
+
+.class-tip {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.class-tip-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 6px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.35);
+}
+
+.class-tip-medallion {
+    --tip-tint: #b7791f;
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 1;
+    color: #ffe9b8;
+    background: radial-gradient(circle at 35% 30%, #3a2c1c 0%, #1c130a 70%);
+    border: 1.5px solid var(--tip-tint);
+    box-shadow: 0 0 8px color-mix(in srgb, var(--tip-tint) 55%, transparent),
+        inset 0 1px 2px rgba(255, 255, 255, 0.25);
+    text-shadow: 0 0 6px var(--tip-tint);
+    user-select: none;
+}
+
+.class-tip-title {
+    flex: 1;
+    min-width: 0;
+    font-family: var(--my-font-serif, 'Cinzel', serif);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    color: #3a2a1a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.class-tip-state {
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    padding: 1px 8px;
+    border: 1px solid;
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.5);
+    line-height: 1.5;
+}
+
+.class-tip-mechanic {
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: rgba(58, 42, 26, 0.9);
+}
+
+.class-tip-status {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: rgba(58, 42, 26, 0.9);
+}
+
+.class-tip-status-line {
+    display: flex;
+    gap: 6px;
+    align-items: baseline;
+}
+
+.class-tip-status-line::before {
+    content: '◆';
+    font-size: 0.6em;
+    color: rgba(183, 121, 31, 0.7);
+    flex-shrink: 0;
+}
+
+.class-tip-usage {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: rgba(58, 42, 26, 0.85);
+}
+
+.class-tip-hint {
+    font-size: 0.75rem;
+    font-style: italic;
+    color: rgba(58, 42, 26, 0.55);
+    margin-top: 3px;
+}

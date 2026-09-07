@@ -15,7 +15,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'AP',
       description: 'Used to perform actions in combat',
       color: '#4e9df5',
-      icon: '/assets/icons/abilities/Nature/Natural.png',
+      icon: '/assets/icons/abilities/Nature/Nature Natural 4.png',
       defaultMax: 5,
       defaultRegen: 3,
       regenTrigger: 'startOfTurn',
@@ -32,7 +32,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'MP',
       description: 'Magical energy used to cast spells',
       color: '#25a6e0',
-      icon: '/assets/icons/abilities/Arcane/Arcane.png',
+      icon: '/assets/icons/abilities/Arcane/Spiral Vortex.png',
       defaultMax: 100,
       defaultRegen: 5,
       regenTrigger: 'rest',
@@ -195,7 +195,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'AP',
       description: 'Celestial energy used for Hexer balance abilities',
       color: '#4287f5',
-      icon: '/assets/icons/abilities/Nature/Natural.png',
+      icon: '/assets/icons/abilities/Nature/Nature Natural 4.png',
       defaultMax: 100,
       defaultRegen: 0, // Generated through specific abilities
       regenTrigger: 'ability',
@@ -335,7 +335,7 @@ export const STANDARD_RESOURCE_TYPES = [
           type: 'health',
           conversionRate: 0.5, // 1 AP = 0.5 health
           name: 'Blood Magic',
-          icon: '/assets/icons/abilities/Necrotic/Drain Life.png'
+          icon: '/assets/icons/abilities/Necrotic/Drain Soul.png'
         },
         {
           type: 'rage',

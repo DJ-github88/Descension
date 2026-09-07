@@ -1,564 +1,91 @@
-/* ===== TOXICOLOGIST SINGLE SPLIT BAR ===== */
+/* ===== TOXICOLOGIST RESOURCE BAR (THE CANOPY SYRINGE-ALEMBIC & NEEDLE-CLOCKWORK RIG) ===== */
 
 .toxicologist-resource-container {
     position: relative;
-    width: 100%;
-    max-width: 320px;
-}
-
-.spec-button {
-    position: absolute;
-    left: 50%; /* Center on the bar's divider instead of dangling off the left edge */
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background: linear-gradient(135deg, #1b3812, #2d5a1e);
-    border: 1.5px solid #84cc16;
-    border-radius: 50%;
-    width: 26px;
-    height: 26px;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 10;
-    box-shadow: 0 0 10px rgba(132, 204, 22, 0.4), 0 2px 5px rgba(0, 0, 0, 0.6);
+    width: 100%;
+    margin: 0;
+    z-index: 1;
+    user-select: none;
+    box-sizing: border-box;
 }
 
-.spec-button i {
-    font-size: 12px;
-    color: #ecfccb;
-    text-shadow: 0 0 4px rgba(132, 204, 22, 0.8);
-}
-
-.spec-button:hover {
-    background: linear-gradient(135deg, #2d5a1e, #3f7a2a);
-    border-color: #bef264;
-    transform: translate(-50%, -50%) scale(1.15);
-    box-shadow: 0 0 16px rgba(190, 242, 100, 0.75), 0 2px 8px rgba(0, 0, 0, 0.8);
-}
-
-.spec-button:active {
-    transform: translate(-50%, -50%) scale(0.95);
-}
-
-/* Smaller spec button in HUD mode */
-.toxicologist-resource-container:has(.split-bar-container.compact) .spec-button,
-.toxicologist-resource-container:has(.split-bar-container.small) .spec-button {
-    width: 20px;
-    height: 20px;
-}
-
-.toxicologist-resource-container:has(.split-bar-container.compact) .spec-button i,
-.toxicologist-resource-container:has(.split-bar-container.small) .spec-button i {
-    font-size: 10px;
-}
-
-.toxicologist-resource-container:has(.split-bar-container.compact) .spec-button:hover,
-.toxicologist-resource-container:has(.split-bar-container.small) .spec-button:hover {
-    transform: translate(-50%, -50%) scale(1.12);
-    box-shadow: 0 0 8px rgba(222, 184, 135, 0.5);
-}
-
-/* ===== SPLIT BAR CONTAINER ===== */
-
-.split-bar-container {
-    position: relative;
-    display: flex;
-    height: 36px;
-    background: rgba(0, 0, 0, 0.5);
-    border: 2px solid rgba(139, 69, 19, 0.5);
-    border-radius: 4px;
-    overflow: hidden;
-    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
-    flex: 1;
-}
-
-/* Saboteur Combo Active Effect */
-.split-bar-container.combo-active {
-    box-shadow:
-        inset 0 2px 6px rgba(0, 0, 0, 0.4),
-        0 0 16px rgba(124, 77, 255, 0.7),
-        0 0 24px rgba(124, 77, 255, 0.4);
-    border-color: rgba(124, 77, 255, 0.8);
-}
-
-/* Styling and height adjustments in HUD/compact mode */
-.split-bar-container.normal {
-    height: 20px !important;
-    min-height: 20px !important;
-}
-
-.split-bar-container.compact {
-    height: 16px !important;
-    min-height: 16px !important;
-    background: rgba(0, 0, 0, 0.45);
-    border: 1px solid rgba(139, 69, 19, 0.45);
-    border-radius: 4px;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.split-bar-container.small {
-    height: 14px !important;
-    min-height: 14px !important;
-    background: rgba(0, 0, 0, 0.45);
-    border: 1px solid rgba(139, 69, 19, 0.45);
-    border-radius: 4px;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-/* Keep combo effect even in compact mode */
-.split-bar-container.compact.combo-active,
-.split-bar-container.small.combo-active {
-    box-shadow:
-        0 0 16px rgba(124, 77, 255, 0.7),
-        0 0 24px rgba(124, 77, 255, 0.4);
-    border: 2px solid rgba(124, 77, 255, 0.8);
-}
-
-/* Spec button size overrides */
-.toxicologist-resource-container:has(.split-bar-container.normal) .spec-button {
-    width: 22px !important;
-    height: 22px !important;
-    min-width: 22px !important;
-    min-height: 22px !important;
-}
-
-.toxicologist-resource-container:has(.split-bar-container.normal) .spec-button i {
-    font-size: 10px !important;
-}
-
-/* Gear size overrides for compact/small/normal modes */
-.split-bar-container.normal .gear {
-    font-size: 12px !important;
-}
-
-.split-bar-container.compact .gear,
-.split-bar-container.small .gear {
-    font-size: 8px !important;
-}
-
-.split-bar-container.normal .gear-1 {
-    top: 10%;
-    left: 20%;
-}
-.split-bar-container.normal .gear-2 {
-    top: 40%;
-    right: 20%;
-}
-.split-bar-container.normal .gear-3 {
-    bottom: 10%;
-    left: 45%;
-}
-
-.split-bar-container.compact .gear-1,
-.split-bar-container.small .gear-1 {
-    top: 5%;
-    left: 20%;
-}
-.split-bar-container.compact .gear-2,
-.split-bar-container.small .gear-2 {
-    top: 35%;
-    right: 20%;
-}
-.split-bar-container.compact .gear-3,
-.split-bar-container.small .gear-3 {
-    bottom: 5%;
-    left: 45%;
-}
-
-/* Bubble size overrides for compact/small/normal modes */
-.split-bar-container.normal .bubble {
-    width: 5px !important;
-    height: 5px !important;
-}
-
-.split-bar-container.compact .bubble,
-.split-bar-container.small .bubble {
-    width: 4px !important;
-    height: 4px !important;
-}
-
-/* ===== BAR HALVES ===== */
-
-.bar-half {
-    position: relative;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.5) 100%);
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.bar-half:hover {
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%);
-}
-
-/* Count Badge Inside Bar */
-.bar-count {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-weight: 700;
-    font-size: 11px;
-    color: rgba(255, 255, 255, 1);
-    background: rgba(0, 0, 0, 0.7);
-    padding: 2px 8px;
-    border-radius: 3px;
-    border: 1px solid rgba(139, 69, 19, 0.6);
-    z-index: 10;
-    pointer-events: none;
-    white-space: nowrap;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-}
-
-.bar-count i {
-    font-size: 10px;
-    margin-right: 4px;
-}
-
-/* Simplified count in HUD mode - no background, no icon */
-.split-bar-container.normal .bar-count {
-    background: transparent;
-    border: none;
-    font-size: 10px !important;
-    font-weight: 700;
-}
-
-.split-bar-container.compact .bar-count {
-    background: transparent;
-    border: none;
-    font-size: 9px !important;
-    font-weight: 700;
-}
-
-.split-bar-container.small .bar-count {
-    background: transparent;
-    border: none;
-    font-size: 8px !important;
-    font-weight: 700;
-}
-
-.split-bar-container.normal .bar-count,
-.split-bar-container.compact .bar-count,
-.split-bar-container.small .bar-count {
-    text-shadow:
-        -1px -1px 0 rgba(0, 0, 0, 0.8),
-        1px -1px 0 rgba(0, 0, 0, 0.8),
-        -1px 1px 0 rgba(0, 0, 0, 0.8),
-        1px 1px 0 rgba(0, 0, 0, 0.8);
-}
-
-.split-bar-container.normal .bar-count i,
-.split-bar-container.compact .bar-count i,
-.split-bar-container.small .bar-count i {
-    display: none;
-}
-
-/* Toxin Half (Left) */
-.toxin-half {
-    border-right: 1px solid rgba(139, 69, 19, 0.6);
-}
-
-/* Contraption Half (Right) */
-.contraption-half {
-    border-left: 1px solid rgba(139, 69, 19, 0.6);
-}
-
-/* Dividers in HUD mode */
-.split-bar-container.compact .toxin-half,
-.split-bar-container.small .toxin-half {
-    border-right: 1px solid rgba(139, 69, 19, 0.45) !important;
-}
-
-.split-bar-container.compact .contraption-half,
-.split-bar-container.small .contraption-half {
-    border-left: none !important;
-}
-
-/* ===== LIQUID FILL (Toxin Vials) ===== */
-
-.liquid-fill {
+.toxicologist-resource-container .resource-bar-row {
     position: relative;
     width: 100%;
-    transition: height 0.4s ease;
-    background: linear-gradient(180deg, rgba(76, 175, 80, 0.75) 0%, rgba(76, 175, 80, 1) 100%);
-    box-shadow:
-        inset 0 2px 8px rgba(255, 255, 255, 0.25),
-        inset 0 -2px 8px rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Venomancer Pulsing Effect */
-.liquid-fill.pulsing {
-    animation: liquidPulse 2s ease-in-out infinite;
-}
-
-@keyframes liquidPulse {
-    0%, 100% {
-        filter: brightness(1) drop-shadow(0 0 6px rgba(118, 255, 3, 0.5));
-    }
-    50% {
-        filter: brightness(1.3) drop-shadow(0 0 14px rgba(118, 255, 3, 0.9));
-    }
-}
-
-/* Bubbles in Liquid */
-.bubble {
-    position: absolute;
-    width: 7px;
-    height: 7px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.2) 100%);
-    border-radius: 50%;
-    animation: bubbleRise 3s ease-in-out infinite;
-}
-
-.bubble-1 {
-    left: 20%;
-    animation-delay: 0s;
-}
-
-.bubble-2 {
-    left: 50%;
-    animation-delay: 1s;
-}
-
-.bubble-3 {
-    left: 75%;
-    animation-delay: 2s;
-}
-
-@keyframes bubbleRise {
-    0% {
-        bottom: 0%;
-        opacity: 0;
-    }
-    50% {
-        opacity: 0.9;
-    }
-    100% {
-        bottom: 100%;
-        opacity: 0;
-    }
-}
-
-/* ===== MECHANICAL FILL (Contraption Parts) ===== */
-
-.mechanical-fill {
+/* Main Vector Resource Bar (viewBox 0 0 360 56) */
+.toxicologist-resource-bar {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    transition: height 0.4s ease;
-    background: linear-gradient(180deg, rgba(158, 158, 158, 0.65) 0%, rgba(255, 215, 0, 0.75) 100%);
-    box-shadow:
-        inset 0 2px 8px rgba(255, 255, 255, 0.2),
-        inset 0 -2px 8px rgba(0, 0, 0, 0.4);
+    max-width: 360px;
+    height: 56px;
+    margin: 0 auto;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    transition: filter 0.25s ease;
+    cursor: pointer;
+    user-select: none;
 }
 
-/* Gadgeteer Glowing Effect */
-.mechanical-fill.glowing {
-    animation: mechanicalGlow 1.5s ease-in-out infinite;
-}
-
-@keyframes mechanicalGlow {
-    0%, 100% {
-        filter: brightness(1) drop-shadow(0 0 6px rgba(255, 215, 0, 0.6));
-    }
-    50% {
-        filter: brightness(1.4) drop-shadow(0 0 14px rgba(255, 215, 0, 1));
-    }
-}
-
-/* Gears in Mechanical Fill */
-.gear {
-    position: absolute;
-    color: rgba(0, 0, 0, 0.5);
-    font-size: 20px;
-    animation: gearRotate 4s linear infinite;
-}
-
-.gear-1 {
-    top: 15%;
-    left: 25%;
-    animation-duration: 3s;
-}
-
-.gear-2 {
-    top: 50%;
-    right: 25%;
-    animation-duration: 4s;
-    animation-direction: reverse;
-}
-
-.gear-3 {
-    bottom: 20%;
-    left: 50%;
-    animation-duration: 5s;
-}
-
-@keyframes gearRotate {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* ===== TICK MARKS ===== */
-
-.tick-marks {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-}
-
-.tick {
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: rgba(139, 69, 19, 0.5);
-}
-
-/* ===== CENTER DIVIDER ===== */
-
-.center-divider {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
+.toxicologist-manifold-svg {
+    width: 100%;
     height: 100%;
-    background: linear-gradient(180deg,
-        rgba(139, 69, 19, 0.7) 0%,
-        rgba(139, 69, 19, 1) 50%,
-        rgba(139, 69, 19, 0.7) 100%
-    );
-    z-index: 10;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    display: block;
+    overflow: visible;
 }
 
-/* Mixing Indicator (Saboteur) */
-.mixing-indicator {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 34px;
-    height: 34px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: radial-gradient(circle, rgba(124, 77, 255, 1) 0%, rgba(124, 77, 255, 0.7) 100%);
-    border: 2px solid rgba(255, 255, 255, 0.8);
-    border-radius: 50%;
-    animation: mixingPulse 2s ease-in-out infinite;
+.toxicologist-resource-bar.small {
+    height: 44px;
+    max-width: 280px;
 }
 
-.mixing-indicator i {
-    color: #fff;
-    font-size: 16px;
-    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+.toxicologist-resource-bar.large {
+    height: 64px;
+    max-width: 400px;
 }
 
-@keyframes mixingPulse {
-    0%, 100% {
-        box-shadow: 0 0 10px rgba(124, 77, 255, 0.7);
-        transform: translate(-50%, -50%) scale(1);
-    }
-    50% {
-        box-shadow: 0 0 18px rgba(124, 77, 255, 1);
-        transform: translate(-50%, -50%) scale(1.15);
-    }
+/* Character card / compact hud sizing - Wide 360px footprint */
+.character-card .toxicologist-resource-bar,
+.character-card-compact .toxicologist-resource-bar {
+    height: 52px !important;
+    min-height: 52px !important;
+    max-width: 360px !important;
+    width: 100% !important;
 }
 
-
-
-
-
-
-/* ===== TOOLTIP STYLES ===== */
-
-.unified-resourcebar-tooltip {
-    position: fixed;
-    background: linear-gradient(135deg, #E8DCC8 0%, #D4C5B0 100%);
-    border: 2px solid #8B7355;
-    border-radius: 0;
-    padding: 12px;
-    min-width: 300px;
-    max-width: 350px;
-    z-index: 100000;
-    pointer-events: none;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    font-family: 'Cinzel', 'Times New Roman', serif;
-    color: #2C2416;
+/* Hover effects - crisp alchemical emerald and brass glow */
+.toxicologist-resource-bar.clickable:hover {
+    filter: drop-shadow(0 0 8px rgba(132, 204, 22, 0.45)) drop-shadow(0 0 4px rgba(202, 138, 4, 0.35));
 }
 
-.unified-resourcebar-tooltip .tooltip-section {
-    margin: 8px 0;
+.toxicologist-resource-bar.clickable:active {
+    filter: drop-shadow(0 0 4px rgba(132, 204, 22, 0.6));
 }
 
-.unified-resourcebar-tooltip .tooltip-label {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: #2C2416;
-    margin-bottom: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+/* Phials, Cogs & Flank Triggers Interactivity */
+.toxi-phial, .toxi-cog, .toxi-flank-trigger, .toxi-center-manifold {
+    transition: filter 0.2s ease, opacity 0.2s ease;
 }
 
-.unified-resourcebar-tooltip .tooltip-columns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+.toxi-phial:hover, .toxi-cog:hover, .toxi-flank-trigger:hover, .toxi-center-manifold:hover {
+    filter: brightness(1.25);
 }
 
-.unified-resourcebar-tooltip .tooltip-col {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+.toxi-phial.filled {
+    filter: drop-shadow(0 0 2px rgba(132, 204, 22, 0.6));
 }
 
-/* Note: Obsolete tooltip classes removed - all tooltips now use Pathfinder style */
-
-.unified-resourcebar-tooltip .tooltip-divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent 0%, #8b7355 50%, transparent 100%);
-    margin: 8px 0;
-}
-
-.unified-resourcebar-tooltip .passive-desc {
-    font-size: 0.85rem;
-    color: #3a2a1a;
-    line-height: 1.4;
-}
-
-/* Dead CSS removed - spec menu and resource menu now use unified-context-menu portal styles */
-
-/* Force compact sizing in account context */
-.character-card .split-bar-container,
-.character-card-compact .split-bar-container {
-    height: 16px !important;
-    min-height: 16px !important;
-}
-
-.character-card .spec-button,
-.character-card-compact .spec-button {
-    width: 16px !important;
-    height: 16px !important;
-    min-width: 16px !important;
-    min-height: 16px !important;
-    font-size: 0.6rem !important;
-}
-
-.character-card .vial-count,
-.character-card .contraption-count,
-.character-card-compact .vial-count,
-.character-card-compact .contraption-count {
-    font-size: 0.65rem !important;
+.toxi-cog.stocked {
+    filter: drop-shadow(0 0 2px rgba(234, 179, 8, 0.5));
 }

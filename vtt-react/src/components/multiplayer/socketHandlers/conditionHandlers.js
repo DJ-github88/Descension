@@ -248,9 +248,14 @@ export function registerConditionHandlers(ctx) {
             case 'dice_rolled':
               // Show dice roll results from other players
               if (data.data && data.data.results) {
-                // Add to roll history without triggering local roll
-
-                // This could trigger a notification or add to a shared roll history
+                const rollEntry = {
+                  ...data.data,
+                  fromNetwork: true,
+                  playerName: data.playerName || 'Player'
+                };
+                useDiceStore.setState(s => ({
+                  rollHistory: [rollEntry, ...(s.rollHistory || []).slice(0, 49)]
+                }));
               }
               break;
 

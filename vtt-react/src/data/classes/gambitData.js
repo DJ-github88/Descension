@@ -108,6 +108,15 @@ The Caustic Fexric did not adopt Merryn gambling  —  they independently discov
   },
 
   id: "gambit",
+  classResource: {
+    type: "fortune",
+    base: 0,
+    max: 10,
+    secondaryResource: { type: "karmic_debt", max: 13 },
+    generationNote: "Drawn from the fate deck. High Fortune rolls increase Karmic Debt.",
+    criticalThresholds: { calamity: 13 },
+    mechanicsNote: "If Karmic Debt reaches 13, a Calamity event triggers, dealing catastrophic chaos backlash to the Gambit."
+  },
   name: "Gambit",
   icon: "fas fa-dice",
   role: "Damage / Control",
@@ -257,7 +266,7 @@ The Karmic Debt burden is existential: a Gambit who saves a friend by overriding
 - Calculated Risk: every Fortune you spend to nudge a roll costs 1d4 wyrd (irreducible)  —  forcing fate burns the mind, and hoarding Fortune risks Cosmic Bankruptcy.
 - Debt Amplifies Incoming Damage: as Karmic Debt stacks, your vulnerability to all damage climbs  —  the more you override fate, the harder reality hits back.
 - Tightrope Reserves: you must always hold a Fortune point back and always watch your Debt, or a single bad trade detonates a Collapse mid-fight.
-- Squishy Ledger-Keeper: low HP and light armor  —  caught with empty reserves, you fold to a stiff breeze.
+- Squishy Ledger-Keeper: low HP and light protective weave  —  caught with empty reserves, you fold to a stiff breeze.
 - Compulsive Wagerer (social): the pain of unspent Fortune is physiological, driving compulsive gambling and a refusal to make trivial choices; a canny NPC can bait you into a wager you should have walked away from.`,
     },
 
@@ -284,7 +293,7 @@ The Karmic Debt burden is existential: a Gambit who saves a friend by overriding
 
     immersiveCombatExample: {
       title: "Combat Example: The Wagering Architect at Iron Gallows",
-      content: `**The Setup**: You stand before a hulking, armor-clad inquisitor. Your Fate Reserve holds 3 cards: a King (17), a Queen (16), and a 5. Your Fortune is at 3 FP. Your Karmic Debt sits at 2.
+      content: `**The Setup**: You stand before a hulking, iron-plated inquisitor. Your Fate Reserve holds 3 cards: a King (17), a Queen (16), and a 5. Your Fortune is at 3 FP. Your Karmic Debt sits at 2.
 
 **Turn 1: Harvesting the Collateral (FP: 3 to 5, HP: 45 to 43, Debt: 2)**
 *You grit your teeth, channeling probability into your blade, and cast Lucky Strike!*
@@ -402,7 +411,7 @@ You manipulate probability through a dual currency:
         items: [
           "Serrated Cane-Sword (1d6 slashing, concealed blade for close-quarters probability siphoning)",
           "Pair of Card Blades (1d6 slashing each, razor-edged playing cards mounted on hilts, from the Fate Weaver tradition)",
-          "Reinforced Leather Vest (Armor 11, Light, no agility penalty)",
+          "Reinforced Leather Vest (Durability 1, Light, no agility penalty)",
           "Set of weighted bone dice",
           "10 steel fortune tokens (crimson and silver)",
         ],
@@ -414,7 +423,7 @@ You manipulate probability through a dual currency:
         items: [
           "Weighted Throwing Daggers (1d4 piercing, balanced for Lucky Toss and Dice Dart)",
           "Rune-etched Staff (1d8 psychic, channels probability energy through crystalline tip, from the Fate Weaver tradition)",
-          "Threadcaster's Bracers (Armor 10, Light, plus 5ft ranged spell distance)",
+          "Threadcaster's Bracers (Durability 1, Light, plus 5ft ranged spell distance)",
           "Deck Pouch (holds 52 rune-etched cards, always at hip)",
           "A vial of focusing salts to steady the nerves",
         ],
@@ -429,7 +438,7 @@ You manipulate probability through a dual currency:
       "Probability abacus (mechanical calculator for tracking card counts)",
       "1d10 multiplied by 5 tarnished copper pieces",
     ],
-    notes: "Gambits cannot equip heavy armor, shields, or heavy weapons. Their probability-based abilities require unrestricted movement, a clear mental state, and minimal interference from dense metals. Their deck is a primary weapon; losing it disables all card-based abilities until replaced.",
+    notes: "Gambits cannot equip heavy reinforced gear, shields, or heavy weapons. Their probability-based abilities require unrestricted movement, a clear mental state, and minimal interference from dense metals. Their deck is a primary weapon; losing it disables all card-based abilities until replaced.",
   },
 
   specializations: {
@@ -587,7 +596,7 @@ You manipulate probability through a dual currency:
       icon: "Social/Dice Roll",
       typeConfig: {
         school: "storm",
-        icon: "Utility/Utility",
+        icon: "Social/Dice Roll",
         tags: ["ranged", "damage", "buff", "coin_flip", "starter"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -857,7 +866,7 @@ You manipulate probability through a dual currency:
       icon: "Social/Golden Crown",
       typeConfig: {
         school: "storm",
-        icon: "Utility/Utility",
+        icon: "Social/Golden Crown",
         tags: ["buff", "debuff", "coin_flip"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -954,7 +963,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 6 },
+        resourceValues: { mana: 6 , classResource: { type: "fortune", gain: 1 }},
         components: ["verbal", "somatic"],
         verbalText: "I see your hand...",
         somaticText: "Squint and trace the target's fate-line in the air",
@@ -993,10 +1002,10 @@ You manipulate probability through a dual currency:
       description: "Reach into the empty silence of your pockets and pull out a shimmering pile of coins, jewels, or cards (up to 100gp in value). The wealth is a temporary mathematical illusion; it dissolves into cold, grey ash in 1 hour or instantly if touched by Wyrd-warded steel. Siphons 1 Fortune.",
       level: 2,
       spellType: "ACTION",
-      icon: "Arcane/Alchemical Symbol",
+      icon: "Utility/Alchemical Symbol",
       typeConfig: {
         school: "storm",
-        icon: "Utility/Utility",
+        icon: "Utility/Alchemical Symbol",
         tags: ["utility", "illusion"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1064,7 +1073,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 10 },
+        resourceValues: { mana: 10 , classResource: { type: "fortune", cost: 1 }},
         components: ["verbal", "somatic"],
         verbalText: "The number is...",
         somaticText: "Roll phantom dice between your palms and thrust the result forward",
@@ -1163,7 +1172,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 14 },
+        resourceValues: { mana: 14 , classResource: { type: "fortune", cost: 1 }},
         components: ["somatic"],
         somaticText: "Wind up a devastating overhand strike with everything on the line",
       },
@@ -1265,7 +1274,7 @@ You manipulate probability through a dual currency:
       icon: "Social/Camouflaged Creature Eyes",
       typeConfig: {
         school: "wyrd",
-        icon: "Utility/Utility",
+        icon: "Social/Camouflaged Creature Eyes",
         tags: ["reaction", "coin_flip", "high_risk"],
         castTime: 0,
         castTimeType: "REACTION",
@@ -1491,7 +1500,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 22 },
+        resourceValues: { mana: 22 , classResource: { type: "fortune", gain: 1 }},
         components: ["somatic"],
         somaticText: "Draw an alchemically charged card with a flourish",
       },
@@ -1619,7 +1628,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 2,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 24 },
+        resourceValues: { mana: 24 , classResource: { type: "fortune", cost: 2 }},
         components: ["verbal", "somatic"],
         verbalText: "Let us roll for your soul...",
         somaticText: "Mimic rolling invisible dice with a forceful slam",
@@ -1678,7 +1687,7 @@ You manipulate probability through a dual currency:
       icon: "Social/Careful Blunder",
       typeConfig: {
         school: "storm",
-        icon: "Utility/Utility",
+        icon: "Social/Careful Blunder",
         tags: ["damage", "aoe", "coin_flip", "ultimate"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1769,7 +1778,7 @@ You manipulate probability through a dual currency:
       icon: "Bludgeoning/Bonk",
       typeConfig: {
         school: "wyrd",
-        icon: "Utility/Utility",
+        icon: "Bludgeoning/Bonk",
         tags: ["ultimate", "random", "high_risk"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1783,7 +1792,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 2,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 28 },
+        resourceValues: { mana: 28 , classResource: { type: "fortune", cost: 2 }},
         components: ["verbal", "somatic"],
         verbalText: "JACKPOT!",
         somaticText: "Cast three bone dice onto the ground with a dramatic flourish",
@@ -2131,7 +2140,7 @@ You manipulate probability through a dual currency:
       effectTypes: ["damage", "control"],
       typeConfig: {
         school: "storm",
-        icon: "Utility/Utility",
+        icon: "Radiant/Divine Blessing",
         tags: ["damage", "coin_flip", "ultimate"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -2170,7 +2179,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 3,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 38 },
+        resourceValues: { mana: 38 , classResource: { type: "fortune", cost: 1 }},
         classResource: { type: "fortune", cost: 10 },
       },
       specialMechanics: {
@@ -2288,7 +2297,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 5 },
+        resourceValues: { mana: 5 , classResource: { type: "fortune", gain: 2 }},
         components: ["verbal", "somatic"],
         verbalText: "The hand is cast!",
         somaticText: "Flick probability cards in a cascading arc, each one leaving a trail of shimmering distortion"
@@ -2353,7 +2362,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 4 },
+        resourceValues: { mana: 4 , classResource: { type: "fortune", gain: 1 }},
         components: ["verbal"],
         verbalText: "Your will bends!"
       },
@@ -2451,7 +2460,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 4 },
+        resourceValues: { mana: 4 , classResource: { type: "fortune", gain: 1 }},
         components: ["somatic"],
         somaticText: "Channel a pulse of probability energy through your deck, cards levitating briefly"
       },
@@ -2501,7 +2510,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 3 },
+        resourceValues: { mana: 3 , classResource: { type: "fortune", gain: 1 }},
         components: ["somatic"],
         somaticText: "Slash with a rigid, probability-charged card blade trailing psychic energy"
       },
@@ -2657,7 +2666,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana", "threads"],
-        resourceValues: { mana: 8, threads: 2 }
+        resourceValues: { mana: 8, threads: 2 , classResource: { type: "fortune", cost: 1 }}
       },
       resolution: "CARDS",
       effectTypes: ["healing"],
@@ -2700,7 +2709,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 6 }
+        resourceValues: { mana: 6 , classResource: { type: "fortune", cost: 1 }}
       },
       resolution: "CARDS",
       effectTypes: ["buff"],
@@ -2755,7 +2764,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 2,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 12 },
+        resourceValues: { mana: 12 , classResource: { type: "fortune", gain: 1 }},
         components: ["verbal", "somatic"],
         verbalText: "Viginti unus!",
         somaticText: "Weave card outlines into the air, enclosing the target in a ring of probability"
@@ -2809,7 +2818,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 10 }
+        resourceValues: { mana: 10 , classResource: { type: "karmic_debt", gain: 2 }}
       },
       resolution: "NONE",
       effectTypes: ["debuff"],
@@ -2862,7 +2871,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 12 }
+        resourceValues: { mana: 12 , classResource: { type: "fortune", cost: 2 }}
       },
       resolution: "CARDS",
       effectTypes: ["buff"],
@@ -2915,7 +2924,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 14 }
+        resourceValues: { mana: 14 , classResource: { type: "karmic_debt", gain: 2 }}
       },
       resolution: "SAVE",
       effectTypes: ["utility"],
@@ -2963,7 +2972,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 15 },
+        resourceValues: { mana: 15 , classResource: { type: "karmic_debt", gain: 2 }},
         components: ["somatic"],
         somaticText: "Extend your palm, projecting a spiraling thread of condensed probability"
       },
@@ -3018,7 +3027,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 10 },
+        resourceValues: { mana: 10 , classResource: { type: "fortune", gain: 1 }},
         components: ["verbal"],
         verbalText: "Ordo futuri!"
       },
@@ -3068,7 +3077,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 0,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 12 }
+        resourceValues: { mana: 12 , classResource: { type: "karmic_debt", gain: 2 }}
       },
       resolution: "NONE",
       effectTypes: ["debuff"],
@@ -3123,7 +3132,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 20 }
+        resourceValues: { mana: 20 , classResource: { type: "fortune", cost: 1 }}
       },
       resolution: "CARDS",
       effectTypes: ["damage", "healing", "buff"],
@@ -3188,7 +3197,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 2,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 24 }
+        resourceValues: { mana: 24 , classResource: { type: "fortune", cost: 2 }}
       },
       resolution: "CARDS",
       effectTypes: ["damage"],
@@ -3239,7 +3248,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 0,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 18 }
+        resourceValues: { mana: 18 , classResource: { type: "karmic_debt", gain: 2 }}
       },
       resolution: "DICE",
       effectTypes: ["damage"],
@@ -3285,7 +3294,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 2,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 30 }
+        resourceValues: { mana: 30 , classResource: { type: "fortune", cost: 3 }}
       },
       resolution: "NONE",
       effectTypes: ["buff", "debuff"],
@@ -3355,7 +3364,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 25 },
+        resourceValues: { mana: 25 , classResource: { type: "fortune", cost: "all" }},
         components: ["verbal", "somatic"],
         verbalText: "Omnia video!",
         somaticText: "Throw your entire hand of cards forward, they dissolve into a crackling stream of probability"
@@ -3406,7 +3415,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 15 }
+        resourceValues: { mana: 15 , classResource: { type: "fortune", gain: 1 }}
       },
       resolution: "CARDS",
       effectTypes: ["utility"],
@@ -3458,7 +3467,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 2,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 35 }
+        resourceValues: { mana: 35 , classResource: { type: "fortune", gain: 2 }}
       },
       resolution: "CARDS",
       effectTypes: ["damage", "healing"],
@@ -3558,7 +3567,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 35 },
+        resourceValues: { mana: 35 , classResource: { type: "karmic_debt", gain: 3 }},
         components: ["verbal"],
         verbalText: "The wager is cast!"
       },
@@ -3616,7 +3625,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 3,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 60 },
+        resourceValues: { mana: 60 , classResource: { type: "fortune", cost: 3 }},
         components: ["verbal", "somatic"],
         verbalText: "Fate and ruin!",
         somaticText: "Weave probability threads from all nearby enemies into your cards"
@@ -3674,7 +3683,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 2,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 70 },
+        resourceValues: { mana: 70 , classResource: { type: "fortune", cost: 4 }},
         components: ["verbal"],
         verbalText: "Ego sum lex!"
       },
@@ -3731,7 +3740,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 3,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 65 },
+        resourceValues: { mana: 65 , classResource: { type: "fortune", cost: 3 }},
         components: ["verbal", "somatic"],
         verbalText: "Ruptura!",
         somaticText: "Violently shatter three probability cards, unleashing a shockwave of raw chance"
@@ -3805,7 +3814,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 3,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 90 },
+        resourceValues: { mana: 90 , classResource: { type: "fortune", cost: 5 }},
         components: ["verbal", "somatic"],
         verbalText: "Fatum delevit!",
         somaticText: "Weave 13 cards into a spiraling lattice around the target"
@@ -3865,7 +3874,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 2,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 80 },
+        resourceValues: { mana: 80 , classResource: { type: "fortune", gain: 2 }},
         components: ["somatic"],
         somaticText: "Draw shimmering cards of condensed fate from the legendary deck"
       },
@@ -3929,7 +3938,7 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 3,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 90 },
+        resourceValues: { mana: 90 , classResource: { type: "fortune", cost: 4 }},
         components: ["verbal", "somatic"],
         verbalText: "Welcome to the theater of fate!",
         somaticText: "Sweep hands to project probability energy in a 100 ft circle"
@@ -4058,11 +4067,11 @@ You manipulate probability through a dual currency:
       description: "When your Fate Reserve is empty and you have 0 Karmic Debt, your temporal anchor is dangerously unmoored. You have disadvantage on all saving throws and Dodge checks until you draw a card or gain 1 debt.",
       level: 3,
       spellType: "PASSIVE",
-      icon: "General/Broken Armor",
+      icon: "Utility/Shattered Shield",
       effectTypes: ["passive", "debuff"],
       typeConfig: {
         school: "wyrd",
-        icon: "General/Broken Armor",
+        icon: "Utility/Shattered Shield",
         tags: ["passive", "weakness"],
         castTime: 0,
         castTimeType: "PASSIVE"
@@ -4162,10 +4171,10 @@ You manipulate probability through a dual currency:
         "description": "Read the probability landscape around a single planned action and see how the odds lay  —  if we go through that door, attack now, take this deal, lie to this guard. You receive a blunt likelihood for the most probable outcome: certain, likely, even-money, unlikely, or doomed. The threads will not tell you what to do, only where the weight of chance currently rests. Out of combat.",
         "level": 2,
         "spellType": "ACTION",
-        "icon": "Utility/Utility",
+        "icon": "Utility/All Seeing Eye",
         "typeConfig": {
           "school": "storm",
-          "icon": "Utility/Utility",
+          "icon": "Utility/All Seeing Eye",
           "tags": ["utility", "divination", "social", "gambit"],
           "castTime": 1,
           "castTimeType": "IMMEDIATE"

@@ -144,6 +144,57 @@
     background: linear-gradient(135deg, rgba(220, 53, 69, 0.15) 0%, rgba(139, 0, 0, 0.15) 100%);
 }
 
+/* Elemental Spheres (Arcanoneer) */
+.resource-cost-sphere {
+    border-color: rgba(251, 191, 36, 0.45);
+    background: linear-gradient(135deg, rgba(30, 25, 20, 0.6) 0%, rgba(15, 12, 10, 0.8) 100%);
+}
+
+.resource-cost-sphere.sphere-arcane {
+    border-color: rgba(147, 112, 219, 0.65);
+    background: linear-gradient(135deg, rgba(147, 112, 219, 0.22) 0%, rgba(59, 7, 100, 0.35) 100%);
+}
+
+.resource-cost-sphere.sphere-sacred {
+    border-color: rgba(234, 179, 8, 0.65);
+    background: linear-gradient(135deg, rgba(234, 179, 8, 0.22) 0%, rgba(113, 63, 18, 0.35) 100%);
+}
+
+.resource-cost-sphere.sphere-blight {
+    border-color: rgba(139, 92, 246, 0.65);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.22) 0%, rgba(46, 16, 101, 0.35) 100%);
+}
+
+.resource-cost-sphere.sphere-ember {
+    border-color: rgba(234, 88, 12, 0.65);
+    background: linear-gradient(135deg, rgba(234, 88, 12, 0.22) 0%, rgba(124, 45, 18, 0.35) 100%);
+}
+
+.resource-cost-sphere.sphere-rime {
+    border-color: rgba(2, 132, 199, 0.65);
+    background: linear-gradient(135deg, rgba(2, 132, 199, 0.22) 0%, rgba(12, 74, 110, 0.35) 100%);
+}
+
+.resource-cost-sphere.sphere-primal {
+    border-color: rgba(22, 163, 74, 0.65);
+    background: linear-gradient(135deg, rgba(22, 163, 74, 0.22) 0%, rgba(20, 83, 45, 0.35) 100%);
+}
+
+.resource-cost-sphere.sphere-storm {
+    border-color: rgba(8, 145, 178, 0.65);
+    background: linear-gradient(135deg, rgba(8, 145, 178, 0.22) 0%, rgba(22, 78, 99, 0.35) 100%);
+}
+
+.resource-cost-sphere.sphere-wyrd {
+    border-color: rgba(219, 39, 119, 0.65);
+    background: linear-gradient(135deg, rgba(219, 39, 119, 0.22) 0%, rgba(131, 24, 67, 0.35) 100%);
+}
+
+.resource-cost-sphere.insufficient {
+    border-color: rgba(220, 53, 69, 0.7) !important;
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.18) 0%, rgba(139, 0, 0, 0.2) 100%) !important;
+}
+
 .resource-cost-header {
     display: flex;
     flex-direction: column;

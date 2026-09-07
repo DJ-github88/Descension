@@ -19,6 +19,7 @@ import CooldownAdjustmentMenu from './CooldownAdjustmentMenu';
 import actionBarPersistenceService from '../../services/actionBarPersistenceService';
 import ExperienceBar from './ExperienceBar';
 import { getIconUrl, getCustomIconUrl, getAbilityIconUrl } from '../../utils/assetManager';
+import { migrateBlockId } from '../../utils/arcanoneerMigration';
 import './ActionBar.css';
 
 // Spell damage types constant - used for consumable effects
@@ -86,6 +87,7 @@ const ActionBar = () => {
 
     // Get character store functions for applying effects
     const updateResource = useCharacterStore(state => state.updateResource);
+    const updateClassResource = useCharacterStore(state => state.updateClassResource);
     const gainClassResource = useCharacterStore(state => state.gainClassResource);
     const consumeClassResource = useCharacterStore(state => state.consumeClassResource);
     const health = useCharacterStore(state => state.health);
@@ -1550,6 +1552,42 @@ const ActionBar = () => {
             return;
         }
 
+        // Check Arcanoneer Elemental Spheres
+        const isArcanoneer = currentClassResource && (currentClassResource.type === 'elementalSpheres' || Array.isArray(currentClassResource.spheres));
+        const requiredSpheres = [];
+        if (isArcanoneer) {
+            if (Array.isArray(spellToCast._arcanoneerElements)) {
+                spellToCast._arcanoneerElements.forEach(el => requiredSpheres.push(migrateBlockId(el)));
+            } else if (Array.isArray(spellToCast.elements)) {
+                spellToCast.elements.forEach(el => requiredSpheres.push(migrateBlockId(el)));
+            } else if (Array.isArray(resourceCost.spheres)) {
+                resourceCost.spheres.forEach(el => requiredSpheres.push(migrateBlockId(el)));
+            } else if (resourceValues) {
+                Object.entries(resourceValues).forEach(([k, v]) => {
+                    if (k.endsWith('_sphere')) {
+                        const elem = migrateBlockId(k.replace('_sphere', ''));
+                        const cnt = Number(v) || 0;
+                        for (let i = 0; i < cnt; i++) requiredSpheres.push(elem);
+                    }
+                });
+            }
+
+            if (requiredSpheres.length > 0) {
+                const currentSpheres = Array.isArray(currentClassResource.spheres)
+                    ? currentClassResource.spheres.map(migrateBlockId)
+                    : [];
+                const sphereBankCopy = [...currentSpheres];
+                for (const req of requiredSpheres) {
+                    const idx = sphereBankCopy.indexOf(req);
+                    if (idx === -1) {
+                        // Not enough spheres
+                        return;
+                    }
+                    sphereBankCopy.splice(idx, 1);
+                }
+            }
+        }
+
         // Apply resource costs - use updateResource with proper parameters
         if (manaCost > 0) {
             const newMana = Math.max(0, currentMana.current - manaCost);
@@ -1650,6 +1688,34 @@ const ActionBar = () => {
                 }
             } catch (error) {
                 console.warn('Failed to sync Inferno to party store:', error);
+            }
+        }
+
+        // Deduct Arcanoneer Elemental Spheres if applicable
+        if (isArcanoneer && requiredSpheres.length > 0 && Array.isArray(currentClassResource.spheres)) {
+            const nextSpheres = [...currentClassResource.spheres];
+            requiredSpheres.forEach(req => {
+                const idx = nextSpheres.indexOf(req);
+                if (idx !== -1) nextSpheres.splice(idx, 1);
+            });
+            updateClassResource('spheres', nextSpheres);
+
+            try {
+                const usePartyStore = require('../../store/partyStore').default;
+                const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                if (currentMember && currentMember.character?.classResource) {
+                    usePartyStore.getState().updatePartyMember('current-player', {
+                        character: {
+                            ...currentMember.character,
+                            classResource: {
+                                ...currentMember.character.classResource,
+                                spheres: nextSpheres
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.warn('Failed to sync spheres to party store:', error);
             }
         }
 

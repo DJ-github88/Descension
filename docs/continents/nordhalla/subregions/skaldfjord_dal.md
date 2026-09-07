@@ -5,12 +5,12 @@ The north's spine: a river-and-fjord corridor where every keep, forge, and archi
 ## GEOGRAPHY & WHY ANYONE HERE IS ALIVE
 Sea-moderated valleys cut deep into black granite. Slate docks, ice-locks, and river-steads string the waterline; the Frostholm seat anchors the north end and the Sunder-Wall's gates throttle the south. The Frozen Archive stands in its mile-high glacier, and Bloodhammer Sump smokes in its forge-crater. Heat: geothermal, industrial, political. Every chimney in the Dal is somebody's leverage.
 
-## WHO HOLDS WHAT
-* **Frosthold Citadel** — the royal seat (the old name Frostholm survives on Skald tongues), carved into Bearsbeard's Beak. House Skalvyr's banner, the Jarl's hall, and the tungsten-weight silence of a court that knows exactly where its grain comes from.
+## WHO HOLDS WHAT (draw: Skald home port — visitors dock, don't settle)
+* **Frosthold Citadel** — the royal seat (the old name Frostholm survives on Skald tongues), carved into Bearsbeard's Beak. House Skalvyr's banner, the Jarl's hall, and the tungsten-weight silence of a court that knows exactly where its grain comes from. Draw: tiny Astril Scholar-Quarter nearby (observers, not rulers).
 * **The Sunder-Wall Gates** — compacted glacier-ice and black granite, "officially" a defense against wyrms and Wyrdspawn. The garrisoned gates exist to count, tax, and slow the outland clans. Gate-tariffs are the Syndicate's finest revenue and the Fredløse's finest smuggling problem.
 * **The Frozen Archive** — a dead civilization's flash-frozen capital, repurposed into the world's strangest library. The Skald dead stand upright in the ice as permanent witnesses; the Augurs have recorded every shard-pulse since the Shattering from its cold heart. Below its lowest vault, something Frigga Skalvyr disturbed is waiting patiently for the ice to fail.
 * **Bloodhammer Sump** — the geothermal crater where Berserker cold-iron meets runefire. The forges never bank, the Berserkers never fully sleep, and the Wyrdborn smell the smoke and remember what it was forged against.
-* **Fjord-Gate & the Black Firth** — stone doors wide enough to swallow a fleet, guarding the north's only deep-water access. Whale-Oil Row, the Iron-Ore Quay, and the cod-racks of Eldonholm feed and fund everything above them.
+* **Fjord-Gate & the Black Firth** — stone doors wide enough to swallow a fleet, guarding the north's only deep-water access. Whale-Oil Row, the Iron-Ore Quay, and the cod-racks of Eldonholm feed and fund everything above them. Draw: Merryn + Myrathil ships as visitors, Pale Neth skiffs from Saltgrinn — no permanent foreign docks.
 
 ## EVERYDAY LIFE & THE LEDGER
 The Dal eats cod, whale-oil, river-fish, and Bloodhammer grain-press. Wages, tolls, and the Frost-Tithe are all quoted in hearth-winters. A docker's year is arithmetic: one hearth-winter to live, half to breathe, the rest to whoever holds his debt-paper. Vaegfolk river-steads pay the Icechamber for ice-lock priority and remember, every spring, that their grandfathers paid nothing to anyone.

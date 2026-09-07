@@ -30,6 +30,17 @@ export function formulationToSpell(entry, matrix = {}) {
     if (!entry) return null;
 
     const school = (entry.damageTypes && entry.damageTypes[0]) || 'arcane';
+    const SCHOOL_ICONS = {
+        ember: 'Fire/Flame Burst',
+        rime: 'Frost/Frozen in Ice',
+        storm: 'Lightning/Lightning Bolt',
+        arcane: 'Arcane/Spiral Vortex',
+        blight: 'Necrotic/Necrotic Wither',
+        sacred: 'Radiant/Radiant Divinity',
+        wyrd: 'Psychic/Psychic Telepathy',
+        primal: 'Nature/Nature Natural 11'
+    };
+    const schoolIcon = SCHOOL_ICONS[school] || 'Arcane/Spiral Vortex';
     const effectTypes = PRIMARY_EFFECT_TO_EFFECT_TYPES[entry.primaryEffect] || ['damage'];
     const isWyrd = !!entry.isChaosCombo;
 
@@ -106,12 +117,12 @@ export function formulationToSpell(entry, matrix = {}) {
         description,
         level: 1,
         spellType: 'ACTION',
-        icon: `Arcane/${school}`,
+        icon: schoolIcon,
         rarity: isWyrd ? 'rare' : 'common',
 
         typeConfig: {
             school,
-            icon: `Arcane/${school}`,
+            icon: schoolIcon,
             tags: [...(entry.damageTypes || []), ...(isWyrd ? ['wyrd'] : [])],
             castTime: 1,
             castTimeType: 'IMMEDIATE',

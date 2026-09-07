@@ -27,7 +27,7 @@ export const DEBUFF_CATEGORIES = [
     id: 'vulnerability',
     name: 'Vulnerability',
     description: 'Increases damage taken from specific sources',
-    icon: '/assets/icons/abilities/Shadow/Shadow Darkness.png',
+    icon: '/assets/icons/abilities/Necrotic/Gloomy Death.png',
     examples: ['Amplify Magic', 'Frost Vulnerability', 'Mark of Flame'],
     saveType: 'constitution',
     duration: 'medium',
@@ -75,7 +75,7 @@ export const DEBUFF_CATEGORIES = [
     id: 'cursehex',
     name: 'Curse/Hex',
     description: 'Powerful debuff with special removal requirements',
-    icon: '/assets/icons/abilities/Shadow/Shadow Darkness.png',
+    icon: '/assets/icons/abilities/Necrotic/Gloomy Death.png',
     examples: ['Curse of Doom', 'Hex of Weakness', 'Soul Drain'],
     saveType: 'charisma',
     duration: 'long',
@@ -162,7 +162,7 @@ export const DEBUFF_SAVE_TYPES = [
     description: 'Resist with raw power',
     relevantEffects: ['paralysis', 'restraint', 'grapple'],
     countered: 'Physical bindings, force effects',
-    icon: '/assets/icons/abilities/Nature/Natural.png'
+    icon: '/assets/icons/abilities/Nature/Nature Natural 4.png'
   },
   {
     id: 'spirit',
@@ -178,7 +178,7 @@ export const DEBUFF_SAVE_TYPES = [
     description: 'Resist with mental acuity and knowledge',
     relevantEffects: ['confusion', 'memory effects', 'complex illusions'],
     countered: 'Mental misdirection, knowledge tampering',
-    icon: '/assets/icons/abilities/Arcane/Arcane.png'
+    icon: '/assets/icons/abilities/Arcane/Spiral Vortex.png'
   },
   {
     id: 'charisma',

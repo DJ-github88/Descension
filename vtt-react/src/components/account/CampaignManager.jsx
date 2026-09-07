@@ -295,9 +295,9 @@ const CampaignManager = ({ user }) => {
   };
 
   const resolveLibrarySpellIcon = (spell) => {
-    if (!spell) return getCustomIconUrl('Utility/Utility', 'abilities');
+    if (!spell) return getCustomIconUrl('Arcane/Abstract Rune', 'abilities');
     const iconId = spell?.typeConfig?.icon || spell?.icon || spell?.iconId || spell?.damageConfig?.icon || spell?.healingConfig?.icon;
-    if (!iconId) return getCustomIconUrl('Utility/Utility', 'abilities');
+    if (!iconId) return getCustomIconUrl('Arcane/Abstract Rune', 'abilities');
     if (typeof iconId === 'string' && iconId.startsWith('/assets/')) return iconId;
     if (iconId.includes('/') && !iconId.startsWith('http')) {
       return getCustomIconUrl(iconId, 'abilities');
@@ -6220,7 +6220,7 @@ const CampaignManager = ({ user }) => {
                                     alt={spell.name}
                                     onError={(e) => {
                                       e.target.onerror = null;
-                                      e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
+                                      e.target.src = getCustomIconUrl('Arcane/Abstract Rune', 'abilities');
                                     }}
                                   />
                                 </div>

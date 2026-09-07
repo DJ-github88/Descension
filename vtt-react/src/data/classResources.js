@@ -485,59 +485,90 @@ export const CLASS_RESOURCE_TYPES = {
   }
  },
 
- // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
- 'Revenant': {
-  id: 'blightAscension',
-  name: 'Toll',
-  shortName: 'Toll',
-  type: 'ascension-blood',
-  description: 'Deep beneath the Frozen Archive, Aldren Thalreth learned to harvest frost from undeath itself. Dual resource system: Blight Ascension Paths (permanent power/curses) and Blood Tokens (VOLATILE ticking time bombs with escalating self-damage). The Revenant combines volatile blood magic with methodical frost harvesting.',
-  visual: {
-   type: 'ascension-blood',
-   ascensionPaths: {
-    max: 7,
-    baseColor: '#1a0d1a',
-    activeColor: '#8B0000',
-    glowColor: '#DC143C',
-    icon: 'fas fa-skull'
-   },
-   bloodTokens: {
-    max: 20,
-    baseColor: '#2d0a0a',
-    activeColor: '#B22222',
-    glowColor: '#FF4444',
-    warningColor: '#FF6B6B',
-    dangerColor: '#FF0000',
-    icon: 'fas fa-droplet',
-    volatilityTiers: {
-     stable: { max: 5, label: 'Stable', color: '#B22222' },
-     unstable: { min: 6, max: 10, label: 'Unstable', color: '#FF4444', selfDamage: '1/turn' },
-     volatile: { min: 11, max: 15, label: 'Volatile', color: '#FF6B6B', selfDamage: '1d4/token/turn', healingBlocked: true },
-     criticalMass: { min: 16, max: 20, label: 'CRITICAL MASS', color: '#FF0000', selfDamage: '1d6/token/turn', nuclearDetonation: '1d10/token to 30ft radius on death' }
+  // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+  'Revenant': {
+   id: 'revenant-toll',
+   name: 'Death-Toll & Phylactery',
+   shortName: 'Toll',
+   type: 'revenant-toll',
+   description: 'Twice-born of Bryngloom peat and black ice. The Revenant channels Kora\'s Blood Covenant into volatile Death-Toll while anchoring life force into Vesper\'s Basalt Phylactery for Strategic Resurrection.',
+   visual: {
+    type: 'revenant-toll',
+    toll: {
+     max: 20,
+     baseColor: '#120b18',
+     tiers: {
+      safe: { max: 5, label: 'Stasis', color: '#7c3aed', glow: '#a78bfa' },
+      searing: { min: 6, max: 10, label: 'Searing', color: '#9333ea', glow: '#c084fc' },
+      rot: { min: 11, max: 15, label: 'Necrotic Rot', color: '#c026d3', glow: '#e879f9' },
+      cataclysm: { min: 16, max: 20, label: 'Cataclysm', color: '#ef4444', glow: '#f87171' }
+     },
+     icon: 'fas fa-skull'
+    },
+    phylactery: {
+     max: 50,
+     baseColor: '#0a192f',
+     activeColor: '#38bdf8',
+     glowColor: '#7dd3fc',
+     icon: 'fas fa-gem'
+    },
+    ascensionPaths: {
+     max: 7,
+     baseColor: '#1a0d1a',
+     activeColor: '#8B0000',
+     glowColor: '#DC143C',
+     icon: 'fas fa-skull'
+    },
+    bloodTokens: {
+     max: 20,
+     baseColor: '#2d0a0a',
+     activeColor: '#B22222',
+     glowColor: '#FF4444',
+     warningColor: '#FF6B6B',
+     dangerColor: '#FF0000',
+     icon: 'fas fa-droplet',
+     volatilityTiers: {
+      stable: { max: 5, label: 'Stable', color: '#B22222' },
+      unstable: { min: 6, max: 10, label: 'Unstable', color: '#FF4444', selfDamage: '1/turn' },
+      volatile: { min: 11, max: 15, label: 'Volatile', color: '#FF6B6B', selfDamage: '1d4/token/turn', healingBlocked: true },
+      criticalMass: { min: 16, max: 20, label: 'CRITICAL MASS', color: '#FF0000', selfDamage: '1d6/token/turn', nuclearDetonation: '1d10/token to 30ft radius on death' }
+     }
     }
-   }
-  },
-  mechanics: {
-   max: 7,
-   current: 0,
-   bloodTokens: 0,
-   tokenTimer: 600,
-   regen: 0,
-   consumeVerb: 'activate',
-   gainVerb: 'unlock',
-   volatilityNote: 'Blood Tokens are VOLATILE. 6+ = self-damage/turn. 11+ = cannot be healed. 16+ = nuclear detonation on death. The Revenant rides a chain reaction, not a battery.'
-  },
-  tooltip: {
-   title: 'Necrotic Ascension & Blood Tokens',
-   description: 'The deep-ice of the Frozen Archive preserves even the dead, turning them to weapons. Activate paths for permanent power/curses. Blood Tokens are VOLATILE, escalating self-damage at 6/11/16 tokens.',
-   showPaths: true,
-   showBoons: true,
-   showCurses: true,
-   showTokens: true,
-   showTimer: true,
-   showVolatility: true
-  },
-  paths: [
+   },
+   mechanics: {
+    max: 20,
+    current: 0,
+    toll: {
+     max: 20,
+     current: 0,
+     tiers: [
+      { name: 'Stasis', range: [0, 5], effect: 'Stable necrotic reserves' },
+      { name: 'Searing', range: [6, 10], effect: 'Frost-fire resonance (+1d4 blight/rime)' },
+      { name: 'Necrotic Rot', range: [11, 15], effect: 'Healing severed. Decaying flesh (+1d8 blight)' },
+      { name: 'Cataclysm', range: [16, 20], effect: 'CRITICAL MASS: 30ft glacial stasis freeze detonation on death' }
+     ]
+    },
+    phylactery: {
+     max: 50,
+     current: 50,
+     description: 'Stores soul life force. Upon lethal damage, drains to prevent death and triggers 20ft Glacial Stasis Freeze.'
+    },
+    deathShroud: false,
+    consumeVerb: 'purge',
+    gainVerb: 'toll',
+    volatilityNote: 'Death-Toll is VOLATILE. 6+ = Searing (+1d4 damage). 11+ = Rot (Healing severed). 16+ = Cataclysm detonation on death.'
+   },
+   tooltip: {
+    title: 'Death-Toll & Basalt Phylactery',
+    description: 'Volatile Death-Toll escalates spell potency at the cost of stability. Basalt Phylactery anchors your soul against true demise.',
+    showPaths: true,
+    showBoons: true,
+    showCurses: true,
+    showTokens: true,
+    showTimer: true,
+    showVolatility: true
+   },
+   paths: [
    {
     name: 'Shrouded Veil',
     level: 1,
@@ -784,10 +815,10 @@ export const CLASS_RESOURCE_TYPES = {
   id: 'authority',
   name: 'Authority',
   shortName: 'Authority',
-  type: 'hexbreaker-charges',
+  type: 'inquisitor-authority',
   description: 'Cold-iron chains and binding-wards make the Inquisitor the horror-jailer of the Emberspire. Unified anti-magic friction and Wyrd-touched binding authority (0-8). Built through supernatural contact, spent on negation and command.',
   visual: {
-   type: 'hexbreaker-charges',
+   type: 'inquisitor-authority',
    arrangement: 'hexbreaker',
    baseColor: '#2d0a0a',
    activeColor: '#FFD700',
@@ -893,6 +924,56 @@ export const CLASS_RESOURCE_TYPES = {
   }
  },
 
+ 'Revenant': {
+  id: 'revenant-toll',
+  name: 'Death Toll & Phylactery',
+  shortName: 'Toll',
+  type: 'revenant-toll',
+  description: 'The Twice-Born walk between Kora\'s blood covenant and Vesper\'s frost stasis. Sacrifice life-force to build volatile Death-Toll, charge your Basalt Phylactery with slain souls, and toggle Death Shroud to burn health for empowered spellcraft.',
+  visual: {
+   type: 'revenant-toll',
+   baseColor: '#120d1a',
+   activeColor: '#7c3aed',
+   glowColor: '#a855f7',
+   frostColor: '#38bdf8',
+   dangerColor: '#dc2626',
+   icon: 'fas fa-skull-crossbones',
+   effects: ['necrotic', 'frost', 'blood', 'stasis']
+  },
+  mechanics: {
+   toll: {
+    min: 0,
+    max: 20,
+    current: 0,
+    consumeVerb: 'expel',
+    gainVerb: 'accumulate'
+   },
+   phylactery: {
+    min: 0,
+    max: 50,
+    current: 50,
+    consumeVerb: 'drain',
+    gainVerb: 'harvest'
+   },
+   deathShroud: false,
+   thresholds: [
+    { level: 'Stasis', min: 0, max: 5, color: '#6d28d9', description: 'Stable necrotic resonance. Flesh remains cold and intact.' },
+    { level: 'Searing', min: 6, max: 10, color: '#9333ea', description: 'Frost-fire crackles in veins. Searing self-damage.' },
+    { level: 'Necrotic Rot', min: 11, max: 15, color: '#c026d3', description: 'Rotting orchid flare. External healing is severed.' },
+    { level: 'Cataclysm', min: 16, max: 20, color: '#dc2626', description: 'CRITICAL MASS. Walking bomb! Death detonates and wipes nearby allies.' }
+   ],
+   max: 20,
+   current: 0
+  },
+  tooltip: {
+   title: 'Death-Toll: {current}/20 | Phylactery: {phylacteryHP}/50 HP',
+   description: 'Build Toll by spending HP and slaying foes. Spend Toll on devastating finishers before reaching Cataclysm (16+). Keep your Phylactery charged to guarantee Strategic Resurrection in a glacial stasis freeze.',
+   showThresholds: true,
+   showPhylactery: true,
+   showDeathShroud: true
+  }
+ },
+
  // REMOVED: 'Lichborne' section merged into Revenant as Phase 1.10 consolidation
  // Original Lichborne resource: Eternal Frost Aura & Phylactery (frost_undead)
  // Key mechanics preserved in Revenant's combined resource system
@@ -964,6 +1045,12 @@ export const initializeClassResource = (className, characterStats) => {
   notes: notes,
   maxPerNote: config.mechanics.maxPerNote || 0,
   totalNotes: config.mechanics.totalNotes || 0,
+  // Revenant Death-Toll & Phylactery support
+  toll: config.mechanics?.toll ? (config.mechanics.toll.current || 0) : 0,
+  maxToll: config.mechanics?.toll ? (config.mechanics.toll.max || 20) : 20,
+  phylacteryHP: config.mechanics?.phylactery ? (config.mechanics.phylactery.current || 50) : 50,
+  maxPhylacteryHP: config.mechanics?.phylactery ? (config.mechanics.phylactery.max || 50) : 50,
+  deathShroud: false,
   activeEffects: [],
   lastUpdate: Date.now()
  };
@@ -1084,66 +1171,67 @@ CLASS_RESOURCE_TYPES['Spellguard'] = {
 
 // ANIMIST PATH
 CLASS_RESOURCE_TYPES['Animist'] = {
- id: 'ancestralResonance',
- name: 'Resonance',
- shortName: 'AR',
- type: 'resonance',
- description: 'In Bryngloom\'s ancestral mists, the Old Spirits still answer those who call. Channel ancestral spirits to build resonance. Spend resonance to invoke spirit abilities and empower totems.',
- visual: {
-  type: 'ancestral-resonance',
-  count: 20,
-  arrangement: 'segmented',
-  baseColor: '#1A3C2E',
-  activeColor: '#2E8B57',
-  glowColor: '#50C878',
-  icon: 'fas fa-spiral',
-  effects: ['ancestral', 'spiritual', 'resonance'],
-  stages: {
-   dormant: { range: [0, 5], description: 'Bryngloom\'s root-veins run quiet while the spirits slumber. Spirits slumber' },
-   awakening: { range: [6, 12], description: 'The ancestral mists stir as the Old Spirits begin to wake. Ancestors stir' },
-   awakened: { range: [13, 20], description: 'The Old Spirits converge, pouring through Bryngloom\'s root-veins in full force. Spirit convergence' }
-  },
-  specializations: {
-   'thornwarden': {
-    name: 'Thornwarden',
-    icon: 'fas fa-tree',
-    baseColor: '#1A3C2E',
-    activeColor: '#228B22',
-    glowColor: '#32CD32',
-    theme: 'Nature spirits and thorn barriers'
-   },
-   'spirit_binder': {
-    name: 'Spirit Binder',
-    icon: 'fas fa-link',
-    baseColor: '#2E1A3E',
-    activeColor: '#9370DB',
-    glowColor: '#BB77DD',
-    theme: 'Binding ancestral spirits into vessels'
-   },
-   'stormscribe': {
-    name: 'Stormscribe',
-    icon: 'fas fa-wind',
-    baseColor: '#1A2E3E',
-    activeColor: '#4169E1',
-    glowColor: '#6495ED',
-    theme: 'Scribing storms through ritual inscription'
-   }
-  }
- },
- mechanics: {
-  max: 20,
-  current: 0,
-  regen: 0,
-  consumeVerb: 'invoke',
-  gainVerb: 'channel'
- },
- tooltip: {
-  title: 'Resonance: {current}/{max}',
-  description: 'Through Bryngloom\'s mists, the ancestral spirits lend their resonance to the worthy. Channel ancestral spirits to build resonance. Spend to invoke spirit abilities and empower totems.',
-  showResonance: true,
-  showSpirits: true,
-  showSpecialization: true
- }
+	id: 'ancestralResonance',
+	name: 'Resonance',
+	shortName: 'AR',
+	type: 'resonance',
+	description: 'In Bryngloom\'s ancestral mists and the Sundrift steppes, the Old Spirits answer through throat, bone, and rune. Build resonance through bone totems, curses, and runic carving. Beware Spirit Erosion at 15+ Resonance: the Triple Toll.',
+	visual: {
+		type: 'ancestral-resonance',
+		count: 20,
+		arrangement: 'segmented',
+		baseColor: '#1A3C2E',
+		activeColor: '#10b981',
+		glowColor: '#34d399',
+		icon: 'fas fa-seedling',
+		effects: ['ancestral', 'spiritual', 'resonance'],
+		stages: {
+			dormant: { range: [0, 4], name: 'Dormant', color: '#10b981', glow: '#34d399', description: 'Conduits cold, root-veins quiet. Spirits slumber.' },
+			harmonized: { range: [5, 9], name: 'Harmonized', color: '#059669', glow: '#6ee7b7', description: 'Ancestors stir. Throat overtones thrum with ancestral guidance.' },
+			apex: { range: [10, 14], name: 'Apex Harmonic', color: '#06b6d4', glow: '#67e8f9', description: 'Peak efficiency. Skin sigils ignite with ancestral static.' },
+			spirit_erosion: { range: [15, 20], name: 'Spirit Erosion', color: '#ef4444', glow: '#f87171', description: 'THE TRIPLE TOLL: 100% ember vulnerability, no party healing, forced movement shatters networks (1d10 force/rune), and 1d6 Wyrd hoarder damage.' }
+		},
+		specializations: {
+			'thornwarden': {
+				name: 'Thornwarden',
+				icon: 'fas fa-tree',
+				baseColor: '#1A3C2E',
+				activeColor: '#228B22',
+				glowColor: '#32CD32',
+				theme: 'Bone Cages, Runic Walls, Apex Isolation'
+			},
+			'spirit_binder': {
+				name: 'Spirit Binder',
+				icon: 'fas fa-link',
+				baseColor: '#2E1A3E',
+				activeColor: '#9370DB',
+				glowColor: '#BB77DD',
+				theme: 'Beast Specters, Death Curses, Wyrd Invocation'
+			},
+			'stormscribe': {
+				name: 'Stormscribe',
+				icon: 'fas fa-wind',
+				baseColor: '#1A2E3E',
+				activeColor: '#4169E1',
+				glowColor: '#6495ED',
+				theme: 'Lightning Fury, Healing Totems, Inscribed Ally Buffs'
+			}
+		}
+	},
+	mechanics: {
+		max: 20,
+		current: 0,
+		regen: 0,
+		consumeVerb: 'invoke',
+		gainVerb: 'channel'
+	},
+	tooltip: {
+		title: 'Resonance: {current}/{max}',
+		description: 'Through Bryngloom\'s mists, the ancestral spirits lend their resonance to the worthy. Channel ancestral spirits to build resonance. Spend to invoke spirit abilities and empower totems. Beware Spirit Erosion at 15+ Resonance.',
+		showResonance: true,
+		showSpirits: true,
+		showSpecialization: true
+	}
 };
 
 CLASS_RESOURCE_TYPES['Arcanoneer'] = {

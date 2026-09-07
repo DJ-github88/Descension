@@ -29,9 +29,9 @@ export const ASSET_PATHS = {
 export const FALLBACK_ICONS = {
   spell: 'Arcane/Abstract Rune',
   item: 'Misc/Books/book-brown-decorative-panels', // Local item fallback
-  creature: 'Utility/Utility',
-  ability: 'Utility/Utility',
-  ui: 'Utility/Utility'
+  creature: 'Utility/Beast Paw Claws',
+  ability: 'Arcane/Abstract Rune',
+  ui: 'Arcane/Abstract Rune'
 };
 
 /**
@@ -158,11 +158,9 @@ const convertWowIconToAbilityIcon = (wowIconId) => {
     'spell_fire_volcano': 'Fire/Volcanic Erupt',
     
     // ===== OBJECTS & FURNITURE =====
-    'inv_box_01': 'Container/Chest/treasure-chest-wooden-brown-straps',
-    'inv_box_04': 'Container/Chest/treasure-chest-teal-golden-trim',
-    'inv_crate_01': 'Container/Chest/wooden-crate-brown-planks-isometric',
-    'inv_misc_note_01': 'Misc/Books/book-scroll-parchment-rolled',
-    'inv_misc_note_02': 'Misc/Books/book-scroll-rolled-red-wax-seal',
+    'inv_box_04': 'Utility/Broken Item',
+    'inv_crate_01': 'Utility/Broken Item',
+    'inv_misc_note_02': 'Radiant/Holy Bible',
     'inv_misc_dice_01': 'Social/Dice Roll',
 
     // ===== FROST =====
@@ -479,11 +477,11 @@ const convertWowIconToAbilityIcon = (wowIconId) => {
     'inv_misc_bone_humanskull_02': 'Necrotic/Necrotic Skull',
     'inv_misc_bone_skull_02': 'Necrotic/Skull 2',
     'inv_misc_book_11': 'Utility/Ornate Staff',
-    'inv_misc_coin_01': 'Utility/Utility',
-    'inv_misc_coin_02': 'Utility/Utility',
-    'inv_misc_coin_05': 'Utility/Utility',
-    'inv_misc_coin_17': 'Utility/Utility',
-    'inv_misc_coin_18': 'Utility/Utility',
+    'inv_misc_coin_01': 'Social/Dice Roll',
+    'inv_misc_coin_02': 'Social/Dice Roll',
+    'inv_misc_coin_05': 'Social/Dice Roll',
+    'inv_misc_coin_17': 'Social/Dice Roll',
+    'inv_misc_coin_18': 'Social/Dice Roll',
     'inv_misc_dice_02': 'Social/Dice Roll',
     'inv_misc_enggizmos_25': 'Utility/Strange Brew',
     'inv_misc_enggizmos_27': 'Utility/Utility Tool',
@@ -494,12 +492,12 @@ const convertWowIconToAbilityIcon = (wowIconId) => {
     'inv_misc_herb_felblossom': 'Nature/Single Leaf',
     'inv_misc_monsterspidercarapace_01': 'Nature/Web',
     'inv_misc_orb_05': 'Arcane/Orb Manipulation',
-    'inv_misc_platnumdisks': 'Utility/Utility',
-    'inv_misc_tarot_01': 'Utility/Utility',
+    'inv_misc_platnumdisks': 'Arcane/Abstract Rune',
+    'inv_misc_tarot_01': 'Social/Dice Roll',
     'inv_misc_ticket_tarot_ascension': 'Radiant/Divine Ascension',
     'inv_misc_ticket_tarot_blessings': 'Radiant/Divine Blessing',
     'inv_misc_ticket_tarot_madness': 'Psychic/Mental Chaos',
-    'inv_misc_ticket_tarot_stack': 'Utility/Utility',
+    'inv_misc_ticket_tarot_stack': 'Social/Dice Roll',
     'inv_misc_ticket_tarot_vengeance': 'Slashing/Crossed Swords',
     'inv_potion_24': 'Utility/Strange Brew',
     'inv_potion_53': 'Healing/Cure Within',
@@ -740,8 +738,8 @@ const convertWowIconToAbilityIcon = (wowIconId) => {
     'inv_misc_bomb_04': 'Utility/Bomb',
     'inv_misc_book_08': 'Utility/Ornate Staff',
     'inv_misc_book_09': 'Utility/Ornate Staff',
-    'inv_misc_coin_03': 'Utility/Utility',
-    'inv_misc_coin_06': 'Utility/Utility',
+    'inv_misc_coin_03': 'Social/Dice Roll',
+    'inv_misc_coin_06': 'Social/Dice Roll',
     'inv_misc_dust_01': 'Utility/Utility Tool',
     'inv_misc_dust_02': 'Utility/Utility Tool',
     'inv_misc_dust_04': 'Utility/Utility Tool',
@@ -789,9 +787,9 @@ const convertWowIconToAbilityIcon = (wowIconId) => {
     'ability_backstab': 'Piercing/Backstab',
 
     // ===== LEGACY FALLBACKS =====
-    'inv_misc_questionmark': 'Utility/Utility',
+    'inv_misc_questionmark': 'Arcane/Abstract Rune',
     'inv_misc_book_07': 'Utility/Ornate Staff',
-    'inv_misc_bag_08': 'Utility/Utility',
+    'inv_misc_bag_08': 'Utility/Utility Tool',
 
     // ===== NEW RACIAL & CLASS MISSING FALLBACKS =====
     'ability_checks': 'Social/Dice Roll',
@@ -855,10 +853,282 @@ const convertWowIconToAbilityIcon = (wowIconId) => {
     'spell_shadow_shadowmend': 'Healing/Renewal',
     'spell_shadow_shadowwordkill': 'Necrotic/Death Mark',
     'spell_shadow_vision': 'Utility/All Seeing Eye',
-    'spell_slots': 'Arcane/Abstract Rune'
+    'spell_slots': 'Arcane/Abstract Rune',
+
+    // ===== TALENT TREE ADDITIONS (unmapped WoW ids found by icon audit) =====
+    // Warrior / physical
+    'ability_bullrush': 'Utility/Bull Charge',
+    'ability_warrior_bullrush': 'Utility/Bull Charge',
+    'ability_whirlwind': 'Slashing/Whirl',
+    'ability_warrior_decapitate': 'Slashing/Execution',
+    'ability_warrior_groundslam': 'Bludgeoning/Stomp',
+    'ability_warrior_bloodrage': 'General/Rage',
+    'ability_warrior_intimidatingshout': 'General/Beckoning Shout',
+    'ability_warrior_rallyingcry': 'General/Cheer',
+    'ability_warrior_rallyingshout': 'General/Bolster',
+    'ability_warrior_battleorders': 'General/Command',
+    'ability_warrior_shieldreflection': 'Utility/Deflecting Shield',
+    'ability_rogue_eviscerate': 'Slashing/Cutthroat',
+    'ability_rogue_tilotomastery': 'Slashing/Edge',
+    'ability_glaivetoss': 'Slashing/Hurled Blade',
+    'ability_ironmaidens_boomerang': 'Slashing/Throw',
+    'ability_racial_avatar': 'Utility/Empowered Silhouette',
+    // Hunter / beast
+    'ability_hunter_barrage': 'Piercing/Rapid Arrows',
+    'ability_hunter_improvedsteadyshot': 'Piercing/Aimed Up',
+    'ability_hunter_beastwithin': 'Utility/Crouching Beast',
+    'ability_hunter_longevity': 'Nature/Amplified Senses',
+    'ability_hunter_passthrough': 'Piercing/Piercing Pierce',
+    'ability_hunter_pet_attack': 'Utility/Beast Paw Claws',
+    'ability_hunter_pet_aggressive': 'Nature/Beast Mark',
+    // Paladin / holy
+    'ability_paladin_judgementofwisdom': 'Radiant/Golden Ring',
+    'ability_paladin_judgmentblue': 'Radiant/Golden Ring 1',
+    'spell_holy_blessingofchampion': 'Radiant/Holy Blessing',
+    'spell_holy_blessingofsacrifice': 'Radiant/Divine Blessing',
+    'spell_holy_blessingofwisdom': 'Radiant/Divine Blessing 2',
+    'spell_holy_consecration': 'Radiant/Bright Explosion',
+    'spell_holy_divinejudgment': 'Radiant/Divine Downward Sword',
+    'spell_holy_divinemission': 'Radiant/Divine Entity',
+    'spell_holy_eyeforaneye': 'Radiant/Peering Gaze',
+    'spell_holy_holywordbarrier': 'Radiant/Radiant Golden Shield',
+    'spell_holy_lightsgrace': 'Radiant/Divine Radiance',
+    'spell_holy_perserverence': 'Bludgeoning/Steady Step',
+    'spell_holy_pureofheart': 'Radiant/Golden Embrace',
+    'spell_holy_righteousdefense': 'Radiant/Golden Knight',
+    'spell_holy_sealingblessing': 'Radiant/Holy Cross',
+    'spell_holy_sealofsalvation': 'Radiant/Golden Ring',
+    'spell_holy_sealofvengeance': 'Radiant/Angelic Sword',
+    'spell_holy_unyieldingfaith': 'Radiant/Prayer of the Desperate',
+    // Mage / arcane
+    'ability_mage_massdispel': 'Arcane/Spiral Vortex',
+    'spell_arcane_arcane_resistance': 'Utility/Resistance',
+    'spell_arcane_focusedpower': 'Psychic/Focused Mind',
+    'spell_arcane_manaregen': 'Arcane/Empowering Growth',
+    'spell_arcane_portal_dalaran': 'Arcane/Portal Archway',
+    'spell_arcane_prismaticbolt': 'Arcane/Missile',
+    'spell_arcane_reflect': 'Utility/Deflecting Shield',
+    'spell_arcane_teleportshattrath': 'Arcane/Portal Archway',
+    // Nature / shaman
+    'spell_nature_astralrecalldoor': 'Arcane/Open Portal',
+    'spell_nature_healingwave': 'Healing/Renewal',
+    'spell_nature_healingway': 'Healing/Heart Ripple',
+    'spell_nature_moonglow': 'Utility/Crescent Moon',
+    'spell_nature_spiritlinktotem': 'Nature/Nature Hand',
+    'spell_nature_totemdecay': 'Nature/Corruptive Earth Touch',
+    // Shadow / warlock
+    'spell_shadow_burningspirit': 'Utility/Embraced by Fire',
+    'spell_shadow_corpseexplode': 'Utility/Explosive Detonation',
+    'spell_shadow_curseoftounges': 'Psychic/Hypnotic Eye',
+    'spell_shadow_darkbind': 'Nature/Entangled',
+    'spell_shadow_darkregeneration': 'Necrotic/Arise',
+    'spell_shadow_deathpact': 'Necrotic/Death Mark',
+    'spell_shadow_lifedrain01': 'Necrotic/Drain Soul',
+    'spell_shadow_madness': 'Utility/Craze',
+    'spell_shadow_memorywipe': 'Psychic/Mind Read',
+    'spell_shadow_nightmare': 'Necrotic/Haunting Skull',
+    'spell_shadow_shadowandflame': 'Necrotic/Ebon Death',
+    'spell_shadow_shadowbeam': 'Necrotic/Comet Projectile',
+    'spell_shadow_shadowmeld': 'Utility/Hide',
+    'spell_shadow_shadowwalk': 'General/Stealth',
+    'spell_shadow_shadowward': 'Necrotic/Protective Aura',
+    'spell_shadow_soul_link': 'Necrotic/Cursed Entities',
+    'spell_shadow_soulleech_1': 'Necrotic/Devour',
+    'spell_shadow_stranglevines': 'Nature/Gnarled Roots',
+    'spell_shadow_subjugation': 'Utility/Chained',
+    'spell_shadow_truevision': 'Utility/All Seeing Eye',
+    'spell_shadow_ward': 'Utility/Bound Shield',
+    // Items / gems / weapons
+    'inv_misc_gem_01': 'Utility/Glowing Shard',
+    'inv_misc_gem_bubble': 'Utility/Glowing Shard',
+    'inv_misc_gem_crystal_02': 'Arcane/Orb Manipulation',
+    'inv_misc_rune_02': 'Utility/Alchemical Symbol',
+    'inv_misc_slime_01': 'Poison/Acid Drip',
+    'inv_shield_61': 'Utility/Brown Shield',
+    'inv_sword_39': 'General/Sword',
+    'inv_weapon_bow_05': 'Piercing/Bow Shot',
+    'inv_weapon_bow_06': 'Piercing/Stylized Bow',
+    'inv_weapon_shortblade_02': 'Piercing/Glowing Dagger',
+    // Druid / creature ids
+    'ability_druid_healinginstincts': 'Nature/Leaf of the Wind',
+    'ability_creature_poison_03': 'Poison/Poison Toxin',
+    'ability_creature_disease_02': 'Poison/Poison Plague',
+
+    // ===== Icon audit fixes (unmapped WoW ids -> existing ability icons) =====
+    // Spell component icons
+    'spell_icon_verbal': 'General/Beckoning Shout',
+    'spell_icon_somatic': 'Utility/Dynamic Lunge',
+    'spell_icon_material': 'Utility/Glowing Shard',
+    'spell_icon_focus': 'Arcane/Orb Manipulation',
+    'spell_icon_divine_focus': 'Radiant/Divine Illumination',
+    // Proc / stance / trigger systems
+    'ability_criticalstrike': 'Piercing/Targeted Strike',
+    'ability_defend': 'General/Defend',
+    'ability_rogue_murderspree': 'Slashing/Cutthroat',
+    'spell_magic_managain': 'Arcane/Empowering Growth',
+    'spell_frost_chainofdamnation': 'Frost/Frozen in Ice',
+    'ability_racial_bearform': 'Nature/Bear Summon',
+    'ability_warrior_offensivestate': 'General/Rage',
+    'spell_nature_polymorph': 'Nature/Lizard',
+    'spell_holy_divineaegis': 'Radiant/Radiant Golden Shield',
+    'achievement_character_nightelf_male': 'Utility/Empowered Silhouette',
+    'achievement_quests_completed_08': 'Radiant/Golden Trophy',
+    'achievement_pvp_p_14': 'Radiant/Golden Trophy',
+    // Racial spellbooks / summon tokens
+    'spell_nature_wind': 'Nature/Air Blow',
+    'spell_arcane_masscharm': 'Psychic/Hypnotic Eye',
+    'spell_nature_stone': 'Nature/Earth Shield',
+    'spell_nature_entanglingroots': 'Nature/Gnarled Roots',
+    'spell_shadow_disguise': 'Utility/Hide',
+    'spell_lightning_lightning': 'Lightning/Lightning Bolt',
+    'spell_holy_sealofrighteousness': 'Radiant/Holy Cross',
+    'spell_arcane_portal': 'Arcane/Portal Archway',
+    'spell_arcane_arcanetactics': 'Arcane/Spellcasting Aura',
+    'ability_rogue_shadowstrikes': 'Slashing/Cutthroat',
+    'spell_frost_chillingbolt': 'Frost/Frostbite Variant 2',
+    'spell_holy_surge': 'Radiant/Divine Radiance',
+    'spell_lightning_thunderstorm': 'Lightning/Thunderstorm',
+    'spell_shadow_cursed': 'Necrotic/Cursed Entities',
+    'spell_fire_smoke': 'Necrotic/Gloomy Death',
+    'spell_shadow_acid': 'Poison/Acid Splash',
+    'spell_frost_iceblast': 'Frost/Frozen in Ice',
+    'spell_fire_summoninfernal': 'Fire/Fire Demon',
+    'ability_hunter_pet_eagle': 'Necrotic/Eagle Eye',
+    'spell_holy_prayeroffortitude': 'Radiant/Divine Blessing',
+    // Misc item-style ids consumed via ability category
+    'inv_enchant_dustarcane': 'Arcane/Ebon Blaze',
+    'inv_misc_head_orc_01': 'Necrotic/Decayed Skull',
+    'inv_misc_head_dragon_red': 'Fire/Fire Demon',
+    'inv_misc_head_human_01': 'Necrotic/Decayed Skull',
+    'inv_misc_tree_01': 'Nature/Dark Tree Ominous',
+    'inv_stone_01': 'Nature/Crushing Rock',
+    'inv_raven': 'Necrotic/Eagle Eye',
+    'inv_misc_tool_01': 'Utility/Utility Tool',
+    // Fix cross-category entries that pointed at items-library files
+    'inv_box_01': 'Utility/Broken Item',
+    'inv_misc_note_01': 'Radiant/Holy Bible',
+    // Creature / elemental ids from audit
+    'inv_elemental_primal_fire': 'Fire/Eruption',
+    'spell_nature_treant': 'Nature/Dark Tree Ominous',
+    'inv_misc_lantern_01': 'Fire/Sun Symbol',
+
+    // Missing talent, racial & class audit mappings
+    'inv_stone_02': 'Nature/Crushing Rock',
+    'ability_warrior_bloodstorm': 'Slashing/Whirl',
+    'ability_shockwave': 'Bludgeoning/Stomp',
+    'spell_arcane_teleportmoonglade': 'Arcane/Open Portal',
+    'inv_trinket_naxxramas04': 'Necrotic/Necrotic Skull',
+    'ability_rogue_preparation': 'Utility/Martial Arts Stance',
+    'spell_fire_supernova': 'Fire/Fiery Comet',
+    'spell_fire_burningwind': 'Fire/Fire Storm',
+    'spell_fire_windfury': 'Fire/Infernal Fire',
+    'inv_misc_enggizmos_20': 'Utility/Utility Gear',
+    'inv_battery_01': 'Utility/Glowing Orb',
+    'inv_ammo_bullet_04': 'Piercing/Thrown Dagger',
+    'inv_shield_04': 'Utility/Shield',
+    'inv_chest_chain_11': 'Utility/Bound Shield',
+    'spell_nature_abolishcurse': 'Healing/Cure Within',
+    'spell_nature_curseofspider': 'Nature/Web',
+    'ability_rogue_feigndeath': 'Utility/Sleep',
+    'spell_nature_nullifypoison': 'Poison/Poison Flask'
   };
 
   return iconMapping[wowIconId] || null;
+};
+
+/**
+ * Map FontAwesome icon class strings to local ability icon paths
+ * @param {string} faClass - FontAwesome icon class (e.g. 'fas fa-shield-halved')
+ * @returns {string|null} - Local ability icon path or null
+ */
+export const convertFontAwesomeToAbilityIcon = (faClass) => {
+  if (!faClass || typeof faClass !== 'string') return null;
+  const rawName = faClass.replace(/fa[srlbdt]?\s+/g, '').replace(/^fa-/, '').trim();
+
+  const faMapping = {
+    // Defense / Shields
+    'shield-halved': 'Nature/Earth Shield',
+    'shield-alt': 'Nature/Earth Shield',
+    'shield': 'Nature/Earth Shield',
+    'shield-virus': 'Nature/Earth Shield',
+
+    // Hands / Reach
+    'hand': 'Nature/Wood Hand',
+    'hand-sparkles': 'Nature/Wood Hand',
+    'hands': 'Nature/Wood Hand',
+
+    // Roots / Ground / Anchor
+    'anchor': 'Nature/Roots',
+
+    // Nature / Plants
+    'tree': 'Nature/Tree',
+    'leaf': 'Nature/Single Leaf',
+    'seedling': 'Nature/Growth',
+
+    // Eyes / Perception
+    'eye': 'Psychic/Hypnotic Eye',
+
+    // Thorns / Insects
+    'bug': 'Nature/Thorny Entanglement',
+
+    // Cloud / Fog / Weather / Water
+    'cloud': 'Dark Mist',
+    'cloud-bolt': 'Lightning/Lightning Bolt',
+    'faucet-drip': 'Nature/River Through Forest',
+    'water': 'Frost/Conjure Water',
+    'tint-slash': 'Drop',
+    'snowflake': 'Frost/Frost Freeze 1',
+    'tornado': 'Nature/Tornado Vortex',
+    'wind': 'Nature/Air Blow',
+
+    // Celestial / Arcane
+    'star': 'Radiant/Divine Illumination',
+    'star-of-david': 'Radiant/Radiant Magical Rune',
+    'moon': 'Utility/Crescent Moon',
+    'sun': 'Fire/Sun Symbol',
+    'atom': 'Arcane/Orb Manipulation',
+    'wand-sparkles': 'Arcane/Spellcasting Aura',
+    'wand-magic-sparkles': 'Arcane/Spellcasting Aura',
+
+    // Combat / Weapons / Status
+    'paw': 'Nature/Sense',
+    'skull': 'Necrotic/Necrotic Skull',
+    'skull-crossbones': 'Necrotic/Death Mark',
+    'cross': 'Radiant/Holy Cross',
+    'crosshairs': 'Piercing/Targeted Strike',
+    'music': 'Social/Song of Discord',
+    'dice': 'Social/Dice Roll',
+    'dice-d20': 'Social/Dice Roll',
+    'hourglass-half': 'Arcane/Spiral Vortex',
+    'clock': 'Arcane/Spiral Vortex',
+    'history': 'Arcane/Spiral Vortex',
+    'exchange-alt': 'Arcane/Spiral Vortex',
+    'gem': 'Utility/Glowing Shard',
+    'diamond': 'Utility/Glowing Shard',
+    'poker-chip': 'Social/Dice Roll',
+    'brain': 'Psychic/Focused Mind',
+    'bolt': 'Lightning/Lightning Bolt',
+    'bolt-lightning': 'Lightning/Lightning Burst',
+    'fire': 'Fire/Flame Burst',
+    'biohazard': 'Poison/Poison Plague',
+    'flask': 'Poison/Poison Flask',
+    'gavel': 'Bludgeoning/Hammer',
+    'user-secret': 'General/Stealth',
+    'link': 'Utility/Metal Chain',
+    'yin-yang': 'Arcane/Spiral Vortex',
+    'ghost': 'Necrotic/Ghostly Menace',
+    'axe-battle': 'General/Shield and Axe',
+    'khanda': 'Slashing/Crossed Swords',
+    'book': 'Radiant/Holy Bible',
+    'scroll': 'Utility/Ornate Staff',
+    'mask': 'Utility/Hide',
+    'handshake': 'Social/Social',
+    'route': 'Arcane/Revealing Steps',
+    'cog': 'Utility/Utility Gear',
+    'user': 'Utility/Empowered Silhouette'
+  };
+
+  return faMapping[rawName] || null;
 };
 
 /**
@@ -868,12 +1138,21 @@ const convertWowIconToAbilityIcon = (wowIconId) => {
  */
 export const getAbilityIconUrl = (iconId) => {
   if (!iconId || typeof iconId !== 'string') {
-    return getCustomIconUrl('Utility/Utility', 'abilities');
+    return getCustomIconUrl('Arcane/Abstract Rune', 'abilities');
   }
 
   // Handle items/ prefix by switching category to items
   if (iconId.startsWith('items/')) {
     return getIconUrl(iconId.replace('items/', ''), 'items');
+  }
+
+  // If iconId is a FontAwesome class, map it to a local ability icon
+  if (iconId.includes('fa-') || iconId.startsWith('fa')) {
+    const faMapped = convertFontAwesomeToAbilityIcon(iconId);
+    if (faMapped) {
+      return getCustomIconUrl(faMapped, 'abilities');
+    }
+    return getCustomIconUrl('Arcane/Abstract Rune', 'abilities');
   }
 
   // If iconId already contains a path (e.g., "Utility/Icon Name" or "combat/sword")
@@ -916,8 +1195,7 @@ export const getAbilityIconUrl = (iconId) => {
     }
 
     // If no mapping found, use a safe local fallback to prevent flickering
-    // Use Utility/Utility as the default fallback instead of trying to construct paths
-    return getCustomIconUrl('Utility/Utility', 'abilities');
+    return getCustomIconUrl('Arcane/Abstract Rune', 'abilities');
   }
 
   // Otherwise, try to find the icon as a root-level file in the abilities folder

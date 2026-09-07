@@ -343,6 +343,12 @@ const useCharacterTokenStore = create(
        tempHealth: s.tempHealth,
        tempMana: s.tempMana,
        tempActionPoints: s.tempActionPoints,
+       durability: s.durability || 0,
+       damageReduction: s.damageReduction || 0,
+       movementSpeed: s.racialSpeed || s.movementSpeed || 30,
+       resistances: s.resistances || {},
+       immunities: s.immunities || [],
+       racialTraits: s.racialTraits || [],
        lore: s.lore,
        tokenSettings: s.tokenSettings
       };
@@ -366,9 +372,12 @@ const useCharacterTokenStore = create(
       if (changedIds.length > 0) {
        const gameStore = useGameStore.getState();
        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+        const mapStore = getStore('mapStore');
+        const currentMapId = mapStore?.getState?.()?.currentMapId || 'default';
         changedIds.forEach(tokenId => {
          gameStore.multiplayerSocket.emit('character_token_updated', {
           roomId: gameStore.multiplayerRoom?.id,
+          mapId: currentMapId,
           tokenId,
           character: fresh,
           name: fresh.name
@@ -622,6 +631,9 @@ if (typeof window !== 'undefined') {
       s.raceDisplayName,
       s.class,
       s.level,
+      s.durability || 0,
+      s.damageReduction || 0,
+      s.racialSpeed || s.movementSpeed || 30,
       s.lore?.characterImage || '',
       s.lore?.characterIcon || '',
       s.tokenSettings?.customIcon || '',

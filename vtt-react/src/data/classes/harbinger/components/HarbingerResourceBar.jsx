@@ -6,6 +6,7 @@ import useCharacterStore from '../../../../store/characterStore';
 import '../styles/HarbingerResourceBar.css';
 import '../../../../styles/unified-context-menu.css';
 import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
+import ClassTip from '../../../../components/hud/ClassTip';
 
 const STAGE_NAMES = {
     0: 'Stable Anchor',
@@ -45,6 +46,20 @@ const MASTER_WILD_SURGE_TABLE = [
     { range: [81, 90], cat: 'Physical Backlash', name: 'Molecular Dissociation', desc: 'Caster suffers 3d10 Force damage and gains 100% physical vulnerability for 2 rounds as density drops to zero.' },
     { range: [91, 100], cat: 'Physical Backlash', name: 'Catastrophic Timeline Shear', desc: 'Caster loses all remaining Mana and takes 4d10 Necrotic damage. A permanent 10ft Chaos Pocket forms at the caster’s feet.' }
 ];
+
+// Vector glyph path blueprints for all 10 eldritch runes
+const RUNE_GLYPHS = {
+    1: "M 0,-7 C 4,-7 7,-3 5,2 C 3,6 0,8 0,8 C 0,8 -3,6 -5,2 C -7,-3 -4,-7 0,-7 Z M 0,-2 A 2,2 0 1,0 0,2 A 2,2 0 1,0 0,-2",
+    2: "M -6,-7 L 0,-1 L 6,-7 M -6,7 L 0,1 L 6,7 M 0,-7 L 0,7",
+    3: "M -5,-8 L 5,-3 L -3,1 L 4,8 M -2,-8 L -2,8",
+    4: "M 0,-8 L 7,0 L 0,8 L -7,0 Z M -4,-4 L 4,4 M 4,-4 L -4,4",
+    5: "M 0,-8 C 5,-8 8,-4 6,1 C 4,6 -1,7 -4,4 C -7,1 -6,-4 -2,-6 C 2,-8 5,-4 3,0",
+    6: "M -7,-6 L 0,-2 L 7,-6 M -7,6 L 0,2 L 7,6 M 0,-8 L 0,8 M -4,0 L 4,0",
+    7: "M -6,-8 L -6,8 M -1,-6 L -1,6 M 4,-8 L 4,8 M -8,0 L 6,0",
+    8: "M -6,-8 L 6,-8 L -5,8 L 5,8 Z M -2,0 L 2,0 M 0,-4 L 0,4",
+    9: "M -6,-6 L 6,6 M -6,6 L 6,-6 M 0,-8 L 0,-4 M 0,4 L 0,8 M -8,0 L -4,0 M 4,0 L 8,0",
+    10: "M -7,-5 C -7,-9 7,-9 7,-5 C 7,-1 3,2 0,7 C -3,2 -7,-1 -7,-5 Z M -3,-4 A 1.2,1.2 0 1,0 -3,-2 A 1.2,1.2 0 1,0 -3,-4 M 3,-4 A 1.2,1.2 0 1,0 3,-2 A 1.2,1.2 0 1,0 3,-4 M -4,3 L 4,3 M 0,7 L 0,10"
+};
 
 const HarbingerResourceBar = ({
     classResource = {},
@@ -213,55 +228,21 @@ const HarbingerResourceBar = ({
         return '#b30000';
     };
 
-    // Render 10 Runes with custom generated illustrated game assets
-    const renderRunes = () => {
-        const runes = [];
-        for (let i = 1; i <= maxStage; i++) {
-            const isFilled = mayhemStage >= i;
-            const isCurrentTier = mayhemStage === i;
-            const isCatastrophic = i === 10 && mayhemStage >= 10;
-            const isHovered = hoveredRune === i;
-
-            runes.push(
-                <div
-                    key={i}
-                    className={`harbinger-rune-slot slot-${i} ${isFilled ? 'filled' : 'empty'} ${isCurrentTier ? 'current-active' : ''} ${isCatastrophic ? 'catastrophic' : ''} ${isHovered ? 'hovered' : ''}`}
-                    onMouseEnter={() => setHoveredRune(i)}
-                    onMouseLeave={() => setHoveredRune(null)}
-                    onClick={(e) => {
-                        if (isOwner && e.shiftKey) {
-                            e.stopPropagation();
-                            handleStageSet(i);
-                        }
-                    }}
-                >
-                    {/* Unlit Carved Rune (Obsidian Stone) */}
-                    <img
-                        src={`/assets/ui/classes/harbinger/Empty Stage ${i}.PNG`}
-                        alt={`Unlit Stage ${i}`}
-                        className={`harbinger-rune-img rune-empty ${!isFilled ? 'visible' : 'faded'}`}
-                        draggable={false}
-                    />
-
-                    {/* Lit Glowing Rune (Void / Amethyst Fire) */}
-                    <img
-                        src={`/assets/ui/classes/harbinger/Filled Stage ${i}.PNG`}
-                        alt={`Lit Stage ${i}`}
-                        className={`harbinger-rune-img rune-filled ${isFilled ? 'visible' : 'faded'}`}
-                        draggable={false}
-                    />
-                </div>
-            );
-        }
-        return runes;
-    };
+    // Wing rune coordinates (viewBox 0 0 292 76)
+    // Left Wing: Stages 1-5 across x=16..118
+    // Center Singularity: x=146, y=38, r=24
+    // Right Wing: Stages 6-10 across x=174..276
+    const leftXs = [24, 46, 68, 90, 112];
+    const rightXs = [180, 202, 224, 246, 268];
+    const runeXs = [...leftXs, ...rightXs];
+    const runeY = 41;
 
     return (
         <div className={`harbinger-resource-wrapper ${size} ${mayhemStage >= 10 ? 'catastrophic-warning' : ''}`}>
-            {/* Main Resource Bar - Interactive Illustrated Component */}
+            {/* Main Resource Bar - Pure Scalable Vector Apparatus */}
             <div
                 ref={barRef}
-                className={`harbinger-resource-bar ${size} clickable intensity-${getVisualIntensity()}`}
+                className={`harbinger-resource-bar class-resource-bar mayhem-gauge ${size} clickable intensity-${getVisualIntensity()}`}
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => {
                     setShowTooltip(false);
@@ -272,91 +253,325 @@ const HarbingerResourceBar = ({
                     if (isOwner) setShowControls(!showControls);
                 }}
             >
-                {/* Base Carved Void-Stone Bar Background Asset */}
-                <img
-                    src="/assets/ui/classes/harbinger/Empty Bar.PNG"
-                    alt="Harbinger Bar Base"
-                    className="harbinger-bar-base-asset"
-                    draggable={false}
-                />
+                <svg
+                    className="harbinger-master-svg"
+                    viewBox="0 0 292 76"
+                    preserveAspectRatio="xMidYMid meet"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-label="Harbinger Mayhem Singularity"
+                >
+                    <defs>
+                        {/* Glow filters */}
+                        <filter id="harbingerGlowViolet" x="-30%" y="-30%" width="160%" height="160%">
+                            <feGaussianBlur stdDeviation="1.8" result="blur" />
+                            <feMerge>
+                                <feMergeNode in="blur" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                        <filter id="harbingerGlowMagenta" x="-40%" y="-40%" width="180%" height="180%">
+                            <feGaussianBlur stdDeviation="2.4" result="blur" />
+                            <feMerge>
+                                <feMergeNode in="blur" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                        <filter id="harbingerGlowCataclysm" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur stdDeviation="3.2" result="blur" />
+                            <feMerge>
+                                <feMergeNode in="blur" />
+                                <feMergeNode in="blur" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
 
-                {/* 10 Runes Track */}
-                <div className="harbinger-runes-track">
-                    {renderRunes()}
-                </div>
+                        {/* Base Obsidian & Chitin Gradients */}
+                        <linearGradient id="harbingerObsidian" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#1e0b2e" />
+                            <stop offset="35%" stopColor="#12061c" />
+                            <stop offset="75%" stopColor="#0a0310" />
+                            <stop offset="100%" stopColor="#040106" />
+                        </linearGradient>
+
+                        <linearGradient id="harbingerVoidBorder" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stopColor="#6b21a8" />
+                            <stop offset="30%" stopColor="#a855f7" />
+                            <stop offset="50%" stopColor="#e879f9" />
+                            <stop offset="70%" stopColor="#9333ea" />
+                            <stop offset="100%" stopColor="#4c1d95" />
+                        </linearGradient>
+
+                        <radialGradient id="harbingerSingularity" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stopColor="#050009" />
+                            <stop offset="45%" stopColor="#1a0033" />
+                            <stop offset="75%" stopColor="#7e22ce" />
+                            <stop offset="92%" stopColor="#c026d3" />
+                            <stop offset="100%" stopColor="#3b0764" />
+                        </radialGradient>
+
+                        <radialGradient id="harbingerVolatileCore" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stopColor="#fff1f2" />
+                            <stop offset="25%" stopColor="#fb7185" />
+                            <stop offset="60%" stopColor="#e11d48" />
+                            <stop offset="85%" stopColor="#881337" />
+                            <stop offset="100%" stopColor="#4c0519" />
+                        </radialGradient>
+                    </defs>
+
+                    {/* Chassis Base Plate: Chiseled Cosmic Obsidian Slab */}
+                    <rect
+                        x="1.5"
+                        y="1.5"
+                        width="289"
+                        height="73"
+                        rx="6"
+                        fill="url(#harbingerObsidian)"
+                        stroke="url(#harbingerVoidBorder)"
+                        strokeWidth="1.6"
+                        className="harbinger-chassis-base"
+                    />
+
+                    {/* Inner Dimensional Fracture Inset */}
+                    <rect
+                        x="3.5"
+                        y="3.5"
+                        width="285"
+                        height="69"
+                        rx="4.5"
+                        fill="none"
+                        stroke="rgba(192, 132, 252, 0.45)"
+                        strokeWidth="1.0"
+                        pointerEvents="none"
+                    />
+
+                    {/* Abyssal Corner Void Studs */}
+                    <circle cx="6" cy="6" r="2.0" fill="#4c1d95" stroke="#f0abfc" strokeWidth="0.8" pointerEvents="none" />
+                    <circle cx="286" cy="6" r="2.0" fill="#4c1d95" stroke="#f0abfc" strokeWidth="0.8" pointerEvents="none" />
+                    <circle cx="6" cy="70" r="2.0" fill="#4c1d95" stroke="#f0abfc" strokeWidth="0.8" pointerEvents="none" />
+                    <circle cx="286" cy="70" r="2.0" fill="#4c1d95" stroke="#f0abfc" strokeWidth="0.8" pointerEvents="none" />
+
+                    {/* Corner Chitinous Tendril Claws */}
+                    <path d="M 4 15 C 6 11 11 6 15 4 M 4 61 C 6 65 11 70 15 72 M 288 15 C 286 11 281 6 277 4 M 288 61 C 286 65 281 70 277 72" stroke="rgba(232, 121, 249, 0.65)" strokeWidth="1.2" fill="none" pointerEvents="none" />
+
+                    {/* Energy Conduit Conduits connecting runes to Singularity */}
+                    <line x1="18" y1="41" x2="118" y2="41" stroke="rgba(192, 132, 252, 0.5)" strokeWidth="1.2" />
+                    <line x1="174" y1="41" x2="274" y2="41" stroke="rgba(192, 132, 252, 0.5)" strokeWidth="1.2" />
+
+                    {/* Active Entropy Beam (Left) */}
+                    {mayhemStage > 0 && (
+                        <line
+                            x1="18"
+                            y1="41"
+                            x2={leftXs[Math.min(4, mayhemStage - 1)]}
+                            y2="41"
+                            stroke="#c084fc"
+                            strokeWidth="1.4"
+                            strokeDasharray="4 2"
+                            filter="url(#harbingerGlowViolet)"
+                            pointerEvents="none"
+                        />
+                    )}
+
+                    {/* Volatile Entropy Beam (Right) */}
+                    {mayhemStage >= 6 && (
+                        <line
+                            x1="174"
+                            y1="41"
+                            x2={rightXs[Math.min(4, mayhemStage - 6)]}
+                            y2="41"
+                            stroke={mayhemStage >= 9 ? "#f43f5e" : "#e879f9"}
+                            strokeWidth="1.5"
+                            strokeDasharray="4 2"
+                            filter="url(#harbingerGlowMagenta)"
+                            pointerEvents="none"
+                        />
+                    )}
+                    {/* ========================================================= */}
+                    {/* CENTERPIECE: THE ABYSSAL VALVE & SINGULARITY EYE          */}
+                    {/* ========================================================= */}
+                    <g
+                        className={`harbinger-center-core ${mayhemStage >= 10 ? 'cataclysm-active' : ''}`}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            if (isOwner && mayhemStage >= 10) {
+                                handleRollWildSurge();
+                            } else if (isOwner) {
+                                setShowControls(prev => !prev);
+                            }
+                        }}
+                        style={{ cursor: isOwner ? 'pointer' : 'default' }}
+                        title={mayhemStage >= 10 ? "Catastrophic Mayhem! Click to roll Master Wild Surge!" : "Click to open Mayhem Controls"}
+                    >
+                        {/* Outer Chitin Teeth Ring */}
+                        <circle cx="146" cy="38" r="24.5" fill="none" stroke="rgba(216, 180, 254, 0.55)" strokeWidth="1.0" strokeDasharray="3 3" />
+                        {Array.from({ length: 12 }, (_, i) => {
+                            const angle = (i * 30 * Math.PI) / 180;
+                            const x1 = 146 + 22.5 * Math.cos(angle);
+                            const y1 = 38 + 22.5 * Math.sin(angle);
+                            const x2 = 146 + 25 * Math.cos(angle);
+                            const y2 = 38 + 25 * Math.sin(angle);
+                            return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(240, 171, 252, 0.85)" strokeWidth="1.1" />;
+                        })}
+
+                        {/* Singularity Void Disk */}
+                        <circle
+                            cx="146"
+                            cy="38"
+                            r="21.5"
+                            fill={mayhemStage >= 10 ? "url(#harbingerVolatileCore)" : "url(#harbingerSingularity)"}
+                            stroke={mayhemStage >= 10 ? "#f43f5e" : "url(#harbingerVoidBorder)"}
+                            strokeWidth="1.4"
+                            filter={mayhemStage >= 10 ? "url(#harbingerGlowCataclysm)" : "url(#harbingerGlowViolet)"}
+                            className={`harbinger-core-orb ${mayhemStage >= 10 ? 'pulsing-core' : ''}`}
+                        />
+
+                        {/* Swirling Event Horizon Rings */}
+                        <circle cx="146" cy="38" r="16.5" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="0.6" strokeDasharray="5 3" className="harbinger-vortex-ring" />
+                        <circle cx="146" cy="38" r="11" fill="none" stroke="rgba(232, 121, 249, 0.45)" strokeWidth="0.5" strokeDasharray="4 2" />
+
+                        {/* Central Void Eye Pupil / Singularity Pit */}
+                        <ellipse
+                            cx="146"
+                            cy="38"
+                            rx={mayhemStage >= 10 ? "7.5" : `${3.5 + mayhemStage * 0.35}`}
+                            ry={mayhemStage >= 10 ? "7.5" : `${2.5 + mayhemStage * 0.25}`}
+                            fill="#030006"
+                            stroke={mayhemStage >= 10 ? "#ffffff" : "#d946ef"}
+                            strokeWidth={mayhemStage >= 10 ? "1.2" : "0.8"}
+                            pointerEvents="none"
+                        />
+                    </g>
+
+                    {/* ========================================================= */}
+                    {/* 10 ELDRITCH FRACTURE RUNES (STAGES 1 THROUGH 10)          */}
+                    {/* ========================================================= */}
+                    {Array.from({ length: maxStage }, (_, idx) => {
+                        const stageNum = idx + 1;
+                        const cx = runeXs[idx];
+                        const cy = runeY;
+                        const isFilled = mayhemStage >= stageNum;
+                        const isCurrentTier = mayhemStage === stageNum;
+                        const isVolatile = stageNum >= 6;
+                        const isCatastrophic = stageNum === 10;
+                        const isHovered = hoveredRune === stageNum;
+
+                        const runeColor = isCatastrophic
+                            ? (isFilled ? "#fb7185" : "rgba(244, 63, 94, 0.75)")
+                            : isVolatile
+                                ? (isFilled ? "#e879f9" : "rgba(217, 70, 239, 0.7)")
+                                : (isFilled ? "#c084fc" : "rgba(168, 85, 247, 0.65)");
+
+                        return (
+                            <g
+                                key={stageNum}
+                                className={`harbinger-rune-slot slot-${stageNum} ${isFilled ? 'filled' : 'empty'} ${isCurrentTier ? 'current-active' : ''} ${isCatastrophic ? 'catastrophic' : ''} ${isHovered ? 'hovered' : ''}`}
+                                data-stage={stageNum}
+                                onMouseEnter={() => setHoveredRune(stageNum)}
+                                onMouseLeave={() => setHoveredRune(null)}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (!isOwner) return;
+                                    if (mayhemStage === stageNum) {
+                                        handleStageSet(stageNum - 1);
+                                    } else {
+                                        handleStageSet(stageNum);
+                                    }
+                                }}
+                                onContextMenu={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    if (!isOwner) return;
+                                    handleStageChange(-1);
+                                }}
+                                style={{ cursor: isOwner ? 'pointer' : 'default' }}
+                            >
+                                {/* Generous transparent hit area */}
+                                <rect x={cx - 10} y={cy - 18} width="20" height="38" fill="transparent" pointerEvents="all" />
+
+                                {/* Recessed Obsidian Glyph Socket */}
+                                <polygon
+                                    points={`${cx},${cy - 11} ${cx + 8.5},${cy} ${cx},${cy + 11} ${cx - 8.5},${cy}`}
+                                    fill={isFilled ? "rgba(42, 12, 66, 0.95)" : "rgba(24, 9, 38, 0.9)"}
+                                    stroke={isFilled ? runeColor : "rgba(192, 132, 252, 0.65)"}
+                                    strokeWidth={isFilled ? "1.4" : "1.1"}
+                                    filter={isFilled ? "url(#harbingerGlowViolet)" : undefined}
+                                    pointerEvents="none"
+                                />
+
+                                {/* Internal Guideline Tick marks */}
+                                <line x1={cx - 5} y1={cy} x2={cx + 5} y2={cy} stroke="rgba(216, 180, 254, 0.45)" strokeWidth="0.8" pointerEvents="none" />
+
+                                {/* Glowing Vector Rune Glyph */}
+                                <g transform={`translate(${cx}, ${cy})`} pointerEvents="none">
+                                    <path
+                                        d={RUNE_GLYPHS[stageNum]}
+                                        fill="none"
+                                        stroke={isFilled ? (isHovered ? "#ffffff" : runeColor) : "rgba(233, 213, 255, 0.75)"}
+                                        strokeWidth={isFilled ? "1.4" : "1.15"}
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        filter={isFilled ? (isCatastrophic ? "url(#harbingerGlowCataclysm)" : "url(#harbingerGlowMagenta)") : undefined}
+                                    />
+                                    {isFilled && (
+                                        <circle cx="0" cy="0" r="1.1" fill="#ffffff" pointerEvents="none" />
+                                    )}
+                                </g>
+
+                                {/* Stage Pip Indicator */}
+                                <circle
+                                    cx={cx}
+                                    cy="60"
+                                    r={isFilled ? (isCurrentTier ? 2.0 : 1.4) : 1.0}
+                                    fill={isFilled ? (isCurrentTier ? '#ffffff' : runeColor) : 'rgba(233, 213, 255, 0.35)'}
+                                    pointerEvents="none"
+                                />
+                            </g>
+                        );
+                    })}
+                </svg>
             </div>
 
-            {/* Pathfinder-styled Tooltip */}
+            {/* Shared ClassTip Tooltip (Mechanic / Right now / Use) */}
             {showTooltip && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip harbinger-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
-                    <div className="tooltip-header" style={{ fontSize: '1.05rem', color: mayhemStage > 0 ? '#6c3483' : '#2C2416', letterSpacing: '0.6px' }}>
-                        {getStageName(mayhemStage)} (Stage {mayhemStage}/{maxStage})
-                    </div>
-
-                    <div className="tooltip-section">
-                        <div className="tooltip-row" style={{ fontSize: '0.92rem', color: '#2C2416' }}>
-                            <strong>Spell Amplification:</strong> <span style={{ color: '#6c3483', fontWeight: 700 }}>{getBonusText(mayhemStage)}</span>
-                        </div>
-                    </div>
-
-                    <div className="tooltip-divider"></div>
-
-                    <div className="tooltip-section">
-                        <div className="tooltip-label" style={{ color: '#2C2416', fontWeight: 700 }}>CURRENT DRAWBACK</div>
-                        <div className="drawback-text" style={{ color: getDrawbackColor(mayhemStage), fontWeight: mayhemStage >= 6 ? 700 : 600, fontSize: '0.9rem', lineHeight: 1.35 }}>
-                            {getDrawbackText(mayhemStage)}
-                        </div>
-                    </div>
-
-                    <div className="tooltip-divider"></div>
-
-                    <div className="tooltip-section">
-                        <div className="tooltip-label" style={{ color: '#2C2416', fontWeight: 700, marginBottom: '6px' }}>LEVEL MANAGEMENT</div>
-                        <div className="harbinger-management-list" style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.86rem' }}>
-                            <div style={{ color: '#2C2416' }}>
-                                <strong style={{ color: '#6c3483' }}>Ascend:</strong> <span style={{ color: '#3d2e1e' }}>Cast spells (+1 to +3 stages by spell tier & fulfilled prophecies)</span>
-                            </div>
-                            <div style={{ color: '#2C2416' }}>
-                                <strong style={{ color: '#1e5f74' }}>Descend:</strong> <span style={{ color: '#3d2e1e' }}>Spend Mayhem to widen prophecy range, -1 per min out of combat</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {mayhemStage >= 6 && (
-                        <>
-                            <div className="tooltip-divider"></div>
-                            <div className="tooltip-section">
-                                <div className="tooltip-label" style={{ color: '#c0392b', fontWeight: 700 }}>PLANAR INSTABILITY (ACTIVE)</div>
-                                <div className="passive-desc" style={{ color: '#2C2416', fontSize: '0.88rem', fontWeight: 500 }}>
-                                    At Stage 6+: <strong>25% Misfire chance</strong> (2d6 Storm damage) and <strong>+{mayhemStage >= 8 ? '50%' : '25%'} Physical Vulnerability</strong>.
-                                </div>
-                            </div>
-                        </>
-                    )}
-
-                    {isOwner && (
-                        <div style={{ marginTop: '8px', paddingTop: '6px', borderTop: '1px dashed rgba(139, 115, 85, 0.4)', fontSize: '0.78rem', color: '#5a4632', fontStyle: 'italic' }}>
-                            Click bar to open controls menu. Shift+Click rune to set level directly.
-                        </div>
-                    )}
+                    <ClassTip
+                        icon="fas fa-meteor"
+                        tint="#6c3483"
+                        title={`${getStageName(mayhemStage)} (Stage ${mayhemStage}/${maxStage})`}
+                        state={getBonusText(mayhemStage)}
+                        stateTone={mayhemStage >= 6 ? 'bad' : mayhemStage >= 3 ? 'warn' : 'neutral'}
+                        mechanic={`Spells ascend (+1 to +3 by tier and prophecies); spend Mayhem to widen prophecy range, −1/min idle. ${getDrawbackText(mayhemStage)}`}
+                        status={[
+                            mayhemStage >= 6
+                                ? `UNSTABLE: 25% misfire (2d6 Storm), +${mayhemStage >= 8 ? '50%' : '25%'} physical vuln — spend down or ride it.`
+                                : mayhemStage > 0
+                                    ? `Amplified and climbing — watch the drawbacks.`
+                                    : 'Dormant — cast to ascend.',
+                        ]}
+                        usage={isOwner ? 'Click bar for controls · Shift+Click or Click rune to set stage · Click center to roll Surge.' : null}
+                    />
                 </div>,
                 document.body
             )}
 
-            {/* Unified Context Controls Menu (Standard Project Beige/Cream Theme) */}
+            {/* Unified Context Controls Menu (Standard Project Theme) */}
             {showControls && ReactDOM.createPortal(
                 <div
                     ref={controlsMenuRef}
                     className={`unified-context-menu compact context-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
                     onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                    style={{
-                        position: 'fixed',
-                        top: barRef.current ? barRef.current.getBoundingClientRect().bottom + 8 : '50%',
-                        left: barRef.current ? barRef.current.getBoundingClientRect().left : '50%',
-                        transform: barRef.current ? 'none' : 'translate(-50%, -50%)',
-                        zIndex: 100000
-                    }}
+                    style={(() => {
+                        if (!barRef.current) return { position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 100000 };
+                        const frame = barRef.current.closest('.party-member-frame') || barRef.current.closest('.party-hud');
+                        const frameRect = frame ? frame.getBoundingClientRect() : barRef.current.getBoundingClientRect();
+                        return {
+                            position: 'fixed',
+                            top: `${frame ? frameRect.bottom + 4 : barRef.current.getBoundingClientRect().bottom + 8}px`,
+                            left: `${frame ? frameRect.left : barRef.current.getBoundingClientRect().left}px`,
+                            zIndex: 100000
+                        };
+                    })()}
                 >
                     <div className="context-menu-main">
                         <div className="context-menu-section">
@@ -446,3 +661,4 @@ const HarbingerResourceBar = ({
 };
 
 export default HarbingerResourceBar;
+

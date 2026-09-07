@@ -1,0 +1,223 @@
+/* ===== MARTYR RESOURCE BAR (THE RELIQUARY & ALTAR OF STIGMATA) ===== */
+
+/* Wrapper */
+.martyr-resource-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 2px 0;
+    z-index: 1;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.party-member-frame .martyr-resource-wrapper {
+    width: 100% !important;
+    max-width: 295px !important;
+    margin: 6px auto 0 !important;
+}
+
+.martyr-resource-wrapper.small {
+    margin: 1px 0;
+}
+
+.martyr-resource-wrapper.large {
+    margin: 4px 0;
+}
+
+/* Main Vector Resource Bar Container */
+.martyr-resource-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 295px;
+    height: 76px;
+    min-height: 76px;
+    max-height: 76px;
+    margin: 0 auto;
+    transition: filter 0.3s ease;
+    cursor: pointer;
+    overflow: visible;
+    box-sizing: border-box;
+
+    /* Default Redemption theme */
+    --martyr-primary: #ffd700;
+    --martyr-glow: rgba(255, 215, 0, 0.6);
+    --martyr-glow-soft: rgba(255, 215, 0, 0.25);
+    --martyr-accent: #fff8dc;
+    --martyr-liquid: #c0392b;
+    --martyr-liquid-glow: rgba(220, 20, 60, 0.5);
+}
+
+/* Spec-Specific Styling */
+.martyr-resource-bar.spec-redemption {
+    --martyr-primary: #ffd700;
+    --martyr-glow: rgba(255, 215, 0, 0.6);
+    --martyr-glow-soft: rgba(255, 215, 0, 0.25);
+    --martyr-accent: #fff8dc;
+    --martyr-liquid: #e67e22;
+    --martyr-liquid-glow: rgba(243, 156, 18, 0.6);
+}
+
+.martyr-resource-bar.spec-zealot {
+    --martyr-primary: #e74c3c;
+    --martyr-glow: rgba(231, 76, 60, 0.7);
+    --martyr-glow-soft: rgba(231, 76, 60, 0.25);
+    --martyr-accent: #ff7675;
+    --martyr-liquid: #c0392b;
+    --martyr-liquid-glow: rgba(192, 57, 43, 0.7);
+}
+
+.martyr-resource-bar.spec-ascetic {
+    --martyr-primary: #cbd5e1;
+    --martyr-glow: rgba(203, 213, 225, 0.6);
+    --martyr-glow-soft: rgba(203, 213, 225, 0.25);
+    --martyr-accent: #f8fafc;
+    --martyr-liquid: #7f8c8d;
+    --martyr-liquid-glow: rgba(149, 165, 166, 0.6);
+}
+
+.martyr-resource-bar.spec-ironclad {
+    --martyr-primary: #d35400;
+    --martyr-glow: rgba(211, 84, 0, 0.7);
+    --martyr-glow-soft: rgba(211, 84, 0, 0.3);
+    --martyr-accent: #f39c12;
+    --martyr-liquid: #b9770e;
+    --martyr-liquid-glow: rgba(230, 126, 34, 0.65);
+}
+
+.party-member-frame .class-resource-bar.martyr-resource-bar,
+.party-member-frame .martyr-resource-bar.party-context,
+.character-portrait-hud .martyr-resource-bar.party-context {
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: 295px !important;
+    height: 76px !important;
+    min-height: 76px !important;
+    max-height: 76px !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+.martyr-resource-bar.small {
+    max-width: 220px;
+    height: 56px;
+    min-height: 56px;
+}
+
+.martyr-resource-bar.large {
+    max-width: 340px;
+    height: 86px;
+    min-height: 86px;
+}
+
+@media (max-width: 600px) {
+    .martyr-resource-bar {
+        max-width: 260px;
+    }
+}
+
+/* Master SVG Canvas */
+.martyr-master-svg {
+    width: 100%;
+    max-width: 295px;
+    height: 76px;
+    max-height: 76px;
+    display: block;
+    overflow: visible;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.85));
+    transition: filter 0.25s ease;
+}
+
+/* Strictly NO hover transform sway — pure filter glow */
+.martyr-master-svg:hover {
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 10px var(--martyr-glow-soft));
+}
+
+/* Centerpiece Monstrance */
+.martyr-centerpiece {
+    cursor: pointer;
+    transition: filter 0.2s ease;
+}
+
+.martyr-centerpiece:hover {
+    filter: drop-shadow(0 0 8px var(--martyr-primary));
+}
+
+.martyr-monstrance-halo {
+    animation: martyrMonstrancePulse 3.5s ease-in-out infinite;
+    transform-origin: 146px 38px;
+}
+
+@keyframes martyrMonstrancePulse {
+    0%, 100% {
+        opacity: 0.8;
+        filter: drop-shadow(0 0 3px var(--martyr-glow));
+    }
+    50% {
+        opacity: 1;
+        filter: drop-shadow(0 0 9px var(--martyr-glow));
+    }
+}
+
+/* Stigmata Seals (Tiers I - VI) */
+.martyr-seal-slot {
+    cursor: pointer;
+    transition: filter 0.2s ease;
+}
+
+.martyr-seal-slot:hover {
+    filter: drop-shadow(0 0 6px var(--martyr-primary)) brightness(1.25);
+}
+
+.martyr-seal-slot.filled {
+    filter: drop-shadow(0 0 4px var(--martyr-glow-soft));
+}
+
+.martyr-seal-slot.active-tier {
+    filter: drop-shadow(0 0 8px var(--martyr-primary)) brightness(1.3);
+}
+
+/* Blood / Caliper Ampoule */
+.martyr-ampoule-group {
+    cursor: pointer;
+    transition: filter 0.2s ease;
+}
+
+.martyr-ampoule-group:hover {
+    filter: drop-shadow(0 0 6px var(--martyr-liquid-glow));
+}
+
+.martyr-liquid-fill {
+    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Interactive Quick Buttons in SVG */
+.martyr-quick-btn {
+    cursor: pointer;
+    transition: filter 0.15s ease, opacity 0.15s ease;
+}
+
+.martyr-quick-btn:hover {
+    filter: brightness(1.35) drop-shadow(0 0 4px var(--martyr-primary));
+}
+
+.martyr-quick-btn:active {
+    filter: brightness(0.9);
+}
+
+/* Tooltip & Drawer */
+.martyr-tooltip {
+    max-width: 320px;
+}

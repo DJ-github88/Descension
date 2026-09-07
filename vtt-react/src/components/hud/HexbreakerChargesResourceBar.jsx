@@ -76,6 +76,7 @@ const HexbreakerChargesResourceBar = ({
                             setShowTooltip(false);
                         }}
                     >
+                        <div className="charges-value">{chargesValue}/{maxCharges}</div>
                         <div className="charges-grid">
                             {Array.from({ length: maxCharges }, (_, i) => (
                                 <div
@@ -94,7 +95,6 @@ const HexbreakerChargesResourceBar = ({
                                 </div>
                             ))}
                         </div>
-                        <div className="charges-value">{chargesValue}/{maxCharges}</div>
                     </div>
 
                     {/* Attack Counter (True Damage Tracker) */}

@@ -16,18 +16,79 @@ import usePresenceStore from '../../store/presenceStore';
 import useAuthStore from '../../store/authStore'; // CRITICAL: For userId identification
 import ClassResourceBar from './ClassResourceBar';
 import SummonTokenBar from './SummonTokenBar';
-import ModularHealthBar from './ModularHealthBar';
-import ModularManaBar from './ModularManaBar';
-import ModularAPBar from './ModularAPBar';
+import StatVial from './StatVial';
 import ConditionDurationModal from '../modals/ConditionDurationModal';
 import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
 import { getBackgroundData } from '../../data/backgroundData';
 import Button from '../common/Button';
 import { getCustomBackgroundData, getEnhancedPathData } from '../../data/legacyDisciplineData';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
+import { CLASS_DISPLAY_DATA } from '../../data/classes/classDisplayData';
 // REMOVED: import 'react-resizable/css/styles.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
+
+const CLASS_ICON_OVERRIDES = { toxicologist: 'vial' };
+const CLASS_ICON_NAMES = new Map(
+    CLASS_DISPLAY_DATA
+        .filter((entry) => entry.icon && entry.icon.iconName)
+        .map((entry) => [entry.name.toLowerCase(), entry.icon.iconName])
+);
+
+const SUBRACE_ICON_OVERRIDES = {
+    'stargazer astril': 'star',
+    'brutish astril': 'meteor',
+    'clockwork fexric': 'gears',
+    'caustic fexric': 'burn',
+    'arch mimir': 'crown',
+    'broken mimir': 'face-frown',
+    'high neth': 'stamp',
+    'hollow-solari': 'eye-low-vision',
+    'waste-solari': 'fire',
+    'shoreling': 'water',
+    'deepling': 'anchor',
+    'riverling': 'route',
+    'thalren': 'snowflake',
+    'skald': 'feather-pointed',
+    'tessen': 'mountain',
+    'merryn': 'ship',
+    'ordan': 'user-secret',
+    'viridian': 'leaf',
+    'oken': 'tree',
+    'morgh': 'mountain',
+    'ithran': 'bone',
+    'clean': 'lightbulb',
+    'marked': 'bone'
+};
+
+const BASE_RACE_ICONS = {
+    astril: 'star',
+    fexric: 'gears',
+    florae: 'leaf',
+    groven: 'mountain',
+    human: 'users',
+    mimir: 'theater-masks',
+    myrathil: 'water',
+    neth: 'feather-pointed',
+    solari: 'sun',
+    vreken: 'lightbulb'
+};
+
+function getClassArchetypeIcon(className) {
+    if (!className) return null;
+    const key = String(className).toLowerCase().trim();
+    return CLASS_ICON_OVERRIDES[key] || CLASS_ICON_NAMES.get(key) || null;
+}
+
+function getRaceArchetypeIcon(raceName) {
+    if (!raceName) return null;
+    const key = String(raceName).toLowerCase().trim();
+    if (SUBRACE_ICON_OVERRIDES[key]) return SUBRACE_ICON_OVERRIDES[key];
+    const bare = key.replace(/\s*\([^)]*\)\s*$/, '').trim();
+    if (SUBRACE_ICON_OVERRIDES[bare]) return SUBRACE_ICON_OVERRIDES[bare];
+    const baseMatch = Object.entries(BASE_RACE_ICONS).find(([baseName]) => key.includes(baseName) || bare.includes(baseName));
+    return baseMatch ? baseMatch[1] : null;
+}
 
 
 // Helper to check if an ID belongs to the current player
@@ -98,6 +159,43 @@ const resolveBackgroundName = (bgId, bgDisplayName, loreObj) => {
     return '';
 };
 
+const getMemberStableKey = (member, myIds) => {
+    if (!member) return 'unknown-member';
+    const isSelf = isSelfId(member.userId, member.userId, myIds) ||
+        isSelfId(member.id, member.userId, myIds) ||
+        isSelfId(member.socketId, member.userId, myIds) ||
+        member.id === 'current-player';
+    if (isSelf) return 'current-player';
+    return member.userId || member.character?.id || member.id || member.socketId || member.name || 'party-member';
+};
+
+const getMemberAliases = (member, myIds) => {
+    if (!member) return [];
+    const isSelf = isSelfId(member.userId, member.userId, myIds) ||
+        isSelfId(member.id, member.userId, myIds) ||
+        isSelfId(member.socketId, member.userId, myIds) ||
+        member.id === 'current-player';
+    const keys = new Set();
+    if (isSelf) {
+        keys.add('current-player');
+    }
+    if (member.userId) keys.add(member.userId);
+    if (member.id) keys.add(member.id);
+    if (member.socketId) keys.add(member.socketId);
+    if (member.character?.id) keys.add(member.character.id);
+    return Array.from(keys);
+};
+
+// Quick-adjust steps per corner mount (mirrors the right-click menu's
+// most-used options). Left-clicking a mount opens this; right-click menu stays.
+const MOUNT_ADJUST_STEPS = {
+    health: [-5, -1, 1, 5],
+    mana: [-5, -1, 1, 5],
+    actionPoints: [-1, 1],
+};
+const MOUNT_RESOURCE_TYPE = { health: 'health', mana: 'mana', ap: 'actionPoints' };
+const MOUNT_TITLES = { health: 'Health', mana: 'Mana', ap: 'Action Points' };
+
 const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContextMenu, onResourceAdjust, onBuffContextMenu, onClassResourceUpdate, onRegisterRefs }) => {
     const frameRef = useRef(null);
     const healthBarRef = useRef(null);
@@ -120,7 +218,8 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
         pathDisplayName: state.pathDisplayName,
         alignment: state.alignment,
         exhaustionLevel: state.exhaustionLevel,
-        lore: state.lore
+        lore: state.lore,
+        level: state.level
     }));
 
     // Subscribe to characterImage separately for reliable HUD portrait updates
@@ -162,6 +261,38 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     const [showDurationModal, setShowDurationModal] = useState(false);
     const [durationModalCondition, setDurationModalCondition] = useState(null);
     const tooltipTimeoutRef = useRef(null);
+    // Quick-adjust popover for the corner mounts (HP bottle / mana crystal / AP boot)
+    const [mountMenu, setMountMenu] = useState(null);
+    const mountMenuRef = useRef(null);
+
+    // Same permission gate as the right-click resource submenus (GM or self)
+    const canAdjustMounts = isCurrentPlayer || isGMMode;
+
+    const openMountMenu = (kind) => (e) => {
+        e.stopPropagation();
+        if (!canAdjustMounts) return;
+        const rect = e.currentTarget.getBoundingClientRect();
+        const menuWidth = 196;
+        const menuHeight = 104;
+        const x = Math.max(8, Math.min(rect.left + rect.width / 2 - menuWidth / 2, window.innerWidth - menuWidth - 8));
+        // AP boot sits top-left: menu drops below it; vials pop above
+        const y = kind === 'ap'
+            ? rect.bottom + 8
+            : Math.max(8, rect.top - menuHeight - 8);
+        setMountMenu({ kind, x, y });
+    };
+
+    // Close the mount menu on outside click
+    useEffect(() => {
+        if (!mountMenu) return;
+        const onDown = (e) => {
+            if (mountMenuRef.current && !mountMenuRef.current.contains(e.target)) {
+                setMountMenu(null);
+            }
+        };
+        const id = setTimeout(() => document.addEventListener('mousedown', onDown), 0);
+        return () => { clearTimeout(id); document.removeEventListener('mousedown', onDown); };
+    }, [mountMenu]);
 
     const isTargeted = currentTarget?.id === member.id;
 
@@ -871,6 +1002,25 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     const hasClassResource = member.character?.class && member.character?.classResource;
     const classResourceType = member.character?.class?.toLowerCase().replace(/\s+/g, '-');
 
+    // Extract level and exhaustion for frame-wide use (Portrait Level Orb & Status Indicators)
+    const characterLevel = isCurrentPlayer && currentPlayerData
+        ? (currentPlayerData.level || member.character?.level || 1)
+        : (member.character?.level || member.level || 1);
+
+    const exhaustionLevel = isCurrentPlayer && currentPlayerData
+        ? (currentPlayerData.exhaustionLevel || 0)
+        : (member.character?.exhaustionLevel || 0);
+
+    const isExhaustionEditable = isCurrentPlayer || isGMMode;
+
+    const alignmentStr = isCurrentPlayer && currentPlayerData
+        ? (currentPlayerData.alignment || 'Neutral')
+        : (member.character?.alignment || 'Neutral');
+
+    const alignmentTone = alignmentStr.toLowerCase().includes('good') ? 'good'
+        : alignmentStr.toLowerCase().includes('evil') ? 'evil'
+        : 'neutral';
+
     return (
         <>
             <div
@@ -879,6 +1029,13 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                 className={`party-member-frame ${isCurrentPlayer ? 'current-player' : ''} ${isTargeted ? 'targeted' : ''} ${hasClassResource ? 'has-class-resource' : ''} ${hasClassResource ? `class-${classResourceType}` : ''}`}
                 onContextMenu={handleRightClick}
             >
+                {/* Alignment Plaque Mounted in Middle of Top Frame Border */}
+                {alignmentStr && (
+                    <div className={`member-alignment-tag ${alignmentTone}`} title={`Alignment: ${alignmentStr}`}>
+                        {alignmentStr}
+                    </div>
+                )}
+
                 {/* Portrait: absolutely positioned by CSS into the frame's portrait cutout */}
                 <div className="party-portrait">
                     {(() => {
@@ -938,9 +1095,9 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                         <img
                                             src={resolvedImage}
                                             style={{
-                                                width: '80%',
-                                                height: '80%',
-                                                objectFit: 'contain',
+                                                width: '100%',
+                                                height: '100%',
+                                                objectFit: 'cover',
                                                 transform: `scale(${iconSettings.iconScale || 1}) translate(${iconSettings.iconOffsetX || 0}px, ${iconSettings.iconOffsetY || 0}px)`,
                                             }}
                                             draggable={false}
@@ -981,179 +1138,148 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                     })()}
                 </div>
 
+                {/* Golden Medal Level Badge hanging off the portrait's bottom-right corner */}
+                {characterLevel && (
+                    <div className="portrait-level-orb" title={`Level ${characterLevel}`}>
+                        <svg className="level-medal-svg" viewBox="0 0 44 44" aria-hidden="true">
+                            <defs>
+                                <radialGradient id={`lvlMedalGrad-${member.id}`} cx="0.38" cy="0.32" r="0.95">
+                                    <stop offset="0%" stopColor="#ffedb8" />
+                                    <stop offset="40%" stopColor="#e8ba5c" />
+                                    <stop offset="75%" stopColor="#b3872f" />
+                                    <stop offset="100%" stopColor="#7c5a1c" />
+                                </radialGradient>
+                                <radialGradient id={`lvlWellGrad-${member.id}`} cx="0.5" cy="0.42" r="0.8">
+                                    <stop offset="0%" stopColor="#c79a3f" />
+                                    <stop offset="70%" stopColor="#9c7427" />
+                                    <stop offset="100%" stopColor="#6f4f17" />
+                                </radialGradient>
+                            </defs>
+                            <circle cx="22" cy="22" r="20.6" fill="#54401e" stroke="#2f2410" strokeWidth="1.7" />
+                            <circle cx="22" cy="22" r="18.4" fill="#8a6a24" stroke="#3b2e17" strokeWidth="0.8" />
+                            <circle cx="22" cy="22" r="18.4" fill="none" stroke="#f4dc9c" strokeWidth="1.1" strokeDasharray="2 3.1" opacity="0.85" />
+                            <g stroke="#4a3a16" strokeWidth="1" opacity="0.55">
+                                <line x1="22" y1="6.1" x2="22" y2="3.9" />
+                                <line x1="22" y1="37.9" x2="22" y2="40.1" />
+                                <line x1="37.9" y1="22" x2="40.1" y2="22" />
+                                <line x1="6.1" y1="22" x2="3.9" y2="22" />
+                                <line x1="33.24" y1="10.76" x2="34.8" y2="9.2" />
+                                <line x1="10.76" y1="10.76" x2="9.2" y2="9.2" />
+                                <line x1="33.24" y1="33.24" x2="34.8" y2="34.8" />
+                                <line x1="10.76" y1="33.24" x2="9.2" y2="34.8" />
+                            </g>
+                            <circle cx="22" cy="22" r="15.6" fill={`url(#lvlMedalGrad-${member.id})`} stroke="#6f4f17" strokeWidth="0.9" />
+                            <circle cx="22" cy="22" r="12.2" fill={`url(#lvlWellGrad-${member.id})`} stroke="#5d431a" strokeWidth="1" />
+                            <path d="M12.6 18.6 A 12.2 12.2 0 0 1 22 9.8" fill="none" stroke="rgba(255, 246, 218, 0.8)" strokeWidth="1.5" strokeLinecap="round" />
+                            <path d="M31.4 25.4 A 12.2 12.2 0 0 1 22 34.2" fill="none" stroke="rgba(46, 32, 10, 0.4)" strokeWidth="1.2" strokeLinecap="round" />
+                        </svg>
+                        <span className="level-number">{characterLevel}</span>
+                    </div>
+                )}
+
                 {/* Info Section */}
                 <div className="party-member-info">
-                    <div className="member-header">
-                        <div className="member-name">
-                            {member.name}
-                            {member.character?.level && ` (Level ${member.character.level})`}
-                            {(() => {
-                                const level = isCurrentPlayer && currentPlayerData
-                                    ? (currentPlayerData.exhaustionLevel || 0)
-                                    : (member.character?.exhaustionLevel || 0);
-                                const isEditable = isCurrentPlayer || isGMMode;
-                                if (level > 0 || isEditable) {
-                                    return (
-                                        <div 
-                                            className={`party-exhaustion-badge level-${level} ${isEditable ? 'editable' : ''}`}
-                                            onMouseEnter={(e) => handleExhaustionMouseEnter(e, level)}
-                                            onMouseMove={handleBuffMouseMove}
-                                            onMouseLeave={handleBuffMouseLeave}
-                                        >
-                                            <i className="fas fa-bed exhaustion-icon"></i>
-                                            {level > 0 && <span className="exhaustion-value">{level}</span>}
-                                            {isEditable && (
-                                                <select
-                                                    value={level}
-                                                    onChange={(e) => {
-                                                        const newVal = parseInt(e.target.value) || 0;
-                                                        if (isCurrentPlayer) {
-                                                            useCharacterStore.getState().updateExhaustionLevel(newVal);
-                                                        } else {
-                                                            updatePartyMember(member.id, {
-                                                                character: {
-                                                                    ...member.character,
-                                                                    exhaustionLevel: newVal
-                                                                }
-                                                            });
-                                                        }
-                                                    }}
-                                                    className="party-exhaustion-select"
-                                                >
-                                                    <option value="0">Level 0 (Normal)</option>
-                                                    <option value="1">Level 1 (Disadvantage on Checks)</option>
-                                                    <option value="2">Level 2 (Speed Halved)</option>
-                                                    <option value="3">Level 3 (Disadvantage on Attacks/Saves)</option>
-                                                    <option value="4">Level 4 (HP Max Halved)</option>
-                                                    <option value="5">Level 5 (Speed 0)</option>
-                                                    <option value="6">Level 6 (Death)</option>
-                                                </select>
-                                            )}
-                                        </div>
-                                    );
+                    {(() => {
+                        // For current player, use character store directly (more reliable)
+                        // For other members, use member.character
+                        let race, characterClass, background, path;
+
+                        if (isCurrentPlayer && currentPlayerData) {
+                            race = currentPlayerData.raceDisplayName || currentPlayerData.race || 'Unknown Race';
+                            characterClass = currentPlayerData.class || 'Unknown Class';
+                            background = resolveBackgroundName(
+                                currentPlayerData.background || currentPlayerData.character?.background,
+                                currentPlayerData.backgroundDisplayName || currentPlayerData.character?.backgroundDisplayName,
+                                currentPlayerData.lore || currentPlayerData.character?.lore
+                            );
+
+                            // Get path display name from character store
+                            path = currentPlayerData.pathDisplayName || '';
+                            if (!path && currentPlayerData.path) {
+                                const pathData = getEnhancedPathData(currentPlayerData.path);
+                                if (pathData) {
+                                    path = pathData.name;
                                 }
-                                return null;
-                            })()}
-                        </div>
-                        <div className="member-details">
-                            {(() => {
-                                // For current player, use character store directly (more reliable)
-                                // For other members, use member.character
-                                let race, characterClass, background, path;
+                            }
+                        } else {
+                            race = member.character?.raceDisplayName || member.character?.race || 'Unknown Race';
+                            characterClass = member.character?.class || 'Unknown Class';
+                            background = resolveBackgroundName(
+                                member.character?.background || member.background,
+                                member.character?.backgroundDisplayName || member.backgroundDisplayName,
+                                member.character?.lore || member.lore
+                            );
 
-                                if (isCurrentPlayer && currentPlayerData) {
-                                    race = currentPlayerData.raceDisplayName || currentPlayerData.race || 'Unknown Race';
-                                    characterClass = currentPlayerData.class || 'Unknown Class';
-                                    background = resolveBackgroundName(
-                                        currentPlayerData.background,
-                                        currentPlayerData.backgroundDisplayName,
-                                        currentPlayerData.lore
-                                    );
-
-                                    // Get path display name from character store
-                                    path = currentPlayerData.pathDisplayName || '';
-                                    if (!path && currentPlayerData.path) {
-                                        const pathData = getEnhancedPathData(currentPlayerData.path);
-                                        if (pathData) {
-                                            path = pathData.name;
-                                        }
-                                    }
-                                } else {
-                                    race = member.character?.raceDisplayName || member.character?.race || 'Unknown Race';
-                                    characterClass = member.character?.class || 'Unknown Class';
-                                    background = resolveBackgroundName(
-                                        member.character?.background,
-                                        member.character?.backgroundDisplayName,
-                                        member.character?.lore
-                                    );
-
-                                    // Get path/discipline display name
-                                    path = member.character?.pathDisplayName || '';
-                                    if (!path && member.character?.path) {
-                                        const pathId = member.character.path;
-                                        const pathData = getEnhancedPathData(pathId);
-                                        if (pathData) {
-                                            path = pathData.name;
-                                        }
-                                    }
+                            // Get path/discipline display name
+                            path = member.character?.pathDisplayName || '';
+                            if (!path && member.character?.path) {
+                                const pathId = member.character.path;
+                                const pathData = getEnhancedPathData(pathId);
+                                if (pathData) {
+                                    path = pathData.name;
                                 }
+                            }
+                        }
 
-                                // Format: Background • Class (Discipline)
-                                const classParts = [];
-                                if (background) {
-                                    classParts.push(background);
-                                }
-                                if (characterClass && characterClass.toLowerCase() !== 'unknown class') {
-                                    classParts.push(characterClass);
-                                }
-                                if (path) {
-                                    classParts.push(`(${path})`);
-                                }
-                                const classLine = classParts.join(' • ');
+                        // Clean race deduplication (e.g. "Stargazer Astril (Astril)" -> "Stargazer Astril")
+                        let cleanRace = race;
+                        if (typeof cleanRace === 'string') {
+                            cleanRace = cleanRace.replace(/\s*\([^)]*\)\s*$/, '').trim();
+                        }
 
-                                return (
-                                    <>
-                                        {/* Line 1: Race */}
-                                        <div className="member-race">
-                                            {race}
-                                        </div>
-                                        {/* Line 2: Background Class (Discipline) */}
-                                        {classLine && (
-                                            <div className="member-class-background">
-                                                {classLine}
-                                            </div>
-                                        )}
-                                    </>
-                                );
-                            })()}
-                            {/* Line 3: Alignment */}
-                            <div className="member-alignment">
-                                <span className="alignment">
-                                    {isCurrentPlayer && currentPlayerData
-                                        ? (currentPlayerData.alignment || 'Neutral')
-                                        : (member.character?.alignment || 'Neutral')
-                                    }
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                        // Class (with thematic icon on the left), subrace (with thematic icon on the right),
+                        // and background below the name
+                        const archetypeParts = [];
+                        if (characterClass && characterClass.toLowerCase() !== 'unknown class') {
+                            archetypeParts.push({
+                                kind: 'class',
+                                label: path ? `${characterClass} (${path})` : characterClass,
+                                iconName: getClassArchetypeIcon(characterClass)
+                            });
+                        }
+                        if (cleanRace && cleanRace.toLowerCase() !== 'unknown race') {
+                            archetypeParts.push({
+                                kind: 'race',
+                                label: cleanRace,
+                                iconName: getRaceArchetypeIcon(cleanRace)
+                            });
+                        }
+                        if (background) {
+                            archetypeParts.push({ kind: 'background', label: background, iconName: null });
+                        }
 
-                    {/* Resource Bars Container */}
-                    <div className="resource-bars-container" style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%', marginTop: '4px' }}>
-                        {/* Row 1: Full-Width Health Bar */}
-                        <div ref={healthBarRef} style={{ width: '100%' }}>
-                            <ModularHealthBar
-                                currentHP={member.character?.health?.current || 0}
-                                maxHP={member.character?.health?.max || 1}
-                                tempHP={member.character?.tempHealth || 0}
-                                showText={true}
-                            />
-                        </div>
+                        const fullArchetypeTitle = [...archetypeParts.map((part) => part.label), alignmentStr].filter(Boolean).join(' • ');
 
-                        {/* Row 2: Side-by-Side Mana & AP Bars */}
-                        {((showPartyManaBar && (member.character?.mana?.max || 0) > 0) || (showPartyAPBar && (member.character?.actionPoints?.max || 0) > 0)) && (
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', width: '100%' }}>
-                                {showPartyManaBar && (member.character?.mana?.max || 0) > 0 && (
-                                    <div ref={manaBarRef} style={{ flex: 1, minWidth: 0 }}>
-                                        <ModularManaBar
-                                            currentMana={member.character?.mana?.current || 0}
-                                            maxMana={member.character?.mana?.max || 1}
-                                            tempMana={member.character?.tempMana || 0}
-                                            showText={true}
-                                        />
+                        return (
+                            <div className="member-header">
+                                <div className="member-header-top-row">
+                                    <span className="member-name-text" title={member.name}>{member.name}</span>
+                                </div>
+                                <div className="member-details">
+                                    <div className="member-archetype-line" title={fullArchetypeTitle}>
+                                        {archetypeParts.map((part, idx) => (
+                                            <React.Fragment key={idx}>
+                                                {idx > 0 && <span className="detail-separator">•</span>}
+                                                <span className="detail-part">
+                                                    {part.kind === 'class' && part.iconName && (
+                                                        <i className={`fas fa-${part.iconName} archetype-icon lead`} aria-hidden="true"></i>
+                                                    )}
+                                                    {part.label}
+                                                    {part.kind === 'race' && part.iconName && (
+                                                        <i className={`fas fa-${part.iconName} archetype-icon tail`} aria-hidden="true"></i>
+                                                    )}
+                                                </span>
+                                            </React.Fragment>
+                                        ))}
                                     </div>
-                                )}
-                                {showPartyAPBar && (member.character?.actionPoints?.max || 0) > 0 && (
-                                    <div ref={apBarRef} style={{ flex: 1, minWidth: 0 }}>
-                                        <ModularAPBar
-                                            currentAP={member.character?.actionPoints?.current || 0}
-                                            maxAP={member.character?.actionPoints?.max || 1}
-                                            showText={true}
-                                        />
-                                    </div>
-                                )}
+                                </div>
                             </div>
-                        )}
+                        );
+                    })()}
+
+                    {/* Resource Bars Container (class resource lives here;
+                        HP/mana/AP ride as corner mounts below) */}
+                    <div className="resource-bars-container">
 
                         {/* Class Resource Bar */}
                         {member.character?.class && member.character?.class !== 'Unknown' && member.character?.classResource && (
@@ -1174,10 +1300,155 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                     </div>
                 </div>
 
-                {/* Status Indicators */}
+                {/* Exhaustion Plaque: Riveted Metal Plate Mounted on the Bottom Wooden Frame Border */}
+                {(exhaustionLevel > 0 || isExhaustionEditable) && (
+                    <div
+                        className={`party-exhaustion-badge level-${exhaustionLevel} ${isExhaustionEditable ? 'editable' : ''}`}
+                        onMouseEnter={(e) => handleExhaustionMouseEnter(e, exhaustionLevel)}
+                        onMouseMove={handleBuffMouseMove}
+                        onMouseLeave={handleBuffMouseLeave}
+                        title={`Exhaustion: Level ${exhaustionLevel}${isExhaustionEditable ? ' (Click to adjust)' : ''}`}
+                    >
+                        <svg className="exhaustion-plate-svg" viewBox="0 0 120 20" preserveAspectRatio="none" aria-hidden="true">
+                            <defs>
+                                <linearGradient id={`exhPlateGrad-${member.id}`} x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stopColor="#dcc795" />
+                                    <stop offset="35%" stopColor="#b49b60" />
+                                    <stop offset="72%" stopColor="#8b7442" />
+                                    <stop offset="100%" stopColor="#6a5530" />
+                                </linearGradient>
+                                <radialGradient id={`exhRivetGrad-${member.id}`} cx="0.35" cy="0.3" r="0.9">
+                                    <stop offset="0%" stopColor="#efe0b3" />
+                                    <stop offset="55%" stopColor="#a89257" />
+                                    <stop offset="100%" stopColor="#5d4a26" />
+                                </radialGradient>
+                            </defs>
+                            <path
+                                className="plate-body"
+                                d="M10 3 L110 2.3 Q114.2 2.2 113.8 6.1 L113.1 14.2 Q112.9 17.7 108.8 17.4 L11.2 17.8 Q6.9 17.9 7.3 14.1 L8 5.9 Q8.3 3.1 10 3 Z"
+                                fill={`url(#exhPlateGrad-${member.id})`}
+                                stroke="#3b2e17"
+                                strokeWidth="1.4"
+                                vectorEffect="non-scaling-stroke"
+                            />
+                            <path d="M13 5.4 L107.5 4.7" stroke="rgba(255, 243, 206, 0.42)" strokeWidth="1" fill="none" vectorEffect="non-scaling-stroke" />
+                            <path d="M13 15.1 L107.5 15.5" stroke="rgba(43, 32, 12, 0.5)" strokeWidth="1" fill="none" vectorEffect="non-scaling-stroke" />
+                            <path d="M20 9.2 L98 8.8 M24 11.4 L104 11.1" stroke="rgba(58, 44, 18, 0.12)" strokeWidth="0.8" fill="none" vectorEffect="non-scaling-stroke" />
+                            <g className="plate-rivets" stroke="#3b2e17" strokeWidth="0.8">
+                                <circle cx="12.5" cy="6" r="1.9" fill={`url(#exhRivetGrad-${member.id})`} />
+                                <circle cx="107.5" cy="5.8" r="1.9" fill={`url(#exhRivetGrad-${member.id})`} />
+                                <circle cx="12.5" cy="14.2" r="1.9" fill={`url(#exhRivetGrad-${member.id})`} />
+                                <circle cx="107.5" cy="14.4" r="1.9" fill={`url(#exhRivetGrad-${member.id})`} />
+                            </g>
+                        </svg>
+                        <span className="exhaustion-label">Exhaustion</span>
+                        <span className="exhaustion-value">{exhaustionLevel}</span>
+                        {isExhaustionEditable && (
+                            <select
+                                value={exhaustionLevel}
+                                onChange={(e) => {
+                                    const newVal = parseInt(e.target.value, 10) || 0;
+                                    if (isCurrentPlayer) {
+                                        useCharacterStore.getState().updateExhaustionLevel(newVal);
+                                    } else {
+                                        updatePartyMember(member.id, {
+                                            character: {
+                                                ...member.character,
+                                                exhaustionLevel: newVal
+                                            }
+                                        });
+                                    }
+                                }}
+                                className="party-exhaustion-select"
+                                onClick={(e) => e.stopPropagation()}
+                                title={`Exhaustion Level: ${exhaustionLevel}`}
+                            >
+                                <option value="0">0 (Normal)</option>
+                                <option value="1">1 (Disadv. Checks)</option>
+                                <option value="2">2 (Speed Halved)</option>
+                                <option value="3">3 (Disadv. Attacks/Saves)</option>
+                                <option value="4">4 (HP Max Halved)</option>
+                                <option value="5">5 (Speed 0)</option>
+                                <option value="6">6 (Death)</option>
+                            </select>
+                        )}
+                    </div>
+                )}
+
+                {/* Online Status Indicator */}
                 <div className="member-status-indicators">
-                    <div className={`status-dot ${member.status || 'online'}`}></div>
+                    <div className={`status-dot ${member.status || 'online'}`} title={`Status: ${member.status || 'online'}`}></div>
                 </div>
+                {/* Corner mounts: HP bottle + mana crystal (bottom corners, tilted),
+                    AP boot (top-left). Hover any mount for exact values. */}
+                <div ref={healthBarRef} className={`party-corner-mount mount-health${canAdjustMounts ? ' adjustable' : ''}`} onClick={openMountMenu('health')}>
+                    <StatVial
+                        kind="health"
+                        current={member.character?.health?.current || 0}
+                        max={member.character?.health?.max || 1}
+                        temp={member.character?.tempHealth || 0}
+                        memberName={member.name}
+                        tilt={-12}
+                    />
+                </div>
+                {showPartyManaBar && (member.character?.mana?.max || 0) > 0 && (
+                    <div ref={manaBarRef} className={`party-corner-mount mount-mana${canAdjustMounts ? ' adjustable' : ''}`} onClick={openMountMenu('mana')}>
+                        <StatVial
+                            kind="mana"
+                            current={member.character?.mana?.current || 0}
+                            max={member.character?.mana?.max || 1}
+                            temp={member.character?.tempMana || 0}
+                            memberName={member.name}
+                            tilt={12}
+                        />
+                    </div>
+                )}
+                {showPartyAPBar && (member.character?.actionPoints?.max || 0) > 0 && (
+                    <div ref={apBarRef} className={`party-corner-mount mount-ap${canAdjustMounts ? ' adjustable' : ''}`} onClick={openMountMenu('ap')}>
+                        <StatVial
+                            kind="ap"
+                            current={member.character?.actionPoints?.current || 0}
+                            max={member.character?.actionPoints?.max || 1}
+                            memberName={member.name}
+                        />
+                    </div>
+                )}
+                {mountMenu && createPortal(
+                    (() => {
+                        const kind = mountMenu.kind;
+                        const resourceType = MOUNT_RESOURCE_TYPE[kind];
+                        const pool = kind === 'ap'
+                            ? member.character?.actionPoints
+                            : member.character?.[resourceType];
+                        const cur = pool?.current || 0;
+                        const maxVal = pool?.max || 1;
+                        return (
+                            <div
+                                ref={mountMenuRef}
+                                className="mount-adjust-menu"
+                                style={{ left: mountMenu.x, top: mountMenu.y }}
+                                onClick={(e) => e.stopPropagation()}
+                                onMouseDown={(e) => e.stopPropagation()}
+                                onContextMenu={(e) => e.preventDefault()}
+                            >
+                                <button className="mount-adjust-close" onClick={() => setMountMenu(null)} title="Close">×</button>
+                                <div className="mount-adjust-title">{MOUNT_TITLES[kind]} {cur}/{maxVal}</div>
+                                <div className="mount-adjust-row">
+                                    {MOUNT_ADJUST_STEPS[resourceType].map((step) => (
+                                        <button
+                                            key={step}
+                                            className={`mount-adjust-btn ${step < 0 ? 'minus' : 'plus'}`}
+                                            onClick={() => onResourceAdjust(member.id, resourceType, step)}
+                                        >
+                                            {step > 0 ? `+${step}` : step}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        );
+                    })(),
+                    document.body
+                )}
             </div>
             {/* Buffs, Debuffs, and Conditions */}
             {(() => {
@@ -1284,7 +1555,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                 // Format time helper for conditions
                 
                 return (
-                    <div className="character-buffs-debuffs" style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '4px' }}>
+                    <div className="character-buffs-debuffs" style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '12px' }}>
                         {/* Buffs Row */}
                         {playerBuffs.length > 0 && (
                             <div className="character-buffs" style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
@@ -1751,6 +2022,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         updatePartyMember,
         getMemberPosition,
         setMemberPosition,
+        memberPositions,
         currentParty,
         leaderId // Get leaderId from store hook for reactivity
     } = usePartyStore(useShallow((state) => ({
@@ -1760,6 +2032,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         updatePartyMember: state.updatePartyMember,
         getMemberPosition: state.getMemberPosition,
         setMemberPosition: state.setMemberPosition,
+        memberPositions: state.memberPositions,
         currentParty: state.currentParty,
         leaderId: state.leaderId
     })));
@@ -3052,20 +3325,27 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         setShowContextMenu(false);
     };
 
-    // Handle drag for party member frames with throttled updates for smooth performance
-    const dragThrottleRef = useRef({});
-    const handleMemberDrag = useCallback((member, data) => {
-        const memberId = member.id;
-        const now = Date.now();
-        const lastUpdate = dragThrottleRef.current[memberId] || 0;
+    // Active drag tracking refs to guarantee frames never snap back during mid-drag re-renders
+    const activeDragPositionsRef = useRef({});
+    const isDraggingRef = useRef({});
 
-        // Throttle store updates to every 16ms (~60fps) for smooth dragging
-        // The Draggable component handles visual updates, we just sync to store
-        if (now - lastUpdate >= 16) {
-            setMemberPosition(memberId, { x: data.x, y: data.y });
-            dragThrottleRef.current[memberId] = now;
-        }
-    }, []); // Zustand store functions are stable, no deps needed
+    const handleMemberDragStart = useCallback((memberKey) => {
+        isDraggingRef.current[memberKey] = true;
+    }, []);
+
+    const handleMemberDrag = useCallback((memberKey, data) => {
+        activeDragPositionsRef.current[memberKey] = { x: data.x, y: data.y };
+    }, []);
+
+    const handleMemberDragStop = useCallback((member, data) => {
+        const memberKey = getMemberStableKey(member, myIds);
+        const aliases = getMemberAliases(member, myIds);
+        delete isDraggingRef.current[memberKey];
+        delete activeDragPositionsRef.current[memberKey];
+
+        // Save position under primary stable key and all member aliases (current-player, userId, character.id, etc.)
+        setMemberPosition(memberKey, { x: data.x, y: data.y }, aliases);
+    }, [myIds, setMemberPosition]);
 
     // Removed: Test functions for buffs/debuffs
 
@@ -3116,6 +3396,10 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                         raceDisplayName: currentPlayerData.raceDisplayName,
                         class: currentPlayerData.class,
                         alignment: currentPlayerData.alignment,
+                        background: currentPlayerData.background,
+                        backgroundDisplayName: currentPlayerData.backgroundDisplayName,
+                        path: currentPlayerData.path,
+                        pathDisplayName: currentPlayerData.pathDisplayName,
                         exhaustionLevel: currentPlayerData.exhaustionLevel,
                         health: currentPlayerData.health,
                         mana: currentPlayerData.mana,
@@ -3139,50 +3423,48 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
             <div className="party-hud-frames">
                 {displayMembers.map((member, index) => {
-                    // Create or get a unique ref for this member
-                    if (!nodeRefs.current[member.id]) {
-                        nodeRefs.current[member.id] = React.createRef();
+                    const memberKey = getMemberStableKey(member, myIds);
+                    const memberAliases = getMemberAliases(member, myIds);
+
+                    // Create or get a unique ref for this member using stable memberKey
+                    if (!nodeRefs.current[memberKey]) {
+                        nodeRefs.current[memberKey] = React.createRef();
                     }
-                    const memberNodeRef = nodeRefs.current[member.id];
+                    const memberNodeRef = nodeRefs.current[memberKey];
 
                     // Calculate dynamic spacing based on whether previous members have class resources
-                    // REDUCED SPACING: Narrowed gaps between HUD elements
                     let yOffset = 20;
                     for (let i = 0; i < index; i++) {
                         const prevMember = displayMembers[i];
                         const hasClassResource = prevMember.character?.class && prevMember.character?.classResource;
-                        const isComplexClass = ['Minstrel', 'Harbinger', 'Gambit', 'Inquisitor', 'Revenant', 'Plaguebringer', 'Toxicologist', 'False Prophet'].includes(prevMember.character?.class);
-
-                        if (hasClassResource && isComplexClass) {
-                            yOffset += 112; // Reduced from 130
-                        } else if (hasClassResource) {
-                            yOffset += 97; // Reduced from 115
+                        if (hasClassResource) {
+                            yOffset += 206; // 198px frame + 8px gap
                         } else {
-                            yOffset += 82; // Reduced from 100
+                            yOffset += 168; // 160px frame + 8px gap
                         }
                     }
 
-                    // Get stored position or use default
-                    const storedPosition = getMemberPosition(member.id);
-                    const initialPosition = storedPosition || { x: 20, y: yOffset };
+                    // Get stored position using stable memberKey and aliases
+                    const storedPosition = getMemberPosition(memberKey, memberAliases);
+                    // If user is actively dragging this frame, prioritize live dragged position so background re-renders never revert it
+                    const activeDragPos = activeDragPositionsRef.current[memberKey];
+                    const initialPosition = activeDragPos || storedPosition || { x: 20, y: yOffset };
 
                     return (
                         <Draggable
-                            key={member.id}
-                            handle={`.party-frame-${member.id} .party-member-frame`}
+                            key={memberKey}
+                            handle={`.party-frame-${memberKey} .party-member-frame`}
                             position={initialPosition}
                             nodeRef={memberNodeRef}
-                            onDrag={(e, data) => handleMemberDrag(member, data)}
-                            onStop={(e, data) => {
-                                // Final position update on drag end
-                                setMemberPosition(member.id, { x: data.x, y: data.y });
-                            }}
+                            onStart={() => handleMemberDragStart(memberKey)}
+                            onDrag={(e, data) => handleMemberDrag(memberKey, data)}
+                            onStop={(e, data) => handleMemberDragStop(member, data)}
                             enableUserSelectHack={true} // Enable user select hack to prevent text selection during drag
                             disabled={false} // Ensure dragging is always enabled
                             scale={1} // Fixed scale to prevent transform calculations
                             cancel=".resource-bar, .buff-icon, .debuff-icon, button, input, select, textarea"
                         >
-                            <div ref={memberNodeRef} className={`party-frame-${member.id}`} style={{ display: 'flex', flexDirection: 'column' }}>
+                            <div ref={memberNodeRef} className={`party-frame-${memberKey} party-frame-${member.id}`} style={{ display: 'flex', flexDirection: 'column' }}>
                                 <PartyMemberFrame
                                     member={member}
                                     isCurrentPlayer={

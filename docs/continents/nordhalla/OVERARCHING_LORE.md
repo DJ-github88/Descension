@@ -3,7 +3,7 @@
 ## 1. CONTINENT OVERVIEW & BIOME
 * **Biome:** Polar arctic — halted glaciers, black granite fjords, geothermal vents, and a sky the color of old bone.
 * **Historical Significance:** A Bloodline Pact with Aex was anchored here, and so was its cost. When the Blind Strike fractured the Mother's aegis (Year 325), shards rained thickest across these peaks. Nordhalla holds the wound's epicenter and the fuel everyone else fights over.
-* **Dominant Peoples:** Skald humans (Fastboende settlers, Fredløse outlaws, Øsling mammoth-clans), Rime-Born, Frostbound, Corvani.
+* **Dominant Peoples:** Skald humans are home (Fastboende settlers, Fredløse outlaws, Øsling mammoth-clans). All other races are guests — Settlement, Outpost, or Visitor — with primary heritage elsewhere. Launch rule: all 14 options are pickable starting in Nordhalla.
 * **Major Powers:** House Skalvyr, the Icechamber Syndicate, the Frozen Archive, the Cleansing of the Hearth, the Masked Acolytes.
 
 ## 2. GEOGRAPHY & THE HALTED ICE
@@ -18,13 +18,10 @@ Travel obeys the heat. Corridors run vent to vent, and the eight weeks of "summe
 2. **Rime-Spire Peaks** (west-central) — The warm heart that shouldn't exist: vent-fed pine country, Snowcall City, the Corvani roosts, and the silence of Þögn.
 3. **Frostfang Wastes** (beyond the Wall) — The whiteout interior: Øsling mammoth-clans, the Jutul, and the sacred-terrible ground where the heirs died.
 
-## 4. PEOPLES & SUBFOLK
-* **Skald (Fastboende):** The settled clans of the fjord valleys. Matchlocks, cold-iron traps, ledger-debts, and a deep respect for paperwork that can outlive the writer.
-* **Skald (Fredløse):** The outlaw clans who refused the Jarl's consolidation. They keep the old songs, the old taboos, and a grudge with interest. The Sunder-Wall was built for them.
-* **Øsling Clans:** Mammoth-hunters beyond the Wall who never signed anything, obey anything, or owe anyone. The Icechamber licenses their hunts and pretends that means something.
-* **Rime-Born:** The Frost-Tithe made flesh. Every Rime-Born birth takes the mother; the child carries the glacier's cold in the blood. Feared, needed, and mourned in the same breath.
-* **Frostbound:** Infants who survived the Tithe's pull and were altered by it — blue-pale, brittle, unable to feel warmth. The Ice-Cradles carved into living glacier keep them alive and keep the predator's attention quiet.
-* **Corvani:** Raven-marked messengers of the wastes, bound to the Corvid Fate-Spirits. They trade in memory and passage, and neither service comes cheap.
+## 4. PEOPLES & PRESENCE (who to draw where — launch rule: only Skald are home)
+* **HOME — Skald:** Fastboende (settled fjord valleys), Fredløse (outlaw clans, Wall was built for them), Øsling (mammoth-hunters beyond Wall, never signed). Rime-Born / Frostbound are not races — Frost-Tithe outcome at birth. Corvani are Nordhalla subfolk (raven-marked messengers), not a pickable race.
+* **SETTLEMENT — permanent diaspora in Nordhalla:** High Neth Quarter Snowcall (contract scholars from Bryngloom), Pale Neth Saltgrinn / Eldøyane (smugglers holding tide-pools), Astril Scholar-Quarter Frostholm (quiet observers), Fexric Stählberg refugees + Sorte Market forced labor (from Cragjaw, hidden/forced — not traders).
+* **OUTPOST / VISITOR — pickable start, primary home elsewhere:** Thalren (home Frostwood Reach — archivists chasing Archive access), Tessen (home Cragjaw Peaks — rare keep-envoys / heat-buyers), Merryn (home Iceheart Sea — pirates/traders at Xardin's Hearth, Kapp), Ordan (home Sundrift Vale — thought extinct, survivors disguised as humans hiding from Brutish Astril), Solari (home Ember Isle/Sundale — forge-envoys seeking cold-iron/timber), Florae (home Frostwood Reach — rare Oken envoys), Groven (home Cragjaw Peaks — toll-engineers, Wall work), Vreken (home Bryngloom — contract work with Neth, crypt-envoys), Neth (home Bryngloom — see Settlements above), Mimir (home Frostwood Reach — chroniclers / mask-trade), Myrathil (home Iceheart Sea — shore-traders at docks, come-and-go).
 
 ## 5. THE WARMTH LEDGER IN THE NORTH
 Nordhalla eats from the sea and the herds, and it *runs* on the Bloodhammer coal seams. The Icechamber Syndicate owns the vertical — coal, grain, mammoth-hide — and staffs the Sunder-Wall's gates "for the crown," collecting tariffs quoted in hearth-winters. Every winter the Jarl's treasury thins and the Syndicate's granaries thicken, and both parties pretend not to see the direction of the flow. The Frozen Archive clears scholarly debts; the taverns of Whale-Oil Row clear everyone else's.

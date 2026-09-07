@@ -145,6 +145,31 @@ export const getAdvantageDisadvantageText = (statKey, magnitude, magnitudeType) 
 };
 
 /**
+ * Minimal inline markdown for card descriptions: **bold** and _italic_.
+ * Italic markers only count when wrapping text that contains a space, so
+ * snake_case identifiers (e.g. note_v, double_damage) render literally.
+ * Blank lines become paragraph breaks; everything else is plain text
+ * (no HTML parsing, so descriptions stay XSS-safe).
+ */
+export const renderRichDescription = (text) => {
+ if (!text) return null;
+ return String(text).split(/\n{2,}/).map((para, pi, arr) => (
+  <React.Fragment key={pi}>
+   {para.split(/(\*\*[^*]+\*\*|_[^_]*\s[^_]*_)/g).map((chunk, ci) => {
+    if (chunk.length > 4 && chunk.startsWith('**') && chunk.endsWith('**')) {
+     return <strong key={ci}>{chunk.slice(2, -2)}</strong>;
+    }
+    if (chunk.length > 2 && chunk.startsWith('_') && chunk.endsWith('_')) {
+     return <em key={ci}>{chunk.slice(1, -1)}</em>;
+    }
+    return <React.Fragment key={ci}>{chunk}</React.Fragment>;
+   })}
+   {pi < arr.length - 1 && <><br /><br /></>}
+  </React.Fragment>
+ ));
+};
+
+/**
  * TRUE Unified Spell Card Component
  * Consolidates ALL spell card implementations with consistent Pathfinder styling
  * Handles: SpellbookWindow, Library, Collections, Wizard, Selection - EVERYTHING
@@ -426,7 +451,7 @@ const UnifiedSpellCard = ({
      {/* Description - First element in body */}
      {spell?.description && (
       <div className="item-description">
-       {spell.description}
+       {renderRichDescription(spell.description)}
       </div>
      )}
 
@@ -2280,7 +2305,7 @@ const UnifiedSpellCard = ({
         (spell?.durationConfig?.durationType && spell.durationConfig.durationType !== 'instant')) &&
         (!spell?.spellType || !['CHANNELED', 'ZONE'].includes(spell.spellType)) &&
         (!spell?.effectTypes?.includes('buff') && !spell?.effectTypes?.includes('debuff')) ? (
-        <div className="unified-spell-stat">
+        <div className="unified-spell-stat duration-stat">
          <span className="unified-stat-label">Duration:</span>
          <span className="unified-stat-value">
           {formatDuration()}

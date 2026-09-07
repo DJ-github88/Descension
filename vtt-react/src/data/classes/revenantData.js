@@ -92,6 +92,14 @@ export const REVENANT_DATA = {
 
 
   id: "revenant",
+  classResource: {
+    type: "toll",
+    base: 0,
+    max: 100,
+    secondaryResource: { type: "phylactery_integrity", max: 100 },
+    generationNote: "Cast directly from soul essence and physical hit points. Phylactery sustains unlife; Toll accumulates as unholy resonance.",
+    mechanicsNote: "Revenants do not use ordinary mana. Their life force fuels their spells, buffered by the phylactery."
+  },
   name: "Revenant",
   icon: "fas fa-skull-crossbones",
   color: "#2D1B69",
@@ -106,7 +114,7 @@ export const REVENANT_DATA = {
         icon: "Necrotic/Drain Soul",
         items: [
           "Ritual Dagger (1d6 slashing, blight resonance, HP sacrificed with this weapon generates +1 Toll per strike)",
-          "Bloodstained Leather Armor (No agility penalty)",
+          "Bloodstained Leather Weave (Durability 1, No agility penalty)",
           "Copper Chalice (ritual focus, reduces HP cost of first spell each combat by 1)",
         ],
         description:
@@ -667,7 +675,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
         },
         keyAbilities: [
           "Siphon Soul, Frost+necrotic drain that heals and charges Phylactery on kill (8 mana)",
-          "Glacial Shroud, Ice armor that freezes melee attackers (8 mana)",
+          "Glacial Shroud, Ice carapace that freezes melee attackers (8 mana)",
           "Phylactery Nova, Detonate stored Phylactery HP as a massive frost explosion (30 mana, 3d6 HP cost)",
         ],
       },
@@ -683,11 +691,11 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       description: "Wrap yourself in an icy mist of peat-frost. Enemies within 10ft suffer rime damage and disadvantage on physical attacks.",
       level: 3,
       spellType: "ACTION",
-      icon: "Frost/Ice Shard",
+      icon: "Frost/Frozen Wave",
       effectTypes: ["damage", "debuff"],
-      typeConfig: { school: "rime", icon: "Frost/Ice Shard", tags: ["damage", "aoe", "frost", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "rime", icon: "Frost/Frozen Wave", tags: ["damage", "aoe", "frost", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 10, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 6 , classResource: { type: "toll", gain: 2 }} },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       damageConfig: { formula: "2d8 + intelligence", damageTypes: ["rime"], resolution: "DICE" },
       tags: ["damage", "aoe", "frost", "revenant"]
@@ -702,7 +710,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       effectTypes: ["damage", "debuff"],
       typeConfig: { school: "blight", icon: "Force/Explosion Burst", tags: ["damage", "aoe", "corpse", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 50, targetRestrictions: ["corpse", "enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 7 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 7 , classResource: { type: "toll", gain: 3 }} },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "3d8 + intelligence", damageTypes: ["blight"], resolution: "DICE" },
       tags: ["damage", "aoe", "corpse", "revenant"]
@@ -717,7 +725,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       effectTypes: ["damage", "crowd_control"],
       typeConfig: { school: "rime", icon: "Frost/Cold CLothing", tags: ["damage", "aoe", "frost", "root", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, areaType: "circle", areaSize: 20, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 8 , classResource: { type: "toll", gain: 3 }} },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "3d8 + intelligence", damageTypes: ["rime"], resolution: "DICE" },
       tags: ["damage", "aoe", "frost", "root", "revenant"]
@@ -732,7 +740,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       effectTypes: ["damage", "healing"],
       typeConfig: { school: "blight", icon: "Necrotic/Death Mark", tags: ["damage", "single_target", "drain", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 8 , classResource: { type: "toll", gain: 3 }} },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       damageConfig: { formula: "4d8 + intelligence", damageTypes: ["blight"], resolution: "DICE" },
       tags: ["damage", "single_target", "drain", "revenant"]
@@ -747,7 +755,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       effectTypes: ["damage", "buff"],
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", tags: ["damage", "multi_target", "drain", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "multi", rangeType: "ranged", rangeDistance: 50, maxTargets: 3, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 9 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 9 , classResource: { type: "toll", gain: 4 }} },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "3d10 + intelligence", damageTypes: ["blight"], resolution: "DICE" },
       tags: ["damage", "multi_target", "drain", "revenant"]
@@ -758,11 +766,11 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       description: "Encase a high-value enemy in a pillar of black frost. The target is incapacitated for 1 round and shatters for heavy rime damage.",
       level: 5,
       spellType: "ACTION",
-      icon: "Frost/Ice Shard",
+      icon: "Frost/Frozen Wave",
       effectTypes: ["damage", "crowd_control"],
-      typeConfig: { school: "rime", icon: "Frost/Ice Shard", tags: ["damage", "single_target", "stun", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "rime", icon: "Frost/Frozen Wave", tags: ["damage", "single_target", "stun", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 40, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 9 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 9 , classResource: { type: "toll", gain: 5 }} },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       damageConfig: { formula: "4d10 + intelligence", damageTypes: ["rime"], resolution: "DICE" },
       tags: ["damage", "single_target", "stun", "revenant"]
@@ -777,7 +785,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       effectTypes: ["damage", "crowd_control"],
       typeConfig: { school: "rime", icon: "Frost/Cold CLothing", tags: ["damage", "aoe", "frost", "stun", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 30, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 11 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 11 , classResource: { type: "toll", gain: 6 }} },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "6d8 + intelligence * 2", damageTypes: ["rime"], resolution: "DICE" },
       tags: ["damage", "aoe", "frost", "stun", "revenant"]
@@ -792,7 +800,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       effectTypes: ["damage"],
       typeConfig: { school: "blight", icon: "Necrotic/Ritual", tags: ["damage", "multi_target", "phylactery", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "multi", rangeType: "ranged", rangeDistance: 60, maxTargets: 3, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 12 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 12 , classResource: { type: "toll", cost: 20 }} },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "5d8 + intelligence * 2", damageTypes: ["blight", "rime"], resolution: "DICE" },
       tags: ["damage", "multi_target", "phylactery", "revenant"]
@@ -803,11 +811,11 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       description: "Freeze a 25ft area to absolute zero. Deals catastrophic rime damage and freezes all surviving enemies in peat ice.",
       level: 9,
       spellType: "ACTION",
-      icon: "Frost/Ice Shard",
+      icon: "Frost/Frozen Wave",
       effectTypes: ["damage", "crowd_control"],
-      typeConfig: { school: "rime", icon: "Frost/Ice Shard", tags: ["damage", "aoe", "frost", "apocalypse", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "rime", icon: "Frost/Frozen Wave", tags: ["damage", "aoe", "frost", "apocalypse", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 70, areaType: "circle", areaSize: 25, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 15 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 15 , classResource: { type: "toll", cost: 30 }} },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       damageConfig: { formula: "8d10 + intelligence * 2", damageTypes: ["rime"], resolution: "DICE" },
       tags: ["damage", "aoe", "frost", "apocalypse", "revenant"]
@@ -822,7 +830,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       effectTypes: ["buff", "damage"],
       typeConfig: { school: "blight", icon: "Necrotic/Ritual", tags: ["buff", "aoe", "avatar", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 18 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 18 , classResource: { type: "toll", cost: 40 }} },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       damageConfig: { formula: "10d8", damageTypes: ["blight", "rime"], resolution: "DICE" },
       tags: ["buff", "aoe", "avatar", "revenant"]
@@ -922,7 +930,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       },
       resourceCost: {
         resourceTypes: ["mana", "health"],
-        resourceValues: { mana: 4 },
+        resourceValues: { mana: 4 , classResource: { type: "toll", gain: 3 }},
         actionPoints: 1,
         components: ["verbal", "somatic"],
         verbalText: "A whispered name, the last word spoken by the dead.",
@@ -958,7 +966,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
 
     { id: "rv_crimson_aegis",
       name: "Crimson Aegis",
-      description: "Your blood hardens into a carapace of scab and shadow. The wound you inflict becomes armor.",
+      description: "Your blood hardens into a carapace of scab and shadow. The wound you inflict becomes Durability and DR.",
       level: 1,
       spellType: "REACTION",
       icon: "Necrotic/Protective Aura",
@@ -976,7 +984,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       },
       resourceCost: {
         resourceTypes: ["mana", "health"],
-        resourceValues: { mana: 4 },
+        resourceValues: { mana: 4 , classResource: { type: "toll", gain: 5 }},
         actionPoints: 0,
         components: ["verbal", "somatic"],
         verbalText: "A sharp gasp of exertion, teeth clenched against the strain.",
@@ -1052,7 +1060,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       },
       resourceCost: {
         resourceTypes: ["mana", "health"],
-        resourceValues: { mana: 7 },
+        resourceValues: { mana: 7 , classResource: { type: "toll", gain: 6 }},
         actionPoints: 1,
         components: ["verbal", "somatic"],
         verbalText: "A guttural growl, hunger given voice.",
@@ -1107,7 +1115,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       },
       resourceCost: {
         resourceTypes: ["mana", "health"],
-        resourceValues: { mana: 8 },
+        resourceValues: { mana: 8 , classResource: { type: "toll", gain: 8 }},
         actionPoints: 1,
         components: ["verbal", "somatic"],
         verbalText: "A single word, the syllable of decay.",
@@ -1246,7 +1254,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       },
       resourceCost: {
         resourceTypes: ["mana", "health", "deathToll"],
-        resourceValues: { mana: 22, deathToll: 6 },
+        resourceValues: { mana: 22, deathToll: 6 , classResource: { type: "toll", cost: 10 }},
         actionPoints: 2,
         components: ["verbal", "somatic"],
         verbalText: "A roar of release, every held-back scream let loose at once.",
@@ -1327,7 +1335,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       },
       resourceCost: {
         resourceTypes: ["mana", "health", "deathToll"],
-        resourceValues: { mana: 28, deathToll: 6 },
+        resourceValues: { mana: 28, deathToll: 6 , classResource: { type: "toll", cost: 15 }},
         actionPoints: 2,
         components: ["verbal", "somatic"],
         verbalText: "A verdict spoken in a voice not your own.",
@@ -1386,7 +1394,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       },
       resourceCost: {
         resourceTypes: ["mana", "health", "permanentHealth", "deathToll"],
-        resourceValues: { mana: 36, deathToll: 6 },
+        resourceValues: { mana: 36, deathToll: 6 , classResource: { type: "toll", cost: 20 }},
         actionPoints: 3,
         components: ["verbal", "somatic"],
         verbalText: "The last word ever spoken, final, absolute, severing.",
@@ -1504,7 +1512,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       name: "Frost-Stasis",
       description: "Exhale the preserving cold of the peat-bogs over a corpse, food, document, or small object, freezing it in perfect stasis  -  halting decay, rot, or spoilage for days. Used to keep a body fresh for questioning, preserve evidence, or store perishable reagents. Out of combat.",
       level: 1, spellType: "ACTION", icon: "Frost/Cold CLothing",
-      typeConfig: { school: "rime", icon: "Frost/Ice Shard", castTime: 1, castTimeType: "MINUTES", tags: ["utility","exploration","investigation","revenant"] },
+      typeConfig: { school: "rime", icon: "Frost/Frozen Wave", castTime: 1, castTimeType: "MINUTES", tags: ["utility","exploration","investigation","revenant"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, components: ["verbal","somatic"], somaticText: "Breathe a slow rime over the target until a shell of frost seals it" },
       resolution: "NONE", effectTypes: ["utility"],

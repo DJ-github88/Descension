@@ -252,7 +252,7 @@ export const COOLDOWN_MODIFIERS = {
       id: 'haste',
       name: 'Haste',
       description: 'All cooldowns progress 30% faster',
-      icon: '/assets/icons/abilities/Nature/Natural.png',
+      icon: '/assets/icons/abilities/Nature/Nature Natural 4.png',
       applicableTypes: ['turn_based', 'charge_based', 'real_time'],
       value: 30, // percentage
       valueType: 'progression_rate',
@@ -343,7 +343,7 @@ export const COOLDOWN_MODIFIERS = {
       id: 'soul_infusion',
       name: 'Soul Infusion',
       description: 'Consume soul shards to add charges to abilities',
-      icon: '/assets/icons/abilities/Shadow/Shadow.png',
+      icon: '/assets/icons/abilities/Necrotic/Gloomy Death.png',
       applicableTypes: ['charge_based'],
       value: 'variable',
       valueType: 'charge',

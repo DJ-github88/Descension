@@ -30,6 +30,18 @@
 @import '../../../data/classes/arcanoneer/styles/ArcanoneerResourceBar.css';
 /* Minstrel "Musical Notes & Cadences": external component, self-contained CSS */
 @import '../../../data/classes/minstrel/styles/MinstrelResourceBar.css';
+/* Crusader "Radiant Fervor": external component, self-contained CSS */
+@import '../../../data/classes/crusader/styles/CrusaderResourceBar.css';
+/* Warden "Tension / Vengeance Points": external component, self-contained CSS */
+@import '../../../data/classes/warden/styles/GaolerResourceBar.css';
+/* Revenant "Peat-Iron Phylactery & Death-Toll": external component, self-contained CSS */
+@import '../../../data/classes/revenant/styles/RevenantResourceBar.css';
+/* Spellguard "Silence-Scarred Aegis": external component, self-contained CSS */
+@import '../../../data/classes/spellguard/styles/SpellguardResourceBar.css';
+/* Animist "The Ancestral Bone-Cairn & Runic Lattice": external component, self-contained CSS */
+@import '../../../data/classes/animist/styles/AnimistResourceBar.css';
+/* Shaper "The Biomantic Morphic Armature & Flesh-Vessel": external component, self-contained CSS */
+@import '../../../data/classes/shaper/styles/ShaperResourceBar.css';
 
 .class-resource-wrapper {
     position: relative;
@@ -64,6 +76,7 @@
 .class-resource-bar.hexbreaker-charges,
 .class-resource-bar.ascension-blood,
 .class-resource-bar.madness-gauge,
+.class-resource-bar.plaguebringer-resource-bar,
 .class-resource-bar.threads-of-destiny,
 .class-resource-bar.wild-instinct-forms,
 .class-resource-bar.fortune-points-gambling,
@@ -75,17 +88,25 @@
 .class-resource-bar.stance-flow,
 .class-resource-bar.arcanoneer-blocks,
 .class-resource-bar.elemental-spheres-display,
-.class-resource-bar.totemic-synergy {
+.class-resource-bar.warden-resource-bar,
+.class-resource-bar.crusader-resource-bar,
+.class-resource-bar.totemic-synergy,
+.class-resource-bar.revenant-resource-bar,
+.class-resource-bar.spellguard-resource-bar,
+.class-resource-bar.animist-resource-bar {
     background: transparent;
     border: none;
     box-shadow: none;
 }
 
-/* Custom multi-row bars (Minstrel notes, Arcanoneer blocks) need auto height -
+/* Custom multi-row bars (Minstrel notes, Arcanoneer blocks, Revenant apparatus, Spellguard aegis, Animist bone-cairn) need auto height -
    the base .class-resource-bar { height: 16px } / .large { height: 20px } would
    clip their multi-segment layout. */
 .class-resource-bar.musical-notes-combo,
-.class-resource-bar.arcanoneer-blocks {
+.class-resource-bar.arcanoneer-blocks,
+.class-resource-bar.revenant-resource-bar,
+.class-resource-bar.spellguard-resource-bar,
+.class-resource-bar.animist-resource-bar {
     height: auto !important;
 }
 

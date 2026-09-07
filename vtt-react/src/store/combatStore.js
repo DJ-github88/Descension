@@ -233,12 +233,13 @@ const useCombatStore = create((set, get) => ({
 
             if (gameState.isInMultiplayer && gameState.multiplayerSocket?.connected) {
                 gameState.multiplayerSocket.emit('combat_started', {
+                    roomId: gameState.multiplayerRoom?.id,
                     turnOrder: sortedCombatants,
                     round: 1,
                     currentTurnIndex: 0,
                     timestamp: Date.now()
                 });
-                console.log('âš”ï¸ Emitted combat_started to server');
+                console.log('âš”ï¸  Emitted combat_started to server');
             }
         } catch (error) {
             console.warn('Failed to emit combat_started:', error);
@@ -534,6 +535,7 @@ const useCombatStore = create((set, get) => ({
                 const gameState = useGameStore.getState();
                 if (gameState.isInMultiplayer && gameState.multiplayerSocket?.connected) {
                     gameState.multiplayerSocket.emit('combat_turn_changed', {
+                        roomId: gameState.multiplayerRoom?.id,
                         currentTurnIndex: nextIndex,
                         round: newRound,
                         turnOrder: updatedTurnOrder,
@@ -609,9 +611,10 @@ const useCombatStore = create((set, get) => ({
 
             if (gameState.isInMultiplayer && gameState.multiplayerSocket?.connected) {
                 gameState.multiplayerSocket.emit('combat_ended', {
+                    roomId: gameState.multiplayerRoom?.id,
                     timestamp: Date.now()
                 });
-                console.log('ðŸ³ï¸ Emitted combat_ended to server');
+                console.log('🏳️ Emitted combat_ended to server');
             }
         } catch (error) {
             console.warn('Failed to emit combat_ended:', error);

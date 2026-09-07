@@ -1,357 +1,148 @@
-/* Warden Vengeance Points Resource Bar */
+/* ===== WARDEN RESOURCE BAR — THE GRAFT-CHAIN ===== */
+/* Pure vector apparatus: rusted chain links winding out of an iron flesh-ring.
+   No text — tension and spends live in the hover tooltip and controls menu. */
 
 .warden-resource-container {
     position: relative;
     width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
 }
 
 .warden-resource-container .resource-bar-row {
     position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Resource Bar Row - Spec Button + Bar */
-/* .resource-bar-row consolidated to global styles */
-
-/* Spec cycle button removed - now in menu */
-
-/* Main Warden Resource Bar */
+/* Main vector bar (viewBox 0 0 300 64), full-bleed in its container */
 .warden-resource-bar {
     position: relative;
-    flex: 1;
-    height: 36px;
-    background: linear-gradient(135deg, rgba(15, 10, 20, 0.95), rgba(25, 15, 30, 0.95));
-    border: 2px solid var(--spec-glow-color);
-    border-radius: 4px;
-    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    height: 64px;
+    margin: 0 auto;
+    display: block;
+    background: transparent;
+    border: none;
+    box-shadow: none;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 
-        inset 0 2px 8px rgba(0, 0, 0, 0.6),
-        0 0 12px var(--spec-glow-color);
+    transition: filter 0.25s ease;
+    user-select: none;
+    outline: none;
+}
+
+.warden-resource-bar:focus-visible {
+    filter: drop-shadow(0 0 5px var(--spec-glow-color));
+}
+
+.warden-chain-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
 }
 
 .warden-resource-bar.small {
-    height: 24px;
+    height: 56px;
 }
 
-/* Force compact sizing in account context */
+.warden-resource-bar.large {
+    height: 76px;
+}
+
+/* Character card / compact hud sizing */
 .character-card .warden-resource-bar,
 .character-card-compact .warden-resource-bar {
-    height: 16px !important;
-    min-height: 16px !important;
+    height: 52px !important;
+    min-height: 52px !important;
 }
 
-/* Spec cycle button removed - now in menu */
-
+/* Hover — a whisper of oath-metal, nothing more */
 .warden-resource-bar.clickable:hover {
-    border-color: var(--spec-active-color);
-    box-shadow: 
-        inset 0 2px 8px rgba(0, 0, 0, 0.6),
-        0 0 16px var(--spec-glow-color);
+    filter: drop-shadow(0 0 4px var(--spec-glow-color));
 }
 
-/* Spectral Background Pattern */
-.spectral-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        repeating-linear-gradient(
-            90deg,
-            transparent,
-            transparent 10px,
-            rgba(255, 255, 255, 0.02) 10px,
-            rgba(255, 255, 255, 0.02) 11px
-        );
-    opacity: 0.3;
-    pointer-events: none;
+.warden-resource-bar.clickable:active {
+    filter: drop-shadow(0 0 3px var(--spec-glow-color));
 }
 
-/* Vengeance Energy Overlay */
-.vengeance-energy {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    pointer-events: none;
+/* Current-link halo heartbeat */
+.warden-halo {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: wardenHaloBeat 1.6s infinite ease-in-out;
 }
 
-.energy-particle {
-    position: absolute;
-    width: 3px;
-    height: 3px;
-    background: var(--spec-glow-color);
-    border-radius: 50%;
-    opacity: 0;
-    animation: energyFloat 3s infinite ease-in-out;
+@keyframes wardenHaloBeat {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.12); }
 }
 
-.energy-particle:nth-child(1) {
-    left: 20%;
-    animation-delay: 0s;
+/* Chain link hover feedback */
+.warden-chain-link {
+    transition: filter 0.15s ease;
 }
 
-.energy-particle:nth-child(2) {
-    left: 50%;
-    animation-delay: 1s;
+.warden-chain-link:hover {
+    filter: brightness(1.3);
 }
 
-.energy-particle:nth-child(3) {
-    left: 80%;
-    animation-delay: 2s;
+/* Straining graft-ring at full tension */
+.warden-graft.straining {
+    animation: graftStrain 1.4s infinite alternate ease-in-out;
 }
 
-@keyframes energyFloat {
-    0%, 100% { 
-        bottom: 0; 
-        opacity: 0; 
-    }
-    50% { 
-        bottom: 100%; 
-        opacity: 0.6; 
-    }
+@keyframes graftStrain {
+    0% { filter: drop-shadow(0 0 3px var(--spec-glow-color)); }
+    100% { filter: drop-shadow(0 0 7px var(--spec-glow-color)); }
 }
 
-/* VP Segments Container */
-.vp-segments {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    gap: 1px;
-    padding: 2px;
-}
-
-/* Individual VP Segment */
-.vp-segment {
-    flex: 1;
-    position: relative;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 2px;
-    overflow: hidden;
-    transition: all 0.2s ease;
-}
-
-.vp-segment .segment-fill {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    transition: all 0.3s ease;
-}
-
-.vp-segment.filled .segment-fill {
-    animation: vpPulse 2s infinite ease-in-out;
-}
-
-@keyframes vpPulse {
-    0%, 100% { 
-        opacity: 0.9; 
-    }
-    50% { 
-        opacity: 1; 
-    }
-}
-
-/* Segment Energy Effect */
-.segment-energy {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 80%;
-    height: 80%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    opacity: 0;
-    animation: energyPulse 2s infinite ease-in-out;
-}
-
-@keyframes energyPulse {
-    0%, 100% { 
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.5);
-    }
-    50% { 
-        opacity: 0.4;
-        transform: translate(-50%, -50%) scale(1);
-    }
-}
-
-/* Max VP Flare Effect */
-.vp-segment.max-flare {
-    animation: maxFlare 1s infinite ease-in-out;
-}
-
-@keyframes maxFlare {
-    0%, 100% { 
-        filter: brightness(1);
-    }
-    50% { 
-        filter: brightness(1.5);
-    }
-}
-
-/* VP Counter Overlay */
-.vp-counter {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    align-items: baseline;
-    gap: 2px;
-    font-family: 'Cinzel', serif;
-    font-weight: bold;
-    text-shadow: 
-        0 0 8px rgba(0, 0, 0, 0.9),
-        0 0 4px var(--spec-glow-color);
-    pointer-events: none;
-    z-index: 10;
-}
-
-.vp-number {
-    font-size: 20px;
-    letter-spacing: 1px;
-}
-
-.warden-resource-bar.small .vp-number {
-    font-size: 14px;
-}
-
-.vp-max {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.warden-resource-bar.small .vp-max {
-    font-size: 10px;
-}
-
-/* Spec-Specific Visual States */
-
-/* Shadowblade - Stealth State */
+/* Shadowblade — stealth shimmer */
 .warden-resource-bar.state-stealth {
-    opacity: 0.6;
-    animation: stealthFlicker 1.5s infinite ease-in-out;
+    animation: stealthFlicker 2.2s infinite ease-in-out;
 }
 
 @keyframes stealthFlicker {
-    0%, 100% { 
-        opacity: 0.5;
-    }
-    50% { 
-        opacity: 0.7;
-    }
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 0.8; }
 }
 
-.shadow-veil {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, transparent 30%, rgba(46, 8, 84, 0.4) 100%);
-    pointer-events: none;
-    animation: veilPulse 2s infinite ease-in-out;
-}
-
-@keyframes veilPulse {
-    0%, 100% { 
-        opacity: 0.3;
-    }
-    50% { 
-        opacity: 0.6;
-    }
-}
-
-/* Jailer - Caged State */
-.spectral-chains {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    pointer-events: none;
-    z-index: 5;
-}
-
-.chain-rune {
-    font-size: 16px;
-    color: var(--spec-glow-color);
-    text-shadow: 0 0 8px var(--spec-glow-color);
-    animation: chainFloat 2s infinite ease-in-out;
-}
-
-@keyframes chainFloat {
-    0%, 100% { 
-        transform: translateY(0);
-    }
-    50% { 
-        transform: translateY(-4px);
-    }
-}
-
-/* Vengeance Seeker - Avatar State */
+/* Vengeance Seeker — avatar flare */
 .warden-resource-bar.state-avatar {
-    box-shadow: 
-        inset 0 2px 8px rgba(0, 0, 0, 0.6),
-        0 0 20px var(--spec-glow-color),
-        0 0 30px var(--spec-active-color);
+    animation: avatarFlare 1.4s infinite alternate ease-in-out;
 }
 
-.avatar-aura {
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    border: 2px solid var(--spec-glow-color);
-    border-radius: 4px;
-    pointer-events: none;
-    animation: auraFlare 1.5s infinite ease-in-out;
+@keyframes avatarFlare {
+    0% { filter: drop-shadow(0 0 4px var(--spec-glow-color)); }
+    100% { filter: drop-shadow(0 0 9px var(--spec-glow-color)); }
 }
 
-@keyframes auraFlare {
-    0%, 100% { 
-        opacity: 0.5;
-        box-shadow: 0 0 10px var(--spec-glow-color);
-    }
-    50% { 
-        opacity: 1;
-        box-shadow: 0 0 20px var(--spec-glow-color);
-    }
-}
-
-/* Max VP State */
+/* Max tension — the chain sings */
 .warden-resource-bar.state-max {
-    animation: maxReadyPulse 1s infinite ease-in-out;
+    animation: maxReadyPulse 1.6s infinite ease-in-out;
 }
 
 @keyframes maxReadyPulse {
-    0%, 100% {
-        box-shadow:
-            inset 0 2px 8px rgba(0, 0, 0, 0.6),
-            0 0 12px var(--spec-glow-color);
-    }
-    50% {
-        box-shadow:
-            inset 0 2px 8px rgba(0, 0, 0, 0.6),
-            0 0 24px var(--spec-glow-color),
-            0 0 36px var(--spec-active-color);
-    }
+    0%, 100% { filter: drop-shadow(0 0 3px var(--spec-glow-color)); }
+    50% { filter: drop-shadow(0 0 7px var(--spec-glow-color)); }
 }
 
-/* Warden Menu styles removed - now uses unified-context-menu */
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .warden-halo,
+    .warden-graft.straining,
+    .warden-resource-bar.state-stealth,
+    .warden-resource-bar.state-avatar,
+    .warden-resource-bar.state-max {
+        animation: none;
+    }
+}
 
 /* Simplified Tooltip - Beige Pathfinder Style */
 .unified-resourcebar-tooltip {
@@ -402,14 +193,9 @@
     line-height: 1.5;
 }
 
-/* .tooltip-section:last-child consolidated to global styles */
-
 .tooltip-section strong {
     color: #1a0a00;
     font-weight: bold;
     display: inline;
     margin-right: 4px;
 }
-
-/* Dev Controls removed - now using Pathfinder beige menu */
-

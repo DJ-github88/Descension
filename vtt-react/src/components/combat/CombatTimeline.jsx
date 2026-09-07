@@ -127,7 +127,7 @@ const CombatTimeline = () => {
         if (combatant.isCharacterToken) {
             const useCharacterStore = require('../../store/characterStore').default;
             const char = useCharacterStore.getState();
-            return char.tokenSettings?.customIcon || char.lore?.characterImage || getIconUrl('Utility/Utility', 'abilities');
+            return char.tokenSettings?.customIcon || char.lore?.characterImage || getIconUrl('Arcane/Abstract Rune', 'abilities');
         }
 
         // First try to get the creature from the store
@@ -325,7 +325,7 @@ const CombatTimeline = () => {
                                                         className="token-icon"
                                                         onError={(e) => {
                                                             e.target.onerror = null;
-                                                            e.target.src = getIconUrl('Utility/Utility', 'abilities');
+                                                            e.target.src = getIconUrl('Arcane/Abstract Rune', 'abilities');
                                                         }}
                                                     />
                                                     {isCurrentTurn && (

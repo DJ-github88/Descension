@@ -37,10 +37,10 @@ export const ARCANONEER_DATA = {
 
   // EQUIPMENT (added 2026-07-28 audit fix)
   // TODO: design team to add startingEquipment and proficiencies.
-  // TODO: review weapon/armor lists for class accuracy per lore compendium.
+  // Protective gear and weapon loadouts per canonical compendium.
   equipment: {
    weapons: ['staff', 'orb', 'scepter', 'wand'],
-   armor: ['light_armor', 'robes'],
+   protectiveGear: ['light_ward', 'robes'],
    offHand: ['orb', 'tome', 'wand']
   },
  /**
@@ -280,7 +280,7 @@ Behind the legal dispute is a darker truth: someone IS breaching the First Contr
 - Rooted by Backlash: every offensive weave pins your movement to 0 for the turn  —  enemies reposition freely while you are anchored.
 - Elements by RNG: your damage type depends on a 4d8 roll  —  a bad hand means the wrong element for the enemy's resistances, and your only fix (Weave Reset) costs Mana and AP.
 - Weave-Slow: big Recipes take turns to bank; fast swarmers or ambushers reach you before a weave is ready.
-- Glass Caster: light armor and you must plant yourself to weave  —  a mobile flanker or ranged attacker can pin and shred you while you're anchored.
+- Glass Caster: light protective gear and you must plant yourself to weave  —  a mobile flanker or ranged attacker can pin and shred you while you're anchored.
 - Zero Clinical Healing: you can sew flesh at a cost but cannot restore HP without a dark biological toll  —  attrition is one-way.
 - Backlash Risk: incompatible element pairings can backfire, damaging you and scrambling your sphere bank.`,
   },
@@ -297,7 +297,7 @@ You roll: Fire, Fire, Frost, Nature. Your mind races through the matrix:
 - Fire + Fire = *Combustion Shell* (single target ember damage)
 - Fire + Frost = *Steam Vent* (cone of mixed damage + blind)
 - Fire + Nature = *Cauterizing Slag* (burn away one debuff, deals ember damage to ally)
-- Frost + Nature = *Rime-Frozen Graft* (+3 Armor for 3 rounds)
+- Frost + Nature = *Rime-Frozen Graft* (+3 Durability for 3 rounds)
 
 Do you have Recipes for any of these? If you've learned *Steam Burst*, then Fire + Frost suddenly adds a blinding cone effect. If you've learned *Firestorm*, then Fire + Fire adds a massive AoE burning vortex.
 
@@ -375,7 +375,7 @@ You banked all 4 spheres from Turn 1. Now you roll Arcane, Blight, Nature, Chaos
 
 With 1 AP remaining, you weave Arcane + Frost = **Crystal Shard** on a wounded bandit for extra damage.
 
-**Result**: Cast **Crystal Shard** (1d8 + INT/4 force+frost, armor-piercing). **Cost: 5 mana, 1d4 HP. Remaining: 16 mana. AP: 0. Movement: 0.**
+**Result**: Cast **Crystal Shard** (1d8 + INT/4 force+frost, durability-piercing). **Cost: 5 mana, 1d4 HP. Remaining: 16 mana. AP: 0. Movement: 0.**
 
 **Turn 4, Backlash and Recovery** *(2 AP available, 20 mana after regen)*
 
@@ -385,7 +385,7 @@ With 1 AP remaining, you weave Arcane + Frost = **Crystal Shard** on a wounded b
 
 *Four soft green spheres of nature energy emerge. You are not helpless, but you need to support your fighter. You weave Gristle Blockade (Nature + Nature) via Buff action on the fighter, binding their wounds with compressed botanical fiber and bone-knit plates.*
 
-**Result**: Fighter gained gristle armor. **Cost: 4 mana, 1d4 HP. Remaining: 12 mana.**
+**Result**: Fighter gained gristle Durability. **Cost: 4 mana, 1d4 HP. Remaining: 12 mana.**
 
 **The Lesson**: Being an Elemental Weaver is not about having an elegant solution; it is about managing the chaos, bracing yourself against magical backlash, knowing which volatile combinations to weave, and paying the price in stamina to erase your enemies. The master knows when to release and when to hold.`,
    },
@@ -416,7 +416,7 @@ With 1 AP remaining, you weave Arcane + Frost = **Crystal Shard** on a wounded b
     step: 3,
     title: "Pick Your First 3 Recipes",
     content:
-     "Choose from 5 Level 1 spells: Spark Bolt (arcane damage, pierces armor), Frost Touch (rime damage + slow + fragile), Spark Shield (arcane absorb shield), Arcane Missile (force damage, cannot miss), Nature Vine (nature damage + restraint). Recommend: 2 damage, 1 defensive.",
+     "Choose from 5 Level 1 spells: Spark Bolt (arcane damage, pierces Durability and DR), Frost Touch (rime damage + slow + fragile), Spark Shield (arcane absorb shield), Arcane Missile (force damage, cannot miss), Nature Vine (nature damage + restraint). Recommend: 2 damage, 1 defensive.",
    },
    {
     step: 4,
@@ -433,7 +433,7 @@ With 1 AP remaining, you weave Arcane + Frost = **Crystal Shard** on a wounded b
   ],
   startingEquipment: {
    weapon: "Arcane Focus (dagger, orb, or staff, your choice)",
-   armor: "Light armor (no spell failure chance)",
+   protectiveGear: "Light warding weave (no spell failure chance)",
    items: [
    {
     "id": "arc_aetheric_lantern",
@@ -441,10 +441,10 @@ With 1 AP remaining, you weave Arcane + Frost = **Crystal Shard** on a wounded b
     "description": "You focus raw aetheric energy through your mechanical lens, projecting a highly detailed 3D holographic blueprint or map of an observed mechanical object, lock, or structural seam. Somatic strain causes sweat to bead on your forehead as you maintain the projection.",
     "level": 1,
     "spellType": "ACTION",
-    "icon": "Arcane/Aura",
+    "icon": "Arcane/Spellcasting Aura",
     "typeConfig": {
      "school": "arcane",
-     "icon": "Arcane/Aura",
+     "icon": "Arcane/Spellcasting Aura",
      "tags": [
       "utility",
       "roleplay",
@@ -720,7 +720,7 @@ You do not have a fixed mana bar for elemental spells. Instead, at the start of 
      {
       level: "Lv 6",
       name: "Glacial Blessing",
-      upgrade: "Rime+Nature+Ember → +4 Armor + ember resist (Rime-Frozen Graft / no clinical healing)",
+      upgrade: "Rime+Nature+Ember → +4 Durability + ember resist (Rime-Frozen Graft / no clinical healing)",
      },
      {
       level: "Lv 9",
@@ -885,7 +885,7 @@ You do not have a fixed mana bar for elemental spells. Instead, at the start of 
 **Rookie Mistake**: "Fire + Fire = Flame Burst! Maximum ember damage!"
 - Result: Wasted spheres on a fire-resistant enemy. Your base matrix damage (1d8 + INT/4) barely tickles it.
 
-**Smart Play**: "Frost + Nature = **Rime-Frozen Graft** on our tank. Give them +3 Armor for 3 rounds. Then bank the two Fire spheres, the goblins aren't fire-resistant."
+**Smart Play**: "Frost + Nature = **Rime-Frozen Graft** on our tank. Give them +3 Durability for 3 rounds. Then bank the two Fire spheres, the goblins aren't fire-resistant."
 - Result: Tank gets a grotesque, protective gristle graft. Fire spheres banked for next turn.
 
 **Turn 2 Roll**: [1, 3, 6, 8] → Arcane, blight+blight, Nature, Chaos
@@ -965,7 +965,7 @@ All 36 two-sphere base combos. Cost varies by Firing Profile type (4-7 mana; see
 | Cauterizing Slag | Fire | Remove 1 debuff + 2d6 ember damage to ally |
 | Chaos Flame | Chaos | ★ Random effect |
 | Hailstorm | Frost, Nature | 10ft AoE |
-| Rime-Frozen Graft | Frost | +3 Armor for 3 rounds |
+| Rime-Frozen Graft | Frost | +3 Durability for 3 rounds |
 | Glitch Frost | Chaos | ★ Random effect |
 | Sinew-Spark Leap | Nature | Teleport 15ft |
 | Primal Chaos | Chaos | ★ Random effect |
@@ -1335,7 +1335,7 @@ MAX BANKED SPHERES: 12
     effectDescription:
      "A bolt of arcane-infused sacred energy that cannot be dodged or blocked.",
     flavorText:
-     "Arcane force and sacred light intertwine into a spiraling lance of white and violet. It seeks its target with unerring precision, no shield can deflect it, no armor can turn it aside.",
+     "Arcane force and sacred light intertwine into a spiraling lance of white and violet. It seeks its target with unerring precision, no shield can deflect it, no Durability or DR can turn it aside.",
    },
    {
     id: "arcane_shadow",
@@ -1372,7 +1372,7 @@ MAX BANKED SPHERES: 12
     range: 60,
     primaryEffect: "damage",
     effectDescription:
-     "A razor-sharp shard of enchanted crystal that pierces armor.",
+     "A razor-sharp shard of enchanted crystal that pierces Durability and DR.",
     flavorText:
      "Arcane energy crystallizes the frost into a prism of unnatural sharpness, harder than steel, colder than death. It whistles through the air and shatters on impact into a spray of stinging fragments.",
    },
@@ -1647,7 +1647,7 @@ MAX BANKED SPHERES: 12
      {
        name: "Wither",
        description:
-        "A wave of decay reduces the target's armor by 2 for 2 rounds.",
+        "A wave of decay reduces the target's Durability by 2 for 2 rounds.",
        damageTypes: ["blight"],
        targetType: "single",
       },
@@ -1801,11 +1801,11 @@ MAX BANKED SPHERES: 12
     targetType: "single_ally",
     range: 30,
     primaryEffect: "buff",
-    secondaryEffect: "armor_buff",
+    secondaryEffect: "durability_buff",
     effectDescription:
-     "Encase the target in a grotesque layer of frozen bone and gristle, granting +3 Armor for 3 rounds.",
+     "Encase the target in a grotesque layer of frozen bone and gristle, granting +3 Durability for 3 rounds.",
     flavorText:
-     "The viscera and ice elements lock in a grotesque reaction. Instead of smooth armor, jagged plates of frozen bone, sinew, and grey ice snap onto your ally's limbs. It is freezing and agonizing, but highly protective.",
+     "The viscera and ice elements lock in a grotesque reaction. Instead of smooth plating, jagged plates of frozen bone, sinew, and grey ice snap onto your ally's limbs. It is freezing and agonizing, but highly protective.",
    },
    {
     id: "ice_chaos",
@@ -1833,14 +1833,14 @@ MAX BANKED SPHERES: 12
      {
       name: "Frost Lance",
       description:
-       "A single-target ice attack that deals double base damage and ignores armor.",
+       "A single-target ice attack that deals double base damage and ignores DR and Durability.",
       damageTypes: ["rime"],
       targetType: "single",
       doubleDamage: true,
      },
      {
-      name: "Frost Armor",
-      description: "You gain +2 armor and frost resistance for 2 rounds.",
+      name: "Frost Carapace",
+      description: "You gain +2 Durability (flat damage reduction) and rime resistance for 2 rounds.",
       damageTypes: [],
        targetType: "self",
       },
@@ -1937,14 +1937,14 @@ MAX BANKED SPHERES: 12
     primaryEffect: "random",
     isChaosCombo: true,
     effectDescription:
-     "An unstable ward of shifting flesh and bone. Roll 1d4 on the random effects table: 1=+2 Armor for 2 rounds, 2=absorb next spell, 3=reflect next attack, 4=flesh collapses (no effect).",
+     "An unstable ward of shifting flesh and bone. Roll 1d4 on the random effects table: 1=+2 Durability for 2 rounds, 2=absorb next spell, 3=reflect next attack, 4=flesh collapses (no effect).",
     flavorText:
       "You fuse viscera and chaos in your focus. Grotesque limbs, teeth, and skin bubble around the weave-lattice, ready to absorb incoming strikes. Will it hold, or will the tissue melt away into useless slurry?",
     randomEffects: [
      {
       name: "Gristle Shield",
       description:
-       "The flesh solidifies into a wall of fused bone. Gain +2 Armor for 2 rounds.",
+       "The flesh solidifies into a wall of fused bone. Gain +2 Durability for 2 rounds.",
       damageTypes: [],
        targetType: "self",
        durationValue: 2,
@@ -2057,9 +2057,9 @@ MAX BANKED SPHERES: 12
    level: 6,
    spellType: "ACTION",
    icon: "Arcane/Conjure Elements",
-   typeConfig: { school: "arcane", icon: "Arcane/Portal", tags: ["utility", "teleport", "portal", "arcanoneer"], castTime: 3, castTimeType: "MINUTES" },
+   typeConfig: { school: "arcane", icon: "Arcane/Portal Archway", tags: ["utility", "teleport", "portal", "arcanoneer"], castTime: 3, castTimeType: "MINUTES" },
    targetingConfig: { targetingType: "point", rangeType: "ranged", rangeDistance: 30 },
-   resourceCost: { actionPoints: 3, mana: 12 },
+   resourceCost: { actionPoints: 3, mana: 12 , classResource: { type: "elemental_spheres", cost: 2 } },
    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
    tags: ["utility", "teleport", "portal", "arcanoneer"]
   },
@@ -2078,7 +2078,7 @@ MAX BANKED SPHERES: 12
 
    typeConfig: {
     school: "arcane",
-    icon: "Arcane/Aura",
+    icon: "Arcane/Spellcasting Aura",
     tags: ["utility", "roleplay", "arcanoneer"],
     castTime: 1,
     castTimeType: "IMMEDIATE",
@@ -2125,7 +2125,7 @@ MAX BANKED SPHERES: 12
    id: "arc_spark_bolt",
    name: "Marrow-Piercing Slug",
    description:
-     "Weaves a crystallized soul-shard of pure force, discharging a bone-shattering bolt that punches through armor. Ignores 2 points of enemy armor.",
+     "Weaves a crystallized soul-shard of pure force, discharging a bone-shattering bolt that punches through Durability and DR. ignores 2 points of enemy Durability.",
    level: 1,
    enhancesCombo: "arcane_arcane",
    spellType: "ACTION",
@@ -2202,7 +2202,7 @@ MAX BANKED SPHERES: 12
 
    resourceCost: {
     resourceTypes: ["mana", "ice_sphere"],
-    resourceValues: { mana: 4, ice_sphere: 2 },
+    resourceValues: { mana: 4, ice_sphere: 2 , classResource: { type: "elemental_spheres", cost: 2 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -2281,7 +2281,7 @@ MAX BANKED SPHERES: 12
 
    resourceCost: {
     resourceTypes: ["mana", "arcane_sphere"],
-    resourceValues: { mana: 4, arcane_sphere: 2 },
+    resourceValues: { mana: 4, arcane_sphere: 2 , classResource: { type: "elemental_spheres", cost: 2 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -2336,7 +2336,7 @@ MAX BANKED SPHERES: 12
 
    resourceCost: {
     resourceTypes: ["mana", "arcane_sphere", "holy_sphere"],
-    resourceValues: { mana: 4, arcane_sphere: 1, holy_sphere: 1 },
+    resourceValues: { mana: 4, arcane_sphere: 1, holy_sphere: 1 , classResource: { type: "elemental_spheres", cost: 2 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -2392,7 +2392,7 @@ MAX BANKED SPHERES: 12
 
    resourceCost: {
     resourceTypes: ["mana", "nature_sphere", "nature_sphere"],
-    resourceValues: { mana: 4, nature_sphere: 2 },
+    resourceValues: { mana: 4, nature_sphere: 2 , classResource: { type: "elemental_spheres", cost: 2 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -2486,7 +2486,7 @@ MAX BANKED SPHERES: 12
 
    resourceCost: {
     resourceTypes: ["mana", "fire_sphere", "ice_sphere"],
-    resourceValues: { mana: 7, fire_sphere: 1, ice_sphere: 1 },
+    resourceValues: { mana: 7, fire_sphere: 1, ice_sphere: 1 , classResource: { type: "elemental_spheres", cost: 2 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -2565,7 +2565,7 @@ MAX BANKED SPHERES: 12
 
    resourceCost: {
     resourceTypes: ["mana", "shadow_sphere", "shadow_sphere"],
-    resourceValues: { mana: 7, shadow_sphere: 2 },
+    resourceValues: { mana: 7, shadow_sphere: 2 , classResource: { type: "elemental_spheres", cost: 2 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -2575,14 +2575,21 @@ MAX BANKED SPHERES: 12
     spheres: ["blight", "blight"],
    },
 
-   effectTypes: ["damage", "healing"],
+   effectTypes: ["damage", "defensive"],
 
    damageConfig: {
     formula: "1d8 + intelligence/4",
     damageTypes: ["blight"],
     resolution: "DICE",
     description:
-     "The shadow bolt strikes with blight force, actively draining life energy from the target. They feel their vitality being siphoned away, experiencing a deep cold that seems to come from within their very soul. The wound left behind appears blackened and blight+blight, as if the flesh itself has died.",
+     "The shadow bolt strikes with blight force, actively siphoning kinetic energy from the target. The siphoned force wraps around the caster as a dark barrier.",
+   },
+
+   defensiveConfig: {
+    shieldType: "absorb",
+    formula: "1d6 + intelligence/4",
+    resolution: "DICE",
+    description: "Siphoned life force forms a dark kinetic barrier around the caster, absorbing incoming damage."
    },
 
    debuffConfig: {
@@ -2605,14 +2612,14 @@ MAX BANKED SPHERES: 12
     cooldownValue: 0,
    },
 
-   tags: ["blight", "damage", "healing"],
+   tags: ["blight", "damage", "defensive"],
   },
 
   {
    id: "arc_celestial_ray",
    name: "Aetheric Lance",
    description:
-     "Overcharges the focus with sacred and arcane essences, projecting a continuous beam of blinding celestial energy that scorches enemies while sealing the wounds of allies in its path.",
+     "Overcharges the focus with sacred and arcane essences, projecting a continuous beam of blinding celestial energy that scorches enemies while projecting an aetheric barrier around allies in its path.",
    level: 2,
    enhancesCombo: "arcane_holy",
    spellType: "ACTION",
@@ -2621,7 +2628,7 @@ MAX BANKED SPHERES: 12
    typeConfig: {
     school: "ember",
     icon: "Radiant/Radiant Bolt",
-    tags: ["ember", "arcane", "damage", "healing"],
+    tags: ["ember", "arcane", "damage", "barrier"],
     castTime: 1,
     castTimeType: "IMMEDIATE",
    },
@@ -2644,7 +2651,7 @@ MAX BANKED SPHERES: 12
      aoeParameters: { length: 60 },
      targetRestrictions: ["enemy"],
     },
-    healing: {
+    barrier: {
      targetingType: "area",
      rangeType: "ranged",
      rangeDistance: 60,
@@ -2656,7 +2663,7 @@ MAX BANKED SPHERES: 12
 
    resourceCost: {
     resourceTypes: ["mana", "arcane_sphere", "holy_sphere"],
-    resourceValues: { mana: 7, arcane_sphere: 1, holy_sphere: 1 },
+    resourceValues: { mana: 7, arcane_sphere: 1, holy_sphere: 1 , classResource: { type: "elemental_spheres", cost: 2 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -2666,7 +2673,7 @@ MAX BANKED SPHERES: 12
     spheres: ["Arcane", "ember"],
    },
 
-   effectTypes: ["damage", "healing"],
+   effectTypes: ["damage", "buff"],
 
    damageConfig: {
     formula: "1d8 + intelligence/4",
@@ -2696,7 +2703,7 @@ MAX BANKED SPHERES: 12
     cooldownValue: 0,
    },
 
-   tags: ["ember", "arcane", "damage", "healing"],
+   tags: ["ember", "arcane", "damage", "barrier"],
   },
 
   // ========================================
@@ -2737,7 +2744,7 @@ MAX BANKED SPHERES: 12
 
    resourceCost: {
     resourceTypes: ["mana", "fire_sphere", "fire_sphere"],
-    resourceValues: { mana: 10, fire_sphere: 2 },
+    resourceValues: { mana: 10, fire_sphere: 2 , classResource: { type: "elemental_spheres", cost: 2 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -2789,7 +2796,7 @@ MAX BANKED SPHERES: 12
 
    resourceCost: {
     resourceTypes: ["mana", "ice_sphere", "ice_sphere"],
-    resourceValues: { mana: 10, ice_sphere: 2 },
+    resourceValues: { mana: 10, ice_sphere: 2 , classResource: { type: "elemental_spheres", cost: 2 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -2865,7 +2872,7 @@ MAX BANKED SPHERES: 12
 
    resourceCost: {
     resourceTypes: ["mana", "arcane_sphere", "arcane_sphere"],
-    resourceValues: { mana: 10, arcane_sphere: 2 },
+    resourceValues: { mana: 10, arcane_sphere: 2 , classResource: { type: "elemental_spheres", cost: 2 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -2958,7 +2965,7 @@ MAX BANKED SPHERES: 12
 
    resourceCost: {
     resourceTypes: ["mana", "fire_sphere"],
-    resourceValues: { mana: 14, fire_sphere: 2 },
+    resourceValues: { mana: 14, fire_sphere: 2 , classResource: { type: "elemental_spheres", cost: 2 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -3029,7 +3036,7 @@ MAX BANKED SPHERES: 12
 
    resourceCost: {
     resourceTypes: ["mana", "ice_sphere", "ice_sphere"],
-    resourceValues: { mana: 14, ice_sphere: 2 },
+    resourceValues: { mana: 14, ice_sphere: 2 , classResource: { type: "elemental_spheres", cost: 2 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -3119,7 +3126,7 @@ MAX BANKED SPHERES: 12
 
    resourceCost: {
     resourceTypes: ["mana", "shadow_sphere", "shadow_sphere"],
-    resourceValues: { mana: 14, shadow_sphere: 2 },
+    resourceValues: { mana: 14, shadow_sphere: 2 , classResource: { type: "elemental_spheres", cost: 2 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -3183,7 +3190,7 @@ MAX BANKED SPHERES: 12
    id: "arc_elemental_blast",
    name: "Thermobaric Burst",
    description:
-     "Ignites fire and ice aether-shards in rapid succession, venting a synchronized thermal shockwave that splits armor and flash-boils moisture.",
+     "Ignites fire and ice aether-shards in rapid succession, venting a synchronized thermal shockwave that splits Durability and flash-boils moisture.",
    level: 5,
    enhancesCombo: "fire_ice",
    spellType: "ACTION",
@@ -3209,7 +3216,7 @@ MAX BANKED SPHERES: 12
 
    resourceCost: {
     resourceTypes: ["mana", "fire_sphere", "ice_sphere"],
-    resourceValues: { mana: 18, fire_sphere: 1, ice_sphere: 1 },
+    resourceValues: { mana: 18, fire_sphere: 1, ice_sphere: 1 , classResource: { type: "elemental_spheres", cost: 2 } },
     useFormulas: {},
     actionPoints: 2,
     components: ["verbal", "somatic"],
@@ -3269,14 +3276,14 @@ MAX BANKED SPHERES: 12
 
    resourceCost: {
     resourceTypes: ["mana", "holy_sphere", "healing_sphere"],
-    resourceValues: { mana: 18, holy_sphere: 1, healing_sphere: 1 },
+    resourceValues: { mana: 18, holy_sphere: 1, healing_sphere: 1 , classResource: { type: "elemental_spheres", cost: 2 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
     verbalText: "Sanctus Scutum!",
     somaticText:
      "Trace a radiant sigil in the air that settles over the target as a glowing ward",
-    spheres: ["ember", "Healing"],
+    spheres: ["ember", "sacred"],
    },
 
    effectTypes: ["defensive"],
@@ -3326,7 +3333,7 @@ MAX BANKED SPHERES: 12
 
    resourceCost: {
     resourceTypes: ["mana", "chaos_sphere", "chaos_sphere"],
-    resourceValues: { mana: 18, chaos_sphere: 2 },
+    resourceValues: { mana: 18, chaos_sphere: 2 , classResource: { type: "elemental_spheres", cost: 2 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -3391,7 +3398,7 @@ MAX BANKED SPHERES: 12
    id: "arc_glacial_blessing",
    name: "Glacial Blessing",
    description:
-    "Weave ice and sacred spheres into crystalline armor. Target gains +4 Armor and resistance to ember damage for 3 rounds.",
+    "Weave ice and sacred spheres into crystalline Durability. Target gains +4 Durability and resistance to ember damage for 3 rounds.",
    level: 6,
    spellType: "ACTION",
    icon: "Frost/Frozen in Ice",
@@ -3418,14 +3425,14 @@ MAX BANKED SPHERES: 12
      ice_sphere: 1,
      healing_sphere: 1,
      holy_sphere: 1,
-    },
+     classResource: { type: "elemental_spheres", cost: 3 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
     verbalText: "Glacies Benedicere!",
     somaticText:
      "Weave the three spheres into a crystalline lattice and press it gently onto the target",
-    spheres: ["rime", "Healing", "ember"],
+    spheres: ["rime", "sacred", "ember"],
    },
 
    effectTypes: ["buff"],
@@ -3434,11 +3441,11 @@ MAX BANKED SPHERES: 12
     buffType: "statEnhancement",
     effects: [
       {
-       id: "glacial_armor",
-       name: "Glacial Armor",
+       id: "glacial_carapace",
+       name: "Glacial Carapace",
        description:
-        "Gain +4 Armor and resistance to ember damage for 3 rounds. Crystalline armor of ice and sacred light deflects blows and absorbs heat.",
-       mechanicsText: "+4 armor and ember resistance for 3 rounds",
+        "Gain +4 Durability and resistance to ember damage for 3 rounds. crystalline Durability of ice and sacred light deflects blows and absorbs heat.",
+       mechanicsText: "+4 Durability and ember resistance for 3 rounds",
       },
     ],
     durationValue: 3,
@@ -3493,7 +3500,7 @@ MAX BANKED SPHERES: 12
      arcane_sphere: 1,
      holy_sphere: 1,
      nature_sphere: 1,
-    },
+     classResource: { type: "elemental_spheres", cost: 3 } },
     useFormulas: {},
     actionPoints: 2,
     components: ["verbal", "somatic"],
@@ -3582,14 +3589,14 @@ MAX BANKED SPHERES: 12
      nature_sphere: 1,
      healing_sphere: 1,
      holy_sphere: 1,
-    },
+     classResource: { type: "elemental_spheres", cost: 3 } },
     useFormulas: {},
     actionPoints: 2,
     components: ["verbal", "somatic"],
     verbalText: "Floreo Bellum!",
     somaticText:
      "Shape the merged spheres into weapons of living wood and golden light, pressing them into the target's hands",
-    spheres: ["primal", "Healing", "ember"],
+    spheres: ["primal", "sacred", "ember"],
    },
 
    effectTypes: ["buff"],
@@ -3674,7 +3681,7 @@ MAX BANKED SPHERES: 12
      arcane_sphere: 1,
      shadow_sphere: 1,
      chaos_sphere: 1,
-    },
+     classResource: { type: "elemental_spheres", cost: 3 } },
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
@@ -3766,7 +3773,7 @@ MAX BANKED SPHERES: 12
      ice_sphere: 1,
      nature_sphere: 1,
      holy_sphere: 1,
-    },
+     classResource: { type: "elemental_spheres", cost: 4 } },
     useFormulas: {},
     actionPoints: 2,
     components: ["verbal", "somatic"],
@@ -3804,7 +3811,7 @@ MAX BANKED SPHERES: 12
    id: "arc_celestial_storm",
    name: "Celestial Storm",
    description:
-    "Combines sacred, healing, and arcane spheres into a radiant tempest that damages enemies and heals allies in the area.",
+    "Combines sacred, healing, and arcane spheres into a radiant tempest that damages enemies and projects defensive kinetic barriers on allies in the area.",
    level: 7,
    spellType: "ACTION",
    icon: "Radiant/Radiant Divinity",
@@ -3812,7 +3819,7 @@ MAX BANKED SPHERES: 12
    typeConfig: {
     school: "ember",
     icon: "Radiant/Radiant Divinity",
-    tags: ["ember", "healing", "arcane", "damage", "aoe"],
+    tags: ["ember", "barrier", "arcane", "damage", "aoe"],
     castTime: 1,
     castTimeType: "IMMEDIATE",
    },
@@ -3835,7 +3842,7 @@ MAX BANKED SPHERES: 12
      aoeParameters: { radius: 20 },
      targetRestrictions: ["enemy"],
     },
-    healing: {
+    barrier: {
      targetingType: "area",
      rangeType: "ranged",
      rangeDistance: 60,
@@ -3857,17 +3864,17 @@ MAX BANKED SPHERES: 12
      holy_sphere: 1,
      healing_sphere: 1,
      arcane_sphere: 1,
-    },
+     classResource: { type: "elemental_spheres", cost: 3 } },
     useFormulas: {},
     actionPoints: 2,
     components: ["verbal", "somatic"],
     verbalText: "Tempestas Caelestis!",
     somaticText:
      "Raise all three spheres skyward, causing a radiant storm to descend upon the area",
-    spheres: ["ember", "Healing", "Arcane"],
+    spheres: ["ember", "sacred", "Arcane"],
    },
 
-   effectTypes: ["damage", "healing"],
+   effectTypes: ["damage", "buff"],
 
    damageConfig: {
     formula: "10d6 + intelligence",
@@ -3903,7 +3910,7 @@ MAX BANKED SPHERES: 12
     cooldownValue: 1,
    },
 
-   tags: ["ember", "healing", "arcane", "damage", "aoe"],
+   tags: ["ember", "barrier", "arcane", "damage", "aoe"],
   },
 
   // ========================================
@@ -3913,7 +3920,7 @@ MAX BANKED SPHERES: 12
    id: "arc_harmonic_convergence",
    name: "Harmonic Convergence",
    description:
-    "Weaves sacred, shadow, healing, and chaos into a prismatic pulse that heals allies and grants temporary damage resistance.",
+    "Weaves sacred, shadow, healing, and chaos into a prismatic pulse that shields allies with kinetic barriers and grants temporary damage resistance.",
    level: 8,
    spellType: "ACTION",
    icon: "Healing/Golden Heart",
@@ -3921,7 +3928,7 @@ MAX BANKED SPHERES: 12
    typeConfig: {
     school: "ember",
     icon: "Healing/Golden Heart",
-    tags: ["ember", "blight", "healing", "wyrd", "buff", "aoe"],
+    tags: ["ember", "blight", "barrier", "wyrd", "buff", "aoe"],
     castTime: 2,
     castTimeType: "IMMEDIATE",
    },
@@ -3949,14 +3956,14 @@ MAX BANKED SPHERES: 12
      shadow_sphere: 1,
      healing_sphere: 1,
      chaos_sphere: 1,
-    },
+     classResource: { type: "elemental_spheres", cost: 4 } },
     useFormulas: {},
     actionPoints: 2,
     components: ["verbal", "somatic"],
     verbalText: "Harmonia Convergentia!",
     somaticText:
      "Hold all four spheres at arm's length, letting them orbit and merge into a single chord of resonant energy",
-    spheres: ["ember", "blight", "Healing", "wyrd"],
+    spheres: ["ember", "blight", "sacred", "wyrd"],
    },
 
    effectTypes: ["buff"],
@@ -4000,7 +4007,7 @@ MAX BANKED SPHERES: 12
     cooldownValue: 4,
    },
 
-   tags: ["ember", "blight", "healing", "wyrd", "buff", "aoe"],
+   tags: ["ember", "blight", "barrier", "wyrd", "buff", "aoe"],
   },
 
   {
@@ -4044,7 +4051,7 @@ MAX BANKED SPHERES: 12
      fire_sphere: 1,
      ice_sphere: 1,
      nature_sphere: 1,
-    },
+     classResource: { type: "elemental_spheres", cost: 4 } },
     useFormulas: {},
     actionPoints: 2,
     components: ["verbal", "somatic"],
@@ -4139,7 +4146,7 @@ MAX BANKED SPHERES: 12
 
    resourceCost: {
     resourceTypes: ["mana", "chaos_sphere"],
-    resourceValues: { mana: 28, chaos_sphere: 3 },
+    resourceValues: { mana: 28, chaos_sphere: 3 , classResource: { type: "elemental_spheres", cost: 3 } },
     useFormulas: {},
     actionPoints: 2,
     components: ["verbal", "somatic"],
@@ -4178,7 +4185,7 @@ MAX BANKED SPHERES: 12
       {
        range: { min: 4, max: 4 },
        customName: "Feedback Loop",
-       effect: "12d6+INT chaos damage to enemies, all allies in 20ft radius gain +2 Armor for 3 rounds",
+       effect: "12d6+INT chaos damage to enemies, all allies in 20ft radius gain +2 Durability for 3 rounds",
       },
      ],
     },
@@ -4258,7 +4265,7 @@ MAX BANKED SPHERES: 12
      nature_sphere: 1,
      healing_sphere: 1,
      chaos_sphere: 1,
-    },
+     classResource: { type: "elemental_spheres", cost: 8 } },
     useFormulas: {},
     actionPoints: 3,
     components: ["verbal", "somatic"],
@@ -4272,7 +4279,7 @@ MAX BANKED SPHERES: 12
      "ember",
      "rime",
      "primal",
-     "Healing",
+     "sacred",
      "wyrd",
     ],
    },
@@ -4339,7 +4346,7 @@ MAX BANKED SPHERES: 12
 
    resourceCost: {
     resourceTypes: ["mana", "chaos_sphere"],
-    resourceValues: { mana: 32, chaos_sphere: 4 },
+    resourceValues: { mana: 32, chaos_sphere: 4 , classResource: { type: "elemental_spheres", cost: 4 } },
     useFormulas: {},
     actionPoints: 3,
     components: ["verbal", "somatic"],
@@ -4422,7 +4429,7 @@ MAX BANKED SPHERES: 12
    id: "arc_arcane_synthesis",
    name: "Arcane Synthesis",
    description:
-    "Harmonizes four opposing elements to enhance allies' combat capabilities with boosted attacks, spell damage, and regeneration. Leaves the caster briefly drained.",
+    "Harmonizes four opposing elements to enhance allies' combat capabilities with boosted attacks, spell damage, and temporary kinetic shielding. Leaves the caster briefly drained.",
    level: 9,
    spellType: "ACTION",
    icon: "Arcane/Missile",
@@ -4430,7 +4437,7 @@ MAX BANKED SPHERES: 12
    typeConfig: {
     school: "arcane",
     icon: "Arcane/Missile",
-    tags: ["arcane", "ember", "blight", "ember", "buff", "healing", "aoe"],
+    tags: ["arcane", "ember", "blight", "ember", "buff", "barrier", "aoe"],
     castTime: 2,
     castTimeType: "IMMEDIATE",
    },
@@ -4457,7 +4464,7 @@ MAX BANKED SPHERES: 12
      holy_sphere: 1,
      shadow_sphere: 1,
      fire_sphere: 1,
-    },
+     classResource: { type: "elemental_spheres", cost: 4 } },
     useFormulas: {},
     actionPoints: 2,
     components: ["verbal", "somatic"],
@@ -4467,7 +4474,7 @@ MAX BANKED SPHERES: 12
     spheres: ["Arcane", "ember", "blight", "ember"],
    },
 
-   effectTypes: ["buff", "healing", "debuff"],
+   effectTypes: ["buff", "defensive", "debuff"],
 
    buffConfig: {
     buffType: "custom",
@@ -4476,8 +4483,8 @@ MAX BANKED SPHERES: 12
       id: "elemental_synthesis",
       name: "Elemental Synthesis",
       description:
-       "All allies gain +3 to attack rolls, +2 to spell damage, and regenerate 1d4 HP at the start of each turn for 3 rounds.",
-      mechanicsText: "+3 attack, +2 spell damage, 1d4 regen/turn for 3 rounds",
+       "All allies gain +3 to attack rolls, +2 to spell damage, and a 1d6 temporary barrier at the start of each turn for 3 rounds.",
+      mechanicsText: "+3 attack, +2 spell damage, 1d6 temporary shield/turn for 3 rounds",
      },
      {
       id: "synthesis_overflow",
@@ -4516,7 +4523,7 @@ MAX BANKED SPHERES: 12
     cooldownValue: 5,
    },
 
-   tags: ["arcane", "ember", "blight", "ember", "buff", "healing", "aoe"],
+   tags: ["arcane", "ember", "blight", "ember", "buff", "barrier", "aoe"],
   },
 
   // ========================================
@@ -4575,7 +4582,7 @@ MAX BANKED SPHERES: 12
      ice_sphere: 1,
      nature_sphere: 1,
      healing_sphere: 1,
-    },
+     classResource: { type: "elemental_spheres", cost: 7 } },
     useFormulas: {},
     actionPoints: 3,
     components: ["verbal", "somatic"],
@@ -4589,7 +4596,7 @@ MAX BANKED SPHERES: 12
      "ember",
      "rime",
      "primal",
-     "Healing",
+     "sacred",
     ],
    },
 
@@ -4689,7 +4696,7 @@ MAX BANKED SPHERES: 12
      arcane_sphere: 1,
      shadow_sphere: 1,
      chaos_sphere: 2,
-    },
+     classResource: { type: "elemental_spheres", cost: 4 } },
     useFormulas: {},
     actionPoints: 3,
     components: ["verbal", "somatic"],
@@ -4763,7 +4770,7 @@ MAX BANKED SPHERES: 12
    id: "arc_elemental_apotheosis",
    name: "Elemental Apotheosis",
    description:
-    "Absorbs six elemental spheres into your body, becoming a living conduit of elemental force with boosted damage, armor, and resistance for a brief time.",
+    "Absorbs six elemental spheres into your body, becoming a living conduit of elemental force with boosted damage, Durability, and resistance for a brief time.",
    level: 10,
    spellType: "ACTION",
    icon: "Fire/Volcanic Erupt",
@@ -4799,7 +4806,7 @@ MAX BANKED SPHERES: 12
      holy_sphere: 1,
      shadow_sphere: 1,
      arcane_sphere: 1,
-    },
+     classResource: { type: "elemental_spheres", cost: 6 } },
     useFormulas: {},
     actionPoints: 2,
     components: ["verbal", "somatic"],
@@ -4818,7 +4825,7 @@ MAX BANKED SPHERES: 12
     durationUnit: "rounds",
     concentration: true,
     newForm: "Living Conduit",
-    description: "Your body radiates prismatic elemental energy as a living conduit of force. You gain +4 spell damage, +3 armor, fire/frost/lightning resistance, and 2-sphere spells cost half mana (rounded down).",
+    description: "Your body radiates prismatic elemental energy as a living conduit of force. You gain +4 spell damage, +3 Durability, fire/frost/lightning resistance, and 2-sphere spells cost half mana (rounded down).",
     power: "ultimate",
     maintainEquipment: true
    },

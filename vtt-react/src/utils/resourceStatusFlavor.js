@@ -94,13 +94,22 @@ const FLAVOR = {
     },
 
     Revenant: (res) => {
-        const tokens = res?.bloodTokens ?? 0;
+        const tokens = res?.toll ?? res?.current ?? res?.bloodTokens ?? 0;
         if (tokens >= 16) return { line: "CRITICAL MASS. One death and you take the block with you.", tone: 'critical' };
         if (tokens >= 11) return { line: "Volatile. Healing won't take: you're a walking bomb.", tone: 'danger' };
-        if (tokens >= 6) return { line: "The tokens itch. They want out.", tone: 'warm' };
-        const paths = (res?.stacks ?? []).filter(Boolean).length;
-        if (tokens === 0 && paths === 0) return { line: "Dry veins. No bargains struck. Yet.", tone: 'calm' };
-        return { line: "Stable. The blood runs quiet, for now.", tone: 'calm' };
+        if (tokens >= 6) return { line: "Searing resonance. Frost-fire burns in your veins.", tone: 'warm' };
+        if (tokens === 0) return { line: "Dry veins. No bargains struck. Yet.", tone: 'calm' };
+        return { line: "Stable. The cold blood runs quiet, for now.", tone: 'calm' };
+    },
+
+    Animist: (res) => {
+        const resonance = res?.resonance ?? res?.current ?? 0;
+        if (resonance >= 20) return { line: "TRIPLE TOLL CATACLYSM. The ancestors consume you! Forced movement shatters all.", tone: 'critical' };
+        if (resonance >= 15) return { line: "SPIRIT EROSION. 100% ember vulnerability! Party healing severed. Spend or bleed!", tone: 'danger' };
+        if (resonance >= 10) return { line: "Apex harmonic. Skin sigils ignite with ancestral static. Peak efficiency.", tone: 'warm' };
+        if (resonance >= 5) return { line: "Harmonized resonance. Totem conduits and sigils hum emerald.", tone: 'calm' };
+        if (resonance > 0) return { line: "A faint throat-hum. The ancestors are listening.", tone: 'calm' };
+        return { line: "The dead slumber. Conduits cold, root-veins quiet.", tone: 'calm' };
     },
 
     Martyr: (res) => {
@@ -226,10 +235,40 @@ const FLAVOR = {
     Shaper: (res) => {
         const flux = res?.momentum?.current ?? res?.momentum ?? res?.current ?? 0;
         const toll = res?.flourish?.current ?? res?.flourish ?? 0;
-        if (toll >= 8) return { line: "Your body remembers every transformation. It's failing.", tone: 'danger' };
-        if (flux <= 0) return { line: "Stillness. The form has not yet chosen you.", tone: 'calm' };
-        if (flux >= 16) return { line: "The dance is live. Keep moving or lose the rhythm.", tone: 'warm' };
-        return { line: "Form flowing. Momentum building.", tone: 'calm' };
+        if (toll >= 10) return { line: "CONVERGENCE COLLAPSE. Flesh unravels into raw sulfur-clay!", tone: 'critical' };
+        if (toll >= 7) return { line: "Feral Mutation. The predatory beast-mind drowns your human thoughts.", tone: 'danger' };
+        if (toll >= 5) return { line: "Identity Erosion. Vocal cords mutated; you can no longer speak.", tone: 'danger' };
+        if (toll >= 3) return { line: "Joint Lock. Calcified bone plates grind with every step (-10ft speed).", tone: 'warm' };
+        if (flux >= 16) return { line: "Apex momentum. The kinetic engine surges with fluid power.", tone: 'warm' };
+        if (flux <= 0) return { line: "Static inertia. 0 Base Durability: move or die.", tone: 'calm' };
+        return { line: "Form flowing. Bone and sinew adapt to the dance.", tone: 'calm' };
+    },
+
+    Toxicologist: (res) => {
+        const vials = res?.toxinVials ?? res?.current ?? 0;
+        const parts = res?.contraptionParts ?? 0;
+        if (vials === 0 && parts === 0) return { line: "Bandolier dry. Even Varis would tell you to run.", tone: 'danger' };
+        if (vials >= 5 && parts >= 4) return { line: "Fully primed: lethal aerosol clouds and spring-loaded traps at hand.", tone: 'warm' };
+        if (vials <= 1) return { line: "Vials running low. Distill quickly before the fog turns.", tone: 'danger' };
+        if (parts === 0) return { line: "Contraptions spent. Reclaim parts or rely on direct venoms.", tone: 'calm' };
+        return { line: "The slow cup brews. Stained fingers, steady pour.", tone: 'calm' };
+    },
+
+    Inquisitor: (res) => {
+        const auth = res?.current ?? res?.authority ?? 0;
+        if (auth >= 8) return { line: "ABSOLUTE VERDICT. The Barbed Vow demands execution.", tone: 'critical' };
+        if (auth >= 6) return { line: "Chains strained taut. Caged horrors shriek in your blood.", tone: 'danger' };
+        if (auth >= 4) return { line: "Cold iron smoldering. Supernatural conduits primed for severance.", tone: 'warm' };
+        if (auth >= 1) return { line: "Tenuous authority. The friction of magic stirs your brands.", tone: 'calm' };
+        return { line: "Chains cold. Null-salt dry. Awaiting contact.", tone: 'calm' };
+    },
+
+    Lunarch: (res) => {
+        const phase = res?.currentLunarPhase ?? res?.phase ?? res?.current ?? 'new_moon';
+        if (phase === 'full_moon' || phase === 2) return { line: "FULL MOON ZENITH. The celestial parasite feasts on your sanity.", tone: 'critical' };
+        if (phase === 'waxing_moon' || phase === 1) return { line: "Waxing Crescent. Starlight needles quicken your blood.", tone: 'warm' };
+        if (phase === 'waning_moon' || phase === 3) return { line: "Waning Twilight. The gravity siphon drains memory and vitality.", tone: 'danger' };
+        return { line: "New Moon dark. The parasite slumbers in the stygian chill.", tone: 'calm' };
     },
 };
 

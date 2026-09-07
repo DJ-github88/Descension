@@ -21,7 +21,7 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         {
             id: 'door_place',
             name: 'Place Door',
-            icon: 'Utility/Lockpick',
+            icon: 'General/Lockpick',
             description: 'Place interactive doors'
         },
         {
@@ -63,7 +63,7 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         },
         interactive: {
             name: 'Interactive Elements',
-            icon: 'Utility/Lockpick',
+            icon: 'General/Lockpick',
             walls: ['wooden_door', 'stone_door']
         },
         window: {

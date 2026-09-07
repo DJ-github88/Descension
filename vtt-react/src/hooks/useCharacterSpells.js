@@ -12,6 +12,7 @@ import { ALL_CLASS_SPELLS } from '../data/classSpellGenerator';
 import { TALENT_TREES } from '../data/talentTreeData';
 import { convertTalentSpellToLibrarySpell } from '../data/talentTrees/talentSystem.mjs';
 import { getRacialSpells, getDisciplineSpells, isPassiveStatModifier } from '../utils/raceDisciplineSpellUtils';
+import { getFullRaceData } from '../data/raceData';
 import { getSkillAbilitiesForSpellbook } from '../utils/skillAbilitiesIntegration';
 import { GENERAL_CATEGORIES } from '../data/generalSpellsData';
 
@@ -139,9 +140,13 @@ export function useCharacterSpells(characterId = null) {
 
     // 3. Racial Abilities
     if (race || subrace) {
+      const fullRace = getFullRaceData(race, subrace);
+      const raceLabel = fullRace?.subrace?.name 
+        ? `${fullRace.subrace.name} Trait` 
+        : (fullRace?.race?.name ? `${fullRace.race.name} Trait` : `${subrace || race} Trait`);
       const racial = getRacialSpells(race, subrace).filter(s => !isPassiveStatModifier(s));
       racial.forEach(spell => {
-        addSpell(spell, 'racial', `${subrace || race} Trait`);
+        addSpell(spell, 'racial', raceLabel);
       });
     }
 

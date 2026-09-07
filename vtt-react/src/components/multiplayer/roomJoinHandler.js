@@ -833,7 +833,29 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
           console.log(`Ã°Å¸"Â¦ Loaded ${initialGridItems.length} grid items for map ${startMapId}`);
         });
       } else {
-        console.warn('Ã¢Å¡Â Ã¯Â¸Â [handleJoinRoom] Missing initial gridItems payload - preserving existing grid items to avoid accidental wipe');
+        console.warn('Ã¢Å¡Â Ã¯Â¸Â  [handleJoinRoom] Missing initial gridItems payload - preserving existing grid items to avoid accidental wipe');
+      }
+
+      // Hydrate active combat if room is already in combat
+      if (room.gameState?.combat?.isActive) {
+        import('../../store/combatStore').then(({ default: useCombatStore }) => {
+          const combatData = room.gameState.combat;
+          useCombatStore.setState({
+            isInCombat: true,
+            turnOrder: combatData.turnOrder || [],
+            round: combatData.round || 1,
+            currentTurnIndex: combatData.currentTurnIndex || 0,
+            isSelectionMode: false,
+            selectedTokens: new Set()
+          });
+          console.log('⚔️ [handleJoinRoom] Hydrated active combat state from gameState:', {
+            round: combatData.round,
+            currentTurnIndex: combatData.currentTurnIndex,
+            combatantCount: (combatData.turnOrder || []).length
+          });
+        }).catch(err => {
+          console.warn('Failed to hydrate combatStore in handleJoinRoom:', err);
+        });
       }
 
       // Create/update party with multiplayer players

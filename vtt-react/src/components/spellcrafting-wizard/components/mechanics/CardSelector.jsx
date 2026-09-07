@@ -95,7 +95,7 @@ const EFFECT_PRESETS = {
     name: 'Utility',
     icon: 'Nature/Nature Natural',
     suitEffects: {
-      [CARD_SUITS.HEARTS]: { name: 'Charm', effect: 'charm', icon: 'Utility/Charm' },
+      [CARD_SUITS.HEARTS]: { name: 'Charm', effect: 'charm', icon: 'Psychic/Hypnotic Eye' },
       [CARD_SUITS.DIAMONDS]: { name: 'Haste', effect: 'haste', icon: 'Utility/Speed Dash' },
       [CARD_SUITS.CLUBS]: { name: 'Root', effect: 'root', icon: 'Nature/Nature Natural' },
       [CARD_SUITS.SPADES]: { name: 'Silence', effect: 'silence', icon: 'Utility/Stun' }

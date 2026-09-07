@@ -176,4 +176,30 @@ describe('usePartyStore', () => {
             expect(member.character.health.current).toBe(25);
         });
     });
+
+    describe('HUD Position Persistence and Aliases', () => {
+        it('sets and retrieves member positions with aliases', () => {
+            const { setMemberPosition, getMemberPosition } = usePartyStore.getState();
+
+            setMemberPosition('current-player', { x: 150, y: 200 }, ['user-123', 'socket-abc']);
+
+            expect(getMemberPosition('current-player')).toEqual({ x: 150, y: 200 });
+            expect(getMemberPosition('user-123')).toEqual({ x: 150, y: 200 });
+            expect(getMemberPosition('socket-abc')).toEqual({ x: 150, y: 200 });
+            expect(getMemberPosition('unknown-id', ['user-123'])).toEqual({ x: 150, y: 200 });
+        });
+
+        it('preserves member positions when clearPartyMembers is called', () => {
+            const { setMemberPosition, clearPartyMembers, getMemberPosition } = usePartyStore.getState();
+
+            setMemberPosition('current-player', { x: 300, y: 400 });
+            expect(getMemberPosition('current-player')).toEqual({ x: 300, y: 400 });
+
+            // Simulate room join/transition where members are cleared
+            clearPartyMembers();
+
+            // Position should still be retained
+            expect(getMemberPosition('current-player')).toEqual({ x: 300, y: 400 });
+        });
+    });
 });
