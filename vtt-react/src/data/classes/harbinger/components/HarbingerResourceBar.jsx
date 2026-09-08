@@ -536,8 +536,9 @@ const HarbingerResourceBar = ({
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip harbinger-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     <ClassTip
                         icon="fas fa-meteor"
-                        tint="#6c3483"
+                        tint="#a855f7"
                         title={`${getStageName(mayhemStage)} (Stage ${mayhemStage}/${maxStage})`}
+                        subtitle="Harbinger Abyssal Mayhem"
                         state={getBonusText(mayhemStage)}
                         stateTone={mayhemStage >= 6 ? 'bad' : mayhemStage >= 3 ? 'warn' : 'neutral'}
                         mechanic={`Spells ascend (+1 to +3 by tier and prophecies); spend Mayhem to widen prophecy range, −1/min idle. ${getDrawbackText(mayhemStage)}`}

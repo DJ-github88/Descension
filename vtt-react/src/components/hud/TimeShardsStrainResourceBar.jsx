@@ -131,7 +131,24 @@ const TimeShardsStrainResourceBar = ({
 
   return (
       <div className={`class-resource-bar time-shards-strain ${size}`}>
-          <div className="chronarch-apparatus-container" ref={containerRef}>
+          <div
+              className="chronarch-apparatus-container"
+              ref={containerRef}
+              onMouseEnter={() => {
+                  if (!hoveredShard && !hoveredStrain) {
+                      setChronarchHoverSection('chronarch');
+                      if (containerRef.current && setTooltipPosition) {
+                          const rect = containerRef.current.getBoundingClientRect();
+                          setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
+                      }
+                      if (setShowTooltip) setShowTooltip(true);
+                  }
+              }}
+              onMouseLeave={() => {
+                  setChronarchHoverSection(null);
+                  if (setShowTooltip) setShowTooltip(false);
+              }}
+          >
               <svg
                   className="chronarch-master-svg"
                   viewBox="0 0 292 76"

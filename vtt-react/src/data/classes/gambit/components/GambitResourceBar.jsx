@@ -690,9 +690,10 @@ const GambitResourceBar = ({
                     {hoverSection === 'debt' ? (
                         <ClassTip
                             icon="fas fa-scale-balanced"
-                            tint="#8e44ad"
+                            tint="#a855f7"
                             title="Karmic Debt"
-                            state={`${debtLevel}/${maxDebt} · +${debtLevel * 5}% damage vulnerability`}
+                            subtitle="Gambit Karmic Ledger"
+                            state={`${debtLevel}/${maxDebt} · +${debtLevel * 5}% vulnerability`}
                             stateTone={debtLevel >= 12 ? 'bad' : debtLevel >= 8 ? 'warn' : 'neutral'}
                             mechanic={`Overriding fate builds debt: +${debtLevel * 5}% damage taken from all sources. At 13: Wyrd Collapse (6d10 psychic, incapacitation).`}
                             status={[
@@ -709,8 +710,9 @@ const GambitResourceBar = ({
                     ) : (
                         <ClassTip
                             icon="fas fa-coins"
-                            tint="#b7791f"
+                            tint="#eab308"
                             title={getStageName(fpLevel)}
+                            subtitle="Gambit Fortune Points"
                             state={`${fpLevel}/${maxFp} FP`}
                             stateTone={fpLevel === 0 ? 'bad' : 'good'}
                             mechanic={`Bank FP free on attacks, tosses, and draws. Spend it to nudge d20 rolls (1d4 psychic self-damage per point). ${getBonusText(fpLevel)}.`}

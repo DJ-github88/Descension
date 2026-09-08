@@ -460,8 +460,9 @@ const PyrofiendResourceBar = ({
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip pyrofiend-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     <ClassTip
                         icon="fas fa-fire-flame-curved"
-                        tint="#8c2510"
+                        tint="#ff4500"
                         title={`${getStageName(infernoLevel)} (Stage ${infernoLevel})`}
+                        subtitle="Pyrofiend Inferno Crucible"
                         state={`+${infernoLevel}/die fire`}
                         stateTone={infernoLevel >= 7 ? 'bad' : infernoLevel >= 5 ? 'warn' : 'neutral'}
                         mechanic={`Fire spells ascend the Inferno (per-tier); Cooling Ember −2, −1/min idle. +${infernoLevel} fire per die rolled. ${getDrawbackText(infernoLevel)}`}

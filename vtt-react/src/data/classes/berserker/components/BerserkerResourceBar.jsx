@@ -569,13 +569,14 @@ const BerserkerResourceBar = ({
             {showTooltip && ReactDOM.createPortal(
                 <div
                     ref={tooltipRef}
-                    className="unified-resourcebar-tooltip pathfinder-tooltip"
+                    className="unified-resourcebar-tooltip pathfinder-tooltip berserker-tooltip"
                     style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}
                 >
                     <ClassTip
                         icon="fas fa-fire"
                         tint="#dc2626"
                         title={`Blood-Heat Rage · ${rageState.name}`}
+                        subtitle="Berserker Blood-Iron Apparatus"
                         state={`${localRage}/100 Rage · ${rageState.name}`}
                         stateTone={isOverheated ? 'bad' : localRage >= 41 ? 'good' : 'neutral'}
                         mechanic="Attacking (+1d6), crits (+2d6), taking damage (+1d4), kills (+1d8). Decays by 5/round if idle. Grants Pain Immunity at 21+ Rage. Overheat (101+): must vent within 1 round or suffer 2d6 self-recoil damage."

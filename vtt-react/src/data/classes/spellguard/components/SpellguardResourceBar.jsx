@@ -781,13 +781,14 @@ const SpellguardResourceBar = ({
             {showTooltip && !showControls && ReactDOM.createPortal(
                 <div
                     ref={tooltipRef}
-                    className="unified-resourcebar-tooltip pathfinder-tooltip"
+                    className="unified-resourcebar-tooltip pathfinder-tooltip spellguard-tooltip"
                     style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}
                 >
                     <ClassTip
                         icon="fas fa-shield-halved"
                         tint={currentTier.color}
                         title="Silence-Scarred Aegis (AEP)"
+                        subtitle="Spellguard Arcane Aegis"
                         state={`${localAEP}/100 • ${currentTier.name}`}
                         stateTone={isMeltdown ? 'bad' : isCritical ? 'warn' : 'good'}
                         mechanic="Absorb hostile spells and physical blows into living vascular tissue. Spend stored AEP on devastating shields, reflections, and kinetic strikes."

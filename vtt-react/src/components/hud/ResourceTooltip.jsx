@@ -127,15 +127,44 @@ const ResourceTooltip = ({
             });
         }
 
+        // Determine the class-specific CSS theme
+        const getTooltipThemeClass = () => {
+            const vType = finalConfig?.visual?.type || modifiedConfig?.visual?.type;
+            if (vType === 'madness-gauge') return 'false-prophet-tooltip';
+            if (vType === 'time-shards-strain') return 'chronarch-tooltip';
+            if (vType === 'mayhem-gauge' || vType === 'mayhem-modifiers') return 'harbinger-tooltip';
+            if (vType === 'fortune-points-gambling') return 'gambit-tooltip';
+            if (vType === 'devotion-gauge') return 'martyr-tooltip';
+            if (vType === 'ascension-blood') return 'ascension-tooltip';
+            if (vType === 'hexbreaker-charges') return 'inquisitor-tooltip';
+            if (vType === 'threads-of-destiny') return 'augur-tooltip';
+            if (vType === 'quarry-marks-companion') return 'apex-tooltip';
+            if (vType === 'lunar-phases') return 'lunarch-tooltip';
+            if (vType === 'ancestral-resonance') return 'animist-tooltip';
+            if (vType === 'musical-notes-combo') return 'minstrel-tooltip';
+            if (vType === 'elemental-spheres' || finalConfig?.type === 'spheres') return 'arcanoneer-tooltip';
+            if (vType === 'drp-resilience' || vType === 'vengeance-points') return 'warden-tooltip';
+            if (vType === 'dominance-die') return 'warden-tooltip';
+            if (vType === 'virulence-bar') return 'plaguebringer-tooltip';
+            if (vType === 'dual-resource') return 'toxicologist-tooltip';
+            if (vType === 'dual-omen') return 'augur-tooltip';
+            if (vType === 'inferno-veil') return 'pyrofiend-tooltip';
+            if (vType === 'arcane-absorption') return 'spellguard-tooltip';
+            if (vType === 'eternal-frost-phylactery' || vType === 'revenant-toll') return 'revenant-tooltip';
+            if (finalConfig?.type === 'rage' || modifiedConfig?.type === 'rage') return 'berserker-tooltip';
+            if (vType === 'crusader-fervor') return 'crusader-tooltip';
+            return '';
+        };
+
         // Check if there's any content to show in the tooltip
         const hasTooltipContent =
             (modifiedConfig.type !== 'rage' && modifiedConfig.type !== 'dual-resource' && modifiedConfig.visual?.type !== 'mayhem-gauge' && modifiedConfig.visual?.type !== 'time-shards-strain' && modifiedConfig.visual?.type !== 'ascension-blood' && modifiedConfig.visual?.type !== 'hexbreaker-charges' && modifiedConfig.visual?.type !== 'madness-gauge' && modifiedConfig.visual?.type !== 'threads-of-destiny' && modifiedConfig.visual?.type !== 'fortune-points-gambling' && modifiedConfig.visual?.type !== 'quarry-marks-companion' && modifiedConfig.visual?.type !== 'musical-notes-combo' && modifiedConfig.visual?.type !== 'vengeance-points' && modifiedConfig.visual?.type !== 'ancestral-resonance' && modifiedConfig.visual?.type !== 'dual-omen' && modifiedConfig.visual?.type !== 'inferno-veil' && modifiedConfig.visual?.type !== 'arcane-absorption' && modifiedConfig.visual?.type !== 'devotion-gauge' && modifiedConfig.visual?.type !== 'lunar-phases' && modifiedConfig.visual?.type !== 'elemental-spheres' && modifiedConfig.tooltip?.description) ||
             (finalConfig.type === 'spheres') ||
             (finalConfig.type === 'dual-resource' && shaperHoverSection) ||
-            (finalConfig.visual?.type === 'time-shards-strain' && chronarchHoverSection) ||
+            (finalConfig.visual?.type === 'time-shards-strain') ||
             (finalConfig.visual?.type === 'hexbreaker-charges' && hexbreakerHoverSection) ||
             (finalConfig.visual?.type === 'ascension-blood' && ascensionHoverSection) ||
-            (finalConfig.visual?.type === 'madness-gauge' && falseProphetHoverSection === 'madness') ||
+            (finalConfig.visual?.type === 'madness-gauge') ||
             (finalConfig.visual?.type === 'threads-of-destiny' && fateWeaverHoverSection) ||
             (finalConfig.visual?.type === 'fortune-points-gambling' && gamblerHoverSection === 'fp') ||
             (finalConfig.visual?.type === 'quarry-marks-companion' && huntressHoverSection) ||
@@ -153,16 +182,20 @@ const ResourceTooltip = ({
             <TooltipPortal>
                 <div
                     ref={tooltipRef}
-                    className="unified-resourcebar-tooltip pathfinder-tooltip"
+                    className={`unified-resourcebar-tooltip pathfinder-tooltip ${getTooltipThemeClass()}`.trim()}
                     style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}
                 >
-                    {modifiedConfig.type !== 'rage' && modifiedConfig.type !== 'dual-resource' && modifiedConfig.visual?.type !== 'mayhem-modifiers' && modifiedConfig.visual?.type !== 'mayhem-gauge' && modifiedConfig.visual?.type !== 'time-shards-strain' && modifiedConfig.visual?.type !== 'ascension-blood' && modifiedConfig.visual?.type !== 'hexbreaker-charges' && modifiedConfig.visual?.type !== 'drp-resilience' && modifiedConfig.visual?.type !== 'dominance-die' && modifiedConfig.visual?.type !== 'madness-gauge' && modifiedConfig.visual?.type !== 'threads-of-destiny' && modifiedConfig.visual?.type !== 'fortune-points-gambling' && modifiedConfig.visual?.type !== 'quarry-marks-companion' && modifiedConfig.visual?.type !== 'musical-notes-combo' && modifiedConfig.visual?.type !== 'prophetic-visions' && modifiedConfig.visual?.type !== 'vengeance-points' && modifiedConfig.visual?.type !== 'eternal-frost-phylactery' && modifiedConfig.visual?.type !== 'ancestral-resonance' && modifiedConfig.tooltip?.description && (
-                        <>
-                            <div className="tooltip-header">{tooltipTitle || modifiedConfig.visual?.name || 'Class Resource'}</div>
-                            <div className="tooltip-section">
-                                {modifiedConfig.tooltip.description}
-                            </div>
-                        </>
+                    {modifiedConfig.type !== 'rage' && modifiedConfig.type !== 'dual-resource' && modifiedConfig.visual?.type !== 'mayhem-modifiers' && modifiedConfig.visual?.type !== 'mayhem-gauge' && modifiedConfig.visual?.type !== 'time-shards-strain' && modifiedConfig.visual?.type !== 'ascension-blood' && modifiedConfig.visual?.type !== 'hexbreaker-charges' && modifiedConfig.visual?.type !== 'drp-resilience' && modifiedConfig.visual?.type !== 'dominance-die' && modifiedConfig.visual?.type !== 'madness-gauge' && modifiedConfig.visual?.type !== 'threads-of-destiny' && modifiedConfig.visual?.type !== 'fortune-points-gambling' && modifiedConfig.visual?.type !== 'quarry-marks-companion' && modifiedConfig.visual?.type !== 'musical-notes-combo' && modifiedConfig.visual?.type !== 'prophetic-visions' && modifiedConfig.visual?.type !== 'vengeance-points' && modifiedConfig.visual?.type !== 'eternal-frost-phylactery' && modifiedConfig.visual?.type !== 'ancestral-resonance' && (
+                        <ClassTip
+                            icon="fas fa-scroll"
+                            tint="#b7791f"
+                            title={tooltipTitle || modifiedConfig.visual?.name || 'Class Resource'}
+                            subtitle="Class Resource Mechanic"
+                            state={finalClassResource?.current !== undefined ? `${finalClassResource.current}${finalClassResource.max ? `/${finalClassResource.max}` : ''}` : null}
+                            stateTone="neutral"
+                            mechanic={modifiedConfig.tooltip?.description || 'Track and manage this class resource during encounters.'}
+                            status={finalClassResource?.current !== undefined ? [`Current pool: ${finalClassResource.current} available.`] : []}
+                        />
                     )}
 
                     {/* Simple sphere count */}
@@ -273,14 +306,15 @@ const ResourceTooltip = ({
                     )}
 
                     {/* Chronarch Time Shards & Temporal Strain Tooltips */}
-                    {finalConfig.visual?.type === 'time-shards-strain' && chronarchHoverSection && (
+                    {finalConfig.visual?.type === 'time-shards-strain' && (
                         <div>
                             {chronarchHoverSection === 'shards' && (
                                 <ClassTip
-                                    icon="⏳"
-                                    tint="#4fc3f7"
+                                    icon="fas fa-gem"
+                                    tint="#38bdf8"
                                     title="Time Shards"
-                                    state={`${chronarchTimeShards}/10`}
+                                    subtitle="Chronarch Time Shards"
+                                    state={`${chronarchTimeShards}/10 Shards`}
                                     stateTone={chronarchTimeShards >= 4 ? 'good' : 'neutral'}
                                     mechanic="Fuel for Flux abilities. Every basic spell banks +1 shard; shards persist between fights."
                                     status={[
@@ -297,20 +331,21 @@ const ResourceTooltip = ({
                             {chronarchHoverSection === 'strain' && (() => {
                                 const strainValue = chronarchTemporalStrain;
                                 const getStrainState = (strain) => {
-                                    if (strain >= 10) return { name: 'BACKLASH!', color: '#8b3a2a', tone: 'bad' };
-                                    if (strain >= 9) return { name: 'Critical', color: '#C62828', tone: 'bad' };
-                                    if (strain >= 7) return { name: 'Danger', color: '#E53935', tone: 'bad' };
-                                    if (strain >= 5) return { name: 'Warning', color: '#FB8C00', tone: 'warn' };
-                                    if (strain >= 3) return { name: 'Caution', color: '#F9A825', tone: 'warn' };
-                                    return { name: 'Safe', color: '#2E7D32', tone: 'good' };
+                                    if (strain >= 10) return { name: 'BACKLASH!', color: '#ef4444', tone: 'critical' };
+                                    if (strain >= 9) return { name: 'Critical', color: '#ef4444', tone: 'bad' };
+                                    if (strain >= 7) return { name: 'Danger', color: '#f87171', tone: 'bad' };
+                                    if (strain >= 5) return { name: 'Warning', color: '#f97316', tone: 'warn' };
+                                    if (strain >= 3) return { name: 'Caution', color: '#eab308', tone: 'warn' };
+                                    return { name: 'Safe', color: '#22c55e', tone: 'good' };
                                 };
                                 const state = getStrainState(strainValue);
 
                                 return (
                                     <ClassTip
-                                        icon="⌛"
+                                        icon="fas fa-hourglass-half"
                                         tint={state.color}
                                         title="Temporal Strain"
+                                        subtitle="Chronarch Paradox Strain"
                                         state={`${strainValue}/10 · ${state.name}`}
                                         stateTone={state.tone}
                                         mechanic="Paradox-weight from Flux abilities (+1 to +8 each). Decays −1 per turn when idle."
@@ -327,6 +362,25 @@ const ResourceTooltip = ({
                                     />
                                 );
                             })()}
+
+                            {(!chronarchHoverSection || chronarchHoverSection === 'chronarch' || chronarchHoverSection === 'all') && (
+                                <ClassTip
+                                    icon="fas fa-hourglass-half"
+                                    tint="#38bdf8"
+                                    title="Astrolabe of Time"
+                                    subtitle="Chronarch Shards & Temporal Strain"
+                                    state={`${chronarchTimeShards}/10 Shards · ${chronarchTemporalStrain}/10 Strain`}
+                                    stateTone={chronarchTemporalStrain >= 9 ? 'critical' : chronarchTemporalStrain >= 7 ? 'bad' : 'neutral'}
+                                    mechanic="Dual temporal balance: bank Time Shards with basic spells to fuel Flux, while managing accumulating Temporal Strain to avoid timeline backlash."
+                                    status={[
+                                        `Shards: ${chronarchTimeShards}/10 available to fuel temporal manipulations.`,
+                                        `Strain: ${chronarchTemporalStrain}/10 paradox weight (${chronarchTemporalStrain >= 10 ? 'BACKLASH!' : chronarchTemporalStrain >= 7 ? 'DANGER' : 'Stable'}).`,
+                                        'Hover left wing for Shards or right wing for Strain details.'
+                                    ]}
+                                    usage="Click shard or strain pips to adjust · Click center dial for temporal console"
+                                    hint="Chronarchs bend the stream of time, paying in paradox what they take in foresight."
+                                />
+                            )}
                         </div>
                     )}
 
@@ -516,24 +570,26 @@ const ResourceTooltip = ({
                     )}
 
                     {/* False Prophet Madness Tooltip */}
-                    {finalConfig.visual?.type === 'madness-gauge' && falseProphetHoverSection === 'madness' && (
+                    {finalConfig.visual?.type === 'madness-gauge' && (
                         <ClassTip
-                            icon="🌀"
-                            tint="#6a1b9a"
-                            title="Madness"
-                            state={`${localMadness}/20 · ${getDangerLevel(localMadness).name}`}
-                            stateTone={localMadness >= 15 ? 'bad' : localMadness >= 10 ? 'warn' : 'neutral'}
-                            mechanic={`Spells generate Madness; some spend it. Shadow damage +${localMadness}. Next: ${getNextThreshold(localMadness)}. Milestones 6/9/10 (+2d6)/12 — 15 danger, 20 convulsion.`}
+                            icon="fas fa-eye"
+                            tint="#c026d3"
+                            title="The Silent Eye of the Void"
+                            subtitle="False Prophet Wyrd Fracture & Madness"
+                            state={`${localMadness}/20 · ${getDangerLevel ? getDangerLevel(localMadness).name : (localMadness >= 20 ? 'Convulsion' : localMadness >= 15 ? 'Danger' : 'Ascending')}`}
+                            stateTone={localMadness >= 20 ? 'critical' : localMadness >= 15 ? 'bad' : localMadness >= 10 ? 'warn' : 'neutral'}
+                            mechanic={`Spells generate Madness; some spend it. Shadow damage +${localMadness}. Milestones: 6 (Veil), 9 (Vision), 10 (+2d6 damage), 12 (Apocalypse), 15 (Danger), 20 (Convulsion).`}
                             status={[
-                                localMadness === 20
-                                    ? 'CONVULSION: roll 1d6 (burst · stun · disadvantage · teleport · fear · echoes), then reset to 0.'
+                                localMadness >= 20
+                                    ? 'CONVULSION ACTIVE: Roll 1d6 (burst · stun · disadvantage · teleport · fear · echoes), then reset to 0.'
                                     : localMadness >= 15
-                                        ? 'Convulsion near — spend Madness or avoid generators.'
+                                        ? 'Convulsion near (15+) — spend Madness or avoid generators to prevent mental fracture.'
                                         : localMadness >= 10
-                                            ? 'Empowered — next shadow spell +2d6.'
+                                            ? 'Empowered (10+) — next shadow spell deals +2d6 bonus damage.'
                                             : 'Building — safe to generate.',
                             ]}
-                            usage="Spend Madness on empowered shadow spells."
+                            usage="Spend Madness on empowered shadow spells · Click the Eye to adjust."
+                            hint="False Prophets pierce the veil of reality, harnessing forbidden madness until reality snaps back."
                         />
                     )}
 

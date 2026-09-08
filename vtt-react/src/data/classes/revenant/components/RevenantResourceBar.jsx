@@ -782,13 +782,14 @@ const RevenantResourceBar = ({
             {showTooltip && !showControls && ReactDOM.createPortal(
                 <div
                     ref={tooltipRef}
-                    className="unified-resourcebar-tooltip pathfinder-tooltip"
+                    className="unified-resourcebar-tooltip pathfinder-tooltip revenant-tooltip"
                     style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}
                 >
                     <ClassTip
                         icon="fas fa-skull"
                         tint={currentTier.color}
                         title="Death-Toll & Phylactery"
+                        subtitle="Revenant Death-Toll & Phylactery"
                         state={`${toll}/20 • ${currentTier.name}`}
                         stateTone={isCataclysm ? 'bad' : isRot ? 'warn' : 'good'}
                         mechanic="Spend HP to advance Toll into volatile damage tiers. Soul HP in the Phylactery fuels Strategic Resurrection."

@@ -414,11 +414,12 @@ const AugurResourceBar = ({
 
             {/* Shared ClassTip Tooltip */}
             {showTooltip && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip augur-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     <ClassTip
                         icon="fas fa-eye"
-                        tint="#8B5A8B"
+                        tint="#f59e0b"
                         title="Astrolabe of Dual Omens"
+                        subtitle="Augur Dual Omen Astrolabe"
                         state={`${benediction}/${maxBenediction} Light · ${malediction}/${maxMalediction} Dark`}
                         stateTone={inDebt ? 'bad' : 'neutral'}
                         mechanic="Every d20 within 60 ft births an omen: even → Benediction (force misses, ward allies), odd → Malediction (cripple, curse, rot). No blood nearby? Draw Blood (1d6 slashing + Bleed) to generate."

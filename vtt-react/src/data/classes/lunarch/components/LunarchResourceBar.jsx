@@ -831,12 +831,13 @@ const LunarchResourceBar = ({
 
             {/* Shared ClassTip Tooltip */}
             {showTooltip && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip lunarch-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     <ClassTip
                         icon="fas fa-moon"
-                        tint="#7c3aed"
+                        tint="#a855f7"
                         title={`The Lunar Communion: ${currentPhaseData.name}`}
-                        state={`${currentPhaseData.name} (${currentPhaseData.subtitle}) · Round ${roundsInPhase + 1}/3`}
+                        subtitle="Lunarch Lunar Ephemeris"
+                        state={`${currentPhaseData.name} · Round ${roundsInPhase + 1}/3`}
                         stateTone={isFullMoon ? 'critical' : currentPhase === 'waxing_moon' ? 'warn' : 'good'}
                         mechanic="Auto-advances every 3 rounds. The lunar parasite rewrites your physiology across 4 cosmic phases, altering spell effects and granting phase-specific burst buffs."
                         status={[

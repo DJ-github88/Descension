@@ -57,6 +57,7 @@ const ArcanoneerResourceBar = ({
     const [localSpheres, setLocalSpheres] = useState(normalizeSpheres(classResource?.spheres));
     const [isRolling, setIsRolling] = useState(false);
     const [hoveredBlockId, setHoveredBlockId] = useState(null);
+    const [showBarTooltip, setShowBarTooltip] = useState(false);
     const [showMatrixModal, setShowMatrixModal] = useState(false);
     const [lastRollResult, setLastRollResult] = useState(null);
 
@@ -84,11 +85,16 @@ const ArcanoneerResourceBar = ({
     const barRef = useRef(null);
     const matrixModalRef = useRef(null);
 
-    // Shared tooltip hook for element hovering
-    const tooltipRef = useResourceBarTooltip(barRef, hoveredBlockId !== null, [hoveredBlockId, localSpheres], {
-        preferredWidth: 320,
-        preferredHeight: 240,
-    });
+    // Shared tooltip hook for element and bar hovering
+    const tooltipRef = useResourceBarTooltip(
+        barRef,
+        (hoveredBlockId !== null || showBarTooltip) && !showMatrixModal,
+        [hoveredBlockId, showBarTooltip, showMatrixModal, localSpheres],
+        {
+            preferredWidth: 320,
+            preferredHeight: 240,
+        }
+    );
 
     // Close Matrix Modal on outside click
     useEffect(() => {
@@ -416,40 +422,71 @@ const ArcanoneerResourceBar = ({
         );
     };
 
-    // Element Hover Tooltip
+    // Element / Bar Hover Tooltip
     const renderHoverTooltip = () => {
-        if (!hoveredBlockId) return null;
-        const block = getBlock(hoveredBlockId);
-        if (!block) return null;
-        const count = blockCounts[block.id] || 0;
-        const forms = formulationsUsingBlock(block.id);
-        const readyForms = forms.filter(f => {
-            const [a, b] = f.elements;
-            const need = a === b ? 2 : 1;
-            return (blockCounts[a] || 0) >= need && (blockCounts[b] || 0) >= need;
-        });
+        if (showMatrixModal) return null;
+        if (!hoveredBlockId && !showBarTooltip) return null;
 
+        if (hoveredBlockId) {
+            const block = getBlock(hoveredBlockId);
+            if (!block) return null;
+            const count = blockCounts[block.id] || 0;
+            const forms = formulationsUsingBlock(block.id);
+            const readyForms = forms.filter(f => {
+                const [a, b] = f.elements;
+                const need = a === b ? 2 : 1;
+                return (blockCounts[a] || 0) >= need && (blockCounts[b] || 0) >= need;
+            });
+
+            return ReactDOM.createPortal(
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip arcanoneer-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none', zIndex: 100000 }}>
+                    <ClassTip
+                        icon="fas fa-gem"
+                        tint={block.isGradient ? '#FF00FF' : block.color}
+                        title={`${block.name} (d8 = ${block.d8Value})`}
+                        subtitle="Arcanoneer Elemental Sphere"
+                        state={`${count} banked`}
+                        stateTone={count > 0 ? 'good' : 'neutral'}
+                        mechanic={`${block.theme} — ${block.summary}`}
+                        status={[
+                            count > 0
+                                ? `${count} banked — chambered in iron sleeve.`
+                                : 'Chamber empty — roll 4d8 to draw elemental spheres.',
+                            readyForms.length > 0
+                                ? `Ready Combinations: ${readyForms.map(f => f.name).join(', ')}.`
+                                : forms.length > 0
+                                    ? `No ready weave — requires partner sphere (${forms.length} matrix formulas use this).`
+                                    : null,
+                        ]}
+                        usage={canEdit ? 'Click to chamber (+1) · Right-click to expel (-1)' : null}
+                        hint={block.flavor}
+                    />
+                </div>,
+                document.body
+            );
+        }
+
+        // Bar-level hover
+        const readyFormsCount = readyFormulations.length;
         return ReactDOM.createPortal(
-            <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none', zIndex: 100000 }}>
+            <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip arcanoneer-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none', zIndex: 100000 }}>
                 <ClassTip
-                    icon="fas fa-gem"
-                    tint={block.isGradient ? '#FF00FF' : block.color}
-                    title={`${block.name} (d8 = ${block.d8Value})`}
-                    state={`${count} banked`}
-                    stateTone={count > 0 ? 'good' : 'neutral'}
-                    mechanic={`${block.theme} — ${block.summary}`}
+                    icon="fas fa-flask"
+                    tint="#9370DB"
+                    title="Calibrated Iron Sleeve"
+                    subtitle="Arcanoneer Formulation Matrix & Spheres"
+                    state={`${totalBanked} / ${maxBank} Banked`}
+                    stateTone={totalBanked >= maxBank ? 'critical' : totalBanked > 0 ? 'good' : 'neutral'}
+                    mechanic="Magi-ballistic artillery channeling elemental spheres into spell formulations. Roll 4d8 (Kinetic Primer) to draw elemental building blocks, or combine pairs in the Formulation Matrix."
                     status={[
-                        count > 0
-                            ? `${count} banked — chambered in iron sleeve.`
-                            : 'Chamber empty — roll 4d8 to draw elemental spheres.',
-                        readyForms.length > 0
-                            ? `Ready Combinations: ${readyForms.map(f => f.name).join(', ')}.`
-                            : forms.length > 0
-                                ? `No ready weave — requires partner sphere (${forms.length} matrix formulas use this).`
-                                : null,
+                        `Cylinder: ${totalBanked}/${maxBank} spheres chambered.`,
+                        readyFormsCount > 0
+                            ? `Formulations Ready: ${readyFormsCount} spell(s) primed for casting.`
+                            : 'No formulations fully primed. Draw or chamber matching sphere pairs.',
+                        'Hover individual chambers for element combinations or click MATRIX to view all.'
                     ]}
-                    usage={canEdit ? 'Click to chamber (+1) · Right-click to expel (-1)' : null}
-                    hint={block.flavor}
+                    usage="Roll 4d8 to draw spheres · Click chamber (+1) / Right-click (-1) · Click MATRIX to craft"
+                    hint="Arcanoneers synthesize arcane artillery by binding twin spheres into destructive or tactical formulations."
                 />
             </div>,
             document.body
@@ -777,7 +814,12 @@ const ArcanoneerResourceBar = ({
     // ========================================================================
     return (
         <div className={`class-resource-bar arcanoneer-blocks ${size} ${context}-context ${showcase ? 'showcase-mode' : ''}`}>
-            <div className="arc-apparatus-wrapper" ref={barRef}>
+            <div
+                className="arc-apparatus-wrapper"
+                ref={barRef}
+                onMouseEnter={() => setShowBarTooltip(true)}
+                onMouseLeave={() => setShowBarTooltip(false)}
+            >
 
                 <svg
                     className="arc-master-svg"

@@ -557,6 +557,7 @@ const MartyrResourceBar = ({
                             icon="fas fa-heart-pulse"
                             tint={activeSpec.accentColor}
                             title="Sacrificial Bank"
+                            subtitle="Martyr Devotion Gauge"
                             state={`${devotionDamage}/100 DMG`}
                             stateTone={devotionDamage >= 80 ? 'good' : devotionDamage >= 20 ? 'warn' : 'neutral'}
                             mechanic="Every point of damage willingly absorbed for allies fills the Devotion boiler. Higher damage triggers Stigmata thresholds."
@@ -573,6 +574,7 @@ const MartyrResourceBar = ({
                             icon="fas fa-cross"
                             tint={activeSpec.accentColor}
                             title={`Devotion · ${STAGE_NAMES[devotionLevel]}`}
+                            subtitle="Martyr Devotion Gauge"
                             state={`Tier ${ROMAN_NUMERALS[devotionLevel]} (${devotionDamage} DMG)`}
                             stateTone={devotionLevel >= 4 ? 'good' : devotionLevel > 0 ? 'warn' : 'neutral'}
                             mechanic={`Sera Solvan's First Scar transforms suffering into divine authority. ${activeSpec.title}: ${activeSpec.description}`}

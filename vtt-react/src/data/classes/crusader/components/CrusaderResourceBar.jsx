@@ -500,11 +500,12 @@ const CrusaderResourceBar = ({
 
             {/* Shared ClassTip Tooltip */}
             {showTooltip && !showControls && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip crusader-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     <ClassTip
                         icon="fas fa-sun"
-                        tint="#e6a100"
+                        tint="#eab308"
                         title="Radiant Fervor"
+                        subtitle="Crusader Solar Dynamo"
                         state={`${localFervor}/${maxFervor}`}
                         stateTone={isJudgmentReady ? 'good' : isHarmonic ? 'good' : 'neutral'}
                         mechanic="Kindle in sacred combat: melee strikes (+10), shield-defense (+10), Beacon/Prayer (+25). Unleash at 25 Aegis, 50 Harmonic Stance, 100 Solar Judgment."

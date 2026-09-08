@@ -636,11 +636,12 @@ const GaolerResourceBar = ({
 
             {/* Simplified Tooltip */}
             {showTooltip && !showControls && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip warden-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     <ClassTip
                         icon="fas fa-link"
-                        tint="#6d4c41"
+                        tint="#f59e0b"
                         title="Vengeance (Tension)"
+                        subtitle="Warden Vengeance Pool"
                         state={`${localVP}/${maxVP} VP`}
                         stateTone={localVP >= 6 ? 'good' : 'neutral'}
                         mechanic="Attacks (+1, +2 on marked), evasions (+1) and crits (+2) bank VP. +5 ft pursuit speed per VP toward your mark (max +50 ft)."

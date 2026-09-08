@@ -144,8 +144,8 @@
     }
 }
 
-/* Simplified Tooltip - Beige Pathfinder Style */
-.unified-resourcebar-tooltip {
+/* Scoped Legacy Tooltip styles (deprecated in favor of ClassTip) */
+.unified-resourcebar-tooltip.warden-legacy-tooltip {
     position: fixed;
     background: linear-gradient(135deg, #E8DCC8 0%, #D4C5B0 100%);
     border: 2px solid #8B7355;
@@ -162,40 +162,4 @@
     z-index: 999999999;
     pointer-events: none;
     line-height: 1.5;
-}
-
-.tooltip-title {
-    font-size: 13px;
-    font-weight: bold;
-    color: #1a0a00;
-    margin-bottom: 6px;
-}
-
-.tooltip-spec {
-    font-size: 11px;
-    font-weight: bold;
-    color: #5a3a1a;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.tooltip-divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #8B7355, transparent);
-    margin: 8px 0;
-}
-
-.tooltip-section {
-    margin-bottom: 6px;
-    color: #3a2a1a;
-    font-size: 11px;
-    line-height: 1.5;
-}
-
-.tooltip-section strong {
-    color: #1a0a00;
-    font-weight: bold;
-    display: inline;
-    margin-right: 4px;
 }

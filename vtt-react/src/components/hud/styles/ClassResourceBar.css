@@ -42,6 +42,8 @@
 @import '../../../data/classes/animist/styles/AnimistResourceBar.css';
 /* Shaper "The Biomantic Morphic Armature & Flesh-Vessel": external component, self-contained CSS */
 @import '../../../data/classes/shaper/styles/ShaperResourceBar.css';
+/* Unified & Thematic Class Resource Tooltips */
+@import './ClassResourceTooltips.css';
 
 .class-resource-wrapper {
     position: relative;

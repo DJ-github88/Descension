@@ -768,11 +768,12 @@ const ToxicologistResourceBar = ({
 
             {/* Shared ClassTip Tooltip */}
             {showTooltip && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip toxicologist-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     <ClassTip
                         icon="fas fa-flask"
-                        tint="#7cb342"
+                        tint="#84cc16"
                         title="Apothecary & Clockwork Rig"
+                        subtitle="Toxicologist Field Apothecary"
                         state={`${localToxinVials}/${maxToxinVials} Vials · ${localContraptionParts}/${maxContraptionParts} Parts`}
                         stateTone={localToxinVials > 0 ? 'good' : 'warn'}
                         mechanic="Toxins: Distill 1d4 on short rest, all on long rest. Spend on area-denial poisons and reactive concoctions. Parts: Reclaim 1 on short rest, all on long rest. Spend on clockwork traps and needle-contraptions."

@@ -1,0 +1,332 @@
+/* ==========================================================================
+   CLASS RESOURCE TOOLTIPS — Thematic Styling for Mythrill VTT Classes
+   Each class resource bar tooltip has bespoke atmospheric styling reflecting
+   its lore, magic school, and tactile aesthetic.
+   ========================================================================== */
+
+/* Base unified class resource tooltip shell */
+.unified-resourcebar-tooltip.pathfinder-tooltip {
+    position: fixed;
+    border-radius: 4px;
+    padding: 12px 14px;
+    min-width: 290px;
+    max-width: 380px;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    line-height: 1.5;
+    z-index: 2147483647;
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+    transition: opacity 0.12s ease-out;
+}
+
+/* Default Pathfinder Parchment (Fallback) */
+.unified-resourcebar-tooltip.pathfinder-tooltip {
+    background: linear-gradient(145deg, #1f1a14 0%, #2b231a 60%, #1a150f 100%);
+    border: 1.5px solid #b7791f;
+    color: #f5eedb;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8),
+                0 0 14px rgba(183, 121, 31, 0.25),
+                inset 0 1px 1px rgba(255, 235, 185, 0.25);
+}
+
+.unified-resourcebar-tooltip .tooltip-divider {
+    height: 1px;
+    margin: 8px 0;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.unified-resourcebar-tooltip .tooltip-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 700;
+    opacity: 0.7;
+    margin-bottom: 2px;
+}
+
+/* 1. PYROFIEND — Volcanic Basalt & Obsidian Furnace */
+.unified-resourcebar-tooltip.pyrofiend-tooltip {
+    background: linear-gradient(145deg, #180806 0%, #2b110b 60%, #160604 100%);
+    border: 1.5px solid #ff4500;
+    color: #ffedd5;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 18px rgba(255, 69, 0, 0.4),
+                inset 0 1px 1px rgba(255, 170, 50, 0.35);
+}
+.unified-resourcebar-tooltip.pyrofiend-tooltip .class-tip-title { color: #ffedd5; text-shadow: 0 0 8px #ff4500; }
+.unified-resourcebar-tooltip.pyrofiend-tooltip .tooltip-divider { background: rgba(255, 69, 0, 0.25); }
+.unified-resourcebar-tooltip.pyrofiend-tooltip .tooltip-label { color: #fdba74; }
+
+/* 2. BERSERKER — Blood-Iron Armor & Battle Rage */
+.unified-resourcebar-tooltip.berserker-tooltip {
+    background: linear-gradient(145deg, #180808 0%, #2c0909 60%, #150505 100%);
+    border: 1.5px solid #dc2626;
+    color: #fee2e2;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 18px rgba(220, 38, 38, 0.4),
+                inset 0 1px 1px rgba(252, 165, 165, 0.3);
+}
+.unified-resourcebar-tooltip.berserker-tooltip .class-tip-title { color: #fff1f2; text-shadow: 0 0 8px #dc2626; }
+.unified-resourcebar-tooltip.berserker-tooltip .tooltip-divider { background: rgba(220, 38, 38, 0.25); }
+.unified-resourcebar-tooltip.berserker-tooltip .tooltip-label { color: #fca5a5; }
+
+/* 3. CHRONARCH — Astrolabe Brass & Temporal Glass */
+.unified-resourcebar-tooltip.chronarch-tooltip {
+    background: linear-gradient(145deg, #0b1522 0%, #10243a 60%, #0c1826 100%);
+    border: 1.5px solid #38bdf8;
+    color: #e0f2fe;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 18px rgba(56, 189, 248, 0.35),
+                inset 0 1px 1px rgba(251, 191, 36, 0.3);
+}
+.unified-resourcebar-tooltip.chronarch-tooltip .class-tip-title { color: #f0f9ff; text-shadow: 0 0 8px #38bdf8; }
+.unified-resourcebar-tooltip.chronarch-tooltip .tooltip-divider { background: rgba(56, 189, 248, 0.25); }
+.unified-resourcebar-tooltip.chronarch-tooltip .tooltip-label { color: #7dd3fc; }
+
+/* 4. PLAGUEBRINGER — Toxic Alchemical Glass & Bile */
+.unified-resourcebar-tooltip.plaguebringer-tooltip {
+    background: linear-gradient(145deg, #0c1608 0%, #1a2a0f 60%, #0d1a09 100%);
+    border: 1.5px solid #84cc16;
+    color: #ecfccb;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 18px rgba(132, 204, 22, 0.35),
+                inset 0 1px 1px rgba(190, 242, 100, 0.3);
+}
+.unified-resourcebar-tooltip.plaguebringer-tooltip .class-tip-title { color: #f7fee7; text-shadow: 0 0 8px #84cc16; }
+.unified-resourcebar-tooltip.plaguebringer-tooltip .tooltip-divider { background: rgba(132, 204, 22, 0.25); }
+.unified-resourcebar-tooltip.plaguebringer-tooltip .tooltip-label { color: #bef264; }
+
+/* 5. LUNARCH — Starfall Silver & Velvet Dusk */
+.unified-resourcebar-tooltip.lunarch-tooltip {
+    background: linear-gradient(145deg, #130d24 0%, #20133c 60%, #140d26 100%);
+    border: 1.5px solid #a855f7;
+    color: #f3e8ff;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 20px rgba(168, 85, 247, 0.4),
+                inset 0 1px 1px rgba(233, 213, 255, 0.35);
+}
+.unified-resourcebar-tooltip.lunarch-tooltip .class-tip-title { color: #faf5ff; text-shadow: 0 0 8px #a855f7; }
+.unified-resourcebar-tooltip.lunarch-tooltip .tooltip-divider { background: rgba(168, 85, 247, 0.25); }
+.unified-resourcebar-tooltip.lunarch-tooltip .tooltip-label { color: #d8b4fe; }
+
+/* 6. ARCANONEER — Prism Matrix & Brass Sleeve */
+.unified-resourcebar-tooltip.arcanoneer-tooltip {
+    background: linear-gradient(145deg, #1c1126 0%, #2a1538 60%, #170d20 100%);
+    border: 1.5px solid #d946ef;
+    color: #fae8ff;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 18px rgba(217, 70, 239, 0.35),
+                inset 0 1px 1px rgba(56, 189, 248, 0.3);
+}
+.unified-resourcebar-tooltip.arcanoneer-tooltip .class-tip-title { color: #fdf4ff; text-shadow: 0 0 8px #d946ef; }
+.unified-resourcebar-tooltip.arcanoneer-tooltip .tooltip-divider { background: rgba(217, 70, 239, 0.25); }
+.unified-resourcebar-tooltip.arcanoneer-tooltip .tooltip-label { color: #f0abfc; }
+
+/* 7. MINSTREL — Revel Gold & Rose Melody */
+.unified-resourcebar-tooltip.minstrel-tooltip {
+    background: linear-gradient(145deg, #24160c 0%, #361f10 60%, #1f1209 100%);
+    border: 1.5px solid #d97706;
+    color: #fef3c7;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 18px rgba(217, 119, 6, 0.35),
+                inset 0 1px 1px rgba(254, 240, 138, 0.3);
+}
+.unified-resourcebar-tooltip.minstrel-tooltip .class-tip-title { color: #fffbeb; text-shadow: 0 0 8px #d97706; }
+.unified-resourcebar-tooltip.minstrel-tooltip .tooltip-divider { background: rgba(217, 119, 6, 0.25); }
+.unified-resourcebar-tooltip.minstrel-tooltip .tooltip-label { color: #fde68a; }
+
+/* 8. HARBINGER — Deep Abyssal Void & Cosmic Chaos */
+.unified-resourcebar-tooltip.harbinger-tooltip {
+    background: linear-gradient(145deg, #110824 0%, #1e0d3e 60%, #100621 100%);
+    border: 1.5px solid #9333ea;
+    color: #f3e8ff;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 20px rgba(147, 51, 234, 0.4),
+                inset 0 1px 1px rgba(233, 213, 255, 0.3);
+}
+.unified-resourcebar-tooltip.harbinger-tooltip .class-tip-title { color: #faf5ff; text-shadow: 0 0 8px #9333ea; }
+.unified-resourcebar-tooltip.harbinger-tooltip .tooltip-divider { background: rgba(147, 51, 234, 0.25); }
+.unified-resourcebar-tooltip.harbinger-tooltip .tooltip-label { color: #d8b4fe; }
+
+/* 9. GAMBIT — Velvet Casino & Gilded Luck */
+.unified-resourcebar-tooltip.gambit-tooltip {
+    background: linear-gradient(145deg, #151c11 0%, #1d2a17 60%, #11180d 100%);
+    border: 1.5px solid #ca8a04;
+    color: #fef9c3;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 18px rgba(202, 138, 4, 0.35),
+                inset 0 1px 1px rgba(254, 240, 138, 0.3);
+}
+.unified-resourcebar-tooltip.gambit-tooltip .class-tip-title { color: #fefce8; text-shadow: 0 0 8px #ca8a04; }
+.unified-resourcebar-tooltip.gambit-tooltip .tooltip-divider { background: rgba(202, 138, 4, 0.25); }
+.unified-resourcebar-tooltip.gambit-tooltip .tooltip-label { color: #fef08a; }
+
+/* 10. MARTYR — Sacred Stigmata & Gilded Altar */
+.unified-resourcebar-tooltip.martyr-tooltip {
+    background: linear-gradient(145deg, #241412 0%, #361b18 60%, #1f0f0d 100%);
+    border: 1.5px solid #eab308;
+    color: #fef08a;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 18px rgba(234, 179, 8, 0.4),
+                inset 0 1px 1px rgba(239, 68, 68, 0.35);
+}
+.unified-resourcebar-tooltip.martyr-tooltip .class-tip-title { color: #fffbeb; text-shadow: 0 0 8px #eab308; }
+.unified-resourcebar-tooltip.martyr-tooltip .tooltip-divider { background: rgba(234, 179, 8, 0.25); }
+.unified-resourcebar-tooltip.martyr-tooltip .tooltip-label { color: #fef08a; }
+
+/* 11. INQUISITOR — Cold Iron Chains & Cathedral Stone */
+.unified-resourcebar-tooltip.inquisitor-tooltip {
+    background: linear-gradient(145deg, #181313 0%, #261b1b 60%, #140f0f 100%);
+    border: 1.5px solid #78716c;
+    color: #e7e5e4;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 16px rgba(220, 38, 38, 0.35),
+                inset 0 1px 1px rgba(214, 211, 209, 0.25);
+}
+.unified-resourcebar-tooltip.inquisitor-tooltip .class-tip-title { color: #f5f5f4; text-shadow: 0 0 6px #78716c; }
+.unified-resourcebar-tooltip.inquisitor-tooltip .tooltip-divider { background: rgba(120, 113, 108, 0.25); }
+.unified-resourcebar-tooltip.inquisitor-tooltip .tooltip-label { color: #d6d3d1; }
+
+/* 12. WARDEN / GAOLER — Iron Shackle & Dungeon Keep */
+.unified-resourcebar-tooltip.warden-tooltip {
+    background: linear-gradient(145deg, #1b1410 0%, #291c14 60%, #160f0c 100%);
+    border: 1.5px solid #854d0e;
+    color: #fef3c7;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 16px rgba(133, 77, 14, 0.35),
+                inset 0 1px 1px rgba(251, 191, 36, 0.25);
+}
+.unified-resourcebar-tooltip.warden-tooltip .class-tip-title { color: #fde68a; text-shadow: 0 0 6px #854d0e; }
+.unified-resourcebar-tooltip.warden-tooltip .tooltip-divider { background: rgba(133, 77, 14, 0.25); }
+.unified-resourcebar-tooltip.warden-tooltip .tooltip-label { color: #fef08a; }
+
+/* 13. SPELLGUARD — Mithril Aegis & Runic Barrier */
+.unified-resourcebar-tooltip.spellguard-tooltip {
+    background: linear-gradient(145deg, #091924 0%, #0e2738 60%, #081620 100%);
+    border: 1.5px solid #0284c7;
+    color: #e0f2fe;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 20px rgba(2, 132, 199, 0.4),
+                inset 0 1px 1px rgba(125, 211, 252, 0.3);
+}
+.unified-resourcebar-tooltip.spellguard-tooltip .class-tip-title { color: #f0f9ff; text-shadow: 0 0 8px #0284c7; }
+.unified-resourcebar-tooltip.spellguard-tooltip .tooltip-divider { background: rgba(2, 132, 199, 0.25); }
+.unified-resourcebar-tooltip.spellguard-tooltip .tooltip-label { color: #7dd3fc; }
+
+/* 14. REVENANT — Peat-Bog Tomb & Wraith Flame */
+.unified-resourcebar-tooltip.revenant-tooltip {
+    background: linear-gradient(145deg, #0a1917 0%, #0f2824 60%, #081614 100%);
+    border: 1.5px solid #10b981;
+    color: #d1fae5;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 18px rgba(16, 185, 129, 0.35),
+                inset 0 1px 1px rgba(110, 231, 183, 0.25);
+}
+.unified-resourcebar-tooltip.revenant-tooltip .class-tip-title { color: #ecfdf5; text-shadow: 0 0 8px #10b981; }
+.unified-resourcebar-tooltip.revenant-tooltip .tooltip-divider { background: rgba(16, 185, 129, 0.25); }
+.unified-resourcebar-tooltip.revenant-tooltip .tooltip-label { color: #6ee7b7; }
+
+/* 15. ANIMIST — Ancestral Bone & Spirit Grove */
+.unified-resourcebar-tooltip.animist-tooltip {
+    background: linear-gradient(145deg, #111c12 0%, #192a1a 60%, #0e180f 100%);
+    border: 1.5px solid #16a34a;
+    color: #dcfce7;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 18px rgba(22, 163, 74, 0.35),
+                inset 0 1px 1px rgba(251, 191, 36, 0.25);
+}
+.unified-resourcebar-tooltip.animist-tooltip .class-tip-title { color: #f0fdf4; text-shadow: 0 0 8px #16a34a; }
+.unified-resourcebar-tooltip.animist-tooltip .tooltip-divider { background: rgba(22, 163, 74, 0.25); }
+.unified-resourcebar-tooltip.animist-tooltip .tooltip-label { color: #86efac; }
+
+/* 16. SHAPER — Biomantic Flesh & Morphic Resin */
+.unified-resourcebar-tooltip.shaper-tooltip {
+    background: linear-gradient(145deg, #210d1b 0%, #301227 60%, #1a0915 100%);
+    border: 1.5px solid #ec4899;
+    color: #fce7f3;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 18px rgba(236, 72, 153, 0.35),
+                inset 0 1px 1px rgba(244, 114, 182, 0.3);
+}
+.unified-resourcebar-tooltip.shaper-tooltip .class-tip-title { color: #fdf2f8; text-shadow: 0 0 8px #ec4899; }
+.unified-resourcebar-tooltip.shaper-tooltip .tooltip-divider { background: rgba(236, 72, 153, 0.25); }
+.unified-resourcebar-tooltip.shaper-tooltip .tooltip-label { color: #f472b6; }
+
+/* 17. TOXICOLOGIST — Apothecary Mahogany & Acid Vial */
+.unified-resourcebar-tooltip.toxicologist-tooltip {
+    background: linear-gradient(145deg, #151a0c 0%, #202812 60%, #11160a 100%);
+    border: 1.5px solid #65a30d;
+    color: #ecfccb;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 18px rgba(101, 163, 13, 0.35),
+                inset 0 1px 1px rgba(190, 242, 100, 0.25);
+}
+.unified-resourcebar-tooltip.toxicologist-tooltip .class-tip-title { color: #f7fee7; text-shadow: 0 0 8px #65a30d; }
+.unified-resourcebar-tooltip.toxicologist-tooltip .tooltip-divider { background: rgba(101, 163, 13, 0.25); }
+.unified-resourcebar-tooltip.toxicologist-tooltip .tooltip-label { color: #bef264; }
+
+/* 18. AUGUR — Dual Omen Eclipse & Sunstone */
+.unified-resourcebar-tooltip.augur-tooltip {
+    background: linear-gradient(145deg, #191024 0%, #27163c 60%, #140b1e 100%);
+    border: 1.5px solid #f59e0b;
+    color: #fef3c7;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 20px rgba(245, 158, 11, 0.35),
+                inset 0 1px 1px rgba(168, 85, 247, 0.3);
+}
+.unified-resourcebar-tooltip.augur-tooltip .class-tip-title { color: #fffbeb; text-shadow: 0 0 8px #f59e0b; }
+.unified-resourcebar-tooltip.augur-tooltip .tooltip-divider { background: rgba(245, 158, 11, 0.25); }
+.unified-resourcebar-tooltip.augur-tooltip .tooltip-label { color: #fde68a; }
+
+/* 19. CRUSADER — Solar Radiance & Dawnforged Plate */
+.unified-resourcebar-tooltip.crusader-tooltip {
+    background: linear-gradient(145deg, #241d0b 0%, #382c11 60%, #1d1608 100%);
+    border: 1.5px solid #eab308;
+    color: #fef9c3;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 20px rgba(234, 179, 8, 0.45),
+                inset 0 1px 1px rgba(254, 240, 138, 0.35);
+}
+.unified-resourcebar-tooltip.crusader-tooltip .class-tip-title { color: #fefce8; text-shadow: 0 0 8px #eab308; }
+.unified-resourcebar-tooltip.crusader-tooltip .tooltip-divider { background: rgba(234, 179, 8, 0.25); }
+.unified-resourcebar-tooltip.crusader-tooltip .tooltip-label { color: #fef08a; }
+
+/* 20. FALSE PROPHET — Wyrd Fracture & Cosmic Madness */
+.unified-resourcebar-tooltip.false-prophet-tooltip {
+    background: linear-gradient(145deg, #140718 0%, #230a2c 60%, #100414 100%);
+    border: 1.5px solid #c026d3;
+    color: #fae8ff;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 20px rgba(192, 38, 211, 0.45),
+                inset 0 1px 1px rgba(239, 68, 68, 0.3);
+}
+.unified-resourcebar-tooltip.false-prophet-tooltip .class-tip-title { color: #fdf4ff; text-shadow: 0 0 8px #c026d3; }
+.unified-resourcebar-tooltip.false-prophet-tooltip .tooltip-divider { background: rgba(192, 38, 211, 0.25); }
+.unified-resourcebar-tooltip.false-prophet-tooltip .tooltip-label { color: #f0abfc; }
+
+/* 21. APEX — Beast-Glaive & Predator's Mark */
+.unified-resourcebar-tooltip.apex-tooltip {
+    background: linear-gradient(145deg, #1d0f0f 0%, #2b1313 60%, #170b0b 100%);
+    border: 1.5px solid #ef4444;
+    color: #fee2e2;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 18px rgba(239, 68, 68, 0.4),
+                inset 0 1px 1px rgba(252, 165, 165, 0.25);
+}
+.unified-resourcebar-tooltip.apex-tooltip .class-tip-title { color: #fff1f2; text-shadow: 0 0 8px #ef4444; }
+.unified-resourcebar-tooltip.apex-tooltip .tooltip-divider { background: rgba(239, 68, 68, 0.25); }
+.unified-resourcebar-tooltip.apex-tooltip .tooltip-label { color: #fca5a5; }
+
+/* 22. NECROMANCER / ASCENSION — Arterial Blood & Crypt Stone */
+.unified-resourcebar-tooltip.ascension-tooltip {
+    background: linear-gradient(145deg, #1a0808 0%, #290d0d 60%, #150606 100%);
+    border: 1.5px solid #b91c1c;
+    color: #fee2e2;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85),
+                0 0 18px rgba(185, 28, 28, 0.4),
+                inset 0 1px 1px rgba(248, 113, 113, 0.25);
+}
+.unified-resourcebar-tooltip.ascension-tooltip .class-tip-title { color: #fff1f2; text-shadow: 0 0 8px #b91c1c; }
+.unified-resourcebar-tooltip.ascension-tooltip .tooltip-divider { background: rgba(185, 28, 28, 0.25); }
+.unified-resourcebar-tooltip.ascension-tooltip .tooltip-label { color: #fca5a5; }

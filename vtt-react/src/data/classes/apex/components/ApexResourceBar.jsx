@@ -516,12 +516,13 @@ const ApexResourceBar = ({
 
             {/* Shared ClassTip Tooltip */}
             {showTooltip && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip apex-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     <ClassTip
                         icon="fas fa-paw"
                         tint="#ef4444"
                         title="The Predator's Kill-Ledger"
-                        state={`Marks: ${marks}/${maxMarks} · Companion HP: ${companionHP}/${companionMaxHP} (${companionStance})`}
+                        subtitle="Apex Quarry Ledger & Pack Hunt"
+                        state={`Marks: ${marks}/${maxMarks} · HP: ${companionHP}/${companionMaxHP}`}
                         stateTone={isApexReady ? 'critical' : 'good'}
                         mechanic="Quarry Marks track your prey across the hunt. Five marks triggers Apex Execution — your greatest kill. The companion token on the map acts independently; manage its HP and stance via the Pack Codex menu."
                         status={[

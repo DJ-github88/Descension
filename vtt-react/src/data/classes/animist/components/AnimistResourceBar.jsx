@@ -778,28 +778,30 @@ const AnimistResourceBar = ({
                 )}
 
                 {/* Tactile Tooltip via ClassTip */}
-                {showTooltip && !showControls && (
-                    <ClassTip
+                {showTooltip && !showControls && ReactDOM.createPortal(
+                    <div
                         ref={tooltipRef}
-                        title={`Resonance: ${localResonance}/${maxResonance}`}
-                        subtitle={`${currentTier.name} Stage`}
-                        icon="fas fa-seedling"
-                        statusFlavor={statusFlavor}
+                        className="unified-resourcebar-tooltip pathfinder-tooltip animist-tooltip"
+                        style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}
                     >
-                        <div className="sg-tip-body" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                            <div style={{ color: currentTier.color, fontWeight: 600, fontSize: '0.78rem' }}>
-                                {currentTier.desc}
-                            </div>
-                            {isErosion && (
-                                <div style={{ color: '#ef4444', fontWeight: 700, fontSize: '0.74rem', borderTop: '1px solid rgba(239, 68, 68, 0.3)', paddingTop: '4px' }}>
-                                    WARNING: 100% ember vulnerability! Party healing severed! Forced movement shatters active runic networks!
-                                </div>
-                            )}
-                            <div style={{ color: '#94a3b8', fontSize: '0.7rem', marginTop: '3px' }}>
-                                Click bone spurs to calibrate. Left-click Totem Knot for +1 (Shift+click for +3). Click Whistle for -3. Click Skull or Talisman for council presets.
-                            </div>
-                        </div>
-                    </ClassTip>
+                        <ClassTip
+                            icon="fas fa-seedling"
+                            tint="#16a34a"
+                            title="Ancestral Bone-Cairn & Runic Lattice"
+                            subtitle={`${currentTier.name} Stage`}
+                            state={`${localResonance}/${maxResonance} AR`}
+                            stateTone={isErosion ? 'critical' : localResonance >= 14 ? 'good' : 'neutral'}
+                            mechanic="Harvest ancestral resonance to awaken ancient runic networks. Higher resonance empowers spirit wards, spirit guides, and primal council rites."
+                            status={[
+                                `Tier: ${currentTier.name} — ${currentTier.desc}`,
+                                isErosion ? 'EROSION DANGER: 100% ember vulnerability! Party healing severed!' : null,
+                                statusFlavor
+                            ].filter(Boolean)}
+                            usage="Click bone spurs to calibrate · Left-click Totem Knot for +1 (Shift for +3) · Click Whistle for -3."
+                            hint="Click Skull or Talisman for council presets."
+                        />
+                    </div>,
+                    document.body
                 )}
             </div>
         </div>

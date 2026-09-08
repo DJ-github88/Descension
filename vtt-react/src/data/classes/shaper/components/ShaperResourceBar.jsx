@@ -960,13 +960,14 @@ const ShaperResourceBar = ({
             {showTooltip && !showMatrix && ReactDOM.createPortal(
                 <div
                     ref={tooltipRef}
-                    className="unified-resourcebar-tooltip pathfinder-tooltip"
+                    className="unified-resourcebar-tooltip pathfinder-tooltip shaper-tooltip"
                     style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}
                 >
                     <ClassTip
                         icon="fas fa-dna"
                         tint={activeStanceData.color}
                         title="The Morphic Osteo-Blade"
+                        subtitle="Shaper Morphic Osteo-Blade"
                         state={`${localFlux}/20 Flux • ${localToll}/10 Toll`}
                         stateTone={isConvergenceCollapse ? 'bad' : isFeral ? 'warn' : 'good'}
                         mechanic="Kinetic Flux powers instant biomantic shapeshifting. Body Toll measures cellular mutation and flesh strain."

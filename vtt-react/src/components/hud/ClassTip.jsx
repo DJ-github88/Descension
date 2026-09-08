@@ -21,28 +21,33 @@ import './styles/ClassTip.css';
  *   hint      - optional owner-only footnote (rendered dim italic)
  */
 const TONE_COLORS = {
-    good: '#2d8a4e',
-    warn: '#b7791f',
-    bad: '#c0392b',
-    neutral: 'rgba(58,42,26,0.55)',
+    good: '#4ade80',
+    warn: '#fbbf24',
+    bad: '#f87171',
+    critical: '#ef4444',
+    arcane: '#c084fc',
+    neutral: '#cbd5e1',
 };
 
-const ClassTip = ({
+const ClassTip = React.forwardRef(({
     icon = '✦',
     tint = '#b7791f',
     title = 'Resource',
+    subtitle = null,
     state = null,
     stateTone = 'neutral',
     mechanic = null,
     status = [],
     usage = null,
     hint = null,
-}) => {
+    className = '',
+    children = null,
+}, ref) => {
     const tone = TONE_COLORS[stateTone] || TONE_COLORS.neutral;
     const statusLines = Array.isArray(status) ? status.filter(Boolean) : [status].filter(Boolean);
 
     return (
-        <div className="class-tip">
+        <div ref={ref} className={`class-tip ${className}`.trim()}>
             <div className="class-tip-header">
                 <span
                     className="class-tip-medallion"
@@ -55,10 +60,13 @@ const ClassTip = ({
                         icon
                     )}
                 </span>
-                <span className="class-tip-title">{title}</span>
+                <div className="class-tip-titles">
+                    <span className="class-tip-title">{title}</span>
+                    {subtitle && <span className="class-tip-subtitle">{subtitle}</span>}
+                </div>
                 {state !== null && state !== undefined && (
                     <span
-                        className="class-tip-state"
+                        className={`class-tip-state ${stateTone === 'critical' ? 'critical-pulse' : ''}`}
                         style={{ color: tone, borderColor: tone }}
                     >
                         {state}
@@ -84,6 +92,14 @@ const ClassTip = ({
                     </div>
                 </>
             )}
+            {children && (
+                <>
+                    <div className="tooltip-divider" />
+                    <div className="class-tip-custom">
+                        {children}
+                    </div>
+                </>
+            )}
             {(usage || hint) && (
                 <>
                     <div className="tooltip-divider" />
@@ -96,6 +112,8 @@ const ClassTip = ({
             )}
         </div>
     );
-};
+});
+
+ClassTip.displayName = 'ClassTip';
 
 export default ClassTip;

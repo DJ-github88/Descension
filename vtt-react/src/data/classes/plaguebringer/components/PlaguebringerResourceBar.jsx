@@ -501,11 +501,12 @@ const PlaguebringerResourceBar = ({
 
             {/* Shared ClassTip Tooltip */}
             {showTooltip && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip plaguebringer-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     <ClassTip
                         icon="fas fa-biohazard"
                         tint={virulenceTier.color}
                         title={`Virulence · ${virulenceTier.name}`}
+                        subtitle="Plaguebringer Alchemical Vat"
                         state={`${localVirulence}/${maxVirulence} · ${localAfflictions}/${maxAfflictions} afflictions`}
                         stateTone={localVirulence >= maxVirulence * 0.75 ? 'good' : 'neutral'}
                         mechanic={`Seed afflictions, cultivate through Weaken → Torment → Fester → Decay → Amplify (stages 1–3). Passive: ${virulenceTier.bonus}. Beware: one ember attack purges all Seeds and zeroes Virulence.`}
