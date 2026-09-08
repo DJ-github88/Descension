@@ -227,6 +227,10 @@ const BestiaryDisplay = () => {
 
   // Debounce search so typing does not filter 190+ creatures on every keystroke
   useEffect(() => {
+    if (!searchQuery) {
+      setDebouncedSearchQuery('');
+      return;
+    }
     const t = setTimeout(() => setDebouncedSearchQuery(searchQuery), 180);
     return () => clearTimeout(t);
   }, [searchQuery]);
@@ -296,6 +300,7 @@ const BestiaryDisplay = () => {
 
   const handleClearFilters = useCallback(() => {
     setSearchQuery('');
+    setDebouncedSearchQuery('');
     setSelectedDanger('all');
     setVisibleCount(ITEMS_PER_PAGE);
   }, []);

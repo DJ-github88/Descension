@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import BestiaryDisplay from '../BestiaryDisplay';
 
 // Mock IntersectionObserver for tests
@@ -34,27 +34,28 @@ describe('BestiaryDisplay Component', () => {
     expect(screen.getByText('Gref')).toBeInTheDocument();
   });
 
-  test('filters creatures by search query including folklore keywords', () => {
+  test('filters creatures by search query including folklore keywords', async () => {
     render(<BestiaryDisplay />);
     
     const searchInput = screen.getByPlaceholderText(/Search creatures by name, role, folklore, or keywords/i);
     
     // Search for Gref
     fireEvent.change(searchInput, { target: { value: 'Gref' } });
-    expect(screen.getByText('Gref')).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText('Gref')).toBeInTheDocument());
     
     // Search for folklore term 'Oilliph'
     fireEvent.change(searchInput, { target: { value: 'Oilliph' } });
+    await waitFor(() => expect(screen.queryByText('Gref')).not.toBeInTheDocument());
     expect(screen.getByText('Oillipheist')).toBeInTheDocument();
     
     // Search for something non-existent
     fireEvent.change(searchInput, { target: { value: 'NonExistentMonsterXYZ' } });
-    expect(screen.getByText('No Creatures Found')).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText('No Creatures Found')).toBeInTheDocument());
     
     // Reset filters button should appear
     const resetBtn = screen.getByRole('button', { name: /Reset Filters/i });
     fireEvent.click(resetBtn);
-    expect(screen.getByText('Gref')).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText('Gref')).toBeInTheDocument());
   });
 
   test('filters creatures by danger level', () => {
