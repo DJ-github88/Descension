@@ -9,6 +9,7 @@ import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { rafThrottle } from '../../utils/performanceUtils';
 import { getIconUrl, getCreatureTokenIconUrl } from '../../utils/assetManager';
 import { isPointInPolygon } from '../../utils/VisibilityCalculations';
+import { isTokenControlledByMe } from '../../utils/tokenOwnership';
 import { PROFESSIONAL_TERRAIN_TYPES } from './terrain/TerrainSystem';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 
@@ -39,6 +40,7 @@ const AfterimageOverlay = () => {
     const visibleArea = useLevelEditorStore(state => state.visibleArea);
     const visibilityPolygon = useLevelEditorStore(state => state.visibilityPolygon);
     const wallData = useLevelEditorStore(state => state.wallData);
+    const terrainData = useLevelEditorStore(state => state.terrainData);
 
     // Per-player memory subscriptions
     const currentPlayerId = useLevelEditorStore(state => state.currentPlayerId);
@@ -62,27 +64,18 @@ const AfterimageOverlay = () => {
         return playerMemories[currentPlayerId] || null;
     }, [currentPlayerId, playerMemories]);
 
-    // Get current player's token afterimages (with fallback to legacy)
-    // Filter out afterimages for tokens the player controls (they render as real tokens)
+    // Get current player's token afterimages
+    // CRITICAL FIX: UNION legacy + per-player stores. The old `||` fallback showed
+    // nothing whenever a per-player memory key existed but was empty (e.g.
+    // currentPlayerId set/changed after memories were recorded under another key),
+    // which killed token ghost rendering entirely.
     const currentTokenAfterimages = useMemo(() => {
-        const raw = currentPlayerMemories?.tokenAfterimages || tokenAfterimages || {};
-        let currentPlayerId = null;
-        let currentPlayerName = null;
-        let myUserId = null;
-        try {
-            const gs = require('../../store/gameStore').default.getState();
-            currentPlayerId = gs.currentPlayer?.id;
-            currentPlayerName = gs.currentPlayer?.name;
-            myUserId = require('../../store/authStore').default.getState().user?.uid;
-        } catch {}
-
-        if (!currentPlayerId && !myUserId) return raw;
+        const raw = { ...(tokenAfterimages || {}), ...(currentPlayerMemories?.tokenAfterimages || {}) };
 
         const allTokens = [...(creatureTokens || []), ...(characterTokens || [])];
         const controlledIds = new Set();
         allTokens.forEach(t => {
-            const ownerId = t?.state?.ownerId || t?.state?.playerId || t?.playerId;
-            if (ownerId && (ownerId === currentPlayerId || ownerId === myUserId || ownerId === currentPlayerName)) {
+            if (isTokenControlledByMe(t)) {
                 controlledIds.add(t.id);
             }
         });
@@ -94,12 +87,12 @@ const AfterimageOverlay = () => {
         return filtered;
     }, [currentPlayerMemories, tokenAfterimages, creatureTokens, characterTokens]);
 
-    // Get current player's memory snapshots (with fallback to legacy)
+    // Get current player's memory snapshots — UNION legacy + per-player (same fix)
     const currentMemorySnapshots = useMemo(() => {
-        if (currentPlayerMemories?.memorySnapshots) {
-            return currentPlayerMemories.memorySnapshots;
-        }
-        return memorySnapshots || {};
+        return {
+            ...(memorySnapshots || {}),
+            ...(currentPlayerMemories?.memorySnapshots || {})
+        };
     }, [currentPlayerMemories, memorySnapshots]);
 
     const effectiveZoom = zoomLevel * playerZoom;
@@ -240,7 +233,10 @@ const AfterimageOverlay = () => {
     const renderAfterimages = useCallback(() => {
         const canvas = canvasRef.current;
 
-        if (!canvas || !afterimageEnabled || isGMMode || !dynamicFogEnabled || !viewingFromToken) {
+        // CRITICAL FIX: Allow GM view-from-token to render the memory layer too —
+        // it is a live preview of exactly what the player sees. Only plain GM mode
+        // (no viewing token, full visibility) suppresses afterimages.
+        if (!canvas || !afterimageEnabled || (isGMMode && !viewingFromToken) || !dynamicFogEnabled || !viewingFromToken) {
             // Only log if there might be afterimages to show but conditions aren't met
             if (Object.keys(currentTokenAfterimages).length > 0) {
                 console.log('🖼️ [AfterimageOverlay] Not rendering - conditions:', {
@@ -339,55 +335,23 @@ const AfterimageOverlay = () => {
 
         // =====================================================
         // 1. RENDER TERRAIN TILE AFTERIMAGES
+        // CRITICAL FIX: Snapshot-first (stale-correct memory), with live
+        // terrainData fill for tiles whose snapshot has no terrain (e.g.
+        // terrain painted after exploration) — this removes the "iffy" holes
+        // and patchiness on large painted areas like snow fields.
         // =====================================================
         const snapshotEntries = Object.entries(currentMemorySnapshots);
-        const maxTerrainToRender = 100; // Limit for performance
+        const maxTerrainToRender = 400; // was 100 — caused patchy ghosts on big areas
 
-        let terrainRendered = 0;
-        for (const [tileKey, snapshot] of snapshotEntries) {
-            if (terrainRendered >= maxTerrainToRender) break;
-            if (!snapshot?.terrain) continue;
-
-            // Parse tile coordinates
-            const [coordX, coordY] = tileKey.split(',').map(Number);
-            const worldPos = gridSystem.gridToWorld(coordX, coordY);
-
-            // Skip if currently visible
-            if (isTileVisible(worldPos.x, worldPos.y)) continue;
-
-            // Skip if not explored
-            if (!isExploredPos(worldPos.x, worldPos.y)) continue;
-
-            const screenPos = worldToScreen(worldPos.x, worldPos.y);
-
-            // Viewport culling
-            if (screenPos.x < minScreenX - tileSize || screenPos.x > maxScreenX + tileSize ||
-                screenPos.y < minScreenY - tileSize || screenPos.y > maxScreenY + tileSize) {
-                continue;
-            }
-
-            // Get terrain type and variation
-            let terrainType, variationIndex;
-            if (typeof snapshot.terrain === 'string') {
-                terrainType = snapshot.terrain;
-                variationIndex = 0;
-            } else if (snapshot.terrain && typeof snapshot.terrain === 'object') {
-                terrainType = snapshot.terrain.type;
-                variationIndex = snapshot.terrain.variation || 0;
-            } else {
-                continue;
-            }
-
+        const drawTerrainGhostTile = (terrainType, variationIndex, screenPos) => {
             const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
-            if (!terrain) continue;
+            if (!terrain) return false;
 
-            // Determine image path: prefer tileVariations, fall back to terrain.texture
             const tileVariationPath = terrain.tileVariations?.length
                 ? (terrain.tileVariations[variationIndex] || terrain.tileVariations[0])
                 : (terrain.texture || null);
 
             if (tileVariationPath) {
-                // Image-based terrain tile
                 const cachedEntry = imageCacheRef.current.get(tileVariationPath);
                 const img = cachedEntry?.loaded ? cachedEntry.image : null;
 
@@ -398,20 +362,20 @@ const AfterimageOverlay = () => {
                         ctx.globalAlpha = 0.6;
                         ctx.drawImage(grayCanvas, screenPos.x - tileSize / 2, screenPos.y - tileSize / 2);
                         ctx.restore();
-                        terrainRendered++;
+                        return true;
                     }
                 } else if (!cachedEntry || !cachedEntry.loaded) {
                     loadImage(tileVariationPath);
                 }
-            } else if (terrain.color) {
-                // Color-based terrain tile (procedural): draw as greyscale rectangle
-                // Convert hex color to greyscale value
+                return false;
+            }
+
+            if (terrain.color) {
                 const hexColor = terrain.color.replace('#', '');
                 const r = parseInt(hexColor.substring(0, 2), 16);
                 const g = parseInt(hexColor.substring(2, 4), 16);
                 const b = parseInt(hexColor.substring(4, 6), 16);
                 const gray = Math.floor(r * 0.299 + g * 0.587 + b * 0.114);
-                // Darken slightly for a "memory" look, slight blue tint
                 const dr = Math.floor(gray * 0.85);
                 const dg = Math.floor(gray * 0.88);
                 const db = Math.floor(gray * 1.05);
@@ -420,13 +384,84 @@ const AfterimageOverlay = () => {
                 ctx.globalAlpha = 0.55;
                 ctx.fillStyle = `rgb(${dr},${dg},${db})`;
                 ctx.fillRect(screenPos.x - tileSize / 2, screenPos.y - tileSize / 2, tileSize, tileSize);
-                // Subtle border so tiles are distinguishable
                 ctx.globalAlpha = 0.2;
                 ctx.strokeStyle = `rgb(${Math.floor(dr * 0.7)},${Math.floor(dg * 0.7)},${Math.floor(db * 0.7)})`;
                 ctx.lineWidth = 1;
                 ctx.strokeRect(screenPos.x - tileSize / 2, screenPos.y - tileSize / 2, tileSize, tileSize);
                 ctx.restore();
+                return true;
+            }
+            return false;
+        };
+
+        const resolveTerrainTypeAndVariation = (rawTerrain) => {
+            if (typeof rawTerrain === 'string') return { terrainType: rawTerrain, variationIndex: 0 };
+            if (rawTerrain && typeof rawTerrain === 'object') {
+                return { terrainType: rawTerrain.type, variationIndex: rawTerrain.variation || 0 };
+            }
+            return null;
+        };
+
+        let terrainRendered = 0;
+        const snapshotCoveredTiles = new Set();
+
+        // Pass A: snapshot terrain (the player's actual stale memory)
+        for (const [tileKey, snapshot] of snapshotEntries) {
+            if (terrainRendered >= maxTerrainToRender) break;
+            if (!snapshot?.terrain) continue;
+
+            const resolved = resolveTerrainTypeAndVariation(snapshot.terrain);
+            if (!resolved || !PROFESSIONAL_TERRAIN_TYPES[resolved.terrainType]) continue;
+
+            const [coordX, coordY] = tileKey.split(',').map(Number);
+            const worldPos = gridSystem.gridToWorld(coordX, coordY);
+
+            // Skip if currently visible (real terrain layer shows instead)
+            if (isTileVisible(worldPos.x, worldPos.y)) continue;
+            // Skip if not explored
+            if (!isExploredPos(worldPos.x, worldPos.y)) continue;
+
+            const screenPos = worldToScreen(worldPos.x, worldPos.y);
+
+            // Viewport culling (cheap check BEFORE marking covered — offscreen
+            // tiles may come into view later and must still be covered by their snapshot)
+            snapshotCoveredTiles.add(tileKey);
+
+            if (screenPos.x < minScreenX - tileSize || screenPos.x > maxScreenX + tileSize ||
+                screenPos.y < minScreenY - tileSize || screenPos.y > maxScreenY + tileSize) {
+                continue;
+            }
+
+            if (drawTerrainGhostTile(resolved.terrainType, resolved.variationIndex, screenPos)) {
                 terrainRendered++;
+            }
+        }
+
+        // Pass B: live terrainData fill for explored tiles with NO snapshot terrain
+        // (holes: terrain painted after the player explored the area).
+        if (terrainRendered < maxTerrainToRender) {
+            for (const [tileKey, rawTerrain] of Object.entries(terrainData || {})) {
+                if (terrainRendered >= maxTerrainToRender) break;
+                if (!rawTerrain || snapshotCoveredTiles.has(tileKey)) continue;
+
+                const resolved = resolveTerrainTypeAndVariation(rawTerrain);
+                if (!resolved || !PROFESSIONAL_TERRAIN_TYPES[resolved.terrainType]) continue;
+
+                const [coordX, coordY] = tileKey.split(',').map(Number);
+                const worldPos = gridSystem.gridToWorld(coordX, coordY);
+
+                if (isTileVisible(worldPos.x, worldPos.y)) continue;
+                if (!isExploredPos(worldPos.x, worldPos.y)) continue;
+
+                const screenPos = worldToScreen(worldPos.x, worldPos.y);
+                if (screenPos.x < minScreenX - tileSize || screenPos.x > maxScreenX + tileSize ||
+                    screenPos.y < minScreenY - tileSize || screenPos.y > maxScreenY + tileSize) {
+                    continue;
+                }
+
+                if (drawTerrainGhostTile(resolved.terrainType, resolved.variationIndex, screenPos)) {
+                    terrainRendered++;
+                }
             }
         }
 
@@ -434,7 +469,7 @@ const AfterimageOverlay = () => {
         // 2. RENDER WALL AFTERIMAGES
         // =====================================================
         const wallEntries = Object.entries(wallData || {});
-        const maxWallsToRender = 50;
+        const maxWallsToRender = 200;
 
         let wallsRendered = 0;
         for (const [wallKey, wall] of wallEntries) {
@@ -486,7 +521,7 @@ const AfterimageOverlay = () => {
         // =====================================================
         // 3. RENDER LOOT ORB AFTERIMAGES (from grid items)
         // =====================================================
-        const maxLootToRender = 30;
+        const maxLootToRender = 60;
         let lootRendered = 0;
 
         for (const [tileKey, snapshot] of snapshotEntries) {
@@ -591,7 +626,7 @@ const AfterimageOverlay = () => {
         // 4. RENDER TOKEN AFTERIMAGES (existing logic)
         // =====================================================
         const afterimageEntries = Object.entries(currentTokenAfterimages);
-        const maxTokensToRender = 20;
+        const maxTokensToRender = 40;
         const afterimagesToRender = afterimageEntries.slice(0, maxTokensToRender);
 
         if (afterimageEntries.length > 0) {
@@ -743,6 +778,7 @@ const AfterimageOverlay = () => {
         currentPlayerId,
         visibleAreaSet,
         visibilityPolygon,
+        terrainData,
         effectiveZoom,
         gridSize,
         gridOffsetX,
@@ -765,7 +801,7 @@ const AfterimageOverlay = () => {
 
     // Preload images for all afterimages (tokens, terrain, items)
     useEffect(() => {
-        if (!afterimageEnabled || isGMMode || !dynamicFogEnabled || !viewingFromToken) return;
+        if (!afterimageEnabled || (isGMMode && !viewingFromToken) || !dynamicFogEnabled || !viewingFromToken) return;
 
         const gridSystem = getGridSystem();
         const cameraX = useGameStore.getState().cameraX;
@@ -991,8 +1027,10 @@ const AfterimageOverlay = () => {
         return () => unsubscribe();
     }, []);
 
-    // Don't render if afterimages are disabled or in GM mode
-    if (!afterimageEnabled || isGMMode || !dynamicFogEnabled || !viewingFromToken) {
+    // Don't render if afterimages are disabled, in plain GM mode (full visibility),
+    // or when not viewing from a token. GM view-from-token = player-view preview,
+    // so the memory layer renders there too.
+    if (!afterimageEnabled || (isGMMode && !viewingFromToken) || !dynamicFogEnabled || !viewingFromToken) {
         return null;
     }
 

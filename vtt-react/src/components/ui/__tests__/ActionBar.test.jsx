@@ -149,4 +149,50 @@ describe('ActionBar Component', () => {
     render(<ActionBar />);
     expect(screen.getByTestId('experience-bar')).toBeInTheDocument();
   });
+
+  it('shows equipment tooltip on slot hover', async () => {
+    jest.useFakeTimers();
+    const { container } = render(<ActionBar />);
+    const mhSlot = container.querySelector('.slot-mainHand .equipment-action-slot');
+    expect(mhSlot).toBeTruthy();
+
+    const { fireEvent, act } = require('@testing-library/react');
+    act(() => {
+      fireEvent.mouseEnter(mhSlot);
+    });
+
+    act(() => {
+      jest.advanceTimersByTime(200);
+    });
+
+    const floatingTooltip = document.querySelector('.equipment-slot-floating-tooltip');
+    expect(floatingTooltip).toBeTruthy();
+    jest.useRealTimers();
+  });
+
+  it('shows spell tooltip on action bubble hover', async () => {
+    jest.useFakeTimers();
+    const { container } = render(<ActionBar />);
+    const mhSlot = container.querySelector('.slot-mainHand .equipment-action-slot');
+    const { fireEvent, act } = require('@testing-library/react');
+
+    act(() => {
+      fireEvent.click(mhSlot);
+    });
+
+    const bubble = container.querySelector('.action-fan-bubble');
+    expect(bubble).toBeTruthy();
+
+    act(() => {
+      fireEvent.mouseEnter(bubble);
+    });
+
+    act(() => {
+      jest.advanceTimersByTime(200);
+    });
+
+    const spellTooltip = document.querySelector('.spell-tooltip-overlay');
+    expect(spellTooltip).toBeTruthy();
+    jest.useRealTimers();
+  });
 });

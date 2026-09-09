@@ -1098,3 +1098,8 @@ const useMapStore = create(
 );
 
 export default useMapStore;
+
+// Expose for debugging/manual testing (matches window.combatStore / window.gameStore conventions)
+if (typeof window !== 'undefined') {
+  window.mapStore = useMapStore;
+}

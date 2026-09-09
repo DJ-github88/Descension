@@ -313,7 +313,8 @@ const getSpellIconUrl = (iconId) => {
 
     if (mappedIcon) {
 
-      return getCustomIconUrl(mappedIcon, 'abilities');
+      // mapSpellIcon already returns a fully-resolved URL — do not wrap it again
+      return mappedIcon;
 
     }
 

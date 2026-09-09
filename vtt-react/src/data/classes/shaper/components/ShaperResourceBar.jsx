@@ -817,9 +817,16 @@ const ShaperResourceBar = ({
             {/* ========================================================================= */}
             {showMatrix && ReactDOM.createPortal(
                 <div
-                    className="unified-context-menu shaper-matrix-popover"
+                    className="unified-context-menu shaper-matrix-popover shaper-menu-container"
                     ref={matrixMenuRef}
+                    onMouseDown={(e) => e.stopPropagation()}
                     onClick={(e) => e.stopPropagation()}
+                    onMouseEnter={(e) => {
+                        e.stopPropagation();
+                        setShowTooltip(false);
+                    }}
+                    onMouseMove={(e) => e.stopPropagation()}
+                    onMouseOver={(e) => e.stopPropagation()}
                     style={{
                         position: 'fixed',
                         top: (() => {

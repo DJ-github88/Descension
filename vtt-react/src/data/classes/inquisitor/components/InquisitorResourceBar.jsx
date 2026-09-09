@@ -572,7 +572,10 @@ const InquisitorResourceBar = ({
             {showControls && ReactDOM.createPortal(
                 <div
                     ref={controlsMenuRef}
-                    className={`unified-context-menu compact context-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    className={`unified-context-menu compact context-menu-container inquisitor-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    onMouseEnter={(e) => { e.stopPropagation(); setShowTooltip(false); }}
+                    onMouseMove={(e) => e.stopPropagation()}
+                    onMouseOver={(e) => e.stopPropagation()}
                     onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     style={{

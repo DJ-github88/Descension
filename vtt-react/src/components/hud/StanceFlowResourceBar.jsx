@@ -204,9 +204,15 @@ const StanceFlowResourceBar = ({
                     {/* Momentum Adjustment Menu */}
                     {showMomentumMenu && momentumBarRef.current && context !== 'account' && ReactDOM.createPortal(
                         <div
-                            className={`unified-context-menu compact context-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            className={`unified-context-menu compact context-menu-container shaper-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
                             onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                                onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                            onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                            onMouseEnter={(e) => {
+                                e.stopPropagation();
+                                setShowTooltip(false);
+                            }}
+                            onMouseMove={(e) => e.stopPropagation()}
+                            onMouseOver={(e) => e.stopPropagation()}
                             style={{
                                 position: 'fixed',
                                 top: (() => {
@@ -321,9 +327,15 @@ const StanceFlowResourceBar = ({
                     {/* Flourish Adjustment Menu */}
                     {showFlourishMenu && flourishBarRef.current && context !== 'account' && ReactDOM.createPortal(
                         <div
-                            className={`unified-context-menu compact context-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            className={`unified-context-menu compact context-menu-container shaper-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
                             onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                                onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                            onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                            onMouseEnter={(e) => {
+                                e.stopPropagation();
+                                setShowTooltip(false);
+                            }}
+                            onMouseMove={(e) => e.stopPropagation()}
+                            onMouseOver={(e) => e.stopPropagation()}
                             style={{
                                 position: 'fixed',
                                 top: (() => {
@@ -416,9 +428,15 @@ const StanceFlowResourceBar = ({
                     {/* Stance Transition Menu */}
                     {showStanceMenu && stanceBarRef.current && context !== 'account' && ReactDOM.createPortal(
                         <div
-                            className={`unified-context-menu compact context-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            className={`unified-context-menu compact context-menu-container shaper-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
                             onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                                onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                            onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                            onMouseEnter={(e) => {
+                                e.stopPropagation();
+                                setShowTooltip(false);
+                            }}
+                            onMouseMove={(e) => e.stopPropagation()}
+                            onMouseOver={(e) => e.stopPropagation()}
                             style={{
                                 position: 'fixed',
                                 top: (() => {

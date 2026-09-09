@@ -33,6 +33,8 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
         removeTokenAfterimage,
         getExploredArea,
         getMemorySnapshot,
+        addExploredPolygon,
+        addExploredCircle,
         // Per-player memory actions
         currentPlayerId,
         setCurrentPlayerId,
@@ -127,11 +129,12 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
             return;
         }
 
-        // CRITICAL: Require currentPlayerId for per-player memory system
-        if (!currentPlayerId) {
-            console.warn('⚠️ [MemorySnapshotManager] No currentPlayerId set, skipping memory snapshot. Afterimages will not work!');
-            return;
-        }
+        // CRITICAL FIX: DUAL-WRITE instead of hard-requiring currentPlayerId.
+        // The old guard (`if (!currentPlayerId) return`) silently killed ALL token
+        // afterimages and loot-orb memory snapshots whenever currentPlayerId was
+        // null or mismatched (while wall ghosts kept working because they render
+        // straight from wallData). Now: write per-player when available AND always
+        // write the legacy stores so readers can fall back.
 
         const currentVisibleAreas = new Set(visibleArea || []);
 
@@ -155,16 +158,23 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
         const visionRange = tokenVision.range || 6; // Default 6 tiles
         const visionRadiusInWorld = visionRange * gridSize; // Convert to world units
 
-        // CRITICAL FIX: Use visibility polygon to mark explored area (matches exact vision shape)
-        // This creates explored areas that match the round view the character sees
-        // UPDATED: Use per-player memory actions
+        // UPDATED: DUAL-WRITE — per-player memory actions when currentPlayerId is
+        // available, plus the legacy stores as a guaranteed fallback.
         const visibilityPolygon = levelEditorStore.visibilityPolygon;
         if (visibilityPolygon && Array.isArray(visibilityPolygon) && visibilityPolygon.length >= 3) {
             // Use the exact vision polygon shape for explored area
-            addPlayerExploredPolygon(visibilityPolygon);
+            if (currentPlayerId) addPlayerExploredPolygon(visibilityPolygon);
+            addExploredPolygon(visibilityPolygon);
         } else {
             // Fallback to circle if no polygon available
-            addPlayerExploredCircle(
+            if (currentPlayerId) {
+                addPlayerExploredCircle(
+                    viewingToken.position.x,
+                    viewingToken.position.y,
+                    visionRadiusInWorld
+                );
+            }
+            addExploredCircle(
                 viewingToken.position.x,
                 viewingToken.position.y,
                 visionRadiusInWorld
@@ -205,9 +215,13 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
                 })
             };
 
-            // UPDATED: Use per-player memory actions
-            createPlayerMemorySnapshot(coord1, coord2, snapshotData);
-            setPlayerExploredArea(coord1, coord2, true);
+            // UPDATED: DUAL-WRITE snapshot — per-player (when available) + legacy fallback
+            createMemorySnapshot(coord1, coord2, snapshotData);
+            setExploredArea(coord1, coord2, true);
+            if (currentPlayerId) {
+                createPlayerMemorySnapshot(coord1, coord2, snapshotData);
+                setPlayerExploredArea(coord1, coord2, true);
+            }
         });
 
         // Note: Explored circles are now stored separately and rendered as soft circles
@@ -228,7 +242,11 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
         createPlayerMemorySnapshot,
         setPlayerExploredArea,
         addPlayerExploredPolygon,
-        addPlayerExploredCircle
+        addPlayerExploredCircle,
+        createMemorySnapshot,
+        setExploredArea,
+        addExploredPolygon,
+        addExploredCircle
     ]);
 
     // Update token afterimages when tokens move out of view
@@ -240,18 +258,19 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
             return;
         }
 
-        // CRITICAL: Require currentPlayerId for per-player memory system
-        if (!currentPlayerId) {
-            console.warn('👻 [Afterimage] No currentPlayerId - cannot create afterimages');
-            return;
-        }
+        // CRITICAL FIX: DUAL-WRITE instead of hard-requiring currentPlayerId
+        // (see updateMemorySnapshots above). Afterimages now land in the legacy
+        // store too, so they render even if the per-player id is missing/mismatched.
 
         const lastSeenPositions = lastSeenPositionsRef.current;
         const currentVisibility = currentVisibilityRef.current;
         const becomingInvisible = becomingInvisibleRef.current;
 
-        // Get current player's afterimages from per-player storage
-        const currentPlayerAfterimages = getPlayerTokenAfterimages();
+        // Merged view: per-player afterimages + legacy afterimages
+        const currentPlayerAfterimages = {
+            ...(useLevelEditorStore.getState().tokenAfterimages || {}),
+            ...getPlayerTokenAfterimages()
+        };
 
         // Track all tokens (creatures and characters)
         // Merge creature data with token data for complete information
@@ -356,9 +375,10 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
                 });
 
                 // CRITICAL FIX: Remove afterimage immediately when token becomes visible
-                // UPDATED: Use per-player afterimages
+                // DUAL-WRITE removal: per-player + legacy
                 if (currentPlayerAfterimages[token.id]) {
                     removePlayerTokenAfterimage(token.id);
+                    removeTokenAfterimage(token.id);
                 }
 
                 // Update visibility state:
@@ -451,15 +471,25 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
                             }
 
                             if (stillInvisible) {
-                                const latestAfterimages = useLevelEditorStore.getState().getPlayerTokenAfterimages();
-                                if (!latestAfterimages[token.id]) {
+                                // DUAL-WRITE creation: per-player + legacy stores
+                                const storeNow = useLevelEditorStore.getState();
+                                const latestPerPlayer = storeNow.getPlayerTokenAfterimages
+                                    ? storeNow.getPlayerTokenAfterimages() : {};
+                                const latestLegacy = storeNow.tokenAfterimages || {};
+                                if (!latestPerPlayer[token.id] && !latestLegacy[token.id]) {
                                     const afterimagePosition = {
                                         ...lastSeen.gridPosition,
                                         worldPosition: lastSeen.worldPosition
                                     };
-                                    updatePlayerTokenAfterimage(token.id, lastSeen.tokenData, afterimagePosition);
+                                    if (currentPlayerId) {
+                                        updatePlayerTokenAfterimage(token.id, lastSeen.tokenData, afterimagePosition);
+                                    }
+                                    updateTokenAfterimage(token.id, lastSeen.tokenData, afterimagePosition);
 
-                                    setPlayerExploredArea(lastSeen.gridPosition.x, lastSeen.gridPosition.y, true);
+                                    if (currentPlayerId) {
+                                        setPlayerExploredArea(lastSeen.gridPosition.x, lastSeen.gridPosition.y, true);
+                                    }
+                                    setExploredArea(lastSeen.gridPosition.x, lastSeen.gridPosition.y, true);
                                 }
                             }
 
@@ -481,7 +511,12 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
         // 1. Token no longer exists in the game (destroyed)
         // 2. Player sees the SAME token at a NEW location (memory updates with new info)
         // Seeing "nothing" at the old location does NOT remove the memory!
-        const latestAfterimages = useLevelEditorStore.getState().getPlayerTokenAfterimages();
+        // DUAL-STORE cleanup: iterate the merged per-player + legacy sets.
+        const storeState = useLevelEditorStore.getState();
+        const latestAfterimages = {
+            ...(storeState.tokenAfterimages || {}),
+            ...(storeState.getPlayerTokenAfterimages ? storeState.getPlayerTokenAfterimages() : {})
+        };
         Object.entries(latestAfterimages).forEach(([tokenId, afterimage]) => {
             if (!afterimage?.position?.worldPosition) return;
 
@@ -490,7 +525,8 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
 
             // Case 1: Token no longer exists in the game - remove memory (creature was destroyed/removed)
             if (!currentToken) {
-                removePlayerTokenAfterimage(tokenId);
+                if (currentPlayerId) removePlayerTokenAfterimage(tokenId);
+                removeTokenAfterimage(tokenId);
                 lastSeenPositions.delete(tokenId);
                 return;
             }
@@ -510,7 +546,8 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
                 );
 
                 if (canSeeNewLocation) {
-                    removePlayerTokenAfterimage(tokenId);
+                    if (currentPlayerId) removePlayerTokenAfterimage(tokenId);
+                    removeTokenAfterimage(tokenId);
                     // lastSeenPositions will be updated by the visibility tracking above
                 }
                 // Otherwise KEEP the afterimage - player hasn't seen where the token moved!
@@ -519,11 +556,12 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
         });
 
         // Remove afterimages for tokens that no longer exist in the game
-        // UPDATED: Use per-player afterimages
+        // DUAL-STORE cleanup: per-player + legacy
         Object.keys(latestAfterimages).forEach(tokenId => {
             const tokenExists = allTokens.some(t => t.id === tokenId);
             if (!tokenExists && latestAfterimages[tokenId]) {
-                removePlayerTokenAfterimage(tokenId);
+                if (currentPlayerId) removePlayerTokenAfterimage(tokenId);
+                removeTokenAfterimage(tokenId);
                 lastSeenPositions.delete(tokenId);
                 currentVisibility.delete(tokenId);
                 if (becomingInvisible.has(tokenId)) {
@@ -551,7 +589,10 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
         isPointVisibleViaAnyVision,
         updatePlayerTokenAfterimage,
         removePlayerTokenAfterimage,
+        updateTokenAfterimage,
+        removeTokenAfterimage,
         setPlayerExploredArea,
+        setExploredArea,
         getPlayerTokenAfterimages
     ]);
 

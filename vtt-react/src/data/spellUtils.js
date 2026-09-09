@@ -1,3 +1,5 @@
+import { parseDiceString as baseParseDiceString, calculateDiceAverage as baseCalculateDiceAverage } from '../utils/diceUtils';
+
 /**
  * Utility functions for spell calculations and formatting
  */
@@ -7,52 +9,14 @@
  * @param {string} diceString - Dice notation like "2d6+3" or "1d20"
  * @returns {object} The parsed dice information
  */
-export const parseDiceString = (diceString) => {
-    if (!diceString || diceString.trim() === '') {
-      return { valid: false, count: 0, sides: 0, modifier: 0 };
-    }
-  
-    // Check for standard dice notation pattern: XdY+Z or XdY-Z
-    const diceRegex = /^(\d+)d(\d+)(?:([-+])(\d+))?$/i;
-    const match = diceString.match(diceRegex);
-    
-    if (!match) {
-      return { valid: false, count: 0, sides: 0, modifier: 0 };
-    }
-    
-    const count = parseInt(match[1]);
-    const sides = parseInt(match[2]);
-    let modifier = 0;
-    
-    if (match[3] && match[4]) {
-      modifier = parseInt(match[4]);
-      if (match[3] === '-') {
-        modifier = -modifier;
-      }
-    }
-    
-    return {
-      valid: true,
-      count,
-      sides,
-      modifier
-    };
-  };
-  
-  /**
-   * Calculate the average result of a dice roll
-   * @param {object} parsedDice - The parsed dice object from parseDiceString
-   * @returns {number} The average roll result
-   */
-  export const calculateDiceAverage = (parsedDice) => {
-    if (!parsedDice.valid) {
-      return 0;
-    }
-    
-    // The average roll of a die is (sides + 1) / 2
-    const averageDie = (parsedDice.sides + 1) / 2;
-    return (parsedDice.count * averageDie) + parsedDice.modifier;
-  };
+export const parseDiceString = (diceString) => baseParseDiceString(diceString);
+
+/**
+ * Calculate the average result of a dice roll
+ * @param {object} parsedDice - The parsed dice object from parseDiceString
+ * @returns {number} The average roll result
+ */
+export const calculateDiceAverage = (parsedDice) => baseCalculateDiceAverage(parsedDice);
   
   /**
    * Format a dice string for display

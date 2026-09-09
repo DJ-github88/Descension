@@ -365,3 +365,8 @@ const useChatStore = create(
 );
 
 export default useChatStore;
+
+// Expose for debugging/manual testing (matches window.combatStore / window.gameStore conventions)
+if (typeof window !== 'undefined') {
+  window.chatStore = useChatStore;
+}

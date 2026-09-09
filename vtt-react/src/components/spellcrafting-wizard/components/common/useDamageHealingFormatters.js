@@ -256,12 +256,14 @@ const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) =
           spell.savingThrowConfig;
   }
 
-  if (!saveConfig?.enabled && !saveConfig?.savingThrow && !saveConfig?.difficultyClass) return null;
+  if (!saveConfig?.enabled && !saveConfig?.hasSavingThrow && !saveConfig?.savingThrow && !saveConfig?.difficultyClass && !saveConfig?.savingThrowDC && !saveConfig?.dc) return null;
 
   const isSavingThrowObject = saveConfig.savingThrow && typeof saveConfig.savingThrow === 'object';
 
   // Determine save type with fallbacks
   const saveType = saveConfig.savingThrowType ||
+           saveConfig.savingThrowAbility ||
+           saveConfig.ability ||
            (isSavingThrowObject ? saveConfig.savingThrow.ability : saveConfig.savingThrow) ||
            'constitution';
 
@@ -269,6 +271,9 @@ const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) =
   
   const dc = (isSavingThrowObject ? saveConfig.savingThrow.difficultyClass : null) || 
         saveConfig.difficultyClass || 
+        saveConfig.savingThrowDC ||
+        saveConfig.saveDC ||
+        saveConfig.dc ||
         15;
 
   const saveOutcome = (isSavingThrowObject ? saveConfig.savingThrow.saveOutcome : null) ||
@@ -398,35 +403,35 @@ const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) =
    } else if (spell.resolution === 'DICE' && (spell.diceConfig?.formula || spell.damageConfig?.formula)) {
      const formula = spell.diceConfig?.formula || spell.damageConfig?.formula || '1d6 + intelligence';
 
-     // Handle weapon-dependent spells that have addAttributeModifier flag
-     let finalFormula = formula;
-     if (spell.damageConfig?.weaponDependent && spell.damageConfig?.addAttributeModifier && spell.damageConfig?.attributeModifier) {
-      // For weapon attacks, combine dice notation with attribute modifier
-      const attributeName = spell.damageConfig.attributeModifier.charAt(0).toUpperCase() + spell.damageConfig.attributeModifier.slice(1);
-      // Only add attribute if it's not already in the formula
-      if (!formula.toLowerCase().includes(attributeName.toLowerCase()) && !formula.toLowerCase().includes(spell.damageConfig.attributeModifier.toLowerCase())) {
-       finalFormula = `${formula} + ${attributeName}`;
+      // Handle weapon-dependent spells that have addAttributeModifier flag
+      let finalFormula = formula.replace(/weapon_die/g, spell.damageConfig?.weaponDice || spell.weaponDice || '1d8');
+      if (spell.damageConfig?.weaponDependent && spell.damageConfig?.addAttributeModifier && spell.damageConfig?.attributeModifier) {
+       // For weapon attacks, combine dice notation with attribute modifier
+       const attributeName = spell.damageConfig.attributeModifier.charAt(0).toUpperCase() + spell.damageConfig.attributeModifier.slice(1);
+       // Only add attribute if it's not already in the formula
+       if (!formula.toLowerCase().includes(attributeName.toLowerCase()) && !formula.toLowerCase().includes(spell.damageConfig.attributeModifier.toLowerCase())) {
+        finalFormula = `${finalFormula} + ${attributeName}`;
+       }
       }
-     }
 
-     // Enhanced formula formatting - don't pass elementType if we have a specific damage type suffix
-     const enhancedFormula = damageTypeSuffix ?
-      cleanFormula(finalFormula) :
-      enhanceFormulaDisplay(finalFormula, spell.damageConfig?.elementType);
-     damageText = `${enhancedFormula}${damageTypeSuffix}`;
-   } else if (spell.damageConfig?.formula) {
-     // Handle weapon-dependent spells that have addAttributeModifier flag
-     let finalFormula = spell.damageConfig.formula;
-     if (spell.damageConfig?.weaponDependent && spell.damageConfig?.addAttributeModifier && spell.damageConfig?.attributeModifier) {
-      // For weapon attacks, combine dice notation with attribute modifier
-      const attributeName = spell.damageConfig.attributeModifier.charAt(0).toUpperCase() + spell.damageConfig.attributeModifier.slice(1);
-      // Only add attribute if it's not already in the formula
-      if (!finalFormula.toLowerCase().includes(attributeName.toLowerCase()) && !finalFormula.toLowerCase().includes(spell.damageConfig.attributeModifier.toLowerCase())) {
-       finalFormula = `${finalFormula} + ${attributeName}`;
+      // Enhanced formula formatting - don't pass elementType if we have a specific damage type suffix
+      const enhancedFormula = damageTypeSuffix ?
+       cleanFormula(finalFormula) :
+       enhanceFormulaDisplay(finalFormula, spell.damageConfig?.elementType);
+      damageText = `${enhancedFormula}${damageTypeSuffix}`;
+    } else if (spell.damageConfig?.formula) {
+      // Handle weapon-dependent spells that have addAttributeModifier flag
+      let finalFormula = (spell.damageConfig.formula || '').replace(/weapon_die/g, spell.damageConfig?.weaponDice || spell.weaponDice || '1d8');
+      if (spell.damageConfig?.weaponDependent && spell.damageConfig?.addAttributeModifier && spell.damageConfig?.attributeModifier) {
+       // For weapon attacks, combine dice notation with attribute modifier
+       const attributeName = spell.damageConfig.attributeModifier.charAt(0).toUpperCase() + spell.damageConfig.attributeModifier.slice(1);
+       // Only add attribute if it's not already in the formula
+       if (!finalFormula.toLowerCase().includes(attributeName.toLowerCase()) && !finalFormula.toLowerCase().includes(spell.damageConfig.attributeModifier.toLowerCase())) {
+        finalFormula = `${finalFormula} + ${attributeName}`;
+       }
       }
-     }
-     // Just clean up spacing and formatting, don't convert to readable text
-     damageText = `${cleanFormula(finalFormula)}${damageTypeSuffix}`;
+      // Just clean up spacing and formatting, don't convert to readable text
+      damageText = `${cleanFormula(finalFormula)}${damageTypeSuffix}`;
    } else if (spell.resolution === 'PROPHECY') {
      // Extract prophecy data
      const prophecyData = spell.prophecyConfig || 

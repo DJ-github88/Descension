@@ -365,17 +365,13 @@ export default function Lore({ initialSection }) {
 
     const hasPortrait = !!(lore.characterImage || lore.characterIcon);
     const portraitPreviewStyle = {
-        backgroundColor: lore.iconBackgroundColor || '#f8f5eb',
+        backgroundColor: lore.iconBackgroundImage ? '#1a140e' : (lore.iconBackgroundColor || '#f8f5eb'),
         borderColor: lore.iconBorderColor || '#d4af37',
         backgroundImage: lore.iconBackgroundImage
-            ? `url(/assets/backgrounds/${encodeURIComponent(lore.iconBackgroundImage)})`
+            ? `url(/assets/Backgrounds/${encodeURIComponent(lore.iconBackgroundImage)})`
             : 'none',
-        backgroundSize: lore.iconBackgroundImage
-            ? `${(lore.iconBackgroundScale || 2.5) * 100}%`
-            : 'cover',
-        backgroundPosition: lore.iconBackgroundImage
-            ? `calc(50% + ${lore.iconBackgroundOffsetX || 0}px) calc(50% + ${lore.iconBackgroundOffsetY || 0}px)`
-            : 'center',
+        backgroundSize: 'cover',
+        backgroundPosition: `calc(50% + ${lore.iconBackgroundOffsetX || 0}px) center`,
         backgroundRepeat: 'no-repeat'
     };
 

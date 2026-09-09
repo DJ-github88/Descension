@@ -10,7 +10,8 @@ import {
   getVulabilitiesSummary,
   formatDamageType
 } from '../../utils/creatureTooltipUtils';
-import { getCreatureTokenIconUrl } from '../../utils/assetManager';
+import { getCreatureTokenIconUrl, getCustomIconUrl } from '../../utils/assetManager';
+import { getDamageTypeChipIcon } from '../../utils/creatureAbilityUtils';
 import '../../styles/CreatureTooltip.css';
 
 const capitalize = (str) => {
@@ -54,6 +55,10 @@ const CreatureTooltip = ({
   const currentAp = tokenState?.currentActionPoints ?? stats.currentActionPoints ?? stats.maxActionPoints ?? 5;
   const maxAp = stats.maxActionPoints || 5;
 
+  const currentMana = tokenState?.currentMana ?? stats.currentMana ?? stats.maxMana ?? 0;
+  const maxMana = stats.maxMana || 0;
+  const showManaCell = maxMana > 0;
+
   const sizeText = capitalize(creature.size);
   const typeText = capitalize(creature.type);
 
@@ -95,8 +100,14 @@ const CreatureTooltip = ({
           </div>
           <div className="tooltip-subtitle">
             {sizeText} {typeText}
+            {creature.level ? (
+              <span className="tooltip-cr">Lv {creature.level}</span>
+            ) : null}
             {creature.challengeRating && (
               <span className="tooltip-cr">CR {creature.challengeRating}</span>
+            )}
+            {creature.faction && (
+              <span className="tooltip-faction">{creature.faction}</span>
             )}
           </div>
         </div>
@@ -111,8 +122,8 @@ const CreatureTooltip = ({
         {isGM ? (
           /* ══════ GM VIEW – full data ══════ */
           <>
-            {/* Stat grid: Speed & AP */}
-            <div className="tt-stat-grid two-col">
+            {/* Stat grid: Speed, AP & Mana */}
+            <div className={`tt-stat-grid${showManaCell ? '' : ' two-col'}`}>
               <div className="tt-stat-cell">
                 <span className="tt-stat-cell-label">Speed</span>
                 <span className="tt-stat-cell-value">
@@ -124,9 +135,19 @@ const CreatureTooltip = ({
                 <span className="tt-stat-cell-value">
                   <span style={{ color: '#2a5a8a' }}>{currentAp}</span>
                   <span className="slash">/</span>
-                  <span style={{ color: 'rgba(90,30,18,0.5)', fontSize: 10 }}>{maxAp}</span>
+                  <span className="stat-max">{maxAp}</span>
                 </span>
               </div>
+              {showManaCell && (
+                <div className="tt-stat-cell">
+                  <span className="tt-stat-cell-label">Mana</span>
+                  <span className="tt-stat-cell-value">
+                    <span style={{ color: '#2a5a8a' }}>{currentMana}</span>
+                    <span className="slash">/</span>
+                    <span className="stat-max">{maxMana}</span>
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Attack Detail row */}
@@ -190,7 +211,16 @@ const CreatureTooltip = ({
                     <div className="tt-resist-title">Resistances</div>
                     <div className="tt-resist-chips">
                       {pureResistances.map((r, i) => (
-                        <span key={i} className="tt-chip resistant">{r.label}</span>
+                        <span key={i} className="tt-chip resistant">
+                          <img
+                            className="tt-chip-icon"
+                            src={getCustomIconUrl(getDamageTypeChipIcon(r.type), 'abilities')}
+                            alt=""
+                            aria-hidden="true"
+                            onError={(e) => { e.target.style.display = 'none'; }}
+                          />
+                          {r.label}
+                        </span>
                       ))}
                     </div>
                   </>
@@ -200,7 +230,16 @@ const CreatureTooltip = ({
                     <div className="tt-resist-title" style={{ marginTop: pureResistances.length > 0 ? 6 : 0 }}>Immunities</div>
                     <div className="tt-resist-chips">
                       {immunities.map((r, i) => (
-                        <span key={i} className="tt-chip immune">{r.type}</span>
+                        <span key={i} className="tt-chip immune">
+                          <img
+                            className="tt-chip-icon"
+                            src={getCustomIconUrl(getDamageTypeChipIcon(r.type), 'abilities')}
+                            alt=""
+                            aria-hidden="true"
+                            onError={(e) => { e.target.style.display = 'none'; }}
+                          />
+                          {r.type}
+                        </span>
                       ))}
                     </div>
                   </>
@@ -210,7 +249,16 @@ const CreatureTooltip = ({
                     <div className="tt-resist-title" style={{ marginTop: 6 }}>Vulnerabilities</div>
                     <div className="tt-resist-chips">
                       {vulnerabilities.map((v, i) => (
-                        <span key={i} className="tt-chip vulnerable">{v.label}</span>
+                        <span key={i} className="tt-chip vulnerable">
+                          <img
+                            className="tt-chip-icon"
+                            src={getCustomIconUrl(getDamageTypeChipIcon(v.type), 'abilities')}
+                            alt=""
+                            aria-hidden="true"
+                            onError={(e) => { e.target.style.display = 'none'; }}
+                          />
+                          {v.label}
+                        </span>
                       ))}
                     </div>
                   </>
@@ -313,6 +361,15 @@ const CreatureTooltip = ({
                 const condName = cond.name || cond;
                 return (
                   <span key={i} className={`tt-cond-chip ${getConditionClass(cond)}`}>
+                    {cond.icon && (
+                      <img
+                        className="tt-chip-icon"
+                        src={cond.icon}
+                        alt=""
+                        aria-hidden="true"
+                        onError={(e) => { e.target.style.display = 'none'; }}
+                      />
+                    )}
                     {condName}
                     {cond.remainingRounds && (
                       <span className="tt-cond-duration">{cond.remainingRounds}r</span>

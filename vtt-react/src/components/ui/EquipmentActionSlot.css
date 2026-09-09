@@ -1,0 +1,201 @@
+/* EquipmentActionSlot.css */
+.equipment-action-slot-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+.equipment-action-slot {
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    background: radial-gradient(circle at 35% 35%, #2e2116 0%, #140d08 100%);
+    border: 2px solid #8B4513;
+    box-shadow:
+        0 6px 16px rgba(0, 0, 0, 0.65),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.8),
+        0 0 0 1px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.equipment-action-slot:hover {
+    transform: translateY(-3px);
+    border-color: #d4af37;
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.8),
+        0 0 12px rgba(212, 175, 55, 0.5),
+        inset 0 1px 3px rgba(255, 255, 255, 0.35);
+}
+
+.equipment-action-slot.active-open {
+    border-color: #ffd700 !important;
+    box-shadow:
+        0 8px 22px rgba(0, 0, 0, 0.85),
+        0 0 16px rgba(255, 215, 0, 0.7),
+        inset 0 1px 3px rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+.equipment-action-slot.disabled {
+    cursor: not-allowed;
+    filter: grayscale(0.85) brightness(0.7);
+    border-color: #554433;
+}
+
+.equipment-slot-img-wrap {
+    width: 36px;
+    height: 36px;
+    border-radius: 7px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.equipment-slot-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+/* Red cross overlay when disabled */
+.disabled-cross-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.cross-bar {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 3px;
+    background: #e74c3c;
+    border-radius: 2px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+}
+
+.cross-bar.bar-1 {
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.cross-bar.bar-2 {
+    transform: translateY(-50%) rotate(-45deg);
+}
+
+
+/* Action Count Pip */
+.action-count-indicator {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #8B4513 0%, #3e1b00 100%);
+    border: 1px solid #ffd700;
+    color: #ffd700;
+    font-size: 9px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+}
+
+/* Shield Durability Badge */
+.shield-durability-pill {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #15100a;
+    border: 1px solid #4a90e2;
+    border-radius: 6px;
+    font-size: 8px;
+    font-weight: 700;
+    font-family: 'Cinzel', serif;
+    color: #8ac4ff;
+    padding: 0 4px;
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+}
+
+/* Floating Equipment Slot Tooltip (No Screen Dimming) */
+.equipment-slot-floating-tooltip {
+    pointer-events: none;
+    user-select: none;
+    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.75));
+    animation: equipmentTooltipFadeIn 0.15s ease-out;
+    scrollbar-width: thin;
+    scrollbar-color: #8b6426 rgba(20, 13, 8, 0.5);
+}
+
+.equipment-slot-floating-tooltip::-webkit-scrollbar {
+    width: 6px;
+}
+
+.equipment-slot-floating-tooltip::-webkit-scrollbar-track {
+    background: rgba(20, 13, 8, 0.5);
+    border-radius: 3px;
+}
+
+.equipment-slot-floating-tooltip::-webkit-scrollbar-thumb {
+    background: #8b6426;
+    border-radius: 3px;
+}
+
+@keyframes equipmentTooltipFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.equipment-slot-helper-card {
+    background: linear-gradient(135deg, #241910 0%, #150f0a 100%);
+    border: 2px solid #8b6426;
+    border-radius: 8px;
+    padding: 12px 16px;
+    max-width: 280px;
+    color: #e6dac3;
+    font-family: 'Cinzel', serif;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 215, 0, 0.15);
+}
+
+.equipment-slot-helper-card .helper-card-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffd700;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(200, 155, 60, 0.3);
+    padding-bottom: 4px;
+}
+
+.equipment-slot-helper-card .helper-card-desc {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 11px;
+    line-height: 1.45;
+    color: #c9baa2;
+}

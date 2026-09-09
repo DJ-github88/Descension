@@ -119,6 +119,26 @@ const CombatTab = () => {
       );
     }
 
+    // Handle spell AoE template placements
+    if (type === 'spell_aoe') {
+      return (
+        <div key={notification.id} className="chat-message spell-aoe-message">
+          <div className="message-header">
+            <span className="sender-name">{notification.sender || 'GM'}</span>
+            <span className="timestamp">{formatTimestamp(timestamp)}</span>
+          </div>
+          <div className="message-content">
+            Placed <span style={{ fontWeight: '700', color: '#7c3aed' }}>{notification.label}</span> template
+            {' — '}
+            <span style={{ fontWeight: '700', color: notification.affectedCount > 0 ? '#c9323b' : '#2dc937' }}>
+              {notification.affectedCount} target{notification.affectedCount === 1 ? '' : 's'}
+            </span>
+            {notification.affectedCount > 0 && `: ${notification.affectedNames}`}
+          </div>
+        </div>
+      );
+    }
+
     switch (type) {
       case 'combat_hit':
         // Check if this is a resource change with custom message

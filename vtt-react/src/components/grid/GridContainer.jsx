@@ -403,8 +403,8 @@ const GridContainer = ({ gridItem }) => {
     // GM mode - always show containers
     if (isGMMode) return { visible: true, greyedOut: false };
 
-    // Player mode - check visibility based on FOV system
-    if (viewingFromToken && dynamicFogEnabled && !isGMMode) {
+    // Player mode (or GM view-from-token preview) - check visibility based on FOV system
+    if (viewingFromToken && dynamicFogEnabled) {
       // Check if container position is in visible area
       if (!itemWorldPosition || itemWorldPosition.x === undefined || itemWorldPosition.y === undefined) {
         return { visible: false, greyedOut: false };

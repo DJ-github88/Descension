@@ -2072,12 +2072,12 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             right: '0',
                             bottom: '0',
                             borderRadius: '8px',
-                            backgroundColor: lore?.iconBackgroundColor || '#f8f5eb',
+                            backgroundColor: lore?.iconBackgroundImage ? '#1a140e' : (lore?.iconBackgroundColor || '#f8f5eb'),
                             borderColor: 'transparent',
                             borderWidth: '0',
-                            backgroundImage: lore?.iconBackgroundImage ? `url(/assets/backgrounds/${encodeURIComponent(lore.iconBackgroundImage)})` : 'none',
-                            backgroundSize: lore?.iconBackgroundImage ? `${(lore?.iconBackgroundScale || 2.5) * 100}%` : 'cover',
-                            backgroundPosition: lore?.iconBackgroundImage ? `calc(50% + ${lore?.iconBackgroundOffsetX || 0}px) calc(50% + ${lore?.iconBackgroundOffsetY || 0}px)` : 'center',
+                            backgroundImage: lore?.iconBackgroundImage ? `url(/assets/Backgrounds/${encodeURIComponent(lore.iconBackgroundImage)})` : 'none',
+                            backgroundSize: 'cover',
+                            backgroundPosition: `calc(50% + ${lore?.iconBackgroundOffsetX || 0}px) center`,
                             backgroundRepeat: 'no-repeat',
                             zIndex: 0
                           }}
@@ -2201,6 +2201,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                           <ModularAPBar
                             currentAP={safeActionPoints.current}
                             maxAP={safeActionPoints.max}
+                            tempAP={targetData.tempActionPoints || 0}
                             showText={true}
                           />
                         </div>

@@ -10,21 +10,26 @@ const MovementVisualization = ({
     startPosition,
     currentPosition,
     tokenId,
-    gridSystem
+    gridSystem,
+    wallData: propWallData
 }) => {
     const {
         showMovementVisualization,
         movementLineColor,
         movementLineWidth,
         movementLineDashArray,
-        feetPerTile
+        feetPerTile,
+        storeWallData
     } = useGameStore(useShallow((state) => ({
         showMovementVisualization: state.showMovementVisualization,
         movementLineColor: state.movementLineColor,
         movementLineWidth: state.movementLineWidth,
         movementLineDashArray: state.movementLineDashArray,
-        feetPerTile: state.feetPerTile
+        feetPerTile: state.feetPerTile,
+        storeWallData: state.wallData
     })));
+
+    const wallData = propWallData || storeWallData;
 
     const {
         isInCombat,
@@ -74,18 +79,13 @@ const MovementVisualization = ({
         if (!showMovementVisualization || !startPosition || !currentPosition || !gridSystem) {
             return null;
         }
-        // CRITICAL FIX: Support both creature tokens AND character tokens
-        // First check if it's a creature token
+        // Support both creature tokens AND character tokens
         const token = tokens.find(t => t.id === tokenId);
         let creature = token ? creatures.find(c => c.id === token.creatureId) : null;
 
-        // If not a creature token, check if it's a character token
-        let isCharacterToken = false;
         if (!creature) {
             const characterToken = (characterTokens || []).find(t => t.id === tokenId);
             if (characterToken) {
-                isCharacterToken = true;
-                // Create a mock creature object from character data
                 creature = {
                     id: tokenId,
                     name: characterData.name || 'Character',
@@ -98,78 +98,79 @@ const MovementVisualization = ({
 
         if (!creature) return null;
 
-        // Get movement validation data first (if in combat)
-        // This ensures we use the SAME calculation method (D&D tile-based) as the actual validation
+        // Pathfinding calculation: find obstacle-avoiding path around walls with 5/10/5 diagonals
+        let pathResult = null;
+        if (typeof gridSystem.findPath === 'function') {
+            try {
+                pathResult = gridSystem.findPath(startPosition, currentPosition, wallData, {}, {
+                    feetPerTile,
+                    diagonalRule: '5105'
+                });
+            } catch (err) {
+                console.warn('Pathfinding error in MovementVisualization:', err);
+            }
+        }
+
         const movementValidation = isInCombat ?
             validateMovement(tokenId, startPosition, currentPosition, creatures, feetPerTile) :
             null;
 
-        // Calculate distance for this specific move
-        // CRITICAL FIX: Use validation result if in combat to ensure consistency
-        // Otherwise fall back to Euclidean calculation for out-of-combat movement
         let currentMoveFeet;
-        if (isInCombat && movementValidation) {
-            // Use the same D&D tile-based calculation from validateMovement
+        let isPathBlocked = pathResult?.blocked ?? false;
+
+        if (pathResult && pathResult.totalFeet !== undefined) {
+            currentMoveFeet = pathResult.totalFeet;
+        } else if (isInCombat && movementValidation) {
             currentMoveFeet = movementValidation.currentMovementFeet;
         } else {
-            // Out of combat: use simple Euclidean distance
             const dx = currentPosition.x - startPosition.x;
             const dy = currentPosition.y - startPosition.y;
-            const worldDistance = Math.sqrt(dx * dx + dy * dy);
+            const worldDistance = Math.hypot(dx, dy);
             const tileDistance = worldDistance / gridSystem.getGridState().gridSize;
             currentMoveFeet = tileDistance * feetPerTile;
         }
 
-        // CRITICAL FIX: Round distance to nearest feetPerTile increment for clean display
-        // This prevents showing 1, 2, 3, 4 and instead shows 0, 5, 10, 15, etc.
         const roundedDistance = Math.round(currentMoveFeet / feetPerTile) * feetPerTile;
-
-        // Determine line color based on movement validity
         let lineColor = movementLineColor;
         let lineOpacity = 1.0;
         let displayText = `${roundedDistance} ft`;
 
-        if (isInCombat && movementValidation) {
+        if (isPathBlocked) {
+            lineColor = '#FF4444';
+            displayText = `${roundedDistance} ft (Blocked)`;
+        } else if (isInCombat && movementValidation) {
             const {
                 isValid,
                 needsConfirmation,
-                totalMovementAfterThis,
                 creatureSpeed,
                 additionalAPNeeded
             } = movementValidation;
 
-            // Calculate movement limits based on how much movement has been unlocked
             const baseSpeed = creatureSpeed;
-
-            // Get the current total unlocked movement from the store
             const currentUnlockedMovement = getTotalUnlockedMovement(tokenId, creatures);
 
-            // Determine the appropriate limit to display
+            // Calculate total after this move using path distance
+            const movementUsedThisTurn = useCombatStore.getState().turnMovementUsed?.get(tokenId) || 0;
+            const totalMovementAfterThis = movementUsedThisTurn + currentMoveFeet;
+
             let movementLimit;
             if (totalMovementAfterThis > currentUnlockedMovement) {
-                // Will exceed current unlocked movement, show what the limit would be after paying additional AP
                 const segmentsNeeded = Math.ceil(totalMovementAfterThis / creatureSpeed);
                 movementLimit = segmentsNeeded * creatureSpeed;
             } else {
-                // Within current unlocked movement, show current limit
                 movementLimit = Math.max(baseSpeed, currentUnlockedMovement);
             }
 
-            // Format display text as "total after this move/limit ft"
             displayText = `${Math.round(totalMovementAfterThis)}/${movementLimit}ft`;
 
             if (!isValid) {
-                // Invalid movement - red
                 lineColor = '#FF4444';
-            } else if (needsConfirmation) {
-                // Requires extra AP - orange
+            } else if (needsConfirmation || totalMovementAfterThis > currentUnlockedMovement) {
                 lineColor = '#FFA500';
-                displayText += ` (+${additionalAPNeeded} AP)`;
+                displayText += ` (+${additionalAPNeeded || Math.ceil((totalMovementAfterThis - currentUnlockedMovement) / creatureSpeed)} AP)`;
             } else if (totalMovementAfterThis <= creatureSpeed) {
-                // Within base movement - green
                 lineColor = '#32CD32';
             } else {
-                // Using already paid AP - yellow
                 lineColor = '#FFD700';
             }
         }
@@ -179,33 +180,53 @@ const MovementVisualization = ({
             lineColor,
             lineOpacity,
             displayText,
-            isValidMovement: !isInCombat || !movementValidation || movementValidation.isValid
+            isValidMovement: !isPathBlocked && (!isInCombat || !movementValidation || movementValidation.isValid),
+            worldPath: pathResult?.worldPath || null
         };
-    }, [startPosition, currentPosition, tokenId, tokens, creatures, characterTokens, characterData, feetPerTile, isInCombat, gridSystem, movementLineColor]);
+    }, [startPosition, currentPosition, tokenId, tokens, creatures, characterTokens, characterData, feetPerTile, isInCombat, gridSystem, movementLineColor, wallData]);
 
-    // Don't render if no movement data or visualization is disabled
     if (!movementData) return null;
 
-    // CRITICAL FIX: Convert world coordinates to screen coordinates with viewport dimensions
-    // This ensures proper centering and positioning
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     const startScreen = gridSystem.worldToScreen(startPosition.x, startPosition.y, viewportWidth, viewportHeight);
     const currentScreen = gridSystem.worldToScreen(currentPosition.x, currentPosition.y, viewportWidth, viewportHeight);
 
-    // Calculate SVG viewBox to contain the line with some padding
-    const minX = Math.min(startScreen.x, currentScreen.x) - 50;
-    const minY = Math.min(startScreen.y, currentScreen.y) - 50;
-    const maxX = Math.max(startScreen.x, currentScreen.x) + 50;
-    const maxY = Math.max(startScreen.y, currentScreen.y) + 50;
+    // Build screen waypoints for the path
+    let screenPoints = [startScreen, currentScreen];
+    if (movementData.worldPath && movementData.worldPath.length > 2) {
+        screenPoints = movementData.worldPath.map((wp, idx) => {
+            if (idx === 0) return startScreen;
+            if (idx === movementData.worldPath.length - 1) return currentScreen;
+            return gridSystem.worldToScreen(wp.x, wp.y, viewportWidth, viewportHeight);
+        });
+    }
+
+    // SVG viewBox containing all waypoints plus padding
+    const xs = screenPoints.map(p => p.x);
+    const ys = screenPoints.map(p => p.y);
+    const minX = Math.min(...xs) - 50;
+    const minY = Math.min(...ys) - 50;
+    const maxX = Math.max(...xs) + 50;
+    const maxY = Math.max(...ys) + 50;
     const width = maxX - minX;
     const height = maxY - minY;
 
-    // Adjust coordinates relative to SVG viewBox
-    const relativeStartX = startScreen.x - minX;
-    const relativeStartY = startScreen.y - minY;
-    const relativeCurrentX = currentScreen.x - minX;
-    const relativeCurrentY = currentScreen.y - minY;
+    const relativePoints = screenPoints.map(p => ({
+        x: p.x - minX,
+        y: p.y - minY
+    }));
+
+    // Waypoint midpoint for label placement
+    const midIdx = Math.floor(relativePoints.length / 2);
+    const midX = relativePoints.length === 2
+        ? (relativePoints[0].x + relativePoints[1].x) / 2
+        : relativePoints[midIdx].x;
+    const midY = relativePoints.length === 2
+        ? (relativePoints[0].y + relativePoints[1].y) / 2
+        : relativePoints[midIdx].y;
+
+    const pointsString = relativePoints.map(p => `${p.x},${p.y}`).join(' ');
 
     return (
         <div
@@ -222,51 +243,56 @@ const MovementVisualization = ({
             <svg
                 width={width}
                 height={height}
-                style={{ 
+                style={{
                     position: 'absolute',
                     top: 0,
                     left: 0
                 }}
             >
-                {/* Movement line with animated stippled effect */}
-                <line
+                {/* Movement line or polyline with animated stippled effect */}
+                <polyline
                     ref={lineRef}
-                    x1={relativeStartX}
-                    y1={relativeStartY}
-                    x2={relativeCurrentX}
-                    y2={relativeCurrentY}
+                    points={pointsString}
+                    fill="none"
                     stroke={movementData.lineColor}
                     strokeWidth={movementLineWidth}
                     strokeDasharray={movementLineDashArray}
                     strokeDashoffset={0}
                     strokeOpacity={movementData.lineOpacity}
                     strokeLinecap="round"
+                    strokeLinejoin="round"
                 />
-                
+
+                {/* Intermediate waypoint dots */}
+                {relativePoints.length > 2 && relativePoints.slice(1, -1).map((pt, idx) => (
+                    <circle
+                        key={idx}
+                        cx={pt.x}
+                        cy={pt.y}
+                        r={3}
+                        fill={movementData.lineColor}
+                        fillOpacity={0.7}
+                    />
+                ))}
+
                 {/* Current position marker */}
                 <circle
-                    cx={relativeCurrentX}
-                    cy={relativeCurrentY}
+                    cx={relativePoints[relativePoints.length - 1].x}
+                    cy={relativePoints[relativePoints.length - 1].y}
                     r={4}
                     fill={movementData.lineColor}
                     fillOpacity={0.9}
                 />
-                
+
                 {/* Distance label - positioned along the movement line */}
                 {movementData.feetDistance > 0 && (
                     <g>
-                        {/* Calculate midpoint of the line for label positioning */}
                         {(() => {
-                            const midX = (relativeStartX + relativeCurrentX) / 2;
-                            const midY = (relativeStartY + relativeCurrentY) / 2;
-
-                            // Offset the label slightly to avoid overlapping the line
                             const offsetX = 10;
                             const offsetY = -10;
 
                             return (
                                 <>
-                                    {/* Background for text */}
                                     <rect
                                         x={midX + offsetX}
                                         y={midY + offsetY - 8}
@@ -277,7 +303,6 @@ const MovementVisualization = ({
                                         stroke="rgba(255, 255, 255, 0.3)"
                                         strokeWidth={1}
                                     />
-                                    {/* Distance text */}
                                     <text
                                         x={midX + offsetX + 5}
                                         y={midY + offsetY + 4}

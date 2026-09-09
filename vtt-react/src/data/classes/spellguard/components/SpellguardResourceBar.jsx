@@ -638,9 +638,16 @@ const SpellguardResourceBar = ({
                 {/* Floating Tactical Popover Menu Portal */}
                 {showControls && ReactDOM.createPortal(
                     <div 
-                        className="sg-tender-popover unified-context-menu" 
+                        className="sg-tender-popover unified-context-menu spellguard-menu-container" 
                         ref={controlsMenuRef}
+                        onMouseDown={(e) => e.stopPropagation()}
                         onClick={(e) => e.stopPropagation()}
+                        onMouseEnter={(e) => {
+                            e.stopPropagation();
+                            setShowTooltip(false);
+                        }}
+                        onMouseMove={(e) => e.stopPropagation()}
+                        onMouseOver={(e) => e.stopPropagation()}
                         style={{
                             position: 'fixed',
                             top: (() => {

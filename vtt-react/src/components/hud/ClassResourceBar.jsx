@@ -87,7 +87,6 @@ const ClassResourceBar = ({
 
     // Helper functions for updating uiState
     const setShowTooltip = (value) => {
-        if (value === false && isMouseOverWrapperRef.current) return;
         setUiState(prev => ({ ...prev, showTooltip: value }));
     };
     const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
@@ -1085,9 +1084,49 @@ const ClassResourceBar = ({
     // Calculate percentage for progress bars
     const percentage = finalClassResource.max > 0 ? (finalClassResource.current / finalClassResource.max) * 100 : 0;
 
+    const isAnyMenuOpen = Boolean(
+        uiState.showRageMenu ||
+        uiState.showModifierMenu ||
+        shaperState.showStanceMenu ||
+        shaperState.showMomentumMenu ||
+        shaperState.showFlourishMenu ||
+        shaperState.showSpecPassiveMenu ||
+        chronarchState.showTimeShardsMenu ||
+        chronarchState.showTemporalStrainMenu ||
+        hexbreakerState.showChargesMenu ||
+        ascensionState.showPathsMenu ||
+        ascensionState.showTokensMenu ||
+        resilienceState.showDRPMenu ||
+        dominanceState.showDominanceMenu ||
+        dominanceState.showDemonConfigModal ||
+        falseProphetState.showMadnessMenu ||
+        fateWeaverState.showThreadsMenu ||
+        gamblerState.showFPMenu ||
+        gamblerState.showSpecMenu ||
+        huntressState.showQMMenu ||
+        huntressState.showHuntressSpecMenu ||
+        phylacteryState.showPhylacteryMenu ||
+        lunarchState.showLunarPhaseMenu ||
+        martyrState.showDevotionMenu ||
+        martyrState.showMartyrSpecMenu ||
+        (minstrelState.showNoteMenus && minstrelState.showNoteMenus.some(Boolean)) ||
+        minstrelState.showMinstrelSpecMenu ||
+        visionsState.showVisionsMenu ||
+        showResonanceMenu ||
+        dreadnaughtState.showDRPMenu ||
+        exorcistState.showDominanceMenu ||
+        exorcistState.showDemonConfigModal ||
+        deathcallerState.showPathsMenu ||
+        deathcallerState.showTokensMenu ||
+        lichborneState.showPhylacteryMenu
+    );
+
     // Handle mouse events for tooltip (following item tooltip pattern)
-    // Add 4 second delay before showing tooltip
     const handleMouseEnter = (e) => {
+        if (isAnyMenuOpen) {
+            setShowTooltip(false);
+            return;
+        }
         isMouseOverWrapperRef.current = true;
         // Clear any existing timeout
         if (tooltipTimeoutRef.current) {
@@ -1125,7 +1164,9 @@ const ClassResourceBar = ({
     };
 
     const handleMouseMove = (e) => {
-        // Position is handled by useEffect relative to the bar, no need to update here
+        if (isAnyMenuOpen && uiState.showTooltip) {
+            setShowTooltip(false);
+        }
     };
 
     // Handle click events for GM mode (only if owner)
@@ -1859,7 +1900,7 @@ const ClassResourceBar = ({
                         finalConfig={finalConfig}
                         modifiedConfig={modifiedConfig}
                         finalClassResource={finalClassResource}
-                        showTooltip={showTooltip}
+                        showTooltip={showTooltip && !isAnyMenuOpen}
                         chaosWeaverHoverSection={chaosWeaverHoverSection}
                         activeSpecialization={activeSpecialization}
                         animistHoverSection={animistHoverSection}

@@ -1,0 +1,87 @@
+/* CreatureAbilityFanOut.css - addon styles layered on top of ActionFanOutMenu.css */
+
+.creature-ability-fanout {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    z-index: 1060;
+}
+
+.creature-ability-fanout .action-fan-bubble {
+    pointer-events: auto;
+}
+
+/* Overflow indicator bubble (non-interactive) */
+.fan-more-bubble {
+    cursor: default;
+    background: radial-gradient(circle at 35% 35%, #241d12 0%, #0d0a06 100%);
+    border-style: dashed;
+}
+
+.fan-more-bubble:hover {
+    transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(1) !important;
+    border-color: #c89b3c;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.7),
+        0 0 8px rgba(200, 155, 60, 0.4);
+}
+
+.fan-more-label {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #e6c877;
+    line-height: 1;
+    user-select: none;
+}
+
+/* Ability hover card (full UnifiedSpellCard, same layout as the inspect view) */
+.fan-ability-card {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    /* Inspect-view parity: the card design reflows completely at 380px */
+    width: 380px;
+    max-width: min(400px, calc(100vw - 16px));
+    max-height: calc(100vh - 16px);
+    overflow-y: auto;
+    overflow-x: visible;
+    z-index: 1080;
+    pointer-events: auto;
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.65));
+    animation: fanCardFadeIn 0.15s ease-out;
+    scrollbar-width: thin;
+}
+
+.fan-ability-card.fan-card-right {
+    left: calc(100% + 14px);
+}
+
+.fan-ability-card.fan-card-left {
+    right: calc(100% + 14px);
+}
+
+@keyframes fanCardFadeIn {
+    from {
+        opacity: 0;
+        margin-top: -6px;
+    }
+    to {
+        opacity: 1;
+        margin-top: 0;
+    }
+}
+
+/* Keep card text selectable readable at fan scale */
+.fan-ability-card .pf-spell-card,
+.fan-ability-card .wow-spell-card {
+    margin: 0;
+    /* The base card forces min-width:520px !important; override it (scoped).
+       Width follows the wrapper, which shrinks to fit narrow viewports. */
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+}

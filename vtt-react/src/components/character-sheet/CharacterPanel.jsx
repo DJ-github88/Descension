@@ -560,16 +560,29 @@ const BottleResource = ({ current, max, temp = 0, label, resourceType, onUpdate,
                             className="resource-controls-close"
                             onClick={() => setShowControls(false)}
                         >
-                            � - 
+                            ×
                         </button>
                     </div>
                     <div className="resource-adjustment-buttons">
-                        <button onClick={() => handleAdjustment(-10)} className="adjust-btn">-10</button>
-                        <button onClick={() => handleAdjustment(-5)} className="adjust-btn">-5</button>
-                        <button onClick={() => handleAdjustment(-1)} className="adjust-btn">-1</button>
-                        <button onClick={() => handleAdjustment(1)} className="adjust-btn">+1</button>
-                        <button onClick={() => handleAdjustment(5)} className="adjust-btn">+5</button>
-                        <button onClick={() => handleAdjustment(10)} className="adjust-btn">+10</button>
+                        {resourceType === 'actionPoints' ? (
+                            <>
+                                <button onClick={() => handleAdjustment(-3)} className="adjust-btn">-3</button>
+                                <button onClick={() => handleAdjustment(-2)} className="adjust-btn">-2</button>
+                                <button onClick={() => handleAdjustment(-1)} className="adjust-btn">-1</button>
+                                <button onClick={() => handleAdjustment(1)} className="adjust-btn">+1</button>
+                                <button onClick={() => handleAdjustment(2)} className="adjust-btn">+2</button>
+                                <button onClick={() => handleAdjustment(3)} className="adjust-btn">+3</button>
+                            </>
+                        ) : (
+                            <>
+                                <button onClick={() => handleAdjustment(-10)} className="adjust-btn">-10</button>
+                                <button onClick={() => handleAdjustment(-5)} className="adjust-btn">-5</button>
+                                <button onClick={() => handleAdjustment(-1)} className="adjust-btn">-1</button>
+                                <button onClick={() => handleAdjustment(1)} className="adjust-btn">+1</button>
+                                <button onClick={() => handleAdjustment(5)} className="adjust-btn">+5</button>
+                                <button onClick={() => handleAdjustment(10)} className="adjust-btn">+10</button>
+                            </>
+                        )}
                     </div>
                     <div className="resource-input-section">
                         <input
@@ -580,7 +593,6 @@ const BottleResource = ({ current, max, temp = 0, label, resourceType, onUpdate,
                             placeholder={`Set to...`}
                             className="resource-input"
                             min="0"
-                            max={max}
                         />
                         <button onClick={handleInputSubmit} className="set-btn">Set</button>
                     </div>
@@ -1735,18 +1747,14 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                             {(() => {
                                 const bgImage = lore?.iconBackgroundImage;
                                 const bgColor = lore?.iconBackgroundColor || 'transparent';
-                                // Match the Portrait Workshop preview: scene scaled by
-                                // iconBackgroundScale and nudged by the icon offsets.
-                                const bgSizePct = (lore?.iconBackgroundScale || 2.5) * 100;
                                 const bgOffX = lore?.iconBackgroundOffsetX || 0;
-                                const bgOffY = lore?.iconBackgroundOffsetY || 0;
                                 const imageContainerStyle = bgImage
                                   ? {
                                       backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.25)), url(/assets/Backgrounds/${encodeURIComponent(bgImage)})`,
-                                      backgroundSize: `auto, ${bgSizePct}%`,
-                                      backgroundPosition: `center, calc(50% + ${bgOffX}px) calc(50% + ${bgOffY}px)`,
+                                      backgroundSize: '100% 100%, cover',
+                                      backgroundPosition: `center, calc(50% + ${bgOffX}px) center`,
                                       backgroundRepeat: 'no-repeat',
-                                      backgroundColor: bgColor
+                                      backgroundColor: '#1a140e'
                                     }
                                   : { backgroundColor: bgColor };
 

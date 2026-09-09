@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState, useCallback, useImperativeHandle, forwardRef } from 'react';
+import { renderSmoothStroke, renderRoughShape } from '../../utils/strokeRenderer';
 import './StylusDrawingCanvas.css';
 
 export const INK_PALETTE = [
@@ -131,55 +132,67 @@ const StylusDrawingCanvas = forwardRef(({
 
     // Shape Drawing
     if (stroke.tool === 'line' && stroke.start && stroke.end) {
-      ctx.beginPath();
-      ctx.moveTo(stroke.start.x * width, stroke.start.y * height);
-      ctx.lineTo(stroke.end.x * width, stroke.end.y * height);
-      ctx.stroke();
+      const rendered = canvasRef.current && stroke.rough !== false
+        ? renderRoughShape(canvasRef.current, 'line', {
+            x1: stroke.start.x * width,
+            y1: stroke.start.y * height,
+            x2: stroke.end.x * width,
+            y2: stroke.end.y * height
+          }, {
+            stroke: stroke.color || '#1f140e',
+            strokeWidth: (stroke.size || 3) * dpr,
+            roughness: 1.1
+          })
+        : null;
+
+      if (!rendered) {
+        ctx.beginPath();
+        ctx.moveTo(stroke.start.x * width, stroke.start.y * height);
+        ctx.lineTo(stroke.end.x * width, stroke.end.y * height);
+        ctx.stroke();
+      }
     } else if (stroke.tool === 'rect' && stroke.start && stroke.end) {
       const x = Math.min(stroke.start.x, stroke.end.x) * width;
       const y = Math.min(stroke.start.y, stroke.end.y) * height;
       const w = Math.abs(stroke.end.x - stroke.start.x) * width;
       const h = Math.abs(stroke.end.y - stroke.start.y) * height;
-      ctx.strokeRect(x, y, w, h);
+
+      const rendered = canvasRef.current && stroke.rough !== false
+        ? renderRoughShape(canvasRef.current, 'rectangle', { x, y, width: w, height: h }, {
+            stroke: stroke.color || '#1f140e',
+            strokeWidth: (stroke.size || 3) * dpr,
+            roughness: 1.1
+          })
+        : null;
+
+      if (!rendered) {
+        ctx.strokeRect(x, y, w, h);
+      }
     } else if (stroke.tool === 'circle' && stroke.start && stroke.end) {
       const cx = stroke.start.x * width;
       const cy = stroke.start.y * height;
       const ex = stroke.end.x * width;
       const ey = stroke.end.y * height;
       const rad = Math.hypot(ex - cx, ey - cy);
-      ctx.beginPath();
-      ctx.arc(cx, cy, rad, 0, Math.PI * 2);
-      ctx.stroke();
-    } else if (stroke.points && stroke.points.length > 0) {
-      // Freehand Path
-      const points = stroke.points;
-      if (points.length === 1) {
-        const p = points[0];
-        const rad = Math.max(1, (stroke.size / 2) * (p.pressure || 0.5) * dpr);
+
+      const rendered = canvasRef.current && stroke.rough !== false
+        ? renderRoughShape(canvasRef.current, 'circle', { x: cx, y: cy, diameter: rad * 2 }, {
+            stroke: stroke.color || '#1f140e',
+            strokeWidth: (stroke.size || 3) * dpr,
+            roughness: 1.1
+          })
+        : null;
+
+      if (!rendered) {
         ctx.beginPath();
-        ctx.arc(p.x * width, p.y * height, rad, 0, Math.PI * 2);
-        ctx.fill();
-      } else {
-        ctx.beginPath();
-        ctx.moveTo(points[0].x * width, points[0].y * height);
-
-        for (let i = 1; i < points.length; i++) {
-          const p0 = points[i - 1];
-          const p1 = points[i];
-
-          if (stroke.tool !== 'highlighter' && p1.pressure && stroke.tool !== 'eraser') {
-            const pressureMultiplier = Math.max(0.35, Math.min(1.9, p1.pressure * 1.5));
-            ctx.lineWidth = stroke.size * pressureMultiplier * dpr;
-          }
-
-          const midX = (p0.x + p1.x) / 2 * width;
-          const midY = (p0.y + p1.y) / 2 * height;
-          ctx.quadraticCurveTo(p0.x * width, p0.y * height, midX, midY);
-        }
-        const last = points[points.length - 1];
-        ctx.lineTo(last.x * width, last.y * height);
+        ctx.arc(cx, cy, rad, 0, Math.PI * 2);
         ctx.stroke();
       }
+    } else if (stroke.points && stroke.points.length > 0) {
+      renderSmoothStroke(ctx, stroke.points, {
+        tool: stroke.tool,
+        size: (stroke.size || 3) * dpr
+      }, width, height);
     }
     ctx.restore();
   }, []);

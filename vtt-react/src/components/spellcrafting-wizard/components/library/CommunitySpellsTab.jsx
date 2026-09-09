@@ -61,7 +61,8 @@ const resolveSpellIcon = (spell) => {
   }
   if (iconId.startsWith('inv_') || iconId.startsWith('spell_') || iconId.startsWith('ability_')) {
     const mapped = mapSpellIcon(iconId);
-    return mapped ? getCustomIconUrl(mapped, 'abilities') : getCustomIconUrl('Utility/Utility', 'abilities');
+    // mapSpellIcon already returns a fully-resolved URL — do not wrap it again
+    return mapped ? mapped : getCustomIconUrl('Utility/Utility', 'abilities');
   }
   return getCustomIconUrl(iconId, 'abilities');
 };

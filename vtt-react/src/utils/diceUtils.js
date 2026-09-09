@@ -1,9 +1,11 @@
+import { DiceRoll, DiceRoller } from '@dice-roller/rpg-dice-roller';
+
 /**
  * Utility functions for handling dice notation and calculations
  */
 
 /**
- * Parses a dice notation string (e.g., "2d6+3") into its components
+ * Parses a dice notation string (e.g., "2d6+3", "4d6kh3", "1d20ro<2") into its components
  * 
  * @param {string} diceString - The dice notation string to parse
  * @returns {Object} Parsed dice components
@@ -26,19 +28,58 @@ export const parseDiceString = (diceString) => {
     const dicePattern = /^(\d+)d(\d+)(?:([-+]\d+))?$/;
     const matches = cleanedString.match(dicePattern);
     
-    if (!matches) {
-      // Check if it's just a flat number
-      const flatNumber = parseInt(cleanedString);
-      if (!isNaN(flatNumber)) {
-        return {
-          count: 0,
-          sides: 0,
-          modifier: flatNumber,
-          valid: true,
-          isFlat: true
-        };
-      }
+    if (matches) {
+      const count = parseInt(matches[1]);
+      const sides = parseInt(matches[2]);
+      const modifierString = matches[3] || '+0';
+      const modifier = parseInt(modifierString);
       
+      return {
+        count,
+        sides,
+        modifier,
+        valid: true,
+        isFlat: false,
+        formula: cleanedString
+      };
+    }
+    
+    // Check if it's just a flat number
+    const flatNumber = parseInt(cleanedString);
+    if (!isNaN(flatNumber) && String(flatNumber) === cleanedString) {
+      return {
+        count: 0,
+        sides: 0,
+        modifier: flatNumber,
+        valid: true,
+        isFlat: true,
+        formula: cleanedString
+      };
+    }
+    
+    // Advanced RPG Dice Notation (4d6kh3, exploding, compound rolls, math expressions)
+    try {
+      const roll = new DiceRoll(cleanedString);
+      let firstCount = 1;
+      let firstSides = 20;
+      for (const item of roll.rolls) {
+        if (item && item.die) {
+          firstCount = item.die.quantity || 1;
+          firstSides = item.die.sides || 20;
+          break;
+        }
+      }
+      return {
+        count: firstCount,
+        sides: firstSides,
+        modifier: 0,
+        valid: true,
+        isFlat: false,
+        isAdvanced: true,
+        formula: cleanedString,
+        rollInstance: roll
+      };
+    } catch (e) {
       return {
         count: 0,
         sides: 0,
@@ -46,19 +87,6 @@ export const parseDiceString = (diceString) => {
         valid: false
       };
     }
-    
-    const count = parseInt(matches[1]);
-    const sides = parseInt(matches[2]);
-    const modifierString = matches[3] || '+0';
-    const modifier = parseInt(modifierString);
-    
-    return {
-      count,
-      sides,
-      modifier,
-      valid: true,
-      isFlat: false
-    };
   };
   
   /**
@@ -169,9 +197,7 @@ export const parseDiceString = (diceString) => {
    * @returns {Object} Roll result with total and individual dice
    */
   export const rollDice = (dice) => {
-    const diceObj = typeof dice === 'string' ? parseDiceString(dice) : dice;
-    
-    if (!diceObj.valid) {
+    if (!dice) {
       return {
         total: 0,
         dice: [],
@@ -179,35 +205,82 @@ export const parseDiceString = (diceString) => {
         valid: false
       };
     }
-    
-    if (diceObj.isFlat) {
+
+    if (typeof dice === 'object' && dice.isFlat) {
       return {
-        total: diceObj.modifier,
+        total: dice.modifier || 0,
         dice: [],
-        modifier: diceObj.modifier,
+        modifier: dice.modifier || 0,
         valid: true
       };
     }
-    
-    const rolls = [];
-    let total = 0;
-    
-    // Roll each die
-    for (let i = 0; i < diceObj.count; i++) {
-      const roll = Math.floor(Math.random() * diceObj.sides) + 1;
-      rolls.push(roll);
-      total += roll;
+
+    let formula = '';
+    if (typeof dice === 'string') {
+      formula = dice.trim();
+    } else if (typeof dice === 'object' && dice.valid) {
+      if (dice.formula) {
+        formula = dice.formula;
+      } else {
+        formula = `${dice.count}d${dice.sides}${dice.modifier ? (dice.modifier > 0 ? '+' + dice.modifier : dice.modifier) : ''}`;
+      }
     }
-    
-    // Add modifier
-    total += diceObj.modifier;
-    
-    return {
-      total,
-      dice: rolls,
-      modifier: diceObj.modifier,
-      valid: true
-    };
+
+    if (!formula) {
+      return {
+        total: 0,
+        dice: [],
+        modifier: 0,
+        valid: false
+      };
+    }
+
+    const flatNumber = Number(formula);
+    if (!isNaN(flatNumber) && String(flatNumber) === formula) {
+      return {
+        total: flatNumber,
+        dice: [],
+        modifier: flatNumber,
+        valid: true
+      };
+    }
+
+    try {
+      const roll = new DiceRoll(formula);
+      const individualDice = [];
+      for (const item of roll.rolls) {
+        if (item && Array.isArray(item.rolls)) {
+          for (const d of item.rolls) {
+            if (d && typeof d.value === 'number') {
+              individualDice.push(d.value);
+            }
+          }
+        }
+      }
+
+      return {
+        total: roll.total,
+        dice: individualDice,
+        modifier: 0,
+        breakdown: roll.output,
+        valid: true,
+        rollInstance: roll
+      };
+    } catch (err) {
+      const diceObj = typeof dice === 'string' ? parseDiceString(dice) : dice;
+      if (!diceObj || !diceObj.valid) {
+        return { total: 0, dice: [], modifier: 0, valid: false };
+      }
+      const rolls = [];
+      let total = 0;
+      for (let i = 0; i < (diceObj.count || 0); i++) {
+        const roll = Math.floor(Math.random() * diceObj.sides) + 1;
+        rolls.push(roll);
+        total += roll;
+      }
+      total += (diceObj.modifier || 0);
+      return { total, dice: rolls, modifier: diceObj.modifier || 0, valid: true };
+    }
   };
   
   /**
@@ -414,6 +487,9 @@ export const parseDiceString = (diceString) => {
     parseProcString,
     formatProcChance,
     rollProc,
-    buildDiceWithProc
+    buildDiceWithProc,
+    DiceRoll,
+    DiceRoller
   };
+  export { DiceRoll, DiceRoller };
   export default diceUtils;

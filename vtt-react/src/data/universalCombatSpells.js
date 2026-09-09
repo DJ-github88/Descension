@@ -39,7 +39,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
    resourceTypes: [],
    resourceValues: {},
    useFormulas: {},
-   actionPoints: 2,
+   actionPoints: 1,
    components: []
   },
   cooldownConfig: {

@@ -5,6 +5,8 @@
 
 // Import WALL_TYPES to check wall properties
 import { WALL_TYPES } from '../store/levelEditorStore';
+import { compute as computeVisibilityPolygon, breakIntersections as breakPolygonIntersections } from 'visibility-polygon';
+import { getOrBuildWallSpatialIndex } from './WallSpatialIndex';
 
 // PERFORMANCE: Wall edge index cache: maps edge keys to wall entries for O(1) lookup
 // Edge key format: "h,{minX},{y},{maxX}" for horizontal edges, "v,{x},{minY},{maxY}" for vertical edges
@@ -319,8 +321,45 @@ function lineIntersection(x1, y1, x2, y2, x3, y3, x4, y4) {
 }
 
 /**
- * Calculate a smooth visibility polygon using raycasting
- * This creates a fluid FOV that can peek around corners
+ * Fallback raymarcher for visibility polygon (legacy raycasting)
+ */
+function fallbackRaymarchVisibility(originX, originY, visionRange, wallData, gridSize, gridOffsetX, gridOffsetY, fovAngle = 360, facingAngle = null, windowOverlays = {}) {
+  const maxRange = visionRange * gridSize;
+  const numRays = Math.max(180, visionRange * 20);
+  const polygon = [];
+
+  let startAngle, endAngle, angleStep;
+
+  if (fovAngle >= 360) {
+    startAngle = 0;
+    endAngle = Math.PI * 2;
+    angleStep = (endAngle - startAngle) / numRays;
+  } else {
+    const halfFovRadians = (fovAngle * Math.PI / 180) / 2;
+    if (facingAngle === null || facingAngle === undefined) {
+      facingAngle = -Math.PI / 2;
+    }
+    startAngle = facingAngle - halfFovRadians;
+    endAngle = facingAngle + halfFovRadians;
+    angleStep = (endAngle - startAngle) / numRays;
+  }
+
+  for (let i = 0; i < numRays; i++) {
+    const angle = startAngle + (i * angleStep);
+    const rayEnd = castRay(originX, originY, angle, maxRange, wallData, gridSize, gridOffsetX, gridOffsetY, windowOverlays);
+    polygon.push({ x: rayEnd.x, y: rayEnd.y });
+  }
+
+  if (fovAngle < 360) {
+    polygon.push({ x: originX, y: originY });
+  }
+
+  return polygon;
+}
+
+/**
+ * Calculate a smooth, exact visibility polygon using 2D geometry raycasting (visibility-polygon)
+ * This creates a fast, exact FOV that wraps dungeon walls and peeks around corners without ray stepping artifacts
  * @param {number} originX - Origin x (world coordinates)
  * @param {number} originY - Origin y (world coordinates)
  * @param {number} visionRange - Vision range (in tiles)
@@ -330,46 +369,129 @@ function lineIntersection(x1, y1, x2, y2, x3, y3, x4, y4) {
  * @param {number} gridOffsetY - Grid Y offset
  * @param {number} fovAngle - FOV angle in degrees (360 = full view, default 360)
  * @param {number} facingAngle - Direction token is facing in radians (null = 360 view)
+ * @param {Object} windowOverlays - Window overlays
  * @returns {Array} Array of {x, y} points forming the visibility polygon
  */
 export function calculateVisibilityPolygon(originX, originY, visionRange, wallData, gridSize, gridOffsetX, gridOffsetY, fovAngle = 360, facingAngle = null, windowOverlays = {}) {
-  const maxRange = visionRange * gridSize;
-  const numRays = Math.max(180, visionRange * 20); // More rays for smoother polygon
-  const polygon = [];
+  const maxRange = (visionRange || 6) * gridSize;
+  if (!maxRange || maxRange <= 0) return [];
 
-  // Determine angle range based on FOV
-  let startAngle, endAngle, angleStep;
+  try {
+    const segments = [];
 
-  if (fovAngle >= 360) {
-    // Full 360-degree sweep
-    startAngle = 0;
-    endAngle = Math.PI * 2;
-    angleStep = (endAngle - startAngle) / numRays;
-  } else {
-    // Limited FOV cone
-    const halfFovRadians = (fovAngle * Math.PI / 180) / 2;
-    if (facingAngle === null || facingAngle === undefined) {
-      // Default to facing up (0 radians = pointing right, but -PI/2 = up in screen coords)
-      facingAngle = -Math.PI / 2; // Up by default
+    // 1. Create a circular perimeter polygon boundary (32 regular segments)
+    const numCircleSegments = 32;
+    for (let i = 0; i < numCircleSegments; i++) {
+      const a1 = (i * 2 * Math.PI) / numCircleSegments;
+      const a2 = ((i + 1) * 2 * Math.PI) / numCircleSegments;
+      segments.push([
+        [originX + maxRange * Math.cos(a1), originY + maxRange * Math.sin(a1)],
+        [originX + maxRange * Math.cos(a2), originY + maxRange * Math.sin(a2)]
+      ]);
     }
-    startAngle = facingAngle - halfFovRadians;
-    endAngle = facingAngle + halfFovRadians;
-    angleStep = (endAngle - startAngle) / numRays;
+
+    // 2. Extract blocking walls within the search bounding box
+    const searchRadius = maxRange * 1.1;
+    const minX = originX - searchRadius;
+    const maxX = originX + searchRadius;
+    const minY = originY - searchRadius;
+    const maxY = originY + searchRadius;
+
+    if (wallData && Object.keys(wallData).length > 0) {
+      let candidateWalls = null;
+      try {
+        const spatialIndex = getOrBuildWallSpatialIndex(wallData, gridSize, gridOffsetX, gridOffsetY);
+        candidateWalls = spatialIndex.searchBoundingBox(minX, minY, maxX, maxY);
+      } catch (e) {
+        candidateWalls = null;
+      }
+
+      if (candidateWalls) {
+        for (let i = 0; i < candidateWalls.length; i++) {
+          const item = candidateWalls[i];
+          if (!checkIfWallBlocks(item.wall, item.wallKey, windowOverlays)) continue;
+          const [worldX1, worldY1, worldX2, worldY2] = item.worldCoords;
+          if (Math.hypot(worldX2 - worldX1, worldY2 - worldY1) < 0.001) continue;
+          segments.push([[worldX1, worldY1], [worldX2, worldY2]]);
+        }
+      } else {
+        for (const [wallKey, wall] of Object.entries(wallData)) {
+          if (!checkIfWallBlocks(wall, wallKey, windowOverlays)) continue;
+
+          const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
+          const worldX1 = (wx1 * gridSize) + gridOffsetX;
+          const worldY1 = (wy1 * gridSize) + gridOffsetY;
+          const worldX2 = (wx2 * gridSize) + gridOffsetX;
+          const worldY2 = (wy2 * gridSize) + gridOffsetY;
+
+          // Bounding box rejection filter
+          if (
+            Math.max(worldX1, worldX2) < minX ||
+            Math.min(worldX1, worldX2) > maxX ||
+            Math.max(worldY1, worldY2) < minY ||
+            Math.min(worldY1, worldY2) > maxY
+          ) {
+            continue;
+          }
+
+          // Avoid degenerate 0-length segments
+          if (Math.hypot(worldX2 - worldX1, worldY2 - worldY1) < 0.001) continue;
+
+          segments.push([[worldX1, worldY1], [worldX2, worldY2]]);
+        }
+      }
+    }
+
+    // Safety: ensure origin is not directly touching a wall vertex or segment
+    let safeOriginX = originX;
+    let safeOriginY = originY;
+    for (const seg of segments) {
+      const d1 = Math.hypot(seg[0][0] - safeOriginX, seg[0][1] - safeOriginY);
+      const d2 = Math.hypot(seg[1][0] - safeOriginX, seg[1][1] - safeOriginY);
+      if (d1 < 0.01 || d2 < 0.01) {
+        safeOriginX += 0.05;
+        safeOriginY += 0.05;
+        break;
+      }
+    }
+
+    // Break intersections between walls
+    const cleanSegments = breakPolygonIntersections(segments);
+    const computedPoly = computeVisibilityPolygon([safeOriginX, safeOriginY], cleanSegments);
+
+    if (Array.isArray(computedPoly) && computedPoly.length >= 3) {
+      let result = computedPoly.map(([x, y]) => ({ x, y }));
+
+      // If limited FOV cone is active (< 360 degrees)
+      if (fovAngle < 360) {
+        let fAngle = facingAngle;
+        if (fAngle === null || fAngle === undefined) {
+          fAngle = -Math.PI / 2;
+        }
+        const halfFov = (fovAngle * Math.PI / 180) / 2;
+        const filtered = [];
+        for (const pt of result) {
+          const angleToTarget = Math.atan2(pt.y - originY, pt.x - originX);
+          let diff = angleToTarget - fAngle;
+          while (diff > Math.PI) diff -= 2 * Math.PI;
+          while (diff < -Math.PI) diff += 2 * Math.PI;
+          if (Math.abs(diff) <= halfFov) {
+            filtered.push(pt);
+          }
+        }
+        if (filtered.length >= 2) {
+          result = [{ x: originX, y: originY }, ...filtered];
+        }
+      }
+
+      return result;
+    }
+  } catch (err) {
+    console.warn('[VisibilityCalculations] VisibilityPolygon compute error, falling back to raymarcher:', err);
   }
 
-  // Cast rays within the FOV cone
-  for (let i = 0; i < numRays; i++) {
-    const angle = startAngle + (i * angleStep);
-    const rayEnd = castRay(originX, originY, angle, maxRange, wallData, gridSize, gridOffsetX, gridOffsetY, windowOverlays);
-    polygon.push({ x: rayEnd.x, y: rayEnd.y });
-  }
-
-  // For limited FOV, add the token position as a point to close the polygon
-  if (fovAngle < 360) {
-    polygon.push({ x: originX, y: originY });
-  }
-
-  return polygon;
+  // Graceful fallback to legacy raymarching
+  return fallbackRaymarchVisibility(originX, originY, visionRange, wallData, gridSize, gridOffsetX, gridOffsetY, fovAngle, facingAngle, windowOverlays);
 }
 
 /**

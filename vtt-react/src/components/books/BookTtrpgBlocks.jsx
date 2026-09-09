@@ -138,7 +138,7 @@ export const SPELL_PRESETS = [
   {
     name: 'Aegis of the Sunwell',
     category: 'buff',
-    damageTypes: ['radiant'],
+    damageTypes: ['sacred'],
     tier: 'T1',
     spellType: 'ACTION',
     ap: 1,
@@ -149,7 +149,7 @@ export const SPELL_PRESETS = [
     effect: 'Bathes an ally in blessed golden light, granting +3 Armor Value and immunity to fear effects for the duration.',
     empower: 'Each additional 5 Mana targets 1 additional ally within 15 ft.',
     primaryDamage: { dice: '0', flat: 0 },
-    tags: ['buff', 'radiant', 'protective']
+    tags: ['buff', 'sacred', 'protective']
   }
 ];
 
@@ -280,7 +280,7 @@ export const CreatureStatblockBlock = ({
             <div className="preset-drop-title">Select Descension Creature:</div>
             {CREATURE_PRESETS.map((p) => (
               <div key={p.name} className="preset-drop-item" onClick={() => applyPreset(p)}>
-                <strong>{p.name}</strong> ({p.dangerLevel}) • <em>{p.creatureType}</em>
+                <strong>{p.name}</strong> ({p.dangerLevel}) â€¢ <em>{p.creatureType}</em>
               </div>
             ))}
           </div>
@@ -660,7 +660,7 @@ export const SpellFormulaBlock = ({
             <div className="preset-drop-title">Select Descension Spell:</div>
             {SPELL_PRESETS.map((p) => (
               <div key={p.name} className="preset-drop-item" onClick={() => applyPreset(p)}>
-                <strong>{p.name}</strong> ({p.tier}) • <em>{p.category}</em>
+                <strong>{p.name}</strong> ({p.tier}) â€¢ <em>{p.category}</em>
               </div>
             ))}
           </div>
@@ -943,7 +943,7 @@ export const DynastyTreeBlock = ({
           ) : (
             <h3 className="dynasty-title">{block.name || block.title || 'Noble Dynasty'}</h3>
           )}
-          <span className="dynasty-badge">{nodes.length} Members • {relationships.length} Connections</span>
+          <span className="dynasty-badge">{nodes.length} Members â€¢ {relationships.length} Connections</span>
         </div>
         {isWrite && (
           <div className="dynasty-header-actions">
@@ -1897,7 +1897,7 @@ export const MapEmbedBlock = ({
   const defaultLocations = [
     { id: 'loc-all', name: 'Overview', focalPoint: { x: 50, y: 50 }, zoom: 1.0, description: 'Complete regional overview of the charted territory.' },
     { id: 'loc-skald', name: "Skald's Peaks", focalPoint: { x: 52, y: 38 }, zoom: 1.85, description: 'Jagged mountain range guarding the northern pass.' },
-    { id: 'loc-midhofn', name: 'Midhöfn', focalPoint: { x: 38, y: 46 }, zoom: 2.1, description: 'Harbor citadel connecting the frozen waterways.' },
+    { id: 'loc-midhofn', name: 'MidhÃ¶fn', focalPoint: { x: 38, y: 46 }, zoom: 2.1, description: 'Harbor citadel connecting the frozen waterways.' },
     { id: 'loc-taiga', name: 'Frostwood Taiga', focalPoint: { x: 74, y: 32 }, zoom: 1.75, description: 'Dense pine forest shrouded in arcane mist.' }
   ];
 
@@ -3010,7 +3010,7 @@ export const TableOfContentsBlock = ({
     <div className="book-toc-block">
       <div className="toc-title-header">
         <h3 className="toc-main-heading">Table of Contents</h3>
-        <div className="toc-header-flourish">◆ ◆ ◆</div>
+        <div className="toc-header-flourish">â—† â—† â—†</div>
       </div>
       <div className="toc-list">
         {(book.chapters || []).map((ch, chIdx) => (

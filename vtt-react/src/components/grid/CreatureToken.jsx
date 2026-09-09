@@ -29,7 +29,9 @@ import useLongPressContextMenu from '../../hooks/useLongPressContextMenu';
 import { getCreatureTokenIconUrl } from '../../utils/assetManager';
 import { calculateEffectiveMovementSpeed } from '../../utils/conditionUtils';
 import { isPointInPolygon, getPolygonBBox } from '../../utils/VisibilityCalculations';
+import { isTokenControlledByMe, getTokenOwnerIds } from '../../utils/tokenOwnership';
 import CreatureTooltip from '../tooltips/CreatureTooltip';
+import CreatureAbilityFanOut from './CreatureAbilityFanOut';
 import { uploadAsset } from '../../services/firebase/uploadService';
 import useAuthStore from '../../store/authStore';
 
@@ -106,6 +108,39 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const contextMenuRef = useRef(null);
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+
+  // GM ability fan-out state (hover-triggered, mirrors equipment slot action fans)
+  const [showAbilityFan, setShowAbilityFan] = useState(false);
+  const abilityFanTimeoutRef = useRef(null);
+  const abilityFanCloseTimeoutRef = useRef(null);
+
+  // Cancel any pending fan-open timer
+  const clearAbilityFanOpenTimer = () => {
+    if (abilityFanTimeoutRef.current) {
+      clearTimeout(abilityFanTimeoutRef.current);
+      abilityFanTimeoutRef.current = null;
+    }
+  };
+
+  // Close the fan after a grace period, so the pointer can cross the gap
+  // between the token edge and the fan bubbles without dismissing it
+  const scheduleAbilityFanClose = (delay = 600) => {
+    if (abilityFanCloseTimeoutRef.current) {
+      clearTimeout(abilityFanCloseTimeoutRef.current);
+    }
+    abilityFanCloseTimeoutRef.current = setTimeout(() => {
+      abilityFanCloseTimeoutRef.current = null;
+      setShowAbilityFan(false);
+    }, delay);
+  };
+
+  // Cancel a pending grace-period close (pointer re-entered token or a bubble)
+  const cancelAbilityFanClose = () => {
+    if (abilityFanCloseTimeoutRef.current) {
+      clearTimeout(abilityFanCloseTimeoutRef.current);
+      abilityFanCloseTimeoutRef.current = null;
+    }
+  };
 
   // Custom amount modal state
   const [showCustomAmountModal, setShowCustomAmountModal] = useState(false);
@@ -239,6 +274,13 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Active condition effects mapped to visual overlays (MUST be above any early returns)
   const activeBuffs = useConditionStore(state => state.activeBuffs);
   const activeDebuffs = useConditionStore(state => state.activeDebuffs);
+
+  // Abilities available for the GM hover fan-out
+  const creatureAbilities = useMemo(() => {
+    if (!creature) return [];
+    return (Array.isArray(creature.abilities) ? creature.abilities : [])
+      .filter(a => a && (a.name || a.title));
+  }, [creature]);
 
   const conditionEffects = useMemo(() => {
     const pushCondition = (key, label) => {
@@ -382,12 +424,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   }, [viewingFromToken?.position]);
 
   // Determine ownership for visibility safety fallback
-  const mySocketId = useGameStore(state => state.multiplayerSocket?.id);
-  const myCharName = useCharacterStore(state => state.name);
-  const ownerId = token?.state?.ownerId || token?.state?.playerId || token?.ownerId || token?.playerId;
-  const isOwnToken = ownerId === mySocketId ||
-    ownerId === myCharName ||
-    ownerId === 'current-player';
+  const isOwnToken = isTokenControlledByMe(token);
 
   // Check if this token is visible based on FOV (only if viewing from a token)
   // Returns: true = fully visible, false = hidden
@@ -404,9 +441,11 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     if (isOwnToken && !isGMMode) return true;
 
     // 2. FOV VISIBILITY CALCULATIONS
-    // If viewing from a token AND dynamic fog is enabled, check FOV visibility
-    // GM mode should NOT restrict token visibility - GM can always see all tokens
-    if (viewingFromToken && dynamicFogEnabled && !isGMMode) {
+    // If viewing from a token AND dynamic fog is enabled, check FOV visibility.
+    // CRITICAL FIX: GM view-from-token is a live preview of the player experience,
+    // so it must apply the same fog/FOV hiding. Only plain GM mode (no viewing
+    // token) sees every token.
+    if (viewingFromToken && dynamicFogEnabled) {
       // Check if token position is in visible area
       if (!position || position.x === undefined || position.y === undefined) {
         return false; // No position - hide token
@@ -765,7 +804,28 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             updateTokenPositionWithSync(tokenId, dragStartPosition);
           }
         } else {
-          updateTokenPositionWithSync(tokenId, snappedFinalPos);
+          // WALL-BLOCKING FIX: validate the drop position against walls.
+          // If no wall-respecting path exists from the drag start to the drop
+          // position, revert to the drag start instead of teleporting through walls.
+          const wallData = useLevelEditorStore.getState().wallData;
+          const hasWalls = wallData && Object.keys(wallData).length > 0;
+          let dropAllowed = true;
+          if (hasWalls && dragStartPosition) {
+            try {
+              const pathResult = gridSystem.findPath(dragStartPosition, snappedFinalPos, wallData, {}, {});
+              dropAllowed = !pathResult?.blocked;
+            } catch (pathErr) {
+              console.warn('Wall path check failed, allowing drop:', pathErr);
+            }
+          }
+
+          if (dropAllowed) {
+            updateTokenPositionWithSync(tokenId, snappedFinalPos);
+          } else {
+            // Destination is unreachable (fully walled off) — revert
+            setLocalPosition(dragStartPosition);
+            updateTokenPositionWithSync(tokenId, dragStartPosition);
+          }
         }
 
         if (typeof clearMovementVisualization === 'function') clearMovementVisualization();
@@ -854,17 +914,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Convert world coordinates to screen coordinates for proper positioning
   // PERFORMANCE FIX: Read camera from store when calculating, don't subscribe
   // This prevents token re-render on every camera movement during drag
-  const tokenOwnerId = token?.state?.ownerId || token?.state?.playerId || token?.playerId;
-  const canControlCreature = isGMMode || (() => {
-    if (!tokenOwnerId) return false;
-    const { currentPlayer } = useGameStore.getState();
-    try {
-      const myUserId = require('../../store/authStore').default.getState().user?.uid;
-      return tokenOwnerId === currentPlayer?.id || tokenOwnerId === myUserId || tokenOwnerId === currentPlayer?.name;
-    } catch {
-      return tokenOwnerId === currentPlayer?.id || tokenOwnerId === currentPlayer?.name;
-    }
-  })();
+  const canControlCreature = isGMMode || isTokenControlledByMe(token);
 
   const currentPos = isDragging ? localPosition : position;
 
@@ -1101,6 +1151,18 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       clearTimeout(tooltipTimeoutRef.current);
     }
 
+    // GM ability fan-out: fan the creature's abilities above the token after a short delay.
+    // Also cancels any pending grace-period close when re-entering (bubbles are
+    // children of the token, so entering a bubble re-fires this handler).
+    cancelAbilityFanClose();
+    clearAbilityFanOpenTimer();
+    if (isGMMode && !isSelectionMode && !isDragging && !isMouseDown && creatureAbilities.length > 0) {
+      abilityFanTimeoutRef.current = setTimeout(() => {
+        abilityFanTimeoutRef.current = null;
+        setShowAbilityFan(true);
+      }, 350);
+    }
+
     const rect = tokenRef.current.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
@@ -1143,6 +1205,13 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       clearTimeout(tooltipTimeoutRef.current);
     }
     setShowTooltip(false);
+    // Ability fan-out: don't close instantly — the bubbles sit beyond the token
+    // edge, so give the pointer a grace period to reach them. Re-entering the
+    // token or any bubble cancels the close (see handleMouseEnter).
+    clearAbilityFanOpenTimer();
+    if (showAbilityFan) {
+      scheduleAbilityFanClose(600);
+    }
   };
 
   // Handle wheel/scroll to rotate token facing direction
@@ -1183,6 +1252,24 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     }
   }, [isHovering, token, tokenId, fovAngle, isViewingFrom, getTokenFacingDirection, setTokenFacingDirection]);
 
+  // GM quick-use of a creature ability from the hover fan-out:
+  // logs the usage to combat chat and rolls the ability's damage formula inline.
+  // Must be declared before any early returns (Rules of Hooks).
+  const handleQuickUseAbility = useCallback((ability, rollText) => {
+    if (!creature || !token) return;
+    const displayName = token.state?.customName || creature.name;
+    const costParts = [];
+    if (ability.apCost > 0) costParts.push(`${ability.apCost} AP`);
+    if (ability.manaCost > 0) costParts.push(`${ability.manaCost} MP`);
+    const costSuffix = costParts.length > 0 ? ` (${costParts.join(', ')})` : '';
+    addCombatNotification({
+      type: 'combat',
+      creature: displayName,
+      content: `⚔️ ${displayName} uses ${ability.name}${costSuffix}${rollText ? ` — ${rollText}` : ''}`,
+      timestamp: new Date().toISOString()
+    });
+  }, [creature, token, addCombatNotification]);
+
   // Add wheel event listener with passive: false to allow preventDefault
   // Use capture phase to ensure it fires before Grid's document-level handler
   React.useEffect(() => {
@@ -1211,6 +1298,13 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       // Cleanup tooltip timeout on unmount
       if (tooltipTimeoutRef.current) {
         clearTimeout(tooltipTimeoutRef.current);
+      }
+      // Cleanup ability fan-out timeout on unmount
+      if (abilityFanTimeoutRef.current) {
+        clearTimeout(abilityFanTimeoutRef.current);
+      }
+      if (abilityFanCloseTimeoutRef.current) {
+        clearTimeout(abilityFanCloseTimeoutRef.current);
       }
     };
   }, []);
@@ -1858,20 +1952,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     // CRITICAL FIX: Players (non-GM) cannot move creature tokens - only GM can move them
     // Players can only move their own character tokens
     if (!isGMMode) {
-      const tokenOwnerId = token.state?.ownerId || token.state?.playerId || token.playerId;
+      const isControlledByMe = isTokenControlledByMe(token);
       const isPlayerToken = !!token.playerId || !!token.isPlayerToken;
-      const isControlledByMe = (() => {
-        const { currentPlayer } = useGameStore.getState();
-        try {
-          const myUserId = require('../../store/authStore').default.getState().user?.uid;
-          return tokenOwnerId === currentPlayer?.id ||
-            tokenOwnerId === myUserId ||
-            tokenOwnerId === currentPlayer?.name;
-        } catch {
-          return tokenOwnerId === currentPlayer?.id ||
-            tokenOwnerId === currentPlayer?.name;
-        }
-      })();
 
       if (isControlledByMe) {
         // Player has been granted control of this creature - allow dragging
@@ -1923,6 +2005,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     isMouseDownRef.current = true;
     setMouseDownPosition({ x: e.clientX, y: e.clientY });
     setShowTooltip(false);
+
+    // Hide the ability fan-out while interacting with the token body
+    // (bubble clicks stop propagation, so they never reach this handler)
+    clearAbilityFanOpenTimer();
+    cancelAbilityFanClose();
+    setShowAbilityFan(false);
 
     // Calculate the offset from the cursor to the token's current screen position
     // This is the key to making the token follow the cursor correctly
@@ -1991,6 +2079,14 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
   const isSummonedToken = !!(creature?._summonMeta?.sourceType === 'summon');
 
+  // GM-only hover fan-out of the creature's abilities
+  const canShowAbilityFan = isGMMode
+    && showAbilityFan
+    && !isDragging
+    && !isSelectionMode
+    && !showContextMenu
+    && creatureAbilities.length > 0;
+
   return (
     <>
       <div
@@ -2004,7 +2100,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           height: `${tokenSize}px`,
           transform: `translate3d(${screenPosition.x}px, ${screenPosition.y}px, 0) translate(-50%, -50%)`,
           cursor: isSelectionMode ? 'pointer' : (isInCombat && !isMyTurn && !canControlCreature) ? 'not-allowed' : isDragging ? 'grabbing' : 'grab',
-          zIndex: isDragging ? 1000 : 150, // Higher z-index to be above ObjectSystem canvas (20) and grid tiles (10)
+          zIndex: isDragging ? 1000 : (canShowAbilityFan ? 900 : 150), // Higher z-index to be above ObjectSystem canvas (20) and grid tiles (10); raised while ability fan is open
           position: 'absolute',
           pointerEvents: showRenameInput ? 'none' : 'auto', // Disable pointer events when renaming
           touchAction: 'none',
@@ -2133,6 +2229,15 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             borderRadius: '50%'
           }}
         ></div>
+
+        {/* GM ability fan-out: ability icons fanned above the token on hover */}
+        {canShowAbilityFan && (
+          <CreatureAbilityFanOut
+            abilities={creatureAbilities}
+            radius={Math.max(84, tokenSize / 2 + 48)}
+            onUseAbility={handleQuickUseAbility}
+          />
+        )}
 
 
         {/* Health bar removed - health is visible in HUD and hover tooltip */}
@@ -3785,7 +3890,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                 }
 
                 return players.map(player => {
-                  const isCurrentOwner = token?.ownerId === (player.id || player.userId);
+                  const ownerIds = getTokenOwnerIds(token);
+                  const playerIds = new Set([player.id, player.userId, player.name, player.socketId].filter(Boolean).map(String));
+                  const isCurrentOwner = ownerIds.some(id => playerIds.has(id));
                   return (
                     <div 
                       key={player.id || player.userId}

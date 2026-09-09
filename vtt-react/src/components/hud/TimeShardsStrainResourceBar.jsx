@@ -389,6 +389,7 @@ const TimeShardsStrainResourceBar = ({
                       onClick={(e) => {
                           e.stopPropagation();
                           if (isOwner) {
+                              if (setShowTooltip) setShowTooltip(false);
                               setShowConsoleMenu(prev => !prev);
                           }
                       }}
@@ -590,9 +591,15 @@ const TimeShardsStrainResourceBar = ({
               {showConsoleMenu && ReactDOM.createPortal(
                   <div
                       ref={consoleMenuRef}
-                      className="chronarch-console-popover"
+                      className={`chronarch-console-popover chronarch-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
                       onMouseDown={(e) => e.stopPropagation()}
                       onClick={(e) => e.stopPropagation()}
+                      onMouseEnter={(e) => {
+                          e.stopPropagation();
+                          if (setShowTooltip) setShowTooltip(false);
+                      }}
+                      onMouseMove={(e) => e.stopPropagation()}
+                      onMouseOver={(e) => e.stopPropagation()}
                       style={getConsolePosition()}
                   >
                       <div className="chronarch-console-header">

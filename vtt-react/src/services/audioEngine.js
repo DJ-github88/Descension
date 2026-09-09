@@ -1,3 +1,5 @@
+import { Howl, Howler } from 'howler';
+
 const YOUTUBE_API_URL = 'https://www.youtube.com/iframe_api';
 
 let youtubeApiReady = false;
@@ -34,9 +36,10 @@ class AudioEngine {
   }
 
   _ensureContainer() {
+    if (typeof document === 'undefined') return;
     if (!this.containerEl) {
       this.containerEl = document.getElementById('audio-engine-container');
-      if (!this.containerEl) {
+      if (!this.containerEl && document.body) {
         this.containerEl = document.createElement('div');
         this.containerEl.id = 'audio-engine-container';
         this.containerEl.style.cssText = 'position:fixed;width:0;height:0;overflow:hidden;pointer-events:none;';
@@ -77,45 +80,77 @@ class AudioEngine {
   _playUploaded(trackId, url, options) {
     return new Promise((resolve, reject) => {
       try {
-        const audio = new Audio();
-        audio.crossOrigin = 'anonymous';
-        audio.preload = 'auto';
-        audio.src = url;
-        audio.loop = options.loop;
+        const targetVolume = (options.volume ?? 1.0) * this.masterVolume;
+        const initialVolume = options.fadeIn > 0 ? 0 : targetVolume;
+
+        const sound = new Howl({
+          src: [url],
+          html5: true, // Stream long tracks efficiently without blocking heap memory
+          loop: options.loop ?? false,
+          volume: initialVolume,
+          onloaderror: (id, err) => {
+            console.error('Audio load error:', err);
+            reject(new Error('Failed to load audio'));
+          },
+          onplayerror: (id, err) => {
+            console.warn('Audio play error:', err);
+            sound.once('unlock', () => {
+              sound.play();
+            });
+          }
+        });
+
+        sound.on('end', () => {
+          if (!playerState.loop) {
+            playerState.isPlaying = false;
+          }
+        });
+        sound.on('play', () => {
+          playerState.isPlaying = true;
+        });
+        sound.on('pause', () => {
+          playerState.isPlaying = false;
+        });
+        sound.on('stop', () => {
+          playerState.isPlaying = false;
+        });
 
         const playerState = {
           type: 'upload',
           trackId,
-          audio,
-          volume: options.volume,
+          howl: sound,
+          audio: null,
+          volume: options.volume ?? 1.0,
           muted: false,
           isPlaying: true,
-          loop: options.loop,
+          loop: options.loop ?? false,
           createdAt: Date.now()
         };
 
-        if (options.fadeIn > 0) {
-          audio.volume = 0;
-          this._fadeIn(audio, options.volume * this.masterVolume, options.fadeIn);
-        } else {
-          audio.volume = options.volume * this.masterVolume;
-        }
-
-        if (options.startTime > 0) {
-          audio.currentTime = options.startTime;
-        }
-
-        audio.addEventListener('canplaythrough', () => {
-          audio.play().catch(e => console.warn('Audio play failed:', e));
-          resolve(playerState);
-        }, { once: true });
-
-        audio.addEventListener('error', (e) => {
-          console.error('Audio load error:', e);
-          reject(new Error('Failed to load audio'));
-        });
-
         this.players.set(trackId, playerState);
+
+        const onSoundReady = () => {
+          if (options.startTime > 0) {
+            sound.seek(options.startTime);
+          }
+          sound.play();
+
+          if (options.fadeIn > 0) {
+            sound.fade(0, targetVolume, options.fadeIn);
+          }
+
+          playerState.audio = sound._html5 && sound._sounds && sound._sounds[0]
+            ? sound._sounds[0]._node
+            : null;
+
+          resolve(playerState);
+        };
+
+        if (sound.state() === 'loaded') {
+          onSoundReady();
+        } else {
+          sound.once('load', onSoundReady);
+        }
       } catch (error) {
         reject(error);
       }
@@ -208,10 +243,15 @@ class AudioEngine {
 
   _destroyPlayer(player) {
     try {
-      if (player.type === 'upload' && player.audio) {
-        player.audio.pause();
-        player.audio.src = '';
-        player.audio.load();
+      if (player.type === 'upload') {
+        if (player.howl) {
+          player.howl.stop();
+          player.howl.unload();
+        } else if (player.audio) {
+          player.audio.pause();
+          player.audio.src = '';
+          player.audio.load();
+        }
       } else if (player.type === 'youtube' && player.player) {
         if (player.player.destroy) {
           player.player.destroy();
@@ -232,8 +272,12 @@ class AudioEngine {
     player.volume = volume;
     const effectiveVolume = (player.muted ? 0 : volume) * this.masterVolume;
 
-    if (player.type === 'upload' && player.audio) {
-      player.audio.volume = effectiveVolume;
+    if (player.type === 'upload') {
+      if (player.howl) {
+        player.howl.volume(effectiveVolume);
+      } else if (player.audio) {
+        player.audio.volume = effectiveVolume;
+      }
     } else if (player.type === 'youtube' && player.player && player.player.setVolume) {
       player.player.setVolume(Math.round(effectiveVolume * 100));
     }
@@ -244,20 +288,26 @@ class AudioEngine {
     if (!player) return;
 
     player.muted = muted;
+    const effectiveVolume = (muted ? 0 : player.volume) * this.masterVolume;
 
-    if (player.type === 'upload' && player.audio) {
-      player.audio.volume = muted ? 0 : player.volume * this.masterVolume;
+    if (player.type === 'upload') {
+      if (player.howl) {
+        player.howl.mute(muted);
+        if (!muted) {
+          player.howl.volume(effectiveVolume);
+        }
+      } else if (player.audio) {
+        player.audio.volume = effectiveVolume;
+      }
     } else if (player.type === 'youtube' && player.player && player.player.setVolume) {
-      player.player.setVolume(muted ? 0 : Math.round(player.volume * this.masterVolume * 100));
+      player.player.setVolume(Math.round(effectiveVolume * 100));
     }
   }
 
   setMasterVolume(volume) {
     this.masterVolume = volume;
     for (const [, player] of this.players) {
-      if (!player.muted) {
-        this.setVolume(player.trackId, player.volume);
-      }
+      this.setVolume(player.trackId, player.volume);
     }
   }
 
@@ -267,14 +317,35 @@ class AudioEngine {
 
     player.loop = loop;
 
-    if (player.type === 'upload' && player.audio) {
-      player.audio.loop = loop;
+    if (player.type === 'upload') {
+      if (player.howl) {
+        player.howl.loop(loop);
+      } else if (player.audio) {
+        player.audio.loop = loop;
+      }
     }
   }
 
   getPlayingTracks() {
     const tracks = [];
     for (const [trackId, player] of this.players) {
+      let elapsed = 0;
+      let duration = 0;
+
+      if (player.type === 'upload') {
+        if (player.howl) {
+          const seekPos = player.howl.seek();
+          elapsed = typeof seekPos === 'number' ? seekPos : 0;
+          duration = player.howl.duration() || 0;
+        } else if (player.audio) {
+          elapsed = player.audio.currentTime || 0;
+          duration = player.audio.duration || 0;
+        }
+      } else if (player.type === 'youtube' && player.player) {
+        elapsed = player.player.getCurrentTime ? player.player.getCurrentTime() : 0;
+        duration = player.player.getDuration ? player.player.getDuration() : 0;
+      }
+
       tracks.push({
         trackId,
         type: player.type,
@@ -282,16 +353,8 @@ class AudioEngine {
         muted: player.muted,
         loop: player.loop,
         isPlaying: player.isPlaying,
-        elapsed: player.type === 'upload' && player.audio
-          ? player.audio.currentTime
-          : (player.type === 'youtube' && player.player && player.player.getCurrentTime
-            ? player.player.getCurrentTime()
-            : 0),
-        duration: player.type === 'upload' && player.audio
-          ? player.audio.duration || 0
-          : (player.type === 'youtube' && player.player && player.player.getDuration
-            ? player.player.getDuration()
-            : 0)
+        elapsed,
+        duration
       });
     }
     return tracks;
@@ -300,11 +363,17 @@ class AudioEngine {
   getState() {
     const tracks = [];
     for (const [trackId, player] of this.players) {
-      const elapsed = player.type === 'upload' && player.audio
-        ? player.audio.currentTime
-        : (player.type === 'youtube' && player.player && player.player.getCurrentTime
-          ? player.player.getCurrentTime()
-          : 0);
+      let elapsed = 0;
+      if (player.type === 'upload') {
+        if (player.howl) {
+          const seekPos = player.howl.seek();
+          elapsed = typeof seekPos === 'number' ? seekPos : 0;
+        } else if (player.audio) {
+          elapsed = player.audio.currentTime || 0;
+        }
+      } else if (player.type === 'youtube' && player.player && player.player.getCurrentTime) {
+        elapsed = player.player.getCurrentTime();
+      }
 
       tracks.push({
         trackId,
@@ -354,6 +423,21 @@ class AudioEngine {
   }
 
   _fadeOutAndStop(player, durationMs) {
+    if (player.type === 'upload' && player.howl) {
+      const currentVol = player.howl.volume();
+      player.howl.fade(currentVol, 0, durationMs);
+      let cleanedUp = false;
+      const cleanup = () => {
+        if (cleanedUp) return;
+        cleanedUp = true;
+        this._destroyPlayer(player);
+        this.players.delete(player.trackId);
+      };
+      player.howl.once('fade', cleanup);
+      setTimeout(cleanup, durationMs + 100);
+      return;
+    }
+
     const steps = 20;
     const stepTime = durationMs / steps;
 
@@ -390,6 +474,11 @@ class AudioEngine {
 
   destroy() {
     this.stopAll();
+    try {
+      Howler.unload();
+    } catch (e) {
+      console.warn('Error unloading Howler:', e);
+    }
     if (this.audioContext) {
       this.audioContext.close();
       this.audioContext = null;

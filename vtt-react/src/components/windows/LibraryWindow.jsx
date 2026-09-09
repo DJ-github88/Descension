@@ -543,7 +543,7 @@ const LibraryWindow = ({ isOpen, onClose }) => {
       minConstraints={[700, 500]}
       handleClassName="library-drag-handle"
       className="library-window"
-      customHeader={activeSection ? renderTabsHeader() : activeBook ? renderBookHeader() : <></>}
+      customHeader={activeSection ? renderTabsHeader() : activeBook ? renderBookHeader() : null}
     >
       {activeBook ? (
         renderBookPage()
@@ -552,7 +552,7 @@ const LibraryWindow = ({ isOpen, onClose }) => {
           <div className="library-shelf-molding library-drag-handle" title="Drag to move window">
             <span className="library-molding-hint">Mythrill Grand Library · choose a tome to open</span>
           </div>
-          <div className="library-shelf-row">
+          <div className="library-shelf-row library-drag-handle">
             {SHELF_ROW.map((item, idx) => {
               if (item.type === 'section') {
                 const section = SECTIONS.find(s => s.id === item.id);

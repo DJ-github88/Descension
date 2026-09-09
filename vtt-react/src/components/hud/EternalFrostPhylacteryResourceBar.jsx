@@ -150,9 +150,12 @@ const EternalFrostPhylacteryResourceBar = ({
                     {/* Adjustment Menu */}
                     {showPhylacteryMenu && phylacteryBarRef.current && ReactDOM.createPortal(
                         <div
-                            className="unified-context-menu compact"
+                            className={`unified-context-menu compact lichborne-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
                             onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                                onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                            onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                            onMouseEnter={(e) => e.stopPropagation()}
+                            onMouseMove={(e) => e.stopPropagation()}
+                            onMouseOver={(e) => e.stopPropagation()}
                             style={{
                                 position: 'fixed',
                                 top: (() => {

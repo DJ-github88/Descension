@@ -191,7 +191,7 @@ const getMemberAliases = (member, myIds) => {
 const MOUNT_ADJUST_STEPS = {
     health: [-5, -1, 1, 5],
     mana: [-5, -1, 1, 5],
-    actionPoints: [-1, 1],
+    actionPoints: [-3, -2, -1, 1, 2, 3],
 };
 const MOUNT_RESOURCE_TYPE = { health: 'health', mana: 'mana', ap: 'actionPoints' };
 const MOUNT_TITLES = { health: 'Health', mana: 'Mana', ap: 'Action Points' };
@@ -1078,11 +1078,13 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
                             if (isIcon) {
                                 // Scene background behind the icon
-                                containerStyle.backgroundColor = iconSettings.iconBackgroundColor || '#f8f5eb';
+                                containerStyle.backgroundColor = iconSettings.iconBackgroundImage
+                                    ? '#1a140e'
+                                    : (iconSettings.iconBackgroundColor || '#f8f5eb');
                                 if (iconSettings.iconBackgroundImage) {
-                                    containerStyle.backgroundImage = `url(/assets/backgrounds/${encodeURIComponent(iconSettings.iconBackgroundImage)})`;
-                                    containerStyle.backgroundSize = `${(iconSettings.iconBackgroundScale || 2.5) * 100}%`;
-                                    containerStyle.backgroundPosition = `calc(50% + ${iconSettings.iconBackgroundOffsetX || 0}px) calc(50% + ${iconSettings.iconBackgroundOffsetY || 0}px)`;
+                                    containerStyle.backgroundImage = `url(/assets/Backgrounds/${encodeURIComponent(iconSettings.iconBackgroundImage)})`;
+                                    containerStyle.backgroundSize = 'cover';
+                                    containerStyle.backgroundPosition = `calc(50% + ${iconSettings.iconBackgroundOffsetX || 0}px) center`;
                                 }
                                 containerStyle.display = 'flex';
                                 containerStyle.alignItems = 'center';
@@ -1409,6 +1411,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                             kind="ap"
                             current={member.character?.actionPoints?.current || 0}
                             max={member.character?.actionPoints?.max || 1}
+                            temp={member.character?.tempActionPoints || 0}
                             memberName={member.name}
                         />
                     </div>
@@ -1420,6 +1423,9 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         const pool = kind === 'ap'
                             ? member.character?.actionPoints
                             : member.character?.[resourceType];
+                        const tempVal = kind === 'ap'
+                            ? (member.character?.tempActionPoints || 0)
+                            : (kind === 'mana' ? (member.character?.tempMana || 0) : (member.character?.tempHealth || 0));
                         const cur = pool?.current || 0;
                         const maxVal = pool?.max || 1;
                         return (
@@ -1432,7 +1438,9 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                 onContextMenu={(e) => e.preventDefault()}
                             >
                                 <button className="mount-adjust-close" onClick={() => setMountMenu(null)} title="Close">×</button>
-                                <div className="mount-adjust-title">{MOUNT_TITLES[kind]} {cur}/{maxVal}</div>
+                                <div className="mount-adjust-title">
+                                    {MOUNT_TITLES[kind]} {cur}/{maxVal}{tempVal > 0 ? ` (+${tempVal})` : ''}
+                                </div>
                                 <div className="mount-adjust-row">
                                     {MOUNT_ADJUST_STEPS[resourceType].map((step) => (
                                         <button
@@ -2565,9 +2573,10 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         if (adjustment > 0) {
             let currentValue, maxValue;
 
-            if (memberId === 'current-player') {
-                currentValue = currentPlayerData[resourceType]?.current || 0;
-                maxValue = currentPlayerData[resourceType]?.max || 0;
+            if (isSelfId(memberId, undefined, myIds)) {
+                const charState = useCharacterStore.getState();
+                currentValue = charState[resourceType]?.current || 0;
+                maxValue = charState[resourceType]?.max || 0;
             } else {
                 const member = findMemberById(memberId);
                 if (!member) return;

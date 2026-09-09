@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-const UnifiedSpellCard = React.lazy(() => import('./UnifiedSpellCard'));
+import UnifiedSpellCard from './UnifiedSpellCard';
 
 const SpellTooltip = ({
   spell,
@@ -9,8 +9,8 @@ const SpellTooltip = ({
   position,
   onMouseEnter,
   onMouseLeave,
-  smartPositioning = false, // New prop to enable smart positioning for action bar
-  fullscreenMode = false // New prop to enable fullscreen modal mode with cloudy background
+  smartPositioning = false, // Enable smart positioning for action bar
+  fullscreenMode = false // Enable fullscreen modal mode with cloudy background
 }) => {
   if (!spell) return null;
   
@@ -58,7 +58,6 @@ const SpellTooltip = ({
             pointerEvents: 'auto' // Re-enable pointer events for the spell card
           }}
         >
-          <React.Suspense fallback={null}>
           <UnifiedSpellCard
             spell={spell}
             variant="wizard"
@@ -68,7 +67,6 @@ const SpellTooltip = ({
             showStats={true}
             showTags={true}
           />
-        </React.Suspense>
         </div>
       </div>
     );
@@ -77,29 +75,40 @@ const SpellTooltip = ({
     return ReactDOM.createPortal(tooltipContent, document.body);
   }
 
+  // Safe coordinate fallbacks: guarantee valid numbers within viewport
+  const safeX = (position && typeof position.x === 'number' && position.x > 0)
+    ? position.x
+    : (window.innerWidth / 2);
+  const safeY = (position && typeof position.y === 'number' && position.y > 0)
+    ? position.y
+    : (window.innerHeight - 80);
+
   // Tooltip dimensions
   const tooltipWidth = 580;
-  const tooltipHeight = 500;
-  const maxTooltipHeight = Math.min(500, window.innerHeight - 40); // Max 500px or available height
-  const padding = 20;
+  const scaledTooltipWidth = tooltipWidth * 0.75; // 435px
+  const maxTooltipHeight = Math.min(520, window.innerHeight - 36);
+  const padding = 16;
 
-  let x = position.x;
-  let y = position.y;
+  // Determine whether to anchor above or below based on position in viewport
+  // If in bottom half of viewport, or smartPositioning is requested: anchor above to avoid hanging off bottom edge!
+  const isBottomAnchored = smartPositioning || (safeY > (window.innerHeight * 0.5));
 
-  // Apply smart positioning only when requested (for action bar)
-  if (smartPositioning) {
-    // For mouse-following tooltips: position above cursor, centered horizontally
-    const scaledTooltipWidth = tooltipWidth * 0.75;
+  // Horizontal clamping: ensure scaled tooltip stays completely within viewport
+  const halfWidth = scaledTooltipWidth / 2;
+  const minCenterX = padding + halfWidth;
+  const maxCenterX = window.innerWidth - padding - halfWidth;
+  const x = Math.min(Math.max(safeX, minCenterX), maxCenterX);
 
-    // Clamp anchor X within viewport padding, accounting for horizontal centering
-    const minCenterX = padding + (scaledTooltipWidth / 2);
-    const maxCenterX = window.innerWidth - padding - (scaledTooltipWidth / 2);
-    x = Math.min(Math.max(position.x, minCenterX), maxCenterX);
+  // Available vertical space and maximum height clamping
+  const availableHeight = isBottomAnchored
+    ? Math.max(160, safeY - 20)
+    : Math.max(160, window.innerHeight - safeY - 20);
+  const effectiveMaxHeight = Math.min(maxTooltipHeight, availableHeight);
 
-    // Position tooltip so its bottom edge is just above the cursor (5px gap)
-    // We'll use bottom positioning instead of top to achieve this
-    y = position.y;
-  }
+  // Vertical anchor position: guarantee tooltip sits on-screen above the bubble/slot
+  const verticalStyle = isBottomAnchored
+    ? { bottom: Math.max(12, window.innerHeight - safeY + 12), top: 'auto' }
+    : { top: Math.max(12, safeY + 12), bottom: 'auto' };
 
   // Create tooltip content
   const tooltipContent = (
@@ -108,33 +117,35 @@ const SpellTooltip = ({
       style={{
         position: 'fixed',
         left: x,
-        ...(smartPositioning ? { bottom: window.innerHeight - y + 5, top: 'auto' } : { top: y }),
+        ...verticalStyle,
         zIndex: 2147483647, // Maximum z-index value to ensure tooltips always appear above everything
         pointerEvents: 'auto',
-        // Center horizontally when smartPositioning is enabled
-        transform: smartPositioning ? 'translateX(-50%)' : undefined,
-        // Set size for scaled spell card - scrolling handled by inner container
-        width: smartPositioning ? (tooltipWidth * 0.75) : 'auto',
+        // Center horizontally on anchor point
+        transform: 'translateX(-50%)',
+        width: scaledTooltipWidth,
         height: 'auto',
-        maxHeight: 'none', // No constraint here - handled by inner container
-        maxWidth: 'none', // Remove width constraint
-        overflow: 'visible', // Let inner container handle scrolling
+        maxHeight: effectiveMaxHeight,
+        maxWidth: 'none',
+        overflow: 'visible',
         animation: 'none' // Avoid global keyframe conflicts that animate transform
       }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <div className="spell-tooltip-container" style={{
-        transform: 'scale(0.75)', // Scale the entire tooltip container to match spell card
-        transformOrigin: 'top left',
-        width: 'fit-content',
-        height: 'auto',
-        maxHeight: maxTooltipHeight / 0.75, // Adjust max height for scaling
-        overflow: 'auto' // Enable scrolling on the scaled container
-      }}>
+      <div
+        className="spell-tooltip-container"
+        style={{
+          transform: 'scale(0.75)',
+          transformOrigin: isBottomAnchored ? 'bottom left' : 'top left',
+          width: tooltipWidth,
+          height: 'auto',
+          maxHeight: effectiveMaxHeight / 0.75,
+          overflowY: 'auto',
+          overflowX: 'hidden'
+        }}
+      >
         {/* Tooltip content */}
         <div className="spell-tooltip-content">
-          <React.Suspense fallback={null}>
           <UnifiedSpellCard
             spell={spell}
             variant="wizard"
@@ -144,7 +155,6 @@ const SpellTooltip = ({
             showStats={true}
             showTags={true}
           />
-        </React.Suspense>
         </div>
       </div>
     </div>

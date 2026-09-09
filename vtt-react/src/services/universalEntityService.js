@@ -9,6 +9,7 @@ import useInteractiveMapStore from '../store/interactiveMapStore';
 import useShareableStore from '../store/shareableStore';
 import useClassLoreStore from '../store/classLoreStore';
 import campaignService from './campaignService';
+import Fuse from 'fuse.js';
 
 const asText = (v) => {
   if (typeof v === 'string') return v;
@@ -335,7 +336,42 @@ class UniversalEntityService {
       }
     }
 
-    return results.slice(0, limit);
+    if (!cleanQuery) {
+      return results.slice(0, limit);
+    }
+
+    // Fuzzy search with Fuse.js across all candidates in the allowed types
+    const allCandidates = this.searchAll('', { types, limit: 10000 });
+    const fuse = new Fuse(allCandidates, {
+      keys: [
+        { name: 'title', weight: 0.5 },
+        { name: 'aliases', weight: 0.3 },
+        { name: 'category', weight: 0.2 },
+        { name: 'subtitle', weight: 0.15 },
+        { name: 'summary', weight: 0.1 }
+      ],
+      threshold: 0.35,
+      ignoreLocation: true,
+      minMatchCharLength: 2
+    });
+
+    const fuseMatches = fuse.search(cleanQuery).map(r => r.item);
+    const finalResults = [];
+    const seenIds = new Set();
+
+    fuseMatches.forEach(item => {
+      finalResults.push(item);
+      seenIds.add(item.id);
+    });
+
+    results.forEach(item => {
+      if (!seenIds.has(item.id)) {
+        finalResults.push(item);
+        seenIds.add(item.id);
+      }
+    });
+
+    return finalResults.slice(0, limit);
   }
 
   /**

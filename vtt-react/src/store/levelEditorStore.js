@@ -1854,13 +1854,29 @@ const useLevelEditorStore = create((set, get) => ({
       return; // Invalid polygon
     }
     const state = get();
+    // CRITICAL FIX: Dedupe by movement instead of hard-pruning old polygons.
+    // The old slice(-99) cap deleted the exploration trail after ~100 small
+    // movements, erasing the player's memory of explored areas.
+    const existingPolygons = state.exploredPolygons || [];
+    const last = existingPolygons[existingPolygons.length - 1];
+    if (last && last.points && last.points.length > 0) {
+      let cx = 0, cy = 0;
+      polygon.forEach(p => { cx += p.x; cy += p.y; });
+      cx /= polygon.length; cy /= polygon.length;
+      let lx = 0, ly = 0;
+      last.points.forEach(p => { lx += p.x; ly += p.y; });
+      lx /= last.points.length; ly /= last.points.length;
+      const moved = Math.hypot(cx - lx, cy - ly);
+      if (moved < (state.gridSize || 50) * 0.35) {
+        return; // Barely moved — the previous polygon already covers this area
+      }
+    }
     const newPolygon = {
       points: polygon.map(p => ({ x: p.x, y: p.y })), // Deep copy
       timestamp: Date.now()
     };
-    // Keep recent polygons (last 100 to prevent memory issues)
-    const existingPolygons = state.exploredPolygons || [];
-    const recentPolygons = existingPolygons.slice(-99); // Keep last 99
+    // Safety cap only (dedupe above keeps the list small in practice)
+    const recentPolygons = existingPolygons.slice(-1999);
     set({ exploredPolygons: [...recentPolygons, newPolygon] });
   },
 
@@ -3875,14 +3891,26 @@ const useLevelEditorStore = create((set, get) => ({
       tokenAfterimages: {}
     };
 
-    const existingCount = currentMemories.exploredPolygons.length;
-
-    // PERFORMANCE: Limit the number of polygons to prevent memory bloat
-    // Keep only the last 200 polygons (covers significant exploration history)
-    let polygonsToKeep = currentMemories.exploredPolygons;
-    if (existingCount > 200) {
-      polygonsToKeep = currentMemories.exploredPolygons.slice(-200);
+    // CRITICAL FIX: Dedupe by movement instead of hard-pruning.
+    // The old slice(-200) cap erased the exploration trail after ~200 small
+    // movements (~seconds of walking), destroying the persistent memory.
+    const existingPolygons = currentMemories.exploredPolygons || [];
+    const last = existingPolygons[existingPolygons.length - 1];
+    if (last && last.points && last.points.length > 0) {
+      let cx = 0, cy = 0;
+      polygon.forEach(p => { cx += p.x; cy += p.y; });
+      cx /= polygon.length; cy /= polygon.length;
+      let lx = 0, ly = 0;
+      last.points.forEach(p => { lx += p.x; ly += p.y; });
+      lx /= last.points.length; ly /= last.points.length;
+      const moved = Math.hypot(cx - lx, cy - ly);
+      if (moved < (state.gridSize || 50) * 0.35) {
+        return; // Barely moved — previous polygon already covers this area
+      }
     }
+
+    // Safety cap only (dedupe above keeps the list small in practice)
+    const polygonsToKeep = existingPolygons.slice(-1999);
 
     set({
       playerMemories: {
@@ -3989,10 +4017,12 @@ const useLevelEditorStore = create((set, get) => ({
   isPlayerPositionExplored: (worldX, worldY) => {
     const state = get();
     const playerId = state.currentPlayerId;
-    if (!playerId) return false;
 
-    const memories = state.playerMemories[playerId];
-    if (!memories) return false;
+    // CRITICAL FIX: Fall back to the legacy explored stores when the per-player
+    // memory key is missing. With dual-writes the legacy stores always mirror
+    // exploration, so this keeps memory rendering working even when
+    // currentPlayerId is null or was changed after memories were recorded.
+    const memories = playerId ? state.playerMemories[playerId] : null;
 
     // Get grid settings from gameStore for coordinate conversion
     let gridSize = 50, gridOffsetX = 0, gridOffsetY = 0;
@@ -4005,22 +4035,29 @@ const useLevelEditorStore = create((set, get) => ({
       // Use defaults if gameStore unavailable
     }
 
-    // Check tile-based explored areas
+    // Check tile-based explored areas (per-player, then legacy)
     const gridX = Math.floor((worldX - gridOffsetX) / gridSize);
     const gridY = Math.floor((worldY - gridOffsetY) / gridSize);
     const tileKey = `${gridX},${gridY}`;
-    if (memories.exploredAreas && memories.exploredAreas[tileKey]) return true;
+    if (memories?.exploredAreas && memories.exploredAreas[tileKey]) return true;
+    if (state.exploredAreas && state.exploredAreas[tileKey]) return true;
 
-    // Check circle-based explored areas
-    const circles = memories.exploredCircles || [];
+    // Check circle-based explored areas (per-player, then legacy)
+    const circles = [
+      ...(memories?.exploredCircles || []),
+      ...(state.exploredCircles || [])
+    ];
     for (const circle of circles) {
       const dx = worldX - circle.x;
       const dy = worldY - circle.y;
       if (Math.sqrt(dx * dx + dy * dy) <= circle.radius) return true;
     }
 
-    // Check polygon-based explored areas
-    const polygons = memories.exploredPolygons || [];
+    // Check polygon-based explored areas (per-player, then legacy)
+    const polygons = [
+      ...(memories?.exploredPolygons || []),
+      ...(state.exploredPolygons || [])
+    ];
     for (const polygon of polygons) {
       if (pointInPolygon({ x: worldX, y: worldY }, polygon.points)) return true;
     }

@@ -628,9 +628,16 @@ const AnimistResourceBar = ({
                 {/* Floating Tactical Popover Menu Portal */}
                 {showControls && ReactDOM.createPortal(
                     <div
-                        className="animist-council-popover unified-context-menu"
+                        className="animist-council-popover unified-context-menu animist-menu-container"
                         ref={controlsMenuRef}
+                        onMouseDown={(e) => e.stopPropagation()}
                         onClick={(e) => e.stopPropagation()}
+                        onMouseEnter={(e) => {
+                            e.stopPropagation();
+                            setShowTooltip(false);
+                        }}
+                        onMouseMove={(e) => e.stopPropagation()}
+                        onMouseOver={(e) => e.stopPropagation()}
                         style={{
                             position: 'fixed',
                             top: (() => {

@@ -7,6 +7,8 @@
  * interactive elements.
  */
 
+import { findGridPath } from './GridPathfinder';
+
 export class InfiniteGridSystem {
   constructor(gameStore) {
     this.gameStore = gameStore;
@@ -186,13 +188,13 @@ export class InfiniteGridSystem {
 
   /**
    * Calculate distance between two world positions in feet
-   * Supports both square and hex grids
+   * Supports both square and hex grids, and D&D 5/10/5 diagonal rule
    */
-  calculateDistance(startPos, endPos) {
+  calculateDistance(startPos, endPos, options = {}) {
     if (!startPos || !endPos) return 0;
 
     const { gridType, gridSize } = this.getGridState();
-    const feetPerTile = 5; // Standard D&D 5 feet per tile
+    const feetPerTile = options.feetPerTile || 5;
 
     if (gridType === 'hex') {
       // Convert world positions to hex coordinates
@@ -204,6 +206,28 @@ export class InfiniteGridSystem {
       return hexDist * feetPerTile;
     }
 
+    // Support wall-aware path distance if wallData is provided
+    if (options.wallData && Object.keys(options.wallData).length > 0) {
+      const sGrid = this.worldToGrid(startPos.x, startPos.y);
+      const eGrid = this.worldToGrid(endPos.x, endPos.y);
+      const res = findGridPath(sGrid.x, sGrid.y, eGrid.x, eGrid.y, options.wallData, options.windowOverlays, {
+        feetPerTile,
+        diagonalRule: options.diagonalRule || '5105'
+      });
+      return res.totalFeet;
+    }
+
+    if (options.diagonalRule === '5105') {
+      const sGrid = this.worldToGrid(startPos.x, startPos.y);
+      const eGrid = this.worldToGrid(endPos.x, endPos.y);
+      const dx = Math.abs(eGrid.x - sGrid.x);
+      const dy = Math.abs(eGrid.y - sGrid.y);
+      const diags = Math.min(dx, dy);
+      const straights = Math.max(dx, dy) - diags;
+      const diagFeet = Math.floor(diags / 2) * (feetPerTile * 3) + (diags % 2) * feetPerTile;
+      return (straights * feetPerTile) + diagFeet;
+    }
+
     // Square grid - calculate Euclidean distance and convert to feet
     const dx = endPos.x - startPos.x;
     const dy = endPos.y - startPos.y;
@@ -211,6 +235,32 @@ export class InfiniteGridSystem {
     const tileDistance = worldDistance / gridSize;
 
     return tileDistance * feetPerTile;
+  }
+
+  /**
+   * Find obstacle-avoiding path between two world positions
+   * @param {Object} startPos - {x, y} world coordinates
+   * @param {Object} endPos - {x, y} world coordinates
+   * @param {Object} wallData - Level editor wall data
+   * @param {Object} windowOverlays - Window overlays
+   * @param {Object} options - Pathfinding options
+   * @returns {{ worldPath: Array<{x: number, y: number}>, gridPath: Array<{x: number, y: number}>, totalFeet: number, isDirect: boolean, blocked?: boolean }}
+   */
+  findPath(startPos, endPos, wallData = {}, windowOverlays = {}, options = {}) {
+    if (!startPos || !endPos) return { worldPath: [], gridPath: [], totalFeet: 0, isDirect: true };
+    const sGrid = this.worldToGrid(startPos.x, startPos.y);
+    const eGrid = this.worldToGrid(endPos.x, endPos.y);
+
+    const result = findGridPath(sGrid.x, sGrid.y, eGrid.x, eGrid.y, wallData, windowOverlays, options);
+    const worldPath = result.path.map(p => this.gridToWorld(p.x, p.y));
+
+    return {
+      gridPath: result.path,
+      worldPath,
+      totalFeet: result.totalFeet,
+      isDirect: result.isDirect,
+      blocked: result.blocked
+    };
   }
 
 

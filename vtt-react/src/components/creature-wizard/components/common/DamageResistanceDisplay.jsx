@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { DAMAGE_TYPES } from '../../../spellcrafting-wizard/core/data/damageTypes';
+import { DAMAGE_TYPES, normalizeDamageType } from '../../../spellcrafting-wizard/core/data/damageTypes';
 import { getCustomIconUrl } from '../../../../utils/assetManager';
 import './DamageResistanceDisplay.css';
 
@@ -49,10 +49,13 @@ const DamageResistanceDisplay = ({ resistances = {}, vulnerabilities = {} }) => 
   };
 
   // Combine resistances and vulnerabilities into a single object for easier processing
+  // Keys are normalized so legacy ids (cold, fire, ...) from saved creatures
+  // still match the canonical damage-type list below
   const damageModifiers = {};
-  
+
   // Add resistances
-  Object.entries(resistances).forEach(([type, value]) => {
+  Object.entries(resistances).forEach(([rawType, value]) => {
+    const type = normalizeDamageType(rawType) || rawType;
     if (typeof value === 'string') {
       damageModifiers[type] = value;
     } else if (typeof value === 'number') {
@@ -64,7 +67,8 @@ const DamageResistanceDisplay = ({ resistances = {}, vulnerabilities = {} }) => 
   });
 
   // Add vulnerabilities
-  Object.entries(vulnerabilities).forEach(([type, value]) => {
+  Object.entries(vulnerabilities).forEach(([rawType, value]) => {
+    const type = normalizeDamageType(rawType) || rawType;
     if (typeof value === 'string') {
       damageModifiers[type] = value;
     } else if (typeof value === 'number') {

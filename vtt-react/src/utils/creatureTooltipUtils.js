@@ -1,6 +1,8 @@
 // Creature Tooltip Utility Functions
 // Provides classification and formatting for creature token tooltips
 
+import { normalizeDamageType } from '../data/damageTypes';
+
 // === HEALTH STATE ===
 // Returns qualitative health state based on HP percentage
 export const getHealthState = (currentHp, maxHp) => {
@@ -61,7 +63,7 @@ export const getBaseAttackDie = (creature) => {
     if (bonus !== 0) {
       formula += bonus > 0 ? `+${bonus}` : `${bonus}`;
     }
-    return { formula, damageType: damageType || 'smashing' };
+    return { formula, damageType: normalizeDamageType(damageType) || 'smashing' };
   }
   
   // Fallback: Estimate from strength modifier
@@ -96,9 +98,10 @@ export const getResistancesSummary = (creature) => {
   const result = [];
   const resistances = creature?.resistances || {};
   
-  Object.entries(resistances).forEach(([type, value]) => {
+  Object.entries(resistances).forEach(([rawType, value]) => {
+    const type = normalizeDamageType(rawType) || rawType;
     const typeLabel = type.charAt(0).toUpperCase() + type.slice(1);
-    
+
     if (value === 'immune' || value === 100) {
       result.push({ type, level: 'immune', label: `${typeLabel} Immune`, color: '#6b3a8a' });
     } else if (value >= 50) {
@@ -117,7 +120,8 @@ export const getVulabilitiesSummary = (creature) => {
   const result = [];
   const vulnerabilities = creature?.vulnerabilities || {};
   
-  Object.entries(vulnerabilities).forEach(([type, value]) => {
+  Object.entries(vulnerabilities).forEach(([rawType, value]) => {
+    const type = normalizeDamageType(rawType) || rawType;
     const typeLabel = type.charAt(0).toUpperCase() + type.slice(1);
     
     if (value >= 100) {
@@ -133,10 +137,12 @@ export const getVulabilitiesSummary = (creature) => {
 };
 
 // === DAMAGE TYPE FORMATTING ===
-// Format damage type for display
-export const formatDamageType = (damageType) => {
-  if (!damageType) return '';
-  
+// Format damage type for display (legacy ids are normalized first)
+export const formatDamageType = (rawDamageType) => {
+  if (!rawDamageType) return '';
+
+  const damageType = normalizeDamageType(String(rawDamageType)) || String(rawDamageType).toLowerCase();
+
   const typeColors = {
     physical: '#795548',
     smashing: '#795548',
@@ -169,7 +175,7 @@ export const formatDamageType = (damageType) => {
   
   return {
     label: damageType.charAt(0).toUpperCase() + damageType.slice(1),
-    color: typeColors[damageType.toLowerCase()] || '#8b7d6b'
+    color: typeColors[damageType] || '#8b7d6b'
   };
 };
 

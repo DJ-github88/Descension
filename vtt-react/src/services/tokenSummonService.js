@@ -2,8 +2,15 @@ import { v4 as uuidv4 } from 'uuid';
 import { getTokenTemplateById, getTokensForCharacter } from '../data/summonableTokens';
 import useCreatureStore from '../store/creatureStore';
 import useGameStore from '../store/gameStore';
+import useAuthStore from '../store/authStore';
 
 const SUMMON_SOURCE_TYPE = 'summon';
+
+const resolveSummonOwnerId = () => {
+  const gs = useGameStore.getState();
+  const uid = useAuthStore.getState().user?.uid;
+  return gs.currentPlayer?.id || gs.currentPlayer?.userId || uid || gs.multiplayerSocket?.id || gs.playerId || 'local_player';
+};
 
 const rollDiceString = (str) => {
   if (typeof str !== 'string') return typeof str === 'number' ? str : 1;
@@ -108,8 +115,7 @@ export const summonTokenFromTemplate = (templateId, position, character, overrid
 
   const quantity = resolveQuantity(template);
   const creatureStore = useCreatureStore.getState();
-  const gameStore = useGameStore.getState();
-  const ownerSocketId = gameStore.multiplayerSocket?.id || gameStore.playerId || 'local_player';
+  const ownerId = resolveSummonOwnerId();
   const ownerName = character?.name || character?.characterName || 'Player';
 
   const tokens = [];
@@ -130,9 +136,9 @@ export const summonTokenFromTemplate = (templateId, position, character, overrid
           size: subType.size?.toLowerCase() || 'medium',
         };
         const creatureData = templateToCreatureData(template, character, subOverrides);
-        creatureData._summonMeta.ownerId = ownerSocketId;
+        creatureData._summonMeta.ownerId = ownerId;
         creatureData._summonMeta.ownerName = ownerName;
-        creatureData.state = { ...creatureData.state, ownerId: ownerSocketId };
+        creatureData.state = { ...creatureData.state, ownerId };
 
         creatureStore.addCreatureToken(creatureData, offset, true, null, false, null);
         tokens.push(creatureData);
@@ -147,9 +153,9 @@ export const summonTokenFromTemplate = (templateId, position, character, overrid
           }
         : position;
       const creatureData = templateToCreatureData(template, character, overrides);
-      creatureData._summonMeta.ownerId = ownerSocketId;
+      creatureData._summonMeta.ownerId = ownerId;
       creatureData._summonMeta.ownerName = ownerName;
-      creatureData.state = { ...creatureData.state, ownerId: ownerSocketId };
+      creatureData.state = { ...creatureData.state, ownerId };
       if (quantity > 1) {
         creatureData.name = `${template.creature.name} ${i + 1}`;
       }

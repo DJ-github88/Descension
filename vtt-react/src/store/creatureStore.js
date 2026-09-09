@@ -610,6 +610,12 @@ const useCreatureStore = create((set, get) => ({
 }));
 
 export default useCreatureStore;
+
+// Expose for debugging/manual testing (matches window.combatStore / window.gameStore conventions)
+if (typeof window !== 'undefined') {
+  window.creatureStore = useCreatureStore;
+}
+
 // Creature types and sizes
 export const CREATURE_TYPES = {
   ABERRATION: 'aberration',

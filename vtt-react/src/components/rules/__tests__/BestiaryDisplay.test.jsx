@@ -58,6 +58,19 @@ describe('BestiaryDisplay Component', () => {
     await waitFor(() => expect(screen.getByText('Gref')).toBeInTheDocument());
   });
 
+  test('fuzzy searches creatures with typo tolerance using Fuse.js', async () => {
+    render(<BestiaryDisplay />);
+    const searchInput = screen.getByPlaceholderText(/Search creatures by name, role, folklore, or keywords/i);
+
+    // Typo: 'Oillipheyst' instead of 'Oillipheist'
+    fireEvent.change(searchInput, { target: { value: 'Oillipheyst' } });
+    await waitFor(() => expect(screen.getByText('Oillipheist')).toBeInTheDocument());
+
+    // Typo: 'Wolpertingr' instead of 'Wolpertinger'
+    fireEvent.change(searchInput, { target: { value: 'Wolpertingr' } });
+    await waitFor(() => expect(screen.getByText('Wolpertinger')).toBeInTheDocument());
+  });
+
   test('filters creatures by danger level', () => {
     render(<BestiaryDisplay />);
     

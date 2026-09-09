@@ -5,6 +5,7 @@
 
 import useChatStore from '../store/chatStore';
 import useGameStore from '../store/gameStore';
+import { DiceRoll } from '@dice-roller/rpg-dice-roller';
 
 const DIFFICULTY_DIE_LADDER = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20'];
 
@@ -102,7 +103,7 @@ class EnhancedDiceService {
   }
 
   /**
-   * Parse and execute dice notation (e.g., "2d20+5", "1d8+3", "4d6kh3")
+   * Parse and execute dice notation (e.g., "2d20+5", "1d8+3", "4d6kh3", "1d20ro<2")
    */
   async rollDice(notation, options = {}) {
     const {
@@ -117,24 +118,57 @@ class EnhancedDiceService {
     } = options;
 
     try {
-      // Parse the dice notation
-      const parsedRoll = this.parseDiceNotation(notation);
-      if (!parsedRoll) {
-        throw new Error(`Invalid dice notation: ${notation}`);
+      let effectiveNotation = (notation || '1d20').trim();
+
+      // Apply advantage/disadvantage
+      if (advantage && !effectiveNotation.includes('kh') && !effectiveNotation.includes('kl')) {
+        if (/^1?d20/i.test(effectiveNotation)) {
+          effectiveNotation = effectiveNotation.replace(/^1?d20/i, '2d20kh1');
+        } else if (!effectiveNotation.includes('2d')) {
+          effectiveNotation = `(${effectiveNotation})kh1`;
+        }
+      } else if (disadvantage && !effectiveNotation.includes('kh') && !effectiveNotation.includes('kl')) {
+        if (/^1?d20/i.test(effectiveNotation)) {
+          effectiveNotation = effectiveNotation.replace(/^1?d20/i, '2d20kl1');
+        } else if (!effectiveNotation.includes('2d')) {
+          effectiveNotation = `(${effectiveNotation})kl1`;
+        }
       }
 
-      // Apply advantage/disadvantage for d20 rolls
-      if (parsedRoll.sides === 20 && (advantage || disadvantage)) {
-        parsedRoll.count = 2;
-        parsedRoll.keepHighest = advantage ? 1 : null;
-        parsedRoll.keepLowest = disadvantage ? 1 : null;
+      // Add modifier if provided separately
+      if (modifier && modifier !== 0) {
+        effectiveNotation = `${effectiveNotation} ${modifier > 0 ? '+' : ''}${modifier}`;
       }
 
-      // Execute the roll
-      const rollResult = this.executeRoll(parsedRoll);
-      
-      // Add modifier
-      const finalTotal = rollResult.total + modifier;
+      const roll = new DiceRoll(effectiveNotation);
+      const results = [];
+      let hasCrit = false;
+      let hasFumble = false;
+
+      for (const item of roll.rolls) {
+        if (item && Array.isArray(item.rolls)) {
+          const sides = item.die?.sides || 20;
+          for (const d of item.rolls) {
+            if (d && typeof d.value === 'number') {
+              const kept = d.useInTotal !== false;
+              results.push({
+                value: d.value,
+                initialValue: d.initialValue || d.value,
+                sides,
+                kept
+              });
+
+              if (sides === 20 && kept) {
+                if (d.value === 20) hasCrit = true;
+                if (d.value === 1) hasFumble = true;
+              }
+            }
+          }
+        }
+      }
+
+      const finalTotal = roll.total;
+      const breakdown = roll.output;
 
       // Create roll data
       const rollData = {
@@ -142,7 +176,7 @@ class EnhancedDiceService {
         timestamp: new Date().toISOString(),
         playerName,
         characterName,
-        notation: notation,
+        notation: effectiveNotation,
         originalNotation: notation,
         modifier: modifier,
         rollType,
@@ -150,12 +184,12 @@ class EnhancedDiceService {
         advantage,
         disadvantage,
         description,
-        results: rollResult.results,
-        total: rollResult.total,
+        results,
+        total: finalTotal,
         finalTotal: finalTotal,
-        breakdown: this.createRollBreakdown(rollResult, modifier),
-        isCritical: this.checkCritical(rollResult, parsedRoll),
-        isFumble: this.checkFumble(rollResult, parsedRoll)
+        breakdown,
+        isCritical: hasCrit,
+        isFumble: hasFumble
       };
 
       // Add to local history
@@ -181,24 +215,48 @@ class EnhancedDiceService {
    * Parse dice notation into components
    */
   parseDiceNotation(notation) {
+    if (!notation || typeof notation !== 'string') return null;
+    
     // Enhanced regex to handle complex dice notation
     const diceRegex = /^(\d+)?d(\d+)(?:(kh|kl|k)(\d+))?(?:([+-])(\d+))?$/i;
     const match = notation.trim().match(diceRegex);
 
-    if (!match) {
-      return null;
+    if (match) {
+      const [, count = '1', sides, keepType, keepCount, modifierSign, modifierValue] = match;
+      return {
+        count: parseInt(count),
+        sides: parseInt(sides),
+        keepType: keepType?.toLowerCase(),
+        keepCount: keepCount ? parseInt(keepCount) : null,
+        modifier: modifierSign && modifierValue ? 
+          (modifierSign === '+' ? 1 : -1) * parseInt(modifierValue) : 0
+      };
     }
 
-    const [, count = '1', sides, keepType, keepCount, modifierSign, modifierValue] = match;
-
-    return {
-      count: parseInt(count),
-      sides: parseInt(sides),
-      keepType: keepType?.toLowerCase(),
-      keepCount: keepCount ? parseInt(keepCount) : null,
-      modifier: modifierSign && modifierValue ? 
-        (modifierSign === '+' ? 1 : -1) * parseInt(modifierValue) : 0
-    };
+    // Try full RPG Dice Roller parse
+    try {
+      const testRoll = new DiceRoll(notation.trim());
+      let count = 1;
+      let sides = 20;
+      for (const item of testRoll.rolls) {
+        if (item && item.die) {
+          count = item.die.quantity || 1;
+          sides = item.die.sides || 20;
+          break;
+        }
+      }
+      return {
+        count,
+        sides,
+        keepType: null,
+        keepCount: null,
+        modifier: 0,
+        isAdvanced: true,
+        notation: notation.trim()
+      };
+    } catch {
+      return null;
+    }
   }
 
   /**

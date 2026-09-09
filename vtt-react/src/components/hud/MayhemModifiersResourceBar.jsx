@@ -89,9 +89,12 @@ const MayhemModifiersResourceBar = ({
                     <div className="mayhem-bar-wrapper">
                         {showModifierMenu && mayhemBarRef.current && ReactDOM.createPortal(
                             <div
-                                className={`unified-context-menu compact ${context === 'party' ? 'chronarch-party' : ''}`}
+                                className={`unified-context-menu compact harbinger-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
                                 onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                                 onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                                onMouseEnter={(e) => e.stopPropagation()}
+                                onMouseMove={(e) => e.stopPropagation()}
+                                onMouseOver={(e) => e.stopPropagation()}
                                 style={{
                                     position: 'fixed',
                                     top: (() => {
@@ -314,9 +317,12 @@ const MayhemModifiersResourceBar = ({
 
                             {showModifierMenu && mayhemBarRef.current && ReactDOM.createPortal(
                                 <div
-                                    className={`unified-context-menu compact ${context === 'party' ? 'chronarch-party' : ''}`}
+                                    className={`unified-context-menu compact harbinger-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
                                     onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                                onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                                    onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                                    onMouseEnter={(e) => e.stopPropagation()}
+                                    onMouseMove={(e) => e.stopPropagation()}
+                                    onMouseOver={(e) => e.stopPropagation()}
                                     style={{
                                         position: 'fixed',
                                         top: (() => {

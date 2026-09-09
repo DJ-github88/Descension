@@ -10,9 +10,10 @@ import ResistanceTooltip from '../../../tooltips/ResistanceTooltip';
 import UnifiedSpellCard from '../../../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import SmartTabButton from '../../../common/SmartTabButton';
 import InlineMarkdown from '../../../common/InlineMarkdown';
-import { DAMAGE_TYPES } from '../../../spellcrafting-wizard/core/data/damageTypes';
+import { DAMAGE_TYPES, normalizeDamageType } from '../../../spellcrafting-wizard/core/data/damageTypes';
 import { getQualityColor } from '../../../../constants/itemConstants';
 import { getAbilityIconUrl, getCustomIconUrl, getIconUrl } from '../../../../utils/assetManager';
+import { transformAbilityToSpell, resolveCreatureAbilityIcon } from '../../../../utils/creatureAbilityUtils';
 import { SKILL_DEFINITIONS, SKILL_CATEGORIES, SKILL_RANKS } from '../../../../constants/skillDefinitions';
 import { ROLLABLE_TABLES } from '../../../../constants/rollableTables';
 import BESTIARY_DATA from '../../../../data/creatureData.json';
@@ -1274,8 +1275,10 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       const allResistances = { ...resistances, ...vulnerabilities };
 
       // Get all damage types that have resistances/vulnerabilities
-      Object.entries(allResistances).forEach(([damageTypeId, level]) => {
+      Object.entries(allResistances).forEach(([rawTypeId, level]) => {
         try {
+          // Saved creature data may still carry legacy ids (cold, fire, ...)
+          const damageTypeId = normalizeDamageType(rawTypeId);
           const damageType = DAMAGE_TYPES.find(dt => dt.id === damageTypeId);
 
           // Ensure level is a string and not empty/none
@@ -1354,7 +1357,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             });
           }
         } catch (error) {
-          console.warn('Error processing resistance for', damageTypeId, ':', error);
+          console.warn('Error processing resistance for', rawTypeId, ':', error);
         }
       });
 
@@ -1454,8 +1457,9 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       };
 
       if (creature.immunities && creature.immunities.length > 0) {
-        creature.immunities.forEach(immunity => {
+        creature.immunities.forEach(rawImmunity => {
           try {
+            const immunity = normalizeDamageType(typeof rawImmunity === 'string' ? rawImmunity : rawImmunity?.id || '');
             const damageType = DAMAGE_TYPES.find(dt => dt.id === immunity || dt.name.toLowerCase() === immunity.toLowerCase());
 
             if (damageType) {
@@ -1470,7 +1474,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
               });
             }
           } catch (error) {
-            console.warn('Error processing immunity for', immunity, ':', error);
+            console.warn('Error processing immunity for', rawImmunity, ':', error);
           }
         });
       }
@@ -1902,111 +1906,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
 
   // NOTE: Removed duplicate SimpleSpellCard component - now using UnifiedSpellCard for consistency
 
-  // Transform ability to spell format for spell cards
-  const transformAbilityToSpell = (ability) => {
-    // Check if this ability already has the spell wizard format (from BasicAbilityCreator or spell library)
-    // If it has damageConfig, healingConfig, buffConfig, etc., it's already in the correct format
-    const hasSpellWizardFormat = ability.damageConfig || ability.healingConfig || 
-                                  ability.buffConfig || ability.debuffConfig || 
-                                  ability.controlConfig || ability.utilityConfig ||
-                                  ability.summonConfig || ability.transformationConfig;
-    
-    if (hasSpellWizardFormat) {
-      // Ability is already in spell wizard format - pass it through with minimal transformation
-      return {
-        id: ability.id || `ability-${ability.name}`,
-        name: ability.name,
-        description: ability.description || '',
-        icon: ability.icon || 'inv_misc_questionmark',
-        spellType: ability.spellType || 'ACTION',
-        effectTypes: ability.effectTypes || [],
-        typeConfig: ability.typeConfig || {},
-        damageConfig: ability.damageConfig,
-        healingConfig: ability.healingConfig,
-        buffConfig: ability.buffConfig,
-        debuffConfig: ability.debuffConfig,
-        controlConfig: ability.controlConfig,
-        utilityConfig: ability.utilityConfig,
-        summonConfig: ability.summonConfig,
-        transformationConfig: ability.transformationConfig,
-        targetingConfig: ability.targetingConfig,
-        resourceCost: ability.resourceCost || {
-          actionPoints: ability.actionPointCost || ability.apCost || 0
-        },
-        cooldownConfig: ability.cooldownConfig,
-        resolution: ability.resolution || 'DICE',
-        tags: ability.tags || [],
-        priorityRange: ability.priorityRange // Pass through priority range for badge display
-      };
-    }
-
-    // Legacy format - transform old ability structure to spell card format
-    const ap = ability.actionPointCost || ability.apCost || 0;
-
-    // Build simple resource cost using Action Points (AP)
-    const resourceCost = ap > 0 ? { actionPoints: ap } : undefined;
-
-    // Aggregate damage types from primary damage and effects (e.g., piercing + necrotic)
-    const damageTypesSet = new Set();
-    if (ability.damage?.damageType) damageTypesSet.add(String(ability.damage.damageType).toLowerCase());
-    if (ability.damageType) damageTypesSet.add(String(ability.damageType).toLowerCase());
-    if (Array.isArray(ability.effects)) {
-      ability.effects.forEach(e => {
-        const t = (e.damageType || e.type || '').toString().toLowerCase();
-        if (e.type === 'DAMAGE' || e.type === 'damage') {
-          if (t) damageTypesSet.add(t);
-        }
-      });
-    }
-    // Normalize shadow->necrotic, holy->radiant, cold->frost
-    const normalize = (t) => {
-        if (t === 'shadow') return 'necrotic';
-        if (t === 'holy') return 'radiant';
-        if (t === 'cold') return 'frost';
-        return t;
-    };
-    const damageTypes = Array.from(damageTypesSet).map(normalize).filter(Boolean);
-
-    // Best-effort damage mapping so the card can show damage context
-    let damageConfig;
-    if (ability.damage) {
-      if (typeof ability.damage === 'object') {
-        const bonus = ability.damage.bonus ? `+${ability.damage.bonus}` : '';
-        const formula = `${ability.damage.diceCount || 1}d${ability.damage.diceType || 6}${bonus}`;
-        damageConfig = {
-          formula,
-          damageType: 'direct', // Legacy format uses 'direct' for instant damage
-          elementType: normalize((ability.damage.damageType || ability.damageType || 'smashing').toLowerCase()),
-          damageTypes: damageTypes.slice(0, 2)
-        };
-      } else if (typeof ability.damage === 'string') {
-        damageConfig = {
-          formula: ability.damage,
-          damageType: 'direct',
-          elementType: normalize((ability.damageType || 'smashing').toLowerCase()),
-          damageTypes: damageTypes.slice(0, 2)
-        };
-      }
-    }
-
-    return {
-      id: ability.id || `ability-${ability.name}`,
-      name: ability.name,
-      spellType: ability.spellType || 'ACTION',
-      icon: ability.icon || 'inv_sword_04',
-      description: ability.description || '',
-      castTime: ability.castTime || 'Action',
-      range: typeof ability.range === 'number' ? ability.range : (ability.range || undefined),
-      duration: ability.duration || undefined,
-      resourceCost,
-      damageConfig,
-      effectTypes: damageConfig ? ['damage'] : undefined,
-      // Keep any raw effects for potential future mapping
-      effects: ability.effects || [],
-      priorityRange: ability.priorityRange // Pass through priority range for badge display
-    };
-  };
-
   // Render the Abilities section
   const renderAbilitiesSection = () => {
     if (!creature.abilities || creature.abilities.length === 0) {
@@ -2034,7 +1933,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
               title={power.name}
             >
               <img 
-                src={getAbilityIconUrlLocal(power.icon)} 
+                src={getAbilityIconUrlLocal(resolveCreatureAbilityIcon(power, idx))} 
                 alt={power.name}
                 onError={(e) => {
                   e.target.onerror = null;

@@ -116,7 +116,8 @@ const getSpellIconUrl = (iconId) => {
  if (iconId.startsWith('inv_') || iconId.startsWith('spell_') || iconId.startsWith('ability_') || iconId.startsWith('achievement_')) {
   const mappedIcon = mapSpellIcon(iconId);
   if (mappedIcon) {
-   return getCustomIconUrl(mappedIcon, 'abilities');
+   // mapSpellIcon already returns a fully-resolved URL — do not wrap it again
+   return mappedIcon;
   }
   return getAbilityIconUrl(iconId);
  }

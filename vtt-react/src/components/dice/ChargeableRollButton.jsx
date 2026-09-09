@@ -108,6 +108,10 @@ const ChargeableRollButton = ({
     flingDirRef.current = { x: 0, z: 0 };
     setDragVector({ dx: 0, dy: 0, dist: 0, angle: 0 });
     startTimeRef.current = performance.now();
+    if (wrapperRef.current) {
+      const r = wrapperRef.current.getBoundingClientRect();
+      setAnchor({ x: r.left + r.width / 2, y: r.top + r.height / 2, top: r.top });
+    }
     // NOTE: the charge rAF loop is scheduled by the isCharging effect below,
     // NOT here. Scheduling here gets cancelled by the effect cleanup that
     // runs when isCharging flips true (same commit) — that killed the loop
@@ -195,7 +199,7 @@ const ChargeableRollButton = ({
             position: 'fixed',
             left: `${anchor.x}px`,
             top: `${anchor.y}px`,
-            zIndex: 906,
+            zIndex: 10050,
             transform: `rotate(${dragVector.angle}deg)`,
             width: `${arrowLength}px`,
           }}
@@ -220,7 +224,7 @@ const ChargeableRollButton = ({
             // inline `top`, a lingering `bottom` makes the browser stretch
             // the box to a negative height — neutralize it.
             bottom: 'auto',
-            zIndex: 906,
+            zIndex: 10050,
             transform: 'translate(-50%, -100%)',
             opacity: Math.min(1, chargeProgress * 1.5),
           }}

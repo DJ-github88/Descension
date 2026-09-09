@@ -3,14 +3,21 @@
  * Single button that opens a dropdown popup
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
 import useDiceStore, { DICE_TYPES, DICE_PRESETS, DICE_MATERIALS } from '../../store/diceStore';
 import ChargeableRollButton from './ChargeableRollButton';
 import CardDrawSystem from './CardDrawSystem';
 import CoinFlipSystem from './CoinFlipSystem';
+import SpellAoEPanel from '../grid/SpellAoEPanel';
 import './DiceSelectionBar.css';
 
 const DiceSelectionBar = () => {
+  const location = useLocation();
+  // Spell AoE templates are a live-table tool — game/room routes only
+  const isGameRoute =
+    location.pathname.startsWith('/game') || location.pathname.startsWith('/multiplayer');
+
   const {
     selectedDice,
     isRolling,
@@ -32,10 +39,63 @@ const DiceSelectionBar = () => {
   const [selectedOrb, setSelectedOrb] = useState(null); // 'dice', 'cards', or null
   const dropdownRef = useRef(null);
 
+  // ── Draggable popup state ────────────────────────────────────────────────
+  // popupOffset is relative to the default CSS-positioned anchor (bottom-left).
+  // When the user drags the handle we accumulate a translate3d offset so the
+  // popup floats freely without fighting the fixed+absolute CSS stacking.
+  const [popupOffset, setPopupOffset] = useState({ x: 0, y: 0 });
+  // Mirror the state value into a ref so the stable handleDragStart callback
+  // can read the current offset at pointer-down time without being in deps.
+  const popupOffsetRef = useRef({ x: 0, y: 0 });
+  const dragStateRef = useRef({ dragging: false, startX: 0, startY: 0, originX: 0, originY: 0 });
+
+  // Keep the ref in sync with state.
+  popupOffsetRef.current = popupOffset;
+
+  const handleDragStart = useCallback((e) => {
+    e.preventDefault();
+    const clientX = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+    const clientY = e.clientY ?? e.touches?.[0]?.clientY ?? 0;
+    dragStateRef.current = {
+      dragging: true,
+      startX: clientX,
+      startY: clientY,
+      // Read current offset from ref — stable, no extra deps needed.
+      originX: popupOffsetRef.current.x,
+      originY: popupOffsetRef.current.y,
+    };
+
+    const onMove = (ev) => {
+      if (!dragStateRef.current.dragging) return;
+      const cx = ev.clientX ?? ev.touches?.[0]?.clientX ?? 0;
+      const cy = ev.clientY ?? ev.touches?.[0]?.clientY ?? 0;
+      setPopupOffset({
+        x: dragStateRef.current.originX + (cx - dragStateRef.current.startX),
+        y: dragStateRef.current.originY + (cy - dragStateRef.current.startY),
+      });
+    };
+
+    const onUp = () => {
+      dragStateRef.current.dragging = false;
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+      window.removeEventListener('touchmove', onMove);
+      window.removeEventListener('touchend', onUp);
+    };
+
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+    window.addEventListener('touchmove', onMove, { passive: true });
+    window.addEventListener('touchend', onUp);
+  }, []); // stable — reads from refs, not from state
+
   // Close dropdown when clicking outside or toggle from external button
   useEffect(() => {
     const handleToggle = () => {
-      setIsOpen(prev => !prev);
+      setIsOpen(prev => {
+        if (!prev) setPopupOffset({ x: 0, y: 0 }); // reset position on open
+        return !prev;
+      });
       setSelectedOrb(null);
     };
 
@@ -49,6 +109,17 @@ const DiceSelectionBar = () => {
         event.target.closest(
           '.physics-card-overlay, .physics-coin-overlay, .physics-dice-overlay, .landed-coin-marker, .card-3d-result-area, .coin-3d-result-area, .spell-action-cog-btn'
         )
+      ) {
+        return;
+      }
+
+      // Do not close while an AoE placement is armed on the map — map clicks
+      // (caster origin / confirm) land on the catcher, and the user must be
+      // able to live-edit shape/size/color in this dropdown mid-placement.
+      if (
+        event.target &&
+        event.target.closest &&
+        event.target.closest('.spell-aoe-catcher, .spell-aoe-placed-chip')
       ) {
         return;
       }
@@ -111,6 +182,7 @@ const DiceSelectionBar = () => {
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
+          if (!isOpen) setPopupOffset({ x: 0, y: 0 }); // reset position on open
           setIsOpen(!isOpen);
           setSelectedOrb(null);
         }}
@@ -161,15 +233,44 @@ const DiceSelectionBar = () => {
           >
             <i className="fas fa-coins orb-icon"></i>
           </button>
+
+          {/* AoE Orb - game/room routes only */}
+          {isGameRoute && (
+            <button
+              className="orb orb-aoe"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedOrb('aoe');
+              }}
+              title="Spell AoE Templates"
+            >
+              <span className="orb-icon">◎</span>
+            </button>
+          )}
         </div>
       )}
 
       {/* Dice Dropdown - Show when dice orb is selected */}
       {isOpen && selectedOrb === 'dice' && (
-        <div className="dice-dropdown dice-dropdown-dice">
+        <div
+          className="dice-dropdown dice-dropdown-dice"
+          style={{ transform: `translate3d(${popupOffset.x}px, ${popupOffset.y}px, 0)` }}
+        >
+          {/* ── Drag Handle ─────────────────────────────────────────────── */}
+          <div
+            className="dice-dropdown-drag-handle"
+            onMouseDown={handleDragStart}
+            onTouchStart={handleDragStart}
+            title="Drag to reposition"
+          >
+            <span className="dice-drag-dots">⠿</span>
+            <span className="dice-drag-label">Dice Roller</span>
+            <span className="dice-drag-dots">⠿</span>
+          </div>
+
           {/* Header */}
           <div className="dice-dropdown-header">
-            <span className="dice-dropdown-title">Dice Roller</span>
+            <span className="dice-dropdown-title">Select Dice</span>
             {totalDice > 0 && (
               <button
                 className="clear-all-button"
@@ -391,6 +492,24 @@ const DiceSelectionBar = () => {
           </div>
           {/* Coin flip component */}
           <CoinFlipSystem />
+        </div>
+      )}
+
+      {/* AoE Dropdown - Show when AoE orb is selected (game/room only) */}
+      {isOpen && selectedOrb === 'aoe' && isGameRoute && (
+        <div className="dice-dropdown dice-dropdown-aoe">
+          <div className="dice-dropdown-header">
+            <span className="dice-dropdown-title">Spell Templates</span>
+            <button
+              className="clear-all-button"
+              onClick={() => setSelectedOrb(null)}
+              title="Back"
+            >
+              ←
+            </button>
+          </div>
+          {/* AoE template placement component */}
+          <SpellAoEPanel />
         </div>
       )}
     </div>

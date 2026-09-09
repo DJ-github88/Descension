@@ -5,7 +5,7 @@ export const astril = {
     illustration: '/assets/images/races/astril_illustration.png',
     illustrationCaption: 'An Astril farmer standing watch over moonlit fields, reptilian eyes catching a glow that belongs to another world.',
     cardFlavor: 'Refugees of a devoured star, they carry the last embers of a dead world in their blood, and the guilt of leading the predator to this one.',
-    visualDescription: `Sturdy and practical, standing 5'2" to 6'0", with weather-marked skin bearing faint organic markings unique to each individual — crystalline echoes of their lost world's biosphere. Their eyes are reptilian, with slit pupils that catch and reflect a luminous glow in darkness, a light that seems to belong to another world entirely. They have claw-like nails. High Astril carry Lumia's stellar memory and star-constellation lines along their pale skin, while Void Astril carry dark violet-grey skin etched with fractured purple void-crystal lines. They favor practical farming and hunting clothes, prefer the night, and go blind in bright daylight.`,
+    visualDescription: `Sturdy and practical, standing 5'2" to 6'0", with weather-marked skin bearing faint organic markings unique to each individual â€” crystalline echoes of their lost world's biosphere. Their eyes are reptilian, with slit pupils that catch and reflect a luminous glow in darkness, a light that seems to belong to another world entirely. They have claw-like nails. High Astril carry Lumia's stellar memory and star-constellation lines along their pale skin, while Void Astril carry dark violet-grey skin etched with fractured purple void-crystal lines. They favor practical farming and hunting clothes, prefer the night, and go blind in bright daylight.`,
     description: `**[The Last of Lumia]**, *An Astril elder tilts her head toward a moon only she can feel, her slit-pupil eyes reflecting a light that belongs to a sun that no longer exists.*
 
 Lumia is gone. It was a star, once, the sun of a world that orbited it and grew warm beneath it and learned to call it home. The Astril were that world's children. They farmed its soil. They hunted its forests. They sang beneath its light. They were not special. They were not chosen. They were a people, and their star was their star.
@@ -318,7 +318,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                 {
                     id: 'starlight_resonance_vashir',
                     name: 'Starlight Resonance',
-                    description: 'Your starlight-infused blood grants 15% radiant and spirit damage resistance. The light of Lumia that endures in your veins protects your mind and spirit from corruption.',
+                    description: 'Your starlight-infused blood grants 15% sacred and spirit damage resistance. The light of Lumia that endures in your veins protects your mind and spirit from corruption.',
                     level: 1,
                     icon: 'Radiant/Divine Illumination',
                     spellType: 'PASSIVE',
@@ -332,9 +332,9 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                             {
                                 id: 'starlight_shield_vashir',
                                 name: 'Starlight Shield',
-                                description: '15% radiant and spirit damage resistance. Starlight memory protects your spirit.',
-                                mechanicsText: 'You take 15% less radiant and spirit damage.',
-                                statModifier: { stat: 'radiant', magnitude: 15, magnitudeType: 'resistance' },
+                                description: '15% sacred and spirit damage resistance. Starlight memory protects your spirit.',
+                                mechanicsText: 'You take 15% less sacred and spirit damage.',
+                                statModifier: { stat: 'sacred', magnitude: 15, magnitudeType: 'resistance' },
                                 statusEffect: { level: 'moderate', description: 'Starlight memory shields your spirit' }
                             }
                         ],
@@ -347,15 +347,15 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                 {
                     id: 'star_burst_vashir',
                     name: 'Star-Burst',
-                    description: 'Channel your skin\'s starlight markings into a blinding flash. Spend 1 AP to deal 1d6 radiant damage to an enemy within 30 ft. The target must make a DC 13 Constitution saving throw: on a failure, they are blinded for 1 round; on a success, they are dazzled (-2 to their next attack roll).',
+                    description: 'Channel your skin\'s starlight markings into a blinding flash. Spend 1 AP to deal 1d6 sacred damage to an enemy within 30 ft. The target must make a DC 13 Constitution saving throw: on a failure, they are blinded for 1 round; on a success, they are dazzled (-2 to their next attack roll).',
                     level: 1,
                     icon: 'Fire/Sun Symbol',
                     spellType: 'ACTION',
                     actionPoints: 1,
                     components: ['somatic'],
                     effectTypes: ['damage', 'debuff'],
-                    typeConfig: { category: 'racial', school: 'primal', tags: ['radiant', 'damage', 'blind', 'save_con'] },
-                    damageConfig: { formula: '1d6', damageTypes: ['radiant'], resolution: 'DICE' },
+                    typeConfig: { category: 'racial', school: 'primal', tags: ['sacred', 'damage', 'blind', 'save_con'] },
+                    damageConfig: { formula: '1d6', damageTypes: ['sacred'], resolution: 'DICE' },
                     debuffConfig: {
                         debuffType: 'statusEffect',
                         effects: [

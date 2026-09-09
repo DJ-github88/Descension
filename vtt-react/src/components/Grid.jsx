@@ -37,7 +37,9 @@ import TokenVisibilityCalculator from "./level-editor/TokenVisibilityCalculator"
 import TextInteractionOverlay from "./grid/TextInteractionOverlay";
 import ImageDropMenu from "./dialogs/ImageDropMenu";
 import AssetLoadingOverlay from "./common/AssetLoadingOverlay";
+import SpellAoEOverlay from "./grid/SpellAoEOverlay";
 import { createGridSystem, getGridSystem } from "../utils/InfiniteGridSystem";
+import { getOrBuildWallSpatialIndex } from "../utils/WallSpatialIndex";
 import useLongPressContextMenu from "../hooks/useLongPressContextMenu";
 // Removed unused imports: throttle, rafThrottle
 
@@ -660,8 +662,25 @@ function GridComponent({
 
   const decorations = new Map();
 
+  // Fast O(log N) spatial query using rbush R-Tree
+  let candidateWalls = null;
+  try {
+    const worldMinX = (gridLeft * gridSize) + gridOffsetX;
+    const worldMaxX = (gridRight * gridSize) + gridOffsetX;
+    const worldMinY = (gridTop * gridSize) + gridOffsetY;
+    const worldMaxY = (gridBottom * gridSize) + gridOffsetY;
+    const spatialIndex = getOrBuildWallSpatialIndex(wallData, gridSize, gridOffsetX, gridOffsetY);
+    candidateWalls = spatialIndex.searchBoundingBox(worldMinX, worldMinY, worldMaxX, worldMaxY);
+  } catch (e) {
+    candidateWalls = null;
+  }
+
+  const wallEntries = candidateWalls
+    ? candidateWalls.map(item => [item.wallKey, item.wall])
+    : Object.entries(wallData);
+
   // Process each wall and attach it to appropriate grid tiles - ONLY if potentially visible
-  Object.entries(wallData).forEach(([wallKey, wallData]) => {
+  wallEntries.forEach(([wallKey, currentWall]) => {
    // Parse wall coordinates from key: "x1,y1,x2,y2"
    const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
 
@@ -679,9 +698,9 @@ function GridComponent({
 
    // Wall is potentially visible - process it
    // Handle both old format (string) and new format (object)
-   const wallType = typeof wallData === 'string' ? wallData : wallData.type;
-   const wallState = typeof wallData === 'object' ? wallData.state : 'default';
-   const wallId = typeof wallData === 'object' ? wallData.id : null;
+   const wallType = typeof currentWall === 'string' ? currentWall : currentWall.type;
+   const wallState = typeof currentWall === 'object' ? currentWall.state : 'default';
+   const wallId = typeof currentWall === 'object' ? currentWall.id : null;
 
    const wallTypeData = WALL_TYPES[wallType];
    if (!wallTypeData) return;
@@ -1823,6 +1842,42 @@ function GridComponent({
    }
   };
  }, [handleMouseDown, handleMouseMove, handleMouseUp, handleWheel]);
+
+ // CRITICAL FIX: Document-level middle-click/Ctrl+click camera drag start.
+ // The gridElement listener above only fires when the mousedown event actually
+ // reaches #grid-overlay via bubbling. In player view most surfaces (canvas grid,
+ // fog overlay, afterimage canvas) have pointer-events: none and there are no DOM
+ // grid tiles, so middle-click never bubbled and players could not pan.
+ // Starting the drag at document level works in BOTH GM and player view.
+ useEffect(() => {
+  const startCameraDragFromDocument = (e) => {
+   const isMiddle = e.button === 1;
+   const isCtrlLeft = e.button === 0 && e.ctrlKey;
+   if (!isMiddle && !isCtrlLeft) return;
+
+   // Don't hijack middle-click on interactive UI (buttons, inputs, windows)
+   const target = e.target;
+   if (target && typeof target.closest === 'function' &&
+    target.closest('button, input, textarea, select, a, .window, .modal-overlay, .unified-resourcebar-tooltip, .context-menu')) {
+    return;
+   }
+
+   e.preventDefault();
+
+   setIsDraggingCamera((prev) => {
+    if (prev) return prev;
+    gameStore.setState({ isDraggingCamera: true });
+    window._isDraggingCamera = true;
+    setShouldEnableCameraDrag(true);
+    lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+    pendingCameraDeltaRef.current = { deltaX: 0, deltaY: 0 };
+    return true;
+   });
+  };
+
+  document.addEventListener('mousedown', startCameraDragFromDocument, { capture: true });
+  return () => document.removeEventListener('mousedown', startCameraDragFromDocument, { capture: true });
+ }, []);
 
  // Keyboard shortcuts - Arrow key panning
  useEffect(() => {
@@ -3556,8 +3611,24 @@ function GridComponent({
       feetPerTile={feetPerTile}
       movementLineColor={movementLineColor}
       movementLineWidth={movementLineWidth}
+      wallData={wallData}
      />
 
+    )}
+
+    {/* Spell AoE Templates - wall-clipped blast overlays (live game only).
+        Launcher lives in the dice cog orb menu (DiceSelectionBar); the panel
+        itself is NOT mounted here so it stays out of other views. */}
+    {!isEditorMode && (
+     <SpellAoEOverlay
+      gridSystem={gridSystem}
+      wallData={wallData}
+      feetPerTile={feetPerTile}
+      gridSize={gridSize}
+      gridOffsetX={gridOffsetX}
+      gridOffsetY={gridOffsetY}
+      currentMapId={currentMapId}
+     />
     )}
 
     {/* Character Token Placement Preview */}

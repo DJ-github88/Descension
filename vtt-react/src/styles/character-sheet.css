@@ -1027,6 +1027,7 @@ body.resource-controls-open .character-sheet {
     padding: 0 !important;
     overflow: hidden !important;
     flex-shrink: 0;
+    background-color: #1a140e !important;
 }
 
 /* Equipment tab character portrait - FORCE rectangular, NO circular border */

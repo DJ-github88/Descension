@@ -1,6 +1,7 @@
 import React from 'react';
 import { getCreatureSizeMapping } from '../../../../store/creatureStore';
 import { getCreatureTokenIconUrl } from '../../../../utils/assetManager';
+import { normalizeDamageType } from '../../../spellcrafting-wizard/core/data/damageTypes';
 import '../../../../styles/creature-token.css';
 import '../../../../styles/wow-classic-tooltip.css';
 import './SimpleCreatureTooltip.css';
@@ -77,7 +78,8 @@ const SimpleCreatureTooltip = ({ creature }) => {
       if (diceCount > 0) {
         let d = `${diceCount}d${diceType}`;
         if (bonus > 0) d += `+${bonus}`;
-        if (damageType && damageType !== 'smashing') d += ` ${damageType}`;
+        const canonicalType = normalizeDamageType(damageType);
+        if (canonicalType && canonicalType !== 'smashing') d += ` ${canonicalType}`;
         stats.push(d);
       }
     }
@@ -89,13 +91,16 @@ const SimpleCreatureTooltip = ({ creature }) => {
     const effects = [];
     (ability.effects || []).forEach(e => {
       const t = e.type?.toLowerCase() || '';
-      if (t === 'damage') effects.push(e.formula ? `${e.formula} ${(e.damageType || 'smashing')} damage` : `${e.damageType || 'smashing'} damage`);
+      if (t === 'damage') {
+        const dt = normalizeDamageType(e.damageType) || 'smashing';
+        effects.push(e.formula ? `${e.formula} ${dt} damage` : `${dt} damage`);
+      }
       else if (t === 'healing' || t === 'heal') effects.push(e.formula ? `${e.formula} healing` : 'Healing');
       else if (e.name) effects.push(e.name);
     });
     if (ability.damageConfig) {
       const f = ability.damageConfig.formula || ability.damageConfig.damageFormula || '';
-      const dt = ability.damageConfig.damageType || (ability.damageConfig.damageTypes?.[0]) || 'smashing';
+      const dt = normalizeDamageType(ability.damageConfig.damageType || ability.damageConfig.damageTypes?.[0]) || 'smashing';
       if (f) effects.push(`${f} ${dt} damage`);
     }
     if (ability.healingConfig?.formula) effects.push(`${ability.healingConfig.formula} healing`);
@@ -124,9 +129,9 @@ const SimpleCreatureTooltip = ({ creature }) => {
 
   // Filter out any "Normal" resistances so they don't show up!
   const activeResistances = Object.entries(creature.resistances || {})
-    .map(([type, val]) => {
+    .map(([rawType, val]) => {
       const formatted = formatResistanceGrade(val);
-      return formatted ? { type, ...formatted } : null;
+      return formatted ? { type: normalizeDamageType(rawType) || rawType, ...formatted } : null;
     })
     .filter(Boolean);
 

@@ -181,6 +181,12 @@ const BerserkerResourceBar = ({
                             return;
                         }
                         e.stopPropagation();
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            dismissTooltip();
+                            setShowControls(!showControls);
+                            return;
+                        }
                         dismissTooltip();
                         if (isOwner) {
                             setShowControls(!showControls);
@@ -603,7 +609,7 @@ const BerserkerResourceBar = ({
             {showControls && ReactDOM.createPortal(
                 <div
                     ref={controlsMenuRef}
-                    className={`unified-context-menu berserker-rage-popover ${context === 'party' ? 'chronarch-party' : ''}`}
+                    className={`unified-context-menu berserker-rage-popover berserker-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
                     onMouseDown={(e) => {
                         e.stopPropagation();
                         if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) {
@@ -616,6 +622,12 @@ const BerserkerResourceBar = ({
                             e.nativeEvent.stopImmediatePropagation();
                         }
                     }}
+                    onMouseEnter={(e) => {
+                        e.stopPropagation();
+                        dismissTooltip();
+                    }}
+                    onMouseMove={(e) => e.stopPropagation()}
+                    onMouseOver={(e) => e.stopPropagation()}
                     style={{
                         position: 'fixed',
                         top: (() => {

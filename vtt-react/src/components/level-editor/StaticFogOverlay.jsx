@@ -35,13 +35,13 @@ const StaticFogOverlay = () => {
     const isDraggingCameraRef = useRef(false);
 
     // PERFORMANCE: Pooled canvases to avoid per-frame allocation/GC
-    const primaryShapeCanvasRef = useRef(null);
+    // NOTE: primaryShapeCanvasRef/blurredShapeCacheRef were removed — the blur
+    // cache was keyed without camera position and its pooled-canvas reuse
+    // produced empty masks; the vision mask is now rasterized fresh per render.
     const primaryMaskCanvasRef = useRef(null);
     const creatureShapeCanvasRef = useRef(null);
     const creatureMaskCanvasRef = useRef(null);
-
-    // PERFORMANCE: Cache the blurred shape canvas; only re-blur when polygon changes
-    const blurredShapeCacheRef = useRef({ key: null, canvas: null });
+    const exploredUnionCanvasRef = useRef(null);
 
     const ensurePooledCanvas = (ref, width, height) => {
         let c = ref.current;
@@ -78,6 +78,7 @@ const StaticFogOverlay = () => {
 
     // Store Subscriptions - Level Editor State
     const fogOfWarEnabled = useLevelEditorStore(state => state.fogOfWarEnabled);
+    const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
     const drawingLayers = useLevelEditorStore(state => state.drawingLayers);
     const isFogLayerVisible = useMemo(() => {
         const fogLayer = drawingLayers?.find(l => l.id === 'fog');
@@ -99,6 +100,7 @@ const StaticFogOverlay = () => {
     // Per-player memory subscriptions for explored areas
     const currentPlayerId = useLevelEditorStore(state => state.currentPlayerId);
     const playerMemories = useLevelEditorStore(state => state.playerMemories);
+    const legacyExploredAreas = useLevelEditorStore(state => state.exploredAreas);
     const wallData = useLevelEditorStore(state => state.wallData) || {};
 
     const creatureTokens = useCreatureStore(state => state.tokens) || [];
@@ -325,27 +327,58 @@ const StaticFogOverlay = () => {
             const exploredPolygons = playerMemoriesLocal?.exploredPolygons || levelEditorState.exploredPolygons || [];
             const exploredCircles = playerMemoriesLocal?.exploredCircles || levelEditorState.exploredCircles || [];
             if (exploredPolygons.length === 0 && exploredCircles.length === 0) return;
-            targetCtx.save();
-            targetCtx.globalCompositeOperation = 'destination-out';
-            targetCtx.globalAlpha = 0.33;
+
+            // CRITICAL FIX: UNION the explored shapes on a scratch canvas FIRST,
+            // then erase the fog ONCE. Erasing per-polygon compounds
+            // multiplicatively in overlap regions (0.67^N ≈ 0 after a handful of
+            // overlapping vision snapshots), which erased the memory tint in
+            // well-explored areas — making explored look identical to visible.
+            const scratch = ensurePooledCanvas(exploredUnionCanvasRef, maskCanvas.width, maskCanvas.height);
+            const sCtx = scratch.getContext('2d');
+            sCtx.save();
+            sCtx.globalCompositeOperation = 'source-over'; // pooled canvas: reset persisted state
+            sCtx.clearRect(0, 0, scratch.width, scratch.height);
+            sCtx.fillStyle = '#000000';
             exploredPolygons.forEach(polygon => {
                 if (!polygon.points || polygon.points.length < 3) return;
                 const screenPoints = polygon.points.map(p => worldToScreen(p.x, p.y, cameraX, cameraY, effectiveZoom));
-                targetCtx.beginPath();
-                targetCtx.moveTo(screenPoints[0].x, screenPoints[0].y);
-                for (let i = 1; i < screenPoints.length; i++) targetCtx.lineTo(screenPoints[i].x, screenPoints[i].y);
-                targetCtx.closePath();
-                targetCtx.fill();
+                sCtx.beginPath();
+                sCtx.moveTo(screenPoints[0].x, screenPoints[0].y);
+                for (let i = 1; i < screenPoints.length; i++) sCtx.lineTo(screenPoints[i].x, screenPoints[i].y);
+                sCtx.closePath();
+                sCtx.fill();
             });
             exploredCircles.forEach(circle => {
                 const screenPos = worldToScreen(circle.x, circle.y, cameraX, cameraY, effectiveZoom);
                 const radius = circle.radius * effectiveZoom * 1.12;
-                targetCtx.beginPath();
-                targetCtx.arc(screenPos.x, screenPos.y, radius, 0, Math.PI * 2);
-                targetCtx.fill();
+                sCtx.beginPath();
+                sCtx.arc(screenPos.x, screenPos.y, radius, 0, Math.PI * 2);
+                sCtx.fill();
             });
+            sCtx.restore();
+
+            // Single uniform fade over the explored UNION
+            targetCtx.save();
+            targetCtx.globalCompositeOperation = 'destination-out';
+            targetCtx.globalAlpha = 0.55;
+            targetCtx.drawImage(scratch, 0, 0);
             targetCtx.restore();
         };
+
+        // =============================================================
+        // DYNAMIC FOG BASE: when viewing from a token with dynamic fog,
+        // everything NOT explored/visible is unknown — fill the mask first
+        // so unexplored areas are dark even when the GM painted no fog.
+        // Painted fog paths and erase paths below then operate on top of it.
+        // (Player view AND GM view-from-token preview behave identically.)
+        // =============================================================
+        if (viewingFromToken && dynamicFogEnabled) {
+            mCtx.save();
+            mCtx.globalCompositeOperation = 'source-over';
+            mCtx.fillStyle = '#000000';
+            mCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
+            mCtx.restore();
+        }
 
         allItems.forEach(item => {
             if (item.type === 'fog') {
@@ -356,7 +389,6 @@ const StaticFogOverlay = () => {
                     mCtx.globalCompositeOperation = 'source-over';
                     mCtx.fillStyle = '#000000';
                     mCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
-                    renderExploredToMask(mCtx);
                 } else {
                     renderPathToMask(mCtx, path, false);
                 }
@@ -372,6 +404,46 @@ const StaticFogOverlay = () => {
                 }
             }
         });
+
+        // =============================================================
+        // TILE FOG + EXPLORED MEMORY TILES (drawn INTO the mask)
+        // CRITICAL FIX: These were previously drawn as hard squares ON TOP
+        // of the soft vision-polygon cut, which destroyed the soft edges.
+        // Drawing them into the mask means the vision polygon cut applies
+        // to them too, restoring soft-edged fog of war.
+        // =============================================================
+        const gridSystem = getGridSystem();
+        const exploredTileMap = (currentPlayerId && playerMemories?.[currentPlayerId]?.exploredAreas) || legacyExploredAreas || {};
+        const hasExploredTiles = Object.keys(exploredTileMap).length > 0;
+
+        // 1. Painted fog tiles (opaque where not explored)
+        visibleFogTiles.forEach(({ worldX, worldY }) => {
+            const screenPos = worldToScreen(worldX, worldY, cameraX, cameraY, effectiveZoom);
+            if (screenPos.x < -100 || screenPos.x > canvas.width + 100 || screenPos.y < -100 || screenPos.y > canvas.height + 100) return;
+
+            // If the player has explored this tile, render it at reduced opacity
+            let alpha = 1;
+            if (hasExploredTiles) {
+                const gridCoords = gridSystem.worldToGrid(worldX, worldY);
+                if (exploredTileMap[`${gridCoords.x},${gridCoords.y}`]) alpha = 0.55;
+            }
+            mCtx.save();
+            mCtx.globalCompositeOperation = 'source-over';
+            mCtx.globalAlpha = alpha;
+            mCtx.fillStyle = '#000000';
+            const tileSize = gridSize * effectiveZoom;
+            mCtx.fillRect(screenPos.x - tileSize / 2, screenPos.y - tileSize / 2, tileSize, tileSize);
+            mCtx.restore();
+        });
+
+        // 2. Player-explored memory fade is handled by the polygon/circle UNION
+        // below (single uniform erase) — per-tile stamping was redundant on top
+        // of the dynamic fog base and leaked dark squares into plain GM view.
+
+        // 3. Explored polygon/circle trail fade (soft "memory" of where we looked)
+        // CRITICAL FIX: previously only applied when a full-coverage fog path existed,
+        // which is why explored areas rendered as hard squares instead of soft memory.
+        renderExploredToMask(mCtx);
 
         offscreenCtx.save();
         offscreenCtx.clearRect(0, 0, offscreenCanvas.width, offscreenCanvas.height);
@@ -413,12 +485,12 @@ const StaticFogOverlay = () => {
                 }
                 maskCtx.closePath();
                 const gradient = maskCtx.createRadialGradient(tokenScreenPos.x, tokenScreenPos.y, 0, tokenScreenPos.x, tokenScreenPos.y, visionRangeInPixels);
+                // SOFT-EDGE FIX: clear interior, thin soft rim (matches primary vision)
                 gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-                gradient.addColorStop(0.40, 'rgba(255, 255, 255, 1)');
-                gradient.addColorStop(0.60, 'rgba(255, 255, 255, 0.85)');
-                gradient.addColorStop(0.75, 'rgba(255, 255, 255, 0.55)');
-                gradient.addColorStop(0.88, 'rgba(255, 255, 255, 0.25)');
-                gradient.addColorStop(0.96, 'rgba(255, 255, 255, 0.08)');
+                gradient.addColorStop(0.72, 'rgba(255, 255, 255, 1)');
+                gradient.addColorStop(0.85, 'rgba(255, 255, 255, 0.85)');
+                gradient.addColorStop(0.93, 'rgba(255, 255, 255, 0.45)');
+                gradient.addColorStop(0.98, 'rgba(255, 255, 255, 0.12)');
                 gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
                 maskCtx.save();
                 maskCtx.clip();
@@ -472,57 +544,49 @@ const StaticFogOverlay = () => {
             const tokenScreenPos = worldToScreen(tokenPosition.x, tokenPosition.y, cameraX, cameraY, effectiveZoom);
             let visionRangeInPixels = visionRange * gridSize * effectiveZoom;
             if (Number.isFinite(tokenScreenPos.x) && Number.isFinite(tokenScreenPos.y) && visionRangeInPixels > 0) {
-                const polyKey = visibilityPolygon.length + '_' +
-                    (visibilityPolygon[0] ? `${visibilityPolygon[0].x.toFixed(1)},${visibilityPolygon[0].y.toFixed(1)}` : '') +
-                    (visibilityPolygon.length > 1 ? `_${visibilityPolygon[visibilityPolygon.length-1].x.toFixed(1)},${visibilityPolygon[visibilityPolygon.length-1].y.toFixed(1)}` : '');
-
-                const shapeCanvas = ensurePooledCanvas(primaryShapeCanvasRef, canvas.width, canvas.height);
-                const shapeCtx = shapeCanvas.getContext('2d');
-
-                const blurCache = blurredShapeCacheRef.current;
-                if (blurCache.key !== polyKey || blurCache.canvas?.width !== canvas.width || blurCache.canvas?.height !== canvas.height) {
-                    shapeCtx.clearRect(0, 0, shapeCanvas.width, shapeCanvas.height);
-                    shapeCtx.filter = 'blur(40px)';
-                    shapeCtx.fillStyle = 'rgba(255,255,255,1)';
-                    shapeCtx.beginPath();
-                    const firstPointS = worldToScreen(visibilityPolygon[0].x, visibilityPolygon[0].y, cameraX, cameraY, effectiveZoom);
-                    shapeCtx.moveTo(firstPointS.x, firstPointS.y);
-                    for (let i = 1; i < visibilityPolygon.length; i++) {
-                        const point = worldToScreen(visibilityPolygon[i].x, visibilityPolygon[i].y, cameraX, cameraY, effectiveZoom);
-                        shapeCtx.lineTo(point.x, point.y);
-                    }
-                    shapeCtx.closePath();
-                    shapeCtx.fill();
-                    shapeCtx.filter = 'none';
-
-                    if (!blurredShapeCacheRef.current._cacheRef) {
-                        blurredShapeCacheRef.current._cacheRef = { current: null };
-                    }
-                    const cachedBlur = ensurePooledCanvas(blurredShapeCacheRef.current._cacheRef, canvas.width, canvas.height);
-                    const cachedCtx = cachedBlur.getContext('2d');
-                    cachedCtx.clearRect(0, 0, cachedBlur.width, cachedBlur.height);
-                    cachedCtx.drawImage(shapeCanvas, 0, 0);
-                    blurredShapeCacheRef.current = { key: polyKey, canvas: cachedBlur, _cacheRef: blurredShapeCacheRef.current._cacheRef };
-                } else {
-                    shapeCtx.clearRect(0, 0, shapeCanvas.width, shapeCanvas.height);
-                    shapeCtx.drawImage(blurCache.canvas, 0, 0);
-                }
-
+                // CRITICAL FIX: Rasterize the vision polygon directly into the mask
+                // every render. The old pooled-canvas + blur-cache path produced an
+                // EMPTY mask (probe: destination-out source sampled all-zero alpha),
+                // which disabled the vision cut entirely and left fog inside the
+                // vision circle. The cache also ignored camera position, so cached
+                // shapes were rasterized at stale screen coordinates.
+                // The soft edge now comes from the thin gradient rim below.
                 visibilityMask = ensurePooledCanvas(primaryMaskCanvasRef, canvas.width, canvas.height);
                 const maskCtx = visibilityMask.getContext('2d');
                 maskCtx.clearRect(0, 0, visibilityMask.width, visibilityMask.height);
-                maskCtx.drawImage(shapeCanvas, 0, 0);
+                // CRITICAL FIX: reset composite mode BEFORE drawing the shape.
+                // The pooled canvas persists 'source-in' from the previous render's
+                // gradient fill; filling the polygon with 'source-in' onto a cleared
+                // canvas produces an EMPTY mask, silently disabling the vision cut
+                // (fog rendered washed-out/squarish inside the vision circle).
+                maskCtx.globalCompositeOperation = 'source-over';
+                maskCtx.save();
+                maskCtx.filter = 'blur(12px)';
+                maskCtx.fillStyle = 'rgba(255,255,255,1)';
+                maskCtx.beginPath();
+                const firstPointS = worldToScreen(visibilityPolygon[0].x, visibilityPolygon[0].y, cameraX, cameraY, effectiveZoom);
+                maskCtx.moveTo(firstPointS.x, firstPointS.y);
+                for (let i = 1; i < visibilityPolygon.length; i++) {
+                    const point = worldToScreen(visibilityPolygon[i].x, visibilityPolygon[i].y, cameraX, cameraY, effectiveZoom);
+                    maskCtx.lineTo(point.x, point.y);
+                }
+                maskCtx.closePath();
+                maskCtx.fill();
+                maskCtx.filter = 'none';
+                maskCtx.restore();
+
                 maskCtx.globalCompositeOperation = 'source-in';
                 const gradient = maskCtx.createRadialGradient(
                     tokenScreenPos.x, tokenScreenPos.y, 0,
                     tokenScreenPos.x, tokenScreenPos.y, visionRangeInPixels
                 );
+                // SOFT-EDGE FIX: keep the interior fully clear and concentrate the
+                // fade in a thin rim at the edge of the vision radius.
                 gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-                gradient.addColorStop(0.20, 'rgba(255, 255, 255, 1)');
-                gradient.addColorStop(0.45, 'rgba(255, 255, 255, 0.90)');
-                gradient.addColorStop(0.65, 'rgba(255, 255, 255, 0.65)');
-                gradient.addColorStop(0.80, 'rgba(255, 255, 255, 0.35)');
-                gradient.addColorStop(0.92, 'rgba(255, 255, 255, 0.12)');
+                gradient.addColorStop(0.72, 'rgba(255, 255, 255, 1)');
+                gradient.addColorStop(0.85, 'rgba(255, 255, 255, 0.85)');
+                gradient.addColorStop(0.93, 'rgba(255, 255, 255, 0.45)');
+                gradient.addColorStop(0.98, 'rgba(255, 255, 255, 0.12)');
                 gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
                 maskCtx.fillStyle = gradient;
                 maskCtx.fillRect(0, 0, visibilityMask.width, visibilityMask.height);
@@ -550,6 +614,9 @@ const StaticFogOverlay = () => {
                     const shapeCanvas = ensurePooledCanvas(creatureShapeCanvasRef, canvas.width, canvas.height);
                     const shapeCtx = shapeCanvas.getContext('2d');
                     shapeCtx.clearRect(0, 0, shapeCanvas.width, shapeCanvas.height);
+                    // CRITICAL FIX: reset composite before drawing (pooled canvas
+                    // persists stale composite modes from previous renders)
+                    shapeCtx.globalCompositeOperation = 'source-over';
                     shapeCtx.filter = 'blur(20px)';
                     shapeCtx.fillStyle = 'rgba(255,255,255,1)';
                     shapeCtx.beginPath();
@@ -565,18 +632,21 @@ const StaticFogOverlay = () => {
                     const maskC = ensurePooledCanvas(creatureMaskCanvasRef, canvas.width, canvas.height);
                     const maskCtx = maskC.getContext('2d');
                     maskCtx.clearRect(0, 0, maskC.width, maskC.height);
+                    // CRITICAL FIX: reset composite before drawing (pooled canvas
+                    // persists 'source-in' from the previous render)
+                    maskCtx.globalCompositeOperation = 'source-over';
                     maskCtx.drawImage(shapeCanvas, 0, 0);
                     maskCtx.globalCompositeOperation = 'source-in';
                     const gradient = maskCtx.createRadialGradient(
                         creatureScreenPos.x, creatureScreenPos.y, 0,
                         creatureScreenPos.x, creatureScreenPos.y, creatureVisionPixels
                     );
+                    // SOFT-EDGE FIX: clear interior, thin soft rim (matches primary vision)
                     gradient.addColorStop(0,    'rgba(255, 255, 255, 1)');
-                    gradient.addColorStop(0.20, 'rgba(255, 255, 255, 1)');
-                    gradient.addColorStop(0.45, 'rgba(255, 255, 255, 0.90)');
-                    gradient.addColorStop(0.65, 'rgba(255, 255, 255, 0.65)');
-                    gradient.addColorStop(0.80, 'rgba(255, 255, 255, 0.35)');
-                    gradient.addColorStop(0.92, 'rgba(255, 255, 255, 0.12)');
+                    gradient.addColorStop(0.72, 'rgba(255, 255, 255, 1)');
+                    gradient.addColorStop(0.85, 'rgba(255, 255, 255, 0.85)');
+                    gradient.addColorStop(0.93, 'rgba(255, 255, 255, 0.45)');
+                    gradient.addColorStop(0.98, 'rgba(255, 255, 255, 0.12)');
                     gradient.addColorStop(1,    'rgba(255, 255, 255, 0)');
                     maskCtx.fillStyle = gradient;
                     maskCtx.fillRect(0, 0, maskC.width, maskC.height);
@@ -631,15 +701,8 @@ const StaticFogOverlay = () => {
         }
         ctx.restore();
 
-        ctx.globalCompositeOperation = 'source-over';
-        visibleFogTiles.forEach(({ worldX, worldY }) => {
-            const screenPos = worldToScreen(worldX, worldY, cameraX, cameraY, effectiveZoom);
-            const tileSize = 50 * effectiveZoom;
-            const fogState = getFogState(worldX, worldY);
-            const fillColor = getFogColorLocal(fogState, isGMMode);
-            ctx.fillStyle = fillColor;
-            ctx.fillRect(screenPos.x - tileSize / 2, screenPos.y - tileSize / 2, tileSize, tileSize);
-        });
+        // NOTE: Fog/explored tiles are now drawn INTO the mask above (soft-cut by
+        // the vision polygon) instead of being stamped as hard squares on top.
 
         if ((!isGMMode || allTokensVisibilityPolygons.length > 0) && !isDraggingCameraRef.current) {
             drawStars(ctx, canvas.width, canvas.height, cameraX, cameraY, effectiveZoom);
@@ -650,7 +713,7 @@ const StaticFogOverlay = () => {
             ctx.globalAlpha = 1;
             ctx.drawImage(visibilityMask, 0, 0);
         }
-    }, [visibleFogPaths, visibleErasePaths, visibleFogTiles, fogOfWarEnabled, isFogLayerVisible, zoomLevel, playerZoom, isGMMode, worldToScreen, currentViewingToken, visibleArea, visibilityPolygon, allTokensVisibilityPolygons, viewingFromToken, tokenVisionRanges, getFogState, visibleAreaSet, screenToWorld, currentPlayerId, playerMemories, wallData, gridSize, gridOffsetX, gridOffsetY, additionalVisibilityPolygons, controlledCreatureVisionDetails, cameraX, cameraY]);
+    }, [visibleFogPaths, visibleErasePaths, visibleFogTiles, fogOfWarEnabled, dynamicFogEnabled, isFogLayerVisible, zoomLevel, playerZoom, isGMMode, worldToScreen, currentViewingToken, visibleArea, visibilityPolygon, allTokensVisibilityPolygons, viewingFromToken, tokenVisionRanges, getFogState, visibleAreaSet, screenToWorld, currentPlayerId, playerMemories, legacyExploredAreas, wallData, gridSize, gridOffsetX, gridOffsetY, additionalVisibilityPolygons, controlledCreatureVisionDetails, cameraX, cameraY]);
 
     useLayoutEffect(() => {
         renderFog();

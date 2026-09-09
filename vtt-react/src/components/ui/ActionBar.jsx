@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import useInventoryStore from '../../store/inventoryStore';
 import useConditionStore from '../../store/conditionStore';
@@ -8,6 +8,8 @@ import useGameStore from '../../store/gameStore';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import Button from '../common/Button';
 import ItemTooltip from '../item-generation/ItemTooltip';
+import TooltipPortal from '../tooltips/TooltipPortal';
+import { useTooltipPosition } from '../common/useTooltipPosition';
 import SpellTooltip from '../spellcrafting-wizard/components/common/SpellTooltip';
 import { useSpellLibrary } from '../spellcrafting-wizard/context/SpellLibraryContext';
 import { useActionBarPersistence } from '../../hooks/useActionBarPersistence';
@@ -19,7 +21,9 @@ import CooldownAdjustmentMenu from './CooldownAdjustmentMenu';
 import actionBarPersistenceService from '../../services/actionBarPersistenceService';
 import ExperienceBar from './ExperienceBar';
 import { getIconUrl, getCustomIconUrl, getAbilityIconUrl } from '../../utils/assetManager';
-import { migrateBlockId } from '../../utils/arcanoneerMigration';
+import EquipmentActionSlot from './EquipmentActionSlot';
+import { getActionsForSlot } from '../../data/weaponActionSpells';
+import { normalizeEquipment, isOffHandDisabled as checkOffHandDisabled } from '../../utils/equipmentUtils';
 import './ActionBar.css';
 
 // Spell damage types constant - used for consumable effects
@@ -54,8 +58,17 @@ const ActionBar = () => {
     const [showSpellTooltip, setShowSpellTooltip] = useState(false);
     const [spellTooltipPosition, setSpellTooltipPosition] = useState({ x: 0, y: 0 });
     const [tooltipSpell, setTooltipSpell] = useState(null);
+    const [isEquipmentActionTooltip, setIsEquipmentActionTooltip] = useState(false);
     const spellHoverTimeoutRef = useRef(null);
     const spellHideTimeoutRef = useRef(null);
+
+    // Floating equipment slot tooltip state (no modal / no screen dimming)
+    const [equipmentTooltipItem, setEquipmentTooltipItem] = useState(null);
+    const [equipmentMousePos, setEquipmentMousePos] = useState({ x: 0, y: 0 });
+    const { adjustedPosition: equipmentTooltipPos, tooltipRef: equipmentTooltipRef } = useTooltipPosition(
+        equipmentMousePos,
+        !!equipmentTooltipItem
+    );
 
     // Hotkey assignment state
     const [showHotkeyPopup, setShowHotkeyPopup] = useState(false);
@@ -102,6 +115,27 @@ const ActionBar = () => {
     // Get combat store for turn restrictions and cooldown progression
     const { isInCombat, getCurrentCombatant, round, currentTurnIndex, turnOrder } = useCombatStore();
     const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
+    const rawEquipment = useCharacterStore(state => state.equipment) || {};
+    const equipment = useMemo(() => normalizeEquipment(rawEquipment), [rawEquipment]);
+
+    // Elevated equipment slot popout state
+    const [openEquipmentSlot, setOpenEquipmentSlot] = useState(null);
+
+    // Compute dynamic actions for elevated slots
+    const mhActions = useMemo(() => getActionsForSlot('mainHand', equipment), [equipment]);
+    const ohActions = useMemo(() => getActionsForSlot('offHand', equipment), [equipment]);
+    const rangedActions = useMemo(() => getActionsForSlot('ranged', equipment), [equipment]);
+    const isOffHandDisabled = useMemo(() => checkOffHandDisabled(equipment), [equipment]);
+
+    // Close fan on click outside
+    useEffect(() => {
+        if (!openEquipmentSlot) return;
+        const handleOutsideClick = () => {
+            setOpenEquipmentSlot(null);
+        };
+        window.addEventListener('click', handleOutsideClick);
+        return () => window.removeEventListener('click', handleOutsideClick);
+    }, [openEquipmentSlot]);
     
     // Track cooldown timers and types
     const cooldownTimersRef = useRef({});
@@ -921,6 +955,21 @@ const ActionBar = () => {
         return { hasInstantEffects, hasBuffEffects, pendingOverheal: false };
     }, [inventoryItems, applyResourceAdjustmentWithOverheal, addCondition]);
 
+    const handleEquipmentActionClick = useCallback((action, e) => {
+        setOpenEquipmentSlot(null);
+
+        if (isInCombat) {
+            const currentCombatant = getCurrentCombatant();
+            if (!currentCombatant || currentCombatant.name !== useCharacterStore.getState().name) {
+                return;
+            }
+        }
+
+        setSpellToCast(action);
+        setSpellSlotIndex('equipment-action');
+        setShowSpellConfirmation(true);
+    }, [isInCombat, getCurrentCombatant]);
+
     const handleSlotClick = useCallback((slotIndex, e) => {
         const item = actionSlots[slotIndex];
         if (!item) return;
@@ -1392,15 +1441,65 @@ const ActionBar = () => {
         setTooltipItem(null);
     };
 
+    // Equipment slot floating tooltip handlers (no full-screen modal / no cloudy overlay)
+    const handleEquipmentSlotMouseEnter = (e, item, slotName) => {
+        // Dismiss any open spell or consumable tooltip immediately
+        if (spellHoverTimeoutRef.current) {
+            clearTimeout(spellHoverTimeoutRef.current);
+            spellHoverTimeoutRef.current = null;
+        }
+        setShowSpellTooltip(false);
+        setTooltipSpell(null);
+        setShowTooltip(false);
+        setTooltipItem(null);
+
+        const itemToDisplay = item || {
+            isPlaceholder: true,
+            name: slotName === 'mainHand' ? 'Main Hand Slot' : slotName === 'offHand' ? 'Off Hand Slot' : 'Ranged Slot',
+            description: slotName === 'offHand' && isOffHandDisabled
+                ? 'Off-hand is disabled while wielding a two-handed weapon.'
+                : slotName === 'mainHand'
+                ? 'Your primary weapon used for attacking. Click to view attack and combat options.'
+                : slotName === 'offHand'
+                ? 'Secondary weapons, shields, or magical focuses. Click to view defensive and off-hand options.'
+                : 'Bows, crossbows, wands, or thrown weapons. Click to view ranged attack options.'
+        };
+
+        const rect = e?.currentTarget?.getBoundingClientRect?.() || {
+            left: (e?.clientX || 100) - 24,
+            width: 48,
+            top: (e?.clientY || window.innerHeight - 80) - 24
+        };
+        const posX = (e?.clientX && e.clientX > 0) ? e.clientX : (rect.left + rect.width / 2);
+        const posY = (e?.clientY && e.clientY > 0) ? e.clientY : rect.top;
+
+        setEquipmentMousePos({ x: posX, y: posY });
+        setEquipmentTooltipItem(itemToDisplay);
+    };
+
+    const handleEquipmentSlotMouseMove = (e) => {
+        if (e?.clientX && e?.clientY) {
+            setEquipmentMousePos({ x: e.clientX, y: e.clientY });
+        }
+    };
+
+    const handleEquipmentSlotMouseLeave = () => {
+        setEquipmentTooltipItem(null);
+    };
+
     // Spell tooltip handlers
     const handleSpellMouseEnter = (e, item) => {
-        if (!item || item.type !== 'spell' || !spellLibrary) {
+        if (!item || item.type === 'consumable') {
             return;
         }
+
+        // Dismiss any floating equipment tooltip when hovering an action bubble or slot
+        setEquipmentTooltipItem(null);
 
         // Clear any existing timeouts
         if (spellHoverTimeoutRef.current) {
             clearTimeout(spellHoverTimeoutRef.current);
+            spellHoverTimeoutRef.current = null;
         }
         if (spellHideTimeoutRef.current) {
             clearTimeout(spellHideTimeoutRef.current);
@@ -1418,43 +1517,52 @@ const ActionBar = () => {
             return;
         }
 
-        // Store the element reference to avoid null reference errors
-        const targetElement = e.currentTarget;
-        if (!targetElement) return;
+        // Check if this action is from equipment fanout / weapon action
+        const isWeaponAction = Boolean(
+            item.source === 'weapon_discipline' ||
+            item.source === 'weapon_quirk' ||
+            item.id?.startsWith('mh_') ||
+            item.id?.startsWith('oh_') ||
+            item.id?.startsWith('ranged_') ||
+            item.id?.startsWith('spec_') ||
+            item.tags?.includes('weapon') ||
+            item.tags?.includes('shield') ||
+            item.tags?.includes('reaction')
+        );
 
-        // Store the current mouse position for initial tooltip placement
-        const currentMouseX = e.clientX;
-        const currentMouseY = e.clientY;
+        const rect = e.currentTarget?.getBoundingClientRect?.() || {
+            left: (e.clientX || 100) - 19,
+            width: 38,
+            top: (e.clientY || window.innerHeight - 80) - 19
+        };
+        const targetX = isWeaponAction ? (rect.left + rect.width / 2) : (e.clientX || rect.left + rect.width / 2);
+        const targetY = isWeaponAction ? rect.top : (e.clientY || rect.top);
 
-        // Set hover timeout
+        // Set hover timeout: snappy 60ms for weapon bubbles, standard for action bar slots
         spellHoverTimeoutRef.current = setTimeout(() => {
-            // Check if element still exists
-            if (!targetElement || !document.contains(targetElement)) return;
-
-            // Use mouse position for tooltip placement - this follows the cursor
-            // Position tooltip above the mouse cursor
-            const tooltipX = currentMouseX;
-            const tooltipY = currentMouseY; // Use cursor Y directly, transform will position above
-
-            setSpellTooltipPosition({ x: tooltipX, y: tooltipY });
+            setIsEquipmentActionTooltip(isWeaponAction);
+            setSpellTooltipPosition({ x: targetX, y: targetY });
             setTooltipSpell(spellToDisplay);
             setShowSpellTooltip(true);
-        }, 300); // 300ms delay before showing tooltip
+            spellHoverTimeoutRef.current = null;
+        }, isWeaponAction ? 60 : 200);
     };
 
     const handleSpellMouseMove = (e, item) => {
-        if (!item || item.type !== 'spell') return;
+        if (!item) return;
 
-        // Update tooltip position to follow the mouse cursor
+        // Weapon actions remain anchored to the bubble without mouse jitter
+        if (item.source === 'weapon_discipline' || item.source === 'weapon_quirk' || item.id?.startsWith('spec_') || item.id?.startsWith('mh_') || item.id?.startsWith('oh_') || item.id?.startsWith('ranged_')) {
+            return;
+        }
+
+        if (item.type !== 'spell') return;
+
+        // Update tooltip position to follow the mouse cursor for regular action slots
         const mouseX = e.clientX;
         const mouseY = e.clientY;
 
-        // Position tooltip relative to mouse cursor
-        const tooltipX = mouseX;
-        const tooltipY = mouseY; // Use cursor Y directly, transform will position above
-
-        // Update position whether tooltip is showing or not (for smooth appearance at current position)
-        setSpellTooltipPosition({ x: tooltipX, y: tooltipY });
+        setSpellTooltipPosition({ x: mouseX, y: mouseY });
     };
 
     const handleSpellMouseLeave = () => {
@@ -1464,12 +1572,17 @@ const ActionBar = () => {
             spellHoverTimeoutRef.current = null;
         }
 
-        // Hide tooltip immediately when leaving the action slot
         if (spellHideTimeoutRef.current) {
             clearTimeout(spellHideTimeoutRef.current);
         }
-        setShowSpellTooltip(false);
-        setTooltipSpell(null);
+
+        // 120ms hide delay prevents tooltip from glitching out when mouse transitions between bubble and card
+        spellHideTimeoutRef.current = setTimeout(() => {
+            setShowSpellTooltip(false);
+            setTooltipSpell(null);
+            setIsEquipmentActionTooltip(false);
+            spellHideTimeoutRef.current = null;
+        }, 120);
     };
 
     const handleSpellTooltipMouseEnter = () => {
@@ -1481,9 +1594,14 @@ const ActionBar = () => {
     };
 
     const handleSpellTooltipMouseLeave = () => {
-        // Hide tooltip immediately when leaving the tooltip
+        // Hide tooltip when leaving the tooltip card
+        if (spellHideTimeoutRef.current) {
+            clearTimeout(spellHideTimeoutRef.current);
+            spellHideTimeoutRef.current = null;
+        }
         setShowSpellTooltip(false);
         setTooltipSpell(null);
+        setIsEquipmentActionTooltip(false);
     };
 
     // Handle confirmed spell cast
@@ -1495,7 +1613,8 @@ const ActionBar = () => {
             return;
         }
 
-        const item = actionSlots[spellSlotIndex];
+        const isEquipmentAction = spellSlotIndex === 'equipment-action';
+        const item = isEquipmentAction ? spellToCast : actionSlots[spellSlotIndex];
         if (!item) {
             setShowSpellConfirmation(false);
             setSpellToCast(null);
@@ -1748,7 +1867,7 @@ const ActionBar = () => {
             const cooldownType = cooldownConfig.type || item.cooldownType || 'none';
             const cooldownValue = cooldownConfig.value || item.maxCooldown || 0;
             
-            if (cooldownValue > 0 && cooldownType !== 'none') {
+            if (cooldownValue > 0 && cooldownType !== 'none' && typeof spellSlotIndex === 'number') {
                 cooldownTypesRef.current[spellSlotIndex] = {
                     type: cooldownType,
                     value: cooldownValue,
@@ -1943,12 +2062,32 @@ const ActionBar = () => {
 
     return (
         <>
-            <div className={`action-bar-container ${actionBarBg ? 'action-bar-has-asset' : ''}`} ref={actionBarContainerRef} style={actionBarBg ? {
-                backgroundImage: `url(${actionBarBg})`,
-                backgroundSize: '100% 100%',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
-            } : undefined}>
+            <div className="action-bar-assembly">
+                {/* Left Elevated Wing: Main Hand */}
+                <div className="action-bar-wing action-bar-wing-left">
+                    <EquipmentActionSlot
+                        slotName="mainHand"
+                        item={equipment?.mainHand}
+                        actions={mhActions}
+                        isOpen={openEquipmentSlot === 'mainHand'}
+                        isDisabled={false}
+                        onToggleOpen={(slot) => setOpenEquipmentSlot(prev => prev === slot ? null : slot)}
+                        onActionClick={handleEquipmentActionClick}
+                        onActionMouseEnter={handleSpellMouseEnter}
+                        onActionMouseLeave={handleSpellMouseLeave}
+                        onActionMouseMove={handleSpellMouseMove}
+                        onSlotMouseEnter={(e, item, slotName) => handleEquipmentSlotMouseEnter(e, item, slotName)}
+                        onSlotMouseLeave={handleEquipmentSlotMouseLeave}
+                        onSlotMouseMove={handleEquipmentSlotMouseMove}
+                    />
+                </div>
+
+                <div className={`action-bar-container ${actionBarBg ? 'action-bar-has-asset' : ''}`} ref={actionBarContainerRef} style={actionBarBg ? {
+                    backgroundImage: `url(${actionBarBg})`,
+                    backgroundSize: '100% 100%',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                } : undefined}>
                 <div className="action-bar">
                 {actionSlots.map((item, index) => {
                     const isConsumable = item && item.type === 'consumable';
@@ -2061,6 +2200,41 @@ const ActionBar = () => {
                 </div>
             </div>
 
+            {/* Right Elevated Wing: Off Hand & Ranged */}
+            <div className="action-bar-wing action-bar-wing-right">
+                <EquipmentActionSlot
+                    slotName="offHand"
+                    item={equipment?.offHand}
+                    actions={ohActions}
+                    isOpen={openEquipmentSlot === 'offHand'}
+                    isDisabled={isOffHandDisabled}
+                    onToggleOpen={(slot) => setOpenEquipmentSlot(prev => prev === slot ? null : slot)}
+                    onActionClick={handleEquipmentActionClick}
+                    onActionMouseEnter={handleSpellMouseEnter}
+                    onActionMouseLeave={handleSpellMouseLeave}
+                    onActionMouseMove={handleSpellMouseMove}
+                    onSlotMouseEnter={(e, item, slotName) => handleEquipmentSlotMouseEnter(e, item, slotName)}
+                    onSlotMouseLeave={handleEquipmentSlotMouseLeave}
+                    onSlotMouseMove={handleEquipmentSlotMouseMove}
+                />
+                <EquipmentActionSlot
+                    slotName="ranged"
+                    item={equipment?.ranged}
+                    actions={rangedActions}
+                    isOpen={openEquipmentSlot === 'ranged'}
+                    isDisabled={false}
+                    onToggleOpen={(slot) => setOpenEquipmentSlot(prev => prev === slot ? null : slot)}
+                    onActionClick={handleEquipmentActionClick}
+                    onActionMouseEnter={handleSpellMouseEnter}
+                    onActionMouseLeave={handleSpellMouseLeave}
+                    onActionMouseMove={handleSpellMouseMove}
+                    onSlotMouseEnter={(e, item, slotName) => handleEquipmentSlotMouseEnter(e, item, slotName)}
+                    onSlotMouseLeave={handleEquipmentSlotMouseLeave}
+                    onSlotMouseMove={handleEquipmentSlotMouseMove}
+                />
+            </div>
+        </div>
+
             {/* Hotkey Assignment Popup */}
             {showHotkeyPopup && hotkeySlotIndex !== null && (
                 <HotkeyAssignmentPopup
@@ -2070,6 +2244,32 @@ const ActionBar = () => {
                     onClose={handleHotkeyPopupClose}
                     actionBarRef={actionBarContainerRef}
                 />
+            )}
+
+            {/* Floating Equipment Slot Tooltip - No Screen Dimming */}
+            {equipmentTooltipItem && (
+                <TooltipPortal>
+                    <div
+                        ref={equipmentTooltipRef}
+                        className="equipment-slot-floating-tooltip"
+                        style={{
+                            position: 'fixed',
+                            left: `${equipmentTooltipPos.x}px`,
+                            top: `${equipmentTooltipPos.y}px`,
+                            pointerEvents: 'none',
+                            zIndex: 999999999
+                        }}
+                    >
+                        {equipmentTooltipItem.isPlaceholder ? (
+                            <div className="equipment-slot-helper-card">
+                                <div className="helper-card-title">{equipmentTooltipItem.name}</div>
+                                <div className="helper-card-desc">{equipmentTooltipItem.description}</div>
+                            </div>
+                        ) : (
+                            <ItemTooltip item={equipmentTooltipItem} />
+                        )}
+                    </div>
+                </TooltipPortal>
             )}
 
             {/* Consumable Tooltip - Fullscreen Modal Mode */}
@@ -2130,7 +2330,8 @@ const ActionBar = () => {
                     position={spellTooltipPosition}
                     onMouseEnter={handleSpellTooltipMouseEnter}
                     onMouseLeave={handleSpellTooltipMouseLeave}
-                    fullscreenMode={true} // Enable fullscreen modal mode with cloudy background for action bar tooltips
+                    fullscreenMode={!isEquipmentActionTooltip}
+                    smartPositioning={true}
                 />
             )}
 

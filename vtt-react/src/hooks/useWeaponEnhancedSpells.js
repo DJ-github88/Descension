@@ -15,6 +15,7 @@ import {
  enhanceSpellWithWeaponData,
  getWeaponDamageNotation
 } from '../utils/weaponIntegration';
+import { getActionsForSlot } from '../data/weaponActionSpells';
 
 /**
  * Hook that provides general spells with weapon integration
@@ -70,6 +71,16 @@ export const useWeaponEnhancedSpells = () => {
     return spell;
   });
 
+  // Inject equipped weapon actions and discipline specials so they appear in Spellbook
+  const mhActions = getActionsForSlot('mainHand', equipment);
+  const ohActions = getActionsForSlot('offHand', equipment);
+  const rangedActions = getActionsForSlot('ranged', equipment);
+  [...mhActions, ...ohActions, ...rangedActions].forEach(action => {
+    if (action && !enhancedSpellsList.some(s => s.id === action.id)) {
+      enhancedSpellsList.push(action);
+    }
+  });
+
   return enhancedSpellsList;
   // Rebuild whenever equipment changes: attack spells read the equipment
   // snapshot via useCharacterStore.getState(), so an empty/initial snapshot
@@ -104,7 +115,7 @@ export const useWeaponEnhancedSpells = () => {
    summary.mainHand = {
     name: weapon.name,
     damage: getWeaponDamageNotation(weapon),
-    damageType: weapon.weaponStats?.baseDamage?.damageType || 'bludgeoning',
+    damageType: weapon.weaponStats?.baseDamage?.damageType || 'smashing',
     type: weapon.subtype || 'UNKNOWN'
    };
   }
@@ -114,7 +125,7 @@ export const useWeaponEnhancedSpells = () => {
    summary.offHand = {
     name: weapon.name,
     damage: getWeaponDamageNotation(weapon),
-    damageType: weapon.weaponStats?.baseDamage?.damageType || 'bludgeoning',
+    damageType: weapon.weaponStats?.baseDamage?.damageType || 'smashing',
     type: weapon.subtype || 'UNKNOWN'
    };
   }
@@ -124,7 +135,7 @@ export const useWeaponEnhancedSpells = () => {
    summary.ranged = {
     name: weapon.name,
     damage: getWeaponDamageNotation(weapon),
-    damageType: weapon.weaponStats?.baseDamage?.damageType || 'piercing',
+    damageType: weapon.weaponStats?.baseDamage?.damageType || 'stabbing',
     type: weapon.subtype || 'UNKNOWN'
    };
   }

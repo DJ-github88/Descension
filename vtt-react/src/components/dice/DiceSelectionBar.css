@@ -126,7 +126,7 @@
   color: #2b1408;
 }
 
-/* Engraved gold hairline across the top of the panel */
+/* Engraved gold hairline across the top of the panel (cards/coin dropdowns) */
 .dice-dropdown::before {
   content: '';
   position: sticky;
@@ -144,6 +144,11 @@
   border-radius: 14px 14px 0 0;
 }
 
+/* The dice dropdown has its own drag-handle bar — hide the hairline there */
+.dice-dropdown-dice::before {
+  display: none;
+}
+
 .dice-dropdown-cards {
   width: 390px;
   min-width: 300px;
@@ -153,6 +158,57 @@
 .dice-dropdown-dice {
   overflow: hidden;
   gap: 10px;
+  /* Remove the default top padding — the drag handle fills that zone */
+  padding-top: 0;
+}
+
+/* ── Drag Handle ───────────────────────────────────────────────────────────── */
+.dice-dropdown-drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  /* Stretch edge-to-edge, compensate for parent's 16px side padding */
+  margin: 0 -16px;
+  padding: 7px 16px 7px;
+  background: linear-gradient(135deg,
+    rgba(139, 90, 26, 0.12) 0%,
+    rgba(212, 175, 55, 0.18) 50%,
+    rgba(139, 90, 26, 0.12) 100%);
+  border-bottom: 1.5px solid rgba(139, 90, 26, 0.35);
+  border-radius: 12px 12px 0 0;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+.dice-dropdown-drag-handle:active {
+  cursor: grabbing;
+  background: linear-gradient(135deg,
+    rgba(139, 90, 26, 0.22) 0%,
+    rgba(212, 175, 55, 0.30) 50%,
+    rgba(139, 90, 26, 0.22) 100%);
+}
+
+.dice-drag-dots {
+  font-size: 16px;
+  color: rgba(139, 90, 26, 0.55);
+  letter-spacing: 2px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.dice-drag-label {
+  flex: 1;
+  text-align: center;
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(59, 30, 8, 0.75);
+  pointer-events: none;
 }
 
 .dice-dropdown-body {
@@ -594,13 +650,15 @@
 
 .orb-dice,
 .orb-cards,
-.orb-coin {
+.orb-coin,
+.orb-aoe {
   background: linear-gradient(145deg, #e2d5b8 0%, #d4c5a9 55%, #c4b59a 100%);
 }
 
 .orb-dice:hover:not(:disabled),
 .orb-cards:hover:not(:disabled),
-.orb-coin:hover:not(:disabled) {
+.orb-coin:hover:not(:disabled),
+.orb-aoe:hover:not(:disabled) {
   background: linear-gradient(145deg, #d9c9a8 0%, #c4b59a 55%, #b8a689 100%);
   border-color: rgba(139, 115, 85, 0.95);
 }

@@ -145,6 +145,9 @@ const CharacterViewPage = () => {
     health,
     mana,
     actionPoints,
+    tempHealth = 0,
+    tempMana = 0,
+    tempActionPoints = 0,
     classResource,
     stats,
     exhaustionLevel,
@@ -536,12 +539,12 @@ const CharacterViewPage = () => {
         <div className="header-class-resource-row">
           <div className="header-resource-mount health" onClick={() => setOpenVialPopup(openVialPopup === 'health' ? null : 'health')} title={`Health Points: ${health?.current || 0}/${health?.max || 0} HP. Click to view & adjust.`}>
             <div className="mount-vial">
-              <StatVial kind="health" current={health?.current || 0} max={health?.max || 1} memberName={name || 'Character'} tilt={-10} />
+              <StatVial kind="health" current={health?.current || 0} max={health?.max || 1} temp={tempHealth || 0} memberName={name || 'Character'} tilt={-10} />
             </div>
           </div>
           <div className="header-resource-mount mana" onClick={() => setOpenVialPopup(openVialPopup === 'mana' ? null : 'mana')} title={`Mana Points: ${mana?.current || 0}/${mana?.max || 0} MP. Click to view & adjust.`}>
             <div className="mount-vial">
-              <StatVial kind="mana" current={mana?.current || 0} max={mana?.max || 1} memberName={name || 'Character'} tilt={8} />
+              <StatVial kind="mana" current={mana?.current || 0} max={mana?.max || 1} temp={tempMana || 0} memberName={name || 'Character'} tilt={8} />
             </div>
           </div>
           {characterClass && effectiveClassResource && (
@@ -557,7 +560,7 @@ const CharacterViewPage = () => {
           )}
           <div className="header-resource-mount action-points" onClick={() => setOpenVialPopup(openVialPopup === 'actionPoints' ? null : 'actionPoints')} title={`Action Points: ${actionPoints?.current || 0}/${actionPoints?.max || 0} AP. Click to view & adjust.`}>
             <div className="mount-vial">
-              <StatVial kind="ap" current={actionPoints?.current || 0} max={actionPoints?.max || 1} memberName={name || 'Character'} tilt={-6} />
+              <StatVial kind="ap" current={actionPoints?.current || 0} max={actionPoints?.max || 1} temp={tempActionPoints || 0} memberName={name || 'Character'} tilt={-6} />
             </div>
           </div>
           <div className="header-resource-mount exhaustion" onClick={() => setOpenVialPopup(openVialPopup === 'exhaustion' ? null : 'exhaustion')} title={`Exhaustion Level ${exhaustionLevel || 0}/6. Click to view stages & adjust.`}>
@@ -692,19 +695,19 @@ const CharacterViewPage = () => {
                   {openVialPopup === 'health' && (
                     <div className="vial-popup-info-body">
                       <p className="vial-popup-desc">Hit Points represent physical endurance and overall health. Reaching 0 HP causes unconsciousness and death saves.</p>
-                      <div className="vial-popup-status-badge hp-badge">Current: {health?.current || 0} / {health?.max || 0} HP ({Math.round(healthPct)}%)</div>
+                      <div className="vial-popup-status-badge hp-badge">Current: {health?.current || 0} / {health?.max || 0} HP{tempHealth > 0 ? ` (+${tempHealth} Temp)` : ''} ({Math.round(healthPct)}%)</div>
                     </div>
                   )}
                   {openVialPopup === 'mana' && (
                     <div className="vial-popup-info-body">
                       <p className="vial-popup-desc">Mana Points fuel spellcasting and magical class features.</p>
-                      <div className="vial-popup-status-badge mp-badge">Current: {mana?.current || 0} / {mana?.max || 0} MP ({Math.round(manaPct)}%)</div>
+                      <div className="vial-popup-status-badge mp-badge">Current: {mana?.current || 0} / {mana?.max || 0} MP{tempMana > 0 ? ` (+${tempMana} Temp)` : ''} ({Math.round(manaPct)}%)</div>
                     </div>
                   )}
                   {openVialPopup === 'actionPoints' && (
                     <div className="vial-popup-info-body">
                       <p className="vial-popup-desc">Action Points are spent each turn to move, attack, and execute abilities in combat.</p>
-                      <div className="vial-popup-status-badge ap-badge">Current: {actionPoints?.current || 0} / {actionPoints?.max || 0} AP</div>
+                      <div className="vial-popup-status-badge ap-badge">Current: {actionPoints?.current || 0} / {actionPoints?.max || 0} AP{tempActionPoints > 0 ? ` (+${tempActionPoints} Temp)` : ''}</div>
                     </div>
                   )}
                   {openVialPopup === 'exhaustion' && (

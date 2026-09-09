@@ -92,7 +92,10 @@ const useSpellMeta = ({ spell }) => {
     if (iconId.startsWith('inv_') || iconId.startsWith('spell_') || iconId.startsWith('ability_') || iconId.startsWith('achievement_')) {
       const mappedIcon = mapSpellIcon(iconId);
       if (mappedIcon) {
-        return getCustomIconUrl(mappedIcon, 'abilities');
+        // mapSpellIcon already returns a fully-resolved URL — do NOT wrap it
+        // again (double prefix produced .../abilities//assets/... URLs that
+        // 404 to the SPA fallback and fall back to the placeholder icon)
+        return mappedIcon;
       }
       return getAbilityIconUrl(iconId);
     }

@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect, useCallback, memo } from 'react';
+import Fuse from 'fuse.js';
 import BESTIARY_DATA from '../../data/creatureData.json';
 import InlineMarkdown from '../common/InlineMarkdown';
 import './BestiaryDisplay.css';
@@ -74,6 +75,23 @@ const ALL_CREATURES = BESTIARY_DATA.regions.flatMap(r =>
 );
 
 const REGIONS_BY_ID = new Map(BESTIARY_DATA.regions.map(r => [r.id, r]));
+
+// Pre-configured Fuse instance for instant typo-tolerant fuzzy search
+const BESTIARY_FUSE = new Fuse(ALL_CREATURES, {
+  keys: [
+    { name: 'name', weight: 0.5 },
+    { name: 'role', weight: 0.2 },
+    { name: 'origin', weight: 0.15 },
+    { name: 'heritage', weight: 0.15 },
+    { name: 'folkloreInspiration.primaryMyth', weight: 0.2 },
+    { name: 'folkloreInspiration.cryptidRoots', weight: 0.15 },
+    { name: 'folkloreInspiration.traditions', weight: 0.1 },
+    { name: '_haystack', weight: 0.1 }
+  ],
+  threshold: 0.35,
+  ignoreLocation: true,
+  minMatchCharLength: 2
+});
 
 // Core Helper Functions
 const calculateModifier = (value) => {
@@ -244,20 +262,50 @@ const BestiaryDisplay = () => {
   // Filters operate on the stable module-level ALL_CREATURES list — items keep
   // their identity so memoized cards do not re-render unless actually new.
   const filteredCreatures = useMemo(() => {
-    const base = selectedRegion === 'all'
+    const q = debouncedSearchQuery.trim();
+
+    let base = selectedRegion === 'all'
       ? ALL_CREATURES
       : (REGIONS_BY_ID.get(selectedRegion)?.creatures || []);
 
-    let result = selectedDanger !== 'all'
-      ? base.filter(c => c.dangerLevel === selectedDanger)
-      : base;
-
-    const q = debouncedSearchQuery.trim().toLowerCase();
-    if (q) {
-      result = result.filter(c => c._haystack && c._haystack.includes(q));
+    if (selectedDanger !== 'all') {
+      base = base.filter(c => c.dangerLevel === selectedDanger);
     }
 
-    return result;
+    if (!q) {
+      return base;
+    }
+
+    // Execute Fuse fuzzy search across all creatures
+    const fuseResults = BESTIARY_FUSE.search(q);
+    const qLower = q.toLowerCase();
+    const exactMatches = base.filter(c => c._haystack && c._haystack.includes(qLower));
+
+    // Filter by active region & danger level while preserving Fuse relevance order
+    const filteredResults = [];
+    const addedIds = new Set();
+
+    for (let i = 0; i < fuseResults.length; i++) {
+      const item = fuseResults[i].item;
+      if (
+        (selectedRegion === 'all' || item.regionId === selectedRegion) &&
+        (selectedDanger === 'all' || item.dangerLevel === selectedDanger)
+      ) {
+        filteredResults.push(item);
+        addedIds.add(item.id || item.name);
+      }
+    }
+
+    // Append any exact matches not already in the list to ensure 100% backward compatibility
+    exactMatches.forEach(item => {
+      const key = item.id || item.name;
+      if (!addedIds.has(key)) {
+        filteredResults.push(item);
+        addedIds.add(key);
+      }
+    });
+
+    return filteredResults;
   }, [selectedRegion, selectedDanger, debouncedSearchQuery]);
 
   // Progressive slice for low-overhead rendering

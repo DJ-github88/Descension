@@ -1,0 +1,139 @@
+/* ActionFanOutMenu.css */
+.action-fanout-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    pointer-events: auto;
+    z-index: 1050;
+}
+
+@keyframes fanBubblePopIn {
+    0% {
+        opacity: 0;
+        transform: translate(calc(var(--tx, 0px) * 0.3), calc(var(--ty, 0px) * 0.3)) scale(0.3);
+    }
+    70% {
+        opacity: 1;
+        transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(1.08);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(1);
+    }
+}
+
+.action-fan-bubble {
+    position: absolute;
+    top: -19px;
+    left: -19px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: radial-gradient(circle at 35% 35%, #2a2016 0%, #120d09 100%);
+    border: 2px solid #c89b3c;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.7),
+        0 0 8px rgba(200, 155, 60, 0.4),
+        inset 0 1px 2px rgba(255, 255, 255, 0.3),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(1);
+    transition: transform 0.16s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.16s ease, border-color 0.16s ease;
+    animation: fanBubblePopIn 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+    user-select: none;
+}
+
+.action-fan-bubble:hover {
+    transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(1.18) !important;
+    border-color: #ffd700;
+    box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.85),
+        0 0 16px rgba(255, 215, 0, 0.7),
+        inset 0 2px 4px rgba(255, 255, 255, 0.5);
+    z-index: 1060;
+}
+
+.action-fan-bubble.special-action {
+    border-color: #ff9900;
+    background: radial-gradient(circle at 35% 35%, #3d1c06 0%, #170701 100%);
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.8),
+        0 0 12px rgba(255, 140, 0, 0.5),
+        inset 0 1px 2px rgba(255, 200, 100, 0.4);
+}
+
+.action-fan-bubble.special-action:hover {
+    border-color: #ffaa33;
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(255, 150, 0, 0.85);
+}
+
+.fan-bubble-icon-wrap {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.fan-bubble-icon-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* AP Badge on the bubble */
+.fan-bubble-ap-pill {
+    position: absolute;
+    bottom: -6px;
+    right: -6px;
+    padding: 1px 4px;
+    border-radius: 6px;
+    font-size: 9px;
+    font-weight: 700;
+    font-family: 'Cinzel', serif;
+    color: #ffd700;
+    background: #1a0f05;
+    border: 1px solid #c89b3c;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+    line-height: 1.1;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+.fan-bubble-ap-pill.special-cost {
+    background: #331100;
+    color: #ffaa33;
+    border-color: #ff7700;
+}
+
+/* Special golden animated flourish ring */
+.special-flourish-ring {
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 50%;
+    border: 1px dashed rgba(255, 170, 50, 0.6);
+    pointer-events: none;
+    animation: rotateFlourish 8s linear infinite;
+}
+
+@keyframes rotateFlourish {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

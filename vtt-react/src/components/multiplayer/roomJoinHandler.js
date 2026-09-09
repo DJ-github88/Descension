@@ -762,7 +762,10 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
 
             // Check if it's our own token, if so, ensure local store matches
             if (charTokenData.playerId === currentPlayerData?.id) {
-              useCharacterTokenStore.getState().updateCharacterTokenPosition(charTokenData.position, charTokenData.id);
+              // CRITICAL FIX: (id, position) argument order — the previous
+              // (position, id) order made the store's find() fail silently and
+              // the token position never synced on join.
+              useCharacterTokenStore.getState().updateCharacterTokenPosition(charTokenData.id, charTokenData.position);
 
               // CRITICAL FIX: Set viewingFromToken for player when they have a character token
               // This enables the afterimage/memory system for players

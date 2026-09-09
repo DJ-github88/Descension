@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^7.1.0",
+    "@dice-roller/rpg-dice-roller": "^5.5.1",
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-regular-svg-icons": "^6.7.2",
@@ -14,8 +15,13 @@
     "dotenv": "^16.6.1",
     "fast-json-patch": "^3.1.1",
     "firebase": "^12.0.0",
+    "fuse.js": "^7.5.0",
+    "howler": "^2.2.4",
     "interactjs": "^1.10.27",
     "object-hash": "^3.0.0",
+    "perfect-freehand": "^1.2.3",
+    "polygon-clipping": "^0.15.7",
+    "rbush": "^4.0.1",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^18.3.1",
@@ -27,9 +33,11 @@
     "react-window": "^2.2.7",
     "react-zoom-pan-pinch": "^4.0.3",
     "recharts": "^2.15.1",
+    "roughjs": "^4.6.6",
     "socket.io-client": "^4.7.4",
     "three": "^0.183.2",
     "uuid": "^10.0.0",
+    "visibility-polygon": "^1.1.0",
     "web-vitals": "^4.2.4",
     "zustand": "^4.5.6"
   },
@@ -54,6 +62,13 @@
     "extends": [
       "react-app"
     ]
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^@dice-roller/rpg-dice-roller$": "<rootDir>/node_modules/@dice-roller/rpg-dice-roller/lib/umd/bundle.js",
+      "^rbush$": "<rootDir>/node_modules/rbush/rbush.min.js",
+      "\\.(css|less|sass|scss)$": "identity-obj-proxy"
+    }
   },
   "browserslist": {
     "production": [

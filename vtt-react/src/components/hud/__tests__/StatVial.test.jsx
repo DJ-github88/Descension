@@ -41,4 +41,28 @@ describe('StatVial', () => {
         expect(readout.querySelector('.readout-max')).toHaveTextContent('/50');
         expect(readout.querySelector('.readout-temp')).toHaveTextContent('+5');
     });
+
+    it('applies surplus classes when temporary resources exist (temp > 0)', () => {
+        const { container: healthContainer } = render(
+            <StatVial kind="health" current={50} max={50} temp={10} memberName="Mira" />
+        );
+        expect(healthContainer.querySelector('.party-vial')).toHaveClass('vial-surplus', 'vial-surplus-health');
+
+        const { container: manaContainer } = render(
+            <StatVial kind="mana" current={40} max={40} temp={5} memberName="Mira" />
+        );
+        expect(manaContainer.querySelector('.party-vial')).toHaveClass('vial-surplus', 'vial-surplus-mana');
+
+        const { container: apContainer } = render(
+            <StatVial kind="ap" current={3} max={3} temp={2} memberName="Mira" />
+        );
+        expect(apContainer.querySelector('.party-vial')).toHaveClass('vial-surplus', 'vial-surplus-ap');
+    });
+
+    it('does not apply surplus classes when temp is 0 or not provided', () => {
+        const { container } = render(
+            <StatVial kind="ap" current={3} max={3} memberName="Mira" />
+        );
+        expect(container.querySelector('.party-vial')).not.toHaveClass('vial-surplus');
+    });
 });

@@ -9,7 +9,7 @@ import apIconHigh from '../../assets/ui/ap-icon-high.png';
 import apIconLow from '../../assets/ui/ap-icon-low.png';
 import apIconEmpty from '../../assets/ui/ap-icon-empty.png';
 
-const ModularAPBar = ({ currentAP = 0, maxAP = 1, showText = true, className = '', onClick, onContextMenu }) => {
+const ModularAPBar = ({ currentAP = 0, maxAP = 1, tempAP = 0, showText = true, className = '', onClick, onContextMenu }) => {
     const safeMax = Math.max(1, maxAP);
     const safeAP = Math.max(0, currentAP);
     const apPercent = Math.min(100, Math.max(0, (safeAP / safeMax) * 100));
@@ -54,7 +54,7 @@ const ModularAPBar = ({ currentAP = 0, maxAP = 1, showText = true, className = '
                 />
                 {showText && (
                     <span className="ap-bar-text">
-                        {safeAP}/{safeMax} AP
+                        {safeAP}/{safeMax}{tempAP > 0 ? ` (+${tempAP})` : ''} AP
                     </span>
                 )}
             </div>

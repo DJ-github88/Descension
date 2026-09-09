@@ -79,7 +79,7 @@ export const normalizeCreatureForWizard = (raw = {}) => {
           description: a.desc || a.description || '',
           actionPointCost: apCost,
           manaCost: 0,
-          damage: { diceCount: 1, diceType: 8, bonus: 2, damageType: 'physical' },
+          damage: { diceCount: 1, diceType: 8, bonus: 2, damageType: 'smashing' },
           range: 5,
           cooldown: 0,
           effects: []

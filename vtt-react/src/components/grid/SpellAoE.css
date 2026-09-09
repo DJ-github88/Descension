@@ -1,0 +1,315 @@
+/* Spell AoE template tool — cog-dropdown panel + grid overlay (parchment theme) */
+
+/* ---------- Panel content (inside the dice cog orb dropdown) ---------- */
+.spell-aoe-panel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 2px;
+  color: #5a1e12;
+  font-family: 'Georgia', serif;
+}
+
+.spell-aoe-shape-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.spell-aoe-shape-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 7px 4px;
+  background: rgba(139, 69, 19, 0.08);
+  border: 2px solid #b08954;
+  border-radius: 8px;
+  color: #5a1e12;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.spell-aoe-shape-btn.active {
+  border-color: #5a1e12;
+  background: rgba(139, 69, 19, 0.22);
+}
+
+.spell-aoe-shape-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.spell-aoe-shape-name {
+  font-size: 11px;
+}
+
+.spell-aoe-size-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+}
+
+.spell-aoe-size-btn {
+  padding: 3px 8px;
+  background: rgba(139, 69, 19, 0.08);
+  border: 1.5px solid #b08954;
+  border-radius: 6px;
+  color: #5a1e12;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.spell-aoe-size-btn.active {
+  border-color: #5a1e12;
+  background: rgba(139, 69, 19, 0.22);
+  font-weight: bold;
+}
+
+.spell-aoe-size-input {
+  width: 52px;
+  padding: 3px 6px;
+  border: 1.5px solid #b08954;
+  border-radius: 6px;
+  background: #fdfaf1;
+  color: #5a1e12;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.spell-aoe-size-unit {
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.spell-aoe-label-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  border: 1.5px solid #b08954;
+  border-radius: 6px;
+  background: #fdfaf1;
+  color: #5a1e12;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.spell-aoe-color-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spell-aoe-color-label {
+  font-size: 12px;
+}
+
+/* Native color input wrapped in a clickable swatch */
+.spell-aoe-color-picker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.spell-aoe-color-picker input[type='color'] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+}
+
+.spell-aoe-color-swatch-large {
+  width: 34px;
+  height: 24px;
+  border-radius: 6px;
+  border: 2px solid #8b4513;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+
+.spell-aoe-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.spell-aoe-place-btn,
+.spell-aoe-cancel-btn,
+.spell-aoe-clear-btn {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 2px solid #8b4513;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.spell-aoe-place-btn {
+  background: linear-gradient(145deg, #7c2d12 0%, #5a1e12 100%);
+  color: #f8f4e6;
+}
+
+.spell-aoe-place-btn:hover {
+  background: linear-gradient(145deg, #92400e 0%, #7c2d12 100%);
+}
+
+.spell-aoe-cancel-btn {
+  background: #f3d9c6;
+  color: #5a1e12;
+}
+
+.spell-aoe-clear-btn {
+  background: rgba(139, 69, 19, 0.12);
+  color: #5a1e12;
+}
+
+.spell-aoe-hint {
+  font-size: 11px;
+  font-style: italic;
+  opacity: 0.75;
+  line-height: 1.4;
+}
+
+/* ---------- Grid overlay (portaled to body) ---------- */
+.spell-aoe-overlay-root {
+  pointer-events: none;
+}
+
+.spell-aoe-catcher {
+  position: fixed;
+  inset: 0;
+  /* Above grid content/tokens (~z1-100, MovementVisualization z100) but BELOW
+     the dice cog dropdown (z900) so the Spell Templates panel stays usable
+     for live shape/size/color changes while placing */
+  z-index: 500;
+  cursor: crosshair;
+  pointer-events: all;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.spell-aoe-svg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 6001;
+}
+
+.spell-aoe-svg.placed {
+  z-index: 5999;
+}
+
+.spell-aoe-pulse {
+  animation: spell-aoe-dash 1.2s linear infinite;
+}
+
+@keyframes spell-aoe-dash {
+  to {
+    stroke-dashoffset: -12;
+  }
+}
+
+.spell-aoe-hit-ring {
+  animation: spell-aoe-hit-pop 0.9s ease-in-out infinite alternate;
+}
+
+@keyframes spell-aoe-hit-pop {
+  from {
+    r: 20;
+    opacity: 0.65;
+  }
+  to {
+    r: 24;
+    opacity: 1;
+  }
+}
+
+.spell-aoe-hit-label {
+  fill: #dc2626;
+  font-family: 'Georgia', serif;
+  font-size: 13px;
+  font-weight: bold;
+  paint-order: stroke;
+  stroke: rgba(0, 0, 0, 0.65);
+  stroke-width: 3px;
+}
+
+.spell-aoe-instructions {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6002;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  background: rgba(20, 8, 4, 0.85);
+  border: 2px solid #8b4513;
+  border-radius: 10px;
+  color: #f8f4e6;
+  font-family: 'Georgia', serif;
+  font-size: 13px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.spell-aoe-instruction-title {
+  font-weight: bold;
+  color: #f59e0b;
+}
+
+.spell-aoe-instruction-hits {
+  color: #f87171;
+  font-weight: bold;
+}
+
+.spell-aoe-placed-chip {
+  position: fixed;
+  /* bottom-left, above the dice cog button, clear of the nav */
+  bottom: 140px;
+  left: 20px;
+  z-index: 6002;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  background: rgba(20, 8, 4, 0.8);
+  border: 1.5px solid #8b4513;
+  border-radius: 8px;
+  color: #f8f4e6;
+  font-family: 'Georgia', serif;
+  font-size: 12px;
+  pointer-events: all;
+  max-width: 260px;
+}
+
+.spell-aoe-placed-chip > span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.spell-aoe-placed-chip button {
+  padding: 3px 10px;
+  background: rgba(139, 69, 19, 0.4);
+  border: 1.5px solid #8b4513;
+  border-radius: 6px;
+  color: #f8f4e6;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.spell-aoe-placed-chip button:hover {
+  background: rgba(139, 69, 19, 0.7);
+}

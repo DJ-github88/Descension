@@ -1,4 +1,4 @@
-import React, { useRef, useState, forwardRef, useImperativeHandle, useEffect, useCallback } from 'react';
+import React, { useRef, useState, forwardRef, useImperativeHandle, useEffect, useCallback, useMemo } from 'react';
 import Draggable from 'react-draggable';
 import useSettingsStore from '../../store/settingsStore';
 import '../../styles/draggable-window.css';
@@ -199,12 +199,21 @@ const DraggableWindow = forwardRef(({
         setPosition: (newPosition) => setPosition(newPosition)
     }), [position]);
 
+    const normalizedHandle = useMemo(() => {
+        if (!handleClassName) return '.draggable-window-handle';
+        return handleClassName
+            .split(',')
+            .map(s => s.trim())
+            .filter(Boolean)
+            .map(s => s.startsWith('.') ? s : `.${s}`)
+            .join(', ');
+    }, [handleClassName]);
+
     // Handle drag start
     const handleDragStart = useCallback((e, data) => {
         setIsDragging(true);
         document.body.classList.add('window-dragging');
 
-        // Cancel any pending RAF from a previous drag to start clean
         if (rafHandleRef.current) {
             cancelAnimationFrame(rafHandleRef.current);
             rafHandleRef.current = null;
@@ -223,28 +232,35 @@ const DraggableWindow = forwardRef(({
             onDragStart(data);
         }
 
-        if (e.target && typeof e.target.closest === 'function' && e.target.closest(`.${handleClassName}`)) {
-            e.stopPropagation();
-        }
-    }, [zIndex, onDragStart, handleClassName]);
+        try {
+            if (e.target && typeof e.target.closest === 'function' && normalizedHandle && e.target.closest(normalizedHandle)) {
+                const isInteractive = e.target.closest('button, input, select, textarea, [role="button"], a');
+                if (!isInteractive) {
+                    e.stopPropagation();
+                }
+            }
+        } catch (_) {}
+    }, [zIndex, onDragStart, normalizedHandle]);
 
-    // Handle drag - use requestAnimationFrame to throttle controlled Draggable position updates to max 1 per frame
+    // Handle drag - let react-draggable translate the DOM natively without forcing a full React tree re-render every frame
     const handleDrag = useCallback((e, data) => {
         positionRef.current = { x: data.x, y: data.y };
 
-        if (!rafHandleRef.current) {
-            rafHandleRef.current = requestAnimationFrame(() => {
-                rafHandleRef.current = null;
-                setPosition({ x: positionRef.current.x, y: positionRef.current.y });
-            });
+        if (onDrag && data && typeof data === 'object') {
+            onDrag(data);
         }
 
-        if (e.target && typeof e.target.closest === 'function' && e.target.closest(`.${handleClassName}`)) {
-            e.stopPropagation();
-        }
-    }, [handleClassName]);
+        try {
+            if (e.target && typeof e.target.closest === 'function' && normalizedHandle && e.target.closest(normalizedHandle)) {
+                const isInteractive = e.target.closest('button, input, select, textarea, [role="button"], a');
+                if (!isInteractive) {
+                    e.stopPropagation();
+                }
+            }
+        } catch (_) {}
+    }, [normalizedHandle, onDrag]);
 
-    // Handle drag stop
+    // Handle drag stop - commit final position to React state cleanly
     const handleDragStop = useCallback((e, data) => {
         setIsDragging(false);
         document.body.classList.remove('window-dragging');
@@ -270,10 +286,15 @@ const DraggableWindow = forwardRef(({
             onDragStop(data);
         }
 
-        if (e.target && typeof e.target.closest === 'function' && e.target.closest(`.${handleClassName}`)) {
-            e.stopPropagation();
-        }
-    }, [onDrag, onDragStop, zIndex, handleClassName]);
+        try {
+            if (e.target && typeof e.target.closest === 'function' && normalizedHandle && e.target.closest(normalizedHandle)) {
+                const isInteractive = e.target.closest('button, input, select, textarea, [role="button"], a');
+                if (!isInteractive) {
+                    e.stopPropagation();
+                }
+            }
+        } catch (_) {}
+    }, [onDrag, onDragStop, zIndex, normalizedHandle]);
 
     if (!isOpen) return null;
 
@@ -305,7 +326,7 @@ const DraggableWindow = forwardRef(({
 
     return (
         <Draggable
-            handle={effectivelyDisabled ? '' : `.${handleClassName}`}
+            handle={effectivelyDisabled ? '' : normalizedHandle}
             position={effectivelyDisabled ? { x: 0, y: 0 } : position}
             nodeRef={nodeRef}
             bounds={effectiveBounds}

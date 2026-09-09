@@ -517,9 +517,12 @@ const MinstrelResourceBar = ({
         return ReactDOM.createPortal(
             <div
                 ref={editMenuRef}
-                className="unified-context-menu compact context-menu-container"
+                className="unified-context-menu compact context-menu-container minstrel-menu-container note-menu"
                 onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent?.stopImmediatePropagation) e.nativeEvent.stopImmediatePropagation(); }}
                 onClick={(e) => { e.stopPropagation(); if (e.nativeEvent?.stopImmediatePropagation) e.nativeEvent.stopImmediatePropagation(); }}
+                onMouseEnter={(e) => e.stopPropagation()}
+                onMouseMove={(e) => e.stopPropagation()}
+                onMouseOver={(e) => e.stopPropagation()}
                 style={{ position: 'fixed', top: `${top}px`, left: `${left}px`, width: `${menuWidth}px`, zIndex: 100000 }}
             >
                 <div className="context-menu-main">
@@ -992,9 +995,12 @@ const MinstrelResourceBar = ({
         return ReactDOM.createPortal(
             <div
                 ref={panelRef}
-                className="minstrel-cadence-modal"
+                className="minstrel-cadence-modal minstrel-menu-container"
                 onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent?.stopImmediatePropagation) e.nativeEvent.stopImmediatePropagation(); }}
                 onClick={(e) => { e.stopPropagation(); if (e.nativeEvent?.stopImmediatePropagation) e.nativeEvent.stopImmediatePropagation(); }}
+                onMouseEnter={(e) => e.stopPropagation()}
+                onMouseMove={(e) => e.stopPropagation()}
+                onMouseOver={(e) => e.stopPropagation()}
                 style={{
                     position: 'fixed',
                     top: `${top}px`,

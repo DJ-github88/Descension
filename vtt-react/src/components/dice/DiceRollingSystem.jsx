@@ -300,8 +300,39 @@ const DiceRollingSystem = ({ hideSelectionBar = false }) => {
       });
       setDiceToRoll(expandedDice);
       setShow3DScene(true);
+
+      // ── Safety timeout ─────────────────────────────────────────────────────
+      // If PhysicsDiceScene never fires onRollComplete (canvas zero-size, WebGL
+      // init failure, die permanently stuck past the 8-s per-die timeout), we
+      // still need to resolve the roll so it posts to chat and clears the store.
+      // 12 s is generous — the physics timeout is 8 s, so this only triggers
+      // when something is genuinely broken.
+      const rollSnapshot = [...selectedDice];
+      const fallbackTimer = setTimeout(() => {
+        if (useDiceStore.getState().isRolling) {
+          console.warn('[DiceRollingSystem] Fallback timeout: physics scene did not resolve. Generating software roll.');
+          const softResults = rollSnapshot.flatMap(die => {
+            const sides = parseInt(String(die.type).replace('d', ''), 10) || 20;
+            const results = [];
+            for (let i = 0; i < die.quantity; i++) {
+              results.push({
+                id: `${die.id}_fallback_${i}`,
+                type: die.type,
+                value: Math.floor(Math.random() * sides) + 1,
+              });
+            }
+            return results;
+          });
+          setShow3DScene(false);
+          setDiceToRoll([]);
+          finishAllRolls(softResults);
+        }
+      }, 12000);
+
+      // Clean up the timer the moment the 3D scene reports completion first.
+      return () => clearTimeout(fallbackTimer);
     }
-  }, [isRolling, selectedDice]);
+  }, [isRolling, selectedDice, finishAllRolls]);
 
   const handleRollComplete = useCallback((results) => {
     finishAllRolls(results);

@@ -210,7 +210,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                         id: 'magnetic_attraction',
                         name: 'Lodestone Frame',
                         description: 'When targeted by a lightning-based attack or effect, you are pulled 5 feet toward the source, your augmented frame is drawn to the current. Disadvantage on saving throws to avoid lightning effects.',
-                        statusEffect: { penaltyType: 'pull', pullDistance: 5, savingThrowPenalty: { type: 'lightning', magnitude: 'disadvantage' } }
+                        statusEffect: { penaltyType: 'pull', pullDistance: 5, savingThrowPenalty: { type: 'storm', magnitude: 'disadvantage' } }
                     }
                 ],
                 durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false

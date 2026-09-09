@@ -24,7 +24,7 @@ import CombatTimeline from '../combat/CombatTimeline';
 import { FloatingCombatTextManager } from '../combat/FloatingCombatText';
 import DialogueSystem from '../dialogue/DialogueSystem';
 import DialogueControls from '../dialogue/DialogueControls';
-import DiceRollingSystem from '../dice/DiceRollingSystem';
+// DiceRollingSystem is mounted globally in App.jsx — do NOT add a second instance here.
 import AudioPlayerWidget from '../jukebox/AudioPlayerWidget';
 import ConnectionStatusIndicator from './ConnectionStatusIndicator';
 
@@ -197,7 +197,7 @@ const MultiplayerGameContent = ({
         <FloatingCombatTextManager />
         <DialogueSystem />
         {isGMMode && <DialogueControls />}
-        <DiceRollingSystem />
+        {/* DiceRollingSystem is mounted globally in App.jsx */}
         <Navigation onReturnToLanding={handleReturnToSinglePlayer} />
 
         {/* Connection Status Indicator */}

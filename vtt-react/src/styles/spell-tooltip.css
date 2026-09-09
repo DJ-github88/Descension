@@ -525,6 +525,8 @@ html .spell-tooltip-overlay .pf-spell-card,
 html .spell-tooltip-content .wow-spell-card,
 html .spell-tooltip-content .pf-spell-card {
   /* Scaling is now handled by inline styles in the component */
+  transform: none !important;
+  transform-origin: initial !important;
   max-width: none !important;
   min-width: auto !important;
   max-height: none !important;

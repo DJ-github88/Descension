@@ -310,12 +310,12 @@ const generateWeaponStats = (subtype, quality, powerScale) => {
     let diceTypeIndex = Math.min(4, Math.floor(multiplier * 2));
     let diceType = diceTypes[diceTypeIndex];
 
-    // Determine damage type based on weapon subtype
-    let damageType = 'slashing';
+    // Determine damage type based on weapon subtype (canonical Mythrill ids)
+    let damageType = 'slicing';
     if (subtype === 'DAGGER' || subtype === 'SPEAR' || subtype === 'ARROW') {
-        damageType = 'piercing';
+        damageType = 'stabbing';
     } else if (subtype === 'MACE' || subtype === 'STAFF') {
-        damageType = 'bludgeoning';
+        damageType = 'smashing';
     }
 
     // Add bonus damage for higher quality weapons

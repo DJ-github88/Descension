@@ -11,6 +11,7 @@ import useLevelEditorStore from '../../store/levelEditorStore';
 // Removed useEnhancedMultiplayer import - hook was removed
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { getIconUrl } from '../../utils/assetManager';
+import useSettingsStore from '../../store/settingsStore';
 import CharacterTooltip from '../tooltips/CharacterTooltip';
 import ConditionsWindow from '../conditions/ConditionsWindow';
 import BuffDebuffCreatorModal from '../modals/BuffDebuffCreatorModal';
@@ -133,6 +134,7 @@ const CharacterToken = ({
   const showMovementVisualization = useGameStore(state => state.showMovementVisualization);
   const feetPerTile = useGameStore(state => state.feetPerTile);
   const setCameraPosition = useGameStore(state => state.setCameraPosition);
+  const playerTooltipMode = useSettingsStore(state => state.playerTooltipMode || 'vague');
 
   // In multiplayer, if this token belongs to another player, get their character data from party store
   const partyMembers = usePartyStore(state => state.partyMembers);
@@ -1114,6 +1116,29 @@ const CharacterToken = ({
           dragStartPosition,
           snappedWorldPos
         );
+      }
+
+      // WALL-BLOCKING FIX: validate the drop position against walls.
+      // If no wall-respecting path exists from the drag start to the drop
+      // position, revert to the drag start instead of moving through walls.
+      const wallData = levelEditorStore.wallData;
+      const hasWalls = wallData && Object.keys(wallData).length > 0;
+      let dropAllowed = true;
+      if (hasWalls && dragStartPosition) {
+        try {
+          const pathResult = gridSystem.findPath(dragStartPosition, snappedWorldPos, wallData, {}, {});
+          dropAllowed = !pathResult?.blocked;
+        } catch (pathErr) {
+          console.warn('Wall path check failed, allowing drop:', pathErr);
+        }
+      }
+
+      if (!dropAllowed) {
+        // Destination is unreachable (fully walled off) — revert to drag start
+        setLocalPosition({ x: dragStartPosition.x, y: dragStartPosition.y });
+        updateCharacterTokenPosition(tokenId, { x: dragStartPosition.x, y: dragStartPosition.y });
+        lastPositionUpdateRef.current = Date.now();
+        return;
       }
 
       // Update final position with grid snapping
@@ -2136,16 +2161,12 @@ const CharacterToken = ({
             inset: 0,
             zIndex: 0,
             borderRadius: '50%',
-            backgroundColor: characterData.lore?.iconBackgroundColor || 'transparent',
+            backgroundColor: characterData.lore?.iconBackgroundImage ? '#1a140e' : (characterData.lore?.iconBackgroundColor || 'transparent'),
             backgroundImage: characterData.lore?.iconBackgroundImage
-              ? `url(/assets/backgrounds/${encodeURIComponent(characterData.lore.iconBackgroundImage)})`
+              ? `url(/assets/Backgrounds/${encodeURIComponent(characterData.lore.iconBackgroundImage)})`
               : 'none',
-            backgroundSize: characterData.lore?.iconBackgroundImage
-              ? `${(characterData.lore.iconBackgroundScale || 2.5) * 100}%`
-              : 'cover',
-            backgroundPosition: characterData.lore?.iconBackgroundImage
-              ? `calc(50% + ${characterData.lore.iconBackgroundOffsetX || 0}px) calc(50% + ${characterData.lore.iconBackgroundOffsetY || 0}px)`
-              : 'center',
+            backgroundSize: 'cover',
+            backgroundPosition: `calc(50% + ${characterData.lore?.iconBackgroundOffsetX || 0}px) center`,
             backgroundRepeat: 'no-repeat'
           }}
         ></div>
@@ -2867,6 +2888,9 @@ const CharacterToken = ({
           activeBuffs={activeBuffs}
           activeDebuffs={activeDebuffs}
           tokenId={tokenId}
+          isGM={isGMMode}
+          isOwner={isOwnTokenForRendering}
+          playerTooltipMode={playerTooltipMode}
         />
       )}
 

@@ -54,7 +54,7 @@ import CombatTimeline from "../combat/CombatTimeline";
 import { FloatingCombatTextManager } from "../combat/FloatingCombatText";
 import DialogueSystem from "../dialogue/DialogueSystem";
 import DialogueControls from "../dialogue/DialogueControls";
-import DiceRollingSystem from "../dice/DiceRollingSystem";
+// DiceRollingSystem is mounted globally in App.jsx — no local import needed.
 import AudioPlayerWidget from "../jukebox/AudioPlayerWidget";
 const HUDContainer = lazy(() => import("../hud/HUDContainer"));
 

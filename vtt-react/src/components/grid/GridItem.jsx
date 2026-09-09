@@ -98,13 +98,14 @@ const GridItem = ({ gridItem }) => {
 
   // Check visibility (using the logic recovered from the corrupted file)
   const itemVisibilityState = useMemo(() => {
-    // GM mode - always show items regardless of visibility system
-    if (isGMMode) {
+    // Plain GM mode (no viewing token) - always show items regardless of visibility system.
+    // GM view-from-token is a player-view preview, so the FOV checks below apply.
+    if (isGMMode && !viewingFromToken) {
       return true;
     }
 
-    // Player mode - check visibility based on FOV system
-    if (viewingFromToken && dynamicFogEnabled && !isGMMode) {
+    // Player mode (or GM view-from-token preview) - check visibility based on FOV system
+    if (viewingFromToken && dynamicFogEnabled) {
       // Check if item position is in visible area
       if (!itemPosition || itemPosition.x === undefined || itemPosition.y === undefined) {
         return false;

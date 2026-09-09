@@ -29,6 +29,8 @@ const TITLES = { health: 'Health', mana: 'Mana', ap: 'Action Points' };
 const StatVial = ({ kind = 'health', current = 0, max = 1, temp = 0, memberName = 'Character', tilt = 0 }) => {
     const safeMax = Math.max(1, max);
     const safeValue = Math.max(0, current);
+    const safeTemp = Math.max(0, temp);
+    const isSurplus = safeTemp > 0;
 
     let state = 'empty';
     if (safeValue >= safeMax) state = 'max';
@@ -42,7 +44,7 @@ const StatVial = ({ kind = 'health', current = 0, max = 1, temp = 0, memberName 
 
     return (
         <div
-            className={`party-vial vial-${kind} vial-state-${state}`}
+            className={`party-vial vial-${kind} vial-state-${state}${isSurplus ? ` vial-surplus vial-surplus-${kind}` : ''}`}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
             role="img"
@@ -54,7 +56,7 @@ const StatVial = ({ kind = 'health', current = 0, max = 1, temp = 0, memberName 
                 <div className="party-vial-readout" aria-hidden="true">
                     <span className="readout-current">{safeValue}</span>
                     <span className="readout-max">/{safeMax}</span>
-                    {temp > 0 && <span className="readout-temp">+{temp}</span>}
+                    {safeTemp > 0 && <span className="readout-temp">+{safeTemp}</span>}
                 </div>
             )}
         </div>

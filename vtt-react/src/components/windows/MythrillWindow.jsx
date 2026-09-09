@@ -398,6 +398,11 @@ const MythrillWindow = forwardRef((props, ref) => {
         return null;
     }
 
+    const defaultHandles = "window-header, wow-window-drag-handle, wow-custom-header-handle";
+    const effectiveHandles = handleClassName
+        ? Array.from(new Set(`${defaultHandles}, ${handleClassName}`.split(',').map(s => s.trim().replace(/^\./, '')))).join(', ')
+        : defaultHandles;
+
     return createPortal(
         <React.Fragment>
             {modal && backdrop !== false && (
@@ -415,7 +420,7 @@ const MythrillWindow = forwardRef((props, ref) => {
             defaultSize={windowSize}
             centered={centered}
             bounds={bounds}
-            handleClassName={handleClassName}
+            handleClassName={effectiveHandles}
             zIndex={zIndex}
             onDragStart={handleDragStart}
             onDragStop={handleDragStop}

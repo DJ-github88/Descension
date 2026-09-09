@@ -195,9 +195,12 @@ const PropheticVisionsResourceBar = ({
                     {/* Visions Adjustment Menu */}
                     {showVisionsMenu && visionsBarRef.current && ReactDOM.createPortal(
                         <div
-                            className={`unified-context-menu compact context-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            className={`unified-context-menu compact context-menu-container oracle-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
                             onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                                onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                            onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                            onMouseEnter={(e) => e.stopPropagation()}
+                            onMouseMove={(e) => e.stopPropagation()}
+                            onMouseOver={(e) => e.stopPropagation()}
                             style={{
                                 position: 'fixed',
                                 top: (() => {

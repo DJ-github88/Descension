@@ -41,7 +41,6 @@ import { calculateManaCost } from '../../core/mechanics/resourceManager';
 import { normalizeSpell } from '../../core/utils/spellNormalizer';
 import useCharacterStore from '../../../../store/characterStore';
 import { getAbilityIconUrl, getCustomIconUrl } from '../../../../utils/assetManager';
-const SpellTooltip = React.lazy(() => import('./SpellTooltip'));
 // Pathfinder styles imported via main.css
 
 // complete mapping of internal stat keys to user-friendly labels

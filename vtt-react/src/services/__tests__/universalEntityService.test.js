@@ -59,6 +59,18 @@ describe('UniversalEntityService', () => {
     expect(pinResults[0].type).toBe('map_pin');
   });
 
+  test('fuzzy searches entities with typo tolerance using Fuse.js', () => {
+    // "Fowndry" (typo) should match "The Sunken Foundry"
+    const typoFoundry = universalEntityService.searchAll('Fowndry');
+    expect(typoFoundry.length).toBeGreaterThan(0);
+    expect(typoFoundry[0].title).toBe('The Sunken Foundry');
+
+    // "Rym-Spire" (typo) should match "Rime-Spire Peaks"
+    const typoPin = universalEntityService.searchAll('Rym-Spire');
+    expect(typoPin.length).toBeGreaterThan(0);
+    expect(typoPin[0].title).toBe('Rime-Spire Peaks');
+  });
+
   test('indexes direct backlinks with pipe aliases and section anchors', () => {
     const sylasBacklinks = universalEntityService.getBacklinks('Sylas');
     expect(sylasBacklinks.length).toBe(1);

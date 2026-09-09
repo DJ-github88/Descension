@@ -139,10 +139,15 @@ const HexbreakerChargesResourceBar = ({
                     {/* Charges Adjustment Menu */}
                     {showChargesMenu && chargesDisplayRef.current && ReactDOM.createPortal(
                         <div
-                            className={`unified-context-menu compact covenbane-charges-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            className={`unified-context-menu compact covenbane-charges-menu-container inquisitor-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
                             onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                                onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                            onMouseEnter={() => setShowTooltip(false)}
+                            onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                            onMouseEnter={(e) => {
+                                e.stopPropagation();
+                                setShowTooltip(false);
+                            }}
+                            onMouseMove={(e) => e.stopPropagation()}
+                            onMouseOver={(e) => e.stopPropagation()}
                             onMouseLeave={() => setShowTooltip(false)}
                             style={{
                                 position: 'fixed',

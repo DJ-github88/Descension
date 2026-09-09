@@ -18,11 +18,19 @@
 }
 
 /* --- carved wood moldings (drag handles) --- */
+.library-drag-handle {
+  cursor: grab;
+}
+
+.library-drag-handle:active,
+body.window-dragging .library-drag-handle {
+  cursor: grabbing;
+}
+
 .library-shelf-molding {
   position: relative;
   flex: 0 0 auto;
-  height: 16px;
-  cursor: grab;
+  height: 20px;
   background:
     repeating-linear-gradient(90deg,
       rgba(0, 0, 0, 0.14) 0 2px,
@@ -39,11 +47,7 @@
 }
 
 .library-shelf-molding--thin {
-  height: 12px;
-}
-
-.library-shelf-molding:active {
-  cursor: grabbing;
+  height: 16px;
 }
 
 .library-molding-hint {

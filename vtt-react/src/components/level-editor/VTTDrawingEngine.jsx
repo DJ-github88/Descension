@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useGameStore from '../../store/gameStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import { renderSmoothStroke } from '../../utils/strokeRenderer';
 
 const VTTDrawingEngine = () => {
     const canvasRef = useRef(null);
@@ -207,64 +208,35 @@ const VTTDrawingEngine = () => {
         }
     }, [drawingPaths, drawingLayers, effectiveZoom, gridToScreen, isCurrentlyDrawing, currentDrawingPath, currentDrawingTool, toolSettings, cameraX, cameraY]);
 
-    // Render freehand drawing
+    // Render freehand drawing with perfect-freehand smooth tapering
     const renderFreehandPath = (ctx, points) => {
         if (!points || points.length === 0) return;
 
-        ctx.beginPath();
+        let screenPoints = [];
 
         // Check if this is a freehand path with world coordinates (new system)
         if (points[0] && points[0].isWorldCoords) {
-            // Convert world coordinates to screen coordinates for rendering
             const gridSystem = getGridSystem();
             const viewport = gridSystem.getViewportDimensions();
-
-            if (points.length === 1) {
-                // Draw a small dot for single point
-                const screenPos = gridSystem.worldToScreen(points[0].worldX, points[0].worldY, viewport.width, viewport.height);
-                ctx.arc(screenPos.x, screenPos.y, ctx.lineWidth / 2, 0, 2 * Math.PI);
-                ctx.fill();
-            } else {
-                // Draw connected lines for multiple points
-                const startPos = gridSystem.worldToScreen(points[0].worldX, points[0].worldY, viewport.width, viewport.height);
-                ctx.moveTo(startPos.x, startPos.y);
-                for (let i = 1; i < points.length; i++) {
-                    const screenPos = gridSystem.worldToScreen(points[i].worldX, points[i].worldY, viewport.width, viewport.height);
-                    ctx.lineTo(screenPos.x, screenPos.y);
-                }
-                ctx.stroke();
-            }
+            screenPoints = points.map(pt => {
+                const s = gridSystem.worldToScreen(pt.worldX, pt.worldY, viewport.width, viewport.height);
+                return [s.x, s.y, pt.pressure || 0.5];
+            });
         } else if (points[0] && points[0].isFreehand) {
             // Legacy: Use screen coordinates directly (old freehand drawings)
-            if (points.length === 1) {
-                // Draw a small dot for single point
-                ctx.arc(points[0].x, points[0].y, ctx.lineWidth / 2, 0, 2 * Math.PI);
-                ctx.fill();
-            } else {
-                // Draw connected lines for multiple points
-                ctx.moveTo(points[0].x, points[0].y);
-                for (let i = 1; i < points.length; i++) {
-                    ctx.lineTo(points[i].x, points[i].y);
-                }
-                ctx.stroke();
-            }
+            screenPoints = points.map(pt => [pt.x, pt.y, pt.pressure || 0.5]);
         } else {
             // Use grid coordinates for grid-snapped drawing
-            const startPoint = gridToScreen(points[0].gridX, points[0].gridY);
-            if (points.length === 1) {
-                // Draw a small dot for single point
-                ctx.arc(startPoint.x, startPoint.y, ctx.lineWidth / 2, 0, 2 * Math.PI);
-                ctx.fill();
-            } else {
-                // Draw connected lines for multiple points
-                ctx.moveTo(startPoint.x, startPoint.y);
-                for (let i = 1; i < points.length; i++) {
-                    const point = gridToScreen(points[i].gridX, points[i].gridY);
-                    ctx.lineTo(point.x, point.y);
-                }
-                ctx.stroke();
-            }
+            screenPoints = points.map(pt => {
+                const s = gridToScreen(pt.gridX, pt.gridY);
+                return [s.x, s.y, 0.5];
+            });
         }
+
+        renderSmoothStroke(ctx, screenPoints, {
+            size: ctx.lineWidth,
+            tool: 'default'
+        });
     };
 
     // Render straight line

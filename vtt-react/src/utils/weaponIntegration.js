@@ -220,7 +220,7 @@ export const createWeaponAttackSpell = (weaponSlot = 'mainHand') => {
   health: 0,
   stamina: 0,
   focus: 0,
-  actionPoints: 2
+  actionPoints: 1
  },
  
  mechanicsConfig: {

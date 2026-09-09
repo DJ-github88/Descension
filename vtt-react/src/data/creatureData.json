@@ -150,7 +150,7 @@
             "maxActionPoints": 5,
             "speed": 35,
             "resistances": {
-              "physical": 50
+              "smashing": 50
             }
           },
           "depth": "A strict and reclusive forest protector, the Grimmstalk is not evil but uncompromising. It communicates with the forest through the roots of the trees, feeling the pain of every cut and the joy of every new growth. The black feathers inside its skull are said to be the spirits of the birds that once sang in the forest's canopy, and when a Grimmstalk dies, the feathers scatter to the wind, carrying the forest's song to new trees. The forest's own spirit gave it a voice of anger, but the Grimmstalks remember the songs of joy, and some say that if the forest is ever healed, they will sing again.",
@@ -333,7 +333,7 @@
             "maxActionPoints": 3,
             "speed": 30,
             "resistances": {
-              "psychic": 50
+              "wyrd": 50
             }
           },
           "depth": "Driven by a strange, compulsive obsession, Schratlings sneak into Greymark homes at night to organize and rewrite journal entries in messy peat-ink scribbles; though they cannot read, they compulsively alter the family lineage-logs. In the deep woods, they weave shredded memory-glass into their hollow nests, creating pocket sanctuaries where the memory-draining fog cannot penetrate, drawing the desperate Fractured Mimir who seek these nests to recall their lost lives. Adventurers often venture into the misty hollows following rumors of these creatures, hoping to recover their memory-glass nests or gather components for powerful wards.",
@@ -394,8 +394,8 @@
             "maxActionPoints": 4,
             "speed": 35,
             "resistances": {
-              "cold": 50,
-              "poison": 100
+              "rime": 50,
+              "blight": 100
             }
           },
           "depth": "The Alraune mimics baby cries to lure parents and travelers. Mechanical quirk: it is terrified of raw salt. If a traveler scatters salt around themselves, the Changeling cannot approach within 10 feet. If fed a memory of deep grief, it becomes docile for 24 hours.",
@@ -462,8 +462,8 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "cold": 50,
-              "psychic": 50
+              "rime": 50,
+              "wyrd": 50
             }
           },
           "depth": "At night, a Drudehaunt will rest heavily on the chests of sleeping scribes to consume their dreams, forcing them to relive every memory they have lost before draining new ones from their minds. By day, they wash the garments of the doomed in their ink-black basins; witnessing this act serves as a dire omen, ensuring the viewer will lose a precious memory within three days. Rumors of these spirits send waves of dread through Greymark, and adventurers are often tasked with banishing them or recovering their memory-water basins.",
@@ -524,7 +524,7 @@
             "maxActionPoints": 3,
             "speed": 25,
             "resistances": {
-              "physical": 50
+              "smashing": 50
             }
           },
           "depth": "Knockers tap coded messages through the stone walls, guiding clever miners to rich veins of ironwood-heart, provided they leave a copper rivet as an offering at the vein's mouth. They also serve as vital wardens against the memory-fog, sensing its encroachment and hammering the cave walls to warn miners and seal off cracks before the mist can seep inside. When rumors of these spirits surface, miners seek to protect their territory, while others hire adventurers to gather their petrified mallets for their stabilizing properties.",
@@ -585,8 +585,8 @@
             "maxActionPoints": 4,
             "speed": 40,
             "resistances": {
-              "cold": 50,
-              "physical": 25
+              "rime": 50,
+              "smashing": 25
             }
           },
           "depth": "Targeting the scent of failing minds, these hounds run in packs to herd disoriented travelers deeper into the mist where they can be claimed by the Erlking's hunt. When a hound marks a target with three thunderous barks, their fate is sealed unless a Florae ranger can bribe the beast with a memory sealed inside a glass vial. Local settlements frequently post bounties for these creatures, seeking their thorn-vines and glowing wood to forge protective charms.",
@@ -647,9 +647,9 @@
             "maxActionPoints": 5,
             "speed": 40,
             "resistances": {
-              "cold": 100,
-              "physical": 50,
-              "poison": 100
+              "rime": 100,
+              "smashing": 50,
+              "blight": 100
             }
           },
           "depth": "The Nuckelmist is a blight upon the land; its presence rots wood, peels ironwood bark, and dissolves the pages of journals from fifty paces away. Rather than hunting creatures for flesh, it walks along established roads and absorbs their spatial memory, causing the paths to physically vanish into the overgrown wilderness. Scribes and merchants live in terror of this entity, often recruiting powerful adventurers to hunt the beast and harvest its ink-like tears for research.",
@@ -710,7 +710,7 @@
             "maxActionPoints": 4,
             "speed": 40,
             "resistances": {
-              "cold": 50
+              "rime": 50
             }
           },
           "depth": "As a herd warden, the Mossmaiden protects wild elk and moose from memory-fog pockets, ensuring they retain their migration routes. She occasionally approaches lonely woodsmen at twilight to offer them a cup of sweet milk, which grants incredible physical vitality but binds them to serve in her grove for seven forgotten years. Travelers seek her out for guidance, and adventurers are sometimes hired to obtain the rare ironwood flowers from her crown.",
@@ -771,7 +771,7 @@
             "maxActionPoints": 3,
             "speed": 25,
             "resistances": {
-              "physical": 50
+              "smashing": 50
             }
           },
           "depth": "The Fachanwatch guards mountain passes, remaining motionless for decades and demanding a deep, personal truth from travelers before granting passage; those who lie are cast into the abyss. Its very presence acts as a spatial anchor that prevents the memory-fog from erasing trails, making them highly valued by road-builders who leave carved truth-stones to court their favor. Guilds often hire adventurers to negotiate with these giants or acquire fragments of their petrified clubs to stabilize trade paths.",
@@ -832,7 +832,7 @@
             "maxActionPoints": 3,
             "speed": 25,
             "resistances": {
-              "cold": 50
+              "rime": 50
             }
           },
           "depth": "Knockbrews tend tavern cellars, keeping casks of pine-oil and frost-mead from spoiling or freezing in the brutal cold. They also gather the damp, fog-dissolved memories that settle in dark corners and ferment them into a potent, cloudy liquor known as forget-mead, which can erase hours of memory with a single sip. This brew is highly valued as an anesthetic by Tethered Mimir, who frequently employ adventurers to track down elusive Knockbrews for their unique fermenting tools.",
@@ -893,8 +893,8 @@
             "maxActionPoints": 4,
             "speed": 25,
             "resistances": {
-              "physical": 50,
-              "cold": 25
+              "smashing": 50,
+              "rime": 25
             }
           },
           "depth": "Moorboggles act as household parasites, draining memory-energy from the inhabitants and causing their family journals to dissolve rapidly over the winter. If cornered, they can open sinkholes in the peat to drag their pursuers into subterranean bog-pockets where they are easily drowned. Homeowners hang cold-iron horseshoes above their doors to disrupt the creature's memory-draining abilities, and often hire adventurers to purge these persistent pests from their cellars.",
@@ -955,8 +955,8 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "cold": 50,
-              "psychic": 50
+              "rime": 50,
+              "wyrd": 50
             }
           },
           "depth": "The Banshrond's wail foretells the complete erasure of an elder's memory within seven days, prompting families to desperately transcribe their lineage before all is lost. She carries a bone-comb that can part the memory-fog, which she will trade only for a genuine childhood memory to weave into her shroud. Scribes often employ adventurers to seek out these spirits to bargain for the comb or to prevent the memory-death of a vital elder.",
@@ -1084,8 +1084,8 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "cold": 50,
-              "psychic": 50
+              "rime": 50,
+              "wyrd": 50
             }
           },
           "depth": "The Wildejagd raids Greymark's archive towers, tearing down lineage-tapestries to consume the recorded history of entire bloodlines. They also circle those on the verge of total memory-collapse, waiting for their last thoughts to fade so they can absorb the empty shell of identity and add a new rider to their host. Scribes organize desperate hunts to protect their archives, hiring brave parties to retrieve the lost pages and components left in the ride's wake.",
@@ -1146,7 +1146,7 @@
             "maxActionPoints": 3,
             "speed": 20,
             "resistances": {
-              "cold": 50
+              "rime": 50
             }
           },
           "depth": "The Fuath sings a resonant hum that echoes through the fog, bringing to mind the listener's most cherished, forgotten memories to draw them into the water. Once a victim wades in, the spirit dissolves into the pool, drowning the traveler and sinking their memories into the sediment where they compact into peat over centuries. Communities hire adventurers to search for these spirits to recover lost relatives or harvest their memory-infused water.",
@@ -1207,7 +1207,7 @@
             "maxActionPoints": 3,
             "speed": 25,
             "resistances": {
-              "physical": 25
+              "smashing": 25
             }
           },
           "depth": "Grogochs cultivate vast gardens of edible ironwood-roots and frost-tubers, which serve as a crucial food supply for local villages. They also maintain a network of subterranean tunnels that allow travelers to bypass the memory-fog entirely, demanding a secret as payment for using these safe passages. Villages often hire adventurers to trade with them or protect their burrows from surface predators.",
@@ -1268,8 +1268,8 @@
             "maxActionPoints": 5,
             "speed": 35,
             "resistances": {
-              "cold": 100,
-              "psychic": 50
+              "rime": 100,
+              "wyrd": 50
             }
           },
           "depth": "Cailleachs spin the memory-fog from raw Wyrd-energy to defend the forest, encoding each strand of mist with a dissolved memory. During the deep winter, they visit Greymark homes to inspect family journals, rewarding diligent scribes with spools of memory-yarn that can restore lost thoughts, while stuffing the bellies of the negligent with straw as a stern warning. Scribes often send adventurers to locate her to seek her favor or harvest her shimmering memory-yarn.",
@@ -1330,8 +1330,8 @@
             "maxActionPoints": 4,
             "speed": 45,
             "resistances": {
-              "cold": 100,
-              "physical": 50
+              "rime": 100,
+              "smashing": 50
             }
           },
           "depth": "The Dullahan rides to crossroads to whisper a traveler's name, causing their defining memory to dissolve within a day, and actively hunts those who break written oaths recorded in Greymark's ledgers. It is particularly drawn to maskless Mimir, collecting their abandoned identities to fuel its own hollow existence. Local authorities post massive rewards for adventurers who can destroy the rider or retrieve its mirror-like ironwood mask.",
@@ -1392,8 +1392,8 @@
             "maxActionPoints": 4,
             "speed": 45,
             "resistances": {
-              "cold": 50,
-              "psychic": 50
+              "rime": 50,
+              "wyrd": 50
             }
           },
           "depth": "The Cusith hunts at dusk, using three distinct barks: the first paralyzes a traveler, the second erases their location memory, and the third compels them to walk into the fog's heart. Rather than killing, the hound feeds on the memory of fear, leaving its prey dazed but completely devoid of terror, which allows Florae rangers to track the packs by locating these unnaturally fearless survivors. Adventurers are often sent to hunt these beasts to harvest their glowing moss or save lost travelers.",
@@ -1454,7 +1454,7 @@
             "maxActionPoints": 3,
             "speed": 30,
             "resistances": {
-              "psychic": 50
+              "wyrd": 50
             }
           },
           "depth": "Pixies guide lost travelers through the fog, leaving gold trails that lead to safety, blue trails that run in circles, or red trails that plunge into bogs or over cliffs. They reproduce by seeding spores into the memory-fog, where they grow by absorbing dissolved emotional memories, occasionally creating dense lantern-fogs that travelers can navigate if they understand the colors. Adventurers often seek them to collect their glow-spores for light-sources or mapping reagents.",
@@ -1515,7 +1515,7 @@
             "maxActionPoints": 3,
             "speed": 35,
             "resistances": {
-              "physical": 25
+              "smashing": 25
             }
           },
           "depth": "Waldschrats block pathways and demand that travelers solve riddles based on forgotten history, which require pure intuition to answer since the memories themselves have vanished. They also entertain themselves by playing frightening pranks, mimicking the voices of lost scribes, and feeding on the adrenaline of terrified travelers to power their glowing caps. Scribes and rangers frequently seek them out to solve historical mysteries or hire adventurers to drive them away from trade routes.",
@@ -1643,7 +1643,7 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "radiant": 50
+              "sacred": 50
             }
           },
           "depth": "Those who enter the circle are caught in the melody and join the dance until their lungs collapse from exhaustion. The puppets themselves are hollow, filled with writhing black thorns that lash out when damaged.",
@@ -1718,7 +1718,7 @@
             "speed": 25,
             "resistances": {
               "rime": 100,
-              "physical": 25
+              "smashing": 25
             }
           },
           "depth": "Sailors and shipwrights in Nordhalla keep respect the Skerries. They throw copper coins into the icy water before docking, as the cost of a clean repair is far cheaper than a sudden hull breach in the freezing open sea. The Skerry's greed is not natural,it is a curse of the age, a corruption of the water dwarf's natural love of beauty into an obsession with possession. Some sailors say that the Skerries are trying to build something from the salvaged metal, something that will allow them to return to the sea's depths and escape the cold forever.",
@@ -1962,7 +1962,7 @@
             "maxActionPoints": 4,
             "speed": 35,
             "resistances": {
-              "physical": 25
+              "smashing": 25
             }
           },
           "depth": "Reclusive spirits of the deep forest. They are peaceful if their trees are respected but will curse woodcutters who cut ancient sacred groves. The Huldra's hollow back is a symbol of her nature,she is empty inside, a vessel for the forest's grief, and those who fill her with their love are consumed by it. Some scholars believe that the Huldra was once a mortal woman who loved the forest so deeply that she became one with it, and that her curse is to seek that love forever, never finding it.",
@@ -2023,7 +2023,7 @@
             "maxActionPoints": 4,
             "speed": 35,
             "resistances": {
-              "cold": 100
+              "rime": 100
             }
           },
           "depth": "The Fossegrim-Ice plays a resonant, otherworldly music on its ram-skull fiddle, a specific frequency audible only to the Rime-Born Rune Keepers that temporarily thaws the complex brass mechanisms of the Frozen Archive to prevent them from seizing forever. Once every century, the spirit offers to teach its art to a single mortal in exchange for a goat sacrificed at the foot of its waterfall; however, with Nordhalla's goats nearly extinct, this bargain often demands a memory instead. Disturbed concerts are met with swift violence, as the fierce Bloodhammer warriors guard these frozen musicians with religious fervor, viewing their songs as sacred, untouchable rites.",
@@ -2084,8 +2084,8 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "cold": 100,
-              "physical": 25
+              "rime": 100,
+              "smashing": 25
             }
           },
           "depth": "The Marepress feeds on the raw, emotional energy of terrors, showing a dangerous affinity for the vivid, blood-soaked dreams of sleeping Bloodhammer warriors whose ancestral rage fuels its appetite. Within the Frozen Archive, Rune Keepers have learned to harness this freezing presence, sealing the creatures inside heavy brass vessels to act as perpetual refrigeration units for fragile light-scrolls. Yet, this is a precarious containment; should one of these brass vessels fracture, the creature's nightmare-aura will flood the halls, plunging the keepers into madness and freezing their hearts.",
@@ -2146,8 +2146,8 @@
             "maxActionPoints": 5,
             "speed": 35,
             "resistances": {
-              "cold": 100,
-              "physical": 50
+              "rime": 100,
+              "smashing": 50
             }
           },
           "depth": "Driven by an instinct to punish, the Krampuskin hunts those who have broken blood-oaths or deserted the shield-walls of Nordhalla, tracking its prey by the guilt in their hearts. Those caught are stuffed into its frozen sack and sealed alive inside deep glacier crevasses, preserved forever by ice that refuses to melt; Skald rangers occasionally discover the screaming, perfectly preserved faces of ancient traitors locked deep within mountain walls. The sound of its chains dragging through the snow serves as a grim warning to all who harbor secrets.",
@@ -2208,7 +2208,7 @@
             "maxActionPoints": 3,
             "speed": 30,
             "resistances": {
-              "cold": 50
+              "rime": 50
             }
           },
           "depth": "Lives in ship hulls. If given a bowl of sea-salt butter every Sunday, it hammers the wood to warn of structural leaks or oncoming storms. If neglected, it steals iron nails from the hull, causing the ship to slowly sink, and rings its chest-bell to attract sirens.",
@@ -2269,9 +2269,9 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "cold": 100,
-              "physical": 50,
-              "psychic": 50
+              "rime": 100,
+              "smashing": 50,
+              "wyrd": 50
             }
           },
           "depth": "This winter sentinel stands outside cabins during blizzards. If the players have a warm fire, tidy beds, and have left a portion of bread on the window sill, the Perchtar taps the glass and leaves a piece of raw silver in their boots. If they are lazy, it rings its iron bells to cause nightmares.",
@@ -2332,8 +2332,8 @@
             "maxActionPoints": 5,
             "speed": 50,
             "resistances": {
-              "cold": 100,
-              "physical": 25
+              "rime": 100,
+              "smashing": 25
             }
           },
           "depth": "This three-legged ice horse only allows those who are 'halfway to death' (e.g., at less than 50% HP or carrying an undead curse) to mount it. If a healthy player rides it, they take cold damage each round. If paid a toll of a dead friend's fingerbone, the horse can run across ice and air, skipping hazardous terrain.",
@@ -2394,7 +2394,7 @@
             "maxActionPoints": 2,
             "speed": 0,
             "resistances": {
-              "cold": 100
+              "rime": 100
             }
           },
           "depth": "A child ghost that jumps onto a traveler's back and begs to be carried to a graveyard. As the traveler walks, the Myling becomes heavier and heavier (doubling in weight every 100 feet) until it crushes them, unless they can name the child or speak a sacred prayer.",
@@ -2455,8 +2455,8 @@
             "maxActionPoints": 3,
             "speed": 20,
             "resistances": {
-              "physical": 75,
-              "cold": 50
+              "smashing": 75,
+              "rime": 50
             }
           },
           "depth": "Jutuls sit motionless on trade routes for decades, only to animate and roll across paths when valuable caravans approach, demanding a toll of raw iron ore to absorb into their granite bodies. Because the dimmed sun no longer petrifies them, they pose a constant hazard to travelers, forcing Rune Keepers to use concentrated runic light to temporarily freeze the creatures back into inert stone and buy passage for convoys.",
@@ -2517,8 +2517,8 @@
             "maxActionPoints": 4,
             "speed": 35,
             "resistances": {
-              "cold": 100,
-              "physical": 25
+              "rime": 100,
+              "smashing": 25
             }
           },
           "depth": "These beasts coil around the dead in glacier-tombs, paradoxically thawing the graves because they feed on the surrounding cold itself. They are also drawn to runic inscriptions, devouring carved rune-stones to absorb the bound mana within them; this makes them a critical threat to the Frozen Archive, where a single breaching Lindwyrm could consume centuries of recorded knowledge in a single feeding.",
@@ -2579,8 +2579,8 @@
             "maxActionPoints": 4,
             "speed": 25,
             "resistances": {
-              "physical": 50,
-              "cold": 50
+              "smashing": 50,
+              "rime": 50
             }
           },
           "depth": "The Nidhoggr gnaws at the bedrock beneath keeps and the Frozen Archive, causing heavy stone walls to crack and eventually collapse. It is drawn to the magical energy of buried blood-oaths, devouring the runes of sworn vows and permanently stripping Bloodhammer warriors of the ancestral rage that defines their lineage.",
@@ -2641,8 +2641,8 @@
             "maxActionPoints": 3,
             "speed": 20,
             "resistances": {
-              "cold": 100,
-              "poison": 100
+              "rime": 100,
+              "blight": 100
             }
           },
           "depth": "At dawn and dusk, the Strandvasker stands at the ice-edge, emitting a deep, foghorn-like call that mimics the voices of lost crewmates to lure the living to their doom. The only way to silence the wail is to grant the creature a proper sea-burial on a burning ship, a ritual so costly that many of these spirits are left to haunt the shores for centuries.",
@@ -2703,8 +2703,8 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "physical": 75,
-              "cold": 100
+              "smashing": 75,
+              "rime": 100
             }
           },
           "depth": "The Landv,ttir-Peak acts as a regional barrier against Wyrd-corruption, keeping its mountain slopes completely free of anomalies and allowing Rune Keepers to map safe paths. However, they harbor a deep hatred for draconic symbols, triggering instant avalanches at the sight of dragon-prows or runes, an ancient prohibition that has banned dragon motifs from all Skald heraldry.",
@@ -2765,8 +2765,8 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "physical": 100,
-              "cold": 100
+              "smashing": 100,
+              "rime": 100
             }
           },
           "depth": "The Vettir herds storms across the landscape, controlling the paths of blizzards and F,hn winds. Rune Keepers leave offerings of mead and dried cod at high wind-shrines to secure safe passage through their territory; while Skald commanders sometimes use the wind to whisper messages across great distances, the spirits are prone to mischief, altering the words or adding cryptic riddles.",
@@ -2827,8 +2827,8 @@
             "maxActionPoints": 3,
             "speed": 20,
             "resistances": {
-              "physical": 50,
-              "cold": 50
+              "smashing": 50,
+              "rime": 50
             }
           },
           "depth": "The Bergthralls carve the unique glacier-crystals used by Rune Keepers to store fragile light-scrolls in the Frozen Archive, a technique that cannot be replicated. They refuse gold, trading these crystals only for refined iron and whale-blubber; their bargains are absolute, and any who attempt to cheat them are absorbed directly into the stone, transformed into new mineral veins.",
@@ -2889,8 +2889,8 @@
             "maxActionPoints": 4,
             "speed": 50,
             "resistances": {
-              "cold": 50,
-              "physical": 25
+              "rime": 50,
+              "smashing": 25
             }
           },
           "depth": "Driven by Fenrir's bound energy, the Fenris relentlessly tracks down those who break blood-oaths across the tundra; they cannot be slain, only temporarily appeased or distracted with fresh meat. The golden collar around its neck is a fragment of the legendary fetter Gleipnir, keeping it from growing to its full, world-ending size. Rune Keepers watch these creatures closely, for the removal of a collar would trigger a catastrophic growth that could tear Nordhalla apart.",
@@ -2951,8 +2951,8 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "cold": 100,
-              "psychic": 50
+              "rime": 100,
+              "wyrd": 50
             }
           },
           "depth": "Visiting every longhouse during the winter celebrations, the wraiths bless families who honor their female ancestors with warmth and fertility. However, households that neglect their duties are struck by the Spindle-Curse, finding their yarn replaced with human hair and their spindles soaked in frozen blood, rendering the women of the house barren. Bloodhammer matriarchs view this curse as a threat far greater than any raiding army, going to extreme lengths to ensure their offerings are immaculate.",
@@ -3013,7 +3013,7 @@
             "maxActionPoints": 4,
             "speed": 40,
             "resistances": {
-              "physical": 25
+              "smashing": 25
             }
           },
           "depth": "The Valravn stalks the periphery of clan skirmishes in Nordhalla, waiting for the slaughter to end. It is said that by devouring the hearts of unburied kings, a Valravn can take the form of a knight or gain supreme wisdom. Skalds sing of warriors who made pacts with the birds, trading their firstborn children for victory in battle. The presence of a Valravn circling overhead is considered a grim omen of an impending massacre.",
@@ -3074,9 +3074,9 @@
             "maxActionPoints": 4,
             "speed": 10,
             "resistances": {
-              "cold": 100,
-              "physical": 50,
-              "piercing": 50
+              "rime": 100,
+              "smashing": 50,
+              "stabbing": 50
             }
           },
           "depth": "The Kraken is a dread destroyer of ships, attacking by shattering the thick surface ice from below and dragging vessels into the freezing waters before the crew can escape. When dormant, its massive back presses against the ice to form a dome that resembles a natural island; experienced Skald captains test these ice-islands by driving iron spikes deep into the frost, fleeing immediately if the wound bleeds dark water.",
@@ -3137,7 +3137,7 @@
             "maxActionPoints": 3,
             "speed": 20,
             "resistances": {
-              "cold": 50
+              "rime": 50
             }
           },
           "depth": "Fishermen can capture the Marmennill using lines baited with runic inscriptions, forcing it to answer three questions about the future; however, its replies are always framed in riddles so complex that Rune Keepers spend decades deciphering them before the creature dissolves back into sea-water. When free, they sit on submerged rocks and play bone-harps, creating melodies that induce a dreamlike state and draw listeners into the freezing waters, forcing Skald sentries to plug their ears with whale-blubber during the creature's mating season.",
@@ -3198,7 +3198,7 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "cold": 100
+              "rime": 100
             }
           },
           "depth": "The Havgammel can bless fishermen with bountiful catches in exchange for a silver coin, but she will curse those who pollute or waste life, returning only nets of carved bones and solid ice. Her dual nature makes her an unpredictable force for sailors; in her mermaid guise, she guides lost vessels to safety, but in her serpentine form, she creates the very ice-floes that trap and crush them, leaving Skald captains to gamble their lives with every encounter.",
@@ -3259,8 +3259,7 @@
             "maxActionPoints": 3,
             "speed": 25,
             "resistances": {
-              "rime": 100,
-              "cold": 100
+              "rime": 100
             }
           },
           "depth": "They wander in small packs, searching for fires and warmth to extinguish, driven by a bitter hatred of the living's warmth. They are not entirely mindless, and some remember fragment of their past ship duties.",
@@ -3327,8 +3326,7 @@
             "maxActionPoints": 3,
             "speed": 20,
             "resistances": {
-              "cold": 100,
-              "rime": 50
+              "rime": 100
             }
           },
           "depth": "A home occupied by a Rimor slowly loses its warmth; water freezes inside the mugs, and the occupants become lethargic and cold-hearted. It can only be driven out by intense alchemical heat.",
@@ -3395,8 +3393,8 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "cold": 100,
-              "physical": 25
+              "rime": 100,
+              "smashing": 25
             }
           },
           "depth": "The screams are not just acoustic; they are a psychic lure that drags travelers toward crevasses. The Stel itself is nearly indestructible unless melted, and its body contains the frozen skeletons of its victims.",
@@ -3653,7 +3651,7 @@
             "maxActionPoints": 4,
             "speed": 25,
             "resistances": {
-              "physical": 50,
+              "smashing": 50,
               "ember": 50
             }
           },
@@ -3715,7 +3713,7 @@
             "maxActionPoints": 3,
             "speed": 25,
             "resistances": {
-              "physical": 50,
+              "smashing": 50,
               "ember": 100
             }
           },
@@ -3777,8 +3775,8 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "fire": 100,
-              "physical": 25
+              "ember": 100,
+              "smashing": 25
             }
           },
           "depth": "This four-winged gale-spirit refuses to fight anyone who speaks its true name backwards. It is obsessed with collecting coins from dead empires; it will exchange ancient secrets or redirect a sandstorm if paid in gold from a dynasty that no longer exists.",
@@ -3839,8 +3837,8 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "fire": 100,
-              "physical": 75
+              "ember": 100,
+              "smashing": 75
             }
           },
           "depth": "Swimming through the subterranean magma currents, the Caldera-Tyrant feeds on rare minerals and gold-trace veins, putting them in direct competition with the smiths of the Solari clans. The Wyrd has amplified their mythic hunger, drawing them to the warmth of Sol's Breath, which they will coil around and drain if left unchecked. Because of this, the Hollow-Solari maintain a sleepless, heavily armed vigil at the Harath-Chamber to repel Caldera-Tyrant incursions, though bold adventurers are often lured by rumors of these beasts to harvest their glass scales or the precious metals concentrated within their gullets.",
@@ -3901,8 +3899,8 @@
             "maxActionPoints": 5,
             "speed": 20,
             "resistances": {
-              "fire": 100,
-              "physical": 25
+              "ember": 100,
+              "smashing": 25
             }
           },
           "depth": "A giant lion-headed storm bird that eats thunderbolts. If players use lightning magic near it, the Anzu flies down to inhale the spell, gaining health and speed. It can be distracted by throwing highly conductive copper rods away from the party.",
@@ -3963,8 +3961,8 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "fire": 75,
-              "physical": 50
+              "ember": 75,
+              "smashing": 50
             }
           },
           "depth": "Servants of eternal vigilance, the Girtablilus guard the thresholds of Hollow-Solari sanctuaries, refusing passage to anyone who cannot answer their complex riddles concerning Sol's Breath or the history of the Freezing Era. Though their appearance is intimidating, their stinger contains a paradoxical venom that, in small doses, acts as the only known cure for the Wyrd-sickness that afflicts those exposed to the Emberspire breach. The Sun-Speakers of the Hollow-Solari frequently trade rare, fragrant incenses with the Girtablilus to obtain this life-saving substance, while adventurers are often hired to negotiate with them or retrieve a sample of their venom from the wild.",
@@ -4025,8 +4023,8 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "fire": 100,
-              "physical": 50
+              "ember": 100,
+              "smashing": 50
             }
           },
           "depth": "Acting as a living barrier to the inner sanctums of Emberspire, the Ammit senses the moral weight of anyone who approaches, ignoring the pure of heart while savagely devouring those burdened by broken oaths or Wyrd-corruption. Those who fall to the beast suffer a fate worse than death; their souls are erased from existence, and their names vanish from the volcanic stone-records of the Solari, undoing even the most permanent burn-mark inscriptions. This terrifying power makes them a symbol of ultimate dishonor among the Solari, and adventurers are warned to maintain impeccable honor when rumors speak of an Ammit blocking their path.",
@@ -4087,8 +4085,8 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "fire": 100,
-              "physical": 25
+              "ember": 100,
+              "smashing": 25
             }
           },
           "depth": "Driven by a twisted maternal instinct, the Lamashtu steals infants from their cradles and absorbs them into its hollow, swollen belly, where the children are kept alive in eternal, screaming torment. The only protection against this terror is the image of Pazuzu, which the demoness fears above all else; so, the Pazuzu is her natural enemy. Waste-Solari parents carefully camp in the neutral zones between the territories of these two beasts, using the presence of the Pazuzu as a shield while hiring brave adventurers to hunt down local Lamashtus and free the trapped children before they are lost forever.",
@@ -4149,8 +4147,8 @@
             "maxActionPoints": 3,
             "speed": 25,
             "resistances": {
-              "fire": 100,
-              "physical": 50
+              "ember": 100,
+              "smashing": 50
             }
           },
           "depth": "Bess serve as the ultimate line of defense for Solari families, springing to life at the first sign of Wyrd-corruption or malevolent spirits. When activated, they create a chaotic din, beating their tambourines and swinging their khopesh swords, using their bizarre grimaces and laughter-inducing appearance to break hostile enchantments. If a nursery is breached, a Bes will fight until it is completely shattered, scattering protective, sigil-carved clay shards that ward the room against corruption. The Waste-Solari and Hollow-Solari hold these shattered fragments in high honor, often hiring adventurers to retrieve rare lapis-lazuli or basalt fibers to construct new guardians for their growing settlements.",
@@ -4211,8 +4209,8 @@
             "maxActionPoints": 5,
             "speed": 35,
             "resistances": {
-              "fire": 100,
-              "physical": 50
+              "ember": 100,
+              "smashing": 50
             }
           },
           "depth": "The Ifrits are powerful allies to the Hollow-Solari, using their bare hands to shape molten rock into forge-components that no mortal tools could hope to replicate. They guard their smithies with absolute ferocity, using a deadly gaze that can instantly ignite any flammable object within fifty paces. Waste-Solari rangers learn to identify their territories by the wide rings of scorched, vitrified earth that surround their volcanic nests, and they often advise adventurers to tread carefully when seeking these elementals, whether to petition them for forge-work or to harvest their white-hot coal cores for legendary weapons.",
@@ -4273,8 +4271,8 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "fire": 100,
-              "physical": 50
+              "ember": 100,
+              "smashing": 50
             }
           },
           "depth": "Rather than feeding on flesh, Ghuls consume the residual warmth trapped within ancient structures, draining the thermal memory of long-lost civilizations until the stones are ice-cold to the touch. They possess the ability to turn completely invisible, leaving only the faint scent of burnt bone as a warning, and they launch devastating bolts of fire at intruders while hidden. To defeat them, adventurers must look for the single feature they cannot hide,their glowing, pale green eyes,making them a dangerous threat to those exploring the ruins, though their ash-dust shrouds are highly prized by alchemists for their fire-binding properties.",
@@ -4335,8 +4333,8 @@
             "maxActionPoints": 4,
             "speed": 40,
             "resistances": {
-              "fire": 100,
-              "physical": 50
+              "ember": 100,
+              "smashing": 50
             }
           },
           "depth": "The Gugalanna charges across the volcanic wasteland, its heavy hooves fracturing the cooling lava-roads and mapping out the safest paths through the shifting terrain. Waste-Solari rangers track these herds to find stable passage through the lava-fields, utilizing the bull's instincts to survive. The obsidian scarab beneath the Gugalanna's tongue is highly sought after by alchemists and the Scoured because it can instantly purify an entire cistern of Wyrd-tainted water, though the Hollow-Solari view the slaughter of these bulls as a terrible sacrilege. Adventurers are often caught in the middle of these conflicting factions, hired either to protect the bulls or to harvest a scarab-mark to save a poisoned settlement.",
@@ -4397,8 +4395,8 @@
             "maxActionPoints": 3,
             "speed": 10,
             "resistances": {
-              "fire": 50,
-              "radiant": 100
+              "ember": 50,
+              "sacred": 100
             }
           },
           "depth": "Peris are drawn to sources of intense heat, particularly the sacred bowl of Sol's Breath, where they are carefully tended by the Sun-Speakers of the Hollow-Solari. Imitating the scarab Khepri, the moths roll their wing-balls along the ground at sunrise, absorbing the ambient heat and compressing it into small, golden pearls known as sun-seeds. These pearls are highly valued by the Solari, who plant them in cold hearthstones to generate a steady, smokeless flame that burns for an entire year. Adventurers are often hired to protect these delicate creatures from predators or to collect wild sun-seeds from the volcanic valleys.",
@@ -4459,9 +4457,9 @@
             "maxActionPoints": 4,
             "speed": 40,
             "resistances": {
-              "physical": 75,
-              "cold": 50,
-              "fire": 50
+              "smashing": 75,
+              "rime": 50,
+              "ember": 50
             }
           },
           "depth": "The Daeva feeds upon spoken truth; every honest word spoken in its vicinity drains the speaker's vitality while strengthening the shade's physical form. Because the Hollow-Solari practice the Vault-Breath,a discipline of sacred silence,the Daevas are starved near the temples but grow bloated and aggressive around the busy marketplaces. Their presence acts as a beacon for the Wyrd, tearing open reality-breaches and accelerating corruption, which prompts the Waste-Solari rangers to hunt them down relentlessly. Adventurers are frequently employed to locate and destroy these beasts before their nests can trigger a catastrophic breach.",
@@ -4522,9 +4520,9 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "fire": 100,
-              "physical": 50,
-              "psychic": 50
+              "ember": 100,
+              "smashing": 50,
+              "wyrd": 50
             }
           },
           "depth": "The Simurgh is a sapient creature of immense wisdom, occasionally sharing ancient secrets of the pre-sundered world with those it deems worthy. Its feathers possess unparalleled healing properties, capable of sealing deep wounds and mending bones within hours of contact. and, the presence of these birds helps stabilize geothermal activity, reducing eruptions near their nesting sites. Because of this, Solari law decrees that harming a Simurgh is a capital offense punishable by live immolation, and adventurers are often sent to the caldera rim to seek their counsel or plead for a single feather to save a dying leader.",
@@ -4585,10 +4583,10 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "fire": 100,
-              "physical": 75,
-              "lightning": 50,
-              "acid": 50
+              "ember": 100,
+              "smashing": 75,
+              "storm": 50,
+              "blight": 50
             }
           },
           "depth": "The Azi is the undisputed king of the lava rivers, hunting by submerging in the molten stone and launching surprise attacks with all three heads. Each head produces a different lethal substance,the left head spews fire that melts armor, the middle spits acid that dissolves flesh, and the right secretes a paralytic poison that freezes the nervous system. The scales of the beast are impervious to normal weapons, making them nearly impossible to kill, though alchemists will pay small fortunes to adventurers who manage to harvest the rare venoms from a specimen.",
@@ -4649,8 +4647,8 @@
             "maxActionPoints": 3,
             "speed": 30,
             "resistances": {
-              "physical": 50,
-              "fire": 50
+              "smashing": 50,
+              "ember": 50
             }
           },
           "depth": "The Edimmu attaches itself to unsuspecting travelers who cross its death-site, slowly draining their life force to sustain its own presence. The victim suffers from terrible nightmares of fire and progressive fatigue, eventually culminating in spontaneous combustion. To prevent this, Solari law dictates that any worker who dies in the forges must be buried with a burned piece of forge-equipment as an offering, which pacifies the spirit. Adventurers are often hired to lay these spirits to rest by delivering the proper items to their final resting places.",
@@ -4711,9 +4709,9 @@
             "maxActionPoints": 3,
             "speed": 20,
             "resistances": {
-              "fire": 100,
-              "physical": 75,
-              "piercing": 50
+              "ember": 100,
+              "smashing": 75,
+              "stabbing": 50
             }
           },
           "depth": "The Asag radiates such extreme heat that any water source within thirty feet of it begins to boil, turning peaceful streams into scalding geysers. When threatened or agitated, the creature vibrates its massive body to generate localized earthquakes, communicating through these ground-shaking tremors. Solari geologists have decoded parts of this seismic language, finding that rhythmic tremors indicate peace while sharp quakes signal aggression, and they often hire adventurers to redirect or soothe these giants when they wander too close to vital settlements.",
@@ -4774,8 +4772,8 @@
             "maxActionPoints": 4,
             "speed": 10,
             "resistances": {
-              "fire": 50,
-              "radiant": 100
+              "ember": 50,
+              "sacred": 100
             }
           },
           "depth": "Nisrochs scan the volcanic wastes for signs of Wyrd-corruption, using their Wedjat eyes to fire concentrated beams of light that burn away raw Wyrd-essence. They also serve as vital messengers between the Hollow-Solari Sun-Speakers and the Waste-Solari rangers, carrying gold-foil messages that only their sacred eyes can read. Because of their sacred status, killing a Nisroch is a capital offense under Solari law, and adventurers are often tasked with protecting their nests or rescuing injured falcons from the wild.",
@@ -4836,9 +4834,9 @@
             "maxActionPoints": 3,
             "speed": 0,
             "resistances": {
-              "physical": 100,
-              "fire": 100,
-              "poison": 100
+              "smashing": 100,
+              "ember": 100,
+              "blight": 100
             }
           },
           "depth": "The Abzu serves as a crucial repository of pre-Dimming knowledge, offering travelers forgotten secrets in exchange for a drop of their blood, which is added to its liquid archives. It also plays a vital physical role by cooling the geothermal channels beneath the Harath-Vault, preventing the volcanic forges from overheating. Hollow-Solari engineers maintain these channels with religious devotion, and adventurers are sometimes sent to protect the pool's source or retrieve rare tablets to feed its thirst for knowledge.",
@@ -4960,7 +4958,7 @@
             "maxActionPoints": 3,
             "speed": 35,
             "resistances": {
-              "fire": 50
+              "ember": 50
             }
           },
           "depth": "Unlike their territorial parents, Mushussuren are highly affectionate and will imprint on the first friendly creature they meet, following them like a pet. They possess a magical breath that doubles the agricultural yield of any soil they visit, making them incredibly valuable to Waste-Solari farmers who leave bowls of milk to attract them. The Hollow-Solari tolerate their presence near settlements because the bond helps ensure that adult Sirrush will guard the villages, and adventurers are often hired to protect these juveniles or locate lost ones in the wild.",
@@ -5021,7 +5019,6 @@
             "maxActionPoints": 4,
             "speed": 35,
             "resistances": {
-              "fire": 100,
               "ember": 100
             }
           },
@@ -5089,8 +5086,7 @@
             "maxActionPoints": 3,
             "speed": 25,
             "resistances": {
-              "fire": 100,
-              "ember": 50
+              "ember": 100
             }
           },
           "depth": "Its prophecies are always dark, warning of the complete freeze of the caldera and the starvation of humanity. The soot it sheds is toxic and can cause lung-scarring in miners.",
@@ -5157,8 +5153,8 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "physical": 50,
-              "necrotic": 100
+              "smashing": 50,
+              "blight": 100
             }
           },
           "depth": "It eats the gravity around it, causing pebbles and weapons to float towards its chest. If the Husque is destroyed, it collapses into a harmless heap of basalt, but it leaves a temporary spatial tear.",
@@ -5233,7 +5229,7 @@
             "speed": 40,
             "resistances": {
               "rime": 100,
-              "physical": 50
+              "smashing": 50
             }
           },
           "depth": "Highly intelligent and trainable companions. Coastal fishers and Deep-Born divers domesticate them to guide ships through rocky shoals, retrieve dropped anchors, and alert crews to low-frequency underwater vibrations. The Pelagos' bioluminescence is a mystery to scholars, for it is not the cold light of the deep, but the warm light of the surface, and some believe that the creature is a bridge between the two worlds, a creature that belongs to neither and both.",
@@ -5295,7 +5291,7 @@
             "speed": 20,
             "resistances": {
               "rime": 50,
-              "physical": 25
+              "smashing": 25
             }
           },
           "depth": "They are greedy beach-scavengers. The woven mat they carry is magically water-resistant; if stolen, it can be sold for a high price to shipwrights. The Egbere's mat is a mystery to scholars, for it is woven from a seaweed that does not exist in any known catalog, and some believe that the creature weaves the mats from its own hair, a process that takes a hundred years and is the creature's only purpose in life.",
@@ -5541,8 +5537,8 @@
             "maxActionPoints": 4,
             "speed": 20,
             "resistances": {
-              "cold": 50,
-              "psychic": 25
+              "rime": 50,
+              "wyrd": 25
             }
           },
           "depth": "She sits on freezing reefs and sings. She doesn't want gold; she demands 'warm memories.' To pass her reef safely, a player must let her touch their forehead and draw out one happy memory (e.g., their first kiss, a childhood birthday), which they then forget forever.",
@@ -5603,8 +5599,8 @@
             "maxActionPoints": 4,
             "speed": 0,
             "resistances": {
-              "cold": 100,
-              "physical": 50
+              "rime": 100,
+              "smashing": 50
             }
           },
           "depth": "A massive circular maw that swallows entire ships. Its gullet is a treasure trove of shipwrecked gold and ancient weapons. Players can cast a rope into its mouth to fish for loot, but if they pull too hard, they might be dragged in.",
@@ -5665,9 +5661,9 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "cold": 100,
-              "physical": 75,
-              "psychic": 25
+              "rime": 100,
+              "smashing": 75,
+              "wyrd": 25
             }
           },
           "depth": "So massive that its back gathers ice and soil, looking like a small harbor island. It only submerges if it hears a whale's song; bards can play a whale-song on a shell flute to soothe it back to sleep, allowing ships to escape its wake.",
@@ -5728,7 +5724,7 @@
             "maxActionPoints": 4,
             "speed": 15,
             "resistances": {
-              "cold": 50
+              "rime": 50
             }
           },
           "depth": "Harpys attack ships by perching in the rigging, dangling upside-down to snatch crew members from the decks with their iron hook-feet. Once they grip a mast, they cannot be dislodged without breaking the wood or killing the creature outright. Sailors fear them as death-omens, yet also use them as navigation aids since they always fly toward the calmest exit-corridors of cyclones. A recent squall has left a merchant fleet stranded, and the crew is hiring mercenaries to clear the harpies from their masts.",
@@ -5789,7 +5785,7 @@
             "maxActionPoints": 3,
             "speed": 30,
             "resistances": {
-              "cold": 100
+              "rime": 100
             }
           },
           "depth": "Capable of outpacing storm-currents, Hippocampuss are tamed by Myrathil divers to patrol the harbors of Merrowport. Their presence naturally purifies Wyrd-taint from coastal waters, protecting nearby settlements from water-borne diseases and plagues. They are drawn to the boundaries where fresh rivers meet the sea. A local keeper has reported that a wild Hippocampus has been spotted nearby, and the local temple is looking for adventurers to help guide it safely to a contaminated estuary.",
@@ -5850,8 +5846,8 @@
             "maxActionPoints": 4,
             "speed": 25,
             "resistances": {
-              "cold": 50,
-              "psychic": 50
+              "rime": 50,
+              "wyrd": 50
             }
           },
           "depth": "The petrifying gaze of the Gorgon leaves living statues of terror on the sea-floor, which are often animated by the Wyrd to plague shipping lanes. She can compress her body into a single, tiny bioluminescent eel to slip through fishing-nets and drain the blood of captured catches. To prevent this, sailors must inspect their catch with silver mirrors, which expose her disguise. Adventurers are being recruited to venture into the abyss to recover a petrified crew and destroy the Gorgon nesting near the trench.",
@@ -5912,7 +5908,7 @@
             "maxActionPoints": 3,
             "speed": 25,
             "resistances": {
-              "cold": 25
+              "rime": 25
             }
           },
           "depth": "Infesting ship bilges, Tokoloshes tangle rigging and sabotage compasses, causing navigation checks to fail unless banished by a Myrathil shaman using salt-water barriers and copper bells. At night, they creep into cabins to sit on sleeping children's chests and whisper nightmares, slowly draining their spirit. Raising beds with bricks keeps them out of reach. Recently, a merchant captain has reported a severe bilge infestation, and is looking for adventurers to perform the banishment ritual.",
@@ -5973,7 +5969,7 @@
             "maxActionPoints": 4,
             "speed": 20,
             "resistances": {
-              "cold": 50
+              "rime": 50
             }
           },
           "depth": "Positioning herself in narrow channels, the Lamia uses her long arms to pluck sailors,especially the young,from low decks. She sings a mournful lullaby that mimics a grieving mother, drawing those who have lost children to lean over the rails. The Myrathil pity her as a victim of the Wyrd's cruelty, leaving offerings of coral to buy safe passage. A rumor of a Lamia blocking a vital trade route has prompted local authorities to seek adventurers to either appease or slay her.",
@@ -6034,8 +6030,8 @@
             "maxActionPoints": 4,
             "speed": 35,
             "resistances": {
-              "cold": 50,
-              "lightning": 50
+              "rime": 50,
+              "storm": 50
             }
           },
           "depth": "The Empusa targets lone watch-keepers on night shift, using static-laced seduction to drain their vitality until they are desiccated husks. She is immortal; when slain, her essence transfers to a new host,always a grieving mother who lost a child to the sea. The only way to stop her is to strike a bargain rather than kill her. A local outpost has reported the mysterious deaths of several watch-keepers, and is seeking adventurers to investigate the clicks and thuds heard in the wind.",
@@ -6096,8 +6092,8 @@
             "maxActionPoints": 4,
             "speed": 20,
             "resistances": {
-              "cold": 100,
-              "physical": 25
+              "rime": 100,
+              "smashing": 25
             }
           },
           "depth": "The Telkhine is the only creature capable of crafting weapons from deep-sea ice that never melt, demanding copper and whale-bone rather than gold as payment. They are obsessed with collecting rare alloys, often overturning small boats not to eat the crew, but to strip the nails, rivets, and hinges from the wood. A merchant guild is currently recruiting adventurers to negotiate with a Telkhine for a shipment of ice-blades, warning them to secure all metal fittings on their vessel.",
@@ -6158,7 +6154,7 @@
             "maxActionPoints": 4,
             "speed": 10,
             "resistances": {
-              "physical": 50
+              "smashing": 50
             }
           },
           "depth": "The flock attacks by flying in tight formations and shedding their metallic, barbed feathers like a rain of daggers capable of piercing armor. They overturn small boats to drive crew members into the water, allowing them to easily scoop up the fish that rise to the surface. Neth ships carry bronze rattles to simulate the ancient method of driving them off. A flock has recently nested near a vital strait, and local sailors are seeking adventurers equipped with loud instruments to clear the passage.",
@@ -6219,8 +6215,8 @@
             "maxActionPoints": 3,
             "speed": 20,
             "resistances": {
-              "cold": 100,
-              "psychic": 50
+              "rime": 100,
+              "wyrd": 50
             }
           },
           "depth": "The Nereid rescues drowning sailors, carrying them to the surface at the cost of her own energy, which forces her to rest for years afterward. She guards the abyssal debris-fields of sunken ships, and while the Deep-Born Myrathil treat her as sacred, she will withdraw the breath of the sea from any who disrespect her boundaries. Recently, a famous explorer's ship sank in her territory, and the family is seeking adventurers to politely request her aid in salvaging the ship's logbook.",
@@ -6281,8 +6277,8 @@
             "maxActionPoints": 3,
             "speed": 25,
             "resistances": {
-              "cold": 100,
-              "psychic": 50
+              "rime": 100,
+              "wyrd": 50
             }
           },
           "depth": "The sisters offer to answer questions about the future by casting seal-bones on the ice to read If, patterns. However, they demand a tooth from the questioner as payment; those who refuse are given a false prophecy that leads to their destruction. Neth merchants often seek them out to predict market trends, paying in valuable whale-teeth. A lost captain has reported seeing their iceberg, and scholars are looking for adventurers to consult the oracle about a looming storm.",
@@ -6343,8 +6339,8 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "cold": 100,
-              "lightning": 50
+              "rime": 100,
+              "storm": 50
             }
           },
           "depth": "The Triton's horn-call can alter the waves for a mile, which he uses to clear storm-swept shipping lanes in exchange for amber and copper offerings. He serves as a mediator between surface-dwellers and abyssal leviathans, using his horn to dampen the Sundered Monolith's resonance and prevent stampedes. The Deep-Born Myrathil revere him as the voice of Olokun. A trade guild is looking for adventurers to deliver a tribute of rare copper to his reef to secure safe passage for their fleet.",
@@ -6405,8 +6401,8 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "cold": 100,
-              "physical": 25
+              "rime": 100,
+              "smashing": 25
             }
           },
           "depth": "Nandis hunt on ice-floes, stalking ice-fishing camps and using their claws to tear open shelters. They target the heads of their prey to consume the fat-rich brains, and they frequently follow whale migrations to scavenge carcasses. Whalers view them as a sign of nearby whales but must defend their catches from them. A local village has reported a pack of Nandis nesting nearby, and is hiring hunters to clear them before the winter freeze.",
@@ -6467,8 +6463,8 @@
             "maxActionPoints": 4,
             "speed": 35,
             "resistances": {
-              "physical": 50,
-              "psychic": 50
+              "smashing": 50,
+              "wyrd": 50
             }
           },
           "depth": "The Popobawa slips into cabins to inflict severe night-terrors that exhaust sailors and cause them to collapse on watch. The creature psychically silences its victims, and it will return nightly until the victim publicly names it to another person. Captains enforce policies where crew members must describe their dreams at breakfast to break this silence. A vessel has recently arrived in port with a completely exhausted crew, and investigators are looking for adventurers to root out the spirit.",
@@ -6529,8 +6525,8 @@
             "maxActionPoints": 3,
             "speed": 40,
             "resistances": {
-              "poison": 100,
-              "radiant": 50
+              "blight": 100,
+              "sacred": 50
             }
           },
           "depth": "The Abada's horn purifies any water or toxin it touches, making it a vital cure in Wyrd-taint-infested seas. They tend coral gardens, using their horns to carve channels that direct nutrients and keep reefs immune to decay. Although harvesting the horn is an act of ultimate sacrilege, it can purify a ship's water for a year. A group of poachers is rumored to be tracking an Abada, and local druids are seeking protectors to stop them.",
@@ -6652,8 +6648,8 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "cold": 100,
-              "fire": 50
+              "rime": 100,
+              "ember": 50
             }
           },
           "depth": "Using volcanic vents as hearths, the Ichthya forge tridents and harpoons that never rust or break, gifting them only to worthy captains. By listening to wave-patterns, they can predict Sundered Monolith instability an hour before it happens, warning the Myrathil. Their agitation is a sure sign of danger. A Myrathil settlement has noticed their local forge-keeper growing restless, and is seeking adventurers to investigate the volcanic vents.",
@@ -6714,8 +6710,8 @@
             "maxActionPoints": 3,
             "speed": 0,
             "resistances": {
-              "cold": 50,
-              "psychic": 50
+              "rime": 50,
+              "wyrd": 50
             }
           },
           "depth": "True Brines are the souls of sailors who died heroically, appearing during storms to guide lost ships to safe coves. However, Wyrd-corrupted false lanterns exist, leading ships onto rocks; these can be identified by the screaming, terrified faces within, visible through silver mirrors. A local captain is planning a voyage through a storm-swept passage and is seeking adventurers to guide his ship using a true lantern.",
@@ -6776,8 +6772,7 @@
             "maxActionPoints": 3,
             "speed": 20,
             "resistances": {
-              "cold": 100,
-              "rime": 50
+              "rime": 100
             }
           },
           "depth": "It seeks out ships and coastal watchposts, hoping to merge with living minds to experience their warmth. It leaves a thick, freezing slime on anything it touches, which freezes solid within minutes.",
@@ -6844,7 +6839,6 @@
             "maxActionPoints": 3,
             "speed": 35,
             "resistances": {
-              "cold": 50,
               "rime": 50
             }
           },
@@ -6919,7 +6913,7 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "physical": 50,
+              "smashing": 50,
               "ember": 50
             }
           },
@@ -6981,7 +6975,7 @@
             "maxActionPoints": 4,
             "speed": 45,
             "resistances": {
-              "physical": 25
+              "smashing": 25
             }
           },
           "depth": "They hunt birds and smaller rodents along vertical shafts. Miners listen for their sharp whistling calls, which signal high winds and impending cuts. The Kamaitachi's copper blades are a mystery to alchemists, for they are made of a copper that is harder than any known metal, and some believe that the creature's blades are a natural alloy, a living forge that turns copper into steel.",
@@ -7104,7 +7098,7 @@
             "maxActionPoints": 4,
             "speed": 35,
             "resistances": {
-              "physical": 25
+              "smashing": 25
             }
           },
           "depth": "Highly defensive scouts. They keep watch over pipeline corridors, alerting mine holds of any invaders by letting out a sharp, bird-like cry or shouting warnings using stolen, mimicked human voices. The Storm-Crow's wind-copper staff is a mystery to alchemists, for it is made of a copper that is harder than any known metal, and some believe that the creature's staff is a natural alloy, a living forge that turns copper into steel.",
@@ -7226,8 +7220,8 @@
             "maxActionPoints": 3,
             "speed": 30,
             "resistances": {
-              "cold": 50,
-              "lightning": 50
+              "rime": 50,
+              "storm": 50
             }
           },
           "depth": "Bound by an absolute code of etiquette known as the bow-debt, the Sump-Scrab is compulsively polite; if a traveler bows deeply to it, the creature is forced to return the gesture, spilling its head-water and temporarily losing its power, a quirk Fexric engineers frequently exploit to slip past them along pipeline corridors. They guard the hot thermal pools of Frostmaw Holdfast with fierce devotion, ensuring the waters never freeze or run dry, though Fexric engineers often complain of them acting as pests, nesting inside pipeline junctions to drain steam for their pools. Lately, rumors of a rogue Sump-Scrab spotted near key geothermal conduits have spread, prompting guild-masters to hire daring adventurers to retrieve rare components from the creature to secure the holdfast's heating systems.",
@@ -7288,7 +7282,7 @@
             "maxActionPoints": 4,
             "speed": 35,
             "resistances": {
-              "psychic": 50
+              "wyrd": 50
             }
           },
           "depth": "Because of its backward-facing hind paw, any prints it leaves in the snow point in the opposite direction of its actual travel. It leads trackers into dead-ends. It is obsessed with riddles of direction and space, and will let travelers pass if they walk backward while speaking to it.",
@@ -7349,8 +7343,8 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "cold": 100,
-              "physical": 50
+              "rime": 100,
+              "smashing": 50
             }
           },
           "depth": "A fat snake that rolls like a hoop by biting its own tail. It is a severe alcoholic: it can smell liquor from miles away and will bypass combat entirely to drink any alcohol the players carry, falling asleep and becoming a harmless, squishy pillow.",
@@ -7529,8 +7523,8 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "cold": 50,
-              "poison": 100
+              "rime": 50,
+              "blight": 100
             }
           },
           "depth": "She lures travelers by posing as a stranded maiden on the bridges, only to bind them in metallic-silk cables and hang them beneath the spans to drain their mineral-rich blood over several weeks. Because her webs are blessed by the Tesshan deep-vein entity, they are laced with a corrosive poison that ruins excavation tools, forcing Fexric engineers to offer her precious gems in exchange for passage or access to the veins. Adventurers must tread carefully when searching for missing travelers, often facing the choice of fighting the creature or bargaining with precious jewels to free her captives.",
@@ -7591,8 +7585,8 @@
             "maxActionPoints": 3,
             "speed": 20,
             "resistances": {
-              "psychic": 100,
-              "cold": 50
+              "wyrd": 100,
+              "rime": 50
             }
           },
           "depth": "These spirits repeat everything they hear after a delay of exactly one mountain-breath, creating a layered chorus that the Groven use as a natural communication network to bounce messages across wide valleys. They are deeply bound to the spirits of the peaks, wailing in mournful tones that drive listeners to tears whenever mining or Wyrd-corruption damages the stone. Engineers monitor their cries as a warning system for structural collapse, and adventurers are often sent to investigate when a Kodama's weeping signals a disaster deep in the mountains.",
@@ -7653,8 +7647,8 @@
             "maxActionPoints": 3,
             "speed": 0,
             "resistances": {
-              "physical": 100,
-              "cold": 50
+              "smashing": 100,
+              "rime": 50
             }
           },
           "depth": "These wall-spirits block mountain paths overnight, extending upwards and outwards if travelers attempt to climb or bypass them, leaving them completely impassable unless the base is tapped with a copper-tipped staff to disrupt their magnetic hold. During the night, they rearrange the geography of the peaks, turning familiar routes into dead ends and opening new passages, which makes Groven guides essential for safe travel. Adventurers are often hired to clear blocked trade routes by finding ways to coax these stubborn stone-spirits to step aside.",
@@ -7715,9 +7709,9 @@
             "maxActionPoints": 4,
             "speed": 25,
             "resistances": {
-              "cold": 100,
-              "fire": 50,
-              "physical": 75
+              "rime": 100,
+              "ember": 50,
+              "smashing": 75
             }
           },
           "depth": "Enveloping mountain camps in its warm, humid darkness, the Nue inflicts shared, terrifying nightmares upon those trapped inside, leaving them exhausted and hallucinating for days. It is drawn to collapsed mines, excavation sites, and areas of heavy Wyrd-corruption, acting as Pachamama's wrath against the intrusive digging of the Clockwork Fexric guilds. When a Nue descends, miners flee, and adventurers are often contracted to clear the mist or find the deep-earth wounds that summoned it.",
@@ -7778,8 +7772,8 @@
             "maxActionPoints": 4,
             "speed": 35,
             "resistances": {
-              "fire": 100,
-              "cold": 25
+              "ember": 100,
+              "rime": 25
             }
           },
           "depth": "Descending during Groven funeral processions, the Kasha attempts to steal the deceased from their bridge niches, leaving their spirits to wander as restless ghosts if the body is taken. However, drawing from Ekeko, the creature also leaves miniature representations of desperately needed items for households it deems worthy, which transform into real tools, food, or coal within seven days. Adventurers are often hired to guard funeral processions from their fiery raids or to seek out the nests of these fire-cats to retrieve the magical miniatures they carry.",
@@ -7840,7 +7834,7 @@
             "maxActionPoints": 3,
             "speed": 30,
             "resistances": {
-              "psychic": 25
+              "wyrd": 25
             }
           },
           "depth": "Disguised as Groven toll-collectors, they demand bizarre payments like riddles, songs, or drinks of sake, rewarding cooperative travelers with stone illas that bring good fortune and make their packs heavier, while turning the gear of the uncooperative into dry leaves. The Groven welcome their presence on the spans as a sign of favor, and miners actively seek them out to acquire the illas, which guide them to richer mineral veins. Adventurers may find themselves playing games of chance with a Tanuki to secure passage or retrieve a stolen piece of equipment transformed by its magic.",
@@ -7901,9 +7895,9 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "fire": 100,
-              "physical": 50,
-              "poison": 50
+              "ember": 100,
+              "smashing": 50,
+              "blight": 50
             }
           },
           "depth": "Spinning webs of volcanic-glass silk across geothermal vents, the Ushioni traps unwary prey in the steam, suffocating them with its yellow sulfur breath before devouring them. It demands monthly tributes of refined ore from Fexric holdfasts, and if denied, it will physically block the geothermal pipes, freezing entire sections of Frostmaw Holdfast within hours. Holdfast leaders frequently hire seasoned adventurers to clear these pipe-blocking beasts or to harvest their valuable volcanic-glass silk.",
@@ -7964,8 +7958,8 @@
             "maxActionPoints": 3,
             "speed": 25,
             "resistances": {
-              "psychic": 100,
-              "cold": 25
+              "wyrd": 100,
+              "rime": 25
             }
           },
           "depth": "Prowling the sleeping quarters of the holdfast, the Baku uses its delicate trunk to extract and consume the nightmares of the inhabitants, leaving them to wake refreshed with no memory of their terrors. A section of the holdfast that plays host to a Baku becomes a sacred huaca, protected from Wyrd-corruption, violence, and supernatural threats, which leads Clockwork Fexric engineers to compete fiercely to house the creatures near their workshops. Adventurers are often tasked with protecting these sacred beasts from poachers or guiding a wild Baku into a nightmare-plagued community.",
@@ -8026,8 +8020,8 @@
             "maxActionPoints": 4,
             "speed": 40,
             "resistances": {
-              "lightning": 100,
-              "cold": 50
+              "storm": 100,
+              "rime": 50
             }
           },
           "depth": "Operating during the worst mountain storms, the Nekomata uses the lightning's static charge to animate the frozen corpses of those lost in the blizzard, controlling their movements through the flicking of its twin tails. It sends these puppet-like dead marching toward mountain camps in eerie, lightning-lit processions, forcing the Groven to burn their dead to prevent them from being used as thralls. Adventurers are frequently hired to hunt these storm-cats down before a blizzard allows them to raise a small army of the frozen dead.",
@@ -8088,8 +8082,8 @@
             "maxActionPoints": 4,
             "speed": 25,
             "resistances": {
-              "physical": 25,
-              "cold": 25
+              "smashing": 25,
+              "rime": 25
             }
           },
           "depth": "Infiltrating food stores under the guise of an ordinary worker, the Futakuchi consumes three times the rations of a normal person, using its hidden mouth at night to empty vaults of dried moss-bread, ram-meat, and whiteout-distillate. The second mouth is said to speak the insatiable hunger of the mountains, punishing greedy Clockwork Fexric guild-masters who extract too much wealth by leaving their larders bare. Adventurers are often brought in to quietly investigate disappearing food supplies and deal with the hidden consumer before the holdfast starves.",
@@ -8150,9 +8144,9 @@
             "maxActionPoints": 5,
             "speed": 45,
             "resistances": {
-              "fire": 100,
-              "cold": 100,
-              "physical": 50
+              "ember": 100,
+              "rime": 100,
+              "smashing": 50
             }
           },
           "depth": "Cruising through the mountain passes during the worst winter storms, the Wanyudo targets freezing travelers, extracting the souls of anyone who looks directly at it to add to its burning rim while leaving behind frozen, wide-eyed corpses. It is particularly active during the season of the lost sun-festival, seeking warmth and light by consuming the vital essence of mortals. Adventurers are hired to clear passes haunted by these wheels, or to recover the cold-iron rim of a destroyed Wanyudo to forge cold-resistant artifacts.",
@@ -8213,9 +8207,9 @@
             "maxActionPoints": 4,
             "speed": 25,
             "resistances": {
-              "physical": 50,
-              "fire": 25,
-              "cold": 50
+              "smashing": 50,
+              "ember": 25,
+              "rime": 50
             }
           },
           "depth": "Guarding the richest mineral veins with gold-silk webs, the Tsuchigumo secretes a metallic venom that crystallizes the blood of miners into mineral compounds if they touch the threads. It projects illusions of unguarded, glittering veins to lure miners into its webbed chambers, forcing Fexric holdfasts to flag suspicious veins as hazardous. Daring salvage-teams and adventurers risk their lives to hunt the creature or harvest its golden webs, which can fetch a fortune if extracted without triggering its stone-shattering wrath.",
@@ -8276,7 +8270,7 @@
             "maxActionPoints": 3,
             "speed": 35,
             "resistances": {
-              "poison": 50
+              "blight": 50
             }
           },
           "depth": "Infesting the pipeline network, the Akaname cleans mineral scaling from the pipes, tripling the flow efficiency and prompting Clockwork Fexric engineers to design special access ports for them. However, drawing from the Tunche, they enforce strict taboos of cleanliness; if a workshop becomes too dirty or neglected, the spirits will abandon it, which is considered a catastrophic omen that precedes clogged pipes and machinery failures. Adventurers are often hired to locate and relocate these cleaning-sprites when a workshop suffers from their sudden, ominous departure.",
@@ -8337,9 +8331,9 @@
             "maxActionPoints": 4,
             "speed": 35,
             "resistances": {
-              "cold": 50,
-              "physical": 50,
-              "psychic": 50
+              "rime": 50,
+              "smashing": 50,
+              "wyrd": 50
             }
           },
           "depth": "Bound to Groven families, the Inugami acts as an invisible sentinel, warning of threats on the Ancestor-Spans and hunting down anyone who harms its charges with ruthless efficiency. When a family member dies, the hound guides their soul through the dangerous spirit-paths of the peaks, and when the hound itself fades, its essence absorbs into the bones of the Span to strengthen the bridge. Adventurers must deal with these spectral guardians when attempting to settle disputes with bound Groven families or when trying to retrieve lost souls from the mountain passes.",
@@ -8400,8 +8394,8 @@
             "maxActionPoints": 3,
             "speed": 30,
             "resistances": {
-              "cold": 50,
-              "psychic": 25
+              "rime": 50,
+              "wyrd": 25
             }
           },
           "depth": "Serving as living messengers, Ittans carry spoken words whispered into their fabric across the chasms of the peaks, delivering secure and unforgeable communication between Groven communities. When threatened, the banner wraps around an attacker's face, putting them into a peaceful, day-long sleep, and it will wrap around exposed children to protect them from the deadly cold of the blizzards. Adventurers are sometimes sent to recover an Ittan carrying a vital historical message, or to seek their help in surviving a winter crossing.",
@@ -8462,8 +8456,8 @@
             "maxActionPoints": 4,
             "speed": 40,
             "resistances": {
-              "lightning": 50,
-              "cold": 50
+              "storm": 50,
+              "rime": 50
             }
           },
           "depth": "They hunt in small flocks, mimicking the screams of lost children or the orders of commanders to lead travelers into ambushes or off cliffs. They are highly protective of their high-spire nests.",
@@ -8530,7 +8524,6 @@
             "maxActionPoints": 3,
             "speed": 25,
             "resistances": {
-              "cold": 50,
               "rime": 50
             }
           },
@@ -8605,7 +8598,7 @@
             "maxActionPoints": 3,
             "speed": 40,
             "resistances": {
-              "physical": 25
+              "smashing": 25
             }
           },
           "depth": "They are grassland tricksters that feed on steppe rodents. While mostly harmless, they are a nuisance to the nomadic clans because their pebble-clicking can cause whole horse herds to stampede in the dark. The Mogwai's braids are a mystery to scholars, for they are woven from a grass that does not exist in any known catalog, and some believe that the creature's braids are a natural art, a living tapestry that tells the story of the steppe.",
@@ -8912,7 +8905,7 @@
             "maxActionPoints": 4,
             "speed": 40,
             "resistances": {
-              "physical": 25
+              "smashing": 25
             }
           },
           "depth": "The Almas acts as the living memory of the Sundrift Vale, remembering centuries of clan migrations, ancestor-mound rituals, and the gradual, tragic erasure of the stars by House Ordavan. They watch the nomadic clans from the safety of the ridges, never directly interfering but occasionally leaving silent gifts,such as a slain predator, dry firewood, or a cairn marking a hidden water-source. The Astril believe these creatures preserve the very constellation-patterns that were traded away, making them prime targets for those seeking lost celestial knowledge or those tracking rumors of their rare presence.",
@@ -8973,8 +8966,8 @@
             "maxActionPoints": 4,
             "speed": 50,
             "resistances": {
-              "psychic": 100,
-              "radiant": 100
+              "wyrd": 100,
+              "sacred": 100
             }
           },
           "depth": "A celestial horse of starlight. It will run alongside travelers and defend them from wolves, but if anyone attempts to touch it with a rope or bridle, it instantly dissolves into stardust and teleports 10 miles away. It can only be ridden bareback while in mid-air.",
@@ -9035,9 +9028,9 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "cold": 50,
-              "physical": 50,
-              "psychic": 50
+              "rime": 50,
+              "smashing": 50,
+              "wyrd": 50
             }
           },
           "depth": "Seated on its bone throne, it judges souls. It refuses to let anyone pass unless their group can balance its scales: they must place an item of sentimental value on one side that weighs exactly the same as their collective sins (measured by the Ordan underworld lord's magic).",
@@ -9159,8 +9152,8 @@
             "maxActionPoints": 5,
             "speed": 45,
             "resistances": {
-              "fire": 100,
-              "cold": 25
+              "ember": 100,
+              "rime": 25
             }
           },
           "depth": "Travelling in destructive herds, Nians target nomadic settlements, trampling yurts, scattering livestock, and devouring leather, winter food stores, and sacred ancestor-bone ornaments. The Ordan combat these terrors with loud noise, loud throat-singing, and bonfires, painting their sacred poles red to create a warding barrier that the beasts charge but cannot cross. Brave hunters sometimes track these herds to harvest their valuable iron horns or recover stolen clan relics from their bellies.",
@@ -9221,9 +9214,9 @@
             "maxActionPoints": 4,
             "speed": 25,
             "resistances": {
-              "cold": 50,
-              "physical": 50,
-              "poison": 100
+              "rime": 50,
+              "smashing": 50,
+              "blight": 100
             }
           },
           "depth": "This hopping corpse is completely blind and deaf but detects the breath of living creatures. If players hold their breath (requiring a Constitution check each round), the Jiangshi will hop right past them. If they breathe, it immediately attacks.",
@@ -9284,9 +9277,9 @@
             "maxActionPoints": 5,
             "speed": 25,
             "resistances": {
-              "physical": 75,
-              "cold": 25,
-              "psychic": 25
+              "smashing": 75,
+              "rime": 25,
+              "wyrd": 25
             }
           },
           "depth": "Taotie-Gorges bury themselves in the soil and open their mouths to form natural-looking pit-traps, swallowing entire sections of migrating Ordan herds. They hunt cooperatively in packs, lining up to create barriers of hidden maws, then emerging to run down the survivors with surprising speed. Nomads must set fire to the steppe-grass to reveal the buried mouths before the herd arrives. They frequently hire scouts to clear out the beasts before their herds pass through.",
@@ -9347,8 +9340,8 @@
             "maxActionPoints": 3,
             "speed": 30,
             "resistances": {
-              "psychic": 100,
-              "radiant": 50
+              "wyrd": 100,
+              "sacred": 50
             }
           },
           "depth": "The Baize acts as a living bestiary, speaking in a calm, measured voice to share its absolute knowledge of the Vale's creatures and their weaknesses. Its appearance is a rare omen that precedes major events like Wyrd-storms or shifts in the migration, with the alignment and colors of its blinking eyes serving as a complex divination system that shamans study. Nomads and scholars seek it out to decipher future trials or to obtain its guidance in navigating the dangerous substrate.",
@@ -9409,7 +9402,7 @@
             "maxActionPoints": 4,
             "speed": 20,
             "resistances": {
-              "fire": 50
+              "ember": 50
             }
           },
           "depth": "As the Zilant-Wing glides on thermal currents, the wind rushing through its wings generates a unique, singing pitch that Ordan nomads use to navigate the darkened plains. They are revered as guardians of the Ancestor-Mounds, keeping grave-robbers and Wyrd-rot at bay and ensuring that no dead rise as Jiangshi. A Zilant nesting on a clan's mound is seen as the ultimate sign of ancestral favor, and their presence serves as a deterrent to rival raiders and predatory Qiongqi.",
@@ -9470,8 +9463,8 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "physical": 50,
-              "cold": 50
+              "smashing": 50,
+              "rime": 50
             }
           },
           "depth": "A Susulu-Spring ensures the purity and abundance of her water source, raising tiny dragons that swim through the aquifers to filter out toxins. The Ordan nomads bring their sick to her waters for healing, exchanging milk and silk for the life-extending liquid she guards. Harming her spring or polluting its waters invites a devastating curse of drought and disease, making the preservation of these sites a vital duty for travelers.",
@@ -9532,8 +9525,8 @@
             "maxActionPoints": 5,
             "speed": 40,
             "resistances": {
-              "lightning": 100,
-              "fire": 25
+              "storm": 100,
+              "ember": 25
             }
           },
           "depth": "Drawn to sites of recent chaos,such as ruined camps or Wyrd-shattered lands,the Dijiang-Chaos feeds on the residual energy of disorder before dancing to weave stabilizing runes into the ground. Its multi-tonal, harmonious song induces ego-dissolution in listeners, connecting them to the deep substrate of the steppe. Ordan shamans seek out these creatures to sit in their presence for spiritual visions, though their strange nature makes them a source of both wonder and alarm for travelers.",
@@ -9594,8 +9587,8 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "physical": 50,
-              "cold": 50
+              "smashing": 50,
+              "rime": 50
             }
           },
           "depth": "The Fenghuang-Migrate is an infallible harbinger of seasonal change, guiding the Ordan nomads' migrations as it travels. It only lands in settlements where perfect harmony and respect for elders are maintained, validating the clan's leadership and shedding a single feather capable of purifying water, curing illness, and warding off Wyrd-rot. Because these feathers are of immense spiritual and practical value, they are fiercely guarded, occasionally sparking conflicts between clans desperate for their blessing.",
@@ -9656,7 +9649,7 @@
             "maxActionPoints": 3,
             "speed": 10,
             "resistances": {
-              "physical": 25
+              "smashing": 25
             }
           },
           "depth": "Drawn to the moral state of mortals, the Qiongqi-Scourge actively harasses honest, industrious camps while leaving raiders and oath-breakers unmolested, forcing the Ordan to feign dishonesty for survival. It swoops down from the clouds to carry off prize stallions, devastating the nomads' herds. The only reliable defense against its cruelty is the territorial presence of a Zilant-Wing, which will drive the beast away, though adventurers are often contracted to hunt it down to save a targeted community.",
@@ -9717,8 +9710,8 @@
             "maxActionPoints": 4,
             "speed": 40,
             "resistances": {
-              "physical": 50,
-              "cold": 25
+              "smashing": 50,
+              "rime": 25
             }
           },
           "depth": "The nesting sites of the Zhenniao-Toxin are marked by withered, purple-tinged grass and poisoned soil where no animal can drink or graze. Nomads harvest the bird's toxic tears and feathers using heavy leather protective suits, distilling them into lethal poisons that serve as both deterrents and tools in inter-clan blood feuds. While they are an ecological blight, the value of their venom makes them a lucrative, if incredibly hazardous, target for daring trackers.",
@@ -9779,8 +9772,8 @@
             "maxActionPoints": 4,
             "speed": 25,
             "resistances": {
-              "cold": 50,
-              "physical": 25
+              "rime": 50,
+              "smashing": 25
             }
           },
           "depth": "Drawn to the surface by the Monolith's resonance and the Lumian resonance of the Astril, the Ubagan-Crystal is capable of rearranging underground water-channels, which can either secure a clan's water supply or dry up their wells overnight. Nomads use crystal-vibration rituals to communicate with them, offering rare gems to ensure the safety of their springs. Adventurers are often hired to negotiate with these tectonic giants or retrieve shards of their bodies to study their geological magic.",
@@ -9841,9 +9834,9 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "fire": 50,
-              "cold": 50,
-              "lightning": 50
+              "ember": 50,
+              "rime": 50,
+              "storm": 50
             }
           },
           "depth": "The Qoraigarash sheds its precious gemstone-scales annually, prompting desperate Ordan divers to search the freezing lake beds to collect them for trade. When disturbed, it coils through the waters to create massive whirlpools that can drain surrounding marshes or trigger localized flash floods and storms. Nomads lower polished copper mirrors into the depths as offerings to soothe the dragon, while hunters seek them out for their legendary treasures or to avert aquatic disasters.",
@@ -9904,9 +9897,9 @@
             "maxActionPoints": 4,
             "speed": 35,
             "resistances": {
-              "physical": 75,
-              "cold": 50,
-              "psychic": 50
+              "smashing": 75,
+              "rime": 50,
+              "wyrd": 50
             }
           },
           "depth": "Stalking the high steppe-grass, the Ajina strikes from the darkness with entropic claws that leave slow-festering wounds, dissolving back into shadow before she can be targeted. Survivors of her attacks are cursed with permanent, sanity-draining nightmares of the pre-cosmic Silence, though the Astril Unlit remain immune due to their lack of light. Travelers must take great care when traversing the high grasses, often hiring guides who know how to detect her whispering approach.",
@@ -9967,9 +9960,9 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "physical": 75,
-              "cold": 100,
-              "fire": 50
+              "smashing": 75,
+              "rime": 100,
+              "ember": 50
             }
           },
           "depth": "By turning its various heads toward the valleys, the Lu-Wu Mountain governs the micro-seasons of the Vale, dictating patterns of rain, wind, heat, or frost. It also holds dominion over the migrations of the great woolly herds, steering them away from clans that offend the land or overhunt. The Ordan appease this mighty arbiter through complex throat-sung hymns, and they will go to great lengths to prevent hunters from provoking the beast's wrath.",
@@ -10030,9 +10023,9 @@
             "maxActionPoints": 4,
             "speed": 40,
             "resistances": {
-              "physical": 100,
-              "cold": 50,
-              "lightning": 50
+              "smashing": 100,
+              "rime": 50,
+              "storm": 50
             }
           },
           "depth": "Bura-Stormkin ride the steppe gales, dismantling yurts and shelters with surgical precision to leave victims exposed to the elements. They are drawn to the spiritual rot of broken promises, relentlessly pursuing oath-breakers across the plains until their word is fulfilled or they perish of exposure. Nomads must dig underground shelters to escape their wrath, and they will hire adventurers to appease or defeat these spirits when an oath-breaking crisis threatens the community.",
@@ -10093,9 +10086,9 @@
             "maxActionPoints": 3,
             "speed": 10,
             "resistances": {
-              "radiant": 100,
-              "psychic": 100,
-              "fire": 50
+              "sacred": 100,
+              "wyrd": 100,
+              "ember": 50
             }
           },
           "depth": "As a living fragment of the lost heavens, the Tengri-Spark appears to travelers in moments of utter despair, its light restoring hope and the will to live. The trailing thread connects it directly to the constellations that House Ordavan traded away, allowing shamans to read the alignment of the thread to sacred destinies. The Astril hold these sparks in absolute reverence, defending them from any who would capture them or seek to exploit their celestial connection.",
@@ -10156,8 +10149,8 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "physical": 25,
-              "psychic": 50
+              "smashing": 25,
+              "wyrd": 50
             }
           },
           "depth": "It tracks debtors through gravity storms, its movement unaffected by the steppe's spatial distortions. It only ceases its hunt if the contract's terms are fulfilled or the debt is paid in blood.",
@@ -10224,8 +10217,8 @@
             "maxActionPoints": 3,
             "speed": 20,
             "resistances": {
-              "psychic": 100,
-              "necrotic": 50
+              "wyrd": 100,
+              "blight": 50
             }
           },
           "depth": "If it encounters travelers who cannot tell a star-story, it attacks, devouring their memories of warmth and light. It can be appeased by telling a complete, genuine setting legend.",
@@ -10292,8 +10285,8 @@
             "maxActionPoints": 5,
             "speed": 40,
             "resistances": {
-              "physical": 25,
-              "necrotic": 100
+              "smashing": 25,
+              "blight": 100
             }
           },
           "depth": "He represents the absolute, unyielding authority of ancestor-law. Those who face the Sere-Khan are put on trial; their defense must be presented in ancestral terms, or they are condemned to execution.",
@@ -10551,7 +10544,7 @@
             "maxActionPoints": 4,
             "speed": 40,
             "resistances": {
-              "physical": 25
+              "smashing": 25
             }
           },
           "depth": "Comical yet dangerous constructs. They are bound to a master (usually a forest witch) and will only allow their master to open them without detonating the runic lock. The Hut-ling's runic lock is a mystery to scholars, for it is made of a rune that does not exist in any known catalog, and some believe that the creature's lock is a natural adaptation, a living defense that protects the witch's treasure from thieves.",
@@ -10673,9 +10666,9 @@
             "maxActionPoints": 5,
             "speed": 20,
             "resistances": {
-              "physical": 75,
-              "lightning": 100,
-              "fire": 50
+              "smashing": 75,
+              "storm": 100,
+              "ember": 50
             }
           },
           "depth": "Shifts trees and roots to make travelers walk in circles. The only way to break its illusion is to wear your coat inside-out and walk backward; this amuses the Leshara, who will laugh (sounding like rustling leaves) and reveal the true path.",
@@ -10736,9 +10729,9 @@
             "maxActionPoints": 3,
             "speed": 25,
             "resistances": {
-              "cold": 50,
-              "necrotic": 100,
-              "psychic": 25
+              "rime": 50,
+              "blight": 100,
+              "wyrd": 25
             }
           },
           "depth": "During the dry season, the Rusalka leaves her pool to dance in peat-clearings, casting a hypnotic lure that forces anyone who watches to join until their hearts burst, a compulsion that can only be broken by wearing one's clothes inside-out. Those who seek her out often do so for her bone-comb, which can untangle any physical or metaphorical knot, offering Neth contract-mages a way to resolve impossible legal disputes at the cost of a year of their memories. Adventurers may be hired to retrieve these memories or to hunt the creature down when reports of her deadly dances surface near local settlements.",
@@ -10799,9 +10792,9 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "physical": 75,
-              "cold": 50,
-              "necrotic": 50
+              "smashing": 75,
+              "rime": 50,
+              "blight": 50
             }
           },
           "depth": "Dwelling in colonies high in the ironwoods, the Strigoi-Canopy drops onto travelers to drain their vitality, leaving victims as listless husks. If captured, this cunning spirit will answer questions of the past and future but only through riddle-stories; failure to solve them summons its pack, though Neth Kessen weavers often brave these encounters using probability-sight to unlock the Strigoi's dark knowledge. Adventurers may be hired to clear these canopy pests or retrieve components from their wings.",
@@ -10862,9 +10855,9 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "physical": 50,
-              "lightning": 50,
-              "radiant": 50
+              "smashing": 50,
+              "storm": 50,
+              "sacred": 50
             }
           },
           "depth": "A tiny household protector living under floorboards. If players stay in a house guarded by a Domovoi, they must follow its 'house rules' (e.g., no boots indoors, don't sweep after sunset). If they break a rule, the Domovoi hides their boots or spoils their rations. If respected, it polishes their weapons.",
@@ -10925,8 +10918,8 @@
             "maxActionPoints": 4,
             "speed": 35,
             "resistances": {
-              "poison": 75,
-              "cold": 25
+              "blight": 75,
+              "rime": 25
             }
           },
           "depth": "She spins dust and cobwebs into beautiful garments. If a player wears one of her garments, they gain charisma but see the world through a shifting illusion, making friendly NPCs look like monsters. She will exchange these garments for a handful of silver needles.",
@@ -10987,9 +10980,9 @@
             "maxActionPoints": 3,
             "speed": 25,
             "resistances": {
-              "necrotic": 50,
-              "cold": 50,
-              "psychic": 25
+              "blight": 50,
+              "rime": 50,
+              "wyrd": 25
             }
           },
           "depth": "The Zmey-Bog hoards stolen legal documents, including Neth First Contract fragments and Vreken burial charters, in its inaccessible bog-pools. To prevent the dragon from tearing down the branch-walkways of Atropolis, the Neth are forced to pay a tribute of one contract-scroll per decade, presenting a rich target for adventurers hired to recover lost archives or defend the canopy city from the beast's wrath.",
@@ -11050,8 +11043,8 @@
             "maxActionPoints": 4,
             "speed": 35,
             "resistances": {
-              "cold": 50,
-              "physical": 25
+              "rime": 50,
+              "smashing": 25
             }
           },
           "depth": "Serving as the primary source of light in the dark under-canopy, the Zharptitsa-Glow has its feathers harvested by the Vreken to illuminate their spires and crypts. The bird also acts as a natural Serpent-Slayer, repelling creatures like the Zmey-Bog and the Naga-Root, which leads the Neth to encourage their nesting near archives; however, the creature demands absolute silence, and any sound louder than a whisper will cause it to flee and shed its valuable feathers in panic, sparking high-stakes retrieval missions for adventurers.",
@@ -11112,9 +11105,9 @@
             "maxActionPoints": 5,
             "speed": 15,
             "resistances": {
-              "physical": 75,
-              "cold": 100,
-              "lightning": 50
+              "smashing": 75,
+              "rime": 100,
+              "storm": 50
             }
           },
           "depth": "Ruling the underground as the Root-Lord, the Naga-Root dictates the flow of water through the forest's root-network, deciding which ironwood trees flourish and which wither. He is also the Water-Guardian of the subterranean rivers, requiring the Vreken to petition him with ancient relics and crypt treasures for water rights, judging them with a fair but merciless hand that adventurers might need to influence, bypass, or challenge if water conflicts arise.",
@@ -11175,9 +11168,9 @@
             "maxActionPoints": 5,
             "speed": 25,
             "resistances": {
-              "physical": 50,
-              "cold": 50,
-              "necrotic": 100
+              "smashing": 50,
+              "rime": 50,
+              "blight": 100
             }
           },
           "depth": "Known as the Insatiable-Dead, Preta-Hollows are the spirits of debtors whose contracts were called by the Morvane before they could pay. Their presence acts as a Hunger-Inducer, inflicting painful, unsatisfiable hunger on anyone within twenty feet, rendering food useless. The only release for these spirits is for a living soul to pay off their contract-debts, a transaction that Neth Kessen weavers are willing to facilitate for a steep fee, providing a moral and financial dilemma for adventurers who encounter them or seek to retrieve components from their hollow forms.",
@@ -11238,9 +11231,9 @@
             "maxActionPoints": 5,
             "speed": 35,
             "resistances": {
-              "physical": 50,
-              "cold": 50,
-              "necrotic": 75
+              "smashing": 50,
+              "rime": 50,
+              "blight": 75
             }
           },
           "depth": "Serving as the Oracle-Bird, she sings complex, allegorical poems detailing the future from the high branches, which Neth Velun arcanists study extensively. Her shed feathers are harvested for their memory-glass prophecies and sold by the Vreken to Neth contract-mages to guide their decisions, though these fortunes always manifest in unexpected and devastating ways, creating opportunities for adventurers hired to retrieve a feather or decipher a riddle of fate.",
@@ -11301,9 +11294,9 @@
             "maxActionPoints": 4,
             "speed": 20,
             "resistances": {
-              "physical": 100,
-              "necrotic": 50,
-              "cold": 50
+              "smashing": 100,
+              "blight": 50,
+              "rime": 50
             }
           },
           "depth": "Acting as the Bargain-Devil, the Chort-Thorn offers deals that are technically fulfilled but always turn out ironically disastrous, making bargains with him a sign of desperation, especially for the pathologically honest Neth. He is also a Shape-Stealer who impersonates others to sow chaos, though he always retains a single physical tell like horns or goat-eyes, which Vreken guards are trained to detect. Adventurers might be hired when rumors spread of a Chort-Thorn in the area, or if they need to harvest a component from one.",
@@ -11364,9 +11357,9 @@
             "maxActionPoints": 4,
             "speed": 40,
             "resistances": {
-              "fire": 75,
-              "poison": 100,
-              "cold": 25
+              "ember": 75,
+              "blight": 100,
+              "rime": 25
             }
           },
           "depth": "As the Night-Screamer, it fills the dark hours with a piercing wail that causes physical pain and heart failure in those who hear it, though the sleepless Neth are immune to its madness. These spirits are the Unfulfilled-Dead, Neth who faded without completing their contract unraveling, their cries expressing the agony of minds trapped between life and non-existence, which only a brave Kessen weaver can quiet by resolving the contract's final clauses. Adventurers may be drawn to investigate when rumors of a wailing spirit spread, or they may need to seek out the Drekavac-Wail to extract a rare component from its remains.",
@@ -11427,8 +11420,8 @@
             "maxActionPoints": 3,
             "speed": 25,
             "resistances": {
-              "psychic": 50,
-              "cold": 25
+              "wyrd": 50,
+              "rime": 25
             }
           },
           "depth": "Living as a Vent-Dweller, the Bannik-Vent is critical to the survival of Atropolis, regulating the Neth's peat-fired heating network to prevent explosions or freezing. He is also a Stone-Diviner, throwing hot peat-stones to predict volcanic and geothermal activity for the Neth's builders, meaning an abandoned vent is a dire omen that adventurers may be recruited to investigate before the system fails, especially if they need a rare elemental component from the creature.",
@@ -11548,9 +11541,9 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "necrotic": 100,
-              "cold": 50,
-              "physical": 25
+              "blight": 100,
+              "rime": 50,
+              "smashing": 25
             }
           },
           "depth": "Known as the Debt-Revenant, the Vourdalak-Debt is returned to a half-life by the Morvane to complete its broken Neth or Vreken contract, draining its family's life force to do so. It also acts as a Madness-Speaker, possessing blood relatives to speak secrets of contract loopholes and buried artifacts, making these encounters a desperate search for Neth weavers and adventurers seeking to free the family from the spirit's parasitic bond or to retrieve a component from it.",
@@ -11611,8 +11604,8 @@
             "maxActionPoints": 3,
             "speed": 30,
             "resistances": {
-              "psychic": 75,
-              "necrotic": 50
+              "wyrd": 75,
+              "blight": 50
             }
           },
           "depth": "Acting as a Tree-Bride, each Mavka-Willow is bound to a specific willow whose growth reflects her mood, which the Neth monitor as a living archive since the tree's rings store her memories. Her dangerous Hollow-Back Secret draws onlookers to walk around her, only to be driven mad by the sight of her hollow interior, though the Vreken have learned a funeral chant to force her to turn away. Adventurers might be hired to protect Neth researchers or to harvest components from the Mavka's sacred tree.",
@@ -11673,8 +11666,8 @@
             "maxActionPoints": 3,
             "speed": 30,
             "resistances": {
-              "psychic": 50,
-              "necrotic": 25
+              "wyrd": 50,
+              "blight": 25
             }
           },
           "depth": "Known as the Joy-Singer, her song induces a state of euphoric oblivion, making it tempting to the contract-laden Neth. However, she is also a Memory-Thief, as every minute spent listening erases a year of the listener's past; these erased memories are stored in her dawn-colored feathers, which Vreken crypt-scholars seek to harvest for their secrets, offering a lucrative but highly dangerous task for adventurers who are hired when sightings are reported or when a specific component is needed.",
@@ -11735,8 +11728,8 @@
             "maxActionPoints": 3,
             "speed": 10,
             "resistances": {
-              "psychic": 75,
-              "necrotic": 25
+              "wyrd": 75,
+              "blight": 25
             }
           },
           "depth": "Acting as the False-Mother, she offers poisoned milk to grieving parents to put them into a permanent sleep before leaving a changeling of woven bog-grass in their place. Her actual amphibious offspring, the Substitute-Children, are left in human cradles and grow rapidly while devouring contract-paper, forcing Neth households to hunt these creatures down and retrieve their stolen kin before their archives are destroyed, providing a desperate hook for adventurers.",
@@ -11797,9 +11790,9 @@
             "maxActionPoints": 5,
             "speed": 30,
             "resistances": {
-              "necrotic": 100,
-              "cold": 50,
-              "physical": 25
+              "blight": 100,
+              "rime": 50,
+              "smashing": 25
             }
           },
           "depth": "Operating as a Root-Parasite, the Upir-Root drains the life force of everything within a fifty-foot radius, causing trees to yellow and inducing severe fatigue in Neth travelers walking above. As the primary Blight-Cause in the forest, these infestations are targeted by the Neth Velun using contract-rituals to legally release the spirit's attachments, though adventurers are often needed to locate the buried center of the network or protect the ritualists from the spirit's defensive tendrils, especially if a component from the core is required.",
@@ -11860,9 +11853,9 @@
             "maxActionPoints": 3,
             "speed": 10,
             "resistances": {
-              "radiant": 100,
-              "psychic": 100,
-              "necrotic": 25
+              "sacred": 100,
+              "wyrd": 100,
+              "blight": 25
             }
           },
           "depth": "Performing the Death-Song at the forest's deepest core, her voice is the sound of the Morvane, driving listeners to sit down and peacefully surrender to the swamp. As the Fate-Weaver, she manipulates nine threads representing elements like birth, contract, and dissolution to shape destinies, prompting the Neth to avoid her at all costs and providing a legendary challenge for any adventurers who dare seek her tears or seek to alter a predetermined doom, or if a sighting prompts a high-stakes investigation.",
@@ -11923,7 +11916,6 @@
             "maxActionPoints": 4,
             "speed": 20,
             "resistances": {
-              "cold": 50,
               "rime": 50
             }
           },
@@ -11991,8 +11983,8 @@
             "maxActionPoints": 4,
             "speed": 25,
             "resistances": {
-              "necrotic": 100,
-              "cold": 50
+              "blight": 100,
+              "rime": 50
             }
           },
           "depth": "It cannot rest until its contract is legally fulfilled or the document is burned by a Neth pact-mage. It is intensely hostile to anyone who attempts to block its path or salvage its armor.",
@@ -12059,8 +12051,8 @@
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "necrotic": 100,
-              "psychic": 50
+              "blight": 100,
+              "wyrd": 50
             }
           },
           "depth": "It feeds on the life-force of dying creatures, preventing their spirits from returning to the loop of rebirth. A grove occupied by a Cycle-Eater slowly turns grey and sterile, its trees unable to bud.",

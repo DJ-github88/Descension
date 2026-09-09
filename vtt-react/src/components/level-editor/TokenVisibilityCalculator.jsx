@@ -6,6 +6,7 @@ import useCharacterTokenStore from '../../store/characterTokenStore';
 import useSettingsStore from '../../store/settingsStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { calculateVisibleTiles, calculateVisibilityPolygon, feetToTiles } from '../../utils/VisibilityCalculations';
+import { isTokenControlledByMe } from '../../utils/tokenOwnership';
 
 // PERFORMANCE: Minimum time between visibility recalculations (ms)
 const MIN_RECALCULATION_INTERVAL = 50;
@@ -126,15 +127,9 @@ const TokenVisibilityCalculator = () => {
     const controlledCreaturePositionKey = useMemo(() => {
         if (isGMMode || !currentPlayerId || !creatureTokens) return '';
         try {
-            const gs = require('../../store/gameStore').default.getState();
-            const myUserId = require('../../store/authStore').default.getState().user?.uid;
-            const myId = gs.currentPlayer?.id;
-            const myName = gs.currentPlayer?.name;
             const controlled = creatureTokens.filter(t => {
                 if (!t.position || t.state?.hiddenFromPlayers) return false;
-                const oid = t.state?.ownerId || t.state?.playerId;
-                if (!oid) return false;
-                return oid === myId || oid === myUserId || oid === myName;
+                return isTokenControlledByMe(t);
             });
             if (controlled.length === 0) return '';
             return controlled
@@ -231,17 +226,9 @@ const TokenVisibilityCalculator = () => {
             if (creatureShouldCalc) {
                 lastCreatureCalcRef.current = { key: creatureCalcKey, time: now };
 
-                const gs = require('../../store/gameStore').default.getState();
-                let myUserId = null;
-                try { myUserId = require('../../store/authStore').default.getState().user?.uid; } catch {}
-                const myId = gs.currentPlayer?.id;
-                const myName = gs.currentPlayer?.name;
-
                 const controlledCreatures = creatureTokens.filter(t => {
                     if (!t.position || t.state?.hiddenFromPlayers) return false;
-                    const oid = t.state?.ownerId || t.state?.playerId;
-                    if (!oid) return false;
-                    return oid === myId || oid === myUserId || oid === myName;
+                    return isTokenControlledByMe(t);
                 });
 
                 if (controlledCreatures.length > 0) {
