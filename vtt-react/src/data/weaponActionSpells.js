@@ -673,7 +673,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     staff: {
         id: 'spec_staff_sweeping_trip',
         name: 'Sweeping Trip & Bonk',
-        description: 'An iconic spinning sweep of the staff across the ankles followed by a firm bonk to the crown. Deals smashing damage and forces an Agility save; on failure, the target is knocked Prone!',
+        description: 'An iconic spinning sweep of the staff across the ankles followed by a firm stunning bonk to the crown. Deals smashing damage and forces an Agility save; on failure, the target is knocked Prone!',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'control'],
