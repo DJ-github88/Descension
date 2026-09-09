@@ -225,9 +225,9 @@ const SpellCardHeader = ({
               }}
             />
 
-            {/* Spell Type Badge */}
-            {(variant === 'spellbook' || spell?.spellType === 'REACTION' || spell?.spellType === 'PASSIVE') && (
-              <div className={`spell-type-badge ${spell?.spellType === 'REACTION' ? 'type-reaction' : spell?.spellType === 'PASSIVE' ? 'type-passive' : ''}`}>
+            {/* Spell Type Badge (for spellbook variant only) */}
+            {variant === 'spellbook' && (
+              <div className="spell-type-badge">
                 {spell?.spellType || 'ACTION'}
               </div>
             )}

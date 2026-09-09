@@ -1680,8 +1680,8 @@
 
 .party-member-frame .member-header {
     padding-left: 19%;
-    padding-right: 4px;
-    margin-top: 1px;
+    padding-right: 28px;
+    margin-top: 8px;
     margin-bottom: 2px;
     display: flex;
     flex-direction: column;
@@ -1831,13 +1831,13 @@
     display: flex;
     flex-direction: column;
     gap: 3px;
-    margin-top: 26px;
+    margin-top: 32px;
     margin-bottom: 6px;
     align-items: center;
 }
 
 .party-member-frame.has-class-resource {
-    min-height: 172px;
+    min-height: 178px;
 }
 
 .party-member-frame.class-chronarch,
@@ -1873,7 +1873,8 @@
 
 .party-corner-mount.mount-ap {
     top: -10px !important;
-    left: -8px !important;
+    right: -8px !important;
+    left: auto !important;
     width: 36px !important;
     height: 42px !important;
 }
