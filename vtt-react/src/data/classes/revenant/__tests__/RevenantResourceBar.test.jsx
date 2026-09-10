@@ -52,7 +52,7 @@ describe('RevenantResourceBar Component', () => {
                 config={mockConfig}
             />
         );
-        expect(screen.getAllByText(/Necrotic Rot/i).length).toBeGreaterThan(0);
+        expect(screen.getAllByText(/Rot Surge/i).length).toBeGreaterThan(0);
 
         rerender(
             <RevenantResourceBar

@@ -29,7 +29,7 @@ export const MINSTREL_DATA = {
 
   // Class Resource, generated per spell. Resource range/balance per design.
   // Lore name: Musical Notes / Cadences
-  classResource: { type: "musical_notes", base: 0, max: 8, generationNote: "Built by performing cadences (instrumental). Each cadence type (perfect, deceptive, plagal, etc.) consumes 1-3 notes. Voice is stolen (cannot speak)." },
+  classResource: { type: "musical_notes", base: 0, max: 35, generationNote: "Bank notes by casting builder spells (max 5 per pitch, I-VII; 35 total). Cadences consume banked notes when resolved. Voice is stolen (cannot speak)." },
 
 
   // EQUIPMENT (added 2026-07-28 audit fix)
@@ -117,7 +117,7 @@ The Thaw-Run is the longest continuous river on Mythril, flowing from the Cragja
     title: 'The Bog-Resonance',
     reframe: `The <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>'s fungal network has its own rhythm  —  the pulse of the <LoreLink termId="root_veil">Root-Veil</LoreLink>, the hum of bioluminescent spores, the slow heartbeat of the bog itself. A <LoreLink termId="vreken">Clean Vreken</LoreLink> Minstrel conducts this rhythm, not the sea's. Their music is subterranean, felt in the roots, heard only by those who stand on living mycelium. The Cadences are deep, slow, and patient. A Clean Vreken Minstrel does not perform  —  they resonate. The bog is their instrument.
 
-The Clean Vreken discovered bog-resonance independently through the Root-Veil  —  but they first encountered the Minstrel *concept* through Neth traders at Ironjaw Port, where Tide-Choir performances are a recognized civic attraction. A Clean Vreken trade delegate named **Ysenil Deep-Glow** (the Vreken crypt-keeper) heard a Shore Minstrel perform and spent three years adapting the principles to the Bryngloom's fungal network. The Tide-Choir does not officially recognize the Clean Vreken as Minstrels  —  they have no seats in the Choir  —  but Ysenil's bog-cadences are genuine, and the bog itself vouches for them.`,
+The Clean Vreken discovered bog-resonance independently through the Root-Veil  —  but they first encountered the Minstrel *concept* through Nethien traders at Ironjaw Port, where Tide-Choir performances are a recognized civic attraction. A Clean Vreken trade delegate named **Ysenil Deep-Glow** (the Vreken crypt-keeper) heard a Shore Minstrel perform and spent three years adapting the principles to the Bryngloom's fungal network. The Tide-Choir does not officially recognize the Clean Vreken as Minstrels  —  they have no seats in the Choir  —  but Ysenil's bog-cadences are genuine, and the bog itself vouches for them.`,
     signatureAbility: {
     name: 'Bog-Cadence',
     description: `Cadences are amplified by proximity to active mycelial networks and fungal blooms; a Clean Vreken Minstrel standing on the Root-Veil can synchronize an entire grove's bioluminescence into a single sustained glow-pulse. Inland, on dead ground, away from any mycelium, the same Cadence is a whisper.`
@@ -168,7 +168,7 @@ The first was Lyris the Tide-Singer, a Merryn sailor aboard the Wind-Wake, a tra
 
 The Tide-Choir that grew from her discovery numbers sixty-four active minstrels, divided into four sections. The Storm-Singers, Merryn practitioners led by Tide-Mistress Mer-Lyrisa, conduct open-water cadences. The Shore-Chorus, Shore Myrathil performers, mediate the boundary between sea and land. The River-Voice, Brook Myrathil practitioners, carry the work up the Thaw-Run, the longest continuous river on Mythril, flowing from the Cragjaw melt-lakes through the Sundrift Vale to the Iceheart Sea. The Deep-Chamber, Deep Myrathil performers, produce subsonic frequencies felt in bone rather than heard. The Deep-Chamber section has had no active members since the silence began.
 
-The Clean Vreken discovered bog-resonance independently through the Root-Veil, but first encountered the minstrel concept through Neth traders at Ironjaw Port. A Clean Vreken named Ysenil Deep-Glow spent three years adapting the principles to the Bryngloom's fungal network. Her music is subterranean, conducted through mycelium, felt in root and spore. The Tide-Choir does not officially recognize the Clean Vreken branch, but the bog vouches for them.
+The Clean Vreken discovered bog-resonance independently through the Root-Veil, but first encountered the minstrel concept through Nethien traders at Ironjaw Port. A Clean Vreken named Ysenil Deep-Glow spent three years adapting the principles to the Bryngloom's fungal network. Her music is subterranean, conducted through mycelium, felt in root and spore. The Tide-Choir does not officially recognize the Clean Vreken branch, but the bog vouches for them.
 
 The Iceheart Sea has fallen silent. The oldest continuous frequency in the known world has stopped. The silence is spreading up the Thaw-Run, tributary by tributary. Lyris vanished the night it began. Her lute was recovered from the water with a carving on its back: "I am looking for the note that shatters the old powers." The Deep Myrathil surfaced not to perform but to flee. Something in the abyss learned their subsonic song and is singing it back to them in a voice that should not exist.`,
  title: "The Minstrel",
@@ -344,7 +344,7 @@ Different instruments provide different bonuses and affect your playstyle:
 
 **Your Action**: Cast "Harmonic Strike" at Bandit #2 (4 mana, builder spell)
 **Attack Roll**: d20+5 ? [16] = Hit!
-**Damage**: 1d8 bludgeoning ? [6] = **6 damage**
+**Damage**: 1d8 smashing ? [6] = **6 damage**
 **Musical Notes Generated**: III(2) + I(1)
 
 *You strike your drum with a thunderous CRASH. The sound wave SLAMS into the bandit, knocking him back.*
@@ -428,7 +428,7 @@ Different instruments provide different bonuses and affect your playstyle:
 
 **Your Action**: Cast "Harmonic Strike" at Bandit #6 (4 mana, builder spell)
 **Attack Roll**: d20+5 ? [14] = Hit!
-**Damage**: 1d8 bludgeoning ? [6] = **6 damage**
+**Damage**: 1d8 smashing ? [6] = **6 damage**
 **Musical Notes Generated**: III(2) + I(1)
 **Result**: Bandit #6 DEAD
 
@@ -908,9 +908,9 @@ Before combat, decide which cadences you want to prioritize:
 
   entries: [
   {
-   id: "perfect_cadence",
-   name: "Notes",
-   epithet: "Harmonious Resolution",
+  id: "perfect_cadence",
+  name: "Perfect Cadence",
+  epithet: "Harmonious Resolution",
    sequence: "I → IV → V → I",
    notes: { I: 2, IV: 1, V: 1 },
    damageTypes: ["storm"],

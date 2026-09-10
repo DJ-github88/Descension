@@ -148,7 +148,17 @@ function transformForStorage(characterData, userId) {
       organizations: characterData.lore?.organizations || '',
       notes: characterData.lore?.notes || '',
       characterImage: characterData.lore?.characterImage || null,
-      imageTransformations: characterData.lore?.imageTransformations || null
+      imageTransformations: characterData.lore?.imageTransformations || null,
+      characterIcon: characterData.lore?.characterIcon || null,
+      iconBackgroundColor: characterData.lore?.iconBackgroundColor || null,
+      iconBorderColor: characterData.lore?.iconBorderColor || null,
+      iconBackgroundImage: characterData.lore?.iconBackgroundImage || null,
+      iconScale: characterData.lore?.iconScale ?? null,
+      iconOffsetX: characterData.lore?.iconOffsetX ?? null,
+      iconOffsetY: characterData.lore?.iconOffsetY ?? null,
+      iconBackgroundScale: characterData.lore?.iconBackgroundScale ?? null,
+      iconBackgroundOffsetX: characterData.lore?.iconBackgroundOffsetX ?? null,
+      iconBackgroundOffsetY: characterData.lore?.iconBackgroundOffsetY ?? null
     },
     gameState: {
       experience: characterData.experience || 0,

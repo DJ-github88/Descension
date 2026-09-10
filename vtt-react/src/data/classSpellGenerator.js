@@ -29,6 +29,7 @@ import { SPELLGUARD_DATA } from './classes/spellguardData';
 import { TOXICOLOGIST_DATA } from './classes/toxicologistData';
 import { WARDEN_DATA } from './classes/wardenData';
 import { AUGUR_DATA } from './classes/augurData';
+import { CRUSADER_DATA } from './classes/crusaderData';
 import { UNIVERSAL_COMBAT_SPELLS } from './universalCombatSpells';
 
 // ===== CLASS DATA MAP =====
@@ -54,8 +55,9 @@ export const CLASS_DATA_MAP = {
  'Pyrofiend': PYROFIEND_DATA,
  'Spellguard': SPELLGUARD_DATA,
  'Toxicologist': TOXICOLOGIST_DATA,
- 'Warden': WARDEN_DATA,
-  'Augur': AUGUR_DATA
+  'Warden': WARDEN_DATA,
+   'Augur': AUGUR_DATA,
+  'Crusader': CRUSADER_DATA
 };
 
 // ===== GENERIC SPELL NORMALIZATION =====

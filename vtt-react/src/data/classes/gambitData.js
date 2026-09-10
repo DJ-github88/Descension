@@ -57,14 +57,14 @@ export const GAMBIT_DATA = {
     },
 
     kessen_neth: {
-      subraceName: 'Kessen Neth',
+      subraceName: 'Veldun',
       title: 'The Clause-Gambler',
-      reframe: `The <LoreLink termId="neth">Kessen Neth</LoreLink>, the weavers of the forest floor, refined probability-web reading in the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>, and Lyra formalized it through rune-etched cards in the Cragjaw toll-negotiations. To a Kessen Gambit, every hand of cards is a clause analysis: the opponent's tells are legal vulnerabilities, the pot is a renegotiated term, and the win is a precedent.`,
+      reframe: `The <LoreLink termId="neth">Veldun</LoreLink>, the weavers of the forest floor, refined probability-web reading in the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>, and Lyra formalized it through rune-etched cards in the Cragjaw toll-negotiations. To a Veldun Gambit, every hand of cards is a clause analysis: the opponent's tells are legal vulnerabilities, the pot is a renegotiated term, and the win is a precedent.`,
       signatureAbility: {
         name: 'Clause-Analysis',
-        description: `Probability is calculated as contract-law; the Gambit reads opponents' tells as legal exposures and stakes against the binding-force of their own word. A Kessen Gambit cannot bluff, but they can structure a wager so that losing it benefits them more than winning, which is the same thing, legally.`
+        description: `Probability is calculated as contract-law; the Gambit reads opponents' tells as legal exposures and stakes against the binding-force of their own word. A Veldun Gambit cannot bluff, but they can structure a wager so that losing it benefits them more than winning, which is the same thing, legally.`
       },
-      currentCrisisAngle: `Lyra has radicalized. Her Deck-Burners faction seeks to force the universe to choose, burning their rune-cards to collapse probability into certainty. The Kessen Gambits of Ironjaw Port consider this heresy: a Gambit who forces the outcome is no longer gambling, and a Neth who no longer gambles is, by the terms of their own tradition, in breach of their relationship with chance itself.`,
+      currentCrisisAngle: `Lyra has radicalized. Her Deck-Burners faction seeks to force the universe to choose, burning their rune-cards to collapse probability into certainty. The Veldun Gambits of Ironjaw Port consider this heresy: a Gambit who forces the outcome is no longer gambling, and a Nethien who no longer gambles is, by the terms of their own tradition, in breach of their relationship with chance itself.`,
       signatureQuote: {
         text: '"I do not cheat. I draft the wager so that every outcome is mine. The other player signed the rules. That they did not read them is not my failure."',
         speaker: 'Lyra',
@@ -111,11 +111,11 @@ The Caustic Fexric did not adopt Merryn gambling  —  they independently discov
   classResource: {
     type: "fortune",
     base: 0,
-    max: 10,
+    max: 7,
     secondaryResource: { type: "karmic_debt", max: 13 },
     generationNote: "Drawn from the fate deck. High Fortune rolls increase Karmic Debt.",
     criticalThresholds: { calamity: 13 },
-    mechanicsNote: "If Karmic Debt reaches 13, a Calamity event triggers, dealing catastrophic chaos backlash to the Gambit."
+    mechanicsNote: "Fortune cap scales by specialization: 7 (Probability Savant), 13 (Karmic Weaver), 21 (High Roller); the bar tracks a base pool of 7. If Karmic Debt reaches 13, a Calamity event triggers, dealing catastrophic chaos backlash to the Gambit."
   },
   name: "Gambit",
   icon: "fas fa-dice",
@@ -126,7 +126,7 @@ The Caustic Fexric did not adopt Merryn gambling  —  they independently discov
     title: "The Wagering Architect",
     subtitle: "The Probability Siphon",
     utility: "Absolute d20 outcome manipulation through dual resource systems. They combine stolen Fortune with pre-drawn Fate Reserve cards to nudge, override, or replace any active roll on the battlefield. No other class wields both real-time nudging and hard-coded card overrides simultaneously.",
-    fatalFlaw: "Dual collapse conditions. Fortune depletion triggers Cosmic Bankruptcy (2d10 necrotic, 100% vulnerability). Karmic Debt overflow triggers Wyrd Collapse (6d10 psychic, incapacitation, Fortune emptied, max HP reduced). Every Fortune spent deals wyrd damage through Calculated Risk, and every card override deepens Karmic Debt. They possess zero defensive multi-target tools and are uniquely vulnerable to sustained physical and spirit-focused attacks."
+    fatalFlaw: "Dual collapse conditions. Fortune depletion triggers Cosmic Bankruptcy (2d10 blight, 100% vulnerability). Karmic Debt overflow triggers Wyrd Collapse (6d10 wyrd, incapacitation, Fortune emptied, max HP reduced). Every Fortune spent deals wyrd damage through Calculated Risk, and every card override deepens Karmic Debt. They possess zero defensive multi-target tools and are uniquely vulnerable to sustained physical and spirit-focused attacks."
   },
 
   spellPools: {
@@ -160,15 +160,15 @@ The Caustic Fexric did not adopt Merryn gambling  —  they independently discov
   worldFriction: [
     { region: 'iceheart-sea', location: 'merrowport', status: 'tolerated', consequence: 'The Merrowport House is a licensed institution; its Gambits operate openly as brokers, odds-makers, and contract-underwriters. A House Gambit in good standing has legal authority to adjudicate voyage-share disputes.', workaround: 'The Deck-Burners (Lyra radicals) are NOT tolerated, they are wanted by the House middle for forcing outcomes, which the House considers a breach of the wager itself.' },
     { region: 'nordhalla', status: 'outlawed', consequence: 'The Skald consider gambling dishonorable and House Skalvyr law treats probability-manipulation as a form of theft. A Gambit caught working the glacier-keeps is stripped of voyage-shares and exiled; a Gambit who "forces" an outcome near a Skald is killed.' },
-    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The Neth script-cartels view probability-manipulation as an unlawful modification of signed contracts. A Gambit caught using cards or dice to alter a debt-covenant is subject to immediate memory-drain at Atropolis.', workaround: 'Gambits operate in the Over-Shanty, where they sell memory-glass copies of altered odds and help Vreken debtors buy back their names through underground wagers.' }
+    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The Nethien script-cartels view probability-manipulation as an unlawful modification of signed contracts. A Gambit caught using cards or dice to alter a debt-covenant is subject to immediate memory-drain at Atropolis.', workaround: 'Gambits operate in the Over-Shanty, where they sell memory-glass copies of altered odds and help Vreken debtors buy back their names through underground wagers.' }
   ],
 
   overview: {
      originStory: `A gambit plays probability the way a musician plays an instrument, except the instrument can kill them. The House, the gambling institution that trains and licenses practitioners, was founded from two traditions that collided at Ironjaw Port during the Toll Wars.
 
-The first was Jax, a Merryn pirate captain who wagered his lifeline against a freezing storm-spirit in Merrowport. He rolled three sixes on salt-coral dice and claimed the wind, but lost his blood's warmth in the bargain. The second was Lyra, a Kessen Neth probability-watcher who severed alternate timelines to save her caravan during a Cragjaw avalanche, experiencing every companion's alternate death in a single second and permanently fracturing her consciousness. Their paths crossed in Year 310 of the Freezing Era, when Jax's ship, the Last Wager, docked at Ironjaw Port during the Toll Wars. Lyra was there as a probability-consultant for Groven bridge-engineers calculating span-failure risks. Both were manipulating the same fundamental force through different systems.
+The first was Jax, a Merryn pirate captain who wagered his lifeline against a freezing storm-spirit in Merrowport. He rolled three sixes on salt-coral dice and claimed the wind, but lost his blood's warmth in the bargain. The second was Lyra, a Veldun probability-watcher who severed alternate timelines to save her caravan during a Cragjaw avalanche, experiencing every companion's alternate death in a single second and permanently fracturing her consciousness. Their paths crossed in Year 310 of the Freezing Era, when Jax's ship, the Last Wager, docked at Ironjaw Port during the Toll Wars. Lyra was there as a probability-consultant for Groven bridge-engineers calculating span-failure risks. Both were manipulating the same fundamental force through different systems.
 
-Each subrace gambles through their own culture's understanding of chance. The Merryn wager voyage-shares with salt-coral dice, strongest on open water where the sea can hear them. The Shore Myrathil read probability in foam-patterns and the color-shift of their skin, paying in memory, their bioluminescence dimming with each stake. The Kessen Neth treat every hand as a clause analysis, structuring wagers so losing benefits them more than winning. The Ithran Groven bet on structural failure, when the Ancestor-Span will crack, how much weight the calcified dead can bear, their calculations terrifyingly precise against non-random events.
+Each subrace gambles through their own culture's understanding of chance. The Merryn wager voyage-shares with salt-coral dice, strongest on open water where the sea can hear them. The Shore Myrathil read probability in foam-patterns and the color-shift of their skin, paying in memory, their bioluminescence dimming with each stake. The Veldun treat every hand as a clause analysis, structuring wagers so losing benefits them more than winning. The Ithran Groven bet on structural failure, when the Ancestor-Span will crack, how much weight the calcified dead can bear, their calculations terrifyingly precise against non-random events.
 
 The Caustic Fexric did not adopt Merryn gambling. They independently discovered probability manipulation through salvage-hustling. A hustler named Gear-Rat Jix encountered a Merryn gambit at Ironjaw Port during the Toll Wars and recognized the shared language, stealing a Merryn deck and replacing the salt-coral dice with weighted gear-teeth. The Solari gamble on the sun, pilgrimage-gamblers walking from shrine to shrine placing the same bet that has not paid out since the Freeze began.
 
@@ -206,13 +206,13 @@ Jax walked into the Iceheart Sea to clear his debt in one final game. The storm-
     roleplayIdentity: {
       title: "Roleplay Identity",
       content: `**HISTORY: THE DUAL GENESIS**
-The Gambit's power was born from two founding events. In the floating alleys of <LoreLink termId="merrowport">Merrowport</LoreLink>, the Merryn pirate captain Jax wagered his lifeline against a storm-spirit, discovering probability manipulation through gambling. In the vertical canyons of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>, the Kessen <LoreLink termId="neth">Neth</LoreLink> probability-watcher Lyra severed alternate timelines to save her caravan, discovering probability manipulation through card-reading. The traditions merged when Jax's ship docked at Ironjaw Port during the Toll Wars (Year 310), when Lyra was there as a Kessen probability-consultant for Groven bridge-engineers calculating span-failure risks. When their abilities resonated across the dock, the two discovered they were manipulating the same fundamental force.
+The Gambit's power was born from two founding events. In the floating alleys of <LoreLink termId="merrowport">Merrowport</LoreLink>, the Merryn pirate captain Jax wagered his lifeline against a storm-spirit, discovering probability manipulation through gambling. In the vertical canyons of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>, the <LoreLink termId="neth">Nethien</LoreLink> probability-watcher Lyra severed alternate timelines to save her caravan, discovering probability manipulation through card-reading. The traditions merged when Jax's ship docked at Ironjaw Port during the Toll Wars (Year 310), when Lyra was there as a Veldun probability-consultant for Groven bridge-engineers calculating span-failure risks. When their abilities resonated across the dock, the two discovered they were manipulating the same fundamental force.
 
 **CITIES AND CIVIL RECEPTION**
-Gambits are celebrated in the tavern-decks of <LoreLink termId="merrowport">Merrowport</LoreLink> and valued in the canopy-libraries of <LoreLink termId="atropolis">Atropolis</LoreLink>, but they are viewed with clinical contempt by the Neth pact-lords of <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>.
+Gambits are celebrated in the tavern-decks of <LoreLink termId="merrowport">Merrowport</LoreLink> and valued in the canopy-libraries of <LoreLink termId="atropolis">Atropolis</LoreLink>, but they are viewed with clinical contempt by the Nethien pact-lords of <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>.
 
 **RACES AND CULTURAL AFFILIATION**
-The class is practiced by Merryn humans, the Shore <LoreLink termId="myrathil">Myrathil</LoreLink>, the Kessen <LoreLink termId="neth">Neth</LoreLink>, the fine-scaled Ithran <LoreLink termId="groven">Groven</LoreLink>, the salvage-hustling <LoreLink termId="fexrick">Caustic Fexric</LoreLink> of the Sump-Markets, and the pilgrimage-wagering <LoreLink termId="house_solvan">Solari</LoreLink> who bet on Sol's return.
+The class is practiced by Merryn humans, the Shore <LoreLink termId="myrathil">Myrathil</LoreLink>, the <LoreLink termId="neth">Nethien</LoreLink>, the fine-scaled Ithran <LoreLink termId="groven">Groven</LoreLink>, the salvage-hustling <LoreLink termId="fexrick">Caustic Fexric</LoreLink> of the Sump-Markets, and the pilgrimage-wagering <LoreLink termId="house_solvan">Solari</LoreLink> who bet on Sol's return.
 
 **NOTABLE FIGURES**
 * Jax the Storm-Wagerer: The pirate who gambled his soul for a gale and lost his sleep to the ocean's tides. Now missing, believed to have walked into the Iceheart Sea for one final game.
@@ -348,13 +348,13 @@ You manipulate probability through a dual currency:
       },
       {
         title: "Calculated Risk (Fortune Spending Cost)",
-        stats: "1d4 Psychic per FP Spent",
+        stats: "1d4 wyrd per FP Spent",
         details: "Spending Fortune to nudge rolls deals 1d4 wyrd damage per point spent. This damage cannot be reduced or prevented. Manipulating fate demands agonizing mental exertion.",
       },
       {
         title: "Karmic Debt (Secondary)",
         stats: "0 to 13 Gauge (Scales by Spec)",
-        details: "Accumulated from card overrides, forced destiny manipulation, and high-stakes plays. Each stack imposes plus 5 percent vulnerability to ALL damage types. At the end of each round, suffer 1d4 psychic strain per stack.",
+        details: "Accumulated from card overrides, forced destiny manipulation, and high-stakes plays. Each stack imposes plus 5 percent vulnerability to ALL damage types. At the end of each round, suffer 1d4 wyrd strain per stack.",
       },
       {
         title: "Wyrd Collapse (Karmic Debt Overflow)",
@@ -372,10 +372,10 @@ You manipulate probability through a dual currency:
         ["Beginner's Luck (Level 1)", "+1 on cast", "None", "None"],
         ["Fate Reserve (Level 1)", "None", "+2 Debt", "None"],
         ["Arcane Dirge (Level 1)", "None", "+1 to +4 Debt (by hand)", "None"],
-        ["Nudge a d20 Roll", "-1 to -X FP", "None", "1d4 psychic per FP"],
+        ["Nudge a d20 Roll", "-1 to -X FP", "None", "1d4 wyrd per FP"],
         ["Wyrd Shred Override", "None", "+2 Debt", "None"],
-        ["Cosmic Bankruptcy (0 FP)", "Reset to 0, Locked", "None", "2d10 necrotic + 100% vuln"],
-        ["Wyrd Collapse (13 Debt)", "Fortune emptied", "Reset to 0", "6d10 psychic + incapacitate + max HP -5"],
+        ["Cosmic Bankruptcy (0 FP)", "Reset to 0, Locked", "None", "2d10 blight + 100% vuln"],
+        ["Wyrd Collapse (13 Debt)", "Fortune emptied", "Reset to 0", "6d10 wyrd + incapacitate + max HP -5"],
       ],
     },
 
@@ -409,8 +409,8 @@ You manipulate probability through a dual currency:
         name: "Fortune",
         icon: "fas fa-dice",
         items: [
-          "Serrated Cane-Sword (1d6 slashing, concealed blade for close-quarters probability siphoning)",
-          "Pair of Card Blades (1d6 slashing each, razor-edged playing cards mounted on hilts, from the Fate Weaver tradition)",
+          "Serrated Cane-Sword (1d6 slicing, concealed blade for close-quarters probability siphoning)",
+          "Pair of Card Blades (1d6 slicing each, razor-edged playing cards mounted on hilts, from the Fate Weaver tradition)",
           "Reinforced Leather Vest (Durability 1, Light, no agility penalty)",
           "Set of weighted bone dice",
           "10 steel fortune tokens (crimson and silver)",
@@ -421,8 +421,8 @@ You manipulate probability through a dual currency:
         name: "Path B: Thread Reader (Ranged Gambit)",
         icon: "fas fa-hat-wizard",
         items: [
-          "Weighted Throwing Daggers (1d4 piercing, balanced for Lucky Toss and Dice Dart)",
-          "Rune-etched Staff (1d8 psychic, channels probability energy through crystalline tip, from the Fate Weaver tradition)",
+          "Weighted Throwing Daggers (1d4 stabbing, balanced for Lucky Toss and Dice Dart)",
+          "Rune-etched Staff (1d8 wyrd, channels probability energy through crystalline tip, from the Fate Weaver tradition)",
           "Threadcaster's Bracers (Durability 1, Light, plus 5ft ranged spell distance)",
           "Deck Pouch (holds 52 rune-etched cards, always at hip)",
           "A vial of focusing salts to steady the nerves",
@@ -458,7 +458,7 @@ You manipulate probability through a dual currency:
         strengths: [
           "Maximum Fortune capacity set to 13",
           "Maximum Karmic Debt set to 10",
-          "Calculated Risk fixed at 1 psychic per FP spent instead of 1d4",
+          "Calculated Risk fixed at 1 wyrd per FP spent instead of 1d4",
           "When enemy within 60ft rolls a saving throw, peek at top card of deck; if face card, enemy has disadvantage",
         ],
         weaknesses: [
@@ -507,7 +507,7 @@ You manipulate probability through a dual currency:
           "Maximum Fortune capacity set to 15",
           "Maximum Karmic Debt set to 13",
           "Draw two cards from magical deck, choose which to resolve",
-          "At 5 or more debt stacks, spell attacks deal bonus necrotic equal to current debt level",
+          "At 5 or more debt stacks, spell attacks deal bonus blight equal to current debt level",
           "Can link 2 creatures within 30ft to share damage",
         ],
         weaknesses: [
@@ -707,8 +707,8 @@ You manipulate probability through a dual currency:
           resolution: "DICE",
           rules: { diceCount: 1, dieType: 6 },
           outcomeTiers: [
-            { condition: "cast", name: "Standard Dart", damage: "1d8 psychic", fpGain: 1, fpCost: 1 },
-            { condition: "fp_empowered", name: "Loaded Dart", damage: "1d8 + Nd6 psychic", fpCost: "1-3" },
+            { condition: "cast", name: "Standard Dart", damage: "1d8 wyrd", fpGain: 1, fpCost: 1 },
+            { condition: "fp_empowered", name: "Loaded Dart", damage: "1d8 + Nd6 wyrd", fpCost: "1-3" },
           ],
         },
       },
@@ -1097,8 +1097,8 @@ You manipulate probability through a dual currency:
           resolution: "DICE",
           rules: { diceCount: 1, dieType: 20, successRange: 3 },
           outcomeTiers: [
-            { condition: "match_within_3", name: "Hit", damage: "3d10 psychic", fpGain: 1, fpCost: 1 },
-            { condition: "miss_by_4+", name: "Backfire", selfDamage: "1d10 psychic", fpGain: 0 },
+            { condition: "match_within_3", name: "Hit", damage: "3d10 wyrd", fpGain: 1, fpCost: 1 },
+            { condition: "miss_by_4+", name: "Backfire", selfDamage: "1d10 wyrd", fpGain: 0 },
           ],
         },
       },
@@ -1542,7 +1542,7 @@ You manipulate probability through a dual currency:
           resolution: "CARDS",
           rules: { drawCount: 1, deckType: "standard_suits", suits: 4 },
           outcomeTiers: [
-            { condition: "spades", name: "Spades", damage: "6d8 force", fpGain: 1, fpCost: 1 },
+            { condition: "spades", name: "Spades", damage: "6d8 arcane", fpGain: 1, fpCost: 1 },
             { condition: "hearts", name: "Hearts", healing: "5d8 HP", fpGain: 1, fpCost: 1 },
             { condition: "diamonds", name: "Diamonds", shield: "30 damage", fpGain: 1, fpCost: 1 },
             { condition: "clubs", name: "Clubs", control: "stun 2 rounds", fpGain: 1, fpCost: 1 },
@@ -1748,8 +1748,8 @@ You manipulate probability through a dual currency:
           resolution: "COINS",
           rules: { flipCount: 1 },
           outcomeTiers: [
-            { condition: "heads", name: "Heads", damage: "12d6 force", fpGain: 3, fpCost: 3 },
-            { condition: "tails", name: "Tails", selfDamage: "6d6 force", fpGain: 0 },
+            { condition: "heads", name: "Heads", damage: "12d6 arcane", fpGain: 3, fpCost: 3 },
+            { condition: "tails", name: "Tails", selfDamage: "6d6 arcane", fpGain: 0 },
           ],
         },
       },
@@ -1823,14 +1823,14 @@ You manipulate probability through a dual currency:
           resolution: "DICE",
           rules: { diceCount: 3, dieType: 20 },
           outcomeTiers: [
-            { condition: "60", name: "Perfect Jackpot", damage: "10d10 radiant AoE + max damage 1hr", fpGain: 5, fpCost: 5 },
-            { condition: "56-59", name: "Near Jackpot", damage: "10d10 radiant AoE + heal 30", fpGain: 3, fpCost: 3 },
-            { condition: "49-55", name: "Massive Win", damage: "8d10 radiant AoE", fpGain: 2, fpCost: 2 },
-            { condition: "39-48", name: "Big Win", damage: "6d10 force + stun 2 rounds", fpGain: 2, fpCost: 2 },
-            { condition: "26-38", name: "Moderate Win", damage: "4d10 force + stun 1 round", fpGain: 1, fpCost: 1 },
-            { condition: "13-25", name: "Small Win", damage: "2d10 force", fpGain: 1, fpCost: 1 },
-            { condition: "4-12", name: "Bad Luck", selfDamage: "2d6 force", fpGain: 1 },
-            { condition: "3", name: "Catastrophic Failure", selfDamage: "5d10 necrotic + Bankruptcy", fpGain: 0 },
+            { condition: "60", name: "Perfect Jackpot", damage: "10d10 sacred AoE + max damage 1hr", fpGain: 5, fpCost: 5 },
+            { condition: "56-59", name: "Near Jackpot", damage: "10d10 sacred AoE + heal 30", fpGain: 3, fpCost: 3 },
+            { condition: "49-55", name: "Massive Win", damage: "8d10 sacred AoE", fpGain: 2, fpCost: 2 },
+            { condition: "39-48", name: "Big Win", damage: "6d10 arcane + stun 2 rounds", fpGain: 2, fpCost: 2 },
+            { condition: "26-38", name: "Moderate Win", damage: "4d10 arcane + stun 1 round", fpGain: 1, fpCost: 1 },
+            { condition: "13-25", name: "Small Win", damage: "2d10 arcane", fpGain: 1, fpCost: 1 },
+            { condition: "4-12", name: "Bad Luck", selfDamage: "2d6 arcane", fpGain: 1 },
+            { condition: "3", name: "Catastrophic Failure", selfDamage: "5d10 blight + Bankruptcy", fpGain: 0 },
           ],
         },
       },
@@ -2317,16 +2317,16 @@ You manipulate probability through a dual currency:
         pokerHandScaling: {
           description: "Pairs high-risk rewards with Karmic Debt escalation.",
           hands: [
-            { name: "Royal Flush", damage: "12d10 necrotic", debtGain: 4, description: "Deals 12d10 blight damage + inflicts 4 debt. Absolute probability override." },
-            { name: "Straight Flush", damage: "10d10 necrotic", debtGain: 3, description: "Deals 10d10 blight damage + inflicts 3 debt." },
-            { name: "Four of a Kind", damage: "8d10 necrotic", debtGain: 3, description: "Deals 8d10 blight damage + inflicts 3 debt." },
-            { name: "Full House", damage: "6d10 necrotic", debtGain: 2, description: "Deals 6d10 blight damage + inflicts 2 debt." },
-            { name: "Flush", damage: "4d10 necrotic", debtGain: 2, description: "Deals 4d10 blight damage + inflicts 2 debt." },
-            { name: "Straight", damage: "3d10 necrotic", debtGain: 1, description: "Deals 3d10 blight damage + inflicts 1 debt." },
-            { name: "Three of a Kind", damage: "2d10 necrotic", debtGain: 1, description: "Deals 2d10 blight damage + inflicts 1 debt." },
-            { name: "Two Pair", damage: "2d8 psychic", debtGain: 1, description: "Deals 2d8 wyrd damage + inflicts 1 debt." },
-            { name: "One Pair", damage: "1d8 psychic", debtGain: 1, description: "Deals 1d8 wyrd damage + inflicts 1 debt." },
-            { name: "High Card", damage: "1d4 psychic", debtGain: 2, description: "Deals 1d4 wyrd damage + inflicts 2 debt (the weak outcome strains your concentration severely)." }
+            { name: "Royal Flush", damage: "12d10 blight", debtGain: 4, description: "Deals 12d10 blight damage + inflicts 4 debt. Absolute probability override." },
+            { name: "Straight Flush", damage: "10d10 blight", debtGain: 3, description: "Deals 10d10 blight damage + inflicts 3 debt." },
+            { name: "Four of a Kind", damage: "8d10 blight", debtGain: 3, description: "Deals 8d10 blight damage + inflicts 3 debt." },
+            { name: "Full House", damage: "6d10 blight", debtGain: 2, description: "Deals 6d10 blight damage + inflicts 2 debt." },
+            { name: "Flush", damage: "4d10 blight", debtGain: 2, description: "Deals 4d10 blight damage + inflicts 2 debt." },
+            { name: "Straight", damage: "3d10 blight", debtGain: 1, description: "Deals 3d10 blight damage + inflicts 1 debt." },
+            { name: "Three of a Kind", damage: "2d10 blight", debtGain: 1, description: "Deals 2d10 blight damage + inflicts 1 debt." },
+            { name: "Two Pair", damage: "2d8 wyrd", debtGain: 1, description: "Deals 2d8 wyrd damage + inflicts 1 debt." },
+            { name: "One Pair", damage: "1d8 wyrd", debtGain: 1, description: "Deals 1d8 wyrd damage + inflicts 1 debt." },
+            { name: "High Card", damage: "1d4 wyrd", debtGain: 2, description: "Deals 1d4 wyrd damage + inflicts 2 debt (the weak outcome strains your concentration severely)." }
           ]
         },
         threadsOfDestiny: {
@@ -2784,7 +2784,7 @@ You manipulate probability through a dual currency:
         blackjackRules: {
           hitLimit: 4,
           bustThreshold: 21,
-          bustSelfDamage: "4d10 necrotic",
+          bustSelfDamage: "4d10 blight",
           bustDebtGain: 3
         }
       },
@@ -3214,8 +3214,8 @@ You manipulate probability through a dual currency:
         blackjackAdvancedRules: {
           maxTargets: 3,
           hitLimitPerTarget: 3,
-          blackjackBonus: "6d6 necrotic",
-          bustSelfDamage: "3d6 necrotic per bust"
+          blackjackBonus: "6d6 blight",
+          bustSelfDamage: "3d6 blight per bust"
         },
         threadsOfDestiny: {
           generation: "Initiating a multi-target death wager generates 2 Karmic Debt."
@@ -4047,7 +4047,7 @@ You manipulate probability through a dual currency:
           {
             id : "karmic_debt_vulnerability",
             name: "Karmic Debt Vulnerability",
-            description: "Suffer compounding +5% vulnerability and 1d4 psychic strain per stack of debt.",
+            description: "Suffer compounding +5% vulnerability and 1d4 wyrd strain per stack of debt.",
             mechanicsText: "+5% all-damage vulnerability per Karmic Debt stack. 1d4 wyrd strain per stack at end of each round. At 13 stacks: Wyrd Collapse (6d10 wyrd + 1 round incapacitation).",
             statusEffect: {
               type: "vulnerability",

@@ -469,7 +469,7 @@ function FirstAidInterface({ onBack, activeTab, onTabChange, onLearnAllRecipes, 
                 <div className="no-recipes">
                     <div className="no-recipes-icon">
                         <img
-                            src="getIconUrl('animal-fabric-bandage-folded-orange-tan-red-details', 'items')"
+                            src={getIconUrl('Misc/Profession Resources/First Aid/first-aid-bandage-rolled-fabric-beige-tan', 'items')}
                             alt="No Recipes"
                         />
                     </div>
@@ -501,14 +501,9 @@ function FirstAidInterface({ onBack, activeTab, onTabChange, onLearnAllRecipes, 
                                                 src={getIconUrl(resultItem?.iconId || recipe.resultIcon || 'inv_misc_bandage_01', 'items')}
                                                 alt={recipe.name}
                                                 onError={(e) => {
-                                                    e.target.src = getIconUrl('animal-fabric-bandage-folded-orange-tan-red-details', 'items');
+                                                    if (e.target.dataset.fbk) return; e.target.dataset.fbk = '1'; e.target.src = getIconUrl('Misc/Profession Resources/First Aid/first-aid-bandage-rolled-fabric-beige-tan', 'items');
                                                 }}
                                             />
-                                            {!craftCheck.canCraft && (
-                                                <div className="craft-overlay">
-                                                    <span>� - </span>
-                                                </div>
-                                            )}
                                         </div>
                                     );
                                 })()}
@@ -544,7 +539,7 @@ function FirstAidInterface({ onBack, activeTab, onTabChange, onLearnAllRecipes, 
                             <img
                                 src={getIconUrl(resultItem?.iconId || selectedRecipe.resultIcon || 'inv_misc_bandage_01', 'items')}
                                 alt={selectedRecipe.name}
-                                onError={(e) => { e.target.src = getIconUrl('animal-fabric-bandage-folded-orange-tan-red-details', 'items'); }}
+                                onError={(e) => { if (e.target.dataset.fbk) return; e.target.dataset.fbk = '1'; e.target.src = getIconUrl('Misc/Profession Resources/First Aid/first-aid-bandage-rolled-fabric-beige-tan', 'items'); }}
                             />
                         </div>
                         <div className="recipe-detail-meta">
@@ -598,7 +593,7 @@ function FirstAidInterface({ onBack, activeTab, onTabChange, onLearnAllRecipes, 
                                             <img
                                                 src={getIconUrl(itemData?.iconId || 'inv_misc_questionmark', 'items')}
                                                 alt={itemData?.name}
-                                                onError={(e) => { e.target.src = getIconUrl('inv_misc_questionmark', 'items'); }}
+                                                onError={(e) => { if (e.target.dataset.fbk) return; e.target.dataset.fbk = '1'; e.target.src = getIconUrl('inv_misc_questionmark', 'items'); }}
                                             />
                                         </div>
                                         <div className="material-info">
@@ -659,7 +654,7 @@ function FirstAidInterface({ onBack, activeTab, onTabChange, onLearnAllRecipes, 
                     <div className="queue-empty">
                         <div className="queue-empty-icon">
                             <img
-                                src="getIconUrl('brown-backpack-sleeping-bag', 'items')"
+                                src={getIconUrl('Container/Bag/brown-backpack-sleeping-bag', 'items')}
                                 alt="Empty Queue"
                             />
                         </div>
@@ -689,7 +684,7 @@ function FirstAidInterface({ onBack, activeTab, onTabChange, onLearnAllRecipes, 
                                                         src={getIconUrl(craftingItem.recipe.resultIcon || 'inv_misc_bandage_01', 'items')}
                                                         alt={craftingItem.recipe.name}
                                                         onError={(e) => {
-                                                            e.target.src = getIconUrl('animal-fabric-bandage-folded-orange-tan-red-details', 'items');
+                                                            if (e.target.dataset.fbk) return; e.target.dataset.fbk = '1'; e.target.src = getIconUrl('Misc/Profession Resources/First Aid/first-aid-bandage-rolled-fabric-beige-tan', 'items');
                                                         }}
                                                     />
                                                 </div>

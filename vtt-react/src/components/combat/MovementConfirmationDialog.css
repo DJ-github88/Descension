@@ -1,4 +1,11 @@
-/* Movement Confirmation Dialog Styles */
+/* Movement Confirmation Dialog Styles
+   NOTE: All inner selectors are namespaced under .movement-confirmation-dialog.
+   Generic class names (.dialog-content, .dialog-actions, .dialog-header) are
+   ALSO defined in MapDeleteConfirmDialog.css, TokenVisionDialog.css,
+   PortalTransferDialog.css and PortalConfigDialog.css — unnamespaced rules
+   here silently lost (or won) that fight depending on CSS bundle order,
+   which caused the "weird padding" bug. */
+
 .movement-confirmation-overlay {
     position: fixed;
     top: 0;
@@ -16,23 +23,22 @@
 .movement-confirmation-dialog {
     background: linear-gradient(145deg, #f4f1e8 0%, #e8dcc0 100%);
     border: 3px solid #8B4513;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow:
         0 8px 32px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.3),
         0 0 0 1px rgba(139, 69, 19, 0.2);
-    min-width: 380px;
-    max-width: 450px;
+    width: min(400px, calc(100vw - 32px));
     font-family: 'Cinzel', serif;
     color: #2c1810;
-    animation: dialogSlideIn 0.3s ease-out;
+    animation: dialogSlideIn 0.25s ease-out;
     overflow: hidden;
 }
 
 @keyframes dialogSlideIn {
     from {
         opacity: 0;
-        transform: scale(0.9) translateY(-20px);
+        transform: scale(0.92) translateY(-16px);
     }
 
     to {
@@ -41,91 +47,167 @@
     }
 }
 
-.dialog-header {
+.movement-confirmation-dialog .dialog-header {
     background: linear-gradient(145deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
     color: #f4f1e8;
     padding: 12px 20px;
-    border-radius: 5px 5px 0 0;
     border-bottom: 2px solid #654321;
     text-align: center;
 }
 
-.dialog-header h3 {
+.movement-confirmation-dialog .dialog-header h3 {
     margin: 0;
     font-size: 16px;
     font-weight: bold;
+    letter-spacing: 0.5px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
-.dialog-content {
+.movement-confirmation-dialog .dialog-header h3 i {
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+/* Single spacing system: .dialog-content gap drives ALL vertical rhythm.
+   No margin-bottom on children — that doubled the gaps before. */
+.movement-confirmation-dialog .dialog-content {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    padding: 16px 24px;
+    gap: 14px;
+    padding: 16px 20px 14px 20px;
 }
 
-.creature-info {
+.movement-confirmation-dialog .creature-info {
     text-align: left;
-    margin-bottom: 20px;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
     color: #8B4513;
     letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(139, 69, 19, 0.25);
+    padding-bottom: 8px;
+    margin: 0;
 }
 
-.movement-breakdown,
-.ap-cost {
-    margin-bottom: 15px;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.3);
+.movement-confirmation-dialog .movement-breakdown {
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.35);
     border: 1px solid rgba(139, 69, 19, 0.2);
-    border-radius: 4px;
+    border-radius: 6px;
+    margin: 0;
 }
 
-.movement-row,
-.ap-row {
+.movement-confirmation-dialog .movement-row {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 5px;
+    gap: 12px;
+    padding: 3px 0;
+    margin: 0;
     font-size: 13px;
 }
 
-.movement-row:last-child,
-.ap-row:last-child {
-    margin-bottom: 0;
+.movement-confirmation-dialog .movement-row span:first-child {
+    color: #5a3a1a;
 }
 
-.extra-movement,
-.extra-ap {
+.movement-confirmation-dialog .movement-row span:last-child {
+    font-weight: 600;
+}
+
+.movement-confirmation-dialog .movement-row.extra-movement span:last-child {
     color: #D2691E;
     font-weight: bold;
 }
 
-.insufficient-ap-warning {
+/* AP panel — distinct amber accent block */
+.movement-confirmation-dialog .ap-cost {
+    padding: 10px 14px;
+    background: linear-gradient(145deg, rgba(255, 224, 138, 0.35) 0%, rgba(255, 200, 100, 0.25) 100%);
+    border: 1px solid rgba(139, 69, 19, 0.35);
+    border-left: 4px solid #D2691E;
+    border-radius: 6px;
+    margin: 0;
+}
+
+.movement-confirmation-dialog .ap-cost-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #8B4513;
+    margin-bottom: 6px;
+}
+
+.movement-confirmation-dialog .ap-cost-title i {
+    font-size: 11px;
+    color: #D2691E;
+}
+
+.movement-confirmation-dialog .ap-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 3px 0;
+    margin: 0;
+    font-size: 13px;
+}
+
+.movement-confirmation-dialog .ap-row span:first-child {
+    color: #5a3a1a;
+}
+
+.movement-confirmation-dialog .ap-row span:last-child {
+    font-weight: 600;
+}
+
+.movement-confirmation-dialog .ap-row .ap-current {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.movement-confirmation-dialog .ap-row .ap-required {
+    color: #D2691E;
+    font-weight: bold;
+}
+
+.movement-confirmation-dialog .ap-row.extra-ap span:last-child {
+    color: #D2691E;
+    font-weight: bold;
+}
+
+.movement-confirmation-dialog .insufficient-ap-warning {
     background: linear-gradient(145deg, #ff6b6b 0%, #ff5252 100%);
     color: white;
     padding: 8px 12px;
-    border-radius: 4px;
+    border-radius: 6px;
     text-align: center;
     font-weight: bold;
     font-size: 12px;
-    margin-top: 10px;
     border: 1px solid #d32f2f;
+    margin: 0;
 }
 
-.insufficient-ap-warning i {
+.movement-confirmation-dialog .insufficient-ap-warning i {
     margin-right: 5px;
 }
 
-.dialog-actions {
+.movement-confirmation-dialog .dialog-actions {
     display: flex;
     gap: 10px;
-    padding: 0 20px 20px 20px;
-    justify-content: center;
+    padding: 0 20px 18px 20px;
+    justify-content: stretch;
+    border-top: none;
 }
 
-.movement-button {
-    padding: 10px 20px;
+.movement-confirmation-dialog .movement-button {
+    flex: 1;
+    padding: 10px 16px;
     border: 2px solid;
     border-radius: 6px;
     font-weight: bold;
@@ -133,66 +215,89 @@
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: 'Cinzel', serif;
-    min-width: 120px;
+    min-width: 0;
 }
 
-.movement-button.cancel {
+.movement-confirmation-dialog .movement-button:focus-visible {
+    outline: 2px solid #8B4513;
+    outline-offset: 2px;
+}
+
+.movement-confirmation-dialog .movement-button.cancel {
     background: linear-gradient(145deg, #f4f1e8 0%, #e8dcc0 100%);
     border-color: #8B4513;
     color: #8B4513;
 }
 
-.movement-button.cancel:hover {
+.movement-confirmation-dialog .movement-button.cancel:hover {
     background: linear-gradient(145deg, #e8dcc0 0%, #d4c4a0 100%);
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.movement-button.confirm {
+.movement-confirmation-dialog .movement-button.confirm {
     background: linear-gradient(145deg, #228B22 0%, #32CD32 50%, #228B22 100%);
     border-color: #006400;
     color: white;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.movement-button.confirm:hover:not(.disabled) {
+.movement-confirmation-dialog .movement-button.confirm:hover:not(:disabled) {
     background: linear-gradient(145deg, #32CD32 0%, #7CFC00 50%, #32CD32 100%);
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.unlock-message,
-.extra-message {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 20px;
-    color: #5a1e12;
-}
-
-.unlock-message i,
-.extra-message i {
-    font-size: 24px;
-    color: #8B4513;
-}
-
-.unlock-message p,
-.extra-message p {
-    margin: 0;
-    font-size: 15px;
-    line-height: 1.4;
-    font-weight: 500;
-}
-
-.movement-button.confirm.disabled {
+.movement-confirmation-dialog .movement-button.confirm:disabled,
+.movement-confirmation-dialog .movement-button.confirm.disabled {
     background: linear-gradient(145deg, #999 0%, #666 100%);
     border-color: #555;
     color: #ccc;
     cursor: not-allowed;
     opacity: 0.6;
+    transform: none;
 }
 
-.movement-button:active:not(.disabled) {
+.movement-confirmation-dialog .movement-button:active:not(:disabled) {
     transform: translateY(0);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.movement-confirmation-dialog .unlock-message,
+.movement-confirmation-dialog .extra-message {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    color: #5a1e12;
+}
+
+.movement-confirmation-dialog .unlock-message i,
+.movement-confirmation-dialog .extra-message i {
+    font-size: 22px;
+    color: #8B4513;
+    flex-shrink: 0;
+}
+
+.movement-confirmation-dialog .unlock-message p,
+.movement-confirmation-dialog .extra-message p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.45;
+    font-weight: 500;
+}
+
+/* Compact on small screens */
+@media (max-width: 480px) {
+    .movement-confirmation-dialog {
+        width: calc(100vw - 24px);
+    }
+
+    .movement-confirmation-dialog .dialog-actions {
+        flex-direction: column-reverse;
+    }
+
+    .movement-confirmation-dialog .movement-button {
+        width: 100%;
+    }
 }

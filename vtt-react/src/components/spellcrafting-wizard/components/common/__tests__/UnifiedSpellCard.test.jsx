@@ -263,5 +263,41 @@ describe('UnifiedSpellCard Component', () => {
     expect(pill.textContent).toContain('Duration:');
     expect(pill.textContent).toContain('2 rounds');
   });
+
+  it('shows weapon damage bonus as "<Attribute> Mod" (not the raw attribute) and canonical type', () => {
+    const shoelace = {
+      id: 'spec_dagger_hamstring_slice',
+      name: 'Shoelace Express',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+      description: 'A quick delivery, straight to the tendons behind the knee.',
+      damageConfig: {
+        formula: '1d4 + 1',
+        weaponDependent: true,
+        usesWeaponDice: true,
+        addAttributeModifier: true,
+        attributeModifier: 'agility',
+        damageType: 'stabbing',
+        canCrit: true,
+        critMultiplier: 2
+      },
+      targetingConfig: { targetingType: 'single', rangeType: 'touch', rangeDistance: 5, targetRestrictions: ['enemy'] },
+      resourceCost: { actionPoints: 2, mana: 0, health: 0 },
+      resolution: 'DICE',
+      tags: ['weapon', 'discipline', 'dagger']
+    };
+
+    render(
+      <UnifiedSpellCard
+        spell={shoelace}
+        variant="wizard"
+        showStats={true}
+      />
+    );
+
+    expect(screen.getByText(/1d4 \+ 1 \+ Agility Mod/)).toBeInTheDocument();
+    expect(screen.getByText(/Stabbing Damage/)).toBeInTheDocument();
+  });
 });
 

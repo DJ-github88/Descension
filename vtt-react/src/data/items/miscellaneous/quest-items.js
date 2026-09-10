@@ -72,7 +72,7 @@ export const QUEST_ITEMS = [
     subtype: 'QUEST',
     quality: 'common',
     description: 'A key that seems to have been lost long ago. Its purpose is unknown, but it feels significant.',
-    iconId: 'Misc/Profession Resources/Tools/lockpick',
+    iconId: 'Misc/Profession Resources/Blacksmithing/Bronze Key',
     value: { gold: 0, silver: 0, copper: 0 },
     stackable: false,
     width: 1,

@@ -135,15 +135,35 @@ export const InspectionProvider = ({ character, children }) => {
     // Calculate resources for the inspected character
     const calculatedResources = calculateInspectedCharacterResources(characterData);
 
+    // Equipment bonuses must be derived from the inspected character's equipment
+    // (the multiplayer sync sends `equipment`, not `equipmentBonuses`), otherwise
+    // inspected panels show no equipment contributions to stats/spell power.
+    const inspectedEquipmentBonuses = characterData?.equipmentBonuses
+        || calculateEquipmentBonuses(characterData?.equipment || {});
+
     // Create a character store-like object from the inspected character data
     const inspectionStore = {
         // Basic character info - prioritize member name over character name, then fallback to character data name
         name: memberName || characterData?.name || 'Unknown',
+        baseName: characterData?.baseName || memberName || characterData?.name || 'Unknown',
         race: characterData?.race || 'Unknown',
+        subrace: characterData?.subrace || '',
         class: characterData?.class || 'Unknown',
+        primarySpecialization: characterData?.primarySpecialization || null,
         level: characterData?.level || 1,
+        experience: characterData?.experience || 0,
         alignment: characterData?.alignment || 'Unknown',
         exhaustionLevel: characterData?.exhaustionLevel || 0,
+        background: characterData?.background || '',
+        backgroundDisplayName: characterData?.backgroundDisplayName || '',
+        path: characterData?.path || '',
+        pathDisplayName: characterData?.pathDisplayName || '',
+        pathPassives: characterData?.pathPassives || [],
+        selectedAbility: characterData?.selectedAbility || '',
+        talents: characterData?.talents || [],
+        levelUpHistory: characterData?.levelUpHistory || {},
+        activeEffects: characterData?.activeEffects || [],
+        characterIcon: characterData?.lore?.characterIcon || null,
 
         // Resources - use calculated values for proper HP/MP
         health: calculatedResources.health,
@@ -152,6 +172,7 @@ export const InspectionProvider = ({ character, children }) => {
         tempHealth: characterData?.tempHealth || 0,
         tempMana: characterData?.tempMana || 0,
         tempActionPoints: characterData?.tempActionPoints || 0,
+        classResource: characterData?.classResource || {},
 
         // Stats
         stats: characterData?.stats || {
@@ -162,6 +183,11 @@ export const InspectionProvider = ({ character, children }) => {
             spirit: 10,
             charisma: 10
         },
+        resistances: characterData?.resistances || {},
+        spellPower: characterData?.spellPower || {},
+        encumbranceState: characterData?.encumbranceState
+            || characterData?.inventory?.encumbranceState
+            || 'normal',
 
         // Equipment
         equipment: normalizeEquipment(characterData?.equipment),
@@ -254,6 +280,9 @@ export const InspectionProvider = ({ character, children }) => {
         updateEquipment: () => { },
         updateLore: () => { },
         updateCharacterInfo: () => { },
+        updateBaseName: () => { },
+        updateBackground: () => { },
+        updateSkillProgress: () => { },
         unequipItem: () => { },
         setSkillRank: (skillId, rankKey) => {
             if (!canEdit) {
@@ -280,14 +309,14 @@ export const InspectionProvider = ({ character, children }) => {
         },
 
         // Calculated values - use properly calculated derived stats
-        equipmentBonuses: characterData?.equipmentBonuses || {},
+        equipmentBonuses: inspectedEquipmentBonuses,
         derivedStats: calculatedResources.derivedStats || {
             movementSpeed: 30,
             swimSpeed: 15,
             carryingCapacity: 0,
             visionRange: 0
         },
-        immunities: characterData?.immunities || []
+        immunities: characterData?.immunities || inspectedEquipmentBonuses.immunities || []
     };
 
     console.log('🔍 InspectionProvider created store:', inspectionStore);

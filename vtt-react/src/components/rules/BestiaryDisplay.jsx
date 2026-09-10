@@ -35,16 +35,38 @@ const ATTR_LABELS = {
 };
 
 const ELEMENT_DETAILS = {
-  fire: { label: 'Fire', color: '#ff5722', icon: 'fa-fire' },
-  cold: { label: 'Cold / Frost', color: '#00bcd4', icon: 'fa-snowflake' },
-  frost: { label: 'Cold / Frost', color: '#00bcd4', icon: 'fa-snowflake' },
-  necrotic: { label: 'Necrotic', color: '#9c27b0', icon: 'fa-skull' },
-  radiant: { label: 'Radiant', color: '#ffb300', icon: 'fa-sun' },
-  psychic: { label: 'Psychic', color: '#e91e63', icon: 'fa-brain' },
-  poison: { label: 'Poison', color: '#4caf50', icon: 'fa-biohazard' },
+  smashing: { label: 'Smashing', color: '#8B5A2B', icon: 'fa-hammer' },
+  stabbing: { label: 'Stabbing', color: '#704214', icon: 'fa-location-arrow' },
+  slicing: { label: 'Slicing', color: '#5C3317', icon: 'fa-cut' },
+  ember: { label: 'Ember', color: '#D4380D', icon: 'fa-fire' },
+  rime: { label: 'Rime', color: '#2C5F7C', icon: 'fa-snowflake' },
+  storm: { label: 'Storm', color: '#8B7328', icon: 'fa-bolt' },
+  primal: { label: 'Primal', color: '#2D5A1E', icon: 'fa-leaf' },
+  arcane: { label: 'Arcane', color: '#5B3A8C', icon: 'fa-magic' },
+  blight: { label: 'Blight', color: '#3D1F4E', icon: 'fa-skull' },
+  wyrd: { label: 'Wyrd', color: '#7A2040', icon: 'fa-brain' },
+  sacred: { label: 'Sacred', color: '#DAA520', icon: 'fa-sun' },
+  healing: { label: 'Healing', color: '#2E8B57', icon: 'fa-heart' },
+  fire: { label: 'Ember', color: '#D4380D', icon: 'fa-fire' },
+  cold: { label: 'Rime', color: '#2C5F7C', icon: 'fa-snowflake' },
+  frost: { label: 'Rime', color: '#2C5F7C', icon: 'fa-snowflake' },
+  ice: { label: 'Rime', color: '#2C5F7C', icon: 'fa-snowflake' },
+  lightning: { label: 'Storm', color: '#8B7328', icon: 'fa-bolt' },
+  thunder: { label: 'Storm', color: '#8B7328', icon: 'fa-bolt' },
+  necrotic: { label: 'Blight', color: '#3D1F4E', icon: 'fa-skull' },
+  poison: { label: 'Blight', color: '#3D1F4E', icon: 'fa-skull' },
+  acid: { label: 'Blight', color: '#3D1F4E', icon: 'fa-skull' },
+  shadow: { label: 'Blight', color: '#3D1F4E', icon: 'fa-skull' },
+  radiant: { label: 'Sacred', color: '#DAA520', icon: 'fa-sun' },
+  holy: { label: 'Sacred', color: '#DAA520', icon: 'fa-sun' },
+  psychic: { label: 'Wyrd', color: '#7A2040', icon: 'fa-brain' },
+  chaos: { label: 'Wyrd', color: '#7A2040', icon: 'fa-brain' },
+  force: { label: 'Arcane', color: '#5B3A8C', icon: 'fa-magic' },
+  nature: { label: 'Primal', color: '#2D5A1E', icon: 'fa-leaf' },
   physical: { label: 'Physical', color: '#a1887f', icon: 'fa-shield-alt' },
-  acid: { label: 'Acid', color: '#8bc34a', icon: 'fa-tint' },
-  lightning: { label: 'Lightning', color: '#2196f3', icon: 'fa-bolt' }
+  bludgeoning: { label: 'Smashing', color: '#8B5A2B', icon: 'fa-hammer' },
+  piercing: { label: 'Stabbing', color: '#704214', icon: 'fa-location-arrow' },
+  slashing: { label: 'Slicing', color: '#5C3317', icon: 'fa-cut' }
 };
 
 const ITEMS_PER_PAGE = 18;
@@ -114,11 +136,12 @@ const getCreatureThumb = (illustration) => {
 const formatCombatMechanicsText = (text) => {
   if (!text) return null;
   
-  const regex = /(\b\d+d\d+(?:\+\d+)?\b(?:\s+(?:piercing|bludgeoning|slashing|cold|fire|psychic|necrotic|radiant|poison|lightning|acid|physical))?|\bDC\s+\d+\s+[A-Z]{3,4}\b|\b\d+-ft\s+(?:radius|cone|range|diameter)?\b|\b\d+\s+HP,\s+DR\s+\d+\b)/gi;
+  const regex = /(\b\d+d\d+(?:\+\d+)?\b(?:\s+(?:smashing|stabbing|slicing|ember|rime|storm|primal|arcane|blight|wyrd|sacred|healing|piercing|bludgeoning|slashing|cold|frost|ice|fire|psychic|necrotic|radiant|poison|lightning|thunder|acid|force|nature|physical))?|\bDC\s+\d+\s+[A-Z]{3,4}\b|\b\d+-ft\s+(?:radius|cone|range|diameter)?\b|\b\d+\s+HP,\s+DR\s+\d+\b)/gi;
+  const testRegex = new RegExp(regex.source, 'i');
   
   const parts = text.split(regex);
   return parts.map((part, i) => {
-    if (regex.test(part)) {
+    if (testRegex.test(part)) {
       let cls = "bestiary-inline-mechanic";
       let icon = "fa-dice-d20";
       

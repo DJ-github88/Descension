@@ -45,6 +45,11 @@ export const WEAPON_TYPE_META = {
     horn:      { label: 'Horn', hint: 'Brass instrument for signaling', primaryStat: 'constitution', secondaryStat: 'charisma', icon: getIconUrl('Instruments/Horn/horn-curved-segmented', 'items') },
     violin:    { label: 'Violin', hint: 'Stringed instrument with bow', primaryStat: 'agility', secondaryStat: 'charisma', icon: getIconUrl('Instruments/Violin/violin-brown-f-holes-bow', 'items') },
     guitar:    { label: 'Guitar', hint: 'Popular bardic stringed instrument', primaryStat: 'charisma', secondaryStat: 'agility', icon: getIconUrl('Instruments/Guitar/guitar-ukulele-beige-octagonal', 'items') },
+    // Off-Hand Focus Items
+    idol:     { label: 'Idol', hint: 'Spirit-fueled off-hand focus', primaryStat: 'spirit', secondaryStat: 'charisma', icon: getIconUrl('Misc/Profession Resources/Archaeology/resource-bone-charm-three-protrusions', 'items') },
+    tome:     { label: 'Tome', hint: 'Arcane off-hand codex', primaryStat: 'intelligence', secondaryStat: 'spirit', icon: getIconUrl('Misc/Books/book-brown-green-rune-bookmark', 'items') },
+    sphere:   { label: 'Sphere', hint: 'Orb focus for channeling', primaryStat: 'intelligence', secondaryStat: 'agility', icon: getIconUrl('Currency/blue-orb-gem', 'items') },
+    totem:    { label: 'Totem', hint: 'Primal off-hand spirit-carving', primaryStat: 'spirit', secondaryStat: 'constitution', icon: getIconUrl('Misc/Profession Resources/Herbs and Plants/resource-green-crystal-totem-segmented-brown-bands', 'items') },
     // Special
     unarmed:   { label: 'Unarmed', hint: 'Fists, elbows, knees', primaryStat: 'strength', secondaryStat: 'agility', icon: getIconUrl('Bludgeoning/Punch', 'abilities') }
 };

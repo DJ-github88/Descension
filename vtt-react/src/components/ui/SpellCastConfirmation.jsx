@@ -64,6 +64,18 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: clas
         }
     }
 
+    // Generic class resource changes (Tension, Authority, Ancestral Resonance, …)
+    // Chronarch Time Shards render through their dedicated fields.
+    const genericCr = resourceCost.classResource || {};
+    const genericCrType = genericCr.type;
+    const genericCrCost = Number(genericCr.cost || 0);
+    const usesGenericCr = genericCrCost !== 0 && !!genericCrType && genericCrType !== 'time_shards';
+    const genericCrLabel = genericCrType
+        ? genericCrType.replace(/[_-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+        : 'Class Resource';
+    const hasEnoughGenericCr = !usesGenericCr || genericCrCost <= 0
+        || ((currentClassResource?.current || 0) >= genericCrCost);
+
     // Extract Arcanoneer elemental spheres requirement
     const requiredSpheres = [];
     if (Array.isArray(spell._arcanoneerElements)) {
@@ -120,7 +132,7 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: clas
     const hasEnoughAP = !apCost || (currentAP && currentAP.current >= apCost);
     // Only check inferno_required - inferno_ascend does NOT block casting
     const hasEnoughInferno = !infernoRequired || (currentClassResource && currentClassResource.current >= infernoRequired);
-    const canCast = hasEnoughMana && hasEnoughAP && hasEnoughInferno && hasEnoughSpheres;
+    const canCast = hasEnoughMana && hasEnoughAP && hasEnoughInferno && hasEnoughSpheres && hasEnoughGenericCr;
 
     // Build resource cost display with availability indicators
     const resourceCosts = [];
@@ -144,6 +156,16 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: clas
             insufficient: !hasEnoughAP
         });
     }
+    if (usesGenericCr && genericCrCost > 0) {
+        resourceCosts.push({
+            type: 'class-resource',
+            amount: genericCrCost,
+            label: genericCrLabel,
+            current: currentClassResource?.current || 0,
+            max: currentClassResource?.max || genericCrCost,
+            insufficient: !hasEnoughGenericCr
+        });
+    }
     // Add elemental sphere costs
     resourceCosts.push(...sphereResourceCosts);
 
@@ -154,6 +176,9 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: clas
     }
     if (infernoDescend > 0) {
         resourceChanges.push({ type: 'inferno', amount: `-${infernoDescend}`, label: 'Inferno', color: '#4682b4' });
+    }
+    if (usesGenericCr && genericCrCost < 0) {
+        resourceChanges.push({ type: 'class-resource', amount: `+${-genericCrCost}`, label: genericCrLabel, color: '#a78bfa' });
     }
 
     // Extract cooldown information

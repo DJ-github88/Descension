@@ -37,6 +37,7 @@ const MovementConfirmationDialog = ({
             <div className="movement-confirmation-dialog">
                 <div className="dialog-header">
                     <h3>
+                        <i className="fas fa-person-running"></i>
                         {movementUsedThisTurn === 0
                             ? 'Spend AP to Move'
                             : totalDistance > baseMovement
@@ -56,7 +57,7 @@ const MovementConfirmationDialog = ({
                             <div className="unlock-movement-info">
                                 <div className="unlock-message">
                                     <i className="fas fa-running"></i>
-                                    <p>Spend 1 AP to move {Math.round(totalDistance)}ft out of {baseMovement}ft?</p>
+                                    <p>Spend {requiredAP} AP to move {Math.round(totalDistance)}ft out of {baseMovement}ft?</p>
                                 </div>
                                 <div className="movement-breakdown">
                                     <div className="movement-row">
@@ -77,7 +78,7 @@ const MovementConfirmationDialog = ({
                             <div className="extra-movement-info">
                                 <div className="extra-message">
                                     <i className="fas fa-bolt"></i>
-                                    <p>Spend additional 1 AP to move {Math.round(totalDistance)}ft out of {baseMovement * 2}ft?</p>
+                                    <p>Spend {requiredAP} additional AP to move {Math.round(totalDistance)}ft out of {baseMovement * 2}ft?</p>
                                 </div>
                                 <div className="movement-breakdown">
                                     <div className="movement-row">
@@ -122,18 +123,22 @@ const MovementConfirmationDialog = ({
                         )}
 
                         <div className="ap-cost">
+                            <div className="ap-cost-title">
+                                <i className="fas fa-bolt"></i>
+                                Action Points
+                            </div>
                             <div className="ap-row">
                                 <span>Current AP:</span>
-                                <span>{currentAP}</span>
+                                <span className="ap-current">{currentAP}</span>
                             </div>
                             <div className="ap-row">
-                                <span>Additional AP Needed:</span>
-                                <span>{requiredAP}</span>
+                                <span>AP Spent to Move:</span>
+                                <span className="ap-required">{requiredAP}</span>
                             </div>
-                            {extraAP > 0 && (
+                            {extraMovement > 0 && extraAP > 0 && (
                                 <div className="ap-row extra-ap">
-                                    <span>Cost for Extra Movement:</span>
-                                    <span>{extraAP} AP</span>
+                                    <span>Covers Extra Movement:</span>
+                                    <span>{Math.round(extraMovement)} ft</span>
                                 </div>
                             )}
                         </div>

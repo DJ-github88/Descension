@@ -532,7 +532,7 @@ export const SUMPS_VETERAN_ITEMS = [
 export const GLOOMWAY_TRADER_ITEMS = [
     {
         id: 'merchant-scale',
-        name: 'Neth Contract-Scale',
+        name: 'Nethien Contract-Scale',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
@@ -848,7 +848,7 @@ export const DEBT_NEGOTIATOR_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'Bone dice weighted with bog-iron filings. The Neth contract-houses check for these; the Drun carry three sets.',
+        description: 'Bone dice weighted with bog-iron filings. The Nethien contract-houses check for these; the Withered carry three sets.',
         iconId: 'Misc/Profession Resources/Cooking/plate-coin-octagonal-copper-token',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 0.1,
@@ -882,11 +882,11 @@ export const DEBT_NEGOTIATOR_ITEMS = [
     
     {
         id: 'charlatan-fine-clothes',
-        name: 'Velun Pact-Robe',
+        name: 'Nethien Pact-Robe',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'A Velun Neth pact-robe of silvered silk, cut to impress and to obscure exactly which clause you are about to invoke.',
+        description: 'A Nethien pact-robe of silvered silk, cut to impress and to obscure exactly which clause you are about to invoke.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
         weight: 3,
@@ -912,7 +912,7 @@ export const DEBT_NEGOTIATOR_ITEMS = [
         type: 'consumable',
         subtype: 'COSMETIC',
         quality: 'common',
-        description: 'Small pots of Mimir face-shift pigment and Drun veil-powder, for becoming someone the contract does not name.',
+        description: 'Small pots of Mimir face-shift pigment and Withered veil-powder, for becoming someone the contract does not name.',
         iconId: 'Container/Bag/brown-satchel-messenger',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 1,

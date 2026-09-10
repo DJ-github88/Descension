@@ -282,11 +282,21 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
     
     const { getActiveEffects } = useConditionStore();
     const { isGMMode } = useGameStore();
-    const { encumbranceState } = useInventoryStore();
+    const { encumbranceState: localEncumbranceState } = useInventoryStore();
     const { characterTokens } = useCharacterTokenStore();
 
     // Get derived stats and exhaustion level from character store (includes encumbrance effects)
-    const { derivedStats, exhaustionLevel: storeExhaustionLevel } = useCharacterStore();
+    const { derivedStats, exhaustionLevel: localStoreExhaustionLevel } = useCharacterStore();
+
+    // In inspect mode the inspected character's exhaustion/encumbrance must win
+    // over the viewer's own store values, otherwise a party member's sheet shows
+    // the viewer's exhaustion level and carrying state.
+    const storeExhaustionLevel = inspectionData
+        ? (inspectionData.exhaustionLevel ?? 0)
+        : localStoreExhaustionLevel;
+    const encumbranceState = inspectionData
+        ? (inspectionData.encumbranceState || 'normal')
+        : localEncumbranceState;
 
     // Stat group selection is externally controlled (by the Character sheet
     // "Stats" hover dropdown) when those props are provided; otherwise internal.

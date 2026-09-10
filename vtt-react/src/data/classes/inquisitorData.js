@@ -14,7 +14,7 @@ export const INQUISITOR_DATA = {
           "skald_human"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires either the Ghost-Mycelium (Vreken) or a lifetime of anti-Wyrd training. Thalren face Wyrd-horrors born from human fear. Vreken dismantled Neth contracts through inquisitorial practice. Other races lack the supernatural exposure density. Solari too hot for stealth hunts. Fexric too mechanical. Myrathil too distant from surface Wyrd. Tethered Mimir lack the specialized anti-Wyrd training, their expertise is floor-toxins and survival, not supernatural investigation."
+      "justification": "Requires either the Ghost-Mycelium (Vreken) or a lifetime of anti-Wyrd training. Thalren face Wyrd-horrors born from human fear. Vreken dismantled Nethien contracts through inquisitorial practice. Other races lack the supernatural exposure density. Solari too hot for stealth hunts. Fexric too mechanical. Myrathil too distant from surface Wyrd. Tethered Mimir lack the specialized anti-Wyrd training, their expertise is floor-toxins and survival, not supernatural investigation."
   },
 
   /**

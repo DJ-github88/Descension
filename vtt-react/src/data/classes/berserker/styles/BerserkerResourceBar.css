@@ -55,6 +55,12 @@
     max-width: 400px;
 }
 
+/* Party HUD: drop lower than the default slot so the jaw clears the title
+   block (mirrors the Crusader bar placement). */
+.party-member-frame.class-berserker .class-resource-wrapper {
+    margin-top: 14px !important;
+}
+
 /* Character card / compact hud sizing - UNLOCKED FULL WIDTH SPAN */
 .character-card .berserker-resource-bar,
 .character-card-compact .berserker-resource-bar {

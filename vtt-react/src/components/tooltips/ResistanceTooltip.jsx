@@ -353,7 +353,14 @@ export default function ResistanceTooltip({ type, level, value, damageType, resi
                     multiplier: `${Math.round(multiplierValue * 100)}%`,
                     color: '#4a6a2e'
                 };
-            } else if (level === 150 || (multiplierValue > 1.0 && multiplierValue < 2.0)) {
+            } else if (level === 125 || (multiplierValue > 1.0 && multiplierValue <= 1.25)) {
+                return {
+                    name: 'Susceptible',
+                    description: 'Takes 25% more damage (125% total)',
+                    multiplier: `${Math.round(multiplierValue * 100)}%`,
+                    color: '#ff9800'
+                };
+            } else if (level === 150 || (multiplierValue > 1.25 && multiplierValue < 2.0)) {
                 return {
                     name: 'Exposed',
                     description: `Takes ${Math.round((multiplierValue - 1) * 100)}% more damage (${Math.round(multiplierValue * 100)}% total)`,
@@ -453,7 +460,16 @@ export default function ResistanceTooltip({ type, level, value, damageType, resi
                         `Better resistance to ${damageType} attacks`
                     ]
                 };
-            } else if (level === 150 || (multiplierValue > 1.0 && multiplierValue < 2.0)) {
+            } else if (level === 125 || (multiplierValue > 1.0 && multiplierValue <= 1.25)) {
+                return {
+                    description: `Takes 25% more damage from ${damageType} spells, attacks, and effects (125% total).`,
+                    effects: [
+                        `Take 125% damage from ${damageType} sources (25% more than normal)`,
+                        `Disadvantage vs. ${damageType}-based effects`,
+                        `More vulnerable to ${damageType} attacks`
+                    ]
+                };
+            } else if (level === 150 || (multiplierValue > 1.25 && multiplierValue < 2.0)) {
                 return {
                     description: `Takes ${Math.round((multiplierValue - 1) * 100)}% more damage from ${damageType} spells, attacks, and effects (${Math.round(multiplierValue * 100)}% total).`,
                     effects: [

@@ -3,8 +3,8 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import GaolerResourceBar from '../components/GaolerResourceBar';
 import ClassResourceBar from '../../../../components/hud/ClassResourceBar';
 
-describe('GaolerResourceBar Component (Graft-Chain Apparatus)', () => {
-    it('renders the SVG graft-chain with 10 links, flesh-ring graft, and no text clutter on the bar', () => {
+describe('GaolerResourceBar Component (Tension Gauge)', () => {
+    it('renders the woven SVG chain with 10 links, ratchet dial, and no text clutter on the bar', () => {
         const { container } = render(
             <GaolerResourceBar
                 classResource={{ current: 3, max: 10 }}
@@ -24,12 +24,19 @@ describe('GaolerResourceBar Component (Graft-Chain Apparatus)', () => {
         const filledLinks = container.querySelectorAll('.warden-chain-link.filled');
         expect(filledLinks.length).toBe(3);
 
-        // Check flesh-ring graft emblem
+        // Check ratchet dial emblem
         const graft = container.querySelector('.warden-graft');
         expect(graft).toBeInTheDocument();
 
         // Check spend-mark studs (Strike 2, Glaive 3, Resolve 4, Cage 6, Avatar 10)
-        expect(container.querySelectorAll('polygon[points*="9.5"]').length).toBe(5);
+        expect(container.querySelectorAll('.warden-spend-stud').length).toBe(5);
+
+        // Apparatus hardware: bolted anchor, machined rail, ratchet dial, woven chain
+        expect(container.querySelector('.warden-anchor')).toBeInTheDocument();
+        expect(container.querySelector('.warden-rail')).toBeInTheDocument();
+        expect(container.querySelector('.warden-gear')).toBeInTheDocument();
+        expect(container.querySelector('.warden-chain')).toBeInTheDocument();
+        expect(container.querySelectorAll('.warden-chain-cap').length).toBe(5);
 
         // Check zero text clutter on the SVG bar
         expect(container.querySelector('text')).toBeNull();
@@ -67,7 +74,7 @@ describe('GaolerResourceBar Component (Graft-Chain Apparatus)', () => {
         expect(onUpdate).toHaveBeenCalledWith('current', 4);
     });
 
-    it('opens unified context menu on click and handles VP adjustments', () => {
+    it('opens the Tension Ledger with spec choice, GM overrides, and a − / + stepper', () => {
         const onUpdate = jest.fn();
         const { container } = render(
             <GaolerResourceBar
@@ -80,19 +87,26 @@ describe('GaolerResourceBar Component (Graft-Chain Apparatus)', () => {
         const bar = container.querySelector('.warden-resource-bar');
         fireEvent.click(bar);
 
-        // Menu should be rendered in portal
+        // Status keeps the VP counter; the economy now lives on the abilities
         expect(screen.getByText('VP: 2/10')).toBeInTheDocument();
-        expect(screen.getByText('Spend')).toBeInTheDocument();
+        expect(screen.getByText(/casting your Warden abilities from the action bar or spellbook/i)).toBeInTheDocument();
 
-        // Click +1 VP
-        const plusOneBtn = screen.getByText('+1');
-        fireEvent.click(plusOneBtn);
+        // Spend thresholds mirror the rail studs
+        expect(document.body.querySelectorAll('.warden-threshold').length).toBe(5);
+
+        // Stepper drives tension
+        fireEvent.click(screen.getByLabelText('Bank 1 Tension'));
         expect(onUpdate).toHaveBeenCalledWith('current', 3);
-
-        // Click -1 VP (from 3 down to 2)
-        const minusOneBtn = screen.getByText('-1');
-        fireEvent.click(minusOneBtn);
+        fireEvent.click(screen.getByLabelText('Spend 1 Tension'));
         expect(onUpdate).toHaveBeenCalledWith('current', 2);
+
+        // Spec selection drives the bar's strain and state controls
+        fireEvent.click(screen.getByText('Iron Warden'));
+        expect(screen.getByText('Cages: 0/2')).toBeInTheDocument();
+
+        // GM override
+        fireEvent.click(screen.getByText('Reset'));
+        expect(onUpdate).toHaveBeenCalledWith('current', 0);
     });
 
     it('renders correctly through ClassResourceBar router for Warden class without text clutter', () => {

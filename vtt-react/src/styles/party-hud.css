@@ -1515,10 +1515,14 @@
     pointer-events: all;
 }
 
-/* Ensure proper spacing between frames with different heights */
+/* Draggable frames are positioned purely by their transform: keeping them in
+   normal flow would add each frame's height on top of the translate and stack
+   them with huge gaps. */
 .party-hud-frames .react-draggable {
-    margin-bottom: 10px;
-    /* Add spacing between draggable frames */
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    margin: 0;
 }
 
 .party-member-frame {
@@ -1569,41 +1573,34 @@
     pointer-events: none;
 }
 
-/* Golden Medal Level Badge: hangs off the portrait's bottom-right corner.
-   Portrait box = left 4.9% / top 7.2% / width 14.5% / height 28% (mounted above frame art,
-   aligned to the HUD's natural square so the painted frame margins stay visible). */
-.party-member-frame .portrait-level-orb {
+/* Matte level chip stamped on the portrait's top-left corner.
+   Deliberately flat/engraved — no glossy gradients. */
+.party-member-frame .portrait-level-chip {
     position: absolute;
-    left: calc(4.9% + 14.5% - 12px);
-    top: calc(7.2% + 28% - 14px);
-    width: 32px;
-    height: 32px;
-    z-index: 15;
+    left: calc(4.9% - 5px);
+    top: calc(7.2% - 5px);
+    width: 22px;
+    height: 22px;
+    z-index: 16;
     display: flex;
     align-items: center;
     justify-content: center;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.75));
-    pointer-events: none;
-}
-
-.party-member-frame .portrait-level-orb .level-medal-svg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-}
-
-.party-member-frame .portrait-level-orb .level-number {
-    position: relative;
-    z-index: 1;
     font-family: 'Cinzel', serif;
-    font-size: 15px;
-    font-weight: 900;
-    color: #2e1e06;
-    text-shadow: 0 1px 0 rgba(255, 236, 190, 0.6);
+    font-size: 11px;
+    font-weight: 800;
     line-height: 1;
-    margin-top: 1px;
+    color: #e8d5a8;
+    background: #241810;
+    border: 1px solid #5d4726;
+    border-radius: 50%;
+    box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.65),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.55),
+        inset 0 1px 1px rgba(120, 92, 48, 0.25);
+    text-shadow:
+        0 -1px 0 rgba(0, 0, 0, 0.9),
+        0 1px 0 rgba(255, 236, 190, 0.12);
+    pointer-events: none;
 }
 
 /* Clean portrait image styling inside HUD frame */
@@ -1657,7 +1654,10 @@
     width: 14.5% !important;
     height: 28% !important;
     margin: 0 !important;
-    z-index: 3 !important;
+    /* Above .party-member-info (z3): that full-frame wrapper would otherwise
+       intercept portrait clicks for the zoom lightbox. */
+    z-index: 4 !important;
+    cursor: zoom-in;
     overflow: hidden;
     background-color: #1a140e;
     border: 2px solid #3b2e17;
@@ -1673,7 +1673,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 16px 18px 8px 18px;
+    padding: 16px 18px 22px 18px;
     width: 100%;
     box-sizing: border-box;
 }
@@ -1681,8 +1681,8 @@
 .party-member-frame .member-header {
     padding-left: 19%;
     padding-right: 28px;
-    margin-top: 8px;
-    margin-bottom: 2px;
+    margin-top: 10px;
+    margin-bottom: 6px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1693,10 +1693,27 @@
 
 .party-member-frame .member-header-top-row {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    gap: 1px 7px;
     width: 100%;
     min-width: 0;
+}
+
+/* Class signs the name row (small gold caps), so long class names always
+   fit without stealing portrait space. */
+.party-member-frame .member-class-text {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #9a6420;
+    white-space: nowrap;
+    flex-shrink: 0;
+    line-height: 1.15;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.55);
 }
 
 .party-member-frame .member-name-text {
@@ -1710,7 +1727,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
-    width: 100%;
+    flex: 0 1 auto;
+    min-width: min-content;
+    max-width: 100%;
     line-height: 1.18;
     text-decoration: underline;
     text-decoration-color: rgba(139, 90, 43, 0.85);
@@ -1773,28 +1792,86 @@
 
 .party-member-frame .member-details {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 3px;
     width: 100%;
     min-width: 0;
+}
+
+/* Heritage line: "of the Withered" — mirrors the /account header's
+   "<Class> <Name> of the <Subrace>" title grammar in miniature. */
+.party-member-frame .member-heritage-line {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px;
+    max-width: 100%;
+    min-width: 0;
+    line-height: 1.25;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.party-member-frame .member-heritage-line .heritage-prep {
+    font-family: 'IM Fell English', 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 10.5px;
+    color: #8a6a4a;
+    opacity: 0.95;
+    letter-spacing: 0.2px;
+}
+
+.party-member-frame .member-heritage-line .heritage-race {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 10.5px;
+    letter-spacing: 0.5px;
+    color: #7a4a1c;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.55);
 }
 
 .party-member-frame .member-archetype-line {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-wrap: nowrap;
-    gap: 5px;
+    flex-wrap: wrap;
+    gap: 6px;
+    row-gap: 3px;
     font-family: 'Cinzel', 'Crimson Text', serif;
     font-size: 10.5px;
     font-weight: 600;
     color: #6e4d2d;
     letter-spacing: 0.35px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
     text-align: center;
     line-height: 1.2;
+    max-width: 100%;
+    min-width: 0;
+}
+
+/* Background byname: script line under the heritage title — carries the
+   small lead icon (races no longer do). */
+.party-member-frame .member-background-line {
+    font-family: 'IM Fell English', 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 11px;
+    color: #8a6a4a;
+    letter-spacing: 0.2px;
+    line-height: 1.25;
+    text-align: center;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.party-member-frame .member-background-line .archetype-icon {
+    display: inline-block;
+    vertical-align: -1px;
+    margin-right: 4px;
+    font-style: normal;
 }
 
 .party-member-frame .detail-separator {
@@ -1831,23 +1908,36 @@
     display: flex;
     flex-direction: column;
     gap: 3px;
-    margin-top: 32px;
-    margin-bottom: 6px;
+    /* Non-class compartments ride directly under the header. */
+    margin-top: 8px;
+    margin-bottom: auto;
     align-items: center;
 }
 
+/* Class-resource frames share one rhythm: the bar floats centred between the
+   title block and the exhaustion plaque, so neither the title nor the plate
+   crowds it whatever the bar's height. The floor keeps thin bars (Madness,
+   Stance, Lunar phases) from making a stubby frame, and the extra bottom
+   padding guarantees the plaque never touches a tall bar. */
 .party-member-frame.has-class-resource {
-    min-height: 178px;
+    min-height: 190px;
 }
 
-.party-member-frame.class-chronarch,
-.party-member-frame.class-musical-notes-combo,
-.party-member-frame.class-harbinger,
-.party-member-frame.class-mayhem-gauge,
-.party-member-frame.class-arcanoneer,
-.party-member-frame.class-revenant,
-.party-member-frame.class-spellguard {
-    min-height: 176px;
+.party-member-frame.has-class-resource .party-member-info {
+    padding-bottom: 30px;
+}
+
+/* The bar compartment fills the free space and centres its bar inside it.
+   Padding holds a minimum gap under the title and above the plate, with a
+   slight upward bias (12px top vs 26px bottom) — thin bars no longer read as
+   sitting at the bottom of the frame. */
+.party-member-frame.has-class-resource .resource-bars-container {
+    flex: 1 1 auto !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    justify-content: center;
+    padding: 12px 0 26px;
+    box-sizing: border-box;
 }
 
 /* ========================================================= */
@@ -2405,12 +2495,18 @@
         inset 0 -1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.member-status-indicators {
+/* Presence badge pinned to the portrait's bottom-right corner. Kept out of the
+   frame's flex flow so it never adds dead height below the resource bar. */
+.party-member-frame .member-status-indicators {
+    position: absolute;
+    top: calc(7.2% + 28% - 14px);
+    left: calc(4.9% + 14.5% - 13px);
+    z-index: 6;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    margin: 0 0 16px 6px;
+    margin: 0;
 }
 
 .status-dot {

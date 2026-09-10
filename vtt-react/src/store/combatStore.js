@@ -967,12 +967,17 @@ const useCombatStore = create((set, get) => ({
     confirmMovement: (tokenId, apCost, totalMovementDistance) => {
         const state = get();
 
+        // NaN guards: an undefined apCost/distance must never poison state
+        // (NaN AP in turnOrder, NaN in turnMovementUsed breaks all later moves)
+        const safeAPCost = Number.isFinite(apCost) ? apCost : 0;
+        const safeTotalDistance = Number.isFinite(totalMovementDistance) ? totalMovementDistance : 0;
+
         // Spend the required AP
-        get().spendActionPoints(tokenId, apCost);
+        get().spendActionPoints(tokenId, safeAPCost);
 
         // Set the total movement used this turn to the provided total
         const newTurnMovementUsed = new Map(state.turnMovementUsed);
-        newTurnMovementUsed.set(tokenId, totalMovementDistance);
+        newTurnMovementUsed.set(tokenId, safeTotalDistance);
 
         // Mark movement as unlocked for this token
         const newMovementUnlocked = new Set(state.movementUnlocked);
@@ -1241,8 +1246,15 @@ const useCombatStore = create((set, get) => ({
             return;
         }
 
+        // NaN guard: currentActionPoints may be missing (multiplayer-restored
+        // combatants) and amount may be undefined — Math.max(0, NaN) is NaN.
+        const currentAP = Number.isFinite(combatant.currentActionPoints)
+            ? combatant.currentActionPoints
+            : 0;
+        const cost = Number.isFinite(amount) ? amount : 0;
+
         // CRITICAL FIX: Calculate newAP BEFORE updating the store
-        const newAP = Math.max(0, combatant.currentActionPoints - amount);
+        const newAP = Math.max(0, currentAP - cost);
 
         // Update combat store turnOrder
         set(state => {

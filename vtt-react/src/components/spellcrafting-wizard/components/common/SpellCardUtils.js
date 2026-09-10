@@ -979,15 +979,15 @@ export const getSpellSchoolColor = (school) => {
  if (!school) return '';
 
  const schoolLower = school.toLowerCase();
- if (schoolLower === 'ember') return 'spell-fire';
- if (schoolLower === 'rime' || schoolLower === 'frost' || schoolLower === 'cold') return 'spell-frost';
- if (schoolLower === 'arcane') return 'spell-arcane';
+ if (schoolLower === 'ember' || schoolLower === 'fire') return 'spell-fire';
+ if (schoolLower === 'rime' || schoolLower === 'frost' || schoolLower === 'cold' || schoolLower === 'ice') return 'spell-frost';
+ if (schoolLower === 'arcane' || schoolLower === 'force') return 'spell-arcane';
  if (schoolLower === 'primal' || schoolLower === 'nature') return 'spell-nature';
- if (schoolLower === 'blight' || schoolLower === 'shadow' || schoolLower === 'necrotic') return 'spell-shadow';
- if (schoolLower === 'sacred' || schoolLower === 'sacred') return 'spell-sacred';
- if (schoolLower === 'storm' || schoolLower === 'lightning') return 'spell-lightning';
+ if (schoolLower === 'blight' || schoolLower === 'shadow' || schoolLower === 'necrotic' || schoolLower === 'poison' || schoolLower === 'acid') return 'spell-shadow';
+ if (schoolLower === 'sacred' || schoolLower === 'radiant' || schoolLower === 'holy') return 'spell-sacred';
+ if (schoolLower === 'storm' || schoolLower === 'lightning' || schoolLower === 'thunder') return 'spell-lightning';
  if (schoolLower === 'wyrd' || schoolLower === 'psychic' || schoolLower === 'chaos') return 'spell-shadow';
- if (schoolLower === 'physical') return 'spell-physical';
+ if (schoolLower === 'smashing' || schoolLower === 'stabbing' || schoolLower === 'slicing' || schoolLower === 'physical') return 'spell-physical';
  return 'spell-arcane';
 };
 

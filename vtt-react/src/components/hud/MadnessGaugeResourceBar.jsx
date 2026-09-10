@@ -1,5 +1,7 @@
-import React, { useId } from 'react';
+import React, { useId, useState } from 'react';
 import ReactDOM from 'react-dom';
+import ClassTip from './ClassTip';
+import { useResourceBarTooltipPosition } from './useResourceBarTooltip';
 
 const MILESTONE_MARKS = [6, 10, 15];
 
@@ -65,6 +67,17 @@ const MadnessGaugeResourceBar = ({
         const maxMadness = finalConfig.mechanics?.max ?? 20;
         const isConvulsion = currentMadness >= 20;
         const isDanger = currentMadness >= 15 && !isConvulsion;
+
+        // Dedicated hover tooltip (shared ClassTip body). The parent's generic
+        // ResourceTooltip is suppressed for dedicated bars, so this component
+        // owns its own portal.
+        const [showTip, setShowTip] = useState(false);
+        const dangerLevel = getDangerLevel ? getDangerLevel(currentMadness) : { name: 'Stable' };
+        const tooltipRef = useResourceBarTooltipPosition(
+            madnessBarRef,
+            showTip && !showMadnessMenu,
+            [currentMadness, maxMadness]
+        );
 
         // Namespace SVG def ids per instance so stacked PartyHUD frames never collide.
         const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
@@ -142,14 +155,18 @@ const MadnessGaugeResourceBar = ({
             setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
             setTooltipPlacement(spaceBelow > 400 ? 'below' : (spaceAbove > 400 ? 'above' : 'below'));
             setShowTooltip(true);
+            setShowTip(true);
         };
 
         const handleMadnessBarLeave = () => {
             setFalseProphetHoverSection(null);
             setShowTooltip(false);
+            setShowTip(false);
         };
 
         const handleBarClick = () => {
+            setShowTooltip(false);
+            setShowTip(false);
             setShowMadnessMenu(!showMadnessMenu);
         };
 
@@ -157,7 +174,7 @@ const MadnessGaugeResourceBar = ({
             if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { e.preventDefault(); gainMadness(1); }
             if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { e.preventDefault(); spendMadness(1); }
             if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleBarClick(); }
-            if (e.key === 'Escape') { setShowMadnessMenu(false); setShowTooltip(false); }
+            if (e.key === 'Escape') { setShowMadnessMenu(false); setShowTooltip(false); setShowTip(false); }
         };
 
         return (
@@ -402,10 +419,10 @@ const MadnessGaugeResourceBar = ({
                     {/* Adjustment Menu */}
                     {showMadnessMenu && madnessBarRef.current && ReactDOM.createPortal(
                         <div
-                            className={`unified-context-menu compact context-menu-container falseprophet-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            className={`unified-context-menu compact context-menu-container falseprophet-menu-container class-resource-menu ${context === 'party' ? 'chronarch-party' : ''}`}
                             onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                             onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                            onMouseEnter={(e) => e.stopPropagation()}
+                            onMouseEnter={(e) => { e.stopPropagation(); setShowTooltip(false); }}
                             onMouseMove={(e) => e.stopPropagation()}
                             onMouseOver={(e) => e.stopPropagation()}
                             style={{
@@ -515,6 +532,35 @@ const MadnessGaugeResourceBar = ({
                                     </button>
                                 </div>
                             </div>
+                        </div>,
+                        document.body
+                    )}
+
+                    {/* Hover tooltip — shared ClassTip body */}
+                    {showTip && !showMadnessMenu && ReactDOM.createPortal(
+                        <div
+                            ref={tooltipRef}
+                            className="unified-resourcebar-tooltip pathfinder-tooltip false-prophet-tooltip"
+                            style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}
+                        >
+                            <ClassTip
+                                icon="fas fa-eye"
+                                tint={eyeBand.ring}
+                                title="Madness"
+                                subtitle="False Prophet — The Fanatical Choir"
+                                state={`${currentMadness}/${maxMadness} · ${dangerLevel.name}`}
+                                stateTone={isConvulsion ? 'critical' : isDanger ? 'bad' : currentMadness >= 10 ? 'warn' : 'neutral'}
+                                mechanic="Spells and sermons generate Madness (1d4-2d6); some abilities spend it. Every point adds +1 damage to all your wyrd and blight spells."
+                                status={[
+                                    'Milestones: 6 Veil of Shadows · 9 Wyrd-touched Vision · 12 Apocalyptic Revelation · 20 Insanity Convulsion.',
+                                    isConvulsion
+                                        ? { text: 'CONVULSION: roll 1d6 (blight burst, stun 2 rounds, disadvantage 3 rounds, teleport + 4d6 wyrd, 30 ft fear, 6d6 wyrd), then Madness resets to 0.', tone: 'critical' }
+                                        : isDanger
+                                            ? { text: 'Danger zone (15+): spend Madness or stop generating before 20.', tone: 'bad' }
+                                            : `${currentMadness} banked — +${currentMadness} damage to every wyrd and blight spell.`,
+                                ]}
+                                usage={isOwner ? 'Click a fracture to set Madness · Click the Eye for gain/spend controls · Arrow keys step 1.' : null}
+                            />
                         </div>,
                         document.body
                     )}

@@ -370,7 +370,7 @@ const TRADE_ROUTES = [
     "cargo": "Peat-oil, memory-glass, fungal-light exports, ironwood crafts → Sundrift steppe-wool, Astril crystal-lattice fragments",
     "established": "Year ~60 (Freezing Era)",
     "status": "active (smuggler-heavy)",
-    "history": "The winding bog-route connecting settled Bryngloom to the Sundrift Vale's border. The Neth Great Registry taxes legitimate trade; the Over-Shanty (founded Year 412) routes black-market goods. Drun outcasts control the peat-harvesting bypass channels."
+    "history": "The winding bog-route connecting settled Bryngloom to the Sundrift Vale's border. The Nethien Great Registry taxes legitimate trade; the Over-Shanty (founded Year 412) routes black-market goods. Withered outcasts control the peat-harvesting bypass channels."
   },
   {
     "id": "trade-north-south",
@@ -619,7 +619,7 @@ const SEEDED_EVENTS = [
     "title": "The Refusal of House Viridane",
     "type": "political",
     "phase": "false-spring",
-    "description": "When the other six houses marched their children north, House Viridane did not. Something had reached them before the Sun-Eater's whispers could take hold, a presence in the mist, watching from the moonlit groves, older than Keth Amar's hunger and more patient. They fled south through the Frostwood Reach while sacrifice fires still burned, carrying children hidden beneath cloaks woven from the hair of their own dead. The six houses, unable to complete the binding ritual with only six signatures, elevated House Morrath as a substitute seventh and began the centuries-long project of erasing every trace of Viridane. For fourteen years between their elevation and the First Contract, House Morrath administered basic survival. resource distribution, defense, and refugee settlement: while the Neth scribe-clan negotiated the pact that would define the region.",
+    "description": "When the other six houses marched their children north, House Viridane did not. Something had reached them before the Sun-Eater's whispers could take hold, a presence in the mist, watching from the moonlit groves, older than Keth Amar's hunger and more patient. They fled south through the Frostwood Reach while sacrifice fires still burned, carrying children hidden beneath cloaks woven from the hair of their own dead. The six houses, unable to complete the binding ritual with only six signatures, elevated House Morrath as a substitute seventh and began the centuries-long project of erasing every trace of Viridane. For fourteen years between their elevation and the First Contract, House Morrath administered basic survival. resource distribution, defense, and refugee settlement: while the Nethien scribe-clan negotiated the pact that would define the region.",
     "locationIds": [
       "frostwood-reach",
       "ironwood-heart"
@@ -768,7 +768,7 @@ const SEEDED_EVENTS = [
     "title": "The Remaining Bargains Struck",
     "type": "pact",
     "phase": "false-spring",
-    "description": "House Ordavan traded the Sundrift Vale's fertile soil for endless migration and grass that always returned. The sky went dark (the fragments of Lumia's biosphere fled the slaughter and the Astril ancestors volunteered as living vessels. House Mereval traded the Iceheart's calm for navigable) and perpetually storm-lashed, sea lanes. House Tesshan traded the Cragjaw's visibility for an eternal blizzard-veil. In the Bryngloom, the Neth ancestors, an ancient canopy-dwelling civilization facing extinction from mysterious fertility decline, communed with Morvane through their Augurs. Morvane granted them the Font Vessel for the hidden Well of Youth. The Three Trials at the Well would soon split the Neth into three bloodlines.",
+    "description": "House Ordavan traded the Sundrift Vale's fertile soil for endless migration and grass that always returned. The sky went dark (the fragments of Lumia's biosphere fled the slaughter and the Astril ancestors volunteered as living vessels. House Mereval traded the Iceheart's calm for navigable) and perpetually storm-lashed, sea lanes. House Tesshan traded the Cragjaw's visibility for an eternal blizzard-veil. In the Bryngloom, the Nethien ancestors, an ancient canopy-dwelling civilization facing extinction from mysterious fertility decline, communed with Morvane through their Augurs. Morvane granted them the Font Vessel for the hidden Well of Youth. The Three Trials at the Well would soon split the Nethien into three bloodlines.",
     "locationIds": [
       "sundrift-vale",
       "iceheart-sea",
@@ -829,7 +829,7 @@ const SEEDED_EVENTS = [
     "title": "The First Contract",
     "type": "pact",
     "phase": "false-spring",
-    "description": "The High Neth Augurs of the Bryngloom, watching their civilization's fertility decline, journeyed to the deep wood and communed with Morvane. The forest spirit granted them the Font Vessel: a pristine receptacle to be filled at the hidden Well of Life. During the quest, two rogue factions betrayed the mission: pragmatic conspirators switched the vessel for a corrupt siphoning replica, and power-hungry magi drank raw cosmic magic directly from the Well. When the loyalists restored order and filled the vessel with reverence, Morvane's magic executed absolute judgment within a week, permanently dividing the Neth into High Neth (the loyalists with porcelain lines), Grave Neth (the conspirators made into severed shadow-brokers and cold undead), and Hallowed Neth (the profane bound as spirit conduits).",
+    "description": "The Nethien Augurs of the Bryngloom, watching their civilization's fertility decline, journeyed to the deep wood and communed with Morvane. The forest spirit granted them the Font Vessel: a pristine receptacle to be filled at the hidden Well of Life. During the quest, two rogue factions betrayed the mission: pragmatic conspirators switched the vessel for a corrupt siphoning replica, and power-hungry magi drank raw cosmic magic directly from the Well. When the loyalists restored order and filled the vessel with reverence, Morvane's magic executed absolute judgment within a week, permanently dividing the Nethien into Nethien (the loyalists with porcelain lines), Withered (the conspirators made into severed shadow-brokers and cold undead), and Veldun (the profane bound as spirit conduits).",
     "locationIds": [
       "bryngloom-forest",
       "atropolis"
@@ -844,8 +844,8 @@ const SEEDED_EVENTS = [
     "effects": [
       "event-contraction-traditions"
     ],
-    "narrative": "The **Neth**, an ancient canopy-dwelling people, face slow extinction as fewer and fewer children are born. Through intense devotion, their **Augurs** commune with Morvane, the death-boundary entity of the Bryngloom, and receive the **Font Vessel**. The Augurs are told to fill it at the hidden **Well of Life**. But three factions trail the Augur: the loyalists (future **High Neth**) who intend to honor the deal; the conspirators (future **Grave Neth**) who secretly switch the vessel with a corrupt siphoning replica; and the profane magi (future **Hallowed Neth**) who bypass the vessels entirely and drink raw cosmic magic directly from the Well. When the loyalists restore order and fill the true vessel with reverence, Morvane's judgment descends within a week, permanently marking every bloodline.",
-    "dmHook": "The Font Vessel still exists, preserved in the heartwood of Atropolis. It is a living relic (it remembers who touched it honestly and who came with corruption in their hands. A Neth character who touches it sees echoes of that fateful week: three paths diverging at one Well, and Morvane's judgment descending like a blade.",
+    "narrative": "The **Nethien**, an ancient canopy-dwelling people, face slow extinction as fewer and fewer children are born. Through intense devotion, their **Augurs** commune with Morvane, the death-boundary entity of the Bryngloom, and receive the **Font Vessel**. The Augurs are told to fill it at the hidden **Well of Life**. But three factions trail the Augur: the loyalists (future **Nethien**) who intend to honor the deal; the conspirators (future **Withered**) who secretly switch the vessel with a corrupt siphoning replica; and the profane magi (future **Veldun**) who bypass the vessels entirely and drink raw cosmic magic directly from the Well. When the loyalists restore order and fill the true vessel with reverence, Morvane's judgment descends within a week, permanently marking every bloodline.",
+    "dmHook": "The Font Vessel still exists, preserved in the heartwood of Atropolis. It is a living relic (it remembers who touched it honestly and who came with corruption in their hands. A Nethien character who touches it sees echoes of that fateful week: three paths diverging at one Well, and Morvane's judgment descending like a blade.",
     "dateDisplay": "Before the Star-Fall"
   },
   {
@@ -1275,7 +1275,7 @@ const SEEDED_EVENTS = [
     "title": "The First Ebbing Traditions: Early Adaptation",
     "type": "founding",
     "phase": "first-ebbing",
-    "description": "Five traditions emerged as the warmth declined and civilizations adapted to permanent survival:\n\n• Arcanoneer (Year ~60) (Valerius, a Velun Neth archivist, drafted the First Contract with Morvane, structuring raw Bryngloom magic as strict legal clauses. His blood crystallizes into volatile shards) the cost of weaponizing the pact.\n• Warden (Year ~70): Alaric the Law-Keeper, a Groven mine-guard at Frostmaw Holdfast, drove an ore-hauling chain through his own forearm into a colossal Deep Alchemist specimen during the Vat-Breakers' revolt. He held for three days. The chain rusted into his bone.\n• Lunarch (Year ~80) (Selene, scion of House Viridane, bargained with wildwood fae in the moonlit groves to capture the dead moon's light. She bound a lunar parasite to her bones) an ancient celestial predator feeding on memory, sensation, and sanity.\n• Minstrel (Year ~100) (Lyris the Tide-Singer, a Merryn sailor, sang a sea-symphony to calm the Iceheart gales at Merrowport. The ocean mother accepted but stole her spoken voice) attempting to speak causes her throat to bleed.\n• Animist (Year ~120-200): Three independent ancestral-communion discoveries (Kael the Ordan totemic, Nyssa the Vreken spore-Wyrd, Theron the Skald runic) developed in parallel. They would merge centuries later when the founders' successors recognized each other's scars.",
+    "description": "Five traditions emerged as the warmth declined and civilizations adapted to permanent survival:\n\n• Arcanoneer (Year ~60) (Valerius, a Nethien archivist, drafted the First Contract with Morvane, structuring raw Bryngloom magic as strict legal clauses. His blood crystallizes into volatile shards) the cost of weaponizing the pact.\n• Warden (Year ~70): Alaric the Law-Keeper, a Groven mine-guard at Frostmaw Holdfast, drove an ore-hauling chain through his own forearm into a colossal Deep Alchemist specimen during the Vat-Breakers' revolt. He held for three days. The chain rusted into his bone.\n• Lunarch (Year ~80) (Selene, scion of House Viridane, bargained with wildwood fae in the moonlit groves to capture the dead moon's light. She bound a lunar parasite to her bones) an ancient celestial predator feeding on memory, sensation, and sanity.\n• Minstrel (Year ~100) (Lyris the Tide-Singer, a Merryn sailor, sang a sea-symphony to calm the Iceheart gales at Merrowport. The ocean mother accepted but stole her spoken voice) attempting to speak causes her throat to bleed.\n• Animist (Year ~120-200): Three independent ancestral-communion discoveries (Kael the Ordan totemic, Nyssa the Vreken spore-Wyrd, Theron the Skald runic) developed in parallel. They would merge centuries later when the founders' successors recognized each other's scars.",
     "locationIds": [
       "bryngloom-forest",
       "cragjaw-peaks",
@@ -1434,10 +1434,10 @@ const SEEDED_EVENTS = [
       "year": 410,
       "eraId": "freezing-era"
     },
-    "title": "The Drun Severing: Saren-Vel Burns Her Name",
+    "title": "The Withered Severing: Saren-Vel Burns Her Name",
     "type": "cultural",
     "phase": "contraction",
-    "description": "Saren-Vel, the most powerful Velun Neth mage of her generation, walked into the deepest Bryngloom bog with a flame that consumed only ink, not paper, not flesh. She burned her name from every active copy of the First Contract. The Drun subrace was born: legally nonexistent, magic-immune, invisible to Morvane's enforcement. They are also legally non-entitled. no property, no marriage, no testimony in a Neth court. Her act was a response to Morvane's growing distraction: as the pact weakened, its cage became unbearable to those who could feel it tightening.",
+    "description": "Saren-Vel, the most powerful Nethien mage of her generation, walked into the deepest Bryngloom bog with a flame that consumed only ink, not paper, not flesh. She burned her name from every active copy of the First Contract. The Withered subrace was born: legally nonexistent, magic-immune, invisible to Morvane's enforcement. They are also legally non-entitled. no property, no marriage, no testimony in a Nethien court. Her act was a response to Morvane's growing distraction: as the pact weakened, its cage became unbearable to those who could feel it tightening.",
     "locationIds": [
       "bryngloom-forest",
       "atropolis"
@@ -1607,7 +1607,7 @@ const SEEDED_EVENTS = [
     "title": "The Over-Lit Epidemic",
     "type": "disaster",
     "phase": "contraction",
-    "description": "With the Neth's expanding trade networks making Vreken fungal exports into valuable currency across all seven regions, harvest of Ghost-Mycelium intensified dramatically. Exposure intensified correspondingly. Aedris, a Marked Veil-Speaker at the Sunken Spire, became the first recorded Over-Lit case, pressing raw Ghost-Mycelium pulp to her eyes during a prolonged crypt-vigil and found three days later still glowing, still singing, but no longer able to recognize her own reflection. The epidemic exposed the fatal weakness in Marked biology: the light that makes them extraordinary is the same light that consumes them. The Clean. immune to the hush: began their quiet drift toward the leadership positions the Marked were deemed too volatile to hold.",
+    "description": "With the Nethien's expanding trade networks making Vreken fungal exports into valuable currency across all seven regions, harvest of Ghost-Mycelium intensified dramatically. Exposure intensified correspondingly. Aedris, a Marked Veil-Speaker at the Sunken Spire, became the first recorded Over-Lit case, pressing raw Ghost-Mycelium pulp to her eyes during a prolonged crypt-vigil and found three days later still glowing, still singing, but no longer able to recognize her own reflection. The epidemic exposed the fatal weakness in Marked biology: the light that makes them extraordinary is the same light that consumes them. The Clean. immune to the hush: began their quiet drift toward the leadership positions the Marked were deemed too volatile to hold.",
     "locationIds": [
       "bryngloom-forest",
       "the-sunken-spire"
@@ -1685,7 +1685,7 @@ const SEEDED_EVENTS = [
     "title": "The Contraction Traditions: Mid-Era Response",
     "type": "founding",
     "phase": "contraction",
-    "description": "Six traditions emerged as the Contraction forced organized responses to Wyrd, scarcity, and the undeniable permanent decline:\n\n• Chronarch (Year ~310): During the War of Thousand Screams, Nesta hooked a time-dilation engine into her chest at Frostmaw Holdfast.\n• Gambit (Year ~350): Jax (Merryn pirate, wagered his lifeline against a storm-spirit at Merrowport) and Lyra (Kessen Neth probability-weaver, plucked the single surviving timeline) merged their arts.\n• Shaper (Year ~350): Sylvanus (Frostwood kinetic dance) and Torin (Cragjaw biological body-sculpting) merged by the Mimir chronicler Veyra the Merged.\n• Inquisitor (Year ~380): Orven the Still-Handed and Elias the Salt-Scarred merged their Wyrd-hunting traditions at the Barbed Vow.\n• Harbinger (Year ~380): Xyris (Astril, tore the first permanent Chaos Pocket in the Sundrift Vale) and Malakor (Skald, calculated Sol's extinction) merged their traditions.\n• Toxicologist (Year ~380): Varis the Trembling systematized venom extraction from the evolving fog-predators of the Frostwood Reach.",
+    "description": "Six traditions emerged as the Contraction forced organized responses to Wyrd, scarcity, and the undeniable permanent decline:\n\n• Chronarch (Year ~310): During the War of Thousand Screams, Nesta hooked a time-dilation engine into her chest at Frostmaw Holdfast.\n• Gambit (Year ~350): Jax (Merryn pirate, wagered his lifeline against a storm-spirit at Merrowport) and Lyra (Veldun probability-weaver, plucked the single surviving timeline) merged their arts.\n• Shaper (Year ~350): Sylvanus (Frostwood kinetic dance) and Torin (Cragjaw biological body-sculpting) merged by the Mimir chronicler Veyra the Merged.\n• Inquisitor (Year ~380): Orven the Still-Handed and Elias the Salt-Scarred merged their Wyrd-hunting traditions at the Barbed Vow.\n• Harbinger (Year ~380): Xyris (Astril, tore the first permanent Chaos Pocket in the Sundrift Vale) and Malakor (Skald, calculated Sol's extinction) merged their traditions.\n• Toxicologist (Year ~380): Varis the Trembling systematized venom extraction from the evolving fog-predators of the Frostwood Reach.",
     "locationIds": [
       "cragjaw-peaks",
       "iceheart-sea",
@@ -1719,7 +1719,7 @@ const SEEDED_EVENTS = [
     "title": "The Over-Shanty Established: The Cult of Forgotten Shadow",
     "type": "founding",
     "phase": "squeeze",
-    "description": "At the edge of the Bryngloom's peat-bogs, a permanent black market settlement coalesced beneath Atropolis's high canopy: the Over-Shanty. Drun outcasts, Vreken defaulters, Marked Vreken refugees, and desperate merchants from every region built a lawless trading post where Neth contracts held no authority and the only currency was what you could carry and defend. In the peat-crypts beneath the Over-Shanty, a group of desperate survivors (the first cultists of what would become the Cult of Forgotten Shadow) began to experiment with something they had found in the deepest bog: a silence that spoke back. Centuries later, disillusioned Dawn Vigil defectors who learned the truth — that reassembly summons Keth Amar, not Sol — would find their way to these crypts, merging the bog-cult's raw contact with the Vigil's doctrinal corruption into the organized Cult of Forgotten Shadow that exists today.",
+    "description": "At the edge of the Bryngloom's peat-bogs, a permanent black market settlement coalesced beneath Atropolis's high canopy: the Over-Shanty. Withered outcasts, Vreken defaulters, Marked Vreken refugees, and desperate merchants from every region built a lawless trading post where Nethien contracts held no authority and the only currency was what you could carry and defend. In the peat-crypts beneath the Over-Shanty, a group of desperate survivors (the first cultists of what would become the Cult of Forgotten Shadow) began to experiment with something they had found in the deepest bog: a silence that spoke back. Centuries later, disillusioned Dawn Vigil defectors who learned the truth — that reassembly summons Keth Amar, not Sol — would find their way to these crypts, merging the bog-cult's raw contact with the Vigil's doctrinal corruption into the organized Cult of Forgotten Shadow that exists today.",
     "locationIds": [
       "over-shanty",
       "bryngloom-forest",
@@ -1895,7 +1895,7 @@ const SEEDED_EVENTS = [
     "title": "The Squeeze Traditions: Late-Era Crisis",
     "type": "founding",
     "phase": "squeeze",
-    "description": "Three traditions emerged from desperation and the weaponization of the Wyrd:\n\n• Plaguebringer (Year ~500): Vespera, a Vreken alchemist, bonded with bog-rot to cure the spore-hush ravaging her family's cave-keeps. She injected decaying Sunken Spire moss directly into her veins. The cure worked. She became a permanent host for active decay.\n• Revenant (Year ~550) (When bog-graves began waking on their own) the dead marching toward the Sundered Monoliths without permission: Kora the Veil-Speaker (Vreken blood-covenant) and Vesper the Scribe (Neth frost-stasis phylactery) merged their death-magic traditions at the Cold Hearth.\n• False Prophet (Year ~598): Li Wei followed a meteor into a Sundered Monolith crater in the Sundrift Vale following the Silence Between Stars. He returned with blank white eyes, a shattered mind, and a hypnotic madness that drains listeners' stamina.",
+    "description": "Three traditions emerged from desperation and the weaponization of the Wyrd:\n\n• Plaguebringer (Year ~500): Vespera, a Vreken alchemist, bonded with bog-rot to cure the spore-hush ravaging her family's cave-keeps. She injected decaying Sunken Spire moss directly into her veins. The cure worked. She became a permanent host for active decay.\n• Revenant (Year ~550) (When bog-graves began waking on their own) the dead marching toward the Sundered Monoliths without permission: Kora the Veil-Speaker (Vreken blood-covenant) and Vesper the Scribe (Nethien frost-stasis phylactery) merged their death-magic traditions at the Cold Hearth.\n• False Prophet (Year ~598): Li Wei followed a meteor into a Sundered Monolith crater in the Sundrift Vale following the Silence Between Stars. He returned with blank white eyes, a shattered mind, and a hypnotic madness that drains listeners' stamina.",
     "locationIds": [
       "bryngloom-forest",
       "sundrift-vale"
@@ -1979,7 +1979,7 @@ const SEEDED_EVENTS = [
     "title": "The Nethering",
     "type": "disaster",
     "phase": "intrusion",
-    "description": "Morvane (the death-boundary entity that had enforced the Neth's First Contract since before the sun was buried) became so distracted by whatever force Keth Amar had unleashed that the pact began to fray. The Unraveling accelerated: Neth who broke contracts on purpose to force change began experiencing the Fading, a slow dissipation into nothingness. The First Contract itself began to reject previously accepted clauses: the Arcanoneer crisis. Drun numbers swelled as Neth voluntarily severed their names from the Contract. Morvane had been the metaphysical glue holding one of the world's foundational bargains together, and it was coming undone.",
+    "description": "Morvane (the death-boundary entity that had enforced the Nethien's First Contract since before the sun was buried) became so distracted by whatever force Keth Amar had unleashed that the pact began to fray. The Unraveling accelerated: Nethien who broke contracts on purpose to force change began experiencing the Fading, a slow dissipation into nothingness. The First Contract itself began to reject previously accepted clauses: the Arcanoneer crisis. Withered numbers swelled as Nethien voluntarily severed their names from the Contract. Morvane had been the metaphysical glue holding one of the world's foundational bargains together, and it was coming undone.",
     "locationIds": [
       "bryngloom-forest",
       "atropolis"
@@ -2182,7 +2182,7 @@ const SEEDED_EVENTS = [
       "event-geothermal-collapse"
     ],
     "effects": [],
-    "narrative": "The **Scoured** Solari, having ritually defaced their forge-marks, scour the continents for Sundered Monoliths, believing that sealing the predator's wound will let the buried star die whole and quiet. In the north, frost lords stir beneath Nordhalla's glaciers. In Atropolis, the **Neth** file seventeen urgent petitions to claim the Monolith pools as protected contract archives. Civil war brews between the Hollow-Solari and Waste-Solari forge-clans in Sundale, while **Inquisitors** hunt the mycelial-addicted Over-Lit across the margins of every settled capital. The powder keg is global. The fuse is lit.",
+    "narrative": "The **Scoured** Solari, having ritually defaced their forge-marks, scour the continents for Sundered Monoliths, believing that sealing the predator's wound will let the buried star die whole and quiet. In the north, frost lords stir beneath Nordhalla's glaciers. In Atropolis, the **Nethien** file seventeen urgent petitions to claim the Monolith pools as protected contract archives. Civil war brews between the Hollow-Solari and Waste-Solari forge-clans in Sundale, while **Inquisitors** hunt the mycelial-addicted Over-Lit across the margins of every settled capital. The powder keg is global. The fuse is lit.",
     "dmHook": "This is where your campaign begins. Every region's crisis is an adventure waiting to happen. Every Sundered Monolith is a dungeon with a boss at its heart. Every faction has an agenda. Every NPC has a secret. The seventh age of Mythrill does not have a predetermined ending: that's what the players are for. Start small: a frozen village in the Frostwood Reach, a missing child, a fog that whispers. Build toward the Monoliths. End at Emberspire.",
     "dateDisplay": "Year 471, Freezing Era"
   },
@@ -2299,7 +2299,7 @@ const SEEDED_EVENTS = [
     "phase": "before-deepening",
     "description": "The Vreken (a compact, lantern-eyed people) cultivate phosphorescent fungi in the Bryngloom's bog-caverns. Evolving to survive in the absolute black o...",
     "narrative": "The **Vreken** (a compact, lantern-eyed people) cultivate phosphorescent fungi in the Bryngloom's bog-caverns. Evolving to survive in the absolute black of the deep earth, their irises emit a steady bioluminescent glow, and they perceive \"the trail\": residual light left by passage, death, and decay. They develop a deep, spiritual reverence for the mycelial networks, laying the foundation for the political divide between the high-born **Clean** abbeys and the outcasted **Marked** wilderness guides.",
-    "dmHook": "The oldest Vreken fungal-tablet records contain a word that does not translate into any known language. A Neth archivist who glimpsed the tablet went silent for three days, then filed a petition to have the tablet destroyed. The petition was denied. The Neth has not spoken of what they read.",
+    "dmHook": "The oldest Vreken fungal-tablet records contain a word that does not translate into any known language. A Nethien archivist who glimpsed the tablet went silent for three days, then filed a petition to have the tablet destroyed. The petition was denied. The Nethien has not spoken of what they read.",
     "dateDisplay": "Before the Star-Fall",
     "locationIds": [],
     "factionIds": [],
@@ -2317,7 +2317,7 @@ const SEEDED_EVENTS = [
     "type": "cosmic",
     "phase": "before-deepening",
     "description": "The Morvane establishes its domain over the Bryngloom Forest. The Vreken call it the Root-Veil and revere it as sacred. The entity does not demand wor...",
-    "narrative": "The **Morvane** establishes its domain over the Bryngloom Forest. The Vreken call it the Root-Veil and revere it as sacred. The entity does not demand worship (it demands order. Every death in its domain is recorded. Every soul that passes through is weighed, catalogued, and filed, establishing the cosmic bureaucracy that the **Neth** would later exploit to write their First Contract for immortality.",
+    "narrative": "The **Morvane** establishes its domain over the Bryngloom Forest. The Vreken call it the Root-Veil and revere it as sacred. The entity does not demand worship (it demands order. Every death in its domain is recorded. Every soul that passes through is weighed, catalogued, and filed, establishing the cosmic bureaucracy that the **Nethien** would later exploit to write their First Contract for immortality.",
     "dmHook": "Morvane is not a god. It is something older) a cosmic functionary, a bureaucrat of the threshold between life and whatever comes after. It can be bargained with, but it cannot be lied to. Characters who die in the Bryngloom may find themselves in a waiting room, filling out forms in a language they suddenly understand, while something behind an ironwood desk considers their case.",
     "dateDisplay": "Before the Star-Fall",
     "locationIds": [],
@@ -2431,7 +2431,7 @@ const SEEDED_EVENTS = [
     "type": "cosmic",
     "phase": "false-spring",
     "description": "The release of the Wyrd triggers an immediate, desperate immune response from the mortal races. Within months of the Shattering, the first Exorcists emerg...",
-    "narrative": "The release of the Wyrd triggers an immediate, desperate immune response from the mortal races. Within months of the Shattering, the first **Exorcists** emerge (steel-willed scholars and priests who discover that the Wyrd-corruption can be bound, contained, and banished using rusted cold iron, burning salt, and sacred terror. Alongside them, the **Apexes** begin tracking the invisible spoor of Wyrd-manifestations through the freezing fog, while **Deathcallers** tune their hearing to the screams of the victims whose souls are trapped within the rot. Most tragic of all are the **Inquisitors**: an elite order of **Marked Vreken** and outcasted **Drun Neth** who take the Barbed Vow, using their biological trail-sight to hunt down their own spore-addicted, \"Over-Lit\" kin before the mycelial corruption can consume their minds.",
+    "narrative": "The release of the Wyrd triggers an immediate, desperate immune response from the mortal races. Within months of the Shattering, the first **Exorcists** emerge (steel-willed scholars and priests who discover that the Wyrd-corruption can be bound, contained, and banished using rusted cold iron, burning salt, and sacred terror. Alongside them, the **Apexes** begin tracking the invisible spoor of Wyrd-manifestations through the freezing fog, while **Deathcallers** tune their hearing to the screams of the victims whose souls are trapped within the rot. Most tragic of all are the **Inquisitors**: an elite order of **Marked Vreken** and outcasted **Withered** who take the Barbed Vow, using their biological trail-sight to hunt down their own spore-addicted, \"Over-Lit\" kin before the mycelial corruption can consume their minds.",
     "dmHook": "The first Exorcist) whose name has been lost to history: left behind a grimoire called \"The Anathema.\" It contains rituals for permanently destroying Wyrd-creatures by addressing the specific fear that birthed them. The grimoire was stolen from the Greymark archive forty years ago. It resurfaces at your campaign's most desperate moment, in the hands of someone who should not have it.",
     "dateDisplay": "Year 327, Ingress",
     "locationIds": [],
@@ -2525,9 +2525,9 @@ const SEEDED_EVENTS = [
     "title": "Cult of Forgotten Shadow Founded",
     "type": "cosmic",
     "phase": "contraction",
-    "description": "Natalie Seline, a rogue Neth pact-weaver, founds the Cult of Forgotten Shadow in a peat-crypt beneath the Over-Shanty in the Bryngloom Forest. The Cul...",
-    "narrative": "Natalie Seline, a rogue Neth pact-weaver, founds the **Cult of Forgotten Shadow** in a peat-crypt beneath the Over-Shanty in the Bryngloom Forest. The Cult begins practicing shadow-confession and memory extraction, trading crystal vials of harvested memories.",
-    "dmHook": "Natalie Seline's first extracted memory-her own name and face-remains in the Sunken Confessionals. The Neth pact-lords will pay any price to destroy it.",
+    "description": "Natalie Seline, a rogue Nethien pact-weaver, founds the Cult of Forgotten Shadow in a peat-crypt beneath the Over-Shanty in the Bryngloom Forest. The Cul...",
+    "narrative": "Natalie Seline, a rogue Nethien pact-weaver, founds the **Cult of Forgotten Shadow** in a peat-crypt beneath the Over-Shanty in the Bryngloom Forest. The Cult begins practicing shadow-confession and memory extraction, trading crystal vials of harvested memories.",
+    "dmHook": "Natalie Seline's first extracted memory-her own name and face-remains in the Sunken Confessionals. The Nethien pact-lords will pay any price to destroy it.",
     "dateDisplay": "Year 431, Freezing Era",
     "locationIds": [],
     "factionIds": [],
@@ -2583,8 +2583,8 @@ const SEEDED_EVENTS = [
     "type": "cosmic",
     "phase": "intrusion",
     "description": "A massive fire breaks out in the Over-Shanty, threatening to burn down the entire suspended platforms slum. The Cult of Forgotten Shadow uses shadow m...",
-    "narrative": "A massive fire breaks out in the Over-Shanty, threatening to burn down the entire suspended platforms slum. The Cult of Forgotten Shadow uses shadow magic to contain the flames, earning grudging respect from the Drun outcasts.",
-    "dmHook": "The fire was set by Velun Neth agents attempting to incinerate the wanted boards and memory vaults of the Dangling Keel.",
+    "narrative": "A massive fire breaks out in the Over-Shanty, threatening to burn down the entire suspended platforms slum. The Cult of Forgotten Shadow uses shadow magic to contain the flames, earning grudging respect from the Withered outcasts.",
+    "dmHook": "The fire was set by Nethien agents attempting to incinerate the wanted boards and memory vaults of the Dangling Keel.",
     "dateDisplay": "Year 460, Freezing Era",
     "locationIds": [],
     "factionIds": [],
@@ -2861,7 +2861,7 @@ const SEEDED_EVENTS = [
     "title": "The Snowcall Charter & Free City Concord",
     "type": "political",
     "phase": "deepening-winter",
-    "description": "Signing of the Snowcall Charter between House Skalvyr, High Neth scholar-refugees, and Corvani roost-merchants, establishing Snowcall City as a neutral highland sanctuary of trade, legal archives, and commerce.",
+    "description": "Signing of the Snowcall Charter between House Skalvyr, Nethien scholar-refugees, and Corvani roost-merchants, establishing Snowcall City as a neutral highland sanctuary of trade, legal archives, and commerce.",
     "locationIds": [
       "snowcall-city",
       "saltgrinn",
@@ -2870,7 +2870,7 @@ const SEEDED_EVENTS = [
     ],
     "factionIds": [
       "house-skalvyr",
-      "High Neth",
+      "Nethien",
       "Corvani Roost-Merchants"
     ],
     "classIds": [
@@ -2882,7 +2882,7 @@ const SEEDED_EVENTS = [
       "event-corvani-whispering-pact"
     ],
     "effects": [],
-    "narrative": "As civil unrest spread across the southern continents, hundreds of High Neth legal scribes and merchants fled north carrying cartloads of illuminated manuscripts and gold ingots. Meeting atop the geothermal terraces of the Icetalon, they swore the Snowcall Concord with Jarl Sigurd Skalvyr: the scholars would maintain the legal registries and trade ledgers of the north in exchange for permanent residential wards warmed by mountain steam conduits.",
+    "narrative": "As civil unrest spread across the southern continents, hundreds of Nethien legal scribes and merchants fled north carrying cartloads of illuminated manuscripts and gold ingots. Meeting atop the geothermal terraces of the Icetalon, they swore the Snowcall Concord with Jarl Sigurd Skalvyr: the scholars would maintain the legal registries and trade ledgers of the north in exchange for permanent residential wards warmed by mountain steam conduits.",
     "dmHook": "The Slate Scriptorium in Snowcall City houses a copy of the First Binding Charter that contains three lines of text missing from all southern copies — lines that name the original sacrifice required to relight the sun.",
     "dateDisplay": "Year 62, Star-Fall Era"
   }

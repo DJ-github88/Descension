@@ -2819,107 +2819,259 @@
   min-width: 180px;
 }
 
-/* Extra compact for Warden menu */
+/* --------------------------------------------------------------------------
+   Warden — Tension Ledger (graft-chain controls)
+   Palette comes from .class-resource-menu.warden-menu-container; these rules
+   only lay out the ledger's sections.
+   -------------------------------------------------------------------------- */
 .unified-context-menu.compact.warden-menu-container {
-  width: 200px;
-  min-width: 180px;
+    width: 320px;
+    min-width: 300px;
+    max-width: calc(100vw - 16px);
 }
 
-/* Compact Warden Menu Styles */
-.warden-action-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 4px;
-  margin-top: 4px;
+.warden-ledger-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-.warden-action-grid.four-col {
-  grid-template-columns: repeat(4, 1fr);
+.warden-ledger-subtitle {
+    margin-left: auto;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.65;
+}
+
+.warden-menu-flavor {
+    font-size: 11px;
+    line-height: 1.4;
+    color: var(--crm-text-dim, #cbd5e1);
+    margin: 3px 0 10px;
+}
+
+.warden-menu-hint {
+    font-size: 10.5px;
+    line-height: 1.45;
+    color: var(--crm-text-dim, #cbd5e1);
+    opacity: 0.9;
+    margin: 2px 0 6px;
+}
+
+.warden-menu-hint-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 12px;
+    padding: 8px 9px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.24);
+    border: 1px solid rgba(var(--crm-accent-rgb), 0.28);
+    opacity: 0.95;
+    font-size: 10.5px;
+}
+
+.warden-menu-hint-tip i {
+    color: var(--crm-label, #e5c07b);
+    margin-top: 1px;
+}
+
+/* Core control: big −/+ buttons flanking the live VP readout */
+.warden-vp-panel {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+    align-items: stretch;
+    gap: 8px;
+    margin: 4px 0 10px;
+}
+
+.warden-vp-panel .context-menu-button.warden-vp-step {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    min-height: 50px;
+    font-size: 15px;
+    font-weight: 800;
+    border-radius: 7px;
+}
+
+.warden-vp-panel .context-menu-button.warden-vp-step:disabled {
+    opacity: 0.35;
+    cursor: default;
+    filter: none;
+}
+
+.warden-vp-readout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 6px 10px;
+    border-radius: 7px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(var(--crm-accent-rgb), 0.35);
+}
+
+.warden-status-counter {
+    font-family: var(--crm-font-title);
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--crm-title);
+    text-shadow: 0 0 6px var(--crm-glow);
+    white-space: nowrap;
+}
+
+.warden-status-ready {
+    font-size: 10px;
+    line-height: 1.2;
+    color: var(--crm-text-dim, #cbd5e1);
+}
+
+.warden-status-ready.ready {
+    color: var(--crm-label, #e5c07b);
+    font-weight: 700;
+    text-shadow: 0 0 5px var(--crm-glow);
+}
+
+/* Spend thresholds at a glance — mirrors the rail studs */
+.warden-threshold-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 4px;
+    margin: 0 0 4px;
+}
+
+.warden-threshold {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 5px 2px 4px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 8.5px;
+    line-height: 1.1;
+    color: var(--crm-text-dim, #cbd5e1);
+    opacity: 0.55;
+    transition: opacity 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.warden-threshold i {
+    font-size: 10px;
+}
+
+.warden-threshold b {
+    font-size: 10.5px;
+}
+
+.warden-threshold-label {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.warden-threshold.reached {
+    opacity: 1;
+    color: var(--crm-label, #e5c07b);
+    border-color: rgba(var(--crm-accent-rgb), 0.5);
+    background: rgba(var(--crm-accent-rgb), 0.12);
+    box-shadow: 0 0 6px rgba(var(--crm-accent-rgb), 0.25);
+}
+
+.context-menu-section-header.warden-subheader {
+    font-size: 10.5px;
+    letter-spacing: 0.7px;
+    margin: 12px 0 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(var(--crm-accent-rgb), 0.3);
 }
 
 .warden-spec-grid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 4px;
-  margin-top: 4px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+}
+
+.warden-spec-grid .context-menu-button.warden-spec-button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 10px;
+    font-size: 11.5px;
+    text-align: left;
+    line-height: 1.2;
+    border-radius: 6px;
+}
+
+.warden-spec-icon {
+    width: 14px;
+    text-align: center;
+    font-size: 12px;
+    flex: 0 0 auto;
+}
+
+.warden-spec-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.warden-spec-check {
+    font-size: 9px;
+    opacity: 0.95;
+}
+
+.warden-state-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.warden-state-controls.four-col {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.warden-state-controls .context-menu-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 9px 6px;
+    font-size: 11.5px;
+    border-radius: 6px;
 }
 
 .warden-quick-actions {
-  display: flex;
-  gap: 4px;
-  justify-content: center;
-  padding-top: 4px;
-  border-top: 1px solid rgba(160, 140, 112, 0.3);
-  margin-top: 4px;
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
 }
 
 .warden-quick-actions .context-menu-button {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 5px;
-  font-size: 9px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 9px 6px;
+    font-size: 11px;
+    border-radius: 6px;
 }
 
-.warden-quick-actions .context-menu-button span {
-  font-size: 9px;
-}
-
-/* Gain/Spend/Danger button variants for Warden */
-.warden-action-grid .context-menu-button.gain {
-  background: rgba(139, 200, 115, 0.3);
-  border-color: rgba(85, 150, 60, 0.6);
-  color: #2d5a1f;
-}
-
-.warden-action-grid .context-menu-button.gain:hover {
-  background: rgba(139, 200, 115, 0.5);
-  border-color: rgba(85, 150, 60, 0.8);
-}
-
-.warden-action-grid .context-menu-button.spend {
-  background: rgba(200, 115, 115, 0.3);
-  border-color: rgba(150, 60, 60, 0.6);
-  color: #5a1f1f;
-}
-
-.warden-action-grid .context-menu-button.spend:hover {
-  background: rgba(200, 115, 115, 0.5);
-  border-color: rgba(150, 60, 60, 0.8);
-}
-
-.warden-action-grid .context-menu-button.danger {
-  background: rgba(200, 60, 60, 0.4);
-  border-color: rgba(150, 30, 30, 0.7);
-  color: #5a0f0f;
-}
-
-.warden-action-grid .context-menu-button.danger:hover {
-  background: rgba(200, 60, 60, 0.6);
-  border-color: rgba(150, 30, 30, 0.9);
-}
-
-.warden-spec-grid .context-menu-button.active {
-  background: rgba(123, 44, 191, 0.4);
-  border-color: rgba(123, 44, 191, 0.8);
-  color: #2d0a54;
-}
-
-.warden-spec-grid .context-menu-button.active:hover {
-  background: rgba(123, 44, 191, 0.6);
-  border-color: rgba(123, 44, 191, 1);
-}
-
-.warden-state-controls .context-menu-button.active {
-  background: rgba(123, 44, 191, 0.4);
-  border-color: rgba(123, 44, 191, 0.8);
-  color: #2d0a54;
-}
-
-.warden-state-controls .context-menu-button.active:hover {
-  background: rgba(123, 44, 191, 0.6);
-  border-color: rgba(123, 44, 191, 1);
+.warden-close-button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 9px 6px;
+    font-size: 11px;
 }
 

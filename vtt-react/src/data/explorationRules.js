@@ -408,7 +408,7 @@ export const EXPLORATION_RULES = {
         keyEncounters: [
           { location: 'ancestor-gaps', type: 'social', description: 'Must obtain Groven permission and a Morgh guide.' },
           { location: 'lost-brood-vats', type: 'dungeon', description: 'Contains 800-year-old alchemical chambers, active Deep Alchemist operations, and the Lost Brood.' },
-          { location: 'lost-brood-vats-deep', type: 'social', description: 'Saren-Vel (First Drun) is found in the deepest chamber, watching the Alchemists. She communicates only by writing in the dust: a single word "LIEN" and a diagram of the vat-layout.' }
+          { location: 'lost-brood-vats-deep', type: 'social', description: 'Saren-Vel (First Withered) is found in the deepest chamber, watching the Alchemists. She communicates only by writing in the dust: a single word "LIEN" and a diagram of the vat-layout.' }
         ],
         keyLocations: ['ancestor-gaps', 'lost-brood-vats'],
         keyNPCs: ['saren-vel'],

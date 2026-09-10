@@ -469,18 +469,71 @@ export function calculateVisibilityPolygon(originX, originY, visionRange, wallDa
           fAngle = -Math.PI / 2;
         }
         const halfFov = (fovAngle * Math.PI / 180) / 2;
-        const filtered = [];
-        for (const pt of result) {
-          const angleToTarget = Math.atan2(pt.y - originY, pt.x - originX);
-          let diff = angleToTarget - fAngle;
-          while (diff > Math.PI) diff -= 2 * Math.PI;
-          while (diff < -Math.PI) diff += 2 * Math.PI;
-          if (Math.abs(diff) <= halfFov) {
-            filtered.push(pt);
+
+        if (fovAngle < 180) {
+          // EXACT CONE: clip the full visibility polygon by the two cone
+          // boundary half-planes. The old vertex-filter approach dropped
+          // polygon vertices outside the cone, which cut the far arc
+          // chord-style (up to ~11° narrower, jagged edges) and lost wall
+          // geometry at the cone sides.
+          const clipByBoundary = (poly, boundaryAngle) => {
+            const bx = Math.cos(boundaryAngle);
+            const by = Math.sin(boundaryAngle);
+            const cx = Math.cos(fAngle);
+            const cy = Math.sin(fAngle);
+            const keepSign = (bx * cy - by * cx) >= 0 ? 1 : -1;
+            const eps = 1e-9;
+            const crossVal = (p) => (bx * (p.y - originY) - by * (p.x - originX)) * keepSign;
+            const out = [];
+            const n = poly.length;
+            for (let i = 0; i < n; i++) {
+              const cur = poly[i];
+              const nxt = poly[(i + 1) % n];
+              const curIn = crossVal(cur) >= -eps;
+              const nxtIn = crossVal(nxt) >= -eps;
+              if (curIn) out.push(cur);
+              if (curIn !== nxtIn) {
+                const c0 = crossVal(cur);
+                const c1 = crossVal(nxt);
+                const t = c0 / (c0 - c1);
+                out.push({ x: cur.x + t * (nxt.x - cur.x), y: cur.y + t * (nxt.y - cur.y) });
+              }
+            }
+            return out;
+          };
+
+          const clipped = clipByBoundary(clipByBoundary(result, fAngle - halfFov), fAngle + halfFov);
+          if (clipped.length >= 3) {
+            result = clipped;
+          } else {
+            const filtered = [];
+            for (const pt of result) {
+              const angleToTarget = Math.atan2(pt.y - originY, pt.x - originX);
+              let diff = angleToTarget - fAngle;
+              while (diff > Math.PI) diff -= 2 * Math.PI;
+              while (diff < -Math.PI) diff += 2 * Math.PI;
+              if (Math.abs(diff) <= halfFov) {
+                filtered.push(pt);
+              }
+            }
+            if (filtered.length >= 2) {
+              result = [{ x: originX, y: originY }, ...filtered];
+            }
           }
-        }
-        if (filtered.length >= 2) {
-          result = [{ x: originX, y: originY }, ...filtered];
+        } else {
+          const filtered = [];
+          for (const pt of result) {
+            const angleToTarget = Math.atan2(pt.y - originY, pt.x - originX);
+            let diff = angleToTarget - fAngle;
+            while (diff > Math.PI) diff -= 2 * Math.PI;
+            while (diff < -Math.PI) diff += 2 * Math.PI;
+            if (Math.abs(diff) <= halfFov) {
+              filtered.push(pt);
+            }
+          }
+          if (filtered.length >= 2) {
+            result = [{ x: originX, y: originY }, ...filtered];
+          }
         }
       }
 
@@ -510,9 +563,13 @@ function isWithinFovCone(tokenX, tokenY, targetX, targetY, fovAngle, facingAngle
     return true;
   }
 
-  // If no facing angle provided, cannot determine cone (default to full view)
+  // If no facing angle provided, use the same default as the visibility
+  // polygon (cone pointing up) so tiles and polygon agree in limited-FOV mode.
+  // Returning true here previously made the tile set a FULL circle while the
+  // rendered polygon was a cone — tokens/afterimages outside the cone stayed
+  // "visible" to the tracker even though the fog showed a wedge.
   if (facingAngle === null || facingAngle === undefined) {
-    return true; // For backward compatibility, allow if no facing angle
+    facingAngle = -Math.PI / 2;
   }
 
   // Calculate angle from token to target

@@ -384,7 +384,7 @@ const LanguagesDisplay = () => {
               {selectedLanguage.name === 'Infernal' && (
                 <>
                   <li><i className="fas fa-check"></i> Aethil's enforcement-mechanisms</li>
-                  <li><i className="fas fa-check"></i> Neth contract-houses drafting deathless clauses</li>
+                  <li><i className="fas fa-check"></i> Nethien contract-houses drafting deathless clauses</li>
                   <li><i className="fas fa-check"></i> Arcanoneers who bind spells to formal agreements</li>
                   <li><i className="fas fa-check"></i> Any being bound by the First Contract's oldest sections</li>
                 </>
@@ -408,7 +408,7 @@ const LanguagesDisplay = () => {
               {selectedLanguage.name === 'Shanty-Patois' && (
                 <>
                   <li><i className="fas fa-check"></i> Over-Shanty residents beneath Atropolis</li>
-                  <li><i className="fas fa-check"></i> Drun who trade in silence-codes and rope-bridge tolls</li>
+                  <li><i className="fas fa-check"></i> Withered who trade in silence-codes and rope-bridge tolls</li>
                   <li><i className="fas fa-check"></i> Cult of Forgotten Shadow memory-brokers</li>
                   <li><i className="fas fa-check"></i> Anyone trading in the Gloom without a contract-house</li>
                 </>
@@ -462,7 +462,7 @@ const LanguagesDisplay = () => {
               )}
               {selectedLanguage.name === 'Gloom-Tongue' && (
                 <>
-                  <li><i className="fas fa-check"></i> Vreken and Neth of the Bryngloom Forest</li>
+                  <li><i className="fas fa-check"></i> Vreken and Nethien of the Bryngloom Forest</li>
                   <li><i className="fas fa-check"></i> The Root-Veil's mycelial network (strains it beneath words)</li>
                   <li><i className="fas fa-check"></i> Over-Lit who lose it last before the hush takes them</li>
                   <li><i className="fas fa-check"></i> Anyone raised beneath Atropolis's canopy</li>
@@ -567,7 +567,7 @@ const LanguagesDisplay = () => {
               {selectedLanguage.name === 'Thieves\' Cant' && (
                 <>
                   <li><i className="fas fa-check"></i> Rogues, smugglers, and underworld operatives</li>
-                  <li><i className="fas fa-check"></i> The Drun's silence-coded argot</li>
+                  <li><i className="fas fa-check"></i> The Withered's silence-coded argot</li>
                   <li><i className="fas fa-check"></i> Cult of Forgotten Shadow's corrupted dialect</li>
                   <li><i className="fas fa-check"></i> Cannot be learned without underworld initiation</li>
                 </>

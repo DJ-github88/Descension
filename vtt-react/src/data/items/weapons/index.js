@@ -113,7 +113,7 @@ export const WEAPONS = [
     maxDurability: 'd8',
     lore: {
       origin: 'bryngloom-forest',
-      loreText: 'Neth shadow-crafters forge these essence-drinking daggers in the root-veil darkness beneath Atropolis. Each blade is quenched in the ichor of ancestor-mounds, giving it an unnatural hunger.',
+      loreText: 'Nethien shadow-crafters forge these essence-drinking daggers in the root-veil darkness beneath Atropolis. Each blade is quenched in the ichor of ancestor-mounds, giving it an unnatural hunger.',
       relatedLore: ['bryngloom-forest', 'neth', 'root_veil']
     }
   },
@@ -615,7 +615,7 @@ export const WEAPONS = [
     maxDurability: 'd6',
     lore: {
       origin: 'bryngloom-forest',
-      loreText: 'Neth duelists train with parrying daggers from the age of ten, their blades blackened with root-veil tar to avoid glinting in the twilight. The Cult of Forgotten Shadow prefers these for their silence.',
+      loreText: 'Nethien duelists train with parrying daggers from the age of ten, their blades blackened with root-veil tar to avoid glinting in the twilight. The Cult of Forgotten Shadow prefers these for their silence.',
       relatedLore: ['bryngloom-forest', 'neth', 'root_veil', 'cult_of_forgotten_shadow']
     }
   },

@@ -216,9 +216,9 @@ export const CLASS_RESOURCE_TYPES = {
    temporalStrain: {
     max: 10,
     current: 0,
-    accumulation: '+1 to +5 per Temporal Flux ability',
-    decay: '-1 per turn if no Flux abilities used',
-    backlash: 'At 10: Lose next turn, take 10 damage, reset to 0',
+   accumulation: '+1 to +8 per Temporal Flux ability',
+   decay: '-1 per turn if no Flux abilities used',
+   backlash: 'At 10: phased out for 1 round, lose next turn, no Reactions, untargetable; Strain resets to 0 (roll 1d6 Anomaly Matrix)',
     consumeVerb: 'decay',
     gainVerb: 'accumulate'
    }
@@ -249,7 +249,7 @@ export const CLASS_RESOURCE_TYPES = {
      {
       label: 'Accumulation',
       mechanics: [
-       { text: '+1 to +5 per Temporal Flux ability' }
+       { text: '+1 to +8 per Temporal Flux ability' }
       ]
      },
      {
@@ -258,15 +258,15 @@ export const CLASS_RESOURCE_TYPES = {
        { text: '-1 per turn (if no Flux used)' }
       ]
      },
-     {
-      label: 'Temporal Backlash (at 10)',
-      mechanics: [
-       { text: 'Lose your next turn', emphasis: true },
-       { text: 'Take 10 damage', emphasis: true },
-       { text: 'Strain resets to 0' },
-       { text: 'All temporal effects end' }
-      ]
-     }
+      {
+       label: 'Temporal Backlash (at 10)',
+       mechanics: [
+        { text: 'Phased out for 1 round', emphasis: true },
+        { text: 'Lose your next turn', emphasis: true },
+        { text: 'No Reactions; untargetable while phased' },
+        { text: 'Strain resets to 0; roll 1d6 Anomaly Matrix' }
+       ]
+      }
     ]
    },
    paradox: {
@@ -282,7 +282,7 @@ export const CLASS_RESOURCE_TYPES = {
   name: 'Mayhem',
   shortName: 'Mayhem',
   type: 'mayhem',
-  description: 'The Bleeding Eye of Keth Amar sees all ends and whispers them into being. Passive chaos pressure gauge, CANNOT be spent. Passively amplifies all spells as it rises. Only release is Wild Surge at 100.',
+  description: 'The Bleeding Eye of Keth Amar sees all ends and whispers them into being. Entropy pressure gauge that amplifies all spells as it rises; spend Mayhem to widen prophecy ranges, or let it reach 100 for Wild Surge.',
   visual: {
    type: 'mayhem-gauge',
    count: 100,
@@ -317,19 +317,19 @@ export const CLASS_RESOURCE_TYPES = {
    regen: 0,
    consumeVerb: 'release',
    gainVerb: 'accumulate',
-   unspendable: true,
-   description: 'Keth Amar\'s doom-sight fills the vessel until it must burst. Mayhem CANNOT be spent. It passively amplifies all spells, more targets, bigger dice, wider AoE. At 100, triggers Wild Surge (uncontrollable release).'
+   unspendable: false,
+   description: 'Keth Amar\'s doom-sight fills the vessel. Mayhem amplifies all spells — more targets, bigger dice, wider AoE — and can be spent to widen prophecy ranges. At 100, triggers Wild Surge (uncontrollable release).'
   },
   tooltip: {
    title: 'Mayhem Pressure: {current}/{max}',
-   description: 'Entropy bleeds from the Bleeding Eye in ever-rising pressure. Passive entropy pressure, CANNOT be spent. Amplifies all spells as it rises. Only release: Wild Surge at 100.',
+   description: 'Entropy bleeds from the Bleeding Eye in ever-rising pressure. Amplifies all spells as it rises, and can be spent to widen prophecy ranges. At 100: Wild Surge.',
    mechanics: [
-    'Mayhem CANNOT be spent, it is passive pressure only',
-    'Higher Mayhem = more spell targets, bigger dice, wider AoE',
+    'Mayhem amplifies spell power as it rises (bonus dice, wider AoE, extra targets)',
+    'Spend Mayhem to widen prophecy ranges',
     'At 100: Wild Surge triggers (uncontrollable chaos explosion)',
-    'No safety valve, chaos only escalates'
+    '25% misfire risk from 61+ Mayhem; higher Mayhem adds smashing/slicing vulnerability'
    ],
-   thresholds: ['25: Minor amplification', '50: Moderate amplification', '75: Major amplification', '100: Wild Surge (uncontrollable)'],
+   thresholds: ['0-40: Safe (no bonus)', '41-60: Escalating (+1 die, 10% misfire)', '61-80: Volatile (+2 dice, +5 ft AoE, 25% misfire, +25% vuln)', '81-99: Maximum (+3 dice, +10 ft AoE, +1 target, +50% vuln)', '100: Wild Surge'],
    showDice: false,
    showPressure: true
   }
@@ -500,7 +500,7 @@ export const CLASS_RESOURCE_TYPES = {
      tiers: {
       safe: { max: 5, label: 'Stasis', color: '#7c3aed', glow: '#a78bfa' },
       searing: { min: 6, max: 10, label: 'Searing', color: '#9333ea', glow: '#c084fc' },
-      rot: { min: 11, max: 15, label: 'Necrotic Rot', color: '#c026d3', glow: '#e879f9' },
+      rot: { min: 11, max: 15, label: 'Rot Surge', color: '#c026d3', glow: '#e879f9' },
       cataclysm: { min: 16, max: 20, label: 'Cataclysm', color: '#ef4444', glow: '#f87171' }
      },
      icon: 'fas fa-skull'
@@ -543,9 +543,9 @@ export const CLASS_RESOURCE_TYPES = {
      current: 0,
      tiers: [
       { name: 'Stasis', range: [0, 5], effect: 'Stable necrotic reserves' },
-      { name: 'Searing', range: [6, 10], effect: 'Frost-fire resonance (+1d4 blight/rime)' },
-      { name: 'Necrotic Rot', range: [11, 15], effect: 'Healing severed. Decaying flesh (+1d8 blight)' },
-      { name: 'Cataclysm', range: [16, 20], effect: 'CRITICAL MASS: 30ft glacial stasis freeze detonation on death' }
+      { name: 'Searing', range: [6, 10], effect: 'Unstable resonance (+1d4 blight/rime)' },
+      { name: 'Rot Surge', range: [11, 15], effect: 'Healing severed. Decaying flesh (+1d8 blight)' },
+      { name: 'Cataclysm', range: [16, 20], effect: 'CRITICAL MASS: 15ft glacial stasis freeze detonation on death' }
      ]
     },
     phylactery: {
@@ -636,7 +636,7 @@ export const CLASS_RESOURCE_TYPES = {
   name: 'Devotion',
   shortName: 'Devotion',
   type: 'devotion-gauge',
-  description: 'Sundale Sol\'s Breath, the Sun-That-Was, taught that true devotion requires willing bleed. ACTIVE sacrifice required, bleed willingly or Devotion decays. Voluntary Offering (1d8 HP free action) accelerates progress. Lose 1 level after 2 rounds without damage/sacrifice. The Martyr BLEEDS; the Ironclad endures.',
+  description: 'Sundale Sol\'s Breath, the Sun-That-Was, taught that true devotion requires willing bleed. ACTIVE sacrifice required, bleed willingly or Devotion decays. Voluntary Offering (1d8 HP free action) accelerates progress. Lose 1 level after 1 round without damage/sacrifice. The Martyr BLEEDS; the Ironclad endures.',
   visual: {
    type: 'devotion-gauge',
    count: 6,
@@ -660,7 +660,7 @@ export const CLASS_RESOURCE_TYPES = {
     name: 'Ascetic'
    },
    icon: 'fas fa-cross',
-   effects: ['radiant', 'sacrifice', 'devotion', 'active-bleed']
+   effects: ['sacred', 'sacrifice', 'devotion', 'active-bleed']
   },
   mechanics: {
    max: 6, // Devotion Levels 0-6
@@ -670,17 +670,17 @@ export const CLASS_RESOURCE_TYPES = {
    consumeVerb: 'bleed',
    gainVerb: 'sacrifice',
    thresholds: [0, 10, 20, 40, 60, 80, 100],
-   decay: 'Lose 1 Devotion level after 2 consecutive rounds without taking damage or using Voluntary Offering',
+   decay: 'Lose 1 Devotion level after 1 round without taking damage or using Voluntary Offering',
    voluntaryOffering: 'Free action: sacrifice 1d8 HP to gain Devotion progress (counts as damage for decay prevention)',
-   differentiationNote: 'NOT passive absorption. The Martyr must ACTIVELY choose to bleed. The Ironclad specialization adds furnace-plate armor but still requires willing sacrifice.'
+   differentiationNote: 'NOT passive absorption. The Martyr must ACTIVELY choose to bleed. The Ironclad specialization adds furnace-plate plating but still requires willing sacrifice.'
   },
   tooltip: {
    title: 'Devotion Level {current}',
-   description: 'The radiant blood of the Sun-That-Was flows only through willing sacrifice. Build through ACTIVE sacrifice (damage taken + Voluntary Offering). Decays without blood. Spend for amplified spells.',
+   description: 'The sacred blood of the Sun-That-Was flows only through willing sacrifice. Build through ACTIVE sacrifice (damage taken + Voluntary Offering). Decays without blood. Spend for amplified spells.',
    showStage: true,
    showPassive: true,
    showAmplify: true,
-   decayWarning: '⚠️ DECAY: Lose 1 level after 2 rounds without damage/sacrifice'
+   decayWarning: 'DECAY: Lose 1 level after 1 round without damage/sacrifice'
   },
   stages: [
    { name: 'Mortal Resolve', level: 0, requirement: 'Starting state', passive: 'None' },
@@ -711,20 +711,20 @@ export const CLASS_RESOURCE_TYPES = {
     },
     uniquePassive: {
      name: 'Zealous Wrath',
-     description: 'The Zealot\'s radiant blood ignites with every wound willingly taken. Ember spells deal +(Devotion Level × 2) damage. Heal for 15% of ember damage dealt'
-    }
-   },
-   ascetic: {
-    name: 'Ascetic',
-    sharedPassive: {
-     name: "Suffering's Gift",
-     description: "Sundale Sol's Breath's light shields those who bleed for others. At Devotion Level 3 or higher, whenever you take damage, all allies within 10 feet gain temporary HP equal to your current Devotion Level."
+      description: 'The Zealot\'s sacred blood ignites with every wound willingly taken. Ember spells deal +(Devotion Level × 3) damage; half of the bonus is dealt back to you as self-harm'
+     }
     },
-    uniquePassive: {
-     name: 'Ascetic Endurance',
-     description: 'The Ascetic endures, channeling the Sun-That-Was through disciplined flesh. Amplified spell costs -1 Devotion Level (min 1). At Level 4+, resist physical damage'
+    ascetic: {
+     name: 'Ascetic',
+     sharedPassive: {
+      name: "Suffering's Gift",
+      description: "Sundale Sol's Breath's light shields those who bleed for others. At Devotion Level 3 or higher, whenever you take damage, all allies within 10 feet gain temporary HP equal to your current Devotion Level."
+     },
+     uniquePassive: {
+      name: 'Ascetic Endurance',
+      description: 'The Ascetic endures, channeling the Sun-That-Was through disciplined flesh. Amplified spell costs -1 Devotion Level (min 1). At Level 4+, resist smashing damage'
+     }
     }
-   }
   }
  },
 
@@ -733,7 +733,7 @@ export const CLASS_RESOURCE_TYPES = {
   name: 'Madness',
   shortName: 'Madness',
   type: 'madness',
-  description: 'The Lie whispers from the Silence behind the Emberspire\'s corruption. Eldritch madness that empowers shadow damage but risks Insanity Convulsion at 20 points',
+  description: 'The Lie whispers from the Silence behind the Emberspire\'s corruption. Eldritch madness that empowers wyrd damage but risks Insanity Convulsion at 20 points',
   visual: {
    type: 'madness-gauge',
    count: 20,
@@ -777,8 +777,8 @@ export const CLASS_RESOURCE_TYPES = {
      title: 'Madness Thresholds',
      content: [
       { value: 6, name: 'Veil of Shadows', effect: 'Unlock invisibility spell' },
-      { value: 9, name: 'Eldritch Vision', effect: 'Unlock true sight spell' },
-      { value: 10, name: 'Eldritch Empowerment', effect: 'Next shadow spell: +2d6 damage' },
+      { value: 9, name: 'Wyrd-touched Vision', effect: 'Unlock true sight spell' },
+      { value: 10, name: 'Eldritch Empowerment', effect: 'Next wyrd spell: +2d6 damage' },
       { value: 12, name: 'Apocalyptic Revelation', effect: 'Unlock 8d6 AoE spell' },
       { value: 15, name: 'DANGER ZONE', effect: 'High Convulsion risk' },
       { value: 20, name: 'INSANITY CONVULSION', effect: 'Catastrophic release!' }
@@ -792,7 +792,7 @@ export const CLASS_RESOURCE_TYPES = {
       { roll: 2, name: 'Mind Shatter', effect: 'Stunned for 2 rounds' },
       { roll: 3, name: 'Dark Whispers', effect: 'Disadvantage on attacks/saves (3 rounds)' },
       { roll: 4, name: 'Chaotic Pulse', effect: 'Random teleport 60 ft + 4d6 wyrd' },
-      { roll: 5, name: 'Psychic Scream', effect: 'All in 30 ft save or frightened (3 rounds)' },
+      { roll: 5, name: 'Wyrd Scream', effect: 'All in 30 ft save or frightened (3 rounds)' },
       { roll: 6, name: 'Nightmare Echoes', effect: '6d6 wyrd + Short-Term Madness (1d4 rounds)' }
      ]
     },
@@ -849,7 +849,7 @@ export const CLASS_RESOURCE_TYPES = {
   name: 'Virulence',
   shortName: 'Virulence',
   type: 'virulence-bar',
-  description: 'The Blooming Plague spreads its contagion through every fester and affliction. Passive buff gauge that grows as you cultivate afflictions. Never spent, only gained. Higher Virulence passively strengthens all afflictions.',
+  description: 'The Blooming Plague spreads its contagion through every fester and affliction. Cultivated by seeding and advancing afflictions; some rites consume Virulence. Higher Virulence strengthens all afflictions.',
   visual: {
    type: 'virulence-bar',
    arrangement: 'segmented-horizontal',
@@ -889,7 +889,7 @@ export const CLASS_RESOURCE_TYPES = {
    },
    virulenceDecay: 2,
    thresholds: {
-    seedling: { min: 0, max: 24, bonus: 'None' },
+    dormant: { min: 0, max: 24, bonus: 'None' },
     sprouting: { min: 25, max: 49, bonus: '+1 to all affliction damage dice' },
     blooming: { min: 50, max: 74, bonus: '+1 duration round, +5ft spread range' },
     peakHarvest: { min: 75, max: 100, bonus: 'Ignore first dispel, +2 damage dice' }
@@ -957,9 +957,9 @@ export const CLASS_RESOURCE_TYPES = {
    },
    deathShroud: false,
    thresholds: [
-    { level: 'Stasis', min: 0, max: 5, color: '#6d28d9', description: 'Stable necrotic resonance. Flesh remains cold and intact.' },
-    { level: 'Searing', min: 6, max: 10, color: '#9333ea', description: 'Frost-fire crackles in veins. Searing self-damage.' },
-    { level: 'Necrotic Rot', min: 11, max: 15, color: '#c026d3', description: 'Rotting orchid flare. External healing is severed.' },
+    { level: 'Stasis', min: 0, max: 5, color: '#6d28d9', description: 'Stable resonance. Flesh remains cold and intact.' },
+    { level: 'Searing', min: 6, max: 10, color: '#9333ea', description: 'Rime-fire crackles in veins. Searing self-damage.' },
+    { level: 'Rot Surge', min: 11, max: 15, color: '#c026d3', description: 'Rotting orchid flare. External healing is severed.' },
     { level: 'Cataclysm', min: 16, max: 20, color: '#dc2626', description: 'CRITICAL MASS. Walking bomb! Death detonates and wipes nearby allies.' }
    ],
    max: 20,
@@ -1143,7 +1143,7 @@ CLASS_RESOURCE_TYPES['Spellguard'] = {
  name: 'Arcane Energy Points',
  shortName: 'AEP',
  type: 'absorption',
- description: 'The shielded will of the Spellguard absorbs arcane force like a counter-spell made flesh. Arcane energy absorbed from magical and physical damage, spent on shields, reflections, and strikes',
+ description: 'The shielded will of the Spellguard absorbs hostile magic like a counter-spell made flesh. Arcane energy absorbed from spells and magical impacts, spent on shields, reflections, and strikes',
  visual: {
   type: 'arcane-absorption',
   baseColor: '#1E3A8A',
@@ -1189,7 +1189,7 @@ CLASS_RESOURCE_TYPES['Animist'] = {
 			dormant: { range: [0, 4], name: 'Dormant', color: '#10b981', glow: '#34d399', description: 'Conduits cold, root-veins quiet. Spirits slumber.' },
 			harmonized: { range: [5, 9], name: 'Harmonized', color: '#059669', glow: '#6ee7b7', description: 'Ancestors stir. Throat overtones thrum with ancestral guidance.' },
 			apex: { range: [10, 14], name: 'Apex Harmonic', color: '#06b6d4', glow: '#67e8f9', description: 'Peak efficiency. Skin sigils ignite with ancestral static.' },
-			spirit_erosion: { range: [15, 20], name: 'Spirit Erosion', color: '#ef4444', glow: '#f87171', description: 'THE TRIPLE TOLL: 100% ember vulnerability, no party healing, forced movement shatters networks (1d10 force/rune), and 1d6 Wyrd hoarder damage.' }
+			spirit_erosion: { range: [15, 20], name: 'Spirit Erosion', color: '#ef4444', glow: '#f87171', description: 'THE TRIPLE TOLL: 100% ember vulnerability, no party healing, forced movement shatters networks (1d10 arcane/rune), and 1d6 Wyrd hoarder damage.' }
 		},
 		specializations: {
 			'thornwarden': {
@@ -1214,7 +1214,7 @@ CLASS_RESOURCE_TYPES['Animist'] = {
 				baseColor: '#1A2E3E',
 				activeColor: '#4169E1',
 				glowColor: '#6495ED',
-				theme: 'Lightning Fury, Healing Totems, Inscribed Ally Buffs'
+				theme: 'Storm Fury, Healing Totems, Inscribed Ally Buffs'
 			}
 		}
 	},
@@ -1284,7 +1284,7 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
    d8Value: 1,
    icon: 'fas fa-wand-magic-sparkles',
    theme: 'Raw Magic',
-   summary: 'Force damage, disorientation, magical effects',
+   summary: 'Arcane damage, disorientation, magical effects',
    flavor: 'The shape behind all other shapes, raw kinetic intent.'
   },
   {
@@ -1295,7 +1295,7 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
    d8Value: 2,
    icon: 'fas fa-sun',
    theme: 'Divine Light',
-   summary: 'Divine damage, blinding, stunning, protection',
+   summary: 'Sacred damage, blinding, stunning, protection',
    flavor: 'The first clause of the First Contract: let there be sight.'
   },
   {
@@ -1316,8 +1316,8 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
    glowColor: '#FF6347',
    d8Value: 4,
    icon: 'fas fa-fire',
-   theme: 'Flames',
-   summary: 'Fire damage, burning, ignition, explosions',
+   theme: 'Ember',
+   summary: 'Ember damage, burning, ignition, explosions',
    flavor: 'The first tool humanity mastered, captured in a crystal shard.'
   },
   {
@@ -1327,8 +1327,8 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
    glowColor: '#6495ED',
    d8Value: 5,
    icon: 'fas fa-snowflake',
-   theme: 'Frost',
-   summary: 'Cold damage, freezing, slowing, disorientation',
+   theme: 'Rime',
+   summary: 'Rime damage, freezing, slowing, disorientation',
    flavor: 'Entropy deferred, motion held still in crystal lattice.'
   },
   {
@@ -1338,8 +1338,8 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
    glowColor: '#90EE90',
    d8Value: 6,
    icon: 'fas fa-bolt',
-   theme: 'Storm & Growth',
-   summary: 'Lightning, vines, restraint, poison',
+   theme: 'Growth',
+   summary: 'Primal damage, grasping vines, poison (condition)',
    flavor: 'The green arc between seed and sky.'
   },
   {
@@ -1349,8 +1349,8 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
    glowColor: '#87CEEB',
    d8Value: 7,
    icon: 'fas fa-bolt-lightning',
-   theme: 'Lightning & Thunder',
-   summary: 'Lightning damage, thunder, stunning, chain effects',
+   theme: 'Storm',
+   summary: 'Storm damage, stunning, chain resonance',
    flavor: 'The sky\'s voice captured in crystal, raw current and sound.'
   },
   {
@@ -1542,7 +1542,7 @@ CLASS_RESOURCE_TYPES['Berserker'] = {
   max: 100,
   current: 0,
   regen: 0,
-  decay: 5, // Rage decreases by 5 per round if no Rage-generating actions
+  decay: 10, // Rage decreases by 10 per round if no Rage-generating actions
   overheat: {
    threshold: 101,
    damage: '2d6',
@@ -1569,67 +1569,67 @@ CLASS_RESOURCE_TYPES['Berserker'] = {
   {
    range: [0, 20],
    name: 'Smoldering',
-   effects: ['Basic Strike', 'Defensive Stance'],
+   effects: ['Basic Strikes'],
    attackBonus: 0,
-   bonuses: ['+1 to skill checks'],
+   bonuses: [],
    penalties: []
   },
   {
    range: [21, 40],
    name: 'Frenzied',
-   effects: ['Frenzied Slash', 'War Cry', '+1 attack rolls'],
+   effects: ['Battle-Trance', '+1 attack rolls', '+5 ft movement'],
    attackBonus: 1,
-   bonuses: ['+5 ft movement speed', '+1 damage on melee hits'],
-   penalties: ['-1 to ranged attack rolls']
+   bonuses: ['+5 ft movement speed', 'Immune to fear and panic', 'Pain immunity'],
+   penalties: ['Battle-Trance locks out all ally healing']
   },
   {
    range: [41, 60],
    name: 'Primal',
-   effects: ['Primal Roar', 'Bloodlust', '+2 attack rolls', 'Self-healing unlocked'],
+   effects: ['+2 attack rolls', '+2 damage'],
    attackBonus: 2,
-   bonuses: ['+2 damage on melee hits', '1 HP lifesteal on crits'],
-   penalties: ['Take 1 extra damage from ranged attacks while raging']
+   bonuses: ['+2 damage on melee hits'],
+   penalties: ['Durability Dice reduced by 2']
   },
   {
    range: [61, 80],
    name: 'Carnage',
-   effects: ['Carnage Strike', 'Raging Defense', '+3 attack rolls', 'Damage resistance'],
+   effects: ['+3 attack rolls', '+4 damage'],
    attackBonus: 3,
-   bonuses: ['+3 damage on melee hits', 'Reduce incoming weapon damage by 1'],
-   penalties: ['Disadvantage on Stealth checks', '-2 to ranged attack rolls']
+   bonuses: ['+4 damage on melee hits'],
+   penalties: ['Durability Dice reduced by 4', 'Agility check disadvantage']
   },
   {
    range: [81, 100],
    name: 'Cataclysm',
-   effects: ['Cataclysmic Blow', 'Unstoppable Force', '+4 attack rolls', 'Condition immunity'],
+   effects: ['+4 attack rolls', '+6 damage', 'Fear immunity'],
    attackBonus: 4,
-   bonuses: ['+4 damage on melee hits', 'Immune to being Frightened'],
-   penalties: ['Attackers gain +1 to hit you', 'On miss, take 1d4 recoil damage']
+   bonuses: ['+6 damage on melee hits', 'Immune to fear'],
+   penalties: ['Durability Dice reduced by 6', 'Miss recoil increases by 1d4']
   },
   {
    range: [101, 124],
    name: 'Obliteration',
-   effects: ['Obliterating Strike', 'Wrath of the Berserker', '+5 attack rolls', 'OVERHEAT IMMINENT'],
+   effects: ['+5 attack rolls', '+8 damage', 'Crits cleave', 'OVERHEAT'],
    attackBonus: 5,
-   bonuses: ['+5 damage on melee hits', 'Critical hits explode: +1d6 splash to adjacent enemies'],
-   penalties: ['Cannot parry while raging', 'Attackers gain +2 to hit you'],
-   warning: 'Must spend Rage this round or take 2d6 damage and reset to 0'
+   bonuses: ['+8 damage on melee hits', 'Critical hits cleave adjacent enemies'],
+   penalties: ['Durability Dice reduced by 8', 'Take 1d6 self-damage per turn'],
+   warning: 'Must spend Rage below 101 this round or take 2d6 unresistable, reset to 0, and be Stunned 1 round'
   },
   {
    range: [125, 149],
    name: 'Annihilation',
-   effects: ['Annihilating Fury', 'Unstoppable Rampage', '+6 attack rolls', 'CRITICAL OVERHEAT'],
+   effects: ['+6 attack rolls', '+10 damage', '+15 ft movement', 'CRITICAL OVERHEAT'],
    attackBonus: 6,
-   bonuses: ['+6 damage on melee hits', '+10 ft movement speed', 'Crit range expanded by 1 on weapon dice', 'Advantage on Strength checks'],
-   penalties: ['Cannot receive healing while raging', 'Attackers gain +3 to hit you', '-5 ft movement speed after rage ends', 'Take 1d6 damage at start of each turn']
+   bonuses: ['+10 damage on melee hits', '+15 ft movement speed'],
+   penalties: ['Durability Dice reduced by 10', 'Take 1d10 self-damage per turn']
   },
   {
    range: [150, 999],
    name: 'Apocalypse',
-   effects: ['Apocalyptic Wrath', 'Berserker God Mode', '+7 attack rolls', 'MAXIMUM OVERHEAT'],
-   attackBonus: 7,
-   bonuses: ['+8 damage on melee hits', '+15 ft movement speed', 'Crit range expanded by 2 on weapon dice', 'All melee attacks hit adjacent enemies', 'Immune to all conditions'],
-   penalties: ['Take double damage from all sources while raging', 'Attackers gain +4 to hit you', '-10 ft movement speed after rage ends', 'Take 2d6 damage at start of each turn', 'Cannot use ranged attacks']
+   effects: ['+8 attack rolls', '+15 damage', 'Immune to all conditions', 'MAXIMUM OVERHEAT'],
+   attackBonus: 8,
+   bonuses: ['+15 damage on melee hits', 'Immune to all conditions'],
+   penalties: ['Durability Dice reduced to 0', 'Take 2d6 self-damage per turn', 'No defense possible']
   }
  ]
 };
@@ -1948,13 +1948,13 @@ CLASS_RESOURCE_TYPES['Warden'] = {
   { action: 'Successful attack', vp: 1 },
   { action: 'Attack on marked target', vp: 2 },
   { action: 'Evasion', vp: 1 },
-  { action: 'Critical hit', vp: 1 }
+  { action: 'Critical hit', vp: 2 }
  ],
  spending: [
   { cost: 2, ability: 'Vengeful Strike', effect: '+2d6 damage on next attack' },
   { cost: 3, ability: 'Whirling Glaive', effect: '15-ft cone AoE, 2d6 damage + slow' },
   { cost: 4, ability: 'Hunter\'s Resolve', effect: 'Heal 2d8 HP, +2 damage reduction for 2 rounds' },
-  { cost: 6, ability: 'Cage of Vengeance', effect: 'Trap target for 3 rounds' },
+  { cost: 6, ability: 'Cage of Vengeance', effect: 'Trap target for 3 rounds (4 VP as Jailer)' },
   { cost: 10, ability: 'Avatar of Vengeance', effect: 'Ultimate transformation for 4 rounds' }
  ]
 };
@@ -2079,7 +2079,7 @@ CLASS_RESOURCE_TYPES['Crusader'] = {
   activeColor: '#FFD700',
   glowColor: '#FFF8DC',
   icon: 'fas fa-sun',
-  effects: ['radiance', 'sacred', 'fervor']
+  effects: ['sacred', 'fervor', 'solar']
  },
  mechanics: {
   max: 100,
@@ -2095,14 +2095,14 @@ CLASS_RESOURCE_TYPES['Crusader'] = {
   showPassives: true
  },
  generation: [
-  { action: 'Melee weapon attack', fervor: '+5 to +10' },
-  { action: 'Righteous ability / Prayer', fervor: '+15 to +25' },
-  { action: 'Taking damage while defending allies', fervor: '+5' }
+  { action: 'Melee weapon attack', fervor: '+10 to +15' },
+  { action: 'Blocking a hit with the greatshield', fervor: '+10' },
+  { action: 'Standing in Consecrated ground', fervor: '+5 per round' }
  ],
  spending: [
-  { cost: 25, ability: 'Consecrated Strike', effect: 'Empower strike with holy radiance' },
-  { cost: 50, ability: 'Harmonic Stance', effect: 'Enter enhanced combat stance' },
-  { cost: 100, ability: 'Solvan Judgment', effect: 'Unleash catastrophic radiant wrath' }
+  { cost: 25, ability: 'Aegis of the Martyred Sun', effect: 'Raise a solar barrier that absorbs 40 damage and retaliates for 2d8 sacred' },
+  { cost: 50, ability: 'Harmonic Stance', effect: 'Enter enhanced combat stance (+1d6 sacred damage)' },
+  { cost: 100, ability: 'Solvan Judgment', effect: 'Unleash catastrophic sacred judgment' }
  ]
 };
 

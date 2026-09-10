@@ -63,7 +63,7 @@ export const CHARACTER_ART_PRESETS = [
   },
   {
     id: 'race-neth',
-    name: 'Neth Forest-Dweller',
+    name: 'Nethien Forest-Dweller',
     category: 'races',
     type: 'Lineage Art',
     url: '/assets/images/races/neth_illustration.png',
@@ -145,7 +145,7 @@ export const CHARACTER_ART_PRESETS = [
   },
   {
     id: 'subrace-drun-fexrick',
-    name: 'Drun Swamp-Grafter',
+    name: 'Withered Swamp-Grafter',
     category: 'subraces',
     type: 'Subrace Art',
     url: '/assets/images/races/drun_illustration.png',
@@ -177,7 +177,7 @@ export const CHARACTER_ART_PRESETS = [
   },
   {
     id: 'subrace-hallowed-neth',
-    name: 'Hallowed Neth Hermit',
+    name: 'Veldun Hermit',
     category: 'subraces',
     type: 'Subrace Art',
     url: '/assets/images/races/hallowed_illustration.png',
@@ -193,7 +193,7 @@ export const CHARACTER_ART_PRESETS = [
   },
   {
     id: 'subrace-kessen-culture',
-    name: 'Kessen Fate-Gambler',
+    name: 'Veldun Fate-Gambler',
     category: 'subraces',
     type: 'Subrace Art',
     url: '/assets/images/races/kessen_illustration.png',

@@ -109,19 +109,19 @@ subraceVariants: {
  },
 
  velun_neth: {
-  subraceName: 'Velun Neth',
+  subraceName: 'Nethien',
   title: 'The Archive-Keeper',
-  reframe: `To the <LoreLink termId="velun">Velun</LoreLink>, time is not an engine  —  it is a document. Every moment is a filed entry; every erased moment is a redacted clause. A Velun Chronarch treats temporal manipulation as archival work: rewind is retrieval, loop is review, displacement is misfiling. Their temporal engine is not a gear-box but a memory-glass lattice  —  a crystal archive that stores every moment they have ever witnessed. The Velun Chronarch does not lose their memories to temporal feedback; they externalize them. The cost is that the archive grows heavier, and carrying centuries of perfectly-preserved moments requires a stillness the young Velun are beginning to find unbearable.`,
-   adoptionBridge: `The Velun Neth encountered temporal manipulation during the post-war reconstruction of Frostmaw. Neth archivists were contracted to catalog the damage to the Fexric archive-halls  —  the same memory-preservation work the Neth had done for themselves for centuries. Observing Nesta's engine, the Velun recognized a different application: time was not a mechanism to be repaired, but a document to be preserved. The engine could be replaced with a memory-glass lattice  —  an archive that stored moments instead of clauses. The first Velun Chronarch, **Archivist Vel-Thalen**, spent thirty years adapting the principle before successfully externalizing her first memory.`,
+  reframe: `To the <LoreLink termId="velun">Nethien</LoreLink>, time is not an engine  —  it is a document. Every moment is a filed entry; every erased moment is a redacted clause. A Nethien Chronarch treats temporal manipulation as archival work: rewind is retrieval, loop is review, displacement is misfiling. Their temporal engine is not a gear-box but a memory-glass lattice  —  a crystal archive that stores every moment they have ever witnessed. The Nethien Chronarch does not lose their memories to temporal feedback; they externalize them. The cost is that the archive grows heavier, and carrying centuries of perfectly-preserved moments requires a stillness the young Nethien are beginning to find unbearable.`,
+   adoptionBridge: `The Nethien encountered temporal manipulation during the post-war reconstruction of Frostmaw. Nethien archivists were contracted to catalog the damage to the Fexric archive-halls  —  the same memory-preservation work the Nethien had done for themselves for centuries. Observing Nesta's engine, the Nethien recognized a different application: time was not a mechanism to be repaired, but a document to be preserved. The engine could be replaced with a memory-glass lattice  —  an archive that stored moments instead of clauses. The first Nethien Chronarch, **Archivist Vel-Thalen**, spent thirty years adapting the principle before successfully externalizing her first memory.`,
    signatureAbility: {
    name: 'Memory-Glass Lattice',
-   description: `Temporal effects are stored in a crystal archive rather than the body; the Velun Chronarch externalizes temporal feedback into an ever-growing memory-glass lattice, allowing them to recall any witnessed moment with perfect clarity but at the cost of an increasingly encumbered stillness the young Velun are beginning to find unbearable.`
+   description: `Temporal effects are stored in a crystal archive rather than the body; the Nethien Chronarch externalizes temporal feedback into an ever-growing memory-glass lattice, allowing them to recall any witnessed moment with perfect clarity but at the cost of an increasingly encumbered stillness the young Nethien are beginning to find unbearable.`
    },
-   currentCrisisAngle: `The archive grows heavier with every stored moment, and the young Velun are beginning to reject the stillness their elders require. The Velun Chronarchs face a schism between the old, who carry centuries of perfectly-preserved memory and cannot imagine discarding it, and the young, who feel the weight of a history they did not choose to archive bearing down on them.`,
+   currentCrisisAngle: `The archive grows heavier with every stored moment, and the young Nethien are beginning to reject the stillness their elders require. The Nethien Chronarchs face a schism between the old, who carry centuries of perfectly-preserved memory and cannot imagine discarding it, and the young, who feel the weight of a history they did not choose to archive bearing down on them.`,
   signatureQuote: {
   text: '"I remember the day my grandmother was born. I remember the day she died. I remember every heartbeat between. The archive is complete. The archive is unbearable. The archive is mine."',
   speaker: 'Archivist Vel-Sevar',
-  context: 'A Velun Chronarch, touching the memory-glass for the last time before walking out'
+  context: 'A Nethien Chronarch, touching the memory-glass for the last time before walking out'
   }
  }
  },
@@ -131,7 +131,7 @@ subraceVariants: {
   classResource: {
     type: "time_shards",
     base: 0,
-    max: 8,
+    max: 10,
     secondaryResource: { type: "temporal_strain", max: 10 },
     generationNote: "Generated by manipulating the timeline and basic temporal strikes. High shard expenditure increases Temporal Strain.",
     mechanicsNote: "Excess Temporal Strain causes chronomantic backlash, temporal drift, and involuntary phase slips."
@@ -176,7 +176,7 @@ subraceVariants: {
 
 The engine was built from volcanic glass and alchemical gears. Nesta had designed it as a theoretical exercise. The glacier gave her thirty seconds to make it practical. She succeeded, and the success has been slowly erasing her from history ever since. Records bearing her name are going blank. People who once knew her are forgetting. If she ceases to exist retroactively, every living chronarch inherits her accumulated temporal debt. The current leader, Conclave-Prime Fex-Vestara, is rebuilding Nesta's original engine from recorded schematics. Completion is estimated in three weeks. Nesta is estimated at four.
 
-Each subrace manipulates time through a different cultural lens. The Clockwork Fexric treat it as precision engineering, calibrated gears, documented tolerances, replaceable parts, their chest-engine a machine that will eventually kill them regardless. The Ithran Groven provide the living-bone interface, their extended limbs distributing temporal fields across wider areas through bridge-builder bone-knowledge. The Tessen learned the art to keep their sealed keeps from collapsing not merely in stone but in time, the keep-preservation applied to chronology itself, nearly omnipotent inside their own walls and the weakest variant outside them. The Velun Neth encountered temporal manipulation during the post-war reconstruction when Neth archivists were contracted to catalog damage to the Fexric archive-halls. An archivist named Vel-Thalen spent thirty years adapting the principle: time as a document to be preserved, a memory-glass lattice replacing the gear-engine.
+Each subrace manipulates time through a different cultural lens. The Clockwork Fexric treat it as precision engineering, calibrated gears, documented tolerances, replaceable parts, their chest-engine a machine that will eventually kill them regardless. The Ithran Groven provide the living-bone interface, their extended limbs distributing temporal fields across wider areas through bridge-builder bone-knowledge. The Tessen learned the art to keep their sealed keeps from collapsing not merely in stone but in time, the keep-preservation applied to chronology itself, nearly omnipotent inside their own walls and the weakest variant outside them. The Nethien encountered temporal manipulation during the post-war reconstruction when Nethien archivists were contracted to catalog damage to the Fexric archive-halls. An archivist named Vel-Thalen spent thirty years adapting the principle: time as a document to be preserved, a memory-glass lattice replacing the gear-engine.
 
 Temporal Strain is the accumulated paradox-weight of every causality violation. Small rewinds accumulate. Loops compound. At ten strain, the timeline's self-correction instinct activates, not out of malice, but because the accumulated paradox has become noticeable to the fundamental laws of cause and effect. The backlash is reality's immune response to being edited.`,
   title: "The Chronarch",
@@ -220,7 +220,7 @@ The price of this chronal mastery was rapid localized aging and memory displacem
 Chronarchs are highly respected and given places of honor in the library-cathedrals of the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> and the guild chambers of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the guild-bound <LoreLink termId="fexrick">Clockwork Fexric</LoreLink>, long-limbed Groven diplomats who oversee the Ancestor-Spans, the isolated Tessen keep-holders, and the <LoreLink termId="velun">Velun Neth</LoreLink> archivists of the memory-glass.
+The class is heavily practiced by the guild-bound <LoreLink termId="fexrick">Clockwork Fexric</LoreLink>, long-limbed Groven diplomats who oversee the Ancestor-Spans, the isolated Tessen keep-holders, and the <LoreLink termId="velun">Nethien</LoreLink> archivists of the memory-glass.
 
 **NOTABLE FIGURES**
 * **Nesta the Clockwork Engineer**: The Fexric builder who halted a glacier's advance by trapping herself in a temporal loop.
@@ -391,7 +391,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
 **The Strain Economy**: The heaviest Flux spells (spending 4+ Shards) push multiple points of Temporal Strain at once  —  bringing you closer to the Backlash threshold. Chronomancy's cost is tracked on the Strain gauge, not in flesh: bank Shards, spend them on Flux, and manage Strain so the timeline doesn't snap back.
 
-**Vulnerability to Silence/Necrotic**: Because your atomic anchor is frayed, you take 50% extra damage from all Silence and Necrotic sources. and, if you are subjected to forced movement (shoves, pulls, knockbacks) or time acceleration fields, your internal clock fractures,instantly dropping your Dodge rating to 0 and triggering an immediate roll on the Temporal Backlash Table.`
+**Vulnerability to Silence/Necrotic**: Because your atomic anchor is frayed, you take 50% extra damage from all Silence and blight sources. and, if you are subjected to forced movement (shoves, pulls, knockbacks) or time acceleration fields, your internal clock fractures,instantly dropping your Dodge rating to 0 and triggering an immediate roll on the Temporal Backlash Table.`
  },
 
  playingInPerson: {
@@ -503,7 +503,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   name: "Equipment Path A: Warden of Stillness",
   icon: "fas fa-shield-alt",
   items: [
-   "Rune-Etched Quarterstaff (1d6 bludgeoning, hums with localized inertia)",
+   "Rune-Etched Quarterstaff (1d6 smashing, hums with localized inertia)",
    "Steel-Bound Arcane Hourglass (Focus, sand shimmers and flows selectively)",
    "Scholar's Robes (Durability 1, weaves of protective silver mesh)"
   ],
@@ -513,7 +513,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   name: "Equipment Path B: Shattered Velocity",
   icon: "fas fa-bolt",
   items: [
-   "Dual Chrono-Daggers (1d4 piercing each, blades hum with micro-vibrations of accelerated time)",
+   "Dual Chrono-Daggers (1d4 stabbing each, blades hum with micro-vibrations of accelerated time)",
    "Brass Chronal Astrolabe (Focus, mechanical gears spin dynamically with speed)",
    "Reinforced Leather Tunic (Durability 1, light and highly agile)"
   ],
@@ -2340,7 +2340,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
   { id: "reality_fracture",
   name: "Reality Fracture",
-  description: "Cataclysmic Flux. Rip open a tear in space dealing 6d12 storm damage in a 20ft radius. Somatic drag deals 1d6 necrotic to caster.",
+  description: "Cataclysmic Flux. Rip open a tear in space dealing 6d12 storm damage in a 20ft radius. Somatic drag deals 1d6 blight to caster.",
   level: 9,
   spellType: "ACTION",
   icon: "Arcane/Spiral Vortex",
@@ -2367,7 +2367,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    temporal_strain_gain: 5
   },
   classResource: { type: "time_shards", cost: 7 },
-  healthCost: "1d6 necrotic",
+  healthCost: "1d6 blight",
   actionPoints: 2,
   components: ["verbal", "somatic"],
   verbalText: "Spatium Rumpitur",

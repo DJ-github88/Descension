@@ -1,4 +1,5 @@
 import { cleanFormula, normalizeSaveType } from './spellFormatterUtils';
+import { normalizeDamageType } from '../../core/data/damageTypes';
 
 const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) => {
 
@@ -37,7 +38,8 @@ const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) =
   // Format damage type suffix - handle multiple types
   if (effectiveDamageTypes.length > 0) {
    const formattedTypes = effectiveDamageTypes
-    .filter(type => type && type !== 'dot' && type !== 'physical' && type !== 'direct') // Filter out 'dot', 'physical', and 'direct' as they're not specific damage types
+    .map(type => normalizeDamageType(type) || type)
+    .filter(type => type && type !== 'dot' && type !== 'direct' && type !== 'physical') // Filter out 'dot' and 'direct'; legacy 'physical' normalizes to smashing
     .map(type => {
      // Capitalize first letter and handle special cases
      const capitalized = type.charAt(0).toUpperCase() + type.slice(1);
@@ -359,7 +361,8 @@ const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) =
   let damageTypeSuffix = '';
   if (effectiveDamageTypes.length > 0) {
    const formattedTypes = effectiveDamageTypes
-    .filter(type => type && type !== 'dot' && type !== 'physical') // Filter out 'dot' and 'physical' as they're not specific damage types
+    .map(type => normalizeDamageType(type) || type)
+    .filter(type => type && type !== 'dot' && type !== 'direct' && type !== 'physical') // Filter out 'dot' and 'direct'; legacy 'physical' normalizes to smashing
     .map(type => {
      // Capitalize first letter and handle special cases
      const capitalized = type.charAt(0).toUpperCase() + type.slice(1);
@@ -406,11 +409,11 @@ const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) =
       // Handle weapon-dependent spells that have addAttributeModifier flag
       let finalFormula = formula.replace(/weapon_die/g, spell.damageConfig?.weaponDice || spell.weaponDice || '1d8');
       if (spell.damageConfig?.weaponDependent && spell.damageConfig?.addAttributeModifier && spell.damageConfig?.attributeModifier) {
-       // For weapon attacks, combine dice notation with attribute modifier
+       // For weapon attacks, combine dice notation with the attribute MODIFIER (not the raw score)
        const attributeName = spell.damageConfig.attributeModifier.charAt(0).toUpperCase() + spell.damageConfig.attributeModifier.slice(1);
        // Only add attribute if it's not already in the formula
        if (!formula.toLowerCase().includes(attributeName.toLowerCase()) && !formula.toLowerCase().includes(spell.damageConfig.attributeModifier.toLowerCase())) {
-        finalFormula = `${finalFormula} + ${attributeName}`;
+        finalFormula = `${finalFormula} + ${attributeName} Mod`;
        }
       }
 
@@ -423,11 +426,11 @@ const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) =
       // Handle weapon-dependent spells that have addAttributeModifier flag
       let finalFormula = (spell.damageConfig.formula || '').replace(/weapon_die/g, spell.damageConfig?.weaponDice || spell.weaponDice || '1d8');
       if (spell.damageConfig?.weaponDependent && spell.damageConfig?.addAttributeModifier && spell.damageConfig?.attributeModifier) {
-       // For weapon attacks, combine dice notation with attribute modifier
+       // For weapon attacks, combine dice notation with the attribute MODIFIER (not the raw score)
        const attributeName = spell.damageConfig.attributeModifier.charAt(0).toUpperCase() + spell.damageConfig.attributeModifier.slice(1);
        // Only add attribute if it's not already in the formula
        if (!finalFormula.toLowerCase().includes(attributeName.toLowerCase()) && !finalFormula.toLowerCase().includes(spell.damageConfig.attributeModifier.toLowerCase())) {
-        finalFormula = `${finalFormula} + ${attributeName}`;
+        finalFormula = `${finalFormula} + ${attributeName} Mod`;
        }
       }
       // Just clean up spacing and formatting, don't convert to readable text

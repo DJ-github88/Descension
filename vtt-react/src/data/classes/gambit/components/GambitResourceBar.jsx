@@ -20,14 +20,14 @@ const STAGE_NAMES = {
 };
 
 const DRAWBACK_TEXTS = {
-    0: 'Cosmic Bankruptcy: 2d10 Necrotic, 100% Spirit/Blight Vulnerability (2 rds)',
-    1: 'Calculated Risk: 1d4 psychic self-damage per FP spent to nudge',
-    2: 'Calculated Risk: 1d4 psychic self-damage per FP spent to nudge',
-    3: 'Calculated Risk: 1d4 psychic per FP, Debtor’s tax on failed rolls',
-    4: 'Calculated Risk: 1d4 psychic per FP, +5% Karmic vulnerability',
-    5: 'Calculated Risk: 1d4 psychic per FP, +10% Karmic vulnerability',
-    6: 'Calculated Risk: 1d4 psychic per FP, +15% Karmic vulnerability',
-    7: 'All-In: 1d4 psychic per FP, maximum wager multipliers, one bad roll from Bust!'
+    0: 'Cosmic Bankruptcy: 2d10 blight, 100% vulnerability for 2 rounds, no Fortune generation',
+    1: 'Calculated Risk: 1d4 wyrd self-damage per FP spent to nudge',
+    2: 'Calculated Risk: 1d4 wyrd self-damage per FP spent to nudge',
+    3: 'Calculated Risk: 1d4 wyrd per FP spent. Debtor\'s Tax applies while Strapped.',
+    4: 'Calculated Risk: 1d4 wyrd per FP spent.',
+    5: 'Calculated Risk: 1d4 wyrd per FP spent.',
+    6: 'Calculated Risk: 1d4 wyrd per FP spent.',
+    7: 'All-In: 1d4 wyrd per FP spent. One bad roll from Bust.'
 };
 
 const ROMAN_NUMERALS = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
@@ -111,7 +111,7 @@ const GambitResourceBar = ({
             message = messages[Math.floor(Math.random() * messages.length)];
         } else {
             const messages = [
-                `${characterName} spent ${absAmount} ${resourceName} to nudge probability (${absAmount}d4 psychic damage)`,
+                `${characterName} spent ${absAmount} ${resourceName} to nudge probability (${absAmount}d4 wyrd damage)`,
                 `${characterName} wagered ${absAmount} ${resourceName} on the turn of fate`,
                 `${absAmount} ${resourceName} expended by ${characterName}`,
                 `${characterName} parted with ${absAmount} ${resourceName}`
@@ -196,8 +196,8 @@ const GambitResourceBar = ({
     const getBonusText = (level) => {
         if (level === 0) return 'None (Cosmic Bankruptcy Risk)';
         if (level <= 3) return `Modify d20 rolls by up to ±${level} FP`;
-        if (level <= 6) return `Modify rolls by up to ±${level} FP • Mid-tier wagers active`;
-        return `Modify rolls by up to ±7 FP • Maximum Wager Multipliers`;
+        if (level <= 6) return `Modify rolls by up to ±${level} FP`;
+        return 'Modify rolls by up to ±7 FP • All-In';
     };
 
     // Coin coordinates (Left Flank: 7 massive doubloons in 2 staggered rows)
@@ -685,7 +685,7 @@ const GambitResourceBar = ({
             </div>
 
             {/* Shared ClassTip Tooltip (Mechanic / Right now / Use) */}
-            {showTooltip && ReactDOM.createPortal(
+            {showTooltip && !showControls && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip gambit-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     {hoverSection === 'debt' ? (
                         <ClassTip
@@ -693,19 +693,19 @@ const GambitResourceBar = ({
                             tint="#a855f7"
                             title="Karmic Debt"
                             subtitle="Gambit Karmic Ledger"
-                            state={`${debtLevel}/${maxDebt} · +${debtLevel * 5}% vulnerability`}
+                            state={`${debtLevel}/${maxDebt} · +${debtLevel * 5}% damage taken`}
                             stateTone={debtLevel >= 12 ? 'bad' : debtLevel >= 8 ? 'warn' : 'neutral'}
-                            mechanic={`Overriding fate builds debt: +${debtLevel * 5}% damage taken from all sources. At 13: Wyrd Collapse (6d10 psychic, incapacitation).`}
+                            mechanic={`Card overrides and forced fate build Karmic Debt: each stack adds +5% damage taken and 1d4 wyrd strain at end of round. At 13, Wyrd Collapse hits for 6d10 irreducible wyrd, incapacitates you 1 round, empties your Fortune, and costs 5 max HP until a long rest.`}
                             status={[
                                 debtLevel >= 12
-                                    ? 'One override from Wyrd Collapse — clear debt immediately!'
+                                    ? { text: 'One override from Wyrd Collapse — clear debt immediately!', tone: 'critical' }
                                     : debtLevel >= 8
-                                        ? 'Running hot — weigh every override.'
+                                        ? { text: `${debtLevel} stacks — +${debtLevel * 5}% damage taken, 1d4 wyrd per round.`, tone: 'warn' }
                                         : debtLevel > 0
-                                            ? 'Manageable — room to push your luck.'
-                                            : 'Clean slate — spend fate freely.',
+                                            ? `${debtLevel} stacks — +${debtLevel * 5}% damage taken, 1d4 wyrd per round.`
+                                            : 'Clean ledger — card overrides cost nothing yet.',
                             ]}
-                            usage={isOwner ? 'Click a card slot to set · Right-click −1 · Center rolls d20.' : null}
+                            usage={isOwner ? 'Click a card slot to set · Right-click -1 · Center die rolls d20.' : null}
                         />
                     ) : (
                         <ClassTip
@@ -715,14 +715,14 @@ const GambitResourceBar = ({
                             subtitle="Gambit Fortune Points"
                             state={`${fpLevel}/${maxFp} FP`}
                             stateTone={fpLevel === 0 ? 'bad' : 'good'}
-                            mechanic={`Bank FP free on attacks, tosses, and draws. Spend it to nudge d20 rolls (1d4 psychic self-damage per point). ${getBonusText(fpLevel)}.`}
+                            mechanic={`Bank FP from gambler spells and lucky outcomes. Spend it to nudge any d20 by ±1 per point; each point spent deals 1d4 wyrd self-damage. ${getBonusText(fpLevel)}.`}
                             status={[
                                 fpLevel === 0
-                                    ? 'BUST — no nudges available. Bank FP before risking big rolls.'
+                                    ? { text: 'BUST — no nudges available. Bank FP before risking big rolls.', tone: 'bad' }
                                     : `${fpLevel} FP banked — can nudge rolls by up to ±${Math.min(fpLevel, 7)}.`,
-                                getDrawbackText(fpLevel),
+                                'Karmic Debt vulnerability comes from overrides, not from holding FP.',
                             ]}
-                            usage={isOwner ? 'Click a coin to set · Right-click −1 · Center rolls d20.' : null}
+                            usage={isOwner ? 'Click a coin to set · Right-click -1 · Center die rolls d20.' : null}
                         />
                     )}
                 </div>,
@@ -733,7 +733,7 @@ const GambitResourceBar = ({
             {showControls && ReactDOM.createPortal(
                 <div
                     ref={controlsMenuRef}
-                    className={`unified-context-menu compact context-menu-container gambit-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    className={`unified-context-menu compact context-menu-container gambit-menu-container class-resource-menu ${context === 'party' ? 'chronarch-party' : ''}`}
                     onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onMouseEnter={(e) => {
@@ -758,9 +758,9 @@ const GambitResourceBar = ({
 
                             {/* Current state summary */}
                             <div style={{ fontSize: '0.8rem', marginBottom: '6px', lineHeight: 1.35 }}>
-                                <div><strong>Fortune:</strong> {getStageName(fpLevel)} <span style={{ color: '#b7791f' }}>({fpLevel}/{maxFp} FP)</span></div>
-                                <div><strong>Karmic Debt:</strong> <span style={{ color: debtLevel >= 8 ? '#c0392b' : '#8e44ad' }}>{debtLevel}/{maxDebt} Stacks (+{debtLevel * 5}% Damage Vulnerability)</span></div>
-                                <div style={{ color: fpLevel === 0 ? '#b30000' : '#5a4628' }}>
+                                <div><strong>Fortune:</strong> {getStageName(fpLevel)} <span style={{ color: '#fef08a' }}>({fpLevel}/{maxFp} FP)</span></div>
+                                <div><strong>Karmic Debt:</strong> <span style={{ color: debtLevel >= 8 ? '#f87171' : '#fef08a' }}>{debtLevel}/{maxDebt} Stacks (+{debtLevel * 5}% Damage Vulnerability)</span></div>
+                                <div style={{ color: fpLevel === 0 ? '#f87171' : 'var(--crm-text-dim, #cbd5e1)' }}>
                                     <strong>Risk:</strong> {getDrawbackText(fpLevel)}
                                 </div>
                             </div>
@@ -817,14 +817,14 @@ const GambitResourceBar = ({
                             <div style={{ display: 'flex', gap: '6px', marginBottom: '8px' }}>
                                 <button
                                     className="context-menu-button"
-                                    style={{ flex: 1, backgroundColor: '#b7791f', color: '#ffffff', fontWeight: 'bold' }}
+                                    style={{ flex: 1, backgroundColor: '#ca8a04', color: '#ffffff', fontWeight: 'bold' }}
                                     onClick={() => handleRollDice(20)}
                                 >
                                     <i className="fas fa-dice-d20" style={{ marginRight: '4px' }}></i> Roll d20
                                 </button>
                                 <button
                                     className="context-menu-button"
-                                    style={{ flex: 1, backgroundColor: '#8e44ad', color: '#ffffff', fontWeight: 'bold' }}
+                                    style={{ flex: 1, backgroundColor: '#4d7c0f', color: '#ffffff', fontWeight: 'bold' }}
                                     onClick={() => handleRollDice(12)}
                                 >
                                     <i className="fas fa-dice" style={{ marginRight: '4px' }}></i> Roll d12
@@ -832,8 +832,8 @@ const GambitResourceBar = ({
                             </div>
 
                             {lastRollResult && (
-                                <div style={{ padding: '6px', background: 'rgba(183, 121, 31, 0.1)', border: '1px solid #b7791f', borderRadius: '4px', fontSize: '0.76rem', marginBottom: '8px', textAlign: 'center' }}>
-                                    <span style={{ fontWeight: 'bold', color: '#b7791f' }}>
+                                <div style={{ padding: '6px', background: 'rgba(202, 138, 4, 0.12)', border: '1px solid #ca8a04', borderRadius: '4px', fontSize: '0.76rem', marginBottom: '8px', textAlign: 'center' }}>
+                                    <span style={{ fontWeight: 'bold', color: '#fef08a' }}>
                                         d{lastRollResult.sides} = {lastRollResult.roll}
                                     </span>
                                 </div>

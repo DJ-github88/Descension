@@ -2400,7 +2400,8 @@ const useLevelEditorStore = create((set, get) => ({
 
   getTokenFacingDirection: (tokenId) => {
     const state = get();
-    return state.tokenFacingDirections[tokenId] || null;
+    const facing = state.tokenFacingDirections[tokenId];
+    return (facing === undefined || facing === null) ? null : facing;
   },
 
   // Clear all fog of war

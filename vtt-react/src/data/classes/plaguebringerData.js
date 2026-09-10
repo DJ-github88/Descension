@@ -40,12 +40,12 @@ export const PLAGUEBRINGER_DATA = {
     "ordan_human"
    ],
   "narrativeUnlock": false,
-  "justification": "Requires the Bryngloom's unique fungal-bog substrate. Other regions lack the specific biological agents. Drun Neth's partial-death allows hosting. Vreken's desperation drives acceptance."
+  "justification": "Requires the Bryngloom's unique fungal-bog substrate. Other regions lack the specific biological agents. Withered's partial-death allows hosting. Vreken's desperation drives acceptance."
  },
 
  /**
  * Subrace Variants, the Plaguebringer cultivates living disease inside their own body,
- * and what that body *is* determines what it can host. The Drun Neth are half-dead
+ * and what that body *is* determines what it can host. The Withered are half-dead
  * already. The Vreken are desperate enough to accept anything. The Vreken castes
  * carry the disease on the forest's own infrastructure.
  */
@@ -60,18 +60,18 @@ export const PLAGUEBRINGER_DATA = {
   },
 subraceVariants: {
  drun_neth: {
-  subraceName: 'Drun Neth',
+  subraceName: 'Withered',
   title: 'The Silence-Host',
-   reframe: `The <LoreLink termId="neth">Drun Neth</LoreLink>, the leaden-grey outcasts who severed all contracts and legally do not exist, are the Plaguebringer's ideal substrate. The Drun severed their names from the First Contract through the fire-ritual of the Severing. Morvane's pact no longer preserves them  -  the slow decay that the contract once held at bay now creeps through their flesh. This partial-death is not a separate biological state; it is the absence of Morvane's preservation. But what the contract no longer protects, it also no longer regulates. The Drun's decaying flesh has become a legal vacuum  -  and nature, as always, fills vacuums. Their body accepts foreign biology not because it is designed to, but because there is nothing left to reject it. A Drun Plaguebringer is not a sick person wielding sickness, they are a halfway-corpse whose decay hosts a substrate.`,
+   reframe: `The <LoreLink termId="neth">Withered</LoreLink>, the leaden-grey outcasts who severed all contracts and legally do not exist, are the Plaguebringer's ideal substrate. The Withered severed their names from the First Contract through the fire-ritual of the Severing. Morvane's pact no longer preserves them  -  the slow decay that the contract once held at bay now creeps through their flesh. This partial-death is not a separate biological state; it is the absence of Morvane's preservation. But what the contract no longer protects, it also no longer regulates. The Withered's decaying flesh has become a legal vacuum  -  and nature, as always, fills vacuums. Their body accepts foreign biology not because it is designed to, but because there is nothing left to reject it. A Withered Plaguebringer is not a sick person wielding sickness, they are a halfway-corpse whose decay hosts a substrate.`,
   signatureAbility: {
   name: 'Silence-Cultivation',
-  description: `Cultivated diseases take root faster and more virulently in the Drun's partially-dead flesh, generating more Virulence per affliction cast. The cost: the Drun's decay *accelerates* with each cultivation, they are spending their remaining life as substrate.`
+  description: `Cultivated diseases take root faster and more virulently in the Withered's partially-dead flesh, generating more Virulence per affliction cast. The cost: the Withered's decay *accelerates* with each cultivation, they are spending their remaining life as substrate.`
   },
-  currentCrisisAngle: `The foundational strain's collapse hits the Drun as *accelerated dissolution*, as the cultivated bacteria die, they take the host's half-life with them. The Drun Plaguebringers are dying faster than the tradition can replace them, and the others are beginning to suspect the Drun knew this would happen: that they chose this path knowing it was, in the end, a faster form of the death they were already living.`,
+  currentCrisisAngle: `The foundational strain's collapse hits the Withered as *accelerated dissolution*, as the cultivated bacteria die, they take the host's half-life with them. The Withered Plaguebringers are dying faster than the tradition can replace them, and the others are beginning to suspect the Withered knew this would happen: that they chose this path knowing it was, in the end, a faster form of the death they were already living.`,
   signatureQuote: {
   text: '"I was legally dead before I swallowed the first culture. Everything since has been interest on a debt I never owed. Let the strain die. I have been dying for years."',
-  speaker: 'Drun Vel-Kaassen',
-  context: 'A Drun Plaguebringer, declining treatment for the collapsing strain'
+  speaker: 'Withered Vel-Kaassen',
+  context: 'A Withered Plaguebringer, declining treatment for the collapsing strain'
   }
  },
 
@@ -151,7 +151,7 @@ The Plaguebringer possesses zero immediate burst damage. Their diseases require 
 
  worldFriction: [
     { region: 'frostwood-reach', status: 'hunted', consequence: 'Thalren towns burn sulfur and quarantine anyone suspected of harboring Plaguebringer spore-gardens.', workaround: 'Wear thick traveler shrouds and keep active cultures in lead-lined jars.' },
-    { region: 'bryngloom-forest', status: 'revered', consequence: 'Drun Neth and Marked Vreken treat Plaguebringers as sacred cultivators of the Root-Veil\'s fungal decomposition.', workaround: 'None needed in the deep sinks.' },
+    { region: 'bryngloom-forest', status: 'revered', consequence: 'Withered and Marked Vreken treat Plaguebringers as sacred cultivators of the Root-Veil\'s fungal decomposition.', workaround: 'None needed in the deep sinks.' },
     { region: 'sundale', status: 'banned', consequence: 'Solvan paladins execute Plaguebringers at the gates to prevent biological contagion inside the crowded refugee barracks.', workaround: 'Travel under false merchant identities.' },
     { region: 'emberspire', status: 'tolerated', consequence: 'Extreme geothermal heat naturally purges airborne spores, allowing Plaguebringers to trade acids with magma distillers.', workaround: 'Conduct alchemy only in designated vent-houses.' }
   ],
@@ -163,7 +163,7 @@ The first was Blight-Mother Vespera, a Vreken alchemist who bonded with bog-rot 
 
 That was three centuries ago. Vespera's foundational bacterial strain, the original rot she pulled from the Sunken Spire, is dying. Cultivated diseases across all practitioners are mutating into forms that attack their hosts. The Root-Veil has begun actively rejecting them. The forest has decided the art is a disease worth curing.
 
-Each subrace hosts the affliction differently. The Drun Neth are the ideal substrate. Their partial-death is a consequence of severing from the First Contract through the fire-ritual of the Severing, leaving flesh in a legal vacuum that nature fills with whatever it can. The Vreken cultivate the hush because it is the one property Morvane cannot tax, a disease engineered to be untraceable under contract-law. The Clean Vreken host visible bioluminescent disease-maps, their cultivated afflictions glowing along their skin for surgical precision but broadcasting to every Vreken nearby. The Marked Vreken deliver disease through the Root-Veil across miles of interconnected root and spore, a single practitioner able to blight an entire grove without touching it.
+Each subrace hosts the affliction differently. The Withered are the ideal substrate. Their partial-death is a consequence of severing from the First Contract through the fire-ritual of the Severing, leaving flesh in a legal vacuum that nature fills with whatever it can. The Vreken cultivate the hush because it is the one property Morvane cannot tax, a disease engineered to be untraceable under contract-law. The Clean Vreken host visible bioluminescent disease-maps, their cultivated afflictions glowing along their skin for surgical precision but broadcasting to every Vreken nearby. The Marked Vreken deliver disease through the Root-Veil across miles of interconnected root and spore, a single practitioner able to blight an entire grove without touching it.
 
 Vespera is bedridden. She has tasked her cultivators with engineering a successor strain before she dies. The project is failing. The Root-Veil is deliberately killing the foundational strain, and the virulent mutations are spreading through the network to organisms that never encountered a plaguebringer at all.`,
  title: "The Plaguebringer",
@@ -203,11 +203,11 @@ The plaguebringer's rot-vessel was born in the peat-bog sinks of the <LoreLink t
 Plaguebringers are feared and outlawed in every civilized city, forced to reside in the Over-Shanties or the forest sumps.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the <LoreLink termId="neth">Drun Neth</LoreLink> and the Vreken outcasts.
+The class is heavily practiced by the <LoreLink termId="neth">Withered</LoreLink> and the Vreken outcasts.
 
 **NOTABLE FIGURES**
 * **Vespera the Rot-Vessel**: The alchemist who saved her family from the spore-hush at the price of hosting active decay.
-* **Malakor the Bile-Lord**: A Drun Neth outcast who weaponized the mycelial rot against canopy patrols.`
+* **Malakor the Bile-Lord**: A Withered outcast who weaponized the mycelial rot against canopy patrols.`
  },
 
  signatureQuote: {
@@ -1325,7 +1325,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   specialMechanics: {
   agonyToll: {
    enabled: true,
-   description: "Operational Friction: The ravenous flies bite the caster upon emergence, dealing 3 piercing damage."
+   description: "Operational Friction: The ravenous flies bite the caster upon emergence, dealing 3 stabbing damage."
   },
   cultivation: {
    category: "Fester",

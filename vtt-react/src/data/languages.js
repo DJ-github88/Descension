@@ -95,7 +95,7 @@ export const LANGUAGES = [
     name: 'Infernal',
     icon: 'fa-fire-flame-curved',
     category: 'exotic',
-    description: 'The structured binding-language of Aethil — Sol\'s father who holds the sky and witnesses every Bloodline Pact — the grammar of consequence that makes a vow a wall. Every syllable is a clause; every pause, a penalty. Used in Neth contract-houses for clauses that must survive death. The First Contract\'s oldest sections are in Infernal, written while Keth Amar wore Aethil\'s face and scribes mistook the predator\'s self-portrait for a god of exchange.',
+    description: 'The structured binding-language of Aethil — Sol\'s father who holds the sky and witnesses every Bloodline Pact — the grammar of consequence that makes a vow a wall. Every syllable is a clause; every pause, a penalty. Used in Nethien contract-houses for clauses that must survive death. The First Contract\'s oldest sections are in Infernal, written while Keth Amar wore Aethil\'s face and scribes mistook the predator\'s self-portrait for a god of exchange.',
     sound: 'Precise and binding, with measured syllables and formal cadence that carries metaphysical weight.',
     example: 'Contractum aeternum vinctura anima',
     translation: 'The eternal contract binds the soul'
@@ -122,10 +122,10 @@ export const LANGUAGES = [
     name: 'Shanty-Patois',
     icon: 'fa-dungeon',
     category: 'exotic',
-    description: 'The trade-pidgin of the Over-Shanty hanging slums beneath Atropolis. Blends Gloom-Tongue, Grave Neth silence-codes, and merchant shorthand. Evolving too fast for any Neth contract-house to codify.',
+    description: 'The trade-pidgin of the Over-Shanty hanging slums beneath Atropolis. Blends Gloom-Tongue, Withered silence-codes, and merchant shorthand. Evolving too fast for any Nethien contract-house to codify.',
     sound: 'Hushed and rapid, with sibilant whispers adapted for rope-bridge eavesdropping and peat-bog secrecy.',
     example: 'Ss\'drunn ss\'gloom-tak now-now',
-    translation: 'The Drun whisper, the Gloom takes, move quickly'
+    translation: 'The Withered whisper, the Gloom takes, move quickly'
   },
 
   // ===== ANCESTRAL & RACIAL LANGUAGES =====
@@ -217,7 +217,7 @@ export const LANGUAGES = [
     name: 'Gloom-Tongue',
     icon: 'fa-moon',
     category: 'racial',
-    description: 'The ancestral language of the Bryngloom Forest, spoken by Vreken and Neth alike. Carries the cadence of the Root-Veil\'s mycelial whispers beneath its surface syllables. The Over-Lit lose Gloom-Tongue last, it is the final thing the hush takes.',
+    description: 'The ancestral language of the Bryngloom Forest, spoken by Vreken and Nethien alike. Carries the cadence of the Root-Veil\'s mycelial whispers beneath its surface syllables. The Over-Lit lose Gloom-Tongue last, it is the final thing the hush takes.',
     sound: 'Low and nasal, with murmured consonants and submerged syllables that echo from beneath the peat.',
     example: 'Mulgresh veir\'nam gloam\'dhur',
     translation: 'The Gloom keeps. The root speaks. The veil holds.'
@@ -293,7 +293,7 @@ export const LANGUAGES = [
     name: 'Thieves\' Cant',
     icon: 'fa-mask',
     category: 'secret',
-    description: 'A secret code jargon used by rogues, smugglers, and the Over-Shanty\'s underworld to communicate covertly in public. The Grave Neth have their own dialect, adapted to their legally non-existent status.',
+    description: 'A secret code jargon used by rogues, smugglers, and the Over-Shanty\'s underworld to communicate covertly in public. The Withered have their own dialect, adapted to their legally non-existent status.',
     sound: 'Coded and subtle, with double meanings and signals disguised as casual speech.',
     example: 'The red door is warm, but the window sings',
     translation: 'The front is guarded, use the side entrance silently'

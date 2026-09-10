@@ -14,13 +14,13 @@ export const REVENANT_DATA = {
           "fexrick"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires cultural acceptance of undeath as continuation of obligation. Reframing undeath as contract renewal is Neth/Vreken-specific."
+      "justification": "Requires cultural acceptance of undeath as continuation of obligation. Reframing undeath as contract renewal is Nethien/Vreken-specific."
   },
 
   /**
    * Subrace Variants, the Revenant refuses death, and the *reason* for that refusal
    * is what makes each variant distinct. The Vreken refuse death because their ancestors
-   * need them. The Drun Neth refuse it because they are already legally dead. The
+   * need them. The Withered refuse it because they are already legally dead. The
    * Vreken refuse it because their contracts survive the body. The Tessen refuse it
    * because their bloodline cannot end.
    */
@@ -58,18 +58,18 @@ export const REVENANT_DATA = {
     },
 
     drun_neth: {
-      subraceName: 'Drun Neth',
+      subraceName: 'Withered',
       title: 'The Contract-Expired',
-      reframe: `The <LoreLink termId="neth">Drun Neth</LoreLink> severed all contracts and legally do not exist, and the Revenant state is, for them, the *fulfillment* of that legal non-existence made metaphysical. A Drun Revenant is a being the Keeper cannot see, the First Contract cannot bind, and death cannot claim, because they have already been erased from every ledger that governs such things. They are the freest undead in existence, and the loneliest.`,
+      reframe: `The <LoreLink termId="neth">Withered</LoreLink> severed all contracts and legally do not exist, and the Revenant state is, for them, the *fulfillment* of that legal non-existence made metaphysical. A Withered Revenant is a being the Keeper cannot see, the First Contract cannot bind, and death cannot claim, because they have already been erased from every ledger that governs such things. They are the freest undead in existence, and the loneliest.`,
       signatureAbility: {
         name: 'Unrecorded-Death',
-        description: `The Revenant state is invisible to the Keeper and to contract-magic; a Drun Revenant cannot be sensed, bound, or dismissed by any system that relies on legal recognition. They are ghosts to the bureaucracy that governs all other Neth undeath, and pay for it with total social nonexistence.`
+        description: `The Revenant state is invisible to the Keeper and to contract-magic; a Withered Revenant cannot be sensed, bound, or dismissed by any system that relies on legal recognition. They are ghosts to the bureaucracy that governs all other Nethien undeath, and pay for it with total social nonexistence.`
       },
-      currentCrisisAngle: `The bog-graves waking is, to the Drun, a *jurisdictional crisis*: the risen dead are being routed by something the Keeper *does* see, and the Drun, unrecorded, unbound, are the only Revenants immune to the routing. Some Drun Revenants have realized they are the only undead still capable of *free movement*, and the question of whether to flee the marching dead or investigate what is driving them has split the caste entirely.`,
+      currentCrisisAngle: `The bog-graves waking is, to the Withered, a *jurisdictional crisis*: the risen dead are being routed by something the Keeper *does* see, and the Withered, unrecorded, unbound, are the only Revenants immune to the routing. Some Withered Revenants have realized they are the only undead still capable of *free movement*, and the question of whether to flee the marching dead or investigate what is driving them has split the caste entirely.`,
       signatureQuote: {
         text: '"I erased myself from every ledger so that no power could find me. Now every dead thing in the bog is marching to a single order, and I am the only corpse that can still choose its direction. The freedom is suffocating."',
-        speaker: 'Drun Vel-Thaussen',
-        context: 'A Drun Revenant, watching the dead stream past without stopping for her'
+        speaker: 'Withered Vel-Thaussen',
+        context: 'A Withered Revenant, watching the dead stream past without stopping for her'
       }
     },
 
@@ -95,8 +95,8 @@ export const REVENANT_DATA = {
   classResource: {
     type: "toll",
     base: 0,
-    max: 100,
-    secondaryResource: { type: "phylactery_integrity", max: 100 },
+    max: 20,
+    secondaryResource: { type: "phylactery_integrity", max: 50 },
     generationNote: "Cast directly from soul essence and physical hit points. Phylactery sustains unlife; Toll accumulates as unholy resonance.",
     mechanicsNote: "Revenants do not use ordinary mana. Their life force fuels their spells, buffered by the phylactery."
   },
@@ -113,7 +113,7 @@ export const REVENANT_DATA = {
         name: "Blood Rites Kit",
         icon: "Necrotic/Drain Soul",
         items: [
-          "Ritual Dagger (1d6 slashing, blight resonance, HP sacrificed with this weapon generates +1 Toll per strike)",
+          "Ritual Dagger (1d6 slicing, blight resonance, HP sacrificed with this weapon generates +1 Toll per strike)",
           "Bloodstained Leather Weave (Durability 1, No agility penalty)",
           "Copper Chalice (ritual focus, reduces HP cost of first spell each combat by 1)",
         ],
@@ -124,7 +124,7 @@ export const REVENANT_DATA = {
         name: "Frost Phylactery Rig",
         icon: "Frost/Frozen in Ice",
         items: [
-          "Obsidian Staff (1d8 bludgeoning, +5 ft reach on necrotic and frost spells)",
+          "Obsidian Staff (1d8 smashing, +5 ft reach on blight and rime spells)",
           "Tattered Robes (+1 rime damage to all spells)",
           "Basalt Phylactery Shard (beginning soul anchor, stores up to 15 Phylactery HP, upgrades as you level)",
         ],
@@ -145,21 +145,21 @@ export const REVENANT_DATA = {
   livingOrder: {
     orderName: 'The Twice-Born',
     founder: {
-      name: '<LoreLink termId="kora">Kora the Veil-Speaker</LoreLink> (Vreken) and <LoreLink termId="vesper">Vesper the Scribe</LoreLink> (Neth)',
+      name: '<LoreLink termId="kora">Kora the Veil-Speaker</LoreLink> (Vreken) and <LoreLink termId="vesper">Vesper the Scribe</LoreLink> (Nethien)',
       status: `Kora, dead and still speaking. She sacrificed her life-force to keep the ancestral lights burning and was cursed to hear the screams of every ancestor she tended; her voice survives in the chorus. Vesper, perpetually dying, heart beating once per hour, bound to a basalt phylactery in the deep sumps. He answers correspondence.`,
       note: `<LoreLink termId="kora">Kora</LoreLink>'s blood-covenant and <LoreLink termId="vesper">Vesper</LoreLink>'s frost-stasis merged when the bog-graves began waking on their own, the two traditions recognized their separate wars were the same war against death's finality.`
     },
     currentLeader: {
       name: '<LoreLink termId="kor-vasseth">Threshold-Keeper Kor-Vasseth</LoreLink>',
       title: 'Warden of the Waking Graves',
-      characterization: `A Revenant of mixed Vreken-Neth descent who carries both founders' arts, <LoreLink termId="kora">Kora</LoreLink>'s Toll and <LoreLink termId="vesper">Vesper</LoreLink>'s Phylactery. He is calm, ancient, and speaks in a whisper layered with ancestral overtones. He has led the Twice-Born through three previous bog-grave awakenings. The fourth, the current one, is different, and the difference has him frightened for the first time in four centuries.`
+      characterization: `A Revenant of mixed Vreken-Nethien descent who carries both founders' arts, <LoreLink termId="kora">Kora</LoreLink>'s Toll and <LoreLink termId="vesper">Vesper</LoreLink>'s Phylactery. He is calm, ancient, and speaks in a whisper layered with ancestral overtones. He has led the Twice-Born through three previous bog-grave awakenings. The fourth, the current one, is different, and the difference has him frightened for the first time in four centuries.`
     },
     headquarters: { name: 'The Cold Hearth, deep Bryngloom peat-sinks', locationId: 'bryngloom-forest' },
     crisisConnection: `<LoreLink termId="kor-vasseth">Kor-Vasseth</LoreLink> is investigating the twelve Revenants found drained of blood but unwounded, and the dead marching toward the <LoreLink termId="the_breach">Sundered Monoliths</LoreLink>. He has determined that the waking dead are *not* his order's doing: something is calling them, and the call routes through the Root-Veil. The Marked Revenants, distributed across that same network, are being dragged along as passengers. He cannot stop the march without severing the Root-Veil itself, which would kill every Marked Revenant, including half his order.`
   },
 
   worldFriction: [
-    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The bog-graves are waking and the dead march toward the Monoliths; the Neth Regency has blamed the Revenants and revoked their burial rights. A Revenant caught near a waking grave is charged with "unauthorized reanimation" and subject to the Keeper\'s Sanction, permanent, final dissolution.', workaround: 'A Drun Neth Revenant is invisible to the Keeper and thus immune to the Sanction, but a Drun in the Bryngloom cannot prove they exist, which makes defending the charge impossible.' },
+    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The bog-graves are waking and the dead march toward the Monoliths; the Nethien Regency has blamed the Revenants and revoked their burial rights. A Revenant caught near a waking grave is charged with "unauthorized reanimation" and subject to the Keeper\'s Sanction, permanent, final dissolution.', workaround: 'A Withered Revenant is invisible to the Keeper and thus immune to the Sanction, but a Withered in the Bryngloom cannot prove they exist, which makes defending the charge impossible.' },
     { region: 'sundrift-vale', status: 'distrusted', consequence: 'The Ordan leave their dead to the steppe and consider any who traffic in undeath to be corpse-violators; a Revenant on the migration is refused fire, water, and passage.' },
     { region: 'nordhalla', status: 'hunted', consequence: 'The Skald of House Skalvyr view the Twice-Born as abomination-kin of the glacier-dead, hunting them with cold-iron runes to protect the sanctity of ancestor-tombs.', workaround: 'Revenants hide in the rime-carved ice-caverns, pretending to be glacier-spirits or frozen hermits to avoid the Rune-Keeper patrols.' }
   ],
@@ -169,11 +169,11 @@ export const REVENANT_DATA = {
     subtitle: "Death Is Fuel. The Grave Is a Door. You Walk Both Ways.",
     originStory: `A revenant is not alive and not dead. They walk between two necrotic traditions, and they still have work to finish.
 
-The art emerged from the Bryngloom Forest during the later centuries of the Freezing Era, when the bog-graves began waking on their own. Two separate responses to death became one. The Vreken Veil-Speaker Kora walked into the marsh-depths and bargained with the Root-Veil, offering her own blood as blight thread to keep the ancestral lights of six generations burning. Every spell she cast drained her own life and filled her body with volatile Blood Tokens. The Velun Neth scribe Vesper, dying of the sumps' lung-rot, performed the forbidden Rite of the Cold Hearth, binding his soul to a basalt phylactery and inviting the bog's freezing decay to halt his mortal heart. He still answers correspondence. His heart beats once per hour.
+The art emerged from the Bryngloom Forest during the later centuries of the Freezing Era, when the bog-graves began waking on their own. Two separate responses to death became one. The Vreken Veil-Speaker Kora walked into the marsh-depths and bargained with the Root-Veil, offering her own blood as blight thread to keep the ancestral lights of six generations burning. Every spell she cast drained her own life and filled her body with volatile Blood Tokens. The Nethien scribe Vesper, dying of the sumps' lung-rot, performed the forbidden Rite of the Cold Hearth, binding his soul to a basalt phylactery and inviting the bog's freezing decay to halt his mortal heart. He still answers correspondence. His heart beats once per hour.
 
 When the bog-graves began waking without permission and the dead started marching toward the Sundered Monoliths, the two traditions recognized they were fighting the same war. Kora provided the blood-fueled sacrifice. Vesper provided the frost-stasis phylactery. Together they created a practitioner who charges their phylactery through enemy kills and resurrects from stored life force when slain, triggering a battlefield-wide freeze. The revenant's voice comes out as a whisper, and their hands are always cold.
 
-Each subrace refuses death for different reasons. The Clean Vreken refuse because their ancestors need a living voice to speak through, the revenant state continued service, the host kept half-alive so the dead keep speaking. The Marked Vreken achieve the state through the Root-Veil itself, consciousness smeared across miles of mycelium, dying everywhere and nowhere, nearly impossible to permanently kill but feeling every wound the forest feels. The Drun Neth are legal non-existence made metaphysical. Severed from the First Contract, invisible to Morvane, death cannot claim what legally does not exist. They are the freest undead and the loneliest. The Vreken are denied death by the contract-economy that owned them in life. Undeath is the final clause, power scaling with outstanding debt, because the Neth will not let a major debtor simply die. The Tessen anchor their souls to ancestral keep architecture. As long as the keep stands, they cannot be destroyed. The keeps are failing.
+Each subrace refuses death for different reasons. The Clean Vreken refuse because their ancestors need a living voice to speak through, the revenant state continued service, the host kept half-alive so the dead keep speaking. The Marked Vreken achieve the state through the Root-Veil itself, consciousness smeared across miles of mycelium, dying everywhere and nowhere, nearly impossible to permanently kill but feeling every wound the forest feels. The Withered are legal non-existence made metaphysical. Severed from the First Contract, invisible to Morvane, death cannot claim what legally does not exist. They are the freest undead and the loneliest. The Vreken are denied death by the contract-economy that owned them in life. Undeath is the final clause, power scaling with outstanding debt, because the Nethien will not let a major debtor simply die. The Tessen anchor their souls to ancestral keep architecture. As long as the keep stands, they cannot be destroyed. The keeps are failing.
 
 Twelve revenants have been found drained of blood but showing no wounds. The Cult of Forgotten Shadow, a silent order operating from the deepest peat-bogs where the Bryngloom's light never reaches, offers Silence-stasis, clean immortality requiring no life-force harvesting. Half the remaining revenants have accepted the offer. The other half suspect the Silence is replacing their souls.`,
 
@@ -186,7 +186,7 @@ Twelve revenants have been found drained of blood but showing no wounds. The Cul
 
 **The hook**: Your signature mechanic is **Strategic Resurrection**: when you die, your Phylactery triggers an immediate glacial nova that freezes all nearby enemies, allowing you to rise again with renewed vigor to finish the fight.
 
-**The resource bar & costs**: Your resource bar is **Toll** (built by sacrificing your own HP and slaying enemies) and **Phylactery Souls**. You can activate **Death Shroud** to spend your own health instead of mana for amplified frost and necrotic damage. Maintaining high Toll unlocks apocalyptic execution spells, but push it too high and you suffer necrotic rot.
+**The resource bar & costs**: Your resource bar is **Toll** (built by sacrificing your own HP and slaying enemies) and **Phylactery Souls**. You can activate **Death Shroud** to spend your own health instead of mana for amplified frost and blight damage. Maintaining high Toll unlocks apocalyptic execution spells, but push it too high and you suffer necrotic rot.
 
 **Bring one for**: Necromantic power, dark blood magic, and playing an immortal powerhouse who turns their own demise into a devastating party-saving counterattack.`,
     roleplayIdentity: {
@@ -214,12 +214,12 @@ The Revenant tradition was born from the convergence of two death-magic schools 
 Revenants are feared and respected in the catacombs of the <LoreLink termId="sunken_spire">Sunken Spire</LoreLink> but viewed as dark omens in surface cities. Their presence causes temperatures to drop. Their blood glows faintly in the dark.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the <LoreLink termId="vreken">Clean Vreken</LoreLink> (blood covenant tradition) and the <LoreLink termId="neth">Drun Neth</LoreLink> (frost stasis tradition). Desperate Vreken also take the path.
+The class is heavily practiced by the <LoreLink termId="vreken">Clean Vreken</LoreLink> (blood covenant tradition) and the <LoreLink termId="neth">Withered</LoreLink> (frost stasis tradition). Desperate Vreken also take the path.
 
 **NOTABLE FIGURES**
 * **Kora the Veil-Speaker**: The first caller whose voice turned to whispers to keep the crypt-lights burning.
 * **Vesper the Scribe**: The dying scholar who bound his soul to basalt and refused to end.
-* **Neth-Veil Valerius**: A Neth pact-lord whose founding of the First Contract with Morvane established the legal framework that the Revenant necrotic covenant later subverted, linking bog-graves to Atropolis through a parallel binding of souls to stone.
+* **Nethien-Veil Valerius**: A Nethien pact-lord whose founding of the First Contract with Morvane established the legal framework that the Revenant necrotic covenant later subverted, linking bog-graves to Atropolis through a parallel binding of souls to stone.
 * **Kora Bloodhammer**: The legendary Skald Veil-Speaker whose grief-hymns sustained the first crypt-lights through the longest freeze, combining Bloodhammer endurance with the Revenant tradition of binding souls to basalt.`,
     },
 
@@ -418,7 +418,7 @@ You're not a mage who casts spells. You're an UNDYING PREDATOR who burns your ow
     subtitle: "How Your Resource Works (Beginner's Guide)",
 
     description: `**1. What is it? (The Soul Phylactery)**
-You do not use mana. Instead, you pay **Toll**—spending your own Health to cast frost and necrotic spells—while storing soul fragments in a basalt phylactery.
+You do not use mana. Instead, you pay **Toll**—spending your own Health to cast rime and blight spells—while storing soul fragments in a basalt phylactery.
 
 **2. How do I build it?**
 - Slay enemies to charge your phylactery with soul fragments.
@@ -433,13 +433,13 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
         title: "Toll (0-20)",
         stats: "HP Sacrifice + Kills",
         details:
-          "1 HP lost = 1 Toll (before bonuses). Kills add +1d6 Toll. Spend for +1d6 necrotic per Toll. VOLATILE: 6+ = self-damage, 11+ = can't be healed, 16+ = nuclear detonation on death. Decays -1/round without kills/sacrifice.",
+          "1 HP lost = 1 Toll (before bonuses). Kills add +1d6 Toll. Spend for +1d6 blight per Toll. VOLATILE: 6+ = self-damage, 11+ = can't be healed, 16+ = nuclear detonation on death. Decays -1/round without kills/sacrifice.",
       },
       {
         title: "Death Shroud (Toggle)",
         stats: "HP Casting | +1d6 Damage",
         details:
-          "Switch between Rest Mode (Mana) and Death Mode (HP). Death Mode: spells cost HP, +1d6 frost+necrotic, Chill on hit, but drain HP each turn.",
+          "Switch between Rest Mode (Mana) and Death Mode (HP). Death Mode: spells cost HP, +1d6 rime+blight, Chill on hit, but drain HP each turn.",
       },
       {
         title: "Phylactery (0-50)",
@@ -461,7 +461,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
         ["Sacrifice HP (Spell Cost)", "+1 Toll per 1 HP", "Generated on every cast"],
         ["Kill Enemy", "+1d6 Toll", "Per kill, from any source"],
         ["Cast in Death Shroud", "+1 Toll per spell", "Shroud mode bonus"],
-        ["Spend Toll", "-Variable", "+1d6 necrotic per Toll spent"],
+        ["Spend Toll", "-Variable", "+1d6 blight per Toll spent"],
         ["Toll Decay", "-1 per round", "No kills or HP sacrifice"],
         ["Toggle Shroud ON", "Free action", "Spells cost HP, +1d6 damage"],
         ["Kill Enemy (Phylactery)", "+1d6 Phylactery HP", "Max 50 HP stored"],
@@ -491,7 +491,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       rows: [
         [
           "Shrouded Veil",
-          "+2d6 necrotic to all spells + advantage on Stealth",
+          "+2d6 blight to all spells + advantage on Stealth",
           "-10% max HP (perpetual shadow drain)",
           "1",
         ],
@@ -503,13 +503,13 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
         ],
         [
           "Frostwalker",
-          "Death Shroud gains +1d4 frost/turn aura to enemies within 15ft",
+          "Death Shroud gains +1d4 rime/turn aura to enemies within 15ft",
           "+50% ember vulnerability",
           "5",
         ],
         [
           "Spectral Command",
-          "Spectral allies gain +1d6 necrotic and +25% HP",
+          "Spectral allies gain +1d6 blight and +25% HP",
           "Summons drain 1d4 HP/turn from you each",
           "7",
         ],
@@ -527,7 +527,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       headers: ["Threshold", "Effect", "Notes"],
       rows: [
         ["1-5 (Stable)", "No side effects", "Safe to accumulate"],
-        ["6-10 (Unstable)", "1 necrotic/turn to self, 1/Toll to enemies 5ft", "Starting to hurt"],
+        ["6-10 (Unstable)", "1 blight/turn to self, 1/Toll to enemies 5ft", "Starting to hurt"],
         ["11-15 (Volatile)", "1d4/Toll/turn, can't be healed, -2 spell saves", "Danger zone"],
         ["16-20 (Critical)", "1d6/Toll/turn, nuclear detonation on death", "Walking bomb"],
         ["Decay", "-1/round without kills or sacrifice", "Forces aggression"],
@@ -602,7 +602,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
         keyAbilities: [
           "Blood Leech, Drain health, restoring 25% per HP sacrificed (8 mana, 1d4 HP cost)",
           "Crimson Shield, Absorb 10� -  damage sacrificed as a ward (5 mana, 1d10 HP cost)",
-          "Eternal Agony, Escalating psychic DOT based on HP sacrificed (15 mana, 1d10 HP cost)",
+          "Eternal Agony, Escalating wyrd DOT based on HP sacrificed (15 mana, 1d10 HP cost)",
         ],
       },
 
@@ -615,7 +615,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
 
         description: `Frost Sovereigns mastered the art of freezing enemies solid and shattering them for devastating burst damage. Their Death Shroud is the coldest, frost radiates from their body even in Rest Mode, and in Death Mode the temperature drops to lethal levels. The Frostwalker and Shrouded Veil marks are their preferred scars, granting extended freeze durations and bonus blight damage. They create an active loop: freeze, shatter, refreeze, shatter again. Each cycle is faster and more devastating than the last. Their battlefield is a sculpture gallery of frozen corpses, and every new enemy is just raw material.`,
 
-        playstyle: "Ranged frost/necrotic caster, freeze-shatter loop, area control through ice",
+        playstyle: "Ranged rime/blight caster, freeze-shatter loop, area control through ice",
 
         strengths: [
           "Exceptional crowd control through extended freezes",
@@ -634,11 +634,11 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
           name: "Permafrost Dominion",
           icon: "Frost/Frozen in Ice",
           description:
-            "Your freeze effects last 1d4 additional rounds. Frozen enemies take +1d6 damage from your frost and necrotic spells. When a frozen enemy takes damage, 50% chance they Shatter (additional 3d6 frost, freeze ends). In Death Shroud, your chill effect upgrades to a freeze (1 round) on failed save.",
+            "Your freeze effects last 1d4 additional rounds. Frozen enemies take +1d6 damage from your rime and blight spells. When a frozen enemy takes damage, 50% chance they Shatter (additional 3d6 rime, freeze ends). In Death Shroud, your chill effect upgrades to a freeze (1 round) on failed save.",
         },
         keyAbilities: [
           "Wraith Spear, Frost projectile that freezes on hit (10 mana, 1d6 HP cost in Shroud)",
-          "Frozen Orb, AoE frost+necrotic that freezes groups (16 mana, 2d6 HP cost in Shroud)",
+          "Frozen Orb, AoE frost+blight that freezes groups (16 mana, 2d6 HP cost in Shroud)",
           "Absolute Zero, Lock down all enemies in sight with escalating freeze (35 mana, 4d8 HP cost in Shroud)",
         ],
       },
@@ -648,11 +648,11 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
         name: "Phylactery Anchor",
         icon: "Frost/Frost Manipulation",
         color: "#2D1B69",
-        theme: "Enhanced Resurrection + Psychic/Frost Control",
+        theme: "Enhanced Resurrection + Wyrd/Rime Control",
 
         description: `Phylactery Anchors are the most durable Revenants, their phylacteries expanded and reinforced through obsessive ritual. Their Death Trigger freeze radius is the largest of all specs, and their phylactery can store up to 75 HP, enough to resurrect multiple times in extended fights. The Spectral Command and Deep Silence marks are their preferred scars, granting spectral army durability and spell negation. They play the long game: absorb damage, kill to charge, die strategically for the freeze, resurrect, and repeat. They are the tankiest Revenant, and the one most likely to outlast an enemy through sheer, stubborn refusal to stay dead.`,
 
-        playstyle: "Tankiest Revenant with enhanced phylactery, psychic/frost hybrid control, strategic death management",
+        playstyle: "Tankiest Revenant with enhanced phylactery, wyrd/rime hybrid control, strategic death management",
 
         strengths: [
           "Highest survivability, 75 HP Phylactery",
@@ -674,7 +674,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
             "Your Phylactery stores up to 75 HP (instead of 50). Death Trigger freeze radius increased to 25ft (instead of 15ft). In Death Shroud, store 1 HP in Phylactery per 10 damage taken from any source (max 5/round). Your wyrd damage spells ignore resistance.",
         },
         keyAbilities: [
-          "Siphon Soul, Frost+necrotic drain that heals and charges Phylactery on kill (8 mana)",
+          "Siphon Soul, Frost+blight drain that heals and charges Phylactery on kill (8 mana)",
           "Glacial Shroud, Ice carapace that freezes melee attackers (8 mana)",
           "Phylactery Nova, Detonate stored Phylactery HP as a massive frost explosion (30 mana, 3d6 HP cost)",
         ],
@@ -703,7 +703,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
     {
       id: "rv_corpse_explosion",
       name: "Corpse Detonation",
-      description: "Detonate a fallen foe or summoned shade. Deals heavy blight damage in a 15ft radius and inflicts necrotic poison.",
+      description: "Detonate a fallen foe or summoned shade. Deals heavy blight damage in a 15ft radius and inflicts blight poison.",
       level: 3,
       spellType: "ACTION",
       icon: "Force/Explosion Burst",

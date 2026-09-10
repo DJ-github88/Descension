@@ -120,7 +120,7 @@
     "id": "oillipheist",
     "name": "Oilliph,ist",
     "description": "A blind, segmented swamp eel-serpent made of river-silt and rotting green moss, hunting vibrations in peat-pools.",
-    "origin": "The Oillipheist is a creature born from the fusion of ancient Frostwood water-dragon myths and the cold reality of the Frostwood Reach's peat-bogs. Before the Star-Fall, when the first fae walked the world, the great serpents of the Oillipheist kind were guardians of sacred rivers, their scales gleaming with the light of the setting sun. When the Great Binding fell, the Frostwood's endless cold and darkness twisted these noble guardians into blind, segmented eels that lurk in the stagnant pools, their once-magnificent forms reduced to something primal and hungering. The Drun fishermen speak of the 'silt-serpents' as cursed spirits of those who drowned in the bogs during the Long Winter, their bodies fused with the peat and moss to become something that is neither living nor dead.",
+    "origin": "The Oillipheist is a creature born from the fusion of ancient Frostwood water-dragon myths and the cold reality of the Frostwood Reach's peat-bogs. Before the Star-Fall, when the first fae walked the world, the great serpents of the Oillipheist kind were guardians of sacred rivers, their scales gleaming with the light of the setting sun. When the Great Binding fell, the Frostwood's endless cold and darkness twisted these noble guardians into blind, segmented eels that lurk in the stagnant pools, their once-magnificent forms reduced to something primal and hungering. The Withered fishermen speak of the 'silt-serpents' as cursed spirits of those who drowned in the bogs during the Long Winter, their bodies fused with the peat and moss to become something that is neither living nor dead.",
     "nature": "A blind, segmented eel-serpent approximately six feet long, its body composed of river-silt, rotting green moss, and the fossilized remains of ancient bog-plants. It lacks eyes entirely, navigating by sensing vibrations and blood-heat through the water with specialized sensory organs along its flanks. Its mouth is a circular maw ringed with tiny, needle-like teeth that can grip with the strength of a spring-trap. When submerged, it is nearly invisible, its silt-colored body blending perfectly with the dark peat-water. The creature emits a low, thrumming vibration that can be felt through the soles of boots before it strikes.",
     "habitat": "The Oillipheist haunts the stagnant peat-pools and boggy rivers of the Frostwood Reach, particularly in the Siltmire Flats where the ancient peat has turned the water into a thick, black soup. It prefers pools where the water is deep enough to hide its full length but shallow enough to trap prey. During the rare warm months, the serpents become sluggish and retreat to the deepest pools, but in the winter they grow aggressive, driven by the need to store fat for the long cold.",
     "depth": "They are simple, instinct-driven predators that keep the swamp waters free of bloated carcasses, feeding on anything that disturbs their pool. Their native nature grants them no malice, only hunger. Some scholars believe that the Oillipheist's blindness is a mercy,that if they could see the world they now inhabit, they would die of sorrow. The silt that makes up their bodies is the same silt that preserves the bodies of ancient warriors in the bogs, and there are tales of serpents that have swallowed bones whole, carrying the memories of the dead in their bellies.",
@@ -171,7 +171,7 @@
           "diceCount": 1,
           "diceType": 8,
           "bonus": 3,
-          "damageType": "physical"
+          "damageType": "smashing"
         },
         "range": 10,
         "actionPointCost": 2,
@@ -222,7 +222,7 @@
       "trueOrigin": "A pre-Binding river-guardian lineage, an old silt-serpent that kept sacred waterways and consumed carrion; its exact river covenant is provisional.",
       "function": "It senses vibration and blood-heat, clears bloated carcasses, defends spawning pools, and chooses whether a disturbance is pollution, prey, or a trespass.",
       "values": "Clean water, the continuity of a river, undisturbed eggs, and the boundary between the living river and the preserved dead.",
-      "folklore": "Drun fishermen are right about the silt-serpent, drowned-bone imagery, and river-guardian ancestry. They are wrong if they say every specimen is a drowned human made by rumor.",
+      "folklore": "Withered fishermen are right about the silt-serpent, drowned-bone imagery, and river-guardian ancestry. They are wrong if they say every specimen is a drowned human made by rumor.",
       "bindingEffect": "The Binding's darkness and the First Cracks' warm bog vents changed its body from open-river guardian to segmented peat-water ambush predator and expanded its winter activity.",
       "wyrdRelationship": "The current `wyrd-creature` tag and Wyrd-twist prose are not origin proof. Preserve a native kind and decide whether blindness/hunger is warmth adaptation, an individual Wyrd injury, or a distinct later strain.",
       "nextDecision": "Correct the display typo and decide whether the canonical display is `Oilliph(e)ist`, while retaining the exact current JSON name in migration notes."
@@ -268,7 +268,7 @@
       "darkvision": 90
     },
     "resistances": {
-      "physical": 50
+      "smashing": 50
     },
     "vulnerabilities": {
       "ember": 50
@@ -495,7 +495,7 @@
     },
     "resistances": {
       "rime": 100,
-      "physical": 25
+      "smashing": 25
     },
     "vulnerabilities": {
       "ember": 50
@@ -510,7 +510,7 @@
           "diceCount": 2,
           "diceType": 8,
           "bonus": 4,
-          "damageType": "physical"
+          "damageType": "smashing"
         },
         "range": 5,
         "actionPointCost": 2,
@@ -1316,7 +1316,7 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 50,
+      "smashing": 50,
       "ember": 50
     },
     "vulnerabilities": {
@@ -1441,7 +1441,7 @@
     },
     "resistances": {
       "rime": 100,
-      "physical": 50
+      "smashing": 50
     },
     "vulnerabilities": {},
     "abilities": [
@@ -1560,7 +1560,7 @@
     },
     "resistances": {
       "rime": 50,
-      "physical": 25
+      "smashing": 25
     },
     "vulnerabilities": {
       "ember": 50
@@ -1910,7 +1910,7 @@
       "darkvision": 120
     },
     "resistances": {
-      "physical": 50,
+      "smashing": 50,
       "ember": 50
     },
     "vulnerabilities": {},
@@ -2028,7 +2028,7 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 25
+      "smashing": 25
     },
     "vulnerabilities": {
       "ember": 50
@@ -2043,7 +2043,7 @@
           "diceCount": 2,
           "diceType": 6,
           "bonus": 4,
-          "damageType": "physical"
+          "damageType": "slicing"
         },
         "range": 5,
         "actionPointCost": 2,
@@ -2255,7 +2255,7 @@
       "darkvision": 80
     },
     "resistances": {
-      "physical": 25
+      "smashing": 25
     },
     "vulnerabilities": {
       "rime": 50
@@ -2270,7 +2270,7 @@
           "diceCount": 1,
           "diceType": 8,
           "bonus": 4,
-          "damageType": "physical"
+          "damageType": "smashing"
         },
         "range": 5,
         "actionPointCost": 2,
@@ -2368,7 +2368,7 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 25
+      "smashing": 25
     },
     "vulnerabilities": {
       "ember": 50
@@ -2619,7 +2619,7 @@
           "diceCount": 1,
           "diceType": 10,
           "bonus": 4,
-          "damageType": "physical"
+          "damageType": "stabbing"
         },
         "range": 5,
         "actionPointCost": 3,
@@ -2962,7 +2962,7 @@
           "diceCount": 1,
           "diceType": 8,
           "bonus": 2,
-          "damageType": "physical"
+          "damageType": "smashing"
         },
         "range": 10,
         "actionPointCost": 2,
@@ -3181,7 +3181,7 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 25
+      "smashing": 25
     },
     "vulnerabilities": {
       "ember": 25
@@ -3307,7 +3307,7 @@
       "wyrd": 25
     },
     "vulnerabilities": {
-      "physical": 10
+      "smashing": 10
     },
     "abilities": [],
     "lootTable": {
@@ -3401,7 +3401,7 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 25
+      "smashing": 25
     },
     "vulnerabilities": {},
     "abilities": [
@@ -3519,11 +3519,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 50,
+      "smashing": 50,
       "ember": 100
     },
     "vulnerabilities": {
-      "physical": 25
+      "smashing": 25
     },
     "abilities": [
       {
@@ -4112,10 +4112,10 @@
       "darkvision": 60
     },
     "resistances": {
-      "psychic": 50
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -4234,11 +4234,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50,
-      "poison": 100
+      "rime": 50,
+      "blight": 100
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -4351,11 +4351,11 @@
       "darkvision": 120
     },
     "resistances": {
-      "cold": 50,
-      "psychic": 50
+      "rime": 50,
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -4471,10 +4471,10 @@
       "darkvision": 120
     },
     "resistances": {
-      "physical": 50
+      "smashing": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -4584,11 +4584,11 @@
       "darkvision": 120
     },
     "resistances": {
-      "cold": 50,
-      "physical": 25
+      "rime": 50,
+      "smashing": 25
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -4708,12 +4708,12 @@
       "darkvision": 120
     },
     "resistances": {
-      "cold": 100,
-      "physical": 50,
-      "poison": 100
+      "rime": 100,
+      "smashing": 50,
+      "blight": 100
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -4828,10 +4828,10 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50
+      "rime": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -4951,10 +4951,10 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 50
+      "smashing": 50
     },
     "vulnerabilities": {
-      "psychic": 25
+      "wyrd": 25
     },
     "abilities": [
       {
@@ -5074,7 +5074,7 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50
+      "rime": 50
     },
     "vulnerabilities": {
       "iron": 25
@@ -5193,8 +5193,8 @@
       "darkvision": 80
     },
     "resistances": {
-      "physical": 50,
-      "cold": 25
+      "smashing": 50,
+      "rime": 25
     },
     "vulnerabilities": {
       "iron": 25
@@ -5313,11 +5313,11 @@
       "darkvision": 120
     },
     "resistances": {
-      "cold": 50,
-      "psychic": 50
+      "rime": 50,
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -5439,7 +5439,7 @@
       "wyrd": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -5556,10 +5556,10 @@
       "darkvision": 80
     },
     "resistances": {
-      "cold": 100
+      "rime": 100
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -5675,11 +5675,11 @@
       "darkvision": 100
     },
     "resistances": {
-      "cold": 100,
-      "physical": 25
+      "rime": 100,
+      "smashing": 25
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -5789,11 +5789,11 @@
       "darkvision": 100
     },
     "resistances": {
-      "cold": 100,
-      "physical": 50
+      "rime": 100,
+      "smashing": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -5926,11 +5926,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50,
-      "psychic": 50
+      "rime": 50,
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -6039,10 +6039,10 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50
+      "rime": 50
     },
     "vulnerabilities": {
-      "lightning": 25
+      "storm": 25
     },
     "abilities": [
       {
@@ -6147,10 +6147,10 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 25
+      "smashing": 25
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -6249,11 +6249,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 100,
-      "psychic": 50
+      "rime": 100,
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -6352,11 +6352,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 100,
-      "physical": 50
+      "rime": 100,
+      "smashing": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -6465,11 +6465,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50,
-      "psychic": 50
+      "rime": 50,
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -6568,10 +6568,10 @@
       "darkvision": 60
     },
     "resistances": {
-      "psychic": 50
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [],
     "lootTable": {
@@ -6654,10 +6654,10 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 25
+      "smashing": 25
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -6756,10 +6756,10 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50
+      "rime": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -6858,12 +6858,12 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 100,
-      "physical": 50,
-      "psychic": 50
+      "rime": 100,
+      "smashing": 50,
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [],
     "lootTable": {
@@ -6946,11 +6946,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "cold": 100,
-      "physical": 25
+      "rime": 100,
+      "smashing": 25
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -7059,10 +7059,10 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 100
+      "rime": 100
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [],
     "lootTable": {
@@ -7145,11 +7145,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 75,
-      "cold": 50
+      "smashing": 75,
+      "rime": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -7258,11 +7258,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "cold": 100,
-      "physical": 25
+      "rime": 100,
+      "smashing": 25
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -7361,11 +7361,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 50,
-      "cold": 50
+      "smashing": 50,
+      "rime": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -7474,11 +7474,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 100,
-      "poison": 100
+      "rime": 100,
+      "blight": 100
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -7587,11 +7587,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 75,
-      "cold": 100
+      "smashing": 75,
+      "rime": 100
     },
     "vulnerabilities": {
-      "acid": 25
+      "blight": 25
     },
     "abilities": [],
     "lootTable": {
@@ -7674,8 +7674,8 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 100,
-      "cold": 100
+      "smashing": 100,
+      "rime": 100
     },
     "vulnerabilities": {},
     "abilities": [],
@@ -7759,11 +7759,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 50,
-      "cold": 50
+      "smashing": 50,
+      "rime": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -7862,11 +7862,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "cold": 50,
-      "physical": 25
+      "rime": 50,
+      "smashing": 25
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -7965,11 +7965,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "cold": 100,
-      "psychic": 50
+      "rime": 100,
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -8068,10 +8068,10 @@
       "darkvision": 120
     },
     "resistances": {
-      "physical": 25
+      "smashing": 25
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [],
     "lootTable": {
@@ -8154,12 +8154,12 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 100,
-      "physical": 50,
-      "piercing": 50
+      "rime": 100,
+      "smashing": 50,
+      "stabbing": 50
     },
     "vulnerabilities": {
-      "lightning": 25
+      "storm": 25
     },
     "abilities": [
       {
@@ -8283,10 +8283,10 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50
+      "rime": 50
     },
     "vulnerabilities": {
-      "lightning": 25
+      "storm": 25
     },
     "abilities": [
       {
@@ -8385,10 +8385,10 @@
       "darkvision": 0
     },
     "resistances": {
-      "cold": 100
+      "rime": 100
     },
     "vulnerabilities": {
-      "lightning": 25
+      "storm": 25
     },
     "abilities": [],
     "lootTable": {
@@ -8471,11 +8471,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "fire": 100,
-      "physical": 25
+      "ember": 100,
+      "smashing": 25
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -8599,11 +8599,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "fire": 100,
-      "physical": 75
+      "ember": 100,
+      "smashing": 75
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [],
     "lootTable": {
@@ -8686,11 +8686,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "fire": 100,
-      "physical": 25
+      "ember": 100,
+      "smashing": 25
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [],
     "lootTable": {
@@ -8773,11 +8773,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "fire": 75,
-      "physical": 50
+      "ember": 75,
+      "smashing": 50
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -8907,11 +8907,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "fire": 100,
-      "physical": 50
+      "ember": 100,
+      "smashing": 50
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -9035,11 +9035,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "fire": 100,
-      "physical": 25
+      "ember": 100,
+      "smashing": 25
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -9138,11 +9138,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "fire": 100,
-      "physical": 50
+      "ember": 100,
+      "smashing": 50
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -9241,11 +9241,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "fire": 100,
-      "physical": 50
+      "ember": 100,
+      "smashing": 50
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [],
     "lootTable": {
@@ -9328,11 +9328,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "fire": 100,
-      "physical": 50
+      "ember": 100,
+      "smashing": 50
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [],
     "lootTable": {
@@ -9415,11 +9415,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "fire": 100,
-      "physical": 50
+      "ember": 100,
+      "smashing": 50
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [],
     "lootTable": {
@@ -9502,11 +9502,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "fire": 50,
-      "radiant": 100
+      "ember": 50,
+      "sacred": 100
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -9605,12 +9605,12 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 75,
-      "cold": 50,
-      "fire": 50
+      "smashing": 75,
+      "rime": 50,
+      "ember": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -9709,12 +9709,12 @@
       "darkvision": 0
     },
     "resistances": {
-      "fire": 100,
-      "physical": 50,
-      "psychic": 50
+      "ember": 100,
+      "smashing": 50,
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -9813,13 +9813,13 @@
       "darkvision": 0
     },
     "resistances": {
-      "fire": 100,
-      "physical": 75,
-      "lightning": 50,
-      "acid": 50
+      "ember": 100,
+      "smashing": 75,
+      "storm": 50,
+      "blight": 50
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -9928,11 +9928,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 50,
-      "fire": 50
+      "smashing": 50,
+      "ember": 50
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [],
     "lootTable": {
@@ -10015,12 +10015,12 @@
       "darkvision": 0
     },
     "resistances": {
-      "fire": 100,
-      "physical": 75,
-      "piercing": 50
+      "ember": 100,
+      "smashing": 75,
+      "stabbing": 50
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -10119,11 +10119,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "fire": 50,
-      "radiant": 100
+      "ember": 50,
+      "sacred": 100
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [],
     "lootTable": {
@@ -10206,12 +10206,12 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 100,
-      "fire": 100,
-      "poison": 100
+      "smashing": 100,
+      "ember": 100,
+      "blight": 100
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [],
     "lootTable": {
@@ -10378,10 +10378,10 @@
       "darkvision": 0
     },
     "resistances": {
-      "fire": 50
+      "ember": 50
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -10480,11 +10480,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "cold": 50,
-      "psychic": 25
+      "rime": 50,
+      "wyrd": 25
     },
     "vulnerabilities": {
-      "lightning": 25
+      "storm": 25
     },
     "abilities": [
       {
@@ -10593,11 +10593,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 100,
-      "physical": 50
+      "rime": 100,
+      "smashing": 50
     },
     "vulnerabilities": {
-      "lightning": 25
+      "storm": 25
     },
     "abilities": [
       {
@@ -10706,12 +10706,12 @@
       "darkvision": 0
     },
     "resistances": {
-      "cold": 100,
-      "physical": 75,
-      "psychic": 25
+      "rime": 100,
+      "smashing": 75,
+      "wyrd": 25
     },
     "vulnerabilities": {
-      "psychic": 25
+      "wyrd": 25
     },
     "abilities": [
       {
@@ -10810,10 +10810,10 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50
+      "rime": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -10912,10 +10912,10 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 100
+      "rime": 100
     },
     "vulnerabilities": {
-      "poison": 25
+      "blight": 25
     },
     "abilities": [
       {
@@ -11014,11 +11014,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50,
-      "psychic": 50
+      "rime": 50,
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [],
     "lootTable": {
@@ -11101,10 +11101,10 @@
       "darkvision": 0
     },
     "resistances": {
-      "cold": 25
+      "rime": 25
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -11203,10 +11203,10 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50
+      "rime": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -11315,11 +11315,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50,
-      "lightning": 50
+      "rime": 50,
+      "storm": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -11418,11 +11418,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "cold": 100,
-      "physical": 25
+      "rime": 100,
+      "smashing": 25
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -11531,10 +11531,10 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 50
+      "smashing": 50
     },
     "vulnerabilities": {
-      "thunder": 25
+      "storm": 25
     },
     "abilities": [],
     "lootTable": {
@@ -11563,7 +11563,7 @@
     "origin": "The Stymphalian is based on the pre-Binding Stymphalian birds with bronze feathers, driven away by ancient heroes with rattles, and the salt-depth Kongamato, a pterosaur-like boat-overturner. In the Iceheart, they are aerial pests of the shipping lanes.",
     "nature": "This flock consists of eagle-sized predatory birds with bodies covered in metallic, razor-edged feathers of bronze and copper. Their underbellies are reddish-leathery, and their long, sharp beaks are made of actual bronze. Their pterosaur-like heads feature compound eyes that reflect light like hammered copper, maintaining a completely expressionless, hungry gaze.",
     "habitat": "These birds nest on the high rocky crags, frozen cliffs, and open skies above the Iceheart Sea.",
-    "depth": "The flock attacks by flying in tight formations and shedding their metallic, barbed feathers like a rain of daggers capable of piercing armor. They overturn small boats to drive crew members into the water, allowing them to easily scoop up the fish that rise to the surface. Neth ships carry bronze rattles to simulate the ancient method of driving them off. A flock has recently nested near a vital strait, and local sailors are seeking adventurers equipped with loud instruments to clear the passage.",
+    "depth": "The flock attacks by flying in tight formations and shedding their metallic, barbed feathers like a rain of daggers capable of piercing armor. They overturn small boats to drive crew members into the water, allowing them to easily scoop up the fish that rise to the surface. Nethien ships carry bronze rattles to simulate the ancient method of driving them off. A flock has recently nested near a vital strait, and local sailors are seeking adventurers equipped with loud instruments to clear the passage.",
     "loreClassification": {
       "status": "NATIVE-PROPOSED",
       "originClass": "native-lineage",
@@ -11617,11 +11617,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 100,
-      "psychic": 50
+      "rime": 100,
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "necrotic": 25
+      "blight": 25
     },
     "abilities": [],
     "lootTable": {
@@ -11704,11 +11704,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "cold": 100,
-      "psychic": 50
+      "rime": 100,
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [],
     "lootTable": {
@@ -11737,7 +11737,7 @@
     "origin": "The Graeae originates from the pre-Binding Graeae or Grey Sisters, who shared a single eye and tooth, and the salt-depth divination system read by far-seers. In the Iceheart Sea, they are keepers of fate and cosmological patterns.",
     "nature": "These three frost-covered, ancient crones huddle together in tattered, ink-stained robes, passing a polished obsidian sphere between them. The crone holding the eye has a living, youth-shifting face, while the other two have empty, frozen sockets that weep frost. They carry divining chains made of copper and bone, and their forms shift to reflect the timelines they view.",
     "habitat": "These ancient sisters sit on the most remote and desolate icebergs in the far reaches of the Iceheart Sea.",
-    "depth": "The sisters offer to answer questions about the future by casting seal-bones on the ice to read If, patterns. However, they demand a tooth from the questioner as payment; those who refuse are given a false prophecy that leads to their destruction. Neth merchants often seek them out to predict market trends, paying in valuable whale-teeth. A lost captain has reported seeing their iceberg, and scholars are looking for adventurers to consult the oracle about a looming storm.",
+    "depth": "The sisters offer to answer questions about the future by casting seal-bones on the ice to read If, patterns. However, they demand a tooth from the questioner as payment; those who refuse are given a false prophecy that leads to their destruction. Nethien merchants often seek them out to predict market trends, paying in valuable whale-teeth. A lost captain has reported seeing their iceberg, and scholars are looking for adventurers to consult the oracle about a looming storm.",
     "loreClassification": {
       "status": "NATIVE-PROPOSED",
       "originClass": "native-lineage",
@@ -11791,11 +11791,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 100,
-      "lightning": 50
+      "rime": 100,
+      "storm": 50
     },
     "vulnerabilities": {
-      "poison": 25
+      "blight": 25
     },
     "abilities": [
       {
@@ -11894,11 +11894,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "cold": 100,
-      "physical": 25
+      "rime": 100,
+      "smashing": 25
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -12007,11 +12007,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 50,
-      "psychic": 50
+      "smashing": 50,
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [],
     "lootTable": {
@@ -12094,11 +12094,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "poison": 100,
-      "radiant": 50
+      "blight": 100,
+      "sacred": 50
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -12227,7 +12227,7 @@
     "origin": "The Graia is inspired by the pre-Binding Graia or Grey Sea, a featureless mythical expanse sailed by the first sea-striders, and Mami Wata's Whirlpool, a portal to the spirit world. In the setting, it is a localized temporal anomaly.",
     "nature": "This thirty-foot circular eddy rotates with mathematical precision, ringed by a halo of displaced foam. The water within the swirl is perfectly colorless and transparent, keeping fallen objects suspended without sinking. The air above remains unnaturally still. Staring into its depths reveals a face forming in the water,the observer's own face, aged and mouthing a silent question.",
     "habitat": "These stable eddies form in the open, desolate stretches of the Iceheart Sea.",
-    "depth": "The swirl acts as a stable portal to the spirit-world where binding bargains are struck with deep-spirits, making them highly prized by Neth contract-mages. Ships sailing through its center are transported through time rather than space, emerging aged by weeks or younger, as the swirl takes what it wants. A Neth mage is currently hiring a crew to navigate close to a known swirl to conduct a ritual, offering high rewards for the risk.",
+    "depth": "The swirl acts as a stable portal to the spirit-world where binding bargains are struck with deep-spirits, making them highly prized by Nethien contract-mages. Ships sailing through its center are transported through time rather than space, emerging aged by weeks or younger, as the swirl takes what it wants. A Nethien mage is currently hiring a crew to navigate close to a known swirl to conduct a ritual, offering high rewards for the risk.",
     "loreClassification": {
       "status": "NATIVE-REVIEW",
       "originClass": "native-liminal",
@@ -12240,7 +12240,7 @@
       "trueOrigin": "A native open-sea temporal eddy or spirit-world threshold, a phenomenon with a repeatable natural cycle.",
       "function": "It opens a passage, distorts time, and decides whether a vessel follows the current or is rejected.",
       "values": "The stability of the passage, its timing, and the boundary between sea and spirit route.",
-      "folklore": "Mathematical whirlpool, displaced foam, and time travel are encounter truths. Neth bargain language is later use, not origin.",
+      "folklore": "Mathematical whirlpool, displaced foam, and time travel are encounter truths. Nethien bargain language is later use, not origin.",
       "bindingEffect": "The Binding changed currents and made the eddy harder to reach; First Cracks altered its timing and made it valuable to contract-mages.",
       "wyrdRelationship": "Native liminal feature unless a specific Graia becomes a Wyrd breach. It is not automatically Wyrdspawn.",
       "nextDecision": "Decide whether Graia belongs as a location/hazard rather than a creature record and define its seasonal recurrence."
@@ -12281,11 +12281,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "cold": 100,
-      "fire": 50
+      "rime": 100,
+      "ember": 50
     },
     "vulnerabilities": {
-      "poison": 25
+      "blight": 25
     },
     "abilities": [
       {
@@ -12399,11 +12399,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50,
-      "psychic": 50
+      "rime": 50,
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [],
     "lootTable": {
@@ -12486,11 +12486,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50,
-      "lightning": 50
+      "rime": 50,
+      "storm": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -12599,7 +12599,7 @@
       "darkvision": 60
     },
     "resistances": {
-      "psychic": 50
+      "wyrd": 50
     },
     "vulnerabilities": {
       "iron": 25
@@ -12685,11 +12685,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "cold": 100,
-      "physical": 50
+      "rime": 100,
+      "smashing": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -12977,11 +12977,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "cold": 50,
-      "poison": 100
+      "rime": 50,
+      "blight": 100
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -13080,11 +13080,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "psychic": 100,
-      "cold": 50
+      "wyrd": 100,
+      "rime": 50
     },
     "vulnerabilities": {
-      "physical": 25
+      "smashing": 25
     },
     "abilities": [],
     "lootTable": {
@@ -13167,8 +13167,8 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 100,
-      "cold": 50
+      "smashing": 100,
+      "rime": 50
     },
     "vulnerabilities": {
       "copper": 25
@@ -13254,12 +13254,12 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 100,
-      "fire": 50,
-      "physical": 75
+      "rime": 100,
+      "ember": 50,
+      "smashing": 75
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [],
     "lootTable": {
@@ -13342,11 +13342,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "fire": 100,
-      "cold": 25
+      "ember": 100,
+      "rime": 25
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -13445,10 +13445,10 @@
       "darkvision": 60
     },
     "resistances": {
-      "psychic": 25
+      "wyrd": 25
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [],
     "lootTable": {
@@ -13531,12 +13531,12 @@
       "darkvision": 0
     },
     "resistances": {
-      "fire": 100,
-      "physical": 50,
-      "poison": 50
+      "ember": 100,
+      "smashing": 50,
+      "blight": 50
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -13645,11 +13645,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "psychic": 100,
-      "cold": 25
+      "wyrd": 100,
+      "rime": 25
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -13748,11 +13748,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "lightning": 100,
-      "cold": 50
+      "storm": 100,
+      "rime": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -13861,11 +13861,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 25,
-      "cold": 25
+      "smashing": 25,
+      "rime": 25
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -13964,12 +13964,12 @@
       "darkvision": 0
     },
     "resistances": {
-      "fire": 100,
-      "cold": 100,
-      "physical": 50
+      "ember": 100,
+      "rime": 100,
+      "smashing": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [],
     "lootTable": {
@@ -14052,12 +14052,12 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 50,
-      "fire": 25,
-      "cold": 50
+      "smashing": 50,
+      "ember": 25,
+      "rime": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -14156,10 +14156,10 @@
       "darkvision": 60
     },
     "resistances": {
-      "poison": 50
+      "blight": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -14273,9 +14273,9 @@
       "darkvision": 0
     },
     "resistances": {
-      "cold": 50,
-      "physical": 50,
-      "psychic": 50
+      "rime": 50,
+      "smashing": 50,
+      "wyrd": 50
     },
     "vulnerabilities": {
       "iron": 25
@@ -14377,11 +14377,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "cold": 50,
-      "psychic": 25
+      "rime": 50,
+      "wyrd": 25
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [],
     "lootTable": {
@@ -14464,10 +14464,10 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 25
+      "smashing": 25
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -14566,11 +14566,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "psychic": 100,
-      "radiant": 100
+      "wyrd": 100,
+      "sacred": 100
     },
     "vulnerabilities": {
-      "psychic": 25
+      "wyrd": 25
     },
     "abilities": [
       {
@@ -14669,12 +14669,12 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50,
-      "physical": 50,
-      "psychic": 50
+      "rime": 50,
+      "smashing": 50,
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -14867,11 +14867,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "fire": 100,
-      "cold": 25
+      "ember": 100,
+      "rime": 25
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -14980,12 +14980,12 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50,
-      "physical": 50,
-      "poison": 100
+      "rime": 50,
+      "smashing": 50,
+      "blight": 100
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -15094,12 +15094,12 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 75,
-      "cold": 25,
-      "psychic": 25
+      "smashing": 75,
+      "rime": 25,
+      "wyrd": 25
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -15198,11 +15198,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "psychic": 100,
-      "radiant": 50
+      "wyrd": 100,
+      "sacred": 50
     },
     "vulnerabilities": {
-      "psychic": 25
+      "wyrd": 25
     },
     "abilities": [
       {
@@ -15301,10 +15301,10 @@
       "darkvision": 0
     },
     "resistances": {
-      "fire": 50
+      "ember": 50
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -15403,11 +15403,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 50,
-      "cold": 50
+      "smashing": 50,
+      "rime": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -15506,11 +15506,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "lightning": 100,
-      "fire": 25
+      "storm": 100,
+      "ember": 25
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -15609,11 +15609,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 50,
-      "cold": 50
+      "smashing": 50,
+      "rime": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [],
     "lootTable": {
@@ -15696,10 +15696,10 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 25
+      "smashing": 25
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -15798,11 +15798,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 50,
-      "cold": 25
+      "smashing": 50,
+      "rime": 25
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -15911,11 +15911,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "cold": 50,
-      "physical": 25
+      "rime": 50,
+      "smashing": 25
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -16024,12 +16024,12 @@
       "darkvision": 60
     },
     "resistances": {
-      "fire": 50,
-      "cold": 50,
-      "lightning": 50
+      "ember": 50,
+      "rime": 50,
+      "storm": 50
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -16128,12 +16128,12 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 75,
-      "cold": 50,
-      "psychic": 50
+      "smashing": 75,
+      "rime": 50,
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -16232,12 +16232,12 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 75,
-      "cold": 100,
-      "fire": 50
+      "smashing": 75,
+      "rime": 100,
+      "ember": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -16361,12 +16361,12 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 100,
-      "cold": 50,
-      "lightning": 50
+      "smashing": 100,
+      "rime": 50,
+      "storm": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [],
     "lootTable": {
@@ -16449,12 +16449,12 @@
       "darkvision": 60
     },
     "resistances": {
-      "radiant": 100,
-      "psychic": 100,
-      "fire": 50
+      "sacred": 100,
+      "wyrd": 100,
+      "ember": 50
     },
     "vulnerabilities": {
-      "necrotic": 25
+      "blight": 25
     },
     "abilities": [],
     "lootTable": {
@@ -16537,12 +16537,12 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 75,
-      "lightning": 100,
-      "fire": 50
+      "smashing": 75,
+      "storm": 100,
+      "ember": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -16666,12 +16666,12 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50,
-      "necrotic": 100,
-      "psychic": 25
+      "rime": 50,
+      "blight": 100,
+      "wyrd": 25
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -16726,7 +16726,7 @@
     "origin": "The Rusalka is born of the sorrow of drowned women in Thalren folklore, dangerous temptresses who lured men to watery graves, merged with the shape-shifting, sacred Apsaras of Vedic myth who danced in celestial waters. In the misty Bryngloom Forest, they embody both the tragedy of untimely death and the mystical allure of watery transformation.",
     "nature": "Standing waist-deep in bog-pools, this six-foot-tall woman has skin the pale green of submerged moss and impossibly long duckweed-colored hair that floats in a perfect circle on the water. Her form is semi-translucent below the surface, revealing ancient bones, roots, and peat-layers underneath, while water drops fall continuously from her fingertips, each capturing a miniature image of drowning. Her heartbreakingly beautiful face is marked by high cheekbones, a melancholy smile, and large, bog-water eyes with vertical, reptilian pupils that contract when she spots her prey.",
     "habitat": "This mournful spirit dwells in the swampy pools of the Bryngloom Forest terrain.",
-    "depth": "During the dry season, the Rusalka leaves her pool to dance in peat-clearings, casting a hypnotic lure that forces anyone who watches to join until their hearts burst, a compulsion that can only be broken by wearing one's clothes inside-out. Those who seek her out often do so for her bone-comb, which can untangle any physical or metaphorical knot, offering Neth contract-mages a way to resolve impossible legal disputes at the cost of a year of their memories. Adventurers may be hired to retrieve these memories or to hunt the creature down when reports of her deadly dances surface near local settlements.",
+    "depth": "During the dry season, the Rusalka leaves her pool to dance in peat-clearings, casting a hypnotic lure that forces anyone who watches to join until their hearts burst, a compulsion that can only be broken by wearing one's clothes inside-out. Those who seek her out often do so for her bone-comb, which can untangle any physical or metaphorical knot, offering Nethien contract-mages a way to resolve impossible legal disputes at the cost of a year of their memories. Adventurers may be hired to retrieve these memories or to hunt the creature down when reports of her deadly dances surface near local settlements.",
     "loreClassification": {
       "status": "NATIVE-REVIEW",
       "originClass": "native-death-form",
@@ -16780,12 +16780,12 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 75,
-      "cold": 50,
-      "necrotic": 50
+      "smashing": 75,
+      "rime": 50,
+      "blight": 50
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -16830,7 +16830,7 @@
     "origin": "The Strigoi-Canopy arises from the Romanian Strigoi, a reanimated vampire and former sorcerer, combined with the Vetala of Solbrand lore, which inhabited corpses and hung upside-down from trees to torment travelers with riddles. In the heights of Mythrill, this creature haunts the upper canopy, combining physical terror with ancient, dark intelligence.",
     "nature": "This desiccated humanoid hangs upside-down by its feet from branches, its skin the grey-white of birch-bark stretched over skeletal bone. Enormous, leathery wings fold against its arms, while its hands and feet end in elongated prehensile digits with hook-like claws. A faint green phosphorescence glows from its empty eye-sockets, and its jaw is dislocated to hide a long, uncoiling proboscis-like tongue, set in a face frozen in a grin of yellowed, crowded fangs.",
     "habitat": "This winged undead threat makes its home in the high branches of the Bryngloom Forest terrain.",
-    "depth": "Dwelling in colonies high in the ironwoods, the Strigoi-Canopy drops onto travelers to drain their vitality, leaving victims as listless husks. If captured, this cunning spirit will answer questions of the past and future but only through riddle-stories; failure to solve them summons its pack, though Neth Kessen weavers often brave these encounters using probability-sight to unlock the Strigoi's dark knowledge. Adventurers may be hired to clear these canopy pests or retrieve components from their wings.",
+    "depth": "Dwelling in colonies high in the ironwoods, the Strigoi-Canopy drops onto travelers to drain their vitality, leaving victims as listless husks. If captured, this cunning spirit will answer questions of the past and future but only through riddle-stories; failure to solve them summons its pack, though Nethien Veldun weavers often brave these encounters using probability-sight to unlock the Strigoi's dark knowledge. Adventurers may be hired to clear these canopy pests or retrieve components from their wings.",
     "loreClassification": {
       "status": "NATIVE-REVIEW",
       "originClass": "native-death-form",
@@ -16884,9 +16884,9 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 50,
-      "lightning": 50,
-      "radiant": 50
+      "smashing": 50,
+      "storm": 50,
+      "sacred": 50
     },
     "vulnerabilities": {},
     "abilities": [],
@@ -16914,8 +16914,8 @@
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
     "origin": "The Domovoi is descended from the Thalren domestic spirit that guarded homes in exchange for offerings, merged with the Ganas of Vedic myth, Shiva's dwarfish, bureaucrat attendants who guarded sacred thresholds. In the Bryngloom, they watch over the dwellings of Mythrill, acting as cosmic auditors of those under their roof.",
-    "nature": "Standing only two feet tall, this densely hairy humanoid looks like a living wool coat, with thick grey-brown fur covering its body except for its reptilian-scaled face, hands, and feet. It wears a tiny apron of Neth silver-thread and carries a miniature ledger of contract-tablets. Its face is that of a wrinkled old man on a child's body, complete with a magnificent mustache and bushy eyebrows that frame beady, watchful black eyes.",
-    "habitat": "This protective house-spirit resides near Neth and Vreken dwellings throughout the Bryngloom Forest terrain.",
+    "nature": "Standing only two feet tall, this densely hairy humanoid looks like a living wool coat, with thick grey-brown fur covering its body except for its reptilian-scaled face, hands, and feet. It wears a tiny apron of Nethien silver-thread and carries a miniature ledger of contract-tablets. Its face is that of a wrinkled old man on a child's body, complete with a magnificent mustache and bushy eyebrows that frame beady, watchful black eyes.",
+    "habitat": "This protective house-spirit resides near Nethien and Vreken dwellings throughout the Bryngloom Forest terrain.",
     "depth": "A tiny household protector living under floorboards. If players stay in a house guarded by a Domovoi, they must follow its 'house rules' (e.g., no boots indoors, don't sweep after sunset). If they break a rule, the Domovoi hides their boots or spoils their rations. If respected, it polishes their weapons.",
     "loreClassification": {
       "status": "NATIVE-PROPOSED",
@@ -16970,11 +16970,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "poison": 75,
-      "cold": 25
+      "blight": 75,
+      "rime": 25
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -17108,12 +17108,12 @@
       "darkvision": 0
     },
     "resistances": {
-      "necrotic": 50,
-      "cold": 50,
-      "psychic": 25
+      "blight": 50,
+      "rime": 50,
+      "wyrd": 25
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -17190,10 +17190,10 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "The Zmey-Bog merges the legendary three-headed, fire-breathing swamp-dragon Zmey Gorynych of Neth and Vreken folklore with the Makara, a composite Root-Veil monster of Atropolis's watery domain. Anchored in the deep peat-marshes of Mythrill, this creature acts as an ancient guardian of sunken secrets and lost documents.",
+    "origin": "The Zmey-Bog merges the legendary three-headed, fire-breathing swamp-dragon Zmey Gorynych of Nethien and Vreken folklore with the Makara, a composite Root-Veil monster of Atropolis's watery domain. Anchored in the deep peat-marshes of Mythrill, this creature acts as an ancient guardian of sunken secrets and lost documents.",
     "nature": "This thirty-foot serpentine dragon features a body of mud-caked crocodile hide and fish scales, ending in a peacock-like tail capable of fanning poison-gas and iron claws forged of actual metal on its feet. Its three heads are colored red, green, and blue, breathing fire, poison, and water respectively. Each head has a unique disposition,feral, sly, and serene,yet all three share the same ancient golden eyes that remember everything with merciless clarity.",
     "habitat": "This swamp-dwelling beast hides in the deepest, muddiest pools of the Bryngloom Forest terrain.",
-    "depth": "The Zmey-Bog hoards stolen legal documents, including Neth First Contract fragments and Vreken burial charters, in its inaccessible bog-pools. To prevent the dragon from tearing down the branch-walkways of Atropolis, the Neth are forced to pay a tribute of one contract-scroll per decade, presenting a rich target for adventurers hired to recover lost archives or defend the canopy city from the beast's wrath.",
+    "depth": "The Zmey-Bog hoards stolen legal documents, including Nethien First Contract fragments and Vreken burial charters, in its inaccessible bog-pools. To prevent the dragon from tearing down the branch-walkways of Atropolis, the Nethien are forced to pay a tribute of one contract-scroll per decade, presenting a rich target for adventurers hired to recover lost archives or defend the canopy city from the beast's wrath.",
     "loreClassification": {
       "status": "NATIVE-REVIEW",
       "originClass": "native-spirit",
@@ -17206,10 +17206,10 @@
       "trueOrigin": "A native three-headed swamp dragon that stores documents and controls a deep-water legal boundary.",
       "function": "It preserves or hoards lost contracts, regulates bog passages, and demands tribute for safe branch-walkways.",
       "values": "Water route, contract fragments, brood, and the privacy of the deep bog.",
-      "folklore": "Three heads, fire or heat breath, legal hoard, and tribute are true. Its Neth/Makara comparisons are cultural translations.",
+      "folklore": "Three heads, fire or heat breath, legal hoard, and tribute are true. Its Nethien/Makara comparisons are cultural translations.",
       "bindingEffect": "The Binding made contracts and survival routes central; First Cracks warmed bog channels and pushed branch settlements into its range.",
       "wyrdRelationship": "Native dragon under review. Wyrd can corrupt a contract hoard or make one head invasive, but Zmey-Bog is not automatically Wyrdspawn.",
-      "nextDecision": "Decide whether its hoard protects contracts, exploits them, or preserves a legal history the Neth deliberately erased."
+      "nextDecision": "Decide whether its hoard protects contracts, exploits them, or preserves a legal history the Nethien deliberately erased."
     }
   },
   {
@@ -17247,11 +17247,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "cold": 50,
-      "physical": 25
+      "rime": 50,
+      "smashing": 25
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -17296,7 +17296,7 @@
     "origin": "The Zharptitsa-Glow draws its heritage from the Thalren Firebird, whose dazzling, glowing feathers illuminated the dark in classic fairy tales, and Garuda, the sacred sun-bird of Vedic myth who served as Vishnu's mount and the eternal enemy of serpents. In Mythrill, it stands as a majestic beacon of warmth and light in the high branches.",
     "nature": "With a massive thirty-foot wingspan, this bird has plumage of gold, amber, and deep crimson that pulses with a warm, golden luminescence matching its heartbeat. Each of its feathers remains permanently luminescent for decades after being shed, and its body radiates comforting heat in a twenty-foot radius to cut through the damp cold of the forest. Its face is an eagle's of overwhelming majesty, featuring a hooked beak of polished gold and intense, star-like eyes that project a mixture of fierce authority and sacred compassion.",
     "habitat": "This solar avian makes its nests in the high canopy of the Bryngloom Forest terrain.",
-    "depth": "Serving as the primary source of light in the dark under-canopy, the Zharptitsa-Glow has its feathers harvested by the Vreken to illuminate their spires and crypts. The bird also acts as a natural Serpent-Slayer, repelling creatures like the Zmey-Bog and the Naga-Root, which leads the Neth to encourage their nesting near archives; however, the creature demands absolute silence, and any sound louder than a whisper will cause it to flee and shed its valuable feathers in panic, sparking high-stakes retrieval missions for adventurers.",
+    "depth": "Serving as the primary source of light in the dark under-canopy, the Zharptitsa-Glow has its feathers harvested by the Vreken to illuminate their spires and crypts. The bird also acts as a natural Serpent-Slayer, repelling creatures like the Zmey-Bog and the Naga-Root, which leads the Nethien to encourage their nesting near archives; however, the creature demands absolute silence, and any sound louder than a whisper will cause it to flee and shed its valuable feathers in panic, sparking high-stakes retrieval missions for adventurers.",
     "loreClassification": {
       "status": "NATIVE-PROPOSED",
       "originClass": "native-spirit",
@@ -17350,12 +17350,12 @@
       "darkvision": 0
     },
     "resistances": {
-      "physical": 75,
-      "cold": 100,
-      "lightning": 50
+      "smashing": 75,
+      "rime": 100,
+      "storm": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -17454,12 +17454,12 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 50,
-      "cold": 50,
-      "necrotic": 100
+      "smashing": 50,
+      "rime": 50,
+      "blight": 100
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -17526,10 +17526,10 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "Cursed by the insatiable hunger of the Vedic Preta, who paid for their greed in life with bloated bellies and tiny mouths, and the restless Thalren Nav, souls trapped between life and death by violent endings, the Preta-Hollow represents the ultimate cost of unfulfilled obligations. In the setting of Mythrill, they are the tragic remnants of those who died in unresolved debt to the Neth.",
+    "origin": "Cursed by the insatiable hunger of the Vedic Preta, who paid for their greed in life with bloated bellies and tiny mouths, and the restless Thalren Nav, souls trapped between life and death by violent endings, the Preta-Hollow represents the ultimate cost of unfulfilled obligations. In the setting of Mythrill, they are the tragic remnants of those who died in unresolved debt to the Nethien.",
     "nature": "This skeletal humanoid is characterized by an enormously distended belly of translucent skin that holds nothing but absolute darkness, balanced on an impossibly thin neck that supports an oversized head. Its hands are skeletal with grasping fingers, and its body carries the dry, acidic scent of starvation. Its paper-thin skull-face is dominated by hollow eye-sockets burning with grey fire, and its tiny pinhole mouth twitches and gasps continuously in an expression of desperate, pathetic sadness.",
     "habitat": "These tragic spirits wander the misty clearings of the Bryngloom Forest terrain.",
-    "depth": "Known as the Insatiable-Dead, Preta-Hollows are the spirits of debtors whose contracts were called by Morvane before they could pay. Their presence acts as a Hunger-Inducer, inflicting painful, unsatisfiable hunger on anyone within twenty feet, rendering food useless. The only release for these spirits is for a living soul to pay off their contract-debts, a transaction that Neth Kessen weavers are willing to facilitate for a steep fee, providing a moral and financial dilemma for adventurers who encounter them or seek to retrieve components from their hollow forms.",
+    "depth": "Known as the Insatiable-Dead, Preta-Hollows are the spirits of debtors whose contracts were called by Morvane before they could pay. Their presence acts as a Hunger-Inducer, inflicting painful, unsatisfiable hunger on anyone within twenty feet, rendering food useless. The only release for these spirits is for a living soul to pay off their contract-debts, a transaction that Nethien Veldun weavers are willing to facilitate for a steep fee, providing a moral and financial dilemma for adventurers who encounter them or seek to retrieve components from their hollow forms.",
     "loreClassification": {
       "status": "NATIVE-REVIEW",
       "originClass": "native-death-form",
@@ -17583,12 +17583,12 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 50,
-      "cold": 50,
-      "necrotic": 75
+      "smashing": 50,
+      "rime": 50,
+      "blight": 75
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -17633,7 +17633,7 @@
     "origin": "The Gamayun-Seer stems from the prophetic bird of Thalren folklore who held absolute knowledge of past and future, combined with the Kinnara of Vedic mythology, celestial bird-bodied musicians who served as sacred messengers. In Mythrill, she flies through the dark canopy, spinning fate into song.",
     "nature": "Having a fifteen-foot wingspan, this large bird possesses the head and upper torso of a beautiful woman, with blue-black twilight plumage that shimmers with bioluminescent fungal-light. She holds a small lute in her talons, playing melodies that can sway ironwood trees and still the waters, while her feathers are structure-bound memory-glass fragments containing visions of the future. Her sorrowful face features dark, time-spanning eyes and full lips that continuously shape prophecy under a heavily lined brow.",
     "habitat": "She roosts high in the branches of the Bryngloom Forest terrain.",
-    "depth": "Serving as the Oracle-Bird, she sings complex, allegorical poems detailing the future from the high branches, which Neth Velun arcanists study extensively. Her shed feathers are harvested for their memory-glass prophecies and sold by the Vreken to Neth contract-mages to guide their decisions, though these fortunes always manifest in unexpected and devastating ways, creating opportunities for adventurers hired to retrieve a feather or decipher a riddle of fate.",
+    "depth": "Serving as the Oracle-Bird, she sings complex, allegorical poems detailing the future from the high branches, which Nethien arcanists study extensively. Her shed feathers are harvested for their memory-glass prophecies and sold by the Vreken to Nethien contract-mages to guide their decisions, though these fortunes always manifest in unexpected and devastating ways, creating opportunities for adventurers hired to retrieve a feather or decipher a riddle of fate.",
     "loreClassification": {
       "status": "NATIVE-PROPOSED",
       "originClass": "native-lineage",
@@ -17687,12 +17687,12 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 100,
-      "necrotic": 50,
-      "cold": 50
+      "smashing": 100,
+      "blight": 50,
+      "rime": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [],
     "lootTable": {
@@ -17721,7 +17721,7 @@
     "origin": "The Chort-Thorn is born from the Thalren Chort, a goat-like devil associated with crossroads and ironic bargains, and the shape-shifting Rakshasas of Vedic lore, demons who disrupted rituals and took the forms of relatives. In Mythrill's Bryngloom, this entity delights in tempting mortals and complicating their laws.",
     "nature": "Standing seven feet tall, this lean humanoid features goat-legs, curved black horns, and bark-like armor-plating studded with sharp thorns. Living, reaching thorn-vines wrap its body, and a lashing forked tail carries a barbed thorn at each tip, accompanied by the smell of rotting flowers and burnt offerings. Its face combines goat and Wyrd-touched features, possessing a narrow muzzle, flat teeth, a beard of twisted vine, and solid red eyes that track multiple targets at once.",
     "habitat": "This devious trickster is found lurking at paths and crossroads within the Bryngloom Forest terrain.",
-    "depth": "Acting as the Bargain-Devil, the Chort-Thorn offers deals that are technically fulfilled but always turn out ironically disastrous, making bargains with him a sign of desperation, especially for the pathologically honest Neth. He is also a Shape-Stealer who impersonates others to sow chaos, though he always retains a single physical tell like horns or goat-eyes, which Vreken guards are trained to detect. Adventurers might be hired when rumors spread of a Chort-Thorn in the area, or if they need to harvest a component from one.",
+    "depth": "Acting as the Bargain-Devil, the Chort-Thorn offers deals that are technically fulfilled but always turn out ironically disastrous, making bargains with him a sign of desperation, especially for the pathologically honest Nethien. He is also a Shape-Stealer who impersonates others to sow chaos, though he always retains a single physical tell like horns or goat-eyes, which Vreken guards are trained to detect. Adventurers might be hired when rumors spread of a Chort-Thorn in the area, or if they need to harvest a component from one.",
     "loreClassification": {
       "status": "NATIVE-REVIEW",
       "originClass": "primordial-native",
@@ -17775,12 +17775,12 @@
       "darkvision": 60
     },
     "resistances": {
-      "fire": 75,
-      "poison": 100,
-      "cold": 25
+      "ember": 75,
+      "blight": 100,
+      "rime": 25
     },
     "vulnerabilities": {
-      "cold": 25
+      "rime": 25
     },
     "abilities": [
       {
@@ -17825,7 +17825,7 @@
     "origin": "The Drekavac-Wail descends from the Thalren Drekavac, a screaming nocturnal horror born from the souls of the unbaptized, and the restless Vedic Bhut, ghosts trapped on earth by their unfulfilled desires. In the marshes of Mythrill, they represent the ultimate despair of unfinished business and broken contracts.",
     "nature": "Defying a stable description, this shape-shifting horror is witnessed as a gaunt humanoid with long limbs, a bird with tattered wings, or a multi-jointed beast. Its body appears as a semi-transparent, shimmering distortion of the air, defined by an enormous, screaming mouth that serves as its entire face,a black Silence ringed with teeth that look like fangs, feathers, or fingers, reflecting the viewer's death in its depths.",
     "habitat": "This screaming phantom wanders the dark, misty spaces of the Bryngloom Forest terrain.",
-    "depth": "As the Night-Screamer, it fills the dark hours with a piercing wail that causes physical pain and heart failure in those who hear it, though the sleepless Neth are immune to its madness. These spirits are the Unfulfilled-Dead, Neth who faded without completing their contract unraveling, their cries expressing the agony of minds trapped between life and non-existence, which only a brave Kessen weaver can quiet by resolving the contract's final clauses. Adventurers may be drawn to investigate when rumors of a wailing spirit spread, or they may need to seek out the Drekavac-Wail to extract a rare component from its remains.",
+    "depth": "As the Night-Screamer, it fills the dark hours with a piercing wail that causes physical pain and heart failure in those who hear it, though the sleepless Nethien are immune to its madness. These spirits are the Unfulfilled-Dead, Nethien who faded without completing their contract unraveling, their cries expressing the agony of minds trapped between life and non-existence, which only a brave Veldun weaver can quiet by resolving the contract's final clauses. Adventurers may be drawn to investigate when rumors of a wailing spirit spread, or they may need to seek out the Drekavac-Wail to extract a rare component from its remains.",
     "loreClassification": {
       "status": "NATIVE-REVIEW",
       "originClass": "native-death-form",
@@ -17879,11 +17879,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "psychic": 50,
-      "cold": 25
+      "wyrd": 50,
+      "rime": 25
     },
     "vulnerabilities": {
-      "fire": 25
+      "ember": 25
     },
     "abilities": [
       {
@@ -17938,7 +17938,7 @@
     "origin": "The Bannik-Vent traces its lineage to the Thalren Bannik, the bathhouse-spirit who resided behind the sauna stove to pinch bathers and predict the future, combined with the dual creative and destructive aspects of Agni, the Vedic spirit of fire and sacred messenger. In the elevated cities of Mythrill, they are industrial elementals bound to keep the frost at bay.",
     "nature": "Standing four feet tall, this squat, steam-wreathed figure is composed of compressed steam, peat-smoke, and heat-haze. Its hands leave scorch-marks on everything they touch, and it vents superheated steam from its nostrils while carrying a bundle of glowing peat-stones. Its broad, ruddy face is flushed with heat, featuring coal-colored eyes and a wide mouth, carrying the irritable expression of a creature that has been hot for too long.",
     "habitat": "This construct resides within the ventilation shafts of the heating systems in the Bryngloom Forest terrain.",
-    "depth": "Living as a Vent-Dweller, the Bannik-Vent is critical to the survival of Atropolis, regulating the Neth's peat-fired heating network to prevent explosions or freezing. He is also a Stone-Diviner, throwing hot peat-stones to predict volcanic and geothermal activity for the Neth's builders, meaning an abandoned vent is a dire omen that adventurers may be recruited to investigate before the system fails, especially if they need a rare elemental component from the creature.",
+    "depth": "Living as a Vent-Dweller, the Bannik-Vent is critical to the survival of Atropolis, regulating the Nethien's peat-fired heating network to prevent explosions or freezing. He is also a Stone-Diviner, throwing hot peat-stones to predict volcanic and geothermal activity for the Nethien's builders, meaning an abandoned vent is a dire omen that adventurers may be recruited to investigate before the system fails, especially if they need a rare elemental component from the creature.",
     "loreClassification": {
       "status": "NATIVE-REVIEW",
       "originClass": "native-construct",
@@ -18074,12 +18074,12 @@
       "darkvision": 60
     },
     "resistances": {
-      "necrotic": 100,
-      "cold": 50,
-      "physical": 25
+      "blight": 100,
+      "rime": 50,
+      "smashing": 25
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [],
     "lootTable": {
@@ -18108,7 +18108,7 @@
     "origin": "Cursed by the tragic fate of the Thalren Vourdalak, a vampire that targeted its own grieving family, and the madness-inducing Vedic Pishacha, a dark horror of the cremation grounds, the Vourdalak-Debt represents the horror of unresolved obligations. In Mythrill, they are the restless dead driven to sustain their false lives through the vitality of their kin.",
     "nature": "This figure appears almost exactly as it did in life but with too-pale skin, stiff movements, and a smile that is too wide, dressed in peat-stained burial clothes. Peat-black liquid flows through its visible, translucent veins, and it carries the cracked contract-tablet that recorded its debts in life. Its face is frozen in its final moment of terror or fading, though its eyes remain fully aware and screaming at the horror of its state.",
     "habitat": "This tragic revenant wanders the damp settlements within the Bryngloom Forest terrain.",
-    "depth": "Known as the Debt-Revenant, the Vourdalak-Debt is returned to a half-life by Morvane to complete its broken Neth or Vreken contract, draining its family's life force to do so. It also acts as a Madness-Speaker, possessing blood relatives to speak secrets of contract loopholes and buried artifacts, making these encounters a desperate search for Neth weavers and adventurers seeking to free the family from the spirit's parasitic bond or to retrieve a component from it.",
+    "depth": "Known as the Debt-Revenant, the Vourdalak-Debt is returned to a half-life by Morvane to complete its broken Nethien or Vreken contract, draining its family's life force to do so. It also acts as a Madness-Speaker, possessing blood relatives to speak secrets of contract loopholes and buried artifacts, making these encounters a desperate search for Nethien weavers and adventurers seeking to free the family from the spirit's parasitic bond or to retrieve a component from it.",
     "loreClassification": {
       "status": "NATIVE-REVIEW",
       "originClass": "native-death-form",
@@ -18162,11 +18162,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "psychic": 75,
-      "necrotic": 50
+      "wyrd": 75,
+      "blight": 50
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -18221,7 +18221,7 @@
     "origin": "The Mavka-Willow draws from the Thalren Mavka, a forest spirit of a woman who died unnaturally, beautiful from the front but hollow-backed with visible organs, combined with the Solbrand Yakshini, tree-spirits bound to sacred growth who could bless or curse travelers. In the woodlands of Mythrill, they represent the alluring, deceptive beauty of the wilderness.",
     "nature": "From the front, this spirit appears as a stunningly beautiful woman with pale-green leaf-like skin, willow-bark hair, and bare feet merging with the roots, wearing a dress of leaves sewn with spider-silk and smelling of willow-sap. From behind, she has no back or spine, but rather a hollow cavity filled with rustling leaves and wooden organs. Her exquisite face is marked by spring-green eyes and parted lips, carrying a heartbreakingly innocent expression.",
     "habitat": "This tree-bound nymph lives at the roots of ancient trees in the Bryngloom Forest terrain.",
-    "depth": "Acting as a Tree-Bride, each Mavka-Willow is bound to a specific willow whose growth reflects her mood, which the Neth monitor as a living archive since the tree's rings store her memories. Her dangerous Hollow-Back Secret draws onlookers to walk around her, only to be driven mad by the sight of her hollow interior, though the Vreken have learned a funeral chant to force her to turn away. Adventurers might be hired to protect Neth researchers or to harvest components from the Mavka's sacred tree.",
+    "depth": "Acting as a Tree-Bride, each Mavka-Willow is bound to a specific willow whose growth reflects her mood, which the Nethien monitor as a living archive since the tree's rings store her memories. Her dangerous Hollow-Back Secret draws onlookers to walk around her, only to be driven mad by the sight of her hollow interior, though the Vreken have learned a funeral chant to force her to turn away. Adventurers might be hired to protect Nethien researchers or to harvest components from the Mavka's sacred tree.",
     "loreClassification": {
       "status": "NATIVE-PROPOSED",
       "originClass": "native-death-form",
@@ -18275,11 +18275,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "psychic": 50,
-      "necrotic": 25
+      "wyrd": 50,
+      "blight": 25
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [],
     "lootTable": {
@@ -18308,7 +18308,7 @@
     "origin": "The Alkonost is derived from the Thalren Alkonost, a bird of paradise whose song brought total joy and oblivious peace, merged with the Solbrand Gandharvas, celestial musicians who guarded sacred soma and inspired involuntary devotion. In Mythrill's damp canopy, she plays a sacred melody that captures the light of dawn.",
     "nature": "Boasting a twenty-foot wingspan, this bird has the head, arms, and torso of a beautiful woman, with shifting rose, gold, violet, and blue plumage. She plays a sacred lute that vibrates with the resonance of creation, weaving ribbons of golden light through the canopy while causing flowers to bloom on dead wood. Her face has perfect symmetry and glowing skin, with eyes holding the colors of the dawn and a beatific smile that has never known pain.",
     "habitat": "This celestial musician makes her home in the high branches of the Bryngloom Forest terrain.",
-    "depth": "Known as the Joy-Singer, her song induces a state of euphoric oblivion, making it tempting to the contract-laden Neth. However, she is also a Memory-Thief, as every minute spent listening erases a year of the listener's past; these erased memories are stored in her dawn-colored feathers, which Vreken crypt-scholars seek to harvest for their secrets, offering a lucrative but highly dangerous task for adventurers who are hired when sightings are reported or when a specific component is needed.",
+    "depth": "Known as the Joy-Singer, her song induces a state of euphoric oblivion, making it tempting to the contract-laden Nethien. However, she is also a Memory-Thief, as every minute spent listening erases a year of the listener's past; these erased memories are stored in her dawn-colored feathers, which Vreken crypt-scholars seek to harvest for their secrets, offering a lucrative but highly dangerous task for adventurers who are hired when sightings are reported or when a specific component is needed.",
     "loreClassification": {
       "status": "NATIVE-REVIEW",
       "originClass": "native-spirit",
@@ -18362,11 +18362,11 @@
       "darkvision": 0
     },
     "resistances": {
-      "psychic": 75,
-      "necrotic": 25
+      "wyrd": 75,
+      "blight": 25
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [],
     "lootTable": {
@@ -18393,9 +18393,9 @@
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
     "origin": "The Dziwozona-Wild stems from the Polish Dziwozona, a wild, green-haired swamp-nymph who drowned men and swapped infants, and Putana, the Vedic demoness who posed as a wet-nurse to poison the baby Krishna. In Mythrill's wetlands, she represents the cruel archetype of the false-mother who preys on grief.",
-    "nature": "Standing seven feet tall, this massive, barrel-chested woman has wild green hair dripping with bog-water and large breasts that leak a luminescent fluid. Her skin resembles waterlogged grey-green wood, with webbed hands and feet, and she carries a swaddled bundle of stolen memories wrapped in Neth silk. Her face is flat and frog-like, featuring nose-holes, a wide mouth, and small pig-like eyes, though she can project an illusion of beauty that can fool even Neth truth-sense.",
+    "nature": "Standing seven feet tall, this massive, barrel-chested woman has wild green hair dripping with bog-water and large breasts that leak a luminescent fluid. Her skin resembles waterlogged grey-green wood, with webbed hands and feet, and she carries a swaddled bundle of stolen memories wrapped in Nethien silk. Her face is flat and frog-like, featuring nose-holes, a wide mouth, and small pig-like eyes, though she can project an illusion of beauty that can fool even Nethien truth-sense.",
     "habitat": "This deceptive swamp-dweller resides in the pools and rivers of the Bryngloom Forest terrain.",
-    "depth": "Acting as the False-Mother, she offers poisoned milk to grieving parents to put them into a permanent sleep before leaving a changeling of woven bog-grass in their place. Her actual amphibious offspring, the Substitute-Children, are left in human cradles and grow rapidly while devouring contract-paper, forcing Neth households to hunt these creatures down and retrieve their stolen kin before their archives are destroyed, providing a desperate hook for adventurers.",
+    "depth": "Acting as the False-Mother, she offers poisoned milk to grieving parents to put them into a permanent sleep before leaving a changeling of woven bog-grass in their place. Her actual amphibious offspring, the Substitute-Children, are left in human cradles and grow rapidly while devouring contract-paper, forcing Nethien households to hunt these creatures down and retrieve their stolen kin before their archives are destroyed, providing a desperate hook for adventurers.",
     "loreClassification": {
       "status": "NATIVE-REVIEW",
       "originClass": "native-spirit",
@@ -18449,12 +18449,12 @@
       "darkvision": 60
     },
     "resistances": {
-      "necrotic": 100,
-      "cold": 50,
-      "physical": 25
+      "blight": 100,
+      "rime": 50,
+      "smashing": 25
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [
       {
@@ -18509,7 +18509,7 @@
     "origin": "The Upir-Root draws from the ancient Thalren Upir, a blood-drinking vampire blamed for blighted fields and agricultural ruin, combined with the parasitic Vedic Bhuta, a restless spirit that anchored itself to the soil to drain the vitality of the living. In Mythrill's depths, it manifests as a literal blight upon the forest's hydrology.",
     "nature": "This creature appears as a skeletal, underground network of dark tendrils that spread from a central burial point, mimicking ironwood roots but pulsing with a slow heartbeat. Where they touch living roots, they leech nutrients to wither the tree above. At the center of the network, buried six feet deep, lies the original peat-preserved corpse with its eyes open, its mouth stretched in a silent scream, and root-tendrils sprouting from its mouth, eyes, and fingertips.",
     "habitat": "This parasitic entity spreads beneath the soil of the Bryngloom Forest terrain.",
-    "depth": "Operating as a Root-Parasite, the Upir-Root drains the life force of everything within a fifty-foot radius, causing trees to yellow and inducing severe fatigue in Neth travelers walking above. As the primary Blight-Cause in the forest, these infestations are targeted by the Neth Velun using contract-rituals to legally release the spirit's attachments, though adventurers are often needed to locate the buried center of the network or protect the ritualists from the spirit's defensive tendrils, especially if a component from the core is required.",
+    "depth": "Operating as a Root-Parasite, the Upir-Root drains the life force of everything within a fifty-foot radius, causing trees to yellow and inducing severe fatigue in Nethien travelers walking above. As the primary Blight-Cause in the forest, these infestations are targeted by the Nethien using contract-rituals to legally release the spirit's attachments, though adventurers are often needed to locate the buried center of the network or protect the ritualists from the spirit's defensive tendrils, especially if a component from the core is required.",
     "loreClassification": {
       "status": "NATIVE-REVIEW",
       "originClass": "native-spirit",
@@ -18563,11 +18563,11 @@
       "darkvision": 60
     },
     "resistances": {
-      "psychic": 75,
-      "necrotic": 25
+      "wyrd": 75,
+      "blight": 25
     },
     "vulnerabilities": {
-      "radiant": 25
+      "sacred": 25
     },
     "abilities": [],
     "lootTable": {
@@ -18594,9 +18594,9 @@
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
     "origin": "The Dziwozona-Wild stems from the Polish Dziwozona, a wild, green-haired swamp-nymph who drowned men and swapped infants, and Putana, the Vedic demoness who posed as a wet-nurse to poison the baby Krishna. In Mythrill's wetlands, she represents the cruel archetype of the false-mother who preys on grief.",
-    "nature": "Standing seven feet tall, this massive, barrel-chested woman has wild green hair dripping with bog-water and large breasts that leak a luminescent fluid. Her skin resembles waterlogged grey-green wood, with webbed hands and feet, and she carries a swaddled bundle of stolen memories wrapped in Neth silk. Her face is flat and frog-like, featuring nose-holes, a wide mouth, and small pig-like eyes, though she can project an illusion of beauty that can fool even Neth truth-sense.",
+    "nature": "Standing seven feet tall, this massive, barrel-chested woman has wild green hair dripping with bog-water and large breasts that leak a luminescent fluid. Her skin resembles waterlogged grey-green wood, with webbed hands and feet, and she carries a swaddled bundle of stolen memories wrapped in Nethien silk. Her face is flat and frog-like, featuring nose-holes, a wide mouth, and small pig-like eyes, though she can project an illusion of beauty that can fool even Nethien truth-sense.",
     "habitat": "This deceptive swamp-dweller resides in the pools and rivers of the Bryngloom Forest terrain.",
-    "depth": "Acting as the False-Mother, she offers poisoned milk to grieving parents to put them into a permanent sleep before leaving a changeling of woven bog-grass in their place. Her actual amphibious offspring, the Substitute-Children, are left in human cradles and grow rapidly while devouring contract-paper, forcing Neth households to hunt these creatures down and retrieve their stolen kin before their archives are destroyed, providing a desperate hook for adventurers.",
+    "depth": "Acting as the False-Mother, she offers poisoned milk to grieving parents to put them into a permanent sleep before leaving a changeling of woven bog-grass in their place. Her actual amphibious offspring, the Substitute-Children, are left in human cradles and grow rapidly while devouring contract-paper, forcing Nethien households to hunt these creatures down and retrieve their stolen kin before their archives are destroyed, providing a desperate hook for adventurers.",
     "loreClassification": {
       "status": "DATA-CORRECTION",
       "originClass": "native-lineage",
@@ -18742,7 +18742,7 @@
       "darkvision": 60
     },
     "resistances": {
-      "radiant": 50
+      "sacred": 50
     },
     "vulnerabilities": {},
     "abilities": [],
@@ -18831,8 +18831,7 @@
       "darkvision": 60
     },
     "resistances": {
-      "rime": 100,
-      "cold": 100
+      "rime": 100
     },
     "vulnerabilities": {},
     "abilities": [],
@@ -18921,7 +18920,6 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 100,
       "rime": 50
     },
     "vulnerabilities": {},
@@ -19011,8 +19009,8 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 100,
-      "physical": 25
+      "rime": 100,
+      "smashing": 25
     },
     "vulnerabilities": {},
     "abilities": [],
@@ -19101,7 +19099,6 @@
       "darkvision": 60
     },
     "resistances": {
-      "fire": 100,
       "ember": 100
     },
     "vulnerabilities": {},
@@ -19191,7 +19188,6 @@
       "darkvision": 60
     },
     "resistances": {
-      "fire": 100,
       "ember": 50
     },
     "vulnerabilities": {},
@@ -19281,8 +19277,8 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 50,
-      "necrotic": 100
+      "smashing": 50,
+      "blight": 100
     },
     "vulnerabilities": {},
     "abilities": [],
@@ -19371,7 +19367,6 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 100,
       "rime": 50
     },
     "vulnerabilities": {},
@@ -19427,7 +19422,7 @@
     "id": "writ_of_passage",
     "name": "Writ of Passage",
     "description": "A sentient, floating contract of ice and parchment that binds vessels to its runic terms.",
-    "origin": "The Writ of Passage is a Wyrd-construct born from the Neth obsession with contracts and maritime charters. It is a literal contract made of ice and parchment that drifts on the ocean currents.",
+    "origin": "The Writ of Passage is a Wyrd-construct born from the Nethien obsession with contracts and maritime charters. It is a literal contract made of ice and parchment that drifts on the ocean currents.",
     "nature": "It appears as a large, floating sheet of glowing parchment, its edges rimmed with ice. Runic script moves across its surface, writing and rewriting the terms of a maritime transit compact.",
     "habitat": "Shipping lanes, harbor entrances, and ocean reefs of the Iceheart Sea.",
     "depth": "It seeks out vessels and forces the captain to agree to its terms before allowing safe passage. If the terms are violated, it lashes out with blades of frozen ink that slice through timber.",
@@ -19461,7 +19456,6 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50,
       "rime": 50
     },
     "vulnerabilities": {},
@@ -19498,9 +19492,9 @@
     },
     "loreNote": "Folklore translates Writ of Passage's Mimic/interpreter and collector/judge function rather than creates it: this ancient cosmic Wyrdkin persists through Shipping lanes, harbor charters, ice reefs, contract documents, and the thermal currents that keep routes open and is not assumed to be Keth Amar's offspring.",
     "loreCanon": {
-      "trueOrigin": "An ancient cosmic contract-form that predates its arrival on Mythrill and uses Neth maritime language as an interpreter; it is not necessarily a direct Keth construct.",
+      "trueOrigin": "An ancient cosmic contract-form that predates its arrival on Mythrill and uses Nethien maritime language as an interpreter; it is not necessarily a direct Keth construct.",
       "function": "It intercepts vessels, forces terms, and attacks with frozen ink when a captain violates its invasive contract.",
-      "values": "Literal contract obedience, route control, and the spread of binding terms beyond any legitimate Neth authority.",
+      "values": "Literal contract obedience, route control, and the spread of binding terms beyond any legitimate Nethien authority.",
       "folklore": "Floating parchment, moving runes, forced passage terms, and frozen ink are local translation of an older cosmic behavior. Native contract culture predates it.",
       "bindingEffect": "The Binding created blood-oath language; First Cracks made shipping and contracts more important, giving the arriving organism a dense interpretive vocabulary.",
       "wyrdRelationship": "Ancient Cosmic Wyrdkin proposed; direct Keth-spawn remains an open alternative for unusually synchronized Writs.",
@@ -19551,8 +19545,8 @@
       "darkvision": 60
     },
     "resistances": {
-      "lightning": 50,
-      "cold": 50
+      "storm": 50,
+      "rime": 50
     },
     "vulnerabilities": {},
     "abilities": [],
@@ -19641,7 +19635,6 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50,
       "rime": 50
     },
     "vulnerabilities": {},
@@ -19731,8 +19724,8 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 25,
-      "psychic": 50
+      "smashing": 25,
+      "wyrd": 50
     },
     "vulnerabilities": {},
     "abilities": [],
@@ -19821,8 +19814,8 @@
       "darkvision": 60
     },
     "resistances": {
-      "psychic": 100,
-      "necrotic": 50
+      "wyrd": 100,
+      "blight": 50
     },
     "vulnerabilities": {},
     "abilities": [],
@@ -19911,8 +19904,8 @@
       "darkvision": 60
     },
     "resistances": {
-      "physical": 25,
-      "necrotic": 100
+      "smashing": 25,
+      "blight": 100
     },
     "vulnerabilities": {},
     "abilities": [],
@@ -20001,7 +19994,6 @@
       "darkvision": 60
     },
     "resistances": {
-      "cold": 50,
       "rime": 50
     },
     "vulnerabilities": {},
@@ -20056,11 +20048,11 @@
   {
     "id": "debt_revenant",
     "name": "Debt-Revenant",
-    "description": "A peat-preserved undead debtor that rises to complete the terms of a broken Neth contract.",
-    "origin": "When a Neth debtor dies with unfulfilled contract obligations, their spirit is denied rest by the Neth pacts, rising as a peat-revenant to complete the terms of their agreement.",
-    "nature": "A peat-preserved corpse clad in rusted Neth scale-armor and wrapped in rotting peat-bonds. Its eyes glow with a cold, blue light, and it carries the contract that binds it in its chest cavity.",
+    "description": "A peat-preserved undead debtor that rises to complete the terms of a broken Nethien contract.",
+    "origin": "When a Nethien debtor dies with unfulfilled contract obligations, their spirit is denied rest by the Nethien pacts, rising as a peat-revenant to complete the terms of their agreement.",
+    "nature": "A peat-preserved corpse clad in rusted Nethien scale-armor and wrapped in rotting peat-bonds. Its eyes glow with a cold, blue light, and it carries the contract that binds it in its chest cavity.",
     "habitat": "Peat-bogs, marshlands, and scriptorium ruins of the Bryngloom Forest.",
-    "depth": "It cannot rest until its contract is legally fulfilled or the document is burned by a Neth pact-mage. It is intensely hostile to anyone who attempts to block its path or salvage its armor.",
+    "depth": "It cannot rest until its contract is legally fulfilled or the document is burned by a Nethien pact-mage. It is intensely hostile to anyone who attempts to block its path or salvage its armor.",
     "type": "undead",
     "size": "medium",
     "tags": [
@@ -20091,8 +20083,8 @@
       "darkvision": 60
     },
     "resistances": {
-      "necrotic": 100,
-      "cold": 50
+      "blight": 100,
+      "rime": 50
     },
     "vulnerabilities": {},
     "abilities": [],
@@ -20126,18 +20118,18 @@
       "agency": "It follows a written obligation, attacks obstruction, and tries to complete a contract that no living authority can now interpret",
       "regionRole": "Bryngloom root/death renewal"
     },
-    "loreNote": "Folklore translates Debt-Revenant's local form rather than creates it: this direct Keth-spawn depends on Contract documents, peat-preserved corpses, scriptorium ruins, and Neth/Vreken obligation records, and it can follow its clause without active commands, but it likely cannot reproduce unless new documents and corpses are exposed to Wyrd.",
+    "loreNote": "Folklore translates Debt-Revenant's local form rather than creates it: this direct Keth-spawn depends on Contract documents, peat-preserved corpses, scriptorium ruins, and Nethien/Vreken obligation records, and it can follow its clause without active commands, but it likely cannot reproduce unless new documents and corpses are exposed to Wyrd.",
     "loreCanon": {
       "trueOrigin": "A likely direct Wyrd manifestation occupying a dead debtor or contract corpse; an ancient cosmic corpse-parasite stage is not ruled out, but the local body is the leading answer.",
       "function": "It follows a written obligation, attacks obstruction, and tries to complete a contract that no living authority can now interpret.",
       "values": "The literal contract, the corpse's unfinished identity, and the document or clause anchoring it.",
-      "folklore": "Peat-preserved body, rusted Neth armor, contract bonds, and burning the document are local translation and tactical tells.",
-      "bindingEffect": "The Binding created blood-oath precedent; First Cracks made Neth/Vreken debt systems more intrusive and supplied dead paperwork and bodies for a later Wyrd body.",
+      "folklore": "Peat-preserved body, rusted Nethien armor, contract bonds, and burning the document are local translation and tactical tells.",
+      "bindingEffect": "The Binding created blood-oath precedent; First Cracks made Nethien/Vreken debt systems more intrusive and supplied dead paperwork and bodies for a later Wyrd body.",
       "wyrdRelationship": "Direct Keth-spawn / Wyrdspawn proposed, pending the cosmic parasite comparison.",
-      "nextDecision": "Decide whether native Neth law can release it or whether the Wyrd has made the contract legally counterfeit, and settle direct spawn versus cosmic parasite.",
-      "cosmicProvenance": "Unknown. The form could be a Keth-generated larva using a corpse, or a cosmic debt parasite whose normal life cycle is being translated through Neth paperwork.",
+      "nextDecision": "Decide whether native Nethien law can release it or whether the Wyrd has made the contract legally counterfeit, and settle direct spawn versus cosmic parasite.",
+      "cosmicProvenance": "Unknown. The form could be a Keth-generated larva using a corpse, or a cosmic debt parasite whose normal life cycle is being translated through Nethien paperwork.",
       "wyrdFunction": "Parasite/sower and collector/judge; it turns a dead obligation into a contagious legal pressure on the living.",
-      "anchor": "Contract documents, peat-preserved corpses, scriptorium ruins, and Neth/Vreken obligation records.",
+      "anchor": "Contract documents, peat-preserved corpses, scriptorium ruins, and Nethien/Vreken obligation records.",
       "kethRelationship": "Direct Wyrd generation is the leading hypothesis because the form literalizes a local contract during the Wyrd era; ancient cosmic provenance remains open.",
       "independence": "It can follow its clause without active commands, but it likely cannot reproduce unless new documents and corpses are exposed to Wyrd.",
       "countermeasure": "Fulfill or lawfully cancel the obligation, burn the anchor document, cleanse the corpse, and prevent the Wyrd from transferring the clause to another debtor."
@@ -20181,8 +20173,8 @@
       "darkvision": 60
     },
     "resistances": {
-      "necrotic": 100,
-      "psychic": 50
+      "blight": 100,
+      "wyrd": 50
     },
     "vulnerabilities": {},
     "abilities": [],

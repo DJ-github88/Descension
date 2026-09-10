@@ -336,7 +336,7 @@ const CombatTimeline = () => {
                                                     Init: {combatant.initiative}
                                                 </div>
                                                 <div className="token-ap">
-                                                    AP: {combatant.currentActionPoints}/{combatant.maxActionPoints}
+                                                    AP: {Number.isFinite(combatant.currentActionPoints) ? combatant.currentActionPoints : 0}/{Number.isFinite(combatant.maxActionPoints) ? combatant.maxActionPoints : 0}
                                                 </div>
                                                 {combatConfig.showTimers && (
                                                     <div className="token-timer">
@@ -376,7 +376,7 @@ const CombatTimeline = () => {
                             </div>
                         </div>
                         <div className="tooltip-ap">
-                            Action Points: {tooltipData.currentActionPoints}/{tooltipData.maxActionPoints}
+                            Action Points: {Number.isFinite(tooltipData.currentActionPoints) ? tooltipData.currentActionPoints : 0}/{Number.isFinite(tooltipData.maxActionPoints) ? tooltipData.maxActionPoints : 0}
                         </div>
                     </div>
                 </div>,

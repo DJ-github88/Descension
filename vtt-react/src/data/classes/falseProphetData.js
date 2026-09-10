@@ -13,7 +13,7 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
  * � Fatal Flaw: The Isolation Penalty, without a living congregation (allies or
  * enslaved entities) within a strict 30-foot radius, all mana costs inflate brutally.
  * They are conductors that cannot perform without instruments to play.
- * Extreme radiant vulnerability (+25% from all sources). Physically the frailest caster.
+ * Extreme sacred vulnerability (+25% from all sources). Physically the frailest caster.
  *
  * � Level 1 Link Integration: Stitch of Suffering costs Mana, generates exactly 1
  * Madness point, and threads an empathetic bond that redirects 30% of an ally's
@@ -122,7 +122,7 @@ export const FALSE_PROPHET_DATA = {
  currentLeader: {
   name: '<LoreLink termId="mor-vereth">Cell-Mother Mor-Vereth</LoreLink>',
   title: 'Weaver of the Congregation',
-  characterization: `A <LoreLink termId="house_morrath">Vreken</LoreLink> debtor who heard the Voice through <LoreLink termId="li-wei">Li Wei</LoreLink>'s breathing and built the cell-network around it. She is cold, organized, and genuinely uncertain whether she is leading a liberation movement or steering millions toward something she cannot see. She keeps <LoreLink termId="li-wei">Li Wei</LoreLink> alive because the Voice will not speak through any other throat. She keeps a private ledger  —  Neth-made, contract-grade  —  in which she records every cell-member who has died following her instructions. The ledger is thicker than any she kept during her debt-collection years. She updates it on the last night of every month, alone, by candlelight. She has never shown it to anyone.`
+  characterization: `A <LoreLink termId="house_morrath">Vreken</LoreLink> debtor who heard the Voice through <LoreLink termId="li-wei">Li Wei</LoreLink>'s breathing and built the cell-network around it. She is cold, organized, and genuinely uncertain whether she is leading a liberation movement or steering millions toward something she cannot see. She keeps <LoreLink termId="li-wei">Li Wei</LoreLink> alive because the Voice will not speak through any other throat. She keeps a private ledger  —  Nethien-made, contract-grade  —  in which she records every cell-member who has died following her instructions. The ledger is thicker than any she kept during her debt-collection years. She updates it on the last night of every month, alone, by candlelight. She has never shown it to anyone.`
  },
  headquarters: { name: 'The Crater of the First Silence (cell-network, no fixed seat)', locationId: 'starfall_vale' },
  crisisConnection: `<LoreLink termId="mor-vereth">Mor-Vereth</LoreLink> is the one receiving the Voice's new, specific instructions, *descend to the Frozen Archive's lowest vault, open the way*, and she is terrified because the instructions are no longer suggestions. <LoreLink termId="li-wei">Li Wei</LoreLink>'s heart has begun beating in the rhythm of the commands, and the Congregation's cells across every region are reporting the same rhythm. Whatever is trapped beneath the Archive is using the faith to free itself, and <LoreLink termId="mor-vereth">Mor-Vereth</LoreLink> does not know how to stop a power she invented.`
@@ -131,7 +131,7 @@ export const FALSE_PROPHET_DATA = {
  worldFriction: [
   { region: 'sundrift-vale', location: 'synod_hold', status: 'hunted', consequence: 'The Synod Hold explicitly tries and banishes False Prophets, their deceptive light is recognized as toxic forgery of true resonance. A Prophet identified by the Astril elders is subject to immediate crystal-binding and exile; repeat offenders are "quieted." The Quieting of Year 720  —  when Synod crystal-binders publicly sealed twelve False Prophets in the plaza of Synod Hold, only for the gathered crowd to hear the sealed Prophets continue preaching from within their crystal prisons. The synod-elders called it heresy. The crowd called it a miracle. The Congregation tripled in size within the year.', workaround: 'The constructed faith is designed to be indistinguishable from genuine religion; a careful Prophet hides behind a competing institutional faith (the Dawn Vigil, the Synod itself) until the congregation is large enough to protect them.' },
  { region: 'sundale', status: 'persecuted', consequence: 'The Dawn Vigil considers manufactured revelation a direct threat to the Reforging theology; False Prophets in Sundale are burned as heretics alongside suspected Pyrofiends.' },
- { region: 'bryngloom-forest', status: 'tolerated', consequence: 'The Neth are difficult to sway with spoken faith (their legalistic culture treats every statement as a potential contract, and Morvane enforces consistency), so the Congregation of the Silence struggles in Bryngloom, but the Vreken debt-population is desperate enough to believe anything.' }
+ { region: 'bryngloom-forest', status: 'tolerated', consequence: 'The Nethien are difficult to sway with spoken faith (their legalistic culture treats every statement as a potential contract, and Morvane enforces consistency), so the Congregation of the Silence struggles in Bryngloom, but the Vreken debt-population is desperate enough to believe anything.' }
  ],
 
  overview: {
@@ -139,7 +139,7 @@ export const FALSE_PROPHET_DATA = {
 
 The first was Li Wei, an Ordan herd-watcher in the Sundrift Vale. He followed a falling meteor into a deep crystalline crater and found not metal but a sundered monolith humming with a black vacuum, the space where Sol's light had been. When he looked directly into that silence, he saw the gospel of the Silence. He returned with blank white eyes and a mind permanently shattered by the competing voices of dead stars. He cannot lead. He can only listen. The Congregation of the Silence formed around his breathing without his consent.
 
-Each subrace manufactures faith from a different desperation. The Earthen Astril borrow their genuine Lumia heritage resonance as cover for the doctrine, the congregation unable to tell prophet from temple. The Stellar Astril weaponize the suppression of their own heritage, the captive's desperate need to be heard becoming the engine of the congregation's fervor. The Vreken sell salvation from Neth contract-debt, devotion in lieu of gold, belief in lieu of blood, a competing creditor to the Neth who know exactly what they are. The Solari preach the honest heresy: Sol is never coming back, the vigil is a lie. Their Ash-Dweller congregations produce the deepest Madness because the doctrine is closest to the truth.
+Each subrace manufactures faith from a different desperation. The Earthen Astril borrow their genuine Lumia heritage resonance as cover for the doctrine, the congregation unable to tell prophet from temple. The Stellar Astril weaponize the suppression of their own heritage, the captive's desperate need to be heard becoming the engine of the congregation's fervor. The Vreken sell salvation from Nethien contract-debt, devotion in lieu of gold, belief in lieu of blood, a competing creditor to the Nethien who know exactly what they are. The Solari preach the honest heresy: Sol is never coming back, the vigil is a lie. Their Ash-Dweller congregations produce the deepest Madness because the doctrine is closest to the truth.
 
 The faith reached Sundale through the Hunger Road. Vreken debt-caravans, already touched by the Congregation's message, carried Li Wei's gospel south when they traveled to negotiate coal contracts with Solari forge-clans. The Tessen variant developed inside the sealed keeps, four centuries of isolation making the congregation's captive audience literal.
 
@@ -246,7 +246,7 @@ The False Prophets of the Over-Shanty are divided. Some believe the Voice is gui
 **Weaknesses**:
 - Constant risk of Insanity Convulsion at 20 Madness
 - **Physically the frailest caster** - lowest base HP of any caster class
-- **Radiant Vulnerability**: +25% damage from all radiant sources
+- **Sacred Vulnerability**: +25% damage from all sacred sources
 - **Isolation Penalty**: Without a congregation within 30ft, ALL spells cost +2 additional mana
 - Requires careful Madness management - reckless casting is self-destruction
 - Less effective against mindless or undead enemies
@@ -317,7 +317,7 @@ The False Prophet thrives when surrounded by a congregation - allies to channel 
 **Madness Roll**: 1d6 ? [5] ? +5 Madness
 **Madness**: 0 + 5 = **5 Madness**
 **Damage Bonus**: +5 to all spell damage
-**Spell Damage**: 3d6 psychic + 5 (Madness bonus) ? [4, 5, 6] + 5 = 20 damage
+**Spell Damage**: 3d6 wyrd + 5 (Madness bonus) ? [4, 5, 6] + 5 = 20 damage
 **Result**: Bandit #1 takes 20 damage, frightened for 2 rounds
 
 *Dark whispers fill the bandit's mind. He screams, clutching his head. You feel the madness building - a sweet, intoxicating power.*
@@ -333,7 +333,7 @@ The False Prophet thrives when surrounded by a congregation - allies to channel 
 **Madness Roll**: 1d6 ? [6] ? +6 Madness
 **Madness**: 5 + 6 = **11 Madness**
 **Damage Bonus**: +11 to all spell damage
-**Spell Damage**: 2d8 psychic + 11 (Madness bonus) ? [7, 6] + 11 = 24 damage!
+**Spell Damage**: 2d8 wyrd + 11 (Madness bonus) ? [7, 6] + 11 = 24 damage!
 **Result**: Bandit #2 takes 24 damage, DEAD (overkill)
 
 *The bolt of silence energy obliterates the bandit. Your vision swims. The world tilts. You're at 11 Madness - past the 9 threshold. Wyrd-touched Vision is now available.*
@@ -355,7 +355,7 @@ The False Prophet thrives when surrounded by a congregation - allies to channel 
 *Your eyes turn black. The walls become transparent. You see EVERYTHING. The captain hiding behind the crate. The bandit sneaking up behind your ally. The rats in the walls. The worms in the earth. TOO MUCH. But you can use this.*
 
 **Your Action**: Cast "Shadow Bolt" at bandit captain (behind cover, but you can see him!) (5 mana, no Madness generation)
-**Spell Damage**: 3d6 psychic + 16 (Madness bonus) ? [5, 6, 4] + 16 = 31 damage!
+**Spell Damage**: 3d6 wyrd + 16 (Madness bonus) ? [5, 6, 4] + 16 = 31 damage!
 **Result**: Bandit captain takes 31 damage, severely wounded (down to 15 HP)
 
 *The captain screams as the bolt phases through the crate and strikes him. "How did you--?!" You don't answer. You're too busy fighting the voices in your head.*
@@ -375,7 +375,7 @@ The False Prophet thrives when surrounded by a congregation - allies to channel 
 **Madness Roll**: 1d4 ? [3] ? +3 Madness
 **Madness**: 16 + 3 = **19 Madness**
 **Damage Bonus**: +19 to all spell damage
-**Spell Damage**: 4d6 necrotic + 19 (Madness bonus) ? [6, 5, 4, 6] + 19 = 40 damage to all bandits in 20ft radius!
+**Spell Damage**: 4d6 blight + 19 (Madness bonus) ? [6, 5, 4, 6] + 19 = 40 damage to all bandits in 20ft radius!
 
 *Tendrils of pure silence energy erupt from the ground, wrapping around the bandits. They scream as the darkness consumes them.*
 
@@ -445,13 +445,13 @@ Madness (0–20) represents the collective frenzy generated by preaching manufac
   title: "Madness (0-20)",
   stats: "Escalating Damage",
   details:
-   "Each point adds +1 to ALL psychic, silence, and blight damage. At 19 Madness, you deal +19 damage per spell.",
+   "Each point adds +1 damage to all your wyrd and blight spells. At 19 Madness, you deal +19 damage per spell.",
   },
   {
   title: "Thresholds",
-  stats: "6, 9, 12 Madness",
+  stats: "6, 9, 10, 12 Madness",
   details:
-   'Higher madness levels unlock forbidden abilities like "Veil of Shadows" or "Apocalyptic Revelation."',
+   'Higher madness levels unlock forbidden abilities like "Veil of Shadows" (6), "Wyrd-touched Vision" (9), "Eldritch Empowerment" (10: next wyrd spell +2d6), or "Apocalyptic Revelation" (12).',
   },
   {
   title: "Insanity Convulsion",
@@ -539,7 +539,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   name: "Madness",
   icon: "Void/Consumed by Void",
   items: [
-   "Ritual Dagger (1d6 piercing + psychic channeling, acts as spell focus for silence rites)",
+   "Ritual Dagger (1d6 stabbing + psychic channeling, acts as spell focus for silence rites)",
    "Shroud of the Preacher (Durability 1, no agility penalty)",
    "Tome of Stolen Sermons (Spellbook, stores 2 additional cantrips from any school)",
    "Vial of Silence Ink (Utility: inscribe temporary warding sigils on surfaces)",
@@ -550,7 +550,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   name: "Path of the Cultist Shepherd",
   icon: "Necrotic/Death Mark",
   items: [
-   "Staff of Congregations (1d8 bludgeoning, +1 to Madness generation rolls while held)",
+   "Staff of Congregations (1d8 smashing, +1 to Madness generation rolls while held)",
    "Ceremonial Vestments (Durability 1, ritual focus bonus)",
    "Censer of Ash and Incense (Utility: creates 10ft cloud of obscuring smoke, 1/encounter)",
    "Set of Bone Tokens (Tracking tool: represents Madness physically at the table)",
@@ -1231,7 +1231,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
    requiresAllyProximity: true,
    proximityRange: 40,
    description:
-   "30% of damage to linked ally is redirected to enemy as psychic. The suture holds for 3 rounds.",
+   "30% of damage to linked ally is redirected to enemy as wyrd. The suture holds for 3 rounds.",
   },
   },
 
@@ -1397,7 +1397,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
    enabled: true,
    mirrorPercent: 50,
    mirrorDamageType: "wyrd",
-   description: "50% of caster damage taken mirrored to linked enemy as psychic",
+   description: "50% of caster damage taken mirrored to linked enemy as wyrd",
   },
   },
 
@@ -1983,8 +1983,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
    defaultEnabled: false,
    conditionalFormulas: {
     madness_10_plus:
-    "2d6 + intelligence psychic, 3d6 psychic per turn",
-    default: "2d6 + intelligence psychic, 2d6 psychic per turn",
+    "2d6 + intelligence wyrd, 3d6 wyrd per turn",
+    default: "2d6 + intelligence wyrd, 2d6 wyrd per turn",
    },
    },
   },
@@ -2504,7 +2504,7 @@ verbalText: "The silence answers!",
    enabled: true,
    mirrorPercent: 100,
    mirrorDamageType: "wyrd",
-   description: "100% of caster damage mirrored to enemy as psychic",
+   description: "100% of caster damage mirrored to enemy as wyrd",
   },
   },
 

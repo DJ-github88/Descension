@@ -51,8 +51,8 @@ const REGIONS = [
   bgGradient: 'linear-gradient(135deg, rgba(17, 120, 100, 0.08) 0%, rgba(17, 120, 100, 0.02) 100%)',
   borderColor: '#117864',
   glowColor: 'rgba(17, 120, 100, 0.12)',
-  description: 'Sinking, semi-frozen bogs and bioluminescent ironwood groves where the Neth and lantern-eyed Vreken coexist in functional silence. Here, death is a renegotiated contract with Morvane, and the bogs preserve both memories and ancestral debts.',
-  darkBargain: 'The Neth negotiated the First Contract with Morvane: preserve us, and we will be your living archive. The price: every Neth word is a potential contract, and their blood crystallizes into volatile shards.',
+  description: 'Sinking, semi-frozen bogs and bioluminescent ironwood groves where the Nethien and lantern-eyed Vreken coexist in functional silence. Here, death is a renegotiated contract with Morvane, and the bogs preserve both memories and ancestral debts.',
+  darkBargain: 'The Nethien negotiated the First Contract with Morvane: preserve us, and we will be your living archive. The price: every Nethien word is a potential contract, and their blood crystallizes into volatile shards.',
   classIds: ['inquisitor', 'revenant', 'animist', 'plaguebringer', 'arcanoneer']
  },
  {

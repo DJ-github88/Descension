@@ -106,7 +106,7 @@ function CraftingStatusBar({
                         <img
                             src={getIconUrl(currentCraftingItem.recipe?.resultIcon || defaultIcon, 'items')}
                             alt=""
-                            onError={(e) => { e.target.src = getIconUrl(defaultIcon, 'items'); }}
+                            onError={(e) => { if (e.target.dataset.fbk) return; e.target.dataset.fbk = '1'; e.target.src = getIconUrl(defaultIcon, 'items'); }}
                         />
                     </div>
                     <div className="crafting-progress-info">
@@ -150,7 +150,7 @@ function CraftingStatusBar({
                                 <img
                                     src={getIconUrl(qItem.recipe.resultIcon || defaultIcon, 'items')}
                                     alt=""
-                                    onError={(e) => { e.target.src = getIconUrl(defaultIcon, 'items'); }}
+                                    onError={(e) => { if (e.target.dataset.fbk) return; e.target.dataset.fbk = '1'; e.target.src = getIconUrl(defaultIcon, 'items'); }}
                                 />
                                 <div className="queue-position">{index + 1}</div>
                             </div>

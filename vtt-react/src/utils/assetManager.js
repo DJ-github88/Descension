@@ -14,6 +14,7 @@ export const ASSET_PATHS = {
     items: '/assets/icons/items/',
     creatures: '/assets/icons/creatures/',
     abilities: '/assets/icons/abilities/',
+    classes: '/assets/icons/classes/',
     ui: '/assets/icons/Status/utility/'
   },
   images: {
@@ -84,10 +85,25 @@ export const getIconUrl = (iconId, category = 'ui', useCustom = true) => {
  * @returns {string} - URL to custom icon
  */
 export const getCustomIconUrl = (iconId, category) => {
-  const basePath = ASSET_PATHS.icons[category] || ASSET_PATHS.icons.ui;
+  if (!iconId) return '';
+
+  // Already-resolved sources (system assets, data URLs, remote URLs) pass through
+  if (iconId.startsWith('/assets/') || iconId.startsWith('data:') || /^https?:\/\//i.test(iconId)) {
+    return iconId;
+  }
+
+  let basePath = ASSET_PATHS.icons[category] || ASSET_PATHS.icons.ui;
+  let localId = iconId;
+
+  // Class-icon portrait ids (e.g. "classes/lunarch") always resolve from the
+  // classes directory regardless of the caller's requested category.
+  if (localId.startsWith('classes/')) {
+    basePath = ASSET_PATHS.icons.classes;
+    localId = localId.slice('classes/'.length);
+  }
 
   // Ensure .png extension
-  const fileName = iconId.endsWith('.png') ? iconId : `${iconId}.png`;
+  const fileName = localId.endsWith('.png') ? localId : `${localId}.png`;
 
   // URL encode the path to handle spaces and special characters
   // Split by '/' to encode each segment separately, then rejoin

@@ -203,7 +203,7 @@ export const BACKGROUND_DATA = {
       { classId: 'inquisitor', tension: 'Heirs are trained to protect house secrets; the Inquisitor exists to sever them. An heir who takes the Barbed Vow hunts their own blood.' }
     ],
     name: 'Noble Scion',
-    description: 'The histories speak of seven noble houses that sealed the bargains of survival. Six of them broke and fed their heirs to Keth Amar; the seventh, House Viridane, refused and was erased, with House Morrath elevated to fill its empty seat. The Florae, descendants of Viridane, are remembered by the folk as the "eighth house" because they count what the official records hide. You descend from the survivors: Thalreth, Skalvyr, Solvan, Mereval, Tesshan, Ordavan, and Morrath (elevated to replace the erased Viridane). Every one of them struck a Dark Bargain to survive the long night, and every bargain has a price that came due. Your house\'s influence fractured long ago beneath the weight of what your ancestors promised. Some houses collapsed outright. Others limp on, their authority sustained by inertia and fear. The thorned Florae people still carry Viridane\'s blood in their veins, though no ledger will admit it. And the Bryngloom Forest\'s bargain was never a house\'s at all: the Neth people struck it with Morvane before any lord claimed the forest. You carry a name that opens doors and paints targets. Your ancestors bought survival with something they could not afford. The debt is still compounding, and someone has come to collect. What your house pays and what it refuses is your ledger now. The collectors have been patient for age upon age, and patience like that does not last.',
+    description: 'The histories speak of seven noble houses that sealed the bargains of survival. Six of them broke and fed their heirs to Keth Amar; the seventh, House Viridane, refused and was erased, with House Morrath elevated to fill its empty seat. The Florae, descendants of Viridane, are remembered by the folk as the "eighth house" because they count what the official records hide. You descend from the survivors: Thalreth, Skalvyr, Solvan, Mereval, Tesshan, Ordavan, and Morrath (elevated to replace the erased Viridane). Every one of them struck a Dark Bargain to survive the long night, and every bargain has a price that came due. Your house\'s influence fractured long ago beneath the weight of what your ancestors promised. Some houses collapsed outright. Others limp on, their authority sustained by inertia and fear. The thorned Florae people still carry Viridane\'s blood in their veins, though no ledger will admit it. And the Bryngloom Forest\'s bargain was never a house\'s at all: the Nethien people struck it with Morvane before any lord claimed the forest. You carry a name that opens doors and paints targets. Your ancestors bought survival with something they could not afford. The debt is still compounding, and someone has come to collect. What your house pays and what it refuses is your ledger now. The collectors have been patient for age upon age, and patience like that does not last.',
     skillProficiencies: ['History', 'Persuasion'],
     toolProficiencies: ['Gaming set'],
     languages: 1,
@@ -339,10 +339,10 @@ export const BACKGROUND_DATA = {
         "marked_vreken"
       ],
       "narrativeUnlock": true,
-      "justification": "Neth contract law (First Contract, Great Registry) is Bryngloom-specific. Vreken share the Bryngloom and navigate its debt-economy. Exclude: Skald, Ordan, neither uses written contract law."
+      "justification": "Nethien contract law (First Contract, Great Registry) is Bryngloom-specific. Vreken share the Bryngloom and navigate its debt-economy. Exclude: Skald, Ordan, neither uses written contract law."
     },
     classHooks: [
-      { classId: 'arcanoneer', bridge: 'Contract-law mastery is the foundation Valerius weaponized; a Neth negotiator is halfway to the Arcanoneer already.' },
+      { classId: 'arcanoneer', bridge: 'Contract-law mastery is the foundation Valerius weaponized; a Nethien negotiator is halfway to the Arcanoneer already.' },
       { classId: 'revenant', bridge: 'A career in the debt-economy makes undeath-as-obligation-continuation a logical, not horrific, step.' },
       { classId: 'gambit', bridge: 'Reading loopholes and hidden clauses is the same art as reading probability-webs, just applied to law instead of fate.' }
     ],
@@ -350,7 +350,7 @@ export const BACKGROUND_DATA = {
       { classId: 'berserker', tension: 'Contract discipline and the Rage fury are mutually exclusive states of mind.' }
     ],
     name: 'Debt Negotiator',
-    description: 'In Atropolis, a canopy city built in the treetops, everything has a price and every price is negotiable. You studied the First Contract (the foundational legal text of the Neth people) and Neth legal tradition in the canopy city\'s contract-halls, guiding clients through Regent Morrath\'s Great Registry (a total debt-and-citizenship registry) and navigating the debt-peonage that underpins the Bryngloom economy. In the Bryngloom Forest, debt is a living thing: every agreement binds, every handshake traps, and the Postmortem Corvee can conscript your corpse for labor if you die in default. You negotiated Memory-Glass Covenants, contracts that store and trade years of lifespan, for clients desperate to buy extra time. You learned to read a Neth contract by its silver-leaf binding and to spot the trap-clauses that bind the unwary. And you memorized the cautionary tale every negotiator learns: Saren-Vel, the greatest contract-lawyer of her generation, who burned her own name from the Contract and became the first of the Drun (the legally nonexistent), living in the Over-Shanty beyond the reach of every law she once mastered. The contract-halls are busier than ever. Morvane waits beneath the roots, patient as the mycelium, and the debt-economy grows. You have the silver tongue and the eye for loopholes. The quill is in your hand. Whose contracts hold and whose names burn is the only question the ink keeps asking.',
+    description: 'In Atropolis, a canopy city built in the treetops, everything has a price and every price is negotiable. You studied the First Contract (the foundational legal text of the Nethien people) and Nethien legal tradition in the canopy city\'s contract-halls, guiding clients through Regent Morrath\'s Great Registry (a total debt-and-citizenship registry) and navigating the debt-peonage that underpins the Bryngloom economy. In the Bryngloom Forest, debt is a living thing: every agreement binds, every handshake traps, and the Postmortem Corvee can conscript your corpse for labor if you die in default. You negotiated Memory-Glass Covenants, contracts that store and trade years of lifespan, for clients desperate to buy extra time. You learned to read a Nethien contract by its silver-leaf binding and to spot the trap-clauses that bind the unwary. And you memorized the cautionary tale every negotiator learns: Saren-Vel, the greatest contract-lawyer of her generation, who burned her own name from the Contract and became the first of the Withered (the legally nonexistent), living in the Over-Shanty beyond the reach of every law she once mastered. The contract-halls are busier than ever. Morvane waits beneath the roots, patient as the mycelium, and the debt-economy grows. You have the silver tongue and the eye for loopholes. The quill is in your hand. Whose contracts hold and whose names burn is the only question the ink keeps asking.',
     skillProficiencies: ['Deception', 'Sleight of Hand'],
     toolProficiencies: ['Forgery kit', 'Disguise kit'],
     languages: 1,
@@ -368,7 +368,7 @@ export const BACKGROUND_DATA = {
     },
     feature: {
       name: 'Contractual Eye',
-      description: 'You can spot loopholes, hidden clauses, and binding terms in any written agreement. You recognize a Neth contract by its silver-leaf binding and know the three fatal errors that void a First Contract clause. Merchants and Great Registry officials treat your drafted agreements as legally sound.'
+      description: 'You can spot loopholes, hidden clauses, and binding terms in any written agreement. You recognize a Nethien contract by its silver-leaf binding and know the three fatal errors that void a First Contract clause. Merchants and Great Registry officials treat your drafted agreements as legally sound.'
     },
     statModifiers: {
       charisma: 3,
@@ -636,7 +636,7 @@ export const BACKGROUND_DATA = {
       { classId: 'berserker', tension: 'Trade demands patience and read of the other party; the Rage dissolves both in seconds.' }
     ],
     name: 'Black Market Trader',
-    description: 'The Bryngloom Forest trades in three currencies: memory-glass (crystallized memories), peat-oil, and the years left in a lifespan. You ran goods across its root-tangled expanse under Regent Morrath\'s Great Registry, dealing in wyrd-warded curios (trinkets enchanted against supernatural forces) and the covenants that bind them. The living-ironwood Toll-Dikes tax every road, but you learned the bypasses. You bargained with Drun smugglers (the legally nonexistent outcasts) beneath the canopy, traded lifelines at the Mist-Gate Market where a desperate soul will sell five years for a chest of peat-oil, and rested at Morren\'s Bogpost where the forest meets the steppe. Your ledger is warded against the Inquisition\'s audit. Every entry is legal, or at least defensibly ambiguous. The Registry tightens its tariffs every season, and the Drun routes grow more dangerous as the Root-Veil spreads and the old crossings rot beneath it. You know the prices, the paths, and the faces that pay. No one else is bringing these goods through. The trade-routes close the season you stop running them, and the Forest does not forgive silence.',
+    description: 'The Bryngloom Forest trades in three currencies: memory-glass (crystallized memories), peat-oil, and the years left in a lifespan. You ran goods across its root-tangled expanse under Regent Morrath\'s Great Registry, dealing in wyrd-warded curios (trinkets enchanted against supernatural forces) and the covenants that bind them. The living-ironwood Toll-Dikes tax every road, but you learned the bypasses. You bargained with Withered smugglers (the legally nonexistent outcasts) beneath the canopy, traded lifelines at the Mist-Gate Market where a desperate soul will sell five years for a chest of peat-oil, and rested at Morren\'s Bogpost where the forest meets the steppe. Your ledger is warded against the Inquisition\'s audit. Every entry is legal, or at least defensibly ambiguous. The Registry tightens its tariffs every season, and the Withered routes grow more dangerous as the Root-Veil spreads and the old crossings rot beneath it. You know the prices, the paths, and the faces that pay. No one else is bringing these goods through. The trade-routes close the season you stop running them, and the Forest does not forgive silence.',
     skillProficiencies: ['Insight', 'Persuasion'],
     toolProficiencies: ['Navigator\'s tools'],
     languages: 2,
@@ -654,7 +654,7 @@ export const BACKGROUND_DATA = {
     },
     feature: {
       name: 'Gloom-Market Pass',
-      description: 'You know the trade laws of the Great Registry, the Drun\'s peat-harvesting routes, and the Toll-Dikes\' bypass channels. You can find buyers for illicit peat-oil or memory-glass, and your ledgers are recognized by Neth contract-houses.'
+      description: 'You know the trade laws of the Great Registry, the Withered\'s peat-harvesting routes, and the Toll-Dikes\' bypass channels. You can find buyers for illicit peat-oil or memory-glass, and your ledgers are recognized by Nethien contract-houses.'
     },
     statModifiers: {
       charisma: 2,
@@ -686,7 +686,7 @@ export const BACKGROUND_DATA = {
       { classId: 'martyr', tension: 'An Urchin survived by being invisible and unrecorded; the Vow demands they be seen and broken for others.' }
     ],
     name: 'Urchin',
-    description: 'The Over-Shanty is a hanging slum beneath the treetop city of Atropolis, like a wound the canopy city refuses to acknowledge. You grew up in its rope-bridges and salvage-nests, one of the Forgotten: undocumented, unrecorded, legally nonexistent under Regent Morrath\'s Great Registry. The Registry tracks every name above. Below, the Shanty tracks only who can climb and who cannot. The slum coalesced from Drun outcasts (people who erased their own names from the law), Vreken defaulters, and merchants too desperate to check the drop. You learned which rope-bridges hold weight, how to slip past the Toll-Dike patrols, and how to bargain with Drun smugglers for black-market peat-oil. The memory-brokers know your face; the Registry never will. Atropolis thrives above, and the Shanty swells below, and the rope-bridges between them fray a little more every season. You were born outside the law. The Registry already has the blank space where your name was. Climb, or the mist fills it.',
+    description: 'The Over-Shanty is a hanging slum beneath the treetop city of Atropolis, like a wound the canopy city refuses to acknowledge. You grew up in its rope-bridges and salvage-nests, one of the Forgotten: undocumented, unrecorded, legally nonexistent under Regent Morrath\'s Great Registry. The Registry tracks every name above. Below, the Shanty tracks only who can climb and who cannot. The slum coalesced from Withered outcasts (people who erased their own names from the law), Vreken defaulters, and merchants too desperate to check the drop. You learned which rope-bridges hold weight, how to slip past the Toll-Dike patrols, and how to bargain with Withered smugglers for black-market peat-oil. The memory-brokers know your face; the Registry never will. Atropolis thrives above, and the Shanty swells below, and the rope-bridges between them fray a little more every season. You were born outside the law. The Registry already has the blank space where your name was. Climb, or the mist fills it.',
     skillProficiencies: ['Sleight of Hand', 'Stealth'],
     toolProficiencies: ['Disguise kit', 'Thieves\' tools'],
     languages: 1,
@@ -704,7 +704,7 @@ export const BACKGROUND_DATA = {
     },
     feature: {
       name: 'Shanty-Passage',
-      description: 'You know the secret pathways of the Over-Shanty\'s hanging slums, which rope-bridges hold weight, how to slip past the Toll-Dike checkpoints, and where Drun outcasts hide from the Registry-guard. You can navigate any hanging or vertical settlement at twice the normal speed.'
+      description: 'You know the secret pathways of the Over-Shanty\'s hanging slums, which rope-bridges hold weight, how to slip past the Toll-Dike checkpoints, and where Withered outcasts hide from the Registry-guard. You can navigate any hanging or vertical settlement at twice the normal speed.'
     },
     statModifiers: {
       agility: 3,
@@ -1199,7 +1199,7 @@ export const BACKGROUND_FLAVOR_TEXT = {
   bloodlineHeir: 'Seven noble houses remain. The eighth was erased for refusing to feed its heir to Keth Amar. You carry a name that opens doors and paints targets. The debt your ancestors bought is still compounding.',
   synodAcademic: 'The Synod Hold sings when the wind finds the right key. You learned the forbidden Echo-Songs and the echo-lineages carved on bone Steppe-Staves. The stars are going out, and you have the training to read the patterns.',
   sumpsVeteran: 'The Bloodhammer Sump breeds soldiers the way a wound breeds salt. You carry the Hunger Pact in your blood: ancestral starvation turned to fury. The glaciers are advancing again, and the dead want you to survive.',
-  debtNegotiator: 'In Atropolis, everything has a price and every price is negotiable. You read Neth contracts by their silver-leaf binding and spot the trap-clauses that bind the unwary. The greatest lawyer of your generation burned her own name from the Contract.',
+  debtNegotiator: 'In Atropolis, everything has a price and every price is negotiable. You read Nethien contracts by their silver-leaf binding and spot the trap-clauses that bind the unwary. The greatest lawyer of your generation burned her own name from the Contract.',
   frostChanter: "Jarn-Tand's Academies burn every old drum they find, so the old ways moved into the voice. You weave animist history into drinking-songs that inquisitors never suspect are heresies older than the Freeze. Your voice is a covert hearth.",
   forgeWright: 'Metal remembers. Every hammer-strike is a record that outlasts the hand that made it. You understand metal as living memory, reading forge-marks the way a scribe reads ink. The forges are failing, and fewer smiths survive to teach.',
   hushSurvivor: "You watched the hush take someone you loved. First the darkened veins, then the dissolved mind, then the Hush-Bogs. You fortified your mind against the mycelium's song, but it never fully fades. You know the early signs.",
@@ -1252,7 +1252,7 @@ export const BACKGROUND_ROLEPLAYING_HOOKS = {
   ],
   debtNegotiator: [
     'The greatest lawyer of your generation burned her name from the Contract. What was her name, and why did she do it?',
-    'You read Neth contracts by their silver-leaf binding. Which clause did you miss that still binds you?',
+    'You read Nethien contracts by their silver-leaf binding. Which clause did you miss that still binds you?',
     'Atropolis runs on debt. Who owes you, and what are you willing to do to collect?'
   ],
   frostChanter: [

@@ -35,7 +35,7 @@ export default function ClassesPage() {
         </div>
         <h1 className="classes-title">MYTHRILL CLASSES CODEX</h1>
         <p className="classes-subtitle">
-          20 Distinct Playstyles Forged in the Freezing Era of Sol
+          21 Distinct Playstyles Forged in the Freezing Era of Sol
         </p>
       </header>
 

@@ -34,7 +34,7 @@ export const GATHERING_ITEMS = [
     subtype: 'REAGENT',
     quality: 'common',
     description: 'A hardy root with a bitter taste. Known for its medicinal properties.',
-    iconId: 'Misc/Profession Resources/Herbs and Plants/resource-brown-root-green-sprout',
+    iconId: 'Misc/Profession Resources/Herbs and Plants/resource-brown-mandrake-root-green-sprout',
     value: { gold: 0, silver: 0, copper: 8 },
     stackable: true,
     maxStackSize: 20,

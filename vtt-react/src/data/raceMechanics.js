@@ -69,13 +69,13 @@ export const RACE_MECHANICS = {
     applicableRace: 'neth',
     applicableSubrace: 'all',
     type: 'escalation_track',
-    description: 'When a Neth breaks contracts on purpose, not for gain, but to force change, the Fading begins. At first it feels like freedom. The pact loosens. The Neth becomes fluid, spontaneous, briefly alive. Then the pale skin dulls and the mind dissolves.',
+    description: 'When a Nethien breaks contracts on purpose, not for gain, but to force change, the Fading begins. At first it feels like freedom. The pact loosens. The Nethien becomes fluid, spontaneous, briefly alive. Then the pale skin dulls and the mind dissolves.',
     resource: {
       name: 'Fraying',
       range: { min: 0, max: 10 },
       startingValue: 0,
       displayType: 'hidden_counter',
-      visibility: 'GM and Neth player only'
+      visibility: 'GM and Nethien player only'
     },
     advancement: [
       { trigger: 'Deliberately break a promise', amount: 1 },
@@ -91,16 +91,16 @@ export const RACE_MECHANICS = {
           { type: 'buff', stat: 'agility', value: 1, description: 'The pact\'s rigidity loosening' },
           { type: 'buff', stat: 'intelligence', value: 1, description: 'Clarity from the absence of obligation' }
         ],
-        narrative: 'Colors seem more vivid. Emotions sharper. The Neth feels truly alive for the first time in decades.'
+        narrative: 'Colors seem more vivid. Emotions sharper. The Nethien feels truly alive for the first time in decades.'
       },
       {
         range: [3, 4],
         name: 'Thinning',
         effects: [
-          { type: 'debuff', stat: 'persuasion_neth', value: 'disadvantage', description: 'Other Neth can see the Fraying in the dulled pale skin' },
+          { type: 'debuff', stat: 'persuasion_neth', value: 'disadvantage', description: 'Other Nethien can see the Fraying in the dulled pale skin' },
           { type: 'debuff', stat: 'archive_tether_range', value: 'halved', description: '7 days becomes 3.5 days before the Fading begins' }
         ],
-        narrative: 'The pale skin begins to dull. The Neth\'s community notices, and the Velun will not contract with them.'
+        narrative: 'The pale skin begins to dull. The Nethien\'s community notices, and the Nethien will not contract with them.'
       },
       {
         range: [5, 6],
@@ -117,7 +117,7 @@ export const RACE_MECHANICS = {
         name: 'Coming Apart',
         effects: [
           { type: 'skill_loss', description: 'At the start of each session, the GM removes one skill proficiency or language (player\'s choice, GM can veto). Recoverable only by re-learning through downtime.' },
-          { type: 'social', description: 'Velun will not contract with them. The pale skin is visibly tarnished.' }
+          { type: 'social', description: 'Nethien will not contract with them. The pale skin is visibly tarnished.' }
         ],
         narrative: 'Memories fragment. The contract-spiral that sustained them for centuries is unraveling, and each thread that snaps takes a piece of who they were.'
       },
@@ -126,17 +126,17 @@ export const RACE_MECHANICS = {
         name: 'The Choice',
         effects: [
           { type: 'branching_choice', options: [
-            { name: 'The Severing', description: 'Bloodline is destiny in a world shaped by bargains. become Drun permanently. Legal non-existence, but free. Fraying resets to 0.', consequence: 'Character gains Drun subrace traits and loses all Neth contract abilities.' },
+            { name: 'The Severing', description: 'Bloodline is destiny in a world shaped by bargains. become Withered permanently. Legal non-existence, but free. Fraying resets to 0.', consequence: 'Character gains Withered subrace traits and loses all Nethien contract abilities.' },
             { name: 'The Return', description: 'Attempt to re-enter the contract-spiral by honoring 10 consecutive contracts without a single breach (minimum 3 sessions of strict compliance).', consequence: 'If any contract is breached during the return, Fraying advances to 10 immediately.' }
           ]}
         ],
-        narrative: 'The Neth stands at a crossroads. Fluid freedom on one side. Frozen preservation on the other. The choice is theirs.'
+        narrative: 'The Nethien stands at a crossroads. Fluid freedom on one side. Frozen preservation on the other. The choice is theirs.'
       },
       {
         range: [10, 10],
         name: 'Dissolved',
         effects: [
-          { type: 'character_loss', description: 'The Neth becomes a pale-skinned husk. Nothing behind the eyes. Character retired.' }
+          { type: 'character_loss', description: 'The Nethien becomes a pale-skinned husk. Nothing behind the eyes. Character retired.' }
         ],
         narrative: 'Nothing behind the eyes. The pale skin is all that remains, a beautiful, empty shell that was once someone.'
       }

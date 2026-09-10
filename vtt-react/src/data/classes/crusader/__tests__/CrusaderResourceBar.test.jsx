@@ -14,7 +14,7 @@ describe('CrusaderResourceBar Component (Radiant Solvan Fervor Bar)', () => {
 
         const svgElement = container.querySelector('.crusader-fervor-svg');
         expect(svgElement).toBeInTheDocument();
-        expect(svgElement.getAttribute('viewBox')).toBe('0 0 292 76');
+        expect(svgElement.getAttribute('viewBox')).toBe('0 0 360 76');
 
         const sunburst = container.querySelector('.svg-sunburst-emblem');
         expect(sunburst).toBeInTheDocument();
@@ -48,7 +48,7 @@ describe('CrusaderResourceBar Component (Radiant Solvan Fervor Bar)', () => {
         const bar = container.querySelector('.crusader-resource-bar');
         fireEvent.click(bar);
 
-        expect(screen.getByText('Crusader Radiant Fervor Ledger')).toBeInTheDocument();
+        expect(screen.getByText('Crusader Fervor Ledger')).toBeInTheDocument();
         expect(screen.getByText('40/100')).toBeInTheDocument();
 
         // Click Strike (+10) -> 50

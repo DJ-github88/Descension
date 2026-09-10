@@ -1258,7 +1258,7 @@ export const FACTION_WEAPONS = [
     type: 'weapon',
     subtype: 'SICKLE',
     quality: 'rare',
-    description: 'Vespera\'s personal weapon — a living sickle grafted from a Neth predator\'s fang to a ghost-mycelium hilt. It secretes adaptive venom that learns to bypass the target\'s immune system.',
+    description: 'Vespera\'s personal weapon — a living sickle grafted from a Nethien predator\'s fang to a ghost-mycelium hilt. It secretes adaptive venom that learns to bypass the target\'s immune system.',
     iconId: 'Weapons/Sickles/sickle-curved-blade-beige-brown-handle-simple',
     value: { gold: 3, silver: 0, copper: 0 },
     stackable: false,

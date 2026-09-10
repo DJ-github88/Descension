@@ -431,7 +431,7 @@ const ResourceTooltip = ({
                                     title="Attack Counter"
                                     state={`${covenbaneAttackCounter}/3`}
                                     stateTone={covenbaneAttackCounter === 3 ? 'good' : 'neutral'}
-                                    mechanic="Every 3rd attack deals bonus true damage (ignores armor/resistances). Base +1d6, +4d8 at 6 charges."
+                                    mechanic="Every 3rd attack deals bonus true damage (ignores DR and resistances). Base +1d6, +4d8 at 6 charges."
                                     status={[
                                         covenbaneAttackCounter === 3
                                             ? 'READY — next attack deals bonus true damage.'
@@ -745,13 +745,13 @@ const ResourceTooltip = ({
                                 const getPhaseBonuses = (phase) => {
                                     switch (phase) {
                                         case 'new_moon':
-                                            return { bonus: '+2 Armor', penalty: 'Damage -1d6', theme: 'Defense' };
+                                            return { bonus: '+3 DR, immune to Charm/Fear', penalty: 'Attacks −2', theme: 'Defense' };
                                         case 'waxing_moon':
-                                            return { bonus: 'Healing +1d4', penalty: 'None', theme: 'Healing' };
+                                            return { bonus: '+1d6 damage, +10 ft speed', penalty: 'Cannot be healed', theme: 'Surge' };
                                         case 'full_moon':
-                                            return { bonus: 'Damage +2d6', penalty: 'Armor -1', theme: 'Offense' };
+                                            return { bonus: '+2d8 sacred damage, ignores 50% DR', penalty: 'Delirium risk, −5 max HP/round', theme: 'Offense' };
                                         case 'waning_moon':
-                                            return { bonus: 'Mana -2 cost', penalty: 'Healing -1d4', theme: 'Efficiency' };
+                                            return { bonus: '25% vampiric drain, −3 mana cost', penalty: '−2 DR, −10 max HP', theme: 'Sustain' };
                                         default:
                                             return { bonus: '', penalty: '', theme: '' };
                                     }
@@ -766,9 +766,9 @@ const ResourceTooltip = ({
                                         title={currentPhaseConfig.name}
                                         state={currentBonuses.theme}
                                         stateTone="neutral"
-                                        mechanic={`3 rounds per phase, auto-advances New → Waxing → Full → Waning. Now: ${currentBonuses.bonus}${currentBonuses.penalty !== 'None' ? `, ${currentBonuses.penalty}` : ''}. Darkvision 60 ft; charm/fear advantage on Full Moon.`}
+                                        mechanic={`3 rounds per phase, auto-advances New → Waxing → Full → Waning. Now: ${currentBonuses.bonus}${currentBonuses.penalty !== 'None' ? `, drawback: ${currentBonuses.penalty}` : ''}.`}
                                         status={[
-                                            `All phases — New: +2 Armor · Waxing: +1d4 healing · Full: +2d6 damage · Waning: −2 mana costs.`,
+                                            `All phases — New: +3 DR · Waxing: +1d6 damage/+10 ft speed · Full: +2d8 sacred, ignores 50% DR · Waning: 25% vampiric, −3 mana cost.`,
                                         ]}
                                         usage="Shift phase early for 8 mana (resets the timer)."
                                     />
@@ -889,7 +889,7 @@ const ResourceTooltip = ({
                                 title="Mayhem Gauge"
                                 state={`${finalClassResource.current || 0}/${finalClassResource.max || 100}`}
                                 stateTone={(finalClassResource.current || 0) >= 100 ? 'warn' : 'neutral'}
-                                mechanic="Chaos pressure: cannot be spent. Passively amplifies all spells as it rises — only release is Wild Surge at 100."
+                                mechanic="Entropy pressure: amplifies all spells as it rises, and can be spent to widen prophecy ranges. At 100, Wild Surge triggers and Mayhem resets."
                                 status={[
                                     (finalClassResource.current || 0) >= 100
                                         ? 'MAXIMUM — Wild Surge ready. Unleash it.'

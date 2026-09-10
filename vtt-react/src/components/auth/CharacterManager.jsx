@@ -125,7 +125,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
 
 
-    'Augur': '🔯'
+    'Crusader': '✝️'
 
 
 
@@ -169,7 +169,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
 
 
-    'neth': '📜', 'Neth': '📜',
+    'neth': '📜', 'Nethien': '📜',
 
 
 
@@ -1658,7 +1658,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
 
 
-                    <option value="neth">Neth</option>
+                    <option value="neth">Nethien</option>
 
 
 
@@ -1793,7 +1793,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
 
 
-                    <option value="Augur">Augur</option>
+                    <option value="Crusader">Crusader</option>
 
 
 

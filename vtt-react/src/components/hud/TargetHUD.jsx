@@ -10,6 +10,7 @@ import usePartyStore from '../../store/partyStore';
 import useCharacterStore from '../../store/characterStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
+import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
 import { CONDITIONS } from '../../data/conditionsData';
 import useConditionStore from '../../store/conditionStore';
 import useChatStore from '../../store/chatStore';
@@ -22,7 +23,10 @@ import EnhancedCreatureInspectView from '../creature-wizard/components/common/En
 import { getBackgroundData } from '../../data/backgroundData';
 import { getCustomBackgroundData, getEnhancedPathData } from '../../data/legacyDisciplineData';
 import { getIconUrl, getCreatureTokenIconUrl } from '../../utils/assetManager';
+import { getClassIconUrl } from '../../utils/classIconUtils';
 import Button from '../common/Button';
+import PortraitLightbox from './PortraitLightbox';
+import './PortraitLightbox.css';
 import { getTokenResources, getStateKeyForResource, getTempFieldName } from '../../utils/tokenStateUtils';
 
 // Helper function to get background display name
@@ -145,6 +149,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
   const [inspectToken, setInspectToken] = useState(null);
   const [showOverhealModal, setShowOverhealModal] = useState(false);
   const [overhealData, setOverhealData] = useState(null); // { resourceType, adjustment, overhealAmount, currentValue, maxValue }
+  const [showPortraitZoom, setShowPortraitZoom] = useState(false);
 
   const {
     currentTarget,
@@ -318,7 +323,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         return {
           name: characterState.name,
           class: characterState.class,
-          race: characterState.raceDisplayName || characterState.race,
+          race: normalizeRaceDisplayName(characterState.raceDisplayName || characterState.race),
           background: getBackgroundDisplayName(characterState.background, characterState.backgroundDisplayName),
           path: getPathDisplayName(characterState.path, characterState.pathDisplayName),
           alignment: characterState.alignment,
@@ -348,7 +353,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
           return {
             name: member.name,
             class: member.character?.class || 'Unknown',
-            race: member.character?.raceDisplayName || member.character?.race || 'Unknown',
+            race: normalizeRaceDisplayName(member.character?.raceDisplayName || member.character?.race || 'Unknown'),
             background: getBackgroundDisplayName(member.character?.background, member.character?.backgroundDisplayName),
             path: getPathDisplayName(member.character?.path, member.character?.pathDisplayName),
             alignment: member.character?.alignment || 'Neutral',
@@ -371,7 +376,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         return {
           name: currentTarget.name || memberData.name,
           class: characterData.class || 'Unknown',
-          race: characterData.raceDisplayName || characterData.race || 'Unknown',
+          race: normalizeRaceDisplayName(characterData.raceDisplayName || characterData.race || 'Unknown'),
           background: getBackgroundDisplayName(characterData.background, characterData.backgroundDisplayName),
           path: getPathDisplayName(characterData.path, characterData.pathDisplayName),
           alignment: characterData.alignment || 'Neutral',
@@ -458,8 +463,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         if (characterState.lore?.characterIcon) {
           return getIconUrl(characterState.lore.characterIcon, characterState.lore.characterIcon.includes('/') ? 'creatures' : 'items');
         }
-        // Default character icon
-        return getIconUrl('inv_misc_head_human_01', 'items');
+        // No portrait chosen: fall back to the class icon
+        return getClassIconUrl(characterState.class) || getIconUrl('inv_misc_head_human_01', 'items');
       } else {
         // Get party member's character image
         const partyState = usePartyStore.getState();
@@ -477,6 +482,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
           if (member.character.lore?.characterIcon) {
             return getIconUrl(member.character.lore.characterIcon, member.character.lore.characterIcon.includes('/') ? 'creatures' : 'items');
           }
+          // No portrait chosen: fall back to the class icon
+          const classIconUrl = getClassIconUrl(member.character.class);
+          if (classIconUrl) return classIconUrl;
         }
         // Default character icon
         return getIconUrl('inv_misc_head_human_01', 'items');
@@ -542,6 +550,41 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
           rotation: 0 // Creatures don't usually have rotation
         };
       }
+    }
+
+    return null;
+  };
+
+  // Scene backdrop for icon portraits in the lightbox (matches the HUD's
+  // icon background; full uploaded portraits already carry their own scene)
+  const getTargetBackground = () => {
+    if (!currentTarget) return null;
+
+    if (targetType === 'party_member' || targetType === 'player') {
+      let lore;
+      let className = '';
+      if (currentTarget.id === 'current-player') {
+        const charState = useCharacterStore.getState();
+        lore = charState.lore;
+        className = charState.class || '';
+      } else {
+        const member = usePartyStore.getState().partyMembers.find(m =>
+          m.id === currentTarget.id || m.userId === currentTarget.id || m.socketId === currentTarget.id
+        );
+        lore = member?.character?.lore;
+        className = member?.character?.class || '';
+      }
+      if (!lore) return null;
+      const hasIconPortrait = Boolean(lore.characterIcon) || (!lore.characterImage && Boolean(getClassIconUrl(className)));
+      if (lore.characterImage || !hasIconPortrait) return null;
+      // Same backdrop the HUD paints behind icon portraits
+      if (lore.iconBackgroundImage) {
+        return {
+          image: `/assets/Backgrounds/${encodeURIComponent(lore.iconBackgroundImage)}`,
+          color: '#1a140e'
+        };
+      }
+      return { image: null, color: lore.iconBackgroundColor || '#f8f5eb' };
     }
 
     return null;
@@ -2029,6 +2072,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
   const hasClassResource = targetData?.class && targetData?.classResource;
   const classResourceType = targetData?.class?.toLowerCase().replace(/\s+/g, '-');
 
+  // Resolved once for the enlarged-portrait popup
+  const targetLightboxBackground = getTargetBackground();
+
   return (
     <>
       <div className="target-hud-frame">
@@ -2046,8 +2092,23 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
               className={`party-member-frame target-frame-style ${hasClassResource ? 'has-class-resource' : ''} ${hasClassResource ? `class-${classResourceType}` : ''}`}
               onContextMenu={handleRightClick}
             >
-              {/* Portrait */}
-              <div className="party-portrait">
+              {/* Portrait — click to enlarge with zoom */}
+              <div
+                className="party-portrait"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowPortraitZoom(true);
+                }}
+                title={`Enlarge portrait of ${targetData?.name || 'target'} (click to zoom)`}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setShowPortraitZoom(true);
+                  }
+                }}
+              >
                 {(() => {
                   const lore = (targetType === 'party_member' || targetType === 'player') ? (
                     currentTarget.id === 'current-player' 
@@ -2107,8 +2168,10 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                               height: '100%',
                               display: 'block',
                               objectFit: 'cover',
+                              objectPosition: 'center',
+                              transformOrigin: 'center center',
                               transform: transformations ? 
-                                `scale(${(transformations.scale || (transformations.isCharacterImage ? 1.2 : 1)) * (transformations.iconScale || 1)}) rotate(${transformations.rotation || 0}deg) translate(${(transformations.positionX || 0) + (transformations.iconOffsetX || 0)}px, ${(transformations.positionY || 0) + (transformations.iconOffsetY || 0)}px)` : 
+                                `scale(${(transformations.scale || (transformations.isCharacterImage ? 1.2 : 1.1)) * (transformations.iconScale || 1)}) rotate(${transformations.rotation || 0}deg) translate(${(transformations.positionX || 0) + (transformations.iconOffsetX || 0)}px, ${(transformations.positionY || 0) + (transformations.iconOffsetY || 0)}px)` : 
                                 'scale(1.2)',
                               transition: 'transform 0.2s ease-out'
                             }}
@@ -3161,6 +3224,16 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         </div>,
         document.body
       )}
+      {/* Enlarged portrait popup with zoom (closes on outside click / Esc) */}
+      <PortraitLightbox
+        isOpen={showPortraitZoom}
+        imageUrl={getTargetImage()}
+        backgroundImage={targetLightboxBackground?.image || ''}
+        backgroundColor={targetLightboxBackground?.color || ''}
+        title={targetData?.name || 'Target'}
+        subtitle={targetData?.isCreature ? (targetData?.race || '') : ([targetData?.class, targetData?.level ? `Level ${targetData.level}` : ''].filter(Boolean).join(' • '))}
+        onClose={() => setShowPortraitZoom(false)}
+      />
     </>
   );
 };

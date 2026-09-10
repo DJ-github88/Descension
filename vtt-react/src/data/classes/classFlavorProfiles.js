@@ -42,7 +42,7 @@ export const CLASS_FLAVOR_PROFILES = {
     resourceIcon: 'fa-circle-nodes',
     tagline: 'Structure incantations as strict arcane contracts, combining raw elemental spheres into devastating compound matrices.',
     keyFeatures: ['Sphere Fusion Matrix', 'Arcane Contract Syntax', 'Multi-Elemental Repertoire'],
-    loreSnippet: 'Founded by Velun Neth archivists to tame wild magic, the arcanoneer blends fire, frost, storm, and void into measured, stable weaves.',
+    loreSnippet: 'Founded by Nethien archivists to tame wild magic, the arcanoneer blends fire, frost, storm, and void into measured, stable weaves.',
     playstyle: 'Generate raw elemental spheres each round and combine them on the fly into customized spells tailored to enemy vulnerabilities.'
   },
 

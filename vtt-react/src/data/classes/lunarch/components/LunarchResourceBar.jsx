@@ -181,7 +181,7 @@ const LunarchResourceBar = ({
             name: 'New Moon',
             subtitle: 'Stygian Eclipse',
             theme: 'Dark Void Defense',
-            buff: '+2 Armor · Psychic Immunity',
+            buff: '+3 DR · Charm/Fear Immunity',
             cx: 58,
             cy: 28,
             color: '#1e1b4b',
@@ -207,7 +207,7 @@ const LunarchResourceBar = ({
             name: 'Full Moon',
             subtitle: 'Radiant Zenith',
             theme: 'Apocalyptic Corona',
-            buff: '+2d6 Radiant Damage · Gravity Pull',
+            buff: '+2d8 Sacred Damage · Ignores 50% DR',
             cx: 246,
             cy: 28,
             color: '#ca8a04',
@@ -220,7 +220,7 @@ const LunarchResourceBar = ({
             name: 'Waning Moon',
             subtitle: 'Twilight Husk',
             theme: 'Vitality Siphon',
-            buff: 'Vampiric Drain · -2 Mana Cost',
+            buff: '-3 Mana Cost · 25% Vampiric Drain',
             cx: 302,
             cy: 28,
             color: '#7e22ce',
@@ -830,21 +830,21 @@ const LunarchResourceBar = ({
             </div>
 
             {/* Shared ClassTip Tooltip */}
-            {showTooltip && ReactDOM.createPortal(
+            {showTooltip && !showControls && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip lunarch-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     <ClassTip
                         icon="fas fa-moon"
                         tint="#a855f7"
-                        title={`The Lunar Communion: ${currentPhaseData.name}`}
-                        subtitle="Lunarch Lunar Ephemeris"
+                        title="The Lunar Communion"
+                        subtitle={`${currentPhaseData.name} · Lunarch Lunar Ephemeris`}
                         state={`${currentPhaseData.name} · Round ${roundsInPhase + 1}/3`}
-                        stateTone={isFullMoon ? 'critical' : currentPhase === 'waxing_moon' ? 'warn' : 'good'}
-                        mechanic="Auto-advances every 3 rounds. The lunar parasite rewrites your physiology across 4 cosmic phases, altering spell effects and granting phase-specific burst buffs."
+                        stateTone={isFullMoon ? 'bad' : currentPhase === 'waxing_moon' ? 'warn' : 'good'}
+                        mechanic="Cycles New → Waxing → Full → Waning automatically every 3 rounds; you cannot opt out. Every shift deals 2d6 blight and forces a 1d6 Transition Shock roll (rupture, blind, mana loss, lost action, or wyrd)."
                         status={[
                             `Active Influence: ${currentPhaseData.buff}`,
                             roundsInPhase >= 2
-                                ? 'Phase shift imminent at end of this round! Brace for Transition Shock.'
-                                : `Round ${roundsInPhase + 1} of 3 in ${currentPhaseData.name}.`
+                                ? { text: 'Shift imminent at round end: 2d6 blight + 1d6 Transition Shock.', tone: 'warn' }
+                                : 'The cycle turns automatically — a manual shift costs 8 mana.'
                         ]}
                         usage={isOwner ? 'Click center moon for Ephemeris. Click any sanctuary node to sync phase. Click flank triggers to step rounds.' : null}
                     />
@@ -856,7 +856,7 @@ const LunarchResourceBar = ({
             {showControls && ReactDOM.createPortal(
                 <div
                     ref={controlsMenuRef}
-                    className={`unified-context-menu compact context-menu-container lunarch-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    className={`unified-context-menu compact context-menu-container lunarch-menu-container class-resource-menu ${context === 'party' ? 'chronarch-party' : ''}`}
                     onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onMouseEnter={(e) => {
@@ -890,7 +890,7 @@ const LunarchResourceBar = ({
                     <div className="context-menu-main">
                         <div className="context-menu-section">
                             <div className="context-menu-section-header">
-                                <i className="fas fa-moon" style={{ marginRight: '6px', color: '#7c3aed' }}></i>
+                                <i className="fas fa-moon" style={{ marginRight: '6px', color: '#c084fc' }}></i>
                                 Ephemeris of Vael
                             </div>
 
@@ -898,7 +898,7 @@ const LunarchResourceBar = ({
                             <div className="context-menu-section-header" style={{ fontSize: '12px', marginTop: '6px', marginBottom: '6px' }}>
                                 {currentPhaseData.name} (Round {roundsInPhase + 1}/3)
                             </div>
-                            <div style={{ fontSize: '11px', color: '#555', fontStyle: 'italic', marginBottom: '8px' }}>
+                            <div style={{ fontSize: '11px', color: 'var(--crm-label, #d8b4fe)', fontStyle: 'italic', marginBottom: '8px' }}>
                                 {currentPhaseData.buff}
                             </div>
 

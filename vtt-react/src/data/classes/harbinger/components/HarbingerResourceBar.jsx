@@ -23,28 +23,28 @@ const STAGE_NAMES = {
 };
 
 const DRAWBACK_TEXTS = {
-    0: 'None (Planar anchor intact)',
-    1: 'Faint timeline echo (-1 Insight saves)',
-    2: 'Minor spatial friction (1d4 Wyrd dmg on miss)',
-    3: '10% Misfire chance (2d6 Storm damage to self)',
-    4: '10% Misfire, cannot receive healing while prophesying',
-    5: '10% Misfire, -5ft Movement speed',
-    6: '25% Misfire, +25% Bludgeoning/Slashing vulnerability',
-    7: '25% Misfire, +25% Phys Vuln, 2d6 self-damage on spell fizzle',
-    8: '25% Misfire, +50% Phys Vuln, -10ft Movement speed',
-    9: '25% Misfire, +50% Phys Vuln, 3d8 Force self-dmg on miss',
-    10: 'Anomalous Dissociation: 100% Phys Vuln (2 rounds), Mayhem vents!'
+    0: 'None — planar anchor intact.',
+    1: 'None — Safe Zone (0-40): Mayhem is building.',
+    2: 'None — Safe Zone (0-40): Mayhem is building.',
+    3: 'None — Safe Zone (0-40): Mayhem is building.',
+    4: 'None — Safe Zone (0-40): Mayhem is building.',
+    5: '10% misfire — a fizzled spell deals 2d6 storm to you.',
+    6: '10% misfire (2d6 storm to self).',
+    7: '25% misfire, +25% vulnerability to smashing and slicing.',
+    8: '25% misfire, +25% vulnerability to smashing and slicing.',
+    9: '25% misfire, +50% vulnerability to smashing and slicing.',
+    10: 'Anomalous Dissociation: 100% smashing/slicing vulnerability for 2 rounds.'
 };
 
 const MASTER_WILD_SURGE_TABLE = [
     { range: [1, 15], cat: 'Unstable Miracle', name: 'Chronal Mending Wave', desc: 'A soothing temporal rift opens. All allies within 30ft regain 4d8 HP and shed 1 ongoing condition.' },
-    { range: [16, 30], cat: 'Unstable Miracle', name: 'Gravitational Aegis', desc: 'Gravity bends around the party. Allies gain +3 AC and immunity to forced movement for 2 rounds.' },
-    { range: [31, 45], cat: 'Radical Area Ruin', name: 'Sundrift Gravity Shear', desc: 'Grass grows sideways; 30ft radius zone becomes inverted difficult terrain dealing 3d8 Force damage to all creatures.' },
-    { range: [46, 60], cat: 'Radical Area Ruin', name: 'Entropy Conflagration', desc: 'A chaotic blast wave erupts. All hostile creatures within 25ft take 5d10 Blight/Wyrd damage and are knocked prone.' },
+    { range: [16, 30], cat: 'Unstable Miracle', name: 'Gravitational Aegis', desc: 'Gravity bends around the party. Allies gain +3 DR and immunity to forced movement for 2 rounds.' },
+    { range: [31, 45], cat: 'Radical Area Ruin', name: 'Sundrift Gravity Shear', desc: 'Grass grows sideways; 30ft radius zone becomes inverted difficult terrain dealing 3d8 arcane damage to all creatures.' },
+    { range: [46, 60], cat: 'Radical Area Ruin', name: 'Entropy Conflagration', desc: 'A chaotic blast wave erupts. All hostile creatures within 25ft take 5d10 blight/wyrd damage and are knocked prone.' },
     { range: [61, 70], cat: 'Reality Reversal', name: 'Probability Inversion Field', desc: 'For 1 round, all missed attack rolls count as hits, and critical hits count as critical fumbles.' },
     { range: [71, 80], cat: 'Reality Reversal', name: 'Spatial Transposition Scramble', desc: 'All combatants within 40ft instantly swap positions randomly. DC 15 Spirit save or disoriented (Slowed).' },
-    { range: [81, 90], cat: 'Physical Backlash', name: 'Molecular Dissociation', desc: 'Caster suffers 3d10 Force damage and gains 100% physical vulnerability for 2 rounds as density drops to zero.' },
-    { range: [91, 100], cat: 'Physical Backlash', name: 'Catastrophic Timeline Shear', desc: 'Caster loses all remaining Mana and takes 4d10 Necrotic damage. A permanent 10ft Chaos Pocket forms at the caster’s feet.' }
+    { range: [81, 90], cat: 'Physical Backlash', name: 'Molecular Dissociation', desc: 'Caster suffers 3d10 arcane damage and gains 100% vulnerability to smashing and slicing for 2 rounds as density drops to zero.' },
+    { range: [91, 100], cat: 'Physical Backlash', name: 'Catastrophic Timeline Shear', desc: 'Caster loses all remaining Mana and takes 4d10 blight damage. A permanent 10ft Chaos Pocket forms at the caster’s feet.' }
 ];
 
 // Vector glyph path blueprints for all 10 eldritch runes
@@ -211,13 +211,11 @@ const HarbingerResourceBar = ({
     const getDrawbackText = (level) => DRAWBACK_TEXTS[level] || 'Unknown';
 
     const getBonusText = (level) => {
-        if (level === 0) return 'None (Base power)';
-        if (level <= 2) return '+1 Damage on critical rolls';
-        if (level <= 4) return '+1 Bonus Damage/Healing Die';
-        if (level <= 6) return '+2 Bonus Dice • +5ft AoE Radius';
-        if (level <= 8) return '+3 Bonus Dice • +10ft AoE Radius';
-        if (level === 9) return '+3 Bonus Dice • +10ft AoE • +1 Target';
-        return 'd100 Master Wild Surge Detonation!';
+        if (level <= 4) return 'None — Safe Zone (0-40)';
+        if (level <= 6) return '+1 bonus damage/healing die (Escalating)';
+        if (level <= 8) return '+2 bonus dice · +5 ft radius (Volatile)';
+        if (level === 9) return '+3 bonus dice · +10 ft radius · +1 target (Maximum)';
+        return 'd100 Master Wild Surge — Mayhem resets to 0';
     };
 
     const getDrawbackColor = (level) => {
@@ -532,7 +530,7 @@ const HarbingerResourceBar = ({
             </div>
 
             {/* Shared ClassTip Tooltip (Mechanic / Right now / Use) */}
-            {showTooltip && ReactDOM.createPortal(
+            {showTooltip && !showControls && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip harbinger-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     <ClassTip
                         icon="fas fa-meteor"
@@ -540,16 +538,19 @@ const HarbingerResourceBar = ({
                         title={`${getStageName(mayhemStage)} (Stage ${mayhemStage}/${maxStage})`}
                         subtitle="Harbinger Abyssal Mayhem"
                         state={getBonusText(mayhemStage)}
-                        stateTone={mayhemStage >= 6 ? 'bad' : mayhemStage >= 3 ? 'warn' : 'neutral'}
-                        mechanic={`Spells ascend (+1 to +3 by tier and prophecies); spend Mayhem to widen prophecy range, −1/min idle. ${getDrawbackText(mayhemStage)}`}
+                        stateTone={mayhemStage >= 6 ? 'bad' : mayhemStage >= 5 ? 'warn' : 'neutral'}
+                        mechanic="Cast spells and plant prophecies to build Mayhem: Safe (0-40) no bonus, Escalating (41-60) +1 damage/healing die, Volatile (61-80) +2 dice and +5 ft radius, Maximum (81-99) +3 dice, +10 ft, and +1 target. Spend Mayhem to widen prophecy ranges; at 100 a d100 Master Wild Surge fires and Mayhem resets to 0."
                         status={[
-                            mayhemStage >= 6
-                                ? `UNSTABLE: 25% misfire (2d6 Storm), +${mayhemStage >= 8 ? '50%' : '25%'} physical vuln — spend down or ride it.`
-                                : mayhemStage > 0
-                                    ? `Amplified and climbing — watch the drawbacks.`
-                                    : 'Dormant — cast to ascend.',
+                            mayhemStage >= 9
+                                ? { text: 'UNSTABLE — 25% misfire (2d6 storm), +50% vulnerability to smashing and slicing. Spend down or ride it.', tone: 'bad' }
+                                : mayhemStage >= 7
+                                    ? { text: 'VOLATILE — 25% misfire, +25% vulnerability to smashing and slicing.', tone: 'warn' }
+                                    : mayhemStage > 0
+                                        ? 'Amplified and climbing — watch the drawbacks.'
+                                        : 'Dormant — cast to build Mayhem.',
+                            'Maintaining an active doom prophecy blocks all healing.'
                         ]}
-                        usage={isOwner ? 'Click bar for controls · Shift+Click or Click rune to set stage · Click center to roll Surge.' : null}
+                        usage={isOwner ? 'Click bar for controls · Shift+Click or click rune to set stage · Click center to roll Surge.' : null}
                     />
                 </div>,
                 document.body
@@ -559,7 +560,7 @@ const HarbingerResourceBar = ({
             {showControls && ReactDOM.createPortal(
                 <div
                     ref={controlsMenuRef}
-                    className={`unified-context-menu compact context-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    className={`unified-context-menu compact context-menu-container harbinger-menu-container class-resource-menu ${context === 'party' ? 'chronarch-party' : ''}`}
                     onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     style={(() => {
@@ -580,18 +581,18 @@ const HarbingerResourceBar = ({
 
                             {/* Current state summary */}
                             <div style={{ fontSize: '0.8rem', marginBottom: '6px', lineHeight: 1.35 }}>
-                                <div><strong>Stage:</strong> {getStageName(mayhemStage)} <span style={{ color: '#8e44ad' }}>(Level {mayhemStage}/{maxStage})</span></div>
+                                <div><strong>Stage:</strong> {getStageName(mayhemStage)} <span style={{ color: '#d8b4fe' }}>(Level {mayhemStage}/{maxStage})</span></div>
                                 <div><strong>Bonus:</strong> {getBonusText(mayhemStage)}</div>
-                                <div style={{ color: mayhemStage >= 8 ? '#c0392b' : mayhemStage >= 6 ? '#8e44ad' : '#5a4628' }}>
+                                <div style={{ color: mayhemStage >= 8 ? '#f87171' : mayhemStage >= 6 ? '#d8b4fe' : 'var(--crm-text-dim, #cbd5e1)' }}>
                                     <strong>Drawback:</strong> {getDrawbackText(mayhemStage)}
                                 </div>
                                 {mayhemStage >= 6 && (
-                                    <div style={{ color: '#c0392b', fontStyle: 'italic', marginTop: '2px' }}>
+                                    <div style={{ color: '#f87171', fontStyle: 'italic', marginTop: '2px' }}>
                                         Planar Instability active — Physical vulnerability & misfire risks engaged.
                                     </div>
                                 )}
                                 {mayhemStage === 0 && (
-                                    <div style={{ color: '#5a4628', fontStyle: 'italic', marginTop: '2px' }}>
+                                    <div style={{ color: 'var(--crm-text-dim, #cbd5e1)', fontStyle: 'italic', marginTop: '2px' }}>
                                         Cast spells to build Mayhem. Spend Mayhem to widen prophecy ranges.
                                     </div>
                                 )}
@@ -639,10 +640,10 @@ const HarbingerResourceBar = ({
 
                             {lastSurgeResult && (
                                 <div style={{ padding: '6px', background: 'rgba(142, 68, 173, 0.1)', border: '1px solid #8e44ad', borderRadius: '4px', fontSize: '0.76rem', marginBottom: '8px' }}>
-                                    <div style={{ fontWeight: 'bold', color: '#6c3483' }}>
+                                    <div style={{ fontWeight: 'bold', color: '#d8b4fe' }}>
                                         d100 = {lastSurgeResult.roll}: {lastSurgeResult.name}
                                     </div>
-                                    <div style={{ color: '#4a3c2c', fontSize: '0.72rem', marginTop: '2px' }}>
+                                    <div style={{ color: 'var(--crm-text-dim, #cbd5e1)', fontSize: '0.72rem', marginTop: '2px' }}>
                                         {lastSurgeResult.desc}
                                     </div>
                                 </div>

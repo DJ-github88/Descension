@@ -469,7 +469,7 @@ function BlacksmithingInterface({ onBack, activeTab, onTabChange, onLearnAllReci
                 <div className="no-recipes">
                     <div className="no-recipes-icon">
                         <img
-                            src="getIconUrl('animal-fabric-bandage-folded-orange-tan-red-details', 'items')"
+                            src={getIconUrl('Misc/Profession Resources/Blacksmithing/resource-anvil-forge-brown-grey', 'items')}
                             alt="No Recipes"
                         />
                     </div>
@@ -501,14 +501,9 @@ function BlacksmithingInterface({ onBack, activeTab, onTabChange, onLearnAllReci
                                                 src={getIconUrl(resultItem?.iconId || recipe.resultIcon || 'inv_misc_bandage_01', 'items')}
                                                 alt={recipe.name}
                                                 onError={(e) => {
-                                                    e.target.src = getIconUrl('animal-fabric-bandage-folded-orange-tan-red-details', 'items');
+                                                    if (e.target.dataset.fbk) return; e.target.dataset.fbk = '1'; e.target.src = getIconUrl('Misc/Profession Resources/Blacksmithing/resource-anvil-forge-brown-grey', 'items');
                                                 }}
                                             />
-                                            {!craftCheck.canCraft && (
-                                                <div className="craft-overlay">
-                                                    <span>� - </span>
-                                                </div>
-                                            )}
                                         </div>
                                     );
                                 })()}
@@ -544,7 +539,7 @@ function BlacksmithingInterface({ onBack, activeTab, onTabChange, onLearnAllReci
                             <img
                                 src={getIconUrl(resultItem?.iconId || selectedRecipe.resultIcon || 'inv_misc_bandage_01', 'items')}
                                 alt={selectedRecipe.name}
-                                onError={(e) => { e.target.src = getIconUrl('animal-fabric-bandage-folded-orange-tan-red-details', 'items'); }}
+                                onError={(e) => { if (e.target.dataset.fbk) return; e.target.dataset.fbk = '1'; e.target.src = getIconUrl('Misc/Profession Resources/Blacksmithing/resource-anvil-forge-brown-grey', 'items'); }}
                             />
                         </div>
                         <div className="recipe-detail-meta">
@@ -598,7 +593,7 @@ function BlacksmithingInterface({ onBack, activeTab, onTabChange, onLearnAllReci
                                             <img
                                                 src={getIconUrl(itemData?.iconId || 'inv_misc_questionmark', 'items')}
                                                 alt={itemData?.name}
-                                                onError={(e) => { e.target.src = getIconUrl('inv_misc_questionmark', 'items'); }}
+                                                onError={(e) => { if (e.target.dataset.fbk) return; e.target.dataset.fbk = '1'; e.target.src = getIconUrl('inv_misc_questionmark', 'items'); }}
                                             />
                                         </div>
                                         <div className="material-info">
@@ -659,7 +654,7 @@ function BlacksmithingInterface({ onBack, activeTab, onTabChange, onLearnAllReci
                     <div className="queue-empty">
                         <div className="queue-empty-icon">
                             <img
-                                src="getIconUrl('brown-backpack-sleeping-bag', 'items')"
+                                src={getIconUrl('Container/Bag/brown-backpack-sleeping-bag', 'items')}
                                 alt="Empty Queue"
                             />
                         </div>
@@ -686,10 +681,10 @@ function BlacksmithingInterface({ onBack, activeTab, onTabChange, onLearnAllReci
                                             <div className="queue-item-info">
                                                 <div className="queue-item-icon">
                                                     <img
-                                                        src={getIconUrl(craftingItem.recipe.resultIcon || 'inv_misc_bandage_01', 'items')}
+                                                        src={getIconUrl(craftingItem.recipe.resultIcon || 'Misc/Profession Resources/Blacksmithing/resource-anvil-forge-brown-grey', 'items')}
                                                         alt={craftingItem.recipe.name}
                                                         onError={(e) => {
-                                                            e.target.src = getIconUrl('animal-fabric-bandage-folded-orange-tan-red-details', 'items');
+                                                            if (e.target.dataset.fbk) return; e.target.dataset.fbk = '1'; e.target.src = getIconUrl('Misc/Profession Resources/Blacksmithing/resource-anvil-forge-brown-grey', 'items');
                                                         }}
                                                     />
                                                 </div>
@@ -740,7 +735,7 @@ function BlacksmithingInterface({ onBack, activeTab, onTabChange, onLearnAllReci
                 skillColor={getSkillLevelColor}
                 currentCraftingItem={currentCraftingItem}
                 craftingQueue={craftingQueue}
-                defaultIcon="inv_misc_bandage_01"
+                defaultIcon="Misc/Profession Resources/Blacksmithing/resource-anvil-forge-brown-grey"
                 selectedRecipe={selectedRecipe}
                 onBackToRecipes={() => setSelectedRecipe(null)}
                 onLearnAllRecipes={onLearnAllRecipes}

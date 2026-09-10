@@ -562,7 +562,7 @@ const GMNotesWindow = ({
                                                     <option value="Groven (Stoneborn)" />
                                                     <option value="Solari (Sunforged)" />
                                                     <option value="Vreken (Mist-Stalkers)" />
-                                                    <option value="Neth (Ash & Iron Kin)" />
+                                                    <option value="Nethien (Ash & Iron Kin)" />
                                                     <option value="Astril (Void-Touched)" />
                                                     <option value="Fexrick (Forge-Folk)" />
                                                 </datalist>

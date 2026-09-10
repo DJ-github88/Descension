@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, useLayoutEffect } from 'react';
 import ReactDOM from 'react-dom';
+import '../../styles/class-resource-menu.css';
 import { getClassResourceConfig } from '../../data/classResources';
 import useChatStore from '../../store/chatStore';
 import useGameStore from '../../store/gameStore';
@@ -1864,18 +1865,33 @@ const ClassResourceBar = ({
 
     // Helper function to get Berserker rage state
 
-    const isArcanoneer = finalConfig.visual.type === 'elemental-spheres';
-    const isMartyr = finalConfig.visual?.type === 'devotion-gauge';
-    const isAugur = finalConfig.visual?.type === 'dual-omen';
-    const isRevenant = finalConfig.visual?.type === 'revenant-toll';
-    const isSpellguard = finalConfig.visual?.type === 'arcane-absorption';
-    const isAnimist = finalConfig.visual?.type === 'ancestral-resonance';
-    const isShaper = finalConfig.visual?.type === 'stance-flow';
-    const isBerserker = finalConfig.visual?.type === 'dual-dice';
-    const isToxicologist = finalConfig.visual?.type === 'alchemical-arsenal';
-    const isInquisitor = finalConfig.visual?.type === 'inquisitor-authority' || finalConfig.visual?.type === 'hexbreaker-charges';
-    const isLunarch = finalConfig.visual?.type === 'lunar-phases' || finalConfig.visual?.type === 'lunar_cycle' || finalConfig.type === 'lunar_cycle';
-    const isApex = finalConfig.visual?.type === 'quarry-marks-companion' || finalConfig.visual?.type === 'apex-hunt' || finalClassResource?.className === 'Apex';
+    // Classes with a dedicated renderer component own their own hover tooltip.
+    // The generic ResourceTooltip must not render for them or it overlaps the
+    // dedicated ClassTip and the open context menu.
+    const DEDICATED_BAR_TYPES = new Set([
+        'elemental-spheres',     // Arcanoneer
+        'dual-dice',             // Berserker
+        'stance-flow',           // Shaper
+        'time-shards-strain',    // Chronarch
+        'inquisitor-authority',  // Inquisitor
+        'revenant-toll',         // Revenant
+        'madness-gauge',         // False Prophet
+        'fortune-points-gambling', // Gambit
+        'quarry-marks-companion', // Apex
+        'ancestral-resonance',   // Animist
+        'lunar-phases',          // Lunarch
+        'devotion-gauge',        // Martyr
+        'musical-notes-combo',   // Minstrel
+        'virulence-bar',         // Plaguebringer
+        'inferno-veil',          // Pyrofiend
+        'arcane-absorption',     // Spellguard
+        'alchemical-arsenal',    // Toxicologist
+        'vengeance-points',      // Warden
+        'mayhem-gauge',          // Harbinger
+        'dual-omen',             // Augur
+        'fervor-gauge'           // Crusader
+    ]);
+    const hasDedicatedBar = DEDICATED_BAR_TYPES.has(finalConfig.visual?.type);
 
     // Hide CR bar if class has no resource system (max === 0)
     // This prevents showing "0/0" bars for GMs or characters without class resources
@@ -1895,7 +1911,7 @@ const ClassResourceBar = ({
                 style={{ cursor: isGMMode ? 'pointer' : 'default' }}
             >
                 {renderResourceDisplay()}
-                {!isMartyr && !isAugur && !isArcanoneer && !isRevenant && !isSpellguard && !isAnimist && !isShaper && !isBerserker && !isToxicologist && !isInquisitor && !isLunarch && !isApex && (
+                {!hasDedicatedBar && (
                     <ResourceTooltip
                         finalConfig={finalConfig}
                         modifiedConfig={modifiedConfig}

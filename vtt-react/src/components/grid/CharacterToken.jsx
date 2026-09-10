@@ -11,6 +11,7 @@ import useLevelEditorStore from '../../store/levelEditorStore';
 // Removed useEnhancedMultiplayer import - hook was removed
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { getIconUrl } from '../../utils/assetManager';
+import { getClassIconUrl } from '../../utils/classIconUtils';
 import useSettingsStore from '../../store/settingsStore';
 import CharacterTooltip from '../tooltips/CharacterTooltip';
 import ConditionsWindow from '../conditions/ConditionsWindow';
@@ -138,8 +139,10 @@ const CharacterToken = ({
 
   // In multiplayer, if this token belongs to another player, get their character data from party store
   const partyMembers = usePartyStore(state => state.partyMembers);
-  // FIX: Use multi-field matching to find party member by any ID type
-  const partyMember = tokenPlayerId && isInMultiplayer
+  // FIX: Use multi-field matching to find party member by any ID type. This is
+  // also used by inspect so the inspect window receives the full party member
+  // payload (with id) instead of the token's partial render snapshot.
+  const partyMember = tokenPlayerId
     ? partyMembers.find(m =>
       m.id === tokenPlayerId ||
       m.socketId === tokenPlayerId ||
@@ -591,8 +594,9 @@ const CharacterToken = ({
       const icon = characterData.lore.characterIcon;
       return getIconUrl(icon, icon.includes('/') ? 'creatures' : 'items');
     }
-    // Return null instead of default icon - let CSS handle the default
-    return null;
+    // No portrait chosen: fall back to the class icon, same as the party HUD.
+    // Without this the placed token rendered blank while the HUD showed the class icon.
+    return getClassIconUrl(characterData.class);
   };
 
   // Handle mouse enter (show tooltip with delay)
@@ -1444,11 +1448,29 @@ const CharacterToken = ({
   // Handle inspect
   const handleInspectCharacter = () => {
     if (onInspect) {
-      // Check if this is another player's token
-      const currentPlayer = useGameStore.getState().currentPlayer;
-      const myId = currentPlayer?.id || 'current-player';
-      const isSelf = tokenPlayerId === 'current-player' || (myId && tokenPlayerId === myId);
-            onInspect(characterData, isSelf); // true if it's our own token
+      // Reuse the same ownership resolution as rendering so single-player
+      // tokens (playerId null) and socket-id tokens are recognized as ours.
+      const isSelf = isOwnTokenForRendering;
+
+      // Token snapshots only carry render data (name/race/class/vitals/lore),
+      // so forward a rich payload to the inspect window:
+      // - own token -> the live character store
+      // - other PCs -> the full party member ({ id, name, character })
+      // - fallback  -> the token snapshot wrapped with its owner id
+      let inspectTarget = characterData;
+      if (isSelf) {
+        inspectTarget = useCharacterStore.getState();
+      } else if (partyMember) {
+        inspectTarget = partyMember;
+      } else if (snapshotCharacter) {
+        inspectTarget = {
+          id: tokenPlayerId || token?.id,
+          name: characterData.name,
+          character: snapshotCharacter
+        };
+      }
+
+      onInspect(inspectTarget, isSelf);
     }
 
     setShowContextMenu(false);
@@ -2894,9 +2916,12 @@ const CharacterToken = ({
         />
       )}
 
-      {/* Movement Confirmation Dialog */}
+      {/* Movement Confirmation Dialog
+          CRITICAL FIX: only render when this token owns the pending movement.
+          Every token instance sees the same global pendingMovementConfirmation;
+          ungated, all of them stack a dialog and the topmost (wrong) one wins. */}
       <MovementConfirmationDialog
-        isOpen={!!pendingMovementConfirmation}
+        isOpen={!!pendingMovementConfirmation && pendingMovementConfirmation.tokenId === tokenId}
         onConfirm={handleConfirmMovement}
         onCancel={handleCancelMovement}
         movementData={pendingMovementConfirmation}

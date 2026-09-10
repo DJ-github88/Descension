@@ -515,23 +515,23 @@ const ApexResourceBar = ({
             </div>
 
             {/* Shared ClassTip Tooltip */}
-            {showTooltip && ReactDOM.createPortal(
+            {showTooltip && !showControls && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip apex-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     <ClassTip
                         icon="fas fa-paw"
                         tint="#ef4444"
-                        title="The Predator's Kill-Ledger"
-                        subtitle="Apex Quarry Ledger & Pack Hunt"
+                        title="Quarry Marks"
+                        subtitle="Apex Predator's Crosshairs & Pack"
                         state={`Marks: ${marks}/${maxMarks} · HP: ${companionHP}/${companionMaxHP}`}
-                        stateTone={isApexReady ? 'critical' : 'good'}
-                        mechanic="Quarry Marks track your prey across the hunt. Five marks triggers Apex Execution — your greatest kill. The companion token on the map acts independently; manage its HP and stance via the Pack Codex menu."
+                        stateTone={isApexReady ? 'good' : 'neutral'}
+                        mechanic="Quarry Marks (0-5) come only from pack synergy: coordinated strikes, companion hits and crits, and Mark Quarry — solo glaive hits generate nothing, and a dead companion stops all generation. Spend Marks on chained strikes and finishers; 5 Marks primes the ultimate."
                         status={[
                             isApexReady
-                                ? 'APEX EXECUTION PRIMED: Unleash multi-target shadow glaive chain or execution rend!'
-                                : `Quarry Marks: ${marks} of ${maxMarks} claimed.`,
-                            `Pack Stance: ${companionStance} — Companion at ${companionHP}/${companionMaxHP} HP.`
+                                ? { text: '5/5 Marks — ultimate finisher primed.', tone: 'good' }
+                                : `Marks: ${marks}/${maxMarks} banked via the pack.`,
+                            `Companion: ${companionStance} · ${companionHP}/${companionMaxHP} HP.`
                         ]}
-                        usage={isOwner ? 'Right-click for Pack Codex. Click talons to set marks. Click flank chevrons to step marks.' : null}
+                        usage={isOwner ? 'Right-click for Pack Codex. Click talons to set Marks. Click flank chevrons to step Marks.' : null}
                     />
                 </div>,
                 document.body
@@ -541,7 +541,7 @@ const ApexResourceBar = ({
             {showControls && ReactDOM.createPortal(
                 <div
                     ref={controlsMenuRef}
-                    className={`unified-context-menu compact context-menu-container apex-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    className={`unified-context-menu compact context-menu-container apex-menu-container class-resource-menu ${context === 'party' ? 'chronarch-party' : ''}`}
                     onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onMouseEnter={(e) => {
@@ -627,7 +627,7 @@ const ApexResourceBar = ({
                             </div>
 
                             {/* Companion Stance Selector */}
-                            <div className="context-menu-section-header" style={{ fontSize: '11px', color: '#555', marginBottom: '4px' }}>
+                            <div className="context-menu-section-header" style={{ fontSize: '11px', color: 'var(--crm-text-dim, #cbd5e1)', marginBottom: '4px' }}>
                                 Companion Stance:
                             </div>
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '3px', marginBottom: '8px' }}>

@@ -537,7 +537,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'iceheart-sea',
     width: 4096,
     height: 3072,
-    description: 'The southernmost reach of the Iceheart Sea, where a glacial river from the Bryngloom meets the salt water. The estuary is a vast marshland of half-fresh, half-salt water; the Saltmaw Bog is a place of smugglers, exiled Neth, and forgotten spirits.'
+    description: 'The southernmost reach of the Iceheart Sea, where a glacial river from the Bryngloom meets the salt water. The estuary is a vast marshland of half-fresh, half-salt water; the Saltmaw Bog is a place of smugglers, exiled Nethien, and forgotten spirits.'
   },
   'iceheart-waters-of-eziara': {
     id: 'iceheart-waters-of-eziara',
@@ -663,7 +663,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'sundrift-vale',
     width: 4096,
     height: 3072,
-    description: 'The southern march of the Vale, the transition zone where the steppe meets the Bryngloom Forest. Morren\'s Bogpost is the only major settlement, a trade outpost where Ordan horse-traders meet Vreken peat-cutters and Bryngloom Neth scribes. The cultural mixing here is intense; many Marred folk live in the bogpost.'
+    description: 'The southern march of the Vale, the transition zone where the steppe meets the Bryngloom Forest. Morren\'s Bogpost is the only major settlement, a trade outpost where Ordan horse-traders meet Vreken peat-cutters and Bryngloom Nethien scribes. The cultural mixing here is intense; many Marred folk live in the bogpost.'
   },
   'sundrift-blizzard-bluff': {
     id: 'sundrift-blizzard-bluff',
@@ -681,7 +681,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'bryngloom-forest',
     width: 4096,
     height: 3072,
-    description: 'The political heart of the Bryngloom, the ironwood cathedral-grove of Atropolis, the Great Mere (the central lake), the Over-Shanty hanging slum. The Neth Velun rule here; the Great Registry is enforced; the Vreken are bound to debt-covenants beneath the towering ironwood. The Peat-Bog Sinks surround the capital.'
+    description: 'The political heart of the Bryngloom, the ironwood cathedral-grove of Atropolis, the Great Mere (the central lake), the Over-Shanty hanging slum. The Nethien rule here; the Great Registry is enforced; the Vreken are bound to debt-covenants beneath the towering ironwood. The Peat-Bog Sinks surround the capital.'
   },
   'bryngloom-sunken-basin': {
     id: 'bryngloom-sunken-basin',
@@ -708,7 +708,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'bryngloom-forest',
     width: 4096,
     height: 3072,
-    description: 'The western edge of the forest, where Vel-Keth Bayou (the water-that-remembers) winds through the oldest ironwood groves. The Kessen weavers of Aran-Glen live here, reading probability in their living-ironwood looms. The Inquisition keeps the Covenbane Stronghold in the eastern bayous; the swamp-singers were purged from these waters.'
+    description: 'The western edge of the forest, where Vel-Keth Bayou (the water-that-remembers) winds through the oldest ironwood groves. The Veldun weavers of Aran-Glen live here, reading probability in their living-ironwood looms. The Inquisition keeps the Covenbane Stronghold in the eastern bayous; the swamp-singers were purged from these waters.'
   },
   'bryngloom-great-mere': {
     id: 'bryngloom-great-mere',
@@ -717,7 +717,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'bryngloom-forest',
     width: 4096,
     height: 3072,
-    description: 'The vast central lake of the Bryngloom, dotted with small wooded islands, some inhabited, some forbidden, some not even on any map. Merryn barges tie up at the lake-ports; Vreken shrines hide on the western islands; an old Velun monastery stands on the largest. The lake level rises and falls with the moon.'
+    description: 'The vast central lake of the Bryngloom, dotted with small wooded islands, some inhabited, some forbidden, some not even on any map. Merryn barges tie up at the lake-ports; Vreken shrines hide on the western islands; an old Nethien monastery stands on the largest. The lake level rises and falls with the moon.'
   },
   'bryngloom-root-veil': {
     id: 'bryngloom-root-veil',
@@ -726,7 +726,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'bryngloom-forest',
     width: 4096,
     height: 3072,
-    description: 'Beneath the entire forest, the mycelial network the Neth call the Root-Veil connects every ironwood root. Morvane rules here, in the deepest dark, where the First Contract was signed. The Root-Veil Scriptorium, the fabled archive of unbreakable memory, sits at the network\'s heart.'
+    description: 'Beneath the entire forest, the mycelial network the Nethien call the Root-Veil connects every ironwood root. Morvane rules here, in the deepest dark, where the First Contract was signed. The Root-Veil Scriptorium, the fabled archive of unbreakable memory, sits at the network\'s heart.'
   },
 
 };

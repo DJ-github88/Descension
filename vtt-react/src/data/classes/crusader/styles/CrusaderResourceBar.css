@@ -21,7 +21,8 @@
     position: relative;
     width: 100%;
     max-width: 292px;
-    height: 76px;
+    height: auto;
+    aspect-ratio: 360 / 76;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -42,13 +43,17 @@
 }
 
 .crusader-resource-bar.small {
-    height: 52px;
-    max-width: 220px;
+    max-width: none;
 }
 
 .crusader-resource-bar.large {
-    height: 84px;
     max-width: 310px;
+}
+
+/* Party HUD: drop lower than the default slot; width fills the resource
+   column naturally via the aspect-ratio-driven sizing. */
+.party-member-frame.class-crusader .class-resource-wrapper {
+    margin-top: 14px !important;
 }
 
 /* Force compact sizing in account context */
@@ -92,4 +97,46 @@
 
 .crusader-resource-bar.judgment-ready {
     animation: crusaderJudgmentPulse 1.2s infinite ease-in-out;
+}
+
+/* Consecrated sanctum rays brighten as Fervor kindles */
+.crusader-sanctum-rays {
+    transition: opacity 0.45s ease;
+}
+
+/* Breathing halo behind the monstrance */
+.crusader-halo-bloom {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: crusaderHaloBreathe 3.4s ease-in-out infinite;
+}
+
+@keyframes crusaderHaloBreathe {
+    0%, 100% { opacity: 0.72; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.07); }
+}
+
+/* Slow shimmer on the side rosettes */
+.crusader-side-rosettes {
+    animation: crusaderRosetteGlow 4.4s ease-in-out infinite;
+}
+
+@keyframes crusaderRosetteGlow {
+    0%, 100% { opacity: 0.62; }
+    50% { opacity: 1; }
+}
+
+/* Embers drifting off the consecrated plate */
+.crusader-ember {
+    transform-box: fill-box;
+    transform-origin: center;
+    opacity: 0;
+    animation: crusaderEmberRise 3.6s ease-in-out infinite;
+}
+
+@keyframes crusaderEmberRise {
+    0% { opacity: 0; transform: translateY(5px) scale(0.7); }
+    25% { opacity: 0.95; }
+    70% { opacity: 0.5; }
+    100% { opacity: 0; transform: translateY(-15px) scale(1.15); }
 }

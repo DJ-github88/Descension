@@ -13,7 +13,7 @@ import { WEAPON_TYPE_META } from '../constants/weaponTypeMeta';
 /**
  * Identify the weapon discipline key from an equipped item
  * @param {Object} item - The equipped item
- * @returns {string} One of the 40 discipline keys from WEAPON_TYPE_META, or 'shield', or 'unarmed'
+ * @returns {string} One of the discipline keys from WEAPON_TYPE_META, or 'shield', or 'unarmed'
  */
 export function getWeaponDisciplineKey(item) {
     if (!item) return 'unarmed';
@@ -31,6 +31,12 @@ export function getWeaponDisciplineKey(item) {
     if (subtype.includes('shield') || subtype.includes('buckler') || name.includes('shield') || name.includes('buckler')) {
         return 'shield';
     }
+
+    // Off-hand focus items (idols, tomes, orbs, totems)
+    if (subtype.includes('idol') || subtype.includes('fetish')) return 'idol';
+    if (subtype.includes('tome') || subtype.includes('book') || subtype.includes('codex') || subtype.includes('grimoire')) return 'tome';
+    if (subtype.includes('sphere') || subtype.includes('orb')) return 'sphere';
+    if (subtype.includes('totem') || subtype.includes('effigy')) return 'totem';
 
     // Direct discipline match from subtype
     if (WEAPON_TYPE_META[subtype]) {
@@ -89,14 +95,16 @@ export function getWeaponDisciplineKey(item) {
 }
 
 /**
- * 40 Unique, Flavor-Forward Weapon Discipline Specials (2 AP each)
+ * 44 Unique, Flavor-Forward Weapon Discipline Specials (2 AP each)
  * Formatted as full Mythrill spell cards with rich mechanics, damageConfig, and tooltips.
+ * Grounded in the Mythrill defense model: no AC — armor soaks with DR dice tied to
+ * the durability ladder, crits explode, saves use the six attributes (spirit, not wisdom).
  */
 export const WEAPON_DISCIPLINE_SPECIALS = {
     sword: {
         id: 'spec_sword_dancing_steel',
         name: 'Dancing Steel',
-        description: 'Perform a fluid blademaster flourish that slices through the enemy’s guard. Deals weapon damage + 2 bonus damage, and allows you to immediately take a free 1-tile tactical step without provoking reactions.',
+        description: 'Measure your partner, dip, and finish on the downbeat — a blademaster flourish that slips past the guard. Deals weapon damage + 2, and lets you take a free 1-tile tactical step without provoking reactions. The band plays on.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'utility'],
@@ -120,8 +128,8 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     },
     axe: {
         id: 'spec_axe_sundering_chop',
-        name: 'Sundering Chop',
-        description: 'Bring the heavy bearded edge down with terrifying cleaving momentum. Deals weapon damage and cracks 1 durability point off the target’s shield or armor plating.',
+        name: 'Eviction Notice',
+        description: 'The bearded axe repossesses a chunk of the target’s gear. Deals weapon damage + 2, and the impact steps the target’s armor DR die down one step (d8 → d6, and so on) until repaired. Possessions must go.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'debuff'],
@@ -137,16 +145,27 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
             canCrit: true,
             critMultiplier: 2
         },
+        controlConfig: {
+            controlType: 'status_effect',
+            effects: [
+                {
+                    id: 'dr_step_down',
+                    name: 'Evicted (Armor DR Step-Down)',
+                    description: 'The target’s armor DR die steps down one step (d8 → d6, etc.) until repaired.',
+                    mechanicsText: 'Armor DR die steps down one step until repaired'
+                }
+            ]
+        },
         targetingConfig: { targetingType: 'single', rangeType: 'touch', rangeDistance: 5, targetRestrictions: ['enemy'] },
         resourceCost: { actionPoints: 2, mana: 0, health: 0 },
         cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
         resolution: 'DICE',
-        tags: ['weapon', 'discipline', 'axe', 'sunder', 'attack']
+        tags: ['weapon', 'discipline', 'axe', 'sunder', 'dr_step_down']
     },
     mace: {
         id: 'spec_mace_skull_rattler',
         name: 'Skull-Rattler',
-        description: 'Deliver a concussive bludgeon directly to the opponent’s helm. Deals smashing damage and forces a Constitution saving throw; on failure, the target is Stunned until the end of their next turn.',
+        description: 'Rings the target’s helm like a dinner bell. Deals weapon damage, and the cranial percussion forces a DC 14 Constitution save; on failure, the target is Stunned for 1 round — ears still ringing.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'control'],
@@ -194,8 +213,8 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     },
     dagger: {
         id: 'spec_dagger_hamstring_slice',
-        name: 'Hamstring Slice',
-        description: 'Dart low and sever the target’s Achilles tendon with surgical precision. Deals stabbing damage and reduces the target’s movement speed by half for 2 rounds.',
+        name: 'Shoelace Express',
+        description: 'A quick delivery, straight to the tendons behind the knee. Deals weapon damage + 1; DC 13 Agility save or the target’s movement speed is halved for 2 rounds while they quietly reconsider their laces.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'control'],
@@ -229,7 +248,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
             effects: [
                 {
                     id: 'slowed',
-                    name: 'Hamstrung (Movement Halved)',
+                    name: 'Untied Laces (Movement Halved)',
                     description: 'Forces a DC 13 Agility save; on failure, target movement speed is halved for 2 rounds.',
                     mechanicsText: 'Movement speed halved'
                 }
@@ -243,8 +262,8 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     },
     rapier: {
         id: 'spec_rapier_fleche_thrust',
-        name: 'Flèche Thrust',
-        description: 'An explosive forward lunging thrust exploiting the smallest seam in enemy armor. Has expanded critical strike range (threatens critical on natural 18–20) and deals piercing damage.',
+        name: 'Envelope Opener',
+        description: 'Slides past plate like a letter opener through sealed mail — terribly rude, terribly neat. Deals weapon damage + 3, and the blade threatens a Sovereign Critical on a weapon-die roll of max OR one below max (the wider window still explodes as normal).',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage'],
@@ -269,7 +288,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     katana: {
         id: 'spec_katana_iaijutsu_slash',
         name: 'Iaijutsu Slash',
-        description: 'In one blinding flash of steel, draw and strike with perfect geometry. Deals weapon damage, and if striking a target who has not yet acted this round, automatically maximizes the weapon damage die.',
+        description: 'One breath. One draw. No apology. If the target has not yet acted this round, the weapon die is treated as its maximum value — which then explodes per Sovereign Critical rules — for weapon damage + 2. Blink and you’ll miss both the draw and the point.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage'],
@@ -293,8 +312,8 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     },
     saber: {
         id: 'spec_saber_cavalry_cut',
-        name: 'Cavalry Cut',
-        description: 'A sweeping curved slash capitalizing on continuous kinetic momentum. Strikes the foe for slicing damage and grants a free 1-tile reposition without triggering opportunity attacks.',
+        name: 'Drive-By Curtsy',
+        description: 'A flashing curved cut delivered mid-stride, with impeccable manners. Deals weapon damage + 1 and grants a free 1-tile reposition that provokes no reactions. Curtsy optional, but encouraged.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'utility'],
@@ -318,8 +337,8 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     },
     sickle: {
         id: 'spec_sickle_reaping_hook',
-        name: 'Reaping Hook',
-        description: 'Hook the curved beak behind an opponent’s guard or ankle. Deals slicing damage and yanks the target 1 tile toward you, putting them off-balance.',
+        name: 'Turnip Reaper',
+        description: 'Hooks an ankle and reels the foe in like a stubborn root vegetable. Deals weapon damage + 1; DC 13 Strength save or the target is yanked 1 tile (5 ft) toward you. Fresh produce, delivered daily.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'control'],
@@ -352,7 +371,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
             effects: [
                 {
                     id: 'pull',
-                    name: 'Reaping Pull (5 ft)',
+                    name: 'Reaped (Pull 5 ft)',
                     description: 'Forces a DC 13 Strength save; on failure, target is yanked 1 tile (5 ft) toward you.',
                     mechanicsText: 'Pulls target 5 ft'
                 }
@@ -366,11 +385,11 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     },
     flail: {
         id: 'spec_flail_chain_wrap',
-        name: 'Chain Wrap',
-        description: 'Whip the spiked ball over and around the defender’s shield. This attack completely ignores any Armor Class bonus or damage reduction granted by shields.',
+        name: 'Bypass the Bouncer',
+        description: 'The spiked ball takes the scenic route — entirely around the shield. The target’s shield DR die cannot soak this hit (body armor still can), and their shield cracks, losing 1 durability for its trouble. Deals weapon damage + 2. Names not on the list.',
         level: 1,
         spellType: 'ACTION',
-        effectTypes: ['damage'],
+        effectTypes: ['damage', 'debuff'],
         source: 'weapon_discipline',
         categoryIds: ['general_actions'],
         icon: 'Bludgeoning/Swinging Hammer',
@@ -383,16 +402,27 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
             canCrit: true,
             critMultiplier: 2
         },
+        controlConfig: {
+            controlType: 'status_effect',
+            effects: [
+                {
+                    id: 'shield_bypassed',
+                    name: 'Bounced (Shield Bypassed)',
+                    description: 'The target’s shield DR die cannot soak this hit, and the shield loses 1 durability.',
+                    mechanicsText: 'Shield DR die cannot soak; shield loses 1 durability'
+                }
+            ]
+        },
         targetingConfig: { targetingType: 'single', rangeType: 'touch', rangeDistance: 5, targetRestrictions: ['enemy'] },
         resourceCost: { actionPoints: 2, mana: 0, health: 0 },
         cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
         resolution: 'DICE',
-        tags: ['weapon', 'discipline', 'flail', 'shield_bypass', 'attack']
+        tags: ['weapon', 'discipline', 'flail', 'shield_bypass', 'dr_step_down']
     },
     'fist weapon': {
         id: 'spec_fistweapon_rending_claws',
         name: 'Rending Claws',
-        description: 'Lacerate the enemy with dual-clawed savagery. Deals damage and opens bleeding wounds that cause 1d4 damage at the start of the target’s turn for 2 rounds.',
+        description: 'Introduces the enemy to their new life as a scratching post. Deals weapon damage + 1d4 immediate bleed, and the wounds weep for another 1d4 at the start of each of the target’s next 2 turns.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'debuff'],
@@ -408,6 +438,19 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
             canCrit: true,
             critMultiplier: 2
         },
+        controlConfig: {
+            controlType: 'status_effect',
+            duration: 2,
+            durationUnit: 'turns',
+            effects: [
+                {
+                    id: 'bleed',
+                    name: 'Scratching Post (Bleed)',
+                    description: 'The target bleeds 1d4 at the start of each of its next 2 turns.',
+                    mechanicsText: '1d4 bleed per turn, 2 turns'
+                }
+            ]
+        },
         targetingConfig: { targetingType: 'single', rangeType: 'touch', rangeDistance: 5, targetRestrictions: ['enemy'] },
         resourceCost: { actionPoints: 2, mana: 0, health: 0 },
         cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
@@ -417,7 +460,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     'parrying dagger': {
         id: 'spec_parrying_dagger_deflect_bind',
         name: 'Deflect & Bind',
-        description: 'Trap the incoming blade in the quillons of your defensive dagger, nullifying the attack and granting an immediate free Riposte strike at advantage.',
+        description: 'Catch the incoming blade in your quillons, compliment their form — then return it, at speed. Establishes a binding stance: your next Parry contest rolls the weapon die one step higher, and a successful Parry grants an immediate free Riposte.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['buff', 'utility'],
@@ -452,7 +495,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     'off hand blade': {
         id: 'spec_offhand_twin_fang',
         name: 'Twin Fang Flurry',
-        description: 'Unleash a lightning-fast dual-wield combination where your secondary blade strikes in tandem with your primary weapon, delivering two separate damage instances.',
+        description: 'Two blades, one appointment, no waiting room. Your off-hand fang strikes in tandem with the primary weapon, delivering two separate weapon-die damage instances. The receptionist will see both of you now.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage'],
@@ -476,8 +519,8 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     },
     'war mace': {
         id: 'spec_warmace_armor_pulverizer',
-        name: 'Armor Pulverizer',
-        description: 'Crash the heavy spiked head into the enemy’s breastplate. Deals crushing damage, dazes the enemy (loses 1 AP next turn), and dents 1 point of armor durability.',
+        name: 'Can Opener',
+        description: 'Crashes the spiked face into the breastplate — and peels. Deals weapon damage + 3, steps the target’s armor DR die down one step (d8 → d6, and so on), and the ringing clang leaves them Dazed (−1 AP next turn). Dinner is served.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'debuff'],
@@ -493,16 +536,29 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
             canCrit: true,
             critMultiplier: 2
         },
+        controlConfig: {
+            controlType: 'status_effect',
+            duration: 1,
+            durationUnit: 'turns',
+            effects: [
+                {
+                    id: 'dazed',
+                    name: 'Rung Like a Bell (−1 AP)',
+                    description: 'The clang leaves the target Dazed: −1 AP on their next turn, and their armor DR die steps down one step until repaired.',
+                    mechanicsText: '−1 AP next turn; armor DR die steps down until repaired'
+                }
+            ]
+        },
         targetingConfig: { targetingType: 'single', rangeType: 'touch', rangeDistance: 5, targetRestrictions: ['enemy'] },
         resourceCost: { actionPoints: 2, mana: 0, health: 0 },
         cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
         resolution: 'DICE',
-        tags: ['weapon', 'discipline', 'war_mace', 'sunder', 'daze']
+        tags: ['weapon', 'discipline', 'war_mace', 'sunder', 'daze', 'dr_step_down']
     },
     greatsword: {
         id: 'spec_greatsword_colossus_cleave',
         name: 'Colossus Cleave',
-        description: 'Swing the massive two-handed blade in a ferocious 180° arc. Deals weapon damage + 2 to the primary target and cleaves an adjacent enemy for half damage.',
+        description: 'A ferocious 180° arc with a blade built for architecture. Deals weapon damage + 2 to the primary target — and the follow-through is everyone else’s problem: one adjacent enemy of your choice takes half the rolled damage.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage'],
@@ -527,7 +583,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     greataxe: {
         id: 'spec_greataxe_mountain_splitter',
         name: 'Mountain Splitter',
-        description: 'A terrifying two-handed overhead chop. Deals heavy slicing damage, knocks the enemy 2 tiles backward, and shatters 1 durability point on their armor.',
+        description: 'An overhead chop with geological ambitions. Deals weapon damage + 3; DC 14 Strength save or the target is hurled 2 tiles (10 ft) backward — and whatever they land in has its armor DR die stepped down one step. The mountain does not negotiate.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'control'],
@@ -560,9 +616,9 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
             effects: [
                 {
                     id: 'knockback',
-                    name: 'Knockback (10 ft)',
-                    description: 'Forces a DC 14 Strength save; on failure, target is knocked 2 tiles (10 ft) backward.',
-                    mechanicsText: 'Pushes target 10 ft'
+                    name: 'Split Asunder (Knockback 10 ft)',
+                    description: 'Forces a DC 14 Strength save; on failure, target is knocked 2 tiles (10 ft) backward and their armor DR die steps down one step until repaired.',
+                    mechanicsText: 'Pushes target 10 ft; armor DR die steps down until repaired'
                 }
             ]
         },
@@ -575,7 +631,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     maul: {
         id: 'spec_maul_earthshaker_slam',
         name: 'Earthshaker Slam',
-        description: 'Slam the colossal war hammer into the ground with bone-shattering force. Deals heavy bludgeoning damage and forces a Strength saving throw; on failure, the target is slammed Prone.',
+        description: 'Introduces the target to the floor. Personally. Deals weapon damage + 2 with a ground-shaking impact; DC 14 Strength save or the target is slammed Prone, and the tremor rattles every boot within 5 ft (flavor is free).',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'control'],
@@ -624,7 +680,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     polearm: {
         id: 'spec_polearm_vaulting_sweep',
         name: 'Vaulting Sweep',
-        description: 'Leverage the long haft to execute an extended 10 ft sweeping trip. Deals slashing/piercing damage and trips the enemy flat onto the ground (Prone).',
+        description: 'Unscheduled pole-vault lessons, courtesy of your haft. From 10 ft away, sweep the target’s legs clean; DC 14 Agility save or they are tripped Prone while you remain dignified. Deals weapon damage + 1.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'control'],
@@ -721,11 +777,11 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     },
     halberd: {
         id: 'spec_halberd_hook_and_cleave',
-        name: 'Hook & Cleave',
-        description: 'Use the rear spike to pull down the foe’s weapon or shield, instantly followed by a brutal axe chop to the exposed opening for heavy slicing damage.',
+        name: 'Coat Check',
+        description: 'Hook their shield — or weapon — with the rear spike and hang it somewhere else for the turn. The hooked guard cannot contribute its DR soak to your follow-up axe chop, which lands for weapon damage + 3. No coat, no service.',
         level: 1,
         spellType: 'ACTION',
-        effectTypes: ['damage'],
+        effectTypes: ['damage', 'control'],
         source: 'weapon_discipline',
         categoryIds: ['general_actions'],
         icon: 'Slashing/Axe Weapon',
@@ -738,16 +794,27 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
             canCrit: true,
             critMultiplier: 2
         },
+        controlConfig: {
+            controlType: 'status_effect',
+            effects: [
+                {
+                    id: 'shield_hooked',
+                    name: 'Coat Checked (Guard Hooked)',
+                    description: 'The target’s hooked shield or weapon cannot contribute its DR soak against this hit.',
+                    mechanicsText: 'Shield/guard DR cannot soak this hit'
+                }
+            ]
+        },
         targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 10, targetRestrictions: ['enemy'] },
         resourceCost: { actionPoints: 2, mana: 0, health: 0 },
         cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
         resolution: 'DICE',
-        tags: ['weapon', 'discipline', 'halberd', 'reach', 'hook']
+        tags: ['weapon', 'discipline', 'halberd', 'reach', 'hook', 'dr_step_down']
     },
     scythe: {
         id: 'spec_scythe_soul_harvest',
         name: 'Soul Harvest',
-        description: 'Reap across vital centers with the long curving crescent blade. Deals deep slicing damage and leaves a lingering chill that prevents the target from recovering health for 1 round.',
+        description: 'Reaps across vital centers and takes a small deposit — non-refundable. Deals weapon damage + 2, and the lingering grave-chill prevents the target from recovering health for 1 round (healing and regeneration stall).',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'debuff'],
@@ -763,6 +830,19 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
             canCrit: true,
             critMultiplier: 2
         },
+        controlConfig: {
+            controlType: 'status_effect',
+            duration: 1,
+            durationUnit: 'rounds',
+            effects: [
+                {
+                    id: 'no_healing',
+                    name: 'Harvest Deposit (No Healing)',
+                    description: 'The target cannot recover health for 1 round. The blade keeps the change.',
+                    mechanicsText: 'Healing prevented, 1 round'
+                }
+            ]
+        },
         targetingConfig: { targetingType: 'single', rangeType: 'touch', rangeDistance: 5, targetRestrictions: ['enemy'] },
         resourceCost: { actionPoints: 2, mana: 0, health: 0 },
         cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
@@ -772,7 +852,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     'jousting spear': {
         id: 'spec_joustingspear_couched_charge',
         name: 'Couched Charge',
-        description: 'Couch the lance into your hip and drive forward with immense momentum. Deals double weapon damage if you have moved at least 2 tiles toward the target this turn.',
+        description: 'Couch the lance, lower the visor, and deliver with extreme punctuality. If you have moved at least 2 tiles toward the target this turn, the charge deals DOUBLE weapon damage. Signature required on arrival.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage'],
@@ -797,7 +877,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     'double sided sword': {
         id: 'spec_doublesided_bladestorm',
         name: 'Bladestorm Flourish',
-        description: 'Spin the center grip into a whirlwind of whirling twin edges, striking all adjacent hostile creatures within 5 ft for weapon damage.',
+        description: 'Become a blender with strong opinions. Spin both edges in a full circle, striking every adjacent enemy within 5 ft for weapon damage + 1. Ingredients are not optional.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage'],
@@ -822,7 +902,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     bow: {
         id: 'spec_bow_rain_of_arrows',
         name: 'Rain of Arrows',
-        description: 'Draw to maximum tension and loose a volley high into the air, raining arrows down onto a 10 ft radius target area at range.',
+        description: 'Loose a full volley skyward and let gravity do the paperwork. Arrows rain onto a 10 ft radius area at up to 120 ft — today’s forecast: pointed, with a chance of regret. Each enemy in the area takes weapon damage + 1.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage'],
@@ -847,7 +927,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     crossbow: {
         id: 'spec_crossbow_piercing_bolt',
         name: 'Piercing Bolt',
-        description: 'Fire a heavy winch-cocked bolt with enough kinetic force to punch cleanly through the primary target and strike a second enemy directly behind them.',
+        description: 'A winch-cocked bolt with no concept of personal boundaries. It punches through the primary target and keeps going into the next enemy directly behind them — one bolt, two receipts. Deals weapon damage + 3 to each.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage'],
@@ -872,7 +952,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     thrown: {
         id: 'spec_thrown_ricochet_toss',
         name: 'Ricochet Toss',
-        description: 'Hurl the throwing blade or axe at an angle so that it bounces forcefully off the first enemy to strike an adjacent secondary foe.',
+        description: 'Bank shot! The blade clips the first enemy’s helm and ricochets into a second foe within 10 ft of the first — both take weapon damage + 2. The laws of physics have been notified and do not care.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage'],
@@ -897,7 +977,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     wand: {
         id: 'spec_wand_arcane_surge',
         name: 'Arcane Surge',
-        description: 'Channel pure raw magical power through the wand tip, projecting an overcharged lance of force that deals damage and knocks the target back 5 ft.',
+        description: 'The wand has opinions and no manners. Channels an overcharged lance of raw force for weapon damage + 2; DC 13 Strength save or the target is shoved 5 ft backward, hair thoroughly staticky.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'control'],
@@ -945,7 +1025,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     blowgun: {
         id: 'spec_blowgun_paralytic_dart',
         name: 'Paralytic Dart',
-        description: 'Propel an envenomed needle into an exposed artery. Forces a DC 13 Constitution save; on failure, the target is Paralyzed until the end of their next turn.',
+        description: 'A tiny goodnight kiss on a breath of wind. The envenomed needle deals 1d4 damage; DC 13 Constitution save or the target is Paralyzed until the end of their next turn. Nap time, administered.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['control', 'debuff'],
@@ -994,7 +1074,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     sling: {
         id: 'spec_sling_concussive_bullet',
         name: 'Concussive Bullet',
-        description: 'Whip a heavy lead bullet around your head with centrifugal velocity. Deals crushing damage and rattles the target’s skull, causing disadvantage on their next attack.',
+        description: 'David’s formal rebuttal. A lead bullet at centrifugal velocity rings the target’s skull for weapon damage + 2 — and the ringing scrambles their dice: the target’s next weapon-die roll cannot explode (no Sovereign Critical).',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'debuff'],
@@ -1010,16 +1090,29 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
             canCrit: true,
             critMultiplier: 2
         },
+        controlConfig: {
+            controlType: 'status_effect',
+            duration: 1,
+            durationUnit: 'turns',
+            effects: [
+                {
+                    id: 'no_explode',
+                    name: 'Scrambled (No Exploding Die)',
+                    description: 'The target’s next weapon-die roll cannot explode — no Sovereign Critical.',
+                    mechanicsText: 'Next damage die cannot explode'
+                }
+            ]
+        },
         targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 60, targetRestrictions: ['enemy'] },
         resourceCost: { actionPoints: 2, mana: 0, health: 0 },
         cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
         resolution: 'DICE',
-        tags: ['weapon', 'discipline', 'sling', 'concussion', 'smashing']
+        tags: ['weapon', 'discipline', 'sling', 'concussion', 'no_explode']
     },
     boomerang: {
         id: 'spec_boomerang_returning_whirlwind',
         name: 'Returning Whirlwind',
-        description: 'Hurl the curved thrower on an arced trajectory that slices through the foe and returns safely to your hand, granting you a free ready action.',
+        description: 'The thrower carves through the target, orbits once, and comes home — filing a complaint on return. Deals weapon damage + 2 at up to 50 ft, and catching it grants a free Ready action. Return postage prepaid.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage'],
@@ -1044,7 +1137,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     chakram: {
         id: 'spec_chakram_whirling_razor',
         name: 'Whirling Razor',
-        description: 'Spin the circular bladed disc into an orbit around the foe, inflicting deep slicing wounds that bleed for 1d4 damage on their next turn.',
+        description: 'Send the disc on a close orbit — a shaving appointment the target did not book. Deals weapon damage + 2 now, and the orbiting edge nicks for 1d4 bleed at the start of their next turn.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'debuff'],
@@ -1060,6 +1153,19 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
             canCrit: true,
             critMultiplier: 2
         },
+        controlConfig: {
+            controlType: 'status_effect',
+            duration: 1,
+            durationUnit: 'turns',
+            effects: [
+                {
+                    id: 'bleed',
+                    name: 'Close Shave (Bleed)',
+                    description: 'The orbiting edge nicks the target for 1d4 bleed at the start of their next turn.',
+                    mechanicsText: '1d4 bleed next turn'
+                }
+            ]
+        },
         targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 45, targetRestrictions: ['enemy'] },
         resourceCost: { actionPoints: 2, mana: 0, health: 0 },
         cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
@@ -1069,7 +1175,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     shuriken: {
         id: 'spec_shuriken_shadow_fan',
         name: 'Shadow Fan',
-        description: 'Release three concealed throwing stars in a spread pattern, striking up to three targets within range for piercing damage.',
+        description: 'Distribute sharpened business cards to up to three targets within 35 ft — each takes weapon damage + 1. Networking, the old way.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage'],
@@ -1094,10 +1200,10 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     dart: {
         id: 'spec_dart_pinpoint_flechette',
         name: 'Pinpoint Flechette',
-        description: 'Flick a needle-point dart into a vulnerable joint seam. Bypasses light physical armor and deals precision piercing damage with an increased crit chance.',
+        description: 'Flick a needle-point dart into the seam of their harness, where it finds armor deeply offensive. For this hit, the target’s armor DR die soaks one step lower (d8 → d6, and so on) — the dart slips in like gossip at court. Deals weapon damage + 2 with an increased crit chance.',
         level: 1,
         spellType: 'ACTION',
-        effectTypes: ['damage'],
+        effectTypes: ['damage', 'debuff'],
         source: 'weapon_discipline',
         categoryIds: ['general_actions'],
         icon: 'Piercing/Dagger In Motion',
@@ -1110,16 +1216,27 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
             canCrit: true,
             critMultiplier: 2
         },
+        controlConfig: {
+            controlType: 'status_effect',
+            effects: [
+                {
+                    id: 'dr_step_down_hit',
+                    name: 'Seam Found (DR Step-Down, This Hit)',
+                    description: 'For this hit only, the target’s armor DR die soaks one step lower (d8 → d6, etc.).',
+                    mechanicsText: 'Armor soaks one die step lower against this hit'
+                }
+            ]
+        },
         targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 40, targetRestrictions: ['enemy'] },
         resourceCost: { actionPoints: 2, mana: 0, health: 0 },
         cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
         resolution: 'DICE',
-        tags: ['weapon', 'discipline', 'dart', 'precision', 'crit']
+        tags: ['weapon', 'discipline', 'dart', 'precision', 'crit', 'dr_step_down']
     },
     harp: {
         id: 'spec_harp_harmonic_cascade',
         name: 'Harmonic Cascade',
-        description: 'Weave an ethereal melody across the strings that manifests as an acoustic resonant barrier, granting you or an ally +2 Armor Class and soothing tension.',
+        description: 'Strum a chord so serene the air itself stands guard. You or an ally within 30 ft becomes Guarded: all damage taken is reduced by 25% for 1 round. A lullaby with a bodyguard clause.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['buff', 'utility'],
@@ -1127,8 +1244,8 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
         categoryIds: ['general_actions'],
         icon: 'Radiant/Holy Aura',
         buffConfig: {
-            buffType: 'statEnhancement',
-            effects: [{ id: 'harmonic_barrier', name: 'Harmonic Barrier', description: '+2 Armor Class for 1 round' }],
+            buffType: 'defense',
+            effects: [{ id: 'guarded', name: 'Guarded (Harmonic Cascade)', description: 'All damage taken reduced by 25% for 1 round.' }],
             durationValue: 1,
             durationUnit: 'rounds'
         },
@@ -1141,7 +1258,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     lute: {
         id: 'spec_lute_discordant_strum',
         name: 'Discordant Strum',
-        description: 'Strike a jarring, cacophonous chord that ripples through the air, breaking enemy spell concentration and forcing hostile creatures within 10 ft to step back.',
+        description: 'Strum a chord with a criminal record. The cacophony shatters concentration and ripples outward: enemies within 10 ft take 1d6 + 2 storm damage; DC 13 Strength save or they are shoved 5 ft back with their ears ringing.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['control', 'damage'],
@@ -1150,7 +1267,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
         icon: 'Nature/Healing Breeze',
         damageConfig: {
             formula: '1d6 + 2',
-            damageType: 'wyrd',
+            damageType: 'storm',
             savingThrowConfig: {
                 enabled: true,
                 savingThrow: { ability: 'strength', difficultyClass: 13, saveOutcome: 'negates' },
@@ -1186,7 +1303,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     flute: {
         id: 'spec_flute_sirens_trill',
         name: 'Siren’s Trill',
-        description: 'Play a haunting trill that charms the senses. Forces a DC 13 Wisdom saving throw; on failure, the target is hypnotized and cannot take reactions until your next turn.',
+        description: 'A trill that charms the inner ear and evicts good decisions. DC 13 Spirit save or the target is Hypnotized and cannot take reactions until your next turn. They will hum it for days. Days.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['control'],
@@ -1197,15 +1314,15 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
             controlType: 'status_effect',
             duration: 1,
             durationUnit: 'rounds',
-            savingThrow: { ability: 'wisdom', difficultyClass: 13, saveOutcome: 'negates' },
-            saveType: 'wisdom',
+            savingThrow: { ability: 'spirit', difficultyClass: 13, saveOutcome: 'negates' },
+            saveType: 'spirit',
             difficultyClass: 13,
             saveOutcome: 'negates',
             effects: [
                 {
                     id: 'hypnotized',
                     name: 'Hypnotized (No Reactions)',
-                    description: 'Forces a DC 13 Wisdom save; on failure, target cannot take reactions until your next turn.',
+                    description: 'Forces a DC 13 Spirit save; on failure, target cannot take reactions until your next turn.',
                     mechanicsText: 'Target cannot take reactions'
                 }
             ]
@@ -1219,7 +1336,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     drum: {
         id: 'spec_drum_thunder_beat',
         name: 'Thunder Beat',
-        description: 'Pound the drum skins with thunderous force, producing a shockwave in a 10 ft cone that deals smashing damage and pushes foes 5 ft back.',
+        description: 'The beat drops. So do they. A thunderous 15 ft cone of storm sound deals 1d8 + 2 damage; DC 13 Strength save or foes are pushed 5 ft back. The neighbors have filed complaints.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'control'],
@@ -1228,7 +1345,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
         icon: 'Bludgeoning/Energy Strike',
         damageConfig: {
             formula: '1d8 + 2',
-            damageType: 'smashing',
+            damageType: 'storm',
             savingThrowConfig: {
                 enabled: true,
                 savingThrow: { ability: 'strength', difficultyClass: 13, saveOutcome: 'negates' },
@@ -1264,13 +1381,19 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     horn: {
         id: 'spec_horn_rallying_warblast',
         name: 'Rallying Warblast',
-        description: 'Sound a booming clarion call across the battlefield that stirs courage. All allies within 30 ft gain +1d6 to their next strike roll.',
+        description: 'One trumpet scream, morale included. Allies within 30 ft add +1d6 to their next strike roll. Somewhere, a warhorse perks up its ears.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['buff'],
         source: 'weapon_discipline',
         categoryIds: ['general_actions'],
         icon: 'Utility/Bull Charge',
+        buffConfig: {
+            buffType: 'statEnhancement',
+            effects: [{ id: 'rallied', name: 'Rallied (Warblast)', description: '+1d6 to the target’s next strike roll.' }],
+            durationValue: 1,
+            durationUnit: 'rounds'
+        },
         targetingConfig: { targetingType: 'area', rangeType: 'ranged', rangeDistance: 30, targetRestrictions: ['ally', 'self'] },
         resourceCost: { actionPoints: 2, mana: 0, health: 0 },
         cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
@@ -1280,7 +1403,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     violin: {
         id: 'spec_violin_screeching_cacophony',
         name: 'Screeching Cacophony',
-        description: 'Draw the bow across the strings in a screeching, ear-splitting discordance! Forces a DC 13 Constitution saving throw; on failure, the enemy is Dazed, loses 1 AP next turn, and takes sonic damage.',
+        description: 'The violin files a noise complaint directly into the enemy’s skull. DC 13 Constitution save or the target is Dazed — losing 1 AP next turn — and takes 1d6 + 2 storm damage. The neighbors applaud.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'control'],
@@ -1324,9 +1447,9 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
         tags: ['instrument', 'discipline', 'violin', 'screech', 'daze', 'dc_check']
     },
     guitar: {
-        id: 'spec_guitar_power_chime',
-        name: 'Power Chime',
-        description: 'Strike an acoustic power chord that vibrates through the floorboards. Deals sonic damage and jolts the target, giving them disadvantage on their next physical check.',
+        id: 'spec_guitar_power_chord',
+        name: 'Power Chord',
+        description: 'Strike a chord that vibrates through the floorboards and disagrees with the target’s skeleton. Deals 1d6 + 2 storm damage, and their next check rolls one difficulty die step higher — legs unsteady, dignity unaccounted for.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'debuff'],
@@ -1335,9 +1458,22 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
         icon: 'Chaos/Chaos Wave',
         damageConfig: {
             formula: '1d6 + 2',
-            damageType: 'smashing',
+            damageType: 'storm',
             canCrit: true,
             critMultiplier: 2
+        },
+        controlConfig: {
+            controlType: 'status_effect',
+            duration: 1,
+            durationUnit: 'turns',
+            effects: [
+                {
+                    id: 'difficulty_up',
+                    name: 'Rattled (Difficulty Step-Up)',
+                    description: 'The target’s next check rolls one difficulty die step higher.',
+                    mechanicsText: 'Next check: difficulty die one step up'
+                }
+            ]
         },
         targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30, targetRestrictions: ['enemy'] },
         resourceCost: { actionPoints: 2, mana: 0, health: 0 },
@@ -1348,7 +1484,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
     unarmed: {
         id: 'spec_unarmed_dragon_kick',
         name: 'Dragon Kick',
-        description: 'Leap forward with a flying martial arts heel strike. Deals crushing smashing damage and forces an Athletics / Acrobatics save; on failure, the opponent is slammed Prone.',
+        description: 'A flying heel strike, signed and delivered. Deals 1d6 + 2 smashing damage; DC 13 Agility save or the target is planted Prone. Postage due on arrival.',
         level: 1,
         spellType: 'ACTION',
         effectTypes: ['damage', 'control'],
@@ -1380,7 +1516,7 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
                 {
                     id: 'prone',
                     name: 'Knockdown (Prone)',
-                    description: 'Forces a DC 13 Agility or Athletics save; on failure, target is slammed Prone.',
+                    description: 'Forces a DC 13 Agility save; on failure, target is planted Prone.',
                     mechanicsText: 'Target falls Prone'
                 }
             ]
@@ -1390,6 +1526,190 @@ export const WEAPON_DISCIPLINE_SPECIALS = {
         cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
         resolution: 'DICE',
         tags: ['weapon', 'discipline', 'unarmed', 'kick', 'prone']
+    },
+    // Off-Hand Focus Items
+    idol: {
+        id: 'spec_idol_vengeful_little_god',
+        name: 'Vengeful Little God',
+        description: 'The tenant of the idol takes personal offense on your behalf. It flares with sacred heat for weapon damage + 1 ember, and fixes the target with a burning stare: DC 13 Spirit save or the target is Exposed — all damage they take is increased by 50% for 1 round. The little god remembers their face.',
+        level: 1,
+        spellType: 'ACTION',
+        effectTypes: ['damage', 'debuff'],
+        source: 'weapon_discipline',
+        categoryIds: ['general_actions'],
+        icon: 'Radiant/Sacred Symbol',
+        damageConfig: {
+            formula: 'weapon_die + 1',
+            weaponDependent: true,
+            usesWeaponDice: true,
+            addAttributeModifier: true,
+            damageType: 'ember',
+            savingThrowConfig: {
+                enabled: true,
+                savingThrow: { ability: 'spirit', difficultyClass: 13, saveOutcome: 'negates' },
+                savingThrowType: 'spirit',
+                difficultyClass: 13,
+                saveOutcome: 'negates'
+            },
+            canCrit: true,
+            critMultiplier: 2
+        },
+        controlConfig: {
+            controlType: 'status_effect',
+            duration: 1,
+            durationUnit: 'rounds',
+            savingThrow: { ability: 'spirit', difficultyClass: 13, saveOutcome: 'negates' },
+            saveType: 'spirit',
+            difficultyClass: 13,
+            saveOutcome: 'negates',
+            effects: [
+                {
+                    id: 'exposed',
+                    name: 'Exposed (Idol’s Grudge)',
+                    description: 'Forces a DC 13 Spirit save; on failure, all damage the target takes is increased by 50% for 1 round.',
+                    mechanicsText: '+50% damage taken, 1 round'
+                }
+            ]
+        },
+        targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30, targetRestrictions: ['enemy'] },
+        resourceCost: { actionPoints: 2, mana: 0, health: 0 },
+        cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
+        resolution: 'DICE',
+        tags: ['weapon', 'discipline', 'idol', 'sacred', 'exposed']
+    },
+    tome: {
+        id: 'spec_tome_cite_your_sources',
+        name: 'Cite Your Sources',
+        description: 'Snap the codex open and hurl the footnotes. A shrieking volley of loose pages deals weapon damage + 2 storm, and the incantations tangled in the margins bark the target’s own casting into silence: DC 13 Spirit save or the target is Silenced for 1 round. Peer review complete.',
+        level: 1,
+        spellType: 'ACTION',
+        effectTypes: ['damage', 'control'],
+        source: 'weapon_discipline',
+        categoryIds: ['general_actions'],
+        icon: 'Chaos/Chaos Book Channel',
+        damageConfig: {
+            formula: 'weapon_die + 2',
+            weaponDependent: true,
+            usesWeaponDice: true,
+            addAttributeModifier: true,
+            damageType: 'storm',
+            savingThrowConfig: {
+                enabled: true,
+                savingThrow: { ability: 'spirit', difficultyClass: 13, saveOutcome: 'negates' },
+                savingThrowType: 'spirit',
+                difficultyClass: 13,
+                saveOutcome: 'negates'
+            },
+            canCrit: true,
+            critMultiplier: 2
+        },
+        controlConfig: {
+            controlType: 'status_effect',
+            duration: 1,
+            durationUnit: 'rounds',
+            savingThrow: { ability: 'spirit', difficultyClass: 13, saveOutcome: 'negates' },
+            saveType: 'spirit',
+            difficultyClass: 13,
+            saveOutcome: 'negates',
+            effects: [
+                {
+                    id: 'silenced',
+                    name: 'Silenced (Peer Reviewed)',
+                    description: 'Forces a DC 13 Spirit save; on failure, the target cannot speak incantations or cast verbal spells for 1 round.',
+                    mechanicsText: 'No verbal casting, 1 round'
+                }
+            ]
+        },
+        targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30, targetRestrictions: ['enemy'] },
+        resourceCost: { actionPoints: 2, mana: 0, health: 0 },
+        cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
+        resolution: 'DICE',
+        tags: ['weapon', 'discipline', 'tome', 'arcane', 'silence']
+    },
+    sphere: {
+        id: 'spec_sphere_ominous_hum',
+        name: 'Ominous Hum',
+        description: 'The orb stares into them and hums a note armor hates. The resonance deals weapon damage + 2 storm, and for this hit the target’s armor DR die soaks one step lower (d8 → d6, and so on) — the sound finds every rivet and worries it. Deeply unsettling. Very effective.',
+        level: 1,
+        spellType: 'ACTION',
+        effectTypes: ['damage', 'debuff'],
+        source: 'weapon_discipline',
+        categoryIds: ['general_actions'],
+        icon: 'Arcane/Orb Manipulation',
+        damageConfig: {
+            formula: 'weapon_die + 2',
+            weaponDependent: true,
+            usesWeaponDice: true,
+            addAttributeModifier: true,
+            damageType: 'storm',
+            canCrit: true,
+            critMultiplier: 2
+        },
+        controlConfig: {
+            controlType: 'status_effect',
+            effects: [
+                {
+                    id: 'dr_step_down_hit',
+                    name: 'Resonating (DR Step-Down, This Hit)',
+                    description: 'For this hit only, the target’s armor DR die soaks one step lower (d8 → d6, etc.).',
+                    mechanicsText: 'Armor soaks one die step lower against this hit'
+                }
+            ]
+        },
+        targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 40, targetRestrictions: ['enemy'] },
+        resourceCost: { actionPoints: 2, mana: 0, health: 0 },
+        cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
+        resolution: 'DICE',
+        tags: ['weapon', 'discipline', 'sphere', 'arcane', 'dr_step_down']
+    },
+    totem: {
+        id: 'spec_totem_tantrum',
+        name: 'Totem Tantrum',
+        description: 'The carved face wakes up cranky. A lash of spirit-root and splinter deals weapon damage + 1 primal, and grasping carved vines snag the target’s ankles: DC 13 Spirit save or the target is Rooted in place (movement 0) for 1 round. The totem is not a morning person.',
+        level: 1,
+        spellType: 'ACTION',
+        effectTypes: ['damage', 'control'],
+        source: 'weapon_discipline',
+        categoryIds: ['general_actions'],
+        icon: 'Nature/Gnarled Roots',
+        damageConfig: {
+            formula: 'weapon_die + 1',
+            weaponDependent: true,
+            usesWeaponDice: true,
+            addAttributeModifier: true,
+            damageType: 'primal',
+            savingThrowConfig: {
+                enabled: true,
+                savingThrow: { ability: 'spirit', difficultyClass: 13, saveOutcome: 'negates' },
+                savingThrowType: 'spirit',
+                difficultyClass: 13,
+                saveOutcome: 'negates'
+            },
+            canCrit: true,
+            critMultiplier: 2
+        },
+        controlConfig: {
+            controlType: 'status_effect',
+            duration: 1,
+            durationUnit: 'rounds',
+            savingThrow: { ability: 'spirit', difficultyClass: 13, saveOutcome: 'negates' },
+            saveType: 'spirit',
+            difficultyClass: 13,
+            saveOutcome: 'negates',
+            effects: [
+                {
+                    id: 'rooted',
+                    name: 'Rooted (Ankle Vines)',
+                    description: 'Forces a DC 13 Spirit save; on failure, the target’s movement speed is 0 for 1 round.',
+                    mechanicsText: 'Movement 0, 1 round'
+                }
+            ]
+        },
+        targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30, targetRestrictions: ['enemy'] },
+        resourceCost: { actionPoints: 2, mana: 0, health: 0 },
+        cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
+        resolution: 'DICE',
+        tags: ['weapon', 'discipline', 'totem', 'primal', 'rooted']
     }
 };
 
@@ -1578,7 +1898,136 @@ export function getMainHandActions(weapon) {
 }
 
 /**
- * Baseline Actions for Off Hand (Shield, Off-hand Weapon, or Unarmed)
+ * Off-hand focus disciplines (idols, tomes, spheres, totems) — caster trinkets
+ * that get their own flavored action sets instead of dual-wield blade moves.
+ */
+export const FOCUS_DISCIPLINES = ['idol', 'tome', 'sphere', 'totem'];
+
+function getFocusItemActions(item, disciplineKey) {
+    const damageNotation = getWeaponDamageNotation(item);
+    const damageType = getWeaponDamageType(item);
+    const special = adaptSpecialForWeapon(WEAPON_DISCIPLINE_SPECIALS[disciplineKey], item);
+
+    const focusFlavor = {
+        idol: {
+            strike: {
+                id: 'oh_idol_bonk', name: 'Sacred Bonk', icon: 'Radiant/Golden Bell',
+                description: `The idol makes an excellent club, and the little god enjoys the fresh air. Deal ${damageNotation} ${damageType} damage up close.`
+            },
+            ward: {
+                id: 'oh_idol_ward', name: 'Aegis of the Small God', icon: 'Radiant/Radiant Golden Shield',
+                description: 'The little god shields its house. You become Guarded: all damage taken is reduced by 25% until your next turn.'
+            },
+            rebuke: {
+                id: 'oh_idol_rebuke', name: 'Zealous Rebuke', icon: 'Radiant/Golden Projectiles',
+                description: `When a foe strikes you, the idol flares with offended sanctity, scalding the attacker for ${damageNotation} ${damageType} damage.`
+            }
+        },
+        tome: {
+            strike: {
+                id: 'oh_tome_spine', name: 'Spine Strike', icon: 'Fire/Burning Cursed Book',
+                description: `Hardcover. Hard swing. The tome's spine meets the target's — philologically speaking. Deal ${damageNotation} ${damageType} damage.`
+            },
+            ward: {
+                id: 'oh_tome_ward', name: 'Chapter Break', icon: 'Utility/Barred Shield',
+                description: 'Snap the covers shut and huddle behind them. The tome\'s cover soaks the next hit against you with a 1d4 DR die; the binding complains, but it holds.'
+            },
+            rebuke: {
+                id: 'oh_tome_rebuke', name: 'Marginalia Scorch', icon: 'Arcane/Spellcasting Aura',
+                description: `The footnotes defend themselves. When struck, searing annotations flash out at your attacker for ${damageNotation} ${damageType} damage.`
+            }
+        },
+        sphere: {
+            strike: {
+                id: 'oh_orb_knock', name: 'Orbital Knock', icon: 'Arcane/Missile',
+                description: `Bonk them with the future. The orb deals ${damageNotation} ${damageType} damage and hums disapprovingly.`
+            },
+            ward: {
+                id: 'oh_orb_ward', name: 'Crystal Cocoon', icon: 'Frost/Ice Orb',
+                description: 'The orb spins a lattice of light around you. Guarded: all damage taken is reduced by 25% until your next turn.'
+            },
+            rebuke: {
+                id: 'oh_orb_rebuke', name: 'Static Rebuke', icon: 'Arcane/Spiral Vortex',
+                description: `Touch the mage, receive the lesson. Attackers are zapped for ${damageNotation} ${damageType} damage.`
+            }
+        },
+        totem: {
+            strike: {
+                id: 'oh_totem_whack', name: 'Whack of the Wilds', icon: 'Nature/Roots',
+                description: `The forest's least patient branch. Deal ${damageNotation} ${damageType} damage.`
+            },
+            ward: {
+                id: 'oh_totem_ward', name: 'Bark Skin', icon: 'Nature/Growth',
+                description: 'Splinters rise across your skin like armor that grows on trees. Physical damage taken is reduced by 2 until your next turn.'
+            },
+            rebuke: {
+                id: 'oh_totem_rebuke', name: 'Root Rebuke', icon: 'Nature/Root Network',
+                description: `The totem's roots snap out at anyone who strikes you, dealing ${damageNotation} ${damageType} damage and looking disappointed.`
+            }
+        }
+    }[disciplineKey];
+
+    return [
+        {
+            id: focusFlavor.strike.id,
+            name: focusFlavor.strike.name,
+            description: focusFlavor.strike.description,
+            level: 1,
+            spellType: 'ACTION',
+            effectTypes: ['damage'],
+            source: 'general',
+            categoryIds: ['general_actions'],
+            icon: focusFlavor.strike.icon,
+            damageConfig: { formula: damageNotation, weaponDependent: true, damageType, canCrit: true, critMultiplier: 2 },
+            targetingConfig: { targetingType: 'single', rangeType: 'touch', rangeDistance: 5, targetRestrictions: ['enemy'] },
+            resourceCost: { actionPoints: 1, mana: 0, health: 0 },
+            cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
+            resolution: 'DICE',
+            tags: ['off_hand', 'focus', disciplineKey, 'attack']
+        },
+        {
+            id: focusFlavor.ward.id,
+            name: focusFlavor.ward.name,
+            description: focusFlavor.ward.description,
+            level: 1,
+            spellType: 'REACTION',
+            effectTypes: ['buff'],
+            source: 'general',
+            categoryIds: ['general_reactions'],
+            icon: focusFlavor.ward.icon,
+            buffConfig: {
+                buffType: 'defense',
+                effects: [{ id: focusFlavor.ward.id, name: focusFlavor.ward.name, description: focusFlavor.ward.description }]
+            },
+            targetingConfig: { targetingType: 'self' },
+            resourceCost: { actionPoints: 1, mana: 0, health: 0 },
+            cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
+            resolution: 'DICE',
+            tags: ['reaction', 'off_hand', 'focus', disciplineKey, 'defensive']
+        },
+        {
+            id: focusFlavor.rebuke.id,
+            name: focusFlavor.rebuke.name,
+            description: focusFlavor.rebuke.description,
+            level: 1,
+            spellType: 'REACTION',
+            effectTypes: ['damage'],
+            source: 'general',
+            categoryIds: ['general_reactions'],
+            icon: focusFlavor.rebuke.icon,
+            damageConfig: { formula: damageNotation, weaponDependent: true, damageType, canCrit: true, critMultiplier: 1 },
+            targetingConfig: { targetingType: 'single', rangeType: 'touch', rangeDistance: 5, targetRestrictions: ['enemy'] },
+            resourceCost: { actionPoints: 1, mana: 0, health: 0 },
+            cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
+            resolution: 'DICE',
+            tags: ['reaction', 'off_hand', 'focus', disciplineKey, 'riposte']
+        },
+        special
+    ];
+}
+
+/**
+ * Baseline Actions for Off Hand (Shield, Off-hand Weapon, Focus Item, or Unarmed)
  */
 export function getOffHandActions(item) {
     if (!item) {
@@ -1745,6 +2194,11 @@ export function getOffHandActions(item) {
         ];
     }
 
+    // If an off-hand focus item (idol / tome / sphere / totem) is equipped
+    if (FOCUS_DISCIPLINES.includes(disciplineKey)) {
+        return getFocusItemActions(item, disciplineKey);
+    }
+
     // If dual-wielding weapon
     const damageNotation = getWeaponDamageNotation(item);
     const damageType = getWeaponDamageType(item);
@@ -1835,7 +2289,7 @@ function getRangedQuirkyAction(item, disciplineKey, damageNotation, damageType, 
                 damageConfig: {
                     formula: damageNotation,
                     weaponDependent: true,
-                    damageType: 'piercing',
+                    damageType: 'stabbing',
                     savingThrowConfig: {
                         enabled: true,
                         savingThrow: { ability: 'agility', difficultyClass: 13, saveOutcome: 'negates' },
@@ -1930,7 +2384,7 @@ function getRangedQuirkyAction(item, disciplineKey, damageNotation, damageType, 
                 icon: 'Poison/Poison Flask',
                 damageConfig: {
                     formula: '1d4',
-                    damageType: 'poison',
+                    damageType: 'blight',
                     savingThrowConfig: {
                         enabled: true,
                         savingThrow: { ability: 'constitution', difficultyClass: 13, saveOutcome: 'negates' },
@@ -2004,19 +2458,19 @@ function getRangedQuirkyAction(item, disciplineKey, damageNotation, damageType, 
             return {
                 id: 'ranged_quirk_pinpoint_twin_flick',
                 name: 'Pinpoint Twin Flick',
-                description: 'Flick two concealed micro-projectiles simultaneously at separate targets or a single target’s pressure points for 1d4 damage each.',
+                description: 'Flick two concealed micro-projectiles simultaneously at separate targets or a single target’s pressure points for 1d4 stabbing damage each.',
                 level: 1,
                 spellType: 'ACTION',
                 effectTypes: ['damage'],
                 source: 'weapon_quirk',
                 categoryIds: ['general_actions'],
                 icon: 'Piercing/Dual Daggers',
-                damageConfig: { formula: '2d4 + agility_modifier', damageType: 'piercing', canCrit: true, critMultiplier: 2 },
+                damageConfig: { formula: '2d4 + agility_modifier', damageType: 'stabbing', canCrit: true, critMultiplier: 2 },
                 targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: range, targetRestrictions: ['enemy'] },
                 resourceCost: { actionPoints: 1, mana: 0, health: 0 },
                 cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
                 resolution: 'DICE',
-                tags: ['ranged', 'flick', 'flurry', 'piercing']
+                tags: ['ranged', 'flick', 'flurry', 'stabbing']
             };
         case 'thrown':
             return {
@@ -2070,19 +2524,19 @@ function getRangedQuirkyAction(item, disciplineKey, damageNotation, damageType, 
             return {
                 id: 'ranged_quirk_prismatic_spark',
                 name: 'Prismatic Spark',
-                description: 'Snap the wand tip forward to spray dazzling arcane flares. Deals 1d6 force damage and illuminates the target, preventing stealth or invisibility for 2 turns.',
+                description: 'Snap the wand tip forward to spray dazzling arcane flares. Deals 1d6 arcane damage and illuminates the target, preventing stealth or invisibility for 2 turns.',
                 level: 1,
                 spellType: 'ACTION',
                 effectTypes: ['damage', 'utility'],
                 source: 'weapon_quirk',
                 categoryIds: ['general_actions'],
                 icon: 'Arcane/Missile',
-                damageConfig: { formula: '1d6 + intelligence_modifier', damageType: 'radiant', canCrit: true, critMultiplier: 2 },
+                damageConfig: { formula: '1d6 + intelligence_modifier', damageType: 'arcane', canCrit: true, critMultiplier: 2 },
                 targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: range, targetRestrictions: ['enemy'] },
                 resourceCost: { actionPoints: 1, mana: 0, health: 0 },
                 cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
                 resolution: 'DICE',
-                tags: ['ranged', 'wand', 'radiant', 'spark']
+                tags: ['ranged', 'wand', 'arcane', 'spark']
             };
         case 'bow':
         default:
@@ -2096,7 +2550,7 @@ function getRangedQuirkyAction(item, disciplineKey, damageNotation, damageType, 
                 source: 'weapon_quirk',
                 categoryIds: ['general_actions'],
                 icon: 'Piercing/Arrow Wavy Path',
-                damageConfig: { formula: `${damageNotation} + agility_modifier`, weaponDependent: true, damageType: 'piercing', canCrit: true, critMultiplier: 2 },
+                damageConfig: { formula: `${damageNotation} + agility_modifier`, weaponDependent: true, damageType: 'stabbing', canCrit: true, critMultiplier: 2 },
                 targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: range, targetRestrictions: ['enemy'] },
                 resourceCost: { actionPoints: 1, mana: 0, health: 0 },
                 cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },

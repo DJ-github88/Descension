@@ -361,7 +361,7 @@ const parseTextWithLoreLinks = (text, skipAutoLink = false) => {
    const termId = match[2];
    const label = match[3];
    result.push(
-    <LoreLink key={`lore-${key++}`} termId={termId}>
+   <LoreLink key={`lore-${key++}`} termId={termId}>
      {parseTextWithLoreLinks(label, true)}
     </LoreLink>
    );
@@ -790,10 +790,10 @@ const getSpellIconUrl = (spell) => {
 
 const classFallbacks = {
 	arcanoneer: [
-		{ url: '/assets/images/classes/arcanoneer_illustration.png', caption: 'A Velun Neth Arcanoneer weaving fire and ice spheres in front of gothic spires.' },
+		{ url: '/assets/images/classes/arcanoneer_illustration.png', caption: 'A Nethien Arcanoneer weaving fire and ice spheres in front of gothic spires.' },
 		{ url: '/assets/images/classes/arcanoneer_illustration_2.png', caption: 'A Clockwork Fexric Arcanoneer channeling lightning and steam through a clockwork brass regulator gauntlet on a mountain cliff.' },
 		{ url: '/assets/images/classes/arcanoneer_illustration_3.png', caption: 'A Caustic Fexric Arcanoneer unleashing a chaotic elemental surge of fire and gale from a jury-rigged gauntlet in a warzone.' },
-		{ url: '/assets/images/classes/arcanoneer_illustration_4.png', caption: 'A Drun Neth Arcanoneer venting green acid and steam through gnarled oak pipes in a peat bog.' }
+		{ url: '/assets/images/classes/arcanoneer_illustration_4.png', caption: 'A Withered Arcanoneer venting green acid and steam through gnarled oak pipes in a peat bog.' }
 	],
 	berserker: [
 		{ url: '/assets/images/classes/berserker_illustration.png', caption: 'A Morgh Groven Berserker with grey, stone-scale skin charging forward with a heavy stone-head battleaxe.' },
@@ -814,13 +814,13 @@ const classFallbacks = {
 
  revenant: [
   { url: '/assets/images/classes/revenant_illustration.png', caption: 'A Marked Vreken Peat-Bog Graverobber Revenant harvesting souls in the Bryngloom.' },
-  { url: '/assets/images/classes/revenant_illustration_2.png', caption: 'A Velun Neth Revenant with blank pool eyes holding a glowing soul-lantern.' },
+  { url: '/assets/images/classes/revenant_illustration_2.png', caption: 'A Nethien Revenant with blank pool eyes holding a glowing soul-lantern.' },
   { url: '/assets/images/classes/revenant_illustration_3.png', caption: 'An Ithran Groven Revenant wreathed in roots with glowing swamp-green eyes.' }
  ],
  animist: [
   { url: '/assets/images/classes/animist_illustration.png', caption: 'A Trueborn Florae Forest Ritualist Animist channeling ancestral spirits.' },
   { url: '/assets/images/classes/animist_illustration_2.png', caption: 'An Ithran Groven Animist with stone-scale joints holding a moss-grown staff summoning a bear spirit.' },
-  { url: '/assets/images/classes/animist_illustration_3.png', caption: 'A Velun Neth Animist with blank pool eyes holding a scroll wreathed in script spirits.' }
+  { url: '/assets/images/classes/animist_illustration_3.png', caption: 'A Nethien Animist with blank pool eyes holding a scroll wreathed in script spirits.' }
  ],
  pyrofiend: [
   { url: '/assets/images/classes/pyrofiend_illustration.png', caption: 'A Waste-Solari Ashen Conduit Pyrofiend manifesting molten charcoal skin.' },
@@ -835,10 +835,10 @@ const classFallbacks = {
  toxicologist: [
   { url: '/assets/images/classes/toxicologist_illustration.png', caption: 'A Mistwoven Mimir Distillery Alchemist Toxicologist in a tattered bark cloak.' },
   { url: '/assets/images/classes/toxicologist_illustration_2.png', caption: 'A Clean Vreken Toxicologist with glowing lantern-eyes holding a bubbling vial of green acid.' },
-  { url: '/assets/images/classes/toxicologist_illustration_3.png', caption: 'A Drun Neth Toxicologist in a bark cloak holding a flask bubbling with green gas.' }
+  { url: '/assets/images/classes/toxicologist_illustration_3.png', caption: 'A Withered Toxicologist in a bark cloak holding a flask bubbling with green gas.' }
  ],
  plaguebringer: [
-  { url: '/assets/images/classes/plaguebringer_illustration.png', caption: 'A Drun Neth Peat-Waste Herbalist Plaguebringer hosting the Ghost-Mycelium rot.' },
+  { url: '/assets/images/classes/plaguebringer_illustration.png', caption: 'A Withered Peat-Waste Herbalist Plaguebringer hosting the Ghost-Mycelium rot.' },
   { url: '/assets/images/classes/plaguebringer_illustration_2.png', caption: 'A Marked Vreken Plaguebringer with glowing lantern-eyes holding a smoking plague-flask.' },
   { url: '/assets/images/classes/plaguebringer_illustration_3.png', caption: 'A Morgh Groven Plaguebringer holding a clay jar leaking thick rot vapors.' }
  ],
@@ -884,7 +884,7 @@ const classFallbacks = {
  ],
  harbinger: [
   { url: '/assets/images/classes/harbinger_illustration.png', caption: 'A Fractured Mimir Sump Archivist Harbinger channeling entropic friction.' },
-  { url: '/assets/images/classes/harbinger_illustration_2.png', caption: 'A Drun Neth Harbinger holding a clockwork device of entropic friction.' },
+  { url: '/assets/images/classes/harbinger_illustration_2.png', caption: 'A Withered Harbinger holding a clockwork device of entropic friction.' },
   { url: '/assets/images/classes/harbinger_illustration_3.png', caption: 'A Clockwork Fexric Harbinger wreathed in copper-wire carrying an entropic chronometer.' }
  ],
  lunarch: [

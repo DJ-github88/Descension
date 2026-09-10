@@ -25,7 +25,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 20,
         silver: 0,
         copper: 0,
-        description: 'Neth back-alley pact-coins, still warm from the last hand that held them. Ill-gotten gains from past exploits'
+        description: 'Nethien back-alley pact-coins, still warm from the last hand that held them. Ill-gotten gains from past exploits'
     },
     
     folkHero: {
@@ -222,7 +222,7 @@ export const PATH_CURRENCY_MODIFIERS = {
         gold: 10,
         silver: 0,
         copper: 0,
-        description: 'Neth contract-house kickbacks from fine-print clauses. Extra funds from clever schemes'
+        description: 'Nethien contract-house kickbacks from fine-print clauses. Extra funds from clever schemes'
     },
     
     harrow: {

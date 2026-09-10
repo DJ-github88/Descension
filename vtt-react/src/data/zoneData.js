@@ -455,7 +455,7 @@ export const ZONE_DATA = [
     "dangerLevel": "medium",
     "factions": [
       "house-solvan",
-      "Kessen Merchants"
+      "Veldun Merchants"
     ],
     "connections": [
       "great-forge",
@@ -584,7 +584,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "Merrowport",
     "type": "city",
-    "description": "A magnificent, floating city of wood and iron, anchored to a massive, warm subterranean volcanic seamount that keeps the surrounding waters perpetually unfrozen. Merrowport is the primary maritime trade hub, filled with Merryn captains, Neth brokers, and northern sailors. Established as a permanent port in the first centuries of the Freezing Era, Merrowport grew into the Iceheart's primary trade hub over seven centuries. The Brine-Bond Syndicate formalized the Luck-Ledger here decades into the Freezing Era.",
+    "description": "A magnificent, floating city of wood and iron, anchored to a massive, warm subterranean volcanic seamount that keeps the surrounding waters perpetually unfrozen. Merrowport is the primary maritime trade hub, filled with Merryn captains, Nethien brokers, and northern sailors. Established as a permanent port in the first centuries of the Freezing Era, Merrowport grew into the Iceheart's primary trade hub over seven centuries. The Brine-Bond Syndicate formalized the Luck-Ledger here decades into the Freezing Era.",
     "dangerLevel": "low",
     "factions": [
       "house-mereval",
@@ -684,7 +684,7 @@ export const ZONE_DATA = [
     "dangerLevel": "medium",
     "factions": [
       "Merryn Pirates",
-      "Drun Outcasts"
+      "Withered Outcasts"
     ],
     "connections": [
       "merrowport",
@@ -948,7 +948,7 @@ export const ZONE_DATA = [
     "dangerLevel": "medium",
     "factions": [
       "Vreken Traders",
-      "Kessen Merchants"
+      "Veldun Merchants"
     ],
     "connections": [
       "mound-camps",
@@ -976,11 +976,11 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Atropolis",
     "type": "city",
-    "description": "The magnificent, suspended canopy city of the Neth, constructed inside a cathedral-grove of living ironwoods coaxed into shape over a thousand years. A quiet city of branch-walkways, lawyers, pact-mages, and merchants who view survival as a binding agreement and write their records on glowing memory-glass. Founded in the early generations of the Freezing Era, built around the Heart-Vault where the First Contract is preserved. The city has grown downward and outward since the Freeze began.",
+    "description": "The magnificent, suspended canopy city of the Nethien, constructed inside a cathedral-grove of living ironwoods coaxed into shape over a thousand years. A quiet city of branch-walkways, lawyers, pact-mages, and merchants who view survival as a binding agreement and write their records on glowing memory-glass. Founded in the early generations of the Freezing Era, built around the Heart-Vault where the First Contract is preserved. The city has grown downward and outward since the Freeze began.",
     "dangerLevel": "low",
     "factions": [
-      "Velun Pact-Lords",
-      "Neth Merchants"
+      "Nethien Pact-Lords",
+      "Nethien Merchants"
     ],
     "connections": [
       "the-sunken-spire",
@@ -1021,7 +1021,7 @@ export const ZONE_DATA = [
     "dangerLevel": "high",
     "factions": [
       "Vreken Peat-Cutters",
-      "Drun Outcasts"
+      "Withered Outcasts"
     ],
     "connections": [
       "the-sunken-spire",
@@ -1037,10 +1037,10 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Over-Shanty",
     "type": "settlement",
-    "description": "A chaotic, hanging slum of rope-bridges and ramshackle wooden cabins built under Atropolis's main platforms. It is populated by sallow-skinned Vreken peat-cutters and the leaden-skinned Drun outcasts who chose to burn their names from the First Contract. Established in the middle decades of the Freeze at the edge of the peat-bogs. The Cult of Forgotten Shadow made first contact with the deep dark from the crypts beneath here in the most recent centuries.",
+    "description": "A chaotic, hanging slum of rope-bridges and ramshackle wooden cabins built under Atropolis's main platforms. It is populated by sallow-skinned Vreken peat-cutters and the leaden-skinned Withered outcasts who chose to burn their names from the First Contract. Established in the middle decades of the Freeze at the edge of the peat-bogs. The Cult of Forgotten Shadow made first contact with the deep dark from the crypts beneath here in the most recent centuries.",
     "dangerLevel": "high",
     "factions": [
-      "Drun Outcasts",
+      "Withered Outcasts",
       "Vreken Peat-Cutters"
     ],
     "connections": [
@@ -1075,10 +1075,10 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Black Fen",
     "type": "wilderness",
-    "description": "An acidic fen where nothing grows and the water is black as ink. The fen is the dumping ground of the Neth contract courts, failed contracts, dissolved agreements, and legally-voided individuals are cast into its depths. The acidity is so extreme that bone dissolves within hours. Nothing preserved here. Nothing remembered. The Neth call it the Final Clause.",
+    "description": "An acidic fen where nothing grows and the water is black as ink. The fen is the dumping ground of the Nethien contract courts, failed contracts, dissolved agreements, and legally-voided individuals are cast into its depths. The acidity is so extreme that bone dissolves within hours. Nothing preserved here. Nothing remembered. The Nethien call it the Final Clause.",
     "dangerLevel": "extreme",
     "factions": [
-      "Velun Pact-Lords"
+      "Nethien Pact-Lords"
     ],
     "connections": [
       "widows-quagmire",
@@ -1094,11 +1094,11 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Vel-Keth Bayou",
     "type": "wilderness",
-    "description": "A marshy channel in the deep forest named in the Neth tongue, Vel-Keth translates roughly to \"the water that remembers.\" The bayou flows against the natural gradient, defying physics in ways the Neth insist are perfectly legal under the First Contract. Memory-glass deposits line the banks, glowing faintly with recorded thoughts of the long-dead.",
+    "description": "A marshy channel in the deep forest named in the Nethien tongue, Vel-Keth translates roughly to \"the water that remembers.\" The bayou flows against the natural gradient, defying physics in ways the Nethien insist are perfectly legal under the First Contract. Memory-glass deposits line the banks, glowing faintly with recorded thoughts of the long-dead.",
     "dangerLevel": "high",
     "factions": [
-      "Kessen Weavers",
-      "Velun Pact-Lords"
+      "Veldun Weavers",
+      "Nethien Pact-Lords"
     ],
     "connections": [
       "black-fen",
@@ -1114,11 +1114,11 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Aran-Glen",
     "type": "settlement",
-    "description": "A narrow valley in the forest's heart where Kessen Neth weavers tend the living ironwood groves that supply Atropolis with building material. The glen is peaceful by Bryngloom standards, the Neth legal presence here is strong enough to enforce the Contract's non-aggression clauses. The buildings are grown, not built, coaxed from living wood over decades.",
+    "description": "A narrow valley in the forest's heart where Veldun weavers tend the living ironwood groves that supply Atropolis with building material. The glen is peaceful by Bryngloom standards, the Nethien legal presence here is strong enough to enforce the Contract's non-aggression clauses. The buildings are grown, not built, coaxed from living wood over decades.",
     "dangerLevel": "low",
     "factions": [
-      "Kessen Weavers",
-      "Velun Pact-Lords"
+      "Veldun Weavers",
+      "Nethien Pact-Lords"
     ],
     "connections": [
       "vel-keth-bayou",
@@ -1726,7 +1726,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "Blackteeth Isle",
     "type": "settlement",
-    "description": "A volcanic island in the Merrow Archipelago, home to a Drift-Council representatives' house and a Brine-Bond Syndicate warehouse. The island's black-granite cliffs make a natural breakwater; the harbor is the second-busiest in the archipelago after Merrowport. The locals are fiercely loyal to the Drift-Council and despise Ironjaw Port's Neth administrators.",
+    "description": "A volcanic island in the Merrow Archipelago, home to a Drift-Council representatives' house and a Brine-Bond Syndicate warehouse. The island's black-granite cliffs make a natural breakwater; the harbor is the second-busiest in the archipelago after Merrowport. The locals are fiercely loyal to the Drift-Council and despise Ironjaw Port's Nethien administrators.",
     "dangerLevel": "low",
     "factions": [
       "Drift-Council",
@@ -1778,10 +1778,10 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "The Great Mere",
     "type": "wilderness",
-    "description": "The vast central lake of the Bryngloom Forest, dotted with small wooded islands. The Mere is the trade-hub of the forest, Merryn barges tie up at the lake-ports, Vreken shrines hide on the western islands, and an old Velun monastery stands on the largest. The lake level rises and falls with the moon; the islands that are above-water one season may be underwater the next.",
+    "description": "The vast central lake of the Bryngloom Forest, dotted with small wooded islands. The Mere is the trade-hub of the forest, Merryn barges tie up at the lake-ports, Vreken shrines hide on the western islands, and an old Nethien monastery stands on the largest. The lake level rises and falls with the moon; the islands that are above-water one season may be underwater the next.",
     "dangerLevel": "low",
     "factions": [
-      "Lake-Council (joint Neth/Merryn)",
+      "Lake-Council (joint Nethien/Merryn)",
       "Monks of the Sunken Stone"
     ],
     "connections": [
@@ -1797,11 +1797,11 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Monks of the Sunken Stone",
     "type": "settlement",
-    "description": "A Velun monastery on the largest island in the Great Mere, founded before the First Contract. The monks keep the lake's old record-stones, basalt slabs on which the original Neth clans carved their genealogies. The monastery is half-submerged in the high-water season; the monks live on platforms above the water-line and dive to read the stones in the low-water season.",
+    "description": "A Nethien monastery on the largest island in the Great Mere, founded before the First Contract. The monks keep the lake's old record-stones, basalt slabs on which the original Nethien clans carved their genealogies. The monastery is half-submerged in the high-water season; the monks live on platforms above the water-line and dive to read the stones in the low-water season.",
     "dangerLevel": "low",
     "factions": [
       "Monks of the Sunken Stone",
-      "Velun Pact-Lords (visiting)"
+      "Nethien Pact-Lords (visiting)"
     ],
     "connections": [
       "the-great-mere"
@@ -1847,11 +1847,11 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Drowned Dingle",
     "type": "wilderness",
-    "description": "A drowned forest in the western bayous, where the ironwood trunks stand black in a shallow lake of tannin-stained water. The Drowned Dingle is a smuggler's route, the Vreken peat-cutters use it to move un-registered peat past the Covenbane's checkpoints. The drowned wood is sacred to the Neth Kessen; they believe each submerged trunk is a sealed contract.",
+    "description": "A drowned forest in the western bayous, where the ironwood trunks stand black in a shallow lake of tannin-stained water. The Drowned Dingle is a smuggler's route, the Vreken peat-cutters use it to move un-registered peat past the Covenbane's checkpoints. The drowned wood is sacred to the Nethien Veldun; they believe each submerged trunk is a sealed contract.",
     "dangerLevel": "medium",
     "factions": [
       "Vreken smugglers",
-      "Neth Kessen (pilgrims)"
+      "Nethien Veldun (pilgrims)"
     ],
     "connections": [
       "hunters-gully",
@@ -1967,7 +1967,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "The Root-Veil Scriptorium",
     "type": "settlement",
-    "description": "The library of unbreakable memory at the heart of the Root-Veil, the deepest archive in the Bryngloom, where every Neth contract ever written is held in ironwood-root crystals. Morvane guards the entrance. Few have entered and returned; fewer still have entered and emerged unchanged.",
+    "description": "The library of unbreakable memory at the heart of the Root-Veil, the deepest archive in the Bryngloom, where every Nethien contract ever written is held in ironwood-root crystals. Morvane guards the entrance. Few have entered and returned; fewer still have entered and emerged unchanged.",
     "dangerLevel": "extreme",
     "factions": [
       "Morvane",
@@ -1977,7 +1977,7 @@ export const ZONE_DATA = [
       "atropolis"
     ],
     "wyrdCreatures": [
-      "Kessen-Wraith"
+      "Veldun-Wraith"
     ]
   },
   {
@@ -2934,9 +2934,9 @@ export const ZONE_DATA = [
   {
     "id": "neth-scribe-outpost",
     "regionId": "sundrift-vale",
-    "name": "Neth-Scribe Outpost",
+    "name": "Nethien-Scribe Outpost",
     "type": "settlement",
-    "description": "A small Bryngloom Neth trade-annex recording the Bogpost's cross-border debts.",
+    "description": "A small Bryngloom Nethien trade-annex recording the Bogpost's cross-border debts.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3131,7 +3131,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Probability-Loom House",
     "type": "settlement",
-    "description": "A Kessen Neth village-house of living-wood looms where weavers read the forest's probability-web.",
+    "description": "A Veldun village-house of living-wood looms where weavers read the forest's probability-web.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3144,7 +3144,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Fae-Contract Bark-Grove",
     "type": "wilderness",
-    "description": "A grove of ironwoods carved with pre-Neth fae-contracts in their bark; older than the Registry.",
+    "description": "A grove of ironwoods carved with pre-Nethien fae-contracts in their bark; older than the Registry.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3183,7 +3183,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "The First-Contract Signing-Hollow",
     "type": "ruin",
-    "description": "The deep hollow where the Neth ancestors signed the First Contract with Morvane; still radiates authority.",
+    "description": "The deep hollow where the Nethien ancestors signed the First Contract with Morvane; still radiates authority.",
     "dangerLevel": "medium",
     "factions": [],
     "connections": [
@@ -3196,7 +3196,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Threshold-Shrine Hermitage",
     "type": "settlement",
-    "description": "A monastic hermitage of Hallowed Neth bound as Morvane's spirit-conduits over a deep sinkhole.",
+    "description": "A monastic hermitage of Veldun bound as Morvane's spirit-conduits over a deep sinkhole.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4119,7 +4119,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "Exile-Colony Stack",
     "type": "settlement",
-    "description": "A skerry colony of exiled Neth and Tide-Speakers; they farm kelp and avoid oaths.",
+    "description": "A skerry colony of exiled Nethien and Tide-Speakers; they farm kelp and avoid oaths.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4624,9 +4624,9 @@ export const ZONE_DATA = [
   {
     "id": "neth-scribe-outpost",
     "regionId": "sundrift-vale",
-    "name": "Neth-Scribe Outpost",
+    "name": "Nethien-Scribe Outpost",
     "type": "settlement",
-    "description": "A small Bryngloom Neth trade-annex recording the Bogpost's cross-border debts.",
+    "description": "A small Bryngloom Nethien trade-annex recording the Bogpost's cross-border debts.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4860,7 +4860,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Probability-Loom House",
     "type": "settlement",
-    "description": "A Kessen Neth village-house of living-wood looms where weavers read the forest's probability-web.",
+    "description": "A Veldun village-house of living-wood looms where weavers read the forest's probability-web.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4873,7 +4873,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Fae-Contract Bark-Grove",
     "type": "wilderness",
-    "description": "A grove of ironwoods carved with pre-Neth fae-contracts in their bark; older than the Registry.",
+    "description": "A grove of ironwoods carved with pre-Nethien fae-contracts in their bark; older than the Registry.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4977,7 +4977,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "The First-Contract Signing-Hollow",
     "type": "ruin",
-    "description": "The deep hollow where the Neth ancestors signed the First Contract with Morvane; still radiates authority.",
+    "description": "The deep hollow where the Nethien ancestors signed the First Contract with Morvane; still radiates authority.",
     "dangerLevel": "medium",
     "factions": [],
     "connections": [
@@ -4990,7 +4990,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Threshold-Shrine Hermitage",
     "type": "settlement",
-    "description": "A monastic hermitage of Hallowed Neth bound as Morvane's spirit-conduits over a deep sinkhole.",
+    "description": "A monastic hermitage of Veldun bound as Morvane's spirit-conduits over a deep sinkhole.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -5913,7 +5913,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "Exile-Colony Stack",
     "type": "settlement",
-    "description": "A skerry colony of exiled Neth and Tide-Speakers; they farm kelp and avoid oaths.",
+    "description": "A skerry colony of exiled Nethien and Tide-Speakers; they farm kelp and avoid oaths.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6418,9 +6418,9 @@ export const ZONE_DATA = [
   {
     "id": "neth-scribe-outpost",
     "regionId": "sundrift-vale",
-    "name": "Neth-Scribe Outpost",
+    "name": "Nethien-Scribe Outpost",
     "type": "settlement",
-    "description": "A small Bryngloom Neth trade-annex recording the Bogpost's cross-border debts.",
+    "description": "A small Bryngloom Nethien trade-annex recording the Bogpost's cross-border debts.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6654,7 +6654,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Probability-Loom House",
     "type": "settlement",
-    "description": "A Kessen Neth village-house of living-wood looms where weavers read the forest's probability-web.",
+    "description": "A Veldun village-house of living-wood looms where weavers read the forest's probability-web.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6667,7 +6667,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Fae-Contract Bark-Grove",
     "type": "wilderness",
-    "description": "A grove of ironwoods carved with pre-Neth fae-contracts in their bark; older than the Registry.",
+    "description": "A grove of ironwoods carved with pre-Nethien fae-contracts in their bark; older than the Registry.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6771,7 +6771,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "The First-Contract Signing-Hollow",
     "type": "ruin",
-    "description": "The deep hollow where the Neth ancestors signed the First Contract with Morvane; still radiates authority.",
+    "description": "The deep hollow where the Nethien ancestors signed the First Contract with Morvane; still radiates authority.",
     "dangerLevel": "medium",
     "factions": [],
     "connections": [
@@ -6784,7 +6784,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Threshold-Shrine Hermitage",
     "type": "settlement",
-    "description": "A monastic hermitage of Hallowed Neth bound as Morvane's spirit-conduits over a deep sinkhole.",
+    "description": "A monastic hermitage of Veldun bound as Morvane's spirit-conduits over a deep sinkhole.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -7570,11 +7570,11 @@ export const ZONE_DATA = [
     "regionId": "nordhalla",
     "name": "Snowcall City",
     "type": "city",
-    "description": "The highest urban metropolis in Nordhalla, built on tiered terraces along the Icetalon peaks. High Neth scholars, Skald clan merchants, and Corvani cliff-folk trade openly in its steam-heated markets, creating the most cosmopolitan haven in the frozen north.",
+    "description": "The highest urban metropolis in Nordhalla, built on tiered terraces along the Icetalon peaks. Nethien scholars, Skald clan merchants, and Corvani cliff-folk trade openly in its steam-heated markets, creating the most cosmopolitan haven in the frozen north.",
     "dangerLevel": "medium",
     "factions": [
       "house-skalvyr",
-      "High Neth",
+      "Nethien",
       "Corvani Roost-Merchants"
     ],
     "connections": [
@@ -7587,8 +7587,8 @@ export const ZONE_DATA = [
     "subregionId": "nordhalla-glacier-heart",
     "history": {
       "founded": "Year 62 (Freezing Era)",
-      "foundedBy": "The Skald-High Neth Coalition",
-      "foundingStory": "Established on the high terraces of the Icetalon peaks as a neutral free-city where High Neth scholars fleeing southern upheavals could trade legal and arcane archiving in exchange for Skald protection and timber.",
+      "foundedBy": "The Skald-Nethien Coalition",
+      "foundingStory": "Established on the high terraces of the Icetalon peaks as a neutral free-city where Nethien scholars fleeing southern upheavals could trade legal and arcane archiving in exchange for Skald protection and timber.",
       "significantEvents": [
         {
           "date": "Year 62",
@@ -7596,7 +7596,7 @@ export const ZONE_DATA = [
         },
         {
           "date": "Year 105",
-          "event": "The High Neth Quarter completed with slate-roofed guildhalls."
+          "event": "The Nethien Quarter completed with slate-roofed guildhalls."
         }
       ]
     }
@@ -7790,10 +7790,10 @@ export const ZONE_DATA = [
     "regionId": "nordhalla",
     "name": "Saltgrinn",
     "type": "settlement",
-    "description": "A vertical mining town carved into sea-cliff caverns, inhabited by Pale Neth miners who harvest razor-sharp brine crystals from subterranean thermal springs to supply Nordhalla's fish-curing industry.",
+    "description": "A vertical mining town carved into sea-cliff caverns, inhabited by Nethien miners who harvest razor-sharp brine crystals from subterranean thermal springs to supply Nordhalla's fish-curing industry.",
     "dangerLevel": "medium",
     "factions": [
-      "Pale Neth",
+      "Nethien",
       "Icechamber Syndicate"
     ],
     "connections": [
@@ -7805,12 +7805,12 @@ export const ZONE_DATA = [
     "subregionId": "nordhalla-glacier-heart",
     "history": {
       "founded": "Year 55 (Freezing Era)",
-      "foundedBy": "Pale Neth Exiles",
+      "foundedBy": "Nethien Exiles",
       "foundingStory": "Tunneled into coastal caverns where brine springs evaporated on hot volcanic stone, creating vast fields of pure white salt crystals.",
       "significantEvents": [
         {
           "date": "Year 55",
-          "event": "Pale Neth community establishes the deep cavern extraction galleries."
+          "event": "Nethien community establishes the deep cavern extraction galleries."
         }
       ]
     }

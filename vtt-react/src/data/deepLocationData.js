@@ -224,13 +224,13 @@ DEEP_LOCATIONS['over-shanty'] = {
   description: 'A crooked rope-bridge spanning a darkness pierced by a single bioluminescent lantern'
  },
  population: 600,
- dominantRaces: ['Drun Neth', 'Vreken', 'Outcast Vreken'],
+ dominantRaces: ['Withered', 'Vreken', 'Outcast Vreken'],
  leadership: {
   type: 'none',
   title: 'No formal governance, ruled by a shifting balance of gang influence and survival-of-the-fittest',
   leaderId: null,
   description:
-   'The Over-Shanty has no single leader. Power is held by whoever controls the rope-bridges, the peat-harvest, and the black market. Currently, three factions vie for dominance: the Drun Outcasts, the Cult of Forgotten Shadow, and a loose coalition of Vreken peat-cutters.'
+   'The Over-Shanty has no single leader. Power is held by whoever controls the rope-bridges, the peat-harvest, and the black market. Currently, three factions vie for dominance: the Withered Outcasts, the Cult of Forgotten Shadow, and a loose coalition of Vreken peat-cutters.'
  },
  defenses: {
   militiaSize: 0,
@@ -257,9 +257,9 @@ DEEP_LOCATIONS['over-shanty'] = {
  },
  history: {
   founded: 'Unknown, the Shanty grew organically as outcasts accumulated beneath Atropolis',
-  foundedBy: 'The first Drun exiles who refused to burn their names from the First Contract',
+  foundedBy: 'The first Withered exiles who refused to burn their names from the First Contract',
   foundingStory:
-   'When the Velun Neth signed the First Contract, those who could not abide its terms, who refused to surrender their names, their memories, or their autonomy, were cast down. They built platforms beneath Atropolis, then more platforms, then rope-bridges between them. The Shanty has never stopped growing.',
+   'When the Nethien signed the First Contract, those who could not abide its terms, who refused to surrender their names, their memories, or their autonomy, were cast down. They built platforms beneath Atropolis, then more platforms, then rope-bridges between them. The Shanty has never stopped growing.',
   significantEvents: [
    { date: 'in the middle decades of the Freeze', event: 'Local legend says Natalie Seline founded the Cult of Forgotten Shadow in a peat-crypt beneath the Shanty; whether the cult truly exists — or is merely a name the Shanty assigns to the silence that lives in the deep bogs — remains an open question' },
    { date: 'in the middle decades of the Freeze', event: 'Establishment: the Over-Shanty coalesces as permanent black-market settlement at peat-bog edge' },
@@ -297,7 +297,7 @@ DEEP_LOCATIONS['over-shanty'] = {
  factionPresence: [
   { factionId: 'cult-of-forgotten-shadow', influence: 'strong', description: 'The Cult runs the memory trade and provides "spiritual services"' },
   { factionId: 'drun-outcasts', influence: 'strong', description: 'The original inhabitants, control the rope-bridges and peat-harvesting' },
-  { factionId: 'unlit-veil', influence: 'moderate', description: 'Unlit Veil brokers competing for control of the memory-trade; tense coexistence with the Drun' }
+  { factionId: 'unlit-veil', influence: 'moderate', description: 'Unlit Veil brokers competing for control of the memory-trade; tense coexistence with the Withered' }
  ],
  travelConnections: [
   { destinationId: 'atropolis', distance: '200 feet up', travelTime: '10 min', route: 'Cargo elevators and rope-ladders up to Atropolis\'s platforms' },
@@ -673,19 +673,19 @@ DEEP_LOCATIONS['aran-glen'] = {
   description: 'A living ironwood tree shaped into an archway, its roots forming a perfect circle'
  },
  population: 300,
- dominantRaces: ['Kessen Neth', 'Vreken'],
+ dominantRaces: ['Veldun', 'Vreken'],
  leadership: {
   type: 'contractual',
   title: 'Grove-Steward',
   leaderId: null,
   description:
-   'A Grove-Steward, a Kessen Neth weaver who has legally bound themselves to the grove\'s health through a personal contract with the ironwood root-network, governs Aran-Glen. The Steward\'s authority is absolute within the glen but automatically void if the grove\'s health metrics decline. It is a governance system designed to prevent corruption through self-interest.'
+   'A Grove-Steward, a Veldun weaver who has legally bound themselves to the grove\'s health through a personal contract with the ironwood root-network, governs Aran-Glen. The Steward\'s authority is absolute within the glen but automatically void if the grove\'s health metrics decline. It is a governance system designed to prevent corruption through self-interest.'
  },
  defenses: {
   militiaSize: 20,
   fortifications:
-   'The living ironwood walls that define the glen are its defense. Centuries of Kessen horticulture have produced a barrier of interlocking branches and thorns that is harder than stone and capable of self-repair. The entrance is a single archway grown from two trees that have merged at the crown.',
-  watchPresence: 'Kessen root-walkers patrol the perimeter, their bare feet reading vibrations through the root-network'
+   'The living ironwood walls that define the glen are its defense. Centuries of Veldun horticulture have produced a barrier of interlocking branches and thorns that is harder than stone and capable of self-repair. The entrance is a single archway grown from two trees that have merged at the crown.',
+  watchPresence: 'Veldun root-walkers patrol the perimeter, their bare feet reading vibrations through the root-network'
  },
  economy: {
   primary: 'Ironwood cultivation and living-architecture construction',
@@ -694,23 +694,23 @@ DEEP_LOCATIONS['aran-glen'] = {
  },
  atmosphere: {
   mood:
-   'Calm, ordered, and alive. Aran-Glen feels less like a settlement and more like a single organism, the buildings breathe, the paths shift subtly with the seasons, and the root-network hums with a constant, low vibration that the Kessen find soothing and visitors find mildly disorienting.',
+   'Calm, ordered, and alive. Aran-Glen feels less like a settlement and more like a single organism, the buildings breathe, the paths shift subtly with the seasons, and the root-network hums with a constant, low vibration that the Veldun find soothing and visitors find mildly disorienting.',
   architecture:
-   'Every structure in Aran-Glen is grown, not built. The Kessen coax ironwood saplings into architectural forms over decades, arches, walls, roofs, and chambers all formed from living wood. The buildings shed leaves in autumn, bloom in spring, and grow slightly larger every year. The effect is organic beauty that no stonemason could replicate.',
+   'Every structure in Aran-Glen is grown, not built. The Veldun coax ironwood saplings into architectural forms over decades, arches, walls, roofs, and chambers all formed from living wood. The buildings shed leaves in autumn, bloom in spring, and grow slightly larger every year. The effect is organic beauty that no stonemason could replicate.',
   sounds:
-   'The creak and rustle of living wood, the hum of the root-network (a constant low drone like a temple bell), the murmur of the bayou, and the gentle clicking of Kessen contract-tablets being annotated.',
+   'The creak and rustle of living wood, the hum of the root-network (a constant low drone like a temple bell), the murmur of the bayou, and the gentle clicking of Veldun contract-tablets being annotated.',
   smells:
    'Fresh sap, wet earth, the clean mineral scent of healthy root-systems, and the faint sweetness of ironwood flowers, one of the few pleasant smells in the Bryngloom.',
   lighting:
-   'Bioluminescent moss cultivated on every surface provides a steady, warm green-gold light. The Kessen have bred specific strains for different brightness levels, creating a natural lighting system that responds to the settlement\'s needs.'
+   'Bioluminescent moss cultivated on every surface provides a steady, warm green-gold light. The Veldun have bred specific strains for different brightness levels, creating a natural lighting system that responds to the settlement\'s needs.'
  },
  history: {
   founded: 'in the first centuries of the Freezing Era',
-  foundedBy: 'Kessen Neth Weavers',
+  foundedBy: 'Veldun Weavers',
   foundingStory:
-   'When Atropolis grew crowded and the Velun Pact-Lords became increasingly rigid in their interpretation of the First Contract, a group of Kessen weavers left to establish a community dedicated to the living arts. They found a narrow glen where the ironwood roots formed a natural enclosure and began the slow, patient work of growing a settlement. Three centuries later, Aran-Glen is proof that architecture can be alive.',
+   'When Atropolis grew crowded and the Nethien Pact-Lords became increasingly rigid in their interpretation of the First Contract, a group of Veldun weavers left to establish a community dedicated to the living arts. They found a narrow glen where the ironwood roots formed a natural enclosure and began the slow, patient work of growing a settlement. Three centuries later, Aran-Glen is proof that architecture can be alive.',
   significantEvents: [
-   { date: 'in the first centuries of the Freezing Era', event: 'The Glen Compact, Kessen weavers bound themselves to the grove\'s health' },
+   { date: 'in the first centuries of the Freezing Era', event: 'The Glen Compact, Veldun weavers bound themselves to the grove\'s health' },
    { date: 'decades into the Freezing Era', event: 'First successful living-bridge grown across the glen, spanning 100 feet' },
    { date: 'in the later centuries of the Freezing Era', event: 'Morren peat-cutters granted settlement rights in exchange for root-system maintenance' }
   ]
@@ -721,7 +721,7 @@ DEEP_LOCATIONS['aran-glen'] = {
    name: 'The Grove-Heart',
    type: 'great_hall',
    description:
-    'The oldest tree in the glen, a colossal ironwood whose canopy covers half the settlement. The tree serves as the Glen-Steward\'s seat of governance and the community\'s gathering space. Its trunk is carved with three centuries of Kessen contract-law precedents.',
+    'The oldest tree in the glen, a colossal ironwood whose canopy covers half the settlement. The tree serves as the Glen-Steward\'s seat of governance and the community\'s gathering space. Its trunk is carved with three centuries of Veldun contract-law precedents.',
    proprietor: 'Grove-Steward',
    notableFeatures: [
     'The Living Archive: contract-tablets grown directly from the tree\'s bark, containing legal decisions that update as the tree grows',
@@ -733,11 +733,11 @@ DEEP_LOCATIONS['aran-glen'] = {
    name: "The Weavers' Market",
    type: 'market',
    description:
-    'A market grown from a double-row of arching ironwood saplings whose branches form a natural colonnade. Kessen artisans sell living-wood furniture (which continues to grow after purchase), bioluminescent moss lamps, contract-tablets, and rare medicinal fungi harvested from the bog-edge.',
-   proprietor: 'Kessen Artisans\' Collective',
+    'A market grown from a double-row of arching ironwood saplings whose branches form a natural colonnade. Veldun artisans sell living-wood furniture (which continues to grow after purchase), bioluminescent moss lamps, contract-tablets, and rare medicinal fungi harvested from the bog-edge.',
+   proprietor: 'Veldun Artisans\' Collective',
    notableFeatures: [
     'The Growing-Furniture Row: chairs, tables, and shelving that are still alive, buyers must sign a maintenance contract',
-     'The Bog-Apothecary: a stall run by a Vreken herbalist who has learned Kessen root-reading to identify medicinal compounds'
+     'The Bog-Apothecary: a stall run by a Vreken herbalist who has learned Veldun root-reading to identify medicinal compounds'
    ]
   }
  ],
@@ -1213,7 +1213,7 @@ DEEP_LOCATIONS['merrowport'] = {
   description: 'A golden scale balanced on a coral spire, the tide rising around it'
  },
  population: 500,
- dominantRaces: ['Merryn', 'Myrathil', 'Neth'],
+ dominantRaces: ['Merryn', 'Myrathil', 'Nethien'],
  leadership: {
   type: 'guild',
   title: 'Harbor-Master',
@@ -1224,7 +1224,7 @@ DEEP_LOCATIONS['merrowport'] = {
  defenses: {
   militiaSize: 40,
   fortifications:
-   'The Deep-Quarter is built on coral foundations below the tideline, accessible only by descending staircases that flood at high tide. The gambling halls are constructed from Myrathil shell-concrete, reinforced with Neth contract-wards that magically bind anyone who enters uninvited.',
+   'The Deep-Quarter is built on coral foundations below the tideline, accessible only by descending staircases that flood at high tide. The gambling halls are constructed from Myrathil shell-concrete, reinforced with Nethien contract-wards that magically bind anyone who enters uninvited.',
   watchPresence: 'Myrathil Shore patrol the underwater approaches, their bioluminescence marking safe passages'
  },
  economy: {
@@ -1233,17 +1233,17 @@ DEEP_LOCATIONS['merrowport'] = {
   status: 'volatile'
  },
  atmosphere: {
-  mood: 'Electric, reckless, and desperate. The Deep-Quarter is where fortunes are made and unmade in a single hand of salt-coral cards. The air is thick with salt spray, Myrathil incense, and the smell of Neth silver-blood contracts drying on coral tables. The patrons laugh too loud and watch each other too closely.',
+  mood: 'Electric, reckless, and desperate. The Deep-Quarter is where fortunes are made and unmade in a single hand of salt-coral cards. The air is thick with salt spray, Myrathil incense, and the smell of Nethien silver-blood contracts drying on coral tables. The patrons laugh too loud and watch each other too closely.',
   architecture: 'Submerged Myrathil construction, shell-concrete domes, coral archways, and floors of polished sea-stone that ripple with trapped bioluminescence. The gambling halls are arranged around a central tide-pool that rises and falls with the lunar cycle, the water level determining which tables are accessible.',
-  sounds: 'The constant rattle of dice and cards, the crash of waves against the coral foundations, the hum of Myrathil bioluminescent light-filters, the murmur of Neth contract recitations, and the occasional roar of a storm-spirit covenant being honored or breached.',
-  smells: 'Salt, seaweed, Myrathil incense, Neth silver-blood (metallic), spilled Merryn ale, and the deep-ocean mineral scent of the tide-pool.',
-  lighting: 'Bioluminescent, Myrathil light-coral in the ceilings casts a cool blue-green glow. Neth contract-lanterns with silver-flame supplement the illumination during high-stakes negotiations. The tide-pool at the center glows faintly from the coral beneath.'
+  sounds: 'The constant rattle of dice and cards, the crash of waves against the coral foundations, the hum of Myrathil bioluminescent light-filters, the murmur of Nethien contract recitations, and the occasional roar of a storm-spirit covenant being honored or breached.',
+  smells: 'Salt, seaweed, Myrathil incense, Nethien silver-blood (metallic), spilled Merryn ale, and the deep-ocean mineral scent of the tide-pool.',
+  lighting: 'Bioluminescent, Myrathil light-coral in the ceilings casts a cool blue-green glow. Nethien contract-lanterns with silver-flame supplement the illumination during high-stakes negotiations. The tide-pool at the center glows faintly from the coral beneath.'
  },
  history: {
   founded: 'in the first centuries of the Freezing Era',
   foundedBy: 'Jax the Wager and Lyra the Clause',
   foundingStory:
-   'When Jax the Merryn pirate wagered his lifeline against a storm-spirit and won, he used the favor to establish the first gambling hall in what would become the Deep-Quarter. Lyra the Neth clause-weaver joined him soon after, formalizing chance through rune-etched cards and binding the hall\'s debts with First Contract authority. The two founders disagreed on the soul of their creation, luck versus structure, and their schism is carved into the foundations: Jax\'s wing is open to the sea, Lyra\'s is sealed with contract-wards.',
+   'When Jax the Merryn pirate wagered his lifeline against a storm-spirit and won, he used the favor to establish the first gambling hall in what would become the Deep-Quarter. Lyra the Nethien clause-weaver joined him soon after, formalizing chance through rune-etched cards and binding the hall\'s debts with First Contract authority. The two founders disagreed on the soul of their creation, luck versus structure, and their schism is carved into the foundations: Jax\'s wing is open to the sea, Lyra\'s is sealed with contract-wards.',
   significantEvents: [
    { date: 'in the first centuries of the Freezing Era', event: 'Jax and Lyra establish the Gambit tradition in the newly-built Merrowport Deep-Quarter' },
    { date: 'decades into the Freezing Era', event: 'Jax walks into the sea, telling no one why; his followers splinter into the luck-cult' },
@@ -1267,7 +1267,7 @@ DEEP_LOCATIONS['merrowport'] = {
    id: 'the-clause-chamber',
    name: 'The Clause Chamber',
    type: 'temple',
-   description: 'Lyra\'s wing of the Deep-Quarter, sealed by Neth contract-wards that prevent unauthorized entry. The Clause Chamber is a library of rune-etched cards, stacked to the ceiling in coral shelves, each card a formalized probability that can be read, played, or burned.',
+   description: 'Lyra\'s wing of the Deep-Quarter, sealed by Nethien contract-wards that prevent unauthorized entry. The Clause Chamber is a library of rune-etched cards, stacked to the ceiling in coral shelves, each card a formalized probability that can be read, played, or burned.',
    proprietor: 'Deck-Burners',
    notableFeatures: [
     'The Probability-Index: a complete taxonomy of every possible outcome the Deck-Burners have calculated, filling seventeen coral shelves',
@@ -1312,7 +1312,7 @@ DEEP_LOCATIONS['atropolis'] = {
     description: 'A silver scroll bound in living ironwood roots, holding a single drop of frozen starlight'
   },
   population: 4500,
-  dominantRaces: ['High Neth', 'Pale Neth', 'Vreken'],
+  dominantRaces: ['Nethien', 'Nethien', 'Vreken'],
   leadership: {
     type: 'noble_house',
     title: 'High Archivist of the First Contract',
@@ -1339,7 +1339,7 @@ DEEP_LOCATIONS['atropolis'] = {
   history: {
     founded: '1st century of the Freezing Era',
     foundedBy: 'Scribe-Clan Ancestors & Morvane',
-    foundingStory: 'Grown from an ancient elven grove-sanctuary across centuries, Atropolis became the seat of the Neth when the dying scribe-clan presented Morvane with the First Contract to survive the freeze.',
+    foundingStory: 'Grown from an ancient elven grove-sanctuary across centuries, Atropolis became the seat of the Nethien when the dying scribe-clan presented Morvane with the First Contract to survive the freeze.',
     significantEvents: [
       { date: 'Year 42 of the Freezing Era', event: 'The First Contract signed at the Heartwood Archive' },
       { date: 'Year 310 of the Freezing Era', event: 'House Morrath elevated as substitute 7th signatory after Viridane\'s erasure' }
@@ -1577,12 +1577,12 @@ DEEP_LOCATIONS['snowcall-city'] = {
     description: 'A silver horn emitting frost-flakes over a granite cliff profile'
   },
   population: 3200,
-  dominantRaces: ['Skald', 'High Neth', 'Corvani'],
+  dominantRaces: ['Skald', 'Nethien', 'Corvani'],
   leadership: {
     type: 'council',
     title: 'Charter-Steward',
     leaderId: 'solvan-steward',
-    description: 'Governed by the Snowcall Charter-Council representing House Skalvyr, the High Neth Scriptorium, and the Corvani Roost-Merchants.'
+    description: 'Governed by the Snowcall Charter-Council representing House Skalvyr, the Nethien Scriptorium, and the Corvani Roost-Merchants.'
   },
   defenses: {
     militiaSize: 200,
@@ -1591,31 +1591,31 @@ DEEP_LOCATIONS['snowcall-city'] = {
   },
   economy: {
     primary: 'Trade hub between Rime-Spire Peaks and Skaldfjord Dal',
-    secondary: ['High Neth legal archiving', 'Corvani roost-trinket export', 'Geothermal fur-processing'],
+    secondary: ['Nethien legal archiving', 'Corvani roost-trinket export', 'Geothermal fur-processing'],
     status: 'prosperous'
   },
   atmosphere: {
     mood: 'Bustling, crisp, and multi-cultural. Snowcall is the warmest and most welcoming urban center in Nordhalla.',
-    architecture: 'High Skald longhalls blended with slate-roofed High Neth townhouses and high cliffside Corvani roost-towers.',
+    architecture: 'High Skald longhalls blended with slate-roofed Nethien townhouses and high cliffside Corvani roost-towers.',
     sounds: 'Market calls in three languages, Corvani screech-shouts, and the steady hum of under-street steam pipes.',
     smells: 'Pine smoke, roasting elk meat, parchment ink, and crisp mountain air.',
     lighting: 'Warm amber lantern-light reflected off snow drifts and slate roofs.'
   },
   history: {
     founded: '2nd century of the Freezing Era',
-    foundedBy: 'Skald-Neth Trade Coalition',
-    foundingStory: 'Established at the junction of the Icetalon passes and the Whispering Pine as a neutral charter city where High Neth immigrants could settle safely alongside Skald clans.',
+    foundedBy: 'Skald-Nethien Trade Coalition',
+    foundingStory: 'Established at the junction of the Icetalon passes and the Whispering Pine as a neutral charter city where Nethien immigrants could settle safely alongside Skald clans.',
     significantEvents: [
-      { date: '2nd century', event: 'Snowcall Charter signed establishing the High Neth Quarter' }
+      { date: '2nd century', event: 'Snowcall Charter signed establishing the Nethien Quarter' }
     ]
   },
   subLocations: [
     {
       id: 'high-neth-quarter',
-      name: 'The High Neth Quarter',
+      name: 'The Nethien Quarter',
       type: 'settlement',
       description: 'A slate-roofed district of legal scribes, ink-refiners, and contract archivists.',
-      proprietor: 'High Neth Guild',
+      proprietor: 'Nethien Guild',
       notableFeatures: ['The Slate Scriptorium']
     }
   ],

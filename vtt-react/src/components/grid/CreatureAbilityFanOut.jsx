@@ -1,14 +1,19 @@
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { getAbilityIconUrl, getCustomIconUrl, getIconUrl } from '../../utils/assetManager';
 import { resolveCreatureAbilityIcon, transformAbilityToSpell } from '../../utils/creatureAbilityUtils';
 import { normalizeDamageType } from '../spellcrafting-wizard/core/data/damageTypes';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
+import useGameStore from '../../store/gameStore';
 import '../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../ui/ActionFanOutMenu.css';
 import './CreatureAbilityFanOut.css';
 
 const MAX_FAN_BUBBLES = 8;
+
+// Grace period that lets the pointer travel from a bubble to the portaled card
+const CARD_CLOSE_GRACE_MS = 200;
 
 // Fallback icons per ability type (matches assets used elsewhere in the app)
 const ABILITY_TYPE_FALLBACK_ICONS = {
@@ -155,13 +160,37 @@ const CreatureAbilityFanOut = ({
     abilities = [],
     isOpen = true,
     radius = 110,
-    onUseAbility
+    onUseAbility,
+    onFanHoverChange
 }) => {
     // Hovered bubble + precomputed card placement ({ id, side, cy, left, right })
     const [hover, setHover] = useState(null);
     const [cardSize, setCardSize] = useState({ w: 0, h: 0 });
     const [cardFitW, setCardFitW] = useState(CARD_NATURAL_WIDTH);
     const cardRef = useRef(null);
+    const cardCloseTimerRef = useRef(null);
+    const bubbleRefs = useRef({});
+
+    const cancelCardClose = () => {
+        if (cardCloseTimerRef.current) {
+            clearTimeout(cardCloseTimerRef.current);
+            cardCloseTimerRef.current = null;
+        }
+    };
+
+    // Delay the card unmount so the pointer can cross the gap between a bubble
+    // and the portaled card without the card vanishing mid-transition
+    const scheduleCardClose = () => {
+        cancelCardClose();
+        cardCloseTimerRef.current = setTimeout(() => {
+            cardCloseTimerRef.current = null;
+            setHover(null);
+        }, CARD_CLOSE_GRACE_MS);
+    };
+
+    useEffect(() => () => {
+        if (cardCloseTimerRef.current) clearTimeout(cardCloseTimerRef.current);
+    }, []);
 
     const items = useMemo(
         () => abilities
@@ -220,11 +249,46 @@ const CreatureAbilityFanOut = ({
         return geom.dy;
     }, [hover, cardSize]);
 
+    // The card is portaled outside the grid, so it must be re-anchored to its
+    // bubble whenever the camera pans/zooms under it.
+    const hoverId = hover?.id || null;
+    useEffect(() => {
+        if (!hoverId) return undefined;
+        const syncFromBubble = () => {
+            const el = bubbleRefs.current[hoverId];
+            if (!el) return;
+            const rect = el.getBoundingClientRect();
+            const cy = rect.top + rect.height / 2;
+            setHover(prev => {
+                if (!prev || prev.id !== hoverId) return prev;
+                if (prev.left === rect.left && prev.right === rect.right && prev.cy === cy) return prev;
+                return { ...prev, left: rect.left, right: rect.right, cy };
+            });
+        };
+        const unsubscribe = useGameStore.subscribe((state, prevState) => {
+            if (
+                state.cameraX !== prevState.cameraX ||
+                state.cameraY !== prevState.cameraY ||
+                state.zoomLevel !== prevState.zoomLevel ||
+                state.playerZoom !== prevState.playerZoom
+            ) {
+                syncFromBubble();
+            }
+        });
+        window.addEventListener('resize', syncFromBubble);
+        return () => {
+            unsubscribe();
+            window.removeEventListener('resize', syncFromBubble);
+        };
+    }, [hoverId]);
+
     if (!isOpen || visible.items.length === 0) return null;
 
     const angles = computeFanAngles(visible.items.length + (visible.hiddenCount > 0 ? 1 : 0));
+    const hoveredEntry = hover ? visible.items.find(entry => entry.mapped.id === hover.id) || null : null;
 
     const handleBubbleEnter = (e, ability, fanX) => {
+        cancelCardClose();
         const rect = e.currentTarget.getBoundingClientRect();
         const spaceRight = window.innerWidth - rect.right;
         const spaceLeft = rect.left;
@@ -237,9 +301,22 @@ const CreatureAbilityFanOut = ({
         else if (fitsLeft) side = 'left';
         else side = spaceRight >= spaceLeft ? 'right' : 'left';
         setHover({ id: ability.id, side, cy: rect.top + rect.height / 2, left: rect.left, right: rect.right });
+        if (onFanHoverChange) onFanHoverChange(true);
     };
 
-    const handleBubbleClick = (e, ability) => {
+    // Leaving a bubble hides the card after a grace period; the token's
+    // creature tooltip is told to stay hidden while the pointer is on the fan
+    const handleFanPartLeave = () => {
+        scheduleCardClose();
+        if (onFanHoverChange) onFanHoverChange(false);
+    };
+
+    const handleCardEnter = () => {
+        cancelCardClose();
+        if (onFanHoverChange) onFanHoverChange(true);
+    };
+
+    const handleBubbleClick = (e, ability, raw) => {
         e.stopPropagation();
         e.preventDefault();
         if (!onUseAbility) return;
@@ -252,7 +329,7 @@ const CreatureAbilityFanOut = ({
                 rollText = `🎲 ${ability.formula} → ${roll.total}${typeLabel}`;
             }
         }
-        onUseAbility(ability, rollText);
+        onUseAbility(ability, rollText, raw);
     };
 
     return (
@@ -268,16 +345,20 @@ const CreatureAbilityFanOut = ({
                 return (
                     <div
                         key={ability.id}
+                        ref={(el) => {
+                            if (el) bubbleRefs.current[ability.id] = el;
+                            else delete bubbleRefs.current[ability.id];
+                        }}
                         className={`action-fan-bubble creature-ability-bubble ${isSpecial ? 'special-action' : 'baseline-action'}`}
                         style={{
                             '--tx': `${x}px`,
                             '--ty': `${y}px`,
                             animationDelay: `${index * 35}ms`
                         }}
-                        onClick={(e) => handleBubbleClick(e, ability)}
+                        onClick={(e) => handleBubbleClick(e, ability, raw)}
                         onMouseDown={(e) => e.stopPropagation()}
                         onMouseEnter={(e) => handleBubbleEnter(e, ability, x)}
-                        onMouseLeave={() => setHover(null)}
+                        onMouseLeave={handleFanPartLeave}
                     >
                         <div className="fan-bubble-icon-wrap">
                             <img
@@ -295,26 +376,6 @@ const CreatureAbilityFanOut = ({
                         </div>
 
                         {isSpecial && <div className="special-flourish-ring" />}
-
-                        {/* Full spell card for the hovered ability (same card as the inspect view) */}
-                        {hover?.id === ability.id && (
-                            <div
-                                ref={cardRef}
-                                className={`fan-ability-card ${hover.side === 'right' ? 'fan-card-right' : 'fan-card-left'}`}
-                                style={{ top: `calc(50% + ${cardDy}px)`, maxWidth: cardFitW }}
-                                onClick={(e) => e.stopPropagation()}
-                                onMouseDown={(e) => e.stopPropagation()}
-                            >
-                                <UnifiedSpellCard
-                                    spell={transformAbilityToSpell({ ...raw, icon: ability.icon })}
-                                    variant="wizard"
-                                    showActions={false}
-                                    showDescription={true}
-                                    showStats={true}
-                                    showTags={false}
-                                />
-                            </div>
-                        )}
                     </div>
                 );
             })}
@@ -329,9 +390,42 @@ const CreatureAbilityFanOut = ({
                         animationDelay: `${visible.items.length * 35}ms`
                     }}
                     onMouseDown={(e) => e.stopPropagation()}
+                    onMouseEnter={() => onFanHoverChange && onFanHoverChange(true)}
+                    onMouseLeave={handleFanPartLeave}
                 >
                     <span className="fan-more-label">+{visible.hiddenCount}</span>
                 </div>
+            )}
+
+            {/* Full spell card for the hovered ability (same card as the inspect
+                view). Portaled to <body> so the Party/Target HUD layers
+                (z-index 9000) can never cover it. */}
+            {hover && hoveredEntry && createPortal(
+                <div
+                    ref={cardRef}
+                    className="fan-ability-card"
+                    style={{
+                        position: 'fixed',
+                        top: `${hover.cy + cardDy}px`,
+                        left: hover.side === 'right' ? `${hover.right + 14}px` : `${hover.left - 14}px`,
+                        transform: hover.side === 'right' ? 'translateY(-50%)' : 'translate(-100%, -50%)',
+                        maxWidth: cardFitW
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                    onMouseDown={(e) => e.stopPropagation()}
+                    onMouseEnter={handleCardEnter}
+                    onMouseLeave={handleFanPartLeave}
+                >
+                    <UnifiedSpellCard
+                        spell={transformAbilityToSpell({ ...hoveredEntry.raw, icon: hoveredEntry.mapped.icon })}
+                        variant="wizard"
+                        showActions={false}
+                        showDescription={true}
+                        showStats={true}
+                        showTags={false}
+                    />
+                </div>,
+                document.body
             )}
         </div>
     );
@@ -341,7 +435,8 @@ CreatureAbilityFanOut.propTypes = {
     abilities: PropTypes.array,
     isOpen: PropTypes.bool,
     radius: PropTypes.number,
-    onUseAbility: PropTypes.func
+    onUseAbility: PropTypes.func,
+    onFanHoverChange: PropTypes.func
 };
 
 export default CreatureAbilityFanOut;

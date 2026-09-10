@@ -106,7 +106,7 @@ export const BACKGROUND_ABILITIES = {
       name: 'Contractual Eye',
       type: 'Passive',
       usage: 'Always Active',
-      description: "You read Neth contracts the way an Inquisitor reads guilt. Gain advantage on Insight checks to detect lies and hidden motives, and one additional language.",
+      description: "You read Nethien contracts the way an Inquisitor reads guilt. Gain advantage on Insight checks to detect lies and hidden motives, and one additional language.",
       details: "You have advantage on Wisdom (Insight) checks to detect deception or hidden intent. You learn one additional language of your choice."
     },
     {

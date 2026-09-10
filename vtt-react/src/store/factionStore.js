@@ -511,7 +511,7 @@ const SEEDED_FACTIONS = [
 
     type: 'rival',
 
-    description: 'The Veil\'s intelligence network periodically uncovers Morrath debts the Neth would rather keep buried: a pressure game that cuts both ways'
+    description: 'The Veil\'s intelligence network periodically uncovers Morrath debts the Nethien would rather keep buried: a pressure game that cuts both ways'
 
    }
 
@@ -860,15 +860,15 @@ const SEEDED_FACTIONS = [
   regionId: 'bryngloom-forest',
   icon: '/assets/icons/factions/morrath.png',
   colors: { primary: '#3a2a4a', secondary: '#7a6a9a' },
-  publicGoal: 'Govern the Bryngloom Forest in absentia: their authority is mediated entirely through Neth contract-law',
+  publicGoal: 'Govern the Bryngloom Forest in absentia: their authority is mediated entirely through Nethien contract-law',
   publicDescription:
-   'House Morrath is the ghost among houses: the replacement seventh house elevated after Viridane fled the Blooding, yet the one with the least surviving record. Unlike the original six: they had nothing left to trade that Keth Amar would accept, so they borrowed their survival from the Neth rather than striking their own Dark Bargain. The official records list them as the seventh house of the Great Binding, but the truth is subtler — they were installed to fill the gap Viridane left.',
+   'House Morrath is the ghost among houses: the replacement seventh house elevated after Viridane fled the Blooding, yet the one with the least surviving record. Unlike the original six: they had nothing left to trade that Keth Amar would accept, so they borrowed their survival from the Nethien rather than striking their own Dark Bargain. The official records list them as the seventh house of the Great Binding, but the truth is subtler — they were installed to fill the gap Viridane left.',
   hiddenAgenda:
-   'House Morrath has been functionally extinct for three centuries. The Velun Pact-Lords of Atropolis continue to issue decrees in Morrath\'s name because a void in the seventh seat would legally invalidate the Bargain Compact.',
+   'House Morrath has been functionally extinct for three centuries. The Nethien Pact-Lords of Atropolis continue to issue decrees in Morrath\'s name because a void in the seventh seat would legally invalidate the Bargain Compact.',
   leader: {
    npcId: 'morrath-steward',
-   title: 'Steward of the Seventh Seat (Velun Appointee)',
-   description: 'The current Steward is a Velun Neth who has been "acting" in Morrath\'s name for over three centuries. No Morrath descendant has presented themselves to claim the seat in living memory.'
+   title: 'Steward of the Seventh Seat (Nethien Appointee)',
+   description: 'The current Steward is a Nethien who has been "acting" in Morrath\'s name for over three centuries. No Morrath descendant has presented themselves to claim the seat in living memory.'
   },
    members: [
     { npcId: 'morrath-steward', role: 'Steward of the Seventh Seat (Regent)', locationId: 'atropolis' },
@@ -878,11 +878,11 @@ const SEEDED_FACTIONS = [
    territory: ['atropolis', 'peat-bog-sinks', 'over-shanty', 'morrens-bogpost', 'vel-keth-bayou', 'aran-glen', 'fangmere-grove', 'widows-quagmire', 'black-fen', 'drowned-dingle', 'hunters-gully', 'merryns-drift'],
    relationships: [
     { targetFactionId: 'scribe-sentinels', type: 'vassal', description: 'The Sentinels maintain the legal archives that prove the Morrath line exists: without their records, the seventh seat would be declared vacant' },
-   { targetFactionId: 'unlit-veil', type: 'rival', description: 'Morrath descendants still exist among the Drun: unrecognized, unnamed, uncounted' }
+   { targetFactionId: 'unlit-veil', type: 'rival', description: 'Morrath descendants still exist among the Withered: unrecognized, unnamed, uncounted' }
   ],
   classAffinities: ['arcanoneer', 'false_prophet', 'plaguebringer'],
-  lore: 'The Morrath are mentioned in exactly one clause of the First Contract: a rider specifying that their debt to the Neth is "perpetual until a living Morrath heir presents themselves to renegotiate." No heir has ever come.',
-  secrets: 'A Morrath descendant IS alive: a Drun woman who burned her name from the First Contract two centuries ago. She does not know her bloodline. The Velun have been searching for her for eighty years.',
+  lore: 'The Morrath are mentioned in exactly one clause of the First Contract: a rider specifying that their debt to the Nethien is "perpetual until a living Morrath heir presents themselves to renegotiate." No heir has ever come.',
+  secrets: 'A Morrath descendant IS alive: a Withered woman who burned her name from the First Contract two centuries ago. She does not know her bloodline. The Nethien have been searching for her for eighty years.',
   quests: []
  },
 
@@ -982,12 +982,12 @@ const SEEDED_FACTIONS = [
   headquarters: 'atropolis',
   territory: ['atropolis'],
   relationships: [
-   { targetFactionId: 'house-morrath', type: 'allied', description: 'The Canopy Ledger arbitrates the Neth contract magic that holds Morrath in being.' },
+   { targetFactionId: 'house-morrath', type: 'allied', description: 'The Canopy Ledger arbitrates the Nethien contract magic that holds Morrath in being.' },
    { targetFactionId: 'unlit-veil', type: 'rival', description: 'The Veil trades in secrets the Arcanoneers are sworn to file and seal.' }
   ],
   classAffinities: ['arcanoneer'],
-  lore: 'Heir to Valerius who drafted the First Contract with Morvane. Now Morvane is rejecting clauses it once accepted and arbitration cannot resolve the Velun Contingency Protocol.',
-  secrets: 'The Velun Contingency Protocol contains a clause that would void every Morrath debt at once if a living heir were ever proven, and the Canopy Ledger has buried it on purpose.',
+  lore: 'Heir to Valerius who drafted the First Contract with Morvane. Now Morvane is rejecting clauses it once accepted and arbitration cannot resolve the Nethien Contingency Protocol.',
+  secrets: 'The Nethien Contingency Protocol contains a clause that would void every Morrath debt at once if a living heir were ever proven, and the Canopy Ledger has buried it on purpose.',
   quests: []
  },
  {
@@ -1545,7 +1545,7 @@ const SEEDED_FACTIONS = [
  },
  {
   id: 'drun-outcasts',
-  name: 'The Drun Outcast Clans',
+  name: 'The Withered Outcast Clans',
   type: 'tribe',
   regionId: 'bryngloom-forest',
   icon: '/assets/icons/factions/drun-outcasts.png',
@@ -1559,12 +1559,12 @@ const SEEDED_FACTIONS = [
   headquarters: 'over-shanty',
   territory: ['over-shanty', 'black-fen', 'vel-keth-bayou'],
   relationships: [
-   { targetFactionId: 'scribe-sentinels', type: 'hostile', description: 'The Drun resist all attempts by external guilds to register or tax their settlements.' },
-   { targetFactionId: 'house-morrath', type: 'allied', description: 'Drun clans maintain ancient kinship ties with forgotten forest lineages.' }
+   { targetFactionId: 'scribe-sentinels', type: 'hostile', description: 'The Withered resist all attempts by external guilds to register or tax their settlements.' },
+   { targetFactionId: 'house-morrath', type: 'allied', description: 'Withered clans maintain ancient kinship ties with forgotten forest lineages.' }
   ],
   classAffinities: ['plaguebringer', 'revenant'],
   lore: 'Formed by independent thinkers and survivors who built resilient stilt villages above the Bryngloom mire.',
-  secrets: 'The Drun have discovered natural underwater pathways through the marsh that bypass all toll gates.',
+  secrets: 'The Withered have discovered natural underwater pathways through the marsh that bypass all toll gates.',
   quests: []
  },
  {
@@ -1668,7 +1668,7 @@ const SEEDED_FACTIONS = [
  },
  {
   id: 'neth',
-  name: 'High House Neth',
+  name: 'High House Nethien',
   type: 'noble_house',
   regionId: 'bryngloom-forest',
   icon: '/assets/icons/factions/neth.png',
@@ -1682,8 +1682,8 @@ const SEEDED_FACTIONS = [
   headquarters: 'atropolis',
   territory: ['atropolis', 'vel-keth-bayou', 'aran-glen', 'black-fen'],
   relationships: [
-   { targetFactionId: 'house-morrath', type: 'allied', description: 'High House Neth legitimizes Morrath legal continuity through the registry.' },
-   { targetFactionId: 'scribe-cartel', type: 'rival', description: 'The Neth legalists regulate what the Scribes Ink Guild provides.' }
+   { targetFactionId: 'house-morrath', type: 'allied', description: 'High House Nethien legitimizes Morrath legal continuity through the registry.' },
+   { targetFactionId: 'scribe-cartel', type: 'rival', description: 'The Nethien legalists regulate what the Scribes Ink Guild provides.' }
   ],
   classAffinities: ['arcanoneer', 'revenant'],
   lore: 'An ancient dynasty whose words carry literal binding arcane weight under the First Contract.',
@@ -1798,7 +1798,7 @@ const SEEDED_FACTIONS = [
  },
  {
   id: 'kessen-weavers',
-  name: 'Cult of the Kessen Weavers',
+  name: 'Cult of the Veldun Weavers',
   type: 'cult',
   regionId: 'bryngloom-forest',
   icon: '/assets/icons/factions/neth.png',
@@ -1825,7 +1825,7 @@ const SEEDED_FACTIONS = [
   headquarters: 'aran-glen',
   territory: ['aran-glen', 'fangmere-grove'],
   relationships: [
-   { targetFactionId: 'neth', type: 'allied', description: 'The Weavers provide astrological and probability divinations to High House Neth.' }
+   { targetFactionId: 'neth', type: 'allied', description: 'The Weavers provide astrological and probability divinations to High House Nethien.' }
   ],
   classAffinities: ['arcanoneer', 'augur'],
   lore: 'Practitioners of living wood manipulation whose crafted artifacts grow and adapt over centuries.',
@@ -2144,13 +2144,13 @@ const SEEDED_FACTIONS = [
  },
  {
   id: 'velun-pact-lords',
-  name: 'Velun Pact Lords',
+  name: 'Nethien Pact Lords',
   type: 'noble_house',
   regionId: 'bryngloom-forest',
   icon: '/assets/icons/factions/neth.png',
   colors: { primary: '#5a4a7a', secondary: '#9a7aaa' },
   publicGoal: 'Ensure the Glen Compact remains consistent with the First Contract',
-  publicDescription: 'A distinguished Neth patrician house serving as judicial ambassadors between Aran Glen and Atropolis, overseeing binding legal pacts.',
+  publicDescription: 'A distinguished Nethien patrician house serving as judicial ambassadors between Aran Glen and Atropolis, overseeing binding legal pacts.',
   leader: {
   'npcId': 'consul-tiberius-velun',
   'title': 'High Chancellor Tiberius',
@@ -2171,7 +2171,7 @@ const SEEDED_FACTIONS = [
   headquarters: 'atropolis',
   territory: ['atropolis', 'aran-glen'],
   relationships: [
-   { targetFactionId: 'neth', type: 'allied', description: 'The Pact Lords are a foundational branch of High House Neth.' },
+   { targetFactionId: 'neth', type: 'allied', description: 'The Pact Lords are a foundational branch of High House Nethien.' },
    { targetFactionId: 'canopy-ledger', type: 'allied', description: 'The Pact Lords work hand in hand with the Canopy Ledger Guild to enforce contracts.' }
   ],
   classAffinities: ['arcanoneer', 'spellguard'],

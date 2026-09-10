@@ -340,7 +340,7 @@ export const BIOMES = [
     regionFlavor: {
       regionName: 'Bryngloom Forest',
       curseName: 'Bog Preserves',
-      description: 'The sinking peat-bogs of the Bryngloom are quiet, damp tombs where the laws of life and death are governed by Neth contract-houses. The acidic water preserves everything, and contract-breaches trigger immediate vegetative backlashes from the peat itself.',
+      description: 'The sinking peat-bogs of the Bryngloom are quiet, damp tombs where the laws of life and death are governed by Nethien contract-houses. The acidic water preserves everything, and contract-breaches trigger immediate vegetative backlashes from the peat itself.',
       rules: [
         'Entering deep peat-bogs requires a Strength (Athletics) check against a moderate die (d8) or the traveler is restrained and begins sinking.',
         'Any spoken lie or contract violation in the swamp triggers an immediate bog-tremor, attracting Wyrd-creatures like Debt-Revenants.',
@@ -410,17 +410,17 @@ export const BIOMES = [
       { range: [7, 7], type: 'discovery', label: 'Bubbling Mud Pot', note: 'Nature vs moderate die (d8), hot spring or fungal vent.' },
       { range: [8, 8], type: 'combat', label: 'Spore Swarm', note: 'Toxic spores. Fire or area effects scatter them.' },
       { range: [9, 9], type: 'social', label: 'Vreken Crypt-Speaker', note: 'Lives alone. Knowledgeable but unsettling.' },
-      { range: [10, 10], type: 'social', label: 'Drun Outcasts', note: 'Fleeing Neth contract-enforcement. May warn of hazard.' },
+      { range: [10, 10], type: 'social', label: 'Withered Outcasts', note: 'Fleeing Nethien contract-enforcement. May warn of hazard.' },
       { range: [11, 11], type: 'combat', label: 'Debt-Revenant', note: 'Rises from muck. Hunting a specific broken contract.' },
       { range: [12, 12], type: 'combat', label: 'Cycle-Eater', note: 'Wyrd ambush predator. Perception vs difficult die (d12).' },
       { range: [13, 13], type: 'hazard', label: 'Quicksand / Bog Hole', note: 'Survival vs challenging die (d10) to spot.' },
       { range: [14, 14], type: 'hazard', label: 'Fungal Spore Cloud', note: 'Constitution vs challenging die (d10) or disease.' },
       { range: [15, 15], type: 'combat', label: 'Vreken Over-Lit Triad', note: 'Hush-consumed. Insight vs challenging die (d10).' },
       { range: [16, 16], type: 'combat', label: 'Bog Drake', note: 'Acid spit, amphibious.' },
-      { range: [17, 17], type: 'discovery', label: 'Sunken Neth Archive', note: 'Perception vs challenging die (d10) to spot.' },
-      { range: [18, 18], type: 'social', label: 'Neth Contract-Enforcer', note: 'Cautious. Intimidation vs challenging die (d10).' },
+      { range: [17, 17], type: 'discovery', label: 'Sunken Nethien Archive', note: 'Perception vs challenging die (d10) to spot.' },
+      { range: [18, 18], type: 'social', label: 'Nethien Contract-Enforcer', note: 'Cautious. Intimidation vs challenging die (d10).' },
       { range: [19, 19], type: 'combat', label: 'Hungry Child', note: 'Wyrd-manifestation. Leads party into hazards.' },
-      { range: [20, 20], type: 'combat', label: 'Ancient Neth Debt-Walker', note: 'Primordial Neth whose contract was broken. Controls vines and bog.' }
+      { range: [20, 20], type: 'combat', label: 'Ancient Nethien Debt-Walker', note: 'Primordial Nethien whose contract was broken. Controls vines and bog.' }
     ],
     atmospheres: {
       0: {

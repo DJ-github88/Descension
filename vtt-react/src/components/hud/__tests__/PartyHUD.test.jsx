@@ -31,7 +31,7 @@ jest.mock('../../../store/partyStore', () => {
         isGM: false,
         character: {
           name: 'Gimli',
-          race: 'Dwarf',
+          race: 'Withered',
           class: 'Warrior',
           background: 'Soldier',
           level: 5,
@@ -88,6 +88,11 @@ jest.mock('../../../store/characterStore', () => {
     actionPoints: { current: 2, max: 3 },
     alignment: 'Neutral Good',
     exhaustionLevel: 0,
+    lore: {
+      characterIcon: 'inv_misc_head_human_01',
+      iconBackgroundImage: 'Cathedral-Interior',
+      iconBackgroundColor: '#f8f5eb'
+    },
     updateResource: jest.fn(),
     updateTempResource: jest.fn()
   };
@@ -294,7 +299,7 @@ describe('PartyHUD Component', () => {
     expect(container.querySelector('.party-frame-user-456')).toBeInTheDocument();
   });
 
-  it('displays alignment tag in the top header row without truncating archetype line', () => {
+  it('displays alignment tag in the top header row without truncating identity lines', () => {
     const { container } = render(<PartyHUD onOpenCharacterSheet={jest.fn()} onCreateToken={jest.fn()} />);
 
     // Legolas alignment tag is Neutral Good in top row
@@ -302,18 +307,72 @@ describe('PartyHUD Component', () => {
     expect(alignmentTags.length).toBeGreaterThan(0);
     expect(screen.getByText('Neutral Good')).toBeInTheDocument();
 
-    // Archetype lines exist and contain clean parts
-    const archetypeLines = container.querySelectorAll('.member-archetype-line');
-    expect(archetypeLines.length).toBe(2);
+    // Heritage and background lines exist for both members
+    expect(container.querySelectorAll('.member-heritage-line')).toHaveLength(2);
+    expect(container.querySelectorAll('.member-background-line')).toHaveLength(2);
   });
 
-  it('renders golden portrait level orb with correct level number', () => {
+  it('renders engraved portrait level chip with correct level number', () => {
     const { container } = render(<PartyHUD onOpenCharacterSheet={jest.fn()} onCreateToken={jest.fn()} />);
 
-    const levelOrbs = container.querySelectorAll('.portrait-level-orb');
-    expect(levelOrbs.length).toBe(2);
-    expect(levelOrbs[0]).toHaveAttribute('title', 'Level 5');
-    expect(levelOrbs[0].querySelector('.level-number')).toHaveTextContent('5');
+    const levelChips = container.querySelectorAll('.portrait-level-chip');
+    expect(levelChips.length).toBe(2);
+    expect(levelChips[0]).toHaveAttribute('title', 'Level 5');
+    expect(levelChips[0]).toHaveTextContent('5');
+  });
+
+  it('opens the portrait lightbox when a HUD portrait is clicked and closes on Escape', () => {
+    render(<PartyHUD onOpenCharacterSheet={jest.fn()} onCreateToken={jest.fn()} />);
+
+    const portraits = document.querySelectorAll('.party-member-frame .party-portrait');
+    expect(portraits).toHaveLength(2);
+
+    fireEvent.click(portraits[0]);
+    expect(document.querySelector('.portrait-lightbox-overlay')).toBeInTheDocument();
+    expect(document.querySelector('.portrait-lightbox-title')).toHaveTextContent('Legolas');
+
+    // Icon portraits carry their scene backdrop into the popup
+    const lightboxScene = document.querySelector('.portrait-lightbox-scene');
+    expect(lightboxScene).toBeInTheDocument();
+    expect(lightboxScene.style.backgroundImage).toContain('Cathedral-Interior');
+
+    fireEvent.keyDown(window, { key: 'Escape' });
+    expect(document.querySelector('.portrait-lightbox-overlay')).toBeNull();
+  });
+
+  it('signs the name row with the class and keeps the class plate off the portrait', () => {
+    const { container } = render(<PartyHUD onOpenCharacterSheet={jest.fn()} onCreateToken={jest.fn()} />);
+
+    // The under-portrait plaque is gone; the class lives in the name row
+    expect(container.querySelector('.portrait-class-banner')).toBeNull();
+
+    const classTexts = container.querySelectorAll('.member-class-text');
+    expect(classTexts).toHaveLength(2);
+    expect(classTexts[0]).toHaveTextContent('Hunter');
+    expect(classTexts[0]).toHaveAttribute('title', 'Class: Hunter');
+    expect(classTexts[1]).toHaveTextContent('Warrior');
+
+    const topRow = classTexts[0].closest('.member-header-top-row');
+    expect(topRow).not.toBeNull();
+    expect(topRow.querySelector('.member-name-text')).toHaveTextContent('Legolas');
+  });
+
+  it('moves the archetype icon from the race line to the background line', () => {
+    const { container } = render(<PartyHUD onOpenCharacterSheet={jest.fn()} onCreateToken={jest.fn()} />);
+
+    const heritageLines = container.querySelectorAll('.member-heritage-line');
+    expect(heritageLines).toHaveLength(2);
+    heritageLines.forEach((line) => {
+      expect(line.querySelector('.archetype-icon')).toBeNull();
+    });
+    // Nethien bloodlines read as "<bloodline> Nethien"
+    expect(heritageLines[1]).toHaveTextContent('Withered Nethien');
+
+    const backgroundLines = container.querySelectorAll('.member-background-line');
+    expect(backgroundLines).toHaveLength(2);
+    backgroundLines.forEach((line) => {
+      expect(line.querySelector('.archetype-icon')).toBeInTheDocument();
+    });
   });
 
   it('renders exhaustion plaque on frame bottom border decoupled from member name header', () => {
@@ -334,5 +393,31 @@ describe('PartyHUD Component', () => {
     expect(topRow.querySelector('.party-exhaustion-badge')).toBeNull();
     expect(topRow.querySelector('.member-level-text')).toBeNull();
     expect(topRow.querySelector('.member-name-text')).toHaveTextContent('Legolas');
+  });
+
+  it('falls back to the class icon when no portrait image or icon is chosen', () => {
+    const store = useCharacterStore.getState();
+    const prevClass = store.class;
+    const prevIcon = store.lore.characterIcon;
+    const prevImage = store.lore.characterImage;
+
+    store.class = 'Lunarch';
+    store.lore.characterIcon = null;
+    store.lore.characterImage = null;
+
+    try {
+      const { container } = render(<PartyHUD onOpenCharacterSheet={jest.fn()} onCreateToken={jest.fn()} />);
+      const portraits = container.querySelectorAll('.party-member-frame .party-portrait');
+      const portraitImg = portraits[0].querySelector('img');
+
+      expect(portraitImg).toBeInTheDocument();
+      expect(portraitImg.getAttribute('src')).toBe('/assets/icons/classes/lunarch.png');
+      // HUD icon portraits render with a base 1.1 zoom to crop icon margins
+      expect(portraitImg.style.transform).toContain('scale(1.1)');
+    } finally {
+      store.class = prevClass;
+      store.lore.characterIcon = prevIcon;
+      store.lore.characterImage = prevImage;
+    }
   });
 });

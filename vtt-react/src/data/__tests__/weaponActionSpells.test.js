@@ -35,12 +35,21 @@ describe('weaponActionSpells', () => {
             expect(getWeaponDisciplineKey({ subtype: 'crossbow', name: 'Heavy Crossbow' })).toBe('crossbow');
             expect(getWeaponDisciplineKey({ subtype: 'violin', name: 'Grand Fiddle' })).toBe('violin');
         });
+
+        it('identifies off-hand focus items correctly', () => {
+            expect(getWeaponDisciplineKey({ subtype: 'idol', name: 'Sacred Idol' })).toBe('idol');
+            expect(getWeaponDisciplineKey({ subtype: 'tome', name: 'Tattered Tome' })).toBe('tome');
+            expect(getWeaponDisciplineKey({ subtype: 'sphere', name: 'Dim Orb' })).toBe('sphere');
+            expect(getWeaponDisciplineKey({ subtype: 'orb', name: 'Glowing Orb' })).toBe('sphere');
+            expect(getWeaponDisciplineKey({ subtype: 'totem', name: 'Weathered Totem' })).toBe('totem');
+            expect(getWeaponDisciplineKey({ name: 'Crude Idol' })).toBe('idol');
+        });
     });
 
     describe('WEAPON_DISCIPLINE_SPECIALS', () => {
-        it('defines specials for all 40 weapon disciplines in WEAPON_TYPE_META', () => {
+        it('defines specials for all 44 weapon disciplines in WEAPON_TYPE_META', () => {
             const disciplineKeys = Object.keys(WEAPON_TYPE_META);
-            expect(disciplineKeys.length).toBe(40);
+            expect(disciplineKeys.length).toBe(44);
 
             disciplineKeys.forEach(key => {
                 const special = WEAPON_DISCIPLINE_SPECIALS[key];
@@ -63,6 +72,38 @@ describe('weaponActionSpells', () => {
             const violinSpecial = WEAPON_DISCIPLINE_SPECIALS.violin;
             expect(violinSpecial.name).toContain('Screeching');
             expect(violinSpecial.description.toLowerCase()).toContain('dc');
+        });
+
+        it('has quirky system-true specials for the off-hand focus disciplines', () => {
+            const idol = WEAPON_DISCIPLINE_SPECIALS.idol;
+            expect(idol.name).toBe('Vengeful Little God');
+            expect(idol.damageConfig.damageType).toBe('ember');
+            expect(idol.controlConfig.saveType).toBe('spirit');
+
+            const tome = WEAPON_DISCIPLINE_SPECIALS.tome;
+            expect(tome.name).toBe('Cite Your Sources');
+            expect(tome.controlConfig.effects[0].id).toBe('silenced');
+
+            const sphere = WEAPON_DISCIPLINE_SPECIALS.sphere;
+            expect(sphere.name).toBe('Ominous Hum');
+            expect(sphere.controlConfig.effects[0].id).toBe('dr_step_down_hit');
+
+            const totem = WEAPON_DISCIPLINE_SPECIALS.totem;
+            expect(totem.name).toBe('Totem Tantrum');
+            expect(totem.controlConfig.effects[0].id).toBe('rooted');
+        });
+
+        it('never references Armor Class or wisdom saves (Mythrill uses DR dice and spirit)', () => {
+            Object.entries(WEAPON_DISCIPLINE_SPECIALS).forEach(([key, special] )=> {
+                const text = `${special.name} ${special.description}`.toLowerCase();
+                expect(text).not.toContain('armor class');
+                expect(text).not.toContain('ac bonus');
+                expect(text).not.toMatch(/\bstr\s*\d+\/\s*\d+/);
+                const saveAbility = special.controlConfig?.saveType || special.damageConfig?.savingThrowConfig?.savingThrowType;
+                if (saveAbility) {
+                    expect(saveAbility).not.toBe('wisdom');
+                }
+            });
         });
     });
 
@@ -139,6 +180,36 @@ describe('weaponActionSpells', () => {
             expect(actions[2].name).toBe('Off-Hand Riposte');
             expect(actions[3].name).toBe('Deflect & Bind');
             expect(actions[3].resourceCost.actionPoints).toBe(2);
+        });
+
+        it('returns off-hand focus item actions when an idol is equipped', () => {
+            const idolItem = {
+                name: 'Sacred Idol',
+                subtype: 'idol',
+                weaponStats: { baseDamage: { diceCount: 1, diceType: '4', damageType: 'ember', bonusDamage: 1 } }
+            };
+
+            const actions = getOffHandActions(idolItem);
+            expect(actions.length).toBe(4);
+            expect(actions[0].name).toBe('Sacred Bonk');
+            expect(actions[0].resourceCost.actionPoints).toBe(1);
+            expect(actions[1].name).toBe('Aegis of the Small God');
+            expect(actions[2].name).toBe('Zealous Rebuke');
+            expect(actions[3].name).toBe('Vengeful Little God');
+            expect(actions[3].resourceCost.actionPoints).toBe(2);
+            expect(actions[3].source).toBe('weapon_discipline');
+            expect(actions[3].damageConfig.formula).toContain('1d4');
+        });
+
+        it('returns focus item actions for tomes, spheres, and totems', () => {
+            const tomeActions = getOffHandActions({ name: 'Tattered Tome', subtype: 'tome', weaponStats: { baseDamage: { diceCount: 1, diceType: '3', damageType: 'storm' } } });
+            expect(tomeActions.map(a => a.name)).toEqual(['Spine Strike', 'Chapter Break', 'Marginalia Scorch', 'Cite Your Sources']);
+
+            const orbActions = getOffHandActions({ name: 'Dim Orb', subtype: 'sphere', weaponStats: { baseDamage: { diceCount: 1, diceType: '3', damageType: 'storm' } } });
+            expect(orbActions.map(a => a.name)).toEqual(['Orbital Knock', 'Crystal Cocoon', 'Static Rebuke', 'Ominous Hum']);
+
+            const totemActions = getOffHandActions({ name: 'Weathered Totem', subtype: 'totem', weaponStats: { baseDamage: { diceCount: 1, diceType: '3', damageType: 'primal' } } });
+            expect(totemActions.map(a => a.name)).toEqual(['Whack of the Wilds', 'Bark Skin', 'Root Rebuke', 'Totem Tantrum']);
         });
 
         it('returns unarmed options when off-hand is empty', () => {

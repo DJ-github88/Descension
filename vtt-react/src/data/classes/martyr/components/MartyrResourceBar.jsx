@@ -22,12 +22,12 @@ const STAGE_NAMES = [
 ];
 
 const STAGE_PASSIVES = [
-    'None (Faithless state — healings halved, step into harm\'s way to awaken)',
+    'Faithless — healing halved and Intervene locked. Sacrifice 15+ HP in one round to awaken.',
     'Resistance to the first instance of damage each combat round',
     'Regain 1d6 HP at the start of each of your turns',
     'All allies within 10 ft gain +1 damage reduction',
     'Allies within 10 ft gain resistance to the first damage type taken each round',
-    '+10 ember damage on attacks; allies within 10 ft gain temp HP when you bleed',
+    '+10 ember damage on attacks; allies within 10 ft gain temp HP when you take damage',
     'Apotheosis: Allies within 15 ft resist all incoming damage'
 ];
 
@@ -47,7 +47,7 @@ const SPEC_DATA = {
         title: 'Radiant Wrath',
         accentColor: '#dc143c',
         glowColor: '#ff6b6b',
-        description: 'Ember combustion. Ember spells deal +(Devotion Level × 2) dmg; heal for 15% of ember damage.',
+        description: 'Ember combustion. Ember spells deal +(Devotion Level × 3) dmg; half of the bonus is dealt back to you as self-harm.',
         sharedPassive: "Suffering's Gift: At Devotion 3+, taking damage grants nearby allies temp HP equal to your Devotion tier."
     },
     ascetic: {
@@ -55,7 +55,7 @@ const SPEC_DATA = {
         title: 'The Vow-Silent',
         accentColor: '#cbd5e1',
         glowColor: '#f8fafc',
-        description: 'Monastic discipline. Amplified spell costs -1 Devotion (min 1). Resist physical damage at Lv 4+.',
+        description: 'Monastic discipline. Amplified spell costs -1 Devotion (min 1). Resist smashing damage at Devotion 4+.',
         sharedPassive: "Suffering's Gift: At Devotion 3+, taking damage grants nearby allies temp HP equal to your Devotion tier."
     },
     ironclad: {
@@ -64,7 +64,7 @@ const SPEC_DATA = {
         accentColor: '#d35400',
         glowColor: '#f39c12',
         description: 'Welded Skald dreadnaught boiler-plate. Converts damage into boiler-pressure and offensive vents.',
-        sharedPassive: "Furnace Vow: Deepened devotion calcifies plating, granting up to +4 DR and area steam vents."
+        sharedPassive: "Furnace Vow: At Devotion 3+, calcified plating grants +2 DR and area steam vents."
     }
 };
 
@@ -550,7 +550,7 @@ const MartyrResourceBar = ({
             </div>
 
             {/* Shared ClassTip Tooltip (Zero emojis, FontAwesome icon) */}
-            {showTooltip && ReactDOM.createPortal(
+            {showTooltip && !showControls && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip martyr-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     {hoverSection === 'caliper' ? (
                         <ClassTip
@@ -560,14 +560,14 @@ const MartyrResourceBar = ({
                             subtitle="Martyr Devotion Gauge"
                             state={`${devotionDamage}/100 DMG`}
                             stateTone={devotionDamage >= 80 ? 'good' : devotionDamage >= 20 ? 'warn' : 'neutral'}
-                            mechanic="Every point of damage willingly absorbed for allies fills the Devotion boiler. Higher damage triggers Stigmata thresholds."
+                            mechanic="Damage willingly absorbed for allies fills Devotion (0-100), unlocking Tiers I-VI at 10/20/40/60/80/100. At 0 you are Faithless — healing halved and Intervene locked until you sacrifice 15+ HP in one round."
                             status={[
                                 devotionLevel >= MAX_LEVEL
-                                    ? 'Maximum Devotion attained (Celestial Protector) — party-wide damage immunity!'
-                                    : `${damageNeeded} more damage needed to unlock Tier ${devotionLevel + 1} (${STAGE_NAMES[devotionLevel + 1]}).`,
-                                'Lose 1 level after 2 consecutive rounds without damage or Voluntary Offering.'
+                                    ? { text: 'Maximum Devotion (Tier VI) — allies within 15 ft resist all damage types.', tone: 'good' }
+                                    : `${damageNeeded} more damage unlocks Tier ${devotionLevel + 1} (${STAGE_NAMES[devotionLevel + 1]}).`,
+                                'Decay: lose 1 tier after 1 round without damage or a Voluntary Offering.'
                             ]}
-                            usage={isOwner ? 'Click +10 / +20 to bank damage · Click 1d8 HP for Voluntary Offering · Center opens full drawer.' : null}
+                            usage={isOwner ? 'Click +10 / +20 to bank damage · Click 1d8 HP for Voluntary Offering · Center opens the full drawer.' : null}
                         />
                     ) : (
                         <ClassTip
@@ -580,11 +580,11 @@ const MartyrResourceBar = ({
                             mechanic={`Sera Solvan's First Scar transforms suffering into divine authority. ${activeSpec.title}: ${activeSpec.description}`}
                             status={[
                                 devotionLevel > 0
-                                    ? `Tier ${devotionLevel} Passive: ${STAGE_PASSIVES[devotionLevel]}`
+                                    ? `Tier ${devotionLevel} passive: ${STAGE_PASSIVES[devotionLevel]}`
                                     : STAGE_PASSIVES[0],
                                 activeSpec.sharedPassive
                             ]}
-                            usage={isOwner ? 'Click any Stigmata Seal to set Tier directly · Center Monstrance toggles Pathfinder Drawer.' : null}
+                            usage={isOwner ? 'Click any Tier seal to set Devotion directly · Center Monstrance toggles the dossier.' : null}
                         />
                     )}
                 </div>,
@@ -595,7 +595,7 @@ const MartyrResourceBar = ({
             {showControls && ReactDOM.createPortal(
                 <div
                     ref={controlsMenuRef}
-                    className={`unified-context-menu compact context-menu-container martyr-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    className={`unified-context-menu compact context-menu-container martyr-menu-container class-resource-menu ${context === 'party' ? 'chronarch-party' : ''}`}
                     onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onMouseEnter={(e) => {
@@ -620,9 +620,9 @@ const MartyrResourceBar = ({
 
                             {/* Current state summary */}
                             <div style={{ fontSize: '0.8rem', marginBottom: '6px', lineHeight: 1.35 }}>
-                                <div><strong>Devotion:</strong> {STAGE_NAMES[devotionLevel]} <span style={{ color: '#b7791f' }}>(Tier {ROMAN_NUMERALS[devotionLevel]})</span></div>
-                                <div><strong>Suffering Banked:</strong> <span style={{ color: devotionLevel >= 5 ? '#c0392b' : '#b7791f' }}>{devotionDamage}/100 DMG</span> {devotionLevel < MAX_LEVEL && <span style={{ fontSize: '0.72rem', color: '#666' }}>({damageNeeded} to next tier)</span>}</div>
-                                <div style={{ color: devotionLevel === 0 ? '#b30000' : '#5a4628', marginTop: '2px', fontSize: '0.74rem' }}>
+                                <div><strong>Devotion:</strong> {STAGE_NAMES[devotionLevel]} <span style={{ color: '#fde68a' }}>(Tier {ROMAN_NUMERALS[devotionLevel]})</span></div>
+                                <div><strong>Suffering Banked:</strong> <span style={{ color: devotionLevel >= 5 ? '#f87171' : '#fde68a' }}>{devotionDamage}/100 DMG</span> {devotionLevel < MAX_LEVEL && <span style={{ fontSize: '0.72rem', color: 'var(--crm-text-dim, #cbd5e1)' }}>({damageNeeded} to next tier)</span>}</div>
+                                <div style={{ color: devotionLevel === 0 ? '#f87171' : 'var(--crm-text-dim, #cbd5e1)', marginTop: '2px', fontSize: '0.74rem' }}>
                                     <strong>Active Passive:</strong> {STAGE_PASSIVES[devotionLevel]}
                                 </div>
                             </div>

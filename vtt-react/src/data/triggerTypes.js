@@ -72,7 +72,7 @@ export const TRIGGER_TYPES = {
         on_debuff_gained: {
             name: 'On Debuff Gained',
             icon: 'spell_shadow_curseofsargeras',
-            description: 'A Neth clause gone sour, a Wyrd-glyph gone wrong. Triggers when gaining a negative effect',
+            description: 'A Nethien clause gone sour, a Wyrd-glyph gone wrong. Triggers when gaining a negative effect',
             validTargets: ['self'],
             defaultChance: 100
         },

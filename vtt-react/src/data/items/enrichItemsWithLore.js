@@ -26,7 +26,7 @@ const REGION_LORE = {
   'iceheart-sea': 'The violent Iceheart Sea, where Grand Admiral Varis Mereval\'s Sea-Charter and the Brine-Bond Syndicate\'s Luck-Ledger govern all trade.',
   'cragjaw-peaks': 'The vertical blizzard labyrinth of Cragjaw Peaks, where the Groven won their freedom and the Deep Alchemists continue their forbidden research.',
   'sundrift-vale': 'The starless nomadic steppe of Sundrift Vale, where Khatun Bayarmaa Ordavan\'s Iron-Yurt Law governs the Astril wanderers.',
-  'bryngloom-forest': 'The twilight ironwood canopy of Bryngloom Forest, where the Neth-Vreken Reincarnation Bargain and the root-veil silence hold sway.'
+  'bryngloom-forest': 'The twilight ironwood canopy of Bryngloom Forest, where the Nethien-Vreken Reincarnation Bargain and the root-veil silence hold sway.'
 };
 
 /**

@@ -11,10 +11,10 @@ import { getResourceStatusFlavor } from '../../../../utils/resourceStatusFlavor'
 
 // Toll Volatility Tiers
 export const TOLL_TIERS = [
-    { min: 0, max: 5, name: 'Stasis', color: '#7c3aed', glow: '#a78bfa', hot: '#c4b5fd', desc: 'Stable necrotic reserves. Cold blood runs quiet.' },
-    { min: 6, max: 10, name: 'Searing', color: '#9333ea', glow: '#c084fc', hot: '#e9d5ff', desc: 'Frost-fire resonance (+1d4 blight/rime damage).' },
-    { min: 11, max: 15, name: 'Necrotic Rot', color: '#c026d3', glow: '#e879f9', hot: '#fae8ff', desc: 'Decaying flesh (+1d8 blight). External healing severed!' },
-    { min: 16, max: 20, name: 'Cataclysm', color: '#ef4444', glow: '#f87171', hot: '#fee2e2', desc: 'CRITICAL MASS: 30ft Glacial Stasis Freeze on lethal damage!' }
+    { min: 0, max: 5, name: 'Stasis', color: '#7c3aed', glow: '#a78bfa', hot: '#c4b5fd', desc: 'Stable reserves. Cold blood runs quiet.' },
+    { min: 6, max: 10, name: 'Searing', color: '#9333ea', glow: '#c084fc', hot: '#e9d5ff', desc: 'Unstable resonance — self-damage begins (+1d4 blight).' },
+    { min: 11, max: 15, name: 'Rot Surge', color: '#c026d3', glow: '#e879f9', hot: '#fae8ff', desc: 'Decaying flesh (+1d8 blight). External healing severed!' },
+    { min: 16, max: 20, name: 'Cataclysm', color: '#ef4444', glow: '#f87171', hot: '#fee2e2', desc: 'CRITICAL MASS: 15 ft Glacial Stasis freeze triggers on lethal damage.' }
 ];
 
 export const getTollTier = (toll) => {
@@ -128,7 +128,7 @@ const RevenantResourceBar = ({
         logResourceChange('Death-Toll', Math.abs(diff), diff > 0, 
             diff > 0 
                 ? `${currentPlayerName || 'Revenant'} advanced Death-Toll to ${clamped} (${getTollTier(clamped).name})`
-                : `${currentPlayerName || 'Revenant'} purged necrotic resonance, lowering Death-Toll to ${clamped}`
+                : `${currentPlayerName || 'Revenant'} purged blight resonance, lowering Death-Toll to ${clamped}`
         );
         if (onClassResourceUpdate) {
             onClassResourceUpdate('toll', clamped);
@@ -625,7 +625,7 @@ const RevenantResourceBar = ({
                 {/* Floating Tactical Popover Menu Portal */}
                 {showControls && ReactDOM.createPortal(
                     <div 
-                        className="rev-tender-popover unified-context-menu revenant-menu-container" 
+                        className="rev-tender-popover unified-context-menu revenant-menu-container class-resource-menu" 
                         ref={controlsMenuRef}
                         onMouseDown={(e) => e.stopPropagation()}
                         onClick={(e) => e.stopPropagation()}
@@ -717,7 +717,7 @@ const RevenantResourceBar = ({
                                     className={`rev-preset-btn ${toll === 15 ? 'active' : ''}`}
                                     onClick={() => setTollValue(15)}
                                 >
-                                    <span className="rev-btn-title">Necrotic Rot (15)</span>
+                                    <span className="rev-btn-title">Rot Surge (15)</span>
                                     <span className="rev-btn-sub">Healing severed!</span>
                                 </button>
                                 <button 
@@ -734,7 +734,7 @@ const RevenantResourceBar = ({
                         <div className="rev-tender-section">
                             <div className="rev-section-label">
                                 <span>Basalt Phylactery (Vesper's Frost-Stasis)</span>
-                                <span className="rev-current-pill" style={{ color: '#38bdf8' }}>
+                                <span className="rev-current-pill" style={{ color: '#6ee7b7' }}>
                                     {phylacteryHP}/50 HP
                                 </span>
                             </div>
@@ -772,7 +772,7 @@ const RevenantResourceBar = ({
                                         <span>Death Shroud Mode</span>
                                     </div>
                                     <div className="rev-toggle-desc">
-                                        Burns 2 HP/round instead of Mana. Amplifies frost and necrotic spell damage dice.
+                                        Burns HP instead of Mana. Amplifies rime and blight spell damage dice.
                                     </div>
                                 </div>
                                 <div className={`rev-toggle-switch ${deathShroud ? 'on' : 'off'}`}>
@@ -799,13 +799,13 @@ const RevenantResourceBar = ({
                         subtitle="Revenant Death-Toll & Phylactery"
                         state={`${toll}/20 • ${currentTier.name}`}
                         stateTone={isCataclysm ? 'bad' : isRot ? 'warn' : 'good'}
-                        mechanic="Spend HP to advance Toll into volatile damage tiers. Soul HP in the Phylactery fuels Strategic Resurrection."
+                        mechanic="Build Toll by sacrificing HP (1 HP = 1 Toll), landing kills (+1d6), and casting in Death Shroud (+1); it decays 1/round. Spend Toll for +1d6 blight damage per point spent, and charge the Phylactery (+1d6 HP per kill) to fuel Strategic Resurrection."
                         status={[
-                            `Tier: ${currentTier.name} — ${currentTier.desc}`,
-                            `Phylactery: ${phylacteryHP}/50 HP (${phylacteryHP > 0 ? 'Resurrection Ready' : 'Depleted'})`,
-                            `Death Shroud: ${deathShroud ? 'Ignited (-2 HP/round for amplified blight dice)' : 'Inactive'}`
+                            `${currentTier.name}: ${currentTier.desc}`,
+                            `Phylactery: ${phylacteryHP}/50 HP — resurrects at stored HP and freezes enemies within 15 ft once per combat.`,
+                            `Death Shroud: ${deathShroud ? 'Ignited — spells cost HP, +1d6 rime/blight, HP drains each turn.' : 'Inactive — spells use mana.'}`
                         ]}
-                        usage="Click ribs to adjust Toll. Click Phylactery to bank soul HP. Click Skull seal to toggle Shroud. Click Relic Key for Tender."
+                        usage="Click ribs to adjust Toll · Click the Phylactery to bank soul HP · Click the Skull seal to toggle Shroud · Click the Relic Key for the Tender."
                         hint="Arrow keys step Toll. Press 'S' for Shroud, Enter for Tender menu."
                     />
                 </div>,

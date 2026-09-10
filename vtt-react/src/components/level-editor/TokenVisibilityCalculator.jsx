@@ -101,9 +101,12 @@ const TokenVisibilityCalculator = () => {
     }, [viewingTokenId, tokenVisionRanges]);
 
     // Get facing direction for this token
+    // CRITICAL: facing 0 (pointing right) is a VALID direction — must not
+    // collapse to null via `|| null` (falsy-zero bug broke the 100° cone).
     const facingAngle = useMemo(() => {
         if (!viewingTokenId) return null;
-        return tokenFacingDirections[viewingTokenId] || null;
+        const facing = tokenFacingDirections[viewingTokenId];
+        return (facing === undefined || facing === null) ? null : facing;
     }, [viewingTokenId, tokenFacingDirections]);
 
     // Create cache keys to prevent unnecessary recalculations

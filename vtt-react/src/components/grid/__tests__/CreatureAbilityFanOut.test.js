@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, within } from '@testing-library/react';
+import { render, screen, fireEvent, within, act } from '@testing-library/react';
 import CreatureAbilityFanOut, {
     computeCardGeometry,
     computeFanAngles,
@@ -293,15 +293,75 @@ describe('CreatureAbilityFanOut rendering', () => {
         expect(card.querySelector('img[src*="Slashing"]')).not.toBeNull();
     });
 
-    it('hides the card when leaving the bubble', () => {
+    it('hides the card after the leave grace period', () => {
+        jest.useFakeTimers();
+        try {
+            render(<CreatureAbilityFanOut abilities={abilities} />);
+
+            const clawBubble = screen.getByAltText('Claw').closest('.action-fan-bubble');
+            fireEvent.mouseEnter(clawBubble);
+            expect(document.querySelector('.fan-ability-card')).not.toBeNull();
+
+            // Card survives the grace period so the pointer can reach it
+            fireEvent.mouseLeave(clawBubble);
+            expect(document.querySelector('.fan-ability-card')).not.toBeNull();
+
+            act(() => {
+                jest.advanceTimersByTime(250);
+            });
+            expect(document.querySelector('.fan-ability-card')).toBeNull();
+        } finally {
+            jest.useRealTimers();
+        }
+    });
+
+    it('keeps the card while the pointer is over it, then hides it after leaving', () => {
+        jest.useFakeTimers();
+        try {
+            render(<CreatureAbilityFanOut abilities={abilities} />);
+
+            const clawBubble = screen.getByAltText('Claw').closest('.action-fan-bubble');
+            fireEvent.mouseEnter(clawBubble);
+            const card = document.querySelector('.fan-ability-card');
+
+            fireEvent.mouseLeave(clawBubble);
+            fireEvent.mouseEnter(card);
+            act(() => {
+                jest.advanceTimersByTime(500);
+            });
+            expect(document.querySelector('.fan-ability-card')).not.toBeNull();
+
+            fireEvent.mouseLeave(card);
+            act(() => {
+                jest.advanceTimersByTime(250);
+            });
+            expect(document.querySelector('.fan-ability-card')).toBeNull();
+        } finally {
+            jest.useRealTimers();
+        }
+    });
+
+    it('portals the card to <body> with fixed positioning above HUD layers', () => {
         render(<CreatureAbilityFanOut abilities={abilities} />);
 
         const clawBubble = screen.getByAltText('Claw').closest('.action-fan-bubble');
         fireEvent.mouseEnter(clawBubble);
-        expect(document.querySelector('.fan-ability-card')).not.toBeNull();
+
+        const card = document.querySelector('.fan-ability-card');
+        expect(card.parentElement).toBe(document.body);
+        expect(card.style.position).toBe('fixed');
+    });
+
+    it('reports fan hover changes so the token tooltip can stay hidden', () => {
+        const onFanHoverChange = jest.fn();
+        render(<CreatureAbilityFanOut abilities={abilities} onFanHoverChange={onFanHoverChange} />);
+
+        const clawBubble = screen.getByAltText('Claw').closest('.action-fan-bubble');
+        fireEvent.mouseEnter(clawBubble);
+        expect(onFanHoverChange).toHaveBeenLastCalledWith(true);
 
         fireEvent.mouseLeave(clawBubble);
-        expect(document.querySelector('.fan-ability-card')).toBeNull();
+        expect(onFanHoverChange).toHaveBeenLastCalledWith(false);
     });
 
     it('renders nothing when closed or empty', () => {

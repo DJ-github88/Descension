@@ -194,7 +194,7 @@ signatureAbility: {
 
  worldFriction: [
     { region: 'frostwood-reach', status: 'feared', consequence: 'Thalren settlers believe that hearing an Augur\'s prophecy makes the catastrophe inevitable, shunning haruspexes from town boundaries.', workaround: 'Keep prophecies unspoken or record them in cyphers.' },
-    { region: 'bryngloom-forest', status: 'revered', consequence: 'Neth contract-scribes employ Augurs to calculate breach probabilities and legal risks before finalizing covenants.', workaround: 'Register with the High Chamber of Probability.' },
+    { region: 'bryngloom-forest', status: 'revered', consequence: 'Nethien contract-scribes employ Augurs to calculate breach probabilities and legal risks before finalizing covenants.', workaround: 'Register with the High Chamber of Probability.' },
     { region: 'sundale', status: 'restricted', consequence: 'Forge-clerics consider blood-reading a profane butchery compared to pristine starlight mathematics.', workaround: 'Conduct entrail-divination only in private quarters.' },
     { region: 'emberspire', status: 'consulted', consequence: 'Caldera lords consult Augurs before descending into magma vents to predict thermal eruptions.', workaround: 'Offer a minor blood sacrifice to the hearth before reading.' }
   ],
@@ -296,7 +296,7 @@ The Augurs have identified the cause: something is interfering with the flow of 
 Augurs are not frontline gladiators, nor are they safe, back-line spellcasters. They are high-risk, high-reward catalysts of immediate probability who must bleed to keep their allies breathing.
 
 **Weaknesses**:
-- Blind Without Blood: with no bleeding target or fresh corpse within 60 ft, your omens fail � you must cut yourself (1d6 slashing + Bleed) to see anything. Clean rooms, ambushes, and parley are your blind spots.
+- Blind Without Blood: with no bleeding target or fresh corpse within 60 ft, your omens fail � you must cut yourself (1d6 slicing + Bleed) to see anything. Clean rooms, ambushes, and parley are your blind spots.
 - Reaction-Window Only: you prevent damage, you never heal it � miss the reaction window and you have done nothing that round.
 - Omen Debt: hoard Benediction/Malediction to a long rest and the unspent visions scourge you � -1 to all saves per leftover point (cap -10) until blood is spilled again.
 - Cap Overflow Waste: resource generated past your spec cap is lost and deals 1 wyrd damage per wasted point straight to your mind.
@@ -320,7 +320,7 @@ Augurs are not frontline gladiators, nor are they safe, back-line spellcasters. 
 
 **Turn 1 - The First Incision**
 *Because no bleeding targets or fresh corpses exist, your eyes are blind to the future. You pull your ritual flaying hook and drag it across your own left forearm, carving the first sign.*
-* **Blood Price**: You take 1d6 slashing damage (4 HP lost) and suffer Bleed (1d4 damage at the start of your turn for 3 rounds). This generates +2 Malediction.
+* **Blood Price**: You take 1d6 slicing damage (4 HP lost) and suffer Bleed (1d4 damage at the start of your turn for 3 rounds). This generates +2 Malediction.
 * **Your Action**: Cast "Fractured Fate Portent" on the Executioner (8 Mana + 2 Malediction spent).
 * **Effect**: You scream the fracture you see. The executioner staggers as his femur cracks internally. He takes 2d6 wyrd damage and suffers -2 DR and -10ft speed for 3 rounds.
 * **Mana**: 45 ? 37/55.
@@ -420,7 +420,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   [
    "Blood Price (No Violence Present)",
    "+2 Benediction or Malediction",
-   "Takes 1d6 slashing damage and inflicts self-bleed (1d4/round, 3 rounds)",
+   "Takes 1d6 slicing damage and inflicts self-bleed (1d4/round, 3 rounds)",
   ],
   [
    "Reading Fresh Entrails (Corpse within 10ft)",
@@ -450,7 +450,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
    "Fractured Fate Portent",
    "2 Malediction",
    "Target Crippling",
-   "Action: Cracks bones internally. Deals 2d6 psychic, -2 DR, -10ft speed",
+   "Action: Cracks bones internally. Deals 2d6 wyrd, -2 DR, -10ft speed",
   ],
   ],
  },
@@ -2826,7 +2826,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
  },
  { id : "augur_read_the_entrails",
   name: "Read the Entrails",
-  description: "Open a fresh kill or fresh corpse and read its steaming viscera. Learn what killed it, what it feared last, what it carried or ate recently, and whether greater danger lies in the direction it came from. Requires a fresh corpse; without one you pay the Blood Price (1d6 slashing + Bleed) to use your own. Out of combat.",
+  description: "Open a fresh kill or fresh corpse and read its steaming viscera. Learn what killed it, what it feared last, what it carried or ate recently, and whether greater danger lies in the direction it came from. Requires a fresh corpse; without one you pay the Blood Price (1d6 slicing + Bleed) to use your own. Out of combat.",
   level: 1,
   spellType: "ACTION",
   icon: "Necrotic/Necrotic Wither",
@@ -2835,7 +2835,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
   resourceCost: { components: ["verbal","somatic"], actionPoints: 1, mana: 5, classResource: { type: "malediction", cost: 1 } },
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-  utilityConfig: { utilityType: "divination", selectedEffects: [ { id : "entrails_read", name: "Visceral Reading", description: "From a fresh corpse learn: cause of death, its last fear, recent stomach/contents, and whether greater danger lies back along its trail. No fresh corpse: pay 1d6 slashing + Bleed to read your own viscera for a lesser reading.", mechanicsText: "Read a fresh corpse's last moments + danger on its trail." } ], power: "minor" },
+  utilityConfig: { utilityType: "divination", selectedEffects: [ { id : "entrails_read", name: "Visceral Reading", description: "From a fresh corpse learn: cause of death, its last fear, recent stomach/contents, and whether greater danger lies back along its trail. No fresh corpse: pay 1d6 slicing + Bleed to read your own viscera for a lesser reading.", mechanicsText: "Read a fresh corpse's last moments + danger on its trail." } ], power: "minor" },
   resolution: "NONE",
   tags: ["utility","divination","investigation","exploration","augur"],
 

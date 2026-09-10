@@ -1,0 +1,740 @@
+/* ==========================================================================
+   CLASS RESOURCE MENUS — Dark tooltip-matched theme
+   Applies to every class resource popover (unified-context-menu variants and
+   bespoke popovers) so menus share the exact palette of their ClassTip
+   tooltip. Palettes mirror components/hud/styles/ClassResourceTooltips.css.
+   ========================================================================== */
+
+:root {
+    --crm-font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --crm-font-title: var(--my-font-serif, 'Cinzel', serif);
+    --crm-surface: rgba(255, 255, 255, 0.06);
+    --crm-surface-hover: rgba(255, 255, 255, 0.13);
+    --crm-surface-active: rgba(255, 255, 255, 0.18);
+    --crm-border-soft: rgba(255, 255, 255, 0.16);
+    --crm-text-dim: #cbd5e1;
+}
+
+/* --------------------------------------------------------------------------
+   Base shell + default palette (matches default pathfinder tooltip)
+   -------------------------------------------------------------------------- */
+.unified-context-menu.class-resource-menu,
+.arc-matrix-popup-frame.class-resource-menu,
+.chronarch-console-popover.class-resource-menu,
+.minstrel-cadence-modal.class-resource-menu,
+.sg-tender-popover.class-resource-menu,
+.rev-tender-popover.class-resource-menu,
+.animist-council-popover.class-resource-menu {
+    --crm-bg-1: #1f1a14;
+    --crm-bg-2: #2b231a;
+    --crm-bg-3: #1a150f;
+    --crm-accent: #b7791f;
+    --crm-accent-rgb: 183, 121, 31;
+    --crm-glow: rgba(183, 121, 31, 0.26);
+    --crm-title: #fef08a;
+    --crm-label: #e5c07b;
+    --crm-text: #f5eedb;
+
+    background: linear-gradient(145deg, var(--crm-bg-1) 0%, var(--crm-bg-2) 60%, var(--crm-bg-3) 100%) !important;
+    border: 1.5px solid var(--crm-accent) !important;
+    border-radius: 8px !important;
+    color: var(--crm-text) !important;
+    font-family: var(--crm-font-body) !important;
+    box-shadow:
+        0 8px 26px rgba(0, 0, 0, 0.85),
+        0 0 18px var(--crm-glow),
+        inset 0 1px 1px rgba(255, 255, 255, 0.14) !important;
+    backdrop-filter: blur(10px);
+}
+
+/* --------------------------------------------------------------------------
+   Per-class palettes (mirrors each class tooltip)
+   -------------------------------------------------------------------------- */
+.class-resource-menu.arcanoneer-menu-container {
+    --crm-bg-1: #1c1126; --crm-bg-2: #2a1538; --crm-bg-3: #170d20;
+    --crm-accent: #d946ef; --crm-accent-rgb: 217, 70, 239;
+    --crm-glow: rgba(217, 70, 239, 0.35);
+    --crm-title: #fdf4ff; --crm-label: #f0abfc; --crm-text: #fae8ff;
+}
+.class-resource-menu.berserker-menu-container {
+    --crm-bg-1: #180808; --crm-bg-2: #2c0909; --crm-bg-3: #150505;
+    --crm-accent: #dc2626; --crm-accent-rgb: 220, 38, 38;
+    --crm-glow: rgba(220, 38, 38, 0.4);
+    --crm-title: #fff1f2; --crm-label: #fca5a5; --crm-text: #fee2e2;
+}
+.class-resource-menu.shaper-menu-container {
+    --crm-bg-1: #210d1b; --crm-bg-2: #301227; --crm-bg-3: #1a0915;
+    --crm-accent: #ec4899; --crm-accent-rgb: 236, 72, 153;
+    --crm-glow: rgba(236, 72, 153, 0.35);
+    --crm-title: #fdf2f8; --crm-label: #f472b6; --crm-text: #fce7f3;
+}
+.class-resource-menu.harbinger-menu-container {
+    --crm-bg-1: #110824; --crm-bg-2: #1e0d3e; --crm-bg-3: #100621;
+    --crm-accent: #9333ea; --crm-accent-rgb: 147, 51, 234;
+    --crm-glow: rgba(147, 51, 234, 0.4);
+    --crm-title: #faf5ff; --crm-label: #d8b4fe; --crm-text: #f3e8ff;
+}
+.class-resource-menu.chronarch-menu-container {
+    --crm-bg-1: #0b1522; --crm-bg-2: #10243a; --crm-bg-3: #0c1826;
+    --crm-accent: #38bdf8; --crm-accent-rgb: 56, 189, 248;
+    --crm-glow: rgba(56, 189, 248, 0.35);
+    --crm-title: #f0f9ff; --crm-label: #7dd3fc; --crm-text: #e0f2fe;
+}
+.class-resource-menu.inquisitor-menu-container {
+    --crm-bg-1: #181313; --crm-bg-2: #261b1b; --crm-bg-3: #140f0f;
+    --crm-accent: #78716c; --crm-accent-rgb: 120, 113, 108;
+    --crm-glow: rgba(220, 38, 38, 0.3);
+    --crm-title: #f5f5f4; --crm-label: #d6d3d1; --crm-text: #e7e5e4;
+}
+.class-resource-menu.revenant-menu-container {
+    --crm-bg-1: #0a1917; --crm-bg-2: #0f2824; --crm-bg-3: #081614;
+    --crm-accent: #10b981; --crm-accent-rgb: 16, 185, 129;
+    --crm-glow: rgba(16, 185, 129, 0.35);
+    --crm-title: #ecfdf5; --crm-label: #6ee7b7; --crm-text: #d1fae5;
+}
+.class-resource-menu.falseprophet-menu-container {
+    --crm-bg-1: #140718; --crm-bg-2: #230a2c; --crm-bg-3: #100414;
+    --crm-accent: #c026d3; --crm-accent-rgb: 192, 38, 211;
+    --crm-glow: rgba(192, 38, 211, 0.45);
+    --crm-title: #fdf4ff; --crm-label: #f0abfc; --crm-text: #fae8ff;
+}
+.class-resource-menu.gambit-menu-container {
+    --crm-bg-1: #151c11; --crm-bg-2: #1d2a17; --crm-bg-3: #11180d;
+    --crm-accent: #ca8a04; --crm-accent-rgb: 202, 138, 4;
+    --crm-glow: rgba(202, 138, 4, 0.35);
+    --crm-title: #fefce8; --crm-label: #fef08a; --crm-text: #fef9c3;
+}
+.class-resource-menu.apex-menu-container {
+    --crm-bg-1: #1d0f0f; --crm-bg-2: #2b1313; --crm-bg-3: #170b0b;
+    --crm-accent: #ef4444; --crm-accent-rgb: 239, 68, 68;
+    --crm-glow: rgba(239, 68, 68, 0.4);
+    --crm-title: #fff1f2; --crm-label: #fca5a5; --crm-text: #fee2e2;
+}
+.class-resource-menu.animist-menu-container {
+    --crm-bg-1: #111c12; --crm-bg-2: #192a1a; --crm-bg-3: #0e180f;
+    --crm-accent: #16a34a; --crm-accent-rgb: 22, 163, 74;
+    --crm-glow: rgba(22, 163, 74, 0.35);
+    --crm-title: #f0fdf4; --crm-label: #86efac; --crm-text: #dcfce7;
+}
+.class-resource-menu.lunarch-menu-container {
+    --crm-bg-1: #130d24; --crm-bg-2: #20133c; --crm-bg-3: #140d26;
+    --crm-accent: #a855f7; --crm-accent-rgb: 168, 85, 247;
+    --crm-glow: rgba(168, 85, 247, 0.4);
+    --crm-title: #faf5ff; --crm-label: #d8b4fe; --crm-text: #f3e8ff;
+}
+.class-resource-menu.martyr-menu-container {
+    --crm-bg-1: #241412; --crm-bg-2: #361b18; --crm-bg-3: #1f0f0d;
+    --crm-accent: #eab308; --crm-accent-rgb: 234, 179, 8;
+    --crm-glow: rgba(234, 179, 8, 0.4);
+    --crm-title: #fffbeb; --crm-label: #fde68a; --crm-text: #fef08a;
+}
+.class-resource-menu.minstrel-menu-container {
+    --crm-bg-1: #24160c; --crm-bg-2: #361f10; --crm-bg-3: #1f1209;
+    --crm-accent: #d97706; --crm-accent-rgb: 217, 119, 6;
+    --crm-glow: rgba(217, 119, 6, 0.35);
+    --crm-title: #fffbeb; --crm-label: #fde68a; --crm-text: #fef3c7;
+}
+.class-resource-menu.plaguebringer-menu-container {
+    --crm-bg-1: #0c1608; --crm-bg-2: #1a2a0f; --crm-bg-3: #0d1a09;
+    --crm-accent: #84cc16; --crm-accent-rgb: 132, 204, 22;
+    --crm-glow: rgba(132, 204, 22, 0.35);
+    --crm-title: #f7fee7; --crm-label: #bef264; --crm-text: #ecfccb;
+}
+.class-resource-menu.pyrofiend-menu-container {
+    --crm-bg-1: #180806; --crm-bg-2: #2b110b; --crm-bg-3: #160604;
+    --crm-accent: #ff4500; --crm-accent-rgb: 255, 69, 0;
+    --crm-glow: rgba(255, 69, 0, 0.4);
+    --crm-title: #ffedd5; --crm-label: #fdba74; --crm-text: #ffedd5;
+}
+.class-resource-menu.spellguard-menu-container {
+    --crm-bg-1: #091924; --crm-bg-2: #0e2738; --crm-bg-3: #081620;
+    --crm-accent: #0284c7; --crm-accent-rgb: 2, 132, 199;
+    --crm-glow: rgba(2, 132, 199, 0.4);
+    --crm-title: #f0f9ff; --crm-label: #7dd3fc; --crm-text: #e0f2fe;
+}
+.class-resource-menu.toxicologist-menu-container {
+    --crm-bg-1: #151a0c; --crm-bg-2: #202812; --crm-bg-3: #11160a;
+    --crm-accent: #65a30d; --crm-accent-rgb: 101, 163, 13;
+    --crm-glow: rgba(101, 163, 13, 0.35);
+    --crm-title: #f7fee7; --crm-label: #bef264; --crm-text: #ecfccb;
+}
+.class-resource-menu.warden-menu-container {
+    --crm-bg-1: #1b1410; --crm-bg-2: #291c14; --crm-bg-3: #160f0c;
+    --crm-accent: #854d0e; --crm-accent-rgb: 202, 138, 4;
+    --crm-glow: rgba(133, 77, 14, 0.35);
+    --crm-title: #fde68a; --crm-label: #fef08a; --crm-text: #fef3c7;
+}
+.class-resource-menu.augur-menu-container {
+    --crm-bg-1: #191024; --crm-bg-2: #27163c; --crm-bg-3: #140b1e;
+    --crm-accent: #f59e0b; --crm-accent-rgb: 245, 158, 11;
+    --crm-glow: rgba(245, 158, 11, 0.35);
+    --crm-title: #fffbeb; --crm-label: #fde68a; --crm-text: #fef3c7;
+}
+.class-resource-menu.crusader-menu-container {
+    --crm-bg-1: #241d0b; --crm-bg-2: #382c11; --crm-bg-3: #1d1608;
+    --crm-accent: #eab308; --crm-accent-rgb: 234, 179, 8;
+    --crm-glow: rgba(234, 179, 8, 0.45);
+    --crm-title: #fefce8; --crm-label: #fef08a; --crm-text: #fef9c3;
+}
+
+/* Classes whose legacy CSS re-asserts a warm background with !important at
+   equal specificity: restate the dark shell at higher specificity. */
+.unified-context-menu.class-resource-menu.berserker-menu-container,
+.unified-context-menu.class-resource-menu.shaper-menu-container,
+.unified-context-menu.class-resource-menu.revenant-menu-container,
+.unified-context-menu.class-resource-menu.spellguard-menu-container,
+.unified-context-menu.class-resource-menu.animist-menu-container {
+    background: linear-gradient(145deg, var(--crm-bg-1) 0%, var(--crm-bg-2) 60%, var(--crm-bg-3) 100%) !important;
+    border: 1.5px solid var(--crm-accent) !important;
+    color: var(--crm-text) !important;
+    box-shadow:
+        0 8px 26px rgba(0, 0, 0, 0.85),
+        0 0 18px var(--crm-glow),
+        inset 0 1px 1px rgba(255, 255, 255, 0.14) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Unified menu internals
+   -------------------------------------------------------------------------- */
+.unified-context-menu.class-resource-menu .context-menu-main {
+    padding: 10px 12px;
+}
+
+.unified-context-menu.class-resource-menu .context-menu-section-header,
+.unified-context-menu.class-resource-menu .menu-title {
+    color: var(--crm-title) !important;
+    border-bottom: 2px solid rgba(var(--crm-accent-rgb), 0.45) !important;
+    text-shadow: 0 0 8px var(--crm-glow);
+    font-family: var(--crm-font-title) !important;
+}
+
+.unified-context-menu.class-resource-menu .context-menu-section-title,
+.unified-context-menu.class-resource-menu .section-title {
+    color: var(--crm-label) !important;
+    text-shadow: 0 0 6px var(--crm-glow);
+}
+
+.unified-context-menu.class-resource-menu .context-menu-button,
+.unified-context-menu.class-resource-menu .menu-buttons button,
+.unified-context-menu.class-resource-menu .menu-reset,
+.unified-context-menu.class-resource-menu .group-header,
+.unified-context-menu.class-resource-menu .context-menu-item,
+.unified-context-menu.class-resource-menu .spec-option-button {
+    background: var(--crm-surface) !important;
+    border: 1px solid var(--crm-border-soft) !important;
+    color: var(--crm-text) !important;
+    font-family: var(--crm-font-body) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+}
+
+.unified-context-menu.class-resource-menu .context-menu-button:hover:not(:disabled),
+.unified-context-menu.class-resource-menu .menu-buttons button:hover:not(:disabled),
+.unified-context-menu.class-resource-menu .menu-reset:hover,
+.unified-context-menu.class-resource-menu .group-header:hover,
+.unified-context-menu.class-resource-menu .context-menu-item:hover,
+.unified-context-menu.class-resource-menu .spec-option-button:hover {
+    background: rgba(var(--crm-accent-rgb), 0.22) !important;
+    border-color: var(--crm-accent) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 10px var(--crm-glow) !important;
+}
+
+.unified-context-menu.class-resource-menu .context-menu-button.active,
+.unified-context-menu.class-resource-menu .spec-option-button.active {
+    background: rgba(var(--crm-accent-rgb), 0.32) !important;
+    border: 1px solid var(--crm-accent) !important;
+    color: #ffffff !important;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.45), 0 0 8px var(--crm-glow) !important;
+    font-weight: 700 !important;
+}
+
+.unified-context-menu.class-resource-menu .context-menu-button.gain {
+    border-color: rgba(74, 222, 128, 0.55) !important;
+    color: #bbf7d0 !important;
+    background: rgba(34, 197, 94, 0.12) !important;
+}
+.unified-context-menu.class-resource-menu .context-menu-button.gain:hover:not(:disabled) {
+    background: rgba(34, 197, 94, 0.28) !important;
+    border-color: #4ade80 !important;
+    color: #ffffff !important;
+}
+.unified-context-menu.class-resource-menu .context-menu-button.spend {
+    border-color: rgba(251, 191, 36, 0.55) !important;
+    color: #fde68a !important;
+    background: rgba(245, 158, 11, 0.12) !important;
+}
+.unified-context-menu.class-resource-menu .context-menu-button.spend:hover:not(:disabled) {
+    background: rgba(245, 158, 11, 0.28) !important;
+    border-color: #fbbf24 !important;
+    color: #ffffff !important;
+}
+.unified-context-menu.class-resource-menu .context-menu-button.danger,
+.unified-context-menu.class-resource-menu .context-menu-button.danger-action {
+    border-color: rgba(248, 113, 113, 0.6) !important;
+    color: #fecaca !important;
+    background: rgba(220, 38, 38, 0.14) !important;
+}
+.unified-context-menu.class-resource-menu .context-menu-button.danger:hover:not(:disabled),
+.unified-context-menu.class-resource-menu .context-menu-button.danger-action:hover:not(:disabled) {
+    background: rgba(220, 38, 38, 0.32) !important;
+    border-color: #f87171 !important;
+    color: #ffffff !important;
+}
+.unified-context-menu.class-resource-menu .context-menu-button.heal {
+    border-color: rgba(74, 222, 128, 0.6) !important;
+    color: #bbf7d0 !important;
+    background: rgba(34, 197, 94, 0.14) !important;
+}
+.unified-context-menu.class-resource-menu .context-menu-button.heal:hover:not(:disabled) {
+    background: rgba(34, 197, 94, 0.3) !important;
+    border-color: #4ade80 !important;
+    color: #ffffff !important;
+}
+
+.unified-context-menu.class-resource-menu .context-menu-button:disabled,
+.unified-context-menu.class-resource-menu .menu-buttons button:disabled {
+    opacity: 0.38 !important;
+    filter: saturate(0.6);
+}
+
+.unified-context-menu.class-resource-menu .context-menu-input {
+    background: rgba(0, 0, 0, 0.35) !important;
+    border: 1px solid rgba(var(--crm-accent-rgb), 0.5) !important;
+    color: var(--crm-text) !important;
+    font-family: var(--crm-font-body) !important;
+}
+.unified-context-menu.class-resource-menu .context-menu-input:focus {
+    border-color: var(--crm-accent) !important;
+    box-shadow: 0 0 0 3px rgba(var(--crm-accent-rgb), 0.25) !important;
+}
+.unified-context-menu.class-resource-menu .context-menu-input::placeholder {
+    color: var(--crm-text-dim) !important;
+    opacity: 0.7;
+}
+
+.unified-context-menu.class-resource-menu .context-menu-separator,
+.unified-context-menu.class-resource-menu .context-menu-main-separator {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(var(--crm-accent-rgb), 0.55), transparent);
+    margin: 8px 0;
+}
+
+.unified-context-menu.class-resource-menu .menu-info,
+.unified-context-menu.class-resource-menu .menu-status-flavor {
+    color: var(--crm-text-dim);
+}
+
+.unified-context-menu.class-resource-menu .context-menu-group .submenu {
+    background: linear-gradient(145deg, var(--crm-bg-1) 0%, var(--crm-bg-2) 60%, var(--crm-bg-3) 100%) !important;
+    border: 1.5px solid var(--crm-accent) !important;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.8), 0 0 14px var(--crm-glow) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Arcanoneer — Combination Matrix
+   -------------------------------------------------------------------------- */
+.class-resource-menu.arcanoneer-menu-container .arc-matrix-header-bar {
+    border-bottom-color: rgba(var(--crm-accent-rgb), 0.35) !important;
+}
+.class-resource-menu.arcanoneer-menu-container .arc-matrix-title-badge {
+    color: var(--crm-title) !important;
+}
+.class-resource-menu.arcanoneer-menu-container .arc-matrix-title-badge i {
+    color: var(--crm-accent) !important;
+}
+.class-resource-menu.arcanoneer-menu-container .arc-matrix-banked-text {
+    color: var(--crm-label) !important;
+}
+.class-resource-menu.arcanoneer-menu-container .arc-matrix-close-btn {
+    color: var(--crm-label) !important;
+}
+.class-resource-menu.arcanoneer-menu-container .arc-matrix-close-btn:hover {
+    color: #ffffff !important;
+}
+.class-resource-menu.arcanoneer-menu-container .arc-matrix-picker-orb {
+    background: rgba(0, 0, 0, 0.35) !important;
+    border-color: rgba(var(--crm-accent-rgb), 0.35) !important;
+    color: var(--crm-text) !important;
+}
+.class-resource-menu.arcanoneer-menu-container .arc-matrix-picker-orb:hover {
+    background: rgba(var(--crm-accent-rgb), 0.22) !important;
+    border-color: var(--elem-light, var(--crm-accent)) !important;
+}
+.class-resource-menu.arcanoneer-menu-container .arc-matrix-reset-btn {
+    background: rgba(0, 0, 0, 0.35) !important;
+    border-color: rgba(var(--crm-accent-rgb), 0.45) !important;
+    color: var(--crm-label) !important;
+}
+.class-resource-menu.arcanoneer-menu-container .arc-matrix-reset-btn:hover {
+    background: rgba(var(--crm-accent-rgb), 0.25) !important;
+    color: #ffffff !important;
+}
+.class-resource-menu.arcanoneer-menu-container .arc-matrix-filter-banner {
+    color: var(--crm-label) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Berserker — Caldera Rage popover (overrides warm parchment !important rules)
+   -------------------------------------------------------------------------- */
+.class-resource-menu.berserker-menu-container .berserker-menu-header {
+    border-bottom-color: rgba(var(--crm-accent-rgb), 0.5) !important;
+    color: var(--crm-title) !important;
+}
+.class-resource-menu.berserker-menu-container .berserker-menu-title {
+    color: var(--crm-title) !important;
+}
+.class-resource-menu.berserker-menu-container .berserker-menu-title i {
+    color: var(--crm-accent) !important;
+}
+.class-resource-menu.berserker-menu-container .berserker-menu-close-btn {
+    color: var(--crm-label) !important;
+}
+.class-resource-menu.berserker-menu-container .berserker-menu-close-btn:hover {
+    background: rgba(var(--crm-accent-rgb), 0.25) !important;
+    color: #ffffff !important;
+}
+.class-resource-menu.berserker-menu-container .context-menu-button {
+    background: var(--crm-surface) !important;
+    border: 1px solid var(--crm-border-soft) !important;
+    color: var(--crm-text) !important;
+}
+.class-resource-menu.berserker-menu-container .context-menu-button:hover:not(:disabled) {
+    background: rgba(var(--crm-accent-rgb), 0.24) !important;
+    border-color: var(--crm-accent) !important;
+    color: #ffffff !important;
+}
+.class-resource-menu.berserker-menu-container .context-menu-button.active {
+    background: rgba(var(--crm-accent-rgb), 0.34) !important;
+    border-color: var(--crm-accent) !important;
+    color: #ffffff !important;
+}
+.class-resource-menu.berserker-menu-container .context-menu-button.danger {
+    background: rgba(220, 38, 38, 0.16) !important;
+    border-color: #dc2626 !important;
+    color: #fecaca !important;
+}
+.class-resource-menu.berserker-menu-container .context-menu-button.gain {
+    background: rgba(34, 197, 94, 0.12) !important;
+    border-color: rgba(74, 222, 128, 0.55) !important;
+    color: #bbf7d0 !important;
+}
+.class-resource-menu.berserker-menu-container .context-menu-button.spend {
+    background: rgba(245, 158, 11, 0.12) !important;
+    border-color: rgba(251, 191, 36, 0.55) !important;
+    color: #fde68a !important;
+}
+
+/* --------------------------------------------------------------------------
+   Shaper — Six-Form Stance Matrix
+   -------------------------------------------------------------------------- */
+.class-resource-menu.shaper-menu-container .shaper-matrix-header {
+    border-bottom-color: rgba(var(--crm-accent-rgb), 0.45) !important;
+}
+.class-resource-menu.shaper-menu-container .shaper-matrix-title {
+    color: var(--crm-title) !important;
+    text-shadow: 0 0 8px var(--crm-glow);
+}
+.class-resource-menu.shaper-menu-container .shaper-matrix-title i {
+    color: var(--crm-accent) !important;
+}
+.class-resource-menu.shaper-menu-container .shaper-matrix-close-btn {
+    color: var(--crm-label) !important;
+}
+.class-resource-menu.shaper-menu-container .shaper-matrix-close-btn:hover {
+    color: #ffffff !important;
+    background: rgba(var(--crm-accent-rgb), 0.25) !important;
+}
+.class-resource-menu.shaper-menu-container .context-menu-button.shaper-stance-card {
+    background: var(--crm-surface) !important;
+    border: 1px solid var(--crm-border-soft) !important;
+    color: var(--crm-text) !important;
+}
+.class-resource-menu.shaper-menu-container .context-menu-button.shaper-stance-card:hover:not(:disabled) {
+    background: rgba(var(--crm-accent-rgb), 0.22) !important;
+    border-color: var(--crm-accent) !important;
+    color: #ffffff !important;
+}
+.class-resource-menu.shaper-menu-container .context-menu-button.shaper-stance-card.active {
+    background: rgba(var(--crm-accent-rgb), 0.32) !important;
+    border: 1px solid var(--crm-accent) !important;
+    color: #ffffff !important;
+}
+.class-resource-menu.shaper-menu-container .shaper-stance-card-name {
+    color: var(--crm-title) !important;
+}
+.class-resource-menu.shaper-menu-container .shaper-stance-role-text {
+    color: var(--crm-label) !important;
+}
+.class-resource-menu.shaper-menu-container .shaper-stance-benefit-text {
+    color: var(--crm-text) !important;
+}
+.class-resource-menu.shaper-menu-container .shaper-stance-cost-badge {
+    background: rgba(var(--crm-accent-rgb), 0.25) !important;
+    color: #ffffff !important;
+}
+
+/* --------------------------------------------------------------------------
+   Chronarch — Temporal Flux Console
+   -------------------------------------------------------------------------- */
+.class-resource-menu.chronarch-console-popover .chronarch-console-header {
+    background: linear-gradient(to bottom, rgba(16, 36, 58, 0.96), rgba(8, 20, 34, 0.96)) !important;
+    border-bottom: 2px solid rgba(var(--crm-accent-rgb), 0.45) !important;
+}
+.class-resource-menu.chronarch-console-popover .chronarch-console-title {
+    color: var(--crm-title) !important;
+}
+.class-resource-menu.chronarch-console-popover .chronarch-console-close {
+    color: var(--crm-label) !important;
+}
+.class-resource-menu.chronarch-console-popover .chronarch-console-section:first-of-type {
+    border-bottom: 1px solid rgba(var(--crm-accent-rgb), 0.25) !important;
+}
+.class-resource-menu.chronarch-console-popover .chronarch-section-title.time-shards {
+    color: var(--crm-label) !important;
+}
+.class-resource-menu.chronarch-console-popover .chronarch-section-title.temporal-strain {
+    color: #fca5a5 !important;
+}
+.class-resource-menu.chronarch-console-popover .console-btn {
+    background: var(--crm-surface) !important;
+    border: 1px solid var(--crm-border-soft) !important;
+    color: var(--crm-text) !important;
+    box-shadow: none !important;
+}
+.class-resource-menu.chronarch-console-popover .console-btn:hover:not(:disabled) {
+    background: rgba(var(--crm-accent-rgb), 0.24) !important;
+    border-color: var(--crm-accent) !important;
+    color: #ffffff !important;
+}
+
+/* --------------------------------------------------------------------------
+   Minstrel — Cadence folio + note editor
+   -------------------------------------------------------------------------- */
+.class-resource-menu.minstrel-cadence-modal .minstrel-modal-header {
+    background: linear-gradient(to bottom, rgba(54, 31, 16, 0.96), rgba(31, 18, 9, 0.96)) !important;
+    border-bottom: 2px solid rgba(var(--crm-accent-rgb), 0.45) !important;
+}
+.class-resource-menu.minstrel-cadence-modal .minstrel-modal-title {
+    color: var(--crm-title) !important;
+}
+.class-resource-menu.minstrel-cadence-modal .minstrel-modal-subtitle {
+    color: var(--crm-label) !important;
+    opacity: 0.9;
+}
+.class-resource-menu.minstrel-cadence-modal .minstrel-modal-close-btn {
+    color: var(--crm-label) !important;
+}
+.class-resource-menu.minstrel-cadence-modal .minstrel-modal-notes-strip {
+    background: rgba(0, 0, 0, 0.22) !important;
+    border-bottom: 1px solid rgba(var(--crm-accent-rgb), 0.3) !important;
+}
+.class-resource-menu.minstrel-cadence-modal .minstrel-notes-strip-header {
+    color: var(--crm-label) !important;
+}
+.class-resource-menu.minstrel-cadence-modal .minstrel-strip-cell {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid var(--crm-border-soft) !important;
+}
+.class-resource-menu.minstrel-cadence-modal .minstrel-strip-cell.active {
+    border-color: var(--cell-color, var(--crm-accent)) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 0 6px rgba(var(--crm-accent-rgb), 0.35) !important;
+}
+.class-resource-menu.minstrel-cadence-modal .strip-cell-count {
+    color: var(--crm-text) !important;
+}
+.class-resource-menu.minstrel-cadence-modal .strip-btn {
+    background: var(--crm-surface) !important;
+    border: 1px solid var(--crm-border-soft) !important;
+    color: var(--crm-text) !important;
+}
+.class-resource-menu.minstrel-cadence-modal .strip-btn:hover:not(:disabled) {
+    background: rgba(var(--crm-accent-rgb), 0.28) !important;
+    border-color: var(--crm-accent) !important;
+    color: #ffffff !important;
+}
+.class-resource-menu.minstrel-cadence-modal .minstrel-cadence-entry-card {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid var(--crm-border-soft) !important;
+    box-shadow: none !important;
+}
+.class-resource-menu.minstrel-cadence-modal .minstrel-cadence-entry-card:hover {
+    background: rgba(var(--crm-accent-rgb), 0.18) !important;
+    border-color: var(--crm-accent) !important;
+}
+.class-resource-menu.minstrel-cadence-modal .minstrel-cadence-entry-card.ready {
+    border-color: rgba(74, 222, 128, 0.65) !important;
+    background: rgba(34, 197, 94, 0.12) !important;
+}
+.class-resource-menu.minstrel-cadence-modal .cadence-entry-name {
+    color: var(--crm-title) !important;
+}
+.class-resource-menu.minstrel-cadence-modal .cadence-entry-sequence {
+    color: var(--crm-label) !important;
+}
+.class-resource-menu.minstrel-cadence-modal .cadence-entry-badge.ready {
+    color: #86efac !important;
+}
+.class-resource-menu.minstrel-cadence-modal .cadence-entry-badge.locked {
+    color: var(--crm-text-dim) !important;
+}
+.class-resource-menu.minstrel-cadence-modal .cadence-note-pill.unmet {
+    background: rgba(0, 0, 0, 0.3) !important;
+    color: var(--crm-label) !important;
+    border-color: var(--crm-border-soft) !important;
+}
+.class-resource-menu.minstrel-cadence-modal .cadence-bar-add-btn {
+    background: rgba(var(--crm-accent-rgb), 0.3) !important;
+    border: 1px solid var(--crm-accent) !important;
+    color: #ffffff !important;
+}
+.class-resource-menu.minstrel-cadence-modal .cadence-bar-add-btn:hover {
+    background: rgba(var(--crm-accent-rgb), 0.5) !important;
+}
+.class-resource-menu.minstrel-cadence-modal .cadence-resolve-btn {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid var(--crm-border-soft) !important;
+    color: var(--crm-text-dim) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Revenant — Tombcraft Tactical Tender (purple -> peat-bog green)
+   -------------------------------------------------------------------------- */
+.class-resource-menu.revenant-menu-container .rev-tender-header {
+    border-bottom-color: rgba(var(--crm-accent-rgb), 0.35) !important;
+}
+.class-resource-menu.revenant-menu-container .rev-tender-title {
+    color: var(--crm-title) !important;
+}
+.class-resource-menu.revenant-menu-container .rev-tender-title i {
+    color: var(--crm-accent) !important;
+}
+.class-resource-menu.revenant-menu-container .rev-status-flavor-banner {
+    background: rgba(0, 0, 0, 0.35) !important;
+    border-left-color: var(--crm-accent) !important;
+    color: var(--crm-text-dim) !important;
+}
+.class-resource-menu.revenant-menu-container .rev-section-label {
+    color: var(--crm-label) !important;
+}
+.class-resource-menu.revenant-menu-container .rev-preset-btn {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid var(--crm-border-soft) !important;
+}
+.class-resource-menu.revenant-menu-container .rev-preset-btn:hover {
+    background: rgba(var(--crm-accent-rgb), 0.2) !important;
+    border-color: var(--crm-accent) !important;
+}
+.class-resource-menu.revenant-menu-container .rev-preset-btn.active {
+    background: rgba(var(--crm-accent-rgb), 0.3) !important;
+    border-color: var(--crm-accent) !important;
+    box-shadow: 0 0 8px var(--crm-glow) !important;
+}
+.class-resource-menu.revenant-menu-container .rev-btn-title {
+    color: var(--crm-text) !important;
+}
+.class-resource-menu.revenant-menu-container .rev-btn-sub {
+    color: var(--crm-text-dim) !important;
+}
+.class-resource-menu.revenant-menu-container .rev-action-btn,
+.class-resource-menu.revenant-menu-container .rev-nova-btn {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid var(--crm-border-soft) !important;
+    color: var(--crm-text) !important;
+}
+.class-resource-menu.revenant-menu-container .rev-action-btn:hover:not(:disabled),
+.class-resource-menu.revenant-menu-container .rev-nova-btn:hover {
+    background: rgba(var(--crm-accent-rgb), 0.25) !important;
+    border-color: var(--crm-accent) !important;
+    color: #ffffff !important;
+}
+.class-resource-menu.revenant-menu-container .rev-shroud-toggle-card {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid var(--crm-border-soft) !important;
+}
+.class-resource-menu.revenant-menu-container .rev-shroud-toggle-card:hover {
+    background: rgba(var(--crm-accent-rgb), 0.18) !important;
+    border-color: var(--crm-accent) !important;
+}
+.class-resource-menu.revenant-menu-container .rev-toggle-title i {
+    color: var(--crm-accent) !important;
+}
+.class-resource-menu.revenant-menu-container .rev-toggle-switch.on {
+    background: var(--crm-accent) !important;
+    box-shadow: 0 0 8px var(--crm-glow) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Spellguard — Damon Forge-Tender
+   -------------------------------------------------------------------------- */
+.class-resource-menu.spellguard-menu-container .sg-tender-header {
+    border-bottom-color: rgba(var(--crm-accent-rgb), 0.35) !important;
+}
+.class-resource-menu.spellguard-menu-container .sg-tender-title {
+    color: var(--crm-title) !important;
+}
+.class-resource-menu.spellguard-menu-container .sg-tender-title i {
+    color: var(--crm-accent) !important;
+}
+.class-resource-menu.spellguard-menu-container .sg-status-flavor-banner {
+    background: rgba(0, 0, 0, 0.4) !important;
+    border-left-color: var(--crm-accent) !important;
+    color: var(--crm-text-dim) !important;
+}
+.class-resource-menu.spellguard-menu-container .sg-section-label {
+    color: var(--crm-label) !important;
+}
+.class-resource-menu.spellguard-menu-container .sg-preset-btn {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid var(--crm-border-soft) !important;
+    color: var(--crm-text) !important;
+}
+.class-resource-menu.spellguard-menu-container .sg-preset-btn:hover {
+    background: rgba(var(--crm-accent-rgb), 0.2) !important;
+    border-color: var(--crm-accent) !important;
+}
+.class-resource-menu.spellguard-menu-container .sg-preset-btn.active {
+    background: rgba(var(--crm-accent-rgb), 0.3) !important;
+    border-color: var(--crm-accent) !important;
+    box-shadow: 0 0 8px var(--crm-glow) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Animist — Shaman's Council (emerald -> ancestral green)
+   -------------------------------------------------------------------------- */
+.class-resource-menu.animist-menu-container .animist-council-title {
+    color: var(--crm-title) !important;
+}
+.class-resource-menu.animist-menu-container .animist-council-title i {
+    color: var(--crm-accent) !important;
+}
+.class-resource-menu.animist-menu-container .animist-status-flavor-banner {
+    background: rgba(var(--crm-accent-rgb), 0.1) !important;
+    border-left-color: var(--crm-accent) !important;
+    color: var(--crm-text-dim) !important;
+}
+.class-resource-menu.animist-menu-container .animist-section-label {
+    color: var(--crm-label) !important;
+}
+.class-resource-menu.animist-menu-container .animist-preset-btn,
+.class-resource-menu.animist-menu-container .animist-action-btn {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid var(--crm-border-soft) !important;
+    color: var(--crm-text) !important;
+}
+.class-resource-menu.animist-menu-container .animist-preset-btn:hover,
+.class-resource-menu.animist-menu-container .animist-action-btn:hover {
+    background: rgba(var(--crm-accent-rgb), 0.2) !important;
+    border-color: var(--crm-accent) !important;
+}
+.class-resource-menu.animist-menu-container .animist-preset-btn.active {
+    background: rgba(var(--crm-accent-rgb), 0.3) !important;
+    border-color: var(--crm-accent) !important;
+    box-shadow: 0 0 8px var(--crm-glow) !important;
+}
+.class-resource-menu.animist-menu-container .animist-btn-title {
+    color: var(--crm-text) !important;
+}
+.class-resource-menu.animist-menu-container .animist-btn-sub {
+    color: var(--crm-text-dim) !important;
+}

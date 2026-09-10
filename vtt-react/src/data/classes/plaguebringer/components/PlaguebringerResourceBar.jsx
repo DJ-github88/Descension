@@ -97,7 +97,7 @@ const PlaguebringerResourceBar = ({
         if (virulence >= 75) return { name: 'Peak Harvest', color: '#a3e635', bonus: '+2 dmg dice, ignore first dispel', fluid: ['#65a30d', '#a3e635', '#f7fee7'] };
         if (virulence >= 50) return { name: 'Blooming', color: '#84cc16', bonus: '+1 duration round, +5ft spread', fluid: ['#4d7c0f', '#84cc16', '#d9f99d'] };
         if (virulence >= 25) return { name: 'Sprouting', color: '#65a30d', bonus: '+1 dmg die to all afflictions', fluid: ['#3f6212', '#65a30d', '#a3e635'] };
-        return { name: 'Seedling', color: '#4d7c0f', bonus: 'No bonus', fluid: ['#2c440f', '#4d7c0f', '#7ba428'] };
+        return { name: 'Dormant', color: '#4d7c0f', bonus: 'No bonus', fluid: ['#2c440f', '#4d7c0f', '#7ba428'] };
     };
 
     const virulenceTier = getVirulenceTier(localVirulence);
@@ -500,7 +500,7 @@ const PlaguebringerResourceBar = ({
             </div>
 
             {/* Shared ClassTip Tooltip */}
-            {showTooltip && ReactDOM.createPortal(
+            {showTooltip && !showControls && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip plaguebringer-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     <ClassTip
                         icon="fas fa-biohazard"
@@ -509,13 +509,15 @@ const PlaguebringerResourceBar = ({
                         subtitle="Plaguebringer Alchemical Vat"
                         state={`${localVirulence}/${maxVirulence} · ${localAfflictions}/${maxAfflictions} afflictions`}
                         stateTone={localVirulence >= maxVirulence * 0.75 ? 'good' : 'neutral'}
-                        mechanic={`Seed afflictions, cultivate through Weaken → Torment → Fester → Decay → Amplify (stages 1–3). Passive: ${virulenceTier.bonus}. Beware: one ember attack purges all Seeds and zeroes Virulence.`}
+                        mechanic="Sow Stage 0 Seeds and advance them to Stage 3 with any cultivation category (Weaken, Torment, Fester, Decay, Amplify). Virulence (0-100) measures the garden's maturity and decays 2/round without a plague cast; ember damage burns it back."
                         status={[
+                            `${virulenceTier.name}: ${virulenceTier.bonus}.`,
                             localAfflictions > 0
                                 ? `${localAfflictions} affliction(s) growing in the vat.`
                                 : 'Nothing cultivated — seed something.',
+                            'Ember damage strips rot and Virulence.'
                         ]}
-                        usage={isOwner ? 'Click the vat to pour virulence · Click a pod to cultivate straight to it · Cog opens setup.' : null}
+                        usage={isOwner ? 'Click the vat to pour Virulence · Click a pod to set afflictions · Cog opens setup.' : null}
                     />
                 </div>,
                 document.body
@@ -525,7 +527,7 @@ const PlaguebringerResourceBar = ({
             {showControls && ReactDOM.createPortal(
                 <div
                     ref={controlsMenuRef}
-                    className={`unified-context-menu compact context-menu-container plaguebringer-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    className={`unified-context-menu compact context-menu-container plaguebringer-menu-container class-resource-menu ${context === 'party' ? 'chronarch-party' : ''}`}
                     onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onMouseEnter={(e) => {

@@ -7,7 +7,7 @@ const ROLLABLE_TABLES = {
     die: 'd20',
     entries: [
       { min: 1, max: 2, result: '2d4 Gref stalk the party through the fog, stealing faces from the dead' },
-      { min: 3, max: 4, result: 'A lone Neth contract-enforcer with a ledger of unpaid debts and a cold-iron stylus' },
+      { min: 3, max: 4, result: 'A lone Nethien contract-enforcer with a ledger of unpaid debts and a cold-iron stylus' },
       { min: 5, max: 6, result: '1d6 Sluagh rise from a fog-choked barrow, hungry for a name to wear' },
       { min: 7, max: 8, result: 'A wounded Augur, forearms carved open, offers a reading in exchange for bandages' },
       { min: 9, max: 10, result: '2d4 Schratling emerge from hollow ironwood, bark-armor and moss-blades' },
@@ -28,15 +28,15 @@ const ROLLABLE_TABLES = {
     die: 'd20',
     entries: [
       { min: 1, max: 3, result: '2d6 × 10 gold marks (Thalren ledger-coin, stamped with a house sigil)' },
-      { min: 4, max: 6, result: '1d6 × 10 platinum marks (Neth-mint, accepted at any contract-house)' },
+      { min: 4, max: 6, result: '1d6 × 10 platinum marks (Nethien-mint, accepted at any contract-house)' },
       { min: 7, max: 9, result: 'A cold-iron blade, plain, but it bites the Wyrd and does not lie' },
       { min: 10, max: 12, result: 'A vial of memory-glass (Bryngloom export; inhale to recall a borrowed memory)' },
       { min: 13, max: 14, result: 'A fungal-light lantern (Vreken crypt-light; glows for a century on a single charge)' },
       { min: 15, max: 16, result: 'A chained ledger-tome, half its names still legible, worth a fortune to the right archivist' },
       { min: 17, max: 17, result: 'A Sol\'s Breath ember, sealed in obsidian phial, faint warmth, impossibly old' },
-      { min: 18, max: 18, result: 'A Neth contract-scroll, unbroken and binding, the terms have not yet been triggered' },
+      { min: 18, max: 18, result: 'A Nethien contract-scroll, unbroken and binding, the terms have not yet been triggered' },
       { min: 19, max: 19, result: 'A Sundered Monolith shard, warm to the touch, campaign-grade relic' },
-      { min: 20, max: 20, result: 'A First Contract copy-fragment, powerful enough to Anchor a Neth, dangerous enough to doom them' }
+      { min: 20, max: 20, result: 'A First Contract copy-fragment, powerful enough to Anchor a Nethien, dangerous enough to doom them' }
     ]
   },
 
@@ -119,7 +119,7 @@ const ROLLABLE_TABLES = {
       { min: 13, max: 14, result: 'A barrow-mound shrouded in fog; its cairn-symbols match no known house' },
       { min: 15, max: 16, result: 'A road-marker of bog-preserved ironwood, pointing to a holding' },
       { min: 17, max: 18, result: 'A Wyrd-site, fear lingers here, reality dented, the trail reads wrong' },
-      { min: 19, max: 19, result: 'A crashed Neth caravan; contract-scrolls and memory-glass scattered' },
+      { min: 19, max: 19, result: 'A crashed Nethien caravan; contract-scrolls and memory-glass scattered' },
       { min: 20, max: 20, result: 'A Sundered Monolith fragment, half-buried and faintly warm' }
     ]
   },
@@ -133,7 +133,7 @@ const ROLLABLE_TABLES = {
     entries: [
       { min: 1, max: 1, result: 'All within 30ft flicker, their shadows move wrong for 1 hour' },
       { min: 2, max: 2, result: 'The caster glows with Sol\'s Breath-warmth for 1d6 minutes (plainly visible)' },
-      { min: 3, max: 3, result: 'The caster\'s next words emerge as a Neth contract-clause, and they bind' },
+      { min: 3, max: 3, result: 'The caster\'s next words emerge as a Nethien contract-clause, and they bind' },
       { min: 4, max: 4, result: 'Gravity inverts in a 20ft radius for 1 round' },
       { min: 5, max: 5, result: 'The caster may speak only in Vault-Breath whispers for 10 minutes' },
       { min: 6, max: 6, result: 'A target\'s face blurs, they now look like someone the viewer has wronged' },
@@ -207,14 +207,14 @@ const ROLLABLE_TABLES = {
     entries: [
       { min: 1, max: 1, result: 'A child weeps in the fog, their parent\'s name was eaten, and now no one remembers the parent existed' },
       { min: 2, max: 2, result: 'The Greymark bell tolls at midnight. No one rang it, and the rope is on the other side of a locked door' },
-      { min: 3, max: 3, result: 'A Neth pact-weaver begs aid, a contract is broken and the debtor is clawing back out of the bog' },
+      { min: 3, max: 3, result: 'A Nethien pact-weaver begs aid, a contract is broken and the debtor is clawing back out of the bog' },
       { min: 4, max: 4, result: 'A chained ledger surfaces in the Atropolis market, and one of its recorded names is a party member\'s' },
       { min: 5, max: 5, result: 'The Vel-Keth Bayou runs uphill for an hour each dawn, carrying things that should have stayed buried' },
       { min: 6, max: 6, result: 'An old First Contract clause is found sewn into the lining of a purchased cloak' },
       { min: 7, max: 7, result: 'House Thalreth hires the party in secret, Lord Aldren has forgotten where the critical ledger is buried' },
       { min: 8, max: 8, result: 'Mistbarrow is empty at dawn, every cairn excavated overnight, every amber tablet gone' },
       { min: 9, max: 9, result: 'A Marked Vreken swears they remember a life that was never theirs, and the trail leads into the party\'s past' },
-      { min: 10, max: 10, result: 'Two Neth contract-houses both produce documents binding the party to opposite oaths' },
+      { min: 10, max: 10, result: 'Two Nethien contract-houses both produce documents binding the party to opposite oaths' },
       { min: 11, max: 11, result: 'A locked box with no keyhole appears in the party\'s camp, it is warm, and it hums when spoken to' },
       { min: 12, max: 12, result: 'Dreams of a Sundered Monolith no cartographer has recorded plague the party each night' },
       { min: 13, max: 13, result: 'A Minstrel in a border-hall sings a verse, unbidden, that names the party by name' },

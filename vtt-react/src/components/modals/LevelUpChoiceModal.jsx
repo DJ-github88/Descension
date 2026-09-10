@@ -157,6 +157,8 @@ import { TOXICOLOGIST_DATA } from '../../data/classes/toxicologistData';
 
 
 import { WARDEN_DATA } from '../../data/classes/wardenData';
+import { AUGUR_DATA } from '../../data/classes/augurData';
+import { CRUSADER_DATA } from '../../data/classes/crusaderData';
 
 
 
@@ -270,9 +272,11 @@ const CLASS_DATA_MAP = {
 
 
 
-    'Warden': WARDEN_DATA
+    'Warden': WARDEN_DATA,
 
+    'Augur': AUGUR_DATA,
 
+    'Crusader': CRUSADER_DATA
 
 };
 

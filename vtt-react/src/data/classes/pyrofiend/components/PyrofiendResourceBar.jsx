@@ -27,11 +27,11 @@ const DRAWBACK_TEXTS = {
     2: '1d4 Wyrd dmg/turn',
     3: '-10ft Movement, Fatigue',
     4: '+1d6 Damage taken from all sources',
-    5: '1d6 Bleeding dmg/turn',
-    6: 'Cannot be healed by others, Disadv Insight/Perception',
+    5: 'Bleeding: 1d6 blight/turn',
+    6: 'Cannot be healed by others, disadvantage on Insight/Perception',
     7: '-15ft Speed, 1d6 Suffocation',
-    8: '2d4 Self-dmg, Disadv Dex',
-    9: '4d8 Self-dmg, Death in 3 Turns'
+    8: '2d4 self-damage, disadvantage on Agility checks',
+    9: '4d8 self-damage, death in 3 turns, Scathrach manifests'
 };
 
 // Nine demonic seals of the Veil — each stage its own rune, drawn in a 20x20
@@ -456,26 +456,26 @@ const PyrofiendResourceBar = ({
             </div>
 
             {/* Shared ClassTip Tooltip */}
-            {showTooltip && ReactDOM.createPortal(
+            {showTooltip && !showControls && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip pyrofiend-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     <ClassTip
                         icon="fas fa-fire-flame-curved"
                         tint="#ff4500"
                         title={`${getStageName(infernoLevel)} (Stage ${infernoLevel})`}
                         subtitle="Pyrofiend Inferno Crucible"
-                        state={`+${infernoLevel}/die fire`}
+                        state={`${infernoLevel >= 9 ? '+10' : `+${infernoLevel}`} ember/hit`}
                         stateTone={infernoLevel >= 7 ? 'bad' : infernoLevel >= 5 ? 'warn' : 'neutral'}
-                        mechanic={`Fire spells ascend the Inferno (per-tier); Cooling Ember −2, −1/min idle. +${infernoLevel} fire per die rolled. ${getDrawbackText(infernoLevel)}`}
+                        mechanic="Spells build Inferno (+1 to +3 per cast); each level adds +1 ember damage to every hit, and level 9 adds +10. Cooling Ember drops 2 levels and heals 1d6 + Spirit/3; resting reduces 1/minute, and a short rest resets to 0."
                         status={[
                             infernoLevel >= 9
-                                ? 'OBLIVION: death clock — 3 turns before Scathrach collects. Vent or die.'
+                                ? { text: 'OBLIVION — 3 of your turns left. At zero you detonate for 10d6 ember in 30 ft and Scathrach claims your soul: no resurrection.', tone: 'critical' }
                                 : infernoLevel >= 6
-                                    ? 'HERESY: no outside healing. Surge live — cool it or commit.'
+                                    ? { text: 'No outside healing. Whisper: Spirit save DC 12 + level each turn or your next attack is forced onto the nearest creature.', tone: 'bad' }
                                     : infernoLevel >= 5
-                                        ? 'SURGE LIVE: next fire spell +2d6. The Whisper watches — cool it or commit.'
+                                        ? { text: 'Infernal Surge live — next ember spell +2d6. The Whisper watches; cool it or commit.', tone: 'warn' }
                                         : infernoLevel > 0
                                             ? 'Warming up — damage climbing, drawbacks still mild.'
-                                            : 'Cold — cast fire to ascend.',
+                                            : 'Cold — cast ember spells to ascend.',
                         ]}
                         usage={isOwner ? 'Click the bar for controls · Click a seal to ascend or cool straight to it · Arrow keys stoke/cool.' : null}
                     />
@@ -487,7 +487,7 @@ const PyrofiendResourceBar = ({
             {showControls && ReactDOM.createPortal(
                 <div
                     ref={controlsMenuRef}
-                    className={`unified-context-menu compact context-menu-container pyrofiend-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    className={`unified-context-menu compact context-menu-container pyrofiend-menu-container class-resource-menu ${context === 'party' ? 'chronarch-party' : ''}`}
                     onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onMouseEnter={(e) => {
@@ -527,7 +527,7 @@ const PyrofiendResourceBar = ({
                             {/* Summary info */}
                             <div style={{ fontSize: '0.8rem', marginBottom: '8px', lineHeight: 1.35 }}>
                                 <div><strong>Fire bonus:</strong> +{infernoLevel} dmg per die {isSurging && <span style={{ color: '#ff9e5e' }}>· Surge +2d6 live</span>}</div>
-                                <div style={{ color: infernoLevel >= 7 ? '#ff6b6b' : infernoLevel >= 5 ? '#ff9e5e' : '#5a4628' }}>
+                                <div style={{ color: infernoLevel >= 7 ? '#ff6b6b' : infernoLevel >= 5 ? '#fdba74' : 'var(--crm-text-dim, #cbd5e1)' }}>
                                     <strong>Drawback:</strong> {getDrawbackText(infernoLevel)}
                                 </div>
                             </div>

@@ -21,7 +21,7 @@ export const BERSERKER_DATA = {
    "ordan_human"
   ],
   "narrativeUnlock": true,
-  "justification": "Requires Hunger Pact lineage (Skald) or deliberate Rage adoption (Waste-Solari). Mimir are too identity-fragile to sustain the emotional singularity. Neth can't suppress their contract-nature. Ordan reject self-destruction over migration."
+  "justification": "Requires Hunger Pact lineage (Skald) or deliberate Rage adoption (Waste-Solari). Mimir are too identity-fragile to sustain the emotional singularity. Nethien can't suppress their contract-nature. Ordan reject self-destruction over migration."
  },
 
  /**
@@ -279,9 +279,9 @@ However, their weaknesses are absolute and exploitable:
   name: "Shattered Greataxe Path",
   icon: "Slashing/Cross Slash",
   items: [
-   "Shattered Greataxe (2d12 slashing, weighted with lead)",
+   "Shattered Greataxe (2d12 slicing, weighted with lead)",
    "Corrugated Hide Wraps (Durability 2, Active DR +1, max Agility +2)",
-   "2 Crude Throwing Cleavers (1d6 slashing, range 20/60)",
+   "2 Crude Throwing Cleavers (1d6 slicing, range 20/60)",
   ],
   description: "Maximum single-strike mutilation. Designed to deliver devastating blows at the cost of your own skeletal integrity.",
   },
@@ -289,9 +289,9 @@ However, their weaknesses are absolute and exploitable:
   name: "Dual Sinew-Wrapped Warhammers Path",
   icon: "Bludgeoning/Mortal Strike",
   items: [
-   "Two Sinew-Wrapped Warhammers (1d10 bludgeoning each, wrapped in hardened leather)",
+   "Two Sinew-Wrapped Warhammers (1d10 smashing each, wrapped in hardened leather)",
    "Heavy Splinted Bracers (Durability 3, Active DR +1, max Agility +2)",
-   "2 Sinew-Bound Throwing Spikes (1d6 piercing, range 20/60)",
+   "2 Sinew-Bound Throwing Spikes (1d6 stabbing, range 20/60)",
   ],
   description: "More strikes per round to rapidly boil your Rage, forcing rapid transitions into paint-numbed states.",
   },

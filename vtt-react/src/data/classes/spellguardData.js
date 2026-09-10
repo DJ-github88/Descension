@@ -28,12 +28,12 @@ export const SPELLGUARD_DATA = {
      "florae"
    ],
    "narrativeUnlock": true,
-   "justification": "Requires access to Emberspire's volcanic forge-tradition and Sol's Breath's residual energy. The Neth Velun provide precise magical cancellation. Thalren provide anti-Wyrd paranoia."
+   "justification": "Requires access to Emberspire's volcanic forge-tradition and Sol's Breath's residual energy. The Nethien provide precise magical cancellation. Thalren provide anti-Wyrd paranoia."
  },
 
  /**
   * Subrace Variants, the Spellguard dismantles incoming magic, and how they dismantle
-  * it depends on what tradition of "understanding magic" they inherited. The Neth cancel
+  * it depends on what tradition of "understanding magic" they inherited. The Nethien cancel
    * it legally. The Thalren defuse it like a Wyrd-trap. The Solari shield it like a
   * tomb-guard. The Solari intercept it like a forge-rupture.
   */
@@ -48,18 +48,18 @@ export const SPELLGUARD_DATA = {
   },
 subraceVariants: {
   velun_neth: {
-   subraceName: 'Velun Neth',
+   subraceName: 'Nethien',
    title: 'The Clause-Canceller',
-   reframe: `The <LoreLink termId="neth">Velun Neth</LoreLink> understand magic as *contract*, and a Spellguard among them cancels incoming spells by *drafting the annulment*, identifying the hostile magic's clause-structure and filing the counter-instrument before it lands. To a Velun Spellguard, a fireball is just an aggressively-worded offer, and the correct response is a timely rejection on procedural grounds.`,
+   reframe: `The <LoreLink termId="neth">Nethien</LoreLink> understand magic as *contract*, and a Spellguard among them cancels incoming spells by *drafting the annulment*, identifying the hostile magic's clause-structure and filing the counter-instrument before it lands. To a Nethien Spellguard, a fireball is just an aggressively-worded offer, and the correct response is a timely rejection on procedural grounds.`,
    signatureAbility: {
     name: 'Clause-Annulment',
-    description: `Incoming spells are canceled through legal-inversion rather than raw absorption; the Spellguard files the annulment, and the magic fails on its own terms. The process is precise and low-radiation, the Velun take on far less Arcane Energy Points (AEP) than absorbing variants, but fails entirely against magic with no clause-structure (wild Wyrd, primal forces).`
+    description: `Incoming spells are canceled through legal-inversion rather than raw absorption; the Spellguard files the annulment, and the magic fails on its own terms. The process is precise and low-radiation, the Nethien take on far less Arcane Energy Points (AEP) than absorbing variants, but fails entirely against magic with no clause-structure (wild Wyrd, primal forces).`
    },
-   currentCrisisAngle: `The rising ambient magic is, to the Velun, a *jurisdictional overload*, too many spells in the air, too many clauses to parse in real time. The Velun Spellguards are the most radiation-resistant variant, but they are being drowned in paperwork: the annulments cannot be drafted fast enough to keep pace with a world whose magic level is spiking.`,
+   currentCrisisAngle: `The rising ambient magic is, to the Nethien, a *jurisdictional overload*, too many spells in the air, too many clauses to parse in real time. The Nethien Spellguards are the most radiation-resistant variant, but they are being drowned in paperwork: the annulments cannot be drafted fast enough to keep pace with a world whose magic level is spiking.`,
    signatureQuote: {
     text: '"Your fireball is poorly drafted. I have filed an objection. It will not arrive. The objection was sustained."',
     speaker: 'Canceller Vel-Ossar',
-    context: 'A Velun Spellguard, intercepting a court-mage\'s assault on procedural grounds'
+    context: 'A Nethien Spellguard, intercepting a court-mage\'s assault on procedural grounds'
    }
   },
 
@@ -120,7 +120,7 @@ subraceVariants: {
     max: 100,
     generationNote: "Aetheric Energy Potential absorbed from hostile spells and magical impacts.",
     criticalThresholds: { meltdown: 100 },
-    mechanicsNote: "At 100 AEP, a Meltdown triggers, violently venting raw arcane energy in a 20ft radius and damaging both allies and enemies."
+    mechanicsNote: "At 100 AEP, a Meltdown triggers, violently venting raw arcane energy in a 30ft radius and damaging both allies and enemies."
   },
  name: "Spellguard",
  icon: "fas fa-shield-alt",
@@ -165,7 +165,7 @@ The first was Damon, a Solari blacksmith working the forge-keeps during the Grea
 
 The solar energy permanently scarred his flesh and left his veins humming with volatile trapped mana. His hands froze in rigid shielding posture. He spent the rest of his life refining the principle: identify the structure of incoming magic, dismantle what can be dismantled, absorb what cannot, and redirect the rest. His unbreakable rule: "A spellguard who absorbs what they cannot dismantle is a weapon pointed at their own line."
 
-Each subrace absorbs differently. The Velun Neth cancel spells through legal inversion, a fireball is an aggressively-worded offer, the response is rejection on procedural grounds. Lowest radiation intake, but fails against wild Wyrd with no structure. The Thalren defuse magic like a sapper defuses a trap, identifying trigger, payload, and failsafe, neutralizing each in sequence. Only method that reliably catches layered spells. The Solari absorb raw into flesh, practice-tested against Sol's Breath-scale eruptions. Most Resonance intake but can absorb the largest single bursts. The Hollow-Solari intercept from Vault-Breath stillness, becoming a silence that magic falls into. Steadiest but cannot move while intercepting. The Waste-Solari deflect and redirect, treating magic as thermal hazard to be angled away. Lowest Resonance but cannot fully neutralize.
+Each subrace absorbs differently. The Nethien cancel spells through legal inversion, a fireball is an aggressively-worded offer, the response is rejection on procedural grounds. Lowest radiation intake, but fails against wild Wyrd with no structure. The Thalren defuse magic like a sapper defuses a trap, identifying trigger, payload, and failsafe, neutralizing each in sequence. Only method that reliably catches layered spells. The Solari absorb raw into flesh, practice-tested against Sol's Breath-scale eruptions. Most Resonance intake but can absorb the largest single bursts. The Hollow-Solari intercept from Vault-Breath stillness, becoming a silence that magic falls into. Steadiest but cannot move while intercepting. The Waste-Solari deflect and redirect, treating magic as thermal hazard to be angled away. Lowest Resonance but cannot fully neutralize.
 
 Ambient magic levels are rising as the Wyrd bleeds faster. Spellguards fill with Arcane Energy Points (AEP) faster than they can purge. Some enter Arcane Saturation, spontaneous Radiation Bursts harming everyone nearby. The current leader, Bulwark-Captain Thrak-Damos, is ordering absorption, Damon's forbidden technique, because there is nothing left to dismantle.`,
   title: "The Spellguard",
@@ -205,11 +205,11 @@ The spellguard's aetheric aegis was forged during the entombment of Sol in the v
 Spellguards are given places of honor as elite guards in the Canopy-Ledger of Atropolis and the keep of <LoreLink termId="greymark_keep">Greymark Keep</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the <LoreLink termId="neth">Velun Neth</LoreLink> and the Thalren humans.
+The class is heavily practiced by the <LoreLink termId="neth">Nethien</LoreLink> and the Thalren humans.
 
 **NOTABLE FIGURES**
 * **Damon the Iron-Handed**: The legendary blacksmith whose shield absorbed the first flares of the dying sun.
-* **Elysia Silver-Vein**: A Velun Neth sentinel who stabilized the barrier chambers during the first Breach.`
+* **Elysia Silver-Vein**: A Nethien sentinel who stabilized the barrier chambers during the first Breach.`
   },
 
   signatureQuote: {
@@ -250,7 +250,7 @@ Spellguards are reporting that their Arcane Energy Points (AEP) are filling fast
 - Prismatic barriers and refraction can shelter allies from an arcane assault
 
 **Weaknesses**:
-- Kinetic Fragility: +50% bludgeoning and smashing damage  -  a mundane axe, mace, or crossbow bolt is your hard counter; any martial flanker shreds you.
+- Kinetic Fragility: +50% smashing and slicing damage  -  a mundane axe, mace, or crossbow bolt is your hard counter; any martial flanker shreds you.
 - Arcane Radiation: holding unspent Arcane Energy Points (AEP) burns your max HP and deals blight every round you fail to purge it  -  vent or melt.
 - Purge or Pop: silenced, CC'd, or denied a target, the AEP builds to a spontaneous Radiation Burst that harms everyone nearby, allies included.
 - Anti-Mage, Not Anti-Steel: built to eat magic, not weapons  -  a fight with no casters leaves you a fragile liability.
@@ -297,7 +297,7 @@ Resonance (0–100) measures hostile magical energy captured and stored in your 
     title: "Physical Fragility",
     stats: "+50% Vulnerability",
     details:
-     "Catastrophically weak to Bludgeoning and Slashing. Kinetic trauma shatters your silence-glass bones.",
+     "Catastrophically weak to smashing and slicing. Kinetic trauma shatters your silence-glass bones.",
    },
   ],
 
@@ -315,7 +315,7 @@ Resonance (0–100) measures hostile magical energy captured and stored in your 
    momentum:
     "Absorb enemy spells to fill your AEP, but immediately look for a way to purge it. Do not let the radiation fester in your body.",
    flourish:
-    "When ambushed by physical attackers, use 'Refract Kinetic' to harden your shell, even though it spikes your internal necrotic strain.",
+    "When ambushed by physical attackers, use 'Refract Kinetic' to harden your shell, even though it spikes your internal blight strain.",
   },
 
   overheatRules: {
@@ -328,7 +328,7 @@ Resonance (0–100) measures hostile magical energy captured and stored in your 
 
   strategicConsiderations: {
    title: "The Kinetic Death Sentence",
-   content: `Do not try to tank physical monsters. A giant with a club is your hard counter. If a creature deals heavy bludgeoning or smashing damage, you will melt instantly due to your +50% vulnerability. Fall back and let a dedicated tank or the Berserker handle the meat,you are here for the magic.`,
+   content: `Do not try to tank physical monsters. A giant with a club is your hard counter. If a creature deals heavy smashing or slicing damage, you will melt instantly due to your +50% vulnerability. Fall back and let a dedicated tank or the Berserker handle the meat,you are here for the magic.`,
   },
 
   playingInPerson: {
@@ -351,7 +351,7 @@ Resonance (0–100) measures hostile magical energy captured and stored in your 
    name: "Resonance",
    icon: "Slashing/Crushing Blow",
    description:
-    "Your silence-glass plating repels magic but shatters under physical trauma. You have +50% vulnerability to all Bludgeoning and smashing damage.",
+    "Your silence-glass plating repels magic but shatters under martial trauma. You have +50% vulnerability to all smashing and slicing damage.",
   },
 
   specs: [
@@ -668,7 +668,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "spellguard_kinetic_fragility",
    name: "Brittle Kinetic Shell",
    description:
-    "Your silence-glass plating and flesh are hyper-specialized to absorb energy, rendering you catastrophically vulnerable to physical trauma. You suffer a permanent +50% vulnerability to all Bludgeoning and smashing damage.",
+    "Your silence-glass plating and flesh are hyper-specialized to absorb energy, rendering you catastrophically vulnerable to martial trauma. You suffer a permanent +50% vulnerability to all smashing and slicing damage.",
    level: 1,
    spellType: "PASSIVE",
    icon: "Slashing/Crushing Blow",
@@ -788,7 +788,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
      { id : "void_barrier",
        name: "Silence Barrier",
       description:
-       "Absorbs 4d8 damage. Generates 2 AEP per hit absorbed. Self-inflicts 2d6 slashing if broken by physical attacks.",
+       "Absorbs 4d8 damage. Generates 2 AEP per hit absorbed. Self-inflicts 2d6 slicing if broken by martial attacks.",
       mechanicsText: "Absorb 4d8",
      },
     ],
@@ -803,7 +803,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_refract_kinetic",
    name: "Refract Kinetic",
    description:
-    "A desperate survival technique. You harden your physical shell by channeling radiation into your bones. For 1 round, your +50% physical vulnerability is suppressed, and you gain +2 DR. However, the internal friction deals 1d4 blight damage to you instantly.",
+    "A desperate survival technique. You harden your physical shell by channeling radiation into your bones. For 1 round, your +50% smashing/slicing vulnerability is suppressed, and you gain +2 DR. However, the internal friction deals 1d4 blight damage to you instantly.",
    level: 1,
    spellType: "ACTION",
    icon: "Slashing/Crushing Blow",
@@ -841,7 +841,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
     effects: [
      { id : "kinetic_hardening",
       name: "Kinetic Hardening",
-      description: "Suppresses physical vulnerability and grants +2 DR.",
+      description: "Suppresses smashing/slicing vulnerability and grants +2 DR.",
       mechanicsText: "+2 DR",
      },
     ],

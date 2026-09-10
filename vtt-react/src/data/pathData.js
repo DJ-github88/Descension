@@ -17,7 +17,7 @@ export const PATH_DATA = {
     vessel: {
         id: 'vessel',
         name: 'The Vessel',
-        description: 'You have been entered by something older than yourself, a Lumian echo, a Wyrd-fragment, a bog-presence. You carry a passenger in your blood, and it speaks in frequencies only you can hear. The Astril call this opening the vessel; the Neth call it a breach of contract. Both are correct.',
+        description: 'You have been entered by something older than yourself, a Lumian echo, a Wyrd-fragment, a bog-presence. You carry a passenger in your blood, and it speaks in frequencies only you can hear. The Astril call this opening the vessel; the Nethien call it a breach of contract. Both are correct.',
         icon: 'fas fa-eye',
         statModifiers: {
             intelligence: 1,
@@ -129,7 +129,7 @@ export const PATH_DATA = {
     archive_sworn: {
         id: 'archive_sworn',
         name: 'The Archive-Sworn',
-        description: 'You are a scholar who has gained knowledge through direct neural transmission, memory-glass, celestial frequency, or monolith-resonance, not through books. The Neth Canopy-Ledger holds contracts in crystallized tree-sap. The Solari sun-records are sung into obsidian. The Frozen Archive preserves the dead\'s final visions. You have touched one of these. It changed you.',
+        description: 'You are a scholar who has gained knowledge through direct neural transmission, memory-glass, celestial frequency, or monolith-resonance, not through books. The Nethien Canopy-Ledger holds contracts in crystallized tree-sap. The Solari sun-records are sung into obsidian. The Frozen Archive preserves the dead\'s final visions. You have touched one of these. It changed you.',
         icon: 'fas fa-book',
         statModifiers: {
             intelligence: 2,

@@ -81,7 +81,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     spell: {
       name: "Efficient Banking",
       description: "Banked spheres persist between encounters (they don't reset between fights). Your sphere bank maximum increases by 2.",
-      flavorText: "Savings, elemental. Interest, none. The Neth checked.",
+      flavorText: "Savings, elemental. Interest, none. The Nethien checked.",
       source: "talent", class: "Arcanoneer", treeId: "sphere_architect",
       spellType: "PASSIVE", category: "utility",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "bank", "persistence", "arcanoneer"]
@@ -102,7 +102,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     spell: {
       name: "Mana Crystal",
       description: "Store up to 10 mana in a Mana Crystal over any number of turns (1 mana per Action Point spent). Shatter the crystal (instant, 1 Action Point): recover all stored mana. You can only hold 1 crystal at a time.",
-      flavorText: "The Velun keep everything in writing. Including reserves.",
+      flavorText: "The Nethien keep everything in writing. Including reserves.",
       source: "talent", class: "Arcanoneer", treeId: "sphere_architect",
       spellType: "ACTIVE", category: "utility",
       targetingMode: "self", rangeType: "self", range: 0,

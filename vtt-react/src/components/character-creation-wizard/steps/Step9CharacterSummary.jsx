@@ -145,7 +145,7 @@ const getSubraceImage = (subraceId, raceId) => {
     // Mimir
     veiled_mimir: 'masked_illustration.png',
     tethered_mimir: 'woven_illustration.png',
-    // Neth
+    // Nethien
     velun_neth: 'velun_illustration.png',
     kessen_neth: 'kessen_illustration.png',
     drun_neth: 'drun_illustration.png',

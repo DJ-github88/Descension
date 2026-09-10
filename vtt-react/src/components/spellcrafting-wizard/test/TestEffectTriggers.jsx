@@ -12,7 +12,7 @@ const TestEffectTriggers = () => {
     spellType: "ACTION",
     effectTypes: ["damage", "healing"],
     damageConfig: {
-      damageType: "fire",
+      damageType: "ember",
       damageCategory: "magical",
       formula: "3d6",
       isDot: false

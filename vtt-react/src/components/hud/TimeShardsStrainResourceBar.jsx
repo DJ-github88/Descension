@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './styles/resourceBars/time-shards-strain.css';
+import ClassTip from './ClassTip';
+import { useResourceBarTooltipPosition } from './useResourceBarTooltip';
 
 const TimeShardsStrainResourceBar = ({
   chronarchState = {},
@@ -22,9 +24,28 @@ const TimeShardsStrainResourceBar = ({
   const [hoveredShard, setHoveredShard] = useState(null);
   const [hoveredStrain, setHoveredStrain] = useState(null);
   const [showConsoleMenu, setShowConsoleMenu] = useState(false);
+  const [showTip, setShowTip] = useState(false);
 
   const containerRef = useRef(null);
   const consoleMenuRef = useRef(null);
+
+  const timeoutRef = useRef(null);
+  const suppressTipUntilRef = useRef(0);
+
+  const openTip = () => {
+      if (showConsoleMenu || Date.now() < suppressTipUntilRef.current) return;
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => setShowTip(true), 350);
+  };
+
+  const closeTip = () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      setShowTip(false);
+  };
+
+  useEffect(() => () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+  }, []);
 
   const setChronarchHoverSection = (value) => setChronarchState && setChronarchState(prev => ({ ...prev, chronarchHoverSection: value }));
 
@@ -37,6 +58,12 @@ const TimeShardsStrainResourceBar = ({
   const strainMax = chronarchTemporalStrainMax;
   const shardsValue = chronarchTimeShards;
   const strainValue = chronarchTemporalStrain;
+
+  const tooltipRef = useResourceBarTooltipPosition(
+      containerRef,
+      showTip && !showConsoleMenu,
+      [shardsValue, strainValue]
+  );
 
   // Strain color based on danger level
   const getStrainColor = (strain) => {
@@ -143,10 +170,12 @@ const TimeShardsStrainResourceBar = ({
                       }
                       if (setShowTooltip) setShowTooltip(true);
                   }
+                  openTip();
               }}
               onMouseLeave={() => {
                   setChronarchHoverSection(null);
                   if (setShowTooltip) setShowTooltip(false);
+                  closeTip();
               }}
           >
               <svg
@@ -591,7 +620,7 @@ const TimeShardsStrainResourceBar = ({
               {showConsoleMenu && ReactDOM.createPortal(
                   <div
                       ref={consoleMenuRef}
-                      className={`chronarch-console-popover chronarch-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                      className={`chronarch-console-popover chronarch-menu-container class-resource-menu ${context === 'party' ? 'chronarch-party' : ''}`}
                       onMouseDown={(e) => e.stopPropagation()}
                       onClick={(e) => e.stopPropagation()}
                       onMouseEnter={(e) => {
@@ -717,6 +746,34 @@ const TimeShardsStrainResourceBar = ({
                               </button>
                           </div>
                       </div>
+                  </div>,
+                  document.body
+              )}
+
+              {/* Hover tooltip — shared ClassTip body */}
+              {showTip && !showConsoleMenu && ReactDOM.createPortal(
+                  <div
+                      ref={tooltipRef}
+                      className="unified-resourcebar-tooltip pathfinder-tooltip chronarch-tooltip"
+                      style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}
+                  >
+                      <ClassTip
+                          icon="fas fa-hourglass-half"
+                          tint="#38bdf8"
+                          title="Astrolabe of Time"
+                          subtitle="Chronarch — Time Shards & Temporal Strain"
+                          state={`${shardsValue}/${shardsMax} Shards · ${strainValue}/${strainMax} ${getStrainState(strainValue)}`}
+                          stateTone={strainValue >= 10 ? 'critical' : strainValue >= 7 ? 'bad' : strainValue >= 3 ? 'warn' : 'good'}
+                          mechanic="Casting basic spells banks Time Shards (+1, or +2 on Turn 1 while Strain is 0); Shards persist between encounters. Spend Shards on Temporal Flux — each Flux adds 1-8 Temporal Strain, and at 10 Backlash phases you out."
+                          status={[
+                              `${shardsValue}/${shardsMax} Shards banked — ${shardsValue >= 4 ? 'Flux threshold bonuses are live.' : 'cast builders to bank more.'}`,
+                              `Strain ${strainValue}/${strainMax}: ${getStrainState(strainValue)} — a turn with no Flux cast drops 1 Strain.`,
+                              strainValue >= 10
+                                  ? { text: 'BACKLASH: phased out 1 round, lose next turn, no Reactions, untargetable; Strain resets to 0 (roll 1d6 Anomaly).', tone: 'critical' }
+                                  : null,
+                          ].filter(Boolean)}
+                          usage={isOwner ? 'Click a crystal to set Shards (right-click -1) · Click a phial to set Strain (right-click -1) · Center dial opens the Temporal Flux Console.' : null}
+                      />
                   </div>,
                   document.body
               )}

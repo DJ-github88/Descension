@@ -13,6 +13,7 @@ import { getCustomBackgroundData } from '../../data/legacyDisciplineData';
 import { getBackgroundData } from '../../data/backgroundData';
 import { getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, triggerCharacterAutoSave } from '../characterHelpers';
 import { normalizeEquipment, createEmptyEquipment, createEquipmentItem } from '../../utils/equipmentUtils';
+import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
 
 const TEST_CLASSES = [
     'Berserker', 'Shaper', 'Arcanoneer', 'Harbinger', 'Inquisitor',
@@ -398,6 +399,11 @@ export const createCoreSlice = (set, get) => ({
                             }
                         }
 
+                        // Normalize legacy pre-revision names (e.g. "Hallowed Neth" -> "Veldun")
+                        if (enriched.raceDisplayName) {
+                            enriched.raceDisplayName = normalizeRaceDisplayName(enriched.raceDisplayName);
+                        }
+
                         enriched.equipment = normalizeEquipment(char.equipment);
 
                         return enriched;
@@ -486,6 +492,11 @@ export const createCoreSlice = (set, get) => ({
                             enriched.raceDisplayName = raceData.name;
                         }
                     }
+                }
+
+                // Normalize legacy pre-revision names (e.g. "Hallowed Neth" -> "Veldun")
+                if (enriched.raceDisplayName) {
+                    enriched.raceDisplayName = normalizeRaceDisplayName(enriched.raceDisplayName);
                 }
 
                 enriched.equipment = normalizeEquipment(char.equipment);
@@ -804,7 +815,7 @@ export const createCoreSlice = (set, get) => ({
                 baseName: character.baseName || character.name || 'Character Name',
                 race: character.race || '',
                 subrace: character.subrace || '',
-                raceDisplayName: character.raceDisplayName || '',
+                raceDisplayName: normalizeRaceDisplayName(character.raceDisplayName) || '',
                 class: character.class || '',
                 background: character.background || '',
                 backgroundDisplayName: character.backgroundDisplayName || '',
@@ -1148,7 +1159,7 @@ export const createCoreSlice = (set, get) => ({
                     const currentMember = partyState.partyMembers.find(m => m.id === 'current-player');
                     if (currentMember) {
                         // Get proper race display name
-                        let raceDisplayName = character.raceDisplayName;
+                        let raceDisplayName = normalizeRaceDisplayName(character.raceDisplayName);
                         if (!raceDisplayName && character.race && character.subrace) {
                             const raceData = getFullRaceData(character.race, character.subrace);
                             if (raceData) {

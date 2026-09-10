@@ -78,6 +78,28 @@ body.window-dragging .library-drag-handle {
   padding: 26px 30px 0;
 }
 
+/* stationary hover slot — the tome animates inside this fixed
+   footprint so the pull-out transform can't chase the cursor
+   (prevents hover flicker when the book leaves the resting spot) */
+.library-book-slot {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  width: clamp(58px, 6.5vw, 80px);
+  height: clamp(190px, calc(100% - 22px), 310px);
+  margin: 0 4px;
+}
+
+.library-book-slot--section {
+  width: clamp(66px, 7vw, 94px);
+  height: clamp(215px, calc(100% - 8px), 336px);
+}
+
+.library-book-slot--gem {
+  width: clamp(40px, 4.2vw, 56px);
+  height: clamp(148px, calc(100% - 84px), 232px);
+}
+
 /* --- tomes (shared by sections + hidden gems) --- */
 .library-book {
   --tilt: 0deg;
@@ -85,9 +107,9 @@ body.window-dragging .library-drag-handle {
   --leather-b: #452a18;
   --leather-c: #3b2413;
   position: relative;
-  width: clamp(58px, 6.5vw, 80px);
-  height: clamp(190px, calc(100% - 22px), 310px);
-  margin: 0 4px;
+  width: 100%;
+  height: 100%;
+  margin: 0;
   border: none;
   padding: 0;
   cursor: pointer;
@@ -166,8 +188,6 @@ body.window-dragging .library-drag-handle {
 .library-book--creatures,
 .library-book--items,
 .library-book--maps {
-  width: clamp(66px, 7vw, 94px);
-  height: clamp(215px, calc(100% - 8px), 336px);
   z-index: 1;
   box-shadow:
     inset 0 0 0 1px rgba(0, 0, 0, 0.5),
@@ -209,11 +229,6 @@ body.window-dragging .library-drag-handle {
 }
 
 /* hidden gems: clearly lesser volumes — smaller, dimmer, no gold tooling */
-.library-book--gem {
-  width: clamp(40px, 4.2vw, 56px);
-  height: clamp(148px, calc(100% - 84px), 232px);
-}
-
 .library-book--gem .library-book-bands {
   display: none;
 }
@@ -281,8 +296,9 @@ body.window-dragging .library-drag-handle {
   user-select: none;
 }
 
-/* pulling the tome out of the row */
-.library-book:hover,
+/* pulling the tome out of the row — hover is anchored to the
+   stationary slot, so the moving book can't toggle its own hover */
+.library-book-slot:hover .library-book,
 .library-book:focus-visible {
   transform: translateX(-12px) translateY(-20px) rotate(-7deg) scale(1.04);
   filter: brightness(1.06);

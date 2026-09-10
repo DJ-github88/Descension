@@ -138,12 +138,12 @@ const BerserkerResourceBar = ({
     };
 
     const getRageStateInfo = (currentRage) => {
-        if (currentRage >= 101) return { name: 'Obliteration', color: '#ff0000', bonus: '+6 attack, Overheat danger' };
-        if (currentRage >= 81) return { name: 'Cataclysm', color: '#dc2626', bonus: '+5 attack, -10 enemy morale' };
-        if (currentRage >= 61) return { name: 'Carnage', color: '#ea580c', bonus: '+3 attack, cleave strikes' };
-        if (currentRage >= 41) return { name: 'Primal', color: '#f97316', bonus: '+2 attack, bloodlust healing' };
-        if (currentRage >= 21) return { name: 'Frenzied', color: '#f59e0b', bonus: '+1 attack, +5ft speed' };
-        return { name: 'Smoldering', color: '#78350f', bonus: 'Basic fury' };
+        if (currentRage >= 101) return { name: 'Obliteration', color: '#ff0000', bonus: '+5 attack, +8 damage, crits cleave · 1d6 self-damage/turn' };
+        if (currentRage >= 81) return { name: 'Cataclysm', color: '#dc2626', bonus: '+4 attack, +6 damage, fear immunity · Durability Dice -6' };
+        if (currentRage >= 61) return { name: 'Carnage', color: '#ea580c', bonus: '+3 attack, +4 damage · Durability Dice -4, Agility check disadvantage' };
+        if (currentRage >= 41) return { name: 'Primal', color: '#f97316', bonus: '+2 attack, +2 damage · Durability Dice -2' };
+        if (currentRage >= 21) return { name: 'Frenzied', color: '#f59e0b', bonus: '+1 attack, +5 ft speed · Battle-Trance (no ally healing)' };
+        return { name: 'Smoldering', color: '#78350f', bonus: 'Basic strikes only — no bonuses while cold' };
     };
 
     const rageState = getRageStateInfo(localRage);
@@ -572,7 +572,7 @@ const BerserkerResourceBar = ({
             </div>
 
             {/* Shared ClassTip Tooltip */}
-            {showTooltip && ReactDOM.createPortal(
+            {showTooltip && !showControls && ReactDOM.createPortal(
                 <div
                     ref={tooltipRef}
                     className="unified-resourcebar-tooltip pathfinder-tooltip berserker-tooltip"
@@ -585,21 +585,21 @@ const BerserkerResourceBar = ({
                         subtitle="Berserker Blood-Iron Apparatus"
                         state={`${localRage}/100 Rage · ${rageState.name}`}
                         stateTone={isOverheated ? 'bad' : localRage >= 41 ? 'good' : 'neutral'}
-                        mechanic="Attacking (+1d6), crits (+2d6), taking damage (+1d4), kills (+1d8). Decays by 5/round if idle. Grants Pain Immunity at 21+ Rage. Overheat (101+): must vent within 1 round or suffer 2d6 self-recoil damage."
+                        mechanic="Build Rage: melee ability +1d6 (you take 1d4 smashing recoil), taking damage +1d4, crit +2d6, kill +1d8; idle -10/round. At 21+ Battle-Trance grants pain and fear immunity but locks out all ally healing; at 101+ spend below 101 within 1 round or take 2d6 unresistable, reset to 0, and be Stunned 1 round."
                         status={[
                             isOverheated
-                                ? 'OVERHEAT DANGER: 101+ rage! Vent immediately or suffer 2d6 recoil burnout.'
+                                ? { text: 'OVERHEAT — spend below 101 this round or take 2d6 unresistable, reset to 0, and be Stunned 1 round.', tone: 'critical' }
                                 : localRage >= 81
-                                    ? 'Cataclysm: +5 attack, enemies suffer -10 morale penalty. Nearing burnout!'
+                                    ? { text: 'Cataclysm — +4 attack, +6 damage, fear immunity. Durability Dice -6. One step from Overheat.', tone: 'bad' }
                                     : localRage >= 61
-                                        ? 'Carnage: +3 attack, all melee strikes cleave adjacent foes.'
+                                        ? { text: 'Carnage — +3 attack, +4 damage. Durability Dice -4, Agility check disadvantage.', tone: 'warn' }
                                         : localRage >= 41
-                                            ? 'Primal: +2 attack, bloodlust sustains healing.'
+                                            ? 'Primal — +2 attack, +2 damage. Durability Dice -2.'
                                             : localRage >= 21
-                                                ? 'Frenzied: Pain Immunity active. +1 attack, +5ft speed.'
-                                                : 'Cold embers — strike or suffer damage to build blood-heat.'
+                                                ? 'Frenzied — +1 attack, +5 ft speed. Battle-Trance: pain/fear immunity, no ally healing.'
+                                                : 'Smoldering — no bonuses yet. Strike or take damage to build Rage.'
                         ]}
-                        usage={isOwner ? 'Click skull clasp for Rage controls.' : null}
+                        usage={isOwner ? 'Click skull clasp for Rage controls. Left hinge +5, right vent -10 (Shift for ±25), or click a fang sector to set Rage directly.' : null}
                     />
                 </div>,
                 document.body
@@ -609,7 +609,7 @@ const BerserkerResourceBar = ({
             {showControls && ReactDOM.createPortal(
                 <div
                     ref={controlsMenuRef}
-                    className={`unified-context-menu berserker-rage-popover berserker-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    className={`unified-context-menu berserker-rage-popover berserker-menu-container class-resource-menu ${context === 'party' ? 'chronarch-party' : ''}`}
                     onMouseDown={(e) => {
                         e.stopPropagation();
                         if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) {
@@ -659,7 +659,7 @@ const BerserkerResourceBar = ({
                         {/* Header */}
                         <div className="context-menu-section-header berserker-menu-header">
                             <span className="berserker-menu-title">
-                                <i className="fas fa-skull" style={{ marginRight: '6px', color: '#8b4513' }}></i>
+                                <i className="fas fa-skull" style={{ marginRight: '6px', color: '#fca5a5' }}></i>
                                 Rage: {localRage}/100 ({rageState.name})
                             </span>
                             <button
@@ -682,7 +682,7 @@ const BerserkerResourceBar = ({
                         <div className="context-menu-section">
                             <div className="context-menu-section-title" style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <span>Rage Thresholds</span>
-                                <span style={{ color: '#5e2e23', fontWeight: 'bold' }}>
+                                <span style={{ color: '#fca5a5', fontWeight: 'bold' }}>
                                     {rageState.bonus}
                                 </span>
                             </div>

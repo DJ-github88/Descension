@@ -557,44 +557,52 @@ const LibraryWindow = ({ isOpen, onClose }) => {
               if (item.type === 'section') {
                 const section = SECTIONS.find(s => s.id === item.id);
                 return (
-                  <button
+                  <div
                     key={section.id}
-                    type="button"
-                    className={`library-book library-book--${section.id}`}
-                    onClick={() => handleSectionClick(section.id)}
+                    className="library-book-slot library-book-slot--section"
                     onMouseEnter={(e) => showNote(e, section.label, section.subtitle)}
                     onMouseLeave={hideNote}
-                    aria-label={`Open ${section.label}`}
                   >
-                    <span className="library-book-bands" aria-hidden="true"></span>
-                    <i className={`${section.icon} library-book-icon`} aria-hidden="true"></i>
-                    <span className="library-book-title">{section.label}</span>
-                    <span className="library-book-crown" aria-hidden="true">◆</span>
-                  </button>
+                    <button
+                      type="button"
+                      className={`library-book library-book--${section.id}`}
+                      onClick={() => handleSectionClick(section.id)}
+                      aria-label={`Open ${section.label}`}
+                    >
+                      <span className="library-book-bands" aria-hidden="true"></span>
+                      <i className={`${section.icon} library-book-icon`} aria-hidden="true"></i>
+                      <span className="library-book-title">{section.label}</span>
+                      <span className="library-book-crown" aria-hidden="true">◆</span>
+                    </button>
+                  </div>
                 );
               }
               const gem = HIDDEN_GEMS[item.id];
               return (
-                <button
+                <div
                   key={item.id}
-                  type="button"
-                  className="library-book library-book--gem"
-                  style={{
-                    '--leather-a': gem.leather.a,
-                    '--leather-b': gem.leather.b,
-                    '--leather-c': gem.leather.c,
-                    '--accent': gem.accent,
-                    '--tilt': gem.tilt,
-                  }}
-                  onClick={() => handleGemClick(item.id)}
+                  className="library-book-slot library-book-slot--gem"
                   onMouseEnter={(e) => showNote(e, gem.title, gem.subtitle)}
                   onMouseLeave={hideNote}
-                  aria-label={`Open ${gem.title}`}
                 >
-                  <span className="library-book-bands" aria-hidden="true"></span>
-                  <i className={`${gem.icon} library-book-icon`} aria-hidden="true"></i>
-                  <span className="library-book-title">{gem.title}</span>
-                </button>
+                  <button
+                    type="button"
+                    className="library-book library-book--gem"
+                    style={{
+                      '--leather-a': gem.leather.a,
+                      '--leather-b': gem.leather.b,
+                      '--leather-c': gem.leather.c,
+                      '--accent': gem.accent,
+                      '--tilt': gem.tilt,
+                    }}
+                    onClick={() => handleGemClick(item.id)}
+                    aria-label={`Open ${gem.title}`}
+                  >
+                    <span className="library-book-bands" aria-hidden="true"></span>
+                    <i className={`${gem.icon} library-book-icon`} aria-hidden="true"></i>
+                    <span className="library-book-title">{gem.title}</span>
+                  </button>
+                </div>
               );
             })}
           </div>

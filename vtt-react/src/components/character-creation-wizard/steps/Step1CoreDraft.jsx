@@ -373,7 +373,9 @@ const CLASS_DATA_MAP = {
 
     'Warden': WARDEN_DATA,
 
-    'Augur': AUGUR_DATA
+    'Augur': AUGUR_DATA,
+
+    'Crusader': CRUSADER_DATA
 
 };
 
@@ -387,7 +389,7 @@ const CLASS_GROUPS = {
 
     CASTERS: ['Arcanoneer', 'Harbinger', 'Chronarch', 'Revenant', 'Animist', 'Toxicologist'],
 
-    ZEALOTS: ['Inquisitor', 'False Prophet', 'Lunarch', 'Martyr'],
+    ZEALOTS: ['Inquisitor', 'False Prophet', 'Lunarch', 'Martyr', 'Crusader'],
 
     SPECIALISTS: ['Minstrel', 'Plaguebringer', 'Pyrofiend', 'Animist', 'Augur', 'Gambit']
 
@@ -425,17 +427,17 @@ const ALLOWED_CLASSES_BY_RACE = {
 
     groven: ['Martyr (Ironclad)', 'Warden', 'Animist', 'Martyr', 'Augur'],
 
-    solari: ['Berserker', 'Warden', 'Harbinger', 'Martyr', 'Pyrofiend'],
+    solari: ['Berserker', 'Warden', 'Harbinger', 'Martyr', 'Pyrofiend', 'Crusader'],
 
     vreken: ['Shaper', 'Apex', 'Revenant', 'Toxicologist', 'False Prophet', 'Plaguebringer', 'Gambit', 'Inquisitor'],
 
     neth: ['Martyr (Ironclad)', 'Revenant', 'Harbinger', 'Plaguebringer'],
 
-    astril: ['Spellguard', 'Chronarch', 'Lunarch', 'Inquisitor', 'Augur'],
+    astril: ['Spellguard', 'Chronarch', 'Lunarch', 'Inquisitor', 'Augur', 'Crusader'],
 
     fexrick: ['Berserker', 'Animist', 'Shaper', 'Martyr', 'Warden'],
 
-    human: ['Berserker', 'Shaper', 'Martyr (Ironclad)', 'Warden', 'Spellguard', 'Arcanoneer', 'Inquisitor', 'Martyr', 'Minstrel']
+    human: ['Berserker', 'Shaper', 'Martyr (Ironclad)', 'Warden', 'Spellguard', 'Arcanoneer', 'Inquisitor', 'Martyr', 'Minstrel', 'Crusader']
 
 };
 
@@ -461,7 +463,7 @@ const ALLOWED_CLASSES_BY_SUBRACE = {
 
     korr_solari: ['Berserker', 'Warden', 'Pyrofiend', 'Harbinger', 'Martyr'],
 
-    thrask_solari: ['Berserker', 'Harbinger', 'Martyr', 'Warden', 'Pyrofiend'],
+    thrask_solari: ['Berserker', 'Harbinger', 'Martyr', 'Warden', 'Pyrofiend', 'Crusader'],
 
     // Fexric
 
@@ -481,7 +483,7 @@ const ALLOWED_CLASSES_BY_SUBRACE = {
 
     tethered_mimir: ['Chronarch', 'Augur', 'Gambit', 'Arcanoneer', 'Harbinger', 'Toxicologist'],
 
-    // Neth
+    // Nethien
 
     velun_neth: ['Revenant', 'Harbinger', 'Martyr (Ironclad)', 'Plaguebringer'],
 
@@ -493,7 +495,7 @@ const ALLOWED_CLASSES_BY_SUBRACE = {
 
     vashir_astril: ['Chronarch', 'Augur', 'Gambit', 'Lunarch', 'Spellguard', 'Inquisitor'],
 
-    silath_astril: ['Spellguard', 'Inquisitor', 'Augur', 'Chronarch', 'Gambit', 'Lunarch'],
+    silath_astril: ['Spellguard', 'Inquisitor', 'Augur', 'Chronarch', 'Gambit', 'Lunarch', 'Crusader'],
 
     // Vreken
 
@@ -505,7 +507,7 @@ const ALLOWED_CLASSES_BY_SUBRACE = {
 
     thalren_human: ['Berserker', 'Martyr (Ironclad)', 'Warden', 'Martyr', 'Minstrel', 'Inquisitor'],
 
-    skald_human: ['Berserker', 'Minstrel', 'Martyr', 'Warden', 'Shaper'],
+    skald_human: ['Berserker', 'Minstrel', 'Martyr', 'Warden', 'Shaper', 'Crusader'],
 
     tessen_human: ['Spellguard', 'Arcanoneer', 'Harbinger', 'Inquisitor', 'Martyr (Ironclad)'],
 
@@ -763,7 +765,7 @@ const getSubraceImage = (subraceId, raceId) => {
 
         tethered_mimir: 'woven_illustration.png',
 
-        // Neth
+        // Nethien
 
         velun_neth: 'velun_illustration.png',
 
@@ -1254,7 +1256,7 @@ const Step1CoreDraft = () => {
 
             'Vreken': 'fas fa-eye',
 
-            'Neth': 'fas fa-scroll',
+            'Nethien': 'fas fa-scroll',
 
             'Astril': 'fas fa-star',
 

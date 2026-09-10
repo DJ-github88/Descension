@@ -11,6 +11,11 @@ const DraggableWindow = forwardRef(({
     defaultSize = null,
     className = '',
     handleClassName = 'draggable-window-handle',
+    // CSS selector (passed straight to react-draggable) that opts elements OUT
+    // of starting a window drag. Use it to keep form controls, buttons, links,
+    // canvas/maps and opt-out regions (`.window-no-drag`) interactive while the
+    // surrounding window surface stays draggable.
+    cancel = null,
     centered = false,
     bounds = "body",
     zIndex = 1000,
@@ -177,6 +182,25 @@ const DraggableWindow = forwardRef(({
     const positionRef = useRef(position);
     const scaleRef = useRef(windowScale);
 
+    // Drag-vs-click bookkeeping. Tab buttons (and other clickable surfaces)
+    // double as drag handles, so a real drag must not leak a "click" afterwards
+    // (which would e.g. switch tabs while the user was only moving the window).
+    // Movements under CLICK_SUPPRESS_THRESHOLD_PX are treated as plain clicks.
+    const dragStartPosRef = useRef(null);
+    const justDraggedAtRef = useRef(0);
+    const CLICK_SUPPRESS_THRESHOLD_PX = 6;
+    const CLICK_SUPPRESS_WINDOW_MS = 350;
+
+    // Capture-phase click guard: swallows the synthetic click that follows a
+    // genuine window drag so clickable drag handles don't mis-fire.
+    const handleClickCapture = useCallback((e) => {
+        if (justDraggedAtRef.current && Date.now() - justDraggedAtRef.current < CLICK_SUPPRESS_WINDOW_MS) {
+            e.stopPropagation();
+            e.preventDefault();
+            justDraggedAtRef.current = 0;
+        }
+    }, []);
+
     useEffect(() => {
         positionRef.current = position;
         scaleRef.current = windowScale;
@@ -209,8 +233,20 @@ const DraggableWindow = forwardRef(({
             .join(', ');
     }, [handleClassName]);
 
-    // Handle drag start
+    // Handle drag start. Returning false vetoes the drag (react-draggable
+    // cancels when its onStart returns false) — used to keep window moves
+    // from fighting item/token drags originating inside the window.
     const handleDragStart = useCallback((e, data) => {
+        // Don't allow window dragging if an item is being dragged
+        if (window.isDraggingItem) {
+            return false;
+        }
+
+        dragStartPosRef.current = data && typeof data.x === 'number'
+            ? { x: data.x, y: data.y }
+            : null;
+        justDraggedAtRef.current = 0;
+
         setIsDragging(true);
         document.body.classList.add('window-dragging');
 
@@ -229,7 +265,17 @@ const DraggableWindow = forwardRef(({
         }
 
         if (onDragStart) {
-            onDragStart(data);
+            // Propagate a `false` return so callers (e.g. MythrillWindow) can
+            // veto the drag and have react-draggable honour it.
+            const veto = onDragStart(e, data);
+            if (veto === false) {
+                setIsDragging(false);
+                document.body.classList.remove('window-dragging');
+                if (nodeRef.current) {
+                    nodeRef.current.classList.remove('dragging');
+                }
+                return false;
+            }
         }
 
         try {
@@ -264,6 +310,17 @@ const DraggableWindow = forwardRef(({
     const handleDragStop = useCallback((e, data) => {
         setIsDragging(false);
         document.body.classList.remove('window-dragging');
+
+        // If the pointer actually travelled, arm the click guard so the
+        // mouse-up doesn't trigger whatever clickable surface we dragged from.
+        const start = dragStartPosRef.current;
+        dragStartPosRef.current = null;
+        if (start && data && typeof data.x === 'number') {
+            const dist = Math.hypot(data.x - start.x, data.y - start.y);
+            justDraggedAtRef.current = dist > CLICK_SUPPRESS_THRESHOLD_PX ? Date.now() : 0;
+        } else {
+            justDraggedAtRef.current = 0;
+        }
 
         if (window.multiplayerDragState) {
             window.multiplayerDragState.clear();
@@ -327,6 +384,7 @@ const DraggableWindow = forwardRef(({
     return (
         <Draggable
             handle={effectivelyDisabled ? '' : normalizedHandle}
+            cancel={effectivelyDisabled ? undefined : (cancel || undefined)}
             position={effectivelyDisabled ? { x: 0, y: 0 } : position}
             nodeRef={nodeRef}
             bounds={effectiveBounds}
@@ -340,6 +398,7 @@ const DraggableWindow = forwardRef(({
         >
             <div
                 ref={nodeRef}
+                onClickCapture={effectivelyDisabled ? undefined : handleClickCapture}
                 style={{
                     position: 'fixed',
                     top: 0,

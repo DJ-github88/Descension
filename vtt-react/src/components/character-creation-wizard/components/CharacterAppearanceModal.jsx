@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import { getCustomIconUrl } from '../../../utils/assetManager';
+import { CLASS_PORTRAIT_ICONS } from '../../../utils/classIconUtils';
 import ImageEditor from './ImageEditor';
 import { ALL_BACKGROUND_ASSETS } from '../../../data/backgroundAssets';
 import '../styles/CharacterAppearanceModal.css';
@@ -144,7 +145,7 @@ const CharacterAppearanceModal = ({
             if (!cats.has(cid)) cats.set(cid, { id: cid, name: base, folders: [] });
             cats.get(cid).folders.push(f);
         });
-        return [{ id: 'all', name: 'All' }, ...Array.from(cats.values())];
+        return [{ id: 'all', name: 'All' }, { id: 'classes', name: 'Classes', folders: ['Classes'] }, ...Array.from(cats.values())];
     }, []);
 
     useEffect(() => {
@@ -220,7 +221,7 @@ const CharacterAppearanceModal = ({
         return () => { cancelled = true; };
     }, [isOpen]);
 
-    const filteredIcons = creatureIcons.filter(icon => {
+    const filteredIcons = [...CLASS_PORTRAIT_ICONS, ...creatureIcons].filter(icon => {
         const matchSearch = !iconSearch ||
             icon.name.toLowerCase().includes(iconSearch.toLowerCase()) ||
             icon.id.toLowerCase().includes(iconSearch.toLowerCase());
@@ -337,6 +338,9 @@ const CharacterAppearanceModal = ({
 
                     <div className="pw-right">
                         <Section id="portrait" icon="fa-user" title="Portrait Icon" openSections={openSections} onToggle={toggleSection}>
+                            <div className="pw-icon-hint">
+                                Pick any icon — or use your class icon as the portrait.
+                            </div>
                             <input
                                 type="text"
                                 className="pw-icon-search"

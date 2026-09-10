@@ -1645,6 +1645,13 @@ const ActionBar = () => {
         }
         // If infernoAscend > 0, infernoRequired stays 0 (spell gains inferno, doesn't require it)
 
+        // Generic class resource costs (Tension, Authority, Ancestral Resonance, …).
+        // Chronarch Time Shards keep their dedicated time_shard_* fields.
+        const genericCr = resourceCost.classResource || {};
+        const genericCrType = genericCr.type;
+        const genericCrCost = Number(genericCr.cost || 0);
+        const usesGenericCr = genericCrCost !== 0 && !!genericCrType && genericCrType !== 'time_shards';
+
         // Get fresh resource state
         const currentMana = useCharacterStore.getState().mana;
         const currentAP = useCharacterStore.getState().actionPoints;
@@ -1667,6 +1674,13 @@ const ActionBar = () => {
         // Only check inferno_required - inferno_ascend does NOT block casting
         if (infernoRequired > 0 && (!currentClassResource || currentClassResource.current < infernoRequired)) {
             // Not enough Inferno required to cast spell
+            // Don't close popup - let it show the error
+            return;
+        }
+
+        // Generic class resource affordability (positive cost = spend, negative = gain)
+        if (usesGenericCr && genericCrCost > 0 && (!currentClassResource || (currentClassResource.current || 0) < genericCrCost)) {
+            // Not enough class resource to cast spell
             // Don't close popup - let it show the error
             return;
         }
@@ -1807,6 +1821,39 @@ const ActionBar = () => {
                 }
             } catch (error) {
                 console.warn('Failed to sync Inferno to party store:', error);
+            }
+        }
+
+        // Apply generic class resource spend/gain (Tension, Authority, Resonance, …)
+        if (usesGenericCr && currentClassResource) {
+            const beforeCr = currentClassResource.current || 0;
+            const maxCr = currentClassResource.max || beforeCr;
+            if (genericCrCost > 0) {
+                consumeClassResource(genericCrCost);
+            } else {
+                gainClassResource(-genericCrCost);
+            }
+            const afterCr = genericCrCost > 0
+                ? Math.max(0, beforeCr - genericCrCost)
+                : Math.min(maxCr, beforeCr - genericCrCost);
+
+            // Sync to party store for HUD updates
+            try {
+                const usePartyStore = require('../../store/partyStore').default;
+                const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                if (currentMember && currentMember.character?.classResource) {
+                    usePartyStore.getState().updatePartyMember('current-player', {
+                        character: {
+                            ...currentMember.character,
+                            classResource: {
+                                ...currentMember.character.classResource,
+                                current: afterCr
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.warn('Failed to sync class resource to party store:', error);
             }
         }
 
@@ -1986,7 +2033,7 @@ const ActionBar = () => {
                 }
             }
 
-            if ((infernoAscend > 0 || infernoDescend > 0) && currentClassResource) {
+            if ((infernoAscend > 0 || infernoDescend > 0 || usesGenericCr) && currentClassResource) {
                 updateResource('classResource', currentClassResource.current, currentClassResource.max);
                 try {
                     const usePartyStore = require('../../store/partyStore').default;

@@ -1,6 +1,7 @@
-/* ===== WARDEN RESOURCE BAR — THE GRAFT-CHAIN ===== */
-/* Pure vector apparatus: rusted chain links winding out of an iron flesh-ring.
-   No text — tension and spends live in the hover tooltip and controls menu. */
+/* ===== WARDEN RESOURCE BAR — THE TENSION GAUGE ===== */
+/* Ten iron links on a machined rail: banked links burn, spent links stay cold
+   but outlined. No text — tension and spends live in the hover tooltip and the
+   Tension Ledger opened from the ratchet dial. */
 
 .warden-resource-container {
     position: relative;
@@ -37,6 +38,12 @@
     outline: none;
 }
 
+/* Small variant scales with its column (used by the party HUD) */
+.warden-resource-bar.small {
+    height: auto;
+    aspect-ratio: 300 / 64;
+}
+
 .warden-resource-bar:focus-visible {
     filter: drop-shadow(0 0 5px var(--spec-glow-color));
 }
@@ -48,12 +55,22 @@
     overflow: visible;
 }
 
-.warden-resource-bar.small {
-    height: 56px;
+/* Hardware is decorative except the ratchet dial, which opens the ledger */
+.warden-anchor {
+    pointer-events: none;
+}
+
+.warden-graft {
+    pointer-events: all;
+}
+
+.warden-graft:hover {
+    filter: brightness(1.25) drop-shadow(0 0 5px var(--spec-glow-color));
 }
 
 .warden-resource-bar.large {
-    height: 76px;
+    height: auto;
+    aspect-ratio: 300 / 64;
 }
 
 /* Character card / compact hud sizing */

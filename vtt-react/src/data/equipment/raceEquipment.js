@@ -350,7 +350,7 @@ export const VREKEN_BASE_ITEMS = [
     }
 ];
 
-// Neth base items
+// Nethien base items
 export const NETH_BASE_ITEMS = [
     {
         id: 'neth-death-ring',
@@ -380,7 +380,7 @@ export const NETH_BASE_ITEMS = [
         type: 'armor',
         subtype: 'LEATHER',
         quality: 'uncommon',
-        description: 'Boots of Atropolis ironwood, silent on the contract-house floors. A Neth debt-collector walks where the dying cannot hear.',
+        description: 'Boots of Atropolis ironwood, silent on the contract-house floors. A Nethien debt-collector walks where the dying cannot hear.',
         iconId: 'inv_boots_08',
         value: { platinum: 0, gold: 8, silver: 50, copper: 75 },
         weight: 2,
@@ -993,7 +993,7 @@ export const VREKEN_SUBRACE_ITEMS = [
     }
 ];
 
-// Neth subrace items
+// Nethien subrace items
 export const NETH_SUBRACE_ITEMS = [
     {
         id: 'vault-keeper-seal',
@@ -1001,7 +1001,7 @@ export const NETH_SUBRACE_ITEMS = [
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'uncommon',
-        description: 'A Kessen contract-seal stamped in bog-iron, authorizing the bearer to enter the deepest Atropolis vaults where the First Contract sleeps.',
+        description: 'A Veldun contract-seal stamped in bog-iron, authorizing the bearer to enter the deepest Atropolis vaults where the First Contract sleeps.',
         iconId: 'inv_misc_gem_pearl_05',
         value: { platinum: 0, gold: 9, silver: 50, copper: 75 },
         weight: 0.5,
@@ -1022,7 +1022,7 @@ export const NETH_SUBRACE_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'A Velun Neth quill that writes in silver-leaf ink, drafting contract-clauses so tight Morvane has never found a gap. The ink never dries.',
+        description: 'A Nethien quill that writes in silver-leaf ink, drafting contract-clauses so tight Morvane has never found a gap. The ink never dries.',
         iconId: 'inv_feather_12',
         value: { platinum: 0, gold: 7, silver: 85, copper: 25 },
         weight: 0.1,
@@ -1044,7 +1044,7 @@ export const NETH_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'A cloak of the Over-Shanty, woven from the legal nonexistence of the Drun. It wears the absence of a name.',
+        description: 'A cloak of the Over-Shanty, woven from the legal nonexistence of the Withered. It wears the absence of a name.',
         iconId: 'inv_misc_cape_20',
         value: { platinum: 0, gold: 10, silver: 50, copper: 75 },
         weight: 1,

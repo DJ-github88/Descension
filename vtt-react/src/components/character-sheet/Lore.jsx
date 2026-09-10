@@ -497,7 +497,7 @@ export default function Lore({ initialSection }) {
                 "Plaguebringer", "Revenant", "Spellguard", "Animist",
                 "Arcanoneer", "Shaper", "Berserker",
                 "Toxicologist", "Inquisitor",
-                "Lunarch", "Apex", "Warden"
+                "Lunarch", "Apex", "Warden", "Crusader"
             ];
             return (
                 <div key={field.key} className="lore-field">

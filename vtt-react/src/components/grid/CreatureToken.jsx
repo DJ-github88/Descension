@@ -14,6 +14,7 @@ import useSettingsStore from '../../store/settingsStore';
 // Removed useEnhancedMultiplayer import - hook was removed
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
+import CreatureAbilityConfirmDialog from './CreatureAbilityConfirmDialog';
 import Button from '../common/Button';
 import optimisticUpdatesService from '../../services/optimisticUpdatesService';
 import '../../styles/creature-token.css';
@@ -113,6 +114,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const [showAbilityFan, setShowAbilityFan] = useState(false);
   const abilityFanTimeoutRef = useRef(null);
   const abilityFanCloseTimeoutRef = useRef(null);
+  // True while the pointer is over the ability fan (bubbles or the portaled
+  // spell card). The creature tooltip is suppressed while it is set.
+  const abilityFanHoverRef = useRef(false);
 
   // Cancel any pending fan-open timer
   const clearAbilityFanOpenTimer = () => {
@@ -142,6 +146,14 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     }
   };
 
+  // Reset fan-hover tracking whenever the fan closes (quick-use dialog opens,
+  // token drag starts, …) so the creature tooltip is not muted on next hover.
+  useEffect(() => {
+    if (!showAbilityFan) {
+      abilityFanHoverRef.current = false;
+    }
+  }, [showAbilityFan]);
+
   // Custom amount modal state
   const [showCustomAmountModal, setShowCustomAmountModal] = useState(false);
   const [customAmountType, setCustomAmountType] = useState('');
@@ -161,6 +173,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Refs to track current state in event handlers
   const isDraggingRef = useRef(false);
   const isMouseDownRef = useRef(false);
+  const isHoveringRef = useRef(false);
   // Remove local state - use global store state instead
 
   const tokenRef = useRef(null);
@@ -762,33 +775,13 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                 startPosition: dragStartPosition,
                 finalPosition: finalWorldPos,
                 distance: validation.currentMovementFeet,
-                additionalAPNeeded: validation.additionalAPNeeded,
-                totalMovementAfterThis: validation.totalMovementAfterThis,
+                requiredAP: validation.additionalAPNeeded,
+                totalDistance: validation.totalMovementAfterThis,
                 baseMovement: effectiveSpeed,
                 currentAP: combatant?.currentActionPoints || 0,
                 movementUsedThisTurn: validation.movementUsedThisTurn,
                 feetPerTile: currentFeetPerTile,
-                currentMovementDistance: validation.currentMovementFeet,
-                onConfirm: () => {
-                  updateTokenPositionWithSync(tokenId, snappedFinalPos);
-                  if (typeof confirmMovement === 'function') {
-                    confirmMovement(tokenId, validation.additionalAPNeeded, validation.totalMovementAfterThis);
-                  }
-                  if (typeof logMovementToCombat === 'function') {
-                    logMovementToCombat(tokenId, creatures, validation.currentMovementFeet, dragStartPosition, snappedFinalPos);
-                  }
-                  if (typeof clearPendingMovementConfirmation === 'function') clearPendingMovementConfirmation();
-                  if (typeof clearMovementVisualization === 'function') clearMovementVisualization();
-                },
-                onCancel: () => {
-                  setLocalPosition(dragStartPosition);
-                  updateTokenPositionWithSync(tokenId, dragStartPosition);
-                  if (typeof clearPendingMovementConfirmation === 'function') clearPendingMovementConfirmation();
-                  if (typeof clearMovementVisualization === 'function') clearMovementVisualization();
-                  if (typeof updateTempMovementDistance === 'function') {
-                    updateTempMovementDistance(tokenId, 0);
-                  }
-                }
+                currentMovementDistance: validation.currentMovementFeet
               });
             }
           } else if (validation?.isValid) {
@@ -1145,6 +1138,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     if (!tokenRef.current) return;
 
     setIsHovering(true);
+    isHoveringRef.current = true;
 
     // Clear any existing timeout
     if (tooltipTimeoutRef.current) {
@@ -1190,16 +1184,20 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
     // Removed excessive logging for performance
 
-    // Show tooltip after 1.5 second delay
-    tooltipTimeoutRef.current = setTimeout(() => {
-      // Removed excessive logging for performance
-      setShowTooltip(true);
-    }, 1500);
+    // Show tooltip after 1.5 second delay — unless the pointer is on the
+    // ability fan, which must not summon the creature tooltip
+    if (!abilityFanHoverRef.current) {
+      tooltipTimeoutRef.current = setTimeout(() => {
+        // Removed excessive logging for performance
+        if (!abilityFanHoverRef.current) setShowTooltip(true);
+      }, 1500);
+    }
   };
 
   // Handle mouse leave (hide tooltip)
   const handleMouseLeave = () => {
     setIsHovering(false);
+    isHoveringRef.current = false;
     // Clear timeout and hide tooltip
     if (tooltipTimeoutRef.current) {
       clearTimeout(tooltipTimeoutRef.current);
@@ -1210,6 +1208,32 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     // token or any bubble cancels the close (see handleMouseEnter).
     clearAbilityFanOpenTimer();
     if (showAbilityFan) {
+      scheduleAbilityFanClose(600);
+    }
+  };
+
+  // Ability fan hover: while the pointer is over a bubble or the portaled spell
+  // card, keep the creature tooltip hidden and the fan alive (the card lives
+  // outside the token subtree, so it cannot re-fire the enter/leave handlers).
+  const handleAbilityFanHoverChange = (isOverFan) => {
+    abilityFanHoverRef.current = isOverFan;
+    if (isOverFan) {
+      if (tooltipTimeoutRef.current) {
+        clearTimeout(tooltipTimeoutRef.current);
+        tooltipTimeoutRef.current = null;
+      }
+      setShowTooltip(false);
+      cancelAbilityFanClose();
+      return;
+    }
+    if (isHoveringRef.current) {
+      // Pointer came back to the token body: re-arm the tooltip delay
+      if (tooltipTimeoutRef.current) clearTimeout(tooltipTimeoutRef.current);
+      tooltipTimeoutRef.current = setTimeout(() => {
+        if (!abilityFanHoverRef.current) setShowTooltip(true);
+      }, 1500);
+    } else {
+      // Pointer left the fan entirely: let the fan close after the grace period
       scheduleAbilityFanClose(600);
     }
   };
@@ -1253,14 +1277,88 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   }, [isHovering, token, tokenId, fovAngle, isViewingFrom, getTokenFacingDirection, setTokenFacingDirection]);
 
   // GM quick-use of a creature ability from the hover fan-out:
-  // logs the usage to combat chat and rolls the ability's damage formula inline.
+  // opens a confirmation popup; on confirm deducts AP + mana from THIS
+  // creature token's resources and logs the usage to combat chat.
   // Must be declared before any early returns (Rules of Hooks).
+  const [pendingAbilityUse, setPendingAbilityUse] = useState(null);
+
   const handleQuickUseAbility = useCallback((ability, rollText) => {
-    if (!creature || !token) return;
+    if (!creature || !token || !ability) return;
+    // Hide the fan so the confirmation dialog is unobstructed; the grace
+    // close timer is cleared to avoid flicker when the dialog closes.
+    clearAbilityFanOpenTimer();
+    cancelAbilityFanClose();
+    setShowAbilityFan(false);
+    setPendingAbilityUse({ ability, rollText });
+  }, [creature, token]);
+
+  const handleCancelAbilityUse = useCallback(() => {
+    setPendingAbilityUse(null);
+  }, []);
+
+  const handleConfirmAbilityUse = useCallback(() => {
+    if (!creature || !token || !pendingAbilityUse) return;
+    const { ability, rollText } = pendingAbilityUse;
+    const apCost = Number(ability.apCost || 0);
+    const manaCost = Number(ability.manaCost || 0);
+
+    const baseAP = Number(token.state?.currentActionPoints ?? creature.stats?.maxActionPoints ?? 0);
+    const tempAP = Number(token.state?.tempActionPoints || 0);
+    const baseMana = Number(token.state?.currentMana ?? creature.stats?.maxMana ?? 0);
+    const tempMana = Number(token.state?.tempMana || 0);
+
+    // Spend temp pools first, then base — mirrors handleResourceUpdate.
+    let remainingAP = apCost;
+    let newTempAP = tempAP;
+    let newBaseAP = baseAP;
+    if (remainingAP > 0) {
+      const fromTemp = Math.min(newTempAP, remainingAP);
+      newTempAP -= fromTemp;
+      remainingAP -= fromTemp;
+      newBaseAP = Math.max(0, newBaseAP - remainingAP);
+    }
+    let remainingMana = manaCost;
+    let newTempMana = tempMana;
+    let newBaseMana = baseMana;
+    if (remainingMana > 0) {
+      const fromTemp = Math.min(newTempMana, remainingMana);
+      newTempMana -= fromTemp;
+      remainingMana -= fromTemp;
+      newBaseMana = Math.max(0, newBaseMana - remainingMana);
+    }
+
+    const updates = {};
+    if (apCost > 0) {
+      updates.currentActionPoints = newBaseAP;
+      updates.tempActionPoints = newTempAP;
+    }
+    if (manaCost > 0) {
+      updates.currentMana = newBaseMana;
+      updates.tempMana = newTempMana;
+    }
+    if (Object.keys(updates).length > 0) {
+      updateTokenState(tokenId, updates);
+    }
+
+    // Sync to combat timeline if in combat
+    try {
+      const combatState = useCombatStore.getState();
+      if (combatState.isInCombat) {
+        if (apCost > 0 && typeof combatState.updateCombatantAP === 'function') {
+          combatState.updateCombatantAP(tokenId, newBaseAP);
+        }
+        if (manaCost > 0 && typeof combatState.updateCombatantMana === 'function') {
+          combatState.updateCombatantMana(tokenId, newBaseMana);
+        }
+      }
+    } catch (err) {
+      console.warn('Could not sync ability cost to combat store:', err);
+    }
+
     const displayName = token.state?.customName || creature.name;
     const costParts = [];
-    if (ability.apCost > 0) costParts.push(`${ability.apCost} AP`);
-    if (ability.manaCost > 0) costParts.push(`${ability.manaCost} MP`);
+    if (apCost > 0) costParts.push(`${apCost} AP`);
+    if (manaCost > 0) costParts.push(`${manaCost} MP`);
     const costSuffix = costParts.length > 0 ? ` (${costParts.join(', ')})` : '';
     addCombatNotification({
       type: 'combat',
@@ -1268,7 +1366,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       content: `⚔️ ${displayName} uses ${ability.name}${costSuffix}${rollText ? ` — ${rollText}` : ''}`,
       timestamp: new Date().toISOString()
     });
-  }, [creature, token, addCombatNotification]);
+    setPendingAbilityUse(null);
+  }, [creature, token, tokenId, pendingAbilityUse, updateTokenState, addCombatNotification]);
 
   // Add wheel event listener with passive: false to allow preventDefault
   // Use capture phase to ensure it fires before Grid's document-level handler
@@ -1586,8 +1685,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       const { tokenId: pendingTokenId, startPosition } = pendingMovementConfirmation;
 
 
-      // Revert token to start position
+      // Revert token to start position (store + local visual state)
       updateTokenPositionWithSync(pendingTokenId, startPosition);
+      setLocalPosition(startPosition);
 
       // Clear temporary movement distance
       updateTempMovementDistance(pendingTokenId, 0);
@@ -2236,6 +2336,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             abilities={creatureAbilities}
             radius={Math.max(84, tokenSize / 2 + 48)}
             onUseAbility={handleQuickUseAbility}
+            onFanHoverChange={handleAbilityFanHoverChange}
           />
         )}
 
@@ -3041,12 +3142,32 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
       {/* Movement Visualization - Now rendered at Grid level for correct positioning */}
 
-      {/* Movement Confirmation Dialog */}
+      {/* Movement Confirmation Dialog
+          CRITICAL FIX: only the token that owns the pending movement may render
+          this dialog. Every token instance subscribes to the same global
+          pendingMovementConfirmation, so without this gate ALL tokens render a
+          stacked copy and the topmost (wrong) instance's handlers win. */}
       <MovementConfirmationDialog
-        isOpen={!!pendingMovementConfirmation}
+        isOpen={!!pendingMovementConfirmation && pendingMovementConfirmation.tokenId === tokenId}
         onConfirm={handleConfirmMovement}
         onCancel={handleCancelMovement}
         movementData={pendingMovementConfirmation}
+      />
+
+      {/* Creature ability-use confirmation (GM hover fan-out) */}
+      <CreatureAbilityConfirmDialog
+        isOpen={!!pendingAbilityUse}
+        creatureName={token?.state?.customName || creature?.name || 'Creature'}
+        ability={pendingAbilityUse?.ability || null}
+        rollText={pendingAbilityUse?.rollText || null}
+        currentAP={Number(token?.state?.currentActionPoints ?? creature?.stats?.maxActionPoints ?? 0)}
+        tempAP={Number(token?.state?.tempActionPoints || 0)}
+        maxAP={Number(creature?.stats?.maxActionPoints ?? 0)}
+        currentMana={Number(token?.state?.currentMana ?? creature?.stats?.maxMana ?? 0)}
+        tempMana={Number(token?.state?.tempMana || 0)}
+        maxMana={Number(creature?.stats?.maxMana ?? 0)}
+        onConfirm={handleConfirmAbilityUse}
+        onCancel={handleCancelAbilityUse}
       />
 
       {/* Conditions Window */}

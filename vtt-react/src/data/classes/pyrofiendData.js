@@ -136,7 +136,7 @@ export const PYROFIEND_DATA = {
 
  worldFriction: [
     { region: 'frostwood-reach', status: 'banned', consequence: 'Thalren town elders ban Pyrofiends from entering wooden settlements; the uncontained heat melts protective frost-wards.', workaround: 'Wear enchanted cooling mantles and sleep outside town walls.' },
-    { region: 'bryngloom-forest', status: 'hunted', consequence: 'Neth peat-harvesters execute Pyrofiends on sight to prevent catastrophic subterranean peat fires.', workaround: 'Extinguish all open flames and mask thermal auras with bog mud.' },
+    { region: 'bryngloom-forest', status: 'hunted', consequence: 'Nethien peat-harvesters execute Pyrofiends on sight to prevent catastrophic subterranean peat fires.', workaround: 'Extinguish all open flames and mask thermal auras with bog mud.' },
     { region: 'sundale', status: 'restricted', consequence: 'Great Forge smiths welcome Pyrofiend heat for extreme smelting, but require iron collars to prevent spontaneous combustion.', workaround: 'Submit to forge-guild supervision.' },
     { region: 'emberspire', status: 'revered', consequence: 'Waste-Solari calderas treat Pyrofiends as living holy avatars of Scathrach\'s primordial ash.', workaround: 'None needed in the caldera heart.' }
   ],
@@ -162,7 +162,7 @@ Scathrach is calling in all debts simultaneously. The Final Convocation at Ember
     title: "Class Overview",
     content: `**Who they are**: The Pyrofiend is a reckless, explosive fire mage who has surrendered their flesh to Scathrach, the primordial Ashen Sovereign. You don't channel polite magic—you are a living volcanic combustion chamber whose fire burns hotter the more you push your own sanity to the brink.
 
-**The hook**: You wield **Uncapped Firepower**: your spells deal overwhelming area-of-effect and single-target fire damage that ignores ordinary fire resistances, melting Durability and setting the very terrain ablaze.
+**The hook**: You wield **Uncapped Firepower**: your spells deal overwhelming area-of-effect and single-target ember damage that ignores ordinary fire resistances, melting Durability and setting the very terrain ablaze.
 
 **The resource bar & costs**: Your resource bar is the **Inferno Veil** (Tiers 1–10). Every fire spell you cast builds Corruption and raises your Veil, granting explosive flat damage bonuses to all attacks. However, at Tier 5+, the Ashen Sovereign threatens to seize control, requiring Spirit saves to prevent your fire from scorching friends alongside foes.
 
@@ -173,11 +173,11 @@ Scathrach is calling in all debts simultaneously. The Final Convocation at Ember
     },
     combatRole: {
       title: "Combat Role",
-      content: "Damned fire conduit who ascends through 10 Inferno Veil levels to gain escalating fire damage, balancing demon whispers against a Level 9 death clock."
+      content: "Damned fire conduit who ascends through 10 Inferno Veil levels to gain escalating ember damage, balancing demon whispers against a Level 9 death clock."
     },
     playstyle: {
       title: "Playstyle & Turn 1 Flow",
-      content: "**Your Turn 1 in Combat**:\n1. **Ignite Inferno Veil**: Cast `Ashen Dart` or `Caldera Eruption` to ascend to Veil Level 1-2.\n2. **Ride the Heat Curve**: Deal escalating fire damage while monitoring the Veil 5+ demonic whisper check.\n3. **Vent Before Level 9**: Spend heat on massive release spells before hitting the 3-turn permanent death clock."
+      content: "**Your Turn 1 in Combat**:\n1. **Ignite Inferno Veil**: Cast `Ashen Dart` or `Caldera Eruption` to ascend to Veil Level 1-2.\n2. **Ride the Heat Curve**: Deal escalating ember damage while monitoring the Veil 5+ demonic whisper check.\n3. **Vent Before Level 9**: Spend heat on massive release spells before hitting the 3-turn permanent death clock."
     }
   },
 
@@ -280,7 +280,7 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 
  immersiveCombatExample: {
   title: "Combat Example: The Infernal Ascension",
-  content: `**The Setup**: You're a Pyrofiend (Inferno specialization) facing a powerful ice elemental and its minions (1 ice elemental + 4 frost wraiths). Your party is with you. Starting Inferno Level: 0. Starting Mana: 60/60. Your goal: Ascend through Inferno Levels to maximize ember damage, but manage the increasingly severe drawbacks. Remember, rime damage forces your Veil to ascend (+1 Inferno per cold attack received) as Scathrach's furnace burns hotter to compensate.
+  content: `**The Setup**: You're a Pyrofiend (Inferno specialization) facing a powerful ice elemental and its minions (1 ice elemental + 4 rime wraiths). Your party is with you. Starting Inferno Level: 0. Starting Mana: 60/60. Your goal: Ascend through Inferno Levels to maximize ember damage, but manage the increasingly severe drawbacks. Remember, rime damage forces your Veil to ascend (+1 Inferno per cold attack received) as Scathrach's furnace burns hotter to compensate.
 
 **Starting State**: Inferno Level: 0/9 | Ember Damage Bonus: +0 | Mana: 60/60 | HP: 45/45
 
@@ -290,7 +290,7 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 
 **Your Action**: Cast "Ember Spark" at Ice Elemental (3 mana, ascends +1 Inferno)
 **Attack Roll**: d20+7 ? [16] = Hit!
-**Base Damage**: 1d6 fire ? [5] = 5 ember damage
+**Base Damage**: 1d6 ember ? [5] = 5 ember damage
 **Inferno Bonus**: +0 (currently at Level 0)
 **DoT Applied**: 1d4 ember damage per round for 2 rounds
 **Total Damage**: **5 ember damage** (plus ongoing burn)
@@ -429,7 +429,7 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 **HP**: 33 - 8 = 25/45
 
 **Your Action**: Cast "Ember Spark" at Frost Wraith (3 mana, ascends +1)
-**Damage Roll**: 1d6 fire ? [5] = 5 ember damage + 1d4 DoT ? ongoing
+**Damage Roll**: 1d6 ember ? [5] = 5 ember damage + 1d4 DoT ? ongoing
 **Inferno Bonus**: +7
 **Total Damage**: 5 + 7 = **12 ember damage**
 
@@ -500,7 +500,7 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
  subtitle: "How Your Resource Works (Beginner's Guide)",
 
  description: `**1. What is it? (The Thermometer)**
-Veil (Levels 0–9) represents the infernal combustion burning inside your body. Each level adds flat bonus fire damage to all your attacks.
+Veil (Levels 0–9) represents the infernal combustion burning inside your body. Each level adds flat bonus ember damage to all your attacks.
 
 **2. How do I build it?**
 - Cast fire and magma spells to ascend Veil levels (+1 level per major cast).
@@ -2519,7 +2519,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
    threshold: 3,
    effect: "+5 Ember Damage + Burning Aura",
    description:
-    "Wyrd-power intensifies, enemies within 5 ft take 1d6 fire",
+    "Wyrd-power intensifies, enemies within 5 ft take 1d6 ember",
    },
    {
    threshold: 5,
@@ -2902,7 +2902,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
    { id : "massiveFireBoost",
    name: "Massive Fire Boost",
    description:
-    "+10 Fire Spell Power for 3 rounds. A ritual of infernal power dramatically surges through your fire magic.",
+    "+10 ember Spell Power for 3 rounds. A ritual of infernal power dramatically surges through your fire magic.",
    mechanicsText: "",
    statModifier: {
     stat: "fire_spell_power",
@@ -2927,19 +2927,19 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   stages: [
    {
    threshold: 1,
-   effect: "+10 Fire Spell Power",
+   effect: "+10 ember Spell Power",
    description: "Infernal ritual begins, fire magic surges",
    },
    {
    threshold: 2,
-   effect: "+10 Fire Spell Power + Burning Aura",
+   effect: "+10 ember Spell Power + Burning Aura",
    description:
-    "Wyrd-flames radiate outward, enemies within 10 ft take 2d6 fire per round",
+    "Wyrd-flames radiate outward, enemies within 10 ft take 2d6 ember per round",
    },
    {
    threshold: 3,
    effect:
-    "+10 Fire Spell Power + Burning Aura + Inferno Amplification",
+    "+10 ember Spell Power + Burning Aura + Inferno Amplification",
    description:
     "Ritual climax, all inferno level bonuses doubled for the final round",
    },
@@ -3074,7 +3074,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     },
    { id : "demonicAscension_fire",
    name: "Fire Mastery",
-   description: "+15 fire spell power",
+   description: "+15 ember spell power",
    mechanicsText: "",
    statModifier: {
     stat: "fire_spell_power",

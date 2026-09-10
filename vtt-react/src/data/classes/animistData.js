@@ -103,14 +103,14 @@ export const ANIMIST_DATA = {
     },
 
     velun_neth: {
-      subraceName: 'Velun Neth',
+      subraceName: 'Nethien',
       title: 'The Ledger-Summoner',
-      reframe: `The <LoreLink termId="neth">Velun Neth</LoreLink> carry Morvane's authority in every word they speak, and Morvane does not forget. Adapted from the Ordan ancestor-compass technique through archival synthesis: the Velun Neth took the concept of summoning the dead and made it legally binding. A Velun Neth Animist does not commune with the dead; they *file a request*. The ancestor is a recorded entry in the great archive of <LoreLink termId="atropolis">Atropolis</LoreLink>, summoned through proper citation, offer, and acknowledgment of outstanding obligation.`,
+      reframe: `The <LoreLink termId="neth">Nethien</LoreLink> carry Morvane's authority in every word they speak, and Morvane does not forget. Adapted from the Ordan ancestor-compass technique through archival synthesis: the Nethien took the concept of summoning the dead and made it legally binding. A Nethien Animist does not commune with the dead; they *file a request*. The ancestor is a recorded entry in the great archive of <LoreLink termId="atropolis">Atropolis</LoreLink>, summoned through proper citation, offer, and acknowledgment of outstanding obligation.`,
       signatureAbility: {
         name: 'Ledger-Citation',
-        description: `Spirits are summoned by referencing their exact entry in the archive; the more precise the citation (full name, dates, contract history), the stronger the bond. A mis-citation summons the wrong ancestor, and the Velun Neth cannot legally dismiss what they have invoked.`
+        description: `Spirits are summoned by referencing their exact entry in the archive; the more precise the citation (full name, dates, contract history), the stronger the bond. A mis-citation summons the wrong ancestor, and the Nethien cannot legally dismiss what they have invoked.`
       },
-      currentCrisisAngle: `The Velun Neth are the tradition most committed to a unified ancestral language, it is their filing system. The dialect-fracture is, to them, a corruption of the archive itself. Some senior Ledger-Summoners suspect the <LoreLink termId="morvane">Morvane</LoreLink> is permitting it, that the death-threshold guardian is, for reasons of its own, redacting the dead.`,
+      currentCrisisAngle: `The Nethien are the tradition most committed to a unified ancestral language, it is their filing system. The dialect-fracture is, to them, a corruption of the archive itself. Some senior Ledger-Summoners suspect the <LoreLink termId="morvane">Morvane</LoreLink> is permitting it, that the death-threshold guardian is, for reasons of its own, redacting the dead.`,
       signatureQuote: {
         text: '"You speak to your ancestors. I file a motion to hear mine. The difference is that mine always answer, and the answer is always admissible."',
         speaker: 'Clerk Vel-Ossaren',
@@ -162,7 +162,7 @@ export const ANIMIST_DATA = {
     founder: {
       name: 'Kael the Herd-Runner',
       status: `Dead. The first of the three named Animist founders, an Ordan throat-singer who sat motionless for three seasons in the Sundrift Vale, letting bone and root erupt from his flesh until the wind-spirits claimed him as kin. The practice predates writing  —  it was navigation, not philosophy. The Ordan do not know who first sang the dead into the wind, only that when the stars went dark, Kael began singing ancestor-names and the herds still found their way.`,
-      note: `Kael is canonically one of three co-founders of the Animist tradition (alongside Nyssa the Herbalist and Theron the Skald Scholar). The Ordan throat-singing tradition lives entirely in muscle-memory, teacher to student, voice to voice, and Kael is the root of that lineage. Later traditions (Skald, Vreken, Astril, Velun Neth) all trace their root technique to Kael's work.`
+      note: `Kael is canonically one of three co-founders of the Animist tradition (alongside Nyssa the Herbalist and Theron the Skald Scholar). The Ordan throat-singing tradition lives entirely in muscle-memory, teacher to student, voice to voice, and Kael is the root of that lineage. Later traditions (Skald, Vreken, Astril, Nethien) all trace their root technique to Kael's work.`
     },
     currentLeader: {
       name: 'Bayar Wind-Throat',
@@ -176,7 +176,7 @@ export const ANIMIST_DATA = {
   worldFriction: [
     { region: 'nordhalla', status: 'persecuted', consequence: 'The Cleansing of the Hearth, House Skalvyr religious purge, explicitly targets tribal Animists and Sky-Readers. Practitioners caught throat-singing or skin-carving are arrested; the Runic Academies denounce ancestral communion as heresy.', workaround: 'The Skald Rune-Keeper variant survives by framing its practice as genealogy rather than magic, the runes read as record-keeping to inquisitors who do not look too closely.' },
     { region: 'sundrift-vale', status: 'persecuted', consequence: 'House Ordavan systematically purges Sky-Singers under the state-enforced ancestor worship. Ordan throat-sung Animists are the most hunted; their overtones carry for miles and cannot be hidden.' },
-    { region: 'bryngloom-forest', location: 'atropolis', status: 'tolerated', consequence: 'The Velun Neth Ledger-Summoners are legally protected as archival practice; the Vreken spore-elders are tolerated as a forest-floor fixture. Bryngloom is the safest region for an Animist, provided they do not disturb the Root-Veil.' }
+    { region: 'bryngloom-forest', location: 'atropolis', status: 'tolerated', consequence: 'The Nethien Ledger-Summoners are legally protected as archival practice; the Vreken spore-elders are tolerated as a forest-floor fixture. Bryngloom is the safest region for an Animist, provided they do not disturb the Root-Veil.' }
   ],
 
   overview: {
@@ -230,7 +230,7 @@ The ancestral language that all practitioners share is fading. The older dead, t
     roleplayIdentity: {
       title: "Roleplay Identity",
       content: `**HISTORY: ONE DISCOVERY, MANY VOICES**
-The Animist was born not from three founders but from a single crisis. When the stars went dark over the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>, the Ordan throat-singers discovered that the dead remember what the living forget: the migration routes, the old paths, the names of places no living Ordan had seen. They turned their overtones from star-names to ancestor-names, and this single technique  —  the dead as compass  —  spread along the Hunger Road through trade, through the Bryngloom border through contact, through Neth contract-culture through legal adaptation, through Astril symbiosis through blood-memory, and through Velun Neth archives through citation.
+The Animist was born not from three founders but from a single crisis. When the stars went dark over the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>, the Ordan throat-singers discovered that the dead remember what the living forget: the migration routes, the old paths, the names of places no living Ordan had seen. They turned their overtones from star-names to ancestor-names, and this single technique  —  the dead as compass  —  spread along the Hunger Road through trade, through the Bryngloom border through contact, through Nethien contract-culture through legal adaptation, through Astril symbiosis through blood-memory, and through Nethien archives through citation.
 
 There were no three founders. There was one lost Ordan throat-singer whose name was never recorded, a Skald trader who heard the songs at a Groven span-crossing and carved the first ancestor-rune into his own skin, and a Clean Vreken who walked into the bog after trading with Ordan herders and inhaled the first spore with intent. This is how knowledge spreads: through contact, not coincidence.
 
@@ -238,7 +238,7 @@ There were no three founders. There was one lost Ordan throat-singer whose name 
 Animists are viewed with a mixture of deep respect and visceral fear. Their bone spurs, glowing inscriptions, and spirit-static hallucinations make them unmistakable. They are essential in wilderness expeditions and siege defense, but unsettling in settled communities.
 
 **RACES & CULTURAL AFFILIATION**
-The root technique originated among the <LoreLink termId="house_ordavan">Ordan</LoreLink> humans of the Sundrift Vale. It spread to the <LoreLink termId="skald">Skald</LoreLink> via the Hunger Road, to the Clean <LoreLink termId="vreken">Vreken</LoreLink> through Bryngloom border trade, to the <LoreLink termId="house_morrath">Vreken</LoreLink> through Neth contract-culture adapting the concept of ancestor-summoning as debt-recitation, to the Earthen Astril and Stellar Astril <LoreLink termId="astril">Astril</LoreLink> through steppe cohabitation and Lumia heritage, and to the Velun <LoreLink termId="neth">Neth</LoreLink> through archival synthesis and legal citation. Each culture adapted the same root discovery to its own medium.
+The root technique originated among the <LoreLink termId="house_ordavan">Ordan</LoreLink> humans of the Sundrift Vale. It spread to the <LoreLink termId="skald">Skald</LoreLink> via the Hunger Road, to the Clean <LoreLink termId="vreken">Vreken</LoreLink> through Bryngloom border trade, to the <LoreLink termId="house_morrath">Vreken</LoreLink> through Nethien contract-culture adapting the concept of ancestor-summoning as debt-recitation, to the Earthen Astril and Stellar Astril <LoreLink termId="astril">Astril</LoreLink> through steppe cohabitation and Lumia heritage, and to the <LoreLink termId="neth">Nethien</LoreLink> through archival synthesis and legal citation. Each culture adapted the same root discovery to its own medium.
 
 **NOTABLE FIGURES**
 * **Kael the Herd-Runner**: The Ordan throat-singer who first sang ancestor-names instead of star-names when the sky went dark. Sat motionless for three seasons in the Sundrift Vale, letting bone and root erupt from his flesh until the wind-spirits claimed him as kin. Navigation, not worship.
@@ -277,9 +277,9 @@ Some senior practitioners  —  Bayar Wind-Throat among them  —  suspect the M
 **Three-Tradition Conduit**: You do not pay in blood � you pay in attention. Every turn you choose where to invest resonance: a totem for zone control, a curse for resonance generation, or a rune for a permanent network. The skill is weaving all three without hoarding enough resonance to trigger Spirit Erosion.
 
 **Weaknesses**:
-- Ember Glasshouse: at 15+ Resonance you take double fire damage � a single torch or ember spell can drop you in one hit.
+- Ember Glasshouse: at 15+ Resonance you take double ember damage � a single torch or ember spell can drop you in one hit.
 - Beyond Healing: at 15+ Resonance no ally's healing touches you; you survive only on your own totems and stolen souls.
-- Shove-Bait: any forced movement detonates every active rune for 1d10 force each � smart enemies weaponize knockback and teleports against you.
+- Shove-Bait: any forced movement detonates every active rune for 1d10 arcane each � smart enemies weaponize knockback and teleports against you.
 - Rooted to Cast: totems and runes demand you stay planted; mobile foes simply walk out of your setup before it pays off.
 - Resonance Treadmill: you must keep casting to stay useful � stop generating/spending and you neither build power nor control the field; a silenced or CC-locked Animist stalls out completely.
 - Hoarder's Wrath: sit on high Resonance without spending and the spirits claw 1d6 wyrd damage into you every turn.`
@@ -315,7 +315,7 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
       {
         title: "Spirit Erosion",
         stats: "Triple Catastrophic Flaw (15+ Resonance)",
-        details: "100% ember vulnerability. Cannot receive party healing. Forced movement shatters runic networks (1d10 force per active rune). Spirits demand service: 1d6 wyrd/turn if 15+ resonance and no invocation/spend this turn."
+        details: "100% ember vulnerability. Cannot receive party healing. Forced movement shatters runic networks (1d10 arcane per active rune). Spirits demand service: 1d6 wyrd/turn if 15+ resonance and no invocation/spend this turn."
       },
       {
         title: "Resonance Economy",
@@ -360,7 +360,7 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
     description: "The Animist chooses how to balance the three ancestral traditions. Each specialization emphasizes a different fusion of totemic power, spirit invocation, and runic inscription.",
     passiveAbility: {
       name: "Resonance",
-      description: "At 15+ Resonance: 100% ember vulnerability, cannot receive party healing, forced movement shatters runic networks (1d10 force/active rune), and 1d6 wyrd/turn if hoarding without spending."
+      description: "At 15+ Resonance: 100% ember vulnerability, cannot receive party healing, forced movement shatters runic networks (1d10 arcane/active rune), and 1d6 wyrd/turn if hoarding without spending."
     },
     specs: [
       {
@@ -424,7 +424,7 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
         strengths: [
           "Inscribe ally weapons with +2 attack/saves and lifesteal siphoning",
           "Healing totems generate +1 additional resonance and heal 50% more",
-          "Lightning damage +1d6 when standing near Storm Totem",
+          "Storm damage +1d6 when standing near Storm Totem",
           "Sunder-Stream invocation costs 2 less; Hearth-Singer costs 2 less for clutch healing"
         ],
         weaknesses: [
@@ -435,7 +435,7 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
         ],
         specPassive: {
           name: "Stormbrand Inscription",
-          description: "When you carve an inscription onto an ally, the ally gains +2 to attacks and saves for 5 rounds. Their weapon siphons life, healing 20% of damage dealt. Your spells deal +1d6 lightning damage near a Storm Totem. Sunder-Stream and Hearth-Singer invocations cost 2 less resonance."
+          description: "When you carve an inscription onto an ally, the ally gains +2 to attacks and saves for 5 rounds. Their weapon siphons life, healing 20% of damage dealt. Your spells deal +1d6 storm damage near a Storm Totem. Sunder-Stream and Hearth-Singer invocations cost 2 less resonance."
         },
       }
     ]
@@ -527,7 +527,7 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
 },
     { id : "animist_crimson_brand",
       name: "Crimson Brand",
-      description: "Carve a bloody brand onto an ally's weapon, adding force damage to strikes. Generates 1 Resonance.",
+      description: "Carve a bloody brand onto an ally's weapon, adding arcane damage to strikes. Generates 1 Resonance.",
       level: 1,
       spellType: "ACTION",
       icon: "Slashing/Bloody Slash",
@@ -536,7 +536,7 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: undefined, targetRestrictions: ["allies"] },
       resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 4, classResource: { type: "resonance", cost: -1 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-      buffConfig: { buffType: "statEnhancement", effects: [{ id : "animist_brand_force", name: "Crimson Brand", description: "Weapon strikes deal +1d4 force damage.", mechanicsText: "+1d4 force damage on hit." }], durationType: "rounds", durationValue: 5, durationUnit: "rounds", canBeDispelled: true },
+      buffConfig: { buffType: "statEnhancement", effects: [{ id : "animist_brand_force", name: "Crimson Brand", description: "Weapon strikes deal +1d4 arcane damage.", mechanicsText: "+1d4 arcane damage on hit." }], durationType: "rounds", durationValue: 5, durationUnit: "rounds", canBeDispelled: true },
       resolution: "AUTOMATIC",
       tags: ["buff","brand","starter","physical"]
     ,

@@ -10,6 +10,12 @@ import subscriptionService from '../../services/subscriptionService';
 
 import { RACE_DATA } from '../../data/raceData';
 
+import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
+
+import { getIconUrl } from '../../utils/assetManager';
+
+import { getClassIconUrl } from '../../utils/classIconUtils';
+
 import './styles/CharacterManagement.css';
 
 
@@ -56,7 +62,7 @@ const CharacterManagement = ({ user }) => {
 
    'mimir': '🎭', 'Mimir': '🎭',
 
-   'neth': '📜', 'Neth': '📜',
+   'neth': '📜', 'Nethien': '📜',
 
 
 
@@ -90,7 +96,7 @@ const CharacterManagement = ({ user }) => {
 
    'Toxicologist': 'To', 'Warden': 'Ga', 'Augur': 'Au',
 
-   'Augur': 'Au'
+   'Crusader': 'Cr'
 
   };
 
@@ -452,13 +458,13 @@ const CharacterManagement = ({ user }) => {
 
              <img src={character.image || character.lore?.characterImage} alt={character.name} width="50" height="50" />
 
-            ) : character.characterIcon || character.lore?.characterIcon ? (
+            ) : character.characterIcon || character.lore?.characterIcon || getClassIconUrl(character.class) ? (
 
              <>
 
               <img 
 
-               src={`https://wow.zamimg.com/images/wow/icons/large/${character.characterIcon || character.lore?.characterIcon}.jpg`} 
+               src={(() => { const icon = character.characterIcon || character.lore?.characterIcon; if (icon) return getIconUrl(icon, icon.includes('/') ? 'creatures' : 'items'); return getClassIconUrl(character.class) || ''; })()} 
 
                alt={character.name}
 
@@ -538,7 +544,7 @@ const CharacterManagement = ({ user }) => {
 
                if (character.raceDisplayName) {
 
-                return character.raceDisplayName;
+                return normalizeRaceDisplayName(character.raceDisplayName);
 
                }
 

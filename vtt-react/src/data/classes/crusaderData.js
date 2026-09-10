@@ -59,7 +59,7 @@ export const CRUSADER_ABILITIES = [
     {
       id: "crusader_solar_beacon",
       name: "Solar Beacon",
-      description: "Plant a pillar of consecrated starlight. Allies within 15ft gain +2 to saves and recover 1d6 HP per round. Deals radiant damage to undead/wyrd foes.",
+      description: "Plant a pillar of consecrated starlight. Allies within 15ft gain +2 to saves and recover 1d6 HP per round. Deals sacred damage to undead/wyrd foes.",
       level: 3,
       spellType: "ACTION",
       icon: "Radiant/Radiant Divinity",
@@ -81,9 +81,9 @@ export const CRUSADER_ABILITIES = [
       effectTypes: ["buff", "shield"],
       typeConfig: { school: "sacred", icon: "Radiant/Radiant Golden Shield", tags: ["sacred", "shield", "retaliation", "crusader"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["ally"] },
-      resourceCost: { actionPoints: 1, mana: 8, classResource: { type: "fervor", gain: 20 } },
+      resourceCost: { actionPoints: 1, mana: 8, classResource: { type: "fervor", cost: 25 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      customMechanic: "Spends 25 Fervor."
+      customMechanic: "Spends 25 Fervor. Absorbs 40 damage and retaliates for 2d8 sacred."
     },
     {
       id: "crusader_judgment_day_cataclysm",
@@ -98,7 +98,7 @@ export const CRUSADER_ABILITIES = [
       resourceCost: { actionPoints: 2, mana: 15, classResource: { type: "fervor", cost: 100 } },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       damageConfig: { formula: "8d10 + strength * 2", damageTypes: ["sacred", "smashing"], resolution: "DICE" },
-      customMechanic: "Spends 50 Fervor."
+      customMechanic: "Spends 100 Fervor."
     },
   
   // ━━━ LEVEL 1 ━━━
@@ -942,7 +942,7 @@ export const CRUSADER_DATA = {
       "fexric"
     ],
     narrativeUnlock: true,
-    justification: "Requires proximity to Solvan starlight relics or Emberspire's radiant calderas. Mimir are too identity-fragile to sustain Aex's song. Neth cannot reconcile starlight zeal with Morvane's legal contracts. Groven are vat-born creatures whose biology rejects sacred harmonics."
+    justification: "Requires proximity to Solvan starlight relics or Emberspire's radiant calderas. Mimir are too identity-fragile to sustain Aex's song. Nethien cannot reconcile starlight zeal with Morvane's legal contracts. Groven are vat-born creatures whose biology rejects sacred harmonics."
   },
 
   livingOrder: {

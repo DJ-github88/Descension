@@ -413,20 +413,20 @@ const AugurResourceBar = ({
             </div>
 
             {/* Shared ClassTip Tooltip */}
-            {showTooltip && ReactDOM.createPortal(
+            {showTooltip && !showControls && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip augur-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     <ClassTip
                         icon="fas fa-eye"
                         tint="#f59e0b"
                         title="Astrolabe of Dual Omens"
-                        subtitle="Augur Dual Omen Astrolabe"
+                        subtitle="Augur Benediction & Malediction"
                         state={`${benediction}/${maxBenediction} Light · ${malediction}/${maxMalediction} Dark`}
                         stateTone={inDebt ? 'bad' : 'neutral'}
-                        mechanic="Every d20 within 60 ft births an omen: even → Benediction (force misses, ward allies), odd → Malediction (cripple, curse, rot). No blood nearby? Draw Blood (1d6 slashing + Bleed) to generate."
+                        mechanic="Every d20 rolled by anyone within 60 ft banks an omen: even = Benediction (wards, forced misses), odd = Malediction (curses, rot). With no fresh blood nearby, invoke Blood Price — 1d6 slicing damage and 3 rounds of self-bleed for +2 omens."
                         status={[
-                            benediction > 0 ? `${benediction} radiant banked — force a miss or ward an ally.` : 'No radiant banked.',
-                            malediction > 0 ? `${malediction} dark banked — curse something.` : 'No dark banked.',
-                            inDebt ? `DEBT ${omenDebt}: unspent points rot into −1 saves each (cap −10). Spend down before rest!` : null,
+                            benediction > 0 ? `${benediction} Benediction banked — force a miss or ward an ally.` : 'No Benediction banked.',
+                            malediction > 0 ? `${malediction} Malediction banked — curse or rot a foe.` : 'No Malediction banked.',
+                            inDebt ? { text: `OMEN DEBT ${Math.abs(omenDebt)}: -1 to all saving throws per unused point (max -10). It only triggers at a long rest — short rests are safe.`, tone: 'bad' } : null,
                         ]}
                         usage={isOwner ? 'Click the stone for controls · Click a fang to set its pool · ←/→ dark, ↑/↓ light.' : null}
                     />
@@ -438,7 +438,7 @@ const AugurResourceBar = ({
             {showControls && ReactDOM.createPortal(
                 <div
                     ref={controlsMenuRef}
-                    className={`unified-context-menu compact context-menu-container augur-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    className={`unified-context-menu compact context-menu-container augur-menu-container class-resource-menu ${context === 'party' ? 'chronarch-party' : ''}`}
                     onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onMouseEnter={(e) => {

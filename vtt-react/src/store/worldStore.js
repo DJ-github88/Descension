@@ -28,7 +28,7 @@ export const CANONICAL_REGIONS_META = {
     dangerLevel: 'extreme',
     climate: 'Eternal winter. Glaciers halted in place by the Glacier Bargain. Morð worsens each frost-touched generation as Solbrand’s thermal resonance continues to fade.',
     dominantTerrain: 'Black basalt fjords, whiteout glaciers, geothermal vents, and ironwood pine stands.',
-    primaryRaces: ['Skald (Humans)', 'Rime-Touched', 'Corvani (Raven-folk)', 'Øsling outcasts', 'High Neth', 'Pale Neth'],
+    primaryRaces: ['Skald (Humans)', 'Rime-Touched', 'Corvani (Raven-folk)', 'Øsling outcasts', 'Nethien', 'Nethien'],
     primaryFactions: ['House Skalvyr', 'The Icechamber Syndicate', 'The Frozen Archive', 'The Hungríd Cult', 'The Doom-Choir'],
     ruler: 'King-Jarl Halvar Skalvyr ("Iron-Tooth")',
     loreOverview: 'Nordhalla is an isolated northern continent bound by the ancient Glacier Bargain. Following the Freezing Era, House Skalvyr traded summer for halted glaciers. In exchange, Morð claims 1 in 7 birthing mothers, producing blue-skinned Rime-Touched children with cold in their blood. King-Jarl Halvar rules through three pillars: The Frozen Archive, the Icechamber Syndicate, and the massive Sunder-Wall separating civilization from the Frostfang Wastes.',

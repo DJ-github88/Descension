@@ -5,7 +5,9 @@ import useCharacterStore from '../../store/characterStore';
 import subscriptionService, { SUBSCRIPTION_TIERS, TIER_ORDER, isCampaignManagerTier } from '../../services/subscriptionService';
 import { calculateDerivedStats, calculateEquipmentBonuses } from '../../utils/characterUtils';
 import { applyRacialModifiers } from '../../data/raceData';
+import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
 import { getWowIconUrl, getCustomIconUrl } from '../../utils/assetManager';
+import { getClassIconUrl } from '../../utils/classIconUtils';
 import RoomManager from './RoomManager';
 import CampaignManager from './CampaignManager';
 import AccountJournalManager from './AccountJournalManager';
@@ -904,7 +906,8 @@ const AccountDashboard = ({ user }) => {
                           }
                           return getWowIconUrl(icon);
                         }
-                        return null;
+                        // No portrait chosen: fall back to the class icon
+                        return getClassIconUrl(char.class);
                       };
 
                       const stats = character.stats || {
@@ -965,7 +968,7 @@ const AccountDashboard = ({ user }) => {
                                 <div className="hero-badges-row">
                                   <span className="hero-badge race-badge" title="Lineage">
                                     <i className="fas fa-user-shield"></i>
-                                    {character.raceDisplayName || character.race || 'Adventurer'}
+                                    {normalizeRaceDisplayName(character.raceDisplayName || character.race) || 'Adventurer'}
                                   </span>
                                   <span className="hero-badge class-badge" title="Class">
                                     <i className="fas fa-hat-wizard"></i>

@@ -1483,7 +1483,7 @@
     transform: translateX(3px);
 }
 /* ===== MAXIMIZE / FULL-VIEW BUTTON =====
-   Must stay AFTER the .window-close block (and its mobile overrides) —
+   Must stay AFTER the .window-close block (and its mobile overrides) ï¿½
    same-specificity !important rules resolve by source order, and
    .window-close would otherwise pin this button underneath itself. */
 
@@ -1499,8 +1499,48 @@
 }
 
 @media (max-width: 768px) {
-    /* Mobile windows are already fullscreen — hide the redundant toggle */
+    /* Mobile windows are already fullscreen - hide the redundant toggle */
     .wow-window .wow-window-maximize-btn {
         display: none !important;
     }
+}
+
+/* ===== WINDOW DRAG SURFACES (see MythrillWindow contentDrag) =====
+   Most windows hide the classic header bar and show only protruding tabs, so
+   the tab strips AND the window-content background act as drag handles.
+   Interactive elements (buttons outside the tab set, inputs, links, canvas,
+   [draggable], ...) cancel the drag via the react-draggable `cancel`
+   selector and keep their native behaviour. */
+
+/* Tab strips: grab affordance on the strip, click affordance on the tabs. */
+.spellbook-tab-container,
+.tk-tab-container,
+.tt-custom-header {
+    cursor: grab;
+}
+.spellbook-tab-container:active,
+.tk-tab-container:active,
+.tt-custom-header:active {
+    cursor: grabbing;
+}
+.spellbook-tab-button,
+.tk-tab,
+.window-header-tab,
+.tab-overflow-trigger {
+    cursor: pointer;
+}
+
+/* Content background drags the window; children keep their own cursors. */
+.window-content-draggable {
+    /* Intentionally no global cursor change: the surface is large and mostly
+       covered by interactive children with their own cursors. */
+    touch-action: pan-x pan-y;
+}
+
+/* Opt-out: add `window-no-drag` (or `data-no-drag`) to any region that must
+   never start a window drag â€” e.g. text-heavy pages where users select text,
+   maps/canvases with their own pan handling, or custom drop targets. */
+.window-no-drag,
+.window-no-drag * {
+    cursor: auto;
 }

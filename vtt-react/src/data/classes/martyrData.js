@@ -22,7 +22,7 @@ export const MARTYR_DATA = {
       "mimir"
     ],
    "narrativeUnlock": true,
-   "justification": "Requires a theological framework for willing suffering. Solari have the sun-vigil. Hollow-Solari have the Vault-Breath. Velun Neth have contract-martyrdom. Skald have the Hunger Pact, ancestral starvation channeled into combat fury, and the Ironclad specialization formalizes what the Skald have always done: use their own body as a weapon that gets stronger the more it is broken. Other cultures are too survival-pragmatic to embrace suffering as power."
+   "justification": "Requires a theological framework for willing suffering. Solari have the sun-vigil. Hollow-Solari have the Vault-Breath. Nethien have contract-martyrdom. Skald have the Hunger Pact, ancestral starvation channeled into combat fury, and the Ironclad specialization formalizes what the Skald have always done: use their own body as a weapon that gets stronger the more it is broken. Other cultures are too survival-pragmatic to embrace suffering as power."
   },
 
   // Class Resource, generated per spell. Resource range/balance per design.
@@ -41,7 +41,7 @@ export const MARTYR_DATA = {
  /**
   * Subrace Variants, every Martyr absorbs suffering into their own body, but the
    * *theology* of that absorption differs. To the Solari it is prayer. To the Hollow-Solari it
-  * is vigil. To the Velun Neth it is contract-fulfillment. To the Skald it is the Ironclad
+  * is vigil. To the Nethien it is contract-fulfillment. To the Skald it is the Ironclad
   * path, the body as a furnace-weapon, the Dreadnaught tradition reborn.
   */
  subraceVariants: {
@@ -78,18 +78,18 @@ export const MARTYR_DATA = {
   },
 
   velun_neth: {
-   subraceName: 'Velun Neth',
+   subraceName: 'Nethien',
    title: 'The Contract-Martyr',
-   reframe: `The <LoreLink termId="neth">Velun Neth</LoreLink> sacrifice per *explicit contract terms*, the suffering legally binding and the protection it generates a delivered obligation. A Velun Neth Marty the protection it generates a delivered obligation. A Velun Neth Martyr does not suffer out of love or faith; they suffer because the contract *requires* it, and the Devotion is, to them, a ledger of fulfilled clauses.`,
+   reframe: `The <LoreLink termId="neth">Nethien</LoreLink> sacrifice per *explicit contract terms*, the suffering legally binding and the protection it generates a delivered obligation. A Nethien Marty the protection it generates a delivered obligation. A Nethien Martyr does not suffer out of love or faith; they suffer because the contract *requires* it, and the Devotion is, to them, a ledger of fulfilled clauses.`,
    signatureAbility: {
     name: 'Covenant-Absorption',
     description: `Devotion-generation requires a *prior written covenant* naming the protected party and the terms of sacrifice; the Martyr cannot protect strangers, only contracted allies. In return, the protection is absolute, Morvane enforces the transfer. No waste, no ambiguity, no mercy.`
    },
-   currentCrisisAngle: `The conscription crisis is, to the Velun Neth, not a moral horror but a *jurisdictional dispute*. The noble houses are drafting Martyrs without proper Velun oversight, and the resulting cadres operate under contracts the Neth never co-signed. The Velun consider this not exploitation but *counterfeiting*, unauthorized parties issuing obligations in Morvane's name, and the legal ramifications may be worse than the human cost.`,
+   currentCrisisAngle: `The conscription crisis is, to the Nethien, not a moral horror but a *jurisdictional dispute*. The noble houses are drafting Martyrs without proper Nethien oversight, and the resulting cadres operate under contracts the Nethien never co-signed. The Nethien consider this not exploitation but *counterfeiting*, unauthorized parties issuing obligations in Morvane's name, and the legal ramifications may be worse than the human cost.`,
    signatureQuote: {
     text: '"I suffer because I agreed to suffer, in writing, with witnesses, at a fair rate of exchange. What you call martyrdom I call a satisfied clause. Do not sentimentalize my contract."',
     speaker: 'Covenant-Martyr Vel-Ossar',
-    context: 'A Velun Neth Martyr, rejecting a Solari priest\'s blessing'
+    context: 'A Nethien Martyr, rejecting a Solari priest\'s blessing'
    }
   },
 
@@ -112,12 +112,12 @@ export const MARTYR_DATA = {
    morren_human: {
     subraceName: 'Vreken',
     title: 'The Debt-Flesh',
-    reframe: `A <LoreLink termId="house_morrath">Vreken</LoreLink> who can no longer pay interest in gold or labor pays in flesh instead. The <LoreLink termId="neth">Neth</LoreLink> contract-economy recognizes suffering as a valid form of payment  -  <LoreLink termId="keeper_of_the_last_threshold">Morvane</LoreLink>'s pact respects sacrifice. A Vreken Martyr has been absorbing pain since childhood, first for family, then for creditors, now for anyone within reach. Their Devotion fills from contractual obligation, not faith. Every wound absorbed is a line-item on a ledger that never balances. The Vreken Martyr does not hope for salvation. They hope for a debt so large that even death cannot collect it.`,
+    reframe: `A <LoreLink termId="house_morrath">Vreken</LoreLink> who can no longer pay interest in gold or labor pays in flesh instead. The <LoreLink termId="neth">Nethien</LoreLink> contract-economy recognizes suffering as a valid form of payment  - <LoreLink termId="keeper_of_the_last_threshold">Morvane</LoreLink>'s pact respects sacrifice. A Vreken Martyr has been absorbing pain since childhood, first for family, then for creditors, now for anyone within reach. Their Devotion fills from contractual obligation, not faith. Every wound absorbed is a line-item on a ledger that never balances. The Vreken Martyr does not hope for salvation. They hope for a debt so large that even death cannot collect it.`,
     signatureAbility: {
      name: 'Debt-Absorption',
      description: `Devotion-generation is tracked as *ledger-entries*: every wound absorbed is a line-item in an internal contract with Morvane. The Vreken Martyr can extend their Devotion persistence beyond standard limits by accruing "interest"  -  additional voluntary HP sacrifice that extends their Devotion gauge's decay timer by one round per 5 HP sacrificed. The cost compounds: the longer they stay alive, the more they owe.`
     },
-    currentCrisisAngle: `The Vreken Martyrs are the only variant that views Scathrach's mass debt-collection with something like recognition  -  they understand a ledger being called in all at once. Several Vreken Martyrs have begun offering their accumulated suffering to Morvane as a counter-bid, arguing that their pain constitutes a competing claim on their flesh. Morvane has not responded. The Neth contract-lawyers are watching closely: if Morvane accepts, the precedent would mean suffering is legally convertible to currency, and every Vreken in the peat-crypts becomes a mint.`,
+    currentCrisisAngle: `The Vreken Martyrs are the only variant that views Scathrach's mass debt-collection with something like recognition  -  they understand a ledger being called in all at once. Several Vreken Martyrs have begun offering their accumulated suffering to Morvane as a counter-bid, arguing that their pain constitutes a competing claim on their flesh. Morvane has not responded. The Nethien contract-lawyers are watching closely: if Morvane accepts, the precedent would mean suffering is legally convertible to currency, and every Vreken in the peat-crypts becomes a mint.`,
     signatureQuote: {
      text: '"I do not bleed for faith. I bleed because it is due. My body is a receipt, my scars are itemized, and Morvane is the only creditor I have ever trusted to keep the books honest."',
      speaker: 'Mor-Vash the Ledger-Kept',
@@ -152,7 +152,7 @@ export const MARTYR_DATA = {
 
  worldFriction: [
   { region: 'sundale', status: 'celebrated-and-conscripted', consequence: 'The noble houses draft Martyrs as strategic resources; a Martyr cadre extends a battalion fight-duration threefold. Celebrated in public procession, a Sundale Martyr is in practice a conscript, refusal of "muster" is treated as desertion. The Vow-corruption (predatory absorption) is officially denied.', workaround: 'A Martyr who refuses the formal Vow but still absorbs covertly can operate as a "freelance", legally ambiguous, but the houses cannot conscript what they cannot document.' },
-  { region: 'bryngloom-forest', status: 'distrusted', consequence: 'The Neth read the Devotion as an unfiled transfer of suffering, a Martyr in Atropolis who absorbs an ally wound without a prior covenant is in technical breach of contract-law. The Velun tolerate only their own Contract-Martyr variant.' },
+  { region: 'bryngloom-forest', status: 'distrusted', consequence: 'The Nethien read the Devotion as an unfiled transfer of suffering, a Martyr in Atropolis who absorbs an ally wound without a prior covenant is in technical breach of contract-law. The Nethien tolerate only their own Contract-Martyr variant.' },
    { region: 'nordhalla', status: 'hunted', consequence: 'House Skalvyr outlaws the Martyr\'s blood-vow, declaring that transferring wounds between mortals violates the ancestral lineage of the Rime-Born.', workaround: 'Martyrs serve in secret among the thrall-caste of the glacier-keeps, taking their beatings and freezing wounds onto themselves in the lightless sumps.' }
  ],
 
@@ -165,7 +165,7 @@ The wound did not heal correctly. It became a glowing solar scar that pulsed wit
 
 The noble houses noticed. What Sera had done out of grief, they saw as a military asset. A battalion with a martyr cadre fights three times as long. A martyr at a siege absorbs the artillery. The houses began drafting children, training them from birth to associate pain with duty, conditioning their bodies to accept the scar before they were old enough to understand what they were accepting. The free martyrs chose their suffering. The conscripted ones had it chosen for them.
 
-Each subrace approaches the sacrifice differently. The Solari treat every wound as a small death in imitation of Sol's entombment, the original tradition, suffering as prayer. The Hollow-Solari frame sacrifice as silent vigil over Sol's Breath, Devotion amplified by absolute physical stillness during absorption. The Velun Neth sacrifice per explicit contract terms, Morvane enforcing the transfer with precision, the Devotion a ledger of fulfilled clauses. The Skald Ironclad tradition converts absorbed suffering into combustion pressure inside riveted iron plate, the only variant that transforms pain into offensive output. The Vreken pay interest in flesh when gold runs out, the Neth accepting suffering as valid debt payment.
+Each subrace approaches the sacrifice differently. The Solari treat every wound as a small death in imitation of Sol's entombment, the original tradition, suffering as prayer. The Hollow-Solari frame sacrifice as silent vigil over Sol's Breath, Devotion amplified by absolute physical stillness during absorption. The Nethien sacrifice per explicit contract terms, Morvane enforcing the transfer with precision, the Devotion a ledger of fulfilled clauses. The Skald Ironclad tradition converts absorbed suffering into combustion pressure inside riveted iron plate, the only variant that transforms pain into offensive output. The Vreken pay interest in flesh when gold runs out, the Nethien accepting suffering as valid debt payment.
 
 Sera is dead seven centuries. Her scarred forearm is preserved beneath Emberspire, still faintly warm. Her private grief has been industrialized so long that most conscripts do not know her name. The ones who do tend to become free martyrs. The ones who do not tend to die.`,
   title: "The Martyr",
@@ -344,7 +344,7 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
 **Start of Turn, Level 2 Passive**: Regain 1d6 HP ? [4] = 4 ? HP: 75 + 4 = **79**
 
 **Demon Lord attacks you**:
-**Attack**: 3d10+6 fire ? [8, 9, 7]+6 = **30 ember damage**
+**Attack**: 3d10+6 ember ? [8, 9, 7]+6 = **30 ember damage**
 **Level 1 Passive (first instance this round)**: Resistance ? 30 � 2 = **15 damage**
 **Your HP**: 79 - 15 = **64/100**
 **Total Damage Taken**: 25 + 15 = 40
@@ -375,7 +375,7 @@ Mage: 34/70 + 5 temp HP | Tank: 46/90 + 0 temp HP
 **Start of Turn, Level 2 Passive**: Regain 1d6 HP ? [3] = 3 ? HP: 64 + 3 = **67**
 
 **Demon Lord attacks you**:
-**Attack**: 2d10+6 fire ? [7, 8]+6 = **21 ember damage**
+**Attack**: 2d10+6 ember ? [7, 8]+6 = **21 ember damage**
 **Level 1 Passive (first instance this round)**: Resistance ? 21 � 2 = **10 damage** (rounded down)
 **Your HP**: 67 - 10 = **57/100**
 **Total Damage Taken**: 40 + 10 = 50
@@ -427,7 +427,7 @@ Mage: 66/70 + 1 temp HP | Tank: 46/90 + 4 temp HP
 **Start of Turn, Level 2 Passive**: Regain 1d6 HP ? [5] = 5 ? HP: 40 + 5 = **45**
 
 **Demon Lord attacks you**:
-**Attack**: 2d10+6 fire ? [9, 7]+6 = **22 ember damage**
+**Attack**: 2d10+6 ember ? [9, 7]+6 = **22 ember damage**
 **Level 1 Passive (first instance this round)**: Resistance ? 22 � 2 = **11 damage**
 **Your HP**: 45 - 11 = **34/100**
 **Total Damage Taken**: 62 + 11 = 73
@@ -491,7 +491,7 @@ Devotion (Tiers 1–6) builds as you absorb damage and debuffs meant for your al
 - Absolve incoming hostile damage using your defensive bastion (+1 tier).
 
 **3. How do I spend it & what is the catch?**
-- Spend Devotion tiers to unleash radiant shockwaves, cleanse party debuffs, or project invulnerable team barriers.
+- Spend Devotion tiers to unleash sacred shockwaves, cleanse party debuffs, or project invulnerable team barriers.
 - **The Catch (Threat Magnetism)**: Higher Devotion tiers make you radiate brilliant light, forcing intelligent enemies to focus their attacks exclusively on you.`,
 
   cards: [
@@ -509,7 +509,7 @@ Devotion (Tiers 1–6) builds as you absorb damage and debuffs meant for your al
    },
    {
     title: "The Hollow Transfiguration (Level 5-6)",
-    stats: "+10 Radiant DMG | Massive Resist",
+    stats: "+10 sacred DMG | Massive Resist",
     details:
      "There is nothing beautiful about what you become. Your form turns translucent, stretched thin over a skeleton that blazes with volatile golden energy from within. Your bones become lanterns of radioactive devotion. Tears of liquid radiance stream from hollowed eye sockets. You do not gain phantom wings, you manifest as a radiant vessel of sacrifice, a martyr whose body channels salvation. Allies within 15ft resist ALL damage types because your transfigured suffering poisons the air itself with mercy.",
    },
@@ -542,7 +542,7 @@ Devotion (Tiers 1–6) builds as you absorb damage and debuffs meant for your al
       [
        "Zealot Wrath Tithe",
        "Self-Harm Tax",
-       "Bonus damage = Devotion x 3. You suffer half as radiant self-injury.",
+       "Bonus damage = Devotion x 3. You suffer half as sacred self-injury.",
       ],
       [
        "Short Rest",
@@ -695,7 +695,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
     ],
 
     weaknesses: [
-     "Wrath Tithe self-harm: you suffer half of your bonus damage as radiant self-injury every offensive cast",
+     "Wrath Tithe self-harm: you suffer half of your bonus damage as sacred self-injury every offensive cast",
      "Lower healing output than Redemption, you are a weapon, not a bandage",
      "More vulnerable due to accumulated self-harm from Wrath Tithe stacking with enemy damage",
      "Requires balancing offense with survival, every kill draws your own blood",
@@ -1178,7 +1178,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     actionPoints: 1,
     components: ["verbal", "somatic"],
     verbalText: "Lux Divina!",
-    somaticText: "Release radiant energy",
+    somaticText: "Release sacred energy",
    },
 
    resolution: "DICE",
@@ -1251,7 +1251,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     useFormulas: {},
     actionPoints: 1,
     components: ["somatic"],
-    somaticText: "Strike with radiant energy",
+    somaticText: "Strike with sacred energy",
    },
 
    resolution: "DICE",

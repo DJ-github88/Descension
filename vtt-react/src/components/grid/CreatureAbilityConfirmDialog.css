@@ -1,0 +1,206 @@
+/* CreatureAbilityConfirmDialog.css — parchment confirmation for creature ability use */
+
+.creature-ability-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 12, 6, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 12000;
+  animation: abilityConfirmFadeIn 0.15s ease-out;
+}
+
+@keyframes abilityConfirmFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.creature-ability-confirm-dialog {
+  width: min(420px, calc(100vw - 32px));
+  background: linear-gradient(135deg, #f4ecd8 0%, #e8dcc0 100%);
+  border: 2px solid #8b6f47;
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  font-family: 'Cinzel', serif;
+  color: #3a2c18;
+  overflow: hidden;
+}
+
+.ability-confirm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
+  color: #f0e6d2;
+  border-bottom: 1px solid #8b6f47;
+}
+
+.ability-confirm-header h3 {
+  margin: 0;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+
+.ability-confirm-close {
+  background: rgba(240, 230, 210, 0.15);
+  border: 1px solid rgba(240, 230, 210, 0.35);
+  border-radius: 4px;
+  color: #f0e6d2;
+  cursor: pointer;
+  padding: 3px 8px;
+  font-size: 12px;
+}
+
+.ability-confirm-close:hover {
+  background: rgba(240, 230, 210, 0.3);
+}
+
+.ability-confirm-content {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ability-confirm-creature {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  text-align: center;
+  font-size: 14px;
+}
+
+.ability-confirm-sub {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 12px;
+  color: #7a6a4a;
+}
+
+.ability-confirm-name {
+  color: #7a3b2e;
+  font-size: 16px;
+}
+
+.ability-confirm-cost-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+
+.cost-label {
+  color: #7a6a4a;
+  font-family: Georgia, serif;
+  font-style: italic;
+}
+
+.cost-value {
+  font-weight: 700;
+  background: #3a2c18;
+  color: #f0e6d2;
+  border-radius: 12px;
+  padding: 2px 10px;
+  font-size: 12px;
+}
+
+.ability-confirm-formula {
+  font-family: Georgia, serif;
+  font-size: 12px;
+  color: #5e2e23;
+  background: rgba(122, 59, 46, 0.12);
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+
+.ability-confirm-roll {
+  text-align: center;
+  font-family: Georgia, serif;
+  font-size: 13px;
+  background: rgba(80, 110, 48, 0.12);
+  border: 1px solid rgba(80, 110, 48, 0.35);
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+.ability-confirm-resources {
+  background: rgba(58, 44, 24, 0.06);
+  border: 1px solid rgba(139, 111, 71, 0.4);
+  border-radius: 6px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.resource-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.resource-row.insufficient {
+  color: #8b3a2a;
+  font-weight: 700;
+}
+
+.ability-confirm-warning {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  background: rgba(139, 58, 42, 0.12);
+  border: 1px solid rgba(139, 58, 42, 0.45);
+  color: #8b3a2a;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-family: Georgia, serif;
+  font-size: 12.5px;
+}
+
+.ability-confirm-actions {
+  display: flex;
+  gap: 10px;
+  padding: 0 16px 16px;
+}
+
+.ability-confirm-btn {
+  flex: 1;
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  border: 1px solid #8b6f47;
+  transition: filter 0.15s ease;
+}
+
+.ability-confirm-btn.cancel {
+  background: #e8dcc0;
+  color: #3a2c18;
+}
+
+.ability-confirm-btn.cancel:hover {
+  filter: brightness(0.95);
+}
+
+.ability-confirm-btn.confirm {
+  background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
+  color: #f0e6d2;
+}
+
+.ability-confirm-btn.confirm:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.ability-confirm-btn.confirm.disabled,
+.ability-confirm-btn.confirm:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(0.4);
+}

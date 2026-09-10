@@ -45,16 +45,16 @@ export const SHAPER_STANCES = [
         cost: 0,
         color: '#10b981',
         glow: '#34d399',
-        benefit: '+10ft movement speed, Dash without movement penalty, immunity to slow',
+        benefit: '+2 Dodge, +10 ft movement, advantage on Disengage',
         desc: 'Unanchored fluidity; bone density softens to absorb kinetic recoil.'
     },
     {
         name: 'Arterial Strike',
-        role: 'Offense / Bleed',
+        role: 'Offense / Precision',
         cost: 2,
         color: '#ef4444',
         glow: '#f87171',
-        benefit: 'Attacks inflict Arterial Gash (1d8 bleed/turn for 3 turns)',
+        benefit: '+2 attack, crit on 19-20, bypasses 25% DR and Durability',
         desc: 'Serrated calcified talons erupt from fingertips to shred vital arteries.'
     },
     {
@@ -63,7 +63,7 @@ export const SHAPER_STANCES = [
         cost: 4,
         color: '#f59e0b',
         glow: '#fbbf24',
-        benefit: 'Attacks strike in a 10ft arc; +1 additional attack per round',
+        benefit: '+5 ft melee reach; melee hits cleave adjacent foes for 50%',
         desc: 'Ligaments loosen into whip-like sinew bands for lethal rotational momentum.'
     },
     {
@@ -72,7 +72,7 @@ export const SHAPER_STANCES = [
         cost: 3,
         color: '#64748b',
         glow: '#94a3b8',
-        benefit: 'Physical damage reduction 4, immunity to forced displacement',
+        benefit: '+20 temporary HP, +4 Durability, -10 ft speed',
         desc: 'Dense keratinous chitin calcifies over vital organs and joints.'
     },
     {
@@ -81,7 +81,7 @@ export const SHAPER_STANCES = [
         cost: 5,
         color: '#a855f7',
         glow: '#c084fc',
-        benefit: 'Gain 25% displacement dodge; successful dodges generate +2 Flux',
+        benefit: '+1 to all d20 rolls, +1 Flux per round, free form transitions',
         desc: 'Sub-cellular phase shifts dodge through incoming kinetic shockwaves.'
     },
     {
@@ -90,18 +90,18 @@ export const SHAPER_STANCES = [
         cost: 3,
         color: '#3b82f6',
         glow: '#60a5fa',
-        benefit: 'Invisibility in dim light, +3d6 Ambush burst',
+        benefit: 'Advantage on Stealth; first concealed strike +2d6 blight',
         desc: 'Pigment-absorbing skin cells and sound-dampening fibrous pads on limbs.'
     }
 ];
 
-// Body Toll Mutation Milestones (0–10)
+// Body Toll Mutation Milestones (0-10)
 export const BODY_TOLL_TIERS = [
     { min: 0, max: 2, name: 'Supple Clay', color: '#10b981', glow: '#34d399', desc: 'Cellular cohesion stable. No biological penalty.' },
-    { min: 3, max: 4, name: 'Joint Lock', color: '#f59e0b', glow: '#fbbf24', desc: 'Stiffened ligaments impose -5ft speed and minor kinetic drag.' },
-    { min: 5, max: 6, name: 'Identity Erosion', color: '#ec4899', glow: '#f472b6', desc: 'Cellular drift. Disadvantage on mental saves and social checks.' },
-    { min: 7, max: 9, name: 'Feral Mutation', color: '#ef4444', glow: '#f87171', desc: 'Violent bone spurs erupt. Vulnerability to psychic damage, +2 melee damage.' },
-    { min: 10, max: 10, name: 'Convergence Collapse', color: '#dc2626', glow: '#f43f5e', desc: 'CRITICAL OVERLOAD: Flesh liquefaction threat! Severe damage each turn until purged.' }
+    { min: 3, max: 4, name: 'Joint Lock', color: '#f59e0b', glow: '#fbbf24', desc: 'Stiffened joints drag at your movement.' },
+    { min: 5, max: 6, name: 'Identity Erosion', color: '#ec4899', glow: '#f472b6', desc: 'Cellular drift — focus and composure erode.' },
+    { min: 7, max: 9, name: 'Feral Mutation', color: '#ef4444', glow: '#f87171', desc: 'Violent bone spurs erupt: +2 melee damage, vulnerability to wyrd.' },
+    { min: 10, max: 10, name: 'Unraveling', color: '#dc2626', glow: '#f43f5e', desc: 'CRITICAL OVERLOAD: purge Body Toll now or take severe damage each turn.' }
 ];
 
 export const getBodyTollTier = (toll) => {
@@ -817,7 +817,7 @@ const ShaperResourceBar = ({
             {/* ========================================================================= */}
             {showMatrix && ReactDOM.createPortal(
                 <div
-                    className="unified-context-menu shaper-matrix-popover shaper-menu-container"
+                    className="unified-context-menu shaper-matrix-popover shaper-menu-container class-resource-menu"
                     ref={matrixMenuRef}
                     onMouseDown={(e) => e.stopPropagation()}
                     onClick={(e) => e.stopPropagation()}
@@ -858,7 +858,7 @@ const ShaperResourceBar = ({
                         {/* Header */}
                         <div className="context-menu-section-header shaper-matrix-header">
                             <span className="shaper-matrix-title">
-                                <i className="fas fa-dna" style={{ marginRight: '6px', color: '#8b4513' }}></i>
+                                <i className="fas fa-dna" style={{ marginRight: '6px', color: '#f472b6' }}></i>
                                 Six-Form Stance Matrix
                             </span>
                             <button
@@ -881,7 +881,7 @@ const ShaperResourceBar = ({
                         <div className="context-menu-section">
                             <div className="context-menu-section-title" style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <span>Form Transmutation</span>
-                                <span style={{ color: '#5e2e23', fontWeight: 'bold' }}>
+                                <span style={{ color: '#f472b6', fontWeight: 'bold' }}>
                                     {localFlux}/20 Flux • {localToll}/10 Toll
                                 </span>
                             </div>
@@ -977,14 +977,14 @@ const ShaperResourceBar = ({
                         subtitle="Shaper Morphic Osteo-Blade"
                         state={`${localFlux}/20 Flux • ${localToll}/10 Toll`}
                         stateTone={isConvergenceCollapse ? 'bad' : isFeral ? 'warn' : 'good'}
-                        mechanic="Kinetic Flux powers instant biomantic shapeshifting. Body Toll measures cellular mutation and flesh strain."
+                        mechanic="Shift forms to spend 2-4 Flux and gain +1 Body Toll (max 10); stance abilities cost 3-6 Flux. Build Flux on hits, crits, and dodges; lose it on misses, damage, and idle rounds — going rooted drops Flux to 0 and deals 1d10 blight per round."
                         status={[
                             `Active Stance: ${localStance} — ${activeStanceData.benefit}`,
                             `Mutation Tier: ${currentTollTier.name} (${localToll}/10) — ${currentTollTier.desc}`,
-                            isConvergenceCollapse ? 'CRITICAL: Flesh integrity failure! Purge Body Toll immediately.' : null
+                            isConvergenceCollapse ? 'CRITICAL: flesh integrity failing — purge Body Toll immediately.' : null
                         ].filter(Boolean)}
-                        usage="Click hilt wraps for Flux (+2 on pommel). Click blade segments for Toll (-1 on tip). Click crossguard chrysalis for Six-Form Matrix."
-                        hint="Arrow keys step Flux. Press 'T' for Toll, 'S' or click Chrysalis for Stances."
+                        usage="Click tendon wraps to set Flux (pommel +2, Shift +5). Click blade teeth to set Toll (tip -1, Shift -3). Chrysalis opens the Six-Form Matrix."
+                        hint="Arrow keys step Flux (Shift ±5). Press 'T' for Toll, 'S' or click Chrysalis for Stances."
                     />
                 </div>,
                 document.body

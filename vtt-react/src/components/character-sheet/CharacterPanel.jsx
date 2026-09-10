@@ -23,6 +23,7 @@ import '../../styles/character-sheet.css';
 import '../../styles/resistance-styles.css';
 import '../../styles/racial-traits.css';
 import { getIconUrl, getCustomIconUrl, getWowIconUrl } from '../../utils/assetManager';
+import { getClassIconUrl } from '../../utils/classIconUtils';
 import useItemStore from '../../store/itemStore';
 import Languages from './Languages';
 import StatTooltip from '../tooltips/StatTooltip';
@@ -1150,7 +1151,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                     <option value="Lunarch">Lunarch</option>
                                     <option value="Apex">Apex</option>
                                     <option value="Warden">Warden</option>
-                                    <option value="Augur">Augur</option>
+                                    <option value="Crusader">Crusader</option>
                                  </select>
                             </div>
 
@@ -1766,15 +1767,18 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                                 alt="Character Portrait"
                                                 className="character-portrait"
                                             />
-                                        ) : (characterIcon || lore?.characterIcon) ? (
+                                        ) : (characterIcon || lore?.characterIcon || getClassIconUrl(characterClass)) ? (
                                             <div className="character-portrait-icon-wrapper">
                                                 <img
                                                     src={(() => {
                                                         const icon = characterIcon || lore?.characterIcon;
-                                                        if (icon.includes('/')) {
-                                                            return getCustomIconUrl(icon, 'creatures');
+                                                        if (icon) {
+                                                            if (icon.includes('/')) {
+                                                                return getCustomIconUrl(icon, 'creatures');
+                                                            }
+                                                            return getWowIconUrl(icon);
                                                         }
-                                                        return getWowIconUrl(icon);
+                                                        return getClassIconUrl(characterClass) || '';
                                                     })()}
                                                     alt="Character Icon"
                                                     className="character-portrait-icon"
@@ -2461,7 +2465,11 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
 
         const totalStats = { ...stats, ...calculatedAttributes };
 
-        const encumbranceState = useInventoryStore.getState().encumbranceState || 'normal';
+        // Inspect mode must use the inspected character's encumbrance state;
+        // the inventory store only describes the viewer.
+        const encumbranceState = inspectionData
+            ? (characterContext.encumbranceState || 'normal')
+            : (useInventoryStore.getState().encumbranceState || 'normal');
         const freshDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses || {}, {}, encumbranceState, exhaustionLevel || 0, health, race, subrace);
 
         totalStats.maxHealth = Math.round(freshDerivedStats.maxHealth || getDerivedStatBreakdown('maxHealth', characterContext).finalValue);
@@ -2539,7 +2547,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         }
 
         return totalStats;
-    }, [stats, equipmentBonuses, exhaustionLevel, health, mana, race, subrace, resistances, characterContext]);
+    }, [stats, equipmentBonuses, exhaustionLevel, health, mana, race, subrace, resistances, characterContext, inspectionData]);
 
 
 

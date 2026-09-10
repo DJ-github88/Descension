@@ -14,80 +14,62 @@ import { CONDITIONS } from '../../data/conditionsData';
 import useChatStore from '../../store/chatStore';
 import usePresenceStore from '../../store/presenceStore';
 import useAuthStore from '../../store/authStore'; // CRITICAL: For userId identification
+import useCreatureStore from '../../store/creatureStore';
+import { getTokensForClass, getTokensForRace, resolveClassId } from '../../data/summonableTokens';
 import ClassResourceBar from './ClassResourceBar';
 import SummonTokenBar from './SummonTokenBar';
 import StatVial from './StatVial';
 import ConditionDurationModal from '../modals/ConditionDurationModal';
 import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
+import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
 import { getBackgroundData } from '../../data/backgroundData';
 import Button from '../common/Button';
 import { getCustomBackgroundData, getEnhancedPathData } from '../../data/legacyDisciplineData';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
-import { CLASS_DISPLAY_DATA } from '../../data/classes/classDisplayData';
+import { getClassIconUrl } from '../../utils/classIconUtils';
+import PortraitLightbox from './PortraitLightbox';
+import './PortraitLightbox.css';
 // REMOVED: import 'react-resizable/css/styles.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
 
-const CLASS_ICON_OVERRIDES = { toxicologist: 'vial' };
-const CLASS_ICON_NAMES = new Map(
-    CLASS_DISPLAY_DATA
-        .filter((entry) => entry.icon && entry.icon.iconName)
-        .map((entry) => [entry.name.toLowerCase(), entry.icon.iconName])
-);
-
-const SUBRACE_ICON_OVERRIDES = {
-    'stargazer astril': 'star',
-    'brutish astril': 'meteor',
-    'clockwork fexric': 'gears',
-    'caustic fexric': 'burn',
-    'arch mimir': 'crown',
-    'broken mimir': 'face-frown',
-    'high neth': 'stamp',
-    'hollow-solari': 'eye-low-vision',
-    'waste-solari': 'fire',
-    'shoreling': 'water',
-    'deepling': 'anchor',
-    'riverling': 'route',
-    'thalren': 'snowflake',
-    'skald': 'feather-pointed',
-    'tessen': 'mountain',
-    'merryn': 'ship',
-    'ordan': 'user-secret',
-    'viridian': 'leaf',
-    'oken': 'tree',
-    'morgh': 'mountain',
-    'ithran': 'bone',
-    'clean': 'lightbulb',
-    'marked': 'bone'
+// Nethien bloodlines carry only the lineage name in race data; the heritage
+// line reads "<bloodline> Nethien" so the people is always clear.
+const NETHIEN_BLOODLINE_LABELS = {
+    nethien: 'Nethien',
+    veldun: 'Veldun Nethien',
+    withered: 'Withered Nethien'
 };
 
-const BASE_RACE_ICONS = {
-    astril: 'star',
-    fexric: 'gears',
-    florae: 'leaf',
-    groven: 'mountain',
-    human: 'users',
-    mimir: 'theater-masks',
-    myrathil: 'water',
-    neth: 'feather-pointed',
-    solari: 'sun',
-    vreken: 'lightbulb'
+const BACKGROUND_ICON_OVERRIDES = {
+    pilgrim: 'person-walking',
+    courier: 'horse',
+    scribe: 'feather-pointed',
+    'noble scion': 'crown',
+    scholar: 'book',
+    veteran: 'shield-halved',
+    'debt negotiator': 'scale-balanced',
+    storyteller: 'masks-theater',
+    smith: 'hammer',
+    'plague warden': 'shield-virus',
+    mountaineer: 'mountain',
+    sailor: 'ship',
+    'black market trader': 'sack-dollar',
+    urchin: 'coins',
+    'relic hunter': 'gem',
+    'forest warden': 'tree',
+    machinist: 'gear',
+    herder: 'wheat-awn',
+    stargazer: 'star',
+    guardian: 'shield',
+    'hunter\'s reversal': 'crosshairs'
 };
+const DEFAULT_BACKGROUND_ICON = 'scroll';
 
-function getClassArchetypeIcon(className) {
-    if (!className) return null;
-    const key = String(className).toLowerCase().trim();
-    return CLASS_ICON_OVERRIDES[key] || CLASS_ICON_NAMES.get(key) || null;
-}
-
-function getRaceArchetypeIcon(raceName) {
-    if (!raceName) return null;
-    const key = String(raceName).toLowerCase().trim();
-    if (SUBRACE_ICON_OVERRIDES[key]) return SUBRACE_ICON_OVERRIDES[key];
-    const bare = key.replace(/\s*\([^)]*\)\s*$/, '').trim();
-    if (SUBRACE_ICON_OVERRIDES[bare]) return SUBRACE_ICON_OVERRIDES[bare];
-    const baseMatch = Object.entries(BASE_RACE_ICONS).find(([baseName]) => key.includes(baseName) || bare.includes(baseName));
-    return baseMatch ? baseMatch[1] : null;
+function getBackgroundArchetypeIcon(backgroundName) {
+    if (!backgroundName) return null;
+    const key = String(backgroundName).toLowerCase().trim();
+    return BACKGROUND_ICON_OVERRIDES[key] || DEFAULT_BACKGROUND_ICON;
 }
 
 
@@ -261,6 +243,8 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     const [showDurationModal, setShowDurationModal] = useState(false);
     const [durationModalCondition, setDurationModalCondition] = useState(null);
     const tooltipTimeoutRef = useRef(null);
+    // Enlarged portrait popup (click portrait to zoom)
+    const [showPortraitZoom, setShowPortraitZoom] = useState(false);
     // Quick-adjust popover for the corner mounts (HP bottle / mana crystal / AP boot)
     const [mountMenu, setMountMenu] = useState(null);
     const mountMenuRef = useRef(null);
@@ -295,6 +279,76 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     }, [mountMenu]);
 
     const isTargeted = currentTarget?.id === member.id;
+
+    // Resolved portrait URL for the enlarge-on-click lightbox (same source as the frame portrait)
+    const portraitLightboxImage = useMemo(() => {
+        const charImage = isCurrentPlayer
+            ? currentPlayerCharImage
+            : (member.character?.lore?.characterImage || null);
+        const charIcon = isCurrentPlayer
+            ? currentPlayerCharIcon
+            : (member.character?.lore?.characterIcon || null);
+        if (charImage) return charImage;
+        if (charIcon) {
+            try {
+                return getCustomIconUrl(charIcon, 'creatures');
+            } catch {
+                return null;
+            }
+        }
+        // No portrait chosen: fall back to the character's class icon
+        const className = isCurrentPlayer
+            ? (currentPlayerData?.class || '')
+            : (member.character?.class || '');
+        return getClassIconUrl(className);
+    }, [isCurrentPlayer, currentPlayerCharImage, currentPlayerCharIcon, currentPlayerData?.class, member.character?.lore?.characterImage, member.character?.lore?.characterIcon, member.character?.class]);
+
+    const portraitLightboxSubtitle = useMemo(() => {
+        const cls = member.character?.class || '';
+        const lvl = member.character?.level || member.level || '';
+        return [cls, lvl ? `Level ${lvl}` : ''].filter(Boolean).join(' • ');
+    }, [member.character?.class, member.character?.level, member.level]);
+
+    // Scene backdrop for icon portraits in the lightbox (matches the HUD's
+    // icon background; full uploaded portraits already carry their own scene)
+    const portraitLightboxBackground = useMemo(() => {
+        const charImage = isCurrentPlayer
+            ? currentPlayerCharImage
+            : (member.character?.lore?.characterImage || null);
+        const charIcon = isCurrentPlayer
+            ? currentPlayerCharIcon
+            : (member.character?.lore?.characterIcon || null);
+        const className = isCurrentPlayer
+            ? (currentPlayerData?.class || '')
+            : (member.character?.class || '');
+        const hasIconPortrait = Boolean(charIcon) || (!charImage && Boolean(getClassIconUrl(className)));
+        if (charImage || !hasIconPortrait) return null;
+        const settings = isCurrentPlayer
+            ? currentPlayerIconSettings
+            : {
+                iconBackgroundColor: member.character?.lore?.iconBackgroundColor || null,
+                iconBackgroundImage: member.character?.lore?.iconBackgroundImage || null
+            };
+        if (settings.iconBackgroundImage) {
+            return {
+                image: `/assets/Backgrounds/${encodeURIComponent(settings.iconBackgroundImage)}`,
+                color: '#1a140e'
+            };
+        }
+        // Same default parchment backdrop the HUD paints behind icons
+        return { image: null, color: settings.iconBackgroundColor || '#f8f5eb' };
+    }, [
+        isCurrentPlayer,
+        currentPlayerCharImage,
+        currentPlayerCharIcon,
+        currentPlayerData?.class,
+        currentPlayerIconSettings,
+        member.character?.lore?.characterImage,
+        member.character?.lore?.characterIcon,
+        member.character?.lore?.iconBackgroundColor,
+        member.character?.lore?.iconBackgroundImage,
+        member.character?.class
+    ]);
 
     // Register refs with parent component
     useEffect(() => {
@@ -343,7 +397,6 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                 const { cleanupExpiredConditions } = useCharacterTokenStore.getState();
                 cleanupExpiredConditions();
                 // Clean up expired conditions from creature tokens
-                const useCreatureStore = require('../../store/creatureStore').default;
                 const { cleanupExpiredConditions: cleanupCreatureConditions } = useCreatureStore.getState();
                 cleanupCreatureConditions();
             }
@@ -1013,6 +1066,31 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
     const isExhaustionEditable = isCurrentPlayer || isGMMode;
 
+    // Class identity for the banner pinned under the portrait (frame-level, so
+    // it can anchor to the portrait cutout instead of the text column)
+    const frameClassName = isCurrentPlayer && currentPlayerData
+        ? (currentPlayerData.class || '')
+        : (member.character?.class || '');
+    const frameClassPath = (() => {
+        if (isCurrentPlayer && currentPlayerData) {
+            let path = currentPlayerData.pathDisplayName || '';
+            if (!path && currentPlayerData.path) {
+                const pathData = getEnhancedPathData(currentPlayerData.path);
+                if (pathData) path = pathData.name;
+            }
+            return path;
+        }
+        let path = member.character?.pathDisplayName || '';
+        if (!path && member.character?.path) {
+            const pathData = getEnhancedPathData(member.character.path);
+            if (pathData) path = pathData.name;
+        }
+        return path;
+    })();
+    const frameClassLabel = frameClassName && frameClassName.toLowerCase() !== 'unknown class'
+        ? (frameClassPath ? `${frameClassName} (${frameClassPath})` : frameClassName)
+        : '';
+
     const alignmentStr = isCurrentPlayer && currentPlayerData
         ? (currentPlayerData.alignment || 'Neutral')
         : (member.character?.alignment || 'Neutral');
@@ -1037,7 +1115,22 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                 )}
 
                 {/* Portrait: absolutely positioned by CSS into the frame's portrait cutout */}
-                <div className="party-portrait">
+                <div
+                    className="party-portrait"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setShowPortraitZoom(true);
+                    }}
+                    title={`Enlarge portrait of ${member.name || 'character'} (click to zoom)`}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            setShowPortraitZoom(true);
+                        }
+                    }}
+                >
                     {(() => {
                         // For current player, use direct store subscriptions (always up to date)
                         // For party members, fall back to member.character.lore
@@ -1064,12 +1157,15 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                 iconBackgroundOffsetY: member.character?.lore?.iconBackgroundOffsetY ?? 0,
                             };
 
-                        // Resolve the portrait: prefer characterImage (uploaded), fall back to characterIcon (built-in)
-                        const resolvedImage = charImage || (charIcon ? getCustomIconUrl(charIcon, 'creatures') : null);
+                        // Resolve the portrait: uploaded image → chosen icon → class icon placeholder
+                        const classFallback = (!charImage && !charIcon && frameClassName && frameClassName.toLowerCase() !== 'unknown class')
+                            ? getClassIconUrl(frameClassName)
+                            : null;
+                        const resolvedImage = charImage || (charIcon ? getCustomIconUrl(charIcon, 'creatures') : classFallback);
 
                         if (resolvedImage) {
                             // For icons: show scene background behind the icon, matching character sheet style
-                            const isIcon = !charImage && charIcon;
+                            const isIcon = !charImage && (charIcon || classFallback);
                             const containerStyle = {
                                 width: '100%',
                                 height: '100%',
@@ -1097,10 +1193,13 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                         <img
                                             src={resolvedImage}
                                             style={{
+                                                display: 'block',
                                                 width: '100%',
                                                 height: '100%',
                                                 objectFit: 'cover',
-                                                transform: `scale(${iconSettings.iconScale || 1}) translate(${iconSettings.iconOffsetX || 0}px, ${iconSettings.iconOffsetY || 0}px)`,
+                                                objectPosition: 'center',
+                                                transformOrigin: 'center center',
+                                                transform: `scale(${(iconSettings.iconScale || 1) * 1.1}) translate(${iconSettings.iconOffsetX || 0}px, ${iconSettings.iconOffsetY || 0}px)`,
                                             }}
                                             draggable={false}
                                         />
@@ -1140,42 +1239,10 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                     })()}
                 </div>
 
-                {/* Golden Medal Level Badge hanging off the portrait's bottom-right corner */}
+                {/* Level chip stamped on the portrait's top-left corner (matte engraved disc) */}
                 {characterLevel && (
-                    <div className="portrait-level-orb" title={`Level ${characterLevel}`}>
-                        <svg className="level-medal-svg" viewBox="0 0 44 44" aria-hidden="true">
-                            <defs>
-                                <radialGradient id={`lvlMedalGrad-${member.id}`} cx="0.38" cy="0.32" r="0.95">
-                                    <stop offset="0%" stopColor="#ffedb8" />
-                                    <stop offset="40%" stopColor="#e8ba5c" />
-                                    <stop offset="75%" stopColor="#b3872f" />
-                                    <stop offset="100%" stopColor="#7c5a1c" />
-                                </radialGradient>
-                                <radialGradient id={`lvlWellGrad-${member.id}`} cx="0.5" cy="0.42" r="0.8">
-                                    <stop offset="0%" stopColor="#c79a3f" />
-                                    <stop offset="70%" stopColor="#9c7427" />
-                                    <stop offset="100%" stopColor="#6f4f17" />
-                                </radialGradient>
-                            </defs>
-                            <circle cx="22" cy="22" r="20.6" fill="#54401e" stroke="#2f2410" strokeWidth="1.7" />
-                            <circle cx="22" cy="22" r="18.4" fill="#8a6a24" stroke="#3b2e17" strokeWidth="0.8" />
-                            <circle cx="22" cy="22" r="18.4" fill="none" stroke="#f4dc9c" strokeWidth="1.1" strokeDasharray="2 3.1" opacity="0.85" />
-                            <g stroke="#4a3a16" strokeWidth="1" opacity="0.55">
-                                <line x1="22" y1="6.1" x2="22" y2="3.9" />
-                                <line x1="22" y1="37.9" x2="22" y2="40.1" />
-                                <line x1="37.9" y1="22" x2="40.1" y2="22" />
-                                <line x1="6.1" y1="22" x2="3.9" y2="22" />
-                                <line x1="33.24" y1="10.76" x2="34.8" y2="9.2" />
-                                <line x1="10.76" y1="10.76" x2="9.2" y2="9.2" />
-                                <line x1="33.24" y1="33.24" x2="34.8" y2="34.8" />
-                                <line x1="10.76" y1="33.24" x2="9.2" y2="34.8" />
-                            </g>
-                            <circle cx="22" cy="22" r="15.6" fill={`url(#lvlMedalGrad-${member.id})`} stroke="#6f4f17" strokeWidth="0.9" />
-                            <circle cx="22" cy="22" r="12.2" fill={`url(#lvlWellGrad-${member.id})`} stroke="#5d431a" strokeWidth="1" />
-                            <path d="M12.6 18.6 A 12.2 12.2 0 0 1 22 9.8" fill="none" stroke="rgba(255, 246, 218, 0.8)" strokeWidth="1.5" strokeLinecap="round" />
-                            <path d="M31.4 25.4 A 12.2 12.2 0 0 1 22 34.2" fill="none" stroke="rgba(46, 32, 10, 0.4)" strokeWidth="1.2" strokeLinecap="round" />
-                        </svg>
-                        <span className="level-number">{characterLevel}</span>
+                    <div className="portrait-level-chip" title={`Level ${characterLevel}`}>
+                        {characterLevel}
                     </div>
                 )}
 
@@ -1184,43 +1251,22 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                     {(() => {
                         // For current player, use character store directly (more reliable)
                         // For other members, use member.character
-                        let race, characterClass, background, path;
+                        let race, background;
 
                         if (isCurrentPlayer && currentPlayerData) {
                             race = currentPlayerData.raceDisplayName || currentPlayerData.race || 'Unknown Race';
-                            characterClass = currentPlayerData.class || 'Unknown Class';
                             background = resolveBackgroundName(
                                 currentPlayerData.background || currentPlayerData.character?.background,
                                 currentPlayerData.backgroundDisplayName || currentPlayerData.character?.backgroundDisplayName,
                                 currentPlayerData.lore || currentPlayerData.character?.lore
                             );
-
-                            // Get path display name from character store
-                            path = currentPlayerData.pathDisplayName || '';
-                            if (!path && currentPlayerData.path) {
-                                const pathData = getEnhancedPathData(currentPlayerData.path);
-                                if (pathData) {
-                                    path = pathData.name;
-                                }
-                            }
                         } else {
                             race = member.character?.raceDisplayName || member.character?.race || 'Unknown Race';
-                            characterClass = member.character?.class || 'Unknown Class';
                             background = resolveBackgroundName(
                                 member.character?.background || member.background,
                                 member.character?.backgroundDisplayName || member.backgroundDisplayName,
                                 member.character?.lore || member.lore
                             );
-
-                            // Get path/discipline display name
-                            path = member.character?.pathDisplayName || '';
-                            if (!path && member.character?.path) {
-                                const pathId = member.character.path;
-                                const pathData = getEnhancedPathData(pathId);
-                                if (pathData) {
-                                    path = pathData.name;
-                                }
-                            }
                         }
 
                         // Clean race deduplication (e.g. "Stargazer Astril (Astril)" -> "Stargazer Astril")
@@ -1228,52 +1274,49 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         if (typeof cleanRace === 'string') {
                             cleanRace = cleanRace.replace(/\s*\([^)]*\)\s*$/, '').trim();
                         }
+                        // Legacy saves may still hold pre-revision names (e.g. "Hallowed Neth")
+                        cleanRace = normalizeRaceDisplayName(cleanRace);
 
-                        // Class (with thematic icon on the left), subrace (with thematic icon on the right),
-                        // and background below the name
-                        const archetypeParts = [];
-                        if (characterClass && characterClass.toLowerCase() !== 'unknown class') {
-                            archetypeParts.push({
-                                kind: 'class',
-                                label: path ? `${characterClass} (${path})` : characterClass,
-                                iconName: getClassArchetypeIcon(characterClass)
-                            });
-                        }
-                        if (cleanRace && cleanRace.toLowerCase() !== 'unknown race') {
-                            archetypeParts.push({
-                                kind: 'race',
-                                label: cleanRace,
-                                iconName: getRaceArchetypeIcon(cleanRace)
-                            });
-                        }
-                        if (background) {
-                            archetypeParts.push({ kind: 'background', label: background, iconName: null });
-                        }
+                        // Title block: name / "of the <bloodline>" / background script.
+                        // The class signs the top row next to the name so long
+                        // class names always fit, and the background keeps its icon.
+                        const raceLabel = cleanRace
+                            ? (NETHIEN_BLOODLINE_LABELS[cleanRace.toLowerCase()] || cleanRace)
+                            : '';
+                        const racePart = raceLabel && cleanRace.toLowerCase() !== 'unknown race'
+                            ? { label: raceLabel }
+                            : null;
+                        const backgroundIcon = background ? getBackgroundArchetypeIcon(background) : null;
 
-                        const fullArchetypeTitle = [...archetypeParts.map((part) => part.label), alignmentStr].filter(Boolean).join(' • ');
+                        const fullArchetypeTitle = [frameClassLabel, racePart?.label, background, alignmentStr]
+                            .filter(Boolean)
+                            .join(' • ');
 
                         return (
                             <div className="member-header">
                                 <div className="member-header-top-row">
+                                    {frameClassLabel && (
+                                        <span className="member-class-text" title={`Class: ${frameClassLabel}`}>
+                                            {frameClassName}
+                                        </span>
+                                    )}
                                     <span className="member-name-text" title={member.name}>{member.name}</span>
                                 </div>
                                 <div className="member-details">
-                                    <div className="member-archetype-line" title={fullArchetypeTitle}>
-                                        {archetypeParts.map((part, idx) => (
-                                            <React.Fragment key={idx}>
-                                                {idx > 0 && <span className="detail-separator">•</span>}
-                                                <span className="detail-part">
-                                                    {part.kind === 'class' && part.iconName && (
-                                                        <i className={`fas fa-${part.iconName} archetype-icon lead`} aria-hidden="true"></i>
-                                                    )}
-                                                    {part.label}
-                                                    {part.kind === 'race' && part.iconName && (
-                                                        <i className={`fas fa-${part.iconName} archetype-icon tail`} aria-hidden="true"></i>
-                                                    )}
-                                                </span>
-                                            </React.Fragment>
-                                        ))}
-                                    </div>
+                                    {racePart && (
+                                        <div className="member-heritage-line" title={fullArchetypeTitle}>
+                                            <span className="heritage-prep">of the</span>
+                                            <span className="heritage-race">{racePart.label}</span>
+                                        </div>
+                                    )}
+                                    {background && (
+                                        <div className="member-background-line" title={fullArchetypeTitle}>
+                                            {backgroundIcon && (
+                                                <i className={`fas fa-${backgroundIcon} archetype-icon lead`} aria-hidden="true"></i>
+                                            )}
+                                            {background}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         );
@@ -1882,6 +1925,16 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                     initialDurationValue={durationModalCondition.initialDurationValue || 10}
                 />
             )}
+            {/* Enlarged portrait popup with zoom (closes on outside click / Esc) */}
+            <PortraitLightbox
+                isOpen={showPortraitZoom}
+                imageUrl={portraitLightboxImage}
+                backgroundImage={portraitLightboxBackground?.image || ''}
+                backgroundColor={portraitLightboxBackground?.color || ''}
+                title={member.name || 'Character'}
+                subtitle={portraitLightboxSubtitle}
+                onClose={() => setShowPortraitZoom(false)}
+            />
         </>
     );
 };
@@ -1905,6 +1958,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const [summonTokenBarCharacter, setSummonTokenBarCharacter] = useState(null);
     const nodeRefs = useRef({});
     const resourceBarRefs = useRef({}); // Store refs to resource bars for floating text positioning
+    // Measured frame heights per member: class bars vary in height, so the
+    // auto-stack uses the real rendered height instead of a fixed slot.
+    const [frameHeights, setFrameHeights] = useState({});
 
     // Identify local player for HUD highlighting and logic
     const currentPlayer = useGameStore(state => state.currentPlayer);
@@ -3426,12 +3482,79 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             return { ...member };
         });
 
+    // Fallback: If displayMembers is empty (e.g. initial cloud load before party store or socket sync),
+    // synthesize the local player frame so the HUD is ALWAYS visible.
+    const resolvedDisplayMembers = displayMembers.length > 0 ? displayMembers : [{
+        id: 'current-player',
+        userId: myUserId || 'current-player',
+        name: currentPlayerData?.name || 'Player',
+        isConnected: true,
+        isGM: isGMMode,
+        character: {
+            level: currentPlayerData?.level || 1,
+            race: currentPlayerData?.race,
+            subrace: currentPlayerData?.subrace,
+            raceDisplayName: currentPlayerData?.raceDisplayName,
+            class: currentPlayerData?.class,
+            alignment: currentPlayerData?.alignment,
+            background: currentPlayerData?.background,
+            backgroundDisplayName: currentPlayerData?.backgroundDisplayName,
+            path: currentPlayerData?.path,
+            pathDisplayName: currentPlayerData?.pathDisplayName,
+            exhaustionLevel: currentPlayerData?.exhaustionLevel || 0,
+            health: currentPlayerData?.health || { current: 50, max: 50 },
+            mana: currentPlayerData?.mana || { current: 50, max: 50 },
+            actionPoints: currentPlayerData?.actionPoints || { current: 3, max: 3 },
+            tempHealth: currentPlayerData?.tempHealth || 0,
+            tempMana: currentPlayerData?.tempMana || 0,
+            tempActionPoints: currentPlayerData?.tempActionPoints || 0,
+            classResource: currentPlayerData?.classResource,
+            lore: currentPlayerData?.lore,
+            tokenSettings: currentPlayerData?.tokenSettings
+        }
+    }];
+
+    // Keep the auto-stack tight: measure each rendered frame so members without
+    // a stored drag position sit 8px below the previous frame, whatever its
+    // class-bar height happens to be.
+    useEffect(() => {
+        let raf1 = 0;
+        let raf2 = 0;
+        const measure = () => {
+            const next = {};
+            resolvedDisplayMembers.forEach((member) => {
+                const key = getMemberStableKey(member, myIds);
+                const node = nodeRefs.current[key]?.current;
+                const el = node?.querySelector?.('.party-member-frame');
+                if (el) {
+                    const h = Math.round(el.getBoundingClientRect().height);
+                    if (h > 0) next[key] = h;
+                }
+            });
+            setFrameHeights((prev) => {
+                const nextKeys = Object.keys(next);
+                const unchanged = nextKeys.length === Object.keys(prev).length &&
+                    nextKeys.every((k) => Math.abs((prev[k] || 0) - next[k]) < 1);
+                return unchanged ? prev : next;
+            });
+        };
+        raf1 = requestAnimationFrame(() => { raf2 = requestAnimationFrame(measure); });
+        const settleTimer = setTimeout(measure, 350);
+        window.addEventListener('resize', measure);
+        return () => {
+            cancelAnimationFrame(raf1);
+            cancelAnimationFrame(raf2);
+            clearTimeout(settleTimer);
+            window.removeEventListener('resize', measure);
+        };
+    }, [partyMembers, myIds]); // eslint-disable-line react-hooks/exhaustive-deps
+
     return (
         <>
 
 
             <div className="party-hud-frames">
-                {displayMembers.map((member, index) => {
+                {resolvedDisplayMembers.map((member, index) => {
                     const memberKey = getMemberStableKey(member, myIds);
                     const memberAliases = getMemberAliases(member, myIds);
 
@@ -3441,23 +3564,35 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     }
                     const memberNodeRef = nodeRefs.current[memberKey];
 
-                    // Calculate dynamic spacing based on whether previous members have class resources
+                    // Calculate dynamic spacing from the previous frames' measured
+                    // heights (class bars vary); fall back to the old slot sizes
+                    // until the first measurement lands.
                     let yOffset = 20;
                     for (let i = 0; i < index; i++) {
-                        const prevMember = displayMembers[i];
-                        const hasClassResource = prevMember.character?.class && prevMember.character?.classResource;
-                        if (hasClassResource) {
-                            yOffset += 206; // 198px frame + 8px gap
-                        } else {
-                            yOffset += 168; // 160px frame + 8px gap
-                        }
+                        const prevMember = resolvedDisplayMembers[i];
+                        const prevKey = getMemberStableKey(prevMember, myIds);
+                        const hasClassResource = prevMember?.character?.class && prevMember?.character?.classResource;
+                        const frameHeight = frameHeights[prevKey] || (hasClassResource ? 198 : 160);
+                        yOffset += frameHeight + 8;
                     }
 
                     // Get stored position using stable memberKey and aliases
                     const storedPosition = getMemberPosition(memberKey, memberAliases);
                     // If user is actively dragging this frame, prioritize live dragged position so background re-renders never revert it
                     const activeDragPos = activeDragPositionsRef.current[memberKey];
-                    const initialPosition = activeDragPos || storedPosition || { x: 20, y: yOffset };
+                    const rawPosition = activeDragPos || storedPosition || { x: 20, y: yOffset };
+
+                    // Sanitize and clamp position to current viewport bounds so corrupt/mobile localStorage cannot push HUD offscreen
+                    const maxX = typeof window !== 'undefined' ? Math.max(20, window.innerWidth - 320) : 1000;
+                    const maxY = typeof window !== 'undefined' ? Math.max(20, window.innerHeight - 160) : 800;
+                    const initialPosition = {
+                        x: typeof rawPosition.x === 'number' && !isNaN(rawPosition.x)
+                            ? Math.max(0, Math.min(rawPosition.x, maxX))
+                            : 20,
+                        y: typeof rawPosition.y === 'number' && !isNaN(rawPosition.y)
+                            ? Math.max(0, Math.min(rawPosition.y, maxY))
+                            : yOffset
+                    };
 
                     return (
                         <Draggable
@@ -3617,7 +3752,6 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     const charSubrace = contextMenuMember?.character?.subrace;
                     const charLevel = contextMenuMember?.character?.level || contextMenuMember?.characterLevel || 1;
                     if (charClass || charRace) {
-                        const { getTokensForClass, getTokensForRace, resolveClassId } = require('../../data/summonableTokens');
                         const resolvedClassId = resolveClassId(charClass);
                         const classTokens = resolvedClassId ? getTokensForClass(charClass) : [];
                         const raceTokens = charRace ? getTokensForRace(charRace, charSubrace) : [];

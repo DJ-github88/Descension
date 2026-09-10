@@ -120,13 +120,13 @@ const LunarPhasesResourceBar = ({
         const getPhaseBonuses = (phase) => {
             switch (phase) {
                 case 'new_moon':
-                    return { bonus: '+2 Armor', theme: 'Defense' };
+                    return { bonus: '+3 DR, immune to Charm/Fear', theme: 'Defense' };
                 case 'waxing_moon':
-                    return { bonus: 'Healing +1d4', theme: 'Healing' };
+                    return { bonus: '+1d6 damage, +10 ft speed', theme: 'Surge' };
                 case 'full_moon':
-                    return { bonus: 'Damage +2d6', theme: 'Offense' };
+                    return { bonus: '+2d8 sacred damage, ignores 50% DR', theme: 'Offense' };
                 case 'waning_moon':
-                    return { bonus: 'Mana -2 cost', theme: 'Efficiency' };
+                    return { bonus: '25% vampiric drain, −3 mana cost', theme: 'Sustain' };
                 default:
                     return { bonus: '', theme: '' };
             }

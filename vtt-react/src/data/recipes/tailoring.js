@@ -24,7 +24,7 @@ export const TAILORING_RECIPES = [
     id: 'hardened-cloth-recipe',
     name: 'Hardened Cloth',
     profession: 'tailoring',
-    description: 'Stitched in Neth contract-weave to bind fast the oath. Treat cloth to make it more durable and resistant.',
+    description: 'Stitched in Nethien contract-weave to bind fast the oath. Treat cloth to make it more durable and resistant.',
     requiredLevel: 1,
     resultItemId: 'hardened-cloth',
     resultQuantity: 1,

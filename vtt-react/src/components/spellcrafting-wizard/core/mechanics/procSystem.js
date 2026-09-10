@@ -100,7 +100,7 @@ export const PROC_EFFECTS = {
     icon: 'spell_fire_fireball',
     examples: ['Ignite', 'Deep Wounds', 'Divine Smite', 'Sneak Attack'],
     configOptions: {
-      damageType: ['smashing', 'ember', 'rime', 'arcane', 'nature', 'blight', 'ember'],
+      damageType: ['smashing', 'stabbing', 'slicing', 'ember', 'rime', 'storm', 'primal', 'arcane', 'blight', 'wyrd', 'sacred'],
       damageAmount: 'formula',
       damageScaling: ['flat', 'percentage', 'weapon_damage', 'spell_power']
     }

@@ -1094,6 +1094,25 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
       }
     }
 
+    // 5b. Generic class resource costs (Tension, Authority, Ancestral Resonance, …).
+    // Chronarch Time Shards keep their dedicated time_shard_* handling below.
+    const genericCr = spellData.resourceCost?.classResource || {};
+    const genericCrType = genericCr.type;
+    const genericCrCost = Number(genericCr.cost || 0);
+    const usesGenericCr = genericCrCost !== 0 && !!genericCrType && genericCrType !== 'time_shards';
+    const genericCrLabel = genericCrType
+      ? genericCrType.replace(/[_-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+      : 'Class Resource';
+    if (usesGenericCr && genericCrCost > 0 && Number(classRes.current || 0) < genericCrCost) {
+      useChatStore.getState().addCombatNotification?.({
+        type: 'system',
+        sender: 'Combat',
+        content: `⚠️ Not enough ${genericCrLabel} to cast ${spellData.name}! (Requires ${genericCrCost}, have ${Number(classRes.current || 0)})`,
+        timestamp: new Date().toISOString()
+      });
+      return false;
+    }
+
     // 6. Check Pyrofiend Inferno Veil
     const infernoReq = Number(spellData.infernoRequired || spellData.resourceCost?.resourceValues?.inferno_required || 0);
     const currentInferno = Number(classRes.current || 0);
@@ -1254,6 +1273,17 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
         }
         charStore.updateClassResource('notes', nextNotes);
         changesLog.push(`Cadence Notes: -${consumedList.join(', -')}`);
+      }
+    }
+
+    // Generic class resource spend/gain (Tension, Authority, Ancestral Resonance, …)
+    if (usesGenericCr) {
+      if (genericCrCost > 0) {
+        charStore.consumeClassResource(genericCrCost);
+        changesLog.push(`-${genericCrCost} ${genericCrLabel}`);
+      } else {
+        charStore.gainClassResource(-genericCrCost);
+        changesLog.push(`+${-genericCrCost} ${genericCrLabel}`);
       }
     }
 

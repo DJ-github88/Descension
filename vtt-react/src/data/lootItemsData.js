@@ -152,7 +152,7 @@ export const LOOT_ITEMS = [
     subtype: 'necklace',
     quality: 'uncommon',
     iconId: 'inv_jewelry_necklace_19',
-    description: 'Every tooth is named in a chained Neth Ledger-tome, where the oaths of the fallen are kept. Each tooth in this grisly necklace marks a chieftain who dared challenge Warlord Krag\'s rule. A necklace made from the teeth and small bones of defeated enemies.',
+    description: 'Every tooth is named in a chained Nethien Ledger-tome, where the oaths of the fallen are kept. Each tooth in this grisly necklace marks a chieftain who dared challenge Warlord Krag\'s rule. A necklace made from the teeth and small bones of defeated enemies.',
     value: { gold: 1, silver: 50 },
     slots: ['neck'],
     width: 1,
@@ -171,7 +171,7 @@ export const LOOT_ITEMS = [
     subtype: 'focus',
     quality: 'rare',
     iconId: 'inv_misc_gem_crystal_02',
-    description: 'Once an Anchor-stone of the Neth First Contract, the crystal still thrums with the weight of the original pact-fragment. This crystal was plucked from the heart of a dying star by an archmage of the Celestial Conclave. A crystal used by powerful mages to focus their arcane energies.',
+    description: 'Once an Anchor-stone of the Nethien First Contract, the crystal still thrums with the weight of the original pact-fragment. This crystal was plucked from the heart of a dying star by an archmage of the Celestial Conclave. A crystal used by powerful mages to focus their arcane energies.',
     value: { gold: 7, silver: 50 },
     baseStats: {
       intelligence: 2

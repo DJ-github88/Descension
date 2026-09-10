@@ -25,7 +25,7 @@ const ITEM_LORE = {
   },
   soulthirst: {
     origin: 'bryngloom-forest',
-    loreText: 'Neth shadow-crafters forge these essence-drinking daggers in the root-veil darkness beneath Atropolis. Each blade is quenched in ancestor-mound ichor, giving it an unnatural hunger.',
+    loreText: 'Nethien shadow-crafters forge these essence-drinking daggers in the root-veil darkness beneath Atropolis. Each blade is quenched in ancestor-mound ichor, giving it an unnatural hunger.',
     relatedLore: ['bryngloom-forest', 'neth', 'root_veil']
   },
 
@@ -100,7 +100,7 @@ const ITEM_LORE = {
   // =======================================================================
   'parrying-blade': {
     origin: 'bryngloom-forest',
-    loreText: 'Neth duelists train with parrying daggers from the age of ten, their blades blackened with root-veil tar to avoid glinting in the eternal twilight of Bryngloom.',
+    loreText: 'Nethien duelists train with parrying daggers from the age of ten, their blades blackened with root-veil tar to avoid glinting in the eternal twilight of Bryngloom.',
     relatedLore: ['bryngloom-forest', 'neth', 'root_veil']
   },
   'warding-dagger': {
@@ -174,7 +174,7 @@ const ITEM_LORE = {
   },
   'broken-flute': {
     origin: 'bryngloom-forest',
-    loreText: 'Neth bone-carvers hollow gref femurs into flutes that produce a haunting, reedy tone. The Cult of Forgotten Shadow uses them to call spirits from the ancestor-mounds.',
+    loreText: 'Nethien bone-carvers hollow gref femurs into flutes that produce a haunting, reedy tone. The Cult of Forgotten Shadow uses them to call spirits from the ancestor-mounds.',
     relatedLore: ['bryngloom-forest', 'neth', 'gref', 'cult_of_forgotten_shadow']
   },
   'war-drum': {
@@ -472,7 +472,7 @@ const ITEM_LORE = {
   },
   shadowblade: {
     origin: 'bryngloom-forest',
-    loreText: 'The Cult of Forgotten Shadow quenched the first shadowblade in silence-essence from a living Neth oracle. The blade casts no shadow — it is made of shadow.',
+    loreText: 'The Cult of Forgotten Shadow quenched the first shadowblade in silence-essence from a living Nethien oracle. The blade casts no shadow — it is made of shadow.',
     relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow']
   },
   bonecrusher: {
@@ -512,7 +512,7 @@ const ITEM_LORE = {
   },
   venomfang: {
     origin: 'bryngloom-forest',
-    loreText: 'Vespera cultivated this living weapon from a Neth predator\'s fang, grafted to a hilt of ghost-mycelium. It hungers, learns, and grows.',
+    loreText: 'Vespera cultivated this living weapon from a Nethien predator\'s fang, grafted to a hilt of ghost-mycelium. It hungers, learns, and grows.',
     relatedLore: ['bryngloom-forest', 'vespera']
   },
   'dueling-rapier': {
@@ -557,7 +557,7 @@ const ITEM_LORE = {
   },
   'throwing-dagger': {
     origin: 'bryngloom-forest',
-    loreText: 'Neth shadow-crafters balance these daggers to perfection. A Velun assassin can place one between your ribs from forty paces in complete darkness.',
+    loreText: 'Nethien shadow-crafters balance these daggers to perfection. A Nethien assassin can place one between your ribs from forty paces in complete darkness.',
     relatedLore: ['bryngloom-forest', 'neth', 'velun']
   },
   'poison-blowgun': {
@@ -711,7 +711,7 @@ const ITEM_LORE = {
   },
   'threadbare-undershirt': {
     origin: 'bryngloom-forest',
-    loreText: 'Neth commoners wear threadbare shirts beneath outer garments — a symbol that all are equal under the root-veil. The Silent Seventh sees no rank through the weave.',
+    loreText: 'Nethien commoners wear threadbare shirts beneath outer garments — a symbol that all are equal under the root-veil. The Silent Seventh sees no rank through the weave.',
     relatedLore: ['bryngloom-forest', 'neth', 'silent_seventh']
   },
   'simple-tunic': {
@@ -746,7 +746,7 @@ const ITEM_LORE = {
   },
   'oaken-bulwark': {
     origin: 'bryngloom-forest',
-    loreText: 'Neth shield-wardens carry bulwarks grown from living ironwood, roots still connected to Bryngloom soil. The shield heals itself when returned to the grove.',
+    loreText: 'Nethien shield-wardens carry bulwarks grown from living ironwood, roots still connected to Bryngloom soil. The shield heals itself when returned to the grove.',
     relatedLore: ['bryngloom-forest', 'neth']
   },
   'iron-bastion': {
@@ -1024,7 +1024,7 @@ const ITEM_LORE = {
   },
   'black-bread': {
     origin: 'bryngloom-forest',
-    loreText: 'Neth bakers grind ironwood acorns into flour for this dense loaf. It keeps for months — longer than most things survive in the twilight.',
+    loreText: 'Nethien bakers grind ironwood acorns into flour for this dense loaf. It keeps for months — longer than most things survive in the twilight.',
     relatedLore: ['bryngloom-forest', 'neth']
   },
   'scroll-of-haste': {
@@ -1172,7 +1172,7 @@ const ITEM_LORE = {
   },
   'marble-block': {
     origin: 'bryngloom-forest',
-    loreText: 'White marble quarried from Bryngloom\'s subterranean rivers, veined with ghost-mycelium that glows faintly in darkness. The Neth use it for ancestor-mound markers.',
+    loreText: 'White marble quarried from Bryngloom\'s subterranean rivers, veined with ghost-mycelium that glows faintly in darkness. The Nethien use it for ancestor-mound markers.',
     relatedLore: ['bryngloom-forest', 'neth']
   },
   'obsidian-glass': {
@@ -1280,7 +1280,7 @@ const ITEM_LORE = {
   },
   shadowfiber: {
     origin: 'bryngloom-forest',
-    loreText: 'A fabric woven in absolute darkness by the Cult of Forgotten Shadow, using techniques that predate the Neth-Vreken Reincarnation Bargain. It absorbs all light.',
+    loreText: 'A fabric woven in absolute darkness by the Cult of Forgotten Shadow, using techniques that predate the Nethien-Vreken Reincarnation Bargain. It absorbs all light.',
     relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow']
   },
   dreamweave: {
@@ -1324,7 +1324,7 @@ const ITEM_LORE = {
   },
   'horn-fragment': {
     origin: 'bryngloom-forest',
-    loreText: 'Shed antlers from the great ironwood stags that roam Bryngloom\'s canopy. Neth carvers shape them into bow-tips and dagger handles, each grain telling a century of growth.',
+    loreText: 'Shed antlers from the great ironwood stags that roam Bryngloom\'s canopy. Nethien carvers shape them into bow-tips and dagger handles, each grain telling a century of growth.',
     relatedLore: ['bryngloom-forest', 'neth']
   },
   'claw-talon': {
@@ -1368,7 +1368,7 @@ const ITEM_LORE = {
   },
   'wooden-haft': {
     origin: 'bryngloom-forest',
-    loreText: 'Turned from Bryngloom ironwood saplings on Neth wood-lathes that have run continuously for centuries. The grain is so tight it resists splitting even after years of combat.',
+    loreText: 'Turned from Bryngloom ironwood saplings on Nethien wood-lathes that have run continuously for centuries. The grain is so tight it resists splitting even after years of combat.',
     relatedLore: ['bryngloom-forest', 'neth']
   },
   'weapon-blank': {
@@ -1535,7 +1535,7 @@ const ITEM_LORE = {
   },
   'river-fish': {
     origin: 'bryngloom-forest',
-    loreText: 'Caught from Bryngloom\'s subterranean rivers, these fish are pale and blind but delicious. The Neth smoke them over ghost-mycelium fires for a distinctive flavour.',
+    loreText: 'Caught from Bryngloom\'s subterranean rivers, these fish are pale and blind but delicious. The Nethien smoke them over ghost-mycelium fires for a distinctive flavour.',
     relatedLore: ['bryngloom-forest', 'neth']
   },
   'spice-blend': {
@@ -1569,7 +1569,7 @@ const ITEM_LORE = {
   },
   'ancient-heartwood': {
     origin: 'bryngloom-forest',
-    loreText: 'A section of ironwood from a tree ancient when the Neth first settled Bryngloom. Its growth rings tell a history predating recorded memory.',
+    loreText: 'A section of ironwood from a tree ancient when the Nethien first settled Bryngloom. Its growth rings tell a history predating recorded memory.',
     relatedLore: ['bryngloom-forest', 'neth']
   },
   'thornroot-seed': {
@@ -1703,7 +1703,7 @@ const ITEM_LORE = {
   },
   'blight-mothers-prong': {
     origin: 'bryngloom-forest',
-    loreText: 'Vespera\'s living weapon — a prong grafted from a Neth predator\'s fang to ghost-mycelium. It secretes adaptive venom that learns, mutates, and always finds a way past its target\'s defenses.',
+    loreText: 'Vespera\'s living weapon — a prong grafted from a Nethien predator\'s fang to ghost-mycelium. It secretes adaptive venom that learns, mutates, and always finds a way past its target\'s defenses.',
     relatedLore: ['bryngloom-forest', 'vespera']
   },
   'faiths-edge-glaive': {
@@ -1841,7 +1841,7 @@ const ITEM_LORE = {
   },
   'venom-drake-fang': {
     origin: 'bryngloom-forest',
-    loreText: 'Vespera cultivated this venom from the Neth predator\'s gland. The poison mutates inside the wound, learning and adapting — by the time you notice the pain, it\'s already too late.',
+    loreText: 'Vespera cultivated this venom from the Nethien predator\'s gland. The poison mutates inside the wound, learning and adapting — by the time you notice the pain, it\'s already too late.',
     relatedLore: ['bryngloom-forest', 'plaguebringer', 'vespera']
   },
   'psychic-horror-wand': {

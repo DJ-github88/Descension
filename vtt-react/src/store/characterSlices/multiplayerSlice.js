@@ -71,11 +71,19 @@ export const createMultiplayerSlice = (set, get) => ({
                     class_spells: state.class_spells,
                     path: state.path,
                     pathDisplayName: state.pathDisplayName,
+                    pathPassives: state.pathPassives || [],
                     selectedAbility: state.selectedAbility,
                     background: state.background,
                     backgroundDisplayName: state.backgroundDisplayName,
                     talents: state.talents,
-                    primarySpecialization: state.primarySpecialization
+                    primarySpecialization: state.primarySpecialization,
+                    // Sheet fields needed to inspect a party member accurately
+                    // (otherwise the inspect window falls back to defaults/zeros).
+                    exhaustionLevel: state.exhaustionLevel || 0,
+                    immunities: state.immunities || [],
+                    levelUpHistory: state.levelUpHistory || {},
+                    activeEffects: state.activeEffects || [],
+                    encumbranceState: state.inventory?.encumbranceState || 'normal'
                 },
                 senderSocketId: socketId,
                 userId: userId, // Also at top level for convenience

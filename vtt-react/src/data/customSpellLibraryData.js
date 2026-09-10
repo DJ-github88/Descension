@@ -14,7 +14,7 @@ export const SPELL_CATEGORIES = [
   {
     id: 'damage-spells',
     name: 'Damage Spells',
-    description: 'The forged and lethal edge of Neth contract-magic. Spells that deal direct damage to enemies',
+    description: 'The forged and lethal edge of Nethien contract-magic. Spells that deal direct damage to enemies',
     icon: 'spell_fire_fireball02',
     spells: [],
     color: '#8B4513'

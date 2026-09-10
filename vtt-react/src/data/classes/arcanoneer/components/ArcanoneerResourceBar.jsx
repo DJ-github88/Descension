@@ -15,14 +15,14 @@ import SpellCastConfirmation from '../../../../components/ui/SpellCastConfirmati
  * Single source of truth for canonical elements with rich Arcanoneer styling
  */
 const CANONICAL_ELEMENTS = [
-    { id: 'arcane', name: 'Arcane', abbrev: 'ARC', color: '#9370DB', lightColor: '#d8b4fe', d8Value: 1, theme: 'Raw Magic', summary: 'Force damage, kinetic disorientation', flavor: 'The shape behind all other shapes, raw kinetic intent.' },
-    { id: 'sacred', name: 'Sacred', abbrev: 'SAC', color: '#eab308', lightColor: '#fef08a', d8Value: 2, theme: 'Divine Light', summary: 'Divine damage, radiant blinding', flavor: 'The first clause of the First Contract: let there be sight.' },
+    { id: 'arcane', name: 'Arcane', abbrev: 'ARC', color: '#9370DB', lightColor: '#d8b4fe', d8Value: 1, theme: 'Raw Magic', summary: 'Arcane damage, kinetic disorientation', flavor: 'The shape behind all other shapes, raw kinetic intent.' },
+    { id: 'sacred', name: 'Sacred', abbrev: 'SAC', color: '#eab308', lightColor: '#fef08a', d8Value: 2, theme: 'Divine Light', summary: 'Sacred damage, blinding, protection, cleansing', flavor: 'The first clause of the First Contract: let there be sight.' },
     { id: 'blight', name: 'Blight', abbrev: 'BLI', color: '#8b5cf6', lightColor: '#c084fc', d8Value: 3, theme: 'Darkness', summary: 'Blight damage, curses, entropic decay', flavor: 'The silence after the clause, what the light leaves behind.' },
-    { id: 'ember', name: 'Ember', abbrev: 'EMB', color: '#ea580c', lightColor: '#fdba74', d8Value: 4, theme: 'Flames', summary: 'Fire damage, thermal ignition, combustion', flavor: 'The first tool humanity mastered, captured in a crystal shard.' },
-    { id: 'rime', name: 'Rime', abbrev: 'RIM', color: '#0284c7', lightColor: '#7dd3fc', d8Value: 5, theme: 'Frost', summary: 'Cold damage, glacial slowing, freezing', flavor: 'Entropy deferred, motion held still in crystal lattice.' },
-    { id: 'primal', name: 'Primal', abbrev: 'PRI', color: '#16a34a', lightColor: '#86efac', d8Value: 6, theme: 'Storm & Growth', summary: 'Lightning, thorny vines, poison', flavor: 'The green arc between seed and sky.' },
-    { id: 'storm', name: 'Storm', abbrev: 'STO', color: '#0891b2', lightColor: '#67e8f9', d8Value: 7, theme: 'Lightning & Thunder', summary: 'Lightning damage, stunning chain resonance', flavor: 'The sky\'s voice captured in crystal, raw current and sound.' },
-    { id: 'wyrd', name: 'Wyrd', abbrev: 'WYR', color: '#db2777', lightColor: '#f472b6', d8Value: 8, theme: 'Unpredictability', summary: 'Chaos magic, erratic variable damage', flavor: 'The clause Morvane will not interpret.', isGradient: true }
+    { id: 'ember', name: 'Ember', abbrev: 'EMB', color: '#ea580c', lightColor: '#fdba74', d8Value: 4, theme: 'Flames', summary: 'Ember damage, ignition, combustion', flavor: 'The first tool humanity mastered, captured in a crystal shard.' },
+    { id: 'rime', name: 'Rime', abbrev: 'RIM', color: '#0284c7', lightColor: '#7dd3fc', d8Value: 5, theme: 'Rime', summary: 'Rime damage, slowing, brittle', flavor: 'Entropy deferred, motion held still in crystal lattice.' },
+    { id: 'primal', name: 'Primal', abbrev: 'PRI', color: '#16a34a', lightColor: '#86efac', d8Value: 6, theme: 'Growth', summary: 'Primal damage, grasping vines, poison (condition)', flavor: 'The green arc between seed and sky.' },
+    { id: 'storm', name: 'Storm', abbrev: 'STO', color: '#0891b2', lightColor: '#67e8f9', d8Value: 7, theme: 'Storm', summary: 'Storm damage, stunning, chain resonance', flavor: 'The sky\'s voice captured in crystal, raw current and sound.' },
+    { id: 'wyrd', name: 'Wyrd', abbrev: 'WYR', color: '#db2777', lightColor: '#f472b6', d8Value: 8, theme: 'Unpredictability', summary: 'Wyrd damage, chaotic variable effects', flavor: 'The clause Morvane will not interpret.', isGradient: true }
 ];
 
 /**
@@ -443,19 +443,19 @@ const ArcanoneerResourceBar = ({
                     <ClassTip
                         icon="fas fa-gem"
                         tint={block.isGradient ? '#FF00FF' : block.color}
-                        title={`${block.name} (d8 = ${block.d8Value})`}
+                        title={`${block.name} · d8 face ${block.d8Value}`}
                         subtitle="Arcanoneer Elemental Sphere"
                         state={`${count} banked`}
                         stateTone={count > 0 ? 'good' : 'neutral'}
                         mechanic={`${block.theme} — ${block.summary}`}
                         status={[
                             count > 0
-                                ? `${count} banked — chambered in iron sleeve.`
+                                ? `${count} chambered in the iron sleeve.`
                                 : 'Chamber empty — roll 4d8 to draw elemental spheres.',
                             readyForms.length > 0
-                                ? `Ready Combinations: ${readyForms.map(f => f.name).join(', ')}.`
+                                ? `Ready combinations: ${readyForms.map(f => f.name).join(', ')}.`
                                 : forms.length > 0
-                                    ? `No ready weave — requires partner sphere (${forms.length} matrix formulas use this).`
+                                    ? `No ready weave — needs a partner sphere (${forms.length} formulations use this).`
                                     : null,
                         ]}
                         usage={canEdit ? 'Click to chamber (+1) · Right-click to expel (-1)' : null}
@@ -476,14 +476,14 @@ const ArcanoneerResourceBar = ({
                     title="Calibrated Iron Sleeve"
                     subtitle="Arcanoneer Formulation Matrix & Spheres"
                     state={`${totalBanked} / ${maxBank} Banked`}
-                    stateTone={totalBanked >= maxBank ? 'critical' : totalBanked > 0 ? 'good' : 'neutral'}
-                    mechanic="Magi-ballistic artillery channeling elemental spheres into spell formulations. Roll 4d8 (Kinetic Primer) to draw elemental building blocks, or combine pairs in the Formulation Matrix."
+                    stateTone={totalBanked >= maxBank ? 'warn' : totalBanked > 0 ? 'good' : 'neutral'}
+                    mechanic="Roll 4d8 at the start of your turn; each die banks 1 elemental sphere (max 12 — overflow is lost). Combine 2 spheres plus mana into a formulation; offensive weaves pin your movement to 0 for the turn, Defend does not."
                     status={[
                         `Cylinder: ${totalBanked}/${maxBank} spheres chambered.`,
                         readyFormsCount > 0
-                            ? `Formulations Ready: ${readyFormsCount} spell(s) primed for casting.`
-                            : 'No formulations fully primed. Draw or chamber matching sphere pairs.',
-                        'Hover individual chambers for element combinations or click MATRIX to view all.'
+                            ? `Ready formulations: ${readyFormsCount} spell(s) primed for casting.`
+                            : 'No formulations primed — draw or chamber matching sphere pairs.',
+                        `${Math.max(0, maxBank - totalBanked)} chamber space left before overflow is lost.`
                     ]}
                     usage="Roll 4d8 to draw spheres · Click chamber (+1) / Right-click (-1) · Click MATRIX to craft"
                     hint="Arcanoneers synthesize arcane artillery by binding twin spheres into destructive or tactical formulations."
@@ -642,10 +642,10 @@ const ArcanoneerResourceBar = ({
         return ReactDOM.createPortal(
             <div
                 ref={matrixModalRef}
-                className="arc-matrix-popup-frame arcanoneer-menu-container"
+                className="arc-matrix-popup-frame arcanoneer-menu-container class-resource-menu"
                 onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent?.stopImmediatePropagation) e.nativeEvent.stopImmediatePropagation(); }}
                 onClick={(e) => { e.stopPropagation(); if (e.nativeEvent?.stopImmediatePropagation) e.nativeEvent.stopImmediatePropagation(); }}
-                onMouseEnter={(e) => e.stopPropagation()}
+                onMouseEnter={(e) => { e.stopPropagation(); setShowBarTooltip(false); setHoveredBlockId(null); }}
                 onMouseMove={(e) => e.stopPropagation()}
                 onMouseOver={(e) => e.stopPropagation()}
                 style={{ position: 'fixed', top: `${top}px`, left: `${left}px`, width: `${modalWidth}px`, zIndex: 100000 }}

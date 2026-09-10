@@ -10,7 +10,8 @@ import useCharacterStore from "../store/characterStore";
 import useCharacterTokenStore from "../store/characterTokenStore";
 import useCombatStore from "../store/combatStore";
 import useLevelEditorStore, { WALL_TYPES, TERRAIN_TYPES } from "../store/levelEditorStore";
-import { getWowIconUrl } from '../utils/assetManager';
+import { getWowIconUrl, getIconUrl } from '../utils/assetManager';
+import { getClassIconUrl } from '../utils/classIconUtils';
 import useMapStore from "../store/mapStore";
 import * as SettingsStoreModule from "../store/settingsStore";
 import { useLevelEditorPersistence } from "../hooks/useLevelEditorPersistence";
@@ -49,6 +50,7 @@ import useLongPressContextMenu from "../hooks/useLongPressContextMenu";
 const CharacterTokenPreview = ({ mousePosition, tokenSize }) => {
  const characterData = useCharacterStore(state => ({
   name: state.name,
+  class: state.class,
   lore: state.lore,
   tokenSettings: state.tokenSettings
  }));
@@ -68,9 +70,11 @@ const CharacterTokenPreview = ({ mousePosition, tokenSize }) => {
   }
   // Check for characterIcon and convert to URL
   if (characterData.lore?.characterIcon) {
-   return getWowIconUrl(characterData.lore.characterIcon);
+   const icon = characterData.lore.characterIcon;
+   return getIconUrl(icon, icon.includes('/') ? 'creatures' : 'items');
   }
-  return getWowIconUrl('inv_misc_head_human_01');
+  // No portrait chosen: fall back to the class icon
+  return getClassIconUrl(characterData.class) || getWowIconUrl('inv_misc_head_human_01');
  };
 
  return (
@@ -1434,6 +1438,11 @@ function GridComponent({
   // If not, allow normal scrolling behavior
   const gridElement = gridRef.current;
   if (!gridElement) return;
+
+  // Never hijack wheel input inside the portrait lightbox (its own zoom viewer)
+  if (e.target && typeof e.target.closest === 'function' && e.target.closest('.portrait-lightbox-overlay')) {
+   return;
+  }
 
   // Helper function to check if an element is potentially scrollable (has scrollable CSS)
   const isPotentiallyScrollable = (element) => {

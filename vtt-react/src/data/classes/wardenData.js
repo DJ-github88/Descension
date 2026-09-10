@@ -24,7 +24,7 @@ export const WARDEN_DATA = {
           "solari"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires access to the chain-graft surgical tradition only available in Frostmaw Holdfast and the Frozen Archive. Groven invented the technique. Vreken adopted it through proximity. Fexric Caustic Fexric learned it through guild-surgical exchange. Non-listed races must undergo the surgical graft, which few cultures accept, Kessen Neth lack the martial-surgical tradition, Ordan are nomadic, Solari physiology rejects the cold-iron threading."
+      "justification": "Requires access to the chain-graft surgical tradition only available in Frostmaw Holdfast and the Frozen Archive. Groven invented the technique. Vreken adopted it through proximity. Fexric Caustic Fexric learned it through guild-surgical exchange. Non-listed races must undergo the surgical graft, which few cultures accept, Veldun lack the martial-surgical tradition, Ordan are nomadic, Solari physiology rejects the cold-iron threading."
   },
 
   /**
@@ -217,7 +217,7 @@ The Warden's calling was forged by Alaric the Law-Keeper, a Groven mine-guard wh
 Common folk in regional settlements find their rusted, skin-grafted chains and heavy iron bolts disturbing, often viewing them as zealots or walking cell blocks. They are tolerated only because they keep the absolute worst terrors of the deep from reaching the surface keeps.
 
 **RACES & CULTURAL AFFILIATION**
-The tradition is heavily practiced by the subterranean Morgh <LoreLink termId="groven">Groven</LoreLink> and the <LoreLink termId="fexrick">Fexric</LoreLink> Caustic Fexric who forge their iron links. However, it has spread to desperate <LoreLink termId="neth">Neth</LoreLink> archivists, <LoreLink termId="skald">Skald</LoreLink> glacier-hunters, and penitent <LoreLink termId="vreken">Vreken</LoreLink> who seek absolution by chaining themselves to the bog-horrors.
+The tradition is heavily practiced by the subterranean Morgh <LoreLink termId="groven">Groven</LoreLink> and the <LoreLink termId="fexrick">Fexric</LoreLink> Caustic Fexric who forge their iron links. However, it has spread to desperate <LoreLink termId="neth">Nethien</LoreLink> archivists, <LoreLink termId="skald">Skald</LoreLink> glacier-hunters, and penitent <LoreLink termId="vreken">Vreken</LoreLink> who seek absolution by chaining themselves to the bog-horrors.
 
 **NOTABLE FIGURES**
 * **Alaric the Law-Keeper**: The first Warden who held the line for three days with a rusted chain driven through his forearm.
@@ -396,7 +396,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
       weapons: [
         {
           name: "Tension",
-          damage: "2d6 slashing or bludgeoning",
+          damage: "2d6 slicing or smashing",
           properties: "Heavy-martial, grafted to forearms. 15-foot range. Cannot be disarmed or removed."
         }
       ],

@@ -58,6 +58,17 @@ const buildWeaponRankStyles = (color) => {
 // Shared 1-20 weapon flavor tables from weaponTypeSimpleTables
 export const WEAPON_FACE_TEXT = WEAPON_TYPE_SIMPLE_TABLES;
 
+// calculateEquipmentBonuses emits short stat keys (str/con/agi/int/spir/cha)
+// while skill definitions use full names (strength, constitution, ...).
+const EQUIPMENT_STAT_KEY_MAP = {
+    strength: 'str',
+    constitution: 'con',
+    agility: 'agi',
+    intelligence: 'int',
+    spirit: 'spir',
+    charisma: 'cha'
+};
+
 export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSkill: propSetSelectedSkill, selectedCategory: propCategory } = {}) {
     // Use inspection context if available, otherwise use regular character store
     const inspectionData = useInspectionCharacter();
@@ -78,6 +89,9 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
         updateSkillProgress,
         setSkillRank
     } = dataSource;
+
+    const getEquipmentStatBonus = (stat) =>
+        equipmentBonuses?.[stat] ?? equipmentBonuses?.[EQUIPMENT_STAT_KEY_MAP[stat]] ?? 0;
 
     const DIE_SIZE_MAP = {
         UNTRAINED: 4,
@@ -599,10 +613,10 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
             ? (weaponMeta?.secondaryStat || null)
             : (skillObj?.secondaryStat || null);
         
-        const primaryStatVal = (stats[primaryStat] || 10) + (equipmentBonuses[primaryStat] || 0);
+        const primaryStatVal = (stats[primaryStat] || 10) + getEquipmentStatBonus(primaryStat);
         const primaryMod = calculateStatModifier(primaryStatVal);
         
-        const secondaryStatVal = secondaryStat ? (stats[secondaryStat] || 10) + (equipmentBonuses[secondaryStat] || 0) : 0;
+        const secondaryStatVal = secondaryStat ? (stats[secondaryStat] || 10) + getEquipmentStatBonus(secondaryStat) : 0;
         const secondaryMod = secondaryStat ? calculateStatModifier(secondaryStatVal) : 0;
         const secondaryHalf = Math.floor(secondaryMod / 2);
         

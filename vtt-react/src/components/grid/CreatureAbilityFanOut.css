@@ -38,30 +38,22 @@
     user-select: none;
 }
 
-/* Ability hover card (full UnifiedSpellCard, same layout as the inspect view) */
+/* Ability hover card (full UnifiedSpellCard, same layout as the inspect view).
+   Rendered in a <body> portal with fixed positioning (set inline from the
+   hovered bubble rect) so it sits above the Party/Target HUDs (z-index 9000). */
 .fan-ability-card {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    position: fixed;
     /* Inspect-view parity: the card design reflows completely at 380px */
     width: 380px;
     max-width: min(400px, calc(100vw - 16px));
     max-height: calc(100vh - 16px);
     overflow-y: auto;
     overflow-x: visible;
-    z-index: 1080;
+    z-index: 10000;
     pointer-events: auto;
     filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.65));
     animation: fanCardFadeIn 0.15s ease-out;
     scrollbar-width: thin;
-}
-
-.fan-ability-card.fan-card-right {
-    left: calc(100% + 14px);
-}
-
-.fan-ability-card.fan-card-left {
-    right: calc(100% + 14px);
 }
 
 @keyframes fanCardFadeIn {

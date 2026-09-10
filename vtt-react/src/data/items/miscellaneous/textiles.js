@@ -13,7 +13,7 @@ export const TEXTILE_ITEMS = [
     subtype: 'CRAFTING',
     quality: 'common',
     description: 'Raw linen fiber spun from flax plants. The foundation of basic textiles.',
-    iconId: 'Misc/Profession Resources/Tailoring/resource-pile-flour-sand-powder-tan',
+    iconId: 'Misc/Profession Resources/Farming/resource-pile-flour-sand-powder-tan',
     value: { gold: 0, silver: 0, copper: 8 },
     stackable: true,
     maxStackSize: 20,

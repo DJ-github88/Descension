@@ -33,7 +33,17 @@ const MythrillWindow = forwardRef((props, ref) => {
         maxConstraints = [2560, 1600],
         modal = false,
         backdrop = true,
-        centerTitle = false
+        centerTitle = false,
+        // When true, only the header/tab strip starts a drag (legacy
+        // behaviour). By default the window-content background is also a drag
+        // surface so tab-styled windows (no visible header bar) stay movable.
+        disableContentDrag = false,
+        // Optional react-draggable `cancel` selector override. The default
+        // keeps form controls, links, media, canvas/maps, HTML5-draggable
+        // elements and `.window-no-drag` regions interactive, while leaving
+        // the tab buttons themselves draggable (a real drag suppresses the
+        // follow-up click, so tab switching still works on plain clicks).
+        cancel = null
     } = props;
 
     // Ensure title is always defined. Allow explicit empty string to suppress the title.
@@ -275,11 +285,13 @@ const MythrillWindow = forwardRef((props, ref) => {
         }
     }, [onResize]);
 
-    // Handle drag start/stop to prevent resize conflicts
+    // Handle drag start/stop to prevent resize conflicts. Returning false
+    // vetoes the drag (honoured by DraggableWindow) so window moves never
+    // fight item/token drags originating inside the window content.
     const handleDragStart = useCallback(() => {
         // Don't allow window dragging if an item is being dragged
         if (window.isDraggingItem) {
-            return;
+            return false;
         }
 
         setIsDragging(true);
@@ -398,10 +410,26 @@ const MythrillWindow = forwardRef((props, ref) => {
         return null;
     }
 
-    const defaultHandles = "window-header, wow-window-drag-handle, wow-custom-header-handle";
-    const effectiveHandles = handleClassName
-        ? Array.from(new Set(`${defaultHandles}, ${handleClassName}`.split(',').map(s => s.trim().replace(/^\./, '')))).join(', ')
-        : defaultHandles;
+    // Drag handles: the classic header bar plus the protruding tab strips
+    // (most windows hide the header and show only tabs) plus — unless opted
+    // out — the window-content background itself.
+    const defaultHandles = "window-header, wow-window-drag-handle, wow-custom-header-handle, spellbook-tab-container, tk-tab-container, tt-custom-header, library-drag-handle";
+    const contentHandle = disableContentDrag ? "" : ", window-content";
+    const effectiveHandles = (handleClassName
+        ? Array.from(new Set(`${defaultHandles}${contentHandle}, ${handleClassName}`.split(',').map(s => s.trim().replace(/^\./, '')))).join(', ')
+        : `${defaultHandles}${contentHandle}`).trim().replace(/,\s*$/, '');
+
+    // Tab buttons stay draggable (they live inside the tab-strip handles) so
+    // they are carved OUT of the button cancel below. Every other button, form
+    // control, link, media element, canvas/map and `.window-no-drag` region
+    // cancels content-drag and keeps its native behaviour.
+    const DEFAULT_DRAG_CANCEL = 'input, select, textarea, '
+        + 'button:not(.spellbook-tab-button):not(.tk-tab):not(.window-header-tab):not(.tab-overflow-trigger), '
+        + 'a, a[href], [role="button"], [role="menu"], [role="menuitem"], [role="option"], '
+        + '[contenteditable="true"], [contenteditable=""], '
+        + '[data-no-drag], .window-no-drag, .window-no-drag *, '
+        + '[draggable="true"], .react-resizable-handle, canvas, audio, video';
+    const effectiveCancel = cancel ?? (disableContentDrag ? undefined : DEFAULT_DRAG_CANCEL);
 
     return createPortal(
         <React.Fragment>
@@ -421,6 +449,7 @@ const MythrillWindow = forwardRef((props, ref) => {
             centered={centered}
             bounds={bounds}
             handleClassName={effectiveHandles}
+            cancel={effectiveCancel}
             zIndex={zIndex}
             onDragStart={handleDragStart}
             onDragStop={handleDragStop}
@@ -534,7 +563,7 @@ const MythrillWindow = forwardRef((props, ref) => {
                             </div>
                         </div>
                     ) : null}
-                    <div className="window-content" tabIndex={-1}>
+                    <div className={`window-content${disableContentDrag ? '' : ' window-content-draggable'}`} tabIndex={-1}>
                         {/* Maximize / restore button — positioned inside the content area */}
                         <button
                             className="window-close wow-window-maximize-btn"

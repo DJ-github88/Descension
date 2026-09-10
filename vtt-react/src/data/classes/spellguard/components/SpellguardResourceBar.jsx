@@ -12,10 +12,10 @@ import { getResourceStatusFlavor } from '../../../../utils/resourceStatusFlavor'
 // AEP Volatility & Radiation Tiers
 export const AEP_TIERS = [
     { min: 0, max: 25, name: 'Grounded', color: '#38bdf8', glow: '#60a5fa', hot: '#bae6fd', desc: 'Cold iron dissipation. Conduits lead-quenched and stable.' },
-    { min: 26, max: 50, name: 'Energized', color: '#0284c7', glow: '#38bdf8', hot: '#e0f2fe', desc: 'Active Leyline Siphon. Clean energy banked for barrier deployment.' },
-    { min: 51, max: 75, name: 'Overcharged', color: '#7c3aed', glow: '#a78bfa', hot: '#f5d0fe', desc: 'Radiation seep. Veins hum with volatile trapped mana (+1d4 arcane).' },
-    { min: 76, max: 90, name: 'Critical Resonance', color: '#c026d3', glow: '#f472b6', hot: '#fdf2f8', desc: 'Heat-sink venting required. Max-HP erosion begins.' },
-    { min: 91, max: 100, name: 'Meltdown Imminent', color: '#ef4444', glow: '#f87171', hot: '#fee2e2', desc: 'CRITICAL MASS: 100 AEP triggers 10d6 30ft Meltdown Nova! Vent immediately!' }
+    { min: 26, max: 50, name: 'Energized', color: '#0284c7', glow: '#38bdf8', hot: '#e0f2fe', desc: 'Clean energy banked for barriers and reflections.' },
+    { min: 51, max: 75, name: 'Overcharged', color: '#7c3aed', glow: '#a78bfa', hot: '#f5d0fe', desc: 'Radiation seep. Blood hums with volatile trapped mana.' },
+    { min: 76, max: 90, name: 'Critical Resonance', color: '#c026d3', glow: '#f472b6', hot: '#fdf2f8', desc: 'Heat-sink venting required. Unspent AEP erodes max HP.' },
+    { min: 91, max: 100, name: 'Meltdown Imminent', color: '#ef4444', glow: '#f87171', hot: '#fee2e2', desc: 'CRITICAL MASS: 100 AEP triggers the 30 ft Meltdown Nova. Vent immediately!' }
 ];
 
 export const getAepTier = (aep) => {
@@ -638,7 +638,7 @@ const SpellguardResourceBar = ({
                 {/* Floating Tactical Popover Menu Portal */}
                 {showControls && ReactDOM.createPortal(
                     <div 
-                        className="sg-tender-popover unified-context-menu spellguard-menu-container" 
+                        className="sg-tender-popover unified-context-menu spellguard-menu-container class-resource-menu" 
                         ref={controlsMenuRef}
                         onMouseDown={(e) => e.stopPropagation()}
                         onClick={(e) => e.stopPropagation()}
@@ -794,23 +794,23 @@ const SpellguardResourceBar = ({
                     <ClassTip
                         icon="fas fa-shield-halved"
                         tint={currentTier.color}
-                        title="Silence-Scarred Aegis (AEP)"
-                        subtitle="Spellguard Arcane Aegis"
+                        title="Arcane Energy Points"
+                        subtitle="Spellguard Silence-Scarred Aegis (AEP)"
                         state={`${localAEP}/100 • ${currentTier.name}`}
                         stateTone={isMeltdown ? 'bad' : isCritical ? 'warn' : 'good'}
-                        mechanic="Absorb hostile spells and physical blows into living vascular tissue. Spend stored AEP on devastating shields, reflections, and kinetic strikes."
+                        mechanic="Absorb hostile spells and magical impacts into scarred tissue (+1 AEP per damage absorbed, +15 from Silence Siphon). Spend AEP on barriers, reflections, and kinetic strikes; it decays 5 per minute out of combat."
                         status={[
-                            `Radiation Level: ${currentTier.name} — ${currentTier.desc}`,
+                            `${currentTier.name}: ${currentTier.desc}`,
                             localAEP >= 91
-                                ? 'MELTDOWN IMMINENT: 100 AEP detonates 10d6 in a 30ft radius and drops you to 1 HP. Purge now!'
+                                ? { text: 'MELTDOWN: 10d6 storm in a 30 ft radius, drop to 1 HP, max HP halved, incapacitated 1 round, AEP resets to 0.', tone: 'critical' }
                                 : localAEP >= 76
-                                    ? 'Critical Resonance: Unspent AEP erodes max HP until rested.'
+                                    ? { text: 'Critical Resonance — unspent AEP erodes max HP until a long rest.', tone: 'bad' }
                                     : localAEP >= 51
-                                        ? 'Overcharged: +1d4 arcane on all weapon and spell strikes.'
+                                        ? { text: 'Overcharged — pressure is building. Spend before it turns on you.', tone: 'warn' }
                                         : 'Conduits grounded and cool.',
-                            `Capacity: ${localAEP}/100 AEP (${100 - localAEP} AEP head-room remaining)`
+                            `Arcane Radiation: ending your round with unspent AEP deals ${Math.floor(localAEP / 10)} blight and strips ${Math.floor(localAEP / 10)} max HP until a long rest.`
                         ]}
-                        usage="Click chambers to set AEP · Click left valve to Siphon (+10) · Click right valve to Vent (-10) · Click Keystone for Tender."
+                        usage="Click chambers to set AEP · Left valve Siphon (+10) · Right valve Vent (-10) · Keystone opens the Tender."
                         hint="Arrow keys step AEP (Shift for ±25). Press 'V' to vent, 'S' to siphon, Enter for Tender menu."
                     />
                 </div>,

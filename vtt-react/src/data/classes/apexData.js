@@ -1422,7 +1422,7 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   specialization: "shadowblade",
 
   typeConfig: {
-  secondaryElement: "physical",
+  secondaryElement: "smashing",
   castTime: 1,
   castTimeType: "IMMEDIATE",
   school: "blight",
@@ -3327,7 +3327,7 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
    formula: "12d6 + agility * 1.5",
    type: "storm",
    description:
-   "Deals 12d6 + agility ï¿½ 1.5 force damage that ignores resistances",
+   "Deals 12d6 + agility ï¿½ 1.5 arcane damage that ignores resistances",
   },
   execute: {
    description:

@@ -38,7 +38,7 @@
     font-family: 'Courier New', 'Monaco', monospace;
     font-size: 14px;
     font-weight: 600;
-    z-index: 99999;
+    z-index: 900; /* Below party HUD frames (1000) so the HUD can be dragged over it; above map canvas (20) */
     display: flex;
     align-items: center;
     gap: 6px;

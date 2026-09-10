@@ -16,9 +16,7 @@ const useSpellMeta = ({ spell }) => {
       return `${cleanedFormula} damage`;
     }
 
-    if (cleanedFormula.includes('intelligence') || cleanedFormula.includes('strength') ||
-        cleanedFormula.includes('agility') || cleanedFormula.includes('constitution') ||
-        cleanedFormula.includes('spirit') || cleanedFormula.includes('charisma')) {
+    if (cleanedFormula.includes('Mod') || /intelligence|strength|agility|constitution|spirit|charisma/i.test(cleanedFormula)) {
       return `${cleanedFormula} damage`;
     }
 
@@ -46,6 +44,9 @@ const useSpellMeta = ({ spell }) => {
       'blight': 'spell-blight',
       'wyrd': 'spell-wyrd',
       'sacred': 'spell-sacred',
+      'smashing': 'spell-physical',
+      'stabbing': 'spell-physical',
+      'slicing': 'spell-physical',
       'physical': 'spell-physical',
       'fire': 'spell-ember',
       'frost': 'spell-rime',

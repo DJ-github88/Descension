@@ -261,10 +261,10 @@ const NPC_DATA = {
     "age": "39",
     "status": "Active",
     "appearance": "A lean, nervous man with hollow cheeks and eyes that dart constantly. He wears dark robes and keeps his hands hidden in his sleeves: his fingers are stained permanently black from handling peat-bog ink.",
-    "personality": "Korrin is genuinely terrified of the deep bog. He believes something ancient and hungry watches from beneath the peat, and that the Bryngloom is not done with its bargains. But he has nowhere else to go: the Neth control the only safe roads, and the surface-world offers nothing to a man who has already seen what lives in the deep water.",
+    "personality": "Korrin is genuinely terrified of the deep bog. He believes something ancient and hungry watches from beneath the peat, and that the Bryngloom is not done with its bargains. But he has nowhere else to go: the Nethien control the only safe roads, and the surface-world offers nothing to a man who has already seen what lives in the deep water.",
     "backstory": "Korrin was a petty thief in Greymark who fled into the Bryngloom after stealing from House Thalreth. He found work in the Over-Shanty as a memory-extraction specialist: a man who can enter other people's minds through bog-fumes and incense. He has extracted hundreds of memories, and each one has left a scar.",
     "hooks": [
-      "Korrin knows a hidden path through the Severing Bog that bypasses Neth patrols",
+      "Korrin knows a hidden path through the Severing Bog that bypasses Nethien patrols",
       "He is looking for a way to leave the Over-Shanty without being killed, and might help someone who offers an alternative"
     ]
   },
@@ -382,7 +382,7 @@ const NPC_DATA = {
     "id": "morrath-steward",
     "name": "The Steward of the Seventh Seat",
     "title": "Acting Steward of House Morrath",
-    "race": "Velun Neth",
+    "race": "Nethien",
     "gender": "Unknown",
     "factionIds": [
       "house-morrath"
@@ -392,9 +392,9 @@ const NPC_DATA = {
     ],
     "age": "Unknown (at least three centuries)",
     "status": "Active (acting)",
-    "appearance": "A Velun Neth whose contract-syntax neurology is visible as faint silver tracings beneath their skin. They dress in the formal grey of a Bryngloom scrivener, and their ledger-book is chained to their wrist.",
+    "appearance": "A Nethien whose contract-syntax neurology is visible as faint silver tracings beneath their skin. They dress in the formal grey of a Bryngloom scrivener, and their ledger-book is chained to their wrist.",
     "personality": "Meticulous, patient, and constitutionally incapable of lying. The Steward answers every question with the precision of a filed affidavit, and they have been waiting three centuries for someone to ask the right one.",
-    "backstory": "No Morrath heir has claimed the seventh seat in living memory. The Velun Neth steward was appointed \"temporarily\" after the last Morrath Lord vanished without naming a successor, and has administered the house's estates, contracts, and blood-debts with flawless legality ever since. The neighbouring houses have stopped asking when a real Morrath will appear; the Steward's tenure is simply accepted.",
+    "backstory": "No Morrath heir has claimed the seventh seat in living memory. The Nethien steward was appointed \"temporarily\" after the last Morrath Lord vanished without naming a successor, and has administered the house's estates, contracts, and blood-debts with flawless legality ever since. The neighbouring houses have stopped asking when a real Morrath will appear; the Steward's tenure is simply accepted.",
     "hooks": [
       "The Steward's ledger contains an unbroken record of House Morrath's debts, and some of those creditors are still collecting",
       "The last Morrath Lord's contract of disappearance was drafted by the Steward themselves, and they will not say who dictated the terms."
@@ -518,8 +518,8 @@ const NPC_DATA = {
     "id": "vel-otharen",
     "name": "Vel-Otharen",
     "title": "Senior Signatory of the Canopy-Ledger",
-    "race": "Velun Neth",
-    "gender": "Unspecified (Neth do not emphasize gender)",
+    "race": "Nethien",
+    "gender": "Unspecified (Nethien do not emphasize gender)",
     "factionIds": [
       "canopy-ledger",
       "house-morrath"
@@ -530,7 +530,7 @@ const NPC_DATA = {
     "age": "412",
     "status": "Active",
     "appearance": "The eldest active Arcanoneer: more Mnemonic Shard than flesh, his pale skin translucent where the crystallized blood-clauses show through. His pig-iron forearm graft is original, fused thirty generations of refinement ago. He has not spoken an unplanned word in thirty years.",
-    "personality": "Precise, patient, and privately terrified. Vel-Otharen chairs the arbitration that cannot resolve the Velun Contingency Protocol and believes, but cannot prove, that the contract-breach originates inside the Heart-Vault itself.",
+    "personality": "Precise, patient, and privately terrified. Vel-Otharen chairs the arbitration that cannot resolve the Nethien Contingency Protocol and believes, but cannot prove, that the contract-breach originates inside the Heart-Vault itself.",
     "backstory": "Ledger-Prime of the Canopy-Ledger, Vel-Otharen presides over the Arcanoneer order from Atropolis's Heart-Vault. His own filed Mnemonic Shards are degrading (clauses the Keeper once accepted now rejected) and he suspects the breach is internal. He believes arbitration can still resolve the Protocol dispute; he is almost certainly wrong.",
     "hooks": [
       "Vel-Otharen can grant a party access to the Heart-Vault's deepest contracts: for a filed consideration they must honor",
@@ -802,7 +802,7 @@ const NPC_DATA = {
     "id": "kor-vasseth",
     "name": "Kor-Vasseth",
     "title": "Warden of the Waking Graves (Threshold-Keeper of the Twice-Born)",
-    "race": "Mixed Vreken-Neth descent",
+    "race": "Mixed Vreken-Nethien descent",
     "gender": "Male",
     "factionIds": [
       "twice-born"
@@ -812,11 +812,11 @@ const NPC_DATA = {
     ],
     "age": "247",
     "status": "Active: frightened for the first time in two centuries",
-    "appearance": "An ancient Revenant of mixed Vreken-Neth descent, calm and whisper-layered with ancestral overtones. His skin is frost-stasis pale, his eyes the bioluminescent amber of Vreken dead-sight. One hand is silver-Neth, the other amber-Vreken: both traditions visible in his body.",
+    "appearance": "An ancient Revenant of mixed Vreken-Nethien descent, calm and whisper-layered with ancestral overtones. His skin is frost-stasis pale, his eyes the bioluminescent amber of Vreken dead-sight. One hand is silver-Nethien, the other amber-Vreken: both traditions visible in his body.",
     "personality": "Calm, ancient, and newly afraid. Kor-Vasseth has led the Twice-Born through three previous bog-grave awakenings. The fourth is different, and the difference has him frightened for the first time in two centuries.",
     "backstory": "Threshold-Keeper of the Twice-Born, Kor-Vasseth carries both founders' arts, Kora's Toll and Vesper's Phylactery. He is investigating the twelve Revenants found drained and the dead marching toward the Sundered Monoliths. The call routes through the Root-Veil, and he cannot stop the march without severing the Root-Veil itself. which would kill every Marked Revenant, half his order.",
     "hooks": [
-      "Kor-Vasseth hires the party to escort a Drun Neth Revenant (immune to the routing) to the nearest Monolith to observe what calls the dead",
+      "Kor-Vasseth hires the party to escort a Withered Revenant (immune to the routing) to the nearest Monolith to observe what calls the dead",
       "He alone knows which of the Twelve Drained Revenants left a final message: and it names the caller",
       "Severing the Root-Veil is on his table; he wants the party's counsel before he decides"
     ]
@@ -963,12 +963,12 @@ const NPC_DATA = {
     "id": "saren-vel",
     "name": "Saren-Vel",
     "title": "The Nameless Flame",
-    "race": "Velun Neth (Drun)",
+    "race": "Nethien (Withered)",
     "region": "bryngloom-forest",
     "status": "Historical — died centuries ago",
-    "appearance": "Depicted in Drun oral tradition as a tall woman with ink-burned hands and eyes the color of bog water. The burning she used to erase her name from the First Contract removed her from all visual records simultaneously — no accurate portrait survived.",
+    "appearance": "Depicted in Withered oral tradition as a tall woman with ink-burned hands and eyes the color of bog water. The burning she used to erase her name from the First Contract removed her from all visual records simultaneously — no accurate portrait survived.",
     "personality": "Decisive to the point of self-sacrifice. She was a woman who saw a systemic injustice, calculated the exact cost of refusing it, and paid the cost without hesitation. She did not ask whether her children would approve of her choice.",
-    "backstory": "Saren-Vel was the most powerful Velun Neth mage of her generation. When Morvane's pact tightened and the cage of the First Contract became unbearable to those who could feel it, she walked into the deepest Bryngloom bog with a flame that burned only ink and erased her name from every active copy of the Contract. The Drun subrace was born: legally nonexistent, magic-immune, invisible to enforcement. She died in the bog, her name already gone, unnamed even in death by the records that once held her. The Drun have no single leader; the closest is her memory.",
+    "backstory": "Saren-Vel was the most powerful Nethien mage of her generation. When Morvane's pact tightened and the cage of the First Contract became unbearable to those who could feel it, she walked into the deepest Bryngloom bog with a flame that burned only ink and erased her name from every active copy of the Contract. The Withered subrace was born: legally nonexistent, magic-immune, invisible to enforcement. She died in the bog, her name already gone, unnamed even in death by the records that once held her. The Withered have no single leader; the closest is her memory.",
     "factionIds": [
       "drun-outcasts"
     ],
@@ -977,9 +977,9 @@ const NPC_DATA = {
       "the-sunken-spire"
     ],
     "hooks": [
-      "A Drun elder has found a fragment of ink-burned parchment that may contain the last syllable of her true name",
+      "A Withered elder has found a fragment of ink-burned parchment that may contain the last syllable of her true name",
       "Something in the bog where she died still burns with her flame — it has never gone out in three centuries",
-      "A new First Contract clause has appeared that specifically targets the Drun — which means Morvane noticed them after all"
+      "A new First Contract clause has appeared that specifically targets the Withered — which means Morvane noticed them after all"
     ]
   },
   "grandmaster-solbrand": {

@@ -160,7 +160,7 @@ const AnimistResourceBar = ({
     const rightSpurs = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
     // Status flavor profile
-    const statusFlavor = getResourceStatusFlavor({ current: localResonance, resonance: localResonance }, 'Animist');
+    const statusFlavor = getResourceStatusFlavor('Animist', { current: localResonance, resonance: localResonance });
 
     return (
         <div
@@ -628,7 +628,7 @@ const AnimistResourceBar = ({
                 {/* Floating Tactical Popover Menu Portal */}
                 {showControls && ReactDOM.createPortal(
                     <div
-                        className="animist-council-popover unified-context-menu animist-menu-container"
+                        className="animist-council-popover unified-context-menu animist-menu-container class-resource-menu"
                         ref={controlsMenuRef}
                         onMouseDown={(e) => e.stopPropagation()}
                         onClick={(e) => e.stopPropagation()}
@@ -798,10 +798,10 @@ const AnimistResourceBar = ({
                             subtitle={`${currentTier.name} Stage`}
                             state={`${localResonance}/${maxResonance} AR`}
                             stateTone={isErosion ? 'critical' : localResonance >= 14 ? 'good' : 'neutral'}
-                            mechanic="Harvest ancestral resonance to awaken ancient runic networks. Higher resonance empowers spirit wards, spirit guides, and primal council rites."
+                            mechanic="Channel Resonance (0-20) with bone totems, curses, and rune carving; spend it on spirit invocations and runic network detonations. At 15+ the Triple Toll triggers: 100% ember vulnerability, no party healing, forced movement shatters runes, and hoarding deals 1d6 wyrd each turn."
                             status={[
-                                `Tier: ${currentTier.name} — ${currentTier.desc}`,
-                                isErosion ? 'EROSION DANGER: 100% ember vulnerability! Party healing severed!' : null,
+                                `${currentTier.name}: ${currentTier.desc}`,
+                                isErosion ? { text: 'TRIPLE TOLL: 100% ember vulnerability · no party healing · forced movement shatters runes (1d10 each) · 1d6 wyrd if you end at 15+.', tone: 'critical' } : null,
                                 statusFlavor
                             ].filter(Boolean)}
                             usage="Click bone spurs to calibrate · Left-click Totem Knot for +1 (Shift for +3) · Click Whistle for -3."

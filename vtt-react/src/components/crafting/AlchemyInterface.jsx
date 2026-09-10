@@ -470,7 +470,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange, onLearnAllRecipes, o
                 <div className="no-recipes">
                     <div className="no-recipes-icon">
                         <img
-                            src="getIconUrl('head-skull-potion-bottle', 'items')"
+                            src={getIconUrl('Armor/Head/head-skull-potion-bottle', 'items')}
                             alt="No Recipes"
                         />
                     </div>
@@ -502,14 +502,9 @@ function AlchemyInterface({ onBack, activeTab, onTabChange, onLearnAllRecipes, o
                                                 src={getIconUrl(resultItem?.iconId || recipe.resultIcon || 'inv_potion_51', 'items')}
                                                 alt={recipe.name}
                                                 onError={(e) => {
-                                                    e.target.src = getIconUrl('head-skull-potion-bottle', 'items');
+                                                    if (e.target.dataset.fbk) return; e.target.dataset.fbk = '1'; e.target.src = getIconUrl('Armor/Head/head-skull-potion-bottle', 'items');
                                                 }}
                                             />
-                                            {!craftCheck.canCraft && (
-                                                <div className="craft-overlay">
-                                                    <span>� - </span>
-                                                </div>
-                                            )}
                                         </div>
                                     );
                                 })()}
@@ -546,7 +541,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange, onLearnAllRecipes, o
                             <img
                                 src={getIconUrl(resultItem?.iconId || selectedRecipe.resultIcon || 'inv_potion_51', 'items')}
                                 alt={selectedRecipe.name}
-                                onError={(e) => { e.target.src = getIconUrl('head-skull-potion-bottle', 'items'); }}
+                                onError={(e) => { if (e.target.dataset.fbk) return; e.target.dataset.fbk = '1'; e.target.src = getIconUrl('Armor/Head/head-skull-potion-bottle', 'items'); }}
                             />
                         </div>
                         <div className="recipe-detail-meta">
@@ -600,7 +595,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange, onLearnAllRecipes, o
                                             <img
                                                 src={getIconUrl(itemData?.iconId || 'inv_misc_questionmark', 'items')}
                                                 alt={itemData?.name}
-                                                onError={(e) => { e.target.src = getIconUrl('inv_misc_questionmark', 'items'); }}
+                                                onError={(e) => { if (e.target.dataset.fbk) return; e.target.dataset.fbk = '1'; e.target.src = getIconUrl('inv_misc_questionmark', 'items'); }}
                                             />
                                         </div>
                                         <div className="material-info">
@@ -661,7 +656,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange, onLearnAllRecipes, o
                     <div className="queue-empty">
                         <div className="queue-empty-icon">
                             <img
-                                src="getIconUrl('brown-backpack-sleeping-bag', 'items')"
+                                src={getIconUrl('Container/Bag/brown-backpack-sleeping-bag', 'items')}
                                 alt="Empty Queue"
                             />
                         </div>
@@ -691,7 +686,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange, onLearnAllRecipes, o
                                                         src={getIconUrl(craftingItem.recipe.resultIcon || 'inv_potion_51', 'items')}
                                                         alt={craftingItem.recipe.name}
                                                         onError={(e) => {
-                                                            e.target.src = getIconUrl('head-skull-potion-bottle', 'items');
+                                                            if (e.target.dataset.fbk) return; e.target.dataset.fbk = '1'; e.target.src = getIconUrl('Armor/Head/head-skull-potion-bottle', 'items');
                                                         }}
                                                     />
                                                 </div>

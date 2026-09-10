@@ -767,22 +767,22 @@ const ToxicologistResourceBar = ({
             </div>
 
             {/* Shared ClassTip Tooltip */}
-            {showTooltip && ReactDOM.createPortal(
+            {showTooltip && !showControls && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip toxicologist-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     <ClassTip
                         icon="fas fa-flask"
                         tint="#84cc16"
-                        title="Apothecary & Clockwork Rig"
+                        title="Vials & Contraption Parts"
                         subtitle="Toxicologist Field Apothecary"
                         state={`${localToxinVials}/${maxToxinVials} Vials · ${localContraptionParts}/${maxContraptionParts} Parts`}
                         stateTone={localToxinVials > 0 ? 'good' : 'warn'}
-                        mechanic="Toxins: Distill 1d4 on short rest, all on long rest. Spend on area-denial poisons and reactive concoctions. Parts: Reclaim 1 on short rest, all on long rest. Spend on clockwork traps and needle-contraptions."
+                        mechanic="Vials (INT mod +3, min 4) distill 1d4 per short rest and all on long rest; spend them on poisons and concoctions. Contraption Parts (max 5) are reclaimed after combat, or 1 per short rest / all on long rest if destroyed; deploy them as traps."
                         status={[
                             localToxinVials > 0
-                                ? `${localToxinVials} vial(s) & ${localContraptionParts} part(s) ready for field synthesis.`
-                                : 'Supplies empty — rest or salvage parts to restock.',
+                                ? `${localToxinVials} Vials and ${localContraptionParts} Parts ready for field synthesis.`
+                                : 'Dry — take a rest or reclaim deployed contraptions.',
                         ]}
-                        usage={isOwner ? 'Click center to open Alchemical Bench. Click flank triggers or icons to calibrate.' : null}
+                        usage={isOwner ? 'Click center to open the Alchemical Bench · Click flank triggers or icons to calibrate.' : null}
                     />
                 </div>,
                 document.body
@@ -792,7 +792,7 @@ const ToxicologistResourceBar = ({
             {showControls && ReactDOM.createPortal(
                 <div
                     ref={controlsMenuRef}
-                    className={`unified-context-menu compact context-menu-container toxicologist-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    className={`unified-context-menu compact context-menu-container toxicologist-menu-container class-resource-menu ${context === 'party' ? 'chronarch-party' : ''}`}
                     onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onMouseEnter={(e) => {
@@ -826,7 +826,7 @@ const ToxicologistResourceBar = ({
                     <div className="context-menu-main">
                         <div className="context-menu-section">
                             <div className="context-menu-section-header">
-                                <i className="fas fa-flask" style={{ marginRight: '6px', color: '#558b2f' }}></i>
+                                <i className="fas fa-flask" style={{ marginRight: '6px', color: '#bef264' }}></i>
                                 Alchemical Bench
                             </div>
 

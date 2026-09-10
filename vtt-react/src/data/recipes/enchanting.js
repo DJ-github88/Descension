@@ -24,7 +24,7 @@ export const ENCHANTING_RECIPES = [
     id: 'rune-ink-recipe',
     name: 'Rune Ink',
     profession: 'enchanting',
-    description: 'Mixed as Neth contract-ink on a cold-iron stylus. Create special ink infused with arcane energy for drawing runes.',
+    description: 'Mixed as Nethien contract-ink on a cold-iron stylus. Create special ink infused with arcane energy for drawing runes.',
     requiredLevel: 1,
     resultItemId: 'rune-ink',
     resultQuantity: 1,
