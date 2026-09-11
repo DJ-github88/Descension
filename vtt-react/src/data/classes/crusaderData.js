@@ -1151,7 +1151,7 @@ Fervor (0–100) is celestial starlight generated through martial vanguard comba
     specs: [
       {
         id: "solar_justiciar",
-        name: "Fervor",
+        name: "Solar Justiciar",
         icon: "Radiant/Divine Downward Sword",
         color: "#f59e0b",
         theme: "Heavy Greatsword Smites & Durability and DR Destruction",

@@ -19,25 +19,25 @@ export const CLASS_SPECIALIZATIONS = {
     path: 'Radiant Dawn Path',
     specializations: [
       {
-        id: 'vanguard',
-        name: 'Vanguard',
-        description: 'Immovable frontline defender clad in starlight armor.',
+        id: 'solar_justiciar',
+        name: 'Solar Justiciar',
+        description: 'The vanguard executioner of the Dawn Vigil. You wield massive two-handed greatswords, converting Fervor into durability-shattering holy smites that obliterate Wyrd abominations.',
         color: '#f59e0b',
-        icon: 'Bludgeoning/Warrior Hammer Shield'
+        icon: 'Radiant/Divine Downward Sword'
       },
       {
-        id: 'holy_defender',
-        name: 'Holy Defender',
-        description: 'Channel celestial grace to protect and bolster allies.',
+        id: 'dawn_bastion',
+        name: 'Dawn Bastion',
+        description: 'The immovable shield of Solvan doctrine. You bind Aex\'s starlight song into heavy battle-plates, generating Fervor when taking hits and shielding allies behind walls of solid light.',
         color: '#3b82f6',
-        icon: 'Golden Winged Entity'
+        icon: 'Radiant/Radiant Golden Shield'
       },
       {
-        id: 'solar_executioner',
-        name: 'Solar Executioner',
-        description: 'Unleash blinding solar wrath upon the aberrant and unholy.',
-        color: '#ef4444',
-        icon: 'Radiant/Holy Cross'
+        id: 'harmonic_inquisitor',
+        name: 'Harmonic Inquisitor',
+        description: 'The occult hunter of the Vigil. You channel Aex\'s song as a discordant tuning fork, using starlight lightning to interrupt enemy spellcasters and purge magical shields.',
+        color: '#8b5cf6',
+        icon: 'Radiant/Glowing Star'
       }
     ]
   },
