@@ -73,6 +73,27 @@ function validateMapExists(room, mapId, preferredName = null) {
       dndElements: [],
       lightSources: {},
       environmentalObjects: [],
+      gridSettings: {
+        gridType: 'square',
+        gridSize: 50,
+        gridOffsetX: 0,
+        gridOffsetY: 0,
+        gridLineColor: '#000000',
+        gridLineThickness: 1,
+        gridLineOpacity: 0.5,
+        gridBackgroundColor: '#d4c5b9',
+        viewMode: '2d'
+      },
+      viewMode: '2d',
+      elevationData: {},
+      rampData: {},
+      sunSettings: {
+        azimuth: 135,
+        elevation: 45,
+        color: '#fff4e0',
+        intensity: 1.0,
+        ambient: 0.2
+      },
       createdAt: new Date()
     };
     logger.debug(`Created new map structure: ${mapId} (${initialName})`);

@@ -155,6 +155,15 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
           if (gridSettings.gridBackgroundColor !== undefined) {
             gameStore.setGridBackgroundColor(gridSettings.gridBackgroundColor);
           }
+          if (gridSettings.viewMode !== undefined) {
+            gameStore.setViewMode(gridSettings.viewMode);
+          }
+          if (gridSettings.cameraRotation !== undefined) {
+            gameStore.setViewRotation(gridSettings.cameraRotation);
+          }
+          if (gridSettings.cameraTilt !== undefined) {
+            gameStore.setViewTilt(gridSettings.cameraTilt);
+          }
 
           console.log('Ã¢Å“"¦ Initial grid settings applied');
         }
@@ -672,6 +681,9 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
               if (gs.gridLineThickness !== undefined) gameStore.setGridLineThickness(gs.gridLineThickness);
               if (gs.gridLineOpacity !== undefined) gameStore.setGridLineOpacity(gs.gridLineOpacity);
               if (gs.gridBackgroundColor !== undefined) gameStore.setGridBackgroundColor(gs.gridBackgroundColor);
+              if (gs.viewMode !== undefined) gameStore.setViewMode(gs.viewMode);
+              if (gs.cameraRotation !== undefined) gameStore.setViewRotation(gs.cameraRotation);
+              if (gs.cameraTilt !== undefined) gameStore.setViewTilt(gs.cameraTilt);
             }
 
             console.log('Ã¢Å“"¦ [handleJoinRoom] Level editor state loaded from persisted gameState for map:', startMapId);

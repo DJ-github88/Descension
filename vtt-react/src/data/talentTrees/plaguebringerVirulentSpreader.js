@@ -72,7 +72,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t1_virulence_surge",
     name: "Airborne Proliferation",
-    icon: "ability_creature_disease_05",
+    icon: "Poison/Poison Concoction",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -144,7 +144,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t3_pandemic_wave",
     name: "Pandemic Gale",
-    icon: "spell_shadow_contagion",
+    icon: "Poison/Poison Flask",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "vs_t2_vector_detonation",
@@ -171,7 +171,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t3_infectious_aura",
     name: "Infectious Miasma",
-    icon: "spell_shadow_plaguecloud",
+    icon: "Poison/Poison Plague 2",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "vs_t2_chain_infection",
@@ -195,7 +195,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t4_plague_zone",
     name: "Plague Zone",
-    icon: "spell_shadow_contagion",
+    icon: "Poison/Poison Plague 1",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "vs_t3_pandemic_wave",
@@ -246,7 +246,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t5_epidemic_surge",
     name: "Epidemic Surge",
-    icon: "ability_creature_disease_01",
+    icon: "Poison/Poison Venom",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "vs_t4_plague_zone",
@@ -293,7 +293,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t6_global_pandemic",
     name: "Global Pandemic",
-    icon: "spell_shadow_plaguecloud",
+    icon: "Poison/Poison Arm'",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "vs_t5_epidemic_surge",
@@ -336,7 +336,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t6_superbug_mutation",
     name: "Superbug Mutation",
-    icon: "spell_shadow_contagion",
+    icon: "Poison/Weapon Poison",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "vs_t5_strain_banking",
@@ -405,7 +405,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t7_continuous_blooming",
     name: "Continuous Blooming",
-    icon: "ability_creature_poison_06",
+    icon: "Poison/Poison Blight",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "vs_t6_cross_infection",
@@ -445,7 +445,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t7_spore_carrier",
     name: "Living Pathogen",
-    icon: "ability_creature_disease_02",
+    icon: "Poison/Poison Arrow",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "vs_t6_superbug_mutation",

@@ -182,7 +182,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t4_turn_the_faithful",
     name: "Turn the Faithful",
-    icon: "spell_shadow_mindsteal",
+    icon: "Psychic/Psychic Mind",
     maxRanks: 3,
     position: { x: 0, y: 3 },
     requires: "dc_t3_heresy",
@@ -254,7 +254,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t5_the_grand_lie",
     name: "The Grand Lie",
-    icon: "spell_shadow_charm",
+    icon: "Utility/Hooded Figure Archway",
     maxRanks: 2,
     position: { x: 3.5, y: 4 },
     requires: "dc_t4_storm_of_lies",
@@ -296,7 +296,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t6_credible_lies",
     name: "Credible Lies",
-    icon: "spell_shadow_mindtwisting",
+    icon: "Psychic/Psychic Mind 10",
     maxRanks: 2,
     position: { x: 2, y: 5 },
     requires: "dc_t5_rewrite_truth",
@@ -335,7 +335,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t7_the_great_deception",
     name: "The Great Deception",
-    icon: "spell_shadow_mindsteal",
+    icon: "Psychic/Psychic Mind 1",
     maxRanks: 1,
     position: { x: 1, y: 6 },
     requires: "dc_t6_shatter_the_faith",
@@ -380,7 +380,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t7_web_of_lies",
     name: "Web of Lies",
-    icon: "spell_shadow_unstableaffliction",
+    icon: "Poison/Poison Arm'",
     maxRanks: 3,
     position: { x: 2, y: 6 },
     requires: "dc_t6_credible_lies",
@@ -400,7 +400,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t7_perfect_credibility",
     name: "Perfect Credibility",
-    icon: "spell_shadow_charm",
+    icon: "Utility/Glowing Empowered Figure",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "dc_t6_doubt_engine",

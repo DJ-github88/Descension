@@ -546,7 +546,10 @@ export function registerRoomLifecycleHandlers(ctx) {
               gridLineColor: playerMap?.gridSettings?.gridLineColor || gameStore.gridLineColor || 'rgba(255, 255, 255, 0.8)',
               gridLineThickness: playerMap?.gridSettings?.gridLineThickness || gameStore.gridLineThickness || 2,
               gridLineOpacity: gameStore.gridLineOpacity || 0.8,
-              gridBackgroundColor: gameStore.gridBackgroundColor || '#d4c5b9'
+              gridBackgroundColor: gameStore.gridBackgroundColor || '#d4c5b9',
+              viewMode: playerMap?.gridSettings?.viewMode || gameStore.viewMode || '2d',
+              cameraRotation: playerMap?.gridSettings?.cameraRotation ?? gameStore.viewRotation ?? 0,
+              cameraTilt: playerMap?.gridSettings?.cameraTilt ?? gameStore.viewTilt ?? 90
             },
             gameplaySettings: {
               feetPerTile: gameStore.feetPerTile || 5,

@@ -283,7 +283,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t6_fortress_mode",
     name: "Fortress Mode",
-    icon: "spell_holy_divineprotection",
+    icon: "Radiant/Radiant Golden Knight",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "aw_t5_overflow",
@@ -324,7 +324,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t6_reflective_ward",
     name: "Reflective Ward",
-    icon: "spell_arcane_reflect",
+    icon: "Utility/Golden Shield",
     maxRanks: 2,
     position: { x: 3, y: 5 },
     requires: "aw_t5_overflow",
@@ -350,7 +350,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t7_ultimate_ward",
     name: "Ultimate Ward",
-    icon: "spell_holy_holyprotection",
+    icon: "Radiant/Golden Knight",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "aw_t6_fortress_mode",
@@ -440,7 +440,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t7_unchanging_vow",
     name: "Unchanging Vow",
-    icon: "spell_holy_blessingofsacrifice",
+    icon: "Radiant/Holy Blessing",
     maxRanks: 3,
     position: { x: 2, y: 6 },
     requires: "aw_t6_reflective_ward",

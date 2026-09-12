@@ -9627,3 +9627,13 @@
   body { background:#fff !important; }
   .book-block { break-inside: avoid; }
 }
+
+/* Phone: reader-first. Authoring-only toolbar actions hide on phones;
+   the toolbar Write toggle is also removed in JSX. (2026-09-11 mobile deep-dive) */
+@media (max-width: 768px) {
+  .book-editor-toolbar .glossary-btn,
+  .book-editor-toolbar .snapshot-btn,
+  .book-editor-toolbar .save-doc-btn {
+    display: none;
+  }
+}

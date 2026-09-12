@@ -381,7 +381,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
   {
     id: "sb_t7_arcane_retribution",
     name: "Arcane Retribution",
-    icon: "spell_arcane_arcane02",
+    icon: "Arcane/Enchanted Sword",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "sb_t6_mirror_soul",

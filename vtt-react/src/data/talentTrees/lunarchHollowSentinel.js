@@ -79,7 +79,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
   {
     id: "lhs_t2_hollow_mark",
     name: "Hollow Mark",
-    icon: "ability_hunter_snipershot",
+    icon: "Piercing/Arrow Shot",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "lhs_t1_starlight_sockets",
@@ -104,7 +104,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
   {
     id: "lhs_t2_crescent_scalpel",
     name: "Crescent Scalpel",
-    icon: "spell_arcane_starfire",
+    icon: "Arcane/Crescent Moon",
     maxRanks: 3,
     position: { x: 2.5, y: 1 },
     requires: "lhs_t1_parasitic_bolt",
@@ -203,7 +203,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
   {
     id: "lhs_t4_alien_geometry",
     name: "Alien Geometry Angles",
-    icon: "spell_arcane_starfire",
+    icon: "Psychic/Telepathic Arcane",
     maxRanks: 3,
     position: { x: 2.5, y: 3 },
     requires: "lhs_t3_parasitic_stride",
@@ -269,7 +269,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
   {
     id: "lhs_t6_constellation_sniping",
     name: "Constellation Gridlock",
-    icon: "spell_arcane_starfire",
+    icon: "Arcane/Star Trail Path",
     maxRanks: 3,
     position: { x: 1, y: 5 },
     requires: "lhs_t5_parasitic_execution",
@@ -340,7 +340,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
   {
     id: "lhs_t7_cosmic_singularity",
     name: "Cosmic Needle Collapse",
-    icon: "spell_arcane_starfire",
+    icon: "Force/Energy Star",
     maxRanks: 2,
     position: { x: 2.5, y: 6 },
     requires: "lhs_t6_phase_mastery",

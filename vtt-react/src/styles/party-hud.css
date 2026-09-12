@@ -1737,6 +1737,13 @@
     text-underline-offset: 3px;
 }
 
+/* Even the minimum auto-fit size cannot hold the name: release the
+   min-content floor so flex can shrink the box and ellipsis engages instead
+   of the text spilling outside the frame. */
+.party-member-frame .member-name-text[data-fit-overflow='true'] {
+    min-width: 0;
+}
+
 /* Alignment Tag: Pinned Centered on the Top Wooden Frame Border
    (handwritten feel — as if inked onto the plate) */
 .party-member-frame .member-alignment-tag {

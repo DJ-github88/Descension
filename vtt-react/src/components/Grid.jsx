@@ -30,6 +30,7 @@ import TileOverlay from "./level-editor/TileOverlay";
 import LightSourceOverlay from "./level-editor/LightSourceOverlay";
 import ShadowOverlay from "./level-editor/ShadowOverlay";
 import CanvasWallSystem from "./level-editor/CanvasWallSystem";
+import SvgWallLayer from "./level-editor/SvgWallLayer";
 import WallOverlay from "./level-editor/WallOverlay";
 import UnifiedContextMenu from "./level-editor/UnifiedContextMenu";
 import StaticFogOverlay from "./level-editor/StaticFogOverlay";
@@ -39,7 +40,13 @@ import TextInteractionOverlay from "./grid/TextInteractionOverlay";
 import ImageDropMenu from "./dialogs/ImageDropMenu";
 import AssetLoadingOverlay from "./common/AssetLoadingOverlay";
 import SpellAoEOverlay from "./grid/SpellAoEOverlay";
+import CameraCompass from "./grid/CameraCompass";
 import { createGridSystem, getGridSystem } from "../utils/InfiniteGridSystem";
+import {
+ getProjectionTransform as buildProjectionTransform,
+ screenToWorld as projectScreenToWorld,
+ screenDeltaToWorld as projectScreenDeltaToWorld
+} from "../utils/ProjectionSystem";
 import { getOrBuildWallSpatialIndex } from "../utils/WallSpatialIndex";
 import useLongPressContextMenu from "../hooks/useLongPressContextMenu";
 // Removed unused imports: throttle, rafThrottle
@@ -262,14 +269,33 @@ function GridComponent({
   const currentZoomLevel = state.zoomLevel ?? zoomLevel;
   const currentPlayerZoom = state.playerZoom ?? playerZoom;
 
-  const oldEffective = Math.max(0.001, currentZoomLevel * currentPlayerZoom);
-  const newEffective = Math.max(0.001, currentZoomLevel * targetZoom);
-
   const width = window.innerWidth;
   const height = window.innerHeight;
 
-  const newCameraX = currentCameraX + (mouseX - width / 2) * (1 / oldEffective - 1 / newEffective);
-  const newCameraY = currentCameraY + (mouseY - height / 2) * (1 / oldEffective - 1 / newEffective);
+  // Projection-aware cursor-anchored zoom: keep the world point under the
+  // cursor fixed while zoom changes, valid for any yaw/tilt.
+  const buildViewTransform = (playerZoomValue, camX, camY) => buildProjectionTransform({
+   viewMode: state.viewMode || '2d',
+   viewRotation: state.viewRotation || 0,
+   viewTilt: state.viewTilt,
+   effectiveZoom: Math.max(0.001, currentZoomLevel * playerZoomValue),
+   cameraX: camX,
+   cameraY: camY,
+   viewportWidth: width,
+   viewportHeight: height
+  });
+
+  const anchorBefore = projectScreenToWorld(
+   mouseX, mouseY,
+   buildViewTransform(currentPlayerZoom, currentCameraX, currentCameraY)
+  );
+  const anchorAfter = projectScreenToWorld(
+   mouseX, mouseY,
+   buildViewTransform(targetZoom, currentCameraX, currentCameraY)
+  );
+
+  const newCameraX = currentCameraX + (anchorBefore.x - anchorAfter.x);
+  const newCameraY = currentCameraY + (anchorBefore.y - anchorAfter.y);
 
   gameStore.setCameraPosition
    ? gameStore.setCameraPosition(newCameraX, newCameraY)
@@ -287,12 +313,31 @@ function GridComponent({
  // Initialize grid system
  const gridSystem = useMemo(() => createGridSystem(gameStore), [gameStore]);
 
- // Make gameStore, gridSystem, and levelEditorStore available globally for components that need it
- useEffect(() => {
-  window.gameStore = gameStore;
-  window.gridSystem = gridSystem;
-  window.useLevelEditorStore = useLevelEditorStore;
- }, [gameStore, gridSystem]);
+  // Make gameStore, gridSystem, and levelEditorStore available globally for components that need it
+  useEffect(() => {
+   window.gameStore = gameStore;
+   window.gridSystem = gridSystem;
+   window.useLevelEditorStore = useLevelEditorStore;
+  }, [gameStore, gridSystem]);
+
+  // Camera orbit hotkeys: [ / ] rotate (hold Shift to snap to 45deg steps)
+  useEffect(() => {
+   const handleOrbitKeyDown = (e) => {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    const target = e.target;
+    if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
+    if (e.key !== '[' && e.key !== ']') return;
+    e.preventDefault();
+    const store = useGameStore.getState();
+    const step = e.shiftKey ? 45 : 5;
+    store.rotateCameraBy(e.key === '[' ? -step : step);
+    if (e.shiftKey) {
+     store.snapViewRotation(45);
+    }
+   };
+   document.addEventListener('keydown', handleOrbitKeyDown);
+   return () => document.removeEventListener('keydown', handleOrbitKeyDown);
+  }, []);
 
  // tileSize is already available from gameStore destructuring above
  const [hoveredTile, setHoveredTile] = useState(null);
@@ -1237,11 +1282,16 @@ function GridComponent({
     cameraDragRafRef.current = requestAnimationFrame(() => {
      const { deltaX: totalDeltaX, deltaY: totalDeltaY } = pendingCameraDeltaRef.current;
 
-     // Use zoom props to avoid stale values
-     const currentEffectiveZoom = zoomLevel * playerZoom;
+     // Projection-aware pan: convert the screen delta to a world delta so the
+     // grabbed point stays under the cursor under any yaw/tilt.
+     const worldDelta = gridSystem.screenDeltaToWorld(
+      totalDeltaX,
+      totalDeltaY,
+      viewportSize.width,
+      viewportSize.height
+     );
 
-     // Move camera in opposite direction to simulate panning (use effective zoom)
-     moveCameraBy(-totalDeltaX / currentEffectiveZoom, -totalDeltaY / currentEffectiveZoom);
+     moveCameraBy(-worldDelta.x, -worldDelta.y);
 
      // Reset pending deltas
      pendingCameraDeltaRef.current = { deltaX: 0, deltaY: 0 };
@@ -1272,6 +1322,7 @@ function GridComponent({
   backgroundRotateStart,
   viewportSize,
   resizeHandle,
+  gridSystem,
   effectiveZoom,
   cameraX,
   cameraY
@@ -1291,10 +1342,11 @@ function GridComponent({
     cameraDragRafRef.current = null;
    }
 
-   // Apply any remaining pending delta
+   // Apply any remaining pending delta (projection-aware)
    const { deltaX, deltaY } = pendingCameraDeltaRef.current;
    if (deltaX !== 0 || deltaY !== 0) {
-    moveCameraBy(-deltaX / effectiveZoom, -deltaY / effectiveZoom);
+    const worldDelta = gridSystem.screenDeltaToWorld(deltaX, deltaY, viewportSize.width, viewportSize.height);
+    moveCameraBy(-worldDelta.x, -worldDelta.y);
     pendingCameraDeltaRef.current = { deltaX: 0, deltaY: 0 };
    }
 
@@ -1403,10 +1455,11 @@ function GridComponent({
     cameraDragRafRef.current = null;
    }
 
-   // Apply any remaining pending delta
+   // Apply any remaining pending delta (projection-aware)
    const { deltaX, deltaY } = pendingCameraDeltaRef.current;
    if (deltaX !== 0 || deltaY !== 0) {
-    moveCameraBy(-deltaX / effectiveZoom, -deltaY / effectiveZoom);
+    const worldDelta = gridSystem.screenDeltaToWorld(deltaX, deltaY, viewportSize.width, viewportSize.height);
+    moveCameraBy(-worldDelta.x, -worldDelta.y);
     pendingCameraDeltaRef.current = { deltaX: 0, deltaY: 0 };
    }
   }
@@ -1429,6 +1482,7 @@ function GridComponent({
   clearGridAlignmentRectangles,
   setGridAlignmentStep,
   isDraggingCamera,
+  viewportSize,
   moveCameraBy
  ]);
 
@@ -1776,14 +1830,28 @@ function GridComponent({
      targetZoom = Math.max(targetZoom, minEffectiveZoom / currentZoomLevel);
     }
 
-    // Keep the world point under the pinch midpoint stable
+    // Keep the world point under the pinch midpoint stable (projection-aware)
     const midX = (p0.x + p1.x) / 2;
     const midY = (p0.y + p1.y) / 2;
     const width = window.innerWidth;
     const height = window.innerHeight;
     const newEffective = Math.max(0.001, currentZoomLevel * targetZoom);
-    const newCameraX = pinchRef.current.startWorldX - (midX - width / 2) / newEffective;
-    const newCameraY = pinchRef.current.startWorldY - (midY - height / 2) / newEffective;
+    const midWorldOffset = projectScreenDeltaToWorld(
+     midX - width / 2,
+     midY - height / 2,
+     buildProjectionTransform({
+      viewMode: state.viewMode || '2d',
+      viewRotation: state.viewRotation || 0,
+      viewTilt: state.viewTilt,
+      effectiveZoom: newEffective,
+      cameraX: 0,
+      cameraY: 0,
+      viewportWidth: width,
+      viewportHeight: height
+     })
+    );
+    const newCameraX = pinchRef.current.startWorldX - midWorldOffset.x;
+    const newCameraY = pinchRef.current.startWorldY - midWorldOffset.y;
 
     // Apply updates
     setPlayerZoom(targetZoom);
@@ -3549,6 +3617,9 @@ function GridComponent({
     {/* Canvas Wall System - High-performance canvas-based wall rendering with FOV support */}
     <CanvasWallSystem />
 
+    {/* SVG Wall Layer - vector wall prisms for 2.5D / rotated camera views */}
+    <SvgWallLayer />
+
     {/* Wall Overlay - Invisible hit areas for door interactions only */}
     <WallOverlay />
 
@@ -3639,6 +3710,9 @@ function GridComponent({
       currentMapId={currentMapId}
      />
     )}
+
+    {/* Local camera orientation control (per-player; GM default comes from the map) */}
+    <CameraCompass />
 
     {/* Character Token Placement Preview */}
     {isDraggingCharacterToken && <CharacterTokenPreview mousePosition={mousePosition} tokenSize={tokenSize} />}

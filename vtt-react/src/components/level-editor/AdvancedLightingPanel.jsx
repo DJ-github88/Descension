@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useGameStore from '../../store/gameStore';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
+import { LIGHT_PRESETS } from '../../utils/LightingCalculations';
 import './styles/AdvancedLightingPanel.css';
 
 /**
@@ -22,8 +23,26 @@ const AdvancedLightingPanel = () => {
         setLightAnimations,
         setPerformanceMode,
         setWeatherEffect,
-        clearWeatherEffects
+        clearWeatherEffects,
+        selectedLightType,
+        setSelectedLightType,
+        lightSources,
+        clearAllLightSources,
+        sunSettings,
+        setSunSettings,
+        ambientLightLevel,
+        setAmbientLightLevel,
+        selectedLightId,
+        setSelectedLightId,
+        updateLightSource,
+        wallShadowsEnabled,
+        setWallShadowsEnabled
     } = useLevelEditorStore();
+
+    const selectedLight = selectedLightId ? lightSources?.[selectedLightId] : null;
+
+    // Safe fallback for rooms persisted before sunSettings existed
+    const sun = sunSettings || { azimuth: 135, elevation: 45, intensity: 1.0, ambient: 0.2 };
 
     // Game store for GM mode check
     const { isGMMode } = useGameStore();
@@ -81,6 +100,208 @@ const AdvancedLightingPanel = () => {
                     <div className="setting-description">
                         Enable flickering effects for torches and candles
                     </div>
+                </div>
+            </div>
+
+            {/* Sun & Shadows */}
+            <div className="settings-section">
+                <h4 className="section-title">Sun &amp; Shadows</h4>
+                <div className="setting-item">
+                    <label className="setting-label">Azimuth ({Math.round(sun.azimuth)}°)</label>
+                    <input
+                        type="range" min="0" max="360" step="5" value={sun.azimuth}
+                        onChange={(e) => setSunSettings({ azimuth: parseFloat(e.target.value) })}
+                    />
+                    <div className="setting-description">Direction the sunlight comes FROM (0° = north)</div>
+                </div>
+                <div className="setting-item">
+                    <label className="setting-label">Sun height ({Math.round(sun.elevation)}°)</label>
+                    <input
+                        type="range" min="5" max="90" step="5" value={sun.elevation}
+                        onChange={(e) => setSunSettings({ elevation: parseFloat(e.target.value) })}
+                    />
+                    <div className="setting-description">Low sun = long shadows, 90° = directly overhead</div>
+                </div>
+                <div className="setting-item">
+                    <label className="setting-label">Sun intensity ({sun.intensity.toFixed(1)})</label>
+                    <input
+                        type="range" min="0" max="2" step="0.1" value={sun.intensity}
+                        onChange={(e) => setSunSettings({ intensity: parseFloat(e.target.value) })}
+                    />
+                </div>
+                <div className="setting-item">
+                    <label className="setting-label">Ambient light ({Math.round(ambientLightLevel * 100)}%)</label>
+                    <input
+                        type="range" min="0" max="1" step="0.05" value={ambientLightLevel}
+                        onChange={(e) => {
+                            const value = parseFloat(e.target.value);
+                            setAmbientLightLevel(value);
+                            setSunSettings({ ambient: value });
+                        }}
+                    />
+                </div>
+                <div className="setting-item">
+                    <label className="setting-label">
+                        <input
+                            type="checkbox"
+                            checked={wallShadowsEnabled !== false}
+                            onChange={(e) => setWallShadowsEnabled(e.target.checked)}
+                        />
+                        Wall sun shadows
+                    </label>
+                    <div className="setting-description">
+                        Turn off to hide directional wall shadows in the editor (big perf win on wall-heavy maps)
+                    </div>
+                </div>
+            </div>
+
+            {/* Selected Light Properties */}
+            {selectedLight && (
+                <div className="settings-section">
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+                        <h4 className="section-title" style={{ margin: 0 }}>
+                            Selected: {LIGHT_PRESETS[selectedLight.type]?.name || selectedLight.type}
+                        </h4>
+                        <button
+                            onClick={() => setSelectedLightId(null)}
+                            style={{
+                                padding: '2px 8px', fontSize: 10, borderRadius: 4,
+                                border: '1.5px solid #7a3b2e', background: '#e2d2ae',
+                                color: '#5d2d22', cursor: 'pointer'
+                            }}
+                        >
+                            Deselect
+                        </button>
+                    </div>
+
+                    <div className="setting-item">
+                        <label className="setting-label">Radius ({selectedLight.radius} tiles)</label>
+                        <input
+                            type="range" min="1" max="20" step="1" value={selectedLight.radius}
+                            onChange={(e) => updateLightSource(selectedLight.id, { radius: parseFloat(e.target.value) })}
+                        />
+                    </div>
+
+                    <div className="setting-item">
+                        <label className="setting-label">Intensity ({Number(selectedLight.intensity ?? 1).toFixed(1)})</label>
+                        <input
+                            type="range" min="0" max="2" step="0.1" value={selectedLight.intensity ?? 1}
+                            onChange={(e) => updateLightSource(selectedLight.id, { intensity: parseFloat(e.target.value) })}
+                        />
+                    </div>
+
+                    <div className="setting-item">
+                        <label className="setting-label">Color</label>
+                        <input
+                            type="color"
+                            value={selectedLight.color || '#ffaa00'}
+                            onChange={(e) => updateLightSource(selectedLight.id, { color: e.target.value })}
+                        />
+                    </div>
+
+                    <div className="setting-item">
+                        <label className="setting-label">
+                            <input
+                                type="checkbox"
+                                checked={!!selectedLight.flickering}
+                                onChange={(e) => updateLightSource(selectedLight.id, { flickering: e.target.checked })}
+                            />
+                            Flickering
+                        </label>
+                    </div>
+
+                    <div className="setting-item">
+                        <label className="setting-label">
+                            <input
+                                type="checkbox"
+                                checked={selectedLight.enabled !== false}
+                                onChange={(e) => updateLightSource(selectedLight.id, { enabled: e.target.checked })}
+                            />
+                            Enabled
+                        </label>
+                    </div>
+
+                    <div className="setting-item">
+                        <label className="setting-label">
+                            Direction ({Math.round(selectedLight.direction ?? 0)}°) — 0 = radial glow
+                        </label>
+                        <input
+                            type="range" min="0" max="360" step="15" value={selectedLight.direction ?? 0}
+                            onChange={(e) => updateLightSource(selectedLight.id, { direction: parseFloat(e.target.value) })}
+                        />
+                    </div>
+
+                    <div className="setting-item">
+                        <label className="setting-label">
+                            Cone angle ({Math.round(selectedLight.coneAngle ?? 360)}°)
+                        </label>
+                        <input
+                            type="range" min="15" max="360" step="15" value={selectedLight.coneAngle ?? 360}
+                            onChange={(e) => updateLightSource(selectedLight.id, { coneAngle: parseFloat(e.target.value) })}
+                        />
+                    </div>
+                </div>
+            )}
+
+            {/* Light Placement */}
+            <div className="settings-section">
+                <h4 className="section-title">Light Placement</h4>
+                <div className="setting-description" style={{ marginBottom: 8 }}>
+                    Pick the <strong>Place Light</strong> tool in the tool dropdown, then click the map.
+                    Use <strong>Remove Light</strong> to delete a light.
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                    {Object.entries(LIGHT_PRESETS).map(([presetKey, preset]) => (
+                        <button
+                            key={presetKey}
+                            onClick={() => setSelectedLightType(presetKey)}
+                            title={preset.description}
+                            style={{
+                                padding: '4px 8px',
+                                fontSize: 11,
+                                borderRadius: 5,
+                                cursor: 'pointer',
+                                border: selectedLightType === presetKey ? '2px solid #d4af37' : '1.5px solid #7a3b2e',
+                                background: selectedLightType === presetKey
+                                    ? 'linear-gradient(180deg, #c9a24a 0%, #b08d3e 100%)'
+                                    : 'linear-gradient(180deg, #f2e7cd 0%, #ddcda6 100%)',
+                                color: selectedLightType === presetKey ? '#fff8e6' : '#5d2d22',
+                                fontWeight: 700
+                            }}
+                        >
+                            <span
+                                style={{
+                                    display: 'inline-block',
+                                    width: 8,
+                                    height: 8,
+                                    borderRadius: '50%',
+                                    marginRight: 5,
+                                    background: preset.color
+                                }}
+                            />
+                            {preset.name}
+                        </button>
+                    ))}
+                </div>
+                <div style={{ marginTop: 8, fontSize: 11, opacity: 0.8 }}>
+                    Lights on map: <strong>{Object.keys(lightSources || {}).length}</strong>
+                    {Object.keys(lightSources || {}).length > 0 && (
+                        <button
+                            onClick={() => clearAllLightSources()}
+                            style={{
+                                marginLeft: 8,
+                                padding: '2px 8px',
+                                fontSize: 10,
+                                borderRadius: 4,
+                                border: '1.5px solid #7a3b2e',
+                                background: '#e2d2ae',
+                                color: '#5d2d22',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Clear All
+                        </button>
+                    )}
                 </div>
             </div>
 

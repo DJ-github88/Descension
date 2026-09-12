@@ -65,6 +65,12 @@ function registerMapHandlers(ctx) {
       if (data.fogOfWarPaths) {map.fogOfWarPaths = data.fogOfWarPaths;}
       if (data.lightSources) {map.lightSources = data.lightSources;}
       if (data.dndElements) {map.dndElements = data.dndElements;}
+      if (data.elevationData !== undefined) {map.elevationData = data.elevationData;}
+      if (data.rampData !== undefined) {map.rampData = data.rampData;}
+      if (data.sunSettings !== undefined) {map.sunSettings = data.sunSettings;}
+      if (data.gridSettings !== undefined) {
+        map.gridSettings = { ...(map.gridSettings || {}), ...data.gridSettings };
+      }
 
       socket.to(room.id).emit('level_editor_state_synced', {
         mapId,
@@ -78,6 +84,10 @@ function registerMapHandlers(ctx) {
           lightSources: map.lightSources,
           dndElements: map.dndElements
         },
+        gridSettings: map.gridSettings || null,
+        elevationData: map.elevationData || null,
+        rampData: map.rampData || null,
+        sunSettings: map.sunSettings || null,
         sequence: getNextEventSequence()
       });
 
@@ -221,6 +231,34 @@ function registerMapHandlers(ctx) {
 
         if (mapUpdates.lightSources !== undefined) {
           mapData.lightSources = mapUpdates.lightSources;
+        }
+
+        if (mapUpdates.elevationData !== undefined) {
+          mapData.elevationData = {
+            ...mapData.elevationData || {},
+            ...mapUpdates.elevationData
+          };
+          for (const [key, value] of Object.entries(mapUpdates.elevationData)) {
+            if (value === null && mapData.elevationData[key] !== undefined) {
+              delete mapData.elevationData[key];
+            }
+          }
+        }
+
+        if (mapUpdates.rampData !== undefined) {
+          mapData.rampData = {
+            ...mapData.rampData || {},
+            ...mapUpdates.rampData
+          };
+          for (const [key, value] of Object.entries(mapUpdates.rampData)) {
+            if (value === null && mapData.rampData[key] !== undefined) {
+              delete mapData.rampData[key];
+            }
+          }
+        }
+
+        if (mapUpdates.sunSettings !== undefined) {
+          mapData.sunSettings = mapUpdates.sunSettings;
         }
 
         if (mapUpdates.gridSettings !== undefined) {
@@ -377,7 +415,11 @@ function registerMapHandlers(ctx) {
           drawingPaths: map.drawingPaths || [],
           fogOfWarData: map.fogOfWarData || {},
           lightSources: map.lightSources || {},
-          dndElements: map.dndElements || []
+          dndElements: map.dndElements || [],
+          gridSettings: map.gridSettings || {},
+          elevationData: map.elevationData || {},
+          rampData: map.rampData || {},
+          sunSettings: map.sunSettings || {}
         }
       });
 

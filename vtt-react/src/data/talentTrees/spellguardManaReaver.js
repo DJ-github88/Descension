@@ -166,7 +166,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t4_energy_surge",
     name: "Energy Surge",
-    icon: "spell_arcane_manatap",
+    icon: "Force/Diagonal Energy",
     maxRanks: 2,
     position: { x: 2, y: 3 },
     requires: "mr_t3_overcharge",
@@ -259,7 +259,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t6_mana_rend",
     name: "Mana Rend",
-    icon: "spell_shadow_siphonmana",
+    icon: "Psychic/Telepathic Arcane",
     maxRanks: 1,
     position: { x: 1.5, y: 5 },
     requires: "mr_t5_vampiric_empowerment",

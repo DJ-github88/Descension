@@ -46,6 +46,26 @@ export function calculateLightIntensity(lightX, lightY, targetX, targetY, lightS
 
   intensity *= mixedFalloff;
 
+  // Directional cone falloff: direction 0 / coneAngle >= 360 means radial.
+  // Compass convention: 0 = north (-y), increasing clockwise (east = 90).
+  const directionDeg = Number(lightSource.direction ?? 0);
+  const coneAngleDeg = Number(lightSource.coneAngle ?? 360);
+  if (directionDeg !== 0 && coneAngleDeg < 360 && distance > 0.0001) {
+    const targetAngleDeg = ((Math.atan2(dx, -dy) * 180) / Math.PI + 360) % 360;
+    let angleDiff = Math.abs(targetAngleDeg - directionDeg);
+    if (angleDiff > 180) angleDiff = 360 - angleDiff;
+
+    const halfCone = coneAngleDeg / 2;
+    if (angleDiff > halfCone) {
+      return { intensity: 0, shadowFactor: 1, atmosphericFactor: 1 };
+    }
+    const softEdgeStart = halfCone * 0.75;
+    if (angleDiff > softEdgeStart) {
+      const edgeT = (angleDiff - softEdgeStart) / (halfCone - softEdgeStart);
+      intensity *= 1 - edgeT * 0.85;
+    }
+  }
+
   // Calculate shifting shadow factor based on line of sight
   let shadowFactor = 1;
   if (!hasLineOfSight(lightX, lightY, targetX, targetY, wallData)) {
@@ -279,7 +299,18 @@ export function calculateShadows(lightX, lightY, lightRadius, wallData) {
     const distance = Math.sqrt(
       (wallCenterX - lightX) ** 2 + (wallCenterY - lightY) ** 2
     );
-    return distance <= lightRadius && wall.type.blocksVision !== false;
+    if (distance > lightRadius) return false;
+
+    // NOTE: wall.type is a string id here (not the WALL_TYPES object), so the old
+    // `wall.type.blocksVision !== false` check was always truthy. Derive light
+    // blocking from state/type id semantics instead:
+    const typeId = wall?.type;
+    if (wall?.state === 'open') return false; // open doors let light through
+    if (typeof typeId === 'string') {
+      if (typeId.includes('window')) return false; // windows admit light
+      if (typeId === 'magical_barrier' || typeId === 'force_wall') return false; // transparent barriers
+    }
+    return true;
   });
 
   // For each wall, calculate shadow projection

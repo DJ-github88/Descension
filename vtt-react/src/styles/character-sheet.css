@@ -2616,6 +2616,14 @@ body.resource-controls-open .character-sheet {
     letter-spacing: 0.5px;
 }
 
+/* Auto-fit floor reached: ellipsize instead of clipping at the page edge. */
+.character-book-name[data-fit-overflow='true'] {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
 .character-book-subtitle {
     font-family: 'Garamond', 'Times New Roman', serif;
     font-size: 14px;
@@ -2976,6 +2984,7 @@ body.resource-controls-open .character-sheet {
     transition: all 0.25s ease !important;
     width: 100%;
     box-sizing: border-box;
+    text-overflow: ellipsis;
 }
 
 .lore-input:focus {

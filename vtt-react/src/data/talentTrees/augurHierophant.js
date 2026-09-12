@@ -280,7 +280,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t6_eternal_blessing",
     name: "Eternal Blessing",
-    icon: "spell_holy_holyguidance",
+    icon: "Radiant/Holy Blessing",
     maxRanks: 2,
     position: { x: 2, y: 5 },
     requires: "hi_t5_radiant_conduit",
@@ -319,7 +319,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t7_hierophant_supreme",
     name: "Hierophant Supreme",
-    icon: "spell_holy_farsight",
+    icon: "Utility/Bloodshot Eye",
     maxRanks: 1,
     position: { x: 0, y: 6 },
     requires: "hi_t6_cosmic_ward",
@@ -342,7 +342,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t7_deep_well",
     name: "Deep Well",
-    icon: "spell_holy_innerfire",
+    icon: "Radiant/Holy Cross",
     maxRanks: 5,
     position: { x: 1, y: 6 },
     requires: "hi_t6_eternal_blessing",
@@ -364,7 +364,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t7_vigorous_signs",
     name: "Vigorous Signs",
-    icon: "spell_holy_renew",
+    icon: "Healing/Healing Compass",
     maxRanks: 3,
     position: { x: 2, y: 6 },
     requires: "hi_t6_eternal_blessing",

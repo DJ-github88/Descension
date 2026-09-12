@@ -2362,7 +2362,7 @@
 .account-mobile-menu {
   display: none;
   flex-direction: column;
-  background: linear-gradient(135deg, rgba(244, 241, 232, 0.98) 0%, rgba(232, 224, 208, 0.98) 100%);
+  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
   border-bottom: none;
   padding: 0;
   max-height: 0;
@@ -2371,15 +2371,16 @@
   visibility: hidden;
   pointer-events: none;
   transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.3s ease;
-  position: fixed;
-  top: 56px;
+  position: absolute;
+  top: 100%;
   left: 0;
-  width: 100%;
+  right: 0;
+  width: auto;
   z-index: 9999;
 }
 
 .account-mobile-menu.open {
-  max-height: calc(100vh - 56px);
+  max-height: calc(100vh - 80px);
   padding: 8px 0;
   border-bottom: 3px solid #8b4513;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -5386,6 +5387,65 @@
   .stats-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  /* Mobile header: collapse the search trigger to an icon so the account
+     identity is not squeezed/clipped on narrow screens (Pixel-class ~412px). */
+  .header-actions-new .quick-search-trigger-btn {
+    padding: 6px 9px !important;
+  }
+
+  .header-actions-new .quick-search-trigger-btn span {
+    display: none;
+  }
+
+  .account-icon-section.clickable,
+  .account-welcome {
+    min-width: 0;
+  }
+
+  .user-name-wrapper {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .account-welcome .user-display-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .user-account-id {
+    flex-shrink: 0;
+  }
+
+  /* Restore room for overlay search icons. A global wizard stylesheet forces
+     input[type="text"] padding to 8px, which hides the leading characters of
+     these search fields behind their icons. */
+  .account-dashboard .char-search-input {
+    padding-left: 2.2rem !important;
+    padding-right: 2.2rem !important;
+  }
+
+  .account-dashboard .atlas-search-box input {
+    padding-left: 34px !important;
+    padding-right: 32px !important;
+  }
+
+  .account-dashboard .plot-search-input {
+    padding-left: 30px !important;
+    padding-right: 28px !important;
+  }
+
+  /* Long lineage/class badges must wrap instead of overflowing the hero card. */
+  .hero-badges-row {
+    max-width: 100%;
+  }
+
+  .hero-badge {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
 }
 
 /* Active Character Styles */
@@ -5914,4 +5974,330 @@
   color: #d4af37;
   margin-top: 2px;
   flex-shrink: 0;
+}
+/* =====================================================
+   Phone bottom navigation + drawer chrome (2026-09-11)
+   Bottom nav replaces the hamburger as the primary tab
+   switcher on phones; the drawer keeps secondary items.
+   ===================================================== */
+
+.account-bottom-nav {
+  display: none;
+}
+
+.account-mobile-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #6b5443;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.15);
+}
+
+.account-mobile-menu-close {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid rgba(139, 69, 19, 0.25);
+  border-radius: 8px;
+  color: #8b4513;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.account-mobile-backdrop {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .account-mobile-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(30, 20, 12, 0.35);
+    z-index: 9998;
+  }
+
+  .account-bottom-nav {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9997;
+    background: linear-gradient(180deg, #f4f1e8 0%, #e8e0d0 100%);
+    border-top: 2px solid rgba(139, 69, 19, 0.45);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .account-bottom-nav-item {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 2px;
+    background: none;
+    border: none;
+    color: #6b5443;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.1;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+
+  .account-bottom-nav-item i {
+    font-size: 18px;
+    color: #8b4513;
+  }
+
+  .account-bottom-nav-item.active {
+    color: #2d1810;
+    background: rgba(212, 175, 55, 0.16);
+  }
+
+  .account-bottom-nav-item.active i {
+    color: #b8860b;
+  }
+
+  .account-dashboard {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* =====================================================
+   Characters tab phone consolidation (2026-09-11)
+   One create CTA (the Forge card), card tap = view,
+   per-card "..." action sheet, filters in a bottom sheet.
+   ===================================================== */
+
+@media (max-width: 768px) {
+  /* Search + compact Filters trigger share one row. */
+  .char-mgmt-toolbar {
+    flex-direction: row;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
+
+  .char-search-box {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: none;
+  }
+
+  .char-filters-trigger {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 12px;
+    background: #ffffff;
+    border: 1px solid rgba(139, 69, 19, 0.25);
+    border-radius: 7px;
+    color: #5a422d;
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .char-filters-trigger.has-active-filters {
+    border-color: #d4af37;
+    background: rgba(212, 175, 55, 0.12);
+  }
+
+  .char-filters-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #d4af37;
+  }
+
+  .hero-card-tappable {
+    cursor: pointer;
+  }
+
+  .hero-active-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.75rem;
+    color: #15803d;
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .hero-action-icon-btn.hero-more-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 1rem;
+    color: #5a422d;
+  }
+}
+
+.char-filter-sheet-overlay,
+.char-action-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(30, 20, 12, 0.45);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.char-filter-sheet,
+.char-action-sheet {
+  width: 100%;
+  max-width: 520px;
+  background: linear-gradient(180deg, #f8f5ee 0%, #efe6d4 100%);
+  border-top: 2px solid rgba(139, 69, 19, 0.5);
+  border-radius: 16px 16px 0 0;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.25);
+  animation: char-sheet-up 0.22s ease;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+@keyframes char-sheet-up {
+  from { transform: translateY(24px); opacity: 0.6; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.char-filter-sheet-header,
+.char-action-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.15);
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #2d1810;
+}
+
+.char-action-sheet-header span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.char-filter-sheet-close,
+.char-action-sheet-close {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid rgba(139, 69, 19, 0.25);
+  border-radius: 8px;
+  color: #8b4513;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.char-filter-sheet-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+}
+
+.char-filter-sheet-body label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #6b553e;
+  margin-top: 6px;
+}
+
+.char-filter-sheet-body .char-filter-select {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+.char-filter-sheet-actions {
+  display: flex;
+  gap: 10px;
+  padding: 4px 16px 12px;
+}
+
+.char-filter-sheet-reset,
+.char-filter-sheet-done {
+  flex: 1 1 0;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.char-filter-sheet-reset {
+  background: transparent;
+  border: 1px solid rgba(139, 69, 19, 0.35);
+  color: #5a422d;
+}
+
+.char-filter-sheet-done {
+  background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+  border: 1px solid #8b4513;
+  color: #f4f1e8;
+}
+
+.char-action-sheet-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 18px;
+  background: none;
+  border: none;
+  border-left: 4px solid transparent;
+  color: #4a3728;
+  font-family: 'Cinzel', serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.char-action-sheet-item i {
+  width: 20px;
+  text-align: center;
+  color: #8b4513;
+}
+
+.char-action-sheet-item:hover,
+.char-action-sheet-item:active {
+  background: rgba(139, 69, 19, 0.08);
+  border-left-color: #8b4513;
+}
+
+.char-action-sheet-item.danger {
+  color: #a63d3d;
+}
+
+.char-action-sheet-item.danger i {
+  color: #a63d3d;
 }

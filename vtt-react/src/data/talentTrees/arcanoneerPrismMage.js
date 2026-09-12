@@ -136,7 +136,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: "pm_t3_resonance_chord",
     name: "Resonance Chord",
-    icon: "spell_arcane_arcanetorrent",
+    icon: "Psychic/Mind Growth",
     maxRanks: 3,
     position: { x: 0, y: 2 },
     requires: "pm_t2_crystal_focus",
@@ -269,7 +269,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: "pm_t5_crystal_armor",
     name: "Crystal Armor",
-    icon: "inv_misc_gem_crystal_01",
+    icon: "Utility/Melting Crystal Shard",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "pm_t4_refraction_strike",
@@ -292,7 +292,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: "pm_t6_sphere_perfection",
     name: "Sphere Perfection",
-    icon: "spell_arcane_arcanetorrent",
+    icon: "Psychic/Telepathic Arcane",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "pm_t5_perfect_clarity",
@@ -310,7 +310,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: "pm_t6_prism_battery",
     name: "Prism Battery",
-    icon: "inv_misc_gem_01",
+    icon: "Utility/Gem And Gold Chains",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "pm_t5_crystal_armor",
@@ -375,7 +375,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: "pm_t7_pure_doctrine",
     name: "Pure Doctrine",
-    icon: "spell_arcane_arcanepotency",
+    icon: "Arcane/Angular Rune",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "pm_t6_resonant_feedback",
@@ -398,7 +398,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: "pm_t7_dominant_clause",
     name: "Dominant Clause",
-    icon: "spell_arcane_blink",
+    icon: "Arcane/Revealing Steps",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "pm_t6_prism_battery",

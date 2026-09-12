@@ -100,7 +100,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t2_death_mark",
     name: "Death Mark",
-    icon: "ability_hunter_markedfordeath",
+    icon: "Necrotic/Death Mark",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "wsb_t1_precision_strike",
@@ -232,7 +232,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t4_apex_hunter",
     name: "Apex Hunter",
-    icon: "ability_druid_predatoryinstincts",
+    icon: "Nature/Ethereal Bear Spirit",
     maxRanks: 2,
     position: { x: 2.5, y: 3 },
     requires: "wsb_t3_shadow_step",
@@ -311,7 +311,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t6_vein_reader",
     name: "Vein Reader",
-    icon: "ability_rogue_findweakness",
+    icon: "Piercing/Targeted Strike 1",
     maxRanks: 2,
     position: { x: 2, y: 5 },
     requires: "wsb_t3_deadly_precision",
@@ -354,7 +354,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t7_eternal_hunt",
     name: "Eternal Hunt",
-    icon: "ability_hunter_assassinate",
+    icon: "Piercing/Dagger Upward Strike",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "wsb_t5_quiver_of_debts",

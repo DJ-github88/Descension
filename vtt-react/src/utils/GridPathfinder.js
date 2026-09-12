@@ -1,8 +1,35 @@
 import { isWallBlocking } from './VisibilityCalculations';
+import { canStepElevation } from './ElevationUtils';
+
+/** Flat-top axial hex neighbors (matches InfiniteGridSystem.getHexNeighbors). */
+const HEX_DIRECTIONS = [
+  [1, 0], [-1, 0], [0, 1], [0, -1], [1, -1], [-1, 1]
+];
+
+/** Axial hex distance. */
+export function hexGridDistance(q1, r1, q2, r2) {
+  return (Math.abs(q1 - q2) + Math.abs(r1 - r2) + Math.abs((q1 + r1) - (q2 + r2))) / 2;
+}
+
+/**
+ * Movement blocking between two adjacent hexes. Hex walls are stored as edge
+ * keys "q1,r1,q2,r2" (either order). Open doors and open windows pass; all
+ * other walls (incl. closed/locked doors, windows, barriers) block movement.
+ */
+function isHexWallBlocking(q1, r1, q2, r2, wallData) {
+  if (!wallData) return false;
+  const wall = wallData[`${q1},${r1},${q2},${r2}`] || wallData[`${q2},${r2},${q1},${r1}`];
+  if (!wall) return false;
+  if (typeof wall === 'string') return true;
+  if (wall.state === 'open') return false;
+  if (wall.type === 'open_window') return false;
+  return true;
+}
 
 /**
  * GridPathfinder - A* pathfinder for VTT grid navigation around walls
- * Supports D&D 5/10/5 diagonal movement rules
+ * Supports D&D 5/10/5 diagonal movement rules and elevation steps
+ * (|delta| <= 1 free, larger deltas only via ramp/stairs tiles).
  */
 
 /**
@@ -13,16 +40,22 @@ import { isWallBlocking } from './VisibilityCalculations';
  * @param {number} endY - End grid y
  * @param {Object} wallData - Wall data from level editor store
  * @param {Object} windowOverlays - Optional window overlays
- * @param {Object} options - { allowDiagonals: true, maxSearchDistance: 50, feetPerTile: 5, diagonalRule: '5105' }
- * @returns {{ path: Array<{x: number, y: number}>, totalFeet: number, isDirect: boolean, blocked?: boolean }}
+ * @param {Object} options - { allowDiagonals: true, maxSearchDistance: 50, feetPerTile: 5, diagonalRule: '5105',
+ *                             elevationData, rampData, ignoreElevation }
+ * @returns {{ path: Array<{x: number, y: number}>, totalFeet: number, isDirect: boolean, blocked?: boolean, blockedReason?: string|null }}
  */
 export function findGridPath(startX, startY, endX, endY, wallData = {}, windowOverlays = {}, options = {}) {
   const {
     allowDiagonals = true,
     maxSearchDistance = 60,
     feetPerTile = 5,
-    diagonalRule = '5105'
+    diagonalRule = '5105',
+    elevationData = null,
+    rampData = null,
+    ignoreElevation = false,
+    gridType = 'square'
   } = options;
+  const isHex = gridType === 'hex';
 
   startX = Math.floor(startX);
   startY = Math.floor(startY);
@@ -33,17 +66,23 @@ export function findGridPath(startX, startY, endX, endY, wallData = {}, windowOv
     return {
       path: [{ x: startX, y: startY }],
       totalFeet: 0,
-      isDirect: true
+      isDirect: true,
+      blockedReason: null
     };
   }
 
   const hasWalls = wallData && Object.keys(wallData).length > 0;
-  if (!hasWalls) {
-    const dist = calculateStepDistance(startX, startY, endX, endY, feetPerTile, diagonalRule);
+  const elevationActive = !ignoreElevation && elevationData && Object.keys(elevationData).length > 0;
+
+  if (!hasWalls && !elevationActive) {
+    const dist = isHex
+      ? hexGridDistance(startX, startY, endX, endY) * feetPerTile
+      : calculateStepDistance(startX, startY, endX, endY, feetPerTile, diagonalRule);
     return {
       path: [{ x: startX, y: startY }, { x: endX, y: endY }],
       totalFeet: dist,
-      isDirect: true
+      isDirect: true,
+      blockedReason: null
     };
   }
 
@@ -53,19 +92,25 @@ export function findGridPath(startX, startY, endX, endY, wallData = {}, windowOv
   const openSet = new Set([startKey]);
   const cameFrom = new Map();
   const gScore = new Map([[startKey, 0]]);
-  const fScore = new Map([[startKey, Math.hypot(endX - startX, endY - startY)]]);
+  const fScore = new Map([[startKey, 0]]);
   const keyToPos = new Map([[startKey, { x: startX, y: startY }]]);
 
-  const ORTHOGONAL = [
+  const OFFSET_ORTHOGONAL = [
     [1, 0], [-1, 0], [0, 1], [0, -1]
   ];
-  const DIAGONAL = [
+  const OFFSET_DIAGONAL = [
     [1, 1], [1, -1], [-1, 1], [-1, -1]
   ];
-  const DIRS = allowDiagonals ? [...ORTHOGONAL, ...DIAGONAL] : ORTHOGONAL;
+  const DIRS = isHex
+    ? HEX_DIRECTIONS
+    : (allowDiagonals ? [...OFFSET_ORTHOGONAL, ...OFFSET_DIAGONAL] : OFFSET_ORTHOGONAL);
+  const heuristic = (fromX, fromY) => (isHex
+    ? hexGridDistance(fromX, fromY, endX, endY)
+    : Math.hypot(endX - fromX, endY - fromY));
+  fScore.set(startKey, heuristic(startX, startY));
 
   let iterations = 0;
-  const maxIterations = 2000;
+  const maxIterations = isHex ? 3000 : 2000;
 
   while (openSet.size > 0 && iterations++ < maxIterations) {
     let currentKey = null;
@@ -87,30 +132,37 @@ export function findGridPath(startX, startY, endX, endY, wallData = {}, windowOv
         curr = cameFrom.get(curr);
       }
 
-      const totalFeet = calculatePathDistance(path, feetPerTile, diagonalRule);
+      const totalFeet = isHex
+        ? (path.length - 1) * feetPerTile
+        : calculatePathDistance(path, feetPerTile, diagonalRule);
       return {
         path,
         totalFeet,
-        isDirect: path.length === 2
+        isDirect: path.length === 2,
+        blockedReason: null
       };
     }
 
     openSet.delete(currentKey);
     const currentPos = keyToPos.get(currentKey);
 
-    if (
-      Math.abs(currentPos.x - startX) > maxSearchDistance ||
-      Math.abs(currentPos.y - startY) > maxSearchDistance
-    ) {
+    const withinRange = isHex
+      ? hexGridDistance(currentPos.x, currentPos.y, startX, startY) <= maxSearchDistance
+      : Math.abs(currentPos.x - startX) <= maxSearchDistance &&
+        Math.abs(currentPos.y - startY) <= maxSearchDistance;
+    if (!withinRange) {
       continue;
     }
 
     for (const [dx, dy] of DIRS) {
       const nx = currentPos.x + dx;
       const ny = currentPos.y + dy;
-      const isDiag = dx !== 0 && dy !== 0;
+      const isDiag = !isHex && dx !== 0 && dy !== 0;
 
-      if (isWallBlocking(currentPos.x, currentPos.y, nx, ny, wallData, windowOverlays)) {
+      const blockedStep = isHex
+        ? isHexWallBlocking(currentPos.x, currentPos.y, nx, ny, wallData)
+        : isWallBlocking(currentPos.x, currentPos.y, nx, ny, wallData, windowOverlays);
+      if (blockedStep) {
         continue;
       }
 
@@ -118,6 +170,16 @@ export function findGridPath(startX, startY, endX, endY, wallData = {}, windowOv
         const wall1 = isWallBlocking(currentPos.x, currentPos.y, currentPos.x + dx, currentPos.y, wallData, windowOverlays);
         const wall2 = isWallBlocking(currentPos.x, currentPos.y, currentPos.x, currentPos.y + dy, wallData, windowOverlays);
         if (wall1 && wall2) continue;
+      }
+
+      if (elevationActive) {
+        const elevationStep = canStepElevation({
+          elevationData,
+          rampData,
+          from: currentPos,
+          to: { x: nx, y: ny }
+        });
+        if (!elevationStep.allowed) continue;
       }
 
       const nKey = `${nx},${ny}`;
@@ -129,18 +191,21 @@ export function findGridPath(startX, startY, endX, endY, wallData = {}, windowOv
       if (tentativeG < (gScore.get(nKey) ?? Infinity)) {
         cameFrom.set(nKey, currentKey);
         gScore.set(nKey, tentativeG);
-        fScore.set(nKey, tentativeG + Math.hypot(endX - nx, endY - ny));
+        fScore.set(nKey, tentativeG + heuristic(nx, ny));
         openSet.add(nKey);
       }
     }
   }
 
-  const fallbackDist = calculateStepDistance(startX, startY, endX, endY, feetPerTile, diagonalRule);
+  const fallbackDist = isHex
+    ? hexGridDistance(startX, startY, endX, endY) * feetPerTile
+    : calculateStepDistance(startX, startY, endX, endY, feetPerTile, diagonalRule);
   return {
     path: [{ x: startX, y: startY }, { x: endX, y: endY }],
     totalFeet: fallbackDist,
     isDirect: false,
-    blocked: true
+    blocked: true,
+    blockedReason: 'no_path'
   };
 }
 

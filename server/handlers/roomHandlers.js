@@ -276,6 +276,16 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor, p
           exploredAreas: {},
           lightSources: {},
           dndElements: [],
+          viewMode: '2d',
+          elevationData: {},
+          rampData: {},
+          sunSettings: {
+            azimuth: 135,
+            elevation: 45,
+            color: '#fff4e0',
+            intensity: 1.0,
+            ambient: 0.2
+          },
           tokens: {},
           characterTokens: {},
           gridItems: {}
@@ -314,7 +324,8 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor, p
         gridLineColor: '#000000',
         gridLineThickness: 1,
         gridLineOpacity: 0.5,
-        gridBackgroundColor: '#d4c5b9'
+        gridBackgroundColor: '#d4c5b9',
+        viewMode: '2d'
       }
     },
     chatHistory: [],

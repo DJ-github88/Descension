@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
@@ -170,6 +171,8 @@ const AccountDashboard = ({ user }) => {
   const [characterSearchQuery, setCharacterSearchQuery] = useState('');
   const [characterClassFilter, setCharacterClassFilter] = useState('all');
   const [characterSortBy, setCharacterSortBy] = useState('name'); // 'name', 'level', 'recent'
+  const [showCharFilters, setShowCharFilters] = useState(false);
+  const [sheetCharacter, setSheetCharacter] = useState(null);
 
   const availableClasses = useMemo(() => {
     return Array.from(new Set((characters || []).map(c => c.class).filter(Boolean)));
@@ -646,18 +649,33 @@ const AccountDashboard = ({ user }) => {
             </button>
           </div>
 
-          <button
-            className={`account-mobile-hamburger ${mobileMenuOpen ? 'open' : ''}`}
-            onClick={() => setMobileMenuOpen(prev => !prev)}
-            aria-label="Menu"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-        </header>
+          {!isPhone && (
+            <button
+              className={`account-mobile-hamburger ${mobileMenuOpen ? 'open' : ''}`}
+              onClick={() => setMobileMenuOpen(prev => !prev)}
+              aria-label="Menu"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          )}
+
+        {mobileMenuOpen && (
+          <div className="account-mobile-backdrop" onClick={() => setMobileMenuOpen(false)}></div>
+        )}
 
         <div className={`account-mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
+          <div className="account-mobile-menu-header">
+            <span>Menu</span>
+            <button
+              className="account-mobile-menu-close"
+              onClick={() => setMobileMenuOpen(false)}
+              aria-label="Close menu"
+            >
+              <i className="fas fa-xmark"></i>
+            </button>
+          </div>
           <nav className="account-mobile-nav">
             <button
               className={`account-mobile-nav-item ${activeTab === 'rooms' ? 'active' : ''}`}
@@ -666,13 +684,15 @@ const AccountDashboard = ({ user }) => {
               <i className="fas fa-door-open"></i>
               Rooms
             </button>
-            <button
-              className={`account-mobile-nav-item ${activeTab === 'characters' ? 'active' : ''}`}
-              onClick={() => { handleTabChange('characters'); setMobileMenuOpen(false); }}
-            >
-              <i className="fas fa-user-friends"></i>
-              Characters
-            </button>
+            {!isPhone && (
+              <button
+                className={`account-mobile-nav-item ${activeTab === 'characters' ? 'active' : ''}`}
+                onClick={() => { handleTabChange('characters'); setMobileMenuOpen(false); }}
+              >
+                <i className="fas fa-user-friends"></i>
+                Characters
+              </button>
+            )}
             {!isGuest && (
               <button
                 className={`account-mobile-nav-item ${activeTab === 'campaigns' ? 'active' : ''}`}
@@ -682,7 +702,7 @@ const AccountDashboard = ({ user }) => {
                 Campaigns
               </button>
             )}
-            {!isGuest && (
+            {!isPhone && !isGuest && (
               <button
                 className={`account-mobile-nav-item ${activeTab === 'journal' ? 'active' : ''}`}
                 onClick={() => { handleTabChange('journal'); setMobileMenuOpen(false); }}
@@ -700,7 +720,7 @@ const AccountDashboard = ({ user }) => {
                 Social
               </button>
             )}
-            {!isGuest && (
+            {!isPhone && !isGuest && (
               <button
                 className={`account-mobile-nav-item ${activeTab === 'maps' ? 'active' : ''}`}
                 onClick={() => { handleTabChange('maps'); setMobileMenuOpen(false); }}
@@ -709,7 +729,7 @@ const AccountDashboard = ({ user }) => {
                 World
               </button>
             )}
-            {!isGuest && (
+            {!isPhone && !isGuest && (
               <button
                 className={`account-mobile-nav-item ${activeTab === 'books' ? 'active' : ''}`}
                 onClick={() => { handleTabChange('books'); setMobileMenuOpen(false); }}
@@ -763,6 +783,7 @@ const AccountDashboard = ({ user }) => {
             </button>
           </div>
         </div>
+        </header>
 
         {/* Guest Info Banner */}
           {isGuest && (
@@ -825,18 +846,20 @@ const AccountDashboard = ({ user }) => {
                       </div>
                     )}
 
-                    <button
-                      className={`char-create-cta-btn ${characterLimitInfo && !characterLimitInfo.canCreate ? 'disabled' : ''}`}
-                      onClick={handleCreateCharacter}
-                      disabled={characterLimitInfo && !characterLimitInfo.canCreate}
-                      title={characterLimitInfo && !characterLimitInfo.canCreate ?
-                        `Character limit reached (${characterLimitInfo.limit}). Upgrade membership to forge more.` :
-                        'Forge a new character'
-                      }
-                    >
-                      <i className="fas fa-plus"></i>
-                      <span>Create Character</span>
-                    </button>
+                    {!isPhone && (
+                      <button
+                        className={`char-create-cta-btn ${characterLimitInfo && !characterLimitInfo.canCreate ? 'disabled' : ''}`}
+                        onClick={handleCreateCharacter}
+                        disabled={characterLimitInfo && !characterLimitInfo.canCreate}
+                        title={characterLimitInfo && !characterLimitInfo.canCreate ?
+                          `Character limit reached (${characterLimitInfo.limit}). Upgrade membership to forge more.` :
+                          'Forge a new character'
+                        }
+                      >
+                        <i className="fas fa-plus"></i>
+                        <span>Create Character</span>
+                      </button>
+                    )}
                   </div>
                 </div>
 
@@ -847,7 +870,7 @@ const AccountDashboard = ({ user }) => {
                     <input
                       type="text"
                       className="char-search-input"
-                      placeholder="Search characters by name, lineage, class..."
+                      placeholder={isPhone ? 'Search heroes…' : 'Search characters by name, lineage, class...'}
                       value={characterSearchQuery}
                       onChange={(e) => setCharacterSearchQuery(e.target.value)}
                     />
@@ -858,37 +881,107 @@ const AccountDashboard = ({ user }) => {
                     )}
                   </div>
 
-                  <div className="char-filter-group">
-                    <div className="filter-item">
-                      <label htmlFor="char-class-filter"><i className="fas fa-filter"></i> Class:</label>
-                      <select
-                        id="char-class-filter"
-                        className="char-filter-select"
-                        value={characterClassFilter}
-                        onChange={(e) => setCharacterClassFilter(e.target.value)}
-                      >
-                        <option value="all">All Classes ({characters.length})</option>
-                        {availableClasses.map(cls => (
-                          <option key={cls} value={cls}>{cls}</option>
-                        ))}
-                      </select>
-                    </div>
+                  {isPhone ? (
+                    <button
+                      className={`char-filters-trigger ${characterClassFilter !== 'all' ? 'has-active-filters' : ''}`}
+                      onClick={() => setShowCharFilters(true)}
+                      aria-label="Filters and sorting"
+                    >
+                      <i className="fas fa-filter"></i>
+                      <span>Filters</span>
+                      {characterClassFilter !== 'all' && <span className="char-filters-dot" />}
+                    </button>
+                  ) : (
+                    <div className="char-filter-group">
+                      <div className="filter-item">
+                        <label htmlFor="char-class-filter"><i className="fas fa-filter"></i> Class:</label>
+                        <select
+                          id="char-class-filter"
+                          className="char-filter-select"
+                          value={characterClassFilter}
+                          onChange={(e) => setCharacterClassFilter(e.target.value)}
+                        >
+                          <option value="all">All Classes ({characters.length})</option>
+                          {availableClasses.map(cls => (
+                            <option key={cls} value={cls}>{cls}</option>
+                          ))}
+                        </select>
+                      </div>
 
-                    <div className="filter-item">
-                      <label htmlFor="char-sort-filter"><i className="fas fa-arrow-down-a-z"></i> Sort:</label>
-                      <select
-                        id="char-sort-filter"
-                        className="char-filter-select"
-                        value={characterSortBy}
-                        onChange={(e) => setCharacterSortBy(e.target.value)}
-                      >
-                        <option value="name">Name (A–Z)</option>
-                        <option value="level">Level (High–Low)</option>
-                        <option value="recent">Recently Updated</option>
-                      </select>
+                      <div className="filter-item">
+                        <label htmlFor="char-sort-filter"><i className="fas fa-arrow-down-a-z"></i> Sort:</label>
+                        <select
+                          id="char-sort-filter"
+                          className="char-filter-select"
+                          value={characterSortBy}
+                          onChange={(e) => setCharacterSortBy(e.target.value)}
+                        >
+                          <option value="name">Name (A–Z)</option>
+                          <option value="level">Level (High–Low)</option>
+                          <option value="recent">Recently Updated</option>
+                        </select>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
+
+                {isPhone && showCharFilters && createPortal(
+                  <div className="char-filter-sheet-overlay" onClick={() => setShowCharFilters(false)}>
+                    <div className="char-filter-sheet" onClick={(e) => e.stopPropagation()}>
+                      <div className="char-filter-sheet-header">
+                        <span>Filters &amp; Sorting</span>
+                        <button
+                          className="char-filter-sheet-close"
+                          onClick={() => setShowCharFilters(false)}
+                          aria-label="Close filters"
+                        >
+                          <i className="fas fa-xmark"></i>
+                        </button>
+                      </div>
+                      <div className="char-filter-sheet-body">
+                        <label htmlFor="char-class-filter-sheet">Class</label>
+                        <select
+                          id="char-class-filter-sheet"
+                          className="char-filter-select"
+                          value={characterClassFilter}
+                          onChange={(e) => setCharacterClassFilter(e.target.value)}
+                        >
+                          <option value="all">All Classes ({characters.length})</option>
+                          {availableClasses.map(cls => (
+                            <option key={cls} value={cls}>{cls}</option>
+                          ))}
+                        </select>
+
+                        <label htmlFor="char-sort-filter-sheet">Sort</label>
+                        <select
+                          id="char-sort-filter-sheet"
+                          className="char-filter-select"
+                          value={characterSortBy}
+                          onChange={(e) => setCharacterSortBy(e.target.value)}
+                        >
+                          <option value="name">Name (A–Z)</option>
+                          <option value="level">Level (High–Low)</option>
+                          <option value="recent">Recently Updated</option>
+                        </select>
+                      </div>
+                      <div className="char-filter-sheet-actions">
+                        <button
+                          className="char-filter-sheet-reset"
+                          onClick={() => { setCharacterClassFilter('all'); setCharacterSortBy('name'); }}
+                        >
+                          Reset
+                        </button>
+                        <button
+                          className="char-filter-sheet-done"
+                          onClick={() => setShowCharFilters(false)}
+                        >
+                          Done
+                        </button>
+                      </div>
+                    </div>
+                  </div>,
+                  document.body
+                )}
 
                 {/* Characters Grid */}
                 {filteredCharacters.length > 0 ? (
@@ -936,8 +1029,17 @@ const AccountDashboard = ({ user }) => {
                       return (
                         <div 
                           key={character.id} 
-                          className={`hero-card-compact ${isActive ? 'active-hero' : ''}`}
+                          className={`hero-card-compact ${isActive ? 'active-hero' : ''} ${isPhone ? 'hero-card-tappable' : ''}`}
                           style={bgStyle}
+                          onClick={isPhone ? () => navigate(`/account/characters/view/${character.id}`) : undefined}
+                          role={isPhone ? 'button' : undefined}
+                          tabIndex={isPhone ? 0 : undefined}
+                          onKeyDown={isPhone ? (e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              navigate(`/account/characters/view/${character.id}`);
+                            }
+                          } : undefined}
                         >
                           {/* Active Hero Crown Ribbon */}
                           {isActive && (
@@ -1048,38 +1150,68 @@ const AccountDashboard = ({ user }) => {
 
                           {/* Action Footer */}
                           <div className="hero-actions-bar">
-                            <button
-                              className={`hero-action-btn select-btn ${isActive ? 'is-active' : ''}`}
-                              onClick={() => handleSelectCharacter(character.id)}
-                              title={isActive ? 'Currently active hero for gameplay' : 'Set this hero as active'}
-                            >
-                              <i className={`fas ${isActive ? 'fa-circle-check' : 'fa-circle-dot'}`}></i>
-                              <span>{isActive ? 'Active Hero' : 'Select Hero'}</span>
-                            </button>
+                            {isPhone ? (
+                              <>
+                                {isActive ? (
+                                  <span className="hero-active-hint">
+                                    <i className="fas fa-circle-check"></i>
+                                    Ready for play
+                                  </span>
+                                ) : (
+                                  <button
+                                    className="hero-action-btn select-btn"
+                                    onClick={(e) => { e.stopPropagation(); handleSelectCharacter(character.id); }}
+                                    title="Set this hero as active"
+                                  >
+                                    <i className="fas fa-circle-dot"></i>
+                                    <span>Select Hero</span>
+                                  </button>
+                                )}
+                                <button
+                                  className="hero-action-icon-btn hero-more-btn"
+                                  onClick={(e) => { e.stopPropagation(); setSheetCharacter(character); }}
+                                  title="More actions"
+                                  aria-label={`More actions for ${character.name}`}
+                                >
+                                  <i className="fas fa-ellipsis"></i>
+                                </button>
+                              </>
+                            ) : (
+                              <>
+                                <button
+                                  className={`hero-action-btn select-btn ${isActive ? 'is-active' : ''}`}
+                                  onClick={() => handleSelectCharacter(character.id)}
+                                  title={isActive ? 'Currently active hero for gameplay' : 'Set this hero as active'}
+                                >
+                                  <i className={`fas ${isActive ? 'fa-circle-check' : 'fa-circle-dot'}`}></i>
+                                  <span>{isActive ? 'Active Hero' : 'Select Hero'}</span>
+                                </button>
 
-                            <div className="hero-actions-group">
-                              <button 
-                                className="hero-action-icon-btn edit-btn" 
-                                onClick={() => navigate(`/account/characters/edit/${character.id}`)}
-                                title="Edit Character & Lore"
-                              >
-                                <i className="fas fa-pen-to-square"></i>
-                              </button>
-                              <button 
-                                className="hero-action-icon-btn view-btn" 
-                                onClick={() => navigate(`/account/characters/view/${character.id}`)}
-                                title="View Full Character Sheet"
-                              >
-                                <i className="fas fa-eye"></i>
-                              </button>
-                              <button 
-                                className="hero-action-icon-btn delete-btn" 
-                                onClick={() => handleDeleteCharacter(character)}
-                                title="Delete Character"
-                              >
-                                <i className="fas fa-trash-can"></i>
-                              </button>
-                            </div>
+                                <div className="hero-actions-group">
+                                  <button 
+                                    className="hero-action-icon-btn edit-btn" 
+                                    onClick={() => navigate(`/account/characters/edit/${character.id}`)}
+                                    title="Edit Character & Lore"
+                                  >
+                                    <i className="fas fa-pen-to-square"></i>
+                                  </button>
+                                  <button 
+                                    className="hero-action-icon-btn view-btn" 
+                                    onClick={() => navigate(`/account/characters/view/${character.id}`)}
+                                    title="View Full Character Sheet"
+                                  >
+                                    <i className="fas fa-eye"></i>
+                                  </button>
+                                  <button 
+                                    className="hero-action-icon-btn delete-btn" 
+                                    onClick={() => handleDeleteCharacter(character)}
+                                    title="Delete Character"
+                                  >
+                                    <i className="fas fa-trash-can"></i>
+                                  </button>
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                       );
@@ -1326,6 +1458,70 @@ const AccountDashboard = ({ user }) => {
           </div>
         )}
 
+        {isPhone && sheetCharacter && createPortal(
+          <div className="char-action-sheet-overlay" onClick={() => setSheetCharacter(null)}>
+            <div className="char-action-sheet" onClick={(e) => e.stopPropagation()}>
+              <div className="char-action-sheet-header">
+                <span>{sheetCharacter.name}</span>
+                <button
+                  className="char-action-sheet-close"
+                  onClick={() => setSheetCharacter(null)}
+                  aria-label="Close actions"
+                >
+                  <i className="fas fa-xmark"></i>
+                </button>
+              </div>
+              <button
+                className="char-action-sheet-item"
+                onClick={() => {
+                  const id = sheetCharacter.id;
+                  setSheetCharacter(null);
+                  navigate(`/account/characters/view/${id}`);
+                }}
+              >
+                <i className="fas fa-eye"></i>
+                View Character Sheet
+              </button>
+              <button
+                className="char-action-sheet-item"
+                onClick={() => {
+                  const id = sheetCharacter.id;
+                  setSheetCharacter(null);
+                  navigate(`/account/characters/edit/${id}`);
+                }}
+              >
+                <i className="fas fa-pen-to-square"></i>
+                Edit Character &amp; Lore
+              </button>
+              {currentCharacterId !== sheetCharacter.id && (
+                <button
+                  className="char-action-sheet-item"
+                  onClick={() => {
+                    const id = sheetCharacter.id;
+                    setSheetCharacter(null);
+                    handleSelectCharacter(id);
+                  }}
+                >
+                  <i className="fas fa-circle-dot"></i>
+                  Set as Active Hero
+                </button>
+              )}
+              <button
+                className="char-action-sheet-item danger"
+                onClick={() => {
+                  const target = sheetCharacter;
+                  setSheetCharacter(null);
+                  handleDeleteCharacter(target);
+                }}
+              >
+                <i className="fas fa-trash-can"></i>
+                Delete Character
+              </button>
+            </div>
+          </div>,
+          document.body
+        )}
+
         {!isGuest && (
           <div className="account-danger-zone" style={{ marginTop: '2rem', padding: '1.5rem', borderTop: '2px solid #dc3545' }}>
             <h4 style={{ color: '#dc3545', marginBottom: '0.5rem' }}>Danger Zone</h4>
@@ -1379,6 +1575,53 @@ const AccountDashboard = ({ user }) => {
               </div>
             )}
           </div>
+        )}
+
+        {isPhone && (
+          <nav className="account-bottom-nav" aria-label="Account sections">
+            <button
+              className={`account-bottom-nav-item ${activeTab === 'characters' ? 'active' : ''}`}
+              onClick={() => { handleTabChange('characters'); setMobileMenuOpen(false); }}
+            >
+              <i className="fas fa-user-friends"></i>
+              <span>Characters</span>
+            </button>
+            {!isGuest && (
+              <button
+                className={`account-bottom-nav-item ${activeTab === 'journal' ? 'active' : ''}`}
+                onClick={() => { handleTabChange('journal'); setMobileMenuOpen(false); }}
+              >
+                <i className="fas fa-book"></i>
+                <span>Journal</span>
+              </button>
+            )}
+            {!isGuest && (
+              <button
+                className={`account-bottom-nav-item ${activeTab === 'maps' ? 'active' : ''}`}
+                onClick={() => { handleTabChange('maps'); setMobileMenuOpen(false); }}
+              >
+                <i className="fas fa-atlas"></i>
+                <span>World</span>
+              </button>
+            )}
+            {!isGuest && (
+              <button
+                className={`account-bottom-nav-item ${activeTab === 'books' ? 'active' : ''}`}
+                onClick={() => { handleTabChange('books'); setMobileMenuOpen(false); }}
+              >
+                <i className="fas fa-book-bookmark"></i>
+                <span>Books</span>
+              </button>
+            )}
+            <button
+              className={`account-bottom-nav-item ${mobileMenuOpen || !['characters', 'journal', 'maps', 'books'].includes(activeTab) ? 'active' : ''}`}
+              onClick={() => setMobileMenuOpen(prev => !prev)}
+              aria-expanded={mobileMenuOpen}
+            >
+              <i className="fas fa-ellipsis"></i>
+              <span>More</span>
+            </button>
+          </nav>
         )}
       </div>
       <ProfileEditModal isOpen={isProfileEditOpen} onClose={() => setIsProfileEditOpen(false)} />

@@ -158,7 +158,9 @@ jest.mock('../../../store/settingsStore', () => {
 jest.mock('../../../utils/InfiniteGridSystem', () => ({
   getGridSystem: () => ({
     worldToScreen: (x, y) => ({ x, y }),
+    worldToScreen3D: (x, y, z) => ({ x, y: y - (z || 0) }),
     worldToGrid: (x, y) => ({ x: Math.round(x), y: Math.round(y) }),
+    getGridState: () => ({ gridSize: 50, gridType: 'square' }),
     gridToScreen: (x, y) => ({ x, y })
   }),
   createGridSystem: jest.fn()

@@ -310,7 +310,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t7_auspice_supreme",
     name: "Auspice Supreme",
-    icon: "spell_arcane_prismaticcloak",
+    icon: "Arcane/Conjure Wound",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "aus_t6_omen_mastery",
@@ -353,7 +353,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t7_harmonic_overload",
     name: "Harmonic Overload",
-    icon: "spell_arcane_prismaticbolt",
+    icon: "Psychic/Telepathic Arcane",
     maxRanks: 3,
     position: { x: 2, y: 6 },
     requires: "aus_t6_cosmic_echo",

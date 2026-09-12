@@ -57,12 +57,15 @@ const SpellAoEOverlay = ({
 
   // Camera/zoom subscriptions keep the persistent template locked to the map
   // while the camera pans or zooms (values feed the conversions below)
-  const { cameraX, cameraY, zoomLevel, playerZoom } = useGameStore(
+  const { cameraX, cameraY, zoomLevel, playerZoom, viewMode, viewRotation, viewTilt } = useGameStore(
     useShallow((state) => ({
       cameraX: state.cameraX,
       cameraY: state.cameraY,
       zoomLevel: state.zoomLevel,
-      playerZoom: state.playerZoom
+      playerZoom: state.playerZoom,
+      viewMode: state.viewMode,
+      viewRotation: state.viewRotation,
+      viewTilt: state.viewTilt
     }))
   );
 
@@ -98,13 +101,13 @@ const SpellAoEOverlay = ({
     // camera/zoom are intentional deps: subscribing forces re-render so
     // polygons re-project when the camera moves (gridSystem reads them internally)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [gridSystem, viewport.width, viewport.height, cameraX, cameraY, zoomLevel, playerZoom]
+    [gridSystem, viewport.width, viewport.height, cameraX, cameraY, zoomLevel, playerZoom, viewMode, viewRotation, viewTilt]
   );
 
   const toWorld = useCallback(
     (screenX, screenY) => gridSystem.screenToWorld(screenX, screenY, viewport.width, viewport.height),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [gridSystem, viewport.width, viewport.height, cameraX, cameraY, zoomLevel, playerZoom]
+    [gridSystem, viewport.width, viewport.height, cameraX, cameraY, zoomLevel, playerZoom, viewMode, viewRotation, viewTilt]
   );
 
   // All tokens on the current map, resolved with display names (world px positions)

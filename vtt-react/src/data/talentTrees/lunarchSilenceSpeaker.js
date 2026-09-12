@@ -272,7 +272,7 @@ export const LUNARCH_SILENCE_SPEAKER = [
   {
     id: "lss_t6_skyhole_invocation",
     name: "Skyhole Rifting",
-    icon: "spell_shadow_twilight",
+    icon: "Void/Crimson Void Shards",
     maxRanks: 3,
     position: { x: 1, y: 5 },
     requires: "lss_t5_silence_supernova",

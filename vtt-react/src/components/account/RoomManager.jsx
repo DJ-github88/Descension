@@ -1,5 +1,6 @@
 // Room Manager component for account dashboard
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { getUserRooms, deleteRoom, getRoomLimits, updateRoom } from '../../services/roomService';
 import localRoomService from '../../services/localRoomService';
@@ -15,6 +16,7 @@ import RoomCard from '../common/RoomCard';
 import ConfirmationDialog from '../item-generation/ConfirmationDialog';
 import RoomToast from './RoomToast';
 import { showPrompt, showAlert } from '../../utils/dialogService';
+import { useIsPhone } from '../../hooks/useIsPhone';
 import './styles/RoomManager.css';
 
 const RoomManager = () => {
@@ -22,6 +24,7 @@ const RoomManager = () => {
   const { user } = useAuthStore();
   const { getActiveCharacter } = useCharacterStore();
   const { friends } = useSocialStore();
+  const isPhone = useIsPhone();
   // Get online users map and convert to array in useMemo to prevent infinite re-renders
   const onlineUsersMap = usePresenceStore((state) => state.onlineUsers);
   const onlineUsers = React.useMemo(() => {
@@ -43,6 +46,7 @@ const RoomManager = () => {
   const [toastType, setToastType] = useState('success');
   const [showCreateLocalRoom, setShowCreateLocalRoom] = useState(false);
   const [showCreateMultiplayerRoom, setShowCreateMultiplayerRoom] = useState(false);
+  const [showCreateTypeSheet, setShowCreateTypeSheet] = useState(false);
   const [newLocalRoomName, setNewLocalRoomName] = useState('');
   const [newMultiRoomName, setNewMultiRoomName] = useState('');
   const [newMultiRoomDescription, setNewMultiRoomDescription] = useState('');
@@ -822,6 +826,19 @@ const RoomManager = () => {
         )}
       </div>
 
+      {isPhone && !user?.isGuest && (
+        <div className="room-phone-cta">
+          <button
+            type="button"
+            className="create-room-btn room-phone-create-btn"
+            onClick={() => setShowCreateTypeSheet(true)}
+          >
+            <i className="fas fa-plus"></i>
+            Create a Room
+          </button>
+        </div>
+      )}
+
       {/* Toast Notification */}
       {toastMessage && (
         <RoomToast
@@ -847,7 +864,7 @@ const RoomManager = () => {
             Local Rooms
           </h3>
           <button
-            className="create-local-room-btn"
+            className="create-local-room-btn room-create-inline"
             onClick={() => setShowCreateLocalRoom(true)}
             disabled={roomLimits && localRooms.length >= roomLimits.limit}
             title={roomLimits && localRooms.length >= roomLimits.limit
@@ -994,7 +1011,7 @@ const RoomManager = () => {
           </h3>
           {!user?.isGuest && (
             <button
-              className="create-local-room-btn"
+              className="create-local-room-btn room-create-inline"
               onClick={handleCreateRoom}
               disabled={roomLimits && !roomLimits.canCreate}
               title="Create a new multiplayer room"
@@ -1034,7 +1051,7 @@ const RoomManager = () => {
                   <p>Create your first permanent room to start a campaign that saves your progress.</p>
                   <div className="empty-state-actions">
                     <button
-                      className="create-room-btn"
+                      className="create-room-btn room-create-inline"
                       onClick={handleCreateRoom}
                       disabled={roomLimits && !roomLimits.canCreate}
                       title="Create a new multiplayer room"
@@ -1271,6 +1288,54 @@ const RoomManager = () => {
             </form>
           </div>
         </div>
+      )}
+
+      {isPhone && showCreateTypeSheet && createPortal(
+        <div className="room-type-sheet-overlay" onClick={() => setShowCreateTypeSheet(false)}>
+          <div className="room-type-sheet" onClick={(e) => e.stopPropagation()}>
+            <div className="room-type-sheet-header">
+              <span>Create a Room</span>
+              <button
+                type="button"
+                className="room-type-sheet-close"
+                onClick={() => setShowCreateTypeSheet(false)}
+                aria-label="Close"
+              >
+                <i className="fas fa-xmark"></i>
+              </button>
+            </div>
+            <button
+              type="button"
+              className="room-type-sheet-item"
+              onClick={() => {
+                setShowCreateTypeSheet(false);
+                setShowCreateLocalRoom(true);
+              }}
+            >
+              <i className="fas fa-home"></i>
+              <span>
+                <strong>Local Room</strong>
+                <small>Offline play on this device. No account requirement.</small>
+              </span>
+            </button>
+            <button
+              type="button"
+              className="room-type-sheet-item"
+              onClick={() => {
+                setShowCreateTypeSheet(false);
+                handleCreateRoom();
+              }}
+              disabled={roomLimits && !roomLimits.canCreate}
+            >
+              <i className="fas fa-users"></i>
+              <span>
+                <strong>Multiplayer Room</strong>
+                <small>Permanent online room that saves your campaign progress.</small>
+              </span>
+            </button>
+          </div>
+        </div>,
+        document.body
       )}
     </div>
   );

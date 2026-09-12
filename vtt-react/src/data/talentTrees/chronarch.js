@@ -136,7 +136,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t3_chronal_cage",
     name: "Chronal Prison Sphere",
-    icon: "spell_nature_timestop",
+    icon: "Arcane/Sands of Time",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "st_t2_temporal_shockwave",
@@ -213,7 +213,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t4_dominion_authority",
     name: "Dominion of Stillness",
-    icon: "spell_holy_borrowedtime",
+    icon: "Psychic/Telepathic Arcane",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "st_t3_fracture_mastery",
@@ -260,7 +260,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t5_endless_stasis",
     name: "Chrono-Stasis Reservoir",
-    icon: "spell_arcane_arcanetorrent",
+    icon: "Psychic/Mind Growth",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "st_t4_dominion_authority",
@@ -282,7 +282,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t6_avatar_of_stasis",
     name: "Avatar of Stasis",
-    icon: "spell_nature_timestop",
+    icon: "Nature/Nature Scene",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "st_t5_temporal_shatter",
@@ -305,7 +305,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t6_force_criticality",
     name: "Gravitational Rupture",
-    icon: "spell_arcane_blast",
+    icon: "Arcane/Magical Staff",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "st_t5_endless_stasis",
@@ -346,7 +346,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t7_grand_chronal_cataclysm",
     name: "Grand Time-Lock Cataclysm",
-    icon: "spell_nature_timestop",
+    icon: "Nature/Nature Shrine",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "st_t6_avatar_of_stasis",
@@ -369,7 +369,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t7_stasis_doctrine",
     name: "Stasis Archon Doctrine",
-    icon: "spell_holy_borrowedtime",
+    icon: "Radiant/Bide Time",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "st_t6_avatar_of_stasis",
@@ -392,7 +392,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t7_infinite_time_shards",
     name: "Infinite Shard Stream",
-    icon: "spell_arcane_arcanetorrent",
+    icon: "Arcane/Crescent Moon",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "st_t6_force_criticality",
@@ -412,7 +412,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t7_eternal_freeze",
     name: "Absolute Zero Stasis",
-    icon: "spell_frost_stun",
+    icon: "Frost/Frost Freeze 1",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "st_t6_force_criticality",
@@ -552,7 +552,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t2_echo_trail",
     name: "Displacement Slipstream",
-    icon: "spell_arcane_teleportshattrath",
+    icon: "Arcane/Open Portal",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "dp_t1_displacement_speed",
@@ -701,7 +701,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t5_flicker_mastery",
     name: "Phase Shift Mastery",
-    icon: "spell_arcane_arcaneresilience",
+    icon: "Psychic/Shifting Gaze",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "dp_t4_displacement_siphon",
@@ -746,7 +746,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t6_warp_criticality",
     name: "Warp Acceleration",
-    icon: "spell_arcane_blast",
+    icon: "Arcane/Magical Duel",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "dp_t5_flicker_mastery",
@@ -786,7 +786,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t7_fracture_dimension",
     name: "Dimensional Shatter Cataclysm",
-    icon: "spell_arcane_teleportshattrath",
+    icon: "Arcane/Desperate Channelling",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "dp_t6_omnipresent_avatar",
@@ -811,7 +811,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t7_displacement_doctrine",
     name: "Displacement Doctrine",
-    icon: "spell_arcane_blink",
+    icon: "Psychic/Telepathic Arcane",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "dp_t6_omnipresent_avatar",
@@ -834,7 +834,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t7_infinite_speed_matrix",
     name: "Spatial Singularity Matrix",
-    icon: "spell_nature_swiftness",
+    icon: "Utility/Energized Boot",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "dp_t6_warp_criticality",
@@ -854,7 +854,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t7_warp_echo_barrage",
     name: "Warp Echo Clones",
-    icon: "spell_arcane_arcanetorrent",
+    icon: "Psychic/Mind Growth",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "dp_t6_warp_criticality",
@@ -874,7 +874,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t7_phase_rebirth",
     name: "Phase Rebirth",
-    icon: "spell_arcane_portalshattrath",
+    icon: "Arcane/Enchanted Double Axe",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "dp_t6_spatial_refraction",
@@ -968,7 +968,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t2_undo_action",
     name: "Undo Fate",
-    icon: "spell_nature_timestop",
+    icon: "Arcane/Sands of Time",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "rw_t1_temporal_rewind",
@@ -1138,7 +1138,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t5_eternal_undo",
     name: "Paradox Reversal Engine",
-    icon: "spell_holy_borrowedtime",
+    icon: "Psychic/Telepathic Arcane",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "rw_t4_undo_cooldowns",
@@ -1160,7 +1160,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t6_the_grand_rewind",
     name: "The Grand Rewind",
-    icon: "spell_nature_timestop",
+    icon: "Nature/Panda Nature",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "rw_t5_rewind_death",
@@ -1183,7 +1183,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t6_causal_loop_heal",
     name: "Infinite Loop Healing",
-    icon: "spell_holy_renew",
+    icon: "Healing/Armored Healing",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "rw_t5_eternal_undo",
@@ -1204,7 +1204,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t6_temporal_immunity",
     name: "Sanctuary of Untouchable Time",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "Force/Force Touch",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "rw_t5_eternal_undo",
@@ -1225,7 +1225,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t7_avatar_of_chronos",
     name: "Avatar of the Eternal Return",
-    icon: "spell_holy_borrowedtime",
+    icon: "Radiant/Bide Time",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "rw_t6_the_grand_rewind",
@@ -1248,7 +1248,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t7_rewind_doctrine",
     name: "Rewinding Chronomancer Doctrine",
-    icon: "spell_holy_prayerofhealing",
+    icon: "Healing/Healing Compass",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "rw_t6_the_grand_rewind",
@@ -1270,7 +1270,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t7_infinite_rewind_engine",
     name: "Perpetual Time Shard Core",
-    icon: "spell_arcane_arcanetorrent",
+    icon: "Force/Energy Core",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "rw_t6_causal_loop_heal",
@@ -1290,7 +1290,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t7_fate_shield",
     name: "Temporal Aegis",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "Force/Force Shield",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "rw_t6_causal_loop_heal",
@@ -1310,7 +1310,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t7_immortal_chronomancer",
     name: "The Infinite Loop",
-    icon: "spell_holy_resurrection",
+    icon: "Radiant/Holy Bible",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "rw_t6_temporal_immunity",

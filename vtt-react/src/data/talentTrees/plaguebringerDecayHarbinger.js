@@ -122,7 +122,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t2_necrotic_burst",
     name: "Necrotic Cyst",
-    icon: "spell_shadow_deathanddecay",
+    icon: "Necrotic/Necrotic Death 7",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "dh_t1_infinite_growth",
@@ -222,7 +222,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t4_vampiric_decay",
     name: "Symbiotic Rot",
-    icon: "spell_shadow_lifedrain02",
+    icon: "Necrotic/Necrotic Decay 2",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "dh_t3_withering_aura",
@@ -268,7 +268,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t5_total_collapse",
     name: "Corpse Bloom",
-    icon: "spell_shadow_deathanddecay",
+    icon: "Necrotic/Necrotic Death 5",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "dh_t4_vampiric_decay",
@@ -292,7 +292,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t6_apocalyptic_decay",
     name: "Apocalyptic Decay",
-    icon: "spell_shadow_deathanddecay",
+    icon: "Necrotic/Necrotic Decay 10",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "dh_t5_miasmic_shroud",
@@ -357,7 +357,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t7_the_deep_garden",
     name: "The Deep Garden",
-    icon: "spell_shadow_deathanddecay",
+    icon: "Necrotic/Necrotic Death 6",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "dh_t6_apocalyptic_decay",
@@ -382,7 +382,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t7_peat_heart",
     name: "Peat-Heart Doctrine",
-    icon: "spell_shadow_darkritual",
+    icon: "Necrotic/Necrotic Wither",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "dh_t6_apocalyptic_decay",
@@ -425,7 +425,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t7_compost_engine",
     name: "Compost Engine",
-    icon: "spell_shadow_corpseexplode",
+    icon: "Utility/Three Explosive Holes",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "dh_t6_deep_rooted",
@@ -447,7 +447,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t7_eternal_gardener",
     name: "Eternal Gardener",
-    icon: "spell_shadow_deathanddecay",
+    icon: "Necrotic/Necrotic Hand Rising",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "dh_t6_rot_memory",

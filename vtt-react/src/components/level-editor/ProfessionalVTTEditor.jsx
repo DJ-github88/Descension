@@ -7,10 +7,12 @@ import useCharacterTokenStore from '../../store/characterTokenStore';
 import useMapStore from '../../store/mapStore';
 import MythrillWindow from '../windows/MythrillWindow';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import { pickWallAtScreenPoint } from '../../utils/WallPicking';
 import { useLevelEditorPersistence } from '../../hooks/useLevelEditorPersistence';
 
 import DrawingTools from './tools/DrawingTools';
 import TerrainTools from './tools/TerrainTools';
+import ElevationTools from './tools/ElevationTools';
 import ObjectTools from './tools/ObjectTools';
 import WallTools from './tools/WallTools';
 import FogTools from './tools/FogTools';
@@ -21,6 +23,7 @@ import AreaRemoveModal from './AreaRemoveModal';
 import AdvancedLightingPanel from './AdvancedLightingPanel';
 import { EraserCursorPreview, TextInputOverlay, AreaRemoveSelection, WallSelectionIndicator } from './EditorOverlays';
 import { EDITOR_TABS as vttTools, getToolCursor, getFirstTool } from './editorTools';
+import { LIGHT_PRESETS } from '../../utils/LightingCalculations';
 import LayersPanel from './LayersPanel';
 import TabDropdownButton from '../../components/common/TabDropdownButton';
 
@@ -74,6 +77,7 @@ const ProfessionalVTTEditor = () => {
 
     // Track last terrain brush position for line interpolation
     const lastTerrainBrushPosRef = useRef(null);
+const elevationStrokePaintedRef = useRef(null);
     const activeMapIdRef = useRef(null); // CRITICAL: Capture mapId on pointer down to prevent bleeding during transitions
 
     // Throttled function to update hover preview state
@@ -118,6 +122,11 @@ const ProfessionalVTTEditor = () => {
         removeTerrainAtPosition,
         removeTerrainLine,
         getTerrainAtPosition,
+        setElevationAt,
+        adjustElevationAt,
+        setRampAt,
+        addLightSource,
+        removeLightSource,
         removeFogAtPosition,
         addFogAtPosition,
         finishFogErasePath,
@@ -279,6 +288,32 @@ const ProfessionalVTTEditor = () => {
     const handleToolSettingsChange = (newSettings) => {
         setToolSettings({ ...toolSettings, ...newSettings });
     };
+
+    // Apply an elevation brush stamp. Stroke-local dedupe prevents repeated
+    // raise/lower while the pointer stays on the same tile during a drag.
+    const applyElevationStamp = useCallback((gridX, gridY, mode, target, brushSize) => {
+        const size = Math.max(1, Math.round(brushSize || 1));
+        const startOffset = Math.floor(size / 2);
+        const painted = elevationStrokePaintedRef.current || (elevationStrokePaintedRef.current = new Set());
+
+        for (let dx = 0; dx < size; dx++) {
+            for (let dy = 0; dy < size; dy++) {
+                const x = gridX - startOffset + dx;
+                const y = gridY - startOffset + dy;
+                const key = `${x},${y}`;
+                if (painted.has(key)) continue;
+                painted.add(key);
+
+                if (mode === 'raise') {
+                    adjustElevationAt(x, y, 1);
+                } else if (mode === 'lower') {
+                    adjustElevationAt(x, y, -1);
+                } else if (mode === 'flatten') {
+                    setElevationAt(x, y, target);
+                }
+            }
+        }
+    }, [adjustElevationAt, setElevationAt]);
 
     // Convert screen coordinates to grid coordinates using the same system as tokens and grid lines
     const screenToGrid = useCallback((clientX, clientY) => {
@@ -1663,6 +1698,32 @@ const ProfessionalVTTEditor = () => {
         if (!coords) return;
         setCurrentPath([coords]);
 
+        // Projected views: pick walls against their SVG prisms (the canvas wall
+        // renderer and its DOM overlay are disabled/misaligned in 2.5D/rotated views).
+        try {
+            const gridState = getGridSystem().getGridState();
+            const isProjectedView = gridState.viewMode === '2.5d' ||
+                Math.abs(((gridState.viewRotation % 360) + 360) % 360) > 0.001;
+            if (isProjectedView && (selectedTool === 'wall_select' || selectedTool === 'wall_erase')) {
+                const pickedWallKey = pickWallAtScreenPoint({
+                    screenX: e.clientX,
+                    screenY: e.clientY,
+                    wallData: useLevelEditorStore.getState().wallData,
+                    gridSystem: getGridSystem()
+                });
+                if (pickedWallKey) {
+                    if (selectedTool === 'wall_erase') {
+                        removeWall(pickedWallKey);
+                    } else {
+                        setSelectedWallKey(pickedWallKey);
+                    }
+                    return;
+                }
+            }
+        } catch (pickError) {
+            console.warn('Projected wall picking failed:', pickError);
+        }
+
         // Handle grid-based tool actions
         switch (selectedTool) {
             case 'terrain_brush':
@@ -1693,6 +1754,61 @@ const ProfessionalVTTEditor = () => {
                 lastTerrainBrushPosRef.current = coords;
                 removeTerrainAtPosition(coords.gridX, coords.gridY, toolSettings.brushSize || 1, activeMapIdRef.current);
                 break;
+            case 'elevation':
+            case 'elevation_raise':
+            case 'elevation_lower':
+            case 'elevation_flatten': {
+                elevationStrokePaintedRef.current = new Set();
+                const elevationMode = selectedTool === 'elevation' ? 'raise' : selectedTool.replace('elevation_', '');
+                applyElevationStamp(
+                    coords.gridX,
+                    coords.gridY,
+                    elevationMode,
+                    toolSettings.elevationTargetLevel ?? 1,
+                    toolSettings.elevationBrushSize || 1
+                );
+                break;
+            }
+            case 'elevation_ramp': {
+                setRampAt(coords.gridX, coords.gridY, {
+                    dir: toolSettings.rampDirection || 'e',
+                    type: toolSettings.rampType || 'ramp'
+                });
+                break;
+            }
+            case 'light_place': {
+                const lightTypeKey = useLevelEditorStore.getState().selectedLightType || 'torch';
+                const lightPreset = LIGHT_PRESETS[lightTypeKey] || LIGHT_PRESETS.torch;
+                addLightSource({
+                    x: coords.gridX,
+                    y: coords.gridY,
+                    type: lightTypeKey,
+                    radius: lightPreset.radius,
+                    intensity: lightPreset.intensity,
+                    color: lightPreset.color,
+                    flickering: lightPreset.flickering
+                });
+                break;
+            }
+            case 'light_erase': {
+                const lightState = useLevelEditorStore.getState();
+                const lights = lightState.lightSources || {};
+                let nearestId = null;
+                let nearestDistance = Infinity;
+                Object.values(lights).forEach(light => {
+                    const dx = (light.x ?? light.gridX) - coords.gridX;
+                    const dy = (light.y ?? light.gridY) - coords.gridY;
+                    const distance = Math.hypot(dx, dy);
+                    if (distance < nearestDistance) {
+                        nearestDistance = distance;
+                        nearestId = light.id;
+                    }
+                });
+                if (nearestId && nearestDistance <= 1.5) {
+                    removeLightSource(nearestId);
+                }
+                break;
+            }
             case 'wall_draw':
                 // Handle different wall drawing modes
                 {
@@ -1739,7 +1855,7 @@ const ProfessionalVTTEditor = () => {
             default:
                 break;
         }
-    }, [isEditorMode, selectedTool, screenToGrid, toolSettings, paintTerrainBrush, removeTerrainAtPosition, paintTerrainLine, removeTerrainLine, removeFogAtPosition, gridSize, zoomLevel, playerZoom, getObjectAtPosition, selectEnvironmentalObject, removeEnvironmentalObject, addEnvironmentalObject, clearAllFog, coverEntireMapWithFog, setIsDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool, setCurrentPath, setCurrentDrawingPath, pushHistorySnapshot]);
+    }, [isEditorMode, selectedTool, screenToGrid, toolSettings, paintTerrainBrush, removeTerrainAtPosition, paintTerrainLine, removeTerrainLine, removeFogAtPosition, gridSize, zoomLevel, playerZoom, getObjectAtPosition, selectEnvironmentalObject, removeEnvironmentalObject, addEnvironmentalObject, clearAllFog, coverEntireMapWithFog, setIsDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool, setCurrentPath, setCurrentDrawingPath, pushHistorySnapshot, applyElevationStamp, setRampAt]);
 
     const handleMouseMove = useCallback((e) => {
         // For select tools, let ObjectSystem handle the events
@@ -1763,14 +1879,17 @@ const ProfessionalVTTEditor = () => {
         }
 
         // Update hover preview for brush tools and eraser (throttled via RAF)
-        if (isEditorMode && (selectedTool === 'terrain_brush' || selectedTool === 'terrain_erase' || selectedTool === 'fog_erase' || selectedTool === 'fog_draw')) {
+        const isElevationTool = String(selectedTool).startsWith('elevation');
+        if (isEditorMode && (selectedTool === 'terrain_brush' || selectedTool === 'terrain_erase' || selectedTool === 'fog_erase' || selectedTool === 'fog_draw' || isElevationTool)) {
             const coords = screenToGrid(e.clientX, e.clientY);
             const rect = overlayRef.current?.getBoundingClientRect();
             if (coords && rect) {
                 const screenX = e.clientX - rect.left;
                 const screenY = e.clientY - rect.top;
 
-                const brushSize = Number.isFinite(toolSettings.brushSize) ? toolSettings.brushSize : 1;
+                const brushSize = isElevationTool
+                    ? (toolSettings.elevationBrushSize || 1)
+                    : (Number.isFinite(toolSettings.brushSize) ? toolSettings.brushSize : 1);
 
                 // Update ref immediately for instant calculation, but throttle React state updates
                 hoverPreviewRef.current = {
@@ -1895,6 +2014,23 @@ const ProfessionalVTTEditor = () => {
                     lastTerrainBrushPosRef.current = eraseCoords;
                 }
                 break;
+            case 'elevation':
+            case 'elevation_raise':
+            case 'elevation_lower':
+            case 'elevation_flatten': {
+                const elevationCoords = screenToGrid(e.clientX, e.clientY);
+                if (elevationCoords) {
+                    const elevationMode = selectedTool === 'elevation' ? 'raise' : selectedTool.replace('elevation_', '');
+                    applyElevationStamp(
+                        elevationCoords.gridX,
+                        elevationCoords.gridY,
+                        elevationMode,
+                        toolSettings.elevationTargetLevel ?? 1,
+                        toolSettings.elevationBrushSize || 1
+                    );
+                }
+                break;
+            }
             case 'eraser':
                 // Handle drawing eraser - continuously erase while dragging
                 handleDrawingErase(e.clientX, e.clientY);
@@ -2673,6 +2809,7 @@ const ProfessionalVTTEditor = () => {
         setIsCurrentlyDrawing(false);
         setCurrentDrawingTool('');
         lastTerrainBrushPosRef.current = null;
+        elevationStrokePaintedRef.current = null;
         activeMapIdRef.current = null; // CRITICAL: Clear mapId on pointer up
     }, [isDrawing, currentPath, selectedTool, toolSettings, activeLayer, addDrawingPath, setWall, clearCurrentDrawing, selectionRect, findObjectsInArea, finishFogErasePath, setIsCurrentlyDrawing, setCurrentDrawingTool]);
 
@@ -2911,8 +3048,16 @@ const ProfessionalVTTEditor = () => {
                                 onSettingsChange={handleToolSettingsChange}
                             />
                         )}
-                        {activeTab === 'terrain' && (
+                        {activeTab === 'terrain' && !String(selectedTool).startsWith('elevation') && (
                             <TerrainTools
+                                selectedTool={selectedTool}
+                                onToolSelect={handleToolSelect}
+                                settings={toolSettings}
+                                onSettingsChange={handleToolSettingsChange}
+                            />
+                        )}
+                        {activeTab === 'terrain' && String(selectedTool).startsWith('elevation') && (
+                            <ElevationTools
                                 selectedTool={selectedTool}
                                 onToolSelect={handleToolSelect}
                                 settings={toolSettings}
@@ -3008,13 +3153,16 @@ const ProfessionalVTTEditor = () => {
             )}
 
             {/* Hover Preview for Brush Tools */}
-            {isEditorMode && hoverPreview.show && (selectedTool === 'terrain_brush' || selectedTool === 'terrain_erase' || selectedTool === 'fog_erase' || selectedTool === 'fog_draw') && (
+            {isEditorMode && hoverPreview.show && (selectedTool === 'terrain_brush' || selectedTool === 'terrain_erase' || selectedTool === 'fog_erase' || selectedTool === 'fog_draw' || String(selectedTool).startsWith('elevation')) && (
                 <TerrainHoverPreview
                     gridX={hoverPreview.gridX}
                     gridY={hoverPreview.gridY}
                     brushSize={hoverPreview.brushSize}
                     isEraser={selectedTool === 'terrain_erase' || selectedTool === 'fog_erase'}
                     isFog={selectedTool === 'fog_erase' || selectedTool === 'fog_draw'}
+                    elevationMode={String(selectedTool).startsWith('elevation')
+                        ? (selectedTool === 'elevation' ? 'raise' : selectedTool.replace('elevation_', ''))
+                        : undefined}
                     screenX={hoverPreview.screenX}
                     screenY={hoverPreview.screenY}
                 />

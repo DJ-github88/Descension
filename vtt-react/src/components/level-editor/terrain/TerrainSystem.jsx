@@ -2,6 +2,8 @@ import React, { useRef, useEffect, useCallback, useState } from 'react';
 import useLevelEditorStore, { PROFESSIONAL_TERRAIN_TYPES } from '../../../store/levelEditorStore';
 import useGameStore from '../../../store/gameStore';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
+import { getCanvasTransform } from '../../../utils/ProjectionSystem';
+import { getTileElevation } from '../../../utils/ElevationUtils';
 import { debounce } from '../../../utils/performanceUtils';
 
 // Image cache for tile variations
@@ -14,6 +16,16 @@ const grayscaleCache = {};
 // Key format: `${terrainId}_${gridX}_${gridY}_${tileSize}`
 const textureCache = {};
 const MAX_TEXTURE_CACHE_SIZE = 2000; // Limit cache to prevent memory issues
+
+// Hypsometric elevation tint: raised ground warms up, pits cool/darken.
+// Alpha scales with |level| so multi-level plateaus read clearly.
+const getElevationTint = (level) => {
+  if (!level) return null;
+  if (level > 0) {
+    return `rgba(255, 232, 170, ${Math.min(0.34, 0.12 + level * 0.07)})`;
+  }
+  return `rgba(24, 32, 64, ${Math.min(0.5, 0.16 + Math.abs(level) * 0.09)})`;
+};
 
 // Re-export for components that import from TerrainSystem
 export { PROFESSIONAL_TERRAIN_TYPES };
@@ -53,6 +65,8 @@ const TerrainSystem = () => {
   // Store connections
   const {
     terrainData,
+    elevationData,
+    elevationDataVersion,
     isEditorMode,
     activeTool,
     selectedTool,
@@ -72,7 +86,10 @@ const TerrainSystem = () => {
     cameraX,
     cameraY,
     zoomLevel,
-    playerZoom
+    playerZoom,
+    viewMode,
+    viewRotation,
+    viewTilt
   } = useGameStore();
 
   // Calculate effective zoom and grid positioning
@@ -305,6 +322,242 @@ const TerrainSystem = () => {
 
     // Render terrain tiles
     if (currentGridType === 'hex') {
+      const projectionStateForHex = gridSystem.getGridState();
+      const projectedHex =
+        projectionStateForHex.viewMode === '2.5d' ||
+        Math.abs(((projectionStateForHex.viewRotation % 360) + 360) % 360) > 0.001;
+
+      if (projectedHex) {
+        const transform = gridSystem.getProjectionTransform(targetWidth, targetHeight, {
+          cameraX: viewCameraX,
+          cameraY: viewCameraY,
+          effectiveZoom: viewZoom
+        });
+        const matrix = getCanvasTransform(transform);
+        const visibleHexBounds = gridSystem.getVisibleGridBounds(targetWidth, targetHeight);
+
+        // PERF: at extreme zoom-out hexes are sub-pixel; skip projected terrain
+        if (gridSize * transform.effectiveZoom < 4) {
+          return;
+        }
+        const hexRadiusWorld = gridSize / Math.sqrt(3);
+
+        targetCtx.save();
+        targetCtx.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f);
+
+        // Flat fill for elevated hexes without painted terrain
+        const defaultGroundFill = (useGameStore.getState && useGameStore.getState().gridBackgroundColor) || '#d4c5b9';
+
+        // Painter order for hexes too: follow camera depth so elevated hexes are
+        // never painted over by ground-level hexes that sit behind them.
+        const hexProjectionYawRad = ((transform.yaw % 360) * Math.PI) / 180;
+        const hexXStep = -Math.sin(hexProjectionYawRad) >= 0 ? 1 : -1;
+        const hexYStep = Math.cos(hexProjectionYawRad) >= 0 ? 1 : -1;
+        const minProjectedQ = visibleHexBounds.minX - VIEWPORT_PADDING;
+        const maxProjectedQ = visibleHexBounds.maxX + VIEWPORT_PADDING;
+        const minProjectedR = visibleHexBounds.minY - VIEWPORT_PADDING;
+        const maxProjectedR = visibleHexBounds.maxY + VIEWPORT_PADDING;
+
+        for (let q = hexXStep > 0 ? minProjectedQ : maxProjectedQ; hexXStep > 0 ? q <= maxProjectedQ : q >= minProjectedQ; q += hexXStep) {
+          for (let r = hexYStep > 0 ? minProjectedR : maxProjectedR; hexYStep > 0 ? r <= maxProjectedR : r >= minProjectedR; r += hexYStep) {
+            const tileKey = `${q},${r}`;
+            const terrainData_tile = terrainData[tileKey];
+            const hexLevelEarly = getTileElevation(elevationData, q, r);
+
+            // Render elevated hexes even without painted terrain (solid ground)
+            if (!terrainData_tile && hexLevelEarly === 0) continue;
+
+            let terrain = null;
+            let terrainType = null;
+            let variationIndex = 0;
+            if (terrainData_tile) {
+              if (typeof terrainData_tile === 'string') {
+                terrainType = terrainData_tile;
+                const terrainDef = PROFESSIONAL_TERRAIN_TYPES[terrainType];
+                variationIndex = terrainDef?.tileVariations?.length > 0
+                  ? Math.abs((q * 7) ^ (r * 13)) % terrainDef.tileVariations.length
+                  : 0;
+              } else {
+                terrainType = terrainData_tile.type;
+                const terrainDef = PROFESSIONAL_TERRAIN_TYPES[terrainType];
+                variationIndex = terrainDef?.tileVariations?.length > 0 ? Math.abs((q * 7) ^ (r * 13)) % terrainDef.tileVariations.length : 0;
+              }
+              terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
+              if (!terrain) continue;
+            }
+
+            const worldPos = gridSystem.hexToWorld(q, r);
+
+            if (!isGMMode && viewingFromToken && visibleArea) {
+              const visibleAreaSet = visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
+              if (!visibleAreaSet.has(tileKey)) {
+                const levelEditorStore = useLevelEditorStore.getState();
+                let isExplored = levelEditorStore.isPositionExplored?.(worldPos.x, worldPos.y) || levelEditorStore.exploredAreas[tileKey];
+                if (!isExplored) continue;
+              }
+            }
+
+            // Elevation for hexes: lift the top face and draw skirts to lower neighbors
+            const hexElevationLevel = hexLevelEarly;
+            const hexElevationScreenOffset = hexElevationLevel === 0
+              ? 0
+              : -hexElevationLevel * gridSize * transform.cosTilt * transform.effectiveZoom;
+
+            {
+              const hexNeighbors = gridSystem.getHexNeighbors(q, r);
+              for (const neighbor of hexNeighbors) {
+                const neighborLevel = getTileElevation(elevationData, neighbor.q, neighbor.r);
+                if (neighborLevel >= hexElevationLevel) continue;
+                const edge = gridSystem.getHexEdge(q, r, neighbor.q, neighbor.r);
+                if (!edge) continue;
+
+                const bottomZ = neighborLevel * gridSize;
+                const topZ = hexElevationLevel * gridSize;
+
+                const p1 = gridSystem.worldToScreen3D(edge.start.x, edge.start.y, bottomZ, targetWidth, targetHeight);
+                const p2 = gridSystem.worldToScreen3D(edge.end.x, edge.end.y, bottomZ, targetWidth, targetHeight);
+                const p3 = gridSystem.worldToScreen3D(edge.end.x, edge.end.y, topZ, targetWidth, targetHeight);
+                const p4 = gridSystem.worldToScreen3D(edge.start.x, edge.start.y, topZ, targetWidth, targetHeight);
+
+                targetCtx.save();
+                targetCtx.setTransform(1, 0, 0, 1, 0, 0);
+                targetCtx.beginPath();
+                targetCtx.moveTo(p1.x, p1.y);
+                targetCtx.lineTo(p2.x, p2.y);
+                targetCtx.lineTo(p3.x, p3.y);
+                targetCtx.lineTo(p4.x, p4.y);
+                targetCtx.closePath();
+                const hexPitDim = bottomZ < 0 ? 0.68 : 1;
+
+                // Directional shading parity with square cliffs: use the hex edge's
+                // outward normal vs a fixed NW world light so faces read per side.
+                const hexEdgeMidX = (edge.start.x + edge.end.x) / 2;
+                const hexEdgeMidY = (edge.start.y + edge.end.y) / 2;
+                const rawNormalX = hexEdgeMidX - worldPos.x;
+                const rawNormalY = hexEdgeMidY - worldPos.y;
+                const rawNormalLen = Math.max(1e-6, Math.hypot(rawNormalX, rawNormalY));
+                const lightDot = ((rawNormalX / rawNormalLen) * -0.7071) + ((rawNormalY / rawNormalLen) * -0.7071);
+                const hexFaceLight = 1 + Math.max(-1, Math.min(1, lightDot)) * 0.18;
+                const hexShade = hexFaceLight * hexPitDim;
+
+                const skirtGradient = targetCtx.createLinearGradient(p1.x, p1.y, p4.x, p4.y);
+                skirtGradient.addColorStop(0, `rgba(${Math.round(34 * hexShade)}, ${Math.round(27 * hexShade)}, ${Math.round(20 * hexShade)}, 0.95)`);
+                skirtGradient.addColorStop(1, `rgba(${Math.round(112 * hexShade)}, ${Math.round(95 * hexShade)}, ${Math.round(74 * hexShade)}, 0.82)`);
+                targetCtx.fillStyle = skirtGradient;
+                targetCtx.fill();
+                targetCtx.strokeStyle = 'rgba(0, 0, 0, 0.35)';
+                targetCtx.lineWidth = 1;
+                targetCtx.stroke();
+                // Rim outline along the top edge so plateau boundaries are legible
+                targetCtx.strokeStyle = 'rgba(255, 228, 160, 0.8)';
+                targetCtx.lineWidth = 2;
+                targetCtx.beginPath();
+                targetCtx.moveTo(p4.x, p4.y);
+                targetCtx.lineTo(p3.x, p3.y);
+                targetCtx.stroke();
+                targetCtx.restore();
+              }
+            }
+
+            const corners = gridSystem.getHexCorners(worldPos.x, worldPos.y, hexRadiusWorld);
+            const hexBounds = {
+              minX: Math.min(...corners.map(c => c.x)),
+              maxX: Math.max(...corners.map(c => c.x)),
+              minY: Math.min(...corners.map(c => c.y)),
+              maxY: Math.max(...corners.map(c => c.y))
+            };
+
+            targetCtx.save();
+            // Lift the hex top face to its elevation (vertical offset lives in the
+            // affine translation f; the clip path shares the same transform).
+            targetCtx.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f + hexElevationScreenOffset);
+            targetCtx.beginPath();
+            targetCtx.moveTo(corners[0].x, corners[0].y);
+            for (let i = 1; i < corners.length; i++) targetCtx.lineTo(corners[i].x, corners[i].y);
+            targetCtx.closePath();
+            targetCtx.clip();
+
+            if (terrain) {
+              if (terrain.tileVariations && terrain.tileVariations.length > 0) {
+                const tileVariationPath = terrain.tileVariations[variationIndex] || terrain.tileVariations[0];
+                if (!imageCache[tileVariationPath]) {
+                  const img = new Image();
+                  pendingImageLoadsRef.current++;
+                  img.onload = () => batchTerrainVersionBump();
+                  img.src = `${tileVariationPath}?v=35`;
+                  imageCache[tileVariationPath] = img;
+                }
+                const img = imageCache[tileVariationPath];
+                if (img.complete && img.naturalWidth > 0) {
+                  targetCtx.drawImage(img, hexBounds.minX, hexBounds.minY, hexBounds.maxX - hexBounds.minX, hexBounds.maxY - hexBounds.minY);
+                }
+              } else {
+                drawTerrainTexture(targetCtx, terrain, hexBounds.minX, hexBounds.minY, hexBounds.maxX - hexBounds.minX, hexBounds.maxY - hexBounds.minY, q, r);
+              }
+            } else {
+              // Untextured elevated hex: flat fill using the current clipped hex path
+              // (pits use a darker solid tone so they read as sunken ground)
+              targetCtx.fillStyle = hexElevationLevel < 0 ? 'rgb(44, 40, 36)' : defaultGroundFill;
+              targetCtx.fill();
+            }
+
+            // Hypsometric tint so lifted/pit hexes read at a glance (painted or not)
+            const hexTint = getElevationTint(hexElevationLevel);
+            if (hexTint) {
+              targetCtx.fillStyle = hexTint;
+              targetCtx.fill();
+            }
+
+            // Level badge ONLY on rim hexes (a neighbor differs)
+            if (elevationData && Object.keys(elevationData).length > 0 &&
+                gridSize * transform.effectiveZoom >= 18) {
+              const hexNeighborsForBadge = gridSystem.getHexNeighbors(q, r);
+              const hexNeighborLevels = hexNeighborsForBadge.map(neighbor =>
+                getTileElevation(elevationData, neighbor.q, neighbor.r)
+              );
+              if (hexNeighborLevels.some(neighborLevel => neighborLevel !== hexElevationLevel)) {
+                let hexBadgeLabel = null;
+                if (hexElevationLevel !== 0) {
+                  hexBadgeLabel = `${hexElevationLevel > 0 ? '+' : ''}${hexElevationLevel}`;
+                } else {
+                  const differingNeighbor = hexNeighborLevels.find(neighborLevel => neighborLevel !== 0);
+                  if (differingNeighbor !== undefined) {
+                    hexBadgeLabel = `${differingNeighbor > 0 ? '+' : ''}${differingNeighbor}`;
+                  }
+                }
+
+                if (hexBadgeLabel) {
+                  const hexCenterWorld = gridSystem.hexToWorld(q, r);
+                  const hexBadgeScreen = gridSystem.worldToScreen3D(
+                    hexCenterWorld.x,
+                    hexCenterWorld.y,
+                    hexElevationLevel * gridSize,
+                    targetWidth,
+                    targetHeight
+                  );
+                  targetCtx.save();
+                  targetCtx.setTransform(1, 0, 0, 1, 0, 0);
+                  targetCtx.font = 'bold 12px sans-serif';
+                  targetCtx.textAlign = 'center';
+                  targetCtx.textBaseline = 'middle';
+                  targetCtx.lineWidth = 3;
+                  targetCtx.strokeStyle = 'rgba(0, 0, 0, 0.72)';
+                  targetCtx.fillStyle = hexBadgeLabel.startsWith('-') ? '#9cc4ff' : '#ffd777';
+                  targetCtx.strokeText(hexBadgeLabel, hexBadgeScreen.x, hexBadgeScreen.y);
+                  targetCtx.fillText(hexBadgeLabel, hexBadgeScreen.x, hexBadgeScreen.y);
+                  targetCtx.restore();
+                }
+              }
+            }
+
+            targetCtx.restore();
+          }
+        }
+
+        targetCtx.restore();
+        return;
+      }
+
       const worldLeft = viewCameraX - (targetWidth / 2) / viewZoom;
       const worldRight = viewCameraX + (targetWidth / 2) / viewZoom;
       const worldTop = viewCameraY - (targetHeight / 2) / viewZoom;
@@ -402,6 +655,233 @@ const TerrainSystem = () => {
         }
       }
     } else {
+      const projectionStateForGrid = gridSystem.getGridState();
+      const projectedGrid =
+        projectionStateForGrid.viewMode === '2.5d' ||
+        Math.abs(((projectionStateForGrid.viewRotation % 360) + 360) % 360) > 0.001;
+
+      if (projectedGrid) {
+        const transform = gridSystem.getProjectionTransform(targetWidth, targetHeight, {
+          cameraX: viewCameraX,
+          cameraY: viewCameraY,
+          effectiveZoom: viewZoom
+        });
+        const matrix = getCanvasTransform(transform);
+        const visibleBounds = gridSystem.getVisibleGridBounds(targetWidth, targetHeight);
+
+        // PERF: at extreme zoom-out tiles are sub-pixel; skip projected terrain
+        if (gridSize * transform.effectiveZoom < 4) {
+          return;
+        }
+
+        targetCtx.save();
+        targetCtx.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f);
+
+        // Flat fill for elevated tiles without painted terrain
+        const defaultGroundFill = (useGameStore.getState && useGameStore.getState().gridBackgroundColor) || '#d4c5b9';
+
+        // Painter order: iterate tiles in camera-depth order so nearer tiles (and
+        // elevated tops/skirts) are drawn after farther ground and always win.
+        const projectionYawRad = ((transform.yaw % 360) * Math.PI) / 180;
+        const xStep = -Math.sin(projectionYawRad) >= 0 ? 1 : -1;
+        const yStep = Math.cos(projectionYawRad) >= 0 ? 1 : -1;
+        const minProjectedX = visibleBounds.minX - VIEWPORT_PADDING;
+        const maxProjectedX = visibleBounds.maxX + VIEWPORT_PADDING;
+        const minProjectedY = visibleBounds.minY - VIEWPORT_PADDING;
+        const maxProjectedY = visibleBounds.maxY + VIEWPORT_PADDING;
+
+        for (let gridX = xStep > 0 ? minProjectedX : maxProjectedX; xStep > 0 ? gridX <= maxProjectedX : gridX >= minProjectedX; gridX += xStep) {
+          for (let gridY = yStep > 0 ? minProjectedY : maxProjectedY; yStep > 0 ? gridY <= maxProjectedY : gridY >= minProjectedY; gridY += yStep) {
+            const tileKey = `${gridX},${gridY}`;
+            const terrainData_tile = terrainData[tileKey];
+            const elevationLevel = getTileElevation(elevationData, gridX, gridY);
+
+            // Render elevated tiles even when no terrain is painted, so raised ground
+            // reads as solid ground instead of floating painted patches.
+            if (!terrainData_tile && elevationLevel === 0) continue;
+
+            let terrain = null;
+            let terrainType = null;
+            let variationIndex = 0;
+            if (terrainData_tile) {
+              if (typeof terrainData_tile === 'string') {
+                terrainType = terrainData_tile;
+                const terrainDef = PROFESSIONAL_TERRAIN_TYPES[terrainType];
+                variationIndex = terrainDef?.tileVariations?.length > 0
+                  ? Math.abs((gridX * 7) ^ (gridY * 13)) % terrainDef.tileVariations.length
+                  : 0;
+              } else {
+                terrainType = terrainData_tile.type;
+                const terrainDef = PROFESSIONAL_TERRAIN_TYPES[terrainType];
+                variationIndex = terrainDef?.tileVariations?.length > 0 ? Math.abs((gridX * 7) ^ (gridY * 13)) % terrainDef.tileVariations.length : 0;
+              }
+              terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
+              if (!terrain) continue;
+            }
+
+            const worldX = (gridX * gridSize) + gridOffsetX;
+            const worldY = (gridY * gridSize) + gridOffsetY;
+
+            if (!isGMMode && viewingFromToken && visibleArea) {
+              const visibleAreaSet = visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
+              if (!visibleAreaSet.has(tileKey)) {
+                const levelEditorStore = useLevelEditorStore.getState();
+                let isExplored = levelEditorStore.isPositionExplored?.(worldX + gridSize / 2, worldY + gridSize / 2) || levelEditorStore.exploredAreas[tileKey];
+                if (!isExplored) continue;
+              }
+            }
+
+            // Elevation: lift the tile top face by level * gridSize world height
+            // (screen offset = height * cos(tilt) * zoom; f is the post-linear translation).
+            const elevationScreenOffset = elevationLevel === 0
+              ? 0
+              : -elevationLevel * gridSize * transform.cosTilt * transform.effectiveZoom;
+
+            // Cliff skirts: draw a side face for every edge where the neighbor is
+            // lower, so raised tiles and pit rims read as solid terrain blocks.
+            // Faces are drawn in screen space (vertical offsets are not part of the
+            // ground affine); yaw/tilt still apply because endpoints use worldToScreen3D.
+            {
+              const edgeSpecs = [
+                { dx: 0, dy: -1, c1: [worldX, worldY], c2: [worldX + gridSize, worldY] }, // north
+                { dx: 0, dy: 1, c1: [worldX, worldY + gridSize], c2: [worldX + gridSize, worldY + gridSize] }, // south
+                { dx: -1, dy: 0, c1: [worldX, worldY], c2: [worldX, worldY + gridSize] }, // west
+                { dx: 1, dy: 0, c1: [worldX + gridSize, worldY], c2: [worldX + gridSize, worldY + gridSize] } // east
+              ];
+
+              for (const edge of edgeSpecs) {
+                const neighborLevel = getTileElevation(elevationData, gridX + edge.dx, gridY + edge.dy);
+                if (neighborLevel >= elevationLevel) continue;
+
+                const bottomZ = neighborLevel * gridSize;
+                const topZ = elevationLevel * gridSize;
+                const [c1, c2] = [edge.c1, edge.c2];
+
+                const p1 = gridSystem.worldToScreen3D(c1[0], c1[1], bottomZ, targetWidth, targetHeight);
+                const p2 = gridSystem.worldToScreen3D(c2[0], c2[1], bottomZ, targetWidth, targetHeight);
+                const p3 = gridSystem.worldToScreen3D(c2[0], c2[1], topZ, targetWidth, targetHeight);
+                const p4 = gridSystem.worldToScreen3D(c1[0], c1[1], topZ, targetWidth, targetHeight);
+
+                targetCtx.save();
+                targetCtx.setTransform(1, 0, 0, 1, 0, 0);
+                targetCtx.beginPath();
+                targetCtx.moveTo(p1.x, p1.y);
+                targetCtx.lineTo(p2.x, p2.y);
+                targetCtx.lineTo(p3.x, p3.y);
+                targetCtx.lineTo(p4.x, p4.y);
+                targetCtx.closePath();
+
+                // Directional shading so corners/angles read: north-facing faces
+                // catch the light, south faces fall into shadow, east/west in between.
+                const edgeBrightness = edge.dx === 0
+                  ? (edge.dy === -1 ? 1.14 : 0.74)
+                  : (edge.dx === 1 ? 1.04 : 0.88);
+                const pitDim = bottomZ < 0 ? 0.68 : 1;
+                const skirtShade = edgeBrightness * pitDim;
+                const skirtGradient = targetCtx.createLinearGradient(p1.x, p1.y, p4.x, p4.y);
+                skirtGradient.addColorStop(0, `rgba(${Math.round(34 * skirtShade)}, ${Math.round(27 * skirtShade)}, ${Math.round(20 * skirtShade)}, 0.95)`);
+                skirtGradient.addColorStop(1, `rgba(${Math.round(112 * skirtShade)}, ${Math.round(95 * skirtShade)}, ${Math.round(74 * skirtShade)}, 0.82)`);
+                targetCtx.fillStyle = skirtGradient;
+                targetCtx.fill();
+                targetCtx.strokeStyle = 'rgba(0, 0, 0, 0.35)';
+                targetCtx.lineWidth = 1;
+                targetCtx.stroke();
+                // Rim outline along the top edge so plateau boundaries are legible
+                targetCtx.strokeStyle = 'rgba(255, 228, 160, 0.8)';
+                targetCtx.lineWidth = 2;
+                targetCtx.beginPath();
+                targetCtx.moveTo(p4.x, p4.y);
+                targetCtx.lineTo(p3.x, p3.y);
+                targetCtx.stroke();
+                targetCtx.restore();
+              }
+            }
+
+            targetCtx.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f + elevationScreenOffset);
+
+            if (terrain) {
+              if (terrain.tileVariations && terrain.tileVariations.length > 0) {
+                const tileVariationPath = terrain.tileVariations[variationIndex] || terrain.tileVariations[0];
+                if (!imageCache[tileVariationPath]) {
+                  const img = new Image();
+                  pendingImageLoadsRef.current++;
+                  img.onload = () => batchTerrainVersionBump();
+                  img.src = `${tileVariationPath}?v=35`;
+                  imageCache[tileVariationPath] = img;
+                }
+                const img = imageCache[tileVariationPath];
+                if (img.complete && img.naturalWidth > 0) {
+                  targetCtx.drawImage(img, worldX, worldY, gridSize, gridSize);
+                }
+              } else {
+                drawTerrainTexture(targetCtx, terrain, worldX, worldY, gridSize, gridSize, gridX, gridY);
+              }
+            } else {
+              // Untextured elevated ground: flat fill so plateaus read as solid
+              // (de-elevated ground uses a darker solid tone so pits read as holes)
+              targetCtx.fillStyle = elevationLevel < 0 ? 'rgb(44, 40, 36)' : defaultGroundFill;
+              targetCtx.fillRect(worldX, worldY, gridSize, gridSize);
+              targetCtx.strokeStyle = 'rgba(0, 0, 0, 0.08)';
+              targetCtx.lineWidth = 1;
+              targetCtx.strokeRect(worldX, worldY, gridSize, gridSize);
+            }
+
+            // Hypsometric tint so lifted/pit ground reads at a glance (painted or not)
+            const elevationTint = getElevationTint(elevationLevel);
+            if (elevationTint) {
+              targetCtx.fillStyle = elevationTint;
+              targetCtx.fillRect(worldX, worldY, gridSize, gridSize);
+            }
+
+            // Level badge ONLY on rim tiles (a neighbor differs), never a "0" carpet.
+            if (elevationData && Object.keys(elevationData).length > 0 &&
+                gridSize * transform.effectiveZoom >= 18) {
+              const neighborLevels = [
+                getTileElevation(elevationData, gridX + 1, gridY),
+                getTileElevation(elevationData, gridX - 1, gridY),
+                getTileElevation(elevationData, gridX, gridY + 1),
+                getTileElevation(elevationData, gridX, gridY - 1)
+              ];
+              if (neighborLevels.some(neighborLevel => neighborLevel !== elevationLevel)) {
+                let badgeLabel = null;
+                if (elevationLevel !== 0) {
+                  badgeLabel = `${elevationLevel > 0 ? '+' : ''}${elevationLevel}`;
+                } else {
+                  const differingNeighbor = neighborLevels.find(neighborLevel => neighborLevel !== 0);
+                  if (differingNeighbor !== undefined) {
+                    badgeLabel = `${differingNeighbor > 0 ? '+' : ''}${differingNeighbor}`;
+                  }
+                }
+
+                if (badgeLabel) {
+                  const badgeScreen = gridSystem.worldToScreen3D(
+                    worldX + gridSize / 2,
+                    worldY + gridSize / 2,
+                    elevationLevel * gridSize,
+                    targetWidth,
+                    targetHeight
+                  );
+                  targetCtx.save();
+                  targetCtx.setTransform(1, 0, 0, 1, 0, 0);
+                  targetCtx.font = 'bold 12px sans-serif';
+                  targetCtx.textAlign = 'center';
+                  targetCtx.textBaseline = 'middle';
+                  targetCtx.lineWidth = 3;
+                  targetCtx.strokeStyle = 'rgba(0, 0, 0, 0.72)';
+                  targetCtx.fillStyle = badgeLabel.startsWith('-') ? '#9cc4ff' : '#ffd777';
+                  targetCtx.strokeText(badgeLabel, badgeScreen.x, badgeScreen.y);
+                  targetCtx.fillText(badgeLabel, badgeScreen.x, badgeScreen.y);
+                  targetCtx.restore();
+                }
+              }
+            }
+          }
+        }
+
+        targetCtx.restore();
+        return;
+      }
+
       const tileSize = gridSize * viewZoom;
       for (let gridX = startX; gridX <= endX; gridX++) {
         for (let gridY = startY; gridY <= endY; gridY++) {
@@ -466,7 +946,7 @@ const TerrainSystem = () => {
         }
       }
     }
-  }, [terrainData, drawingLayers, gridSize, gridType, gridOffsetX, gridOffsetY, isGMMode, viewingFromToken, visibleArea]);
+  }, [terrainData, elevationData, drawingLayers, gridSize, gridType, gridOffsetX, gridOffsetY, isGMMode, viewingFromToken, visibleArea]);
 
   // Render terrain to an offscreen buffer
   const renderToBuffer = useCallback(() => {
@@ -531,6 +1011,19 @@ const TerrainSystem = () => {
 
     ctx.clearRect(0, 0, width, height);
 
+    // Projected view (2.5D or rotated camera): the offscreen buffer assumes
+    // axis-aligned camera translation, so render directly with the world-space
+    // affine transform instead of the cached buffer.
+    const projectionState = getGridSystem().getGridState();
+    const isProjectedView =
+      projectionState.viewMode === '2.5d' ||
+      Math.abs(((projectionState.viewRotation % 360) + 360) % 360) > 0.001;
+
+    if (isProjectedView) {
+      performFullRender(ctx, width, height, cameraX, cameraY, effectiveZoom);
+      return;
+    }
+
     const lastReset = lastBufferResetRef.current;
     const terrainLayerVisible = drawingLayers.find(l => l.id === 'terrain')?.visible ?? true;
     
@@ -580,7 +1073,7 @@ const TerrainSystem = () => {
 
       ctx.drawImage(bufferCanvas, drawX, drawY, drawW, drawH);
     }
-  }, [cameraX, cameraY, effectiveZoom, gridSize, gridType, gridOffsetX, gridOffsetY, terrainDataVersion, drawingLayers, renderToBuffer]);
+  }, [cameraX, cameraY, effectiveZoom, gridSize, gridType, gridOffsetX, gridOffsetY, terrainDataVersion, elevationDataVersion, drawingLayers, renderToBuffer]);
 
   // Seeded random number generator for deterministic textures
   const seededRandom = (seed) => {
@@ -1965,7 +2458,7 @@ const TerrainSystem = () => {
         clearTimeout(terrainDebounceRef.current);
       }
     };
-  }, [terrainData, renderTerrain]);
+  }, [terrainData, elevationDataVersion, renderTerrain]);
 
   // Update canvas when camera/view changes (immediate, no debounce needed)
   useEffect(() => {
@@ -1986,7 +2479,7 @@ const TerrainSystem = () => {
         scheduledRenderRef.current = null;
       }
     };
-  }, [cameraX, cameraY, effectiveZoom, gridOffsetX, gridOffsetY, renderTerrain]);
+  }, [cameraX, cameraY, effectiveZoom, gridOffsetX, gridOffsetY, viewMode, viewRotation, viewTilt, renderTerrain]);
 
   // Handle window resize
   useEffect(() => {

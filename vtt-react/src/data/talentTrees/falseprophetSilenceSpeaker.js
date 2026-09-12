@@ -176,7 +176,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t4_apocalyptic_sermon",
     name: "Apocalyptic Sermon",
-    icon: "spell_shadow_shadesofdarkness",
+    icon: "Void/Crimson Void Shards",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "ss_t3_anointed_strike",
@@ -203,7 +203,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t4_embrace_the_silence",
     name: "Embrace the Silence",
-    icon: "spell_shadow_twilight",
+    icon: "Void/Contained Void Barrel",
     maxRanks: 2,
     position: { x: 3, y: 3 },
     requires: "ss_t3_resonant_liturgy",
@@ -224,7 +224,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t5_silence_beacon",
     name: "Beacon of the Silence",
-    icon: "spell_shadow_summonvoidwalkers",
+    icon: "Utility/Utility Gear",
     maxRanks: 3,
     position: { x: 1.5, y: 4 },
     requires: "ss_t4_apocalyptic_sermon",
@@ -328,7 +328,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t7_final_revelation",
     name: "The Final Revelation",
-    icon: "spell_shadow_demonicempathy",
+    icon: "Necrotic/Demonic Mask",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "ss_t6_convictions_edge",
@@ -375,7 +375,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t7_zealots_fire",
     name: "Zealot's Fire",
-    icon: "spell_shadow_shadowfury",
+    icon: "Poison/Void Serpent Venom",
     maxRanks: 3,
     position: { x: 2, y: 6 },
     requires: "ss_t6_fanatical_fervor",
@@ -395,7 +395,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t7_voice_of_the_void",
     name: "Voice of the Void",
-    icon: "spell_shadow_mindshear",
+    icon: "Psychic/Psychic Psionic",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "ss_t6_dark_choir",
@@ -416,7 +416,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t7_unhearing",
     name: "Unhearing",
-    icon: "spell_shadow_twilight",
+    icon: "Void/Crimson Void Hood",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "ss_t6_dark_choir",

@@ -8,6 +8,8 @@ import useCombatStore from '../../store/combatStore';
 import useConditionStore from '../../store/conditionStore';
 import useChatStore from '../../store/chatStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
+import { getTileElevation, screenToWorldElevated } from '../../utils/ElevationUtils';
+import { isWorldAreaPartiallyOccluded } from '../../utils/WallOcclusion';
 import useCharacterStore from '../../store/characterStore';
 import usePartyStore from '../../store/partyStore';
 import useSettingsStore from '../../store/settingsStore';
@@ -400,6 +402,11 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const additionalVisibilityPolygons = useLevelEditorStore(state => state.additionalVisibilityPolygons) || [];
   const controlledVisibleTiles = useLevelEditorStore(state => state.controlledVisibleTiles);
   const getExploredArea = useLevelEditorStore(state => state.getExploredArea);
+  const elevationData = useLevelEditorStore(state => state.elevationData);
+  const wallDataForOcclusion = useLevelEditorStore(state => state.wallData);
+  const viewModeForOcclusion = useGameStore(state => state.viewMode);
+  const viewRotationForOcclusion = useGameStore(state => state.viewRotation);
+  const viewTiltForOcclusion = useGameStore(state => state.viewTilt);
   const fogOfWarEnabled = useLevelEditorStore(state => state.fogOfWarEnabled);
   // Fog content: used to hide tokens for players with no viewing token when the map is fogged
   const fogOfWarPaths = useLevelEditorStore(state => state.fogOfWarPaths);
@@ -649,7 +656,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
 
-        const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
+        const worldPos = screenToWorldElevated({
+          screenX,
+          screenY,
+          gridSystem,
+          elevationData
+        }) || gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
 
         // Use RAF for visual position updates instead of setState every frame
         if (screenPositionRef.current) {
@@ -759,6 +771,30 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
         // Handle movement validation
         if (isInCombat && dragStartPosition && typeof validateMovement === 'function') {
+          // Walls/elevation block combat movement too: reuse the pathfinder so
+          // in-combat drops can't cut through walls (previously geometry-only).
+          const combatEditorState = useLevelEditorStore.getState();
+          const combatWallData = combatEditorState.wallData;
+          const combatElevationData = combatEditorState.elevationData;
+          const combatRampData = combatEditorState.rampData;
+          const combatHasWalls = combatWallData && Object.keys(combatWallData).length > 0;
+          const combatHasElevation = combatElevationData && Object.keys(combatElevationData).length > 0;
+          if (combatHasWalls || combatHasElevation) {
+            try {
+              const combatPath = gridSystem.findPath(dragStartPosition, finalWorldPos, combatWallData, {}, {
+                elevationData: combatElevationData,
+                rampData: combatRampData
+              });
+              if (combatPath?.blocked) {
+                setLocalPosition(dragStartPosition);
+                setShowTooltip(false);
+                return;
+              }
+            } catch (combatPathErr) {
+              console.warn('Combat wall path check failed, allowing drop:', combatPathErr);
+            }
+          }
+
           const currentFeetPerTile = gridSystem.getGridState().feetPerTile || 5;
           const validation = validateMovement(tokenId, dragStartPosition, finalWorldPos, [creature], currentFeetPerTile);
 
@@ -800,12 +836,16 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           // WALL-BLOCKING FIX: validate the drop position against walls.
           // If no wall-respecting path exists from the drag start to the drop
           // position, revert to the drag start instead of teleporting through walls.
-          const wallData = useLevelEditorStore.getState().wallData;
+          const editorState = useLevelEditorStore.getState();
+          const wallData = editorState.wallData;
+          const elevationData = editorState.elevationData;
+          const rampData = editorState.rampData;
           const hasWalls = wallData && Object.keys(wallData).length > 0;
+          const hasElevation = elevationData && Object.keys(elevationData).length > 0;
           let dropAllowed = true;
-          if (hasWalls && dragStartPosition) {
+          if ((hasWalls || hasElevation) && dragStartPosition) {
             try {
-              const pathResult = gridSystem.findPath(dragStartPosition, snappedFinalPos, wallData, {}, {});
+              const pathResult = gridSystem.findPath(dragStartPosition, snappedFinalPos, wallData, {}, { elevationData, rampData });
               dropAllowed = !pathResult?.blocked;
             } catch (pathErr) {
               console.warn('Wall path check failed, allowing drop:', pathErr);
@@ -911,13 +951,55 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
   const currentPos = isDragging ? localPosition : position;
 
+  // Lift tokens to their tile's elevation in 2.5D (world z = level * gridSize)
+  const getElevationWorldZ = useCallback((worldX, worldY) => {
+    if (!elevationData || !gridSystem) return 0;
+    const tile = gridSystem.worldToGrid(worldX, worldY);
+    const level = getTileElevation(elevationData, tile.x, tile.y);
+    if (!level) return 0;
+    const { gridSize: gs } = gridSystem.getGridState();
+    return level * (gs || 50);
+  }, [elevationData, gridSystem]);
+
+  // "Behind the wall" indicator for 2.5D projected views
+  const isBehindWall = useMemo(() => {
+    if (!position || !gridSystem) return false;
+    try {
+      return isWorldAreaPartiallyOccluded({
+        worldX: position.x,
+        worldY: position.y,
+        radiusWorld: (gridSize || 50) * 0.45,
+        wallData: wallDataForOcclusion,
+        elevationData,
+        gridSystem
+      });
+    } catch (err) {
+      return false;
+    }
+  }, [position, gridSystem, wallDataForOcclusion, elevationData, viewModeForOcclusion, viewRotationForOcclusion, viewTiltForOcclusion, zoomLevel, playerZoom]);
+
+  // 2.5D ground conformance: squash the token vertically by the projection tilt
+  // (clamped so low-angle views stay readable), plus a contact shadow.
+  const groundSquash = useMemo(() => {
+    try {
+      const transform = gridSystem.getProjectionTransform(window.innerWidth, window.innerHeight);
+      return Math.max(0.5, Math.min(1, transform.sinTilt));
+    } catch (err) {
+      return 1;
+    }
+  }, [gridSystem, viewModeForOcclusion, viewRotationForOcclusion, viewTiltForOcclusion, zoomLevel, playerZoom]);
+  const groundSquashRef = useRef(groundSquash);
+  groundSquashRef.current = groundSquash;
+  const isProjectedGround = groundSquash < 0.995;
+
   // PERFORMANCE FIX: Calculate initial position without depending on camera state
   // Camera changes are handled by imperative subscription, not React re-renders
   const initialScreenPosition = useMemo(() => {
     if (!currentPos) return { x: 0, y: 0 };
-    const screenPos = gridSystem.worldToScreen(
+    const screenPos = gridSystem.worldToScreen3D(
       currentPos.x,
       currentPos.y,
+      getElevationWorldZ(currentPos.x, currentPos.y),
       window.innerWidth,
       window.innerHeight
     );
@@ -926,7 +1008,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       x: Math.round(screenPos.x),
       y: Math.round(screenPos.y)
     };
-  }, [currentPos, gridSystem, zoomLevel, playerZoom]);
+  }, [currentPos, gridSystem, zoomLevel, playerZoom, getElevationWorldZ]);
 
   const screenPositionRef = useRef(initialScreenPosition);
   const currentPosRef = useRef(currentPos);
@@ -938,9 +1020,10 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    const newPosition = gridSystem.worldToScreen(
+    const newPosition = gridSystem.worldToScreen3D(
       worldPosition.x,
       worldPosition.y,
+      getElevationWorldZ(worldPosition.x, worldPosition.y),
       viewportWidth,
       viewportHeight
     );
@@ -954,9 +1037,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     const element = tokenRef.current;
     if (element) {
       // Use transform3d for GPU-accelerated positioning
-      element.style.transform = `translate3d(${roundedX}px, ${roundedY}px, 0) translate(-50%, -50%)`;
+      element.style.transform = `translate3d(${roundedX}px, ${roundedY}px, 0) translate(-50%, -50%) scaleY(${groundSquashRef.current})`;
     }
-  }, [gridSystem]);
+  }, [gridSystem, getElevationWorldZ]);
 
   useEffect(() => {
     currentPosRef.current = currentPos;
@@ -995,7 +1078,10 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         state.cameraX !== prevState.cameraX ||
         state.cameraY !== prevState.cameraY ||
         state.zoomLevel !== prevState.zoomLevel ||
-        state.playerZoom !== prevState.playerZoom
+        state.playerZoom !== prevState.playerZoom ||
+        state.viewMode !== prevState.viewMode ||
+        state.viewRotation !== prevState.viewRotation ||
+        state.viewTilt !== prevState.viewTilt
       ) {
         handleCameraChange();
       }
@@ -2198,7 +2284,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           top: 0,
           width: `${tokenSize}px`,
           height: `${tokenSize}px`,
-          transform: `translate3d(${screenPosition.x}px, ${screenPosition.y}px, 0) translate(-50%, -50%)`,
+          transform: `translate3d(${screenPosition.x}px, ${screenPosition.y}px, 0) translate(-50%, -50%) scaleY(${groundSquash})`,
           cursor: isSelectionMode ? 'pointer' : (isInCombat && !isMyTurn && !canControlCreature) ? 'not-allowed' : isDragging ? 'grabbing' : 'grab',
           zIndex: isDragging ? 1000 : (canShowAbilityFan ? 900 : 150), // Higher z-index to be above ObjectSystem canvas (20) and grid tiles (10); raised while ability fan is open
           position: 'absolute',
@@ -2212,8 +2298,10 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             ? (isOwnToken ? '#a78bfa' : '#7c3aed')
             : creature.isShopkeeper ? '#FFD700' : isViewingFrom ? '#4a6a8a' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#506e30' : isTargeted ? '#9a5e15' : creature.tokenBorder),
           overflow: 'visible',
-          opacity: isGreyedOut ? 0.4 : 1, // Greyed out when in explored but not visible
-          filter: isGreyedOut ? 'grayscale(0.8) brightness(0.6)' : 'none', // Grey filter for explored areas
+          opacity: isBehindWall ? 0.55 : (isGreyedOut ? 0.4 : 1), // not-in-full-view or explored-but-hidden
+          filter: isBehindWall
+            ? 'saturate(0.65) brightness(0.9)'
+            : (isGreyedOut ? 'grayscale(0.8) brightness(0.6)' : 'none'), // grey for explored areas
           boxShadow: isSummonedToken
             ? (isOwnToken
               ? '0 0 12px rgba(167,139,250,0.6), 0 0 6px rgba(167,139,250,0.4), 0 2px 8px rgba(0,0,0,0.3)'
@@ -2246,6 +2334,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         onPointerCancel={showRenameInput ? undefined : longPressHandlers.onPointerCancel}
         onClick={showRenameInput ? undefined : handleTokenClick}
       >
+        {isBehindWall && <span className="token-occlusion-ring" aria-hidden="true" />}
         {/* Condition rings with text - staggered outward for multiple conditions */}
         {conditionEffects.map((effect, index) => {
           const pathId = `${tokenId}-${effect.key}-ring-path`;

@@ -185,7 +185,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t4_smoke_screen",
     name: "Shadow Smoke Screen",
-    icon: "spell_shadow_twilight",
+    icon: "Void/Contained Void Barrel",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "sb_t3_shadow_eruption",
@@ -366,7 +366,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t7_shadowblade_doctrine",
     name: "Shadowblade Doctrine",
-    icon: "ability_rogue_shadowstrike",
+    icon: "Piercing/Bloody Dagger Strike",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "sb_t6_shadow_assassin",
@@ -389,7 +389,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t7_infinite_qm",
     name: "Apex Quarry Reservoir",
-    icon: "ability_hunter_snipershot",
+    icon: "Piercing/Arrow Shot",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "sb_t6_phantom_crits",
@@ -409,7 +409,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t7_instant_death",
     name: "Throat Cutter",
-    icon: "ability_rogue_shadowdance",
+    icon: "Utility/Speed Dash",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "sb_t6_phantom_crits",
@@ -429,7 +429,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t7_phantom_immortality",
     name: "Shadowform Rebirth",
-    icon: "spell_shadow_nethercloak",
+    icon: "Void/Crimson Void Hood",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "sb_t6_vanishing_act",
@@ -717,7 +717,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t6_the_grand_bladestorm",
     name: "The Grand Bladestorm",
-    icon: "ability_warrior_bladestorm",
+    icon: "Slashing/Slashing Slash",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "bs_t5_shredder_orbit",
@@ -807,7 +807,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t7_bladestorm_doctrine",
     name: "Bladestorm Doctrine",
-    icon: "ability_warrior_weaponmastery",
+    icon: "Slashing/Crossed Swords Clash",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "bs_t6_the_grand_bladestorm",
@@ -830,7 +830,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t7_infinite_ricochet_cap",
     name: "Autonomous Glaive Forge",
-    icon: "ability_hunter_aimedshot",
+    icon: "Piercing/Arrow Shot",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "bs_t6_severing_ricochet",
@@ -850,7 +850,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t7_storm_cyclone_crit",
     name: "Cyclone Criticality",
-    icon: "ability_whirlwind",
+    icon: "Slashing/Slashing Slash 1",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "bs_t6_steel_tempest",
@@ -870,7 +870,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t7_immortal_whirlwind",
     name: "Ironwood Reflex Rebirth",
-    icon: "ability_warrior_defensivestance",
+    icon: "Utility/Barred Shield",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "bs_t6_steel_tempest",
@@ -1161,7 +1161,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t6_dual_apex_fury",
     name: "Dual Apex Assault",
-    icon: "ability_hunter_pet_cat",
+    icon: "Nature/Nature Shrine",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "bm_t5_beast_ascension",
@@ -1225,7 +1225,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t7_avatar_of_the_beastlord",
     name: "Avatar of the Beast Sovereign",
-    icon: "ability_druid_primalprecision",
+    icon: "Nature/Nature Primal",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "bm_t6_dual_apex_fury",
@@ -1248,7 +1248,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t7_beastmaster_doctrine",
     name: "Beastmaster Doctrine",
-    icon: "ability_hunter_pet_attack",
+    icon: "Utility/Horned Beast",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "bm_t6_dual_apex_fury",
@@ -1271,7 +1271,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t7_infinite_bond",
     name: "Unbreakable Pack Bond",
-    icon: "ability_druid_healinginstincts",
+    icon: "Nature/Fanned Leaf",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "bm_t6_telepathic_link",
@@ -1291,7 +1291,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t7_coordinated_crits",
     name: "Synchronized Criticals",
-    icon: "ability_hunter_pet_cat",
+    icon: "Nature/Panda Nature",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "bm_t6_primal_roar_defense",
@@ -1311,7 +1311,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t7_immortal_beastlord",
     name: "Bonded Sacrifice Rebirth",
-    icon: "ability_hunter_beastwithin",
+    icon: "Utility/Roaring Beast Head",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "bm_t6_primal_roar_defense",

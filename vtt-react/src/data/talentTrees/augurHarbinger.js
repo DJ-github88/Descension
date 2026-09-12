@@ -301,7 +301,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t6_lingering_doom",
     name: "Lingering Doom",
-    icon: "spell_shadow_curseofsargeras",
+    icon: "Necrotic/Bloody Horse Skull",
     maxRanks: 2,
     position: { x: 3, y: 5 },
     requires: "hb_t5_void_gaze",
@@ -321,7 +321,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t7_harbinger_supreme",
     name: "Harbinger Supreme",
-    icon: "spell_shadow_curseofsargeras",
+    icon: "Necrotic/Bone Skull Staff",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "hb_t6_ultimate_portent",
@@ -386,7 +386,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t7_fractured_fate",
     name: "Fractured Fate",
-    icon: "spell_shadow_soulleech",
+    icon: "Necrotic/Necrotic Hand Rising",
     maxRanks: 3,
     position: { x: 3, y: 6 },
     requires: "hb_t6_lingering_doom",
@@ -406,7 +406,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t7_doom_siphon",
     name: "Doom Siphon",
-    icon: "spell_shadow_lifedrain02",
+    icon: "Necrotic/Necrotic Necrosis",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "hb_t6_lingering_doom",

@@ -56,6 +56,11 @@ const initialState = {
     minPlayerZoom: 0.1, // Allow extreme zoom out for overview
     maxPlayerZoom: 10.0, // Allow extreme zoom in for detail
 
+    // View mode + camera orbit (per-player local; GM defaults live per-map in mapStore)
+    viewMode: '2d', // '2d' | '2.5d' - projection mode for the tactical grid
+    viewRotation: 0, // local orbit yaw in degrees (0 = north-up)
+    viewTilt: 90, // local orbit pitch in degrees (90 = topdown; 2.5D default ~30)
+
     // Grid rendering settings
     showGrid: true,
     gridExtent: 10000, // Performance optimization - not used for infinite grid bounds
@@ -195,6 +200,43 @@ const useGameStore = create((set, get) => ({
         if (type === 'square' || type === 'hex') {
             set({ gridType: type });
         }
+    },
+
+    // View mode management ('2d' topdown | '2.5d' isometric)
+    setViewMode: (mode) => {
+        if (mode !== '2d' && mode !== '2.5d') return;
+        set((state) => ({
+            viewMode: mode,
+            // 2D is always topdown; entering 2.5D restores a usable isometric pitch
+            viewTilt: mode === '2d' ? 90 : (state.viewTilt >= 90 ? 30 : state.viewTilt)
+        }));
+    },
+
+    // Camera orbit (player-local; GM default orientation is stored per-map in mapStore)
+    setViewRotation: (degrees) => {
+        const normalized = ((degrees % 360) + 360) % 360;
+        set({ viewRotation: normalized });
+    },
+
+    rotateCameraBy: (deltaDegrees) => {
+        const state = get();
+        const next = (((state.viewRotation + deltaDegrees) % 360) + 360) % 360;
+        set({ viewRotation: next });
+    },
+
+    snapViewRotation: (stepDegrees = 45) => {
+        const state = get();
+        const step = stepDegrees > 0 ? stepDegrees : 45;
+        const snapped = ((Math.round(state.viewRotation / step) * step) % 360 + 360) % 360;
+        set({ viewRotation: snapped });
+    },
+
+    resetViewRotation: () => set({ viewRotation: 0 }),
+
+    setViewTilt: (degrees) => {
+        const state = get();
+        const clamped = Math.max(15, Math.min(90, degrees));
+        set({ viewTilt: state.viewMode === '2d' ? 90 : clamped });
     },
 
     // Grid offset management

@@ -81,7 +81,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t2_pack_mind",
     name: "Pack Mind",
-    icon: "spell_shadow_enslavedemon",
+    icon: "Necrotic/Spectral Mask",
     maxRanks: 3,
     position: { x: 0.5, y: 1 },
     requires: "wh_t1_wyrd_pack",
@@ -262,7 +262,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t6_cold_iron_doctrine",
     name: "Cold Iron Doctrine",
-    icon: "spell_holy_exorcism",
+    icon: "Radiant/Radiant Beam of Healing",
     maxRanks: 1,
     position: { x: 1.5, y: 5 },
     requires: "wh_t5_pack_alpha",
@@ -285,7 +285,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t6_undisputed",
     name: "Undisputed",
-    icon: "spell_shadow_demonicempathy",
+    icon: "Necrotic/Demonic Mask",
     maxRanks: 2,
     position: { x: 2, y: 5 },
     requires: "wh_t5_hunters_authority",
@@ -326,7 +326,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t7_the_purging",
     name: "The Purging",
-    icon: "spell_shadow_summonfelguard",
+    icon: "Utility/Utility Item",
     maxRanks: 1,
     position: { x: 0, y: 6 },
     requires: "wh_t6_cold_iron_doctrine",
@@ -371,7 +371,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t7_houndmaster_general",
     name: "Houndmaster General",
-    icon: "spell_shadow_enslavedemon",
+    icon: "Necrotic/Necrotic Hand Rising",
     maxRanks: 3,
     position: { x: 2, y: 6 },
     requires: "wh_t6_shared_stealth",

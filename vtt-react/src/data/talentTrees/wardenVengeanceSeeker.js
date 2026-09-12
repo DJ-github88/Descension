@@ -115,7 +115,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t2_spectral_retribution",
     name: "Burning Grudge Aura",
-    icon: "spell_fire_soulburn",
+    icon: "Fire/Burning Cursed Book",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "wvs_t1_unyielding_vengeance",
@@ -310,7 +310,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t6_iron_grudge",
     name: "Juggernaut Momentum",
-    icon: "ability_warrior_defensivestance",
+    icon: "Utility/Shield Spark",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "wvs_t5_unbroken_spite",
@@ -350,7 +350,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t7_avatar_of_the_nemesis",
     name: "Avatar of the Nemesis",
-    icon: "spell_fire_elementaldevastation",
+    icon: "Fire/Crimson Eruption",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "wvs_t6_cataclysmic_retribution",
@@ -374,7 +374,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t7_nemesis_doctrine",
     name: "Nemesis Doctrine",
-    icon: "spell_fire_soulburn",
+    icon: "Fire/Burning Figure",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "wvs_t6_cataclysmic_retribution",
@@ -397,7 +397,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t7_infinite_vp",
     name: "Bottomless Grudge",
-    icon: "spell_fire_elemental_totem",
+    icon: "Fire/Dragon Fire Breath",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "wvs_t6_iron_grudge",

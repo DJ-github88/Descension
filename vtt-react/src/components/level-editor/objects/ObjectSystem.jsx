@@ -4,6 +4,7 @@ import useLevelEditorStore from '../../../store/levelEditorStore';
 import useGameStore from '../../../store/gameStore';
 import useMapStore from '../../../store/mapStore';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
+import { getTileElevation } from '../../../utils/ElevationUtils';
 import UnifiedContextMenu from '../UnifiedContextMenu';
 import { drawObject, hasObjectArt } from './ObjectCanvasRenderer';
 import { drawObjectArt } from './PixelArtRenderer';
@@ -732,6 +733,7 @@ const ObjectSystem = () => {
     const isEditorMode = useLevelEditorStore(state => state.isEditorMode);
     const activeLayer = useLevelEditorStore(state => state.activeLayer);
     const drawingLayers = useLevelEditorStore(state => state.drawingLayers);
+  const elevationData = useLevelEditorStore(state => state.elevationData);
     const removeEnvironmentalObject = useLevelEditorStore(state => state.removeEnvironmentalObject);
     const updateEnvironmentalObject = useLevelEditorStore(state => state.updateEnvironmentalObject);
     const selectEnvironmentalObject = useLevelEditorStore(state => state.selectEnvironmentalObject);
@@ -745,6 +747,9 @@ const ObjectSystem = () => {
     const gridOffsetX = useGameStore(state => state.gridOffsetX);
     const gridOffsetY = useGameStore(state => state.gridOffsetY);
     const cameraX = useGameStore(state => state.cameraX);
+  const viewMode = useGameStore(state => state.viewMode);
+  const viewRotation = useGameStore(state => state.viewRotation);
+  const viewTilt = useGameStore(state => state.viewTilt);
     const cameraY = useGameStore(state => state.cameraY);
     const zoomLevel = useGameStore(state => state.zoomLevel);
     const playerZoom = useGameStore(state => state.playerZoom);
@@ -987,6 +992,22 @@ const ObjectSystem = () => {
         const startY = topLeftGrid.y - 5;
         const endY = bottomRightGrid.y + 5;
 
+        // 2.5D projection context: sprite lift + projected contact shadows
+        let objectSinTilt = 1;
+        let objectCosTilt = 0;
+        let objectZoom = effectiveZoom;
+        try {
+            const projectionSystem = getGridSystem();
+            const projectionViewport = projectionSystem.getViewportDimensions();
+            const objectProjection = projectionSystem.getProjectionTransform(projectionViewport.width, projectionViewport.height);
+            objectSinTilt = objectProjection.sinTilt;
+            objectCosTilt = objectProjection.cosTilt;
+            objectZoom = objectProjection.effectiveZoom;
+        } catch (error) {
+            // Fallback to topdown identity
+        }
+        const objectElevationScale = objectCosTilt * objectZoom;
+
         // Render objects
         environmentalObjects.forEach(obj => {
             const objectDef = PROFESSIONAL_OBJECTS[obj.type];
@@ -1038,6 +1059,36 @@ const ObjectSystem = () => {
             const scale = obj.scale || 1;
             const objWidth = objectDef.size.width * tileSize * scale;
             const objHeight = objectDef.size.height * tileSize * scale;
+
+            // === 2.5D elevation: lift sprites and add a projected contact shadow ===
+            let objectLevel = 0;
+            try {
+                if (obj.freePosition && obj.worldX !== undefined && obj.worldY !== undefined) {
+                    const tileCoords = getGridSystem().worldToGrid(obj.worldX, obj.worldY);
+                    objectLevel = getTileElevation(elevationData, tileCoords.x, tileCoords.y);
+                } else if (Number.isFinite(obj.gridX) && Number.isFinite(obj.gridY)) {
+                    objectLevel = getTileElevation(elevationData, obj.gridX, obj.gridY);
+                }
+            } catch (error) {
+                objectLevel = 0;
+            }
+
+            if (objectLevel !== 0) {
+                if (objectCosTilt > 0.05) {
+                    const shadowRx = objWidth * 0.42;
+                    const shadowRy = Math.max(2, shadowRx * objectSinTilt);
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.28)';
+                    ctx.beginPath();
+                    ctx.ellipse(screenPos.x, screenPos.y + shadowRy * 0.3, shadowRx, shadowRy, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+                screenPos = {
+                    x: screenPos.x,
+                    y: screenPos.y - objectLevel * gridSize * objectElevationScale
+                };
+            }
 
             // Render object based on category
             renderObjectByCategory(ctx, obj, objectDef, screenPos, objWidth, objHeight);
@@ -1340,7 +1391,7 @@ const ObjectSystem = () => {
                 y: ((screenY - canvasHeight / 2) / effectiveZoom) + cameraY
             };
         }
-    }, [effectiveZoom, cameraX, cameraY]);
+    }, [effectiveZoom, cameraX, cameraY, elevationData, viewMode, viewRotation, viewTilt]);
 
     // Find object at screen position
     const getObjectAtScreenPosition = useCallback((screenX, screenY) => {

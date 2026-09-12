@@ -3751,6 +3751,12 @@
     justify-content: flex-start;
     overflow-x: auto;
     padding-bottom: 2px;
+    flex-wrap: nowrap;
+    gap: 3px;
+    scrollbar-width: none;
+  }
+  .world-header-icon-strip::-webkit-scrollbar {
+    display: none;
   }
   .world-form-row {
     grid-template-columns: 1fr;
@@ -3770,6 +3776,63 @@
   }
   .world-switcher-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* Faction toolbar: override the desktop flex-basis (240px) that turned into
+     a 240px-tall search row, and keep selects/search full width. */
+  .world-factions-toolbar .factions-search-and-select {
+    flex-direction: column;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+  .world-factions-toolbar .factions-search-wrapper {
+    flex: 0 0 auto;
+    width: 100%;
+    height: auto;
+  }
+  .world-factions-toolbar .factions-search-input {
+    width: 100%;
+    padding: 8px 32px !important;
+  }
+  .world-factions-toolbar .factions-region-filter,
+  .world-factions-toolbar .factions-sort-filter {
+    width: 100%;
+  }
+  .world-factions-toolbar .factions-region-select,
+  .world-factions-toolbar .factions-sort-select {
+    width: 100%;
+  }
+
+  /* World section tabs: snap while swiping so the active segment stays whole. */
+  .world-tabs {
+    scroll-snap-type: x proximity;
+  }
+  .world-tab {
+    scroll-snap-align: start;
+  }
+
+  /* Faction view-mode tabs (Chronicles/Banners/Ledger/Relationship Web):
+     never squeeze labels — allow a swipe instead of clipping the last tab. */
+  .factions-view-mode-group {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .factions-view-mode-group::-webkit-scrollbar {
+    display: none;
+  }
+  .factions-view-mode-group .btn-view-mode {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 6px 8px;
+  }
+  /* Icons are decorative here — drop them so all four labels fit a phone. */
+  .factions-view-mode-group .btn-view-mode i {
+    display: none;
   }
 }
 
@@ -3793,3 +3856,12 @@
   }
 }
 
+
+/* Phone: the labeled .world-tabs scroller below already lists every
+   destination, so hide the duplicate icon-only quick strip.
+   (2026-09-11 mobile deep-dive � dedupe navigation.) */
+@media (max-width: 768px) {
+  .world-header-icon-strip {
+    display: none;
+  }
+}

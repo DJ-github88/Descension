@@ -395,7 +395,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t7_entropy_doctrine",
     name: "Entropy Doctrine",
-    icon: "spell_shadow_shadowwordpain",
+    icon: "Psychic/Psychic Mind",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "ew_t6_entropy_weaving",

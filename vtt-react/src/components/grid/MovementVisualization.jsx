@@ -4,6 +4,8 @@ import useCombatStore from '../../store/combatStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import useCharacterStore from '../../store/characterStore';
+import useLevelEditorStore from '../../store/levelEditorStore';
+import { getTileElevation } from '../../utils/ElevationUtils';
 import { useShallow } from 'zustand/react/shallow';
 
 const MovementVisualization = ({
@@ -18,18 +20,30 @@ const MovementVisualization = ({
         movementLineColor,
         movementLineWidth,
         movementLineDashArray,
-        feetPerTile,
-        storeWallData
+        feetPerTile
     } = useGameStore(useShallow((state) => ({
         showMovementVisualization: state.showMovementVisualization,
         movementLineColor: state.movementLineColor,
         movementLineWidth: state.movementLineWidth,
         movementLineDashArray: state.movementLineDashArray,
-        feetPerTile: state.feetPerTile,
-        storeWallData: state.wallData
+        feetPerTile: state.feetPerTile
     })));
 
-    const wallData = propWallData || storeWallData;
+    // Walls live in the level editor store (gameStore has no wall data)
+    const editorWallData = useLevelEditorStore(state => state.wallData);
+    const editorElevationData = useLevelEditorStore(state => state.elevationData) || {};
+    const wallData = propWallData || editorWallData;
+
+    // Project world points onto their elevated plane so the path hugs raised ground
+    const projectElevated = (worldX, worldY) => {
+        const tile = gridSystem.worldToGrid(worldX, worldY);
+        const level = getTileElevation(editorElevationData, tile.x, tile.y);
+        const cellSize = gridSystem.getGridState().gridSize || 50;
+        return gridSystem.worldToScreen3D(worldX, worldY, level * cellSize, window.innerWidth, window.innerHeight);
+    };
+
+    // Re-render the SVG path when the camera projection changes (yaw/tilt/mode)
+    const viewTransformKey = useGameStore(state => `${state.viewMode}|${state.viewRotation}|${state.viewTilt}`);
 
     const {
         isInCombat,
@@ -99,12 +113,16 @@ const MovementVisualization = ({
         if (!creature) return null;
 
         // Pathfinding calculation: find obstacle-avoiding path around walls with 5/10/5 diagonals
+        // Elevation-aware: cliffs block steps > 1 level unless a ramp/stairs connects.
         let pathResult = null;
         if (typeof gridSystem.findPath === 'function') {
             try {
+                const editorState = useLevelEditorStore.getState();
                 pathResult = gridSystem.findPath(startPosition, currentPosition, wallData, {}, {
                     feetPerTile,
-                    diagonalRule: '5105'
+                    diagonalRule: '5105',
+                    elevationData: editorState.elevationData,
+                    rampData: editorState.rampData
                 });
             } catch (err) {
                 console.warn('Pathfinding error in MovementVisualization:', err);
@@ -183,14 +201,14 @@ const MovementVisualization = ({
             isValidMovement: !isPathBlocked && (!isInCombat || !movementValidation || movementValidation.isValid),
             worldPath: pathResult?.worldPath || null
         };
-    }, [startPosition, currentPosition, tokenId, tokens, creatures, characterTokens, characterData, feetPerTile, isInCombat, gridSystem, movementLineColor, wallData]);
+    }, [startPosition, currentPosition, tokenId, tokens, creatures, characterTokens, characterData, feetPerTile, isInCombat, gridSystem, movementLineColor, wallData, viewTransformKey]);
 
     if (!movementData) return null;
 
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    const startScreen = gridSystem.worldToScreen(startPosition.x, startPosition.y, viewportWidth, viewportHeight);
-    const currentScreen = gridSystem.worldToScreen(currentPosition.x, currentPosition.y, viewportWidth, viewportHeight);
+    const startScreen = projectElevated(startPosition.x, startPosition.y);
+    const currentScreen = projectElevated(currentPosition.x, currentPosition.y);
 
     // Build screen waypoints for the path
     let screenPoints = [startScreen, currentScreen];
@@ -198,7 +216,7 @@ const MovementVisualization = ({
         screenPoints = movementData.worldPath.map((wp, idx) => {
             if (idx === 0) return startScreen;
             if (idx === movementData.worldPath.length - 1) return currentScreen;
-            return gridSystem.worldToScreen(wp.x, wp.y, viewportWidth, viewportHeight);
+            return projectElevated(wp.x, wp.y);
         });
     }
 

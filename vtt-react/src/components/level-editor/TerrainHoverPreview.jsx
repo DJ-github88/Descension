@@ -1,97 +1,96 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import useGameStore from '../../store/gameStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 
-const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, screenX, screenY }) => {
+/**
+ * TerrainHoverPreview - brush footprint preview for terrain/fog tools.
+ * Draws with the shared projection so the footprint follows camera yaw/tilt
+ * (squares become parallelograms, hexes become projected hexagons, circles
+ * become ellipses) instead of staying axis-aligned on screen.
+ */
+const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, elevationMode, screenX, screenY }) => {
     const {
         gridSize,
-        gridOffsetX,
-        gridOffsetY,
-        cameraX,
-        cameraY,
-        zoomLevel,
-        playerZoom,
-        gridType
+        gridType,
+        viewMode,
+        viewRotation,
+        viewTilt
     } = useGameStore();
 
-    const effectiveZoom = (zoomLevel || 1) * (playerZoom || 1);
     const gs = gridSize || 50;
-    const gOX = gridOffsetX || 0;
-    const gOY = gridOffsetY || 0;
-    const camX = cameraX || 0;
-    const camY = cameraY || 0;
 
-    // For fog tools, update preview immediately without throttling for instant feedback
-    // Use useMemo to optimize calculations but keep updates immediate
-    const previewPos = useMemo(() => {
-        if (isFog && Number.isFinite(screenX) && Number.isFinite(screenY)) {
-            return { screenX, screenY };
-        }
-        return { screenX: undefined, screenY: undefined };
-    }, [isFog, screenX, screenY]);
-
-    // Safety check for valid coordinates and values
     if (!Number.isFinite(gridX) || !Number.isFinite(gridY) || !Number.isFinite(brushSize) || !Number.isFinite(gs)) {
         return null;
     }
 
-    // Convert grid coordinates to screen coordinates using the same system as InfiniteGridSystem
-    const gridToScreen = (gx, gy) => {
-        try {
-            const gridSystem = getGridSystem();
-            const worldPos = gridSystem.gridToWorldCorner(gx, gy);
-            // Always pass viewport dimensions for proper coordinate conversion
-            return gridSystem.worldToScreen(worldPos.x, worldPos.y, window.innerWidth, window.innerHeight);
-        } catch (error) {
-            // Fallback to original calculation if grid system fails
-            const worldX = (gx * gs) + gOX;
-            const worldY = (gy * gs) + gOY;
+    const gridSystem = getGridSystem();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const transform = gridSystem.getProjectionTransform(viewportWidth, viewportHeight, {
+        viewMode,
+        viewRotation,
+        viewTilt
+    });
+    const sinTilt = transform.sinTilt;
+    const effectiveZoom = transform.effectiveZoom;
 
-            const sX = (worldX - camX) * effectiveZoom + window.innerWidth / 2;
-            const sY = (worldY - camY) * effectiveZoom + window.innerHeight / 2;
+    let borderColor = '#44ff44';
+    let bgColor = 'rgba(68, 255, 68, 0.2)';
+    if (isEraser) {
+        borderColor = '#ff4444';
+        bgColor = 'rgba(255, 68, 68, 0.2)';
+    } else if (isFog) {
+        borderColor = '#8844ff';
+        bgColor = 'rgba(136, 68, 255, 0.3)';
+    } else if (elevationMode === 'raise') {
+        borderColor = '#44aaff';
+        bgColor = 'rgba(68, 170, 255, 0.25)';
+    } else if (elevationMode === 'lower') {
+        borderColor = '#ff9944';
+        bgColor = 'rgba(255, 153, 68, 0.25)';
+    } else if (elevationMode === 'flatten') {
+        borderColor = '#ffd700';
+        bgColor = 'rgba(255, 215, 0, 0.22)';
+    } else if (elevationMode === 'ramp') {
+        borderColor = '#a0ffdd';
+        bgColor = 'rgba(160, 255, 221, 0.22)';
+    }
 
-            return { x: sX, y: sY };
-        }
+    const overlayStyle = {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none',
+        zIndex: 99
     };
 
-    // For fog tools, show smooth circle brush preview instead of grid squares
+    // Fog brush: projected ellipse footprint
     if (isFog) {
-        if (previewPos.screenX === undefined || previewPos.screenY === undefined) {
+        if (!Number.isFinite(screenX) || !Number.isFinite(screenY)) {
             return null;
         }
-
-        // Calculate brush radius in screen pixels
-        const brushRadius = brushSize * gs * effectiveZoom * 0.5;
-        const diameter = brushRadius * 2;
-
+        const radius = brushSize * gs * effectiveZoom * 0.5;
         return (
-            <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 99 }}>
-                <div
-                    style={{
-                        position: 'absolute',
-                        left: previewPos.screenX - brushRadius,
-                        top: previewPos.screenY - brushRadius,
-                        width: diameter,
-                        height: diameter,
-                        border: isEraser ? '2px solid #ff4444' : '2px solid #8844ff',
-                        borderRadius: '50%',
-                        backgroundColor: isEraser ? 'rgba(255, 68, 68, 0.2)' : 'rgba(136, 68, 255, 0.3)',
-                        pointerEvents: 'none',
-                        boxSizing: 'border-box'
-                    }}
+            <svg style={overlayStyle}>
+                <ellipse
+                    cx={screenX}
+                    cy={screenY}
+                    rx={radius}
+                    ry={Math.max(1, radius * sinTilt)}
+                    fill={bgColor}
+                    stroke={borderColor}
+                    strokeWidth="2"
                 />
-            </div>
+            </svg>
         );
     }
 
-    // For terrain tools, keep the grid-based preview
-    const gridSystem = getGridSystem();
-    const currentGridType = gridType || 'square';
+    // Collect the tiles under the brush
+    const tiles = [];
 
-    // Calculate brush pattern based on grid type
-    let tiles = [];
-
-    if (currentGridType === 'hex') {
+    if (gridType === 'hex') {
         const centerQ = gridX;
         const centerR = gridY;
         const brushRadius = Math.floor(brushSize / 2);
@@ -115,73 +114,49 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, screenX
         }
     }
 
-    const tileSize = gs * effectiveZoom;
-    const borderColor = isEraser ? '#ff4444' : isFog ? '#8844ff' : '#44ff44';
-    const bgColor = isEraser ? 'rgba(255, 68, 68, 0.2)' : isFog ? 'rgba(136, 68, 255, 0.3)' : 'rgba(68, 255, 68, 0.2)';
-
     return (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 99 }}>
+        <svg style={overlayStyle}>
             {tiles.map((tile, index) => {
-                let screenPos;
-
                 if (tile.isHex) {
-                    const worldPos = gridSystem.hexToWorld(tile.q, tile.r);
-                    screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, window.innerWidth, window.innerHeight);
-
-                    const sqrt3 = Math.sqrt(3);
-                    const hexRadius = gs / sqrt3;
-                    const hexRadiusScreen = hexRadius * effectiveZoom;
-
-                    const corners = gridSystem.getHexCorners(0, 0, hexRadiusScreen);
-
-                    const pathData = corners.map((corner, i) =>
-                        `${i === 0 ? 'M' : 'L'} ${corner.x + hexRadiusScreen} ${corner.y + hexRadiusScreen}`
-                    ).join(' ') + ' Z';
+                    const worldCenter = gridSystem.hexToWorld(tile.q, tile.r);
+                    const hexRadiusWorld = gs / Math.sqrt(3);
+                    const worldCorners = gridSystem.getHexCorners(worldCenter.x, worldCenter.y, hexRadiusWorld);
+                    const points = worldCorners
+                        .map(corner => {
+                            const screen = gridSystem.worldToScreen(corner.x, corner.y, viewportWidth, viewportHeight);
+                            return `${screen.x},${screen.y}`;
+                        })
+                        .join(' ');
 
                     return (
-                        <svg
+                        <polygon
                             key={`hex-${index}`}
-                            width={hexRadiusScreen * 2}
-                            height={hexRadiusScreen * 2}
-                            style={{
-                                position: 'absolute',
-                                left: screenPos.x - hexRadiusScreen,
-                                top: screenPos.y - hexRadiusScreen,
-                                pointerEvents: 'none',
-                                overflow: 'visible'
-                            }}
-                        >
-                            <path
-                                d={pathData}
-                                fill={bgColor}
-                                stroke={borderColor}
-                                strokeWidth="2"
-                            />
-                        </svg>
-                    );
-                } else {
-                    screenPos = gridToScreen(tile.x, tile.y);
-                    if (!screenPos || !Number.isFinite(screenPos.x) || !Number.isFinite(screenPos.y)) return null;
-
-                    return (
-                        <div
-                            key={`square-${index}`}
-                            style={{
-                                position: 'absolute',
-                                left: screenPos.x,
-                                top: screenPos.y,
-                                width: tileSize,
-                                height: tileSize,
-                                border: `2px solid ${borderColor}`,
-                                backgroundColor: bgColor,
-                                pointerEvents: 'none',
-                                boxSizing: 'border-box'
-                            }}
+                            points={points}
+                            fill={bgColor}
+                            stroke={borderColor}
+                            strokeWidth="2"
                         />
                     );
                 }
+
+                const corner = gridSystem.gridToWorldCorner(tile.x, tile.y);
+                const c1 = gridSystem.worldToScreen(corner.x, corner.y, viewportWidth, viewportHeight);
+                const c2 = gridSystem.worldToScreen(corner.x + gs, corner.y, viewportWidth, viewportHeight);
+                const c3 = gridSystem.worldToScreen(corner.x + gs, corner.y + gs, viewportWidth, viewportHeight);
+                const c4 = gridSystem.worldToScreen(corner.x, corner.y + gs, viewportWidth, viewportHeight);
+                const points = [c1, c2, c3, c4].map(p => `${p.x},${p.y}`).join(' ');
+
+                return (
+                    <polygon
+                        key={`square-${index}`}
+                        points={points}
+                        fill={bgColor}
+                        stroke={borderColor}
+                        strokeWidth="2"
+                    />
+                );
             })}
-        </div>
+        </svg>
     );
 };
 

@@ -82,7 +82,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
   {
     id: "mw_t2_moonwell_sanctuary",
     name: "Moonwell Sanctuary",
-    icon: "spell_holy_circleofrenewal",
+    icon: "Healing/Armored Healing",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "mw_t1_lunar_healing",
@@ -284,7 +284,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
   {
     id: "mw_t6_waning_grace",
     name: "Waning Grace",
-    icon: "spell_holy_renew",
+    icon: "Healing/Healing Compass",
     maxRanks: 2,
     position: { x: 2, y: 5 },
     requires: "mw_t5_eternal_moonwell",
@@ -323,7 +323,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
   {
     id: "mw_t7_aedris_well",
     name: "Aedris' Well",
-    icon: "spell_holy_resurrection",
+    icon: "Radiant/Holy Blessing",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "mw_t6_lunar_apotheosis",
@@ -346,7 +346,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
   {
     id: "mw_t7_deep_tides",
     name: "Deep Tides",
-    icon: "spell_nature_healingwave",
+    icon: "Nature/Nature Hand",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "mw_t6_waning_grace",

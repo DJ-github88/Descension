@@ -103,7 +103,7 @@ export const BERSERKER_SAVAGE = [
   {
     id: "bsv_t2_meat_cleaver",
     name: "Sundering Hack",
-    icon: "ability_warrior_sunder",
+    icon: "Slashing/Slashing Cleave",
     maxRanks: 3,
     position: { x: 2.5, y: 1 },
     requires: "bsv_t1_reckless_slash",
@@ -147,7 +147,7 @@ export const BERSERKER_SAVAGE = [
   {
     id: "bsv_t3_blood_frenzy_surge",
     name: "Red Mist Surge",
-    icon: "ability_druid_enrage",
+    icon: "General/Fiery Rage",
     maxRanks: 2,
     position: { x: 2.5, y: 2 },
     requires: "bsv_t2_meat_cleaver",
@@ -241,7 +241,7 @@ export const BERSERKER_SAVAGE = [
   {
     id: "bsv_t5_berserk_resilience",
     name: "Pain-Driven Fury",
-    icon: "ability_warrior_endlessrage",
+    icon: "Utility/Scaled Armor General",
     maxRanks: 2,
     position: { x: 2.5, y: 4 },
     requires: "bsv_t4_flesh_harvest",
@@ -332,7 +332,7 @@ export const BERSERKER_SAVAGE = [
   {
     id: "bsv_t7_relentless_massacre",
     name: "Relentless Massacre",
-    icon: "ability_warrior_bloodrage",
+    icon: "Utility/Skeletal Warrior",
     maxRanks: 2,
     position: { x: 2.5, y: 6 },
     requires: "bsv_t6_limitless_heat",

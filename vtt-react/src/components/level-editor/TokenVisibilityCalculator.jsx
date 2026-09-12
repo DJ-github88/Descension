@@ -6,6 +6,7 @@ import useCharacterTokenStore from '../../store/characterTokenStore';
 import useSettingsStore from '../../store/settingsStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { calculateVisibleTiles, calculateVisibilityPolygon, feetToTiles } from '../../utils/VisibilityCalculations';
+import { getTileElevation, filterVisibleTilesByElevation } from '../../utils/ElevationUtils';
 import { isTokenControlledByMe } from '../../utils/tokenOwnership';
 
 // PERFORMANCE: Minimum time between visibility recalculations (ms)
@@ -48,6 +49,7 @@ const TokenVisibilityCalculator = () => {
     const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
     const isGMMode = useGameStore(state => state.isGMMode);
     const wallData = useLevelEditorStore(state => state.wallData) || {};
+    const elevationData = useLevelEditorStore(state => state.elevationData) || {};
     const tokenVisionRanges = useLevelEditorStore(state => state.tokenVisionRanges) || {};
     const fovAngle = useLevelEditorStore(state => state.fovAngle) || 360;
     const tokenFacingDirections = useLevelEditorStore(state => state.tokenFacingDirections) || {};
@@ -172,6 +174,9 @@ const TokenVisibilityCalculator = () => {
             return;
         }
 
+        // Mark elevation data as consumed so paint changes retrigger visibility
+        lastCalculationRef.current.elevationDataKey = elevationData;
+
         const gridSystem = getGridSystem();
         const { range: visionRange, type: visionType } = visionSettings;
 
@@ -210,8 +215,23 @@ const TokenVisibilityCalculator = () => {
             respectLineOfSight ? windowOverlays : {}
         );
 
+        // Elevation-aware terrain occlusion: tiles hidden behind raised terrain,
+        // cliffs or pit rims are not visible even if the 2D raycast reached them.
+        let effectiveVisibleTiles = visibleTiles;
+        if (elevationData && Object.keys(elevationData).length > 0) {
+            const viewerGroundLevel = getTileElevation(elevationData, gridCoords.x, gridCoords.y);
+            const keptTiles = filterVisibleTilesByElevation({
+                tileKeys: visibleTiles,
+                fromWorld: currentViewingToken.position,
+                fromGroundLevel: viewerGroundLevel,
+                elevationData,
+                gridSystem
+            });
+            effectiveVisibleTiles = new Set(keptTiles);
+        }
+
         // Update store - PRIMARY vision only (stable for afterimage system)
-        setVisibleArea(visibleTiles);
+        setVisibleArea(effectiveVisibleTiles);
         setVisibilityPolygon(visibilityPolygon);
 
         // PERFORMANCE: Throttle controlled creature vision to ~200ms
@@ -315,6 +335,7 @@ const TokenVisibilityCalculator = () => {
         visionSettings,
         respectLineOfSight,
         wallData,
+        elevationData,
         windowOverlays,
         fovAngle,
         facingAngle,
@@ -341,8 +362,9 @@ const TokenVisibilityCalculator = () => {
         const wallDataChanged = lastCalc.wallDataKey !== wallDataKey;
         const visionChanged = lastCalc.visionKey !== visionKey;
         const creaturePositionChanged = lastCalc.controlledCreaturePositionKey !== controlledCreaturePositionKey;
+        const elevationChanged = lastCalc.elevationDataKey !== elevationData;
 
-        if (!positionChanged && !wallDataChanged && !visionChanged && !creaturePositionChanged) {
+        if (!positionChanged && !wallDataChanged && !visionChanged && !creaturePositionChanged && !elevationChanged) {
             return;
         }
 
@@ -353,7 +375,7 @@ const TokenVisibilityCalculator = () => {
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             // Skip if movement is too small (reduces calculations during slow movement)
-            if (distance < MIN_MOVEMENT_THRESHOLD && !wallDataChanged && !visionChanged) {
+            if (distance < MIN_MOVEMENT_THRESHOLD && !wallDataChanged && !visionChanged && !elevationChanged) {
                 return;
             }
         }

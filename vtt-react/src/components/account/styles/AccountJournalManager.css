@@ -6346,3 +6346,24 @@
 }
 
 /* End of file */
+/* Phone: keep the journal counters on one tidy line; the DM+ upsell
+   already surfaces on the locked Board tab, so drop the inline hint.
+   (2026-09-11 mobile deep-dive) */
+@media (max-width: 768px) {
+  .journal-upsell-hint {
+    display: none;
+  }
+
+  .journal-stats {
+    justify-content: flex-start;
+    gap: 12px;
+  }
+}
+
+/* Specificity fix: `.journal-stats span` (0,1,1) beats the class-only
+   hide rule, so scope the phone hide to the stats container. */
+@media (max-width: 768px) {
+  .journal-stats .journal-upsell-hint {
+    display: none;
+  }
+}

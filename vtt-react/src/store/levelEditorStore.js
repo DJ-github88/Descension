@@ -1,6 +1,7 @@
 import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { getGridSystem } from '../utils/InfiniteGridSystem';
+import { clampElevationLevel } from '../utils/ElevationUtils';
 // CRITICAL: Helper functions to get current map's data from mapStore
 // This prevents map-specific data bleeding between maps
 
@@ -1057,6 +1058,11 @@ const initialState = {
   // Terrain data - stores terrain type for each grid position
   terrainData: {}, // { "x,y": terrainType }
 
+  // Verticality data (runtime per-map; persisted to mapStore)
+  elevationData: {}, // { "x,y": level } integer levels in 5ft units (0 = ground, negative = pits)
+  elevationDataVersion: 0, // Bumped on bulk replace so renderers can invalidate caches
+  rampData: {}, // { "x,y": { dir: 'n'|'e'|'s'|'w', type: 'ramp'|'stairs' } }
+
   // Environmental objects
   environmentalObjects: [], // [{ id, type, position: {x, y}, rotation, state }]
 
@@ -1120,6 +1126,17 @@ const initialState = {
   ambientLightLevel: 0.2,
   lightInteractsWithFog: true,
   selectedLightType: 'torch',
+  selectedLightId: null, // Currently selected placed light (properties panel + drag)
+  wallShadowsEnabled: true, // Editor/GM toggle for directional wall sun shadows
+
+  // Per-map sun (directional light + shadows); synced and elevation-aware
+  sunSettings: {
+    azimuth: 135, // degrees, world-space direction the sunlight comes FROM
+    elevation: 45, // degrees above horizon
+    color: '#fff4e0',
+    intensity: 1.0,
+    ambient: 0.2
+  },
 
   atmosphericEffects: false,
   lightAnimations: true,
@@ -1296,6 +1313,96 @@ const useLevelEditorStore = create((set, get) => ({
   setWallData: (wallData) => {
     // console.log('ðŸ§± Setting wall data bulk:', Object.keys(wallData || {}).length, 'walls');
     set({ wallData: wallData || {} });
+  },
+
+  setElevationData: (elevationData) => {
+    set(state => ({
+      elevationData: elevationData || {},
+      elevationDataVersion: (state.elevationDataVersion || 0) + 1
+    }));
+  },
+
+  setRampData: (rampData) => {
+    set({ rampData: rampData || {} });
+  },
+
+  // Per-tile elevation editing (paint tools write these; the batcher syncs to the server)
+  setElevationAt: (gridX, gridY, level) => {
+    const key = `${gridX},${gridY}`;
+    const raw = get().elevationData?.[key];
+    const currentLevel = typeof raw === 'object' && raw !== null
+      ? (Number.isFinite(raw.level) ? raw.level : 0)
+      : (Number.isFinite(Number(raw)) ? Number(raw) : 0);
+    const nextLevel = clampElevationLevel(level);
+
+    if (nextLevel === currentLevel) return;
+
+    if (nextLevel === 0) {
+      set(prev => {
+        const nextData = { ...prev.elevationData };
+        delete nextData[key];
+        return {
+          elevationData: nextData,
+          elevationDataVersion: (prev.elevationDataVersion || 0) + 1
+        };
+      });
+      mapUpdateBatcher.addUpdate('elevationData', { [key]: null }, window.currentMapId || null);
+      return;
+    }
+
+    set(prev => ({
+      elevationData: { ...prev.elevationData, [key]: nextLevel },
+      elevationDataVersion: (prev.elevationDataVersion || 0) + 1
+    }));
+    mapUpdateBatcher.addUpdate('elevationData', { [key]: nextLevel }, window.currentMapId || null);
+  },
+
+  adjustElevationAt: (gridX, gridY, delta) => {
+    const raw = get().elevationData?.[`${gridX},${gridY}`];
+    const currentLevel = typeof raw === 'object' && raw !== null
+      ? (Number.isFinite(raw.level) ? raw.level : 0)
+      : (Number.isFinite(Number(raw)) ? Number(raw) : 0);
+    get().setElevationAt(gridX, gridY, currentLevel + (delta || 1));
+  },
+
+  clearAllElevation: () => {
+    set(prev => ({
+      elevationData: {},
+      rampData: {},
+      elevationDataVersion: (prev.elevationDataVersion || 0) + 1
+    }));
+    mapUpdateBatcher.addUpdate('elevationData', {}, window.currentMapId || null);
+    mapUpdateBatcher.addUpdate('rampData', {}, window.currentMapId || null);
+  },
+
+  setRampAt: (gridX, gridY, ramp) => {
+    const key = `${gridX},${gridY}`;
+    if (!ramp) {
+      set(prev => {
+        const nextData = { ...prev.rampData };
+        delete nextData[key];
+        return { rampData: nextData };
+      });
+      mapUpdateBatcher.addUpdate('rampData', { [key]: null }, window.currentMapId || null);
+      return;
+    }
+
+    const normalized = typeof ramp === 'string'
+      ? { dir: ramp, type: 'ramp' }
+      : { dir: ramp.dir, type: ramp.type || 'ramp' };
+
+    set(prev => ({ rampData: { ...prev.rampData, [key]: normalized } }));
+    mapUpdateBatcher.addUpdate('rampData', { [key]: normalized }, window.currentMapId || null);
+  },
+
+  setSunSettings: (sunSettings) => {
+    const next = { ...get().sunSettings, ...(sunSettings || {}) };
+    set({ sunSettings: next });
+    try {
+      mapUpdateBatcher.addUpdate('sunSettings', next, window.currentMapId || null);
+    } catch (error) {
+      // Batcher unavailable (tests/headless) - state still updated locally
+    }
   },
 
   setEnvironmentalObjects: (environmentalObjects) => {
@@ -1905,16 +2012,9 @@ const useLevelEditorStore = create((set, get) => ({
       }
     }
 
-    // Then check circles (fallback/simpler exploration)
-    const circles = state.exploredCircles || [];
-    for (const circle of circles) {
-      const dx = worldX - circle.x;
-      const dy = worldY - circle.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      if (distance <= circle.radius) {
-        return true;
-      }
-    }
+    // NOTE: circle-based exploration is intentionally ignored (circles were
+    // recorded without wall clipping and leaked "explored" terrain through walls).
+    // Wall-clipped polygons + exploredAreas tiles are authoritative.
 
     // Fallback to tile-based check for backward compatibility
     const gridSystem = getGridSystem();
@@ -2462,6 +2562,14 @@ const useLevelEditorStore = create((set, get) => ({
 
   setSelectedLightType: (lightType) => {
     set({ selectedLightType: lightType });
+  },
+
+  setSelectedLightId: (lightId) => {
+    set({ selectedLightId: lightId });
+  },
+
+  setWallShadowsEnabled: (enabled) => {
+    set({ wallShadowsEnabled: Boolean(enabled) });
   },
 
   setLightInteractsWithFog: (interacts) => {
@@ -3735,8 +3843,10 @@ const useLevelEditorStore = create((set, get) => ({
         ...state.lightSources,
         [lightId]: {
           id: lightId,
-          gridX: lightData.gridX,
-          gridY: lightData.gridY,
+          x: lightData.x ?? lightData.gridX,
+          y: lightData.y ?? lightData.gridY,
+          gridX: lightData.x ?? lightData.gridX,
+          gridY: lightData.y ?? lightData.gridY,
           type: lightData.type || 'torch',
           radius: lightData.radius || 3,
           intensity: lightData.intensity || 1.0,
@@ -4043,16 +4153,9 @@ const useLevelEditorStore = create((set, get) => ({
     if (memories?.exploredAreas && memories.exploredAreas[tileKey]) return true;
     if (state.exploredAreas && state.exploredAreas[tileKey]) return true;
 
-    // Check circle-based explored areas (per-player, then legacy)
-    const circles = [
-      ...(memories?.exploredCircles || []),
-      ...(state.exploredCircles || [])
-    ];
-    for (const circle of circles) {
-      const dx = worldX - circle.x;
-      const dy = worldY - circle.y;
-      if (Math.sqrt(dx * dx + dy * dy) <= circle.radius) return true;
-    }
+    // NOTE: circle-based exploration is intentionally ignored here. Circles were
+    // recorded around the viewer without wall clipping and leaked "explored"
+    // terrain through walls; LOS-clipped polygons + exploredAreas tiles are authoritative.
 
     // Check polygon-based explored areas (per-player, then legacy)
     const polygons = [

@@ -107,7 +107,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t2_defensive_stance",
     name: "Defensive Stance",
-    icon: "ability_warrior_shieldwall",
+    icon: "Utility/Broken Shield",
     maxRanks: 3,
     position: { x: 3.5, y: 1 },
     requires: "id_t1_deadened_bastion",
@@ -239,7 +239,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t4_unyielding_blade",
     name: "Unyielding Blade",
-    icon: "ability_warrior_weaponmastery",
+    icon: "Slashing/Crossed Swords Green",
     maxRanks: 2,
     position: { x: 2.5, y: 3 },
     requires: "id_t3_trait_harvest",
@@ -344,7 +344,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t7_calcified_edge",
     name: "Calcified Edge",
-    icon: "ability_duelist",
+    icon: "Slashing/Crossed Swords Clash",
     maxRanks: 5,
     position: { x: 0, y: 6 },
     requires: "id_t5_blade_dance",
@@ -367,7 +367,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t7_riposte_doctrine",
     name: "Riposte Doctrine",
-    icon: "ability_parry",
+    icon: "Utility/Utility Effect",
     maxRanks: 3,
     position: { x: 1.5, y: 6 },
     requires: "id_t5_blade_dance",
@@ -388,7 +388,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t7_duelists_resolve",
     name: "Duelist's Resolve",
-    icon: "ability_warrior_focusedrage",
+    icon: "General/Fiery Rage",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "id_t6_grand_challenge",
@@ -408,7 +408,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t7_bridges_bounty",
     name: "Bridge's Bounty",
-    icon: "spell_shadow_possession",
+    icon: "Psychic/Psychic Mind",
     maxRanks: 3,
     position: { x: 0.5, y: 6 },
     requires: "id_t6_grand_challenge",

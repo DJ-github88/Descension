@@ -77,7 +77,7 @@ export const BERSERKER_JUGGERNAUT = [
   {
     id: "bjn_t2_calloused_barrier",
     name: "Calloused Barrier",
-    icon: "ability_warrior_shieldwall",
+    icon: "Utility/Broad Shouldered Warrior",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "bjn_t1_calcified_hide",
@@ -220,7 +220,7 @@ export const BERSERKER_JUGGERNAUT = [
   {
     id: "bjn_t5_juggernaut_charge",
     name: "Caldera Juggernaut Charge",
-    icon: "ability_warrior_bullrush",
+    icon: "Utility/Demonic Warrior",
     maxRanks: 3,
     position: { x: 1, y: 4 },
     requires: "bjn_t4_unshakable_goliath",
@@ -335,7 +335,7 @@ export const BERSERKER_JUGGERNAUT = [
   {
     id: "bjn_t7_indomitable_fortress",
     name: "Living Fortress of the Waste",
-    icon: "ability_warrior_defensivestance",
+    icon: "Utility/Bound Warrior",
     maxRanks: 2,
     position: { x: 2.5, y: 6 },
     requires: "bjn_t6_granite_vow",

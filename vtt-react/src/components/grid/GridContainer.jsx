@@ -5,6 +5,8 @@ import useGridItemStore from '../../store/gridItemStore';
 import useGameStore from '../../store/gameStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import { getTileElevation } from '../../utils/ElevationUtils';
+import { isWorldAreaPartiallyOccluded } from '../../utils/WallOcclusion';
 import { isPointInPolygon, getPolygonBBox } from '../../utils/VisibilityCalculations';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import ContainerWindow from '../item-generation/ContainerWindow';
@@ -53,6 +55,9 @@ const GridContainer = ({ gridItem }) => {
   const effectiveZoom = zoomLevel * playerZoom;
   const gridSystem = getGridSystem();
 
+  // Re-render when the camera projection changes (yaw/tilt/mode)
+  const viewTransformKey = useGameStore(state => `${state.viewMode}|${state.viewRotation}|${state.viewTilt}`);
+
   // Get level editor state for visibility calculations
   const viewingFromToken = useLevelEditorStore(state => state.viewingFromToken);
   const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
@@ -61,6 +66,8 @@ const GridContainer = ({ gridItem }) => {
   const visibilityPolygon = useLevelEditorStore(state => state.visibilityPolygon);
   const fogOfWarPaths = useLevelEditorStore(state => state.fogOfWarPaths);
   const fogOfWarData = useLevelEditorStore(state => state.fogOfWarData);
+  const elevationData = useLevelEditorStore(state => state.elevationData);
+  const wallDataForOcclusion = useLevelEditorStore(state => state.wallData);
 
   // Get the original item from the item store
   const items = useItemStore(state => state.items);
@@ -340,7 +347,15 @@ const GridContainer = ({ gridItem }) => {
     if (isDragging && localPosition) {
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
-      const screenPos = gridSystem.worldToScreen(localPosition.x, localPosition.y, viewportWidth, viewportHeight);
+      const dragGridCoords = gridSystem.worldToGrid(localPosition.x, localPosition.y);
+      const dragElevationLevel = getTileElevation(elevationData, dragGridCoords.x, dragGridCoords.y);
+      const screenPos = gridSystem.worldToScreen3D(
+        localPosition.x,
+        localPosition.y,
+        dragElevationLevel * (gridSystem.getGridState().gridSize || 50),
+        viewportWidth,
+        viewportHeight
+      );
       return {
         x: Math.round(screenPos.x),
         y: Math.round(screenPos.y)
@@ -355,7 +370,15 @@ const GridContainer = ({ gridItem }) => {
     // Use same coordinate conversion as CreatureToken for consistency
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    const screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, viewportWidth, viewportHeight);
+    const containerGridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
+    const containerElevationLevel = getTileElevation(elevationData, containerGridCoords.x, containerGridCoords.y);
+    const screenPos = gridSystem.worldToScreen3D(
+      worldPos.x,
+      worldPos.y,
+      containerElevationLevel * (gridSystem.getGridState().gridSize || 50),
+      viewportWidth,
+      viewportHeight
+    );
 
     // Round to integers to prevent sub-pixel jitter/flickering
     return {
@@ -366,6 +389,8 @@ const GridContainer = ({ gridItem }) => {
     gridItem.gridPosition?.col,
     gridItem.gridPosition?.row,
     gridSystem,
+    elevationData,
+    viewTransformKey,
     cameraX,
     cameraY,
     effectiveZoom,
@@ -374,6 +399,37 @@ const GridContainer = ({ gridItem }) => {
     isDragging,
     localPosition
   ]);
+
+  // Partial-view indicator: dim + stipple when the container is behind a wall/cliff
+  const isOccluded = useMemo(() => {
+    if (!gridItem || !gridSystem) return false;
+    try {
+      let worldX = null;
+      let worldY = null;
+      if (isDragging && localPosition) {
+        worldX = localPosition.x;
+        worldY = localPosition.y;
+      } else if (gridItem.gridPosition) {
+        const world = gridSystem.gridToWorld(gridItem.gridPosition.col, gridItem.gridPosition.row);
+        worldX = world.x;
+        worldY = world.y;
+      } else if (gridItem.position) {
+        worldX = gridItem.position.x;
+        worldY = gridItem.position.y;
+      }
+      if (!Number.isFinite(worldX) || !Number.isFinite(worldY)) return false;
+      return isWorldAreaPartiallyOccluded({
+        worldX,
+        worldY,
+        radiusWorld: (gridSize || 50) * 0.3,
+        wallData: wallDataForOcclusion,
+        elevationData,
+        gridSystem
+      });
+    } catch (err) {
+      return false;
+    }
+  }, [gridItem, isDragging, localPosition, gridSystem, wallDataForOcclusion, elevationData, gridSize, viewTransformKey]);
 
   // Calculate container dimensions based on grid size and zoom
   const containerDimensions = useMemo(() => {
@@ -488,13 +544,12 @@ const GridContainer = ({ gridItem }) => {
           borderRadius: '8px',
           overflow: 'visible', // Changed to visible for the hidden tag
           cursor: isDragging ? 'grabbing' : 'pointer',
+          opacity: isOccluded ? 0.55 : (isGreyedOut ? 0.8 : 1),
+          filter: isOccluded ? 'saturate(0.65) brightness(0.9)' : 'none',
           zIndex: isDragging ? 200 : 100,
           pointerEvents: 'all',
           willChange: 'transform',
-          transition: isDragging ? 'none' : 'box-shadow 0.2s ease',
-          // Lightened greyed out effect for containers in explored but not visible areas
-          opacity: isGreyedOut ? 0.8 : 1,
-          filter: 'none'
+          transition: isDragging ? 'none' : 'box-shadow 0.2s ease'
         }}
         onMouseEnter={handleMouseEnter}
         onMouseMove={handleMouseMove}
@@ -509,6 +564,7 @@ const GridContainer = ({ gridItem }) => {
         onPointerUp={longPressHandlers.onPointerUp}
         onPointerCancel={longPressHandlers.onPointerCancel}
         >
+          {isOccluded && <span className="token-occlusion-ring" aria-hidden="true" />}
           {gridItem.isHidden && isGMMode && (
             <div
               className={`condition-ring-wrapper condition-ring-0 condition-ring-static`}

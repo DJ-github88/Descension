@@ -162,24 +162,14 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
         // available, plus the legacy stores as a guaranteed fallback.
         const visibilityPolygon = levelEditorStore.visibilityPolygon;
         if (visibilityPolygon && Array.isArray(visibilityPolygon) && visibilityPolygon.length >= 3) {
-            // Use the exact vision polygon shape for explored area
+            // Use the exact vision polygon shape for explored area (wall-clipped)
             if (currentPlayerId) addPlayerExploredPolygon(visibilityPolygon);
             addExploredPolygon(visibilityPolygon);
-        } else {
-            // Fallback to circle if no polygon available
-            if (currentPlayerId) {
-                addPlayerExploredCircle(
-                    viewingToken.position.x,
-                    viewingToken.position.y,
-                    visionRadiusInWorld
-                );
-            }
-            addExploredCircle(
-                viewingToken.position.x,
-                viewingToken.position.y,
-                visionRadiusInWorld
-            );
         }
+        // NOTE: The old circle fallback was removed on purpose. When the polygon was
+        // momentarily unavailable it stamped a full vision-radius circle that ignored
+        // walls, permanently marking terrain behind walls as "explored" (dim vision
+        // leaked through walls). Missing a frame is far better than leaking.
 
         // Still create memory snapshots for individual tiles (for remembering what was seen)
         // But explored area rendering will use circles

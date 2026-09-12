@@ -9,6 +9,45 @@ export function registerMapGridHandlers(ctx) {
     socket, isGMRef, currentPlayerRef, currentPlayer,
     playerCurrentMapIdRef, addCreature, addToken, addNotification
   } = ctx;
+
+    // Shared applier for per-map grid + view settings (used by both sync paths)
+    const applyGridSettings = (gs) => {
+      if (!gs) return;
+      const gameStore = useGameStore.getState();
+
+      if (gs.gridType !== undefined) {
+        gameStore.setGridType(gs.gridType);
+      }
+      if (gs.gridSize !== undefined) {
+        gameStore.setGridSize(gs.gridSize);
+      }
+      if (gs.gridOffsetX !== undefined && gs.gridOffsetY !== undefined) {
+        gameStore.setGridOffset(gs.gridOffsetX, gs.gridOffsetY);
+      }
+      if (gs.gridLineColor !== undefined) {
+        gameStore.setGridLineColor(gs.gridLineColor);
+      }
+      if (gs.gridLineThickness !== undefined) {
+        gameStore.setGridLineThickness(gs.gridLineThickness);
+      }
+      if (gs.gridLineOpacity !== undefined) {
+        gameStore.setGridLineOpacity(gs.gridLineOpacity);
+      }
+      if (gs.gridBackgroundColor !== undefined) {
+        gameStore.setGridBackgroundColor(gs.gridBackgroundColor);
+      }
+      // View mode + GM default orientation (players may orbit locally afterwards)
+      if (gs.viewMode !== undefined) {
+        gameStore.setViewMode(gs.viewMode);
+      }
+      if (gs.cameraRotation !== undefined) {
+        gameStore.setViewRotation(gs.cameraRotation);
+      }
+      if (gs.cameraTilt !== undefined) {
+        gameStore.setViewTilt(gs.cameraTilt);
+      }
+    };
+
     socket.on('level_editor_state_synced', (data) => {
       console.log('ðŸ-ºï¸ Received level_editor_state_sync:', {
         mapId: data.mapId,
@@ -70,6 +109,15 @@ export function registerMapGridHandlers(ctx) {
           if (data.levelEditor.fogErasePaths !== undefined) {
             levelEditorStore.setFogErasePaths(data.levelEditor.fogErasePaths);
           }
+          if (data.levelEditor.elevationData !== undefined && levelEditorStore.setElevationData) {
+            levelEditorStore.setElevationData(data.levelEditor.elevationData || {});
+          }
+          if (data.levelEditor.rampData !== undefined && levelEditorStore.setRampData) {
+            levelEditorStore.setRampData(data.levelEditor.rampData || {});
+          }
+          if (data.levelEditor.sunSettings !== undefined && levelEditorStore.setSunSettings) {
+            levelEditorStore.setSunSettings(data.levelEditor.sunSettings);
+          }
           if (data.levelEditor.gridItems !== undefined) {
             import('../../../store/gridItemStore').then(({ default: useGridItemStore }) => {
               const currentItems = useGridItemStore.getState().gridItems || [];
@@ -85,32 +133,20 @@ export function registerMapGridHandlers(ctx) {
 
         // Apply grid settings
         if (data.gridSettings) {
-          const gameStore = useGameStore.getState();
-
-          if (data.gridSettings.gridType !== undefined) {
-            gameStore.setGridType(data.gridSettings.gridType);
-            console.log('ðŸ”· Grid type set to:', data.gridSettings.gridType);
-          }
-          if (data.gridSettings.gridSize !== undefined) {
-            gameStore.setGridSize(data.gridSettings.gridSize);
-          }
-          if (data.gridSettings.gridOffsetX !== undefined && data.gridSettings.gridOffsetY !== undefined) {
-            gameStore.setGridOffset(data.gridSettings.gridOffsetX, data.gridSettings.gridOffsetY);
-          }
-          if (data.gridSettings.gridLineColor !== undefined) {
-            gameStore.setGridLineColor(data.gridSettings.gridLineColor);
-          }
-          if (data.gridSettings.gridLineThickness !== undefined) {
-            gameStore.setGridLineThickness(data.gridSettings.gridLineThickness);
-          }
-          if (data.gridSettings.gridLineOpacity !== undefined) {
-            gameStore.setGridLineOpacity(data.gridSettings.gridLineOpacity);
-          }
-          if (data.gridSettings.gridBackgroundColor !== undefined) {
-            gameStore.setGridBackgroundColor(data.gridSettings.gridBackgroundColor);
-          }
-
+          applyGridSettings(data.gridSettings);
           console.log('âœ… Grid settings applied');
+        }
+
+        // Apply verticality + sun payloads pushed alongside the sync
+        const levelEditorStoreRef = useLevelEditorStore.getState();
+        if (data.elevationData !== undefined && levelEditorStoreRef.setElevationData) {
+          levelEditorStoreRef.setElevationData(data.elevationData || {});
+        }
+        if (data.rampData !== undefined && levelEditorStoreRef.setRampData) {
+          levelEditorStoreRef.setRampData(data.rampData || {});
+        }
+        if (data.sunSettings !== undefined && levelEditorStoreRef.setSunSettings) {
+          levelEditorStoreRef.setSunSettings(data.sunSettings);
         }
 
         // Apply gameplay settings
@@ -227,6 +263,40 @@ export function registerMapGridHandlers(ctx) {
         // Update dndElements (connections/portals) if provided
         if (mapData.dndElements !== undefined) {
           levelEditorStore.setDndElements(mapData.dndElements);
+        }
+
+        // Apply per-map grid/view settings if provided
+        if (mapData.gridSettings !== undefined) {
+          applyGridSettings(mapData.gridSettings);
+        }
+
+        // Verticality + sun updates (merge like terrain so deltas are safe)
+        if (mapData.elevationData !== undefined) {
+          const currentElevation = levelEditorStore.elevationData || {};
+          const mergedElevation = { ...currentElevation };
+          for (const [key, value] of Object.entries(mapData.elevationData)) {
+            if (value === null) {
+              delete mergedElevation[key];
+            } else {
+              mergedElevation[key] = value;
+            }
+          }
+          levelEditorStore.setElevationData(mergedElevation);
+        }
+        if (mapData.rampData !== undefined) {
+          const currentRamps = levelEditorStore.rampData || {};
+          const mergedRamps = { ...currentRamps };
+          for (const [key, value] of Object.entries(mapData.rampData)) {
+            if (value === null) {
+              delete mergedRamps[key];
+            } else {
+              mergedRamps[key] = value;
+            }
+          }
+          levelEditorStore.setRampData(mergedRamps);
+        }
+        if (mapData.sunSettings !== undefined && levelEditorStore.setSunSettings) {
+          levelEditorStore.setSunSettings(mapData.sunSettings);
         }
 
         // CRITICAL FIX: Reset flag after processing to allow future updates

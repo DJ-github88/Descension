@@ -144,7 +144,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t3_confluence_strike",
     name: "Confluence Strike",
-    icon: "spell_nature_riptide",
+    icon: "Healing/Heart Ecg Line",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "fm_t2_cascading_current",
@@ -241,7 +241,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t5_torrential_barrage",
     name: "Torrential Barrage",
-    icon: "spell_nature_riptide",
+    icon: "Healing/Heart Shield",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "fm_t4_mist_slip",
@@ -267,7 +267,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t5_eternal_current",
     name: "Eternal Momentum",
-    icon: "spell_nature_giftofthewaterspirit",
+    icon: "Nature/Nature Natural 11",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "fm_t4_toll_dancer",
@@ -331,7 +331,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t6_chimeric_perfection",
     name: "Chimeric Flow",
-    icon: "spell_nature_astralrecal",
+    icon: "Nature/Nature Scene",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "fm_t5_eternal_current",
@@ -377,7 +377,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t7_flow_doctrine",
     name: "Flow Master Doctrine",
-    icon: "spell_nature_riptide",
+    icon: "Healing/Red Heart",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "fm_t6_water_ascendant",
@@ -400,7 +400,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t7_infinite_flux",
     name: "Infinite Flux Reservoir",
-    icon: "spell_nature_chainlightning",
+    icon: "Lightning/Lightning Bolt Arm",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "fm_t6_fluvial_mastery",
@@ -420,7 +420,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t7_tidal_crit",
     name: "Hydrokinetic Crits",
-    icon: "spell_nature_swiftness",
+    icon: "Utility/Sleep Boot",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "fm_t6_fluvial_mastery",
@@ -440,7 +440,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t7_undying_tide",
     name: "Undying Fluidity",
-    icon: "spell_nature_resistnature",
+    icon: "Nature/Nature Primal",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "fm_t6_chimeric_perfection",

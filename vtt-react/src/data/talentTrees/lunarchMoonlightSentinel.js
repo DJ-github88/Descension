@@ -77,7 +77,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
   {
     id: "ms_t2_lunar_guidance",
     name: "Lunar Guidance",
-    icon: "ability_hunter_focusedaim",
+    icon: "Piercing/Piercing Barrier",
     maxRanks: 3,
     position: { x: 2.5, y: 1 },
     requires: "ms_t1_lunar_precision",
@@ -352,7 +352,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
   {
     id: "ms_t7_marksman_supreme",
     name: "Marksman Supreme",
-    icon: "ability_hunter_snipershot",
+    icon: "Piercing/Arrow Shot",
     maxRanks: 5,
     position: { x: 2, y: 6 },
     requires: "ms_t6_eclipse_aim",
@@ -375,7 +375,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
   {
     id: "ms_t7_tides_of_battle",
     name: "Tides of Battle",
-    icon: "spell_nature_moonglow",
+    icon: "Utility/Utility Power",
     maxRanks: 3,
     position: { x: 3, y: 6 },
     requires: "ms_t6_eclipse_aim",
@@ -416,7 +416,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
   {
     id: "ms_t7_lunar_rhythm",
     name: "Lunar Rhythm",
-    icon: "spell_nature_starfall",
+    icon: "Psychic/Telepathic Arcane",
     maxRanks: 3,
     position: { x: 1, y: 6 },
     requires: "ms_t6_moonlit_volley",

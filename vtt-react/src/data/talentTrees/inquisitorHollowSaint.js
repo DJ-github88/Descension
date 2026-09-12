@@ -144,7 +144,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t3_marked_for_death",
     name: "Marked for Death",
-    icon: "ability_hunter_assassinate",
+    icon: "Piercing/Targeted Strike 1",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "hsw_t2_condemn",
@@ -372,7 +372,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t7_tireless_pursuer",
     name: "Tireless Pursuer",
-    icon: "ability_rogue_sprint",
+    icon: "Utility/Golden Boot Armor",
     maxRanks: 3,
     position: { x: 2, y: 6 },
     requires: "hsw_t6_hollow_bones",
@@ -393,7 +393,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t7_rot_crown",
     name: "Rot Crown",
-    icon: "spell_shadow_contagion",
+    icon: "Poison/Poison Arrow",
     maxRanks: 3,
     position: { x: 3, y: 6 },
     requires: "hsw_t6_confession",
@@ -414,7 +414,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t7_last_confession",
     name: "Last Confession",
-    icon: "ability_paladin_judgementsofthejust",
+    icon: "Radiant/Radiant Corrosion",
     maxRanks: 3,
     position: { x: 4, y: 6 },
     requires: "hsw_t6_confession",

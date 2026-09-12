@@ -77,7 +77,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
   {
     id: "lsw_t2_vitality_tether",
     name: "Symbiotic Life-Tether",
-    icon: "spell_nature_spiritarmor",
+    icon: "Nature/Shield Break",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "lsw_t1_symbiotic_carapace",
@@ -150,7 +150,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
   {
     id: "lsw_t3_leeching_strikes",
     name: "Symbiote Thorns Siphon",
-    icon: "spell_shadow_lifedrain",
+    icon: "Necrotic/Necrotic Necrosis",
     maxRanks: 2,
     position: { x: 2.5, y: 2 },
     requires: "lsw_t2_sanguine_bloom",
@@ -332,7 +332,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
   {
     id: "lsw_t7_immortal_symbiosis_accord",
     name: "Accord of Undying Starlight",
-    icon: "spell_nature_healingtouch",
+    icon: "Healing/Armored Healing",
     maxRanks: 2,
     position: { x: 2.5, y: 6 },
     requires: "lsw_t6_endless_symbiosis",

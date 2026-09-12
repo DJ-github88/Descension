@@ -38,6 +38,12 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         addBackground,
         updateBackground,
         removeBackground,
+        viewMode,
+        viewRotation,
+        viewTilt,
+        setViewRotation,
+        setViewTilt,
+        resetViewRotation,
         showGrid,
         setShowGrid
     } = useGameStore();
@@ -120,11 +126,55 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                     gridLineColor: overrides.gridLineColor || gameStore.gridLineColor,
                     gridLineThickness: overrides.gridLineThickness ?? gameStore.gridLineThickness,
                     gridLineOpacity: overrides.gridLineOpacity ?? gameStore.gridLineOpacity,
-                    gridBackgroundColor: overrides.gridBackgroundColor || gameStore.gridBackgroundColor
+                    gridBackgroundColor: overrides.gridBackgroundColor || gameStore.gridBackgroundColor,
+                    viewMode: overrides.viewMode ?? gameStore.viewMode,
+                    cameraRotation: overrides.cameraRotation ?? gameStore.viewRotation,
+                    cameraTilt: overrides.cameraTilt ?? gameStore.viewTilt
                 }
             });
             console.log('📡 Synced grid settings to multiplayer');
         }
+    };
+
+    // Persist view mode + default orientation on the current map (GM-controlled defaults)
+    const persistMapViewDefaults = (updates) => {
+        try {
+            const mapStore = useMapStore.getState();
+            const mapId = mapStore.currentMapId;
+            if (mapId && mapStore.updateMap) {
+                mapStore.updateMap(mapId, updates);
+            }
+        } catch (error) {
+            console.warn('Could not persist map view defaults:', error);
+        }
+    };
+
+    const handleViewModeChange = (mode) => {
+        if (mode === viewMode) return;
+        const gameStore = useGameStore.getState();
+        gameStore.setViewMode(mode);
+        const nextTilt = mode === '2d' ? 90 : (gameStore.viewTilt >= 90 ? 30 : gameStore.viewTilt);
+        setViewTilt(nextTilt);
+        syncGridSettings({ viewMode: mode, cameraTilt: nextTilt });
+        persistMapViewDefaults({ viewMode: mode, cameraTilt: nextTilt });
+    };
+
+    const handleDefaultRotationChange = (degrees) => {
+        setViewRotation(degrees);
+        syncGridSettings({ cameraRotation: degrees });
+        persistMapViewDefaults({ cameraRotation: degrees });
+    };
+
+    const handleDefaultTiltChange = (degrees) => {
+        setViewTilt(degrees);
+        syncGridSettings({ cameraTilt: degrees });
+        persistMapViewDefaults({ cameraTilt: degrees });
+    };
+
+    const handleDefaultRotationReset = () => {
+        resetViewRotation();
+        syncGridSettings({ cameraRotation: 0 });
+        persistMapViewDefaults({ cameraRotation: 0 });
     };
 
     const handleGridAlign = () => {
@@ -311,6 +361,72 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
 
     return (
         <div className="grid-tools">
+            {/* View Mode - GM sets projection + default camera orientation; players follow on load */}
+            <div className="tool-section">
+                <h4>View Mode</h4>
+                <div className="grid-controls-layout">
+                    <div className="grid-control-item">
+                        <label className="appearance-label">Projection</label>
+                        <div className="grid-type-selector">
+                            <button
+                                className={`grid-type-button ${viewMode === '2d' ? 'active' : ''}`}
+                                onClick={() => handleViewModeChange('2d')}
+                                title="2D Topdown - flat grid"
+                            >
+                                <span>2D</span>
+                            </button>
+                            <button
+                                className={`grid-type-button ${viewMode === '2.5d' ? 'active' : ''}`}
+                                onClick={() => handleViewModeChange('2.5d')}
+                                title="2.5D Isometric - elevated grid with camera tilt"
+                            >
+                                <span>2.5D</span>
+                            </button>
+                        </div>
+                        <small style={{ display: 'block', marginTop: 4, opacity: 0.75 }}>
+                            Players follow this per-map setting when they load the map.
+                        </small>
+                    </div>
+
+                    <div className="grid-control-item">
+                        <label className="appearance-label">Default Orientation</label>
+                        <div className="grid-type-selector">
+                            {[0, 90, 180, 270].map(deg => (
+                                <button
+                                    key={deg}
+                                    className={`grid-type-button ${Math.round(viewRotation) % 360 === deg ? 'active' : ''}`}
+                                    onClick={() => handleDefaultRotationChange(deg)}
+                                    title={`Default camera heading ${deg}°`}
+                                >
+                                    <span>{deg}°</span>
+                                </button>
+                            ))}
+                            <button
+                                className="grid-type-button"
+                                onClick={handleDefaultRotationReset}
+                                title="Reset default camera heading to north"
+                            >
+                                <span>Reset</span>
+                            </button>
+                        </div>
+                        {viewMode === '2.5d' && (
+                            <div className="appearance-group" style={{ marginTop: 8 }}>
+                                <label className="appearance-label">Tilt ({Math.round(viewTilt)}°)</label>
+                                <input
+                                    type="range"
+                                    min="15"
+                                    max="90"
+                                    step="5"
+                                    value={viewTilt}
+                                    onChange={(e) => handleDefaultTiltChange(parseFloat(e.target.value))}
+                                    className="compact-slider"
+                                />
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+
             {/* Background Management - Redesigned for better UX */}
             <div className="tool-section">
                 <h4>Background Management</h4>

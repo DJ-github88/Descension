@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useCallback } from 'react';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useGameStore from '../../store/gameStore';
 import { calculateShadows } from '../../utils/LightingCalculations';
+import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import './styles/ShadowOverlay.css';
 
 /**
@@ -17,9 +18,12 @@ const ShadowOverlay = () => {
     const lightingEnabled = useLevelEditorStore(state => state.lightingEnabled);
     const wallData = useLevelEditorStore(state => state.wallData);
     const performanceMode = useLevelEditorStore(state => state.performanceMode);
+    const sunSettings = useLevelEditorStore(state => state.sunSettings);
+    const wallShadowsEnabled = useLevelEditorStore(state => state.wallShadowsEnabled);
 
     // Game store for positioning
     const gridSize = useGameStore(state => state.gridSize);
+    const gridType = useGameStore(state => state.gridType);
     const gridOffsetX = useGameStore(state => state.gridOffsetX);
     const gridOffsetY = useGameStore(state => state.gridOffsetY);
     const cameraX = useGameStore(state => state.cameraX);
@@ -27,6 +31,9 @@ const ShadowOverlay = () => {
     const zoomLevel = useGameStore(state => state.zoomLevel);
     const playerZoom = useGameStore(state => state.playerZoom);
     const isGMMode = useGameStore(state => state.isGMMode);
+    const viewMode = useGameStore(state => state.viewMode);
+    const viewRotation = useGameStore(state => state.viewRotation);
+    const viewTilt = useGameStore(state => state.viewTilt);
 
     const effectiveZoom = zoomLevel * playerZoom;
     const tileSize = gridSize || 50;
@@ -75,7 +82,11 @@ const ShadowOverlay = () => {
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        if (!lightingEnabled || Object.keys(shadowDataRef.current).length === 0) {
+        const sun = sunSettings || { azimuth: 135, elevation: 45, intensity: 1.0, ambient: 0.2 };
+        const sunActive = sun.intensity > 0.05;
+        const hasLightShadows = Object.keys(shadowDataRef.current).length > 0;
+
+        if (!lightingEnabled || (!hasLightShadows && !sunActive)) {
             return;
         }
 
@@ -132,6 +143,79 @@ const ShadowOverlay = () => {
                 ctx.fillRect(screenX, screenY, screenSize, screenSize);
             }
         });
+
+        // === Directional sun shadows: walls projected along azimuth/elevation ===
+        if (sunActive && wallShadowsEnabled !== false) {
+            const gridSystem = getGridSystem();
+            const elevationRad = Math.max(5, Math.min(90, sun.elevation ?? 45)) * (Math.PI / 180);
+            const azimuthRad = ((sun.azimuth ?? 135) * Math.PI) / 180;
+            const shadowAlpha = Math.min(0.45, 0.4 * sun.intensity * (1 - (sun.ambient ?? 0.2)));
+            const wallHeightWorld = tileSize * 1.8;
+            const maxShadowWorld = tileSize * 6;
+            const projectionScale = 1 / Math.tan(elevationRad);
+            const dirX = Math.sin(azimuthRad);
+            const dirY = Math.cos(azimuthRad);
+
+            ctx.save();
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = `rgba(0, 0, 0, ${shadowAlpha})`;
+
+            let renderedShadows = 0;
+            for (const [wallKey, wall] of Object.entries(wallData || {})) {
+                if (renderedShadows >= 400) break;
+                if (wall?.state === 'open') continue;
+                const typeId = wall?.type;
+                if (typeof typeId === 'string' && (
+                    typeId.includes('window') ||
+                    typeId === 'magical_barrier' ||
+                    typeId === 'force_wall'
+                )) {
+                    continue;
+                }
+
+                const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
+                if (![wx1, wy1, wx2, wy2].every(Number.isFinite)) continue;
+
+                let world1;
+                let world2;
+                if (gridType === 'hex') {
+                    const edge = gridSystem.getHexEdge(wx1, wy1, wx2, wy2);
+                    if (!edge) continue;
+                    world1 = edge.start;
+                    world2 = edge.end;
+                } else {
+                    world1 = gridSystem.gridToWorldCorner(wx1, wy1);
+                    world2 = gridSystem.gridToWorldCorner(wx2, wy2);
+                }
+
+                const height = Number.isFinite(wall?.height) ? wall.height : wallHeightWorld;
+                const shadowLength = Math.min(maxShadowWorld, height * projectionScale);
+                const offX = dirX * shadowLength;
+                const offY = dirY * shadowLength;
+
+                const b1 = gridSystem.worldToScreen(world1.x, world1.y, viewportWidth, viewportHeight);
+                const b2 = gridSystem.worldToScreen(world2.x, world2.y, viewportWidth, viewportHeight);
+                const t1 = gridSystem.worldToScreen(world1.x + offX, world1.y + offY, viewportWidth, viewportHeight);
+                const t2 = gridSystem.worldToScreen(world2.x + offX, world2.y + offY, viewportWidth, viewportHeight);
+
+                const maxX = Math.max(b1.x, b2.x, t1.x, t2.x);
+                const minX = Math.min(b1.x, b2.x, t1.x, t2.x);
+                const maxY = Math.max(b1.y, b2.y, t1.y, t2.y);
+                const minY = Math.min(b1.y, b2.y, t1.y, t2.y);
+                if (maxX < 0 || minX > viewportWidth || maxY < 0 || minY > viewportHeight) continue;
+
+                ctx.beginPath();
+                ctx.moveTo(b1.x, b1.y);
+                ctx.lineTo(b2.x, b2.y);
+                ctx.lineTo(t2.x, t2.y);
+                ctx.lineTo(t1.x, t1.y);
+                ctx.closePath();
+                ctx.fill();
+                renderedShadows++;
+            }
+
+            ctx.restore();
+        }
     }, [
         lightingEnabled,
         performanceMode,
@@ -140,7 +224,14 @@ const ShadowOverlay = () => {
         effectiveZoom,
         tileSize,
         gridOffsetX,
-        gridOffsetY
+        gridOffsetY,
+        sunSettings,
+        wallData,
+        gridType,
+        viewMode,
+        viewRotation,
+        viewTilt,
+        wallShadowsEnabled
     ]);
 
     // Update shadows when dependencies change
@@ -186,7 +277,7 @@ const ShadowOverlay = () => {
                 width: '100vw',
                 height: '100vh',
                 pointerEvents: 'none',
-                zIndex: 160, // Above light sources but below UI
+                zIndex: 7, // Ground shadows: above terrain (2), below walls (8/9) and tokens
                 opacity: isGMMode ? 1 : 0.8 // Slightly more visible for GM
             }}
         />

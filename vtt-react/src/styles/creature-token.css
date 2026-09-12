@@ -13,6 +13,24 @@
   will-change: transform;
 }
 
+.token-occlusion-ring {
+  position: absolute;
+  inset: -5px;
+  border-radius: inherit;
+  border: 2px dashed rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 0 0 1px rgba(18, 18, 18, 0.6),
+    0 0 10px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  z-index: 7;
+  animation: tokenOcclusionPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes tokenOcclusionPulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
 /* Alternate rotation direction for even/odd rings */
 .condition-ring-wrapper.condition-ring-1,
 .condition-ring-wrapper.condition-ring-3,

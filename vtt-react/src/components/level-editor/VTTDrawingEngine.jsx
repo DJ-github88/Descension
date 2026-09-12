@@ -32,7 +32,10 @@ const VTTDrawingEngine = () => {
         cameraY,
         zoomLevel,
         playerZoom,
-        isGMMode
+        isGMMode,
+        viewMode,
+        viewRotation,
+        viewTilt
     } = useGameStore();
 
     // Calculate effective zoom and transformations
@@ -206,7 +209,7 @@ const VTTDrawingEngine = () => {
 
             ctx.restore();
         }
-    }, [drawingPaths, drawingLayers, effectiveZoom, gridToScreen, isCurrentlyDrawing, currentDrawingPath, currentDrawingTool, toolSettings, cameraX, cameraY]);
+    }, [drawingPaths, drawingLayers, effectiveZoom, gridToScreen, isCurrentlyDrawing, currentDrawingPath, currentDrawingTool, toolSettings, cameraX, cameraY, viewMode, viewRotation, viewTilt]);
 
     // Render freehand drawing with perfect-freehand smooth tapering
     const renderFreehandPath = (ctx, points) => {
@@ -627,7 +630,7 @@ const VTTDrawingEngine = () => {
 
             ctx.restore();
         }
-    }, [currentDrawingPath, currentDrawingTool, isCurrentlyDrawing, toolSettings, effectiveZoom]);
+    }, [currentDrawingPath, currentDrawingTool, isCurrentlyDrawing, toolSettings, effectiveZoom, viewMode, viewRotation, viewTilt]);
 
     // Update canvas when dependencies change
     useEffect(() => {

@@ -37,7 +37,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t1_spectral_warden",
     name: "Spectral Warden",
-    icon: "spell_shadow_shackleundead",
+    icon: "Necrotic/Crossed Bones 1",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -215,7 +215,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t5_iron_bars",
     name: "Iron Bars",
-    icon: "ability_warrior_shieldmastery",
+    icon: "Utility/Horned Shield Creature",
     maxRanks: 3,
     position: { x: 0.5, y: 4 },
     requires: "wj_t4_execution_chamber",
@@ -318,7 +318,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t7_iron_city",
     name: "The Iron City",
-    icon: "spell_shadow_shackleundead",
+    icon: "Necrotic/Golden Dollar Bones",
     maxRanks: 1,
     position: { x: 0, y: 6 },
     requires: "wj_t6_vengeance_unleashed",
@@ -364,7 +364,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t7_cruel_architecture",
     name: "Cruel Architecture",
-    icon: "spell_shadow_curseofsargeras",
+    icon: "Necrotic/Crowned Skull",
     maxRanks: 3,
     position: { x: 2, y: 6 },
     requires: "wj_t6_wardens_attention",
@@ -407,7 +407,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t7_panopticon",
     name: "Panopticon",
-    icon: "spell_shadow_truevision",
+    icon: "Void/All Seeing Eye",
     maxRanks: 3,
     position: { x: 4, y: 6 },
     requires: "wj_t6_transfer_sentence",

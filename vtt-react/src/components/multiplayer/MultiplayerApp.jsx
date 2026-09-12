@@ -1012,6 +1012,19 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Clear party members so HUD doesn't persist stale player entries
     usePartyStore.getState().clearPartyMembers();
 
+    // Clear exploration memory/fog so re-entering a room starts with a clean view
+    import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
+      const editorStore = useLevelEditorStore.getState();
+      if (editorStore.clearAllFogAndMemories) {
+        editorStore.clearAllFogAndMemories();
+      }
+      if (editorStore.setViewingFromToken) {
+        editorStore.setViewingFromToken(null);
+      }
+    }).catch((error) => {
+      console.warn('Failed to clear exploration memory on leave:', error);
+    });
+
     // Clear multiplayer players from chat system immediately
     connectedPlayers.forEach(player => {
       removeUser(player.id);

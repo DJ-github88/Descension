@@ -163,7 +163,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t3_runic_matrix",
     name: "Runic Matrix",
-    icon: "spell_arcane_rune",
+    icon: "Arcane/Angular Rune",
     maxRanks: 2,
     position: { x: 1, y: 2 },
     requires: "sa_t2_sphere_lock",
@@ -219,7 +219,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t4_sphere_network",
     name: "Sphere Network",
-    icon: "spell_arcane_arcanetorrent",
+    icon: "Psychic/Mind Growth",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "sa_t3_runic_matrix",
@@ -322,7 +322,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t6_arcane_efficiency",
     name: "Arcane Efficiency",
-    icon: "spell_arcane_arcane04",
+    icon: "Arcane/Magical Duel",
     maxRanks: 2,
     position: { x: 0.5, y: 5 },
     requires: "sa_t5_runic_ascendancy",
@@ -341,7 +341,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t6_rune_optimization",
     name: "Rune Optimization",
-    icon: "spell_arcane_rune",
+    icon: "Psychic/Psionic Rune",
     maxRanks: 3,
     position: { x: 2.5, y: 5 },
     requires: "sa_t5_crystal_bastion",
@@ -363,7 +363,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t7_elemental_convergence",
     name: "Elemental Convergence",
-    icon: "spell_arcane_portalironforge",
+    icon: "Psychic/Elemental Bloom",
     maxRanks: 1,
     position: { x: 0, y: 6 },
     requires: "sa_t5_runic_ascendancy",
@@ -407,7 +407,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t7_deep_vault",
     name: "Deep Vault",
-    icon: "inv_misc_gem_bubble",
+    icon: "Utility/Glowing Empowered Figure",
     maxRanks: 3,
     position: { x: 2, y: 6 },
     requires: "sa_t6_rune_optimization",
@@ -427,7 +427,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t7_matrix_lattice",
     name: "Matrix Lattice",
-    icon: "spell_arcane_rune",
+    icon: "Psychic/Telepathic Arcane",
     maxRanks: 3,
     position: { x: 3, y: 6 },
     requires: "sa_t6_rune_optimization",
@@ -449,7 +449,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t7_first_contracts_heir",
     name: "First Contract's Heir",
-    icon: "spell_arcane_portal_dalaran",
+    icon: "Arcane/Beckon Faith",
     maxRanks: 3,
     position: { x: 4, y: 6 },
     requires: "sa_t5_crystal_bastion",

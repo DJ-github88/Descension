@@ -4,6 +4,8 @@ import useGridItemStore from '../../store/gridItemStore';
 import useGameStore from '../../store/gameStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import { getTileElevation } from '../../utils/ElevationUtils';
+import { isWorldAreaPartiallyOccluded } from '../../utils/WallOcclusion';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../common/useTooltipPosition';
@@ -29,6 +31,9 @@ const GridItem = ({ gridItem }) => {
   const effectiveZoom = zoomLevel * playerZoom;
   const gridSystem = getGridSystem();
 
+  // Re-render when the camera projection changes (yaw/tilt/mode)
+  const viewTransformKey = useGameStore(state => `${state.viewMode}|${state.viewRotation}|${state.viewTilt}`);
+
   // Get level editor state for visibility calculations
   const isGMMode = useGameStore(state => state.isGMMode); // Note: isGMMode is in gameStore
   const viewingFromToken = useLevelEditorStore(state => state.viewingFromToken);
@@ -39,6 +44,8 @@ const GridItem = ({ gridItem }) => {
   // Used to determine if fog is covering the map (needs to hide items for no-token players)
   const fogOfWarPaths = useLevelEditorStore(state => state.fogOfWarPaths);
   const fogOfWarData = useLevelEditorStore(state => state.fogOfWarData);
+  const elevationData = useLevelEditorStore(state => state.elevationData);
+  const wallDataForOcclusion = useLevelEditorStore(state => state.wallData);
 
   // Compute visibleAreaSet for O(1) lookups
   const visibleAreaSet = useMemo(() => {
@@ -179,14 +186,39 @@ const GridItem = ({ gridItem }) => {
 
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    const screenPos = gridSystem.worldToScreen(itemPosition.x, itemPosition.y, viewportWidth, viewportHeight);
+    const itemGridCoords = gridSystem.worldToGrid(itemPosition.x, itemPosition.y);
+    const itemElevationLevel = getTileElevation(elevationData, itemGridCoords.x, itemGridCoords.y);
+    const screenPos = gridSystem.worldToScreen3D(
+      itemPosition.x,
+      itemPosition.y,
+      itemElevationLevel * (gridSystem.getGridState().gridSize || 50),
+      viewportWidth,
+      viewportHeight
+    );
 
     // Round to integers to prevent sub-pixel jitter/flickering
     return {
       x: Math.round(screenPos.x),
       y: Math.round(screenPos.y)
     };
-  }, [itemPosition, gridSystem, cameraX, cameraY, effectiveZoom]);
+  }, [itemPosition, gridSystem, cameraX, cameraY, effectiveZoom, elevationData, viewTransformKey]);
+
+  // Partial-view indicator: dim + stipple when the orb is behind a wall/cliff
+  const isOccluded = useMemo(() => {
+    if (!itemPosition || !gridSystem) return false;
+    try {
+      return isWorldAreaPartiallyOccluded({
+        worldX: itemPosition.x,
+        worldY: itemPosition.y,
+        radiusWorld: (gridSize || 50) * 0.3,
+        wallData: wallDataForOcclusion,
+        elevationData,
+        gridSystem
+      });
+    } catch (err) {
+      return false;
+    }
+  }, [itemPosition, gridSystem, wallDataForOcclusion, elevationData, gridSize, cameraX, cameraY, effectiveZoom, viewTransformKey]);
 
   // Handle interactions
   const handleMouseEnter = (e) => {
@@ -340,6 +372,8 @@ const GridItem = ({ gridItem }) => {
           backgroundColor: 'transparent',
           backgroundRepeat: 'no-repeat',
           cursor: 'grab',
+          opacity: isOccluded ? 0.55 : undefined,
+          filter: isOccluded ? 'saturate(0.65) brightness(0.9)' : undefined,
           zIndex: 90,
           pointerEvents: 'all',
           willChange: 'transform'
@@ -348,6 +382,7 @@ const GridItem = ({ gridItem }) => {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
+        {isOccluded && <span className="token-occlusion-ring" aria-hidden="true" />}
         {!item.iconId && (
           <div style={{
             width: '100%',

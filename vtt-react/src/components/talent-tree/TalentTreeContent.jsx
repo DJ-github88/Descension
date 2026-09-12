@@ -126,6 +126,11 @@ export const getNodeTier = (node) => {
 // Points required in the current tree to unlock a given tier (5 points per tier, WoW Classic style)
 export const getRequiredPointsForTier = (tier) => Math.max(0, (tier - 1) * (TALENT_SYSTEM?.POINTS_PER_TIER_GATE || 5));
 
+// Tree board layout constraints — keep nodes legible and guaranteed non-overlapping.
+const MAX_BOARD_WIDTH = 1000;   // desktop cap so the board does not stretch endlessly
+const MIN_NODE_SIZE = 42;       // smallest tappable/legible node before we scroll instead
+const NODE_GAP = 10;            // minimum empty space between two neighbouring nodes
+
 // Format spell meta chips (AP, Resource, Range, CD, Reaction, Trigger)
 const renderSpellMetaChips = (spell) => {
     if (!spell) return null;
@@ -316,31 +321,34 @@ export const TalentTreeContent = ({
         }
     }, [currentCharacterId, readOnly]);
 
-    // Responsive container sizing for smooth scrolling tree board
+    // Responsive container sizing. We always measure the scroll container (never
+    // the board itself) so a board that grows wider than the viewport can expose
+    // horizontal scrolling without feeding its own size back into the layout.
     useEffect(() => {
-        const updateDims = () => {
-            if (boardRef.current) {
-                const scrollParent = boardRef.current.closest('.talent-tree-scroll-container') || boardRef.current.parentElement;
-                const parentRect = scrollParent?.getBoundingClientRect();
-                const availableW = boardRef.current.clientWidth || (parentRect?.width ? parentRect.width - 64 : 440);
-                const availableH = parentRect?.clientHeight || (parentRect?.height ? parentRect.height - 24 : 540);
+        const getScrollParent = () =>
+            boardRef.current?.closest('.talent-tree-scroll-container') || boardRef.current?.parentElement || null;
 
-                setGridDims({
-                    width: Math.max(320, availableW),
-                    height: Math.max(300, availableH)
-                });
-            }
+        const updateDims = () => {
+            const scrollParent = getScrollParent();
+            if (!scrollParent) return;
+            const cs = window.getComputedStyle(scrollParent);
+            const padX = (parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0);
+            const padY = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
+            const availableW = Math.max(240, scrollParent.clientWidth - padX);
+            const availableH = Math.max(300, scrollParent.clientHeight - padY);
+            setGridDims(prev => (
+                prev.width === availableW && prev.height === availableH
+                    ? prev
+                    : { width: availableW, height: availableH }
+            ));
         };
 
         updateDims();
         let ro = null;
-        if (typeof ResizeObserver !== 'undefined' && boardRef.current) {
+        const scrollParent = getScrollParent();
+        if (typeof ResizeObserver !== 'undefined' && scrollParent) {
             ro = new ResizeObserver(updateDims);
-            ro.observe(boardRef.current);
-            const parent = boardRef.current.parentElement;
-            if (parent) {
-                ro.observe(parent);
-            }
+            ro.observe(scrollParent);
         } else {
             window.addEventListener('resize', updateDims);
         }
@@ -571,10 +579,19 @@ export const TalentTreeContent = ({
         setHoveredTalentId(null);
     };
 
-    // Analyze current tree coordinate system to guarantee balanced auto-centering and full visibility
+    // Analyze the tree's coordinate system so every node can be placed without
+    // ever overlapping its neighbours, regardless of viewport width.
     const treeAnalysis = React.useMemo(() => {
         const talentsList = currentTree?.talents || [];
-        if (!talentsList.length) return { xMode: '5-col-fractional', maxTreeY: 6, tierMap: {} };
+
+        const tierMap = {};
+        for (let tier = 1; tier <= 7; tier++) {
+            tierMap[tier] = tier - 1;
+        }
+
+        if (!talentsList.length) {
+            return { columns: [], minX: 0, maxX: 4, minGap: 1, maxTreeY: 6, tierMap };
+        }
 
         const xs = talentsList.map(t => t.position?.x ?? 0);
         const ys = talentsList.map(t => t.position?.y ?? 0);
@@ -582,50 +599,57 @@ export const TalentTreeContent = ({
         const maxX = Math.max(...xs);
         const maxTreeY = Math.max(...ys, 6);
 
-        let xMode = '5-col-fractional';
-        if (minX >= 1 && maxX <= 3) {
-            xMode = '3-col';
-        } else if (minX === 0) {
-            xMode = '5-col-index';
-        } else {
-            xMode = '5-col-fractional';
+        const columns = Array.from(new Set(xs)).sort((a, b) => a - b);
+        let minGap = Infinity;
+        for (let i = 1; i < columns.length; i++) {
+            minGap = Math.min(minGap, columns[i] - columns[i - 1]);
         }
+        if (!isFinite(minGap) || minGap <= 0) minGap = 1;
 
-        const tierMap = {};
         for (let tier = 1; tier <= 7; tier++) {
             const tierTalents = talentsList.filter(t => t.id && t.id.toLowerCase().includes(`_t${tier}_`));
             if (tierTalents.length > 0) {
                 tierMap[tier] = tierTalents[0].position?.y ?? (tier - 1);
-            } else {
-                tierMap[tier] = tier - 1;
             }
         }
 
-        return { xMode, maxTreeY, tierMap };
+        return { columns, minX, maxX, minGap, maxTreeY, tierMap };
     }, [currentTree]);
 
     const cellHeight = Math.max(76, Math.floor(gridDims.height / 7));
     const boardHeight = Math.ceil((treeAnalysis.maxTreeY + 1.2) * cellHeight);
-    const talentSize = Math.min(Math.max(48, Math.min(gridDims.width * 0.14, cellHeight * 0.74)), 70);
+
+    // Preferred node size: readable, but never taller than a tier row.
+    const desiredNodeSize = Math.max(
+        MIN_NODE_SIZE,
+        Math.min(64, gridDims.width * 0.16, cellHeight * 0.74)
+    );
+    const sideMargin = Math.max(desiredNodeSize / 2 + 14, 42);
+
+    // Fit the tree to the viewport when possible. When the tightest column pair
+    // would collide at the preferred node size, grow the board beyond the
+    // viewport and let the scroll container pan horizontally instead of
+    // squeezing/overlapping the icons.
+    const xRange = treeAnalysis.maxX - treeAnalysis.minX;
+    const availableContentWidth = Math.min(gridDims.width, MAX_BOARD_WIDTH);
+    const availableScale = xRange > 0 ? (availableContentWidth - sideMargin * 2) / xRange : 0;
+    const minScale = treeAnalysis.columns.length > 1
+        ? (desiredNodeSize + NODE_GAP) / treeAnalysis.minGap
+        : 0;
+    const xScale = Math.max(availableScale, minScale, 0.0001);
+    const contentWidth = Math.max(availableContentWidth, xRange * xScale + sideMargin * 2);
+    const talentSize = treeAnalysis.columns.length > 1
+        ? Math.min(desiredNodeSize, treeAnalysis.minGap * xScale - NODE_GAP)
+        : desiredNodeSize;
 
     const getNodePos = useCallback((x, y) => {
-        const safeMargin = Math.max(talentSize / 2 + 14, 40);
-        const safeWidth = Math.max(100, gridDims.width - safeMargin * 2);
-
-        let normX;
-        if (treeAnalysis.xMode === '3-col') {
-            normX = (x - 1) / 2.0;
-        } else if (treeAnalysis.xMode === '5-col-index') {
-            normX = x / 4.0;
-        } else {
-            normX = (x - 0.5) / 4.0;
-        }
-
-        normX = Math.max(0, Math.min(1, normX));
-        const posX = safeMargin + normX * safeWidth;
         const posY = y * cellHeight + cellHeight / 2;
+        if (xRange <= 0) {
+            return { posX: contentWidth / 2, posY };
+        }
+        const posX = sideMargin + (x - treeAnalysis.minX) * xScale;
         return { posX, posY };
-    }, [treeAnalysis, gridDims.width, cellHeight, talentSize]);
+    }, [treeAnalysis, cellHeight, contentWidth, sideMargin, xScale, xRange]);
 
     if (!trees || trees.length === 0) {
         return (
@@ -893,13 +917,16 @@ export const TalentTreeContent = ({
                                 className="talent-grid-board"
                                 style={{
                                     height: `${boardHeight}px`,
-                                    minHeight: `${boardHeight}px`
+                                    minHeight: `${boardHeight}px`,
+                                    width: `${contentWidth}px`,
+                                    maxWidth: 'none',
+                                    margin: '0 auto'
                                 }}
                             >
                                 <TalentArrowRenderer
                                     talents={currentTree?.talents || []}
                                     learnedTalents={talents}
-                                    cellWidth={gridDims.width / 5}
+                                    cellWidth={contentWidth / 5}
                                     cellHeight={cellHeight}
                                     talentSize={talentSize}
                                     getNodePos={getNodePos}

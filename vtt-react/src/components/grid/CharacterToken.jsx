@@ -8,6 +8,8 @@ import useGameStore from '../../store/gameStore';
 import useCombatStore from '../../store/combatStore';
 import useConditionStore from '../../store/conditionStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
+import { getTileElevation, screenToWorldElevated } from '../../utils/ElevationUtils';
+import { isWorldAreaPartiallyOccluded } from '../../utils/WallOcclusion';
 // Removed useEnhancedMultiplayer import - hook was removed
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { getIconUrl } from '../../utils/assetManager';
@@ -201,6 +203,11 @@ const CharacterToken = ({
   const setTokenFacingDirection = useLevelEditorStore(state => state.setTokenFacingDirection);
   const setTokenVision = useLevelEditorStore(state => state.setTokenVision);
   const tokenVisionRanges = useLevelEditorStore(state => state.tokenVisionRanges);
+  const elevationData = useLevelEditorStore(state => state.elevationData);
+  const wallDataForOcclusion = useLevelEditorStore(state => state.wallData);
+  const viewModeForOcclusion = useGameStore(state => state.viewMode);
+  const viewRotationForOcclusion = useGameStore(state => state.viewRotation);
+  const viewTiltForOcclusion = useGameStore(state => state.viewTilt);
   // Fog content: used to hide tokens for players with no viewing token when the map is fogged
   const fogOfWarPaths = useLevelEditorStore(state => state.fogOfWarPaths);
   const fogOfWarData = useLevelEditorStore(state => state.fogOfWarData);
@@ -430,11 +437,52 @@ const CharacterToken = ({
   // because localPosition is protected by the grace period logic in useEffect
   const currentPos = localPosition;
 
+  // Lift tokens to their tile's elevation in 2.5D (world z = level * gridSize)
+  const getElevationWorldZ = useCallback((worldX, worldY) => {
+    if (!elevationData || !gridSystem) return 0;
+    const tile = gridSystem.worldToGrid(worldX, worldY);
+    const level = getTileElevation(elevationData, tile.x, tile.y);
+    if (!level) return 0;
+    const { gridSize: gs } = gridSystem.getGridState();
+    return level * (gs || 50);
+  }, [elevationData, gridSystem]);
+
+  // "Behind the wall" indicator for 2.5D projected views
+  const isBehindWall = useMemo(() => {
+    if (!position || !gridSystem) return false;
+    try {
+      return isWorldAreaPartiallyOccluded({
+        worldX: position.x,
+        worldY: position.y,
+        radiusWorld: (tokenGridSize || 50) * 0.4,
+        wallData: wallDataForOcclusion,
+        elevationData,
+        gridSystem
+      });
+    } catch (err) {
+      return false;
+    }
+  }, [position, gridSystem, wallDataForOcclusion, elevationData, tokenGridSize, viewModeForOcclusion, viewRotationForOcclusion, viewTiltForOcclusion]);
+
+  // 2.5D ground conformance: squash the token vertically by the projection tilt
+  // (clamped so low-angle views stay readable).
+  const groundSquash = useMemo(() => {
+    try {
+      const transform = gridSystem.getProjectionTransform(window.innerWidth, window.innerHeight);
+      return Math.max(0.5, Math.min(1, transform.sinTilt));
+    } catch (err) {
+      return 1;
+    }
+  }, [gridSystem, viewModeForOcclusion, viewRotationForOcclusion, viewTiltForOcclusion]);
+  const groundSquashRef = useRef(groundSquash);
+  groundSquashRef.current = groundSquash;
+
   const initialScreenPosition = useMemo(() => {
     if (!currentPos) return { x: 0, y: 0 };
-    const screenPos = gridSystem ? gridSystem.worldToScreen(
+    const screenPos = gridSystem ? gridSystem.worldToScreen3D(
       currentPos.x,
       currentPos.y,
+      getElevationWorldZ(currentPos.x, currentPos.y),
       window.innerWidth,
       window.innerHeight
     ) : { x: 0, y: 0 };
@@ -443,7 +491,7 @@ const CharacterToken = ({
       x: Math.round(screenPos.x),
       y: Math.round(screenPos.y)
     };
-  }, [currentPos, gridSystem]);
+  }, [currentPos, gridSystem, getElevationWorldZ]);
 
   const screenPositionRef = useRef(initialScreenPosition);
   const cameraUpdateRafRef = useRef(null);
@@ -454,9 +502,10 @@ const CharacterToken = ({
 
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    const newPosition = gridSystem.worldToScreen(
+    const newPosition = gridSystem.worldToScreen3D(
       worldPosition.x,
       worldPosition.y,
+      getElevationWorldZ(worldPosition.x, worldPosition.y),
       viewportWidth,
       viewportHeight
     );
@@ -470,9 +519,9 @@ const CharacterToken = ({
     const element = tokenRef.current;
     if (element) {
       // Use transform3d for GPU-accelerated positioning
-      element.style.transform = `translate3d(${roundedX}px, ${roundedY}px, 0) translate(-50%, -50%)`;
+      element.style.transform = `translate3d(${roundedX}px, ${roundedY}px, 0) translate(-50%, -50%) scaleY(${groundSquashRef.current})`;
     }
-  }, [gridSystem]);
+  }, [gridSystem, getElevationWorldZ]);
 
   useEffect(() => {
     currentPosRef.current = currentPos;
@@ -512,7 +561,10 @@ const CharacterToken = ({
         state.cameraX !== prevState.cameraX ||
         state.cameraY !== prevState.cameraY ||
         state.zoomLevel !== prevState.zoomLevel ||
-        state.playerZoom !== prevState.playerZoom
+        state.playerZoom !== prevState.playerZoom ||
+        state.viewMode !== prevState.viewMode ||
+        state.viewRotation !== prevState.viewRotation ||
+        state.viewTilt !== prevState.viewTilt
       ) {
         handleCameraChange();
       }
@@ -815,9 +867,10 @@ const CharacterToken = ({
     // Calculate screen position directly at drag start for accuracy
     // Use currentPos (localPosition) to ensure we drag from where the token VISUALLY is
     const dragStartPos = currentPos;
-    const currentScreenPos = gridSystem ? gridSystem.worldToScreen(
+    const currentScreenPos = gridSystem ? gridSystem.worldToScreen3D(
       dragStartPos.x,
       dragStartPos.y,
+      getElevationWorldZ(dragStartPos.x, dragStartPos.y),
       window.innerWidth,
       window.innerHeight
     ) : { x: 0, y: 0 };
@@ -957,7 +1010,12 @@ const CharacterToken = ({
       const viewportHeight = window.innerHeight;
 
       // Convert screen position back to world coordinates
-      const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
+      const worldPos = screenToWorldElevated({
+        screenX,
+        screenY,
+        gridSystem,
+        elevationData
+      }) || gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
 
       // Handle expensive operations with simple time-based throttling (no RAF)
       const now = Date.now();
@@ -1126,11 +1184,14 @@ const CharacterToken = ({
       // If no wall-respecting path exists from the drag start to the drop
       // position, revert to the drag start instead of moving through walls.
       const wallData = levelEditorStore.wallData;
+      const elevationData = levelEditorStore.elevationData;
+      const rampData = levelEditorStore.rampData;
       const hasWalls = wallData && Object.keys(wallData).length > 0;
+      const hasElevation = elevationData && Object.keys(elevationData).length > 0;
       let dropAllowed = true;
-      if (hasWalls && dragStartPosition) {
+      if ((hasWalls || hasElevation) && dragStartPosition) {
         try {
-          const pathResult = gridSystem.findPath(dragStartPosition, snappedWorldPos, wallData, {}, {});
+          const pathResult = gridSystem.findPath(dragStartPosition, snappedWorldPos, wallData, {}, { elevationData, rampData });
           dropAllowed = !pathResult?.blocked;
         } catch (pathErr) {
           console.warn('Wall path check failed, allowing drop:', pathErr);
@@ -1175,6 +1236,29 @@ const CharacterToken = ({
 
       // CRITICAL FIX: Handle combat movement validation if in combat
       if (isInCombat && dragStartPosition) {
+        // Walls/elevation block combat movement too (pathfinder check, not geometry-only)
+        const combatEditorState = useLevelEditorStore.getState();
+        const combatWallData = combatEditorState.wallData;
+        const combatElevationData = combatEditorState.elevationData;
+        const combatRampData = combatEditorState.rampData;
+        const combatHasWalls = combatWallData && Object.keys(combatWallData).length > 0;
+        const combatHasElevation = combatElevationData && Object.keys(combatElevationData).length > 0;
+        if (combatHasWalls || combatHasElevation) {
+          try {
+            const combatPath = gridSystem.findPath(dragStartPosition, snappedWorldPos, combatWallData, {}, {
+              elevationData: combatElevationData,
+              rampData: combatRampData
+            });
+            if (combatPath?.blocked) {
+              setLocalPosition(dragStartPosition);
+              setShowTooltip(false);
+              return;
+            }
+          } catch (combatPathErr) {
+            console.warn('Combat wall path check failed, allowing drop:', combatPathErr);
+          }
+        }
+
         // Validate movement - combatStore handles character tokens internally
         const validation = validateMovement(tokenId, dragStartPosition, snappedWorldPos, [], feetPerTile);
 
@@ -2066,8 +2150,10 @@ const CharacterToken = ({
           height: `${tokenSize}px`,
           borderColor: isViewingFrom ? '#4a6a8a' : (isMyTurn ? '#FFD700' : isTargeted ? '#9a5e15' : characterData.tokenSettings.borderColor),
           zIndex: isDragging ? 1000 : 150, // Higher z-index to be above ObjectSystem canvas (20) and grid tiles (10)
+          opacity: isBehindWall ? 0.55 : undefined,
+          filter: isBehindWall ? 'saturate(0.65) brightness(0.9)' : undefined,
           position: 'absolute',
-          transform: `translate3d(${screenPosition.x}px, ${screenPosition.y}px, 0) translate(-50%, -50%)`,
+          transform: `translate3d(${screenPosition.x}px, ${screenPosition.y}px, 0) translate(-50%, -50%) scaleY(${groundSquash})`,
           willChange: 'transform',
           borderRadius: '50%',
           border: `3px solid ${isViewingFrom ? '#4a6a8a' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#506e30' : isTargeted ? '#9a5e15' : characterData.tokenSettings.borderColor)}`,
@@ -2103,6 +2189,7 @@ const CharacterToken = ({
         onPointerCancel={longPressHandlers.onPointerCancel}
         onClick={handleTokenClick}
       >
+        {isBehindWall && <span className="token-occlusion-ring" aria-hidden="true" />}
         {/* Condition rings with text - staggered outward for multiple conditions */}
         {conditionEffects.map((effect, index) => {
           const pathId = `${tokenId}-${effect.key}-ring-path`;

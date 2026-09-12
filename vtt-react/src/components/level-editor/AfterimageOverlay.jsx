@@ -271,6 +271,7 @@ const AfterimageOverlay = () => {
         const maxScreenY = viewport.height + padding;
 
         const tileSize = gridSize * effectiveZoom;
+        const ghostSinTilt = gridSystem.getProjectionTransform(viewport.width, viewport.height).sinTilt;
         const levelEditorStore = useLevelEditorStore.getState();
 
         // DEBUG: Log player memory state (throttled to every 2 seconds)
@@ -343,13 +344,44 @@ const AfterimageOverlay = () => {
         const snapshotEntries = Object.entries(currentMemorySnapshots);
         const maxTerrainToRender = 400; // was 100 — caused patchy ghosts on big areas
 
-        const drawTerrainGhostTile = (terrainType, variationIndex, screenPos) => {
+        const drawTerrainGhostTile = (terrainType, variationIndex, screenPos, worldPos = null) => {
             const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
             if (!terrain) return false;
 
             const tileVariationPath = terrain.tileVariations?.length
                 ? (terrain.tileVariations[variationIndex] || terrain.tileVariations[0])
                 : (terrain.texture || null);
+
+            // Projected footprint quad (2.5D) so ghosts hug the tilted ground
+            const traceProjectedTile = (targetCtx, fallbackX, fallbackY, size) => {
+                if (worldPos && ghostSinTilt < 0.999) {
+                    const half = gridSize / 2;
+                    const q1 = worldToScreen(worldPos.x - half, worldPos.y - half);
+                    const q2 = worldToScreen(worldPos.x + half, worldPos.y - half);
+                    const q3 = worldToScreen(worldPos.x + half, worldPos.y + half);
+                    const q4 = worldToScreen(worldPos.x - half, worldPos.y + half);
+                    targetCtx.beginPath();
+                    targetCtx.moveTo(q1.x, q1.y);
+                    targetCtx.lineTo(q2.x, q2.y);
+                    targetCtx.lineTo(q3.x, q3.y);
+                    targetCtx.lineTo(q4.x, q4.y);
+                    targetCtx.closePath();
+                    return {
+                        minX: Math.min(q1.x, q2.x, q3.x, q4.x),
+                        minY: Math.min(q1.y, q2.y, q3.y, q4.y),
+                        maxX: Math.max(q1.x, q2.x, q3.x, q4.x),
+                        maxY: Math.max(q1.y, q2.y, q3.y, q4.y)
+                    };
+                }
+                targetCtx.beginPath();
+                targetCtx.rect(fallbackX - size / 2, fallbackY - size / 2, size, size);
+                return {
+                    minX: fallbackX - size / 2,
+                    minY: fallbackY - size / 2,
+                    maxX: fallbackX + size / 2,
+                    maxY: fallbackY + size / 2
+                };
+            };
 
             if (tileVariationPath) {
                 const cachedEntry = imageCacheRef.current.get(tileVariationPath);
@@ -360,7 +392,9 @@ const AfterimageOverlay = () => {
                     if (grayCanvas) {
                         ctx.save();
                         ctx.globalAlpha = 0.6;
-                        ctx.drawImage(grayCanvas, screenPos.x - tileSize / 2, screenPos.y - tileSize / 2);
+                        const bounds = traceProjectedTile(ctx, screenPos.x, screenPos.y, tileSize);
+                        ctx.clip();
+                        ctx.drawImage(grayCanvas, bounds.minX, bounds.minY, bounds.maxX - bounds.minX, bounds.maxY - bounds.minY);
                         ctx.restore();
                         return true;
                     }
@@ -383,11 +417,12 @@ const AfterimageOverlay = () => {
                 ctx.save();
                 ctx.globalAlpha = 0.55;
                 ctx.fillStyle = `rgb(${dr},${dg},${db})`;
-                ctx.fillRect(screenPos.x - tileSize / 2, screenPos.y - tileSize / 2, tileSize, tileSize);
+                traceProjectedTile(ctx, screenPos.x, screenPos.y, tileSize);
+                ctx.fill();
                 ctx.globalAlpha = 0.2;
                 ctx.strokeStyle = `rgb(${Math.floor(dr * 0.7)},${Math.floor(dg * 0.7)},${Math.floor(db * 0.7)})`;
                 ctx.lineWidth = 1;
-                ctx.strokeRect(screenPos.x - tileSize / 2, screenPos.y - tileSize / 2, tileSize, tileSize);
+                ctx.stroke();
                 ctx.restore();
                 return true;
             }
@@ -432,7 +467,7 @@ const AfterimageOverlay = () => {
                 continue;
             }
 
-            if (drawTerrainGhostTile(resolved.terrainType, resolved.variationIndex, screenPos)) {
+            if (drawTerrainGhostTile(resolved.terrainType, resolved.variationIndex, screenPos, worldPos)) {
                 terrainRendered++;
             }
         }
@@ -459,7 +494,7 @@ const AfterimageOverlay = () => {
                     continue;
                 }
 
-                if (drawTerrainGhostTile(resolved.terrainType, resolved.variationIndex, screenPos)) {
+                if (drawTerrainGhostTile(resolved.terrainType, resolved.variationIndex, screenPos, worldPos)) {
                     terrainRendered++;
                 }
             }
@@ -589,14 +624,14 @@ const AfterimageOverlay = () => {
                     : '#888888';
                 ctx.fillStyle = `rgba(${parseInt(safeColor.slice(1, 3), 16)}, ${parseInt(safeColor.slice(3, 5), 16)}, ${parseInt(safeColor.slice(5, 7), 16)}, 0.3)`;
                 ctx.beginPath();
-                ctx.arc(screenPos.x, screenPos.y, orbSize / 2, 0, Math.PI * 2);
+                ctx.ellipse(screenPos.x, screenPos.y, orbSize / 2, (orbSize / 2) * ghostSinTilt, 0, 0, Math.PI * 2);
                 ctx.fill();
 
                 // Draw orb border
                 ctx.strokeStyle = '#667788';
                 ctx.lineWidth = 2;
                 ctx.beginPath();
-                ctx.arc(screenPos.x, screenPos.y, orbSize / 2, 0, Math.PI * 2);
+                ctx.ellipse(screenPos.x, screenPos.y, orbSize / 2, (orbSize / 2) * ghostSinTilt, 0, 0, Math.PI * 2);
                 ctx.stroke();
 
                 // Load and draw icon
@@ -608,7 +643,7 @@ const AfterimageOverlay = () => {
                     if (grayCanvas) {
                         ctx.save();
                         ctx.beginPath();
-                        ctx.arc(screenPos.x, screenPos.y, orbSize / 2 - 2, 0, Math.PI * 2);
+                        ctx.ellipse(screenPos.x, screenPos.y, orbSize / 2 - 2, (orbSize / 2 - 2) * ghostSinTilt, 0, 0, Math.PI * 2);
                         ctx.clip();
                         ctx.drawImage(grayCanvas, screenPos.x - orbSize / 2 + 2, screenPos.y - orbSize / 2 + 2);
                         ctx.restore();
@@ -734,14 +769,14 @@ const AfterimageOverlay = () => {
             // Background
             ctx.fillStyle = 'rgba(80, 70, 100, 0.5)';
             ctx.beginPath();
-            ctx.arc(screenPos.x, screenPos.y, tokenSize / 2, 0, Math.PI * 2);
+            ctx.ellipse(screenPos.x, screenPos.y, tokenSize / 2, (tokenSize / 2) * ghostSinTilt, 0, 0, Math.PI * 2);
             ctx.fill();
 
             // Border
             ctx.strokeStyle = data?.tokenBorder || '#8888aa';
             ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.arc(screenPos.x, screenPos.y, tokenSize / 2, 0, Math.PI * 2);
+            ctx.ellipse(screenPos.x, screenPos.y, tokenSize / 2, (tokenSize / 2) * ghostSinTilt, 0, 0, Math.PI * 2);
             ctx.stroke();
 
             // Load and draw image
@@ -753,7 +788,7 @@ const AfterimageOverlay = () => {
                 if (grayCanvas) {
                     ctx.save();
                     ctx.beginPath();
-                    ctx.arc(screenPos.x, screenPos.y, tokenSize / 2, 0, Math.PI * 2);
+                    ctx.ellipse(screenPos.x, screenPos.y, tokenSize / 2, (tokenSize / 2) * ghostSinTilt, 0, 0, Math.PI * 2);
                     ctx.clip();
                     ctx.drawImage(grayCanvas, screenPos.x - tokenSize / 2, screenPos.y - tokenSize / 2);
                     ctx.restore();
@@ -1015,7 +1050,10 @@ const AfterimageOverlay = () => {
                 state.cameraX !== prevState.cameraX ||
                 state.cameraY !== prevState.cameraY ||
                 state.zoomLevel !== prevState.zoomLevel ||
-                state.playerZoom !== prevState.playerZoom
+                state.playerZoom !== prevState.playerZoom ||
+                state.viewMode !== prevState.viewMode ||
+                state.viewRotation !== prevState.viewRotation ||
+                state.viewTilt !== prevState.viewTilt
             ) {
                 // Use RAF-throttled render for smooth updates during drag
                 if (throttledRenderRef.current) {

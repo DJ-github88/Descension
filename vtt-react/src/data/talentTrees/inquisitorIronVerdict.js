@@ -193,7 +193,7 @@ export const INQUISITOR_IRON_VERDICT = [
   {
     id: "iv_t4_dispel_field",
     name: "Dispel Field",
-    icon: "spell_holy_dispelmagic",
+    icon: "Radiant/Holy Cross",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "iv_t3_dominant_wrath",
@@ -242,7 +242,7 @@ export const INQUISITOR_IRON_VERDICT = [
   {
     id: "iv_t5_counters_doctrine",
     name: "Counter's Doctrine",
-    icon: "spell_holy_counterspell",
+    icon: "Arcane/Magical Staff",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "iv_t4_dispel_field",
@@ -309,7 +309,7 @@ export const INQUISITOR_IRON_VERDICT = [
   {
     id: "iv_t6_verdant_null",
     name: "Verdant Null",
-    icon: "spell_shadow_antimagic",
+    icon: "Arcane/Magical Duel",
     maxRanks: 2,
     position: { x: 3, y: 5 },
     requires: "iv_t5_arcane_dominator",
@@ -330,7 +330,7 @@ export const INQUISITOR_IRON_VERDICT = [
   {
     id: "iv_t7_final_verdict",
     name: "Final Verdict",
-    icon: "spell_holy_divinejudgment",
+    icon: "Radiant/Radiant Hand Cast",
     maxRanks: 1,
     position: { x: 0, y: 6 },
     requires: "iv_t6_the_bench",
@@ -354,7 +354,7 @@ export const INQUISITOR_IRON_VERDICT = [
   {
     id: "iv_t7_long_writ",
     name: "Long Writ",
-    icon: "inv_scroll_03",
+    icon: "Utility/Ornate Symbol",
     maxRanks: 5,
     position: { x: 1, y: 6 },
     requires: "iv_t6_iron_ledger",
@@ -376,7 +376,7 @@ export const INQUISITOR_IRON_VERDICT = [
   {
     id: "iv_t7_contempt_power",
     name: "Contempt of Power",
-    icon: "spell_shadow_manaburn",
+    icon: "Psychic/Telepathic Arcane",
     maxRanks: 3,
     position: { x: 2, y: 6 },
     requires: "iv_t6_iron_ledger",

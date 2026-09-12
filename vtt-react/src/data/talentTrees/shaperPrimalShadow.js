@@ -130,7 +130,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t3_darkness_within",
     name: "Darkness Within",
-    icon: "spell_shadow_shadowform",
+    icon: "Void/Contained Void Barrel",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "ps_t2_phantom_step",
@@ -261,7 +261,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t6_shadow_ascendant",
     name: "Shadow Ascendant",
-    icon: "spell_shadow_demonicempathy",
+    icon: "Necrotic/Demonic Mask",
     maxRanks: 1,
     position: { x: 1.5, y: 5 },
     requires: "ps_t5_dance_of_shadows",
@@ -303,7 +303,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t6_nights_cartography",
     name: "Night's Cartography",
-    icon: "spell_shadow_darkritual",
+    icon: "Necrotic/Ritual of Blood",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "ps_t5_umbral_hunger",
@@ -323,7 +323,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t7_the_silence_between",
     name: "The Silence Between",
-    icon: "spell_shadow_gathershadows",
+    icon: "Void/Crimson Void Shards",
     maxRanks: 1,
     position: { x: 0, y: 6 },
     requires: "ps_t6_shadow_ascendant",
@@ -388,7 +388,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t7_night_terror",
     name: "Night Terror",
-    icon: "spell_shadow_twilight",
+    icon: "Void/Crimson Void Hood",
     maxRanks: 3,
     position: { x: 3, y: 6 },
     requires: "ps_t6_predators_economy",

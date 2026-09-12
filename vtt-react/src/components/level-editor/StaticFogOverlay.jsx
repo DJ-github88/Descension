@@ -4,6 +4,7 @@ import useLevelEditorStore from '../../store/levelEditorStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import { getProjectionTransform as buildProjectionTransform, worldToScreen as projectWorldToScreen } from '../../utils/ProjectionSystem';
 import { calculateVisibilityPolygon } from '../../utils/VisibilityCalculations';
 
 /**
@@ -72,6 +73,9 @@ const StaticFogOverlay = () => {
     const zoomLevel = useGameStore(state => state.zoomLevel) ?? 1;
     const playerZoom = useGameStore(state => state.playerZoom) ?? 1;
     const isGMMode = useGameStore(state => state.isGMMode);
+    const viewMode = useGameStore(state => state.viewMode) || '2d';
+    const viewRotation = useGameStore(state => state.viewRotation) || 0;
+    const viewTilt = useGameStore(state => state.viewTilt);
 
     // PERFORMANCE: RAF-based camera tracking ref: avoids React re-render on every camera move
     const cameraRafRef = useRef(null);
@@ -114,12 +118,21 @@ const StaticFogOverlay = () => {
         const cx = customCameraX ?? cameraX;
         const cy = customCameraY ?? cameraY;
         const cz = customZoom ?? (zoomLevel * playerZoom);
-        
-        return {
-            x: (worldX - cx) * cz + canvas.width / 2,
-            y: (worldY - cy) * cz + canvas.height / 2
-        };
-    }, [cameraX, cameraY, zoomLevel, playerZoom]);
+
+        // Projection-aware: respects camera yaw/tilt in 2.5D and rotated 2D view
+        const transform = buildProjectionTransform({
+            viewMode,
+            viewRotation,
+            viewTilt,
+            effectiveZoom: cz,
+            cameraX: cx,
+            cameraY: cy,
+            viewportWidth: canvas.width,
+            viewportHeight: canvas.height
+        });
+
+        return projectWorldToScreen(worldX, worldY, transform, 0);
+    }, [cameraX, cameraY, zoomLevel, playerZoom, viewMode, viewRotation, viewTilt]);
 
     const screenToWorld = useCallback((screenX, screenY) => {
         const gridSystem = getGridSystem();
@@ -181,8 +194,22 @@ const StaticFogOverlay = () => {
         const effectiveZoom = zoomLevel * playerZoom;
         if (!Number.isFinite(effectiveZoom) || effectiveZoom <= 0) return;
 
-        // PERFORMANCE: Check if anything significant changed before rendering
-        const currentCameraKey = `${cameraX.toFixed(2)},${cameraY.toFixed(2)},${effectiveZoom.toFixed(3)}`;
+        // In 2.5D the ground is foreshortened by sin(tilt). Used to draw world
+        // circles/tiles as projected ellipses/parallelograms instead of screen shapes.
+        const fogSinTilt = buildProjectionTransform({
+            viewMode,
+            viewRotation,
+            viewTilt,
+            effectiveZoom: 1,
+            viewportWidth: 0,
+            viewportHeight: 0
+        }).sinTilt;
+
+        // PERFORMANCE: Check if anything significant changed before rendering.
+        // View mode/yaw/tilt are part of the key: otherwise switching camera
+        // angles reuses the previous projection's fog mask (mixed/stale rendering).
+        const projectionKey = `${viewMode}|${Number(viewRotation || 0).toFixed(1)}|${Number(viewTilt || 90).toFixed(1)}`;
+        const currentCameraKey = `${cameraX.toFixed(2)},${cameraY.toFixed(2)},${effectiveZoom.toFixed(3)},${projectionKey}`;
         const currentVisibilityKey = visibilityPolygon ? visibilityPolygon.length : 0;
         
         const cameraChanged = lastRenderStateRef.current.cameraKey !== currentCameraKey;
@@ -193,10 +220,29 @@ const StaticFogOverlay = () => {
             return;
         }
 
+        // Hard-clear pooled canvases when the projection changes so no stale
+        // rotated mask content survives a mode/tilt/orbit switch.
+        if (lastRenderStateRef.current.projectionKey !== projectionKey) {
+            [
+                primaryMaskCanvasRef.current,
+                exploredUnionCanvasRef.current,
+                creatureShapeCanvasRef.current,
+                creatureMaskCanvasRef.current,
+                offscreenCanvasRef.current,
+                tempCanvasRef.current
+            ].forEach(pooledCanvas => {
+                if (pooledCanvas) {
+                    // Assigning width resets the bitmap and all persistent canvas state
+                    pooledCanvas.width = pooledCanvas.width;
+                }
+            });
+        }
+
         // Update cache
         lastRenderStateRef.current = {
             cameraKey: currentCameraKey,
             visibilityKey: currentVisibilityKey,
+            projectionKey,
             lastRenderTime: now
         };
 
@@ -352,7 +398,8 @@ const StaticFogOverlay = () => {
                 const screenPos = worldToScreen(circle.x, circle.y, cameraX, cameraY, effectiveZoom);
                 const radius = circle.radius * effectiveZoom * 1.12;
                 sCtx.beginPath();
-                sCtx.arc(screenPos.x, screenPos.y, radius, 0, Math.PI * 2);
+                // Project the world circle as an ellipse (foreshortened by tilt)
+                sCtx.ellipse(screenPos.x, screenPos.y, radius, radius * fogSinTilt, 0, 0, Math.PI * 2);
                 sCtx.fill();
             });
             sCtx.restore();
@@ -431,8 +478,19 @@ const StaticFogOverlay = () => {
             mCtx.globalCompositeOperation = 'source-over';
             mCtx.globalAlpha = alpha;
             mCtx.fillStyle = '#000000';
-            const tileSize = gridSize * effectiveZoom;
-            mCtx.fillRect(screenPos.x - tileSize / 2, screenPos.y - tileSize / 2, tileSize, tileSize);
+            // Project the tile as a parallelogram so painted fog follows the camera
+            const halfTile = gridSize / 2;
+            const c1 = worldToScreen(worldX - halfTile, worldY - halfTile, cameraX, cameraY, effectiveZoom);
+            const c2 = worldToScreen(worldX + halfTile, worldY - halfTile, cameraX, cameraY, effectiveZoom);
+            const c3 = worldToScreen(worldX + halfTile, worldY + halfTile, cameraX, cameraY, effectiveZoom);
+            const c4 = worldToScreen(worldX - halfTile, worldY + halfTile, cameraX, cameraY, effectiveZoom);
+            mCtx.beginPath();
+            mCtx.moveTo(c1.x, c1.y);
+            mCtx.lineTo(c2.x, c2.y);
+            mCtx.lineTo(c3.x, c3.y);
+            mCtx.lineTo(c4.x, c4.y);
+            mCtx.closePath();
+            mCtx.fill();
             mCtx.restore();
         });
 
@@ -576,9 +634,13 @@ const StaticFogOverlay = () => {
                 maskCtx.restore();
 
                 maskCtx.globalCompositeOperation = 'source-in';
+                // Elliptical gradient in 2.5D: scale the gradient space by sin(tilt)
+                maskCtx.save();
+                maskCtx.translate(tokenScreenPos.x, tokenScreenPos.y);
+                maskCtx.scale(1, fogSinTilt);
                 const gradient = maskCtx.createRadialGradient(
-                    tokenScreenPos.x, tokenScreenPos.y, 0,
-                    tokenScreenPos.x, tokenScreenPos.y, visionRangeInPixels
+                    0, 0, 0,
+                    0, 0, visionRangeInPixels
                 );
                 // SOFT-EDGE FIX: keep the interior fully clear and concentrate the
                 // fade in a thin rim at the edge of the vision radius.
@@ -589,7 +651,10 @@ const StaticFogOverlay = () => {
                 gradient.addColorStop(0.98, 'rgba(255, 255, 255, 0.12)');
                 gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
                 maskCtx.fillStyle = gradient;
-                maskCtx.fillRect(0, 0, visibilityMask.width, visibilityMask.height);
+                const gradientFillRadius = visionRangeInPixels * 1.5;
+                const gradientFillHeight = (gradientFillRadius * 2) / (fogSinTilt || 1);
+                maskCtx.fillRect(-gradientFillRadius, -gradientFillHeight / 2, gradientFillRadius * 2, gradientFillHeight);
+                maskCtx.restore();
 
                 ctx.globalCompositeOperation = 'destination-out';
                 ctx.globalAlpha = 1;
@@ -713,11 +778,11 @@ const StaticFogOverlay = () => {
             ctx.globalAlpha = 1;
             ctx.drawImage(visibilityMask, 0, 0);
         }
-    }, [visibleFogPaths, visibleErasePaths, visibleFogTiles, fogOfWarEnabled, dynamicFogEnabled, isFogLayerVisible, zoomLevel, playerZoom, isGMMode, worldToScreen, currentViewingToken, visibleArea, visibilityPolygon, allTokensVisibilityPolygons, viewingFromToken, tokenVisionRanges, getFogState, visibleAreaSet, screenToWorld, currentPlayerId, playerMemories, legacyExploredAreas, wallData, gridSize, gridOffsetX, gridOffsetY, additionalVisibilityPolygons, controlledCreatureVisionDetails, cameraX, cameraY]);
+    }, [visibleFogPaths, visibleErasePaths, visibleFogTiles, fogOfWarEnabled, dynamicFogEnabled, isFogLayerVisible, zoomLevel, playerZoom, isGMMode, worldToScreen, currentViewingToken, visibleArea, visibilityPolygon, allTokensVisibilityPolygons, viewingFromToken, tokenVisionRanges, getFogState, visibleAreaSet, screenToWorld, currentPlayerId, playerMemories, legacyExploredAreas, wallData, gridSize, gridOffsetX, gridOffsetY, additionalVisibilityPolygons, controlledCreatureVisionDetails, cameraX, cameraY, viewMode, viewRotation, viewTilt]);
 
     useLayoutEffect(() => {
         renderFog();
-    }, [renderFog, cameraX, cameraY, zoomLevel, playerZoom, visibilityPolygon, fogOfWarPaths]);
+    }, [renderFog, cameraX, cameraY, zoomLevel, playerZoom, visibilityPolygon, fogOfWarPaths, viewMode, viewRotation, viewTilt]);
 
     // Cleanup RAF and subscription
     useEffect(() => {

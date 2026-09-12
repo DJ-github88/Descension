@@ -54,6 +54,12 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
             name: 'Terrain Eraser',
             icon: 'Utility/Broken',
             description: 'Remove terrain from tiles'
+        },
+        {
+            id: 'elevation',
+            name: 'Elevation',
+            icon: 'Nature/World Map',
+            description: 'Raise/lower terrain and place ramps (2.5D)'
         }
     ];
 

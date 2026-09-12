@@ -170,7 +170,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t3_cascade_finale",
     name: "Sympathetic Cascade",
-    icon: "spell_shadow_mindsteal",
+    icon: "Psychic/Psychic Mind 2",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "tw_t2_nightmare_fuel",
@@ -194,7 +194,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t4_psychic_storm",
     name: "Psychic Storm",
-    icon: "spell_shadow_mindtwisting",
+    icon: "Psychic/Psychic Mind",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "tw_t3_torment_web",
@@ -223,7 +223,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t4_sympathetic_pain",
     name: "Nerve Relay",
-    icon: "spell_shadow_shadowwordpain",
+    icon: "Psychic/Psychic Mind 1",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "tw_t3_cascade_finale",
@@ -294,7 +294,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t6_sympathetic_collapse",
     name: "Sympathetic Collapse",
-    icon: "spell_shadow_mindtwisting",
+    icon: "Psychic/Psychic Mind 7",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "tw_t5_mass_resonance",
@@ -357,7 +357,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t7_grand_puppet",
     name: "The Grand Puppet",
-    icon: "spell_shadow_shadowwordpain",
+    icon: "Psychic/Psychic Mind 10",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "tw_t6_sympathetic_collapse",
@@ -403,7 +403,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t7_infinite_lattice",
     name: "Infinite Lattice",
-    icon: "spell_shadow_mindtwisting",
+    icon: "Psychic/Psychic Mind 9",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "tw_t6_web_reinforcement",
@@ -423,7 +423,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t7_psychic_scourge",
     name: "Psychic Scourge",
-    icon: "spell_shadow_curseofsargeras",
+    icon: "Necrotic/Cranium Skull Smash",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "tw_t6_web_reinforcement",
@@ -445,7 +445,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t7_vampiric_mesh",
     name: "Vampiric Mesh",
-    icon: "spell_shadow_lifedrain02",
+    icon: "Necrotic/Soul Exit",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "tw_t6_synaptic_overload",

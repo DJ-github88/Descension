@@ -76,7 +76,9 @@ export const EDITOR_TABS = {
         name: 'Lighting',
         icon: 'fas fa-lightbulb',
         tools: [
-            { id: 'lighting_settings', name: 'Lighting Settings', icon: 'Arcane/Empowering Growth', cursor: 'default' }
+            { id: 'light_place', name: 'Place Light', icon: 'Arcane/Empowering Growth', cursor: 'crosshair' },
+            { id: 'light_erase', name: 'Remove Light', icon: 'Utility/Broken', cursor: 'pointer' },
+            { id: 'lighting_settings', name: 'Lighting Settings', icon: 'Utility/Utility Gear', cursor: 'default' }
         ]
     }
 };

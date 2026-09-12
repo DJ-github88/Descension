@@ -86,7 +86,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t2_sanguine_burst",
     name: "Sanguine Gore Burst",
-    icon: "spell_shadow_bloodboil",
+    icon: "Necrotic/Skull Burst",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "sh_t1_sanguine_strike",
@@ -113,7 +113,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t2_rush_of_blood",
     name: "Desperate Siphon",
-    icon: "spell_shadow_lifedrain",
+    icon: "Necrotic/Blood Book",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "sh_t1_sanguine_mastery",
@@ -135,7 +135,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t3_exsanguinate",
     name: "Exsanguinating Grasp",
-    icon: "spell_shadow_lifedrain02",
+    icon: "Necrotic/Necrotic Necrosis",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "sh_t2_sanguine_burst",
@@ -163,7 +163,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t3_vampiric_empowerment",
     name: "Vampiric Feast",
-    icon: "spell_shadow_soulleech_3",
+    icon: "Necrotic/Necrotic Wither",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "sh_t2_rush_of_blood",
@@ -185,7 +185,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t4_blood_storm",
     name: "Maelstrom of Frozen Blood",
-    icon: "spell_shadow_bloodrain",
+    icon: "Necrotic/Necrotic Skull",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "sh_t3_exsanguinate",
@@ -234,7 +234,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t5_crimson_cataclysm",
     name: "Heart-Burst Cataclysm",
-    icon: "spell_shadow_bloodboil",
+    icon: "Necrotic/Bloody Horse Skull",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "sh_t4_blood_storm",
@@ -261,7 +261,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t5_sanguine_avatar_passive",
     name: "Blood Sovereign Form",
-    icon: "spell_shadow_lifedrain02",
+    icon: "Necrotic/Blood Scroll",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "sh_t4_blood_barrier",
@@ -285,7 +285,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t6_the_blood_gods_harvest",
     name: "Avatar of the Sanguine Lord",
-    icon: "spell_shadow_unholyfrenzy",
+    icon: "General/Rage",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "sh_t5_crimson_cataclysm",
@@ -328,7 +328,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t6_undying_bloodline",
     name: "Crimson Immortality Shroud",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "Force/Force Wave",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "sh_t5_sanguine_avatar_passive",
@@ -349,7 +349,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t7_grand_blood_reap",
     name: "Cataclysmic Blood Ocean",
-    icon: "spell_shadow_bloodrain",
+    icon: "Necrotic/Hooded Reaper Skull",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "sh_t6_the_blood_gods_harvest",
@@ -374,7 +374,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t7_sanguine_doctrine",
     name: "Sanguine Harvest Doctrine",
-    icon: "spell_shadow_lifedrain02",
+    icon: "Necrotic/Soul Exit",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "sh_t6_the_blood_gods_harvest",
@@ -397,7 +397,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t7_infinite_toll_engine",
     name: "Endless Toll Reservoir",
-    icon: "spell_shadow_soulleech_3",
+    icon: "Necrotic/Necrotic Hand Rising",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "sh_t6_blood_criticality",
@@ -437,7 +437,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t7_sanguine_rebirth",
     name: "Bloodpool Rebirth",
-    icon: "spell_shadow_lifedrain02",
+    icon: "Necrotic/Necrotic Death",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "sh_t6_undying_bloodline",
@@ -612,7 +612,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t3_absolute_zero",
     name: "Absolute Zero Vulnerability",
-    icon: "spell_frost_arcticwinds",
+    icon: "Frost/Cresting Wave",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "fs_t2_ice_bond",
@@ -661,7 +661,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t4_frost_shield",
     name: "Glacial Armor Shell",
-    icon: "spell_frost_frostarmor",
+    icon: "Frost/Cursed Ice",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "fs_t3_absolute_zero",
@@ -682,7 +682,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t5_shatter_protocol",
     name: "Universal Shatter Protocol",
-    icon: "spell_frost_frostnova",
+    icon: "Frost/Frozen",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "fs_t4_ice_comet",
@@ -708,7 +708,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t5_endless_winter",
     name: "Endless Winter Engine",
-    icon: "spell_frost_wisp",
+    icon: "Frost/Blow Frost",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "fs_t4_frost_shield",
@@ -730,7 +730,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t6_the_frost_sovereign",
     name: "Avatar of the Glacial Lich",
-    icon: "spell_frost_wisp",
+    icon: "Frost/Circular Frost Explosion",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "fs_t5_shatter_protocol",
@@ -753,7 +753,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t6_shatter_criticality",
     name: "Glacial Splinter Crits",
-    icon: "spell_frost_frostnova",
+    icon: "Frost/Frozen Area",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "fs_t5_endless_winter",
@@ -793,7 +793,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t7_universal_extinction_ice",
     name: "The Final Glaciation Cataclysm",
-    icon: "spell_frost_icestorm",
+    icon: "Frost/Dripping Ice",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "fs_t6_the_frost_sovereign",
@@ -818,7 +818,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t7_frost_sovereign_doctrine",
     name: "Frost Sovereign Doctrine",
-    icon: "spell_frost_frostbolt",
+    icon: "Frost/Frost Ice 4",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "fs_t6_the_frost_sovereign",
@@ -841,7 +841,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t7_infinite_ice_battery",
     name: "Glacial Core Reservoir",
-    icon: "spell_frost_frozencore",
+    icon: "Frost/Frost Phonix",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "fs_t6_shatter_criticality",
@@ -861,7 +861,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t7_cataclysmic_shatters",
     name: "Chain Reaction Shatters",
-    icon: "spell_frost_frostnova",
+    icon: "Frost/Frozen Capture",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "fs_t6_shatter_criticality",
@@ -881,7 +881,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t7_glacial_rebirth",
     name: "Ice Tomb Rebirth",
-    icon: "spell_frost_frostarmor02",
+    icon: "Frost/Ice Tomb",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "fs_t6_absolute_permafrost_wall",
@@ -974,7 +974,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t2_soul_anchor_strike",
     name: "Soul Anchor Strike",
-    icon: "spell_shadow_soulleech_3",
+    icon: "Necrotic/Necrotic Necrosis",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "pa_t1_phylactery_ward",
@@ -1001,7 +1001,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t2_phylactery_link",
     name: "Phylactery Party Link",
-    icon: "spell_shadow_lifedrain02",
+    icon: "Necrotic/Necrotic Wither",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "pa_t1_vital_reserve",
@@ -1048,7 +1048,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t3_eternal_guardian",
     name: "Deathless Sentinel",
-    icon: "spell_frost_frozencore",
+    icon: "Frost/Frost Chill",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "pa_t2_phylactery_link",
@@ -1070,7 +1070,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t4_soul_drain_wave",
     name: "Phylactery Siphon Wave",
-    icon: "spell_shadow_lifedrain",
+    icon: "Necrotic/Soul Exit",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "pa_t3_frost_barrier_eruption",
@@ -1097,7 +1097,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t4_soul_siphon_passive",
     name: "Ambient Soul Harvest",
-    icon: "spell_shadow_soulleech_3",
+    icon: "Necrotic/Necrotic Hand Rising",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "pa_t3_eternal_guardian",
@@ -1142,7 +1142,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t5_undying_anchor",
     name: "Undying Soul Anchor",
-    icon: "spell_frost_frozencore",
+    icon: "Frost/Frost Phonix",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "pa_t4_soul_siphon_passive",
@@ -1164,7 +1164,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t6_the_immortal_phylactery",
     name: "Avatar of the Undying Lichlord",
-    icon: "spell_frost_frozencore",
+    icon: "Frost/Blow Frost",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "pa_t5_immortal_essence",
@@ -1187,7 +1187,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t6_phylactery_criticality",
     name: "Soul-Forged Crits",
-    icon: "spell_shadow_soulleech_3",
+    icon: "Necrotic/Necrotic Death",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "pa_t5_undying_anchor",
@@ -1253,7 +1253,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t7_phylactery_doctrine",
     name: "Phylactery Anchor Doctrine",
-    icon: "spell_frost_frozencore",
+    icon: "Frost/Circular Frost Explosion",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "pa_t6_the_immortal_phylactery",
@@ -1276,7 +1276,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t7_infinite_phylactery_battery",
     name: "Perpetual Reliquary Engine",
-    icon: "spell_shadow_lifedrain",
+    icon: "Necrotic/Necrotic Skull",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "pa_t6_phylactery_criticality",
@@ -1296,7 +1296,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t7_soul_rebound",
     name: "Soul Rebound Shield",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "Force/Force Shield",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "pa_t6_phylactery_criticality",
@@ -1317,7 +1317,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t7_immortal_phylactery_rebirth",
     name: "Phylactery Vessel Rebirth",
-    icon: "spell_holy_resurrection",
+    icon: "Healing/Healing Compass",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "pa_t6_eternal_soul_ward",

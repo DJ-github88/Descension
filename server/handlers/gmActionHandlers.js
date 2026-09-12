@@ -251,20 +251,110 @@ function registerGmActionHandlers(ctx) {
 
       const { room, player } = validation;
 
-      if (data.targetMapId) {
-        player.currentMapId = data.targetMapId;
+      // The client (PortalTransferDialog) sends { connectionId }; other callers
+      // may send { targetMapId }. Resolve the destination from the live map
+      // connection elements when only an id is provided - previously this event
+      // silently did nothing in multiplayer portal travel.
+      let targetMapId = data.targetMapId || null;
+      const connectionId = data.connectionId || data.connection?.id || null;
+      if (!targetMapId && connectionId) {
+        const maps = room.gameState.maps || {};
+        for (const map of Object.values(maps)) {
+          const elements = Array.isArray(map?.dndElements) ? map.dndElements : [];
+          const match = elements.find(el =>
+            el && el.id === connectionId &&
+            (el.type === 'portal' || el.type === 'connection')
+          );
+          if (match) {
+            targetMapId = match.properties?.destinationMapId || match.destinationMapId || null;
+            if (targetMapId) break;
+          }
+          const portals = Array.isArray(map?.portals) ? map.portals : [];
+          const portalMatch = portals.find(p => p && p.id === connectionId);
+          if (portalMatch?.destinationMapId) {
+            targetMapId = portalMatch.destinationMapId;
+            break;
+          }
+        }
+      }
+
+      if (targetMapId) {
+        const previousMapId = player.currentMapId || null;
+        player.currentMapId = targetMapId;
         if (room.gameState.playerMapAssignments) {
-          room.gameState.playerMapAssignments[player.id] = data.targetMapId;
+          room.gameState.playerMapAssignments[player.id] = targetMapId;
         }
 
-        socket.emit('map_transfer_complete', {
-          mapId: data.targetMapId
-        });
+        const destinationMap = (room.gameState.maps && room.gameState.maps[targetMapId]) || {};
+        const destGridSettings = destinationMap.gridSettings || room.gameState.gridSettings || {
+          gridSize: 50,
+          gridOffsetX: 0,
+          gridOffsetY: 0
+        };
 
-        socket.to(data.roomId).emit('player_map_changed', {
+        // Center the camera on the destination connection when it lives on the target map
+        let centerPosition = null;
+        const destElements = Array.isArray(destinationMap.dndElements) ? destinationMap.dndElements : [];
+        const destConnection = connectionId
+          ? destElements.find(el => el && el.id === connectionId)
+          : null;
+        if (destConnection && Number.isFinite(destConnection.gridX) && Number.isFinite(destConnection.gridY)) {
+          const cellSize = destGridSettings.gridSize || 50;
+          centerPosition = {
+            x: destConnection.gridX * cellSize + (destGridSettings.gridOffsetX || 0) + cellSize / 2,
+            y: destConnection.gridY * cellSize + (destGridSettings.gridOffsetY || 0) + cellSize / 2
+          };
+        }
+
+        const mapSnapshot = {
+          id: targetMapId,
+          name: destinationMap.name || `Map ${targetMapId}`,
+          tokens: destinationMap.tokens || {},
+          characterTokens: destinationMap.characterTokens || {},
+          gridItems: destinationMap.gridItems || {},
+          terrainData: destinationMap.terrainData || {},
+          wallData: destinationMap.wallData || {},
+          windowOverlays: destinationMap.windowOverlays || {},
+          environmentalObjects: destinationMap.environmentalObjects || [],
+          drawingPaths: destinationMap.drawingPaths || [],
+          drawingLayers: destinationMap.drawingLayers || [],
+          fogOfWarData: destinationMap.fogOfWarData || {},
+          fogOfWarPaths: destinationMap.fogOfWarPaths || [],
+          fogErasePaths: destinationMap.fogErasePaths || [],
+          dndElements: destinationMap.dndElements || [],
+          lightSources: destinationMap.lightSources || {},
+          exploredAreas: destinationMap.exploredAreas || {},
+          gridSettings: destGridSettings,
+          backgrounds: (room.gameState.mapData && room.gameState.mapData.backgrounds) || []
+        };
+
+        const transferPayload = {
           playerId: player.id,
-          mapId: data.targetMapId
-        });
+          playerName: player.name,
+          mapId: targetMapId,
+          newMapId: targetMapId,
+          newMapName: mapSnapshot.name,
+          mapData: mapSnapshot,
+          centerPosition,
+          transferredByGM: false,
+          portalUsed: {
+            transferType: 'connection',
+            sourceConnectionId: connectionId,
+            destinationConnectionId: connectionId,
+            sourceMapId: previousMapId,
+            destinationMapId: targetMapId
+          }
+        };
+
+        // The transferring player needs the rich payload (PortalTransferDialog
+        // relies on player_map_changed to perform the local switch), then the
+        // rest of the room is notified so party map tags update.
+        socket.emit('player_map_changed', transferPayload);
+        socket.to(room.id).emit('player_map_changed', transferPayload);
+
+        logger.info(`[player_use_connection] ${player.name} transferred ${previousMapId} -> ${targetMapId} via connection ${connectionId || 'explicit map'}`);
+      } else {
+        logger.warn(`[player_use_connection] Could not resolve destination (connectionId=${connectionId || 'none'})`);
       }
 
     } catch (error) {

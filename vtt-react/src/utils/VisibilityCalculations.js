@@ -21,6 +21,7 @@ function getWallEdgeIndex(wallData, windowOverlays) {
   const index = { __src: wallData };
   const verticalEdges = index._v = new Map(); // "x,y" -> [{wall, wallKey}]
   const horizontalEdges = index._h = new Map(); // "x,y" -> [{wall, wallKey}]
+  const diagonalEdges = index._d = new Map(); // "cellX,cellY" -> [{wall, wallKey}] (angled walls bisecting cells)
 
   for (const [wallKey, wall] of Object.entries(wallData)) {
     const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
@@ -41,6 +42,21 @@ function getWallEdgeIndex(wallData, windowOverlays) {
         const key = `${x},${wy1}`;
         if (!horizontalEdges.has(key)) horizontalEdges.set(key, []);
         horizontalEdges.get(key).push({ wall, wallKey });
+      }
+    } else if (Math.abs(wx2 - wx1) === Math.abs(wy2 - wy1)) {
+      // Angled wall (45°): index every cell it bisects. Diagonal movement across
+      // such a cell is blocked; previously these walls were ignored entirely.
+      const steps = Math.abs(wx2 - wx1);
+      const stepX = Math.sign(wx2 - wx1);
+      const stepY = Math.sign(wy2 - wy1);
+      for (let i = 0; i < steps; i++) {
+        const ax = wx1 + stepX * i;
+        const bx = wx1 + stepX * (i + 1);
+        const ay = wy1 + stepY * i;
+        const by = wy1 + stepY * (i + 1);
+        const key = `${Math.min(ax, bx)},${Math.min(ay, by)}`;
+        if (!diagonalEdges.has(key)) diagonalEdges.set(key, []);
+        diagonalEdges.get(key).push({ wall, wallKey });
       }
     }
   }
@@ -146,6 +162,17 @@ export function isWallBlocking(x1, y1, x2, y2, wallData, windowOverlays = {}) {
 
   // For diagonal movement, check both edges
   if (dx === 1 && dy === 1) {
+    // Angled (45°) wall bisecting the shared cell blocks the diagonal crossing
+    const diagonalKey = `${Math.min(gx1, gx2)},${Math.min(gy1, gy2)}`;
+    const diagonalWalls = index._d.get(diagonalKey);
+    if (diagonalWalls) {
+      for (const { wall, wallKey } of diagonalWalls) {
+        if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
+          return true;
+        }
+      }
+    }
+
     // Check vertical edge for diagonal
     const wallX = Math.max(gx1, gx2);
     for (const checkY of [gy1, gy2]) {
@@ -178,6 +205,33 @@ export function isWallBlocking(x1, y1, x2, y2, wallData, windowOverlays = {}) {
   return false;
 }
 
+/** Standard segment intersection test (grid-space). */
+function segmentsIntersect(ax, ay, bx, by, cx, cy, dx, dy) {
+  const orient = (px, py, qx, qy, rx, ry) => {
+    const value = (qy - py) * (rx - qx) - (qx - px) * (ry - qy);
+    if (Math.abs(value) < 1e-9) return 0;
+    return value > 0 ? 1 : 2;
+  };
+
+  const onSegment = (px, py, qx, qy, rx, ry) =>
+    qx <= Math.max(px, rx) + 1e-9 && qx >= Math.min(px, rx) - 1e-9 &&
+    qy <= Math.max(py, ry) + 1e-9 && qy >= Math.min(py, ry) - 1e-9;
+
+  const o1 = orient(ax, ay, bx, by, cx, cy);
+  const o2 = orient(ax, ay, bx, by, dx, dy);
+  const o3 = orient(cx, cy, dx, dy, ax, ay);
+  const o4 = orient(cx, cy, dx, dy, bx, by);
+
+  if (o1 !== o2 && o3 !== o4) return true;
+
+  if (o1 === 0 && onSegment(ax, ay, cx, cy, bx, by)) return true;
+  if (o2 === 0 && onSegment(ax, ay, dx, dy, bx, by)) return true;
+  if (o3 === 0 && onSegment(cx, cy, ax, ay, dx, dy)) return true;
+  if (o4 === 0 && onSegment(cx, cy, bx, by, dx, dy)) return true;
+
+  return false;
+}
+
 function checkIfWallBlocks(wall, wallKey = null, windowOverlays = {}) {
   // Handle both old format (wall is a string) and new format (wall is an object)
   if (typeof wall === 'string') {
@@ -196,8 +250,21 @@ function checkIfWallBlocks(wall, wallKey = null, windowOverlays = {}) {
           const windowKey = `${x},${y}`;
           if (windowOverlays[windowKey]) {
             // Window found - allows vision through
-            return false;
-          }
+  // Angled (45°) walls bisect the cells they pass through. Entering such a cell
+  // means stepping into the wall. Previously only diagonal steps consulted the
+  // angled-wall index, so tokens could pass through an angled wall by entering
+  // the cells it bisects and continuing out the other side.
+  const destinationDiagonalWalls = index._d.get(`${gx2},${gy2}`);
+  if (destinationDiagonalWalls) {
+    for (const { wall, wallKey } of destinationDiagonalWalls) {
+      if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
         }
       }
     }

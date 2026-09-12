@@ -28,6 +28,7 @@ import BookQuestPickerModal from './BookQuestPickerModal';
 import BookLorePickerModal from './BookLorePickerModal';
 import BookMapPickerModal from './BookMapPickerModal';
 import BookSnapshotModal from './BookSnapshotModal';
+import { useIsPhone } from '../../hooks/useIsPhone';
 import './BookDocumentEditor.css';
 
 const THEME_OPTIONS = [
@@ -288,6 +289,7 @@ export const BookDocumentEditor = ({
   const restoreRevisionSnapshot = useBookStore((s) => s.restoreRevisionSnapshot);
   const syncToCloud = useBookStore((s) => s.syncToCloud);
   const authUser = useAuthStore((s) => s.user);
+  const isPhone = useIsPhone();
 
   const book = useMemo(() => normalizeBook(rawBook || initialDoc), [rawBook, initialDoc]);
 
@@ -295,8 +297,11 @@ export const BookDocumentEditor = ({
   const [activeChapterId, setActiveChapterId] = useState(() => book.chapters[0]?.id || 'ch-1');
   const [activePageId, setActivePageId] = useState(() => book.chapters[0]?.pages[0]?.id || 'pg-1');
 
-  // Mode: 'write' | 'read'
-  const [activeMode, setActiveMode] = useState(isGM ? 'write' : 'read');
+  // Mode: 'write' | 'read' — phones are reader-first (authoring is desktop/tablet work).
+  const [activeMode, setActiveMode] = useState(isPhone ? 'read' : (isGM ? 'write' : 'read'));
+  useEffect(() => {
+    if (isPhone && activeMode === 'write') setActiveMode('read');
+  }, [isPhone, activeMode]);
   const [activeSidebarTab, setActiveSidebarTab] = useState('toc'); // 'toc' | 'structure' | 'search' | 'history' | 'styling'
   const [sidebarOpen, setSidebarOpen] = useState(() => (typeof window !== 'undefined' ? window.innerWidth > 768 : true));
   const [editingBlockId, setEditingBlockId] = useState(null);
@@ -1462,15 +1467,17 @@ export const BookDocumentEditor = ({
 
           {/* Mode Switchers: Write / Read */}
           <div className="mode-toggle-group">
-            <button
-              type="button"
-              className={`mode-btn ${activeMode === 'write' ? 'active' : ''}`}
-              onClick={() => setActiveMode('write')}
-              title="Publication Direct Authoring & Edit Mode"
-              aria-label="Write Mode"
-            >
-              <i className="fas fa-feather-pointed"></i>
-            </button>
+            {!isPhone && (
+              <button
+                type="button"
+                className={`mode-btn ${activeMode === 'write' ? 'active' : ''}`}
+                onClick={() => setActiveMode('write')}
+                title="Publication Direct Authoring & Edit Mode"
+                aria-label="Write Mode"
+              >
+                <i className="fas fa-feather-pointed"></i>
+              </button>
+            )}
             <button
               type="button"
               className={`mode-btn ${activeMode === 'read' ? 'active' : ''}`}

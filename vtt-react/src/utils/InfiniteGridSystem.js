@@ -8,6 +8,13 @@
  */
 
 import { findGridPath } from './GridPathfinder';
+import {
+  getProjectionTransform as buildProjectionTransform,
+  worldToScreen as projectWorldToScreen,
+  screenToWorld as projectScreenToWorld,
+  screenDeltaToWorld as projectScreenDeltaToWorld,
+  depthKey as projectDepthKey
+} from './ProjectionSystem';
 
 export class InfiniteGridSystem {
   constructor(gameStore) {
@@ -41,7 +48,10 @@ export class InfiniteGridSystem {
       src.gridLineColor === s.gridLineColor &&
       src.gridLineThickness === s.gridLineThickness &&
       src.minZoom === s.minZoom &&
-      src.maxZoom === s.maxZoom
+      src.maxZoom === s.maxZoom &&
+      src.viewMode === s.viewMode &&
+      src.viewRotation === s.viewRotation &&
+      src.viewTilt === s.viewTilt
     ) {
       return cached.state;
     }
@@ -62,7 +72,10 @@ export class InfiniteGridSystem {
       gridLineColor: s.gridLineColor,
       gridLineThickness: s.gridLineThickness,
       minZoom: s.minZoom,
-      maxZoom: s.maxZoom
+      maxZoom: s.maxZoom,
+      viewMode: s.viewMode || '2d',
+      viewRotation: s.viewRotation || 0,
+      viewTilt: s.viewTilt
     };
 
     this._gridStateCache = {
@@ -82,7 +95,10 @@ export class InfiniteGridSystem {
         gridLineColor: s.gridLineColor,
         gridLineThickness: s.gridLineThickness,
         minZoom: s.minZoom,
-        maxZoom: s.maxZoom
+        maxZoom: s.maxZoom,
+        viewMode: s.viewMode,
+        viewRotation: s.viewRotation,
+        viewTilt: s.viewTilt
       }
     };
 
@@ -251,7 +267,10 @@ export class InfiniteGridSystem {
     const sGrid = this.worldToGrid(startPos.x, startPos.y);
     const eGrid = this.worldToGrid(endPos.x, endPos.y);
 
-    const result = findGridPath(sGrid.x, sGrid.y, eGrid.x, eGrid.y, wallData, windowOverlays, options);
+    const result = findGridPath(sGrid.x, sGrid.y, eGrid.x, eGrid.y, wallData, windowOverlays, {
+      gridType: this.getGridState().gridType || 'square',
+      ...options
+    });
     const worldPath = result.path.map(p => this.gridToWorld(p.x, p.y));
 
     return {
@@ -259,7 +278,8 @@ export class InfiniteGridSystem {
       worldPath,
       totalFeet: result.totalFeet,
       isDirect: result.isDirect,
-      blocked: result.blocked
+      blocked: result.blocked,
+      blockedReason: result.blockedReason
     };
   }
 
@@ -506,25 +526,55 @@ export class InfiniteGridSystem {
   }
 
   /**
-   * Convert world coordinates to screen coordinates
+   * Build the projection transform for the current view state (view mode,
+   * yaw/tilt orbit, zoom, camera, viewport).
+   */
+  getProjectionTransform(viewportWidth, viewportHeight, overrides = {}) {
+    const state = this.getGridState();
+    return buildProjectionTransform({
+      viewMode: state.viewMode,
+      viewRotation: state.viewRotation,
+      viewTilt: state.viewTilt,
+      effectiveZoom: state.effectiveZoom,
+      cameraX: state.cameraX,
+      cameraY: state.cameraY,
+      viewportWidth: viewportWidth !== undefined ? viewportWidth : 0,
+      viewportHeight: viewportHeight !== undefined ? viewportHeight : 0,
+      ...overrides
+    });
+  }
+
+  /**
+   * Convert world coordinates to screen coordinates (ground plane).
    * Note: This method assumes the camera is at the center of the viewport
    */
   worldToScreen(worldX, worldY, viewportWidth, viewportHeight) {
-    const { cameraX, cameraY, effectiveZoom } = this.getGridState();
+    const transform = this.getProjectionTransform(viewportWidth, viewportHeight);
+    return projectWorldToScreen(worldX, worldY, transform, 0);
+  }
 
-    // If viewport dimensions are provided, center the coordinate system
-    if (viewportWidth !== undefined && viewportHeight !== undefined) {
-      return {
-        x: (worldX - cameraX) * effectiveZoom + viewportWidth / 2,
-        y: (worldY - cameraY) * effectiveZoom + viewportHeight / 2
-      };
-    }
+  /**
+   * Convert world coordinates + world height (elevation) to screen coordinates.
+   * Used by 2.5D elevated rendering and projected light pools.
+   */
+  worldToScreen3D(worldX, worldY, worldZ, viewportWidth, viewportHeight) {
+    const transform = this.getProjectionTransform(viewportWidth, viewportHeight);
+    return projectWorldToScreen(worldX, worldY, transform, worldZ || 0);
+  }
 
-    // Fallback to original behavior for backward compatibility
-    return {
-      x: (worldX - cameraX) * effectiveZoom,
-      y: (worldY - cameraY) * effectiveZoom
-    };
+  /**
+   * Camera-forward depth for painter ordering (ascending = farther/higher on screen).
+   */
+  depthKey(worldX, worldY) {
+    return projectDepthKey(worldX, worldY, this.getProjectionTransform());
+  }
+
+  /**
+   * Convert a screen-space delta into a world-space delta (translation free).
+   */
+  screenDeltaToWorld(deltaX, deltaY, viewportWidth, viewportHeight) {
+    const transform = this.getProjectionTransform(viewportWidth, viewportHeight);
+    return projectScreenDeltaToWorld(deltaX, deltaY, transform);
   }
 
   /**
@@ -532,46 +582,37 @@ export class InfiniteGridSystem {
    * Takes into account the gridMovesWithBackground setting
    */
   gridWorldToScreen(worldX, worldY, viewportWidth, viewportHeight) {
-    const { effectiveZoom, gridMovesWithBackground } = this.getGridState();
+    const { gridMovesWithBackground } = this.getGridState();
 
     if (gridMovesWithBackground) {
       // Grid moves with background - don't apply camera offset
-      if (viewportWidth !== undefined && viewportHeight !== undefined) {
-        return {
-          x: worldX * effectiveZoom + viewportWidth / 2,
-          y: worldY * effectiveZoom + viewportHeight / 2
-        };
-      }
-      return {
-        x: worldX * effectiveZoom,
-        y: worldY * effectiveZoom
-      };
-    } else {
-      // Grid stays on top - apply camera offset (default behavior)
-      return this.worldToScreen(worldX, worldY, viewportWidth, viewportHeight);
+      const transform = this.getProjectionTransform(viewportWidth, viewportHeight, {
+        cameraX: 0,
+        cameraY: 0
+      });
+      return projectWorldToScreen(worldX, worldY, transform, 0);
     }
+
+    // Grid stays on top - apply camera offset (default behavior)
+    return this.worldToScreen(worldX, worldY, viewportWidth, viewportHeight);
   }
 
   /**
-   * Convert screen coordinates to world coordinates
+   * Convert screen coordinates to world coordinates on the ground plane.
    * Note: This method assumes the camera is at the center of the viewport
    */
   screenToWorld(screenX, screenY, viewportWidth, viewportHeight) {
-    const { cameraX, cameraY, effectiveZoom } = this.getGridState();
+    const transform = this.getProjectionTransform(viewportWidth, viewportHeight);
+    return projectScreenToWorld(screenX, screenY, transform, 0);
+  }
 
-    // If viewport dimensions are provided, account for centered coordinate system
-    if (viewportWidth !== undefined && viewportHeight !== undefined) {
-      return {
-        x: ((screenX - viewportWidth / 2) / effectiveZoom) + cameraX,
-        y: ((screenY - viewportHeight / 2) / effectiveZoom) + cameraY
-      };
-    }
-
-    // Fallback to original behavior for backward compatibility
-    return {
-      x: (screenX / effectiveZoom) + cameraX,
-      y: (screenY / effectiveZoom) + cameraY
-    };
+  /**
+   * Screen -> world inverse on a plane at a given world height (elevation).
+   * Used to resolve clicks against lifted 2.5D tile tops.
+   */
+  screenToWorld3D(screenX, screenY, worldZ, viewportWidth, viewportHeight) {
+    const transform = this.getProjectionTransform(viewportWidth, viewportHeight);
+    return projectScreenToWorld(screenX, screenY, transform, worldZ || 0);
   }
 
   /**
@@ -650,32 +691,50 @@ export class InfiniteGridSystem {
   }
 
   /**
-   * Get the visible grid bounds for rendering optimization
+   * Get the visible grid bounds for rendering optimization.
+   * Projects the viewport corners through the inverse view transform so the
+   * bounds stay correct under camera yaw/tilt.
    */
   getVisibleGridBounds(viewportWidth, viewportHeight) {
-    const { cameraX, cameraY, effectiveZoom } = this.getGridState();
+    const width = viewportWidth !== undefined
+      ? viewportWidth
+      : (typeof window !== 'undefined' ? window.innerWidth : 0);
+    const height = viewportHeight !== undefined
+      ? viewportHeight
+      : (typeof window !== 'undefined' ? window.innerHeight : 0);
 
-    // Calculate visible world area with extra padding using effective zoom
-    const visibleWorldWidth = viewportWidth / effectiveZoom;
-    const visibleWorldHeight = viewportHeight / effectiveZoom;
+    const transform = this.getProjectionTransform(width, height);
 
-    // Get world bounds of visible area (camera is at center of view)
-    const worldLeft = cameraX - (visibleWorldWidth / 2);
-    const worldTop = cameraY - (visibleWorldHeight / 2);
-    const worldRight = cameraX + (visibleWorldWidth / 2);
-    const worldBottom = cameraY + (visibleWorldHeight / 2);
+    const corners = [
+      projectScreenToWorld(0, 0, transform, 0),
+      projectScreenToWorld(width, 0, transform, 0),
+      projectScreenToWorld(width, height, transform, 0),
+      projectScreenToWorld(0, height, transform, 0),
+      { x: transform.cameraX, y: transform.cameraY }
+    ];
 
-    // Convert to grid coordinates
-    const gridLeft = this.worldToGrid(worldLeft, worldTop);
-    const gridRight = this.worldToGrid(worldRight, worldBottom);
+    let minWorldX = Infinity;
+    let maxWorldX = -Infinity;
+    let minWorldY = Infinity;
+    let maxWorldY = -Infinity;
 
-    // Add generous padding to ensure full coverage - especially important for grid lines
-    const padding = 20; // Much larger padding to ensure grid lines extend beyond viewport
+    for (const corner of corners) {
+      if (corner.x < minWorldX) minWorldX = corner.x;
+      if (corner.x > maxWorldX) maxWorldX = corner.x;
+      if (corner.y < minWorldY) minWorldY = corner.y;
+      if (corner.y > maxWorldY) maxWorldY = corner.y;
+    }
+
+    const topLeft = this.worldToGrid(minWorldX, minWorldY);
+    const bottomRight = this.worldToGrid(maxWorldX, maxWorldY);
+
+    // Padding keeps grid lines/tiles covering the viewport even at oblique tilt
+    const padding = 6;
     return {
-      minX: gridLeft.x - padding,
-      maxX: gridRight.x + padding,
-      minY: gridLeft.y - padding,
-      maxY: gridRight.y + padding
+      minX: topLeft.x - padding,
+      maxX: bottomRight.x + padding,
+      minY: topLeft.y - padding,
+      maxY: bottomRight.y + padding
     };
   }
 

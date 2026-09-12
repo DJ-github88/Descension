@@ -9,6 +9,7 @@ import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import CharacterAppearanceModal from '../character-creation-wizard/components/CharacterAppearanceModal';
 import useAuthStore from '../../store/authStore';
 import { uploadAsset } from '../../services/firebase/uploadService';
+import useFitText from '../hud/useFitText';
 
 // Helper function to format ability icon paths correctly
 // Folders are capitalized (Utility, Social, etc.) and files use proper names
@@ -80,6 +81,10 @@ export default function Lore({ initialSection }) {
 
     const [activeSection, setActiveSection] = useState(initialSection || 'identity');
     const [subPage, setSubPage] = useState(0);
+
+    // Long names shrink to fit the page instead of clipping at the book edge
+    // (data-fit-overflow falls back to ellipsis via CSS).
+    const bookNameRef = useFitText(dataSource.name || 'Unnamed Adventurer', { baseSize: 26, minSize: 14 });
 
     // Sync activeSection when initialSection prop changes from dropdown selection
     useEffect(() => {
@@ -872,7 +877,7 @@ export default function Lore({ initialSection }) {
             <>
                 <div className="character-book-header">
                     <div className="decorative-header-arch"></div>
-                    <h1 className="character-book-name">{dataSource.name || 'Unnamed Adventurer'}</h1>
+                    <h1 ref={bookNameRef} className="character-book-name">{dataSource.name || 'Unnamed Adventurer'}</h1>
                     <div className="character-book-subtitle">
                         {raceData?.name || 'Unknown Race'} {subraceData?.name ? `(${subraceData.name})` : ''} 
                         {characterClass ? ` • ${characterClass}` : ''}

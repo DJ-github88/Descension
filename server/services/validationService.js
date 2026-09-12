@@ -182,7 +182,11 @@ const validationSchemas = {
 
   sync_level_editor_state: Joi.object({
     mapId: Joi.string().required(),
-    levelEditor: Joi.object().required()
+    levelEditor: Joi.object().optional(),
+    gridSettings: Joi.object().optional(),
+    elevationData: Joi.object().optional(),
+    rampData: Joi.object().optional(),
+    sunSettings: Joi.object().optional()
   }),
 
   // Player updates

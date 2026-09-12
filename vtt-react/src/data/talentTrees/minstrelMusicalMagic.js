@@ -121,7 +121,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t2_dissonant_spread",
     name: "Dissonant Resonance",
-    icon: "spell_arcane_arcaneresilience",
+    icon: "Psychic/Read Mind",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "mm_t1_unsettling_vibration",
@@ -145,7 +145,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t3_deceptive_cadence",
     name: "Deceptive Cadence",
-    icon: "spell_arcane_arcanetorrent",
+    icon: "Psychic/Mind Growth",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "mm_t2_tritone_discord",
@@ -269,7 +269,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t5_cacophony_engine",
     name: "Cacophony Engine",
-    icon: "spell_arcane_arcanetorrent",
+    icon: "Psychic/Telepathic Arcane",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "mm_t4_discordant_amplification",
@@ -291,7 +291,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t6_deafening_crescendo",
     name: "Deafening Crescendo",
-    icon: "spell_shadow_mindtwisting",
+    icon: "Psychic/Psychic Mind",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "mm_t5_mind_shatter",
@@ -405,7 +405,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t7_acoustic_overload",
     name: "Acoustic Singularity",
-    icon: "spell_arcane_arcanetorrent",
+    icon: "Arcane/Serrated Magenta Dagger",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "mm_t6_dissonant_echoes",
@@ -447,7 +447,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t7_infinite_cacophony",
     name: "Living Discord",
-    icon: "spell_shadow_unholyfrenzy",
+    icon: "General/Rage",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "mm_t6_psychic_bleed",

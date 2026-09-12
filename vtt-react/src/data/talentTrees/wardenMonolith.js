@@ -88,7 +88,7 @@ export const WARDEN_MONOLITH = [
   {
     id: "wm_t2_iron_brace",
     name: "Iron Brace",
-    icon: "ability_warrior_shieldwall",
+    icon: "Utility/Shattered Shield",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "wm_t1_ossified_anchor",
@@ -406,7 +406,7 @@ export const WARDEN_MONOLITH = [
   {
     id: "wm_t7_eternal_calcification",
     name: "Eternal Calcification",
-    icon: "ability_warrior_shieldreflection",
+    icon: "Utility/Shield Emblem",
     maxRanks: 2,
     position: { x: 2.5, y: 6 },
     requires: "wm_t6_colossal_slam",

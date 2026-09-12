@@ -109,6 +109,15 @@ const CanvasGridRenderer = ({
             bottom: currentCameraY + (height / 2) / currentEffectiveZoom
         };
 
+        // Projection-aware visible bounds (correct under camera yaw/tilt)
+        const visibleBounds = gridSystem.getVisibleGridBounds(width, height);
+        const worldBounds = {
+            left: visibleBounds.minX * gridSize + gridOffsetX,
+            right: (visibleBounds.maxX + 1) * gridSize + gridOffsetX,
+            top: visibleBounds.minY * gridSize + gridOffsetY,
+            bottom: (visibleBounds.maxY + 1) * gridSize + gridOffsetY
+        };
+
         // Check grid type
         const currentGridType = currentState.gridType || 'square';
         
@@ -132,10 +141,10 @@ const CanvasGridRenderer = ({
             const bottomRightHex = gridSystem.worldToHex(viewportBounds.right, viewportBounds.bottom);
             
             // Find min/max q and r values with generous padding to ensure full coverage
-            const hexStartQ = Math.min(topLeftHex.q, topRightHex.q, bottomLeftHex.q, bottomRightHex.q) - 3;
-            const hexEndQ = Math.max(topLeftHex.q, topRightHex.q, bottomLeftHex.q, bottomRightHex.q) + 3;
-            const hexStartR = Math.min(topLeftHex.r, topRightHex.r, bottomLeftHex.r, bottomRightHex.r) - 3;
-            const hexEndR = Math.max(topLeftHex.r, topRightHex.r, bottomLeftHex.r, bottomRightHex.r) + 3;
+            const hexStartQ = Math.min(topLeftHex.q, topRightHex.q, bottomLeftHex.q, bottomRightHex.q, visibleBounds.minX) - 3;
+            const hexEndQ = Math.max(topLeftHex.q, topRightHex.q, bottomLeftHex.q, bottomRightHex.q, visibleBounds.maxX) + 3;
+            const hexStartR = Math.min(topLeftHex.r, topRightHex.r, bottomLeftHex.r, bottomRightHex.r, visibleBounds.minY) - 3;
+            const hexEndR = Math.max(topLeftHex.r, topRightHex.r, bottomLeftHex.r, bottomRightHex.r, visibleBounds.maxY) + 3;
             
             // Render each visible hex
             for (let q = hexStartQ; q <= hexEndQ; q++) {
@@ -149,13 +158,15 @@ const CanvasGridRenderer = ({
                     if (screenPos.x >= -padding && screenPos.x <= width + padding &&
                         screenPos.y >= -padding && screenPos.y <= height + padding) {
                         
-                        // Draw hexagon outline
-                        const corners = gridSystem.getHexCorners(screenPos.x, screenPos.y, hexRadiusScreen);
+                        // Draw the hexagon by projecting its world corners (correct under yaw/tilt)
+                        const worldCorners = gridSystem.getHexCorners(worldPos.x, worldPos.y, hexRadius);
                         
                         ctx.beginPath();
-                        ctx.moveTo(corners[0].x, corners[0].y);
-                        for (let i = 1; i < corners.length; i++) {
-                            ctx.lineTo(corners[i].x, corners[i].y);
+                        const first = gridSystem.worldToScreen(worldCorners[0].x, worldCorners[0].y, width, height);
+                        ctx.moveTo(first.x, first.y);
+                        for (let i = 1; i < worldCorners.length; i++) {
+                            const projected = gridSystem.worldToScreen(worldCorners[i].x, worldCorners[i].y, width, height);
+                            ctx.lineTo(projected.x, projected.y);
                         }
                         ctx.closePath();
                         ctx.stroke();
@@ -163,99 +174,31 @@ const CanvasGridRenderer = ({
                 }
             }
         } else {
-            // Square grid rendering (original behavior)
-            // Calculate grid bounds
-            const gridLeft = Math.floor((viewportBounds.left - gridOffsetX) / gridSize) * gridSize + gridOffsetX;
-            const gridRight = Math.ceil((viewportBounds.right - gridOffsetX) / gridSize) * gridSize + gridOffsetX;
-            const gridTop = Math.floor((viewportBounds.top - gridOffsetY) / gridSize) * gridSize + gridOffsetY;
-            const gridBottom = Math.ceil((viewportBounds.bottom - gridOffsetY) / gridSize) * gridSize + gridOffsetY;
-
-            // Render fine grid (if enabled)
-            if (gridProps.showFineGrid) {
-                ctx.strokeStyle = finalGridLineColor;
-                ctx.lineWidth = finalGridLineThickness * 0.25;
-                ctx.globalAlpha = gridProps.fineGridOpacity * finalGridLineOpacity;
-                ctx.beginPath();
-
-                const fineStep = gridSize / 4;
-                for (let x = gridLeft; x <= gridRight; x += fineStep) {
-                    // Use InfiniteGridSystem coordinate transformation for consistency with viewport centering
-                    const screenPos = gridSystem.worldToScreen(x, 0, width, height);
-                    const screenX = screenPos.x;
-                    if (screenX >= -1 && screenX <= width + 1) {
-                        ctx.moveTo(Math.round(screenX) + 0.5, 0);
-                        ctx.lineTo(Math.round(screenX) + 0.5, height);
-                    }
-                }
-
-                for (let y = gridTop; y <= gridBottom; y += fineStep) {
-                    // Use InfiniteGridSystem coordinate transformation for consistency with viewport centering
-                    const screenPos = gridSystem.worldToScreen(0, y, width, height);
-                    const screenY = screenPos.y;
-                    if (screenY >= -1 && screenY <= height + 1) {
-                        ctx.moveTo(0, Math.round(screenY) + 0.5);
-                        ctx.lineTo(width, Math.round(screenY) + 0.5);
-                    }
-                }
-                ctx.stroke();
-            }
-
-            // Render sub-grid (if enabled)
-            if (gridProps.showSubGrid) {
-                ctx.strokeStyle = finalGridLineColor;
-                ctx.lineWidth = finalGridLineThickness * 0.5;
-                ctx.globalAlpha = gridProps.subGridOpacity * finalGridLineOpacity;
-                ctx.beginPath();
-
-                const subStep = gridSize / 2;
-                for (let x = gridLeft; x <= gridRight; x += subStep) {
-                    // Use InfiniteGridSystem coordinate transformation for consistency with viewport centering
-                    const screenPos = gridSystem.worldToScreen(x, 0, width, height);
-                    const screenX = screenPos.x;
-                    if (screenX >= -1 && screenX <= width + 1) {
-                        ctx.moveTo(Math.round(screenX) + 0.5, 0);
-                        ctx.lineTo(Math.round(screenX) + 0.5, height);
-                    }
-                }
-
-                for (let y = gridTop; y <= gridBottom; y += subStep) {
-                    // Use InfiniteGridSystem coordinate transformation for consistency with viewport centering
-                    const screenPos = gridSystem.worldToScreen(0, y, width, height);
-                    const screenY = screenPos.y;
-                    if (screenY >= -1 && screenY <= height + 1) {
-                        ctx.moveTo(0, Math.round(screenY) + 0.5);
-                        ctx.lineTo(width, Math.round(screenY) + 0.5);
-                    }
-                }
-                ctx.stroke();
-            }
-
-            // Render main grid
+            // Square grid rendering (projection-aware: every grid line is drawn
+            // between two projected world endpoints so it follows camera yaw/tilt)
             ctx.strokeStyle = finalGridLineColor;
             ctx.lineWidth = Math.max(gridProps.lineWidth, finalGridLineThickness);
             ctx.globalAlpha = gridProps.opacity * finalGridLineOpacity;
             ctx.beginPath();
 
-            // Draw vertical lines using the same coordinate system as terrain and tokens
-            for (let x = gridLeft; x <= gridRight; x += gridSize * gridProps.skipFactor) {
-                // Use InfiniteGridSystem coordinate transformation for consistency with viewport centering
-                const screenPos = gridSystem.worldToScreen(x, 0, width, height);
-                const screenX = screenPos.x;
-                if (screenX >= -1 && screenX <= width + 1) {
-                    ctx.moveTo(Math.round(screenX) + 0.5, 0);
-                    ctx.lineTo(Math.round(screenX) + 0.5, height);
-                }
+            // Vertical world lines (x = const)
+            const startXWorld = Math.floor((worldBounds.left - gridOffsetX) / gridSize) * gridSize + gridOffsetX;
+            const endXWorld = Math.ceil((worldBounds.right - gridOffsetX) / gridSize) * gridSize + gridOffsetX;
+            for (let x = startXWorld; x <= endXWorld; x += gridSize * gridProps.skipFactor) {
+                const p1 = gridSystem.worldToScreen(x, worldBounds.top, width, height);
+                const p2 = gridSystem.worldToScreen(x, worldBounds.bottom, width, height);
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
             }
 
-            // Draw horizontal lines using the same coordinate system as terrain and tokens
-            for (let y = gridTop; y <= gridBottom; y += gridSize * gridProps.skipFactor) {
-                // Use InfiniteGridSystem coordinate transformation for consistency with viewport centering
-                const screenPos = gridSystem.worldToScreen(0, y, width, height);
-                const screenY = screenPos.y;
-                if (screenY >= -1 && screenY <= height + 1) {
-                    ctx.moveTo(0, Math.round(screenY) + 0.5);
-                    ctx.lineTo(width, Math.round(screenY) + 0.5);
-                }
+            // Horizontal world lines (y = const)
+            const startYWorld = Math.floor((worldBounds.top - gridOffsetY) / gridSize) * gridSize + gridOffsetY;
+            const endYWorld = Math.ceil((worldBounds.bottom - gridOffsetY) / gridSize) * gridSize + gridOffsetY;
+            for (let y = startYWorld; y <= endYWorld; y += gridSize * gridProps.skipFactor) {
+                const p1 = gridSystem.worldToScreen(worldBounds.left, y, width, height);
+                const p2 = gridSystem.worldToScreen(worldBounds.right, y, width, height);
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
             }
 
             ctx.stroke();
@@ -291,7 +234,7 @@ const CanvasGridRenderer = ({
         
         const renderLoop = () => {
             const s = useGameStore.getState();
-            const camKey = `${s.cameraX}|${s.cameraY}|${s.zoomLevel * s.playerZoom}`;
+            const camKey = `${s.cameraX}|${s.cameraY}|${s.zoomLevel * s.playerZoom}|${s.viewMode}|${s.viewRotation}|${s.viewTilt}`;
             if (camKey !== lastCamRenderKeyRef.current) {
                 lastCamRenderKeyRef.current = camKey;
                 renderGrid();
@@ -475,7 +418,27 @@ const CanvasGridRenderer = ({
 
         onGridInteraction(event, tileData);
     }, [onGridInteraction, gridSystem, isDraggingItem, isDraggingCharacterToken]);
-    
+
+    // Repaint immediately when the camera projection changes (orbit/tilt/mode),
+    // instead of waiting for the next pan/drag to trigger a render.
+    useEffect(() => {
+        const unsubscribe = useGameStore.subscribe((state, prevState) => {
+            if (
+                state.viewMode !== prevState.viewMode ||
+                state.viewRotation !== prevState.viewRotation ||
+                state.viewTilt !== prevState.viewTilt
+            ) {
+                if (zoomRenderRafRef.current === null) {
+                    zoomRenderRafRef.current = requestAnimationFrame(() => {
+                        renderGrid();
+                        zoomRenderRafRef.current = null;
+                    });
+                }
+            }
+        });
+        return unsubscribe;
+    }, [renderGrid]);
+
     return (
         <>
             {/* Grid rendering canvas */}

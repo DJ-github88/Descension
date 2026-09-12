@@ -62,7 +62,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t1_summon_acolyte",
     name: "Summon Silence Acolyte",
-    icon: "spell_shadow_summonfelhunter",
+    icon: "Utility/Utility Gear",
     maxRanks: 2,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -157,7 +157,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t3_congregation_of_the_silence",
     name: "Congregation of the Silence",
-    icon: "spell_shadow_summonvoidwalkers",
+    icon: "Utility/Utility Item",
     maxRanks: 3,
     position: { x: 3.5, y: 2 },
     requires: "cu_t2_pact_of_the_silence",
@@ -203,7 +203,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t4_silence_priest",
     name: "Silence Priest",
-    icon: "spell_shadow_summoninfernal",
+    icon: "Utility/Utility Power",
     maxRanks: 2,
     position: { x: 4, y: 3 },
     requires: "cu_t3_congregation_of_the_silence",
@@ -287,7 +287,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t6_tithe_collector",
     name: "Tithe Collector",
-    icon: "spell_shadow_soulleech",
+    icon: "Necrotic/Necrotic Wither",
     maxRanks: 2,
     position: { x: 2, y: 5 },
     requires: "cu_t5_channel_the_silence_god",
@@ -308,7 +308,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t6_dark_benediction",
     name: "Dark Benediction",
-    icon: "spell_shadow_shadowembrace",
+    icon: "Necrotic/Necrotic Wither 10",
     maxRanks: 2,
     position: { x: 3, y: 5 },
     requires: "cu_t5_forbidden_scripture",
@@ -330,7 +330,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t7_invocation_of_the_silence_god",
     name: "Invocation of the Silence God",
-    icon: "spell_shadow_summonfelguard",
+    icon: "Utility/Utility Effect",
     maxRanks: 1,
     position: { x: 0, y: 6 },
     requires: "cu_t6_unholy_bloom",
@@ -355,7 +355,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t7_liturgy_of_depletion",
     name: "Liturgy of Depletion",
-    icon: "spell_shadow_curseofsargeras",
+    icon: "Necrotic/Broken Skull Shackle",
     maxRanks: 5,
     position: { x: 1, y: 6 },
     requires: "cu_t6_tithe_collector",
@@ -399,7 +399,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t7_flock_eternal",
     name: "Flock Eternal",
-    icon: "spell_shadow_summonvoidwalkers",
+    icon: "Utility/Utility Tool",
     maxRanks: 3,
     position: { x: 3, y: 6 },
     requires: "cu_t6_dark_benediction",
@@ -419,7 +419,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t7_mad_communion",
     name: "Mad Communion",
-    icon: "spell_shadow_darkritual",
+    icon: "Necrotic/Ritual of Blood",
     maxRanks: 3,
     position: { x: 4, y: 6 },
     requires: "cu_t6_dark_benediction",

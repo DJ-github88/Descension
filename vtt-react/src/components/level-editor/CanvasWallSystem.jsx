@@ -60,7 +60,10 @@ const CanvasWallSystem = () => {
     gridSize,
     gridType,
     gridOffsetX,
-    gridOffsetY
+    gridOffsetY,
+    viewMode,
+    viewRotation,
+    viewTilt
   } = useGameStore();
 
   const {
@@ -229,6 +232,16 @@ const CanvasWallSystem = () => {
 
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // In projected views (2.5D / rotated camera) the SVG wall layer is the sole
+    // renderer. Double-drawing both layers caused a drag-time ghost where the
+    // canvas prism lagged a frame behind the SVG walls and then snapped back.
+    const viewState = getGridSystem().getGridState();
+    const isProjectedView = viewState.viewMode === '2.5d' ||
+      Math.abs(((viewState.viewRotation % 360) + 360) % 360) > 0.001;
+    if (isProjectedView) {
+      return;
+    }
 
     // Check if wall layer is visible (support both new layer system and legacy showWallLayer)
     const wallLayer = drawingLayers.find(layer => layer.id === 'walls');
@@ -527,7 +540,49 @@ const CanvasWallSystem = () => {
       const isInteractive = wallTypeData.interactive;
       const isDoorOpen = isInteractive && wallState === 'open';
 
-      // Calculate geometry
+      // === 2.5D: draw the wall as a raised prism (side silhouette + lifted face) ===
+      // Compute projection/height first, then shift the face coordinates so the
+      // existing door/window/texture code renders at the prism top. No ctx transform
+      // is used here (a leaked translate previously pushed every subsequent wall off-screen).
+      const wallProjection = gridSystem.getProjectionTransform(window.innerWidth, window.innerHeight);
+      const isProjectedWalls = wallProjection.viewMode === '2.5d' ||
+        Math.abs(((wallProjection.yaw % 360) + 360) % 360) > 0.001;
+      const wallHeightWorld = gridSize * (isInteractive ? 1.2 : 1.8); // doors ~6ft, walls ~9ft
+      const wallTopOffset = (isProjectedWalls && !isDoorOpen)
+        ? wallHeightWorld * wallProjection.cosTilt * wallProjection.effectiveZoom
+        : 0;
+
+      const basePos1 = { x: screenPos1.x, y: screenPos1.y };
+      const basePos2 = { x: screenPos2.x, y: screenPos2.y };
+
+      if (wallTopOffset > 0.5) {
+        ctx.save();
+        ctx.globalAlpha = isGreyedOut ? 0.35 : 0.95;
+        ctx.fillStyle = isGreyedOut ? '#2A2520' : (palette.dark || '#3A2F26');
+        ctx.beginPath();
+        ctx.moveTo(basePos1.x, basePos1.y);
+        ctx.lineTo(basePos2.x, basePos2.y);
+        ctx.lineTo(basePos2.x, basePos2.y - wallTopOffset);
+        ctx.lineTo(basePos1.x, basePos1.y - wallTopOffset);
+        ctx.closePath();
+        ctx.fill();
+
+        // Top edge shading so the raised face reads as a solid wall
+        ctx.globalAlpha = isGreyedOut ? 0.3 : 0.6;
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.45)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(basePos1.x, basePos1.y - wallTopOffset);
+        ctx.lineTo(basePos2.x, basePos2.y - wallTopOffset);
+        ctx.stroke();
+        ctx.restore();
+
+        // Lift the face geometry to the prism top
+        screenPos1 = { x: basePos1.x, y: basePos1.y - wallTopOffset };
+        screenPos2 = { x: basePos2.x, y: basePos2.y - wallTopOffset };
+      }
+
+      // Calculate geometry (from the lifted face when projected)
       const dx = screenPos2.x - screenPos1.x;
       const dy = screenPos2.y - screenPos1.y;
       const length = Math.sqrt(dx * dx + dy * dy);
@@ -991,7 +1046,7 @@ const CanvasWallSystem = () => {
       });
     }
 
-  }, [wallData, drawingLayers, gridToScreen, effectiveZoom, gridSize, cameraX, cameraY, gridOffsetX, gridOffsetY, showWallLayer, viewingFromToken, visibleArea, isEditorMode, selectedWallKey, windowOverlays, selectedWindowKey]);
+  }, [wallData, drawingLayers, gridToScreen, effectiveZoom, gridSize, cameraX, cameraY, gridOffsetX, gridOffsetY, showWallLayer, viewingFromToken, visibleArea, isEditorMode, selectedWallKey, windowOverlays, selectedWindowKey, viewMode, viewRotation, viewTilt]);
 
   // Throttle wall rendering with RAF for smooth performance during camera movement
   const throttledRenderWallsRef = useRef(null);
@@ -1010,7 +1065,7 @@ const CanvasWallSystem = () => {
       }
     });
     return () => cancelAnimationFrame(rafId);
-  }, [wallData, drawingLayers, effectiveZoom, gridSize, cameraX, cameraY, gridOffsetX, gridOffsetY, showWallLayer, viewingFromToken, visibleArea, isEditorMode, selectedWallKey, windowOverlays, selectedWindowKey]);
+  }, [wallData, drawingLayers, effectiveZoom, gridSize, cameraX, cameraY, gridOffsetX, gridOffsetY, showWallLayer, viewingFromToken, visibleArea, isEditorMode, selectedWallKey, windowOverlays, selectedWindowKey, viewMode, viewRotation, viewTilt]);
 
   // Handle window resize
   useEffect(() => {

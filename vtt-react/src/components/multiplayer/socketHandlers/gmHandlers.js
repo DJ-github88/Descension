@@ -264,7 +264,11 @@ export function registerGmHandlers(ctx) {
               gridOffsetX: mapData.gridSettings?.gridOffsetX || 0,
               gridOffsetY: mapData.gridSettings?.gridOffsetY || 0,
               gridLineColor: mapData.gridSettings?.gridLineColor || '#000000',
-              gridLineThickness: mapData.gridSettings?.gridLineThickness || 1
+              gridLineThickness: mapData.gridSettings?.gridLineThickness || 1,
+              gridType: mapData.gridSettings?.gridType || 'square',
+              viewMode: mapData.gridSettings?.viewMode || '2d',
+              viewRotation: mapData.gridSettings?.cameraRotation ?? 0,
+              viewTilt: mapData.gridSettings?.cameraTilt ?? ((mapData.gridSettings?.viewMode || '2d') === '2.5d' ? 30 : 90)
             });
 
             setTimeout(() => { window._isReceivingMapUpdate = false; }, 200);
@@ -480,7 +484,12 @@ export function registerGmHandlers(ctx) {
             gridOffsetX: mapData.gridSettings?.gridOffsetX ?? localMapCache.gridSettings?.gridOffsetX ?? 0,
             gridOffsetY: mapData.gridSettings?.gridOffsetY ?? localMapCache.gridSettings?.gridOffsetY ?? 0,
             gridLineColor: mapData.gridSettings?.gridLineColor ?? localMapCache.gridSettings?.gridLineColor ?? '#000000',
-            gridLineThickness: mapData.gridSettings?.gridLineThickness ?? localMapCache.gridSettings?.gridLineThickness ?? 1
+            gridLineThickness: mapData.gridSettings?.gridLineThickness ?? localMapCache.gridSettings?.gridLineThickness ?? 1,
+            gridType: mapData.gridSettings?.gridType ?? localMapCache.gridSettings?.gridType ?? 'square',
+            viewMode: mapData.gridSettings?.viewMode ?? localMapCache.gridSettings?.viewMode ?? '2d',
+            viewRotation: mapData.gridSettings?.cameraRotation ?? localMapCache.gridSettings?.cameraRotation ?? 0,
+            viewTilt: mapData.gridSettings?.cameraTilt ?? localMapCache.gridSettings?.cameraTilt
+              ?? ((mapData.gridSettings?.viewMode ?? localMapCache.gridSettings?.viewMode ?? '2d') === '2.5d' ? 30 : 90)
           });
         }).then(() => {
           // Step 3: Reload token/item payloads.
@@ -868,7 +877,11 @@ export function registerGmHandlers(ctx) {
             gridOffsetX: mapData.gridSettings?.gridOffsetX || 0,
             gridOffsetY: mapData.gridSettings?.gridOffsetY || 0,
             gridLineColor: mapData.gridSettings?.gridLineColor || '#000000',
-            gridLineThickness: mapData.gridSettings?.gridLineThickness || 1
+            gridLineThickness: mapData.gridSettings?.gridLineThickness || 1,
+            gridType: mapData.gridSettings?.gridType || 'square',
+            viewMode: mapData.gridSettings?.viewMode || '2d',
+            viewRotation: mapData.gridSettings?.cameraRotation ?? 0,
+            viewTilt: mapData.gridSettings?.cameraTilt ?? ((mapData.gridSettings?.viewMode || '2d') === '2.5d' ? 30 : 90)
           });
 
           setTimeout(() => {

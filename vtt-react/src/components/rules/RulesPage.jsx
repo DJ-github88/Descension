@@ -3677,6 +3677,8 @@ const RulesPage = () => {
   const [searchFilter, setSearchFilter] = useState('all');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedResultIndex, setSelectedResultIndex] = useState(0);
+  const [showRulesBrowse, setShowRulesBrowse] = useState(false);
+  const [browseCategory, setBrowseCategory] = useState(null);
   const searchInputRef = useRef(null);
   const searchModalRef = useRef(null);
 
@@ -5834,7 +5836,7 @@ const RulesPage = () => {
 
 
 
-              onClick={openSearch}
+              onClick={() => openSearch()}
 
 
 
@@ -5859,6 +5861,46 @@ const RulesPage = () => {
 
 
           </div>
+
+
+
+          <button
+
+
+
+            type="button"
+
+
+
+            className="rules-browse-trigger"
+
+
+
+            onClick={() => { setBrowseCategory(null); setShowRulesBrowse(true); }}
+
+
+
+            title="Browse all sections"
+
+
+
+            aria-label="Browse all sections"
+
+
+
+          >
+
+
+
+            <i className="fas fa-compass"></i>
+
+
+
+            <span>Browse</span>
+
+
+
+          </button>
 
 
 
@@ -6530,6 +6572,279 @@ const RulesPage = () => {
           </div>
         </div>
       )}
+
+      {showRulesBrowse && createPortal(
+
+
+
+        <div className="rules-browse-overlay" onClick={() => setShowRulesBrowse(false)}>
+
+
+
+          <div className="rules-browse-sheet" onClick={(e) => e.stopPropagation()}>
+
+
+
+            <div className="rules-browse-header">
+
+
+
+              {browseCategory ? (
+
+
+
+                <button
+
+
+
+                  type="button"
+
+
+
+                  className="rules-browse-back"
+
+
+
+                  onClick={() => setBrowseCategory(null)}
+
+
+
+                  aria-label="Back to categories"
+
+
+
+                >
+
+
+
+                  <i className="fas fa-chevron-left"></i>
+
+
+
+                </button>
+
+
+
+              ) : (
+
+
+
+                <span className="rules-browse-title">
+
+
+
+                  <i className="fas fa-compass"></i> Browse the Codex
+
+
+
+                </span>
+
+
+
+              )}
+
+
+
+              {browseCategory && (
+
+
+
+                <span className="rules-browse-title">
+
+
+
+                  <i className={browseCategory.icon}></i> {browseCategory.name}
+
+
+
+                </span>
+
+
+
+              )}
+
+
+
+              <button
+
+
+
+                type="button"
+
+
+
+                className="rules-browse-close"
+
+
+
+                onClick={() => setShowRulesBrowse(false)}
+
+
+
+                aria-label="Close browse"
+
+
+
+              >
+
+
+
+                <i className="fas fa-xmark"></i>
+
+
+
+              </button>
+
+
+
+            </div>
+
+
+
+            <div className="rules-browse-body">
+
+
+
+              {!browseCategory ? (
+
+
+
+                filteredCategories.map(cat => (
+
+
+
+                  <button
+
+
+
+                    type="button"
+
+
+
+                    key={cat.id}
+
+
+
+                    className={`rules-browse-item ${selectedCategory === cat.id ? 'active' : ''}`}
+
+
+
+                    onClick={() => setBrowseCategory(cat)}
+
+
+
+                  >
+
+
+
+                    <i className={cat.icon || 'fas fa-circle'}></i>
+
+
+
+                    <span>{cat.name}</span>
+
+
+
+                    <i className="fas fa-chevron-right rules-browse-chevron"></i>
+
+
+
+                  </button>
+
+
+
+                ))
+
+
+
+              ) : (
+
+
+
+                browseCategory.subcategories.map(sub => (
+
+
+
+                  <button
+
+
+
+                    type="button"
+
+
+
+                    key={sub.id}
+
+
+
+                    className={`rules-browse-item ${selectedCategory === browseCategory.id && selectedSubcategory === sub.id && !selectedClassDetail ? 'active' : ''}`}
+
+
+
+                    onClick={() => {
+
+
+
+                      handleSubcategoryClick(browseCategory.id, sub.id);
+
+
+
+                      setShowRulesBrowse(false);
+
+
+
+                      setBrowseCategory(null);
+
+
+
+                    }}
+
+
+
+                  >
+
+
+
+                    <i className={sub.icon}></i>
+
+
+
+                    <span>{sub.name}</span>
+
+
+
+                  </button>
+
+
+
+                ))
+
+
+
+              )}
+
+
+
+            </div>
+
+
+
+          </div>
+
+
+
+        </div>,
+
+
+
+        document.body
+
+
+
+      )}
+
+
+
     </div>
 
 

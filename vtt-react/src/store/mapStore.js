@@ -59,7 +59,25 @@ const createDefaultMap = (name = 'New Map') => ({
     gridOffsetY: 0,
     gridLineColor: '#000000',  // Match server default (black)
     gridLineThickness: 2,
-    gridType: 'square' // 'square' or 'hex' - per-map grid type
+    gridType: 'square', // 'square' or 'hex' - per-map grid type
+
+    // View mode + camera orbit defaults (GM-controlled, synced to players)
+    viewMode: '2d', // '2d' | '2.5d'
+    cameraRotation: 0, // default orbit yaw in degrees (0 = north-up)
+    cameraTilt: 90, // default orbit pitch in degrees (90 = topdown)
+
+    // Verticality data (levels are integers in 5ft units; 0 = ground, negative = pits)
+    elevationData: {}, // { "x,y": level }
+    rampData: {}, // { "x,y": { dir: 'n'|'e'|'s'|'w', type: 'ramp'|'stairs' } }
+
+    // Per-map sun for directional lighting/shadows (elevation-aware)
+    sunSettings: {
+        azimuth: 135, // degrees, world-space direction the sunlight comes FROM
+        elevation: 45, // degrees above horizon
+        color: '#fff4e0',
+        intensity: 1.0,
+        ambient: 0.2
+    }
 });
 
 // Storage quota exceeded handler
@@ -547,7 +565,10 @@ const useMapStore = create(
                         gridOffsetY: mapState.gridOffsetY || 0,
                         gridLineColor: mapState.gridLineColor || '#000000', // Match server/createDefaultMap defaults
                         gridLineThickness: mapState.gridLineThickness || 2,
-                        gridType: mapState.gridType || 'square' // Restore per-map grid type
+                        gridType: mapState.gridType || 'square', // Restore per-map grid type
+                        viewMode: mapState.viewMode || '2d', // Restore per-map view mode
+                        viewRotation: mapState.cameraRotation ?? 0, // GM default orbit yaw
+                        viewTilt: mapState.cameraTilt ?? ((mapState.viewMode || '2d') === '2.5d' ? 30 : 90)
                     };
 
                     if (!skipCameraRestore) {
@@ -673,6 +694,15 @@ const useMapStore = create(
                     }
                     if (levelEditorState.setDrawingLayers) {
                         levelEditorState.setDrawingLayers(mapState.drawingLayers || []);
+                    }
+                    if (levelEditorState.setElevationData) {
+                        levelEditorState.setElevationData(mapState.elevationData || {});
+                    }
+                    if (levelEditorState.setRampData) {
+                        levelEditorState.setRampData(mapState.rampData || {});
+                    }
+                    if (levelEditorState.setSunSettings && mapState.sunSettings) {
+                        levelEditorState.setSunSettings(mapState.sunSettings);
                     }
 
                     // Also update grid items
@@ -850,6 +880,7 @@ const useMapStore = create(
                     gridLineColor: gameStoreData.gridLineColor || '#000000',
                     gridLineThickness: gameStoreData.gridLineThickness || 2,
                     gridType: gameStoreData.gridType || 'square', // Save per-map grid type
+                    viewMode: gameStoreData.viewMode || '2d', // Save per-map view mode
 
                     // Save level editor data
                     terrainData: levelEditorData.terrainData || {},
@@ -862,6 +893,11 @@ const useMapStore = create(
                     windowOverlays: levelEditorData.windowOverlays || {},
                     drawingPaths: levelEditorData.drawingPaths || [],
                     drawingLayers: levelEditorData.drawingLayers || [],
+
+                    // Save verticality + sun data
+                    elevationData: levelEditorData.elevationData || {},
+                    rampData: levelEditorData.rampData || {},
+                    sunSettings: levelEditorData.sunSettings || {},
 
                     // Save game entities
                     creatures: gameStoreData.creatures || [],

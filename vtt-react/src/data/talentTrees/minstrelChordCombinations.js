@@ -141,7 +141,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t3_perfect_strike",
     name: "Perfect Cadence Strike",
-    icon: "spell_holy_divinehymn",
+    icon: "Healing/Healing Compass",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "cc_t2_battle_anthem",
@@ -219,7 +219,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t4_double_time",
     name: "Double Time Tempo",
-    icon: "spell_holy_divinehymn",
+    icon: "Healing/Armored Healing",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "cc_t3_circle_mastery",
@@ -290,7 +290,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t6_rallying_fanfare",
     name: "Rallying Fanfare",
-    icon: "ability_warrior_rallyingshout",
+    icon: "Utility/Sprinting Leg General",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "cc_t5_crescendo_detonation",
@@ -312,7 +312,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t6_iron_harmonics",
     name: "Harmonic Fortification",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "Force/Force Tied",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "cc_t5_overture_momentum",
@@ -376,7 +376,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t7_war_conductor",
     name: "War Conductor Doctrine",
-    icon: "spell_holy_prayerofhealing",
+    icon: "Radiant/Holy Bible",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "cc_t6_rallying_fanfare",
@@ -399,7 +399,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t7_infinite_tempo",
     name: "Infinite Cadence",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "Force/Force Wave",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "cc_t6_iron_harmonics",

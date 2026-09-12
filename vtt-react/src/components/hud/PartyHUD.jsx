@@ -28,6 +28,7 @@ import { getCustomBackgroundData, getEnhancedPathData } from '../../data/legacyD
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import { getClassIconUrl } from '../../utils/classIconUtils';
 import PortraitLightbox from './PortraitLightbox';
+import useFitText from './useFitText';
 import './PortraitLightbox.css';
 // REMOVED: import 'react-resizable/css/styles.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
@@ -248,6 +249,10 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     // Quick-adjust popover for the corner mounts (HP bottle / mana crystal / AP boot)
     const [mountMenu, setMountMenu] = useState(null);
     const mountMenuRef = useRef(null);
+
+    // Long names shrink to fit the header row instead of spilling out of the
+    // frame (min-width: min-content would otherwise defeat ellipsis).
+    const nameRef = useFitText(member.name);
 
     // Same permission gate as the right-click resource submenus (GM or self)
     const canAdjustMounts = isCurrentPlayer || isGMMode;
@@ -1300,7 +1305,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                             {frameClassName}
                                         </span>
                                     )}
-                                    <span className="member-name-text" title={member.name}>{member.name}</span>
+                                    <span ref={nameRef} className="member-name-text" title={member.name}>{member.name}</span>
                                 </div>
                                 <div className="member-details">
                                     {racePart && (

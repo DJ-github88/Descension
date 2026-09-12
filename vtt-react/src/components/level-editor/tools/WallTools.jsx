@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getIconUrl } from '../../../utils/assetManager';
 import { WALL_TYPES } from '../../../store/levelEditorStore';
+import useLevelEditorStore from '../../../store/levelEditorStore';
+import useGameStore from '../../../store/gameStore';
 import './styles/WallTools.css';
 
 // Using WALL_TYPES from store - removed duplicate definition
@@ -9,6 +11,28 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
     const [selectedWallType, setSelectedWallType] = useState('stone_wall');
     const [wallMode, setWallMode] = useState('continuous'); // continuous, rectangle
     const [doorOrientation, setDoorOrientation] = useState('horizontal'); // horizontal, vertical
+
+    // Per-wall height editing (data consumed by SvgWallLayer, ShadowOverlay, prisms)
+    const selectedWallKey = useLevelEditorStore(state => state.selectedWallKey);
+    const wallData = useLevelEditorStore(state => state.wallData);
+    const updateWall = useLevelEditorStore(state => state.updateWall);
+    const gridSize = useGameStore(state => state.gridSize) || 50;
+    const feetPerTile = useGameStore(state => state.feetPerTile) || 5;
+
+    const selectedWall = selectedWallKey ? wallData?.[selectedWallKey] : null;
+    const currentHeightWorld = Number.isFinite(selectedWall?.height) ? selectedWall.height : null;
+    const currentHeightFeet = currentHeightWorld != null
+        ? Math.round((currentHeightWorld / gridSize) * feetPerTile)
+        : null;
+
+    const handleWallHeightChange = (feet) => {
+        if (!selectedWallKey || !selectedWall) return;
+        if (feet === null) {
+            updateWall(selectedWallKey, { height: null });
+            return;
+        }
+        updateWall(selectedWallKey, { height: (feet / feetPerTile) * gridSize });
+    };
 
     // Wall tool configurations
     const wallTools = [
@@ -287,6 +311,43 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                             <span>Doors and windows slide <strong>along walls</strong> automatically</span>
                         </div>
                     </div>
+                </div>
+            )}
+
+            {/* Selected wall height */}
+            {selectedTool === 'wall_select' && (
+                <div className="tool-section">
+                    <h4>Wall Height</h4>
+                    {selectedWall ? (
+                        <>
+                            <div style={{ fontSize: '12px', marginBottom: '6px', color: '#d9c8a4' }}>
+                                Current: <strong>{currentHeightFeet != null ? `${currentHeightFeet} ft` : 'Default (9 ft)'}</strong>
+                            </div>
+                            <div className="mode-controls">
+                                {[5, 10, 15, 20].map(feet => (
+                                    <button
+                                        key={feet}
+                                        className={`mode-btn ${currentHeightFeet === feet ? 'active' : ''}`}
+                                        onClick={() => handleWallHeightChange(feet)}
+                                        title={`${feet} ft — taller walls hide more and cast longer sun shadows`}
+                                    >
+                                        {feet} ft
+                                    </button>
+                                ))}
+                                <button
+                                    className={`mode-btn ${currentHeightFeet == null ? 'active' : ''}`}
+                                    onClick={() => handleWallHeightChange(null)}
+                                    title="Use the default height (9 ft)"
+                                >
+                                    Default
+                                </button>
+                            </div>
+                        </>
+                    ) : (
+                        <div style={{ fontSize: '11px', fontStyle: 'italic', color: '#a08c70' }}>
+                            Select a wall to set its height.
+                        </div>
+                    )}
                 </div>
             )}
 

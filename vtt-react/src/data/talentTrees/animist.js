@@ -258,7 +258,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t5_unyielding_totemist",
     name: "Living Bulwark",
-    icon: "inv_misc_scalesofjustice",
+    icon: "Radiant/Radiant Divinity 1",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "tw_t4_earthen_siphon",
@@ -369,7 +369,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t7_thornwarden_doctrine",
     name: "Thornwarden Doctrine",
-    icon: "ability_warrior_shieldwall",
+    icon: "Utility/Armored Warrior",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "tw_t6_the_ironwood_cage",
@@ -412,7 +412,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t7_briar_shatter",
     name: "Briar Cataclysm",
-    icon: "spell_nature_thorns",
+    icon: "Nature/Nature Primal",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "tw_t6_bog_sovereignty",
@@ -432,7 +432,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t7_undying_peat",
     name: "Undying Peat",
-    icon: "spell_nature_healingway",
+    icon: "Healing/Armored Healing",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "tw_t6_bog_sovereignty",
@@ -676,7 +676,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t5_grand_specter",
     name: "Summon Ancestral Giant",
-    icon: "spell_shadow_summonvoidwalker",
+    icon: "Utility/Utility Effect",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "sb_t4_spirit_link_totem",
@@ -767,7 +767,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t6_death_pact",
     name: "Soul Feast",
-    icon: "spell_shadow_lifedrain02",
+    icon: "Necrotic/Necrotic Death 5",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "sb_t5_spirit_harvest",
@@ -788,7 +788,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t7_horde_of_the_mire",
     name: "Horde of the Mire",
-    icon: "ability_hunter_pet_attack",
+    icon: "Utility/Crested Beast Head",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "sb_t6_the_triune_ancestors",
@@ -813,7 +813,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t7_spirit_doctrine",
     name: "Spirit Binder Doctrine",
-    icon: "spell_shadow_curseofsargeras",
+    icon: "Necrotic/Antlered Skull Glowing Eyes",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "sb_t6_the_triune_ancestors",
@@ -836,7 +836,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t7_endless_horde",
     name: "Endless Pack Reservoir",
-    icon: "ability_hunter_pet_aggressive",
+    icon: "Nature/Nature Scene",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "sb_t6_spectral_invulnerability",
@@ -856,7 +856,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t7_ancestral_wrath",
     name: "Wrath of the Elders",
-    icon: "spell_shadow_deathanddecay",
+    icon: "Necrotic/Necrotic Death 6",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "sb_t6_death_pact",
@@ -973,7 +973,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t2_chain_lightning_strike",
     name: "Chain Lightning Inscription",
-    icon: "spell_nature_chainlightning",
+    icon: "Lightning/Lightning Bolt Arm",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "ss_t1_galvanic_totem",
@@ -1000,7 +1000,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t2_storm_attunement",
     name: "Galvanic Overload",
-    icon: "spell_lightning_lightningbolt01",
+    icon: "Lightning/Lightning Fueled Bolt",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "ss_t1_blood_brand",
@@ -1148,7 +1148,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t5_conduction_matrix",
     name: "Conduction Matrix",
-    icon: "spell_nature_chainlightning",
+    icon: "Lightning/Cracked Lightning Column",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "ss_t4_totem_multiplication",
@@ -1196,7 +1196,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t6_storm_sovereignty",
     name: "Storm Sovereignty",
-    icon: "spell_lightning_lightningbolt01",
+    icon: "Lightning/Jagged Lightning",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "ss_t5_conduction_matrix",
@@ -1216,7 +1216,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t6_totemic_resilience",
     name: "Totemic Sanctuary",
-    icon: "spell_nature_healingway",
+    icon: "Healing/Baseball Heart",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "ss_t5_conduction_matrix",
@@ -1237,7 +1237,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t7_avatar_of_the_storm",
     name: "Avatar of the Tempest",
-    icon: "spell_nature_unrelentingstorm",
+    icon: "Lightning/Lightning Crack",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "ss_t6_the_ancestral_convergence",
@@ -1262,7 +1262,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t7_stormscribe_doctrine",
     name: "Stormscribe Doctrine",
-    icon: "spell_lightning_lightningbolt01",
+    icon: "Lightning/Lightning Burst",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "ss_t6_the_ancestral_convergence",
@@ -1305,7 +1305,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t7_supercharged_crit",
     name: "Supercharged Discharge",
-    icon: "spell_nature_chainlightning",
+    icon: "Lightning/Lightning Capsule",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "ss_t6_totemic_resilience",
@@ -1327,7 +1327,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t7_galvanic_reincarnation",
     name: "Galvanic Reincarnation",
-    icon: "spell_nature_healingway",
+    icon: "Healing/Broken Heart",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "ss_t6_totemic_resilience",

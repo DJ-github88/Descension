@@ -71,7 +71,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t1_gentle_tempo",
     name: "Slack Tide Grace",
-    icon: "spell_holy_divinehymn",
+    icon: "Healing/Healing Compass",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -189,7 +189,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t4_cleansing_stanza",
     name: "Cleansing Stanza",
-    icon: "spell_holy_divineprovidence",
+    icon: "Radiant/Radiant Radiance 3",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "hw_t3_authentic_mastery",
@@ -214,7 +214,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t4_lullaby_ward",
     name: "Lullaby Ward",
-    icon: "spell_holy_silence",
+    icon: "Psychic/Psychic Mind",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "hw_t3_plagal_bounty",
@@ -235,7 +235,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t5_healing_chorus",
     name: "Healing Chorus",
-    icon: "spell_holy_prayerofhealing",
+    icon: "Healing/Armored Healing",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "hw_t4_cleansing_stanza",
@@ -260,7 +260,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t5_tonic_overflow",
     name: "Tonic Surge",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "Force/Force Weapon",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "hw_t4_lullaby_ward",
@@ -305,7 +305,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t6_unbroken_chorus",
     name: "Symphonic Harmony",
-    icon: "spell_holy_divinehymn",
+    icon: "Radiant/Holy Blessing",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "hw_t5_tonic_overflow",
@@ -324,7 +324,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t6_tide_resilience",
     name: "Tidal Sanctum",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "Force/Force Tied",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "hw_t5_tonic_overflow",
@@ -345,7 +345,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t7_mereval_symphony",
     name: "Mereval Symphony",
-    icon: "spell_holy_divinehymn",
+    icon: "Radiant/Holy Cross",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "hw_t6_death_defying_aria",
@@ -369,7 +369,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t7_sacred_choir",
     name: "Sacred Choir Doctrine",
-    icon: "spell_holy_prayerofhealing",
+    icon: "Radiant/Sacred Summoning",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "hw_t6_death_defying_aria",
@@ -391,7 +391,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t7_endless_cadence",
     name: "Endless Cadence",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "Force/Force Touch",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "hw_t6_unbroken_chorus",
@@ -411,7 +411,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t7_fountain_of_life",
     name: "Fountain of the Deep",
-    icon: "spell_holy_renew",
+    icon: "Radiant/Radiant Beam of Healing",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "hw_t6_unbroken_chorus",
@@ -431,7 +431,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t7_tide_immortality",
     name: "Immortal Cadence",
-    icon: "spell_holy_divineprovidence",
+    icon: "Radiant/Radiant Radiance 4",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "hw_t6_tide_resilience",

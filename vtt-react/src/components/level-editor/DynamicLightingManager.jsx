@@ -2,6 +2,7 @@ import  { useEffect, useCallback, useRef } from 'react';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useGameStore from '../../store/gameStore';
 import { calculateAreaLighting } from '../../utils/LightingCalculations';
+import { getTileElevation } from '../../utils/ElevationUtils';
 
 /**
  * DynamicLightingManager - Handles real-time lighting calculations and updates
@@ -22,7 +23,8 @@ const DynamicLightingManager = ({ disabled = false }) => {
         setRevealedArea,
         atmosphericEffects,
         lightAnimations,
-        performanceMode
+        performanceMode,
+        elevationData
     } = useLevelEditorStore();
 
     // Game settings
@@ -83,6 +85,53 @@ const DynamicLightingManager = ({ disabled = false }) => {
 
         lightingDataRef.current = newLightingData;
 
+        // Elevation-aware falloff: lights at different heights attenuate by the
+        // full 3D distance (horizontal tiles + vertical elevation delta in feet),
+        // so a torch at the base of a cliff lights the plateau dimmer and pits
+        // receive less light from sources at ground level.
+        if (elevationData && Object.keys(elevationData).length > 0) {
+            const activeLights = Object.values(lightSources || {}).filter(light =>
+                light && light.enabled !== false &&
+                Number.isFinite(light.x ?? light.gridX) &&
+                Number.isFinite(light.y ?? light.gridY)
+            );
+
+            if (activeLights.length > 0) {
+                Object.entries(newLightingData).forEach(([tileKey, lighting]) => {
+                    if (!lighting || !lighting.intensity) return;
+                    const [tileX, tileY] = tileKey.split(',').map(Number);
+                    if (!Number.isFinite(tileX) || !Number.isFinite(tileY)) return;
+
+                    const tileLevel = getTileElevation(elevationData, tileX, tileY);
+
+                    let distanceFactor = 1;
+                    let contributors = 0;
+
+                    for (const light of activeLights) {
+                        const lightX = light.x ?? light.gridX;
+                        const lightY = light.y ?? light.gridY;
+                        const sourceLevel = getTileElevation(elevationData, lightX, lightY);
+                        const deltaLevel = tileLevel - sourceLevel;
+
+                        // Skip lights that cannot reach this tile horizontally
+                        const horizontalTiles = Math.hypot(lightX - tileX, lightY - tileY);
+                        if (horizontalTiles > (light.radius || 3) + 1) continue;
+
+                        const horizontalFeet = Math.max(1, horizontalTiles * 5);
+                        const verticalFeet = deltaLevel * 5;
+                        const threeDFeet = Math.hypot(horizontalFeet, verticalFeet);
+
+                        distanceFactor *= Math.min(1, horizontalFeet / threeDFeet);
+                        contributors++;
+                    }
+
+                    if (contributors > 0 && distanceFactor < 0.999) {
+                        lighting.intensity = lighting.intensity * distanceFactor;
+                    }
+                });
+            }
+        }
+
         // If lighting interacts with fog, update revealed areas
         if (lightInteractsWithFog && !isGMMode) {
             Object.entries(newLightingData).forEach(([tileKey, lighting]) => {
@@ -110,7 +159,8 @@ const DynamicLightingManager = ({ disabled = false }) => {
         setRevealedArea,
         atmosphericEffects,
         lightAnimations,
-        performanceMode
+        performanceMode,
+        elevationData
     ]);
 
     // Update lighting when dependencies change

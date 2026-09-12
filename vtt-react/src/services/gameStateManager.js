@@ -373,6 +373,7 @@ class GameStateManager {
             offsetX: gameStore.gridOffsetX || 0,
             offsetY: gameStore.gridOffsetY || 0,
             type: gameStore.gridType || 'square',
+            viewMode: gameStore.viewMode || '2d',
             color: gameStore.gridLineColor || '#000000',
             thickness: gameStore.gridLineThickness || 2
           }
