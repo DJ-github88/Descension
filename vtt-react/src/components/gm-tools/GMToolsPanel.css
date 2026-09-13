@@ -207,7 +207,7 @@
   padding: 8px 12px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 6px;
-  border-left: 3px solid transparent;
+  border-left: 2px solid transparent;
 }
 
 .turn-item.current-turn {

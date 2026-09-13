@@ -9,7 +9,7 @@ import { useTooltipPosition } from '../common/useTooltipPosition';
 import { getIconUrl } from '../../utils/assetManager';
 import CraftingStatusBar from './CraftingStatusBar';
 
-function BlacksmithingInterface({ onBack, activeTab, onTabChange, onLearnAllRecipes, onAddTestMaterials }) {
+function BlacksmithingInterface({ onBack, activeTab, onTabChange }) {
     const [hoveredRecipe, setHoveredRecipe] = useState(null);
     const [hoveredItem, setHoveredItem] = useState(null);
     const [hoveredMaterial, setHoveredMaterial] = useState(null);
@@ -738,8 +738,6 @@ function BlacksmithingInterface({ onBack, activeTab, onTabChange, onLearnAllReci
                 defaultIcon="Misc/Profession Resources/Blacksmithing/resource-anvil-forge-brown-grey"
                 selectedRecipe={selectedRecipe}
                 onBackToRecipes={() => setSelectedRecipe(null)}
-                onLearnAllRecipes={onLearnAllRecipes}
-                onAddTestMaterials={onAddTestMaterials}
             />
             <div className="alchemy-content">
                 {renderContent()}

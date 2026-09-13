@@ -127,7 +127,7 @@
     padding: 10px 14px;
     background: linear-gradient(145deg, rgba(255, 224, 138, 0.35) 0%, rgba(255, 200, 100, 0.25) 100%);
     border: 1px solid rgba(139, 69, 19, 0.35);
-    border-left: 4px solid #D2691E;
+    border-left: 2px solid #D2691E;
     border-radius: 6px;
     margin: 0;
 }

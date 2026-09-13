@@ -9,7 +9,7 @@ import { useTooltipPosition } from '../common/useTooltipPosition';
 import { getIconUrl } from '../../utils/assetManager';
 import CraftingStatusBar from './CraftingStatusBar';
 
-function AlchemyInterface({ onBack, activeTab, onTabChange, onLearnAllRecipes, onAddTestMaterials }) {
+function AlchemyInterface({ onBack, activeTab, onTabChange }) {
     const [hoveredRecipe, setHoveredRecipe] = useState(null);
     const [hoveredItem, setHoveredItem] = useState(null);
     const [hoveredMaterial, setHoveredMaterial] = useState(null);
@@ -740,8 +740,6 @@ function AlchemyInterface({ onBack, activeTab, onTabChange, onLearnAllRecipes, o
                 defaultIcon="inv_potion_51"
                 selectedRecipe={selectedRecipe}
                 onBackToRecipes={() => setSelectedRecipe(null)}
-                onLearnAllRecipes={onLearnAllRecipes}
-                onAddTestMaterials={onAddTestMaterials}
             />
             <div className="alchemy-content">
                 {renderContent()}

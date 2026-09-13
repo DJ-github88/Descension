@@ -2306,17 +2306,12 @@ const CharacterToken = ({
         {/* Health bar removed - health is visible in HUD and hover tooltip */}
 
         {/* Character Name Label */}
-        <div className="token-name-label" style={{
-          position: 'absolute',
-          bottom: '-20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          fontSize: '10px',
-          color: '#fff',
-          textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
-          whiteSpace: 'nowrap',
-          pointerEvents: 'none'
-        }}>
+        <div
+          className="token-name-label"
+          style={{
+            transform: `translateX(-50%) scaleY(${1 / Math.max(0.5, groundSquash)})`
+          }}
+        >
           {characterData.name}
         </div>
       </div>

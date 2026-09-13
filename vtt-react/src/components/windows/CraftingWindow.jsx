@@ -5,30 +5,17 @@ import ProfessionSelection from '../crafting/ProfessionSelection';
 import AlchemyInterface from '../crafting/AlchemyInterface';
 import FirstAidInterface from '../crafting/FirstAidInterface';
 import BlacksmithingInterface from '../crafting/BlacksmithingInterface';
-import useChatStore from '../../store/chatStore';
-import useInventoryStore from '../../store/inventoryStore';
-import useItemStore from '../../store/itemStore';
 import '../../styles/crafting.css';
 
 function CraftingWindow({ isOpen, onClose }) {
     const [activeTab, setActiveTab] = useState('recipes');
-    const store = useCraftingStore();
     const {
         selectedProfession,
         setSelectedProfession,
         getProfessionLevel,
-        getRecipesForProfession,
-        learnRecipe,
-        professionLevels,
-        availableRecipes
-    } = store;
-    const { addLootNotification } = useChatStore();
-    const { addItemFromLibrary } = useInventoryStore();
-    const { items: itemLibrary } = useItemStore();
+        professionLevels
+    } = useCraftingStore();
 
-    // Note: Use the "Add Test Materials" button to populate inventory with crafting materials
-
-    
     // Safe wrapper for setSelectedProfession with fallback
     const safeSetSelectedProfession = (professionId) => {
         if (typeof setSelectedProfession === 'function') {
@@ -52,11 +39,11 @@ function CraftingWindow({ isOpen, onClose }) {
         if (selectedProfession) {
             switch (selectedProfession) {
                 case 'alchemy':
-                    return <AlchemyInterface onBack={handleBackToProfessions} activeTab={activeTab} onTabChange={setActiveTab} onLearnAllRecipes={handleLearnAllRecipes} onAddTestMaterials={handleAddTestMaterials} />;
+                    return <AlchemyInterface onBack={handleBackToProfessions} activeTab={activeTab} onTabChange={setActiveTab} />;
                 case 'first-aid':
-                    return <FirstAidInterface onBack={handleBackToProfessions} activeTab={activeTab} onTabChange={setActiveTab} onLearnAllRecipes={handleLearnAllRecipes} onAddTestMaterials={handleAddTestMaterials} />;
+                    return <FirstAidInterface onBack={handleBackToProfessions} activeTab={activeTab} onTabChange={setActiveTab} />;
                 case 'blacksmithing':
-                    return <BlacksmithingInterface onBack={handleBackToProfessions} activeTab={activeTab} onTabChange={setActiveTab} onLearnAllRecipes={handleLearnAllRecipes} onAddTestMaterials={handleAddTestMaterials} />;
+                    return <BlacksmithingInterface onBack={handleBackToProfessions} activeTab={activeTab} onTabChange={setActiveTab} />;
                 default:
                     return (
                         <div className="profession-not-implemented">
@@ -77,128 +64,6 @@ function CraftingWindow({ isOpen, onClose }) {
                 selectedProfession={selectedProfession}
             />
         );
-    };
-
-    // Handle learning all recipes for current profession
-    const handleLearnAllRecipes = () => {
-        if (!selectedProfession) {
-            console.log('handleLearnAllRecipes: No selected profession');
-            return;
-        }
-
-        console.log('handleLearnAllRecipes: selectedProfession =', selectedProfession);
-        const allRecipes = (typeof getRecipesForProfession === 'function')
-            ? getRecipesForProfession(selectedProfession)
-            : ((availableRecipes || []).filter(recipe => recipe.profession === selectedProfession));
-        console.log('handleLearnAllRecipes: Found recipes:', allRecipes.length, allRecipes.map(r => r.id));
-        
-        if (allRecipes.length === 0) {
-            addLootNotification({
-                type: 'crafting_failed',
-                message: `No recipes found for ${selectedProfession}.`,
-                timestamp: Date.now()
-            });
-            return;
-        }
-
-        let learnedCount = 0;
-        allRecipes.forEach(recipe => {
-            console.log('handleLearnAllRecipes: Learning recipe', recipe.id, 'for profession', selectedProfession);
-            if (typeof learnRecipe === 'function') {
-                learnRecipe(selectedProfession, recipe.id);
-            } else {
-                // Fallback: directly update the store
-                const store = useCraftingStore.getState();
-                const currentRecipes = store.knownRecipes?.[selectedProfession] || [];
-                if (!currentRecipes.includes(recipe.id)) {
-                    useCraftingStore.setState(state => ({
-                        knownRecipes: {
-                            ...state.knownRecipes,
-                            [selectedProfession]: [...currentRecipes, recipe.id]
-                        }
-                    }));
-                }
-            }
-            learnedCount++;
-        });
-
-        // Find profession by id since PROFESSIONS uses keys like ALCHEMY, FIRST_AID
-        const profession = Object.values(PROFESSIONS).find(p => p.id === selectedProfession);
-
-        console.log('handleLearnAllRecipes: Learned', learnedCount, 'recipes');
-
-        addLootNotification({
-            type: 'crafting_success',
-            message: `Learned ${learnedCount} ${profession?.name || selectedProfession} recipe${learnedCount !== 1 ? 's' : ''}!`,
-            timestamp: Date.now()
-        });
-    };
-
-    // Add test materials for crafting (materials matched to the canonical item library)
-    const handleAddTestMaterials = () => {
-        if (!selectedProfession) return;
-
-        let testMaterials = [];
-        let message = '';
-
-        if (selectedProfession === 'alchemy') {
-            // Materials required by data/recipes/alchemy.js recipes
-            testMaterials = [
-                { id: 'fieldleaf', quantity: 10 },
-                { id: 'bitterroot', quantity: 10 },
-                { id: 'ashflower', quantity: 10 },
-                { id: 'glowbulb', quantity: 8 },
-                { id: 'frostcap', quantity: 8 },
-                { id: 'ember-ore', quantity: 10 },
-                { id: 'bone-plates', quantity: 5 },
-                { id: 'frost-essence', quantity: 5 },
-                { id: 'glass-vial', quantity: 10 },
-                { id: 'reinforced-flask', quantity: 5 },
-                { id: 'distilled-water', quantity: 15 }
-            ];
-            message = 'Added test alchemy crafting materials to inventory!';
-        } else if (selectedProfession === 'first-aid') {
-            // Materials required by the first-aid recipes in craftingStore.js
-            testMaterials = [
-                { id: 'linen-fiber', quantity: 20 },
-                { id: 'ashflower', quantity: 15 },
-                { id: 'bitterroot', quantity: 10 },
-                { id: 'glass-vial', quantity: 5 },
-                { id: 'wooden-haft', quantity: 8 },
-                { id: 'leather-straps', quantity: 8 },
-                { id: 'waxed-thread', quantity: 8 }
-            ];
-            message = 'Added test first aid crafting materials to inventory!';
-        } else if (selectedProfession === 'blacksmithing') {
-            // Materials required by data/recipes/blacksmithing.js recipes
-            testMaterials = [
-                { id: 'red-copper', quantity: 20 },
-                { id: 'bog-iron', quantity: 20 },
-                { id: 'copper-ingot', quantity: 10 },
-                { id: 'iron-ingot', quantity: 10 },
-                { id: 'metal-rivets', quantity: 15 }
-            ];
-            message = 'Added test blacksmithing crafting materials to inventory!';
-        } else {
-            return; // Unknown profession
-        }
-
-        testMaterials.forEach(material => {
-            const itemData = itemLibrary.find(item => item.id === material.id);
-            if (itemData) {
-                for (let i = 0; i < material.quantity; i++) {
-                    addItemFromLibrary(itemData, 1);
-                }
-            } else {
-                console.log('Test material not found:', material.id);
-            }
-        });
-
-        addLootNotification({
-            type: 'item_received',
-            message: message,
-            timestamp: Date.now()
-        });
     };
 
     return (

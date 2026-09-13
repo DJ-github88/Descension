@@ -38,7 +38,7 @@ export const ITEM_RARITIES = {
 };
 
 // Version for complete items (increment when items change)
-const COMPREHENSIVE_ITEMS_VERSION = 10;
+const COMPREHENSIVE_ITEMS_VERSION = 11;
 const STATIC_ITEM_ID_SET = new Set((COMPREHENSIVE_ITEMS || []).map(i => i.id));
 
 const CATEGORY_ICON_MIGRATION = {

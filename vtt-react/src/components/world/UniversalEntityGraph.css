@@ -445,7 +445,7 @@
   transform: translate(-50%, -50%);
   background: #fcf9f2;
   border: 1.5px solid var(--node-color, #a07138);
-  border-left: 5px solid var(--node-color, #a07138);
+  border-left: 2px solid var(--node-color, #a07138);
   border-radius: 6px;
   padding: 6px 10px;
   display: flex;
@@ -863,5 +863,3 @@
   padding-top: 8px;
   border-top: 1px dashed rgba(139, 69, 19, 0.25);
 }
-
-

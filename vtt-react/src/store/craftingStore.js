@@ -43,6 +43,68 @@ export const PROFESSIONS = {
   }
 };
 
+// First Aid Recipes - not in data/recipes/, kept here.
+// Material IDs match the canonical item library.
+const FIRST_AID_RECIPES = [
+  {
+    id: 'basic-bandage-recipe',
+    name: 'Basic Bandage',
+    profession: 'first-aid',
+    description: 'A simple cloth bandage used to stop bleeding and provide basic wound care.',
+    requiredLevel: 0,
+    resultItemId: 'basic-bandage',
+    resultIcon: 'inv_misc_bandage_01',
+    resultQuantity: 1,
+    materials: [
+      { itemId: 'linen-fiber', quantity: 1 }
+    ],
+    craftingTime: 2000,
+    experienceGained: 1,
+    craftingTimeDisplay: '2 sec',
+    category: 'bandage'
+  },
+  {
+    id: 'heavy-bandage-recipe',
+    name: 'Heavy Bandage',
+    profession: 'first-aid',
+    description: 'A thick, absorbent bandage that provides better wound care and stops bleeding more effectively.',
+    requiredLevel: 1,
+    resultItemId: 'heavy-bandage',
+    resultIcon: 'inv_misc_bandage_02',
+    resultQuantity: 1,
+    materials: [
+      { itemId: 'linen-fiber', quantity: 2 },
+      { itemId: 'ashflower', quantity: 1 }
+    ],
+    craftingTime: 3000,
+    experienceGained: 2,
+    craftingTimeDisplay: '3 sec',
+    category: 'bandage'
+  },
+  {
+    id: 'antiseptic-salve-recipe',
+    name: 'Antiseptic Salve',
+    profession: 'first-aid',
+    description: 'A medicinal salve that prevents infection and promotes healing.',
+    requiredLevel: 2,
+    resultItemId: 'antiseptic-salve',
+    resultIcon: 'inv_misc_slime_01',
+    resultQuantity: 1,
+    materials: [
+      { itemId: 'ashflower', quantity: 2 },
+      { itemId: 'bitterroot', quantity: 1 },
+      { itemId: 'glass-vial', quantity: 1 }
+    ],
+    craftingTime: 5000,
+    experienceGained: 3,
+    craftingTimeDisplay: '5 sec',
+    category: 'salve'
+  }
+];
+
+// All recipes surfaced by the crafting system
+const CRAFTING_RECIPES = [...ALL_RECIPES, ...FIRST_AID_RECIPES];
+
 // Initial state
 const initialState = {
   // Player's profession levels
@@ -57,157 +119,16 @@ const initialState = {
     return acc;
   }, {}),
   
-  // Known recipes by profession
+  // Known recipes by profession - every profession starts knowing its basic set
   knownRecipes: Object.values(PROFESSIONS).reduce((acc, profession) => {
-    // Give players the basic recipe to start
-    if (profession.id === 'alchemy') {
-      acc[profession.id] = ['minor-healing-potion-recipe'];
-    } else if (profession.id === 'first-aid') {
-      acc[profession.id] = ['basic-bandage-recipe'];
-    } else {
-      acc[profession.id] = [];
-    }
+    acc[profession.id] = CRAFTING_RECIPES
+      .filter(recipe => recipe.profession === profession.id)
+      .map(recipe => recipe.id);
     return acc;
   }, {}),
   
   // All available recipes (for GM to manage)
-  // Import recipes from data files and combine with default recipes
-  availableRecipes: [
-    ...ALL_RECIPES,
-    // First Aid Recipes — not in data/recipes/, kept here.
-    // Material IDs updated to match the canonical item library.
-    {
-      id: 'basic-bandage-recipe',
-      name: 'Basic Bandage',
-      profession: 'first-aid',
-      description: 'A simple cloth bandage used to stop bleeding and provide basic wound care.',
-      requiredLevel: 0,
-      resultItemId: 'basic-bandage',
-      resultIcon: 'inv_misc_bandage_01',
-      resultQuantity: 1,
-      materials: [
-        { itemId: 'linen-fiber', quantity: 1 }
-      ],
-      craftingTime: 2000,
-      experienceGained: 1,
-      craftingTimeDisplay: '2 sec',
-      category: 'bandage'
-    },
-    {
-      id: 'heavy-bandage-recipe',
-      name: 'Heavy Bandage',
-      profession: 'first-aid',
-      description: 'A thick, absorbent bandage that provides better wound care and stops bleeding more effectively.',
-      requiredLevel: 1,
-      resultItemId: 'heavy-bandage',
-      resultIcon: 'inv_misc_bandage_02',
-      resultQuantity: 1,
-      materials: [
-        { itemId: 'linen-fiber', quantity: 2 },
-        { itemId: 'ashflower', quantity: 1 }
-      ],
-      craftingTime: 3000,
-      experienceGained: 2,
-      craftingTimeDisplay: '3 sec',
-      category: 'bandage'
-    },
-    {
-      id: 'antiseptic-salve-recipe',
-      name: 'Antiseptic Salve',
-      profession: 'first-aid',
-      description: 'A medicinal salve that prevents infection and promotes healing.',
-      requiredLevel: 2,
-      resultItemId: 'antiseptic-salve',
-      resultIcon: 'inv_misc_slime_01',
-      resultQuantity: 1,
-      materials: [
-        { itemId: 'ashflower', quantity: 2 },
-        { itemId: 'bitterroot', quantity: 1 },
-        { itemId: 'glass-vial', quantity: 1 }
-      ],
-      craftingTime: 5000,
-      experienceGained: 3,
-      craftingTimeDisplay: '5 sec',
-      category: 'salve'
-    },
-    {
-      id: 'healing-kit-recipe',
-      name: 'Healing Kit',
-      profession: 'first-aid',
-      description: 'A complete medical kit containing bandages, salves, and basic medical tools.',
-      requiredLevel: 2,
-      resultItemId: 'first-aid-kit',
-      resultIcon: 'inv_misc_bag_10',
-      resultQuantity: 1,
-      materials: [
-        { itemId: 'linen-fiber', quantity: 3 },
-        { itemId: 'ashflower', quantity: 2 },
-        { itemId: 'waxed-thread', quantity: 1 }
-      ],
-      craftingTime: 7000,
-      experienceGained: 4,
-      craftingTimeDisplay: '7 sec',
-      category: 'kit'
-    },
-    {
-      id: 'poultice-recipe',
-      name: 'Herbal Poultice',
-      profession: 'first-aid',
-      description: 'A warm herbal poultice that soothes pain and accelerates natural healing.',
-      requiredLevel: 3,
-      resultItemId: 'herbal-poultice',
-      resultIcon: 'inv_misc_herb_07',
-      resultQuantity: 1,
-      materials: [
-        { itemId: 'ashflower', quantity: 3 },
-        { itemId: 'bitterroot', quantity: 2 },
-        { itemId: 'linen-fiber', quantity: 1 }
-      ],
-      craftingTime: 6000,
-      experienceGained: 5,
-      craftingTimeDisplay: '6 sec',
-      category: 'poultice'
-    },
-    {
-      id: 'splint-recipe',
-      name: 'Medical Splint',
-      profession: 'first-aid',
-      description: 'A sturdy splint used to immobilize broken or fractured bones.',
-      requiredLevel: 3,
-      resultItemId: 'medical-splint',
-      resultIcon: 'inv_misc_bone_01',
-      resultQuantity: 1,
-      materials: [
-        { itemId: 'wooden-haft', quantity: 2 },
-        { itemId: 'linen-fiber', quantity: 2 },
-        { itemId: 'leather-straps', quantity: 1 }
-      ],
-      craftingTime: 8000,
-      experienceGained: 5,
-      craftingTimeDisplay: '8 sec',
-      category: 'splint'
-    },
-    {
-      id: 'advanced-healing-kit-recipe',
-      name: 'Advanced Healing Kit',
-      profession: 'first-aid',
-      description: 'An advanced medical kit with specialized tools and high-quality supplies for treating serious injuries.',
-      requiredLevel: 4,
-      resultItemId: 'advanced-healing-kit',
-      resultIcon: 'inv_misc_bag_11',
-      resultQuantity: 1,
-      materials: [
-        { itemId: 'linen-fiber', quantity: 5 },
-        { itemId: 'ashflower', quantity: 3 },
-        { itemId: 'waxed-thread', quantity: 2 },
-        { itemId: 'first-aid-kit', quantity: 1 }
-      ],
-      craftingTime: 10000,
-      experienceGained: 7,
-      craftingTimeDisplay: '10 sec',
-      category: 'kit'
-    }
-  ],
+  availableRecipes: CRAFTING_RECIPES,
   
   // Currently selected profession
   selectedProfession: null,
@@ -425,27 +346,30 @@ const useCraftingStore = create(
       }
     }),
     createStorageConfig('crafting-storage', {
-      version: 4,
+      version: 5,
       migrate: (persistedState, version) => {
         const safePersisted = persistedState || {};
 
-        // v4: Replace availableRecipes entirely with the canonical set.
-        // Older versions had legacy alchemy recipes with item IDs that don't
-        // exist in the item library (peacebloom, silverleaf, linen-cloth, etc).
-        // A clean replacement ensures only valid recipes remain.
-        if (version < 4) {
+        // v5: Crafting is intentionally a small curated set (2-4 recipes per
+        // profession) and every profession starts knowing its basic recipes.
+        // The dev "learn all" tool is gone, so recipes and knownRecipes are
+        // replaced entirely to drop trimmed/legacy entries while preserving
+        // player progress and queue.
+        if (version < 5) {
           return {
             ...safePersisted,
             ...initialState,
-            // Preserve player progress
-            knownRecipes: { ...initialState.knownRecipes, ...(safePersisted.knownRecipes || {}) },
             professionLevels: { ...initialState.professionLevels, ...(safePersisted.professionLevels || {}) },
             professionExperience: { ...initialState.professionExperience, ...(safePersisted.professionExperience || {}) },
-            availableRecipes: initialState.availableRecipes
+            craftingQueue: Array.isArray(safePersisted.craftingQueue) ? safePersisted.craftingQueue : [],
+            selectedProfession: safePersisted.selectedProfession || null,
+            availableRecipes: initialState.availableRecipes,
+            knownRecipes: initialState.knownRecipes
           };
         }
 
-        // v4+: just merge new recipes into existing ones
+        // v5+: merge new recipes into the persisted set and keep known recipes
+        // unioned with the default set so newly added defaults are known.
         const currentRecipes = safePersisted.availableRecipes || [];
         const initialStateRecipes = initialState.availableRecipes;
         const existingIds = new Set(currentRecipes.map(r => r.id));
@@ -454,7 +378,13 @@ const useCraftingStore = create(
         return {
           ...safePersisted,
           ...initialState,
-          availableRecipes: [...currentRecipes, ...newRecipes]
+          availableRecipes: [...currentRecipes, ...newRecipes],
+          knownRecipes: Object.values(PROFESSIONS).reduce((acc, profession) => {
+            const persistedKnown = safePersisted.knownRecipes?.[profession.id] || [];
+            const defaultKnown = initialState.knownRecipes[profession.id] || [];
+            acc[profession.id] = [...new Set([...persistedKnown, ...defaultKnown])];
+            return acc;
+          }, {})
         };
       },
       merge: (persistedState, currentState) => {
@@ -476,7 +406,12 @@ const useCraftingStore = create(
         merged.craftingQueue = Array.isArray(safePersisted.craftingQueue)
           ? safePersisted.craftingQueue
           : initialState.craftingQueue;
-        merged.knownRecipes = { ...initialState.knownRecipes, ...(safePersisted.knownRecipes || {}) };
+        merged.knownRecipes = Object.values(PROFESSIONS).reduce((acc, profession) => {
+          const persistedKnown = safePersisted.knownRecipes?.[profession.id] || [];
+          const defaultKnown = initialState.knownRecipes[profession.id] || [];
+          acc[profession.id] = [...new Set([...persistedKnown, ...defaultKnown])];
+          return acc;
+        }, {});
         merged.professionLevels = { ...initialState.professionLevels, ...(safePersisted.professionLevels || {}) };
         merged.professionExperience = { ...initialState.professionExperience, ...(safePersisted.professionExperience || {}) };
 

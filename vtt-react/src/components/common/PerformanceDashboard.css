@@ -177,7 +177,7 @@
 
 .metric-item.error {
   background: rgba(255, 107, 107, 0.1);
-  border-left: 3px solid #ff6b6b;
+  border-left: 2px solid #ff6b6b;
 }
 
 .metric-type {

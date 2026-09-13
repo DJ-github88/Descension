@@ -1163,7 +1163,7 @@
 }
 
 .room-card.persistent {
-  border-left: 4px solid #4a7c59;
+  border-left: 2px solid #4a7c59;
   background: linear-gradient(135deg, rgba(74, 124, 89, 0.1), rgba(45, 90, 39, 0.1));
 }
 

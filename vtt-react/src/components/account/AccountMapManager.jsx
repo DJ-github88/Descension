@@ -15,13 +15,47 @@ import { showConfirm } from '../../utils/dialogService';
 import useWorldStore from '../../store/worldStore';
 import './styles/AccountMapManager.css';
 
+const ATLAS_CARD_ART = `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/atlas`;
+const ATLAS_FULL_ART = `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds`;
+
+const PLANETARY_MAP_ART = {
+  preview: `${ATLAS_CARD_ART}/mythril-preview.jpg`,
+  original: `${ATLAS_FULL_ART}/Mythril.jpeg`
+};
+
+// 640px derivatives for gallery/compact thumbnails. The 8K originals are tens of
+// megabytes and stall scrolling when decoded at card size.
 const CANONICAL_REALM_IMAGES = {
-  'frostwood-reach': `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`,
-  'nordhalla': `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/nordhalla.jpeg`,
-  'sundale': `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`,
-  'iceheart-sea': `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/rime-spire-peaks.jpg`,
-  'cragjaw-peaks': `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/rime-spire-peaks.jpg`,
-  'sundrift-vale': `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`
+  'frostwood-reach': `${ATLAS_CARD_ART}/mythril-card.jpg`,
+  'nordhalla': `${ATLAS_CARD_ART}/nordhalla-card.jpg`,
+  'sundale': `${ATLAS_CARD_ART}/mythril-card.jpg`,
+  'iceheart-sea': `${ATLAS_CARD_ART}/rime-spire-card.jpg`,
+  'cragjaw-peaks': `${ATLAS_CARD_ART}/rime-spire-card.jpg`,
+  'sundrift-vale': `${ATLAS_CARD_ART}/mythril-card.jpg`
+};
+
+const DEFAULT_REALM_CARD_IMAGE = `${ATLAS_CARD_ART}/nordhalla-card.jpg`;
+
+// 1024px derivatives for the lightbox preview and planetary hero.
+const CANONICAL_REALM_PREVIEWS = {
+  'frostwood-reach': `${ATLAS_CARD_ART}/mythril-preview.jpg`,
+  'nordhalla': `${ATLAS_CARD_ART}/nordhalla-preview.jpg`,
+  'sundale': `${ATLAS_CARD_ART}/mythril-preview.jpg`,
+  'iceheart-sea': `${ATLAS_CARD_ART}/rime-spire-preview.jpg`,
+  'cragjaw-peaks': `${ATLAS_CARD_ART}/rime-spire-preview.jpg`,
+  'sundrift-vale': `${ATLAS_CARD_ART}/mythril-preview.jpg`,
+  'bryngloom-forest': `${ATLAS_CARD_ART}/nordhalla-preview.jpg`
+};
+
+// Full-resolution art, reserved for when a realm is persisted as the Primary Immerse map.
+const CANONICAL_REALM_ORIGINALS = {
+  'frostwood-reach': `${ATLAS_FULL_ART}/Mythril.jpeg`,
+  'nordhalla': `${ATLAS_FULL_ART}/nordhalla.jpeg`,
+  'sundale': `${ATLAS_FULL_ART}/Mythril.jpeg`,
+  'iceheart-sea': `${ATLAS_FULL_ART}/rime-spire-peaks.jpg`,
+  'cragjaw-peaks': `${ATLAS_FULL_ART}/rime-spire-peaks.jpg`,
+  'sundrift-vale': `${ATLAS_FULL_ART}/Mythril.jpeg`,
+  'bryngloom-forest': `${ATLAS_FULL_ART}/nordhalla.jpeg`
 };
 
 const AccountMapManager = () => {
@@ -385,7 +419,7 @@ const AccountMapManager = () => {
                   setPreviewMap({
                     id: 'mythril',
                     name: 'Mythrill — World of Five Continents',
-                    image: `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`,
+                    image: PLANETARY_MAP_ART.preview,
                     description: 'The primary planetary map of Mythrill. Navigate continents, view geopolitical borders, and travel across realms.',
                     isMaster: true
                   })
@@ -399,7 +433,7 @@ const AccountMapManager = () => {
           <div className="atlas-planetary-hero">
             <div className="planetary-hero-media">
               <img 
-                src={`${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`} 
+                src={PLANETARY_MAP_ART.preview} 
                 alt="Mythrill 8K Planetary Canvas"
                 loading="lazy"
                 decoding="async"
@@ -429,7 +463,7 @@ const AccountMapManager = () => {
                     setPreviewMap({
                       id: 'mythril',
                       name: 'Mythrill — World of Five Continents',
-                      image: `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`,
+                      image: PLANETARY_MAP_ART.preview,
                       description: 'The primary planetary map of Mythrill. Navigate continents, view geopolitical borders, and travel across realms.',
                       isMaster: true
                     })
@@ -440,7 +474,7 @@ const AccountMapManager = () => {
                 <button
                   type="button"
                   className={`btn-set-primary-map ${primaryMapId === 'mythril' ? 'is-primary' : ''}`}
-                  onClick={() => handleSetPrimaryMap({ id: 'mythril', name: 'Mythrill Planetary Map', image: `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg` })}
+                  onClick={() => handleSetPrimaryMap({ id: 'mythril', name: 'Mythrill Planetary Map', image: PLANETARY_MAP_ART.original })}
                   title={primaryMapId === 'mythril' ? 'Currently your Primary Immerse Map' : 'Set as Primary Immerse & Starter Map'}
                 >
                   <i className={primaryMapId === 'mythril' ? 'fas fa-star' : 'far fa-star'}></i>
@@ -465,7 +499,7 @@ const AccountMapManager = () => {
           {viewMode === 'compact' ? (
             <div className="atlas-compact-list">
               {filteredRealms.map((realm) => {
-                const bgImage = CANONICAL_REALM_IMAGES[realm.id] || `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/nordhalla.jpeg`;
+                const bgImage = CANONICAL_REALM_IMAGES[realm.id] || DEFAULT_REALM_CARD_IMAGE;
                 const subregions = realm.subregions || [];
                 const isExpanded = expandedRealmId === realm.id;
 
@@ -477,7 +511,7 @@ const AccountMapManager = () => {
                         onClick={() => setPreviewMap({
                           id: realm.id,
                           name: realm.name,
-                          image: realm.image || bgImage,
+                          image: CANONICAL_REALM_PREVIEWS[realm.id] || realm.image || bgImage,
                           description: realm.description,
                           subregions: realm.subregions || []
                         })}
@@ -521,7 +555,7 @@ const AccountMapManager = () => {
                         onClick={() => setPreviewMap({
                           id: realm.id,
                           name: realm.name,
-                          image: realm.image || bgImage,
+                          image: CANONICAL_REALM_PREVIEWS[realm.id] || realm.image || bgImage,
                           description: realm.description,
                           subregions: realm.subregions || []
                         })}
@@ -554,7 +588,7 @@ const AccountMapManager = () => {
           ) : (
             <div className="atlas-realms-grid">
               {filteredRealms.map((realm) => {
-                const bgImage = CANONICAL_REALM_IMAGES[realm.id] || `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/nordhalla.jpeg`;
+                const bgImage = CANONICAL_REALM_IMAGES[realm.id] || DEFAULT_REALM_CARD_IMAGE;
                 const subregions = realm.subregions || [];
                 const isExpanded = expandedRealmId === realm.id;
 
@@ -565,7 +599,7 @@ const AccountMapManager = () => {
                       onClick={() => setPreviewMap({
                         id: realm.id,
                         name: realm.name,
-                        image: realm.image || bgImage,
+                        image: CANONICAL_REALM_PREVIEWS[realm.id] || realm.image || bgImage,
                         description: realm.description,
                         subregions: realm.subregions || []
                       })}
@@ -635,7 +669,7 @@ const AccountMapManager = () => {
                           onClick={() => setPreviewMap({
                             id: realm.id,
                             name: realm.name,
-                            image: realm.image || bgImage,
+                            image: CANONICAL_REALM_PREVIEWS[realm.id] || realm.image || bgImage,
                             description: realm.description,
                             subregions: realm.subregions || []
                           })}
@@ -648,7 +682,7 @@ const AccountMapManager = () => {
                           onClick={() => handleSetPrimaryMap({
                             id: realm.id,
                             name: realm.name,
-                            image: realm.image || bgImage
+                            image: CANONICAL_REALM_ORIGINALS[realm.id] || realm.image || bgImage
                           })}
                           title={primaryMapId === realm.id ? 'Currently your Primary Immerse Map' : 'Set as Primary Immerse & Starter Map'}
                         >

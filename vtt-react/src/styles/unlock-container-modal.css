@@ -128,7 +128,7 @@
 
 .unlock-container-modal .error-message {
     background: linear-gradient(145deg, #ffebee 0%, #ffcdd2 100%);
-    border-left: 4px solid #8b0000;
+    border-left: 2px solid #8b0000;
     color: #8b0000;
     margin-top: 12px;
     padding: 8px 12px;

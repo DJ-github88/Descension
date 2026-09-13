@@ -51,13 +51,13 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
     });
   });
 
-  it('renders WorldDashboard with hero stats and tabs', () => {
+  it('renders WorldDashboard with hero stats and icon navigation', () => {
     renderDashboard();
     expect(screen.getAllByText('Mythrill').length).toBeGreaterThan(0);
     expect(screen.getByText(/Sunless Realm/i)).toBeInTheDocument();
-    expect(screen.getByText(/Factions & Orders/i)).toBeInTheDocument();
-    expect(screen.getByText(/Timeline & Epochs/i)).toBeInTheDocument();
-    expect(screen.getByText(/World Atlas & Maps/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Quick Orders/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Quick Epochs/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Quick Atlas/i })).toBeInTheDocument();
   });
 
   it('allows clicking on a region to open RegionDetail and view its locations and subregions', () => {
@@ -131,8 +131,8 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
   it('renders Timeline & Epochs tab with Chronicon header and Celestial Calendar', () => {
     renderDashboard();
 
-    // Switch to Timeline & Epochs tab
-    const timelineTab = screen.getByRole('button', { name: /Timeline & Epochs/i });
+    // Switch to Timeline & Epochs via the header quick-nav strip
+    const timelineTab = screen.getByRole('button', { name: /Quick Epochs/i });
     fireEvent.click(timelineTab);
 
     // Verify Chronicon header and Era Stepper
@@ -148,8 +148,8 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
   it('renders Factions tab with search, categories, and clean text formatting for classes like False Prophets', () => {
     renderDashboard();
 
-    // Click Factions tab
-    const factionsTab = screen.getByRole('button', { name: /Factions/i });
+    // Click Factions quick-nav
+    const factionsTab = screen.getByRole('button', { name: /Quick Orders/i });
     fireEvent.click(factionsTab);
 
     // Verify Trueborn Florae card
@@ -168,8 +168,8 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
   it('renders Faction Detail with royal heraldic banner and populated timeline', () => {
     renderDashboard();
 
-    // Navigate to Factions tab
-    const factionsTab = screen.getByRole('button', { name: /Factions/i });
+    // Navigate to Factions quick-nav
+    const factionsTab = screen.getByRole('button', { name: /Quick Orders/i });
     fireEvent.click(factionsTab);
 
     // Click Read Chronicle for Trueborn Florae
@@ -233,8 +233,8 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
   it('renders Traditions & Classes tab with archetype filter pills, counts, and search filter', () => {
     renderDashboard();
 
-    // Click Traditions & Classes tab
-    const classesTab = screen.getByRole('button', { name: /Traditions & Classes/i });
+    // Click Traditions & Classes quick-nav
+    const classesTab = screen.getByRole('button', { name: /Quick Traditions/i });
     fireEvent.click(classesTab);
 
     // Verify search input
@@ -311,7 +311,7 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
     expect(screen.getByText(/Aethelgard has no recorded realms yet/i)).toBeInTheDocument();
 
     // Verify Factions & Orders starts clean
-    const factionsTab = screen.getByRole('button', { name: /Factions & Orders/i });
+    const factionsTab = screen.getByRole('button', { name: /Quick Orders/i });
     fireEvent.click(factionsTab);
     expect(screen.getByText(/Forge Faction/i)).toBeInTheDocument();
   });
@@ -319,8 +319,8 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
   it('allows forging a custom class and toggling class active/extinct status in a world', () => {
     renderDashboard();
 
-    // Navigate to Traditions & Classes tab
-    const classesTab = screen.getByRole('button', { name: /Traditions & Classes/i });
+    // Navigate to Traditions & Classes quick-nav
+    const classesTab = screen.getByRole('button', { name: /Quick Traditions/i });
     fireEvent.click(classesTab);
 
     // Verify 21 canon classes are available

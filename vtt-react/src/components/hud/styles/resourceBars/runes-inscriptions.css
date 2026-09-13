@@ -553,19 +553,19 @@
 }
 
 .inscriptor-spec-selector .spec-menu-item.base {
-    border-left: 3px solid #6495ED;
+    border-left: 2px solid #6495ED;
 }
 
 .inscriptor-spec-selector .spec-menu-item.runebinder {
-    border-left: 3px solid #4169E1;
+    border-left: 2px solid #4169E1;
 }
 
 .inscriptor-spec-selector .spec-menu-item.enchanter {
-    border-left: 3px solid #FFD700;
+    border-left: 2px solid #FFD700;
 }
 
 .inscriptor-spec-selector .spec-menu-item.glyphweaver {
-    border-left: 3px solid #DC143C;
+    border-left: 2px solid #DC143C;
 }
 
 /* Size Variations */

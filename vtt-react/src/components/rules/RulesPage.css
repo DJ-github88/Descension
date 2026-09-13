@@ -503,7 +503,7 @@
 
 .rules-sidebar:not(.collapsed) .rules-nav-subcategories {
   background: rgba(139, 69, 19, 0.05);
-  border-left: 3px solid #d4af37;
+  border-left: 2px solid #d4af37;
   padding: 8px 0;
 }
 
@@ -537,7 +537,7 @@
   background: linear-gradient(90deg, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0.1) 100%);
   color: #2d1810;
   font-weight: 600;
-  border-left: 4px solid #d4af37;
+  border-left: 2px solid #d4af37;
   padding-left: 41px;
 }
 
@@ -696,6 +696,84 @@
   color: #8f6f35;
   margin: 0 2px;
   text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.rules-breadcrumb-tome {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rules-breadcrumb-tome i {
+  font-size: 0.72rem;
+  color: #d4af37;
+}
+
+.rules-breadcrumb-tome.tome-lore i {
+  color: #c9a6e8;
+}
+
+/* ===== THE TWO TOMES — Laws / Lore switcher ===== */
+.rules-tome-switcher {
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, #2b1710 0%, #170c06 100%);
+  border: 1px solid rgba(196, 160, 96, 0.45);
+  border-radius: 999px;
+  padding: 3px;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.rules-tome-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 100%;
+  padding: 0 15px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #c4a060;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rules-tome-tab i {
+  font-size: 0.8rem;
+}
+
+.rules-tome-tab:hover {
+  color: #fffbf2;
+  background: rgba(196, 160, 96, 0.14);
+}
+
+.rules-tome-tab.active {
+  background: linear-gradient(180deg, #f3d67b 0%, #c9a227 100%);
+  color: #241407;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+  box-shadow: 0 1px 5px rgba(212, 175, 55, 0.45);
+}
+
+.rules-tome-spine {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 22px;
+  color: #8f6f35;
+  font-size: 0.62rem;
+  border-left: 1px solid rgba(196, 160, 96, 0.25);
+  border-right: 1px solid rgba(196, 160, 96, 0.25);
+  background: rgba(0, 0, 0, 0.28);
+  flex-shrink: 0;
 }
 
 /* Content Area - Premium TTRPG Archival Codex Folio Page */
@@ -960,7 +1038,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
   padding: 14px 18px;
   background: linear-gradient(135deg, rgba(250, 246, 238, 0.95) 0%, rgba(245, 235, 210, 0.95) 100%);
   border: 1px solid rgba(180, 150, 100, 0.4);
-  border-left: 4px solid #c4a878;
+  border-left: 2px solid #c4a878;
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(100, 70, 40, 0.15);
   display: flex;
@@ -1572,6 +1650,14 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     min-height: 48px;
     padding: 12px 16px;
   }
+
+  .rules-tome-label {
+    display: none;
+  }
+
+  .rules-tome-tab {
+    padding: 0 11px;
+  }
 }
 
 /* Mobile devices */
@@ -1738,6 +1824,13 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     height: auto;
     min-height: 42px;
     justify-content: center;
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+
+  .rules-tome-switcher {
+    margin: 0 auto;
+    order: -1;
   }
 
   .rules-header-quick-search {
@@ -2093,7 +2186,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
 
 .rules-note {
   background: rgba(139, 69, 19, 0.1);
-  border-left: 4px solid #d4af37;
+  border-left: 2px solid #d4af37;
   padding: 15px 20px;
   margin: 20px 0;
   border-radius: 4px;
@@ -2102,7 +2195,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
 
 .rules-warning {
   background: rgba(220, 53, 69, 0.1);
-  border-left: 4px solid #dc3545;
+  border-left: 2px solid #dc3545;
   padding: 15px 20px;
   margin: 20px 0;
   border-radius: 4px;
@@ -2110,7 +2203,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
 
 .rules-tip {
   background: rgba(40, 167, 69, 0.1);
-  border-left: 4px solid #28a745;
+  border-left: 2px solid #28a745;
   padding: 15px 20px;
   margin: 20px 0;
   border-radius: 4px;
@@ -2895,7 +2988,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
   padding: 14px 18px;
   background: none;
   border: none;
-  border-left: 3px solid transparent;
+  border-left: 2px solid transparent;
   color: #e8d9b8;
   font-family: 'Cinzel', serif;
   font-size: 0.92rem;

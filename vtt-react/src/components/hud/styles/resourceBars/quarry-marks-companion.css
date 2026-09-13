@@ -271,19 +271,19 @@
 /* ===== SPEC-COLORED ABILITY CARD BORDERS ===== */
 
 .ability-card.bladestorm {
-    border-left: 3px solid #DC143C;
+    border-left: 2px solid #DC143C;
 }
 
 .ability-card.beastmaster {
-    border-left: 3px solid #228B22;
+    border-left: 2px solid #228B22;
 }
 
 .ability-card.shadowblade {
-    border-left: 3px solid #4B0082;
+    border-left: 2px solid #4B0082;
 }
 
 .ability-card.universal {
-    border-left: 3px solid rgba(160, 140, 112, 0.6);
+    border-left: 2px solid rgba(160, 140, 112, 0.6);
 }
 
 /* ===== QM COST PIP INDICATORS ===== */

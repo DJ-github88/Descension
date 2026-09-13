@@ -3,8 +3,22 @@ import { persist } from 'zustand/middleware';
 import { createStorageConfig } from '../utils/storageUtils';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured, auth } from '../config/firebase';
+import { SEEDED_LANGUAGES } from '../data/seedLanguages';
 
 const nowIso = () => new Date().toISOString();
+
+const SEEDED_LANGUAGE_IDS = new Set(SEEDED_LANGUAGES.map((l) => l.id));
+
+const mergeSeededLanguages = (languages, removedSeedIds = []) => {
+  const removed = new Set(removedSeedIds || []);
+  const merged = Array.isArray(languages) ? [...languages] : [];
+  SEEDED_LANGUAGES.forEach((seed) => {
+    if (removed.has(seed.id)) return;
+    if (merged.some((l) => l.id === seed.id)) return;
+    merged.push(seed);
+  });
+  return merged;
+};
 
 const triggerLanguageAutoSync = () => {
   const uid = auth?.currentUser?.uid;
@@ -16,7 +30,8 @@ const triggerLanguageAutoSync = () => {
 const useLanguageStore = create(
   persist(
     (set, get) => ({
-      languages: [],
+      languages: SEEDED_LANGUAGES,
+      removedSeedIds: [],
       lastCloudSyncAt: null,
 
       getAllLanguages: (worldId = null) => {
@@ -50,13 +65,18 @@ const useLanguageStore = create(
 
       updateLanguage: (langId, patch = {}) => {
         set((state) => ({
-          languages: (state.languages || []).map((l) => (l.id === langId ? { ...l, ...patch, updatedAt: nowIso() } : l))
+          languages: (state.languages || []).map((l) => (l.id === langId ? { ...l, ...patch, isCustom: true, updatedAt: nowIso() } : l))
         }));
         triggerLanguageAutoSync();
       },
 
       removeLanguage: (langId) => {
-        set((state) => ({ languages: (state.languages || []).filter((l) => l.id !== langId) }));
+        set((state) => ({
+          languages: (state.languages || []).filter((l) => l.id !== langId),
+          removedSeedIds: SEEDED_LANGUAGE_IDS.has(langId) && !(state.removedSeedIds || []).includes(langId)
+            ? [...(state.removedSeedIds || []), langId]
+            : (state.removedSeedIds || [])
+        }));
         triggerLanguageAutoSync();
       },
 
@@ -65,7 +85,7 @@ const useLanguageStore = create(
           languages: (state.languages || []).map((l) => {
             if (l.id !== langId) return l;
             const lex = Array.isArray(l.lexicon) ? [...l.lexicon, entry] : [entry];
-            return { ...l, lexicon: lex, updatedAt: nowIso() };
+            return { ...l, lexicon: lex, isCustom: true, updatedAt: nowIso() };
           })
         }));
         triggerLanguageAutoSync();
@@ -76,7 +96,7 @@ const useLanguageStore = create(
           languages: (state.languages || []).map((l) => {
             if (l.id !== langId) return l;
             const lex = (l.lexicon || []).filter((_, i) => i !== idx);
-            return { ...l, lexicon: lex, updatedAt: nowIso() };
+            return { ...l, lexicon: lex, isCustom: true, updatedAt: nowIso() };
           })
         }));
         triggerLanguageAutoSync();
@@ -86,7 +106,8 @@ const useLanguageStore = create(
         if (!userId || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'languages');
-          await setDoc(docRef, { languages: get().languages || [], updatedAt: nowIso() }, { merge: true });
+          const customLanguages = (get().languages || []).filter((l) => l.isCustom);
+          await setDoc(docRef, { languages: customLanguages, removedSeedIds: get().removedSeedIds || [], updatedAt: nowIso() }, { merge: true });
           set({ lastCloudSyncAt: nowIso() });
           return true;
         } catch (err) {
@@ -103,7 +124,9 @@ const useLanguageStore = create(
           if (snap.exists()) {
             const data = snap.data();
             if (Array.isArray(data?.languages)) {
-              set({ languages: data.languages });
+              const remoteRemoved = Array.isArray(data?.removedSeedIds) ? data.removedSeedIds : [];
+              const removedSeedIds = Array.from(new Set([...(get().removedSeedIds || []), ...remoteRemoved]));
+              set({ languages: mergeSeededLanguages(data.languages, removedSeedIds), removedSeedIds });
               return true;
             }
           }
@@ -114,7 +137,12 @@ const useLanguageStore = create(
       }
     }),
     createStorageConfig('mythrill_languages', {
-      partialize: (state) => ({ languages: state.languages, lastCloudSyncAt: state.lastCloudSyncAt })
+      partialize: (state) => ({ languages: state.languages, removedSeedIds: state.removedSeedIds, lastCloudSyncAt: state.lastCloudSyncAt }),
+      merge: (persisted, current) => ({
+        ...current,
+        ...(persisted || {}),
+        languages: mergeSeededLanguages(persisted?.languages, persisted?.removedSeedIds)
+      })
     })
   )
 );

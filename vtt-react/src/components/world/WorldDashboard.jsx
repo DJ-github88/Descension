@@ -301,7 +301,7 @@ const WorldDashboard = () => {
   const allWorlds = getAllWorlds();
   const regions = getRegions();
   const overview = getWorldOverview();
-  const classes = useMemo(() => (getWorldClasses ? getWorldClasses(activeWorldId) : []), [getWorldClasses, activeWorldId, activeWorld]);
+  const classes = getWorldClasses ? getWorldClasses(activeWorldId) : [];
   const allLineages = getAllLineages();
   const worldFactions = useMemo(() => (getAllFactions ? getAllFactions(activeWorldId) : factions), [getAllFactions, factions, activeWorldId]);
   const { getAllDeities, addDeity, updateDeity, removeDeity } = useDeityStore();
@@ -902,25 +902,23 @@ const WorldDashboard = () => {
     <div className="world-panel world-dashboard">
       <div className="world-panel-header">
         <div className="world-header-title-block">
-          <div className="world-title-main-row">
-            <h1 className="world-master-title">{activeWorld.name}</h1>
-            <button
-              type="button"
-              className="world-switcher-trigger-btn"
-              onClick={() => setShowWorldModal(true)}
-              title="Switch Realm Setting or Forge New World"
-              aria-label={`Worlds (${allWorlds.length})`}
-            >
-              <div className="world-switcher-btn-content">
-                <i className="fas fa-globe-americas world-switcher-globe-icon"></i>
-                <span className="world-switcher-label">Worlds</span>
-                <span className="world-switcher-count-badge">({allWorlds.length})</span>
-                <i className="fas fa-chevron-down world-switcher-chevron"></i>
-              </div>
-            </button>
-          </div>
+          <h1 className="world-master-title">{activeWorld.name}</h1>
           <span className="world-subtitle">{activeWorld.subtitle || 'Living World-Building & Lore Engine'}</span>
         </div>
+        <button
+          type="button"
+          className="world-switcher-trigger-btn"
+          onClick={() => setShowWorldModal(true)}
+          title="Switch Realm Setting or Forge New World"
+          aria-label={`Worlds (${allWorlds.length})`}
+        >
+          <div className="world-switcher-btn-content">
+            <i className="fas fa-globe-americas world-switcher-globe-icon"></i>
+            <span className="world-switcher-label">Worlds</span>
+            <span className="world-switcher-count-badge">({allWorlds.length})</span>
+            <i className="fas fa-chevron-down world-switcher-chevron"></i>
+          </div>
+        </button>
         <div className="world-header-icon-strip">
           <button
             type="button"
@@ -1013,30 +1011,6 @@ const WorldDashboard = () => {
             <i className="fas fa-language"></i>
           </button>
         </div>
-      </div>
-
-      <div className="world-tabs">
-        {[
-          { key: 'regions', label: `Realms (${regions.length})`, icon: 'fa-earth-americas' },
-          { key: 'timeline', label: 'Timeline & Epochs', icon: 'fa-hourglass-half' },
-          { key: 'factions', label: `Factions & Orders (${worldFactions.length})`, icon: 'fa-shield-halved' },
-          { key: 'entity_graph', label: 'Relationship Web', icon: 'fa-network-wired' },
-          { key: 'family_trees', label: 'Dynasty Trees', icon: 'fa-users' },
-          { key: 'lineages', label: `Lineages & Peoples (${allLineages.length})`, icon: 'fa-dna' },
-          { key: 'classes', label: `Traditions & Classes (${classes.length})`, icon: 'fa-wand-magic-sparkles' },
-          { key: 'faiths', label: `Faiths & Pantheon (${worldDeities.length})`, icon: 'fa-place-of-worship' },
-          { key: 'tongues', label: `Tongues & Scripts (${worldLanguages.length})`, icon: 'fa-language' },
-          { key: 'atlas', label: 'World Atlas & Maps', icon: 'fa-map' }
-        ].map((tab) => (
-          <button
-            key={tab.key}
-            className={`world-tab ${activeTab === tab.key ? 'active' : ''}`}
-            onClick={() => setActiveTab(tab.key)}
-          >
-            <i className={`fas ${tab.icon}`} style={{ marginRight: '7px' }}></i>
-            {tab.label}
-          </button>
-        ))}
       </div>
 
       <div className="world-tab-content">
@@ -1888,6 +1862,7 @@ const WorldDashboard = () => {
                     {d.title && <p className="world-card-meta" style={{ fontStyle: 'italic', color: '#8b5a1a' }}>{d.title} — {d.alignment}</p>}
                     <p className="world-region-desc">{d.description || 'No description.'}</p>
                     {d.dogma && <p className="world-card-meta" style={{ marginTop: '8px' }}><strong>Dogma:</strong> {d.dogma}</p>}
+                    {d.worship && <p className="world-card-meta" style={{ marginTop: '6px' }}><strong>Worship:</strong> {d.worship}</p>}
                     <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
                       <button className="world-action-btn" onClick={() => { setEditingDeity(d); setNewDeityName(d.name); setNewDeityTitle(d.title || ''); setNewDeityDomain(d.domain); setNewDeityAlignment(d.alignment); setNewDeityDesc(d.description || ''); setShowAddDeityModal(true); }}><i className="fas fa-pen"></i> Edit</button>
                       <button className="world-action-btn" style={{ background: 'rgba(180,40,40,0.12)', borderColor: '#a33', color: '#a33' }} onClick={async () => { const ok = await showConfirm({ title: 'Delete Deity', message: `Delete "${d.name}"?`, confirmText: 'Delete', isDestructive: true }); if (ok) removeDeity(d.id); }}><i className="fas fa-trash"></i></button>

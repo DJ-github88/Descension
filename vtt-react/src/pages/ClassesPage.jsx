@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { CLASS_DISPLAY_DATA } from '../data/classes/classDisplayData';
+import ClassIcon from '../components/common/ClassIcon';
 import './ClassesPage.css';
 
 export default function ClassesPage() {
@@ -30,7 +31,7 @@ export default function ClassesPage() {
             <i className="fas fa-arrow-left"></i> Home
           </Link>
           <span className="classes-breadcrumb">
-            <Link to="/rules">Laws &amp; Lore</Link> &gt; Classes Codex
+            <Link to="/rules">Laws &amp; Lore</Link> &gt; Laws &gt; Classes Codex
           </span>
         </div>
         <h1 className="classes-title">MYTHRILL CLASSES CODEX</h1>
@@ -74,7 +75,7 @@ export default function ClassesPage() {
             <div className="class-card-header">
               <div className="class-icon-badge" style={{ borderColor: cls.roleColor }}>
                 {cls.imageIcon ? (
-                  <img src={cls.imageIcon} alt={cls.name} className="class-icon-img" onError={(e) => { e.target.style.display = 'none'; }} />
+                  <ClassIcon src={cls.imageIcon} alt={cls.name} size="tiny" className="class-icon-img" dataClass={cls.name} />
                 ) : null}
                 <i className="fas fa-shield-alt"></i>
               </div>

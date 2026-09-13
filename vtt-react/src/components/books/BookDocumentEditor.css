@@ -646,15 +646,15 @@
 }
 
 .book-header-rule::after {
-  content: '◆';
+  content: '';
   position: absolute;
-  top: -10px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  font-size: 12px;
-  color: #8a2f1d;
-  background: var(--book-bg-sheet);
-  padding: 0 8px;
+  width: 7px;
+  height: 7px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: #8a2f1d;
+  box-shadow: 0 0 0 3px var(--book-bg-sheet, #fdfaf2);
 }
 
 /* =========================================================================
@@ -1445,7 +1445,6 @@
 .book-spell-authoring-box {
   background: #fdfaf2;
   border: 1.5px solid #8b5a1a;
-  border-left: 5px solid #58180d;
   border-radius: 6px;
   padding: 16px 18px;
   margin: 10px 0;
@@ -1487,6 +1486,31 @@
 
 .authoring-sub-field {
   width: 100%;
+}
+
+/* Creature size / heritage / origin line — matches the seamless authoring inputs */
+.statblock-input-sub {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  background: #fff !important;
+  border: 1.5px solid #c2ad88 !important;
+  border-radius: 4px !important;
+  padding: 6px 8px !important;
+  font-family: inherit !important;
+  font-size: 0.88rem !important;
+  font-style: italic !important;
+  color: #1f140e !important;
+  outline: none !important;
+  transition: border-color 0.15s ease !important;
+}
+
+.statblock-input-sub::placeholder {
+  color: #8a7658 !important;
+  font-style: italic !important;
+}
+
+.statblock-input-sub:focus {
+  border-color: #58180d !important;
 }
 
 .authoring-form-grid {
@@ -2192,7 +2216,7 @@
 .book-callout-block {
   background: linear-gradient(135deg, #fffdfa 0%, #f7efe2 100%);
   border: 1.5px solid #8b5a1a;
-  border-left: 5px solid #58180d;
+  border-left: 2px solid #58180d;
   border-radius: 6px;
   padding: 14px 18px;
   margin: 12px 0;
@@ -2416,7 +2440,7 @@
 .book-location-showcase-wrapper {
   background: linear-gradient(135deg, #fffdf8 0%, #f7efe1 100%);
   border: 1.5px solid #2d6a4f;
-  border-left: 5px solid #2d6a4f;
+  border-left: 2px solid #2d6a4f;
   border-radius: 8px;
   padding: 16px 18px;
   margin: 12px 0;
@@ -2565,7 +2589,7 @@
   color: #24160e;
   margin-bottom: 8px;
   background: rgba(45, 106, 79, 0.06);
-  border-left: 3px solid #2d6a4f;
+  border-left: 2px solid #2d6a4f;
   padding: 6px 10px;
   border-radius: 0 4px 4px 0;
 }
@@ -2587,7 +2611,7 @@
   margin-top: 10px;
   padding: 8px 12px;
   background: rgba(139, 0, 0, 0.06);
-  border-left: 3px solid #8b0000;
+  border-left: 2px solid #8b0000;
   border-radius: 0 4px 4px 0;
   font-size: 0.86rem;
 }
@@ -2608,7 +2632,7 @@
 .book-npc-dossier-wrapper {
   background: linear-gradient(135deg, #fffdf8 0%, #f7efe1 100%);
   border: 1.5px solid #8b5a1a;
-  border-left: 5px solid #58180d;
+  border-left: 2px solid #58180d;
   border-radius: 8px;
   padding: 16px 18px;
   margin: 12px 0;
@@ -2749,7 +2773,7 @@
   margin-bottom: 8px;
   padding: 6px 10px;
   background: rgba(139, 90, 43, 0.06);
-  border-left: 3px solid #8b5a1a;
+  border-left: 2px solid #8b5a1a;
   border-radius: 0 4px 4px 0;
   display: flex;
   align-items: center;
@@ -2770,7 +2794,7 @@
 .npc-quote {
   margin: 10px 0 0;
   padding: 8px 12px;
-  border-left: 3px solid #58180d;
+  border-left: 2px solid #58180d;
   background: rgba(88, 24, 13, 0.04);
   border-radius: 0 4px 4px 0;
   font-style: italic;
@@ -2794,7 +2818,7 @@
 .book-quest-hook-wrapper {
   background: linear-gradient(135deg, #fffdf8 0%, #f7efe1 100%);
   border: 1.5px solid #8b5a1a;
-  border-left: 5px solid #b45309;
+  border-left: 2px solid #b45309;
   border-radius: 8px;
   padding: 16px 18px;
   margin: 12px 0;
@@ -2991,7 +3015,7 @@
   margin: 10px 0 12px 0;
   padding: 10px 14px;
   background: rgba(255, 255, 255, 0.5);
-  border-left: 3px solid #8b5a1a;
+  border-left: 2px solid #8b5a1a;
   border-radius: 0 6px 6px 0;
 }
 
@@ -3438,7 +3462,7 @@
   background: #fcf0db !important;
   border-color: #58180d !important;
   box-shadow: 0 2px 8px rgba(88, 24, 13, 0.18) !important;
-  border-left: 4px solid #58180d !important;
+  border-left: 2px solid #58180d !important;
 }
 
 .row-icon-box {
@@ -4256,6 +4280,9 @@
 }
 
 .map-explore-btn {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  justify-self: end !important;
   background: #58180d;
   color: #ffd700;
   border: 1.5px solid #ffd700;
@@ -4283,15 +4310,17 @@
 
 /* Location Showcase Switcher Bar */
 .map-location-chips-bar {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding-top: 6px;
-  border-top: 1px dashed rgba(139, 90, 43, 0.25);
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 8px 10px !important;
+  padding-top: 8px !important;
+  border-top: 1px dashed rgba(139, 90, 43, 0.25) !important;
 }
 
 .location-chips-label {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
   font-family: var(--book-font-heading);
   font-size: 0.74rem;
   font-weight: 800;
@@ -4304,11 +4333,13 @@
 }
 
 .location-chips-list {
+  grid-column: 1 / -1 !important;
+  grid-row: 2 !important;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 6px;
-  flex: 1;
+  width: 100%;
 }
 
 .location-chip-wrap {
@@ -4356,11 +4387,17 @@
   font-weight: 800;
   cursor: pointer;
   padding: 0 2px 0 4px;
-  opacity: 0.7;
+  opacity: 0.35;
+  transition: opacity 0.15s ease;
+}
+
+.location-chip-wrap:hover .remove-loc-chip-btn,
+.remove-loc-chip-btn:focus-visible {
+  opacity: 0.8;
 }
 
 .remove-loc-chip-btn:hover {
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 .add-location-chip-btn {
@@ -4451,7 +4488,13 @@
   border: none !important;
   border-bottom: 1.5px dashed #8b5a1a !important;
   box-sizing: border-box !important;
-  transition: all 0.2s ease !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+  resize: none !important;
+  overflow: hidden !important;
+  display: block !important;
+  line-height: 1.3 !important;
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
 }
 
 .map-input-title:focus {
@@ -4467,6 +4510,8 @@
   font-weight: 700 !important;
   color: #58180d !important;
   letter-spacing: 0.4px !important;
+  line-height: 1.3 !important;
+  overflow-wrap: anywhere !important;
 }
 
 .map-layout-selector {
@@ -5230,7 +5275,7 @@
   gap: 8px !important;
   padding: 8px 12px !important;
   background: rgba(139, 90, 43, 0.08) !important;
-  border-left: 3px solid #8b5a1a !important;
+  border-left: 2px solid #8b5a1a !important;
   border-radius: 4px !important;
   font-style: italic !important;
   font-size: 0.88rem !important;
@@ -5403,7 +5448,7 @@
   margin-top: -2px;
   background: linear-gradient(135deg, #fdf8eb 0%, #f7edd4 100%);
   border: 1.5px solid #d4af37;
-  border-left: 4px solid #b8860b;
+  border-left: 2px solid #b8860b;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   border-bottom-left-radius: 6px;
@@ -5690,7 +5735,7 @@
   background: #fcf0db !important;
   border-color: #58180d !important;
   box-shadow: 0 2px 8px rgba(88, 24, 13, 0.18) !important;
-  border-left: 4px solid #58180d !important;
+  border-left: 2px solid #58180d !important;
 }
 
 .card-top-row {
@@ -6181,7 +6226,11 @@
   gap: 4px !important;
 }
 
-.snapshot-tag-chip {
+/* Scoped to .book-snapshot-modal (specificity 0,2,0) so these win over the
+   global .form-group button { color: #fff !important } from
+   consolidated-form-groups.css, which otherwise renders unselected chips
+   white-on-cream. */
+.book-snapshot-modal .snapshot-tag-chip {
   display: inline-flex !important;
   align-items: center !important;
   gap: 4px !important;
@@ -6197,8 +6246,8 @@
   transition: all 0.15s ease !important;
 }
 
-.snapshot-tag-chip:hover,
-.snapshot-tag-chip.active {
+.book-snapshot-modal .snapshot-tag-chip:hover,
+.book-snapshot-modal .snapshot-tag-chip.active {
   background: #58180d !important;
   color: #ffd700 !important;
   border-color: #ffd700 !important;
@@ -6273,7 +6322,7 @@
   gap: 4px !important;
 }
 
-.filter-pill {
+.book-snapshot-modal .filter-pill {
   display: inline-flex !important;
   align-items: center !important;
   gap: 4px !important;
@@ -6289,8 +6338,8 @@
   transition: all 0.15s ease !important;
 }
 
-.filter-pill:hover,
-.filter-pill.active {
+.book-snapshot-modal .filter-pill:hover,
+.book-snapshot-modal .filter-pill.active {
   background: #58180d !important;
   color: #ffd700 !important;
   border-color: #ffd700 !important;
@@ -6328,7 +6377,7 @@
   background: #fcf0db !important;
   border-color: #58180d !important;
   box-shadow: 0 2px 8px rgba(88, 24, 13, 0.18) !important;
-  border-left: 4px solid #58180d !important;
+  border-left: 2px solid #58180d !important;
 }
 
 .card-top {
@@ -7291,7 +7340,7 @@
 }
 
 .creature-list-card.selected {
-  border-left: 4px solid #58180d !important;
+  border-left: 2px solid #58180d !important;
 }
 
 .c-card-icon-slot {
@@ -7885,7 +7934,7 @@
 .book-dynasty-block {
   background: linear-gradient(135deg, #fffdf8 0%, #f7efe1 100%) !important;
   border: 1.5px solid #8b5a1a !important;
-  border-left: 5px solid #7e22ce !important;
+  border-left: 2px solid #7e22ce !important;
   border-radius: 8px !important;
   padding: 16px 18px !important;
   margin: 12px 0 !important;
@@ -8085,7 +8134,7 @@
 .book-plot-thread-block {
   background: linear-gradient(135deg, #fffdf8 0%, #f7efe1 100%) !important;
   border: 1.5px solid #8b5a1a !important;
-  border-left: 5px solid #c2410c !important;
+  border-left: 2px solid #c2410c !important;
   border-radius: 8px !important;
   padding: 16px 18px !important;
   margin: 12px 0 !important;
@@ -9874,17 +9923,27 @@
   }
 
   .map-location-chips-bar {
-    flex-direction: column !important;
+    grid-template-columns: 1fr !important;
     align-items: flex-start !important;
     gap: 6px !important;
     padding-top: 4px !important;
   }
 
   .location-chips-label {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
     font-size: 0.7rem !important;
   }
 
+  .map-explore-btn {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    justify-self: start !important;
+  }
+
   .location-chips-list {
+    grid-column: 1 !important;
+    grid-row: auto !important;
     width: 100% !important;
     flex-wrap: wrap !important;
     gap: 4px !important;
@@ -10168,12 +10227,13 @@
   box-shadow: 0 4px 12px rgba(88, 24, 13, 0.3);
 }
 
-/* Running Header with Bracket Flourish */
+/* Running Header with Center-Diamond Rule */
 .book-running-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  flex-wrap: wrap;
   font-family: var(--book-font-heading, 'Cinzel', serif);
   font-size: 0.74rem;
   font-weight: 700;
@@ -10185,28 +10245,24 @@
 }
 
 .book-bracket-flourish {
-  flex: 1;
+  flex: 1 1 56px;
+  min-width: 56px;
   height: 1px;
-  background: linear-gradient(90deg, #8b5a1a, #d4af37, #8b5a1a);
-  opacity: 0.55;
+  align-self: center;
+  background: linear-gradient(90deg, transparent, rgba(139, 90, 26, 0.45) 18%, rgba(212, 175, 55, 0.7) 50%, rgba(139, 90, 26, 0.45) 82%, transparent);
   position: relative;
 }
 
-.book-bracket-flourish::before,
-.book-bracket-flourish::after {
-  content: '◆';
-  position: absolute;
-  top: -5px;
-  font-size: 8px;
-  color: #8b5a1a;
-}
-
 .book-bracket-flourish::before {
-  left: 0;
-}
-
-.book-bracket-flourish::after {
-  right: 0;
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: #8b5a1a;
+  box-shadow: 0 0 0 3px var(--book-bg-sheet, #fdfaf2);
 }
 
 .running-header-title {
@@ -10472,7 +10528,7 @@
   padding: 16px 20px 16px 36px;
   position: relative;
   background: linear-gradient(135deg, rgba(255, 253, 248, 0.85) 0%, rgba(247, 239, 226, 0.85) 100%);
-  border-left: 4px solid #58180d;
+  border-left: 2px solid #58180d;
   border-radius: 0 6px 6px 0;
   box-shadow: 0 2px 8px rgba(70, 45, 20, 0.06);
 }
@@ -10660,7 +10716,7 @@
   color: #fdfaf2 !important;
   padding: 10px 18px !important;
   margin: 18px 0 12px !important;
-  border-left: 6px solid #8a2f1d !important;
+  border-left: 2px solid #8a2f1d !important;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
   display: flex !important;
   align-items: center !important;
@@ -10680,7 +10736,7 @@
   color: #ffd700 !important;
   padding: 8px 16px !important;
   margin: 16px 0 10px !important;
-  border-left: 5px solid #ffd700 !important;
+  border-left: 2px solid #ffd700 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
@@ -10815,4 +10871,117 @@
   .book-editor-toolbar .save-doc-btn {
     display: none;
   }
+}
+
+/* =========================================================================
+   CLASSIC PUBLICATION CARDS
+   Removes the generic template language (saturated left bars, pastel
+   gradient washes, filled icon badges) from all book block cards so they
+   read like printed sourcebook furniture: flat parchment, hairline rules,
+   small-caps headers, plain accent glyphs.
+   ========================================================================= */
+.book-callout-block,
+.book-location-showcase-wrapper,
+.book-npc-dossier-wrapper,
+.book-quest-hook-wrapper,
+.book-dynasty-block,
+.book-plot-thread-block,
+.book-quote-block {
+  background: #fdfaf3 !important;
+  border: 1.5px solid #c9b794 !important;
+  border-radius: 3px !important;
+  box-shadow: 0 2px 8px rgba(70, 45, 20, 0.07) !important;
+}
+
+/* Callouts: 5e-sidebar double rules in the type accent, flat parchment body */
+.book-callout-block {
+  border-top: 3px double #58180d !important;
+  border-bottom: 3px double #58180d !important;
+  padding: 12px 16px !important;
+}
+
+.book-callout-block.callout-lore { border-top-color: #8b5a1a !important; border-bottom-color: #8b5a1a !important; }
+.book-callout-block.callout-info { border-top-color: #b45309 !important; border-bottom-color: #b45309 !important; }
+.book-callout-block.callout-secret { border-top-color: #6b21a8 !important; border-bottom-color: #6b21a8 !important; }
+.book-callout-block.callout-warning { border-top-color: #b91c1c !important; border-bottom-color: #b91c1c !important; }
+.book-callout-block.callout-readaloud { border-top-color: #166534 !important; border-bottom-color: #166534 !important; }
+.book-callout-block.callout-divine { border-top-color: #075985 !important; border-bottom-color: #075985 !important; }
+
+/* Icon "badges" become plain accent glyphs — no filled squares */
+.callout-icon-badge,
+.loc-icon-badge,
+.plot-icon-badge,
+.dynasty-icon-badge,
+.quest-icon-badge,
+.lineage-icon-badge,
+.lore-icon-badge {
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  border-radius: 0 !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #8b5a1a !important;
+  font-size: 1rem !important;
+}
+
+.npc-avatar-badge {
+  background: none !important;
+  border: 1.5px solid #8b5a1a !important;
+  color: #8b5a1a !important;
+  box-shadow: none !important;
+}
+
+.callout-lore .callout-icon-badge { color: #8b5a1a !important; }
+.callout-info .callout-icon-badge { color: #b45309 !important; }
+.callout-secret .callout-icon-badge { color: #6b21a8 !important; }
+.callout-warning .callout-icon-badge { color: #b91c1c !important; }
+.callout-readaloud .callout-icon-badge { color: #166534 !important; }
+.callout-divine .callout-icon-badge { color: #075985 !important; }
+.loc-icon-badge { color: #2d6a4f !important; }
+.plot-icon-badge { color: #c2410c !important; }
+.dynasty-icon-badge { color: #7e22ce !important; }
+.quest-icon-badge { color: #b45309 !important; }
+.lore-icon-badge.cat-lineage { color: #6b21a8 !important; background: none !important; }
+.lore-icon-badge.cat-dynasty { color: #7e22ce !important; background: none !important; }
+.lore-icon-badge.cat-quest { color: #854d0e !important; background: none !important; }
+.lore-icon-badge.cat-plot { color: #9a3412 !important; background: none !important; }
+.lore-icon-badge.cat-creature { color: #991b1b !important; background: none !important; }
+.lore-icon-badge.cat-magic { color: #155e75 !important; background: none !important; }
+.lore-icon-badge.cat-world { color: #065f46 !important; background: none !important; }
+
+/* Header hairline instead of color bands/bars */
+.callout-header,
+.location-showcase-header,
+.npc-dossier-header,
+.quest-hook-header,
+.dynasty-header,
+.plot-thread-header {
+  border-bottom: 1px solid rgba(139, 90, 43, 0.3) !important;
+  padding-bottom: 8px !important;
+}
+
+/* Step markers: quiet ledger circles */
+.beat-index-marker {
+  background: #fbf7ee !important;
+  color: #58180d !important;
+  border: 1px solid #b89358 !important;
+}
+
+.beat-step-card.completed .beat-index-marker {
+  background: #fbf7ee !important;
+  color: #166534 !important;
+  border-color: #86b89a !important;
+}
+
+/* Crimson banner: solid rule-of-ink band, no gradient fade */
+.book-heading-banner-crimson {
+  background: #58180d !important;
+}
+
+/* Quote: flat paper, thin editorial rule */
+.book-quote-block {
+  background: #fdfaf3 !important;
+  box-shadow: none !important;
 }

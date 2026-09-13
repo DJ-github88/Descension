@@ -51,10 +51,6 @@ import WeaponsRulesDisplay from './WeaponsRulesDisplay';
 
 
 
-import ClassDetailDisplay from './ClassDetailDisplay';
-
-
-
 import SpellIconTooltip from './SpellIconTooltip';
 
 
@@ -64,10 +60,6 @@ import SkillAbilityIconTooltip from './SkillAbilityIconTooltip';
 
 
 import AdvancedTravelDisplay from './AdvancedTravelDisplay';
-
-
-
-import ClassesDisplay from './ClassesDisplay';
 
 
 
@@ -147,6 +139,11 @@ const DramatisPersonaeDisplay = React.lazy(() => import('./DramatisPersonaeDispl
 
 
 const ClassOriginsDisplay = React.lazy(() => import('./ClassOriginsDisplay'));
+
+// Classes views are heavy (backdrop art + 21 class data sets) — load on demand.
+const ClassesDisplay = React.lazy(() => import('./ClassesDisplay'));
+
+const ClassDetailDisplay = React.lazy(() => import('./ClassDetailDisplay'));
 
 const SEARCH_FILTERS = [
   { id: 'all', label: 'All', icon: 'fas fa-globe' },
@@ -3665,6 +3662,12 @@ const RulesPage = () => {
 
   const buttonRefs = useRef({});
 
+  // Last visited topic per tome (Laws vs Lore) for the switcher
+  const lastTomeTopicRef = useRef({
+    laws: { categoryId: 'core-rules', subcategoryId: 'game-overview' },
+    lore: { categoryId: 'world-lore', subcategoryId: 'introduction' }
+  });
+
 
 
   const [activeSectionTab, setActiveSectionTab] = useState(0);
@@ -3734,6 +3737,11 @@ const RulesPage = () => {
     if (result.categoryId === 'world-lore' && result.subcategoryId === 'regions') {
       targetSubcategory = 'regional-overview';
     }
+
+    lastTomeTopicRef.current[result.categoryId === 'world-lore' ? 'lore' : 'laws'] = {
+      categoryId: result.categoryId,
+      subcategoryId: targetSubcategory
+    };
 
     setSelectedCategory(result.categoryId);
     setSelectedSubcategory(targetSubcategory);
@@ -3990,6 +3998,12 @@ const RulesPage = () => {
       targetSubcategory = 'regional-overview';
     }
 
+    // Remember the last topic per tome so the Laws/Lore switcher can return to it
+    lastTomeTopicRef.current[categoryId === 'world-lore' ? 'lore' : 'laws'] = {
+      categoryId,
+      subcategoryId: targetSubcategory
+    };
+
     setSelectedCategory(categoryId);
     setSelectedSubcategory(targetSubcategory);
     setSelectedClassDetail(null);
@@ -4082,6 +4096,15 @@ const RulesPage = () => {
 
 
 
+  // Which tome the current topic belongs to — Lore is the world-lore category, everything else is Laws.
+  const activeTome = selectedCategory === 'world-lore' ? 'lore' : 'laws';
+
+  const handleTomeChange = (tome) => {
+    if (tome === activeTome) return;
+    const target = lastTomeTopicRef.current[tome] || lastTomeTopicRef.current.laws;
+    handleSubcategoryClick(target.categoryId, target.subcategoryId);
+  };
+
   const handleBreadcrumbClick = (breadcrumbType) => {
 
 
@@ -4090,11 +4113,19 @@ const RulesPage = () => {
 
 
 
-      // Navigate to main rules overview
+      // Navigate to the active tome's overview
 
 
 
-      handleSubcategoryClick('core-rules', 'game-overview');
+      if (activeTome === 'lore') {
+
+        handleSubcategoryClick('world-lore', 'introduction');
+
+      } else {
+
+        handleSubcategoryClick('core-rules', 'game-overview');
+
+      }
 
 
 
@@ -4282,15 +4313,16 @@ const RulesPage = () => {
 
 
 
-  // Filter rules based on search
-
+  // Categories for the active tome: Lore is the World Lore codex, Laws is everything else.
   const filteredCategories = useMemo(() => {
 
-    // For now, just return all categories since search is not implemented in UI
+    const all = rulesCategories || [];
 
-    return rulesCategories || [];
+    if (activeTome === 'lore') return all.filter(c => c.id === 'world-lore');
 
-  }, [rulesCategories]);
+    return all.filter(c => c.id !== 'world-lore');
+
+  }, [rulesCategories, activeTome]);
 
 
 
@@ -4897,15 +4929,18 @@ const RulesPage = () => {
 
           ) : loadedClassData ? (
 
-
-
-            <ClassDetailDisplay 
-              classData={loadedClassData} 
-              onBack={handleBackToClasses} 
-              onSelectClass={handleClassClick}
-            />
-
-
+            <Suspense fallback={
+              <div className="rules-loading">
+                <i className="fas fa-spinner fa-spin"></i>
+                <p>Loading tradition data...</p>
+              </div>
+            }>
+              <ClassDetailDisplay 
+                classData={loadedClassData} 
+                onBack={handleBackToClasses} 
+                onSelectClass={handleClassClick}
+              />
+            </Suspense>
 
           ) : (
 
@@ -5165,13 +5200,14 @@ const RulesPage = () => {
 
 
         {currentSubcategory?.useCustomComponent && selectedSubcategory === 'classes' && !selectedClassDetail && (
-
-
-
-          <ClassesDisplay onSelectClass={handleClassClick} />
-
-
-
+          <Suspense fallback={
+            <div className="rules-loading">
+              <i className="fas fa-spinner fa-spin"></i>
+              <p>Loading classes...</p>
+            </div>
+          }>
+            <ClassesDisplay onSelectClass={handleClassClick} />
+          </Suspense>
         )}
 
 
@@ -6377,11 +6413,12 @@ const RulesPage = () => {
         <div className="rules-top-bar">
           <div className="rules-breadcrumbs">
             <button
-              className="rules-breadcrumb rules-breadcrumb-link"
+              className={`rules-breadcrumb rules-breadcrumb-link rules-breadcrumb-tome tome-${activeTome}`}
               onClick={() => handleBreadcrumbClick('rules')}
-              aria-label="Navigate to Rules overview"
+              aria-label={`Navigate to ${activeTome === 'lore' ? 'Lore' : 'Laws'} overview`}
             >
-              Rules
+              <i className={`fas ${activeTome === 'lore' ? 'fa-scroll' : 'fa-scale-balanced'}`}></i>
+              {activeTome === 'lore' ? 'Lore' : 'Laws'}
             </button>
             <i className="fas fa-chevron-right"></i>
             {breadcrumbs.category === 'Character Creation' ? (
@@ -6413,6 +6450,33 @@ const RulesPage = () => {
                 <span className="rules-breadcrumb active">{selectedClassDetail}</span>
               </>
             )}
+          </div>
+
+          {/* The Two Tomes — Laws (mechanics) and Lore (world) */}
+          <div className="rules-tome-switcher" role="group" aria-label="Laws and Lore">
+            <button
+              type="button"
+              aria-pressed={activeTome === 'laws'}
+              className={`rules-tome-tab ${activeTome === 'laws' ? 'active' : ''}`}
+              onClick={() => handleTomeChange('laws')}
+              title="The Laws — rules, systems, and character creation"
+            >
+              <i className="fas fa-scale-balanced"></i>
+              <span className="rules-tome-label">The Laws</span>
+            </button>
+            <span className="rules-tome-spine" aria-hidden="true">
+              <i className="fas fa-book-open"></i>
+            </span>
+            <button
+              type="button"
+              aria-pressed={activeTome === 'lore'}
+              className={`rules-tome-tab ${activeTome === 'lore' ? 'active' : ''}`}
+              onClick={() => handleTomeChange('lore')}
+              title="The Lore — world, history, peoples, and bestiary"
+            >
+              <i className="fas fa-scroll"></i>
+              <span className="rules-tome-label">The Lore</span>
+            </button>
           </div>
 
           <div
@@ -6633,7 +6697,7 @@ const RulesPage = () => {
 
 
 
-                  <i className="fas fa-compass"></i> Browse the Codex
+                  <i className="fas fa-compass"></i> Browse {activeTome === 'lore' ? 'the Lore' : 'the Laws'}
 
 
 

@@ -691,7 +691,7 @@
 
 /* Culture section — subtle left-border accent to visually separate from description */
 .content-section--culture {
-    border-left: 4px solid #8a9e6a;
+    border-left: 2px solid #8a9e6a;
     background: linear-gradient(145deg, #f7faf0 0%, #f0f5e8 40%, #e8f0d8 100%);
 }
 

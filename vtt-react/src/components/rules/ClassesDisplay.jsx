@@ -296,7 +296,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
 
                             {cls.imageIcon ? (
 
-                                <ClassIcon src={cls.imageIcon} alt={cls.name} size="medium" className="class-row-img" dataClass={cls.name} />
+                                <ClassIcon src={cls.imageIcon} alt={cls.name} size="tiny" className="class-row-img" dataClass={cls.name} />
 
                             ) : (
 

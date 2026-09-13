@@ -792,30 +792,30 @@
 
 /* Specific Resource Colors */
 .bestiary-quick-stat-item.hp {
-    border-left: 3px solid #dc3545;
+    border-left: 2px solid #dc3545;
     background: linear-gradient(135deg, #fff 50%, rgba(220, 53, 69, 0.05) 100%);
 }
 .bestiary-quick-stat-item.hp .value { color: #b30000; }
 
 .bestiary-quick-stat-item.mana {
-    border-left: 3px solid #0056b3;
+    border-left: 2px solid #0056b3;
     background: linear-gradient(135deg, #fff 50%, rgba(0, 86, 179, 0.05) 100%);
 }
 .bestiary-quick-stat-item.mana .value { color: #004494; }
 .bestiary-quick-stat-item.mana.disabled {
-    border-left: 3px solid #8c8c8c;
+    border-left: 2px solid #8c8c8c;
     background: #fafafa;
 }
 .bestiary-quick-stat-item.mana.disabled .value { color: #8c8c8c; }
 
 .bestiary-quick-stat-item.ap {
-    border-left: 3px solid #198754;
+    border-left: 2px solid #198754;
     background: linear-gradient(135deg, #fff 50%, rgba(25, 135, 84, 0.05) 100%);
 }
 .bestiary-quick-stat-item.ap .value { color: #146c43; }
 
 .bestiary-quick-stat-item.soak {
-    border-left: 3px solid #5c3a21;
+    border-left: 2px solid #5c3a21;
     background: linear-gradient(135deg, #fff 50%, rgba(92, 58, 33, 0.05) 100%);
 }
 .bestiary-quick-stat-item.soak .value {
@@ -828,7 +828,7 @@
     flex-direction: row;
     justify-content: space-between;
     padding: 0.5rem 1rem;
-    border-left: 3px solid #ffc107;
+    border-left: 2px solid #ffc107;
     background: linear-gradient(135deg, #fff 50%, rgba(255, 193, 7, 0.05) 100%);
 }
 .bestiary-quick-stat-item.initiative .label {
@@ -1513,7 +1513,7 @@
 .bestiary-folklore-card {
     background: linear-gradient(135deg, #fcf9f2 0%, #f4ede0 100%);
     border: 1.5px solid #2d6a4f;
-    border-left: 5px solid #2d6a4f;
+    border-left: 2px solid #2d6a4f;
     border-radius: 10px;
     padding: 1.4rem 1.6rem;
     margin-top: 1.5rem;
@@ -1658,4 +1658,3 @@
     color: #43281c;
     margin: 0;
 }
-

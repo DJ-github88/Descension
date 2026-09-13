@@ -2338,7 +2338,7 @@ body svg[data-icon] {
   padding: 14px 24px;
   background: none;
   border: none;
-  border-left: 3px solid transparent;
+  border-left: 2px solid transparent;
   color: var(--my-parchment-text);
   font-family: 'Cinzel', serif;
   font-size: 15px;

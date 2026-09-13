@@ -790,7 +790,7 @@
 
 /* ─── Crisis & Warning layouts ─── */
 .tome-crisis-box {
-    border-left: 4px solid var(--tome-danger);
+    border-left: 2px solid var(--tome-danger);
     background: var(--tome-danger-bg);
     border-radius: 0 8px 8px 0;
     padding: 16px;
@@ -1143,5 +1143,3 @@
         letter-spacing: 1px;
     }
 }
-
-

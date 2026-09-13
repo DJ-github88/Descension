@@ -180,7 +180,7 @@
   padding: 8px 10px !important;
   background: rgba(255, 255, 255, 0.55) !important;
   border-radius: 4px !important;
-  border-left: 3px solid #8b4513 !important;
+  border-left: 2px solid #8b4513 !important;
   font-family: 'Crimson Text', serif !important;
   word-wrap: break-word !important;
   overflow-wrap: break-word !important;
@@ -371,7 +371,7 @@
   padding: 8px 10px !important;
   background: rgba(255, 255, 255, 0.5) !important;
   border-radius: 5px !important;
-  border-left: 3px solid #8b4513 !important;
+  border-left: 2px solid #8b4513 !important;
   box-sizing: border-box !important;
 }
 

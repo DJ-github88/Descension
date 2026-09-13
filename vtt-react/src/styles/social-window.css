@@ -442,7 +442,7 @@
 
 .social-window .friend-entry.selected {
   background-color: rgba(122, 59, 46, 0.1);
-  border-left: 3px solid #7a3b2e;
+  border-left: 2px solid #7a3b2e;
 }
 
 .social-window .friend-status {
@@ -671,7 +671,7 @@
       rgba(240, 230, 210, 0.95) 50%,
       rgba(235, 225, 205, 0.98) 100%);
   border: 1px solid rgba(139, 69, 19, 0.4);
-  border-left: 3px solid #8B4513;
+  border-left: 2px solid #8B4513;
   border-radius: 8px;
   padding: 18px 22px;
   margin-bottom: 14px;
@@ -1432,7 +1432,7 @@
 
 .social-window .ignore-entry.selected {
   background-color: rgba(122, 59, 46, 0.15);
-  border-left: 3px solid #7a3b2e;
+  border-left: 2px solid #7a3b2e;
 }
 
 .social-window .ignore-name {

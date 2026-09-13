@@ -822,11 +822,11 @@
 }
 
 .bdm-preset-card.buff {
-    border-left: 4px solid #32cd32;
+    border-left: 2px solid #32cd32;
 }
 
 .bdm-preset-card.debuff {
-    border-left: 4px solid #dc143c;
+    border-left: 2px solid #dc143c;
 }
 
 .bdm-preset-icon {
@@ -964,4 +964,3 @@
 .bdm-preset-list::-webkit-scrollbar-thumb:hover {
     background: #8b7355;
 }
-

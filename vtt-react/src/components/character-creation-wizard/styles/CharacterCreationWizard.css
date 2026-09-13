@@ -2571,7 +2571,7 @@ button.gender-option.selected {
     text-align: left;
     padding: 1rem 1.25rem;
     background: rgba(212, 175, 55, 0.08);
-    border-left: 3px solid rgba(212, 175, 55, 0.4);
+    border-left: 2px solid rgba(212, 175, 55, 0.4);
     border-radius: 0 4px 4px 0;
 }
 
@@ -3001,7 +3001,7 @@ button.gender-option.selected {
     background: rgba(212, 175, 55, 0.1);
     padding: 0.75rem;
     border-radius: 6px;
-    border-left: 3px solid #d4af37;
+    border-left: 2px solid #d4af37;
 }
 
 .feature-name {
@@ -3789,7 +3789,7 @@ button.gender-option.selected {
     background: rgba(212, 175, 55, 0.1);
     padding: 0.5rem;
     border-radius: 6px;
-    border-left: 3px solid #d4af37;
+    border-left: 2px solid #d4af37;
 }
 
 .feature-display h5 {
@@ -3868,7 +3868,7 @@ button.gender-option.selected {
     padding: 0.5rem;
     background: rgba(212, 175, 55, 0.1);
     border-radius: 4px;
-    border-left: 3px solid #d4af37;
+    border-left: 2px solid #d4af37;
 }
 
 .quick-stat .stat-name {
@@ -4192,7 +4192,7 @@ button.gender-option.selected {
     background: rgba(212, 175, 55, 0.1);
     padding: 0.75rem;
     border-radius: 6px;
-    border-left: 3px solid #d4af37;
+    border-left: 2px solid #d4af37;
 }
 
 .trait-name {
@@ -4960,7 +4960,7 @@ button.gender-option.selected {
 
 .playstyle-tips {
     background: rgba(212, 175, 55, 0.05);
-    border-left: 4px solid #d4af37;
+    border-left: 2px solid #d4af37;
     padding: 1rem;
     border-radius: 0 4px 4px 0;
 }
@@ -5267,7 +5267,7 @@ button.gender-option.selected {
 /* Granted Info Banner */
 .granted-info {
     background: rgba(212, 175, 55, 0.1);
-    border-left: 3px solid #d4af37;
+    border-left: 2px solid #d4af37;
     padding: 0.75rem;
     font-size: 0.85rem;
     color: #5d4037;
@@ -5532,7 +5532,7 @@ button.gender-option.selected {
     background: rgba(74, 144, 226, 0.1);
     border: 1px solid rgba(74, 144, 226, 0.3);
     border-radius: 6px;
-    border-left: 4px solid #4a90e2;
+    border-left: 2px solid #4a90e2;
 }
 
 .note-content {
@@ -6013,14 +6013,14 @@ button.gender-option.selected {
     gap: 1rem;
     padding: 0.5rem 0.75rem;
     background: rgba(255, 255, 255, 0.5);
-    border-left: 3px solid #d4af37;
+    border-left: 2px solid #d4af37;
     border-radius: 4px;
     font-size: 0.9rem;
 }
 
 /* Colorblind-friendly skill roll outcome colors - matching BackgroundSelector.css */
 .table-preview-entry.total-failure {
-    border-left: 6px solid #8B0000;
+    border-left: 2px solid #8B0000;
     background: linear-gradient(135deg, #ffe8e8 0%, #ffd5d5 100%);
     border-left-style: double;
     position: relative;
@@ -6048,7 +6048,7 @@ button.gender-option.selected {
 }
 
 .table-preview-entry.failure {
-    border-left: 5px solid #D84315;
+    border-left: 2px solid #D84315;
     background: linear-gradient(135deg, #fff0eb 0%, #ffe5e0 100%);
     position: relative;
     padding-left: 20px;
@@ -6076,7 +6076,7 @@ button.gender-option.selected {
 
 .table-preview-entry.normal,
 .table-preview-entry.partial {
-    border-left: 5px solid var(--my-health-danger);
+    border-left: 2px solid var(--my-health-danger);
     background: linear-gradient(135deg, #fff8e1 0%, #fff3c4 100%);
     position: relative;
     padding-left: 20px;
@@ -6104,7 +6104,7 @@ button.gender-option.selected {
 }
 
 .table-preview-entry.success {
-    border-left: 5px solid #00897B;
+    border-left: 2px solid #00897B;
     background: linear-gradient(135deg, #e0f7f4 0%, #d1f2ef 100%);
     position: relative;
     padding-left: 20px;
@@ -6131,7 +6131,7 @@ button.gender-option.selected {
 }
 
 .table-preview-entry.critical {
-    border-left: 6px solid var(--my-mana-dark);
+    border-left: 2px solid var(--my-mana-dark);
     background: linear-gradient(135deg, #e3f2fd 0%, #d1e7ff 100%);
     box-shadow: 0 2px 8px rgba(25, 118, 210, 0.25);
     border-left-style: double;
@@ -6592,7 +6592,7 @@ button.gender-option.selected {
     background: rgba(212, 175, 55, 0.1);
     padding: 0.75rem;
     border-radius: 6px;
-    border-left: 3px solid #d4af37;
+    border-left: 2px solid #d4af37;
     font-size: 0.8rem;
     color: #5d4037;
     line-height: 1.5;
@@ -8220,7 +8220,7 @@ button.gender-option.selected {
     padding: 0.75rem;
     background: rgba(212, 175, 55, 0.08);
     border-radius: 8px;
-    border-left: 3px solid #d4af37;
+    border-left: 2px solid #d4af37;
     font-size: 0.9rem;
     line-height: 1.5;
     color: #3d2817;
@@ -8505,7 +8505,7 @@ button.gender-option.selected {
     padding: 0.75rem 1rem;
     background: rgba(212, 175, 55, 0.1);
     border-radius: 8px;
-    border-left: 3px solid #d4af37;
+    border-left: 2px solid #d4af37;
 }
 
 .subrace-choice-grid {
@@ -8804,7 +8804,7 @@ button.gender-option.selected {
     padding: 0.5rem 0.75rem;
     background: rgba(212, 175, 55, 0.1);
     border-radius: 6px;
-    border-left: 3px solid #d4af37;
+    border-left: 2px solid #d4af37;
 }
 
 .modal-ability-icon-grid {
@@ -9904,7 +9904,7 @@ button.gender-option.selected {
     padding: 0.5rem 0.75rem;
     background: rgba(212, 175, 55, 0.1);
     border-radius: 6px;
-    border-left: 3px solid #d4af37;
+    border-left: 2px solid #d4af37;
 }
 
 .abilities-tab .ability-icon-grid {
@@ -14770,7 +14770,7 @@ select.lore-field-input option,
 }
 
 .wizard-orb-menu-item.completed:not(.current) {
-    border-left: 3px solid #2d5a3c;
+    border-left: 2px solid #2d5a3c;
 }
 
 .orb-menu-num {

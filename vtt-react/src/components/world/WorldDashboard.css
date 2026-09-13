@@ -27,6 +27,13 @@
   box-sizing: border-box;
 }
 
+/* Dashboard header: title left, Worlds switcher dead-center, nav icons right. */
+.world-dashboard .world-panel-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+}
+
 .world-panel-header h1 {
   font-family: 'Cinzel', serif !important;
   font-size: 20px;
@@ -179,7 +186,7 @@
 
 /* ---- Quote ---- */
 .world-quote {
-  border-left: 4px solid #8b5a1a !important;
+  border-left: 2px solid #8b5a1a !important;
   padding: 14px 20px;
   background: rgba(255, 255, 255, 0.85) !important;
   border-radius: 0 8px 8px 0;
@@ -1282,7 +1289,7 @@
 
 .class-tagline-box {
   background: linear-gradient(135deg, rgba(246, 238, 222, 0.75) 0%, rgba(239, 227, 207, 0.55) 100%);
-  border-left: 3px solid #a67c2e;
+  border-left: 2px solid #a67c2e;
   padding: 7px 10px;
   border-radius: 0 5px 5px 0;
 }
@@ -1360,7 +1367,7 @@
 
 .class-dossier-hero,
 .class-codex-hero {
-  border-left: 4px solid #8b5a1a !important;
+  border-left: 2px solid #8b5a1a !important;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(251, 245, 235, 0.9) 100%) !important;
 }
 .class-dossier-hero-header,
@@ -2331,7 +2338,7 @@
   margin: 0;
   padding: 6px 10px;
   background: rgba(212, 175, 55, 0.08);
-  border-left: 3px solid #c59b27;
+  border-left: 2px solid #c59b27;
   border-radius: 0 4px 4px 0;
 }
 
@@ -3343,13 +3350,6 @@
    Multi-World Management & Custom World/Realm Studio Styling
    ========================================================================== */
 
-.world-title-main-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
 .world-master-title {
   font-family: 'Cinzel', serif !important;
   font-size: 22px !important;
@@ -3737,7 +3737,8 @@
 }
 
 @media (max-width: 768px) {
-  .world-panel-header {
+  .world-dashboard .world-panel-header {
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
@@ -3857,11 +3858,6 @@
 }
 
 
-/* Phone: the labeled .world-tabs scroller below already lists every
-   destination, so hide the duplicate icon-only quick strip.
-   (2026-09-11 mobile deep-dive — dedupe navigation.) */
-@media (max-width: 768px) {
-  .world-header-icon-strip {
-    display: none;
-  }
-}
+/* The icon quick strip is now the ONLY dashboard navigation (the labeled
+   .world-tabs row was removed to kill the horizontal scrollbar), so it must
+   stay visible on phones too and swipe horizontally. */

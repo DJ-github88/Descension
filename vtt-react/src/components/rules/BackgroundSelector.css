@@ -1691,7 +1691,7 @@
     margin: 0 0 24px 0;
     padding: 16px;
     background: var(--my-card-bg);
-    border-left: 4px solid var(--my-accent);
+    border-left: 2px solid var(--my-accent);
     border-radius: 4px;
     color: var(--my-text-muted);
     font-size: 14px;
@@ -1791,7 +1791,7 @@
 /* Colorblind-friendly skill roll outcome colors */
 /* Total Failure - Dark red/maroon (very dark, distinct) */
 .table-preview-entry.total-failure {
-    border-left: 6px solid #8B0000;
+    border-left: 2px solid #8B0000;
     background: linear-gradient(135deg, #ffe8e8 0%, #ffd5d5 100%);
     border-left-style: double;
     position: relative;
@@ -1820,7 +1820,7 @@
 
 /* Failure - Red-orange (distinct from dark red) */
 .table-preview-entry.failure {
-    border-left: 5px solid #D84315;
+    border-left: 2px solid #D84315;
     background: linear-gradient(135deg, #fff0eb 0%, #ffe5e0 100%);
     position: relative;
     padding-left: 20px;
@@ -1849,7 +1849,7 @@
 /* Partial Success / Mixed - Amber/yellow (warm, distinct) */
 .table-preview-entry.normal,
 .table-preview-entry.partial {
-    border-left: 5px solid var(--my-health-danger);
+    border-left: 2px solid var(--my-health-danger);
     background: linear-gradient(135deg, #fff8e1 0%, #fff3c4 100%);
     position: relative;
     padding-left: 20px;
@@ -1878,7 +1878,7 @@
 
 /* Success - Teal/blue-green (cool, distinct) */
 .table-preview-entry.success {
-    border-left: 5px solid #00897B;
+    border-left: 2px solid #00897B;
     background: linear-gradient(135deg, #e0f7f4 0%, #d1f2ef 100%);
     position: relative;
     padding-left: 20px;
@@ -1906,7 +1906,7 @@
 
 /* Critical Success - Bright blue (very distinct) */
 .table-preview-entry.critical {
-    border-left: 6px solid var(--my-mana-dark);
+    border-left: 2px solid var(--my-mana-dark);
     background: linear-gradient(135deg, #e3f2fd 0%, #d1e7ff 100%);
     box-shadow: 0 2px 8px rgba(25, 118, 210, 0.25);
     border-left-style: double;
@@ -3138,7 +3138,7 @@
         linear-gradient(180deg, rgba(176, 141, 87, 0.1), rgba(212, 175, 55, 0.06)),
         rgba(255, 251, 240, 0.7);
     border: 1px solid rgba(176, 141, 87, 0.35);
-    border-left: 5px solid #b08d57;
+    border-left: 2px solid #b08d57;
     box-shadow: 0 2px 10px rgba(62, 39, 35, 0.06);
 }
 
@@ -3385,7 +3385,7 @@
         repeating-linear-gradient(0deg, rgba(120, 90, 50, 0.012) 0 1px, transparent 1px 3px),
         linear-gradient(135deg, #faf3e3 0%, #f1e6cf 100%) !important;
     border: 1px solid rgba(140, 105, 55, 0.30) !important;
-    border-left: 3px solid #b08d57 !important;
+    border-left: 2px solid #b08d57 !important;
     border-radius: 8px 9px 9px 8px;
     box-shadow: inset 0 0 0 1px rgba(255, 250, 235, 0.45), 0 2px 6px rgba(70, 45, 20, 0.10) !important;
 }
@@ -3859,7 +3859,7 @@
         repeating-linear-gradient(0deg, rgba(120,90,50,0.012) 0 1px, transparent 1px 3px),
         linear-gradient(135deg, #faf3e3 0%, #f1e6cf 100%);
     border: 1px solid rgba(140,105,55,0.28);
-    border-left: 3px solid #b08d57;
+    border-left: 2px solid #b08d57;
     border-radius: 8px 9px 9px 8px;
     padding: 12px 14px 12px;
     cursor: pointer;

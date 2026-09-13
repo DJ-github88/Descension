@@ -5513,7 +5513,7 @@ button:disabled {
     padding: 8px 12px;
     background: rgba(139, 69, 19, 0.1);
     border-radius: 4px;
-    border-left: 3px solid #d4af37;
+    border-left: 2px solid #d4af37;
 }
 
 .note-text {

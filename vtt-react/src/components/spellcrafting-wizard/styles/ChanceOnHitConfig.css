@@ -649,7 +649,7 @@ input[type="checkbox"]:hover {
 
 /* Spell card stat styling for chance on hit, critical hit, and saving throw */
 .unified-spell-stat.saving-throw {
-  border-left: 3px solid #4a90e2;
+  border-left: 2px solid #4a90e2;
 }
 
 .unified-spell-stat.saving-throw .unified-stat-label {
@@ -665,7 +665,7 @@ input[type="checkbox"]:hover {
 }
 
 .unified-spell-stat.critical-hit {
-  border-left: 3px solid #e53e3e;
+  border-left: 2px solid #e53e3e;
 }
 
 .unified-spell-stat.critical-hit .unified-stat-label {
@@ -681,7 +681,7 @@ input[type="checkbox"]:hover {
 }
 
 .unified-spell-stat.chance-on-hit {
-  border-left: 3px solid #38a169;
+  border-left: 2px solid #38a169;
 }
 
 .unified-spell-stat.chance-on-hit .unified-stat-label {
@@ -1763,7 +1763,7 @@ input[type="checkbox"]:hover {
 /* Warning panel styling to replace hardcoded styles */
 .mechanics-popup-body .warning-panel {
   background: rgba(255, 193, 7, 0.1) !important;
-  border-left: 3px solid #ffc107 !important;
+  border-left: 2px solid #ffc107 !important;
   border-radius: var(--my-border-radius);
   padding: var(--my-space-3);
 }

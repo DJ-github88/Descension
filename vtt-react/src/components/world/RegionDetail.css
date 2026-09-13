@@ -575,7 +575,7 @@
 }
 
 .region-subregion-group-card {
-  border-left: 4px solid #8b5a1a;
+  border-left: 2px solid #8b5a1a;
 }
 
 .holding-group-header {
@@ -909,7 +909,7 @@
 
 .explorer-loc-item.selected {
   background: #f4ecdc;
-  border-left: 4px solid #8b5a1a;
+  border-left: 2px solid #8b5a1a;
 }
 
 .explorer-loc-item-icon {
@@ -1333,7 +1333,7 @@
 .dossier-history-section {
   background: #fbf7ef;
   border: 1px solid #d9cbaf;
-  border-left: 3px solid #8b5a1a;
+  border-left: 2px solid #8b5a1a;
   padding: 14px 16px;
   border-radius: 6px;
 }
@@ -1403,4 +1403,3 @@
   color: #ffffff;
   transform: translateY(-1px);
 }
-

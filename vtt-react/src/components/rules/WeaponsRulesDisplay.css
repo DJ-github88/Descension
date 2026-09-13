@@ -168,7 +168,7 @@
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.6);
     border: 1px solid rgba(139, 69, 19, 0.12);
-    border-left: 4px solid var(--tier-color, #999);
+    border-left: 2px solid var(--tier-color, #999);
 }
 
 .weapons-tier-chip .weapons-tier-num {
@@ -316,7 +316,7 @@
     border-radius: 9px;
     background: rgba(255, 255, 255, 0.55);
     border: 1px solid rgba(139, 69, 19, 0.08);
-    border-left: 4px solid var(--tier-color, #999);
+    border-left: 2px solid var(--tier-color, #999);
 }
 
 .weapons-roll-pip {

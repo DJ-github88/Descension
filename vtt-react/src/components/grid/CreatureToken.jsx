@@ -2434,6 +2434,16 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           }}
         ></div>
 
+        {/* Creature Name Label */}
+        <div
+          className="token-name-label"
+          style={{
+            transform: `translateX(-50%) scaleY(${1 / Math.max(0.5, groundSquash)})`
+          }}
+        >
+          {token.state?.customName || creature.name}
+        </div>
+
         {/* GM ability fan-out: ability icons fanned above the token on hover */}
         {canShowAbilityFan && (
           <CreatureAbilityFanOut

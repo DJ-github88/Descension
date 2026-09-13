@@ -197,7 +197,7 @@
 .timeline-era-quote {
   margin: 0 0 20px 0;
   padding: 12px 16px;
-  border-left: 3px solid var(--rpg-dark-gold, #8f6f35);
+  border-left: 2px solid var(--rpg-dark-gold, #8f6f35);
   background: rgba(196, 160, 96, 0.04);
   border-radius: 0 4px 4px 0;
 }
@@ -246,7 +246,7 @@
 .timeline-card {
   background: rgba(245, 238, 224, 0.35);
   border: 1px solid rgba(196, 160, 96, 0.25);
-  border-left: 3px solid var(--rpg-gold, #c4a060);
+  border-left: 2px solid var(--rpg-gold, #c4a060);
   border-radius: 4px;
   padding: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
@@ -344,7 +344,7 @@
   margin-top: 14px;
   padding: 10px 14px;
   background: rgba(138, 26, 16, 0.03);
-  border-left: 3px solid #8a1a10;
+  border-left: 2px solid #8a1a10;
   border-radius: 0 4px 4px 0;
   width: 100%;
   box-sizing: border-box;

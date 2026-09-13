@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import RichLoreText from '../common/RichLoreText';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import { SpellLibraryProvider } from '../spellcrafting-wizard/context/SpellLibraryContext';
@@ -163,7 +163,8 @@ export const CreatureStatblockBlock = ({
   isWrite = false,
   compact = false,
   onUpdate = () => {},
-  onOpenWizard = () => {}
+  onOpenWizard = () => {},
+  onOpenPicker = () => {}
 }) => {
   const [showPresets, setShowPresets] = useState(false);
   const stats = block.stats || { strength: 10, agility: 10, constitution: 10, intelligence: 10, spirit: 10, charisma: 10 };
@@ -190,7 +191,6 @@ export const CreatureStatblockBlock = ({
       ap: preset.ap,
       speed: preset.speed,
       tokenIcon: preset.tokenIcon || 'inv_misc_questionmark',
-      tokenIcon: preset.tokenIcon,
       stats: { ...preset.stats },
       resistances: preset.resistances,
       traits: [...preset.traits],
@@ -201,6 +201,11 @@ export const CreatureStatblockBlock = ({
 
   const handleAddTrait = () => {
     onUpdate({ traits: [...traits, { name: 'New Trait', desc: 'Mechanical description of trait...' }] });
+  };
+
+  const handleStatChange = (key, val) => {
+    const num = parseInt(val, 10);
+    onUpdate({ stats: { ...stats, [key]: Number.isNaN(num) ? 10 : num } });
   };
 
   const handleTraitChange = (index, field, val) => {
@@ -2321,6 +2326,17 @@ export const MapEmbedBlock = ({
   const [panStart, setPanStart] = useState(null);
   const [draggingPinId, setDraggingPinId] = useState(null);
   const viewportRef = useRef(null);
+  const titleInputRef = useRef(null);
+
+  const autoGrowTitle = (el) => {
+    if (!el) return;
+    el.style.height = 'auto';
+    el.style.height = `${el.scrollHeight}px`;
+  };
+
+  useEffect(() => {
+    autoGrowTitle(titleInputRef.current);
+  }, [title, layoutStyle, isWrite]);
 
   const activeLocation = locations.find((l) => l.id === activeLocId) || locations[0];
 
@@ -2712,12 +2728,16 @@ export const MapEmbedBlock = ({
       <div className="map-title-row">
         <div className="map-title-wrap">
           {isWrite ? (
-            <input
-              type="text"
+            <textarea
+              ref={titleInputRef}
               className="map-input-title"
               value={title}
+              rows={1}
               placeholder="Showcase Title or Landmark Name..."
-              onChange={(e) => onUpdate({ title: e.target.value })}
+              onChange={(e) => {
+                onUpdate({ title: e.target.value });
+                autoGrowTitle(e.target);
+              }}
             />
           ) : (
             <h3 className="map-display-title">{title}</h3>

@@ -1108,7 +1108,7 @@
     background: linear-gradient(90deg, rgba(212, 175, 55, 0.35), transparent);
     color: #ffffff;
     font-weight: 700;
-    border-left: 3px solid #ffd700;
+    border-left: 2px solid #ffd700;
 }
 
 .tab-dropdown-item-wrapper {
@@ -1190,7 +1190,7 @@
     background: linear-gradient(90deg, rgba(212, 175, 55, 0.35), transparent);
     color: #ffffff;
     font-weight: 700;
-    border-left: 3px solid #ffd700;
+    border-left: 2px solid #ffd700;
 }
 
 /* Remove default border lines or indicators that conflict with asset graphics */

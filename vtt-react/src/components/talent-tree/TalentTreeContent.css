@@ -1045,11 +1045,11 @@
 }
 
 .talent-summary-item-card.is-maxed {
-    border-left: 4px solid #d4af37;
+    border-left: 2px solid #d4af37;
 }
 
 .talent-summary-item-card.is-learned {
-    border-left: 4px solid #8b4513;
+    border-left: 2px solid #8b4513;
 }
 
 .talent-summary-item-card:hover {
@@ -1301,7 +1301,7 @@
 }
 
 .talent-summary-tree-section.is-primary-spec-section {
-    border-left: 4px solid #d4af37;
+    border-left: 2px solid #d4af37;
     background: rgba(255, 253, 245, 0.65);
     box-shadow: 0 2px 8px rgba(184, 115, 51, 0.15);
 }
@@ -1400,11 +1400,11 @@
 }
 
 .summary-passive-card.unique-trait {
-    border-left: 4px solid #b87333;
+    border-left: 2px solid #b87333;
 }
 
 .summary-passive-card.shared-trait {
-    border-left: 4px solid #2e7d32;
+    border-left: 2px solid #2e7d32;
 }
 
 .summary-passive-card-top {
@@ -1475,11 +1475,11 @@
 }
 
 .inspector-passive-item.shared {
-    border-left: 3px solid #2e7d32;
+    border-left: 2px solid #2e7d32;
 }
 
 .inspector-passive-item.unique {
-    border-left: 3px solid #8b4513;
+    border-left: 2px solid #8b4513;
 }
 
 .inspector-passive-header {
@@ -1531,5 +1531,3 @@
     align-items: center;
     gap: 6px;
 }
-
-

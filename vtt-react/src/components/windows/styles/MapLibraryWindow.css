@@ -307,7 +307,7 @@
     padding: 8px 10px;
     background: rgba(139, 69, 19, 0.08);
     border-radius: 6px;
-    border-left: 3px solid var(--my-gold-dark);
+    border-left: 2px solid var(--my-gold-dark);
     font-style: italic;
     text-align: left;
     min-height: 36px;

@@ -150,7 +150,7 @@
   border-radius: var(--my-border-radius);
   padding: var(--my-space-4);
   margin-bottom: var(--my-space-5);
-  border-left: 3px solid var(--my-gold);
+  border-left: 2px solid var(--my-gold);
   box-shadow: var(--my-shadow-sm);
   border: var(--my-border-width) solid var(--my-brown-light);
 }

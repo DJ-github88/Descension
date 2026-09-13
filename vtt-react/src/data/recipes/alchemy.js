@@ -57,39 +57,6 @@ export const ALCHEMY_RECIPES = [
     craftingTime: 6000,
     experienceGained: 2,
     category: 'essences'
-  },
-  {
-    id: 'vital-essence-recipe',
-    name: 'Vital Essence',
-    profession: 'alchemy',
-    description: 'Drawn from bog-peat reagents dredged in Vel-Keth Bayou. Extract life energy essence from medicinal herbs.',
-    requiredLevel: 2,
-    resultItemId: 'vital-essence',
-    resultQuantity: 1,
-    materials: [
-      { itemId: 'ashflower', quantity: 2 },
-      { itemId: 'glowbulb', quantity: 1 },
-      { itemId: 'distilled-water', quantity: 1 },
-      { itemId: 'reinforced-flask', quantity: 1 }
-    ],
-    craftingTime: 7000,
-    experienceGained: 3,
-    category: 'essences'
-  },
-  {
-    id: 'ground-bone-recipe',
-    name: 'Ground Bone',
-    profession: 'alchemy',
-    description: 'A staple of the Toxicologist vial-shelves, ground in pestles of black glass. Grind bone into a fine powder for alchemical use.',
-    requiredLevel: 0,
-    resultItemId: 'ground-bone',
-    resultQuantity: 2,
-    materials: [
-      { itemId: 'bone-plates', quantity: 1 }
-    ],
-    craftingTime: 3000,
-    experienceGained: 1,
-    category: 'processing'
   }
 ];
 

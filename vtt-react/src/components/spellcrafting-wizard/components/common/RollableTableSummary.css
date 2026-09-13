@@ -445,7 +445,7 @@
 
 .rollable-table-entry-preview.is-rolled-highlight {
   background: linear-gradient(90deg, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0.06) 100%) !important;
-  border-left: 3px solid #d4af37 !important;
+  border-left: 2px solid #d4af37 !important;
   box-shadow: 0 0 10px rgba(212, 175, 55, 0.3), inset 0 0 4px rgba(212, 175, 55, 0.2);
   transform: translateX(4px);
   animation: rollable-entry-pulse 2s ease-in-out infinite;

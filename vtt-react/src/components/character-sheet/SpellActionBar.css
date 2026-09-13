@@ -722,15 +722,15 @@
 }
 
 .spell-consume-diff-row.health {
-  border-left: 4px solid #ef4444;
+  border-left: 2px solid #ef4444;
 }
 
 .spell-consume-diff-row.mana {
-  border-left: 4px solid #3b82f6;
+  border-left: 2px solid #3b82f6;
 }
 
 .spell-consume-diff-row.ap {
-  border-left: 4px solid #eab308;
+  border-left: 2px solid #eab308;
 }
 
 .spell-consume-diff-row .diff-label {

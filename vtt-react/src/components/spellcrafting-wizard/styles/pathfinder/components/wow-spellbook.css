@@ -373,7 +373,7 @@
   min-width: 0;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 241, 230, 0.8) 100%);
   border: 1.5px solid rgba(139, 69, 19, 0.25);
-  border-left: 3px solid rgba(139, 69, 19, 0.5);
+  border-left: 2px solid rgba(139, 69, 19, 0.5);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
@@ -700,7 +700,7 @@
 .wow-spell-row.empty {
   background: transparent;
   border: 1px dashed rgba(139, 69, 19, 0.25);
-  border-left: 3px solid rgba(139, 69, 19, 0.2);
+  border-left: 2px solid rgba(139, 69, 19, 0.2);
   cursor: default;
   box-shadow: none;
 }
@@ -896,4 +896,3 @@
     right: 8px;
   }
 }
-

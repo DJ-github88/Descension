@@ -255,7 +255,7 @@
   padding: 18px 22px 18px 52px;
   background: linear-gradient(135deg, rgba(250, 246, 238, 0.95) 0%, rgba(240, 226, 204, 0.95) 100%);
   border: 2px solid var(--rpg-dark-gold);
-  border-left: 5px solid var(--rpg-dark-gold);
+  border-left: 2px solid var(--rpg-dark-gold);
   border-radius: 4px;
   position: relative;
   box-shadow: 0 2px 8px rgba(100, 70, 40, 0.15);
@@ -1204,4 +1204,3 @@
 }
 
 /* Responsive adjustment: hide decorations on smaller screens to prioritize reading area */
-

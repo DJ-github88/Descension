@@ -97,7 +97,7 @@
 
 .rollable-table-entry-highlighted {
   background: rgba(255, 200, 50, 0.15);
-  border-left: 3px solid rgba(255, 200, 50, 0.6);
+  border-left: 2px solid rgba(255, 200, 50, 0.6);
 }
 
 .rollable-table-range {

@@ -1028,7 +1028,7 @@
     padding: 12px;
     background: rgba(122, 59, 46, 0.1);
     border-radius: 6px;
-    border-left: 4px solid #7a3b2e;
+    border-left: 2px solid #7a3b2e;
 }
 
 .control-help p {
@@ -1138,7 +1138,7 @@
 /* Nested control styling */
 .control-nested {
     padding-left: 16px;
-    border-left: 3px solid #7a3b2e;
+    border-left: 2px solid #7a3b2e;
     margin-left: 8px;
     margin-top: 12px;
 }
@@ -1195,7 +1195,7 @@
     position: relative;
     background: linear-gradient(135deg, rgba(122, 59, 46, 0.08), rgba(122, 59, 46, 0.12));
     border: 1px solid rgba(122, 59, 46, 0.2);
-    border-left: 4px solid #7a3b2e;
+    border-left: 2px solid #7a3b2e;
     border-radius: 6px;
     padding: 12px 16px;
     margin-top: 8px;

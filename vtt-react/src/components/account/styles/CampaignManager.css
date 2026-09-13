@@ -1732,7 +1732,7 @@
   line-height: 1.35;
   padding: 6px 10px;
   background: rgba(139, 69, 19, 0.04);
-  border-left: 3px solid #c89b3c;
+  border-left: 2px solid #c89b3c;
   border-radius: 0 6px 6px 0;
   margin-bottom: 8px;
   display: -webkit-box;
@@ -4716,7 +4716,7 @@
 }
 
 .entity-chip-pill.quest-chip {
-  border-left: 3px solid #f39c12;
+  border-left: 2px solid #f39c12;
 }
 
 .entity-picker-filter-tabs {
@@ -6581,5 +6581,3 @@
     flex: 1 1 100%;
   }
 }
-
-

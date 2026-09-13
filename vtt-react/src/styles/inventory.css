@@ -1781,7 +1781,7 @@
     background: rgba(255, 255, 255, 0.5);
     padding: 0.6rem 0.8rem;
     border-radius: 6px;
-    border-left: 3px solid #d4af37;
+    border-left: 2px solid #d4af37;
 }
 
 .companion-stats-grid {
@@ -1971,4 +1971,3 @@
     color: #991b1b;
     border: 1px solid rgba(239, 68, 68, 0.4);
 }
-

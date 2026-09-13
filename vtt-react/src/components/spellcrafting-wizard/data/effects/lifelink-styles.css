@@ -175,7 +175,7 @@
 .lifelink-example.clickable {
   cursor: pointer;
   transition: all 0.2s;
-  border-left: 3px solid transparent;
+  border-left: 2px solid transparent;
 }
 
 .lifelink-example.clickable:hover {

@@ -1725,7 +1725,7 @@
 
 /* Library Card Styling */
 .homebrew-card.library-card {
-    border-left: 4px solid var(--my-gold, #d4af37);
+    border-left: 2px solid var(--my-gold, #d4af37);
 }
 
 .homebrew-card.library-card .homebrew-card-header {
@@ -3935,27 +3935,27 @@
 }
 
 .entity-chip-pill.item-chip {
-  border-left: 3px solid #d4af37;
+  border-left: 2px solid #d4af37;
 }
 
 .entity-chip-pill.monster-chip {
-  border-left: 3px solid #e74c3c;
+  border-left: 2px solid #e74c3c;
 }
 
 .entity-chip-pill.spell-chip {
-  border-left: 3px solid #9b59b6;
+  border-left: 2px solid #9b59b6;
 }
 
 .entity-chip-pill.lore-chip {
-  border-left: 3px solid #3498db;
+  border-left: 2px solid #3498db;
 }
 
 .entity-chip-pill.npc-chip {
-  border-left: 3px solid #2ecc71;
+  border-left: 2px solid #2ecc71;
 }
 
 .entity-chip-pill.loc-chip {
-  border-left: 3px solid #e67e22;
+  border-left: 2px solid #e67e22;
 }
 
 .entity-chip-pill-icon {
@@ -4337,7 +4337,7 @@
 }
 
 .entity-chip-pill.quest-chip {
-  border-left: 3px solid #f39c12;
+  border-left: 2px solid #f39c12;
 }
 
 .entity-picker-filter-tabs {

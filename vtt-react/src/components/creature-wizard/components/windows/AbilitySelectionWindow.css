@@ -377,7 +377,7 @@
   margin-bottom: 8px;
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
-  border-left: 3px solid #555;
+  border-left: 2px solid #555;
 }
 
 .ability-preview-effects li.effect-type-damage {

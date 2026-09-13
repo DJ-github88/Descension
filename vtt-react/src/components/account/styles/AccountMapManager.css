@@ -545,7 +545,7 @@
   padding: 10px 14px;
   transition: border-color 0.15s ease, background 0.15s ease;
   content-visibility: auto;
-  contain-intrinsic-size: 70px;
+  contain-intrinsic-size: auto 70px;
   flex-wrap: wrap;
 }
 
@@ -727,8 +727,7 @@
   display: flex;
   flex-direction: column;
   transition: transform 0.15s ease, border-color 0.15s ease;
-  content-visibility: auto;
-  contain-intrinsic-size: 340px;
+  contain: layout paint;
 }
 
 .atlas-realm-card:hover {
@@ -947,7 +946,7 @@
   box-shadow: 0 2px 6px rgba(90, 46, 18, 0.05);
   transition: transform 0.15s ease, border-color 0.15s ease;
   content-visibility: auto;
-  contain-intrinsic-size: 280px;
+  contain-intrinsic-size: auto 360px;
 }
 
 .atlas-custom-card:hover {

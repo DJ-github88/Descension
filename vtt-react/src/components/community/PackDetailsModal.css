@@ -410,7 +410,7 @@
   }
   .pack-details-modal .tab-btn.active {
     border-bottom-color: var(--my-brown-light, #a08c70);
-    border-left: 3px solid var(--my-brown-medium, #8b4513);
+    border-left: 2px solid var(--my-brown-medium, #8b4513);
   }
   .pack-details-modal .modal-content {
     padding: 15px;

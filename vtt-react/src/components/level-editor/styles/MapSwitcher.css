@@ -129,7 +129,7 @@
 
 .map-item.current {
     background: rgba(74, 124, 89, 0.2);
-    border-left: 3px solid #4a7c59;
+    border-left: 2px solid #4a7c59;
     cursor: default;
 }
 

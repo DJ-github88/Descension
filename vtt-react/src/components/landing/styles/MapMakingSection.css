@@ -325,7 +325,7 @@
 .subregion-card {
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid var(--map-making-border);
-  border-left: 3px solid var(--map-making-accent);
+  border-left: 2px solid var(--map-making-accent);
   border-radius: 8px;
   padding: 1rem;
 }

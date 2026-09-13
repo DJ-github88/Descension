@@ -202,11 +202,11 @@
 }
 
 .condition-item.buff {
-  border-left: 4px solid #32CD32;
+  border-left: 2px solid #32CD32;
 }
 
 .condition-item.debuff {
-  border-left: 4px solid #DC143C;
+  border-left: 2px solid #DC143C;
 }
 
 .condition-icon {
@@ -298,11 +298,11 @@
 }
 
 .condition-card.buff {
-  border-left: 4px solid #32CD32;
+  border-left: 2px solid #32CD32;
 }
 
 .condition-card.debuff {
-  border-left: 4px solid #DC143C;
+  border-left: 2px solid #DC143C;
 }
 
 .condition-card .condition-icon {

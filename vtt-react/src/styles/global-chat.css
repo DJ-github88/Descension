@@ -2154,59 +2154,59 @@
 }
 
 .chat-message.loot-message[data-item-quality="poor"] {
-  border-left: 3px solid #9d9d9d;
+  border-left: 2px solid #9d9d9d;
 }
 
 .chat-message.loot-message[data-item-quality="common"] {
-  border-left: 3px solid #8b7355;
+  border-left: 2px solid #8b7355;
 }
 
 .chat-message.loot-message[data-item-quality="uncommon"] {
-  border-left: 3px solid #1eff00;
+  border-left: 2px solid #1eff00;
 }
 
 .chat-message.loot-message[data-item-quality="rare"] {
-  border-left: 3px solid #0070dd;
+  border-left: 2px solid #0070dd;
 }
 
 .chat-message.loot-message[data-item-quality="epic"] {
-  border-left: 3px solid #a335ee;
+  border-left: 2px solid #a335ee;
 }
 
 .chat-message.loot-message[data-item-quality="legendary"] {
-  border-left: 3px solid #ff8000;
+  border-left: 2px solid #ff8000;
 }
 
 .chat-message.loot-message[data-item-quality="artifact"] {
-  border-left: 3px solid #e6cc80;
+  border-left: 2px solid #e6cc80;
 }
 
 .chat-message.loot-message[data-item-quality="currency"],
 .chat-message.loot-message.currency-loot {
-  border-left: 3px solid #ffd700;
+  border-left: 2px solid #ffd700;
   background: #fffef5;
 }
 
 /* Combat type-specific border colors */
 .chat-message.combat-message.hit {
-  border-left: 3px solid #c9323b;
+  border-left: 2px solid #c9323b;
 }
 
 .chat-message.combat-message.heal {
-  border-left: 3px solid #2dc937;
+  border-left: 2px solid #2dc937;
 }
 
 .chat-message.combat-message.miss {
-  border-left: 3px solid #888;
+  border-left: 2px solid #888;
 }
 
 .chat-message.combat-message.crit {
-  border-left: 3px solid #ff6b00;
+  border-left: 2px solid #ff6b00;
   background: #fff8f0;
 }
 
 .chat-message.combat-message.death {
-  border-left: 3px solid #000;
+  border-left: 2px solid #000;
   background: #f5f5f5;
 }
 

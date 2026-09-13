@@ -2083,7 +2083,7 @@
 .note-master-card.is-selected {
   background: #fcf1de !important;
   border-color: #58180d !important;
-  border-left: 4px solid #58180d !important;
+  border-left: 2px solid #58180d !important;
   box-shadow: 0 2px 10px rgba(88, 24, 13, 0.15) !important;
 }
 
@@ -2775,4 +2775,3 @@
   font-size: 0.72rem !important;
   color: #8b6f47 !important;
 }
-

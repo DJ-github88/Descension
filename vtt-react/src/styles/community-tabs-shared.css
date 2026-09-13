@@ -651,7 +651,7 @@
   background: rgba(139, 69, 19, 0.1);
   padding: 15px;
   border-radius: var(--my-border-radius, 8px);
-  border-left: 4px solid var(--my-brown-medium, #8b4513);
+  border-left: 2px solid var(--my-brown-medium, #8b4513);
 }
 
 /* ===== AUTH PROMPT ===== */

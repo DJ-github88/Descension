@@ -1922,7 +1922,7 @@
         rgba(22, 14, 10, 0.97) 45%,
         rgba(22, 14, 10, 1) 100%) !important;
     border-color: rgba(230, 126, 34, 0.55) !important;
-    border-left: 5px solid rgba(255, 150, 40, 0.95) !important;
+    border-left: 2px solid rgba(255, 150, 40, 0.95) !important;
     box-shadow:
         -6px 0 28px rgba(230, 126, 34, 0.5),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -1955,7 +1955,7 @@
         rgba(26, 2, 3, 0.97) 45%,
         rgba(26, 2, 3, 1) 100%) !important;
     border-color: rgba(200, 22, 22, 0.6) !important;
-    border-left: 5px solid rgba(240, 25, 25, 0.95) !important;
+    border-left: 2px solid rgba(240, 25, 25, 0.95) !important;
     box-shadow:
         -6px 0 28px rgba(220, 15, 15, 0.55),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -1999,7 +1999,7 @@
         rgba(23, 16, 13, 0.97) 45%,
         rgba(23, 16, 13, 1) 100%) !important;
     border-color: rgba(205, 163, 122, 0.55) !important;
-    border-left: 5px solid rgba(235, 190, 145, 0.95) !important;
+    border-left: 2px solid rgba(235, 190, 145, 0.95) !important;
     box-shadow:
         -6px 0 28px rgba(205, 163, 122, 0.45),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -2032,7 +2032,7 @@
         rgba(25, 16, 33, 0.97) 45%,
         rgba(25, 16, 33, 1) 100%) !important;
     border-color: rgba(155, 89, 182, 0.55) !important;
-    border-left: 5px solid rgba(192, 132, 252, 0.95) !important;
+    border-left: 2px solid rgba(192, 132, 252, 0.95) !important;
     box-shadow:
         -6px 0 28px rgba(175, 105, 205, 0.5),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -2065,7 +2065,7 @@
         rgba(19, 16, 30, 0.97) 45%,
         rgba(19, 16, 30, 1) 100%) !important;
     border-color: rgba(184, 150, 64, 0.55) !important;
-    border-left: 5px solid rgba(245, 200, 80, 0.95) !important;
+    border-left: 2px solid rgba(245, 200, 80, 0.95) !important;
     box-shadow:
         -6px 0 28px rgba(215, 175, 75, 0.5),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -2098,7 +2098,7 @@
         rgba(22, 4, 5, 0.97) 45%,
         rgba(22, 4, 5, 1) 100%) !important;
     border-color: rgba(185, 28, 28, 0.6) !important;
-    border-left: 5px solid rgba(239, 68, 68, 0.95) !important;
+    border-left: 2px solid rgba(239, 68, 68, 0.95) !important;
     box-shadow:
         -6px 0 28px rgba(220, 38, 38, 0.55),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -2131,7 +2131,7 @@
         rgba(12, 20, 16, 0.97) 45%,
         rgba(12, 20, 16, 1) 100%) !important;
     border-color: rgba(50, 195, 120, 0.5) !important;
-    border-left: 5px solid rgba(60, 230, 145, 0.95) !important;
+    border-left: 2px solid rgba(60, 230, 145, 0.95) !important;
     box-shadow:
         -6px 0 28px rgba(45, 200, 115, 0.5),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -2175,7 +2175,7 @@
         rgba(20, 10, 26, 0.97) 45%,
         rgba(20, 10, 26, 1) 100%) !important;
     border-color: rgba(147, 51, 234, 0.55) !important;
-    border-left: 5px solid rgba(216, 150, 255, 0.95) !important;
+    border-left: 2px solid rgba(216, 150, 255, 0.95) !important;
     box-shadow:
         -6px 0 28px rgba(168, 85, 247, 0.5),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -2208,7 +2208,7 @@
         rgba(23, 20, 10, 0.97) 45%,
         rgba(23, 20, 10, 1) 100%) !important;
     border-color: rgba(234, 179, 8, 0.55) !important;
-    border-left: 5px solid rgba(255, 215, 0, 0.95) !important;
+    border-left: 2px solid rgba(255, 215, 0, 0.95) !important;
     box-shadow:
         -6px 0 28px rgba(241, 196, 15, 0.5),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -2241,7 +2241,7 @@
         rgba(23, 16, 14, 0.97) 45%,
         rgba(23, 16, 14, 1) 100%) !important;
     border-color: rgba(231, 76, 60, 0.55) !important;
-    border-left: 5px solid rgba(255, 85, 68, 0.95) !important;
+    border-left: 2px solid rgba(255, 85, 68, 0.95) !important;
     box-shadow:
         -6px 0 28px rgba(239, 68, 68, 0.5),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -2274,7 +2274,7 @@
         rgba(14, 22, 14, 0.97) 45%,
         rgba(14, 22, 14, 1) 100%) !important;
     border-color: rgba(46, 204, 113, 0.55) !important;
-    border-left: 5px solid rgba(80, 251, 149, 0.95) !important;
+    border-left: 2px solid rgba(80, 251, 149, 0.95) !important;
     box-shadow:
         -6px 0 28px rgba(46, 204, 113, 0.5),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -2307,7 +2307,7 @@
         rgba(16, 20, 10, 0.97) 45%,
         rgba(16, 20, 10, 1) 100%) !important;
     border-color: rgba(224, 242, 254, 0.55) !important;
-    border-left: 5px solid rgba(224, 242, 254, 0.95) !important;
+    border-left: 2px solid rgba(224, 242, 254, 0.95) !important;
     box-shadow:
         -6px 0 28px rgba(186, 230, 253, 0.48),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -2340,7 +2340,7 @@
         rgba(10, 18, 24, 0.97) 45%,
         rgba(10, 18, 24, 1) 100%) !important;
     border-color: rgba(52, 152, 219, 0.55) !important;
-    border-left: 5px solid rgba(96, 165, 250, 0.95) !important;
+    border-left: 2px solid rgba(96, 165, 250, 0.95) !important;
     box-shadow:
         -6px 0 28px rgba(96, 165, 250, 0.5),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -2373,7 +2373,7 @@
         rgba(14, 22, 18, 0.97) 45%,
         rgba(14, 22, 18, 1) 100%) !important;
     border-color: rgba(46, 204, 113, 0.52) !important;
-    border-left: 5px solid rgba(74, 222, 128, 0.95) !important;
+    border-left: 2px solid rgba(74, 222, 128, 0.95) !important;
     box-shadow:
         -6px 0 28px rgba(74, 222, 128, 0.48),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -2406,7 +2406,7 @@
         rgba(13, 18, 5, 0.97) 45%,
         rgba(13, 18, 5, 1) 100%) !important;
     border-color: rgba(165, 215, 45, 0.55) !important;
-    border-left: 5px solid rgba(195, 250, 55, 0.95) !important;
+    border-left: 2px solid rgba(195, 250, 55, 0.95) !important;
     box-shadow:
         -6px 0 28px rgba(165, 215, 40, 0.52),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -2450,7 +2450,7 @@
         rgba(22, 5, 0, 0.97) 45%,
         rgba(22, 5, 0, 1) 100%) !important;
     border-color: rgba(235, 72, 12, 0.62) !important;
-    border-left: 5px solid rgba(255, 90, 20, 0.97) !important;
+    border-left: 2px solid rgba(255, 90, 20, 0.97) !important;
     box-shadow:
         -6px 0 28px rgba(240, 65, 10, 0.58),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -2498,7 +2498,7 @@
         rgba(10, 18, 26, 0.97) 45%,
         rgba(10, 18, 26, 1) 100%) !important;
     border-color: rgba(52, 152, 219, 0.55) !important;
-    border-left: 5px solid rgba(56, 189, 248, 0.95) !important;
+    border-left: 2px solid rgba(56, 189, 248, 0.95) !important;
     box-shadow:
         -6px 0 28px rgba(56, 189, 248, 0.5),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -2531,7 +2531,7 @@
         rgba(10, 18, 4, 0.97) 45%,
         rgba(10, 18, 4, 1) 100%) !important;
     border-color: rgba(118, 202, 50, 0.55) !important;
-    border-left: 5px solid rgba(145, 240, 60, 0.97) !important;
+    border-left: 2px solid rgba(145, 240, 60, 0.97) !important;
     box-shadow:
         -6px 0 28px rgba(115, 200, 46, 0.55),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -2579,7 +2579,7 @@
         rgba(14, 12, 9, 0.97) 45%,
         rgba(14, 12, 9, 1) 100%) !important;
     border-color: rgba(145, 122, 78, 0.58) !important;
-    border-left: 5px solid rgba(185, 158, 95, 0.97) !important;
+    border-left: 2px solid rgba(185, 158, 95, 0.97) !important;
     box-shadow:
         -6px 0 28px rgba(140, 115, 65, 0.48),
         0 2px 18px rgba(0, 0, 0, 0.75),
@@ -2623,7 +2623,7 @@
         rgba(12, 8, 16, 0.97) 45%,
         rgba(12, 8, 16, 1) 100%) !important;
     border-color: rgba(165, 122, 232, 0.55) !important;
-    border-left: 5px solid rgba(195, 158, 255, 0.97) !important;
+    border-left: 2px solid rgba(195, 158, 255, 0.97) !important;
     box-shadow:
         -6px 0 28px rgba(158, 118, 238, 0.52),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -2667,7 +2667,7 @@
         rgba(28, 21, 9, 0.97) 45%,
         rgba(28, 21, 9, 1) 100%) !important;
     border-color: rgba(245, 158, 11, 0.55) !important;
-    border-left: 5px solid rgba(251, 191, 36, 0.95) !important;
+    border-left: 2px solid rgba(251, 191, 36, 0.95) !important;
     box-shadow:
         -6px 0 28px rgba(251, 191, 36, 0.5),
         0 2px 18px rgba(0, 0, 0, 0.7),
@@ -3390,4 +3390,61 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
+}
+
+/* =========================================================================
+   CLASS ROW — QUIET LEDGER STYLE
+   Replaces the neon identity rows (color-bleed gradients, outer glows,
+   pulsing animation) with a sober dark row and a restrained identity
+   accent. The identity color stays in the name and icon only.
+   ========================================================================= */
+.class-row-arcanoneer, .class-row-berserker, .class-row-shaper, .class-row-harbinger,
+.class-row-chronarch, .class-row-inquisitor, .class-row-revenant, .class-row-false-prophet,
+.class-row-gambit, .class-row-apex, .class-row-animist, .class-row-lunarch,
+.class-row-martyr, .class-row-minstrel, .class-row-plaguebringer, .class-row-pyrofiend,
+.class-row-spellguard, .class-row-toxicologist, .class-row-warden, .class-row-augur,
+.class-row-crusader {
+    background: #1c1510 !important;
+    background-image: none !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45) !important;
+    animation: none !important;
+}
+
+.class-row-arcanoneer .class-row-name, .class-row-berserker .class-row-name,
+.class-row-shaper .class-row-name, .class-row-harbinger .class-row-name,
+.class-row-chronarch .class-row-name, .class-row-inquisitor .class-row-name,
+.class-row-revenant .class-row-name, .class-row-false-prophet .class-row-name,
+.class-row-gambit .class-row-name, .class-row-apex .class-row-name,
+.class-row-animist .class-row-name, .class-row-lunarch .class-row-name,
+.class-row-martyr .class-row-name, .class-row-minstrel .class-row-name,
+.class-row-plaguebringer .class-row-name, .class-row-pyrofiend .class-row-name,
+.class-row-spellguard .class-row-name, .class-row-toxicologist .class-row-name,
+.class-row-warden .class-row-name, .class-row-augur .class-row-name,
+.class-row-crusader .class-row-name {
+    text-shadow: none !important;
+}
+
+.class-row-arcanoneer .class-row-icon, .class-row-berserker .class-row-icon,
+.class-row-shaper .class-row-icon, .class-row-harbinger .class-row-icon,
+.class-row-chronarch .class-row-icon, .class-row-inquisitor .class-row-icon,
+.class-row-revenant .class-row-icon, .class-row-false-prophet .class-row-icon,
+.class-row-gambit .class-row-icon, .class-row-apex .class-row-icon,
+.class-row-animist .class-row-icon, .class-row-lunarch .class-row-icon,
+.class-row-martyr .class-row-icon, .class-row-minstrel .class-row-icon,
+.class-row-plaguebringer .class-row-icon, .class-row-pyrofiend .class-row-icon,
+.class-row-spellguard .class-row-icon, .class-row-toxicologist .class-row-icon,
+.class-row-warden .class-row-icon, .class-row-augur .class-row-icon,
+.class-row-crusader .class-row-icon {
+    box-shadow: none !important;
+}
+
+.class-row-arcanoneer:hover, .class-row-berserker:hover, .class-row-shaper:hover,
+.class-row-harbinger:hover, .class-row-chronarch:hover, .class-row-inquisitor:hover,
+.class-row-revenant:hover, .class-row-false-prophet:hover, .class-row-gambit:hover,
+.class-row-apex:hover, .class-row-animist:hover, .class-row-lunarch:hover,
+.class-row-martyr:hover, .class-row-minstrel:hover, .class-row-plaguebringer:hover,
+.class-row-pyrofiend:hover, .class-row-spellguard:hover, .class-row-toxicologist:hover,
+.class-row-warden:hover, .class-row-augur:hover, .class-row-crusader:hover {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.55) !important;
+    transform: translateX(2px) !important;
 }

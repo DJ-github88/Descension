@@ -104,7 +104,7 @@
 .damage-effect-mechanics.triggered-area-damage {
     padding: 8px 12px !important;
     background: rgba(255, 140, 0, 0.08) !important;
-    border-left: 3px solid rgba(255, 140, 0, 0.5) !important;
+    border-left: 2px solid rgba(255, 140, 0, 0.5) !important;
     border-radius: 4px !important;
     margin-top: 4px !important;
 }

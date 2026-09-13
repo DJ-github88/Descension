@@ -2862,7 +2862,7 @@
   background: rgba(139, 105, 60, 0.05);
   padding: var(--my-space-2);
   border-radius: 4px;
-  border-left: 3px solid var(--my-red-dark);
+  border-left: 2px solid var(--my-red-dark);
 }
 
 .status-effect-item:last-child {
@@ -4920,6 +4920,3 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   color: var(--my-parchment);
   border-color: #991b1b;
 }
-
-
-

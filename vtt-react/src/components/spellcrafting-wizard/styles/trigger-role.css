@@ -91,7 +91,7 @@
   padding: var(--my-space-2);
   background: var(--my-gradient-parchment-light);
   border-radius: var(--my-border-radius);
-  border-left: 3px solid var(--my-gold);
+  border-left: 2px solid var(--my-gold);
   border: var(--my-border-width) solid var(--my-brown-light);
 }
 

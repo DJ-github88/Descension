@@ -4098,31 +4098,31 @@ div.class-detail-content::-webkit-scrollbar-thumb,
 .identity-box {
   background: rgba(255, 255, 255, 0.85) !important;
   border: 1px solid rgba(139, 69, 19, 0.25) !important;
-  border-left: 4px solid #8b4513 !important;
+  border-left: 2px solid #8b4513 !important;
 }
 
 .gimmick-box {
   background: rgba(255, 252, 240, 0.95) !important;
   border: 1px solid rgba(212, 175, 55, 0.35) !important;
-  border-left: 4px solid #d4af37 !important;
+  border-left: 2px solid #d4af37 !important;
 }
 
 .resource-box {
   background: rgba(245, 248, 255, 0.95) !important;
   border: 1px solid rgba(52, 152, 219, 0.3) !important;
-  border-left: 4px solid #2980b9 !important;
+  border-left: 2px solid #2980b9 !important;
 }
 
 .payoff-box {
   background: rgba(245, 255, 248, 0.95) !important;
   border: 1px solid rgba(46, 204, 113, 0.3) !important;
-  border-left: 4px solid #27ae60 !important;
+  border-left: 2px solid #27ae60 !important;
 }
 
 .general-box {
   background: rgba(255, 255, 255, 0.75) !important;
   border: 1px solid rgba(200, 185, 157, 0.4) !important;
-  border-left: 4px solid #8b6914 !important;
+  border-left: 2px solid #8b6914 !important;
 }
 
 .qo-section-header {
@@ -5824,4 +5824,3 @@ div.class-detail-content::-webkit-scrollbar-thumb,
     justify-content: center;
   }
 }
-

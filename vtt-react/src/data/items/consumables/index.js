@@ -8,6 +8,8 @@
  * - Dark, soulful names
  */
 
+import { ENRICHED_CONSUMABLES } from './enrichedConsumables.js';
+
 export const CONSUMABLES = [
  // === HEALING POTIONS ===
  {
@@ -605,9 +607,112 @@ export const CONSUMABLES = [
   utilityStats: {
    duration: { type: 'SECONDS', value: 180 } // 3 minutes
   }
-  }
-];
+  },
 
-import { ENRICHED_CONSUMABLES } from './enrichedConsumables.js';
+ // === CRAFTED ALCHEMY ===
+ {
+  id: 'minor-healing-potion',
+  name: 'Minor Healing Potion',
+  type: 'consumable',
+  subtype: 'POTION',
+  quality: 'common',
+  description: 'A basic healing potion brewed from fieldleaf and bitterroot. Restores a small amount of health.',
+  iconId: 'Misc/Profession Resources/Alchemy/Red/red-potion-classic-shape',
+  value: { gold: 0, silver: 1, copper: 50 },
+  stackable: true,
+  maxStackSize: 10,
+  width: 1,
+  height: 1,
+  rotation: 0,
+  combatStats: {
+   healthRestore: { value: 20, isPercentage: false }
+  }
+ },
+ {
+  id: 'frost-resistance-elixir',
+  name: 'Frost Resistance Elixir',
+  type: 'consumable',
+  subtype: 'ELIXIR',
+  quality: 'uncommon',
+  description: 'An elixir that hardens the blood against the cold. Grants resistance to cold damage for a short time.',
+  iconId: 'Misc/Profession Resources/Alchemy/Blue/blue-potion-bottle-classic-shape',
+  value: { gold: 0, silver: 8, copper: 0 },
+  stackable: true,
+  maxStackSize: 10,
+  width: 1,
+  height: 1,
+  rotation: 0,
+  combatStats: {
+   resistances: {
+    cold: { value: 10, isPercentage: false, duration: 300 }
+   }
+  },
+  utilityStats: {
+   duration: { type: 'MINUTES', value: 5 }
+  }
+ },
+
+ // === CRAFTED FIRST AID ===
+ {
+  id: 'basic-bandage',
+  name: 'Basic Bandage',
+  type: 'consumable',
+  subtype: 'BANDAGE',
+  quality: 'common',
+  description: 'A simple cloth bandage used to stop bleeding and provide basic wound care.',
+  iconId: 'Misc/Profession Resources/First Aid/first-aid-bandage-rolled-fabric-beige-tan',
+  value: { gold: 0, silver: 0, copper: 80 },
+  stackable: true,
+  maxStackSize: 20,
+  width: 1,
+  height: 1,
+  rotation: 0,
+  combatStats: {
+   healthRestore: { value: 8, isPercentage: false }
+  }
+ },
+ {
+  id: 'heavy-bandage',
+  name: 'Heavy Bandage',
+  type: 'consumable',
+  subtype: 'BANDAGE',
+  quality: 'common',
+  description: 'A thick, absorbent bandage that provides better wound care and stops bleeding more effectively.',
+  iconId: 'Misc/Profession Resources/First Aid/first-aid-bandage-coiled-rope-orange-brown',
+  value: { gold: 0, silver: 2, copper: 0 },
+  stackable: true,
+  maxStackSize: 20,
+  width: 1,
+  height: 1,
+  rotation: 0,
+  combatStats: {
+   healthRestore: { value: 15, isPercentage: false }
+  }
+ },
+ {
+  id: 'antiseptic-salve',
+  name: 'Antiseptic Salve',
+  type: 'consumable',
+  subtype: 'SALVE',
+  quality: 'uncommon',
+  description: 'A medicinal salve that prevents infection and promotes healing.',
+  iconId: 'Misc/Profession Resources/First Aid/resource-green-potion-bottle-elixir',
+  value: { gold: 0, silver: 3, copper: 0 },
+  stackable: true,
+  maxStackSize: 10,
+  width: 1,
+  height: 1,
+  rotation: 0,
+  combatStats: {
+   healthRestore: { value: 12, isPercentage: false }
+  },
+  baseStats: {
+   constitution: { value: 1, isPercentage: false, duration: 120 }
+  },
+  utilityStats: {
+   duration: { type: 'MINUTES', value: 2 }
+  }
+ }
+];
 
 export const ALL_CONSUMABLES = [...CONSUMABLES, ...ENRICHED_CONSUMABLES];

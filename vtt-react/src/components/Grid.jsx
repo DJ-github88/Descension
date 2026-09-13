@@ -106,17 +106,7 @@ const CharacterTokenPreview = ({ mousePosition, tokenSize }) => {
    }}
   >
    {/* Character name label */}
-   <div style={{
-    position: 'absolute',
-    bottom: '-20px',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    fontSize: '10px',
-    color: '#fff',
-    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
-    whiteSpace: 'nowrap',
-    pointerEvents: 'none'
-   }}>
+   <div className="token-name-label">
     {characterData.name}
    </div>
   </div>

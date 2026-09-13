@@ -263,11 +263,11 @@
 /* ── Fenced Block Types (:::readaloud, :::gmnote, etc.) ── */
 .rich-block {
   margin: 16px 0;
-  border-radius: 8px;
+  border-radius: 3px;
   overflow: hidden;
-  border: 1.5px solid rgba(139, 69, 19, 0.3);
+  border: 1px solid rgba(139, 69, 19, 0.35);
   background: #fdfbf7;
-  box-shadow: 0 4px 14px rgba(43, 20, 8, 0.08);
+  box-shadow: 0 2px 6px rgba(43, 20, 8, 0.06);
 }
 
 .rich-block-header {
@@ -346,22 +346,22 @@
 
 /* Specific Block Themes */
 .block-readaloud {
-  border-left: 4px solid #7d3c98;
-  background: #fbf7fc;
+  border-left: 1px solid rgba(139, 69, 19, 0.35);
+  background: #fdfbf7;
 }
 .block-readaloud .rich-block-header {
-  background: #ebdcf2;
+  background: #f5eedc;
   color: #512e5f;
 }
 
 .block-gmnote,
 .block-secret {
-  border-left: 4px solid #b03a2e;
-  background: #fdf5f4;
+  border-left: 1px solid rgba(139, 69, 19, 0.35);
+  background: #fdfbf7;
 }
 .block-gmnote .rich-block-header,
 .block-secret .rich-block-header {
-  background: #f5d7d4;
+  background: #f5eedc;
   color: #78281f;
 }
 
@@ -713,7 +713,7 @@
   padding: 9px 12px;
   background: #ffffff;
   border: 1px solid rgba(142, 68, 173, 0.25);
-  border-left: 3px solid #8e44ad;
+  border-left: 2px solid #8e44ad;
   border-radius: 5px;
   font-size: 14px;
   line-height: 1.6;
@@ -735,7 +735,7 @@
   padding: 8px 12px;
   background: #fdfaf2;
   border: 1px solid #f5cba7;
-  border-left: 3px solid #e67e22;
+  border-left: 1px solid rgba(139, 69, 19, 0.35);
   border-radius: 5px;
   font-size: 13.5px;
   line-height: 1.55;
@@ -811,7 +811,7 @@
   margin: 10px 0;
   padding: 8px 14px;
   background: #f4f8fb;
-  border-left: 3px solid #3498db;
+  border-left: 1px solid rgba(139, 69, 19, 0.35);
   border-radius: 4px;
   font-style: italic;
   color: #1a364a;
@@ -851,74 +851,74 @@
 }
 
 .block-quest {
-  border-left: 4px solid #f39c12;
-  background: #fefcf5;
+  border-left: 1px solid rgba(139, 69, 19, 0.35);
+  background: #fdfbf7;
 }
 .block-quest .rich-block-header {
-  background: #fcf1d8;
+  background: #f5eedc;
   color: #7d6608;
 }
 
 .block-npc {
-  border-left: 4px solid #3498db;
-  background: #f5f9fc;
+  border-left: 1px solid rgba(139, 69, 19, 0.35);
+  background: #fdfbf7;
 }
 .block-npc .rich-block-header {
-  background: #dbeef9;
+  background: #f5eedc;
   color: #1b4f72;
 }
 
 .block-settlement {
-  border-left: 4px solid #16a085;
-  background: #f2f9f8;
+  border-left: 1px solid rgba(139, 69, 19, 0.35);
+  background: #fdfbf7;
 }
 .block-settlement .rich-block-header {
-  background: #d1efea;
+  background: #f5eedc;
   color: #0e6251;
 }
 
 .block-faction {
-  border-left: 4px solid #9b59b6;
-  background: #fbf7fc;
+  border-left: 1px solid rgba(139, 69, 19, 0.35);
+  background: #fdfbf7;
 }
 .block-faction .rich-block-header {
-  background: #eddcf4;
+  background: #f5eedc;
   color: #512e5f;
 }
 
 .block-timeline {
-  border-left: 4px solid #e67e22;
-  background: #fefaf5;
+  border-left: 1px solid rgba(139, 69, 19, 0.35);
+  background: #fdfbf7;
 }
 .block-timeline .rich-block-header {
-  background: #fce8d5;
+  background: #f5eedc;
   color: #7e3e08;
 }
 
 .block-loot {
-  border-left: 4px solid #d4af37;
-  background: #fdfcf7;
+  border-left: 1px solid rgba(139, 69, 19, 0.35);
+  background: #fdfbf7;
 }
 .block-loot .rich-block-header {
-  background: #f9f1de;
+  background: #f5eedc;
   color: #644b11;
 }
 
 .block-hazard {
-  border-left: 4px solid #e74c3c;
-  background: #fdf5f4;
+  border-left: 1px solid rgba(139, 69, 19, 0.35);
+  background: #fdfbf7;
 }
 .block-hazard .rich-block-header {
-  background: #fadbd8;
+  background: #f5eedc;
   color: #78281f;
 }
 
 .block-generic {
-  border-left: 4px solid #7f8c8d;
-  background: #f9f9f9;
+  border-left: 1px solid rgba(139, 69, 19, 0.35);
+  background: #fdfbf7;
 }
 .block-generic .rich-block-header {
-  background: #eaeaea;
+  background: #f5eedc;
   color: #2c3e50;
 }
 
@@ -1082,14 +1082,14 @@
 .codex-preview-pane .block-readaloud,
 .codex-preview-body .block-readaloud,
 .rich-lore-container.parchment-theme .block-readaloud {
-  border-left: 4px solid #7d3c98 !important;
-  background: #f5eef8 !important;
+  border-left: 1px solid rgba(139, 69, 19, 0.35) !important;
+  background: #fdfbf7 !important;
 }
 .codex-preview-pane .block-readaloud .rich-block-header,
 .codex-preview-body .block-readaloud .rich-block-header,
 .rich-lore-container.parchment-theme .block-readaloud .rich-block-header {
-  background: #ebdef0 !important;
-  color: #512e5f !important;
+  background: #f5eedc !important;
+  color: #5b2d6e !important;
   font-weight: 700;
 }
 
@@ -1099,8 +1099,8 @@
 .codex-preview-body .block-secret,
 .rich-lore-container.parchment-theme .block-gmnote,
 .rich-lore-container.parchment-theme .block-secret {
-  border-left: 4px solid #b03a2e !important;
-  background: #f9ebea !important;
+  border-left: 1px solid rgba(139, 69, 19, 0.35) !important;
+  background: #fdfbf7 !important;
 }
 .codex-preview-pane .block-gmnote .rich-block-header,
 .codex-preview-pane .block-secret .rich-block-header,
@@ -1108,21 +1108,21 @@
 .codex-preview-body .block-secret .rich-block-header,
 .rich-lore-container.parchment-theme .block-gmnote .rich-block-header,
 .rich-lore-container.parchment-theme .block-secret .rich-block-header {
-  background: #f2d7d5 !important;
-  color: #78281f !important;
+  background: #f5eedc !important;
+  color: #8c2f24 !important;
   font-weight: 700;
 }
 
 .codex-preview-pane .block-statblock,
 .codex-preview-body .block-statblock,
 .rich-lore-container.parchment-theme .block-statblock {
-  border-left: 4px solid #1e8449 !important;
-  background: #eafaf1 !important;
+  border-left: 1px solid rgba(139, 69, 19, 0.35) !important;
+  background: #fdfbf7 !important;
 }
 .codex-preview-pane .block-statblock .rich-block-header,
 .codex-preview-body .block-statblock .rich-block-header,
 .rich-lore-container.parchment-theme .block-statblock .rich-block-header {
-  background: #d5f5e3 !important;
+  background: #f5eedc !important;
   color: #145a32 !important;
   font-weight: 700;
 }
@@ -1130,13 +1130,13 @@
 .codex-preview-pane .block-quest,
 .codex-preview-body .block-quest,
 .rich-lore-container.parchment-theme .block-quest {
-  border-left: 4px solid #b7950b !important;
-  background: #fef9e7 !important;
+  border-left: 1px solid rgba(139, 69, 19, 0.35) !important;
+  background: #fdfbf7 !important;
 }
 .codex-preview-pane .block-quest .rich-block-header,
 .codex-preview-body .block-quest .rich-block-header,
 .rich-lore-container.parchment-theme .block-quest .rich-block-header {
-  background: #fcf3cf !important;
+  background: #f5eedc !important;
   color: #7d6608 !important;
   font-weight: 700;
 }
@@ -1144,13 +1144,13 @@
 .codex-preview-pane .block-npc,
 .codex-preview-body .block-npc,
 .rich-lore-container.parchment-theme .block-npc {
-  border-left: 4px solid #2874a6 !important;
-  background: #ebf5fb !important;
+  border-left: 1px solid rgba(139, 69, 19, 0.35) !important;
+  background: #fdfbf7 !important;
 }
 .codex-preview-pane .block-npc .rich-block-header,
 .codex-preview-body .block-npc .rich-block-header,
 .rich-lore-container.parchment-theme .block-npc .rich-block-header {
-  background: #d4e6f1 !important;
+  background: #f5eedc !important;
   color: #1b4f72 !important;
   font-weight: 700;
 }
@@ -1158,13 +1158,13 @@
 .codex-preview-pane .block-loot,
 .codex-preview-body .block-loot,
 .rich-lore-container.parchment-theme .block-loot {
-  border-left: 4px solid #c59b3f !important;
-  background: #fdfaf2 !important;
+  border-left: 1px solid rgba(139, 69, 19, 0.35) !important;
+  background: #fdfbf7 !important;
 }
 .codex-preview-pane .block-loot .rich-block-header,
 .codex-preview-body .block-loot .rich-block-header,
 .rich-lore-container.parchment-theme .block-loot .rich-block-header {
-  background: #f9f1de !important;
+  background: #f5eedc !important;
   color: #644b11 !important;
   font-weight: 700;
 }
@@ -1278,7 +1278,7 @@
 
 .entity-hovercard-sensory {
   background: rgba(41, 128, 185, 0.15) !important;
-  border-left: 3px solid #3498db !important;
+  border-left: 2px solid #3498db !important;
   padding: 6px 10px;
   border-radius: 0 6px 6px 0;
   font-size: 11.5px;
@@ -1293,7 +1293,7 @@
 
 .entity-hovercard-tradeoff {
   background: rgba(192, 57, 43, 0.15) !important;
-  border-left: 3px solid #e74c3c !important;
+  border-left: 2px solid #e74c3c !important;
   padding: 6px 10px;
   border-radius: 0 6px 6px 0;
   font-size: 11.5px;

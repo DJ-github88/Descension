@@ -4421,7 +4421,7 @@ body.resource-controls-open .character-sheet {
     margin-bottom: 22px !important;
     padding: 14px 20px !important;
     background: linear-gradient(90deg, rgba(212, 175, 55, 0.16) 0%, rgba(139, 69, 19, 0.09) 60%, rgba(212, 175, 55, 0.03) 100%) !important;
-    border-left: 4px solid #d4af37 !important;
+    border-left: 2px solid #d4af37 !important;
     border-top: 1px solid rgba(212, 175, 55, 0.35) !important;
     border-bottom: 1.5px solid rgba(139, 69, 19, 0.3) !important;
     border-right: 1px solid rgba(212, 175, 55, 0.15) !important;

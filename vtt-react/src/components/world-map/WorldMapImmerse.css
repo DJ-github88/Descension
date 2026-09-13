@@ -2303,7 +2303,7 @@
 .lore-blockquote {
   margin: 4px 0;
   padding: 4px 10px;
-  border-left: 3px solid #8b2626;
+  border-left: 2px solid #8b2626;
   background: rgba(139, 38, 38, 0.06);
   font-family: 'Cinzel', serif;
   font-size: 11px;
@@ -2509,7 +2509,7 @@
   line-height: 1.7;
   color: #2b1810;
   padding: 14px 18px;
-  border-left: 4px solid #8b2626;
+  border-left: 2px solid #8b2626;
   border-right: 4px solid #8b2626;
   position: relative;
 }
@@ -2906,7 +2906,7 @@
   background:
     linear-gradient(180deg, #f9fdf9 0%, #eef7ee 60%, #e0f0e0 100%);
   padding: 12px 14px;
-  border-left: 4px solid #4caf50;
+  border-left: 2px solid #4caf50;
   font-size: 11.5px;
   line-height: 1.55;
   color: #1b3a1b;
@@ -3070,7 +3070,7 @@
 .lore-npc .lore-block-body {
   background: linear-gradient(180deg, #faf8fd 0%, #ede7f6 100%);
   padding: 12px 14px;
-  border-left: 4px solid #9c78c4;
+  border-left: 2px solid #9c78c4;
   gap: 8px;
 }
 
@@ -3183,7 +3183,7 @@
   background:
     linear-gradient(180deg, #fffdf5 0%, #fff8e1 100%);
   padding: 12px 14px;
-  border-left: 4px solid #ffd54f;
+  border-left: 2px solid #ffd54f;
   gap: 8px;
 }
 
@@ -3281,7 +3281,7 @@
     radial-gradient(ellipse at center, rgba(100, 181, 246, 0.08) 0%, transparent 70%),
     linear-gradient(180deg, #f8fbff 0%, #e3f2fd 100%);
   padding: 12px 14px 16px;
-  border-left: 4px solid #64b5f6;
+  border-left: 2px solid #64b5f6;
   gap: 8px;
 }
 
@@ -3321,7 +3321,7 @@
   padding: 8px 12px;
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.7);
-  border-left: 3px solid #1976d2;
+  border-left: 2px solid #1976d2;
   border-top: 1px solid rgba(25, 118, 210, 0.15);
   border-right: 1px solid rgba(25, 118, 210, 0.15);
   border-bottom: 1px solid rgba(25, 118, 210, 0.15);
@@ -3366,7 +3366,7 @@
 .lore-hazard .lore-block-body {
   background: linear-gradient(180deg, #fdfaf7 0%, #f7ece1 100%);
   padding: 12px 14px;
-  border-left: 4px solid #e67e22;
+  border-left: 2px solid #e67e22;
   gap: 8px;
 }
 

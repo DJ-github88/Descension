@@ -330,7 +330,7 @@
   border-radius: var(--my-border-radius);
   padding: var(--my-space-2);
   margin-bottom: var(--my-space-2);
-  border-left: 3px solid var(--my-gold);
+  border-left: 2px solid var(--my-gold);
   font-family: var(--my-font-body);
 }
 

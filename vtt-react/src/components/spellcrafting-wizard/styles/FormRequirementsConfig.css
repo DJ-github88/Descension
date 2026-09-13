@@ -343,7 +343,7 @@
   background: var(--my-gradient-parchment);
   border: var(--my-border-width) solid var(--my-brown-medium);
   border-radius: var(--my-border-radius);
-  border-left: 4px solid var(--my-gold);
+  border-left: 2px solid var(--my-gold);
   box-shadow: var(--my-shadow-sm);
 }
 
