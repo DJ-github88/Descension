@@ -1,7 +1,18 @@
 import { getStore } from './storeRegistry';
 import { create } from 'zustand';
-import { getGridSystem } from '../utils/InfiniteGridSystem';
+import { getGridSystem, computeBrushTiles } from '../utils/InfiniteGridSystem';
 import { clampElevationLevel } from '../utils/ElevationUtils';
+
+// Brush footprint resolver: hex maps get a hex ring, square maps the legacy
+// size x size block. Falls back to the square footprint when the shared grid
+// system has not been created yet (e.g. isolated unit tests).
+const resolveBrushTiles = (centerX, centerY, brushSize) => {
+  try {
+    return getGridSystem().getBrushTiles(centerX, centerY, brushSize);
+  } catch (error) {
+    return computeBrushTiles(centerX, centerY, brushSize, 'square');
+  }
+};
 // CRITICAL: Helper functions to get current map's data from mapStore
 // This prevents map-specific data bleeding between maps
 
@@ -3036,17 +3047,12 @@ const useLevelEditorStore = create((set, get) => ({
     const newTerrainData = { ...state.terrainData };
     const removedTiles = {};
 
-    // Calculate brush pattern based on size (same as paintTerrainBrush)
-    const startOffset = Math.floor(brushSize / 2);
-
-    for (let dx = 0; dx < brushSize; dx++) {
-      for (let dy = 0; dy < brushSize; dy++) {
-        const tileX = gridX - startOffset + dx;
-        const tileY = gridY - startOffset + dy;
-        const tileKey = `${tileX},${tileY}`;
-        delete newTerrainData[tileKey];
-        removedTiles[tileKey] = null;
-      }
+    // Brush footprint (same as paintTerrainBrush)
+    for (const { x: tileX, y: tileY } of resolveBrushTiles(gridX, gridY, brushSize)) {
+      const tileKey = `${tileX},${tileY}`;
+      if (newTerrainData[tileKey] === undefined) continue;
+      delete newTerrainData[tileKey];
+      removedTiles[tileKey] = null;
     }
 
     set({ terrainData: newTerrainData });
@@ -3450,13 +3456,8 @@ const useLevelEditorStore = create((set, get) => ({
 
     const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
 
-    // Calculate brush pattern based on size
-    const startOffset = Math.floor(brushSize / 2);
-
-    for (let dx = 0; dx < brushSize; dx++) {
-      for (let dy = 0; dy < brushSize; dy++) {
-        const tileX = gridX - startOffset + dx;
-        const tileY = gridY - startOffset + dy;
+    // Brush footprint (hex ring on hex maps, size x size block on square maps)
+    for (const { x: tileX, y: tileY } of resolveBrushTiles(gridX, gridY, brushSize)) {
         const tileKey = `${tileX},${tileY}`;
 
         // Check if tile has actually changed before updating
@@ -3485,7 +3486,6 @@ const useLevelEditorStore = create((set, get) => ({
         newTerrainData[tileKey] = terrainData_value;
         addedTiles[tileKey] = terrainData_value;
         hasChanges = true;
-      }
     }
 
     if (hasChanges) {
@@ -3519,11 +3519,7 @@ const useLevelEditorStore = create((set, get) => ({
 
     while (true) {
       // Apply brush at current point
-      const startOffset = Math.floor(brushSize / 2);
-      for (let bdx = 0; bdx < brushSize; bdx++) {
-        for (let bdy = 0; bdy < brushSize; bdy++) {
-          const tileX = curX - startOffset + bdx;
-          const tileY = curY - startOffset + bdy;
+      for (const { x: tileX, y: tileY } of resolveBrushTiles(curX, curY, brushSize)) {
           const tileKey = `${tileX},${tileY}`;
 
           const existingTerrain = newTerrainData[tileKey]; // Check against current update batch too
@@ -3549,7 +3545,6 @@ const useLevelEditorStore = create((set, get) => ({
             addedTiles[tileKey] = terrainData_value;
             hasChanges = true;
           }
-        }
       }
 
       if (curX === x2 && curY === y2) break;
@@ -3586,11 +3581,7 @@ const useLevelEditorStore = create((set, get) => ({
 
     while (true) {
       // Apply erase brush at current point
-      const startOffset = Math.floor(brushSize / 2);
-      for (let bdx = 0; bdx < brushSize; bdx++) {
-        for (let bdy = 0; bdy < brushSize; bdy++) {
-          const tileX = curX - startOffset + bdx;
-          const tileY = curY - startOffset + bdy;
+      for (const { x: tileX, y: tileY } of resolveBrushTiles(curX, curY, brushSize)) {
           const tileKey = `${tileX},${tileY}`;
 
           if (newTerrainData[tileKey] !== undefined) {
@@ -3598,7 +3589,6 @@ const useLevelEditorStore = create((set, get) => ({
             removedTiles[tileKey] = null;
             hasChanges = true;
           }
-        }
       }
 
       if (curX === x2 && curY === y2) break;

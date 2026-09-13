@@ -703,6 +703,79 @@ const CanvasWallSystem = () => {
 
           ctx.restore();
         }
+      } else if (wallTypeData.isWindow) {
+        // === WINDOW RENDERING ===
+        ctx.globalAlpha = isGreyedOut ? 0.4 : 1.0;
+        const wdx = screenPos2.x - screenPos1.x;
+        const wdy = screenPos2.y - screenPos1.y;
+        const wAngle = Math.atan2(wdy, wdx);
+        const wMidX = Math.round((screenPos1.x + screenPos2.x) / 2);
+        const wMidY = Math.round((screenPos1.y + screenPos2.y) / 2);
+        const winWidth = Math.round(length);
+        const winHeight = Math.round(wallThickness);
+
+        ctx.save();
+        ctx.translate(wMidX, wMidY);
+        ctx.rotate(wAngle);
+
+        // Wall stub across the opening so the window reads as part of the wall
+        ctx.fillStyle = isGreyedOut ? '#555' : palette.main;
+        ctx.fillRect(-winWidth / 2, -winHeight / 2, winWidth, winHeight);
+
+        const kind = wallType === 'barred_window' ? 'barred'
+          : wallType === 'arrow_slit' ? 'slit'
+            : wallType === 'open_window' ? 'open'
+              : 'glass';
+        const frame = Math.max(2, winHeight * 0.22);
+        const insetX = kind === 'slit' ? winWidth * 0.34 : winWidth * 0.14;
+        const openingW = Math.max(2, winWidth - insetX * 2);
+        const openingH = Math.max(2, winHeight - frame * 1.6);
+
+        ctx.fillStyle = 'rgba(12, 10, 8, 0.85)';
+        ctx.fillRect(-openingW / 2, -openingH / 2, openingW, openingH);
+
+        if (kind === 'glass') {
+          ctx.fillStyle = 'rgba(135, 206, 235, 0.55)';
+          ctx.fillRect(-openingW / 2, -openingH / 2, openingW, openingH);
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.28)';
+          ctx.beginPath();
+          ctx.moveTo(-openingW / 2 + 2, -openingH / 2 + 2);
+          ctx.lineTo(-openingW / 2 + openingW * 0.45, -openingH / 2 + 2);
+          ctx.lineTo(-openingW / 2 + 2, openingH / 2 - 2);
+          ctx.closePath();
+          ctx.fill();
+        } else if (kind === 'barred') {
+          ctx.strokeStyle = 'rgba(40, 40, 46, 0.9)';
+          ctx.lineWidth = Math.max(1.4, winHeight * 0.08);
+          const barCount = 4;
+          for (let i = 1; i < barCount; i++) {
+            const barX = -openingW / 2 + (openingW * i) / barCount;
+            ctx.beginPath();
+            ctx.moveTo(barX, -openingH / 2);
+            ctx.lineTo(barX, openingH / 2);
+            ctx.stroke();
+          }
+        }
+
+        // Frame: top rail, sill and side posts
+        ctx.fillStyle = isGreyedOut ? '#4a4540' : '#5C4A35';
+        ctx.fillRect(-winWidth / 2, -winHeight / 2, winWidth, frame);
+        ctx.fillRect(-winWidth / 2, winHeight / 2 - frame, winWidth, frame);
+        ctx.fillRect(-winWidth / 2, -winHeight / 2, frame, winHeight);
+        ctx.fillRect(winWidth / 2 - frame, -winHeight / 2, frame, winHeight);
+
+        if (kind === 'glass') {
+          ctx.strokeStyle = '#5C4A35';
+          ctx.lineWidth = Math.max(1.2, winHeight * 0.08);
+          ctx.beginPath();
+          ctx.moveTo(0, -openingH / 2);
+          ctx.lineTo(0, openingH / 2);
+          ctx.moveTo(-openingW / 2, 0);
+          ctx.lineTo(openingW / 2, 0);
+          ctx.stroke();
+        }
+
+        ctx.restore();
       } else {
         // === WALL RENDERING ===
         ctx.globalAlpha = isGreyedOut ? 0.4 : 1.0;

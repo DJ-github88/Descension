@@ -146,6 +146,18 @@
     background-color: rgba(60, 60, 60, 0.6);
 }
 
+.container-cell--void {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    pointer-events: none;
+}
+
+.container-cell--void:hover {
+    background-color: transparent;
+    border-color: transparent;
+}
+
 .container-cell.drag-over {
     background-color: rgba(0, 255, 0, 0.3);
     border: 1px dashed rgba(0, 255, 0, 0.8);

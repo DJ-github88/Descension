@@ -87,38 +87,16 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, elevati
         );
     }
 
-    // Collect the tiles under the brush
-    const tiles = [];
-
-    if (gridType === 'hex') {
-        const centerQ = gridX;
-        const centerR = gridY;
-        const brushRadius = Math.floor(brushSize / 2);
-
-        for (let q = centerQ - brushRadius; q <= centerQ + brushRadius; q++) {
-            for (let r = centerR - brushRadius; r <= centerR + brushRadius; r++) {
-                const hexDist = gridSystem.hexDistance(q, r, centerQ, centerR);
-                if (hexDist <= brushRadius) {
-                    tiles.push({ q, r, isHex: true });
-                }
-            }
-        }
-    } else {
-        const startOffset = Math.floor(brushSize / 2);
-        for (let dx = 0; dx < brushSize; dx++) {
-            for (let dy = 0; dy < brushSize; dy++) {
-                const tileX = gridX - startOffset + dx;
-                const tileY = gridY - startOffset + dy;
-                tiles.push({ x: tileX, y: tileY, isHex: false });
-            }
-        }
-    }
+    // Collect the tiles under the brush using the shared footprint helper so
+    // the preview always matches what the paint/erase/elevation stamps apply.
+    const tiles = gridSystem.getBrushTiles(gridX, gridY, brushSize)
+        .map(tile => ({ x: tile.x, y: tile.y, isHex: gridType === 'hex' }));
 
     return (
         <svg style={overlayStyle}>
             {tiles.map((tile, index) => {
                 if (tile.isHex) {
-                    const worldCenter = gridSystem.hexToWorld(tile.q, tile.r);
+                    const worldCenter = gridSystem.hexToWorld(tile.x, tile.y);
                     const hexRadiusWorld = gs / Math.sqrt(3);
                     const worldCorners = gridSystem.getHexCorners(worldCenter.x, worldCenter.y, hexRadiusWorld);
                     const points = worldCorners

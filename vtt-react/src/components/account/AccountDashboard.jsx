@@ -1317,7 +1317,7 @@ const AccountDashboard = ({ user }) => {
 
           {activeTab === 'books' && (
             <div className="tab-content account-books-tab-content">
-              <BookManager isGM={true} />
+              <BookManager isGM={true} allowWrite={true} allowPrint={true} inGameSession={false} />
             </div>
           )}
 

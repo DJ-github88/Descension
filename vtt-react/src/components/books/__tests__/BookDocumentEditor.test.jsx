@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import BookDocumentEditor from '../BookDocumentEditor';
+import BookManager from '../BookManager';
 import {
   CreatureStatblockBlock,
   ItemRelicBlock,
@@ -16,7 +17,9 @@ import {
   LineageShowcaseBlock,
   DynastyTreeBlock,
   PlotThreadBlock,
-  BookSketchBlock
+  BookSketchBlock,
+  BookTableBlock,
+  BookQuoteBlock
 } from '../BookTtrpgBlocks';
 import BookImagePickerModal from '../BookImagePickerModal';
 import BookItemCreatorModal from '../BookItemCreatorModal';
@@ -203,6 +206,60 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
     expect(wizardBtn).toBeInTheDocument();
     fireEvent.click(wizardBtn);
     expect(onOpenWizard).toHaveBeenCalledWith(block);
+  });
+
+  test('renders creature illustration as a hero art plate and hides the token mini', () => {
+    const artBlock = {
+      name: 'Oillipheist',
+      creatureType: 'Medium Monstrosity',
+      dangerLevel: 'Very High',
+      hp: 380,
+      illustration: '/assets/images/creatures/oillipheist.png',
+      image: '/assets/images/creatures/oillipheist.png',
+      tokenIcon: '/assets/images/creatures/oillipheist.png',
+      stats: { strength: 12, agility: 16, constitution: 14, intelligence: 4, spirit: 12, charisma: 4 }
+    };
+    const { container, rerender } = render(<CreatureStatblockBlock block={artBlock} isWrite={false} onUpdate={() => {}} />);
+
+    const plate = container.querySelector('.statblock-portrait-plate');
+    expect(plate).toBeInTheDocument();
+    expect(plate.querySelector('img')).toHaveAttribute('src', '/assets/images/creatures/oillipheist.png');
+    expect(container.querySelector('.statblock-token-mini')).not.toBeInTheDocument();
+    expect(container.querySelector('.statblock-hero-info')).toBeInTheDocument();
+
+    rerender(<CreatureStatblockBlock block={artBlock} isWrite={false} compact={true} onUpdate={() => {}} />);
+    expect(container.querySelector('.book-creature-statblock')).toHaveClass('compact-statblock');
+    expect(container.querySelector('.statblock-portrait-plate')).toBeInTheDocument();
+  });
+
+  test('keeps the token mini when no full illustration is available', () => {
+    const tokenBlock = {
+      name: 'Token Only Beast',
+      tokenIcon: 'inv_misc_questionmark',
+      stats: { strength: 10, agility: 10, constitution: 10, intelligence: 10, spirit: 10, charisma: 10 }
+    };
+    const { container } = render(<CreatureStatblockBlock block={tokenBlock} isWrite={false} onUpdate={() => {}} />);
+    expect(container.querySelector('.statblock-token-mini')).toBeInTheDocument();
+    expect(container.querySelector('.statblock-portrait-plate')).not.toBeInTheDocument();
+  });
+
+  test('uses a framed portrait plate for NPC dossiers with real artwork but not for token icons', () => {
+    const artNpc = {
+      name: 'Gref the Memory-Merchant',
+      role: 'Guide & Trader',
+      portraitUrl: '/assets/images/creatures/gref.png'
+    };
+    const { container, rerender } = render(<NpcDossierBlock block={artNpc} isWrite={false} onUpdate={() => {}} />);
+    expect(container.querySelector('.npc-avatar-badge.has-portrait')).toBeInTheDocument();
+    expect(container.querySelector('.npc-avatar-img')).toHaveAttribute('src', '/assets/images/creatures/gref.png');
+
+    const tokenNpc = {
+      name: 'Token NPC',
+      imageUrl: '/assets/icons/inv_misc_questionmark.png'
+    };
+    rerender(<NpcDossierBlock block={tokenNpc} isWrite={false} onUpdate={() => {}} />);
+    expect(container.querySelector('.npc-avatar-badge.has-portrait')).not.toBeInTheDocument();
+    expect(container.querySelector('.npc-avatar-img')).toBeInTheDocument();
   });
 
   test('renders LineageShowcaseBlock, DynastyTreeBlock, and PlotThreadBlock', () => {
@@ -419,6 +476,30 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
     const writeBtn = screen.getByTitle(/Publication Direct Authoring & Edit Mode/i);
     fireEvent.click(writeBtn);
     expect(screen.getAllByTitle('Insert new block here').length).toBeGreaterThan(0);
+  });
+
+  test('opens the Insert Block palette at the click position', () => {
+    const { container } = render(<BookDocumentEditor bookId="test-book-1" isGM={true} />);
+
+    const insertButtons = screen.getAllByTitle('Insert new block here');
+    fireEvent.click(insertButtons[0], { clientX: 420, clientY: 310 });
+
+    const popover = container.querySelector('.book-insert-popover');
+    expect(popover).toBeInTheDocument();
+    // jsdom elements have 0x0 size, so only the offset shows up: click + 8px top.
+    expect(popover).toHaveStyle({ left: '420px', top: '318px', visibility: 'visible' });
+  });
+
+  test('keeps the Insert Block palette inside the viewport near the bottom-right edge', () => {
+    const { container } = render(<BookDocumentEditor bookId="test-book-1" isGM={true} />);
+
+    const insertButtons = screen.getAllByTitle('Insert new block here');
+    fireEvent.click(insertButtons[0], { clientX: 1020, clientY: 760 });
+
+    const popover = container.querySelector('.book-insert-popover');
+    expect(popover).toBeInTheDocument();
+    // jsdom viewport is 1024x768; margin is 12px.
+    expect(popover).toHaveStyle({ left: '1012px', top: '756px', visibility: 'visible' });
   });
 
   test('renders BookCreaturePickerModal with creature catalog and wizard trigger', () => {
@@ -664,6 +745,72 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
     expect(screen.queryByText('+ Add block beside this')).not.toBeInTheDocument();
   });
 
+  test('pairs a stylus sketch block and an image block seamlessly in a companion paired row with half-width containment', () => {
+    const bookWithSketchAndImagePair = {
+      ...sampleBook,
+      id: 'test-book-sketch-image-pair',
+      chapters: [
+        {
+          id: 'ch-1',
+          title: 'Chapter I',
+          pages: [
+            {
+              id: 'pg-1',
+              pageNumber: 1,
+              blocks: [
+                {
+                  id: 'b-sketch-left',
+                  type: 'sketch_canvas',
+                  title: 'Letter from Gobo the Goblin',
+                  caption: 'Idk',
+                  strokes: [],
+                  column: 'left',
+                  slotAlign: 'left',
+                  sizePreset: 'half'
+                },
+                {
+                  id: 'b-img-right',
+                  type: 'image',
+                  url: '/assets/images/creatures/river_serpent.png',
+                  caption: 'River Serpent',
+                  alignment: 'center',
+                  column: 'left',
+                  slotAlign: 'right',
+                  sizePreset: 'half'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    useBookStore.setState({
+      books: [bookWithSketchAndImagePair],
+      activeBookId: 'test-book-sketch-image-pair'
+    });
+
+    const { container } = render(<BookDocumentEditor bookId="test-book-sketch-image-pair" isGM={true} />);
+
+    const pairedRow = container.querySelector('.book-paired-row');
+    expect(pairedRow).toBeInTheDocument();
+
+    const blockWraps = pairedRow.querySelectorAll('.book-block-wrap');
+    expect(blockWraps.length).toBe(2);
+
+    expect(blockWraps[0]).toHaveClass('is-half-width');
+    expect(blockWraps[0]).toHaveClass('slot-left');
+    expect(blockWraps[0]).toHaveClass('type-sketch_canvas');
+
+    expect(blockWraps[1]).toHaveClass('is-half-width');
+    expect(blockWraps[1]).toHaveClass('slot-right');
+    expect(blockWraps[1]).toHaveClass('type-image');
+
+    const imgWrapper = blockWraps[1].querySelector('.book-image-wrapper');
+    expect(imgWrapper).toBeInTheDocument();
+    expect(screen.queryByText('+ Add block beside this')).not.toBeInTheDocument();
+  });
+
   test('renders BookSketchBlock with stylus canvas and annotation controls', () => {
     const sketchBlock = {
       id: 'b-sketch-1',
@@ -698,5 +845,323 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
     expect(screen.getByText('Inscribed by the Rune-Smiths of Greymark')).toBeInTheDocument();
     expect(screen.getByText('Annotate / Doodle')).toBeInTheDocument();
   });
+
+  test('hides Annotate/Doodle button in BookSketchBlock when inGameSession is true', () => {
+    const sketchBlock = {
+      id: 'b-sketch-ingame',
+      type: 'sketch_canvas',
+      title: 'Tavern Floorplan Doodle',
+      caption: 'Quick sketch by the ranger',
+      strokes: [],
+      bgTheme: 'parchment'
+    };
+
+    render(
+      <BookSketchBlock
+        block={sketchBlock}
+        isEditMode={false}
+        inGameSession={true}
+        onChange={() => {}}
+      />
+    );
+
+    expect(screen.getAllByText('Tavern Floorplan Doodle').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText('Quick sketch by the ranger')).toBeInTheDocument();
+    expect(screen.queryByText('Annotate / Doodle')).not.toBeInTheDocument();
+  });
+
+  test('hides Explore Map button in MapEmbedBlock when inGameSession is true', () => {
+    const mapBlock = {
+      id: 'm-ingame',
+      type: 'map_embed',
+      title: 'Nordhalla Continental Map',
+      subtitle: 'The Frozen Northern Kingdoms',
+      mapId: 'nordhalla',
+      buttonText: 'Explore Nordhalla',
+      imageUrl: '/assets/images/backgrounds/nordhalla.jpeg',
+      locations: [
+        { id: 'loc-all', name: 'Overview', focalPoint: { x: 50, y: 50 }, zoom: 1.0 }
+      ]
+    };
+
+    render(
+      <MapEmbedBlock
+        block={mapBlock}
+        isWrite={false}
+        inGameSession={true}
+        onUpdate={() => {}}
+        onOpenPicker={() => {}}
+        onNavigateMap={() => {}}
+      />
+    );
+
+    expect(screen.getByText('Nordhalla Continental Map')).toBeInTheDocument();
+    expect(screen.getByText('The Frozen Northern Kingdoms')).toBeInTheDocument();
+    expect(screen.queryByText('Explore Nordhalla')).not.toBeInTheDocument();
+  });
+
+  test('enforces pure read-only mode in BookDocumentEditor when allowWrite={false} and inGameSession={true}', () => {
+    useBookStore.setState({
+      books: [sampleBook],
+      activeBookId: 'test-book-1'
+    });
+
+    render(
+      <BookDocumentEditor
+        bookId="test-book-1"
+        isGM={false}
+        allowWrite={false}
+        allowPrint={false}
+        inGameSession={true}
+      />
+    );
+
+    // Read Mode toggle is available
+    expect(screen.getByLabelText('Read Mode')).toBeInTheDocument();
+
+    // Authoring and disruptive actions are completely absent
+    expect(screen.queryByLabelText('Write Mode')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Print Book')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/Save/i)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/Glossary/i)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/Revision Snapshots/i)).not.toBeInTheDocument();
+    expect(screen.queryByText('+ Add block beside this')).not.toBeInTheDocument();
+  });
+
+  test('enforces read-only compendium mode in BookManager when allowWrite={false} and inGameSession={true}', () => {
+    useBookStore.setState({
+      books: [sampleBook],
+      activeBookId: null,
+      trashedBooks: []
+    });
+
+    render(
+      <BookManager
+        isGM={false}
+        allowWrite={false}
+        allowPrint={false}
+        inGameSession={true}
+      />
+    );
+
+    // Read action is present on the book card
+    expect(screen.getByTitle('Read Chronicle')).toBeInTheDocument();
+
+    // Authoring actions are completely absent
+    expect(screen.queryByText('+ New Book')).not.toBeInTheDocument();
+    expect(screen.queryByText(/Trash Can/i)).not.toBeInTheDocument();
+    expect(screen.queryByTitle('Duplicate Book')).not.toBeInTheDocument();
+    expect(screen.queryByTitle('Move to Trash Can')).not.toBeInTheDocument();
+  });
+
+  test('renders BookTableBlock with D&D 5e encounter table format and interactive roll', () => {
+    const tableBlock = {
+      id: 'tbl-1',
+      type: 'roll_table',
+      title: 'd20 Wandering Encounters',
+      diceType: 'd20',
+      headers: ['d20', 'Encounter', 'CR'],
+      rows: [
+        ['01–04', '1d4 Magmins searching for raw ore', 'CR 1/2'],
+        ['05–08', 'Fire Snake in obsidian fissure', 'CR 1']
+      ]
+    };
+
+    const { container } = render(<BookTableBlock block={tableBlock} isWrite={false} />);
+
+    expect(screen.getByText('d20 Wandering Encounters')).toBeInTheDocument();
+    expect(screen.getByText('1d4 Magmins searching for raw ore')).toBeInTheDocument();
+    expect(screen.getByText('Fire Snake in obsidian fissure')).toBeInTheDocument();
+
+    const rollBtn = screen.getByRole('button', { name: /Roll d20/i });
+    expect(rollBtn).toBeInTheDocument();
+
+    fireEvent.click(rollBtn);
+
+    const activeRow = container.querySelector('.rolled-active-row');
+    expect(activeRow).toBeInTheDocument();
+  });
+
+  test('renders BookTableBlock in write mode with row and column addition', () => {
+    const tableBlock = {
+      id: 'tbl-2',
+      type: 'roll_table',
+      title: 'Treasury Manifest',
+      headers: ['Roll', 'Item'],
+      rows: [['1', 'Obsidian Key']]
+    };
+
+    render(<BookTableBlock block={tableBlock} isWrite={true} onUpdate={() => {}} />);
+
+    expect(screen.getByTitle('Add Row')).toBeInTheDocument();
+    expect(screen.getByTitle('Add Column')).toBeInTheDocument();
+  });
+
+  test('renders BookQuoteBlock with in-world quote and author attribution', () => {
+    const quoteBlock = {
+      id: 'q-1',
+      type: 'quote',
+      text: 'When the vault doors unseal, remember that gold does not bleed.',
+      author: 'Aaron Lyles, Prophet of Destruction'
+    };
+
+    render(<BookQuoteBlock block={quoteBlock} isWrite={false} />);
+
+    expect(screen.getByText('When the vault doors unseal, remember that gold does not bleed.')).toBeInTheDocument();
+    expect(screen.getByText('— Aaron Lyles, Prophet of Destruction')).toBeInTheDocument();
+  });
+
+  test('renders BookImageBlock with cutout frame and crest frame', () => {
+    const cutoutBlock = {
+      id: 'img-cutout',
+      type: 'image',
+      url: '/monster-cutout.png',
+      caption: 'Slumbering Wyrmling',
+      frameStyle: 'cutout',
+      alignment: 'bottom-right'
+    };
+
+    const { container: cutoutContainer } = render(<BookImageBlock block={cutoutBlock} isEditMode={false} />);
+    expect(cutoutContainer.querySelector('.frame-cutout')).toBeInTheDocument();
+
+    const crestBlock = {
+      id: 'img-crest',
+      type: 'image',
+      url: '/crest.png',
+      frameStyle: 'crest',
+      crestLabel: 'House of the Dragon'
+    };
+
+    const { container: crestContainer } = render(<BookImageBlock block={crestBlock} isEditMode={false} />);
+    expect(crestContainer.querySelector('.frame-crest')).toBeInTheDocument();
+    expect(screen.getByText('House of the Dragon')).toBeInTheDocument();
+  });
+
+  test('renders BookDocumentEditor with two-page facing spread (book-spread) layout, spine gutter, and keyed areas', () => {
+    const spreadBook = {
+      id: 'spread-test-book',
+      title: 'Chromatic Vault Chronicle',
+      author: 'Mythrill Press',
+      theme: 'parchment',
+      layout: 'book-spread',
+      chapters: [
+        {
+          id: 'ch-spread-1',
+          title: 'Dungeon Level Two',
+          pages: [
+            {
+              id: 'pg-spread-1',
+              pageNumber: 1,
+              headerTitle: 'Entrance Hall',
+              layout: 'two-column',
+              blocks: [
+                { id: 'b-dark', type: 'header', level: 1, text: 'Vault Entrance', variant: 'banner-dark' },
+                { id: 'b-key', type: 'header', level: 2, text: 'Entrance Well', variant: 'keyed-area', areaCode: 'U1' },
+                { id: 'b-para', type: 'paragraph', text: 'The floor traps are armed.' }
+              ]
+            },
+            {
+              id: 'pg-spread-2',
+              pageNumber: 2,
+              headerTitle: 'Wandering Encounters',
+              layout: 'two-column',
+              blocks: [
+                { id: 'b-crimson', type: 'header', level: 1, text: 'Patrol Routes', variant: 'banner-crimson' },
+                {
+                  id: 'b-table',
+                  type: 'roll_table',
+                  title: 'Wandering Monsters',
+                  diceType: 'd4',
+                  headers: ['d4', 'Monster'],
+                  rows: [['1', '1d4 Magmins'], ['2', 'Hell Hound']]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    useBookStore.setState({
+      books: [spreadBook],
+      activeBookId: 'spread-test-book'
+    });
+
+    const { container } = render(
+      <BookDocumentEditor
+        bookId="spread-test-book"
+        isGM={true}
+        allowWrite={true}
+        inGameSession={false}
+      />
+    );
+
+    // Two-page facing spread canvas and spine gutter are rendered
+    expect(container.querySelector('.book-spread-canvas')).toBeInTheDocument();
+    expect(container.querySelector('.book-spine-gutter')).toBeInTheDocument();
+    expect(container.querySelector('.spread-page-left')).toBeInTheDocument();
+    expect(container.querySelector('.spread-page-right')).toBeInTheDocument();
+
+    // Keyed area badge and headers
+    expect(screen.getByText('U1')).toBeInTheDocument();
+    expect(screen.getByText('Entrance Well')).toBeInTheDocument();
+    expect(screen.getByText('Vault Entrance')).toBeInTheDocument();
+    expect(screen.getByText('Patrol Routes')).toBeInTheDocument();
+
+    // Table in facing page
+    expect(screen.getByDisplayValue('Wandering Monsters')).toBeInTheDocument();
+
+    // Stepper shows facing pages range
+    expect(screen.getByText(/Pages 1–2 of 2/i)).toBeInTheDocument();
+  });
+
+  test('renders SpellFormulaBlock for damage spell without bogus movement effect or empty container', () => {
+    const spellBlock = {
+      name: 'Flame Surge Torrent',
+      category: 'damage',
+      damageTypes: ['ember'],
+      tier: 'T2',
+      spellType: 'ACTION',
+      ap: 2,
+      manaCost: 20,
+      range: '45 ft.',
+      duration: 'Instantaneous',
+      targetingMode: 'cone',
+      effect: 'A roaring cone of liquid fire deals 4d6 Ember damage.',
+      empower: 'Each additional 5 Mana increases damage by 1d6.',
+      primaryDamage: { dice: '4d6', flat: 0 },
+      tags: ['offensive', 'damage', 'ember', 'aoe']
+    };
+
+    const { container } = render(<SpellFormulaBlock block={spellBlock} isWrite={false} onUpdate={() => {}} />);
+
+    // Renders spell title
+    expect(screen.getByText('Flame Surge Torrent')).toBeInTheDocument();
+    // Does NOT render bogus "MOVEMENT" header
+    expect(screen.queryByText('MOVEMENT')).not.toBeInTheDocument();
+    // Does NOT contain spurious "utility" tag
+    const tags = container.querySelectorAll('.unified-spell-tag');
+    const tagTexts = Array.from(tags).map(t => t.textContent.trim().toLowerCase());
+    expect(tagTexts).not.toContain('utility');
+    // Renders empower callout
+    expect(screen.getByText('EMPOWER SCALING')).toBeInTheDocument();
+    expect(screen.getByText('Each additional 5 Mana increases damage by 1d6.')).toBeInTheDocument();
+  });
+
+  test('renders BookImageBlock with sizePreset classes', () => {
+    const spotImageBlock = {
+      url: '/assets/images/creatures/erlkings_hound.png',
+      caption: 'Erlking Hound',
+      frameStyle: 'cutout',
+      sizePreset: 'spot',
+      alignment: 'center'
+    };
+
+    const { container } = render(<BookImageBlock block={spotImageBlock} isWrite={false} onUpdate={() => {}} />);
+    const wrapper = container.querySelector('.book-image-wrapper');
+    expect(wrapper).toHaveClass('size-spot');
+    expect(wrapper).toHaveClass('frame-cutout');
+  });
 });
+
 

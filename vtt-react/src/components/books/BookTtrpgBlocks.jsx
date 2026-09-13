@@ -173,6 +173,12 @@ export const CreatureStatblockBlock = ({
   const danger = normalizeDangerLevel(block.dangerLevel, block.cr);
   const isCompact = compact || block.sizePreset === 'half';
 
+  // Creature artwork: prefer full illustrations over icon-style token ids
+  const isArtworkPath = (s) => typeof s === 'string' && s.length > 0 &&
+    !s.includes('/icons/') && !s.includes('inv_misc_questionmark') && !s.includes('zamimg.com') &&
+    (s.startsWith('/assets/images/') || s.startsWith('data:') || s.startsWith('blob:') || s.startsWith('http'));
+  const portraitUrl = [block.illustration, block.image, block.imageUrl, block.tokenIcon].find(isArtworkPath) || '';
+
   const applyPreset = (preset) => {
     onUpdate({
       name: preset.name,
@@ -280,7 +286,7 @@ export const CreatureStatblockBlock = ({
             <div className="preset-drop-title">Select Descension Creature:</div>
             {CREATURE_PRESETS.map((p) => (
               <div key={p.name} className="preset-drop-item" onClick={() => applyPreset(p)}>
-                <strong>{p.name}</strong> ({p.dangerLevel}) â€¢ <em>{p.creatureType}</em>
+                <strong>{p.name}</strong> ({p.dangerLevel}) • <em>{p.creatureType}</em>
               </div>
             ))}
           </div>
@@ -460,62 +466,78 @@ export const CreatureStatblockBlock = ({
   // READ MODE: Publication Statblock Card
   return (
     <div className={`book-creature-statblock ${isCompact ? 'compact-statblock' : ''}`}>
-      <div className="statblock-header-band">
-        <div className="statblock-header-left">
-          {block.tokenIcon && (
-            <div className="statblock-token-mini">
-              <img
-                src={getIconUrl(block.tokenIcon)}
-                alt=""
-                onError={(e) => { e.target.src = '/assets/icons/inv_misc_questionmark.png'; }}
-              />
+      <div className="statblock-hero">
+        {portraitUrl && (
+          <figure className="statblock-portrait-plate">
+            <img
+              src={portraitUrl}
+              alt={block.name ? `${block.name} illustration` : 'Creature illustration'}
+              onError={(e) => {
+                const plate = e.currentTarget.closest('.statblock-portrait-plate');
+                if (plate) plate.style.display = 'none';
+              }}
+            />
+          </figure>
+        )}
+        <div className="statblock-hero-info">
+          <div className="statblock-header-band">
+            <div className="statblock-header-left">
+              {!portraitUrl && block.tokenIcon && (
+                <div className="statblock-token-mini">
+                  <img
+                    src={getIconUrl(block.tokenIcon)}
+                    alt=""
+                    onError={(e) => { e.target.src = '/assets/icons/inv_misc_questionmark.png'; }}
+                  />
+                </div>
+              )}
+              <h3 className="statblock-name">{block.name || 'Unnamed Adversary'}</h3>
+              <div className="statblock-header-right">
+                <span className={'statblock-danger-badge danger-' + String(danger).toLowerCase().replace(/\s+/g, '-')}>
+                  <i className="fas fa-skull"></i> <span>{danger}</span>
+                </span>
+              </div>
+            </div>
+            <div className="statblock-sub-row">
+              <span className="statblock-type-line">{block.creatureType || 'Medium Creature, Native'}</span>
+            </div>
+          </div>
+
+          <div className="statblock-taper-rule" />
+
+          {/* Descension Vitals Bar */}
+          <div className="statblock-vitals-strip">
+            <div className="statblock-vital-pill vital-hp">
+              <i className="fas fa-heart"></i>
+              <span className="vital-lbl">Hit Points:</span>
+              <strong>{hp}</strong>
+            </div>
+            <div className="statblock-vital-pill vital-mana">
+              <i className="fas fa-droplet"></i>
+              <span className="vital-lbl">Mana:</span>
+              <strong>{block.mana ?? 20}</strong>
+            </div>
+            <div className="statblock-vital-pill vital-ap">
+              <i className="fas fa-bolt"></i>
+              <span className="vital-lbl">Action Points:</span>
+              <strong>{block.ap ?? 3} AP</strong>
+            </div>
+            <div className="statblock-vital-pill vital-speed">
+              <i className="fas fa-person-running"></i>
+              <span className="vital-lbl">Speed:</span>
+              <strong>{block.speed || '30 ft.'}</strong>
+            </div>
+          </div>
+
+          {block.resistances && (
+            <div className="statblock-resistances-strip">
+              <i className="fas fa-shield"></i>
+              <span className="resist-lbl">Resistances &amp; Affinities:</span>
+              <span className="resist-val">{block.resistances}</span>
             </div>
           )}
-          <h3 className="statblock-name">{block.name || 'Unnamed Adversary'}</h3>
-          <div className="statblock-header-right">
-            <span className={'statblock-danger-badge danger-' + String(danger).toLowerCase().replace(/\s+/g, '-')}>
-              <i className="fas fa-skull"></i> <span>{danger}</span>
-            </span>
-          </div>
-        </div>
-        <div className="statblock-sub-row">
-          <span className="statblock-type-line">{block.creatureType || 'Medium Creature, Native'}</span>
         </div>
       </div>
-
-      <div className="statblock-taper-rule" />
-
-      {/* Descension Vitals Bar */}
-      <div className="statblock-vitals-strip">
-        <div className="statblock-vital-pill vital-hp">
-          <i className="fas fa-heart"></i>
-          <span className="vital-lbl">Hit Points:</span>
-          <strong>{hp}</strong>
-        </div>
-        <div className="statblock-vital-pill vital-mana">
-          <i className="fas fa-droplet"></i>
-          <span className="vital-lbl">Mana:</span>
-          <strong>{block.mana ?? 20}</strong>
-        </div>
-        <div className="statblock-vital-pill vital-ap">
-          <i className="fas fa-bolt"></i>
-          <span className="vital-lbl">Action Points:</span>
-          <strong>{block.ap ?? 3} AP</strong>
-        </div>
-        <div className="statblock-vital-pill vital-speed">
-          <i className="fas fa-person-running"></i>
-          <span className="vital-lbl">Speed:</span>
-          <strong>{block.speed || '30 ft.'}</strong>
-        </div>
-      </div>
-
-      {block.resistances && (
-        <div className="statblock-resistances-strip">
-          <i className="fas fa-shield"></i>
-          <span className="resist-lbl">Resistances &amp; Affinities:</span>
-          <span className="resist-val">{block.resistances}</span>
-        </div>
-      )}
 
       <div className="statblock-taper-rule" />
 
@@ -584,30 +606,61 @@ export const SpellFormulaBlock = ({
 }) => {
   const [showPresets, setShowPresets] = useState(false);
 
+  const category = block.category || 'damage';
+  const isDamage = category === 'damage';
+  const isHealing = category === 'healing';
+  const damageType = (block.damageTypes && block.damageTypes[0]) || block.damageType || (isDamage ? 'ember' : 'sacred');
+  const damageTypes = Array.isArray(block.damageTypes) && block.damageTypes.length > 0
+    ? block.damageTypes
+    : [damageType];
+
+  const primaryDice = block.primaryDamage?.dice || (isDamage ? '4d6' : '2d8');
+  const primaryFlat = block.primaryDamage?.flat || 0;
+  const formulaStr = primaryFlat ? `${primaryDice} + ${primaryFlat}` : primaryDice;
+  const rangeStr = typeof block.range === 'number' ? `${block.range} ft.` : (block.range || '45 ft.');
+
   const normalizedSpell = {
+    id: block.id || 'spell-formula',
     name: block.name || 'Unnamed Spell',
-    category: block.category || 'damage',
-    damageTypes: Array.isArray(block.damageTypes) ? block.damageTypes : (block.damageType ? [block.damageType] : ['arcane']),
+    category,
+    damageTypes,
+    damageType,
     tier: block.tier ? `T${block.tier}`.replace('TT', 'T') : 'T1',
     spellType: block.spellType || 'ACTION',
     ap: block.ap || block.resourceCosts?.action_points?.baseAmount || 2,
-    manaCost: block.manaCost || block.resourceCosts?.mana?.baseAmount || 10,
-    range: typeof block.range === 'number' ? `${block.range} ft.` : (block.range || '30 ft.'),
+    manaCost: block.manaCost || block.resourceCosts?.mana?.baseAmount || 20,
+    range: rangeStr,
     duration: block.duration || 'Instantaneous',
-    targetingMode: block.targetingMode || 'single',
-    effect: block.effect || block.description || 'Deals magical force to the targeted foe.',
-    description: block.effect || block.description || 'Deals magical force to the targeted foe.',
-    mechanics: block.effect || block.description || 'Deals magical force to the targeted foe.',
-    damageEffects: [
+    targetingMode: block.targetingMode || 'cone',
+    effect: block.effect || block.description || 'Deals magical flame in a cone.',
+    description: block.effect || block.description || 'Deals magical flame in a cone.',
+    mechanics: block.effect || block.description || 'Deals magical flame in a cone.',
+    empower: block.empower || '',
+    primaryDamage: block.primaryDamage || { dice: primaryDice, flat: primaryFlat },
+    effectTypes: [category],
+    tags: Array.isArray(block.tags) ? block.tags : ['offensive', 'damage', damageType, 'spell'],
+    damageConfig: isDamage ? {
+      formula: formulaStr,
+      damageType,
+      damageTypes,
+      resolution: 'DICE',
+      targeting: block.targetingMode || 'cone',
+      range: rangeStr,
+      description: block.effect || block.description || ''
+    } : null,
+    healingConfig: isHealing ? {
+      formula: formulaStr,
+      healingType: 'instant',
+      resolution: 'DICE',
+      description: block.effect || block.description || ''
+    } : null,
+    damageEffects: isDamage ? [
       {
         id: 'dmg-1',
-        damageType: (block.damageTypes && block.damageTypes[0]) || block.damageType || 'rime',
-        formula: block.primaryDamage?.dice ? `${block.primaryDamage.dice} + ${block.primaryDamage.flat || 0}` : '3d8 + 4'
+        damageType,
+        formula: formulaStr
       }
-    ],
-    empower: block.empower || '',
-    primaryDamage: block.primaryDamage || { dice: '2d6', flat: 0 },
-    tags: Array.isArray(block.tags) ? block.tags : ['arcane', 'spell']
+    ] : []
   };
 
   const applyPreset = (preset) => {
@@ -660,7 +713,7 @@ export const SpellFormulaBlock = ({
             <div className="preset-drop-title">Select Descension Spell:</div>
             {SPELL_PRESETS.map((p) => (
               <div key={p.name} className="preset-drop-item" onClick={() => applyPreset(p)}>
-                <strong>{p.name}</strong> ({p.tier}) â€¢ <em>{p.category}</em>
+                <strong>{p.name}</strong> ({p.tier}) • <em>{p.category}</em>
               </div>
             ))}
           </div>
@@ -943,7 +996,7 @@ export const DynastyTreeBlock = ({
           ) : (
             <h3 className="dynasty-title">{block.name || block.title || 'Noble Dynasty'}</h3>
           )}
-          <span className="dynasty-badge">{nodes.length} Members â€¢ {relationships.length} Connections</span>
+          <span className="dynasty-badge">{nodes.length} Members • {relationships.length} Connections</span>
         </div>
         {isWrite && (
           <div className="dynasty-header-actions">
@@ -1309,11 +1362,13 @@ export const NpcDossierBlock = ({
 }) => {
   const dispClass = (block.disposition || 'neutral').toLowerCase();
   const avatarUrl = block.portraitUrl || block.avatarUrl || block.imageUrl;
+  const isPortraitArt = typeof avatarUrl === 'string' && avatarUrl.length > 0 &&
+    !avatarUrl.includes('/icons/') && !avatarUrl.includes('inv_misc_questionmark') && !avatarUrl.includes('zamimg.com');
 
   return (
     <div className="book-npc-dossier-wrapper">
       <div className="npc-dossier-header">
-        <div className="npc-avatar-badge">
+        <div className={`npc-avatar-badge ${isPortraitArt ? 'has-portrait' : ''}`}>
           {avatarUrl ? (
             <img src={avatarUrl} alt={block.name || 'NPC'} className="npc-avatar-img" />
           ) : (
@@ -1719,18 +1774,59 @@ export const BookImageBlock = ({
   onUpdate = () => {},
   onOpenPicker = () => {}
 }) => {
-  const align = block.align || 'center';
+  const align = block.align || block.alignment || 'center';
   const frame = block.frameStyle || 'gold-frame';
+  const sizePreset = block.sizePreset || 'medium';
   const widthPercent = block.width || 100;
+  const crestLabel = block.crestLabel || '';
+
+  const FRAME_OPTIONS = [
+    { value: 'cutout', label: 'Transparent Cutout' },
+    { value: 'crest', label: 'Heraldic Crest' },
+    { value: 'gold-frame', label: 'Gold Framed' },
+    { value: 'parchment-card', label: 'Parchment Card' },
+    { value: 'full-bleed', label: 'Full Bleed Edge' }
+  ];
+
+  const SIZE_OPTIONS = [
+    { value: 'spot', label: 'Spot / Small' },
+    { value: 'medium', label: 'Medium' },
+    { value: 'large', label: 'Large' },
+    { value: 'full', label: 'Full Spread' }
+  ];
+
+  const ALIGN_OPTIONS = [
+    { value: 'center', label: 'Center' },
+    { value: 'float-left', label: 'Float Left' },
+    { value: 'float-right', label: 'Float Right' },
+    { value: 'bottom-right', label: 'Bottom Right Corner' },
+    { value: 'bottom-left', label: 'Bottom Left Corner' },
+    { value: 'full', label: 'Full Width' }
+  ];
 
   return (
-    <div className={'book-image-wrapper align-' + align + ' frame-' + frame} style={{ width: widthPercent + '%' }}>
+    <div className={`book-image-wrapper align-${align} frame-${frame} size-${sizePreset}`} style={{ width: widthPercent ? `${widthPercent}%` : undefined }}>
       <div className="book-image-container">
         <img
           src={block.url || 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80'}
           alt={block.caption || 'Book illustration'}
           className="book-image"
         />
+        {frame === 'crest' && (
+          <div className="crest-banner-ribbon">
+            {isWrite ? (
+              <input
+                type="text"
+                className="crest-ribbon-input"
+                value={crestLabel}
+                placeholder="Crest Banner (e.g. STRIGHAM)..."
+                onChange={(e) => onUpdate({ crestLabel: e.target.value })}
+              />
+            ) : (
+              <span className="crest-ribbon-text">{crestLabel || block.caption || 'SEAL OF THE REALM'}</span>
+            )}
+          </div>
+        )}
         {isWrite && (
           <div className="image-inline-toolbar">
             <button
@@ -1741,10 +1837,40 @@ export const BookImageBlock = ({
             >
               <i className="fas fa-images"></i> Change
             </button>
+            <select
+              value={sizePreset}
+              onChange={(e) => onUpdate({ sizePreset: e.target.value })}
+              className="img-style-select"
+              title="Artwork Size Preset"
+            >
+              {SIZE_OPTIONS.map((s) => (
+                <option key={s.value} value={s.value}>{s.label}</option>
+              ))}
+            </select>
+            <select
+              value={frame}
+              onChange={(e) => onUpdate({ frameStyle: e.target.value })}
+              className="img-style-select"
+              title="Artwork Frame Style"
+            >
+              {FRAME_OPTIONS.map((f) => (
+                <option key={f.value} value={f.value}>{f.label}</option>
+              ))}
+            </select>
+            <select
+              value={align}
+              onChange={(e) => onUpdate({ align: e.target.value, alignment: e.target.value })}
+              className="img-style-select"
+              title="Artwork Alignment / Float"
+            >
+              {ALIGN_OPTIONS.map((a) => (
+                <option key={a.value} value={a.value}>{a.label}</option>
+              ))}
+            </select>
           </div>
         )}
       </div>
-      {block.caption && (
+      {frame !== 'crest' && block.caption && (
         <p className="book-image-caption">
           {isWrite ? (
             <input
@@ -1759,6 +1885,263 @@ export const BookImageBlock = ({
         </p>
       )}
     </div>
+  );
+};
+
+/**
+ * TTRPG Encounter & Rollable Table Block
+ * Authentic D&D 5e sourcebook table with alternating row fills, Cinzel burgundy headers,
+ * compact cell padding, interactive dice rolling in read mode, and cell editing in write mode.
+ */
+export const BookTableBlock = ({
+  block,
+  isWrite = false,
+  onUpdate = () => {}
+}) => {
+  const title = block.title || 'Encounter Table';
+  const diceFormula = block.diceFormula || block.diceType || '';
+  const headers = Array.isArray(block.headers) && block.headers.length > 0
+    ? block.headers
+    : ['d4', 'Encounter', 'Avg. Level'];
+  const rows = Array.isArray(block.rows) && block.rows.length > 0
+    ? block.rows
+    : [
+        ['1', 'Kobold Club', '1st'],
+        ['2', 'Magmin Mayhem', '2nd'],
+        ['3', 'Mage Malfunction', '5th'],
+        ['4', 'Brass Guardian', '6th']
+      ];
+  const [rolledIndex, setRolledIndex] = useState(null);
+  const [rollResult, setRollResult] = useState(null);
+  const [isRolling, setIsRolling] = useState(false);
+
+  const handleRoll = () => {
+    if (rows.length === 0) return;
+    setIsRolling(true);
+    const count = rows.length;
+    let dieMax = count;
+    if (diceFormula) {
+      const match = diceFormula.match(/d(\d+)/i);
+      if (match) dieMax = parseInt(match[1], 10);
+    }
+    const result = Math.floor(Math.random() * dieMax) + 1;
+    const matchingIdx = rows.findIndex((r) => String(r[0]).trim() === String(result));
+    const targetIdx = matchingIdx >= 0 ? matchingIdx : Math.min(result - 1, count - 1);
+
+    setRollResult(result);
+    setRolledIndex(targetIdx >= 0 ? targetIdx : 0);
+    setTimeout(() => {
+      setIsRolling(false);
+    }, 250);
+  };
+
+  const updateCell = (rIdx, cIdx, val) => {
+    const nextRows = rows.map((row, i) =>
+      i === rIdx ? row.map((cell, j) => (j === cIdx ? val : cell)) : row
+    );
+    onUpdate({ rows: nextRows });
+  };
+
+  const updateHeader = (cIdx, val) => {
+    const nextHeaders = headers.map((h, j) => (j === cIdx ? val : h));
+    onUpdate({ headers: nextHeaders });
+  };
+
+  const addRow = () => {
+    const newRow = headers.map((_, j) => (j === 0 ? String(rows.length + 1) : '—'));
+    onUpdate({ rows: [...rows, newRow] });
+  };
+
+  const deleteRow = (rIdx) => {
+    if (rows.length <= 1) return;
+    onUpdate({ rows: rows.filter((_, i) => i !== rIdx) });
+  };
+
+  const addColumn = () => {
+    const nextHeaders = [...headers, `Column ${headers.length + 1}`];
+    const nextRows = rows.map((r) => [...r, '—']);
+    onUpdate({ headers: nextHeaders, rows: nextRows });
+  };
+
+  const deleteColumn = (cIdx) => {
+    if (headers.length <= 1) return;
+    const nextHeaders = headers.filter((_, j) => j !== cIdx);
+    const nextRows = rows.map((r) => r.filter((_, j) => j !== cIdx));
+    onUpdate({ headers: nextHeaders, rows: nextRows });
+  };
+
+  return (
+    <div className="book-table-block">
+      <div className="table-block-header">
+        <div className="table-title-wrap">
+          {isWrite ? (
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => onUpdate({ title: e.target.value })}
+              className="table-title-input"
+              placeholder="Table Title (e.g. Dragon Statues, Encounters)..."
+            />
+          ) : (
+            <h4 className="table-title">{title}</h4>
+          )}
+        </div>
+
+        <div className="table-header-controls">
+          {isWrite ? (
+            <div className="table-write-tools">
+              <label className="dice-formula-label">
+                <span>Dice:</span>
+                <input
+                  type="text"
+                  value={diceFormula}
+                  onChange={(e) => onUpdate({ diceFormula: e.target.value })}
+                  placeholder="e.g. d4, d20"
+                  className="dice-formula-input"
+                />
+              </label>
+              <button type="button" className="tbl-btn" onClick={addRow} title="Add Row">
+                <i className="fas fa-plus"></i> Row
+              </button>
+              <button type="button" className="tbl-btn" onClick={addColumn} title="Add Column">
+                <i className="fas fa-plus"></i> Col
+              </button>
+            </div>
+          ) : (
+            diceFormula && (
+              <button
+                type="button"
+                className={`table-roll-btn ${isRolling ? 'rolling' : ''}`}
+                onClick={handleRoll}
+                title={`Roll ${diceFormula} on this table`}
+              >
+                <i className="fas fa-dice-d20"></i>
+                <span>Roll {diceFormula}</span>
+                {rollResult !== null && <span className="roll-result-badge">Result: {rollResult}</span>}
+              </button>
+            )
+          )}
+        </div>
+      </div>
+
+      <div className="table-scroll-wrap">
+        <table className="book-ttrpg-table">
+          <thead>
+            <tr>
+              {headers.map((h, cIdx) => (
+                <th key={cIdx}>
+                  {isWrite ? (
+                    <div className="th-edit-wrap">
+                      <input
+                        type="text"
+                        value={h}
+                        onChange={(e) => updateHeader(cIdx, e.target.value)}
+                        className="th-input"
+                      />
+                      {headers.length > 1 && (
+                        <button
+                          type="button"
+                          className="th-del-btn"
+                          onClick={() => deleteColumn(cIdx)}
+                          title="Delete Column"
+                        >
+                          &times;
+                        </button>
+                      )}
+                    </div>
+                  ) : (
+                    h
+                  )}
+                </th>
+              ))}
+              {isWrite && <th className="th-actions-col"></th>}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row, rIdx) => {
+              const isRolled = rolledIndex === rIdx;
+              return (
+                <tr key={rIdx} className={isRolled ? 'rolled-active-row' : ''}>
+                  {row.map((cell, cIdx) => (
+                    <td key={cIdx}>
+                      {isWrite ? (
+                        <input
+                          type="text"
+                          value={cell}
+                          onChange={(e) => updateCell(rIdx, cIdx, e.target.value)}
+                          className="td-input"
+                        />
+                      ) : (
+                        cell
+                      )}
+                    </td>
+                  ))}
+                  {isWrite && (
+                    <td className="td-actions-col">
+                      {rows.length > 1 && (
+                        <button
+                          type="button"
+                          className="row-del-btn"
+                          onClick={() => deleteRow(rIdx)}
+                          title="Delete Row"
+                        >
+                          <i className="fas fa-trash"></i>
+                        </button>
+                      )}
+                    </td>
+                  )}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+/**
+ * In-World Quote / Epigraph Block
+ * Clean italic serif prose with author attribution line, matching Image 2.
+ */
+export const BookQuoteBlock = ({
+  block,
+  isWrite = false,
+  onUpdate = () => {}
+}) => {
+  const quote = block.text || block.quote || '';
+  const author = block.author || '';
+
+  return (
+    <figure className="book-quote-block">
+      <div className="quote-mark">“</div>
+      {isWrite ? (
+        <div className="quote-edit-wrap">
+          <textarea
+            className="quote-text-input"
+            value={quote}
+            onChange={(e) => onUpdate({ text: e.target.value })}
+            placeholder="In-world quote or excerpt..."
+            rows={3}
+          />
+          <div className="quote-author-row">
+            <span>—</span>
+            <input
+              type="text"
+              className="quote-author-input"
+              value={author}
+              onChange={(e) => onUpdate({ author: e.target.value })}
+              placeholder="Attribution (e.g. Aaron Lyles, Prophet of Destruction)..."
+            />
+          </div>
+        </div>
+      ) : (
+        <blockquote className="quote-body">
+          <p className="quote-text">{quote}</p>
+          {author && <cite className="quote-author">— {author}</cite>}
+        </blockquote>
+      )}
+    </figure>
   );
 };
 
@@ -1884,7 +2267,8 @@ export const MapEmbedBlock = ({
   onUpdate = () => {},
   onOpenPicker = () => {},
   onOpenImagePicker = () => {},
-  onNavigateMap
+  onNavigateMap,
+  inGameSession = false
 }) => {
   const title = block.title || 'Frostwood Reach & Surrounding Lands';
   const subtitle = block.subtitle || block.caption || '';
@@ -1897,7 +2281,7 @@ export const MapEmbedBlock = ({
   const defaultLocations = [
     { id: 'loc-all', name: 'Overview', focalPoint: { x: 50, y: 50 }, zoom: 1.0, description: 'Complete regional overview of the charted territory.' },
     { id: 'loc-skald', name: "Skald's Peaks", focalPoint: { x: 52, y: 38 }, zoom: 1.85, description: 'Jagged mountain range guarding the northern pass.' },
-    { id: 'loc-midhofn', name: 'MidhÃ¶fn', focalPoint: { x: 38, y: 46 }, zoom: 2.1, description: 'Harbor citadel connecting the frozen waterways.' },
+    { id: 'loc-midhofn', name: 'Midhöfn', focalPoint: { x: 38, y: 46 }, zoom: 2.1, description: 'Harbor citadel connecting the frozen waterways.' },
     { id: 'loc-taiga', name: 'Frostwood Taiga', focalPoint: { x: 74, y: 32 }, zoom: 1.75, description: 'Dense pine forest shrouded in arcane mist.' }
   ];
 
@@ -2458,14 +2842,16 @@ export const MapEmbedBlock = ({
           )}
         </div>
 
-        <button
-          type="button"
-          className="map-explore-btn"
-          onClick={handleOpenMap}
-          title={`Open ${title} in World Map Canvas`}
-        >
-          <i className="fas fa-compass"></i> {buttonText}
-        </button>
+        {!inGameSession && (
+          <button
+            type="button"
+            className="map-explore-btn"
+            onClick={handleOpenMap}
+            title={`Open ${title} in World Map Canvas`}
+          >
+            <i className="fas fa-compass"></i> {buttonText}
+          </button>
+        )}
       </div>
     </div>
   );
@@ -3010,7 +3396,7 @@ export const TableOfContentsBlock = ({
     <div className="book-toc-block">
       <div className="toc-title-header">
         <h3 className="toc-main-heading">Table of Contents</h3>
-        <div className="toc-header-flourish">â—† â—† â—†</div>
+        <div className="toc-header-flourish">◆ ◆ ◆</div>
       </div>
       <div className="toc-list">
         {(book.chapters || []).map((ch, chIdx) => (
@@ -3047,7 +3433,9 @@ export const TableOfContentsBlock = ({
 export const BookSketchBlock = ({
   block,
   isEditMode = false,
-  onChange = () => {}
+  onChange = () => {},
+  allowAnnotate = true,
+  inGameSession = false
 }) => {
   const [isAnnotating, setIsAnnotating] = useState(false);
   const strokes = block.strokes || [];
@@ -3090,21 +3478,25 @@ export const BookSketchBlock = ({
             onChange={handleCanvasChange}
             aspectRatio="16/9"
             minHeight={220}
+            allowExport={!inGameSession}
+            allowFullscreen={!inGameSession}
           />
         </div>
       ) : (
         <div className="book-sketch-view-container">
           <div className="book-sketch-view-header">
             {title && <h4 className="book-sketch-view-title">{title}</h4>}
-            <button
-              type="button"
-              className={`book-sketch-annotate-toggle ${isAnnotating ? 'active' : ''}`}
-              onClick={() => setIsAnnotating(!isAnnotating)}
-              title={isAnnotating ? "Lock Inks" : "Enable Scribe Inking / Annotation"}
-            >
-              <i className={`fas ${isAnnotating ? 'fa-lock' : 'fa-pen-nib'}`}></i>
-              <span>{isAnnotating ? 'Done Annotating' : 'Annotate / Doodle'}</span>
-            </button>
+            {allowAnnotate && !inGameSession && (
+              <button
+                type="button"
+                className={`book-sketch-annotate-toggle ${isAnnotating ? 'active' : ''}`}
+                onClick={() => setIsAnnotating(!isAnnotating)}
+                title={isAnnotating ? "Lock Inks" : "Enable Scribe Inking / Annotation"}
+              >
+                <i className={`fas ${isAnnotating ? 'fa-lock' : 'fa-pen-nib'}`}></i>
+                <span>{isAnnotating ? 'Done Annotating' : 'Annotate / Doodle'}</span>
+              </button>
+            )}
           </div>
           <StylusDrawingCanvas
             initialStrokes={strokes}
@@ -3114,6 +3506,8 @@ export const BookSketchBlock = ({
             onChange={handleCanvasChange}
             aspectRatio="16/9"
             minHeight={200}
+            allowExport={!inGameSession}
+            allowFullscreen={!inGameSession}
           />
           {caption && <p className="book-sketch-view-caption">{caption}</p>}
         </div>

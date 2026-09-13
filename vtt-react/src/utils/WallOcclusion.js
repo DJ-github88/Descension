@@ -50,7 +50,7 @@ function buildStructureSnapshot(wallData, elevationData, gridSystem, gridType, g
     const uy = dy / length;
     const base = getWallBaseWorldZ({ parsed, wall, gridType, gridSystem, elevationData });
     const heightWorld = getWallHeightWorld(wall, typeData, gridSize);
-    const thickness = getWallThickness(gridSize, { effectiveZoom: 1 });
+    const thickness = getWallThickness(gridSize);
 
     structures.push({
       key,
@@ -169,6 +169,15 @@ function rayHitsWall(px, py, pz, dirX, dirY, wall) {
   return lo <= hi;
 }
 
+function wallContainsPoint(px, py, wall, tolerance = 0.5) {
+  const relX = px - wall.start.x;
+  const relY = py - wall.start.y;
+  const u = relX * wall.ux + relY * wall.uy;
+  if (u < -tolerance || u > wall.length + tolerance) return false;
+  const v = relX * wall.nx + relY * wall.ny;
+  return Math.abs(v) <= wall.half + tolerance;
+}
+
 function rayHitsTerrain(px, py, pz, dirX, dirY, elevationData, gridSystem, maxZ) {
   const { gridSize = 50 } = gridSystem.getGridState();
   if (Math.abs(dirX) < 1e-9 && Math.abs(dirY) < 1e-9) return false;
@@ -213,7 +222,8 @@ export function isWorldPointBehindWalls({
   worldZ,
   wallData,
   elevationData,
-  gridSystem
+  gridSystem,
+  ignoreEmbeddedWalls = false
 }) {
   if (!wallData || !gridSystem) return false;
   if (!Number.isFinite(worldX) || !Number.isFinite(worldY)) return false;
@@ -226,6 +236,9 @@ export function isWorldPointBehindWalls({
   const snapshot = getStructureSnapshot(wallData, elevationData, gridSystem, gridType, gridSize);
 
   for (const structure of snapshot.structures) {
+    // A point inside a wall footprint sits *on* the wall (e.g. a mounted
+    // torch); that wall must not occlude it. Other walls still apply.
+    if (ignoreEmbeddedWalls && wallContainsPoint(worldX, worldY, structure)) continue;
     if (rayHitsWall(worldX, worldY, pz, ray.dirX, ray.dirY, structure)) return true;
   }
   return false;
@@ -258,9 +271,10 @@ export function isWorldPointOccluded({
   worldZ,
   wallData,
   elevationData,
-  gridSystem
+  gridSystem,
+  ignoreEmbeddedWalls = false
 }) {
-  if (isWorldPointBehindWalls({ worldX, worldY, worldZ, wallData, elevationData, gridSystem })) {
+  if (isWorldPointBehindWalls({ worldX, worldY, worldZ, wallData, elevationData, gridSystem, ignoreEmbeddedWalls })) {
     return true;
   }
   return isWorldPointBehindElevatedTerrain({ worldX, worldY, worldZ, elevationData, gridSystem });

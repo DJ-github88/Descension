@@ -3,7 +3,13 @@ import useLevelEditorStore, { PROFESSIONAL_TERRAIN_TYPES } from '../../../store/
 import useGameStore from '../../../store/gameStore';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
 import { getCanvasTransform } from '../../../utils/ProjectionSystem';
-import { getTileElevation } from '../../../utils/ElevationUtils';
+import { getTileElevation, getRampAt } from '../../../utils/ElevationUtils';
+import {
+  getSquareRampEdges,
+  getRampBands,
+  getRampStepCount,
+  getRampDirectionDelta
+} from '../../../utils/RampGeometry';
 import { debounce } from '../../../utils/performanceUtils';
 
 // Image cache for tile variations
@@ -26,6 +32,209 @@ const getElevationTint = (level) => {
   }
   return `rgba(24, 32, 64, ${Math.min(0.5, 0.16 + Math.abs(level) * 0.09)})`;
 };
+
+// ---- Ramp / stairs 2.5D rendering helpers ---------------------------------
+// A ramp tile draws a solid wedge from its own ground (far edge) to the target
+// neighbor's elevation (near edge). Stairs draw the same wedge split into flat
+// treads. All geometry is world-space (x, y, z) and projected per vertex with
+// `gridSystem.worldToScreen3D`, so yaw/tilt/zoom stay correct.
+
+const RAMP_SIDE_FILL = 'rgba(80, 67, 52, 0.98)';
+const RAMP_SIDE_FILL_DARK = 'rgba(62, 52, 41, 0.98)';
+const RAMP_TOP_FILL = 'rgba(141, 118, 88, 0.98)';
+const RAMP_TOP_FILL_ALT = 'rgba(123, 102, 75, 0.98)';
+const RAMP_EDGE_STROKE = 'rgba(28, 21, 13, 0.5)';
+
+const fillWorldFace = (ctx, gridSystem, viewportWidth, viewportHeight, points, fillStyle, strokeStyle = RAMP_EDGE_STROKE, lineWidth = 1) => {
+  if (!points || points.length < 3) return;
+  const screenPoints = points.map(([x, y, z]) => gridSystem.worldToScreen3D(x, y, z, viewportWidth, viewportHeight));
+  ctx.save();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.beginPath();
+  ctx.moveTo(screenPoints[0].x, screenPoints[0].y);
+  for (let i = 1; i < screenPoints.length; i++) {
+    ctx.lineTo(screenPoints[i].x, screenPoints[i].y);
+  }
+  ctx.closePath();
+  ctx.fillStyle = fillStyle;
+  ctx.fill();
+  if (strokeStyle) {
+    ctx.strokeStyle = strokeStyle;
+    ctx.lineWidth = lineWidth;
+    ctx.stroke();
+  }
+  ctx.restore();
+};
+
+const lerpWorldPoint = (a, b, t) => ({
+  x: a.x + (b.x - a.x) * t,
+  y: a.y + (b.y - a.y) * t
+});
+
+// Chevrons pointing up-slope so ramp direction is readable at a glance.
+const drawRampChevrons = ({ ctx, gridSystem, viewportWidth, viewportHeight, farA, farB, nearA, nearB, selfZ, targetZ, gridSize }) => {
+  const farMid = { x: (farA.x + farB.x) / 2, y: (farA.y + farB.y) / 2 };
+  const nearMid = { x: (nearA.x + nearB.x) / 2, y: (nearA.y + nearB.y) / 2 };
+  const ux = nearMid.x - farMid.x;
+  const uy = nearMid.y - farMid.y;
+  const len = Math.hypot(ux, uy) || 1;
+  const u = { x: ux / len, y: uy / len };
+  const n = { x: -u.y, y: u.x };
+  const half = gridSize * 0.18;
+  const depth = gridSize * 0.13;
+
+  ctx.save();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.strokeStyle = 'rgba(30, 22, 14, 0.55)';
+  ctx.lineWidth = 2;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  for (const t of [0.3, 0.55, 0.8]) {
+    const cx = farMid.x + ux * t;
+    const cy = farMid.y + uy * t;
+    const cz = selfZ + (targetZ - selfZ) * t + 2;
+    const tip = gridSystem.worldToScreen3D(cx + u.x * depth, cy + u.y * depth, cz, viewportWidth, viewportHeight);
+    const tail1 = gridSystem.worldToScreen3D(cx - u.x * depth + n.x * half, cy - u.y * depth + n.y * half, cz, viewportWidth, viewportHeight);
+    const tail2 = gridSystem.worldToScreen3D(cx - u.x * depth - n.x * half, cy - u.y * depth - n.y * half, cz, viewportWidth, viewportHeight);
+    ctx.beginPath();
+    ctx.moveTo(tail1.x, tail1.y);
+    ctx.lineTo(tip.x, tip.y);
+    ctx.lineTo(tail2.x, tail2.y);
+    ctx.stroke();
+  }
+  ctx.restore();
+};
+
+const drawSquareRampSurface = ({ ctx, gridSystem, viewportWidth, viewportHeight, worldX, worldY, gridSize, ramp, selfZ, targetZ }) => {
+  const edges = getSquareRampEdges({ worldX, worldY, gridSize, dir: ramp.dir });
+  if (!edges) return;
+
+  const { nearA, nearB, farA, farB } = edges;
+  const isStairs = ramp.type === 'stairs';
+  const flat = Math.abs(targetZ - selfZ) < 1e-6;
+
+  if (flat) {
+    drawRampChevrons({ ctx, gridSystem, viewportWidth, viewportHeight, farA, farB, nearA, nearB, selfZ, targetZ, gridSize });
+    return;
+  }
+
+  const bands = getRampBands({
+    selfZ,
+    targetZ,
+    type: isStairs ? 'stairs' : 'ramp',
+    steps: isStairs ? getRampStepCount(targetZ - selfZ, gridSize) : 1
+  });
+
+  for (let i = 0; i < bands.length; i++) {
+    const { t0, t1, farZ, nearZ } = bands[i];
+    const fa = lerpWorldPoint(farA, nearA, t0);
+    const fb = lerpWorldPoint(farB, nearB, t0);
+    const na = lerpWorldPoint(farA, nearA, t1);
+    const nb = lerpWorldPoint(farB, nearB, t1);
+
+    // Side walls down to the ramp tile's own ground plane
+    fillWorldFace(ctx, gridSystem, viewportWidth, viewportHeight, [
+      [fa.x, fa.y, farZ], [na.x, na.y, nearZ], [na.x, na.y, selfZ], [fa.x, fa.y, selfZ]
+    ], RAMP_SIDE_FILL);
+    fillWorldFace(ctx, gridSystem, viewportWidth, viewportHeight, [
+      [fb.x, fb.y, farZ], [nb.x, nb.y, nearZ], [nb.x, nb.y, selfZ], [fb.x, fb.y, selfZ]
+    ], RAMP_SIDE_FILL_DARK);
+    // Far / near risers
+    fillWorldFace(ctx, gridSystem, viewportWidth, viewportHeight, [
+      [fa.x, fa.y, farZ], [fb.x, fb.y, farZ], [fb.x, fb.y, selfZ], [fa.x, fa.y, selfZ]
+    ], RAMP_SIDE_FILL_DARK);
+    fillWorldFace(ctx, gridSystem, viewportWidth, viewportHeight, [
+      [na.x, na.y, nearZ], [nb.x, nb.y, nearZ], [nb.x, nb.y, selfZ], [na.x, na.y, selfZ]
+    ], RAMP_SIDE_FILL);
+    // Tread / slope surface (alternating shade reads as steps)
+    fillWorldFace(ctx, gridSystem, viewportWidth, viewportHeight, [
+      [fa.x, fa.y, farZ], [fb.x, fb.y, farZ], [nb.x, nb.y, nearZ], [na.x, na.y, nearZ]
+    ], i % 2 ? RAMP_TOP_FILL_ALT : RAMP_TOP_FILL);
+  }
+
+  if (!isStairs) {
+    drawRampChevrons({ ctx, gridSystem, viewportWidth, viewportHeight, farA, farB, nearA, nearB, selfZ, targetZ, gridSize });
+  }
+};
+
+const drawHexRampSurface = ({ ctx, gridSystem, viewportWidth, viewportHeight, q, r, worldPos, gridSize, ramp, selfZ, targetZ }) => {
+  const delta = getRampDirectionDelta(ramp.dir);
+  const edge = gridSystem.getHexEdge(q, r, q + delta.x, r + delta.y);
+  if (!edge) return;
+
+  const hexRadius = gridSize / Math.sqrt(3);
+  const corners = gridSystem.getHexCorners(worldPos.x, worldPos.y, hexRadius);
+  const close = (a, b) => Math.abs(a.x - b.x) < 0.05 && Math.abs(a.y - b.y) < 0.05;
+
+  let edgeIndex = -1;
+  for (let i = 0; i < 6; i++) {
+    const next = corners[(i + 1) % 6];
+    if (close(corners[i], edge.start) && close(next, edge.end)) {
+      edgeIndex = i;
+      break;
+    }
+    if (close(corners[i], edge.end) && close(next, edge.start)) {
+      edgeIndex = i;
+      break;
+    }
+  }
+  if (edgeIndex < 0) return;
+
+  const nearStart = corners[edgeIndex];
+  const nearEnd = corners[(edgeIndex + 1) % 6];
+  const nearMid = { x: (nearStart.x + nearEnd.x) / 2, y: (nearStart.y + nearEnd.y) / 2 };
+  const flat = Math.abs(targetZ - selfZ) < 1e-6;
+
+  if (flat) {
+    drawRampChevrons({ ctx, gridSystem, viewportWidth, viewportHeight, farA: worldPos, farB: worldPos, nearA: nearMid, nearB: nearMid, selfZ, targetZ, gridSize });
+    return;
+  }
+
+  // Near edge lifted to the target level; the four far corners stay on ground.
+  const topPoints = [
+    [nearStart.x, nearStart.y, targetZ],
+    [nearEnd.x, nearEnd.y, targetZ]
+  ];
+  for (let k = 2; k <= 5; k++) {
+    const corner = corners[(edgeIndex + k) % 6];
+    topPoints.push([corner.x, corner.y, selfZ]);
+  }
+
+  for (let i = 0; i < topPoints.length; i++) {
+    const a = topPoints[i];
+    const b = topPoints[(i + 1) % topPoints.length];
+    fillWorldFace(ctx, gridSystem, viewportWidth, viewportHeight, [
+      a, b, [b[0], b[1], selfZ], [a[0], a[1], selfZ]
+    ], i % 2 ? RAMP_SIDE_FILL_DARK : RAMP_SIDE_FILL);
+  }
+  fillWorldFace(ctx, gridSystem, viewportWidth, viewportHeight, topPoints, RAMP_TOP_FILL);
+
+  if (ramp.type === 'stairs') {
+    const leftFrom = nearEnd;
+    const leftTo = corners[(edgeIndex + 2) % 6];
+    const rightFrom = corners[(edgeIndex + 5) % 6];
+    const rightTo = nearStart;
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.strokeStyle = RAMP_EDGE_STROKE;
+    ctx.lineWidth = 1;
+    for (const t of [0.25, 0.5, 0.75]) {
+      const z = targetZ + (selfZ - targetZ) * t;
+      const left = lerpWorldPoint(leftFrom, leftTo, t);
+      const right = lerpWorldPoint(rightFrom, rightTo, t);
+      const lp = gridSystem.worldToScreen3D(left.x, left.y, z, viewportWidth, viewportHeight);
+      const rp = gridSystem.worldToScreen3D(right.x, right.y, z, viewportWidth, viewportHeight);
+      ctx.beginPath();
+      ctx.moveTo(lp.x, lp.y);
+      ctx.lineTo(rp.x, rp.y);
+      ctx.stroke();
+    }
+    ctx.restore();
+  } else {
+    drawRampChevrons({ ctx, gridSystem, viewportWidth, viewportHeight, farA: worldPos, farB: worldPos, nearA: nearMid, nearB: nearMid, selfZ, targetZ, gridSize });
+  }
+};
+// ---------------------------------------------------------------------------
 
 // Re-export for components that import from TerrainSystem
 export { PROFESSIONAL_TERRAIN_TYPES };
@@ -67,6 +276,7 @@ const TerrainSystem = () => {
     terrainData,
     elevationData,
     elevationDataVersion,
+    rampData,
     isEditorMode,
     activeTool,
     selectedTool,
@@ -297,7 +507,13 @@ const TerrainSystem = () => {
     // Check if terrain layer is visible
     const terrainLayer = drawingLayers.find(layer => layer.id === 'terrain');
     if (!terrainLayer || !terrainLayer.visible) return;
-    if (!terrainData || Object.keys(terrainData).length === 0) return;
+
+    // Elevation/ramp-only maps must still render: raised ground, pits and ramps
+    // are drawn even when no terrain texture has been painted anywhere yet.
+    const hasTerrainTiles = !!terrainData && Object.keys(terrainData).length > 0;
+    const hasElevationTiles = !!elevationData && Object.keys(elevationData).length > 0;
+    const hasRampTiles = !!rampData && Object.keys(rampData).length > 0;
+    if (!hasTerrainTiles && !hasElevationTiles && !hasRampTiles) return;
 
     // Calculate visible grid bounds for performance
     const VIEWPORT_PADDING = 3; // Extra padding for buffer
@@ -363,9 +579,10 @@ const TerrainSystem = () => {
             const tileKey = `${q},${r}`;
             const terrainData_tile = terrainData[tileKey];
             const hexLevelEarly = getTileElevation(elevationData, q, r);
+            const hexRamp = getRampAt(rampData, q, r);
 
-            // Render elevated hexes even without painted terrain (solid ground)
-            if (!terrainData_tile && hexLevelEarly === 0) continue;
+            // Render elevated/ramp hexes even without painted terrain (solid ground)
+            if (!terrainData_tile && hexLevelEarly === 0 && !hexRamp) continue;
 
             let terrain = null;
             let terrainType = null;
@@ -448,8 +665,25 @@ const TerrainSystem = () => {
                 targetCtx.strokeStyle = 'rgba(0, 0, 0, 0.35)';
                 targetCtx.lineWidth = 1;
                 targetCtx.stroke();
+
+                if (bottomZ < 0) {
+                  // Pit rim inner shadow: darker gradient band at top of pit wall
+                  const pitShadowGrad = targetCtx.createLinearGradient(p4.x, p4.y, p1.x, p1.y);
+                  pitShadowGrad.addColorStop(0, 'rgba(0, 0, 0, 0.28)');
+                  pitShadowGrad.addColorStop(0.35, 'rgba(0, 0, 0, 0.08)');
+                  pitShadowGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                  targetCtx.fillStyle = pitShadowGrad;
+                  targetCtx.beginPath();
+                  targetCtx.moveTo(p1.x, p1.y);
+                  targetCtx.lineTo(p2.x, p2.y);
+                  targetCtx.lineTo(p3.x, p3.y);
+                  targetCtx.lineTo(p4.x, p4.y);
+                  targetCtx.closePath();
+                  targetCtx.fill();
+                }
+
                 // Rim outline along the top edge so plateau boundaries are legible
-                targetCtx.strokeStyle = 'rgba(255, 228, 160, 0.8)';
+                targetCtx.strokeStyle = bottomZ < 0 ? 'rgba(40, 40, 50, 0.5)' : 'rgba(255, 228, 160, 0.8)';
                 targetCtx.lineWidth = 2;
                 targetCtx.beginPath();
                 targetCtx.moveTo(p4.x, p4.y);
@@ -508,6 +742,26 @@ const TerrainSystem = () => {
               targetCtx.fill();
             }
 
+            // Ramp / stairs surface: wedge from this hex's ground to the neighbor
+            // it connects to (painted or not).
+            if (hexRamp) {
+              const hexRampDelta = getRampDirectionDelta(hexRamp.dir);
+              const hexRampTargetZ = getTileElevation(elevationData, q + hexRampDelta.x, r + hexRampDelta.y) * gridSize;
+              drawHexRampSurface({
+                ctx: targetCtx,
+                gridSystem,
+                viewportWidth: targetWidth,
+                viewportHeight: targetHeight,
+                q,
+                r,
+                worldPos,
+                gridSize,
+                ramp: hexRamp,
+                selfZ: hexElevationLevel * gridSize,
+                targetZ: hexRampTargetZ
+              });
+            }
+
             // Level badge ONLY on rim hexes (a neighbor differs)
             if (elevationData && Object.keys(elevationData).length > 0 &&
                 gridSize * transform.effectiveZoom >= 18) {
@@ -537,14 +791,33 @@ const TerrainSystem = () => {
                   );
                   targetCtx.save();
                   targetCtx.setTransform(1, 0, 0, 1, 0, 0);
-                  targetCtx.font = 'bold 12px sans-serif';
+                  targetCtx.font = 'bold 11px sans-serif';
                   targetCtx.textAlign = 'center';
                   targetCtx.textBaseline = 'middle';
-                  targetCtx.lineWidth = 3;
-                  targetCtx.strokeStyle = 'rgba(0, 0, 0, 0.72)';
+
+                  // Raise anchor slightly above tile center so it doesn't sit on tokens
+                  const badgeCenterY = hexBadgeScreen.y - Math.max(5, Math.round(gridSize * transform.effectiveZoom * 0.2));
+                  const textMetrics = targetCtx.measureText(hexBadgeLabel);
+                  const pillWidth = Math.max(20, textMetrics.width + 10);
+                  const pillHeight = 15;
+                  const pillX = hexBadgeScreen.x - pillWidth / 2;
+                  const pillY = badgeCenterY - pillHeight / 2;
+                  const pillRadius = 4;
+
+                  targetCtx.beginPath();
+                  if (typeof targetCtx.roundRect === 'function') {
+                    targetCtx.roundRect(pillX, pillY, pillWidth, pillHeight, pillRadius);
+                  } else {
+                    targetCtx.rect(pillX, pillY, pillWidth, pillHeight);
+                  }
+                  targetCtx.fillStyle = 'rgba(15, 23, 42, 0.72)';
+                  targetCtx.fill();
+                  targetCtx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
+                  targetCtx.lineWidth = 1;
+                  targetCtx.stroke();
+
                   targetCtx.fillStyle = hexBadgeLabel.startsWith('-') ? '#9cc4ff' : '#ffd777';
-                  targetCtx.strokeText(hexBadgeLabel, hexBadgeScreen.x, hexBadgeScreen.y);
-                  targetCtx.fillText(hexBadgeLabel, hexBadgeScreen.x, hexBadgeScreen.y);
+                  targetCtx.fillText(hexBadgeLabel, hexBadgeScreen.x, badgeCenterY);
                   targetCtx.restore();
                 }
               }
@@ -695,10 +968,11 @@ const TerrainSystem = () => {
             const tileKey = `${gridX},${gridY}`;
             const terrainData_tile = terrainData[tileKey];
             const elevationLevel = getTileElevation(elevationData, gridX, gridY);
+            const tileRamp = getRampAt(rampData, gridX, gridY);
 
-            // Render elevated tiles even when no terrain is painted, so raised ground
-            // reads as solid ground instead of floating painted patches.
-            if (!terrainData_tile && elevationLevel === 0) continue;
+            // Render elevated/ramp tiles even when no terrain is painted, so raised
+            // ground reads as solid ground instead of floating painted patches.
+            if (!terrainData_tile && elevationLevel === 0 && !tileRamp) continue;
 
             let terrain = null;
             let terrainType = null;
@@ -786,8 +1060,25 @@ const TerrainSystem = () => {
                 targetCtx.strokeStyle = 'rgba(0, 0, 0, 0.35)';
                 targetCtx.lineWidth = 1;
                 targetCtx.stroke();
+
+                if (bottomZ < 0) {
+                  // Pit rim inner shadow: darker gradient band at top of pit wall
+                  const pitShadowGrad = targetCtx.createLinearGradient(p4.x, p4.y, p1.x, p1.y);
+                  pitShadowGrad.addColorStop(0, 'rgba(0, 0, 0, 0.28)');
+                  pitShadowGrad.addColorStop(0.35, 'rgba(0, 0, 0, 0.08)');
+                  pitShadowGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                  targetCtx.fillStyle = pitShadowGrad;
+                  targetCtx.beginPath();
+                  targetCtx.moveTo(p1.x, p1.y);
+                  targetCtx.lineTo(p2.x, p2.y);
+                  targetCtx.lineTo(p3.x, p3.y);
+                  targetCtx.lineTo(p4.x, p4.y);
+                  targetCtx.closePath();
+                  targetCtx.fill();
+                }
+
                 // Rim outline along the top edge so plateau boundaries are legible
-                targetCtx.strokeStyle = 'rgba(255, 228, 160, 0.8)';
+                targetCtx.strokeStyle = bottomZ < 0 ? 'rgba(40, 40, 50, 0.5)' : 'rgba(255, 228, 160, 0.8)';
                 targetCtx.lineWidth = 2;
                 targetCtx.beginPath();
                 targetCtx.moveTo(p4.x, p4.y);
@@ -833,6 +1124,25 @@ const TerrainSystem = () => {
               targetCtx.fillRect(worldX, worldY, gridSize, gridSize);
             }
 
+            // Ramp / stairs surface: wedge from this tile's ground to the neighbor
+            // it connects to (painted or not).
+            if (tileRamp) {
+              const rampDelta = getRampDirectionDelta(tileRamp.dir);
+              const rampTargetZ = getTileElevation(elevationData, gridX + rampDelta.x, gridY + rampDelta.y) * gridSize;
+              drawSquareRampSurface({
+                ctx: targetCtx,
+                gridSystem,
+                viewportWidth: targetWidth,
+                viewportHeight: targetHeight,
+                worldX,
+                worldY,
+                gridSize,
+                ramp: tileRamp,
+                selfZ: elevationLevel * gridSize,
+                targetZ: rampTargetZ
+              });
+            }
+
             // Level badge ONLY on rim tiles (a neighbor differs), never a "0" carpet.
             if (elevationData && Object.keys(elevationData).length > 0 &&
                 gridSize * transform.effectiveZoom >= 18) {
@@ -863,14 +1173,33 @@ const TerrainSystem = () => {
                   );
                   targetCtx.save();
                   targetCtx.setTransform(1, 0, 0, 1, 0, 0);
-                  targetCtx.font = 'bold 12px sans-serif';
+                  targetCtx.font = 'bold 11px sans-serif';
                   targetCtx.textAlign = 'center';
                   targetCtx.textBaseline = 'middle';
-                  targetCtx.lineWidth = 3;
-                  targetCtx.strokeStyle = 'rgba(0, 0, 0, 0.72)';
+
+                  // Raise anchor slightly above tile center so it doesn't sit on tokens
+                  const badgeCenterY = badgeScreen.y - Math.max(5, Math.round(gridSize * transform.effectiveZoom * 0.2));
+                  const textMetrics = targetCtx.measureText(badgeLabel);
+                  const pillWidth = Math.max(20, textMetrics.width + 10);
+                  const pillHeight = 15;
+                  const pillX = badgeScreen.x - pillWidth / 2;
+                  const pillY = badgeCenterY - pillHeight / 2;
+                  const pillRadius = 4;
+
+                  targetCtx.beginPath();
+                  if (typeof targetCtx.roundRect === 'function') {
+                    targetCtx.roundRect(pillX, pillY, pillWidth, pillHeight, pillRadius);
+                  } else {
+                    targetCtx.rect(pillX, pillY, pillWidth, pillHeight);
+                  }
+                  targetCtx.fillStyle = 'rgba(15, 23, 42, 0.72)';
+                  targetCtx.fill();
+                  targetCtx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
+                  targetCtx.lineWidth = 1;
+                  targetCtx.stroke();
+
                   targetCtx.fillStyle = badgeLabel.startsWith('-') ? '#9cc4ff' : '#ffd777';
-                  targetCtx.strokeText(badgeLabel, badgeScreen.x, badgeScreen.y);
-                  targetCtx.fillText(badgeLabel, badgeScreen.x, badgeScreen.y);
+                  targetCtx.fillText(badgeLabel, badgeScreen.x, badgeCenterY);
                   targetCtx.restore();
                 }
               }
@@ -946,7 +1275,7 @@ const TerrainSystem = () => {
         }
       }
     }
-  }, [terrainData, elevationData, drawingLayers, gridSize, gridType, gridOffsetX, gridOffsetY, isGMMode, viewingFromToken, visibleArea]);
+  }, [terrainData, elevationData, rampData, drawingLayers, gridSize, gridType, gridOffsetX, gridOffsetY, isGMMode, viewingFromToken, visibleArea]);
 
   // Render terrain to an offscreen buffer
   const renderToBuffer = useCallback(() => {
@@ -2458,7 +2787,7 @@ const TerrainSystem = () => {
         clearTimeout(terrainDebounceRef.current);
       }
     };
-  }, [terrainData, elevationDataVersion, renderTerrain]);
+  }, [terrainData, elevationDataVersion, rampData, renderTerrain]);
 
   // Update canvas when camera/view changes (immediate, no debounce needed)
   useEffect(() => {

@@ -14,6 +14,7 @@ import { useTooltipPosition } from '../common/useTooltipPosition';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import { getIconUrl } from '../../utils/assetManager';
+import { isContainerCellFloor } from '../../utils/containerShapeUtils';
 
 
 // Helper function to get display name (custom name or original name)
@@ -109,6 +110,11 @@ const ContainerWindow = ({ container, onClose }) => {
 
     // Use the most specific store version if available, otherwise fall back to the prop
     const currentContainer = containerFromGrid || containerFromStore || containerFromInventory || container;
+
+    const containerShape = currentContainer.containerProperties?.shape;
+
+    const isShapeFloor = (row, col) =>
+        isContainerCellFloor(containerShape, row, col);
 
     const containerRef = useRef(null);
     const draggableRef = useRef(null);
@@ -460,6 +466,15 @@ const ContainerWindow = ({ container, onClose }) => {
             return false;
         }
 
+        // Check that every cell the item would occupy is actual storage space
+        for (let r = 0; r < effectiveHeight; r++) {
+            for (let c = 0; c < effectiveWidth; c++) {
+                if (!isShapeFloor(row + r, col + c)) {
+                    return false;
+                }
+            }
+        }
+
         // Check if the position overlaps with any other item
         for (const item of items) {
             // Skip the item being moved
@@ -507,6 +522,7 @@ const ContainerWindow = ({ container, onClose }) => {
         const rows = containerProps.gridSize.rows || 4;
         const cols = containerProps.gridSize.cols || 6;
         const items = containerProps.items || [];
+        const hasCustomShape = containerProps.shape?.type === 'custom';
 
         // Never add sample items to containers
         // Always use the actual items from the container
@@ -519,9 +535,9 @@ const ContainerWindow = ({ container, onClose }) => {
             gridTemplateRows: `repeat(${rows}, 40px)`,
             gap: '4px',
             padding: '8px',
-            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            backgroundColor: hasCustomShape ? 'transparent' : 'rgba(0, 0, 0, 0.3)',
             borderRadius: '4px',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            border: hasCustomShape ? '1px solid transparent' : '1px solid rgba(255, 255, 255, 0.1)',
             margin: '0 auto',
             width: 'fit-content'
         };
@@ -535,6 +551,19 @@ const ContainerWindow = ({ container, onClose }) => {
 
                 // Check if this is the top-left cell of the item (for rendering)
                 const isOrigin = item && isItemOrigin(row, col, item);
+
+                // Cells outside the container's shape are empty space, not storage
+                if (!isShapeFloor(row, col) && !isOrigin) {
+                    cells.push(
+                        <div
+                            key={`${row}-${col}`}
+                            className="container-cell container-cell--void"
+                            data-row={row}
+                            data-col={col}
+                        />
+                    );
+                    continue;
+                }
 
                 cells.push(
                     <div
@@ -576,7 +605,10 @@ const ContainerWindow = ({ container, onClose }) => {
 
                                 // Add appropriate highlight to occupied cells
                                 occupiedCells.forEach(cellId => {
-                                    const cellElement = document.querySelector(`.container-cell[data-row="${cellId.split('-')[0]}"][data-col="${cellId.split('-')[1]}"]`);
+                                    const [cellRow, cellCol] = cellId.split('-').map(Number);
+                                    if (!isShapeFloor(cellRow, cellCol)) return;
+
+                                    const cellElement = document.querySelector(`.container-cell[data-row="${cellRow}"][data-col="${cellCol}"]`);
                                     if (cellElement) {
                                         cellElement.classList.add(isValid ? 'drag-over' : 'drag-invalid');
                                     }
@@ -621,7 +653,10 @@ const ContainerWindow = ({ container, onClose }) => {
 
                                 // Add appropriate highlight to occupied cells
                                 occupiedCells.forEach(cellId => {
-                                    const cellElement = document.querySelector(`.container-cell[data-row="${cellId.split('-')[0]}"][data-col="${cellId.split('-')[1]}"]`);
+                                    const [cellRow, cellCol] = cellId.split('-').map(Number);
+                                    if (!isShapeFloor(cellRow, cellCol)) return;
+
+                                    const cellElement = document.querySelector(`.container-cell[data-row="${cellRow}"][data-col="${cellCol}"]`);
                                     if (cellElement) {
                                         cellElement.classList.add(isValid ? 'drag-over' : 'drag-invalid');
                                     }

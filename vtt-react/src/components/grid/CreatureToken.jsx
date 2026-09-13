@@ -779,11 +779,17 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           const combatRampData = combatEditorState.rampData;
           const combatHasWalls = combatWallData && Object.keys(combatWallData).length > 0;
           const combatHasElevation = combatElevationData && Object.keys(combatElevationData).length > 0;
-          if (combatHasWalls || combatHasElevation) {
+          const creatureSizeMapping = getCreatureSizeMapping(creature?.size);
+          const creatureTokenSize = Math.max(creatureSizeMapping?.width || 1, creatureSizeMapping?.height || 1);
+          const creatureFootprint = { width: creatureSizeMapping?.width || 1, height: creatureSizeMapping?.height || 1 };
+
+          if (combatHasWalls || combatHasElevation || creatureTokenSize > 1) {
             try {
               const combatPath = gridSystem.findPath(dragStartPosition, finalWorldPos, combatWallData, {}, {
                 elevationData: combatElevationData,
-                rampData: combatRampData
+                rampData: combatRampData,
+                tokenSize: creatureTokenSize,
+                footprint: creatureFootprint
               });
               if (combatPath?.blocked) {
                 setLocalPosition(dragStartPosition);
@@ -833,7 +839,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             updateTokenPositionWithSync(tokenId, dragStartPosition);
           }
         } else {
-          // WALL-BLOCKING FIX: validate the drop position against walls.
+          // WALL-BLOCKING FIX: validate the drop position against walls and multi-tile occupancy.
           // If no wall-respecting path exists from the drag start to the drop
           // position, revert to the drag start instead of teleporting through walls.
           const editorState = useLevelEditorStore.getState();
@@ -842,10 +848,19 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           const rampData = editorState.rampData;
           const hasWalls = wallData && Object.keys(wallData).length > 0;
           const hasElevation = elevationData && Object.keys(elevationData).length > 0;
+          const creatureSizeMapping = getCreatureSizeMapping(creature?.size);
+          const creatureTokenSize = Math.max(creatureSizeMapping?.width || 1, creatureSizeMapping?.height || 1);
+          const creatureFootprint = { width: creatureSizeMapping?.width || 1, height: creatureSizeMapping?.height || 1 };
+
           let dropAllowed = true;
-          if ((hasWalls || hasElevation) && dragStartPosition) {
+          if ((hasWalls || hasElevation || creatureTokenSize > 1) && dragStartPosition) {
             try {
-              const pathResult = gridSystem.findPath(dragStartPosition, snappedFinalPos, wallData, {}, { elevationData, rampData });
+              const pathResult = gridSystem.findPath(dragStartPosition, snappedFinalPos, wallData, {}, {
+                elevationData,
+                rampData,
+                tokenSize: creatureTokenSize,
+                footprint: creatureFootprint
+              });
               dropAllowed = !pathResult?.blocked;
             } catch (pathErr) {
               console.warn('Wall path check failed, allowing drop:', pathErr);

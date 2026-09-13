@@ -183,6 +183,37 @@ describe('WallOcclusion (ray model)', () => {
     })).toBe(false);
   });
 
+  it('ignores the wall a point is embedded in when ignoreEmbeddedWalls is set', () => {
+    const gridSystem = makeGridSystem();
+    const wallData = { '0,1,1,1': { type: 'stone_wall' } };
+    const onWall = {
+      worldX: 25,
+      worldY: 50,
+      worldZ: 0,
+      wallData,
+      elevationData: {},
+      gridSystem
+    };
+
+    // Default behavior: a point on the wall line counts as behind the wall.
+    expect(isWorldPointBehindWalls(onWall)).toBe(true);
+
+    // Objects embedded in a wall (mounted torches/banners) must stay visible.
+    expect(isWorldPointBehindWalls({ ...onWall, ignoreEmbeddedWalls: true })).toBe(false);
+    expect(isWorldPointOccluded({ ...onWall, ignoreEmbeddedWalls: true })).toBe(false);
+
+    // Other walls still occlude, and points clearly behind this wall still hide.
+    expect(isWorldPointOccluded({
+      worldX: 25,
+      worldY: 25,
+      worldZ: 0,
+      wallData,
+      elevationData: {},
+      gridSystem,
+      ignoreEmbeddedWalls: true
+    })).toBe(true);
+  });
+
   it('combines walls and terrain in isWorldPointOccluded', () => {
     const gridSystem = makeGridSystem();
     expect(isWorldPointOccluded({

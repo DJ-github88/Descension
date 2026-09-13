@@ -1207,17 +1207,11 @@ const UnifiedSpellCard = ({
           )}
 
           {/* Damage Display - Wrap individually if it has effect-specific triggers */}
-          {shouldRenderDamage && (shouldWrapDamageIndividually ? (
-           <div className="healing-effects" style={{ marginTop: '2px', marginBottom: '0px' }}>
-            <div className="healing-effects-section">
-             {/* Effect-specific trigger header */}
-             <div className="damage-effects">
-              <div className="damage-effects-section">
-               {(() => {
-                const damageData = spell?.damageConfig;
-                if (!damageData) return null;
+          {shouldRenderDamage && (shouldWrapDamageIndividually ? (() => {
+            const damageData = spell?.damageConfig;
+            if (!damageData) return null;
 
-                const effects = [];
+            const effects = [];
 
                 // Helper to get effect-specific triggers and conditional formulas
                 const getEffectTriggersAndFormulas = (effectSubType) => {
@@ -1379,82 +1373,83 @@ const UnifiedSpellCard = ({
                 // Note: Chance on hit is integrated into damage mechanicsText or saving throw entry, not shown as separate effect
 
                 return effects.length > 0 ? (
-                 <div className="damage-formula-line">
-                  <div className="damage-effects-list">
-                   {effects.map((effect, index) => (
-                    <div key={`damage-${index}`} className="damage-effect-item">
-                     <div className="damage-effect">
-                      <span className="damage-effect-name">
-                       {effect.name}
-                      </span>
-                      {effect.description && effect.description !== effect.name && (
-                       <span className="damage-effect-description">
-                        {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
-                       </span>
-                      )}
-                      {/* Targeting/Range badges */}
-                      {effect.targeting && (
-                       <div className="damage-effect-targeting">
-                        {effect.targeting.range && (
-                         <span className="targeting-badge range-badge">
-                          {effect.targeting.range}
-                         </span>
-                        )}
-                        {effect.targeting.targeting && (
-                         <span className="targeting-badge targeting-info-badge">
-                          {effect.targeting.targeting}
-                         </span>
-                        )}
-                        {effect.targeting.restrictions && (
-                         <span className="targeting-badge restrictions-badge">
-                          {effect.targeting.restrictions}
-                         </span>
-                        )}
-                       </div>
-                      )}
-                     </div>
-                     {effect.mechanicsText && (
-                      <div className="damage-effect-details">
-                       <div className="damage-effect-mechanics">
-                        {effect.mechanicsText}
-                       </div>
-                      </div>
-                     )}
-                     {/* Conditional formulas */}
-                     {effect.conditionalFormulas && effect.conditionalFormulas.length > 0 && (
-                      <div className="damage-effect-details" style={{ marginTop: '4px', paddingTop: '4px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
-                       {effect.conditionalFormulas.map((cf, cfIndex) => {
-                        const formattedFormula = formatFormulaToPlainEnglish(cf.formula, 'damage');
-                        const damageTypeSuffix = getDamageTypeSuffix();
-                        // triggerName is already formatted with formatTriggerForConditionalDisplay, so it's already in "If..." format
-                        // Don't add another "If" if it already starts with "If"
-                        const triggerText = cf.triggerName.startsWith('If ') ? cf.triggerName : (cf.triggerName.startsWith('When ') ? cf.triggerName.replace('When ', 'If ') : `If ${cf.triggerName}`);
-                        return (
-                         <div key={cfIndex} className="damage-effect-mechanics" style={{ fontSize: '0.9em', marginTop: cfIndex > 0 ? '4px' : '0' }}>
-                          <strong>{triggerText}:</strong> {formattedFormula}{damageTypeSuffix}
+                 <div className="healing-effects" style={{ marginTop: '2px', marginBottom: '0px' }}>
+                  <div className="healing-effects-section">
+                   {/* Effect-specific trigger header */}
+                   <div className="damage-effects">
+                    <div className="damage-effects-section">
+                     <div className="damage-formula-line">
+                      <div className="damage-effects-list">
+                       {effects.map((effect, index) => (
+                        <div key={`damage-${index}`} className="damage-effect-item">
+                         <div className="damage-effect">
+                          <span className="damage-effect-name">
+                           {effect.name}
+                          </span>
+                          {effect.description && effect.description !== effect.name && (
+                           <span className="damage-effect-description">
+                            {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
+                           </span>
+                          )}
+                          {/* Targeting/Range badges */}
+                          {effect.targeting && (
+                           <div className="damage-effect-targeting">
+                            {effect.targeting.range && (
+                             <span className="targeting-badge range-badge">
+                              {effect.targeting.range}
+                             </span>
+                            )}
+                            {effect.targeting.targeting && (
+                             <span className="targeting-badge targeting-info-badge">
+                              {effect.targeting.targeting}
+                             </span>
+                            )}
+                            {effect.targeting.restrictions && (
+                             <span className="targeting-badge restrictions-badge">
+                              {effect.targeting.restrictions}
+                             </span>
+                            )}
+                           </div>
+                          )}
                          </div>
-                        );
-                       })}
+                         {effect.mechanicsText && (
+                          <div className="damage-effect-details">
+                           <div className="damage-effect-mechanics">
+                            {effect.mechanicsText}
+                           </div>
+                          </div>
+                         )}
+                         {/* Conditional formulas */}
+                         {effect.conditionalFormulas && effect.conditionalFormulas.length > 0 && (
+                          <div className="damage-effect-details" style={{ marginTop: '4px', paddingTop: '4px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
+                           {effect.conditionalFormulas.map((cf, cfIndex) => {
+                            const formattedFormula = formatFormulaToPlainEnglish(cf.formula, 'damage');
+                            const damageTypeSuffix = getDamageTypeSuffix();
+                            // triggerName is already formatted with formatTriggerForConditionalDisplay, so it's already in "If..." format
+                            // Don't add another "If" if it already starts with "If"
+                            const triggerText = cf.triggerName.startsWith('If ') ? cf.triggerName : (cf.triggerName.startsWith('When ') ? cf.triggerName.replace('When ', 'If ') : `If ${cf.triggerName}`);
+                            return (
+                             <div key={cfIndex} className="damage-effect-mechanics" style={{ fontSize: '0.9em', marginTop: cfIndex > 0 ? '4px' : '0' }}>
+                              <strong>{triggerText}:</strong> {formattedFormula}{damageTypeSuffix}
+                             </div>
+                            );
+                           })}
+                          </div>
+                         )}
+                        </div>
+                       ))}
                       </div>
-                     )}
+                     </div>
                     </div>
-                   ))}
+                   </div>
                   </div>
                  </div>
                 ) : null;
-               })()}
-              </div>
-             </div>
-            </div>
-           </div>
-          ) : (
-           <div className="damage-effects">
-            <div className="damage-effects-section">
-             {(() => {
-              const damageData = spell?.damageConfig;
-              if (!damageData) return null;
+              })() : (() => {
+               const damageData = spell?.damageConfig;
+               if (!damageData) return null;
 
-              const effects = [];
+               const effects = [];
 
               // Helper to get effect-specific triggers and conditional formulas
               const getEffectTriggersAndFormulas = (effectSubType) => {
@@ -1609,8 +1604,10 @@ const UnifiedSpellCard = ({
               // Note: Chance on hit is now integrated into instant damage mechanics text, not shown as separate effect
 
               return effects.length > 0 ? (
-               <div className="damage-formula-line">
-                <div className="damage-effects-list">
+               <div className="damage-effects">
+                <div className="damage-effects-section">
+                 <div className="damage-formula-line">
+                  <div className="damage-effects-list">
                    {effects.map((effect, index) => (
                     <div key={`damage-${index}`} className="damage-effect-item">
                      <div className="damage-effect">
@@ -1691,11 +1688,10 @@ const UnifiedSpellCard = ({
                  ))}
                 </div>
                </div>
-              ) : null;
-             })()}
-            </div>
-           </div>
-          ))}
+              </div>
+             </div>
+            ) : null;
+           })())}
 
           {/* Note Generation Display - Removed (now shown in header as resource cost) */}
 

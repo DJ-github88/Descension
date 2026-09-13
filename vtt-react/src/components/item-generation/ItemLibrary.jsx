@@ -601,6 +601,7 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
                     lockDC: itemToEdit.containerProperties?.lockDC || 15,
                     lockCode: itemToEdit.containerProperties?.lockCode || '',
                     gridSize: itemToEdit.containerProperties?.gridSize || { rows: 4, cols: 6 },
+                    shape: itemToEdit.containerProperties?.shape || null,
                     flavorText: itemToEdit.containerProperties?.flavorText || '',
                     maxAttempts: itemToEdit.containerProperties?.maxAttempts || 3,
                     failureAction: itemToEdit.containerProperties?.failureAction || 'none',
@@ -738,7 +739,11 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
                     lockType: containerData.lockType,
                     lockDC: containerData.lockDC,
                     lockCode: containerData.lockCode,
-                    gridSize: containerData.gridSize,
+                    gridSize: containerData.gridSize || {
+                        rows: parseInt(containerData.rows) || 4,
+                        cols: parseInt(containerData.cols) || 6
+                    },
+                    shape: containerData.containerProperties?.shape || containerData.shape,
                     items: items.find(item => item.id === editingContainerId)?.containerProperties?.items || [],
                     flavorText: containerData.flavorText,
                     maxAttempts: containerData.maxAttempts,
@@ -767,6 +772,7 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
                         rows: parseInt(containerData.rows) || 4,
                         cols: parseInt(containerData.cols) || 6
                     },
+                    shape: containerData.containerProperties?.shape || containerData.shape,
                     items: [],
                     flavorText: containerData.flavorText,
                     maxAttempts: containerData.maxAttempts,

@@ -1191,7 +1191,7 @@ const CharacterToken = ({
       let dropAllowed = true;
       if ((hasWalls || hasElevation) && dragStartPosition) {
         try {
-          const pathResult = gridSystem.findPath(dragStartPosition, snappedWorldPos, wallData, {}, { elevationData, rampData });
+          const pathResult = gridSystem.findPath(dragStartPosition, snappedWorldPos, wallData, {}, { elevationData, rampData, tokenSize: 1 });
           dropAllowed = !pathResult?.blocked;
         } catch (pathErr) {
           console.warn('Wall path check failed, allowing drop:', pathErr);

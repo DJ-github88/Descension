@@ -30,6 +30,13 @@
     z-index: 10 !important;
 }
 
+/* Tiles that only host connections/portals (which render in the projected
+   portal layer) keep no visible frame, including on hover. */
+.tile-content.portal-only-tile.hovered {
+    transform: none;
+    box-shadow: none;
+}
+
 /* Environmental Objects - Full tile rendering */
 .environmental-object {
     position: absolute;

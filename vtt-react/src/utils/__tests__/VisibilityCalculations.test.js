@@ -1,4 +1,4 @@
-import { calculateVisibilityPolygon, isPointInPolygon, calculateVisibleTiles, feetToTiles } from '../VisibilityCalculations';
+import { calculateVisibilityPolygon, isPointInPolygon, calculateVisibleTiles, feetToTiles, isWallBlocking, isWallBlockingMovement } from '../VisibilityCalculations';
 
 describe('VisibilityCalculations with visibility-polygon', () => {
   const gridSize = 50;
@@ -55,8 +55,29 @@ describe('VisibilityCalculations with visibility-polygon', () => {
     expect(isPointInPolygon(575, 500, openPoly)).toBe(true);
   });
 
-  test('MemorySnapshotManager isPointInPolygon contract test', () => {
-    // MemorySnapshotManager relies on isPointInPolygon(tokenPos, poly)
+  test('movement blocking differs from sight blocking', () => {
+    const windowWall = { '1,0,1,1': { type: 'glass_window' } };
+    expect(isWallBlocking(0, 0, 1, 0, windowWall)).toBe(false);
+    expect(isWallBlockingMovement(0, 0, 1, 0, windowWall)).toBe(true);
+
+    const barrier = { '1,0,1,1': { type: 'magical_barrier' } };
+    expect(isWallBlocking(0, 0, 1, 0, barrier)).toBe(false);
+    expect(isWallBlockingMovement(0, 0, 1, 0, barrier)).toBe(true);
+
+    const openDoor = { '1,0,1,1': { type: 'wooden_door', state: 'open' } };
+    expect(isWallBlockingMovement(0, 0, 1, 0, openDoor)).toBe(false);
+
+    const closedDoor = { '1,0,1,1': { type: 'wooden_door', state: 'closed' } };
+    expect(isWallBlockingMovement(0, 0, 1, 0, closedDoor)).toBe(true);
+
+    const openWindow = { '1,0,1,1': { type: 'open_window' } };
+    expect(isWallBlockingMovement(0, 0, 1, 0, openWindow)).toBe(false);
+
+    const legacyWall = { '1,0,1,1': 'stone_wall' };
+    expect(isWallBlockingMovement(0, 0, 1, 0, legacyWall)).toBe(true);
+  });
+
+  test('MemorySnapshotManager isPointInPolygon contract test', () => {    // MemorySnapshotManager relies on isPointInPolygon(tokenPos, poly)
     const poly = [
       { x: 0, y: 0 },
       { x: 100, y: 0 },

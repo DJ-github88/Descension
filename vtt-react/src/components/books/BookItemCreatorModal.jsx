@@ -197,7 +197,7 @@ const BookItemCreatorModal = ({
                   const norm = normalizeBookItemData(item);
                   const isSelected = selectedItem && (selectedItem.id === item.id || selectedItem.name === item.name);
                   const qLower = norm.quality.toLowerCase();
-                  const qColor = RARITY_COLORS[qLower]?.text || '#f0e6d2';
+                  const qAccent = RARITY_COLORS[qLower]?.border || '#a08c70';
 
                   return (
                     <div
@@ -221,12 +221,15 @@ const BookItemCreatorModal = ({
                       </div>
 
                       <div className="row-info">
-                        <div className="row-name" style={{ color: qColor }}>
+                        <div className="row-name">
                           {norm.name}
                         </div>
                         <div className="row-meta">
                           <span className="row-type">{norm.subtype || norm.type}</span>
-                          <span className="row-quality" style={{ color: qColor }}>• {norm.quality}</span>
+                          <span className="row-quality">
+                            <span className="row-quality-dot" style={{ backgroundColor: qAccent }}></span>
+                            {norm.quality}
+                          </span>
                         </div>
                       </div>
 

@@ -21,6 +21,8 @@ const parseInlineTokens = (rawText, onEntityHover, onEntityLeave, onEntityClick)
     .replace(/â€”/g, '—')
     .replace(/â€™/g, "'")
     .replace(/â€œ/g, '"')
+    .replace(/â€¢/g, '•')
+    .replace(/â—†/g, '◆')
     .replace(/â€/g, '"');
 
   const regex = /(<LoreLink termId="([^"]+)">([\s\S]*?)<\/LoreLink>|\[\[.*?\]\]|@[a-zA-Z0-9_-]+|\*\*.*?\*\*|\*.*?\*|<u>.*?<\/u>|__.*?__|~~.*?~~|==.*?==|`.*?`)/g;

@@ -2,11 +2,15 @@ import {
   WALL_BASE_SINK_WORLD,
   buildWallRenderItem,
   collectWallNodes,
+  computeWallFootprint,
   nodeConnectedSolidCount,
   getWallBaseWorldZ,
   getWallHeightWorld,
+  getWallThickness,
   getWallWorldEndpoints,
-  parseWallKey
+  parseWallKey,
+  wallJoinExtension,
+  wallPatternDescriptor
 } from '../WallGeometry';
 import { getProjectionTransform } from '../ProjectionSystem';
 
@@ -87,6 +91,8 @@ describe('WallGeometry', () => {
     expect(base.start).toBe(100);
     expect(base.end).toBe(100);
     expect(base.z).toBe(100);
+    expect(base.lowStart).toBe(0);
+    expect(base.lowEnd).toBe(0);
 
     const stepped = getWallBaseWorldZ({
       parsed: parseWallKey('0,0,2,0'),
@@ -98,6 +104,8 @@ describe('WallGeometry', () => {
     expect(stepped.start).toBe(100);
     expect(stepped.end).toBe(0);
     expect(stepped.z).toBe(100);
+    expect(stepped.lowStart).toBe(0);
+    expect(stepped.lowEnd).toBe(0);
   });
 
   it('honors an explicit baseElevation override', () => {
@@ -111,6 +119,8 @@ describe('WallGeometry', () => {
     });
     expect(base.start).toBe(150);
     expect(base.end).toBe(150);
+    expect(base.lowStart).toBe(150);
+    expect(base.lowEnd).toBe(150);
   });
 
   it('resolves wall endpoints to world corners', () => {
@@ -181,6 +191,30 @@ describe('WallGeometry', () => {
     expect(item.window.breastNear).toHaveLength(4);
     expect(item.window.sillZ).toBeUndefined();
     expect(item.window.boundaries.sillZ).toBeLessThan(item.window.boundaries.headZ);
+    // Protruding sill with a front lip + shadow, and jamb contact shadows
+    expect(item.window.sillTop).toHaveLength(4);
+    expect(item.window.sillFront).toHaveLength(4);
+    expect(item.window.sillShadow).toHaveLength(4);
+    expect(item.window.aoStart).toHaveLength(4);
+    expect(item.window.aoEnd).toHaveLength(4);
+  });
+
+  it('uses the host wall color for door/window masonry but keeps feature material', () => {
+    const gridSystem = makeGridSystem();
+    const item = buildWallRenderItem({
+      key: '0,0,1,0',
+      wall: { type: 'glass_window' },
+      typeData: { color: '#87CEEB', isWindow: true, blocksLineOfSight: false },
+      gridSystem,
+      gridType: 'square',
+      transform: buildTransform(),
+      elevationData: {},
+      patternType: 'brick_wall',
+      hostHeightWorld: 90,
+      hostColor: '#B22222'
+    });
+    expect(item.color).toBe('#87CEEB');
+    expect(item.masonryColor).toBe('#B22222');
   });
 
   it('builds barred and slit window variants', () => {
@@ -238,6 +272,17 @@ describe('WallGeometry', () => {
     expect(open.door.leaf).toBeNull();
     expect(open.door.swing).toBeTruthy();
     expect(open.door.swing.arc.length).toBeGreaterThan(4);
+    // Open leaf is a 3D slab: near/far/top + both edge faces, floor shadow,
+    // iron details, and world anchors used for painter-depth sorting.
+    expect(open.door.swing.near).toHaveLength(4);
+    expect(open.door.swing.far).toHaveLength(4);
+    expect(open.door.swing.top).toHaveLength(4);
+    expect(open.door.swing.edgeFree).toHaveLength(4);
+    expect(open.door.swing.edgeHinge).toHaveLength(4);
+    expect(open.door.swing.shadow).toHaveLength(4);
+    expect(open.door.swing.hinges).toHaveLength(2);
+    expect(open.door.swing.worldHinge).toBeTruthy();
+    expect(open.door.swing.worldEnd).toBeTruthy();
   });
 
   it('extends wall ends into connected solid walls for seamless corners', () => {
@@ -291,5 +336,162 @@ describe('WallGeometry', () => {
     const midNode = nodes.get('50,0');
     expect(nodeConnectedSolidCount(endNode, '0,0,1,0')).toBeGreaterThan(0);
     expect(nodeConnectedSolidCount(midNode, '1,0,2,0')).toBe(1);
+  });
+});
+
+describe('WallGeometry joins', () => {
+  const HALF = getWallThickness(50) / 2;
+
+  const makeNode = (vectors) => ({
+    worldX: 0,
+    worldY: 0,
+    unitVectors: vectors.map(([x, y, key]) => ({ x, y, key, isSolid: true }))
+  });
+
+  const hexDir = (degrees) => {
+    const rad = (degrees * Math.PI) / 180;
+    return { x: Math.cos(rad), y: Math.sin(rad) };
+  };
+
+  it('keeps wall thickness independent of zoom level', () => {
+    expect(getWallThickness(50, { effectiveZoom: 1 })).toBe(7.5);
+    expect(getWallThickness(50, { effectiveZoom: 4 })).toBe(7.5);
+    expect(getWallThickness(100)).toBe(15);
+  });
+
+  it('extends connected ends by the exact miter projection at 90 degrees', () => {
+    const node = makeNode([[0, 1, 'other']]);
+    const extension = wallJoinExtension({
+      node,
+      excludeKey: 'this',
+      dirX: 1,
+      dirY: 0,
+      half: HALF
+    });
+    expect(extension).toBeCloseTo(HALF, 6);
+  });
+
+  it('miters 120-degree hex joins to half / tan(60), not half', () => {
+    const node = makeNode([
+      [hexDir(120).x, hexDir(120).y, 'other']
+    ]);
+    const extension = wallJoinExtension({
+      node,
+      excludeKey: 'this',
+      dirX: 1,
+      dirY: 0,
+      half: HALF
+    });
+    expect(extension).toBeCloseTo(HALF / Math.tan(Math.PI / 3), 6);
+    expect(extension).toBeLessThan(HALF);
+  });
+
+  it('miters all three arms evenly at a hex Y junction', () => {
+    const dirs = [0, 120, 240].map(hexDir);
+    for (let i = 0; i < 3; i++) {
+      const node = makeNode(
+        dirs.filter((_, index) => index !== i).map((d, index) => [d.x, d.y, `wall${index}`])
+      );
+      const extension = wallJoinExtension({
+        node,
+        excludeKey: 'self',
+        dirX: dirs[i].x,
+        dirY: dirs[i].y,
+        half: HALF
+      });
+      expect(extension).toBeCloseTo(HALF / Math.tan(Math.PI / 3), 6);
+    }
+  });
+
+  it('builds a non-self-intersecting footprint for a free wall end', () => {
+    const item = {
+      key: 'free',
+      worldStart: { x: 0, y: 0 },
+      worldEnd: { x: 50, y: 0 }
+    };
+    const footprint = computeWallFootprint({ item, startNode: null, endNode: null, half: HALF });
+    expect(footprint).toHaveLength(4);
+    expect(footprint[0]).toEqual([0, HALF]);
+    expect(footprint[1]).toEqual([50, HALF]);
+    expect(footprint[2]).toEqual([50, -HALF]);
+    expect(footprint[3]).toEqual([0, -HALF]);
+  });
+
+  it('places 120-degree hex footprint corners on the true stroke boundary', () => {
+    const item = {
+      key: 'A',
+      worldStart: { x: 0, y: 0 },
+      worldEnd: { x: 50, y: 0 }
+    };
+    const dirB = hexDir(120);
+    const node = makeNode([[dirB.x, dirB.y, 'B']]);
+    const footprint = computeWallFootprint({ item, startNode: node, endNode: null, half: HALF });
+
+    const distanceToWallB = (x, y) => Math.abs(x * dirB.y - y * dirB.x);
+    for (const [x, y] of footprint) {
+      const strokeDistance = Math.min(Math.abs(y), distanceToWallB(x, y));
+      expect(strokeDistance).toBeLessThanOrEqual(HALF + 1e-9);
+    }
+
+    const miterDistance = HALF / Math.sin(Math.PI / 3);
+    for (const [x, y] of [footprint[0], footprint[3]]) {
+      expect(Math.hypot(x, y)).toBeCloseTo(miterDistance, 6);
+    }
+  });
+
+  it('uses the mitered extension when nodes are supplied to buildWallRenderItem', () => {
+    const gridSystem = makeGridSystem();
+    const dirB = hexDir(-60);
+    const node = {
+      worldX: 50,
+      worldY: 0,
+      unitVectors: [
+        { x: dirB.x, y: dirB.y, key: '1,0,1,1', isSolid: true }
+      ]
+    };
+    const item = buildWallRenderItem({
+      key: '0,0,1,0',
+      wall: WALL,
+      typeData: STONE,
+      gridSystem,
+      gridType: 'square',
+      transform: buildTransform(),
+      elevationData: {},
+      connectedEnd: true,
+      endNode: node
+    });
+    const expected = getWallThickness(50) / 2 / Math.tan(Math.PI / 3);
+    expect(item.end.x).toBeCloseTo(50 + expected, 6);
+    expect(item.worldEnd.x).toBeCloseTo(50, 6);
+  });
+
+  it('rejects a zero-length direction for wall patterns', () => {
+    const descriptor = wallPatternDescriptor({
+      typeId: 'stone_wall',
+      ux: 0,
+      uy: 0,
+      gridSize: 50,
+      transform: buildTransform(),
+      color: '#8B7355'
+    });
+    expect(descriptor).toBeNull();
+  });
+
+  it('builds non-degenerate pattern matrices for axis-aligned directions', () => {
+    const transform = buildTransform({ viewRotation: 45 });
+    for (const [ux, uy] of [[1, 0], [0, 1], [-1, 0], [0, -1]]) {
+      const descriptor = wallPatternDescriptor({
+        typeId: 'stone_wall',
+        ux,
+        uy,
+        gridSize: 50,
+        transform,
+        color: '#8B7355'
+      });
+      expect(descriptor).toBeTruthy();
+      const { a, b, c, d } = descriptor.side.matrix;
+      expect(Math.hypot(a, b)).toBeGreaterThan(1e-6);
+      expect(Math.hypot(c, d)).toBeGreaterThan(1e-6);
+    }
   });
 });

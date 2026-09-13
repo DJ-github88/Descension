@@ -47,6 +47,7 @@ const StylusDrawingCanvas = forwardRef(({
   defaultColor = '#1f140e',
   defaultBg = 'parchment',
   allowFullscreen = true,
+  allowExport = true,
   title = '',
   className = ''
 }, ref) => {
@@ -709,15 +710,17 @@ const StylusDrawingCanvas = forwardRef(({
             </>
           )}
 
-          <button
-            type="button"
-            className="stylus-header-btn"
-            onClick={handleExportPNG}
-            title="Download PNG"
-            aria-label="Download PNG image"
-          >
-            <i className="fas fa-download"></i>
-          </button>
+          {allowExport && (
+            <button
+              type="button"
+              className="stylus-header-btn"
+              onClick={handleExportPNG}
+              title="Download PNG"
+              aria-label="Download PNG image"
+            >
+              <i className="fas fa-download"></i>
+            </button>
+          )}
 
           {allowFullscreen && (
             <button

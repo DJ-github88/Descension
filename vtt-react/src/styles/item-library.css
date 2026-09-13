@@ -744,45 +744,9 @@ body.dragging .item-grid .item-card:hover {
     max-width: 80%;
 }
 
-.controls {
-    display: flex;
-    gap: 8px;
-    padding: 10px;
-    background: linear-gradient(to bottom, #e6dcc6, #d5cbb0);
-    border-top: 1px solid #a08c70;
-    justify-content: center;
-}
-
-.tool-button {
-    background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-    border: 1px solid #3a3a3a;
-    color: #f0e6d2;
-    border-radius: 3px;
-    padding: 6px 12px;
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 60px;
-}
-
-.tool-button:hover {
-    background: linear-gradient(to bottom, #8a4b3e, #7a3b2e);
-    border-color: #3a3a3a;
-    color: #fff;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
-}
-
-.tool-button.active {
-    background: linear-gradient(to bottom, #8a4b3e, #7a3b2e);
-    color: #f0e6d2;
-    border-bottom: 1px solid #f0e6d2;
-    font-weight: bold;
-}
+/* Legacy bare `.controls` / `.tool-button` styles removed: they leaked app-wide
+   and fought the designer theme in item-generation.css depending on CSS load
+   order. The Item Designer owns those styles in item-generation.css now. */
 
 .generate-button {
     margin-left: auto;
@@ -1531,61 +1495,14 @@ body.dragging .item-grid .item-card:hover {
     box-sizing: border-box;
 }
 
-/* Ensure ItemGeneration component styles work properly within the designer */
+/* Ensure ItemGeneration component styles work properly within the designer.
+   Control/button theming intentionally lives in item-generation.css so the
+   designer looks identical in the Armory window and the character sheet. */
 .item-designer-container .item-generation {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    width: 100%;
-}
-
-.item-designer-container .controls {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 24px;
-    padding: 16px;
-    background: rgba(213, 203, 176, 0.4);
-    border-radius: 8px;
-    border: 2px solid #a08c70;
-    flex-shrink: 0;
-    justify-content: center;
-    flex-wrap: wrap;
-    width: 100%;
-    width: 100%;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Override tool-button styles specifically for the item designer */
-.item-designer-container .tool-button {
-    padding: 8px 16px;
-    background: linear-gradient(to bottom, #d5cbb0, #c5b8a0);
-    border: 1px solid #a08c70;
-    border-radius: 4px;
-    color: #3a3a3a;
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    min-width: auto;
-}
-
-.item-designer-container .tool-button:hover {
-    background: linear-gradient(to bottom, #e0d5ba, #d0c3b0);
-    border-color: #7a3b2e;
-    color: #3a3a3a;
-}
-
-.item-designer-container .tool-button.active {
-    background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-    color: #f0e6d2;
-    border-color: #f0e6d2;
-}
-
-.item-designer-container .tool-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
 }
 
 /* Search and Filter Styling - Legacy (kept for backwards compatibility) */

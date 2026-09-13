@@ -4,6 +4,8 @@
  * This file contains all container items (bags, pouches, chests, etc.)
  */
 
+import { containerShapeFromCells } from '../../../utils/containerShapeUtils';
+
 export const CONTAINERS = [
   {
     id: 'satchel',
@@ -20,6 +22,11 @@ export const CONTAINERS = [
     rotation: 0,
     containerProperties: {
       gridSize: { rows: 3, cols: 4 },
+      shape: containerShapeFromCells([
+        [false, true, true, false],
+        [true, true, true, true],
+        [true, true, false, true]
+      ]),
       items: [],
       isLocked: false,
       lockType: 'none',
@@ -156,6 +163,10 @@ export const CONTAINERS = [
     rotation: 0,
     containerProperties: {
       gridSize: { rows: 2, cols: 3 },
+      shape: containerShapeFromCells([
+        [false, true, true],
+        [true, true, true]
+      ]),
       items: [],
       isLocked: false,
       lockType: 'none',
@@ -190,6 +201,12 @@ export const CONTAINERS = [
     rotation: 0,
     containerProperties: {
       gridSize: { rows: 4, cols: 5 },
+      shape: containerShapeFromCells([
+        [false, true, true, true, false],
+        [true, true, true, true, true],
+        [true, true, true, true, true],
+        [false, true, true, true, false]
+      ]),
       items: [],
       isLocked: false,
       lockType: 'none',
@@ -224,6 +241,12 @@ export const CONTAINERS = [
     rotation: 0,
     containerProperties: {
       gridSize: { rows: 4, cols: 5 },
+      shape: containerShapeFromCells([
+        [false, true, true, true, true],
+        [true, true, true, true, true],
+        [true, true, true, true, true],
+        [true, false, false, false, true]
+      ]),
       items: [],
       isLocked: false,
       lockType: 'none',
@@ -258,6 +281,10 @@ export const CONTAINERS = [
     rotation: 0,
     containerProperties: {
       gridSize: { rows: 2, cols: 3 },
+      shape: containerShapeFromCells([
+        [false, true, true],
+        [true, true, false]
+      ]),
       items: [],
       isLocked: false,
       lockType: 'none',
@@ -292,6 +319,13 @@ export const CONTAINERS = [
     rotation: 0,
     containerProperties: {
       gridSize: { rows: 5, cols: 6 },
+      shape: containerShapeFromCells([
+        [false, true, true, true, true, false],
+        [true, true, true, true, true, true],
+        [true, true, true, true, true, true],
+        [true, false, true, true, false, true],
+        [true, false, false, false, false, true]
+      ]),
       items: [],
       isLocked: false,
       lockType: 'none',

@@ -355,6 +355,10 @@ function registerGmActionHandlers(ctx) {
         logger.info(`[player_use_connection] ${player.name} transferred ${previousMapId} -> ${targetMapId} via connection ${connectionId || 'explicit map'}`);
       } else {
         logger.warn(`[player_use_connection] Could not resolve destination (connectionId=${connectionId || 'none'})`);
+        socket.emit('player_connection_failed', {
+          connectionId,
+          error: `Could not resolve destination for connection ${connectionId || 'none'}`
+        });
       }
 
     } catch (error) {

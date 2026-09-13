@@ -143,12 +143,12 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    gap: 12px;
+    gap: 12px 16px;
     padding: 10px 16px;
-    background: linear-gradient(180deg, #24140c 0%, #150a06 100%);
-    border: 1.5px solid #8b6b3e;
+    background: linear-gradient(180deg, #33200f 0%, #1c0f07 100%);
+    border: 1px solid #a8843f;
     border-radius: 8px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(212, 175, 55, 0.25);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 215, 0, 0.18);
     flex-wrap: wrap;
     box-sizing: border-box;
 }
@@ -160,82 +160,106 @@
 }
 
 .designer-title {
-    color: #ffd700;
-    font-size: 16px;
+    color: #f0c75e;
+    font-size: 15px;
     font-weight: 700;
     margin: 0;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.85);
     font-family: 'Cinzel', serif;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
+    white-space: nowrap;
 }
 
 .grid-info-badge {
-    color: #fef08a;
-    font-size: 11px;
+    color: #f7df9a;
+    font-size: 10.5px;
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-    background: rgba(212, 175, 55, 0.15);
-    border: 1px solid rgba(212, 175, 55, 0.35);
-    padding: 2px 8px;
-    border-radius: 10px;
+    background: rgba(240, 199, 94, 0.12);
+    border: 1px solid rgba(240, 199, 94, 0.4);
+    padding: 3px 9px;
+    border-radius: 999px;
     display: inline-flex;
     align-items: center;
+    white-space: nowrap;
 }
 
-.controls {
+/* Scoped to the designer header so bare `.controls` rules elsewhere can never
+   repaint this row (load-order-proof). */
+.designer-header-bar .controls {
     display: flex;
-    gap: 6px;
+    gap: 10px;
     flex-shrink: 0;
     justify-content: flex-end;
     align-items: center;
     flex-wrap: wrap;
 }
 
+.designer-control-group {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+}
+
+.designer-control-divider {
+    width: 1px;
+    align-self: stretch;
+    min-height: 22px;
+    margin: 0 2px;
+    background: linear-gradient(180deg, transparent 0%, rgba(240, 199, 94, 0.45) 50%, transparent 100%);
+}
+
 /* Tool button styles for item designer */
 .tool-button {
-    padding: 6px 14px;
-    background: linear-gradient(180deg, #3d2415 0%, #24140c 100%);
-    border: 1px solid #8b6b3e;
-    border-radius: 4px;
-    color: #e6ccb2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    background: linear-gradient(180deg, #4c2c17 0%, #2f1a0c 100%);
+    border: 1px solid #a8843f;
+    border-radius: 6px;
+    color: #f3e2c4;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
     font-family: 'Cinzel', serif;
     font-weight: 700;
-    font-size: 12px;
-    min-width: 80px;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(212, 175, 55, 0.2);
+    font-size: 11.5px;
+    min-width: 88px;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.9);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 215, 0, 0.16);
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    white-space: nowrap;
 }
 
 .tool-button:hover:not(:disabled) {
-    background: linear-gradient(180deg, #54331e 0%, #3a1e10 100%);
-    border-color: #ffd700;
-    color: #ffd700;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 215, 0, 0.3);
+    background: linear-gradient(180deg, #70411f 0%, #47270f 100%);
+    border-color: #f0c75e;
+    color: #ffe9a8;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 215, 0, 0.25);
 }
 
 .tool-button.active {
-    background: linear-gradient(180deg, #8b5a2b 0%, #5a3d1c 100%);
-    border-color: #ffd700;
-    color: #ffffff;
-    text-shadow: 0 1px 2px #000;
-    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6), 0 0 8px rgba(212, 175, 55, 0.4);
-    transform: translateY(1px);
+    background: linear-gradient(180deg, #f2d27a 0%, #c9982b 100%);
+    border-color: #ffeeb0;
+    color: #2a1708;
+    text-shadow: none;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 0 10px rgba(240, 199, 94, 0.35);
 }
 
 .tool-button:disabled {
-    background: #1c0e08;
-    border-color: rgba(139, 107, 62, 0.2);
-    color: rgba(230, 204, 178, 0.3);
+    /* `!important` needed to beat the global `button:disabled` rule in item-wizard.css */
+    background: #241209 !important;
+    border-color: rgba(168, 132, 63, 0.28);
+    color: rgba(243, 226, 196, 0.45);
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: 1 !important;
     box-shadow: none;
+    text-shadow: none;
 }
 
 .preview-grid {
@@ -243,14 +267,13 @@
     flex-direction: column;
     gap: var(--tile-gap);
     align-self: center;
-    background: #140905;
-    padding: 12px;
-    border-radius: 8px;
-    border: 2px solid #8b6b3e;
+    background: #2a1509;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #a8843f;
     box-shadow:
-        0 12px 30px rgba(0, 0, 0, 0.7),
-        inset 0 0 16px rgba(0, 0, 0, 0.8),
-        0 0 0 1px rgba(212, 175, 55, 0.2);
+        0 8px 20px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 215, 0, 0.08);
     position: relative;
     overflow: visible;
     width: fit-content;
@@ -258,19 +281,7 @@
     min-width: fit-content;
     box-sizing: content-box;
     margin: 8px auto;
-    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.preview-grid::after {
-    content: '';
-    position: absolute;
-    top: -4px;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    border-radius: 10px;
-    pointer-events: none;
+    transition: box-shadow 0.3s ease;
 }
 
 .grid-instructions {
@@ -278,16 +289,18 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(20, 9, 5, 0.92);
-    color: #fef08a;
-    padding: 10px 18px;
+    background: linear-gradient(180deg, #f8efdc 0%, #ecdfc2 100%);
+    color: #4a2a14;
+    padding: 9px 18px;
     border-radius: 6px;
-    border: 1.5px solid #d4af37;
-    font-family: 'Crimson Text', serif;
-    font-size: 14px;
+    border: 1px solid #a8843f;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 13px;
     font-weight: 600;
     text-align: center;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+    line-height: 1.35;
+    max-width: 80%;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.6);
     pointer-events: none;
     z-index: 10;
 }
@@ -301,32 +314,39 @@
 .preview-tile {
     width: var(--tile-size);
     height: var(--tile-size);
-    background: #1f110a;
-    border: 1.5px solid rgba(139, 107, 62, 0.3);
+    background: linear-gradient(180deg, #402412 0%, #2c1709 100%);
+    border: 1px solid rgba(168, 132, 63, 0.45);
     border-radius: 4px;
-    transition: all 0.18s ease;
+    transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
     cursor: pointer;
     position: relative;
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.7);
+    box-shadow: inset 0 1px 0 rgba(255, 220, 150, 0.07);
     flex-shrink: 0;
+    box-sizing: border-box;
 }
 
 .preview-tile:hover {
-    border-color: #d4af37;
-    background: #2e1a0e;
-    transform: scale(1.04);
-    box-shadow: 0 0 8px rgba(212, 175, 55, 0.4), inset 0 1px 3px rgba(255, 215, 0, 0.2);
+    border-color: #f0c75e;
+    background: linear-gradient(180deg, #56331a 0%, #3b2110 100%);
+    box-shadow: 0 0 0 1px rgba(240, 199, 94, 0.45), 0 2px 6px rgba(0, 0, 0, 0.4);
     z-index: 2;
 }
 
 .preview-tile.selected {
-    background: linear-gradient(145deg, #ffd700 0%, #d4af37 50%, #b8860b 100%);
+    background: linear-gradient(145deg, #ffe08a 0%, #e3b64a 55%, #c9982b 100%);
     border-color: #fff4cc;
-    box-shadow: 
-        0 0 14px rgba(255, 215, 0, 0.75),
-        inset 0 1px 3px rgba(255, 255, 255, 0.7);
-    transform: scale(1.04);
+    box-shadow: 0 0 12px rgba(240, 199, 94, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.65);
     z-index: 3;
+}
+
+/* The grid opts out of window dragging (`.window-no-drag`), whose generic
+   `cursor: auto` would otherwise win; keep the tile affordances explicit. */
+.preview-grid .preview-tile {
+    cursor: pointer;
+}
+
+.preview-grid.draw-mode .preview-tile {
+    cursor: crosshair;
 }
 
 .item-form {
@@ -393,7 +413,7 @@
         --tile-gap: 3px;
     }
 
-    .controls {
+    .designer-header-bar .controls {
         max-width: 90%;
     }
 }
@@ -404,14 +424,14 @@
         --tile-gap: 3px;
     }
 
-    .controls {
+    .designer-header-bar .controls {
         max-width: 95%;
     }
 
     .tool-button {
         min-width: 80px;
-        padding: 10px 16px;
-        font-size: 13px;
+        padding: 9px 14px;
+        font-size: 11px;
     }
 
     .preview-grid {
@@ -426,14 +446,14 @@
         padding: 12px;
     }
 
-    .controls {
+    .designer-header-bar .controls {
         gap: 6px;
     }
 
     .tool-button {
-        min-width: 70px;
-        padding: 8px 12px;
-        font-size: 12px;
+        min-width: 68px;
+        padding: 8px 10px;
+        font-size: 10.5px;
     }
 
     .designer-header h2 {

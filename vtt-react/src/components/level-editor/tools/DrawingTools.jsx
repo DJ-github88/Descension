@@ -3,10 +3,27 @@ import { getIconUrl } from '../../../utils/assetManager';
 import './styles/DrawingTools.css';
 
 const DrawingTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) => {
+    // Stored opacity is a 0-1 fraction; the slider works in percent (min 10).
+    // Legacy percentage values are tolerated, and decayed fractions (< 0.1 are
+    // not reachable from the slider) are treated as corrupt and reset to full.
+    const opacityToPercent = (value) => {
+        if (typeof value !== 'number' || !Number.isFinite(value)) return 100;
+        const percent = value > 1 ? value : value * 100;
+        if (percent < 10) return 100;
+        return Math.min(100, Math.round(percent));
+    };
+
+    // Local slider value (percent) -> store value (0-1 fraction), clamped to
+    // the valid slider range so a stale local state cannot decay the opacity.
+    const percentToOpacity = (percent) => {
+        if (typeof percent !== 'number' || !Number.isFinite(percent) || percent < 10) return 1;
+        return Math.min(1, percent / 100);
+    };
+
     const [strokeColor, setStrokeColor] = useState(settings.strokeColor || '#000000');
     const [fillColor, setFillColor] = useState(settings.fillColor || 'transparent');
     const [strokeWidth, setStrokeWidth] = useState(settings.strokeWidth || 2);
-    const [opacity, setOpacity] = useState(settings.opacity || 100);
+    const [opacity, setOpacity] = useState(() => opacityToPercent(settings.opacity));
 
     // Text theme presets
     const getTextThemeSettings = (theme) => {
@@ -191,7 +208,7 @@ const DrawingTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
             strokeColor,
             fillColor,
             strokeWidth,
-            opacity: opacity / 100
+            opacity: percentToOpacity(opacity)
         });
     };
 
@@ -274,7 +291,7 @@ const DrawingTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
             strokeColor: color,
             fillColor,
             strokeWidth,
-            opacity: opacity / 100
+            opacity: percentToOpacity(opacity)
         });
     };
 
@@ -284,7 +301,7 @@ const DrawingTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
             strokeColor,
             fillColor: color,
             strokeWidth,
-            opacity: opacity / 100
+            opacity: percentToOpacity(opacity)
         });
     };
 
@@ -294,7 +311,7 @@ const DrawingTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
             strokeColor,
             fillColor,
             strokeWidth: width,
-            opacity: opacity / 100
+            opacity: percentToOpacity(opacity)
         });
     };
 
@@ -304,7 +321,7 @@ const DrawingTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
             strokeColor,
             fillColor,
             strokeWidth,
-            opacity: newOpacity / 100
+            opacity: percentToOpacity(newOpacity)
         });
     };
 

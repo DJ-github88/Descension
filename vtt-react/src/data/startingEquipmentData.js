@@ -13,6 +13,7 @@
  */
 
 import { ALL_CLASS_EQUIPMENT } from './equipment/classEquipment';
+import { containerShapeFromCells } from '../utils/containerShapeUtils';
 import { ALL_RACE_EQUIPMENT } from './equipment/raceEquipment';
 import { ALL_BACKGROUND_EQUIPMENT } from './equipment/backgroundEquipment';
 
@@ -192,6 +193,12 @@ export const UNIVERSAL_STARTING_ITEMS = [
     containerProperties: {
       isLocked: false,
       gridSize: { rows: 4, cols: 4 },
+      shape: containerShapeFromCells([
+        [false, true, true, true],
+        [true, true, true, true],
+        [true, true, true, true],
+        [true, false, false, true]
+      ]),
       items: []
     },
     availableFor: {
@@ -214,6 +221,10 @@ export const UNIVERSAL_STARTING_ITEMS = [
     containerProperties: {
       isLocked: false,
       gridSize: { rows: 2, cols: 2 },
+      shape: containerShapeFromCells([
+        [false, true],
+        [true, true]
+      ]),
       items: []
     },
     availableFor: {
@@ -1433,6 +1444,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
     containerProperties: {
       isLocked: false,
       gridSize: { rows: 3, cols: 3 },
+      shape: containerShapeFromCells([
+        [false, true, true],
+        [true, true, true],
+        [false, true, true]
+      ]),
       items: []
     },
     availableFor: {

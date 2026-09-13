@@ -86,6 +86,42 @@ describe('GridPathfinder & D&D 5/10/5 Distance Rules', () => {
       expect(result.path[result.path.length - 1]).toEqual({ x: 2, y: 0 });
     });
 
+    test('windows block movement even though they allow vision', () => {
+      const wallData = {
+        '1,-1,1,1': { type: 'glass_window' }
+      };
+
+      const result = findGridPath(0, 0, 2, 0, wallData);
+      expect(result.blocked).toBeFalsy();
+      const blockedEdges = new Set(['0,-1>1,-1', '1,-1>0,-1', '0,0>1,0', '1,0>0,0']);
+      const crossesWindow = result.path.some((p, i) => {
+        const next = result.path[i + 1];
+        return next ? blockedEdges.has(`${p.x},${p.y}>${next.x},${next.y}`) : false;
+      });
+      expect(crossesWindow).toBe(false);
+      expect(result.path.length).toBeGreaterThan(2);
+    });
+
+    test('open windows allow movement through the frame', () => {
+      const wallData = {
+        '1,-1,1,1': { type: 'open_window' }
+      };
+
+      const result = findGridPath(0, 0, 2, 0, wallData);
+      expect(result.blocked).toBeFalsy();
+      expect(result.path[result.path.length - 1]).toEqual({ x: 2, y: 0 });
+    });
+
+    test('magical barriers block movement but not vision', () => {
+      const wallData = {
+        '1,-1,1,1': { type: 'magical_barrier' }
+      };
+
+      const result = findGridPath(0, 0, 2, 0, wallData);
+      expect(result.blocked).toBeFalsy();
+      expect(result.path.length).toBeGreaterThan(2);
+    });
+
     test('flags path as blocked when completely enclosed', () => {
       const wallData = {
         '4,4,6,4': { type: 'stone_wall', state: 'closed' },

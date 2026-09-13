@@ -618,6 +618,15 @@ const TileOverlay = () => {
       }
     }
 
+    const destMapId = targetConnection.mapId;
+    const mapStoreState = useMapStore.getState();
+    const destMap = (mapStoreState.maps || []).find(m => m.id === destMapId);
+    if (!destMap && !targetConnection.isExploration) {
+      console.warn(`⚠️ [Connection] Destination map ${destMapId} does not exist in mapStore`);
+    } else if (destMap && !destMap.isExploration && !destMap.gridSettings?.viewMode) {
+      console.warn(`⚠️ [Connection] Destination map ${destMapId} is missing gridSettings.viewMode (will default to 2D)`);
+    }
+
     updateDndElement(sourceConnection.id, {
       ...sourceConnection,
       properties: {
@@ -796,6 +805,9 @@ const TileOverlay = () => {
     const viewport = gridSystem.getViewportDimensions();
     const elemX = element.gridX ?? (element.position?.x) ?? 0;
     const elemY = element.gridY ?? (element.position?.y) ?? 0;
+
+    // The portal layer renders connections at the projected cell center, so
+    // anchor the grab offset there to keep the drag ghost under the cursor.
     const worldPos = gridSystem.gridToWorld(elemX, elemY);
     const screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, viewport.width, viewport.height);
 
@@ -854,6 +866,8 @@ const TileOverlay = () => {
       if (hasDraggedRef.current) {
         const gridSystem = getGridSystem();
         const viewport = gridSystem.getViewportDimensions();
+        // Ghost center is the projected cell center the marker will render at;
+        // snap the cell containing it.
         const screenX = e.clientX - dragOffsetRef.current.x;
         const screenY = e.clientY - dragOffsetRef.current.y;
         const worldPos = gridSystem.screenToWorld(screenX, screenY, viewport.width, viewport.height);
@@ -1330,6 +1344,195 @@ const TileOverlay = () => {
     }
   };
 
+  // Connections/portals are rendered in their own layer at the true projected
+  // cell center (worldToScreen(gridToWorld(cell))). Rendering them inside the
+  // axis-aligned tile box made them drift off the cells in yawed/tilted views
+  // and showed the tile frame around them.
+  const renderPortalElement = (element, idx, gridSystem, viewport) => {
+    const elementType = DND_ELEMENTS[element.type];
+    const isPortal = element.type === 'portal' || element.type === 'connection';
+
+    // Allow connections/portals to render even if not in DND_ELEMENTS
+    if (!elementType && !isPortal) return null;
+
+    if (isPortal && draggingConnection && draggingConnection.id === element.id) return null;
+
+    // Check if this D&D element is under fog of war
+    const elemX = element.gridX ?? (element.position?.x);
+    const elemY = element.gridY ?? (element.position?.y);
+    const elemGridX = Math.floor(elemX);
+    const elemGridY = Math.floor(elemY);
+    const hasFog = getFogOfWar(elemGridX, elemGridY);
+
+    // For portals, always make them interactive
+    const isInteractive = isPortal ? true : (elementType?.interactive || elementType?.clickable);
+    // Safely access properties with defaults
+    const elementProps = element.properties || {};
+    const isHidden = elementProps.isHidden === true;
+
+    // For portals, allow interaction for both players and GMs (if not hidden)
+    const canInteract = isPortal ? (!isHidden || isGMMode) : (isInteractive && !hasFog && !(isHidden && !isGMMode));
+    // Show context menu in GM mode (fog doesn't block GM from seeing connections)
+    const showContextMenu = isPortal && isGMMode;
+
+    // Create a better visual for connections that scales with zoom like tokens
+    const connectionColor = elementProps.color || '#4a90e2';
+    // Scale connection size with zoom like tokens do (80% of tile size)
+    const connectionSize = tileSize * effectiveZoom * 0.6; // Scale strictly with tile grid zoom
+    const borderWidth = Math.max(1, connectionSize * 0.1); // Border scales with size
+
+    // Anchor on the projected cell center so the marker sits on the grid cell
+    const centerWorld = gridSystem.gridToWorld(elemX, elemY);
+    const centerScreen = gridSystem.worldToScreen(centerWorld.x, centerWorld.y, viewport.width, viewport.height);
+
+    return (
+      <div
+        key={`dnd-${element.id}-${idx}`}
+        className={`dnd-element connection-point ${isPortal ? 'portal-element' : ''} ${isInteractive ? 'interactive' : ''}`}
+        data-connection-id={element.id}
+        data-portal-type="connection"
+        style={{
+          position: 'absolute',
+          left: centerScreen.x,
+          top: centerScreen.y,
+          transform: 'translate(-50%, -50%)',
+          width: `${connectionSize}px`,
+          height: `${connectionSize}px`,
+          borderRadius: '50%',
+          border: `${borderWidth}px solid ${connectionColor}`,
+          backgroundColor: isHidden && isGMMode
+            ? 'rgba(128, 128, 128, 0.3)'
+            : `${connectionColor}20`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: `${connectionSize * 0.5}px`,
+          fontWeight: 'bold',
+          color: connectionColor,
+          // Connections are always on top (z-index: 151) to ensure they're clickable even through fog
+          zIndex: isPortal ? 151 : (hasFog ? 5 : 150),
+          // CRITICAL: Override parent's pointer-events: none to allow connections to receive mouse events
+          // Allow pointer events for portals: GM always, players when not hidden
+          pointerEvents: (isPortal && (isGMMode || !isHidden)) ? 'auto' : 'none',
+          cursor: (isPortal && (isGMMode || !isHidden)) ? (isGMMode ? 'grab' : 'pointer') : 'default',
+          // Ensure connection is above everything else in its stacking context
+          isolation: 'isolate', // Create new stacking context
+          opacity: isPortal
+            ? (isHidden ? (isGMMode ? 0.5 : 0) : 1) // Connections always 100% visible unless hidden
+            : (hasFog ? (isGMMode ? 0.3 : 0) : (isHidden && !isGMMode ? 0 : (isHidden && isGMMode ? 0.5 : 1))),
+          transition: 'all 0.2s ease',
+          boxShadow: isPortal && !hasFog && !isHidden
+            ? `0 0 ${connectionSize * 0.4}px ${connectionColor}80, inset 0 0 ${connectionSize * 0.25}px ${connectionColor}40`
+            : 'none',
+          userSelect: 'none'
+        }}
+        onClick={canInteract ? (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (hasDraggedRef.current) return;
+          if (isPortal) {
+            handlePortalClick(element, e);
+          }
+        } : (e) => {}}
+        onContextMenu={canInteract ? (e) => {
+          // Handle context menu like creature tokens do - prevent all propagation
+          console.log('🔗 Connection context menu handler called', {
+            element,
+            isEditorMode,
+            isGMMode,
+            showContextMenu,
+            canInteract,
+            hasFog,
+            clientX: e.clientX,
+            clientY: e.clientY
+          });
+          e.preventDefault();
+          e.stopPropagation();
+          e.nativeEvent?.stopImmediatePropagation?.();
+
+          // Always set the connection and show menu in GM mode
+          setSelectedConnection(element);
+          setConnectionContextMenuPosition({ x: e.clientX, y: e.clientY });
+          setShowConnectionContextMenu(true);
+
+          console.log('🔗 Connection context menu state set', {
+            selectedConnection: element,
+            position: { x: e.clientX, y: e.clientY },
+            showConnectionContextMenu: true
+          });
+        } : undefined}
+        onMouseEnter={(e) => {
+          console.log('🔗🔗🔗 Connection onMouseEnter FIRED!', {
+            elementId: element.id,
+            target: e.target,
+            currentTarget: e.currentTarget,
+            isPortal,
+            isGMMode,
+            isHidden,
+            hasFog
+          });
+          e.stopPropagation();
+          // Show hover effect and tooltip for both GM and players (if not hidden from player)
+          // For portals, always allow hover if visible (GM can see even under fog, players can see if not hidden)
+          const canHover = isPortal && (isGMMode || !isHidden);
+
+          if (canHover) {
+            e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.2)';
+            e.currentTarget.style.boxShadow = `0 0 ${connectionSize * 0.5}px ${connectionColor}CC, inset 0 0 ${connectionSize * 0.35}px ${connectionColor}60`;
+            setHoveredConnection(element);
+            setConnectionTooltipPosition({ x: e.clientX, y: e.clientY });
+            console.log('🔗 Connection hover state set:', { elementId: element.id });
+          } else {
+            console.log('🔗 Connection hover blocked:', { elementId: element.id, canHover, isGMMode, isHidden, hasFog });
+          }
+        }}
+        onMouseDown={(e) => {
+          e.stopPropagation();
+          if (isPortal && isGMMode) {
+            handleConnectionDragStart(e, element);
+          }
+        }}
+        onMouseMove={(e) => {
+          e.stopPropagation();
+          // Update tooltip position if hovering
+          if (hoveredConnection?.id === element.id) {
+            setConnectionTooltipPosition({ x: e.clientX, y: e.clientY });
+          }
+        }}
+        onMouseLeave={(e) => {
+          e.stopPropagation();
+          // Reset hover effect and hide tooltip
+          if (hoveredConnection?.id === element.id) {
+            e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)';
+            e.currentTarget.style.boxShadow = isPortal && !hasFog && !isHidden
+              ? `0 0 ${connectionSize * 0.4}px ${connectionColor}80, inset 0 0 ${connectionSize * 0.25}px ${connectionColor}40`
+              : 'none';
+            setHoveredConnection(null);
+            console.log('🔗 Connection hover leave:', { elementId: element.id });
+          }
+        }}
+      >
+        {isPortal ? (
+          <svg
+            width={`${connectionSize * 0.6}px`}
+            height={`${connectionSize * 0.6}px`}
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{
+              pointerEvents: 'none',
+              userSelect: 'none'
+            }}
+          >
+            <circle cx="12" cy="12" r="8" stroke={connectionColor} strokeWidth="2" fill="none" />
+            <circle cx="12" cy="12" r="4" fill={connectionColor} opacity="0.6" />
+            <path d="M12 4 L12 8 M12 16 L12 20 M4 12 L8 12 M16 12 L20 12" stroke={connectionColor} strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        ) : (elementType?.icon || '?')}
+      </div>
+    );
+  };
+
   return (
     <>
       <div
@@ -1353,6 +1556,16 @@ const TileOverlay = () => {
 
             const terrain = TERRAIN_TYPES[tile.terrainType];
             const isHovered = hoveredTile === `${tile.x},${tile.y}`;
+
+            // Portal-only tiles draw no visible content of their own (connections
+            // render in the projected portal layer), so hide their frame.
+            const tileKey = `${tile.x},${tile.y}`;
+            const tileDndElements = elementsByPosition.get(tileKey) || [];
+            const tileObjects = objectsByPosition.get(tileKey) || [];
+            const portalOnlyTile = showDndLayer &&
+              tileDndElements.length > 0 &&
+              tileObjects.length === 0 &&
+              tileDndElements.every(el => el.type === 'portal' || el.type === 'connection');
 
             // Get terrain-specific styling
             const getTerrainStyle = (terrainType) => {
@@ -1793,7 +2006,7 @@ const TileOverlay = () => {
             return (
               <div
                 key={`${tile.x},${tile.y}`}
-                className={`tile-content ${isHovered ? 'hovered' : ''} ${tile.hasFog && !isGMMode ? 'fogged-player' : ''}`}
+                className={`tile-content ${isHovered ? 'hovered' : ''} ${portalOnlyTile ? 'portal-only-tile' : ''} ${tile.hasFog && !isGMMode ? 'fogged-player' : ''}`}
                 style={{
                   position: 'absolute',
                   left: screenX,
@@ -1801,9 +2014,11 @@ const TileOverlay = () => {
                   width: tileSize * effectiveZoom,
                   height: tileSize * effectiveZoom,
                   backgroundColor: 'transparent', // No terrain rendering in TileOverlay
-                  border: tile.hasFog && !isGMMode
-                    ? 'none' // No border for fogged tiles in player mode
-                    : isHovered ? '2px solid #D4AF37' : '1px solid rgba(0,0,0,0.1)',
+                  border: portalOnlyTile
+                    ? 'none'
+                    : tile.hasFog && !isGMMode
+                      ? 'none' // No border for fogged tiles in player mode
+                      : isHovered ? '2px solid #D4AF37' : '1px solid rgba(0,0,0,0.1)',
                   borderRadius: '2px',
                   pointerEvents: 'none', // Always none to allow drag/drop events to pass through to grid
                   zIndex: 7,
@@ -1878,10 +2093,10 @@ const TileOverlay = () => {
                     const elementType = DND_ELEMENTS[element.type];
                     const isPortal = element.type === 'portal' || element.type === 'connection';
 
-                    // Allow connections/portals to render even if not in DND_ELEMENTS
-                    if (!elementType && !isPortal) return null;
+                    // Connections/portals render in the projected portal layer
+                    if (isPortal) return null;
 
-                    if (isPortal && draggingConnection && draggingConnection.id === element.id) return null;
+                    if (!elementType) return null;
 
                     // Check if this D&D element is under fog of war
                     const elemX = element.gridX ?? (element.position?.x);
@@ -2415,6 +2630,32 @@ const TileOverlay = () => {
             );
           }
         })}
+
+        {/* Portal / Connection layer - projected cell centers so markers sit on the grid */}
+        {showDndLayer && (() => {
+          const portalElements = dndElements.filter(el => el.type === 'portal' || el.type === 'connection');
+          if (portalElements.length === 0) return null;
+
+          const gridSystem = getGridSystem();
+          const viewport = gridSystem.getViewportDimensions();
+
+          return (
+            <div
+              className="portal-elements-layer"
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                pointerEvents: 'none',
+                zIndex: 50
+              }}
+            >
+              {portalElements.map((element, idx) => renderPortalElement(element, idx, gridSystem, viewport))}
+            </div>
+          );
+        })()}
       </div>
 
       {/* Tooltip */}
@@ -2592,6 +2833,15 @@ const TileOverlay = () => {
           }
         }
 
+        let connectionWarning = null;
+        if (connectionDestinationMapId) {
+          if (!connectionDestinationMap) {
+            connectionWarning = '⚠️ Destination map not found in map store';
+          } else if (!connectionDestinationMap.isExploration && !connectionDestinationMap.gridSettings?.viewMode) {
+            connectionWarning = '⚠️ Destination map missing viewMode';
+          }
+        }
+
         return createPortal(
           <div
             className="tooltip connection-tooltip"
@@ -2614,6 +2864,11 @@ const TileOverlay = () => {
                   <div style={{ color: '#5a1e12', fontWeight: '600' }}>
                     {tooltipText}
                   </div>
+                  {connectionWarning && (
+                    <div style={{ marginTop: '4px', color: '#dc2626', fontWeight: 'bold', fontSize: '11px' }}>
+                      {connectionWarning}
+                    </div>
+                  )}
                   {!isGMMode && (
                     <div style={{ marginTop: '4px', fontStyle: 'italic', color: '#7a3b2e' }}>
                       Click to travel

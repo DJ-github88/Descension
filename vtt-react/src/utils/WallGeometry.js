@@ -44,9 +44,8 @@ export function polygonBBox(poly) {
   return { minX, minY, maxX, maxY };
 }
 
-export function getWallThickness(gridSize, transform) {
-  const zoom = transform?.effectiveZoom || 1;
-  return Math.max(6, (gridSize || 50) * zoom * 0.15);
+export function getWallThickness(gridSize) {
+  return Math.max(6, (gridSize || 50) * 0.15);
 }
 
 export function getWallHeightWorld(wall, typeData, gridSize) {
@@ -92,20 +91,33 @@ export function getWallBaseWorldZ({ parsed, wall, gridType, gridSystem, elevatio
   const { gridSize = 50 } = gridSystem.getGridState();
   if (Number.isFinite(wall?.baseElevation)) {
     const z = wall.baseElevation * gridSize;
-    return { start: z, end: z, z };
+    return { start: z, end: z, z, lowStart: z, lowEnd: z };
   }
   const coords = adjacentTileCoords(parsed, gridType);
   const sample = (list) => {
     let highest = -Infinity;
+    let lowest = Infinity;
     for (const [tx, ty] of list) {
       const level = getTileElevation(elevationData, tx, ty);
       if (level > highest) highest = level;
+      if (level < lowest) lowest = level;
     }
-    return Number.isFinite(highest) ? highest * gridSize : 0;
+    return {
+      high: Number.isFinite(highest) ? highest * gridSize : 0,
+      low: Number.isFinite(lowest) ? lowest * gridSize : 0
+    };
   };
   const startZ = sample(coords.start);
   const endZ = sample(coords.end);
-  return { start: startZ, end: endZ, z: Math.max(startZ, endZ) };
+  return {
+    start: startZ.high,
+    end: endZ.high,
+    z: Math.max(startZ.high, endZ.high),
+    // Lowest adjacent ground per end: the wall face must reach down to it so
+    // elevation steps read as retaining walls instead of floating slabs.
+    lowStart: startZ.low,
+    lowEnd: endZ.low
+  };
 }
 
 export function nodeKeyForWorld(worldX, worldY) {
@@ -162,7 +174,7 @@ export function collectWallNodes({ wallData, wallTypes, gridSystem, gridType, el
       const dirX = Math.sign(Math.round(dxWorld));
       const dirY = Math.sign(Math.round(dyWorld));
       entry.directions.add(`${dirX},${dirY}`);
-      entry.unitVectors.push({ x: dxWorld / runLength, y: dyWorld / runLength });
+      entry.unitVectors.push({ x: dxWorld / runLength, y: dyWorld / runLength, key, isSolid });
       entry.incident.push({ key, typeId, isSolid, isWindow: !!typeData.isWindow, isDoor: !!typeData.interactive });
 
       if (localBase > entry.baseWorldZ) entry.baseWorldZ = localBase;
@@ -194,6 +206,90 @@ export function nodeConnectedSolidCount(node, excludeKey) {
   return count;
 }
 
+export const WALL_MITER_LIMIT = 4;
+
+export function wallSideNormal(dirX, dirY) {
+  return { x: -dirY, y: dirX };
+}
+
+function intersectLines(p, d, q, e) {
+  const den = d.x * e.y - d.y * e.x;
+  if (Math.abs(den) < 1e-9) return null;
+  const t = ((q.x - p.x) * e.y - (q.y - p.y) * e.x) / den;
+  return { x: p.x + d.x * t, y: p.y + d.y * t };
+}
+
+function gapCorners(V, dirA, dirB, half) {
+  const nA = wallSideNormal(dirA.x, dirA.y);
+  const nB = wallSideNormal(dirB.x, dirB.y);
+  const fallbackA = { x: V.x + nA.x * half, y: V.y + nA.y * half };
+  const fallbackB = { x: V.x - nB.x * half, y: V.y - nB.y * half };
+  const hit = intersectLines(fallbackA, dirA, fallbackB, dirB);
+  if (!hit) return { a: fallbackA, b: fallbackB };
+  const dist = Math.hypot(hit.x - V.x, hit.y - V.y);
+  if (dist > WALL_MITER_LIMIT * half) return { a: fallbackA, b: fallbackB };
+  return { a: hit, b: hit };
+}
+
+export function wallJoinCorners({ node, excludeKey, dirX, dirY, half }) {
+  if (!node || !Number.isFinite(node.worldX) || !Number.isFinite(node.worldY)) return null;
+  const partners = (node.unitVectors || []).filter((v) => v.isSolid && v.key !== excludeKey);
+  if (partners.length === 0) return null;
+  const selfAngle = Math.atan2(dirY, dirX);
+  const entries = partners
+    .map((v) => ({ x: v.x, y: v.y, angle: Math.atan2(v.y, v.x) }))
+    .concat([{ x: dirX, y: dirY, angle: selfAngle, self: true }])
+    .sort((a, b) => a.angle - b.angle);
+  const selfIndex = entries.findIndex((entry) => entry.self);
+  const next = entries[(selfIndex + 1) % entries.length];
+  const prev = entries[(selfIndex + entries.length - 1) % entries.length];
+  const V = { x: node.worldX, y: node.worldY };
+  const after = gapCorners(V, entries[selfIndex], next, half);
+  const before = gapCorners(V, prev, entries[selfIndex], half);
+  return { plus: after.a, minus: before.b };
+}
+
+function projectOnAxis(corner, V, dirX, dirY) {
+  return (corner.x - V.x) * dirX + (corner.y - V.y) * dirY;
+}
+
+export function wallJoinExtension({ node, excludeKey, dirX, dirY, half }) {
+  const corners = wallJoinCorners({ node, excludeKey, dirX, dirY, half });
+  if (!corners) return null;
+  const V = { x: node.worldX, y: node.worldY };
+  const projections = [
+    projectOnAxis(corners.plus, V, dirX, dirY),
+    projectOnAxis(corners.minus, V, dirX, dirY)
+  ].filter((value) => value > 1e-6);
+  if (projections.length === 0) return 0;
+  return Math.min(...projections);
+}
+
+export function computeWallFootprint({ item, startNode, endNode, half }) {
+  if (!item || !Number.isFinite(half) || half <= 0) return null;
+  const start = item.worldStart;
+  const end = item.worldEnd;
+  if (!start || !end) return null;
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
+  const length = Math.max(1e-6, Math.hypot(dx, dy));
+  const ux = dx / length;
+  const uy = dy / length;
+  const n = wallSideNormal(ux, uy);
+  const startCorners = wallJoinCorners({ node: startNode, excludeKey: item.key, dirX: ux, dirY: uy, half });
+  const endCorners = wallJoinCorners({ node: endNode, excludeKey: item.key, dirX: -ux, dirY: -uy, half });
+  const startPlus = startCorners ? startCorners.plus : { x: start.x + n.x * half, y: start.y + n.y * half };
+  const startMinus = startCorners ? startCorners.minus : { x: start.x - n.x * half, y: start.y - n.y * half };
+  const endPlus = endCorners ? endCorners.plus : { x: end.x - n.x * half, y: end.y - n.y * half };
+  const endMinus = endCorners ? endCorners.minus : { x: end.x + n.x * half, y: end.y + n.y * half };
+  return [
+    [startPlus.x, startPlus.y],
+    [endMinus.x, endMinus.y],
+    [endPlus.x, endPlus.y],
+    [startMinus.x, startMinus.y]
+  ];
+}
+
 function projectWallPoint(transform, wx, wy, wz) {
   const dx = wx - transform.cameraX;
   const dy = wy - transform.cameraY;
@@ -208,6 +304,87 @@ function projectWallPoint(transform, wx, wy, wz) {
 
 export function projectWorldPoint(transform, wx, wy, wz) {
   return projectWallPoint(transform, wx, wy, wz);
+}
+
+/**
+ * World-anchored texture mapping for wall surfaces.
+ *
+ * The wall pattern must not slide when the camera pans/zooms: we build a
+ * `patternTransform` matrix from the actual projection so one pattern tile
+ * equals one world grid cell on the wall plane.
+ *  - `side` maps tile X along the wall direction and tile Y down world Z
+ *    (vertical faces).
+ *  - `top`  maps tile X along the wall direction and tile Y along the wall's
+ *    ground normal (horizontal top faces).
+ * Direction is canonicalised (flipped 180° when needed) so every face with the
+ * same orientation shares one pattern id/matrix pair.
+ */
+export function wallPatternDescriptor({ typeId, ux, uy, gridSize, transform, color }) {
+  const unit = Math.max(16, gridSize || 50);
+  let cx = ux;
+  let cy = uy;
+  const len = Math.hypot(cx, cy);
+  if (len < 1e-9) return null;
+  cx /= len;
+  cy /= len;
+  if (cx < -1e-9 || (Math.abs(cx) <= 1e-9 && cy < 0)) {
+    cx = -cx;
+    cy = -cy;
+  }
+
+  const p0 = projectWallPoint(transform, 0, 0, 0);
+  const px = projectWallPoint(transform, 1, 0, 0);
+  const py = projectWallPoint(transform, 0, 1, 0);
+  const pz = projectWallPoint(transform, 0, 0, 1);
+  const ex = { x: px.x - p0.x, y: px.y - p0.y };
+  const ey = { x: py.x - p0.x, y: py.y - p0.y };
+  const ez = { x: pz.x - p0.x, y: pz.y - p0.y };
+
+  const gu = { x: ex.x * cx + ey.x * cy, y: ex.y * cx + ey.y * cy };
+  const gn = { x: ex.x * -cy + ey.x * cx, y: ex.y * -cy + ey.y * cx };
+  let gv = { x: -ez.x, y: -ez.y };
+  if (Math.hypot(gv.x, gv.y) < 1e-6) {
+    gv = gn.y >= 0 ? gn : { x: -gn.x, y: -gn.y };
+  }
+
+  const dirKey = Math.round((Math.atan2(cy, cx) * 180) / Math.PI);
+  // One pattern tile spans exactly one world grid cell; pattern space uses
+  // `unit` local units per tile, so the matrix scales per-local-unit.
+  const scale = (gridSize || unit) / unit;
+  const matrixFor = (by) => ({
+    a: gu.x * scale,
+    b: gu.y * scale,
+    c: by.x * scale,
+    d: by.y * scale,
+    e: p0.x,
+    f: p0.y
+  });
+
+  return {
+    type: typeId,
+    color,
+    unit,
+    side: { id: `svgWallPat-${typeId}-${dirKey}-s`, matrix: matrixFor(gv) },
+    top: { id: `svgWallPat-${typeId}-${dirKey}-t`, matrix: matrixFor(gn) }
+  };
+}
+
+export function registerWallPattern(patternsById, descriptor) {
+  if (!patternsById || !descriptor) return;
+  patternsById.set(descriptor.side.id, {
+    id: descriptor.side.id,
+    type: descriptor.type,
+    color: descriptor.color,
+    unit: descriptor.unit,
+    matrix: descriptor.side.matrix
+  });
+  patternsById.set(descriptor.top.id, {
+    id: descriptor.top.id,
+    type: descriptor.type,
+    color: descriptor.color,
+    unit: descriptor.unit,
+    matrix: descriptor.top.matrix
+  });
 }
 
 function shrinkPolygon(poly, amount) {
@@ -346,7 +523,10 @@ export function computePrism({
       far: farNormal.x * SUN_WORLD.x + farNormal.y * SUN_WORLD.y,
       endStart: -ux * SUN_WORLD.x - uy * SUN_WORLD.y,
       endEnd: ux * SUN_WORLD.x + uy * SUN_WORLD.y,
-      top: SUN_WORLD.z
+      top: SUN_WORLD.z,
+      // Screen-space lateral term used for stylized key-light shading so
+      // features (doors/windows) match their host wall run.
+      lateralNear: nearNormal.x * transform.cosYaw + nearNormal.y * transform.sinYaw
     },
     capPoints: shrinkPolygon(topFace, 0.14),
     depth
@@ -362,7 +542,12 @@ export function buildWallRenderItem({
   transform,
   elevationData,
   connectedStart = false,
-  connectedEnd = false
+  connectedEnd = false,
+  startNode = null,
+  endNode = null,
+  patternType = null,
+  hostHeightWorld = null,
+  hostColor = null
 }) {
   const parsed = parseWallKey(key);
   if (!parsed) return null;
@@ -373,10 +558,6 @@ export function buildWallRenderItem({
   const { gridSize = 50 } = gridSystem.getGridState();
   const thickness = getWallThickness(gridSize, transform);
   const base = getWallBaseWorldZ({ parsed, wall, gridType, gridSystem, elevationData });
-  const heightWorld = getWallHeightWorld(wall, typeData, gridSize);
-  const baseZStart = base.start - WALL_BASE_SINK_WORLD;
-  const baseZEnd = base.end - WALL_BASE_SINK_WORLD;
-  const topZ = base.z + heightWorld;
 
   const typeId = typeof wall === 'string' ? wall : wall.type;
   const isDoor = !!typeData?.interactive;
@@ -385,17 +566,39 @@ export function buildWallRenderItem({
   const isMagic = !isDoor && !isWindow && typeData?.blocksLineOfSight === false;
   const color = typeData?.color || '#8a827a';
 
+  // Doors/windows keep their own opening proportions but the surrounding
+  // masonry wraps up to the host wall's height so runs stay level.
+  const openingHeightWorld = getWallHeightWorld(wall, typeData, gridSize);
+  const isFeature = isDoor || isWindow;
+  const heightWorld = isFeature
+    ? (hostHeightWorld != null ? hostHeightWorld : WALL_HEIGHT_MULTIPLIERS.wall * gridSize)
+    : openingHeightWorld;
+  const baseZStart = base.start - WALL_BASE_SINK_WORLD;
+  const baseZEnd = base.end - WALL_BASE_SINK_WORLD;
+  // Lowest adjacent ground at each end. The wall body only starts at the
+  // highest adjacent ground, but its rendered run descends to this bottom so a
+  // wall along an elevation step reads as a retaining wall rather than a slab
+  // floating above the lower floor.
+  const baseZLowStart = base.lowStart - WALL_BASE_SINK_WORLD;
+  const baseZLowEnd = base.lowEnd - WALL_BASE_SINK_WORLD;
+  const topZ = base.z + heightWorld;
+
   const rawDx = end.x - start.x;
   const rawDy = end.y - start.y;
   const rawLength = Math.max(1e-6, Math.hypot(rawDx, rawDy));
   const rawUx = rawDx / rawLength;
   const rawUy = rawDy / rawLength;
+  const half = thickness / 2;
   const joinExtension = thickness * WALL_JOIN_EXTENSION_FACTOR;
-  const prismStart = connectedStart
-    ? { x: start.x - rawUx * joinExtension, y: start.y - rawUy * joinExtension }
+  const miterStart = wallJoinExtension({ node: startNode, excludeKey: key, dirX: rawUx, dirY: rawUy, half });
+  const miterEnd = wallJoinExtension({ node: endNode, excludeKey: key, dirX: -rawUx, dirY: -rawUy, half });
+  const extendStart = miterStart != null ? miterStart : (connectedStart ? joinExtension : 0);
+  const extendEnd = miterEnd != null ? miterEnd : (connectedEnd ? joinExtension : 0);
+  const prismStart = extendStart > 0
+    ? { x: start.x - rawUx * extendStart, y: start.y - rawUy * extendStart }
     : start;
-  const prismEnd = connectedEnd
-    ? { x: end.x + rawUx * joinExtension, y: end.y + rawUy * joinExtension }
+  const prismEnd = extendEnd > 0
+    ? { x: end.x + rawUx * extendEnd, y: end.y + rawUy * extendEnd }
     : end;
 
   const core = computePrism({
@@ -410,9 +613,19 @@ export function buildWallRenderItem({
     connectedEnd
   });
 
-  const patternId = (!isDoor && !isWindow && !isOpen && !isMagic)
-    ? `svgWallPat-${typeId || 'stone_wall'}`
+  // Masonry texture must survive an open door: the swing leaf owns its own
+  // material, so the lintel/stubs still borrow the host wall pattern.
+  const pattern = !isMagic
+    ? wallPatternDescriptor({
+        typeId: patternType || typeId || 'stone_wall',
+        ux: rawUx,
+        uy: rawUy,
+        gridSize,
+        transform,
+        color
+      })
     : null;
+  const patternId = pattern ? pattern.side.id : null;
 
   const item = {
     kind: 'wall',
@@ -425,23 +638,21 @@ export function buildWallRenderItem({
     isMagic,
     state: wall.state || 'closed',
     color,
+    // Doors/windows keep their own material (wood, glass) for the frame/leaf,
+    // but the masonry that wraps the opening must match the host wall.
+    masonryColor: isFeature && hostColor ? hostColor : color,
     heightWorld,
+    openingHeightWorld,
     topZ,
     baseZStart,
     baseZEnd,
+    baseZLowStart,
+    baseZLowEnd,
     worldStart: start,
     worldEnd: end,
     ...core,
     patternId,
-    pattern: patternId
-      ? {
-          id: patternId,
-          angle: 0,
-          type: typeId,
-          color,
-          size: Math.max(48, Math.min(160, Math.round(gridSize * transform.effectiveZoom * 0.9)))
-        }
-      : null,
+    pattern,
     window: null,
     door: null
   };
@@ -465,34 +676,87 @@ function buildWindowParts(item, typeId, groundZ) {
         : 'glass';
 
   const spec = kind === 'slit'
-    ? { t0: 0.42, t1: 0.58, sill: 0.34, head: 0.86 }
-    : { t0: 0.16, t1: 0.84, sill: 0.24, head: 0.84 };
+    ? { t0: 0.42, t1: 0.58, sill: 0.42, head: 0.84 }
+    : kind === 'open'
+      ? { t0: 0.12, t1: 0.88, sill: 0.28, head: 0.86 }
+      : { t0: 0.14, t1: 0.86, sill: 0.3, head: 0.82 };
 
   const { at, nearSide, half, heightWorld, topZ, localBaseZ } = item;
   const nearV = nearSide * half;
   const farV = -nearV;
   const t0 = spec.t0;
   const t1 = spec.t1;
-  const sillZ = groundZ + heightWorld * spec.sill;
-  const headZ = groundZ + heightWorld * spec.head;
+  const openingHeight = Math.min(item.openingHeightWorld || heightWorld, heightWorld);
+  const sillZ = groundZ + openingHeight * spec.sill;
+  const headZ = groundZ + openingHeight * spec.head;
+  const baseZ = (t) => localBaseZ(t);
+  const frameT = 0.035;
+  const frameZ = Math.max(2, heightWorld * 0.025);
 
+  const block = (tA, tB) => ({
+    near: [
+      at(tA, nearV, baseZ(tA)),
+      at(tB, nearV, baseZ(tB)),
+      at(tB, nearV, topZ),
+      at(tA, nearV, topZ)
+    ],
+    far: [
+      at(tA, farV, baseZ(tA)),
+      at(tB, farV, baseZ(tB)),
+      at(tB, farV, topZ),
+      at(tA, farV, topZ)
+    ]
+  });
+  const sideStart = block(0, t0);
+  const sideEnd = block(t1, 1);
+  const jambStart = [
+    at(t0, half, baseZ(t0)),
+    at(t0, -half, baseZ(t0)),
+    at(t0, -half, headZ),
+    at(t0, half, headZ)
+  ];
+  const jambEnd = [
+    at(t1, half, baseZ(t1)),
+    at(t1, -half, baseZ(t1)),
+    at(t1, -half, headZ),
+    at(t1, half, headZ)
+  ];
   const breastNear = [
-    at(0, nearV, localBaseZ(0)),
-    at(1, nearV, localBaseZ(1)),
+    at(0, nearV, baseZ(0)),
+    at(1, nearV, baseZ(1)),
     at(1, nearV, sillZ),
     at(0, nearV, sillZ)
   ];
   const breastFar = [
-    at(0, farV, localBaseZ(0)),
-    at(1, farV, localBaseZ(1)),
+    at(0, farV, baseZ(0)),
+    at(1, farV, baseZ(1)),
     at(1, farV, sillZ),
     at(0, farV, sillZ)
   ];
+  // The sill is a real ledge: it overhangs the wall face so it catches light
+  // and casts a small contact shadow under itself.
+  const sillProtrude = Math.max(1.5, item.thickness * 0.18);
+  const sillLedgeZ = Math.max(2, item.thickness * 0.28);
+  const sillNearV = nearV + nearSide * sillProtrude;
+  const sillFarV = farV - nearSide * sillProtrude;
   const sillTop = [
-    at(0, half, sillZ),
-    at(1, half, sillZ),
-    at(1, -half, sillZ),
-    at(0, -half, sillZ)
+    at(-0.02, sillNearV, sillZ),
+    at(1.02, sillNearV, sillZ),
+    at(1.02, sillFarV, sillZ),
+    at(-0.02, sillFarV, sillZ)
+  ];
+  const sillFront = [
+    at(-0.02, sillNearV, sillZ - sillLedgeZ),
+    at(1.02, sillNearV, sillZ - sillLedgeZ),
+    at(1.02, sillNearV, sillZ),
+    at(-0.02, sillNearV, sillZ)
+  ];
+  const sillShadowHeight = Math.max(2.5, item.thickness * 0.45);
+  const sillShadow = [
+    at(-0.07, nearV + nearSide * 0.3, sillZ - sillLedgeZ),
+    at(1.07, nearV + nearSide * 0.3, sillZ - sillLedgeZ),
+    at(1.07, nearV + nearSide * 0.3, sillZ - sillLedgeZ - sillShadowHeight),
+    at(-0.07, nearV + nearSide * 0.3, sillZ - sillLedgeZ - sillShadowHeight)
   ];
   const lintelNear = [
     at(0, nearV, headZ),
@@ -506,13 +770,35 @@ function buildWindowParts(item, typeId, groundZ) {
     at(1, farV, topZ),
     at(0, farV, topZ)
   ];
-  const jambStart = [
+  // Contact/ambient occlusion strips hugging the jamb edges on the near face:
+  // without them the frame reads pasted onto the wall instead of set into it.
+  const aoT = Math.max(0.03, (item.thickness * 0.22) / Math.max(1e-6, item.runLength));
+  const aoV = nearV + nearSide * 0.3;
+  const aoStart = [
+    at(t0 - aoT, aoV, sillZ),
+    at(t0, aoV, sillZ),
+    at(t0, aoV, headZ),
+    at(t0 - aoT, aoV, headZ)
+  ];
+  const aoEnd = [
+    at(t1, aoV, sillZ),
+    at(t1 + aoT, aoV, sillZ),
+    at(t1 + aoT, aoV, headZ),
+    at(t1, aoV, headZ)
+  ];
+  const soffit = [
+    at(0, nearV, headZ),
+    at(1, nearV, headZ),
+    at(1, farV, headZ),
+    at(0, farV, headZ)
+  ];
+  const revealStart = [
     at(t0, half, sillZ),
     at(t0, -half, sillZ),
     at(t0, -half, headZ),
     at(t0, half, headZ)
   ];
-  const jambEnd = [
+  const revealEnd = [
     at(t1, half, sillZ),
     at(t1, -half, sillZ),
     at(t1, -half, headZ),
@@ -521,40 +807,67 @@ function buildWindowParts(item, typeId, groundZ) {
 
   const isGlass = kind === 'glass';
   const isOpenWindow = kind === 'open';
-  const pane = isGlass
+  const pane = (isGlass || kind === 'barred')
     ? [
-        at(t0 + 0.015, nearV * 0.25, sillZ + 2),
-        at(t1 - 0.015, nearV * 0.25, sillZ + 2),
-        at(t1 - 0.015, nearV * 0.25, headZ - 2),
-        at(t0 + 0.015, nearV * 0.25, headZ - 2)
+        at(t0 + 0.01, 0, sillZ + 1.5),
+        at(t1 - 0.01, 0, sillZ + 1.5),
+        at(t1 - 0.01, 0, headZ - 1.5),
+        at(t0 + 0.01, 0, headZ - 1.5)
       ]
     : null;
 
   const interior = (kind === 'barred' || kind === 'slit' || isOpenWindow)
     ? [
-        at(t0, farV * 0.45, sillZ),
-        at(t1, farV * 0.45, sillZ),
-        at(t1, farV * 0.45, headZ),
-        at(t0, farV * 0.45, headZ)
+        at(t0, 0, sillZ),
+        at(t1, 0, sillZ),
+        at(t1, 0, headZ),
+        at(t0, 0, headZ)
       ]
     : null;
+
+  const framePost = (t, faceV) => [
+    at(t, faceV, sillZ),
+    at(t + frameT, faceV, sillZ),
+    at(t + frameT, faceV, headZ),
+    at(t, faceV, headZ)
+  ];
+  const frameBand = (z0, z1, faceV) => [
+    at(t0, faceV, z0),
+    at(t1, faceV, z0),
+    at(t1, faceV, z1),
+    at(t0, faceV, z1)
+  ];
+  const frameOutNear = nearV + nearSide * sillProtrude * 0.32;
+  const frameOutFar = farV - nearSide * sillProtrude * 0.32;
+  const frameNear = {
+    left: framePost(t0, frameOutNear),
+    right: framePost(t1 - frameT, frameOutNear),
+    top: frameBand(headZ - frameZ, headZ, frameOutNear),
+    bottom: frameBand(sillZ, sillZ + frameZ, frameOutNear)
+  };
+  const frameFar = {
+    left: framePost(t0, frameOutFar),
+    right: framePost(t1 - frameT, frameOutFar),
+    top: frameBand(headZ - frameZ, headZ, frameOutFar),
+    bottom: frameBand(sillZ, sillZ + frameZ, frameOutFar)
+  };
 
   const mullions = [];
   const bars = [];
   if (isGlass) {
     const midT = (t0 + t1) / 2;
-    mullions.push(screenLine(at(midT, nearV * 0.3, sillZ), at(midT, nearV * 0.3, headZ)));
+    mullions.push(screenLine(at(midT, 0, sillZ + 1.5), at(midT, 0, headZ - 1.5)));
     const midZ = (sillZ + headZ) / 2;
-    mullions.push(screenLine(at(t0, nearV * 0.3, midZ), at(t1, nearV * 0.3, midZ)));
+    mullions.push(screenLine(at(t0 + 0.01, 0, midZ), at(t1 - 0.01, 0, midZ)));
   }
   if (kind === 'barred') {
     const count = 5;
     for (let i = 1; i < count; i++) {
       const t = t0 + ((t1 - t0) * i) / count;
-      bars.push(screenLine(at(t, nearV * 0.15, sillZ), at(t, nearV * 0.15, headZ)));
+      bars.push(screenLine(at(t, 0, sillZ + 1.5), at(t, 0, headZ - 1.5)));
     }
     const crossZ = (sillZ + headZ) / 2;
-    bars.push(screenLine(at(t0, nearV * 0.15, crossZ), at(t1, nearV * 0.15, crossZ)));
+    bars.push(screenLine(at(t0 + 0.01, 0, crossZ), at(t1 - 0.01, 0, crossZ)));
   }
 
   return {
@@ -563,15 +876,26 @@ function buildWindowParts(item, typeId, groundZ) {
     breastNear,
     breastFar,
     sillTop,
+    sillFront,
+    sillShadow,
+    aoStart,
+    aoEnd,
     lintelNear,
     lintelFar,
+    sideStart,
+    sideEnd,
     jambStart,
     jambEnd,
+    soffit,
+    revealStart,
+    revealEnd,
+    frameNear,
+    frameFar,
     pane,
     interior,
     mullions,
     bars,
-    sillEdge: screenLine(at(0, nearV, sillZ), at(1, nearV, sillZ)),
+    sillEdge: screenLine(at(-0.02, sillNearV, sillZ), at(1.02, sillNearV, sillZ)),
     headEdge: screenLine(at(0, nearV, headZ), at(1, nearV, headZ))
   };
 }
@@ -598,65 +922,142 @@ function buildDoorParts(item, wall) {
   const nearV = nearSide * half;
   const farV = -nearV;
   const groundZ = localBaseZ(0);
-  const doorHeight = heightWorld * 0.88;
+  const openingHeight = Math.min(item.openingHeightWorld || heightWorld * 0.88, heightWorld * 0.97);
+  const doorHeight = openingHeight;
   const doorTopZ = groundZ + doorHeight;
-  const t0 = 0.1;
-  const t1 = 0.9;
+  const t0 = 0.09;
+  const t1 = 0.91;
+  const frameT = 0.05;
+  const frameZ = Math.max(2, doorHeight * 0.05);
+  const baseZ = (t) => localBaseZ(t);
 
+  const block = (tA, tB) => ({
+    near: [
+      at(tA, nearV, baseZ(tA)),
+      at(tB, nearV, baseZ(tB)),
+      at(tB, nearV, topZ),
+      at(tA, nearV, topZ)
+    ],
+    far: [
+      at(tA, farV, baseZ(tA)),
+      at(tB, farV, baseZ(tB)),
+      at(tB, farV, topZ),
+      at(tA, farV, topZ)
+    ]
+  });
+  const stubStart = block(0, t0);
+  const stubEnd = block(t1, 1);
   const jambStart = [
-    at(t0, half, localBaseZ(t0)),
-    at(t0, -half, localBaseZ(t0)),
-    at(t0, -half, topZ),
-    at(t0, half, topZ)
+    at(t0, half, baseZ(t0)),
+    at(t0, -half, baseZ(t0)),
+    at(t0, -half, doorTopZ),
+    at(t0, half, doorTopZ)
   ];
   const jambEnd = [
-    at(t1, half, localBaseZ(t1)),
-    at(t1, -half, localBaseZ(t1)),
-    at(t1, -half, topZ),
-    at(t1, half, topZ)
+    at(t1, half, baseZ(t1)),
+    at(t1, -half, baseZ(t1)),
+    at(t1, -half, doorTopZ),
+    at(t1, half, doorTopZ)
+  ];
+  const aoT = Math.max(0.03, (thickness * 0.22) / Math.max(1e-6, runLength));
+  const aoV = nearV + nearSide * 0.3;
+  const aoStart = [
+    at(t0 - aoT, aoV, baseZ(t0 - aoT)),
+    at(t0, aoV, baseZ(t0)),
+    at(t0, aoV, doorTopZ),
+    at(t0 - aoT, aoV, doorTopZ)
+  ];
+  const aoEnd = [
+    at(t1, aoV, baseZ(t1)),
+    at(t1 + aoT, aoV, baseZ(t1 + aoT)),
+    at(t1 + aoT, aoV, doorTopZ),
+    at(t1, aoV, doorTopZ)
   ];
   const lintelNear = [
-    at(t0, nearV, doorTopZ),
-    at(t1, nearV, doorTopZ),
-    at(t1, nearV, topZ),
-    at(t0, nearV, topZ)
+    at(0, nearV, doorTopZ),
+    at(1, nearV, doorTopZ),
+    at(1, nearV, topZ),
+    at(0, nearV, topZ)
   ];
   const lintelFar = [
-    at(t0, farV, doorTopZ),
+    at(0, farV, doorTopZ),
+    at(1, farV, doorTopZ),
+    at(1, farV, topZ),
+    at(0, farV, topZ)
+  ];
+  const soffit = [
+    at(t0, nearV, doorTopZ),
+    at(t1, nearV, doorTopZ),
     at(t1, farV, doorTopZ),
-    at(t1, farV, topZ),
-    at(t0, farV, topZ)
+    at(t0, farV, doorTopZ)
+  ];
+  const floor = [
+    at(t0, nearV, groundZ),
+    at(t1, nearV, groundZ),
+    at(t1, farV, groundZ),
+    at(t0, farV, groundZ)
   ];
 
+  const framePost = (t, faceV) => [
+    at(t, faceV, baseZ(t)),
+    at(t + frameT, faceV, baseZ(t + frameT)),
+    at(t + frameT, faceV, doorTopZ),
+    at(t, faceV, doorTopZ)
+  ];
+  const frameHead = (faceV) => [
+    at(t0, faceV, doorTopZ - frameZ),
+    at(t1, faceV, doorTopZ - frameZ),
+    at(t1, faceV, doorTopZ),
+    at(t0, faceV, doorTopZ)
+  ];
+  const frameNear = {
+    left: framePost(t0, nearV * 0.92),
+    right: framePost(t1 - frameT, nearV * 0.92),
+    head: frameHead(nearV * 0.92)
+  };
+  const frameFar = {
+    left: framePost(t0, farV * 0.92),
+    right: framePost(t1 - frameT, farV * 0.92),
+    head: frameHead(farV * 0.92)
+  };
+
+  const leafV = 0;
+  const leafT0 = t0 + frameT * 0.7;
+  const leafT1 = t1 - frameT * 0.7;
+  const leafTopZ = doorTopZ - frameZ * 0.55;
   const isOpen = wall.state === 'open';
   let leaf = null;
   let swing = null;
 
   if (!isOpen) {
-    const leafV = nearV * 0.45;
-    const leafFace = [
-      at(t0, leafV, localBaseZ(t0)),
-      at(t1, leafV, localBaseZ(t1)),
-      at(t1, leafV, doorTopZ),
-      at(t0, leafV, doorTopZ)
+    const face = [
+      at(leafT0, leafV, baseZ(leafT0)),
+      at(leafT1, leafV, baseZ(leafT1)),
+      at(leafT1, leafV, leafTopZ),
+      at(leafT0, leafV, leafTopZ)
     ];
-    const planks = [0.3, 0.5, 0.7].map((f) => {
-      const t = t0 + (t1 - t0) * f;
-      return screenLine(at(t, leafV, localBaseZ(t)), at(t, leafV, doorTopZ));
+    const planks = [0.2, 0.4, 0.6, 0.8].map((f) => {
+      const t = leafT0 + (leafT1 - leafT0) * f;
+      return screenLine(at(t, leafV, baseZ(t)), at(t, leafV, leafTopZ));
     });
-    const bands = [0.28, 0.74].map((f) => {
+    const bands = [0.2, 0.76].map((f) => {
       const z = groundZ + doorHeight * f;
-      return screenLine(at(t0 + 0.01, leafV, z), at(t1 - 0.01, leafV, z));
+      return screenLine(at(leafT0 + 0.01, leafV, z), at(leafT1 - 0.01, leafV, z));
     });
-    const midT = (t0 + t1) / 2;
-    const handle = at(midT + 0.06, leafV * 1.2, groundZ + doorHeight * 0.5);
-    const lock = at(midT - 0.07, leafV * 1.2, groundZ + doorHeight * 0.52);
-    leaf = { face: leafFace, planks, bands, handle, lock };
+    const midT = (leafT0 + leafT1) / 2;
+    const handle = at(midT + 0.05, leafV, groundZ + doorHeight * 0.46);
+    const lock = at(midT + 0.05, leafV, groundZ + doorHeight * 0.34);
+    const hinges = [0.2, 0.78].map((f) => at(leafT0 + 0.02, leafV, groundZ + doorHeight * f));
+    leaf = { face, planks, bands, handle, lock, hinges };
   } else {
-    const hingeT = 0.08;
+    // The open leaf is a real slab: hinge at the frame, rotated into the room
+    // toward the camera. It carries proper near/far/top/edge faces so it reads
+    // as a 3D door instead of a flat card, plus a soft projected floor shadow
+    // and a thin swing arc.
+    const hingeT = leafT0;
     const hingeWorld = {
-      x: worldStart.x + ux * runLength * hingeT + nwx * half * 0.45,
-      y: worldStart.y + uy * runLength * hingeT + nwy * half * 0.45
+      x: worldStart.x + ux * runLength * hingeT,
+      y: worldStart.y + uy * runLength * hingeT
     };
     const hingeScreen = project(hingeWorld.x, hingeWorld.y, groundZ);
     const rot = (a) => ({
@@ -665,7 +1066,7 @@ function buildDoorParts(item, wall) {
     });
     let dir = rot(DOOR_OPEN_ANGLE);
     if ((dir.x * nwx + dir.y * nwy) * nearSide < 0) dir = rot(-DOOR_OPEN_ANGLE);
-    const leafLen = runLength * 0.78;
+    const leafLen = runLength * (leafT1 - leafT0);
     const leafEnd = {
       x: hingeWorld.x + dir.x * leafLen,
       y: hingeWorld.y + dir.y * leafLen
@@ -674,51 +1075,66 @@ function buildDoorParts(item, wall) {
     const toward = rawPerp.x * viewX + rawPerp.y * viewY >= 0 ? 1 : -1;
     const nearPerp = { x: rawPerp.x * toward, y: rawPerp.y * toward };
     const farPerp = { x: -nearPerp.x, y: -nearPerp.y };
-    const leafHalf = thickness * 0.16;
+    const leafHalf = Math.max(1.1, thickness * 0.18);
 
-    const nearA = { x: hingeWorld.x + nearPerp.x * leafHalf, y: hingeWorld.y + nearPerp.y * leafHalf };
-    const nearB = { x: leafEnd.x + nearPerp.x * leafHalf, y: leafEnd.y + nearPerp.y * leafHalf };
-    const farB = { x: leafEnd.x + farPerp.x * leafHalf, y: leafEnd.y + farPerp.y * leafHalf };
-    const farA = { x: hingeWorld.x + farPerp.x * leafHalf, y: hingeWorld.y + farPerp.y * leafHalf };
+    const offset = (p, perp, s) => ({ x: p.x + perp.x * s, y: p.y + perp.y * s });
+    const nearA = offset(hingeWorld, nearPerp, leafHalf);
+    const nearB = offset(leafEnd, nearPerp, leafHalf);
+    const farB = offset(leafEnd, farPerp, leafHalf);
+    const farA = offset(hingeWorld, farPerp, leafHalf);
 
-    const leafNear = [
-      project(nearA.x, nearA.y, groundZ),
-      project(nearB.x, nearB.y, groundZ),
-      project(nearB.x, nearB.y, doorTopZ),
-      project(nearA.x, nearA.y, doorTopZ)
+    const face = (a, b) => [
+      project(a.x, a.y, groundZ),
+      project(b.x, b.y, groundZ),
+      project(b.x, b.y, leafTopZ),
+      project(a.x, a.y, leafTopZ)
     ];
-    const leafFar = [
-      project(farA.x, farA.y, groundZ),
-      project(farB.x, farB.y, groundZ),
-      project(farB.x, farB.y, doorTopZ),
-      project(farA.x, farA.y, doorTopZ)
-    ];
+
+    const leafNear = face(nearA, nearB);
+    const leafFarShape = face(farA, farB);
+    const leafEdgeFree = face(nearB, farB);
+    const leafEdgeHinge = face(farA, nearA);
     const leafTop = [
-      project(nearA.x, nearA.y, doorTopZ),
-      project(nearB.x, nearB.y, doorTopZ),
-      project(farB.x, farB.y, doorTopZ),
-      project(farA.x, farA.y, doorTopZ)
+      project(nearA.x, nearA.y, leafTopZ),
+      project(nearB.x, nearB.y, leafTopZ),
+      project(farB.x, farB.y, leafTopZ),
+      project(farA.x, farA.y, leafTopZ)
     ];
 
-    const planks = [0.25, 0.5, 0.75].map((f) => {
-      const wx = hingeWorld.x + dir.x * leafLen * f + nearPerp.x * leafHalf;
-      const wy = hingeWorld.y + dir.y * leafLen * f + nearPerp.y * leafHalf;
-      return screenLine(project(wx, wy, groundZ), project(wx, wy, doorTopZ));
+    const planks = [0.22, 0.44, 0.66, 0.88].map((f) => {
+      const wx = hingeWorld.x + dir.x * leafLen * f;
+      const wy = hingeWorld.y + dir.y * leafLen * f;
+      return screenLine(
+        project(wx + nearPerp.x * leafHalf, wy + nearPerp.y * leafHalf, groundZ + doorHeight * 0.03),
+        project(wx + nearPerp.x * leafHalf, wy + nearPerp.y * leafHalf, leafTopZ)
+      );
     });
-    const bands = [0.28, 0.72].map((f) => {
+    const bands = [0.24, 0.74].map((f) => {
       const z = groundZ + doorHeight * f;
-      const a = project(
-        hingeWorld.x + nearPerp.x * leafHalf,
-        hingeWorld.y + nearPerp.y * leafHalf,
-        z
+      return screenLine(
+        project(hingeWorld.x + nearPerp.x * leafHalf, hingeWorld.y + nearPerp.y * leafHalf, z),
+        project(leafEnd.x + nearPerp.x * leafHalf, leafEnd.y + nearPerp.y * leafHalf, z)
       );
-      const b = project(
-        leafEnd.x + nearPerp.x * leafHalf,
-        leafEnd.y + nearPerp.y * leafHalf,
-        z
-      );
-      return screenLine(a, b);
     });
+    const hinges = [0.22, 0.78].map((f) => {
+      const z = groundZ + doorHeight * f;
+      return project(hingeWorld.x + nearPerp.x * leafHalf, hingeWorld.y + nearPerp.y * leafHalf, z);
+    });
+    const handle = project(
+      leafEnd.x + nearPerp.x * leafHalf - dir.x * leafLen * 0.12,
+      leafEnd.y + nearPerp.y * leafHalf - dir.y * leafLen * 0.12,
+      groundZ + doorHeight * 0.46
+    );
+
+    const sunLength = Math.max(1e-6, Math.hypot(SUN_WORLD.x, SUN_WORLD.y));
+    const sunUnitWorld = { x: SUN_WORLD.x / sunLength, y: SUN_WORLD.y / sunLength };
+    const shadowLength = Math.min(doorHeight * 0.55, leafLen * 0.6);
+    const shadow = [
+      project(hingeWorld.x, hingeWorld.y, groundZ),
+      project(leafEnd.x, leafEnd.y, groundZ),
+      project(leafEnd.x - sunUnitWorld.x * shadowLength, leafEnd.y - sunUnitWorld.y * shadowLength, groundZ),
+      project(hingeWorld.x - sunUnitWorld.x * shadowLength, hingeWorld.y - sunUnitWorld.y * shadowLength, groundZ)
+    ];
 
     const steps = 12;
     const arc = [];
@@ -733,19 +1149,44 @@ function buildDoorParts(item, wall) {
       ));
     }
 
-    swing = { near: leafNear, far: leafFar, top: leafTop, arc, hinge: hingeScreen, planks, bands };
+    swing = {
+      near: leafNear,
+      far: leafFarShape,
+      top: leafTop,
+      edgeFree: leafEdgeFree,
+      edgeHinge: leafEdgeHinge,
+      arc,
+      shadow,
+      hinge: hingeScreen,
+      planks,
+      bands,
+      hinges,
+      handle,
+      worldHinge: hingeWorld,
+      worldEnd: leafEnd
+    };
   }
 
-  const threshold = screenLine(at(t0, nearV, localBaseZ(t0)), at(t1, nearV, localBaseZ(t1)));
+  const threshold = screenLine(at(t0, nearV, groundZ), at(t1, nearV, groundZ));
 
   return {
     t0,
     t1,
     doorTopZ,
+    frameT,
+    frameZ,
+    stubStart,
+    stubEnd,
     jambStart,
     jambEnd,
     lintelNear,
     lintelFar,
+    soffit,
+    floor,
+    frameNear,
+    frameFar,
+    aoStart,
+    aoEnd,
     leaf,
     swing,
     threshold

@@ -26,20 +26,24 @@ function getWallEdgeIndex(wallData, windowOverlays) {
   for (const [wallKey, wall] of Object.entries(wallData)) {
     const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
     if (wx1 === wx2) {
-      // Vertical wall at x=wx1, spans wy1..wy2
+      // Vertical wall at x=wx1, spans wy1..wy2. Tolerate fractional endpoints
+      // (legacy partial walls) by snapping to the nearest lattice edge and
+      // indexing every cell the span touches.
+      const keyX = Math.round(wx1);
       const minY = Math.min(wy1, wy2);
       const maxY = Math.max(wy1, wy2);
-      for (let y = minY; y < maxY; y++) {
-        const key = `${wx1},${y}`;
+      for (let y = Math.floor(minY); y < Math.ceil(maxY); y++) {
+        const key = `${keyX},${y}`;
         if (!verticalEdges.has(key)) verticalEdges.set(key, []);
         verticalEdges.get(key).push({ wall, wallKey });
       }
     } else if (wy1 === wy2) {
       // Horizontal wall at y=wy1, spans wx1..wx2
+      const keyY = Math.round(wy1);
       const minX = Math.min(wx1, wx2);
       const maxX = Math.max(wx1, wx2);
-      for (let x = minX; x < maxX; x++) {
-        const key = `${x},${wy1}`;
+      for (let x = Math.floor(minX); x < Math.ceil(maxX); x++) {
+        const key = `${x},${keyY}`;
         if (!horizontalEdges.has(key)) horizontalEdges.set(key, []);
         horizontalEdges.get(key).push({ wall, wallKey });
       }
@@ -115,6 +119,21 @@ export function getLineOfSight(x0, y0, x1, y1) {
  * @returns {boolean} True if wall blocks line of sight
  */
 export function isWallBlocking(x1, y1, x2, y2, wallData, windowOverlays = {}) {
+  return isWallBlockingWith(x1, y1, x2, y2, wallData, (wall, wallKey) =>
+    checkIfWallBlocks(wall, wallKey, windowOverlays));
+}
+
+/**
+ * Movement variant of {@link isWallBlocking}. Sight and movement are different
+ * questions: windows and magical barriers let vision through but still stop
+ * tokens, while open doors stop blocking both. Uses the wall type's
+ * `blocksMovement` flag plus door state.
+ */
+export function isWallBlockingMovement(x1, y1, x2, y2, wallData) {
+  return isWallBlockingWith(x1, y1, x2, y2, wallData, checkIfWallBlocksMovement);
+}
+
+function isWallBlockingWith(x1, y1, x2, y2, wallData, predicate) {
   if (!wallData || Object.keys(wallData).length === 0) return false;
 
   const gx1 = Math.floor(x1);
@@ -130,7 +149,7 @@ export function isWallBlocking(x1, y1, x2, y2, wallData, windowOverlays = {}) {
   }
 
   // PERFORMANCE: Use edge index for O(1) lookup instead of iterating all walls
-  const index = getWallEdgeIndex(wallData, windowOverlays);
+  const index = getWallEdgeIndex(wallData, {});
 
   // Check vertical edge between tiles (horizontal movement)
   if (gx1 !== gx2) {
@@ -139,7 +158,7 @@ export function isWallBlocking(x1, y1, x2, y2, wallData, windowOverlays = {}) {
     const walls = index._v.get(edgeKey);
     if (walls) {
       for (const { wall, wallKey } of walls) {
-        if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
+        if (predicate(wall, wallKey)) {
           return true;
         }
       }
@@ -153,7 +172,7 @@ export function isWallBlocking(x1, y1, x2, y2, wallData, windowOverlays = {}) {
     const walls = index._h.get(edgeKey);
     if (walls) {
       for (const { wall, wallKey } of walls) {
-        if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
+        if (predicate(wall, wallKey)) {
           return true;
         }
       }
@@ -167,7 +186,7 @@ export function isWallBlocking(x1, y1, x2, y2, wallData, windowOverlays = {}) {
     const diagonalWalls = index._d.get(diagonalKey);
     if (diagonalWalls) {
       for (const { wall, wallKey } of diagonalWalls) {
-        if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
+        if (predicate(wall, wallKey)) {
           return true;
         }
       }
@@ -180,7 +199,7 @@ export function isWallBlocking(x1, y1, x2, y2, wallData, windowOverlays = {}) {
       const walls = index._v.get(edgeKey);
       if (walls) {
         for (const { wall, wallKey } of walls) {
-          if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
+          if (predicate(wall, wallKey)) {
             return true;
           }
         }
@@ -194,7 +213,7 @@ export function isWallBlocking(x1, y1, x2, y2, wallData, windowOverlays = {}) {
       const walls = index._h.get(edgeKey);
       if (walls) {
         for (const { wall, wallKey } of walls) {
-          if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
+          if (predicate(wall, wallKey)) {
             return true;
           }
         }
@@ -250,21 +269,8 @@ function checkIfWallBlocks(wall, wallKey = null, windowOverlays = {}) {
           const windowKey = `${x},${y}`;
           if (windowOverlays[windowKey]) {
             // Window found - allows vision through
-  // Angled (45°) walls bisect the cells they pass through. Entering such a cell
-  // means stepping into the wall. Previously only diagonal steps consulted the
-  // angled-wall index, so tokens could pass through an angled wall by entering
-  // the cells it bisects and continuing out the other side.
-  const destinationDiagonalWalls = index._d.get(`${gx2},${gy2}`);
-  if (destinationDiagonalWalls) {
-    for (const { wall, wallKey } of destinationDiagonalWalls) {
-      if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
-        return true;
-      }
-    }
-  }
-
-  return false;
-}
+            return false;
+          }
         }
       }
     }
@@ -309,6 +315,30 @@ function checkIfWallBlocks(wall, wallKey = null, windowOverlays = {}) {
 
   // If we can't find the wall type, default to blocking (safer assumption)
   // This ensures walls always block unless explicitly marked otherwise
+  return true;
+}
+
+/**
+ * Movement-blocking counterpart to {@link checkIfWallBlocks}. Returns true when
+ * a wall stops token movement. Open doors pass; every other wall checks its
+ * wall type's `blocksMovement` flag (windows/barriers block movement even
+ * though they don't block sight).
+ */
+function checkIfWallBlocksMovement(wall) {
+  if (typeof wall === 'string') {
+    // Legacy format: value is the wall type id
+    return WALL_TYPES?.[wall]?.blocksMovement !== false;
+  }
+
+  const wallTypeId = wall.type;
+
+  if (wall.state === 'open') return false;
+
+  if (WALL_TYPES && WALL_TYPES[wallTypeId]) {
+    return WALL_TYPES[wallTypeId].blocksMovement !== false;
+  }
+
+  // Unknown type: assume solid
   return true;
 }
 

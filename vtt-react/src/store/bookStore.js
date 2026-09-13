@@ -192,6 +192,103 @@ const STARTER_BOOKS = [
         ]
       }
     ]
+  },
+  {
+    id: 'book-starter-chromatic-vault',
+    title: 'The Chromatic Vault & Aeternum',
+    subtitle: 'A Facing Two-Page Spread & D&D 5e Publication Module',
+    author: 'Mythrill TTRPG Press',
+    theme: 'parchment',
+    layout: 'book-spread',
+    coverImage: null,
+    tags: ['starter', 'dnd5e', 'two-page-spread', 'encounter-tables', 'dungeon'],
+    createdAt: nowIso(),
+    updatedAt: nowIso(),
+    customTerms: [
+      {
+        id: 'term-chromatic-keystone',
+        name: 'Chromatic Keystone',
+        alias: 'The Wyrm Seal',
+        category: 'Relic',
+        definition: 'An enchanted obsidian prism that dispels the evocation wards on the vault thresholds.',
+        icon: 'fa-gem',
+        color: '#dc2626'
+      }
+    ],
+    revisions: [],
+    chapters: [
+      {
+        id: 'ch-vault-1',
+        title: 'Level Two: The Chromatic Vault',
+        subtitle: 'Subterranean Halls of the Dragonkin',
+        epigraph: '“When the vault doors unseal, remember that gold does not bleed, but those who seek it surely will.”',
+        pages: [
+          {
+            id: 'pg-vault-1',
+            pageNumber: 76,
+            headerTitle: 'Chromatic Vault — Level Two',
+            layout: 'two-column',
+            blocks: [
+              { id: 'bv-1', type: 'header', level: 1, text: 'Dungeon Level Two', variant: 'banner-dark', column: 'left' },
+              { id: 'bv-2', type: 'paragraph', hasDropCap: true, text: 'Beneath the obsidian crags of Mount Brazier lies the Chromatic Vault, a forgotten treasury forged in the Age of Wyrms. Its scorched stone corridors reek of brimstone, ozone, and dragonfire.', column: 'left' },
+              { id: 'bv-3', type: 'header', level: 2, text: 'Entrance Well', variant: 'keyed-area', areaCode: 'U1', column: 'left' },
+              { id: 'bv-4', type: 'paragraph', hasDropCap: false, text: '**Floor Trap.** The stone flagstones around the iron grating are rigged with hair-trigger pressure plates. Any creature stepping on them without the [[Chromatic Keystone]] must succeed on a DC 14 Dexterity saving throw or plunge 30 feet into the spiked pit.', column: 'left' },
+              { id: 'bv-5', type: 'header', level: 2, text: 'Dragon Statues', variant: 'keyed-area', areaCode: 'U2', column: 'right' },
+              { id: 'bv-6', type: 'paragraph', hasDropCap: false, text: '**Story Hook.** Two colossal statues carved of veined jade flank the inner sanctum. Their ruby eyes gleam with dormant evocation magic, ready to unleash scorching beams upon trespassers.', column: 'right' },
+              {
+                id: 'bv-7',
+                type: 'image',
+                frameStyle: 'cutout',
+                alignment: 'bottom-right',
+                column: 'right',
+                caption: 'Slumbering Wyrmling of the Chromatic Vault',
+                url: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=600&auto=format&fit=crop&q=80'
+              }
+            ]
+          },
+          {
+            id: 'pg-vault-2',
+            pageNumber: 77,
+            headerTitle: 'Wandering Encounters & Lore',
+            layout: 'two-column',
+            blocks: [
+              { id: 'bv-8', type: 'header', level: 1, text: 'Wandering Encounters', variant: 'banner-crimson', column: 'left' },
+              {
+                id: 'bv-9',
+                type: 'roll_table',
+                title: 'd20 Wandering Encounters',
+                column: 'left',
+                headers: ['d20', 'Encounter', 'Threat / CR'],
+                rows: [
+                  ['01–04', '1d4 Magmins searching for raw ore', 'CR 1/2'],
+                  ['05–08', 'Fire Snake nestled in obsidian fissure', 'CR 1'],
+                  ['09–12', '2 Hell Hounds on perimeter patrol', 'CR 3'],
+                  ['13–16', 'Azer Artisan forging brass talismans', 'CR 2'],
+                  ['17–19', 'Salamander scout with molten spear', 'CR 5'],
+                  ['20', 'Red Dragon Wyrmling feasting on gems', 'CR 4']
+                ]
+              },
+              {
+                id: 'bv-10',
+                type: 'quote',
+                column: 'right',
+                text: '“When the vault doors unseal, remember that gold does not bleed, but those who seek it surely will.”',
+                author: 'Aaron Lyles, Prophet of Destruction'
+              },
+              {
+                id: 'bv-11',
+                type: 'callout',
+                calloutType: 'secret',
+                column: 'right',
+                title: 'GM Secret: The Sealed Hoard',
+                icon: 'fa-mask',
+                content: 'The third keystone is hidden behind the bronze bas-relief on the southern dais. Solving the draconic riddle disarms the fire traps throughout Area U3.'
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ];
 

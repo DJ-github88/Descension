@@ -248,56 +248,61 @@ export default function ItemGeneration({ onContainerCreate, onItemCreated }) {
                 </div>
 
                 <div className="controls">
-                    <button
-                        className={`tool-button ${drawMode ? 'active' : ''}`}
-                        onClick={() => {
-                            setDrawMode(!drawMode);
-                            setEditMode(false);
-                        }}
-                        disabled={editMode}
-                    >
-                        Draw
-                    </button>
-                    <button
-                        className={`tool-button ${editMode ? 'active' : ''}`}
-                        onClick={handleEditClick}
-                        disabled={selectedTiles.length === 0}
-                    >
-                        Edit
-                    </button>
-                    <button
-                        className="tool-button"
-                        onClick={() => {
-                            clearSelectedTiles();
-                            setEditMode(false);
-                            setDrawMode(false);
-                        }}
-                    >
-                        Clear
-                    </button>
-                    <button
-                        className="tool-button"
-                        onClick={() => {
-                            if (onContainerCreate) {
-                                onContainerCreate();
-                            } else {
-                                setIsContainerModalOpen(true);
-                            }
-                        }}
-                    >
-                        Create Container
-                    </button>
-                    <button
-                        className="tool-button"
-                        onClick={() => setIsCoinModalOpen(true)}
-                    >
-                        Add Coins
-                    </button>
+                    <div className="designer-control-group">
+                        <button
+                            className={`tool-button ${drawMode ? 'active' : ''}`}
+                            onClick={() => {
+                                setDrawMode(!drawMode);
+                                setEditMode(false);
+                            }}
+                            disabled={editMode}
+                        >
+                            Draw
+                        </button>
+                        <button
+                            className={`tool-button ${editMode ? 'active' : ''}`}
+                            onClick={handleEditClick}
+                            disabled={selectedTiles.length === 0}
+                        >
+                            Edit
+                        </button>
+                        <button
+                            className="tool-button"
+                            onClick={() => {
+                                clearSelectedTiles();
+                                setEditMode(false);
+                                setDrawMode(false);
+                            }}
+                        >
+                            Clear
+                        </button>
+                    </div>
+                    <div className="designer-control-divider" aria-hidden="true" />
+                    <div className="designer-control-group">
+                        <button
+                            className="tool-button"
+                            onClick={() => {
+                                if (onContainerCreate) {
+                                    onContainerCreate();
+                                } else {
+                                    setIsContainerModalOpen(true);
+                                }
+                            }}
+                        >
+                            Create Container
+                        </button>
+                        <button
+                            className="tool-button"
+                            onClick={() => setIsCoinModalOpen(true)}
+                        >
+                            Add Coins
+                        </button>
+                    </div>
                 </div>
             </div>
 
             {gridSize && (
-            <div className="preview-grid">
+            <div className={`preview-grid window-no-drag${drawMode ? ' draw-mode' : ''}${editMode ? ' edit-mode' : ''}`}>
                 {selectedTiles.length === 0 && !drawMode && !editMode && (
                     <div className="grid-instructions">
                         <span>Click "Draw" and drag to create item shapes</span>

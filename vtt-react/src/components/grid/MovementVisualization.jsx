@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect, useRef } from 'react';
 import useGameStore from '../../store/gameStore';
 import useCombatStore from '../../store/combatStore';
-import useCreatureStore from '../../store/creatureStore';
+import useCreatureStore, { getCreatureSizeMapping } from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import useCharacterStore from '../../store/characterStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
@@ -114,6 +114,11 @@ const MovementVisualization = ({
 
         // Pathfinding calculation: find obstacle-avoiding path around walls with 5/10/5 diagonals
         // Elevation-aware: cliffs block steps > 1 level unless a ramp/stairs connects.
+        // Multi-tile aware: large creatures respect footprint wall clearance and cliffs.
+        const sizeMapping = getCreatureSizeMapping(creature?.size);
+        const creatureTokenSize = Math.max(sizeMapping?.width || 1, sizeMapping?.height || 1);
+        const creatureFootprint = { width: sizeMapping?.width || 1, height: sizeMapping?.height || 1 };
+
         let pathResult = null;
         if (typeof gridSystem.findPath === 'function') {
             try {
@@ -122,7 +127,9 @@ const MovementVisualization = ({
                     feetPerTile,
                     diagonalRule: '5105',
                     elevationData: editorState.elevationData,
-                    rampData: editorState.rampData
+                    rampData: editorState.rampData,
+                    tokenSize: creatureTokenSize,
+                    footprint: creatureFootprint
                 });
             } catch (err) {
                 console.warn('Pathfinding error in MovementVisualization:', err);

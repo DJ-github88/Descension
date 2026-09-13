@@ -75,10 +75,32 @@ const PortalConfigDialog = ({
         }
     }, [portalData]);
 
+    const destinationMapWarning = useMemo(() => {
+        if (!config.destinationMapId) return null;
+        const targetMap = (maps || []).find(m => m.id === config.destinationMapId);
+        const targetExpMap = (explorationMaps || []).find(m => m.id === config.destinationMapId);
+        if (!targetMap && !targetExpMap) {
+            return 'Destination map not found in map store.';
+        }
+        if (targetMap && !targetMap.gridSettings?.viewMode) {
+            return 'Destination map is missing gridSettings.viewMode (will default to 2D).';
+        }
+        return null;
+    }, [config.destinationMapId, maps, explorationMaps]);
+
     const handleSave = useCallback(() => {
         if (mode === 'edit' && !config.destinationMapId) {
             alert('Please select a destination map');
             return;
+        }
+
+        if (config.destinationMapId) {
+            const targetMap = (maps || []).find(m => m.id === config.destinationMapId);
+            const targetExpMap = (explorationMaps || []).find(m => m.id === config.destinationMapId);
+            if (!targetMap && !targetExpMap && mode === 'edit') {
+                alert('Selected destination map does not exist in the map store.');
+                return;
+            }
         }
 
         if (!config.name.trim()) {
@@ -93,7 +115,7 @@ const PortalConfigDialog = ({
 
         onSave(portalConfig);
         onClose();
-    }, [mode, config, portalData, onSave, onClose]);
+    }, [mode, config, portalData, maps, explorationMaps, onSave, onClose]);
 
     const handleCancel = useCallback(() => {
         onClose();
@@ -165,6 +187,16 @@ const PortalConfigDialog = ({
                                                 <span className="no-selection">
                                                     {mode === 'create' ? 'No destination selected (optional)' : 'Please select a destination map'}
                                                 </span>
+                                            )}
+                                            {destinationMapWarning && (
+                                                <div className="destination-map-warning" style={{
+                                                    color: '#dc2626',
+                                                    fontSize: '12px',
+                                                    marginTop: '4px',
+                                                    fontWeight: '600'
+                                                }}>
+                                                    ⚠️ {destinationMapWarning}
+                                                </div>
                                             )}
                                         </div>
                                         <div className="map-buttons-grid">

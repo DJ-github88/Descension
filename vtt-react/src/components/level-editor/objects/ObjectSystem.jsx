@@ -5,6 +5,7 @@ import useGameStore from '../../../store/gameStore';
 import useMapStore from '../../../store/mapStore';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
 import { getTileElevation } from '../../../utils/ElevationUtils';
+import { isWorldPointOccluded } from '../../../utils/WallOcclusion';
 import UnifiedContextMenu from '../UnifiedContextMenu';
 import { drawObject, hasObjectArt } from './ObjectCanvasRenderer';
 import { drawObjectArt } from './PixelArtRenderer';
@@ -733,7 +734,8 @@ const ObjectSystem = () => {
     const isEditorMode = useLevelEditorStore(state => state.isEditorMode);
     const activeLayer = useLevelEditorStore(state => state.activeLayer);
     const drawingLayers = useLevelEditorStore(state => state.drawingLayers);
-  const elevationData = useLevelEditorStore(state => state.elevationData);
+    const elevationData = useLevelEditorStore(state => state.elevationData);
+    const wallData = useLevelEditorStore(state => state.wallData);
     const removeEnvironmentalObject = useLevelEditorStore(state => state.removeEnvironmentalObject);
     const updateEnvironmentalObject = useLevelEditorStore(state => state.updateEnvironmentalObject);
     const selectEnvironmentalObject = useLevelEditorStore(state => state.selectEnvironmentalObject);
@@ -953,6 +955,59 @@ const ObjectSystem = () => {
         }
     }, []);
 
+    // Resolve the world anchor (and base elevation) used to project/occlude an
+    // object. Mirrors the coordinates the renderer draws the sprite at.
+    const getObjectWorldAnchor = useCallback((obj) => {
+        try {
+            const gridSystem = getGridSystem();
+            if (obj.freePosition && Number.isFinite(obj.worldX) && Number.isFinite(obj.worldY)) {
+                const tile = gridSystem.worldToGrid(obj.worldX, obj.worldY);
+                return {
+                    worldX: obj.worldX,
+                    worldY: obj.worldY,
+                    worldZ: getTileElevation(elevationData, tile.x, tile.y) * gridSize
+                };
+            }
+            if (Number.isFinite(obj.gridX) && Number.isFinite(obj.gridY)) {
+                const corner = gridSystem.gridToWorldCorner(obj.gridX, obj.gridY);
+                return {
+                    worldX: corner.x,
+                    worldY: corner.y,
+                    worldZ: getTileElevation(elevationData, obj.gridX, obj.gridY) * gridSize
+                };
+            }
+        } catch (error) {
+            return null;
+        }
+        return null;
+    }, [elevationData, gridSize]);
+
+    // 2.5D occlusion: an object covered by a wall or raised terrain must not be
+    // drawn. The object canvas sits above the wall layers, so without this
+    // check props behind walls render on top of them. Editor mode keeps every
+    // object visible so it can still be selected and moved.
+    const isObjectOccluded = useCallback((obj, objectDef) => {
+        if (isEditorMode) return false;
+        if (!wallData) return false;
+        // GM notes are interaction markers, keep them reachable for the GM.
+        if (objectDef?.gmOnly) return false;
+        const anchor = getObjectWorldAnchor(obj);
+        if (!anchor) return false;
+        try {
+            return isWorldPointOccluded({
+                worldX: anchor.worldX,
+                worldY: anchor.worldY,
+                worldZ: anchor.worldZ,
+                wallData,
+                elevationData,
+                gridSystem: getGridSystem(),
+                ignoreEmbeddedWalls: true
+            });
+        } catch (error) {
+            return false;
+        }
+    }, [isEditorMode, wallData, elevationData, getObjectWorldAnchor, viewMode, viewRotation, viewTilt]);
+
     // Render objects on canvas
     const renderObjects = useCallback(() => {
         const canvas = canvasRef.current;
@@ -1015,6 +1070,9 @@ const ObjectSystem = () => {
 
             // Skip GM-only objects for players
             if (objectDef.gmOnly && !isGMMode) return;
+
+            // Hide objects covered by walls or raised terrain (2.5D occlusion)
+            if (isObjectOccluded(obj, objectDef)) return;
 
             let screenPos;
 
@@ -1158,7 +1216,7 @@ const ObjectSystem = () => {
                 ctx.restore();
             }
         });
-    }, [environmentalObjects, effectiveZoom, gridToScreen, isEditorMode, gridSize, cameraX, cameraY, isGMMode, drawingLayers, pickParentMode, pendingChildId]);
+    }, [environmentalObjects, effectiveZoom, gridToScreen, isEditorMode, gridSize, cameraX, cameraY, isGMMode, drawingLayers, pickParentMode, pendingChildId, elevationData, viewMode, viewRotation, viewTilt, wallData, isObjectOccluded]);
 
     renderObjectsRef.current = renderObjects;
 
@@ -1399,6 +1457,9 @@ const ObjectSystem = () => {
             const objectDef = PROFESSIONAL_OBJECTS[obj.type];
             if (!objectDef) continue;
 
+            // Invisible behind a wall/terrain => not clickable either
+            if (isObjectOccluded(obj, objectDef)) continue;
+
             let screenPos;
             if (obj.freePosition && obj.worldX !== undefined && obj.worldY !== undefined) {
                 try {
@@ -1449,7 +1510,7 @@ const ObjectSystem = () => {
             }
         }
         return null;
-    }, [environmentalObjects, cameraX, cameraY, effectiveZoom, gridSize]);
+    }, [environmentalObjects, cameraX, cameraY, effectiveZoom, gridSize, isObjectOccluded]);
 
     // Check if click is on a resize handle
     const getResizeHandle = useCallback((screenX, screenY, obj) => {

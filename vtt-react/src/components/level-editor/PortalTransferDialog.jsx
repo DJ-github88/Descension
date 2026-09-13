@@ -16,6 +16,7 @@ const PortalTransferDialog = ({
     const { maps, switchToMap } = useMapStore();
     const explorationMaps = useInteractiveMapStore(state => state.maps) || [];
     const [isTransferring, setIsTransferring] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     // Get destination map info
     const destinationMapId = portal?.properties?.destinationMapId;
@@ -47,11 +48,12 @@ const PortalTransferDialog = ({
 
     const handleTransfer = async () => {
         if (!destinationMapId || !destinationMap) {
-            alert('Connection destination is not properly configured.');
+            setErrorMessage('Connection destination is not properly configured or target map could not be found.');
             return;
         }
 
         setIsTransferring(true);
+        setErrorMessage(null);
 
         try {
             // Import game store to check if we're in multiplayer
@@ -65,19 +67,46 @@ const PortalTransferDialog = ({
 
                 // CRITICAL SAFETY: Check if emit exists (fixes this.onevent is not a function)
                 if (socket && typeof socket.emit === 'function') {
+                    let timeoutId = null;
+
+                    const cleanup = () => {
+                        if (timeoutId) clearTimeout(timeoutId);
+                        socket.off('player_connection_failed', handleFailed);
+                        socket.off('player_map_changed', handleSuccess);
+                        window.removeEventListener('map_transfer_complete', handleSuccess);
+                    };
+
+                    const handleFailed = (failData) => {
+                        cleanup();
+                        setIsTransferring(false);
+                        setErrorMessage(failData?.error || 'Could not resolve destination for connection on server.');
+                    };
+
+                    const handleSuccess = () => {
+                        cleanup();
+                        setIsTransferring(false);
+                        onClose();
+                    };
+
+                    socket.once('player_connection_failed', handleFailed);
+                    socket.once('player_map_changed', handleSuccess);
+                    window.addEventListener('map_transfer_complete', handleSuccess, { once: true });
+
+                    timeoutId = setTimeout(() => {
+                        cleanup();
+                        setIsTransferring(false);
+                        setErrorMessage('Connection transfer timed out. Destination map did not respond.');
+                    }, 5000);
+
                     socket.emit('player_use_connection', {
                         connectionId: portal.id
                     });
                     console.log(`📡 [PortalTransfer] Emitted player_use_connection for ${portal.id}`);
                 } else {
                     console.error('❌ [PortalTransfer] Socket found but emit is missing or invalid:', socket);
-                    // Fallback to local transfer if socket fails
-                    throw new Error('Socket emit failed');
+                    setIsTransferring(false);
+                    setErrorMessage('Failed to emit player_use_connection: Socket disconnected or invalid.');
                 }
-
-                // Close the dialog - the server will trigger the map transition
-                onClose();
-                console.log(`Emitted player_use_connection for ${portal.id}`);
                 return;
             }
 
@@ -278,6 +307,21 @@ const PortalTransferDialog = ({
                         </div>
                     )}
                 </div>
+
+                {errorMessage && (
+                    <div className="portal-transfer-error" style={{
+                        color: '#b91c1c',
+                        backgroundColor: '#fee2e2',
+                        border: '1px solid #f87171',
+                        borderRadius: '6px',
+                        padding: '8px 12px',
+                        margin: '10px 0',
+                        fontSize: '13px',
+                        fontWeight: '500'
+                    }}>
+                        ⚠️ {errorMessage}
+                    </div>
+                )}
 
                 <div className="dialog-actions">
                     <button

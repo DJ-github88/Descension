@@ -245,6 +245,63 @@
     border: 1px solid rgba(122, 59, 46, 0.1);
     border-radius: 2px;
 }
+.cw-grid-cell--void {
+    background: transparent;
+    border-color: transparent;
+}
+.cw-grid-preview--editing .cw-grid-cell {
+    cursor: pointer;
+}
+.cw-grid-preview--editing .cw-grid-cell--void {
+    border: 1px dashed rgba(122, 59, 46, 0.22);
+}
+.cw-grid-preview--editing .cw-grid-cell:hover {
+    outline: 2px solid var(--cw-gold);
+    outline-offset: -2px;
+}
+
+/* ── Shape toolbar ── */
+.cw-shape-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.cw-shape-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(213, 203, 176, 0.25);
+    border: 1px solid var(--cw-brown-lt);
+    border-radius: 5px;
+    color: var(--cw-text);
+    font-family: inherit;
+    font-size: 0.74rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+.cw-shape-btn:hover {
+    background: rgba(213, 203, 176, 0.5);
+    border-color: var(--cw-brown);
+}
+.cw-shape-btn.active {
+    background: linear-gradient(180deg, var(--cw-brown), var(--cw-brown-dk));
+    border-color: var(--cw-gold);
+    color: #f4f1e8;
+}
+.cw-shape-btn i {
+    font-size: 0.72rem;
+}
+.cw-shape-count {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--cw-text-muted);
+}
 
 /* ── Fields / forms ── */
 .cw-row {

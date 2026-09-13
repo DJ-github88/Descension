@@ -99,7 +99,13 @@ const VTTDrawingEngine = () => {
                 ctx.strokeStyle = path.style.strokeColor || '#000000';
                 ctx.fillStyle = path.style.fillColor || 'transparent';
                 ctx.lineWidth = (path.style.strokeWidth || 2) * effectiveZoom;
-                ctx.globalAlpha = path.style.opacity || 1;
+                // The UI slider bottoms out at 10%; anything below that is
+                // corrupt data (opacity was repeatedly divided by 100 by an
+                // old bug) and would render the stroke invisibly. Restore it.
+                const pathOpacity = path.style.opacity;
+                ctx.globalAlpha = (typeof pathOpacity === 'number' && pathOpacity >= 0.1)
+                    ? Math.min(1, pathOpacity)
+                    : 1;
                 ctx.lineCap = 'round';
                 ctx.lineJoin = 'round';
 
@@ -174,31 +180,102 @@ const VTTDrawingEngine = () => {
                     break;
                 case 'wall_draw': {
                     // Ghost preview of the wall being drawn (dashed gold line + endpoint dots)
-                    if (currentDrawingPath.length < 2) break;
-                    const wallStart = gridToScreen(currentDrawingPath[0].gridX, currentDrawingPath[0].gridY);
-                    const wallEnd = gridToScreen(currentDrawingPath[currentDrawingPath.length - 1].gridX, currentDrawingPath[currentDrawingPath.length - 1].gridY);
+                    if (currentDrawingPath.length < 1) break;
+                    const previewGridSystem = getGridSystem();
+                    const previewGridType = previewGridSystem.getGridState().gridType;
+                    const isEdgePath = currentDrawingPath[0] && currentDrawingPath[0].isHexEdge;
 
                     ctx.save();
                     ctx.strokeStyle = '#FFD700';
                     ctx.globalAlpha = 0.85;
                     ctx.lineWidth = Math.max(3, ctx.lineWidth);
                     ctx.setLineDash([10, 6]);
-                    ctx.beginPath();
-                    ctx.moveTo(wallStart.x, wallStart.y);
-                    ctx.lineTo(wallEnd.x, wallEnd.y);
-                    ctx.stroke();
-                    ctx.setLineDash([]);
 
-                    // Endpoint markers
-                    ctx.fillStyle = '#FFD700';
-                    ctx.strokeStyle = '#000';
-                    ctx.lineWidth = 1.5;
-                    [wallStart, wallEnd].forEach(pt => {
+                    if (isEdgePath) {
+                        const viewport = previewGridSystem.getViewportDimensions();
+                        const mids = [];
                         ctx.beginPath();
-                        ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
-                        ctx.fill();
+                        for (const item of currentDrawingPath) {
+                            const parsed = previewGridSystem.parseHexEdgeKey(item.edgeKey);
+                            if (!parsed) continue;
+                            const edge = previewGridSystem.getHexEdge(parsed.x1, parsed.y1, parsed.x2, parsed.y2);
+                            if (!edge) continue;
+                            const edgeStart = previewGridSystem.worldToScreen(edge.start.x, edge.start.y, viewport.width, viewport.height);
+                            const edgeEnd = previewGridSystem.worldToScreen(edge.end.x, edge.end.y, viewport.width, viewport.height);
+                            ctx.moveTo(edgeStart.x, edgeStart.y);
+                            ctx.lineTo(edgeEnd.x, edgeEnd.y);
+                            mids.push({ x: (edgeStart.x + edgeEnd.x) / 2, y: (edgeStart.y + edgeEnd.y) / 2 });
+                        }
                         ctx.stroke();
-                    });
+                        ctx.setLineDash([]);
+
+                        ctx.fillStyle = '#FFD700';
+                        ctx.strokeStyle = '#000';
+                        ctx.lineWidth = 1.5;
+                        [mids[0], mids[mids.length - 1]].forEach(pt => {
+                            if (!pt) return;
+                            ctx.beginPath();
+                            ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
+                            ctx.fill();
+                            ctx.stroke();
+                        });
+                    } else if (previewGridType === 'hex') {
+                        const viewport = previewGridSystem.getViewportDimensions();
+                        const first = currentDrawingPath[0];
+                        const last = currentDrawingPath[currentDrawingPath.length - 1];
+                        const startWorld = previewGridSystem.gridToWorld(first.gridX, first.gridY);
+                        const endWorld = previewGridSystem.gridToWorld(last.gridX, last.gridY);
+                        const startScreen = previewGridSystem.worldToScreen(startWorld.x, startWorld.y, viewport.width, viewport.height);
+                        const endScreen = previewGridSystem.worldToScreen(endWorld.x, endWorld.y, viewport.width, viewport.height);
+
+                        ctx.beginPath();
+                        for (let i = 0; i + 1 < currentDrawingPath.length; i++) {
+                            const a = currentDrawingPath[i];
+                            const b = currentDrawingPath[i + 1];
+                            const edge = previewGridSystem.getHexEdge(a.gridX, a.gridY, b.gridX, b.gridY);
+                            if (!edge) continue;
+                            const edgeStart = previewGridSystem.worldToScreen(edge.start.x, edge.start.y, viewport.width, viewport.height);
+                            const edgeEnd = previewGridSystem.worldToScreen(edge.end.x, edge.end.y, viewport.width, viewport.height);
+                            ctx.moveTo(edgeStart.x, edgeStart.y);
+                            ctx.lineTo(edgeEnd.x, edgeEnd.y);
+                        }
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+
+                        ctx.fillStyle = '#FFD700';
+                        ctx.strokeStyle = '#000';
+                        ctx.lineWidth = 1.5;
+                        [startScreen, endScreen].forEach(pt => {
+                            ctx.beginPath();
+                            ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
+                            ctx.fill();
+                            ctx.stroke();
+                        });
+                    } else {
+                        if (currentDrawingPath.length < 2) {
+                            ctx.restore();
+                            break;
+                        }
+                        const wallStart = gridToScreen(currentDrawingPath[0].gridX, currentDrawingPath[0].gridY);
+                        const wallEnd = gridToScreen(currentDrawingPath[currentDrawingPath.length - 1].gridX, currentDrawingPath[currentDrawingPath.length - 1].gridY);
+
+                        ctx.beginPath();
+                        ctx.moveTo(wallStart.x, wallStart.y);
+                        ctx.lineTo(wallEnd.x, wallEnd.y);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+
+                        // Endpoint markers
+                        ctx.fillStyle = '#FFD700';
+                        ctx.strokeStyle = '#000';
+                        ctx.lineWidth = 1.5;
+                        [wallStart, wallEnd].forEach(pt => {
+                            ctx.beginPath();
+                            ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
+                            ctx.fill();
+                            ctx.stroke();
+                        });
+                    }
                     ctx.restore();
                     break;
                 }
@@ -236,10 +313,16 @@ const VTTDrawingEngine = () => {
             });
         }
 
+        // perfect-freehand returns a closed outline polygon that must be FILLED.
+        // Fill it with the stroke colour (the path fill colour is for shapes and
+        // defaults to 'transparent', which would make strokes invisible).
+        const previousFillStyle = ctx.fillStyle;
+        ctx.fillStyle = ctx.strokeStyle;
         renderSmoothStroke(ctx, screenPoints, {
             size: ctx.lineWidth,
             tool: 'default'
         });
+        ctx.fillStyle = previousFillStyle;
     };
 
     // Render straight line
@@ -505,14 +588,35 @@ const VTTDrawingEngine = () => {
 
     // Render wall (thick lines on grid edges or rectangle for rectangle mode)
     const renderWallPath = (ctx, points, wallMode = 'continuous') => {
-        if (points.length < 2) return;
+        if (points.length < 1) return;
 
         const gridSystem = getGridSystem();
         const { gridType } = gridSystem.getGridState();
+        const isEdgePath = points[0] && points[0].isHexEdge;
 
         ctx.lineWidth = Math.max(4, 8 * effectiveZoom);
         ctx.strokeStyle = '#8B4513';
         ctx.lineCap = 'square';
+        ctx.lineJoin = 'round';
+
+        if (isEdgePath) {
+            const viewport = gridSystem.getViewportDimensions();
+            ctx.beginPath();
+            for (const item of points) {
+                const parsed = gridSystem.parseHexEdgeKey(item.edgeKey);
+                if (!parsed) continue;
+                const edge = gridSystem.getHexEdge(parsed.x1, parsed.y1, parsed.x2, parsed.y2);
+                if (!edge) continue;
+                const startPoint = gridSystem.worldToScreen(edge.start.x, edge.start.y, viewport.width, viewport.height);
+                const endPoint = gridSystem.worldToScreen(edge.end.x, edge.end.y, viewport.width, viewport.height);
+                ctx.moveTo(startPoint.x, startPoint.y);
+                ctx.lineTo(endPoint.x, endPoint.y);
+            }
+            ctx.stroke();
+            return;
+        }
+
+        if (points.length < 2) return;
 
         if (wallMode === 'rectangle') {
             // Render rectangle preview for rectangle wall mode
@@ -552,21 +656,25 @@ const VTTDrawingEngine = () => {
         } else {
             // Render continuous line for continuous wall mode
             ctx.beginPath();
-            
-            if (gridType === 'hex' && points.length === 2) {
-                // For hex grids with 2 points, draw along hex edge
-                const edge = gridSystem.getHexEdge(points[0].gridX, points[0].gridY, points[1].gridX, points[1].gridY);
-                if (edge) {
-                    const viewport = gridSystem.getViewportDimensions();
-                    const startPoint = gridSystem.worldToScreen(edge.start.x, edge.start.y, viewport.width, viewport.height);
-                    const endPoint = gridSystem.worldToScreen(edge.end.x, edge.end.y, viewport.width, viewport.height);
-                    ctx.moveTo(startPoint.x, startPoint.y);
-                    ctx.lineTo(endPoint.x, endPoint.y);
-                } else {
-                    // Fallback
+
+            if (gridType === 'hex') {
+                // For hex grids, draw along the shared hex edge(s) between consecutive cells
+                const viewport = gridSystem.getViewportDimensions();
+                let drewEdge = false;
+                for (let i = 0; i + 1 < points.length; i++) {
+                    const edge = gridSystem.getHexEdge(points[i].gridX, points[i].gridY, points[i + 1].gridX, points[i + 1].gridY);
+                    if (edge) {
+                        const startPoint = gridSystem.worldToScreen(edge.start.x, edge.start.y, viewport.width, viewport.height);
+                        const endPoint = gridSystem.worldToScreen(edge.end.x, edge.end.y, viewport.width, viewport.height);
+                        ctx.moveTo(startPoint.x, startPoint.y);
+                        ctx.lineTo(endPoint.x, endPoint.y);
+                        drewEdge = true;
+                    }
+                }
+                if (!drewEdge) {
                     const startPoint = gridToScreen(points[0].gridX, points[0].gridY);
                     ctx.moveTo(startPoint.x, startPoint.y);
-                    const endPoint = gridToScreen(points[1].gridX, points[1].gridY);
+                    const endPoint = gridToScreen(points[points.length - 1].gridX, points[points.length - 1].gridY);
                     ctx.lineTo(endPoint.x, endPoint.y);
                 }
             } else {

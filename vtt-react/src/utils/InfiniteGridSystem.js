@@ -16,6 +16,41 @@ import {
   depthKey as projectDepthKey
 } from './ProjectionSystem';
 
+/**
+ * Grid cells covered by a brush footprint centered on a cell.
+ * - square: size x size block (legacy behavior)
+ * - hex: hex ring of radius floor(size / 2) (matches the hover preview)
+ * Kept grid-system free so stores can fall back to it when the shared grid
+ * instance is not initialized yet.
+ */
+export function computeBrushTiles(centerX, centerY, brushSize, gridType = 'square') {
+  const size = Math.max(1, Math.round(Number(brushSize) || 1));
+  const tiles = [];
+
+  if (gridType === 'hex') {
+    const brushRadius = Math.floor(size / 2);
+    for (let q = centerX - brushRadius; q <= centerX + brushRadius; q++) {
+      for (let r = centerY - brushRadius; r <= centerY + brushRadius; r++) {
+        const s1 = -q - r;
+        const s2 = -centerX - centerY;
+        const hexDist = (Math.abs(q - centerX) + Math.abs(r - centerY) + Math.abs(s1 - s2)) / 2;
+        if (hexDist <= brushRadius) {
+          tiles.push({ x: q, y: r });
+        }
+      }
+    }
+    return tiles;
+  }
+
+  const startOffset = Math.floor(size / 2);
+  for (let dx = 0; dx < size; dx++) {
+    for (let dy = 0; dy < size; dy++) {
+      tiles.push({ x: centerX - startOffset + dx, y: centerY - startOffset + dy });
+    }
+  }
+  return tiles;
+}
+
 export class InfiniteGridSystem {
   constructor(gameStore) {
     this.gameStore = gameStore;
@@ -200,6 +235,217 @@ export class InfiniteGridSystem {
     const s1 = -q1 - r1;
     const s2 = -q2 - r2;
     return (Math.abs(q1 - q2) + Math.abs(r1 - r2) + Math.abs(s1 - s2)) / 2;
+  }
+
+  /**
+   * Line of hexes between two hex coordinates (cube lerp + rounding)
+   */
+  getHexLine(q1, r1, q2, r2) {
+    const distance = this.hexDistance(q1, r1, q2, r2);
+    if (distance === 0) return [{ q: q1, r: r1 }];
+    const targetQ = q2 + 1e-6;
+    const targetR = r2 + 2e-6;
+    const cells = [];
+    for (let i = 0; i <= distance; i++) {
+      const t = i / distance;
+      const rounded = this.hexRound(
+        q1 + (targetQ - q1) * t,
+        r1 + (targetR - r1) * t
+      );
+      const last = cells[cells.length - 1];
+      if (!last || last.q !== rounded.q || last.r !== rounded.r) {
+        cells.push(rounded);
+      }
+    }
+    return cells;
+  }
+
+  /**
+   * Canonical key for a hex edge between two adjacent cells.
+   */
+  canonicalHexEdgeKey(x1, y1, x2, y2) {
+    return x1 < x2 || (x1 === x2 && y1 < y2)
+      ? `${x1},${y1},${x2},${y2}`
+      : `${x2},${y2},${x1},${y1}`;
+  }
+
+  /**
+   * Stable identity for a hex corner (world-space vertex).
+   */
+  getHexVertexKey(point) {
+    return `${Math.round(point.x * 100)},${Math.round(point.y * 100)}`;
+  }
+
+  parseHexEdgeKey(key) {
+    const parts = String(key).split(',').map(Number);
+    if (parts.length !== 4 || parts.some((n) => !Number.isFinite(n))) return null;
+    return { x1: parts[0], y1: parts[1], x2: parts[2], y2: parts[3] };
+  }
+
+  _hexCornersForCell(cellQ, cellR) {
+    const { gridSize } = this.getGridState();
+    const cache = this._hexCornerCache || (this._hexCornerCache = new Map());
+    const key = `${gridSize}:${cellQ},${cellR}`;
+    let corners = cache.get(key);
+    if (!corners) {
+      const center = this.hexToWorld(cellQ, cellR);
+      corners = this.getHexCorners(center.x, center.y, gridSize / Math.sqrt(3));
+      if (cache.size > 5000) cache.clear();
+      cache.set(key, corners);
+    }
+    return corners;
+  }
+
+  hexVertexFromCellCorner(cellQ, cellR, cornerIndex) {
+    const point = this._hexCornersForCell(cellQ, cellR)[cornerIndex];
+    return {
+      x: point.x,
+      y: point.y,
+      key: this.getHexVertexKey(point),
+      cell: { q: cellQ, r: cellR },
+      corner: cornerIndex
+    };
+  }
+
+  /**
+   * Nearest honeycomb vertex (hex corner) to a world point.
+   */
+  snapToHexVertex(worldX, worldY) {
+    const cell = this.worldToHex(worldX, worldY);
+    const candidates = [cell, ...this.getHexNeighbors(cell.q, cell.r)];
+    let best = null;
+    let bestDistance = Infinity;
+    for (const candidate of candidates) {
+      for (let corner = 0; corner < 6; corner++) {
+        const vertex = this.hexVertexFromCellCorner(candidate.q, candidate.r, corner);
+        const distance = Math.hypot(vertex.x - worldX, vertex.y - worldY);
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          best = vertex;
+        }
+      }
+    }
+    return best;
+  }
+
+  /**
+   * The other endpoint of an edge and which cell corner it belongs to.
+   */
+  hexEdgeOtherVertex(cellA, cellB, excludeVertexKey) {
+    const edge = this.getHexEdge(cellA.q, cellA.r, cellB.q, cellB.r);
+    if (!edge) return null;
+    const startKey = this.getHexVertexKey(edge.start);
+    const endKey = this.getHexVertexKey(edge.end);
+    const other = startKey === excludeVertexKey ? edge.end : edge.start;
+    const otherKey = startKey === excludeVertexKey ? endKey : startKey;
+    for (const cell of [cellA, cellB]) {
+      for (let corner = 0; corner < 6; corner++) {
+        const vertex = this.hexVertexFromCellCorner(cell.q, cell.r, corner);
+        if (vertex.key === otherKey) return vertex;
+      }
+    }
+    return { x: other.x, y: other.y, key: otherKey, cell: { q: cellB.q, r: cellB.r }, corner: 0 };
+  }
+
+  /**
+   * The three vertex-connected edges incident to a honeycomb vertex.
+   */
+  hexVertexNeighbors(vertex) {
+    const offsets = [
+      [1, -1],
+      [1, 0],
+      [0, 1],
+      [-1, 1],
+      [-1, 0],
+      [0, -1]
+    ];
+    const { cell, corner } = vertex;
+    const incomingEdge = (corner + 5) % 6;
+    const outgoingEdge = corner;
+    const nextCorner = (corner + 1) % 6;
+    const prevOffset = offsets[incomingEdge];
+    const nextOffset = offsets[outgoingEdge];
+    const neighborPrev = { q: cell.q + prevOffset[0], r: cell.r + prevOffset[1] };
+    const neighborNext = { q: cell.q + nextOffset[0], r: cell.r + nextOffset[1] };
+    const third = this.hexEdgeOtherVertex(neighborPrev, neighborNext, vertex.key);
+    return [
+      { edgeKey: this.canonicalHexEdgeKey(cell.q, cell.r, neighborPrev.q, neighborPrev.r), vertex: this.hexVertexFromCellCorner(cell.q, cell.r, incomingEdge) },
+      { edgeKey: this.canonicalHexEdgeKey(cell.q, cell.r, neighborNext.q, neighborNext.r), vertex: this.hexVertexFromCellCorner(cell.q, cell.r, nextCorner) },
+      third ? { edgeKey: this.canonicalHexEdgeKey(neighborPrev.q, neighborPrev.r, neighborNext.q, neighborNext.r), vertex: third } : null
+    ].filter(Boolean);
+  }
+
+  /**
+   * A* path along the honeycomb lattice from a start vertex to the vertex
+   * nearest the target point. Returns a vertex-connected edge chain that
+   * never revisits a vertex.
+   */
+  walkHexLatticePath(startVertex, targetX, targetY, maxNodes = 2048) {
+    const empty = { edges: [], endVertex: startVertex };
+    if (!startVertex) return empty;
+    const target = this.snapToHexVertex(targetX, targetY);
+    if (!target || target.key === startVertex.key) return empty;
+
+    const heuristic = (vertex) => Math.hypot(vertex.x - targetX, vertex.y - targetY);
+    const cameFrom = new Map();
+    const gScore = new Map([[startVertex.key, 0]]);
+    const fScore = new Map([[startVertex.key, heuristic(startVertex)]]);
+    const closed = new Set();
+    const open = [startVertex];
+    let explored = 0;
+    let bestSeen = startVertex;
+
+    while (open.length > 0 && explored < maxNodes) {
+      let bestIndex = 0;
+      for (let i = 1; i < open.length; i++) {
+        if (fScore.get(open[i].key) < fScore.get(open[bestIndex].key)) bestIndex = i;
+      }
+      const current = open.splice(bestIndex, 1)[0];
+      if (current.key === target.key) return this.reconstructHexLatticePath(cameFrom, startVertex, current);
+      if (closed.has(current.key)) continue;
+      closed.add(current.key);
+      explored += 1;
+      if (heuristic(current) < heuristic(bestSeen)) bestSeen = current;
+
+      for (const candidate of this.hexVertexNeighbors(current)) {
+        if (closed.has(candidate.vertex.key)) continue;
+        const tentative = gScore.get(current.key) + 1;
+        if (tentative < (gScore.get(candidate.vertex.key) ?? Infinity)) {
+          cameFrom.set(candidate.vertex.key, { prevKey: current.key, edgeKey: candidate.edgeKey });
+          gScore.set(candidate.vertex.key, tentative);
+          fScore.set(candidate.vertex.key, tentative + heuristic(candidate.vertex));
+          open.push(candidate.vertex);
+        }
+      }
+    }
+
+    if (bestSeen.key !== startVertex.key) {
+      return this.reconstructHexLatticePath(cameFrom, startVertex, bestSeen);
+    }
+    return empty;
+  }
+
+  reconstructHexLatticePath(cameFrom, startVertex, endVertex) {
+    const edges = [];
+    let current = endVertex.key;
+    while (current !== startVertex.key) {
+      const step = cameFrom.get(current);
+      if (!step) break;
+      edges.unshift(step.edgeKey);
+      current = step.prevKey;
+    }
+    return { edges, endVertex };
+  }
+
+  /**
+   * Tiles covered by a brush centered on a grid cell.
+   * Square grids use the legacy size x size block; hex grids use a hex ring
+   * (all hexes within floor(size / 2) steps). Single source of truth for the
+   * hover preview and every paint/erase/elevation stamp.
+   */
+  getBrushTiles(centerX, centerY, brushSize) {
+    const { gridType } = this.getGridState();
+    return computeBrushTiles(centerX, centerY, brushSize, gridType);
   }
 
   /**

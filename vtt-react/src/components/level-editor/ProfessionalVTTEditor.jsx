@@ -31,6 +31,20 @@ import { useEditorKeyboard } from './useEditorKeyboard';
 
 import './styles/ProfessionalVTTEditor.css';
 
+const isFeatureWallType = (typeId) => {
+    const def = WALL_TYPES[typeId];
+    return !!(def && (def.interactive || def.isWindow));
+};
+
+const pointSegmentDistance2D = (px, py, ax, ay, bx, by) => {
+    const dx = bx - ax;
+    const dy = by - ay;
+    const lengthSq = dx * dx + dy * dy;
+    if (lengthSq < 1e-9) return Math.hypot(px - ax, py - ay);
+    const t = Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / lengthSq));
+    return Math.hypot(px - (ax + dx * t), py - (ay + dy * t));
+};
+
 const ProfessionalVTTEditor = () => {
     // eslint-disable-next-line no-console
     console.log('[ed-render] ' + JSON.stringify({ n: (window.__edRenderN = (window.__edRenderN || 0) + 1), sel: window.useLevelEditorStore?.getState?.().selectedWallKey }));
@@ -293,24 +307,20 @@ const elevationStrokePaintedRef = useRef(null);
     // raise/lower while the pointer stays on the same tile during a drag.
     const applyElevationStamp = useCallback((gridX, gridY, mode, target, brushSize) => {
         const size = Math.max(1, Math.round(brushSize || 1));
-        const startOffset = Math.floor(size / 2);
         const painted = elevationStrokePaintedRef.current || (elevationStrokePaintedRef.current = new Set());
+        const tiles = getGridSystem().getBrushTiles(gridX, gridY, size);
 
-        for (let dx = 0; dx < size; dx++) {
-            for (let dy = 0; dy < size; dy++) {
-                const x = gridX - startOffset + dx;
-                const y = gridY - startOffset + dy;
-                const key = `${x},${y}`;
-                if (painted.has(key)) continue;
-                painted.add(key);
+        for (const tile of tiles) {
+            const key = `${tile.x},${tile.y}`;
+            if (painted.has(key)) continue;
+            painted.add(key);
 
-                if (mode === 'raise') {
-                    adjustElevationAt(x, y, 1);
-                } else if (mode === 'lower') {
-                    adjustElevationAt(x, y, -1);
-                } else if (mode === 'flatten') {
-                    setElevationAt(x, y, target);
-                }
+            if (mode === 'raise') {
+                adjustElevationAt(tile.x, tile.y, 1);
+            } else if (mode === 'lower') {
+                adjustElevationAt(tile.x, tile.y, -1);
+            } else if (mode === 'flatten') {
+                setElevationAt(tile.x, tile.y, target);
             }
         }
     }, [adjustElevationAt, setElevationAt]);
@@ -385,6 +395,109 @@ const elevationStrokePaintedRef = useRef(null);
             return { x: screenX, y: screenY };
         }
     }, [gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, zoomLevel, playerZoom]);
+
+    // Place a door/window feature on the nearest wall: the host wall is split
+    // around the feature so the feature occupies a real gap in the wall run
+    // (visible and passable from both sides).
+    const placeWallFeature = useCallback((featureType, clientX, clientY) => {
+        const featureDef = WALL_TYPES[featureType];
+        if (!featureDef) return;
+        const coords = screenToGrid(clientX, clientY);
+        if (!coords || coords.worldX === undefined || coords.worldY === undefined) return;
+
+        const gridSystem = getGridSystem();
+        const { gridType } = gridSystem.getGridState();
+        const currentWalls = useLevelEditorStore.getState().wallData || {};
+        const mapId = activeMapIdRef.current;
+
+        if (gridType === 'hex') {
+            let best = null;
+            for (const [key, wall] of Object.entries(currentWalls)) {
+                const typeId = typeof wall === 'string' ? wall : wall?.type;
+                if (isFeatureWallType(typeId)) continue;
+                const parsed = gridSystem.parseHexEdgeKey(key);
+                if (!parsed) continue;
+                const edge = gridSystem.getHexEdge(parsed.x1, parsed.y1, parsed.x2, parsed.y2);
+                if (!edge) continue;
+                const distance = pointSegmentDistance2D(
+                    coords.worldX, coords.worldY,
+                    edge.start.x, edge.start.y, edge.end.x, edge.end.y
+                );
+                if (!best || distance < best.distance) best = { parsed, distance };
+            }
+            if (best && best.distance <= gridSize * 0.6) {
+                removeWall(best.parsed.x1, best.parsed.y1, best.parsed.x2, best.parsed.y2, mapId);
+                setWall(best.parsed.x1, best.parsed.y1, best.parsed.x2, best.parsed.y2, featureType, mapId);
+            }
+            return;
+        }
+
+        const clickX = (coords.worldX - gridOffsetX) / gridSize;
+        const clickY = (coords.worldY - gridOffsetY) / gridSize;
+        let host = null;
+        let nearestDistance = Infinity;
+        for (const [key, wall] of Object.entries(currentWalls)) {
+            const typeId = typeof wall === 'string' ? wall : wall?.type;
+            if (isFeatureWallType(typeId)) continue;
+            const [x1, y1, x2, y2] = key.split(',').map(Number);
+            if (![x1, y1, x2, y2].every((n) => Number.isFinite(n))) continue;
+            const distance = pointSegmentDistance2D(clickX, clickY, x1, y1, x2, y2);
+            if (distance < nearestDistance && distance < 1.5) {
+                nearestDistance = distance;
+                host = { key, typeId, x1, y1, x2, y2, wall };
+            }
+        }
+        if (!host) return;
+
+        const dx = host.x2 - host.x1;
+        const dy = host.y2 - host.y1;
+        const hostLength = Math.hypot(dx, dy);
+        if (hostLength < 1e-6) return;
+        const dirX = dx / hostLength;
+        const dirY = dy / hostLength;
+        const signX = Math.round(dirX);
+        const signY = Math.round(dirY);
+        const stepLengthSq = signX * signX + signY * signY;
+        if (stepLengthSq === 0) return;
+        const stepCount = Math.max(Math.abs(host.x2 - host.x1), Math.abs(host.y2 - host.y1));
+        if (stepCount < 1) return;
+        const projected = Math.max(0, Math.min(hostLength,
+            (clickX - host.x1) * dirX + (clickY - host.y1) * dirY
+        ));
+        const projectedPoint = {
+            x: host.x1 + dirX * projected,
+            y: host.y1 + dirY * projected
+        };
+        // Snap the feature to whole lattice tiles so wall keys stay integer
+        // (pathfinding/LOS index integer edges only).
+        const stepIndex = Math.max(0, Math.min(stepCount - 1, Math.round(
+            ((projectedPoint.x - host.x1) * signX + (projectedPoint.y - host.y1) * signY) / stepLengthSq
+        )));
+        const startLattice = {
+            x: host.x1 + signX * stepIndex,
+            y: host.y1 + signY * stepIndex
+        };
+        const endLattice = {
+            x: startLattice.x + signX,
+            y: startLattice.y + signY
+        };
+
+        const hostExtra = host.wall && typeof host.wall === 'object'
+            ? Object.fromEntries(Object.entries(host.wall).filter(([field]) => field !== 'id'))
+            : null;
+        const hostType = host.typeId || 'stone_wall';
+
+        removeWall(host.x1, host.y1, host.x2, host.y2, mapId);
+        if (stepIndex > 0) {
+            setWall(host.x1, host.y1, startLattice.x, startLattice.y, hostType, mapId);
+            if (hostExtra) updateWall(host.x1, host.y1, startLattice.x, startLattice.y, hostExtra);
+        }
+        if (stepIndex + 1 < stepCount) {
+            setWall(endLattice.x, endLattice.y, host.x2, host.y2, hostType, mapId);
+            if (hostExtra) updateWall(endLattice.x, endLattice.y, host.x2, host.y2, hostExtra);
+        }
+        setWall(startLattice.x, startLattice.y, endLattice.x, endLattice.y, featureType, mapId);
+    }, [screenToGrid, setWall, removeWall, updateWall, gridSize, gridOffsetX, gridOffsetY]);
 
     // Find wall at grid position - checks if a wall passes through or near a grid point
     const findWallAtPosition = useCallback((gridX, gridY) => {
@@ -925,8 +1038,9 @@ const elevationStrokePaintedRef = useRef(null);
         // to prevent data bleeding if the map switches before the mouse is released.
         activeMapIdRef.current = getExplicitCurrentMapId();
 
-        // Ignore right-clicks (button 2) - let context menu handlers deal with them
-        if (e.button === 2) {
+        // Ignore right-clicks (button 2, context menu) and middle-clicks
+        // (button 1, camera panning) - only the left button draws/places.
+        if (e.button !== 0) {
             return;
         }
 
@@ -1134,87 +1248,7 @@ const elevationStrokePaintedRef = useRef(null);
                 if (isDraggingWall || isObjectLocked || selectedWindow || selectedWallKey) {
                     return;
                 }
-
-                // Place door on existing wall - find closest point on nearest wall (similar to windows)
-                if (toolSettings.selectedWallType) {
-                    const doorCoords = screenToGrid(e.clientX, e.clientY);
-                    if (doorCoords && doorCoords.worldX !== undefined && doorCoords.worldY !== undefined) {
-                        // Use precise world coordinates and convert to grid coordinates (not snapped)
-                        // This allows doors to be placed anywhere along the wall, not just on grid lines
-                        const clickX = (doorCoords.worldX - gridOffsetX) / gridSize;
-                        const clickY = (doorCoords.worldY - gridOffsetY) / gridSize;
-
-                        // Find the nearest wall and closest point on it
-                        let nearestWall = null;
-                        let nearestDist = Infinity;
-                        let closestPointX = 0;
-                        let closestPointY = 0;
-
-                        for (const [wallKey, wall] of Object.entries(wallData)) {
-                            // Get the wall type
-                            const wallType = typeof wall === 'string' ? wall : wall?.type;
-                            // Skip existing doors - don't place doors on doors
-                            if (wallType && wallType.includes('door')) {
-                                continue;
-                            }
-
-                            const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
-
-                            // Calculate closest point on wall segment to click position
-                            const dx = x2 - x1;
-                            const dy = y2 - y1;
-                            const wallLength = Math.sqrt(dx * dx + dy * dy);
-
-                            if (wallLength === 0) continue; // Skip zero-length walls
-
-                            // Project click point onto wall line, clamp to segment
-                            const t = Math.max(0, Math.min(1,
-                                ((clickX - x1) * dx + (clickY - y1) * dy) / (wallLength * wallLength)
-                            ));
-
-                            // Closest point on wall - use exact position without snapping
-                            const projX = x1 + t * dx;
-                            const projY = y1 + t * dy;
-
-                            // Distance from click to closest point on wall
-                            const dist = Math.sqrt(Math.pow(clickX - projX, 2) + Math.pow(clickY - projY, 2));
-
-                            if (dist < nearestDist && dist < 1.5) { // Within 1.5 tiles of wall
-                                nearestDist = dist;
-                                nearestWall = { key: wallKey, x1, y1, x2, y2 };
-                                // Use exact projected point - no snapping to grid
-                                closestPointX = projX;
-                                closestPointY = projY;
-                            }
-                        }
-
-                        if (nearestWall) {
-                            // Doors should be placed ALONG the wall (replacing a section), not perpendicular
-                            // Calculate wall direction
-                            const dx = nearestWall.x2 - nearestWall.x1;
-                            const dy = nearestWall.y2 - nearestWall.y1;
-                            const wallLength = Math.sqrt(dx * dx + dy * dy);
-
-                            // Normalize direction vector
-                            const dirX = dx / wallLength;
-                            const dirY = dy / wallLength;
-
-                            // Door length (1 tile)
-                            const doorLength = 1.0;
-
-                            // Create door segment along the wall at the projected point
-                            // Door extends half a tile in each direction along the wall
-                            const halfLength = doorLength / 2;
-                            const startX = closestPointX - dirX * halfLength;
-                            const startY = closestPointY - dirY * halfLength;
-                            const endX = closestPointX + dirX * halfLength;
-                            const endY = closestPointY + dirY * halfLength;
-
-                            // Place door along the wall at the exact position
-                            setWall(startX, startY, endX, endY, toolSettings.selectedWallType);
-                        }
-                    }
-                }
+                placeWallFeature(toolSettings.selectedWallType, e.clientX, e.clientY);
                 return;
 
             case 'window_place':
@@ -1222,71 +1256,7 @@ const elevationStrokePaintedRef = useRef(null);
                 if (isDraggingWall || isObjectLocked || selectedWindow || selectedWallKey) {
                     return;
                 }
-
-                // Place window overlay on existing wall - find closest point on nearest wall
-                if (toolSettings.selectedWallType) {
-                    const windowCoords = screenToGrid(e.clientX, e.clientY);
-                    if (windowCoords && windowCoords.worldX !== undefined && windowCoords.worldY !== undefined) {
-                        // Use precise world coordinates and convert to grid coordinates (not snapped)
-                        // This allows windows to be placed anywhere along the wall, not just on grid lines
-                        const clickX = (windowCoords.worldX - gridOffsetX) / gridSize;
-                        const clickY = (windowCoords.worldY - gridOffsetY) / gridSize;
-
-                        // Find the nearest wall and closest point on it
-                        let nearestWall = null;
-                        let nearestDist = Infinity;
-                        let closestPointX = 0;
-                        let closestPointY = 0;
-
-                        for (const [wallKey, wall] of Object.entries(wallData)) {
-                            // Get the wall type
-                            const wallType = typeof wall === 'string' ? wall : wall?.type;
-                            // Skip doors - don't place windows on doors
-                            if (wallType && wallType.includes('door')) {
-                                continue;
-                            }
-
-                            const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
-
-                            // Calculate closest point on wall segment to click position
-                            const dx = x2 - x1;
-                            const dy = y2 - y1;
-                            const wallLength = Math.sqrt(dx * dx + dy * dy);
-
-                            if (wallLength === 0) continue; // Skip zero-length walls
-
-                            // Project click point onto wall line, clamp to segment
-                            const t = Math.max(0, Math.min(1,
-                                ((clickX - x1) * dx + (clickY - y1) * dy) / (wallLength * wallLength)
-                            ));
-
-                            // Closest point on wall - use exact position without snapping
-                            const projX = x1 + t * dx;
-                            const projY = y1 + t * dy;
-
-                            // Distance from click to closest point on wall
-                            const dist = Math.sqrt(Math.pow(clickX - projX, 2) + Math.pow(clickY - projY, 2));
-
-                            if (dist < nearestDist && dist < 1.5) { // Within 1.5 tiles of wall
-                                nearestDist = dist;
-                                nearestWall = { key: wallKey, x1, y1, x2, y2 };
-                                // Use exact projected point - no snapping to grid
-                                closestPointX = projX;
-                                closestPointY = projY;
-                            }
-                        }
-
-                        if (nearestWall) {
-                            // Place window at the exact closest point on the wall
-                            setWindowOverlay(
-                                closestPointX,
-                                closestPointY,
-                                toolSettings.selectedWallType,
-                                nearestWall.key // Pass wall key for reference
-                            );
-                        }
-                    }
-                }
+                placeWallFeature(toolSettings.selectedWallType, e.clientX, e.clientY);
                 return;
 
             case 'wall_erase':
@@ -1822,10 +1792,37 @@ const elevationStrokePaintedRef = useRef(null);
                     }
                     // Snap to nearest grid intersection (corner) for wall placement
                     // Using Math.round instead of Math.floor so both X and Y advance
-                    // at tile centers, enabling clean diagonal walls across tiles
+                    // at tile centers, enabling clean diagonal walls across tiles.
+                    // Hex grids paint vertex-connected hex edges under the cursor.
                     const wdGs = gridSize || 50;
                     const wdGox = gridOffsetX || 0;
                     const wdGoy = gridOffsetY || 0;
+                    const wallStartGridSystem = getGridSystem();
+                    const wallStartGridType = wallStartGridSystem.getGridState().gridType;
+                    if (wallStartGridType === 'hex') {
+                        const vertex = wallStartGridSystem.snapToHexVertex(coords.worldX, coords.worldY);
+                        wallChainRef.current = {
+                            segStartX: coords.gridX,
+                            segStartY: coords.gridY,
+                            lastX: null,
+                            lastY: null,
+                            dirX: null,
+                            dirY: null,
+                            wallType: validWallType,
+                            committed: false,
+                            moved: false,
+                            edges: [],
+                            startVertex: vertex
+                        };
+                        const wallStartCoord = vertex
+                            ? { ...coords, gridX: vertex.cell.q, gridY: vertex.cell.r }
+                            : coords;
+                        setIsCurrentlyDrawing(true);
+                        setCurrentDrawingTool('wall_draw');
+                        setCurrentPath([wallStartCoord]);
+                        setCurrentDrawingPath([]);
+                        break;
+                    }
                     const wallStartGx = coords.worldX !== undefined
                         ? Math.round((coords.worldX - wdGox) / wdGs)
                         : coords.gridX;
@@ -1855,7 +1852,7 @@ const elevationStrokePaintedRef = useRef(null);
             default:
                 break;
         }
-    }, [isEditorMode, selectedTool, screenToGrid, toolSettings, paintTerrainBrush, removeTerrainAtPosition, paintTerrainLine, removeTerrainLine, removeFogAtPosition, gridSize, zoomLevel, playerZoom, getObjectAtPosition, selectEnvironmentalObject, removeEnvironmentalObject, addEnvironmentalObject, clearAllFog, coverEntireMapWithFog, setIsDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool, setCurrentPath, setCurrentDrawingPath, pushHistorySnapshot, applyElevationStamp, setRampAt]);
+    }, [isEditorMode, selectedTool, screenToGrid, toolSettings, paintTerrainBrush, removeTerrainAtPosition, paintTerrainLine, removeTerrainLine, removeFogAtPosition, gridSize, zoomLevel, playerZoom, getObjectAtPosition, selectEnvironmentalObject, removeEnvironmentalObject, addEnvironmentalObject, clearAllFog, coverEntireMapWithFog, setIsDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool, setCurrentPath, setCurrentDrawingPath, pushHistorySnapshot, applyElevationStamp, setRampAt, placeWallFeature]);
 
     const handleMouseMove = useCallback((e) => {
         // For select tools, let ObjectSystem handle the events
@@ -2081,13 +2078,37 @@ const elevationStrokePaintedRef = useRef(null);
                     }
                 }
                 break;
-            case 'wall_draw':
+            case 'wall_draw': {
                 // Continue wall drawing - update current path for real-time preview
                 const wallCoords = screenToGrid(e.clientX, e.clientY);
                 if (wallCoords && currentPath.length > 0) {
-                    // Snap to nearest grid intersection for wall placement
-                    // Using Math.round so both X and Y advance at tile midpoints,
-                    // enabling clean diagonal walls across tiles
+                    const wallMoveGridSystem = getGridSystem();
+                    const wallMoveGridType = wallMoveGridSystem.getGridState().gridType;
+                    const wallMode = toolSettings.wallMode || 'continuous';
+
+                    if (wallMoveGridType === 'hex' && wallMode !== 'rectangle') {
+                        // Hex: walk the honeycomb lattice from the start vertex toward
+                        // the cursor; every step is a vertex-connected wall edge.
+                        const chain = wallChainRef.current;
+                        if (chain && chain.startVertex) {
+                            chain.moved = true;
+                            const walk = wallMoveGridSystem.walkHexLatticePath(
+                                chain.startVertex,
+                                wallCoords.worldX,
+                                wallCoords.worldY
+                            );
+                            const changed = walk.edges.length !== chain.edges.length ||
+                                walk.edges.some((edgeKey, index) => edgeKey !== chain.edges[index]);
+                            if (changed) {
+                                chain.edges = walk.edges;
+                                chain.endVertex = walk.endVertex;
+                                setCurrentDrawingPath(walk.edges.map((edgeKey) => ({ isHexEdge: true, edgeKey })));
+                            }
+                        }
+                        break;
+                    }
+
+                    // Snap to nearest grid intersection for wall placement.
                     const wmGs = gridSize || 50;
                     const wmGox = gridOffsetX || 0;
                     const wmGoy = gridOffsetY || 0;
@@ -2099,7 +2120,6 @@ const elevationStrokePaintedRef = useRef(null);
                         : wallCoords.gridY;
                     const snappedCoords = { ...wallCoords, gridX: snapGx, gridY: snapGy };
 
-                    const wallMode = toolSettings.wallMode || 'continuous';
                     if (wallMode === 'rectangle') {
                         // For rectangle mode, show rectangle preview using snapped coords
                         const newPath = [currentPath[0], snappedCoords];
@@ -2124,6 +2144,7 @@ const elevationStrokePaintedRef = useRef(null);
                     }
                 }
                 break;
+            }
             case 'wall_select':
                 // Handle wall or window dragging using refs to avoid stale state
                 if (isDraggingWall && lastDragPosRef.current && isDrawing) {
@@ -2639,7 +2660,13 @@ const elevationStrokePaintedRef = useRef(null);
         }
     }, [isDrawing, isEditorMode, screenToGrid, selectedTool, toolSettings, paintTerrainBrush, removeTerrainAtPosition, currentPath, setCurrentPath, setCurrentDrawingPath, handleDrawingErase, removeFogAtPosition, gridSize, windowOverlays, wallData]);
 
-    const handleMouseUp = useCallback(() => {
+    const handleMouseUp = useCallback((e) => {
+        // Only the left button finishes a drawing interaction; middle/right
+        // button releases must not commit or clear anything.
+        if (e && typeof e.button === 'number' && e.button !== 0) {
+            return;
+        }
+
         // For select tools, let ObjectSystem handle the events
         if (selectedTool === 'select') {
             return;
@@ -2715,7 +2742,25 @@ const elevationStrokePaintedRef = useRef(null);
                 // Direct-line mode: commit the wall from start to end point.
                 // Supports horizontal, vertical, and diagonal walls.
                 const chain = wallChainRef.current;
-                if (chain && (chain.segStartX !== chain.lastX || chain.segStartY !== chain.lastY)) {
+                const commitGridSystem = getGridSystem();
+                const { gridType: commitGridType } = commitGridSystem.getGridState();
+                if (commitGridType === 'hex') {
+                    // Hex: commit the painted chain of vertex-connected edges
+                    if (chain && chain.moved && chain.edges && chain.edges.length > 0) {
+                        for (const edgeKey of chain.edges) {
+                            const parsed = commitGridSystem.parseHexEdgeKey(edgeKey);
+                            if (!parsed) continue;
+                            setWall(
+                                parsed.x1,
+                                parsed.y1,
+                                parsed.x2,
+                                parsed.y2,
+                                wallType,
+                                activeMapIdRef.current
+                            );
+                        }
+                    }
+                } else if (chain && (chain.segStartX !== chain.lastX || chain.segStartY !== chain.lastY)) {
                     setWall(
                         chain.segStartX,
                         chain.segStartY,
@@ -2778,25 +2823,23 @@ const elevationStrokePaintedRef = useRef(null);
             selectedTool !== 'door_place' &&
             selectedTool !== 'fog_clear_all') {
             // Finalize the drawing path for drawing tools only
-            // For freehand, require at least 2 points to create a visible line
-            if (selectedTool === 'freehand' && currentPath.length < 2) {
-                // Don't save single-point freehand drawings (they won't render anyway)
-            } else {
-                const pathData = {
-                    tool: selectedTool,
-                    points: currentPath,
-                    style: {
-                        strokeWidth: toolSettings.strokeWidth || 2,
-                        strokeColor: toolSettings.strokeColor || '#000000',
-                        fillColor: toolSettings.fillColor || 'transparent',
-                        opacity: toolSettings.opacity || 1
-                    },
-                    layer: selectedTool === 'freehand' || selectedTool === 'line' || selectedTool === 'rectangle' || selectedTool === 'circle' || selectedTool === 'polygon' || selectedTool === 'text' ? 'drawings' : activeLayer,
-                    timestamp: Date.now()
-                };
+            // Single-point freehand strokes are kept: they render as a dot
+            // (renderSmoothStroke has a single-point fallback), so discarding
+            // them made clicks vanish the instant the mouse was released.
+            const pathData = {
+                tool: selectedTool,
+                points: currentPath,
+                style: {
+                    strokeWidth: toolSettings.strokeWidth || 2,
+                    strokeColor: toolSettings.strokeColor || '#000000',
+                    fillColor: toolSettings.fillColor || 'transparent',
+                    opacity: toolSettings.opacity || 1
+                },
+                layer: selectedTool === 'freehand' || selectedTool === 'line' || selectedTool === 'rectangle' || selectedTool === 'circle' || selectedTool === 'polygon' || selectedTool === 'text' ? 'drawings' : activeLayer,
+                timestamp: Date.now()
+            };
 
-                addDrawingPath(pathData, activeMapIdRef.current);
-            }
+            addDrawingPath(pathData, activeMapIdRef.current);
         }
 
         // Reset drawing state

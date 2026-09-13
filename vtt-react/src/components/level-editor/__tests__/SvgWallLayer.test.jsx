@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { act, render, cleanup } from '@testing-library/react';
 import SvgWallLayer from '../SvgWallLayer';
 import useGameStore from '../../../store/gameStore';
 import useLevelEditorStore from '../../../store/levelEditorStore';
@@ -85,6 +85,30 @@ describe('SvgWallLayer', () => {
     expect(svg.querySelectorAll('polyline').length).toBeGreaterThan(0);
   });
 
+  it('compensates camera pan imperatively while a camera drag is active', () => {
+    setView();
+    setEditor({
+      wallData: { '0,0,1,0': { type: 'stone_wall' } }
+    });
+
+    const { container } = render(<SvgWallLayer />);
+    const svg = container.querySelector('svg.svg-wall-layer');
+    expect(svg).toBeTruthy();
+    expect(svg.style.overflow).toBe('visible');
+    expect(svg.style.transform).toBe('');
+
+    act(() => {
+      useGameStore.setState({ isDraggingCamera: true });
+      useGameStore.getState().moveCameraBy(-100, 0);
+    });
+    expect(svg.style.transform).toContain('translate(100px, 0px)');
+
+    act(() => {
+      useGameStore.setState({ isDraggingCamera: false });
+    });
+    expect(svg.style.transform).toBe('');
+  });
+
   it('renders nothing in flat topdown 2D', () => {
     setView({ viewMode: '2d' });
     setEditor({
@@ -113,5 +137,37 @@ describe('SvgWallLayer', () => {
     });
     const withFog = render(<SvgWallLayer />);
     expect(withFog.container.querySelectorAll('path[fill="rgba(0,0,0,0.16)"]').length).toBe(0);
+  });
+
+  it('keeps every wall pattern and side polygon non-degenerate for a closed room', () => {
+    setView({ viewRotation: 45 });
+    setEditor({
+      wallData: {
+        '0,0,4,0': { type: 'stone_wall' },
+        '0,4,4,4': { type: 'stone_wall' },
+        '0,0,0,4': { type: 'stone_wall' },
+        '4,0,4,4': { type: 'stone_wall' }
+      }
+    });
+
+    const { container } = render(<SvgWallLayer />);
+    const svg = container.querySelector('svg.svg-wall-layer');
+    expect(svg).toBeTruthy();
+
+    const patterns = [...svg.querySelectorAll('pattern')];
+    expect(patterns.length).toBeGreaterThan(0);
+    for (const pattern of patterns) {
+      const match = /matrix\(([^)]+)\)/.exec(pattern.getAttribute('patternTransform'));
+      expect(match).toBeTruthy();
+      const [a, b, c, d] = match[1].split(/\s+/).map(Number);
+      expect(Math.hypot(a, b)).toBeGreaterThan(1e-6);
+      expect(Math.hypot(c, d)).toBeGreaterThan(1e-6);
+    }
+
+    for (const polygon of svg.querySelectorAll('polygon')) {
+      const points = polygon.getAttribute('points').split(' ');
+      const unique = new Set(points);
+      expect(unique.size).toBeGreaterThanOrEqual(3);
+    }
   });
 });

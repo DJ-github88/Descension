@@ -3,6 +3,14 @@ import { createPortal } from 'react-dom';
 import { getIconUrl } from '../../utils/assetManager';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { useStableWindowRegistration } from '../../hooks/useStableWindowRegistration';
+import {
+    buildContainerShapeCells,
+    containerShapeFromCells,
+    countContainerFloorCells,
+    getContainerShapeCells,
+    resizeContainerShapeCells
+} from '../../utils/containerShapeUtils';
+import { getContainerShapePreset } from '../../data/containerShapePresets';
 
 function ContainerWizard({ onComplete, onCancel, onClose, initialData, editingContainer, isEditing: isEditingProp }) {
     const resolvedOnCancel = onCancel || onClose;
@@ -41,17 +49,18 @@ function ContainerWizard({ onComplete, onCancel, onClose, initialData, editingCo
     const [containerData, setContainerData] = useState(() => {
         const src = resolvedInitialData;
         if (src) {
+            const srcIcon = containerIcons.find(i => i.id === src.iconId) || containerIcons[0];
             return {
-                name: src.name || containerIcons[0].defaultName,
-                rows: src.rows || src.containerProperties?.gridSize?.rows || containerIcons[0].defaultRows,
-                cols: src.cols || src.containerProperties?.gridSize?.cols || containerIcons[0].defaultCols,
+                name: src.name || srcIcon.defaultName,
+                rows: src.rows || src.gridSize?.rows || src.containerProperties?.gridSize?.rows || srcIcon.defaultRows,
+                cols: src.cols || src.gridSize?.cols || src.containerProperties?.gridSize?.cols || srcIcon.defaultCols,
                 isLocked: src.isLocked || src.containerProperties?.isLocked || false,
                 lockType: src.lockType || src.containerProperties?.lockType || 'none',
                 lockDC: src.lockDC || src.containerProperties?.lockDC || 10,
                 lockCode: src.lockCode || src.containerProperties?.lockCode || '',
                 iconId: src.iconId || containerIcons[0].id,
                 quality: src.quality || 'common',
-                description: src.description || containerIcons[0].defaultDesc,
+                description: src.description || srcIcon.defaultDesc,
                 type: 'container',
                 flavorText: src.flavorText || src.containerProperties?.flavorText || '',
                 maxAttempts: src.maxAttempts || src.containerProperties?.maxAttempts || 3,
@@ -74,6 +83,22 @@ function ContainerWizard({ onComplete, onCancel, onClose, initialData, editingCo
         };
     });
 
+    const [shapeCells, setShapeCells] = useState(() => {
+        const src = resolvedInitialData;
+        const srcIcon = containerIcons.find(i => i.id === (src?.iconId || containerIcons[0].id)) || containerIcons[0];
+        const rows = src?.rows || src?.gridSize?.rows || src?.containerProperties?.gridSize?.rows || srcIcon.defaultRows;
+        const cols = src?.cols || src?.gridSize?.cols || src?.containerProperties?.gridSize?.cols || srcIcon.defaultCols;
+        const shape = src?.shape || src?.containerProperties?.shape;
+
+        if (shape) return getContainerShapeCells(shape, rows, cols);
+        return buildContainerShapeCells(getContainerShapePreset(srcIcon.id), rows, cols);
+    });
+
+    const [shapeEditMode, setShapeEditMode] = useState(false);
+    const [isPaintingShape, setIsPaintingShape] = useState(false);
+    const shapePaintValueRef = useRef(true);
+    const floorCount = countContainerFloorCells(shapeCells);
+
     const [prevIconId, setPrevIconId] = useState(containerData.iconId);
 
     useEffect(() => {
@@ -87,6 +112,8 @@ function ContainerWizard({ onComplete, onCancel, onClose, initialData, editingCo
     const selectedIcon = containerIcons.find(i => i.id === containerData.iconId);
 
     const handleSubmit = () => {
+        const rows = Math.max(1, parseInt(containerData.rows, 10) || 4);
+        const cols = Math.max(1, parseInt(containerData.cols, 10) || 6);
         const containerItem = {
             id: Date.now().toString(),
             name: containerData.name || 'Unnamed Container',
@@ -94,12 +121,15 @@ function ContainerWizard({ onComplete, onCancel, onClose, initialData, editingCo
             description: containerData.description,
             type: 'container',
             iconId: containerData.iconId,
+            rows,
+            cols,
             containerProperties: {
                 isLocked: containerData.isLocked,
                 lockType: containerData.lockType,
                 lockDC: containerData.lockDC,
                 lockCode: containerData.lockCode,
-                gridSize: { rows: parseInt(containerData.rows) || 4, cols: parseInt(containerData.cols) || 6 },
+                gridSize: { rows, cols },
+                shape: containerShapeFromCells(shapeCells),
                 items: [],
                 flavorText: containerData.flavorText,
                 maxAttempts: containerData.maxAttempts,
@@ -122,6 +152,7 @@ function ContainerWizard({ onComplete, onCancel, onClose, initialData, editingCo
     const handleIconChange = (iconId) => {
         if (isEditing) return;
         const icon = containerIcons.find(i => i.id === iconId);
+        setShapeCells(buildContainerShapeCells(getContainerShapePreset(iconId), icon.defaultRows, icon.defaultCols));
         setContainerData(prev => ({
             ...prev,
             iconId,
@@ -133,6 +164,56 @@ function ContainerWizard({ onComplete, onCancel, onClose, initialData, editingCo
     };
 
     const updateData = (updates) => setContainerData(prev => ({ ...prev, ...updates }));
+
+    const updateSize = (rows, cols) => {
+        const nextRows = Math.max(1, Math.min(12, rows));
+        const nextCols = Math.max(1, Math.min(12, cols));
+        setShapeCells(prev => resizeContainerShapeCells(prev, nextRows, nextCols));
+        updateData({ rows: nextRows, cols: nextCols });
+    };
+
+    const setShapeCell = (row, col, value) => {
+        setShapeCells(prev => {
+            if (prev[row][col] === value) return prev;
+            if (!value && countContainerFloorCells(prev) <= 1) return prev;
+
+            const next = prev.map(r => [...r]);
+            next[row][col] = value;
+            return next;
+        });
+    };
+
+    const handleShapeCellMouseDown = (row, col) => {
+        if (!shapeEditMode) return;
+
+        const value = !shapeCells[row][col];
+        if (!value && floorCount <= 1) return;
+
+        shapePaintValueRef.current = value;
+        setIsPaintingShape(true);
+        setShapeCell(row, col, value);
+    };
+
+    const handleShapeCellMouseEnter = (row, col) => {
+        if (!shapeEditMode || !isPaintingShape) return;
+        setShapeCell(row, col, shapePaintValueRef.current);
+    };
+
+    const resetShape = () => {
+        setShapeCells(buildContainerShapeCells(
+            getContainerShapePreset(containerData.iconId),
+            containerData.rows,
+            containerData.cols
+        ));
+    };
+
+    useEffect(() => {
+        if (!isPaintingShape) return;
+
+        const stopPainting = () => setIsPaintingShape(false);
+        window.addEventListener('mouseup', stopPainting);
+        return () => window.removeEventListener('mouseup', stopPainting);
+    }, [isPaintingShape]);
 
     const updateFailureDetails = (updates) => setContainerData(prev => ({
         ...prev,
@@ -193,33 +274,58 @@ function ContainerWizard({ onComplete, onCancel, onClose, initialData, editingCo
                                 </div>
                                 <div className="cw-selected-info">
                                     <span className="cw-selected-name">{selectedIcon?.name}</span>
-                                    <span className="cw-selected-size">{containerData.rows} x {containerData.cols} slots</span>
+                                    <span className="cw-selected-size">{containerData.rows} x {containerData.cols} grid &middot; {floorCount} slots</span>
                                 </div>
-                                <div className="cw-grid-preview">
+                                <div className={`cw-grid-preview ${shapeEditMode ? 'cw-grid-preview--editing' : ''}`}>
                                     <div className="cw-grid-inner" style={{
                                         gridTemplateColumns: `repeat(${containerData.cols}, 1fr)`,
                                         gridTemplateRows: `repeat(${containerData.rows}, 1fr)`
                                     }}>
-                                        {Array.from({ length: containerData.rows * containerData.cols }).map((_, i) => (
-                                            <div key={i} className="cw-grid-cell" />
-                                        ))}
+                                        {shapeCells.map((row, rowIndex) => row.map((solid, colIndex) => (
+                                            <div
+                                                key={`${rowIndex}-${colIndex}`}
+                                                className={`cw-grid-cell ${solid ? '' : 'cw-grid-cell--void'}`}
+                                                onMouseDown={(e) => { e.preventDefault(); handleShapeCellMouseDown(rowIndex, colIndex); }}
+                                                onMouseEnter={() => handleShapeCellMouseEnter(rowIndex, colIndex)}
+                                            />
+                                        )))}
                                     </div>
                                 </div>
+                                <div className="cw-shape-toolbar">
+                                    <button
+                                        className={`cw-shape-btn ${shapeEditMode ? 'active' : ''}`}
+                                        onClick={() => {
+                                            setShapeEditMode(prev => !prev);
+                                            setIsPaintingShape(false);
+                                        }}
+                                    >
+                                        <i className={`fas ${shapeEditMode ? 'fa-check' : 'fa-pen-to-square'}`} />
+                                        <span>{shapeEditMode ? 'Done Shaping' : 'Edit Shape'}</span>
+                                    </button>
+                                    <button className="cw-shape-btn" onClick={resetShape}>
+                                        <i className="fas fa-rotate-left" />
+                                        <span>Reset Shape</span>
+                                    </button>
+                                    <span className="cw-shape-count"><i className="fas fa-grip" /> {floorCount}</span>
+                                </div>
+                                {shapeEditMode && (
+                                    <div className="cw-hint">Click or drag tiles to add or remove storage space. Chests and crates look best kept rectangular.</div>
+                                )}
                                 <div className="cw-row">
                                     <div className="cw-field cw-field--sm">
                                         <label>Rows</label>
                                         <div className="cw-number-input">
-                                            <button onClick={() => updateData({ rows: Math.max(1, containerData.rows - 1) })}>-</button>
+                                            <button onClick={() => updateSize(containerData.rows - 1, containerData.cols)}>-</button>
                                             <span>{containerData.rows}</span>
-                                            <button onClick={() => updateData({ rows: Math.min(12, containerData.rows + 1) })}>+</button>
+                                            <button onClick={() => updateSize(containerData.rows + 1, containerData.cols)}>+</button>
                                         </div>
                                     </div>
                                     <div className="cw-field cw-field--sm">
                                         <label>Columns</label>
                                         <div className="cw-number-input">
-                                            <button onClick={() => updateData({ cols: Math.max(1, containerData.cols - 1) })}>-</button>
+                                            <button onClick={() => updateSize(containerData.rows, containerData.cols - 1)}>-</button>
                                             <span>{containerData.cols}</span>
-                                            <button onClick={() => updateData({ cols: Math.min(12, containerData.cols + 1) })}>+</button>
+                                            <button onClick={() => updateSize(containerData.rows, containerData.cols + 1)}>+</button>
                                         </div>
                                     </div>
                                 </div>

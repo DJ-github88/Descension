@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import MythrillWindow from './MythrillWindow';
 import useShareableStore from '../../store/shareableStore';
 import useGameStore from '../../store/gameStore';
+import useAuthStore from '../../store/authStore';
 import { getCustomIconUrl } from '../../utils/assetManager';
 import campaignService from '../../services/campaignService';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
@@ -271,6 +272,12 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   const isGMMode = useGameStore(state => state.isGMMode);
   const { allowed: journalBasicAllowed, loading: journalBasicLoading } = useFeatureFlag('journalBasic');
   const { allowed: journalFullAllowed } = useFeatureFlag('journalFull');
+  const authUser = useAuthStore(state => state.user);
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+
+  const isGuestOrUnauthenticated = !authUser || !isAuthenticated || Boolean(authUser?.isGuest);
+  const canAccessBoard = !isGuestOrUnauthenticated && Boolean(journalFullAllowed || isGMMode);
+  const canAccessBooks = !isGuestOrUnauthenticated;
 
   const [noteEditMode, setNoteEditMode] = useState('edit');
   const [showPromoteMenu, setShowPromoteMenu] = useState(false);
@@ -444,13 +451,26 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
     }
   }, [showFolderDropdown, showAddOrbFolderDropdown, showReceivedFolderDropdown]);
 
-  // Tabs for the journal
-  const tabs = [
-    { id: 'board', label: 'Knowledge Board', icon: 'fa-project-diagram' },
-    { id: 'sourcebook', label: 'Books & Chapters', icon: 'fa-book-open' },
-    { id: 'received', label: 'Received Handouts', icon: 'fa-inbox' },
-    { id: 'notes', label: 'My Notes', icon: 'fa-sticky-note' }
-  ];
+  // Tabs for the journal filtered by account capabilities
+  const tabs = useMemo(() => {
+    const list = [];
+    if (canAccessBoard) {
+      list.push({ id: 'board', label: 'Knowledge Board', icon: 'fa-project-diagram' });
+    }
+    if (canAccessBooks) {
+      list.push({ id: 'sourcebook', label: 'Books & Chapters', icon: 'fa-book-open' });
+    }
+    list.push({ id: 'received', label: 'Received Handouts', icon: 'fa-inbox' });
+    list.push({ id: 'notes', label: 'My Notes', icon: 'fa-sticky-note' });
+    return list;
+  }, [canAccessBoard, canAccessBooks]);
+
+  // Keep activeTab synced to an accessible tab
+  useEffect(() => {
+    if (tabs.length > 0 && !tabs.some(t => t.id === activeTab)) {
+      setActiveTab(tabs[0].id);
+    }
+  }, [tabs, activeTab]);
 
   // Handle orb drag
   const handleOrbMouseDown = useCallback((e, orb) => {
@@ -1790,54 +1810,23 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   const renderTabContent = () => {
     switch (activeTab) {
       case 'board':
-        return journalFullAllowed ? renderBoardTab() : renderBoardLockedView();
+        return canAccessBoard ? renderBoardTab() : renderNotesTab();
       case 'sourcebook':
-        return (
+        return canAccessBooks ? (
           <div className="journal-sourcebook-tab-container" style={{ height: '100%', width: '100%' }}>
             <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#8b6f47', fontFamily: 'Georgia, serif' }}>Loading...</div>}>
-              <BookManager isGM={isGMMode} />
+              <BookManager isGM={isGMMode} allowWrite={false} allowPrint={false} inGameSession={true} />
             </Suspense>
           </div>
-        );
+        ) : renderNotesTab();
       case 'received':
         return renderReceivedTab();
       case 'notes':
         return renderNotesTab();
       default:
-        return null;
+        return renderNotesTab();
     }
   };
-
-  // Don't show if journalBasic is restricted (e.g. Guest accounts)
-  if (!journalBasicLoading && !journalBasicAllowed && !isGMMode) {
-    return (
-      <MythrillWindow
-        isOpen={isOpen}
-        onClose={onClose}
-        title=""
-        className="journal-locked-window"
-        defaultSize={{ width: 600, height: 450 }}
-        defaultPosition={{ x: 100, y: 100 }}
-        centered
-      >
-        <div className="journal-locked-container basic-lock">
-          <div className="journal-locked-card">
-            <div className="journal-locked-icon-wrapper basic">
-              <i className="fas fa-lock journal-locked-icon"></i>
-            </div>
-            <h2>Player Journal Restricted</h2>
-            <div className="premium-badge free">Adventurer Feature</div>
-            <p className="journal-locked-subtitle">
-              Guest accounts do not support permanent player journals.
-            </p>
-            <p className="journal-locked-hint">
-              Please sign up or log in to a free Adventurer account to access journals, save notes, and receive knowledge from your GM!
-            </p>
-          </div>
-        </div>
-      </MythrillWindow>
-    );
-  }
 
   return (
     <>
@@ -1850,20 +1839,15 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
         customHeader={
           <div className="spellbook-tab-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
             <div style={{ display: 'flex' }}>
-              {tabs.map(tab => {
-                const isLocked = tab.id === 'board' && !journalFullAllowed;
-                return (
-                  <button
-                    key={tab.id}
-                    className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''} ${isLocked ? 'locked-tab' : ''}`}
-                    onClick={() => setActiveTab(tab.id)}
-                  >
-                    <span>
-                      {tab.label} {isLocked && <i className="fas fa-lock tab-lock-icon" style={{ marginLeft: '4px', fontSize: '11px', color: '#ff9800' }}></i>}
-                    </span>
-                  </button>
-                );
-              })}
+              {tabs.map(tab => (
+                <button
+                  key={tab.id}
+                  className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  <span>{tab.label}</span>
+                </button>
+              ))}
             </div>
           </div>
         }

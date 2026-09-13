@@ -114,7 +114,12 @@ const NewBookForm = ({ onCreate, onCancel }) => {
   );
 };
 
-const BookManager = ({ isGM = true }) => {
+const BookManager = ({
+  isGM = true,
+  allowWrite = true,
+  allowPrint = true,
+  inGameSession = false
+}) => {
   const books = useBookStore((s) => s.books);
   const trashedBooks = useBookStore((s) => s.trashedBooks || []);
   const activeBookId = useBookStore((s) => s.activeBookId);
@@ -235,6 +240,9 @@ const BookManager = ({ isGM = true }) => {
         key={activeBook.id}
         bookId={activeBook.id}
         isGM={isGM}
+        allowWrite={allowWrite}
+        allowPrint={allowPrint}
+        inGameSession={inGameSession}
         onBack={() => setActiveBook(null)}
       />
     );
@@ -270,11 +278,13 @@ const BookManager = ({ isGM = true }) => {
             />
           </div>
           {currentTab === 'active' ? (
-            <button type="button" className="book-new-btn" onClick={() => setShowNewForm((v) => !v)}>
-              <i className="fas fa-plus"></i> New Book
-            </button>
+            allowWrite && !inGameSession && (
+              <button type="button" className="book-new-btn" onClick={() => setShowNewForm((v) => !v)}>
+                <i className="fas fa-plus"></i> New Book
+              </button>
+            )
           ) : (
-            trashedBooks.length > 0 && (
+            trashedBooks.length > 0 && allowWrite && !inGameSession && (
               <button
                 type="button"
                 className="book-empty-trash-btn"
@@ -298,18 +308,20 @@ const BookManager = ({ isGM = true }) => {
             <i className="fas fa-books"></i> Active Chronicles
             <span className="book-tab-badge">{normalizedBooks.length}</span>
           </button>
-          <button
-            type="button"
-            className={`book-nav-tab ${currentTab === 'trash' ? 'active' : ''}`}
-            onClick={() => { setCurrentTab('trash'); setShowNewForm(false); }}
-          >
-            <i className="fas fa-trash-can"></i> Trash Can
-            {trashedBooks.length > 0 ? (
-              <span className="book-tab-badge trash-active">{trashedBooks.length}</span>
-            ) : (
-              <span className="book-tab-badge">0</span>
-            )}
-          </button>
+          {allowWrite && !inGameSession && (
+            <button
+              type="button"
+              className={`book-nav-tab ${currentTab === 'trash' ? 'active' : ''}`}
+              onClick={() => { setCurrentTab('trash'); setShowNewForm(false); }}
+            >
+              <i className="fas fa-trash-can"></i> Trash Can
+              {trashedBooks.length > 0 ? (
+                <span className="book-tab-badge trash-active">{trashedBooks.length}</span>
+              ) : (
+                <span className="book-tab-badge">0</span>
+              )}
+            </button>
+          )}
         </div>
 
         {currentTab === 'trash' && (
@@ -383,20 +395,28 @@ const BookManager = ({ isGM = true }) => {
               <div className="book-card-toolbar">
                 {!isTrashed ? (
                   <>
-                    <button type="button" title="Read / Edit Book" onClick={() => setActiveBook(book.id)}>
-                      <i className="fas fa-book-open"></i>
-                    </button>
-                    <button type="button" title="Duplicate Book" onClick={() => duplicateBook(book.id)}>
-                      <i className="fas fa-copy"></i>
-                    </button>
                     <button
                       type="button"
-                      title="Move to Trash Can"
-                      className="danger"
-                      onClick={() => handlePromptTrash(book)}
+                      title={allowWrite && !inGameSession ? "Read / Edit Book" : "Read Chronicle"}
+                      onClick={() => setActiveBook(book.id)}
                     >
-                      <i className="fas fa-trash"></i>
+                      <i className="fas fa-book-open"></i>
                     </button>
+                    {allowWrite && !inGameSession && (
+                      <>
+                        <button type="button" title="Duplicate Book" onClick={() => duplicateBook(book.id)}>
+                          <i className="fas fa-copy"></i>
+                        </button>
+                        <button
+                          type="button"
+                          title="Move to Trash Can"
+                          className="danger"
+                          onClick={() => handlePromptTrash(book)}
+                        >
+                          <i className="fas fa-trash"></i>
+                        </button>
+                      </>
+                    )}
                   </>
                 ) : (
                   <>
@@ -429,10 +449,16 @@ const BookManager = ({ isGM = true }) => {
               <>
                 <i className="fas fa-feather-pointed"></i>
                 <h3>{books.length === 0 ? 'Your shelf awaits its first chronicle' : 'No books match your search'}</h3>
-                <p>Bind a new book and start creating rich published-grade tabletop sourcebooks with monsters, items, spells, and live glossary tooltips.</p>
-                <button type="button" className="book-new-btn large" onClick={() => setShowNewForm(true)}>
-                  <i className="fas fa-plus"></i> Create Your First Book
-                </button>
+                <p>
+                  {allowWrite && !inGameSession
+                    ? 'Bind a new book and start creating rich published-grade tabletop sourcebooks with monsters, items, spells, and live glossary tooltips.'
+                    : 'No sourcebooks found on your shelf. You can author and publish books in your Account Dashboard under the Books tab.'}
+                </p>
+                {allowWrite && !inGameSession && (
+                  <button type="button" className="book-new-btn large" onClick={() => setShowNewForm(true)}>
+                    <i className="fas fa-plus"></i> Create Your First Book
+                  </button>
+                )}
               </>
             ) : (
               <>
