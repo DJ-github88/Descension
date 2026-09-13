@@ -6,7 +6,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     "id": "ps_t1_calculated_nudge",
     "name": "Calculated Nudge",
-    "icon": "inv_misc_scalesofjustice",
+    "icon": "Arcane/Rewind Time",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -56,7 +56,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     "id": "ps_t1_balanced_ledger",
     "name": "Balanced Ledger",
-    "icon": "inv_misc_coin_01",
+    "icon": "Arcane/Sands of Time",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -100,7 +100,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     "id": "ps_t1_probability_shield",
     "name": "Probability Shield",
-    "icon": "spell_holy_borrowedtime",
+    "icon": "Force/Force Shield",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -134,7 +134,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     "id": "ps_t2_card_counter",
     "name": "Card Counter Mark",
-    "icon": "ability_rogue_findweakness",
+    "icon": "Psychic/Mind Read",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -183,7 +183,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     "id": "ps_t2_weighted_dice",
     "name": "Weighted Toss",
-    "icon": "inv_misc_dice_02",
+    "icon": "Social/Dice Roll",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -245,7 +245,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     "id": "ps_t3_variance_crush",
     "name": "Variance Crush",
-    "icon": "spell_arcane_arcane04",
+    "icon": "Psychic/Psionic Boom",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -314,7 +314,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     "id": "ps_t3_house_advantage",
     "name": "House Advantage",
-    "icon": "spell_shadow_mindrot",
+    "icon": "Social/Golden Crown",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -358,7 +358,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     "id": "ps_t4_deterministic_strike",
     "name": "Deterministic Strike",
-    "icon": "ability_rogue_shadowstrikes",
+    "icon": "Psychic/Mind Strike",
     "maxRanks": 2,
     "position": {
       "x": 1,
@@ -415,7 +415,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     "id": "ps_t5_entropy_anchor",
     "name": "Entropy Anchor",
-    "icon": "spell_arcane_teleportmoonglade",
+    "icon": "Force/Energy Core",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -466,7 +466,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     "id": "ps_t5_statistical_ward",
     "name": "Statistical Ward",
-    "icon": "spell_holy_powerwordbarrier",
+    "icon": "Force/Radiating Barrier",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -500,7 +500,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     "id": "ps_t6_law_of_large_numbers",
     "name": "Law of Large Numbers",
-    "icon": "spell_arcane_starfire",
+    "icon": "Force/Starburst Energy",
     "maxRanks": 3,
     "position": {
       "x": 1.5,
@@ -572,7 +572,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     "id": "ps_t4_mastery_focus",
     "name": "Deterministic Strike Resonance",
-    "icon": "ability_rogue_shadowstrikes",
+    "icon": "Psychic/Mind Strike",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -608,7 +608,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     "id": "ps_t6_unyielding_mastery",
     "name": "Unyielding Resolve",
-    "icon": "ability_warrior_defensivestance",
+    "icon": "General/Defend",
     "maxRanks": 2,
     "position": {
       "x": 3.5,
@@ -641,7 +641,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     "id": "ps_t7_grand_equation",
     "name": "The Grand Equation",
-    "icon": "spell_holy_mindvision",
+    "icon": "Psychic/Mind Divinity",
     "maxRanks": 1,
     "position": {
       "x": 0,
@@ -682,7 +682,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     "id": "ps_t7_doctrine_mastery",
     "name": "Gambit Doctrine",
-    "icon": "spell_holy_blessingofstrength",
+    "icon": "General/Amplify",
     "maxRanks": 5,
     "position": {
       "x": 1,
@@ -725,7 +725,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     "id": "ps_t7_flawless_calculation",
     "name": "Flawless Calculation",
-    "icon": "inv_trinket_naxxramas04",
+    "icon": "Psychic/Focused Mind",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -761,7 +761,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     "id": "ps_t7_asymptotic_grace",
     "name": "Asymptotic Grace",
-    "icon": "spell_holy_auraoflight",
+    "icon": "Force/Absorb Energy",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -797,7 +797,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     "id": "ps_t7_capstone_gamma",
     "name": "Transcendent Precision",
-    "icon": "ability_hunter_snipershot",
+    "icon": "General/Penetrate",
     "spell": {
       "name": "Transcendent Precision",
       "description": "Passive: All critical strikes deal +1d6 bonus damage and restore 1d4 Hit Points.",
@@ -836,7 +836,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     "id": "hr_t1_all_in_strike",
     "name": "All-In Strike",
-    "icon": "ability_warrior_bloodstorm",
+    "icon": "Fire/Burning Touch",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -899,7 +899,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     "id": "hr_t1_loaded_dice",
     "name": "Red-Hot Dice",
-    "icon": "inv_misc_dice_01",
+    "icon": "Fire/Burning Ember",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -943,7 +943,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     "id": "hr_t1_reckless_grit",
     "name": "Reckless Grit",
-    "icon": "ability_warrior_endurance",
+    "icon": "General/Fiery Rage",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -980,7 +980,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     "id": "hr_t2_wild_gamble",
     "name": "Wild Gamble",
-    "icon": "spell_fire_incinerate",
+    "icon": "Chaos/Chaotic Rupture",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -1047,7 +1047,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     "id": "hr_t2_double_or_nothing",
     "name": "Double or Nothing",
-    "icon": "ability_rogue_preparation",
+    "icon": "Arcane/Enchanted Blade",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -1091,7 +1091,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     "id": "hr_t3_pyroclastic_wager",
     "name": "Pyroclastic Wager",
-    "icon": "spell_fire_flameshock",
+    "icon": "Fire/Flame Wave",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -1166,7 +1166,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     "id": "hr_t3_blood_ante",
     "name": "Blood Ante",
-    "icon": "spell_shadow_lifedrain",
+    "icon": "Social/Blood Orb",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -1202,7 +1202,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     "id": "hr_t4_jackpot_eruption",
     "name": "Jackpot Eruption",
-    "icon": "spell_fire_fireball02",
+    "icon": "Fire/Eruption",
     "maxRanks": 2,
     "position": {
       "x": 1,
@@ -1262,7 +1262,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     "id": "hr_t5_combustion_frenzy",
     "name": "Combustion Frenzy",
-    "icon": "spell_fire_sealoffire",
+    "icon": "Fire/Flame Aura",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -1309,7 +1309,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     "id": "hr_t5_defiant_wager",
     "name": "Defiant Wager",
-    "icon": "ability_warrior_revenge",
+    "icon": "General/Bolster",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -1350,7 +1350,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     "id": "hr_t6_blazing_cataclysm",
     "name": "Blazing Cataclysm",
-    "icon": "spell_fire_meteorstorm",
+    "icon": "Fire/Fiery Comet",
     "maxRanks": 3,
     "position": {
       "x": 1.5,
@@ -1423,7 +1423,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     "id": "hr_t4_mastery_focus",
     "name": "Jackpot Eruption Resonance",
-    "icon": "spell_fire_fireball02",
+    "icon": "Fire/Eruption",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -1459,7 +1459,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     "id": "hr_t6_unyielding_mastery",
     "name": "Unyielding Resolve",
-    "icon": "ability_warrior_defensivestance",
+    "icon": "General/Defend",
     "maxRanks": 2,
     "position": {
       "x": 3.5,
@@ -1492,7 +1492,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     "id": "hr_t7_avatar_of_the_jackpot",
     "name": "Avatar of the Jackpot",
-    "icon": "spell_fire_soulburn",
+    "icon": "Fire/Burning Transformation",
     "maxRanks": 1,
     "position": {
       "x": 0,
@@ -1533,7 +1533,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     "id": "hr_t7_doctrine_mastery",
     "name": "Gambit Doctrine",
-    "icon": "spell_holy_blessingofstrength",
+    "icon": "General/Amplify",
     "maxRanks": 5,
     "position": {
       "x": 1,
@@ -1576,7 +1576,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     "id": "hr_t7_undying_gamble",
     "name": "Undying Gamble",
-    "icon": "spell_shadow_antimagicshell",
+    "icon": "Chaos/Chaotic Shuffle",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -1620,7 +1620,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     "id": "hr_t7_hellfire_touch",
     "name": "Hellfire Touch",
-    "icon": "spell_fire_flameblades",
+    "icon": "Fire/Hellfire",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -1657,7 +1657,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     "id": "hr_t7_capstone_gamma",
     "name": "Transcendent Precision",
-    "icon": "ability_hunter_snipershot",
+    "icon": "General/Penetrate",
     "spell": {
       "name": "Transcendent Precision",
       "description": "Passive: All critical strikes deal +1d6 bonus damage and restore 1d4 Hit Points.",
@@ -1696,7 +1696,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     "id": "kw_t1_karmic_tether",
     "name": "Karmic Tether",
-    "icon": "spell_shadow_shadowworddominate",
+    "icon": "Force/Force Tied",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -1745,7 +1745,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     "id": "kw_t1_debt_collection",
     "name": "Debt Collection",
-    "icon": "inv_misc_coin_02",
+    "icon": "Utility/Gem And Gold Chains",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -1789,7 +1789,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     "id": "kw_t1_fate_siphon",
     "name": "Fate Siphon",
-    "icon": "spell_shadow_siphonmana",
+    "icon": "Arcane/Orb Manipulation",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -1826,7 +1826,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     "id": "kw_t2_karmic_strike",
     "name": "Karmic Strike",
-    "icon": "ability_rogue_eviscerate",
+    "icon": "Psychic/Psionic Slash",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -1894,7 +1894,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     "id": "kw_t2_redistribute_agony",
     "name": "Redistribute Agony",
-    "icon": "spell_shadow_curseofachimonde",
+    "icon": "Psychic/Twist Pain",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -1940,7 +1940,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     "id": "kw_t3_thread_of_ruin",
     "name": "Thread of Ruin",
-    "icon": "spell_shadow_shadowwordpain",
+    "icon": "Chaos/Chaotic Corruption",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -2012,7 +2012,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     "id": "kw_t3_sympathetic_ward",
     "name": "Sympathetic Ward",
-    "icon": "spell_shadow_antishadow",
+    "icon": "Arcane/Spellcasting Aura",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -2049,7 +2049,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     "id": "kw_t4_cosmic_foreclosure",
     "name": "Cosmic Foreclosure",
-    "icon": "spell_shadow_deathanddecay",
+    "icon": "Chaos/Gods Grasp",
     "maxRanks": 2,
     "position": {
       "x": 1,
@@ -2106,7 +2106,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     "id": "kw_t5_tether_network",
     "name": "Tether Network",
-    "icon": "spell_shadow_shadowwordpain",
+    "icon": "Force/Energy Whip",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -2158,7 +2158,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     "id": "kw_t5_karmic_shield",
     "name": "Karmic Shield",
-    "icon": "spell_shadow_shadowform",
+    "icon": "General/Guard",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -2191,7 +2191,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     "id": "kw_t6_wyrd_reckoning",
     "name": "Wyrd Reckoning",
-    "icon": "spell_shadow_twilight",
+    "icon": "Chaos/Chaotic Shadow Storm",
     "maxRanks": 3,
     "position": {
       "x": 1.5,
@@ -2263,7 +2263,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     "id": "kw_t4_mastery_focus",
     "name": "Cosmic Foreclosure Resonance",
-    "icon": "spell_shadow_deathanddecay",
+    "icon": "Chaos/Gods Grasp",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -2299,7 +2299,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     "id": "kw_t6_unyielding_mastery",
     "name": "Unyielding Resolve",
-    "icon": "ability_warrior_defensivestance",
+    "icon": "General/Defend",
     "maxRanks": 2,
     "position": {
       "x": 3.5,
@@ -2332,7 +2332,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     "id": "kw_t7_master_of_the_ledger",
     "name": "Master of the Cosmic Ledger",
-    "icon": "spell_shadow_demonicempathy",
+    "icon": "Force/Force Wave",
     "maxRanks": 1,
     "position": {
       "x": 0,
@@ -2373,7 +2373,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     "id": "kw_t7_doctrine_mastery",
     "name": "Gambit Doctrine",
-    "icon": "spell_holy_blessingofstrength",
+    "icon": "General/Amplify",
     "maxRanks": 5,
     "position": {
       "x": 1,
@@ -2416,7 +2416,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     "id": "kw_t7_debtors_curse",
     "name": "Debtor's Curse",
-    "icon": "spell_shadow_curseofsargeras",
+    "icon": "Psychic/Dark Psychic",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -2452,7 +2452,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     "id": "kw_t7_soul_insolvency",
     "name": "Soul Insolvency",
-    "icon": "spell_shadow_abominationexplosion",
+    "icon": "Force/Explosive Burst",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -2496,7 +2496,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     "id": "kw_t7_capstone_gamma",
     "name": "Transcendent Precision",
-    "icon": "ability_hunter_snipershot",
+    "icon": "General/Penetrate",
     "spell": {
       "name": "Transcendent Precision",
       "description": "Passive: All critical strikes deal +1d6 bonus damage and restore 1d4 Hit Points.",

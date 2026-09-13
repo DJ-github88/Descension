@@ -1,6 +1,6 @@
 // ============================================
 // BERSERKER — SAVAGE (v2: talents are spells)
-// Spec: Hemorrhagic Ruin, High-Heat Burst, Self-Damage Scaling, Near-Death Executes
+// Spec: Hemorrhagic Ruin, Overheat Burst, Self-Damage Scaling, Near-Death Executes
 // Resource: Rage (0-100)
 // ============================================
 
@@ -9,17 +9,17 @@ export const BERSERKER_SAVAGE = [
   {
     id: "bsv_t1_hunger_pact",
     name: "Hunger Pact Ignition",
-    icon: "ability_warrior_bloodrage",
+    icon: "General/Rage",
     maxRanks: 3,
     position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Hunger Pact Ignition",
-      description: "Passive: Your ancestral starvation flares. Generate +50% more Rage from all attacks, and taking damage generates 1 Heat per 3 damage suffered.",
+      description: "Passive: Your ancestral starvation flares. Generate +50% more Rage from all attacks, and taking damage generates 1 Rage per 3 damage suffered.",
       flavorText: "The copper taste of kin-blood in the marrow.",
       source: "talent", class: "Berserker", treeId: "savage",
       spellType: "PASSIVE", category: "buff",
-      targetingMode: "self",
+      targetingMode: "self", damageTypes: ["slicing"],
       visualTheme: "blood", tags: ["passive", "builder", "blood-heat", "berserker"]
     },
     rankUpgrades: [
@@ -30,7 +30,7 @@ export const BERSERKER_SAVAGE = [
   {
     id: "bsv_t1_reckless_slash",
     name: "Reckless Abandon",
-    icon: "ability_rogue_eviscerate",
+    icon: "Slashing/Bloody Slash",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -42,27 +42,28 @@ export const BERSERKER_SAVAGE = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 1, targetingMode: "single", rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 0, cooldownUnit: "round",
+      cooldownValue: 1, cooldownUnit: "round",
+      resourceCosts: { health: { baseAmount: 5, costType: "flat" }, rage: { baseAmount: -20 } },
       damageTypes: ["slicing", "smashing"],
       primaryDamage: { dice: "1d10", flat: 0, procChance: 100 },
       secondaryDamage: { dice: "1d6", flat: 0, procChance: 100, damageType: "smashing" },
       visualTheme: "blood", tags: ["melee", "self-damage", "builder", "berserker"]
     },
     rankUpgrades: [
-      { description: "Damage increases to 2d8 slicing + 1d8 smashing; generates 25 Rage.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 }, secondaryDamage: { dice: "1d8", flat: 0, procChance: 100, damageType: "smashing" } },
+      { description: "Damage increases to 2d8 slicing + 1d8 smashing; generates 25 Rage.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 }, secondaryDamage: { dice: "1d8", flat: 0, procChance: 100, damageType: "smashing" }, resourceCosts: { health: { baseAmount: 5, costType: "flat" }, rage: { baseAmount: -25 } } },
       { description: "Damage increases to 2d10 slicing + 2d6 smashing; critical hits cost no HP and refund 1 AP.", primaryDamage: { dice: "2d10", flat: 0, procChance: 100 }, secondaryDamage: { dice: "2d6", flat: 0, procChance: 100, damageType: "smashing" } }
     ]
   },
   {
     id: "bsv_t1_frenzied_sprint",
     name: "Boiling Momentum",
-    icon: "ability_warrior_charge",
+    icon: "Fire/Fiery Dash",
     maxRanks: 2,
     position: { x: 3.5, y: 0 },
     requires: null,
     spell: {
       name: "Boiling Momentum",
-      description: "Passive: Gain +5 ft movement speed. While in High-Heat (50+ Rage), you gain Advantage on checks to avoid or break grapples and difficult terrain costs no extra movement.",
+      description: "Passive: Gain +5 ft movement speed. While at high Rage (50+), you gain Advantage on checks to avoid or break grapples and difficult terrain costs no extra movement.",
       flavorText: "He runs like the blizzard is at his throat.",
       source: "talent", class: "Berserker", treeId: "savage",
       spellType: "PASSIVE", category: "buff",
@@ -78,19 +79,20 @@ export const BERSERKER_SAVAGE = [
   {
     id: "bsv_t2_hemorrhagic_cleave",
     name: "Hemorrhagic Cleave",
-    icon: "ability_warrior_cleave",
+    icon: "Slashing/Bloody Meat Cleaver",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "bsv_t1_hunger_pact",
     spell: {
       name: "Hemorrhagic Cleave",
-      description: "Spend 2 AP & 20 Heat: Cleave in a 10 ft cone dealing 2d8 slicing damage and applying a 1d6 Bleed for 2 rounds to all foes struck.",
+      description: "Spend 2 AP & 20 Rage: Cleave in a 10 ft cone dealing 2d8 slicing damage and applying a 1d6 Bleed for 2 rounds to all foes struck.",
       flavorText: "Open the veins. Let Nordhalla's snow turn red.",
       source: "talent", class: "Berserker", treeId: "savage",
       spellType: "ACTIVE", category: "damage",
       actionPoints: 2, targetingMode: "cone", rangeType: "melee", range: 10,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 1, cooldownUnit: "round",
+      resourceCosts: { rage: { baseAmount: 20 } },
       damageTypes: ["slicing"],
       primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       visualTheme: "blood", tags: ["cone", "aoe", "bleed", "spender", "berserker"]
@@ -126,7 +128,7 @@ export const BERSERKER_SAVAGE = [
   {
     id: "bsv_t3_unbridled_adrenaline",
     name: "Unbridled Adrenaline",
-    icon: "spell_shadow_deathpact",
+    icon: "Fire/Burning Figure",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "bsv_t2_hemorrhagic_cleave",
@@ -148,22 +150,25 @@ export const BERSERKER_SAVAGE = [
     id: "bsv_t3_blood_frenzy_surge",
     name: "Red Mist Surge",
     icon: "General/Fiery Rage",
-    maxRanks: 2,
+    maxRanks: 3,
     position: { x: 2.5, y: 2 },
     requires: "bsv_t2_meat_cleaver",
     spell: {
       name: "Red Mist Surge",
-      description: "Spend 1 AP: Instantly jump to 75 Rage at the cost of 10% max HP. For 2 rounds, gain +1 extra attack per round.",
+      description: "Spend 1 AP & 10 HP: Instantly jump to 75 Rage. For 2 rounds, gain +1 extra attack per round.",
       flavorText: "A red veil descends. Thinking stops; butchery commences.",
       source: "talent", class: "Berserker", treeId: "savage",
       spellType: "ACTIVE", category: "buff",
       actionPoints: 1, targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 3, cooldownUnit: "round",
+      resourceCosts: { health: { baseAmount: 10, costType: "flat" } },
+      damageTypes: ["slicing"],
       visualTheme: "blood", tags: ["self-damage", "burst-heat", "extra-attack", "berserker"]
     },
     rankUpgrades: [
-      { description: "HP cost reduced to 5% max HP, and gain +2d6 bonus slicing damage on all strikes during the surge.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } }
+      { description: "HP cost reduced to 5, and gain +2d6 bonus slicing damage on all strikes during the surge.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 }, resourceCosts: { health: { baseAmount: 5, costType: "flat" } } },
+      { description: "Bonus slicing damage increases to +4d6; the surge lasts 3 rounds, and each kill during it extends the duration by 1 round (maximum 5).", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 } }
     ]
   },
 
@@ -171,33 +176,34 @@ export const BERSERKER_SAVAGE = [
   {
     id: "bsv_t4_decapitating_strike",
     name: "Decapitating Strike",
-    icon: "ability_warrior_decapitate",
+    icon: "Slashing/Execution",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "bsv_t3_unbridled_adrenaline",
     spell: {
       name: "Decapitating Strike",
-      description: "Spend 2 AP & 40 Heat: Overhead executioner blow dealing 4d10 slicing damage. Against targets below 30% HP, damage is doubled.",
+      description: "Spend 2 AP & 40 Rage: Overhead executioner blow dealing 4d10 slicing damage. Against targets below 30% HP, damage is doubled.",
       flavorText: "Sever the neck before the scream forms.",
       source: "talent", class: "Berserker", treeId: "savage",
       spellType: "ACTIVE", category: "damage",
       actionPoints: 2, targetingMode: "single", rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 2, cooldownUnit: "round",
+      resourceCosts: { rage: { baseAmount: 40 } },
       damageTypes: ["slicing"],
       primaryDamage: { dice: "4d10", flat: 0, procChance: 100 },
       visualTheme: "blood", tags: ["execute", "burst", "spender", "berserker"]
     },
     rankUpgrades: [
       { description: "Damage increases to 5d10 slicing, and execute threshold expands to below 40% HP.", primaryDamage: { dice: "5d10", flat: 0, procChance: 100 } },
-      { description: "Damage increases to 7d10 slicing; killing a foe instantly resets this ability's cooldown and refunds 40 Heat.", primaryDamage: { dice: "7d10", flat: 0, procChance: 100 } }
+      { description: "Damage increases to 7d10 slicing; killing a foe instantly resets this ability's cooldown and refunds 40 Rage.", primaryDamage: { dice: "7d10", flat: 0, procChance: 100 } }
     ]
   },
   {
     id: "bsv_t4_flesh_harvest",
     name: "Flesh Feast",
-    icon: "spell_shadow_lifedrain",
-    maxRanks: 3,
+    icon: "Necrotic/Devour",
+    maxRanks: 2,
     position: { x: 2.5, y: 3 },
     requires: "bsv_t3_blood_frenzy_surge",
     spell: {
@@ -205,13 +211,12 @@ export const BERSERKER_SAVAGE = [
       description: "Passive: Whenever you kill a creature or score a critical strike with a slicing attack, heal for 15% of the damage dealt.",
       flavorText: "The Skald feast never ends. Every corpse feeds the march.",
       source: "talent", class: "Berserker", treeId: "savage",
-      spellType: "PASSIVE", category: "heal",
+      spellType: "PASSIVE", category: "healing",
       targetingMode: "self",
       visualTheme: "blood", tags: ["passive", "lifesteal", "sustain", "berserker"]
     },
     rankUpgrades: [
-      { description: "Healing increases to 25% of damage dealt and also restores 10 Rage." },
-      { description: "Healing increases to 35% of damage dealt; excess healing is converted into temporary Grit shielding." }
+      { description: "Healing increases to 30% of the damage dealt and also restores 15 Rage." }
     ]
   },
 
@@ -219,7 +224,7 @@ export const BERSERKER_SAVAGE = [
   {
     id: "bsv_t5_caldera_combustion",
     name: "Caldera Eruption",
-    icon: "spell_fire_incinerate",
+    icon: "Fire/Volcanic Erupt",
     maxRanks: 3,
     position: { x: 1, y: 4 },
     requires: "bsv_t4_decapitating_strike",
@@ -235,7 +240,7 @@ export const BERSERKER_SAVAGE = [
     },
     rankUpgrades: [
       { description: "Eruption damage increases to +3d8 ember and ignite deals 2d8 ember per round.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
-      { description: "Eruption damage increases to +4d8 ember; burning enemies take +20% damage from all slicing attacks." }
+      { description: "Eruption damage increases to +4d8 ember; burning enemies take +20% damage from all slicing attacks.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -263,19 +268,20 @@ export const BERSERKER_SAVAGE = [
   {
     id: "bsv_t6_whirlwind_of_ruin",
     name: "Whirlwind of Ruin",
-    icon: "ability_whirlwind",
+    icon: "Slashing/Whirl",
     maxRanks: 3,
     position: { x: 1, y: 5 },
     requires: "bsv_t5_caldera_combustion",
     spell: {
       name: "Whirlwind of Ruin",
-      description: "Spend 3 AP & 60 Heat: Spin in a 15 ft radius death cyclone dealing 6d8 slicing + 4d6 ember damage. Hits apply Hemorrhagic Cleave's Bleed to all targets.",
+      description: "Spend 3 AP & 60 Rage: Spin in a 15 ft radius death cyclone dealing 6d8 slicing + 4d6 ember damage. Hits apply Hemorrhagic Cleave's Bleed to all targets.",
       flavorText: "Two axes, six corpses, zero hesitation.",
       source: "talent", class: "Berserker", treeId: "savage",
       spellType: "ACTIVE", category: "damage",
       actionPoints: 3, targetingMode: "aoe", rangeType: "self-centered", range: 15,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 3, cooldownUnit: "round",
+      resourceCosts: { rage: { baseAmount: 60 } },
       damageTypes: ["slicing", "ember"],
       primaryDamage: { dice: "6d8", flat: 0, procChance: 100 },
       secondaryDamage: { dice: "4d6", flat: 0, procChance: 100, damageType: "ember" },
@@ -289,7 +295,7 @@ export const BERSERKER_SAVAGE = [
   {
     id: "bsv_t6_limitless_heat",
     name: "Limitless Furnace",
-    icon: "spell_fire_soulburn",
+    icon: "Fire/Burning Forge",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "bsv_t5_berserk_resilience",
@@ -311,19 +317,20 @@ export const BERSERKER_SAVAGE = [
   {
     id: "bsv_t7_avatar_of_the_hunger_pact",
     name: "Avatar of the Hunger Pact",
-    icon: "ability_rogue_bloodyeye",
+    icon: "Necrotic/Bloody Eyes",
     maxRanks: 1,
     position: { x: 1, y: 6 },
     requires: "bsv_t6_whirlwind_of_ruin",
     spell: {
       name: "Avatar of the Hunger Pact",
-      description: "CAPSTONE — Spend 3 AP & 100 Heat: Surrender body entirely to the ancestral Hunger for 3 rounds. Health cannot drop below 1 HP, melee weapon range increases by 5 ft, every strike triggers an automatic Decapitating Strike execute regardless of target HP, and slicing damage dealt is converted 50% into health.",
+      description: "CAPSTONE — Spend 3 AP & 100 Rage: Surrender body entirely to the ancestral Hunger for 3 rounds. Health cannot drop below 1 HP, melee weapon range increases by 5 ft, every strike triggers an automatic Decapitating Strike execute regardless of target HP, and slicing damage dealt is converted 50% into health.",
       flavorText: "Grum Bloodhammer stands in his skin. The ancestors take the wheel.",
       source: "talent", class: "Berserker", treeId: "savage",
       spellType: "ACTIVE", category: "buff",
       actionPoints: 3, targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "once_per_combat", cooldownValue: 1, cooldownUnit: "combat",
+      resourceCosts: { rage: { baseAmount: 100 } },
       durationRounds: 3,
       visualTheme: "blood", tags: ["capstone", "ultimate", "undying", "frenzy", "berserker"]
     },
@@ -333,7 +340,7 @@ export const BERSERKER_SAVAGE = [
     id: "bsv_t7_relentless_massacre",
     name: "Relentless Massacre",
     icon: "Utility/Skeletal Warrior",
-    maxRanks: 2,
+    maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "bsv_t6_limitless_heat",
     spell: {
@@ -346,7 +353,81 @@ export const BERSERKER_SAVAGE = [
       visualTheme: "blood", tags: ["passive", "capstone-row", "ap-reset", "snowball", "berserker"]
     },
     rankUpgrades: [
-      { description: "Also grants +100% critical strike chance on your next attack after scoring a kill." }
+      { description: "Also grants +100% critical strike chance on your next attack after scoring a kill." },
+      { description: "Killing blows also generate 30 Rage, and every kill beyond the first each round refunds 1 additional Action Point (maximum +2 AP per round)." }
+    ]
+  },
+  {
+    id: "bsv_t7_hemorrhagic_ruin",
+    name: "Hemorrhagic Ruin",
+    icon: "Slashing/Blood Dripping Blade",
+    maxRanks: 5,
+    position: { x: 0, y: 6 },
+    requires: "bsv_t6_whirlwind_of_ruin",
+    spell: {
+      name: "Hemorrhagic Ruin",
+      description: "Passive: Your Bleeds no longer close. Whenever a target suffering your Bleed is struck by you, it takes an additional 1d4 slicing damage, and your Bleeds can stack up to 3 times.",
+      flavorText: "Every wound remembers the blade. Every drop remembers the debt.",
+      source: "talent", class: "Berserker", treeId: "savage",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["slicing"],
+      primaryDamage: { dice: "1d4", flat: 0, procChance: 100 },
+      visualTheme: "blood", tags: ["passive", "capstone", "bleed", "hemorrhage", "berserker"]
+    },
+    rankUpgrades: [
+      { description: "Bleeding foes take an additional 1d6 slicing damage when struck, and your Bleeds stack up to 4 times.", primaryDamage: { dice: "1d6", flat: 0, procChance: 100 } },
+      { description: "Bleeding foes take an additional 1d8 slicing damage when struck; Bleeds stack up to 5 times, and a foe that dies while bleeding bursts, spreading a 1d6 Bleed for 2 rounds to all enemies within 10 ft.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } },
+      { description: "Bleeding foes take an additional 2d6 slicing damage when struck; when your Bleed damage drops a foe below 20% HP, the wound ruptures for 3d8 slicing.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
+      { description: "Bleeding foes take an additional 2d8 slicing damage when struck; ruptured foes take 4d8 slicing instead, and any enemy reduced to 0 HP by a rupture cannot be revived or healed for 3 rounds.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } }
+    ]
+  },
+  {
+    id: "bsv_t7_bloodprice_apotheosis",
+    name: "Bloodprice Apotheosis",
+    icon: "General/Split Health",
+    maxRanks: 3,
+    position: { x: 2, y: 6 },
+    requires: "bsv_t6_limitless_heat",
+    spell: {
+      name: "Bloodprice Apotheosis",
+      description: "Passive: The closer you stand to death, the harder you swing. Every 10% of maximum HP you are missing grants +1d6 slicing damage on melee strikes (maximum +3d6).",
+      flavorText: "The body is a ledger. Death only collects what is owed.",
+      source: "talent", class: "Berserker", treeId: "savage",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["slicing"],
+      primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
+      visualTheme: "blood", tags: ["passive", "capstone", "self-damage", "execute", "berserker"]
+    },
+    rankUpgrades: [
+      { description: "Every 10% of maximum HP missing grants +1d8 slicing damage (maximum +5d8); while below 25% HP, critical hits execute enemies below 10% HP.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } },
+      { description: "Every 10% of maximum HP missing grants +1d10 slicing damage (maximum +6d10); while below 25% HP, critical hits execute enemies below 15% HP, and slaying a foe restores 10% of your maximum HP.", primaryDamage: { dice: "1d10", flat: 0, procChance: 100 } }
+    ]
+  },
+  {
+    id: "bsv_t7_high_heat_burst",
+    name: "Overheat Burst",
+    icon: "Fire/Crimson Eruption",
+    maxRanks: 3,
+    position: { x: 3, y: 6 },
+    requires: "bsv_t6_whirlwind_of_ruin",
+    spell: {
+      name: "Overheat Burst",
+      description: "Spend 3 AP & 50 Rage: Detonate every mote of Rage at once, erupting in a 20 ft radius for 6d8 ember + 4d8 smashing damage. Damage increases by 1d8 for every 10% of maximum HP you are missing, and struck enemies lose 5 Passive DR for 3 rounds.",
+      flavorText: "There is a point past pain where the body simply becomes weather.",
+      source: "talent", class: "Berserker", treeId: "savage",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 3, targetingMode: "aoe", rangeType: "self-centered", range: 20,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownValue: 3, cooldownUnit: "round",
+      resourceCosts: { rage: { baseAmount: 50 } },
+      damageTypes: ["ember", "smashing"],
+      primaryDamage: { dice: "6d8", flat: 0, procChance: 100 },
+      secondaryDamage: { dice: "4d8", flat: 0, procChance: 100, damageType: "smashing" },
+      visualTheme: "fire", tags: ["aoe", "capstone", "high-heat", "damage-reduction", "berserker"]
+    },
+    rankUpgrades: [
+      { description: "Eruption grows to 8d8 ember + 5d8 smashing; struck enemies lose 10 Passive DR for 3 rounds and burn for 2d6 ember per round for 2 rounds.", primaryDamage: { dice: "8d8", flat: 0, procChance: 100 }, secondaryDamage: { dice: "5d8", flat: 0, procChance: 100, damageType: "smashing" } },
+      { description: "Eruption grows to 10d8 ember + 6d8 smashing; below 30% HP it automatically critically strikes, and enemies already at 0 Passive DR take an extra 3d8 smashing.", primaryDamage: { dice: "10d8", flat: 0, procChance: 100 }, secondaryDamage: { dice: "6d8", flat: 0, procChance: 100, damageType: "smashing" } }
     ]
   }
 ];

@@ -6,7 +6,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     "id": "wf_t1_flame_spread",
     "name": "Spark Leap",
-    "icon": "spell_fire_flare",
+    "icon": "Fire/Fiery Step",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -50,7 +50,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     "id": "wf_t1_ground_fire",
     "name": "Living Embers",
-    "icon": "spell_fire_moltenblood",
+    "icon": "Fire/Burning Ember",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -94,7 +94,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     "id": "wf_t1_chain_reaction",
     "name": "Kindling Death",
-    "icon": "spell_fire_flamebolt",
+    "icon": "Fire/Fiery Skull",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -134,7 +134,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     "id": "wf_t2_wild_growth",
     "name": "Expanding Flame",
-    "icon": "spell_fire_moltenblood",
+    "icon": "Fire/Flame Circle",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -170,7 +170,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     "id": "wf_t2_searing_heat",
     "name": "Layered Burn",
-    "icon": "spell_fire_incinerate",
+    "icon": "Fire/Burning Status",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -214,7 +214,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     "id": "wf_t3_conflagration",
     "name": "Conflagration",
-    "icon": "spell_fire_sealoffire",
+    "icon": "Fire/Flame Burst",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -278,7 +278,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     "id": "wf_t3_pandemic",
     "name": "Wild Gale",
-    "icon": "spell_fire_windfury",
+    "icon": "Fire/Fiery Vortex",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -343,7 +343,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     "id": "wf_t4_chain_ignition",
     "name": "Chain Ignition",
-    "icon": "spell_fire_flamebolt",
+    "icon": "Fire/Fiery Bolt",
     "maxRanks": 2,
     "position": {
       "x": 1,
@@ -396,7 +396,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     "id": "wf_t5_scorched_earth",
     "name": "Scorched Earth",
-    "icon": "spell_fire_selfdestruct",
+    "icon": "Fire/Flaming Scorch",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -441,7 +441,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     "id": "wf_t5_combustion_stride",
     "name": "Combustion Stride",
-    "icon": "spell_fire_burnout",
+    "icon": "Fire/Fiery Dash",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -483,7 +483,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     "id": "wf_t6_tempest_of_fire",
     "name": "Wildfire Tempest",
-    "icon": "spell_fire_meteorstorm",
+    "icon": "Fire/Flame Wave",
     "maxRanks": 3,
     "position": {
       "x": 1.5,
@@ -551,7 +551,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     "id": "wf_t4_mastery_focus",
     "name": "Chain Ignition Resonance",
-    "icon": "spell_fire_flamebolt",
+    "icon": "Fire/Scorching Rune",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -587,7 +587,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     "id": "wf_t6_unyielding_mastery",
     "name": "Unyielding Resolve",
-    "icon": "ability_warrior_defensivestance",
+    "icon": "Utility/Steadfast Bulwark",
     "maxRanks": 2,
     "position": {
       "x": 3.5,
@@ -620,7 +620,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     "id": "wf_t7_world_in_flames",
     "name": "World in Flames",
-    "icon": "spell_fire_soulburn",
+    "icon": "Fire/Fire Storm",
     "maxRanks": 1,
     "position": {
       "x": 0,
@@ -655,7 +655,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     "id": "wf_t7_doctrine_mastery",
     "name": "Pyrofiend Doctrine",
-    "icon": "spell_holy_blessingofstrength",
+    "icon": "Fire/Firey Dedication",
     "maxRanks": 5,
     "position": {
       "x": 1,
@@ -698,7 +698,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     "id": "wf_t7_eternal_conflagration",
     "name": "Eternal Spark",
-    "icon": "spell_fire_flameblades",
+    "icon": "Fire/Flicker Flame",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -734,7 +734,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     "id": "wf_t7_ash_rebirth",
     "name": "Ash Rebirth",
-    "icon": "spell_fire_sealoffire",
+    "icon": "Fire/Rising Flames",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -770,7 +770,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     "id": "wf_t7_capstone_gamma",
     "name": "Transcendent Precision",
-    "icon": "ability_hunter_snipershot",
+    "icon": "General/Penetrate",
     "spell": {
       "name": "Transcendent Precision",
       "description": "Passive: All critical strikes deal +1d6 bonus damage and restore 1d4 Hit Points.",

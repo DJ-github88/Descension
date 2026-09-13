@@ -439,7 +439,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
  },
 
  specs: [
-  { id : "virulent-spreader",
+  { id : "virulent_spreader",
   name: "Virulent Spreader",
   icon: "Poison/Poison Contagion",
   color: "#556B2F",
@@ -467,7 +467,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
    "Plague Burst: Detonate all active plagues in a 15ft radius."
   ]
   },
-  { id : "torment-weaver",
+  { id : "torment_weaver",
   name: "Torment Weaver",
   icon: "Psychic/Mind Roar",
   color: "#4B0082",
@@ -495,7 +495,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
    "Mind Fracture: Force saving throws against stunning mental shocks."
   ]
   },
-  { id : "decay-harbinger",
+  { id : "decay_harbinger",
   name: "Decay Harbinger",
   icon: "Necrotic/Necrotic Death",
   color: "#2F4F2F",
@@ -551,7 +551,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Necrotic/Necrotic Skull",
   level: 1,
-  specialization: "decay-harbinger",
+  specialization: "decay_harbinger",
   typeConfig: {
   school: "blight",
   icon: "Necrotic/Necrotic Skull",
@@ -620,7 +620,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Poison/Venomous Snakes",
   level: 1,
-  specialization: "virulent-spreader",
+  specialization: "virulent_spreader",
   typeConfig: {
   school: "blight",
   icon: "Poison/Venomous Snakes",
@@ -681,7 +681,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Psychic/Mind Roar",
   level: 1,
-  specialization: "torment-weaver",
+  specialization: "torment_weaver",
   typeConfig: {
   school: "wyrd",
   icon: "Psychic/Mind Roar",
@@ -744,7 +744,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Psychic/Mental Chaos",
   level: 2,
-  specialization: "torment-weaver",
+  specialization: "torment_weaver",
   typeConfig: {
   school: "wyrd",
   secondaryElement: "blight",
@@ -828,7 +828,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Necrotic/Death Mark",
   level: 2,
-  specialization: "decay-harbinger",
+  specialization: "decay_harbinger",
   typeConfig: {
   school: "blight",
   icon: "Necrotic/Death Mark",
@@ -906,7 +906,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Poison/Poison Blight",
   level: 2,
-  specialization: "virulent-spreader",
+  specialization: "virulent_spreader",
   typeConfig: {
   school: "blight",
   icon: "Poison/Poison Blight",
@@ -979,7 +979,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Necrotic/Drain Soul",
   level: 3,
-  specialization: "decay-harbinger",
+  specialization: "decay_harbinger",
   typeConfig: {
   school: "blight",
   icon: "Necrotic/Drain Soul",
@@ -1048,7 +1048,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Poison/Poison Blight",
   level: 3,
-  specialization: "torment-weaver",
+  specialization: "torment_weaver",
   typeConfig: {
   school: "wyrd",
   icon: "Poison/Poison Blight",
@@ -1114,7 +1114,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Psychic/Mind Roar",
   level: 3,
-  specialization: "torment-weaver",
+  specialization: "torment_weaver",
   typeConfig: {
   school: "wyrd",
   icon: "Psychic/Mind Roar",
@@ -1193,7 +1193,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Poison/Poison Contagion",
   level: 4,
-  specialization: "virulent-spreader",
+  specialization: "virulent_spreader",
   typeConfig: {
   school: "blight",
   icon: "Poison/Poison Contagion",
@@ -1257,7 +1257,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Poison/Poison Blight",
   level: 4,
-  specialization: "virulent-spreader",
+  specialization: "virulent_spreader",
   typeConfig: {
   school: "blight",
   icon: "Poison/Poison Blight",
@@ -1343,7 +1343,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Necrotic/Skull Explosion",
   level: 4,
-  specialization: "decay-harbinger",
+  specialization: "decay_harbinger",
   typeConfig: {
   school: "blight",
   icon: "Necrotic/Skull Explosion",
@@ -1407,7 +1407,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Necrotic/Necrotic Wither",
   level: 5,
-  specialization: "decay-harbinger",
+  specialization: "decay_harbinger",
   typeConfig: {
   school: "blight",
   icon: "Necrotic/Necrotic Wither",
@@ -1485,7 +1485,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Healing/Red Heart",
   level: 5,
-  specialization: "torment-weaver",
+  specialization: "torment_weaver",
   typeConfig: {
   school: "blight",
   icon: "Healing/Red Heart",
@@ -1553,7 +1553,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Psychic/Mental Chaos",
   level: 5,
-  specialization: "virulent-spreader",
+  specialization: "virulent_spreader",
   typeConfig: {
   school: "wyrd",
   icon: "Psychic/Mental Chaos",
@@ -1617,7 +1617,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Poison/Poison Plague",
   level: 6,
-  specialization: "decay-harbinger",
+  specialization: "decay_harbinger",
   typeConfig: {
   school: "blight",
   icon: "Poison/Poison Plague",
@@ -1674,7 +1674,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Psychic/Mind Control",
   level: 6,
-  specialization: "torment-weaver",
+  specialization: "torment_weaver",
   typeConfig: {
   school: "wyrd",
   icon: "Psychic/Mind Control",
@@ -1752,7 +1752,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Necrotic/Death Mark",
   level: 6,
-  specialization: "virulent-spreader",
+  specialization: "virulent_spreader",
   typeConfig: {
   school: "blight",
   icon: "Necrotic/Death Mark",
@@ -1826,7 +1826,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Poison/Poison Plague",
   level: 7,
-  specialization: "decay-harbinger",
+  specialization: "decay_harbinger",
   typeConfig: {
   school: "blight",
   icon: "Poison/Poison Plague",
@@ -1889,7 +1889,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Poison/Poison Contagion",
   level: 7,
-  specialization: "virulent-spreader",
+  specialization: "virulent_spreader",
   typeConfig: {
   school: "blight",
   icon: "Poison/Poison Contagion",
@@ -1955,7 +1955,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Poison/Poison Contagion",
   level: 7,
-  specialization: "virulent-spreader",
+  specialization: "virulent_spreader",
   typeConfig: {
   school: "blight",
   icon: "Poison/Poison Contagion",
@@ -2017,7 +2017,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Necrotic/Necrotic Wither",
   level: 7,
-  specialization: "decay-harbinger",
+  specialization: "decay_harbinger",
   typeConfig: {
   school: "blight",
   icon: "Necrotic/Necrotic Wither",
@@ -2106,7 +2106,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Poison/Poison Plague",
   level: 7,
-  specialization: "decay-harbinger",
+  specialization: "decay_harbinger",
   typeConfig: {
   school: "blight",
   secondaryElement: "wyrd",
@@ -2166,7 +2166,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Psychic/Mind Control",
   level: 7,
-  specialization: "torment-weaver",
+  specialization: "torment_weaver",
   typeConfig: {
   school: "wyrd",
   icon: "Psychic/Mind Control",
@@ -2246,7 +2246,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Poison/Poison Plague",
   level: 8,
-  specialization: "torment-weaver",
+  specialization: "torment_weaver",
   typeConfig: {
   school: "blight",
   icon: "Poison/Poison Plague",
@@ -2315,7 +2315,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Poison/Poison Contagion",
   level: 8,
-  specialization: "virulent-spreader",
+  specialization: "virulent_spreader",
   typeConfig: {
   school: "blight",
   icon: "Poison/Poison Contagion",
@@ -2384,7 +2384,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Necrotic/Necrotic Death",
   level: 9,
-  specialization: "torment-weaver",
+  specialization: "torment_weaver",
   typeConfig: {
   school: "blight",
   icon: "Necrotic/Necrotic Death",
@@ -2447,7 +2447,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Necrotic/Necrotic Death",
   level: 9,
-  specialization: "decay-harbinger",
+  specialization: "decay_harbinger",
   typeConfig: {
   school: "blight",
   icon: "Necrotic/Necrotic Death",
@@ -2504,7 +2504,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Poison/Poison Contagion",
   level: 10,
-  specialization: "decay-harbinger",
+  specialization: "decay_harbinger",
   typeConfig: {
   school: "blight",
   icon: "Poison/Poison Contagion",
@@ -2577,7 +2577,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   spellType: "ACTION",
   icon: "Poison/Poison Plague",
   level: 10,
-  specialization: "virulent-spreader",
+  specialization: "virulent_spreader",
   typeConfig: {
   school: "blight",
   icon: "Poison/Poison Plague",

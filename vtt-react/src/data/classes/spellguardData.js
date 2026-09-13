@@ -128,11 +128,16 @@ subraceVariants: {
  damageTypes: ["arcane", "storm", "blight"],
 
  spellPools: {
-  1: ["sg_void_siphon", "sg_entropic_aegis", "sg_refract_kinetic", "sg_leyline_rift", "spellguard_arcane_radiation", "spellguard_kinetic_fragility", "spellguard_aegis_beacon", "spellguard_ley_reading", "spellguard_aegis_ward", "spellguard_glow_lantern"],
-  2: ["sg_agonizing_intercept", "sg_shattered_mirror_ward", "sg_warding_ribcage", "spellguard_resonance_discharge", "spellguard_disenchant"],
-  3: ["sg_void_suppression", "sg_entropic_supernova", "sg_tomb_of_the_aegis"],
-  4: ["sg_violent_purge", "sg_leyline_blackout"],
-  5: ["sg_cosmic_unraveling"]
+  1: ["spg_aegis_ward", "spellguard_arcane_radiation", "spellguard_kinetic_fragility", "sg_void_siphon", "sg_entropic_aegis", "sg_refract_kinetic", "sg_leyline_rift", "spellguard_ley_reading", "spellguard_aegis_ward", "spellguard_glow_lantern"],
+  2: ["spg_spell_break", "sg_agonizing_intercept", "sg_shattered_mirror_ward", "spellguard_aegis_beacon", "spellguard_resonance_discharge", "spellguard_disenchant"],
+  3: ["sg_warding_ribcage", "sg_void_suppression"],
+  4: ["sg_kinetic_discharge", "sg_null_field_bastion", "sg_entropic_supernova"],
+  5: ["sg_radiation_quench", "sg_tomb_of_the_aegis", "sg_violent_purge"],
+  6: ["sg_prismatic_mirror_bastion", "sg_anti_magic_shackle"],
+  7: ["sg_overload_shockwave", "sg_leyline_blackout"],
+  8: ["sg_fortress_of_nullification"],
+  9: ["sg_leyline_devourer_nova"],
+  10: ["sg_singularity_aegis", "sg_cosmic_unraveling"],
  },
 
  livingOrder: {

@@ -48,7 +48,8 @@ export {
 export {
   WARDEN_SHADOWBLADE,
   WARDEN_VENGEANCE_SEEKER,
-  WARDEN_MONOLITH
+  WARDEN_MONOLITH,
+  WARDEN_JAILER
 } from './warden.js';
 
 export {
@@ -92,6 +93,18 @@ export {
   SHAPER_IRON_DANCER,
   SHAPER_PRIMAL_SHADOW
 } from './shaper.js';
+
+export {
+  APEX_BLADESTORM,
+  APEX_BEASTMASTER,
+  APEX_SHADOWBLADE
+} from './apex.js';
+
+export {
+  ANIMIST_THORNWARDEN,
+  ANIMIST_SPIRIT_BINDER,
+  ANIMIST_STORMSCRIBE
+} from './animist.js';
 
 export {
   BERSERKER_SAVAGE,

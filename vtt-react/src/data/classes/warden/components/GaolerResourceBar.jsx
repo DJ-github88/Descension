@@ -132,16 +132,16 @@ const GaolerResourceBar = ({
     // Specialization configurations
     const specConfigs = {
         shadowblade: {
-            name: 'Flayed Stalker',
-            menuLabel: 'Flayed Stalker',
+            name: 'Iron Stalker',
+            menuLabel: 'Iron Stalker',
             baseColor: '#1a0a2e',
             activeColor: '#581c87',
             glowColor: '#a855f7',
             icon: 'fa-user-ninja'
         },
         jailer: {
-            name: 'Iron Warden',
-            menuLabel: 'Iron Warden',
+            name: 'Iron Jailer',
+            menuLabel: 'Iron Jailer',
             baseColor: '#0f172a',
             activeColor: '#334155',
             glowColor: '#38bdf8',

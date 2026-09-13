@@ -17,7 +17,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t1_stasis_field",
     name: "Stasis Field",
-    icon: "spell_frost_stun",
+    icon: "Frost/Frozen in Place",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -44,7 +44,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t1_frozen_momentum",
     name: "Frozen Momentum",
-    icon: "spell_holy_borrowedtime",
+    icon: "Arcane/Star Trail Path",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -66,7 +66,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t1_strain_efficiency",
     name: "Temporal Insulation",
-    icon: "spell_arcane_arcaneresilience",
+    icon: "Force/Force Field",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -87,7 +87,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t2_temporal_shockwave",
     name: "Temporal Shockwave",
-    icon: "spell_arcane_arcanetorrent",
+    icon: "Force/Force Wave",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "st_t1_stasis_field",
@@ -114,7 +114,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t2_chronal_lockdown",
     name: "Chronal Lockdown",
-    icon: "spell_nature_slow",
+    icon: "Utility/Slow Speed",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "st_t1_frozen_momentum",
@@ -161,7 +161,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t3_fracture_mastery",
     name: "Temporal Fracture",
-    icon: "spell_arcane_blast",
+    icon: "Force/Explosion Burst 2",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "st_t2_chronal_lockdown",
@@ -186,7 +186,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t4_absolute_stasis_beam",
     name: "Absolute Stasis Beam",
-    icon: "spell_arcane_starfire",
+    icon: "Force/Energy Beam 2",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "st_t3_chronal_cage",
@@ -234,7 +234,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t5_temporal_shatter",
     name: "Temporal Shatterstorm",
-    icon: "spell_fire_selfdestruct",
+    icon: "Force/Explosion Burst",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "st_t4_absolute_stasis_beam",
@@ -325,7 +325,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t6_unmovable_presence",
     name: "Anchored in Eternity",
-    icon: "ability_warrior_defensivestance",
+    icon: "General/Defend",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "st_t5_endless_stasis",
@@ -432,7 +432,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: "st_t7_chronal_immortality",
     name: "Rewound Mortality",
-    icon: "spell_holy_resurrection",
+    icon: "Arcane/Rewind Time",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "st_t6_unmovable_presence",
@@ -459,7 +459,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t1_temporal_blink",
     name: "Temporal Blink",
-    icon: "spell_arcane_blink",
+    icon: "Arcane/Quick Step",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -484,7 +484,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t1_displacement_speed",
     name: "Spatial Acceleration",
-    icon: "spell_nature_swiftness",
+    icon: "Utility/Speed Boot",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -504,7 +504,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t1_flicker_dodge",
     name: "Quantum Flicker",
-    icon: "spell_arcane_arcaneresilience",
+    icon: "Arcane/Revealing Steps",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -525,7 +525,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t2_rift_strike",
     name: "Spatial Rift Strike",
-    icon: "spell_arcane_portalshattrath",
+    icon: "Force/Impact Explosion",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "dp_t1_temporal_blink",
@@ -576,7 +576,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t3_wormhole_vortex",
     name: "Wormhole Singularity",
-    icon: "spell_arcane_starfire",
+    icon: "Arcane/Portal Archway",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "dp_t2_rift_strike",
@@ -603,7 +603,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t3_spatial_shearing",
     name: "Dimensional Shearing",
-    icon: "spell_arcane_blast",
+    icon: "Force/Energy Streak",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "dp_t2_echo_trail",
@@ -625,7 +625,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t4_chrono_barrage",
     name: "Omnipresent Barrage",
-    icon: "spell_arcane_arcanetorrent",
+    icon: "Force/Radial Burst",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "dp_t3_wormhole_vortex",
@@ -652,7 +652,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t4_displacement_siphon",
     name: "Kinetic Extraction",
-    icon: "spell_shadow_lifedrain",
+    icon: "Force/Reconstruct",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "dp_t3_spatial_shearing",
@@ -675,7 +675,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t5_spatial_collapse",
     name: "Dimensional Implosion",
-    icon: "spell_shadow_mindtwisting",
+    icon: "Arcane/Spiral Vortex",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "dp_t4_chrono_barrage",
@@ -723,7 +723,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t6_omnipresent_avatar",
     name: "Avatar of Omnipresence",
-    icon: "spell_nature_astralrecal",
+    icon: "Utility/All Seeing Eye",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "dp_t5_spatial_collapse",
@@ -765,7 +765,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: "dp_t6_spatial_refraction",
     name: "Spatial Refraction Ward",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "Force/Radiating Barrier",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "dp_t5_flicker_mastery",
@@ -901,7 +901,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t1_temporal_rewind",
     name: "Temporal Rewind",
-    icon: "spell_holy_borrowedtime",
+    icon: "Utility/Rewind Time",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -927,7 +927,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t1_paradox_prevention",
     name: "Paradox Insulation",
-    icon: "spell_arcane_arcaneresilience",
+    icon: "Arcane/Channeling Stance",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -947,7 +947,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t1_echo_healing",
     name: "Chronal Echo Heal",
-    icon: "spell_holy_renew",
+    icon: "Healing/Renewal",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -995,7 +995,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t2_rewind_sunder",
     name: "Destiny Reversal",
-    icon: "spell_shadow_curseofsargeras",
+    icon: "Force/Energy Coil",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "rw_t1_paradox_prevention",
@@ -1017,7 +1017,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t3_mass_rewind",
     name: "Rewind Battlefield",
-    icon: "spell_holy_divinehymn",
+    icon: "Healing/Chakra",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "rw_t2_undo_action",
@@ -1043,7 +1043,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t3_time_loop_protection",
     name: "Causal Anchor",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "Utility/Steadfast Bulwark",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "rw_t2_rewind_sunder",
@@ -1065,7 +1065,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t4_entropy_reversal",
     name: "Entropy Inversion",
-    icon: "spell_arcane_blast",
+    icon: "Force/Explosion Burst 4",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "rw_t3_mass_rewind",
@@ -1092,7 +1092,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t4_undo_cooldowns",
     name: "Chrono-Recharge",
-    icon: "spell_arcane_arcanetorrent",
+    icon: "Utility/Revolver Arc",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "rw_t3_time_loop_protection",
@@ -1113,7 +1113,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: "rw_t5_rewind_death",
     name: "Revoking the Reaper",
-    icon: "spell_holy_resurrection",
+    icon: "Healing/Ressusitate",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "rw_t4_entropy_reversal",

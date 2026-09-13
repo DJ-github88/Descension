@@ -1055,7 +1055,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         id: 'shadowblade',
 
-        name: 'Shadowblade',
+        name: 'Iron Stalker',
 
         description: 'Vengeance wears a hood of shadow. Stealthy hunters who mark targets for death, striking from shadows with lethal precision and execution strikes',
 
@@ -1067,9 +1067,23 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
+        id: 'jailer',
+
+        name: 'Iron Jailer',
+
+        description: 'The sentence is short; the point is made. Spectral iron cages isolate high-threat targets, containing the battlefield through heavy multi-cage control',
+
+        color: '#4A5568',
+
+        icon: 'Necrotic/Crossed Bones'
+
+      },
+
+      {
+
         id: 'vengeance-seeker',
 
-        name: 'Vengeance Seeker',
+        name: 'Relentless Tormentor',
 
         description: 'No quarry escapes the relentless. Relentless tormentors who drag enemies across the battlefield, crushing them with inexorable pursuit and displacement',
 

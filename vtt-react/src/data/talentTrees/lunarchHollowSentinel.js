@@ -9,7 +9,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
   {
     id: "lhs_t1_starlight_sockets",
     name: "Starlight Sockets",
-    icon: "ability_hunter_snipershot",
+    icon: "Arcane/Glowing Eyes",
     maxRanks: 3,
     position: { x: 0.5, y: 0 },
     requires: null,
@@ -31,7 +31,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
   {
     id: "lhs_t1_parasitic_bolt",
     name: "Parasitic Starlight Bolt",
-    icon: "spell_arcane_starfire",
+    icon: "Arcane/Missile",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -43,7 +43,8 @@ export const LUNARCH_HOLLOW_SENTINEL = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 1, targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 0, cooldownUnit: "round",
+      cooldownValue: 1, cooldownUnit: "round",
+      resourceCosts: { mana: { baseAmount: 5 } },
       damageTypes: ["stabbing", "wyrd"],
       primaryDamage: { dice: "1d10", flat: 0, procChance: 100 },
       secondaryDamage: { dice: "1d6", flat: 0, procChance: 100, damageType: "wyrd" },
@@ -57,7 +58,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
   {
     id: "lhs_t1_phase_glimmer",
     name: "Cold-Silver Vision",
-    icon: "spell_holy_mindvision",
+    icon: "Radiant/Enlightened Vision",
     maxRanks: 2,
     position: { x: 3.5, y: 0 },
     requires: null,
@@ -92,6 +93,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
       actionPoints: 1, targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 1, cooldownUnit: "round",
+      resourceCosts: { mana: { baseAmount: 6 } },
       damageTypes: ["wyrd"],
       primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
       visualTheme: "arcane", tags: ["mark", "wall-hack", "damage-amp", "lunarch"]
@@ -117,6 +119,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
       actionPoints: 2, targetingMode: "line", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 1, cooldownUnit: "round",
+      resourceCosts: { mana: { baseAmount: 8 } },
       damageTypes: ["slicing", "arcane"],
       primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
       secondaryDamage: { dice: "2d6", flat: 0, procChance: 100, damageType: "arcane" },
@@ -132,7 +135,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
   {
     id: "lhs_t3_full_moon_delirium",
     name: "Sanity Erosion Execution",
-    icon: "spell_shadow_mindflay",
+    icon: "Psychic/Mental Abyss",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "lhs_t2_hollow_mark",
@@ -153,8 +156,8 @@ export const LUNARCH_HOLLOW_SENTINEL = [
   {
     id: "lhs_t3_parasitic_stride",
     name: "Parasitic Phase Shift",
-    icon: "spell_arcane_blink",
-    maxRanks: 2,
+    icon: "Arcane/Portal Archway",
+    maxRanks: 3,
     position: { x: 2.5, y: 2 },
     requires: "lhs_t2_crescent_scalpel",
     spell: {
@@ -166,10 +169,12 @@ export const LUNARCH_HOLLOW_SENTINEL = [
       actionPoints: 1, targetingMode: "position", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 2, cooldownUnit: "round",
+      resourceCosts: { mana: { baseAmount: 7 } },
       visualTheme: "arcane", tags: ["teleport", "decoy", "mobility", "lunarch"]
     },
     rankUpgrades: [
-      { description: "Teleport range extends to 45 ft; when the decoy expires or is hit, it explodes for 3d8 wyrd damage in 10 ft.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
+      { description: "Teleport range extends to 45 ft; when the decoy expires or is hit, it explodes for 3d8 wyrd damage in 10 ft.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 }, damageTypes: ["wyrd"] },
+      { description: "Teleport range extends to 60 ft; the decoy explosion grows to 5d8 wyrd damage in 15 ft and Blinds enemies caught in the blast for 1 round.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 } }
     ]
   },
 
@@ -177,7 +182,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
   {
     id: "lhs_t4_orbital_lance",
     name: "Orbital Starlight Lance",
-    icon: "spell_holy_searinglight",
+    icon: "Radiant/Radiant Beam",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "lhs_t3_full_moon_delirium",
@@ -190,6 +195,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
       actionPoints: 2, targetingMode: "single", rangeType: "ranged", range: 100,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 2, cooldownUnit: "round",
+      resourceCosts: { mana: { baseAmount: 10 } },
       damageTypes: ["stabbing", "wyrd"],
       primaryDamage: { dice: "5d10", flat: 0, procChance: 100 },
       secondaryDamage: { dice: "3d8", flat: 0, procChance: 100, damageType: "wyrd" },
@@ -204,7 +210,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
     id: "lhs_t4_alien_geometry",
     name: "Alien Geometry Angles",
     icon: "Psychic/Telepathic Arcane",
-    maxRanks: 3,
+    maxRanks: 2,
     position: { x: 2.5, y: 3 },
     requires: "lhs_t3_parasitic_stride",
     spell: {
@@ -217,8 +223,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
       visualTheme: "arcane", tags: ["passive", "ricochet", "cover-ignore", "lunarch"]
     },
     rankUpgrades: [
-      { description: "Ricocheting attacks gain +2d6 bonus damage per bounce (up to 2 bounces).", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
-      { description: "Ricocheting attacks gain +4d6 bonus damage per bounce and can ricochet up to 3 times.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 } }
+      { description: "Ricocheting attacks gain +3d6 bonus damage per bounce (up to 2 bounces).", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, damageTypes: ["arcane"] }
     ]
   },
 
@@ -226,7 +231,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
   {
     id: "lhs_t5_parasitic_execution",
     name: "Symbiote Overclock",
-    icon: "spell_shadow_shadowform",
+    icon: "Frost/Cooldown",
     maxRanks: 3,
     position: { x: 1, y: 4 },
     requires: "lhs_t4_orbital_lance",
@@ -247,7 +252,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
   {
     id: "lhs_t5_waning_veil",
     name: "Waning Phase Invisibility",
-    icon: "ability_stealth",
+    icon: "Void/Crimson Void Hood",
     maxRanks: 2,
     position: { x: 2.5, y: 4 },
     requires: "lhs_t4_alien_geometry",
@@ -261,7 +266,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
       visualTheme: "shadow", tags: ["passive", "stealth", "crit-opener", "lunarch"]
     },
     rankUpgrades: [
-      { description: "Invisibility persists while moving at normal speed, and attacks breaking stealth deal +4d8 bonus wyrd damage.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
+      { description: "Invisibility persists while moving at normal speed, and attacks breaking stealth deal +4d8 bonus wyrd damage.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 }, damageTypes: ["wyrd"] }
     ]
   },
 
@@ -282,6 +287,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
       actionPoints: 3, targetingMode: "chain", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 3, cooldownUnit: "round",
+      resourceCosts: { mana: { baseAmount: 12 } },
       damageTypes: ["wyrd", "stabbing"],
       primaryDamage: { dice: "6d8", flat: 0, procChance: 100 },
       secondaryDamage: { dice: "4d6", flat: 0, procChance: 100, damageType: "stabbing" },
@@ -295,7 +301,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
   {
     id: "lhs_t6_phase_mastery",
     name: "Forced Lunar Transition",
-    icon: "spell_holy_borrowedtime",
+    icon: "Arcane/Rewind Time",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "lhs_t5_waning_veil",
@@ -308,10 +314,11 @@ export const LUNARCH_HOLLOW_SENTINEL = [
       actionPoints: 1, targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 2, cooldownUnit: "round",
+      resourceCosts: { mana: { baseAmount: 6 }, lunar_phase: { baseAmount: 1, phaseAdvancement: 1 } },
       visualTheme: "arcane", tags: ["phase-control", "tactical", "lunarch"]
     },
     rankUpgrades: [
-      { description: "Cooldown reduced to 1 round; manually entering Full Moon grants +2 AP on the current turn." }
+      { description: "Cooldown reduced to 1 round; manually entering Full Moon grants +2 AP on the current turn.", cooldownValue: 1 }
     ]
   },
 
@@ -319,7 +326,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
   {
     id: "lhs_t7_avatar_of_the_hollow_eye",
     name: "Avatar of the Hollow Starlight Eye",
-    icon: "spell_shadow_mindtwisting",
+    icon: "Void/All Seeing Eye",
     maxRanks: 1,
     position: { x: 1, y: 6 },
     requires: "lhs_t6_constellation_sniping",
@@ -332,6 +339,7 @@ export const LUNARCH_HOLLOW_SENTINEL = [
       actionPoints: 3, targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "once_per_combat", cooldownValue: 1, cooldownUnit: "combat",
+      resourceCosts: { mana: { baseAmount: 15 } },
       durationRounds: 3,
       visualTheme: "arcane", tags: ["capstone", "ultimate", "infinite-range", "auto-crit", "lunarch"]
     },
@@ -340,8 +348,8 @@ export const LUNARCH_HOLLOW_SENTINEL = [
   {
     id: "lhs_t7_cosmic_singularity",
     name: "Cosmic Needle Collapse",
-    icon: "Force/Energy Star",
-    maxRanks: 2,
+    icon: "Void/Black Hole",
+    maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "lhs_t6_phase_mastery",
     spell: {
@@ -355,7 +363,84 @@ export const LUNARCH_HOLLOW_SENTINEL = [
       visualTheme: "arcane", tags: ["passive", "capstone-row", "gravity-pull", "collapse", "lunarch"]
     },
     rankUpgrades: [
-      { description: "Singularity radius extends to 35 ft, damage increases to 6d8 wyrd, and pulled enemies are knocked Prone.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 } }
+      { description: "Singularity radius extends to 35 ft, damage increases to 6d8 wyrd, and pulled enemies are knocked Prone.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 } },
+      { description: "Singularity radius extends to 45 ft, damage increases to 8d8 wyrd, and pulled enemies are knocked Prone and Silenced for 1 round.", primaryDamage: { dice: "8d8", flat: 0, procChance: 100 } }
+    ]
+  },
+  {
+    id: "lhs_t7_starfall_excision",
+    name: "Starfall Excision",
+    icon: "Piercing/Piercing Impale",
+    maxRanks: 5,
+    position: { x: 0, y: 6 },
+    requires: "lhs_t6_constellation_sniping",
+    spell: {
+      name: "Starfall Excision",
+      description: "Spend 3 AP: A single needle of condensed starlight crosses up to 120 ft to strike the Hollow Marked target: deals 4d10 piercing + 2d10 wyrd damage, ignores 50% of the target's DR, and consumes the mark on impact.",
+      flavorText: "The parasite does not aim. It subtracts.",
+      source: "talent", class: "Lunarch", treeId: "hollow_sentinel",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 3, targetingMode: "single", rangeType: "ranged", range: 120,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownValue: 2, cooldownUnit: "round",
+      resourceCosts: { mana: { baseAmount: 12 } },
+      damageTypes: ["stabbing", "wyrd"],
+      primaryDamage: { dice: "4d10", flat: 0, procChance: 100 },
+      secondaryDamage: { dice: "2d10", flat: 0, procChance: 100, damageType: "wyrd" },
+      visualTheme: "arcane", tags: ["capstone", "execution", "marked", "lunarch"]
+    },
+    rankUpgrades: [
+      { description: "Deals 5d10 piercing + 3d10 wyrd, ignores 65% of the target's DR, and if the target dies the mark leaps to the nearest enemy within 30 ft.", primaryDamage: { dice: "5d10", flat: 0, procChance: 100 }, secondaryDamage: { dice: "3d10", flat: 0, procChance: 100, damageType: "wyrd" } },
+      { description: "Deals 6d10 piercing + 4d10 wyrd and ignores 80% of the target's DR; the shot cannot be blocked by cover, shields, or intervening terrain.", primaryDamage: { dice: "6d10", flat: 0, procChance: 100 }, secondaryDamage: { dice: "4d10", flat: 0, procChance: 100, damageType: "wyrd" } },
+      { description: "Deals 8d10 piercing + 5d10 wyrd and ignores 90% of the target's DR; killing a marked target refunds 2 AP and extends the mark's duration by 2 rounds.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 }, secondaryDamage: { dice: "5d10", flat: 0, procChance: 100, damageType: "wyrd" } },
+      { description: "Deals 10d10 piercing + 6d10 wyrd and ignores 100% of the target's DR and Durability; if the target survives, it is Silenced for 2 rounds.", primaryDamage: { dice: "10d10", flat: 0, procChance: 100 }, secondaryDamage: { dice: "6d10", flat: 0, procChance: 100, damageType: "wyrd" } }
+    ]
+  },
+  {
+    id: "lhs_t7_delirium_verdict",
+    name: "Delirium Verdict",
+    icon: "Void/Corrupted Eye",
+    maxRanks: 3,
+    position: { x: 2, y: 6 },
+    requires: "lhs_t6_constellation_sniping",
+    spell: {
+      name: "Delirium Verdict",
+      description: "Spend 3 AP: Usable only during Full Moon. The hollow eye dilates and fires the parasite's verdict at a target within 90 ft: deals 6d10 wyrd damage that bypasses 100% of DR and Durability, and the target cannot benefit from cover.",
+      flavorText: "Sanity was the cost. This is the invoice.",
+      source: "talent", class: "Lunarch", treeId: "hollow_sentinel",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 3, targetingMode: "single", rangeType: "ranged", range: 90,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownValue: 3, cooldownUnit: "round",
+      resourceCosts: { mana: { baseAmount: 10 }, lunar_phase: { baseAmount: 1, cost: 1, phaseRequired: "full_moon" } },
+      damageTypes: ["wyrd"],
+      primaryDamage: { dice: "6d10", flat: 0, procChance: 100 },
+      visualTheme: "arcane", tags: ["capstone", "full-moon", "true-damage", "execution", "lunarch"]
+    },
+    rankUpgrades: [
+      { description: "Deals 8d10 wyrd damage, automatically scores a critical hit against Hollow Marked targets, and the parasite's arousal forces a Delirium Table roll after the cast.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 } },
+      { description: "Deals 10d10 wyrd damage, automatically scores a critical hit against Hollow Marked targets, and the parasite's arousal forces a Delirium Table roll — made with Advantage if this cast lands a killing blow; you regain 5 mana as it feasts on the target's last memory.", primaryDamage: { dice: "10d10", flat: 0, procChance: 100 } }
+    ]
+  },
+  {
+    id: "lhs_t7_non_euclidean_predator",
+    name: "Non-Euclidean Predator",
+    icon: "Arcane/Angular Rune",
+    maxRanks: 3,
+    position: { x: 3, y: 6 },
+    requires: "lhs_t6_phase_mastery",
+    spell: {
+      name: "Non-Euclidean Predator",
+      description: "Passive: Your ranged attacks ignore all cover, and a shot that hits a Hollow Marked target ricochets to a second marked enemy within 30 ft for 50% damage. When an enemy ends its turn within 5 ft of you, you fold through the parasite's alien geometry: teleport 15 ft to a space you can see and leave a starlight decoy behind (once per round).",
+      flavorText: "Distance is a suggestion the parasite has never honored.",
+      source: "talent", class: "Lunarch", treeId: "hollow_sentinel",
+      spellType: "PASSIVE", category: "utility",
+      targetingMode: "self",
+      visualTheme: "arcane", tags: ["capstone", "ricochet", "cover-ignore", "anti-melee", "lunarch"]
+    },
+    rankUpgrades: [
+      { description: "Ricochets deal 75% damage to a second marked enemy within 35 ft, and the escape fold teleports 20 ft and detonates the decoy for 4d8 wyrd damage in 10 ft." },
+      { description: "Ricochets deal 100% damage to a second marked enemy within 40 ft, the escape fold teleports 25 ft and detonates the decoy for 4d8 wyrd damage in 10 ft, and each ricochet re-applies Hollow Mark to the enemy it strikes." }
     ]
   }
 ];

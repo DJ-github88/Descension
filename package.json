@@ -12,6 +12,9 @@
     "serve:production": "cd vtt-react && npm run serve:production",
     "netlify:local": "cd vtt-react && npm run netlify:local",
     "test": "cd vtt-react && npm test",
+    "audit:classes": "node scripts/audit-classes.mjs",
+    "validate:classes": "node scripts/check-class-structure.mjs && node scripts/audit-classes.mjs",
+    "validate:talent-trees": "cd vtt-react && node src/utils/talentTreeValidator.mjs",
     "install": "cd vtt-react && npm install",
     "install:all": "npm install && cd vtt-react && npm install && cd ../server && npm install",
     "dev": "npm start"

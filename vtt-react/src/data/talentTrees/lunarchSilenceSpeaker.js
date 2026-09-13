@@ -9,7 +9,7 @@ export const LUNARCH_SILENCE_SPEAKER = [
   {
     id: "lss_t1_silence_rend",
     name: "Silence Rend",
-    icon: "spell_shadow_teleport",
+    icon: "Chaos/Chaotic Rupture",
     maxRanks: 3,
     position: { x: 0.5, y: 0 },
     requires: null,
@@ -21,7 +21,8 @@ export const LUNARCH_SILENCE_SPEAKER = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 1, targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 0, cooldownUnit: "round",
+      cooldownValue: 1, cooldownUnit: "round",
+      resourceCosts: { mana: { baseAmount: 3 } },
       damageTypes: ["wyrd", "blight"],
       primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
       secondaryDamage: { dice: "1d6", flat: 0, procChance: 100, damageType: "blight" },
@@ -35,7 +36,7 @@ export const LUNARCH_SILENCE_SPEAKER = [
   {
     id: "lss_t1_void_resonance",
     name: "Voice of the Dead Moon",
-    icon: "spell_shadow_curseoftounges",
+    icon: "Psychic/Psychic Emanation",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -50,13 +51,13 @@ export const LUNARCH_SILENCE_SPEAKER = [
     },
     rankUpgrades: [
       { description: "Aura radius extends to 20 ft and reduces enemy spell ranges by 15 ft." },
-      { description: "Enemies attempting to cast spells within the aura take 2d6 wyrd damage automatically.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } }
+      { description: "Enemies attempting to cast spells within the aura take 2d6 wyrd damage automatically.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 }, damageTypes: ["wyrd"] }
     ]
   },
   {
     id: "lss_t1_delirium_tolerance",
     name: "Symbiotic Sanity Buffer",
-    icon: "spell_shadow_mindrot",
+    icon: "Psychic/Focused Mind",
     maxRanks: 2,
     position: { x: 3.5, y: 0 },
     requires: null,
@@ -78,7 +79,7 @@ export const LUNARCH_SILENCE_SPEAKER = [
   {
     id: "lss_t2_star_sickness_epidemic",
     name: "Star Sickness Bloom",
-    icon: "spell_shadow_curseofachimonde",
+    icon: "Void/Mold Entity",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "lss_t1_silence_rend",
@@ -91,6 +92,7 @@ export const LUNARCH_SILENCE_SPEAKER = [
       actionPoints: 2, targetingMode: "aoe", rangeType: "ranged", range: 40,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 1, cooldownUnit: "round",
+      resourceCosts: { mana: { baseAmount: 6 } },
       damageTypes: ["wyrd"],
       primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
       visualTheme: "shadow", tags: ["aoe", "detonate", "spread", "lunarch"]
@@ -103,7 +105,7 @@ export const LUNARCH_SILENCE_SPEAKER = [
   {
     id: "lss_t2_null_vacuum",
     name: "Aura of Total Silence",
-    icon: "spell_shadow_antimagic",
+    icon: "Void/Black Hole",
     maxRanks: 3,
     position: { x: 2.5, y: 1 },
     requires: "lss_t1_void_resonance",
@@ -116,11 +118,12 @@ export const LUNARCH_SILENCE_SPEAKER = [
       actionPoints: 2, targetingMode: "aoe", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 3, cooldownUnit: "round",
+      resourceCosts: { mana: { baseAmount: 6 } },
       visualTheme: "shadow", tags: ["dome", "silence", "anti-magic", "zone-control", "lunarch"]
     },
     rankUpgrades: [
       { description: "Dome radius extends to 25 ft and lasts 3 rounds." },
-      { description: "Enemies inside the dome take 2d8 wyrd damage at the start of each of their turns.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } }
+      { description: "Enemies inside the dome take 2d8 wyrd damage at the start of each of their turns.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 }, damageTypes: ["wyrd"] }
     ]
   },
 
@@ -128,7 +131,7 @@ export const LUNARCH_SILENCE_SPEAKER = [
   {
     id: "lss_t3_silence_beam",
     name: "Silence Beam",
-    icon: "spell_shadow_shadowbeam",
+    icon: "Force/Diagonal Energy Beam",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "lss_t2_star_sickness_epidemic",
@@ -141,6 +144,7 @@ export const LUNARCH_SILENCE_SPEAKER = [
       actionPoints: 2, targetingMode: "line", rangeType: "ranged", range: 40,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 2, cooldownUnit: "round",
+      resourceCosts: { mana: { baseAmount: 8 } },
       damageTypes: ["wyrd"],
       primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
       visualTheme: "shadow", tags: ["line", "beam", "armor-shred", "lunarch"]
@@ -153,8 +157,8 @@ export const LUNARCH_SILENCE_SPEAKER = [
   {
     id: "lss_t3_symbiote_memory_drain",
     name: "Amnesiac Siphon",
-    icon: "spell_shadow_memorywipe",
-    maxRanks: 2,
+    icon: "Psychic/Mind Read",
+    maxRanks: 3,
     position: { x: 2.5, y: 2 },
     requires: "lss_t2_null_vacuum",
     spell: {
@@ -167,7 +171,8 @@ export const LUNARCH_SILENCE_SPEAKER = [
       visualTheme: "shadow", tags: ["passive", "ap-drain", "waning-moon", "lunarch"]
     },
     rankUpgrades: [
-      { description: "Siphoned AP is transferred to you (gain +1 AP on your next turn)." }
+      { description: "Siphoned AP is transferred to you (gain +1 AP on your next turn)." },
+      { description: "The siphon deepens: each drained target also surrenders 2d6 wyrd damage that the parasite knits into temporary HP, and the drain triggers on every ability that hits (no longer once per combat per enemy).", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 }, damageTypes: ["wyrd"] }
     ]
   },
 
@@ -175,7 +180,7 @@ export const LUNARCH_SILENCE_SPEAKER = [
   {
     id: "lss_t4_binding_horror",
     name: "Binding Horror Tendrils",
-    icon: "spell_shadow_psychicscream",
+    icon: "Chaos/Tendrils Chaos",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "lss_t3_silence_beam",
@@ -188,6 +193,7 @@ export const LUNARCH_SILENCE_SPEAKER = [
       actionPoints: 2, targetingMode: "aoe", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 3, cooldownUnit: "round",
+      resourceCosts: { mana: { baseAmount: 10 } },
       damageTypes: ["wyrd", "blight"],
       primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
       secondaryDamage: { dice: "2d8", flat: 0, procChance: 100, damageType: "blight" },
@@ -201,8 +207,8 @@ export const LUNARCH_SILENCE_SPEAKER = [
   {
     id: "lss_t4_mind_fracture",
     name: "Cerebral Collapse",
-    icon: "spell_shadow_mindflay",
-    maxRanks: 3,
+    icon: "Psychic/Psionic Blast",
+    maxRanks: 2,
     position: { x: 2.5, y: 3 },
     requires: "lss_t3_symbiote_memory_drain",
     spell: {
@@ -215,8 +221,7 @@ export const LUNARCH_SILENCE_SPEAKER = [
       visualTheme: "shadow", tags: ["passive", "mind-fracture", "damage-amp", "lunarch"]
     },
     rankUpgrades: [
-      { description: "Bonus damage increases to +45%, and target suffers Disadvantage on all Will saves." },
-      { description: "Bonus damage increases to +60%; affected targets take 2d6 wyrd damage on each of their turn starts.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } }
+      { description: "Bonus damage increases to +50%; the target suffers Disadvantage on all Will saves and takes 2d6 wyrd damage at the start of each of its turns.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 }, damageTypes: ["wyrd"] }
     ]
   },
 
@@ -224,7 +229,7 @@ export const LUNARCH_SILENCE_SPEAKER = [
   {
     id: "lss_t5_silence_supernova",
     name: "Silence Supernova",
-    icon: "spell_shadow_shadowfury",
+    icon: "Chaos/Chaotic Shadow Storm",
     maxRanks: 3,
     position: { x: 1, y: 4 },
     requires: "lss_t4_binding_horror",
@@ -237,6 +242,7 @@ export const LUNARCH_SILENCE_SPEAKER = [
       actionPoints: 3, targetingMode: "aoe", rangeType: "self-centered", range: 30,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 3, cooldownUnit: "round",
+      resourceCosts: { mana: { baseAmount: 12 } },
       damageTypes: ["wyrd", "blight"],
       primaryDamage: { dice: "6d8", flat: 0, procChance: 100 },
       secondaryDamage: { dice: "4d8", flat: 0, procChance: 100, damageType: "blight" },
@@ -250,7 +256,7 @@ export const LUNARCH_SILENCE_SPEAKER = [
   {
     id: "lss_t5_cosmic_haze",
     name: "Void Shroud",
-    icon: "spell_shadow_nethercloak",
+    icon: "Void/Crimson Void Hood",
     maxRanks: 2,
     position: { x: 2.5, y: 4 },
     requires: "lss_t4_mind_fracture",
@@ -285,6 +291,7 @@ export const LUNARCH_SILENCE_SPEAKER = [
       actionPoints: 3, targetingMode: "aoe", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 4, cooldownUnit: "round",
+      resourceCosts: { mana: { baseAmount: 14 } },
       damageTypes: ["wyrd"],
       primaryDamage: { dice: "8d8", flat: 0, procChance: 100 },
       visualTheme: "shadow", tags: ["aoe", "skyhole", "deadzone", "zone-denial", "lunarch"]
@@ -297,7 +304,7 @@ export const LUNARCH_SILENCE_SPEAKER = [
   {
     id: "lss_t6_elder_parasite_communion",
     name: "Brood-Sibling Communion",
-    icon: "spell_shadow_summonvoidwalker",
+    icon: "Psychic/Telepathic Arcane",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "lss_t5_cosmic_haze",
@@ -319,7 +326,7 @@ export const LUNARCH_SILENCE_SPEAKER = [
   {
     id: "lss_t7_avatar_of_absolute_silence",
     name: "Avatar of Absolute Silence",
-    icon: "spell_shadow_possession",
+    icon: "Necrotic/Cosmic Entity",
     maxRanks: 1,
     position: { x: 1, y: 6 },
     requires: "lss_t6_skyhole_invocation",
@@ -332,6 +339,7 @@ export const LUNARCH_SILENCE_SPEAKER = [
       actionPoints: 3, targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "once_per_combat", cooldownValue: 1, cooldownUnit: "combat",
+      resourceCosts: { mana: { baseAmount: 15 } },
       durationRounds: 3,
       visualTheme: "shadow", tags: ["capstone", "ultimate", "universal-silence", "void", "lunarch"]
     },
@@ -340,8 +348,8 @@ export const LUNARCH_SILENCE_SPEAKER = [
   {
     id: "lss_t7_star_devourer_accord",
     name: "Accord of the Fallen Star",
-    icon: "spell_shadow_shadowandflame",
-    maxRanks: 2,
+    icon: "Necrotic/Devour",
+    maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "lss_t6_elder_parasite_communion",
     spell: {
@@ -354,7 +362,81 @@ export const LUNARCH_SILENCE_SPEAKER = [
       visualTheme: "shadow", tags: ["passive", "capstone-row", "max-hp-drain", "lunarch"]
     },
     rankUpgrades: [
-      { description: "Targets whose maximum health drops below 50% from this effect are immediately executed and dissolve into starlight." }
+      { description: "Targets whose maximum health drops below 50% from this effect are immediately executed and dissolve into starlight." },
+      { description: "The execution threshold rises to 65% of maximum health, and each execution feeds you 50 temporary HP as the stolen vitality is folded into the brood." }
+    ]
+  },
+  {
+    id: "lss_t7_brood_moon_ascendant",
+    name: "Brood Moon Ascendant",
+    icon: "Void/Maw Gripping Fear",
+    maxRanks: 5,
+    position: { x: 0, y: 6 },
+    requires: ["lss_t6_elder_parasite_communion", "lss_t6_skyhole_invocation"],
+    spell: {
+      name: "Brood Moon Ascendant",
+      description: "Passive: The parasite's hunger takes lunar shape behind your ribs. Whenever you deal wyrd or blight damage, you heal 10% of the damage dealt and bank a Brood Charge (maximum 3). Your next silence ability spends every charge to deal +1d6 bonus wyrd damage per charge.",
+      flavorText: "There is a second moon now, and it is inside you, and it is always hungry.",
+      source: "talent", class: "Lunarch", treeId: "silence_speaker",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", damageTypes: ["wyrd"],
+      primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
+      visualTheme: "shadow", tags: ["passive", "capstone", "lunar-hunger", "brood-charges", "lunarch"]
+    },
+    rankUpgrades: [
+      { description: "Healing rises to 15% of damage dealt, and each Brood Charge adds +2d6 bonus wyrd damage (maximum 3 charges).", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
+      { description: "Healing rises to 20% of damage dealt, each Brood Charge adds +3d6 bonus wyrd damage, and charges persist until spent (maximum 4).", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } },
+      { description: "Healing rises to 25% of damage dealt, each Brood Charge adds +4d6 bonus wyrd damage, and at maximum charges your next silence ability also Stuns its targets for 1 round.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 } },
+      { description: "Healing rises to 30% of damage dealt, each Brood Charge adds +5d6 bonus wyrd damage, and spending charges refunds 1 Action Point.", primaryDamage: { dice: "5d6", flat: 0, procChance: 100 } }
+    ]
+  },
+  {
+    id: "lss_t7_eclipse_of_the_dead_moon",
+    name: "Eclipse of the Dead Moon",
+    icon: "Arcane/Crescent Moon",
+    maxRanks: 3,
+    position: { x: 1.5, y: 6 },
+    requires: "lss_t6_skyhole_invocation",
+    spell: {
+      name: "Eclipse of the Dead Moon",
+      description: "Castable only during the Waning Moon. Spend 3 AP & 15 mana: Drag the dead moon across the sun and drown a 40 ft radius within 80 ft in the silence between stars: deals 6d8 wyrd + 4d8 blight damage, Silences all enemies for 1 round, and inflicts Star Sickness.",
+      flavorText: "Daylight is a rumor the dead moon refuses to believe.",
+      source: "talent", class: "Lunarch", treeId: "silence_speaker",
+      spellType: "ACTIVE", category: "damage",
+      actionPoints: 3, targetingMode: "aoe", rangeType: "ranged", range: 80,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownValue: 5, cooldownUnit: "round",
+      resourceCosts: { mana: { baseAmount: 15 }, lunar_phase: { baseAmount: 1, cost: 1, phaseRequired: "waning" } },
+      damageTypes: ["wyrd", "blight"],
+      primaryDamage: { dice: "6d8", flat: 0, procChance: 100 },
+      secondaryDamage: { dice: "4d8", flat: 0, procChance: 100, damageType: "blight" },
+      visualTheme: "shadow", tags: ["aoe", "eclipse", "silence", "star-sickness", "capstone", "lunarch"]
+    },
+    rankUpgrades: [
+      { description: "The eclipse widens to a 50 ft radius and deals 8d8 wyrd + 5d8 blight damage; enemies caught at the center are knocked Prone.", primaryDamage: { dice: "8d8", flat: 0, procChance: 100 }, secondaryDamage: { dice: "5d8", flat: 0, procChance: 100, damageType: "blight" } },
+      { description: "Radius reaches 60 ft, damage rises to 10d8 wyrd + 6d8 blight, Silence lasts 2 rounds, and Star Sickness spreads to enemies within 20 ft of every victim.", primaryDamage: { dice: "10d8", flat: 0, procChance: 100 }, secondaryDamage: { dice: "6d8", flat: 0, procChance: 100, damageType: "blight" } }
+    ]
+  },
+  {
+    id: "lss_t7_apotheosis_of_the_star_plague",
+    name: "Apotheosis of the Star Plague",
+    icon: "Chaos/Chaotic Corruption",
+    maxRanks: 3,
+    position: { x: 3, y: 6 },
+    requires: "lss_t6_elder_parasite_communion",
+    spell: {
+      name: "Apotheosis of the Star Plague",
+      description: "Passive: Your Star Sickness becomes a living plague. Whenever an afflicted enemy dies, its skull bursts: enemies within 30 ft are afflicted with Star Sickness and take 4d8 wyrd damage.",
+      flavorText: "The mold does not mourn its dead. It enrolls them.",
+      source: "talent", class: "Lunarch", treeId: "silence_speaker",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["wyrd"],
+      primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
+      visualTheme: "shadow", tags: ["passive", "capstone", "star-sickness", "contagion", "lunarch"]
+    },
+    rankUpgrades: [
+      { description: "Burst radius extends to 40 ft, damage rises to 6d8 wyrd, and enemies already afflicted take double damage from the burst.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 } },
+      { description: "Burst radius extends to 50 ft, damage rises to 8d8 wyrd, a burst that kills another afflicted enemy chain-bursts from it, and this Star Sickness imposes -4 on saving throws.", primaryDamage: { dice: "8d8", flat: 0, procChance: 100 } }
     ]
   }
 ];

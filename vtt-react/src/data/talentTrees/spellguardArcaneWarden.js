@@ -8,7 +8,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t1_oath_steel",
     name: "Oath-Steel Bond",
-    icon: "spell_holy_devotionaura",
+    icon: "Force/Force Tied",
     maxRanks: 3,
     position: { x: 0.5, y: 0 },
     requires: null,
@@ -28,7 +28,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t1_arcane_absorption",
     name: "Arcane Absorption",
-    icon: "spell_arcane_prismaticcloak",
+    icon: "Force/Absorb Energy",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -48,7 +48,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t1_arcane_shield",
     name: "Arcane Shield",
-    icon: "spell_holy_powerwordshield",
+    icon: "Force/Force Shield",
     maxRanks: 2,
     position: { x: 3.5, y: 0 },
     requires: null,
@@ -74,7 +74,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t2_reinforced_wards",
     name: "Reinforced Wards",
-    icon: "spell_holy_greaterblessingofkings",
+    icon: "Force/Force Field",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "aw_t1_oath_steel",
@@ -94,7 +94,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t2_wardens_fortitude",
     name: "Warden's Fortitude",
-    icon: "spell_holy_righteousfury",
+    icon: "Utility/Steadfast Bulwark",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "aw_t1_arcane_shield",
@@ -115,7 +115,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t3_barrier_of_protection",
     name: "Barrier of Protection",
-    icon: "spell_holy_prayerofhealing",
+    icon: "Utility/Deflecting Shield",
     maxRanks: 2,
     position: { x: 1.5, y: 2 },
     requires: "aw_t2_reinforced_wards",
@@ -140,7 +140,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t3_absorption_mastery",
     name: "Absorption Mastery",
-    icon: "spell_arcane_blast",
+    icon: "Force/Energy Core",
     maxRanks: 2,
     position: { x: 3, y: 2 },
     requires: "aw_t2_reinforced_wards",
@@ -159,7 +159,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t3_elemental_ward",
     name: "Elemental Ward",
-    icon: "spell_nature_resistnature",
+    icon: "Utility/Resistance",
     maxRanks: 2,
     position: { x: 2.5, y: 2 },
     requires: "aw_t2_wardens_fortitude",
@@ -185,7 +185,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t4_mass_shielding",
     name: "Mass Shielding",
-    icon: "spell_holy_divineshield",
+    icon: "Force/Radiating Barrier",
     maxRanks: 3,
     position: { x: 1.5, y: 3 },
     requires: "aw_t3_barrier_of_protection",
@@ -211,7 +211,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t4_anti_magic_zone",
     name: "Anti-Magic Zone",
-    icon: "spell_shadow_antimagicshell",
+    icon: "Utility/Barred Shield",
     maxRanks: 2,
     position: { x: 2.5, y: 3 },
     requires: "aw_t3_absorption_mastery",
@@ -237,7 +237,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t5_overflow",
     name: "Overflowing Reservoir",
-    icon: "spell_arcane_starfire",
+    icon: "Force/Energy Nexus",
     maxRanks: 2,
     position: { x: 1.5, y: 4 },
     requires: "aw_t4_mass_shielding",
@@ -256,7 +256,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t5_wardens_sacrifice",
     name: "Warden's Sacrifice",
-    icon: "spell_holy_sealofsacrifice",
+    icon: "General/Split Health",
     maxRanks: 3,
     position: { x: 2.5, y: 4 },
     requires: "aw_t4_anti_magic_zone",
@@ -305,7 +305,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t6_bulwark_doctrine",
     name: "Bulwark Doctrine",
-    icon: "ability_warrior_defensivestance",
+    icon: "General/Bolster",
     maxRanks: 2,
     position: { x: 2, y: 5 },
     requires: "aw_t5_wardens_sacrifice",
@@ -372,7 +372,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t7_aegis_eternal",
     name: "Aegis Eternal",
-    icon: "inv_shield_61",
+    icon: "Radiant/Radiant Golden Shield",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "aw_t6_bulwark_doctrine",
@@ -394,7 +394,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t7_prismatic_bulwark",
     name: "Prismatic Bulwark",
-    icon: "spell_arcane_portal_dalaran",
+    icon: "Arcane/Spellcasting Aura",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "aw_t6_bulwark_doctrine",
@@ -420,7 +420,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: "aw_t7_oathbound",
     name: "Oathbound",
-    icon: "spell_arcane_arcanetorrent",
+    icon: "Arcane/Orb Manipulation",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "aw_t6_reflective_ward",

@@ -6,7 +6,7 @@ export const MARTYR_REDEMPTION = [
   {
     "id": "rdm_t1_lay_on_hands",
     "name": "Lay on Hands",
-    "icon": "spell_holy_layonhands",
+    "icon": "Healing/Reaching Hand",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -67,7 +67,7 @@ export const MARTYR_REDEMPTION = [
   {
     "id": "rdm_t1_healing_touch",
     "name": "Radiant Grace",
-    "icon": "spell_holy_healingtouch",
+    "icon": "Radiant/Radiant Blessing 1",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -103,7 +103,7 @@ export const MARTYR_REDEMPTION = [
   {
     "id": "rdm_t1_purify",
     "name": "Purifying Touch",
-    "icon": "spell_holy_purifyingpower",
+    "icon": "Healing/Cure Within",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -149,7 +149,7 @@ export const MARTYR_REDEMPTION = [
   {
     "id": "rdm_t2_cure_wounds",
     "name": "Sacred Mending",
-    "icon": "spell_holy_renew",
+    "icon": "Healing/Renewal",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -204,7 +204,7 @@ export const MARTYR_REDEMPTION = [
   {
     "id": "rdm_t2_restoring_light",
     "name": "Beacon of Solace",
-    "icon": "spell_holy_restoration",
+    "icon": "Radiant/Radiant Beam of Healing",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -240,7 +240,7 @@ export const MARTYR_REDEMPTION = [
   {
     "id": "rdm_t3_mass_healing",
     "name": "Prayer of Radiance",
-    "icon": "spell_holy_prayerofhealing",
+    "icon": "Radiant/Radiant Sunburst",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -303,7 +303,7 @@ export const MARTYR_REDEMPTION = [
   {
     "id": "rdm_t3_martyrs_sacrifice",
     "name": "Blood of the Martyr",
-    "icon": "spell_holy_sealofsacrifice",
+    "icon": "Radiant/Redemption",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -358,7 +358,7 @@ export const MARTYR_REDEMPTION = [
   {
     "id": "rdm_t4_divine_intervention",
     "name": "Sol's Intervention",
-    "icon": "spell_holy_guardianspirit",
+    "icon": "Radiant/Divine Blessing",
     "maxRanks": 2,
     "position": {
       "x": 1,
@@ -407,7 +407,7 @@ export const MARTYR_REDEMPTION = [
   {
     "id": "rdm_t5_aura_of_grace",
     "name": "Aura of Sanctity",
-    "icon": "spell_holy_auraoflight",
+    "icon": "Radiant/Radiant Aura",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -444,7 +444,7 @@ export const MARTYR_REDEMPTION = [
   {
     "id": "rdm_t5_channel_radiance",
     "name": "Radiant Burst",
-    "icon": "spell_holy_holysmite",
+    "icon": "Radiant/Radiant Light Burst",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -480,7 +480,7 @@ export const MARTYR_REDEMPTION = [
   {
     "id": "rdm_t6_resplendent_dawn",
     "name": "Resplendent Dawn",
-    "icon": "spell_holy_holybolt",
+    "icon": "Radiant/Radiant Sun",
     "maxRanks": 3,
     "position": {
       "x": 1.5,
@@ -565,7 +565,7 @@ export const MARTYR_REDEMPTION = [
   {
     "id": "rdm_t4_mastery_focus",
     "name": "Sol's Intervention Resonance",
-    "icon": "spell_holy_guardianspirit",
+    "icon": "Radiant/Radiant Magical Rune",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -601,7 +601,7 @@ export const MARTYR_REDEMPTION = [
   {
     "id": "rdm_t6_unyielding_mastery",
     "name": "Unyielding Resolve",
-    "icon": "ability_warrior_defensivestance",
+    "icon": "Utility/Steadfast Bulwark",
     "maxRanks": 2,
     "position": {
       "x": 3.5,
@@ -634,7 +634,7 @@ export const MARTYR_REDEMPTION = [
   {
     "id": "rdm_t7_avatar_of_sol",
     "name": "Avatar of the Redeeming Sun",
-    "icon": "spell_holy_mindvision",
+    "icon": "Radiant/Divine Entity",
     "maxRanks": 1,
     "position": {
       "x": 0,
@@ -674,7 +674,7 @@ export const MARTYR_REDEMPTION = [
   {
     "id": "rdm_t7_doctrine_mastery",
     "name": "Martyr Doctrine",
-    "icon": "spell_holy_blessingofstrength",
+    "icon": "Radiant/Holy Bible",
     "maxRanks": 5,
     "position": {
       "x": 1,
@@ -717,7 +717,7 @@ export const MARTYR_REDEMPTION = [
   {
     "id": "rdm_t7_undying_saint",
     "name": "Saintly Ascension",
-    "icon": "spell_holy_divineprovidence",
+    "icon": "Radiant/Ascendance",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -754,7 +754,7 @@ export const MARTYR_REDEMPTION = [
   {
     "id": "rdm_t7_boundless_grace",
     "name": "Boundless Compassion",
-    "icon": "spell_holy_greaterblessingofsanctuary",
+    "icon": "Healing/Swirling Hearts",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -790,7 +790,7 @@ export const MARTYR_REDEMPTION = [
   {
     "id": "rdm_t7_capstone_gamma",
     "name": "Transcendent Precision",
-    "icon": "ability_hunter_snipershot",
+    "icon": "Radiant/Piercing Shot",
     "spell": {
       "name": "Transcendent Precision",
       "description": "Passive: All critical strikes deal +1d6 bonus damage and restore 1d4 Hit Points.",

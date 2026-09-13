@@ -8,7 +8,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t1_arcane_strike",
     name: "Arcane Strike",
-    icon: "spell_holy_blessingofstrength",
+    icon: "Arcane/Enchanted Blade",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -35,7 +35,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t1_mana_vampirism",
     name: "Mana Vampirism",
-    icon: "spell_shadow_manafeed",
+    icon: "Utility/Vampiric Bite",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -55,7 +55,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t1_reavers_edge",
     name: "Reaver's Edge",
-    icon: "ability_rogue_findweakness",
+    icon: "Utility/Vital Target",
     maxRanks: 2,
     position: { x: 3, y: 0 },
     requires: null,
@@ -75,7 +75,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t2_empowered_strike",
     name: "Empowered Strike",
-    icon: "ability_warrior_innerrage",
+    icon: "Slashing/Energized Slash",
     maxRanks: 3,
     position: { x: 1.5, y: 1 },
     requires: "mr_t1_arcane_strike",
@@ -102,7 +102,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t2_burst_damage",
     name: "Siphoned Fury",
-    icon: "spell_arcane_starfire",
+    icon: "Slashing/Energy Weapon Discharge",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "mr_t1_mana_vampirism",
@@ -125,7 +125,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t3_overcharge",
     name: "Overcharge",
-    icon: "spell_lightning_lightningbolt01",
+    icon: "Lightning/Electric Current",
     maxRanks: 3,
     position: { x: 1.5, y: 2 },
     requires: "mr_t2_empowered_strike",
@@ -145,7 +145,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t3_mana_burn",
     name: "Wicked Draft",
-    icon: "spell_fire_soulburn",
+    icon: "Arcane/Ebon Blaze",
     maxRanks: 3,
     position: { x: 2.5, y: 2 },
     requires: "mr_t2_burst_damage",
@@ -190,7 +190,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t4_arcane_combustion",
     name: "Arcane Combustion",
-    icon: "spell_fire_fire",
+    icon: "Force/Explosion Burst",
     maxRanks: 3,
     position: { x: 2.5, y: 3 },
     requires: "mr_t3_mana_burn",
@@ -213,7 +213,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t5_spell_theft",
     name: "Spell Theft",
-    icon: "spell_arcane_portalironforge",
+    icon: "Utility/Steal",
     maxRanks: 2,
     position: { x: 2, y: 4 },
     requires: "mr_t3_mana_burn",
@@ -238,7 +238,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t5_vampiric_empowerment",
     name: "Vampiric Empowerment",
-    icon: "spell_shadow_improvedvampiricembrace",
+    icon: "Utility/Empowered Warrior",
     maxRanks: 3,
     position: { x: 2.5, y: 4 },
     requires: "mr_t4_energy_surge",
@@ -281,7 +281,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t6_leech_ward",
     name: "Leech Ward",
-    icon: "spell_shadow_darkritual",
+    icon: "Force/Energy Coil",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "mr_t5_spell_theft",
@@ -306,7 +306,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t6_hungering_blade",
     name: "Hungering Blade",
-    icon: "inv_weapon_shortblade_02",
+    icon: "Slashing/Blood Dripping Blade",
     maxRanks: 2,
     position: { x: 3.5, y: 5 },
     requires: "mr_t5_vampiric_empowerment",
@@ -326,7 +326,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t7_aether_reaper",
     name: "Aether Reaper",
-    icon: "spell_shadow_soulleech_1",
+    icon: "Force/Energy Whirlwind",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "mr_t6_mana_rend",
@@ -350,7 +350,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t7_deep_siphon",
     name: "Deep Siphon",
-    icon: "spell_shadow_lifedrain",
+    icon: "Arcane/Channeling Stance",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "mr_t6_hungering_blade",
@@ -372,7 +372,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t7_arcane_hunger",
     name: "Arcane Hunger",
-    icon: "spell_shadow_shadowward",
+    icon: "Utility/Glowing Orb",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "mr_t6_leech_ward",
@@ -392,7 +392,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t7_reavers_momentum",
     name: "Reaver's Momentum",
-    icon: "ability_rogue_sprint",
+    icon: "Arcane/Quick Step",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "mr_t6_hungering_blade",
@@ -412,7 +412,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: "mr_t7_reservoir_bloom",
     name: "Reservoir Bloom",
-    icon: "spell_arcane_manaregen",
+    icon: "Arcane/Spiral Vortex",
     maxRanks: 3,
     position: { x: 4, y: 6 },
     requires: "mr_t6_leech_ward",

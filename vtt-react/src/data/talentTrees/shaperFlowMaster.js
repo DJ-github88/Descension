@@ -24,7 +24,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t1_fluid_transition",
     name: "Fluid Transition",
-    icon: "spell_nature_riptide",
+    icon: "Nature/Snake Transform",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -49,7 +49,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t1_water_dance",
     name: "Water Dance Dodge",
-    icon: "spell_nature_resistnature",
+    icon: "Utility/Flowing Curve",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -74,7 +74,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t1_momentum_flow",
     name: "Momentum Reserve",
-    icon: "spell_nature_swiftness",
+    icon: "Nature/Centered",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -95,7 +95,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t2_cascading_current",
     name: "Cascading Current",
-    icon: "spell_nature_chainlightning",
+    icon: "Slashing/Rapid Slash",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "fm_t1_fluid_transition",
@@ -122,7 +122,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t2_combo_weaving",
     name: "Combo Weaving",
-    icon: "ability_rogue_combatreadiness",
+    icon: "Utility/Martial Arts Ready",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "fm_t1_water_dance",
@@ -171,7 +171,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t3_liquid_motion",
     name: "Liquid Motion",
-    icon: "spell_nature_giftofthewaterspirit",
+    icon: "Nature/River Through Forest",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "fm_t2_combo_weaving",
@@ -193,7 +193,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t4_mist_slip",
     name: "Mist Slip",
-    icon: "spell_nature_astralrecal",
+    icon: "Nature/Teleport",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "fm_t3_confluence_strike",
@@ -218,7 +218,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t4_toll_dancer",
     name: "Toll Absorption",
-    icon: "spell_nature_skinofearth",
+    icon: "Nature/Growth",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "fm_t3_liquid_motion",
@@ -289,7 +289,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t6_water_ascendant",
     name: "Water Ascendant",
-    icon: "spell_nature_acid_01",
+    icon: "Nature/Transform Salamander",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "fm_t5_torrential_barrage",
@@ -312,7 +312,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t6_fluvial_mastery",
     name: "Fluvial Reflexes",
-    icon: "ability_rogue_quickrecovery",
+    icon: "Nature/Leaf of the Wind",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "fm_t5_eternal_current",
@@ -352,7 +352,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: "fm_t7_living_cataract",
     name: "The Living Cataract",
-    icon: "spell_nature_unrelentingstorm",
+    icon: "Nature/Tornado Vortex",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "fm_t6_water_ascendant",

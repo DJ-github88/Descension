@@ -151,7 +151,8 @@ import {
 import {
   WARDEN_SHADOWBLADE,
   WARDEN_VENGEANCE_SEEKER,
-  WARDEN_MONOLITH
+  WARDEN_MONOLITH,
+  WARDEN_JAILER
 } from './talentTrees/warden.js';
 
 import {
@@ -213,10 +214,7 @@ export const getTreeBackdrop = (className, specId) => {
     'Lunarch': {
       'hollow-sentinel': 'url(/assets/Backgrounds/NightFrost.png)',
       'silence-speaker': 'url(/assets/Backgrounds/MountainSky.png)',
-      'sanguine-warden': 'url(/assets/Backgrounds/FrozTemple.png)',
-      'moonlight-sentinel': 'url(/assets/Backgrounds/NightFrost.png)',
-      'starfall-invoker': 'url(/assets/Backgrounds/MountainSky.png)',
-      'moonwell-guardian': 'url(/assets/Backgrounds/FrozTemple.png)'
+      'sanguine-warden': 'url(/assets/Backgrounds/FrozTemple.png)'
     },
     'Apex': {
       'shadowblade': 'url(/assets/Backgrounds/Forest3.png)',
@@ -225,6 +223,7 @@ export const getTreeBackdrop = (className, specId) => {
     },
     'Warden': {
       'shadowblade': 'url(/assets/Backgrounds/Forest2.png)',
+      'jailer': 'url(/assets/Backgrounds/Stonehedge.png)',
       'vengeance-seeker': 'url(/assets/Backgrounds/mountains3.png)',
       'monolith': 'url(/assets/Backgrounds/mountains1.png)'
     },
@@ -265,10 +264,7 @@ export const getTreeBackdrop = (className, specId) => {
     'Berserker': {
       'savage': 'url(/assets/Backgrounds/Volcano.png)',
       'juggernaut': 'url(/assets/Backgrounds/mountains2.png)',
-      'warlord': 'url(/assets/Backgrounds/Forest1.png)',
-      'primal_rage': 'url(/assets/Backgrounds/Volcano.png)',
-      'blood_frenzy': 'url(/assets/Backgrounds/mountains2.png)',
-      'savage_instincts': 'url(/assets/Backgrounds/Forest1.png)'
+      'warlord': 'url(/assets/Backgrounds/Forest1.png)'
     },
     'Augur': {
       'auspex': 'url(/assets/Backgrounds/NightFrost.png)',
@@ -355,7 +351,6 @@ export const TALENT_TREES = {
   },
   'Revenant': {
     'sanguine_harvest': REVENANT_SANGUINE_HARVEST,
-    'frost_soVEREIGN': REVENANT_FROST_SOVEREIGN,
     'frost_sovereign': REVENANT_FROST_SOVEREIGN,
     'phylactery_anchor': REVENANT_PHYLACTERY_ANCHOR
   },
@@ -387,30 +382,23 @@ export const TALENT_TREES = {
   'Lunarch': {
     'hollow-sentinel': LUNARCH_HOLLOW_SENTINEL,
     'silence-speaker': LUNARCH_SILENCE_SPEAKER,
-    'sanguine-warden': LUNARCH_SANGUINE_WARDEN,
-    // Legacy aliases
-    'moonlight-sentinel': LUNARCH_HOLLOW_SENTINEL,
-    'starfall-invoker': LUNARCH_SILENCE_SPEAKER,
-    'moonwell-guardian': LUNARCH_SANGUINE_WARDEN
+    'sanguine-warden': LUNARCH_SANGUINE_WARDEN
   },
   'Apex': {
     'shadowblade': APEX_SHADOWBLADE,
     'bladestorm': APEX_BLADESTORM,
     'beastmaster': APEX_BEASTMASTER
   },
-  'Warden': {
-    'shadowblade': WARDEN_SHADOWBLADE,
-    'vengeance-seeker': WARDEN_VENGEANCE_SEEKER,
-    'monolith': WARDEN_MONOLITH
-  },
+    'Warden': {
+      'shadowblade': WARDEN_SHADOWBLADE,
+      'jailer': WARDEN_JAILER,
+      'vengeance-seeker': WARDEN_VENGEANCE_SEEKER,
+      'monolith': WARDEN_MONOLITH
+    },
   'Berserker': {
     'savage': BERSERKER_SAVAGE,
     'juggernaut': BERSERKER_JUGGERNAUT,
-    'warlord': BERSERKER_WARLORD,
-    // Legacy aliases
-    'primal_rage': BERSERKER_SAVAGE,
-    'blood_frenzy': BERSERKER_WARLORD,
-    'savage_instincts': BERSERKER_JUGGERNAUT
+    'warlord': BERSERKER_WARLORD
   },
   'Augur': {
     'auspex': AUGUR_AUSPICE,

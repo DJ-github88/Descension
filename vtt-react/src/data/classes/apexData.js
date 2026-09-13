@@ -616,7 +616,7 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
 
  specs: [
   { id : "bladestorm",
-  name: "Marks",
+  name: "Bladestorm",
   icon: "Piercing/Dagger Rain",
   color: "#DC143C",
   theme: "Multi-Target Devastation",
@@ -663,7 +663,7 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   ],
   },
   { id : "beastmaster",
-  name: "The Twin-Fang Predator",
+  name: "Beastmaster",
   icon: "Nature/Spawn",
   color: "#228B22",
   theme: "Companion Synergy",
@@ -710,7 +710,7 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   ],
   },
   { id : "shadowblade",
-  name: "The Mist-Stalker",
+  name: "Shadowblade",
   icon: "Utility/Phantom Dash",
   color: "#4B0082",
   theme: "Stealth & Lethality",

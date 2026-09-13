@@ -101,7 +101,7 @@ describe('GaolerResourceBar Component (Tension Gauge)', () => {
         expect(onUpdate).toHaveBeenCalledWith('current', 2);
 
         // Spec selection drives the bar's strain and state controls
-        fireEvent.click(screen.getByText('Iron Warden'));
+        fireEvent.click(screen.getByText('Iron Jailer'));
         expect(screen.getByText('Cages: 0/2')).toBeInTheDocument();
 
         // GM override

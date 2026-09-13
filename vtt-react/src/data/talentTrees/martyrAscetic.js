@@ -6,7 +6,7 @@ export const MARTYR_ASCETIC = [
   {
     "id": "asc_t1_sol_aegis",
     "name": "Sol Aegis",
-    "icon": "spell_holy_divineshield",
+    "icon": "Radiant/Radiant Golden Shield",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -61,7 +61,7 @@ export const MARTYR_ASCETIC = [
   {
     "id": "asc_t1_protective_aura",
     "name": "Aegis Aura",
-    "icon": "spell_holy_auraoflight",
+    "icon": "Radiant/Radiant Aura",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -98,7 +98,7 @@ export const MARTYR_ASCETIC = [
   {
     "id": "asc_t1_shield_wall",
     "name": "Burden Bearer",
-    "icon": "ability_warrior_shieldwall",
+    "icon": "General/Strength",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -132,7 +132,7 @@ export const MARTYR_ASCETIC = [
   {
     "id": "asc_t2_redirection",
     "name": "Damage Intercept",
-    "icon": "spell_holy_sealofsacrifice",
+    "icon": "Radiant/Golden Embrace",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -181,7 +181,7 @@ export const MARTYR_ASCETIC = [
   {
     "id": "asc_t2_bastion_stance",
     "name": "Bastion Stance",
-    "icon": "ability_warrior_defensivestance",
+    "icon": "General/Defend",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -223,7 +223,7 @@ export const MARTYR_ASCETIC = [
   {
     "id": "asc_t3_sanctuary_dome",
     "name": "Sanctuary Dome",
-    "icon": "spell_holy_powerwordbarrier",
+    "icon": "Force/Force Field",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -275,7 +275,7 @@ export const MARTYR_ASCETIC = [
   {
     "id": "asc_t3_ascetic_reprisal",
     "name": "Ascetic's Reprisal",
-    "icon": "spell_holy_blessingofprotection",
+    "icon": "Utility/Shield Spark",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -320,7 +320,7 @@ export const MARTYR_ASCETIC = [
   {
     "id": "asc_t4_wall_of_martyrs",
     "name": "Radiant Bastion Wall",
-    "icon": "spell_holy_powerwordbarrier",
+    "icon": "Force/Radiating Barrier",
     "maxRanks": 2,
     "position": {
       "x": 1,
@@ -371,7 +371,7 @@ export const MARTYR_ASCETIC = [
   {
     "id": "asc_t5_iron_penance",
     "name": "Iron Penance",
-    "icon": "spell_holy_sealofwrath",
+    "icon": "General/Guard",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -408,7 +408,7 @@ export const MARTYR_ASCETIC = [
   {
     "id": "asc_t5_sympathetic_aegis",
     "name": "Sympathetic Shielding",
-    "icon": "spell_holy_greaterblessingofsanctuary",
+    "icon": "Force/Force Shield",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -441,7 +441,7 @@ export const MARTYR_ASCETIC = [
   {
     "id": "asc_t6_divine_bastion",
     "name": "Divine Bulwark",
-    "icon": "spell_holy_mindvision",
+    "icon": "Radiant/Divine Radiance",
     "maxRanks": 3,
     "position": {
       "x": 1.5,
@@ -504,7 +504,7 @@ export const MARTYR_ASCETIC = [
   {
     "id": "asc_t4_mastery_focus",
     "name": "Radiant Bastion Wall Resonance",
-    "icon": "spell_holy_powerwordbarrier",
+    "icon": "Force/Energy Nexus",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -540,7 +540,7 @@ export const MARTYR_ASCETIC = [
   {
     "id": "asc_t6_unyielding_mastery",
     "name": "Unyielding Resolve",
-    "icon": "ability_warrior_defensivestance",
+    "icon": "Utility/Steadfast Bulwark",
     "maxRanks": 2,
     "position": {
       "x": 3.5,
@@ -573,7 +573,7 @@ export const MARTYR_ASCETIC = [
   {
     "id": "asc_t7_living_bulwark",
     "name": "Living Bulwark of Sol",
-    "icon": "spell_holy_divineshield",
+    "icon": "Utility/Mountain Summit",
     "maxRanks": 1,
     "position": {
       "x": 0,
@@ -614,7 +614,7 @@ export const MARTYR_ASCETIC = [
   {
     "id": "asc_t7_doctrine_mastery",
     "name": "Martyr Doctrine",
-    "icon": "spell_holy_blessingofstrength",
+    "icon": "Radiant/Holy Bible",
     "maxRanks": 5,
     "position": {
       "x": 1,
@@ -657,7 +657,7 @@ export const MARTYR_ASCETIC = [
   {
     "id": "asc_t7_unshakable_faith",
     "name": "Unshakable Faith",
-    "icon": "spell_holy_unyieldingfaith",
+    "icon": "Radiant/Meditating Enlightened",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -694,7 +694,7 @@ export const MARTYR_ASCETIC = [
   {
     "id": "asc_t7_sol_retribution",
     "name": "Solar Resurgence",
-    "icon": "spell_holy_holybolt",
+    "icon": "Radiant/Glowing Star",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -730,7 +730,7 @@ export const MARTYR_ASCETIC = [
   {
     "id": "asc_t7_capstone_gamma",
     "name": "Transcendent Precision",
-    "icon": "ability_hunter_snipershot",
+    "icon": "Radiant/Piercing Shot",
     "spell": {
       "name": "Transcendent Precision",
       "description": "Passive: All critical strikes deal +1d6 bonus damage and restore 1d4 Hit Points.",

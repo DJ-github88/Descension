@@ -9,7 +9,7 @@ export const BERSERKER_JUGGERNAUT = [
   {
     id: "bjn_t1_calcified_hide",
     name: "Shattered Resilience",
-    icon: "ability_warrior_defensivestance",
+    icon: "General/Defend",
     maxRanks: 3,
     position: { x: 0.5, y: 0 },
     requires: null,
@@ -24,13 +24,13 @@ export const BERSERKER_JUGGERNAUT = [
     },
     rankUpgrades: [
       { description: "Passive DR increases to +4 and temporary Grit shield increases to 10 HP." },
-      { description: "Passive DR increases to +6; at 50+ Rage, your armor penalties from High-Heat are completely eliminated." }
+      { description: "Passive DR increases to +6; at 50+ Rage, your armor penalties from high Rage are completely eliminated." }
     ]
   },
   {
     id: "bjn_t1_skull_bash",
     name: "Caldera Headbutt",
-    icon: "ability_warrior_shieldbash",
+    icon: "General/Concussion",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -42,20 +42,21 @@ export const BERSERKER_JUGGERNAUT = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 1, targetingMode: "single", rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 0, cooldownUnit: "round",
+      cooldownValue: 1, cooldownUnit: "round",
+      resourceCosts: { rage: { baseAmount: -15 } },
       damageTypes: ["smashing"],
       primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
       visualTheme: "blood", tags: ["melee", "builder", "daze", "berserker"]
     },
     rankUpgrades: [
-      { description: "Damage increases to 2d8 smashing, generates +20 Rage, and knocks target back 5 ft.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } },
+      { description: "Damage increases to 2d8 smashing, generates +20 Rage, and knocks target back 5 ft.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 }, resourceCosts: { rage: { baseAmount: -20 } } },
       { description: "Damage increases to 3d8 smashing; target must make a CON Save or be Stunned for 1 round.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
     ]
   },
   {
     id: "bjn_t1_unstoppable_weight",
     name: "Tectonic Mass",
-    icon: "ability_bullrush",
+    icon: "Nature/Bull",
     maxRanks: 2,
     position: { x: 3.5, y: 0 },
     requires: null,
@@ -69,7 +70,7 @@ export const BERSERKER_JUGGERNAUT = [
       visualTheme: "blood", tags: ["passive", "anchor", "stability", "berserker"]
     },
     rankUpgrades: [
-      { description: "Threshold lowers to 20+ Rage; you deal 1d8 smashing damage to anyone attempting to grapple or displace you.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 } }
+      { description: "Threshold lowers to 20+ Rage; you deal 1d8 smashing damage to anyone attempting to grapple or displace you.", primaryDamage: { dice: "1d8", flat: 0, procChance: 100 }, damageTypes: ["smashing"] }
     ]
   },
 
@@ -83,13 +84,14 @@ export const BERSERKER_JUGGERNAUT = [
     requires: "bjn_t1_calcified_hide",
     spell: {
       name: "Calloused Barrier",
-      description: "Spend 1 AP & 25 Heat: Instantly calcify stored Rage into a massive bone-scar shield granting 25 temporary HP and +4 Passive DR for 2 rounds.",
+      description: "Spend 1 AP & 25 Rage: Instantly calcify stored Rage into a massive bone-scar shield granting 25 temporary HP and +4 Passive DR for 2 rounds.",
       flavorText: "The flesh remembers every hit and weaves an armor out of grief.",
       source: "talent", class: "Berserker", treeId: "juggernaut",
       spellType: "ACTIVE", category: "buff",
       actionPoints: 1, targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 2, cooldownUnit: "round",
+      resourceCosts: { rage: { baseAmount: 25 } },
       visualTheme: "blood", tags: ["shield", "temp-hp", "spender", "berserker"]
     },
     rankUpgrades: [
@@ -100,7 +102,7 @@ export const BERSERKER_JUGGERNAUT = [
   {
     id: "bjn_t2_bone_spines",
     name: "Reactive Bone Spines",
-    icon: "spell_shadow_antimagic",
+    icon: "General/Break Bone",
     maxRanks: 3,
     position: { x: 2.5, y: 1 },
     requires: "bjn_t1_skull_bash",
@@ -116,7 +118,7 @@ export const BERSERKER_JUGGERNAUT = [
     },
     rankUpgrades: [
       { description: "Spine damage increases to 2d8 stabbing and applies 1d6 bleed for 2 rounds.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 } },
-      { description: "Spine damage increases to 3d8 stabbing; also triggers against ranged attackers within 15 ft." }
+      { description: "Spine damage increases to 3d8 stabbing; also triggers against ranged attackers within 15 ft.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
     ]
   },
 
@@ -124,46 +126,48 @@ export const BERSERKER_JUGGERNAUT = [
   {
     id: "bjn_t3_ground_crush",
     name: "Tectonic Stomp",
-    icon: "ability_warrior_groundslam",
+    icon: "Bludgeoning/Stomp",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "bjn_t2_calloused_barrier",
     spell: {
       name: "Tectonic Stomp",
-      description: "Spend 2 AP & 30 Heat: Stomp the earth in a 15 ft radius. Deals 3d8 smashing damage and knocks all enemies Prone (STR save halves damage and negates Prone).",
+      description: "Spend 2 AP & 30 Rage: Stomp the earth in a 15 ft radius. Deals 3d8 smashing damage and knocks all enemies Prone (STR save halves damage and negates Prone).",
       flavorText: "When the mountain stumbles, everything on it falls.",
       source: "talent", class: "Berserker", treeId: "juggernaut",
       spellType: "ACTIVE", category: "damage",
       actionPoints: 2, targetingMode: "aoe", rangeType: "self-centered", range: 15,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 2, cooldownUnit: "round",
+      resourceCosts: { rage: { baseAmount: 30 } },
       damageTypes: ["smashing"],
       primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
       visualTheme: "blood", tags: ["aoe", "knockdown", "prone", "control", "berserker"]
     },
     rankUpgrades: [
       { description: "Damage increases to 4d8 smashing and radius extends to 20 ft.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } },
-      { description: "Damage increases to 5d8 smashing; leaves Difficult Terrain of shattered basalt in the area for 3 rounds." }
+      { description: "Damage increases to 5d8 smashing; leaves Difficult Terrain of shattered basalt in the area for 3 rounds.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 } }
     ]
   },
   {
     id: "bjn_t3_blood_soaked_iron",
     name: "Living Obsidian",
-    icon: "spell_fire_felfire",
-    maxRanks: 2,
+    icon: "Fire/Flowing Lava",
+    maxRanks: 3,
     position: { x: 2.5, y: 2 },
     requires: "bjn_t2_bone_spines",
     spell: {
       name: "Living Obsidian",
       description: "Passive: While above 60 Rage, convert 30% of all incoming physical and fire damage into temporary HP.",
-      flavorText: "Heat fuses the ash and iron into black glass.",
+      flavorText: "Forge-heat fuses the ash and iron into black glass.",
       source: "talent", class: "Berserker", treeId: "juggernaut",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self",
       visualTheme: "blood", tags: ["passive", "absorb", "temp-hp", "berserker"]
     },
     rankUpgrades: [
-      { description: "Conversion percentage increases to 50%, and threshold lowers to 40+ Rage." }
+      { description: "Conversion percentage increases to 50%, and threshold lowers to 40+ Rage." },
+      { description: "Conversion percentage increases to 75%, threshold lowers to 20+ Rage, and each converted hit generates +5 Rage." }
     ]
   },
 
@@ -171,8 +175,8 @@ export const BERSERKER_JUGGERNAUT = [
   {
     id: "bjn_t4_unshakable_goliath",
     name: "Colossus Tenacity",
-    icon: "ability_warrior_laststand",
-    maxRanks: 3,
+    icon: "General/Bolster",
+    maxRanks: 2,
     position: { x: 1, y: 3 },
     requires: "bjn_t3_ground_crush",
     spell: {
@@ -185,26 +189,26 @@ export const BERSERKER_JUGGERNAUT = [
       visualTheme: "blood", tags: ["passive", "hp-boost", "emergency-shield", "berserker"]
     },
     rankUpgrades: [
-      { description: "Max HP bonus increases to +45%, and shield value increases to 75 HP." },
-      { description: "Max HP bonus increases to +60%, and while the shield holds you are immune to all crowd control." }
+      { description: "Max HP bonus increases to +50%, shield value increases to 90 HP, and while the shield holds you are immune to all crowd control." }
     ]
   },
   {
     id: "bjn_t4_spinal_shatter",
     name: "Spine Burst",
-    icon: "spell_nature_earthbindtotem",
+    icon: "Force/Explosion Burst",
     maxRanks: 3,
     position: { x: 2.5, y: 3 },
     requires: "bjn_t3_blood_soaked_iron",
     spell: {
       name: "Spine Burst",
-      description: "Spend 2 AP & 40 Heat: Shatter your protective bone carapace outward in a 15 ft radius: deals 4d8 stabbing + 2d8 smashing damage to all enemies and Impales them (movement speed reduced to 0 for 1 round).",
+      description: "Spend 2 AP & 40 Rage: Shatter your protective bone carapace outward in a 15 ft radius: deals 4d8 stabbing + 2d8 smashing damage to all enemies and Impales them (movement speed reduced to 0 for 1 round).",
       flavorText: "A thousand calcium shrapnel shards leave no clean meat.",
       source: "talent", class: "Berserker", treeId: "juggernaut",
       spellType: "ACTIVE", category: "damage",
       actionPoints: 2, targetingMode: "aoe", rangeType: "self-centered", range: 15,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 3, cooldownUnit: "round",
+      resourceCosts: { rage: { baseAmount: 40 } },
       damageTypes: ["stabbing", "smashing"],
       primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
       secondaryDamage: { dice: "2d8", flat: 0, procChance: 100, damageType: "smashing" },
@@ -233,6 +237,7 @@ export const BERSERKER_JUGGERNAUT = [
       actionPoints: 2, targetingMode: "line", rangeType: "ranged", range: 40,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 2, cooldownUnit: "round",
+      resourceCosts: { rage: { baseAmount: 0 } },
       damageTypes: ["smashing"],
       primaryDamage: { dice: "3d10", flat: 0, procChance: 100 },
       visualTheme: "blood", tags: ["mobility", "charge", "knockback", "berserker"]
@@ -245,7 +250,7 @@ export const BERSERKER_JUGGERNAUT = [
   {
     id: "bjn_t5_unyielding_mass",
     name: "Heart of Caldera Basalt",
-    icon: "spell_fire_immolation",
+    icon: "Fire/Burning Forge",
     maxRanks: 2,
     position: { x: 2.5, y: 4 },
     requires: "bjn_t4_spinal_shatter",
@@ -267,19 +272,20 @@ export const BERSERKER_JUGGERNAUT = [
   {
     id: "bjn_t6_monolithic_slam",
     name: "Mountain Breaker",
-    icon: "ability_warrior_shockwave",
+    icon: "Bludgeoning/Hammer Crush",
     maxRanks: 3,
     position: { x: 1, y: 5 },
     requires: "bjn_t5_juggernaut_charge",
     spell: {
       name: "Mountain Breaker",
-      description: "Spend 3 AP & 60 Heat: Strike with apocalyptic force in a 20 ft cone: 7d10 smashing damage, permanently destroying enemy physical armor (-10 Passive DR) and creating an impassable stone crater.",
+      description: "Spend 3 AP & 60 Rage: Strike with apocalyptic force in a 20 ft cone: 7d10 smashing damage, permanently destroying enemy physical armor (-10 Passive DR) and creating an impassable stone crater.",
       flavorText: "He hit the earth so hard the horizon flinched.",
       source: "talent", class: "Berserker", treeId: "juggernaut",
       spellType: "ACTIVE", category: "damage",
       actionPoints: 3, targetingMode: "cone", rangeType: "melee", range: 20,
       castTimeType: "instant", castTimeValue: 0,
       cooldownValue: 3, cooldownUnit: "round",
+      resourceCosts: { rage: { baseAmount: 60 } },
       damageTypes: ["smashing"],
       primaryDamage: { dice: "7d10", flat: 0, procChance: 100 },
       visualTheme: "blood", tags: ["cone", "armor-destruction", "burst", "berserker"]
@@ -292,7 +298,7 @@ export const BERSERKER_JUGGERNAUT = [
   {
     id: "bjn_t6_granite_vow",
     name: "Vow of the Monolith",
-    icon: "ability_racial_avatar",
+    icon: "Utility/Shield With Plus",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "bjn_t5_unyielding_mass",
@@ -306,7 +312,7 @@ export const BERSERKER_JUGGERNAUT = [
       visualTheme: "blood", tags: ["passive", "grit-boost", "permanent-shields", "berserker"]
     },
     rankUpgrades: [
-      { description: "Shield magnitudes increased by 100%, and while any Grit shield holds, you deal +3d6 smashing bonus damage on all melee attacks.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
+      { description: "Shield magnitudes increased by 100%, and while any Grit shield holds, you deal +3d6 smashing bonus damage on all melee attacks.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, damageTypes: ["smashing"] }
     ]
   },
 
@@ -314,19 +320,20 @@ export const BERSERKER_JUGGERNAUT = [
   {
     id: "bjn_t7_avatar_of_caldera_iron",
     name: "Avatar of Caldera Iron",
-    icon: "spell_nature_shamanrage",
+    icon: "Fire/Burning Transformation",
     maxRanks: 1,
     position: { x: 1, y: 6 },
     requires: "bjn_t6_monolithic_slam",
     spell: {
       name: "Avatar of Caldera Iron",
-      description: "CAPSTONE — Spend 3 AP & 100 Heat: Transform completely into living basalt and volcanic iron for 3 rounds. Gain +10 Passive DR, 100 temporary HP, complete immunity to all displacement and mental conditions, and any enemy that strikes you takes 4d8 piercing damage from bone spines and is knocked Prone.",
+      description: "CAPSTONE — Spend 3 AP & 100 Rage: Transform completely into living basalt and volcanic iron for 3 rounds. Gain +10 Passive DR, 100 temporary HP, complete immunity to all displacement and mental conditions, and any enemy that strikes you takes 4d8 piercing damage from bone spines and is knocked Prone.",
       flavorText: "He is no longer a warrior. He is a piece of Nordhalla that decided to walk.",
       source: "talent", class: "Berserker", treeId: "juggernaut",
       spellType: "ACTIVE", category: "buff",
       actionPoints: 3, targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "once_per_combat", cooldownValue: 1, cooldownUnit: "combat",
+      resourceCosts: { rage: { baseAmount: 100 } },
       durationRounds: 3,
       visualTheme: "blood", tags: ["capstone", "ultimate", "transformation", "titan", "berserker"]
     },
@@ -336,7 +343,7 @@ export const BERSERKER_JUGGERNAUT = [
     id: "bjn_t7_indomitable_fortress",
     name: "Living Fortress of the Waste",
     icon: "Utility/Bound Warrior",
-    maxRanks: 2,
+    maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "bjn_t6_granite_vow",
     spell: {
@@ -349,7 +356,74 @@ export const BERSERKER_JUGGERNAUT = [
       visualTheme: "blood", tags: ["passive", "capstone-row", "party-cover", "size-increase", "berserker"]
     },
     rankUpgrades: [
-      { description: "Redirect increases to 50% of damage taken by allies, and you grant +4 Passive DR to all companions within 20 ft." }
+      { description: "Redirect increases to 50% of damage taken by allies, and you grant +4 Passive DR to all companions within 20 ft." },
+      { description: "Redirect increases to 75%; companions within 20 ft gain +8 Passive DR, and damage you redirect is reduced by 50% before it reaches your Grit shields." }
+    ]
+  },
+  {
+    id: "bjn_t7_calcified_apotheosis",
+    name: "Calcified Apotheosis",
+    icon: "Utility/Scaled Armor",
+    maxRanks: 5,
+    position: { x: 0, y: 6 },
+    requires: "bjn_t6_monolithic_slam",
+    spell: {
+      name: "Calcified Apotheosis",
+      description: "Passive: Trauma Calcification perfected. Every 20 damage you take from a single hit calcifies a scar layer, granting +2 Passive DR and 10 Grit shield (stacks up to +10 DR and 50 Grit). Layers persist for 3 rounds.",
+      flavorText: "Every wound writes another plate of armor onto the same hide.",
+      source: "talent", class: "Berserker", treeId: "juggernaut",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self",
+      visualTheme: "blood", tags: ["passive", "capstone", "trauma-calcification", "scar-armor", "grit", "berserker"]
+    },
+    rankUpgrades: [
+      { description: "Each scar layer now grants +3 Passive DR and 15 Grit shield, stacking up to +12 Passive DR and 75 Grit." },
+      { description: "Each scar layer now grants +3 Passive DR and 20 Grit shield, stacking up to +15 Passive DR and 100 Grit; scar layers persist until shattered." },
+      { description: "Scar layers trigger on hits of 15+ damage and grant +4 Passive DR and 25 Grit shield each, stacking up to +16 Passive DR and 125 Grit." },
+      { description: "Scar layers cap at +20 Passive DR and 150 Grit; whenever a layer is added you gain 50 temporary HP, and at maximum stacks you are immune to critical hits." }
+    ]
+  },
+  {
+    id: "bjn_t7_reactive_spine_mantle",
+    name: "Reactive Spine Mantle",
+    icon: "Nature/Scorpion Stinger",
+    maxRanks: 3,
+    position: { x: 1.5, y: 6 },
+    requires: "bjn_t6_monolithic_slam",
+    spell: {
+      name: "Reactive Spine Mantle",
+      description: "Passive: Your reactive bone spines fuse into a permanent mantle. Whenever a creature within 10 ft hits you in melee, it takes 2d8 stabbing damage and starts Bleeding (1d6 per round for 2 rounds).",
+      flavorText: "Strike the mountain and the mountain's teeth answer first.",
+      source: "talent", class: "Berserker", treeId: "juggernaut",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "single", damageTypes: ["stabbing"],
+      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
+      visualTheme: "blood", tags: ["passive", "capstone", "retaliation", "bone-spines", "bleed", "berserker"]
+    },
+    rankUpgrades: [
+      { description: "Retaliation reaches 20 ft and spine damage increases to 4d8 stabbing; each trigger also grants you 10 Grit shield.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } },
+      { description: "Spine damage increases to 6d8 stabbing; each trigger grants 15 Grit shield and erupts for 3d8 stabbing damage to all enemies within 10 ft of the attacker.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 } }
+    ]
+  },
+  {
+    id: "bjn_t7_geothermal_ironhide",
+    name: "Geothermal Ironhide",
+    icon: "Fire/Flame Shield",
+    maxRanks: 3,
+    position: { x: 3, y: 6 },
+    requires: "bjn_t6_granite_vow",
+    spell: {
+      name: "Geothermal Ironhide",
+      description: "Passive: Caldera heat soaks into iron-hard skin. You take 50% less fire and ember damage, and whenever you take such damage you convert the prevented damage into a Grit shield (up to 15 Grit per hit).",
+      flavorText: "The forge is not a place he visits. It is a place he carries.",
+      source: "talent", class: "Berserker", treeId: "juggernaut",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", damageTypes: ["ember"],
+      visualTheme: "blood", tags: ["passive", "capstone", "thermal-soak", "grit", "fire", "berserker"]
+    },
+    rankUpgrades: [
+      { description: "Fire and ember damage reduction increases to 75%, and the Grit shield gained from a prevented hit increases to 25." },
+      { description: "You are immune to fire and ember damage and convert all prevented damage into Grit shields (up to 40 per hit); while any Grit shield holds, your melee attacks deal +2d8 ember bonus damage." }
     ]
   }
 ];

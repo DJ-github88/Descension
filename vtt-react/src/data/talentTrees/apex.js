@@ -17,7 +17,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t1_shadow_strike",
     name: "Shadow Strike",
-    icon: "ability_rogue_shadowstrike",
+    icon: "Piercing/Backstab",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -44,7 +44,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t1_dark_presence",
     name: "Shadow Camouflage",
-    icon: "spell_shadow_nethercloak",
+    icon: "Utility/Hide",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -64,7 +64,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t1_glaive_finesse",
     name: "Quarry Tracker",
-    icon: "ability_hunter_snipershot",
+    icon: "Piercing/On the Mark",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -87,7 +87,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t2_phantom_step",
     name: "Phantom Step",
-    icon: "spell_shadow_shadowstep",
+    icon: "Utility/Phantom Dash",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "sb_t1_shadow_strike",
@@ -112,7 +112,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t2_shadow_synergy",
     name: "Shared Shadow Bond",
-    icon: "ability_druid_predatoryinstincts",
+    icon: "Utility/Companion With Familiar",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "sb_t1_dark_presence",
@@ -136,7 +136,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t3_shadow_eruption",
     name: "Shadow Eruption",
-    icon: "spell_shadow_shadowfury",
+    icon: "Void/Red Energy Burst",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "sb_t2_phantom_step",
@@ -163,7 +163,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t3_stalker_execute",
     name: "Lethal Execution",
-    icon: "ability_hunter_assassinate",
+    icon: "Slashing/Execution",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "sb_t2_shadow_synergy",
@@ -210,7 +210,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t4_ambush_mastery",
     name: "Apex Ambush",
-    icon: "ability_rogue_ambush",
+    icon: "Piercing/Piercing Impale",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "sb_t3_stalker_execute",
@@ -231,7 +231,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t5_glaive_dance",
     name: "Shadow Glaive Dance",
-    icon: "ability_warrior_weaponmastery",
+    icon: "Piercing/Dagger Whirl",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "sb_t4_smoke_screen",
@@ -257,7 +257,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t5_shadow_vitality",
     name: "Gloom Leech",
-    icon: "spell_shadow_lifedrain",
+    icon: "Necrotic/Drain Soul",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "sb_t4_ambush_mastery",
@@ -279,7 +279,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t6_shadow_assassin",
     name: "Shadow Entity",
-    icon: "spell_shadow_demonicempathy",
+    icon: "Void/Consumed by Void",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "sb_t5_glaive_dance",
@@ -302,7 +302,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t6_phantom_crits",
     name: "Severing Shadow",
-    icon: "ability_rogue_eviscerate",
+    icon: "Slashing/Bloody Slash",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "sb_t5_shadow_vitality",
@@ -322,7 +322,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t6_vanishing_act",
     name: "Slip the Grasp",
-    icon: "ability_vanish",
+    icon: "Utility/Ducking Figure",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "sb_t5_shadow_vitality",
@@ -343,7 +343,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: "sb_t7_avatar_of_the_phantom",
     name: "Avatar of the Phantom Hunt",
-    icon: "spell_shadow_shadowwordpain",
+    icon: "Void/Black Hole",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "sb_t6_shadow_assassin",
@@ -381,7 +381,7 @@ export const APEX_SHADOWBLADE = [
     },
     rankUpgrades: [
       { description: "All shadow/glaive damage increased by +1d8 damage." },
-      { description: "All shadow/glaive damage increased by +1d8 damage." },
+      { description: "All shadow/glaive damage increased by +1d8 damage, and glaive critical hits score on 19-20." },
       { description: "All shadow/glaive damage increased by +2d8 damage." },
       { description: "All shadow/glaive damage increased by +2d8 damage, and Shadow Strike costs 0 mana." }
     ]
@@ -456,7 +456,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t1_ricochet_glaive",
     name: "Ricochet Glaive",
-    icon: "ability_warrior_weaponmastery",
+    icon: "Slashing/Hurled Blade",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -483,7 +483,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t1_momentum",
     name: "Blade Momentum",
-    icon: "spell_shadow_shadowstep",
+    icon: "Utility/Motion Swoosh",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -503,7 +503,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t1_extended_reach",
     name: "Aerodynamic Edges",
-    icon: "ability_hunter_aimedshot",
+    icon: "Piercing/Upward Arrow",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -524,7 +524,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t2_whirling_cyclone",
     name: "Whirling Cyclone",
-    icon: "ability_whirlwind",
+    icon: "Slashing/Whirl",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "bs_t1_ricochet_glaive",
@@ -551,7 +551,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t2_chain_reaction",
     name: "Chain Reaction",
-    icon: "spell_shadow_shadowfury",
+    icon: "Lightning/Lightning Network 1",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "bs_t1_momentum",
@@ -573,7 +573,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t3_glaive_storm",
     name: "Glaive Storm",
-    icon: "spell_nature_cyclone",
+    icon: "Force/Energy Whirlwind",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "bs_t2_whirling_cyclone",
@@ -601,7 +601,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t3_shredding_blades",
     name: "Sunder Ricochet",
-    icon: "ability_warrior_sunder",
+    icon: "General/Broken Armor",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "bs_t2_chain_reaction",
@@ -623,7 +623,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t4_blade_barrage",
     name: "Apex Blade Barrage",
-    icon: "ability_hunter_barrage",
+    icon: "Piercing/Dagger Rain",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "bs_t3_glaive_storm",
@@ -650,7 +650,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t4_endless_ricochet",
     name: "Infinite Bounce",
-    icon: "ability_rogue_quickrecovery",
+    icon: "Utility/Winding Path",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "bs_t3_shredding_blades",
@@ -671,7 +671,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t5_shredder_orbit",
     name: "Orbiting Glaive Shield",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "Force/Energy Coil",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "bs_t4_blade_barrage",
@@ -695,7 +695,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t5_cyclone_surge",
     name: "Cyclone Momentum",
-    icon: "ability_warrior_bloodfrenzy",
+    icon: "General/Amplify",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "bs_t4_endless_ricochet",
@@ -742,7 +742,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t6_severing_ricochet",
     name: "Severing Ricochets",
-    icon: "ability_rogue_eviscerate",
+    icon: "Slashing/Bloody Slash 1",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "bs_t5_cyclone_surge",
@@ -761,7 +761,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t6_steel_tempest",
     name: "Steel Tempest Defense",
-    icon: "ability_warrior_defensivestance",
+    icon: "Utility/Steadfast Bulwark",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "bs_t5_cyclone_surge",
@@ -782,7 +782,7 @@ export const APEX_BLADESTORM = [
   {
     id: "bs_t7_cataclysmic_typhoon",
     name: "Typhoon of Thousand Glaives",
-    icon: "spell_nature_unrelentingstorm",
+    icon: "Nature/Tornado Vortex",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "bs_t6_the_grand_bladestorm",
@@ -822,7 +822,7 @@ export const APEX_BLADESTORM = [
     },
     rankUpgrades: [
       { description: "All multi-target glaive damage increased by +1d8 damage." },
-      { description: "All multi-target glaive damage increased by +1d8 damage." },
+      { description: "All multi-target glaive damage increased by +1d8 damage, and your glaives bounce to 1 additional target." },
       { description: "All multi-target glaive damage increased by +2d8 damage." },
       { description: "All multi-target glaive damage increased by +2d8 damage, and Ricochet Glaive costs 0 mana." }
     ]
@@ -897,7 +897,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t1_coordinated_command",
     name: "Pack Command Strike",
-    icon: "ability_hunter_pet_attack",
+    icon: "Nature/Claw Marks",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -924,7 +924,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t1_primal_vigor",
     name: "Bonded Vigor",
-    icon: "ability_druid_healinginstincts",
+    icon: "Healing/Heart Ripple",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -944,7 +944,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t1_pack_instincts",
     name: "Alpha Coordination",
-    icon: "ability_hunter_pet_aggressive",
+    icon: "Nature/Wolf Human Split Face",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -967,7 +967,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t2_beast_roar",
     name: "Apex Beast Roar",
-    icon: "ability_warrior_battleshout",
+    icon: "Nature/Roaring Bear",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "bm_t1_coordinated_command",
@@ -994,7 +994,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t2_thick_hide",
     name: "Symbiotic Armor",
-    icon: "spell_nature_skinofearth",
+    icon: "Utility/Scaled Armor",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "bm_t1_primal_vigor",
@@ -1016,7 +1016,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t3_savage_pounce",
     name: "Savage Pounce & Pin",
-    icon: "ability_hunter_pet_cat",
+    icon: "Nature/Furious Leap",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "bm_t2_beast_roar",
@@ -1043,7 +1043,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t3_feral_frenzy",
     name: "Feral Excitement",
-    icon: "ability_druid_ferociousbite",
+    icon: "Nature/Claw",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "bm_t2_thick_hide",
@@ -1067,7 +1067,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t4_pack_rally",
     name: "Alpha Pack Call",
-    icon: "ability_hunter_beastwithin",
+    icon: "Utility/Summon Minion",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "bm_t3_savage_pounce",
@@ -1094,7 +1094,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t4_beast_cleave",
     name: "Wide Swipe",
-    icon: "ability_warrior_cleave",
+    icon: "Slashing/Slashing Cleave",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "bm_t3_feral_frenzy",
@@ -1115,7 +1115,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t5_beast_ascension",
     name: "Bestial Overdrive",
-    icon: "ability_druid_enrage",
+    icon: "Nature/Transform Bear",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "bm_t4_pack_rally",
@@ -1139,7 +1139,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t5_pack_bloodlust",
     name: "Pack Bloodlust",
-    icon: "spell_nature_bloodlust",
+    icon: "General/Rage",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "bm_t4_beast_cleave",
@@ -1185,7 +1185,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t6_telepathic_link",
     name: "Telepathic Sync",
-    icon: "spell_nature_spiritlinktotem",
+    icon: "Psychic/Telepathic",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "bm_t5_pack_bloodlust",
@@ -1204,7 +1204,7 @@ export const APEX_BEASTMASTER = [
   {
     id: "bm_t6_primal_roar_defense",
     name: "Intimidating Alpha",
-    icon: "ability_warrior_intimidatingshout",
+    icon: "Utility/Fear",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "bm_t5_pack_bloodlust",
@@ -1263,7 +1263,7 @@ export const APEX_BEASTMASTER = [
     },
     rankUpgrades: [
       { description: "All companion damage increased by +1d8 damage." },
-      { description: "All companion damage increased by +1d8 damage." },
+      { description: "All companion damage increased by +1d8 damage, and companion attacks cleave to 1 additional target." },
       { description: "All companion damage increased by +2d8 damage." },
       { description: "All companion damage increased by +2d8 damage, and Pack Command Strike costs 0 mana." }
     ]

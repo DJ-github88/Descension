@@ -1,6 +1,7 @@
 // ============================================
 // martyrIronclad (v4: Canonical Economy & Balanced)
 // Schema mirrors sibling Martyr trees. Rank N spell = rank N-1 + rankUpgrades[N-2].
+// Economy: T1-T7 = 8/6/5/6/5/8/12 = 50 across 19 nodes.
 //
 // SPEC IDENTITY: The Welded Martyr / Living Forge (Groven Dreadnaught heritage).
 // Where Redemption bleeds to feed allies and Zealot burns with wrath, the Ironclad
@@ -15,7 +16,7 @@ export const MARTYR_IRONCLAD = [
 {
 "id": "icl_t1_furnace_vow",
 "name": "Furnace Vow",
-"icon": "spell_fire_fireball02",
+"icon": "Fire/Firey Dedication",
 "maxRanks": 3,
 "position": { "x": 1, "y": 0 },
 "requires": null,
@@ -36,7 +37,7 @@ export const MARTYR_IRONCLAD = [
 {
 "id": "icl_t1_voluntary_seal",
 "name": "Voluntary Seal",
-"icon": "spell_holy_divineshield",
+"icon": "Necrotic/Skeletal Bone Armor",
 "maxRanks": 2,
 "position": { "x": 2, "y": 0 },
 "requires": null,
@@ -56,60 +57,62 @@ export const MARTYR_IRONCLAD = [
 {
 "id": "icl_t1_piston_fist",
 "name": "Piston Fist",
-"icon": "ability_warrior_battleshout",
+"icon": "Bludgeoning/Flaming Fist",
 "maxRanks": 3,
 "position": { "x": 3, "y": 0 },
 "requires": null,
 "spell": {
 "name": "Piston Fist",
-"description": "Spend 1 AP: Hurl a plated fist in a crushing hydraulic blow within 10 feet: 1d8 smashing damage. Deals +1d6 bonus damage if you took damage since your last turn.",
+"description": "Spend 1 AP and 1 Devotion: Hurl a plated fist in a crushing hydraulic blow within 10 feet: 1d8 smashing damage. Deals +1d6 bonus damage if you took damage since your last turn.",
 "flavorText": "Boiler pressure makes for honest knuckles.",
 "source": "talent", "class": "Martyr", "treeId": "ironclad",
 "spellType": "ACTIVE", "category": "damage",
 "actionPoints": 1,
 "targetingMode": "single", "rangeType": "melee", "range": 10,
 "castTimeType": "instant", "castTimeValue": 0,
-"cooldownValue": 0, "cooldownUnit": "round",
+"cooldownValue": 1, "cooldownUnit": "round",
 "damageTypes": ["smashing"],
 "primaryDamage": { "dice": "1d8", "flat": 0, "procChance": 100 },
+"resourceCosts": { "devotion": { "baseAmount": 1 } },
 "visualTheme": "fire", "tags": ["melee", "smashing", "suffering-payoff", "ironclad"]
 },
 "rankUpgrades": [
-{ "description": "Deals 1d10 smashing damage.", "primaryDamage": { "dice": "1d10", "flat": 0, "procChance": 100 } },
-{ "description": "Deals 2d6 smashing damage, pushes the target 5 feet, and gains +2d6 bonus damage instead of +1d6 when wounded recently.", "primaryDamage": { "dice": "2d6", "flat": 0, "procChance": 100 } }
+{ "description": "Deals 1d10 smashing damage.", "primaryDamage": { "dice": "1d10", "flat": 0, "procChance": 100 }, "damageTypes": ["smashing"] },
+{ "description": "Deals 2d6 smashing damage, pushes the target 5 feet, and gains +2d6 bonus damage instead of +1d6 when wounded recently.", "primaryDamage": { "dice": "2d6", "flat": 0, "procChance": 100 }, "damageTypes": ["smashing"] }
 ]
 },
 {
 "id": "icl_t2_steam_vent",
 "name": "Steam Vent",
-"icon": "spell_fire_selfdestruct",
+"icon": "Fire/Eruption",
 "maxRanks": 3,
 "position": { "x": 1, "y": 1 },
 "requires": "icl_t1_furnace_vow",
 "spell": {
 "name": "Steam Vent",
-"description": "Spend 1 AP and lower your Devotion Level by 1: seam vents hiss open, blasting scalding steam — all creatures within 10 feet take 2d6 ember damage (Reflex halves) and suffer -2 to hit until the end of their next turn.",
+"description": "Spend 1 AP and 1 Devotion: seam vents hiss open, blasting scalding steam — all creatures within 10 feet take 2d6 ember damage (Reflex halves) and suffer -2 to hit until the end of their next turn.",
 "flavorText": "Every grievance he ever swallowed comes back out as weather.",
 "source": "talent", "class": "Martyr", "treeId": "ironclad",
 "spellType": "ACTIVE", "category": "damage",
 "actionPoints": 1,
 "targetingMode": "aoe", "rangeType": "self-centered", "range": 10,
 "castTimeType": "instant", "castTimeValue": 0,
+"cooldownValue": 1, "cooldownUnit": "round",
 "saveType": "reflex",
-"resourceCosts": {},
+"resourceCosts": { "devotion": { "baseAmount": 1 } },
 "damageTypes": ["ember"],
 "primaryDamage": { "dice": "2d6", "flat": 0, "procChance": 100 },
 "visualTheme": "fire", "tags": ["aoe", "nova", "debilitate", "devotion-cost", "signature", "ironclad"]
 },
 "rankUpgrades": [
-{ "description": "Damage increases to 3d6 ember.", "primaryDamage": { "dice": "3d6", "flat": 0, "procChance": 100 } },
+{ "description": "Damage increases to 3d6 ember.", "primaryDamage": { "dice": "3d6", "flat": 0, "procChance": 100 }, "damageTypes": ["ember"] },
 { "description": "Failed saves also leave enemies Blinded until the end of their next turn; the blast leaves the area Difficult Terrain for 1 round." }
 ]
 },
 {
 "id": "icl_t2_heatsink_thorns",
 "name": "Heatsink Plating",
-"icon": "spell_fire_flameblades",
+"icon": "Fire/Flame Aura",
 "maxRanks": 3,
 "position": { "x": 2, "y": 1 },
 "requires": "icl_t1_piston_fist",
@@ -125,14 +128,14 @@ export const MARTYR_IRONCLAD = [
 "visualTheme": "fire", "tags": ["passive", "thorns", "devotion-scaling", "ironclad"]
 },
 "rankUpgrades": [
-{ "description": "Thorn damage increases to 2d6 ember and triggers on ranged attacks within 10 feet.", "primaryDamage": { "dice": "2d6", "flat": 0, "procChance": 100 } },
+{ "description": "Thorn damage increases to 2d6 ember and triggers on ranged attacks within 10 feet.", "primaryDamage": { "dice": "2d6", "flat": 0, "procChance": 100 }, "damageTypes": ["ember"] },
 { "description": "Attackers also ignite: they take an additional 1d6 ember at the start of each of their turns while within 5 feet of you, lasting 1 round." }
 ]
 },
 {
 "id": "icl_t3_welded_bulwark",
 "name": "Welded Bulwark",
-"icon": "ability_warrior_shieldwall",
+"icon": "Force/Force Field",
 "maxRanks": 3,
 "position": { "x": 1, "y": 2 },
 "requires": "icl_t2_steam_vent",
@@ -153,7 +156,7 @@ export const MARTYR_IRONCLAD = [
 {
 "id": "icl_t3_cauterizing_walk",
 "name": "Cauterizing Walk",
-"icon": "spell_fire_elementaldevastation",
+"icon": "Fire/Fiery Steps",
 "maxRanks": 2,
 "position": { "x": 2, "y": 2 },
 "requires": "icl_t2_heatsink_thorns",
@@ -175,7 +178,7 @@ export const MARTYR_IRONCLAD = [
 {
 "id": "icl_t4_crushing_pistons",
 "name": "Crushing Pistons",
-"icon": "ability_warrior_intensifyrage",
+"icon": "Bludgeoning/Hand Wrench",
 "maxRanks": 3,
 "position": { "x": 1, "y": 3 },
 "requires": "icl_t3_welded_bulwark",
@@ -196,33 +199,35 @@ export const MARTYR_IRONCLAD = [
 {
 "id": "icl_t4_overpressure_blast",
 "name": "Overpressure Blast",
-"icon": "spell_fire_supernova",
+"icon": "Force/Explosion Burst",
 "maxRanks": 3,
 "position": { "x": 2, "y": 3 },
 "requires": "icl_t3_cauterizing_walk",
 "spell": {
 "name": "Overpressure Blast",
-"description": "Spend 2 AP and lower your Devotion Level by 2: catastrophic vent discharge — all creatures within 15 feet take 4d6 ember damage (Reflex halves) and are thrown 10 feet away from you.",
+"description": "Spend 2 AP and 2 Devotion: catastrophic vent discharge — all creatures within 15 feet take 4d6 ember damage (Reflex halves) and are thrown 10 feet away from you.",
 "flavorText": "The boiler has opinions about being crowded.",
 "source": "talent", "class": "Martyr", "treeId": "ironclad",
 "spellType": "ACTIVE", "category": "damage",
 "actionPoints": 2,
 "targetingMode": "aoe", "rangeType": "self-centered", "range": 15,
 "castTimeType": "instant", "castTimeValue": 0,
+"cooldownValue": 2, "cooldownUnit": "round",
 "saveType": "reflex",
+"resourceCosts": { "devotion": { "baseAmount": 2 } },
 "damageTypes": ["ember"],
 "primaryDamage": { "dice": "4d6", "flat": 0, "procChance": 100 },
 "visualTheme": "fire", "tags": ["aoe", "knockback", "devotion-cost", "finisher", "ironclad"]
 },
 "rankUpgrades": [
-{ "description": "Damage increases to 5d6 ember.", "primaryDamage": { "dice": "5d6", "flat": 0, "procChance": 100 } },
+{ "description": "Damage increases to 5d6 ember.", "primaryDamage": { "dice": "5d6", "flat": 0, "procChance": 100 }, "damageTypes": ["ember"] },
 { "description": "Failed saves leave creatures Prone where they land; the cleared area counts as Difficult Terrain for 2 rounds from heat shimmer and debris." }
 ]
 },
 {
 "id": "icl_t5_molten_spine",
 "name": "Molten Spine",
-"icon": "spell_shadow_antimagic",
+"icon": "Force/Absorb Energy",
 "maxRanks": 2,
 "position": { "x": 1, "y": 4 },
 "requires": "icl_t4_crushing_pistons",
@@ -242,33 +247,35 @@ export const MARTYR_IRONCLAD = [
 {
 "id": "icl_t5_furnace_flare",
 "name": "Furnace Flare",
-"icon": "spell_fire_burningwind",
+"icon": "Fire/Flame Burst",
 "maxRanks": 3,
 "position": { "x": 2, "y": 4 },
 "requires": "icl_t4_overpressure_blast",
 "spell": {
 "name": "Furnace Flare",
-"description": "REACTION — When hit by a melee attack while at Devotion Level 3+, crack your plates wide: the attacker takes 2d8 ember damage (no save for touching what flares).",
+"description": "REACTION — When hit by a melee attack while at Devotion Level 3+, spend 1 Devotion: crack your plates wide — the attacker takes 2d8 ember damage (no save for touching what flares).",
 "flavorText": "Thank you for volunteering.",
 "source": "talent", "class": "Martyr", "treeId": "ironclad",
-"spellType": "REACTION", "category": "damage",
+"spellType": "ACTIVE", "actionType": "reaction", "category": "damage",
 "actionPoints": 0,
 "targetingMode": "single", "rangeType": "melee", "range": 5,
 "castTimeType": "reaction", "castTimeValue": 1,
+"reactionTrigger": "When hit by a melee attack while at Devotion Level 3+",
 "cooldownValue": 1, "cooldownUnit": "round",
+"resourceCosts": { "devotion": { "baseAmount": 1 } },
 "damageTypes": ["ember"],
 "primaryDamage": { "dice": "2d8", "flat": 0, "procChance": 100 },
 "visualTheme": "fire", "tags": ["reaction", "retaliation", "devotion-scaling", "ironclad"]
 },
 "rankUpgrades": [
-{ "description": "Damage increases to 3d8 ember.", "primaryDamage": { "dice": "3d8", "flat": 0, "procChance": 100 } },
+{ "description": "Damage increases to 3d8 ember.", "primaryDamage": { "dice": "3d8", "flat": 0, "procChance": 100 }, "damageTypes": ["ember"] },
 { "description": "Furnace Flare no longer costs your Reaction while at Devotion Level 5+ — it triggers automatically on every melee hit against you." }
 ]
 },
 {
 "id": "icl_t6_walking_forge",
 "name": "Walking Forge",
-"icon": "spell_fire_elemental_totem",
+"icon": "Fire/Burning Forge",
 "maxRanks": 3,
 "position": { "x": 1, "y": 5 },
 "requires": "icl_t5_molten_spine",
@@ -289,7 +296,7 @@ export const MARTYR_IRONCLAD = [
 {
 "id": "icl_t6_welded_in_the_breach",
 "name": "Welded in the Breach",
-"icon": "inv_misc_book_09",
+"icon": "General/Cover",
 "maxRanks": 2,
 "position": { "x": 2, "y": 5 },
 "requires": "icl_t5_furnace_flare",
@@ -298,7 +305,7 @@ export const MARTYR_IRONCLAD = [
 "description": "Passive: Declare a corridor, doorway, or gap up to 15 feet wide as your Breach (while stationary). Enemies cannot move through your square or the squares immediately beside it while you have any Calcified plating active — they must succeed on a contested Might check to squeeze past at all.",
 "flavorText": "'There was a door here once,' observers agree. 'There still is,' says the door.",
 "source": "talent", "class": "Martyr", "treeId": "ironclad",
-"spellType": "PASSIVE", "category": "control",
+"spellType": "PASSIVE", "category": "debuff",
 "targetingMode": "self", "auraRadius": 5,
 "visualTheme": "fire", "tags": ["passive", "body-block", "zone-control", "defense", "ironclad"]
 },
@@ -309,20 +316,22 @@ export const MARTYR_IRONCLAD = [
 {
 "id": "icl_t6_meltdown_protocol",
 "name": "Meltdown Protocol",
-"icon": "spell_fire_selfdestruct",
+"icon": "Fire/Burning Transformation",
 "maxRanks": 3,
 "position": { "x": 3, "y": 5 },
 "requires": "icl_t5_furnace_flare",
 "spell": {
 "name": "Meltdown Protocol",
-"description": "Spend 3 AP: Convert ALL remaining Devotion into a single catastrophic bloom — nova of 6d6 ember damage within 20 feet (Reflex halves). For 1 round afterward your plating runs cold: lose an additional 10 feet of movement and Furnace Vow/heatsink bonuses are suspended until you regain at least 1 Devotion.",
+"description": "Spend 3 AP and all remaining Devotion (minimum 1): Convert ALL remaining Devotion into a single catastrophic bloom — nova of 6d6 ember damage within 20 feet (Reflex halves). For 1 round afterward your plating runs cold: lose an additional 10 feet of movement and Furnace Vow/heatsink bonuses are suspended until you regain at least 1 Devotion.",
 "flavorText": "There is always one more thing to burn. Sometimes it is him.",
 "source": "talent", "class": "Martyr", "treeId": "ironclad",
 "spellType": "ACTIVE", "category": "damage",
 "actionPoints": 3,
 "targetingMode": "aoe", "rangeType": "self-centered", "range": 20,
 "castTimeType": "instant", "castTimeValue": 0,
+"cooldownValue": 3, "cooldownUnit": "round",
 "saveType": "reflex",
+"resourceCosts": { "devotion": { "baseAmount": 1 } },
 "damageTypes": ["ember"],
 "primaryDamage": { "dice": "6d6", "flat": 0, "procChance": 100 },
 "visualTheme": "fire", "tags": ["aoe", "ultimate", "all-in", "self-punishing", "finisher", "ironclad"]
@@ -337,13 +346,13 @@ export const MARTYR_IRONCLAD = [
 {
 "id": "icl_t7_avatar_of_the_living_forge",
 "name": "Avatar of the Living Forge",
-"icon": "spell_fire_elementaldevastation",
+"icon": "Fire/Burning Figure",
 "maxRanks": 1,
 "position": { "x": 0.5, "y": 6 },
 "requires": "icl_t6_meltdown_protocol",
 "spell": {
 "name": "Avatar of the Living Forge",
-"description": "CAPSTONE: Spend 2 AP (requires Devotion Level 5): become the forge itself for 3 rounds. +6 DR against all damage, immune to Grapple/Restrain/Push/Pull/Fear, aura doubles (enemies within 10 feet take 2d6 ember at the start of your turns), Steam Vent costs no AP and requires no Reaction to place, and your Piston Fist auto-triggers against any enemy that ends its turn adjacent to you.",
+"description": "CAPSTONE: Spend 2 AP and 3 Devotion (requires Devotion Level 5): become the forge itself for 3 rounds. +6 DR against all damage, immune to Grapple/Restrain/Push/Pull/Fear, aura doubles (enemies within 10 feet take 2d6 ember at the start of your turns), Steam Vent costs no AP and requires no Reaction to place, and your Piston Fist auto-triggers against any enemy that ends its turn adjacent to you.",
 "flavorText": "For three rounds, nobody asks whether he is a man or an industry. The question answers them.",
 "source": "talent", "class": "Martyr", "treeId": "ironclad",
 "spellType": "ACTIVE", "category": "buff",
@@ -351,6 +360,7 @@ export const MARTYR_IRONCLAD = [
 "targetingMode": "self", "rangeType": "self", "range": 0,
 "castTimeType": "instant", "castTimeValue": 0,
 "cooldownCategory": "once_per_combat", "cooldownValue": 1, "cooldownUnit": "combat",
+"resourceCosts": { "devotion": { "baseAmount": 3 } },
 "durationConfig": { "durationType": "rounds", "durationValue": 3, "durationUnit": "round" },
 "visualTheme": "fire", "tags": ["capstone", "transformation", "immunity", "aura", "signature", "ironclad"]
 },
@@ -359,8 +369,8 @@ export const MARTYR_IRONCLAD = [
 {
 "id": "icl_t7_forge_doctrine",
 "name": "Forge Doctrine",
-"icon": "inv_misc_book_09",
-"maxRanks": 3,
+"icon": "General/Order",
+"maxRanks": 5,
 "position": { "x": 1.5, "y": 6 },
 "requires": "icl_t6_welded_in_the_breach",
 "spell": {
@@ -374,13 +384,15 @@ export const MARTYR_IRONCLAD = [
 },
 "rankUpgrades": [
 { "description": "Bonus improves again (+2 tiers/thresholds total)." },
-{ "description": "Steam Vent and Overpressure Blast add +2d6 ember damage." }
+{ "description": "Steam Vent and Overpressure Blast add +2d6 ember damage." },
+{ "description": "Doctrine bonus improves to +3 damage tiers/thresholds total, and Steam Vent and Overpressure Blast add +3d6 ember damage." },
+{ "description": "Doctrine bonus improves to +4 damage tiers/thresholds total; Meltdown Protocol's nova gains +2d6 ember damage and Furnace Flare's retaliation also triggers on ranged attacks within 10 feet." }
 ]
 },
 {
 "id": "icl_t7_unquenched_core",
 "name": "Unquenched Core",
-"icon": "spell_fire_soulburn",
+"icon": "Fire/Burning Ember",
 "maxRanks": 2,
 "position": { "x": 2.5, "y": 6 },
 "requires": "icl_t6_walking_forge",
@@ -400,7 +412,7 @@ export const MARTYR_IRONCLAD = [
 {
 "id": "icl_t7_debt_of_embers",
 "name": "Debt of Embers",
-"icon": "ability_warrior_revenge",
+"icon": "Bludgeoning/Vengeful Gauntlet",
 "maxRanks": 2,
 "position": { "x": 3.5, "y": 6 },
 "requires": "icl_t6_walking_forge",
@@ -416,13 +428,13 @@ export const MARTYR_IRONCLAD = [
 "visualTheme": "fire", "tags": ["passive", "retaliation", "punish-repeat-offenders", "capstone-row", "ironclad"]
 },
 "rankUpgrades": [
-{ "description": "Eruption damage increases to 5d6 ember and the attacker is disarmed of weapons held in the eruption zone for 1 round on a failed Fortitude save.", "primaryDamage": { "dice": "5d6", "flat": 0, "procChance": 100 } }
+{ "description": "Eruption damage increases to 5d6 ember and the attacker is disarmed of weapons held in the eruption zone for 1 round on a failed Fortitude save.", "primaryDamage": { "dice": "5d6", "flat": 0, "procChance": 100 }, "damageTypes": ["ember"] }
 ]
 },
 {
 "id": "icl_t7_litany_of_coals",
 "name": "Litany of Coals",
-"icon": "spell_holy_sealofwrath",
+"icon": "General/Commune",
 "maxRanks": 2,
 "position": { "x": 4.25, "y": 6 },
 "requires": "icl_t6_welded_in_the_breach",

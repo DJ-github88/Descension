@@ -17,7 +17,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t1_bone_barricade",
     name: "Bone Barricade",
-    icon: "spell_nature_stranglevines",
+    icon: "Necrotic/Crossed Bones",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -44,7 +44,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t1_calcified_skeleton",
     name: "Calcified Skeleton",
-    icon: "ability_warrior_shieldwall",
+    icon: "Necrotic/Skeletal Bone Armor",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -64,7 +64,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t1_swamp_anchor",
     name: "Swamp Anchor",
-    icon: "spell_holy_borrowedtime",
+    icon: "Nature/Roots",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -85,7 +85,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t2_ribcage_prison",
     name: "Ribcage Prison",
-    icon: "spell_shadow_stranglevines",
+    icon: "Necrotic/Bone Chain Ring",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "tw_t1_bone_barricade",
@@ -112,7 +112,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t2_thorn_reaction",
     name: "Spore Barbs",
-    icon: "spell_nature_thorns",
+    icon: "Nature/Thorny Entanglement",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "tw_t1_calcified_skeleton",
@@ -136,7 +136,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t3_thorn_eruption",
     name: "Thorn Eruption",
-    icon: "spell_fire_selfdestruct",
+    icon: "Necrotic/Bone Shards",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "tw_t2_ribcage_prison",
@@ -163,7 +163,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t3_scarred_domain",
     name: "Scarred Domain",
-    icon: "inv_misc_scalesofjustice",
+    icon: "Nature/Corruptive Earth Touch",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "tw_t2_thorn_reaction",
@@ -185,7 +185,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t4_mycelial_colossus",
     name: "Mycelial Fortification",
-    icon: "ability_warrior_defensivestance",
+    icon: "Nature/Earth Shield",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "tw_t3_thorn_eruption",
@@ -211,7 +211,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t4_earthen_siphon",
     name: "Root Siphon",
-    icon: "spell_shadow_lifedrain01",
+    icon: "Necrotic/Drain Soul",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "tw_t3_scarred_domain",
@@ -232,7 +232,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t5_swamp_cataclysm",
     name: "Bog Quake",
-    icon: "spell_nature_earthquake",
+    icon: "Nature/Earth Shatter",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "tw_t4_mycelial_colossus",
@@ -303,7 +303,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t6_petrified_spines",
     name: "Petrified Spines",
-    icon: "spell_nature_corrosivebreath",
+    icon: "Necrotic/Bone Spear",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "tw_t5_unyielding_totemist",
@@ -323,7 +323,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t6_bog_sovereignty",
     name: "Bog Sovereignty",
-    icon: "spell_nature_healingway",
+    icon: "Nature/Nature Shrine",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "tw_t5_unyielding_totemist",
@@ -346,7 +346,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t7_avatar_of_the_mire",
     name: "Avatar of the Ancient Mire",
-    icon: "spell_nature_skinofearth",
+    icon: "Nature/Roaring Bear",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "tw_t6_the_ironwood_cage",
@@ -392,7 +392,7 @@ export const ANIMIST_THORNWARDEN = [
   {
     id: "tw_t7_infinite_resonance",
     name: "Swamp Heart Reservoir",
-    icon: "spell_arcane_arcane04",
+    icon: "Nature/Glowing Green Orb",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "tw_t6_petrified_spines",
@@ -459,7 +459,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t1_call_spirit_pack",
     name: "Call Spirit Pack",
-    icon: "ability_hunter_pet_attack",
+    icon: "Necrotic/Spectral Summoning",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -486,7 +486,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t1_curse_mastery",
     name: "Bryngloom Hex",
-    icon: "spell_shadow_curseofsargeras",
+    icon: "Necrotic/Cursed Entities",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -507,7 +507,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t1_soul_siphon",
     name: "Soul Siphon",
-    icon: "spell_shadow_lifedrain01",
+    icon: "Necrotic/Soul Exit",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -530,7 +530,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t2_specter_frenzy",
     name: "Specter Frenzy",
-    icon: "spell_shadow_summonvoidwalker",
+    icon: "Necrotic/Ghostly Menace",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "sb_t1_call_spirit_pack",
@@ -557,7 +557,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t2_ancestral_shroud",
     name: "Ancestral Shroud",
-    icon: "spell_holy_borrowedtime",
+    icon: "Necrotic/Protective Aura",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "sb_t1_curse_mastery",
@@ -579,7 +579,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t3_bone_choir_invocation",
     name: "Bone-Choir Invocation",
-    icon: "ability_rogue_deadliness",
+    icon: "Necrotic/Screaming Skull",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "sb_t2_specter_frenzy",
@@ -606,7 +606,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t3_pack_ferocity",
     name: "Pack Ferocity",
-    icon: "ability_hunter_pet_aggressive",
+    icon: "Nature/Wolf Dash",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "sb_t2_ancestral_shroud",
@@ -628,7 +628,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t4_spirit_link_totem",
     name: "Spirit Link Totem",
-    icon: "spell_nature_spiritlinktotem",
+    icon: "Necrotic/Ghostly Trio",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "sb_t3_bone_choir_invocation",
@@ -653,7 +653,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t4_necrotic_overflow",
     name: "Necrotic Overflow",
-    icon: "spell_shadow_deathanddecay",
+    icon: "Necrotic/Corruption",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "sb_t3_pack_ferocity",
@@ -702,7 +702,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t5_spirit_harvest",
     name: "Spirit Harvest",
-    icon: "spell_shadow_manafeed",
+    icon: "Necrotic/Undead Rising",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "sb_t4_necrotic_overflow",
@@ -748,7 +748,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t6_spectral_invulnerability",
     name: "Spectral Phasing",
-    icon: "spell_shadow_nethercloak",
+    icon: "Necrotic/Spectral Mask",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "sb_t5_spirit_harvest",
@@ -876,7 +876,7 @@ export const ANIMIST_SPIRIT_BINDER = [
   {
     id: "sb_t7_immortal_packmaster",
     name: "Immortal Packmaster",
-    icon: "spell_shadow_darkritual",
+    icon: "Necrotic/Resurrect",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "sb_t6_death_pact",
@@ -903,7 +903,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t1_galvanic_totem",
     name: "Galvanic Totem",
-    icon: "spell_lightning_lightningbolt01",
+    icon: "Lightning/Thunder Resonance",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -930,7 +930,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t1_blood_brand",
     name: "Blood Brand Inscription",
-    icon: "ability_rogue_findweakness",
+    icon: "Lightning/Lightning Script",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -950,7 +950,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t1_healing_sap",
     name: "Healing Sap Totemist",
-    icon: "spell_nature_healingway",
+    icon: "Healing/Heart Ripple",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -1023,7 +1023,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t3_tempest_totem",
     name: "Tempest Totem",
-    icon: "spell_nature_cyclone",
+    icon: "Lightning/Thunderstorm",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "ss_t2_chain_lightning_strike",
@@ -1051,7 +1051,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t3_runic_mend",
     name: "Runic Conduit",
-    icon: "spell_holy_borrowedtime",
+    icon: "Lightning/Electric Current",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "ss_t2_storm_attunement",
@@ -1074,7 +1074,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t4_thunder_brand",
     name: "Thunder Brand Overload",
-    icon: "spell_nature_thunderclap",
+    icon: "Lightning/Thunder",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "ss_t3_tempest_totem",
@@ -1101,7 +1101,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t4_totem_multiplication",
     name: "Totemic Trinity",
-    icon: "spell_nature_totemdecay",
+    icon: "Utility/Three Guardians",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "ss_t3_runic_mend",
@@ -1122,7 +1122,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t5_galvanic_cataclysm",
     name: "Galvanic Cataclysm",
-    icon: "spell_nature_unrelentingstorm",
+    icon: "Lightning/Lightning Network 1",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "ss_t4_thunder_brand",
@@ -1285,7 +1285,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: "ss_t7_infinite_storm_resonance",
     name: "Storm Battery Reservoir",
-    icon: "spell_arcane_arcane04",
+    icon: "Lightning/Lightning Capsule",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "ss_t6_storm_sovereignty",

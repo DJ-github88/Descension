@@ -6,7 +6,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     "id": "hf_t1_ember_resilience",
     "name": "Brimstone Hardening",
-    "icon": "spell_shadow_shadowwordpain",
+    "icon": "Fire/Burning Forge",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -42,7 +42,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     "id": "hf_t1_soul_fire",
     "name": "Brimstone Leach",
-    "icon": "spell_fire_soulburn",
+    "icon": "Necrotic/Drain Soul",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -81,7 +81,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     "id": "hf_t1_dark_empowerment",
     "name": "Ash Shroud",
-    "icon": "spell_shadow_soulburn",
+    "icon": "Fire/Shadowy Blaze",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -114,7 +114,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     "id": "hf_t2_drain_life",
     "name": "Searing Siphon",
-    "icon": "spell_shadow_lifedrain",
+    "icon": "Necrotic/Corrosive Beam",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -176,7 +176,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     "id": "hf_t2_cinderward",
     "name": "Brimstone Ward",
-    "icon": "spell_fire_twilightfireward",
+    "icon": "Fire/Flame Shield",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -218,7 +218,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     "id": "hf_t3_demon_form",
     "name": "Volcanic Spike",
-    "icon": "spell_fire_volcano",
+    "icon": "Fire/Volcanic Erupt",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -282,7 +282,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     "id": "hf_t3_soul_link",
     "name": "Suffocating Ash",
-    "icon": "spell_shadow_mindrot",
+    "icon": "Fire/Smoking",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -337,7 +337,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     "id": "hf_t4_soul_chains",
     "name": "Brimstone Clasp",
-    "icon": "spell_shadow_shadowworddominate",
+    "icon": "Force/Energy Whip",
     "maxRanks": 2,
     "position": {
       "x": 1,
@@ -390,7 +390,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     "id": "hf_t5_dark_vitality",
     "name": "Abyssal Siphon",
-    "icon": "spell_shadow_antimagicshell",
+    "icon": "Necrotic/Demonic Empowerment",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -426,7 +426,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     "id": "hf_t5_crushing_gravity",
     "name": "Obsidian Weight",
-    "icon": "spell_shadow_curseofsargeras",
+    "icon": "Necrotic/Gravity Death",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -459,7 +459,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     "id": "hf_t6_dark_oblivion",
     "name": "Brimstone Calamity",
-    "icon": "spell_fire_meteorstorm",
+    "icon": "Chaos/Meteor",
     "maxRanks": 3,
     "position": {
       "x": 1.5,
@@ -528,7 +528,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     "id": "hf_t4_mastery_focus",
     "name": "Brimstone Clasp Resonance",
-    "icon": "spell_shadow_shadowworddominate",
+    "icon": "Force/Energy Nexus",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -564,7 +564,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     "id": "hf_t6_unyielding_mastery",
     "name": "Unyielding Resolve",
-    "icon": "ability_warrior_defensivestance",
+    "icon": "Utility/Steadfast Bulwark",
     "maxRanks": 2,
     "position": {
       "x": 3.5,
@@ -597,7 +597,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     "id": "hf_t7_avatar_of_brimstone",
     "name": "Avatar of Brimstone",
-    "icon": "spell_shadow_demonicempathy",
+    "icon": "Necrotic/Transform Demon",
     "maxRanks": 1,
     "position": {
       "x": 0,
@@ -632,7 +632,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     "id": "hf_t7_doctrine_mastery",
     "name": "Pyrofiend Doctrine",
-    "icon": "spell_holy_blessingofstrength",
+    "icon": "Fire/Firey Dedication",
     "maxRanks": 5,
     "position": {
       "x": 1,
@@ -675,7 +675,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     "id": "hf_t7_obsidian_skin",
     "name": "Obsidian Core",
-    "icon": "spell_shadow_shadowform",
+    "icon": "Necrotic/Petrify Entity",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -711,7 +711,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     "id": "hf_t7_hellfire_eruption",
     "name": "Volcanic Rupture",
-    "icon": "spell_fire_selfdestruct",
+    "icon": "Fire/Crimson Eruption",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -755,7 +755,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     "id": "hf_t7_capstone_gamma",
     "name": "Transcendent Precision",
-    "icon": "ability_hunter_snipershot",
+    "icon": "General/Penetrate",
     "spell": {
       "name": "Transcendent Precision",
       "description": "Passive: All critical strikes deal +1d6 bonus damage and restore 1d4 Hit Points.",

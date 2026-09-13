@@ -1,7 +1,7 @@
 // ============================================
 // WARDEN — MONOLITH (v4: Balanced & Normalized)
 // Schema: see talentSystem.mjs. Rank N spell = rank N-1 + rankUpgrades[N-2].
-// Economy mirrors sibling trees: 19 nodes across 7 tiers, CAPSTONE at tier 7.
+// Economy: 8/6/5/5/6/8 = 38 pts (tiers 1-6) + 12 pts (tier 7) = 50, 19 nodes across 7 tiers, CAPSTONE at tier 7.
 //
 // SPEC IDENTITY: The Gravitational Anchor / Calcified Juggernaut.
 // While Vengeance Seeker converts pain into retribution and Shadowblade hunts from
@@ -20,7 +20,7 @@ export const WARDEN_MONOLITH = [
   {
     id: "wm_t1_ossified_anchor",
     name: "Ossified Anchor",
-    icon: "ability_warrior_shieldmastery",
+    icon: "Necrotic/Skeletal Bone Armor",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -40,7 +40,7 @@ export const WARDEN_MONOLITH = [
   {
     id: "wm_t1_deep_roots",
     name: "Deep Roots",
-    icon: "ability_warrior_defensivestance",
+    icon: "Nature/Gnarled Roots",
     maxRanks: 2,
     position: { x: 2, y: 0 },
     requires: null,
@@ -59,28 +59,28 @@ export const WARDEN_MONOLITH = [
   {
     id: "wm_t1_weight_of_iron",
     name: "Chain Weight",
-    icon: "ability_warrior_battleshout",
+    icon: "Bludgeoning/Swinging Hammer",
     maxRanks: 3,
     position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Chain Weight",
-      description: "Spend 1 AP: Swing your grafted chain mass in a crushing overhead blow within 15 feet: 1d8+STR smashing damage and the target's movement speed is reduced by 15 feet until the end of its next turn. Gain 1 Tension on hit.",
+      description: "Spend 1 AP and 1 VP: Swing your grafted chain mass in a crushing overhead blow within 15 feet: 1d8+STR smashing damage and the target's movement speed is reduced by 15 feet until the end of its next turn. Gain 2 Tension on hit.",
       flavorText: "Some chains are worn. This one is thrown.",
       source: "talent", class: "Warden", treeId: "monolith",
       spellType: "ACTIVE", category: "damage",
       actionPoints: 1,
       targetingMode: "single", rangeType: "melee", range: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 0, cooldownUnit: "round",
-      resourceCosts: {},
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "round",
+      resourceCosts: { vengeance: { baseAmount: 1 } },
       damageTypes: ["smashing"],
       primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
       visualTheme: "iron", tags: ["melee", "smashing", "slow", "vp-builder", "warden"]
     },
     rankUpgrades: [
-      { description: "Deals 1d10+STR smashing damage.", primaryDamage: { dice: "1d10", flat: 0, procChance: 100 } },
-      { description: "Deals 2d6+STR smashing damage and the slow lasts 2 rounds.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } }
+      { description: "Deals 1d10+STR smashing damage.", primaryDamage: { dice: "1d10", flat: 0, procChance: 100 }, damageTypes: ["smashing"] },
+      { description: "Deals 2d6+STR smashing damage and the slow lasts 2 rounds.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 }, damageTypes: ["smashing"] }
     ]
   },
 
@@ -88,21 +88,22 @@ export const WARDEN_MONOLITH = [
   {
     id: "wm_t2_iron_brace",
     name: "Iron Brace",
-    icon: "Utility/Shattered Shield",
+    icon: "General/Defend",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "wm_t1_ossified_anchor",
     spell: {
       name: "Iron Brace",
-      description: "REACTION — When targeted by an attack, brace your grafted chains: gain +2 DR against the triggering attack. Whether it hits or misses, gain 1 Tension.",
+      description: "Reaction — When targeted by an attack, spend 1 Tension (VP) to brace your grafted chains: gain +2 DR against the triggering attack. Whether it hits or misses, gain 1 Tension.",
       flavorText: "Brace. Breathe. Bank.",
       source: "talent", class: "Warden", treeId: "monolith",
-      spellType: "REACTION", category: "defense",
+      spellType: "ACTIVE", actionType: "reaction", category: "buff",
       actionPoints: 0,
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "reaction", castTimeValue: 1,
+      reactionTrigger: "When targeted by an attack",
       cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "round",
-      resourceCosts: {},
+      resourceCosts: { vengeance: { baseAmount: 1 } },
       visualTheme: "iron", tags: ["reaction", "defense", "dr", "vp-gain", "warden"]
     },
     rankUpgrades: [
@@ -113,13 +114,13 @@ export const WARDEN_MONOLITH = [
   {
     id: "wm_t2_sweeping_chains",
     name: "Sweeping Chains",
-    icon: "ability_warrior_cleave",
+    icon: "Force/Wave Sweep",
     maxRanks: 3,
     position: { x: 2, y: 1 },
     requires: "wm_t1_weight_of_iron",
     spell: {
       name: "Sweeping Chains",
-      description: "Spend 2 AP: Whirl your heavy chains in a 15-foot cone. Each creature caught takes 2d6 smashing damage and suffers Entangled Slow (-15 ft movement) for 1 round on a failed Reflex save. You may spend up to 3 VP to add +1d6 damage per VP spent.",
+      description: "Spend 2 AP and 2 VP: Whirl your heavy chains in a 15-foot cone. Each creature caught takes 2d6 smashing damage and suffers Entangled Slow (-15 ft movement) for 1 round on a failed Reflex save. You may spend up to 3 additional VP to add +1d6 damage per VP spent.",
       flavorText: "A hailstorm of rust and regret.",
       source: "talent", class: "Warden", treeId: "monolith",
       spellType: "ACTIVE", category: "damage",
@@ -127,14 +128,15 @@ export const WARDEN_MONOLITH = [
       targetingMode: "cone", rangeType: "cone", range: 15,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "round",
+      resourceCosts: { vengeance: { baseAmount: 2 } },
       saveType: "reflex",
       damageTypes: ["smashing"],
       primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
       visualTheme: "iron", tags: ["aoe", "cone", "smashing", "slow", "vp-dump", "warden"]
     },
     rankUpgrades: [
-      { description: "Deals 3d6 smashing damage; failed saves also drop shields/stances of braced enemies.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } },
-      { description: "Deals 4d6 smashing damage; VP bonuses cap at 5 instead of 3.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 } }
+      { description: "Deals 3d6 smashing damage; failed saves also drop shields/stances of braced enemies.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, damageTypes: ["smashing"] },
+      { description: "Deals 4d6 smashing damage; VP bonuses cap at 5 instead of 3.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 }, damageTypes: ["smashing"] }
     ]
   },
 
@@ -142,7 +144,7 @@ export const WARDEN_MONOLITH = [
   {
     id: "wm_t3_gravitational_lock",
     name: "Gravitational Lock",
-    icon: "spell_shadow_shadowward",
+    icon: "Force/Force Field",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "wm_t2_iron_brace",
@@ -162,7 +164,7 @@ export const WARDEN_MONOLITH = [
   {
     id: "wm_t3_penitent_resolve",
     name: "Penitent Resolve",
-    icon: "spell_holy_sealofwrath",
+    icon: "General/Bolster",
     maxRanks: 2,
     position: { x: 2, y: 2 },
     requires: "wm_t2_sweeping_chains",
@@ -176,12 +178,12 @@ export const WARDEN_MONOLITH = [
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "round",
-      resourceCosts: { tension: { baseAmount: 2 } },
+      resourceCosts: { vengeance: { baseAmount: 2 } },
       durationConfig: { durationType: "rounds", durationValue: 1, durationUnit: "round" },
       visualTheme: "iron", tags: ["stance", "defense", "vp-cost", "penitent", "warden"]
     },
     rankUpgrades: [
-      { description: "Duration increases to 2 rounds." }
+      { description: "Duration increases to 2 rounds.", durationConfig: { durationType: "rounds", durationValue: 2, durationUnit: "round" } }
     ]
   },
 
@@ -189,7 +191,7 @@ export const WARDEN_MONOLITH = [
   {
     id: "wm_t4_cruel_drag",
     name: "Cruel Drag",
-    icon: "spell_shadow_deathcoil",
+    icon: "Bludgeoning/Comet Strike",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "wm_t3_gravitational_lock",
@@ -203,34 +205,35 @@ export const WARDEN_MONOLITH = [
       targetingMode: "single", rangeType: "ranged", range: 60, targetRestrictions: ["tethered-enemy"],
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "round",
-      resourceCosts: { tension: { baseAmount: 3 } },
+      resourceCosts: { vengeance: { baseAmount: 3 } },
       saveType: "fortitude",
       damageTypes: ["smashing"],
       primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       visualTheme: "iron", tags: ["mobility", "gap-closer", "prone", "vp-cost", "tether", "warden"]
     },
     rankUpgrades: [
-      { description: "Deals 3d8 smashing damage; the slam also staggers (loses 1 AP next turn).", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
+      { description: "Deals 3d8 smashing damage; the slam also staggers (loses 1 AP next turn).", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 }, damageTypes: ["smashing"] },
       { description: "Drag distance increases to 15 feet and you gain 2 Tension when this ability hits." }
     ]
   },
   {
     id: "wm_t4_enduring_bulwark",
     name: "Enduring Bulwark",
-    icon: "ability_warrior_intensifyrage",
+    icon: "General/Guard",
     maxRanks: 2,
     position: { x: 2, y: 3 },
     requires: "wm_t3_penitent_resolve",
     spell: {
       name: "Enduring Bulwark",
-      description: "Spend 1 AP: Plant yourself completely (you cannot move this turn). Gain 50% damage resistance and +4 DR against all incoming smashing damage until the start of your next turn.",
+      description: "Spend 1 AP and 1 VP: Plant yourself completely (you cannot move this turn). Gain 50% damage resistance and +4 DR against all incoming smashing damage until the start of your next turn.",
       flavorText: "A wall that chose to be one.",
       source: "talent", class: "Warden", treeId: "monolith",
-      spellType: "ACTIVE", category: "defense",
+      spellType: "ACTIVE", category: "buff",
       actionPoints: 1,
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "round",
+      resourceCosts: { vengeance: { baseAmount: 1 } },
       durationConfig: { durationType: "rounds", durationValue: 1, durationUnit: "round" },
       visualTheme: "iron", tags: ["defense", "resistance", "smashing", "plant", "warden"]
     },
@@ -243,7 +246,7 @@ export const WARDEN_MONOLITH = [
   {
     id: "wm_t5_entangling_field",
     name: "Entangling Field",
-    icon: "spell_shadow_darkbind",
+    icon: "Nature/Webbed Slow",
     maxRanks: 3,
     position: { x: 1, y: 4 },
     requires: "wm_t4_enduring_bulwark",
@@ -264,7 +267,7 @@ export const WARDEN_MONOLITH = [
   {
     id: "wm_t5_iron_gaol",
     name: "Iron Gaol",
-    icon: "spell_shadow_shackleundead",
+    icon: "Force/Force Tied",
     maxRanks: 3,
     position: { x: 2, y: 4 },
     requires: "wm_t4_cruel_drag",
@@ -273,18 +276,18 @@ export const WARDEN_MONOLITH = [
       description: "Spend 3 AP, 6 VP: Erupt spectral iron bars around a creature within 30 feet, trapping it in a brutal cage for 2 rounds. Caged creatures physically cannot leave the cage by any means of movement and cannot teleport. A caged creature takes +1d6 bonus damage from all your attacks while confined.",
       flavorText: "He builds his prisons into the ground so they last.",
       source: "talent", class: "Warden", treeId: "monolith",
-      spellType: "ACTIVE", category: "control",
+      spellType: "ACTIVE", category: "debuff",
       actionPoints: 3,
       targetingMode: "single", rangeType: "ranged", range: 30, targetRestrictions: ["enemy"],
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "long", cooldownValue: 5, cooldownUnit: "round",
-      resourceCosts: { tension: { baseAmount: 6 } },
+      resourceCosts: { vengeance: { baseAmount: 6 } },
       durationConfig: { durationType: "rounds", durationValue: 2, durationUnit: "round" },
       saveType: "spirit",
       visualTheme: "iron", tags: ["control", "cage", "teleport-block", "vp-cost", "signature", "warden"]
     },
     rankUpgrades: [
-      { description: "Cage duration increases to 3 rounds." },
+      { description: "Cage duration increases to 3 rounds.", durationConfig: { durationType: "rounds", durationValue: 3, durationUnit: "round" } },
       { description: "Bonus damage against caged creatures increases to +2d6 and caged creatures cannot take reactions." }
     ]
   },
@@ -293,7 +296,7 @@ export const WARDEN_MONOLITH = [
   {
     id: "wm_t6_unbreakable_mass",
     name: "Unbreakable Mass",
-    icon: "spell_fire_elemental_totem",
+    icon: "Necrotic/Petrify Entity",
     maxRanks: 3,
     position: { x: 1, y: 5 },
     requires: "wm_t5_entangling_field",
@@ -313,7 +316,7 @@ export const WARDEN_MONOLITH = [
   {
     id: "wm_t6_chokepoint_doctrine",
     name: "Chokepoint Doctrine",
-    icon: "ability_warrior_weaponmastery",
+    icon: "General/Cover",
     maxRanks: 2,
     position: { x: 2, y: 5 },
     requires: "wm_t5_entangling_field",
@@ -322,7 +325,7 @@ export const WARDEN_MONOLITH = [
       description: "Passive: You treat your own square and all adjacent squares as blocked terrain for enemies while you have any Calcified Armor. Enemies attempting to move through must succeed on a contested Might check against your Fortitude or stop where they began.",
       flavorText: "'Around?' There is no around.",
       source: "talent", class: "Warden", treeId: "monolith",
-      spellType: "PASSIVE", category: "control",
+      spellType: "PASSIVE", category: "debuff",
       targetingMode: "self", rangeType: "self", auraRadius: 5,
       visualTheme: "iron", tags: ["passive", "body-block", "zone-control", "chokepoint", "warden"]
     },
@@ -333,7 +336,7 @@ export const WARDEN_MONOLITH = [
   {
     id: "wm_t6_colossal_slam",
     name: "Colossal Slam",
-    icon: "spell_fire_selfdestruct",
+    icon: "Bludgeoning/Stomp",
     maxRanks: 3,
     position: { x: 3, y: 5 },
     requires: "wm_t5_iron_gaol",
@@ -347,14 +350,14 @@ export const WARDEN_MONOLITH = [
       targetingMode: "aoe", rangeType: "self-centered", range: 10,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "long", cooldownValue: 4, cooldownUnit: "round",
-      resourceCosts: { tension: { baseAmount: 4 } },
+      resourceCosts: { vengeance: { baseAmount: 4 } },
       saveType: "reflex",
       damageTypes: ["smashing"],
       primaryDamage: { dice: "4d6", flat: 0, procChance: 100 },
       visualTheme: "iron", tags: ["aoe", "prone", "pull", "vp-cost", "finisher", "warden"]
     },
     rankUpgrades: [
-      { description: "Damage increases to 5d6 and haul distance increases to 15 feet.", primaryDamage: { dice: "5d6", flat: 0, procChance: 100 } },
+      { description: "Damage increases to 5d6 and haul distance increases to 15 feet.", primaryDamage: { dice: "5d6", flat: 0, procChance: 100 }, damageTypes: ["smashing"] },
       { description: "Prone duration doubles on failure and allies adjacent to you gain +2 DR for 1 round from the resulting dust-and-shockwave cover." }
     ]
   },
@@ -363,7 +366,7 @@ export const WARDEN_MONOLITH = [
   {
     id: "wm_t7_avatar_of_the_monolith",
     name: "Avatar of the Monolith",
-    icon: "spell_fire_elementaldevastation",
+    icon: "Necrotic/Enlargen",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "wm_t6_unbreakable_mass",
@@ -377,7 +380,7 @@ export const WARDEN_MONOLITH = [
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "once_per_combat", cooldownValue: 1, cooldownUnit: "combat",
-      resourceCosts: { tension: { baseAmount: 8 } },
+      resourceCosts: { vengeance: { baseAmount: 8 } },
       durationConfig: { durationType: "rounds", durationValue: 3, durationUnit: "round" },
       visualTheme: "iron", tags: ["capstone", "transformation", "immunity", "interception", "vp-cost", "signature", "warden"]
     },
@@ -386,8 +389,8 @@ export const WARDEN_MONOLITH = [
   {
     id: "wm_t7_monolith_doctrine",
     name: "Monolith Doctrine",
-    icon: "inv_misc_book_09",
-    maxRanks: 3,
+    icon: "General/Order",
+    maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "wm_t6_chokepoint_doctrine",
     spell: {
@@ -400,13 +403,15 @@ export const WARDEN_MONOLITH = [
     },
     rankUpgrades: [
       { description: "DR bonus increases to +2." },
-      { description: "DR bonus increases to +3 and Iron Gaol no longer costs 3 AP (costs 1 AP)." }
+      { description: "DR bonus increases to +3 and Iron Gaol no longer costs 3 AP (costs 1 AP)." },
+      { description: "DR bonus increases to +4; enemies have -2 on checks to move through your Chokepoint Doctrine terrain." },
+      { description: "DR bonus increases to +5 and Iron Gaol's cage lasts 1 additional round." }
     ]
   },
   {
     id: "wm_t7_eternal_calcification",
     name: "Eternal Calcification",
-    icon: "Utility/Shield Emblem",
+    icon: "Force/Absorb Energy",
     maxRanks: 2,
     position: { x: 2.5, y: 6 },
     requires: "wm_t6_colossal_slam",
@@ -425,7 +430,7 @@ export const WARDEN_MONOLITH = [
   {
     id: "wm_t7_judgment_of_stillness",
     name: "Judgment of Stillness",
-    icon: "ability_warrior_revenge",
+    icon: "General/Command",
     maxRanks: 2,
     position: { x: 3.5, y: 6 },
     requires: "wm_t6_chokepoint_doctrine",
@@ -441,13 +446,13 @@ export const WARDEN_MONOLITH = [
       visualTheme: "iron", tags: ["passive", "retaliation-aura", "punish", "capstone-row", "warden"]
     },
     rankUpgrades: [
-      { description: "Damage increases to 4d6 and judged enemies also lose their reaction.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 } }
+      { description: "Damage increases to 4d6 and judged enemies also lose their reaction.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 }, damageTypes: ["smashing"] }
     ]
   },
   {
     id: "wm_t7_immovable_soul",
     name: "Immovable Soul",
-    icon: "spell_shadow_truevision",
+    icon: "General/Inspiration",
     maxRanks: 2,
     position: { x: 4.25, y: 6 },
     requires: "wm_t6_unbreakable_mass",

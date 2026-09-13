@@ -9,7 +9,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t1_cage_of_vengeance",
     name: "Cage of Vengeance",
-    icon: "spell_shadow_shackleundead",
+    icon: "Necrotic/Broken Skull Shackle",
     maxRanks: 3,
     position: { x: 0.5, y: 0 },
     requires: null,
@@ -57,7 +57,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t1_mass_confinement",
     name: "Mass Confinement",
-    icon: "spell_shadow_blackplague",
+    icon: "Force/Grasping Appendages",
     maxRanks: 2,
     position: { x: 3.5, y: 0 },
     requires: null,
@@ -83,7 +83,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t2_cage_torment",
     name: "Cage Torment",
-    icon: "spell_shadow_curseofsargeras",
+    icon: "Necrotic/Necrotic Wither 2",
     maxRanks: 3,
     position: { x: 0.5, y: 1 },
     requires: "wj_t1_cage_of_vengeance",
@@ -105,7 +105,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t2_enhanced_caging",
     name: "Enhanced Caging",
-    icon: "ability_warrior_shieldwall",
+    icon: "Utility/Barred Shield",
     maxRanks: 3,
     position: { x: 3.5, y: 1 },
     requires: "wj_t1_mass_confinement",
@@ -126,7 +126,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t3_isolation_protocol",
     name: "Isolation Protocol",
-    icon: "spell_holy_sealofwrath",
+    icon: "Void/Black Hole",
     maxRanks: 3,
     position: { x: 0.5, y: 2 },
     requires: "wj_t2_cage_torment",
@@ -148,7 +148,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t3_prison_complex",
     name: "Prison Complex",
-    icon: "spell_shadow_antimagic",
+    icon: "Utility/Fortress Castle",
     maxRanks: 3,
     position: { x: 3.5, y: 2 },
     requires: "wj_t2_enhanced_caging",
@@ -169,7 +169,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t4_execution_chamber",
     name: "Execution Chamber",
-    icon: "spell_shadow_deathcoil",
+    icon: "Necrotic/Grim Reaper Casting",
     maxRanks: 3,
     position: { x: 0.5, y: 3 },
     requires: "wj_t3_isolation_protocol",
@@ -195,7 +195,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t4_spectral_overlord",
     name: "Spectral Overlord",
-    icon: "spell_shadow_shadetruesight",
+    icon: "Necrotic/Lich With Green Orb",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "wj_t3_prison_complex",
@@ -235,7 +235,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t5_chain_ward",
     name: "Chain Ward",
-    icon: "spell_shadow_darkbind",
+    icon: "Utility/Bound Shield",
     maxRanks: 2,
     position: { x: 3.5, y: 4 },
     requires: "wj_t4_spectral_overlord",
@@ -255,7 +255,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t6_vengeance_unleashed",
     name: "Vengeance Unleashed",
-    icon: "spell_shadow_demonicempathy",
+    icon: "Necrotic/Skull Explosion",
     maxRanks: 1,
     position: { x: 1.5, y: 5 },
     requires: "wj_t5_iron_bars",
@@ -279,7 +279,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t6_transfer_sentence",
     name: "Transfer Sentence",
-    icon: "spell_shadow_soulleech",
+    icon: "Necrotic/Drain Soul",
     maxRanks: 2,
     position: { x: 2, y: 5 },
     requires: "wj_t5_chain_ward",
@@ -298,7 +298,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t6_wardens_attention",
     name: "Warden's Attention",
-    icon: "spell_shadow_psychicscream",
+    icon: "Psychic/Mind Read",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "wj_t5_iron_bars",
@@ -342,7 +342,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t7_deep_reserves",
     name: "Deep Reserves",
-    icon: "ability_warrior_intensifyrage",
+    icon: "Void/Contained Void Barrel",
     maxRanks: 5,
     position: { x: 1, y: 6 },
     requires: "wj_t6_wardens_attention",
@@ -385,7 +385,7 @@ export const WARDEN_JAILER = [
   {
     id: "wj_t7_no_escape",
     name: "No Escape",
-    icon: "spell_shadow_shadowward",
+    icon: "Utility/Maw No Escape",
     maxRanks: 3,
     position: { x: 3, y: 6 },
     requires: "wj_t6_transfer_sentence",

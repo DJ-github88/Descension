@@ -181,16 +181,14 @@ const BerserkerResourceBar = ({
                             return;
                         }
                         e.stopPropagation();
-                        if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            dismissTooltip();
-                            setShowControls(!showControls);
+                        dismissTooltip();
+                        if (!isOwner) {
                             return;
                         }
-                        dismissTooltip();
-                        if (isOwner) {
-                            setShowControls(!showControls);
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
                         }
+                        setShowControls(!showControls);
                     }}
                 >
                     <svg

@@ -578,7 +578,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
  specs: [
   {
-  id : "silence-speaker",
+  id : "silence_speaker",
   name: "Silence-Speaker",
   icon: "Void/Consumed by Void",
   color: "#9400D3",

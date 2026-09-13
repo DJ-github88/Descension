@@ -400,12 +400,12 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
  // Specializations
  specializations: {
  title: "Specializations",
- subtitle: "Three Paths of Decay",
+ subtitle: "Three Paths of the Hunger Pact",
  description: "Choose the manner in which your body breaks to claim victory.",
  specs: [
   {
   id: "savage",
-  name: "Rage",
+  name: "Savage",
   icon: "Utility/Empowered Warrior",
   color: "#8B0000",
   theme: "Ancestral Starvation & Frenzied Execute",
@@ -2801,14 +2801,14 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
 
  // Spell pools for level-based spell selection
  spellPools: {
- 1: ["berserk_hemorrhagic_strike", "berserk_calloused_hide", "berserk_boiling_veins",
-  "berserk_roar_unyielding", "berserk_pain_blind", "berserk_boiled_blood_constitution"],
- 2: ["berserk_frenzied_slash", "berserk_sanguine_howl", "berserk_forge_touched_hands"],
+ 1: ["bsk_hunger_scent", "bsk_caldera_warmth", "berserk_hemorrhagic_strike", "berserk_calloused_hide", "berserk_boiling_veins",
+  "berserk_frenzied_slash", "berserk_roar_unyielding", "berserk_pain_blind", "berserk_boiled_blood_constitution"],
+ 2: ["bsk_retaliatory_cleave", "berserk_sanguine_howl", "berserk_forge_touched_hands"],
  3: ["berserk_ruptured_leap", "berserk_unbroken_will"],
- 4: ["berserk_carnage_strike", "berserk_raging_defense"],
- 5: ["berserk_cataclysmic_blow"],
+ 4: ["bsk_caldera_slam", "berserk_carnage_strike", "berserk_raging_defense"],
+ 5: ["bsk_arterial_burst", "berserk_cataclysmic_blow", "berserk_unstoppable_force"],
  6: ["berserk_obliterating_strike", "berserk_wrath_berserker"],
- 7: ["berserk_blood_frenzy"],
+ 7: ["bsk_unstoppable_onslaught", "berserk_blood_frenzy"],
  8: ["berserk_immortal_rage", "berserk_earthshaker_slam"],
  9: ["berserk_primal_cataclysm", "berserk_veterans_resolve"],
  10: ["berserk_cataclysmic_fury", "berserk_battle_incarnate", "berserk_primal_apex"],

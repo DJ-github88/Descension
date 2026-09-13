@@ -6,7 +6,7 @@ export const MARTYR_ZEALOT = [
   {
     "id": "zl_t1_sols_judgment",
     "name": "Sol's Judgment",
-    "icon": "spell_holy_righteousfury",
+    "icon": "Radiant/Divine Downward Sword",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -73,7 +73,7 @@ export const MARTYR_ZEALOT = [
   {
     "id": "zl_t1_sacred_blade",
     "name": "Consecrated Edge",
-    "icon": "spell_holy_searinglight",
+    "icon": "Radiant/Angelic Sword",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -117,7 +117,7 @@ export const MARTYR_ZEALOT = [
   {
     "id": "zl_t1_zealous_purity",
     "name": "Zealous Conviction",
-    "icon": "spell_holy_sealofwrath",
+    "icon": "General/Bolster",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -151,7 +151,7 @@ export const MARTYR_ZEALOT = [
   {
     "id": "zl_t2_retributive_smite",
     "name": "Retributive Smite",
-    "icon": "spell_holy_holysmite",
+    "icon": "General/Combat Downward Strike",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -220,7 +220,7 @@ export const MARTYR_ZEALOT = [
   {
     "id": "zl_t2_holy_fire",
     "name": "Holy Fire Flare",
-    "icon": "spell_holy_searinglight",
+    "icon": "Radiant/Radiant Beam",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -282,7 +282,7 @@ export const MARTYR_ZEALOT = [
   {
     "id": "zl_t3_pillar_of_wrath",
     "name": "Pillar of Holy Wrath",
-    "icon": "spell_holy_holybolt",
+    "icon": "Radiant/Divine Beam",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -352,7 +352,7 @@ export const MARTYR_ZEALOT = [
   {
     "id": "zl_t3_fervent_strike",
     "name": "Fanatic's Fervor",
-    "icon": "spell_holy_sealofblood",
+    "icon": "General/Rage",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -389,7 +389,7 @@ export const MARTYR_ZEALOT = [
   {
     "id": "zl_t4_inquisitors_brand",
     "name": "Inquisitor's Brand",
-    "icon": "spell_holy_righteousfury",
+    "icon": "Radiant/Sacred Symbol",
     "maxRanks": 2,
     "position": {
       "x": 1,
@@ -447,7 +447,7 @@ export const MARTYR_ZEALOT = [
   {
     "id": "zl_t5_searing_halo",
     "name": "Searing Halo",
-    "icon": "spell_holy_auraoflight",
+    "icon": "Radiant/Divine Halo",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -487,7 +487,7 @@ export const MARTYR_ZEALOT = [
   {
     "id": "zl_t5_righteous_execution",
     "name": "Righteous Execution",
-    "icon": "ability_warrior_decisivestrike",
+    "icon": "Radiant/Radiant Golden Knight",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -529,7 +529,7 @@ export const MARTYR_ZEALOT = [
   {
     "id": "zl_t6_sunburst_nova",
     "name": "Sunburst Nova",
-    "icon": "spell_holy_divineprovidence",
+    "icon": "Radiant/Bright Explosion",
     "maxRanks": 3,
     "position": {
       "x": 1.5,
@@ -602,7 +602,7 @@ export const MARTYR_ZEALOT = [
   {
     "id": "zl_t4_mastery_focus",
     "name": "Inquisitor's Brand Resonance",
-    "icon": "spell_holy_righteousfury",
+    "icon": "Radiant/Radiant Core",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -638,7 +638,7 @@ export const MARTYR_ZEALOT = [
   {
     "id": "zl_t6_unyielding_mastery",
     "name": "Unyielding Resolve",
-    "icon": "ability_warrior_defensivestance",
+    "icon": "Utility/Steadfast Bulwark",
     "maxRanks": 2,
     "position": {
       "x": 3.5,
@@ -671,7 +671,7 @@ export const MARTYR_ZEALOT = [
   {
     "id": "zl_t7_avatar_of_wrath",
     "name": "Avatar of the Holy Avenger",
-    "icon": "spell_holy_powerwordbarrier",
+    "icon": "Radiant/Winged Angel",
     "maxRanks": 1,
     "position": {
       "x": 0,
@@ -712,7 +712,7 @@ export const MARTYR_ZEALOT = [
   {
     "id": "zl_t7_doctrine_mastery",
     "name": "Martyr Doctrine",
-    "icon": "spell_holy_blessingofstrength",
+    "icon": "Radiant/Holy Bible",
     "maxRanks": 5,
     "position": {
       "x": 1,
@@ -755,7 +755,7 @@ export const MARTYR_ZEALOT = [
   {
     "id": "zl_t7_unrelenting_crusade",
     "name": "Unrelenting Crusade",
-    "icon": "spell_holy_blessingofstrength",
+    "icon": "Radiant/Radiant Warrior",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -792,7 +792,7 @@ export const MARTYR_ZEALOT = [
   {
     "id": "zl_t7_martyrs_retribution",
     "name": "Wrath of the Saint",
-    "icon": "spell_holy_sealofsacrifice",
+    "icon": "Fire/Flaming Revolt",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -836,7 +836,7 @@ export const MARTYR_ZEALOT = [
   {
     "id": "zl_t7_capstone_gamma",
     "name": "Transcendent Precision",
-    "icon": "ability_hunter_snipershot",
+    "icon": "Radiant/Piercing Shot",
     "spell": {
       "name": "Transcendent Precision",
       "description": "Passive: All critical strikes deal +1d6 bonus damage and restore 1d4 Hit Points.",

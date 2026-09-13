@@ -9,7 +9,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t1_silence_predator",
     name: "Silence Predator",
-    icon: "ability_stealth",
+    icon: "Utility/Hide",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -35,7 +35,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t1_shadow_cloak",
     name: "Shadow Cloak",
-    icon: "spell_shadow_nethercloak",
+    icon: "Utility/Glowing Hood",
     maxRanks: 2,
     position: { x: 2, y: 0 },
     requires: null,
@@ -59,7 +59,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t1_ambush_mastery",
     name: "Ambush Mastery",
-    icon: "ability_rogue_ambush",
+    icon: "Piercing/Backstab",
     maxRanks: 3,
     position: { x: 3, y: 0 },
     requires: null,
@@ -82,7 +82,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t2_phantom_step",
     name: "Phantom Step",
-    icon: "spell_shadow_shadowstep",
+    icon: "Utility/Phantom Dash",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "ps_t1_silence_predator",
@@ -107,7 +107,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t2_shadow_eruption",
     name: "Shadow Eruption",
-    icon: "spell_shadow_shadowbolt",
+    icon: "Void/Red Energy Burst",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "ps_t1_ambush_mastery",
@@ -150,7 +150,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t3_eternal_darkness",
     name: "Eternal Darkness",
-    icon: "spell_shadow_darkritual",
+    icon: "Void/Black Hole",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "ps_t2_shadow_eruption",
@@ -177,7 +177,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t4_shadow_mutation",
     name: "Shadow Mutation",
-    icon: "spell_shadow_demonicempathy",
+    icon: "Void/Mold Entity",
     maxRanks: 3,
     position: { x: 0, y: 3 },
     requires: "ps_t3_darkness_within",
@@ -199,7 +199,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t4_shadow_weaving",
     name: "Shadow Weaving",
-    icon: "spell_shadow_blackplague",
+    icon: "Void/Demonic Possesion",
     maxRanks: 2,
     position: { x: 4, y: 3 },
     requires: "ps_t3_eternal_darkness",
@@ -219,7 +219,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t5_dance_of_shadows",
     name: "Dance of Shadows",
-    icon: "spell_shadow_gathershadows",
+    icon: "Utility/Motion Swoosh",
     maxRanks: 3,
     position: { x: 0.5, y: 4 },
     requires: "ps_t4_shadow_mutation",
@@ -239,7 +239,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t5_umbral_hunger",
     name: "Umbral Hunger",
-    icon: "spell_shadow_soulleech",
+    icon: "Void/Maw Gripping Fear",
     maxRanks: 2,
     position: { x: 3.5, y: 4 },
     requires: "ps_t4_shadow_weaving",
@@ -283,7 +283,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t6_predators_economy",
     name: "Predator's Economy",
-    icon: "ability_rogue_findweakness",
+    icon: "Piercing/Heart Pierce",
     maxRanks: 2,
     position: { x: 2, y: 5 },
     requires: "ps_t5_umbral_hunger",
@@ -346,7 +346,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t7_abyssal_flux",
     name: "Abyssal Flux",
-    icon: "spell_shadow_shadowward",
+    icon: "Void/Consumed by Void",
     maxRanks: 5,
     position: { x: 1, y: 6 },
     requires: "ps_t6_predators_economy",
@@ -368,7 +368,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t7_veilwalker",
     name: "Veilwalker",
-    icon: "spell_shadow_shadowwalk",
+    icon: "Utility/Glowing Silhouette",
     maxRanks: 3,
     position: { x: 2, y: 6 },
     requires: "ps_t6_nights_cartography",
@@ -410,7 +410,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: "ps_t7_dark_communion",
     name: "Dark Communion",
-    icon: "spell_shadow_metamorphosis",
+    icon: "Utility/Meditative Figure",
     maxRanks: 3,
     position: { x: 4, y: 6 },
     requires: "ps_t6_nights_cartography",

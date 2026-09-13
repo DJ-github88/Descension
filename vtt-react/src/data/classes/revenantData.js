@@ -1580,19 +1580,33 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
     ],
     3: [
       "rv_soul_rend",
+      "rv_tomb_frost_shroud",
+      "rv_corpse_explosion",
     ],
-    4: [],
-    5: [],
+    4: [
+      "rv_grave_mire_stasis",
+      "rv_soul_echo_flay",
+    ],
+    5: [
+      "rv_bog_marrow_drain",
+      "rv_glacial_sepulcher",
+    ],
     6: [
       "rv_blood_cataclysm",
     ],
-    7: [],
+    7: [
+      "rv_crypt_chill_nova",
+      "rv_phylactery_cascade",
+    ],
     8: [
       "rv_judgment_day",
     ],
-    9: [],
+    9: [
+      "rv_absolute_zero_coffin",
+    ],
     10: [
       "rv_necrotic_armageddon",
+      "rv_avatar_of_cold_hearth",
     ],
   },
 };

@@ -82,10 +82,10 @@ const MartyrResourceBar = ({
     // Determine level and damage from props (prioritizing classResource over legacy state)
     const rawLevel = classResource?.current !== undefined
         ? classResource.current
-        : (martyrState?.localDevotionLevel ?? classResource?.level ?? 0);
+        : (classResource?.level ?? 0);
     const rawDamage = classResource?.damage !== undefined
         ? classResource.damage
-        : (martyrState?.localDevotionDamage ?? classResource?.devotionDamage ?? THRESHOLDS[rawLevel] ?? 0);
+        : (classResource?.devotionDamage ?? THRESHOLDS[rawLevel] ?? 0);
     const rawSpec = classResource?.spec ?? martyrState?.martyrSpec ?? config?.visual?.spec ?? 'redemption';
 
     const [devotionLevel, setDevotionLevel] = useState(Math.max(0, Math.min(rawLevel, MAX_LEVEL)));

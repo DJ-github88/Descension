@@ -9,7 +9,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t1_precision_edge",
     name: "Precision Edge",
-    icon: "ability_duelist",
+    icon: "Slashing/Assassins Blade",
     maxRanks: 3,
     position: { x: 0, y: 0 },
     requires: null,
@@ -30,7 +30,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t1_arterial_strike",
     name: "Arterial Strike",
-    icon: "ability_rogue_tilotomastery",
+    icon: "Slashing/Bloody Slash",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -58,7 +58,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t1_deadened_bastion",
     name: "Deadened Bastion",
-    icon: "ability_warrior_shieldwall",
+    icon: "Bludgeoning/Fist Shield",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -86,7 +86,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t2_perfect_timing",
     name: "Perfect Timing",
-    icon: "ability_rogue_quickrecovery",
+    icon: "Utility/Counter Spiral",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "id_t1_arterial_strike",
@@ -128,7 +128,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t2_dueling_mastery",
     name: "Dueling Mastery",
-    icon: "ability_warrior_savageblow",
+    icon: "General/Command",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: null,
@@ -154,7 +154,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t2_counter_mastery",
     name: "Counter Mastery",
-    icon: "ability_parry",
+    icon: "Utility/Parry",
     maxRanks: 3,
     position: { x: 2.5, y: 1 },
     requires: null,
@@ -177,7 +177,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t3_serpents_precision",
     name: "Serpent's Precision",
-    icon: "ability_hunter_snipershot",
+    icon: "Piercing/Targeted Strike",
     maxRanks: 3,
     position: { x: 2, y: 2 },
     requires: "id_t2_dueling_mastery",
@@ -198,7 +198,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t3_trait_harvest",
     name: "Trait Harvest",
-    icon: "spell_shadow_possession",
+    icon: "Utility/Souls",
     maxRanks: 2,
     position: { x: 2.5, y: 2 },
     requires: "id_t2_counter_mastery",
@@ -218,7 +218,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t4_duelists_focus",
     name: "Duelist's Focus",
-    icon: "ability_warrior_focusedrage",
+    icon: "Piercing/On the Mark",
     maxRanks: 3,
     position: { x: 2, y: 3 },
     requires: "id_t3_serpents_precision",
@@ -259,7 +259,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t5_blade_dance",
     name: "Blade Dance",
-    icon: "ability_rogue_slicedice",
+    icon: "Slashing/Whirl",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "id_t4_duelists_focus",
@@ -279,7 +279,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t5_iron_skin",
     name: "Iron Skin",
-    icon: "spell_nature_skinofearth",
+    icon: "Nature/Earth Shield",
     maxRanks: 2,
     position: { x: 3.5, y: 4 },
     requires: "id_t4_unyielding_blade",
@@ -298,7 +298,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t6_grand_challenge",
     name: "Grand Challenge",
-    icon: "ability_warrior_battleshout",
+    icon: "General/Beckoning Shout",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "id_t4_unyielding_blade",
@@ -321,7 +321,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: "id_t7_perfect_dancer",
     name: "Perfect Dancer",
-    icon: "ability_warrior_bladestorm",
+    icon: "Slashing/Dual Blades",
     maxRanks: 1,
     position: { x: 4, y: 6 },
     requires: "id_t5_blade_dance",

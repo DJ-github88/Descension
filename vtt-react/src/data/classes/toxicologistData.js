@@ -916,6 +916,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
 
     specs: [
       {
+        id: "venomancer",
         name: "Venomancer",
         icon: "fas fa-skull-crossbones",
         description:
@@ -948,6 +949,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         ],
       },
       {
+        id: "gadgeteer",
         name: "Gadgeteer",
         icon: "fas fa-cog",
         description:
@@ -980,6 +982,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         ],
       },
       {
+        id: "saboteur",
         name: "Saboteur",
         icon: "fas fa-user-secret",
         description:

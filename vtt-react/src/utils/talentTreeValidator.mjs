@@ -44,11 +44,37 @@ const fileFilter = fileFilterIdx !== -1 ? args[fileFilterIdx + 1] : null;
 /**
  * Load ESM tree data files under CJS node by transpiling the pure-data modules:
  * strip `export ` from top-level const declarations and export via module.exports.
+ * Also follows aggregator re-exports (`export { X as Y } from './file.js'`) so
+ * class shim files (berserker.js, lunarch.js, ...) resolve their trees.
  */
-function loadTreeFile(filePath) {
-  const source = fs.readFileSync(filePath, 'utf8');
+function loadTreeFile(filePath, visited = new Set()) {
+  const abs = path.resolve(filePath);
+  if (visited.has(abs)) return {};
+  visited.add(abs);
+
+  const source = fs.readFileSync(abs, 'utf8');
+  const trees = {};
+
+  const reExports = [...source.matchAll(/^export\s*\{([\s\S]*?)\}\s*from\s*['"]([^'"]+)['"];?/gm)];
+  for (const match of reExports) {
+    const names = match[1]
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean)
+      .map((name) => {
+        const alias = name.match(/^([A-Za-z0-9_$]+)\s+as\s+([A-Za-z0-9_$]+)$/);
+        return alias ? alias[2] : name;
+      });
+    let target = path.resolve(path.dirname(abs), match[2]);
+    if (!fs.existsSync(target) && fs.existsSync(`${target}.js`)) target = `${target}.js`;
+    const depTrees = loadTreeFile(target, visited);
+    for (const name of names) {
+      if (depTrees[name]) trees[name] = depTrees[name];
+    }
+  }
+
   const exportMatches = [...source.matchAll(/^export\s+const\s+([A-Za-z0-9_]+)/gm)];
-  if (exportMatches.length === 0) return {};
+  if (exportMatches.length === 0) return trees;
 
   const names = exportMatches.map((m) => m[1]);
   const transformed = source
@@ -58,14 +84,13 @@ function loadTreeFile(filePath) {
 
   const tmpPath = path.join(
     fs.mkdtempSync(path.join(os.tmpdir(), 'vtt-talents-')),
-    path.basename(filePath).replace(/\.js$/, '.cjs')
+    path.basename(abs).replace(/\.js$/, '.cjs')
   );
   fs.writeFileSync(tmpPath, transformed);
   try {
-    const loaded = require(tmpPath);
-    const trees = {};
+    const loadedModule = require(tmpPath);
     for (const name of names) {
-      const value = loaded[name];
+      const value = loadedModule[name];
       if (Array.isArray(value)) trees[name] = value;
     }
     return trees;
@@ -76,10 +101,20 @@ function loadTreeFile(filePath) {
 
 // ---------- Run ----------
 
+// Aggregator shims only re-export trees owned by dedicated files. Skip them in
+// the full scan to avoid double-counting, but keep them for `--file <class>`.
+function isAggregator(fileName) {
+  const source = fs.readFileSync(path.join(TREES_DIR, fileName), 'utf8');
+  const hasOwnTrees = /^export\s+const\s+[A-Za-z0-9_]+\s*=/m.test(source);
+  const hasReExports = /^export\s*\{[\s\S]*?\}\s*from\s*['"]/m.test(source);
+  return !hasOwnTrees && hasReExports;
+}
+
 const files = fs
   .readdirSync(TREES_DIR)
   .filter((f) => f.endsWith('.js') && !EXCLUDED_FILES.has(f))
   .filter((f) => !fileFilter || f.replace(/\.js$/, '') === fileFilter)
+  .filter((f) => fileFilter || !isAggregator(f))
   .sort();
 
 const report = { v2Valid: 0, v2Invalid: 0, legacy: 0, legacyNodes: 0, totalPoints: 0 };

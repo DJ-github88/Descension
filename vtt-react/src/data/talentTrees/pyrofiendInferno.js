@@ -6,7 +6,7 @@ export const PYROFIEND_INFERNO = [
   {
     "id": "inf_t1_burst_mastery",
     "name": "Crucible Reach",
-    "icon": "spell_fire_fireball02",
+    "icon": "Fire/Flaming Projectile",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -42,7 +42,7 @@ export const PYROFIEND_INFERNO = [
   {
     "id": "inf_t1_rapid_ascent",
     "name": "Thermal Vent",
-    "icon": "spell_fire_soulburn",
+    "icon": "Fire/Fire Spray",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -104,7 +104,7 @@ export const PYROFIEND_INFERNO = [
   {
     "id": "inf_t1_inner_fire",
     "name": "Tempered Core",
-    "icon": "spell_fire_flamebolt",
+    "icon": "Fire/Burning Forge",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -140,7 +140,7 @@ export const PYROFIEND_INFERNO = [
   {
     "id": "inf_t2_critical_blast",
     "name": "Searing Retort",
-    "icon": "spell_fire_incinerate",
+    "icon": "Fire/Flaming Revolt",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -184,7 +184,7 @@ export const PYROFIEND_INFERNO = [
   {
     "id": "inf_t2_detonation",
     "name": "Flash Ignition",
-    "icon": "spell_fire_selfdestruct",
+    "icon": "Fire/Flame Burst",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -246,7 +246,7 @@ export const PYROFIEND_INFERNO = [
   {
     "id": "inf_t3_fiery_resurgence",
     "name": "Molten Ground",
-    "icon": "spell_fire_fire",
+    "icon": "Fire/Flowing Lava",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -310,7 +310,7 @@ export const PYROFIEND_INFERNO = [
   {
     "id": "inf_t3_immolation",
     "name": "Thermal Aura",
-    "icon": "spell_fire_sealoffire",
+    "icon": "Fire/Flame Aura",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -349,7 +349,7 @@ export const PYROFIEND_INFERNO = [
   {
     "id": "inf_t4_overcharge",
     "name": "Combustion Spear",
-    "icon": "spell_fire_moltenblood",
+    "icon": "Fire/Burning Spear",
     "maxRanks": 2,
     "position": {
       "x": 1,
@@ -401,7 +401,7 @@ export const PYROFIEND_INFERNO = [
   {
     "id": "inf_t5_maximum_power",
     "name": "Crucible Intensity",
-    "icon": "spell_fire_twilightfireward",
+    "icon": "Fire/Rising Inferno",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -445,7 +445,7 @@ export const PYROFIEND_INFERNO = [
   {
     "id": "inf_t5_power_surge",
     "name": "Infernal Overdrive",
-    "icon": "spell_fire_burnout",
+    "icon": "Fire/Burning Transformation",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -484,7 +484,7 @@ export const PYROFIEND_INFERNO = [
   {
     "id": "inf_t6_hellish_pillar",
     "name": "Crucible Pillar",
-    "icon": "spell_fire_fireball",
+    "icon": "Fire/Three Fire Pillars",
     "maxRanks": 3,
     "position": {
       "x": 1.5,
@@ -552,7 +552,7 @@ export const PYROFIEND_INFERNO = [
   {
     "id": "inf_t4_mastery_focus",
     "name": "Combustion Spear Resonance",
-    "icon": "spell_fire_moltenblood",
+    "icon": "Fire/Scorching Rune",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -588,7 +588,7 @@ export const PYROFIEND_INFERNO = [
   {
     "id": "inf_t6_unyielding_mastery",
     "name": "Unyielding Resolve",
-    "icon": "ability_warrior_defensivestance",
+    "icon": "Utility/Steadfast Bulwark",
     "maxRanks": 2,
     "position": {
       "x": 3.5,
@@ -621,7 +621,7 @@ export const PYROFIEND_INFERNO = [
   {
     "id": "inf_t7_living_crucible",
     "name": "Living Crucible",
-    "icon": "spell_fire_incinerate",
+    "icon": "Fire/Burning Man",
     "maxRanks": 1,
     "position": {
       "x": 0,
@@ -656,7 +656,7 @@ export const PYROFIEND_INFERNO = [
   {
     "id": "inf_t7_doctrine_mastery",
     "name": "Pyrofiend Doctrine",
-    "icon": "spell_holy_blessingofstrength",
+    "icon": "Fire/Firey Dedication",
     "maxRanks": 5,
     "position": {
       "x": 1,
@@ -699,7 +699,7 @@ export const PYROFIEND_INFERNO = [
   {
     "id": "inf_t7_unquenchable_heat",
     "name": "Unquenchable Core",
-    "icon": "spell_fire_soulburn",
+    "icon": "Fire/Infernal Fire",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -735,7 +735,7 @@ export const PYROFIEND_INFERNO = [
   {
     "id": "inf_t7_thermal_fission",
     "name": "Thermal Fission",
-    "icon": "spell_fire_selfdestruct",
+    "icon": "Fire/Eruption",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -779,7 +779,7 @@ export const PYROFIEND_INFERNO = [
   {
     "id": "inf_t7_capstone_gamma",
     "name": "Transcendent Precision",
-    "icon": "ability_hunter_snipershot",
+    "icon": "General/Penetrate",
     "spell": {
       "name": "Transcendent Precision",
       "description": "Passive: All critical strikes deal +1d6 bonus damage and restore 1d4 Hit Points.",

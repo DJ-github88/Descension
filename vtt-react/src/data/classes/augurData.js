@@ -2905,7 +2905,6 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   "augur_omen_shield",
   "augur_minor_portent",
   "augur_sign_of_clarity",
-  "augur_omen_bolt",
   "augur_whisper_harvester",
   "augur_cast_the_bones",
   "augur_read_the_entrails",

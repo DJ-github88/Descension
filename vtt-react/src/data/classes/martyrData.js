@@ -830,73 +830,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
    "martyr_solbrand_warmth",
   ],
   2: [
-   {
-    "id": "martyr_empathic_transference",
-    "name": "Empathic Transference",
-    "description": "Reach out and touch a fatigued, aching ally. Siphon their physical exhaustion, aches, and metabolic strain directly into your own muscles. They are fully refreshed, while you take on their heavy weariness.",
-    "level": 2,
-    "spellType": "ACTION",
-    "icon": "sacred/sacred Healing",
-    "typeConfig": {
-     "school": "sacred",
-     "icon": "sacred/sacred Healing",
-     "tags": [
-      "utility",
-      "roleplay",
-      "martyr"
-     ],
-     "castTime": 1,
-     "castTimeType": "IMMEDIATE"
-    },
-    "targetingConfig": {
-     "targetingType": "single",
-     "rangeType": "touch",
-     "targetRestrictions": [
-      "ally"
-     ]
-    },
-    "resourceCost": {
-     "actionPoints": 1,
-     "resourceTypes": [
-      "mana"
-     ],
-     "resourceValues": {
-      "mana": 5
-     },
-     "components": [
-      "somatic"
-     ],
-     "somaticText": "Press your palm firmly against the ally's forehead, grimacing as their fatigue triggers a hot rush of strain in your arm"
-    },
-    "resolution": "NONE",
-    "effectTypes": [
-     "utility"
-    ],
-    "utilityConfig": {
-     "utilityType": "restoration",
-     "selectedEffects": [
-      {
-       "id": "empathic_transference_effect",
-       "name": "Endured Fatigue",
-       "description": "Clears the target ally's exhaustion conditions. The Martyr suffers disadvantage on Agility checks for 1 hour from the transferred muscle fatigue."
-      }
-     ],
-     "duration": 1,
-     "durationUnit": "hours",
-     "concentration": false,
-     "power": "minor"
-    },
-    "cooldownConfig": {
-     "cooldownType": "turn_based",
-     "cooldownValue": 0
-    },
-     "tags": [
-      "utility",
-      "roleplay",
-      "martyr",
-   "martyr_empathic_transference"
-     ]
-    },
+   "martyr_empathic_transference",
    "martyr_vow_ward",
    "martyr_bear_the_burden",
    "martyr_sanctified_word",
@@ -3247,6 +3181,18 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     utilityConfig: { utilityType: "social", selectedEffects: [ { id: "sanctified_word_vow", name: "Self-Bound Vow", description: "Swear one promise; it binds you (breach costs 2d6 HP + 1 Devotion Level). Listeners feel its reality, granting advantage on Persuasion/reassurance with them for the scene. Useless if you swear falsely  -  the vow only binds what you truly intend.", mechanicsText: "Self-binding vow; advantage on Persuasion; penalty to break." } ], duration: 1, durationUnit: "days", power: "moderate" },
     cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
     tags: ["utility","social","martyr"],
+  },
+  { id: "martyr_empathic_transference",
+    name: "Empathic Transference",
+    description: "Reach out and touch a fatigued, aching ally. Siphon their physical exhaustion, aches, and metabolic strain directly into your own muscles. They are fully refreshed, while you take on their heavy weariness.",
+    level: 2, spellType: "ACTION", icon: "sacred/sacred Healing",
+    typeConfig: { school: "sacred", icon: "sacred/sacred Healing", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","roleplay","martyr"] },
+    targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0, targetRestrictions: ["ally"] },
+    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 5 }, components: ["somatic"], somaticText: "Press your palm firmly against the ally's forehead, grimacing as their fatigue triggers a hot rush of strain in your arm" },
+    resolution: "NONE", effectTypes: ["utility"],
+    utilityConfig: { utilityType: "restoration", selectedEffects: [ { id: "empathic_transference_effect", name: "Endured Fatigue", description: "Clears the target ally's exhaustion conditions. The Martyr suffers disadvantage on Agility checks for 1 hour from the transferred muscle fatigue.", mechanicsText: "Clears target's exhaustion; Martyr suffers disadvantage on Agility checks for 1 hour." } ], duration: 1, durationUnit: "hours", concentration: false, power: "minor" },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+    tags: ["utility","roleplay","martyr"],
   },
  ],
 };

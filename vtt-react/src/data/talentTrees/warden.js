@@ -7,3 +7,4 @@
 export { WARDEN_SHADOWBLADE } from './wardenShadowblade.js';
 export { WARDEN_VENGEANCE_SEEKER } from './wardenVengeanceSeeker.js';
 export { WARDEN_MONOLITH } from './wardenMonolith.js';
+export { WARDEN_JAILER } from './wardenJailer.js';
