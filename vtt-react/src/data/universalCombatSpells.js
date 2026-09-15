@@ -202,7 +202,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
   source: 'general',
   categoryIds: ['general_reactions'],
   typeConfig: {
-   school: 'social',
+   school: 'wyrd',
    icon: 'spell_holy_greaterheal',
    tags: ['reaction', 'support', 'universal']
   },
@@ -758,7 +758,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
   source: 'general',
   categoryIds: ['general_actions'],
   typeConfig: {
-   school: 'social',
+   school: 'wyrd',
    icon: 'spell_holy_greaterheal',
    tags: ['support', 'combat', 'universal']
   },

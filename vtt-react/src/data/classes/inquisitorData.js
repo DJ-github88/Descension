@@ -1069,7 +1069,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_scourge_of_submission",
       name: "Scourge of Submission",
       description:
-        "Whip your bound entity with spectral radiant barbed wire, restoring its Dominance Die by 1 step. Costs 1d4 of your own HP as the chains bite into your palms.",
+        "Crack a null-salt lash (1d4 HP): 1d4 ember damage, and the target's next spell, summon, or ability is nullified (no save). Your bound horror instead regains 1 Dominance Die step.",
       level: 2,
       spellType: "ACTION",
       effectTypes: ["damage", "utility"],
@@ -1079,13 +1079,13 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         icon: "Radiant/Radiant Divinity",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["dominance", "restoration", "discipline"],
+        tags: ["nullification", "counter", "anti magic", "discipline"],
       },
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ["bound_demon_or_self"],
+        targetRestrictions: ["enemies", "bound_demon_or_self"],
       },
       resourceCost: {
         actionPoints: 1,
@@ -1096,22 +1096,23 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       damageConfig: {
-        formula: "1d6",
+        formula: "1d4",
         damageTypes: ["ember"],
         resolution: "DICE",
       },
       utilityConfig: {
-        utilityType: "fate_manipulation",
+        utilityType: "nullification",
         selectedEffects: [
           {
-            id : "restore_dd_1",
-            name: "Dominance Restored",
-            description: "Restores the target horror's Dominance Die by 1 step.",
+            id : "nullify_next",
+            name: "Nullified",
+            description: "The target's next spell, summon, or supernatural ability fails. No save.",
+            mechanicsText: "Nullify the target's next spell, summon, or supernatural ability (no save). On your bound horror, restores 1 Dominance Die step instead.",
           },
         ],
       },
       resolution: "DICE",
-      tags: ["dominance", "restoration", "discipline"],
+      tags: ["nullification", "counter", "anti magic", "discipline"],
     },
 
     // ===== LEVEL 3 SPELLS =====
@@ -1375,30 +1376,34 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_shackles_of_searing_iron",
       name: "Shackles of Searing Iron",
       description:
-        "Pull an agonizing chain of rusted iron and salt out of your own veins, wrapping it around a bound horror. Restores its Dominance Die by 2 steps. The backlash cuts deep: 1d6 HP to yourself.",
+        "Tear searing shackles from your own veins (1d6 HP): a supernatural target takes 2d6 ember damage and is restrained for 2 rounds, taking 1d6 ember each turn. Spirit save DC 15 ends.",
       level: 4,
       spellType: "ACTION",
-      effectTypes: ["damage", "utility"],
+      effectTypes: ["damage", "control"],
       icon: "Radiant/Divine Halo",
       typeConfig: {
         school: "ember",
         icon: "Radiant/Divine Halo",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["dominance", "restoration", "shackles"],
+        tags: ["restraint", "execute", "shackles", "anti magic"],
       },
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ["bound_demon_or_self"],
+        targetRestrictions: ["enemies"],
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
       },
       resourceCost: {
         actionPoints: 1,
         mana: 5,
         resourceTypes: ["mana", "health"],
         resourceValues: { mana: 5, hp: "1d6" },
-        dominanceDiceGain: 2,
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       damageConfig: {
@@ -1406,18 +1411,26 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         damageTypes: ["ember"],
         resolution: "DICE",
       },
-      utilityConfig: {
-        utilityType: "fate_manipulation",
-        selectedEffects: [
+      controlConfig: {
+        controlType: "restrained",
+        effects: [
           {
-            id : "restore_dd_2",
-            name: "Dominance Restored",
-            description: "Restores target horror's Dominance Die by 2 steps.",
+            id : "searing_shackles",
+            name: "Searing Shackles",
+            description: "Restrained, speed 0. Takes 1d6 ember damage at the start of each of its turns.",
+            mechanicsText: "Restrained (speed 0). The target takes 1d6 ember damage at the start of each of its turns. Spirit save DC 15 at the end of each turn ends the effect.",
           },
         ],
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 15,
+          saveOutcome: "negates",
+        },
+        durationValue: 2,
+        durationUnit: "rounds",
       },
       resolution: "DICE",
-      tags: ["dominance", "restoration", "shackles"],
+      tags: ["restraint", "execute", "shackles", "anti magic"],
     },
 
     { id : "inq_spirit_shackle",
@@ -2006,7 +2019,1153 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       tags: ["utility", "social", "authority", "anti magic"],
     },
+    // ===== LEVEL 5 ADDITIONS =====
+    {
+      id: "inq_severing_shackles",
+      name: "Severing Cold-Iron Shackles",
+      description: "Summon barbed cold-iron manacles around an enemy spellcaster's wrists for 3 rounds. If the target attempts to cast a spell, they suffer a severe mana burn and must pass a DC 16 Spirit save or the spell fizzles and they are silenced for 1 round.",
+      level: 5,
+      spellType: "ACTION",
+      icon: "Arcane/Angular Rune",
+      specialization: "witch_hunter",
+      typeConfig: {
+        school: "smashing",
+        icon: "Arcane/Angular Rune",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+        tags: ["control", "debuff", "anti magic", "shackles", "inquisitor"]
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana", "authority"],
+        resourceValues: { mana: 9, authority: 2 },
+        classResource: { type: "authority", cost: 2 },
+        components: ["somatic"],
+        somaticText: "Snap fingers together as cold-iron links form around target's wrists"
+      },
+      effectTypes: ["control", "debuff"],
+      controlConfig: {
+        controlType: "spell_interruption",
+        effects: [
+          {
+            id: "cold_iron_spell_lock",
+            name: "Cold-Iron Spell Lock",
+            description: "Target takes mana burn and risks silence whenever attempting to cast.",
+            mechanicsText: "DC 16 Spirit save on casting: failure negates spell and silences target for 1 round."
+          }
+        ],
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 16,
+          saveOutcome: "negates"
+        },
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      tags: ["control", "debuff", "anti magic", "shackles", "inquisitor"]
+    },
+    {
+      id: "inq_cold_iron_brand",
+      name: "Cold-Iron Brand",
+      description: "Sear a target with a white-hot cold-iron brand of the Barbed Vow, dealing 5d8 ember damage and burning away 1 active magical buff or enchantment.",
+      level: 5,
+      spellType: "ACTION",
+      icon: "Fire/Ember Blast",
+      specialization: "heretic_inquisitor",
+      typeConfig: {
+        school: "ember",
+        icon: "Fire/Ember Blast",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+        tags: ["damage", "debuff", "dispel", "inquisitor"]
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 30,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1
+      },
+      durationConfig: {
+        durationType: "instant",
+        durationValue: 0,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 10 },
+        classResource: { type: "authority", gain: 1 },
+        components: ["verbal", "somatic"],
+        verbalText: "Vow-Bound Condemnation!",
+        somaticText: "Thrust heated iron brand forward into target"
+      },
+      effectTypes: ["damage", "debuff"],
+      damageConfig: {
+        formula: "5d8",
+        elementType: "ember",
+        damageTypes: ["ember"],
+        resolution: "DICE",
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 16,
+          saveOutcome: "half_damage"
+        }
+      },
+      debuffConfig: {
+        debuffType: "dispel",
+        effects: [
+          {
+            id: "brand_dispel",
+            name: "Enchantment Scour",
+            description: "Burns away 1 active magical enchantment from target.",
+            mechanicsText: "Dispels 1 active magical buff or enchantment from the target on hit."
+          }
+        ],
+        durationType: "instant",
+        durationValue: 0,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      tags: ["damage", "debuff", "dispel", "inquisitor"]
+    },
+
+    // ===== LEVEL 6 ADDITIONS =====
+    {
+      id: "inq_ward_of_cold_iron",
+      name: "Ward of the Cold-Iron Aegis",
+      description: "Project a shimmering 20ft perimeter of ground cold-iron filings and sacred salt for 3 rounds. Allies inside gain +4 DR against supernatural and magical damage, and hostile casters targeting an ally within the ward suffer disadvantage on attack rolls.",
+      level: 6,
+      spellType: "ACTION",
+      icon: "Healing/Heart Shield",
+      specialization: "exorcist",
+      typeConfig: {
+        school: "sacred",
+        icon: "Healing/Heart Shield",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+        tags: ["buff", "defense", "ward", "anti magic", "inquisitor"]
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self",
+        aoeType: "circle",
+        aoeSize: 20,
+        targetRestrictions: ["allies"]
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana", "authority"],
+        resourceValues: { mana: 12, authority: 2 },
+        classResource: { type: "authority", cost: 2 },
+        components: ["somatic"],
+        somaticText: "Scatter consecrated salt and cold iron in a wide arc"
+      },
+      effectTypes: ["buff"],
+      buffConfig: {
+        buffType: "protection",
+        effects: [
+          {
+            id: "cold_iron_aegis_ward",
+            name: "Cold-Iron Sanctuary",
+            description: "+4 DR against supernatural damage; attackers suffer disadvantage on ranged spell attacks against occupants.",
+            mechanicsText: "Allies within 20ft gain +4 DR vs supernatural/magical damage. Ranged spells against occupants roll with disadvantage."
+          }
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      tags: ["buff", "defense", "ward", "anti magic", "inquisitor"]
+    },
+    {
+      id: "inq_null_zone_anchor",
+      name: "Null-Zone Anchor",
+      description: "Drive a heavy cold-iron stake into the ground up to 45ft away, generating a 15ft localized dead-magic field for 3 rounds. Within this zone, magical teleportation and summons are suppressed, spellcasters have their movement halved, and mana regeneration is disabled.",
+      level: 6,
+      spellType: "ACTION",
+      icon: "Utility/Utility Tool",
+      specialization: "witch_hunter",
+      typeConfig: {
+        school: "smashing",
+        icon: "Utility/Utility Tool",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+        tags: ["control", "utility", "anti magic", "zone", "inquisitor"]
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 45,
+        aoeType: "circle",
+        aoeSize: 15
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana", "authority"],
+        resourceValues: { mana: 11, authority: 2 },
+        classResource: { type: "authority", cost: 2 },
+        components: ["somatic"],
+        somaticText: "Drive the barbed anchor stake into the stone"
+      },
+      effectTypes: ["control", "utility"],
+      controlConfig: {
+        controlType: "suppression_zone",
+        effects: [
+          {
+            id: "null_zone_dead_magic",
+            name: "Dead-Magic Anchor",
+            description: "Teleportation blocked; summons suppressed; casters move at half speed and cannot regenerate mana.",
+            mechanicsText: "Teleportation suppressed; summoned entities phased out; spellcasters have halved speed and 0 mana regen in zone."
+          }
+        ],
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      tags: ["control", "utility", "anti magic", "zone", "inquisitor"]
+    },
+    {
+      id: "inq_heretic_brand",
+      name: "Heretic's Scourge",
+      description: "Pronounce formal ecclesiastical condemnation upon an enemy, dealing 6d8 sacred damage (Spirit DC 16 for half). If the target fails the save, their next offensive action must target the Inquisitor (compelled duel) or be forfeited entirely.",
+      level: 6,
+      spellType: "ACTION",
+      icon: "Radiant/Divine Radiance",
+      specialization: "heretic_inquisitor",
+      typeConfig: {
+        school: "sacred",
+        icon: "Radiant/Divine Radiance",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+        tags: ["damage", "control", "duel", "sacred", "inquisitor"]
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 35,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 1,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 13 },
+        classResource: { type: "authority", gain: 1 },
+        components: ["verbal", "somatic"],
+        verbalText: "I name you Heretic before the Vow!",
+        somaticText: "Level iron-shod blade directly at target"
+      },
+      effectTypes: ["damage", "control"],
+      damageConfig: {
+        formula: "6d8",
+        elementType: "sacred",
+        damageTypes: ["sacred"],
+        resolution: "DICE",
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 16,
+          saveOutcome: "half_damage"
+        }
+      },
+      controlConfig: {
+        controlType: "compelled_duel",
+        effects: [
+          {
+            id: "heretic_compelled_focus",
+            name: "Compelled Duel",
+            description: "Target must target the Inquisitor on their next offensive turn or forfeit the action.",
+            mechanicsText: "Target must attack Inquisitor next round on failed DC 16 Spirit save; other offensive actions wasted."
+          }
+        ],
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 16,
+          saveOutcome: "negates"
+        },
+        durationValue: 1,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      tags: ["damage", "control", "duel", "sacred", "inquisitor"]
+    },
+
+    // ===== LEVEL 7 ADDITIONS =====
+    {
+      id: "inq_aura_of_the_iron_vow",
+      name: "Aura of the Iron Vow",
+      description: "Emanate an aura of absolute inquisitorial resolve across a 30ft radius for 3 rounds. Allies within are immune to charm, fear, possession, and madness effects, and whenever an ally takes supernatural damage, the attacker suffers 10 sacred recoil damage.",
+      level: 7,
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Aura",
+      specialization: "exorcist",
+      typeConfig: {
+        school: "sacred",
+        icon: "Radiant/Radiant Aura",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+        tags: ["buff", "aura", "protection", "sacred", "inquisitor"]
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self",
+        aoeType: "circle",
+        aoeSize: 30,
+        targetRestrictions: ["allies"]
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana", "authority"],
+        resourceValues: { mana: 14, authority: 3 },
+        classResource: { type: "authority", cost: 3 },
+        components: ["verbal", "somatic"],
+        verbalText: "No spirit bends what iron binds!",
+        somaticText: "Raise gauntlet aloft as silver light radiates from the knuckles"
+      },
+      effectTypes: ["buff"],
+      buffConfig: {
+        buffType: "protection",
+        effects: [
+          {
+            id: "iron_vow_resolute",
+            name: "Iron Vow Inviolability",
+            description: "Immune to charm, fear, possession, and madness; reflects 10 sacred damage to supernatural attackers.",
+            mechanicsText: "Allies within 30ft immune to charm/fear/possession/madness. Supernatural attackers take 10 sacred damage."
+          }
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+      tags: ["buff", "aura", "protection", "sacred", "inquisitor"]
+    },
+    {
+      id: "inq_barbed_excommunication",
+      name: "Barbed Excommunication",
+      description: "Pronounce lawful excommunication upon an extraplanar, undead, or possessed entity within 40ft. Target is phased out of reality into a void of binding iron for 1 round (incapacitated and untargetable). When they return, all their temporary buffs and summoned minions are banished permanently.",
+      level: 7,
+      spellType: "ACTION",
+      icon: "Arcane/Ebon Blaze",
+      specialization: "heretic_inquisitor",
+      typeConfig: {
+        school: "wyrd",
+        icon: "Arcane/Ebon Blaze",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+        tags: ["control", "utility", "banish", "inquisitor"]
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 1,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana", "authority"],
+        resourceValues: { mana: 15, authority: 3 },
+        classResource: { type: "authority", cost: 3 },
+        components: ["verbal", "somatic"],
+        verbalText: "Excommunicato in Ferro!",
+        somaticText: "Slash the air with cold-iron dagger, cleaving spiritual tether"
+      },
+      effectTypes: ["control", "utility"],
+      controlConfig: {
+        controlType: "banishment",
+        effects: [
+          {
+            id: "excommunication_banish",
+            name: "Excommunicated Void",
+            description: "Target is banished for 1 round; returns with all buffs and minions permanently purged.",
+            mechanicsText: "Banished for 1 round on failed DC 17 Spirit save. Upon return, all buffs and summoned creatures destroyed."
+          }
+        ],
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 17,
+          saveOutcome: "negates"
+        },
+        durationValue: 1,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+      tags: ["control", "utility", "banish", "inquisitor"]
+    },
+    {
+      id: "inq_soul_scour_brand",
+      name: "Soul-Scourge Purge",
+      description: "Channel a searing ray of concentrated cold-iron embers through target's metaphysical core. Deals 8d8 ember damage (Spirit DC 17 for half) and reduces target's maximum mana by 20% for 3 rounds.",
+      level: 7,
+      spellType: "ACTION",
+      icon: "Fire/Fireball",
+      specialization: "witch_hunter",
+      typeConfig: {
+        school: "ember",
+        icon: "Fire/Fireball",
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+        tags: ["damage", "debuff", "mana burn", "ember", "inquisitor"]
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 2,
+        resourceTypes: ["mana", "authority"],
+        resourceValues: { mana: 16, authority: 2 },
+        classResource: { type: "authority", cost: 2 },
+        components: ["verbal", "somatic"],
+        verbalText: "Burn the tether, purge the core!",
+        somaticText: "Direct both hands forward in a focusing lens of spiked iron rings"
+      },
+      effectTypes: ["damage", "debuff"],
+      damageConfig: {
+        formula: "8d8",
+        elementType: "ember",
+        damageTypes: ["ember"],
+        resolution: "DICE",
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 17,
+          saveOutcome: "half_damage"
+        }
+      },
+      debuffConfig: {
+        debuffType: "mana_reduction",
+        effects: [
+          {
+            id: "mana_core_burn",
+            name: "Scoured Mana Core",
+            description: "-20% maximum mana for 3 rounds.",
+            mechanicsText: "Target's max mana pool reduced by 20% for 3 rounds."
+          }
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      tags: ["damage", "debuff", "mana burn", "ember", "inquisitor"]
+    },
+
+    // ===== LEVEL 8 ADDITIONS =====
+    {
+      id: "inq_anathema_seal",
+      name: "Seal of Absolute Anathema",
+      description: "Brand a target with the supreme Anathema Seal for 3 rounds. While sealed, target cannot cast spells, cannot activate supernatural or monstrous traits, and all their damage resistances are halved (Spirit DC 18 negates).",
+      level: 8,
+      spellType: "ACTION",
+      icon: "Arcane/Abstract Rune",
+      specialization: "witch_hunter",
+      typeConfig: {
+        school: "smashing",
+        icon: "Arcane/Abstract Rune",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+        tags: ["control", "debuff", "anti magic", "seal", "inquisitor"]
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana", "authority"],
+        resourceValues: { mana: 17, authority: 4 },
+        classResource: { type: "authority", cost: 4 },
+        components: ["verbal", "somatic"],
+        verbalText: "Anathema Sit!",
+        somaticText: "Crush heavy wax seal bearing the symbol of the Barbed Vow"
+      },
+      effectTypes: ["control", "debuff"],
+      controlConfig: {
+        controlType: "magic_lockout",
+        effects: [
+          {
+            id: "anathema_lockout",
+            name: "Anathema Lockout",
+            description: "Complete spellcasting and supernatural ability lockout for 3 rounds.",
+            mechanicsText: "Cannot cast spells or use supernatural abilities for 3 rounds on failed DC 18 Spirit save."
+          }
+        ],
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 18,
+          saveOutcome: "negates"
+        },
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      debuffConfig: {
+        debuffType: "resistance_break",
+        effects: [
+          {
+            id: "anathema_res_break",
+            name: "Shattered Ward Resistance",
+            description: "All damage resistances halved for 3 rounds.",
+            mechanicsText: "All damage resistances halved for 3 rounds."
+          }
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+      tags: ["control", "debuff", "anti magic", "seal", "inquisitor"]
+    },
+    {
+      id: "inq_immutable_bastion",
+      name: "Immutable Bastion of Truth",
+      description: "Erect a sacred bastion of pure truth and null-salt across a 25ft radius around yourself for 3 rounds. Allies within gain DR 8 against all damage, advantage on all saving throws, and are immune to forced movement and involuntary teleportation.",
+      level: 8,
+      spellType: "ACTION",
+      icon: "Radiant/Divine Illumination",
+      specialization: "exorcist",
+      typeConfig: {
+        school: "sacred",
+        icon: "Radiant/Divine Illumination",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+        tags: ["buff", "defense", "bastion", "sacred", "inquisitor"]
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self",
+        aoeType: "circle",
+        aoeSize: 25,
+        targetRestrictions: ["allies"]
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana", "authority"],
+        resourceValues: { mana: 18, authority: 4 },
+        classResource: { type: "authority", cost: 4 },
+        components: ["somatic"],
+        somaticText: "Plant polearm deep into the earth and trace sacred geometry"
+      },
+      effectTypes: ["buff"],
+      buffConfig: {
+        buffType: "protection",
+        effects: [
+          {
+            id: "bastion_immutable_truth",
+            name: "Immutable Truth",
+            description: "DR 8 against all damage; advantage on all saves; immunity to forced movement and involuntary teleports.",
+            mechanicsText: "Allies within 25ft gain DR 8, advantage on all saving throws, and immunity to forced movement."
+          }
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+      tags: ["buff", "defense", "bastion", "sacred", "inquisitor"]
+    },
+    {
+      id: "inq_cold_iron_crucible",
+      name: "Cold-Iron Crucible",
+      description: "Rain thousands of jagged cold-iron flechettes into a 20ft radius up to 50ft away. Deals 8d10 smashing damage to hostile targets (Agility DC 18 for half). The area becomes a razor-sharp field of barbed iron that deals 2d8 damage per 5ft moved and grounds flying creatures.",
+      level: 8,
+      spellType: "ACTION",
+      icon: "Piercing/Dagger Whirl",
+      specialization: "heretic_inquisitor",
+      typeConfig: {
+        school: "smashing",
+        icon: "Piercing/Dagger Whirl",
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+        tags: ["damage", "control", "aoe", "smashing", "inquisitor"]
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 50,
+        aoeType: "circle",
+        aoeSize: 20,
+        targetRestrictions: ["enemy"]
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 2,
+        resourceTypes: ["mana", "authority"],
+        resourceValues: { mana: 19, authority: 3 },
+        classResource: { type: "authority", cost: 3 },
+        components: ["verbal", "somatic"],
+        verbalText: "Crucible of the Unforgiven!",
+        somaticText: "Heave iron canister high into the air, bursting into thousands of shards"
+      },
+      effectTypes: ["damage", "control"],
+      damageConfig: {
+        formula: "8d10",
+        elementType: "smashing",
+        damageTypes: ["smashing"],
+        resolution: "DICE",
+        savingThrow: {
+          ability: "agility",
+          difficultyClass: 18,
+          saveOutcome: "half_damage"
+        }
+      },
+      controlConfig: {
+        controlType: "difficult_terrain",
+        effects: [
+          {
+            id: "crucible_iron_field",
+            name: "Barbed Grounding Field",
+            description: "2d8 damage per 5ft traversed; flying creatures immediately fall prone and cannot take flight.",
+            mechanicsText: "Zone deals 2d8 slashing/smashing damage per 5ft moved. Flying creatures grounded immediately."
+          }
+        ],
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+      tags: ["damage", "control", "aoe", "smashing", "inquisitor"]
+    },
+
+    // ===== LEVEL 9 ADDITIONS =====
+    {
+      id: "inq_absolute_severance",
+      name: "Absolute Supernatural Severance",
+      description: "Sever every metaphysical lifeline, covenant, and magical conduit connecting an enemy to reality for 2 rounds. Target enters complete supernatural paralysis: cannot cast spells, cannot be healed by magic, cannot benefit from buffs, and cannot take actions (Spirit DC 19 negates).",
+      level: 9,
+      spellType: "ACTION",
+      icon: "Arcane/Spellcasting Aura",
+      specialization: "witch_hunter",
+      typeConfig: {
+        school: "wyrd",
+        icon: "Arcane/Spellcasting Aura",
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+        tags: ["control", "debuff", "paralysis", "anti magic", "inquisitor"]
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 50,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 2,
+        resourceTypes: ["mana", "authority"],
+        resourceValues: { mana: 22, authority: 5 },
+        classResource: { type: "authority", cost: 5 },
+        components: ["verbal", "somatic"],
+        verbalText: "Tether by tether, covenant by covenant, I unmake you!",
+        somaticText: "Close fists violently, snapping metaphysical silver cords in reality"
+      },
+      effectTypes: ["control", "debuff"],
+      controlConfig: {
+        controlType: "metaphysical_stasis",
+        effects: [
+          {
+            id: "severance_stasis",
+            name: "Severed Metaphysics",
+            description: "Target cannot act, cast spells, or receive magical healing for 2 rounds.",
+            mechanicsText: "Target paralyzed (0 actions/reactions), immune to magical healing and buffs for 2 rounds on failed DC 19 Spirit save."
+          }
+        ],
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 19,
+          saveOutcome: "negates"
+        },
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      tags: ["control", "debuff", "paralysis", "anti magic", "inquisitor"]
+    },
+    {
+      id: "inq_avatar_of_inquisition",
+      name: "Avatar of the Barbed Edict",
+      description: "Channel the full sovereign majesty of the Barbed Vow for 5 rounds. Gain 50 Temporary HP, DR 10 against all damage, complete immunity to all status conditions, and all melee attacks deal +3d8 sacred damage and dispel 1 active buff on hit.",
+      level: 9,
+      spellType: "ACTION",
+      icon: "Radiant/Golden Knight",
+      specialization: "exorcist",
+      typeConfig: {
+        school: "sacred",
+        icon: "Radiant/Golden Knight",
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+        tags: ["buff", "transformation", "ultimate", "sacred", "inquisitor"]
+      },
+      targetingConfig: {
+        targetingType: "self",
+        rangeType: "self"
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 2,
+        resourceTypes: ["mana", "authority"],
+        resourceValues: { mana: 24, authority: 6 },
+        classResource: { type: "authority", cost: 6 },
+        components: ["verbal", "somatic"],
+        verbalText: "I am the Edict. I am the Vow unbroken!",
+        somaticText: "Drive weapon into ground as luminous iron wings erupt from shoulder blades"
+      },
+      effectTypes: ["buff"],
+      buffConfig: {
+        buffType: "transformation",
+        effects: [
+          {
+            id: "avatar_barbed_edict",
+            name: "Avatar of the Edict",
+            description: "50 Temp HP, DR 10, immune to conditions; weapon attacks deal +3d8 sacred damage and dispel 1 buff.",
+            mechanicsText: "Gain 50 Temp HP, DR 10, condition immunity. Weapon strikes deal +3d8 sacred and dispel 1 buff."
+          }
+        ],
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      tags: ["buff", "transformation", "ultimate", "sacred", "inquisitor"]
+    },
+    {
+      id: "inq_final_confession",
+      name: "The Final Confession",
+      description: "Compel an enemy's soul to confess its deepest metaphysical vulnerabilities. For 3 rounds, target suffers disadvantage on all attack rolls and saving throws, and all allies targeting the creature have their critical threat range expanded by 3 (Spirit DC 19 halves duration).",
+      level: 9,
+      spellType: "ACTION",
+      icon: "Psychic/Focused Mind",
+      specialization: "heretic_inquisitor",
+      typeConfig: {
+        school: "wyrd",
+        icon: "Psychic/Focused Mind",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+        tags: ["control", "debuff", "confession", "inquisitor"]
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana", "authority"],
+        resourceValues: { mana: 20, authority: 5 },
+        classResource: { type: "authority", cost: 5 },
+        components: ["verbal"],
+        verbalText: "Confiteor! Speak your undoing!"
+      },
+      effectTypes: ["control", "debuff"],
+      debuffConfig: {
+        debuffType: "vulnerability",
+        effects: [
+          {
+            id: "confessed_weakness",
+            name: "Confessed Vulnerability",
+            description: "Disadvantage on attacks and saves; allies crit on 3 lower roll thresholds against target.",
+            mechanicsText: "Target has disadvantage on attack rolls and saves for 3 rounds. Allies crit on 17-20 against target."
+          }
+        ],
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 19,
+          saveOutcome: "halves_duration"
+        },
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+      tags: ["control", "debuff", "confession", "inquisitor"]
+    },
+    {
+      id: "inq_apocalypse_of_salt",
+      name: "Apocalypse of Salt",
+      description: "Transmute the air in a 30ft radius into a blinding vortex of swirling sacred salt and white-hot cold-iron embers. Deals 12d8 sacred damage to hostile creatures (Spirit DC 19 for half), permanently destroys all magical hazards in the area, and blinds supernatural creatures for 2 rounds.",
+      level: 9,
+      spellType: "ACTION",
+      icon: "Radiant/Bright Explosion",
+      specialization: "exorcist",
+      typeConfig: {
+        school: "sacred",
+        icon: "Radiant/Bright Explosion",
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+        tags: ["damage", "control", "aoe", "sacred", "inquisitor"]
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        aoeType: "circle",
+        aoeSize: 30,
+        targetRestrictions: ["enemy"]
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 2,
+        resourceTypes: ["mana", "authority"],
+        resourceValues: { mana: 25, authority: 5 },
+        classResource: { type: "authority", cost: 5 },
+        components: ["verbal", "somatic"],
+        verbalText: "Return to salt and silence!",
+        somaticText: "Scatter consecrated salt crystal urn into the air currents"
+      },
+      effectTypes: ["damage", "control"],
+      damageConfig: {
+        formula: "12d8",
+        elementType: "sacred",
+        damageTypes: ["sacred"],
+        resolution: "DICE",
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 19,
+          saveOutcome: "half_damage"
+        }
+      },
+      controlConfig: {
+        controlType: "blindness",
+        effects: [
+          {
+            id: "salt_scour_blind",
+            name: "Scouring Salt Blindness",
+            description: "Supernatural creatures are blinded for 2 rounds; magical hazards permanently cleansed.",
+            mechanicsText: "Blinds supernatural creatures for 2 rounds on failed DC 19 Spirit save. Cleanses all magical terrain."
+          }
+        ],
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      tags: ["damage", "control", "aoe", "sacred", "inquisitor"]
+    },
+
+    // ===== LEVEL 10 ADDITIONS =====
+    {
+      id: "inq_the_grand_interdict",
+      name: "The Grand Interdict",
+      description: "Issue the supreme ecclesiastical interdict across a 50ft radius for 1 minute (10 rounds). Within this zone, all spellcasting is strictly prohibited, all magic items become inert, summoned entities dissolve instantly, and attempting to cast causes 4d10 backlash damage and stuns the caster for 1 round.",
+      level: 10,
+      spellType: "ACTION",
+      icon: "Radiant/Holy Cross",
+      specialization: "witch_hunter",
+      typeConfig: {
+        school: "sacred",
+        icon: "Radiant/Holy Cross",
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+        tags: ["control", "utility", "ultimate", "anti magic", "inquisitor"]
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 100,
+        aoeType: "circle",
+        aoeSize: 50
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 10,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 2,
+        resourceTypes: ["mana", "authority"],
+        resourceValues: { mana: 28, authority: 8 },
+        classResource: { type: "authority", cost: 8 },
+        components: ["verbal", "somatic"],
+        verbalText: "By the First Law, this ground is forbidden to magic!",
+        somaticText: "Slam cold-iron standard deep into the bedrock"
+      },
+      effectTypes: ["control", "utility"],
+      controlConfig: {
+        controlType: "total_nullification",
+        effects: [
+          {
+            id: "grand_interdict_dead_zone",
+            name: "The Grand Interdict Dead Zone",
+            description: "No spells can be cast, items are inert, summons vanish; casting attempts deal 4d10 backlash and stun for 1 round.",
+            mechanicsText: "All spellcasting prohibited; magic items inert; summons destroyed. Casting attempts suffer 4d10 damage and 1 round stun."
+          }
+        ],
+        durationValue: 10,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      tags: ["control", "utility", "ultimate", "anti magic", "inquisitor"]
+    },
+    {
+      id: "inq_eternal_cold_iron",
+      name: "Eternity of Cold Iron",
+      description: "Coat all party members within 30ft in unyielding metaphysical cold-iron armor for 5 rounds. Affected creatures gain DR 15 against all damage, complete immunity to death effects, critical hits, and conditions, and cannot have their abilities or stats drained by any means.",
+      level: 10,
+      spellType: "ACTION",
+      icon: "Utility/Empowered Warrior",
+      specialization: "exorcist",
+      typeConfig: {
+        school: "smashing",
+        icon: "Utility/Empowered Warrior",
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+        tags: ["buff", "defense", "ultimate", "sacred", "inquisitor"]
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self",
+        aoeType: "circle",
+        aoeSize: 30,
+        targetRestrictions: ["allies"]
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 2,
+        resourceTypes: ["mana", "authority"],
+        resourceValues: { mana: 30, authority: 7 },
+        classResource: { type: "authority", cost: 7 },
+        components: ["verbal", "somatic"],
+        verbalText: "Cold iron endure! Flesh become stone!",
+        somaticText: "Raise shield and sword, striking them together three times with thunderous resonance"
+      },
+      effectTypes: ["buff"],
+      buffConfig: {
+        buffType: "protection",
+        effects: [
+          {
+            id: "eternal_iron_bastion",
+            name: "Unbreakable Cold-Iron Bastion",
+            description: "DR 15 against all damage, immunity to death effects, crits, conditions, and stat drains for 5 rounds.",
+            mechanicsText: "Allies gain DR 15, immunity to death effects, crits, negative status conditions, and stat reductions for 5 rounds."
+          }
+        ],
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      tags: ["buff", "defense", "ultimate", "sacred", "inquisitor"]
+    },
+    {
+      id: "inq_wrath_of_the_seven_vows",
+      name: "Wrath of the Seven Vows",
+      description: "Ignite the fury of seven centuries of unbending cold iron across a 35ft radius. Seven towering pillars of sacred cold-iron flame erupt, dealing 14d10 ember damage to hostile creatures (Spirit DC 20 for half). Creatures reduced to 0 HP are obliterated into white salt.",
+      level: 10,
+      spellType: "ACTION",
+      icon: "Fire/Fireball",
+      specialization: "heretic_inquisitor",
+      typeConfig: {
+        school: "ember",
+        icon: "Fire/Fireball",
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+        tags: ["damage", "control", "ultimate", "ember", "inquisitor"]
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 80,
+        aoeType: "circle",
+        aoeSize: 35,
+        targetRestrictions: ["enemy"]
+      },
+      durationConfig: {
+        durationType: "instant",
+        durationValue: 0,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 2,
+        resourceTypes: ["mana", "authority"],
+        resourceValues: { mana: 30, authority: 8 },
+        classResource: { type: "authority", cost: 8 },
+        components: ["verbal", "somatic"],
+        verbalText: "Seven vows sworn! Seven vows executed!",
+        somaticText: "Plunge two-handed greatsword hilt-deep into the earth"
+      },
+      effectTypes: ["damage", "control"],
+      damageConfig: {
+        formula: "14d10",
+        elementType: "ember",
+        damageTypes: ["ember"],
+        resolution: "DICE",
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 20,
+          saveOutcome: "half_damage"
+        }
+      },
+      controlConfig: {
+        controlType: "obliteration",
+        effects: [
+          {
+            id: "seven_vows_disintegration",
+            name: "Salt Obliteration",
+            description: "Creatures killed by this damage disintegrate into sacred salt, preventing resurrection or necromancy.",
+            mechanicsText: "Creatures reduced to 0 HP are disintegrated into salt; cannot be reanimated by non-divine means."
+          }
+        ],
+        durationValue: 0,
+        durationUnit: "instant"
+      },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      tags: ["damage", "control", "ultimate", "ember", "inquisitor"]
+    }
   ],
+  spellPools: {
+    1: [
+      "inq_iron_interrogation",
+      "inq_detect_corruption",
+      "inq_scent_of_ash",
+      "inq_null_salts_strike",
+      "inq_purge_the_defiled",
+      "inq_silver_blade",
+      "inq_witch_sight",
+      "inq_null_salt_ward"
+    ],
+    2: [
+      "inq_iron_adjudication",
+      "inq_ash_step",
+      "inq_sigil_of_rotting_mana",
+      "inq_scourge_of_submission",
+      "inq_bind_interrogate",
+      "inq_exorcise_place"
+    ],
+    3: [
+      "inq_curse_eater",
+      "inq_shadow_ambush",
+      "inq_anti_magic_barrier",
+      "inq_barbed_interdict"
+    ],
+    4: [
+      "inq_wyrd_banish",
+      "inq_silver_hex",
+      "inq_shackles_of_searing_iron",
+      "inq_spirit_shackle"
+    ],
+    5: [
+      "inq_inquisitors_judgment",
+      "inq_anti_magic_field",
+      "inq_severing_shackles",
+      "inq_cold_iron_brand"
+    ],
+    6: [
+      "inq_inquisitors_storm",
+      "inq_ward_of_cold_iron",
+      "inq_null_zone_anchor",
+      "inq_heretic_brand"
+    ],
+    7: [
+      "inq_righteous_storm",
+      "inq_aura_of_the_iron_vow",
+      "inq_barbed_excommunication",
+      "inq_soul_scour_brand"
+    ],
+    8: [
+      "inq_judgment_day",
+      "inq_anathema_seal",
+      "inq_immutable_bastion",
+      "inq_cold_iron_crucible"
+    ],
+    9: [
+      "inq_absolute_severance",
+      "inq_avatar_of_inquisition",
+      "inq_final_confession",
+      "inq_apocalypse_of_salt"
+    ],
+    10: [
+      "inq_hexbreaker_armageddon",
+      "inq_the_grand_interdict",
+      "inq_eternal_cold_iron",
+      "inq_wrath_of_the_seven_vows"
+    ]
+  },
 };
 
 INQUISITOR_DATA.spells = INQUISITOR_DATA.exampleSpells;

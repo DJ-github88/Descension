@@ -67,6 +67,7 @@ export const PYROFIEND_INFERNO = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 1,
       "cooldownUnit": "round",
+      "resourceCosts": { "veil": { "baseAmount": -1 } },
       "primaryDamage": {
         "dice": "1d6",
         "flat": 0,
@@ -85,6 +86,7 @@ export const PYROFIEND_INFERNO = [
     "rankUpgrades": [
       {
         "description": "Reduces Inferno Level by 2 and deals 1d8 ember damage.",
+        "resourceCosts": { "veil": { "baseAmount": -2 } },
         "primaryDamage": {
           "dice": "1d8",
           "flat": 0,
@@ -209,6 +211,7 @@ export const PYROFIEND_INFERNO = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 1,
       "cooldownUnit": "round",
+      "resourceCosts": { "veil": { "baseAmount": 1 } },
       "primaryDamage": {
         "dice": "1d8",
         "flat": 0,
@@ -273,6 +276,7 @@ export const PYROFIEND_INFERNO = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 2,
       "cooldownUnit": "rounds",
+      "resourceCosts": { "veil": { "baseAmount": 2 } },
       "primaryDamage": {
         "dice": "1d6",
         "flat": 0,
@@ -377,6 +381,7 @@ export const PYROFIEND_INFERNO = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 2,
       "cooldownUnit": "rounds",
+      "resourceCosts": { "veil": { "baseAmount": 2 } },
       "primaryDamage": {
         "dice": "2d10",
         "flat": 0,
@@ -468,6 +473,7 @@ export const PYROFIEND_INFERNO = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 3,
       "cooldownUnit": "rounds",
+      "resourceCosts": { "veil": { "baseAmount": 3 } },
       "visualTheme": "fire",
       "tags": [
         "buff",
@@ -514,6 +520,7 @@ export const PYROFIEND_INFERNO = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 3,
       "cooldownUnit": "rounds",
+      "resourceCosts": { "veil": { "baseAmount": 3 } },
       "primaryDamage": {
         "dice": "3d8",
         "flat": 0,
@@ -644,6 +651,7 @@ export const PYROFIEND_INFERNO = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 5,
       "cooldownUnit": "rounds",
+      "resourceCosts": { "veil": { "baseAmount": 3 } },
       "visualTheme": "fire",
       "tags": [
         "ultimate",

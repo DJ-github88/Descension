@@ -24,7 +24,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t1_cultivate_rot",
     name: "Cultivate Rot",
-    icon: "spell_shadow_contagion",
+    icon: "Necrotic/Necrotic Rot 2",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -52,7 +52,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t1_infinite_growth",
     name: "Infinite Rooting",
-    icon: "spell_shadow_deathanddecay",
+    icon: "Nature/Root Network",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -72,7 +72,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t1_dark_rejuvenation",
     name: "Dark Rejuvenation",
-    icon: "spell_shadow_darkritual",
+    icon: "Necrotic/Drain Soul",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -95,7 +95,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t2_withering_siphon",
     name: "Withering Siphon",
-    icon: "spell_shadow_soulleech",
+    icon: "Necrotic/Necrotic Wither 2",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "dh_t1_cultivate_rot",
@@ -146,7 +146,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t3_rupture_cyst",
     name: "Rupture Cyst",
-    icon: "spell_shadow_corpseexplode",
+    icon: "Poison/Poison Blight 3",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "dh_t2_withering_siphon",
@@ -173,7 +173,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t3_withering_aura",
     name: "Withering Atmosphere",
-    icon: "spell_shadow_plaguecloud",
+    icon: "Poison/Poison Plague",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "dh_t2_necrotic_burst",
@@ -196,7 +196,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t4_organ_collapse",
     name: "Organ Collapse",
-    icon: "spell_shadow_curseofsargeras",
+    icon: "Necrotic/Necrotic Necrosis 3",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "dh_t3_rupture_cyst",
@@ -243,7 +243,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t5_miasmic_shroud",
     name: "Miasmic Shroud",
-    icon: "spell_shadow_nethercloak",
+    icon: "Necrotic/Empowering Aura",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "dh_t4_organ_collapse",
@@ -315,7 +315,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t6_deep_rooted",
     name: "Deep-Rooted Weeds",
-    icon: "spell_nature_corrosivebreath",
+    icon: "Nature/Vines of Peril",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "dh_t5_total_collapse",
@@ -336,7 +336,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t6_rot_memory",
     name: "Rot Memory",
-    icon: "spell_shadow_grimward",
+    icon: "Necrotic/Death Mark",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "dh_t5_total_collapse",
@@ -397,7 +397,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     },
     rankUpgrades: [
       { description: "All blight damage you deal is increased by +1d8 damage." },
-      { description: "All blight damage you deal is increased by +1d8 damage." },
+      { description: "All blight damage you deal is increased by +1d8 damage, and your blight spells apply 1 additional Decay Stack." },
       { description: "All blight damage you deal is increased by +2d8 damage." },
       { description: "All blight damage you deal is increased by +2d8 damage, and Rupture Cyst costs 0 Virulence." }
     ]
@@ -405,7 +405,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: "dh_t7_slow_gardener",
     name: "Rot Acceleration",
-    icon: "inv_misc_slime_01",
+    icon: "Necrotic/Necrotic Decay 4",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "dh_t6_deep_rooted",

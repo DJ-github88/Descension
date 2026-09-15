@@ -9,7 +9,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t1_vengeful_pursuit",
     name: "Vengeful Pursuit",
-    icon: "ability_hunter_assassinate",
+    icon: "Utility/Marked Head",
     maxRanks: 3,
     position: { x: 1.5, y: 0 },
     requires: null,
@@ -35,7 +35,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t1_shadow_stalker",
     name: "Shadow Stalker",
-    icon: "ability_stealth",
+    icon: "General/Stealth",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -55,7 +55,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t1_precision_strike",
     name: "Precision Strike",
-    icon: "ability_warrior_weaponmastery",
+    icon: "Piercing/Heart Pierce",
     maxRanks: 2,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -80,7 +80,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t2_predator_strike",
     name: "Predator Strike",
-    icon: "ability_hunter_snipershot",
+    icon: "Utility/Phantom Dash",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "wsb_t1_shadow_stalker",
@@ -121,7 +121,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t3_unseen_executioner",
     name: "Unseen Executioner",
-    icon: "ability_rogue_shadowstrike",
+    icon: "Slashing/Cutthroat",
     maxRanks: 3,
     position: { x: 1.5, y: 2 },
     requires: "wsb_t2_predator_strike",
@@ -141,7 +141,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t2_execution_strike",
     name: "Execution Strike",
-    icon: "ability_rogue_deadliness",
+    icon: "Slashing/Execution",
     maxRanks: 3,
     position: { x: 2.5, y: 1 },
     requires: null,
@@ -167,7 +167,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t3_deadly_precision",
     name: "Deadly Precision",
-    icon: "ability_hunter_focusedaim",
+    icon: "Piercing/On the Mark",
     maxRanks: 3,
     position: { x: 2.5, y: 2 },
     requires: null,
@@ -187,7 +187,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t3_shadow_step",
     name: "Shadow Step",
-    icon: "spell_shadow_shadowward",
+    icon: "Void/Crimson Void Hood",
     maxRanks: 2,
     position: { x: 2, y: 2 },
     requires: "wsb_t2_execution_strike",
@@ -212,7 +212,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t4_hunters_instinct",
     name: "Hunter's Instinct",
-    icon: "ability_druid_predatoryinstincts",
+    icon: "Necrotic/Eagle Eye",
     maxRanks: 3,
     position: { x: 1.5, y: 3 },
     requires: "wsb_t3_deadly_precision",
@@ -252,7 +252,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t5_quiver_of_debts",
     name: "Quiver of Debts",
-    icon: "inv_weapon_bow_06",
+    icon: "Piercing/Stylized Bow",
     maxRanks: 1,
     position: { x: 2, y: 4 },
     requires: "wsb_t4_hunters_instinct",
@@ -270,7 +270,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t5_ghost_protocol",
     name: "Ghost Protocol",
-    icon: "spell_shadow_shadowwalk",
+    icon: "Necrotic/Ghostly Menace",
     maxRanks: 1,
     position: { x: 2.5, y: 4 },
     requires: "wsb_t4_apex_hunter",
@@ -287,7 +287,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t6_shadowblade_ascendant",
     name: "Shadowblade Ascendant",
-    icon: "spell_shadow_demonicempathy",
+    icon: "Void/Consumed by Void",
     maxRanks: 1,
     position: { x: 1.5, y: 5 },
     requires: "wsb_t4_apex_hunter",
@@ -331,7 +331,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t7_shadow_requiem",
     name: "Shadow Requiem",
-    icon: "ability_rogue_shadowdance",
+    icon: "Necrotic/Screaming Ghost",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "wsb_t6_shadowblade_ascendant",
@@ -376,7 +376,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t7_silent_takedown",
     name: "Silent Takedown",
-    icon: "ability_rogue_ambush",
+    icon: "Piercing/Backstab",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "wsb_t6_vein_reader",
@@ -396,7 +396,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t7_blood_ledger",
     name: "Blood Ledger",
-    icon: "inv_misc_book_09",
+    icon: "Necrotic/Blood Book 1",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "wsb_t6_vein_reader",
@@ -417,7 +417,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: "wsb_t7_predators_memory",
     name: "Predator's Memory",
-    icon: "ability_hunter_longevity",
+    icon: "Psychic/Mind Read",
     maxRanks: 3,
     position: { x: 2, y: 6 },
     requires: "wsb_t6_vein_reader",

@@ -23,7 +23,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t1_agony_tether",
     name: "Agony Tether",
-    icon: "spell_shadow_mindtwisting",
+    icon: "Psychic/Finger connection Psy",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -50,7 +50,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t1_resonance_damage",
     name: "Resonant Agony",
-    icon: "spell_shadow_shadowwordpain",
+    icon: "Psychic/Agonizing Scream",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -72,7 +72,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t1_shared_torment",
     name: "Shared Torment",
-    icon: "spell_nature_mirrorimage",
+    icon: "Psychic/Twist Pain",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -93,7 +93,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t2_synaptic_siphon",
     name: "Synaptic Siphon",
-    icon: "spell_shadow_mindsteal",
+    icon: "Necrotic/Drain Soul",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "tw_t1_agony_tether",
@@ -120,7 +120,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t2_nightmare_fuel",
     name: "Psychic Vulnerability",
-    icon: "spell_shadow_curseofsargeras",
+    icon: "Psychic/Cast Doubt",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "tw_t1_resonance_damage",
@@ -143,7 +143,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t3_torment_web",
     name: "Torment Web",
-    icon: "spell_shadow_soulleech",
+    icon: "Nature/Web",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "tw_t2_synaptic_siphon",
@@ -244,7 +244,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t5_mass_resonance",
     name: "Mass Resonance",
-    icon: "spell_arcane_arcanetorrent",
+    icon: "Psychic/Psionic Boom",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "tw_t4_psychic_storm",
@@ -270,7 +270,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t5_torment_economy",
     name: "Agony Harvest",
-    icon: "spell_shadow_manafeed",
+    icon: "Necrotic/Grim Reaper Casting",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "tw_t4_sympathetic_pain",
@@ -317,7 +317,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t6_web_reinforcement",
     name: "Unbreakable Lattice",
-    icon: "spell_shadow_nethercloak",
+    icon: "Force/Force Shield",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "tw_t5_torment_economy",
@@ -336,7 +336,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t6_synaptic_overload",
     name: "Synaptic Overload",
-    icon: "spell_shadow_contagion",
+    icon: "Psychic/Enchanted Psionic Wave",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "tw_t5_torment_economy",
@@ -380,7 +380,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: "tw_t7_agony_doctrine",
     name: "Agony Doctrine",
-    icon: "spell_shadow_darkritual",
+    icon: "Psychic/Grim Face",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "tw_t6_sympathetic_collapse",
@@ -395,7 +395,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     },
     rankUpgrades: [
       { description: "All wyrd and resonance damage increased by +1d8 damage." },
-      { description: "All wyrd and resonance damage increased by +1d8 damage." },
+      { description: "All wyrd and resonance damage increased by +1d8 damage, and linked enemies take +10 points bonus damage from your wyrd spells." },
       { description: "All wyrd and resonance damage increased by +2d8 damage." },
       { description: "All wyrd and resonance damage increased by +2d8 damage, and Agony Tether costs 0 mana." }
     ]

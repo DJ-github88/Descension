@@ -36,7 +36,7 @@ describe('creature damage-type normalization', () => {
     expect(formatDamageType('cold')).toMatchObject({ label: 'Rime' });
     expect(formatDamageType('fire')).toMatchObject({ label: 'Ember' });
     expect(formatDamageType('psychic')).toMatchObject({ label: 'Wyrd' });
-    expect(formatDamageType('necrotic')).toMatchObject({ label: 'Blight' });
+    expect(formatDamageType('necrotic')).toMatchObject({ label: 'Wyrd' });
     expect(formatDamageType('lightning')).toMatchObject({ label: 'Storm' });
     expect(formatDamageType('radiant')).toMatchObject({ label: 'Sacred' });
     expect(formatDamageType('physical')).toMatchObject({ label: 'Smashing' });

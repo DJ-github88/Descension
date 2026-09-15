@@ -9,7 +9,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t1_dark_portent",
     name: "Dark Portent",
-    icon: "spell_shadow_curseofsargeras",
+    icon: "Psychic/Dark Psychic",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -29,7 +29,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t1_ill_omen",
     name: "Ill Omen",
-    icon: "spell_shadow_antishadow",
+    icon: "Necrotic/Death Mark",
     maxRanks: 3,
     position: { x: 1.5, y: 0 },
     requires: null,
@@ -54,7 +54,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t1_wasting_portent",
     name: "Wasting Portent",
-    icon: "spell_shadow_shadowworddominate",
+    icon: "Necrotic/Necrotic Wither",
     maxRanks: 2,
     position: { x: 3, y: 0 },
     requires: null,
@@ -74,7 +74,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t2_sign_of_decay",
     name: "Sign of Decay",
-    icon: "spell_shadow_lifedrain",
+    icon: "Necrotic/Necrotic Decay 1",
     maxRanks: 3,
     position: { x: 0, y: 1 },
     requires: "hb_t1_dark_portent",
@@ -101,7 +101,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t2_misfortune_aura",
     name: "Misfortune Aura",
-    icon: "spell_shadow_unstableaffliction",
+    icon: "Necrotic/Empowering Aura",
     maxRanks: 3,
     position: { x: 4, y: 1 },
     requires: "hb_t1_ill_omen",
@@ -122,7 +122,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t3_terrain_of_ill",
     name: "Terrain of Ill",
-    icon: "spell_shadow_ward",
+    icon: "Necrotic/Necrotic Decay 2",
     maxRanks: 3,
     position: { x: 0, y: 2 },
     requires: "hb_t2_sign_of_decay",
@@ -150,7 +150,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t3_curse_stack",
     name: "Curse Stack",
-    icon: "spell_shadow_fingerofdeath",
+    icon: "Necrotic/Cursed Entities",
     maxRanks: 3,
     position: { x: 4, y: 2 },
     requires: "hb_t2_misfortune_aura",
@@ -177,7 +177,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t4_omen_of_frailty",
     name: "Omen of Frailty",
-    icon: "spell_holy_searinglightpriest",
+    icon: "Necrotic/Necrotic Rot 4",
     maxRanks: 3,
     position: { x: 0, y: 3 },
     requires: "hb_t3_terrain_of_ill",
@@ -198,7 +198,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t4_dark_conviction",
     name: "Dark Conviction",
-    icon: "spell_shadow_mindtwisting",
+    icon: "Necrotic/Demonic Empowerment",
     maxRanks: 2,
     position: { x: 4, y: 3 },
     requires: "hb_t3_curse_stack",
@@ -218,7 +218,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t5_malediction_overflow",
     name: "Malediction Overflow",
-    icon: "spell_shadow_shadowbolt",
+    icon: "Necrotic/Corruption",
     maxRanks: 3,
     position: { x: 0.5, y: 4 },
     requires: "hb_t4_omen_of_frailty",
@@ -240,7 +240,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t5_void_gaze",
     name: "Void Gaze",
-    icon: "spell_shadow_telepathy",
+    icon: "Void/All Seeing Eye",
     maxRanks: 2,
     position: { x: 3.5, y: 4 },
     requires: "hb_t4_dark_conviction",
@@ -260,7 +260,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t6_ultimate_portent",
     name: "Ultimate Portent",
-    icon: "spell_holy_borrowedtime",
+    icon: "Necrotic/Ebon Death",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "hb_t5_malediction_overflow",
@@ -282,7 +282,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t6_dark_revelation",
     name: "Dark Revelation",
-    icon: "spell_holy_righteousnessaura",
+    icon: "Necrotic/Drain Soul",
     maxRanks: 2,
     position: { x: 2, y: 5 },
     requires: "hb_t5_malediction_overflow",
@@ -344,7 +344,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t7_portent_depth",
     name: "Portent Depth",
-    icon: "spell_shadow_shadowward",
+    icon: "Void/Consumed by Void",
     maxRanks: 5,
     position: { x: 1, y: 6 },
     requires: "hb_t6_dark_revelation",
@@ -366,7 +366,7 @@ export const AUGUR_HARBINGER = [
   {
     id: "hb_t7_cursed_momentum",
     name: "Cursed Momentum",
-    icon: "spell_shadow_manafeed",
+    icon: "Necrotic/Devour",
     maxRanks: 3,
     position: { x: 2, y: 6 },
     requires: "hb_t6_dark_revelation",

@@ -23,7 +23,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t1_soothing_hymn",
     name: "Soothing Hymn",
-    icon: "spell_holy_prayerofhealing",
+    icon: "Healing/Renewal",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -49,7 +49,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t1_tonic_resonance",
     name: "Tonic Resonance",
-    icon: "spell_holy_silence",
+    icon: "Healing/Golden Heart",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -92,7 +92,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t2_submediant_shield",
     name: "Submediant Ward",
-    icon: "spell_holy_divineprovidence",
+    icon: "Force/Radiating Barrier",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "hw_t1_soothing_hymn",
@@ -117,7 +117,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t2_cadence_echo",
     name: "Cadence Memory",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "Arcane/Rewind Time",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "hw_t1_tonic_resonance",
@@ -139,7 +139,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t3_authentic_mastery",
     name: "Authentic Cadence",
-    icon: "spell_holy_layonhands",
+    icon: "Radiant/Divine Blessing",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "hw_t2_submediant_shield",
@@ -165,7 +165,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t3_plagal_bounty",
     name: "Plagal Flow",
-    icon: "spell_holy_renew",
+    icon: "Healing/Prayer",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "hw_t2_cadence_echo",
@@ -282,7 +282,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: "hw_t6_death_defying_aria",
     name: "Death-Defying Aria",
-    icon: "spell_holy_resurrection",
+    icon: "Radiant/Redemption",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "hw_t5_healing_chorus",
@@ -383,7 +383,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     },
     rankUpgrades: [
       { description: "All healing increased by +1d8 damage." },
-      { description: "All healing increased by +1d8 damage." },
+      { description: "All healing increased by +1d8 damage, and each healing cadence restores 1 additional note." },
       { description: "All healing increased by +2d8 damage." },
       { description: "All healing increased by +2d8 damage, and Soothing Hymn generates 4 notes instead of 2." }
     ]

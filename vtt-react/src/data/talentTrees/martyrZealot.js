@@ -245,6 +245,11 @@ export const MARTYR_ZEALOT = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 2,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "devotion": {
+          "baseAmount": 1
+        }
+      },
       "primaryDamage": {
         "dice": "1d8",
         "flat": 0,

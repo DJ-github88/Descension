@@ -1440,6 +1440,82 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
   verbalText: "Utter the decree that condemns the target to its foretold end.",
 },
+ { id : "augur_visceral_tether",
+  name: "Visceral Tether",
+  description:
+  "You fling a steaming strand of harvested gore, anchoring an enemy's immediate fate to your sacrificial ledger. Whenever this target rolls an odd d20 on an attack or save during the next 2 rounds, the tether snaps taut, dealing 2d8 wyrd damage and rooting them for 1 round.",
+  level: 4,
+  spellType: "ACTION",
+  icon: "Necrotic/Bone Chain Ring",
+  effectTypes: ["debuff", "control"],
+  typeConfig: {
+   school: "wyrd",
+   icon: "Necrotic/Bone Chain Ring",
+   tags: ["debuff", "control", "curse", "omen", "augur"],
+   castTime: 1,
+   castTimeType: "IMMEDIATE",
+  },
+  targetingConfig: {
+   targetingType: "single",
+   rangeType: "ranged",
+   rangeDistance: 40,
+   targetRestrictions: ["enemies"],
+   maxTargets: 1,
+   requiresLineOfSight: true,
+  },
+  resourceCost: {
+   resourceTypes: ["mana"],
+   resourceValues: { mana: 14 },
+   actionPoints: 1,
+   components: ["verbal", "somatic"],
+   classResource: { type: "malediction", cost: 3 },
+  },
+  cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+  debuffConfig: {
+   debuffType: "curse",
+   effects: [
+    { id : "visceral_tether_curse",
+     name: "Gore Tether",
+     description: "Odd d20 rolls trigger 2d8 wyrd damage and root.",
+     mechanicsText: "Odd d20 rolls deal 2d8 wyrd damage and root target for 1 round.",
+    },
+   ],
+   durationType: "rounds",
+   durationValue: 2,
+   durationUnit: "rounds",
+   canBeDispelled: true,
+  },
+  controlConfig: {
+   controlType: "restrained",
+   duration: 1,
+   durationUnit: "rounds",
+   effects: [
+    {
+     id: "visceral_tether_root",
+     name: "Tethered Immobility",
+     description: "Rooted when odd rolls occur.",
+     mechanicsText: "Target cannot move for 1 round upon odd d20 roll.",
+     config: {
+      condition: "restrained"
+     }
+    }
+   ],
+   savingThrow: {
+    ability: "agility",
+    difficultyClass: 14,
+    saveOutcome: "negates"
+   }
+  },
+  resolution: "AUTOMATIC",
+  tags: ["debuff", "control", "curse", "omen", "augur"],
+  triggerConfig: {
+   triggers: [
+    { id: "augur_visceral_tether_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 3 malediction to bend fate." }
+   ]
+  },
+  somaticText: "Snap a bloody sinew outward, lassoing the target's temporal shadow.",
+  verbalText: "Teneat te fati viscera — the gore will not let you wander.",
+ },
 
  // ============================================================
  // LEVEL 5 SPELLS (3)
@@ -1668,6 +1744,63 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
   verbalText: "Utter the decree that condemns the target to its foretold end.",
 },
+ { id : "augur_fated_transfusion",
+  name: "Fated Transfusion",
+  description:
+  "You open a channel between the ledger of suffering and an ally's bleeding flesh. Consume 4 Benediction to heal an ally within 30ft for 4d8 + Spirit restorative hit points and cleanse one condition. If your current Malediction exceeds Benediction, take 1d6 self-harm as the balance is preserved.",
+  level: 5,
+  spellType: "ACTION",
+  icon: "Necrotic/Drain Soul",
+  effectTypes: ["healing", "utility"],
+  typeConfig: {
+   school: "wyrd",
+   icon: "Necrotic/Drain Soul",
+   tags: ["healing", "utility", "cleanse", "omen", "augur"],
+   castTime: 1,
+   castTimeType: "IMMEDIATE",
+  },
+  targetingConfig: {
+   targetingType: "single",
+   rangeType: "ranged",
+   rangeDistance: 30,
+   targetRestrictions: ["allies"],
+   maxTargets: 1,
+  },
+  resourceCost: {
+   resourceTypes: ["mana"],
+   resourceValues: { mana: 18 },
+   actionPoints: 1,
+   components: ["verbal", "somatic"],
+   classResource: { type: "benediction", cost: 4 },
+  },
+  cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+  healingConfig: {
+   formula: "4d8 + spirit",
+   resolution: "DICE",
+   healingType: "direct"
+  },
+  utilityConfig: {
+   utilityType: "cleanse",
+   selectedEffects: [
+    { id : "fated_transfusion_cleanse",
+     name: "Ledger Cleansing",
+     description: "Cleanse one debuff or status condition from the target.",
+     mechanicsText: "Cleanse one active debuff or impaired condition."
+    }
+   ],
+   duration: 0,
+   durationUnit: "instant"
+  },
+  resolution: "DICE",
+  tags: ["healing", "utility", "cleanse", "omen", "augur"],
+  triggerConfig: {
+   triggers: [
+    { id: "augur_fated_transfusion_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 4 benediction to balance the ledger." }
+   ]
+  },
+  somaticText: "Press two fingers to your palm and flick the blood onto your ally's wounds.",
+  verbalText: "Sanguis pro sanguine — the ledger accepts your restitution.",
+ },
 
  // ============================================================
  // LEVEL 6 SPELLS (3)
@@ -1850,6 +1983,83 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
   verbalText: "Utter the decree that condemns the target to its foretold end.",
 },
+ { id : "augur_gagged_portent",
+  name: "Gagged Portent",
+  description:
+  "You channel the suppressed, suffocated foresight of the Stellar Astril, whispering the horrifying certainty of their coming doom directly into the target's skull. Target is incapacitated for 1 round (DC 16 Spirit save negates); all attacks against them deal +1d6 wyrd damage for 2 rounds.",
+  level: 6,
+  spellType: "ACTION",
+  icon: "Necrotic/Gloomy Death",
+  effectTypes: ["control", "debuff"],
+  typeConfig: {
+   school: "wyrd",
+   icon: "Necrotic/Gloomy Death",
+   tags: ["control", "debuff", "mind", "omen", "augur"],
+   castTime: 1,
+   castTimeType: "IMMEDIATE",
+  },
+  targetingConfig: {
+   targetingType: "single",
+   rangeType: "ranged",
+   rangeDistance: 40,
+   targetRestrictions: ["enemies"],
+   maxTargets: 1,
+   requiresLineOfSight: true,
+  },
+  resourceCost: {
+   resourceTypes: ["mana"],
+   resourceValues: { mana: 20 },
+   actionPoints: 1,
+   components: ["verbal", "somatic"],
+   classResource: { type: "malediction", cost: 5 },
+  },
+  cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+  controlConfig: {
+   controlType: "incapacitation",
+   duration: 1,
+   durationUnit: "rounds",
+   effects: [
+    {
+     id: "gagged_portent_stun",
+     name: "Stifled Terror",
+     description: "Incapacitated with existential dread for 1 round.",
+     mechanicsText: "Incapacitated for 1 round (DC 16 Spirit save negates).",
+     config: {
+      saveType: "spirit",
+      saveDC: 16
+     }
+    }
+   ],
+   savingThrow: {
+    ability: "spirit",
+    difficultyClass: 16,
+    saveOutcome: "negates"
+   }
+  },
+  debuffConfig: {
+   debuffType: "damageVulnerability",
+   effects: [
+    { id : "gagged_portent_vulnerability",
+     name: "Fractured Fate",
+     description: "Takes +1d6 wyrd damage from all attacks for 2 rounds.",
+     mechanicsText: "Incoming attacks deal +1d6 bonus wyrd damage.",
+    }
+   ],
+   durationType: "rounds",
+   durationValue: 2,
+   durationUnit: "rounds",
+   canBeDispelled: true,
+  },
+  resolution: "SAVE",
+  tags: ["control", "debuff", "mind", "omen", "augur"],
+  triggerConfig: {
+   triggers: [
+    { id: "augur_gagged_portent_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 5 malediction to force a dark vision." }
+   ]
+  },
+  somaticText: "Grip your throat with one hand and point the other at the victim's brow.",
+  verbalText: "Audi quod timendum est — hear the end you cannot outrun.",
+ },
 
  // ============================================================
  // LEVEL 7 SPELLS (3)
@@ -2085,6 +2295,73 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
   verbalText: "Utter the decree that condemns the target to its foretold end.",
 },
+ { id : "augur_ledger_inversion",
+  name: "Ledger Inversion",
+  description:
+  "You overturn the cosmic accounts of chance and certainty. For 2 rounds, all odd d20 attack rolls and saving throws made by allies within 30 feet count as natural 18s, while enemies who roll even d20s take 3d6 ember recoil from the sudden celestial friction.",
+  level: 7,
+  spellType: "ACTION",
+  icon: "Necrotic/Blood Book",
+  effectTypes: ["buff", "utility"],
+  typeConfig: {
+   school: "wyrd",
+   icon: "Necrotic/Blood Book",
+   tags: ["buff", "utility", "probability", "omen", "augur"],
+   castTime: 1,
+   castTimeType: "IMMEDIATE",
+  },
+  targetingConfig: {
+   targetingType: "area",
+   rangeType: "self_centered",
+   rangeDistance: 0,
+   areaConfig: { areaType: "sphere", areaSize: 30, areaSizeUnit: "ft" },
+   targetRestrictions: ["allies"],
+   maxTargets: 6,
+  },
+  resourceCost: {
+   resourceTypes: ["mana"],
+   resourceValues: { mana: 24 },
+   actionPoints: 1,
+   components: ["verbal", "somatic"],
+   classResource: { type: "benediction", cost: 6 },
+  },
+  cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+  buffConfig: {
+   buffType: "custom",
+   effects: [
+    { id : "ledger_inversion_buff",
+     name: "Inverted Odds",
+     description: "Odd d20 rolls count as natural 18s; enemies rolling evens take 3d6 ember.",
+     mechanicsText: "Allies treat odd d20s as 18; enemies rolling even take 3d6 ember recoil.",
+    }
+   ],
+   durationType: "rounds",
+   durationValue: 2,
+   durationUnit: "rounds",
+   canBeDispelled: true,
+  },
+  utilityConfig: {
+   utilityType: "fate_manipulation",
+   selectedEffects: [
+    { id : "ledger_inversion_fate",
+     name: "Accounting Rewrite",
+     description: "Bends the mathematical outcome of rolls across the battlefield.",
+     mechanicsText: "Rewrite d20 odd results to favorable critical-range 18s."
+    }
+   ],
+   duration: 2,
+   durationUnit: "rounds"
+  },
+  resolution: "AUTOMATIC",
+  tags: ["buff", "utility", "probability", "omen", "augur"],
+  triggerConfig: {
+   triggers: [
+    { id: "augur_ledger_inversion_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 6 benediction to invert probability." }
+   ]
+  },
+  somaticText: "Slam an open palm down and drag it across your ledger, smearing blood left to right.",
+  verbalText: "Numeri vertuntur — the balance tips where I command.",
+ },
 
  // ============================================================
  // LEVEL 8 SPELLS (3)
@@ -2280,6 +2557,73 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
   verbalText: "Utter the decree that condemns the target to its foretold end.",
 },
+ { id : "augur_archive_oblivion",
+  name: "Archive Oblivion",
+  description:
+  "Emulating Cassia's ultimate trade, you burn away a personal memory to buy inviolable clarity for your companions. All allies within 40 feet immediately cleanse all mental, curse, and affliction debuffs, and gain immunity to critical hits and surprise for 3 rounds. Generates 4 Benediction.",
+  level: 8,
+  spellType: "ACTION",
+  icon: "Necrotic/Death Mark",
+  effectTypes: ["buff", "utility"],
+  typeConfig: {
+   school: "wyrd",
+   icon: "Necrotic/Death Mark",
+   tags: ["buff", "utility", "cleanse", "omen", "augur"],
+   castTime: 1,
+   castTimeType: "IMMEDIATE",
+  },
+  targetingConfig: {
+   targetingType: "area",
+   rangeType: "self_centered",
+   rangeDistance: 0,
+   areaConfig: { areaType: "sphere", areaSize: 40, areaSizeUnit: "ft" },
+   targetRestrictions: ["allies"],
+   maxTargets: 6,
+  },
+  resourceCost: {
+   resourceTypes: ["mana"],
+   resourceValues: { mana: 26 },
+   actionPoints: 1,
+   components: ["verbal", "somatic"],
+   classResource: { type: "benediction", cost: -4 },
+  },
+  cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+  buffConfig: {
+   buffType: "custom",
+   effects: [
+    { id : "archive_oblivion_clarity",
+     name: "Oblivion's Shield",
+     description: "Immune to critical hits and surprise for 3 rounds.",
+     mechanicsText: "Immunity to critical hits and surprise for 3 rounds.",
+    }
+   ],
+   durationType: "rounds",
+   durationValue: 3,
+   durationUnit: "rounds",
+   canBeDispelled: false,
+  },
+  utilityConfig: {
+   utilityType: "cleanse",
+   selectedEffects: [
+    { id : "archive_oblivion_cleanse",
+     name: "Purge of Remembrance",
+     description: "Cleanse all curses, mental effects, and afflictions from allies.",
+     mechanicsText: "Cleanse all curses, charms, fears, and affliction effects in 40ft."
+    }
+   ],
+   duration: 0,
+   durationUnit: "instant"
+  },
+  resolution: "AUTOMATIC",
+  tags: ["buff", "utility", "cleanse", "omen", "augur"],
+  triggerConfig: {
+   triggers: [
+    { id: "augur_archive_oblivion_gain", name: "Memory Burn", triggerType: "on_cast", action: "Generates 4 benediction through sacrificial memory loss." }
+   ]
+  },
+  somaticText: "Touch your temples with frost-bitten fingertips until frost flowers bloom across your skin.",
+  verbalText: "Memoria perit, veritas manet — the memory burns, the truth endures.",
+ },
 
  // ============================================================
  // LEVEL 9 SPELLS (3)
@@ -2485,6 +2829,87 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
   verbalText: "Utter the decree that condemns the target to its foretold end.",
 },
+ { id : "augur_glacier_sepulcher",
+  name: "Glacier Sepulcher",
+  description:
+  "You conjure the absolute, time-stopping cold of the Frozen Archive's deep glacier vault across a 20ft area. Enemies are entombed in stasis (incapacitated, speed 0; DC 18 Constitution save negates). While inside, allies gain +6 Damage Reduction and cannot drop below 1 HP.",
+  level: 9,
+  spellType: "ACTION",
+  icon: "Force/Radiating Barrier",
+  effectTypes: ["control", "buff"],
+  typeConfig: {
+   school: "wyrd",
+   icon: "Force/Radiating Barrier",
+   tags: ["control", "buff", "stasis", "defense", "omen", "augur"],
+   castTime: 2,
+   castTimeType: "IMMEDIATE",
+  },
+  targetingConfig: {
+   targetingType: "area",
+   rangeType: "ranged",
+   rangeDistance: 40,
+   areaConfig: { areaType: "sphere", areaSize: 20, areaSizeUnit: "ft" },
+   targetRestrictions: ["all"],
+  },
+  resourceCost: {
+   resourceTypes: ["mana"],
+   resourceValues: { mana: 30 },
+   actionPoints: 2,
+   components: ["verbal", "somatic"],
+   classResource: { type: "benediction", cost: 7 },
+  },
+  cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
+  controlConfig: {
+   controlType: "lockdown",
+   duration: 2,
+   durationUnit: "rounds",
+   effects: [
+    {
+     id: "glacier_sepulcher_stasis",
+     name: "Glacier Entombment",
+     description: "Incapacitated and frozen in time for 2 rounds.",
+     mechanicsText: "Incapacitated and 0 speed for 2 rounds (DC 18 Con save negates).",
+     config: {
+      saveType: "constitution",
+      saveDC: 18
+     }
+    }
+   ],
+   savingThrow: {
+    ability: "constitution",
+    difficultyClass: 18,
+    saveOutcome: "negates"
+   }
+  },
+  buffConfig: {
+   buffType: "custom",
+   effects: [
+    { id : "glacier_sepulcher_ward",
+     name: "Cassia's Sanctuary",
+     description: "+6 DR and cannot drop below 1 HP while inside.",
+     mechanicsText: "+6 DR and death prevention inside sepulcher.",
+     statModifier: {
+      stat: "damage_reduction",
+      magnitude: 6,
+      magnitudeType: "flat"
+     }
+    }
+   ],
+   durationType: "rounds",
+   durationValue: 2,
+   durationUnit: "rounds",
+   canBeDispelled: false,
+  },
+  resolution: "SAVE",
+  tags: ["control", "buff", "stasis", "defense", "omen", "augur"],
+  triggerConfig: {
+   triggers: [
+    { id: "augur_glacier_sepulcher_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 7 benediction to summon the Archive's stasis." }
+   ]
+  },
+  somaticText: "Thrust your ceremonial sickle into the stone, dragging up pillars of blue glacial ice.",
+  verbalText: "Siste in glacie — stand upright in the ice and witness.",
+ },
 
  // ============================================================
  // LEVEL 10 SPELLS (3)
@@ -2733,6 +3158,81 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
   verbalText: "Utter the decree that condemns the target to its foretold end.",
 },
+ { id : "augur_first_failing_echo",
+  name: "Echo of the First Failing",
+  description:
+  "You release the raw, apocalyptic vision of the First Failing when Sol first died. All enemies within 50 feet take 10d8 wyrd damage and are blinded and slowed for 3 rounds by cosmic despair (DC 19 Spirit save halves damage and negates blindness). Generates 5 Benediction and 5 Malediction.",
+  level: 10,
+  spellType: "ACTION",
+  icon: "Necrotic/Cosmic Entity",
+  effectTypes: ["damage", "control"],
+  typeConfig: {
+   school: "wyrd",
+   icon: "Necrotic/Cosmic Entity",
+   tags: ["damage", "control", "aoe", "cosmic", "omen", "augur"],
+   castTime: 2,
+   castTimeType: "IMMEDIATE",
+  },
+  targetingConfig: {
+   targetingType: "area",
+   rangeType: "self_centered",
+   rangeDistance: 0,
+   areaConfig: { areaType: "sphere", areaSize: 50, areaSizeUnit: "ft" },
+   targetRestrictions: ["enemies"],
+  },
+  resourceCost: {
+   resourceTypes: ["mana"],
+   resourceValues: { mana: 36 },
+   actionPoints: 2,
+   components: ["verbal", "somatic"],
+   classResource: { type: "benediction", cost: -5 },
+  },
+  cooldownConfig: { cooldownType: "turn_based", cooldownValue: 7 },
+  damageConfig: {
+   formula: "10d8",
+   elementType: "wyrd",
+   damageTypes: ["wyrd"],
+   canCrit: true,
+   critMultiplier: 2,
+   savingThrow: {
+    ability: "spirit",
+    difficultyClass: 19,
+    saveOutcome: "half_damage"
+   },
+   resolution: "DICE"
+  },
+  controlConfig: {
+   controlType: "disoriented",
+   duration: 3,
+   durationUnit: "rounds",
+   effects: [
+    {
+     id: "first_failing_blindness",
+     name: "Cosmic Blindness",
+     description: "Blinded and slowed for 3 rounds by the terror of the dying star.",
+     mechanicsText: "Blinded and speed halved for 3 rounds (DC 19 Spirit save negates).",
+     config: {
+      saveType: "spirit",
+      saveDC: 19
+     }
+    }
+   ],
+   savingThrow: {
+    ability: "spirit",
+    difficultyClass: 19,
+    saveOutcome: "negates"
+   }
+  },
+  resolution: "DICE",
+  tags: ["damage", "control", "aoe", "cosmic", "omen", "augur"],
+  triggerConfig: {
+   triggers: [
+    { id: "augur_first_failing_echo_gain", name: "Cataclysmic Surge", triggerType: "on_cast", action: "Generates 5 benediction and 5 malediction from the cosmic vision." }
+   ]
+  },
+  somaticText: "Tear open your palms and look upward into the sky that will one day go black.",
+  verbalText: "Sol moritur, et nos videmus — the sun dies, and we see it all.",
+ },
 
   {
   "id": "augur_whisper_harvester",
@@ -2923,40 +3423,47 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   "augur_doomseers_mark",
  ],
  4: [
-  "augur_grand_malediction",
-  "augur_balanced_sign",
-  "augur_hierophants_ward",
- ],
+   "augur_grand_malediction",
+   "augur_balanced_sign",
+   "augur_hierophants_ward",
+   "augur_visceral_tether",
+  ],
  5: [
-  "augur_omen_storm",
-  "augur_field_of_misfortune",
-  "augur_hierophants_domain",
- ],
+   "augur_omen_storm",
+   "augur_field_of_misfortune",
+   "augur_hierophants_domain",
+   "augur_fated_transfusion",
+  ],
  6: [
-  "augur_omen_shatter",
-  "augur_curse_of_the_unlucky",
-  "augur_crown_of_radiance",
- ],
+   "augur_omen_shatter",
+   "augur_curse_of_the_unlucky",
+   "augur_crown_of_radiance",
+   "augur_gagged_portent",
+  ],
  7: [
-  "augur_reality_of_omens",
-  "augur_apocalypse_portent",
-  "augur_divine_sanctuary",
- ],
+   "augur_reality_of_omens",
+   "augur_apocalypse_portent",
+   "augur_divine_sanctuary",
+   "augur_ledger_inversion",
+  ],
  8: [
-  "augur_twist_of_fate",
-  "augur_omen_of_death",
-  "augur_cosmic_aurora",
- ],
+   "augur_twist_of_fate",
+   "augur_omen_of_death",
+   "augur_cosmic_aurora",
+   "augur_archive_oblivion",
+  ],
  9: [
-  "augur_the_signs_speak",
-  "augur_cataclysm_portent",
-  "augur_eternal_benediction",
- ],
+   "augur_the_signs_speak",
+   "augur_cataclysm_portent",
+   "augur_eternal_benediction",
+   "augur_glacier_sepulcher",
+  ],
  10: [
-  "augur_master_of_omens",
-  "augur_harbinger_supreme",
-  "augur_hierophant_supreme",
- ],
+   "augur_master_of_omens",
+   "augur_harbinger_supreme",
+   "augur_hierophant_supreme",
+   "augur_first_failing_echo",
+  ],
  },
 };
 

@@ -2,7 +2,8 @@
  * Spell Data Validator
  * 
  * Validates spell data to ensure all spells have:
- * 1. Proper damage types (radiant, necrotic, fire, etc.)
+ * 1. Proper canonical damage types (smashing, stabbing, slicing, ember, rime, storm,
+ *    primal, arcane, blight, wyrd, sacred)
  * 2. Complete stat modifier names (not just "Stat")
  * 3. Complete status effect descriptions
  * 
@@ -40,7 +41,7 @@ export const validateSpell = (spell) => {
       issues.push(`Missing damage type - spell deals damage but has no damageTypes, elementType, or damageConfig.elementType`);
     }
 
-    // (Magic-school vs damage-type check removed — Mythrill uses only the 9 damage types)
+    // (Magic-school vs damage-type check removed — Mythrill uses only the 11 canonical damage types)
   }
 
   // 2. Check buff config for incomplete stat modifiers
@@ -200,29 +201,33 @@ export const getSuggestedFixes = (spell, issues) => {
 
   issues.forEach(issue => {
     if (issue.includes('Missing damage type')) {
-      // Try to infer damage type from spell name/description
+      // Infer from spell name/description using Mythrill's canonical 11 damage types.
       const spellText = `${spell.name || ''} ${spell.description || ''}`.toLowerCase();
-      
-      if (spellText.includes('fire') || spellText.includes('flame') || spellText.includes('burn')) {
-        fixes.push(`Add damageTypes: ['fire']`);
-      } else if (spellText.includes('cold') || spellText.includes('frost') || spellText.includes('ice')) {
-        fixes.push(`Add damageTypes: ['cold']`);
-      } else if (spellText.includes('lightning') || spellText.includes('electric') || spellText.includes('thunder')) {
-        fixes.push(`Add damageTypes: ['lightning']`);
-      } else if (spellText.includes('radiant') || spellText.includes('holy') || spellText.includes('divine') || spellText.includes('light')) {
-        fixes.push(`Add damageTypes: ['radiant']`);
-      } else if (spellText.includes('necrotic') || spellText.includes('shadow') || spellText.includes('death') || spellText.includes('decay')) {
-        fixes.push(`Add damageTypes: ['necrotic']`);
-      } else if (spellText.includes('poison') || spellText.includes('venom') || spellText.includes('toxic')) {
-        fixes.push(`Add damageTypes: ['poison']`);
-      } else if (spellText.includes('acid') || spellText.includes('corrosive')) {
-        fixes.push(`Add damageTypes: ['acid']`);
-      } else if (spellText.includes('psychic') || spellText.includes('mind') || spellText.includes('mental')) {
-        fixes.push(`Add damageTypes: ['psychic']`);
-      } else if (spellText.includes('force') || spellText.includes('arcane')) {
-        fixes.push(`Add damageTypes: ['force']`);
+
+      if (spellText.includes('ember') || spellText.includes('fire') || spellText.includes('flame') || spellText.includes('burn')) {
+        fixes.push(`Add damageTypes: ['ember']`);
+      } else if (spellText.includes('rime') || spellText.includes('cold') || spellText.includes('frost') || spellText.includes('ice')) {
+        fixes.push(`Add damageTypes: ['rime']`);
+      } else if (spellText.includes('storm') || spellText.includes('lightning') || spellText.includes('electric') || spellText.includes('thunder')) {
+        fixes.push(`Add damageTypes: ['storm']`);
+      } else if (spellText.includes('sacred') || spellText.includes('radiant') || spellText.includes('holy') || spellText.includes('divine') || spellText.includes('light')) {
+        fixes.push(`Add damageTypes: ['sacred']`);
+      } else if (spellText.includes('wyrd') || spellText.includes('necrotic') || spellText.includes('shadow') || spellText.includes('void') || spellText.includes('psychic') || spellText.includes('mind') || spellText.includes('fate') || spellText.includes('death')) {
+        fixes.push(`Add damageTypes: ['wyrd']`);
+      } else if (spellText.includes('blight') || spellText.includes('poison') || spellText.includes('venom') || spellText.includes('toxic') || spellText.includes('acid') || spellText.includes('corrosive') || spellText.includes('rot') || spellText.includes('decay')) {
+        fixes.push(`Add damageTypes: ['blight']`);
+      } else if (spellText.includes('primal') || spellText.includes('nature') || spellText.includes('thorn') || spellText.includes('root') || spellText.includes('beast')) {
+        fixes.push(`Add damageTypes: ['primal']`);
+      } else if (spellText.includes('arcane') || spellText.includes('force') || spellText.includes('magic')) {
+        fixes.push(`Add damageTypes: ['arcane']`);
+      } else if (spellText.includes('smash') || spellText.includes('hammer') || spellText.includes('crush') || spellText.includes('blunt')) {
+        fixes.push(`Add damageTypes: ['smashing']`);
+      } else if (spellText.includes('slash') || spellText.includes('blade') || spellText.includes('sword') || spellText.includes('axe')) {
+        fixes.push(`Add damageTypes: ['slicing']`);
+      } else if (spellText.includes('stab') || spellText.includes('pierce') || spellText.includes('arrow') || spellText.includes('spear') || spellText.includes('dagger')) {
+        fixes.push(`Add damageTypes: ['stabbing']`);
       } else {
-        fixes.push(`Add damageTypes: ['force'] (or appropriate type: fire, cold, lightning, radiant, necrotic, poison, acid, psychic, physical)`);
+        fixes.push(`Add damageTypes: [...] — canonical types: smashing, stabbing, slicing, ember, rime, storm, primal, arcane, blight, wyrd, sacred`);
       }
     }
 

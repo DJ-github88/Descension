@@ -820,7 +820,6 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
  // Spell Pools - spells available at each level for level-up selection
  spellPools: {
   1: [
-   // Level 1 spells: Basic healing and protection (5 options, pick 3)
    "martyr_restorative_prayer",
    "martyr_intervene",
    "martyr_penance_of_pain",
@@ -839,45 +838,53 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
    "martyr_sanctuary_aura",
    "martyr_blessed_resilience",
   ],
-  4: [
-   // Level 4 spells: Powerful amplified abilities (3 options, pick 1)
-   "martyr_shield_of_faith",
-   "martyr_life_transfer",
-   "martyr_martyrs_mark",
-  ],
-  6: [
-   // Level 6 spells: Advanced devotion abilities (2 options, pick 1)
-   "martyr_sanctified_ground",
-   "martyr_willing_vessel",
-   "martyr_redemption_strike",
-  ],
   3: [
    "martyr_burning_sacrifice",
    "martyr_sacrificial_bond",
    "martyr_cleansing_touch",
+   "martyr_penitent_rebuke",
+  ],
+  4: [
+   "martyr_shield_of_faith",
+   "martyr_life_transfer",
+   "martyr_martyrs_mark",
+   "martyr_iron_crucible_stance",
   ],
   5: [
    "martyr_righteous_suffering",
    "martyr_blood_pact",
    "martyr_divine_retribution",
+   "martyr_martyrs_pyre",
+  ],
+  6: [
+   "martyr_sanctified_ground",
+   "martyr_willing_vessel",
+   "martyr_redemption_strike",
+   "martyr_covenant_of_blood",
   ],
   7: [
    "martyr_holy_wrath",
    "martyr_mass_resurrection",
    "martyr_guardian_spirit",
+   "martyr_aegis_of_consecration",
   ],
   8: [
    "martyr_divine_intervention",
    "martyr_shared_agony",
+   "martyr_furnace_overcharge",
+   "martyr_shroud_of_the_martyred_saint",
   ],
   9: [
    "martyr_avatar_of_sacrifice",
    "martyr_judgment_day",
    "martyr_eternal_bond",
+   "martyr_retributive_immolation",
   ],
   10: [
    "martyr_ultimate_sacrifice",
    "martyr_final_blessing",
+   "martyr_unbroken_covenant",
+   "martyr_dreadnaught_transcendence",
   ],
  },
 
@@ -1730,7 +1737,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
    },
 
    resolution: "NONE",
-   effectTypes: ["purification"],
+   effectTypes: ["cleanse"],
 
    purificationConfig: {
     purificationType: "cleanse",
@@ -3193,6 +3200,517 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     utilityConfig: { utilityType: "restoration", selectedEffects: [ { id: "empathic_transference_effect", name: "Endured Fatigue", description: "Clears the target ally's exhaustion conditions. The Martyr suffers disadvantage on Agility checks for 1 hour from the transferred muscle fatigue.", mechanicsText: "Clears target's exhaustion; Martyr suffers disadvantage on Agility checks for 1 hour." } ], duration: 1, durationUnit: "hours", concentration: false, power: "minor" },
     cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
     tags: ["utility","roleplay","martyr"],
+  },,
+  { id: "martyr_penitent_rebuke",
+    name: "Penitent Rebuke",
+    description: "Strike an attacker who recently damaged you or an ally with retributive holy flame. Deals 3d8 ember damage; deals +2d8 damage if you absorbed damage for an ally this round.",
+    level: 3,
+    spellType: "ACTION",
+    icon: "Fire/Ember Blast",
+    typeConfig: {
+      school: "ember",
+      icon: "Fire/Ember Blast",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      tags: ["damage", "retribution", "ember", "martyr"]
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeType: "ranged",
+      rangeDistance: 25,
+      targetRestrictions: ["enemy"],
+      maxTargets: 1
+    },
+    resourceCost: {
+      actionPoints: 1,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 8 },
+      classResource: { type: "devotion", cost: 1 },
+      components: ["verbal", "somatic"],
+      verbalText: "Return the blow multiplied!",
+      somaticText: "Thrust scorched mace toward the attacker"
+    },
+    effectTypes: ["damage"],
+    damageConfig: {
+      formula: "3d8",
+      elementType: "ember",
+      damageTypes: ["ember"],
+      resolution: "DICE",
+      savingThrow: {
+        ability: "agility",
+        difficultyClass: 15,
+        saveOutcome: "half_damage"
+      }
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+    tags: ["damage", "retribution", "ember", "martyr"]
   },
+  { id: "martyr_iron_crucible_stance",
+    name: "Iron Crucible Stance",
+    description: "Lock your boots into the stone for 3 rounds. Gain DR 6 against all damage, and whenever an ally within 15ft is targeted by an attack, you may redirect the blow to yourself as a free reaction.",
+    level: 4,
+    spellType: "ACTION",
+    icon: "Utility/Empowered Warrior",
+    typeConfig: {
+      school: "smashing",
+      icon: "Utility/Empowered Warrior",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      tags: ["buff", "defense", "redirect", "martyr"]
+    },
+    targetingConfig: {
+      targetingType: "self",
+      rangeType: "self"
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 1,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 12 },
+      classResource: { type: "devotion", gain: 2 },
+      components: ["somatic"],
+      somaticText: "Slam shield edge into earth and lock heavy iron plating"
+    },
+    effectTypes: ["buff"],
+    buffConfig: {
+      buffType: "protection",
+      effects: [
+        {
+          id: "crucible_stance_dr",
+          name: "Crucible Defense",
+          description: "Gain DR 6; free reaction to redirect ally attacks within 15ft onto self.",
+          mechanicsText: "Gain DR 6. Once per round, redirect an attack on an ally within 15ft to yourself (0 AP)."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+    tags: ["buff", "defense", "redirect", "martyr"]
+  },
+  { id: "martyr_martyrs_pyre",
+    name: "Martyr's Holy Pyre",
+    description: "Sacrifice 20 HP to erupt into an incandescent nova of cleansing fire in a 20ft radius. Deals 6d8 ember damage to enemies (Agility DC 16 for half) and heals all allies in the blast for 20 HP.",
+    level: 5,
+    spellType: "ACTION",
+    icon: "Fire/Fireball",
+    typeConfig: {
+      school: "ember",
+      icon: "Fire/Fireball",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      tags: ["damage", "healing", "sacrifice", "aoe", "martyr"]
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "self",
+      aoeType: "circle",
+      aoeSize: 20
+    },
+    durationConfig: {
+      durationType: "instant",
+      durationValue: 0,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 1,
+      resourceTypes: ["mana", "hp"],
+      resourceValues: { mana: 14, hp: 20 },
+      classResource: { type: "devotion", cost: 2 },
+      components: ["verbal", "somatic"],
+      verbalText: "Consume me that they may live!",
+      somaticText: "Tear open chestplate as searing flame bursts outward"
+    },
+    effectTypes: ["damage", "healing"],
+    damageConfig: {
+      formula: "6d8",
+      elementType: "ember",
+      damageTypes: ["ember"],
+      resolution: "DICE",
+      savingThrow: {
+        ability: "agility",
+        difficultyClass: 16,
+        saveOutcome: "half_damage"
+      }
+    },
+    healingConfig: {
+      formula: "20",
+      healingType: "aoe",
+      description: "Heals all allies in the 20ft radius for 20 HP."
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+    tags: ["damage", "healing", "sacrifice", "aoe", "martyr"]
+  },
+  { id: "martyr_covenant_of_blood",
+    name: "Covenant of Shared Vitae",
+    description: "Forge a binding covenant of shared vitality with up to 3 allies for 3 rounds. All bonded allies share the highest DR among them, and any healing received by one is shared equally across all four.",
+    level: 6,
+    spellType: "ACTION",
+    icon: "Healing/Golden Heart",
+    typeConfig: {
+      school: "sacred",
+      icon: "Healing/Golden Heart",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      tags: ["buff", "healing", "support", "covenant", "martyr"]
+    },
+    targetingConfig: {
+      targetingType: "multiple",
+      rangeType: "ranged",
+      rangeDistance: 40,
+      targetRestrictions: ["allies"],
+      maxTargets: 3
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 1,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 16 },
+      classResource: { type: "devotion", cost: 3 },
+      components: ["somatic"],
+      somaticText: "Draw dagger across palm and flick droplets toward three allies"
+    },
+    effectTypes: ["buff", "healing"],
+    buffConfig: {
+      buffType: "protection",
+      effects: [
+        {
+          id: "covenant_shared_dr",
+          name: "Shared Covenant DR",
+          description: "Bonded allies share highest DR among group; healing received is distributed equally.",
+          mechanicsText: "All bonded members gain the highest DR in the group. Healing to any bonded member heals all equally."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+    tags: ["buff", "healing", "support", "covenant", "martyr"]
+  },
+  { id: "martyr_aegis_of_consecration",
+    name: "Aegis of Consecration",
+    description: "Plant your consecrated shield into the earth, creating a 25ft consecrated sanctuary for 3 rounds. Allies inside gain +3 to all saving throws and can defer lethal damage to the Martyr over 3 rounds.",
+    level: 7,
+    spellType: "ACTION",
+    icon: "Radiant/Holy Cross",
+    typeConfig: {
+      school: "sacred",
+      icon: "Radiant/Holy Cross",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      tags: ["buff", "defense", "sanctuary", "sacred", "martyr"]
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "self",
+      aoeType: "circle",
+      aoeSize: 25,
+      targetRestrictions: ["allies"]
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 1,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 18 },
+      classResource: { type: "devotion", cost: 3 },
+      components: ["verbal", "somatic"],
+      verbalText: "Sanctuarium Aeternum!",
+      somaticText: "Drive shield boss firmly into the soil"
+    },
+    effectTypes: ["buff"],
+    buffConfig: {
+      buffType: "protection",
+      effects: [
+        {
+          id: "consecrated_aegis_save",
+          name: "Consecrated Sanctuary",
+          description: "+3 to all saves; allies defer lethal strikes to the Martyr.",
+          mechanicsText: "Allies within 25ft gain +3 to all saves. Lethal damage to allies is converted into a 3-round DoT on the Martyr."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+    tags: ["buff", "defense", "sanctuary", "sacred", "martyr"]
+  },
+  { id: "martyr_furnace_overcharge",
+    name: "Furnace Vent Overcharge",
+    description: "Vent superheated boiler pressure from your furnace plating in a 30ft cone. Deals 10d8 ember damage to enemies (Agility DC 18 for half), plus bonus damage equal to half the total HP you sacrificed this combat.",
+    level: 8,
+    spellType: "ACTION",
+    icon: "Fire/Burning Ember",
+    typeConfig: {
+      school: "ember",
+      icon: "Fire/Burning Ember",
+      castTime: 2,
+      castTimeType: "IMMEDIATE",
+      tags: ["damage", "aoe", "retribution", "ember", "martyr"]
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "self",
+      aoeType: "cone",
+      aoeSize: 30,
+      targetRestrictions: ["enemy"]
+    },
+    durationConfig: {
+      durationType: "instant",
+      durationValue: 0,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 2,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 20 },
+      classResource: { type: "devotion", cost: 4 },
+      components: ["somatic"],
+      somaticText: "Release mechanical furnace bypass valves on chestplate"
+    },
+    effectTypes: ["damage"],
+    damageConfig: {
+      formula: "10d8",
+      elementType: "ember",
+      damageTypes: ["ember"],
+      resolution: "DICE",
+      savingThrow: {
+        ability: "agility",
+        difficultyClass: 18,
+        saveOutcome: "half_damage"
+      }
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+    tags: ["damage", "aoe", "retribution", "ember", "martyr"]
+  },
+  { id: "martyr_shroud_of_the_martyred_saint",
+    name: "Shroud of the Martyred Saint",
+    description: "Surround an ally in an ethereal golden shroud for 3 rounds. The ally is completely immune to physical and elemental damage; 100% of all damage they would take is transferred to the Martyr with 25% damage reduction.",
+    level: 8,
+    spellType: "ACTION",
+    icon: "Radiant/Golden Embrace",
+    typeConfig: {
+      school: "sacred",
+      icon: "Radiant/Golden Embrace",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      tags: ["buff", "protection", "immunity", "martyr"]
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeType: "ranged",
+      rangeDistance: 40,
+      targetRestrictions: ["ally"],
+      maxTargets: 1
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 1,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 22 },
+      classResource: { type: "devotion", cost: 4 },
+      components: ["verbal", "somatic"],
+      verbalText: "None shall harm you while I endure!",
+      somaticText: "Extend glowing golden cloth of divine radiance over ally"
+    },
+    effectTypes: ["buff"],
+    buffConfig: {
+      buffType: "protection",
+      effects: [
+        {
+          id: "shroud_martyred_saint",
+          name: "Martyred Saint Shroud",
+          description: "Target ally immune to damage; Martyr takes 75% of transferred damage.",
+          mechanicsText: "Target immune to damage. 100% of damage transfers to Martyr, reduced by 25%."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+    tags: ["buff", "protection", "immunity", "martyr"]
+  },
+  { id: "martyr_retributive_immolation",
+    name: "Retributive Immolation",
+    description: "Sacrifice 40 HP to detonate a cataclysmic solar supernova in a 35ft radius. Deals 12d10 ember damage to enemies (Spirit DC 19 for half) and cleanses all negative conditions from allies while granting them 40 Temporary HP.",
+    level: 9,
+    spellType: "ACTION",
+    icon: "Fire/Meteor Strike",
+    typeConfig: {
+      school: "ember",
+      icon: "Fire/Meteor Strike",
+      castTime: 2,
+      castTimeType: "IMMEDIATE",
+      tags: ["damage", "buff", "sacrifice", "aoe", "martyr"]
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "self",
+      aoeType: "circle",
+      aoeSize: 35
+    },
+    durationConfig: {
+      durationType: "instant",
+      durationValue: 0,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 2,
+      resourceTypes: ["mana", "hp"],
+      resourceValues: { mana: 26, hp: 40 },
+      classResource: { type: "devotion", cost: 5 },
+      components: ["verbal", "somatic"],
+      verbalText: "Sol Invictus, witness my sacrifice!",
+      somaticText: "Raise arms skyward as radiant solar furnace erupts"
+    },
+    effectTypes: ["damage", "buff"],
+    damageConfig: {
+      formula: "12d10",
+      elementType: "ember",
+      damageTypes: ["ember"],
+      resolution: "DICE",
+      savingThrow: {
+        ability: "spirit",
+        difficultyClass: 19,
+        saveOutcome: "half_damage"
+      }
+    },
+    buffConfig: {
+      buffType: "temporary_hp",
+      effects: [
+        {
+          id: "immolation_shield",
+          name: "Solar Resplendence",
+          description: "Allies gain 40 Temp HP and cleanse all debuffs.",
+          mechanicsText: "Allies gain 40 Temporary HP and cleanse all negative status effects."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+    tags: ["damage", "buff", "sacrifice", "aoe", "martyr"]
+  },
+  { id: "martyr_unbroken_covenant",
+    name: "Unbroken Covenant of Morvane",
+    description: "Enter an unbreakable legal covenant with your entire party for 1 minute (10 rounds). Allies cannot die under any circumstances while the Martyr is conscious; any blow that would drop an ally below 1 HP leaves them at 1 HP and transfers remaining damage to your Devotion pool.",
+    level: 10,
+    spellType: "ACTION",
+    icon: "Radiant/Divine Illumination",
+    typeConfig: {
+      school: "sacred",
+      icon: "Radiant/Divine Illumination",
+      castTime: 2,
+      castTimeType: "IMMEDIATE",
+      tags: ["buff", "protection", "ultimate", "covenant", "martyr"]
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "self",
+      aoeType: "circle",
+      aoeSize: 40,
+      targetRestrictions: ["allies"]
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 10,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 2,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 30 },
+      classResource: { type: "devotion", cost: 6 },
+      components: ["verbal", "somatic"],
+      verbalText: "No name strikes from this ledger while I stand!",
+      somaticText: "Brandish sacred contract scroll glowing with irrevocable golden seals"
+    },
+    effectTypes: ["buff"],
+    buffConfig: {
+      buffType: "protection",
+      effects: [
+        {
+          id: "unbroken_covenant_immortal",
+          name: "Irrevocable Covenant",
+          description: "Allies cannot drop below 1 HP; lethal damage absorbed by Martyr.",
+          mechanicsText: "Allies cannot drop below 1 HP while Martyr is conscious. Excess damage drains Martyr's Devotion."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 10,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+    tags: ["buff", "protection", "ultimate", "covenant", "martyr"]
+  },
+  { id: "martyr_dreadnaught_transcendence",
+    name: "Dreadnaught Transcendence",
+    description: "Awaken the ancient Cragjaw furnace within your iron plating for 5 rounds. Size increases to Huge, gain 80 Temporary HP, DR 12 against all damage, and whenever you take damage, you immediately retaliate with a 4d10 smashing cleave against all adjacent foes (0 AP).",
+    level: 10,
+    spellType: "ACTION",
+    icon: "Utility/Empowered Warrior",
+    typeConfig: {
+      school: "smashing",
+      icon: "Utility/Empowered Warrior",
+      castTime: 2,
+      castTimeType: "IMMEDIATE",
+      tags: ["buff", "transformation", "retaliation", "ultimate", "martyr"]
+    },
+    targetingConfig: {
+      targetingType: "self",
+      rangeType: "self"
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 5,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 2,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 30 },
+      classResource: { type: "devotion", cost: 6 },
+      components: ["verbal", "somatic"],
+      verbalText: "The Dreadnaught walks again!",
+      somaticText: "Lock twin boiler levers down as furnace fire roars through riveted iron plating"
+    },
+    effectTypes: ["buff"],
+    buffConfig: {
+      buffType: "transformation",
+      effects: [
+        {
+          id: "dreadnaught_form",
+          name: "Cragjaw Dreadnaught Juggernaut",
+          description: "Huge size, 80 Temp HP, DR 12; retaliates for 4d10 smashing damage against adjacent enemies on taking hit.",
+          mechanicsText: "Huge size, 80 Temp HP, DR 12. Taking damage triggers a free 4d10 smashing counter-cleave on adjacent foes."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 5,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+    tags: ["buff", "transformation", "retaliation", "ultimate", "martyr"]
+  }
  ],
 };

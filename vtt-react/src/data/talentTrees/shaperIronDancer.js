@@ -359,7 +359,7 @@ export const SHAPER_IRON_DANCER = [
     },
     rankUpgrades: [
       { description: "The ancestor-bridges sharpen everything. All slicing damage you deal is increased by +1d8 damage." },
-      { description: "The ancestor-bridges sharpen everything. All slicing damage you deal is increased by +1d8 damage." },
+      { description: "The ancestor-bridges sharpen everything. All slicing damage you deal is increased by +1d8 damage, and your slicing attacks ignore 5 points of enemy durability." },
       { description: "The ancestor-bridges sharpen everything. All slicing damage you deal is increased by +2d8 damage." },
       { description: "The ancestor-bridges sharpen everything. All slicing damage you deal is increased by +2d8 damage, and Arterial Strike form costs 1 Flux." }
     ]

@@ -27,7 +27,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t1_runic_precision",
     name: "Runic Precision",
-    icon: "spell_arcane_arcaneresilience",
+    icon: "Arcane/Abstract Rune",
     maxRanks: 3,
     position: { x: 0.5, y: 0 },
     requires: null,
@@ -47,7 +47,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t1_sphere_manipulation",
     name: "Sphere Manipulation",
-    icon: "spell_arcane_arcanepotency",
+    icon: "Arcane/Orb Manipulation",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -74,7 +74,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t1_efficient_banking",
     name: "Efficient Banking",
-    icon: "inv_misc_rune_01",
+    icon: "Utility/Glowing Orb",
     maxRanks: 2,
     position: { x: 3.5, y: 0 },
     requires: null,
@@ -95,7 +95,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t2_mana_crystal",
     name: "Mana Crystal",
-    icon: "inv_misc_gem_crystal_01",
+    icon: "Utility/Glowing Shard",
     maxRanks: 3,
     position: { x: 2, y: 1 },
     requires: "sa_t1_sphere_manipulation",
@@ -120,7 +120,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t2_sphere_lock",
     name: "Sphere Lock",
-    icon: "spell_arcane_portalshattrath",
+    icon: "Force/Force Tied",
     maxRanks: 3,
     position: { x: 0.5, y: 1 },
     requires: "sa_t1_runic_precision",
@@ -142,7 +142,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t2_precision_casting",
     name: "Precision Casting",
-    icon: "spell_arcane_blast",
+    icon: "Arcane/Wizard Spell Casting",
     maxRanks: 2,
     position: { x: 3.5, y: 1 },
     requires: "sa_t1_efficient_banking",
@@ -190,7 +190,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t3_sphere_synthesis",
     name: "Sphere Synthesis",
-    icon: "spell_arcane_polymorph",
+    icon: "Force/Energy Spiral",
     maxRanks: 3,
     position: { x: 3.5, y: 2 },
     requires: "sa_t2_mana_crystal",
@@ -240,7 +240,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t4_perfect_control",
     name: "Perfect Control",
-    icon: "spell_arcane_mindmastery",
+    icon: "Psychic/Mind Control",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "sa_t3_sphere_synthesis",
@@ -261,7 +261,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t5_runic_ascendancy",
     name: "Runic Ascendancy",
-    icon: "spell_arcane_portaldarnassus",
+    icon: "Arcane/Empowering Growth",
     maxRanks: 1,
     position: { x: 0.5, y: 4 },
     requires: "sa_t4_sphere_network",
@@ -279,7 +279,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t5_crystal_bastion",
     name: "Crystal Bastion",
-    icon: "inv_misc_gem_crystal_02",
+    icon: "Frost/Icy Shield",
     maxRanks: 2,
     position: { x: 2.5, y: 4 },
     requires: "sa_t4_perfect_control",
@@ -303,7 +303,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t5_scheduled_withdrawal",
     name: "Scheduled Withdrawal",
-    icon: "inv_misc_rune_02",
+    icon: "Utility/Rest",
     maxRanks: 1,
     position: { x: 4, y: 4 },
     requires: "sa_t4_sphere_network",
@@ -385,7 +385,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: "sa_t7_ledger_mastery",
     name: "Ledger Mastery",
-    icon: "inv_misc_book_09",
+    icon: "Chaos/Chaos Book Channel",
     maxRanks: 5,
     position: { x: 1, y: 6 },
     requires: "sa_t6_arcane_efficiency",

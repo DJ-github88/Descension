@@ -910,10 +910,813 @@ export const CRUSADER_ABILITIES = [
         { id: 'avatar_starlight', name: 'Avatar of Aex', description: 'Immune to all damage types for 3 rounds. All melee attacks deal maximum damage and trigger free AoE starlight bursts.', mechanicsText: '' }
       ]
     }
+  },
+  {
+    id: "crusader_judgment_strike",
+    name: "Judgment Strike",
+    description: "Smite an enemy with righteous solar authority. Deals 2d8 sacred damage; the target suffers disadvantage on attack rolls made against anyone other than the Crusader for 1 round.",
+    level: 2,
+    spellType: "ACTION",
+    icon: "Radiant/Divine Downward Sword",
+    effectTypes: ["damage", "debuff"],
+    typeConfig: {
+      school: "sacred",
+      icon: "Radiant/Divine Downward Sword",
+      tags: ["sacred", "melee", "single_target", "debuff", "crusader"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeType: "melee",
+      rangeDistance: 5,
+      targetRestrictions: ["enemies"]
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 6,
+      classResource: { type: "fervor", gain: 10 }
+    },
+    damageConfig: {
+      formula: "2d8 + strength",
+      elementType: "sacred",
+      damageTypes: ["sacred"],
+      resolution: "DICE"
+    },
+    debuffConfig: {
+      debuffType: "statusEffect",
+      effects: [
+        {
+          id: "judgment_strike_disadvantage",
+          name: "Judged Stature",
+          description: "Disadvantage on attack rolls against targets other than the Crusader.",
+          mechanicsText: "Disadvantage on attack rolls targeting anyone other than the Crusader for 1 round."
+        }
+      ],
+      durationValue: 1,
+      durationType: "rounds",
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+    tags: ["sacred", "melee", "single_target", "debuff", "crusader"]
+  },
+  {
+    id: "crusader_banner_of_devotion",
+    name: "Banner of the Solar Host",
+    description: "Plant a radiant solar battle standard in the earth, generating a 20ft consecrated aura for 3 rounds. Allies inside gain +1 to hit with weapon attacks and +5ft movement speed.",
+    level: 3,
+    spellType: "ACTION",
+    icon: "Radiant/Holy Cross",
+    effectTypes: ["buff"],
+    typeConfig: {
+      school: "sacred",
+      icon: "Radiant/Holy Cross",
+      tags: ["buff", "aura", "consecration", "crusader"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "self",
+      aoeType: "circle",
+      aoeSize: 20,
+      targetRestrictions: ["allies"]
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 8,
+      classResource: { type: "fervor", cost: 15 }
+    },
+    buffConfig: {
+      buffType: "enhancement",
+      effects: [
+        {
+          id: "solar_banner_inspiration",
+          name: "Solar Host Inspiration",
+          description: "+1 to weapon attacks and +5ft movement speed.",
+          mechanicsText: "Allies within 20ft gain +1 on weapon attack rolls and +5ft movement speed for 3 rounds."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+    tags: ["buff", "aura", "consecration", "crusader"]
+  },
+  {
+    id: "crusader_shield_wall_discipline",
+    name: "Shield-Wall Discipline",
+    description: "Lock shields into a defensive phalanx for 3 rounds. The Crusader and all adjacent allies gain +3 Damage Reduction and heavy cover against ranged attacks.",
+    level: 4,
+    spellType: "ACTION",
+    icon: "Radiant/Radiant Golden Shield",
+    effectTypes: ["buff"],
+    typeConfig: {
+      school: "smashing",
+      icon: "Radiant/Radiant Golden Shield",
+      tags: ["buff", "defense", "phalanx", "crusader"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "self",
+      aoeType: "circle",
+      aoeSize: 5,
+      targetRestrictions: ["allies"]
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 10,
+      classResource: { type: "fervor", gain: 15 }
+    },
+    buffConfig: {
+      buffType: "protection",
+      effects: [
+        {
+          id: "shield_wall_phalanx",
+          name: "Shield Phalanx",
+          description: "+3 DR and heavy cover from ranged attacks.",
+          mechanicsText: "Crusader and adjacent allies gain +3 DR and heavy cover against ranged attacks for 3 rounds."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+    tags: ["buff", "defense", "phalanx", "crusader"]
+  },
+  {
+    id: "crusader_radiant_shackle",
+    name: "Radiant Sun-Shackle",
+    description: "Cast blazing solar tethers around an enemy within 35ft. Target's movement speed drops to 0 on round 1 and is halved on rounds 2-3 (Spirit DC 15 negates).",
+    level: 4,
+    spellType: "ACTION",
+    icon: "Radiant/Chakra Circle",
+    effectTypes: ["control", "debuff"],
+    typeConfig: {
+      school: "sacred",
+      icon: "Radiant/Chakra Circle",
+      tags: ["control", "debuff", "immobilize", "crusader"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeType: "ranged",
+      rangeDistance: 35,
+      targetRestrictions: ["enemies"],
+      maxTargets: 1
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 11,
+      classResource: { type: "fervor", cost: 20 }
+    },
+    controlConfig: {
+      controlType: "immobilization",
+      effects: [
+        {
+          id: "radiant_sun_chains",
+          name: "Sun-Shackle Restraint",
+          description: "Speed reduced to 0 on round 1, halved on rounds 2-3.",
+          mechanicsText: "Speed 0 on round 1, halved on rounds 2-3 on failed DC 15 Spirit save."
+        }
+      ],
+      savingThrow: {
+        ability: "spirit",
+        difficultyClass: 15,
+        saveOutcome: "negates"
+      },
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+    tags: ["control", "debuff", "immobilize", "crusader"]
+  },
+  {
+    id: "crusader_aura_of_zeal",
+    name: "Aura of Righteous Zeal",
+    description: "Radiate incandescent solar brilliance across a 25ft aura for 3 rounds. Allies within gain +1d6 sacred damage on all weapon strikes, and invisible enemies inside are revealed.",
+    level: 5,
+    spellType: "ACTION",
+    icon: "Radiant/Radiant Aura",
+    effectTypes: ["buff"],
+    typeConfig: {
+      school: "sacred",
+      icon: "Radiant/Radiant Aura",
+      tags: ["buff", "aura", "empowerment", "crusader"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "self",
+      aoeType: "circle",
+      aoeSize: 25,
+      targetRestrictions: ["allies"]
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 12,
+      classResource: { type: "fervor", cost: 25 }
+    },
+    buffConfig: {
+      buffType: "damage_enhancement",
+      effects: [
+        {
+          id: "zeal_weapon_empowerment",
+          name: "Zealous Weapon Infusion",
+          description: "+1d6 sacred damage on weapon attacks; reveals invisibility within 25ft.",
+          mechanicsText: "Allies within 25ft add +1d6 sacred damage to weapon attacks. Invisibility suppressed in aura."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+    tags: ["buff", "aura", "empowerment", "crusader"]
+  },
+  {
+    id: "crusader_wrathful_smite",
+    name: "Wrathful Sun-Smite",
+    description: "Empower your greatsword with blazing solar retribution. Next strike deals 6d8 sacred damage and knocks the target prone (Constitution DC 16 for half and resists knockdown).",
+    level: 6,
+    spellType: "ACTION",
+    icon: "Radiant/Divine Downward Sword",
+    effectTypes: ["damage", "control"],
+    typeConfig: {
+      school: "sacred",
+      icon: "Radiant/Divine Downward Sword",
+      tags: ["damage", "control", "smite", "sacred", "crusader"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeType: "melee",
+      rangeDistance: 5,
+      targetRestrictions: ["enemies"],
+      maxTargets: 1
+    },
+    durationConfig: {
+      durationType: "instant",
+      durationValue: 0,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 14,
+      classResource: { type: "fervor", cost: 30 }
+    },
+    damageConfig: {
+      formula: "6d8 + strength",
+      elementType: "sacred",
+      damageTypes: ["sacred"],
+      resolution: "DICE",
+      savingThrow: {
+        ability: "constitution",
+        difficultyClass: 16,
+        saveOutcome: "half_damage"
+      }
+    },
+    controlConfig: {
+      controlType: "knockdown",
+      effects: [
+        {
+          id: "wrathful_smite_prone",
+          name: "Righteous Knockdown",
+          description: "Target knocked prone on failed Constitution save.",
+          mechanicsText: "Target knocked prone on failed DC 16 Constitution save."
+        }
+      ],
+      durationValue: 0,
+      durationUnit: "instant"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+    tags: ["damage", "control", "smite", "sacred", "crusader"]
+  },
+  {
+    id: "crusader_aegis_of_the_vanguard",
+    name: "Aegis of the Vanguard",
+    description: "Interpose a towering translucent solar bulwark before an ally within 30ft for 3 rounds. Grants 25 Temporary HP, +2 DR, and immunity to forced movement.",
+    level: 6,
+    spellType: "ACTION",
+    icon: "Radiant/Radiant Golden Shield",
+    effectTypes: ["buff"],
+    typeConfig: {
+      school: "sacred",
+      icon: "Radiant/Radiant Golden Shield",
+      tags: ["buff", "defense", "shield", "crusader"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeType: "ranged",
+      rangeDistance: 30,
+      targetRestrictions: ["allies"],
+      maxTargets: 1
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 13,
+      classResource: { type: "fervor", cost: 25 }
+    },
+    buffConfig: {
+      buffType: "temporary_hp",
+      effects: [
+        {
+          id: "vanguard_solar_aegis",
+          name: "Vanguard Aegis",
+          description: "25 Temp HP, +2 DR, and immunity to forced movement.",
+          mechanicsText: "Target ally gains 25 Temporary HP, +2 DR, and cannot be forcibly moved for 3 rounds."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+    tags: ["buff", "defense", "shield", "crusader"]
+  },
+  {
+    id: "crusader_dawn_bastion",
+    name: "Dawn Bastion",
+    description: "Erect a 20ft hemispherical dome of dawn light for 3 rounds. Allies within gain DR 6 against physical and elemental damage, and take half damage from area effects.",
+    level: 7,
+    spellType: "ACTION",
+    icon: "Radiant/Divine Illumination",
+    effectTypes: ["buff"],
+    typeConfig: {
+      school: "sacred",
+      icon: "Radiant/Divine Illumination",
+      tags: ["buff", "defense", "sanctuary", "crusader"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "self",
+      aoeType: "circle",
+      aoeSize: 20,
+      targetRestrictions: ["allies"]
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 16,
+      classResource: { type: "fervor", cost: 35 }
+    },
+    buffConfig: {
+      buffType: "protection",
+      effects: [
+        {
+          id: "dawn_bastion_protection",
+          name: "Dawn Bastion Sanctuary",
+          description: "DR 6 against all damage and half damage from area attacks.",
+          mechanicsText: "Allies within 20ft gain DR 6 and take 50% reduced damage from area-of-effect abilities."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+    tags: ["buff", "defense", "sanctuary", "crusader"]
+  },
+  {
+    id: "crusader_pillar_of_condemnation",
+    name: "Pillar of Condemnation",
+    description: "Call down a vertical pillar of concentrated solar flame in a 15ft area up to 50ft away. Deals 8d8 ember damage (Agility DC 17 for half) and blinds enemies for 2 rounds.",
+    level: 7,
+    spellType: "ACTION",
+    icon: "Fire/Fireball",
+    effectTypes: ["damage", "control"],
+    typeConfig: {
+      school: "ember",
+      icon: "Fire/Fireball",
+      tags: ["damage", "control", "aoe", "ember", "crusader"],
+      castTime: 2,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "ranged",
+      rangeDistance: 50,
+      aoeType: "circle",
+      aoeSize: 15,
+      targetRestrictions: ["enemies"]
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 2,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 18,
+      classResource: { type: "fervor", cost: 40 }
+    },
+    damageConfig: {
+      formula: "8d8",
+      elementType: "ember",
+      damageTypes: ["ember"],
+      resolution: "DICE",
+      savingThrow: {
+        ability: "agility",
+        difficultyClass: 17,
+        saveOutcome: "half_damage"
+      }
+    },
+    controlConfig: {
+      controlType: "blindness",
+      effects: [
+        {
+          id: "condemnation_blindness",
+          name: "Blinding Solar Column",
+          description: "Blinded for 2 rounds on failed Agility save.",
+          mechanicsText: "Targets blinded for 2 rounds on failed DC 17 Agility save."
+        }
+      ],
+      durationValue: 2,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+    tags: ["damage", "control", "aoe", "ember", "crusader"]
+  },
+  {
+    id: "crusader_radiant_transfusion",
+    name: "Radiant Transfusion",
+    description: "Channel blinding solar restorative power into an ally within 40ft. Restores 35 HP, cleanses 2 negative status conditions, and grants +10 Temporary HP.",
+    level: 8,
+    spellType: "ACTION",
+    icon: "Healing/Golden Heart",
+    effectTypes: ["healing", "cleanse", "buff"],
+    typeConfig: {
+      school: "sacred",
+      icon: "Healing/Golden Heart",
+      tags: ["healing", "cleanse", "buff", "sacred", "crusader"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeType: "ranged",
+      rangeDistance: 40,
+      targetRestrictions: ["allies"],
+      maxTargets: 1
+    },
+    durationConfig: {
+      durationType: "instant",
+      durationValue: 0,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 20,
+      classResource: { type: "fervor", cost: 35 }
+    },
+    healingConfig: {
+      formula: "35",
+      healingType: "direct",
+      description: "Restores 35 hit points."
+    },
+    utilityConfig: {
+      utilityType: "cleanse",
+      selectedEffects: [
+        {
+          id: "transfusion_cleanse",
+          name: "Solar Purification",
+          description: "Cleanses 2 negative status conditions.",
+          mechanicsText: "Removes up to 2 debuffs, poisons, or curses from target ally."
+        }
+      ],
+      power: "major"
+    },
+    buffConfig: {
+      buffType: "temporary_hp",
+      effects: [
+        {
+          id: "transfusion_temp_hp",
+          name: "Residual Radiant Ward",
+          description: "10 Temporary HP.",
+          mechanicsText: "Target gains 10 Temporary HP for 3 rounds."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+    tags: ["healing", "cleanse", "buff", "sacred", "crusader"]
+  },
+  {
+    id: "crusader_blades_of_the_crusade",
+    name: "Blades of the Holy Crusade",
+    description: "Conjure a swirling cyclone of radiant greatswords across a 25ft radius for 3 rounds. Deals 8d8 sacred damage upon casting and 2d8 sacred damage to any foe ending their turn in the zone.",
+    level: 8,
+    spellType: "ACTION",
+    icon: "Piercing/Dagger Whirl",
+    effectTypes: ["damage", "control"],
+    typeConfig: {
+      school: "sacred",
+      icon: "Piercing/Dagger Whirl",
+      tags: ["damage", "control", "aoe", "sacred", "crusader"],
+      castTime: 2,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "ranged",
+      rangeDistance: 45,
+      aoeType: "circle",
+      aoeSize: 25,
+      targetRestrictions: ["enemies"]
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 22,
+      classResource: { type: "fervor", cost: 50 }
+    },
+    damageConfig: {
+      formula: "8d8",
+      elementType: "sacred",
+      damageTypes: ["sacred"],
+      resolution: "DICE",
+      savingThrow: {
+        ability: "agility",
+        difficultyClass: 18,
+        saveOutcome: "half_damage"
+      }
+    },
+    controlConfig: {
+      controlType: "hazard_zone",
+      effects: [
+        {
+          id: "crusade_blade_vortex",
+          name: "Sword Vortex",
+          description: "Foes ending their turn in the zone suffer 2d8 sacred damage.",
+          mechanicsText: "Hostile creatures ending turn in zone take 2d8 sacred damage."
+        }
+      ],
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+    tags: ["damage", "control", "aoe", "sacred", "crusader"]
+  },
+  {
+    id: "crusader_immortal_vanguard",
+    name: "The Immortal Vanguard",
+    description: "Transform into an unshakeable solar bulwark for 3 rounds. Gain DR 10, cannot drop below 1 HP, and any damage dealt to allies within 20ft is halved, with the other half transferred to you.",
+    level: 9,
+    spellType: "ACTION",
+    icon: "Radiant/Golden Knight",
+    effectTypes: ["buff"],
+    typeConfig: {
+      school: "sacred",
+      icon: "Radiant/Golden Knight",
+      tags: ["buff", "defense", "immortality", "crusader"],
+      castTime: 2,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "self",
+      aoeType: "circle",
+      aoeSize: 20,
+      targetRestrictions: ["allies"]
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 26,
+      classResource: { type: "fervor", cost: 60 }
+    },
+    buffConfig: {
+      buffType: "protection",
+      effects: [
+        {
+          id: "immortal_vanguard_shield",
+          name: "Immortal Vanguard Stance",
+          description: "Crusader gains DR 10 and cannot drop below 1 HP; 50% ally damage within 20ft redirects to Crusader.",
+          mechanicsText: "Crusader gains DR 10, cannot drop below 1 HP. 50% of damage to allies within 20ft transfers to Crusader."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+    tags: ["buff", "defense", "immortality", "crusader"]
+  },
+  {
+    id: "crusader_apotheosis_of_light",
+    name: "Apotheosis of Sol's Light",
+    description: "Transcend mortal form and manifest as an incandescent solar avatar for 1 minute (10 rounds). Sprout six wings of blinding light, gain flying speed 60ft, heal all allies for 15 HP at round start, and all attacks deal maximum possible damage rolls.",
+    level: 10,
+    spellType: "ACTION",
+    icon: "Radiant/Divine Radiance",
+    effectTypes: ["buff", "transformation", "healing"],
+    typeConfig: {
+      school: "sacred",
+      icon: "Radiant/Divine Radiance",
+      tags: ["buff", "transformation", "ultimate", "sacred", "crusader"],
+      castTime: 2,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "self",
+      rangeType: "self"
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 10,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 30,
+      classResource: { type: "fervor", cost: 100 }
+    },
+    buffConfig: {
+      buffType: "transformation",
+      effects: [
+        {
+          id: "sol_apotheosis_avatar",
+          name: "Avatar of the Unconquered Sun",
+          description: "Flight 60ft, maximum damage rolls on attacks, and passive 15 HP round-start heal to party.",
+          mechanicsText: "Fly speed 60ft; all damage rolls deal maximum values; allies within 30ft heal 15 HP at start of round."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 10,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+    tags: ["buff", "transformation", "ultimate", "sacred", "crusader"]
+  },
+  {
+    id: "crusader_sun_kings_decree",
+    name: "Decree of the Sun King",
+    description: "Issue a supreme sovereign proclamation across an 80ft radius for 3 rounds. All enemies in range are compelled to prostrate before the Sun King (speed 0, cannot take reactions, DC 20 Spirit save negates), and cannot make attack rolls against allies with lower health than you.",
+    level: 10,
+    spellType: "ACTION",
+    icon: "Radiant/Holy Cross",
+    effectTypes: ["control"],
+    typeConfig: {
+      school: "sacred",
+      icon: "Radiant/Holy Cross",
+      tags: ["control", "ultimate", "sacred", "crusader"],
+      castTime: 2,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "self",
+      aoeType: "circle",
+      aoeSize: 80,
+      targetRestrictions: ["enemies"]
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 30,
+      classResource: { type: "fervor", cost: 100 }
+    },
+    controlConfig: {
+      controlType: "prostration",
+      effects: [
+        {
+          id: "sun_king_prostration",
+          name: "Prostration of the Unworthy",
+          description: "Speed 0, no reactions, cannot attack allies with lower HP than Crusader.",
+          mechanicsText: "Speed 0 and no reactions for 3 rounds on failed DC 20 Spirit save. Enemies barred from attacking allies with lower HP than Crusader."
+        }
+      ],
+      savingThrow: {
+        ability: "spirit",
+        difficultyClass: 20,
+        saveOutcome: "negates"
+      },
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+    tags: ["control", "ultimate", "sacred", "crusader"]
   }
 ];
 
 export const CRUSADER_DATA = {
+  spellPools: {
+    1: [
+      "crusader_sanctified_hearth",
+      "crusader_beacon_of_truth",
+      "starlight_cleave",
+      "zealous_strike",
+      "bastion_stance"
+    ],
+    2: [
+      "crusader_starlight_interposition",
+      "radiant_guard",
+      "consecrated_sweep",
+      "crusader_judgment_strike"
+    ],
+    3: [
+      "crusader_solar_beacon",
+      "zealots_inquisitive_eye",
+      "fervent_charge",
+      "crusader_banner_of_devotion"
+    ],
+    4: [
+      "righteous_upheaval",
+      "solvan_retribution",
+      "crusader_shield_wall_discipline",
+      "crusader_radiant_shackle"
+    ],
+    5: [
+      "crusader_aegis_of_the_martyred_sun",
+      "chakram_of_aex",
+      "harmonic_smite",
+      "crusader_aura_of_zeal"
+    ],
+    6: [
+      "sanctified_hearth",
+      "beacon_of_sol",
+      "crusader_wrathful_smite",
+      "crusader_aegis_of_the_vanguard"
+    ],
+    7: [
+      "reprimand_of_the_zealot",
+      "starlight_bulwark",
+      "crusader_dawn_bastion",
+      "crusader_pillar_of_condemnation"
+    ],
+    8: [
+      "solar_flameblade",
+      "pillars_of_the_vigil",
+      "crusader_radiant_transfusion",
+      "crusader_blades_of_the_crusade"
+    ],
+    9: [
+      "crusader_judgment_day_cataclysm",
+      "shield_of_light_and_steel",
+      "supernova_surge",
+      "crusader_immortal_vanguard"
+    ],
+    10: [
+      "solvan_judgment_titanfall",
+      "avatar_of_the_willing_sacrifice",
+      "crusader_apotheosis_of_light",
+      "crusader_sun_kings_decree"
+    ]
+  },
   id: "crusader",
   classResource: {
     type: "fervor",

@@ -35,7 +35,7 @@ export const createPersistentRoom = async (roomData) => {
   }
  } catch (e) { }
 
- if (!db || !auth.currentUser) {
+ if (!db || !auth?.currentUser) {
   throw new Error('Firebase not initialized or user not authenticated');
  }
 
@@ -79,7 +79,7 @@ export const createPersistentRoom = async (roomData) => {
   // Room creation/joining should go through server-side socket events which use bcrypt hashing.
   // This field is intentionally omitted from the Firestore document.
   gmId: userId,
-  gmName: roomData.gmName || auth.currentUser.displayName || 'Game Master',
+  gmName: roomData.gmName || auth?.currentUser?.displayName || 'Game Master',
 
   // Room settings
   settings: {

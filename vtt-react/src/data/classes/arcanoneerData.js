@@ -1970,7 +1970,6 @@ MAX BANKED SPHERES: 12
  // Maps character level to available spell IDs for learning
  spellPools: {
   1: [
-   // Level 1 starting spells (pick 3)
    "arc_spark_bolt",
    "arc_frost_touch",
    "arc_healing_light",
@@ -1979,62 +1978,61 @@ MAX BANKED SPHERES: 12
    "arc_aetheric_lantern",
   ],
   2: [
-   // Level 2 spells
    "arc_steam_burst",
    "arc_shadow_bolt",
    "arc_celestial_ray",
+   "arc_concussive_resonance",
   ],
   3: [
-   // Level 3 spells
    "arc_fire_bolt",
    "arc_ice_shard",
    "arc_arcane_detonation",
+   "arc_galvanic_overload",
   ],
   4: [
-   // Level 4 spells
    "arc_firestorm",
    "arc_frost_nova",
    "arc_shadow_embrace",
+   "arc_cryogenic_crystallization",
   ],
   5: [
-   // Level 5 spells
    "arc_elemental_blast",
    "arc_divine_healing",
    "arc_chaos_bolt",
+   "arc_mnemonic_matrix_ward",
   ],
   6: [
-   // Level 6 spells (3-sphere combinations)
    "arc_glacial_blessing",
    "arc_prismatic_ward",
    "arc_verdant_rejuvenation",
+   "arc_prismatic_portal",
   ],
   7: [
-   // Level 7 spells (3-4 sphere combinations)
    "arc_phase_shift",
    "arc_elemental_barrage",
    "arc_celestial_storm",
+   "arc_prismatic_resonance_field",
   ],
   8: [
-   // Level 8 spells (4-sphere ultimates)
    "arc_harmonic_convergence",
    "arc_elemental_maelstrom",
    "arc_chaos_storm",
+   "arc_null_compression_barrier",
   ],
   9: [
-   // Level 9 spells (powerful with tradeoffs)
    "arc_primal_cataclysm",
    "arc_chaos_vortex",
    "arc_arcane_synthesis",
+   "arc_aether_nullification_lattice",
   ],
   10: [
-   // Level 10 spells (capstones)
    "arc_elemental_convergence",
    "arc_dimensional_rift",
    "arc_elemental_apotheosis",
+   "arc_singularity_collapse",
   ],
  },
 
- // Spells - organized by level, properly formatted for wizard
  spells: [
   {
    id: "arc_prismatic_portal",
@@ -3272,7 +3270,7 @@ MAX BANKED SPHERES: 12
     spheres: ["ember", "sacred"],
    },
 
-   effectTypes: ["defensive"],
+   effectTypes: ["defense", "buff"],
 
    defensiveConfig: {
     shieldType: "damage_reduction",
@@ -4824,6 +4822,451 @@ MAX BANKED SPHERES: 12
 
    tags: ["ultimate", "buff", "transformation", "mastery"],
   },
+
+  // ===== POOL-FLOOR EXPANSION SPELLS (LEVELS 2, 3, 4, 5, 7, 8, 9, 10) =====
+  {
+   id: "arc_concussive_resonance",
+   name: "Concussive Resonance",
+   description:
+    "Slam two attuned spheres together, producing an amplified acoustic pressure wave that batters a target and interrupts spellcasting.",
+   level: 2,
+   enhancesCombo: "storm_arcane",
+   spellType: "ACTION",
+   icon: "Storm/Lightning Strike",
+   typeConfig: {
+    school: "storm",
+    secondaryElement: "arcane",
+    icon: "Storm/Lightning Strike",
+    tags: ["storm", "arcane", "damage", "control"],
+    castTime: 1,
+    castTimeType: "IMMEDIATE",
+   },
+   targetingConfig: {
+    targetingType: "single",
+    rangeType: "ranged",
+    rangeDistance: 45,
+    targetRestrictions: ["enemy"],
+   },
+   resourceCost: {
+    resourceTypes: ["mana"],
+    resourceValues: { mana: 8, classResource: { type: "elemental_spheres", cost: 2 } },
+    useFormulas: {},
+    actionPoints: 1,
+    components: ["verbal", "somatic"],
+    verbalText: "Tonitrus Resonans!",
+    somaticText: "Snap two spheres together like cymbals, releasing a concussive shock",
+    spheres: ["storm", "arcane"],
+   },
+   effectTypes: ["damage", "control"],
+   damageConfig: {
+    formula: "2d6 + intelligence",
+    damageTypes: ["storm", "arcane"],
+    resolution: "DICE",
+   },
+   controlConfig: {
+    controlType: "silence",
+    duration: 1,
+    durationUnit: "rounds",
+    savingThrow: {
+     ability: "fortitude",
+     difficultyClass: 13,
+     saveOutcome: "negates",
+    },
+    effects: [
+     {
+      id: "concussive_silence",
+      name: "Acoustic Daze",
+      description: "Deafened and silenced by acoustic pressure for 1 round.",
+      mechanicsText: "Silenced for 1 round on failed Fortitude save.",
+     },
+    ],
+   },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+   tags: ["storm", "arcane", "damage", "control"],
+  },
+
+  {
+   id: "arc_galvanic_overload",
+   name: "Galvanic Overload",
+   description:
+    "Fuse lightning and fire matrices into an unstable plasma orb that detonates across up to three adjacent enemies.",
+   level: 3,
+   enhancesCombo: "storm_fire",
+   spellType: "ACTION",
+   icon: "Fire/Fireball",
+   typeConfig: {
+    school: "storm",
+    secondaryElement: "ember",
+    icon: "Fire/Fireball",
+    tags: ["storm", "ember", "damage", "aoe"],
+    castTime: 1,
+    castTimeType: "IMMEDIATE",
+   },
+   targetingConfig: {
+    targetingType: "area",
+    rangeType: "ranged",
+    rangeDistance: 40,
+    aoeShape: "circle",
+    aoeParameters: { radius: 15 },
+    targetRestrictions: ["enemy"],
+   },
+   resourceCost: {
+    resourceTypes: ["mana"],
+    resourceValues: { mana: 12, classResource: { type: "elemental_spheres", cost: 2 } },
+    useFormulas: {},
+    actionPoints: 1,
+    components: ["verbal", "somatic"],
+    verbalText: "Fulmen et Flamma!",
+    somaticText: "Spin plasma filaments between your fingertips and hurl them outward",
+    spheres: ["storm", "ember"],
+   },
+   effectTypes: ["damage"],
+   damageConfig: {
+    formula: "3d8 + intelligence",
+    damageTypes: ["storm", "ember"],
+    resolution: "DICE",
+   },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+   tags: ["storm", "ember", "damage", "aoe"],
+  },
+
+  {
+   id: "arc_cryogenic_crystallization",
+   name: "Cryogenic Crystallization",
+   description:
+    "Flash-freeze the terrestrial moisture around a foe, encasing their limbs in brittle permafrost and rendering them Immobilized.",
+   level: 4,
+   enhancesCombo: "ice_nature",
+   spellType: "ACTION",
+   icon: "Frost/Frost Armor",
+   typeConfig: {
+    school: "rime",
+    secondaryElement: "primal",
+    icon: "Frost/Frost Armor",
+    tags: ["rime", "primal", "control", "debuff"],
+    castTime: 1,
+    castTimeType: "IMMEDIATE",
+   },
+   targetingConfig: {
+    targetingType: "single",
+    rangeType: "ranged",
+    rangeDistance: 45,
+    targetRestrictions: ["enemy"],
+   },
+   resourceCost: {
+    resourceTypes: ["mana"],
+    resourceValues: { mana: 15, classResource: { type: "elemental_spheres", cost: 2 } },
+    useFormulas: {},
+    actionPoints: 1,
+    components: ["verbal", "somatic"],
+    verbalText: "Gelus Radicatus!",
+    somaticText: "Thrust frozen prism toward the ground, sending ice roots spreading",
+    spheres: ["rime", "primal"],
+   },
+   effectTypes: ["control", "debuff"],
+   controlConfig: {
+    controlType: "immobilize",
+    duration: 2,
+    durationUnit: "rounds",
+    savingThrow: {
+     ability: "fortitude",
+     difficultyClass: 15,
+     saveOutcome: "negates",
+    },
+    effects: [
+     {
+      id: "cryo_crystal_root",
+      name: "Permafrost Encasement",
+      description: "Immobilized and takes 25% increased physical damage for 2 rounds.",
+      mechanicsText: "Immobilized + 25% physical vulnerability for 2 rounds.",
+     },
+    ],
+   },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+   tags: ["rime", "primal", "control", "debuff"],
+  },
+
+  {
+   id: "arc_mnemonic_matrix_ward",
+   name: "Mnemonic Matrix Ward",
+   description:
+    "Etch a geometric contract-matrix of radiant arcane glyphs onto an ally, granting temporary shielding and immediately refunding 2 spheres when struck.",
+   level: 5,
+   enhancesCombo: "arcane_holy",
+   spellType: "ACTION",
+   icon: "Radiant/Radiant Armor",
+   typeConfig: {
+    school: "arcane",
+    secondaryElement: "sacred",
+    icon: "Radiant/Radiant Armor",
+    tags: ["arcane", "sacred", "defense", "buff"],
+    castTime: 1,
+    castTimeType: "IMMEDIATE",
+   },
+   targetingConfig: {
+    targetingType: "single",
+    rangeType: "ranged",
+    rangeDistance: 50,
+    targetRestrictions: ["ally", "self"],
+   },
+   resourceCost: {
+    resourceTypes: ["mana"],
+    resourceValues: { mana: 18, classResource: { type: "elemental_spheres", cost: 2 } },
+    useFormulas: {},
+    actionPoints: 1,
+    components: ["verbal", "somatic"],
+    verbalText: "Charta Lumina!",
+    somaticText: "Trace glowing geometric equations onto ally armor",
+    spheres: ["arcane", "sacred"],
+   },
+   effectTypes: ["defense", "buff"],
+   buffConfig: {
+    buffType: "temporaryHitPoints",
+    effects: [
+     {
+      id: "mnemonic_matrix_shield",
+      name: "Matrix Shield",
+      description: "Grants 30 temporary HP for 3 rounds. When barrier absorbs damage, refunds 2 elemental spheres to the Arcanoneer.",
+      mechanicsText: "30 temp HP for 3 rounds; refunds 2 spheres when struck.",
+     },
+    ],
+    durationValue: 3,
+    durationUnit: "rounds",
+   },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+   tags: ["arcane", "sacred", "defense", "buff"],
+  },
+
+  {
+   id: "arc_prismatic_resonance_field",
+   name: "Prismatic Resonance Field",
+   description:
+    "Deploy a 25ft harmonic field that refracts elemental spells: allies inside gain +4 DR and elemental resistance, while enemies suffer 4d8 rime/ember damage whenever they cast.",
+   level: 7,
+   enhancesCombo: "prismatic_harmonic",
+   spellType: "ACTION",
+   icon: "Radiant/Radiant Flash",
+   typeConfig: {
+    school: "arcane",
+    secondaryElement: "ember",
+    icon: "Radiant/Radiant Flash",
+    tags: ["arcane", "ember", "rime", "buff", "damage"],
+    castTime: 1,
+    castTimeType: "IMMEDIATE",
+   },
+   targetingConfig: {
+    targetingType: "area",
+    rangeType: "ranged",
+    rangeDistance: 45,
+    aoeShape: "circle",
+    aoeParameters: { radius: 25 },
+    targetRestrictions: ["any"],
+   },
+   resourceCost: {
+    resourceTypes: ["mana"],
+    resourceValues: { mana: 25, classResource: { type: "elemental_spheres", cost: 3 } },
+    useFormulas: {},
+    actionPoints: 2,
+    components: ["verbal", "somatic"],
+    verbalText: "Nexus Harmonicum!",
+    somaticText: "Anchor three prismatic crystals in triangular resonance",
+    spheres: ["arcane", "ember", "rime"],
+   },
+   effectTypes: ["buff", "damage"],
+   buffConfig: {
+    buffType: "statModifier",
+    effects: [
+     {
+      id: "prismatic_field_buff",
+      name: "Harmonic Refraction",
+      description: "Allies in field gain +4 Damage Reduction and resistance to fire and cold for 3 rounds.",
+      mechanicsText: "+4 DR and fire/frost resistance in field.",
+     },
+    ],
+    durationValue: 3,
+    durationUnit: "rounds",
+   },
+   damageConfig: {
+    formula: "4d8 + intelligence",
+    damageTypes: ["rime", "ember"],
+    resolution: "DICE",
+   },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+   tags: ["arcane", "ember", "rime", "buff", "damage"],
+  },
+
+  {
+   id: "arc_null_compression_barrier",
+   name: "Null-Compression Barrier",
+   description:
+    "Weave an absolute kinetic and magical dampener around the party, reducing all incoming damage by 50% for 1 round and venting the absorbed energy as an aetheric burst.",
+   level: 8,
+   enhancesCombo: "void_storm",
+   spellType: "ACTION",
+   icon: "Abyssal/Void Bolt",
+   typeConfig: {
+    school: "arcane",
+    secondaryElement: "blight",
+    icon: "Abyssal/Void Bolt",
+    tags: ["arcane", "blight", "defense", "buff"],
+    castTime: 1,
+    castTimeType: "IMMEDIATE",
+   },
+   targetingConfig: {
+    targetingType: "area",
+    rangeType: "self_centered",
+    aoeShape: "circle",
+    aoeParameters: { radius: 30 },
+    targetRestrictions: ["ally"],
+   },
+   resourceCost: {
+    resourceTypes: ["mana"],
+    resourceValues: { mana: 30, classResource: { type: "elemental_spheres", cost: 3 } },
+    useFormulas: {},
+    actionPoints: 2,
+    components: ["verbal", "somatic"],
+    verbalText: "Compressio Absoluta!",
+    somaticText: "Compress three inverted spheres into an impenetrable gravity dome",
+    spheres: ["arcane", "blight", "storm"],
+   },
+   effectTypes: ["defense", "buff"],
+   buffConfig: {
+    buffType: "statModifier",
+    effects: [
+     {
+      id: "null_compression_buff",
+      name: "Null Barrier",
+      description: "All affected allies reduce incoming damage by 50% for 1 round.",
+      mechanicsText: "50% incoming damage reduction for 1 round.",
+     },
+    ],
+    durationValue: 1,
+    durationUnit: "rounds",
+   },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+   tags: ["arcane", "blight", "defense", "buff"],
+  },
+
+  {
+   id: "arc_aether_nullification_lattice",
+   name: "Aether Nullification Lattice",
+   description:
+    "Anchor a four-point dimensional lattice across the battlefield, stripping all magical buffs from enemies, silencing spellcasting in a 40ft zone, and restoring 4 elemental spheres.",
+   level: 9,
+   enhancesCombo: "grand_nomenclature",
+   spellType: "ACTION",
+   icon: "Arcane/Arcane Explosion",
+   typeConfig: {
+    school: "arcane",
+    secondaryElement: "sacred",
+    icon: "Arcane/Arcane Explosion",
+    tags: ["arcane", "cleanse", "control"],
+    castTime: 1,
+    castTimeType: "IMMEDIATE",
+   },
+   targetingConfig: {
+    targetingType: "area",
+    rangeType: "ranged",
+    rangeDistance: 60,
+    aoeShape: "circle",
+    aoeParameters: { radius: 40 },
+    targetRestrictions: ["enemy"],
+   },
+   resourceCost: {
+    resourceTypes: ["mana"],
+    resourceValues: { mana: 36, classResource: { type: "elemental_spheres", cost: 4 } },
+    useFormulas: {},
+    actionPoints: 2,
+    components: ["verbal", "somatic"],
+    verbalText: "Cancellatio Universaliter!",
+    somaticText: "Cast four crystalline calibration spikes into four quadrant coordinates",
+    spheres: ["arcane", "sacred", "blight", "primal"],
+   },
+   effectTypes: ["control", "cleanse"],
+   controlConfig: {
+    controlType: "silence",
+    duration: 2,
+    durationUnit: "rounds",
+    savingThrow: {
+     ability: "spirit",
+     difficultyClass: 19,
+     saveOutcome: "negates",
+    },
+    effects: [
+     {
+      id: "lattice_silence",
+      name: "Aether Nullification",
+      description: "Silenced and all active magical buffs dispelled for 2 rounds.",
+      mechanicsText: "Dispel all buffs + Silenced for 2 rounds on failed Spirit save.",
+     },
+    ],
+   },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
+   tags: ["arcane", "cleanse", "control"],
+  },
+
+  {
+   id: "arc_singularity_collapse",
+   name: "Singularity Collapse",
+   description:
+    "Compress five elemental frequencies into an infinitely dense gravitational bead that pulls all enemies within 50 feet to its center before detonating in a cataclysm of primal force.",
+   level: 10,
+   enhancesCombo: "apotheosis_quintessence",
+   spellType: "ACTION",
+   icon: "Arcane/Arcane Vortex",
+   typeConfig: {
+    school: "arcane",
+    secondaryElement: "primal",
+    icon: "Arcane/Arcane Vortex",
+    tags: ["arcane", "primal", "damage", "control", "ultimate"],
+    castTime: 1,
+    castTimeType: "IMMEDIATE",
+   },
+   targetingConfig: {
+    targetingType: "area",
+    rangeType: "ranged",
+    rangeDistance: 60,
+    aoeShape: "circle",
+    aoeParameters: { radius: 50 },
+    targetRestrictions: ["enemy"],
+   },
+   resourceCost: {
+    resourceTypes: ["mana"],
+    resourceValues: { mana: 48, classResource: { type: "elemental_spheres", cost: 5 } },
+    useFormulas: {},
+    actionPoints: 3,
+    components: ["verbal", "somatic"],
+    verbalText: "Singularitas Finis!",
+    somaticText: "Grasp all five orbiting spheres in both hands and crush them into a pinpoint singularity",
+    spheres: ["arcane", "ember", "rime", "storm", "blight"],
+   },
+   effectTypes: ["damage", "control"],
+   damageConfig: {
+    formula: "16d10 + intelligence",
+    damageTypes: ["arcane", "primal"],
+    resolution: "DICE",
+    savingThrow: {
+     ability: "fortitude",
+     difficultyClass: 20,
+     saveOutcome: "half_damage",
+    },
+   },
+   controlConfig: {
+    controlType: "stun",
+    duration: 1,
+    durationUnit: "rounds",
+    effects: [
+     {
+      id: "singularity_stun",
+      name: "Gravitational Collapse",
+      description: "Pulled to center of area and Stunned for 1 round on failed Fortitude save.",
+      mechanicsText: "Pulled to center + Stunned for 1 round.",
+     },
+    ],
+   },
+   cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+   tags: ["arcane", "primal", "damage", "control", "ultimate"],
+  },,
 
   {
    id: "arc_sphere_exhaustion",

@@ -7,27 +7,27 @@
 
 | Class | Sheet | Deep-dive status | Review |
 |---|---|---|---|
-| Arcanoneer | — | queued | — |
+| Arcanoneer | [arcanoneer.md](arcanoneer.md) | implemented — awaiting review | Daniel |
 | Berserker | [berserker.md](berserker.md) | implemented — awaiting review | Daniel |
-| Shaper | — | queued | — |
-| Harbinger | — | queued (C1) | — |
-| Chronarch | — | queued (C1) | — |
-| Inquisitor | — | queued (C5) | — |
-| Revenant | — | queued | — |
-| False Prophet | — | queued (C6) | — |
-| Gambit | — | queued (C3) | — |
+| Shaper | [shaper.md](shaper.md) | implemented — awaiting review | Daniel |
+| Harbinger | [harbinger.md](harbinger.md) | implemented — awaiting review | Daniel |
+| Chronarch | [chronarch.md](chronarch.md) | implemented — awaiting review | Daniel |
+| Inquisitor | [inquisitor.md](inquisitor.md) | implemented — awaiting review | Daniel |
+| Revenant | [revenant.md](revenant.md) | implemented — awaiting review | Daniel |
+| False Prophet | [false_prophet.md](false_prophet.md) | implemented — awaiting review | Daniel |
+| Gambit | [gambit.md](gambit.md) | implemented — awaiting review | Daniel |
 | Apex | [apex.md](apex.md) | implemented — awaiting review | Daniel |
-| Animist | — | queued | — |
+| Animist | [animist.md](animist.md) | implemented — awaiting review | Daniel |
 | Lunarch | [lunarch.md](lunarch.md) | implemented — awaiting review | Daniel |
-| Martyr | — | queued (C6) | — |
-| Minstrel | — | queued | — |
-| Plaguebringer | — | queued (C4) | — |
-| Pyrofiend | — | queued (C1) | — |
-| Spellguard | — | queued (C1/C5) | — |
-| Toxicologist | — | queued (C4) | — |
+| Martyr | [martyr.md](martyr.md) | implemented — awaiting review | Daniel |
+| Minstrel | [minstrel.md](minstrel.md) | implemented — awaiting review | Daniel |
+| Plaguebringer | [plaguebringer.md](plaguebringer.md) | implemented — awaiting review | Daniel |
+| Pyrofiend | [pyrofiend.md](pyrofiend.md) | implemented — awaiting review | Daniel |
+| Spellguard | [spellguard.md](spellguard.md) | implemented — awaiting review | Daniel |
+| Toxicologist | [toxicologist.md](toxicologist.md) | implemented — awaiting review | Daniel |
 | Warden | [warden.md](warden.md) | implemented — awaiting review | Daniel |
-| Augur | — | queued (C3) | — |
-| Crusader | — | queued (C6) | — |
+| Augur | [augur.md](augur.md) | implemented — awaiting review | Daniel |
+| Crusader | [crusader.md](crusader.md) | implemented — awaiting review | Daniel |
 
 ## Template
 

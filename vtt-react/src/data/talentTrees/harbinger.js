@@ -389,7 +389,7 @@ export const HARBINGER_WILD_PROPHET = [
     },
     rankUpgrades: [
       { description: "All wild magic and prophecy damage increased by +1d6 damage." },
-      { description: "All wild magic and prophecy damage increased by +1d6 damage." },
+      { description: "All wild magic and prophecy damage increased by +1d6 damage, and Wild Magic Surges have a 25 points chance to trigger twice." },
       { description: "All wild magic and prophecy damage increased by +1d8 damage." },
       { description: "All wild magic and prophecy damage increased by +1d8 damage, and Chaos Prophecy Eruption costs 0 mana." }
     ]
@@ -837,7 +837,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     },
     rankUpgrades: [
       { description: "All single-target blight damage increased by +1d6 damage." },
-      { description: "All single-target blight damage increased by +1d6 damage." },
+      { description: "All single-target blight damage increased by +1d6 damage, and your blight spells ignore 10 points of enemy resistance." },
       { description: "All single-target blight damage increased by +1d8 damage." },
       { description: "All single-target blight damage increased by +1d8 damage, and Death Mark Strike costs 0 mana." }
     ]
@@ -1282,7 +1282,7 @@ export const HARBINGER_FATE_RIFT = [
     },
     rankUpgrades: [
       { description: "All void and rift damage increased by +1d6 damage." },
-      { description: "All void and rift damage increased by +1d6 damage." },
+      { description: "All void and rift damage increased by +1d6 damage, and your void rifts expand by 5 feet." },
       { description: "All void and rift damage increased by +1d8 damage." },
       { description: "All void and rift damage increased by +1d8 damage, and Void Tear Strike costs 0 mana." }
     ]

@@ -1471,13 +1471,18 @@
   font-family: 'Inter', sans-serif;
   font-size: 0.72rem;
   font-weight: 700;
-  padding: 3px 10px;
+  padding: 4px 10px;
   border-radius: 20px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 5px;
   letter-spacing: 0.3px;
   text-transform: uppercase;
+  max-width: 100%;
+  box-sizing: border-box;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.3;
 }
 
 .class-role-badge {
@@ -1596,6 +1601,108 @@
 .class-detail-display.premium-theme .class-tab.active i {
   color: #eadaa6;
   transform: scale(1.15) translateY(-1px);
+}
+
+/* Responsive Class Tab Dropdown Selector (Laptops, Tablets, iPads) */
+.class-tab-dropdown-wrapper {
+  display: none; /* hidden on wide desktop */
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 12px auto 16px auto;
+  z-index: 100;
+  width: 100%;
+}
+
+.class-tab-dropdown-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  background: linear-gradient(135deg, #fdf8eb 0%, #e6d8b5 100%);
+  color: #5a1e12;
+  border: 2px solid #c9a227;
+  padding: 0.6rem 1.4rem;
+  border-radius: 10px;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(139, 69, 19, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 200px;
+}
+
+.class-tab-dropdown-btn:hover {
+  background: linear-gradient(135deg, #fffcf5 0%, #eddcb7 100%);
+  border-color: #d4af37;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(139, 69, 19, 0.2);
+}
+
+.class-tab-dropdown-chevron {
+  font-size: 0.8rem;
+  margin-left: 0.3rem;
+  color: #8b4513;
+  transition: transform 0.25s ease;
+}
+
+.class-tab-dropdown-chevron.rotated {
+  transform: rotate(180deg);
+}
+
+.class-tab-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #fdfaf2 0%, #f4ebd5 100%);
+  border: 2px solid #8b4513;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(90, 30, 18, 0.3);
+  padding: 6px;
+  min-width: 220px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  animation: slide-down 0.2s ease-out;
+}
+
+.class-tab-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  border: none;
+  background: transparent;
+  color: #5a1e12;
+  font-family: 'Cinzel', serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+  width: 100%;
+}
+
+.class-tab-dropdown-item:hover {
+  background: rgba(212, 175, 55, 0.2);
+  color: #2b1108;
+  transform: translateX(3px);
+}
+
+.class-tab-dropdown-item.active {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(184, 134, 11, 0.25) 100%);
+  color: #3b1408;
+  font-weight: 700;
+}
+
+.class-tab-dropdown-item .checkmark {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: #8b4513;
 }
 
 /* ===== Premium Content Area ===== */
@@ -2503,27 +2610,16 @@ div.class-detail-content::-webkit-scrollbar-thumb,
     display: none;
   }
 
+  .class-tabs-desktop {
+    display: none !important;
+  }
+
+  .class-tab-dropdown-wrapper {
+    display: flex !important;
+  }
+
   .class-detail-display.premium-theme .class-detail-tabs {
-    justify-content: flex-start;
-    padding: 0 16px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-
-  .class-detail-display.premium-theme .class-detail-tabs::-webkit-scrollbar {
-    display: none;
-  }
-
-  .class-detail-display.premium-theme .class-tab {
-    padding: 10px 14px;
-    font-size: 0.95rem;
-    white-space: nowrap;
-    flex: 0 0 auto;
-  }
-
-  .class-detail-display.premium-theme .class-tab i {
-    font-size: 0.85rem;
+    display: none !important;
   }
 }
 
@@ -3405,11 +3501,20 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   font-style: italic;
 }
 
-/* Responsive: Adjust grid columns on smaller screens */
+/* Responsive: Adjust spellbook on laptops, iPads and tablets */
 @media (max-width: 1200px) {
+  .spellbook-container {
+    border-width: 4px;
+  }
+
+  .spellbook-page {
+    padding: 18px 12px 45px 12px;
+  }
+
+  /* Single column of spell cards per page so the 2-page book fits comfortably on laptops & iPads */
   .spellbook-spell-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
   
   .spellbook-hover-tooltip {
@@ -3417,7 +3522,7 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .spellbook-container {
     flex-direction: column;
     min-height: auto;
@@ -3430,7 +3535,7 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   }
 
   .spellbook-page {
-    padding: 18px 14px 45px 14px;
+    padding: 16px 12px 45px 12px;
     height: auto !important;
     min-height: 0 !important;
     overflow: visible !important;
@@ -3460,7 +3565,7 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 540px) {
   .spellbook-spell-grid {
     grid-template-columns: 1fr;
     gap: 8px;

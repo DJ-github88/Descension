@@ -263,6 +263,33 @@ const BestiaryDisplay = () => {
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [selectedCreature, setSelectedCreature] = useState(null);
   const [activeTab, setActiveTab] = useState('lore'); // 'lore' | 'combat' | 'tactics'
+  const [isBestiaryTabDropdownOpen, setIsBestiaryTabDropdownOpen] = useState(false);
+  const bestiaryTabDropdownRef = useRef(null);
+
+  // Close bestiary tab dropdown on outside click or Escape key
+  useEffect(() => {
+    if (!isBestiaryTabDropdownOpen) return;
+    const handleOutsideClick = (e) => {
+      if (bestiaryTabDropdownRef.current && !bestiaryTabDropdownRef.current.contains(e.target)) {
+        setIsBestiaryTabDropdownOpen(false);
+      }
+    };
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setIsBestiaryTabDropdownOpen(false);
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isBestiaryTabDropdownOpen]);
+
+  const bestiaryTabs = useMemo(() => [
+    { id: 'lore', label: 'Lore & Legends', icon: 'fas fa-scroll' },
+    { id: 'combat', label: 'Combat Statistics', icon: 'fas fa-swords' },
+    { id: 'tactics', label: 'Tactics & Actions', icon: 'fas fa-chess-knight' }
+  ], []);
 
   const sentinelRef = useRef(null);
 
@@ -623,27 +650,56 @@ const BestiaryDisplay = () => {
 
                 {/* Column 2: Tabbed Details */}
                 <div className="bestiary-tabs-col">
-                  {/* Tab Buttons */}
-                  <div className="bestiary-tabs-navigation">
-                    <button 
-                      className={`bestiary-tab-btn ${activeTab === 'lore' ? 'active' : ''}`}
-                      onClick={() => setActiveTab('lore')}
-                    >
-                      <i className="fas fa-scroll"></i> Lore &amp; Legends
-                    </button>
-                    <button 
-                      className={`bestiary-tab-btn ${activeTab === 'combat' ? 'active' : ''}`}
-                      onClick={() => setActiveTab('combat')}
-                    >
-                      <i className="fas fa-swords"></i> Combat Statistics
-                    </button>
-                    <button 
-                      className={`bestiary-tab-btn ${activeTab === 'tactics' ? 'active' : ''}`}
-                      onClick={() => setActiveTab('tactics')}
-                    >
-                      <i className="fas fa-chess-knight"></i> Tactics &amp; Actions
-                    </button>
+                  {/* Tab Buttons (Desktop) */}
+                  <div className="bestiary-tabs-navigation bestiary-tabs-desktop">
+                    {bestiaryTabs.map(tab => (
+                      <button 
+                        key={tab.id}
+                        className={`bestiary-tab-btn ${activeTab === tab.id ? 'active' : ''}`}
+                        onClick={() => setActiveTab(tab.id)}
+                      >
+                        <i className={tab.icon}></i> {tab.label}
+                      </button>
+                    ))}
                   </div>
+
+                  {/* Responsive Tab Dropdown Selector (Laptops, Tablets, iPads) */}
+                  {(() => {
+                    const currentTabObj = bestiaryTabs.find(t => t.id === activeTab) || bestiaryTabs[0];
+                    return (
+                      <div className="bestiary-tab-dropdown-wrapper" ref={bestiaryTabDropdownRef}>
+                        <button
+                          className={`bestiary-tab-dropdown-btn ${isBestiaryTabDropdownOpen ? 'open' : ''}`}
+                          onClick={() => setIsBestiaryTabDropdownOpen(prev => !prev)}
+                          aria-expanded={isBestiaryTabDropdownOpen}
+                          aria-haspopup="true"
+                          title="Select creature section"
+                        >
+                          <i className={currentTabObj.icon}></i>
+                          <span className="bestiary-tab-dropdown-label">{currentTabObj.label}</span>
+                          <i className={`fas fa-chevron-down bestiary-tab-dropdown-chevron ${isBestiaryTabDropdownOpen ? 'rotated' : ''}`}></i>
+                        </button>
+                        {isBestiaryTabDropdownOpen && (
+                          <div className="bestiary-tab-dropdown-menu">
+                            {bestiaryTabs.map(tab => (
+                              <button
+                                key={tab.id}
+                                className={`bestiary-tab-dropdown-item ${activeTab === tab.id ? 'active' : ''}`}
+                                onClick={() => {
+                                  setActiveTab(tab.id);
+                                  setIsBestiaryTabDropdownOpen(false);
+                                }}
+                              >
+                                <i className={tab.icon}></i>
+                                <span>{tab.label}</span>
+                                {activeTab === tab.id && <i className="fas fa-check checkmark"></i>}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
 
                   {/* Tab 1 Content: Lore & Legends */}
                   {activeTab === 'lore' && (

@@ -827,11 +827,11 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   },
  // BLADESTORM - Multi-Target Glaive Attacks
  {
-  effectTypes: ["damage"],
+  effectTypes: ["damage", "debuff"],
   id : "apex_glaive_toss",
   name: "Glaive Toss",
   description:
-  "Throw your Shadow Glaive in a spinning arc; it carves through the air and chains between enemies within 5 feet, shadow energy arcing between wounds.",
+  "Throw your Shadow Glaive in a spinning chain: 1d8 smashing to the first target, then 1d6, 1d6, 1d4 to the next three within 5 ft. The first enemy struck is pinned as your Quarry for 3 rounds; chain hits on the Quarry generate +1 Mark.",
   spellType: "ACTION",
   icon: "Piercing/Dagger Rain",
   level: 1,
@@ -874,11 +874,26 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
 
   resolution: "DICE",
 
-  damageConfig: {
+ damageConfig: {
   formula: "1d8",
   elementType: "smashing",
   damageTypes: ["smashing", "stabbing", "slicing"],
   scalingType: "chain_reduction",
+  },
+
+ debuffConfig: {
+  debuffType: "mark",
+  effects: [
+   { id: "glaive_toss_quarry_pin",
+   name: "Quarry-Pinned",
+   description: "The first enemy struck becomes your Quarry for 3 rounds.",
+   mechanicsText: "First target becomes your Quarry for 3 rounds; chains prioritize the Quarry and Quarry hits generate +1 Mark.",
+   },
+  ],
+  durationType: "rounds",
+  durationValue: 3,
+  durationUnit: "rounds",
+  canBeDispelled: false,
   },
 
   effects: {
@@ -900,13 +915,16 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   quarryMarks: {
    generated: 1,
    perHit: true,
-   description: "Generate 1 Mark for each enemy hit",
+   description: "Generate 1 Mark for each enemy hit, plus +1 additional Mark when the Quarry is hit",
   },
   chainMechanic: {
    description: "Chains to enemies within 5 feet of previous target",
    maxTargets: 4,
    damageReduction:
    "Chain damage: 1d8 (primary) ? 1d6 ? 1d6 ? 1d4. At L5+, all chains deal at least 1d6. At L8+, all chains deal at least 1d8.",
+  },
+  quarryPin: {
+   description: "The first enemy struck is pinned as your Quarry for 3 rounds",
   },
   bladestormPassive: {
    description:
@@ -988,7 +1006,7 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   id : "apex_blade_fury",
   name: "Razor Dance",
   description:
-  "Unleash a devastating flurry of glaive strikes, hitting multiple targets in rapid succession.",
+  "Committed whirlwind finisher: spend ALL your Marks to shred every enemy within 15 ft for 3d8 slicing, +1d6 per Mark spent beyond the second (max +3d6). Each kill refunds 1 Mark, up to 3.",
   spellType: "ACTION",
   icon: "Slashing/Whirl",
   level: 5,
@@ -1002,13 +1020,11 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   },
 
   targetingConfig: {
-  targetingType: "multi",
-  rangeType: "melee",
-  rangeDistance: 15,
-  maxTargets: 5,
+  targetingType: "area",
+  rangeType: "self",
+  areaType: "circle",
+  areaSize: 15,
   },
-
-  propagation: { type: "multi", maxTargets: 5 },
 
   durationConfig: {
   durationType: "instant",
@@ -1027,26 +1043,31 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
 
   damageConfig: {
   formula: "3d8",
-  elementType: "smashing",
-  damageTypes: ["smashing", "stabbing", "slicing"],
+  elementType: "slicing",
+  damageTypes: ["slicing"],
   scalingType: "none",
   },
 
-  effects: {
+ effects: {
   damage: {
-   multiTarget: {
+   aoe: {
    formula: "3d8",
-   type: "smashing",
-   targets: 5,
-   description: "Each target takes full damage",
+   type: "slicing",
+   radius: 15,
+   bonusPerMark: "1d6",
+   maxBonus: "3d6",
+   description: "Each enemy within 15 feet takes 3d8 slicing, plus +1d6 per Mark spent beyond the second (max +3d6)",
    },
   },
   },
 
-  specialMechanics: {
+ specialMechanics: {
   quarryMarks: {
    cost: 5,
-   description: "Ultimate ability - costs all 5 Marks",
+   description: "Whirlwind finisher - consumes all 5 Marks; each Mark spent beyond the second adds +1d6 slicing (max +3d6)",
+  },
+  killRefund: {
+   description: "Each kill refunds 1 Mark, up to 3",
   },
   momentum: {
    description: "Grants maximum Momentum (+3) after use",
@@ -1063,11 +1084,11 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
 
  // BEASTMASTER - Companion Synergy
  {
-  effectTypes: ["damage"],
+  effectTypes: ["damage", "buff"],
   id : "apex_companion_strike",
   name: "Companion Strike",
   description:
-  "Command your companion to launch a ferocious attack, jaws and claws finding flesh as the bond between you surges with predatory focus.",
+  "Sic your companion on a target within 30 ft for 1d8 + proficiency. Against your Quarry the strike has advantage and the beast's next hit deals +1d4 primal.",
   spellType: "ACTION",
   icon: "Nature/Spawn",
   level: 1,
@@ -1142,7 +1163,7 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   id : "apex_coordinated_assault",
   name: "Coordinated Assault",
   description:
-  "You and your companion attack the same target simultaneously, overwhelming them with coordinated strikes.",
+  "Signal the pack: you strike for 2d8 slicing and your companion strikes the same target for 1d8 + proficiency primal, both with advantage. If the target is flanked by you both, the companion's strike deals +1d4 primal and the target loses 2 DR until the start of your next turn. Requires a living companion.",
   spellType: "ACTION",
   icon: "Nature/Claw Marks",
   level: 3,
@@ -1177,23 +1198,23 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
 
   resolution: "DICE",
 
-  damageConfig: {
-  elementType: "smashing",
+ damageConfig: {
+  elementType: "slicing",
   formula: "2d8",
-  damageTypes: ["smashing", "stabbing", "slicing"],
+  damageTypes: ["slicing", "primal"],
   scalingType: "none",
   },
 
-  effects: {
+ effects: {
   damage: {
    apex: {
    formula: "2d8",
-   type: "smashing",
+   type: "slicing",
    advantage: true,
    },
    companion: {
    formula: "1d8 + proficiency",
-   type: "smashing",
+   type: "primal",
    advantage: true,
    },
   },
@@ -1203,11 +1224,19 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   quarryMarks: {
    cost: 2,
    generated: 2,
-   description: "Costs 2 marks, generates 2 marks (1 per hit)",
+   description: "Costs 2 Marks, generates 2 on hit (1 per strike)",
+  },
+  companionRequirement: {
+   description:
+   "Requires a living companion within command range; the spell fails if the companion is down",
   },
   packTactics: {
    description: "Both attacks have advantage (Pack Tactics passive)",
-   requirement: "Beastmaster specialization",
+   requirement: "Beastmaster specialization and a living companion",
+  },
+  flankingRider: {
+   description:
+   "If the target is flanked by you and your companion, the companion's strike deals +1d4 primal damage and the target suffers -2 DR until the start of your next turn",
   },
   },
 
@@ -1415,7 +1444,7 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   id : "apex_shadow_strike",
   name: "Shadow Strike",
   description:
-  "Strike from the shadows with devastating force, dealing 3d8 smashing damage to an unsuspecting target. When delivered from stealth or immediately after Shadowstep, the blade drinks an additional 1d6 blight damage.",
+  "Stealth-window burst: one target within 10 ft takes 3d8 blight, +1d6 with advantage when struck from stealth or immediately after Shadowstep. The strike always breaks concealment; if it kills, you vanish back into cover, hidden. Without stealth it deals only 2d8.",
   spellType: "ACTION",
   icon: "Poison/Poison Concoction",
   level: 3,
@@ -1450,24 +1479,29 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
 
   resolution: "DICE",
 
-  damageConfig: {
+ damageConfig: {
   formula: "3d8",
-  elementType: "smashing",
-  damageTypes: ["smashing", "stabbing", "slicing"],
+  elementType: "blight",
+  damageTypes: ["blight"],
   scalingType: "none",
   },
 
-  effects: {
+ effects: {
   damage: {
    base: {
    formula: "3d8",
-   type: "smashing",
+   type: "blight",
    advantage: "if_stealthed",
    },
    bonus: {
    formula: "1d6",
    type: "blight",
    condition: "From stealth or after Shadowstep",
+   },
+   exposed: {
+   formula: "2d8",
+   type: "blight",
+   condition: "If cast without stealth or Shadowstep",
    },
   },
   },
@@ -1477,12 +1511,16 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
    cost: 3,
    generated: 2,
    description:
-   "Costs 3 marks, generates 2 on hit (1 base + 1 for crit potential)",
+   "Costs 3 Marks, generates 2 on hit (1 base + 1 for crit potential)",
   },
   stealthRequirement: {
    description:
-   "Deals maximum damage when used from stealth or after Shadowstep",
+   "Requires stealth or Shadowstep for advantage and the +1d6 blight bonus; without it the strike deals only 2d8 blight. The strike always breaks concealment",
    bonusDamage: "+1d6 from Lethal Precision passive",
+  },
+  vanishOnKill: {
+   description:
+   "If the target dies, you slip back into the dark and remain hidden without spending an action",
   },
   },
 
@@ -1843,7 +1881,7 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   id : "apex_swift_assault",
   name: "Swift Assault",
   description:
-  "Unleash a rapid series of glaive strikes against multiple nearby enemies, each cut faster than the last as momentum builds through your blade.",
+  "Cheap gap-closer: dash up to 30 ft and cut a target for 1d8 slicing with no Mark cost. If the target was not already your Quarry, it becomes one for 3 rounds; against your Quarry the cut has advantage and generates 2 Marks instead of 1.",
   spellType: "ACTION",
   icon: "Slashing/Sword Strike",
   level: 3,
@@ -1857,10 +1895,10 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   },
 
   targetingConfig: {
-  targetingType: "multi",
-  rangeType: "melee",
-  rangeDistance: 10,
-  maxTargets: 3,
+  targetingType: "single",
+  rangeType: "ranged",
+  rangeDistance: 30,
+  maxTargets: 1,
   },
 
   durationConfig: {
@@ -1869,50 +1907,50 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
 
   resourceCost: {
   resourceTypes: ["mana"],
-  resourceValues: { mana: 8 },
+  resourceValues: { mana: 6 },
   actionPoints: 1,
   components: ["somatic"],
-  somaticText: "Rapid spinning strikes",
-  classResource: { type: "marks", cost: 1 },
+  somaticText: "Dash low through shadow and cut",
+  classResource: { type: "marks", gain: 1 },
   },
 
   resolution: "DICE",
 
-  damageConfig: {
+ damageConfig: {
   formula: "1d8",
-  elementType: "smashing",
-  damageTypes: ["smashing", "stabbing", "slicing"],
+  elementType: "slicing",
+  damageTypes: ["slicing"],
   scalingType: "none",
   },
 
-  effects: {
-  damage: {
-   multiTarget: {
-   formula: "1d8",
-   type: "smashing",
-   targets: 3,
-   },
+ effects: {
+  movement: {
+   description: "Dash up to 30 feet to the target without provoking opportunity attacks",
+   distance: 30,
   },
-  conditionalBuff: {
-   condition: "If all 3 attacks hit",
-   effect: "+1 DR until start of next turn",
+  damage: {
+   formula: "1d8",
+   type: "slicing",
+   advantage: "if_quarry",
   },
   },
 
-  specialMechanics: {
+ specialMechanics: {
   quarryMarks: {
-   cost: 1,
-   generated: 3,
-   description: "Costs 1 mark, generates up to 3 marks (1 per hit)",
+   cost: 0,
+   generated: 1,
+   description: "Costs no Marks. Generates 1 Mark on hit, or 2 if the target is your Quarry",
   },
-  conditionalBonus: {
-   description:
-   "If all attacks hit, gain +1 DR until start of next turn",
+  gapCloser: {
+   description: "Dash up to 30 feet to the target before the strike",
+  },
+  quarryPin: {
+   description: "If the target was not already your Quarry, it is pinned as your Quarry for 3 rounds",
   },
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
-  tags: ["physical", "damage", "multi target", "universal"],
+  tags: ["physical", "damage", "mobility", "mark", "universal"],
  },
 
  // ===== ADDITIONAL SPELLS TO REACH 3 PER LEVEL =====
@@ -2010,10 +2048,10 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
 
  // LEVEL 4 (needs 3)
  {
-  effectTypes: ["damage"],
+  effectTypes: ["damage", "buff"],
   id : "apex_shadow_assault",
   name: "Shadow Assault",
-  description: "Dash through shadow to close the distance in an instant, arriving beside your target with glaive already mid-swing and momentum fully committed.",
+  description: "Teleport up to 40 ft through shadow and strike for 3d8 + agility smashing. On hit, slip 20 ft to another patch of shadow without provoking opportunity attacks; ending that slip in fog, darkness, or cover grants advantage on your next attack before the end of your next turn.",
   spellType: "ACTION",
   icon: "Utility/Phantom Dash",
   level: 4,
@@ -2056,7 +2094,7 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
 
   effects: {
   movement: {
-   description: "Teleport to target before attacking",
+   description: "Teleport up to 40 feet to the target, then slip up to 20 feet to another patch of shadow after the strike",
    distance: 40,
   },
   damage: {
@@ -2065,12 +2103,31 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   },
   },
 
+ buffConfig: {
+  buffType: "combatAdvantage",
+  effects: [
+   { id: "shadow_assault_slip",
+   name: "Shadow Slip",
+   description: "After the strike, move up to 20 feet without provoking opportunity attacks. Ending the slip in fog, darkness, or cover grants advantage on your next attack before the end of your next turn.",
+   mechanicsText: "Post-strike 20 ft slip; ending in fog/darkness/cover grants advantage on your next attack.",
+   },
+  ],
+  durationType: "rounds",
+  durationValue: 1,
+  durationUnit: "rounds",
+  concentrationRequired: false,
+  canBeDispelled: false,
+  },
+
   specialMechanics: {
   quarryMarks: {
    cost: 2,
    generated: 2,
    description:
    "Costs 2 Marks. Generates 2 Marks on hit (subject to per-turn cap)",
+  },
+  shadowSlip: {
+   description: "After the strike, slip up to 20 feet without provoking opportunity attacks",
   },
   },
 
@@ -2387,10 +2444,10 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
  },
 
  {
-  effectTypes: ["damage"],
+  effectTypes: ["damage", "debuff"],
   id : "apex_pack_assault",
   name: "Pack Assault",
-  description: "Signal your companion and charge as one, both of you targeting the same enemy in a synchronized onslaught that leaves no room for defense.",
+  description: "Command your companion to open the hunt: the beast strikes first for 3d6 + its attack bonus with advantage and leaves the target Harried (-2 on attack rolls, no reactions) for 1 round; you then follow for 5d6 + agility smashing. Requires a living companion.",
   spellType: "ACTION",
   icon: "Nature/Wolf Dash",
   level: 6,
@@ -2446,13 +2503,34 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   },
   },
 
+ debuffConfig: {
+  debuffType: "statusEffect",
+  effects: [
+   { id: "pack_assault_harried",
+   name: "Harried",
+   description: "The beast's opening strike leaves the target Harried for 1 round.",
+   mechanicsText: "-2 on attack rolls; cannot take reactions for 1 round.",
+   statPenalty: [
+    { stat: "attack", value: -2, magnitudeType: "flat" },
+   ],
+   },
+  ],
+  durationType: "rounds",
+  durationValue: 1,
+  durationUnit: "rounds",
+  canBeDispelled: false,
+  },
+
   specialMechanics: {
   quarryMarks: {
    cost: 3,
    description: "Costs 3 Marks to use",
   },
+  companionRequirement: {
+   description: "Requires a living companion within command range; the spell fails if the companion is down",
+  },
   companionSynergy: {
-   description: "Companion attacks with advantage and deals +3d6 damage",
+   description: "Companion strikes first with advantage for 3d6 + its attack bonus; its hit leaves the target Harried for 1 round",
   },
   },
 
@@ -2648,7 +2726,7 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   id : "apex_hunters_fury",
   name: "Hunter's Fury",
   description:
-  "Channel weeks of tracked prey and denied kills into a single furious flurry of glaive strikes, each blow carrying the weight of every hunt that escaped.",
+  "Unleash 12d8 + agility x 2 smashing in a flurry of glaive strikes. If the target is at or below 35% HP when the flurry resolves, it is executed (reduced to 0 HP); if the flurry kills, you may immediately move 15 ft to the next prey.",
   spellType: "ACTION",
   icon: "Slashing/Whirl",
   level: 7,
@@ -2701,6 +2779,18 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
    description:
    "Each strike that rolls max damage counts as a critical hit",
   },
+  execute: {
+   threshold: 0.35,
+   description:
+   "If the target is at or below 35% HP when the flurry resolves, it is executed (reduced to 0 HP)",
+  },
+  },
+
+  triggerConfig: {
+  triggers: [
+   { id: "hunters_fury_execute", name: "Execution Threshold", triggerType: "on_hp_below", action: "Targets at or below 35% HP when the flurry resolves are executed (reduced to 0 HP)." },
+   { id: "hunters_fury_pursuit", name: "Unbroken Pursuit", triggerType: "on_kill", action: "On a kill, move up to 15 ft to the next prey." },
+  ],
   },
 
   cooldownConfig: { cooldownType: "encounter", cooldownValue: 1 },
@@ -2709,11 +2799,11 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
 
  // LEVEL 8 (needs 3)
  {
-  effectTypes: ["damage"],
+  effectTypes: ["damage", "debuff", "buff"],
   id : "apex_shadow_storm",
   name: "Shadow Storm",
   description:
-  "Sweep your glaive in a wide arc, tearing open a rift to the shadow realm; a storm of living darkness pours through, ravaging all enemies in a 50-foot radius.",
+  "Tear open a 50-ft rift of living darkness for 4 rounds: 10d10 + agility blight on impact, then 3d10 blight to enemies inside at the start of each of their turns. Enemies in the storm are blinded, while you and your companion gain Truesight 30 ft for the duration.",
   spellType: "ACTION",
   icon: "Psychic/Mind Strike",
   level: 8,
@@ -2768,22 +2858,62 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
    type: "blight",
    },
    dot: {
-   formula: "3d10 shadow per round",
+   formula: "3d10 blight per round",
    duration: 4,
    durationUnit: "rounds",
    },
   },
   zone: {
    description:
-   "Storm persists for 4 rounds, dealing 3d10 shadow damage per round to enemies in the area",
+   "Storm persists for 4 rounds, dealing 3d10 blight damage per round to enemies in the area",
    damageFormula: "3d10",
   },
+  },
+
+ debuffConfig: {
+  debuffType: "statusEffect",
+  effects: [
+   { id: "shadow_storm_blinded",
+   name: "Storm-Blinded",
+   description: "Enemies inside the storm cannot see through it.",
+   mechanicsText: "Disadvantage on attack rolls and auto-fail sight-based checks while inside the storm.",
+   statusType: "blinded",
+   level: "moderate",
+   statPenalty: [
+    { stat: "attack", value: -99, magnitudeType: "disadvantage" },
+    { stat: "perception", value: -99, magnitudeType: "auto_fail" },
+   ],
+   },
+  ],
+  durationType: "rounds",
+  durationValue: 4,
+  durationUnit: "rounds",
+  canBeDispelled: true,
+  },
+
+ buffConfig: {
+  buffType: "combatAdvantage",
+  effects: [
+   { id: "shadow_storm_truesight",
+   name: "Dark-Sight Window",
+   description: "You and your companion see through the storm, gaining Truesight 30 ft for 4 rounds.",
+   mechanicsText: "Truesight 30 ft; ignores the storm's blindness and concealment.",
+   },
+  ],
+  durationType: "rounds",
+  durationValue: 4,
+  durationUnit: "rounds",
+  concentrationRequired: false,
+  canBeDispelled: false,
   },
 
   specialMechanics: {
   quarryMarks: {
    cost: 4,
    description: "Costs 4 Marks to use",
+  },
+  darkSight: {
+   description: "You and your companion gain Truesight 30 feet while inside the storm",
   },
   },
 
@@ -3920,8 +4050,609 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
     },
     cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
     tags: ["utility", "exploration", "detection", "universal", "apex"]
-   }
- ],
+   },
+  {
+    "id": "apex_snare_trap",
+    "name": "Quarry Snare",
+    "description": "Conceal a spring-loaded primal wire trap at a location within 30ft. When a hostile creature moves within 5ft, the snare snaps shut, dealing 2d6 piercing damage, rooting them for 1 round, and instantly applying 1 Quarry Mark. Lasts 1 hour or until triggered.",
+    "level": 3,
+    "spellType": "ACTION",
+    "icon": "Nature/Trap",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "stabbing",
+      "icon": "Nature/Trap",
+      "tags": [
+        "control",
+        "utility",
+        "trap",
+        "marks",
+        "apex"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "point",
+      "rangeType": "ranged",
+      "rangeDistance": 30,
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 8
+      },
+      "classResource": {
+        "type": "marks",
+        "cost": 0
+      },
+      "components": [
+        "somatic"
+      ],
+      "somaticText": "Anchor wire to ground with quick wrist flick"
+    },
+    "resolution": "SAVING_THROW",
+    "effectTypes": [
+      "control",
+      "utility"
+    ],
+    "controlConfig": {
+      "controlType": "rooted",
+      "duration": 1,
+      "durationUnit": "rounds"
+    },
+    "utilityConfig": {
+      "utilityType": "trap",
+      "power": "moderate"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 2
+    },
+    "tags": [
+      "control",
+      "utility",
+      "trap",
+      "marks",
+      "apex"
+    ]
+  },
+  {
+    "id": "apex_shadow_pounce",
+    "name": "Shadow Pounce",
+    "description": "Step through the shadows directly behind a marked quarry within 30ft, striking in unison with your companion. Deals 3d8 + Agi slicing damage and knocks the quarry prone if they fail an Agility save. Spends 1 Quarry Mark.",
+    "level": 4,
+    "spellType": "ACTION",
+    "icon": "Slashing/Beast Claw",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "slicing",
+      "icon": "Slashing/Beast Claw",
+      "tags": [
+        "slicing",
+        "damage",
+        "control",
+        "mobility",
+        "apex"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "single",
+      "rangeType": "ranged",
+      "rangeDistance": 30,
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 10
+      },
+      "classResource": {
+        "type": "marks",
+        "cost": 1
+      },
+      "components": [
+        "somatic"
+      ],
+      "somaticText": "Drop low and emerge behind the quarry"
+    },
+    "resolution": "MELEE_ATTACK",
+    "effectTypes": [
+      "damage",
+      "control"
+    ],
+    "damageConfig": {
+      "damageType": "slicing",
+      "diceCount": 3,
+      "diceSides": 8,
+      "statModifier": "agility"
+    },
+    "controlConfig": {
+      "controlType": "prone",
+      "duration": 1,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 2
+    },
+    "tags": [
+      "slicing",
+      "damage",
+      "control",
+      "mobility",
+      "apex"
+    ]
+  },
+  {
+    "id": "apex_pack_camouflage",
+    "name": "Pack Camouflage",
+    "description": "Cloak yourself and your beast companion in shifting primal optics. Both of you become invisible for 2 rounds or until either makes an attack, and your next attack from concealment deals +2d8 surprise damage.",
+    "level": 5,
+    "spellType": "ACTION",
+    "icon": "Nature/Camouflage",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "primal",
+      "icon": "Nature/Camouflage",
+      "tags": [
+        "buff",
+        "utility",
+        "stealth",
+        "apex"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "self",
+      "rangeType": "self"
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 12
+      },
+      "classResource": {
+        "type": "marks",
+        "cost": 0
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "Blend into the wind",
+      "somaticText": "Touch companion's flank while exhaling"
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "buff",
+      "utility"
+    ],
+    "buffConfig": {
+      "buffType": "invisibility",
+      "durationValue": 2,
+      "durationUnit": "rounds"
+    },
+    "utilityConfig": {
+      "utilityType": "stealth",
+      "power": "major"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 3
+    },
+    "tags": [
+      "buff",
+      "utility",
+      "stealth",
+      "apex"
+    ]
+  },
+  {
+    "id": "apex_glaive_ricochet",
+    "name": "Glaive Ricochet",
+    "description": "Hurl a spinning glaive imbued with wind currents. Deals 3d10 slicing damage to the primary quarry, then ricochets to up to 3 additional enemies within 15ft for 2d8 slicing damage each, reducing their movement speed by 15ft for 1 round. Spends 2 Quarry Marks.",
+    "level": 6,
+    "spellType": "ACTION",
+    "icon": "Slashing/Flying Glaive",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "slicing",
+      "icon": "Slashing/Flying Glaive",
+      "tags": [
+        "slicing",
+        "damage",
+        "control",
+        "aoe",
+        "apex"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "single",
+      "rangeType": "ranged",
+      "rangeDistance": 45,
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 15
+      },
+      "classResource": {
+        "type": "marks",
+        "cost": 2
+      },
+      "components": [
+        "somatic"
+      ],
+      "somaticText": "Sidearm whip-throw along an angular trajectory"
+    },
+    "resolution": "RANGED_ATTACK",
+    "effectTypes": [
+      "damage",
+      "control"
+    ],
+    "damageConfig": {
+      "damageType": "slicing",
+      "diceCount": 3,
+      "diceSides": 10,
+      "statModifier": "agility"
+    },
+    "controlConfig": {
+      "controlType": "slow",
+      "penaltyMovement": 15,
+      "duration": 1,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 2
+    },
+    "tags": [
+      "slicing",
+      "damage",
+      "control",
+      "aoe",
+      "apex"
+    ]
+  },
+  {
+    "id": "apex_crippling_latch",
+    "name": "Crippling Latch",
+    "description": "Command your beast companion to pin down the quarry with unrelenting grip. Deals 3d8 + Str stabbing damage and latches on, preventing the target from taking move actions for 2 rounds and granting advantage on all your attacks against them. Spends 2 Quarry Marks.",
+    "level": 7,
+    "spellType": "ACTION",
+    "icon": "Combat/Crushing Jaws",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "stabbing",
+      "icon": "Combat/Crushing Jaws",
+      "tags": [
+        "stabbing",
+        "damage",
+        "control",
+        "companion",
+        "apex"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "single",
+      "rangeType": "melee",
+      "rangeDistance": 5,
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 16
+      },
+      "classResource": {
+        "type": "marks",
+        "cost": 2
+      },
+      "components": [
+        "verbal"
+      ],
+      "verbalText": "Lock jaws!"
+    },
+    "resolution": "MELEE_ATTACK",
+    "effectTypes": [
+      "damage",
+      "control"
+    ],
+    "damageConfig": {
+      "damageType": "stabbing",
+      "diceCount": 3,
+      "diceSides": 8,
+      "statModifier": "strength"
+    },
+    "controlConfig": {
+      "controlType": "pinned",
+      "duration": 2,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 3
+    },
+    "tags": [
+      "stabbing",
+      "damage",
+      "control",
+      "companion",
+      "apex"
+    ]
+  },
+  {
+    "id": "apex_predators_celerity",
+    "name": "Predator's Celerity",
+    "description": "Enter a synchronized heightened instinct state with your companion for 2 rounds. Both of you gain +20ft movement speed, an additional reaction each round, and your movement does not provoke opportunity attacks. Spends 2 Quarry Marks.",
+    "level": 8,
+    "spellType": "ACTION",
+    "icon": "Buff/Feral Agility",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "primal",
+      "icon": "Buff/Feral Agility",
+      "tags": [
+        "buff",
+        "utility",
+        "mobility",
+        "apex"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "self",
+      "rangeType": "self"
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 20
+      },
+      "classResource": {
+        "type": "marks",
+        "cost": 2
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "We run as one",
+      "somaticText": "Shed all hesitation"
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "buff",
+      "utility"
+    ],
+    "buffConfig": {
+      "buffType": "celerity",
+      "bonusMovement": 20,
+      "durationValue": 2,
+      "durationUnit": "rounds"
+    },
+    "utilityConfig": {
+      "utilityType": "mobility",
+      "power": "major"
+    },
+    "cooldownConfig": {
+      "cooldownType": "encounter",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "buff",
+      "utility",
+      "mobility",
+      "apex"
+    ]
+  },
+  {
+    "id": "apex_huntmasters_cull",
+    "name": "Huntmaster's Cull",
+    "description": "Execute a lethal coordinated strike upon marked prey. Deals 5d10 slicing damage. If the quarry is under 30% maximum HP, this attack critically strikes automatically and refunds all spent Quarry Marks. Spends 3 Quarry Marks.",
+    "level": 9,
+    "spellType": "ACTION",
+    "icon": "Slashing/Execute",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "slicing",
+      "icon": "Slashing/Execute",
+      "tags": [
+        "slicing",
+        "damage",
+        "execute",
+        "apex"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "single",
+      "rangeType": "melee",
+      "rangeDistance": 10,
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 25
+      },
+      "classResource": {
+        "type": "marks",
+        "cost": 3
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "Your hunt ends now",
+      "somaticText": "Dual scissor slash with companion pounce"
+    },
+    "resolution": "MELEE_ATTACK",
+    "effectTypes": [
+      "damage"
+    ],
+    "damageConfig": {
+      "damageType": "slicing",
+      "diceCount": 5,
+      "diceSides": 10,
+      "statModifier": "agility"
+    },
+    "cooldownConfig": {
+      "cooldownType": "encounter",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "slicing",
+      "damage",
+      "execute",
+      "apex"
+    ]
+  },
+  {
+    "id": "apex_primal_communion_transcendence",
+    "name": "Primal Communion Transcendence",
+    "description": "Fuse physical and spiritual forms with the ancient apex predator spirit for 3 rounds. You and your companion become invulnerable to damage for 1 round, share damage taken equally thereafter, and all strikes apply 2 Quarry Marks automatically. Spends 5 Quarry Marks.",
+    "level": 10,
+    "spellType": "ACTION",
+    "icon": "Transformation/Primal Apex",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "primal",
+      "icon": "Transformation/Primal Apex",
+      "tags": [
+        "transformation",
+        "buff",
+        "ultimate",
+        "apex"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "self",
+      "rangeType": "self"
+    },
+    "resourceCost": {
+      "actionPoints": 3,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 35
+      },
+      "classResource": {
+        "type": "marks",
+        "cost": 5
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "I am the wild unbounded",
+      "somaticText": "Grasp companion spirit into own chest"
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "transformation",
+      "buff"
+    ],
+    "transformationConfig": {
+      "transformationType": "primal_fusion",
+      "duration": 3,
+      "durationUnit": "rounds",
+      "power": "major"
+    },
+    "cooldownConfig": {
+      "cooldownType": "long_rest",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "transformation",
+      "buff",
+      "ultimate",
+      "apex"
+    ]
+  }
+  ],
 };
 
 APEX_DATA.spells = APEX_DATA.exampleSpells;
+APEX_DATA.spellPools = {
+  1: [
+    "apex_silent_footsteps", "apex_glaive_toss", "apex_companion_strike", "apex_shadowstep",
+    "apex_mark_quarry", "apex_sentry_spirit", "apex_read_spoor", "apex_companion_scout",
+    "apex_silent_sign", "apex_mist_ambush"
+  ],
+  2: [
+    "apex_mist_decoy", "apex_moonlit_strike", "apex_evasion", "apex_hunters_mark",
+    "apex_scent_memory", "apex_fog_veil", "apex_pack_flank_displace", "apex_vibration_sense"
+  ],
+  3: [
+    "apex_whirling_death", "apex_coordinated_assault", "apex_shadow_strike",
+    "apex_swift_assault", "apex_hunting_blind", "apex_snare_trap"
+  ],
+  4: [
+    "apex_shadow_assault", "apex_feral_bond", "apex_glaive_dance", "apex_shadow_pounce"
+  ],
+  5: [
+    "apex_blade_fury", "apex_primal_rage", "apex_phantom_blades", "apex_pack_camouflage"
+  ],
+  6: [
+    "apex_apex_predator", "apex_death_from_above", "apex_pack_assault", "apex_glaive_ricochet"
+  ],
+  7: [
+    "apex_shadow_glaive_mastery", "apex_savage_roar", "apex_hunters_fury", "apex_crippling_latch"
+  ],
+  8: [
+    "apex_shadow_storm", "apex_primal_fusion", "apex_glaive_storm", "apex_predators_celerity"
+  ],
+  9: [
+    "apex_ultimate_hunter", "apex_deaths_embrace", "apex_eternal_hunt", "apex_huntmasters_cull"
+  ],
+  10: [
+    "apex_godslayer", "apex_primal_apocalypse", "apex_perfect_hunt", "apex_primal_communion_transcendence"
+  ]
+};

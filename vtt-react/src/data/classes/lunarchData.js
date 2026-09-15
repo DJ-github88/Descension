@@ -2036,9 +2036,1088 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
         },
         "cooldownConfig": { "cooldownType": "long_rest", "cooldownValue": 1 },
         "tags": ["utility", "rest", "lunarch"]
-      }
+      },
+  {
+    "id": "lunarch_tidal_scourge",
+    "name": "Tidal Scourge",
+    "description": "Channel the relentless gravitational drag of the high tide. Releases a 30ft line of surging lunar radiance dealing 3d6 + Int radiant damage and pushing all struck enemies 10ft backward.",
+    "level": 3,
+    "spellType": "ACTION",
+    "icon": "Radiant/Moon Beam",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "radiant",
+      "icon": "Radiant/Moon Beam",
+      "tags": [
+        "radiant",
+        "damage",
+        "control",
+        "lunarch"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "line",
+      "rangeType": "line",
+      "rangeDistance": 30,
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 12
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "The tide does not negotiate",
+      "somaticText": "Sweep palm horizontally as fingers curl like breaking waves"
+    },
+    "resolution": "SAVING_THROW",
+    "effectTypes": [
+      "damage",
+      "control"
+    ],
+    "damageConfig": {
+      "damageType": "radiant",
+      "diceCount": 3,
+      "diceSides": 6,
+      "statModifier": "intelligence"
+    },
+    "controlConfig": {
+      "controlType": "knockback",
+      "distance": 10
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "radiant",
+      "damage",
+      "control",
+      "lunarch"
+    ]
+  },
+  {
+    "id": "lunarch_silence_shroud",
+    "name": "Silence Shroud",
+    "description": "Wrap yourself in an insulating veil of soundless moonlight for 2 rounds. All attack rolls against you suffer disadvantage, you cannot be targeted by spells requiring line-of-sight from beyond 20ft, and you gain +3 on stealth checks.",
+    "level": 4,
+    "spellType": "ACTION",
+    "icon": "Defense/Shadow Cloak",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "wyrd",
+      "icon": "Defense/Shadow Cloak",
+      "tags": [
+        "buff",
+        "defense",
+        "stealth",
+        "lunarch"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "self",
+      "rangeType": "self"
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 14
+      },
+      "components": [
+        "somatic"
+      ],
+      "somaticText": "Pull fingers down over mouth and eyes"
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "buff",
+      "defense"
+    ],
+    "buffConfig": {
+      "buffType": "disadvantage_to_hit",
+      "durationValue": 2,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 2
+    },
+    "tags": [
+      "buff",
+      "defense",
+      "stealth",
+      "lunarch"
+    ]
+  },
+  {
+    "id": "lunarch_lunar_radiance_burst",
+    "name": "Lunar Radiance Burst",
+    "description": "Release an explosive flare of cold lunar luminescence centered on yourself. Deals 4d8 radiant damage to all enemies within 20ft and inflicts blindness for 1 round on a failed Constitution save.",
+    "level": 5,
+    "spellType": "ACTION",
+    "icon": "Radiant/Holy Nova",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "radiant",
+      "icon": "Radiant/Holy Nova",
+      "tags": [
+        "radiant",
+        "damage",
+        "debuff",
+        "aoe",
+        "lunarch"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "area",
+      "rangeType": "self_centered",
+      "aoeShape": "circle",
+      "aoeParameters": {
+        "radius": 20
+      },
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 18
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "Bear witness to the dead light",
+      "somaticText": "Thrust both arms outward as palms ignite"
+    },
+    "resolution": "SAVING_THROW",
+    "effectTypes": [
+      "damage",
+      "debuff"
+    ],
+    "damageConfig": {
+      "damageType": "radiant",
+      "diceCount": 4,
+      "diceSides": 8,
+      "statModifier": "intelligence"
+    },
+    "debuffConfig": {
+      "debuffType": "blinded",
+      "duration": 1,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 2
+    },
+    "tags": [
+      "radiant",
+      "damage",
+      "debuff",
+      "aoe",
+      "lunarch"
+    ]
+  },
+  {
+    "id": "lunarch_parasitic_transfusion",
+    "name": "Parasitic Transfusion",
+    "description": "Direct the lunar entity within to knit the wounds of an ally using cold celestial ether. Restores 4d8 HP to target ally within 30ft and bolsters their physical shell, granting +2 Durability for 2 rounds.",
+    "level": 5,
+    "spellType": "ACTION",
+    "icon": "Healing/Life Surge",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "wyrd",
+      "icon": "Healing/Life Surge",
+      "tags": [
+        "healing",
+        "buff",
+        "support",
+        "lunarch"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "single",
+      "rangeType": "ranged",
+      "rangeDistance": 30,
+      "targetRestrictions": [
+        "allies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 15
+      },
+      "components": [
+        "somatic"
+      ],
+      "somaticText": "Point silvered fingernail at target while exhaling mist"
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "healing",
+      "buff"
+    ],
+    "healingConfig": {
+      "healingType": "direct",
+      "diceCount": 4,
+      "diceSides": 8,
+      "statModifier": "intelligence"
+    },
+    "buffConfig": {
+      "buffType": "durability_boost",
+      "bonusValue": 2,
+      "durationValue": 2,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 2
+    },
+    "tags": [
+      "healing",
+      "buff",
+      "support",
+      "lunarch"
+    ]
+  },
+  {
+    "id": "lunarch_phase_displacement",
+    "name": "Phase Displacement",
+    "description": "Shift your physical form entirely into the trans-dimensional silence for 1 round. While displaced, you are completely immune to non-magical damage, cannot be restrained, and can pass freely through solid physical barriers up to 5ft thick.",
+    "level": 6,
+    "spellType": "ACTION",
+    "icon": "Buff/Ethereal Jaunt",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "wyrd",
+      "icon": "Buff/Ethereal Jaunt",
+      "tags": [
+        "defense",
+        "utility",
+        "mobility",
+        "lunarch"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "self",
+      "rangeType": "self"
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 20
+      },
+      "components": [
+        "somatic"
+      ],
+      "somaticText": "Dissolve into silver shimmer"
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "defense",
+      "utility"
+    ],
+    "buffConfig": {
+      "buffType": "intangible",
+      "durationValue": 1,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "encounter",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "defense",
+      "utility",
+      "mobility",
+      "lunarch"
+    ]
+  },
+  {
+    "id": "lunarch_gravity_inversion_field",
+    "name": "Gravity Inversion Field",
+    "description": "Reverse local gravitational forces within a 25ft radius area within 60ft. Enemies inside who fail an Agility save are suspended helplessly in mid-air for 2 rounds, unable to move and suffering disadvantage on attack rolls.",
+    "level": 6,
+    "spellType": "ACTION",
+    "icon": "Control/Gravity Well",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 2,
+      "castTimeType": "IMMEDIATE",
+      "school": "radiant",
+      "icon": "Control/Gravity Well",
+      "tags": [
+        "control",
+        "utility",
+        "aoe",
+        "lunarch"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "area",
+      "rangeType": "ranged",
+      "rangeDistance": 60,
+      "aoeShape": "circle",
+      "aoeParameters": {
+        "radius": 25
+      },
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 22
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "Earth forsakes you",
+      "somaticText": "Turn palms toward sky and raise arms slowly"
+    },
+    "resolution": "SAVING_THROW",
+    "effectTypes": [
+      "control",
+      "utility"
+    ],
+    "controlConfig": {
+      "controlType": "levitated",
+      "duration": 2,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 3
+    },
+    "tags": [
+      "control",
+      "utility",
+      "aoe",
+      "lunarch"
+    ]
+  },
+  {
+    "id": "lunarch_eclipse_barrier",
+    "name": "Eclipse Barrier",
+    "description": "Conjure a translucent sphere of lunar shadow enclosing you and adjacent allies. The barrier absorbs up to 50 damage, cleanses all blind and silence effects upon formation, and reflects targeted hostile spells back at their casters on a roll of 5-6 on 1d6.",
+    "level": 7,
+    "spellType": "ACTION",
+    "icon": "Defense/Prismatic Sphere",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "wyrd",
+      "icon": "Defense/Prismatic Sphere",
+      "tags": [
+        "defense",
+        "buff",
+        "cleanse",
+        "lunarch"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "area",
+      "rangeType": "self_centered",
+      "aoeShape": "circle",
+      "aoeParameters": {
+        "radius": 10
+      },
+      "targetRestrictions": [
+        "allies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 25
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "The dark side shields us",
+      "somaticText": "Trace a full dark circle overhead"
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "defense",
+      "cleanse"
+    ],
+    "buffConfig": {
+      "buffType": "damage_absorb",
+      "absorbAmount": 50,
+      "durationValue": 2,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "encounter",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "defense",
+      "buff",
+      "cleanse",
+      "lunarch"
+    ]
+  },
+  {
+    "id": "lunarch_coronal_ray",
+    "name": "Coronal Ray",
+    "description": "Focus the unshielded corona of a solar eclipse into an agonizing lance of pale fire. Deals 5d10 radiant damage to a single target within 60ft and strips 1 positive magical buff currently active on them.",
+    "level": 7,
+    "spellType": "ACTION",
+    "icon": "Radiant/Solar Ray",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 2,
+      "castTimeType": "IMMEDIATE",
+      "school": "radiant",
+      "icon": "Radiant/Solar Ray",
+      "tags": [
+        "radiant",
+        "damage",
+        "cleanse",
+        "lunarch"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "single",
+      "rangeType": "ranged",
+      "rangeDistance": 60,
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 26
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "Burn away the mantle",
+      "somaticText": "Align index fingers in triangular sight"
+    },
+    "resolution": "RANGED_ATTACK",
+    "effectTypes": [
+      "damage",
+      "cleanse"
+    ],
+    "damageConfig": {
+      "damageType": "radiant",
+      "diceCount": 5,
+      "diceSides": 10,
+      "statModifier": "intelligence"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 2
+    },
+    "tags": [
+      "radiant",
+      "damage",
+      "cleanse",
+      "lunarch"
+    ]
+  },
+  {
+    "id": "lunarch_astral_projection_anchor",
+    "name": "Astral Projection Anchor",
+    "description": "Sever your spiritual presence into an intangible lunar projection for up to 3 rounds while your physical body remains protected in a stasis cocoon. The projection can fly up to 120ft, pass through barriers, and cast spells using your stats.",
+    "level": 8,
+    "spellType": "ACTION",
+    "icon": "Utility/Astral Form",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "wyrd",
+      "icon": "Utility/Astral Form",
+      "tags": [
+        "utility",
+        "buff",
+        "mobility",
+        "lunarch"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "self",
+      "rangeType": "self"
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 30
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "Step outside the vessel",
+      "somaticText": "Fold arms over chest and exhale ghost-mist"
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "utility",
+      "buff"
+    ],
+    "buffConfig": {
+      "buffType": "astral_projection",
+      "durationValue": 3,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "encounter",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "utility",
+      "buff",
+      "mobility",
+      "lunarch"
+    ]
+  },
+  {
+    "id": "lunarch_apogee_lance",
+    "name": "Apogee Lance",
+    "description": "Impale a target with a lance forged from the apogee of celestial transit. Deals 6d10 radiant damage and anchors the target in temporal stasis for 1 round (incapacitated, cannot act or be moved).",
+    "level": 8,
+    "spellType": "ACTION",
+    "icon": "Radiant/Spear of Light",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 2,
+      "castTimeType": "IMMEDIATE",
+      "school": "radiant",
+      "icon": "Radiant/Spear of Light",
+      "tags": [
+        "radiant",
+        "damage",
+        "control",
+        "lunarch"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "single",
+      "rangeType": "ranged",
+      "rangeDistance": 60,
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 32
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "Frozen at the zenith",
+      "somaticText": "Cock arm back and cast lance like a javelin"
+    },
+    "resolution": "RANGED_ATTACK",
+    "effectTypes": [
+      "damage",
+      "control"
+    ],
+    "damageConfig": {
+      "damageType": "radiant",
+      "diceCount": 6,
+      "diceSides": 10,
+      "statModifier": "intelligence"
+    },
+    "controlConfig": {
+      "controlType": "stasis",
+      "duration": 1,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 3
+    },
+    "tags": [
+      "radiant",
+      "damage",
+      "control",
+      "lunarch"
+    ]
+  },
+  {
+    "id": "lunarch_null_horizon",
+    "name": "Null Horizon",
+    "description": "Anchor the absolute silent dead zone of deep space across a 30ft radius area for 2 rounds. No sound or speech can exist inside, no spells can be verbally cast, and all magical damage dealt within the zone is reduced by 50%.",
+    "level": 9,
+    "spellType": "ACTION",
+    "icon": "Void/Null Zone",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 2,
+      "castTimeType": "IMMEDIATE",
+      "school": "wyrd",
+      "icon": "Void/Null Zone",
+      "tags": [
+        "control",
+        "defense",
+        "silence",
+        "aoe",
+        "lunarch"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "area",
+      "rangeType": "ranged",
+      "rangeDistance": 60,
+      "aoeShape": "circle",
+      "aoeParameters": {
+        "radius": 30
+      },
+      "targetRestrictions": [
+        "any"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 35
+      },
+      "components": [
+        "somatic"
+      ],
+      "somaticText": "Slam palm onto ground, quenching ambient noise"
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "control",
+      "defense"
+    ],
+    "controlConfig": {
+      "controlType": "absolute_silence",
+      "duration": 2,
+      "durationUnit": "rounds"
+    },
+    "buffConfig": {
+      "buffType": "magic_mitigation",
+      "mitigationValue": 0.5,
+      "durationValue": 2,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "encounter",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "control",
+      "defense",
+      "silence",
+      "aoe",
+      "lunarch"
+    ]
+  },
+  {
+    "id": "lunarch_phase_restoration",
+    "name": "Phase Restoration",
+    "description": "Invert the entropy of your companions through trans-phase rewind. All allies within 30ft instantly regain 6d8 HP, are cleansed of all ongoing conditions, debuffs, and curses, and gain +10ft movement speed for 2 rounds.",
+    "level": 9,
+    "spellType": "ACTION",
+    "icon": "Healing/Revitalize All",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 2,
+      "castTimeType": "IMMEDIATE",
+      "school": "radiant",
+      "icon": "Healing/Revitalize All",
+      "tags": [
+        "healing",
+        "cleanse",
+        "buff",
+        "aoe",
+        "lunarch"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "area",
+      "rangeType": "self_centered",
+      "aoeShape": "circle",
+      "aoeParameters": {
+        "radius": 30
+      },
+      "targetRestrictions": [
+        "allies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 30
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "Realign to the unbroken state",
+      "somaticText": "Clockwise double wrist circle"
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "healing",
+      "cleanse"
+    ],
+    "healingConfig": {
+      "healingType": "aoe",
+      "diceCount": 6,
+      "diceSides": 8,
+      "statModifier": "intelligence"
+    },
+    "cooldownConfig": {
+      "cooldownType": "long_rest",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "healing",
+      "cleanse",
+      "buff",
+      "aoe",
+      "lunarch"
+    ]
+  },
+  {
+    "id": "lunarch_cosmic_annihilation",
+    "name": "Cosmic Annihilation",
+    "description": "Command the celestial entity to bring down an unfathomable column of cosmic obliteration across a 40ft area. Deals 8d10 radiant damage to all enemies inside, disintegrates non-magical structures and cover, and pushes survivors to the perimeter.",
+    "level": 10,
+    "spellType": "ACTION",
+    "icon": "Radiant/Orbital Strike",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 3,
+      "castTimeType": "IMMEDIATE",
+      "school": "radiant",
+      "icon": "Radiant/Orbital Strike",
+      "tags": [
+        "radiant",
+        "damage",
+        "control",
+        "ultimate",
+        "lunarch"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "area",
+      "rangeType": "ranged",
+      "rangeDistance": 90,
+      "aoeShape": "circle",
+      "aoeParameters": {
+        "radius": 40
+      },
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 3,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 45
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "Fall, uncreated sky!",
+      "somaticText": "Reach toward heaven then plunge fists into earth"
+    },
+    "resolution": "SAVING_THROW",
+    "effectTypes": [
+      "damage",
+      "control"
+    ],
+    "damageConfig": {
+      "damageType": "radiant",
+      "diceCount": 8,
+      "diceSides": 10,
+      "statModifier": "intelligence"
+    },
+    "controlConfig": {
+      "controlType": "knockback",
+      "distance": 20
+    },
+    "cooldownConfig": {
+      "cooldownType": "long_rest",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "radiant",
+      "damage",
+      "control",
+      "ultimate",
+      "lunarch"
+    ]
+  },
+  {
+    "id": "lunarch_avatar_of_the_dead_moon",
+    "name": "Avatar of the Dead Moon",
+    "description": "Surrender your physical form entirely to the cold divinity of the lunar predator for 2 rounds. You gain a flying speed of 60ft, are completely immune to all negative conditions and damage, and all Lunarch spells cost 0 mana.",
+    "level": 10,
+    "spellType": "ACTION",
+    "icon": "Transformation/Lunar Goddess",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 2,
+      "castTimeType": "IMMEDIATE",
+      "school": "wyrd",
+      "icon": "Transformation/Lunar Goddess",
+      "tags": [
+        "transformation",
+        "buff",
+        "ultimate",
+        "lunarch"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "self",
+      "rangeType": "self"
+    },
+    "resourceCost": {
+      "actionPoints": 3,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 40
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "The moon has eaten me whole",
+      "somaticText": "Arch back and surrender eyes to silver fire"
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "transformation",
+      "buff"
+    ],
+    "transformationConfig": {
+      "transformationType": "avatar",
+      "duration": 2,
+      "durationUnit": "rounds",
+      "power": "major"
+    },
+    "cooldownConfig": {
+      "cooldownType": "long_rest",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "transformation",
+      "buff",
+      "ultimate",
+      "lunarch"
+    ]
+  },
+  {
+    "id": "lunarch_syzygy_cataclysm",
+    "name": "Syzygy Cataclysm",
+    "description": "Enact a total alignment of cosmic nodes across 60ft. Drags all enemies toward a designated epicenter with inescapable gravitational pull, deals 6d8 wyrd damage, and stuns all caught inside for 1 round on a failed Strength save.",
+    "level": 10,
+    "spellType": "ACTION",
+    "icon": "Void/Black Hole",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 3,
+      "castTimeType": "IMMEDIATE",
+      "school": "wyrd",
+      "icon": "Void/Black Hole",
+      "tags": [
+        "wyrd",
+        "damage",
+        "control",
+        "ultimate",
+        "lunarch"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "point",
+      "rangeType": "ranged",
+      "rangeDistance": 60,
+      "aoeShape": "circle",
+      "aoeParameters": {
+        "radius": 30
+      },
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 3,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 42
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "Collapse upon the fulcrum",
+      "somaticText": "Clasp hands together until joints crack"
+    },
+    "resolution": "SAVING_THROW",
+    "effectTypes": [
+      "damage",
+      "control"
+    ],
+    "damageConfig": {
+      "damageType": "wyrd",
+      "diceCount": 6,
+      "diceSides": 8,
+      "statModifier": "intelligence"
+    },
+    "controlConfig": {
+      "controlType": "stunned",
+      "duration": 1,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "long_rest",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "wyrd",
+      "damage",
+      "control",
+      "ultimate",
+      "lunarch"
+    ]
+  }
   ],
 };
 
 LUNARCH_DATA.spells = LUNARCH_DATA.exampleSpells;
 export const LUNARCH_SPELLS = LUNARCH_DATA.spells;
+
+LUNARCH_DATA.spellPools = {
+  1: [
+    "lunarch_parasitic_bolt",
+    "lunarch_phase_tear",
+    "lunarch_moon_touched_wound",
+    "lunarch_silence_rend"
+  ],
+  2: [
+    "lunarch_crescent_blade",
+    "lunarch_parasitic_stride",
+    "lunarch_sanguine_transfer",
+    "lunarch_phase_stasis"
+  ],
+  3: [
+    "lunarch_hollow_sight",
+    "lunarch_binding_horror",
+    "lunarch_void_chill",
+    "lunarch_tidal_scourge"
+  ],
+  4: [
+    "lunarch_waxing_crescent_scythe",
+    "lunarch_eclipse_aegis",
+    "lunarch_lunar_tide_pull",
+    "lunarch_silence_shroud"
+  ],
+  5: [
+    "lunarch_starlight_delirium",
+    "lunarch_silence_beam",
+    "lunarch_lunar_radiance_burst",
+    "lunarch_parasitic_transfusion"
+  ],
+  6: [
+    "lunarch_apogee_cataclysm",
+    "lunarch_gravity_singularity",
+    "lunarch_phase_displacement",
+    "lunarch_gravity_inversion_field"
+  ],
+  7: [
+    "lunarch_phase_shatter_nova",
+    "lunarch_silence_supernova",
+    "lunarch_eclipse_barrier",
+    "lunarch_coronal_ray"
+  ],
+  8: [
+    "lunarch_symbiote_overdrive",
+    "lunarch_silence_constellation",
+    "lunarch_astral_projection_anchor",
+    "lunarch_apogee_lance"
+  ],
+  9: [
+    "lunarch_supernova_collapse",
+    "lunarch_skyhole",
+    "lunarch_null_horizon",
+    "lunarch_phase_restoration"
+  ],
+  10: [
+    "lunarch_celestial_symbiosis",
+    "lunarch_cosmic_annihilation",
+    "lunarch_avatar_of_the_dead_moon",
+    "lunarch_syzygy_cataclysm"
+  ]
+};

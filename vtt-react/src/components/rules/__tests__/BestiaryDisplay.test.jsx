@@ -116,16 +116,16 @@ describe('BestiaryDisplay Component', () => {
     fireEvent.click(grefCard);
     
     // In detail view, should see tabs
-    expect(screen.getByRole('button', { name: /Lore & Legends/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Combat Statistics/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Tactics & Actions/i })).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: /Lore & Legends/i })[0]).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: /Combat Statistics/i })[0]).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: /Tactics & Actions/i })[0]).toBeInTheDocument();
     
     // Click Combat Statistics tab
-    fireEvent.click(screen.getByRole('button', { name: /Combat Statistics/i }));
+    fireEvent.click(screen.getAllByRole('button', { name: /Combat Statistics/i })[0]);
     expect(screen.getByText('Core Attributes')).toBeInTheDocument();
     
     // Click Tactics & Actions tab
-    fireEvent.click(screen.getByRole('button', { name: /Tactics & Actions/i }));
+    fireEvent.click(screen.getAllByRole('button', { name: /Tactics & Actions/i })[0]);
     expect(screen.getByText(/Combat Behavior & Abilities/i)).toBeInTheDocument();
     
     // Click Back button

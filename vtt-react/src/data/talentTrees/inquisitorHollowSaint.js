@@ -9,7 +9,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t1_hollow_pursuit",
     name: "Hollow Pursuit",
-    icon: "ability_hunter_markedfordeath",
+    icon: "General/Glowing Paw Prints",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -30,7 +30,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t1_wyrd_embrace",
     name: "Wyrd Embrace",
-    icon: "spell_shadow_possession",
+    icon: "Necrotic/Wolf Hood",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -52,7 +52,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t1_pursuit_mastery",
     name: "Pursuit Mastery",
-    icon: "ability_rogue_sprint",
+    icon: "Necrotic/Horned Charge",
     maxRanks: 2,
     position: { x: 3, y: 0 },
     requires: null,
@@ -73,7 +73,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t2_corruption_aura",
     name: "Corruption Aura",
-    icon: "spell_shadow_contagion",
+    icon: "Necrotic/Corruption",
     maxRanks: 3,
     position: { x: 0, y: 1 },
     requires: "hsw_t1_wyrd_embrace",
@@ -95,7 +95,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t2_condemn",
     name: "Condemn",
-    icon: "ability_paladin_judgementsofthejust",
+    icon: "Radiant/Divine Downward Sword",
     maxRanks: 3,
     position: { x: 4, y: 1 },
     requires: "hsw_t1_pursuit_mastery",
@@ -123,7 +123,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t3_inner_peace",
     name: "Inner Peace",
-    icon: "spell_shadow_mindrot",
+    icon: "Arcane/Zen",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "hsw_t2_corruption_aura",
@@ -173,7 +173,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t4_rein_in_fury",
     name: "Rein In Fury",
-    icon: "spell_shadow_darkregeneration",
+    icon: "General/Command",
     maxRanks: 3,
     position: { x: 1.5, y: 3 },
     requires: "hsw_t3_inner_peace",
@@ -198,7 +198,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t4_corruption_nova",
     name: "Corruption Nova",
-    icon: "spell_shadow_shadowfury",
+    icon: "Force/Explosion Burst",
     maxRanks: 2,
     position: { x: 2.5, y: 3 },
     requires: "hsw_t3_marked_for_death",
@@ -225,7 +225,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t5_hounds_endurance",
     name: "Hound's Endurance",
-    icon: "spell_shadow_soul_link",
+    icon: "Healing/Renewal",
     maxRanks: 3,
     position: { x: 1.5, y: 4 },
     requires: "hsw_t4_rein_in_fury",
@@ -247,7 +247,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t5_no_escape",
     name: "No Escape",
-    icon: "ability_hunter_passthrough",
+    icon: "Utility/Maw No Escape",
     maxRanks: 2,
     position: { x: 2.5, y: 4 },
     requires: "hsw_t4_corruption_nova",
@@ -268,7 +268,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t6_ascended_form",
     name: "Hollow Sovereign",
-    icon: "spell_shadow_summonfelguard",
+    icon: "Radiant/Ascendance",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "hsw_t5_hounds_endurance",
@@ -286,7 +286,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t6_confession",
     name: "Confession",
-    icon: "spell_shadow_psychicscream",
+    icon: "Arcane/Revealing Steps",
     maxRanks: 2,
     position: { x: 2, y: 5 },
     requires: "hsw_t5_no_escape",
@@ -307,7 +307,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t6_hollow_bones",
     name: "Hollow Bones",
-    icon: "spell_shadow_shadetruesight",
+    icon: "Necrotic/Ethereal Skeleton",
     maxRanks: 2,
     position: { x: 3, y: 5 },
     requires: "hsw_t5_hounds_endurance",
@@ -327,7 +327,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t7_saint_and_hound",
     name: "Saint and Hound",
-    icon: "spell_shadow_metamorphosis",
+    icon: "Radiant/Golden Wolf",
     maxRanks: 1,
     position: { x: 0, y: 6 },
     requires: "hsw_t6_ascended_form",
@@ -350,7 +350,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: "hsw_t7_writ_of_hunger",
     name: "Writ of Hunger",
-    icon: "inv_scroll_03",
+    icon: "Necrotic/Blood Scroll",
     maxRanks: 5,
     position: { x: 1, y: 6 },
     requires: "hsw_t6_hollow_bones",

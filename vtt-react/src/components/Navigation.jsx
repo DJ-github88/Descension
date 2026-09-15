@@ -14,6 +14,7 @@ import ErrorBoundary from './common/ErrorBoundary';
 import CharacterSheetWindow from './character-sheet/CharacterSheetWindow';
 import '../styles/resizable-nav.css';
 import { useNavAssets } from '../hooks/useNavAssets';
+import useIsPhone from '../hooks/useIsPhone';
 
 const SettingsWindow = lazy(() => import('./windows/SettingsWindow'));
 const ExitGameConfirmDialog = lazy(() => import('./dialogs/ExitGameConfirmDialog'));
@@ -623,7 +624,7 @@ export default function Navigation({ onReturnToLanding }) {
     const [position, setPosition] = useState(() => {
         const initialSize = getInitialSize();
         return {
-            x: (window.innerWidth - initialSize.width) / 2, // Center horizontally
+            x: Math.max(20, (window.innerWidth - initialSize.width) / 2), // Center horizontally
             y: 20 // Position at top with 20px margin
         };
     });
@@ -1184,20 +1185,23 @@ export default function Navigation({ onReturnToLanding }) {
         }
     };
 
-    // Detect mobile device
-    const [isMobile, setIsMobile] = useState(() => {
+    // Detect mobile phone device (tablets and iPads are treated as desktop-class)
+    const isPhone = useIsPhone();
+    const [isSmallScreen, setIsSmallScreen] = useState(() => {
         if (typeof window === 'undefined') return false;
-        return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        return window.innerWidth < 640;
     });
 
     // Update mobile detection on resize
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+            setIsSmallScreen(window.innerWidth < 640);
         };
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    const isMobile = isPhone || isSmallScreen;
 
     // Mobile navigation popout state
     const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);

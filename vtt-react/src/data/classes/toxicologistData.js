@@ -2110,8 +2110,8 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     // ========================================
     // LEVEL 8 SPELLS
     // ========================================
-    { id : "tox_pandemic",
-      name: "Pandemic",
+    { id : "tox_alchemical_outbreak",
+      name: "Alchemical Outbreak",
       description:
         "Uncork a plague that deals 12d6 blight damage, then spreads to any enemy within 10 feet at the start of their turn, dealing 3d6 blight per round and draining 4 Constitution for 5 rounds (Constitution DC 18 for half).",
       level: 8,
@@ -2236,7 +2236,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resolution: "NONE",
-      effectTypes: ["summoning"],
+      effectTypes: ["summon"],
 
       summoningConfig: {
         creatures: [
@@ -2442,7 +2442,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resolution: "NONE",
-      effectTypes: ["summoning"],
+      effectTypes: ["summon"],
 
       summoningConfig: {
         creatures: [
@@ -2671,7 +2671,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resolution: "NONE",
-      effectTypes: ["summoning"],
+      effectTypes: ["summon"],
 
       summoningConfig: {
         creatures: [
@@ -3555,8 +3555,695 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       utilityConfig: { utilityType: "social", selectedEffects: [ { "id": "slow_taint_dose", "name": "Delayed Dose", "description": "Taint one food/drink; 1d4 hours later the drinker suffers cramping sickness (disadvantage on all checks for a day), weakness, or deep sleep  -  no obvious cause. A paranoid taster (DC 13) detects it first. Costs 2 Vials.", "mechanicsText": "Slip a delayed sickness/sleep poison into food/drink; DC 13 to detect." } ], power: "major" },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       tags: ["utility","social","infiltration","toxicologist"]
+    },
+    {
+      id: "tox_alchemical_adhesive",
+      name: "Alchemical Adhesive",
+      description: "Lob a canister of quick-curing alchemical resin across 35ft, coating a 15ft radius. Hostile creatures caught within are rooted to the floor for 1 round (speed 0) and suffer halved movement for 2 subsequent rounds.",
+      level: 4,
+      spellType: "ACTION",
+      icon: "Poison/Poison Toxin 2",
+      specialization: "gadgeteer",
+      typeConfig: {
+        school: "blight",
+        icon: "Poison/Poison Toxin 2",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+        tags: ["control", "debuff", "aoe", "gadget", "toxicologist"]
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 35,
+        aoeType: "circle",
+        aoeSize: 15,
+        targetRestrictions: ["enemy"]
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana", "toxinVials"],
+        resourceValues: { mana: 8, toxinVials: 1, classResource: { type: "vials", cost: 1 } },
+        components: ["somatic"],
+        somaticText: "Press the canister trigger and launch resin flask"
+      },
+      effectTypes: ["control", "debuff"],
+      controlConfig: {
+        controlType: "immobilization",
+        effects: [
+          {
+            id: "alchemical_resin_root",
+            name: "Cured Resin Root",
+            description: "Target speed is reduced to 0 on round 1 and halved for rounds 2-3.",
+            mechanicsText: "Immobilized (0 speed) for 1 round; movement speed halved for 2 rounds after."
+          }
+        ],
+        savingThrow: {
+          ability: "agility",
+          difficultyClass: 15,
+          saveOutcome: "negates"
+        },
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      tags: ["control", "debuff", "aoe", "gadget", "toxicologist"]
+    },
+    {
+      id: "tox_vapor_veil",
+      name: "Vapor Veil",
+      description: "Release a neutralizing aerosol spray in a 15ft radius around yourself for 3 rounds. Allies inside gain +4 to saving throws against blight, poison, and airborne afflictions, and gain light concealment against ranged attacks.",
+      level: 4,
+      spellType: "ACTION",
+      icon: "Poison/Poison Toxin 1",
+      specialization: "saboteur",
+      typeConfig: {
+        school: "blight",
+        icon: "Poison/Poison Toxin 1",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+        tags: ["buff", "utility", "aura", "protection", "toxicologist"]
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self",
+        aoeType: "circle",
+        aoeSize: 15,
+        targetRestrictions: ["allies"]
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana", "toxinVials"],
+        resourceValues: { mana: 7, toxinVials: 1, classResource: { type: "vials", cost: 1 } },
+        components: ["somatic"],
+        somaticText: "Disperse aerosol canisters in a circle"
+      },
+      effectTypes: ["buff", "utility"],
+      buffConfig: {
+        buffType: "protection",
+        effects: [
+          {
+            id: "neutralizing_mist",
+            name: "Neutralizing Mist",
+            description: "Grants +4 bonus on saves vs blight/poison and light concealment.",
+            mechanicsText: "+4 on saving throws against poison/blight/disease; light concealment from ranged attacks outside cloud."
+          }
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      utilityConfig: {
+        utilityType: "protection",
+        selectedEffects: [
+          {
+            id: "vapor_veil_filter",
+            name: "Aerosol Filtration",
+            description: "Filters toxic particulates and airborne spores for allies within 15ft.",
+            mechanicsText: "Immunity to minor atmospheric hazards within the 15ft cloud."
+          }
+        ],
+        power: "moderate"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      tags: ["buff", "utility", "aura", "protection", "toxicologist"]
+    },
+    {
+      id: "tox_narcotic_vapor",
+      name: "Narcotic Vapor",
+      description: "Discharge an insidious soporific reagent in a 20ft radius up to 40ft away. Enemies inhaling the vapor must pass a Spirit save or become dazed: unable to take reactions, suffering disadvantage on mental checks, and losing 1 AP on their next turn.",
+      level: 5,
+      spellType: "ACTION",
+      icon: "Poison/Poisoned Mind",
+      specialization: "venomancer",
+      typeConfig: {
+        school: "blight",
+        icon: "Poison/Poisoned Mind",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+        tags: ["control", "debuff", "aoe", "narcotic", "toxicologist"]
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        aoeType: "circle",
+        aoeSize: 20,
+        targetRestrictions: ["enemy"]
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana", "toxinVials"],
+        resourceValues: { mana: 10, toxinVials: 2, classResource: { type: "vials", cost: 2 } },
+        components: ["somatic"],
+        somaticText: "Throw a glass sphere containing swirling indigo fumes"
+      },
+      effectTypes: ["control", "debuff"],
+      controlConfig: {
+        controlType: "daze",
+        effects: [
+          {
+            id: "narcotic_delirium",
+            name: "Soporific Delirium",
+            description: "Enemies cannot use reactions and lose 1 AP next turn.",
+            mechanicsText: "No reactions, lose 1 AP on next turn on failed DC 16 Spirit save."
+          }
+        ],
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 16,
+          saveOutcome: "negates"
+        },
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
+      debuffConfig: {
+        debuffType: "mental_penalty",
+        effects: [
+          {
+            id: "narcotic_fog_mind",
+            name: "Cognitive Suppression",
+            description: "Disadvantage on all mental checks and concentration saves.",
+            mechanicsText: "Disadvantage on Spirit and Intelligence checks and saves for 2 rounds."
+          }
+        ],
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      tags: ["control", "debuff", "aoe", "narcotic", "toxicologist"]
+    },
+    {
+      id: "tox_calcified_antidote",
+      name: "Calcified Antidote",
+      description: "Inject an ally with a heavy metallic curdling serum. Instantly purges all ongoing poison, blight, and bleed conditions, then calcifies their dermal layer, granting 20 Temporary HP and DR 4 against physical damage for 3 rounds.",
+      level: 6,
+      spellType: "ACTION",
+      icon: "Healing/Golden Heart",
+      specialization: "saboteur",
+      typeConfig: {
+        school: "blight",
+        icon: "Healing/Golden Heart",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+        tags: ["buff", "cleanse", "defense", "toxicologist"]
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "touch",
+        rangeDistance: 0,
+        targetRestrictions: ["allies"],
+        maxTargets: 1
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana", "toxinVials"],
+        resourceValues: { mana: 11, toxinVials: 2, classResource: { type: "vials", cost: 2 } },
+        components: ["somatic"],
+        somaticText: "Depress syringe into ally's bloodstream"
+      },
+      effectTypes: ["buff", "cleanse"],
+      buffConfig: {
+        buffType: "protection",
+        effects: [
+          {
+            id: "calcified_scab",
+            name: "Metallic Calcification",
+            description: "Grants 20 Temporary HP and DR 4 against physical damage for 3 rounds.",
+            mechanicsText: "Gain 20 Temporary HP and Damage Reduction 4 (physical) for 3 rounds."
+          }
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      utilityConfig: {
+        utilityType: "cleanse",
+        selectedEffects: [
+          {
+            id: "calcified_cleanse",
+            name: "Alchemical Purification",
+            description: "Purges all poison, disease, and bleed conditions.",
+            mechanicsText: "Cleanses all ongoing poison, blight, and bleed effects from target."
+          }
+        ],
+        power: "major"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      tags: ["buff", "cleanse", "defense", "toxicologist"]
+    },
+    {
+      id: "tox_pneumatic_stasis_piston",
+      name: "Pneumatic Stasis Piston",
+      description: "Launch a spring-loaded magnetic vice-mine onto an enemy up to 40ft away. On impact, hydraulic jaws clamp shut around the target's limbs or weapon, disarming them or preventing physical attacks for 2 rounds (Agility DC 16 negates).",
+      level: 6,
+      spellType: "ACTION",
+      icon: "Utility/Utility Tool",
+      specialization: "gadgeteer",
+      typeConfig: {
+        school: "arcane",
+        icon: "Utility/Utility Tool",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+        tags: ["control", "debuff", "gadget", "sabotage", "toxicologist"]
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 12 },
+        components: ["somatic"],
+        somaticText: "Aim pneumatic launcher and fire clamping mine"
+      },
+      effectTypes: ["control", "debuff"],
+      controlConfig: {
+        controlType: "disarm_lock",
+        effects: [
+          {
+            id: "pneumatic_limb_lock",
+            name: "Pneumatic Vice Clamp",
+            description: "Target cannot use equipped weapons or perform physical attacks for 2 rounds.",
+            mechanicsText: "Disarmed / physical attack actions locked for 2 rounds on failed Agility save."
+          }
+        ],
+        savingThrow: {
+          ability: "agility",
+          difficultyClass: 16,
+          saveOutcome: "negates"
+        },
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      tags: ["control", "debuff", "gadget", "sabotage", "toxicologist"]
+    },
+    {
+      id: "tox_cryogenic_distillate",
+      name: "Cryogenic Distillate",
+      description: "Shatter a volatile endothermic reagent flask across a 30ft radius. The air flash-freezes into crystalline frost: ground becomes difficult terrain, and any creature attempting to move or cast must pass an Agility save or fall prone and lose 1 AP.",
+      level: 7,
+      spellType: "ACTION",
+      icon: "Frost/Frost Freeze 1",
+      specialization: "gadgeteer",
+      typeConfig: {
+        school: "rime",
+        icon: "Frost/Frost Freeze 1",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+        tags: ["control", "aoe", "environment", "rime", "toxicologist"]
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 50,
+        aoeType: "circle",
+        aoeSize: 30,
+        targetRestrictions: ["enemy"]
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana", "toxinVials"],
+        resourceValues: { mana: 15, toxinVials: 2, classResource: { type: "vials", cost: 2 } },
+        components: ["somatic"],
+        somaticText: "Hurl pressurized cryogenic flask into the center of the zone"
+      },
+      effectTypes: ["control"],
+      controlConfig: {
+        controlType: "difficult_terrain",
+        effects: [
+          {
+            id: "cryogenic_frost_floor",
+            name: "Flash-Frozen Ground",
+            description: "Area is slippery difficult terrain; failed Agility check knocks creature prone and costs 1 AP.",
+            mechanicsText: "Area is difficult terrain (movement halved). Moving or casting requires DC 17 Agility check or fall prone and lose 1 AP."
+          }
+        ],
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      tags: ["control", "aoe", "environment", "rime", "toxicologist"]
+    },
+    {
+      id: "tox_caustic_deluge",
+      name: "Caustic Deluge",
+      description: "Launch a pressurized battery of volatile acid canisters across a 25ft radius, dealing 8d6 blight damage and melting enemy defenses, reducing their DR by 4 and Durability by 1 for 3 rounds.",
+      level: 7,
+      spellType: "ACTION",
+      icon: "Poison/Acid Spray",
+      specialization: "venomancer",
+      typeConfig: {
+        school: "blight",
+        icon: "Poison/Acid Spray",
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+        tags: ["damage", "debuff", "aoe", "blight", "toxicologist"]
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 45,
+        aoeType: "circle",
+        aoeSize: 25,
+        targetRestrictions: ["enemy"]
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 2,
+        resourceTypes: ["mana", "toxinVials"],
+        resourceValues: { mana: 16, toxinVials: 3, classResource: { type: "vials", cost: 3 } },
+        components: ["verbal", "somatic"],
+        verbalText: "Dissolve and strip!",
+        somaticText: "Fire multi-barrel acid canister launcher"
+      },
+      effectTypes: ["damage", "debuff"],
+      damageConfig: {
+        formula: "8d6",
+        elementType: "blight",
+        damageTypes: ["blight"],
+        resolution: "DICE",
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 17,
+          saveOutcome: "half_damage"
+        }
+      },
+      debuffConfig: {
+        debuffType: "statReduction",
+        effects: [
+          {
+            id: "caustic_armor_melt",
+            name: "Melted Armor",
+            description: "-4 DR and -1 Durability for 3 rounds.",
+            mechanicsText: "Target suffers -4 Damage Reduction and -1 Durability for 3 rounds."
+          }
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      tags: ["damage", "debuff", "aoe", "blight", "toxicologist"]
+    },
+    {
+      id: "tox_biochemical_siphon",
+      name: "Biochemical Siphon",
+      description: "Attach a pneumatic tether needle to an enemy within 40ft. For 3 rounds, drain 15 HP from the victim at the start of each turn to heal yourself, and reduce their physical damage dealt by 50%.",
+      level: 8,
+      spellType: "ACTION",
+      icon: "Necrotic/Drain Soul",
+      specialization: "saboteur",
+      typeConfig: {
+        school: "blight",
+        icon: "Necrotic/Drain Soul",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+        tags: ["buff", "debuff", "healing", "tether", "toxicologist"]
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana", "toxinVials"],
+        resourceValues: { mana: 18, toxinVials: 3, classResource: { type: "vials", cost: 3 } },
+        components: ["somatic"],
+        somaticText: "Fire pneumatic siphon tether into target's main artery"
+      },
+      effectTypes: ["buff", "debuff", "healing"],
+      healingConfig: {
+        formula: "15 HP per turn",
+        healingType: "drain",
+        description: "Restores 15 HP to caster at start of turn while tether holds."
+      },
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "siphon_lethargy",
+            name: "Biochemical Drain",
+            description: "Enemy takes 15 damage and deals -50% physical damage each round.",
+            mechanicsText: "Takes 15 blight damage per turn (transferred to caster) and suffers -50% physical damage dealt for 3 rounds."
+          }
+        ],
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 18,
+          saveOutcome: "negates"
+        },
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+      tags: ["buff", "debuff", "healing", "tether", "toxicologist"]
+    },
+    {
+      id: "tox_stasis_gas_dispersal",
+      name: "Stasis Gas Dispersal",
+      description: "Flood a 30ft radius with an ultra-dense catalytic neurotoxin. All hostile creatures within must pass a DC 19 Spirit save or enter biochemical stasis for 2 rounds: they cannot take actions or reactions, and all damage dealt to them while in stasis is stored and delivered simultaneously when the gas clears.",
+      level: 9,
+      spellType: "ACTION",
+      icon: "Poison/Poison Plague 1",
+      specialization: "venomancer",
+      typeConfig: {
+        school: "blight",
+        icon: "Poison/Poison Plague 1",
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+        tags: ["control", "aoe", "stasis", "ultimate", "toxicologist"]
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        aoeType: "circle",
+        aoeSize: 30,
+        targetRestrictions: ["enemy"]
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 2,
+        resourceTypes: ["mana", "toxinVials"],
+        resourceValues: { mana: 25, toxinVials: 4, classResource: { type: "vials", cost: 4 } },
+        components: ["somatic"],
+        somaticText: "Depress double-seal chemical canister and heave it overhead"
+      },
+      effectTypes: ["control"],
+      controlConfig: {
+        controlType: "stasis",
+        effects: [
+          {
+            id: "biochemical_stasis",
+            name: "Biochemical Suspended Animation",
+            description: "Targets cannot act or react for 2 rounds; incoming damage is stored and unleashed upon termination.",
+            mechanicsText: "Incapacitated in stasis for 2 rounds on failed DC 19 Spirit save. All damage taken during stasis is stored and detonates when effect ends."
+          }
+        ],
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 19,
+          saveOutcome: "negates"
+        },
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      tags: ["control", "aoe", "stasis", "ultimate", "toxicologist"]
+    },
+    {
+      id: "tox_panacea_concoction",
+      name: "Panacea Concoction",
+      description: "The apex of pharmacological genius: brew and shatter a universal panacea vial across a 30ft radius. All allies within are cleansed of all negative conditions, heal for 40 HP, gain immunity to all poison, blight, and mind-affecting effects, and gain DR 8 for 3 rounds.",
+      level: 10,
+      spellType: "ACTION",
+      icon: "Healing/Cure Within",
+      specialization: "saboteur",
+      typeConfig: {
+        school: "blight",
+        icon: "Healing/Cure Within",
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+        tags: ["buff", "healing", "cleanse", "ultimate", "toxicologist"]
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self",
+        aoeType: "circle",
+        aoeSize: 30,
+        targetRestrictions: ["allies"]
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      resourceCost: {
+        actionPoints: 2,
+        resourceTypes: ["mana", "toxinVials"],
+        resourceValues: { mana: 30, toxinVials: 5, classResource: { type: "vials", cost: 5 } },
+        components: ["verbal", "somatic"],
+        verbalText: "Omnia Sanantur!",
+        somaticText: "Shatter the crystalline panacea vial onto the ground"
+      },
+      effectTypes: ["buff", "healing", "cleanse"],
+      healingConfig: {
+        formula: "40",
+        healingType: "direct",
+        description: "Restores 40 hit points to all allies in range."
+      },
+      buffConfig: {
+        buffType: "protection",
+        effects: [
+          {
+            id: "panacea_transcendence",
+            name: "Panacea Invulnerability",
+            description: "Immunity to poisons, blights, and mind effects; DR 8 for 3 rounds.",
+            mechanicsText: "Immunity to all poison, blight, disease, and mental status effects; gain DR 8 for 3 rounds."
+          }
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      utilityConfig: {
+        utilityType: "cleanse",
+        selectedEffects: [
+          {
+            id: "panacea_cleanse_all",
+            name: "Total Restoration",
+            description: "Cleanses all negative status effects and conditions.",
+            mechanicsText: "Removes every debuff, curse, poison, bleed, and condition from affected allies."
+          }
+        ],
+        power: "legendary"
+      },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      tags: ["buff", "healing", "cleanse", "ultimate", "toxicologist"]
     }
   ],
+  spellPools: {
+    1: [
+      "tox_acid_unlocking",
+      "tox_apply_poison",
+      "tox_antidote",
+      "tox_poison_dart",
+      "tox_noxious_fumes",
+      "tox_purifying_antidote",
+      "tox_chemical_analysis",
+      "tox_caustic_flask"
+    ],
+    2: [
+      "tox_venom_strike",
+      "tox_poison_trap",
+      "tox_smoke_bomb",
+      "tox_smoke_screen",
+      "tox_brew_antidote"
+    ],
+    3: [
+      "tox_false_death",
+      "tox_crippling_toxin",
+      "tox_explosive_concoction",
+      "tox_venom_blast",
+      "tox_toxic_shock",
+      "tox_slow_taint"
+    ],
+    4: [
+      "tox_toxic_cloud",
+      "tox_poison_bomb",
+      "tox_alchemical_adhesive",
+      "tox_vapor_veil"
+    ],
+    5: [
+      "tox_contraption_network",
+      "tox_chaos_grenade",
+      "tox_deadly_toxin",
+      "tox_narcotic_vapor"
+    ],
+    6: [
+      "tox_overcharged_trap",
+      "tox_toxic_wave",
+      "tox_calcified_antidote",
+      "tox_pneumatic_stasis_piston"
+    ],
+    7: [
+      "tox_total_shutdown",
+      "tox_virulent_plague",
+      "tox_cryogenic_distillate",
+      "tox_caustic_deluge"
+    ],
+    8: [
+      "tox_alchemical_outbreak",
+      "tox_mechanical_monstrosity",
+      "tox_sabotage_supreme",
+      "tox_biochemical_siphon"
+    ],
+    9: [
+      "tox_extinction_toxin",
+      "tox_war_machine",
+      "tox_total_system_failure",
+      "tox_stasis_gas_dispersal"
+    ],
+    10: [
+      "tox_apocalypse_plague",
+      "tox_mechanical_army",
+      "tox_reality_bomb",
+      "tox_panacea_concoction"
+    ]
+  },
 };
 
 TOXICOLOGIST_DATA.spells = TOXICOLOGIST_DATA.exampleSpells;

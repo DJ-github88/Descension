@@ -1397,6 +1397,81 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   tags: ["displacement", "trap", "control", "chronarch"]
  },
 
+ { id: "chrono_stasis_wall",
+  name: "Stasis Barrier",
+  description: "Erect a 20ft long barrier of decelerated causality for 2 rounds. Ranged attacks passing through deal half damage; enemies that enter or cross have their speed halved and lose 1 Action Point on their next turn (DC 14 Constitution save negates AP loss).",
+  level: 4,
+  spellType: "ACTION",
+  icon: "Force/Radiating Barrier",
+  typeConfig: {
+   school: "arcane",
+   icon: "Force/Radiating Barrier",
+   tags: ["arcane", "control", "zone", "defense", "chronarch"],
+   castTime: 1,
+   castTimeType: "IMMEDIATE"
+  },
+  targetingConfig: {
+   targetingType: "line",
+   rangeType: "ranged",
+   rangeDistance: 40,
+   areaSize: 20,
+   targetRestrictions: []
+  },
+  resourceCost: {
+   resourceTypes: ["mana", "time_shards"],
+   resourceValues: {
+    mana: 12,
+    time_shard_generate: 1
+   },
+   classResource: { type: "time_shards", cost: -1 },
+   actionPoints: 1,
+   components: ["verbal", "somatic"],
+   verbalText: "Murus Inertiae!",
+   somaticText: "Drag two fingers horizontally through the air, carving a pane of frozen causality."
+  },
+  resolution: "AUTOMATIC",
+  effectTypes: ["control", "utility"],
+  controlConfig: {
+   controlType: "zone",
+   duration: 2,
+   durationUnit: "rounds",
+   effects: [
+    {
+     id: "stasis_wall_slow",
+     name: "Temporal Drag",
+     description: "Movement speed halved and -1 Action Point on entry.",
+     mechanicsText: "Speed halved; lose 1 AP on next turn (DC 14 Con save negates AP loss).",
+     config: {
+      zoneType: "difficult_terrain"
+     }
+    }
+   ],
+   savingThrow: {
+    ability: "constitution",
+    difficultyClass: 14,
+    saveOutcome: "negates"
+   }
+  },
+  utilityConfig: {
+   utilityType: "protection",
+   selectedEffects: [
+    {
+     id: "stasis_wall_projectile_ward",
+     name: "Velocity Dampening",
+     description: "Ranged attacks passing through the barrier deal half damage.",
+     mechanicsText: "Ranged attacks passing through barrier deal half damage."
+    }
+   ],
+   duration: 2,
+   durationUnit: "rounds"
+  },
+  cooldownConfig: {
+   cooldownType: "turn_based",
+   cooldownValue: 2
+  },
+  tags: ["arcane", "control", "zone", "defense", "chronarch"]
+ },
+
  // ========================================
  // LEVEL 5 SPELLS - Anchor, Thorns, Flux: Shield, Flux: Speed
  // ========================================
@@ -1837,6 +1912,78 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    tags: ["flux", "control", "stasis", "chronarch"]
   },
 
+  { id: "chrono_causality_reweave",
+   name: "Causality Reweave",
+   description: "Heavy Flux. Reweave an ally's timeline within 30 feet: cleanse all debuffs, damage-over-time, and impaired conditions acquired within the last round, and grant them +10 ft speed and +1 Action Point for 1 round.",
+   level: 6,
+   spellType: "ACTION",
+   icon: "Arcane/Star Trail Path",
+   typeConfig: {
+    school: "arcane",
+    icon: "Arcane/Star Trail Path",
+    tags: ["flux", "cleanse", "buff", "support", "chronarch"],
+    castTime: 1,
+    castTimeType: "IMMEDIATE"
+   },
+   targetingConfig: {
+    targetingType: "single",
+    rangeType: "ranged",
+    rangeDistance: 30,
+    targetRestrictions: ["ally"]
+   },
+   resourceCost: {
+    resourceTypes: ["mana", "time_shards", "temporal_strain"],
+    resourceValues: {
+     mana: 14,
+     time_shard_cost: 3,
+     temporal_strain_gain: 1
+    },
+    classResource: { type: "time_shards", cost: 3 },
+    actionPoints: 1,
+    components: ["verbal", "somatic"],
+    verbalText: "Retexit Fata!",
+    somaticText: "Pinch the shimmering silver threads trailing from your ally and smooth them straight."
+   },
+   resolution: "AUTOMATIC",
+   effectTypes: ["utility", "buff"],
+   utilityConfig: {
+    utilityType: "cleanse",
+    selectedEffects: [
+     {
+      id: "causality_reweave_cleanse",
+      name: "Timeline Restoration",
+      description: "Cleanse all debuffs, DoTs, and conditions gained within the last round.",
+      mechanicsText: "Cleanse all debuffs, DoTs, and conditions gained within 1 round."
+     }
+    ],
+    duration: 0,
+    durationUnit: "instant"
+   },
+   buffConfig: {
+    buffType: "statusEffect",
+    effects: [
+     {
+      id: "causality_reweave_haste",
+      name: "Untethered Velocity",
+      description: "+10 ft speed and +1 Action Point for 1 round.",
+      mechanicsText: "+10 ft speed and +1 AP for 1 round.",
+      statModifier: {
+       stat: "movement_speed",
+       magnitude: 10,
+       magnitudeType: "flat"
+      }
+     }
+    ],
+    durationValue: 1,
+    durationType: "rounds"
+   },
+   cooldownConfig: {
+    cooldownType: "turn_based",
+    cooldownValue: 3
+   },
+   tags: ["flux", "cleanse", "buff", "support", "chronarch"]
+  },
+
   // ========================================
   // LEVEL 7 SPELLS - Flux: Disruption, Reversal, Flux: Echo Chamber
  // ========================================
@@ -2043,6 +2190,89 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    tags: ["flux", "control", "aoe", "displacement", "chronarch"]
   },
 
+   { id: "chrono_anchorfield",
+    name: "Chronal Anchorfield",
+    description: "Heavy Flux. Pin a 20ft radius zone in absolute localized stillness for 1 round. Enemies caught cannot move, take actions, or take reactions (DC 16 Constitution save reduces to Slowed with -2 AP). Allies inside gain +4 Damage Reduction against attacks from outside the field.",
+    level: 7,
+    spellType: "ACTION",
+    icon: "Force/Energy Core",
+    typeConfig: {
+     school: "storm",
+     icon: "Force/Energy Core",
+     tags: ["flux", "control", "aoe", "defense", "chronarch"],
+     castTime: 1,
+     castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+     targetingType: "area",
+     rangeType: "ranged",
+     rangeDistance: 40,
+     aoeShape: "circle",
+     aoeParameters: { radius: 20 },
+     targetRestrictions: []
+    },
+    resourceCost: {
+     resourceTypes: ["mana", "time_shards", "temporal_strain"],
+     resourceValues: {
+      mana: 20,
+      time_shard_cost: 5,
+      temporal_strain_gain: 3
+     },
+     classResource: { type: "time_shards", cost: 5 },
+     actionPoints: 1,
+     components: ["verbal", "somatic"],
+     verbalText: "Iners Anchor!",
+     somaticText: "Drive the pommel of your staff down, pinning reality's pendulum in place."
+    },
+    resolution: "SAVE",
+    effectTypes: ["control", "buff"],
+    controlConfig: {
+     controlType: "lockdown",
+     duration: 1,
+     durationUnit: "rounds",
+     effects: [
+      {
+       id: "anchorfield_lock",
+       name: "Absolute Stillness",
+       description: "Incapacitated and movement speed 0 for 1 round.",
+       mechanicsText: "Incapacitated and 0 speed for 1 round (DC 16 Con save reduces to Slowed with -2 AP).",
+       config: {
+        saveType: "constitution",
+        saveDC: 16
+       }
+      }
+     ],
+     savingThrow: {
+      ability: "constitution",
+      difficultyClass: 16,
+      saveOutcome: "negates"
+     }
+    },
+    buffConfig: {
+     buffType: "statusEffect",
+     effects: [
+      {
+       id: "anchorfield_aegis",
+       name: "Stillness Ward",
+       description: "Allies gain +4 Damage Reduction against attacks originating from outside the anchorfield.",
+       mechanicsText: "+4 DR against outside attacks while inside anchorfield.",
+       statModifier: {
+        stat: "damage_reduction",
+        magnitude: 4,
+        magnitudeType: "flat"
+       }
+      }
+     ],
+     durationValue: 1,
+     durationType: "rounds"
+    },
+    cooldownConfig: {
+     cooldownType: "turn_based",
+     cooldownValue: 4
+    },
+    tags: ["flux", "control", "aoe", "defense", "chronarch"]
+   },
+
   // ========================================
   // LEVEL 8 SPELLS - Flux: Dominion, Flux: Resurrection, Flux: Fate
  // ========================================
@@ -2248,6 +2478,71 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    },
    tags: ["flux", "luck", "support", "rewinding", "chronarch"]
   },
+
+  { id: "chrono_timeline_purge",
+    name: "Timeline Purge",
+    description: "Vent accumulated temporal friction from your chronal lattice: immediately reduce your Temporal Strain by 5, end all ongoing spell cooldowns of 2 turns or fewer on yourself, and generate 2 Time Shards.",
+    level: 8,
+    spellType: "ACTION",
+    icon: "Arcane/Abstract Rune",
+    typeConfig: {
+     school: "arcane",
+     icon: "Arcane/Abstract Rune",
+     tags: ["utility", "strain_vent", "buff", "chronarch"],
+     castTime: 1,
+     castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+     targetingType: "self",
+     rangeType: "self"
+    },
+    resourceCost: {
+     resourceTypes: ["mana", "time_shards", "temporal_strain"],
+     resourceValues: {
+      mana: 22,
+      time_shard_generate: 2,
+      temporal_strain_vent: 5
+     },
+     classResource: { type: "time_shards", cost: -2 },
+     actionPoints: 1,
+     components: ["verbal", "somatic"],
+     verbalText: "Purgo Nexum!",
+     somaticText: "Open your chest robes and exhale a cloud of chronal cinders, venting friction into the ether."
+    },
+    resolution: "AUTOMATIC",
+    effectTypes: ["utility", "buff"],
+    utilityConfig: {
+     utilityType: "restoration",
+     selectedEffects: [
+      {
+       id: "timeline_purge_vent",
+       name: "Strain Vent",
+       description: "Reduce Temporal Strain by 5 and refresh self cooldowns <= 2 turns.",
+       mechanicsText: "Vent 5 Temporal Strain; reset self cooldowns of 2 turns or less."
+      }
+     ],
+     duration: 0,
+     durationUnit: "instant"
+    },
+    buffConfig: {
+     buffType: "statusEffect",
+     effects: [
+      {
+       id: "timeline_purge_surge",
+       name: "Temporal Clarity",
+       description: "Gain +1 Action Point on your next turn.",
+       mechanicsText: "+1 Action Point on next turn."
+      }
+     ],
+     durationValue: 1,
+     durationType: "rounds"
+    },
+    cooldownConfig: {
+     cooldownType: "turn_based",
+     cooldownValue: 5
+    },
+    tags: ["utility", "strain_vent", "buff", "chronarch"]
+   },
 
   // ========================================
   // LEVEL 9 SPELLS - Flux: Shockwave, Flux: Fracture, Flux: Paradox
@@ -2484,12 +2779,72 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     }
    ]
    },
-   tags: ["flux", "damage", "control", "stasis", "chronarch"]
-  },
+    tags: ["flux", "damage", "control", "stasis", "chronarch"]
+   },
 
-  // ========================================
-  // LEVEL 10 SPELLS - Mastery, Flux: Restoration, Flux: Vortex
- // ========================================
+   { id: "chrono_timeless_sanctuary",
+    name: "Sanctuary of the Timeless",
+    description: "Heavy Flux. Envelop yourself and up to 3 allies within 30 feet in an extradimensional pocket outside the flow of time until the start of your next turn. While inside, targets cannot be targeted, damaged, or affected by environmental hazards. Upon returning, each target heals 4d10 + Spirit and gains +1 Action Point.",
+    level: 9,
+    spellType: "ACTION",
+    icon: "Arcane/Open Portal",
+    typeConfig: {
+     school: "arcane",
+     icon: "Arcane/Open Portal",
+     tags: ["flux", "defense", "buff", "healing", "support", "chronarch"],
+     castTime: 2,
+     castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+     targetingType: "area",
+     rangeType: "self_centered",
+     aoeShape: "circle",
+     aoeParameters: { radius: 30 },
+     targetRestrictions: ["ally", "self"]
+    },
+    resourceCost: {
+     resourceTypes: ["mana", "time_shards", "temporal_strain"],
+     resourceValues: {
+      mana: 28,
+      time_shard_cost: 8,
+      temporal_strain_gain: 4
+     },
+     classResource: { type: "time_shards", cost: 8 },
+     actionPoints: 2,
+     components: ["verbal", "somatic"],
+     verbalText: "Asylum Extra Tempus!",
+     somaticText: "Cast an hourglass upward, wrapping allies in a translucent sphere of static silver light."
+    },
+    resolution: "DICE",
+    effectTypes: ["buff", "healing"],
+    buffConfig: {
+     buffType: "statusEffect",
+     effects: [
+      {
+       id: "sanctuary_phase_out",
+       name: "Extradimensional Shelter",
+       description: "Phased out: cannot be targeted or damaged until next turn; gain +1 Action Point upon returning.",
+       mechanicsText: "Untargetable and immune to damage for 1 round; +1 AP upon returning."
+      }
+     ],
+     durationValue: 1,
+     durationType: "rounds"
+    },
+    healingConfig: {
+     formula: "4d10 + spirit",
+     resolution: "DICE",
+     healingType: "direct"
+    },
+    cooldownConfig: {
+     cooldownType: "turn_based",
+     cooldownValue: 6
+    },
+    tags: ["flux", "defense", "buff", "healing", "support", "chronarch"]
+   },
+
+   // ========================================
+   // LEVEL 10 SPELLS - Mastery, Flux: Restoration, Flux: Vortex
+   // ========================================
  { id: "temporal_mastery",
   name: "Temporal Mastery",
   description: "Ultimate passive. Grant +1 base Action Point at start of combat, and your basic spells generate 2 Time Shards instead of 1.",
@@ -2649,6 +3004,175 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    },
    tags: ["flux", "damage", "control", "aoe", "stasis", "chronarch"]
   },
+
+   { id: "chrono_epoch_shatter",
+    name: "Epoch Shatter",
+    description: "Absolute Flux. Fracture the local continuum across a 40ft radius. Enemies take 12d8 + INT storm damage and their timeline vectors splinter: each enemy is displaced 20ft away and silenced for 2 rounds (DC 19 Constitution save halves damage and negates silence).",
+    level: 10,
+    spellType: "ACTION",
+    icon: "Force/Radial Burst",
+    typeConfig: {
+     school: "storm",
+     icon: "Force/Radial Burst",
+     tags: ["flux", "damage", "control", "aoe", "storm", "chronarch"],
+     castTime: 2,
+     castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+     targetingType: "area",
+     rangeType: "ranged",
+     rangeDistance: 60,
+     aoeShape: "circle",
+     aoeParameters: { radius: 40 },
+     targetRestrictions: ["enemy"]
+    },
+    resourceCost: {
+     resourceTypes: ["mana", "time_shards", "temporal_strain"],
+     resourceValues: {
+      mana: 34,
+      time_shard_cost: 10,
+      temporal_strain_gain: 8
+     },
+     classResource: { type: "time_shards", cost: 10 },
+     actionPoints: 2,
+     components: ["verbal", "somatic"],
+     verbalText: "Shatter Fractura Epoch!",
+     somaticText: "Grip the air with clenched fists and wrench in opposite directions, shattering local causal fabric."
+    },
+    resolution: "DICE",
+    effectTypes: ["damage", "control"],
+    damageConfig: {
+     formula: "12d8 + intelligence",
+     elementType: "storm",
+     damageTypes: ["storm"],
+     canCrit: true,
+     critMultiplier: 2,
+     savingThrow: {
+      ability: "constitution",
+      difficultyClass: 19,
+      saveOutcome: "half_damage"
+     },
+     resolution: "DICE"
+    },
+    controlConfig: {
+     controlType: "forcedMovement",
+     duration: 2,
+     durationUnit: "rounds",
+     effects: [
+      {
+       id: "epoch_silence",
+       name: "Causal Silence",
+       description: "Displaced 20ft and silenced for 2 rounds.",
+       mechanicsText: "Pushed 20ft and silenced for 2 rounds (DC 19 Con save negates silence).",
+       config: {
+        movementType: "push",
+        distance: 20,
+        saveType: "constitution",
+        saveDC: 19
+       }
+      }
+     ],
+     savingThrow: {
+      ability: "constitution",
+      difficultyClass: 19,
+      saveOutcome: "negates"
+     }
+    },
+    permanentCost: {
+     type: "max_hp",
+     amount: 5,
+     duration: "long_rest",
+     description: "Temporal Strain builds as cellular structures age terminally."
+    },
+    triggerConfig: {
+     triggers: [
+      {
+       id: "epoch_shatter_recoil",
+       name: "Chronal Recoil",
+       triggerType: "on_cast",
+       action: "Temporal Strain accumulates."
+      }
+     ]
+    },
+    cooldownConfig: {
+     cooldownType: "turn_based",
+     cooldownValue: 7
+    },
+    tags: ["flux", "damage", "control", "aoe", "storm", "chronarch"]
+   },
+
+   { id: "chrono_paradox_transcendence",
+    name: "Paradox Transcendence",
+    description: "Absolute Flux. Harmonize your consciousness across all concurrent timelines for 3 rounds. Gain +2 Action Points per round, double movement speed, immunity to all crowd control and forced movement, and whenever you cast a basic chronal spell, it echoes automatically. When transcendence ends, take 2d6 blight recoil.",
+    level: 10,
+    spellType: "ACTION",
+    icon: "Arcane/Zen",
+    typeConfig: {
+     school: "arcane",
+     icon: "Arcane/Zen",
+     tags: ["flux", "buff", "transcendence", "support", "chronarch"],
+     castTime: 2,
+     castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+     targetingType: "self",
+     rangeType: "self"
+    },
+    resourceCost: {
+     resourceTypes: ["mana", "time_shards", "temporal_strain"],
+     resourceValues: {
+      mana: 30,
+      time_shard_cost: 10,
+      temporal_strain_gain: 7
+     },
+     classResource: { type: "time_shards", cost: 10 },
+     actionPoints: 2,
+     components: ["verbal", "somatic"],
+     verbalText: "Transcendo Paradoxum!",
+     somaticText: "Close both eyes, allowing your silhouette to branch into infinite silver silhouettes."
+    },
+    resolution: "AUTOMATIC",
+    effectTypes: ["buff"],
+    buffConfig: {
+     buffType: "statusEffect",
+     effects: [
+      {
+       id: "paradox_transcendence_state",
+       name: "Concurrent Timeline Avatar",
+       description: "+2 Action Points, double speed, CC immunity, and basic spells echo automatically.",
+       mechanicsText: "+2 AP per round; double speed; total CC immunity; basic spells echo. End: 2d6 blight.",
+       statusEffect: {
+        type: "haste",
+        speedMultiplier: 2.0,
+        extraActions: 2
+       }
+      }
+     ],
+     durationValue: 3,
+     durationType: "rounds"
+    },
+    permanentCost: {
+     type: "max_hp",
+     amount: 5,
+     duration: "long_rest",
+     description: "Severe Temporal Strain builds as alternate timelines ravage your physical form."
+    },
+    triggerConfig: {
+     triggers: [
+      {
+       id: "paradox_transcendence_recoil",
+       name: "Chronal Recoil",
+       triggerType: "on_cast",
+       action: "Temporal Strain accumulates."
+      }
+     ]
+    },
+    cooldownConfig: {
+     cooldownType: "turn_based",
+     cooldownValue: 8
+    },
+    tags: ["flux", "buff", "transcendence", "support", "chronarch"]
+   },
 
    {
    "id": "chrono_temporal_rewind",
@@ -2810,31 +3334,74 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
  ],
 
 
- // Spell Pools
- spellPools: {
- 1: ["chrono_bolt", "temporal_mend", "temporal_step",
-  "chrono_temporal_rewind", "temporal_deja_vu", "temporal_slow_descent"],
- 2: ["stasis_field", "temporal_rewind", "chrono_echo",
-  "temporal_compression", "temporal_foreknowledge"],
- 3: ["temporal_dilation", "time_crystal", "temporal_foresight",
-  "temporal_rewind_blunder"],
- 4: ["temporal_vortex", "temporal_flux_rewind", "temporal_paradox"],
- 5: [
-  "temporal_anchor",
-  "temporal_thorns",
-  "temporal_flux_shield",
-  "temporal_flux_speed"
- ],
- 6: ["temporal_fracture", "temporal_echoes", "temporal_loop"],
- 7: ["chronal_disruption", "chronal_reversal", "temporal_echo_chamber"],
- 8: [
-  "temporal_flux_dominion",
-  "temporal_flux_resurrection",
-  "fate_manipulation"
- ],
- 9: ["temporal_shockwave", "reality_fracture", "chronal_paradox"],
- 10: ["temporal_mastery", "chronal_restoration", "chronal_vortex"]
- }
+  // Spell Pools
+  spellPools: {
+    1: [
+      "chrono_slow_fall",
+      "chrono_bolt",
+      "temporal_mend",
+      "temporal_step",
+      "chrono_temporal_rewind",
+      "temporal_deja_vu",
+      "temporal_slow_descent"
+    ],
+    2: [
+      "chrono_time_blink",
+      "stasis_field",
+      "temporal_rewind",
+      "chrono_echo",
+      "temporal_compression",
+      "temporal_foreknowledge"
+    ],
+    3: [
+      "temporal_dilation",
+      "time_crystal",
+      "temporal_foresight",
+      "temporal_rewind_blunder"
+    ],
+    4: [
+      "temporal_vortex",
+      "temporal_flux_rewind",
+      "temporal_paradox",
+      "chrono_stasis_wall"
+    ],
+    5: [
+      "temporal_anchor",
+      "temporal_thorns",
+      "temporal_flux_shield",
+      "temporal_flux_speed"
+    ],
+    6: [
+      "temporal_fracture",
+      "temporal_echoes",
+      "temporal_loop",
+      "chrono_causality_reweave"
+    ],
+    7: [
+      "chronal_disruption",
+      "chronal_reversal",
+      "temporal_echo_chamber",
+      "chrono_anchorfield"
+    ],
+    8: [
+      "temporal_flux_dominion",
+      "temporal_flux_resurrection",
+      "fate_manipulation",
+      "chrono_timeline_purge"
+    ],
+    9: [
+      "temporal_shockwave",
+      "reality_fracture",
+      "chronal_paradox",
+      "chrono_timeless_sanctuary"
+    ],
+    10: [
+      "chronal_restoration",
+      "chronal_vortex",
+      "chrono_epoch_shatter",
+      "chrono_paradox_transcendence"
+    ]
+  }
 };
 
 export default CHRONARCH_DATA;

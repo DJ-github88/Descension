@@ -282,50 +282,145 @@
   transition: all 0.3s ease;
 }
 
+/* Tab Dropdown Selector (Laptops, Tablets, iPads) */
+.account-tab-dropdown-wrapper {
+  position: relative;
+  display: none; /* hidden on wide desktop */
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.account-tab-dropdown-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+  color: #fcf9f0;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  padding: 0.55rem 1.15rem;
+  border-radius: 12px;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 
+    0 4px 15px rgba(184, 134, 11, 0.35),
+    0 0 12px rgba(212, 175, 55, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+
+.account-tab-dropdown-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 
+    0 6px 20px rgba(184, 134, 11, 0.45),
+    0 0 16px rgba(212, 175, 55, 0.3);
+  background: linear-gradient(135deg, #dfbc45 0%, #c49214 100%);
+}
+
+.account-tab-dropdown-chevron {
+  font-size: 0.75rem;
+  transition: transform 0.25s ease;
+  margin-left: 0.2rem;
+}
+
+.account-tab-dropdown-chevron.rotated {
+  transform: rotate(180deg);
+}
+
+.account-tab-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #f8f5f0 0%, #f0ead6 100%);
+  border: 2px solid #8b4513;
+  border-radius: 12px;
+  box-shadow: 0 10px 32px rgba(139, 69, 19, 0.3);
+  padding: 6px;
+  min-width: 190px;
+  z-index: 10001;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  animation: slide-down 0.2s ease-out;
+}
+
+.account-tab-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.95rem;
+  border: none;
+  background: transparent;
+  color: #4a2b1f;
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.account-tab-dropdown-item:hover {
+  background: rgba(212, 175, 55, 0.15);
+  color: #2d1810;
+  transform: translateX(3px);
+}
+
+.account-tab-dropdown-item.active {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(184, 134, 11, 0.2) 100%);
+  color: #8b4513;
+  font-weight: 700;
+}
+
+.account-tab-dropdown-item .checkmark {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: #b8860b;
+}
+
 /* ===== RESPONSIVENESS MEDIA QUERIES ===== */
 
-/* High-resolution Laptops & Constrained Screens (below 1400px) */
-@media screen and (max-width: 1400px) {
+/* Laptops, iPads & Constrained Screens (below 1350px) */
+@media screen and (max-width: 1350px) {
+  .fan-tabs-desktop {
+    display: none !important;
+  }
+  
+  .account-tab-dropdown-wrapper {
+    display: flex !important;
+  }
+
   .account-header-new {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: space-between;
-    padding: 0.75rem 2rem;
+    padding: 0.75rem 1.5rem;
     height: auto;
     min-height: auto;
     gap: 1rem;
   }
 
-  /* Keep profile and actions in their rows side-by-side */
+  /* Profile on left, Tab Dropdown in center, Actions on right */
   .account-icon-section.clickable {
     order: 1;
     flex: 0 1 auto;
   }
 
-  .header-actions-new {
+  .account-tab-dropdown-wrapper {
     order: 2;
-    margin-left: auto;
-    gap: 0.75rem;
+    flex: 0 0 auto;
   }
 
-  /* Wrap navigation tabs beautifully to the second row */
-  .fan-tabs {
+  .header-actions-new {
     order: 3;
-    width: 100%;
-    margin-top: 0.25rem;
-    justify-content: center;
-  }
-
-  .fan-container {
-    width: 100%;
-    justify-content: space-around;
-    padding: 0.3rem;
-  }
-
-  .fan-tab {
-    padding: 0.65rem 1rem;
-    min-width: 100px;
-    font-size: 0.95rem;
-    flex: 1;
+    margin-left: auto;
+    gap: 0.65rem;
   }
 }
 

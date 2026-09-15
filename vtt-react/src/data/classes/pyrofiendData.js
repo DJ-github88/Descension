@@ -874,6 +874,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   "pyro_heat_shield",
   "pyro_living_hearth",
   "pyro_smelters_touch",
+  "pyro_hearth_heat",
  ],
  2: [
   // Level 2 spells
@@ -889,48 +890,59 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   "pyro_burning_hands",
   "pyro_flame_step",
   "pyro_cinder_veil",
+  "pyro_inferno_blast",
  ],
  4: [
   // Level 4 spells
   "pyro_infernal_blast",
   "pyro_searing_chains",
   "pyro_fiery_aura",
+  "pyro_pressure_vent",
+  "pyro_slag_bulwark",
  ],
  5: [
   // Level 5 spells
   "pyro_hellfire_wave",
   "pyro_immolation",
   "pyro_fire_whip",
+  "pyro_smothering_cloud",
+  "pyro_slagfall_field",
  ],
  6: [
   // Level 6 spells
   "pyro_lava_burst",
   "pyro_flame_storm",
   "pyro_infernal_brand_advanced",
+  "pyro_heat_sight",
  ],
  7: [
   // Level 7 spells
   "pyro_volcanic_eruption",
   "pyro_hellfire_breath",
   "pyro_demonic_empowerment",
+  "pyro_whisper_bridle",
  ],
  8: [
   // Level 8 spells
   "pyro_meteor_shower",
   "pyro_infernal_nova",
   "pyro_phoenix_flame",
+  "pyro_obsidian_aegis",
+  "pyro_ember_siphon",
  ],
  9: [
   // Level 9 spells
   "pyro_infernal_avatar",
   "pyro_apocalypse",
   "pyro_hellfire_ritual",
+  "pyro_veil_rupture",
  ],
  10: [
   // Level 10 spells
   "pyro_brimstone_teleport",
   "pyro_demonic_ascension",
   "pyro_inferno_mastery",
+  "pyro_ashen_crucible",
  ],
  },
 
@@ -1870,13 +1882,137 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   tags: ["ember", "damage", "channeled"],
  },
 
+ { id: "pyro_pressure_vent",
+  name: "Pressure Vent",
+  description: "Vent 3 Inferno Veil in a violent rupture: take 1d6 self-damage, then move 20 feet without provoking opportunity attacks, leaving a smoke shroud that grants concealment until your next turn.",
+  level: 4,
+  spellType: "ACTION",
+  icon: "Fire/Fiery Steps",
+
+  typeConfig: {
+  school: "ember",
+  icon: "Fire/Fiery Steps",
+  tags: ["ember", "utility", "movement", "veil", "pyrofiend"],
+  castTime: 0,
+  castTimeType: "IMMEDIATE",
+  },
+
+  targetingConfig: {
+  targetingType: "self",
+  rangeType: "self_centered",
+  },
+
+  resourceCost: {
+  resourceTypes: ["mana", "inferno_descend", "inferno_required"],
+  resourceValues: { mana: 8, inferno_descend: 3, inferno_required: 0 },
+  useFormulas: {},
+  actionPoints: 1,
+  components: ["somatic"],
+  somaticText: "Clap both palms over your forearm vents and blow the furnace out",
+  },
+
+  effectTypes: ["utility"],
+
+  utilityConfig: {
+  utilityType: "movement",
+  selectedEffects: [
+   { id : "pressure_vent_burst",
+   name: "Exhaust Burst",
+   description: "Vent 3 Inferno Veil, take 1d6 self-damage, and move up to 20 feet without provoking opportunity attacks.",
+   mechanicsText: "Vent 3 Veil; 1d6 self; 20 ft free move.",
+   },
+   { id : "pressure_vent_smoke",
+   name: "Trailing Shroud",
+   description: "Leave a 5-foot smoke cloud at your origin that grants you concealment until the start of your next turn.",
+   mechanicsText: "Concealment until start of next turn.",
+   },
+  ],
+  duration: 0,
+  durationUnit: "instant",
+  concentration: false,
+  power: "major",
+  },
+
+  cooldownConfig: {
+  cooldownType: "turn_based",
+  cooldownValue: 2,
+  },
+
+  tags: ["ember", "utility", "movement", "veil", "pyrofiend"],
+ },
+
+ { id: "pyro_slag_bulwark",
+  name: "Slag Bulwark",
+  description: "Molten slag hardens over your body. Gain a shield equal to 10 + 3 per Inferno Veil level for 3 rounds; melee attackers take 1d6 ember damage. Casting it raises Veil by 1.",
+  level: 4,
+  spellType: "ACTION",
+  icon: "Fire/Burning Forge",
+
+  typeConfig: {
+  school: "ember",
+  icon: "Fire/Burning Forge",
+  tags: ["ember", "buff", "defensive", "veil", "pyrofiend"],
+  castTime: 1,
+  castTimeType: "IMMEDIATE",
+  },
+
+  targetingConfig: {
+  targetingType: "self",
+  rangeType: "self_centered",
+  },
+
+  resourceCost: {
+  resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
+  resourceValues: { mana: 12, inferno_ascend: 1, inferno_required: 1 , classResource: { type: "inferno_veil", gain: 1, minVeil: 1 } },
+  useFormulas: {},
+  actionPoints: 1,
+  components: ["verbal", "somatic"],
+  verbalText: "Scutum Scoriae!",
+  somaticText: "Pour slag down your arms and let it set",
+  },
+
+  effectTypes: ["buff"],
+
+  buffConfig: {
+  buffType: "shield",
+  effects: [
+   { id : "slag_bulwark_shield",
+   name: "Slag Bulwark",
+   description: "Absorbs 10 + 3 per Inferno Veil level damage until depleted, or until 3 rounds pass.",
+   mechanicsText: "Shield 10 + 3xVeil; expires after 3 rounds.",
+   shieldAmount: "10 + 3 * inferno_veil_level",
+   shieldDuration: 3,
+   shieldDurationType: "rounds",
+   },
+   { id : "slag_bulwark_retaliation",
+   name: "Molten Backlash",
+   description: "A melee attacker that strikes the shield takes 1d6 ember damage.",
+   mechanicsText: "Retaliation: 1d6 ember to melee attackers.",
+   retaliationDamage: { formula: "1d6", damageType: "ember" },
+   },
+  ],
+  durationValue: 3,
+  durationType: "rounds",
+  durationUnit: "rounds",
+  concentrationRequired: false,
+  canBeDispelled: true,
+  },
+
+  cooldownConfig: {
+  cooldownType: "turn_based",
+  cooldownValue: 2,
+  },
+
+  tags: ["ember", "buff", "defensive", "veil", "pyrofiend"],
+ },
+
  // ========================================
  // LEVEL 5 SPELLS
  // ========================================
  { id: "pyro_hellfire_wave",
   name: "Hellfire Wave",
   description:
-  "Scathrach opens its mouth through yours. A wave of hellish fire sweeps over everything in a 30-foot cone, 8d6 + INT ember damage. The wave is not a spell. It is the horror vomiting its rage through your body. Anything caught in the cone does not burn. It ceases.",
+  "Scathrach opens its mouth through yours. A wave of hellish fire sweeps over everything in a 30-foot cone, 8d6 + INT ember damage. Enemies caught are Cinder-Marked for 2 rounds: +1d6 ember damage from each of your ember spells, and no stealth or invisibility. Anything caught in the cone does not burn. It ceases.",
   level: 5,
   spellType: "ACTION",
   icon: "Fire/Fiery Symbol",
@@ -1907,12 +2043,27 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   somaticText: "Sweep arms forward",
   },
 
-  effectTypes: ["damage"],
+  effectTypes: ["damage", "debuff"],
 
   damageConfig: {
   formula: "8d6 + intelligence",
   damageTypes: ["ember"],
   resolution: "DICE",
+  },
+
+  debuffConfig: {
+  debuffType: "mark",
+  effects: [
+   { id : "cinder_marked",
+   name: "Cinder-Marked",
+   description: "Marked by Scathrach for 2 rounds: takes +1d6 ember damage from each of your ember spells, and cannot benefit from stealth or invisibility.",
+   mechanicsText: "Marked 2 rounds: +1d6 ember per ember spell; stealth/invisibility denied.",
+   },
+  ],
+  durationValue: 2,
+  durationType: "rounds",
+  durationUnit: "rounds",
+  canBeDispelled: false,
   },
 
   cooldownConfig: {
@@ -2054,13 +2205,163 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   tags: ["ember", "damage"],
  },
 
+ { id: "pyro_smothering_cloud",
+  name: "Smothering Cloud",
+  description: "Conjure a 20-foot radius cloud of scalding ash-smoke within 50 feet for 3 rounds. Enemies inside are blinded (DC 14 Constitution save negates); you and your allies see through it and are unaffected.",
+  level: 5,
+  spellType: "ACTION",
+  icon: "Fire/Smoking",
+
+  typeConfig: {
+  school: "ember",
+  icon: "Fire/Smoking",
+  tags: ["ember", "control", "zone", "smoke", "pyrofiend"],
+  castTime: 1,
+  castTimeType: "IMMEDIATE",
+  },
+
+  targetingConfig: {
+  targetingType: "area",
+  rangeType: "ranged",
+  rangeDistance: 50,
+  aoeShape: "circle",
+  aoeParameters: { radius: 20 },
+  targetRestrictions: [],
+  },
+
+  resourceCost: {
+  resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
+  resourceValues: { mana: 14, inferno_ascend: 1, inferno_required: 2 , classResource: { type: "inferno_veil", gain: 1, minVeil: 2 } },
+  useFormulas: {},
+  actionPoints: 2,
+  components: ["verbal", "somatic"],
+  verbalText: "Fumus Suffocans!",
+  somaticText: "Exhale a rolling wall of ash-smoke",
+  },
+
+  effectTypes: ["control"],
+
+  controlConfig: {
+  controlType: "zone",
+  duration: 3,
+  durationUnit: "rounds",
+  savingThrow: {
+   ability: "constitution",
+   difficultyClass: 14,
+   saveOutcome: "negates",
+  },
+  effects: [
+   { id : "smothering_blinded",
+   name: "Blinded",
+   description: "Enemies inside the cloud are blinded: disadvantage on attack rolls and they cannot make opportunity attacks. You and your allies ignore the cloud.",
+   config: {
+    zoneType: "obscured",
+    saveType: "constitution",
+    saveDC: 14,
+    duration: 3,
+    durationUnit: "rounds",
+   },
+   },
+  ],
+  },
+
+  durationConfig: {
+  durationType: "rounds",
+  durationValue: 3,
+  durationUnit: "rounds",
+  },
+
+  cooldownConfig: {
+  cooldownType: "turn_based",
+  cooldownValue: 2,
+  },
+
+  tags: ["ember", "control", "zone", "smoke", "pyrofiend"],
+ },
+
+ { id: "pyro_slagfall_field",
+  name: "Slagfall Field",
+  description: "Blanket a 15-foot radius within 60 feet in gripping molten slag for 3 rounds: difficult terrain, and creatures entering it make a DC 15 Strength save or are restrained until the end of their turn.",
+  level: 5,
+  spellType: "ACTION",
+  icon: "Fire/Melt",
+
+  typeConfig: {
+  school: "ember",
+  icon: "Fire/Melt",
+  tags: ["ember", "control", "zone", "hazard", "pyrofiend"],
+  castTime: 1,
+  castTimeType: "IMMEDIATE",
+  },
+
+  targetingConfig: {
+  targetingType: "area",
+  rangeType: "ranged",
+  rangeDistance: 60,
+  aoeShape: "circle",
+  aoeParameters: { radius: 15 },
+  targetRestrictions: [],
+  },
+
+  resourceCost: {
+  resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
+  resourceValues: { mana: 16, inferno_ascend: 2, inferno_required: 2 , classResource: { type: "inferno_veil", gain: 2, minVeil: 2 } },
+  useFormulas: {},
+  actionPoints: 2,
+  components: ["verbal", "somatic"],
+  verbalText: "Lapsus Scoriae!",
+  somaticText: "Drag a fistful of slag across the ground",
+  },
+
+  effectTypes: ["control"],
+
+  controlConfig: {
+  controlType: "restraint",
+  duration: 3,
+  durationUnit: "rounds",
+  savingThrow: {
+   ability: "strength",
+   difficultyClass: 15,
+   saveOutcome: "negates",
+  },
+  effects: [
+   { id : "slagfall_restrained",
+   name: "Gripped by Slag",
+   description: "Creatures entering the field or starting their turn there make a DC 15 Strength save or are restrained until the end of their turn. The field is difficult terrain.",
+   config: {
+    restraintType: "physical",
+    breakOnDamage: false,
+    condition: "restrained",
+    saveType: "strength",
+    saveDC: 15,
+    duration: 3,
+    durationUnit: "rounds",
+   },
+   },
+  ],
+  },
+
+  durationConfig: {
+  durationType: "rounds",
+  durationValue: 3,
+  durationUnit: "rounds",
+  },
+
+  cooldownConfig: {
+  cooldownType: "turn_based",
+  cooldownValue: 3,
+  },
+
+  tags: ["ember", "control", "zone", "hazard", "pyrofiend"],
+ },
+
  // ========================================
  // LEVEL 6 SPELLS
  // ========================================
  { id: "pyro_lava_burst",
   name: "Lava Burst",
   description:
-  "You slam your fists down and Scathrach boils the earth itself. A 15-foot radius of molten lava erupts, dealing 9d6 + INT ember damage. The ground does not simply burn, it becomes a grave. At Inferno Level 7+, the corruption deepens the eruption to 16d6 + INT�2.",
+  "You slam your fists down and Scathrach boils the earth itself. A 15-foot radius of molten lava erupts, dealing 9d6 + INT ember damage, and the crater stays molten for 2 rounds: a creature that starts its turn in the area takes 1d6 ember damage. The ground does not simply burn, it becomes a grave. At Inferno Level 7+, the corruption deepens the eruption to 16d6 + INT�2.",
   level: 6,
   spellType: "ACTION",
   icon: "Fire/Dripping Lava",
@@ -2112,6 +2413,15 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
    saveDC: 15,
    saveType: "constitution",
    },
+  },
+  dotConfig: {
+   enabled: true,
+   damagePerTick: "1d6",
+   damageTypes: ["ember"],
+   tickFrequency: "round",
+   duration: 2,
+   canStack: false,
+   maxStacks: 1,
   },
   },
 
@@ -2272,6 +2582,61 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   },
 
   tags: ["ember", "damage", "dot", "debuff"],
+ },
+
+ { id: "pyro_heat_sight",
+  name: "Heat-Sight",
+  description: "Read the thermal signature of everything within 60 feet for 3 rounds. You see invisible and hidden creatures, see through smoke and fog, and gain advantage on Perception checks against living targets.",
+  level: 6,
+  spellType: "ACTION",
+  icon: "Utility/Watchful Eye",
+
+  typeConfig: {
+  school: "ember",
+  icon: "Utility/Watchful Eye",
+  tags: ["ember", "utility", "detection", "perception", "pyrofiend"],
+  castTime: 1,
+  castTimeType: "IMMEDIATE",
+  },
+
+  targetingConfig: {
+  targetingType: "self",
+  rangeType: "self_centered",
+  },
+
+  resourceCost: {
+  resourceTypes: ["mana", "inferno_required"],
+  resourceValues: { mana: 12, inferno_required: 0 },
+  useFormulas: {},
+  actionPoints: 1,
+  components: ["verbal", "somatic"],
+  verbalText: "Oculi Ignis!",
+  somaticText: "Press two fingers to your temples and let the heat in",
+  },
+
+  effectTypes: ["utility"],
+
+  utilityConfig: {
+  utilityType: "perception",
+  selectedEffects: [
+   { id : "heat_sight_thermals",
+   name: "Thermal Vision",
+   description: "For 3 rounds you perceive heat signatures: invisible and hidden creatures within 60 feet are revealed to you, smoke and fog do not obscure your sight, and you have advantage on Perception checks against living targets.",
+   mechanicsText: "Reveal invisible/hidden 60 ft; see through smoke/fog; advantage on Perception vs living; 3 rounds.",
+   },
+  ],
+  duration: 3,
+  durationUnit: "rounds",
+  concentration: false,
+  power: "major",
+  },
+
+  cooldownConfig: {
+  cooldownType: "turn_based",
+  cooldownValue: 3,
+  },
+
+  tags: ["ember", "utility", "detection", "perception", "pyrofiend"],
  },
 
  // ========================================
@@ -2538,6 +2903,72 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   tags: ["ember", "buff"],
  },
 
+ { id: "pyro_whisper_bridle",
+  name: "Whisper Bridle",
+  description: "Seize the Whisper's leash for 3 rounds: advantage on Spirit saves against it, and your ember area spells can exclude up to 3 allies. Casting it raises Veil by 2.",
+  level: 7,
+  spellType: "ACTION",
+  icon: "Force/Break Chains",
+
+  typeConfig: {
+  school: "ember",
+  icon: "Force/Break Chains",
+  tags: ["ember", "buff", "control", "veil", "pyrofiend"],
+  castTime: 1,
+  castTimeType: "IMMEDIATE",
+  },
+
+  targetingConfig: {
+  targetingType: "self",
+  rangeType: "self_centered",
+  },
+
+  resourceCost: {
+  resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
+  resourceValues: { mana: 18, inferno_ascend: 2, inferno_required: 4 , classResource: { type: "inferno_veil", gain: 2, minVeil: 4 } },
+  useFormulas: {},
+  actionPoints: 2,
+  components: ["verbal", "somatic"],
+  verbalText: "Frenum Susurri!",
+  somaticText: "Wrap a burning chain around your own throat and pull it taut",
+  },
+
+  effectTypes: ["buff"],
+
+  buffConfig: {
+  buffType: "combatAdvantage",
+  effects: [
+   { id : "whisper_bridle_saves",
+   name: "Bridled Whisper",
+   description: "Advantage on Spirit saving throws against the Wyrd-touched Whisper; reroll the first failed Whisper save each round.",
+   mechanicsText: "Advantage vs Whisper; one reroll per round.",
+   statModifier: {
+    stat: "spirit_saves_vs_whisper",
+    magnitude: 99,
+    magnitudeType: "advantage",
+   },
+   },
+   { id : "whisper_bridle_friendly_fire",
+   name: "Controlled Burn",
+   description: "Your ember area spells can exclude up to 3 allies of your choice from their effects.",
+   mechanicsText: "Exclude up to 3 allies from your ember AoE spells.",
+   },
+  ],
+  durationValue: 3,
+  durationType: "rounds",
+  durationUnit: "rounds",
+  concentrationRequired: false,
+  canBeDispelled: true,
+  },
+
+  cooldownConfig: {
+  cooldownType: "turn_based",
+  cooldownValue: 4,
+  },
+
+  tags: ["ember", "buff", "control", "veil", "pyrofiend"],
+ },
+
  // ========================================
  // LEVEL 8 SPELLS
  // ========================================
@@ -2613,7 +3044,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_infernal_nova",
   name: "Infernal Nova",
   description:
-  "You detonate. Not metaphorically, you become the explosion. A massive sphere of infernal fire expands outward in all directions, dealing 14d6 + INT�2 ember damage to everything within 35 feet. Scathrach laughs. You scream. The distinction between the two sounds becomes academic. This is the nuclear option. Everything burns, including you.",
+  "You detonate. Not metaphorically, you become the explosion. A massive sphere of infernal fire expands outward in all directions, dealing 14d6 + INT�2 ember damage to everything within 35 feet. Scathrach laughs. You scream. The distinction between the two sounds becomes academic. This is the nuclear option. Everything burns, including you. The detonation recoils through you: take 2d6 self-damage, and creatures struck are Staggered (disadvantage on attacks and saves) until the end of their next turn.",
   level: 8,
   spellType: "ACTION",
   icon: "Fire/Swirling Fireball",
@@ -2644,12 +3075,30 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   somaticText: "Spread arms wide and explode",
   },
 
-  effectTypes: ["damage"],
+  effectTypes: ["damage", "debuff"],
 
   damageConfig: {
   formula: "14d6 + intelligence * 2",
   damageTypes: ["ember"],
   resolution: "DICE",
+  },
+
+  debuffConfig: {
+  debuffType: "statusEffect",
+  effects: [
+   { id : "nova_staggered",
+   name: "Staggered",
+   description: "The concussive blast staggers the target: disadvantage on attack rolls and saving throws until the end of its next turn.",
+   mechanicsText: "Disadvantage on attacks and saves until end of next turn.",
+   },
+  ],
+  statPenalties: [
+   { stat: "attack_and_saves", magnitude: -99, magnitudeType: "disadvantage" },
+  ],
+  durationValue: 1,
+  durationType: "rounds",
+  durationUnit: "rounds",
+  canBeDispelled: true,
   },
 
   cooldownConfig: {
@@ -2724,6 +3173,147 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   },
 
   tags: ["ember", "damage", "aoe", "dot"],
+ },
+
+ { id: "pyro_obsidian_aegis",
+  name: "Obsidian Aegis",
+  description: "Raise a 15-foot radius obsidian heat-dome for 3 rounds. You and allies inside gain +3 DR and take half damage from rime sources; your own rime vulnerability is suppressed while you stand within it.",
+  level: 8,
+  spellType: "ACTION",
+  icon: "Utility/Steadfast Bulwark",
+
+  typeConfig: {
+  school: "ember",
+  icon: "Utility/Steadfast Bulwark",
+  tags: ["ember", "buff", "defensive", "aura", "pyrofiend"],
+  castTime: 1,
+  castTimeType: "IMMEDIATE",
+  },
+
+  targetingConfig: {
+  targetingType: "area",
+  rangeType: "self_centered",
+  areaSize: 15,
+  targetRestrictions: [],
+  },
+
+  resourceCost: {
+  resourceTypes: ["mana", "inferno_ascend", "inferno_required"],
+  resourceValues: { mana: 26, inferno_ascend: 2, inferno_required: 6 , classResource: { type: "inferno_veil", gain: 2, minVeil: 6 } },
+  useFormulas: {},
+  actionPoints: 2,
+  components: ["verbal", "somatic"],
+  verbalText: "Testudo Obsidiana!",
+  somaticText: "Slam a fist down; black glass erupts in a dome",
+  },
+
+  effectTypes: ["buff"],
+
+  buffConfig: {
+  buffType: "auraEffect",
+  effects: [
+   { id : "obsidian_aegis_dr",
+   name: "Obsidian Aegis",
+   description: "Allies within 15 feet gain +3 DR while the dome holds.",
+   mechanicsText: "+3 DR to allies inside the 15 ft dome.",
+   statModifier: {
+    stat: "damage_reduction",
+    magnitude: 3,
+    magnitudeType: "flat",
+   },
+   },
+   { id : "obsidian_aegis_rime",
+   name: "Rimeward",
+   description: "Allies within 15 feet take half damage from rime sources; the Pyrofiend's own rime vulnerability is suppressed while inside.",
+   mechanicsText: "Rime damage halved inside; Pyrofiend rime vulnerability suppressed.",
+   },
+  ],
+  durationValue: 3,
+  durationType: "rounds",
+  durationUnit: "rounds",
+  concentrationRequired: false,
+  canBeDispelled: true,
+  },
+
+  cooldownConfig: {
+  cooldownType: "turn_based",
+  cooldownValue: 4,
+  },
+
+  tags: ["ember", "buff", "defensive", "aura", "pyrofiend"],
+ },
+
+ { id: "pyro_ember_siphon",
+  name: "Ember Siphon",
+  description: "Devour lingering flame: end ember over-time effects on allies within 30 feet, extinguish one fire zone, and give one ally +2d6 ember on their next attack within 2 rounds. Vents 1 Veil.",
+  level: 8,
+  spellType: "ACTION",
+  icon: "Utility/Embraced by Fire",
+
+  typeConfig: {
+  school: "ember",
+  icon: "Utility/Embraced by Fire",
+  tags: ["ember", "utility", "buff", "support", "pyrofiend"],
+  castTime: 1,
+  castTimeType: "IMMEDIATE",
+  },
+
+  targetingConfig: {
+  targetingType: "area",
+  rangeType: "self_centered",
+  areaSize: 30,
+  targetRestrictions: [],
+  },
+
+  resourceCost: {
+  resourceTypes: ["mana", "inferno_descend", "inferno_required"],
+  resourceValues: { mana: 20, inferno_descend: 1, inferno_required: 3 },
+  useFormulas: {},
+  actionPoints: 2,
+  components: ["verbal", "somatic"],
+  verbalText: "Haurio Flammam!",
+  somaticText: "Inhale the smoke off your allies and swallow it",
+  },
+
+  effectTypes: ["utility", "buff"],
+
+  utilityConfig: {
+  utilityType: "cleanse",
+  selectedEffects: [
+   { id : "ember_siphon_cleanse",
+   name: "Consume the Flame",
+   description: "End all burning and ember over-time effects on allies within 30 feet, and extinguish one non-magical fire or ember hazard zone within range.",
+   mechanicsText: "Cleanse ember over-time effects on allies in 30 ft; extinguish one fire zone.",
+   },
+  ],
+  duration: 0,
+  durationUnit: "instant",
+  concentration: false,
+  power: "major",
+  },
+
+  buffConfig: {
+  buffType: "damageIncrease",
+  effects: [
+   { id : "ember_siphon_gift",
+   name: "Siphoned Heat",
+   description: "One ally of your choice gains +2d6 ember damage on their next attack within 2 rounds.",
+   mechanicsText: "Ally's next attack deals +2d6 ember; expires after 2 rounds.",
+   },
+  ],
+  durationValue: 2,
+  durationType: "rounds",
+  durationUnit: "rounds",
+  concentrationRequired: false,
+  canBeDispelled: true,
+  },
+
+  cooldownConfig: {
+  cooldownType: "turn_based",
+  cooldownValue: 3,
+  },
+
+  tags: ["ember", "utility", "buff", "support", "pyrofiend"],
  },
 
  // ========================================
@@ -2952,6 +3542,94 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   },
 
   tags: ["ember", "buff"],
+ },
+
+ { id: "pyro_veil_rupture",
+  name: "Veil Rupture",
+  description: "Spend 4 Inferno Veil to rupture your pressure seal: enemies within 30 feet are pushed 20 feet and knocked prone (DC 16 Strength save negates prone); allies gain +10 feet speed for 2 rounds.",
+  level: 9,
+  spellType: "ACTION",
+  icon: "Force/Force Wave",
+
+  typeConfig: {
+  school: "ember",
+  icon: "Force/Force Wave",
+  tags: ["ember", "control", "buff", "veil", "pyrofiend"],
+  castTime: 1,
+  castTimeType: "IMMEDIATE",
+  },
+
+  targetingConfig: {
+  targetingType: "area",
+  rangeType: "self_centered",
+  aoeShape: "circle",
+  aoeParameters: { radius: 30 },
+  targetRestrictions: [],
+  },
+
+  resourceCost: {
+  resourceTypes: ["mana", "inferno_descend", "inferno_required"],
+  resourceValues: { mana: 28, inferno_descend: 4, inferno_required: 4 },
+  useFormulas: {},
+  actionPoints: 2,
+  components: ["verbal", "somatic"],
+  verbalText: "Ruptura Veli!",
+  somaticText: "Drive a thumb into the seam of your own sternum and split it",
+  },
+
+  effectTypes: ["control", "buff"],
+
+  controlConfig: {
+  controlType: "forcedMovement",
+  duration: 0,
+  durationUnit: "instant",
+  savingThrow: {
+   ability: "strength",
+   difficultyClass: 16,
+   saveOutcome: "negates",
+  },
+  effects: [
+   { id : "veil_rupture_push",
+   name: "Veil Shockwave",
+   description: "Enemies within 30 feet are pushed 20 feet away from you; a DC 16 Strength save negates only the knockdown.",
+   config: {
+    movementType: "push",
+    distance: 20,
+    saveType: "strength",
+    saveDC: 16,
+    knockdown: true,
+   },
+   },
+  ],
+  },
+
+  buffConfig: {
+  buffType: "movementBuff",
+  effects: [
+   { id : "veil_rupture_momentum",
+   name: "Vented Momentum",
+   description: "Allies within 30 feet gain +10 feet movement speed for 2 rounds.",
+   mechanicsText: "+10 ft speed to allies in 30 ft for 2 rounds.",
+   statModifier: {
+    stat: "movement_speed",
+    magnitude: 10,
+    magnitudeType: "flat",
+   },
+   },
+  ],
+  durationValue: 2,
+  durationType: "rounds",
+  durationUnit: "rounds",
+  concentrationRequired: false,
+  canBeDispelled: true,
+  },
+
+  cooldownConfig: {
+  cooldownType: "turn_based",
+  cooldownValue: 4,
+  },
+
+  tags: ["ember", "control", "buff", "veil", "pyrofiend"],
  },
 
  // ========================================
@@ -3201,6 +3879,66 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   },
 
   tags: ["ember", "damage", "aoe"],
+ },
+ { id: "pyro_ashen_crucible",
+  name: "Ashen Crucible",
+  description: "Seal your Veil in a crucible of will for 3 rounds: it cannot ascend, the Level 9 death clock pauses, and you gain +3 DR. When it ends, take 2d6 self-damage and vent 2 Veil.",
+  level: 10,
+  spellType: "ACTION",
+  icon: "Utility/Alchemical Symbol",
+
+  typeConfig: {
+  school: "ember",
+  icon: "Utility/Alchemical Symbol",
+  tags: ["ember", "buff", "defensive", "veil", "pyrofiend"],
+  castTime: 1,
+  castTimeType: "IMMEDIATE",
+  },
+
+  targetingConfig: {
+  targetingType: "self",
+  rangeType: "self_centered",
+  },
+
+  resourceCost: {
+  resourceTypes: ["mana", "inferno_required"],
+  resourceValues: { mana: 30, inferno_required: 0 },
+  useFormulas: {},
+  actionPoints: 2,
+  components: ["verbal", "somatic"],
+  verbalText: "Crucibulum Cinerum!",
+  somaticText: "Cup your hands over your heart and seal the furnace shut",
+  },
+
+  effectTypes: ["buff"],
+
+  buffConfig: {
+  buffType: "custom",
+  effects: [
+   { id : "ashen_crucible_seal",
+   name: "Sealed Veil",
+   description: "For 3 rounds your Inferno Veil cannot ascend and the Level 9 death clock pauses; you gain +3 DR. When the crucible ends, take 2d6 self-damage and vent 2 Veil.",
+   mechanicsText: "Veil cannot rise; death clock paused; +3 DR; end: 2d6 self and vent 2.",
+   statModifier: {
+    stat: "damage_reduction",
+    magnitude: 3,
+    magnitudeType: "flat",
+   },
+   },
+  ],
+  durationValue: 3,
+  durationType: "rounds",
+  durationUnit: "rounds",
+  concentrationRequired: false,
+  canBeDispelled: false,
+  },
+
+  cooldownConfig: {
+  cooldownType: "turn_based",
+  cooldownValue: 8,
+  },
+
+  tags: ["ember", "buff", "defensive", "veil", "pyrofiend"],
  },
  // ===== PASSIVE ABILITIES =====
  { id: "pyrofiend_burnout",

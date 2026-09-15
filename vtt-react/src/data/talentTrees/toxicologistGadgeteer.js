@@ -6,7 +6,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     "id": "gd_t1_quick_snare",
     "name": "Spring Snare",
-    "icon": "inv_misc_wrench_01",
+    "icon": "Utility/Trapped",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -31,6 +31,11 @@ export const TOXICOLOGIST_GADGETEER = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 1,
       "cooldownUnit": "round",
+      "resourceCosts": {
+        "contraptions": {
+          "baseAmount": 1
+        }
+      },
       "primaryDamage": {
         "dice": "1d6",
         "flat": 0,
@@ -69,7 +74,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     "id": "gd_t1_armature",
     "name": "Spring Armature",
-    "icon": "inv_misc_enggizmos_03",
+    "icon": "General/Throw",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -105,7 +110,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     "id": "gd_t1_clockwork_plating",
     "name": "Reinforced Bracing",
-    "icon": "inv_battery_02",
+    "icon": "General/Guard",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -139,7 +144,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     "id": "gd_t2_smoke_canister",
     "name": "Alchemical Smoke",
-    "icon": "spell_shadow_twilight",
+    "icon": "General/Cover",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -166,6 +171,11 @@ export const TOXICOLOGIST_GADGETEER = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 2,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "contraptions": {
+          "baseAmount": 1
+        }
+      },
       "visualTheme": "arcane",
       "tags": [
         "smoke",
@@ -185,7 +195,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     "id": "gd_t2_dart_turret",
     "name": "Miniature Turret",
-    "icon": "inv_misc_enggizmos_20",
+    "icon": "Utility/Wall Cannon",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -210,6 +220,11 @@ export const TOXICOLOGIST_GADGETEER = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 2,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "contraptions": {
+          "baseAmount": 2
+        }
+      },
       "primaryDamage": {
         "dice": "1d6",
         "flat": 0,
@@ -247,7 +262,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     "id": "gd_t3_flashbang",
     "name": "Flashbang Grenade",
-    "icon": "spell_fire_selfdestruct",
+    "icon": "Force/Explosion Burst",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -274,6 +289,11 @@ export const TOXICOLOGIST_GADGETEER = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 2,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "contraptions": {
+          "baseAmount": 2
+        }
+      },
       "primaryDamage": {
         "dice": "2d6",
         "flat": 0,
@@ -312,7 +332,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     "id": "gd_t3_overclock_gears",
     "name": "Pneumatic Thrusters",
-    "icon": "ability_rogue_sprint",
+    "icon": "Utility/Speed Boot",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -349,7 +369,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     "id": "gd_t4_grapnel_wire",
     "name": "Grapnel Winch",
-    "icon": "ability_rogue_shadowstep",
+    "icon": "Piercing/Grappling Hook",
     "maxRanks": 2,
     "position": {
       "x": 1,
@@ -377,6 +397,11 @@ export const TOXICOLOGIST_GADGETEER = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 2,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "contraptions": {
+          "baseAmount": 2
+        }
+      },
       "visualTheme": "arcane",
       "tags": [
         "mobility",
@@ -394,7 +419,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     "id": "gd_t5_shrapnel_mine",
     "name": "Claymore Mine",
-    "icon": "spell_fire_selfdestruct",
+    "icon": "Utility/Lit Bomb",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -421,6 +446,11 @@ export const TOXICOLOGIST_GADGETEER = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 2,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "contraptions": {
+          "baseAmount": 3
+        }
+      },
       "primaryDamage": {
         "dice": "2d8",
         "flat": 0,
@@ -459,7 +489,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     "id": "gd_t5_overclocked_core",
     "name": "Clockwork Exoskeleton",
-    "icon": "inv_battery_01",
+    "icon": "Utility/Armored Construct",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -501,7 +531,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     "id": "gd_t6_automaton_colossus",
     "name": "Deployable Automaton",
-    "icon": "inv_misc_enggizmos_20",
+    "icon": "Utility/Summon Minion",
     "maxRanks": 3,
     "position": {
       "x": 1.5,
@@ -529,6 +559,11 @@ export const TOXICOLOGIST_GADGETEER = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 3,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "contraptions": {
+          "baseAmount": 3
+        }
+      },
       "primaryDamage": {
         "dice": "2d6",
         "flat": 0,
@@ -567,7 +602,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     "id": "gd_t4_mastery_focus",
     "name": "Grapnel Winch Resonance",
-    "icon": "ability_rogue_shadowstep",
+    "icon": "Utility/Utility Gear",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -603,7 +638,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     "id": "gd_t6_unyielding_mastery",
     "name": "Unyielding Resolve",
-    "icon": "ability_warrior_defensivestance",
+    "icon": "Utility/Steadfast Bulwark",
     "maxRanks": 2,
     "position": {
       "x": 3.5,
@@ -636,7 +671,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     "id": "gd_t7_grand_mechanic",
     "name": "Grand Mechanist Overdrive",
-    "icon": "inv_misc_wrench_02",
+    "icon": "Utility/Golden Toothed Gear",
     "maxRanks": 1,
     "position": {
       "x": 0,
@@ -659,6 +694,11 @@ export const TOXICOLOGIST_GADGETEER = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 5,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "contraptions": {
+          "baseAmount": 4
+        }
+      },
       "visualTheme": "arcane",
       "tags": [
         "ultimate",
@@ -672,7 +712,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     "id": "gd_t7_doctrine_mastery",
     "name": "Toxicologist Doctrine",
-    "icon": "spell_holy_blessingofstrength",
+    "icon": "Utility/Alchemical Symbol",
     "maxRanks": 5,
     "position": {
       "x": 1,
@@ -715,7 +755,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     "id": "gd_t7_salvage_protocol",
     "name": "Salvage Protocol",
-    "icon": "inv_misc_gear_01",
+    "icon": "General/Repair",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -751,7 +791,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     "id": "gd_t7_hypercharged_munitions",
     "name": "Tungsten Munitions",
-    "icon": "inv_ammo_bullet_04",
+    "icon": "Piercing/Triple Bullets",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -787,7 +827,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     "id": "gd_t7_capstone_gamma",
     "name": "Transcendent Precision",
-    "icon": "ability_hunter_snipershot",
+    "icon": "General/Penetrate",
     "spell": {
       "name": "Transcendent Precision",
       "description": "Passive: All critical strikes deal +1d6 bonus damage and restore 1d4 Hit Points.",

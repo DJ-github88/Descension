@@ -747,7 +747,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     if (ALL_CLASS_SPELLS && typeof ALL_CLASS_SPELLS === 'object') {
       for (const classSpellsList of Object.values(ALL_CLASS_SPELLS)) {
         if (Array.isArray(classSpellsList)) {
-          const match = classSpellsList.find(s => s.id === slotSpell.id || s.name === slotSpell.name);
+          const match = classSpellsList.find(s => s && (s.id === slotSpell.id || s.name === slotSpell.name));
           if (match) return { ...match, ...slotSpell };
         }
       }

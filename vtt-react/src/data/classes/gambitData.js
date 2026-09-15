@@ -130,9 +130,9 @@ The Caustic Fexric did not adopt Merryn gambling  —  they independently discov
   },
 
   spellPools: {
-    1: ["gambler_lucky_strike", "gambler_lucky_toss", "gambler_dice_dart", "gambler_beginners_luck", "gambler_calculated_risk", "gambler_house_edge", "hand-of-fate", "war-of-wills", "echoes-of-the-past", "marked-card", "fate_lucky_strike", "fate_twist_probability", "tapestry-shred", "fate-reading_loom", "fate_weaver_deck_exhaustion", "fate_weaver_fates_wrath"],
+    1: ["gambler_lucky_strike", "gambler_lucky_toss", "gambler_dice_dart", "gambler_beginners_luck", "hand-of-fate", "war-of-wills", "echoes-of-the-past", "marked-card", "fate_lucky_strike", "fate_twist_probability", "tapestry-shred", "fate-reading_loom"],
     2: ["gambler_coin_toss", "gambler_insight", "gambler_fools_gold", "gambler_cheats_sleight", "hearts-gamble", "fate_fortune_favor", "gambler_odds_read"],
-    3: ["gambler_taunt_the_odds", "gambler_busted", "draw-of-the-damned", "echo-of-fate", "fate_weaver_empty_hand"],
+    3: ["gambler_taunt_the_odds", "draw-of-the-damned", "echo-of-fate", "gambler_cut_the_deck"],
     4: ["gambler_double_or_nothing", "solitaires-shield", "fates-exchange", "destiny-bond"],
     5: ["gambler_hot_streak", "gambler_mirage_flip", "gambler_fate_reroll", "fate_weaver_stacked_deck", "fate_weaver_twist_fate"],
     6: ["gambler_house_advantage", "gambler_card_shark", "gambler_poker_face", "fate_weaver_dealers_choice", "fate_weaver_twenty_one_curses", "fate_weaver_fold_reality"],
@@ -587,6 +587,76 @@ You manipulate probability through a dual currency:
       },
       tags: ["melee", "damage", "fortune_generation", "starter", "gambit"],
     },
+    { id: "gambler_cut_the_deck",
+      name: "Cut the Deck",
+      description: "Spend 2 Fortune to force an abrupt cut in probability: target enemy within 40ft must succeed on an Agility save (DC 14) or lose 1 Action Point on their next turn and suffer disadvantage on their next attack; allies within 15ft gain +10ft movement speed for 1 round.",
+      level: 3,
+      spellType: "ACTION",
+      icon: "Social/Dice Roll",
+      typeConfig: {
+        school: "wyrd",
+        icon: "Social/Dice Roll",
+        tags: ["debuff", "buff", "control", "probability", "gambit"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["enemy"],
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 12 },
+        classResource: { type: "fortune", cost: 2 },
+        components: ["verbal", "somatic"],
+        verbalText: "Cut the deck, split the wager...",
+        somaticText: "Snap two fingers like shearing blades across the line of sight",
+      },
+      resolution: "SAVE",
+      effectTypes: ["debuff", "buff"],
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "cut_the_deck_action_loss",
+            name: "Severed Odds",
+            description: "Lose 1 Action Point and suffer disadvantage on next attack.",
+            mechanicsText: "Lose 1 AP on next turn and disadvantage on next attack (DC 14 Agility negates).",
+          }
+        ],
+        durationValue: 1,
+        durationType: "rounds",
+        savingThrow: {
+          ability: "agility",
+          difficultyClass: 14,
+          saveOutcome: "negates"
+        }
+      },
+      buffConfig: {
+        buffType: "statusEffectBuff",
+        effects: [
+          {
+            id: "cut_the_deck_speed",
+            name: "Gambler's Drift",
+            description: "+10ft movement speed for 1 round.",
+            mechanicsText: "+10ft movement speed for 1 round.",
+            statModifier: {
+              stat: "movement_speed",
+              magnitude: 10,
+              magnitudeType: "flat"
+            }
+          }
+        ],
+        durationValue: 1,
+        durationType: "rounds"
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      tags: ["debuff", "buff", "control", "probability", "gambit"]
+    },
+
 
     { id: "gambler_lucky_toss",
       name: "Lucky Toss",
@@ -664,7 +734,7 @@ You manipulate probability through a dual currency:
 
     { id: "gambler_dice_dart",
       name: "Dice Dart",
-      description: "Throw a magically weighted bone die at a creature. Deals 1d8 wyrd damage. Generates 1 Fortune to you. You can spend up to 3 Fortune to add +1d6 wyrd damage per point, taking 1d4 wyrd damage per point spent.",
+      description: "Throw a magically weighted bone die at a creature, dealing 1d8 wyrd damage and banking 1 Fortune. If the die shows its maximum, bank 1 additional Fortune.",
       level: 1,
       spellType: "ACTION",
       icon: "Social/Dice Roll",
@@ -698,17 +768,17 @@ You manipulate probability through a dual currency:
       specialMechanics: {
         fortunePoints: {
           generates: 1,
-          optionalCost: "1-3 FP",
-          description: "Generates 1 FP. You can spend 1-3 FP to add +1d6 wyrd damage per point (1d4 wyrd damage per point spent).",
+          bonusOnMax: 1,
+          description: "Banks 1 FP. If the dart rolls its maximum (8), bank 1 additional FP.",
         },
         gamblingGame: {
           gameType: "dice_throw",
-          description: "Throw a bone die, siphon minor luck or spend FP to load the throw.",
+          description: "Throw a bone die and siphon luck from the throw itself.",
           resolution: "DICE",
-          rules: { diceCount: 1, dieType: 6 },
+          rules: { diceCount: 1, dieType: 8 },
           outcomeTiers: [
-            { condition: "cast", name: "Standard Dart", damage: "1d8 wyrd", fpGain: 1, fpCost: 1 },
-            { condition: "fp_empowered", name: "Loaded Dart", damage: "1d8 + Nd6 wyrd", fpCost: "1-3" },
+            { condition: "cast", name: "Standard Dart", damage: "1d8 wyrd", fpGain: 1 },
+            { condition: "max_roll", name: "Loaded Dart", damage: "1d8 wyrd", fpGain: 2 },
           ],
         },
       },
@@ -1053,14 +1123,14 @@ You manipulate probability through a dual currency:
     // ========================================
     { id: "gambler_taunt_the_odds",
       name: "Taunt the Odds",
-      description: "Challenge the math of the universe. Predict a number between 1 and 20, then roll a d20. If your roll is within 3 of your guess, deal 3d10 wyrd damage to a target. If you are off by 4 or more, the probability backfires, dealing 1d10 wyrd damage to you. You can spend Fortune to nudge the d20 roll toward your guess (1d4 wyrd damage per point). Gain 1 FP on success.",
+      description: "Wager 2 Fortune (or take 2 Karmic Debt): call a number 1-20, then roll a d20. Within 3, deal 3d10 wyrd damage and bank 2 Fortune. Miss by 4+, take 2d10 wyrd damage and 1 Karmic Debt.",
       level: 3,
       spellType: "ACTION",
       icon: "Radiant/Radiant Warrior",
       typeConfig: {
         school: "wyrd",
         icon: "Radiant/Radiant Warrior",
-        tags: ["ranged", "damage", "prediction"],
+        tags: ["ranged", "damage", "prediction", "wager"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1073,7 +1143,8 @@ You manipulate probability through a dual currency:
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 10 , classResource: { type: "fortune", cost: 1 }},
+        resourceValues: { mana: 10 },
+        classResource: { type: "fortune", cost: 2 },
         components: ["verbal", "somatic"],
         verbalText: "The number is...",
         somaticText: "Roll phantom dice between your palms and thrust the result forward",
@@ -1087,18 +1158,18 @@ You manipulate probability through a dual currency:
       },
       specialMechanics: {
         fortunePoints: {
-          generates: 1,
-          optionalCost: "1-5 FP",
-          description: "Generates 1 FP on success. Spend Fortune to nudge your d20 roll toward your guess (1d4 wyrd damage per point spent).",
+          cost: 2,
+          generates: 2,
+          description: "Costs 2 FP (or incurs 2 Karmic Debt if you have none). Banks 2 FP on a hit.",
         },
         gamblingGame: {
           gameType: "number_guess",
-          description: "Guess a number, roll a d20, close matches deal damage, misses hurt you.",
+          description: "Wager Fortune, call a number, roll a d20: close matches pay, misses cost HP and Karmic Debt.",
           resolution: "DICE",
           rules: { diceCount: 1, dieType: 20, successRange: 3 },
           outcomeTiers: [
-            { condition: "match_within_3", name: "Hit", damage: "3d10 wyrd", fpGain: 1, fpCost: 1 },
-            { condition: "miss_by_4+", name: "Backfire", selfDamage: "1d10 wyrd", fpGain: 0 },
+            { condition: "match_within_3", name: "Hit", damage: "3d10 wyrd", fpGain: 2, fpCost: 2 },
+            { condition: "miss_by_4+", name: "Backfire", selfDamage: "2d10 wyrd", fpGain: 0, debtGain: 1 },
           ],
         },
       },
@@ -1106,7 +1177,7 @@ You manipulate probability through a dual currency:
         cooldownType: "turn_based",
         cooldownValue: 0,
       },
-      tags: ["ranged", "damage", "prediction", "gambit"],
+      tags: ["ranged", "damage", "wager", "prediction", "gambit"],
     },
 
     { id: "gambler_busted",

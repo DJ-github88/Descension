@@ -174,6 +174,11 @@ export const MARTYR_REDEMPTION = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 1,
       "cooldownUnit": "round",
+      "resourceCosts": {
+        "devotion": {
+          "baseAmount": 1
+        }
+      },
       "healing": {
         "dice": "1d8",
         "flat": 2
@@ -328,6 +333,12 @@ export const MARTYR_REDEMPTION = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 2,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "health": {
+          "baseAmount": 4,
+          "costType": "flat"
+        }
+      },
       "healing": {
         "dice": "2d8",
         "flat": 0

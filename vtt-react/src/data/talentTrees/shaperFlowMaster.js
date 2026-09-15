@@ -392,7 +392,7 @@ export const SHAPER_FLOW_MASTER = [
     },
     rankUpgrades: [
       { description: "All form and physical damage increased by +1d8 damage." },
-      { description: "All form and physical damage increased by +1d8 damage." },
+      { description: "All form and physical damage increased by +1d8 damage, and each form shift grants 2 Flux." },
       { description: "All form and physical damage increased by +2d8 damage." },
       { description: "All form and physical damage increased by +2d8 damage, and Fluid Transition grants 6 Flux." }
     ]

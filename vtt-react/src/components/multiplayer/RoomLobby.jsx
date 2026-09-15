@@ -261,23 +261,41 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
 
 
     // Check authentication status
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setIsAuthenticated(!!user);
-      if (user) {
-        // Try to use active character name first, then fall back to user name
+    let unsubscribe = () => {};
+    if (auth && typeof auth.onAuthStateChanged === 'function') {
+      unsubscribe = auth.onAuthStateChanged((user) => {
+        setIsAuthenticated(!!user);
+        if (user) {
+          // Try to use active character name first, then fall back to user name
+          const activeCharacter = getActiveCharacter();
+          const characterName = activeCharacter?.name || activeCharacter?.baseName;
+          const userName = user.displayName || user.email?.split('@')[0] || 'Player';
+          const finalName = characterName || userName;
+          setPlayerName(finalName);
+          loadUserRooms();
+        } else {
+          setUserRooms([]);
+        }
+      });
+    } else {
+      // Fallback for demo / offline / unconfigured Firebase
+      const authUser = useAuthStore.getState().user;
+      setIsAuthenticated(!!authUser);
+      if (authUser) {
         const activeCharacter = getActiveCharacter();
         const characterName = activeCharacter?.name || activeCharacter?.baseName;
-        const userName = user.displayName || user.email?.split('@')[0] || 'Player';
+        const userName = authUser.displayName || authUser.email?.split('@')[0] || 'Player';
         const finalName = characterName || userName;
         setPlayerName(finalName);
         loadUserRooms();
-
-      } else {
-        setUserRooms([]);
       }
-    });
+    }
 
-    return () => unsubscribe();
+    return () => {
+      if (typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
+    };
   }, []);
 
   // Set up socket event listeners when socket is available
@@ -524,7 +542,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
 
       // Get user's rooms from Firebase to check membership
       let userRoomIds = new Set();
-      if (isAuthenticated && auth.currentUser) {
+      if (isAuthenticated && auth?.currentUser) {
         try {
           const userRoomsList = await getUserRooms(auth.currentUser.uid);
           userRoomIds = new Set(userRoomsList.map(r => r.id));
@@ -545,7 +563,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
         // For authenticated users, check Firebase membership
         // For guests, check localStorage joined rooms
         let isMember = false;
-        if (isAuthenticated && auth.currentUser) {
+        if (isAuthenticated && auth?.currentUser) {
           isMember = userRoomIds.has(room.id);
         } else {
           // Check guest joined rooms in localStorage
@@ -578,7 +596,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
   };
 
   const loadUserRooms = async () => {
-    if (!auth.currentUser) return;
+    if (!auth?.currentUser) return;
 
     try {
       const rooms = await getUserRooms(auth.currentUser.uid);

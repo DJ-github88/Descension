@@ -497,7 +497,8 @@ The Master Wild Surge table is structured across four absolute thematic categori
   10: [
    "harbinger_universal_herald_of_the_end",
    "harbinger-wild_prophet-end_of_all_things",
-   "harbinger-deaths_seer-final_requiem"
+   "harbinger-deaths_seer-final_requiem",
+   "harbinger_universal_calamity_stasis_horizon"
   ]
  },
 
@@ -554,7 +555,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     { range: { min: 2, max: 2 }, customName: "Entropy Siphon", effect: "1d8 storm damage + generate 2 Mayhem.", effectConfig: { damageFormula: "1d8", damageType: "storm", mayhemBonus: 2 } },
     { range: { min: 3, max: 3 }, customName: "Phase Bolt", effect: "1d8 storm damage that ignores DR and Durability entirely.", effectConfig: { damageFormula: "1d8", damageType: "storm", drPenetration: 1.0 } },
     { range: { min: 4, max: 4 }, customName: "Gravity Warp", effect: "1d8 storm damage + target floats 10ft upward for 1 round then crashes for 1d6 falling damage.", effectConfig: { damageFormula: "1d8", damageType: "storm", launchHeight: 10, fallDamage: "1d6", floatDuration: 1 } },
-    { range: { min: 5, max: 5 }, customName: "Chromatic Shift", effect: "Damage type changes randomly (ember/rime/wyrd/blight) and deals 1d10 instead of 1d8.", effectConfig: { damageFormula: "1d10", damageType: "random_elemental" } },
+    { range: { min: 5, max: 5 }, customName: "Chromatic Shift", effect: "Damage type changes randomly (ember/rime/wyrd/blight) and deals 1d10 instead of 1d8.", effectConfig: { damageFormula: "1d10", damageType: "wyrd" } },
     { range: { min: 6, max: 6 }, customName: "Temporal Flicker", effect: "1d8 storm damage + target's next action is delayed to end of initiative order.", effectConfig: { damageFormula: "1d8", damageType: "storm", delayEffect: true } },
     { range: { min: 7, max: 7 }, customName: "Probability Inversion", effect: "1d8 storm damage + target's next hit misses and next miss hits.", effectConfig: { damageFormula: "1d8", damageType: "storm", probabilityInvert: true } },
     { range: { min: 8, max: 8 }, customName: "Timeline Deletion", effect: "Target slowed by 10 feet for 2 rounds.", effectConfig: { damageFormula: "1d8", damageType: "storm", speedPenalty: -10, duration: 2 } },
@@ -1313,6 +1314,50 @@ The Master Wild Surge table is structured across four absolute thematic categori
    utilityConfig: { utilityType: "social", selectedEffects: [ { "id": "cold_certainty_read", "name": "Computed Flaw", "description": "Learn one creature's deepest insecurity or the fatal flaw in their current plan. Advantage on Intimidation against them for 1 hour; disadvantage on Persuasion/Empathy.", "mechanicsText": "Read one insecurity/plan-flaw; +Intimidation, -Persuasion 1 hour." } ], duration: 1, durationUnit: "hours", power: "moderate" },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
    tags: ["utility", "divination", "social", "universal"]
+  },
+  {
+   id: "harbinger_universal_calamity_stasis_horizon",
+   name: "Calamity Stasis Horizon",
+   description: "Lock the boundary between existence and the void across a 40ft area. All allies inside are anchored against annihilation: immune to all lethal damage and negative effects for 2 rounds, while all enemy cooldowns in the area are frozen in stasis. Spends 20 Mayhem.",
+   spellType: "ACTION",
+   icon: "Void/Consumed by Void",
+   level: 10,
+   specialization: "universal",
+   effectTypes: ["defense", "control"],
+   typeConfig: {
+    school: "wyrd",
+    castTime: 3,
+    castTimeType: "IMMEDIATE",
+    icon: "Void/Consumed by Void",
+    tags: ["defense", "control", "stasis", "ultimate", "harbinger"]
+   },
+   targetingConfig: {
+    targetingType: "area",
+    rangeType: "self_centered",
+    aoeShape: "circle",
+    aoeParameters: { radius: 40 },
+    targetRestrictions: ["any"]
+   },
+   resourceCost: {
+    actionPoints: 3,
+    mana: 35,
+    classResource: { type: "mayhem", cost: 20 }
+   },
+   buffConfig: {
+    buffType: "invulnerability",
+    effects: [
+     {
+      id: "stasis_horizon_anchor",
+      name: "Void Anchor",
+      description: "Immune to lethal damage and debuffs; enemy cooldowns cannot tick for 2 rounds.",
+      mechanicsText: "Immunity to lethal damage + enemy cooldown freeze for 2 rounds."
+     }
+    ],
+    durationValue: 2,
+    durationUnit: "rounds"
+   },
+   cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+   tags: ["defense", "control", "stasis", "ultimate", "harbinger"]
   }
  ],
  passiveAbilities: [

@@ -1263,26 +1263,31 @@ Before combat, decide which cadences you want to prioritize:
   "minstrel_tritone_substitution",
   "minstrel_picardy_third",
   "minstrel_neapolitan_sixth",
+  "minstrel_tide_turners_dirge",
  ],
  7: [
   "minstrel_symphony_of_destruction",
   "minstrel_song_of_heroes",
   "minstrel_cacophonous_blast",
+  "minstrel_resonant_barrier",
  ],
  8: [
   "minstrel_magnum_opus",
   "minstrel_serenade_of_shadows",
   "minstrel_harmony_of_renewal",
+  "minstrel_abyssal_crescendo",
  ],
  9: [
   "minstrel_crescendo_of_power",
   "minstrel_requiem_of_the_fallen",
   "minstrel_tempo_mastery",
+  "minstrel_anthem_of_the_iceheart",
  ],
  10: [
   "minstrel_legendary_performance",
   "minstrel_song_of_creation",
   "minstrel_final_cadence",
+  "minstrel_apotheosis_symphony",
  ],
  },
 
@@ -4191,7 +4196,7 @@ Before combat, decide which cadences you want to prioritize:
     "A being of pure musical energy that fights alongside you",
    size: "Large",
    type: "construct",
-   tokenIcon: "spell_holy_innerfire",
+   tokenIcon: "Social/Golden Harp",
    stats: {
     maxHp: 100,
     durability: 4, drBonus: 6,
@@ -4561,5 +4566,255 @@ Before combat, decide which cadences you want to prioritize:
    "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 1 },
    "tags": ["utility","social","infiltration","minstrel"]
   }
+ ,
+  // ===== POOL-FLOOR EXPANSION SPELLS (LEVELS 6-10) =====
+  {
+   id: "minstrel_tide_turners_dirge",
+   name: "Tide-Turner's Dirge",
+   description: "Conduct a mournful maritime dirge that saps the momentum of all surrounding enemies, dealing 6d8 storm/sonic damage and reducing enemy movement speed by half. Spends 4 Musical Notes.",
+   level: 6,
+   spellType: "ACTION",
+   icon: "Social/Music Note",
+   typeConfig: {
+    school: "storm",
+    icon: "Social/Music Note",
+    tags: ["damage", "debuff", "cadence", "minstrel"],
+    castTime: 1,
+    castTimeType: "IMMEDIATE"
+   },
+   targetingConfig: {
+    targetingType: "area",
+    rangeType: "self_centered",
+    aoeShape: "circle",
+    aoeParameters: { radius: 30 },
+    targetRestrictions: ["enemy"]
+   },
+   resourceCost: {
+    actionPoints: 2,
+    resourceTypes: ["mana"],
+    resourceValues: { mana: 20 },
+    classResource: { type: "musical_notes", cost: 4 },
+    components: ["somatic"],
+    somaticText: "Draw mournful, dragging chords across the strings"
+   },
+   effectTypes: ["damage", "debuff"],
+   damageConfig: {
+    formula: "6d8 + charisma",
+    damageTypes: ["storm"],
+    resolution: "DICE"
+   },
+   debuffConfig: {
+    debuffType: "statModifier",
+    effects: [
+     {
+      id: "dirge_slow",
+      name: "Tidal Drag",
+      description: "Movement speed halved and -2 to attack rolls for 2 rounds.",
+      mechanicsText: "Movement speed halved, -2 to attack rolls for 2 rounds."
+     }
+    ],
+    durationValue: 2,
+    durationUnit: "rounds"
+   },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+   tags: ["damage", "debuff", "cadence", "minstrel"]
+  },
+  {
+   id: "minstrel_resonant_barrier",
+   name: "Acoustic Bastion",
+   description: "Vibrate the air into a shimmering sonic barrier around the party, granting 35 temporary HP and reflecting ranged projectile attacks back at attackers. Spends 5 Musical Notes.",
+   level: 7,
+   spellType: "ACTION",
+   icon: "Social/Music Note",
+   typeConfig: {
+    school: "storm",
+    icon: "Social/Music Note",
+    tags: ["defense", "buff", "barrier", "minstrel"],
+    castTime: 1,
+    castTimeType: "IMMEDIATE"
+   },
+   targetingConfig: {
+    targetingType: "area",
+    rangeType: "self_centered",
+    aoeShape: "circle",
+    aoeParameters: { radius: 25 },
+    targetRestrictions: ["ally"]
+   },
+   resourceCost: {
+    actionPoints: 2,
+    resourceTypes: ["mana"],
+    resourceValues: { mana: 24 },
+    classResource: { type: "musical_notes", cost: 5 },
+    components: ["somatic"],
+    somaticText: "Sustain a resonant chord that hardens the air into a vibrating drumhead"
+   },
+   effectTypes: ["defense", "buff"],
+   buffConfig: {
+    buffType: "temporaryHitPoints",
+    effects: [
+     {
+      id: "acoustic_shield",
+      name: "Acoustic Bastion",
+      description: "35 temp HP and reflects ranged attacks for 3 rounds.",
+      mechanicsText: "35 temp HP; reflects ranged physical attacks for 3 rounds."
+     }
+    ],
+    durationValue: 3,
+    durationUnit: "rounds"
+   },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+   tags: ["defense", "buff", "barrier", "minstrel"]
+  },
+  {
+   id: "minstrel_abyssal_crescendo",
+   name: "Abyssal Crescendo",
+   description: "Channel the silent depth-pressure of the deep ocean trench, unleashing a massive sonic implosion dealing 12d8 storm damage and deafening all targets. Spends 6 Musical Notes.",
+   level: 8,
+   spellType: "ACTION",
+   icon: "Storm/Lightning Strike",
+   typeConfig: {
+    school: "storm",
+    icon: "Storm/Lightning Strike",
+    tags: ["damage", "control", "sound", "ultimate", "minstrel"],
+    castTime: 2,
+    castTimeType: "IMMEDIATE"
+   },
+   targetingConfig: {
+    targetingType: "area",
+    rangeType: "ranged",
+    rangeDistance: 50,
+    aoeShape: "circle",
+    aoeParameters: { radius: 25 },
+    targetRestrictions: ["enemy"]
+   },
+   resourceCost: {
+    actionPoints: 2,
+    resourceTypes: ["mana"],
+    resourceValues: { mana: 30 },
+    classResource: { type: "musical_notes", cost: 6 },
+    components: ["somatic"],
+    somaticText: "Climax the piece with a violent, percussive snap of all strings"
+   },
+   effectTypes: ["damage", "control"],
+   damageConfig: {
+    formula: "12d8 + charisma",
+    damageTypes: ["storm"],
+    resolution: "DICE",
+    savingThrow: {
+     ability: "fortitude",
+     difficultyClass: 18,
+     saveOutcome: "half_damage"
+    }
+   },
+   controlConfig: {
+    controlType: "deafened",
+    duration: 2,
+    durationUnit: "rounds",
+    effects: [
+     {
+      id: "abyssal_deaf",
+      name: "Ruptured Eardrums",
+      description: "Deafened and disoriented for 2 rounds.",
+      mechanicsText: "Deafened for 2 rounds on failed Fortitude save."
+     }
+    ]
+   },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+   tags: ["damage", "control", "sound", "ultimate", "minstrel"]
+  },
+  {
+   id: "minstrel_anthem_of_the_iceheart",
+   name: "Anthem of the Iceheart",
+   description: "Perform the lost legendary sea-shanty of Lyris, granting all allies an extra action point each turn, +4 DR, and complete immunity to control effects for 3 rounds. Spends 8 Musical Notes.",
+   level: 9,
+   spellType: "ACTION",
+   icon: "Social/Music Note",
+   typeConfig: {
+    school: "wyrd",
+    icon: "Social/Music Note",
+    tags: ["buff", "support", "anthem", "ultimate", "minstrel"],
+    castTime: 2,
+    castTimeType: "IMMEDIATE"
+   },
+   targetingConfig: {
+    targetingType: "area",
+    rangeType: "self_centered",
+    aoeShape: "circle",
+    aoeParameters: { radius: 40 },
+    targetRestrictions: ["ally"]
+   },
+   resourceCost: {
+    actionPoints: 2,
+    resourceTypes: ["mana"],
+    resourceValues: { mana: 36 },
+    classResource: { type: "musical_notes", cost: 8 },
+    components: ["somatic"],
+    somaticText: "Play the thunderous sea-rhythm with bleeding fingers"
+   },
+   effectTypes: ["buff", "support"],
+   buffConfig: {
+    buffType: "statModifier",
+    effects: [
+     {
+      id: "iceheart_anthem_buff",
+      name: "Sea-Synchronized",
+      description: "+1 AP per turn, +4 DR, and immunity to stun/slow/paralysis for 3 rounds.",
+      mechanicsText: "+1 AP, +4 DR, immune to control for 3 rounds."
+     }
+    ],
+    durationValue: 3,
+    durationUnit: "rounds"
+   },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
+   tags: ["buff", "support", "anthem", "ultimate", "minstrel"]
+  },
+  {
+   id: "minstrel_apotheosis_symphony",
+   name: "Apotheosis Symphony",
+   description: "Ascend to the absolute pinnacle of acoustic mastery: a continuous celestial overture that deals 16d10 storm/wyrd damage to all enemies across 60 feet and restores 50 HP to all allies. Spends 10 Musical Notes.",
+   level: 10,
+   spellType: "ACTION",
+   icon: "Social/Music Note",
+   typeConfig: {
+    school: "storm",
+    icon: "Social/Music Note",
+    tags: ["damage", "healing", "ultimate", "symphony", "minstrel"],
+    castTime: 3,
+    castTimeType: "IMMEDIATE"
+   },
+   targetingConfig: {
+    targetingType: "area",
+    rangeType: "self_centered",
+    aoeShape: "circle",
+    aoeParameters: { radius: 60 },
+    targetRestrictions: ["any"]
+   },
+   resourceCost: {
+    actionPoints: 3,
+    resourceTypes: ["mana"],
+    resourceValues: { mana: 45 },
+    classResource: { type: "musical_notes", cost: 10 },
+    components: ["somatic"],
+    somaticText: "Strike all chords in an explosive cascade that rings across the sky"
+   },
+   effectTypes: ["damage", "healing"],
+   damageConfig: {
+    formula: "16d10 + charisma",
+    damageTypes: ["storm", "wyrd"],
+    resolution: "DICE",
+    savingThrow: {
+     ability: "fortitude",
+     difficultyClass: 20,
+     saveOutcome: "half_damage"
+    }
+   },
+   healingConfig: {
+    formula: "50",
+    healingType: "direct"
+   },
+   cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+   tags: ["damage", "healing", "ultimate", "symphony", "minstrel"]
+  }
+
  ],
 };

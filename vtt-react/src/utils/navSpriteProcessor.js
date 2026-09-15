@@ -64,14 +64,20 @@ function removeGreenBackground(ctx, width, height) {
 function loadImageToCanvas(url) {
     return new Promise((resolve, reject) => {
         const img = new Image();
-        img.crossOrigin = 'anonymous';
+        if (url.startsWith('http://') || url.startsWith('https://')) {
+            img.crossOrigin = 'anonymous';
+        }
         img.onload = () => {
-            const canvas = document.createElement('canvas');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
-            resolve({ canvas, ctx, width: img.width, height: img.height });
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                resolve({ canvas, ctx, width: img.width, height: img.height });
+            } catch (err) {
+                reject(err);
+            }
         };
         img.onerror = () => reject(new Error(`Failed to load ${url}`));
         img.src = url;

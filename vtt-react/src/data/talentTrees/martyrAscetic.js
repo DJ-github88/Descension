@@ -204,6 +204,11 @@ export const MARTYR_ASCETIC = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 2,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "devotion": {
+          "baseAmount": 1
+        }
+      },
       "visualTheme": "sacred",
       "tags": [
         "stance",

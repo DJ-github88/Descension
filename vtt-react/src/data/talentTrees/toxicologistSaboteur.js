@@ -6,7 +6,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     "id": "sb_t1_corrosive_flask",
     "name": "Vitriol Flask",
-    "icon": "spell_nature_corrosivebreath",
+    "icon": "Poison/Poison Flask",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -31,6 +31,11 @@ export const TOXICOLOGIST_SABOTEUR = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 1,
       "cooldownUnit": "round",
+      "resourceCosts": {
+        "vials": {
+          "baseAmount": 1
+        }
+      },
       "primaryDamage": {
         "dice": "1d8",
         "flat": 0,
@@ -69,7 +74,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     "id": "sb_t1_caustic_coating",
     "name": "Caustic Coating",
-    "icon": "ability_rogue_deadlybrew",
+    "icon": "Poison/Corroded Weapon",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -113,7 +118,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     "id": "sb_t1_demolition_insight",
     "name": "Demolition Insight",
-    "icon": "inv_misc_bomb_04",
+    "icon": "General/Broken Armor",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -147,7 +152,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     "id": "sb_t2_breaching_charge",
     "name": "Breaching Charge",
-    "icon": "spell_fire_selfdestruct",
+    "icon": "Utility/Explosive Detonation",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -172,6 +177,11 @@ export const TOXICOLOGIST_SABOTEUR = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 2,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "contraptions": {
+          "baseAmount": 1
+        }
+      },
       "primaryDamage": {
         "dice": "2d6",
         "flat": 0,
@@ -210,7 +220,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     "id": "sb_t2_corrosive_puddle",
     "name": "Acid Trap",
-    "icon": "spell_nature_acid_01",
+    "icon": "Poison/Acid Drip",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -237,6 +247,14 @@ export const TOXICOLOGIST_SABOTEUR = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 2,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "vials": {
+          "baseAmount": 1
+        },
+        "contraptions": {
+          "baseAmount": 1
+        }
+      },
       "primaryDamage": {
         "dice": "1d8",
         "flat": 0,
@@ -275,7 +293,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     "id": "sb_t3_vitriol_stream",
     "name": "Vitriol Torrent",
-    "icon": "spell_nature_corrosivebreath",
+    "icon": "Poison/Acid Spray",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -302,6 +320,11 @@ export const TOXICOLOGIST_SABOTEUR = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 2,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "vials": {
+          "baseAmount": 2
+        }
+      },
       "primaryDamage": {
         "dice": "2d6",
         "flat": 0,
@@ -340,7 +363,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     "id": "sb_t3_reactive_coating",
     "name": "Ablative Slag Plating",
-    "icon": "inv_shield_04",
+    "icon": "Utility/Broken Shield",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -377,7 +400,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     "id": "sb_t4_thermite_blast",
     "name": "Thermite Core Bomb",
-    "icon": "spell_fire_fireball02",
+    "icon": "Fire/Explosive Concoction",
     "maxRanks": 2,
     "position": {
       "x": 1,
@@ -407,6 +430,11 @@ export const TOXICOLOGIST_SABOTEUR = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 3,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "vials": {
+          "baseAmount": 2
+        }
+      },
       "primaryDamage": {
         "dice": "2d10",
         "flat": 0,
@@ -433,7 +461,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     "id": "sb_t5_corrosive_fumes",
     "name": "Caustic Fumes",
-    "icon": "spell_shadow_mindrot",
+    "icon": "Poison/Corrosive Touch",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -477,7 +505,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     "id": "sb_t5_structural_collapse",
     "name": "Structural Shatter",
-    "icon": "ability_warrior_sunder",
+    "icon": "General/Break",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -511,7 +539,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     "id": "sb_t6_obliteration_payload",
     "name": "Obliteration Payload",
-    "icon": "spell_fire_meteorstorm",
+    "icon": "Force/Explosion Burst 2",
     "maxRanks": 3,
     "position": {
       "x": 1.5,
@@ -541,6 +569,14 @@ export const TOXICOLOGIST_SABOTEUR = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 3,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "vials": {
+          "baseAmount": 2
+        },
+        "contraptions": {
+          "baseAmount": 2
+        }
+      },
       "primaryDamage": {
         "dice": "4d8",
         "flat": 0,
@@ -580,7 +616,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     "id": "sb_t4_mastery_focus",
     "name": "Thermite Core Bomb Resonance",
-    "icon": "spell_fire_fireball02",
+    "icon": "General/Amplify",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -616,7 +652,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     "id": "sb_t6_unyielding_mastery",
     "name": "Unyielding Resolve",
-    "icon": "ability_warrior_defensivestance",
+    "icon": "Utility/Steadfast Bulwark",
     "maxRanks": 2,
     "position": {
       "x": 3.5,
@@ -649,7 +685,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     "id": "sb_t7_master_saboteur",
     "name": "Master of Cataclysm",
-    "icon": "spell_fire_soulburn",
+    "icon": "Fire/Fire Storm",
     "maxRanks": 1,
     "position": {
       "x": 0,
@@ -672,6 +708,14 @@ export const TOXICOLOGIST_SABOTEUR = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 5,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "vials": {
+          "baseAmount": 3
+        },
+        "contraptions": {
+          "baseAmount": 1
+        }
+      },
       "visualTheme": "fire",
       "tags": [
         "ultimate",
@@ -685,7 +729,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     "id": "sb_t7_doctrine_mastery",
     "name": "Toxicologist Doctrine",
-    "icon": "spell_holy_blessingofstrength",
+    "icon": "Utility/Alchemical Symbol",
     "maxRanks": 5,
     "position": {
       "x": 1,
@@ -728,7 +772,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     "id": "sb_t7_chain_detonation",
     "name": "Chain Detonation",
-    "icon": "spell_fire_selfdestruct",
+    "icon": "Force/Radial Burst",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -772,7 +816,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     "id": "sb_t7_impervious_hazmat",
     "name": "Impervious Hazmat Suit",
-    "icon": "inv_chest_chain_11",
+    "icon": "Utility/Scaled Armor",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -808,7 +852,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     "id": "sb_t7_capstone_gamma",
     "name": "Transcendent Precision",
-    "icon": "ability_hunter_snipershot",
+    "icon": "General/Penetrate",
     "spell": {
       "name": "Transcendent Precision",
       "description": "Passive: All critical strikes deal +1d6 bonus damage and restore 1d4 Hit Points.",

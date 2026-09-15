@@ -9,7 +9,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t1_cosmic_channel",
     name: "Cosmic Channel",
-    icon: "spell_holy_farsight",
+    icon: "Radiant/Radiant Hand Cast",
     maxRanks: 3,
     position: { x: 1.5, y: 0 },
     requires: null,
@@ -29,7 +29,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t1_sign_of_vigor",
     name: "Sign of Vigor",
-    icon: "spell_holy_layonhands",
+    icon: "Healing/Heal Wound",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -55,7 +55,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t1_radiant_purpose",
     name: "Radiant Purpose",
-    icon: "spell_holy_heroism",
+    icon: "Radiant/Divine Illumination",
     maxRanks: 2,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -75,7 +75,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t2_ward_of_light",
     name: "Ward of Light",
-    icon: "spell_holy_holyguidance",
+    icon: "Radiant/Radiant Golden Shield",
     maxRanks: 3,
     position: { x: 0.5, y: 1 },
     requires: "hi_t1_cosmic_channel",
@@ -101,7 +101,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t2_blessed_terrain",
     name: "Blessed Terrain",
-    icon: "spell_holy_divineprovidence",
+    icon: "Healing/Renewal",
     maxRanks: 3,
     position: { x: 3.5, y: 1 },
     requires: "hi_t1_sign_of_vigor",
@@ -122,7 +122,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t3_sacred_ground",
     name: "Sacred Ground",
-    icon: "spell_holy_prayerofmendingtga",
+    icon: "Radiant/Divine Blessing",
     maxRanks: 3,
     position: { x: 0, y: 2 },
     requires: "hi_t2_ward_of_light",
@@ -149,7 +149,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t3_radiant_resonance",
     name: "Radiant Resonance",
-    icon: "spell_holy_mindsoothe",
+    icon: "Radiant/Radiant Radiance 3",
     maxRanks: 3,
     position: { x: 4, y: 2 },
     requires: "hi_t2_blessed_terrain",
@@ -170,7 +170,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t4_sanctuary",
     name: "Sanctuary",
-    icon: "spell_holy_exorcism",
+    icon: "Radiant/Golden Embrace",
     maxRanks: 3,
     position: { x: 0, y: 3 },
     requires: "hi_t3_sacred_ground",
@@ -196,7 +196,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t4_benediction_overflow",
     name: "Benediction Overflow",
-    icon: "spell_holy_searinglightpriest",
+    icon: "Healing/Heart Ripple",
     maxRanks: 2,
     position: { x: 4, y: 3 },
     requires: "hi_t3_radiant_resonance",
@@ -218,7 +218,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t5_omen_of_protection",
     name: "Omen of Protection",
-    icon: "spell_holy_restoration",
+    icon: "Radiant/Divine Halo",
     maxRanks: 3,
     position: { x: 0, y: 4 },
     requires: "hi_t4_sanctuary",
@@ -238,7 +238,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t5_radiant_conduit",
     name: "Radiant Conduit",
-    icon: "spell_holy_righteousnessaura",
+    icon: "Radiant/Radiant Beam of Healing",
     maxRanks: 2,
     position: { x: 4, y: 4 },
     requires: "hi_t4_benediction_overflow",
@@ -258,7 +258,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t6_cosmic_ward",
     name: "Cosmic Ward",
-    icon: "spell_holy_divineintervention",
+    icon: "Radiant/Winged Angel",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "hi_t5_omen_of_protection",
@@ -299,7 +299,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t6_shared_radiance",
     name: "Shared Radiance",
-    icon: "spell_holy_blessingofprotection",
+    icon: "Radiant/Divine Radiance",
     maxRanks: 2,
     position: { x: 3, y: 5 },
     requires: "hi_t5_omen_of_protection",
@@ -384,7 +384,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t7_conduit_of_aex",
     name: "Conduit of Aex",
-    icon: "spell_holy_surgeoflight",
+    icon: "Healing/Swirling Hearts",
     maxRanks: 3,
     position: { x: 3, y: 6 },
     requires: "hi_t6_shared_radiance",
@@ -404,7 +404,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: "hi_t7_morning_light",
     name: "Morning Light",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "Radiant/Radiant Sunburst",
     maxRanks: 3,
     position: { x: 4, y: 6 },
     requires: "hi_t6_shared_radiance",

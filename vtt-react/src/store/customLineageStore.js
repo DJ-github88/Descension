@@ -133,7 +133,7 @@ export const PRESET_LINEAGES = [
     baseTraits: { size: 'Medium', sizeCategory: 'Medium', baseSpeed: 32, baseHp: 26, baseMana: 12, baseAp: 3, lifespan: '70-110 years', languages: ['Common', 'Stormcant'], height: "5'7\" - 6'3\"", weight: '145-225 lbs', build: 'Wiry and wind-cut' },
     abilityModifiers: { STR: 1, AGI: 1, CON: 0, INT: 0, SPI: 0, CHA: 0 },
     racialPassives: [{ id: 'preset_passive_storm', name: 'Gale-Riven Senses', description: 'Advantage on Perception checks in wind, rain, or storm; +5 ft speed in open terrain.' }],
-    racialAbilities: [{ id: 'preset_action_storm', name: 'Windcutter Sprint', actionPointCost: 1, manaCost: 0, school: 'Tempest', cooldownType: 'encounter', damage: '', range: 'Self', description: 'Dash 15 ft without provoking opportunity; ignore difficult terrain from wind/ice this move.' }],
+    racialAbilities: [{ id: 'preset_action_storm', name: 'Windcutter Sprint', actionPointCost: 1, manaCost: 0, school: 'storm', cooldownType: 'encounter', damage: '', range: 'Self', description: 'Dash 15 ft without provoking opportunity; ignore difficult terrain from wind/ice this move.' }],
     meaningfulTradeoffs: 'Lightning finds them eagerly — disadvantage on saves vs. lightning and thunder while storm-charged.',
     subraces: [{ id: 'storm_crag', name: 'Crag-Runner', description: 'High-crag runners who map passes by wind-taste.', perks: ['Sure-footed on ice', '+5 ft climb speed'] }],
     isCustom: true

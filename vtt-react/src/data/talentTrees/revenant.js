@@ -17,7 +17,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t1_sanguine_strike",
     name: "Sanguine Syphon Strike",
-    icon: "spell_shadow_lifedrain02",
+    icon: "Necrotic/Blood Skull",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -45,7 +45,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t1_sanguine_mastery",
     name: "Blood-Scribe Mastery",
-    icon: "spell_shadow_bloodboil",
+    icon: "Necrotic/Ritual of Blood",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -65,7 +65,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t1_blood_rush",
     name: "Crimson Adrenaline",
-    icon: "spell_nature_bloodlust",
+    icon: "General/Amplify",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -213,7 +213,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t4_blood_barrier",
     name: "Coagulated Blood Shield",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "Healing/Heart Shield",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "sh_t3_vampiric_empowerment",
@@ -308,7 +308,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t6_blood_criticality",
     name: "Severing Arteries",
-    icon: "ability_rogue_eviscerate",
+    icon: "Necrotic/Mutilate",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "sh_t5_sanguine_avatar_passive",
@@ -390,7 +390,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     rankUpgrades: [
       { description: "All blight/blood damage increased by +1d6 damage." },
       { description: "All blight/blood damage increased by +1d8 damage." },
-      { description: "All blight/blood damage increased by +1d8 damage." },
+      { description: "All blight/blood damage increased by +1d8 damage, and each critical hit with blight or blood damage generates 2 Toll." },
       { description: "All blight/blood damage increased by +1d8 damage, and Sanguine Syphon Strike costs 0 mana." }
     ]
   },
@@ -417,7 +417,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: "sh_t7_blood_execution",
     name: "Arterial Decapitation",
-    icon: "ability_rogue_shadowdance",
+    icon: "Necrotic/Cranium Skull Smash",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "sh_t6_blood_criticality",
@@ -464,7 +464,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t1_frost_lance_shatter",
     name: "Glacial Shatter Lance",
-    icon: "spell_frost_frostbolt",
+    icon: "Frost/Ice Crystal Spear",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -491,7 +491,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t1_eternal_focus",
     name: "Black Ice Mastery",
-    icon: "spell_frost_frostarmor02",
+    icon: "Frost/Frost Manipulation",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -512,7 +512,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t1_chilling_presence",
     name: "Sub-Zero Shroud",
-    icon: "spell_frost_frostshock",
+    icon: "Frost/Cold CLothing",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -535,7 +535,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t2_glacial_cascade",
     name: "Glacial Chain Shatter",
-    icon: "spell_frost_icestorm",
+    icon: "Frost/Ice Shards",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "fs_t1_frost_lance_shatter",
@@ -562,7 +562,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t2_ice_bond",
     name: "Glacial Synapse Bond",
-    icon: "spell_frost_frozencore",
+    icon: "Force/Force Tied",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "fs_t1_eternal_focus",
@@ -584,7 +584,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t3_permafrost_prison",
     name: "Permafrost Dominion Sphere",
-    icon: "spell_frost_wisp",
+    icon: "Frost/Icy Circle",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "fs_t2_glacial_cascade",
@@ -634,7 +634,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t4_ice_comet",
     name: "Glacial Extinction Comet",
-    icon: "spell_frost_frostnova",
+    icon: "Frost/Frozen AoE",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "fs_t3_permafrost_prison",
@@ -772,7 +772,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: "fs_t6_absolute_permafrost_wall",
     name: "Permafrost Bastion",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "Frost/Icy Shield",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "fs_t5_endless_winter",
@@ -833,7 +833,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     },
     rankUpgrades: [
       { description: "All frost and shatter damage increased by +1d8 damage." },
-      { description: "All frost and shatter damage increased by +1d8 damage." },
+      { description: "All frost and shatter damage increased by +1d8 damage, and your frost spells extend freeze duration by 1 round." },
       { description: "All frost and shatter damage increased by +2d8 damage." },
       { description: "All frost and shatter damage increased by +2d8 damage, and Glacial Shatter Lance costs 0 mana." }
     ]
@@ -908,7 +908,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t1_phylactery_ward",
     name: "Phylactery Soul Shield",
-    icon: "spell_frost_frozencore",
+    icon: "Necrotic/Protective Aura",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -933,7 +933,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t1_vital_reserve",
     name: "Soul Battery Capacity",
-    icon: "spell_shadow_lifedrain",
+    icon: "Utility/Souls",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -953,7 +953,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t1_deathly_resilience",
     name: "Undying Fortitude",
-    icon: "spell_shadow_antishadow",
+    icon: "General/Defend",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -1023,7 +1023,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t3_frost_barrier_eruption",
     name: "Phylactery Aegis Nova",
-    icon: "spell_frost_icebarrier",
+    icon: "Force/Force Field",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "pa_t2_soul_anchor_strike",
@@ -1118,7 +1118,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t5_immortal_essence",
     name: "Phylactery Soul Bastion",
-    icon: "spell_frost_wisp",
+    icon: "Necrotic/Bone Chain Ring",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "pa_t4_soul_drain_wave",
@@ -1206,7 +1206,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t6_eternal_soul_ward",
     name: "Absolute Reliquary Shell",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "Force/Radiating Barrier",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "pa_t5_undying_anchor",
@@ -1227,7 +1227,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: "pa_t7_grand_resurrection_cataclysm",
     name: "The Eternal Reliquary Cataclysm",
-    icon: "spell_holy_resurrection",
+    icon: "Necrotic/Resurrect",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "pa_t6_the_immortal_phylactery",
@@ -1268,7 +1268,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     },
     rankUpgrades: [
       { description: "All shields and damage increased by +1d8 damage." },
-      { description: "All shields and damage increased by +1d8 damage." },
+      { description: "All shields and damage increased by +1d8 damage, and all your soul shields absorb an additional 25 points of damage." },
       { description: "All shields and damage increased by +2d8 damage." },
       { description: "All shields and damage increased by +2d8 damage, and Phylactery Soul Shield costs 0 mana." }
     ]

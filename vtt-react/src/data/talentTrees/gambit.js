@@ -208,6 +208,11 @@ export const GAMBIT_PROBABILITY_SAVANT = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 1,
       "cooldownUnit": "round",
+      "resourceCosts": {
+        "fortunePoints": {
+          "baseAmount": 1
+        }
+      },
       "primaryDamage": {
         "dice": "1d8",
         "flat": 0,
@@ -861,6 +866,15 @@ export const GAMBIT_HIGH_ROLLER = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 1,
       "cooldownUnit": "round",
+      "resourceCosts": {
+        "health": {
+          "baseAmount": 3,
+          "costType": "flat"
+        },
+        "fortunePoints": {
+          "baseAmount": -1
+        }
+      },
       "primaryDamage": {
         "dice": "1d8",
         "flat": 0,
@@ -884,6 +898,15 @@ export const GAMBIT_HIGH_ROLLER = [
           "dice": "2d6",
           "flat": 0,
           "procChance": 100
+        },
+        "resourceCosts": {
+          "health": {
+            "baseAmount": 4,
+            "costType": "flat"
+          },
+          "fortunePoints": {
+            "baseAmount": -1
+          }
         }
       },
       {
@@ -892,6 +915,15 @@ export const GAMBIT_HIGH_ROLLER = [
           "dice": "2d8",
           "flat": 0,
           "procChance": 100
+        },
+        "resourceCosts": {
+          "health": {
+            "baseAmount": 4,
+            "costType": "flat"
+          },
+          "fortunePoints": {
+            "baseAmount": -2
+          }
         }
       }
     ]

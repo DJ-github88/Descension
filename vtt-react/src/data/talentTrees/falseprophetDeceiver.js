@@ -9,7 +9,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t1_seed_of_doubt",
     name: "Seed of Doubt",
-    icon: "spell_shadow_unholyfrenzy",
+    icon: "Psychic/Cast Doubt",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -29,7 +29,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t1_false_witness",
     name: "False Witness",
-    icon: "spell_shadow_possession",
+    icon: "Psychic/Ghostly being",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -56,7 +56,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t1_aura_of_false_faith",
     name: "Aura of False Faith",
-    icon: "spell_shadow_charm",
+    icon: "Psychic/Mental Dissaray",
     maxRanks: 2,
     position: { x: 3.5, y: 0 },
     requires: null,
@@ -76,7 +76,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t2_false_prophecy",
     name: "False Prophecy",
-    icon: "spell_shadow_mindtwisting",
+    icon: "Psychic/Mind Control",
     maxRanks: 3,
     position: { x: 0, y: 1 },
     requires: "dc_t1_seed_of_doubt",
@@ -102,7 +102,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t2_corrupting_whisper",
     name: "Corrupting Whisper",
-    icon: "spell_shadow_siphonmana",
+    icon: "Psychic/Hypnosis",
     maxRanks: 3,
     position: { x: 4, y: 1 },
     requires: "dc_t1_aura_of_false_faith",
@@ -129,7 +129,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t3_heresy",
     name: "Heresy",
-    icon: "spell_shadow_unstableaffliction",
+    icon: "Psychic/Mental Roar",
     maxRanks: 3,
     position: { x: 0, y: 2 },
     requires: "dc_t2_false_prophecy",
@@ -156,7 +156,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t3_congregation_of_doubt",
     name: "Congregation of Doubt",
-    icon: "spell_shadow_armorofthedark",
+    icon: "Psychic/Mental Chaos",
     maxRanks: 3,
     position: { x: 4, y: 2 },
     requires: "dc_t2_corrupting_whisper",
@@ -202,7 +202,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t4_storm_of_lies",
     name: "Storm of Lies",
-    icon: "spell_shadow_rainoffire",
+    icon: "Psychic/Mind Wave",
     maxRanks: 2,
     position: { x: 4, y: 3 },
     requires: "dc_t3_congregation_of_doubt",
@@ -229,7 +229,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t5_rewrite_truth",
     name: "Rewrite Truth",
-    icon: "spell_shadow_teleport",
+    icon: "Arcane/Open Portal",
     maxRanks: 3,
     position: { x: 0.5, y: 4 },
     requires: "dc_t4_turn_the_faithful",
@@ -274,7 +274,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t6_shatter_the_faith",
     name: "Shatter the Faith",
-    icon: "spell_shadow_mindflay",
+    icon: "Psychic/Hypnotic Eye",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "dc_t5_rewrite_truth",
@@ -315,7 +315,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t6_doubt_engine",
     name: "Doubt Engine",
-    icon: "spell_shadow_burningspirit",
+    icon: "Psychic/Mind Surge",
     maxRanks: 2,
     position: { x: 3, y: 5 },
     requires: "dc_t5_the_grand_lie",
@@ -357,7 +357,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t7_silver_tongue",
     name: "Silver Tongue",
-    icon: "spell_shadow_subjugation",
+    icon: "Psychic/Telepathic",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "dc_t6_credible_lies",
@@ -372,7 +372,7 @@ export const FALSE_PROPHET_DECEIVER = [
     },
     rankUpgrades: [
       { description: "Your lies appreciate in value. All wyrd damage you deal is increased by +1d8 damage." },
-      { description: "Your lies appreciate in value. All wyrd damage you deal is increased by +1d8 damage." },
+      { description: "Your lies appreciate in value. All wyrd damage you deal is increased by +1d8 damage, and striking a marked enemy generates 1 Madness." },
       { description: "Your lies appreciate in value. All wyrd damage you deal is increased by +2d8 damage." },
       { description: "Your lies appreciate in value. All wyrd damage you deal is increased by +2d8 damage, and False Witness costs no mana." }
     ]
@@ -420,7 +420,7 @@ export const FALSE_PROPHET_DECEIVER = [
   {
     id: "dc_t7_deep_reservoir",
     name: "Deep Reservoir",
-    icon: "spell_shadow_madness",
+    icon: "Psychic/Mental Abyss",
     maxRanks: 3,
     position: { x: 3, y: 6 },
     requires: "dc_t6_doubt_engine",

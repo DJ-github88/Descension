@@ -2204,8 +2204,8 @@
 }
 
 /* ===== MOBILE NAVIGATION STYLES ===== */
-@media (max-width: 768px) {
-  /* Hide desktop navigation on mobile */
+@media (max-width: 600px) {
+  /* Hide desktop navigation on actual small mobile screens */
   .wow-nav-container {
     display: none !important;
   }

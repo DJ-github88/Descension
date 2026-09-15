@@ -15,7 +15,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t1_vengeful_lash",
     name: "Vengeful Lash",
-    icon: "spell_fire_soulburn",
+    icon: "Fire/Burning Touch",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -43,7 +43,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t1_unyielding_vengeance",
     name: "Unyielding Grudge",
-    icon: "spell_fire_elemental_totem",
+    icon: "Fire/Burning Forge",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -63,7 +63,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t1_fury_buildup",
     name: "Spiteful Resilience",
-    icon: "ability_warrior_battleshout",
+    icon: "General/Bolster",
     maxRanks: 2,
     position: { x: 3, y: 0 },
     requires: null,
@@ -86,7 +86,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t2_retaliatory_surge",
     name: "Retaliatory Surge",
-    icon: "ability_warrior_revenge",
+    icon: "Fire/Burning Ember",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "wvs_t1_vengeful_lash",
@@ -139,7 +139,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t3_avatar_of_vengeance",
     name: "Avatar of Vengeance",
-    icon: "spell_fire_elementaldevastation",
+    icon: "Fire/Burning Transformation",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "wvs_t2_retaliatory_surge",
@@ -166,7 +166,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t3_avatar_synergy",
     name: "Nemesis Resonance",
-    icon: "spell_fire_fireball02",
+    icon: "Fire/Flame Aura",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "wvs_t2_spectral_retribution",
@@ -188,7 +188,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t4_grudge_cleave",
     name: "Grudge Cleave",
-    icon: "ability_warrior_cleave",
+    icon: "Fire/Fiery Arc",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "wvs_t3_avatar_of_vengeance",
@@ -216,7 +216,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t4_spite_siphon",
     name: "Spite Siphon",
-    icon: "spell_shadow_lifedrain02",
+    icon: "Necrotic/Drain Soul",
     maxRanks: 2,
     position: { x: 3, y: 3 },
     requires: "wvs_t3_avatar_synergy",
@@ -237,7 +237,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t5_eye_for_an_eye",
     name: "Eye for an Eye",
-    icon: "spell_shadow_shadowwordpain",
+    icon: "Psychic/Twist Pain",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "wvs_t4_grudge_cleave",
@@ -263,7 +263,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t5_unbroken_spite",
     name: "Endless Retaliation",
-    icon: "ability_warrior_shieldreflection",
+    icon: "Utility/Deflecting Shield",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "wvs_t4_spite_siphon",
@@ -285,7 +285,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t6_cataclysmic_retribution",
     name: "Cataclysmic Retribution",
-    icon: "spell_fire_selfdestruct",
+    icon: "Fire/Eruption",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "wvs_t5_eye_for_an_eye",
@@ -329,7 +329,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t6_dread_nemesis",
     name: "Nemesis Mark",
-    icon: "spell_shadow_curseofsargeras",
+    icon: "Necrotic/Vital Target",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "wvs_t5_unbroken_spite",
@@ -417,7 +417,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t7_burning_spite",
     name: "Infernal Retribution",
-    icon: "spell_fire_flameblades",
+    icon: "Fire/Fire Dagger",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "wvs_t6_dread_nemesis",
@@ -437,7 +437,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: "wvs_t7_immortal_grudge",
     name: "Immortal Vengeance",
-    icon: "ability_warrior_bloodfrenzy",
+    icon: "Radiant/Redemption",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "wvs_t6_dread_nemesis",

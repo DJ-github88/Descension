@@ -373,9 +373,9 @@ export const SPELLGUARD_SPELL_BREAKER = [
     },
     rankUpgrades: [
       { description: "Every surface serves the doctrine: all reflected damage you deal is increased by +1d8 damage." },
-      { description: "Every surface serves the doctrine: all reflected damage you deal is increased by +1d8 damage." },
+      { description: "Every surface serves the doctrine: all reflected damage you deal is increased by +1d8 damage, and reflected damage splashes to one other enemy within 15 feet for 50% of the reflected damage." },
       { description: "Every surface serves the doctrine: all reflected damage you deal is increased by +2d8 damage." },
-      { description: "Every surface serves the doctrine: all reflected damage you deal is increased by +2d8 damage." }
+      { description: "Every surface serves the doctrine: all reflected damage you deal is increased by +2d8 damage, and reflected damage is doubled back against its original caster." }
     ]
   },
   {

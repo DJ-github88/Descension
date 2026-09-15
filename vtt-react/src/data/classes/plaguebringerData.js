@@ -2866,73 +2866,754 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     utilityConfig: { utilityType: "stealth", selectedEffects: [ { id: "miasma_veil_mask", name: "Scent Erasure", description: "Erase tracks and scent for up to 6 creatures for 1 hour; imposes disadvantage on all tracking checks against the group.", mechanicsText: "Masks scent and tracks in 20ft radius for 1 hour." } ], duration: 1, durationUnit: "hours", power: "moderate" },
     cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
     tags: ["utility","stealth","camp","survival","plaguebringer"]
+  },
+  {
+    id: "pb_septic_shroud",
+    name: "Septic Shroud",
+    description: "Surround yourself in a churning fog of airborne rot and decomposing spores in a 15ft radius for 3 rounds. Enemies inside suffer disadvantage on attack rolls and cannot take reactions. Operational friction: The heavy spores irritate your lungs, dealing 3 self damage upon casting.",
+    level: 4,
+    spellType: "ACTION",
+    icon: "Poison/Poison Toxin",
+    specialization: "virulent_spreader",
+    typeConfig: {
+      school: "blight",
+      icon: "Poison/Poison Toxin",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      tags: ["blight", "buff", "control", "aura", "plaguebringer"]
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "self",
+      aoeType: "circle",
+      aoeSize: 15,
+      targetRestrictions: ["allies", "enemies"]
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 1,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 7 },
+      components: ["somatic"],
+      somaticText: "Exhale a dense green mist that swirls into a protective wall",
+      classResource: { type: "virulence", gain: 15 }
+    },
+    effectTypes: ["buff", "control"],
+    buffConfig: {
+      buffType: "protection",
+      effects: [
+        {
+          id: "septic_shroud_conceal",
+          name: "Septic Concealment",
+          description: "Allies inside the shroud gain light concealment against ranged attacks.",
+          mechanicsText: "Allies within 15ft gain light concealment against ranged attacks outside the cloud."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    controlConfig: {
+      controlType: "debuff_field",
+      effects: [
+        {
+          id: "septic_shroud_choke",
+          name: "Choking Miasma",
+          description: "Hostile creatures within the shroud suffer disadvantage on attack rolls and lose reaction access.",
+          mechanicsText: "Hostile creatures within 15ft have disadvantage on attack rolls and cannot use reactions."
+        }
+      ],
+      savingThrow: {
+        ability: "constitution",
+        difficultyClass: 15,
+        saveOutcome: "negates"
+      },
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    specialMechanics: {
+      agonyToll: {
+        enabled: true,
+        description: "Operational Friction: The toxic cloud inflames the caster's airways, dealing 3 direct self damage."
+      }
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+    tags: ["blight", "buff", "control", "aura", "plaguebringer"]
+  },
+  {
+    id: "pb_parasitic_graft",
+    name: "Parasitic Graft",
+    description: "Surgically implant a feeding fungal graft into a target within 25ft. If cast on an enemy, siphons 50% of all healing they receive for 3 rounds, granting it to you as temporary HP. If cast on an ally, purges 1 non-blight condition and grants 15 temporary HP, but they take 2 blight damage at start of turn.",
+    level: 5,
+    spellType: "ACTION",
+    icon: "Necrotic/Drain Soul",
+    specialization: "torment_weaver",
+    typeConfig: {
+      school: "blight",
+      icon: "Necrotic/Drain Soul",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      tags: ["blight", "buff", "debuff", "torment", "plaguebringer"]
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeType: "ranged",
+      rangeDistance: 25,
+      targetRestrictions: ["allies", "enemies"],
+      maxTargets: 1,
+      requiresLineOfSight: true
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 1,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 9 },
+      components: ["somatic"],
+      somaticText: "Flick a living fungal cyst directly into the target's open tissue",
+      classResource: { type: "virulence", cost: 20 }
+    },
+    effectTypes: ["buff", "debuff"],
+    buffConfig: {
+      buffType: "temporary_hp",
+      effects: [
+        {
+          id: "parasitic_symbiosis",
+          name: "Symbiotic Graft",
+          description: "Allied target gains 15 temporary hit points and cleanses 1 condition, taking 2 blight damage per round.",
+          mechanicsText: "Ally gains 15 Temp HP and cleanses 1 non-blight condition; suffers 2 blight damage each round."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    debuffConfig: {
+      debuffType: "statusEffect",
+      effects: [
+        {
+          id: "parasitic_siphon",
+          name: "Parasitic Siphon",
+          description: "Enemy target's healing received is reduced by 50%; intercepted healing transfers to the caster as temporary HP.",
+          mechanicsText: "Enemy target receives -50% healing; intercepted healing converted into temporary HP for the caster."
+        }
+      ],
+      savingThrow: {
+        ability: "constitution",
+        difficultyClass: 16,
+        saveOutcome: "negates"
+      },
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    specialMechanics: {
+      agonyToll: {
+        enabled: true,
+        description: "Operational Friction: Splitting a portion of one's fungal host costs 20 Virulence."
+      }
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+    tags: ["blight", "buff", "debuff", "torment", "plaguebringer"]
+  },
+  {
+    id: "pb_calcifying_rot",
+    name: "Calcifying Rot",
+    description: "Infect target's joints with rapid petrifying fungal spore growth. Target's speed drops to 0 on round 1 and is halved on rounds 2-3. Whenever target attempts a physical action, they must pass a Constitution save or lose 1 AP to stiffened cartilage.",
+    level: 6,
+    spellType: "ACTION",
+    icon: "Necrotic/Bone Shards",
+    specialization: "decay_harbinger",
+    typeConfig: {
+      school: "blight",
+      icon: "Necrotic/Bone Shards",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      tags: ["blight", "control", "debuff", "decay", "plaguebringer"]
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeType: "ranged",
+      rangeDistance: 40,
+      targetRestrictions: ["enemies"],
+      maxTargets: 1,
+      requiresLineOfSight: true
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 1,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 12 },
+      components: ["verbal", "somatic"],
+      verbalText: "Ossificare!",
+      somaticText: "Clench your fist until cartilage clicks in sympathy",
+      classResource: { type: "virulence", gain: 25 }
+    },
+    effectTypes: ["control", "debuff"],
+    controlConfig: {
+      controlType: "immobilization",
+      effects: [
+        {
+          id: "calcifying_joint_lock",
+          name: "Calcified Joints",
+          description: "Target speed is reduced to 0 for round 1, then halved for rounds 2-3.",
+          mechanicsText: "Speed 0 on round 1, halved on rounds 2-3. Moving or physical attacks require DC 16 Constitution check or lose 1 AP."
+        }
+      ],
+      savingThrow: {
+        ability: "constitution",
+        difficultyClass: 16,
+        saveOutcome: "negates"
+      },
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    specialMechanics: {
+      agonyToll: {
+        enabled: true,
+        description: "Operational Friction: The caster's fingers stiffen in sympathetic reaction, giving -1 to weapon attacks for 1 round."
+      },
+      cultivation: {
+        category: "Decay",
+        advancesStage: true
+      }
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+    tags: ["blight", "control", "debuff", "decay", "plaguebringer"]
+  },
+  {
+    id: "pb_bubonic_detonation",
+    name: "Bubonic Detonation",
+    description: "Detonate every dormant pustule and septic cyst in a 25ft radius. Deals 6d8 blight damage to all hostile creatures in the area; targets suffering from an affliction condition take double damage dice and are blinded for 2 rounds.",
+    level: 8,
+    spellType: "ACTION",
+    icon: "Poison/Toxic Bomb",
+    specialization: "decay_harbinger",
+    typeConfig: {
+      school: "blight",
+      icon: "Poison/Toxic Bomb",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      tags: ["blight", "damage", "debuff", "aoe", "decay", "plaguebringer"]
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "ranged",
+      rangeDistance: 60,
+      aoeType: "circle",
+      aoeSize: 25,
+      targetRestrictions: ["enemies"]
+    },
+    durationConfig: {
+      durationType: "instant",
+      durationValue: 0,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 2,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 16 },
+      components: ["verbal", "somatic"],
+      verbalText: "Ruptura Totalis!",
+      somaticText: "Violently thrust both hands outward, snapping bone needles between palms",
+      classResource: { type: "virulence", cost: 40 }
+    },
+    effectTypes: ["damage", "debuff"],
+    damageConfig: {
+      formula: "6d8",
+      elementType: "blight",
+      damageTypes: ["blight"],
+      resolution: "DICE",
+      savingThrow: {
+        ability: "constitution",
+        difficultyClass: 17,
+        saveOutcome: "half_damage"
+      }
+    },
+    debuffConfig: {
+      debuffType: "statusEffect",
+      effects: [
+        {
+          id: "bubonic_blindness",
+          name: "Septic Blindness",
+          description: "Afflicted targets are blinded by spraying septic fluids for 2 rounds.",
+          mechanicsText: "Targets with active blight or affliction are blinded for 2 rounds on failed Constitution save."
+        }
+      ],
+      savingThrow: {
+        ability: "constitution",
+        difficultyClass: 17,
+        saveOutcome: "negates"
+      },
+      durationType: "rounds",
+      durationValue: 2,
+      durationUnit: "rounds"
+    },
+    specialMechanics: {
+      agonyToll: {
+        enabled: true,
+        description: "Operational Friction: The concussive biological rupture deals 6 self blight damage."
+      },
+      cultivation: {
+        category: "Decay",
+        advancesStage: true
+      }
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+    tags: ["blight", "damage", "debuff", "aoe", "decay", "plaguebringer"]
+  },
+  {
+    id: "pb_spore_hive_quarantine",
+    name: "Spore-Hive Quarantine",
+    description: "Erect a 20ft radius hemispherical quarantine bio-dome of interlocking fungal mycelium and spore filaments for 3 rounds. Blocks line of sight and passage. Creatures attempting to traverse the wall must pass a DC 17 Constitution save or become silenced and blinded for 1 round.",
+    level: 8,
+    spellType: "ACTION",
+    icon: "Necrotic/Glistening Evil",
+    specialization: "virulent_spreader",
+    typeConfig: {
+      school: "blight",
+      icon: "Necrotic/Glistening Evil",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      tags: ["blight", "control", "utility", "wall", "plaguebringer"]
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "ranged",
+      rangeDistance: 50,
+      aoeType: "circle",
+      aoeSize: 20
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 1,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 15 },
+      components: ["verbal", "somatic"],
+      verbalText: "Sepelire!",
+      somaticText: "Drive your staff or bare hand deep into the soil to awaken the spore ring",
+      classResource: { type: "virulence", cost: 35 }
+    },
+    effectTypes: ["control", "utility"],
+    controlConfig: {
+      controlType: "wall",
+      effects: [
+        {
+          id: "quarantine_barrier",
+          name: "Mycelial Quarantine Barrier",
+          description: "Hemispherical mycelium wall (Hardness 10, 60 HP) blocks passage and line of sight. Passing through silences mucosal membranes.",
+          mechanicsText: "Wall blocks physical and ranged passage (Hardness 10, 60 HP). Breaching creatures must pass DC 17 Con save or be silenced and blinded for 1 round."
+        }
+      ],
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    utilityConfig: {
+      utilityType: "environment",
+      selectedEffects: [
+        {
+          id: "quarantine_containment",
+          name: "Zone Lockdown",
+          description: "Quarantines the area, preventing airborne pathogens and gaseous substances from escaping or entering.",
+          mechanicsText: "Seals the 20ft radius sphere against all airborne and gaseous vectors for 3 rounds."
+        }
+      ],
+      power: "major"
+    },
+    specialMechanics: {
+      agonyToll: {
+        enabled: true,
+        description: "Operational Friction: Feeding the quarantine dome drains 35 Virulence."
+      }
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+    tags: ["blight", "control", "utility", "wall", "plaguebringer"]
+  },
+  {
+    id: "pb_chitinous_carapace",
+    name: "Chitinous Mycocarapace",
+    description: "Transmute your skin into thick layered fungal chitin and calcified spore plates for 3 rounds. Gain Damage Reduction 8 against all physical and elemental damage, immunity to critical hits and bleed/poison effects, and melee attackers contract Stage 2 Wasting Sickness upon hitting you.",
+    level: 9,
+    spellType: "ACTION",
+    icon: "Necrotic/Empowering Aura",
+    specialization: "decay_harbinger",
+    typeConfig: {
+      school: "blight",
+      icon: "Necrotic/Empowering Aura",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      tags: ["blight", "buff", "defense", "plaguebringer"]
+    },
+    targetingConfig: {
+      targetingType: "self",
+      rangeType: "self"
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 1,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 18 },
+      components: ["somatic"],
+      somaticText: "Drag fingertips across cheeks and chest, splitting dermal layers into chitinous plates",
+      classResource: { type: "virulence", cost: 50 }
+    },
+    effectTypes: ["buff"],
+    buffConfig: {
+      buffType: "protection",
+      effects: [
+        {
+          id: "chitinous_mycocarapace_dr",
+          name: "Chitinous Mycocarapace",
+          description: "Gain DR 8, critical hit immunity, and affliction retaliatory infection against melee attackers.",
+          mechanicsText: "Gain DR 8 against all physical/elemental damage, immunity to crits and poison/bleed. Melee attackers suffer Stage 2 Wasting Sickness."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    specialMechanics: {
+      agonyToll: {
+        enabled: true,
+        description: "Operational Friction: The calcified carapace restricts movement, reducing base movement speed by 10ft while active."
+      }
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+    tags: ["blight", "buff", "defense", "plaguebringer"]
+  },
+  {
+    id: "pb_symbiotic_resurrection",
+    name: "Symbiotic Re-Germination",
+    description: "Touch a creature that died within the last round. Rapid mycorrhizal threads knit severed organs and re-ignite nervous impulses, returning the creature to life at 25% max HP. For the next hour, they gain +2 Constitution and immunity to pain, but bear fungal grafting marks.",
+    level: 9,
+    spellType: "ACTION",
+    icon: "Necrotic/Arise",
+    specialization: "virulent_spreader",
+    typeConfig: {
+      school: "blight",
+      icon: "Necrotic/Arise",
+      castTime: 2,
+      castTimeType: "IMMEDIATE",
+      tags: ["blight", "healing", "utility", "resurrection", "plaguebringer"]
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeType: "touch",
+      rangeDistance: 0,
+      targetRestrictions: ["allies"],
+      maxTargets: 1
+    },
+    durationConfig: {
+      durationType: "hours",
+      durationValue: 1,
+      durationUnit: "hours"
+    },
+    resourceCost: {
+      actionPoints: 2,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 20 },
+      components: ["verbal", "somatic"],
+      verbalText: "Renatus ex Putredine!",
+      somaticText: "Press thumbs into the corpse's eyes and breathe virulent spores into their mouth",
+      classResource: { type: "virulence", cost: 60 }
+    },
+    effectTypes: ["healing", "utility", "buff"],
+    healingConfig: {
+      formula: "25% max HP",
+      healingType: "revive",
+      description: "Restores a dead creature to life at 25% of their maximum HP."
+    },
+    buffConfig: {
+      buffType: "enhancement",
+      effects: [
+        {
+          id: "symbiotic_revival_vitality",
+          name: "Mycorrhizal Sustenance",
+          description: "+2 Constitution and immune to pain/fear for 1 hour.",
+          mechanicsText: "+2 Constitution and immunity to pain, stun, and fear conditions for 1 hour."
+        }
+      ],
+      durationType: "hours",
+      durationValue: 1,
+      durationUnit: "hours"
+    },
+    utilityConfig: {
+      utilityType: "resurrection",
+      selectedEffects: [
+        {
+          id: "spore_revival",
+          name: "Spore Resuscitation",
+          description: "Biological reanimation of a fallen creature within 1 round of death.",
+          mechanicsText: "Brings a fallen ally back from death if cast within 1 round of their demise."
+        }
+      ],
+      power: "legendary"
+    },
+    specialMechanics: {
+      agonyToll: {
+        enabled: true,
+        description: "Operational Friction: The caster takes 15 necrotic/blight backlash damage as biological essence transfers."
+      }
+    },
+    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+    tags: ["blight", "healing", "utility", "resurrection", "plaguebringer"]
+  },
+  {
+    id: "pb_world_blight_cataclysm",
+    name: "World-Blight Cataclysm",
+    description: "Unleash the primordial rot-fissures of the Bryngloom across a 40ft radius. Cracks spew corrosive bile and spore gas dealing 8d10 blight damage to hostile creatures, leaving treacherous mire that halves movement and infects survivors with Terminal Rot (3d10 blight damage at turn start).",
+    level: 10,
+    spellType: "ACTION",
+    icon: "Necrotic/Cosmic Entity",
+    specialization: "decay_harbinger",
+    typeConfig: {
+      school: "blight",
+      icon: "Necrotic/Cosmic Entity",
+      castTime: 2,
+      castTimeType: "IMMEDIATE",
+      tags: ["blight", "damage", "control", "debuff", "ultimate", "plaguebringer"]
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "ranged",
+      rangeDistance: 100,
+      aoeType: "circle",
+      aoeSize: 40,
+      targetRestrictions: ["enemies"]
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 5,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 2,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 24 },
+      components: ["verbal", "somatic"],
+      verbalText: "Putrescentia Universalis!",
+      somaticText: "Slam both palms into the ground and crack open the crust with virulent rot",
+      classResource: { type: "virulence", cost: 80 }
+    },
+    effectTypes: ["damage", "control", "debuff"],
+    damageConfig: {
+      formula: "8d10",
+      elementType: "blight",
+      damageTypes: ["blight"],
+      resolution: "DICE",
+      savingThrow: {
+        ability: "constitution",
+        difficultyClass: 18,
+        saveOutcome: "half_damage"
+      }
+    },
+    controlConfig: {
+      controlType: "difficult_terrain",
+      effects: [
+        {
+          id: "world_blight_mire",
+          name: "Blight Mire",
+          description: "Ground becomes corrosive septic mire, halving movement speed for 5 rounds.",
+          mechanicsText: "Area is difficult terrain (speed halved). Any creature ending its turn in the mire takes 2d8 blight damage."
+        }
+      ],
+      durationValue: 5,
+      durationUnit: "rounds"
+    },
+    debuffConfig: {
+      debuffType: "statusEffect",
+      effects: [
+        {
+          id: "terminal_rot_infection",
+          name: "Terminal Rot",
+          description: "Survivors take 3d10 blight damage at start of turn until cured by sacred intervention.",
+          mechanicsText: "Target suffers 3d10 blight damage at the start of each turn. Requires sacred purification or DC 18 Con save to end."
+        }
+      ],
+      savingThrow: {
+        ability: "constitution",
+        difficultyClass: 18,
+        saveOutcome: "negates"
+      },
+      durationType: "rounds",
+      durationValue: 5,
+      durationUnit: "rounds"
+    },
+    specialMechanics: {
+      agonyToll: {
+        enabled: true,
+        description: "Operational Friction: The sheer cataclysm deals 10 self damage and exhausts the caster for 1 round."
+      },
+      cultivation: {
+        category: "Decay",
+        advancesStage: true
+      }
+    },
+    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+    tags: ["blight", "damage", "control", "debuff", "ultimate", "plaguebringer"]
+  },
+  {
+    id: "pb_apotheosis_of_rot",
+    name: "Apotheosis of Rot",
+    description: "Fully discard mortal limitations and become a living spore god for 1 minute (10 rounds). Cannot drop below 1 HP, can teleport between any diseased or fungal entities within 120ft as a bonus action, and all enemies within 30ft automatically advance 1 affliction stage at round end without a save.",
+    level: 10,
+    spellType: "ACTION",
+    icon: "Necrotic/Demonic Empowerment",
+    specialization: "virulent_spreader",
+    typeConfig: {
+      school: "blight",
+      icon: "Necrotic/Demonic Empowerment",
+      castTime: 2,
+      castTimeType: "IMMEDIATE",
+      tags: ["blight", "buff", "control", "transformation", "ultimate", "plaguebringer"]
+    },
+    targetingConfig: {
+      targetingType: "self",
+      rangeType: "self"
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 10,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 2,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 25 },
+      components: ["verbal", "somatic"],
+      verbalText: "Ego Sum Pestilentia!",
+      somaticText: "Spread arms wide as fungal spores erupt from your chest and eyes into a towering halo",
+      classResource: { type: "virulence", cost: 100 }
+    },
+    effectTypes: ["buff", "control"],
+    buffConfig: {
+      buffType: "transformation",
+      effects: [
+        {
+          id: "apotheosis_immortality",
+          name: "Spore God Transcendence",
+          description: "HP cannot drop below 1; free bonus-action teleport through infected targets up to 120ft.",
+          mechanicsText: "Immune to death effects; damage cannot reduce HP below 1. Once per turn, teleport up to 120ft to any space adjacent to an afflicted creature (0 AP)."
+        }
+      ],
+      durationType: "rounds",
+      durationValue: 10,
+      durationUnit: "rounds"
+    },
+    controlConfig: {
+      controlType: "aura",
+      effects: [
+        {
+          id: "apotheosis_pestilence_aura",
+          name: "Aura of Inevitable Rot",
+          description: "All enemies within 30ft automatically advance 1 affliction stage at the end of each round.",
+          mechanicsText: "All hostile creatures within 30ft automatically gain 1 affliction stage at the end of every round (no save)."
+        }
+      ],
+      durationValue: 10,
+      durationUnit: "rounds"
+    },
+    specialMechanics: {
+      agonyToll: {
+        enabled: true,
+        description: "Operational Friction: Once the apotheosis ends, the caster is stunned for 1 round as their biology settles."
+      }
+    },
+    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+    tags: ["blight", "buff", "control", "transformation", "ultimate", "plaguebringer"]
   }
  ],
 
 
  // Spell Pools by Level
  spellPools: {
- 1: [
-  "pb_curse_of_agony",
-  "pb_venomous_touch",
-  "pb_whisper_of_decay",
-  "plague_incubation_period",
-  "virulent-lavender_mask",
-  "pb_rot_touch",
-  "pb_mycelium_sense",
-  "pb_spore_scout"
- ],
- 2: [
-  "pb_fever_dream",
-  "pb_mark_of_the_pestilent",
-  "pb_enfeebling_fog",
-  "pb_plague_reader",
-  "pb_counter_culture",
-  "pb_miasma_veil"
- ],
- 3: [
-  "pb_drain_vitality",
-  "pb_hallucinogenic_spores",
-  "pb_agonizing_wail",
-  "plague_sterile_environment",
-  "pb_cadaver_puppet"
- ],
- 4: [
-  "pb_infectious_sores",
-  "pb_plague_of_flies",
-  "pb_necrotic_burst"
- ],
- 5: [
-  "pb_wither_touch",
-  "pb_dark_rejuvenation",
-  "pb_sufferings_echo"
- ],
- 6: [
-  "pb_pain_magnification",
-  "pb_essence_corruption",
-  "pb_affliction_mark"
- ],
- 7: [
-  "pb_plague_burst",
-  "pb_mass_affliction",
-  "pb_pandemic",
-  "pb_decay_field",
-  "pb_gardens_wrath",
-  "pb_mind_plague"
- ],
- 8: [
-  "pb_plague_incarnate",
-  "pb_epidemic"
- ],
- 9: [
-  "pb_black_death",
-  "pb_necrotic_eruption"
- ],
- 10: [
-  "pb_plague_god",
-  "pb_ultimate_affliction"
- ]
- }
-};
+  1: [
+   "pb_curse_of_agony",
+   "pb_venomous_touch",
+   "pb_whisper_of_decay",
+   "virulent-lavender_mask",
+   "pb_rot_touch",
+   "pb_mycelium_sense",
+   "pb_spore_scout"
+  ],
+  2: [
+   "pb_fever_dream",
+   "pb_mark_of_the_pestilent",
+   "pb_enfeebling_fog",
+   "pb_plague_reader",
+   "pb_counter_culture",
+   "pb_miasma_veil"
+  ],
+  3: [
+   "pb_drain_vitality",
+   "pb_hallucinogenic_spores",
+   "pb_agonizing_wail",
+   "pb_cadaver_puppet",
+   "pb_miasma_form"
+  ],
+  4: [
+   "pb_infectious_sores",
+   "pb_plague_of_flies",
+   "pb_necrotic_burst",
+   "pb_septic_shroud"
+  ],
+  5: [
+   "pb_wither_touch",
+   "pb_dark_rejuvenation",
+   "pb_sufferings_echo",
+   "pb_parasitic_graft"
+  ],
+  6: [
+   "pb_pain_magnification",
+   "pb_essence_corruption",
+   "pb_affliction_mark",
+   "pb_calcifying_rot"
+  ],
+  7: [
+   "pb_plague_burst",
+   "pb_mass_affliction",
+   "pb_pandemic",
+   "pb_decay_field",
+   "pb_gardens_wrath",
+   "pb_mind_plague"
+  ],
+  8: [
+   "pb_plague_incarnate",
+   "pb_epidemic",
+   "pb_bubonic_detonation",
+   "pb_spore_hive_quarantine"
+  ],
+  9: [
+   "pb_black_death",
+   "pb_necrotic_eruption",
+   "pb_chitinous_carapace",
+   "pb_symbiotic_resurrection"
+  ],
+  10: [
+   "pb_plague_god",
+   "pb_ultimate_affliction",
+   "pb_world_blight_cataclysm",
+   "pb_apotheosis_of_rot"
+  ]
+ }};
 
 export default PLAGUEBRINGER_DATA;

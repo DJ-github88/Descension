@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
@@ -146,12 +146,45 @@ const AccountDashboard = ({ user }) => {
   const [showAccountDeleteConfirm, setShowAccountDeleteConfirm] = useState(false);
   const [accountDeleteText, setAccountDeleteText] = useState('');
   const [isDeletingAccount, setIsDeletingAccount] = useState(false);
+  const [isTabDropdownOpen, setIsTabDropdownOpen] = useState(false);
+  const tabDropdownRef = useRef(null);
+
+  // Close tab dropdown on outside click or Escape key
+  useEffect(() => {
+    if (!isTabDropdownOpen) return;
+    const handleOutsideClick = (e) => {
+      if (tabDropdownRef.current && !tabDropdownRef.current.contains(e.target)) {
+        setIsTabDropdownOpen(false);
+      }
+    };
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setIsTabDropdownOpen(false);
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isTabDropdownOpen]);
 
   const receivedRequests = (pendingRequests || []).filter(r => r.type === 'received' && r.status === 'pending');
 
-
   const isGuest = user?.isGuest || false;
   const isPhone = useIsPhone();
+
+  const navTabs = useMemo(() => [
+    { id: 'rooms', label: 'Rooms', icon: 'fas fa-door-open' },
+    { id: 'characters', label: 'Characters', icon: 'fas fa-user-friends' },
+    ...(!isGuest ? [
+      { id: 'campaigns', label: 'Campaigns', icon: 'fas fa-map' },
+      { id: 'journal', label: 'Journal', icon: 'fas fa-book' },
+      { id: 'social', label: 'Social', icon: 'fas fa-heart' },
+      { id: 'maps', label: 'World', icon: 'fas fa-atlas' },
+      { id: 'books', label: 'Books', icon: 'fas fa-book-bookmark' },
+    ] : []),
+    { id: 'membership', label: 'Membership', icon: 'fas fa-star' },
+  ], [isGuest]);
   // Phones default to Characters — Rooms leads into the desktop-only VTT grid.
   const [activeTab, setActiveTab] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -481,69 +514,58 @@ const AccountDashboard = ({ user }) => {
             </div>
           </div>
 
-          {/* Center: Fan-style Tab Navigation */}
-          <nav className="fan-tabs">
+          {/* Center: Desktop Fan-style Tab Navigation */}
+          <nav className="fan-tabs fan-tabs-desktop">
             <div className="fan-container">
-              <button
-                className={`fan-tab ${activeTab === 'rooms' ? 'active' : ''}`}
-                onClick={() => handleTabChange('rooms')}
-              >
-                <span>Rooms</span>
-              </button>
-              <button
-                className={`fan-tab ${activeTab === 'characters' ? 'active' : ''}`}
-                onClick={() => handleTabChange('characters')}
-              >
-                <span>Characters</span>
-              </button>
-              {!isGuest && (
+              {navTabs.map(tab => (
                 <button
-                  className={`fan-tab ${activeTab === 'campaigns' ? 'active' : ''}`}
-                  onClick={() => handleTabChange('campaigns')}
+                  key={tab.id}
+                  className={`fan-tab ${activeTab === tab.id ? 'active' : ''}`}
+                  onClick={() => handleTabChange(tab.id)}
                 >
-                  <span>Campaigns</span>
+                  <span>{tab.label}</span>
                 </button>
-              )}
-              {!isGuest && (
-                <button
-                  className={`fan-tab ${activeTab === 'journal' ? 'active' : ''}`}
-                  onClick={() => handleTabChange('journal')}
-                >
-                  <span>Journal</span>
-                </button>
-              )}
-              {!isGuest && (
-                <button
-                  className={`fan-tab ${activeTab === 'social' ? 'active' : ''}`}
-                  onClick={() => handleTabChange('social')}
-                >
-                  <span>Social</span>
-                </button>
-              )}
-              {!isGuest && (
-                <button
-                  className={`fan-tab ${activeTab === 'maps' ? 'active' : ''}`}
-                  onClick={() => handleTabChange('maps')}
-                >
-                  <span>World</span>
-                </button>
-              )}
-              {!isGuest && (
-                <button
-                  className={`fan-tab ${activeTab === 'books' ? 'active' : ''}`}
-                  onClick={() => handleTabChange('books')}
-                >
-                  <span>Books</span>
-                </button>
-              )}
-              <button
-                className={`fan-tab ${activeTab === 'membership' ? 'active' : ''}`}
-                onClick={() => handleTabChange('membership')}
-              >
-                <span>Membership</span>
-              </button>
+              ))}
             </div>
           </nav>
+
+          {/* Center: Responsive Tab Dropdown Selector (Laptops, Tablets, iPads) */}
+          {(() => {
+            const currentTabInfo = navTabs.find(t => t.id === activeTab) || navTabs[0];
+            return (
+              <div className="account-tab-dropdown-wrapper" ref={tabDropdownRef}>
+                <button
+                  className={`account-tab-dropdown-btn ${isTabDropdownOpen ? 'open' : ''}`}
+                  onClick={() => setIsTabDropdownOpen(prev => !prev)}
+                  aria-expanded={isTabDropdownOpen}
+                  aria-haspopup="true"
+                  title="Select section"
+                >
+                  <i className={currentTabInfo.icon}></i>
+                  <span className="account-tab-dropdown-label">{currentTabInfo.label}</span>
+                  <i className={`fas fa-chevron-down account-tab-dropdown-chevron ${isTabDropdownOpen ? 'rotated' : ''}`}></i>
+                </button>
+                {isTabDropdownOpen && (
+                  <div className="account-tab-dropdown-menu">
+                    {navTabs.map(tab => (
+                      <button
+                        key={tab.id}
+                        className={`account-tab-dropdown-item ${activeTab === tab.id ? 'active' : ''}`}
+                        onClick={() => {
+                          handleTabChange(tab.id);
+                          setIsTabDropdownOpen(false);
+                        }}
+                      >
+                        <i className={tab.icon}></i>
+                        <span>{tab.label}</span>
+                        {activeTab === tab.id && <i className="fas fa-check checkmark"></i>}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })()}
 
           {/* Right: Action Buttons */}
           <div className="header-actions-new">

@@ -493,7 +493,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
       spellType: "ACTION",
       icon: "Nature/Beast Mark",
       effectTypes: ["utility"],
-      typeConfig: { school: "physical", icon: "Nature/Beast Mark", tags: ["utility", "tracking", "perception", "berserker"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "primal", icon: "Nature/Beast Mark", tags: ["utility", "tracking", "perception", "berserker"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { actionPoints: 1, resourceTypes: ["health"], resourceValues: { health: 2 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
@@ -507,7 +507,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
       spellType: "ACTION",
       icon: "Utility/Embraced by Fire",
       effectTypes: ["utility", "buff"],
-      typeConfig: { school: "physical", icon: "Utility/Embraced by Fire", tags: ["utility", "environment", "survival", "berserker"], castTime: 1, castTimeType: "MINUTES" },
+      typeConfig: { school: "ember", icon: "Utility/Embraced by Fire", tags: ["utility", "environment", "survival", "berserker"], castTime: 1, castTimeType: "MINUTES" },
       targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 15, targetRestrictions: ["ally", "self"] },
       resourceCost: { actionPoints: 1, resourceTypes: ["health"], resourceValues: { health: 4 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
@@ -554,7 +554,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
       spellType: "ACTION",
       icon: "Utility/Empowered Warrior",
       effectTypes: ["buff"],
-      typeConfig: { school: "physical", icon: "Utility/Empowered Warrior", tags: ["buff", "self", "haste", "berserker"], castTime: 0, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "smashing", icon: "Utility/Empowered Warrior", tags: ["buff", "self", "haste", "berserker"], castTime: 0, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { actionPoints: 0, resourceTypes: ["health"], resourceValues: { health: 6 }, classResource: { type: "rage", gain: 20 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -2797,20 +2797,841 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
    "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 1 },
    "tags": ["utility","roleplay","social","berserker"]
   },
- ],
-
- // Spell pools for level-based spell selection
- spellPools: {
- 1: ["bsk_hunger_scent", "bsk_caldera_warmth", "berserk_hemorrhagic_strike", "berserk_calloused_hide", "berserk_boiling_veins",
-  "berserk_frenzied_slash", "berserk_roar_unyielding", "berserk_pain_blind", "berserk_boiled_blood_constitution"],
- 2: ["bsk_retaliatory_cleave", "berserk_sanguine_howl", "berserk_forge_touched_hands"],
- 3: ["berserk_ruptured_leap", "berserk_unbroken_will"],
- 4: ["bsk_caldera_slam", "berserk_carnage_strike", "berserk_raging_defense"],
- 5: ["bsk_arterial_burst", "berserk_cataclysmic_blow", "berserk_unstoppable_force"],
- 6: ["berserk_obliterating_strike", "berserk_wrath_berserker"],
- 7: ["bsk_unstoppable_onslaught", "berserk_blood_frenzy"],
- 8: ["berserk_immortal_rage", "berserk_earthshaker_slam"],
- 9: ["berserk_primal_cataclysm", "berserk_veterans_resolve"],
- 10: ["berserk_cataclysmic_fury", "berserk_battle_incarnate", "berserk_primal_apex"],
- },
+ ,
+  {
+    "id": "berserk_skull_cleaver",
+    "name": "Skull Cleaver",
+    "description": "Bring your weapon crashing down onto the target's crown with concussive violence. Deals 2d8 + Str smashing damage and leaves the target dazed for 1 round, reducing their next attack roll by -2.",
+    "level": 2,
+    "spellType": "ACTION",
+    "icon": "Combat/Crushing Blow",
+    "typeConfig": {
+      "school": "smashing",
+      "icon": "Combat/Crushing Blow",
+      "tags": [
+        "smashing",
+        "damage",
+        "control",
+        "berserker"
+      ],
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE"
+    },
+    "targetingConfig": {
+      "targetingType": "single",
+      "rangeType": "melee",
+      "rangeDistance": 5,
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "classResource": {
+        "type": "rage",
+        "cost": -15
+      }
+    },
+    "resolution": "MELEE_ATTACK",
+    "effectTypes": [
+      "damage",
+      "control"
+    ],
+    "damageConfig": {
+      "damageType": "smashing",
+      "diceCount": 2,
+      "diceSides": 8,
+      "statModifier": "strength"
+    },
+    "controlConfig": {
+      "controlType": "daze",
+      "duration": 1,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "smashing",
+      "damage",
+      "control",
+      "berserker"
+    ]
+  },
+  {
+    "id": "berserk_rending_flurry",
+    "name": "Rending Flurry",
+    "description": "Unleash a savage flurry of wild hacks, carving deep gouges into the target. Deals 3d6 + Str slicing damage and inflicts bleeding (1d6 slicing per round for 2 rounds). Spends 20 Rage.",
+    "level": 3,
+    "spellType": "ACTION",
+    "icon": "Combat/Brutal Slash",
+    "typeConfig": {
+      "school": "slicing",
+      "icon": "Combat/Brutal Slash",
+      "tags": [
+        "slicing",
+        "damage",
+        "dot",
+        "berserker"
+      ],
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE"
+    },
+    "targetingConfig": {
+      "targetingType": "single",
+      "rangeType": "melee",
+      "rangeDistance": 5,
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "classResource": {
+        "type": "rage",
+        "cost": 20
+      }
+    },
+    "resolution": "MELEE_ATTACK",
+    "effectTypes": [
+      "damage",
+      "debuff"
+    ],
+    "damageConfig": {
+      "damageType": "slicing",
+      "diceCount": 3,
+      "diceSides": 6,
+      "statModifier": "strength"
+    },
+    "debuffConfig": {
+      "debuffType": "dot",
+      "damageType": "slicing",
+      "diceCount": 1,
+      "diceSides": 6,
+      "duration": 2,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "slicing",
+      "damage",
+      "dot",
+      "berserker"
+    ]
+  },
+  {
+    "id": "berserk_intimidating_shout",
+    "name": "Intimidating Shout",
+    "description": "Bellow a gut-wrenching war roar that paralyzes weaker resolve. Enemies within 20ft must make a Willpower save or become shaken for 2 rounds (-2 on attack rolls and ability checks). Generates 15 Rage.",
+    "level": 3,
+    "spellType": "ACTION",
+    "icon": "Utility/Fierce Roar",
+    "typeConfig": {
+      "school": "smashing",
+      "icon": "Utility/Fierce Roar",
+      "tags": [
+        "control",
+        "debuff",
+        "shout",
+        "berserker"
+      ],
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE"
+    },
+    "targetingConfig": {
+      "targetingType": "area",
+      "rangeType": "self_centered",
+      "aoeShape": "circle",
+      "aoeParameters": {
+        "radius": 20
+      },
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "classResource": {
+        "type": "rage",
+        "cost": -15
+      }
+    },
+    "resolution": "SAVING_THROW",
+    "effectTypes": [
+      "control",
+      "debuff"
+    ],
+    "controlConfig": {
+      "controlType": "shaken",
+      "duration": 2,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 2
+    },
+    "tags": [
+      "control",
+      "debuff",
+      "shout",
+      "berserker"
+    ]
+  },
+  {
+    "id": "berserk_blood_frenzy_rush",
+    "name": "Blood Frenzy Rush",
+    "description": "Channel surging adrenal fury to break free of hindrances. Instantly purges all movement impairing slows or roots, grants +15ft movement speed for 1 round, and causes your next melee attack to deal +1d8 extra damage. Spends 15 Rage.",
+    "level": 4,
+    "spellType": "ACTION",
+    "icon": "Utility/Sprint",
+    "typeConfig": {
+      "school": "smashing",
+      "icon": "Utility/Sprint",
+      "tags": [
+        "buff",
+        "utility",
+        "cleanse",
+        "mobility",
+        "berserker"
+      ],
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE"
+    },
+    "targetingConfig": {
+      "targetingType": "self",
+      "rangeType": "self"
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "classResource": {
+        "type": "rage",
+        "cost": 15
+      }
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "buff",
+      "utility"
+    ],
+    "buffConfig": {
+      "buffType": "movement_speed",
+      "bonusMovement": 15,
+      "durationValue": 1,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 2
+    },
+    "tags": [
+      "buff",
+      "utility",
+      "cleanse",
+      "mobility",
+      "berserker"
+    ]
+  },
+  {
+    "id": "berserk_bone_shatter",
+    "name": "Bone Shatter",
+    "description": "Drive your weapon into a joint with catastrophic weight. Deals 3d10 + Str smashing damage and shatters the target's physical resistance, reducing their Durability by -2 for 2 rounds. Spends 35 Rage.",
+    "level": 5,
+    "spellType": "ACTION",
+    "icon": "Combat/Armor Shatter",
+    "typeConfig": {
+      "school": "smashing",
+      "icon": "Combat/Armor Shatter",
+      "tags": [
+        "smashing",
+        "damage",
+        "debuff",
+        "berserker"
+      ],
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE"
+    },
+    "targetingConfig": {
+      "targetingType": "single",
+      "rangeType": "melee",
+      "rangeDistance": 5,
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "classResource": {
+        "type": "rage",
+        "cost": 35
+      }
+    },
+    "resolution": "MELEE_ATTACK",
+    "effectTypes": [
+      "damage",
+      "debuff"
+    ],
+    "damageConfig": {
+      "damageType": "smashing",
+      "diceCount": 3,
+      "diceSides": 10,
+      "statModifier": "strength"
+    },
+    "debuffConfig": {
+      "debuffType": "durability_reduction",
+      "penaltyValue": 2,
+      "duration": 2,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 2
+    },
+    "tags": [
+      "smashing",
+      "damage",
+      "debuff",
+      "berserker"
+    ]
+  },
+  {
+    "id": "berserk_war_cry_dominance",
+    "name": "War Cry of Dominance",
+    "description": "Echo an imperious challenge that bolsters allies and shakes foes. All allies within 30ft gain +2 to damage rolls for 2 rounds, while all adjacent enemies are knocked back 10ft. Spends 25 Rage.",
+    "level": 6,
+    "spellType": "ACTION",
+    "icon": "Buff/Battle Roar",
+    "typeConfig": {
+      "school": "smashing",
+      "icon": "Buff/Battle Roar",
+      "tags": [
+        "buff",
+        "control",
+        "shout",
+        "berserker"
+      ],
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE"
+    },
+    "targetingConfig": {
+      "targetingType": "area",
+      "rangeType": "self_centered",
+      "aoeShape": "circle",
+      "aoeParameters": {
+        "radius": 30
+      },
+      "targetRestrictions": [
+        "any"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "classResource": {
+        "type": "rage",
+        "cost": 25
+      }
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "buff",
+      "control"
+    ],
+    "buffConfig": {
+      "buffType": "damage_bonus",
+      "bonusValue": 2,
+      "durationValue": 2,
+      "durationUnit": "rounds"
+    },
+    "controlConfig": {
+      "controlType": "knockback",
+      "distance": 10
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 3
+    },
+    "tags": [
+      "buff",
+      "control",
+      "shout",
+      "berserker"
+    ]
+  },
+  {
+    "id": "berserk_cleaving_cyclone",
+    "name": "Cleaving Cyclone",
+    "description": "Whirl in a vicious 360-degree sweep with your heavy armaments. Deals 4d8 + Str slicing damage to all enemies within 10ft, generating 10 Rage per enemy hit. Spends 40 Rage.",
+    "level": 6,
+    "spellType": "ACTION",
+    "icon": "Combat/Whirlwind Attack",
+    "typeConfig": {
+      "school": "slicing",
+      "icon": "Combat/Whirlwind Attack",
+      "tags": [
+        "slicing",
+        "damage",
+        "aoe",
+        "berserker"
+      ],
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE"
+    },
+    "targetingConfig": {
+      "targetingType": "area",
+      "rangeType": "self_centered",
+      "aoeShape": "circle",
+      "aoeParameters": {
+        "radius": 10
+      },
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "classResource": {
+        "type": "rage",
+        "cost": 40
+      }
+    },
+    "resolution": "MELEE_ATTACK",
+    "effectTypes": [
+      "damage"
+    ],
+    "damageConfig": {
+      "damageType": "slicing",
+      "diceCount": 4,
+      "diceSides": 8,
+      "statModifier": "strength"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 2
+    },
+    "tags": [
+      "slicing",
+      "damage",
+      "aoe",
+      "berserker"
+    ]
+  },
+  {
+    "id": "berserk_titanic_endurance",
+    "name": "Titanic Endurance",
+    "description": "Refuse mortality through pure bloodthirsty spite. Instantly gain temporary hit points equal to 25% of your max HP, cleanse all ongoing bleed and poison effects, and become immune to stun for 2 rounds. Spends 30 Rage.",
+    "level": 7,
+    "spellType": "ACTION",
+    "icon": "Defense/Hardened Flesh",
+    "typeConfig": {
+      "school": "smashing",
+      "icon": "Defense/Hardened Flesh",
+      "tags": [
+        "defense",
+        "buff",
+        "cleanse",
+        "berserker"
+      ],
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE"
+    },
+    "targetingConfig": {
+      "targetingType": "self",
+      "rangeType": "self"
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "classResource": {
+        "type": "rage",
+        "cost": 30
+      }
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "defense",
+      "cleanse"
+    ],
+    "buffConfig": {
+      "buffType": "temp_hp_and_immunity",
+      "durationValue": 2,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "encounter",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "defense",
+      "buff",
+      "cleanse",
+      "berserker"
+    ]
+  },
+  {
+    "id": "berserk_spine_breaker",
+    "name": "Spine Breaker",
+    "description": "Seize an enemy and smash them over your knee with bone-cracking momentum. Deals 5d8 + Str smashing damage and leaves the target pinned and incapacitated until the end of their next turn. Spends 50 Rage.",
+    "level": 7,
+    "spellType": "ACTION",
+    "icon": "Combat/Brutal Tackle",
+    "typeConfig": {
+      "school": "smashing",
+      "icon": "Combat/Brutal Tackle",
+      "tags": [
+        "smashing",
+        "damage",
+        "control",
+        "berserker"
+      ],
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE"
+    },
+    "targetingConfig": {
+      "targetingType": "single",
+      "rangeType": "melee",
+      "rangeDistance": 5,
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "classResource": {
+        "type": "rage",
+        "cost": 50
+      }
+    },
+    "resolution": "MELEE_ATTACK",
+    "effectTypes": [
+      "damage",
+      "control"
+    ],
+    "damageConfig": {
+      "damageType": "smashing",
+      "diceCount": 5,
+      "diceSides": 8,
+      "statModifier": "strength"
+    },
+    "controlConfig": {
+      "controlType": "incapacitated",
+      "duration": 1,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 3
+    },
+    "tags": [
+      "smashing",
+      "damage",
+      "control",
+      "berserker"
+    ]
+  },
+  {
+    "id": "berserk_juggernaut_charge",
+    "name": "Juggernaut Charge",
+    "description": "Become a living battering ram, charging up to 40ft in a straight line. Knocks all creatures in your path prone and deals 4d10 smashing damage to the target creature at the charge's end. Spends 45 Rage.",
+    "level": 8,
+    "spellType": "ACTION",
+    "icon": "Combat/Juggernaut Charge",
+    "typeConfig": {
+      "school": "smashing",
+      "icon": "Combat/Juggernaut Charge",
+      "tags": [
+        "smashing",
+        "damage",
+        "control",
+        "mobility",
+        "berserker"
+      ],
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE"
+    },
+    "targetingConfig": {
+      "targetingType": "line",
+      "rangeType": "line",
+      "rangeDistance": 40,
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "classResource": {
+        "type": "rage",
+        "cost": 45
+      }
+    },
+    "resolution": "MELEE_ATTACK",
+    "effectTypes": [
+      "damage",
+      "control"
+    ],
+    "damageConfig": {
+      "damageType": "smashing",
+      "diceCount": 4,
+      "diceSides": 10,
+      "statModifier": "strength"
+    },
+    "controlConfig": {
+      "controlType": "prone",
+      "duration": 1,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 2
+    },
+    "tags": [
+      "smashing",
+      "damage",
+      "control",
+      "mobility",
+      "berserker"
+    ]
+  },
+  {
+    "id": "berserk_blood_boil_aura",
+    "name": "Blood Boil Aura",
+    "description": "Project an unbearable aura of visceral heat. All enemies within 25ft take 2d8 fire damage at the start of each of their turns, and your weapon strikes ignite foes for an extra 2d6 fire damage for 3 rounds. Spends 35 Rage.",
+    "level": 8,
+    "spellType": "ACTION",
+    "icon": "Fire/Ember Storm",
+    "typeConfig": {
+      "school": "fire",
+      "icon": "Fire/Ember Storm",
+      "tags": [
+        "fire",
+        "buff",
+        "debuff",
+        "berserker"
+      ],
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE"
+    },
+    "targetingConfig": {
+      "targetingType": "area",
+      "rangeType": "self_centered",
+      "aoeShape": "circle",
+      "aoeParameters": {
+        "radius": 25
+      },
+      "targetRestrictions": [
+        "any"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "classResource": {
+        "type": "rage",
+        "cost": 35
+      }
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "buff",
+      "debuff"
+    ],
+    "buffConfig": {
+      "buffType": "blood_boil",
+      "durationValue": 3,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "encounter",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "fire",
+      "buff",
+      "debuff",
+      "berserker"
+    ]
+  },
+  {
+    "id": "berserk_world_render",
+    "name": "World Render",
+    "description": "Slam the ground with cataclysmic power, fracturing stone and bedrock in a 30ft cone. Deals 6d10 smashing damage to all targets in the cone and causes the terrain to become jagged difficult ground. Spends 60 Rage.",
+    "level": 9,
+    "spellType": "ACTION",
+    "icon": "Earth/Fissure",
+    "typeConfig": {
+      "school": "smashing",
+      "icon": "Earth/Fissure",
+      "tags": [
+        "smashing",
+        "damage",
+        "control",
+        "aoe",
+        "berserker"
+      ],
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE"
+    },
+    "targetingConfig": {
+      "targetingType": "cone",
+      "rangeType": "cone",
+      "aoeParameters": {
+        "length": 30
+      },
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 3,
+      "classResource": {
+        "type": "rage",
+        "cost": 60
+      }
+    },
+    "resolution": "SAVING_THROW",
+    "effectTypes": [
+      "damage",
+      "control"
+    ],
+    "damageConfig": {
+      "damageType": "smashing",
+      "diceCount": 6,
+      "diceSides": 10,
+      "statModifier": "strength"
+    },
+    "controlConfig": {
+      "controlType": "difficult_terrain",
+      "duration": 3,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "encounter",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "smashing",
+      "damage",
+      "control",
+      "aoe",
+      "berserker"
+    ]
+  },
+  {
+    "id": "berserk_indomitable_spirit",
+    "name": "Indomitable Spirit",
+    "description": "Enter an unrelenting state of raw survival instinct. For 2 rounds, you cannot be stunned, slowed, paralyzed, or charmed, and any damage that would reduce you below 1 HP leaves you at 1 HP instead. Spends 40 Rage.",
+    "level": 9,
+    "spellType": "ACTION",
+    "icon": "Buff/Titan Resolve",
+    "typeConfig": {
+      "school": "smashing",
+      "icon": "Buff/Titan Resolve",
+      "tags": [
+        "buff",
+        "defense",
+        "cleanse",
+        "berserker"
+      ],
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE"
+    },
+    "targetingConfig": {
+      "targetingType": "self",
+      "rangeType": "self"
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "classResource": {
+        "type": "rage",
+        "cost": 40
+      }
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "buff",
+      "defense"
+    ],
+    "buffConfig": {
+      "buffType": "death_prevention",
+      "durationValue": 2,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "long_rest",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "buff",
+      "defense",
+      "cleanse",
+      "berserker"
+    ]
+  },
+  {
+    "id": "berserk_avatar_of_slaughter",
+    "name": "Avatar of Slaughter",
+    "description": "Ascend to the mythical pinnacle of unkillable fury for 3 rounds. Your melee attacks ignore all armor and damage reduction, deals an additional 3d10 smashing damage per strike, and you regenerate 20 HP at the start of each turn. Spends 80 Rage.",
+    "level": 10,
+    "spellType": "ACTION",
+    "icon": "Transformation/God of War",
+    "typeConfig": {
+      "school": "smashing",
+      "icon": "Transformation/God of War",
+      "tags": [
+        "transformation",
+        "buff",
+        "ultimate",
+        "berserker"
+      ],
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE"
+    },
+    "targetingConfig": {
+      "targetingType": "self",
+      "rangeType": "self"
+    },
+    "resourceCost": {
+      "actionPoints": 3,
+      "classResource": {
+        "type": "rage",
+        "cost": 80
+      }
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "transformation",
+      "buff"
+    ],
+    "transformationConfig": {
+      "transformationType": "avatar",
+      "duration": 3,
+      "durationUnit": "rounds",
+      "power": "major"
+    },
+    "cooldownConfig": {
+      "cooldownType": "long_rest",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "transformation",
+      "buff",
+      "ultimate",
+      "berserker"
+    ]
+  }
+  ],
+  // Spell pools for level-based spell selection
+  spellPools: {
+  1: ["bsk_hunger_scent", "bsk_caldera_warmth", "berserk_hemorrhagic_strike", "berserk_calloused_hide", "berserk_boiling_veins",
+   "berserk_frenzied_slash", "berserk_roar_unyielding", "berserk_pain_blind", "berserk_boiled_blood_constitution"],
+  2: ["bsk_retaliatory_cleave", "berserk_sanguine_howl", "berserk_forge_touched_hands", "berserk_skull_cleaver"],
+  3: ["berserk_ruptured_leap", "berserk_unbroken_will", "berserk_rending_flurry", "berserk_intimidating_shout"],
+  4: ["bsk_caldera_slam", "berserk_carnage_strike", "berserk_raging_defense", "berserk_blood_frenzy_rush"],
+  5: ["bsk_arterial_burst", "berserk_cataclysmic_blow", "berserk_unstoppable_force", "berserk_bone_shatter"],
+  6: ["berserk_obliterating_strike", "berserk_wrath_berserker", "berserk_war_cry_dominance", "berserk_cleaving_cyclone"],
+  7: ["bsk_unstoppable_onslaught", "berserk_blood_frenzy", "berserk_titanic_endurance", "berserk_spine_breaker"],
+  8: ["berserk_immortal_rage", "berserk_earthshaker_slam", "berserk_juggernaut_charge", "berserk_blood_boil_aura"],
+  9: ["berserk_primal_cataclysm", "berserk_veterans_resolve", "berserk_world_render", "berserk_indomitable_spirit"],
+  10: ["berserk_cataclysmic_fury", "berserk_battle_incarnate", "berserk_primal_apex", "berserk_avatar_of_slaughter"],
+  },
 };

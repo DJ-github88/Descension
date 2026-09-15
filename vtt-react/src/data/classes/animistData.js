@@ -1198,6 +1198,174 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
   somaticText: "Smear a thumbprint of blood on the target's brow (or the air before a shade) and breathe slow.",
   verbalText: "Recite the true name and the kin-name � the words the dead answer to.",
 }
+  ,
+    {
+      id: "animist_ancestral_wrath_strike",
+      name: "Ancestral Wrath Strike",
+      description: "Channel the fury of a fallen steppe warrior through your weapon, delivering a crushing blow that rattles the foe's bones. Spends 4 Resonance.",
+      level: 4,
+      spellType: "ACTION",
+      icon: "Nature/Nature Natural 11",
+      effectTypes: ["damage"],
+      typeConfig: { school: "primal", icon: "Nature/Nature Natural 11", tags: ["damage", "ancestor", "primal"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "single", rangeType: "melee", targetRestrictions: ["enemy"] },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 8, classResource: { type: "resonance", cost: 4 } },
+      damageConfig: { formula: "4d8 + strength", damageTypes: ["primal", "smashing"], resolution: "DICE" },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      resolution: "DICE",
+      tags: ["damage", "ancestor", "primal", "smashing"],
+      somaticText: "Grip weapon with both hands as spectral arms overlay your own.",
+      verbalText: "A warrior's battle cry in the ancient tongue."
+    },
+    {
+      id: "animist_thunder_totem",
+      name: "Thunderclap Totem",
+      description: "Plant a carved storm-horn totem that discharges concussive lightning bolts into nearby foes each round. Spends 6 Resonance.",
+      level: 5,
+      spellType: "ACTION",
+      icon: "Storm/Lightning Strike",
+      effectTypes: ["damage", "totem"],
+      typeConfig: { school: "storm", icon: "Storm/Lightning Strike", tags: ["damage", "totem", "storm", "aoe"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 40, aoeShape: "circle", aoeParameters: { radius: 20 }, targetRestrictions: ["enemy"] },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 2, mana: 12, classResource: { type: "resonance", cost: 6 } },
+      damageConfig: { formula: "5d8 + spirit", damageTypes: ["storm"], resolution: "DICE" },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      resolution: "DICE",
+      tags: ["damage", "totem", "storm", "aoe"],
+      somaticText: "Drive the storm-carved horn totem into the soil.",
+      verbalText: "Call down the sky-spirit's thunderous overtone."
+    },
+    {
+      id: "animist_ancestral_concussion",
+      name: "Ancestral Concussion",
+      description: "Summon a choir of ancestral throat-singers whose sonic boom stuns enemies in a 30ft cone. Spends 8 Resonance.",
+      level: 6,
+      spellType: "ACTION",
+      icon: "Nature/Nature Natural 11",
+      effectTypes: ["damage", "control"],
+      typeConfig: { school: "primal", icon: "Nature/Nature Natural 11", tags: ["damage", "control", "sound", "primal"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "self_centered", aoeShape: "cone", aoeParameters: { length: 30, angle: 90 }, targetRestrictions: ["enemy"] },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 2, mana: 14, classResource: { type: "resonance", cost: 8 } },
+      damageConfig: { formula: "6d8 + spirit", damageTypes: ["primal", "smashing"], resolution: "DICE" },
+      controlConfig: { controlType: "stun", duration: 1, durationUnit: "rounds", savingThrow: { ability: "fortitude", difficultyClass: 16, saveOutcome: "negates" }, effects: [{ id: "throat_stun", name: "Overtone Stun", description: "Stunned for 1 round.", mechanicsText: "Stunned for 1 round on failed Fortitude save." }] },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      resolution: "DICE",
+      tags: ["damage", "control", "sound", "primal"],
+      somaticText: "Open both arms wide, chest vibrating with deep overtone chords.",
+      verbalText: "Sustain a dual-pitch harmonic note that shatters stone."
+    },
+    {
+      id: "animist_volcanic_fissure",
+      name: "Volcanic Spirit Fissure",
+      description: "Slam a fire-scorched elder bone into the earth, opening a molten crevasse that scorches foes in a line. Spends 8 Resonance.",
+      level: 7,
+      spellType: "ACTION",
+      icon: "Fire/Fire Ball",
+      effectTypes: ["damage"],
+      typeConfig: { school: "ember", icon: "Fire/Fire Ball", tags: ["damage", "ember", "primal", "line"], castTime: 2, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 45, aoeShape: "line", aoeParameters: { length: 45, width: 10 }, targetRestrictions: ["enemy"] },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 2, mana: 18, classResource: { type: "resonance", cost: 8 } },
+      damageConfig: { formula: "8d8 + spirit", damageTypes: ["ember", "primal"], resolution: "DICE" },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      resolution: "DICE",
+      tags: ["damage", "ember", "primal", "line"],
+      somaticText: "Strike charred bone spear into ground, splitting earth with magma veins.",
+      verbalText: "Invoke the subterranean fire-ancestors of the deep mantle."
+    },
+    {
+      id: "animist_primeval_stampede",
+      name: "Primeval Stampede",
+      description: "Summon the ghost-herd of ancient migration beasts to trample across a 40ft area, crushing all foes underfoot. Spends 10 Resonance.",
+      level: 8,
+      spellType: "ACTION",
+      icon: "Nature/Nature Natural 11",
+      effectTypes: ["damage", "control"],
+      typeConfig: { school: "primal", icon: "Nature/Nature Natural 11", tags: ["damage", "control", "summon", "primal"], castTime: 2, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, aoeShape: "circle", aoeParameters: { radius: 25 }, targetRestrictions: ["enemy"] },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 2, mana: 22, classResource: { type: "resonance", cost: 10 } },
+      damageConfig: { formula: "10d8 + strength", damageTypes: ["primal", "smashing"], resolution: "DICE" },
+      controlConfig: { controlType: "knockdown", duration: 1, durationUnit: "rounds", savingThrow: { ability: "fortitude", difficultyClass: 18, saveOutcome: "negates" }, effects: [{ id: "stampede_prone", name: "Trampled Prone", description: "Knocked prone.", mechanicsText: "Knocked prone on failed Fortitude save." }] },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+      resolution: "DICE",
+      tags: ["damage", "control", "summon", "primal"],
+      somaticText: "Beat war-drum rhythm against chest with both fists.",
+      verbalText: "The migratory bellow of extinct herds across the plain."
+    },
+    {
+      id: "animist_ancestral_communion_sanctuary",
+      name: "Ancestral Communion Sanctuary",
+      description: "Anchor a 30ft sanctuary of swirling spirit-mist. Allies inside heal 8d8 HP, gain +6 DR, and are immune to fear and charm. Spends 12 Resonance.",
+      level: 9,
+      spellType: "ACTION",
+      icon: "Healing/Golden Heart",
+      effectTypes: ["healing", "buff"],
+      typeConfig: { school: "primal", icon: "Healing/Golden Heart", tags: ["healing", "buff", "support", "sanctuary"], castTime: 2, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "self_centered", aoeShape: "circle", aoeParameters: { radius: 30 }, targetRestrictions: ["ally"] },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 2, mana: 25, classResource: { type: "resonance", cost: 12 } },
+      healingConfig: { formula: "8d8 + spirit", healingType: "direct" },
+      buffConfig: { buffType: "statModifier", effects: [{ id: "ancestral_sanctuary_buff", name: "Sanctuary of the Dead", description: "+6 DR and immunity to fear and charm for 3 rounds.", mechanicsText: "+6 DR, immune to fear/charm for 3 rounds." }], durationValue: 3, durationUnit: "rounds" },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
+      resolution: "AUTOMATIC",
+      tags: ["healing", "buff", "support", "sanctuary", "primal"],
+      somaticText: "Scatter ash in a wide circle, knitting spirits into a dome of pale mist.",
+      verbalText: "Chant the ancestral shelter-covenant."
+    },
+    {
+      id: "animist_wrath_of_the_first_ancestor",
+      name: "Wrath of the First Ancestor",
+      description: "Channel the monolithic spirit of the progenitor steppe titan to smite a single enemy with shattering ancestral power. Spends 12 Resonance.",
+      level: 9,
+      spellType: "ACTION",
+      icon: "Nature/Nature Natural 11",
+      effectTypes: ["damage"],
+      typeConfig: { school: "primal", icon: "Nature/Nature Natural 11", tags: ["damage", "primal", "smashing", "single"], castTime: 2, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 60, targetRestrictions: ["enemy"] },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 2, mana: 26, classResource: { type: "resonance", cost: 12 } },
+      damageConfig: { formula: "14d8 + spirit", damageTypes: ["primal", "smashing"], resolution: "DICE" },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+      resolution: "DICE",
+      tags: ["damage", "primal", "smashing", "single"],
+      somaticText: "Point elder staff at target; titan shadow descends with devastating impact.",
+      verbalText: "Pronounce the name of the First Founder."
+    },
+    {
+      id: "animist_totem_of_the_world_tree",
+      name: "Totem of the World Tree",
+      description: "Erupt a colossal primeval world-root totem that links all party members, pooling their health, granting +8 DR, and instantly preventing lethal damage once. Spends 15 Resonance.",
+      level: 10,
+      spellType: "ACTION",
+      icon: "Nature/Nature Natural 11",
+      effectTypes: ["defense", "buff"],
+      typeConfig: { school: "primal", icon: "Nature/Nature Natural 11", tags: ["defense", "buff", "totem", "ultimate"], castTime: 3, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 50, aoeShape: "circle", aoeParameters: { radius: 40 }, targetRestrictions: ["ally"] },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 3, mana: 30, classResource: { type: "resonance", cost: 15 } },
+      buffConfig: { buffType: "deathWard", effects: [{ id: "world_tree_ward", name: "Primeval Root-Shield", description: "+8 DR, shared recovery, and lethal damage prevention for 4 rounds.", mechanicsText: "+8 DR; prevents lethal damage once; lasts 4 rounds." }], durationValue: 4, durationUnit: "rounds" },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      resolution: "AUTOMATIC",
+      tags: ["defense", "buff", "totem", "ultimate", "primal"],
+      somaticText: "Plant the ancient heartwood seed; colossal roots erupt from the earth.",
+      verbalText: "Sing the hymn of the world-tree's birth."
+    },
+    {
+      id: "animist_apotheosis_ancestral_tempest",
+      name: "Ancestral Cataclysm Tempest",
+      description: "Unleash the full fury of an ancient sky-god spirit, blanketing the battlefield in lightning, hail, and gale-force ancestral overtones. Spends 15 Resonance.",
+      level: 10,
+      spellType: "ACTION",
+      icon: "Storm/Lightning Strike",
+      effectTypes: ["damage", "control"],
+      typeConfig: { school: "storm", icon: "Storm/Lightning Strike", tags: ["damage", "control", "storm", "primal", "ultimate"], castTime: 3, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "self_centered", aoeShape: "circle", aoeParameters: { radius: 50 }, targetRestrictions: ["enemy"] },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 3, mana: 32, classResource: { type: "resonance", cost: 15 } },
+      damageConfig: { formula: "18d8 + spirit", damageTypes: ["storm", "primal"], resolution: "DICE", savingThrow: { ability: "fortitude", difficultyClass: 20, saveOutcome: "half_damage" } },
+      controlConfig: { controlType: "knockdown", duration: 1, durationUnit: "rounds", effects: [{ id: "tempest_knockdown", name: "Hurricane Blast", description: "Knocked prone.", mechanicsText: "Knocked prone on failed Fortitude save." }] },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      resolution: "DICE",
+      tags: ["damage", "control", "storm", "primal", "ultimate"],
+      somaticText: "Ascend 5 feet into the air as lightning arcs between fingertips.",
+      verbalText: "Shriek the tempest-oath into the storm."
+    }
+
   ],
 
   spellPools: {
@@ -1208,7 +1376,8 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
     "animist_crimson_brand",
     "animist_rune_of_shielding",
     "animist_ancestral_whisper",
-    "animist_bone_reading"
+    "animist_bone_reading",
+    "animist_spirit_voice"
   ],
   "2": [
     "animist_gale_totem",
@@ -1217,7 +1386,8 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
     "animist_calcified_spire",
     "animist_spirit_walk",
     "animist_scribes_insight",
-    "animist_threshold_ward"
+    "animist_threshold_ward",
+    "animist_spirit_hawk"
   ],
   "3": [
     "animist_thorn_barrier",
@@ -1229,35 +1399,44 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
   "4": [
     "animist_earthen_grasp",
     "animist_invoke_sunder_stream",
-    "animist_scribe_warding"
+    "animist_scribe_warding",
+    "animist_ancestral_wrath_strike"
   ],
   "5": [
     "animist_totemic_storm",
     "animist_ritual_of_the_bog",
-    "animist_brand_of_spellguard"
+    "animist_brand_of_spellguard",
+    "animist_thunder_totem"
   ],
   "6": [
     "animist_invoke_threshold_guide",
     "animist_grave_sight",
-    "animist_rune_of_vitality"
+    "animist_rune_of_vitality",
+    "animist_ancestral_concussion"
   ],
   "7": [
     "animist_inscribed_fortress",
     "animist_invoke_hearth_singer",
-    "animist_spirit_dredge"
+    "animist_spirit_dredge",
+    "animist_volcanic_fissure"
   ],
   "8": [
     "animist_invoke_mortis_eld",
     "animist_primeval_totem",
-    "animist_rune_of_binding"
+    "animist_rune_of_binding",
+    "animist_primeval_stampede"
   ],
   "9": [
     "animist_worldscribe",
-    "animist_cataclysmic_eruption"
+    "animist_cataclysmic_eruption",
+    "animist_ancestral_communion_sanctuary",
+    "animist_wrath_of_the_first_ancestor"
   ],
   "10": [
     "animist_triune_ascension",
-    "animist_spectral_guardian"
+    "animist_spectral_guardian",
+    "animist_totem_of_the_world_tree",
+    "animist_apotheosis_ancestral_tempest"
   ]
 }
 };

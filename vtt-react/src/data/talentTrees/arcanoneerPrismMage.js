@@ -23,7 +23,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: "pm_t1_sphere_purity",
     name: "Sphere Purity",
-    icon: "spell_fire_fireball02",
+    icon: "Fire/Crimson Orb",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -45,7 +45,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: "pm_t1_elemental_commitment",
     name: "Elemental Commitment",
-    icon: "spell_arcane_arcaneresilience",
+    icon: "Arcane/Conjure Elements",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -66,7 +66,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: "pm_t1_reroll_mastery",
     name: "Reroll Mastery",
-    icon: "spell_arcane_arcanepotency",
+    icon: "Social/Dice Roll",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -87,7 +87,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: "pm_t2_crystal_focus",
     name: "Crystal Focus",
-    icon: "inv_misc_gem_diamond_01",
+    icon: "Frost/Ice Crystal Rune",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "pm_t1_sphere_purity",
@@ -114,7 +114,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: "pm_t2_sphere_hunting",
     name: "Sphere Hunting",
-    icon: "spell_arcane_portalshattrath",
+    icon: "Arcane/Star Trail Path",
     maxRanks: 3,
     position: { x: 3.5, y: 1 },
     requires: "pm_t1_reroll_mastery",
@@ -164,7 +164,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: "pm_t3_prismatic_burst",
     name: "Prismatic Burst",
-    icon: "spell_arcane_starfire",
+    icon: "Force/Starburst Splash",
     maxRanks: 3,
     position: { x: 4, y: 2 },
     requires: "pm_t2_sphere_hunting",
@@ -194,7 +194,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: "pm_t4_elemental_dominion",
     name: "Elemental Dominion",
-    icon: "spell_fire_moltenblood",
+    icon: "Force/Radiating Barrier",
     maxRanks: 3,
     position: { x: 0.5, y: 3 },
     requires: "pm_t3_resonance_chord",
@@ -215,7 +215,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: "pm_t4_refraction_strike",
     name: "Refraction Strike",
-    icon: "spell_arcane_blink",
+    icon: "Force/Diagonal Energy Ray",
     maxRanks: 3,
     position: { x: 3.5, y: 3 },
     requires: "pm_t3_prismatic_burst",
@@ -244,7 +244,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: "pm_t5_perfect_clarity",
     name: "Perfect Clarity",
-    icon: "spell_arcane_mindmastery",
+    icon: "Psychic/Focused Mind",
     maxRanks: 3,
     position: { x: 1, y: 4 },
     requires: "pm_t4_elemental_dominion",
@@ -329,7 +329,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: "pm_t6_resonant_feedback",
     name: "Resonant Feedback",
-    icon: "spell_arcane_arcane_resistance",
+    icon: "Lightning/Thunder Resonance",
     maxRanks: 3,
     position: { x: 4, y: 5 },
     requires: "pm_t5_perfect_clarity",
@@ -351,7 +351,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: "pm_t7_prismatic_cataclysm",
     name: "Prismatic Cataclysm",
-    icon: "spell_fire_flamestrike",
+    icon: "Force/Starburst Explosion",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "pm_t6_sphere_perfection",
@@ -390,7 +390,7 @@ export const ARCANONEER_PRISM_MAGE = [
     },
     rankUpgrades: [
       { description: "Focused Element signature spell damage increased by +1d8 damage." },
-      { description: "Focused Element signature spell damage increased by +1d8 damage." },
+      { description: "Focused Element signature spell damage increased by +1d8 damage, and pure element combinations bank 1 additional Focused Element sphere." },
       { description: "Focused Element signature spell damage increased by +2d8 damage." },
       { description: "Focused Element signature spell damage increased by +2d8 damage, and Prismatic Cataclysm's anchor is removed." }
     ]
@@ -418,7 +418,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: "pm_t7_fexric_resonator",
     name: "Fexric Resonator",
-    icon: "inv_misc_enggizmos_03",
+    icon: "Utility/Utility Gear",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "pm_t6_prism_battery",

@@ -136,8 +136,9 @@ school: 'ember'              // top-level (should be in typeConfig)
 typeConfig: { school: 'Ember' }  // capitalized
 ```
 
-Valid school IDs: `physical`, `ember`, `rime`, `storm`, `arcane`, `primal`,
-`blight`, `wyrd`, `divine`
+Valid school IDs (11 canonical damage types): `smashing`, `stabbing`, `slicing`,
+`ember`, `rime`, `storm`, `primal`, `arcane`, `blight`, `wyrd`, `sacred`.
+(`healing` is a restorative category, not a damage type.)
 
 ## Rule 4: `actionPoints` is ALWAYS set
 

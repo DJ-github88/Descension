@@ -24,7 +24,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t1_sonic_lance",
     name: "Sonic Lance",
-    icon: "spell_arcane_arcanetorrent",
+    icon: "Lightning/Lightning Bolt Arm",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -51,7 +51,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t1_dominant_fury",
     name: "Dominant Fury",
-    icon: "spell_holy_divinehymn",
+    icon: "General/Rage",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -73,7 +73,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t1_battle_rhythm",
     name: "Battle Cadence Tempo",
-    icon: "ability_warrior_bloodfrenzy",
+    icon: "Social/Rally Cry",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -94,7 +94,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t2_battle_anthem",
     name: "Battle Anthem",
-    icon: "ability_warrior_rallyingshout",
+    icon: "Social/Rally",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "cc_t1_sonic_lance",
@@ -119,7 +119,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t2_cadence_momentum",
     name: "Cadence Momentum",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "General/Inspiration",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "cc_t1_dominant_fury",
@@ -168,7 +168,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t3_circle_mastery",
     name: "Circle of Fifths",
-    icon: "spell_shadow_requiem",
+    icon: "Arcane/Spiral Vortex",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "cc_t2_cadence_momentum",
@@ -192,7 +192,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t4_thunder_stanza",
     name: "Thunder Stanza",
-    icon: "spell_nature_thunderclap",
+    icon: "Lightning/Thunderstorm",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "cc_t3_perfect_strike",
@@ -240,7 +240,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t5_crescendo_detonation",
     name: "Crescendo Detonation",
-    icon: "spell_fire_selfdestruct",
+    icon: "Force/Starburst Explosion",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "cc_t4_thunder_stanza",
@@ -266,7 +266,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t5_overture_momentum",
     name: "Overture Momentum",
-    icon: "ability_warrior_battleshout",
+    icon: "General/Amplify",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "cc_t4_double_time",
@@ -331,7 +331,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t6_storm_chords",
     name: "Tempest Cadence",
-    icon: "spell_nature_chainlightning",
+    icon: "Lightning/Shock",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "cc_t5_overture_momentum",
@@ -353,7 +353,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t7_titan_anthem",
     name: "Titan Anthem",
-    icon: "spell_nature_unrelentingstorm",
+    icon: "Social/Party Celebration",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "cc_t6_rallying_fanfare",
@@ -391,7 +391,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     },
     rankUpgrades: [
       { description: "Offensive storm damage increased by +1d8 damage." },
-      { description: "Offensive storm damage increased by +1d8 damage." },
+      { description: "Offensive storm damage increased by +1d8 damage, and offensive cadences generate 1 additional note." },
       { description: "Offensive storm damage increased by +2d8 damage." },
       { description: "Offensive storm damage increased by +2d8 damage, and Sonic Lance costs 0 mana." }
     ]
@@ -419,7 +419,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t7_storm_overture",
     name: "Storm Overture",
-    icon: "spell_nature_cyclone",
+    icon: "Lightning/Lightning Storm",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "cc_t6_storm_chords",
@@ -439,7 +439,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: "cc_t7_unyielding_anthem",
     name: "Battlechoir Resurgence",
-    icon: "ability_warrior_defensivestance",
+    icon: "Radiant/Radiant Golden Shield",
     maxRanks: 3,
     position: { x: 4.5, y: 6 },
     requires: "cc_t6_storm_chords",

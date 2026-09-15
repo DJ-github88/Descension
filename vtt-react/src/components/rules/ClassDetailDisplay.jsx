@@ -911,7 +911,36 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
  const [combatExampleOpen, setCombatExampleOpen] = useState(false);
  const [specViewMode, setSpecViewMode] = useState('overview'); // 'overview' | 'talent-tree'
  const [selectedSpecTreeIndex, setSelectedSpecTreeIndex] = useState(0);
-  const contentContainerRef = useRef(null);
+ const [isClassTabDropdownOpen, setIsClassTabDropdownOpen] = useState(false);
+ const classTabDropdownRef = useRef(null);
+ const contentContainerRef = useRef(null);
+
+ // Close class tab dropdown on outside click or Escape key
+ useEffect(() => {
+  if (!isClassTabDropdownOpen) return;
+  const handleOutsideClick = (e) => {
+   if (classTabDropdownRef.current && !classTabDropdownRef.current.contains(e.target)) {
+    setIsClassTabDropdownOpen(false);
+   }
+  };
+  const handleKeyDown = (e) => {
+   if (e.key === 'Escape') setIsClassTabDropdownOpen(false);
+  };
+  document.addEventListener('mousedown', handleOutsideClick);
+  document.addEventListener('keydown', handleKeyDown);
+  return () => {
+   document.removeEventListener('mousedown', handleOutsideClick);
+   document.removeEventListener('keydown', handleKeyDown);
+  };
+ }, [isClassTabDropdownOpen]);
+
+ const classTabs = useMemo(() => [
+  { id: 'overview', label: 'Overview', icon: 'fas fa-book-open' },
+  { id: 'tradition', label: 'Tradition', icon: 'fas fa-history' },
+  { id: 'resource', label: 'Resource System', icon: 'fas fa-bolt' },
+  { id: 'specializations', label: 'Specializations', icon: 'fas fa-sitemap' },
+  { id: 'spells', label: 'Spells', icon: 'fas fa-magic' },
+ ], []);
 
   const { data: rulesCategories } = useGameData('rules');
 
@@ -3093,11 +3122,15 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
        <span className="class-role-badge">
         <i className="fas fa-shield-alt"></i> {classData.role}
        </span>
-       {classData.damageTypes && classData.damageTypes.length > 0 && (
-        <span className="class-damage-badge">
-         <i className="fas fa-fire"></i> {classData.damageTypes.map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(', ')}
-        </span>
-       )}
+       {classData.damageTypes && classData.damageTypes.length > 0 && (() => {
+        const uniqueDamageTypes = [...new Set(classData.damageTypes)];
+        const damageStr = uniqueDamageTypes.map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(', ');
+        return (
+         <span className="class-damage-badge" title={damageStr}>
+          <i className="fas fa-fire"></i> {damageStr}
+         </span>
+        );
+       })()}
       </div>
      </div>
     </div>
@@ -3132,38 +3165,57 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
     </div>
    </div>
 
-   <div className="class-detail-tabs premium-tabs">
-    <button
-     className={`class-tab ${activeTab === 'overview' ? 'active' : ''}`}
-     onClick={() => { setActiveTab('overview'); setCurrentPage(0); }}
-    >
-     <i className="fas fa-book-open"></i> Overview
-    </button>
-    <button
-     className={`class-tab ${activeTab === 'tradition' ? 'active' : ''}`}
-     onClick={() => { setActiveTab('tradition'); setCurrentPage(0); }}
-    >
-     <i className="fas fa-history"></i> Tradition
-    </button>
-    <button
-     className={`class-tab ${activeTab === 'resource' ? 'active' : ''}`}
-     onClick={() => { setActiveTab('resource'); setCurrentPage(0); }}
-    >
-     <i className="fas fa-bolt"></i> Resource System
-    </button>
-    <button
-     className={`class-tab ${activeTab === 'specializations' ? 'active' : ''}`}
-     onClick={() => { setActiveTab('specializations'); setCurrentPage(0); }}
-    >
-     <i className="fas fa-sitemap"></i> Specializations
-    </button>
-    <button
-     className={`class-tab ${activeTab === 'spells' ? 'active' : ''}`}
-     onClick={() => { setActiveTab('spells'); setCurrentPage(0); }}
-    >
-     <i className="fas fa-magic"></i> Spells
-    </button>
-   </div>
+    {/* Desktop Tabs */}
+    <div className="class-detail-tabs premium-tabs class-tabs-desktop">
+     {classTabs.map(tab => (
+      <button
+       key={tab.id}
+       className={`class-tab ${activeTab === tab.id ? 'active' : ''}`}
+       onClick={() => { setActiveTab(tab.id); setCurrentPage(0); }}
+      >
+       <i className={tab.icon}></i> {tab.label}
+      </button>
+     ))}
+    </div>
+
+    {/* Responsive Tab Dropdown Selector (Laptops, Tablets, iPads) */}
+    {(() => {
+     const currentClassTab = classTabs.find(t => t.id === activeTab) || classTabs[0];
+     return (
+      <div className="class-tab-dropdown-wrapper" ref={classTabDropdownRef}>
+       <button
+        className={`class-tab-dropdown-btn ${isClassTabDropdownOpen ? 'open' : ''}`}
+        onClick={() => setIsClassTabDropdownOpen(prev => !prev)}
+        aria-expanded={isClassTabDropdownOpen}
+        aria-haspopup="true"
+        title="Select tradition section"
+       >
+        <i className={currentClassTab.icon}></i>
+        <span className="class-tab-dropdown-label">{currentClassTab.label}</span>
+        <i className={`fas fa-chevron-down class-tab-dropdown-chevron ${isClassTabDropdownOpen ? 'rotated' : ''}`}></i>
+       </button>
+       {isClassTabDropdownOpen && (
+        <div className="class-tab-dropdown-menu">
+         {classTabs.map(tab => (
+          <button
+           key={tab.id}
+           className={`class-tab-dropdown-item ${activeTab === tab.id ? 'active' : ''}`}
+           onClick={() => {
+            setActiveTab(tab.id);
+            setCurrentPage(0);
+            setIsClassTabDropdownOpen(false);
+           }}
+          >
+           <i className={tab.icon}></i>
+           <span>{tab.label}</span>
+           {activeTab === tab.id && <i className="fas fa-check checkmark"></i>}
+          </button>
+         ))}
+        </div>
+       )}
+      </div>
+     );
+    })()}
 
    <div className="class-detail-content">
     {activeTab === 'overview' && renderOverview()}

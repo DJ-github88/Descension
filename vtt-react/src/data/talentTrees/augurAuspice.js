@@ -9,7 +9,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t1_harmonic_sight",
     name: "Harmonic Sight",
-    icon: "spell_holy_mindvision",
+    icon: "Radiant/Enlightened Vision",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -29,7 +29,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t1_omen_synthesis",
     name: "Omen Synthesis",
-    icon: "spell_arcane_arcane01",
+    icon: "Force/Absorb Energy",
     maxRanks: 3,
     position: { x: 0.5, y: 0 },
     requires: null,
@@ -54,7 +54,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t1_balanced_step",
     name: "Balanced Step",
-    icon: "spell_holy_heroism",
+    icon: "General/Defend",
     maxRanks: 2,
     position: { x: 3.5, y: 0 },
     requires: null,
@@ -74,7 +74,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t2_dual_reading",
     name: "Dual Reading",
-    icon: "spell_holy_divineprovidence",
+    icon: "Psychic/Mind Read",
     maxRanks: 3,
     position: { x: 0, y: 1 },
     requires: "aus_t1_harmonic_sight",
@@ -94,7 +94,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t2_harmonic_bolt",
     name: "Harmonic Bolt",
-    icon: "spell_arcane_prismaticbolt",
+    icon: "Radiant/Radiant Bolt",
     maxRanks: 3,
     position: { x: 4, y: 1 },
     requires: "aus_t1_omen_synthesis",
@@ -122,7 +122,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t3_zone_of_balance",
     name: "Zone of Balance",
-    icon: "spell_arcane_portalironforge",
+    icon: "Radiant/Chakra Circle",
     maxRanks: 3,
     position: { x: 1, y: 2 },
     requires: "aus_t2_dual_reading",
@@ -148,7 +148,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t3_resource_flow",
     name: "Resource Flow",
-    icon: "spell_holy_layonhands",
+    icon: "Force/Energy Streak",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "aus_t2_harmonic_bolt",
@@ -169,7 +169,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t4_twin_blessing",
     name: "Twin Blessing",
-    icon: "spell_holy_prayerofmendingtga",
+    icon: "Radiant/Radiant Blessing 1",
     maxRanks: 3,
     position: { x: 1.5, y: 3 },
     requires: "aus_t3_zone_of_balance",
@@ -195,7 +195,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t4_sign_of_equilibrium",
     name: "Sign of Equilibrium",
-    icon: "spell_holy_mindsoothe",
+    icon: "Radiant/Sacred Symbol",
     maxRanks: 2,
     position: { x: 2.5, y: 3 },
     requires: "aus_t3_resource_flow",
@@ -215,7 +215,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t5_perfect_balance",
     name: "Perfect Balance",
-    icon: "spell_holy_divineintervention",
+    icon: "General/Order",
     maxRanks: 3,
     position: { x: 1.5, y: 4 },
     requires: "aus_t4_twin_blessing",
@@ -235,7 +235,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t5_quick_interpret",
     name: "Quick Interpret",
-    icon: "inv_misc_rune_01",
+    icon: "Psychic/Read Mind",
     maxRanks: 2,
     position: { x: 2.5, y: 4 },
     requires: "aus_t4_sign_of_equilibrium",
@@ -255,7 +255,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t6_omen_mastery",
     name: "Omen Mastery",
-    icon: "spell_holy_exorcism",
+    icon: "Psychic/Hypnotic Eye",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "aus_t5_perfect_balance",
@@ -271,7 +271,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t6_cosmic_echo",
     name: "Cosmic Echo",
-    icon: "spell_holy_holyguidance",
+    icon: "Arcane/Rewind Time",
     maxRanks: 2,
     position: { x: 2, y: 5 },
     requires: "aus_t5_quick_interpret",
@@ -290,7 +290,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t6_auspice_aura",
     name: "Auspice Aura",
-    icon: "spell_arcane_prismaticcloak",
+    icon: "Radiant/Radiant Aura",
     maxRanks: 2,
     position: { x: 3, y: 5 },
     requires: "aus_t5_perfect_balance",
@@ -331,7 +331,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t7_equilibrium_mastery",
     name: "Equilibrium Mastery",
-    icon: "spell_arcane_arcane_resistance",
+    icon: "Force/Energy Core",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "aus_t6_cosmic_echo",
@@ -374,7 +374,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t7_balanced_vitality",
     name: "Balanced Vitality",
-    icon: "spell_holy_powerwordbarrier",
+    icon: "Healing/Heart Shield",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "aus_t6_auspice_aura",
@@ -394,7 +394,7 @@ export const AUGUR_AUSPICE = [
   {
     id: "aus_t7_duality_ward",
     name: "Duality Ward",
-    icon: "spell_arcane_blink",
+    icon: "Force/Force Field",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "aus_t6_auspice_aura",

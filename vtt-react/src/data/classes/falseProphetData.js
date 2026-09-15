@@ -2949,7 +2949,7 @@ verbalText: "The silence answers!",
   level: 6,
   spellType: "ACTION",
   icon: "Necrotic/Demonic Empowerment",
-  effectTypes: ["summoning"],
+  effectTypes: ["summon"],
   resolution: "AUTOMATIC",
 
   typeConfig: {
@@ -3912,8 +3912,584 @@ verbalText: "The silence answers!",
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
    tags: ["utility","social","infiltration","false prophet"],
   },
- ],
+ ,
+  // ===== C6 CLUSTER POOL-FLOOR EXPANSION (LEVELS 6-10) =====
+  {
+    id: "fp_broadcast_agony",
+    name: "Broadcast Agony",
+    description: "Slam a psychic spike into a victim's cortex, broadcasting their neural agony through empathetic link threads to all linked foes.",
+    level: 6,
+    spellType: "ACTION",
+    icon: "Psychic/Agonizing Scream",
+    effectTypes: ["damage", "debuff"],
+    resolution: "DICE",
+    typeConfig: {
+      school: "wyrd",
+      icon: "Psychic/Agonizing Scream",
+      tags: ["damage", "wyrd", "debuff", "empathetic link", "madness"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeType: "ranged",
+      rangeDistance: 45,
+      targetRestrictions: ["enemy"]
+    },
+    damageConfig: {
+      formula: "6d8 + intelligence",
+      damageTypes: ["wyrd"],
+      resolution: "DICE"
+    },
+    debuffConfig: {
+      debuffType: "statusEffect",
+      effects: [
+        {
+          id: "neural_broadcast",
+          name: "Broadcast Agony",
+          description: "50% of damage dealt to this target is mirrored to all other enemies linked to the party.",
+          mechanicsText: "50% of damage taken is mirrored to linked enemies for 2 rounds."
+        }
+      ],
+      durationValue: 2,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 2,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 20 },
+      classResource: { type: "madness", gain: "1d6" },
+      components: ["verbal", "somatic"],
+      verbalText: "Feel what my congregation feels!",
+      somaticText: "Sever psychic thread into target mind"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+    tags: ["damage", "wyrd", "debuff", "empathetic link", "madness"]
+  },
+  {
+    id: "fp_parasitic_tether",
+    name: "Parasitic Tether",
+    description: "Weave an imperceptible psychic umbilical between an ally and your enemies. Wounds destined for your ally bleed outward into the minds of your foes.",
+    level: 7,
+    spellType: "ACTION",
+    icon: "Psychic/Psychic Telepathy",
+    effectTypes: ["buff", "support"],
+    resolution: "AUTOMATIC",
+    typeConfig: {
+      school: "wyrd",
+      icon: "Psychic/Psychic Telepathy",
+      tags: ["buff", "support", "redirection", "empathetic link", "madness"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeType: "ranged",
+      rangeDistance: 50,
+      targetRestrictions: ["ally"]
+    },
+    buffConfig: {
+      buffType: "statModifier",
+      effects: [
+        {
+          id: "parasitic_tether_buff",
+          name: "Parasitic Tether",
+          description: "Target gains +4 DR; 40% of incoming damage suffered is redirected and split evenly across all cursed/deceived enemies.",
+          mechanicsText: "+4 DR; 40% incoming damage redirected to cursed enemies for 3 rounds."
+        }
+      ],
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 2,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 26 },
+      classResource: { type: "madness", gain: "1d6" },
+      components: ["somatic"],
+      somaticText: "Thread ethereal silver cord between souls"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+    tags: ["buff", "support", "redirection", "empathetic link", "madness"]
+  },
+  {
+    id: "fp_veil_of_collective_denial",
+    name: "Veil of Collective Denial",
+    description: "Impose an absolute cognitive blind spot upon enemies within 30 feet, convincing them your entire congregation simply ceased to exist.",
+    level: 8,
+    spellType: "ACTION",
+    icon: "Psychic/Mind Control",
+    effectTypes: ["defense", "buff"],
+    resolution: "AUTOMATIC",
+    typeConfig: {
+      school: "wyrd",
+      icon: "Psychic/Mind Control",
+      tags: ["defense", "buff", "illusion", "aoe", "madness"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "self_centered",
+      aoeShape: "circle",
+      aoeParameters: { radius: 30 },
+      targetRestrictions: ["ally"]
+    },
+    buffConfig: {
+      buffType: "statModifier",
+      effects: [
+        {
+          id: "collective_denial",
+          name: "Collective Denial",
+          description: "Enemies suffer 50% miss chance against affected allies; allies are immune to non-magical forced movement.",
+          mechanicsText: "50% miss chance against allies + immune to forced movement for 2 rounds."
+        }
+      ],
+      durationValue: 2,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 2,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 32 },
+      classResource: { type: "madness", cost: 8 },
+      components: ["verbal", "somatic"],
+      verbalText: "Look away, for we are not here",
+      somaticText: "Sweep hands wide, blotting out light"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+    tags: ["defense", "buff", "illusion", "aoe", "madness"]
+  },
+  {
+    id: "fp_cataclysmic_hysteria",
+    name: "Cataclysmic Hysteria",
+    description: "Broadcast the unfiltered whisper of the Monolith directly into the ears of all surrounding foes, shredding their composure and driving them to frenzied flight.",
+    level: 8,
+    spellType: "ACTION",
+    icon: "Psychic/Agonizing Scream",
+    effectTypes: ["damage", "control"],
+    resolution: "DICE",
+    typeConfig: {
+      school: "wyrd",
+      icon: "Psychic/Agonizing Scream",
+      tags: ["damage", "wyrd", "control", "fear", "aoe", "madness"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "self_centered",
+      aoeShape: "circle",
+      aoeParameters: { radius: 30 },
+      targetRestrictions: ["enemy"]
+    },
+    damageConfig: {
+      formula: "10d8 + intelligence",
+      damageTypes: ["wyrd"],
+      resolution: "DICE",
+      savingThrow: {
+        ability: "spirit",
+        difficultyClass: 18,
+        saveOutcome: "half_damage"
+      }
+    },
+    controlConfig: {
+      controlType: "fear",
+      duration: 1,
+      durationUnit: "rounds",
+      effects: [
+        {
+          id: "monolith_hysteria",
+          name: "Hysterical Flight",
+          description: "Target is Frightened and compelled to flee at maximum speed for 1 round.",
+          mechanicsText: "Frightened and forced flight for 1 round on failed Spirit save."
+        }
+      ]
+    },
+    resourceCost: {
+      actionPoints: 2,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 30 },
+      classResource: { type: "madness", cost: 6 },
+      components: ["verbal"],
+      verbalText: "The monolith awakens within you!"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+    tags: ["damage", "wyrd", "control", "fear", "aoe", "madness"]
+  },
+  {
+    id: "fp_mass_apostasy",
+    name: "Mass Apostasy",
+    description: "Shatter the deepest ideological loyalties of up to four targets, replacing their oaths with devotion to your manufactured gospel.",
+    level: 9,
+    spellType: "ACTION",
+    icon: "Psychic/Mind Control",
+    effectTypes: ["control", "debuff"],
+    resolution: "SAVE",
+    typeConfig: {
+      school: "wyrd",
+      icon: "Psychic/Mind Control",
+      tags: ["control", "debuff", "domination", "madness"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "ranged",
+      rangeDistance: 50,
+      targetRestrictions: ["enemy"]
+    },
+    controlConfig: {
+      controlType: "mind_control",
+      duration: 2,
+      durationUnit: "rounds",
+      savingThrow: {
+        ability: "spirit",
+        difficultyClass: 19,
+        saveOutcome: "negates"
+      },
+      effects: [
+        {
+          id: "apostasy_convert",
+          name: "Manufactured Apostasy",
+          description: "Targets renounce their commander and fight as thralls under the prophet's command for 2 rounds.",
+          mechanicsText: "Mind-controlled for 2 rounds (DC 19 Spirit save negates)."
+        }
+      ]
+    },
+    resourceCost: {
+      actionPoints: 3,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 36 },
+      classResource: { type: "madness", cost: 10 },
+      components: ["verbal", "somatic"],
+      verbalText: "Your gods have abandoned you — kneel to the Silence!",
+      somaticText: "Brandish obsidian sigil toward targets"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
+    tags: ["control", "debuff", "domination", "madness"]
+  },
+  {
+    id: "fp_communal_sacrifice_rite",
+    name: "Communal Sacrifice Rite",
+    description: "Conduct a forbidden communion of suffering, siphoning physical wounds from your flock into your own psychic reservoir to restore their bodies.",
+    level: 9,
+    spellType: "ACTION",
+    icon: "Necrotic/Demonic Empowerment",
+    effectTypes: ["healing", "buff"],
+    resolution: "AUTOMATIC",
+    typeConfig: {
+      school: "wyrd",
+      icon: "Necrotic/Demonic Empowerment",
+      tags: ["healing", "buff", "support", "sacrifice", "madness"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "self_centered",
+      aoeShape: "circle",
+      aoeParameters: { radius: 40 },
+      targetRestrictions: ["ally"]
+    },
+    healingConfig: {
+      formula: "8d8 + intelligence",
+      healingType: "direct"
+    },
+    buffConfig: {
+      buffType: "temporaryHitPoints",
+      effects: [
+        {
+          id: "flock_sanctuary",
+          name: "Communion Shroud",
+          description: "Allies in range receive temporary hit points equal to the prophet's current Madness * 5.",
+          mechanicsText: "Temp HP = Madness * 5 for 3 rounds."
+        }
+      ],
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
+    resourceCost: {
+      actionPoints: 2,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 34 },
+      classResource: { type: "madness", gain: "2d4" },
+      components: ["verbal", "somatic"],
+      verbalText: "Drink of my pain, and be whole!",
+      somaticText: "Cut palms and allow mist to coil around flock"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+    tags: ["healing", "buff", "support", "sacrifice", "madness"]
+  },
+  {
+    id: "fp_collapse_of_sanctity",
+    name: "Collapse of Sanctity",
+    description: "Unfurl a corridor of total silence that violently inverts holy resonance, burning pious hearts with profane truth.",
+    level: 9,
+    spellType: "ACTION",
+    icon: "Void/Consumed by Void",
+    effectTypes: ["damage"],
+    resolution: "DICE",
+    typeConfig: {
+      school: "wyrd",
+      icon: "Void/Consumed by Void",
+      tags: ["damage", "wyrd", "aoe", "line", "anti-sacred", "madness"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "ranged",
+      rangeDistance: 40,
+      aoeShape: "line",
+      aoeParameters: { length: 40, width: 10 },
+      targetRestrictions: ["enemy"]
+    },
+    damageConfig: {
+      formula: "14d8 + intelligence",
+      damageTypes: ["wyrd"],
+      resolution: "DICE",
+      savingThrow: {
+        ability: "spirit",
+        difficultyClass: 19,
+        saveOutcome: "half_damage"
+      }
+    },
+    resourceCost: {
+      actionPoints: 3,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 38 },
+      classResource: { type: "madness", cost: 10 },
+      components: ["verbal", "somatic"],
+      verbalText: "Your holy light is merely dust in the dark",
+      somaticText: "Sever the sacred line with an obsidian blade"
+    },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
+    tags: ["damage", "wyrd", "aoe", "line", "anti-sacred", "madness"]
+  },
+  {
+    id: "fp_the_great_delusion",
+    name: "The Great Delusion",
+    description: "Rewrite the consensus reality of every hostile consciousness across the battlefield, plunging them into an artificial dreamscape while your flock moves unhindered.",
+    level: 10,
+    spellType: "ACTION",
+    icon: "Psychic/Mind Control",
+    effectTypes: ["control", "utility"],
+    resolution: "SAVE",
+    typeConfig: {
+      school: "wyrd",
+      icon: "Psychic/Mind Control",
+      tags: ["control", "utility", "ultimate", "stasis", "madness"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "self_centered",
+      aoeShape: "circle",
+      aoeParameters: { radius: 100 },
+      targetRestrictions: ["enemy"]
+    },
+    controlConfig: {
+      controlType: "stasis",
+      duration: 2,
+      durationUnit: "rounds",
+      savingThrow: {
+        ability: "spirit",
+        difficultyClass: 20,
+        saveOutcome: "negates"
+      },
+      effects: [
+        {
+          id: "consensus_delusion",
+          name: "Consensus Delusion",
+          description: "Target is Incapacitated in sensory stasis for 2 rounds; actions and sensory awareness completely neutralized.",
+          mechanicsText: "Incapacitated sensory stasis for 2 rounds (DC 20 Spirit save negates)."
+        }
+      ]
+    },
+    resourceCost: {
+      actionPoints: 3,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 45 },
+      classResource: { type: "madness", cost: 15 },
+      components: ["verbal", "somatic"],
+      verbalText: "Dream your last dream, and sleep forever",
+      somaticText: "Crush a phantom globe between both palms"
+    },
+    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+    tags: ["control", "utility", "ultimate", "stasis", "madness"]
+  },
+  {
+    id: "fp_voice_of_the_unborn_god",
+    name: "Voice of the Unborn God",
+    description: "Open your throat to channel the primal utterance of the entity trapped beneath the Monolith, obliterating matter and sanity in a devastating cone of pure wyrd annihilation.",
+    level: 10,
+    spellType: "ACTION",
+    icon: "Psychic/Agonizing Scream",
+    effectTypes: ["damage"],
+    resolution: "DICE",
+    typeConfig: {
+      school: "wyrd",
+      icon: "Psychic/Agonizing Scream",
+      tags: ["damage", "wyrd", "ultimate", "aoe", "cone", "madness"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "area",
+      rangeType: "self_centered",
+      aoeShape: "cone",
+      aoeParameters: { length: 60, angle: 90 },
+      targetRestrictions: ["enemy"]
+    },
+    damageConfig: {
+      formula: "18d10 + intelligence",
+      damageTypes: ["wyrd"],
+      resolution: "DICE",
+      savingThrow: {
+        ability: "spirit",
+        difficultyClass: 20,
+        saveOutcome: "half_damage"
+      }
+    },
+    resourceCost: {
+      actionPoints: 3,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 50 },
+      classResource: { type: "madness", gain: "3d6" },
+      components: ["verbal"],
+      verbalText: "THE SILENCE SINGS!"
+    },
+    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+    tags: ["damage", "wyrd", "ultimate", "aoe", "cone", "madness"]
+  },
+  {
+    id: "fp_avatar_of_the_silent_monolith",
+    name: "Avatar of the Silent Monolith",
+    description: "Crystallize your mortal frame into a living beacon of the Silent Monolith, taking on the indestructible physical and psychic weight of dead gods.",
+    level: 10,
+    spellType: "ACTION",
+    icon: "Void/Consumed by Void",
+    effectTypes: ["transformation", "defense"],
+    resolution: "AUTOMATIC",
+    typeConfig: {
+      school: "wyrd",
+      icon: "Void/Consumed by Void",
+      tags: ["transformation", "defense", "ultimate", "silence", "madness"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE"
+    },
+    targetingConfig: {
+      targetingType: "self",
+      rangeType: "self"
+    },
+    transformationConfig: {
+      transformType: "wyrd",
+      targetType: "self",
+      duration: 4,
+      durationUnit: "rounds",
+      concentration: true,
+      statModifiers: [
+        { stat: "armorClass", magnitude: 6, magnitudeType: "flat" },
+        { stat: "damageReduction", magnitude: 10, magnitudeType: "flat" }
+      ],
+      specialAbilities: [
+        {
+          name: "Monolith Shroud",
+          description: "Gain 50 temp HP, 10 DR, silence enemy spells within 20ft, and absorb 50% of all ally damage taken within 40ft into the form's temp HP."
+        }
+      ]
+    },
+    resourceCost: {
+      actionPoints: 3,
+      resourceTypes: ["mana"],
+      resourceValues: { mana: 48 },
+      classResource: { type: "madness", cost: 12 },
+      components: ["somatic"],
+      somaticText: "Stand frozen as obsidian stone creeps up the limbs"
+    },
+    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+    tags: ["transformation", "defense", "ultimate", "silence", "madness"]
+  }
+
+],
 };
 
 FALSE_PROPHET_DATA.spells = FALSE_PROPHET_DATA.exampleSpells;
 
+
+FALSE_PROPHET_DATA.spellPools = {
+  1: [
+    "fp_blood_sermon",
+    "fp_halo_sanctified",
+    "fp_hollow_blessing",
+    "fp_whispered_doubt",
+    "fp_siphon_devotion",
+    "fp_zealots_mark",
+    "fp_stitch_of_suffering",
+    "fp_unlit_gaze",
+    "fp_whispered_suggestion"
+  ],
+  2: [
+    "fp_veil_of_silence",
+    "fp_false_miracle",
+    "fp_parasitic_link",
+    "fp_blood_tithe",
+    "fp_surface_thoughts",
+    "fp_consult_the_voice"
+  ],
+  3: [
+    "fp_wyrd_shape",
+    "fp_dark_benediction",
+    "fp_befoul",
+    "fp_sever_connections",
+    "fp_empathetic_transfer"
+  ],
+  4: [
+    "fp_mind_control",
+    "fp_shattered_faith",
+    "fp_visions_of_heresy",
+    "fp_maddening_sermon",
+    "fp_communion_of_blood"
+  ],
+  5: [
+    "fp_corrupt_the_faithful",
+    "fp_twisted_sermon",
+    "fp_wrath_of_void_god",
+    "fp_empathetic_agony",
+    "fp_veil_of_shadows",
+    "fp_heresy_of_flesh",
+    "fp_black_oath"
+  ],
+  6: [
+    "fp_enslave",
+    "fp_devouring_omen",
+    "fp_summon_congregation",
+    "fp_broadcast_agony"
+  ],
+  7: [
+    "fp_grand_deception",
+    "fp_reality_distortion",
+    "fp_martyrs_shame",
+    "fp_parasitic_tether"
+  ],
+  8: [
+    "fp_apocalyptic_revelation",
+    "fp_mass_manipulation",
+    "fp_veil_of_collective_denial",
+    "fp_cataclysmic_hysteria"
+  ],
+  9: [
+    "fp_ultimate_deception",
+    "fp_mass_apostasy",
+    "fp_communal_sacrifice_rite",
+    "fp_collapse_of_sanctity"
+  ],
+  10: [
+    "fp_prophet_of_lies",
+    "fp_the_great_delusion",
+    "fp_voice_of_the_unborn_god",
+    "fp_avatar_of_the_silent_monolith"
+  ]
+};

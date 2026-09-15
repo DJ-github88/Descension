@@ -1421,13 +1421,15 @@ const AppContent = ({
               <div className="spell-wizard-container">
                 <GameScreen />
                 <Suspense fallback={<LoadingFallback message="Loading navigation..." />}>
-                  <Navigation
-                    onReturnToLanding={handleReturnToLandingWithNavigation}
-                    onShowLogin={handleShowLogin}
-                    onShowUserProfile={handleShowUserProfile}
-                    isAuthenticated={isAuthenticated}
-                    user={user}
-                  />
+                  <ErrorBoundary name="Navigation">
+                    <Navigation
+                      onReturnToLanding={handleReturnToLandingWithNavigation}
+                      onShowLogin={handleShowLogin}
+                      onShowUserProfile={handleShowUserProfile}
+                      isAuthenticated={isAuthenticated}
+                      user={user}
+                    />
+                  </ErrorBoundary>
                 </Suspense>
               </div>
             </PhoneGate>

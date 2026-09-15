@@ -241,6 +241,7 @@ export const PYROFIEND_WILDFIRE = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 2,
       "cooldownUnit": "rounds",
+      "resourceCosts": { "veil": { "baseAmount": 2 } },
       "primaryDamage": {
         "dice": "2d6",
         "flat": 0,
@@ -305,6 +306,7 @@ export const PYROFIEND_WILDFIRE = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 2,
       "cooldownUnit": "rounds",
+      "resourceCosts": { "veil": { "baseAmount": 2 } },
       "primaryDamage": {
         "dice": "2d6",
         "flat": 0,
@@ -371,6 +373,7 @@ export const PYROFIEND_WILDFIRE = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 2,
       "cooldownUnit": "rounds",
+      "resourceCosts": { "veil": { "baseAmount": 2 } },
       "primaryDamage": {
         "dice": "2d8",
         "flat": 0,
@@ -513,6 +516,7 @@ export const PYROFIEND_WILDFIRE = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 3,
       "cooldownUnit": "rounds",
+      "resourceCosts": { "veil": { "baseAmount": 3 } },
       "primaryDamage": {
         "dice": "3d8",
         "flat": 0,
@@ -643,6 +647,7 @@ export const PYROFIEND_WILDFIRE = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 5,
       "cooldownUnit": "rounds",
+      "resourceCosts": { "veil": { "baseAmount": 3 } },
       "visualTheme": "fire",
       "tags": [
         "ultimate",

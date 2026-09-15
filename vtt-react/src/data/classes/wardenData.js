@@ -2425,10 +2425,724 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     tags: ["utility","rest","exploration","social","warden"],
     somaticText: "Drive the hook deep and let the chain take your weight.",
     verbalText: "A list, kept quietly, of what you are guarding against."
+  },
+  {
+    "id": "warden_iron_bastion",
+    "name": "Iron Bastion",
+    "description": "Anchor your flesh-grafted chains into the bedrock to erect a barricade of taught, rusted iron links. Grants yourself and all allies within 10ft +3 Durability, and makes you completely immune to forced movement, knockback, and prone for 2 rounds.",
+    "level": 4,
+    "spellType": "ACTION",
+    "icon": "Defense/Shield Wall",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "smashing",
+      "icon": "Defense/Shield Wall",
+      "tags": [
+        "defense",
+        "buff",
+        "warden"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "area",
+      "rangeType": "self_centered",
+      "aoeShape": "circle",
+      "aoeParameters": {
+        "radius": 10
+      },
+      "targetRestrictions": [
+        "allies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 10
+      },
+      "classResource": {
+        "type": "tension",
+        "cost": 2
+      },
+      "components": [
+        "somatic"
+      ],
+      "somaticText": "Drive the heavy iron links into stone with both heels"
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "defense",
+      "buff"
+    ],
+    "buffConfig": {
+      "buffType": "durability_and_immovable",
+      "bonusDurability": 3,
+      "durationValue": 2,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 2
+    },
+    "tags": [
+      "defense",
+      "buff",
+      "warden"
+    ]
+  },
+  {
+    "id": "warden_hook_and_rend",
+    "name": "Hook and Rend",
+    "description": "Hurl a heavy hooked chain at an enemy within 30ft. Deals 3d8 + Str stabbing damage on impact and violently drags the target 15ft toward you, reducing their movement speed by 10ft for 1 round.",
+    "level": 4,
+    "spellType": "ACTION",
+    "icon": "Combat/Harpoon Pull",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "stabbing",
+      "icon": "Combat/Harpoon Pull",
+      "tags": [
+        "stabbing",
+        "damage",
+        "control",
+        "warden"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "single",
+      "rangeType": "ranged",
+      "rangeDistance": 30,
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 12
+      },
+      "classResource": {
+        "type": "tension",
+        "cost": 1
+      },
+      "components": [
+        "somatic"
+      ],
+      "somaticText": "Whip the barbed meat-hook from your forearm"
+    },
+    "resolution": "RANGED_ATTACK",
+    "effectTypes": [
+      "damage",
+      "control"
+    ],
+    "damageConfig": {
+      "damageType": "stabbing",
+      "diceCount": 3,
+      "diceSides": 8,
+      "statModifier": "strength"
+    },
+    "controlConfig": {
+      "controlType": "pull",
+      "distance": 15
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "stabbing",
+      "damage",
+      "control",
+      "warden"
+    ]
+  },
+  {
+    "id": "warden_chain_cleave",
+    "name": "Chain Cleave",
+    "description": "Swing your heavy iron chains in a devastating 180-degree forward arc. Deals 4d8 + Str smashing damage to all enemies in a 15ft cone and knocks all struck creatures prone unless they succeed on a Strength saving throw.",
+    "level": 5,
+    "spellType": "ACTION",
+    "icon": "Combat/Sweeping Chain",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 2,
+      "castTimeType": "IMMEDIATE",
+      "school": "smashing",
+      "icon": "Combat/Sweeping Chain",
+      "tags": [
+        "smashing",
+        "damage",
+        "control",
+        "aoe",
+        "warden"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "cone",
+      "rangeType": "cone",
+      "aoeParameters": {
+        "length": 15
+      },
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 14
+      },
+      "classResource": {
+        "type": "tension",
+        "cost": 3
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "Reap the yard!",
+      "somaticText": "Heave the main tow-chain across both shoulders"
+    },
+    "resolution": "SAVING_THROW",
+    "effectTypes": [
+      "damage",
+      "control"
+    ],
+    "damageConfig": {
+      "damageType": "smashing",
+      "diceCount": 4,
+      "diceSides": 8,
+      "statModifier": "strength"
+    },
+    "controlConfig": {
+      "controlType": "prone",
+      "duration": 1,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 2
+    },
+    "tags": [
+      "smashing",
+      "damage",
+      "control",
+      "aoe",
+      "warden"
+    ]
+  },
+  {
+    "id": "warden_sanctuary_chains",
+    "name": "Sanctuary Chains",
+    "description": "Fling protective tether-links around up to 3 allies within 30ft for 2 rounds. You intercept 50% of all damage dealt to tethered allies, and whenever an ally is hit, you generate 2 Tension.",
+    "level": 6,
+    "spellType": "ACTION",
+    "icon": "Buff/Chain Bond",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "smashing",
+      "icon": "Buff/Chain Bond",
+      "tags": [
+        "defense",
+        "support",
+        "buff",
+        "warden"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "multiple",
+      "rangeType": "ranged",
+      "rangeDistance": 30,
+      "maxTargets": 3,
+      "targetRestrictions": [
+        "allies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 18
+      },
+      "classResource": {
+        "type": "tension",
+        "cost": 0
+      },
+      "components": [
+        "somatic"
+      ],
+      "somaticText": "Cast tether links from your ribcage out to allies"
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "defense",
+      "support"
+    ],
+    "buffConfig": {
+      "buffType": "damage_intercept",
+      "interceptPercent": 50,
+      "durationValue": 2,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 3
+    },
+    "tags": [
+      "defense",
+      "support",
+      "buff",
+      "warden"
+    ]
+  },
+  {
+    "id": "warden_judges_binding",
+    "name": "Judge's Binding",
+    "description": "Drive iron judgment stakes through the target's shadow. The target is rooted in place for 2 rounds, cannot cast spells with somatic components, and is prevented from teleporting or planar shifting.",
+    "level": 6,
+    "spellType": "ACTION",
+    "icon": "Control/Shadow Stakes",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 2,
+      "castTimeType": "IMMEDIATE",
+      "school": "smashing",
+      "icon": "Control/Shadow Stakes",
+      "tags": [
+        "control",
+        "debuff",
+        "silence",
+        "warden"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "single",
+      "rangeType": "ranged",
+      "rangeDistance": 40,
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 20
+      },
+      "classResource": {
+        "type": "tension",
+        "cost": 3
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "Your sentence is containment",
+      "somaticText": "Drive cold iron spikes into target's shadow"
+    },
+    "resolution": "SAVING_THROW",
+    "effectTypes": [
+      "control",
+      "debuff"
+    ],
+    "controlConfig": {
+      "controlType": "rooted_and_silenced",
+      "duration": 2,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 3
+    },
+    "tags": [
+      "control",
+      "debuff",
+      "silence",
+      "warden"
+    ]
+  },
+  {
+    "id": "warden_penitents_fortress",
+    "name": "Penitent's Fortress",
+    "description": "Draw upon the deep spiritual resilience of your penitent vows. Instantly cleanse all ongoing conditions and debuffs, gain temporary HP equal to 30% of your maximum HP, and force all enemies within 30ft to target you on their next turn.",
+    "level": 7,
+    "spellType": "ACTION",
+    "icon": "Defense/Unyielding Will",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE",
+      "school": "smashing",
+      "icon": "Defense/Unyielding Will",
+      "tags": [
+        "defense",
+        "cleanse",
+        "buff",
+        "warden"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "self",
+      "rangeType": "self"
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 22
+      },
+      "classResource": {
+        "type": "tension",
+        "cost": 4
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "The flesh remembers, the will stands",
+      "somaticText": "Clench fists as grafted chains turn red hot"
+    },
+    "resolution": "NONE",
+    "effectTypes": [
+      "defense",
+      "cleanse"
+    ],
+    "buffConfig": {
+      "buffType": "temp_hp_and_taunt",
+      "durationValue": 2,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "encounter",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "defense",
+      "cleanse",
+      "buff",
+      "warden"
+    ]
+  },
+  {
+    "id": "warden_iron_cyclone",
+    "name": "Iron Cyclone",
+    "description": "Spin your entire length of grafted chains into a roaring mechanical maelstrom across a 20ft radius. Deals 5d10 + Str slicing damage to all enemies inside, pulling every struck foe directly adjacent to you and knocking them prone.",
+    "level": 8,
+    "spellType": "ACTION",
+    "icon": "Combat/Chain Maelstrom",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 2,
+      "castTimeType": "IMMEDIATE",
+      "school": "slicing",
+      "icon": "Combat/Chain Maelstrom",
+      "tags": [
+        "slicing",
+        "damage",
+        "control",
+        "aoe",
+        "warden"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "area",
+      "rangeType": "self_centered",
+      "aoeShape": "circle",
+      "aoeParameters": {
+        "radius": 20
+      },
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 2,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 26
+      },
+      "classResource": {
+        "type": "tension",
+        "cost": 5
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "None shall flee the cell!",
+      "somaticText": "Unspool main chain harness into 360-degree rotation"
+    },
+    "resolution": "MELEE_ATTACK",
+    "effectTypes": [
+      "damage",
+      "control"
+    ],
+    "damageConfig": {
+      "damageType": "slicing",
+      "diceCount": 5,
+      "diceSides": 10,
+      "statModifier": "strength"
+    },
+    "controlConfig": {
+      "controlType": "pull_and_prone",
+      "distance": 15,
+      "duration": 1,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 3
+    },
+    "tags": [
+      "slicing",
+      "damage",
+      "control",
+      "aoe",
+      "warden"
+    ]
+  },
+  {
+    "id": "warden_shackles_of_the_condemned",
+    "name": "Shackles of the Condemned",
+    "description": "Call down celestial cold-iron anchor chains that crash onto up to 3 enemies within 60ft. Deals 6d8 smashing damage and impales each target to the earth, leaving them paralyzed and incapacitated for 1 round.",
+    "level": 9,
+    "spellType": "ACTION",
+    "icon": "Combat/Divine Chains",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 2,
+      "castTimeType": "IMMEDIATE",
+      "school": "smashing",
+      "icon": "Combat/Divine Chains",
+      "tags": [
+        "smashing",
+        "damage",
+        "control",
+        "warden"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "multiple",
+      "rangeType": "ranged",
+      "rangeDistance": 60,
+      "maxTargets": 3,
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 3,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 32
+      },
+      "classResource": {
+        "type": "tension",
+        "cost": 6
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "By ancient decree: hold!",
+      "somaticText": "Thrust two heavy iron links toward the sky"
+    },
+    "resolution": "SAVING_THROW",
+    "effectTypes": [
+      "damage",
+      "control"
+    ],
+    "damageConfig": {
+      "damageType": "smashing",
+      "diceCount": 6,
+      "diceSides": 8,
+      "statModifier": "strength"
+    },
+    "controlConfig": {
+      "controlType": "paralyzed",
+      "duration": 1,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "encounter",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "smashing",
+      "damage",
+      "control",
+      "warden"
+    ]
+  },
+  {
+    "id": "warden_grand_inquisition_iron_maiden",
+    "name": "Grand Inquisition: Iron Maiden",
+    "description": "Conjure a monumental, inescapable sarcophagus of rusted iron around a primary target within 30ft. Deals 8d10 + Str stabbing damage. If the target dies inside, all allies gain total damage immunity for 1 round from the spiritual backlash of containment.",
+    "level": 10,
+    "spellType": "ACTION",
+    "icon": "Combat/Iron Maiden",
+    "specialization": "universal",
+    "typeConfig": {
+      "castTime": 3,
+      "castTimeType": "IMMEDIATE",
+      "school": "stabbing",
+      "icon": "Combat/Iron Maiden",
+      "tags": [
+        "stabbing",
+        "damage",
+        "control",
+        "ultimate",
+        "warden"
+      ]
+    },
+    "targetingConfig": {
+      "targetingType": "single",
+      "rangeType": "ranged",
+      "rangeDistance": 30,
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 3,
+      "resourceTypes": [
+        "mana"
+      ],
+      "resourceValues": {
+        "mana": 40
+      },
+      "classResource": {
+        "type": "tension",
+        "cost": 8
+      },
+      "components": [
+        "verbal",
+        "somatic"
+      ],
+      "verbalText": "The cell is sealed forever!",
+      "somaticText": "Slam fists together as the iron doors snap shut"
+    },
+    "resolution": "SAVING_THROW",
+    "effectTypes": [
+      "damage",
+      "control"
+    ],
+    "damageConfig": {
+      "damageType": "stabbing",
+      "diceCount": 8,
+      "diceSides": 10,
+      "statModifier": "strength"
+    },
+    "controlConfig": {
+      "controlType": "containment",
+      "duration": 1,
+      "durationUnit": "rounds"
+    },
+    "cooldownConfig": {
+      "cooldownType": "long_rest",
+      "cooldownValue": 1
+    },
+    "tags": [
+      "stabbing",
+      "damage",
+      "control",
+      "ultimate",
+      "warden"
+    ]
   }
   ]
 };
 
 WARDEN_DATA.spells = WARDEN_DATA.exampleSpells;
 
-WARDEN_DATA.spells = WARDEN_DATA.exampleSpells;
+WARDEN_DATA.spellPools = {
+  1: [
+    "warden_chain_drag",
+    "warden_evasive_maneuvers",
+    "vengeance-grove_golem",
+    "warden_iron_tow",
+    "warden_barbed_bind"
+  ],
+  2: [
+    "warden_chain_tether",
+    "warden_shadow_ambush",
+    "warden_relentless_pursuit",
+    "warden_whirling_glaive",
+    "warden_hunters_resolve",
+    "warden_chain_ward",
+    "warden_scar_map_reading",
+    "warden_penitents_vigil"
+  ],
+  3: [
+    "warden_cage_of_vengeance",
+    "warden_hunters_fury",
+    "warden_spectral_strike",
+    "warden_cage_trap"
+  ],
+  4: [
+    "warden_chain_lightning",
+    "warden_vengeful_leap",
+    "warden_iron_bastion",
+    "warden_hook_and_rend"
+  ],
+  5: [
+    "warden_umbral_assault",
+    "warden_prison_of_eternity",
+    "warden_avatar_of_vengeance",
+    "warden_chain_cleave"
+  ],
+  6: [
+    "warden_glaive_storm",
+    "warden_cage_slam",
+    "warden_sanctuary_chains",
+    "warden_judges_binding"
+  ],
+  7: [
+    "warden_mark_execution",
+    "warden_shadow_cage",
+    "warden_hunters_wrath",
+    "warden_penitents_fortress"
+  ],
+  8: [
+    "warden_vengeance_incarnate",
+    "warden_eternal_cage",
+    "warden_relentless_assault",
+    "warden_iron_cyclone"
+  ],
+  9: [
+    "warden_justice_strikes",
+    "warden_cage_mastery",
+    "warden_no_escape_strike",
+    "warden_shackles_of_the_condemned"
+  ],
+  10: [
+    "warden_ultimate_vengeance",
+    "warden_prison_realm",
+    "warden_avatar_perfected",
+    "warden_grand_inquisition_iron_maiden"
+  ]
+};

@@ -10,7 +10,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t1_opening_hymn",
     name: "Opening Hymn",
-    icon: "spell_shadow_summonvoidwalker",
+    icon: "Void/Red Energy Burst",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -30,7 +30,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t1_heretics_whisper",
     name: "Heretic's Whisper",
-    icon: "spell_shadow_mindshear",
+    icon: "Psychic/Psychic Psionic 1",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -57,7 +57,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t1_blinding_fervor",
     name: "Blinding Fervor",
-    icon: "spell_shadow_nethercloak",
+    icon: "Void/Corrupted Eye",
     maxRanks: 2,
     position: { x: 3, y: 0 },
     requires: null,
@@ -78,7 +78,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t2_congregations_grasp",
     name: "Congregation's Grasp",
-    icon: "spell_shadow_blackplague",
+    icon: "Void/Bound Green Limbs",
     maxRanks: 3,
     position: { x: 0.5, y: 1 },
     requires: "ss_t1_opening_hymn",
@@ -98,7 +98,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t2_hellfire_passage",
     name: "Hellfire Passage",
-    icon: "spell_shadow_shadowfury",
+    icon: "Necrotic/Skull Burst",
     maxRanks: 3,
     position: { x: 3.5, y: 1 },
     requires: "ss_t1_heretics_whisper",
@@ -126,7 +126,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t3_anointed_strike",
     name: "Anointed Strike",
-    icon: "spell_shadow_fingerofdeath",
+    icon: "Necrotic/Bone Fist",
     maxRanks: 3,
     position: { x: 0.5, y: 2 },
     requires: "ss_t2_congregations_grasp",
@@ -153,7 +153,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t3_resonant_liturgy",
     name: "Resonant Liturgy",
-    icon: "spell_shadow_darkritual",
+    icon: "General/Amplify",
     maxRanks: 3,
     position: { x: 3.5, y: 2 },
     requires: "ss_t2_hellfire_passage",
@@ -250,7 +250,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t5_transcendent_conviction",
     name: "Transcendent Conviction",
-    icon: "spell_shadow_demonicempathy",
+    icon: "Void/Consumed by Void",
     maxRanks: 2,
     position: { x: 2.5, y: 4 },
     requires: "ss_t4_embrace_the_silence",
@@ -271,7 +271,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t6_convictions_edge",
     name: "Conviction's Edge",
-    icon: "spell_shadow_shadowwordpain",
+    icon: "Necrotic/Roll the Bones",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "ss_t5_silence_beacon",
@@ -287,7 +287,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t6_fanatical_fervor",
     name: "Fanatical Fervor",
-    icon: "spell_shadow_unholyfrenzy",
+    icon: "Arcane/Rewind Time",
     maxRanks: 2,
     position: { x: 2, y: 5 },
     requires: "ss_t5_silence_beacon",
@@ -306,7 +306,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t6_dark_choir",
     name: "Dark Choir",
-    icon: "spell_shadow_curseofsargeras",
+    icon: "Necrotic/Screaming Ghost",
     maxRanks: 2,
     position: { x: 3, y: 5 },
     requires: "ss_t5_transcendent_conviction",
@@ -353,7 +353,7 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
   {
     id: "ss_t7_deeper_descent",
     name: "Deeper Descent",
-    icon: "spell_shadow_madness",
+    icon: "Void/Black Hole",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "ss_t6_fanatical_fervor",

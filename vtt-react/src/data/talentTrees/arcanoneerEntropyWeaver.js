@@ -23,7 +23,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t1_chaos_generation",
     name: "Chaos Generation",
-    icon: "spell_shadow_shadowwordpain",
+    icon: "Chaos/Chaotic Shuffle",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -44,7 +44,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t1_wild_magic_attunement",
     name: "Wild Magic Attunement",
-    icon: "spell_arcane_portalironforge",
+    icon: "Arcane/Spellcasting Aura",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -65,7 +65,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t1_chaos_amplification",
     name: "Chaos Amplification",
-    icon: "spell_shadow_unstableaffliction_3",
+    icon: "Chaos/Chaotic Rupture",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -88,7 +88,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t2_surge_injection",
     name: "Surge Injection",
-    icon: "spell_arcane_polymorph",
+    icon: "Chaos/Chaotic Assemblance",
     maxRanks: 3,
     position: { x: 0, y: 1 },
     requires: "ew_t1_wild_magic_attunement",
@@ -113,7 +113,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t2_entropy_field",
     name: "Entropy Field",
-    icon: "spell_shadow_shadowfury",
+    icon: "Chaos/Chaotic Corruption",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "ew_t1_chaos_generation",
@@ -140,7 +140,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t2_unstable_sphere",
     name: "Unstable Sphere",
-    icon: "spell_shadow_mindbomb",
+    icon: "Psychic/Mental Chaos",
     maxRanks: 3,
     position: { x: 3.5, y: 1 },
     requires: "ew_t1_chaos_amplification",
@@ -164,7 +164,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t3_chaos_nova",
     name: "Chaos Nova",
-    icon: "spell_fire_felrainoffire",
+    icon: "Chaos/Meteor",
     maxRanks: 3,
     position: { x: 0.5, y: 2 },
     requires: "ew_t2_surge_injection",
@@ -191,7 +191,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t3_reality_fracture",
     name: "Reality Fracture",
-    icon: "spell_arcane_portaldarnassus",
+    icon: "Force/Energy Nexus",
     maxRanks: 2,
     position: { x: 3.5, y: 2 },
     requires: "ew_t2_entropy_field",
@@ -212,7 +212,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t4_borrowed_fate",
     name: "Borrowed Fate",
-    icon: "spell_shadow_manaburn",
+    icon: "Arcane/Sands of Time",
     maxRanks: 2,
     position: { x: 0, y: 3 },
     requires: "ew_t3_chaos_nova",
@@ -236,7 +236,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t4_catastrophic_surge",
     name: "Catastrophic Surge",
-    icon: "spell_arcane_arcane04",
+    icon: "Force/Explosive Burst",
     maxRanks: 3,
     position: { x: 3.5, y: 3 },
     requires: "ew_t3_reality_fracture",
@@ -259,7 +259,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t5_void_rift",
     name: "Void Rift",
-    icon: "spell_shadow_shadowfiend",
+    icon: "Void/Black Hole",
     maxRanks: 2,
     position: { x: 0.5, y: 4 },
     requires: "ew_t4_borrowed_fate",
@@ -285,7 +285,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t5_chaos_armor",
     name: "Chaos Armor",
-    icon: "spell_shadow_nethercloak",
+    icon: "Force/Force Shield",
     maxRanks: 2,
     position: { x: 2.5, y: 4 },
     requires: "ew_t4_catastrophic_surge",
@@ -305,7 +305,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t5_borrowed_entropy",
     name: "Entropic Residue",
-    icon: "spell_shadow_mindsteal",
+    icon: "Chaos/Chaotic Shadow Storm",
     maxRanks: 2,
     position: { x: 4, y: 4 },
     requires: "ew_t4_borrowed_fate",
@@ -328,7 +328,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t6_entropy_weaving",
     name: "Entropy Weaving",
-    icon: "spell_shadow_nightmare",
+    icon: "Arcane/Spiral Vortex",
     maxRanks: 2,
     position: { x: 1.5, y: 5 },
     requires: "ew_t5_void_rift",
@@ -348,7 +348,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t6_volatile_power",
     name: "Volatile Power",
-    icon: "spell_fire_volcano",
+    icon: "Lightning/Lightning Network 1",
     maxRanks: 3,
     position: { x: 3.5, y: 5 },
     requires: "ew_t5_chaos_armor",
@@ -371,7 +371,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t7_apocalypse",
     name: "Apocalypse",
-    icon: "spell_fire_felhellfire",
+    icon: "Chaos/Comet Rain",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "ew_t6_entropy_weaving",
@@ -418,7 +418,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t7_chain_reaction_engine",
     name: "Chain Reaction Engine",
-    icon: "spell_nature_chainlightning",
+    icon: "Lightning/Lightning Storm",
     maxRanks: 3,
     position: { x: 2.5, y: 6 },
     requires: "ew_t6_volatile_power",
@@ -439,7 +439,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: "ew_t7_probabilistic_existence",
     name: "Probabilistic Existence",
-    icon: "spell_arcane_arcane01",
+    icon: "Psychic/Hidden Intent",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "ew_t6_volatile_power",

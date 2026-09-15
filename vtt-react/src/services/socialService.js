@@ -23,7 +23,7 @@ class SocialService {
      * Send a friend request to another user
      */
     async sendFriendRequest(senderData, targetUser) {
-        if (!db || !auth.currentUser) return { error: 'Not authenticated', success: false };
+        if (!db || !auth?.currentUser) return { error: 'Not authenticated', success: false };
 
         try {
             // Check if a request already exists between these users
@@ -84,7 +84,7 @@ class SocialService {
      * Add a friend to the current user's document using arrayUnion
      */
     async addFriendToMyList(friendInfo) {
-        if (!db || !auth.currentUser) return { error: 'Not authenticated', success: false };
+        if (!db || !auth?.currentUser) return { error: 'Not authenticated', success: false };
 
         // Guard: Prevent adding yourself as a friend
         if (friendInfo.id === auth.currentUser.uid) {
@@ -117,7 +117,7 @@ class SocialService {
      * - Sender will detect 'accepted' status and add receiver to their list
      */
     async acceptFriendRequest(requestId, userData, friendData) {
-        if (!db || !auth.currentUser) return { error: 'Not authenticated', success: false };
+        if (!db || !auth?.currentUser) return { error: 'Not authenticated', success: false };
 
         try {
             const requestRef = doc(db, REQUESTS_COLLECTION, requestId);

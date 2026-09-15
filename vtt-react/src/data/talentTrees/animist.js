@@ -384,7 +384,7 @@ export const ANIMIST_THORNWARDEN = [
     },
     rankUpgrades: [
       { description: "All structure and physical damage increased by +1d8 damage." },
-      { description: "All structure and physical damage increased by +1d8 damage." },
+      { description: "All structure and physical damage increased by +1d8 damage, and your structure attacks apply bleed for 2d8 damage over 2 rounds." },
       { description: "All structure and physical damage increased by +2d8 damage." },
       { description: "All structure and physical damage increased by +2d8 damage, and Bone Barricade costs 0 mana." }
     ]
@@ -827,9 +827,9 @@ export const ANIMIST_SPIRIT_BINDER = [
       visualTheme: "shadow", tags: ["passive", "capstone", "damage", "animist"]
     },
     rankUpgrades: [
-      { description: "All spirit and necrotic damage increased by +1d8 damage." },
-      { description: "All spirit and necrotic damage increased by +1d8 damage." },
+      { description: "All spirit and necrotic damage increased by +1d8 damage, and your spirit attacks ignore 5 points of enemy resistance." },
       { description: "All spirit and necrotic damage increased by +2d8 damage." },
+      { description: "All spirit and necrotic damage increased by +2d8 damage, and spirit attacks apply a 1-round Enfeeble (disadvantage on the target's next attack)." },
       { description: "All spirit and necrotic damage increased by +2d8 damage, and Call Spirit Pack costs 0 mana." }
     ]
   },
@@ -1277,7 +1277,7 @@ export const ANIMIST_STORMSCRIBE = [
     },
     rankUpgrades: [
       { description: "All storm and inscription damage increased by +1d8 damage." },
-      { description: "All storm and inscription damage increased by +1d8 damage." },
+      { description: "All storm and inscription damage increased by +1d8 damage, and your storm spells arc to 1 additional enemy within 15 feet." },
       { description: "All storm and inscription damage increased by +2d8 damage." },
       { description: "All storm and inscription damage increased by +2d8 damage, and Galvanic Totem costs 0 mana." }
     ]

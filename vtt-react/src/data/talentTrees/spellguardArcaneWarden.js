@@ -178,7 +178,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
       buffs: ["resistance"], visualTheme: "arcane", tags: ["resistance", "ally", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Etch a resistance rune on an ally within 30 feet: they gain +4 Damage Reduction to one chosen damage type for 1 minute." }
+      { description: "Etch a resistance rune on an ally within 30 feet: they gain +6 Damage Reduction to two chosen damage types for 1 minute." }
     ]
   },
 

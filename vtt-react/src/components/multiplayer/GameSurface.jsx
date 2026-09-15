@@ -10,6 +10,7 @@ import QuestRewardDeliveryDialog from '../quest-log/QuestRewardDeliveryDialog';
 import Grid from '../Grid';
 import LocationSceneStage from '../location-scene/LocationSceneStage';
 import Navigation from '../Navigation';
+import ErrorBoundary from '../common/ErrorBoundary';
 import CursorTracker from './CursorTracker';
 import UnifiedTransitionOverlay, { TRANSITION_TIMINGS } from './UnifiedTransitionOverlay';
 import GameSessionInvitation from './GameSessionInvitation';
@@ -198,7 +199,11 @@ const MultiplayerGameContent = ({
         <DialogueSystem />
         {isGMMode && <DialogueControls />}
         {/* DiceRollingSystem is mounted globally in App.jsx */}
-        <Navigation onReturnToLanding={handleReturnToSinglePlayer} />
+        <Suspense fallback={null}>
+          <ErrorBoundary name="Navigation">
+            <Navigation onReturnToLanding={handleReturnToSinglePlayer} />
+          </ErrorBoundary>
+        </Suspense>
 
         {/* Connection Status Indicator */}
         <ConnectionStatusIndicator

@@ -384,7 +384,7 @@ export const CHRONARCH_STASIS_TREE = [
     },
     rankUpgrades: [
       { description: "All force/stasis damage increased by +1d8 damage." },
-      { description: "All force/stasis damage increased by +1d8 damage." },
+      { description: "All force/stasis damage increased by +1d8 damage, and your stasis effects last 1 round longer." },
       { description: "All force/stasis damage increased by +2d8 damage." },
       { description: "All force/stasis damage increased by +2d8 damage, and Stasis Field costs 0 mana." }
     ]
@@ -826,7 +826,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     },
     rankUpgrades: [
       { description: "All force and spatial damage increased by +1d8 damage." },
-      { description: "All force and spatial damage increased by +1d8 damage." },
+      { description: "All force and spatial damage increased by +1d8 damage, and your teleports move you an additional 10 feet." },
       { description: "All force and spatial damage increased by +2d8 damage." },
       { description: "All force and spatial damage increased by +2d8 damage, and Temporal Blink grants 4 Time Shards." }
     ]
@@ -1262,7 +1262,7 @@ export const CHRONARCH_REWINDING_TREE = [
     },
     rankUpgrades: [
       { description: "All healing and rewind potency increased by +1d8 damage." },
-      { description: "All healing and rewind potency increased by +1d8 damage." },
+      { description: "All healing and rewind potency increased by +1d8 damage, and your rewind effects refund 2 Time Shards." },
       { description: "All healing and rewind potency increased by +2d8 damage." },
       { description: "All healing and rewind potency increased by +2d8 damage, and Temporal Rewind costs 0 mana." }
     ]

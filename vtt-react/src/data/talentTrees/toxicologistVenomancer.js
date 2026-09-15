@@ -6,7 +6,7 @@ export const TOXICOLOGIST_VENOMANCER = [
   {
     "id": "vn_t1_venomous_core",
     "name": "Envenomed Edge",
-    "icon": "ability_rogue_deadlybrew",
+    "icon": "Poison/Weapon Poison",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -60,7 +60,7 @@ export const TOXICOLOGIST_VENOMANCER = [
   {
     "id": "vn_t1_venom_channels",
     "name": "Venom Channels",
-    "icon": "spell_nature_corrosivebreath",
+    "icon": "Poison/Poisoned Veins",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -100,7 +100,7 @@ export const TOXICOLOGIST_VENOMANCER = [
   {
     "id": "vn_t1_neurotoxin",
     "name": "Paralytic Tincture",
-    "icon": "ability_rogue_deviouspoisons",
+    "icon": "Poison/Poisoned Mind",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -133,7 +133,7 @@ export const TOXICOLOGIST_VENOMANCER = [
   {
     "id": "vn_t2_hemotoxin",
     "name": "Hemotoxin Needle",
-    "icon": "spell_nature_nullifydisease",
+    "icon": "Poison/Venomous Injection",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -158,6 +158,11 @@ export const TOXICOLOGIST_VENOMANCER = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 1,
       "cooldownUnit": "round",
+      "resourceCosts": {
+        "vials": {
+          "baseAmount": 1
+        }
+      },
       "primaryDamage": {
         "dice": "1d8",
         "flat": 0,
@@ -201,7 +206,7 @@ export const TOXICOLOGIST_VENOMANCER = [
   {
     "id": "vn_t2_toxin_mastery",
     "name": "Metabolic Drain",
-    "icon": "ability_rogue_dualweild",
+    "icon": "Necrotic/Drain Soul",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -238,7 +243,7 @@ export const TOXICOLOGIST_VENOMANCER = [
   {
     "id": "vn_t3_toxic_cloud",
     "name": "Noxious Cloud",
-    "icon": "spell_nature_abolishcurse",
+    "icon": "Poison/Poison Plague",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -265,6 +270,11 @@ export const TOXICOLOGIST_VENOMANCER = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 2,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "vials": {
+          "baseAmount": 1
+        }
+      },
       "primaryDamage": {
         "dice": "2d6",
         "flat": 0,
@@ -303,7 +313,7 @@ export const TOXICOLOGIST_VENOMANCER = [
   {
     "id": "vn_t3_virulent_outbreak",
     "name": "Virulent Spores",
-    "icon": "spell_nature_curseofspider",
+    "icon": "Poison/Poison Contagion",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -347,7 +357,7 @@ export const TOXICOLOGIST_VENOMANCER = [
   {
     "id": "vn_t4_terminal_dosage",
     "name": "Terminal Dosage",
-    "icon": "ability_rogue_feigndeath",
+    "icon": "Poison/Deadly Poison",
     "maxRanks": 2,
     "position": {
       "x": 1,
@@ -375,6 +385,11 @@ export const TOXICOLOGIST_VENOMANCER = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 2,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "vials": {
+          "baseAmount": 2
+        }
+      },
       "primaryDamage": {
         "dice": "2d10",
         "flat": 0,
@@ -400,7 +415,7 @@ export const TOXICOLOGIST_VENOMANCER = [
   {
     "id": "vn_t5_viper_strike",
     "name": "Viper Reflexes",
-    "icon": "ability_rogue_quickrecovery",
+    "icon": "Poison/Venomous Strike",
     "maxRanks": 3,
     "position": {
       "x": 1,
@@ -437,7 +452,7 @@ export const TOXICOLOGIST_VENOMANCER = [
   {
     "id": "vn_t5_immunological_breakdown",
     "name": "Immunological Ruin",
-    "icon": "spell_nature_earthbindtotem",
+    "icon": "Necrotic/Necrotic Wither",
     "maxRanks": 2,
     "position": {
       "x": 3,
@@ -471,7 +486,7 @@ export const TOXICOLOGIST_VENOMANCER = [
   {
     "id": "vn_t6_plague_mist",
     "name": "Plague Mist Eruption",
-    "icon": "spell_nature_bloodlust",
+    "icon": "Poison/Poison Plague 2",
     "maxRanks": 3,
     "position": {
       "x": 1.5,
@@ -486,7 +501,7 @@ export const TOXICOLOGIST_VENOMANCER = [
       "description": "Spend 2 AP: Release a 25-foot cone of virulent neurotoxin dealing 3d8 blight damage and forcing all enemies hit to roll a Fortitude save or be Blinded for 1 round.",
       "flavorText": "A green shroud that rots the senses.",
       "source": "talent",
-      "class": "Pyrofiend",
+      "class": "Toxicologist",
       "treeId": "venomancer",
       "spellType": "ACTIVE",
       "category": "damage",
@@ -501,6 +516,11 @@ export const TOXICOLOGIST_VENOMANCER = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 3,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "vials": {
+          "baseAmount": 3
+        }
+      },
       "primaryDamage": {
         "dice": "3d8",
         "flat": 0,
@@ -539,7 +559,7 @@ export const TOXICOLOGIST_VENOMANCER = [
   {
     "id": "vn_t4_mastery_focus",
     "name": "Terminal Dosage Resonance",
-    "icon": "ability_rogue_feigndeath",
+    "icon": "Poison/Poison Toxin",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -575,7 +595,7 @@ export const TOXICOLOGIST_VENOMANCER = [
   {
     "id": "vn_t6_unyielding_mastery",
     "name": "Unyielding Resolve",
-    "icon": "ability_warrior_defensivestance",
+    "icon": "Utility/Steadfast Bulwark",
     "maxRanks": 2,
     "position": {
       "x": 3.5,
@@ -608,7 +628,7 @@ export const TOXICOLOGIST_VENOMANCER = [
   {
     "id": "vn_t7_avatar_of_venom",
     "name": "Avatar of the Viper",
-    "icon": "ability_rogue_shadowstep",
+    "icon": "Poison/Venomous Snakes",
     "maxRanks": 1,
     "position": {
       "x": 0,
@@ -631,6 +651,11 @@ export const TOXICOLOGIST_VENOMANCER = [
       "cooldownCategory": "turn_based",
       "cooldownValue": 5,
       "cooldownUnit": "rounds",
+      "resourceCosts": {
+        "vials": {
+          "baseAmount": 4
+        }
+      },
       "visualTheme": "poison",
       "tags": [
         "ultimate",
@@ -643,7 +668,7 @@ export const TOXICOLOGIST_VENOMANCER = [
   {
     "id": "vn_t7_doctrine_mastery",
     "name": "Toxicologist Doctrine",
-    "icon": "spell_holy_blessingofstrength",
+    "icon": "Utility/Alchemical Symbol",
     "maxRanks": 5,
     "position": {
       "x": 1,
@@ -686,7 +711,7 @@ export const TOXICOLOGIST_VENOMANCER = [
   {
     "id": "vn_t7_miasma_heart",
     "name": "Miasma Heart",
-    "icon": "spell_nature_nullifypoison",
+    "icon": "Poison/Poison Venom",
     "maxRanks": 3,
     "position": {
       "x": 2,
@@ -722,7 +747,7 @@ export const TOXICOLOGIST_VENOMANCER = [
   {
     "id": "vn_t7_catalytic_detonation",
     "name": "Catalytic Shock",
-    "icon": "spell_shadow_abominationexplosion",
+    "icon": "Poison/Toxic Bomb",
     "maxRanks": 3,
     "position": {
       "x": 3,
@@ -766,7 +791,7 @@ export const TOXICOLOGIST_VENOMANCER = [
   {
     "id": "vn_t7_capstone_gamma",
     "name": "Transcendent Precision",
-    "icon": "ability_hunter_snipershot",
+    "icon": "General/Penetrate",
     "spell": {
       "name": "Transcendent Precision",
       "description": "Passive: All critical strikes deal +1d6 bonus damage and restore 1d4 Hit Points.",

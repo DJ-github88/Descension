@@ -545,7 +545,7 @@ Mythrill has **no Armor Class and no flat armor-rating number.** Defense is gove
 
 **Source of truth:** `vtt-react/src/data/weaponTypeSimpleTables.js:17-19` (durability system comment); `vtt-react/src/store/characterSlices/coreSlice.js:47-56` (durability-as-die-string examples).
 
-### C. Damage Types (exactly 12)
+### C. Damage Types (exactly 11 damage types + Healing)
 
 | Canonical key | Element / meaning |
 |---|---|

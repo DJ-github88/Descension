@@ -23,7 +23,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t1_spore_volley",
     name: "Spore Volley",
-    icon: "ability_creature_poison_06",
+    icon: "Nature/Seeds",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -50,7 +50,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t1_rapid_contagion",
     name: "Rapid Contagion",
-    icon: "spell_shadow_contagion",
+    icon: "Poison/Poison Contagion",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -93,7 +93,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t2_vector_detonation",
     name: "Vector Detonation",
-    icon: "spell_shadow_plaguecloud",
+    icon: "Poison/Toxic Bomb",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "vs_t1_spore_volley",
@@ -120,7 +120,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t2_chain_infection",
     name: "Chain Contagion",
-    icon: "spell_nature_corrosivebreath",
+    icon: "Poison/Poison Toxin",
     maxRanks: 3,
     position: { x: 3, y: 1 },
     requires: "vs_t1_rapid_contagion",
@@ -223,7 +223,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t4_viral_burst",
     name: "Spore Multiplication",
-    icon: "spell_fire_selfdestruct",
+    icon: "Nature/Glowing Green Egg",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "vs_t3_infectious_aura",
@@ -271,7 +271,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t5_strain_banking",
     name: "Pathogen Reservoir",
-    icon: "inv_misc_slime_01",
+    icon: "Poison/Poison Venom 1",
     maxRanks: 3,
     position: { x: 3, y: 4 },
     requires: "vs_t4_viral_burst",
@@ -315,7 +315,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t6_cross_infection",
     name: "Vector Cascade",
-    icon: "ability_creature_poison_03",
+    icon: "Poison/Acid Splash",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "vs_t5_strain_banking",
@@ -357,7 +357,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t7_patient_zero",
     name: "Patient Zero",
-    icon: "spell_shadow_deathanddecay",
+    icon: "Poison/Poison Plague",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "vs_t6_global_pandemic",
@@ -382,7 +382,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t7_waste_spore_doctrine",
     name: "Waste Spore Doctrine",
-    icon: "spell_shadow_darkritual",
+    icon: "Nature/Spawn Chaos",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "vs_t6_global_pandemic",
@@ -397,7 +397,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     },
     rankUpgrades: [
       { description: "All blight AoE and contagion damage increased by +1d8 damage." },
-      { description: "All blight AoE and contagion damage increased by +1d8 damage." },
+      { description: "All blight AoE and contagion damage increased by +1d8 damage, and each contagion spread seeds victims 1 additional Stage." },
       { description: "All blight AoE and contagion damage increased by +2d8 damage." },
       { description: "All blight AoE and contagion damage increased by +2d8 damage, and Spore Volley costs 0 mana." }
     ]
@@ -425,7 +425,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: "vs_t7_plague_wind",
     name: "Pandemic Overdrive",
-    icon: "spell_nature_cyclone",
+    icon: "Nature/Wind Gust",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "vs_t6_cross_infection",

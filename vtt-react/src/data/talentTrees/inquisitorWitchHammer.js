@@ -10,7 +10,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t1_wyrd_pack",
     name: "Wyrd Pack",
-    icon: "spell_shadow_summonfelguard",
+    icon: "Necrotic/Horned Demon",
     maxRanks: 3,
     position: { x: 0.5, y: 0 },
     requires: null,
@@ -32,7 +32,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t1_bind_hound",
     name: "Bind Wyrd-hound",
-    icon: "spell_shadow_enslavedemon",
+    icon: "Necrotic/Spectral Summoning",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -60,7 +60,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t1_shadow_mastery",
     name: "Shadow Mastery",
-    icon: "spell_shadow_shadowform",
+    icon: "General/Stealth",
     maxRanks: 2,
     position: { x: 3.5, y: 0 },
     requires: null,
@@ -102,7 +102,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t2_swarm_tactics",
     name: "Swarm Tactics",
-    icon: "spell_shadow_curseofsargeras",
+    icon: "Necrotic/Triple Skulls",
     maxRanks: 3,
     position: { x: 3.5, y: 1 },
     requires: "wh_t1_bind_hound",
@@ -125,7 +125,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t3_steady_rein",
     name: "Steady Rein",
-    icon: "spell_holy_exorcism",
+    icon: "Necrotic/Bone Chain Ring",
     maxRanks: 3,
     position: { x: 2, y: 2 },
     requires: "wh_t2_pack_mind",
@@ -151,7 +151,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t3_silent_execution",
     name: "Silent Execution",
-    icon: "ability_rogue_ambush",
+    icon: "Slashing/Assassins Blade",
     maxRanks: 3,
     position: { x: 2.5, y: 2 },
     requires: "wh_t2_swarm_tactics",
@@ -174,7 +174,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t4_mass_restoration",
     name: "Mass Restoration",
-    icon: "spell_holy_circleofrenewal",
+    icon: "Radiant/Radiant Aura",
     maxRanks: 3,
     position: { x: 2, y: 3 },
     requires: "wh_t3_steady_rein",
@@ -194,7 +194,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t4_wyrd_cyclone",
     name: "Wyrd Cyclone",
-    icon: "spell_shadow_lifedrain",
+    icon: "Force/Energy Whirlwind",
     maxRanks: 2,
     position: { x: 2.5, y: 3 },
     requires: "wh_t3_silent_execution",
@@ -221,7 +221,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t5_pack_alpha",
     name: "Pack Alpha",
-    icon: "spell_shadow_demonicempathy",
+    icon: "Necrotic/Cursed Entities",
     maxRanks: 3,
     position: { x: 2, y: 4 },
     requires: "wh_t4_mass_restoration",
@@ -242,7 +242,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t5_hunters_authority",
     name: "Hunter's Authority",
-    icon: "ability_hunter_markedfordeath",
+    icon: "Radiant/Golden Trophy",
     maxRanks: 2,
     position: { x: 2.5, y: 4 },
     requires: "wh_t4_wyrd_cyclone",
@@ -304,7 +304,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t6_shared_stealth",
     name: "Shared Stealth",
-    icon: "spell_shadow_shadowmeld",
+    icon: "Necrotic/Ghostly Trio",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "wh_t5_pack_alpha",
@@ -349,7 +349,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t7_writ_of_binding",
     name: "Writ of Binding",
-    icon: "inv_scroll_03",
+    icon: "Utility/Bound Wrists",
     maxRanks: 5,
     position: { x: 1, y: 6 },
     requires: "wh_t6_shared_stealth",
@@ -392,7 +392,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t7_first_name_iron",
     name: "First-Name Iron",
-    icon: "ability_warrior_weaponmastery",
+    icon: "Force/Force Weapon",
     maxRanks: 3,
     position: { x: 3, y: 6 },
     requires: "wh_t6_undisputed",
@@ -413,7 +413,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: "wh_t7_quiet_writ",
     name: "Quiet Writ",
-    icon: "ability_rogue_shadowstrike",
+    icon: "Slashing/Cutthroat",
     maxRanks: 3,
     position: { x: 4, y: 6 },
     requires: "wh_t6_undisputed",

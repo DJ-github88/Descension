@@ -9,7 +9,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t1_profane_communion",
     name: "Profane Communion",
-    icon: "spell_shadow_summonimp",
+    icon: "Necrotic/Blood Book",
     maxRanks: 3,
     position: { x: 1.5, y: 0 },
     requires: null,
@@ -34,7 +34,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t1_curse_of_the_unbeliever",
     name: "Curse of the Unbeliever",
-    icon: "spell_shadow_curseofsargeras",
+    icon: "Necrotic/Death Mark",
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
@@ -88,7 +88,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t2_blood_offering",
     name: "Blood Offering",
-    icon: "spell_shadow_lifedrain",
+    icon: "Healing/Prayer",
     maxRanks: 3,
     position: { x: 0.5, y: 1 },
     requires: "cu_t1_profane_communion",
@@ -114,7 +114,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t2_pact_of_the_silence",
     name: "Pact of the Silence",
-    icon: "spell_shadow_demonicpact",
+    icon: "Necrotic/Demonic Empowerment",
     maxRanks: 3,
     position: { x: 3.5, y: 1 },
     requires: "cu_t1_summon_acolyte",
@@ -135,7 +135,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t3_ritual_empowerment",
     name: "Ritual Empowerment",
-    icon: "spell_shadow_shadowembrace",
+    icon: "Necrotic/Empowering Aura",
     maxRanks: 3,
     position: { x: 0.5, y: 2 },
     requires: "cu_t2_blood_offering",
@@ -183,7 +183,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t4_shepherd_of_the_silence",
     name: "Shepherd of the Silence",
-    icon: "spell_shadow_antimagicshell",
+    icon: "General/Guard",
     maxRanks: 3,
     position: { x: 0, y: 3 },
     requires: "cu_t3_ritual_empowerment",
@@ -229,7 +229,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t5_channel_the_silence_god",
     name: "Channel the Silence God",
-    icon: "spell_shadow_darkritual",
+    icon: "Void/Hooded Red Energy Channeler",
     maxRanks: 3,
     position: { x: 0, y: 4 },
     requires: "cu_t4_shepherd_of_the_silence",
@@ -249,7 +249,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t5_forbidden_scripture",
     name: "Forbidden Scripture",
-    icon: "spell_shadow_grimward",
+    icon: "Necrotic/Skull Tome Of Corruption",
     maxRanks: 2,
     position: { x: 4, y: 4 },
     requires: "cu_t4_silence_priest",
@@ -269,7 +269,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t6_unholy_bloom",
     name: "Unholy Bloom",
-    icon: "spell_shadow_corpseexplode",
+    icon: "Necrotic/Skull Explosion",
     maxRanks: 1,
     position: { x: 1, y: 5 },
     requires: "cu_t5_channel_the_silence_god",
@@ -370,7 +370,7 @@ export const FALSE_PROPHET_CULTIST = [
     },
     rankUpgrades: [
       { description: "The rite refines itself with repetition. All blight damage dealt by your curses is increased by +1d8 damage." },
-      { description: "The rite refines itself with repetition. All blight damage dealt by your curses is increased by +1d8 damage." },
+      { description: "The rite refines itself with repetition. All blight damage dealt by your curses is increased by +1d8 damage, and your curse blight damage ignores 5 points of enemy resistance." },
       { description: "The rite refines itself with repetition. All blight damage dealt by your curses is increased by +2d8 damage." },
       { description: "The rite refines itself with repetition. All curse blight damage is increased by +2d8 damage, and Curse of the Unbeliever costs no mana." }
     ]
@@ -378,7 +378,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: "cu_t7_eternal_torment",
     name: "Eternal Torment",
-    icon: "spell_shadow_unstableaffliction",
+    icon: "Necrotic/Haunting Skull",
     maxRanks: 3,
     position: { x: 2, y: 6 },
     requires: "cu_t6_tithe_collector",

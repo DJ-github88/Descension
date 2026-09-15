@@ -24,7 +24,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t1_dissonant_shriek",
     name: "Dissonant Shriek",
-    icon: "spell_arcane_arcanetorrent",
+    icon: "Psychic/Agonizing Scream",
     maxRanks: 3,
     position: { x: 1, y: 0 },
     requires: null,
@@ -51,7 +51,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t1_unsettling_vibration",
     name: "Unsettling Discord",
-    icon: "spell_arcane_arcaneresilience",
+    icon: "Psychic/Mental Chaos",
     maxRanks: 3,
     position: { x: 2.5, y: 0 },
     requires: null,
@@ -73,7 +73,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t1_echoing_tension",
     name: "Acoustic Strain",
-    icon: "spell_holy_divineprovidence",
+    icon: "Psychic/Psychic Emanation",
     maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
@@ -94,7 +94,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t2_tritone_discord",
     name: "Tritone Discord",
-    icon: "spell_shadow_mindtwisting",
+    icon: "Psychic/Hypnosis",
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: "mm_t1_dissonant_shriek",
@@ -172,7 +172,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t3_half_cadence_shield",
     name: "Suspended Resonance",
-    icon: "spell_arcane_portalshattrath",
+    icon: "Force/Force Field",
     maxRanks: 3,
     position: { x: 3, y: 2 },
     requires: "mm_t2_dissonant_spread",
@@ -196,7 +196,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t4_sonic_feedback",
     name: "Sonic Feedback",
-    icon: "spell_arcane_blink",
+    icon: "Force/Absorb Energy",
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: "mm_t3_deceptive_cadence",
@@ -221,7 +221,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t4_discordant_amplification",
     name: "Discordant Strain",
-    icon: "spell_shadow_mindsteal",
+    icon: "Psychic/Brain Psionics",
     maxRanks: 2,
     position: { x: 3.5, y: 3 },
     requires: "mm_t3_half_cadence_shield",
@@ -243,7 +243,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t5_mind_shatter",
     name: "Mind Shatter",
-    icon: "spell_shadow_unholyfrenzy",
+    icon: "Psychic/Mental Abyss",
     maxRanks: 2,
     position: { x: 1, y: 4 },
     requires: "mm_t4_sonic_feedback",
@@ -315,7 +315,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t6_dissonant_echoes",
     name: "Permanent Discord",
-    icon: "spell_shadow_curseofsargeras",
+    icon: "Psychic/Cast Doubt",
     maxRanks: 2,
     position: { x: 2.5, y: 5 },
     requires: "mm_t5_cacophony_engine",
@@ -334,7 +334,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t6_psychic_bleed",
     name: "Psychic Resonance Bleed",
-    icon: "spell_shadow_shadowwordpain",
+    icon: "Psychic/Twist Pain",
     maxRanks: 2,
     position: { x: 4, y: 5 },
     requires: "mm_t5_cacophony_engine",
@@ -357,7 +357,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t7_symphony_of_ruin",
     name: "Symphony of Ruin",
-    icon: "spell_shadow_deathanddecay",
+    icon: "Psychic/Eldritch Thought",
     maxRanks: 1,
     position: { x: 0.5, y: 6 },
     requires: "mm_t6_deafening_crescendo",
@@ -382,7 +382,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t7_dissonance_doctrine",
     name: "Dissonance Doctrine",
-    icon: "spell_shadow_darkritual",
+    icon: "Psychic/Mental Radiance",
     maxRanks: 5,
     position: { x: 1.5, y: 6 },
     requires: "mm_t6_deafening_crescendo",
@@ -397,7 +397,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     },
     rankUpgrades: [
       { description: "All wyrd damage increased by +1d8 damage." },
-      { description: "All wyrd damage increased by +1d8 damage." },
+      { description: "All wyrd damage increased by +1d8 damage, and your dissonance effects last 1 additional round." },
       { description: "All wyrd damage increased by +2d8 damage." },
       { description: "All wyrd damage increased by +2d8 damage, and Dissonant Shriek costs 0 mana." }
     ]
@@ -427,7 +427,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
   {
     id: "mm_t7_cacophonous_reflex",
     name: "Master of Discord",
-    icon: "spell_arcane_blast",
+    icon: "Arcane/Magical Duel",
     maxRanks: 3,
     position: { x: 3.5, y: 6 },
     requires: "mm_t6_psychic_bleed",
