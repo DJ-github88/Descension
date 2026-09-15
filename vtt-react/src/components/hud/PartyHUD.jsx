@@ -21,7 +21,7 @@ import SummonTokenBar from './SummonTokenBar';
 import StatVial from './StatVial';
 import ConditionDurationModal from '../modals/ConditionDurationModal';
 import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
-import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
+import { getRaceHeritageLabel } from '../../utils/raceDisplayNames';
 import { getBackgroundData } from '../../data/backgroundData';
 import Button from '../common/Button';
 import { getCustomBackgroundData, getEnhancedPathData } from '../../data/legacyDisciplineData';
@@ -34,14 +34,9 @@ import './PortraitLightbox.css';
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
 
-// Nethien bloodlines carry only the lineage name in race data; the heritage
-// line reads "<bloodline> Nethien" so the people is always clear.
-const NETHIEN_BLOODLINE_LABELS = {
-    nethien: 'Nethien',
-    veldun: 'Veldun Nethien',
-    withered: 'Withered Nethien'
-};
-
+// Nethien and Human bloodlines carry only the bloodline name in race data; the
+// heritage line appends the people/species (e.g. "Withered Nethien",
+// "Thalren (Human)") so the lineage is always clear.
 const BACKGROUND_ICON_OVERRIDES = {
     pilgrim: 'person-walking',
     courier: 'horse',
@@ -1274,20 +1269,15 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                             );
                         }
 
-                        // Clean race deduplication (e.g. "Stargazer Astril (Astril)" -> "Stargazer Astril")
-                        let cleanRace = race;
-                        if (typeof cleanRace === 'string') {
-                            cleanRace = cleanRace.replace(/\s*\([^)]*\)\s*$/, '').trim();
-                        }
-                        // Legacy saves may still hold pre-revision names (e.g. "Hallowed Neth")
-                        cleanRace = normalizeRaceDisplayName(cleanRace);
+                        // Heritage label with dedup for legacy suffixes, e.g.
+                        // "Stargazer Astril (Astril)" -> "Stargazer Astril",
+                        // "Thalren (Frostwood Reach)" -> "Thalren (Human)".
+                        const cleanRace = getRaceHeritageLabel(race) || '';
 
                         // Title block: name / "of the <bloodline>" / background script.
                         // The class signs the top row next to the name so long
                         // class names always fit, and the background keeps its icon.
-                        const raceLabel = cleanRace
-                            ? (NETHIEN_BLOODLINE_LABELS[cleanRace.toLowerCase()] || cleanRace)
-                            : '';
+                        const raceLabel = cleanRace;
                         const racePart = raceLabel && cleanRace.toLowerCase() !== 'unknown race'
                             ? { label: raceLabel }
                             : null;

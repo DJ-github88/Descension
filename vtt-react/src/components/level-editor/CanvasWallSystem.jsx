@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import useLevelEditorStore, { WALL_TYPES } from '../../store/levelEditorStore';
 import useGameStore from '../../store/gameStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import { getWallWorldEndpoints, parseWallKey } from '../../utils/WallGeometry';
 import { rafThrottle } from '../../utils/performanceUtils';
 
 const CanvasWallSystem = () => {
@@ -299,19 +300,23 @@ const CanvasWallSystem = () => {
       const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
 
       if (gridType === 'hex') {
-        // For hex grids, track actual edge vertices
+        // For hex grids, track actual edge vertices.
+        // Free-form walls resolve straight to their stored world endpoints.
         const gridSystem = getGridSystem();
-        const edge = gridSystem.getHexEdge(x1, y1, x2, y2);
-        if (edge) {
+        const parsed = parseWallKey(wallKey);
+        const ends = parsed
+          ? getWallWorldEndpoints(parsed, gridSystem, 'hex', wallData_item)
+          : null;
+        if (ends) {
           // Track both edge endpoints
-          const key1 = `${edge.start.x.toFixed(2)},${edge.start.y.toFixed(2)}`;
-          const key2 = `${edge.end.x.toFixed(2)},${edge.end.y.toFixed(2)}`;
+          const key1 = `${ends.start.x.toFixed(2)},${ends.start.y.toFixed(2)}`;
+          const key2 = `${ends.end.x.toFixed(2)},${ends.end.y.toFixed(2)}`;
 
           if (!cornerPoints.has(key1)) {
-            cornerPoints.set(key1, { count: 0, wallTypes: new Set(), worldPos: { x: edge.start.x, y: edge.start.y } });
+            cornerPoints.set(key1, { count: 0, wallTypes: new Set(), worldPos: { x: ends.start.x, y: ends.start.y } });
           }
           if (!cornerPoints.has(key2)) {
-            cornerPoints.set(key2, { count: 0, wallTypes: new Set(), worldPos: { x: edge.end.x, y: edge.end.y } });
+            cornerPoints.set(key2, { count: 0, wallTypes: new Set(), worldPos: { x: ends.end.x, y: ends.end.y } });
           }
 
           cornerPoints.get(key1).count++;
@@ -515,13 +520,17 @@ const CanvasWallSystem = () => {
       const gridSystem = getGridSystem();
 
       if (gridType === 'hex') {
-        // For hex grids, get the edge between the two hex coordinates
-        const edge = gridSystem.getHexEdge(x1, y1, x2, y2);
-        if (edge) {
+        // For hex grids, draw along the resolved world segment (hex edge or
+        // free-form corner-to-corner wall).
+        const parsed = parseWallKey(wallKey);
+        const ends = parsed
+          ? getWallWorldEndpoints(parsed, gridSystem, 'hex', wallData_item)
+          : null;
+        if (ends) {
           // Convert edge points to screen coordinates
           const viewport = gridSystem.getViewportDimensions();
-          screenPos1 = gridSystem.worldToScreen(edge.start.x, edge.start.y, viewport.width, viewport.height);
-          screenPos2 = gridSystem.worldToScreen(edge.end.x, edge.end.y, viewport.width, viewport.height);
+          screenPos1 = gridSystem.worldToScreen(ends.start.x, ends.start.y, viewport.width, viewport.height);
+          screenPos2 = gridSystem.worldToScreen(ends.end.x, ends.end.y, viewport.width, viewport.height);
         } else {
           // Fallback to center-to-center if edge calculation fails
           screenPos1 = gridToScreen(x1, y1, window.innerWidth, window.innerHeight);

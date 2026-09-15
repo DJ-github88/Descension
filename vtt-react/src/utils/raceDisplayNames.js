@@ -54,4 +54,49 @@ export function normalizeRaceDisplayName(name) {
     return name;
 }
 
+/**
+ * Bloodline labels for the "of the ..." identity line. Human subraces carry
+ * only the bloodline name in race data, so the species is appended;
+ * Nethien bloodlines read "<bloodline> Nethien" so the people is always clear.
+ */
+const BLOODLINE_HERITAGE_LABELS = {
+    // Human
+    thalren: 'Thalren (Human)',
+    skald: 'Skald (Human)',
+    tessen: 'Tessen (Human)',
+    merryn: 'Merryn (Human)',
+    ordan: 'Ordan (Human)',
+    // Nethien
+    nethien: 'Nethien',
+    veldun: 'Veldun Nethien',
+    withered: 'Withered Nethien'
+};
+
+function stripParentheticalSuffixes(name) {
+    let stripped = name.trim();
+    let previous;
+    do {
+        previous = stripped;
+        stripped = stripped.replace(/\s*\([^)]*\)\s*$/, '').trim();
+    } while (stripped && stripped !== previous);
+    return stripped || name.trim();
+}
+
+/**
+ * Heritage label for the "of the ..." identity line, e.g.
+ * "Thalren (Frostwood Reach)" -> "Thalren (Human)",
+ * "Withered" -> "Withered Nethien",
+ * "Stargazer Astril (Astril)" -> "Stargazer Astril".
+ *
+ * Legacy/regional suffixes are stripped and legacy bloodline names normalize
+ * to current canon, so old saves render correctly without mutating stored data.
+ */
+export function getRaceHeritageLabel(name) {
+    if (!name || typeof name !== 'string') return name;
+
+    const stripped = stripParentheticalSuffixes(name);
+    const normalized = normalizeRaceDisplayName(stripped);
+    return BLOODLINE_HERITAGE_LABELS[String(normalized).toLowerCase()] || normalized;
+}
+
 export default normalizeRaceDisplayName;

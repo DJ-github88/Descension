@@ -6,7 +6,7 @@ import useCharacterStore from '../../store/characterStore';
 import useConditionStore from '../../store/conditionStore';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import { getSubraceData } from '../../data/raceData';
-import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
+import { getRaceHeritageLabel } from '../../utils/raceDisplayNames';
 import { SKILL_DEFINITIONS, SKILL_CATEGORIES } from '../../constants/skillDefinitions';
 import { initializeClassResource } from '../../data/classResources';
 import CharacterPanel from '../character-sheet/CharacterPanel';
@@ -432,7 +432,7 @@ const CharacterViewPage = () => {
   };
 
   const subraceDisplayName = getSubraceDisplayName();
-  const displayRaceName = normalizeRaceDisplayName(subraceDisplayName || race);
+  const displayRaceName = getRaceHeritageLabel(subraceDisplayName || race);
   const raceTitleData = formatRaceTitle(displayRaceName);
 
   const effectiveClassResource = classResource || (characterClass ? initializeClassResource(characterClass, { ...(stats || {}), level: level || 1 }) : null);

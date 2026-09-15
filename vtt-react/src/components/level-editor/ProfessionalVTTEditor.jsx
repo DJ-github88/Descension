@@ -8,6 +8,7 @@ import useMapStore from '../../store/mapStore';
 import MythrillWindow from '../windows/MythrillWindow';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { pickWallAtScreenPoint } from '../../utils/WallPicking';
+import { getWallWorldEndpoints, parseWallKey } from '../../utils/WallGeometry';
 import { useLevelEditorPersistence } from '../../hooks/useLevelEditorPersistence';
 
 import DrawingTools from './tools/DrawingTools';
@@ -44,6 +45,14 @@ const pointSegmentDistance2D = (px, py, ax, ay, bx, by) => {
     const t = Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / lengthSq));
     return Math.hypot(px - (ax + dx * t), py - (ay + dy * t));
 };
+
+// Straight hex walls connect two honeycomb corners; the ghost preview carries
+// the world endpoints so both canvas layers can draw the exact segment.
+const hexSegmentPreviewPath = (startVertex, endVertex) => [{
+    isHexSegment: true,
+    start: { x: startVertex.x, y: startVertex.y, key: startVertex.key },
+    end: { x: endVertex.x, y: endVertex.y, key: endVertex.key }
+}];
 
 const ProfessionalVTTEditor = () => {
     // eslint-disable-next-line no-console
@@ -415,20 +424,65 @@ const elevationStrokePaintedRef = useRef(null);
             for (const [key, wall] of Object.entries(currentWalls)) {
                 const typeId = typeof wall === 'string' ? wall : wall?.type;
                 if (isFeatureWallType(typeId)) continue;
-                const parsed = gridSystem.parseHexEdgeKey(key);
+                const parsed = parseWallKey(key);
                 if (!parsed) continue;
-                const edge = gridSystem.getHexEdge(parsed.x1, parsed.y1, parsed.x2, parsed.y2);
-                if (!edge) continue;
+                const ends = getWallWorldEndpoints(parsed, gridSystem, 'hex', wall);
+                if (!ends) continue;
                 const distance = pointSegmentDistance2D(
                     coords.worldX, coords.worldY,
-                    edge.start.x, edge.start.y, edge.end.x, edge.end.y
+                    ends.start.x, ends.start.y, ends.end.x, ends.end.y
                 );
-                if (!best || distance < best.distance) best = { parsed, distance };
+                if (!best || distance < best.distance) best = { parsed, wall, ends, distance };
             }
-            if (best && best.distance <= gridSize * 0.6) {
-                removeWall(best.parsed.x1, best.parsed.y1, best.parsed.x2, best.parsed.y2, mapId);
-                setWall(best.parsed.x1, best.parsed.y1, best.parsed.x2, best.parsed.y2, featureType, mapId);
+            if (!best || best.distance > gridSize * 0.6) return;
+
+            const { start: hostStart, end: hostEnd } = best.ends;
+            const hostDx = hostEnd.x - hostStart.x;
+            const hostDy = hostEnd.y - hostStart.y;
+            const hostLength = Math.hypot(hostDx, hostDy);
+            if (hostLength < 1e-6) return;
+
+            // Free-form chords can be much longer than a cell, so the feature
+            // occupies roughly one tile centered on the click and the host wall
+            // is split into solid stubs around it. Legacy single-edge hex walls
+            // are exactly one tile wide, so they still become fully feature.
+            const clickT = Math.max(0, Math.min(1,
+                ((coords.worldX - hostStart.x) * hostDx + (coords.worldY - hostStart.y) * hostDy) /
+                (hostLength * hostLength)
+            ));
+            const featureFraction = Math.min(1, gridSize / hostLength);
+            let t0 = Math.max(0, clickT - featureFraction / 2);
+            let t1 = Math.min(1, t0 + featureFraction);
+            t0 = Math.max(0, t1 - featureFraction);
+            const pointAt = (t) => ({
+                x: hostStart.x + hostDx * t,
+                y: hostStart.y + hostDy * t
+            });
+            const stubStart = pointAt(t0);
+            const stubEnd = pointAt(t1);
+
+            const hostExtra = best.wall && typeof best.wall === 'object'
+                ? Object.fromEntries(Object.entries(best.wall)
+                    .filter(([field]) => field !== 'id' && field !== 'hexEndpoints' && field !== 'type'))
+                : null;
+            const hostType = (typeof best.wall === 'string' ? best.wall : best.wall?.type) || 'stone_wall';
+            const setHexWallSegment = (a, b, type, extra = null) => {
+                const keyA = gridSystem.hexVertexKeyParts(a);
+                const keyB = gridSystem.hexVertexKeyParts(b);
+                setWall(keyA.x, keyA.y, keyB.x, keyB.y, type, mapId, {
+                    hexEndpoints: [{ x: a.x, y: a.y }, { x: b.x, y: b.y }],
+                    ...(extra || {})
+                });
+            };
+
+            removeWall(best.parsed.x1, best.parsed.y1, best.parsed.x2, best.parsed.y2, mapId);
+            if (Math.hypot(stubStart.x - hostStart.x, stubStart.y - hostStart.y) > 1e-6) {
+                setHexWallSegment(hostStart, stubStart, hostType, hostExtra);
             }
+            if (Math.hypot(hostEnd.x - stubEnd.x, hostEnd.y - stubEnd.y) > 1e-6) {
+                setHexWallSegment(stubEnd, hostEnd, hostType, hostExtra);
+            }
+            setHexWallSegment(stubStart, stubEnd, featureType);
             return;
         }
 
@@ -533,10 +587,48 @@ const elevationStrokePaintedRef = useRef(null);
     }, [wallData]);
 
     // Find all walls near a grid position (within 2.0 tile distance, doors get larger threshold)
-    // Reads fresh store state so it stays correct inside RAF drag loops
-    const findWallsNearPosition = useCallback((clickX, clickY) => {
+    // Reads fresh store state so it stays correct inside RAF drag loops.
+    // On hex grids, free-form walls are keyed by corner coordinates, so callers
+    // may pass the world-space point to measure with real distances instead.
+    const findWallsNearPosition = useCallback((clickX, clickY, worldPoint = null) => {
         const currentWallData = useLevelEditorStore.getState().wallData;
         if (!currentWallData) return [];
+
+        const gridSystem = getGridSystem();
+        const gridState = gridSystem.getGridState();
+        const tileSize = gridState.gridSize || 50;
+        const worldX = worldPoint && Number.isFinite(worldPoint.x) ? worldPoint.x : null;
+        const worldY = worldPoint && Number.isFinite(worldPoint.y) ? worldPoint.y : null;
+
+        if (gridState.gridType === 'hex' && worldX !== null && worldY !== null) {
+            const hexWalls = [];
+            for (const [wallKey, wall] of Object.entries(currentWallData)) {
+                const parsed = parseWallKey(wallKey);
+                if (!parsed) continue;
+                const typeId = typeof wall === 'string' ? wall : wall?.type;
+                const isDoor = typeId && typeId.includes('door');
+                const threshold = tileSize * (isDoor ? 2.5 : 2.0);
+                const ends = getWallWorldEndpoints(parsed, gridSystem, 'hex', wall);
+                if (!ends) continue;
+                const distance = pointSegmentDistance2D(
+                    worldX, worldY,
+                    ends.start.x, ends.start.y, ends.end.x, ends.end.y
+                );
+                if (distance <= threshold) {
+                    hexWalls.push({
+                        key: wallKey,
+                        data: wall,
+                        x1: parsed.x1,
+                        y1: parsed.y1,
+                        x2: parsed.x2,
+                        y2: parsed.y2,
+                        distance: distance / tileSize
+                    });
+                }
+            }
+            hexWalls.sort((a, b) => a.distance - b.distance);
+            return hexWalls;
+        }
 
         const walls = [];
         for (const [wallKey, wall] of Object.entries(currentWallData)) {
@@ -1294,7 +1386,11 @@ const elevationStrokePaintedRef = useRef(null);
 
                     // If no window removed, try removing walls
                     if (!windowRemoved) {
-                        const wallsNear = findWallsNearPosition(clickX, clickY);
+                        const wallsNear = findWallsNearPosition(
+                            clickX,
+                            clickY,
+                            { x: eraseWallCoords.worldX, y: eraseWallCoords.worldY }
+                        );
                         if (wallsNear.length > 0) {
                             wallsNear.forEach(wall => {
                                 removeWall(wall.x1, wall.y1, wall.x2, wall.y2, activeMapIdRef.current);
@@ -1802,17 +1898,11 @@ const elevationStrokePaintedRef = useRef(null);
                     if (wallStartGridType === 'hex') {
                         const vertex = wallStartGridSystem.snapToHexVertex(coords.worldX, coords.worldY);
                         wallChainRef.current = {
-                            segStartX: coords.gridX,
-                            segStartY: coords.gridY,
-                            lastX: null,
-                            lastY: null,
-                            dirX: null,
-                            dirY: null,
                             wallType: validWallType,
                             committed: false,
                             moved: false,
-                            edges: [],
-                            startVertex: vertex
+                            startVertex: vertex,
+                            endVertex: vertex
                         };
                         const wallStartCoord = vertex
                             ? { ...coords, gridX: vertex.cell.q, gridY: vertex.cell.r }
@@ -1820,7 +1910,7 @@ const elevationStrokePaintedRef = useRef(null);
                         setIsCurrentlyDrawing(true);
                         setCurrentDrawingTool('wall_draw');
                         setCurrentPath([wallStartCoord]);
-                        setCurrentDrawingPath([]);
+                        setCurrentDrawingPath(vertex ? hexSegmentPreviewPath(vertex, vertex) : []);
                         break;
                     }
                     const wallStartGx = coords.worldX !== undefined
@@ -2087,22 +2177,18 @@ const elevationStrokePaintedRef = useRef(null);
                     const wallMode = toolSettings.wallMode || 'continuous';
 
                     if (wallMoveGridType === 'hex' && wallMode !== 'rectangle') {
-                        // Hex: walk the honeycomb lattice from the start vertex toward
-                        // the cursor; every step is a vertex-connected wall edge.
+                        // Hex: snap the cursor to the nearest honeycomb corner and
+                        // preview one straight wall corner-to-corner.
                         const chain = wallChainRef.current;
                         if (chain && chain.startVertex) {
-                            chain.moved = true;
-                            const walk = wallMoveGridSystem.walkHexLatticePath(
-                                chain.startVertex,
+                            const vertex = wallMoveGridSystem.snapToHexVertex(
                                 wallCoords.worldX,
                                 wallCoords.worldY
                             );
-                            const changed = walk.edges.length !== chain.edges.length ||
-                                walk.edges.some((edgeKey, index) => edgeKey !== chain.edges[index]);
-                            if (changed) {
-                                chain.edges = walk.edges;
-                                chain.endVertex = walk.endVertex;
-                                setCurrentDrawingPath(walk.edges.map((edgeKey) => ({ isHexEdge: true, edgeKey })));
+                            if (vertex && vertex.key !== (chain.endVertex && chain.endVertex.key)) {
+                                chain.moved = vertex.key !== chain.startVertex.key;
+                                chain.endVertex = vertex;
+                                setCurrentDrawingPath(hexSegmentPreviewPath(chain.startVertex, vertex));
                             }
                         }
                         break;
@@ -2745,20 +2831,25 @@ const elevationStrokePaintedRef = useRef(null);
                 const commitGridSystem = getGridSystem();
                 const { gridType: commitGridType } = commitGridSystem.getGridState();
                 if (commitGridType === 'hex') {
-                    // Hex: commit the painted chain of vertex-connected edges
-                    if (chain && chain.moved && chain.edges && chain.edges.length > 0) {
-                        for (const edgeKey of chain.edges) {
-                            const parsed = commitGridSystem.parseHexEdgeKey(edgeKey);
-                            if (!parsed) continue;
-                            setWall(
-                                parsed.x1,
-                                parsed.y1,
-                                parsed.x2,
-                                parsed.y2,
-                                wallType,
-                                activeMapIdRef.current
-                            );
-                        }
+                    // Hex: commit one straight corner-to-corner wall carrying its
+                    // world-space endpoints (chords are not cell pairs).
+                    if (chain && chain.moved && chain.startVertex && chain.endVertex) {
+                        const startParts = commitGridSystem.hexVertexKeyParts(chain.startVertex);
+                        const endParts = commitGridSystem.hexVertexKeyParts(chain.endVertex);
+                        setWall(
+                            startParts.x,
+                            startParts.y,
+                            endParts.x,
+                            endParts.y,
+                            wallType,
+                            activeMapIdRef.current,
+                            {
+                                hexEndpoints: [
+                                    { x: chain.startVertex.x, y: chain.startVertex.y },
+                                    { x: chain.endVertex.x, y: chain.endVertex.y }
+                                ]
+                            }
+                        );
                     }
                 } else if (chain && (chain.segStartX !== chain.lastX || chain.segStartY !== chain.lastY)) {
                     setWall(

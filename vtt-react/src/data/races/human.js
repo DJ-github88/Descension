@@ -222,7 +222,7 @@ Tessen children are born underground, and most will never see open sky. Educatio
   subraces: {
     thalren: {
       id: 'thalren_human',
-      name: 'Thalren (Frostwood Reach)',
+      name: 'Thalren',
       illustration: '/assets/images/races/thalren_illustration.png',
       illustrationCaption: 'A Thalren human scholar writing in their journal within a fog-choked forest.',
       cultureIllustration: '/assets/images/races/thalren_culture_write.png',
@@ -304,7 +304,7 @@ The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful
     },
     skald: {
       id: 'skald_human',
-      name: 'Skald (Nordhalla)',
+      name: 'Skald',
       illustration: '/assets/images/races/skald_illustration.png',
       illustrationCaption: 'A Skald human warrior standing before a freezing mountain fjord.',
       cultureIllustration: '/assets/images/races/skald_culture_ritual.png',
@@ -397,7 +397,7 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
     },
     tessen: {
       id: 'tessen_human',
-      name: 'Tessen (Cragjaw Peaks)',
+      name: 'Tessen',
       illustration: '/assets/images/races/tessen_illustration.png',
       illustrationCaption: 'A Tessen human scholar with a pale complexion and soot smudges, carrying a large knotted cord-ledger on their back.',
       cultureIllustration: '/assets/images/races/tessen_culture_bazaar.png',
@@ -479,7 +479,7 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
     },
     merryn: {
       id: 'merryn_human',
-      name: 'Merryn (Iceheart Sea)',
+      name: 'Merryn',
       illustration: '/assets/images/races/merryn_illustration.png',
       illustrationCaption: 'A rugged Merryn mariner with dark hair holding three dice in his hand, with sailing ships in the harbor.',
       cultureIllustration: '/assets/images/races/merryn_culture_sail.png',

@@ -40,7 +40,7 @@ function buildStructureSnapshot(wallData, elevationData, gridSystem, gridType, g
 
     const parsed = parseWallKey(key);
     if (!parsed) continue;
-    const ends = getWallWorldEndpoints(parsed, gridSystem, gridType);
+    const ends = getWallWorldEndpoints(parsed, gridSystem, gridType, wall);
     if (!ends) continue;
 
     const dx = ends.end.x - ends.start.x;

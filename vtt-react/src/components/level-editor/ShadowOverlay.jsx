@@ -3,6 +3,7 @@ import useLevelEditorStore from '../../store/levelEditorStore';
 import useGameStore from '../../store/gameStore';
 import { calculateShadows } from '../../utils/LightingCalculations';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import { getWallWorldEndpoints, parseWallKey } from '../../utils/WallGeometry';
 import './styles/ShadowOverlay.css';
 
 /**
@@ -179,10 +180,13 @@ const ShadowOverlay = () => {
                 let world1;
                 let world2;
                 if (gridType === 'hex') {
-                    const edge = gridSystem.getHexEdge(wx1, wy1, wx2, wy2);
-                    if (!edge) continue;
-                    world1 = edge.start;
-                    world2 = edge.end;
+                    const parsed = parseWallKey(wallKey);
+                    const ends = parsed
+                        ? getWallWorldEndpoints(parsed, gridSystem, 'hex', wall)
+                        : null;
+                    if (!ends) continue;
+                    world1 = ends.start;
+                    world2 = ends.end;
                 } else {
                     world1 = gridSystem.gridToWorldCorner(wx1, wy1);
                     world2 = gridSystem.gridToWorldCorner(wx2, wy2);

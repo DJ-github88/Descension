@@ -78,7 +78,7 @@ jest.mock('../../../store/characterStore', () => {
   const store = {
     name: 'Legolas',
     baseName: 'Legolas',
-    race: 'Elf',
+    race: 'Thalren (Frostwood Reach)',
     class: 'Hunter',
     background: 'Urchin',
     backgroundDisplayName: 'Urchin',
@@ -365,6 +365,9 @@ describe('PartyHUD Component', () => {
     heritageLines.forEach((line) => {
       expect(line.querySelector('.archetype-icon')).toBeNull();
     });
+    // Human bloodlines read as "<bloodline> (Human)", with legacy regional
+    // suffixes stripped instead of leaking into the heritage line.
+    expect(heritageLines[0].querySelector('.heritage-race')).toHaveTextContent('Thalren (Human)');
     // Nethien bloodlines read as "<bloodline> Nethien"
     expect(heritageLines[1]).toHaveTextContent('Withered Nethien');
 

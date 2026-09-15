@@ -273,7 +273,19 @@ export class InfiniteGridSystem {
    * Stable identity for a hex corner (world-space vertex).
    */
   getHexVertexKey(point) {
-    return `${Math.round(point.x * 100)},${Math.round(point.y * 100)}`;
+    const parts = this.hexVertexKeyParts(point);
+    return `${parts.x},${parts.y}`;
+  }
+
+  /**
+   * Numeric components of a hex corner key, used to persist free-form
+   * vertex-to-vertex walls without losing precision.
+   */
+  hexVertexKeyParts(point) {
+    return {
+      x: Math.round(point.x * 100),
+      y: Math.round(point.y * 100)
+    };
   }
 
   parseHexEdgeKey(key) {
@@ -345,6 +357,29 @@ export class InfiniteGridSystem {
       }
     }
     return { x: other.x, y: other.y, key: otherKey, cell: { q: cellB.q, r: cellB.r }, corner: 0 };
+  }
+
+  /**
+   * The (up to three) hex cells sharing a honeycomb vertex. Used to sample
+   * terrain elevation under free-form vertex-to-vertex walls.
+   */
+  hexCellsAtVertex(point) {
+    if (!point || !Number.isFinite(point.x) || !Number.isFinite(point.y)) return [];
+    const vertex = point.cell ? point : this.snapToHexVertex(point.x, point.y);
+    if (!vertex) return [];
+    const cells = [vertex.cell];
+    for (const incident of this.hexVertexNeighbors(vertex)) {
+      const parsed = this.parseHexEdgeKey(incident.edgeKey);
+      if (!parsed) continue;
+      const first = { q: parsed.x1, r: parsed.y1 };
+      const candidate = first.q === vertex.cell.q && first.r === vertex.cell.r
+        ? { q: parsed.x2, r: parsed.y2 }
+        : first;
+      if (!cells.some((cell) => cell.q === candidate.q && cell.r === candidate.r)) {
+        cells.push(candidate);
+      }
+    }
+    return cells;
   }
 
   /**

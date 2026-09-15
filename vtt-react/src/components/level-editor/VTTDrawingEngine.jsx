@@ -184,6 +184,7 @@ const VTTDrawingEngine = () => {
                     const previewGridSystem = getGridSystem();
                     const previewGridType = previewGridSystem.getGridState().gridType;
                     const isEdgePath = currentDrawingPath[0] && currentDrawingPath[0].isHexEdge;
+                    const isSegmentPath = currentDrawingPath[0] && currentDrawingPath[0].isHexSegment;
 
                     ctx.save();
                     ctx.strokeStyle = '#FFD700';
@@ -191,7 +192,34 @@ const VTTDrawingEngine = () => {
                     ctx.lineWidth = Math.max(3, ctx.lineWidth);
                     ctx.setLineDash([10, 6]);
 
-                    if (isEdgePath) {
+                    if (isSegmentPath) {
+                        // Straight corner-to-corner hex wall preview
+                        const viewport = previewGridSystem.getViewportDimensions();
+                        const segment = currentDrawingPath[0];
+                        const startScreen = previewGridSystem.worldToScreen(
+                            segment.start.x, segment.start.y, viewport.width, viewport.height
+                        );
+                        const endScreen = previewGridSystem.worldToScreen(
+                            segment.end.x, segment.end.y, viewport.width, viewport.height
+                        );
+                        if (Math.hypot(endScreen.x - startScreen.x, endScreen.y - startScreen.y) > 1) {
+                            ctx.beginPath();
+                            ctx.moveTo(startScreen.x, startScreen.y);
+                            ctx.lineTo(endScreen.x, endScreen.y);
+                            ctx.stroke();
+                        }
+                        ctx.setLineDash([]);
+
+                        ctx.fillStyle = '#FFD700';
+                        ctx.strokeStyle = '#000';
+                        ctx.lineWidth = 1.5;
+                        [startScreen, endScreen].forEach(pt => {
+                            ctx.beginPath();
+                            ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
+                            ctx.fill();
+                            ctx.stroke();
+                        });
+                    } else if (isEdgePath) {
                         const viewport = previewGridSystem.getViewportDimensions();
                         const mids = [];
                         ctx.beginPath();
@@ -593,11 +621,26 @@ const VTTDrawingEngine = () => {
         const gridSystem = getGridSystem();
         const { gridType } = gridSystem.getGridState();
         const isEdgePath = points[0] && points[0].isHexEdge;
+        const isSegmentPath = points[0] && points[0].isHexSegment;
 
         ctx.lineWidth = Math.max(4, 8 * effectiveZoom);
         ctx.strokeStyle = '#8B4513';
         ctx.lineCap = 'square';
         ctx.lineJoin = 'round';
+
+        if (isSegmentPath) {
+            const viewport = gridSystem.getViewportDimensions();
+            const segment = points[0];
+            const startPoint = gridSystem.worldToScreen(segment.start.x, segment.start.y, viewport.width, viewport.height);
+            const endPoint = gridSystem.worldToScreen(segment.end.x, segment.end.y, viewport.width, viewport.height);
+            if (Math.hypot(endPoint.x - startPoint.x, endPoint.y - startPoint.y) > 1) {
+                ctx.beginPath();
+                ctx.moveTo(startPoint.x, startPoint.y);
+                ctx.lineTo(endPoint.x, endPoint.y);
+                ctx.stroke();
+            }
+            return;
+        }
 
         if (isEdgePath) {
             const viewport = gridSystem.getViewportDimensions();

@@ -226,6 +226,48 @@ describe('WallOcclusion (ray model)', () => {
     })).toBe(true);
   });
 
+  it('occludes behind a straight free-form hex wall', () => {
+    const gridSystem = {
+      ...makeGridSystem({ gridType: 'hex' }),
+      getHexEdge: () => null,
+      hexCellsAtVertex: () => [{ q: 0, r: 0 }]
+    };
+    const wallData = {
+      '-5000,0,5000,0': {
+        type: 'stone_wall',
+        hexEndpoints: [{ x: -50, y: 0 }, { x: 50, y: 0 }]
+      }
+    };
+
+    expect(isWorldPointBehindWalls({
+      worldX: 0,
+      worldY: -25,
+      worldZ: 0,
+      wallData,
+      elevationData: {},
+      gridSystem
+    })).toBe(true);
+
+    expect(isWorldPointBehindWalls({
+      worldX: 0,
+      worldY: 25,
+      worldZ: 0,
+      wallData,
+      elevationData: {},
+      gridSystem
+    })).toBe(false);
+
+    // Only the span between the corners blocks sight, not the infinite line.
+    expect(isWorldPointBehindWalls({
+      worldX: 200,
+      worldY: -25,
+      worldZ: 0,
+      wallData,
+      elevationData: {},
+      gridSystem
+    })).toBe(false);
+  });
+
   it('flags partial occlusion when only the token edge is hidden', () => {
     const gridSystem = makeGridSystem();
     const wallData = { '0,1,1,1': { type: 'stone_wall' } };

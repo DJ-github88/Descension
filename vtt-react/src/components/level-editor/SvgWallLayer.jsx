@@ -247,42 +247,43 @@ const buildTerrainOccluders = ({
   }
 };
 
-const renderRun = (run) => (
+const renderSide = (side) => (
   <>
-    {run.showShadow && (
-      <path d={run.shadowPath} fill="rgba(0,0,0,0.16)" filter="url(#svgWallShadowBlur)" />
+    <polygon points={side.points} fill={side.fill} />
+    {side.patternId && <polygon points={side.points} fill={`url(#${side.patternId})`} />}
+    <polygon points={side.points} fill={`url(#${side.shadeId || 'svgWallSideShade'})`} />
+    {side.topLine && (
+      <line
+        {...lineProps(side.topLine)}
+        stroke={side.topStroke}
+        strokeWidth={side.topStrokeWidth}
+        opacity="0.42"
+      />
     )}
-    {run.sides.map((side, idx) => (
-      <React.Fragment key={`side-${idx}`}>
-        <polygon points={side.points} fill={side.fill} />
-        {side.near && side.patternId && (
-          <polygon points={side.points} fill={`url(#${side.patternId})`} />
-        )}
-        {side.near && <polygon points={side.points} fill={`url(#${side.shadeId || 'svgWallSideShade'})`} />}
-        {side.topLine && (
-          <line
-            {...lineProps(side.topLine)}
-            stroke={mulColor(run.color, 1.6)}
-            strokeWidth={Math.max(1.2, run.thickness * 0.17)}
-            opacity="0.42"
-          />
-        )}
-        {side.baseLine && (
-          <line
-            {...lineProps(side.baseLine)}
-            stroke="rgba(0,0,0,0.6)"
-            strokeWidth={Math.max(1.4, run.thickness * 0.14)}
-          />
-        )}
-      </React.Fragment>
-    ))}
-    <path d={run.topPath} fill={run.topFill} fillRule="evenodd" />
-    {run.topStrips.map((strip, idx) => (
-      <polygon key={`top-strip-${idx}`} points={strip.points} fill={`url(#${strip.patternId})`} />
-    ))}
-    <path d={run.topPath} fill="url(#svgWallTopShade)" fillRule="evenodd" />
-    <path d={run.topPath} fill="none" stroke="rgba(0,0,0,0.42)" strokeWidth="1" />
+    {side.baseLine && (
+      <line
+        {...lineProps(side.baseLine)}
+        stroke="rgba(0,0,0,0.6)"
+        strokeWidth={side.baseStrokeWidth}
+      />
+    )}
   </>
+);
+
+// The top plate is drawn without texture; the rim strips are separate sorted
+// primitives so they can be occluded/cast occlusion locally along a wall.
+const renderTop = (top) => (
+  <>
+    <path d={top.topPath} fill={top.topFill} fillRule="evenodd" />
+    <path d={top.topPath} fill="url(#svgWallTopShade)" fillRule="evenodd" />
+    <path d={top.topPath} fill="none" stroke="rgba(0,0,0,0.42)" strokeWidth="1" />
+  </>
+);
+
+const renderTopStrip = (strip) => (
+  <g clipPath={`url(#${strip.clipId})`}>
+    {strip.patternId && <polygon points={strip.points} fill={`url(#${strip.patternId})`} />}
+  </g>
 );
 
 const renderWindow = (item) => {
@@ -682,6 +683,18 @@ const wallFeatureCutRects = (items) => items
     ]];
   });
 
+// Faces this small on screen are slivers from nearly edge-on walls; drawing
+// them only produces noise (and degenerate texture matrices).
+const WALL_SIDE_MIN_SCREEN_AREA = 2.5;
+
+const screenPolygonArea = (points) => {
+  let area = 0;
+  for (let i = 0, j = points.length - 1; i < points.length; j = i++) {
+    area += points[j].x * points[i].y - points[i].x * points[j].y;
+  }
+  return Math.abs(area) / 2;
+};
+
 const buildRuns = ({ solidItems, transform, fogOfWarEnabled, nodes, featureCuts = [], gridSize, patternsById }) => {
   const groups = new Map();
   for (const item of solidItems) {
@@ -707,22 +720,29 @@ const buildRuns = ({ solidItems, transform, fogOfWarEnabled, nodes, featureCuts 
   const sunLength = Math.max(1e-6, Math.hypot(SUN_WORLD.x, SUN_WORLD.y));
   const sunUnit = { x: SUN_WORLD.x / sunLength, y: SUN_WORLD.y / sunLength };
 
+  // Painter key = ground-space depth along the camera axis. Screen Y would be
+  // wrong here: it embeds height, so a distant tall wall's face could outrank
+  // a near wall's top plate and hide the top of the nearer wall.
   const depthOfWorld = (x, y) =>
     -((x - transform.cameraX) * transform.sinYaw) +
     (y - transform.cameraY) * transform.cosYaw;
 
-  const runs = [];
+  const primitives = [];
+  const shadowByBase = new Map();
+  const gradients = [];
   let runIndex = 0;
 
   for (const group of groups.values()) {
     const half = group.items[0].thickness / 2;
+    const groupKeys = new Set(group.items.map((item) => item.key));
     const rects = [];
     for (const item of group.items) {
       const footprint = computeWallFootprint({
         item,
         startNode: nodes?.get(item.nodeKeys?.[0]),
         endNode: nodes?.get(item.nodeKeys?.[1]),
-        half
+        half,
+        partnerKeys: groupKeys
       });
       if (footprint) rects.push([footprint]);
     }
@@ -753,10 +773,13 @@ const buildRuns = ({ solidItems, transform, fogOfWarEnabled, nodes, featureCuts 
       color: group.color
     });
     registerWallPattern(patternsById, pattern);
-    const patternId = pattern.side.id;
     const topFill = mulColor(group.color, 1.07);
     const shadowLength = Math.min(heightWorld * 0.4, thickness * 3.2);
     const showShadow = !fogOfWarEnabled && !group.items.every((item) => item.dimmed);
+    const groupDimmed = group.items.every((item) => item.dimmed);
+    const wallKeys = group.items.map((item) => item.key);
+    const runOccluders = group.items.flatMap((item) => item.occluders || []);
+    const minSegment = Math.max((gridSize || 50) * 0.75, thickness * 3, 4);
 
     for (const polygon of unioned) {
       const worldRings = polygon
@@ -769,11 +792,16 @@ const buildRuns = ({ solidItems, transform, fogOfWarEnabled, nodes, featureCuts 
       const topPath = screenTopRings.map(ringToPath).join(' ');
       if (!topPath) continue;
 
-      const sides = [];
-      const gradients = [];
-      const topStrips = [];
-      const stripDepth = thickness * 1.1;
-      for (const ring of worldRings) {
+      const runKey = `run-${runIndex}-${group.key}`;
+      runIndex += 1;
+      const clipId = `wallTopClip-${runKey.replace(/[^a-zA-Z0-9_-]/g, '_')}`;
+      const maskId = runOccluders.length > 0
+        ? `runOccl-${runKey.replace(/[^a-zA-Z0-9_-]/g, '_')}`
+        : null;
+      const stripDepth = thickness * 1.02;
+      const shadeBase = `svgWallFaceShade-${runIndex}`;
+
+      worldRings.forEach((ring, ringIndex) => {
         for (let i = 0; i < ring.length; i++) {
           const a = ring[i];
           const b = ring[(i + 1) % ring.length];
@@ -781,6 +809,7 @@ const buildRuns = ({ solidItems, transform, fogOfWarEnabled, nodes, featureCuts 
           const dy = b[1] - a[1];
           const len = Math.hypot(dx, dy);
           if (len < 1e-6) continue;
+
           let normal = { x: dy / len, y: -dx / len };
           const mid = { x: (a[0] + b[0]) / 2, y: (a[1] + b[1]) / 2 };
           const probe = { x: mid.x + normal.x * 0.5, y: mid.y + normal.y * 0.5 };
@@ -788,21 +817,7 @@ const buildRuns = ({ solidItems, transform, fogOfWarEnabled, nodes, featureCuts 
             normal = { x: -normal.x, y: -normal.y };
           }
           const facing = normal.x * viewX + normal.y * viewY;
-          const dot = normal.x * SUN_WORLD.x + normal.y * SUN_WORLD.y;
-          // Screen-right component of the face normal drives the stylized key
-          // light (upper-left on screen), so adjacent faces of a corner never
-          // collapse into the same tone.
-          const lateral = normal.x * transform.cosYaw + normal.y * transform.sinYaw;
-          const fill = mulColor(group.color, faceLightFactor(facing, dot, lateral));
 
-          const baseA = projectWorldPoint(transform, a[0], a[1], group.baseZ);
-          const baseB = projectWorldPoint(transform, b[0], b[1], group.baseZ);
-          const topA = projectWorldPoint(transform, a[0], a[1], group.topZ);
-          const topB = projectWorldPoint(transform, b[0], b[1], group.topZ);
-
-          // Each edge carries its own world-anchored pattern (direction-aware)
-          // so union runs that turn corners keep correct texture orientation on
-          // every arm instead of one global skew.
           const edgePattern = wallPatternDescriptor({
             typeId: group.typeId || 'stone_wall',
             ux: dx / len,
@@ -813,122 +828,205 @@ const buildRuns = ({ solidItems, transform, fogOfWarEnabled, nodes, featureCuts 
           });
           registerWallPattern(patternsById, edgePattern);
 
-          // Top-face strip for this edge: a rectangle of wall thickness running
-          // along the edge, textured with the top mapping.
-          const inward = { x: -normal.x * stripDepth, y: -normal.y * stripDepth };
-          topStrips.push({
-            points: [
-              projectWorldPoint(transform, a[0], a[1], group.topZ),
-              projectWorldPoint(transform, b[0], b[1], group.topZ),
-              projectWorldPoint(transform, b[0] + inward.x, b[1] + inward.y, group.topZ),
-              projectWorldPoint(transform, a[0] + inward.x, a[1] + inward.y, group.topZ)
-            ].map((p) => `${p.x},${p.y}`).join(' '),
-            patternId: edgePattern.top.id
-          });
+          // Split each edge into short segments: the painter can then order
+          // every piece locally instead of sorting one giant quad by a single
+          // depth, which is what made long walls fight over who is in front.
+          const segments = Math.max(1, Math.ceil(len / minSegment));
 
-          // Near faces get a vertical shade gradient oriented perpendicular to
-          // the wall's top edge (exact height direction on screen, not the
-          // polygon bbox), so long diagonal walls darken toward the base
-          // uniformly instead of one end going muddy.
-          let shadeId = null;
-          if (facing > 0) {
-            const edgeX = topB.x - topA.x;
-            const edgeY = topB.y - topA.y;
-            const edgeLen = Math.max(1e-6, Math.hypot(edgeX, edgeY));
-            let nx = -edgeY / edgeLen;
-            let ny = edgeX / edgeLen;
-            const toBaseX = baseA.x - topA.x;
-            const toBaseY = baseA.y - topA.y;
-            if (toBaseX * nx + toBaseY * ny < 0) {
-              nx = -nx;
-              ny = -ny;
-            }
-            const dist = Math.max(1e-6, toBaseX * nx + toBaseY * ny);
-            shadeId = `svgWallFaceShade-${runIndex}-${sides.length}`;
-            gradients.push({
-              id: shadeId,
-              x1: topA.x,
-              y1: topA.y,
-              x2: topA.x + nx * dist,
-              y2: topA.y + ny * dist
+          // Top-face rim strip for this edge, segmented the same way as the
+          // side face so both sort locally. Strips are clipped to the union
+          // footprint at render time so they cannot poke past miters.
+          const inward = { x: -normal.x * stripDepth, y: -normal.y * stripDepth };
+          for (let s = 0; s < segments; s++) {
+            const t0 = s / segments;
+            const t1 = (s + 1) / segments;
+            const ax = a[0] + dx * t0;
+            const ay = a[1] + dy * t0;
+            const bx = a[0] + dx * t1;
+            const by = a[1] + dy * t1;
+            const s0 = projectWorldPoint(transform, ax, ay, group.topZ);
+            const s1 = projectWorldPoint(transform, bx, by, group.topZ);
+            const s2 = projectWorldPoint(transform, bx + inward.x, by + inward.y, group.topZ);
+            const s3 = projectWorldPoint(transform, ax + inward.x, ay + inward.y, group.topZ);
+            const stripQuad = [s0, s1, s2, s3];
+            if (screenPolygonArea(stripQuad) < WALL_SIDE_MIN_SCREEN_AREA * 0.4) continue;
+            primitives.push({
+              kind: 'topStrip',
+              key: `${runKey}-strip-${ringIndex}-${i}-${s}`,
+              runKey,
+              wallKeys,
+              thickness,
+              dimmed: groupDimmed,
+              maskId,
+              occluders: runOccluders,
+              clipId,
+              points: stripQuad.map((p) => `${p.x},${p.y}`).join(' '),
+              polygon: stripQuad,
+              bbox: polygonBBox(stripQuad),
+              centroid: polygonCentroid(stripQuad),
+              patternId: edgePattern ? edgePattern.top.id : null,
+              sortKey: depthOfWorld((ax + bx) / 2, (ay + by) / 2),
+              minY: Math.min(s0.y, s1.y, s2.y, s3.y)
             });
           }
 
-          sides.push({
-            points: `${baseA.x},${baseA.y} ${baseB.x},${baseB.y} ${topB.x},${topB.y} ${topA.x},${topA.y}`,
-            fill,
-            shadeId,
-            patternId: facing > 0 ? edgePattern.side.id : null,
-            depth: depthOfWorld(mid.x, mid.y),
-            near: facing > 0,
-            baseLine: facing > 0
-              ? { x1: baseA.x, y1: baseA.y, x2: baseB.x, y2: baseB.y }
-              : null,
-            topLine: facing > 0
-              ? { x1: topA.x, y1: topA.y, x2: topB.x, y2: topB.y }
-              : null
-          });
-        }
-      }
-      sides.sort((a, b) => a.depth - b.depth);
+          // Backfaces of a grounded prism are never visible; drawing them
+          // leaked flat, untextured slabs past silhouettes at some angles.
+          if (facing <= 0) continue;
 
-      let sortDepth = -Infinity;
+          const dot = normal.x * SUN_WORLD.x + normal.y * SUN_WORLD.y;
+          const lateral = normal.x * transform.cosYaw + normal.y * transform.sinYaw;
+          const fill = mulColor(group.color, faceLightFactor(facing, dot, lateral));
+
+          // One shade gradient per ring edge, shared by all of its segments so
+          // a long face still darkens uniformly toward its base.
+          const edgeTopA = projectWorldPoint(transform, a[0], a[1], group.topZ);
+          const edgeTopB = projectWorldPoint(transform, b[0], b[1], group.topZ);
+          const edgeBaseA = projectWorldPoint(transform, a[0], a[1], group.baseZ);
+          const edgeX = edgeTopB.x - edgeTopA.x;
+          const edgeY = edgeTopB.y - edgeTopA.y;
+          const edgeLen = Math.max(1e-6, Math.hypot(edgeX, edgeY));
+          let shadeNx = -edgeY / edgeLen;
+          let shadeNy = edgeX / edgeLen;
+          const toBaseX = edgeBaseA.x - edgeTopA.x;
+          const toBaseY = edgeBaseA.y - edgeTopA.y;
+          if (toBaseX * shadeNx + toBaseY * shadeNy < 0) {
+            shadeNx = -shadeNx;
+            shadeNy = -shadeNy;
+          }
+          const shadeDist = Math.max(1e-6, toBaseX * shadeNx + toBaseY * shadeNy);
+          const shadeId = `${shadeBase}-${ringIndex}-${i}`;
+          gradients.push({
+            id: shadeId,
+            x1: edgeTopA.x,
+            y1: edgeTopA.y,
+            x2: edgeTopA.x + shadeNx * shadeDist,
+            y2: edgeTopA.y + shadeNy * shadeDist
+          });
+
+          for (let s = 0; s < segments; s++) {
+            const t0 = s / segments;
+            const t1 = (s + 1) / segments;
+            const ax = a[0] + dx * t0;
+            const ay = a[1] + dy * t0;
+            const bx = a[0] + dx * t1;
+            const by = a[1] + dy * t1;
+            const baseA = projectWorldPoint(transform, ax, ay, group.baseZ);
+            const baseB = projectWorldPoint(transform, bx, by, group.baseZ);
+            const topA = projectWorldPoint(transform, ax, ay, group.topZ);
+            const topB = projectWorldPoint(transform, bx, by, group.topZ);
+            const quad = [baseA, baseB, topB, topA];
+            if (screenPolygonArea(quad) < WALL_SIDE_MIN_SCREEN_AREA) continue;
+
+            primitives.push({
+              kind: 'side',
+              key: `${runKey}-side-${ringIndex}-${i}-${s}`,
+              runKey,
+              wallKeys,
+              thickness,
+              dimmed: groupDimmed,
+              maskId,
+              occluders: runOccluders,
+              points: quad.map((p) => `${p.x},${p.y}`).join(' '),
+              polygon: quad,
+              bbox: polygonBBox(quad),
+              centroid: polygonCentroid(quad),
+              fill,
+              shadeId,
+              patternId: edgePattern ? edgePattern.side.id : null,
+              topStroke: mulColor(group.color, 1.6),
+              topStrokeWidth: Math.max(1.2, thickness * 0.17),
+              baseStrokeWidth: Math.max(1.4, thickness * 0.14),
+              baseLine: { x1: baseA.x, y1: baseA.y, x2: baseB.x, y2: baseB.y },
+              topLine: { x1: topA.x, y1: topA.y, x2: topB.x, y2: topB.y },
+              sortKey: depthOfWorld((ax + bx) / 2, (ay + by) / 2),
+              minY: Math.min(baseA.y, baseB.y, topA.y, topB.y)
+            });
+          }
+        }
+      });
+
+      const silhouette = (screenTopRings[0] || []).slice();
+      let minY = Infinity;
+      let plateDepth = Infinity;
       for (const ring of worldRings) {
         for (const p of ring) {
           const d = depthOfWorld(p[0], p[1]);
-          if (d > sortDepth) sortDepth = d;
+          if (d < plateDepth) plateDepth = d;
+        }
+      }
+      for (const ring of screenTopRings) {
+        for (const p of ring) {
+          if (p.y < minY) minY = p.y;
         }
       }
 
-      const shadowScreen = worldRings.map((ring) =>
-        ring.map((p) => projectWorldPoint(
-          transform,
-          p[0] - sunUnit.x * shadowLength,
-          p[1] - sunUnit.y * shadowLength,
-          group.baseZ
-        ))
-      );
-      const shadowPath = shadowScreen.map(ringToPath).join(' ');
-
-      const silhouette = screenTopRings[0] || [];
-      const bbox = polygonBBox(silhouette) || { minX: 0, minY: 0, maxX: 0, maxY: 0 };
-      const centroid = polygonCentroid(silhouette);
-
-      runs.push({
-        kind: 'run',
-        key: `run-${runIndex}-${group.key}`,
-        typeId: group.typeId,
-        color: group.color,
+      primitives.push({
+        kind: 'top',
+        key: `${runKey}-top`,
+        runKey,
+        wallKeys,
         thickness,
-        baseZ: group.baseZ,
-        topZ: group.topZ,
-        patternId,
-        topFill,
+        dimmed: groupDimmed,
+        maskId,
+        occluders: runOccluders,
         topPath,
-        topStrips,
-        sides,
-        gradients,
-        shadowPath,
-        showShadow,
-        bbox,
-        centroid,
+        topFill,
+        clipId,
         silhouette,
-        sortDepth,
-        wallKeys: group.items.map((item) => item.key),
-        dimmed: group.items.every((item) => item.dimmed),
-        occluders: group.items.flatMap((item) => item.occluders || [])
+        silhouetteRings: screenTopRings,
+        bbox: polygonBBox(silhouette) || { minX: 0, minY: 0, maxX: 0, maxY: 0 },
+        centroid: polygonCentroid(silhouette),
+        // The plate is the backdrop for its own rim strips (which carry the
+        // texture and sort locally): key it by the run's farthest ground point
+        // so every wall closer to the camera paints over it.
+        sortKey: plateDepth,
+        minY
       });
-      runIndex += 1;
+
+      if (showShadow) {
+        const shiftX = sunUnit.x * shadowLength;
+        const shiftY = sunUnit.y * shadowLength;
+        const shifted = worldRings.map((ring) =>
+          ring.map(([x, y]) => [x - shiftX, y - shiftY])
+        );
+        let list = shadowByBase.get(group.baseZ);
+        if (!list) {
+          list = [];
+          shadowByBase.set(group.baseZ, list);
+        }
+        list.push(shifted);
+      }
     }
   }
 
-  for (const run of runs) {
-    if (run.occluders.length > 0) {
-      run.maskId = `runOccl-${run.key.replace(/[^a-zA-Z0-9_-]/g, '_')}`;
+  // Union each elevation's shadow polygons before projecting: separate
+  // translucent paths double-darken where they overlap, and a single nonzero
+  // path with several rings can cancel a hole ring against another run's fill
+  // and punch light holes in the shadow.
+  const shadowPaths = [];
+  for (const [baseZ, polygons] of shadowByBase) {
+    let merged = polygons;
+    if (polygons.length > 1) {
+      try {
+        merged = polygonClipping.union(polygons[0], ...polygons.slice(1));
+      } catch (error) {
+        merged = polygons;
+      }
     }
+    const rings = [];
+    for (const polygon of merged) {
+      for (const rawRing of polygon) {
+        const ring = normalizeRing(rawRing);
+        if (ring.length < 3) continue;
+        const path = ringToPath(ring.map((p) => projectWorldPoint(transform, p[0], p[1], baseZ)));
+        if (path) rings.push(path);
+      }
+    }
+    if (rings.length > 0) shadowPaths.push(rings.join(' '));
   }
 
-  return runs;
+  return { primitives, shadowPaths, gradients };
 };
 
 const SvgWallLayer = () => {
@@ -1069,7 +1167,7 @@ const SvgWallLayer = () => {
       const typeId = typeof wall === 'string' ? wall : wall.type;
       const typeData = WALL_TYPES[typeId] || WALL_TYPES.stone_wall || {};
 
-      const ends = getWallWorldEndpoints(parsed, gridSystem, gridType);
+      const ends = getWallWorldEndpoints(parsed, gridSystem, gridType, wall);
       if (!ends) continue;
       const startNode = nodes.get(nodeKeyForWorld(ends.start.x, ends.start.y));
       const endNode = nodes.get(nodeKeyForWorld(ends.end.x, ends.end.y));
@@ -1155,7 +1253,7 @@ const SvgWallLayer = () => {
 
     const features = wallItems.filter((item) => item.isWindow || item.isDoor || item.isMagic);
     const patternsById = new Map();
-    const runs = buildRuns({
+    const { primitives, shadowPaths, gradients: faceGradients } = buildRuns({
       solidItems: consolidated,
       transform,
       fogOfWarEnabled,
@@ -1165,56 +1263,36 @@ const SvgWallLayer = () => {
       patternsById
     });
 
+    // Features sort in the same painter pass as the wall primitives, using the
+    // same ground-space depth so a door/window sits at its wall's depth.
     const depthOfWorld = (x, y) =>
       -((x - transform.cameraX) * transform.sinYaw) +
       (y - transform.cameraY) * transform.cosYaw;
-
     for (const item of features) {
       const nearWorld = item.nearWorld || [item.worldStart, item.worldEnd];
-      let featureDepth = Math.max(depthOfWorld(nearWorld[0].x, nearWorld[0].y), depthOfWorld(nearWorld[1].x, nearWorld[1].y));
+      let sortKey = Math.max(
+        depthOfWorld(nearWorld[0].x, nearWorld[0].y),
+        depthOfWorld(nearWorld[1].x, nearWorld[1].y)
+      );
       const leaf = item.door?.swing;
       if (leaf?.worldHinge && leaf?.worldEnd) {
-        featureDepth = Math.max(
-          featureDepth,
+        sortKey = Math.max(
+          sortKey,
           depthOfWorld(leaf.worldHinge.x, leaf.worldHinge.y),
           depthOfWorld(leaf.worldEnd.x, leaf.worldEnd.y)
         );
       }
-      item.sortDepth = featureDepth;
+      let minY = Infinity;
+      for (const p of item.faces.near) {
+        if (p.y < minY) minY = p.y;
+      }
+      item.sortKey = sortKey;
+      item.minY = minY;
       registerWallPattern(patternsById, item.pattern);
     }
 
-    const items = [...runs, ...features];
-    items.sort((a, b) => a.sortDepth - b.sortDepth);
-
-    const partialCandidates = items
-      .filter((item) => !item.dimmed)
-      .map((item) => {
-        const polygon = item.kind === 'run' ? item.silhouette : item.faces.near;
-        return { item, polygon, bbox: item.bbox || polygonBBox(polygon), centroid: item.centroid || polygonCentroid(polygon) };
-      });
-
-    if (partialCandidates.length > 1 && partialCandidates.length <= 150) {
-      for (const entry of partialCandidates) {
-        for (const other of partialCandidates) {
-          if (other.item === entry.item) continue;
-          if (other.item.sortDepth <= entry.item.sortDepth) continue;
-          if (!other.bbox || !other.polygon) continue;
-          if (entry.centroid.x < other.bbox.minX || entry.centroid.x > other.bbox.maxX ||
-              entry.centroid.y < other.bbox.minY || entry.centroid.y > other.bbox.maxY) {
-            continue;
-          }
-          const cover = other.item.kind === 'run'
-            ? pointInRings(entry.centroid.x, entry.centroid.y,
-                [(other.item.silhouette || []).map((p) => [p.x, p.y])])
-            : pointInPolygon(entry.centroid.x, entry.centroid.y, other.polygon);
-          if (cover) {
-            entry.item.partiallyHidden = true;
-            break;
-          }
-        }
-      }
-    }
+    const items = [...primitives, ...features];
+    items.sort((a, b) => (a.sortKey - b.sortKey) || (a.minY - b.minY));
 
     let selection = null;
     if (selectedWallKey) {
@@ -1227,7 +1305,8 @@ const SvgWallLayer = () => {
     return {
       items,
       patterns: Array.from(patternsById.values()),
-      gradients: runs.flatMap((run) => run.gradients || []),
+      shadowPaths,
+      gradients: faceGradients,
       selection,
       camera: sceneCamera
     };
@@ -1311,33 +1390,73 @@ const SvgWallLayer = () => {
             <stop offset="100%" stopColor="rgba(0,0,0,0.5)" />
           </linearGradient>
         ))}
-        {scene.patterns.map((pattern) => (
-          <pattern
-            key={pattern.id}
-            id={pattern.id}
-            width={pattern.unit}
-            height={pattern.unit}
-            patternUnits="userSpaceOnUse"
-            patternTransform={`matrix(${pattern.matrix.a} ${pattern.matrix.b} ${pattern.matrix.c} ${pattern.matrix.d} ${pattern.matrix.e} ${pattern.matrix.f})`}
-          >
-            <rect
-              width={pattern.unit}
-              height={pattern.unit}
-              fill={shade(WALL_TYPES[pattern.type]?.color || pattern.color, -12)}
-            />
-            <image
-              href={`/assets/textures/walls/${pattern.type}.png`}
-              width={pattern.unit}
-              height={pattern.unit}
-              opacity="0.22"
-              preserveAspectRatio="xMidYMid slice"
-            />
-            <rect width={pattern.unit} height={pattern.unit} fill="rgba(0,0,0,0.05)" />
-          </pattern>
-        ))}
+        {scene.patterns.map((pattern) => {
+          // The texture images do not wrap, so a plain 1x1 tile leaves a visible
+          // seam line at every grid cell. Mirror the image into a 2x2 tile so
+          // opposite tile edges always match and the repeat is seamless.
+          const unit = pattern.unit;
+          const span = unit * 2;
+          const href = `/assets/textures/walls/${pattern.type}.png`;
+          return (
+            <pattern
+              key={pattern.id}
+              id={pattern.id}
+              width={span}
+              height={span}
+              patternUnits="userSpaceOnUse"
+              patternTransform={`matrix(${pattern.matrix.a} ${pattern.matrix.b} ${pattern.matrix.c} ${pattern.matrix.d} ${pattern.matrix.e} ${pattern.matrix.f})`}
+            >
+              <rect
+                width={span}
+                height={span}
+                fill={shade(WALL_TYPES[pattern.type]?.color || pattern.color, -12)}
+              />
+              <image href={href} width={unit} height={unit} opacity="0.22" preserveAspectRatio="xMidYMid slice" />
+              <image
+                href={href}
+                width={unit}
+                height={unit}
+                opacity="0.22"
+                preserveAspectRatio="xMidYMid slice"
+                transform={`translate(${span},0) scale(-1,1)`}
+              />
+              <image
+                href={href}
+                width={unit}
+                height={unit}
+                opacity="0.22"
+                preserveAspectRatio="xMidYMid slice"
+                transform={`translate(0,${span}) scale(1,-1)`}
+              />
+              <image
+                href={href}
+                width={unit}
+                height={unit}
+                opacity="0.22"
+                preserveAspectRatio="xMidYMid slice"
+                transform={`translate(${span},${span}) scale(-1,-1)`}
+              />
+              <rect width={span} height={span} fill="rgba(0,0,0,0.05)" />
+            </pattern>
+          );
+        })}
         {scene.items
-          .filter((item) => item.maskId && item.occluders && item.occluders.length > 0)
+          .filter((item) => item.kind === 'top')
           .map((item) => (
+            <clipPath key={item.clipId} id={item.clipId}>
+              <path d={item.topPath} clipRule="evenodd" />
+            </clipPath>
+          ))}
+        {(() => {
+          const seen = new Set();
+          const masked = [];
+          for (const item of scene.items) {
+            if (!item.maskId || !item.occluders || item.occluders.length === 0) continue;
+            if (seen.has(item.maskId)) continue;
+            seen.add(item.maskId);
+            masked.push(item);
+          }
+          return masked.map((item) => (
             <mask
               key={item.maskId}
               id={item.maskId}
@@ -1352,17 +1471,36 @@ const SvgWallLayer = () => {
                 <polygon key={`${item.maskId}-occ-${idx}`} points={points} fill="black" />
               ))}
             </mask>
-          ))}
+          ));
+        })()}
       </defs>
+
+      {/* Cast shadow pass under every wall, one merged polygon set per ground
+          elevation: overlaps never double-darken and shadows can never paint
+          over nearer wall geometry. */}
+      {scene.shadowPaths.map((path, idx) => (
+        <path
+          key={`wall-shadow-${idx}`}
+          d={path}
+          fill="rgba(0,0,0,0.16)"
+          filter="url(#svgWallShadowBlur)"
+        />
+      ))}
 
       {scene.items.map((item) => (
         <g
           key={item.key}
-          data-wall-key={item.kind === 'run' ? item.wallKeys.join('+') : item.key}
-          opacity={item.dimmed ? 0.4 : item.partiallyHidden ? 0.62 : 1}
+          data-wall-key={item.wallKeys ? item.wallKeys.join('+') : item.key}
+          opacity={item.dimmed ? 0.4 : 1}
           mask={item.maskId ? `url(#${item.maskId})` : undefined}
         >
-          {item.kind === 'run' ? renderRun(item) : renderFeature(item, updateWall)}
+          {item.kind === 'side'
+            ? renderSide(item)
+            : item.kind === 'top'
+              ? renderTop(item)
+              : item.kind === 'topStrip'
+                ? renderTopStrip(item)
+                : renderFeature(item, updateWall)}
         </g>
       ))}
 
@@ -1386,22 +1524,6 @@ const SvgWallLayer = () => {
       )}
     </svg>
   );
-};
-
-const pointInPolygon = (x, y, poly) => {
-  if (!poly || poly.length < 3) return false;
-  let inside = false;
-  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
-    const xi = poly[i].x;
-    const yi = poly[i].y;
-    const xj = poly[j].x;
-    const yj = poly[j].y;
-    if ((yi > y) !== (yj > y) &&
-        x < ((xj - xi) * (y - yi)) / ((yj - yi) || 1e-9) + xi) {
-      inside = !inside;
-    }
-  }
-  return inside;
 };
 
 export default SvgWallLayer;

@@ -54,7 +54,12 @@ describe('SvgWallLayer', () => {
     const svg = container.querySelector('svg.svg-wall-layer');
     expect(svg).toBeTruthy();
     expect(svg.querySelectorAll('polygon').length).toBeGreaterThan(4);
-    expect(svg.querySelectorAll('g').length).toBe(1);
+    // Every primitive group of a merged run carries all of its wall keys, so a
+    // single union run means one shared data-wall-key across the whole scene.
+    const keys = new Set(
+      [...svg.querySelectorAll('g[data-wall-key]')].map((group) => group.getAttribute('data-wall-key'))
+    );
+    expect(keys).toEqual(new Set(['0,0,1,0+1,0,1,1']));
   });
 
   it('renders a real window assembly with glass panes', () => {
@@ -137,6 +142,25 @@ describe('SvgWallLayer', () => {
     });
     const withFog = render(<SvgWallLayer />);
     expect(withFog.container.querySelectorAll('path[fill="rgba(0,0,0,0.16)"]').length).toBe(0);
+  });
+
+  it('merges cast shadows into a single pass under every run', () => {
+    setView();
+    setEditor({
+      wallData: {
+        '0,0,2,0': { type: 'stone_wall' },
+        '0,2,2,2': { type: 'stone_wall' }
+      },
+      fogOfWarEnabled: false
+    });
+
+    const { container } = render(<SvgWallLayer />);
+    const shadows = container.querySelectorAll('path[fill="rgba(0,0,0,0.16)"]');
+    expect(shadows.length).toBe(1);
+    const svg = container.querySelector('svg.svg-wall-layer');
+    const directPaths = svg.querySelectorAll(':scope > path');
+    expect(directPaths.length).toBe(1);
+    expect(directPaths[0].getAttribute('filter')).toBe('url(#svgWallShadowBlur)');
   });
 
   it('keeps every wall pattern and side polygon non-degenerate for a closed room', () => {

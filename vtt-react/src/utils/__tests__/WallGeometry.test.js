@@ -1,5 +1,6 @@
 import {
   WALL_BASE_SINK_WORLD,
+  WALL_MITER_LIMIT,
   buildWallRenderItem,
   collectWallNodes,
   computeWallFootprint,
@@ -9,6 +10,7 @@ import {
   getWallThickness,
   getWallWorldEndpoints,
   parseWallKey,
+  wallJoinCorners,
   wallJoinExtension,
   wallPatternDescriptor
 } from '../WallGeometry';
@@ -45,6 +47,27 @@ const makeGridSystem = (overrides = {}) => {
       const t = getProjectionTransform(state);
       return -((x - t.cameraX) * t.sinYaw) + (y - t.cameraY) * t.cosYaw;
     }
+  };
+};
+
+const makeHexGridSystem = (options = {}) => {
+  const state = {
+    gridSize: 50,
+    gridType: 'hex',
+    gridOffsetX: 0,
+    gridOffsetY: 0,
+    viewMode: '2.5d',
+    viewRotation: 0,
+    viewTilt: 30,
+    effectiveZoom: 1,
+    cameraX: 0,
+    cameraY: 0
+  };
+  const cellsAt = options.cellsAt || [{ q: 0, r: 0 }];
+  return {
+    ...makeGridSystem(state),
+    getHexEdge: options.getHexEdge || (() => null),
+    hexCellsAtVertex: () => cellsAt.slice()
   };
 };
 
@@ -128,6 +151,83 @@ describe('WallGeometry', () => {
     const ends = getWallWorldEndpoints(parseWallKey('1,2,2,2'), gridSystem, 'square');
     expect(ends.start).toEqual({ x: 50, y: 100 });
     expect(ends.end).toEqual({ x: 100, y: 100 });
+  });
+
+  it('resolves free-form hex walls straight to their stored corner endpoints', () => {
+    const gridSystem = makeHexGridSystem();
+    const wall = {
+      type: 'stone_wall',
+      hexEndpoints: [
+        { x: 25, y: -14.433756729740644 },
+        { x: -25, y: 14.433756729740644 }
+      ]
+    };
+    const ends = getWallWorldEndpoints(
+      parseWallKey('-2500,-1443,2500,1443'),
+      gridSystem,
+      'hex',
+      wall
+    );
+    expect(ends.start).toEqual(wall.hexEndpoints[0]);
+    expect(ends.end).toEqual(wall.hexEndpoints[1]);
+  });
+
+  it('keeps resolving legacy hex cell-edge walls through getHexEdge', () => {
+    const edge = { start: { x: 1, y: 2 }, end: { x: 3, y: 4 } };
+    const gridSystem = makeHexGridSystem({ getHexEdge: () => edge });
+    const ends = getWallWorldEndpoints(
+      parseWallKey('0,0,1,0'),
+      gridSystem,
+      'hex',
+      { type: 'stone_wall' }
+    );
+    expect(ends).toEqual({ start: edge.start, end: edge.end });
+  });
+
+  it('searches every cell touching a free-form hex wall endpoint for elevation', () => {
+    const gridSystem = makeHexGridSystem({
+      cellsAt: [{ q: 0, r: 0 }, { q: 1, r: 0 }, { q: 0, r: 1 }]
+    });
+    const wall = {
+      type: 'stone_wall',
+      hexEndpoints: [{ x: 0, y: 0 }, { x: 40, y: 10 }]
+    };
+    const base = getWallBaseWorldZ({
+      parsed: parseWallKey('0,0,4000,1000'),
+      wall,
+      gridType: 'hex',
+      gridSystem,
+      elevationData: { '0,0': 2, '1,0': 0, '0,1': 1 }
+    });
+    expect(base.start).toBe(100);
+    expect(base.end).toBe(100);
+    expect(base.lowStart).toBe(0);
+    expect(base.lowEnd).toBe(0);
+  });
+
+  it('builds prism geometry for a straight hex wall between two corners', () => {
+    const gridSystem = makeHexGridSystem();
+    const wall = {
+      type: 'stone_wall',
+      hexEndpoints: [
+        { x: 25, y: -14.433756729740644 },
+        { x: -25, y: 14.433756729740644 }
+      ]
+    };
+    const item = buildWallRenderItem({
+      key: '-2500,-1443,2500,1443',
+      wall,
+      typeData: STONE,
+      gridSystem,
+      gridType: 'hex',
+      transform: buildTransform(),
+      elevationData: {}
+    });
+    expect(item.worldStart).toEqual(wall.hexEndpoints[0]);
+    expect(item.worldEnd).toEqual(wall.hexEndpoints[1]);
+    expect(item.runLength).toBeCloseTo(57.735, 2);
+    expect(item.thickness).toBe(7.5);
+    expect(item.faces.near).toHaveLength(4);
   });
 
   it('picks the camera-facing side and flips it when the camera orbits 180 degrees', () => {
@@ -475,6 +575,45 @@ describe('WallGeometry joins', () => {
       color: '#8B7355'
     });
     expect(descriptor).toBeNull();
+  });
+
+  it('clamps shallow joins to a shared bevel corner instead of giant spikes', () => {
+    const rad = (14 * Math.PI) / 180;
+    const dirB = { x: Math.cos(rad), y: Math.sin(rad) };
+    const node = makeNode([[1, 0, 'A'], [dirB.x, dirB.y, 'B']]);
+
+    const extension = wallJoinExtension({
+      node,
+      excludeKey: 'A',
+      dirX: 1,
+      dirY: 0,
+      half: HALF
+    });
+    expect(extension).toBeGreaterThan(0);
+    expect(extension).toBeLessThanOrEqual(WALL_MITER_LIMIT * HALF + 1e-9);
+
+    // Both arms of the join must land on the exact same bevelled corner, which
+    // is what lets their footprints union into one seamless run.
+    const cornersA = wallJoinCorners({ node, excludeKey: 'A', dirX: 1, dirY: 0, half: HALF });
+    const cornersB = wallJoinCorners({ node, excludeKey: 'B', dirX: dirB.x, dirY: dirB.y, half: HALF });
+    expect(cornersA.plus.x).toBeCloseTo(cornersB.minus.x, 9);
+    expect(cornersA.plus.y).toBeCloseTo(cornersB.minus.y, 9);
+    expect(Math.hypot(cornersA.plus.x, cornersA.plus.y)).toBeLessThanOrEqual(WALL_MITER_LIMIT * HALF + 1e-9);
+  });
+
+  it('keeps near edge-on side patterns non-degenerate', () => {
+    const transform = buildTransform({ viewRotation: 4 });
+    const descriptor = wallPatternDescriptor({
+      typeId: 'stone_wall',
+      ux: 0,
+      uy: 1,
+      gridSize: 50,
+      transform,
+      color: '#8B7355'
+    });
+    const { a, b, c, d } = descriptor.side.matrix;
+    const det = Math.abs(a * d - b * c) / (Math.hypot(a, b) * Math.hypot(c, d));
+    expect(det).toBeGreaterThan(Math.sin((10 * Math.PI) / 180));
   });
 
   it('builds non-degenerate pattern matrices for axis-aligned directions', () => {

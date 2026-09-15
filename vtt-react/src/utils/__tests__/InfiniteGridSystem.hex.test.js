@@ -101,4 +101,25 @@ describe('InfiniteGridSystem hex wall walk', () => {
       for (const key of keys) expect(key).toBeTruthy();
     }
   });
+
+  it('exposes numeric vertex key parts for persisting straight walls', () => {
+    const vertex = gridSystem.snapToHexVertex(24, -13.4);
+    const parts = gridSystem.hexVertexKeyParts(vertex);
+    expect(parts).toEqual({ x: 2500, y: -1443 });
+    expect(gridSystem.getHexVertexKey(vertex)).toBe(`${parts.x},${parts.y}`);
+  });
+
+  it('returns the three cells sharing a honeycomb vertex', () => {
+    const vertex = gridSystem.snapToHexVertex(24, -13.4);
+    const cells = gridSystem.hexCellsAtVertex(vertex);
+    expect(cells).toHaveLength(3);
+    const unique = new Set(cells.map((cell) => `${cell.q},${cell.r}`));
+    expect(unique.size).toBe(3);
+
+    const radius = 50 / Math.sqrt(3);
+    for (const cell of cells) {
+      const center = gridSystem.hexToWorld(cell.q, cell.r);
+      expect(Math.hypot(center.x - vertex.x, center.y - vertex.y)).toBeCloseTo(radius, 6);
+    }
+  });
 });

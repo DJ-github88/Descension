@@ -58,8 +58,25 @@ export function getWallHeightWorld(wall, typeData, gridSize) {
   return multiplier * (gridSize || 50);
 }
 
-export function getWallWorldEndpoints(parsed, gridSystem, gridType) {
+/**
+ * Free-form hex walls store their world-space endpoints on the wall record
+ * (`hexEndpoints: [{x,y}, {x,y}]`). They may connect any two hex corners,
+ * including straight chords that cross several cells, so the cell-pair key
+ * alone cannot describe them.
+ */
+export function hexSegmentEndpoints(wall) {
+  const endpoints = wall && typeof wall === 'object' ? wall.hexEndpoints : null;
+  if (!Array.isArray(endpoints) || endpoints.length !== 2) return null;
+  const [first, second] = endpoints;
+  if (!first || !second) return null;
+  if (![first.x, first.y, second.x, second.y].every(Number.isFinite)) return null;
+  return [{ x: first.x, y: first.y }, { x: second.x, y: second.y }];
+}
+
+export function getWallWorldEndpoints(parsed, gridSystem, gridType, wall = null) {
   if (gridType === 'hex') {
+    const stored = hexSegmentEndpoints(wall);
+    if (stored) return { start: stored[0], end: stored[1] };
     const edge = gridSystem.getHexEdge(parsed.x1, parsed.y1, parsed.x2, parsed.y2);
     if (!edge || !edge.start || !edge.end) return null;
     return { start: edge.start, end: edge.end };
@@ -70,9 +87,23 @@ export function getWallWorldEndpoints(parsed, gridSystem, gridType) {
   };
 }
 
-function adjacentTileCoords(parsed, gridType) {
+function adjacentTileCoords(parsed, gridType, gridSystem = null, wall = null) {
   const { x1, y1, x2, y2 } = parsed;
   if (gridType === 'hex') {
+    const stored = hexSegmentEndpoints(wall);
+    if (stored) {
+      const cellsAt = (point) => {
+        if (gridSystem && typeof gridSystem.hexCellsAtVertex === 'function') {
+          return gridSystem.hexCellsAtVertex(point).map((cell) => [cell.q, cell.r]);
+        }
+        if (gridSystem) {
+          const cell = gridSystem.worldToGrid(point.x, point.y);
+          return [[cell.x, cell.y]];
+        }
+        return [];
+      };
+      return { start: cellsAt(stored[0]), end: cellsAt(stored[1]) };
+    }
     return { start: [[x1, y1]], end: [[x2, y2]] };
   }
   if (x1 === x2) {
@@ -93,7 +124,7 @@ export function getWallBaseWorldZ({ parsed, wall, gridType, gridSystem, elevatio
     const z = wall.baseElevation * gridSize;
     return { start: z, end: z, z, lowStart: z, lowEnd: z };
   }
-  const coords = adjacentTileCoords(parsed, gridType);
+  const coords = adjacentTileCoords(parsed, gridType, gridSystem, wall);
   const sample = (list) => {
     let highest = -Infinity;
     let lowest = Infinity;
@@ -132,7 +163,7 @@ export function collectWallNodes({ wallData, wallTypes, gridSystem, gridType, el
     if (!wall) continue;
     const parsed = parseWallKey(key);
     if (!parsed) continue;
-    const ends = getWallWorldEndpoints(parsed, gridSystem, gridType);
+    const ends = getWallWorldEndpoints(parsed, gridSystem, gridType, wall);
     if (!ends) continue;
 
     const typeId = typeof wall === 'string' ? wall : wall.type;
@@ -226,14 +257,32 @@ function gapCorners(V, dirA, dirB, half) {
   const fallbackB = { x: V.x - nB.x * half, y: V.y - nB.y * half };
   const hit = intersectLines(fallbackA, dirA, fallbackB, dirB);
   if (!hit) return { a: fallbackA, b: fallbackB };
-  const dist = Math.hypot(hit.x - V.x, hit.y - V.y);
-  if (dist > WALL_MITER_LIMIT * half) return { a: fallbackA, b: fallbackB };
+  const dx = hit.x - V.x;
+  const dy = hit.y - V.y;
+  const dist = Math.hypot(dx, dy);
+  const maxDist = WALL_MITER_LIMIT * half;
+  if (dist > maxDist) {
+    // Shallow joins produce enormous mitre spikes. Clamp the corner to a
+    // shared bevel point instead of falling back to square ends: both arms
+    // compute the same intersection, so both still get the identical bevelled
+    // edge and their footprints keep unioning into one seamless run.
+    const scale = maxDist / dist;
+    const clamped = { x: V.x + dx * scale, y: V.y + dy * scale };
+    return { a: clamped, b: clamped };
+  }
   return { a: hit, b: hit };
 }
 
-export function wallJoinCorners({ node, excludeKey, dirX, dirY, half }) {
+export function wallJoinCorners({ node, excludeKey, dirX, dirY, half, partnerKeys = null }) {
   if (!node || !Number.isFinite(node.worldX) || !Number.isFinite(node.worldY)) return null;
-  const partners = (node.unitVectors || []).filter((v) => v.isSolid && v.key !== excludeKey);
+  const partners = (node.unitVectors || []).filter((v) => {
+    if (!v.isSolid || v.key === excludeKey) return false;
+    // Only walls that actually union together (same material/height run) may
+    // shape each other's footprint; otherwise a crossing wall of another
+    // material mitre-cuts the run into pieces with stray internal faces.
+    if (partnerKeys && !partnerKeys.has(v.key)) return false;
+    return true;
+  });
   if (partners.length === 0) return null;
   const selfAngle = Math.atan2(dirY, dirX);
   const entries = partners
@@ -265,7 +314,7 @@ export function wallJoinExtension({ node, excludeKey, dirX, dirY, half }) {
   return Math.min(...projections);
 }
 
-export function computeWallFootprint({ item, startNode, endNode, half }) {
+export function computeWallFootprint({ item, startNode, endNode, half, partnerKeys = null }) {
   if (!item || !Number.isFinite(half) || half <= 0) return null;
   const start = item.worldStart;
   const end = item.worldEnd;
@@ -276,8 +325,8 @@ export function computeWallFootprint({ item, startNode, endNode, half }) {
   const ux = dx / length;
   const uy = dy / length;
   const n = wallSideNormal(ux, uy);
-  const startCorners = wallJoinCorners({ node: startNode, excludeKey: item.key, dirX: ux, dirY: uy, half });
-  const endCorners = wallJoinCorners({ node: endNode, excludeKey: item.key, dirX: -ux, dirY: -uy, half });
+  const startCorners = wallJoinCorners({ node: startNode, excludeKey: item.key, dirX: ux, dirY: uy, half, partnerKeys });
+  const endCorners = wallJoinCorners({ node: endNode, excludeKey: item.key, dirX: -ux, dirY: -uy, half, partnerKeys });
   const startPlus = startCorners ? startCorners.plus : { x: start.x + n.x * half, y: start.y + n.y * half };
   const startMinus = startCorners ? startCorners.minus : { x: start.x - n.x * half, y: start.y - n.y * half };
   const endPlus = endCorners ? endCorners.plus : { x: end.x - n.x * half, y: end.y - n.y * half };
@@ -304,6 +353,31 @@ function projectWallPoint(transform, wx, wy, wz) {
 
 export function projectWorldPoint(transform, wx, wy, wz) {
   return projectWallPoint(transform, wx, wy, wz);
+}
+
+// A wall face seen almost edge-on projects its length to a sliver. The pattern
+// matrix built from that sliver is near-singular (its two basis vectors become
+// parallel), which makes browsers drop or smear the texture: flat untextured
+// wall sections at certain camera angles. Clamp the wall-direction basis to a
+// minimum perpendicular component against the other basis vector so grazing
+// faces keep legible texture instead.
+export const WALL_PATTERN_MIN_PROJECTED = 0.22;
+
+function clampProjectedBasis(vector, axis, reference) {
+  const axisLength = Math.hypot(axis.x, axis.y);
+  if (axisLength < 1e-6) return vector;
+  const ax = axis.x / axisLength;
+  const ay = axis.y / axisLength;
+  const along = vector.x * ax + vector.y * ay;
+  let perp = { x: vector.x - ax * along, y: vector.y - ay * along };
+  const minLength = reference * WALL_PATTERN_MIN_PROJECTED;
+  let perpLength = Math.hypot(perp.x, perp.y);
+  if (perpLength >= minLength || minLength <= 0) return vector;
+  if (perpLength < 1e-6) {
+    perp = { x: -ay, y: ax };
+    perpLength = 1;
+  }
+  return { x: (perp.x / perpLength) * minLength, y: (perp.y / perpLength) * minLength };
 }
 
 /**
@@ -347,13 +421,19 @@ export function wallPatternDescriptor({ typeId, ux, uy, gridSize, transform, col
     gv = gn.y >= 0 ? gn : { x: -gn.x, y: -gn.y };
   }
 
+  const reference = Math.max(Math.hypot(ex.x, ex.y), Math.hypot(ey.x, ey.y), 1e-6);
+  const sideGu = clampProjectedBasis(gu, gv, reference);
+  const topGu = clampProjectedBasis(gu, gn, reference);
+  const clamped = sideGu !== gu || topGu !== gu;
+
   const dirKey = Math.round((Math.atan2(cy, cx) * 180) / Math.PI);
   // One pattern tile spans exactly one world grid cell; pattern space uses
   // `unit` local units per tile, so the matrix scales per-local-unit.
   const scale = (gridSize || unit) / unit;
-  const matrixFor = (by) => ({
-    a: gu.x * scale,
-    b: gu.y * scale,
+  const sideSuffix = clamped ? '-c' : '';
+  const matrixFor = (by, bx = gu) => ({
+    a: bx.x * scale,
+    b: bx.y * scale,
     c: by.x * scale,
     d: by.y * scale,
     e: p0.x,
@@ -364,8 +444,11 @@ export function wallPatternDescriptor({ typeId, ux, uy, gridSize, transform, col
     type: typeId,
     color,
     unit,
-    side: { id: `svgWallPat-${typeId}-${dirKey}-s`, matrix: matrixFor(gv) },
-    top: { id: `svgWallPat-${typeId}-${dirKey}-t`, matrix: matrixFor(gn) }
+    side: {
+      id: `svgWallPat-${typeId}-${dirKey}${sideSuffix}-s`,
+      matrix: matrixFor(gv, sideGu)
+    },
+    top: { id: `svgWallPat-${typeId}-${dirKey}-t`, matrix: matrixFor(gn, topGu) }
   };
 }
 
@@ -551,7 +634,7 @@ export function buildWallRenderItem({
 }) {
   const parsed = parseWallKey(key);
   if (!parsed) return null;
-  const ends = getWallWorldEndpoints(parsed, gridSystem, gridType);
+  const ends = getWallWorldEndpoints(parsed, gridSystem, gridType, wall);
   if (!ends) return null;
 
   const { start, end } = ends;

@@ -1512,7 +1512,9 @@ const useLevelEditorStore = create((set, get) => ({
   // Environmental object operations - removed duplicate, using professional version below
 
   // Wall operations - walls are placed on grid edges
-  setWall: (x1, y1, x2, y2, wallType, mapId = null) => {
+  // `extraFields` carries optional per-wall data (e.g. world-space endpoints for
+  // free-form hex walls); core identity fields always win over it.
+  setWall: (x1, y1, x2, y2, wallType, mapId = null, extraFields = null) => {
     const state = get();
     const wallTypeData = WALL_TYPES[wallType];
     const defaultState = wallTypeData?.states?.[0] || 'default';
@@ -1523,6 +1525,7 @@ const useLevelEditorStore = create((set, get) => ({
       : `${x2},${y2},${x1},${y1}`;
 
     const wallData = {
+      ...(extraFields && typeof extraFields === 'object' ? extraFields : null),
       type: wallType,
       state: defaultState,
       id: Date.now().toString()
