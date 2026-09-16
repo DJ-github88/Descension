@@ -695,7 +695,7 @@ const screenPolygonArea = (points) => {
   return Math.abs(area) / 2;
 };
 
-const buildRuns = ({ solidItems, transform, fogOfWarEnabled, nodes, featureCuts = [], gridSize, patternsById }) => {
+const buildRuns = ({ solidItems, transform, fogOfWarEnabled, nodes, featureCuts = [], gridSize, patternsById, dimByFov = false, visibleAreaSet = null, gridSystem = null }) => {
   const groups = new Map();
   for (const item of solidItems) {
     const key = `${item.typeId}|${Math.round(item.baseZStart)}|${Math.round(item.topZ)}|${item.color}`;
@@ -850,13 +850,16 @@ const buildRuns = ({ solidItems, transform, fogOfWarEnabled, nodes, featureCuts 
             const s3 = projectWorldPoint(transform, ax + inward.x, ay + inward.y, group.topZ);
             const stripQuad = [s0, s1, s2, s3];
             if (screenPolygonArea(stripQuad) < WALL_SIDE_MIN_SCREEN_AREA * 0.4) continue;
+            const segmentDimmed = dimByFov
+              ? isSegmentDimmedFromFov(ax, ay, bx, by, visibleAreaSet, gridSystem, gridSize)
+              : false;
             primitives.push({
               kind: 'topStrip',
               key: `${runKey}-strip-${ringIndex}-${i}-${s}`,
               runKey,
               wallKeys,
               thickness,
-              dimmed: groupDimmed,
+              dimmed: segmentDimmed,
               maskId,
               occluders: runOccluders,
               clipId,
@@ -918,13 +921,16 @@ const buildRuns = ({ solidItems, transform, fogOfWarEnabled, nodes, featureCuts 
             const quad = [baseA, baseB, topB, topA];
             if (screenPolygonArea(quad) < WALL_SIDE_MIN_SCREEN_AREA) continue;
 
+            const segmentDimmed = dimByFov
+              ? isSegmentDimmedFromFov(ax, ay, bx, by, visibleAreaSet, gridSystem, gridSize)
+              : false;
             primitives.push({
               kind: 'side',
               key: `${runKey}-side-${ringIndex}-${i}-${s}`,
               runKey,
               wallKeys,
               thickness,
-              dimmed: groupDimmed,
+              dimmed: segmentDimmed,
               maskId,
               occluders: runOccluders,
               points: quad.map((p) => `${p.x},${p.y}`).join(' '),
@@ -1028,6 +1034,74 @@ const buildRuns = ({ solidItems, transform, fogOfWarEnabled, nodes, featureCuts 
 
   return { primitives, shadowPaths, gradients };
 };
+
+/**
+ * A wall is in the token FOV when either side of any sampled point along it
+ * lands in a visible tile. Midpoint-only tests mis-dim long chord walls that
+ * partially enter the lit area (and hex edge walls whose midpoint rounds to
+ * the shadowed cell). Offsetting by half a tile lands in the adjacent cell on
+ * each side of the wall.
+ */
+function isWallDimmedByFov(item, visibleAreaSet, gridSystem, gridSize) {
+  const dx = item.worldEnd.x - item.worldStart.x;
+  const dy = item.worldEnd.y - item.worldStart.y;
+  const length = Math.hypot(dx, dy);
+  if (length < 1e-6) {
+    const tile = gridSystem.worldToGrid(item.worldStart.x, item.worldStart.y);
+    return !visibleAreaSet.has(`${tile.x},${tile.y}`);
+  }
+
+  const nx = -dy / length;
+  const ny = dx / length;
+  const offset = (gridSize || 50) * 0.5;
+  const samples = 5;
+
+  for (let i = 1; i <= samples; i++) {
+    const t = i / (samples + 1);
+    const px = item.worldStart.x + dx * t;
+    const py = item.worldStart.y + dy * t;
+
+    const sideA = gridSystem.worldToGrid(px + nx * offset, py + ny * offset);
+    if (visibleAreaSet.has(`${sideA.x},${sideA.y}`)) return false;
+
+    const sideB = gridSystem.worldToGrid(px - nx * offset, py - ny * offset);
+    if (visibleAreaSet.has(`${sideB.x},${sideB.y}`)) return false;
+  }
+
+  return true;
+}
+
+/**
+ * Per-primitive FOV dim test for run segments: the segment midpoint's
+ * adjacent tiles (offset by half a tile perpendicular to the wall) decide
+ * whether that slice of the run is inside the token's visible area. Runs can
+ * span both lit and shadowed ground, so the run-level `groupDimmed` flag is
+ * too coarse for long walls.
+ */
+function isSegmentDimmedFromFov(ax, ay, bx, by, visibleAreaSet, gridSystem, gridSize) {
+  if (!visibleAreaSet || !gridSystem) return false;
+  const dx = bx - ax;
+  const dy = by - ay;
+  const length = Math.hypot(dx, dy);
+  if (length < 1e-6) {
+    const tile = gridSystem.worldToGrid(ax, ay);
+    return !visibleAreaSet.has(`${tile.x},${tile.y}`);
+  }
+
+  const nx = -dy / length;
+  const ny = dx / length;
+  const offset = (gridSize || 50) * 0.5;
+  const midX = (ax + bx) / 2;
+  const midY = (ay + by) / 2;
+
+  const sideA = gridSystem.worldToGrid(midX + nx * offset, midY + ny * offset);
+  if (visibleAreaSet.has(`${sideA.x},${sideA.y}`)) return false;
+
+  const sideB = gridSystem.worldToGrid(midX - nx * offset, midY - ny * offset);
+  if (visibleAreaSet.has(`${sideB.x},${sideB.y}`)) return false;
+
+  return true;
+}
 
 const SvgWallLayer = () => {
   const {
@@ -1157,7 +1231,7 @@ const SvgWallLayer = () => {
     const visibleAreaSet = visibleArea
       ? (visibleArea instanceof Set ? visibleArea : new Set(visibleArea))
       : null;
-    const dimByFov = fogOfWarEnabled && !isGMMode && viewingFromToken && visibleAreaSet;
+    const dimByFov = fogOfWarEnabled && viewingFromToken && visibleAreaSet;
 
     const wallItems = [];
     for (const [key, wall] of Object.entries(wallData)) {
@@ -1214,11 +1288,7 @@ const SvgWallLayer = () => {
       ];
 
       if (dimByFov) {
-        const midTile = gridSystem.worldToGrid(
-          (item.worldStart.x + item.worldEnd.x) / 2,
-          (item.worldStart.y + item.worldEnd.y) / 2
-        );
-        item.dimmed = !visibleAreaSet.has(`${midTile.x},${midTile.y}`);
+        item.dimmed = isWallDimmedByFov(item, visibleAreaSet, gridSystem, gridSizeSafe);
       } else {
         item.dimmed = false;
       }
@@ -1260,7 +1330,10 @@ const SvgWallLayer = () => {
       nodes,
       featureCuts: wallFeatureCutRects(features),
       gridSize: gridSizeSafe,
-      patternsById
+      patternsById,
+      dimByFov,
+      visibleAreaSet,
+      gridSystem
     });
 
     // Features sort in the same painter pass as the wall primitives, using the

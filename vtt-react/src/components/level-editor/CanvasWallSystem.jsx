@@ -64,7 +64,8 @@ const CanvasWallSystem = () => {
     gridOffsetY,
     viewMode,
     viewRotation,
-    viewTilt
+    viewTilt,
+    isDraggingCamera
   } = useGameStore();
 
   const {
@@ -1132,10 +1133,14 @@ const CanvasWallSystem = () => {
 
   // Throttle wall rendering with RAF for smooth performance during camera movement
   const throttledRenderWallsRef = useRef(null);
+  const rawRenderWallsRef = useRef(null);
+  const wallDragRafRef = useRef(null);
+  const wallDragCamKeyRef = useRef(null);
 
   // Update throttled function when renderWalls changes
   useEffect(() => {
     throttledRenderWallsRef.current = rafThrottle(renderWalls);
+    rawRenderWallsRef.current = renderWalls;
   }, [renderWalls]);
 
   // Trigger render when dependencies change (throttled)
@@ -1147,7 +1152,38 @@ const CanvasWallSystem = () => {
       }
     });
     return () => cancelAnimationFrame(rafId);
-  }, [wallData, drawingLayers, effectiveZoom, gridSize, cameraX, cameraY, gridOffsetX, gridOffsetY, showWallLayer, viewingFromToken, visibleArea, isEditorMode, selectedWallKey, windowOverlays, selectedWindowKey, viewMode, viewRotation, viewTilt]);
+  }, [wallData, drawingLayers, effectiveZoom, gridSize, cameraX, cameraY, gridOffsetX, gridOffsetY, showWallLayer, viewingFromToken, visibleArea, isEditorMode, selectedWallKey, windowOverlays, selectedWindowKey, viewMode, viewRotation, viewTilt, isDraggingCamera]);
+
+  // Continuous render loop while the camera is dragged, mirroring the grid
+  // canvas loop so walls never trail the grid by a frame (they read the live
+  // camera here instead of waiting for React commits).
+  useEffect(() => {
+    if (!isDraggingCamera) {
+      if (wallDragRafRef.current !== null) {
+        cancelAnimationFrame(wallDragRafRef.current);
+        wallDragRafRef.current = null;
+      }
+      return undefined;
+    }
+
+    const loop = () => {
+      const s = useGameStore.getState();
+      const camKey = `${s.cameraX}|${s.cameraY}|${s.zoomLevel * s.playerZoom}|${s.viewMode}|${s.viewRotation}|${s.viewTilt}`;
+      if (camKey !== wallDragCamKeyRef.current) {
+        wallDragCamKeyRef.current = camKey;
+        if (rawRenderWallsRef.current) rawRenderWallsRef.current();
+      }
+      wallDragRafRef.current = requestAnimationFrame(loop);
+    };
+
+    wallDragRafRef.current = requestAnimationFrame(loop);
+    return () => {
+      if (wallDragRafRef.current !== null) {
+        cancelAnimationFrame(wallDragRafRef.current);
+        wallDragRafRef.current = null;
+      }
+    };
+  }, [isDraggingCamera]);
 
   // Handle window resize
   useEffect(() => {

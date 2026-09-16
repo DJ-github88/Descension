@@ -1,4 +1,5 @@
 import RBush from 'rbush';
+import { parseWallKey, getWallWorldEndpoints } from './WallGeometry';
 
 /**
  * WallSpatialIndex - High-performance 2D R-Tree spatial index for VTT walls
@@ -19,8 +20,10 @@ export class WallSpatialIndex {
    * @param {number} gridSize - Size of a grid tile in pixels
    * @param {number} gridOffsetX - Grid origin X offset
    * @param {number} gridOffsetY - Grid origin Y offset
+   * @param {string} gridType - 'square' (default) or 'hex'
+   * @param {Object} gridSystem - Grid system instance (required for hex walls)
    */
-  load(wallData, gridSize = 50, gridOffsetX = 0, gridOffsetY = 0) {
+  load(wallData, gridSize = 50, gridOffsetX = 0, gridOffsetY = 0, gridType = 'square', gridSystem = null) {
     this.clear();
     this.gridSize = gridSize;
     this.gridOffsetX = gridOffsetX;
@@ -37,14 +40,31 @@ export class WallSpatialIndex {
       const [wallKey, wall] = entries[i];
       if (!wallKey) continue;
 
-      const coords = wallKey.split(',').map(Number);
-      if (coords.length < 4 || coords.some(isNaN)) continue;
+      const parsed = parseWallKey(wallKey);
+      if (!parsed) continue;
 
-      const [wx1, wy1, wx2, wy2] = coords;
-      const worldX1 = (wx1 * gridSize) + gridOffsetX;
-      const worldY1 = (wy1 * gridSize) + gridOffsetY;
-      const worldX2 = (wx2 * gridSize) + gridOffsetX;
-      const worldY2 = (wy2 * gridSize) + gridOffsetY;
+      let worldX1;
+      let worldY1;
+      let worldX2;
+      let worldY2;
+
+      if (gridType === 'hex') {
+        // Hex wall keys are hex corner keys (world*100) or legacy cell-pair
+        // edge keys. Both resolve through getWallWorldEndpoints, never through
+        // the square key->grid corner math.
+        if (!gridSystem) continue;
+        const ends = getWallWorldEndpoints(parsed, gridSystem, 'hex', wall);
+        if (!ends) continue;
+        worldX1 = ends.start.x;
+        worldY1 = ends.start.y;
+        worldX2 = ends.end.x;
+        worldY2 = ends.end.y;
+      } else {
+        worldX1 = (parsed.x1 * gridSize) + gridOffsetX;
+        worldY1 = (parsed.y1 * gridSize) + gridOffsetY;
+        worldX2 = (parsed.x2 * gridSize) + gridOffsetX;
+        worldY2 = (parsed.y2 * gridSize) + gridOffsetY;
+      }
 
       const minX = Math.min(worldX1, worldX2);
       const maxX = Math.max(worldX1, worldX2);
@@ -58,7 +78,7 @@ export class WallSpatialIndex {
         maxY,
         wallKey,
         wall,
-        gridCoords: [wx1, wy1, wx2, wy2],
+        gridCoords: [parsed.x1, parsed.y1, parsed.x2, parsed.y2],
         worldCoords: [worldX1, worldY1, worldX2, worldY2]
       });
     }
@@ -120,30 +140,36 @@ let cachedWallDataRef = null;
 let cachedGridSize = null;
 let cachedOffsetX = null;
 let cachedOffsetY = null;
+let cachedGridType = null;
+let cachedGridSystem = null;
 let cachedIndex = null;
 
 /**
  * Get or build a cached WallSpatialIndex for the given wallData
  * If wallData reference and grid settings have not changed, returns the cached instance in O(1)
  */
-export function getOrBuildWallSpatialIndex(wallData, gridSize = 50, gridOffsetX = 0, gridOffsetY = 0) {
+export function getOrBuildWallSpatialIndex(wallData, gridSize = 50, gridOffsetX = 0, gridOffsetY = 0, gridType = 'square', gridSystem = null) {
   if (
     cachedIndex &&
     cachedWallDataRef === wallData &&
     cachedGridSize === gridSize &&
     cachedOffsetX === gridOffsetX &&
-    cachedOffsetY === gridOffsetY
+    cachedOffsetY === gridOffsetY &&
+    cachedGridType === gridType &&
+    cachedGridSystem === gridSystem
   ) {
     return cachedIndex;
   }
 
   const index = new WallSpatialIndex();
-  index.load(wallData, gridSize, gridOffsetX, gridOffsetY);
+  index.load(wallData, gridSize, gridOffsetX, gridOffsetY, gridType, gridSystem);
 
   cachedWallDataRef = wallData;
   cachedGridSize = gridSize;
   cachedOffsetX = gridOffsetX;
   cachedOffsetY = gridOffsetY;
+  cachedGridType = gridType;
+  cachedGridSystem = gridSystem;
   cachedIndex = index;
 
   return index;

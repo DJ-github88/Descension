@@ -212,7 +212,9 @@ const TokenVisibilityCalculator = () => {
             gridOffsetY,
             fovAngle,
             facingAngle,
-            respectLineOfSight ? windowOverlays : {}
+            respectLineOfSight ? windowOverlays : {},
+            gridType,
+            gridSystem
         );
 
         // Elevation-aware terrain occlusion: tiles hidden behind raised terrain,
@@ -289,7 +291,7 @@ const TokenVisibilityCalculator = () => {
 
                         const poly = calculateVisibilityPolygon(ct.position.x, ct.position.y, range,
                             respectLineOfSight ? wallData : {}, gridSize, gridOffsetX, gridOffsetY,
-                            fovAngle, fa, respectLineOfSight ? windowOverlays : {});
+                            fovAngle, fa, respectLineOfSight ? windowOverlays : {}, gridType, gridSystem);
                         
                         if (poly && poly.length >= 3) {
                             allSecondaryPolygons.push(poly);

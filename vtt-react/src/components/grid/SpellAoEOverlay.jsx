@@ -159,7 +159,12 @@ const SpellAoEOverlay = ({
           wallData || {},
           gridSize,
           gridOffsetX,
-          gridOffsetY
+          gridOffsetY,
+          360,
+          null,
+          {},
+          gridSystem.getGridState().gridType || 'square',
+          gridSystem
         );
         const clipped = clipAoEAgainstWalls(polygon, visibility);
         if (clipped && clipped.length > 0) {
@@ -171,7 +176,7 @@ const SpellAoEOverlay = ({
 
       return { rings, affected: getTokensInAoE(mapTokens, rings) };
     },
-    [feetPerTile, gridSize, gridOffsetX, gridOffsetY, wallData, mapTokens]
+    [feetPerTile, gridSize, gridOffsetX, gridOffsetY, wallData, mapTokens, gridSystem]
   );
 
   // Live preview template (only once the caster origin is set)

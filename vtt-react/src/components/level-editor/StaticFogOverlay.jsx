@@ -5,7 +5,48 @@ import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { getProjectionTransform as buildProjectionTransform, worldToScreen as projectWorldToScreen } from '../../utils/ProjectionSystem';
-import { calculateVisibilityPolygon } from '../../utils/VisibilityCalculations';
+import { calculateVisibilityPolygon, collectVisibleWallRuns } from '../../utils/VisibilityCalculations';
+
+/**
+ * Traces the screen-space silhouette of each visible wall run into the current
+ * canvas path: base segment extruded to the far top edge (base + height, offset
+ * half a thickness away from the viewer) so the quad covers the near face and
+ * the top cap.
+ */
+function traceWallSilhouettes(maskCtx, runs, transform, origin) {
+    maskCtx.beginPath();
+    for (const run of runs) {
+        const dx = run.end.x - run.start.x;
+        const dy = run.end.y - run.start.y;
+        const len = Math.hypot(dx, dy);
+        if (len < 1e-6) continue;
+
+        let nx = -dy / len;
+        let ny = dx / len;
+        if (origin) {
+            const midX = (run.start.x + run.end.x) / 2;
+            const midY = (run.start.y + run.end.y) / 2;
+            if (nx * (midX - origin.x) + ny * (midY - origin.y) < 0) {
+                nx = -nx;
+                ny = -ny;
+            }
+        }
+
+        const half = (run.thickness || 0) / 2;
+        const baseZ = run.baseZ || 0;
+        const topZ = baseZ + (run.heightWorld || 0);
+        const b1 = projectWorldToScreen(run.start.x, run.start.y, transform, baseZ);
+        const b2 = projectWorldToScreen(run.end.x, run.end.y, transform, baseZ);
+        const t1 = projectWorldToScreen(run.start.x + nx * half, run.start.y + ny * half, transform, topZ);
+        const t2 = projectWorldToScreen(run.end.x + nx * half, run.end.y + ny * half, transform, topZ);
+
+        maskCtx.moveTo(b1.x, b1.y);
+        maskCtx.lineTo(b2.x, b2.y);
+        maskCtx.lineTo(t2.x, t2.y);
+        maskCtx.lineTo(t1.x, t1.y);
+        maskCtx.closePath();
+    }
+}
 
 /**
  * Helper function for consistent fog colors across the component
@@ -68,6 +109,7 @@ const StaticFogOverlay = () => {
     const gridSize = useGameStore(state => state.gridSize) || 50;
     const gridOffsetX = useGameStore(state => state.gridOffsetX) || 0;
     const gridOffsetY = useGameStore(state => state.gridOffsetY) || 0;
+    const gridType = useGameStore(state => state.gridType) || 'square';
     const cameraX = useGameStore(state => state.cameraX) || 0;
     const cameraY = useGameStore(state => state.cameraY) || 0;
     const zoomLevel = useGameStore(state => state.zoomLevel) ?? 1;
@@ -106,6 +148,9 @@ const StaticFogOverlay = () => {
     const playerMemories = useLevelEditorStore(state => state.playerMemories);
     const legacyExploredAreas = useLevelEditorStore(state => state.exploredAreas);
     const wallData = useLevelEditorStore(state => state.wallData) || {};
+    const elevationData = useLevelEditorStore(state => state.elevationData) || {};
+    const respectLineOfSight = useLevelEditorStore(state => state.respectLineOfSight);
+    const windowOverlays = useLevelEditorStore(state => state.windowOverlays) || {};
 
     const creatureTokens = useCreatureStore(state => state.tokens) || [];
     const characterTokens = useCharacterTokenStore(state => state.characterTokens) || [];
@@ -169,6 +214,31 @@ const StaticFogOverlay = () => {
         );
     }, [viewingFromToken, creatureTokens, characterTokens]);
 
+    // The vision polygon only describes the ground plane. In 2.5D the wall
+    // prisms project above it, so collect the wall slices the token can see and
+    // extrude them into the mask cut; everything else stays fogged.
+    const fovWallSilhouettes = useMemo(() => {
+        if (!fogOfWarEnabled || respectLineOfSight === false) return [];
+        if (!currentViewingToken?.position) return [];
+        if (!visibilityPolygon || visibilityPolygon.length < 3) return [];
+        let gridSystem = null;
+        try {
+            gridSystem = getGridSystem();
+        } catch (err) {
+            return [];
+        }
+        return collectVisibleWallRuns({
+            wallData,
+            visibilityPolygon,
+            origin: currentViewingToken.position,
+            gridSystem,
+            gridType,
+            gridSize,
+            elevationData,
+            windowOverlays
+        });
+    }, [fogOfWarEnabled, respectLineOfSight, currentViewingToken, visibilityPolygon, wallData, gridType, gridSize, elevationData, windowOverlays]);
+
     // Vision polygons for all tokens (used by GM to see what players/creatures can see)
     const allTokensVisibilityPolygons = useMemo(() => {
         if (!isGMMode || viewingFromToken) return [];
@@ -180,11 +250,12 @@ const StaticFogOverlay = () => {
             const vision = tokenVisionRanges[tokenId] || { range: 6 };
             const polygon = calculateVisibilityPolygon(
                 token.position.x, token.position.y,
-                vision.range, wallData, gridSize, gridOffsetX, gridOffsetY
+                vision.range, wallData, gridSize, gridOffsetX, gridOffsetY,
+                360, null, {}, gridType, getGridSystem()
             );
             return { token, polygon, visionRange: vision.range };
         }).filter(p => p && p.polygon && p.polygon.length > 0);
-    }, [isGMMode, viewingFromToken, creatureTokens, characterTokens, tokenVisionRanges, wallData, gridSize, gridOffsetX, gridOffsetY]);
+    }, [isGMMode, viewingFromToken, creatureTokens, characterTokens, tokenVisionRanges, wallData, gridSize, gridOffsetX, gridOffsetY, gridType]);
 
     // Main render function - OPTIMIZED with change detection
     const renderFog = useCallback(() => {
@@ -656,6 +727,35 @@ const StaticFogOverlay = () => {
                 maskCtx.fillRect(-gradientFillRadius, -gradientFillHeight / 2, gradientFillRadius * 2, gradientFillHeight);
                 maskCtx.restore();
 
+                // Wall silhouettes AFTER the rim gradient: a wall the token can
+                // see must be lit over its full height, not faded by the vision
+                // rim that only applies to the ground.
+                if (fovWallSilhouettes.length > 0) {
+                    const silhouetteTransform = buildProjectionTransform({
+                        viewMode,
+                        viewRotation,
+                        viewTilt,
+                        effectiveZoom,
+                        cameraX,
+                        cameraY,
+                        viewportWidth: canvas.width,
+                        viewportHeight: canvas.height
+                    });
+                    maskCtx.globalCompositeOperation = 'source-over';
+                    maskCtx.save();
+                    maskCtx.filter = 'blur(5px)';
+                    maskCtx.fillStyle = 'rgba(255, 255, 255, 1)';
+                    traceWallSilhouettes(
+                        maskCtx,
+                        fovWallSilhouettes,
+                        silhouetteTransform,
+                        currentViewingToken?.position
+                    );
+                    maskCtx.fill();
+                    maskCtx.filter = 'none';
+                    maskCtx.restore();
+                }
+
                 ctx.globalCompositeOperation = 'destination-out';
                 ctx.globalAlpha = 1;
                 ctx.drawImage(visibilityMask, 0, 0);
@@ -778,7 +878,7 @@ const StaticFogOverlay = () => {
             ctx.globalAlpha = 1;
             ctx.drawImage(visibilityMask, 0, 0);
         }
-    }, [visibleFogPaths, visibleErasePaths, visibleFogTiles, fogOfWarEnabled, dynamicFogEnabled, isFogLayerVisible, zoomLevel, playerZoom, isGMMode, worldToScreen, currentViewingToken, visibleArea, visibilityPolygon, allTokensVisibilityPolygons, viewingFromToken, tokenVisionRanges, getFogState, visibleAreaSet, screenToWorld, currentPlayerId, playerMemories, legacyExploredAreas, wallData, gridSize, gridOffsetX, gridOffsetY, additionalVisibilityPolygons, controlledCreatureVisionDetails, cameraX, cameraY, viewMode, viewRotation, viewTilt]);
+    }, [visibleFogPaths, visibleErasePaths, visibleFogTiles, fogOfWarEnabled, dynamicFogEnabled, isFogLayerVisible, zoomLevel, playerZoom, isGMMode, worldToScreen, currentViewingToken, visibleArea, visibilityPolygon, allTokensVisibilityPolygons, viewingFromToken, tokenVisionRanges, getFogState, visibleAreaSet, screenToWorld, currentPlayerId, playerMemories, legacyExploredAreas, wallData, gridSize, gridOffsetX, gridOffsetY, additionalVisibilityPolygons, controlledCreatureVisionDetails, fovWallSilhouettes, cameraX, cameraY, viewMode, viewRotation, viewTilt]);
 
     useLayoutEffect(() => {
         renderFog();

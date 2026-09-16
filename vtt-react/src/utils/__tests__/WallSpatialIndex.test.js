@@ -1,4 +1,5 @@
 import { WallSpatialIndex, getOrBuildWallSpatialIndex } from '../WallSpatialIndex';
+import { InfiniteGridSystem } from '../InfiniteGridSystem';
 
 describe('WallSpatialIndex with rbush', () => {
   const wallData = {
@@ -49,5 +50,66 @@ describe('WallSpatialIndex with rbush', () => {
 
     expect(index1).toBe(index2);
     expect(index1.count).toBe(5);
+  });
+});
+
+describe('WallSpatialIndex hex grids', () => {
+  const gridSize = 50;
+
+  const makeHexGrid = () => new InfiniteGridSystem({
+    getState: () => ({
+      gridSize,
+      gridType: 'hex',
+      gridOffsetX: 0,
+      gridOffsetY: 0,
+      cameraX: 0,
+      cameraY: 0,
+      zoomLevel: 1,
+      playerZoom: 1,
+      viewMode: '2d',
+      viewRotation: 0,
+      viewTilt: 90
+    })
+  });
+
+  test('indexes hex walls by their resolved world endpoints', () => {
+    const gridSystem = makeHexGrid();
+    const edge = gridSystem.getHexEdge(0, 0, 1, 0);
+    const parts = gridSystem.hexVertexKeyParts(edge.start);
+    const other = gridSystem.hexVertexKeyParts(edge.end);
+    const wallData = {
+      [`${parts.x},${parts.y},${other.x},${other.y}`]: {
+        type: 'stone_wall',
+        state: 'closed',
+        hexEndpoints: [
+          { x: edge.start.x, y: edge.start.y },
+          { x: edge.end.x, y: edge.end.y }
+        ]
+      }
+    };
+
+    const index = new WallSpatialIndex();
+    index.load(wallData, gridSize, 0, 0, 'hex', gridSystem);
+    expect(index.count).toBe(1);
+
+    const results = index.searchBoundingBox(24, -14, 26, 14);
+    expect(results.length).toBe(1);
+    expect(results[0].worldCoords[0]).toBeCloseTo(edge.start.x, 5);
+    expect(results[0].worldCoords[1]).toBeCloseTo(edge.start.y, 5);
+
+    // A box on the far side of the map must not match (regression: keys are
+    // world*100 for hex, not grid corners)
+    expect(index.searchBoundingBox(2000, 2000, 3000, 3000).length).toBe(0);
+  });
+
+  test('resolves legacy cell-pair hex walls through getHexEdge', () => {
+    const gridSystem = makeHexGrid();
+    const edge = gridSystem.getHexEdge(0, 0, 1, 0);
+    const index = new WallSpatialIndex();
+    index.load({ '0,0,1,0': { type: 'stone_wall', state: 'closed' } }, gridSize, 0, 0, 'hex', gridSystem);
+
+    const results = index.searchBoundingBox(24, -14, 26, 14);
+    expect(results.length).toBe(1);
+    expect(results[0].worldCoords[2]).toBeCloseTo(edge.end.x, 5);
   });
 });

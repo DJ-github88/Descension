@@ -7,6 +7,13 @@
 import { WALL_TYPES } from '../store/levelEditorStore';
 import { compute as computeVisibilityPolygon, breakIntersections as breakPolygonIntersections } from 'visibility-polygon';
 import { getOrBuildWallSpatialIndex } from './WallSpatialIndex';
+import {
+  parseWallKey,
+  getWallWorldEndpoints,
+  getWallBaseWorldZ,
+  getWallHeightWorld,
+  getWallThickness
+} from './WallGeometry';
 
 // PERFORMANCE: Wall edge index cache: maps edge keys to wall entries for O(1) lookup
 // Edge key format: "h,{minX},{y},{maxX}" for horizontal edges, "v,{x},{minY},{maxY}" for vertical edges
@@ -251,12 +258,33 @@ function segmentsIntersect(ax, ay, bx, by, cx, cy, dx, dy) {
   return false;
 }
 
-function checkIfWallBlocks(wall, wallKey = null, windowOverlays = {}) {
-  // Handle both old format (wall is a string) and new format (wall is an object)
+/**
+ * Resolve a wall record to its world-space segment. Square walls use the key's
+ * grid-corner math; hex walls resolve through hexEndpoints (free-form chords)
+ * or the hex edge between the cell pair, exactly like wall rendering does.
+ */
+function wallWorldSegment(wallKey, wall, gridType, gridSystem, gridSize, gridOffsetX, gridOffsetY) {
+  const parsed = parseWallKey(wallKey);
+  if (!parsed) return null;
+  if (gridType === 'hex') {
+    if (!gridSystem || typeof gridSystem.getHexEdge !== 'function') return null;
+    const ends = getWallWorldEndpoints(parsed, gridSystem, 'hex', wall);
+    if (!ends) return null;
+    return { x1: ends.start.x, y1: ends.start.y, x2: ends.end.x, y2: ends.end.y };
+  }
+  return {
+    x1: (parsed.x1 * gridSize) + gridOffsetX,
+    y1: (parsed.y1 * gridSize) + gridOffsetY,
+    x2: (parsed.x2 * gridSize) + gridOffsetX,
+    y2: (parsed.y2 * gridSize) + gridOffsetY
+  };
+}
+
+function checkIfWallBlocks(wall, wallKey = null, windowOverlays = {}, isHex = false) {
   if (typeof wall === 'string') {
     // Old format: wall is just the type string
     // Check for window overlays at this wall's position
-    if (wallKey && windowOverlays && Object.keys(windowOverlays).length > 0) {
+    if (!isHex && wallKey && windowOverlays && Object.keys(windowOverlays).length > 0) {
       const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
       // Check if there's a window at any point along this wall
       const minX = Math.min(wx1, wx2);
@@ -287,7 +315,7 @@ function checkIfWallBlocks(wall, wallKey = null, windowOverlays = {}) {
   if (wall.state === 'open') return false; // Open doors don't block
 
   // Check for window overlays at this wall's position
-  if (wallKey && windowOverlays && Object.keys(windowOverlays).length > 0) {
+  if (!isHex && wallKey && windowOverlays && Object.keys(windowOverlays).length > 0) {
     const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
     // Check if there's a window at any point along this wall
     const minX = Math.min(wx1, wx2);
@@ -354,29 +382,25 @@ function checkIfWallBlocksMovement(wall) {
  * @param {number} gridOffsetY - Grid Y offset
  * @returns {{x: number, y: number, distance: number}} Ray end point
  */
-function castRay(originX, originY, angle, maxRange, wallData, gridSize, gridOffsetX, gridOffsetY, windowOverlays = {}) {
+function castRay(originX, originY, angle, maxRange, wallData, gridSize, gridOffsetX, gridOffsetY, windowOverlays = {}, gridType = 'square', gridSystem = null) {
   const endX = originX + Math.cos(angle) * maxRange;
   const endY = originY + Math.sin(angle) * maxRange;
 
   let closestHit = null;
   let closestDistance = maxRange;
+  const isHex = gridType === 'hex';
 
   // Check all walls for intersections
   for (const [wallKey, wall] of Object.entries(wallData)) {
-    if (!checkIfWallBlocks(wall, wallKey, windowOverlays)) continue;
+    if (!checkIfWallBlocks(wall, wallKey, windowOverlays, isHex)) continue;
 
-    const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
-    // Convert grid corner coordinates to world coordinates
-    // Walls are stored at grid corners, so multiply by gridSize and add offset
-    const worldX1 = (wx1 * gridSize) + gridOffsetX;
-    const worldY1 = (wy1 * gridSize) + gridOffsetY;
-    const worldX2 = (wx2 * gridSize) + gridOffsetX;
-    const worldY2 = (wy2 * gridSize) + gridOffsetY;
+    const segment = wallWorldSegment(wallKey, wall, gridType, gridSystem, gridSize, gridOffsetX, gridOffsetY);
+    if (!segment) continue;
 
     // Line-line intersection between ray and wall segment
     const hit = lineIntersection(
       originX, originY, endX, endY,
-      worldX1, worldY1, worldX2, worldY2
+      segment.x1, segment.y1, segment.x2, segment.y2
     );
 
     if (hit) {
@@ -420,7 +444,7 @@ function lineIntersection(x1, y1, x2, y2, x3, y3, x4, y4) {
 /**
  * Fallback raymarcher for visibility polygon (legacy raycasting)
  */
-function fallbackRaymarchVisibility(originX, originY, visionRange, wallData, gridSize, gridOffsetX, gridOffsetY, fovAngle = 360, facingAngle = null, windowOverlays = {}) {
+function fallbackRaymarchVisibility(originX, originY, visionRange, wallData, gridSize, gridOffsetX, gridOffsetY, fovAngle = 360, facingAngle = null, windowOverlays = {}, gridType = 'square', gridSystem = null) {
   const maxRange = visionRange * gridSize;
   const numRays = Math.max(180, visionRange * 20);
   const polygon = [];
@@ -443,7 +467,7 @@ function fallbackRaymarchVisibility(originX, originY, visionRange, wallData, gri
 
   for (let i = 0; i < numRays; i++) {
     const angle = startAngle + (i * angleStep);
-    const rayEnd = castRay(originX, originY, angle, maxRange, wallData, gridSize, gridOffsetX, gridOffsetY, windowOverlays);
+    const rayEnd = castRay(originX, originY, angle, maxRange, wallData, gridSize, gridOffsetX, gridOffsetY, windowOverlays, gridType, gridSystem);
     polygon.push({ x: rayEnd.x, y: rayEnd.y });
   }
 
@@ -467,14 +491,17 @@ function fallbackRaymarchVisibility(originX, originY, visionRange, wallData, gri
  * @param {number} fovAngle - FOV angle in degrees (360 = full view, default 360)
  * @param {number} facingAngle - Direction token is facing in radians (null = 360 view)
  * @param {Object} windowOverlays - Window overlays
+ * @param {string} gridType - Grid type ('square' or 'hex')
+ * @param {Object} gridSystem - Grid system instance (required for hex walls)
  * @returns {Array} Array of {x, y} points forming the visibility polygon
  */
-export function calculateVisibilityPolygon(originX, originY, visionRange, wallData, gridSize, gridOffsetX, gridOffsetY, fovAngle = 360, facingAngle = null, windowOverlays = {}) {
+export function calculateVisibilityPolygon(originX, originY, visionRange, wallData, gridSize, gridOffsetX, gridOffsetY, fovAngle = 360, facingAngle = null, windowOverlays = {}, gridType = 'square', gridSystem = null) {
   const maxRange = (visionRange || 6) * gridSize;
   if (!maxRange || maxRange <= 0) return [];
 
   try {
     const segments = [];
+    const isHex = gridType === 'hex';
 
     // 1. Create a circular perimeter polygon boundary (32 regular segments)
     const numCircleSegments = 32;
@@ -497,7 +524,7 @@ export function calculateVisibilityPolygon(originX, originY, visionRange, wallDa
     if (wallData && Object.keys(wallData).length > 0) {
       let candidateWalls = null;
       try {
-        const spatialIndex = getOrBuildWallSpatialIndex(wallData, gridSize, gridOffsetX, gridOffsetY);
+        const spatialIndex = getOrBuildWallSpatialIndex(wallData, gridSize, gridOffsetX, gridOffsetY, gridType, gridSystem);
         candidateWalls = spatialIndex.searchBoundingBox(minX, minY, maxX, maxY);
       } catch (e) {
         candidateWalls = null;
@@ -506,20 +533,22 @@ export function calculateVisibilityPolygon(originX, originY, visionRange, wallDa
       if (candidateWalls) {
         for (let i = 0; i < candidateWalls.length; i++) {
           const item = candidateWalls[i];
-          if (!checkIfWallBlocks(item.wall, item.wallKey, windowOverlays)) continue;
+          if (!checkIfWallBlocks(item.wall, item.wallKey, windowOverlays, isHex)) continue;
           const [worldX1, worldY1, worldX2, worldY2] = item.worldCoords;
           if (Math.hypot(worldX2 - worldX1, worldY2 - worldY1) < 0.001) continue;
           segments.push([[worldX1, worldY1], [worldX2, worldY2]]);
         }
       } else {
         for (const [wallKey, wall] of Object.entries(wallData)) {
-          if (!checkIfWallBlocks(wall, wallKey, windowOverlays)) continue;
+          if (!checkIfWallBlocks(wall, wallKey, windowOverlays, isHex)) continue;
 
-          const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
-          const worldX1 = (wx1 * gridSize) + gridOffsetX;
-          const worldY1 = (wy1 * gridSize) + gridOffsetY;
-          const worldX2 = (wx2 * gridSize) + gridOffsetX;
-          const worldY2 = (wy2 * gridSize) + gridOffsetY;
+          const worldSegment = wallWorldSegment(wallKey, wall, gridType, gridSystem, gridSize, gridOffsetX, gridOffsetY);
+          if (!worldSegment) continue;
+
+          const worldX1 = worldSegment.x1;
+          const worldY1 = worldSegment.y1;
+          const worldX2 = worldSegment.x2;
+          const worldY2 = worldSegment.y2;
 
           // Bounding box rejection filter
           if (
@@ -641,7 +670,7 @@ export function calculateVisibilityPolygon(originX, originY, visionRange, wallDa
   }
 
   // Graceful fallback to legacy raymarching
-  return fallbackRaymarchVisibility(originX, originY, visionRange, wallData, gridSize, gridOffsetX, gridOffsetY, fovAngle, facingAngle, windowOverlays);
+  return fallbackRaymarchVisibility(originX, originY, visionRange, wallData, gridSize, gridOffsetX, gridOffsetY, fovAngle, facingAngle, windowOverlays, gridType, gridSystem);
 }
 
 /**
@@ -746,7 +775,7 @@ export function calculateVisibleTiles(tokenX, tokenY, visionRange, visionType = 
         }
 
         // Check line of sight to target hex (simplified for hex - could be improved)
-        const hasLOS = hasLineOfSight(tokenQ, tokenR, q, r, wallData, gridType, windowOverlays);
+        const hasLOS = hasLineOfSight(tokenQ, tokenR, q, r, wallData, gridType, windowOverlays, gridSystem);
         if (hasLOS) {
           visibleTiles.add(targetKey);
         }
@@ -776,7 +805,7 @@ export function calculateVisibleTiles(tokenX, tokenY, visionRange, visionType = 
         }
 
         // Check line of sight to target tile
-        const hasLOS = hasLineOfSight(tokenTileX, tokenTileY, targetX, targetY, wallData, gridType, windowOverlays);
+        const hasLOS = hasLineOfSight(tokenTileX, tokenTileY, targetX, targetY, wallData, gridType, windowOverlays, gridSystem);
         if (hasLOS) {
           visibleTiles.add(`${targetX},${targetY}`);
         }
@@ -796,12 +825,18 @@ export function calculateVisibleTiles(tokenX, tokenY, visionRange, visionType = 
  * @param {number} y2 - Target tile y (or r for hex)
  * @param {Object} wallData - Wall data from level editor store
  * @param {string} gridType - Grid type ('square' or 'hex')
+ * @param {Object} windowOverlays - Window overlay data (square grids)
+ * @param {Object} gridSystem - Grid system instance (required for hex)
  * @returns {boolean} True if line of sight exists
  */
-export function hasLineOfSight(x1, y1, x2, y2, wallData, gridType = 'square', windowOverlays = {}) {
+export function hasLineOfSight(x1, y1, x2, y2, wallData, gridType = 'square', windowOverlays = {}, gridSystem = null) {
   if (!wallData || Object.keys(wallData).length === 0) {
     // No walls to check - line of sight is clear
     return true;
+  }
+
+  if (gridType === 'hex' && gridSystem) {
+    return hexHasLineOfSight(x1, y1, x2, y2, wallData, gridSystem, windowOverlays);
   }
 
   const linePoints = getLineOfSight(x1, y1, x2, y2);
@@ -821,6 +856,174 @@ export function hasLineOfSight(x1, y1, x2, y2, wallData, gridType = 'square', wi
   }
 
   return true;
+}
+
+/**
+ * Hex line of sight: cast a world-space segment between the two hex centers and
+ * test it against every blocking wall segment. Hex walls are stored as free-form
+ * corner-to-corner chords (hexEndpoints) or legacy cell-pair edge keys, both of
+ * which resolve to world segments, so chords that cross several cells block
+ * correctly. Center-to-center is the standard hex LOS model.
+ */
+function hexHasLineOfSight(q1, r1, q2, r2, wallData, gridSystem, windowOverlays) {
+  const start = gridSystem.hexToWorld(q1, r1);
+  const end = gridSystem.hexToWorld(q2, r2);
+  const state = typeof gridSystem.getGridState === 'function' ? gridSystem.getGridState() : {};
+  const gridSize = state.gridSize || 50;
+  const gridOffsetX = state.gridOffsetX || 0;
+  const gridOffsetY = state.gridOffsetY || 0;
+
+  const index = getOrBuildWallSpatialIndex(wallData, gridSize, gridOffsetX, gridOffsetY, 'hex', gridSystem);
+  const candidates = index.searchBoundingBox(
+    Math.min(start.x, end.x),
+    Math.min(start.y, end.y),
+    Math.max(start.x, end.x),
+    Math.max(start.y, end.y)
+  );
+
+  for (let i = 0; i < candidates.length; i++) {
+    const item = candidates[i];
+    if (!checkIfWallBlocks(item.wall, item.wallKey, windowOverlays, true)) continue;
+    const [wx1, wy1, wx2, wy2] = item.worldCoords;
+    if (segmentsIntersect(start.x, start.y, end.x, end.y, wx1, wy1, wx2, wy2)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/**
+ * Collect the sub-segments of blocking walls that the viewer can actually see.
+ * The 2D visibility polygon only covers the ground plane, so in 2.5D the wall
+ * prisms project above it and would stay fogged even while in view. Each run is
+ * a wall slice whose base is inside the vision polygon; callers extrude it to a
+ * screen-space silhouette and union it into the fog mask cut.
+ *
+ * Wall bases lie exactly on the polygon boundary, where point-in-polygon is
+ * ambiguous, so each sample probes a point offset from the wall toward the
+ * viewer.
+ */
+export function collectVisibleWallRuns({
+  wallData,
+  visibilityPolygon,
+  origin,
+  gridSystem,
+  gridType = 'square',
+  gridSize = 50,
+  elevationData = null,
+  windowOverlays = {},
+  sampleStep = null,
+  probeDistance = null
+}) {
+  const runs = [];
+  if (!wallData || !gridSystem || !origin) return runs;
+  if (!visibilityPolygon || visibilityPolygon.length < 3) return runs;
+
+  const state = typeof gridSystem.getGridState === 'function' ? gridSystem.getGridState() : {};
+  const gridSizeSafe = gridSize || state.gridSize || 50;
+  const gridOffsetX = state.gridOffsetX || 0;
+  const gridOffsetY = state.gridOffsetY || 0;
+  const isHex = gridType === 'hex';
+
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxX = -Infinity;
+  let maxY = -Infinity;
+  for (const p of visibilityPolygon) {
+    if (p.x < minX) minX = p.x;
+    if (p.y < minY) minY = p.y;
+    if (p.x > maxX) maxX = p.x;
+    if (p.y > maxY) maxY = p.y;
+  }
+
+  let candidates = null;
+  try {
+    const index = getOrBuildWallSpatialIndex(wallData, gridSizeSafe, gridOffsetX, gridOffsetY, gridType, gridSystem);
+    candidates = index.searchBoundingBox(minX, minY, maxX, maxY);
+  } catch (err) {
+    candidates = null;
+  }
+  if (!candidates) {
+    candidates = Object.entries(wallData).map(([wallKey, wall]) => ({ wallKey, wall }));
+  }
+
+  const step = sampleStep || Math.max(4, gridSizeSafe * 0.2);
+  const probe = probeDistance || Math.max(2, gridSizeSafe * 0.06);
+
+  for (const item of candidates) {
+    if (!checkIfWallBlocks(item.wall, item.wallKey, windowOverlays, isHex)) continue;
+
+    const segment = wallWorldSegment(item.wallKey, item.wall, gridType, gridSystem, gridSizeSafe, gridOffsetX, gridOffsetY);
+    if (!segment) continue;
+
+    const dx = segment.x2 - segment.x1;
+    const dy = segment.y2 - segment.y1;
+    const length = Math.hypot(dx, dy);
+    if (length < 1e-6) continue;
+    const ux = dx / length;
+    const uy = dy / length;
+
+    const parsed = parseWallKey(item.wallKey);
+    const wallRecord = item.wall && typeof item.wall === 'object' ? item.wall : {};
+    const typeId = typeof item.wall === 'string' ? item.wall : item.wall?.type;
+    const typeData = WALL_TYPES?.[typeId] || {};
+    const heightWorld = getWallHeightWorld(wallRecord, typeData, gridSizeSafe);
+    const base = parsed
+      ? getWallBaseWorldZ({ parsed, wall: wallRecord, gridType, gridSystem, elevationData })
+      : { z: 0 };
+    const thickness = getWallThickness(gridSizeSafe);
+
+    const steps = Math.max(1, Math.ceil(length / step));
+    let runStartIndex = -1;
+
+    const flush = (endIndex) => {
+      const startPad = runStartIndex > 0 ? step * 0.5 : 0;
+      const endPad = endIndex < steps ? step * 0.5 : 0;
+      const startT = runStartIndex / steps;
+      const endT = endIndex / steps;
+      runs.push({
+        start: {
+          x: segment.x1 + dx * startT - ux * startPad,
+          y: segment.y1 + dy * startT - uy * startPad
+        },
+        end: {
+          x: segment.x1 + dx * endT + ux * endPad,
+          y: segment.y1 + dy * endT + uy * endPad
+        },
+        baseZ: base.z,
+        heightWorld,
+        thickness,
+        wallKey: item.wallKey
+      });
+      runStartIndex = -1;
+    };
+
+    for (let i = 0; i <= steps; i++) {
+      const t = i / steps;
+      const px = segment.x1 + dx * t;
+      const py = segment.y1 + dy * t;
+      const toOriginX = origin.x - px;
+      const toOriginY = origin.y - py;
+      const distToOrigin = Math.hypot(toOriginX, toOriginY);
+
+      let testX = px;
+      let testY = py;
+      if (distToOrigin > 1e-6) {
+        testX = px + (toOriginX / distToOrigin) * probe;
+        testY = py + (toOriginY / distToOrigin) * probe;
+      }
+
+      if (isPointInPolygon(testX, testY, visibilityPolygon)) {
+        if (runStartIndex < 0) runStartIndex = i;
+      } else if (runStartIndex >= 0) {
+        flush(i - 1);
+      }
+    }
+    if (runStartIndex >= 0) flush(steps);
+  }
+
+  return runs;
 }
 
 /**
